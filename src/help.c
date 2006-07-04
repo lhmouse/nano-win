@@ -148,8 +148,8 @@ void do_help(void (*refresh_func)(void))
 	if (abort)
 	    break;
 
-	/* Display the help text if we don't have a key, or if we do
-	 * have a key and the help text has moved. */
+	/* Display the help text if we don't have a key, or if the help
+	 * text has moved. */
 	if (kbinput == ERR || line != old_line) {
 	    blank_edit();
 

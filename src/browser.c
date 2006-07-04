@@ -78,7 +78,6 @@ char *do_browser(char *path, DIR *dir)
 
     path = mallocstrassn(path, get_full_path(path));
 
-    /* Assume that path exists and ends with a slash. */
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
     /* Get the file list. */
@@ -355,10 +354,10 @@ char *do_browser(char *path, DIR *dir)
 	if (abort)
 	    break;
 
-	/* Display the file list if we don't have a key, or if we do
-	 * have a key and the selected file has changed.  Don't display
-	 * it if we selected a directory in prev_dir, since the file
-	 * list will have already been displayed then. */
+	/* Display the file list if we don't have a key, or if the
+	 * selected file has changed.  Don't display it if we selected a
+	 * directory in prev_dir, since the file list has already been
+	 * displayed in that case. */
 	if ((kbinput == ERR && !found_prev_dir) || old_selected !=
 		selected)
 	    browser_refresh();
