@@ -31,7 +31,7 @@
 #ifndef DISABLE_BROWSER
 
 static char **filelist = NULL;
-	/* The list of files to display in the browser. */
+	/* The list of files to display in the file browser. */
 static size_t filelist_len = 0;
 	/* The number of files in the list. */
 static int width = 0;
