@@ -30,6 +30,8 @@ CVS code -
 	  before it, as titlebar() does. (DLR)
 	- Add translator comments explaining the maximum intended
 	  lengths of "(dir)" and "(parent dir)". (DLR)
+	- Fix problem where width wouldn't be properly initialized
+	  sometimes. (DLR)
   browser_select_filename()
 	- New function, used to select a specific filename in the list.
 	  (DLR)

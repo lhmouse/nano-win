@@ -683,6 +683,11 @@ void browser_refresh(void)
 	wmove(edit, line, col);
     }
 
+    /* Set the number of columns to display the list in, if
+     * necessary. */
+    if (width == 0)
+	width = longest;
+
     wnoutrefresh(edit);
 }
 
