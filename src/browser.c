@@ -92,7 +92,7 @@ char *do_browser(char *path, DIR *dir)
     titlebar(path);
 
     while (!abort) {
-	size_t fileline;
+	size_t fileline = (width != 0) ? selected / width : selected;
 		/* The line number the selected file is on. */
 	size_t old_selected = selected;
 		/* The selected file we had before the current selected
@@ -111,12 +111,6 @@ char *do_browser(char *path, DIR *dir)
 	    free(prev_dir);
 	    prev_dir = NULL;
 	}
-
-	/* Calculate the line number we're on now, so that we don't
-	 * divide by zero. */
-	fileline = selected;
-	if (width != 0)
-	    fileline /= width;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -192,7 +186,7 @@ char *do_browser(char *path, DIR *dir)
 	    case NANO_NEXTPAGE_KEY:
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
-		if (selected >= filelist_len)
+		if (selected > filelist_len - 1)
 		    selected = filelist_len - 1;
 		break;
 	    case NANO_FIRSTFILE_ALTKEY:
