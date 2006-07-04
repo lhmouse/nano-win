@@ -502,10 +502,10 @@ void browser_init(const char *path, DIR *dir)
     closedir(dir);
 
     /* Make sure longest is between 15 and COLS. */
-    if (longest > COLS)
-	longest = COLS;
     if (longest < 15)
 	longest = 15;
+    if (longest > COLS)
+	longest = COLS;
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
@@ -577,13 +577,20 @@ void browser_refresh(void)
 		/* The filename we display, minus the path. */
 	size_t filetaillen = strlenpt(filetail);
 		/* The length of the filename in columns. */
-	bool dots = (filetaillen > longest - 8);
+	size_t foolen;
+		/* The length of the file information in columns. */
+	int foomaxlen = 7;
+		/* The maximum length of the file information in
+		 * columns: 7 for "--", "(dir)", or the file size, and
+		 * 12 for "(parent dir)". */
+	bool dots = (filetaillen > longest - foomaxlen - 1);
 		/* Do we put an ellipsis before the filename? */
 	char *disp = display_string(filetail, dots ? filetaillen -
-		longest + 11 : 0, longest, FALSE);
-		/* If we put an ellipsis before the filename, reserve 8
-		 * columns for padding followed by "--", "(dir)", or the
-		 * file size, plus 3 columns for the ellipsis. */
+		longest + foomaxlen + 4 : 0, longest, FALSE);
+		/* If we put an ellipsis before the filename, reserve 1
+		 * column for padding, plus foomaxlen columns for "--",
+		 * "(dir)", or the file size, plus 3 columns for the
+		 * ellipsis. */
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
@@ -616,13 +623,16 @@ void browser_refresh(void)
 		/* TRANSLATORS: Try to keep this at most 7
 		 * characters. */
 		foo = mallocstrcpy(NULL, _("(dir)"));
-	} else if (S_ISDIR(st.st_mode))
+	} else if (S_ISDIR(st.st_mode)) {
 	    /* If the file is a directory, display it as such. */
-	    foo = mallocstrcpy(NULL, (strcmp(filetail, "..") == 0) ?
+	    if (strcmp(filetail, "..") == 0) {
 		/* TRANSLATORS: Try to keep this at most 12
 		 * characters. */
-		_("(parent dir)") : _("(dir)"));
-	else {
+		foo = mallocstrcpy(NULL, _("(parent dir)"));
+		foomaxlen = 12;
+	    } else
+		foo = mallocstrcpy(NULL, _("(dir)"));
+	} else {
 	    foo = charalloc(uimax_digits + 4);
 
 	    /* Bytes. */
@@ -642,7 +652,14 @@ void browser_refresh(void)
 			(unsigned int)(st.st_size >> 30));
 	}
 
-	mvwaddstr(edit, line, col - strlenpt(foo), foo);
+	/* Make sure foo takes up no more than foomaxlen columns. */
+	foolen = strlenpt(foo);
+	if (foolen > foomaxlen) {
+	    null_at(&foo, foomaxlen);
+	    foolen = foomaxlen;
+	}
+
+	mvwaddstr(edit, line, col - foolen, foo);
 
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
