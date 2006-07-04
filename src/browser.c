@@ -816,6 +816,7 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	/* The location in the current file list of the match we
 	 * find. */
     const char *filetail = tail(filelist[currselected]);
+	/* The filename we display, minus the path. */
     const char *rev_start = filetail, *found = NULL;
 
 #ifndef NANO_TINY
