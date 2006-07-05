@@ -91,10 +91,38 @@ void do_help(void (*refresh_func)(void))
     while (!abort) {
 	size_t i;
 	    /* Generic loop variable. */
-	size_t old_line = line;
+	size_t old_line = (size_t)-1;
 	    /* The line we were on before the current line. */
 
-	ptr = help_text;
+	/* Display the help text if we don't have a key, or if the help
+	 * text has moved. */
+	if (kbinput == ERR || line != old_line) {
+	    blank_edit();
+
+	    ptr = help_text;
+
+	    /* Calculate where in the text we should be, based on the
+	     * page. */
+	    for (i = 0; i < line; i++) {
+		ptr += help_line_len(ptr);
+		if (*ptr == '\n')
+		    ptr++;
+	    }
+
+	    for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
+		size_t j = help_line_len(ptr);
+
+		mvwaddnstr(edit, i, 0, ptr, j);
+		ptr += j;
+		if (*ptr == '\n')
+		    ptr++;
+	    }
+	}
+
+	wnoutrefresh(edit);
+
+	kbinput = get_kbinput(edit, &meta_key, &func_key);
+	parse_help_input(&kbinput, &meta_key, &func_key);
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -144,35 +172,7 @@ void do_help(void (*refresh_func)(void))
 		break;
 	}
 
-	/* If abort is TRUE, we're done, so get out. */
-	if (abort)
-	    break;
-
-	/* Display the help text if we don't have a key, or if the help
-	 * text has moved. */
-	if (kbinput == ERR || line != old_line) {
-	    blank_edit();
-
-	    /* Calculate where in the text we should be, based on the
-	     * page. */
-	    for (i = 0; i < line; i++) {
-		ptr += help_line_len(ptr);
-		if (*ptr == '\n')
-		    ptr++;
-	    }
-
-	    for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
-		size_t j = help_line_len(ptr);
-
-		mvwaddnstr(edit, i, 0, ptr, j);
-		ptr += j;
-		if (*ptr == '\n')
-		    ptr++;
-	    }
-	}
-
-	kbinput = get_kbinput(edit, &meta_key, &func_key);
-	parse_help_input(&kbinput, &meta_key, &func_key);
+	old_line = line;
     }
 
 #ifndef DISABLE_MOUSE

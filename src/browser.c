@@ -35,7 +35,9 @@ static char **filelist = NULL;
 static size_t filelist_len = 0;
 	/* The number of files in the list. */
 static int width = 0;
-	/* The number of columns to display per filename. */
+	/* The number of files that we can display per line.  This is
+	 * calculated via browser_set_width(), which should be called
+	 * before anything that uses width. */
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
@@ -80,36 +82,45 @@ char *do_browser(char *path, DIR *dir)
 
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
-    /* Get the file list. */
+    /* Get the file list, and set longest in the process. */
     browser_init(path, dir);
 
     assert(filelist != NULL);
 
-    /* Sort the list. */
+    /* Sort the file list. */
     qsort(filelist, filelist_len, sizeof(char *), diralphasort);
+
+    /* If prev_dir isn't NULL, select the directory saved in it, and
+     * then blow it away. */
+    if (prev_dir != NULL) {
+	browser_select_filename(prev_dir);
+
+	free(prev_dir);
+	prev_dir = NULL;
+    }
 
     titlebar(path);
 
     while (!abort) {
-	size_t fileline = (width != 0) ? selected / width : selected;
+	size_t fileline;
 		/* The line number the selected file is on. */
-	size_t old_selected = selected;
+	size_t old_selected = (size_t)-1;
 		/* The selected file we had before the current selected
 		 * file. */
-	bool found_prev_dir = FALSE;
-		/* Whether we've selected a directory in prev_dir. */
 	struct stat st;
 	int i;
 	char *new_path;
 
-	/* If prev_dir isn't NULL, select the directory saved in it, and
-	 * then blow it away. */
-	if (prev_dir != NULL) {
-	    found_prev_dir = browser_select_filename(prev_dir);
+	/* Display the file list if we don't have a key, or if the
+	 * selected file has changed, and set width in the process. */
+	if (kbinput == ERR || old_selected != selected)
+	    browser_refresh();
 
-	    free(prev_dir);
-	    prev_dir = NULL;
-	}
+	kbinput = get_kbinput(edit, &meta_key, &func_key);
+	parse_browser_input(&kbinput, &meta_key, &func_key);
+
+	/* Get the line number of the selected file. */
+	fileline = selected / width;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -350,20 +361,7 @@ char *do_browser(char *path, DIR *dir)
 		break;
 	}
 
-	/* If abort is TRUE, we're done, so get out. */
-	if (abort)
-	    break;
-
-	/* Display the file list if we don't have a key, or if the
-	 * selected file has changed.  Don't display it if we selected a
-	 * directory in prev_dir, since the file list has already been
-	 * displayed in that case. */
-	if ((kbinput == ERR && !found_prev_dir) || old_selected !=
-		selected)
-	    browser_refresh();
-
-	kbinput = get_kbinput(edit, &meta_key, &func_key);
-	parse_browser_input(&kbinput, &meta_key, &func_key);
+	old_selected = selected;
     }
 
     titlebar(NULL);
@@ -544,25 +542,75 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     }
 }
 
-/* Calculate the number of columns needed to display the list of files
- * in the array filelist, if necessary, and then display the list of
- * files. */
+/* Calculate the number of files that we can display per line, and set
+ * width to it.  It will always be at least one. */
+void browser_set_width(void)
+{
+    size_t i;
+    int col = 0;
+	/* The maximum number of columns that the filenames will take
+	 * up. */
+    int line = 0;
+	/* The maximum number of lines that the filenames will take
+	 * up. */
+    int filesperline = 0;
+	/* The number of files that we can display per line. */
+
+    width = 0;
+
+    for (i = 0; i < filelist_len && line < editwinrows; i++) {
+	/* Calculate the number of columns one filename will take up. */
+	col += longest;
+	filesperline++;
+
+	/* Add some space between the columns. */
+	col += 2;
+
+	/* If the next entry isn't going to fit on the current line,
+	 * move to the next line. */
+	if (col > COLS - longest) {
+	    line++;
+	    col = 0;
+
+	    /* We've taken up at least one line, which means that width
+	     * is equivalent to filesperline, so set it. */
+	    if (width == 0)
+		width = filesperline;
+	}
+    }
+
+    /* We haven't taken up at least one line, which means that width is
+     * equivalent to (COLS % longest), so set it. */
+    if (width == 0)
+	width = COLS % longest;
+}
+
+/* Set width to the number of files that we can display per line, if
+ * necessary, and display the list of files. */
 void browser_refresh(void)
 {
     static int uimax_digits = -1;
     size_t i;
-    int col = 0, line = 0, filecols = 0;
+    int col = 0;
+	/* The maximum number of columns that the filenames will take
+	 * up. */
+    int line = 0;
+	/* The maximum number of lines that the filenames will take
+	 * up. */
     char *foo;
+	/* The file information that we'll display. */
 
     if (uimax_digits == -1)
 	uimax_digits = digits(UINT_MAX);
+
+    if (width == 0)
+	browser_set_width();
 
     blank_edit();
 
     wmove(edit, 0, 0);
 
-    i = (width != 0) ? width * editwinrows * ((selected / width) /
-	editwinrows) : 0;
+    i = width * editwinrows * ((selected / width) / editwinrows);
 
     for (; i < filelist_len && line < editwinrows; i++) {
 	struct stat st;
@@ -585,7 +633,8 @@ void browser_refresh(void)
 		 * "(dir)", or the file size, plus 3 columns for the
 		 * ellipsis. */
 
-	/* Highlight the currently selected file or directory. */
+	/* Start highlighting the currently selected file or
+	 * directory. */
 	if (i == selected)
 	    wattron(edit, reverse_attr);
 
@@ -600,7 +649,6 @@ void browser_refresh(void)
 	free(disp);
 
 	col += longest;
-	filecols++;
 
 	/* Show information about the file.  We don't want to report
 	 * file sizes for links, so we use lstat(). */
@@ -660,6 +708,8 @@ void browser_refresh(void)
 
 	mvwaddstr(edit, line, col - foolen, foo);
 
+	/* Finish highlighting the currently selected file or
+	 * directory. */
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
 
@@ -673,28 +723,17 @@ void browser_refresh(void)
 	if (col > COLS - longest) {
 	    line++;
 	    col = 0;
-
-	    /* Set the number of columns to display the list in, if
-	     * necessary. */
-	    if (width == 0)
-		width = filecols;
 	}
 
 	wmove(edit, line, col);
     }
 
-    /* Set the number of columns to display the list in, if
-     * necessary. */
-    if (width == 0)
-	width = longest;
-
     wnoutrefresh(edit);
 }
 
-/* Look for needle.  If we find it, set selected to its location, and
- * update the screen.  Note that needle must be an exact match for a
- * file in the list.  The return value specifies whether we found
- * anything. */
+/* Look for needle.  If we find it, set selected to its location.  Note
+ * that needle must be an exact match for a file in the list.  The
+ * return value specifies whether we found anything. */
 bool browser_select_filename(const char *needle)
 {
     size_t currselected;
@@ -708,10 +747,8 @@ bool browser_select_filename(const char *needle)
 	}
     }
 
-    if (found) {
+    if (found)
 	selected = currselected;
-	browser_refresh();
-    }
 
     return found;
 }

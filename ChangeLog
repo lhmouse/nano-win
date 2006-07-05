@@ -20,6 +20,12 @@ CVS code -
   browser_init()
 	- Fix off-by-one error when calculating longest that kept the
 	  rightmost column of the screen from being used. (DLR)
+ - browser_set_width()
+	- New function used to calculate width independently of
+	  browser_refresh().  This eliminates the need for do_browser()
+	  to call browser_refresh() in one place if the initially
+	  selected file is not at the beginning of the list, and in
+	  another place if it is. (DLR)
   browser_refresh()
 	- Simplify. (DLR)
 	- Fix problems where translated versions of "(dir)" could be
@@ -30,8 +36,8 @@ CVS code -
 	  before it, as titlebar() does. (DLR)
 	- Add translator comments explaining the maximum intended
 	  lengths of "(dir)" and "(parent dir)". (DLR)
-	- Fix problem where width wouldn't be properly initialized
-	  sometimes. (DLR)
+	- Fix problem where width wouldn't be properly initialized if
+	  the file list took up one line or less. (DLR)
   browser_select_filename()
 	- New function, used to select a specific filename in the list.
 	  (DLR)
