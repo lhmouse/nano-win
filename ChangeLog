@@ -55,6 +55,11 @@ CVS code -
 	  allocated, use null_at() to strip the directory from the
 	  string.  Also, return the stripped path instead of modifying
 	  path. (DLR)
+- files.c:
+  get_full_path()
+	- Don't return NULL when the current directory doesn't exist, as
+	  we can still recover from that. (DLR, found by Mike Frysinger)
+	- Add various cleanups. (DLR)
 - help.c:
   do_help()
 	- Simplify screen update handling and exiting. (DLR)
