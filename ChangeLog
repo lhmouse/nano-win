@@ -14,6 +14,14 @@ CVS code -
 	  actually blanked.  Changes to do_help(), do_continue(),
 	  handle_sigwinch(), and update_statusbar_line(). (DLR)
 	  (DLR)
+	- If the mark isn't on, allow Meta-} and Meta-{ to indent and
+	  unindent only the current line, just as it would if the mark
+	  covered only the current line, instead of displaying a
+	  statusbar message and quitting.  Changes to shortcut_init(),
+	  do_indent_marked() (renamed do_indent()),
+	  do_indent_marked_void() (renamed do_indent_void()), and
+	  do_unindent_marked_void() (renamed do_unindent()). (DLR,
+	  suggested by John M. Gabriele)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for

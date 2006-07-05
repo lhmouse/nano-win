@@ -191,12 +191,12 @@ void do_tab(void)
 }
 
 #ifndef NANO_TINY
-/* Indent or unindent all lines covered by the mark len columns,
- * depending on whether len is positive or negative.  If the
- * TABS_TO_SPACES flag is set, indent/unindent by len spaces.
- * Otherwise, indent/unindent by (len / tabsize) tabs and (len %
- * tabsize) spaces. */
-void do_indent_marked(ssize_t cols)
+/* Indent or unindent the current line (or all lines covered by the mark
+ * if the mark is on) len columns, depending on whether len is positive
+ * or negative.  If the TABS_TO_SPACES flag is set, indent/unindent by
+ * len spaces.  Otherwise, indent/unindent by (len / tabsize) tabs and
+ * (len % tabsize) spaces. */
+void do_indent(ssize_t cols)
 {
     bool indent_changed = FALSE;
 	/* Whether any indenting or unindenting was done. */
@@ -212,13 +212,6 @@ void do_indent_marked(ssize_t cols)
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    /* If the mark isn't on, indicate it on the statusbar and get
-     * out. */
-    if (!openfile->mark_set) {
-	statusbar(_("No lines selected, nothing to do!"));
-	return;
-    }
-
     /* If cols is zero, get out. */
     if (cols == 0)
 	return;
@@ -233,9 +226,15 @@ void do_indent_marked(ssize_t cols)
     } else
 	indent_changed = TRUE;
 
-    /* Get the coordinates of the marked text. */
-    mark_order((const filestruct **)&top, &top_x,
-	(const filestruct **)&bot, &bot_x, NULL);
+    /* If the mark is on, use all lines covered by the mark. */
+    if (openfile->mark_set)
+	mark_order((const filestruct **)&top, &top_x,
+		(const filestruct **)&bot, &bot_x, NULL);
+    /* Otherwise, use the current line. */
+    else {
+	top = openfile->current;
+	bot = top;
+    }
 
     if (!unindent) {
 	/* Set up the text we'll be using as indentation. */
@@ -260,7 +259,7 @@ void do_indent_marked(ssize_t cols)
 	line_indent[line_indent_len] = '\0';
     }
 
-    /* Go through each line of the marked text. */
+    /* Go through each line of the text. */
     for (f = top; f != bot->next; f = f->next) {
 	size_t line_len = strlen(f->data);
 	size_t indent_len = indent_length(f->data);
@@ -276,8 +275,8 @@ void do_indent_marked(ssize_t cols)
 	    openfile->totsize += line_indent_len;
 
 	    /* Keep track of the change in the current line. */
-	    if (f == openfile->mark_begin && openfile->mark_begin_x >=
-		indent_len)
+	    if (openfile->mark_set && f == openfile->mark_begin &&
+		openfile->mark_begin_x >= indent_len)
 		openfile->mark_begin_x += line_indent_len;
 
 	    if (f == openfile->current && openfile->current_x >=
@@ -311,7 +310,7 @@ void do_indent_marked(ssize_t cols)
 		openfile->totsize -= indent_shift;
 
 		/* Keep track of the change in the current line. */
-		if (f == openfile->mark_begin &&
+		if (openfile->mark_set && f == openfile->mark_begin &&
 			openfile->mark_begin_x > indent_new) {
 		    if (openfile->mark_begin_x <= indent_len)
 			openfile->mark_begin_x = indent_new;
@@ -347,16 +346,18 @@ void do_indent_marked(ssize_t cols)
     }
 }
 
-/* Indent all lines covered by the mark tabsize columns. */
-void do_indent_marked_void(void)
+/* Indent the current line, or all lines covered by the mark if the mark
+ * is on, tabsize columns. */
+void do_indent_void(void)
 {
-    do_indent_marked(tabsize);
+    do_indent(tabsize);
 }
 
-/* Unindent all lines covered by the mark tabsize columns. */
-void do_unindent_marked_void(void)
+/* Unindent the current line, or all lines covered by the mark if the
+ * mark is on, tabsize columns. */
+void do_unindent(void)
 {
-    do_indent_marked(-tabsize);
+    do_indent(-tabsize);
 }
 #endif /* !NANO_TINY */
 

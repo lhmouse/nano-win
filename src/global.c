@@ -349,8 +349,8 @@ void shortcut_init(bool unjustify)
     const char *nano_whereis_next_msg = N_("Repeat last search");
     const char *nano_copy_msg =
 	N_("Copy the current line and store it in the cutbuffer");
-    const char *nano_indentmarked_msg = N_("Indent marked text");
-    const char *nano_unindentmarked_msg = N_("Unindent marked text");
+    const char *nano_indent_msg = N_("Indent the current line");
+    const char *nano_unindent_msg = N_("Unindent the current line");
 #endif
     const char *nano_forward_msg = N_("Move forward one character");
     const char *nano_back_msg = N_("Move back one character");
@@ -588,12 +588,12 @@ void shortcut_init(bool unjustify)
 	NANO_COPY_ALTKEY, NOVIEW, do_copy_text);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Indent Text"),
-	IFHELP(nano_indentmarked_msg, FALSE), NANO_INDENTMARKED_KEY,
-	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_indent_marked_void);
+	IFHELP(nano_indent_msg, FALSE), NANO_INDENT_KEY, NANO_NO_KEY,
+	NANO_NO_KEY, NOVIEW, do_indent_void);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Unindent Text"),
-	IFHELP(nano_unindentmarked_msg, TRUE), NANO_UNINDENTMARKED_KEY,
-	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_unindent_marked_void);
+	IFHELP(nano_unindent_msg, TRUE), NANO_UNINDENT_KEY, NANO_NO_KEY,
+	NANO_NO_KEY, NOVIEW, do_unindent);
 #endif
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, N_("Forward"),
