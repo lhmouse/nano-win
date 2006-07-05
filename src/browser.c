@@ -415,11 +415,8 @@ char *do_browse_from(const char *inpath)
 #ifndef DISABLE_OPERATINGDIR
     /* If the resulting path isn't in the operating directory, use
      * the operating directory instead. */
-    if (check_operating_dir(path, FALSE)) {
-	if (path != NULL)
-	    free(path);
-	path = mallocstrcpy(NULL, operating_dir);
-    }
+    if (check_operating_dir(path, FALSE))
+	path = mallocstrcpy(path, operating_dir);
 #endif
 
     if (path != NULL)

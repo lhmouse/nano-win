@@ -17,6 +17,10 @@ CVS code -
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
 	- Simplify screen update handling and exiting. (DLR)
+  do_browse_from()
+	- During the operating directory check, if path isn't NULL,
+	  don't bother freeing it before mallocstrcpy()ing operating_dir
+	  into it, as the latter operation will free it. (DLR)
   browser_init()
 	- Fix off-by-one error when calculating longest that kept the
 	  rightmost column of the screen from being used. (DLR)
