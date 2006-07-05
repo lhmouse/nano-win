@@ -916,7 +916,9 @@ char *get_full_path(const char *origpath)
     d_here = getcwd(d_here, PATH_MAX + 1);
 
     while (d_here == NULL) {
-	chdir("..");
+	if (chdir("..") == -1)
+	    break;
+
 	d_here = getcwd(d_here, PATH_MAX + 1);
     }
 
