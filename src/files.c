@@ -584,8 +584,8 @@ void read_file(FILE *f, const char *filename)
  * reading with a 0 return value.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, FILE **f)
 {
-    int fd;
     struct stat fileinfo;
+    int fd;
 
     assert(filename != NULL && f != NULL);
 
@@ -911,14 +911,12 @@ char *get_full_path(const char *origpath)
     	return NULL;
 
     /* Get the current directory.  If it doesn't exist, back up and try
-     * again until we get a directory that does exist. */
+     * again until we get a directory that does. */
     d_here = charalloc(PATH_MAX + 1);
     d_here = getcwd(d_here, PATH_MAX + 1);
 
     while (d_here == NULL) {
-	if (chdir("..") == -1)
-	    break;
-
+	chdir("..");
 	d_here = getcwd(d_here, PATH_MAX + 1);
     }
 
