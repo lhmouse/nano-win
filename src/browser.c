@@ -35,9 +35,7 @@ static char **filelist = NULL;
 static size_t filelist_len = 0;
 	/* The number of files in the list. */
 static int width = 0;
-	/* The number of files that we can display per line.  This is
-	 * calculated via browser_set_width(), which should be called
-	 * before doing anything that uses width. */
+	/* The number of files that we can display per line. */
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
@@ -74,15 +72,14 @@ char *do_browser(char *path, DIR *dir)
   change_browser_directory:
 	/* We go here after the user selects a new directory. */
 
+    /* Start with no key pressed. */
     kbinput = ERR;
-    width = 0;
-    selected = 0;
 
     path = mallocstrassn(path, get_full_path(path));
 
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
-    /* Get the file list, and set longest in the process. */
+    /* Get the file list, and set longest and width in the process. */
     browser_init(path, dir);
 
     assert(filelist != NULL);
@@ -97,19 +94,23 @@ char *do_browser(char *path, DIR *dir)
 
 	free(prev_dir);
 	prev_dir = NULL;
-    }
+    /* Otherwise, select the first file or directory in the list. */
+    } else
+	selected = 0;
 
     titlebar(path);
 
     while (!abort) {
-	size_t fileline;
+	struct stat st;
+	int i;
+	size_t fileline = selected / width;
 		/* The line number the selected file is on. */
 	size_t old_selected = (size_t)-1;
 		/* The selected file we had before the current selected
 		 * file. */
-	struct stat st;
-	int i;
 	char *new_path;
+		/* The path we switch to at the "Go to Directory"
+		 * prompt. */
 
 	/* Display the file list if we don't have a key, or if the
 	 * selected file has changed, and set width in the process. */
@@ -118,9 +119,6 @@ char *do_browser(char *path, DIR *dir)
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
-
-	/* Get the line number of the selected file. */
-	fileline = selected / width;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -435,18 +433,29 @@ char *do_browse_from(const char *inpath)
 }
 
 /* Set filelist to the list of files contained in the directory path,
- * set filelist_len to the number of files in that list, and set longest
- * to the width in columns of the longest filename in that list, at
- * least 15 and at most COLS.  We need at least 15 columns to display
- * ".. (parent dir)", as Pico does.  Assume path exists and is a
- * directory. */
+ * set filelist_len to the number of files in that list, set longest to
+ * the width in columns of the longest filename in that list (at least
+ * 15 and at most COLS), and set width to the number of files that we
+ * can display per line.  longest needs to be at least 15 columns in
+ * order to hold ".. (parent dir)", as Pico does.  Assume path exists
+ * and is a directory. */
 void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
-    size_t i = 0, path_len;
+    size_t i = 0;
+    size_t path_len = strlen(path);
+    int col = 0;
+	/* The maximum number of columns that the filenames will take
+	 * up. */
+    int line = 0;
+	/* The maximum number of lines that the filenames will take
+	 * up. */
+    int filesperline = 0;
+	/* The number of files that we can display per line. */
 
-    assert(dir != NULL);
+    assert(path != NULL && path[strlen(path) - 1] == '/' && dir != NULL);
 
+    /* Set longest to zero, just before we initialize it. */
     longest = 0;
 
     while ((nextdir = readdir(dir)) != NULL) {
@@ -456,14 +465,15 @@ void browser_init(const char *path, DIR *dir)
 	if (strcmp(nextdir->d_name, ".") == 0)
 	   continue;
 
-	i++;
-
 	d_len = strlenpt(nextdir->d_name);
 	if (d_len > longest)
 	    longest = (d_len > COLS) ? COLS : d_len;
+
+	i++;
     }
 
     filelist_len = i;
+
     rewinddir(dir);
 
     /* Put 10 columns' worth of blank space between columns of filenames
@@ -471,8 +481,6 @@ void browser_init(const char *path, DIR *dir)
     longest += 10;
 
     filelist = (char **)nmalloc(filelist_len * sizeof(char *));
-
-    path_len = strlen(path);
 
     i = 0;
 
@@ -483,6 +491,7 @@ void browser_init(const char *path, DIR *dir)
 
 	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
 	sprintf(filelist[i], "%s%s", path, nextdir->d_name);
+
 	i++;
     }
 
@@ -490,6 +499,7 @@ void browser_init(const char *path, DIR *dir)
      * first time we scanned and the second.  i is the actual length of
      * filelist, so record it. */
     filelist_len = i;
+
     closedir(dir);
 
     /* Make sure longest is between 15 and COLS. */
@@ -497,6 +507,36 @@ void browser_init(const char *path, DIR *dir)
 	longest = 15;
     if (longest > COLS)
 	longest = COLS;
+
+    /* Set width to zero, just before we initialize it. */
+    width = 0;
+
+    for (i = 0; i < filelist_len && line < editwinrows; i++) {
+	/* Calculate the number of columns one filename will take up. */
+	col += longest;
+	filesperline++;
+
+	/* Add some space between the columns. */
+	col += 2;
+
+	/* If the next entry isn't going to fit on the current line,
+	 * move to the next line. */
+	if (col > COLS - longest) {
+	    line++;
+	    col = 0;
+
+	    /* If width isn't initialized yet, and we've taken up more
+	     * than one line, it means that width is equal to
+	     * filesperline. */
+	    if (width == 0)
+		width = filesperline;
+	}
+    }
+
+    /* If width isn't initialized yet, and we've taken up only one line,
+     * it means that width is equal to (COLS % longest). */
+    if (width == 0)
+	width = COLS % longest;
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
@@ -542,49 +582,6 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     }
 }
 
-/* Calculate the number of files that we can display per line, and set
- * width to it.  It will always be at least one. */
-void browser_set_width(void)
-{
-    size_t i;
-    int col = 0;
-	/* The maximum number of columns that the filenames will take
-	 * up. */
-    int line = 0;
-	/* The maximum number of lines that the filenames will take
-	 * up. */
-    int filesperline = 0;
-	/* The number of files that we can display per line. */
-
-    width = 0;
-
-    for (i = 0; i < filelist_len && line < editwinrows; i++) {
-	/* Calculate the number of columns one filename will take up. */
-	col += longest;
-	filesperline++;
-
-	/* Add some space between the columns. */
-	col += 2;
-
-	/* If the next entry isn't going to fit on the current line,
-	 * move to the next line. */
-	if (col > COLS - longest) {
-	    line++;
-	    col = 0;
-
-	    /* We've taken up at least one line, which means that width
-	     * is equivalent to filesperline, so set it. */
-	    if (width == 0)
-		width = filesperline;
-	}
-    }
-
-    /* We haven't taken up at least one line, which means that width is
-     * equivalent to (COLS % longest), so set it. */
-    if (width == 0)
-	width = COLS % longest;
-}
-
 /* Set width to the number of files that we can display per line, if
  * necessary, and display the list of files. */
 void browser_refresh(void)
@@ -602,9 +599,6 @@ void browser_refresh(void)
 
     if (uimax_digits == -1)
 	uimax_digits = digits(UINT_MAX);
-
-    if (width == 0)
-	browser_set_width();
 
     blank_edit();
 
