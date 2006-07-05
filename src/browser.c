@@ -695,7 +695,7 @@ void browser_refresh(void)
 	/* Make sure foo takes up no more than foomaxlen columns. */
 	foolen = strlenpt(foo);
 	if (foolen > foomaxlen) {
-	    null_at(&foo, foomaxlen);
+	    null_at(&foo, actual_x(foo, foomaxlen));
 	    foolen = foomaxlen;
 	}
 
