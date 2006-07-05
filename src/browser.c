@@ -58,6 +58,8 @@ char *do_browser(char *path, DIR *dir)
 	 * browsing to "..". */
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
+    size_t old_selected;
+	/* The selected file we had before the current selected file. */
 
     curs_set(0);
     blank_statusbar();
@@ -98,6 +100,8 @@ char *do_browser(char *path, DIR *dir)
     } else
 	selected = 0;
 
+    old_selected = (size_t)-1;
+
     titlebar(path);
 
     while (!abort) {
@@ -105,9 +109,6 @@ char *do_browser(char *path, DIR *dir)
 	int i;
 	size_t fileline = selected / width;
 		/* The line number the selected file is on. */
-	size_t old_selected = (size_t)-1;
-		/* The selected file we had before the current selected
-		 * file. */
 	char *new_path;
 		/* The path we switch to at the "Go to Directory"
 		 * prompt. */
@@ -116,6 +117,8 @@ char *do_browser(char *path, DIR *dir)
 	 * selected file has changed, and set width in the process. */
 	if (kbinput == ERR || old_selected != selected)
 	    browser_refresh();
+
+	old_selected = selected;
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
@@ -358,8 +361,6 @@ char *do_browser(char *path, DIR *dir)
 		abort = TRUE;
 		break;
 	}
-
-	old_selected = selected;
     }
 
     titlebar(NULL);

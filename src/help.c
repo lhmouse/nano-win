@@ -51,6 +51,9 @@ void do_help(void (*refresh_func)(void))
 	/* The current shortcut list. */
 #endif
     const char *ptr;
+	/* The current line of help text. */
+    size_t old_line = (size_t)-1;
+	/* The line we were on before the current line. */
 
     curs_set(0);
     blank_edit();
@@ -90,9 +93,6 @@ void do_help(void (*refresh_func)(void))
 
     while (!abort) {
 	size_t i;
-	    /* Generic loop variable. */
-	size_t old_line = (size_t)-1;
-	    /* The line we were on before the current line. */
 
 	/* Display the help text if we don't have a key, or if the help
 	 * text has moved. */
@@ -120,6 +120,8 @@ void do_help(void (*refresh_func)(void))
 	}
 
 	wnoutrefresh(edit);
+
+	old_line = line;
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_help_input(&kbinput, &meta_key, &func_key);
@@ -171,8 +173,6 @@ void do_help(void (*refresh_func)(void))
 		abort = TRUE;
 		break;
 	}
-
-	old_line = line;
     }
 
 #ifndef DISABLE_MOUSE
