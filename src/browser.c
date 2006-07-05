@@ -131,7 +131,7 @@ char *do_browser(char *path, DIR *dir)
 
 		    if (!get_mouseinput(&mouse_x, &mouse_y, TRUE)) {
 			/* We can click in the edit window to select a
-			 * file. */
+			 * filename. */
 			if (wenclose(edit, mouse_y, mouse_x)) {
 			    /* Subtract out the size of topwin. */
 			    mouse_y -= 2 - no_more_space();
@@ -144,19 +144,20 @@ char *do_browser(char *path, DIR *dir)
 				width) + (mouse_x / (longest + 2));
 
 			    /* If they clicked beyond the end of a row,
-			     * select the file at the end of that
+			     * select the filename at the end of that
 			     * row. */
 			    if (mouse_x > width * (longest + 2))
 				selected--;
 
 			    /* If we're off the screen, select the last
-			     * file.  If we clicked the same place as
-			     * last time, read in the file there. */
+			     * filename. */
 			    if (selected > filelist_len - 1)
 				selected = filelist_len - 1;
-			    else if (old_selected == selected)
-				/* Put back the Enter key, so that the
-				 * file is read in. */
+
+			    /* If we selected the same filename as last
+			     * time, put back the Enter key so that it's
+			     * read in. */
+			    if (old_selected == selected)
 				unget_kbinput(NANO_ENTER_KEY, FALSE,
 					FALSE);
 			}
