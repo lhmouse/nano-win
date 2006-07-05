@@ -37,7 +37,7 @@ static size_t filelist_len = 0;
 static int width = 0;
 	/* The number of files that we can display per line.  This is
 	 * calculated via browser_set_width(), which should be called
-	 * before anything that uses width. */
+	 * before doing anything that uses width. */
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
