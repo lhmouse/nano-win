@@ -72,7 +72,7 @@ char *do_browser(char *path, DIR *dir)
     UNSET(CONST_UPDATE);
 
   change_browser_directory:
-	/* We go here after the user selects a new directory. */
+	/* We go here after we select a new directory. */
 
     /* Start with no key pressed. */
     kbinput = ERR;
