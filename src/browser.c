@@ -436,10 +436,10 @@ char *do_browse_from(const char *inpath)
 
 /* Set filelist to the list of files contained in the directory path,
  * set filelist_len to the number of files in that list, set longest to
- * the width in columns of the longest filename in that list (at least
- * 15 and at most COLS), and set width to the number of files that we
- * can display per line.  longest needs to be at least 15 columns in
- * order to hold ".. (parent dir)", as Pico does.  Assume path exists
+ * the width in columns of the longest filename in that list (between 15
+ * and COLS, and at least 15), and set width to the number of files that
+ * we can display per line.  longest needs to be at least 15 columns in
+ * order to display ".. (parent dir)", as Pico does.  Assume path exists
  * and is a directory. */
 void browser_init(const char *path, DIR *dir)
 {
@@ -504,11 +504,11 @@ void browser_init(const char *path, DIR *dir)
 
     closedir(dir);
 
-    /* Make sure longest is between 15 and COLS. */
-    if (longest < 15)
-	longest = 15;
+    /* Make sure longest is between 15 and COLS, and at least 15. */
     if (longest > COLS)
 	longest = COLS;
+    if (longest < 15)
+	longest = 15;
 
     /* Set width to zero, just before we initialize it. */
     width = 0;
