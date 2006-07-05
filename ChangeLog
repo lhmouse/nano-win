@@ -51,6 +51,10 @@ CVS code -
 - help.c:
   do_help()
 	- Simplify screen update handling and exiting. (DLR)
+- winio.c:
+  display_string()
+	- Properly handle buf[start_index]'s being a null terminator.
+	  (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
