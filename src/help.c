@@ -79,6 +79,7 @@ void do_help(void (*refresh_func)(void))
     }
 
     bottombars(help_list);
+    wnoutrefresh(bottomwin);
 
     /* Get the last line of the help text. */
     ptr = help_text;

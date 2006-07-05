@@ -902,6 +902,8 @@ void update_statusbar_line(const char *curranswer, size_t index)
     reset_statusbar_cursor();
 
     wattroff(bottomwin, reverse_attr);
+
+    wnoutrefresh(bottomwin);
 }
 
 /* Return TRUE if we need an update after moving horizontally, and FALSE

@@ -2051,7 +2051,9 @@ void titlebar(const char *path)
     if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
-	dots = (lenpt >= space);
+	/* Don't set dots to TRUE if we have at least 1/3 the length of
+	 * the screen in columns, minus two columns for spaces. */
+	dots = (space >= (COLS / 3) - 2 && lenpt >= space);
 
 	if (dots) {
 	    start_col = lenpt - space + 3;
@@ -2941,6 +2943,7 @@ void edit_refresh(void)
 	blank_line(edit, nlines, 0, COLS);
 
     reset_cursor();
+
     wnoutrefresh(edit);
 }
 

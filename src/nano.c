@@ -1056,6 +1056,7 @@ RETSIGTYPE do_continue(int signal)
 
     /* Redraw the contents of the windows that need it. */
     blank_statusbar();
+    wnoutrefresh(bottomwin);
     total_refresh();
 #endif
 }
@@ -1116,6 +1117,7 @@ RETSIGTYPE handle_sigwinch(int signal)
 
     /* Redraw the contents of the windows that need it. */
     blank_statusbar();
+    wnoutrefresh(bottomwin);
     currshortcut = main_list;
     total_refresh();
 
