@@ -911,7 +911,8 @@ char *get_full_path(const char *origpath)
     	return NULL;
 
     /* Get the current directory.  If it doesn't exist, back up and try
-     * again until we get a directory that does. */
+     * again until we get a directory that does, and use that as the
+     * current directory. */
     d_here = charalloc(PATH_MAX + 1);
     d_here = getcwd(d_here, PATH_MAX + 1);
 
@@ -976,7 +977,7 @@ char *get_full_path(const char *origpath)
 	 * d_there. */
 	null_at(&d_there, last_slash - d_there + 1);
 
-	/* chdir() to the path specified in d_there. */
+	/* Go to the path specified in d_there. */
 	if (chdir(d_there) == -1) {
 	    free(d_there);
 	    d_there = NULL;
