@@ -616,11 +616,11 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&main_list, NANO_PREVLINE_KEY, N_("Prev Line"),
 	IFHELP(nano_prevline_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_up);
+	NANO_NO_KEY, VIEW, do_up_void);
 
     sc_init_one(&main_list, NANO_NEXTLINE_KEY, N_("Next Line"),
 	IFHELP(nano_nextline_msg, TRUE), NANO_NO_KEY, NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_down);
+	NANO_NO_KEY, VIEW, do_down_void);
 
     sc_init_one(&main_list, NANO_HOME_KEY, N_("Home"),
 	IFHELP(nano_home_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,

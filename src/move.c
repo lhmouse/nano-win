@@ -471,11 +471,23 @@ void do_end(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
-/* Move up one line. */
-void do_up(void)
+/* If scroll_only is FALSE, move up one line.  If scroll_only is TRUE,
+ * scroll up one line without scrolling the cursor. */
+void do_up(
+#ifndef NANO_TINY
+	bool scroll_only
+#else
+	void
+#endif
+	)
 {
-    /* If we're at the top of the file, get out. */
-    if (openfile->current == openfile->fileage)
+    /* If we're at the top of the file, or if scroll_only is TRUE and
+     * the top of the file is onscreen, get out. */
+    if (openfile->current == openfile->fileage
+#ifndef NANO_TINY
+	|| (scroll_only && openfile->edittop == openfile->fileage)
+#endif
+	)
 	return;
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
@@ -485,45 +497,23 @@ void do_up(void)
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
-    /* If we're on the first line of the edit window, scroll the edit
-     * window up one line if we're in smooth scrolling mode, or up half
-     * a page if we're not. */
-    if (openfile->current_y == 0)
+    /* If scroll_only is FALSE and if we're on the first line of the
+     * edit window, scroll the edit window up one line if we're in
+     * smooth scrolling mode, or up half a page if we're not.  If
+     * scroll_only is TRUE, scroll the edit window up one line
+     * unconditionally. */
+    if (openfile->current_y == 0
+#ifndef NANO_TINY
+	|| scroll_only
+#endif
+	)
 	edit_scroll(UP,
 #ifndef NANO_TINY
-		ISSET(SMOOTH_SCROLL) ? 1 :
+		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
 #endif
 		editwinrows / 2);
-    /* If we're not on the first line of the edit window, update the
-     * line we were on before and the line we're on now.  The former
-     * needs to be redrawn if we're not on the first page, and the
-     * latter needs to be drawn unconditionally. */
-    else {
-	if (need_vertical_update(0))
-	    update_line(openfile->current->next, 0);
-	update_line(openfile->current, openfile->current_x);
-    }
-}
 
-#ifndef NANO_TINY
-/* Scroll up one line without scrolling the cursor. */
-void do_scroll_up(void)
-{
-    /* If the top of the file is onscreen, get out. */
-    if (openfile->edittop == openfile->fileage)
-	return;
-
-    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
-
-    /* Move the current line of the edit window up. */
-    openfile->current = openfile->current->prev;
-    openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
-
-    /* Scroll the edit window up one line. */
-    edit_scroll(UP, 1);
-
-    /* If we're not on the first line of the edit window, update the
+    /* If we're below the first line of the edit window, update the
      * line we were on before and the line we're on now.  The former
      * needs to be redrawn if we're not on the first page, and the
      * latter needs to be drawn unconditionally. */
@@ -533,45 +523,34 @@ void do_scroll_up(void)
 	update_line(openfile->current, openfile->current_x);
     }
 }
-#endif /* !NANO_TINY */
 
-/* Move down one line. */
-void do_down(void)
+/* Move up one line. */
+void do_up_void(void)
 {
-    /* If we're at the bottom of the file, get out. */
-    if (openfile->current == openfile->filebot)
-	return;
-
-    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
-
-    /* Move the current line of the edit window down. */
-    openfile->current = openfile->current->next;
-    openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
-
-    /* If we're on the last line of the edit window, scroll the edit
-     * window down one line if we're in smooth scrolling mode, or down
-     * half a page if we're not. */
-    if (openfile->current_y == editwinrows - 1)
-	edit_scroll(DOWN,
+    do_up(
 #ifndef NANO_TINY
-		ISSET(SMOOTH_SCROLL) ? 1 :
+	FALSE
 #endif
-		editwinrows / 2);
-    /* If we're not on the last line of the edit window, update the line
-     * we were on before and the line we're on now.  The former needs to
-     * be redrawn if we're not on the first page, and the latter needs
-     * to be drawn unconditionally. */
-    else {
-	if (need_vertical_update(0))
-	    update_line(openfile->current->prev, 0);
-	update_line(openfile->current, openfile->current_x);
-    }
+	);
 }
 
 #ifndef NANO_TINY
-/* Scroll down one line without scrolling the cursor. */
-void do_scroll_down(void)
+/* Scroll up one line without scrolling the cursor. */
+void do_scroll_up(void)
+{
+    do_up(TRUE);
+}
+#endif
+
+/* If scroll_only is FALSE, move down one line.  If scroll_only is TRUE,
+ * scroll down one line without scrolling the cursor. */
+void do_down(
+#ifndef NANO_TINY
+	bool scroll_only
+#else
+	void
+#endif
+	)
 {
     /* If we're at the bottom of the file, get out. */
     if (openfile->current == openfile->filebot)
@@ -584,10 +563,23 @@ void do_scroll_down(void)
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
-    /* Scroll the edit window down one line. */
-    edit_scroll(DOWN, 1);
+    /* If scroll_only is FALSE and if we're on the first line of the
+     * edit window, scroll the edit window down one line if we're in
+     * smooth scrolling mode, or down half a page if we're not.  If
+     * scroll_only is TRUE, scroll the edit window down one line
+     * unconditionally. */
+    if (openfile->current_y == editwinrows - 1
+#ifndef NANO_TINY
+	|| scroll_only
+#endif
+	)
+	edit_scroll(DOWN,
+#ifndef NANO_TINY
+		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
+#endif
+		editwinrows / 2);
 
-    /* If we're not on the last line of the edit window, update the line
+    /* If we're above the last line of the edit window, update the line
      * we were on before and the line we're on now.  The former needs to
      * be redrawn if we're not on the first page, and the latter needs
      * to be drawn unconditionally. */
@@ -597,7 +589,24 @@ void do_scroll_down(void)
 	update_line(openfile->current, openfile->current_x);
     }
 }
-#endif /* !NANO_TINY */
+
+/* Move down one line. */
+void do_down_void(void)
+{
+    do_down(
+#ifndef NANO_TINY
+	FALSE
+#endif
+	);
+}
+
+#ifndef NANO_TINY
+/* Scroll down one line without scrolling the cursor. */
+void do_scroll_down(void)
+{
+    do_down(TRUE);
+}
+#endif
 
 /* Move left one character. */
 void do_left(void)
@@ -608,7 +617,7 @@ void do_left(void)
 	openfile->current_x = move_mbleft(openfile->current->data,
 		openfile->current_x);
     else if (openfile->current != openfile->fileage) {
-	do_up();
+	do_up_void();
 	openfile->current_x = strlen(openfile->current->data);
     }
 
@@ -629,7 +638,7 @@ void do_right(void)
 	openfile->current_x = move_mbright(openfile->current->data,
 		openfile->current_x);
     else if (openfile->current != openfile->filebot) {
-	do_down();
+	do_down_void();
 	openfile->current_x = 0;
     }
 

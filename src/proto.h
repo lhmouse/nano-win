@@ -389,11 +389,25 @@ void do_prev_word_void(void);
 #endif
 void do_home(void);
 void do_end(void);
-void do_up(void);
+void do_up(
+#ifndef NANO_TINY
+	bool scroll_only
+#else
+	void
+#endif
+	);
+void do_up_void(void);
 #ifndef NANO_TINY
 void do_scroll_up(void);
 #endif
-void do_down(void);
+void do_down(
+#ifndef NANO_TINY
+	bool scroll_only
+#else
+	void
+#endif
+	);
+void do_down_void(void);
 #ifndef NANO_TINY
 void do_scroll_down(void);
 #endif
