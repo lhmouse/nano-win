@@ -71,6 +71,12 @@ CVS code -
 - help.c:
   do_help()
 	- Simplify screen update handling and exiting. (DLR)
+- move.c:
+  do_scroll_up(), do_scroll_down()
+	- Fix problems where, after scrolling, the previous and current
+	  lines would not be updated properly if the current line was
+	  not the first or last line of the edit window. (DLR, found by
+	  Mike Frysinger)
 - winio.c:
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.
