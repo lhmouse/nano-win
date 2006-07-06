@@ -494,9 +494,10 @@ void do_up(void)
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
-    /* Update the line we were on before and the line we're on now.  The
-     * former needs to be redrawn if we're not on the first page, and
-     * the latter needs to be drawn unconditionally. */
+    /* If we're not on the first line of the edit window, update the
+     * line we were on before and the line we're on now.  The former
+     * needs to be redrawn if we're not on the first page, and the
+     * latter needs to be drawn unconditionally. */
     else {
 	if (need_vertical_update(0))
 	    update_line(openfile->current->next, 0);
@@ -547,9 +548,10 @@ void do_down(void)
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
-    /* Update the line we were on before and the line we're on now.  The
-     * former needs to be redrawn if we're not on the first page, and
-     * the latter needs to be drawn unconditionally. */
+    /* If we're not on the last line of the edit window, update the line
+     * we were on before and the line we're on now.  The former needs to
+     * be redrawn if we're not on the first page, and the latter needs
+     * to be drawn unconditionally. */
     else {
 	if (need_vertical_update(0))
 	    update_line(openfile->current->prev, 0);
