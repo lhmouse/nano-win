@@ -2856,8 +2856,8 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 
 	openfile->edittop = old_edittop;
 
-	/* Update old_current if we're not on the first page and/or
-	 * we're not on the same page as before. */
+	/* Update old_current if we're not on the same page as
+	 * before. */
 	if (do_redraw)
 	    update_line(old_current, 0);
 
@@ -2885,9 +2885,9 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	return;
     }
 
-    /* Update old_current and current if we're not on the first page
-     * and/or we're not on the same page as before.  If the mark is on,
-     * update all the lines between old_current and current too. */
+    /* Update old_current and current if we're not on the same page as
+     * before.  If the mark is on, update all the lines between
+     * old_current and current too. */
     foo = old_current;
 
     while (foo != openfile->current) {
