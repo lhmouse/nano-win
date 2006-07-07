@@ -2051,8 +2051,9 @@ void titlebar(const char *path)
     if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
-	/* Don't set dots to TRUE if we have fewer than 8 columns. */
-	dots = (space >= 8 && lenpt >= space);
+	/* Don't set dots to TRUE if we have fewer than 7 columns for
+	 * a filename. */
+	dots = (space >= 7 && lenpt >= space);
 
 	if (dots) {
 	    start_col = lenpt - space + 3;

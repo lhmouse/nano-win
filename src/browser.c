@@ -616,10 +616,11 @@ void browser_refresh(void)
 		/* The maximum length of the file information in
 		 * columns: 7 for "--", "(dir)", or the file size, and
 		 * 12 for "(parent dir)". */
-	bool dots = (COLS >= 15 && filetaillen > longest -
+	bool dots = (COLS >= 15 && filetaillen >= longest -
 		foomaxlen - 1);
 		/* Do we put an ellipsis before the filename?  Don't set
-		 * this to TRUE if we have fewer than 15 columns. */
+		 * this to TRUE if we have fewer than 15 columns (i.e, 7
+		 * columns for a filename other than ".."). */
 	char *disp = display_string(filetail, dots ? filetaillen -
 		longest + foomaxlen + 4 : 0, longest, FALSE);
 		/* If we put an ellipsis before the filename, reserve 1
