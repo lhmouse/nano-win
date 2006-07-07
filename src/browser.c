@@ -619,14 +619,14 @@ void browser_refresh(void)
 	bool dots = (COLS >= 15 && filetaillen >= longest -
 		foomaxlen - 1);
 		/* Do we put an ellipsis before the filename?  Don't set
-		 * this to TRUE if we have fewer than 15 columns (i.e, 7
-		 * columns for a filename other than ".."). */
+		 * this to TRUE if we have fewer than 15 columns (i.e, 1
+		 * column for padding, plus 7 columns for a filename
+		 * other than ".."). */
 	char *disp = display_string(filetail, dots ? filetaillen -
 		longest + foomaxlen + 4 : 0, longest, FALSE);
 		/* If we put an ellipsis before the filename, reserve 1
-		 * column for padding, plus foomaxlen columns for "--",
-		 * "(dir)", or the file size, plus 3 columns for the
-		 * ellipsis. */
+		 * column for padding, plus 7 columns for "--", "(dir)",
+		 * or the file size, plus 3 columns for the ellipsis. */
 
 	/* Start highlighting the currently selected file or
 	 * directory. */
