@@ -1964,7 +1964,7 @@ void titlebar(const char *path)
 	 * buffer. */
     size_t statelen = 0;
 	/* The length of the state in columns, or the length of
-	 * "Modified" if the state is blank. */
+	 * "Modified" if the state is blank and path is NULL. */
     char *exppath = NULL;
 	/* The filename, expanded for display. */
     bool newfie = FALSE;
@@ -2010,7 +2010,11 @@ void titlebar(const char *path)
 	state = openfile->modified ? _("Modified") : ISSET(VIEW_MODE) ?
 		_("View") : "";
 
-    statelen = strlenpt((state[0] != '\0') ? state : _("Modified"));
+    statelen = strlenpt((state[0] == '\0'
+#ifndef DISABLE_BROWSER
+	&& path == NULL
+#endif
+	) ? _("Modified") : state);
 
     /* If possible, add a space before state. */
     if (space > 0 && statelen < space)
@@ -2038,7 +2042,9 @@ void titlebar(const char *path)
 
     /* If we're not in the file browser, path should be the current
      * filename. */
+#ifndef DISABLE_BROWSER
     if (path == NULL)
+#endif
 	path = openfile->filename;
 
     /* Account for the full lengths of the prefix and the state. */

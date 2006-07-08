@@ -89,6 +89,11 @@ CVS code -
   titlebar()
 	- Don't display overly long filenames with ellipses if the
 	  number of columns is extremely small. (DLR)
+	- Don't display any blank space for the state if we're in the
+	  file browser, as Pico doesn't. (DLR)
+	- Since path is always assumed to be NULL if DISABLE_BROWSER is
+	  defined, put the check for its being NULL in a DISABLE_BROWSER
+	  #define. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
