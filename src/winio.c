@@ -2042,9 +2042,7 @@ void titlebar(const char *path)
 
     /* If we're not in the file browser, path should be the current
      * filename. */
-#ifndef DISABLE_BROWSER
     if (path == NULL)
-#endif
 	path = openfile->filename;
 
     /* Account for the full lengths of the prefix and the state. */
