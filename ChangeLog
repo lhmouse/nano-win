@@ -13,7 +13,6 @@ CVS code -
 	  blank_statusbar(), in order to ensure that the statusbar is
 	  actually blanked.  Changes to do_help(), do_continue(),
 	  handle_sigwinch(), and update_statusbar_line(). (DLR)
-	  (DLR)
 	- If the mark isn't on, allow Meta-} and Meta-{ to indent and
 	  unindent only the current line, just as it would if the mark
 	  covered only the current line, instead of displaying a

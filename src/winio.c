@@ -1942,12 +1942,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     return converted;
 }
 
-/* Display the path specified in path on the titlebar, along with the
- * current version of nano and whether the current file has been
- * modified.  If path is NULL, assume we're in normal editing mode and
- * display the current filename instead.  Otherwise, assume we're in the
- * file browser, and don't display whether the current file has been
- * modified. */
+/* If path is NULL, we're in normal editing mode, so display the current
+ * version of nano, the current filename, and whether the current file
+ * has been modified on the titlebar.  If path isn't NULL, we're in the
+ * file browser, and path contains the directory to start the file
+ * browser in, so display the current version of nano and the contents
+ * of path on the titlebar. */
 void titlebar(const char *path)
 {
     int space = COLS;
@@ -1964,7 +1964,8 @@ void titlebar(const char *path)
 	 * buffer. */
     size_t statelen = 0;
 	/* The length of the state in columns, or the length of
-	 * "Modified" if the state is blank and path is NULL. */
+	 * "Modified" if the state is blank and we're not in the file
+	 * browser. */
     char *exppath = NULL;
 	/* The filename, expanded for display. */
     bool newfie = FALSE;
@@ -2037,7 +2038,7 @@ void titlebar(const char *path)
     if (!newfie && prefixlen + statelen < space)
 	prefixlen++;
 
-    /* If we're not in the file browser, path should be the current
+    /* If we're not in the file browser, set path to the current
      * filename. */
     if (path == NULL)
 	path = openfile->filename;
