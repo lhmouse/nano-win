@@ -2010,11 +2010,8 @@ void titlebar(const char *path)
 	state = openfile->modified ? _("Modified") : ISSET(VIEW_MODE) ?
 		_("View") : "";
 
-    statelen = strlenpt((state[0] == '\0'
-#ifndef DISABLE_BROWSER
-	&& path == NULL
-#endif
-	) ? _("Modified") : state);
+    statelen = strlenpt((state[0] == '\0' && path == NULL) ?
+	_("Modified") : state);
 
     /* If possible, add a space before state. */
     if (space > 0 && statelen < space)
