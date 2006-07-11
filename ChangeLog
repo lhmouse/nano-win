@@ -38,6 +38,7 @@ CVS code -
 	- During the operating directory check, if path isn't NULL,
 	  don't bother freeing it before mallocstrcpy()ing operating_dir
 	  into it, as the latter operation will free it. (DLR)
+	- Don't bother freeing path if it's NULL. (DLR)
   browser_init()
 	- Fix off-by-one error when calculating longest that kept the
 	  rightmost column of the screen from being used. (DLR)
