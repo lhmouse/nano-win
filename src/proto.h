@@ -143,7 +143,7 @@ extern char *homedir;
 
 /* Public functions in browser.c. */
 #ifndef DISABLE_BROWSER
-char *do_browser(char *path, DIR *dir);
+char *do_browser(char *path);
 char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key);

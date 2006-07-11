@@ -46,7 +46,7 @@ static bool search_last_file = FALSE;
 
 /* Our main file browser function.  path is the tilde-expanded path to
  * start browsing from. */
-char *do_browser(char *path, DIR *dir)
+char *do_browser(char *path)
 {
     char *retval = NULL;
     int kbinput;
@@ -56,10 +56,17 @@ char *do_browser(char *path, DIR *dir)
     char *prev_dir = NULL;
 	/* The directory we were in, if any, before backing up via
 	 * browsing to "..". */
-    char *ans = mallocstrcpy(NULL, "");
+    char *ans = NULL;
 	/* The last answer the user typed on the statusbar. */
     size_t old_selected;
 	/* The selected file we had before the current selected file. */
+    DIR *dir;
+
+    /* If we have no path, or we can't open it, get out. */
+    if (path == NULL || (dir = opendir(path)) == NULL) {
+	beep();
+	goto cleanup_browser;
+    }
 
     curs_set(0);
     blank_statusbar();
@@ -70,6 +77,8 @@ char *do_browser(char *path, DIR *dir)
     wnoutrefresh(bottomwin);
 
     UNSET(CONST_UPDATE);
+
+    ans = mallocstrcpy(NULL, "");
 
   change_browser_directory:
 	/* We go here after we select a new directory. */
@@ -281,7 +290,6 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free(path);
 		path = new_path;
-		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
 	    case NANO_PREVLINE_KEY:
 		if (selected >= width)
@@ -355,7 +363,6 @@ char *do_browser(char *path, DIR *dir)
 		path = mallocstrcpy(path, filelist[selected]);
 
 		/* Start over again with the new path value. */
-		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
 	    /* Abort the file browser. */
 	    case NANO_EXIT_KEY:
@@ -370,10 +377,16 @@ char *do_browser(char *path, DIR *dir)
     if (old_const_update)
 	SET(CONST_UPDATE);
 
-    /* Clean up. */
-    free(path);
-    free(ans);
-    free_chararray(filelist, filelist_len);
+  cleanup_browser:
+    if (path != NULL)
+	free(path);
+    if (ans != NULL)
+	free(ans);
+    if (filelist != NULL) {
+	free_chararray(filelist, filelist_len);
+	filelist = NULL;
+	filelist_len = 0;
+    }
 
     return retval;
 }
@@ -386,7 +399,6 @@ char *do_browse_from(const char *inpath)
     struct stat st;
     char *path;
 	/* This holds the tilde-expanded version of inpath. */
-    DIR *dir = NULL;
 
     assert(inpath != NULL);
 
@@ -419,16 +431,7 @@ char *do_browse_from(const char *inpath)
 	path = mallocstrcpy(path, operating_dir);
 #endif
 
-    if (path != NULL)
-	dir = opendir(path);
-
-    if (dir == NULL) {
-	beep();
-	free(path);
-	return NULL;
-    }
-
-    return do_browser(path, dir);
+    return do_browser(path);
 }
 
 /* Set filelist to the list of files contained in the directory path,
@@ -470,13 +473,16 @@ void browser_init(const char *path, DIR *dir)
 	i++;
     }
 
-    filelist_len = i;
-
     rewinddir(dir);
 
     /* Put 10 columns' worth of blank space between columns of filenames
      * in the list whenever possible, as Pico does. */
     longest += 10;
+
+    if (filelist != NULL)
+	free_chararray(filelist, filelist_len);
+
+    filelist_len = i;
 
     filelist = (char **)nmalloc(filelist_len * sizeof(char *));
 

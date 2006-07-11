@@ -34,6 +34,8 @@ CVS code -
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
 	- Simplify screen update handling and exiting. (DLR)
+	- Move the opening of path here from do_browse_from(), so that
+	  we no longer need a DIR* parameter. (DLR)
   do_browse_from()
 	- During the operating directory check, if path isn't NULL,
 	  don't bother freeing it before mallocstrcpy()ing operating_dir
@@ -43,6 +45,8 @@ CVS code -
 	  rightmost column of the screen from being used. (DLR)
 	- Calculate width here instead of in browser_refresh(), as it's
 	  more consistent. (DLR)
+	- If filelist is initialized, free it here instead of in several
+	  places in do_browser(). (DLR)
   browser_refresh()
 	- Simplify. (DLR)
 	- Fix problems where translated versions of "(dir)" could be
