@@ -9,6 +9,8 @@ For the next version:
 - Make matching bracket searches sophisticated enough to skip over
   brackets inside comments?
 - Allow indentation of marked text by spaces as well as tabs?
+- Allow indentation to add just enough columns to reach the nearest
+  multiple of tabsize, rather than always adding tabsize columns?
 - Rewrite the nano FAQ in SGML.
 - Allow conversion between different character sets.  Maybe use glib's
   iconv() if the system's iconv() is inadequate, since we already use
@@ -17,6 +19,9 @@ For the next version:
   or "Save File As" prompt to the file browser to the "Go To Directory"
   prompt, and then canceling back to the "Read File" or "Save File As"
   prompt.
+- Handle window resizes better.  After we resize, we should stay
+  wherever we were before we resized.  At the very least, do this for
+  the file browser, as Pico does.
 - Allow color syntaxes to apply to more than just color, so that we can
   e.g. specify a different alternate spell checker depending on which
   file type we have open.
@@ -29,9 +34,6 @@ For the next version:
 - Add the ability to move to different lines of the screen with a single
   keystroke, e.g. M-` to go to the top line, M-& to go to the center
   line, and M-' to go to the last line.
-- Allow indentation via Meta-} to add just enough columns to reach the
-  nearest multiple of tabsize, rather than always adding tabsize
-  columns.
 
 Old requests:
 
