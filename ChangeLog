@@ -34,8 +34,6 @@ CVS code -
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
 	- Simplify screen update handling and exiting. (DLR)
-	- Move the opening of path here from do_browse_from(), so that
-	  we no longer need a DIR* parameter. (DLR)
   do_browse_from()
 	- During the operating directory check, if path isn't NULL,
 	  don't bother freeing it before mallocstrcpy()ing operating_dir

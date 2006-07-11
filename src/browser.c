@@ -46,7 +46,7 @@ static bool search_last_file = FALSE;
 
 /* Our main file browser function.  path is the tilde-expanded path to
  * start browsing from. */
-char *do_browser(char *path)
+char *do_browser(char *path, DIR *dir)
 {
     char *retval = NULL;
     int kbinput;
@@ -60,13 +60,6 @@ char *do_browser(char *path)
 	/* The last answer the user typed on the statusbar. */
     size_t old_selected;
 	/* The selected file we had before the current selected file. */
-    DIR *dir;
-
-    /* If we have no path, or we can't open it, get out. */
-    if (path == NULL || (dir = opendir(path)) == NULL) {
-	beep();
-	goto cleanup_browser;
-    }
 
     curs_set(0);
     blank_statusbar();
@@ -377,16 +370,12 @@ char *do_browser(char *path)
     if (old_const_update)
 	SET(CONST_UPDATE);
 
-  cleanup_browser:
-    if (path != NULL)
-	free(path);
-    if (ans != NULL)
-	free(ans);
-    if (filelist != NULL) {
-	free_chararray(filelist, filelist_len);
-	filelist = NULL;
-	filelist_len = 0;
-    }
+    free(path);
+    free(ans);
+
+    free_chararray(filelist, filelist_len);
+    filelist = NULL;
+    filelist_len = 0;
 
     return retval;
 }
@@ -399,6 +388,7 @@ char *do_browse_from(const char *inpath)
     struct stat st;
     char *path;
 	/* This holds the tilde-expanded version of inpath. */
+    DIR *dir = NULL;
 
     assert(inpath != NULL);
 
@@ -431,7 +421,17 @@ char *do_browse_from(const char *inpath)
 	path = mallocstrcpy(path, operating_dir);
 #endif
 
-    return do_browser(path);
+    if (path != NULL)
+	dir = opendir(path);
+
+    /* If we can't open the path, get out. */
+    if (dir == NULL) {
+	free(path);
+	beep();
+	return NULL;
+    }
+
+    return do_browser(path, dir);
 }
 
 /* Set filelist to the list of files contained in the directory path,
