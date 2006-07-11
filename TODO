@@ -20,8 +20,7 @@ For the next version:
   prompt, and then canceling back to the "Read File" or "Save File As"
   prompt.
 - Handle window resizes better.  After we resize, we should stay
-  wherever we were before we resized.  At the very least, do this for
-  the file browser, as Pico does.
+  wherever we were before we resized, as Pico does.
 - Allow color syntaxes to apply to more than just color, so that we can
   e.g. specify a different alternate spell checker depending on which
   file type we have open.
