@@ -33,11 +33,9 @@
 #include <ctype.h>
 #include <locale.h>
 #include <termios.h>
-
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
 #endif
-
 #ifndef NANO_TINY
 #include <sys/ioctl.h>
 #endif
