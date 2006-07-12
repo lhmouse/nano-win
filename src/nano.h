@@ -138,10 +138,10 @@
 #define getline ngetline
 #endif
 
-/* If we don't have regex support, turn the color support off, as it
- * depends on the use of regexes. */
-#ifndef HAVE_REGEX_H
-#undef ENABLE_COLOR 
+/* If we don't have regex or nanorc support, turn the color support off,
+ * as it depends on the use of both. */
+#if !defined(HAVE_REGEX_H) || !defined(ENABLE_NANORC)
+#undef ENABLE_COLOR
 #endif
 
 /* If we aren't using ncurses, turn the mouse support off, as it's

@@ -88,6 +88,9 @@ CVS code -
 	  lines would not be updated properly if the current line was
 	  not the first or last line of the edit window. (DLR, found by
 	  Mike Frysinger)
+- nano.h:
+	- If we don't have nanorc support, disable color support, as it
+	  depends on the use of the nanorc. (DLR)
 - winio.c:
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.
