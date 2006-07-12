@@ -29,7 +29,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-#include <sys/ioctl.h>
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
@@ -37,6 +36,10 @@
 
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
+#endif
+
+#ifndef NANO_TINY
+#include <sys/ioctl.h>
 #endif
 
 #ifdef ENABLE_NANORC

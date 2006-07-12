@@ -30,6 +30,8 @@ CVS code -
 	  manual pages were written for, consistent in the
 	  documentation.  Changes to AUTHORS, nano.1, nanorc.5, and
 	  rnano.1. (DLR, based on suggestions by Jordi)
+	- Don't include sys/ioctl.h in nano.c when NANO_TINY is defined,
+	  as ioctl() is never used then. (DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
