@@ -141,8 +141,16 @@ fi])
 AC_ARG_ENABLE(color,
 [  --enable-color          Enable color and syntax highlighting],
 [if test x$enableval = xyes; then
-    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
-    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
+    if test x$ac_cv_header_regex_h = xyes; then
+	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
+	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
+    else
+	AC_MSG_ERROR([
+*** The header file regex.h was not found.  If you wish to use color
+*** support this header file is required.  Please either install C
+*** libraries that include the regex.h file or do not call the configure
+*** script with --enable-color.])
+    fi
 fi])
 
 AC_ARG_ENABLE(multibuffer,
@@ -270,11 +278,10 @@ int main(void)
     AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
     AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 	    AC_MSG_ERROR([
-*** The header file slcurses.h was not found. If you wish to use
-*** slang support this header file is required. Please either
+*** The header file slcurses.h was not found.  If you wish to use
+*** slang support this header file is required.  Please either
 *** install a version of slang that includes the slcurses.h file or
-*** do not call the configure script with --with-slang
-	    ]))
+*** do not call the configure script with --with-slang.]))
 	fi
 
 	if eval "test x$CURSES_LIB_NAME = x"; then
@@ -355,11 +362,10 @@ int main(void)
     AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
     AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 	    AC_MSG_ERROR([
-*** The header file slcurses.h was not found. If you wish to use
-*** slang support this header file is required. Please either
+*** The header file slcurses.h was not found.  If you wish to use
+*** slang support this header file is required.  Please either
 *** install a version of slang that includes the slcurses.h file or
-*** do not call the configure script with --with-slang
-	    ]))
+*** do not call the configure script with --with-slang.]))
 	fi
 
 	if test "${_libs+set}" = "set"; then

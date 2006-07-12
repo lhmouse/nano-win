@@ -102,6 +102,11 @@ CVS code -
 	  number of columns is extremely small. (DLR)
 	- Don't display any blank space for the state if we're in the
 	  file browser, as Pico doesn't. (DLR)
+- configure.ac:
+	- If regex.h isn't found, display an error message if we try to
+	  enable color support. (DLR)
+	- Fix the spacing of the error message displayed when slcurses.h
+	  isn't found. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
