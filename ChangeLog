@@ -26,6 +26,10 @@ CVS code -
 	  and do_down_void(); changes to shortcut_init(), do_up(),
 	  do_scroll_up(), do_down(), do_scroll_down(), do_left(), and
 	  do_right(). (DLR)
+	- Make Jordi's email address, and the description of what the
+	  manual pages were written for, consistent in the
+	  documentation.  Changes to AUTHORS, nano.1, nanorc.5, and
+	  rnano.1. (DLR, based on suggestions by Jordi)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for

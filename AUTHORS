@@ -12,7 +12,7 @@ David Lawrence Ramsey <pooka109@cox.net>
 	  wrapping code, spelling fixes, const mode, parts of the UTF-8
 	  support, and various other fixes.
 
-Jordi Mallach <jordi@sindominio.net>
+Jordi Mallach <jordi@gnu.org>
 	* Debian package maintainer, fellow bug squasher.
 	* Internationalization support head, ca.po maintainer.
 
