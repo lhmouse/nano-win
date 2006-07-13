@@ -100,6 +100,9 @@ CVS code -
 - nano.h:
 	- Remove the manual disabling of color support if regex.h isn't
 	  found, as configure.ac now handles that. (DLR)
+- search.c:
+  replace_regexp()
+	- Remove unnecessary casting of c to int. (DLR)
 - text.c:
   execute_command()
 	- Remove the marking of the file as modified, as do_insertfile()

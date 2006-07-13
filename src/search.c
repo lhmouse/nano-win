@@ -576,7 +576,7 @@ int replace_regexp(char *string, bool create)
     /* Iterate through the replacement text to handle subexpression
      * replacement using \1, \2, \3, etc. */
     while (*c != '\0') {
-	int num = (int)(*(c + 1) - '0');
+	int num = (*(c + 1) - '0');
 
 	if (*c != '\\' || num < 1 || num > 9 || num >
 		search_regexp.re_nsub) {
