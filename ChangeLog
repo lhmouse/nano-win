@@ -32,6 +32,10 @@ CVS code -
 	  rnano.1. (DLR, based on suggestions by Jordi)
 	- Don't include sys/ioctl.h in nano.c when NANO_TINY is defined,
 	  as ioctl() is never used then. (DLR)
+	- Improve the display of bools in debugging statements.  Changes
+	  to parse_kbinput(), get_escape_seq_kbinput(),
+	  parse_escape_seq_kbinput(), get_shortcut(), and get_toggle().
+	  (DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
