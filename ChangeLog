@@ -77,6 +77,12 @@ CVS code -
 	  string.  Also, return the stripped path instead of modifying
 	  path. (DLR)
 - files.c:
+  do_insertfile()
+	- If we're in view mode, as we can be if multibuffer mode is on,
+	  don't mark the file as modified. (DLR)
+	- If we execute a command in a new buffer, move back to the
+	  beginning of the first line of the buffer afterwards, for
+	  consistency. (DLR)
   get_full_path()
 	- Don't return NULL when the current directory doesn't exist, as
 	  we can still recover from that. (DLR, found by Mike Frysinger)
@@ -93,6 +99,10 @@ CVS code -
 - nano.h:
 	- Remove the manual disabling of color support if regex.h isn't
 	  found, as configure.ac now handles that. (DLR)
+- text.c:
+  execute_command()
+	- Remove the marking of the file as modified, as do_insertfile()
+	  handles that. (DLR)
 - winio.c:
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.

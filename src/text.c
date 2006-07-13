@@ -497,11 +497,6 @@ bool execute_command(const char *command)
 
     read_file(f, "stdin");
 
-    /* If multibuffer mode is on, we could be here in view mode.  If so,
-     * don't set the modification flag. */
-    if (!ISSET(VIEW_MODE))
-	set_modified();
-
     if (wait(NULL) == -1)
 	nperror("wait");
 

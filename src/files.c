@@ -811,8 +811,18 @@ void do_insertfile(
 
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
-	    } else {
+
+#ifdef ENABLE_MULTIBUFFER
+		if (ISSET(MULTIBUFFER)) {
+		    /* Move back to the beginning of the first line of
+		     * the buffer. */
+		    openfile->current = openfile->fileage;
+		    openfile->current_x = 0;
+		    openfile->placewewant = 0;
+		}
 #endif
+	    } else {
+#endif /* !NANO_TINY */
 		/* Make sure the path to the file specified in answer is
 		 * tilde-expanded. */
 		answer = mallocstrassn(answer,
@@ -861,8 +871,10 @@ void do_insertfile(
 		/* Restore the old place we want. */
 		openfile->placewewant = pww_save;
 
-		/* Mark the file as modified. */
-		set_modified();
+		/* Mark the file as modified, unless we're here in view
+		 * mode, which we can be if multibuffer mode is on. */
+		if (!ISSET(VIEW_MODE))
+		    set_modified();
 
 		/* Update the screen. */
 		edit_refresh();
