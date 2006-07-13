@@ -83,6 +83,9 @@ CVS code -
 	- If we execute a command in a new buffer, move back to the
 	  beginning of the first line of the buffer afterwards, for
 	  consistency. (DLR)
+	- If we don't insert a file into a new buffer, properly update
+	  the x-coordinate to account for the number of characters
+	  inserted on the current line. (DLR)
   get_full_path()
 	- Don't return NULL when the current directory doesn't exist, as
 	  we can still recover from that. (DLR, found by Mike Frysinger)
