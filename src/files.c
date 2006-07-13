@@ -878,10 +878,8 @@ void do_insertfile(
 		/* Restore the old place we want. */
 		openfile->placewewant = pww_save;
 
-		/* Mark the file as modified, unless we're here in view
-		 * mode, which we can be if multibuffer mode is on. */
-		if (!ISSET(VIEW_MODE))
-		    set_modified();
+		/* Mark the file as modified. */
+		set_modified();
 
 		/* Update the screen. */
 		edit_refresh();

@@ -78,8 +78,6 @@ CVS code -
 	  path. (DLR)
 - files.c:
   do_insertfile()
-	- If we're in view mode, as we can be if multibuffer mode is on,
-	  don't mark the file as modified. (DLR)
 	- If we execute a command in a new buffer, move back to the
 	  beginning of the first line of the buffer afterwards, for
 	  consistency. (DLR)
