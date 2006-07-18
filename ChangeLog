@@ -104,11 +104,6 @@ CVS code -
 - nano.h:
 	- Remove the manual disabling of color support if regex.h isn't
 	  found, as configure.ac now handles that. (DLR)
-	- If DISABLE_WRAPPING is defined, undefine DISABLE_ROOTWRAP, as
-	  the latter makes no sense when the former is set, and adjust
-	  all #ifdefs that check for both being enabled. (DLR)
-	- If HAVE_REGEX_H isn't defined, undefine ENABLE_COLOR, as the
-	  latter is useless without regex support. (DLR)
 - search.c:
   replace_regexp()
 	- Remove unnecessary casting of c to int. (DLR)

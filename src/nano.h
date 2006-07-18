@@ -143,23 +143,9 @@
 #ifndef NCURSES_MOUSE_VERSION
 #define DISABLE_MOUSE 1
 #endif
-#ifdef DISABLE_WRAPPING
-/* If both wrapping and justifying are disabled, disable all the code
- * used by either of the two. */
-#ifdef DISABLE_JUSTIFY
-#define DISABLE_WRAPJUSTIFY 1
-#endif
-/* If wrapping is disabled, turn the --disable-wrapping-as-root option
- * off, as it's useless then. */
-#ifdef DISABLE_ROOTWRAP
-#undef DISABLE_ROOTWRAP
-#endif
-#endif
 
-/* If regex support is disabled, turn color support off, as it's useless
- * then. */
-#ifndef HAVE_REGEX_H
-#undef ENABLE_COLOR
+#if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
+#define DISABLE_WRAPJUSTIFY 1
 #endif
 
 /* Enumeration types. */
