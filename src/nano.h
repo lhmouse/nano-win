@@ -29,7 +29,7 @@
 #endif
 
 #ifdef __TANDEM
-/* Tandem NonStop Kernel. */
+/* Tandem NonStop Kernel support. */
 #include <floss.h>
 #define NANO_ROOT_UID 65535
 #else

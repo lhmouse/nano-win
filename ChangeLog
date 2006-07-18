@@ -110,7 +110,7 @@ CVS code -
 - text.c:
   execute_command()
 	- Remove the marking of the file as modified, as do_insertfile()
-	  handles that. (DLR)
+	  now handles that. (DLR)
 - winio.c:
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.
