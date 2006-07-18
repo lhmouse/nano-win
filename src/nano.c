@@ -872,7 +872,7 @@ void version(void)
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
-#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
+#ifdef DISABLE_ROOTWRAP
     printf(" --disable-wrapping-as-root");
 #endif
 #ifdef ENABLE_COLOR
@@ -1743,9 +1743,9 @@ int main(int argc, char **argv)
     textdomain(PACKAGE);
 #endif
 
-#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
-    /* If we don't have rcfile support, we're root, and
-     * --disable-wrapping-as-root is used, turn wrapping off. */
+#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP)
+    /* If we don't have rcfile support, --disable-wrapping-as-root is
+     * used, and we're root, turn wrapping off. */
     if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
@@ -2008,7 +2008,9 @@ int main(int argc, char **argv)
 	    tabsize = tabsize_cpy;
 	flags |= flags_cpy;
     }
-#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
+#ifdef DISABLE_ROOTWRAP
+    /* If we don't have any rcfiles, --disable-wrapping-as-root is used,
+     * and we're root, turn wrapping off. */
     else if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif

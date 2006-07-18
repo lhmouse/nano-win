@@ -39,7 +39,7 @@ dnl Internationalization macros.
 
 AM_GNU_GETTEXT_VERSION(0.11.5)
 AM_GNU_GETTEXT([external], [need-ngettext])
-AM_CONDITIONAL(USE_NLS, test "x$USE_NLS" = "xyes")
+AM_CONDITIONAL(USE_NLS, test x$USE_NLS = xyes)
 
 dnl Data location.
 
@@ -56,8 +56,7 @@ dnl Checks for options.
 AC_ARG_ENABLE(debug, 
 [  --enable-debug          Enable debugging (disabled by default)],
 [if test x$enableval = xyes; then
-    AC_DEFINE(DEBUG, 1, [Define this to enable nano debug messages and assert warnings.])
-    debug_support=yes
+    AC_DEFINE(DEBUG, 1, [Define this to enable nano debug messages and assert warnings.]) debug_support=yes
 fi])
 
 if test x$debug_support != xyes; then
@@ -215,8 +214,7 @@ int main(void)
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
-		    slang_support=yes
+		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 		    CURSES_LIB_WIDE=yes
 		    if test x$with_slang != xyes; then
 			CURSES_LIB="-L${with_slang}/lib -lslang"
@@ -242,8 +240,7 @@ int main(void)
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
-			slang_support=yes
+			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			CURSES_LIB_WIDE=yes
 			if test x$with_slang != xyes; then
 			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
@@ -264,8 +261,7 @@ int main(void)
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
-			    slang_support=yes
+			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			    CURSES_LIB_WIDE=yes
 			    if test x$with_slang != xyes; then
 				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
@@ -302,8 +298,7 @@ int main(void)
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
-		    slang_support=yes
+		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 		    if test x$with_slang != xyes; then
 			CURSES_LIB="-L${with_slang}/lib -lslang"
 		    else
@@ -328,8 +323,7 @@ int main(void)
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
-			slang_support=yes
+			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			if test x$with_slang != xyes; then
 			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
 			else
@@ -349,8 +343,7 @@ int main(void)
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
-			    slang_support=yes
+			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			    if test x$with_slang != xyes; then
 				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
 			    else
@@ -378,7 +371,7 @@ int main(void)
 	;;
     esac], [AC_MSG_RESULT(no)])
 
-AM_CONDITIONAL(USE_COLOR, test "x$color_support" = "xyes")
+AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
 
 dnl Checks for functions.
 
