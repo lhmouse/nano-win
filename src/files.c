@@ -309,13 +309,13 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 	fileptr->data[buf_len - 1] = '\0';
 #endif
 
-    if (*first_line_ins == TRUE) {
+    if (*first_line_ins) {
 	/* Special case: We're inserting with the cursor on the first
 	 * line. */
 	fileptr->prev = NULL;
 	fileptr->next = openfile->fileage;
 	fileptr->lineno = 1;
-	if (*first_line_ins == TRUE) {
+	if (*first_line_ins) {
 	    *first_line_ins = FALSE;
 	    /* If we're inserting into the first line of the file, then
 	     * we want to make sure that our edit buffer stays on the
@@ -2258,8 +2258,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	    assert(common_len > *place);
 	}
 
-	if (num_matches > 1 && (common_len != *place ||
-		*lastwastab == FALSE))
+	if (num_matches > 1 && (common_len != *place || !*lastwastab))
 	    beep();
 
 	/* If there is more of a match to display on the statusbar, show
@@ -2275,7 +2274,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 		*place + 1);
 	    strncpy(buf, mzero, common_len);
 	    *place = common_len;
-	} else if (*lastwastab == FALSE || num_matches < 2)
+	} else if (!*lastwastab || num_matches < 2)
 	    *lastwastab = TRUE;
 	else {
 	    int longest_name = 0, columns, editline = 0;
@@ -2346,7 +2345,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 
     /* Only refresh the edit window if we don't have a list of filename
      * matches on it. */
-    if (*list == FALSE)
+    if (!*list)
 	refresh_func();
 
     /* Enable el cursor. */

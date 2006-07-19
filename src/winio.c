@@ -617,7 +617,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, (*meta_key == TRUE) ? "TRUE" : "FALSE", (*func_key == TRUE) ? "TRUE" : "FALSE", escapes, byte_digits, retval);
+    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, *meta_key ? "TRUE" : "FALSE", *func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
 #endif
 
     /* Return the result. */
@@ -1126,7 +1126,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d, ignore_seq = %s\n", retval, (*ignore_seq == TRUE) ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d, ignore_seq = %s\n", retval, *ignore_seq ? "TRUE" : "FALSE");
 #endif
 
     return retval;
@@ -1172,7 +1172,7 @@ int parse_escape_seq_kbinput(int kbinput, bool *ignore_seq)
     free(seq);
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, ignore_seq = %s, seq_len = %lu, retval = %d\n", kbinput, (*ignore_seq == TRUE) ? "TRUE" : "FALSE", (unsigned long)seq_len, retval);
+    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, ignore_seq = %s, seq_len = %lu, retval = %d\n", kbinput, *ignore_seq ? "TRUE" : "FALSE", (unsigned long)seq_len, retval);
 #endif
 
     return retval;
@@ -1620,7 +1620,7 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
     size_t slen = length_of_list(s_list);
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s, func_key = %s\n", *kbinput, (*meta_key == TRUE) ? "TRUE" : "FALSE", (*func_key == TRUE) ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s, func_key = %s\n", *kbinput, *meta_key ? "TRUE" : "FALSE", *func_key ? "TRUE" : "FALSE");
 #endif
 
     /* Check for shortcuts. */
@@ -1635,9 +1635,9 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	 *    shortcut list. */
 
 	if (*kbinput != NANO_NO_KEY && (*kbinput == s->ctrlval ||
-		(*meta_key == TRUE && (*kbinput == s->metaval ||
-		*kbinput == s->miscval)) || (*func_key == TRUE &&
-		*kbinput == s->funcval))) {
+		(*meta_key && (*kbinput == s->metaval || *kbinput ==
+		s->miscval)) || (*func_key && *kbinput ==
+		s->funcval))) {
 	    break;
 	}
 

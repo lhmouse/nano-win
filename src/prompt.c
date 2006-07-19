@@ -71,7 +71,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     if (allow_funcs) {
 	/* If we got a mouse click and it was on a shortcut, read in the
 	 * shortcut character. */
-	if (*func_key == TRUE && input == KEY_MOUSE) {
+	if (*func_key && input == KEY_MOUSE) {
 	    if (do_statusbar_mouse())
 		input = get_kbinput(bottomwin, meta_key, func_key);
 	    else {
@@ -97,7 +97,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 #ifndef NANO_TINY
 	input == NANO_NEXTWORD_KEY ||
 #endif
-	(*meta_key == TRUE && (
+	(*meta_key && (
 #ifndef NANO_TINY
 	input == NANO_PREVWORD_KEY || input == NANO_BRACKET_KEY ||
 #endif
@@ -108,9 +108,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
-    if (*s_or_t == FALSE) {
-	if (is_ascii_cntrl_char(input) || *meta_key == TRUE ||
-		*func_key == TRUE) {
+    if (!*s_or_t) {
+	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
 	    beep();
 	    *meta_key = FALSE;
 	    *func_key = FALSE;
@@ -123,7 +122,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	 * it's a normal text character.  Display the warning if we're
 	 * in view mode, or add the character to the input buffer if
 	 * we're not. */
-	if (input != ERR && *s_or_t == FALSE) {
+	if (input != ERR && !*s_or_t) {
 	    /* If we're using restricted mode, the filename isn't blank,
 	     * and we're at the "Write File" prompt, disable text
 	     * input. */
@@ -139,7 +138,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	/* If we got a shortcut, or if there aren't any other characters
 	 * waiting after the one we read in, we need to display all the
 	 * characters in the input buffer if it isn't empty. */
-	 if (*s_or_t == TRUE || get_key_buffer_len() == 0) {
+	 if (*s_or_t || get_key_buffer_len() == 0) {
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
@@ -192,7 +191,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    do_statusbar_next_word(FALSE);
 		    break;
 		case NANO_PREVWORD_KEY:
-		    if (*meta_key == TRUE)
+		    if (*meta_key)
 			do_statusbar_prev_word(FALSE);
 		    break;
 #endif
@@ -204,12 +203,12 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    break;
 #ifndef NANO_TINY
 		case NANO_BRACKET_KEY:
-		    if (*meta_key == TRUE)
+		    if (*meta_key)
 			do_statusbar_find_bracket();
 		    break;
 #endif
 		case NANO_VERBATIM_KEY:
-		    if (*meta_key == TRUE) {
+		    if (*meta_key) {
 			/* If we're using restricted mode, the filename
 			 * isn't blank, and we're at the "Write File"
 			 * prompt, disable verbatim input. */

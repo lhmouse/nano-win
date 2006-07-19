@@ -574,7 +574,7 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 {
     get_shortcut(help_list, kbinput, meta_key, func_key);
 
-    if (*meta_key == FALSE) {
+    if (!*meta_key) {
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
 	    case ' ':

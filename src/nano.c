@@ -1325,7 +1325,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
     if (allow_funcs) {
 	/* If we got a mouse click and it was on a shortcut, read in the
 	 * shortcut character. */
-	if (*func_key == TRUE && input == KEY_MOUSE) {
+	if (*func_key && input == KEY_MOUSE) {
 	    if (do_mouse())
 		input = get_kbinput(edit, meta_key, func_key);
 	    else {
@@ -1363,9 +1363,8 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
-    if (*s_or_t == FALSE) {
-	if (is_ascii_cntrl_char(input) || *meta_key == TRUE ||
-		*func_key == TRUE) {
+    if (!*s_or_t) {
+	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
 	    statusbar(_("Unknown Command"));
 	    beep();
 	    *meta_key = FALSE;
@@ -1379,7 +1378,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 * it's a normal text character.  Display the warning if we're
 	 * in view mode, or add the character to the input buffer if
 	 * we're not. */
-	if (input != ERR && *s_or_t == FALSE) {
+	if (input != ERR && !*s_or_t) {
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else {
@@ -1395,13 +1394,13 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 * output all the characters in the input buffer if it isn't
 	 * empty.  Note that it should be empty if we're in view
 	 * mode. */
-	 if (*s_or_t == TRUE || get_key_buffer_len() == 0) {
+	 if (*s_or_t || get_key_buffer_len() == 0) {
 #ifndef DISABLE_WRAPPING
 	    /* If we got a shortcut or toggle, and it's not the shortcut
 	     * for verbatim input, turn off prepending of wrapped
 	     * text. */
-	    if (*s_or_t == TRUE && (!have_shortcut || s == NULL ||
-		s->func != do_verbatim_input))
+	    if (*s_or_t && (!have_shortcut || s == NULL || s->func !=
+		do_verbatim_input))
 		wrap_reset();
 #endif
 
