@@ -41,6 +41,8 @@ CVS code -
 	  curses.h, which breaks compilation there.  Changes to
 	  do_page_up(), do_page_down(), do_up(), do_down(), nano.h, and
 	  edit_scroll(). (DLR, found by Daniel Richard G.)
+	- Rename the DISABLE_ROOTWRAP #define to DISABLE_ROOTWRAPPING.
+	  (DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for

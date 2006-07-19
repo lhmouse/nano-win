@@ -134,7 +134,7 @@ fi])
 AC_ARG_ENABLE(wrapping-as-root,
 [  --disable-wrapping-as-root  Disable wrapping of text as root by default],
 [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_ROOTWRAP, 1, [Define this to disable wrapping as root by default.])
+    AC_DEFINE(DISABLE_ROOTWRAPPING, 1, [Define this to disable wrapping as root by default.])
 fi])
 
 AC_ARG_ENABLE(color,

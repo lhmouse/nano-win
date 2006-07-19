@@ -882,7 +882,7 @@ void do_rcfile(void)
 #endif
 		);
 
-#ifdef DISABLE_ROOTWRAP
+#ifdef DISABLE_ROOTWRAPPING
     /* We've already read SYSCONFDIR/nanorc, if it's there.  If we're
      * root, and --disable-wrapping-as-root is used, turn wrapping off
      * now. */
