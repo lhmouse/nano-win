@@ -138,8 +138,8 @@
 #define getline ngetline
 #endif
 
-/* If we aren't using ncurses, turn the mouse support off, as it's
- * ncurses-specific. */
+/* If we aren't using ncurses with mouse support, turn the mouse support
+ * off, as it's useless then. */
 #ifndef NCURSES_MOUSE_VERSION
 #define DISABLE_MOUSE 1
 #endif
