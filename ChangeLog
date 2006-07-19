@@ -44,8 +44,8 @@ CVS code -
 	- Rename the DISABLE_ROOTWRAP #define to DISABLE_ROOTWRAPPING.
 	  (DLR)
 	- When using slang 2.x, call SLutf8_enable() with an argument of
-	  1 instead of TRUE, as that's the proper way to force its UTF-8
-	  support on.  Changes to main() and configure.ac. (DLR)
+	  1 instead of TRUE, as that's the proper way to enable its
+	  UTF-8 support.  Changes to main() and configure.ac. (DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
