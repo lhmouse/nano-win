@@ -1728,7 +1728,7 @@ int main(int argc, char **argv)
 	if (locale != NULL && (strcasestr(locale, "UTF8") != NULL ||
 		strcasestr(locale, "UTF-8") != NULL)) {
 #ifdef USE_SLANG
-	    SLutf8_enable(TRUE);
+	    SLutf8_enable(1);
 #endif
 	    utf8_init();
 	}

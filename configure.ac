@@ -210,7 +210,7 @@ AC_ARG_WITH(slang,
 #include <slcurses.h>
 int main(void)
 {
-    SLutf8_enable(TRUE);
+    SLutf8_enable(1);
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
@@ -236,7 +236,7 @@ int main(void)
 #include <slcurses.h>
 int main(void)
 {
-    SLutf8_enable(TRUE);
+    SLutf8_enable(1);
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
@@ -257,7 +257,7 @@ int main(void)
 #include <slcurses.h>
 int main(void)
 {
-    SLutf8_enable(TRUE);
+    SLutf8_enable(1);
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
