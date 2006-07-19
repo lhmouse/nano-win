@@ -2700,10 +2700,10 @@ bool need_vertical_update(size_t old_pww)
 
 /* Scroll the edit window in the given direction and the given number
  * of lines, and draw new lines on the blank lines left after the
- * scrolling.  direction is the direction to scroll, either UP or DOWN,
- * and nlines is the number of lines to scroll.  We change edittop, and
- * assume that current and current_x are up to date.  We also assume
- * that scrollok(edit) is FALSE. */
+ * scrolling.  direction is the direction to scroll, either UP_DIR or
+ * DOWN_DIR, and nlines is the number of lines to scroll.  We change
+ * edittop, and assume that current and current_x are up to date.  We
+ * also assume that scrollok(edit) is FALSE. */
 void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
     bool do_redraw = need_vertical_update(0);
@@ -2721,7 +2721,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * value of direction) nlines lines, or as many lines as we can if
      * there are fewer than nlines lines available. */
     for (i = nlines; i > 0; i--) {
-	if (direction == UP) {
+	if (direction == UP_DIR) {
 	    if (openfile->edittop == openfile->fileage)
 		break;
 	    openfile->edittop = openfile->edittop->prev;
@@ -2749,7 +2749,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     /* Scroll the text of the edit window up or down nlines lines,
      * depending on the value of direction. */
     scrollok(edit, TRUE);
-    wscrl(edit, (direction == UP) ? -nlines : nlines);
+    wscrl(edit, (direction == UP_DIR) ? -nlines : nlines);
     scrollok(edit, FALSE);
 
     /* Part 2: nlines is the number of lines in the scrolled region of
@@ -2757,9 +2757,10 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
     /* If the top or bottom line of the file is now visible in the edit
      * window, we need to draw the entire edit window. */
-    if ((direction == UP && openfile->edittop == openfile->fileage) ||
-	(direction == DOWN && openfile->edittop->lineno + editwinrows -
-	1 >= openfile->filebot->lineno))
+    if ((direction == UP_DIR && openfile->edittop ==
+	openfile->fileage) || (direction == DOWN_DIR &&
+	openfile->edittop->lineno + editwinrows - 1 >=
+	openfile->filebot->lineno))
 	nlines = editwinrows;
 
     /* If the scrolled region contains only one line, and the line
@@ -2778,7 +2779,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
     /* If we scrolled down, move down to the line before the scrolled
      * region. */
-    if (direction == DOWN) {
+    if (direction == DOWN_DIR) {
 	for (i = editwinrows - nlines; i > 0 && foo != NULL; i--)
 	    foo = foo->next;
     }
@@ -2789,8 +2790,8 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * blank, so we don't need to draw it unless the mark is on or we're
      * not on the first page. */
     for (i = nlines; i > 0 && foo != NULL; i--) {
-	if ((i == nlines && direction == DOWN) || (i == 1 &&
-		direction == UP)) {
+	if ((i == nlines && direction == DOWN_DIR) || (i == 1 &&
+		direction == UP_DIR)) {
 	    if (do_redraw)
 		update_line(foo, (foo == openfile->current) ?
 			openfile->current_x : 0);
@@ -2866,9 +2867,9 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	/* Scroll the edit window up or down until edittop is in range
 	 * of current. */
 	if (nlines < 0)
-	    edit_scroll(UP, -nlines);
+	    edit_scroll(UP_DIR, -nlines);
 	else
-	    edit_scroll(DOWN, nlines);
+	    edit_scroll(DOWN_DIR, nlines);
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between the old first

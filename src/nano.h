@@ -158,7 +158,7 @@ typedef enum {
 } append_type;
 
 typedef enum {
-    UP, DOWN
+    UP_DIR, DOWN_DIR
 } scroll_dir;
 
 typedef enum {

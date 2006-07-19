@@ -85,7 +85,7 @@ void do_page_up(void)
 	openfile->placewewant);
 
     /* Scroll the edit window up a page. */
-    edit_scroll(UP, editwinrows - 2);
+    edit_scroll(UP_DIR, editwinrows - 2);
 }
 
 /* Move down one page. */
@@ -121,7 +121,7 @@ void do_page_down(void)
 	openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    edit_scroll(DOWN, editwinrows - 2);
+    edit_scroll(DOWN_DIR, editwinrows - 2);
 }
 
 #ifndef DISABLE_JUSTIFY
@@ -507,7 +507,7 @@ void do_up(
 	|| scroll_only
 #endif
 	)
-	edit_scroll(UP,
+	edit_scroll(UP_DIR,
 #ifndef NANO_TINY
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
 #endif
@@ -573,7 +573,7 @@ void do_down(
 	|| scroll_only
 #endif
 	)
-	edit_scroll(DOWN,
+	edit_scroll(DOWN_DIR,
 #ifndef NANO_TINY
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
 #endif
