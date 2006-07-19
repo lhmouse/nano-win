@@ -38,9 +38,9 @@ CVS code -
 	  (DLR)
 	- Rename the values of the scroll_dir enum to UP_DIR and
 	  DOWN_DIR, since UP is defined as a termcap value in Tru64's
-	  curses.h, which breaks compilation.  Changes to do_page_up(),
-	  do_page_down(), do_up(), do_down(), nano.h, and edit_scroll().
-	  (DLR, found by Daniel Richard G.)
+	  curses.h, which breaks compilation there.  Changes to
+	  do_page_up(), do_page_down(), do_up(), do_down(), nano.h, and
+	  edit_scroll(). (DLR, found by Daniel Richard G.)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
@@ -112,8 +112,8 @@ CVS code -
 - rcfile.c:
   parse_rcfile()
 	- Add missing ENABLE_COLOR #ifdef around the second check for a
-	  syntax with no color commands, to fix compilation without
-	  color support. (Daniel Richard G.)
+	  syntax with no color commands, to fix compilation with rcfile
+	  support and without color support. (Daniel Richard G.)
 - search.c:
   replace_regexp()
 	- Remove unnecessary casting of c to int. (DLR)
