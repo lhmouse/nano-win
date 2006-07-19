@@ -109,6 +109,11 @@ CVS code -
 - nano.h:
 	- Remove the manual disabling of color support if regex.h isn't
 	  found, as configure.ac now handles that. (DLR)
+- rcfile.c:
+  parse_rcfile()
+	- Add missing ENABLE_COLOR #ifdef around the second check for a
+	  syntax with no color commands, to fix compilation without
+	  color support. (Daniel Richard G.)
 - search.c:
   replace_regexp()
 	- Remove unnecessary casting of c to int. (DLR)
