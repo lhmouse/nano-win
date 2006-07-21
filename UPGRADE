@@ -28,7 +28,7 @@ Visible changes since 1.2
   - Meta-W now repeats the last search.  Wrapping is now toggled via
     Meta-L.
   - Replacing and spell checking only selected text.
-  - Indenting all marked lines with one keystroke.
+  - Indenting lines with one keystroke.
   - Copying text into the cutbuffer without cutting it.
   - Scrolling the text up and down single lines without moving the
     cursor.

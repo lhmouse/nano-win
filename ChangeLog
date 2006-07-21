@@ -18,9 +18,9 @@ CVS code -
 	  covered only the current line, instead of displaying a
 	  statusbar message and quitting.  Changes to shortcut_init(),
 	  do_indent_marked() (renamed do_indent()),
-	  do_indent_marked_void() (renamed do_indent_void()), and
-	  do_unindent_marked_void() (renamed do_unindent()). (DLR,
-	  suggested by John M. Gabriele)
+	  do_indent_marked_void() (renamed do_indent_void()),
+	  do_unindent_marked_void() (renamed do_unindent()), and
+	  UPGRADE. (DLR, suggested by John M. Gabriele)
 	- Consolidate do_scroll_(up|down)() into do_(up|down)(), as
 	  they have a lot of common code.  New functions do_up_void()
 	  and do_down_void(); changes to shortcut_init(), do_up(),
