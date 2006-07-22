@@ -622,7 +622,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *r_mb. *q_mb;
+	char *r_mb, *q_mb;
 	wchar_t wr, wq;
 	bool found_needle = FALSE;
 
@@ -730,7 +730,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *r_mb. *q_mb;
+	char *r_mb, *q_mb;
 	wchar_t wr, wq;
 	bool begin_line = FALSE, found_needle = FALSE;
 
