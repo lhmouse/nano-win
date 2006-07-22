@@ -527,11 +527,13 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *s1_mb = charalloc(MB_CUR_MAX);
-	char *s2_mb = charalloc(MB_CUR_MAX);
+	char *s1_mb, *s2_mb;
 	wchar_t ws1, ws2;
 
 	assert(s1 != NULL && s2 != NULL);
+
+	s1_mb = charalloc(MB_CUR_MAX);
+	s2_mb = charalloc(MB_CUR_MAX);
 
 	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
 	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
@@ -620,12 +622,14 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *r_mb = charalloc(MB_CUR_MAX);
-	char *q_mb = charalloc(MB_CUR_MAX);
+	char *r_mb. *q_mb;
 	wchar_t wr, wq;
 	bool found_needle = FALSE;
 
 	assert(haystack != NULL && needle != NULL);
+
+	r_mb = charalloc(MB_CUR_MAX);
+	q_mb = charalloc(MB_CUR_MAX);
 
 	while (*haystack != '\0') {
 	    const char *r = haystack, *q = needle;
@@ -726,12 +730,14 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *r_mb = charalloc(MB_CUR_MAX);
-	char *q_mb = charalloc(MB_CUR_MAX);
+	char *r_mb. *q_mb;
 	wchar_t wr, wq;
 	bool begin_line = FALSE, found_needle = FALSE;
 
 	assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
+	r_mb = charalloc(MB_CUR_MAX);
+	q_mb = charalloc(MB_CUR_MAX);
 
 	while (!begin_line) {
 	    const char *r = rev_start, *q = needle;

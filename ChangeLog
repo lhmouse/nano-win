@@ -90,6 +90,10 @@ CVS code -
 	  allocated, use null_at() to strip the directory from the
 	  string.  Also, return the stripped path instead of modifying
 	  path. (DLR)
+- chars.c:
+  mbstrncasecmp(), mbstrcasestr(), mbrevstrcasestr()
+	- Don't allocate space for multibyte characters until we've
+	  asserted that the parameters we're using aren't NULL. (DLR)
 - files.c:
   do_insertfile()
 	- If we execute a command in a new buffer, move back to the
