@@ -6,7 +6,7 @@ Visible changes since 1.2
 * Editor Features
   - Support for UTF-8.
   - Moving to a specified line and column of a file, instead of just a
-    line (+LINE[,COLUMN]).
+    line (+LINE,COLUMN).
   - Smart home key (-A).
   - Creation of unique backup files in a specified directory (-C <dir>).
   - Insertion of spaces instead of a tab when Tab is pressed (-E).
