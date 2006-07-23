@@ -156,7 +156,7 @@ void do_help(void (*refresh_func)(void))
 		    line--;
 		break;
 	    case NANO_NEXTLINE_KEY:
-		if (line + editwinrows <= last_line)
+		if (line + (editwinrows - 1) < last_line)
 		    line++;
 		break;
 	    case NANO_FIRSTLINE_ALTKEY:
