@@ -505,19 +505,20 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    }
 		    break;
 		case 1:
-		    /* One escape followed by a non-escape: escape
-		     * sequence mode.  Reset the escape counter.  If
-		     * there aren't any other keys waiting, we have a
-		     * meta key sequence, so set meta_key to TRUE and
-		     * save the lowercase version of the non-escape
-		     * character as the result.  If there are other keys
-		     * waiting, we have a true escape sequence, so
-		     * interpret it. */
+		    /* Reset the escape counter. */
 		    escapes = 0;
 		    if (get_key_buffer_len() == 0) {
+			/* One escape followed by a non-escape, and
+			 * there aren't any other keys waiting: meta key
+			 * sequence mode.  Set meta_key to TRUE and save
+			 * the lowercase version of the non-escape
+			 * character as the result. */
 			*meta_key = TRUE;
 			retval = tolower(*kbinput);
 		    } else {
+			/* One escape followed by a non-escape, and
+			 * there are other keys waiting: escape sequence
+			 * mode.  Interpret the escape sequence. */
 			bool ignore_seq;
 
 			retval = parse_escape_seq_kbinput(*kbinput,
@@ -533,70 +534,96 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    }
 		    break;
 		case 2:
-		    /* Two escapes followed by one or more decimal
-		     * digits: byte sequence mode.  If the byte
-		     * sequence's range is limited to 2XX (the first
-		     * digit is in the '0' to '2' range and it's the
-		     * first digit, or it's in the '0' to '9' range and
-		     * it's not the first digit), increment the byte
-		     * sequence counter and interpret the digit.  If the
-		     * byte sequence's range is not limited to 2XX, fall
-		     * through. */
-		    if (('0' <= *kbinput && *kbinput <= '2' &&
-			byte_digits == 0) || ('0' <= *kbinput &&
-			*kbinput <= '9' && byte_digits > 0)) {
-			int byte;
+		    if (get_key_buffer_len() == 0) {
+			if (('0' <= *kbinput && *kbinput <= '2' &&
+				byte_digits == 0) || ('0' <= *kbinput &&
+				*kbinput <= '9' && byte_digits > 0)) {
+			    /* Two escapes followed by one or more
+			     * decimal digits, and there aren't any
+			     * other keys waiting: byte sequence mode.
+			     * If the byte sequence's range is limited
+			     * to 2XX (the first digit is in the '0' to
+			     * '2' range and it's the first digit, or
+			     * it's in the '0' to '9' range and it's not
+			     * the first digit), increment the byte
+			     * sequence counter and interpret the digit.
+			     * If the byte sequence's range is not
+			     * limited to 2XX, fall through. */
+			    int byte;
 
-			byte_digits++;
-			byte = get_byte_kbinput(*kbinput);
+			    byte_digits++;
+			    byte = get_byte_kbinput(*kbinput);
 
-			if (byte != ERR) {
-			    char *byte_mb;
-			    int byte_mb_len, *seq, i;
+			    if (byte != ERR) {
+				char *byte_mb;
+				int byte_mb_len, *seq, i;
 
-			    /* If we've read in a complete byte
-			     * sequence, reset the byte sequence counter
-			     * and the escape counter, and put back the
-			     * corresponding byte value. */
-			    byte_digits = 0;
+				/* If we've read in a complete byte
+				 * sequence, reset the escape counter
+				 * and the byte sequence counter, and
+				 * put back the corresponding byte
+				 * value. */
+				escapes = 0;
+				byte_digits = 0;
+
+				/* Put back the multibyte equivalent of
+				 * the byte value. */
+				byte_mb = make_mbchar((long)byte,
+					&byte_mb_len);
+
+				seq = (int *)nmalloc(byte_mb_len *
+					sizeof(int));
+
+				for (i = 0; i < byte_mb_len; i++)
+				    seq[i] = (unsigned char)byte_mb[i];
+
+				unget_input(seq, byte_mb_len);
+
+				free(byte_mb);
+				free(seq);
+			    }
+			} else {
+			    /* Reset the escape counter. */
 			    escapes = 0;
-
-			    /* Put back the multibyte equivalent of the
-			     * byte value. */
-			    byte_mb = make_mbchar((long)byte,
-				&byte_mb_len);
-
-			    seq = (int *)nmalloc(byte_mb_len *
-				sizeof(int));
-
-			    for (i = 0; i < byte_mb_len; i++)
-				seq[i] = (unsigned char)byte_mb[i];
-
-			    unget_input(seq, byte_mb_len);
-
-			    free(byte_mb);
-			    free(seq);
+			    if (byte_digits == 0)
+				/* Two escapes followed by a non-decimal
+				 * digit or a decimal digit that would
+				 * create a byte sequence greater than
+				 * 2XX, we're not in the middle of a
+				 * byte sequence, and there aren't any
+				 * other keys waiting: control character
+				 * sequence mode.  Interpret the control
+				 * sequence and save the corresponding
+				 * control character as the result. */
+				retval = get_control_kbinput(*kbinput);
+			    else {
+				/* If we're in the middle of a byte
+				 * sequence, reset the byte sequence
+				 * counter and save the character we got
+				 * as the result. */
+				byte_digits = 0;
+				retval = *kbinput;
+			    }
 			}
 		    } else {
-			/* Reset the escape counter. */
+			/* Two escapes followed by a non-escape, and
+			 * there are other keys waiting: combined meta
+			 * and escape sequence mode.  Reset the escape
+			 * counter, set meta_key to TRUE, and interpret
+			 * the escape sequence. */
+			bool ignore_seq;
+
 			escapes = 0;
-			if (byte_digits == 0)
-			    /* Two escapes followed by a non-decimal
-			     * digit or a decimal digit that would
-			     * create a byte sequence greater than 2XX,
-			     * and we're not in the middle of a byte
-			     * sequence: control character sequence
-			     * mode.  Interpret the control sequence and
-			     * save the corresponding control character
-			     * as the result. */
-			    retval = get_control_kbinput(*kbinput);
-			else {
-			    /* If we're in the middle of a byte
-			     * sequence, reset the byte sequence counter
-			     * and save the character we got as the
-			     * result. */
-			    byte_digits = 0;
-			    retval = *kbinput;
+			*meta_key = TRUE;
+			retval = parse_escape_seq_kbinput(*kbinput,
+				&ignore_seq);
+
+			/* If the escape sequence is unrecognized and
+			 * not ignored, throw it out. */
+			if (retval == ERR && !ignore_seq) {
+			    if (win == edit)
+				statusbar(_("Unknown Command"));
+			    beep();
 			}
 		    }
 		    break;

@@ -131,6 +131,10 @@ CVS code -
 	- Remove the marking of the file as modified, as do_insertfile()
 	  now handles that. (DLR)
 - winio.c:
+  parse_kbinput()
+	- Properly handle combined meta and escape sequences, so that
+	  e.g. Meta-+ will work properly when the + is on the numeric
+	  keypad and NumLock is off. (DLR)
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.
 	  (DLR)
