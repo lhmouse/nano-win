@@ -148,7 +148,7 @@ void do_help(void (*refresh_func)(void))
 		    line = 0;
 		break;
 	    case NANO_NEXTPAGE_KEY:
-		if (line + (editwinrows - 2) <= last_line)
+		if (line + (editwinrows - 1) < last_line)
 		    line += editwinrows - 2;
 		break;
 	    case NANO_PREVLINE_KEY:
