@@ -377,18 +377,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			 * there are other keystrokes waiting: escape
 			 * sequence mode.  Interpret the escape
 			 * sequence. */
-			bool ignore_seq;
-
-			retval = parse_escape_seq_kbinput(*kbinput,
-				&ignore_seq);
-
-			/* If the escape sequence is unrecognized and
-			 * not ignored, throw it out. */
-			if (retval == ERR && !ignore_seq) {
-			    if (win == edit)
-				statusbar(_("Unknown Command"));
-			    beep();
-			}
+			retval = parse_escape_seq_kbinput(win,
+				*kbinput);
 		    }
 		    break;
 		case 2:
@@ -470,20 +460,10 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			 * meta and escape sequence mode.  Reset the
 			 * escape counter, set meta_key to TRUE, and
 			 * interpret the escape sequence. */
-			bool ignore_seq;
-
 			escapes = 0;
 			*meta_key = TRUE;
-			retval = parse_escape_seq_kbinput(*kbinput,
-				&ignore_seq);
-
-			/* If the escape sequence is unrecognized and
-			 * not ignored, throw it out. */
-			if (retval == ERR && !ignore_seq) {
-			    if (win == edit)
-				statusbar(_("Unknown Command"));
-			    beep();
-			}
+			retval = parse_escape_seq_kbinput(win,
+				*kbinput);
 		    }
 		    break;
 	    }
@@ -1196,14 +1176,13 @@ int get_escape_seq_abcd(int kbinput)
 }
 
 /* Interpret the escape sequence in the keystroke buffer, the first
- * character of which is kbinput.  If we want to ignore the escape
- * sequence, set retval to ERR and ignore_seq to TRUE.  Assume that the
- * keystroke buffer isn't empty, and that the initial escape has already
- * been read in. */
-int parse_escape_seq_kbinput(int kbinput, bool *ignore_seq)
+ * character of which is kbinput.  Assume that the keystroke buffer
+ * isn't empty, and that the initial escape has already been read in. */
+int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
 {
     int retval, *seq;
     size_t seq_len;
+    bool ignore_seq;
 
     /* Put back the non-escape character, get the complete escape
      * sequence, translate the sequence into its corresponding key
@@ -1211,12 +1190,21 @@ int parse_escape_seq_kbinput(int kbinput, bool *ignore_seq)
     unget_input(&kbinput, 1);
     seq_len = get_key_buffer_len();
     seq = get_input(NULL, seq_len);
-    retval = get_escape_seq_kbinput(seq, seq_len, ignore_seq);
+    retval = get_escape_seq_kbinput(seq, seq_len, &ignore_seq);
 
     free(seq);
 
+    /* If we got an unrecognized escape sequence, and it's not ignored,
+     * throw it out. */
+    if (retval == ERR && !ignore_seq) {
+	if (win == edit)
+	    statusbar(_("Unknown Command"));
+	    beep();
+	}
+    }
+
 #ifdef DEBUG
-    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, ignore_seq = %s, seq_len = %lu, retval = %d\n", kbinput, *ignore_seq ? "TRUE" : "FALSE", (unsigned long)seq_len, retval);
+    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, ignore_seq = %s, seq_len = %lu, retval = %d\n", kbinput, ignore_seq ? "TRUE" : "FALSE", (unsigned long)seq_len, retval);
 #endif
 
     return retval;
