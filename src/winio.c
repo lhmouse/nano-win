@@ -1197,7 +1197,7 @@ int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
     /* If we got an unrecognized escape sequence, and it's not ignored,
      * throw it out. */
     if (retval == ERR && !ignore_seq) {
-	if (win == edit)
+	if (win == edit) {
 	    statusbar(_("Unknown Command"));
 	    beep();
 	}
