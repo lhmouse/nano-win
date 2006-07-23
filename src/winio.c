@@ -354,171 +354,29 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    escapes = 0;
 	    }
 	    break;
-#if !defined(NANO_TINY) && defined(KEY_RESIZE)
-	/* Since we don't change the default SIGWINCH handler when
-	 * NANO_TINY is defined, KEY_RESIZE is never generated.  Also,
-	 * Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
-	case KEY_RESIZE:
-	    break;
-#endif
-#ifdef PDCURSES
-	case KEY_SHIFT_L:
-	case KEY_SHIFT_R:
-	case KEY_CONTROL_L:
-	case KEY_CONTROL_R:
-	case KEY_ALT_L:
-	case KEY_ALT_R:
-	    break;
-#endif
 	default:
 	    switch (escapes) {
 		case 0:
-		    switch (*kbinput) {
-			case KEY_DOWN:
-			    retval = NANO_NEXTLINE_KEY;
-			    break;
-			case KEY_UP:
-			    retval = NANO_PREVLINE_KEY;
-			    break;
-			case KEY_LEFT:
-			    retval = NANO_BACK_KEY;
-			    break;
-			case KEY_RIGHT:
-			    retval = NANO_FORWARD_KEY;
-			    break;
-#ifdef KEY_HOME
-			/* HP-UX 10-11 doesn't support KEY_HOME. */
-			case KEY_HOME:
-			    retval = NANO_HOME_KEY;
-			    break;
-#endif
-			case KEY_BACKSPACE:
-			    retval = NANO_BACKSPACE_KEY;
-			    break;
-			case KEY_DC:
-			    retval = ISSET(REBIND_DELETE) ?
-				NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
-			    break;
-			case KEY_IC:
-			    retval = NANO_INSERTFILE_KEY;
-			    break;
-			case KEY_NPAGE:
-			    retval = NANO_NEXTPAGE_KEY;
-			    break;
-			case KEY_PPAGE:
-			    retval = NANO_PREVPAGE_KEY;
-			    break;
-			case KEY_ENTER:
-			    retval = NANO_ENTER_KEY;
-			    break;
-			case KEY_A1:	/* Home (7) on numeric keypad
-					 * with NumLock off. */
-			    retval = NANO_HOME_KEY;
-			    break;
-			case KEY_A3:	/* PageUp (9) on numeric keypad
-					 * with NumLock off. */
-			    retval = NANO_PREVPAGE_KEY;
-			    break;
-			case KEY_B2:	/* Center (5) on numeric keypad
-					 * with NumLock off. */
-			    break;
-			case KEY_C1:	/* End (1) on numeric keypad
-					 * with NumLock off. */
-			    retval = NANO_END_KEY;
-			    break;
-			case KEY_C3:	/* PageDown (4) on numeric
-					 * keypad with NumLock off. */
-			    retval = NANO_NEXTPAGE_KEY;
-			    break;
-#ifdef KEY_BEG
-			/* Slang doesn't support KEY_BEG. */
-			case KEY_BEG:	/* Center (5) on numeric keypad
-					 * with NumLock off. */
-			    break;
-#endif
-#ifdef KEY_END
-			/* HP-UX 10-11 doesn't support KEY_END. */
-			case KEY_END:
-			    retval = NANO_END_KEY;
-			    break;
-#endif
-#ifdef KEY_SBEG
-			/* Slang doesn't support KEY_SBEG. */
-			case KEY_SBEG:	/* Center (5) on numeric keypad
-					 * with NumLock off. */
-			    break;
-#endif
-#ifdef KEY_SDC
-			/* Slang doesn't support KEY_SDC. */
-			case KEY_SDC:
-			    retval = ISSET(REBIND_DELETE) ?
-				NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
-			    break;
-#endif
-#ifdef KEY_SEND
-			/* HP-UX 10-11 and Slang don't support
-			 * KEY_SEND. */
-			case KEY_SEND:
-			    retval = NANO_END_KEY;
-			    break;
-#endif
-#ifdef KEY_SHOME
-			/* HP-UX 10-11 and Slang don't support
-			 * KEY_SHOME. */
-			case KEY_SHOME:
-			    retval = NANO_HOME_KEY;
-			    break;
-#endif
-#ifdef KEY_SIC
-			/* Slang doesn't support KEY_SIC. */
-			case KEY_SIC:
-			    retval = NANO_INSERTFILE_KEY;
-			    break;
-#endif
-#ifdef KEY_SLEFT
-			/* Slang doesn't support KEY_SLEFT. */
-			case KEY_SLEFT:
-			    retval = NANO_BACK_KEY;
-			    break;
-#endif
-#ifdef KEY_SRIGHT
-			/* Slang doesn't support KEY_SRIGHT. */
-			case KEY_SRIGHT:
-			    retval = NANO_FORWARD_KEY;
-			    break;
-#endif
-#ifdef KEY_SSUSPEND
-			/* Slang doesn't support KEY_SSUSPEND. */
-			case KEY_SSUSPEND:
-			    retval = NANO_SUSPEND_KEY;
-			    break;
-#endif
-#ifdef KEY_SUSPEND
-			/* Slang doesn't support KEY_SUSPEND. */
-			case KEY_SUSPEND:
-			    retval = NANO_SUSPEND_KEY;
-			    break;
-#endif
-			default:
-			    retval = *kbinput;
-			    break;
-		    }
+		    /* One non-escape: normal input mode.  Save the
+		     * non-escape character as the result. */
+		    retval = *kbinput;
 		    break;
 		case 1:
 		    /* Reset the escape counter. */
 		    escapes = 0;
 		    if (get_key_buffer_len() == 0) {
 			/* One escape followed by a non-escape, and
-			 * there aren't any other keys waiting: meta key
-			 * sequence mode.  Set meta_key to TRUE and save
-			 * the lowercase version of the non-escape
-			 * character as the result. */
+			 * there aren't any other keystrokes waiting:
+			 * meta key sequence mode.  Set meta_key to
+			 * TRUE, and save the lowercase version of the
+			 * non-escape character as the result. */
 			*meta_key = TRUE;
 			retval = tolower(*kbinput);
 		    } else {
 			/* One escape followed by a non-escape, and
-			 * there are other keys waiting: escape sequence
-			 * mode.  Interpret the escape sequence. */
+			 * there are other keystrokes waiting: escape
+			 * sequence mode.  Interpret the escape
+			 * sequence. */
 			bool ignore_seq;
 
 			retval = parse_escape_seq_kbinput(*kbinput,
@@ -540,15 +398,15 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 				*kbinput <= '9' && byte_digits > 0)) {
 			    /* Two escapes followed by one or more
 			     * decimal digits, and there aren't any
-			     * other keys waiting: byte sequence mode.
-			     * If the byte sequence's range is limited
-			     * to 2XX (the first digit is in the '0' to
-			     * '2' range and it's the first digit, or
-			     * it's in the '0' to '9' range and it's not
-			     * the first digit), increment the byte
-			     * sequence counter and interpret the digit.
-			     * If the byte sequence's range is not
-			     * limited to 2XX, fall through. */
+			     * other keystrokes waiting: byte sequence
+			     * mode.  If the byte sequence's range is
+			     * limited to 2XX (the first digit is in the
+			     * '0' to '2' range and it's the first
+			     * digit, or it's in the '0' to '9' range
+			     * and it's not the first digit), increment
+			     * the byte sequence counter and interpret
+			     * the digit.  If the byte sequence's range
+			     * is not limited to 2XX, fall through. */
 			    int byte;
 
 			    byte_digits++;
@@ -591,10 +449,11 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 				 * create a byte sequence greater than
 				 * 2XX, we're not in the middle of a
 				 * byte sequence, and there aren't any
-				 * other keys waiting: control character
-				 * sequence mode.  Interpret the control
-				 * sequence and save the corresponding
-				 * control character as the result. */
+				 * other keystrokes waiting: control
+				 * character sequence mode.  Interpret
+				 * the control sequence and save the
+				 * corresponding control character as
+				 * the result. */
 				retval = get_control_kbinput(*kbinput);
 			    else {
 				/* If we're in the middle of a byte
@@ -607,10 +466,10 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			}
 		    } else {
 			/* Two escapes followed by a non-escape, and
-			 * there are other keys waiting: combined meta
-			 * and escape sequence mode.  Reset the escape
-			 * counter, set meta_key to TRUE, and interpret
-			 * the escape sequence. */
+			 * there are other keystrokes waiting: combined
+			 * meta and escape sequence mode.  Reset the
+			 * escape counter, set meta_key to TRUE, and
+			 * interpret the escape sequence. */
 			bool ignore_seq;
 
 			escapes = 0;
@@ -631,16 +490,174 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     }
 
     if (retval != ERR) {
-	/* If our result is NANO_CONTROL_8, translate it to either
-	 * Delete or Backspace, depending on whether REBIND_DELETE is
-	 * TRUE or FALSE. */
-	if (retval == NANO_CONTROL_8)
-	    retval = ISSET(REBIND_DELETE) ? NANO_DELETE_KEY :
-		NANO_BACKSPACE_KEY;
+	switch (retval) {
+	    case NANO_CONTROL_8:
+		retval = ISSET(REBIND_DELETE) ? NANO_DELETE_KEY :
+			NANO_BACKSPACE_KEY;
+		break;
+	    case KEY_DOWN:
+		retval = NANO_NEXTLINE_KEY;
+		break;
+	    case KEY_UP:
+		retval = NANO_PREVLINE_KEY;
+		break;
+	    case KEY_LEFT:
+		retval = NANO_BACK_KEY;
+		break;
+	    case KEY_RIGHT:
+		retval = NANO_FORWARD_KEY;
+		break;
+#ifdef KEY_HOME
+	    /* HP-UX 10-11 doesn't support KEY_HOME. */
+	    case KEY_HOME:
+		retval = NANO_HOME_KEY;
+		break;
+#endif
+	    case KEY_BACKSPACE:
+		retval = NANO_BACKSPACE_KEY;
+		break;
+	    case KEY_DC:
+		retval = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
+			NANO_DELETE_KEY;
+		break;
+	    case KEY_IC:
+		retval = NANO_INSERTFILE_KEY;
+		break;
+	    case KEY_NPAGE:
+		retval = NANO_NEXTPAGE_KEY;
+		break;
+	    case KEY_PPAGE:
+		retval = NANO_PREVPAGE_KEY;
+		break;
+	    case KEY_ENTER:
+		retval = NANO_ENTER_KEY;
+		break;
+	    case KEY_A1:	/* Home (7) on numeric keypad with
+				 * NumLock off. */
+		retval = NANO_HOME_KEY;
+		break;
+	    case KEY_A3:	/* PageUp (9) on numeric keypad with
+				 * NumLock off. */
+		retval = NANO_PREVPAGE_KEY;
+		break;
+	    case KEY_B2:	/* Center (5) on numeric keypad with
+				 * NumLock off. */
+		retval = ERR;
+		break;
+	    case KEY_C1:	/* End (1) on numeric keypad with
+				 * NumLock off. */
+		retval = NANO_END_KEY;
+		break;
+	    case KEY_C3:	/* PageDown (4) on numeric keypad with
+				 * NumLock off. */
+		retval = NANO_NEXTPAGE_KEY;
+		break;
+#ifdef KEY_BEG
+	    /* Slang doesn't support KEY_BEG. */
+	    case KEY_BEG:	/* Center (5) on numeric keypad with
+				 * NumLock off. */
+		retval = ERR;
+		break;
+#endif
+#ifdef KEY_END
+	    /* HP-UX 10-11 doesn't support KEY_END. */
+	    case KEY_END:
+		retval = NANO_END_KEY;
+		break;
+#endif
+#ifdef KEY_SBEG
+	    /* Slang doesn't support KEY_SBEG. */
+	    case KEY_SBEG:	/* Center (5) on numeric keypad with
+				 * NumLock off. */
+		retval = ERR;
+		break;
+#endif
+#ifdef KEY_SDC
+	    /* Slang doesn't support KEY_SDC. */
+	    case KEY_SDC:
+		retval = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
+			NANO_DELETE_KEY;
+		break;
+#endif
+#ifdef KEY_SEND
+	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
+	    case KEY_SEND:
+		retval = NANO_END_KEY;
+		break;
+#endif
+#ifdef KEY_SHOME
+	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
+	    case KEY_SHOME:
+		retval = NANO_HOME_KEY;
+		break;
+#endif
+#ifdef KEY_SIC
+	    /* Slang doesn't support KEY_SIC. */
+	    case KEY_SIC:
+		retval = NANO_INSERTFILE_KEY;
+		break;
+#endif
+#ifdef KEY_SDOWN
+	    /* ncurses and Slang don't support KEY_SDOWN. */
+	    case KEY_SDOWN:
+		retval = NANO_NEXTLINE_KEY;
+		break;
+#endif
+#ifdef KEY_SUP
+	    /* ncurses and Slang don't support KEY_SUP. */
+	    case KEY_SUP:
+		retval = NANO_PREVLINE_KEY;
+		break;
+#endif
+#ifdef KEY_SLEFT
+	    /* Slang doesn't support KEY_SLEFT. */
+	    case KEY_SLEFT:
+		retval = NANO_BACK_KEY;
+		break;
+#endif
+#ifdef KEY_SRIGHT
+	    /* Slang doesn't support KEY_SRIGHT. */
+	    case KEY_SRIGHT:
+		retval = NANO_FORWARD_KEY;
+		break;
+#endif
+#ifdef KEY_SSUSPEND
+	    /* Slang doesn't support KEY_SSUSPEND. */
+	    case KEY_SSUSPEND:
+		retval = NANO_SUSPEND_KEY;
+		break;
+#endif
+#ifdef KEY_SUSPEND
+	    /* Slang doesn't support KEY_SUSPEND. */
+	    case KEY_SUSPEND:
+		retval = NANO_SUSPEND_KEY;
+		break;
+#endif
+#ifdef PDCURSES
+	    case KEY_SHIFT_L:
+	    case KEY_SHIFT_R:
+	    case KEY_CONTROL_L:
+	    case KEY_CONTROL_R:
+	    case KEY_ALT_L:
+	    case KEY_ALT_R:
+		retval = ERR;
+		break;
+#endif
+#if !defined(NANO_TINY) && defined(KEY_RESIZE)
+	    /* Since we don't change the default SIGWINCH handler when
+	     * NANO_TINY is defined, KEY_RESIZE is never generated.
+	     * Also, Slang and SunOS 5.7-5.9 don't support
+	     * KEY_RESIZE. */
+	    case KEY_RESIZE:
+		retval = ERR;
+		break;
+#endif
+	}
 
 	/* If our result is an extended keypad value (i.e, a value
 	 * outside of byte range), set func_key to TRUE. */
-	*func_key = !is_byte(retval);
+	if (retval != ERR)
+	    *func_key = !is_byte(retval);
     }
 
 #ifdef DEBUG
