@@ -374,14 +374,13 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			 * non-escape character as the result. */
 			*meta_key = TRUE;
 			retval = tolower(*kbinput);
-		    } else {
+		    } else
 			/* One escape followed by a non-escape, and
 			 * there are other keystrokes waiting: escape
 			 * sequence mode.  Interpret the escape
 			 * sequence. */
 			retval = parse_escape_seq_kbinput(win,
 				*kbinput);
-		    }
 		    break;
 		case 2:
 		    if (get_key_buffer_len() == 0) {
