@@ -135,7 +135,7 @@ CVS code -
 - winio.c:
   parse_kbinput()
 	- Properly handle combined meta and escape sequences, so that
-	  e.g. Meta-+ will work properly when the + is on the numeric
+	  e.g. Meta-/ will work properly when the / is on the numeric
 	  keypad and NumLock is off.  Also, properly handle combined
 	  control character and escape sequences, so that e.g. Esc Esc /
 	  will work properly when the / is on the numeric keypad and
