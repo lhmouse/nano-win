@@ -347,11 +347,13 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    /* One escape: wait for more input. */
 		case 2:
 		    /* Two escapes: wait for more input. */
+		case 3:
+		    /* Three escapes: wait for more input. */
 		    break;
 		default:
-		    /* More than two escapes: reset the escape counter
-		     * and wait for more input. */
-		    escapes = 0;
+		    /* More than three escapes: limit the escape counter
+		     * to no more than two, and wait for more input. */
+		    escapes %= 3;
 	    }
 	    break;
 	default:
@@ -466,6 +468,24 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 				*kbinput);
 		    }
 		    break;
+		case 3:
+		    /* Reset the escape counter. */
+		    escapes = 0;
+		    if (get_key_buffer_len() == 0)
+			/* Three escapes followed by a non-escape, and
+			 * there aren't any other keystrokes waiting:
+			 * normal input mode.  Save the non-escape
+			 * character as the result. */
+			retval = *kbinput;
+		    else
+			/* Three escapes followed by a non-escape, and
+			 * there are other keystrokes waiting: combined
+			 * control character and escape sequence mode.
+			 * Interpret the escape sequence, and interpret
+			 * the result as a control sequence. */
+			retval = get_control_kbinput(
+				parse_escape_seq_kbinput(win,
+				*kbinput));
 	    }
     }
 

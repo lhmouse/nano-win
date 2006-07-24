@@ -136,7 +136,10 @@ CVS code -
   parse_kbinput()
 	- Properly handle combined meta and escape sequences, so that
 	  e.g. Meta-+ will work properly when the + is on the numeric
-	  keypad and NumLock is off. (DLR)
+	  keypad and NumLock is off.  Also, properly handle combined
+	  control character and escape sequences, so that e.g. Esc Esc /
+	  will work properly when the / is on the numeric keypad and
+	  NumLock is off. (DLR)
 	- Translate extended keypad keys to their ASCII equivalents even
 	  when we hit Escape once or twice before typing them, for
 	  consistency. (DLR)
