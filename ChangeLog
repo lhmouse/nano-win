@@ -149,6 +149,9 @@ CVS code -
   parse_escape_seq_kbinput()
 	- Handle unknown and unignored escape sequences once here
 	  instead of twice in parse_kbinput(). (DLR)
+	- Don't ignore escape sequences anymore.  Instead, return the
+	  corresponding key so that parse_kbinput() can translate it.
+	  (DLR)
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.
 	  (DLR)

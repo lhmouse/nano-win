@@ -669,17 +669,11 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
 /* Translate escape sequences, most of which correspond to extended
  * keypad values, into their corresponding key values.  These sequences
- * are generated when the keypad doesn't support the needed keys.  If
- * the escape sequence is recognized but we want to ignore it, return
- * ERR and set ignore_seq to TRUE; if it's unrecognized, return ERR and
- * set ignore_seq to FALSE.  Assume that Escape has already been read
- * in. */
-int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
-	*ignore_seq)
+ * are generated when the keypad doesn't support the needed keys.
+ * Assume that Escape has already been read in. */
+int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 {
     int retval = ERR;
-
-    *ignore_seq = FALSE;
 
     if (seq_len > 1) {
 	switch (seq[0]) {
@@ -718,7 +712,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 			break;
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
 			       * with NumLock off on xterm. */
-			*ignore_seq = TRUE;
+			retval = KEY_B2;
 			break;
 		    case 'F': /* Esc O F == End on xterm. */
 			retval = NANO_END_KEY;
@@ -829,7 +823,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm. */
-			*ignore_seq = TRUE;
+			retval = KEY_B2;
 			break;
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
@@ -1045,7 +1039,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
 			       * with NumLock off on FreeBSD console. */
-			*ignore_seq = TRUE;
+			retval = KEY_B2;
 			break;
 		    case 'F': /* Esc [ F == End on FreeBSD
 			       * console/Eterm. */
@@ -1169,7 +1163,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d, ignore_seq = %s\n", retval, *ignore_seq ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d\n", retval);
 #endif
 
     return retval;
@@ -1201,7 +1195,6 @@ int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
 {
     int retval, *seq;
     size_t seq_len;
-    bool ignore_seq;
 
     /* Put back the non-escape character, get the complete escape
      * sequence, translate the sequence into its corresponding key
@@ -1209,13 +1202,12 @@ int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
     unget_input(&kbinput, 1);
     seq_len = get_key_buffer_len();
     seq = get_input(NULL, seq_len);
-    retval = get_escape_seq_kbinput(seq, seq_len, &ignore_seq);
+    retval = get_escape_seq_kbinput(seq, seq_len);
 
     free(seq);
 
-    /* If we got an unrecognized escape sequence, and it's not ignored,
-     * throw it out. */
-    if (retval == ERR && !ignore_seq) {
+    /* If we got an unrecognized escape sequence, throw it out. */
+    if (retval == ERR) {
 	if (win == edit) {
 	    statusbar(_("Unknown Command"));
 	    beep();
@@ -1223,7 +1215,7 @@ int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, ignore_seq = %s, seq_len = %lu, retval = %d\n", kbinput, ignore_seq ? "TRUE" : "FALSE", (unsigned long)seq_len, retval);
+    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, seq_len = %lu, retval = %d\n", kbinput, (unsigned long)seq_len, retval);
 #endif
 
     return retval;
