@@ -38,9 +38,10 @@ CVS code -
 	  (DLR)
 	- Rename the values of the scroll_dir enum to UP_DIR and
 	  DOWN_DIR, since UP is defined as a termcap value in Tru64's
-	  curses.h, which breaks compilation there.  Changes to
-	  do_page_up(), do_page_down(), do_up(), do_down(), nano.h, and
-	  edit_scroll(). (DLR, found by Daniel Richard G.)
+	  and NetBSD 3.0's curses.h, which breaks compilation on those
+	  systems.  Changes to do_page_up(), do_page_down(), do_up(),
+	  do_down(), nano.h, and edit_scroll(). (DLR; found by Daniel
+	  Richard G. and Adam Wysocki, repectively)
 	- Rename the DISABLE_ROOTWRAP #define to DISABLE_ROOTWRAPPING.
 	  (DLR)
 	- When using slang 2.x, call SLutf8_enable() with an argument of
