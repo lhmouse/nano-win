@@ -106,6 +106,13 @@ CVS code -
 	- Don't return NULL when the current directory doesn't exist, as
 	  we can still recover from that. (DLR, found by Mike Frysinger)
 	- Add various cleanups. (DLR)
+- global.c:
+  shortcut_init(), sc_init_one()
+	- Don't include blank_after when DISABLE_HELP is defined, as
+	  it's never used then. (DLR)
+  toggle_init(), toggle_init_one()
+	- Don't include desc or blank_after when DISABLE_HELP is
+	  defined, as neither are ever used then. (DLR)
 - help.c:
   do_help()
 	- Simplify screen update handling and exiting. (DLR)

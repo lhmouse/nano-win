@@ -291,11 +291,12 @@ typedef struct shortcut {
 #ifndef DISABLE_HELP
     const char *help;
 	/* The help file entry text for this function. */
-#endif
     bool blank_after;
 	/* Whether there should be a blank line after the help entry
 	 * text for this function. */
-    /* Key values that aren't used should be set to NANO_NO_KEY. */
+#endif
+    /* Note: Key values that aren't used should be set to
+     * NANO_NO_KEY. */
     int ctrlval;
 	/* The special sentinel key or control key we want bound, if
 	 * any. */
@@ -320,9 +321,11 @@ typedef struct toggle {
    const char *desc;
 	/* The description of the toggle, e.g. "Cut to end"; we'll
 	 * append Enabled or Disabled to it. */
+#ifndef DISABLE_HELP
    bool blank_after;
 	/* Whether there should be a blank line after the description of
 	 * the toggle. */
+#endif
    long flag;
 	/* Which flag actually gets toggled. */
    struct toggle *next;
