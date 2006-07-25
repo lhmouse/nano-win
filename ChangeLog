@@ -111,7 +111,13 @@ CVS code -
   shortcut_init(), sc_init_one()
 	- Don't include blank_after when DISABLE_HELP is defined, as
 	  it's never used then. (DLR)
-  toggle_init(), toggle_init_one()
+  toggle_init()
+	- Don't include desc or blank_after when DISABLE_HELP is
+	  defined, as neither are ever used then. (DLR)
+	- Make sure that a blank line is not displayed after the Meta-Q
+	  toggle when mouse support is disabled and we're in restricted
+	  mode, and that it is displayed all other times. (DLR)
+  toggle_init_one()
 	- Don't include desc or blank_after when DISABLE_HELP is
 	  defined, as neither are ever used then. (DLR)
 - help.c:

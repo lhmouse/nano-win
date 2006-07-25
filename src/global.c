@@ -1338,12 +1338,12 @@ void toggle_init(void)
 #endif
 
     toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
-#if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_MOUSE)
+#ifndef DISABLE_MOUSE
+	IFTHELP(N_("Conversion of typed tabs to spaces"), TRUE,
+	TABS_TO_SPACES)
+#else
 	IFTHELP(N_("Conversion of typed tabs to spaces"),
 	!ISSET(RESTRICTED) ? TRUE : FALSE, TABS_TO_SPACES)
-#else
-	IFTHELP(N_("Conversion of typed tabs to spaces"), FALSE,
-	TABS_TO_SPACES)
 #endif
 	);
 
