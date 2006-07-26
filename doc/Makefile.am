@@ -1,7 +1,7 @@
-SUBDIRS = man texinfo
-
 if USE_COLOR
-SUBDIRS += syntax
+SUBDIRS = man syntax texinfo
+else
+SUBDIRS = man texinfo
 endif
 
-EXTRA_DIST = faq.html nanorc.sample
+EXTRA_DIST = faq.html
