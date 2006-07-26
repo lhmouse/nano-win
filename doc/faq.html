@@ -84,7 +84,7 @@
 <h2><a name="1.5"></a>1.5. Why the name change from TIP?</h2>
 <blockquote><p>On January 10, 2000, TIP was officially renamed to nano because of a namespace conflict with another program called 'tip'. The original 'tip' program &quot;establishes a full duplex terminal connection to a remote host&quot;, and was included with many older Unix systems (and newer ones like Solaris). The conflict was not noticed at first because there is no 'tip' utility included with most GNU/Linux distributions (where nano was developed).</p></blockquote>
 <h2><a name="1.6"></a>1.6. What is the current version of nano?</h2>
-<blockquote><p>The current version of nano *should* be 1.3.12. Of course you should always check the nano homepage to see what the latest and greatest version is.</p></blockquote>
+<blockquote><p>The current version of nano *should* be 1.9.99pre1. Of course you should always check the nano homepage to see what the latest and greatest version is.</p></blockquote>
 <h2><a name="1.7"></a>1.7. I want to read the man page without having to download the program!</h2>
 <blockquote><p>Jeez, demanding, aren't we? Okay, look <a href="http://www.nano-editor.org/dist/v1.3/nano.1.html">here</a>.</p></blockquote>
 <hr width="100%">
@@ -162,7 +162,7 @@
                           Turn off wrapping of text by default when the
                           user is root</pre></blockquote>
 <h2><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h2>
-<blockquote><p>To use multiple file buffers, you must be using nano 1.1.0 or newer, and you must have configured nano with <b>--enable-multibuffer</b> (use nano -V to check). Then when you want to enable inserting a file into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the file as normal with <b>^R</b>.  If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano.</p>
+<blockquote><p>To use multiple file buffers, you must be using nano 1.1.0 or newer, and you must have configured nano with <b>--enable-multibuffer</b> (use nano -V to check). Then when you want to enable inserting a file into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the file as normal with <b>^R</b>. If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano.</p>
   <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one file buffer open, the ^X shortcut will say &quot;Close&quot;, instead of the normal &quot;Exit&quot; when only one buffer is open.</p></blockquote>
 <h2><a name="3.8"></a>3.8. Tell me more about this verbatim input stuff!</h2>
 <blockquote><p>To use verbatim input, you must be using nano 1.3.1 or newer. When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b>. (If you're not at a prompt, you'll get the message &quot;Verbatim Input&quot;.) Then press the key(s) that generate the character you want.</p>
@@ -172,7 +172,7 @@
 <hr width="100%">
 <h1><a name="4"></a>4. Running</h1>
 <h2><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h2>
-<blockquote><p>If a command line option that begins with '+' is followed by another option, the former is always treated as a starting line number and the latter is always treated as a filename.  If a command line option that begins with '+' isn't followed by another option, it's always treated as a filename.  Examples:</p>
+<blockquote><p>If a command line option that begins with '+' is followed by another option, the former is always treated as a starting line number and the latter is always treated as a filename. If a command line option that begins with '+' isn't followed by another option, it's always treated as a filename. Examples:</p>
   <p>To open '+filename.txt' starting on line 1: <b>nano +filename.txt</b><br>
   To open '+filename.txt' starting on line 10: <b>nano +10 +filename.txt</b><br>
   To open '+filename.txt' starting on line 1 and 'filename.txt' starting on line 10 (if nano has been compiled with multibuffer support): <b>nano +1 +filename.txt +20 filename.txt</b></p></blockquote>
@@ -181,7 +181,7 @@
   <p>Bourne shell users (bash and sh): <b>export TERM=vt100</b><br>
   C Shell users (tcsh and csh): <b>setenv TERM vt100</b></p></blockquote>
 <h2><a name="4.3"></a>4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</h2>
-<blockquote><p>You can use the <b>-K</b> or <b>--rebindkeypad</b> options on the command line, or add the line <b>set rebindkeypad</b> to your .nanorc.  However, nano's mouse support won't work properly if you do any of these things.</p></blockquote>
+<blockquote><p>You can use the <b>-K</b> or <b>--rebindkeypad</b> options on the command line, or add the line <b>set rebindkeypad</b> to your .nanorc. However, nano's mouse support won't work properly if you do any of these things.</p></blockquote>
 <h2><a name="4.4"></a>4.4. Ack! When I hold down a Meta key combination for a while, the character of the held key gets inserted now and then. What gives?</h2>
 <blockquote><p>This is a bug in the terminal, not in nano. When a key is repeating faster than nano can process it, the keyboard buffer becomes full and starts dropping incoming keystrokes. Unfortunately, it doesn't just drop whole keystrokes; it can also drop parts of multibyte key combinations, resulting in nano's receiving a wrong key.</p></blockquote>
 <h2><a name="4.5"></a>4.5. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
@@ -197,7 +197,7 @@
 <h2><a name="4.10a"></a>4.10a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
 <blockquote><p>In nano version 0.9.20, the default is to have a completely consistent user interface across all user input functions. This means that regardless of whether you're being asked for a filename to insert or write, or a string to search for, the previous value is already inserted before the cursor. If you prefer the old behavior, use the Pico emulation mode (-p or --pico) or just hit Meta-P while in nano (see the ^G help text for more details).</p></blockquote>
 <h2><a name="4.10b"></a>4.10b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
-<blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior.  Also, in version 1.1.99pre1, search and replace history was introduced.  If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history.  This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
+<blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior. Also, in version 1.1.99pre1, search and replace history was introduced. If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history. This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
 <h2><a name="4.11"></a>4.11. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p><b>export EDITOR=/usr/local/bin/nano</b></p>
@@ -224,7 +224,7 @@
 <h2><a name="5.2"></a>5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</h2>
 <blockquote><p>The best way would probably be to e-mail the person listed in the <code>Last-Translator:</code> field in the <b>&lt;your_language&gt;.po</b> file with your suggested corrections and they can make the changes reach the nano-devel list.</p></blockquote>
 <h2><a name="5.3"></a>5.3. What is the status of Unicode support?</h2>
-<blockquote><p>With the latest development version (1.3.12+), Unicode should be usable.  With your terminal, locale (LC_ALL and similar environment variables), and encoding configured to properly support UTF-8, you should be able to enter and save Unicode text.</p></blockquote>
+<blockquote><p>In version 1.3.12 or later, Unicode should be usable. With your terminal, locale (LC_ALL and similar environment variables), and encoding configured to properly support UTF-8, you should be able to enter and save Unicode text.</p></blockquote>
 <hr width="100%">
 <h1><a name="6"></a>6. Advocacy and Licensing</h1>
 <h2><a name="6.1"></a>6.1. Why should I use nano instead of Pico?</h2>
@@ -256,7 +256,8 @@
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
-<p>2006/06/12 - Update section 5.3, due to the display fix for two-column Unicode characters. (DLR)<br>
+<p>2006/07/25 - Update section 5.3 again to not state &quot;the latest development version&quot; before 1.3.12, as it's no longer accurate. Also add some minor spacing fixes. (DLR)<br>
+2006/06/12 - Update section 5.3, due to the display fix for two-column Unicode characters. (DLR)<br>
 2006/06/05 - Add a new section 4.8, and move all section 4 entries after it down one number, to explain how to deal with glibc 2.2.3's crashes involving extended regular expressions. (DLR)<br>
 2006/06/04 - Add minor punctuation, wording, and typo fixes. (DLR)<br>
 2006/05/27 - Update section 3.8 to mention the new "Unicode Input" prompt, and how Unicode input only works when Unicode support is enabled. (DLR)<br>
@@ -280,7 +281,7 @@
 2004/11/05 - Fixed inaccuracy: Pico compatibility mode was made the default in nano 1.1.99pre1, not 1.2.2. Also added question about how to type F13-F16 on terminals lacking keys past F12 (suggested by Chris), question about how to select text for the clipboard in X terminals with nano's mouse support turned on (answer found by Joseph Birthisel), and misc. fixes and link updates. (DLR)<br>
 2004/04/07 - Removed NumLock glitch question, as it's no longer needed. (DLR)<br>
 2004/01/30 - Fixed inaccuracy: multibuffer mode was first in nano 1.1.0, not 1.1.12. (DLR)<br>
-2003/12/31 - Added question about the new verbatim input function, and a few minor fixes.  Removed reference to &quot;set pico&quot; (DLR).<br>
+2003/12/31 - Added question about the new verbatim input function, and a few minor fixes. Removed reference to &quot;set pico&quot; (DLR).<br>
 2003/07/02 - Added question about nano's not showing color when it's compiled with color support (DLR; suggested by Jordi).<br>
 2003/02/23 - Updated RPM links for nano 1.2.x (DLR).<br>
 2003/01/16 - Split section 4.5 into 4.5a and 4.5b for search string behavior. Added --enable-all docs.<br>
