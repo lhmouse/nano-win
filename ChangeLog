@@ -47,7 +47,7 @@ CVS code -
 	- When using slang 2.x, call SLutf8_enable() with an argument of
 	  1 instead of TRUE, as that's the proper way to enable its
 	  UTF-8 support.  Changes to main() and configure.ac. (DLR)
-	- Fix punctuation relating to "i.e." in comments and
+	- Fix punctuation relating to "i.e." in various comments and
 	  documentation. (Benno Schulenberg and DLR)
 - browser.c:
   do_browser()
