@@ -1942,7 +1942,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     /* A new process to run spell in. */
     if ((pid_spell = fork()) == 0) {
-	/* Child continues (i.e, future spell process). */
+	/* Child continues (i.e. future spell process). */
 	close(spell_fd[0]);
 
 	/* Replace the standard input with the temp file. */
@@ -1972,7 +1972,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     /* A new process to run sort in. */
     if ((pid_sort = fork()) == 0) {
-	/* Child continues (i.e, future spell process).  Replace the
+	/* Child continues (i.e. future spell process).  Replace the
 	 * standard input with the standard output of the old pipe. */
 	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
 	    goto close_pipes_and_exit;
@@ -1998,7 +1998,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     /* A new process to run uniq in. */
     if ((pid_uniq = fork()) == 0) {
-	/* Child continues (i.e, future uniq process).  Replace the
+	/* Child continues (i.e. future uniq process).  Replace the
 	 * standard input with the standard output of the old pipe. */
 	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
 	    goto close_pipes_and_exit;

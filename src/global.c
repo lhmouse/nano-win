@@ -54,7 +54,7 @@ WINDOW *topwin;
 	 * number of nano, the name of the current file, and whether the
 	 * current file has been modified. */
 WINDOW *edit;
-	/* The middle portion of the window, i.e, the edit window, where
+	/* The middle portion of the window, i.e. the edit window, where
 	 * we display the current file we're editing. */
 WINDOW *bottomwin;
 	/* The bottom portion of the window, where we display statusbar

@@ -80,7 +80,7 @@ Then, once it's done compiling, run
 
     $ make install
 
-which should copy various files (i.e, the nano executable, the info and
+which should copy various files (i.e. the nano executable, the info and
 man pages, and syntax highlighting pattern files) to their appropriate
 directories.
 

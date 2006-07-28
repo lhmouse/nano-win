@@ -47,6 +47,8 @@ CVS code -
 	- When using slang 2.x, call SLutf8_enable() with an argument of
 	  1 instead of TRUE, as that's the proper way to enable its
 	  UTF-8 support.  Changes to main() and configure.ac. (DLR)
+	- Fix punctuation relating to "i.e." in comments and
+	  documentation. (Benno Schulenberg and DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
@@ -3364,7 +3366,7 @@ GNU nano 1.3.3 - 2004.06.28
 	  do_justify(); new functions do_justify_void() and
 	  do_full_justify(). (DLR)
 	- Modify the justification algorithm to work the same way as in
-	  the current version of Pico, i.e, add a space at the end of
+	  the current version of Pico, i.e. add a space at the end of
 	  each line of the justified paragraph except for the last one,
 	  and if there was a space at the end of the last one, remove
 	  it.  Changes to justify_format() and do_justify().  Note that
@@ -3792,7 +3794,7 @@ GNU nano 1.3.2 - 2004.03.31
 	- Change instances in the code that refresh the entire edit
 	  window when color support is enabled (in order to properly
 	  handle multi-line color regexes) to only do so when
-	  it's necessary, i.e, when COLOR_SYNTAX is set. (DLR)
+	  it's necessary, i.e. when COLOR_SYNTAX is set. (DLR)
 	- Minor cosmetic tweaks to the code involving direction keys.
 	  NANO_UP_KEY and NANO_DOWN_KEY are now NANO_PREVLINE_KEY and
 	  NANO_NEXTLINE_KEY, and the help messages for them have been
@@ -3804,7 +3806,7 @@ GNU nano 1.3.2 - 2004.03.31
 	  the statusbar input routines to handle them and NANO_HELP_FKEY
 	  properly. (DLR)
 	- Block SIGWINCH after setting up its handler, and only unblock
-	  and handle it when we're in a stable state, i.e, when we're
+	  and handle it when we're in a stable state, i.e. when we're
 	  waiting for input from the user.  New function
 	  allow_pending_sigwinch(); changes to signal_init(),
 	  get_kbinput(), and get_verbatim_kbinput(). (DLR)
@@ -4014,7 +4016,7 @@ GNU nano 1.3.2 - 2004.03.31
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
   get_escape_seq_kbinput()
 	- Add support for the escape sequences for F1-F14 whenever
-	  possible (i.e, whenever a conflict doesn't occur), some
+	  possible (i.e. whenever a conflict doesn't occur), some
 	  additional comments, and a few cosmetic cleanups. (DLR)
 	- Use switch statements instead of strncmp() to read in the long
 	  xterm sequences for Ctrl-[arrow key] and Shift-[arrow key].
@@ -4043,7 +4045,7 @@ GNU nano 1.3.2 - 2004.03.31
   do_credits()
 	- Use nanosleep() instead of usleep().  The latter is only
 	  standard under BSD, whereas the former is POSIX compliant.
-	  Accordingly, only include time.h if we use this function, i.e,
+	  Accordingly, only include time.h if we use this function, i.e.
 	  if NANO_EXTRA is defined. (DLR)
 	- Add explanatory comment. (DLR)
 - configure.ac:

@@ -229,7 +229,7 @@
 		broken regex detection, search history recall, and
 		keypad handling with -K.  Debugging strings are no
 		longer translated and comments denote where translations
-		should be as short as possible (i.e, the statusbar).
+		should be as short as possible (i.e. the statusbar).
 		There are new examples for syntax highlighting, and
 		documentation updates and fixes.  The 1.3.0 CVS tree
 		will be opening soon for all your nano desires, so stay
@@ -362,7 +362,7 @@
 		mode (^O,M-P), a new "syntax" command in the .nanorc to
 		allow multiple syntax highlighting types, and a new -Y,
 		--syntax flag to set a specific one if there's no
-		filename regex to match it against (i.e, w/mutt).  The
+		filename regex to match it against (i.e. w/mutt).  The
 		^space and M-space keys will now show up in the help
 		menu, which itself has been tweaked a bit, and many more
 		configure options should now cooperate (like the odd
@@ -542,7 +542,7 @@
 		resizing the editor in any mode other than normal edit
 		mode.  Other fixes include some more tab completion
 		segfaults, and an silly segfault that occurred when
-		successfully writing a file on the 2nd try (i.e, after
+		successfully writing a file on the 2nd try (i.e. after
 		an initial write error).  Slowly but surely, on toward
 		1.0 we travel.
 
@@ -730,7 +730,7 @@
 
 05/14/2000 - Nano 0.9.7 (the Mother's Day release) continues in the long
 		line of display fixes, and also fixes the broken symlink
-		behavior (i.e, symlinks weren't being followed by
+		behavior (i.e. symlinks weren't being followed by
 		default).  Hopefully all major bugs can be worked out
 		soon and we can have a 1.0 release before the end of the
 		year, but who knows.
@@ -783,7 +783,7 @@
 04/14/2000 - 0.9.1 has some more Pico compatibility built-in.  The
 		option to switch to/from Search and Search/Replace (^T)
 		is now available, and nano now displays the more
-		Pico-like shortcut list when invoked as 'pico' (i.e, if
+		Pico-like shortcut list when invoked as 'pico' (i.e. if
 		'pico' is a symlink to nano).  There is an important
 		change to the handling of symbolic links as well.  Now,
 		nano does the "correct" thing and automatically writes

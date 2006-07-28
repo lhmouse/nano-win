@@ -653,7 +653,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #endif
 	}
 
-	/* If our result is an extended keypad value (i.e, a value
+	/* If our result is an extended keypad value (i.e. a value
 	 * outside of byte range), set func_key to TRUE. */
 	if (retval != ERR)
 	    *func_key = !is_byte(retval);
@@ -1606,7 +1606,7 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    i = COLS / ((currslen / 2) + (currslen % 2));
 
 	/* Calculate the y-coordinate relative to the beginning of
-	 * the shortcut list in bottomwin, i.e, with the sizes of
+	 * the shortcut list in bottomwin, i.e. with the sizes of
 	 * topwin, edit, and the first line of bottomwin subtracted
 	 * out, and set j to it. */
 	j = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
@@ -1754,7 +1754,7 @@ void blank_topbar(void)
 	blank_line(topwin, 1, 0, COLS);
 }
 
-/* Blank all the lines of the middle portion of the window, i.e, the
+/* Blank all the lines of the middle portion of the window, i.e. the
  * edit window. */
 void blank_edit(void)
 {
@@ -2096,7 +2096,7 @@ void titlebar(const char *path)
     if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
-	/* Don't set dots to TRUE if we have fewer than 8 columns (i.e,
+	/* Don't set dots to TRUE if we have fewer than 8 columns (i.e.
 	 * 1 column for padding, plus 7 columns for a filename). */
 	dots = (space >= 8 && lenpt >= space);
 

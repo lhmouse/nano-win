@@ -425,7 +425,7 @@ size_t get_page_start(size_t column)
 	return column - (COLS - 2);
 }
 
-/* Return the placewewant associated with current_x, i.e, the zero-based
+/* Return the placewewant associated with current_x, i.e. the zero-based
  * column position of the cursor.  The value will be no smaller than
  * current_x. */
 size_t xplustabs(void)
@@ -434,7 +434,7 @@ size_t xplustabs(void)
 }
 
 /* Return the index in s of the character displayed at the given column,
- * i.e, the largest value such that strnlenpt(s, actual_x(s, column)) <=
+ * i.e. the largest value such that strnlenpt(s, actual_x(s, column)) <=
  * column. */
 size_t actual_x(const char *s, size_t column)
 {

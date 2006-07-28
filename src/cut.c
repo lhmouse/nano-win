@@ -90,7 +90,7 @@ void cut_to_eol(void)
     else if (openfile->current != openfile->filebot) {
 	/* If we're at the end of the line, and it isn't the last line
 	 * of the file, move all the text from the current position up
-	 * to the beginning of the next line, i.e, the newline at the
+	 * to the beginning of the next line, i.e. the newline at the
 	 * end, into the cutbuffer. */
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
 		openfile->current_x, openfile->current->next, 0);

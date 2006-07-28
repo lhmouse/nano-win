@@ -839,7 +839,7 @@ void do_statusbar_find_bracket(void)
 }
 #endif /* !NANO_TINY */
 
-/* Return the placewewant associated with statusbar_x, i.e, the
+/* Return the placewewant associated with statusbar_x, i.e. the
  * zero-based column position of the cursor.  The value will be no
  * smaller than statusbar_x. */
 size_t statusbar_xplustabs(void)
@@ -1323,7 +1323,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			editwinrows - 1;
 			/* Calculate the y-coordinate relative to the
 			 * beginning of the Yes/No/All shortcuts in
-			 * bottomwin, i.e, with the sizes of topwin,
+			 * bottomwin, i.e. with the sizes of topwin,
 			 * edit, and the first line of bottomwin
 			 * subtracted out. */
 

@@ -540,7 +540,7 @@ void read_file(FILE *f, const char *filename)
 	openfile->filebot);
 
     /* If the NO_NEWLINES flag isn't set, and text has been added to
-     * the magicline (i.e, a file that doesn't end in a newline has been
+     * the magicline (i.e. a file that doesn't end in a newline has been
      * inserted at the end of the current buffer), add a new magicline,
      * and move the current line down to it. */
     if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
@@ -2299,7 +2299,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 
 	    assert(longest_name <= COLS - 1);
 
-	    /* Each column will be (longest_name + 2) columns wide, i.e,
+	    /* Each column will be (longest_name + 2) columns wide, i.e.
 	     * two spaces between columns, except that there will be
 	     * only one space after the last column. */
 	    columns = (COLS + 1) / (longest_name + 2);

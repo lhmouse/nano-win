@@ -626,7 +626,7 @@ void browser_refresh(void)
 	bool dots = (COLS >= 15 && filetaillen >= longest -
 		foomaxlen - 1);
 		/* Do we put an ellipsis before the filename?  Don't set
-		 * this to TRUE if we have fewer than 15 columns (i.e, 1
+		 * this to TRUE if we have fewer than 15 columns (i.e. 1
 		 * column for padding, plus 7 columns for a filename
 		 * other than ".."). */
 	char *disp = display_string(filetail, dots ? filetaillen -
@@ -655,7 +655,7 @@ void browser_refresh(void)
 	/* Show information about the file.  We don't want to report
 	 * file sizes for links, so we use lstat(). */
 	if (lstat(filelist[i], &st) == -1 || S_ISLNK(st.st_mode)) {
-	    /* If the file doesn't exist (i.e, it's been deleted while
+	    /* If the file doesn't exist (i.e. it's been deleted while
 	     * the file browser is open), or it's a symlink that doesn't
 	     * point to a directory, display "--". */
 	    if (stat(filelist[i], &st) == -1 || !S_ISDIR(st.st_mode))
