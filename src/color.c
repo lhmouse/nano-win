@@ -138,9 +138,8 @@ void color_update(void)
 	    exttype *e;
 
 	    /* If this is the default syntax, it has no associated
-	     * extensions.  (We've checked for this and for duplicate
-	     * syntax names elsewhere.)  Skip over it here, but keep
-	     * track of its color regexes. */
+	     * extensions, which we've checked for elsewhere.  Skip over
+	     * it here, but keep track of its color regexes. */
 	    if (strcmp(tmpsyntax->desc, "default") == 0) {
 		defcolor = tmpsyntax->color;
 		continue;
