@@ -41,7 +41,7 @@ static const wchar_t bad_wchar = 0xFFFD;
 	 * Unicode FFFD (Replacement Character), unless we're
 	 * determining if it's a control character or searching for a
 	 * match to it. */
-static const char *bad_mbchar = "\xEF\xBF\xBD";
+static const char *const bad_mbchar = "\xEF\xBF\xBD";
 static const int bad_mbchar_len = 3;
 
 /* Enable UTF-8 support. */

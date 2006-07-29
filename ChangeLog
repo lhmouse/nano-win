@@ -49,6 +49,8 @@ CVS code -
 	  UTF-8 support.  Changes to main() and configure.ac. (DLR)
 	- Fix punctuation relating to "i.e." in various comments and
 	  documentation. (Benno Schulenberg and DLR)
+	- Make bad_mbchar a static const char* const in chars.c, as its
+	  value doesn't change. (DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
