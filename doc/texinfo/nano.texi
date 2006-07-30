@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.9.99pre1
-@set UPDATED 26 Jun 2006
+@set UPDATED 30 Jul 2006
 
 @dircategory Editors
 @direntry
@@ -156,6 +156,9 @@ Don't add newlines to the ends of files.
 
 @item -N, --noconvert
 Don't convert files from DOS/Mac format.
+
+@item -O, --morespace
+Use the blank line below the titlebar as extra editing space.
 
 @item -Q <str>, --quotestr=<str>
 Set the quoting string for justifying.  The default value is
