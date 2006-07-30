@@ -525,7 +525,7 @@ default value is
 @end quotation
 
 @item set/unset morespace
-Allow use of the blank line below the titlebar as extra editing space.
+Use the blank line below the titlebar as extra editing space.
 
 @item set/unset mouse
 Enable mouse support, so that mouse clicks can be used to place the
