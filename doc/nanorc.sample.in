@@ -158,7 +158,7 @@
 ## Save automatically on exit, don't prompt.
 # set tempfile
 
-## Disallow file modification; why would you want this in an rcfile? ;)
+## Disallow file modification.  Why would you want this in an rcfile? ;)
 # set view
 
 ## The two single-column characters used to display the first characters
