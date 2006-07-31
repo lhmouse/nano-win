@@ -651,12 +651,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		retval = ERR;
 		break;
 #endif
-#ifdef KEY_EVENT
-	    /* Slang doesn't support KEY_EVENT. */
-	    case KEY_EVENT:
-		retval = ERR;
-		break;
-#endif
 	}
 
 	/* If our result is an extended keypad value (i.e. a value
