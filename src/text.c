@@ -55,7 +55,7 @@ void do_mark(void)
 	openfile->mark_begin = openfile->current;
 	openfile->mark_begin_x = openfile->current_x;
     } else {
-	statusbar(_("Mark UNset"));
+	statusbar(_("Mark Unset"));
 	openfile->mark_begin = NULL;
 	openfile->mark_begin_x = 0;
 	edit_refresh();

@@ -899,7 +899,7 @@ void do_insertfile_void(void)
 {
 #ifdef ENABLE_MULTIBUFFER
     if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
-	statusbar(_("Key illegal in non-multibuffer mode"));
+	statusbar(_("Key invalid in non-multibuffer mode"));
     else
 #endif
 	do_insertfile(

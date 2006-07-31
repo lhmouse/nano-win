@@ -52,6 +52,10 @@ CVS code -
 	  documentation. (Benno Schulenberg and DLR)
 	- Make bad_mbchar a static const char* const in chars.c, as its
 	  value doesn't change. (DLR)
+	- Add various clarifications to translated strings.  Changes to
+	  do_insertfile_void(), shortcut_init(), toggle_init(),
+	  help_init(), print_view_warning(), usage(), and do_mark().
+	  (Benno Schulenberg, minor tweaks by DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for

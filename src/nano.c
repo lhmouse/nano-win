@@ -520,7 +520,7 @@ void free_openfilestruct(openfilestruct *src)
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
 {
-    statusbar(_("Key illegal in VIEW mode"));
+    statusbar(_("Key invalid in view mode"));
 }
 
 /* What we do when we're all set to exit. */
@@ -767,7 +767,7 @@ void usage(void)
     print_opt("-N", "--noconvert",
 	N_("Don't convert files from DOS/Mac format"));
 #endif
-    print_opt("-O", "--morespace", N_("Use more space for editing"));
+    print_opt("-O", "--morespace", N_("Use one more line for editing"));
 #ifndef DISABLE_JUSTIFY
     print_opt(_("-Q <str>"), _("--quotestr=<str>"),
 	N_("Quoting string"));
@@ -777,7 +777,7 @@ void usage(void)
     print_opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
     print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
-	N_("Set width of a tab in cols to #cols"));
+	N_("Set width of a tab to #cols columns"));
 #ifndef NANO_TINY
     print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
 #endif
@@ -789,7 +789,7 @@ void usage(void)
 #endif
 #ifdef ENABLE_COLOR
     print_opt(_("-Y <str>"), _("--syntax=<str>"),
-	N_("Syntax definition to use"));
+	N_("Syntax definition to use for coloring"));
 #endif
     print_opt("-c", "--const", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
@@ -812,7 +812,7 @@ void usage(void)
 	N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_WRAPJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
-	N_("Set fill cols to (wrap lines at) #cols"));
+	N_("Set wrapping point at column #cols"));
 #endif
 #ifndef DISABLE_SPELLER
     print_opt(_("-s <prog>"), _("--speller=<prog>"),
@@ -820,7 +820,7 @@ void usage(void)
 #endif
     print_opt("-t", "--tempfile",
 	N_("Auto save on exit, don't prompt"));
-    print_opt("-v", "--view", N_("View (read only) mode"));
+    print_opt("-v", "--view", N_("View mode (read-only)"));
 #ifndef DISABLE_WRAPPING
     print_opt("-w", "--nowrap", N_("Don't wrap long lines"));
 #endif

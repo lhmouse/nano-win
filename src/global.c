@@ -422,9 +422,9 @@ void shortcut_init(bool unjustify)
 #endif
 #ifndef NANO_TINY
     const char *nano_prev_history_msg =
-	N_("Edit the previous search/replace string");
+	N_("Recall the previous search/replace string");
     const char *nano_next_history_msg =
-	N_("Edit the next search/replace string");
+	N_("Recall the next search/replace string");
 #endif
 #ifndef DISABLE_BROWSER
     const char *nano_tofiles_msg = N_("Go to file browser");
@@ -1297,7 +1297,7 @@ void toggle_init(void)
 	CONST_UPDATE));
 
     toggle_init_one(TOGGLE_MORESPACE_KEY,
-	IFTHELP(N_("Use of more space for editing"), FALSE,
+	IFTHELP(N_("Use of one more line for editing"), FALSE,
 	MORE_SPACE));
 
     toggle_init_one(TOGGLE_SMOOTH_KEY,

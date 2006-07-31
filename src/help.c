@@ -355,7 +355,7 @@ void help_init(void)
 #endif /* !NANO_TINY */
     else {
 	/* Default to the main help list. */
-	htx[0] = N_(" nano help text\n\n "
+	htx[0] = N_("Main nano help text\n\n "
 		"The nano editor is designed to emulate the "
 		"functionality and ease-of-use of the UW Pico text "
 		"editor.  There are four main sections of the editor.  "
@@ -370,7 +370,7 @@ void help_init(void)
 		"Control-key sequences are notated with a caret (^) "
 		"symbol and can be entered either by using the Control "
 		"(Ctrl) key or pressing the Escape (Esc) key twice.  "
-		"Escape-key sequences are notated with the Meta (M) "
+		"Escape-key sequences are notated with the Meta (M-) "
 		"symbol and can be entered using either the Esc, Alt, "
 		"or Meta key depending on your keyboard setup.  ");
 	htx[2] = N_("Also, pressing Esc twice and then typing a "
