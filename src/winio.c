@@ -98,10 +98,7 @@ static bool disable_cursorpos = FALSE;
  *   functions of the former are not arbitrary and the functions of the
  *   latter are.)
  * - F16 on FreeBSD console == Shift-Down on rxvt/Eterm; the former is
- *   omitted.  (Same as above.)
- *
- * Note that Center (5) on the numeric keypad with NumLock off can also
- * be the Begin key. */
+ *   omitted.  (Same as above.) */
 
 /* Read in a sequence of keystrokes from win and save them in the
  * keystroke buffer.  This should only be called when the keystroke

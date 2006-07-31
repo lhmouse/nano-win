@@ -3,7 +3,7 @@ CVS code -
 	- Miscellaneous comment fixes. (DLR)
 	- Fix option descriptions.  At least one of the two parts of
 	  +LINE,COLUMN must be specified at all times; COLUMN is not the
-	  only optional value.  Also fix wording problems in
+	  only optional value.  Also, fix wording problems in
 	  -O/--morespace and -W/--wordbounds.  Changes to usage(),
 	  UPGRADE, nano.1, nanorc.5, rnano.1, nano.texi, and
 	  nanorc.sample.in. (DLR)
