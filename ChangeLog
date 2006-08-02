@@ -178,6 +178,8 @@ CVS code -
   display_string()
 	- Properly handle buf[start_index]'s being a null terminator.
 	  (DLR)
+  edit_draw()
+	- Simplify the setting of paintlen. (DLR)
   titlebar()
 	- Don't display overly long filenames with ellipses if the
 	  number of columns is extremely small. (DLR)

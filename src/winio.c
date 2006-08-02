@@ -2504,19 +2504,16 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 			endmatch.rm_eo <= startpos))
 			goto step_two;
 
-		    /* Now paint the start of fileptr. */
-		    if (end_line != fileptr)
-			/* If the start of fileptr is on a different
-			 * line from the end, paintlen is -1, meaning
-			 * that everything on the line gets painted. */
-			paintlen = -1;
-		    else
-			/* Otherwise, paintlen is the expanded location
-			 * of the end of the match minus the expanded
-			 * location of the beginning of the page. */
-			paintlen = actual_x(converted,
-				strnlenpt(fileptr->data,
-				endmatch.rm_eo) - start);
+		    /* Now paint the start of fileptr.  If the start of
+		     * fileptr is on a different line from the end,
+		     * paintlen is -1, meaning that everything on the
+		     * line gets painted.  Otherwise, paintlen is the
+		     * expanded location of the end of the match minus
+		     * the expanded location of the beginning of the
+		     * page. */
+		    paintlen = (end_line != fileptr) ? -1 :
+			actual_x(converted, strnlenpt(fileptr->data,
+			endmatch.rm_eo) - start);
 
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
 
@@ -2635,17 +2632,13 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 	     * mark minus the beginning of the page. */
 	    x_start = strnlenpt(fileptr->data, top_x) - start;
 
-	    if (bot_x >= endpos)
-		/* If the end of the mark is off the page, paintlen is
-		 * -1, meaning that everything on the line gets
-		 * painted. */
-		paintlen = -1;
-	    else
-		/* Otherwise, paintlen is the expanded location of the
-		 * end of the mark minus the expanded location of the
-		 * beginning of the mark. */
-		paintlen = strnlenpt(fileptr->data, bot_x) -
-			(x_start + start);
+	    /* If the end of the mark is off the page, paintlen is -1,
+	     * meaning that everything on the line gets painted.
+	     * Otherwise, paintlen is the expanded location of the end
+	     * of the mark minus the expanded location of the beginning
+	     * of the mark. */
+	    paintlen = (bot_x >= endpos) ? -1 : strnlenpt(fileptr->data,
+		bot_x) - (x_start + start);
 
 	    /* If x_start is before the beginning of the page, shift
 	     * paintlen x_start characters to compensate, and put
