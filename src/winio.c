@@ -2370,8 +2370,8 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 	    int x_start;
 		/* Starting column for mvwaddnstr.  Zero-based. */
 	    int paintlen;
-		/* Number of chars to paint on this line.  There are COLS
-		 * characters on a whole line. */
+		/* Number of chars to paint on this line.  There are
+		 * COLS characters on a whole line. */
 	    size_t index;
 		/* Index in converted where we paint. */
 	    regmatch_t startmatch;
