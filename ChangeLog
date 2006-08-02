@@ -208,6 +208,8 @@ CVS code -
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
+	- Tweak the multiline comment regex to not color lines so
+	  aggressively. (DLR, found by Mike Frysinger)
 - doc/syntax/ruby.nanorc:
 	- Add missing blank line after the first comment, for
 	  consistency. (DLR)

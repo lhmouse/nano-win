@@ -24,4 +24,4 @@ color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 
 ## Comment highlighting
 color brightblue "//.*"
-color brightblue start="/\*" end="\*/"
+color brightblue start="(/){1}\*" end="\*(/){1}"
