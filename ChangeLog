@@ -210,6 +210,7 @@ CVS code -
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
+	- Remove redundancy from the file extension regexes. (DLR)
 - doc/syntax/ruby.nanorc:
 	- Add missing blank line after the first comment, for
 	  consistency. (DLR)
