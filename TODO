@@ -21,6 +21,7 @@ For the next version:
   prompt.
 - Handle window resizes better.  After we resize, we should stay
   wherever we were before we resized, as Pico does.
+- Fix problems with color syntaxes' highlighting lines too aggressively.
 - Allow color syntaxes to apply to more than just color, so that we can
   e.g. specify a different alternate spell checker depending on which
   file type we have open.
