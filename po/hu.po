@@ -108,28 +108,24 @@ msgstr "Új puffer"
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
 msgstr[0] "%lu sor beolvasva (DOS és Mac formátumról átalakítva)"
-msgstr[1] "%lu sor beolvasva (DOS és Mac formátumról átalakítva)"
 
 #: src/files.c:564
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
 msgstr[0] "%lu sor beolvasva (Mac formátumról átalakítva)"
-msgstr[1] "%lu sor beolvasva (Mac formátumról átalakítva)"
 
 #: src/files.c:569
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
 msgstr[0] "%lu sor beolvasva (DOS formátumról átalakítva)"
-msgstr[1] "%lu sor beolvasva (DOS formátumról átalakítva)"
 
 #: src/files.c:574
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "%lu sor beolvasva"
-msgstr[1] "%lu sor beolvasva"
 
 #: src/files.c:594
 msgid "New File"
@@ -209,7 +205,6 @@ msgstr "Hiba az ideiglenes fájl írásakor: %s"
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "%lu sor kiírva"
-msgstr[1] "%lu sor kiírva"
 
 #: src/files.c:1751
 msgid " [DOS Format]"
@@ -1609,7 +1604,6 @@ msgstr "Csere ezzel"
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
 msgstr[0] "%lu előfordulás cserélve"
-msgstr[1] "%lu előfordulás cserélve"
 
 #: src/search.c:989
 msgid "Enter line number, column number"

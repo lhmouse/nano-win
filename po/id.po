@@ -21,21 +21,18 @@ msgstr ""
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
 msgstr[0] "Baca %d baris (Dikonversi dari format Mac)"
-msgstr[1] "Baca %d baris (Dikonversi dari format Mac)"
 
 #: files.c:321
 #, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
 msgstr[0] "Membaca %d baris (Konversi dari format DOS)"
-msgstr[1] "Membaca %d baris (Konversi dari format DOS)"
 
 #: files.c:326
 #, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
 msgstr[0] "Membaca %d baris"
-msgstr[1] "Membaca %d baris"
 
 #: files.c:343 search.c:58
 #, c-format
@@ -170,7 +167,6 @@ msgstr "Tidak dapat menset permisi %o pada %s: %s"
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "Menulis %d baris"
-msgstr[1] "Menulis %d baris"
 
 #: files.c:1730
 msgid " [Mac Format]"

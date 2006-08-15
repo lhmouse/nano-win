@@ -1,3 +1,10 @@
+2006-08-15  David Lawrence Ramsey  <pooka109@cox.net>
+
+	* hu.po: Removed unneeded duplicate plural forms, as gettext
+	  0.15 generates errors upon encountering them.
+	* id.po: Removed unneeded duplicate plural forms, as gettext
+	  0.15 generates errors upon encountering them.
+
 2006-06-20  Jordi Mallach  <jordi@gnu.org>
 
 	* ca.po: Updated Catalan translation.
