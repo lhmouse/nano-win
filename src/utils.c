@@ -35,8 +35,12 @@ int digits(size_t n)
 {
     int i;
 
-    for (i = 1; n >= 10; n /= 10, i++)
-	;
+    if (n == 0)
+	i = 1;
+    else {
+	for (i = 0; n != 0; n /= 10, i++)
+	    ;
+    }
 
     return i;
 }

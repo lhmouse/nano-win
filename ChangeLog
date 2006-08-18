@@ -155,6 +155,10 @@ CVS code -
   execute_command()
 	- Remove the marking of the file as modified, as do_insertfile()
 	  now handles that. (DLR)
+- utils.c:
+  digits()
+	- Tweak to remove the assumption that n is always positive,
+	  although it always is in this particular case. (DLR)
 - winio.c:
   parse_kbinput()
 	- Properly handle combined meta and escape sequences, so that
