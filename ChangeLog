@@ -134,6 +134,9 @@ CVS code -
 	- Simplify screen update handling and exiting. (DLR)
 	- Don't allow moving down a page when the last line of the help
 	  text is onscreen. (DLR)
+  help_init()
+	- Adjust the first two chunks of the main help text so that
+	  they're no more than 509 characters again. (DLR)
 - move.c:
   do_scroll_up(), do_scroll_down()
 	- Fix problems where, after scrolling, the previous and current

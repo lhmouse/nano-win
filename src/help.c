@@ -364,15 +364,16 @@ void help_init(void)
 		"has been modified.  Next is the main editor window "
 		"showing the file being edited.  The status line is "
 		"the third line from the bottom and shows important "
-		"messages.  The bottom two lines show the most "
-		"commonly used shortcuts in the editor.\n\n");
-	htx[1] = N_(" The notation for shortcuts is as follows: "
-		"Control-key sequences are notated with a caret (^) "
-		"symbol and can be entered either by using the Control "
-		"(Ctrl) key or pressing the Escape (Esc) key twice.  "
-		"Escape-key sequences are notated with the Meta (M-) "
-		"symbol and can be entered using either the Esc, Alt, "
-		"or Meta key depending on your keyboard setup.  ");
+		"messages.  ");
+	htx[1] = N_("The bottom two lines show the most commonly used "
+		"shortcuts in the editor.\n\n The notation for "
+		"shortcuts is as follows: Control-key sequences are "
+		"notated with a caret (^) symbol and can be entered "
+		"either by using the Control (Ctrl) key or pressing "
+		"the Escape (Esc) key twice.  Escape-key sequences are "
+		"notated with the Meta (M-) symbol and can be entered "
+		"using either the Esc, Alt, or Meta key depending on "
+		"your keyboard setup.  ");
 	htx[2] = N_("Also, pressing Esc twice and then typing a "
 		"three-digit decimal number from 000 to 255 will enter "
 		"the character with the corresponding value.  The "
