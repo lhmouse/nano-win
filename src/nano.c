@@ -526,13 +526,13 @@ void print_view_warning(void)
 /* What we do when we're all set to exit. */
 void finish(void)
 {
+    /* Blank the statusbar (and shortcut list, if applicable), and move
+     * the cursor to the last line of the screen. */
     if (!ISSET(NO_HELP))
 	blank_bottombars();
     else
 	blank_statusbar();
-
     wrefresh(bottomwin);
-
     endwin();
 
     /* Restore the old terminal settings. */
@@ -1012,7 +1012,8 @@ RETSIGTYPE do_suspend(int signal)
     disable_mouse_support();
 #endif
 
-    /* Blank the screen, and move the cursor to the last line of it. */
+    /* Blank the screen, and move the cursor to the last line of the
+     * screen. */
     erase();
     move(LINES - 1, 0);
     refresh();
