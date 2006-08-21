@@ -32,7 +32,7 @@
 
 #ifdef ENABLE_NANORC
 
-const static rcoption rcopts[] = {
+static const rcoption rcopts[] = {
     {"boldtext", BOLD_TEXT},
 #ifndef DISABLE_JUSTIFY
     {"brackets", 0},
@@ -108,8 +108,9 @@ static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
 
-/* We have an error in some part of the rcfile.  Put it on stderr and
- * make the user hit Enter to continue starting nano. */
+/* We have an error in some part of the rcfile.  Print the error message
+ * on stderr, and then make the user hit Enter to continue starting
+ * nano. */
 void rcfile_error(const char *msg, ...)
 {
     va_list ap;
@@ -127,8 +128,9 @@ void rcfile_error(const char *msg, ...)
     fprintf(stderr, "\n");
 }
 
-/* Parse the next word from the string.  Return points to '\0' if we hit
- * the end of the line. */
+/* Parse the next word from the string, null-terminate it, and return
+ * a pointer to the first character after the null terminator.  The
+ * returned pointer will point to '\0' if we hit the end of the line. */
 char *parse_next_word(char *ptr)
 {
     while (!isblank(*ptr) && *ptr != '\0')
