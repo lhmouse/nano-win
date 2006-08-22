@@ -117,9 +117,13 @@ CVS code -
 	  we can still recover from that. (DLR, found by Mike Frysinger)
 	- Add various cleanups. (DLR)
 - global.c:
-  shortcut_init(), sc_init_one()
+  sc_init_one(), shortcut_init()
 	- Don't include blank_after when DISABLE_HELP is defined, as
 	  it's never used then. (DLR)
+  shortcut_init()
+	- Remove the ^X shortcut for CutTillEnd at the search prompt, as
+	  official Pico doesn't include it, and it can be confused with
+	  Exit. (DLR, suggested by Benno Schulenberg)
   toggle_init()
 	- Don't include desc or blank_after when DISABLE_HELP is
 	  defined, as neither are ever used then. (DLR)

@@ -280,9 +280,6 @@ void shortcut_init(bool unjustify)
      * characters. */
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
-#ifndef NANO_TINY
-    const char *cut_till_end_msg = N_("CutTillEnd");
-#endif
 #ifndef DISABLE_JUSTIFY
     const char *beg_of_par_msg = N_("Beg of Par");
     const char *end_of_par_msg = N_("End of Par");
@@ -698,7 +695,7 @@ void shortcut_init(bool unjustify)
 	, NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_backspace);
 
 #ifndef NANO_TINY
-    sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
+    sc_init_one(&main_list, NANO_NO_KEY, N_("CutTillEnd"),
 	IFSCHELP(nano_cut_till_end_msg, TRUE, NANO_CUTTILLEND_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif
@@ -790,10 +787,6 @@ void shortcut_init(bool unjustify)
     sc_init_one(&whereis_list, NANO_NEXTLINE_KEY, next_history_msg,
 	IFSCHELP(nano_next_history_msg, FALSE, NANO_NO_KEY),
 	NANO_NO_KEY, NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&whereis_list, NANO_CUTTILLEND_KEY, cut_till_end_msg,
-	IFSCHELP(nano_cut_till_end_msg, FALSE, NANO_CUTTILLEND_ALTKEY),
-	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif
 
 #ifndef DISABLE_JUSTIFY
