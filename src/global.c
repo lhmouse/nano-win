@@ -1205,7 +1205,7 @@ void shortcut_init(bool unjustify)
 	IFSCHELP(nano_help_msg, FALSE, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_browser_help
 #else
 	nano_disabled_msg
 #endif

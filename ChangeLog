@@ -124,6 +124,10 @@ CVS code -
 	- Remove the ^X shortcut for CutTillEnd at the search prompt, as
 	  official Pico doesn't include it, and it can be confused with
 	  Exit. (DLR, suggested by Benno Schulenberg)
+	- Make the help shortcut for the "Go to Directory" prompt call
+	  do_browser_help() instead of do_help_void(), as this prompt is
+	  only accessible inside the file browser. (DLR, found by Benno
+	  Schulenberg)
   toggle_init()
 	- Don't include desc or blank_after when DISABLE_HELP is
 	  defined, as neither are ever used then. (DLR)
