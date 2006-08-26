@@ -69,6 +69,8 @@ CVS code -
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
 	- Simplify screen update handling and exiting. (DLR)
+	- Fix potential segfault when going to a directory that doesn't
+	  begin with '/'. (DLR)
   do_browse_from()
 	- During the operating directory check, if path isn't NULL,
 	  don't bother freeing it before mallocstrcpy()ing operating_dir

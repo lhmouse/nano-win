@@ -254,7 +254,7 @@ char *do_browser(char *path, DIR *dir)
 		new_path = real_dir_from_tilde(answer);
 
 		if (new_path[0] != '/') {
-		    new_path = charealloc(new_path, strlen(new_path) +
+		    new_path = charealloc(new_path, strlen(path) +
 			strlen(answer) + 1);
 		    sprintf(new_path, "%s%s", path, answer);
 		}
