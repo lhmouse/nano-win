@@ -35,7 +35,7 @@ static size_t statusbar_pww = (size_t)-1;
 	/* The place we want in answer. */
 static size_t old_statusbar_x = (size_t)-1;
 	/* The old cursor position in answer, if any. */
-static size_t old_statusbar_pww = (size_t)-1;
+static size_t old_pww = (size_t)-1;
 	/* The old place we want in answer, if any. */
 static bool reset_statusbar_x = FALSE;
 	/* Should we reset the cursor position at the statusbar
@@ -979,7 +979,7 @@ int get_prompt_string(bool allow_tabs,
      * out of it. */
     if (reset_statusbar_x) {
 	statusbar_x = old_statusbar_x;
-	statusbar_pww = old_statusbar_pww;
+	statusbar_pww = old_pww;
     }
 
     if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len) {
@@ -1133,13 +1133,22 @@ int get_prompt_string(bool allow_tabs,
     }
 #endif
 
-    /* We finished putting in an answer or ran a normal shortcut's
-     * associated function, so reset statusbar_x and statusbar_pww. */
+    /* We've finished putting in an answer or run a normal shortcut's
+     * associated function, so reset statusbar_x and statusbar_pww.  If
+     * we've finished putting in an answer, reset the statusbar cursor
+     * position too. */
     if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
 	ran_func) {
 	statusbar_x = old_statusbar_x;
-	statusbar_pww = old_statusbar_pww;
-    }
+	statusbar_pww = old_pww;
+
+	if (!ran_func)
+	    reset_statusbar_x = TRUE;
+    /* Otherwise, we're still putting in an answer or a shortcut with
+     * an associated function, so leave the statusbar cursor position
+     * alone. */
+    } else
+	reset_statusbar_x = FALSE;
 
     return kbinput;
 }
@@ -1203,19 +1212,19 @@ int do_prompt(bool allow_tabs,
     free(prompt);
     prompt = NULL;
 
+    /* We're done with the prompt, so save the statusbar cursor
+     * position. */
     old_statusbar_x = statusbar_x;
-    old_statusbar_pww = statusbar_pww;
+    old_pww = statusbar_pww;
 
-    reset_statusbar_x = FALSE;
-
+    /* If we left the prompt via Cancel or Enter, set the return value
+     * properly. */
     switch (retval) {
 	case NANO_CANCEL_KEY:
 	    retval = -1;
-	    reset_statusbar_x = TRUE;
 	    break;
 	case NANO_ENTER_KEY:
 	    retval = (answer[0] == '\0') ? -2 : 0;
-	    reset_statusbar_x = TRUE;
 	    break;
     }
 
@@ -1238,8 +1247,8 @@ int do_prompt(bool allow_tabs,
 }
 
 /* This function forces a reset of the statusbar cursor position.  It
- * should only be called after do_prompt(), and is only needed if the
- * user leaves the prompt via something other than Enter or Cancel. */
+ * should only be called after do_prompt(), and is only needed if we
+ * leave the prompt via something other than Cancel or Enter. */
 void do_prompt_abort(void)
 {
     reset_statusbar_x = TRUE;
