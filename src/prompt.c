@@ -33,6 +33,10 @@ static size_t statusbar_x = (size_t)-1;
 	/* The cursor position in answer. */
 static size_t statusbar_pww = (size_t)-1;
 	/* The place we want in answer. */
+static size_t old_statusbar_x = (size_t)-1;
+	/* The old cursor position in answer, if any. */
+static size_t old_statusbar_pww = (size_t)-1;
+	/* The old place we want in answer, if any. */
 static bool reset_statusbar_x = FALSE;
 	/* Should we reset the cursor position at the statusbar
 	 * prompt? */
@@ -965,13 +969,20 @@ int get_prompt_string(bool allow_tabs,
     answer = mallocstrcpy(answer, curranswer);
     curranswer_len = strlen(answer);
 
-    /* Only put statusbar_x at the end of the string (and change
-     * statusbar_pww to match) if it's uninitialized, if it would be
-     * past the end of curranswer, or if reset_statusbar_x is TRUE.
-     * Otherwise, leave it alone.  This is so the cursor position stays
-     * at the same place if a prompt-changing toggle is pressed. */
-    if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len ||
-		reset_statusbar_x) {
+    /* If reset_statusbar_x is TRUE, restore statusbar_x and
+     * statusbar_pww to what they were before this prompt.  Then, if
+     * statusbar_x is uninitialized or past the end of curranswer, put
+     * statusbar_x at the end of the string and update statusbar_pww
+     * based on it.  We do these things so that the cursor position
+     * stays at the right place if a prompt-changing toggle is pressed,
+     * or if this prompt was started from another prompt and we cancel
+     * out of it. */
+    if (reset_statusbar_x) {
+	statusbar_x = old_statusbar_x;
+	statusbar_pww = old_statusbar_pww;
+    }
+
+    if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len) {
 	statusbar_x = curranswer_len;
 	statusbar_pww = statusbar_xplustabs();
     }
@@ -1126,8 +1137,8 @@ int get_prompt_string(bool allow_tabs,
      * associated function, so reset statusbar_x and statusbar_pww. */
     if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
 	ran_func) {
-	statusbar_x = (size_t)-1;
-	statusbar_pww = (size_t)-1;
+	statusbar_x = old_statusbar_x;
+	statusbar_pww = old_statusbar_pww;
     }
 
     return kbinput;
@@ -1191,6 +1202,9 @@ int do_prompt(bool allow_tabs,
 
     free(prompt);
     prompt = NULL;
+
+    old_statusbar_x = statusbar_x;
+    old_statusbar_pww = statusbar_pww;
 
     reset_statusbar_x = FALSE;
 

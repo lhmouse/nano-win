@@ -56,6 +56,11 @@ CVS code -
 	  do_insertfile_void(), shortcut_init(), toggle_init(),
 	  help_init(), print_view_warning(), usage(), and do_mark().
 	  (Benno Schulenberg, minor tweaks by DLR)
+	- Properly preserve the cursor position when going from the
+	  "Read File" or "Save File As" prompt to the file browser to
+	  the "Go To Directory" prompt, and then canceling back to the
+	  "Read File" or "Save File As" prompt.  Changes to
+	  get_prompt_string() and do_prompt(). (DLR)
 - browser.c:
   do_browser()
 	- Refactor the mouse support, modeling it after do_mouse() for
