@@ -518,7 +518,7 @@ size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reset_statusbar_cursor(void);
 void update_statusbar_line(const char *curranswer, size_t index);
-bool need_statusbar_horizontal_update(size_t old_pww);
+bool need_statusbar_horizontal_update(size_t pww_save);
 void total_statusbar_refresh(void (*refresh_func)(void));
 int get_prompt_string(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
@@ -773,10 +773,10 @@ void reset_cursor(void);
 void edit_draw(const filestruct *fileptr, const char *converted, int
 	line, size_t start);
 void update_line(const filestruct *fileptr, size_t index);
-bool need_horizontal_update(size_t old_pww);
-bool need_vertical_update(size_t old_pww);
+bool need_horizontal_update(size_t pww_save);
+bool need_vertical_update(size_t pww_save);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
-void edit_redraw(const filestruct *old_current, size_t old_pww);
+void edit_redraw(const filestruct *old_current, size_t pww_save);
 void edit_refresh(void);
 void edit_update(update_type location);
 void total_redraw(void);

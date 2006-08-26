@@ -421,7 +421,7 @@ void do_search(void)
 {
     filestruct *fileptr = openfile->current;
     size_t fileptr_x = openfile->current_x;
-    size_t old_pww = openfile->placewewant;
+    size_t pww_save = openfile->placewewant;
     int i;
     bool didfind;
 
@@ -493,7 +493,7 @@ void do_search(void)
     }
 
     openfile->placewewant = xplustabs();
-    edit_redraw(fileptr, old_pww);
+    edit_redraw(fileptr, pww_save);
     search_replace_abort();
 }
 
@@ -503,7 +503,7 @@ void do_research(void)
 {
     filestruct *fileptr = openfile->current;
     size_t fileptr_x = openfile->current_x;
-    size_t old_pww = openfile->placewewant;
+    size_t pww_save = openfile->placewewant;
     bool didfind;
 
     search_init_globals();
@@ -555,7 +555,7 @@ void do_research(void)
         statusbar(_("No current search pattern"));
 
     openfile->placewewant = xplustabs();
-    edit_redraw(fileptr, old_pww);
+    edit_redraw(fileptr, pww_save);
     search_replace_abort();
 }
 #endif

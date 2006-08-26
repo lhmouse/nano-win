@@ -910,13 +910,13 @@ void update_statusbar_line(const char *curranswer, size_t index)
 }
 
 /* Return TRUE if we need an update after moving horizontally, and FALSE
- * otherwise.  We need one if old_pww and statusbar_pww are on different
- * pages. */
-bool need_statusbar_horizontal_update(size_t old_pww)
+ * otherwise.  We need one if pww_save and statusbar_pww are on
+ * different pages. */
+bool need_statusbar_horizontal_update(size_t pww_save)
 {
     size_t start_col = strlenpt(prompt) + 1;
 
-    return get_statusbar_page_start(start_col, start_col + old_pww) !=
+    return get_statusbar_page_start(start_col, start_col + pww_save) !=
 	get_statusbar_page_start(start_col, start_col + statusbar_pww);
 }
 

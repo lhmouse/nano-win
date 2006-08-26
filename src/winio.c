@@ -2706,28 +2706,28 @@ void update_line(const filestruct *fileptr, size_t index)
 }
 
 /* Return TRUE if we need an update after moving horizontally, and FALSE
- * otherwise.  We need one if the mark is on or if old_pww and
+ * otherwise.  We need one if the mark is on or if pww_save and
  * placewewant are on different pages. */
-bool need_horizontal_update(size_t old_pww)
+bool need_horizontal_update(size_t pww_save)
 {
     return
 #ifndef NANO_TINY
 	openfile->mark_set ||
 #endif
-	get_page_start(old_pww) !=
+	get_page_start(pww_save) !=
 	get_page_start(openfile->placewewant);
 }
 
 /* Return TRUE if we need an update after moving vertically, and FALSE
- * otherwise.  We need one if the mark is on or if old_pww and
+ * otherwise.  We need one if the mark is on or if pww_save and
  * placewewant are on different pages. */
-bool need_vertical_update(size_t old_pww)
+bool need_vertical_update(size_t pww_save)
 {
     return
 #ifndef NANO_TINY
 	openfile->mark_set ||
 #endif
-	get_page_start(old_pww) !=
+	get_page_start(pww_save) !=
 	get_page_start(openfile->placewewant);
 }
 
@@ -2837,10 +2837,10 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
-void edit_redraw(const filestruct *old_current, size_t old_pww)
+void edit_redraw(const filestruct *old_current, size_t pww_save)
 {
     bool do_redraw = need_vertical_update(0) ||
-	need_vertical_update(old_pww);
+	need_vertical_update(pww_save);
     const filestruct *foo = NULL;
 
     /* If either old_current or current is offscreen, scroll the edit
