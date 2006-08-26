@@ -15,10 +15,6 @@ For the next version:
 - Allow conversion between different character sets.  Maybe use glib's
   iconv() if the system's iconv() is inadequate, since we already use
   glib's vsnprintf() if the system lacks vsnprintf()?
-- Properly preserve the cursor position when going from the "Read File"
-  or "Save File As" prompt to the file browser to the "Go To Directory"
-  prompt, and then canceling back to the "Read File" or "Save File As"
-  prompt.
 - Handle window resizes better.  After we resize, we should stay
   wherever we were before we resized, as Pico does.
 - Fix problems with color syntaxes' highlighting lines too aggressively.
