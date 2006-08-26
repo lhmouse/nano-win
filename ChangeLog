@@ -61,7 +61,10 @@ CVS code -
 	  the "Go To Directory" prompt, and then canceling back to the
 	  "Read File" or "Save File As" prompt.  Changes to
 	  get_prompt_string() and do_prompt(). (DLR)
-	- Rename the parameter old_pww to pww_save in various functions,
+	- Rename the parameter old_pww to pww_save in
+	  need_statusbar_horizontal_update(), need_horizontal_update(),
+	  need_vertical_update(), and edit_redraw(); and rename the
+	  variable old_pww to pww_save in do_search() and do_research();
 	  for consistency. (DLR)
 - browser.c:
   do_browser()
