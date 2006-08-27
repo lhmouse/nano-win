@@ -2,7 +2,7 @@ TODO file (? means the feature may be implemented, but not definitely)
 ------------------------------------------------------------------------
 
 For the next version:
-- Undo/Redo keys?
+- Undo/Redo keys (M-U and M-E)?
 - Rebindable keys?
 - FriBidi support?
 - Port to DJGPP?
