@@ -11,6 +11,9 @@ For the next version:
 - Allow indentation of marked text by spaces as well as tabs?
 - Allow indentation to add just enough columns to reach the nearest
   multiple of tabsize, rather than always adding tabsize columns?
+- Allow piping marked text to an external command and replacing it with
+  the command's output (as the internal spell checker already does with
+  the "spell" command)?
 - Rewrite the nano FAQ in SGML.
 - Allow conversion between different character sets.  Maybe use glib's
   iconv() if the system's iconv() is inadequate, since we already use
