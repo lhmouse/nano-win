@@ -1088,6 +1088,10 @@ RETSIGTYPE handle_sigwinch(int signal)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
+    /* Just in case we're in the statusbar prompt, reset the statusbar
+     * cursor position. */
+     do_prompt_abort();
+
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
 	unpartition_filestruct(&filepart);
