@@ -1,10 +1,14 @@
+2006-08-28  Jordi Mallach  <jordi@gnu.org>
+
+	* fr.po: Updated French translation by Jean-Philippe Guérard.
+
 2006-08-25  Jordi Mallach  <jordi@gnu.org>
 
 	* bg.po: Updated Bulgarian translation by Anton Zinoviev.
 	* ca.po: Updated Catalan translation.
 	* ga.po: Updated Irish translation by Kevin Patrick Scannell.
 	* it.po: Updated Italian translation by Marco Colombo.
-	* nl.po: Updated Spanish translation by Benno Schulenberg.
+	* nl.po: Updated Dutch translation by Benno Schulenberg.
 	* sv.po: Updated Swedish translation by Daniel Nylander.
 
 2006-08-15  David Lawrence Ramsey  <pooka109@cox.net>
