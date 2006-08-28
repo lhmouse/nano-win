@@ -3,7 +3,7 @@
 .\" 2006 by Chris Allegretta <chrisa@asty.org>
 .\"
 .\" Adaptation française (c) 2003-2006 par
-.\" Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>.
+.\" Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>.
 .\"
 .\" This is free documentation, see the latest version of the GNU
 .\" General Public License for copying conditions.  There is NO
@@ -15,7 +15,7 @@
 .\" AUCUNE garantie.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.12" "17\ juin\ 2006"
+.TH NANO 1 "version 1.9.99pre1" "28\ août\ 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 .\"
@@ -25,7 +25,7 @@ nano \- NAno un NOuvel éditeur, un clone libre et amélioré de Pico
 
 .SH SYNOPSIS
 .B nano
-.I [OPTIONS]\ [[\+LIGNE[,COLONNE]]\ FICHIER]...
+.I [OPTIONS]\ [[\+LIGNE,COLONNE]\ FICHIER]...
 .br
 
 .SH DESCRIPTION
@@ -44,9 +44,10 @@ numéro de ligne.
 
 .SH OPTIONS
 .TP
-.B \+\fILIGNE\fP[,\fICOLONNE\fP]
+.B \+\fILIGNE\fP,\fICOLONNE\fP
 Démarre avec le curseur positionné à la colonne \fICOLONNE\fP de 
-la ligne \fILIGNE\fR au lieu de démarrer à la colonne\ 1, ligne\ 1.
+la ligne \fILIGNE\fR (l'un des deux, au moins, devant être spécifié) au 
+lieu de démarrer à la colonne\ 1, ligne\ 1.
 .TP
 .B \-?
 Identique à \fB-h (\-\-help)\fP.
@@ -256,7 +257,7 @@ Pour vous abonner, envoyez un courrier électronique à
 
 N'hésitez pas également à envoyez vos commentaires, suggestions et 
 corrections relatives à l'adaptation française de cette page de manuel 
-ou du logiciel à \fBjean-philippe.guerard@corbeaunoir.org\fR.
+ou du logiciel à \fBjean-philippe.guerard@tigreraye.org\fR.
 
 .SH "SITE INTERNET"
 http://www.nano-editor.org/
@@ -271,15 +272,14 @@ http://www.nano-editor.org/
 .SH AUTEUR
 Chris Allegretta <chrisa@asty.org> et d'autres (voir les fichiers 
 \fIAUTHORS\fR et \fITHANKS\fR pour plus d'information). Cette page de 
-manuel a été initialement rédigée par Jordi Mallach 
-<jordi@sindominio.net> pour le système GNU Debian (mais elle peut être 
-utilisée par d'autres).
+manuel a été initialement rédigée par Jordi Mallach <jordi@gnu.org> pour 
+le système Debian (mais elle peut être utilisée par d'autres).
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard 
-<jean-philippe.guerard@corbeaunoir.org> le 17\ juin\ 2006 à partir 
-de la version du 8\ juin\ 2006 de la page de manuel de nano 1.3.12.
-Cette page a été relue par Gérard Delafond.
+<jean-philippe.guerard@tigreraye.org> le 28\ août\ 2006 à partir 
+de la version du 12\ juillet\ 2006 de la page de manuel de nano 
+1.9.99pre1. Cette page a été relue par Gérard Delafond.
 
 Un maximum de soin a été apporté lors de l'élaboration de cette
 traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
