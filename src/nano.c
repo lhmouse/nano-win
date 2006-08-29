@@ -2223,6 +2223,9 @@ int main(int argc, char **argv)
     while (TRUE) {
 	bool meta_key, func_key, s_or_t, ran_func, finished;
 
+	/* Make sure the statusbar cursor position is reset. */
+	do_prompt_abort();
+
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 
@@ -2248,10 +2251,6 @@ int main(int argc, char **argv)
 	/* Read in and interpret characters. */
 	do_input(&meta_key, &func_key, &s_or_t, &ran_func, &finished,
 		TRUE);
-
-	 /* Just in case we were in the statusbar prompt, reset the
-	  * statusbar cursor position. */
-	 do_prompt_abort();
     }
 
     /* We should never get here. */
