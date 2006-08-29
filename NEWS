@@ -1,3 +1,23 @@
+2006.08.29 - GNU nano 1.9.99pre1 passes through the flames.  This
+		release fixes various bugs in the last version: the
+		mouse support properly ignores everything except clicks
+		of the left mouse button; the statusbar is now blanked
+		properly when it should be; indenting and unindenting
+		operate on the current line when the mark is off; nano
+		should build on Tru64, NetBSD, and other systems that
+		use termcap instead of terminfo in their curses
+		libraries; the built-in file browser now properly
+		navigates file lists that take up only one row; the
+		cursor position is now completely restored after
+		inserting a file into the current buffer, and after
+		inserting the output of a command into a new buffer; the
+		^X shortcut at the search prompt has been removed, as
+		official Pico doesn't include it and it's too easily
+		confused with Exit; the screen is updated properly after
+		scrolling a line without moving the cursor; the keyboard
+		input routines behave more consistently; and so on.
+		Have fun with it.
+
 2006.06.26 - GNU nano 1.3.12 escapes the darkness.  This release
 		contains the last new features that nano will have
 		before 2.0: copying text into the cutbuffer without
