@@ -766,13 +766,11 @@ void do_insertfile(
 		if (tmp == NULL)
 		    continue;
 
+		/* We have a file now.  Indicate this. */
 		free(answer);
 		answer = tmp;
 
-		/* We have a file now.  Indicate this and get out of the
-		 * statusbar prompt cleanly. */
 		i = 0;
-		do_prompt_abort();
 	    }
 #endif
 
@@ -1825,12 +1823,9 @@ int do_writeout(bool exiting)
 		if (tmp == NULL)
 		    continue;
 
+		/* We have a file now.  Indicate this. */
 		free(answer);
 		answer = tmp;
-
-		/* We have a file now.  Get out of the statusbar prompt
-		 * cleanly. */
-		do_prompt_abort();
 	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_TINY

@@ -1247,10 +1247,13 @@ int do_prompt(bool allow_tabs,
 }
 
 /* This function forces a reset of the statusbar cursor position.  It
- * should only be called after do_prompt(), and is only needed if we
- * leave the prompt via something other than Cancel or Enter. */
+ * should be called when we get out of all statusbar prompts. */
 void do_prompt_abort(void)
 {
+    /* Uninitialize the old cursor position in answer. */
+    old_statusbar_x = (size_t)-1;
+    old_pww = (size_t)-1;
+
     reset_statusbar_x = TRUE;
 }
 

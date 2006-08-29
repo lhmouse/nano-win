@@ -1,4 +1,9 @@
 CVS code -
+- General:
+	- Make sure that the statusbar cursor position is always
+	  properly reset when we get out of all statusbar prompts.
+	  Changes to do_insertfile(), do_writeout(),
+	  handle_sigwinch(), main(), and do_prompt_abort(). (DLR)
 
 GNU nano 1.9.99pre1 - 2006.08.29
 - General:

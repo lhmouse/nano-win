@@ -1088,10 +1088,6 @@ RETSIGTYPE handle_sigwinch(int signal)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
-    /* Just in case we're in the statusbar prompt, reset the statusbar
-     * cursor position. */
-     do_prompt_abort();
-
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
 	unpartition_filestruct(&filepart);
@@ -2252,6 +2248,10 @@ int main(int argc, char **argv)
 	/* Read in and interpret characters. */
 	do_input(&meta_key, &func_key, &s_or_t, &ran_func, &finished,
 		TRUE);
+
+	 /* Just in case we were in the statusbar prompt, reset the
+	  * statusbar cursor position. */
+	 do_prompt_abort();
     }
 
     /* We should never get here. */
