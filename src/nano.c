@@ -2223,9 +2223,6 @@ int main(int argc, char **argv)
     while (TRUE) {
 	bool meta_key, func_key, s_or_t, ran_func, finished;
 
-	/* Make sure the statusbar cursor position is reset. */
-	do_prompt_abort();
-
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 
@@ -2239,6 +2236,10 @@ int main(int argc, char **argv)
 	    sigsetjmp(jump_buf, 1);
 	}
 #endif
+
+	/* Just in case we were at the statusbar prompt, make sure the
+	 * statusbar cursor position is reset. */
+	do_prompt_abort();
 
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor
