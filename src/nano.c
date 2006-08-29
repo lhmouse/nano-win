@@ -49,8 +49,8 @@ static struct termios oldterm;
 static struct sigaction act;
 	/* For all our fun signal handlers. */
 
-/* Create a new filestruct node.  Note that we specifically do not set
- * prevnode->next equal to the new line. */
+/* Create a new filestruct node.  Note that we do not set prevnode->next
+ * to the new line. */
 filestruct *make_new_node(filestruct *prevnode)
 {
     filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
