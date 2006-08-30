@@ -1,5 +1,6 @@
 CVS code -
 - General:
+	- Miscellaneous comment fixes. (DLR)
 	- Make sure that the statusbar cursor position is always
 	  properly reset when we get out of all statusbar prompts.
 	  Changes to do_insertfile(), do_writeout(),
