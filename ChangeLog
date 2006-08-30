@@ -4,6 +4,9 @@ CVS code -
 	  properly reset when we get out of all statusbar prompts.
 	  Changes to do_insertfile(), do_writeout(),
 	  handle_sigwinch(), main(), and do_prompt_abort(). (DLR)
+- winio.c:
+  get_input()
+	- Simplify to avoid an unnecessary key_buffer_len check. (DLR)
 
 GNU nano 1.9.99pre1 - 2006.08.29
 - General:

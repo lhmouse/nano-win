@@ -254,10 +254,12 @@ int *get_input(WINDOW *win, size_t input_len)
 #endif
 
     if (key_buffer_len == 0) {
-	if (win != NULL)
+	if (win != NULL) {
 	    get_key_buffer(win);
 
-	if (key_buffer_len == 0)
+	    if (key_buffer_len == 0)
+		return NULL;
+	} else
 	    return NULL;
     }
 
