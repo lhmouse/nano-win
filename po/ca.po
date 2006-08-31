@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-19 07:34-0400\n"
-"PO-Revision-Date: 2006-08-25 05:51+0200\n"
+"PO-Revision-Date: 2006-08-29 23:41+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -1217,7 +1217,7 @@ msgstr "Arregla el problema de confusió del teclat numèric"
 
 #: src/nano.c:765
 msgid "Don't add newlines to the ends of files"
-msgstr "No afegeixes línies en blanc al final dels fitxers"
+msgstr "No afegeixes retorns de carro al final dels fitxers"
 
 #: src/nano.c:768
 msgid "Don't convert files from DOS/Mac format"
@@ -1329,7 +1329,7 @@ msgstr "--fill=<#cols>"
 
 #: src/nano.c:815
 msgid "Set wrapping point at column #cols"
-msgstr "Estableix l'amplada de tab a #cols columnes"
+msgstr "Estableix el punt d'ajustament a la columna #cols"
 
 #: src/nano.c:818
 msgid "-s <prog>"
