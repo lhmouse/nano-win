@@ -8,6 +8,10 @@ CVS code -
 - winio.c:
   get_input()
 	- Simplify to avoid an unnecessary key_buffer_len check. (DLR)
+- doc/syntax/c.nanorc:
+	- Add "size_t" and "ssize_t" to the types regexes. (DLR,
+	  suggested by Mike Frysinger)
+	- Simplify "signed" and "unsigned" in the types regexes. (DLR)
 
 GNU nano 1.9.99pre1 - 2006.08.29
 - General:
