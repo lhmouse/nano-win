@@ -1162,9 +1162,9 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp)
 
     fullpath = get_full_path(currpath);
 
-    /* fullpath == NULL means some directory in the path doesn't exist
-     * or is unreadable.  If allow_tabcomp is FALSE, then currpath is
-     * what the user typed somewhere.  We don't want to report a
+    /* If fullpath is NULL, it means some directory in the path doesn't
+     * exist or is unreadable.  If allow_tabcomp is FALSE, then currpath
+     * is what the user typed somewhere.  We don't want to report a
      * non-existent directory as being outside the operating directory,
      * so we return FALSE.  If allow_tabcomp is TRUE, then currpath
      * exists, but is not executable.  So we say it isn't in the
