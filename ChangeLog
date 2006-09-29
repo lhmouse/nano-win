@@ -5,6 +5,12 @@ CVS code -
 	  properly reset when we get out of all statusbar prompts.
 	  Changes to do_insertfile(), do_writeout(),
 	  handle_sigwinch(), main(), and do_prompt_abort(). (DLR)
+- prompt.c:
+  do_statusbar_input()
+	- If we get a verbatim input sequence ending with Ctrl-J, remove
+	  the Ctrl-J from the buffer before interpreting it as Enter, so
+	  that it doesn't erroneously fall through to the edit window
+	  and get interpreted as Justify. (DLR)
 - winio.c:
   get_input()
 	- Simplify to avoid an unnecessary key_buffer_len check. (DLR)
