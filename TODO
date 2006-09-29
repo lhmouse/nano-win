@@ -33,6 +33,7 @@ For the next version:
 - Add the ability to move to different lines of the screen with a single
   keystroke, e.g. M-` (M-~) to go to the top line, M-& (M-7) to go to
   the center line, and M-' (M-") to go to the last line.
+- Allow searching for and replacing newlines.
 
 Old requests:
 
