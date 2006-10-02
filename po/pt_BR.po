@@ -1,15 +1,15 @@
 # Portugueses Translation for the nano textual domain
 # Copyright (C) 2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# Joao Victor Duarte Martins <jvdm@sdf.lonestar.org>, 2006.
+# J. Victor D. Martins <jvdm@sdf.lonestar.org>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-19 07:34-0400\n"
-"PO-Revision-Date: 2006-09-02 12:06-0300\n"
-"Last-Translator: Joao Victor Duarte Martins <jvdm@sdf.lonestar.org>\n"
+"PO-Revision-Date: 2006-09-27 02:13-0300\n"
+"Last-Translator: J. Victor D. Martins <jvdm@sdf.lonestar.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -1553,10 +1553,9 @@ msgstr "Falta o nome da cor"
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Cor do fundo \"%s\" não pode ser clara"
 
-# regex?
 #: src/rcfile.c:503
 msgid "Missing regex string"
-msgstr "Falta string da regex"
+msgstr "Falta a expressão regular"
 
 #: src/rcfile.c:575
 msgid "\"start=\" requires a corresponding \"end=\""
@@ -1820,26 +1819,26 @@ msgstr "Obrigado por utilizar o nano!"
 #~ msgstr "Encontrar outro parenteses"
 
 #~ msgid "Make the current search/replace case (in)sensitive"
-#~ msgstr "Tornar a busca/substitução atual sensível a caixa"
+#~ msgstr "Tornar a busca/reposição atual sensível a caixa"
 
 #~ msgid "Make the current search/replace go backwards"
-#~ msgstr "Tornar a busca/substituição atual de trás pra frente"
+#~ msgstr "Tornar a busca/reposição atual ao contrário"
 
 #~ msgid "Prepend to the current file"
-#~ msgstr "Pré-Adicionar para a arquivo atual"
+#~ msgstr "Pre-adicionar ao arquivo atual"
 
 #~ msgid "Back up original file when saving"
 #~ msgstr "Fazer o bacape do arquivo original quando salvá-lo"
 
 #~ msgid "Insert into new buffer"
-#~ msgstr "Inserir no novo buffer"
+#~ msgstr "Inserir em um novo buffer"
 
 #~ msgid ""
 #~ "\n"
 #~ "Buffer not written to %s (too many backup files?)\n"
 #~ msgstr ""
 #~ "\n"
-#~ "Buffer não foi escrito no %s (muitos arquivos de bacape?)\n"
+#~ "Buffer não foi escrito no %s (talvez muitos arquivos de segurança?)\n"
 
 #~ msgid ""
 #~ " nano help text\n"
@@ -1851,23 +1850,9 @@ msgstr "Obrigado por utilizar o nano!"
 #~ msgstr ""
 #~ " texto de ajuda do nano\n"
 #~ "\n"
-#~ "O editor nano foi projetado para emular as funcionalidades e as facilidades de uso\n"
-#~ "do editor de texto UW Pico.  Existem quatro grandes seções no editor editor: A\n"
-#~ "linha superior mostra a versão do programa, o arquivo editado atualmente, e se\n"
-#~ "o arquivo foi modificado ou não.  A próxima é a a seção principal da tela do\n"
-#~ "editor, mostrando o arquivo que está sendo editado.  A linha de avisos é a\n"
-#~ "terceira apartir da última e mostra mensagens importantes.  As outras duas mostram\n"
-#~ "os atalhos mais comuns utilizados no editor.\n"
+#~ "O editor nano foi projetado para emular as funcionalidades e as facilidades de uso do editor de texto UW Pico.  Existem quatro grandes seções no editor editor: A linha superior mostra a versão do programa, o arquivo editado atualmente, e se o arquivo foi modificado ou não.  A próxima é a a seção principal da tela do editor, mostrando o arquivo que está sendo editado.  A linha de avisos é a terceira apartir da última e mostra mensagens importantes.  As outras duas mostram os atalhos mais comuns utilizados no editor.\n"
 #~ "\n"
-#~ " A notação para atalhos é a seguinte: Sequências de tecla-<Control> são grafadas\n"
-#~ "com o cirfunflexo (^) e podem ser inseridas tanto utilizando as teclas <Ctrl> ou\n"
-#~ "precionando <ESC> duas vezes.  Sequências com teclas de escape são grafadas\n"
-#~ "com o símbolo Meta (M) e podem tanto ser inseridas utilizando a telca <ESC>, <Alt>\n"
-#~ "ou tecla meta, dependendo da configuração do seu teclado.  Também precionando <ESC>\n"
-#~ "duas vezes ou digitando um número de três dígitos de 000 à 255 você irá inserir\n"
-#~ "um caractere correspondende ao respectivo código ASCII. Os seguintes atalhos de\n"
-#~ "teclado estão disponíveis na tela principal do editor.  Teclas alternativas são\n"
-#~ "mostradas entre parenteses:\n"
+#~ " A notação para atalhos é a seguinte: Sequências de tecla-<Control> são grafadas com o cirfunflexo (^) e podem ser inseridas tanto utilizando as teclas <Ctrl> ou precionando <ESC> duas vezes.  Sequências com teclas de escape são grafadas com o símbolo Meta (M) e podem tanto ser inseridas utilizando a telca <ESC>, <Alt> ou tecla meta, dependendo da configuração do seu teclado.  \"\n"
 #~ "\n"
 
 #~ msgid "Up"
@@ -1891,7 +1876,7 @@ msgstr "Obrigado por utilizar o nano!"
 #~ msgstr "+LINHA"
 
 #~ msgid "Do regular expression searches"
-#~ msgstr "Expressão regular procurada"
+#~ msgstr "Buscar por expressões regulares"
 
 #~ msgid "Set fill cols to (wrap lines at) #cols"
 #~ msgstr "Ajustar preenchimento de cols para (ajustar linhas em) #cols"

@@ -1,10 +1,15 @@
+2006-10-02  Jordi Mallach  <jordi@gnu.org>
+
+	* pt_BR.po: Refetch the current nano 1.9.99pre0 pt_BR file from the
+	TP, as the latest file offered is aparently for 1.3.11pre1.
+
 2006-10-02  David Lawrence Ramsey  <pooka109@cox.net>
-	* pt_BR: Restore previous version of pt_BR, as it was for
+	* pt_BR.po: Restore previous version of pt_BR, as it was for
 	nano 1.9.99pre0, and the current version is for 1.3.11pre1.
 
 2006-09-27  Jordi Mallach  <jordi@gnu.org>
 
-	* pt_BR: Updated Brazilian Portuguese translation by
+	* pt_BR.po: Updated Brazilian Portuguese translation by
 	Joao Victor Duarte Martins.
 
 2006-09-10  David Lawrence Ramsey  <pooka109@cox.net>
@@ -17,7 +22,7 @@
 
 2006-09-02  Jordi Mallach  <jordi@gnu.org>
 
-	* pt_BR: Updated Brazilian Portuguese translation by
+	* pt_BR.po: Updated Brazilian Portuguese translation by
 	Joao Victor Duarte Martins.
 
 2006-09-01  Benno Schulenberg  <bensberg@justemail.net>
