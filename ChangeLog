@@ -1,4 +1,8 @@
 CVS code -
+- help.c:
+  parse_help_input()
+	- Add 'E' and 'e' as aliases for Exit, for consistency with the
+	  file browser. (DLR)
 - doc/syntax/c.nanorc:
 	- Simplify "undef", "ifn?def", "elif", and "else" in the
 	  preprocessor regexes. (DLR)
@@ -546,7 +550,7 @@ GNU nano 1.3.12 - 2006.06.26
 	  have fewer than 24 columns, for consistency with the toggle
 	  help text. (DLR, suggested by Benno Schulenberg)
   parse_help_input()
-	- Add Space and - as aliases for PageDown and PageUp, for
+	- Add Space and '-' as aliases for PageDown and PageUp, for
 	  consistency with the file browser. (DLR, suggested by Benno
 	  Schulenberg)
 	- Remove redundant key checks. (DLR)

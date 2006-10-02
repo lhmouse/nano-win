@@ -586,6 +586,8 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 		break;
 	    /* Cancel is equivalent to Exit here. */
 	    case NANO_CANCEL_KEY:
+	    case 'E':
+	    case 'e':
 		*kbinput = NANO_EXIT_KEY;
 		break;
 	}
