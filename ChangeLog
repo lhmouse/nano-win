@@ -1,4 +1,7 @@
 CVS code -
+- doc/syntax/c.nanorc:
+	- Simplify "undef", "ifn?def", "elif", and "else" in the
+	  preprocessor regexes. (DLR)
 
 GNU nano 1.9.99pre2 - 2006.10.02
 - General:
