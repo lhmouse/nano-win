@@ -1,3 +1,9 @@
+2006.10.02 - GNU nano 1.9.99pre2 crosses the threshold.  This release
+		fixes a few more bugs: cursor positioning after leaving
+		the statusbar prompt has been fixed, and verbatim input
+		at the statusbar prompt now properly handles newlines.
+		Enjoy.
+
 2006.08.29 - GNU nano 1.9.99pre1 passes through the flames.  This
 		release fixes various bugs in the last version: the
 		mouse support properly ignores everything except clicks
