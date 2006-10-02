@@ -1,3 +1,7 @@
+2006-10-02  David Lawrence Ramsey  <pooka109@cox.net>
+	* pt_BR: Restore previous version of pt_BR, as it was for
+	nano 1.9.99pre0, and the current version is for 1.3.11pre1.
+
 2006-09-27  Jordi Mallach  <jordi@gnu.org>
 
 	* pt_BR: Updated Brazilian Portuguese translation by
