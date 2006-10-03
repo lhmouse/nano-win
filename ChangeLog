@@ -1,4 +1,9 @@
 CVS code -
+- files.c:
+  input_tab()
+	- Since the field precision operator used in the sprintf() uses
+	  ints and not size_t's, replace it with two strncpy()s, which
+	  use size_t's. (DLR)
 - help.c:
   parse_help_input()
 	- Add 'E' and 'e' as aliases for Exit, for consistency with the

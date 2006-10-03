@@ -2239,8 +2239,11 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	free(match2_mb);
 
 	mzero = charalloc(lastslash_len + common_len + 1);
-	sprintf(mzero, "%.*s%.*s", lastslash_len, buf, common_len,
-		matches[0]);
+
+	/*sprintf(mzero, "%.*s%.*s", lastslash_len, buf, common_len,
+		matches[0]);*/
+	strncpy(mzero, buf, lastslash_len);
+	strncpy(mzero + lastslash_len, matches[0], common_len);
 
 	common_len += lastslash_len;
 
