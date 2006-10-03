@@ -2381,6 +2381,7 @@ char *histfilename(void)
 	strcpy(nanohist, homedir);
 	strcpy(nanohist + homelen, "/.nano_history");
     }
+
     return nanohist;
 }
 
