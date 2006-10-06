@@ -8,6 +8,9 @@ CVS code -
   parse_help_input()
 	- Add 'E' and 'e' as aliases for Exit, for consistency with the
 	  file browser. (DLR)
+- doc/faq.html:
+	- Update the question in section 4.13 to match the version of it
+	  in the answer section. (DLR)
 - doc/syntax/c.nanorc:
 	- Simplify "undef", "ifn?def", "elif", and "else" in the
 	  preprocessor regexes. (DLR)
