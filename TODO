@@ -34,7 +34,7 @@ For the next version:
   keystroke, e.g. M-` (M-~) to go to the top line, M-& (M-7) to go to
   the center line, and M-' (M-") to go to the last line.
 - Allow searching for and replacing newlines.
-- Allow soft wrapping as well as hard wrapping.
+- Allow soft wrapping as well as hard wrapping?
 
 Old requests:
 
