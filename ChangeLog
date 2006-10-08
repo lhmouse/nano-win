@@ -1,4 +1,8 @@
 CVS code -
+- chars.c:
+  nstrncasecmp()
+	- When returning, use the "?" operator instead of an if/else
+	  clause. (DLR)
 - files.c:
   input_tab()
 	- Since the field precision operator used in the sprintf() uses

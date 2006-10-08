@@ -514,10 +514,7 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
 	    break;
     }
 
-    if (n > 0)
-	return tolower(*s1) - tolower(*s2);
-    else
-	return 0;
+    return (n > 0) ? tolower(*s1) - tolower(*s2) : 0;
 }
 #endif
 
@@ -1026,8 +1023,7 @@ bool is_valid_mbstring(const char *s)
 
     return 
 #ifdef ENABLE_UTF8
-	use_utf8 ?
-	(mbstowcs(NULL, s, 0) != (size_t)-1) :
+	use_utf8 ? (mbstowcs(NULL, s, 0) != (size_t)-1) :
 #endif
 	TRUE;
 }
