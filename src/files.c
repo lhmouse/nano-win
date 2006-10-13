@@ -2249,10 +2249,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	assert(common_len >= *place);
 
 	if (num_matches == 1 && is_dir(mzero)) {
-	    common_len++;
-	    mzero = charealloc(mzero, common_len + 1);
-	    mzero[common_len - 1] = '/';
-	    mzero[common_len] = '\0';
+	    mzero[common_len++] = '/';
 
 	    assert(common_len > *place);
 	}
