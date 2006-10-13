@@ -2240,18 +2240,19 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 
 	mzero = charalloc(lastslash_len + common_len + 1);
 
-	/*sprintf(mzero, "%.*s%.*s", lastslash_len, buf, common_len,
-		matches[0]);*/
 	strncpy(mzero, buf, lastslash_len);
 	strncpy(mzero + lastslash_len, matches[0], common_len);
 
 	common_len += lastslash_len;
+	mzero[common_len] = '\0';
 
 	assert(common_len >= *place);
 
 	if (num_matches == 1 && is_dir(mzero)) {
-	    mzero[common_len] = '/';
 	    common_len++;
+	    mzero = charealloc(mzero, common_len + 1);
+	    mzero[common_len - 1] = '/';
+	    mzero[common_len] = '\0';
 
 	    assert(common_len > *place);
 	}

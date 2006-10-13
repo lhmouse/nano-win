@@ -8,6 +8,9 @@ CVS code -
 	- Since the field precision operator used in the sprintf() uses
 	  ints and not size_t's, replace it with two strncpy()s, which
 	  use size_t's. (DLR)
+	- If the tab-completed path is a directory, make sure enough
+	  space is allocated before tacking a slash onto the end of it.
+	  (DLR)
 - help.c:
   parse_help_input()
 	- Add 'E' and 'e' as aliases for Exit, for consistency with the
