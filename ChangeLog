@@ -12,6 +12,9 @@ CVS code -
   parse_help_input()
 	- Add 'E' and 'e' as aliases for Exit, for consistency with the
 	  file browser. (DLR)
+- m4/ac_define_dir.m4:
+	- Import the latest version of this file from
+	  http://autoconf-archive.cryp.to/ac_define_dir.m4.
 - doc/faq.html:
 	- Update the question in section 4.13 to match the version of it
 	  in the answer section. (DLR)

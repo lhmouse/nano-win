@@ -13,9 +13,9 @@ dnl
 dnl @category Misc
 dnl @author Stepan Kasal <kasal@ucw.cz>
 dnl @author Andreas Schwab <schwab@suse.de>
-dnl @author Guido Draheim <guidod@gmx.de>
+dnl @author Guido U. Draheim <guidod@gmx.de>
 dnl @author Alexandre Oliva
-dnl @version 2005-07-29
+dnl @version 2006-10-13
 dnl @license AllPermissive
 
 AC_DEFUN([AC_DEFINE_DIR], [
