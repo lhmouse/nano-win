@@ -1426,7 +1426,7 @@ msgstr "O tamaño de recheo solicitado \"%s\" non é válido"
 #. * For example, in French: "OoYy" for "Oui".
 #: src/prompt.c:1253
 msgid "Yy"
-msgstr "Ss"
+msgstr "SsYy"
 
 #: src/prompt.c:1254
 msgid "Nn"
@@ -1434,7 +1434,7 @@ msgstr "Nn"
 
 #: src/prompt.c:1255
 msgid "Aa"
-msgstr "Tt"
+msgstr "TtAa"
 
 #: src/prompt.c:1269
 msgid "Yes"
