@@ -196,6 +196,10 @@ void do_cut_text(
 		copy_from_filestruct(cutbuffer, cutbottom);
 	}
 
+	/* Set the current place we want to where the text from the
+	 * cutbuffer ends. */
+	openfile->placewewant = xplustabs();
+
 	/* Set NO_NEWLINES back to what it was before, since we're done
 	 * disturbing the text. */
 	if (!old_no_newlines)
