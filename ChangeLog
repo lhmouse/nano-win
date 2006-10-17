@@ -7,7 +7,7 @@ CVS code -
   do_cut_text()
 	- When uncutting text in the process of copying it, always set
 	  placewewant, as do_uncut_text() does, so that the current line
-	  is always updated properly.
+	  is always updated properly. (DLR)
 - files.c:
   input_tab()
 	- Since the field precision operator used in the sprintf() uses
