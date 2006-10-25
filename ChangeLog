@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.9.99pre3 - 2006.10.25
 - chars.c:
   nstrncasecmp()
 	- When returning, use the "?" operator instead of an if/else

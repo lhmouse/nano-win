@@ -1,3 +1,9 @@
+2006.10.25 - GNU nano 1.9.99pre3 learns to appreciate life.  This
+		release fixes a bug where the screen sometimes wouldn't
+		be updated properly after copying text into the
+		cutbuffer, fixes a potential warning while compiling,
+		and fixes a few other minor inconsistencies.  Have fun.
+
 2006.10.02 - GNU nano 1.9.99pre2 crosses the threshold.  This release
 		fixes a few more bugs: cursor positioning after leaving
 		the statusbar prompt has been fixed, and verbatim input
