@@ -1922,7 +1922,7 @@ int main(int argc, char **argv)
 	}
     }
 
-    /* If the executable filename starts with 'r', we use restricted
+    /* If the executable filename starts with 'r', enable restricted
      * mode. */
     if (*(tail(argv[0])) == 'r')
 	SET(RESTRICTED);
