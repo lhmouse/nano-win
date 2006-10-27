@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 1.9.99pre3
-@set UPDATED 26 Oct 2006
+@set VERSION 2.0.0
+@set UPDATED 27 Oct 2006
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 1.9.99pre3
+@subtitle version 2.0.0
 
 @author Chris Allegretta
 @page
