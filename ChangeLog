@@ -1,6 +1,8 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- doc/nano.texi:
+	- Add minor wording fixes. (DLR)
 
 GNU nano 1.9.99pre3 - 2006.10.25
 - chars.c:

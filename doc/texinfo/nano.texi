@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 1.9.99pre1
-@set UPDATED 30 Jul 2006
+@set VERSION 1.9.99pre3
+@set UPDATED 26 Oct 2006
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 1.9.99pre1
+@subtitle version 1.9.99pre3
 
 @author Chris Allegretta
 @page
@@ -64,8 +64,9 @@ editor.
 
 GNU @code{nano} is a small and friendly text editor.  Besides basic text
 editing, @code{nano} offers many extra features like an interactive
-search and replace, go to line number, auto-indentation, feature
-toggles, internationalization support, and filename tab completion.
+search and replace, go to line and column number, auto-indentation,
+feature toggles, internationalization support, and filename tab
+completion.
 
 @menu
 * Overview::
@@ -792,8 +793,8 @@ line option, which enables long line wrapping.
 
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
-internals of the editor, like the marking code and the cut to line code.
-It also disables the function toggles.
+internals of the editor, like the marking code and the cut to end of
+line code.  It also disables the function toggles.
 
 @item --enable-debug
 Enable support for runtime debug output.  This can get pretty messy, so
