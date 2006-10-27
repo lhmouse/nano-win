@@ -732,7 +732,7 @@ position of the cursor.
 
 @item Interactive Replace and Spell Checker
 It is worth noting that @code{nano}'s replace function is interactive,
-i.e, it does not stop after one search string is found and automatically
+i.e. it does not stop after one search string is found and automatically
 replace it.  The @code{nano} implementation will pause at each search
 string found and query whether to replace this instance or not.  The
 internal spell checker operates similarly.  Note that there is no way to
