@@ -1,6 +1,8 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- doc/nano.1, doc/nanorc.5, doc/rnano.1:
+	- Add minor wording fixes. (DLR)
 - doc/nano.texi:
 	- Add minor wording and punctuation fixes. (DLR)
 
