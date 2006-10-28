@@ -5,6 +5,8 @@ CVS code -
 	- Update links for the 2.0 branch of nano. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1:
 	- Add minor wording fixes. (DLR)
+- doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
+	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/nano.texi:
 	- Add minor wording and punctuation fixes. (DLR)
 
