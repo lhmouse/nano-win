@@ -1,6 +1,8 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- AUTHORS:
+	- Update for the 2.0 branch of nano. (DLR)
 - nano.spec.in, doc/faq.html:
 	- Update links for the 2.0 branch of nano. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1:
