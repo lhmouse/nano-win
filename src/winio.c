@@ -1974,7 +1974,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     assert(alloc_len >= index + 1);
 
-    /* Null terminate converted. */
+    /* Null-terminate converted. */
     converted[index] = '\0';
 
     /* Make sure converted takes up no more than len columns. */

@@ -232,7 +232,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 	*n += MAX_BUF_SIZE;
     }
 
-    /* Null terminate the buffer. */
+    /* Null-terminate the buffer. */
     null_at(lineptr, indx++);
     *n = indx;
 

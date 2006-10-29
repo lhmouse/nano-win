@@ -204,7 +204,7 @@ char *parse_next_regex(char *ptr)
 	return NULL;
     }
 
-    /* Null terminate and advance ptr. */
+    /* Null-terminate and advance ptr. */
     *ptr++ = '\0';
 
     while (isblank(*ptr))
