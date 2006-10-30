@@ -33,7 +33,7 @@ GNU nano 1.9.99pre3 - 2006.10.25
 	  file browser. (DLR)
 - m4/ac_define_dir.m4:
 	- Import the latest version of this file from
-	  http://autoconf-archive.cryp.to/ac_define_dir.m4.
+	  http://autoconf-archive.cryp.to/ac_define_dir.m4. (DLR)
 - doc/faq.html:
 	- Update the question in section 4.13 to match the version of it
 	  in the answer section. (DLR)
