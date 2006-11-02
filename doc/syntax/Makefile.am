@@ -8,6 +8,7 @@ pkgdata_DATA =	asm.nanorc \
 		nanorc.nanorc \
 		patch.nanorc \
 		perl.nanorc \
+		pov.nanorc \
 		python.nanorc \
 		ruby.nanorc \
 		sh.nanorc \

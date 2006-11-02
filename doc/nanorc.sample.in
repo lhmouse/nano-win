@@ -255,3 +255,6 @@
 
 ## Bourne shell scripts
 # include "@PKGDATADIR@/sh.nanorc"
+
+## POV-Ray
+# include "@PKGDATADIR@/pov.nanorc"

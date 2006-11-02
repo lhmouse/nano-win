@@ -1,6 +1,9 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+	- Add syntax for POV-Ray files.  New file doc/syntax/pov.nanorc;
+	  changes to doc/nanorc.sample.in and doc/syntax/Makefile.am.
+	  (Donnie Berkholz, minor tweaks by DLR)
 - AUTHORS:
 	- Update for the 2.0 branch of nano. (DLR)
 - nano.spec.in, doc/faq.html:
