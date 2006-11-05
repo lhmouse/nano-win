@@ -11,7 +11,7 @@ Group		: Applications/Editors
 URL		: http://www.nano-editor.org/
 Source		: http://www.nano-editor.org/dist/v2.0/%{name}-%{version}.tar.gz
 BuildRoot	: %{_tmppath}/%{name}-%{version}-root
-BuildRequires	: autoconf, gettext-devel, groff, ncurses-devel
+BuildRequires	: autoconf, automake, gettext-devel, groff, ncurses-devel, texinfo
 
 %description
 GNU nano is a small and friendly text editor.  It aims to emulate the
