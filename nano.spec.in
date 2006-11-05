@@ -32,14 +32,8 @@ make DESTDIR="%{buildroot}" install
 %defattr(-,root,root)
 %doc AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README THANKS TODO doc/faq.html doc/nanorc.sample
 %{_bindir}/*
-%{_mandir}/*/*
+%{_mandir}/man*/*
+%{_mandir}/fr/man*/*
+%{_infodir}/nano.info*
 %{_datadir}/locale/*/LC_MESSAGES/nano.mo
 %{_datadir}/nano/*
-%{_infodir}/nano.info*
-
-%changelog
-* Sat Mar 30 2002 Chris Allegretta <chrisa@asty.org>
-- Accepted into main distribution
-- Added Packager and URL tage from original spec file.
-* Tue Mar 06 2002 Brett Pemberton <generica@email.com>
-- Initial spec-file
