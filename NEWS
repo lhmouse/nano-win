@@ -1,3 +1,19 @@
+2006.11.06 - GNU nano 2.0.0 does its little dance.  This release adds
+		documentation updates and a few cosmetic tweaks.
+			For those who haven't been following nano 1.3
+		development, there are a ton of new features, including
+		support for UTF-8, moving to a specified line and column
+		instead of just a line, improved color syntax
+		highlighting, inserting previously untypeable characters
+		using "Verbatim Input" mode, and copying text into the
+		cutbuffer without cutting it.  There are also fixes for
+		some long-standing bugs, such as the "NumLock glitch"
+		from nano 1.2.x, and the inability to unjustify text
+		after resizing.  Finally, there are also a ton of
+		translation updates and new translations, as well as new
+		color syntaxes.  See the UPGRADE file for more
+		information, and enjoy the new stable release.
+
 2006.10.25 - GNU nano 1.9.99pre3 learns to appreciate life.  This
 		release fixes a bug where the screen sometimes wouldn't
 		be updated properly after copying text into the
