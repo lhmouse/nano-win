@@ -959,8 +959,8 @@ char *get_full_path(const char *origpath)
     /* If stat()ing d_there fails, assume that d_there refers to a new
      * file that hasn't been saved to disk yet.  Set path_only to TRUE
      * if d_there refers to a directory, and FALSE otherwise. */
-    path_only = stat(d_there, &fileinfo) == 0 &&
-	S_ISDIR(fileinfo.st_mode);
+    path_only = (stat(d_there, &fileinfo) != -1 &&
+	S_ISDIR(fileinfo.st_mode));
 
     /* If path_only is TRUE, make sure d_there ends in a slash. */
     if (path_only) {
@@ -1145,10 +1145,10 @@ void init_operating_dir(void)
  * so that tab completion will work. */
 bool check_operating_dir(const char *currpath, bool allow_tabcomp)
 {
-    /* The char *full_operating_dir is global for mem cleanup.  It
-     * should have already been initialized by init_operating_dir().
-     * Also, a relative operating directory path will only be handled
-     * properly if this is done. */
+    /* full_operating_dir is global for memory cleanup.  It should have
+     * already been initialized by init_operating_dir().  Also, a
+     * relative operating directory path will only be handled properly
+     * if this is done. */
 
     char *fullpath;
     bool retval = FALSE;
@@ -1873,7 +1873,7 @@ int do_writeout(bool exiting)
 		openfile->filename) != 0) {
 		struct stat st;
 
-		if (!stat(answer, &st)) {
+		if (stat(answer, &st) != -1) {
 		    i = do_yesno_prompt(FALSE,
 			_("File exists, OVERWRITE ? "));
 		    if (i == 0 || i == -1)
@@ -1904,7 +1904,7 @@ int do_writeout(bool exiting)
 	    if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
 		retval = write_marked_file(answer, NULL, FALSE, append);
 	    else
-#endif /* !NANO_TINY */
+#endif
 		retval = write_file(answer, NULL, FALSE, append, FALSE);
 
 	    break;

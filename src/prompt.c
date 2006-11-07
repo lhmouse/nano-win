@@ -999,7 +999,7 @@ int get_prompt_string(bool allow_tabs,
     wnoutrefresh(bottomwin);
 
     /* If we're using restricted mode, we aren't allowed to change the
-     * name of a file once it has one because that would allow writing
+     * name of a file once it has one, because that would allow writing
      * to files not specified on the command line.  In this case,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
