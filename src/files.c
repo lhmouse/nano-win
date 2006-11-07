@@ -954,8 +954,6 @@ char *get_full_path(const char *origpath)
 
     d_there = real_dir_from_tilde(origpath);
 
-    assert(d_there != NULL);
-
     /* If stat()ing d_there fails, assume that d_there refers to a new
      * file that hasn't been saved to disk yet.  Set path_only to TRUE
      * if d_there refers to a directory, and FALSE otherwise. */
