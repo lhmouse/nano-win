@@ -1,6 +1,11 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- files.c:
+  do_writeout()
+	- For consistency, when saving a file with no name, don't
+	  allow overwriting an existing file when in restricted
+	  mode. (DLR)
 
 GNU nano 2.0.0 - 2006.11.06
 - General:
