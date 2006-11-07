@@ -1763,7 +1763,7 @@ int do_writeout(bool exiting)
 
     ans = mallocstrcpy(NULL,
 #ifndef NANO_TINY
-	(openfile->mark_set && !exiting) ? "" :
+	(!exiting && openfile->mark_set) ? "" :
 #endif
 	openfile->filename);
 
@@ -1778,7 +1778,7 @@ int do_writeout(bool exiting)
 
 	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
-	if (openfile->mark_set && !exiting)
+	if (!exiting && openfile->mark_set)
 	    msg = (append == PREPEND) ?
 		_("Prepend Selection to File") : (append == APPEND) ?
 		_("Append Selection to File") :
