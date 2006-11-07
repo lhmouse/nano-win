@@ -8,6 +8,8 @@ CVS code -
 	- For consistency, when saving a file with no name, don't
 	  allow overwriting an existing file when in restricted
 	  mode. (DLR)
+	- Fix problem where a file could sometimes be overwritten
+	  without a warning prompt. (DLR)
 
 GNU nano 2.0.0 - 2006.11.06
 - General:
