@@ -1876,17 +1876,17 @@ int do_writeout(bool exiting)
 		     * to save a new file under the name of an existing
 		     * file.  In this case, show a "File exists"
 		     * error. */
-		    if (!ISSET(RESTRICTED)) {
-			i = do_yesno_prompt(FALSE,
-				_("File exists, OVERWRITE ? "));
-			if (i == 0 || i == -1)
-			    continue;
-		    } else {
+		    if (ISSET(RESTRICTED)) {
 			errno = EEXIST;
 			statusbar(_("Error writing %s: %s"), answer,
 				strerror(errno));
 			retval = -1;
 			break;
+		    } else {
+			i = do_yesno_prompt(FALSE,
+				_("File exists, OVERWRITE ? "));
+			if (i == 0 || i == -1)
+			    continue;
 		    }
 		/* If we're using restricted mode, we aren't allowed to
 		 * change the name of a file once it has one, because
