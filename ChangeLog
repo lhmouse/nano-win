@@ -7,9 +7,8 @@ CVS code -
 	- Fix problem where only paths would be returned when both paths
 	  and filenames should have been. (DLR)
   do_writeout()
-	- For consistency, when saving a file with no name, don't
-	  allow overwriting an existing file when in restricted
-	  mode. (DLR)
+	- For consistency, when saving a file with no name, don't allow
+	  overwriting an existing file when in restricted mode. (DLR)
 	- Fix problem where a file could sometimes be overwritten
 	  without a warning prompt. (DLR)
 
