@@ -11,6 +11,9 @@ CVS code -
 	  overwriting an existing file when in restricted mode. (DLR)
 	- Fix problem where a file could sometimes be overwritten
 	  without a warning prompt. (DLR)
+- NEWS:
+	- Add missing entries for nano 1.0.2 and 1.0.3, since 1.1.0
+	  includes their changes. (DLR)
 
 GNU nano 2.0.0 - 2006.11.06
 - General:
