@@ -1886,9 +1886,8 @@ int do_writeout(bool exiting)
 			 * an existing file.  In this case, show a "File
 			 * exists" error. */
 			if (ISSET(RESTRICTED)) {
-			    errno = EEXIST;
 			    statusbar(_("Error writing %s: %s"), answer,
-				strerror(errno));
+				strerror(EEXIST));
 			    retval = -1;
 			    break;
 			} else {
