@@ -150,7 +150,7 @@ void do_delete(void)
 }
 
 /* Backspace over one character.  That is, move the cursor left one
- * character, and then delete the character there. */
+ * character, and then delete the character under the cursor. */
 void do_backspace(void)
 {
     if (openfile->current != openfile->fileage ||
