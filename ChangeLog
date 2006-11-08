@@ -4,6 +4,8 @@ CVS code -
 - files.c:
   get_full_path()
 	- Remove unneeded assert. (DLR)
+	- Fix problem where only paths would be returned when both paths
+	  and filenames should have been. (DLR)
   do_writeout()
 	- For consistency, when saving a file with no name, don't
 	  allow overwriting an existing file when in restricted

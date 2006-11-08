@@ -986,8 +986,7 @@ char *get_full_path(const char *origpath)
 	if (!path_only)
 	    d_there_file = mallocstrcpy(NULL, last_slash + 1);
 
-	/* And remove the filename portion of the answer from
-	 * d_there. */
+	/* Remove the filename portion of the answer from d_there. */
 	null_at(&d_there, last_slash - d_there + 1);
 
 	/* Go to the path specified in d_there. */
@@ -1019,27 +1018,28 @@ char *get_full_path(const char *origpath)
 
 	    /* Finally, go back to the path specified in d_here,
 	     * where we were before.  We don't check for a chdir()
-	     * error, since we can do nothing then. */
+	     * error, since we can do nothing if we get one. */
 	    chdir(d_here);
 
 	    /* Free d_here, since we're done using it. */
 	    free(d_here);
 	}
-
-	/* At this point, if path_only is FALSE and d_there isn't NULL,
-	 * d_there contains the path portion of the answer and
-	 * d_there_file contains the filename portion of the answer.  If
-	 * this is the case, tack the latter onto the end of the former.
-	 * d_there will then contain the complete answer. */
-	if (!path_only && d_there != NULL) {
-	    d_there = charealloc(d_there, strlen(d_there) +
-		strlen(d_there_file) + 1);
-	    strcat(d_there, d_there_file);
- 	}
-
-	/* Free d_there_file, since we're done using it. */
-	free(d_there_file);
     }
+
+    /* At this point, if path_only is FALSE and d_there isn't NULL,
+     * d_there contains the path portion of the answer and d_there_file
+     * contains the filename portion of the answer.  If this is the
+     * case, tack the latter onto the end of the former.  d_there will
+     * then contain the complete answer. */
+    if (!path_only && d_there != NULL) {
+	d_there = charealloc(d_there, strlen(d_there) +
+		strlen(d_there_file) + 1);
+	strcat(d_there, d_there_file);
+    }
+
+    /* Free d_there_file, since we're done using it. */
+    if (d_there_file != NULL)
+	free(d_there_file);
 
     return d_there;
 }
@@ -1883,14 +1883,10 @@ int do_writeout(bool exiting)
 		    if (name_exists) {
 			/* If we're using restricted mode, we aren't
 			 * allowed to save a new file under the name of
-			 * an existing file.  In this case, show a "File
-			 * exists" error. */
-			if (ISSET(RESTRICTED)) {
-			    statusbar(_("Error writing %s: %s"), answer,
-				strerror(EEXIST));
-			    retval = -1;
-			    break;
-			} else {
+			 * an existing file. */
+			if (ISSET(RESTRICTED))
+			    continue;
+			else {
 			    i = do_yesno_prompt(FALSE,
 				_("File exists, OVERWRITE ? "));
 			    if (i == 0 || i == -1)
@@ -1899,9 +1895,7 @@ int do_writeout(bool exiting)
 		    /* If we're using restricted mode, we aren't allowed
 		     * to change the name of a file once it has one,
 		     * because that would allow reading from or writing
-		     * to files not specified on the command line.  In
-		     * this case, don't bother showing the "Different
-		     * Name" prompt. */
+		     * to files not specified on the command line. */
 		    } else if (!ISSET(RESTRICTED) &&
 			openfile->filename[0] != '\0'
 #ifndef NANO_TINY
