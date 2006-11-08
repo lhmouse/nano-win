@@ -1874,10 +1874,12 @@ int do_writeout(bool exiting)
 		bool different_name = (strcmp(full_answer,
 			full_filename) != 0);
 		struct stat st;
-		bool name_exists = (stat(full_answer, &st) != -1);
+		bool name_exists;
 
 		free(full_filename);
 		free(full_answer);
+
+		name_exists = (stat(answer, &st) != -1);
 
 		if (different_name) {
 		    if (name_exists) {
