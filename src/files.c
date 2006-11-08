@@ -1886,12 +1886,11 @@ int do_writeout(bool exiting)
 			 * an existing file. */
 			if (ISSET(RESTRICTED))
 			    continue;
-			else {
-			    i = do_yesno_prompt(FALSE,
+
+			i = do_yesno_prompt(FALSE,
 				_("File exists, OVERWRITE ? "));
-			    if (i == 0 || i == -1)
-				continue;
-			}
+			if (i == 0 || i == -1)
+			    continue;
 		    /* If we're using restricted mode, we aren't allowed
 		     * to change the name of a file once it has one,
 		     * because that would allow reading from or writing
