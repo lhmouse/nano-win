@@ -575,8 +575,9 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
  * from mutt 1.2.4i (lib.c).  Here is the notice from that file, with
  * the Free Software Foundation's address updated:
  *
- * Copyright (C) 1996-2000 Michael R. Elkins <me@cs.hmc.edu>
- * Copyright (C) 1999-2000 Thomas Roessler <roessler@guug.de>
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 Michael R. Elkins
+ * <me@cs.hmc.edu>
+ * Copyright (C) 1999, 2000 Thomas Roessler <roessler@guug.de>
  * 
  *     This program is free software; you can redistribute it
  *     and/or modify it under the terms of the GNU General Public
