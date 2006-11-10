@@ -3124,12 +3124,10 @@ void do_replace_highlight(bool highlight, const char *word)
     if (highlight)
 	wattron(edit, reverse_attr);
 
-#ifdef HAVE_REGEX_H
-    /* This is so we can show zero-length regex matches. */
+    /* This is so we can show zero-length matches. */
     if (word_len == 0)
 	waddch(edit, ' ');
     else
-#endif
 	waddnstr(edit, word, actual_x(word, y));
 
     if (word_len > y)

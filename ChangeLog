@@ -13,6 +13,11 @@ CVS code -
 	  overwriting an existing file when in restricted mode. (DLR)
 	- Fix problem where a file could sometimes be overwritten
 	  without a warning prompt. (DLR)
+- winio.c:
+  do_replace_highlight()
+	- Include the code to display zero-length matches even when
+	  regex.h isn't found, as it can also be used to display
+	  zero-length Unicode characters. (DLR)
 - doc/rnano.1, doc/fr/rnano.1:
 	- Add missing "(C)" to the copyright notice in the comments.
 	  (DLR)
