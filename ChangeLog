@@ -16,6 +16,9 @@ CVS code -
 - doc/rnano.1, doc/fr/rnano.1:
 	- Add missing "(C)" to the copyright notice in the comments.
 	  (DLR)
+- doc/nano.texi:
+	- Remove unneeded "." from the copyright notice in the comments.
+	  (DLR)
 - NEWS:
 	- Add missing entries for nano 1.0.2 and 1.0.3, since 1.1.0
 	  includes their changes. (DLR)

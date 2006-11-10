@@ -34,7 +34,7 @@ editor.
 This manual is part of the GNU @code{nano} distribution.@*
 @sp4
 Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 by Chris
-Allegretta.
+Allegretta
 
 This is free documentation, see the latest version of the GNU General
 Public License for copying conditions.  There is NO warranty.
