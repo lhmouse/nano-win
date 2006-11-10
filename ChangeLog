@@ -1,6 +1,8 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+	- Fix copyright notices to not abbreviate the year list using a
+	  range.  Changes to do_credits() and all source files. (DLR)
 - files.c:
   get_full_path()
 	- Remove unneeded assert. (DLR)
@@ -11,6 +13,9 @@ CVS code -
 	  overwriting an existing file when in restricted mode. (DLR)
 	- Fix problem where a file could sometimes be overwritten
 	  without a warning prompt. (DLR)
+- doc/rnano.1, doc/fr/rnano.1:
+	- Add missing "(C)" to the copyright notice in the comments.
+	  (DLR)
 - NEWS:
 	- Add missing entries for nano 1.0.2 and 1.0.3, since 1.1.0
 	  includes their changes. (DLR)
