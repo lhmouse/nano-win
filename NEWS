@@ -1,3 +1,12 @@
+2006.11.20 - GNU nano 2.0.1 emerges from its cocoon.  This release
+		contains several bugfixes: saving one file over another
+		will now always warn about overwriting it, overwriting
+		a file is no longer possible when saving a new file in
+		restricted mode, and zero-length Unicode characters are
+		now highlighted properly when nano is built without
+		regular expression support.  It also adds several minor
+		documentation updates.  Have fun with it.
+
 2006.11.06 - GNU nano 2.0.0 does its little dance.  This release adds
 		documentation updates and a few cosmetic tweaks.
 			For those who haven't been following nano 1.3
