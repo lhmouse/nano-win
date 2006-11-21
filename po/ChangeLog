@@ -1,3 +1,8 @@
+2006-11-20  David Lawrence Ramsey  <pooka109@cox.net>
+
+	* tr.po: Removed unneeded blank plural forms, as gettext 0.15
+	  generates errors upon encountering them.
+
 2006-10-25  Jordi Mallach  <jordi@gnu.org>
 
 	* fr.po: Updated French translation by Jean-Philippe Guérard.
