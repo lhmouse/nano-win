@@ -493,7 +493,7 @@ void help_init(void)
 	    }
 	    /* Yucky sentinel values that we can't handle a better
 	     * way. */
-	    if (s->metaval == NANO_ALT_SPACE && entries == 1) {
+	    if (s->metaval == NANO_META_SPACE && entries == 1) {
 		char *space_ptr = display_string(_("Space"), 0, 13,
 			FALSE);
 
