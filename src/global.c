@@ -564,9 +564,9 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&main_list, NANO_REPLACE_KEY, replace_msg
 #ifndef NANO_TINY
-	, IFSCHELP(nano_replace_msg, FALSE, NANO_ALT_REPLACE_KEY)
+	, IFSCHELP(nano_replace_msg, FALSE, NANO_REPLACE_ALTKEY)
 #else
-	, IFSCHELP(nano_replace_msg, TRUE, NANO_ALT_REPLACE_KEY)
+	, IFSCHELP(nano_replace_msg, TRUE, NANO_REPLACE_ALTKEY)
 #endif
 	, NANO_REPLACE_FKEY, NANO_NO_KEY, NOVIEW, do_replace);
 

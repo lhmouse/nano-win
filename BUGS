@@ -65,7 +65,7 @@
 - Using -k, pasted text is not updated properly if it goes beyond
   editbot. (35) [FIXED]
 - Doing a cut with -k can screw up the filestruct; fault is in cutting
- code. (36)  [FIXED]
+  code. (36) [FIXED]
 - Hitting enter on the magic line makes new lines, but they are not
   written out to disk when saved..... (37). [FIXED]
 - Page up and page down do not work the same way as in Pico (# of
