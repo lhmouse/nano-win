@@ -2,7 +2,8 @@ CVS code -
 - nano.h:
 	- Rename NANO_ALT_REPLACE_KEY to NANO_REPLACE_ALTKEY, for
 	  consistency. (DLR)
-	- Rename NANO_ALT_.* to NANO_META_.*, for consistency. (DLR)
+	- Rename NANO_ALT_.* and NANO_.*ALTKEY to NANO_META_.* and
+	  NANO_.*METAKEY, for consistency. (DLR)
 - BUGS:
 	- Miscellaneous cosmetic fixes. (DLR)
 

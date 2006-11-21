@@ -203,11 +203,11 @@ char *do_browser(char *path, DIR *dir)
 		if (selected > filelist_len - 1)
 		    selected = filelist_len - 1;
 		break;
-	    case NANO_FIRSTFILE_ALTKEY:
+	    case NANO_FIRSTFILE_METAKEY:
 		if (meta_key)
 		    selected = 0;
 		break;
-	    case NANO_LASTFILE_ALTKEY:
+	    case NANO_LASTFILE_METAKEY:
 		if (meta_key)
 		    selected = filelist_len - 1;
 		break;

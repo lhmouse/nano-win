@@ -159,11 +159,11 @@ void do_help(void (*refresh_func)(void))
 		if (line + (editwinrows - 1) < last_line)
 		    line++;
 		break;
-	    case NANO_FIRSTLINE_ALTKEY:
+	    case NANO_FIRSTLINE_METAKEY:
 		if (meta_key)
 		    line = 0;
 		break;
-	    case NANO_LASTLINE_ALTKEY:
+	    case NANO_LASTLINE_METAKEY:
 		if (meta_key) {
 		    if (line + (editwinrows - 1) < last_line)
 			line = last_line - (editwinrows - 1);
