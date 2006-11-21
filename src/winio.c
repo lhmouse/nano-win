@@ -2513,9 +2513,12 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 		     * expanded location of the end of the match minus
 		     * the expanded location of the beginning of the
 		     * page. */
-		    paintlen = (end_line != fileptr) ? -1 :
-			actual_x(converted, strnlenpt(fileptr->data,
-			endmatch.rm_eo) - start);
+		    if (end_line != fileptr)
+			paintlen = -1;
+		    else
+			paintlen = actual_x(converted,
+				strnlenpt(fileptr->data,
+				endmatch.rm_eo) - start);
 
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
 
@@ -2639,8 +2642,11 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 	     * Otherwise, paintlen is the expanded location of the end
 	     * of the mark minus the expanded location of the beginning
 	     * of the mark. */
-	    paintlen = (bot_x >= endpos) ? -1 : strnlenpt(fileptr->data,
-		bot_x) - (x_start + start);
+	    if (bot_x >= endpos)
+		paintlen = -1;
+	    else
+		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start +
+			start);
 
 	    /* If x_start is before the beginning of the page, shift
 	     * paintlen x_start characters to compensate, and put

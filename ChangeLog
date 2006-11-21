@@ -4,6 +4,10 @@ CVS code -
 	  consistency. (DLR)
 	- Rename NANO_ALT_.* and NANO_.*ALTKEY to NANO_META_.* and
 	  NANO_.*METAKEY, for consistency. (DLR)
+- winio.c:
+  edit_draw()
+	- Fix potential warnings when assigning -1 to paintlen by using
+	  if/else clauses instead of "?" operators. (DLR)
 - BUGS:
 	- Miscellaneous cosmetic fixes. (DLR)
 
