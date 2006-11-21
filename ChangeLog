@@ -1,4 +1,6 @@
 CVS code -
+- BUGS:
+	- Miscellaneous cosmetic fixes. (DLR)
 
 GNU nano 2.0.1 - 2006.11.20
 - General:
@@ -6915,7 +6917,7 @@ General -
 	  to winio.c where it should probably be anyway.  New configure
 	  check for _use_keypad in window struct.  This will have to do
 	  for now.
-	- Moved keypad() calls for PDCURSES from main() to window_init()
+	- Moved keypad() calls for PDCurses from main() to window_init()
 	  so the keypad continues to work after a Meta-X, for example.
 	  Fixed bug #51.
 - faq.html:
@@ -7221,7 +7223,7 @@ nano 0.9.20 - 11/18/2000
 	  to answer == def.
 	- Fixed fallthrough code because there was no break.  Make much
 	  more sense now.
-	- Added check for ASCII 54[124] when using PDCURSES, ignore them
+	- Added check for ASCII 54[124] when using PDCurses, ignore them
 	  if noticed.
   nanoget_repaint()
 	- New function, removes about 30 lines of duplicate code in 
