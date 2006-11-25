@@ -2311,12 +2311,12 @@ void do_spell(void)
 	return;
     }
 
+    i =
 #ifndef NANO_TINY
-    if (openfile->mark_set)
-	i = write_marked_file(temp, temp_file, TRUE, OVERWRITE);
-    else
+	(openfile->mark_set) ? write_marked_file(temp, temp_file, TRUE,
+	OVERWRITE) :
 #endif
-	i = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
+	write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (i == -1) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
