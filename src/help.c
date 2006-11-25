@@ -609,8 +609,8 @@ size_t help_line_len(const char *ptr)
     while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
 	retval += move_mbright(ptr + retval, 0);
 
-    /* If the entire line doesn't go more than 1 column beyond where we
-     * tried to break it, we should display it as-is.  Otherwise, we
+    /* If the entire line doesn't go more than one column beyond where
+     * we tried to break it, we should display it as-is.  Otherwise, we
      * should display it only up to the break. */
     if (strnlenpt(ptr, retval) > help_cols + 1)
 	retval = retval_save;

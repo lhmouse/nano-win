@@ -1,4 +1,6 @@
 CVS code -
+- General:
+	- Miscellaneous comment fixes. (DLR)
 - nano.h:
 	- Rename NANO_ALT_REPLACE_KEY to NANO_REPLACE_ALTKEY, for
 	  consistency. (DLR)
