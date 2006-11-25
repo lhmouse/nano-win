@@ -8,6 +8,10 @@ CVS code -
   edit_draw()
 	- Fix potential warnings when assigning -1 to paintlen by using
 	  if/else clauses instead of "?" operators. (DLR)
+- configure.ac:
+	- Reword several option descriptions, for clarity. (DLR)
+- doc/faq.html:
+	- Add miscellaneous wording and capitalization fixes. (DLR)
 - BUGS:
 	- Miscellaneous cosmetic fixes. (DLR)
 
