@@ -802,8 +802,8 @@ void do_insertfile(
 
 	    answer_len = strlen(answer);
 
-	    /* Convert newlines to nulls, just before we execute a
-	     * command. */
+	    /* Convert newlines to nulls, just before we insert a file
+	     * or execute a command. */
 	    sunder(answer);
 
 #ifndef NANO_TINY
@@ -1310,16 +1310,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
     if (!tmp)
 	titlebar(NULL);
 
-    realname = mallocstrcpy(NULL, name);
-
-    /* Convert newlines to nulls, just before we get the tilde-expanded
-     * filename. */
-    sunder(realname);
-
-    if (realname[0] == '\0')
-	goto cleanup_and_exit;
-
-    realname = mallocstrassn(realname, real_dir_from_tilde(realname));
+    realname = real_dir_from_tilde(name);
 
 #ifndef DISABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
