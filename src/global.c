@@ -26,7 +26,7 @@
 /* Global variables. */
 #ifndef NANO_TINY
 sigjmp_buf jump_buf;
-	/* Used to return to main() or the unjustify routine in
+	/* Used to return to either main() or the unjustify routine in
 	 * do_justify() after a SIGWINCH. */
 bool jump_buf_main = FALSE;
 	/* Have we set jump_buf so that we return to main() after a
