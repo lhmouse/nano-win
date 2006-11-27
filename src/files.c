@@ -132,8 +132,8 @@ void open_buffer(const char *filename)
     if (new_buffer)
 	make_new_buffer();
 
-    /* If we have a file and we're loading into a new buffer, update the
-     * filename. */
+    /* If we have a file, and we're loading into a new buffer, update
+     * the filename. */
     if (rc != -1 && new_buffer)
 	openfile->filename = mallocstrcpy(openfile->filename, filename);
 
@@ -150,7 +150,7 @@ void open_buffer(const char *filename)
 #endif
     }
 
-    /* If we have a file and we're loading into a new buffer, move back
+    /* If we have a file, and we're loading into a new buffer, move back
      * to the beginning of the first line of the buffer. */
     if (rc != -1 && new_buffer) {
 	openfile->current = openfile->fileage;
