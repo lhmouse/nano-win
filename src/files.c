@@ -728,8 +728,10 @@ void do_insertfile(
 		"./");
 
 	/* If we're in multibuffer mode and the filename or command is
-	 * blank, open a new buffer instead of canceling. */
-	if (i == -1 || (i == -2
+	 * blank, open a new buffer instead of canceling.  If the
+	 * filename or command begins with an unsunder()ed null, treat
+	 * it as though it's blank. */
+	if (i == -1 || ((i == -2 || answer[0] == '\n')
 #ifdef ENABLE_MULTIBUFFER
 		&& !ISSET(MULTIBUFFER)
 #endif
@@ -1819,7 +1821,9 @@ int do_writeout(bool exiting)
 #endif
 		);
 
-	if (i < 0) {
+	/* If the filename or command begins with an unsunder()ed null,
+	 * treat it as though it's blank. */
+	if (i < 0 || answer[0] == '\n') {
 	    statusbar(_("Cancelled"));
 	    retval = -1;
 	    break;
