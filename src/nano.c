@@ -1553,8 +1553,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     current_len = strlen(openfile->current->data);
 
     while (i < output_len) {
-	/* If allow_cntrls is FALSE, filter out nulls and newlines,
-	 * since they're ASCII control characters. */
+	/* If allow_cntrls is TRUE, convert nulls and newlines
+	 * properly. */
 	if (allow_cntrls) {
 	    /* Null to newline, if needed. */
 	    if (output[i] == '\0')

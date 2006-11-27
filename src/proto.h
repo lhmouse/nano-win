@@ -26,7 +26,8 @@
 
 #include "nano.h"
 
-/* Public external variables.  See global.c for their descriptions. */
+/* All public external variables.  See global.c for their
+ * descriptions. */
 #ifndef NANO_TINY
 extern sigjmp_buf jump_buf;
 extern bool jump_buf_main;
@@ -141,7 +142,7 @@ extern int reverse_attr;
 
 extern char *homedir;
 
-/* Public functions in browser.c. */
+/* All public functions in browser.c. */
 #ifndef DISABLE_BROWSER
 char *do_browser(char *path, DIR *dir);
 char *do_browse_from(const char *inpath);
@@ -160,7 +161,7 @@ void do_last_file(void);
 char *striponedir(const char *path);
 #endif
 
-/* Public functions in chars.c. */
+/* All public functions in chars.c. */
 #ifdef ENABLE_UTF8
 void utf8_init(void);
 bool using_utf8(void);
@@ -242,14 +243,14 @@ bool is_valid_unicode(wchar_t wc);
 bool is_valid_mbstring(const char *s);
 #endif
 
-/* Public functions in color.c. */
+/* All public functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
 #endif
 
-/* Public functions in cut.c. */
+/* All public functions in cut.c. */
 void cutbuffer_reset(void);
 void cut_line(void);
 #ifndef NANO_TINY
@@ -271,7 +272,7 @@ void do_cut_till_end(void);
 #endif
 void do_uncut_text(void);
 
-/* Public functions in files.c. */
+/* All public functions in files.c. */
 void make_new_buffer(void);
 void initialize_buffer(void);
 void initialize_buffer_text(void);
@@ -339,7 +340,7 @@ bool writehist(FILE *hist, filestruct *histhead);
 void save_history(void);
 #endif
 
-/* Public functions in global.c. */
+/* All public functions in global.c. */
 size_t length_of_list(const shortcut *s);
 #ifndef NANO_TINY
 void toggle_init_one(int val
@@ -361,7 +362,7 @@ void free_shortcutage(shortcut **shortcutage);
 void thanks_for_all_the_fish(void);
 #endif
 
-/* Public functions in help.c. */
+/* All public functions in help.c. */
 #ifndef DISABLE_HELP
 void do_help(void (*refresh_func)(void));
 void do_help_void(void);
@@ -373,7 +374,7 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key);
 size_t help_line_len(const char *ptr);
 #endif
 
-/* Public functions in move.c. */
+/* All public functions in move.c. */
 void do_first_line(void);
 void do_last_line(void);
 void do_page_up(void);
@@ -417,7 +418,7 @@ void do_scroll_down(void);
 void do_left(void);
 void do_right(void);
 
-/* Public functions in nano.c. */
+/* All public functions in nano.c. */
 filestruct *make_new_node(filestruct *prevnode);
 filestruct *copy_node(const filestruct *src);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct
@@ -488,7 +489,7 @@ bool do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
-/* Public functions in prompt.c. */
+/* All public functions in prompt.c. */
 int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	bool *ran_func, bool *finished, bool allow_funcs, void
 	(*refresh_func)(void));
@@ -545,7 +546,7 @@ int do_prompt(bool allow_tabs,
 void do_prompt_abort(void);
 int do_yesno_prompt(bool all, const char *msg);
 
-/* Public functions in rcfile.c. */
+/* All public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
 void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
@@ -566,7 +567,7 @@ void parse_rcfile(FILE *rcstream
 void do_rcfile(void);
 #endif
 
-/* Public functions in search.c. */
+/* All public functions in search.c. */
 #ifdef HAVE_REGEX_H
 int regexp_init(const char *regexp);
 void regexp_cleanup(void);
@@ -622,7 +623,7 @@ char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif
 #endif
 
-/* Public functions in text.c. */
+/* All public functions in text.c. */
 #ifndef NANO_TINY
 void do_mark(void);
 #endif
@@ -679,7 +680,7 @@ void do_wordlinechar_count(void);
 #endif
 void do_verbatim_input(void);
 
-/* Public functions in utils.c. */
+/* All public functions in utils.c. */
 int digits(size_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
@@ -727,7 +728,7 @@ void dump_filestruct(const filestruct *inptr);
 void dump_filestruct_reverse(void);
 #endif
 
-/* Public functions in winio.c. */
+/* All public functions in winio.c. */
 void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_input(int *input, size_t input_len);
