@@ -1275,7 +1275,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
     int retval = -1;
 	/* Instead of returning in this function, you should always
 	 * merely set retval and then goto cleanup_and_exit. */
-    size_t name_len, lineswritten = 0;
+    size_t lineswritten = 0;
     const filestruct *fileptr = openfile->fileage;
     int fd;
 	/* The file descriptor we use. */
@@ -1310,17 +1310,16 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
     if (!tmp)
 	titlebar(NULL);
 
-    name_len = strlen(name);
+    realname = mallocstrcpy(NULL, name);
 
-    /* Convert newlines to nulls, just before we get the real
+    /* Convert newlines to nulls, just before we get the tilde-expanded
      * filename. */
-    sunder(name);
+    sunder(realname);
 
-    realname = real_dir_from_tilde(name);
+    if (realname[0] == '\0')
+	goto cleanup_and_exit;
 
-    /* Convert nulls to newlines.  name_len is the string's real
-     * length. */
-    unsunder(name, name_len);
+    realname = mallocstrassn(realname, real_dir_from_tilde(realname));
 
 #ifndef DISABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
@@ -1703,7 +1702,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 
   cleanup_and_exit:
     free(realname);
-    free(tempname);
+    if (tempname != NULL)
+	free(tempname);
 
     return retval;
 }
