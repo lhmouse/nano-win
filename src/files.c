@@ -294,8 +294,8 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
-    /* Convert nulls to newlines.  buf_len is the string's real length
-     * here. */
+    /* Convert nulls to newlines.  buf_len is the string's real
+     * length. */
     unsunder(buf, buf_len);
 
     assert(openfile->fileage != NULL && strlen(buf) == buf_len);
@@ -802,14 +802,24 @@ void do_insertfile(
 
 #ifndef NANO_TINY
 	    if (execute) {
+		size_t answer_len = strlen(answer);
+
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
 		    /* Open a blank buffer. */
 		    open_buffer("");
 #endif
 
+		/* Convert newlines to nulls, just before we execute a
+		 * command. */
+		sunder(answer);
+
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
+
+		/* Convert nulls to newlines.  answer_len is answer's
+		 * real length. */
+		unsunder(answer, answer_len);
 
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER)) {
@@ -1564,12 +1574,13 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
     while (fileptr != NULL) {
 	size_t data_len = strlen(fileptr->data), size;
 
-	/* Newlines to nulls, just before we write to disk. */
+	/* Convert newlines to nulls, just before we write to disk. */
 	sunder(fileptr->data);
 
 	size = fwrite(fileptr->data, sizeof(char), data_len, f);
 
-	/* Nulls to newlines; data_len is the string's real length. */
+	/* Convert nulls to newlines.  data_len is the string's real
+	 * length. */
 	unsunder(fileptr->data, data_len);
 
 	if (size < data_len) {

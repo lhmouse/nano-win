@@ -5,6 +5,9 @@ CVS code -
 	  the "Insert File" prompt to contain nulls.  Changes to
 	  do_statusbar_input(), do_statusbar_output(), and
 	  do_statusbar_verbatim_input(). (DLR)
+- files.c:
+  do_insertfile()
+	- Properly handle executable commands that contain nulls. (DLR)
 - nano.h:
 	- Rename NANO_ALT_REPLACE_KEY to NANO_REPLACE_ALTKEY, for
 	  consistency. (DLR)
