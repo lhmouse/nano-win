@@ -496,7 +496,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 bool do_statusbar_mouse(void);
 #endif
 void do_statusbar_output(char *output, size_t output_len, bool
-	*got_enter, bool allow_cntrls, bool allow_nulls);
+	*got_enter, bool allow_cntrls);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
 void do_statusbar_left(void);
