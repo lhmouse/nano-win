@@ -1,6 +1,10 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+	- Don't allow filenames entered at the "Write File" prompt or
+	  the "Insert File" prompt to contain nulls.  Changes to
+	  do_statusbar_input(), do_statusbar_output(), and
+	  do_statusbar_verbatim_input(). (DLR)
 - nano.h:
 	- Rename NANO_ALT_REPLACE_KEY to NANO_REPLACE_ALTKEY, for
 	  consistency. (DLR)

@@ -1553,14 +1553,13 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     current_len = strlen(openfile->current->data);
 
     while (i < output_len) {
-	/* If allow_cntrls is FALSE, filter out nulls and newlines,
-	 * since they're ASCII control characters. */
-	if (allow_cntrls) {
-	    /* Null to newline, if needed. */
-	    if (output[i] == '\0')
+	/* Null to newline, if needed, and if allow_cntrls is TRUE. */
+	if (output[i] == '\0') {
+	    if (allow_cntrls)
 		output[i] = '\n';
-	    /* Newline to Enter, if needed. */
-	    else if (output[i] == '\n') {
+	/* Newline to Enter, if needed, and if allow_cntrls is TRUE. */
+	} else if (output[i] == '\n') {
+	    if (allow_cntrls) {
 		do_enter();
 		i++;
 		continue;
@@ -1579,7 +1578,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    continue;
 
 	/* If the NO_NEWLINES flag isn't set, when a character is
-	 * added to the magicline, it means we need a new magicline! */
+	 * added to the magicline, it means we need a new magicline. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot ==
 		openfile->current)
 	    new_magicline();
