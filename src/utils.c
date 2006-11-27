@@ -147,7 +147,7 @@ void unsunder(char *str, size_t true_len)
 }
 
 /* For non-null-terminated lines.  A line, by definition, shouldn't
- * normally have newlines in it, so decode its newlines into nulls. */
+ * normally have newlines in it, so decode its newlines as nulls. */
 void sunder(char *str)
 {
     assert(str != NULL);
