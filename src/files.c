@@ -683,7 +683,7 @@ void do_insertfile(
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
     filestruct *edittop_save = openfile->edittop;
-    size_t current_x_save = openfile->current_x;
+    size_t current_x_save = openfile->current_x, answer_len;
     ssize_t current_y_save = openfile->current_y;
     bool at_edittop = FALSE;
 	/* Whether we're at the top of the edit window. */
@@ -800,26 +800,22 @@ void do_insertfile(
 	    }
 #endif
 
+	    answer_len = strlen(answer);
+
+	    /* Convert newlines to nulls, just before we execute a
+	     * command. */
+	    sunder(answer);
+
 #ifndef NANO_TINY
 	    if (execute) {
-		size_t answer_len = strlen(answer);
-
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
 		    /* Open a blank buffer. */
 		    open_buffer("");
 #endif
 
-		/* Convert newlines to nulls, just before we execute a
-		 * command. */
-		sunder(answer);
-
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
-
-		/* Convert nulls to newlines.  answer_len is answer's
-		 * real length. */
-		unsunder(answer, answer_len);
 
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER)) {
@@ -843,6 +839,10 @@ void do_insertfile(
 #ifndef NANO_TINY
 	    }
 #endif
+
+	    /* Convert nulls to newlines.  answer_len is answer's real
+	     * length. */
+	    unsunder(answer, answer_len);
 
 #ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))

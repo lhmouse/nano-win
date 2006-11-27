@@ -3,7 +3,8 @@ CVS code -
 	- Miscellaneous comment fixes. (DLR)
 - files.c:
   do_insertfile()
-	- Properly handle executable commands that contain nulls. (DLR)
+	- Properly handle files and executable commands that contain
+	  nulls. (DLR)
 - nano.h:
 	- Rename NANO_ALT_REPLACE_KEY to NANO_REPLACE_ALTKEY, for
 	  consistency. (DLR)
