@@ -683,7 +683,7 @@ void do_insertfile(
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
     filestruct *edittop_save = openfile->edittop;
-    size_t current_x_save = openfile->current_x, answer_len;
+    size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
     bool at_edittop = FALSE;
 	/* Whether we're at the top of the edit window. */
@@ -739,7 +739,7 @@ void do_insertfile(
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
-	    size_t pww_save = openfile->placewewant;
+	    size_t pww_save = openfile->placewewant, answer_len;
 
 	    ans = mallocstrcpy(ans, answer);
 
