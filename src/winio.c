@@ -663,6 +663,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, *meta_key ? "TRUE" : "FALSE", *func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
 #endif
 
+    free(kbinput);
+
     /* Return the result. */
     return retval;
 }
@@ -1534,6 +1536,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
 	/* Put back the first keystroke. */
 	unget_input(kbinput, 1);
+
+    free(kbinput);
 
     /* Get the complete sequence, and save the characters in it as the
      * result. */

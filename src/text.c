@@ -2446,6 +2446,8 @@ void do_verbatim_input(void)
 	output[i] = (char)kbinput[i];
     output[i] = '\0';
 
+    free(kbinput);
+
     do_output(output, kbinput_len, TRUE);
 
     free(output);
