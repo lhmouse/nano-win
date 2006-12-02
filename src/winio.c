@@ -484,6 +484,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			retval = get_control_kbinput(
 				parse_escape_seq_kbinput(win,
 				*kbinput));
+		    break;
 	    }
     }
 
