@@ -1,3 +1,9 @@
+2006-12-06  Jordi Mallach <jordi@gnu.org>
+
+	* hu.po: Updated Hungarian translation by Gabor Kelemen.
+	* ms.po: Updated Malay translation by
+	Sharuzzaman Ahmat Raslan.
+
 2006-11-20  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* tr.po: Removed unneeded blank plural forms, as gettext 0.15
