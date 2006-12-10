@@ -63,7 +63,7 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
-/* Delete one character. */
+/* Delete the character under the cursor. */
 void do_delete(void)
 {
     bool do_refresh = FALSE;
