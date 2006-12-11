@@ -1,6 +1,9 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- browser.c:
+  do_browser()
+	- Properly handle directories that contain nulls. (DLR)
 - files.c:
   do_insertfile()
 	- Properly handle filenames and executable commands that contain

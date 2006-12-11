@@ -231,7 +231,9 @@ char *do_browser(char *path, DIR *dir)
 #endif
 		bottombars(browser_list);
 
-		if (i < 0) {
+		/* If the directory begins with a newline (i.e. an
+		 * encoded null), treat it as though it's blank. */
+		if (i < 0 || answer[0] == '\n') {
 		    /* We canceled.  Indicate that on the statusbar, and
 		     * blank out ans, since we're done with it. */
 		    statusbar(_("Cancelled"));
@@ -250,6 +252,11 @@ char *do_browser(char *path, DIR *dir)
 		/* We have a directory.  Blank out ans, since we're done
 		 * with it. */
 		ans = mallocstrcpy(ans, "");
+
+		/* Convert newlines to nulls, just before we go to the
+		 * directory. */
+		sunder(answer);
+		align(&answer);
 
 		new_path = real_dir_from_tilde(answer);
 

@@ -739,7 +739,7 @@ void do_insertfile(
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
-	    size_t pww_save = openfile->placewewant, answer_len;
+	    size_t pww_save = openfile->placewewant;
 
 	    ans = mallocstrcpy(ans, answer);
 
@@ -802,11 +802,10 @@ void do_insertfile(
 	    }
 #endif
 
-	    answer_len = strlen(answer);
-
-	    /* Convert newlines to nulls, just before we insert a file
-	     * or execute a command. */
+	    /* Convert newlines to nulls, just before we insert the file
+	     * or execute the command. */
 	    sunder(answer);
+	    align(&answer);
 
 #ifndef NANO_TINY
 	    if (execute) {
@@ -841,10 +840,6 @@ void do_insertfile(
 #ifndef NANO_TINY
 	    }
 #endif
-
-	    /* Convert nulls to newlines.  answer_len is answer's real
-	     * length. */
-	    unsunder(answer, answer_len);
 
 #ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
@@ -1885,17 +1880,28 @@ int do_writeout(bool exiting)
 #endif
 
 	    if (append == OVERWRITE) {
-		char *full_answer = get_full_path(answer);
-		char *full_filename = get_full_path(openfile->filename);
-		bool different_name = (strcmp(full_answer,
-			full_filename) != 0);
+		size_t answer_len = strlen(answer);
+		bool name_exists, different_name;
+		char *full_answer, *full_filename;
 		struct stat st;
-		bool name_exists;
+
+		/* Convert newlines to nulls, just before we get the
+		 * full path. */
+		sunder(answer);
+
+		name_exists = (stat(answer, &st) != -1);
+		full_answer = get_full_path(answer);
+
+		/* Convert nulls to newlines.  answer_len is the
+		 * string's real length. */
+		unsunder(answer, answer_len);
+
+		full_filename = get_full_path(openfile->filename);
+		different_name = (strcmp(full_answer,
+			full_filename) != 0);
 
 		free(full_filename);
 		free(full_answer);
-
-		name_exists = (stat(answer, &st) != -1);
 
 		if (different_name) {
 		    if (name_exists) {
@@ -1926,6 +1932,11 @@ int do_writeout(bool exiting)
 		    }
 		}
 	    }
+
+	    /* Convert newlines to nulls, just before we save the
+	     * file. */
+	    sunder(answer);
+	    align(&answer);
 
 #ifndef NANO_TINY
 	    /* Here's where we allow the selected text to be written to
