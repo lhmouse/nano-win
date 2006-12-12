@@ -16,6 +16,9 @@ CVS code -
 	- Rename NANO_ALT_.* and NANO_.*ALTKEY to NANO_META_.* and
 	  NANO_.*METAKEY, for consistency. (DLR)
 - text.c:
+  do_spell()
+	- When setting i to the return value of write_(marked_)?file(),
+	  use the "?" operator instead of an if/else clause. (DLR)
   do_verbatim_input()
 	- Fix minor memory leak. (DLR)
 - winio.c:
@@ -51,10 +54,6 @@ GNU nano 2.0.1 - 2006.11.20
 	  overwriting an existing file when in restricted mode. (DLR)
 	- Fix problem where a file could sometimes be overwritten
 	  without a warning prompt. (DLR)
-- text.c:
-  do_spell()
-	- When setting i to the return value of write_(marked_)?file(),
-	  use the "?" operator instead of an if/else clause. (DLR)
 - winio.c:
   do_replace_highlight()
 	- Include the code to display zero-length matches even when
