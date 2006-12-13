@@ -15,6 +15,9 @@ CVS code -
 	  consistency. (DLR)
 	- Rename NANO_ALT_.* and NANO_.*ALTKEY to NANO_META_.* and
 	  NANO_.*METAKEY, for consistency. (DLR)
+- search.c:
+  update_history()
+	- Fix minor memory leak. (DLR)
 - text.c:
   do_spell()
 	- When setting i to the return value of write_(marked_)?file(),

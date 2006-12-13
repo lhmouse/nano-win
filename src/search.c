@@ -1342,7 +1342,7 @@ void update_history(filestruct **h, const char *s)
     }
 
     /* Add the new entry to the end. */
-    (*hbot)->data = mallocstrcpy(NULL, s);
+    (*hbot)->data = mallocstrcpy((*hbot)->data, s);
     splice_node(*hbot, make_new_node(*hbot), (*hbot)->next);
     *hbot = (*hbot)->next;
     (*hbot)->data = mallocstrcpy(NULL, "");
