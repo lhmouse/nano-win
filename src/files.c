@@ -1901,8 +1901,10 @@ int do_writeout(bool exiting)
 			full_filename != NULL && strcmp(full_answer,
 			full_filename) != 0);
 
-		free(full_filename);
-		free(full_answer);
+		if (full_filename != NULL)
+		    free(full_filename);
+		if (full_answer != NULL)
+		    free(full_answer);
 
 		if (different_name) {
 		    if (name_exists) {
