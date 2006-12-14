@@ -10,6 +10,10 @@ CVS code -
 	  nulls. (DLR)
   write_file()
 	- Properly handle filenames that contain nulls. (DLR)
+  do_writeout()
+	- Fix a segfault when we can't get the full path of either the
+	  filename we want to save under or the original filename. (DLR,
+	  found by Mike Frysinger)
 - nano.h:
 	- Rename NANO_ALT_REPLACE_KEY to NANO_REPLACE_ALTKEY, for
 	  consistency. (DLR)

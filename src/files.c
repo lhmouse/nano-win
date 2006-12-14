@@ -1897,7 +1897,8 @@ int do_writeout(bool exiting)
 		unsunder(answer, answer_len);
 
 		full_filename = get_full_path(openfile->filename);
-		different_name = (strcmp(full_answer,
+		different_name = (full_answer != NULL &&
+			full_filename != NULL && strcmp(full_answer,
 			full_filename) != 0);
 
 		free(full_filename);
