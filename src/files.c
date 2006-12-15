@@ -2410,8 +2410,9 @@ const char *tail(const char *foo)
 }
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
-/* Return $HOME/.nano_history, or NULL if we can't find the homedir.
- * The string is dynamically allocated, and should be freed. */
+/* Return $HOME/.nano_history, or NULL if we can't find the home
+ * directory.  The string is dynamically allocated, and should be
+ * freed. */
 char *histfilename(void)
 {
     char *nanohist = NULL;
@@ -2448,9 +2449,9 @@ void load_history(void)
 		    ;
 	    }
 	} else {
-	    /* Load a history (first the search history, then the
-	     * replace history) from oldest to newest.  Assume the last
-	     * history entry is a blank line. */
+	    /* Load a history list (first the search history, then the
+	     * replace history) from the oldest entry to the newest.
+	     * Assume the last history entry is a blank line. */
 	    filestruct **history = &search_history;
 	    char *line = NULL;
 	    size_t buflen = 0;
@@ -2482,8 +2483,8 @@ bool writehist(FILE *hist, filestruct *h)
 {
     filestruct *p;
 
-    /* Write history from oldest to newest.  Assume the last history
-     * entry is a blank line. */
+    /* Write a history list from the oldest entry to the newest.  Assume
+     * the last history entry is a blank line. */
     for (p = h; p != NULL; p = p->next) {
 	size_t p_len = strlen(p->data);
 
