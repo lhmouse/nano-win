@@ -1891,15 +1891,14 @@ int do_writeout(bool exiting)
 
 		name_exists = (stat(answer, &st) != -1);
 		full_answer = get_full_path(answer);
-
-		/* Convert nulls to newlines.  answer_len is the
-		 * string's real length. */
-		unsunder(answer, answer_len);
-
 		full_filename = get_full_path(openfile->filename);
 		different_name = (strcmp((full_answer != NULL) ?
 			full_answer : answer, (full_filename != NULL) ?
 			full_filename : openfile->filename) != 0);
+
+		/* Convert nulls to newlines.  answer_len is the
+		 * string's real length. */
+		unsunder(answer, answer_len);
 
 		if (full_filename != NULL)
 		    free(full_filename);
