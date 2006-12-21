@@ -1,3 +1,12 @@
+2006.12.20 - GNU nano 2.0.2 forges ahead.  This release fixes a segfault
+		when trying to save in a nonexistent directory; fixes
+		handling of strings containing nulls at the "Write File",
+		"Insert File", "Execute Command", and "Go to Directory"
+		prompts; fixes several minor memory leaks; fixes two
+		more potential compilation warnings; adds a few
+		translation updates; and adds a few more minor
+		documentation updates.  Enjoy.
+
 2006.11.20 - GNU nano 2.0.1 emerges from its cocoon.  This release
 		contains several bugfixes: saving one file over another
 		will now always warn about overwriting it, overwriting
