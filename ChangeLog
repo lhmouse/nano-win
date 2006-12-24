@@ -1,4 +1,6 @@
 CVS code -
+- doc/syntax/python.nanorc:
+	- Improve string highlighting regexes. (Mike Frysinger)
 
 GNU nano 2.0.2 - 2006.12.20
 - General:
