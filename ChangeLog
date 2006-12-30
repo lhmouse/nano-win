@@ -1,4 +1,6 @@
 CVS code -
+- README:
+	- Add another cosmetic fix. (DLR)
 - doc/syntax/python.nanorc:
 	- Improve string highlighting regexes. (Mike Frysinger)
 
