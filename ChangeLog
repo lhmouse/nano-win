@@ -1,6 +1,7 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- winio.c:
   do_credits()
 	- Update the last copyright notice to include 2006. (DLR)
 - README:
