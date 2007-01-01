@@ -7,6 +7,10 @@ CVS code -
 	- Add more miscellaneous cosmetic fixes. (DLR)
 - m4/glib-2.0.m4:
 	- Import the latest version of this file from glib 2.10.3. (DLR)
+- doc/faq.html:
+	- Update section 4.1 to describe how to open files with names
+	  beginning with '+' at specified columns as well as lines.
+	  (DLR)
 - doc/syntax/python.nanorc:
 	- Improve string highlighting regexes. (Mike Frysinger)
 
