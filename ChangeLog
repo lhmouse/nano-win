@@ -5,6 +5,8 @@ CVS code -
 	- Update the last copyright notice to include 2006. (DLR)
 - README:
 	- Add more miscellaneous cosmetic fixes. (DLR)
+- m4/glib-2.0.m4:
+	- Import the latest version of this file from glib 2.10.3. (DLR)
 - doc/syntax/python.nanorc:
 	- Improve string highlighting regexes. (Mike Frysinger)
 
