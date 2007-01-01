@@ -3,7 +3,7 @@
  *   text.c                                                               *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Chris Allegretta    *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -194,8 +194,8 @@ void do_tab(void)
 /* Indent or unindent the current line (or all lines covered by the mark
  * if the mark is on) len columns, depending on whether len is positive
  * or negative.  If the TABS_TO_SPACES flag is set, indent/unindent by
- * len spaces.  Otherwise, indent/unindent by (len / tabsize) tabs and
- * (len % tabsize) spaces. */
+ * len spaces.  Otherwise, indent or unindent by (len / tabsize) tabs
+ * and (len % tabsize) spaces. */
 void do_indent(ssize_t cols)
 {
     bool indent_changed = FALSE;

@@ -1,4 +1,8 @@
 CVS code -
+- General:
+	- Miscellaneous comment fixes. (DLR)
+  do_credits()
+	- Update the last copyright notice to include 2006. (DLR)
 - README:
 	- Add more miscellaneous cosmetic fixes. (DLR)
 - doc/syntax/python.nanorc:

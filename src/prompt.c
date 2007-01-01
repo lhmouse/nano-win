@@ -3,7 +3,7 @@
  *   prompt.c                                                             *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Chris Allegretta    *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -28,7 +28,7 @@
 #include <string.h>
 
 static char *prompt = NULL;
-	/* The prompt string for statusbar questions. */
+	/* The prompt string used for statusbar questions. */
 static size_t statusbar_x = (size_t)-1;
 	/* The cursor position in answer. */
 static size_t statusbar_pww = (size_t)-1;

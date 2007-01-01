@@ -3,7 +3,7 @@
  *   help.c                                                               *
  *                                                                        *
  *   Copyright (C) 2000, 2001, 2002, 2003, 2004 Chris Allegretta          *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -51,7 +51,7 @@ void do_help(void (*refresh_func)(void))
 	/* The current shortcut list. */
 #endif
     const char *ptr;
-	/* The current line of help text. */
+	/* The current line of the help text. */
     size_t old_line = (size_t)-1;
 	/* The line we were on before the current line. */
 

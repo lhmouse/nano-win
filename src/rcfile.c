@@ -3,7 +3,7 @@
  *   rcfile.c                                                             *
  *                                                                        *
  *   Copyright (C) 2001, 2002, 2003, 2004 Chris Allegretta                *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -97,8 +97,7 @@ static const rcoption rcopts[] = {
 static bool errors = FALSE;
 	/* Whether we got any errors while parsing an rcfile. */
 static size_t lineno = 0;
-	/* If we did, the line number where the current error
-	 * occurred. */
+	/* If we did, the line number where the last error occurred. */
 static char *nanorc = NULL;
 	/* The path to the rcfile we're parsing. */
 #ifdef ENABLE_COLOR

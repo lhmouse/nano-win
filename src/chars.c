@@ -3,7 +3,7 @@
  *   chars.c                                                              *
  *                                                                        *
  *   Copyright (C) 2001, 2002, 2003, 2004 Chris Allegretta                *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -38,9 +38,8 @@ static bool use_utf8 = FALSE;
 	/* Whether we've enabled UTF-8 support. */
 static const wchar_t bad_wchar = 0xFFFD;
 	/* If we get an invalid multibyte sequence, we treat it as
-	 * Unicode FFFD (Replacement Character), unless we're
-	 * determining if it's a control character or searching for a
-	 * match to it. */
+	 * Unicode FFFD (Replacement Character), unless we're searching
+	 * for a match to it. */
 static const char *const bad_mbchar = "\xEF\xBF\xBD";
 static const int bad_mbchar_len = 3;
 

@@ -3,7 +3,7 @@
  *   move.c                                                               *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Chris Allegretta    *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -272,8 +272,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
 
     free(char_mb);
 
-    /* If we haven't found it, leave the cursor at the end of the
-     * file. */
+    /* If we haven't found it, move to the end of the file. */
     if (openfile->current == NULL)
 	openfile->current = openfile->filebot;
 
@@ -371,8 +370,7 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 	}
     }
 
-    /* If we haven't found it, leave the cursor at the beginning of the
-     * file. */
+    /* If we haven't found it, move to the beginning of the file. */
     if (openfile->current == NULL)
 	openfile->current = openfile->fileage;
     /* If we've found it, move backward until we find the character

@@ -3,7 +3,7 @@
  *   nano.h                                                               *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Chris Allegretta    *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -50,7 +50,7 @@
 #define ISSET(bit) ((flags & bit) != 0)
 #define TOGGLE(bit) flags ^= bit
 
-/* Macros for character allocation, etc. */
+/* Macros for character allocation and more. */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))

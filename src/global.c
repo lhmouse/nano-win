@@ -3,7 +3,7 @@
  *   global.c                                                             *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Chris Allegretta    *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -110,7 +110,7 @@ size_t quotelen;
 #endif
 
 char *answer = NULL;
-	/* The answer string used in the statusbar prompt. */
+	/* The answer string used by the statusbar prompt. */
 
 ssize_t tabsize = -1;
 	/* The width of a tab in spaces.  The default value is set in

@@ -3,7 +3,7 @@
  *   browser.c                                                            *
  *                                                                        *
  *   Copyright (C) 2001, 2002, 2003, 2004 Chris Allegretta                *
- *   Copyright (C) 2005, 2006 David Lawrence Ramsey                       *
+ *   Copyright (C) 2005, 2006, 2007 David Lawrence Ramsey                 *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -57,7 +57,7 @@ char *do_browser(char *path, DIR *dir)
 	/* The directory we were in, if any, before backing up via
 	 * browsing to "..". */
     char *ans = NULL;
-	/* The last answer the user typed on the statusbar. */
+	/* The last answer the user typed at the statusbar prompt. */
     size_t old_selected;
 	/* The selected file we had before the current selected file. */
 
