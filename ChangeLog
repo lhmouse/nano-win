@@ -5413,7 +5413,7 @@ GNU nano 1.1.11 - 10/01/2002
   page_up()
 	- Fix bug where current is moved up two lines when the up arrow
 	  is pressed on the top line of the edit window; this causes a
-	  segfault is the top line in the edit window is the second
+	  segfault if the top line in the edit window is the second
 	  line of the file, as the line current ends up on doesn't
 	  exist. (Jeff DeFouw)
   do_down()
