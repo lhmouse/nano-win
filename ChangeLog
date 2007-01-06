@@ -1,9 +1,10 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
-	- Don't install the nanorc manpages if nano is built without
-	  nanorc support.  Changes to configure.ac, doc/man/Makefile.am,
-	  and doc/man/fr/Makefile.am. (DLR)
+	- Don't install the nanorc manpages or generate their HTML
+	  versions if nano is built without nanorc support.  Changes to
+	  configure.ac, doc/man/Makefile.am, and doc/man/fr/Makefile.am.
+	  (DLR)
 - winio.c:
   do_credits()
 	- Update the last copyright notice to include 2006. (DLR)
