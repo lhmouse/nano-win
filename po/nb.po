@@ -1730,7 +1730,7 @@ msgstr "Vis"
 
 #: src/winio.c:2066
 msgid "DIR:"
-msgstr "KAT: "
+msgstr "KAT:"
 
 #: src/winio.c:2073
 msgid "File:"
