@@ -372,6 +372,7 @@ int main(void)
     esac], [AC_MSG_RESULT(no)])
 
 AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
+AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
 
 dnl Checks for functions.
 
