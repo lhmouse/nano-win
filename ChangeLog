@@ -12,6 +12,9 @@ CVS code -
 	- Update section 4.1 to describe how to open files with names
 	  beginning with '+' at specified columns as well as lines.
 	  (DLR)
+- doc/man/fr/Makefile.am:
+	- Set mandir before setting man_MANS, to more closely match
+	  doc/man/Makefile.am. (DLR)
 - doc/syntax/python.nanorc:
 	- Improve string highlighting regexes. (Mike Frysinger)
 

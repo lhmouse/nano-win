@@ -1,6 +1,6 @@
-man_MANS = nano.1 nanorc.5 rnano.1
-
 mandir = @mandir@/fr
+
+man_MANS = nano.1 nanorc.5 rnano.1
 
 BUILT_SOURCES = nano.1.html nanorc.5.html rnano.1.html
 
