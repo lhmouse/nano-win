@@ -1,6 +1,7 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+	- More int -> bool conversions. (DLR)
 	- Don't install the nanorc manpages or generate their HTML
 	  versions if nano is built without nanorc support.  Changes to
 	  configure.ac, doc/man/Makefile.am, and doc/man/fr/Makefile.am.

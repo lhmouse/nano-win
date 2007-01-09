@@ -41,18 +41,19 @@ static bool regexp_compiled = FALSE;
 
 /* Regular expression helper functions. */
 
-/* Compile the given regular expression.  Return value 0 means the
- * expression was invalid, and we wrote an error message on the status
- * bar.  Return value 1 means success. */
-int regexp_init(const char *regexp)
+/* Compile the regular expression regexp to see if it's valid.  Return
+ * TRUE if it is, or FALSE otherwise. */
+bool regex_init(const char *regexp)
 {
-    int rc = regcomp(&search_regexp, regexp, REG_EXTENDED
+    int rc;
+
+    assert(!regexp_compiled);
+
+    rc = regcomp(&search_regexp, regexp, REG_EXTENDED
 #ifndef NANO_TINY
 	| (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE)
 #endif
 	);
-
-    assert(!regexp_compiled);
 
     if (rc != 0) {
 	size_t len = regerror(rc, &search_regexp, NULL, 0);
@@ -61,11 +62,13 @@ int regexp_init(const char *regexp)
 	regerror(rc, &search_regexp, str, len);
 	statusbar(_("Bad regex \"%s\": %s"), regexp, str);
 	free(str);
-	return 0;
+
+	return FALSE;
     }
 
     regexp_compiled = TRUE;
-    return 1;
+
+    return TRUE;
 }
 
 /* Decompile the compiled regular expression we used in the last
@@ -218,9 +221,8 @@ int search_init(bool replacing, bool use_answer)
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or
 		 * answer if it isn't. */
-		if (ISSET(USE_REGEXP) &&
-			regexp_init((i == -2) ? last_search :
-			answer) == 0)
+		if (ISSET(USE_REGEXP) && !regexp_init((i == -2) ?
+			last_search : answer))
 		    return -1;
 #endif
 		break;
@@ -511,7 +513,7 @@ void do_research(void)
     if (last_search[0] != '\0') {
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */
-	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
+	if (ISSET(USE_REGEXP) && !regexp_init(last_search))
 	    return;
 #endif
 

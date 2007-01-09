@@ -844,9 +844,8 @@ int filesearch_init(void)
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or
 		 * answer if it isn't. */
-		if (ISSET(USE_REGEXP) &&
-			regexp_init((i == -2) ? last_search :
-			answer) == 0)
+		if (ISSET(USE_REGEXP) && !regexp_init((i == -2) ?
+			last_search : answer))
 		    return -1;
 #endif
 		break;
@@ -1030,7 +1029,7 @@ void do_fileresearch(void)
     if (last_search[0] != '\0') {
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */
-	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
+	if (ISSET(USE_REGEXP) && !regexp_init(last_search))
 	    return;
 #endif
 

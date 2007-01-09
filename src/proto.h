@@ -568,7 +568,7 @@ void do_rcfile(void);
 
 /* All functions in search.c. */
 #ifdef HAVE_REGEX_H
-int regexp_init(const char *regexp);
+bool regexp_init(const char *regexp);
 void regexp_cleanup(void);
 #endif
 void not_found_msg(const char *str);
