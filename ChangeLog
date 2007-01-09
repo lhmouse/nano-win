@@ -6,6 +6,10 @@ CVS code -
 	  versions if nano is built without nanorc support.  Changes to
 	  configure.ac, doc/man/Makefile.am, and doc/man/fr/Makefile.am.
 	  (DLR)
+- search.c:
+  regexp_init()
+	- Don't assign rc's value via regcomp() until we've asserted
+	  that regexp_compiled is FALSE. (DLR)
 - winio.c:
   do_credits()
 	- Update the last copyright notice to include 2006. (DLR)
