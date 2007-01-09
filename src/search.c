@@ -43,7 +43,7 @@ static bool regexp_compiled = FALSE;
 
 /* Compile the regular expression regexp to see if it's valid.  Return
  * TRUE if it is, or FALSE otherwise. */
-bool regex_init(const char *regexp)
+bool regexp_init(const char *regexp)
 {
     int rc;
 
