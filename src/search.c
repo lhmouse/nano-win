@@ -39,8 +39,6 @@ static bool history_changed = FALSE;
 static bool regexp_compiled = FALSE;
 	/* Have we compiled any regular expressions? */
 
-/* Regular expression helper functions. */
-
 /* Compile the regular expression regexp to see if it's valid.  Return
  * TRUE if it is, or FALSE otherwise. */
 bool regexp_init(const char *regexp)
