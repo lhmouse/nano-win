@@ -523,7 +523,7 @@ void print_view_warning(void)
     statusbar(_("Key invalid in view mode"));
 }
 
-/* What we do when we're all set to exit. */
+/* Make nano exit gracefully. */
 void finish(void)
 {
     /* Blank the statusbar (and shortcut list, if applicable), and move
@@ -547,10 +547,11 @@ void finish(void)
     thanks_for_all_the_fish();
 #endif
 
+    /* Get out. */
     exit(0);
 }
 
-/* Die (gracefully?). */
+/* Make nano die gracefully. */
 void die(const char *msg, ...)
 {
     va_list ap;
@@ -605,8 +606,8 @@ void die_save_file(const char *die_filename)
     if (ISSET(RESTRICTED))
 	return;
 
-    /* If we can't save, we have REAL bad problems, but we might as well
-     * TRY. */
+    /* If we can't save, we have really bad problems, but we might as
+     * well try. */
     if (die_filename[0] == '\0')
 	die_filename = "nano";
 
@@ -698,7 +699,7 @@ void mouse_init(void)
 
 /* Print one usage string to the screen.  This cuts down on duplicate
  * strings to translate, and leaves out the parts that shouldn't be
- * translatable (the flag names). */
+ * translatable (i.e. the flag names). */
 void print_opt_full(const char *shortflag
 #ifdef HAVE_GETOPT_LONG
 	, const char *longflag
@@ -924,6 +925,11 @@ void nano_disabled_msg(void)
     statusbar(_("Sorry, support for this function has been disabled"));
 }
 
+/* If the current file buffer has been modified, and the TEMP_FILE flag
+ * isn't set, ask whether or not to save the file buffer.  If the
+ * TEMP_FILE flag is set, save it unconditionally.  Then, if more than
+ * one file buffer is open, close the current file buffer and switch to
+ * the next one.  If only one file buffer is open, exit from nano. */
 void do_exit(void)
 {
     int i;
