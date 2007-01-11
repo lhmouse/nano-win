@@ -1696,8 +1696,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 }
 
 #ifndef NANO_TINY
-/* Write a marked selection from a file out.  Return TRUE on success or
- * FALSE on error. */
+/* Write a marked selection from a file out to disk.  Return TRUE on
+ * success or FALSE on error. */
 bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	append_type append)
 {
