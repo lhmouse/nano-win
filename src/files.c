@@ -2050,7 +2050,7 @@ void free_chararray(char **array, size_t len)
 #endif
 
 #ifndef DISABLE_TABCOMP
-/* Is the given file a directory? */
+/* Is the given path a directory? */
 bool is_dir(const char *buf)
 {
     char *dirptr;
