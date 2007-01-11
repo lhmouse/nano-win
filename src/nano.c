@@ -168,8 +168,8 @@ void renumber(filestruct *fileptr)
 	fileptr->lineno = ++line;
 }
 
-/* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
- * bot_x). */
+/* Partition a filestruct so that it begins at (top, top_x) and ends at
+ * (bot, bot_x). */
 partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x)
 {
@@ -221,8 +221,8 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     return p;
 }
 
-/* Unpartition a filestruct so it begins at (fileage, 0) and ends at
- * (filebot, strlen(filebot->data)) again. */
+/* Unpartition a filestruct so that it begins at (fileage, 0) and ends
+ * at (filebot, strlen(filebot->data)) again. */
 void unpartition_filestruct(partition **p)
 {
     char *tmp;

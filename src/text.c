@@ -191,11 +191,11 @@ void do_tab(void)
 }
 
 #ifndef NANO_TINY
-/* Indent or unindent the current line (or all lines covered by the mark
- * if the mark is on) len columns, depending on whether len is positive
- * or negative.  If the TABS_TO_SPACES flag is set, indent/unindent by
- * len spaces.  Otherwise, indent or unindent by (len / tabsize) tabs
- * and (len % tabsize) spaces. */
+/* Indent or unindent the current line (or, if the mark is on, all lines
+ * covered by the mark) len columns, depending on whether len is
+ * positive or negative.  If the TABS_TO_SPACES flag is set, indent or
+ * unindent by len spaces.  Otherwise, indent or unindent by (len /
+ * tabsize) tabs and (len % tabsize) spaces. */
 void do_indent(ssize_t cols)
 {
     bool indent_changed = FALSE;

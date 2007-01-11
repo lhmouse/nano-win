@@ -1261,8 +1261,8 @@ int copy_file(FILE *inn, FILE *out)
  * append is APPEND, it means we are appending instead of overwriting.
  * If append is PREPEND, it means we are prepending instead of
  * overwriting.  If nonamechange is TRUE, we don't change the current
- * filename.  nonamechange is ignored if tmp is FALSE or we're
- * appending/prepending.
+ * filename.  nonamechange is ignored if tmp is FALSE, we're appending,
+ * or we're prepending.
  *
  * Return TRUE on success or FALSE on error. */
 bool write_file(const char *name, FILE *f_open, bool tmp, append_type
@@ -1270,7 +1270,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 {
     bool retval = FALSE;
 	/* Instead of returning in this function, you should always
-	 * merely set retval and then goto cleanup_and_exit. */
+	 * set retval and then goto cleanup_and_exit. */
     size_t lineswritten = 0;
     const filestruct *fileptr = openfile->fileage;
     int fd;
