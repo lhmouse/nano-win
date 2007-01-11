@@ -1941,16 +1941,16 @@ bool do_writeout(bool exiting)
 	    sunder(answer);
 	    align(&answer);
 
-#ifndef NANO_TINY
 	    /* Here's where we allow the selected text to be written to
 	     * a separate file.  If we're using restricted mode, this is
 	     * disabled, since it allows reading from or writing to
 	     * files not specified on the command line. */
-	    if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
-		retval = write_marked_file(answer, NULL, FALSE, append);
-	    else
+	    retval =
+#ifndef NANO_TINY
+		(!ISSET(RESTRICTED) && !exiting && openfile->mark_set) ?
+		write_marked_file(answer, NULL, FALSE, append) :
 #endif
-		retval = write_file(answer, NULL, FALSE, append, FALSE);
+		write_file(answer, NULL, FALSE, append, FALSE);
 
 	    break;
 	}
