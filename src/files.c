@@ -579,9 +579,9 @@ void read_file(FILE *f, const char *filename)
  * "New File" if the file is missing.  Otherwise, say "[filename] not
  * found".
  *
- * Return -2 if we say "New File".  Otherwise, -1 if the file isn't
- * opened, 0 otherwise.  The file might still have an error while
- * reading with a 0 return value.  *f is set to the opened file. */
+ * Return -2 if we say "New File", -1 if the file isn't opened, and 0
+ * otherwise.  The file might still have an error while reading with a 0
+ * return value.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, FILE **f)
 {
     struct stat fileinfo;
@@ -1250,20 +1250,19 @@ int copy_file(FILE *inn, FILE *out)
     return retval;
 }
 
-/* Write a file out.  If f_open isn't NULL, we assume that it is a
- * stream associated with the file, and we don't try to open it
+/* Write a file out to disk.  If f_open isn't NULL, we assume that it is
+ * a stream associated with the file, and we don't try to open it
  * ourselves.  If tmp is TRUE, we set the umask to disallow anyone else
  * from accessing the file, we don't set the filename to its name, and
  * we don't print out how many lines we wrote on the statusbar.
  *
  * tmp means we are writing a temporary file in a secure fashion.  We
- * use it when spell checking or dumping the file on an error.
- *
- * append == APPEND means we are appending instead of overwriting.
- * append == PREPEND means we are prepending instead of overwriting.
- *
- * nonamechange means don't change the current filename.  It is ignored
- * if tmp is FALSE or if we're appending/prepending.
+ * use it when spell checking or dumping the file on an error.  If
+ * append is APPEND, it means we are appending instead of overwriting.
+ * If append is PREPEND, it means we are prepending instead of
+ * overwriting.  If nonamechange is TRUE, we don't change the current
+ * filename.  nonamechange is ignored if tmp is FALSE or we're
+ * appending/prepending.
  *
  * Return TRUE on success or FALSE on error. */
 bool write_file(const char *name, FILE *f_open, bool tmp, append_type
