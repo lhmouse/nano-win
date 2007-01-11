@@ -1701,7 +1701,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	append_type append)
 {
-    bool retval = FALSE;
+    bool retval;
     bool old_modified = openfile->modified;
 	/* write_file() unsets the modified flag. */
     bool added_magicline = FALSE;

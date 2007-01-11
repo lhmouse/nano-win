@@ -21,6 +21,10 @@ CVS code -
   regexp_init()
 	- Don't assign rc's value via regcomp() until we've asserted
 	  that regexp_compiled is FALSE. (DLR)
+- text.c:
+  do_alt_speller()
+	- Rename variable altspell_error to alt_spell_error, for
+	  consistency. (DLR)
 - winio.c:
   do_credits()
 	- Update the last copyright notice to include 2006. (DLR)

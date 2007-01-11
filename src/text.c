@@ -2197,7 +2197,7 @@ const char *do_alt_speller(char *tempfile_name)
 
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
-	char *altspell_error;
+	char *alt_spell_error;
 	char *invoke_error = _("Error invoking \"%s\"");
 
 #ifndef NANO_TINY
@@ -2205,11 +2205,11 @@ const char *do_alt_speller(char *tempfile_name)
 	openfile->mark_set = old_mark_set;
 #endif
 
-	altspell_error =
+	alt_spell_error =
 		charalloc(strlen(invoke_error) +
 		strlen(alt_speller) + 1);
-	sprintf(altspell_error, invoke_error, alt_speller);
-	return altspell_error;
+	sprintf(alt_spell_error, invoke_error, alt_speller);
+	return alt_spell_error;
     }
 
 #ifndef NANO_TINY
@@ -2301,7 +2301,7 @@ const char *do_alt_speller(char *tempfile_name)
  * specified, use it.  Otherwise, use the internal spell checker. */
 void do_spell(void)
 {
-    int i;
+    bool status;
     FILE *temp_file;
     char *temp = safe_tempfile(&temp_file);
     const char *spell_msg;
@@ -2311,14 +2311,14 @@ void do_spell(void)
 	return;
     }
 
-    i =
+    status =
 #ifndef NANO_TINY
 	(openfile->mark_set) ? write_marked_file(temp, temp_file, TRUE,
 	OVERWRITE) :
 #endif
 	write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
-    if (i == -1) {
+    if (!status) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
 	free(temp);
 	return;
