@@ -29,6 +29,8 @@ CVS code -
   do_alt_speller()
 	- Rename variable altspell_error to alt_spell_error, for
 	  consistency. (DLR)
+  do_spell()
+	- Rename variable i to status, for clarity. (DLR)
 - winio.c:
   do_credits()
 	- Update the last copyright notice to include 2006. (DLR)
