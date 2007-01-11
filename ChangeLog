@@ -6,6 +6,10 @@ CVS code -
 	  versions if nano is built without nanorc support.  Changes to
 	  configure.ac, doc/man/Makefile.am, and doc/man/fr/Makefile.am.
 	  (DLR)
+	- Simplify the commands that generate HTML documentation in
+	  order to remove unnecessary usage of cat.  Changes to
+	  doc/man/Makefile.am, doc/man/fr/Makefile.am, and
+	  doc/texinfo/Makefile.am. (DLR)
 - search.c:
   regexp_init()
 	- Don't assign rc's value via regcomp() until we've asserted
