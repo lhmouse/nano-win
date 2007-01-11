@@ -310,13 +310,13 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp);
 void init_backup_dir(void);
 #endif
 int copy_file(FILE *inn, FILE *out);
-int write_file(const char *name, FILE *f_open, bool tmp, append_type
+bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	append, bool nonamechange);
 #ifndef NANO_TINY
-int write_marked_file(const char *name, FILE *f_open, bool tmp,
+bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	append_type append);
 #endif
-int do_writeout(bool exiting);
+bool do_writeout(bool exiting);
 void do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
 #if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
@@ -324,6 +324,7 @@ int diralphasort(const void *va, const void *vb);
 void free_chararray(char **array, size_t len);
 #endif
 #ifndef DISABLE_TABCOMP
+bool is_dir(const char *buf);
 char **username_tab_completion(const char *buf, size_t *num_matches,
 	size_t buflen);
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t

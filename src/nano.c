@@ -952,7 +952,7 @@ void do_exit(void)
 
     /* If the user chose not to save, or if the user chose to save and
      * the save succeeded, we're ready to exit. */
-    if (i == 0 || (i == 1 && do_writeout(TRUE) == 0)) {
+    if (i == 0 || (i == 1 && do_writeout(TRUE))) {
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
 	if (!close_buffer())

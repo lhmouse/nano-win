@@ -10,6 +10,13 @@ CVS code -
 	  order to remove unnecessary usage of cat.  Changes to
 	  doc/man/Makefile.am, doc/man/fr/Makefile.am, and
 	  doc/texinfo/Makefile.am. (DLR)
+- files.c:
+  is_dir()
+	- Don't assign dirptr's value using buf until we've asserted
+	  that buf isn't NULL. (DLR)
+	- Remove unneeded assert. (DLR)
+- proto.h:
+	- Add missing is_dir() prototype. (DLR)
 - search.c:
   regexp_init()
 	- Don't assign rc's value via regcomp() until we've asserted

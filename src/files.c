@@ -1265,11 +1265,11 @@ int copy_file(FILE *inn, FILE *out)
  * nonamechange means don't change the current filename.  It is ignored
  * if tmp is FALSE or if we're appending/prepending.
  *
- * Return 0 on success or -1 on error. */
-int write_file(const char *name, FILE *f_open, bool tmp, append_type
+ * Return TRUE on success or FALSE on error. */
+bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	append, bool nonamechange)
 {
-    int retval = -1;
+    bool retval = FALSE;
 	/* Instead of returning in this function, you should always
 	 * merely set retval and then goto cleanup_and_exit. */
     size_t lineswritten = 0;
@@ -1686,7 +1686,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	titlebar(NULL);
     }
 
-    retval = 0;
+    retval = TRUE;
 
   cleanup_and_exit:
     free(realname);
@@ -1697,11 +1697,12 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 }
 
 #ifndef NANO_TINY
-/* Write a marked selection from a file out. */
-int write_marked_file(const char *name, FILE *f_open, bool tmp,
+/* Write a marked selection from a file out.  Return TRUE on success or
+ * FALSE on error. */
+bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	append_type append)
 {
-    int retval = -1;
+    bool retval = FALSE;
     bool old_modified = openfile->modified;
 	/* write_file() unsets the modified flag. */
     bool added_magicline = FALSE;
@@ -1746,16 +1747,17 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp,
 /* Write the current file to disk.  If the mark is on, write the current
  * marked selection to disk.  If exiting is TRUE, write the file to disk
  * regardless of whether the mark is on, and without prompting if the
- * TEMP_FILE flag is set. */
-int do_writeout(bool exiting)
+ * TEMP_FILE flag is set.  Return TRUE on success or FALSE on error. */
+bool do_writeout(bool exiting)
 {
-    int i, retval = 0;
+    int i;
     append_type append = OVERWRITE;
     char *ans;
 	/* The last answer the user typed at the statusbar prompt. */
 #ifdef NANO_EXTRA
     static bool did_credits = FALSE;
 #endif
+    bool retval = FALSE;
 
     currshortcut = writefile_list;
 
@@ -1764,7 +1766,7 @@ int do_writeout(bool exiting)
 		FALSE);
 
 	/* Write succeeded. */
-	if (retval == 0)
+	if (retval)
 	    return retval;
     }
 
@@ -1820,7 +1822,7 @@ int do_writeout(bool exiting)
 	 * encoded null), treat it as though it's blank. */
 	if (i < 0 || answer[0] == '\n') {
 	    statusbar(_("Cancelled"));
-	    retval = -1;
+	    retval = FALSE;
 	    break;
 	} else {
 	    ans = mallocstrcpy(ans, answer);
@@ -1874,7 +1876,7 @@ int do_writeout(bool exiting)
 		strcasecmp(answer, "zzy") == 0) {
 		do_credits();
 		did_credits = TRUE;
-		retval = -1;
+		retval = FALSE;
 		break;
 	    }
 #endif
@@ -2050,14 +2052,18 @@ void free_chararray(char **array, size_t len)
 
 #ifndef DISABLE_TABCOMP
 /* Is the given file a directory? */
-int is_dir(const char *buf)
+bool is_dir(const char *buf)
 {
-    char *dirptr = real_dir_from_tilde(buf);
+    char *dirptr;
     struct stat fileinfo;
-    int retval = (stat(dirptr, &fileinfo) != -1 &&
-	S_ISDIR(fileinfo.st_mode));
+    bool retval;
 
-    assert(buf != NULL && dirptr != buf);
+    assert(buf != NULL);
+
+    dirptr = real_dir_from_tilde(buf);
+
+    retval = (stat(dirptr, &fileinfo) != -1 &&
+	S_ISDIR(fileinfo.st_mode));
 
     free(dirptr);
 
