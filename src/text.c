@@ -2313,7 +2313,7 @@ void do_spell(void)
 
     status =
 #ifndef NANO_TINY
-	(openfile->mark_set) ? write_marked_file(temp, temp_file, TRUE,
+	openfile->mark_set ? write_marked_file(temp, temp_file, TRUE,
 	OVERWRITE) :
 #endif
 	write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
