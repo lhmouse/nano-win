@@ -33,7 +33,7 @@ CVS code -
 	- Rename variable i to status, for clarity. (DLR)
 - winio.c:
   do_credits()
-	- Update the last copyright notice to include 2006. (DLR)
+	- Update the last copyright notice to include 2007. (DLR)
 - README:
 	- Add more miscellaneous cosmetic fixes. (DLR)
 - m4/glib-2.0.m4:
