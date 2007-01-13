@@ -988,7 +988,7 @@ msgstr ""
 "\n"
 " Testuaren zatiren bat markatua badaukazu, galdetu egingo zaizu ea zati hori fitxategi ezberdin batean gorde nahi duzun.  Gainidazketa arazoak ekiditeko ez da izaten uneko fitxategiaren izena lehenetsia modu hontan.\n"
 "\n"
-"Honako funtzio teklak daude eskuragarri fitxategia idatzi moduan:\n"
+" Honako funtzio teklak daude eskuragarri fitxategia idatzi moduan:\n"
 "\n"
 
 #: src/help.c:291
@@ -1048,7 +1048,7 @@ msgstr ""
 "\n"
 " Tab betetzea ezgaitu ez bada, TAB tekla erabili dezakezu automatikoki betetzeko direktorio izena.\n"
 "\n"
-"Honako funtzio teklak gaituak daude Nabigatzaileko joan direktoriora moduan:\n"
+" Honako funtzio teklak gaituak daude Nabigatzaileko joan direktoriora moduan:\n"
 "\n"
 
 #: src/help.c:330
@@ -1091,9 +1091,9 @@ msgid ""
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  "
 msgstr ""
-" nano-ren laguntza testu nagusia\n"
+"nano-ren laguntza testu nagusia\n"
 "\n"
-"nano editorea UW Pico testu editorearen errestasun eta funtzionalitateak emulatzeko diseinatua dago.  Lau dira editorearen sekzio nagusiak: Goiko lerroak programaren bertsioa uneko fitxategiaren izena eta modifikatua ala ez izan den. Ondoren editorearen leiho nagusia editatzen ari den fitxategia erakutsiz.  Egoera lerroa da hirugarrena eta informazio garrantzitsuak ematen ditu  "
+" nano editorea UW Pico testu editorearen errestasun eta funtzionalitateak emulatzeko diseinatua dago.  Lau dira editorearen sekzio nagusiak: Goiko lerroak programaren bertsioa uneko fitxategiaren izena eta modifikatua ala ez izan den. Ondoren editorearen leiho nagusia editatzen ari den fitxategia erakutsiz.  Egoera lerroa da hirugarrena eta informazio garrantzitsuak ematen ditu.  "
 
 #: src/help.c:368
 #, fuzzy
@@ -1748,7 +1748,7 @@ msgstr "Fitxategia:"
 #: src/winio.c:3090
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
-msgstr "%ld/%ld (%d%%) lerroa, %lu/%lu (%d%%) zutabea, %lu/%lu\t (%d%%) karakterea"
+msgstr "%ld/%ld (%d%%) lerroa, %lu/%lu (%d%%) zutabea, %lu/%lu (%d%%) karakterea"
 
 #: src/winio.c:3210
 msgid "The nano text editor"

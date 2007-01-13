@@ -910,7 +910,7 @@ msgid ""
 msgstr ""
 "Se vostede seleccionou texto con marca e fixo busca con substitución, só correspondencias no texto seleccionado serán substituídos.\n"
 "\n"
-"As seguintes teclas de función están dispoñibles en modo Busca:\n"
+" As seguintes teclas de función están dispoñibles en modo Busca:\n"
 "\n"
 
 #: src/help.c:253
@@ -952,7 +952,7 @@ msgid ""
 msgstr ""
 "Se vostede precisa doutro buffer baleiro, non introduza un nome de ficheiro, nin escriba un nome de ficheiro inexistente na entrada do nome de ficheiro a insertar e prema Intro\n"
 "\n"
-"As seguintes teclas de función están dispoñibles no modo de Inserción de Ficheiro:\n"
+" As seguintes teclas de función están dispoñibles no modo de Inserción de Ficheiro:\n"
 "\n"
 
 #: src/help.c:277
@@ -1011,7 +1011,7 @@ msgstr ""
 msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
-msgstr "As seguintes teclas de función están dispoñibles no modo de Navegación de Busca\n\n"
+msgstr " As seguintes teclas de función están dispoñibles no modo de Navegación de Busca:\n\n"
 
 #: src/help.c:317
 msgid ""
@@ -1030,7 +1030,7 @@ msgstr ""
 "\n"
 " Se o completado co tabulador non está desactivado, pode emprega-la tecla Tab para (tratar de) completar automáticamente o nome do directorio.\n"
 "\n"
-"  As seguintes teclas de función están dispoñibles no modo Ir a Directorio do Navegador:\n"
+" As seguintes teclas de función están dispoñibles no modo Ir a Directorio do Navegador:\n"
 "\n"
 
 #: src/help.c:330
@@ -1071,7 +1071,7 @@ msgid ""
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  "
 msgstr ""
-" Axuda principal de nano\n"
+"Axuda principal de nano\n"
 "\n"
 " O editor nano está deseñado para emula-la funcionalidade e facilidade de uso do editor de texto UW Pico. Hai catro seccións principais no editor: a liña superior amosa a versión do programa, o nome do ficheiro que se está a editar, e se o ficheiro está modificado ou non. A seguinte é a fiestra principal do editor, que amosa o ficheiro que se edita. A liña de estado é a terceira liña dende o fondo e amosa as mensaxes importantes. "
 
@@ -1083,13 +1083,13 @@ msgid ""
 msgstr ""
 "As derradeiras dúas liñas amosan os atallos de teclado máis usados no editor.\n"
 "\n"
-"A notación para os atallos de teclado é como sigue: As secuencias coa tecla de Control son nomeadas cun caret (^) e pode ser introducida usando a tecla de Control (Ctrl) ou premendo a tecla de Escape (Esc) dúas veces. As secuencias con tecla de Escape son nomeadas co símbolo Meta (M-) e poden ser introducidas usando as teclas Esc, Alt ou Meta dependendo da configuración do seu teclado. "
+" A notación para os atallos de teclado é como sigue: As secuencias coa tecla de Control son nomeadas cun caret (^) e pode ser introducida usando a tecla de Control (Ctrl) ou premendo a tecla de Escape (Esc) dúas veces. As secuencias con tecla de Escape son nomeadas co símbolo Meta (M-) e poden ser introducidas usando as teclas Esc, Alt ou Meta dependendo da configuración do seu teclado. "
 
 #: src/help.c:377
 msgid ""
 "Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
-msgstr "Ademáis, premendo Esc dúas veces e escribindo un decimal de tres díxitos dende 000 a 255 introducirá o carácter co correspondente valor. As seguintes entradas están dispoñibles na fiestra do editor principal. As teclas alternativas son amosadas entre parénteses\n\n"
+msgstr "Ademáis, premendo Esc dúas veces e escribindo un decimal de tres díxitos dende 000 a 255 introducirá o carácter co correspondente valor. As seguintes entradas están dispoñibles na fiestra do editor principal. As teclas alternativas son amosadas entre parénteses:\n\n"
 
 #: src/help.c:408 src/help.c:551
 msgid "enable/disable"

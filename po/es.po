@@ -1109,7 +1109,7 @@ msgid ""
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M-) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
 msgstr ""
-"Las dos últimas líneas muestran los atajos usados más a menudo en el editor \n"
+"Las dos últimas líneas muestran los atajos usados más a menudo en el editor.\n"
 "\n"
 " La notación para los atajos es como sigue: las secuencias con la tecla Control se indican con un circunflejo (^) y se pueden introducir tanto pulsando la tecla de Control (Ctrl) como pulsando dos veces la de Escape (Esc). Las secuencias con la tecla de Escape se indican con el símbolo Meta (M-) y se pueden introducir con las teclas Esc, Alt o Meta, dependiendo de su configuración de teclado. "
 
@@ -1425,7 +1425,7 @@ msgstr "Recibido SIGHUP o SIGTERM\n"
 #: src/nano.c:1021
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
-msgstr "Use \"fg\" para volver a nano \n"
+msgstr "Use \"fg\" para volver a nano.\n"
 
 #: src/nano.c:1189
 msgid "enabled"
@@ -1526,7 +1526,7 @@ msgid ""
 "for foreground colors."
 msgstr ""
 "No se ha reconocido el color \"%s\".\n"
-"Los válidos son \"green\", \"red\", \"blue\", \n"
+"Los válidos son \"green\", \"red\", \"blue\",\n"
 "\"white\", \"yellow\", \"cyan\", \"magenta\" y\n"
 "\"black\", con el prefijo opcional \"bright\"\n"
 "para los de primer plano."

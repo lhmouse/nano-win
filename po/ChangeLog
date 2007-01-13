@@ -1,5 +1,9 @@
 2007-01-13  David Lawrence Ramsey  <pooka109@cox.net>
 
+	* es.po: Fix misplaced space.
+	* eu.po: Fix typos and misplaced space.
+	* fr.po: Fix misplaced space.
+	* gl.po: Fix typos and misplaced space.
 	* nb.po: Fix typos and more misplaced space.
 
 2007-01-06  David Lawrence Ramsey  <pooka109@cox.net>

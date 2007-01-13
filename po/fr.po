@@ -1749,7 +1749,7 @@ msgstr ""
 "\n"
 " Entrez les mots ou les caractères que vous désirez chercher, puis appuyez sur « Entrée ». Si un texte correspondant est trouvé, vous serez conduit à l'emplacement de la plus proche occurrence du texte recherché.\n"
 "\n"
-" La chaîne précédemment recherchée sera affichée entre crochets derrière l'invite de recherche. Appuyer sur « Entrée » sans indiquer de texte recommencera la recherche précédente. \n"
+" La chaîne précédemment recherchée sera affichée entre crochets derrière l'invite de recherche. Appuyer sur « Entrée » sans indiquer de texte recommencera la recherche précédente.\n"
 "\n"
 
 #
