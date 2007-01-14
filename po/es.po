@@ -968,7 +968,7 @@ msgstr ""
 "\n"
 " Escriba el nombre del fichero a insertar en el búfer, en la posición actual del cursor.\n"
 "\n"
-" Si ha compilado nano con soporte para múltiples búfer y habilita los búfer múltiples con las opciones -F o --multibuffer, con la combinación Meta-F o usando un fichero nanorc, el fichero será insertado en un búfer diferente (use Meta-< y > para cambiar de búfers de fichero)."
+" Si ha compilado nano con soporte para múltiples búfer y habilita los búfer múltiples con las opciones -F o --multibuffer, con la combinación Meta-F o usando un fichero nanorc, el fichero será insertado en un búfer diferente (use Meta-< y > para cambiar de búfers de fichero). "
 
 #: src/help.c:271
 msgid ""
