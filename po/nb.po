@@ -1080,7 +1080,7 @@ msgid ""
 msgstr ""
 " Nano hjelpetekst\n"
 "\n"
-" Nano tekstredigeringsprogram er designet for å etterligne funksjonaliteten og bruksmåten for universitetet i Washington sitt Pico-program.  Der er fire hovedområder i dette programmet: Den øverste linjen viser versjonsnummeret og navnet på filen som blir redigert. Nedenfor er hovedvinduet som viser filen som blir endret. Status-linja er den 3. linjen nedenfra og viser viktige meldinger. De to nederste linjene viser de vanligste snarveiene i programmet. "
+" Nano tekstredigeringsprogram er designet for å etterligne funksjonaliteten og bruksmåten for universitetet i Washington sitt Pico-program. Der er fire hovedområder i dette programmet: Den øverste linjen viser versjonsnummeret og navnet på filen som blir redigert. Nedenfor er hovedvinduet som viser filen som blir endret. Status-linja er den 3. linjen nedenfra og viser viktige meldinger. De to nederste linjene viser de vanligste snarveiene i programmet. "
 
 #: src/help.c:368
 msgid ""
@@ -1704,7 +1704,7 @@ msgstr "%sOrd: %lu Linjer: %ld Tegn: %lu"
 
 #: src/text.c:2412
 msgid "In Selection:  "
-msgstr "I seksjon:  "
+msgstr "I seksjon: "
 
 #: src/utils.c:367 src/utils.c:379
 msgid "nano is out of memory!"
