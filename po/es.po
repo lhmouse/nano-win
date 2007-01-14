@@ -926,7 +926,7 @@ msgstr ""
 "\n"
 " Introduzca las palabras o caracteres que quiera buscar y pulse intro. Si hay una coincidencia para el texto introducido, la pantalla se actualizará en el lugar donde esté la coincidencia más cercana de la cadena buscada.\n"
 "\n"
-" Se mostrará la cadena de texto de la búsqueda anterior entre corchetes tras el indicador. Si pulsa intro sin introducir texto repetirá la última búsqueda."
+" Se mostrará la cadena de texto de la búsqueda anterior entre corchetes tras el indicador. Si pulsa intro sin introducir texto repetirá la última búsqueda. "
 
 #: src/help.c:247
 msgid ""
