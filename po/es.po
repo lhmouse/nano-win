@@ -1029,7 +1029,7 @@ msgid ""
 msgstr ""
 "Texto de ayuda de la orden Búsqueda\n"
 "\n"
-" Introduzca las palabras o caracteres que quiera buscar y pulse intro.  Si hay una coincidencia para el texto introducido, la pantalla se actualizará en el lugar donde esté la coincidencia más cercana de la cadena buscada.\n"
+" Introduzca las palabras o caracteres que quiera buscar y pulse intro. Si hay una coincidencia para el texto introducido, la pantalla se actualizará en el lugar donde esté la coincidencia más cercana de la cadena buscada.\n"
 "\n"
 " Se mostrará entre corchetes la cadena de texto de la búsqueda anterior tras el indicador. Si pulsa intro sin introducir texto repetirá la última búsqueda.\n"
 "\n"
@@ -1729,11 +1729,11 @@ msgstr "Revisión de ortografía finalizada"
 #: src/text.c:2411
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
-msgstr "%sPalabras: %lu Líneas: %ld Caracteres: %lu "
+msgstr "%sPalabras: %lu Líneas: %ld Caracteres: %lu"
 
 #: src/text.c:2412
 msgid "In Selection:  "
-msgstr "En la selección:  "
+msgstr "En la selección: "
 
 # ¡memoria insuficiente! sv
 #: src/utils.c:367 src/utils.c:379
