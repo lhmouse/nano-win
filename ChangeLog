@@ -39,6 +39,8 @@ CVS code -
 	  instructions aren't only available in its CVS snapshots. (DLR)
 - README:
 	- Add more miscellaneous cosmetic fixes. (DLR)
+- NEWS:
+	- Formatting fix. (DLR)
 - m4/glib-2.0.m4:
 	- Import the latest version of this file from glib 2.10.3. (DLR)
 - doc/faq.html:

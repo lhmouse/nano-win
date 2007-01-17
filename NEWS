@@ -220,8 +220,8 @@
 		and replacing all text in a file now properly updates
 		the screen in all cases.  New features include sample
 		regexes for patch files, improvements to the sample
-		regexes for C files, and support for strings 
-		greater than 1023 characters and/or containing nulls in
+		regexes for C files, and support for strings greater
+		than 1023 characters and/or containing nulls in
 		.nano_history.  Additionally, the full justify keystroke
 		has been changed to match current Pico, and whitespace
 		display mode is now turned off by default.  Enjoy.
