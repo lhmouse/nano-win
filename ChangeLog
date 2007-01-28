@@ -39,6 +39,8 @@ CVS code -
 	  instructions aren't only available in its CVS snapshots. (DLR)
 - README:
 	- Add more miscellaneous cosmetic fixes. (DLR)
+- README.CVS:
+	- Update for the 2.0 branch of nano. (DLR)
 - NEWS:
 	- Formatting fix. (DLR)
 - m4/glib-2.0.m4:
