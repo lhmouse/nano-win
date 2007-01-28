@@ -42,7 +42,7 @@ If you're using a C shell (e.g. tcsh or csh), do
 After that's set up, cd to your src directory and use the following
 command to download the CVS tree:
 
-    $ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout nano
+    $ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout -r nano_2_0_branch nano
 
 
 Generate the configure script
