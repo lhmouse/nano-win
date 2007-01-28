@@ -44,6 +44,7 @@ command to download the CVS tree:
 
     $ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout nano
 
+
 Generate the configure script
 -----------------------------
 
