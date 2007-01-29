@@ -66,5 +66,7 @@ Mailing List and Bug Reports
 Current Status
 
 	GNU nano has reached its third stable milestone, 2.0.x.
+	Development of new features continues in the 2.1.x branch, while
+	2.0.x versions are dedicated to bug-fixing and polishing.
 
 $Id$
