@@ -345,7 +345,7 @@ void help_init(void)
 	htx[0] = N_("Execute Command Help Text\n\n "
 		"This mode allows you to insert the output of a "
 		"command run by the shell into the current buffer (or "
-		"a new buffer in multiple file buffer mode). If you "
+		"a new buffer in multiple file buffer mode).  If you "
 		"need another blank buffer, do not enter any "
 		"command.\n\n The following function keys are "
 		"available in Execute Command mode:\n\n");

@@ -1,4 +1,7 @@
 CVS code -
+- help.c:
+  help_init()
+	- Add a missing space to the "Execute Command" help text. (DLR)
 
 - 2.1 tree forks here
 
