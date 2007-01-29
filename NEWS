@@ -1,3 +1,10 @@
+2007.01.29 - GNU nano 2.0.3 flows toward its ending.  This release
+		contains several minor optimizations to make the
+		executable a little smaller under some circumstances,
+		some translation updates, improvements to the color
+		syntax for Python, and still more minor documentation
+		updates.  Have fun.
+
 2006.12.20 - GNU nano 2.0.2 forges ahead.  This release fixes a segfault
 		when trying to save in a nonexistent directory; fixes
 		handling of strings containing nulls at the "Write File",
