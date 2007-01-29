@@ -4,5 +4,6 @@
 	readable, per Jordi Mallach's suggestion.
 	* ChangeLog.pre-2.1: Move the 2.0 branch's changelog here, per
 	Jordi Mallach's suggestion.
+	* Makefile.am: Add ChangeLog.pre-2.1 to EXTRA_DIST.
 	* src/help.c (help_init): Add a missing space to the "Execute
 	Command" help text.
