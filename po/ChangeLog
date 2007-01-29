@@ -1,6 +1,8 @@
 2007-01-29  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* ru.po: Updated Russian translation by Dimitriy Ryazantcev.
+	* ru.po: Fixed incorrect "Project-Id-Version" entry and
+	misplaced space.
 
 2007-01-13  David Lawrence Ramsey  <pooka109@cox.net>
 
