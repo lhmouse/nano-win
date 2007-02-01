@@ -774,7 +774,8 @@ void usage(void)
 #endif
     print_opt("-R", "--restricted", N_("Restricted mode"));
 #ifndef NANO_TINY
-    print_opt("-S", "--smooth", N_("Smooth scrolling"));
+    print_opt("-S", "--smooth",
+	N_("Scroll by line instead of half-screen"));
 #endif
     print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
 	N_("Set width of a tab to #cols columns"));

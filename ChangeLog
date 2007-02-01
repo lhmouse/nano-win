@@ -5,6 +5,9 @@
 	since not all of them move the cursor in the same way.
 	* global.c (shortcut_init): Reword the paragraph movement
 	shortcut descriptions to more accurately describe how they work.
+	* nano.c (usage): Reword the description of the -S/--smooth
+	command line option in order to differentiate it from the
+	associated toggle description.
 
 2007-01-29  David Lawrence Ramsey  <pooka109@cox.net>
 
