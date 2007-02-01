@@ -1,3 +1,11 @@
+2007-02-01  Benno Schulenberg  <bensberg@justemail.net>
+
+	* global.c (shortcut_init): Reword the movement shortcut
+	descriptions so that they use "Go to" instead of "Move to",
+	since not all of them move the cursor in the same way.
+	* global.c (shortcut_init): Reword the paragraph movement
+	shortcut descriptions to more accurately describe how they work.
+
 2007-01-29  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* ChangeLog: Rework the 2.1 branch's changelog to be more

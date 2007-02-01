@@ -328,8 +328,8 @@ void shortcut_init(bool unjustify)
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
 	N_("Search for a string or a regular expression");
-    const char *nano_prevpage_msg = N_("Move to the previous screen");
-    const char *nano_nextpage_msg = N_("Move to the next screen");
+    const char *nano_prevpage_msg = N_("Go to previous screen");
+    const char *nano_nextpage_msg = N_("Go to next screen");
     const char *nano_cut_msg =
 	N_("Cut the current line and store it in the cutbuffer");
     const char *nano_uncut_msg =
@@ -349,30 +349,28 @@ void shortcut_init(bool unjustify)
     const char *nano_indent_msg = N_("Indent the current line");
     const char *nano_unindent_msg = N_("Unindent the current line");
 #endif
-    const char *nano_forward_msg = N_("Move forward one character");
-    const char *nano_back_msg = N_("Move back one character");
+    const char *nano_forward_msg = N_("Go forward one character");
+    const char *nano_back_msg = N_("Go back one character");
 #ifndef NANO_TINY
-    const char *nano_nextword_msg = N_("Move forward one word");
-    const char *nano_prevword_msg = N_("Move back one word");
+    const char *nano_nextword_msg = N_("Go forward one word");
+    const char *nano_prevword_msg = N_("Go back one word");
 #endif
-    const char *nano_prevline_msg = N_("Move to the previous line");
-    const char *nano_nextline_msg = N_("Move to the next line");
-    const char *nano_home_msg =
-	N_("Move to the beginning of the current line");
-    const char *nano_end_msg =
-	N_("Move to the end of the current line");
+    const char *nano_prevline_msg = N_("Go to previous line");
+    const char *nano_nextline_msg = N_("Go to next line");
+    const char *nano_home_msg = N_("Go to beginning of current line");
+    const char *nano_end_msg = N_("Go to end of current line");
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
-	N_("Move to the beginning of the current paragraph");
+	N_("Go to beginning of paragraph; then of previous paragraph");
     const char *nano_paraend_msg =
-	N_("Move to the end of the current paragraph");
+	N_("Go just beyond end of paragraph; then of next paragraph");
 #endif
     const char *nano_firstline_msg =
-	N_("Move to the first line of the file");
+	N_("Go to the first line of the file");
     const char *nano_lastline_msg =
-	N_("Move to the last line of the file");
+	N_("Go to the last line of the file");
 #ifndef NANO_TINY
-    const char *nano_bracket_msg = N_("Move to the matching bracket");
+    const char *nano_bracket_msg = N_("Go to the matching bracket");
     const char *nano_scrollup_msg =
 	N_("Scroll up one line without scrolling the cursor");
     const char *nano_scrolldown_msg =
