@@ -1,6 +1,8 @@
 2007-04-04  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* AUTHORS, faq.html: Update email address.
+	* winio.c (get_escape_seq_kbinput): Add escape sequences for
+	Terminal.
 
 2007-02-01  Benno Schulenberg  <bensberg@justemail.net>
 
