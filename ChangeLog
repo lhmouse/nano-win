@@ -1,4 +1,7 @@
 CVS code -
+- winio.c:
+  get_escape_seq_kbinput()
+	- Add escape sequences for Terminal. (DLR)
 - doc/faq.html:
 	- Update email address. (DLR)
 - AUTHORS:
