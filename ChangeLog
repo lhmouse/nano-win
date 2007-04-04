@@ -1,3 +1,7 @@
+2007-04-04  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* AUTHORS, faq.html: Update email address.
+
 2007-02-01  Benno Schulenberg  <bensberg@justemail.net>
 
 	* global.c (shortcut_init): Reword the movement shortcut
