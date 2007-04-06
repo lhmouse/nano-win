@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.10pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 07:20-0500\n"
+"POT-Creation-Date: 2007-04-06 08:48-0400\n"
 "PO-Revision-Date: 2005-12-13 09:33+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -104,7 +104,7 @@ msgid "Switched to %s"
 msgstr "切換至 %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2080
+#: src/files.c:245 src/global.c:303 src/winio.c:2141
 msgid "New Buffer"
 msgstr "新緩衝區"
 
@@ -1537,7 +1537,7 @@ msgstr "開啟"
 msgid "disabled"
 msgstr "關閉"
 
-#: src/nano.c:1374 src/winio.c:1214
+#: src/nano.c:1374 src/winio.c:1275
 #, fuzzy
 msgid "Unknown Command"
 msgstr "旗標 %s 無法辨識"
@@ -1838,60 +1838,60 @@ msgstr "nano 已耗盡記憶體！"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1515
+#: src/winio.c:1576
 msgid "Unicode Input"
 msgstr ""
 
-#: src/winio.c:2061 src/winio.c:2065
+#: src/winio.c:2122 src/winio.c:2126
 msgid "Modified"
 msgstr "已更動"
 
-#: src/winio.c:2062
+#: src/winio.c:2123
 msgid "View"
 msgstr "觀看"
 
-#: src/winio.c:2076
+#: src/winio.c:2137
 msgid "DIR:"
 msgstr "目錄:"
 
-#: src/winio.c:2083
+#: src/winio.c:2144
 msgid "File:"
 msgstr "檔案:"
 
-#: src/winio.c:3107
+#: src/winio.c:3168
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "列 %ld/%ld (%d%%), 行 %lu/%lu (%d%%), 字元 %lu/%lu (%d%%)"
 
-#: src/winio.c:3225
+#: src/winio.c:3286
 msgid "The nano text editor"
 msgstr "nano 文字編輯器"
 
-#: src/winio.c:3226
+#: src/winio.c:3287
 msgid "version"
 msgstr "版本"
 
-#: src/winio.c:3227
+#: src/winio.c:3288
 msgid "Brought to you by:"
 msgstr "來自於:"
 
-#: src/winio.c:3228
+#: src/winio.c:3289
 msgid "Special thanks to:"
 msgstr "特別感謝:"
 
-#: src/winio.c:3229
+#: src/winio.c:3290
 msgid "The Free Software Foundation"
 msgstr "自由軟體基金會"
 
-#: src/winio.c:3230
+#: src/winio.c:3291
 msgid "For ncurses:"
 msgstr "ncurses 部份:"
 
-#: src/winio.c:3231
+#: src/winio.c:3292
 msgid "and anyone else we forgot..."
 msgstr "以及其他我們不記得的人..."
 
-#: src/winio.c:3232
+#: src/winio.c:3293
 msgid "Thank you for using nano!"
 msgstr "謝謝您使用 nano﹗"
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 07:20-0500\n"
+"POT-Creation-Date: 2007-04-06 08:48-0400\n"
 "PO-Revision-Date: 2006-10-16 23:09+0200\n"
 "Last-Translator: Geir Helland <pjallabais@users.sourceforge.net>\n"
 "Language-Team: Norwegian Bokmaal <i18n-nb@lister.ping.uio.no>\n"
@@ -106,7 +106,7 @@ msgid "Switched to %s"
 msgstr "Byttet til %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2080
+#: src/files.c:245 src/global.c:303 src/winio.c:2141
 msgid "New Buffer"
 msgstr "Ny buffer"
 
@@ -1500,7 +1500,7 @@ msgstr "på"
 msgid "disabled"
 msgstr "av"
 
-#: src/nano.c:1374 src/winio.c:1214
+#: src/nano.c:1374 src/winio.c:1275
 msgid "Unknown Command"
 msgstr "Ukjent kommando"
 
@@ -1798,61 +1798,61 @@ msgstr "nano er tom for minne!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1515
+#: src/winio.c:1576
 msgid "Unicode Input"
 msgstr "Unikode inndata"
 
-#: src/winio.c:2061 src/winio.c:2065
+#: src/winio.c:2122 src/winio.c:2126
 msgid "Modified"
 msgstr "Endret"
 
-#: src/winio.c:2062
+#: src/winio.c:2123
 msgid "View"
 msgstr "Vis"
 
-#: src/winio.c:2076
+#: src/winio.c:2137
 msgid "DIR:"
 msgstr "KAT:"
 
-#: src/winio.c:2083
+#: src/winio.c:2144
 msgid "File:"
 msgstr "Fil:"
 
-#: src/winio.c:3107
+#: src/winio.c:3168
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "linje %ld/%ld (%d%%), kolonne %lu/%lu (%d%%), tegn %lu/%lu (%d%%)"
 
-#: src/winio.c:3225
+#: src/winio.c:3286
 msgid "The nano text editor"
 msgstr "Tekstbehandleren nano"
 
-#: src/winio.c:3226
+#: src/winio.c:3287
 msgid "version"
 msgstr "versjon"
 
-#: src/winio.c:3227
+#: src/winio.c:3288
 msgid "Brought to you by:"
 msgstr "Brakt til deg av:"
 
-#: src/winio.c:3228
+#: src/winio.c:3289
 msgid "Special thanks to:"
 msgstr "Mange takk til:"
 
 # Oversette dette ?
-#: src/winio.c:3229
+#: src/winio.c:3290
 msgid "The Free Software Foundation"
 msgstr "The Free Sofware Foundation"
 
-#: src/winio.c:3230
+#: src/winio.c:3291
 msgid "For ncurses:"
 msgstr "For ncurses:"
 
-#: src/winio.c:3231
+#: src/winio.c:3292
 msgid "and anyone else we forgot..."
 msgstr "og alle de andre vi glemte..."
 
-#: src/winio.c:3232
+#: src/winio.c:3293
 msgid "Thank you for using nano!"
 msgstr "Takk for at du bruker nano!"
 

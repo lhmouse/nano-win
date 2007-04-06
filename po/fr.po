@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 07:20-0500\n"
+"POT-Creation-Date: 2007-04-06 08:48-0400\n"
 "PO-Revision-Date: 2006-10-16 23:32+0200\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir."
 "org>\n"
@@ -231,7 +231,7 @@ msgstr "Basculement vers %s"
 # File: src/global.c, line: 302
 # File: src/winio.c, line: 2022
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2080
+#: src/files.c:245 src/global.c:303 src/winio.c:2141
 msgid "New Buffer"
 msgstr "Nouvel espace"
 
@@ -2508,7 +2508,7 @@ msgstr "- arrêt"
 # File: src/winio.c, line: 530
 # File: src/nano.c, line: 1361
 # File: src/winio.c, line: 530
-#: src/nano.c:1374 src/winio.c:1214
+#: src/nano.c:1374 src/winio.c:1275
 msgid "Unknown Command"
 msgstr "Commande inconnue"
 
@@ -3032,7 +3032,7 @@ msgstr "nano n'a plus de mémoire !"
 # File: src/winio.c, line: 1467
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1515
+#: src/winio.c:1576
 msgid "Unicode Input"
 msgstr "Entrée Unicode"
 
@@ -3041,7 +3041,7 @@ msgstr "Entrée Unicode"
 # File: src/winio.c, line: 2007
 # File: src/winio.c, line: 2004
 # File: src/winio.c, line: 2007
-#: src/winio.c:2061 src/winio.c:2065
+#: src/winio.c:2122 src/winio.c:2126
 msgid "Modified"
 msgstr "Modifié"
 
@@ -3051,28 +3051,28 @@ msgstr "Modifié"
 # déborder sur le bord haut de l'écran.
 # File: src/winio.c, line: 2005
 # File: src/winio.c, line: 2005
-#: src/winio.c:2062
+#: src/winio.c:2123
 msgid "View"
 msgstr "Voir"
 
 #
 # File: src/winio.c, line: 2018
 # File: src/winio.c, line: 2018
-#: src/winio.c:2076
+#: src/winio.c:2137
 msgid "DIR:"
 msgstr "RÉP. :"
 
 #
 # File: src/winio.c, line: 2025
 # File: src/winio.c, line: 2025
-#: src/winio.c:2083
+#: src/winio.c:2144
 msgid "File:"
 msgstr "Fichier :"
 
 #
 # File: src/winio.c, line: 3046
 # File: src/winio.c, line: 3046
-#: src/winio.c:3107
+#: src/winio.c:3168
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "ligne %ld/%ld (%d%%), col. %lu/%lu (%d%%), car. %lu/%lu (%d%%)"
@@ -3080,55 +3080,55 @@ msgstr "ligne %ld/%ld (%d%%), col. %lu/%lu (%d%%), car. %lu/%lu (%d%%)"
 #
 # File: src/winio.c, line: 3166
 # File: src/winio.c, line: 3166
-#: src/winio.c:3225
+#: src/winio.c:3286
 msgid "The nano text editor"
 msgstr "L'éditeur de texte nano"
 
 #
 # File: src/winio.c, line: 3167
 # File: src/winio.c, line: 3167
-#: src/winio.c:3226
+#: src/winio.c:3287
 msgid "version"
 msgstr "version"
 
 #
 # File: src/winio.c, line: 3168
 # File: src/winio.c, line: 3168
-#: src/winio.c:3227
+#: src/winio.c:3288
 msgid "Brought to you by:"
 msgstr "Proposé par :"
 
 #
 # File: src/winio.c, line: 3169
 # File: src/winio.c, line: 3169
-#: src/winio.c:3228
+#: src/winio.c:3289
 msgid "Special thanks to:"
 msgstr "Remerciements particuliers à :"
 
 #
 # File: src/winio.c, line: 3170
 # File: src/winio.c, line: 3170
-#: src/winio.c:3229
+#: src/winio.c:3290
 msgid "The Free Software Foundation"
 msgstr "La Free Software Foundation"
 
 #
 # File: src/winio.c, line: 3171
 # File: src/winio.c, line: 3171
-#: src/winio.c:3230
+#: src/winio.c:3291
 msgid "For ncurses:"
 msgstr "Pour ncurses :"
 
 #
 # File: src/winio.c, line: 3172
 # File: src/winio.c, line: 3172
-#: src/winio.c:3231
+#: src/winio.c:3292
 msgid "and anyone else we forgot..."
 msgstr "et toute autre personne que nous aurions oublié..."
 
 #
 # File: src/winio.c, line: 3173
 # File: src/winio.c, line: 3173
-#: src/winio.c:3232
+#: src/winio.c:3293
 msgid "Thank you for using nano!"
 msgstr "Merci d'utiliser nano !"

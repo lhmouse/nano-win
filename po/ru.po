@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 07:20-0500\n"
+"POT-Creation-Date: 2007-04-06 08:48-0400\n"
 "PO-Revision-Date: 2007-01-19 22:51+0200\n"
 "Last-Translator: Dimitriy Ryazantcev <DJm00n@mail.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -107,7 +107,7 @@ msgid "Switched to %s"
 msgstr "Переключено в %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2080
+#: src/files.c:245 src/global.c:303 src/winio.c:2141
 msgid "New Buffer"
 msgstr "Новый буфер"
 
@@ -1509,7 +1509,7 @@ msgstr "разрешено"
 msgid "disabled"
 msgstr "запрещено"
 
-#: src/nano.c:1374 src/winio.c:1214
+#: src/nano.c:1374 src/winio.c:1275
 msgid "Unknown Command"
 msgstr "Неизвестная команда"
 
@@ -1808,63 +1808,63 @@ msgstr "Не достаточно памяти для nano!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1515
+#: src/winio.c:1576
 msgid "Unicode Input"
 msgstr "Юникод код"
 
-#: src/winio.c:2061 src/winio.c:2065
+#: src/winio.c:2122 src/winio.c:2126
 msgid "Modified"
 msgstr "Изменен"
 
-#: src/winio.c:2062
+#: src/winio.c:2123
 msgid "View"
 msgstr "Смотр"
 
-#: src/winio.c:2076
+#: src/winio.c:2137
 msgid "DIR:"
 msgstr "Дир:"
 
-#: src/winio.c:2083
+#: src/winio.c:2144
 msgid "File:"
 msgstr "Файл:"
 
-#: src/winio.c:3107
+#: src/winio.c:3168
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "строка %ld/%ld (%d%%), столбец %lu/%lu (%d%%), символ %lu/%lu (%d%%)"
 
-#: src/winio.c:3225
+#: src/winio.c:3286
 msgid "The nano text editor"
 msgstr "Текстовый редактор nano"
 
-#: src/winio.c:3226
+#: src/winio.c:3287
 msgid "version"
 msgstr "версия"
 
-#: src/winio.c:3227
+#: src/winio.c:3288
 msgid "Brought to you by:"
 msgstr "Предоставлен вам:"
 
-#: src/winio.c:3228
+#: src/winio.c:3289
 msgid "Special thanks to:"
 msgstr "Особая благодарность:"
 
-#: src/winio.c:3229
+#: src/winio.c:3290
 msgid "The Free Software Foundation"
 msgstr ""
 "The Free Software Foundation (фонд свободного программного обеспечения)"
 
-#: src/winio.c:3230
+#: src/winio.c:3291
 msgid "For ncurses:"
 msgstr "Для ncurses:"
 
-#: src/winio.c:3231
+#: src/winio.c:3292
 msgid "and anyone else we forgot..."
 msgstr ""
 "Дмитрию Рязанцеву за русский перевод и всем остальным, кого мы забыли "
 "упомянуть..."
 
-#: src/winio.c:3232
+#: src/winio.c:3293
 msgid "Thank you for using nano!"
 msgstr "Спасибо вам за выбор nano!"
 

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 07:20-0500\n"
+"POT-Creation-Date: 2007-04-06 08:48-0400\n"
 "PO-Revision-Date: 2005-04-03 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -121,7 +121,7 @@ msgid "Switched to %s"
 msgstr "Kuri"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2080
+#: src/files.c:245 src/global.c:303 src/winio.c:2141
 msgid "New Buffer"
 msgstr ""
 
@@ -1677,7 +1677,7 @@ msgstr "Bikora"
 msgid "disabled"
 msgstr "Yahagaritswe"
 
-#: src/nano.c:1374 src/winio.c:1214
+#: src/nano.c:1374 src/winio.c:1275
 #, fuzzy
 msgid "Unknown Command"
 msgstr "Ibendera"
@@ -2030,12 +2030,12 @@ msgstr "ni Inyuma Bya Ububiko"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1515
+#: src/winio.c:1576
 msgid "Unicode Input"
 msgstr ""
 
 # sc/source\ui\src\globstr.src:RID_GLOBSTR.STR_DOC_MODIFIED.text
-#: src/winio.c:2061 src/winio.c:2065
+#: src/winio.c:2122 src/winio.c:2126
 msgid "Modified"
 msgstr "Byahinduwe"
 
@@ -2051,59 +2051,59 @@ msgstr "Byahinduwe"
 # offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SD_EDITOPTIONS.3.text
 # #-#-#-#-#  offmgr.pot (PACKAGE VERSION)  #-#-#-#-#
 # offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SD_GRAPHIC_OPTIONS.3.text
-#: src/winio.c:2062
+#: src/winio.c:2123
 msgid "View"
 msgstr "Igaragaza"
 
-#: src/winio.c:2076
+#: src/winio.c:2137
 msgid "DIR:"
 msgstr ""
 
 # sc/source\ui\src\globstr.src:RID_GLOBSTR.STR_LINKERRORFILE.text
-#: src/winio.c:2083
+#: src/winio.c:2144
 msgid "File:"
 msgstr "Idosiye:"
 
-#: src/winio.c:3107
+#: src/winio.c:3168
 #, fuzzy, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "Umurongo Col INYUGUTI"
 
-#: src/winio.c:3225
+#: src/winio.c:3286
 #, fuzzy
 msgid "The nano text editor"
 msgstr "Umwandiko Muhinduzi"
 
 # goodies/source\filter.vcl\eps\dlgeps.src:DLG_EXPORT_EPS.GRP_VERSION.text
-#: src/winio.c:3226
+#: src/winio.c:3287
 #, fuzzy
 msgid "version"
 msgstr "Verisiyo"
 
-#: src/winio.c:3227
+#: src/winio.c:3288
 #, fuzzy
 msgid "Brought to you by:"
 msgstr "Kuri ku"
 
-#: src/winio.c:3228
+#: src/winio.c:3289
 #, fuzzy
 msgid "Special thanks to:"
 msgstr "Kuri"
 
-#: src/winio.c:3229
+#: src/winio.c:3290
 msgid "The Free Software Foundation"
 msgstr ""
 
-#: src/winio.c:3230
+#: src/winio.c:3291
 msgid "For ncurses:"
 msgstr ""
 
-#: src/winio.c:3231
+#: src/winio.c:3292
 #, fuzzy
 msgid "and anyone else we forgot..."
 msgstr "Na Ikindi Twebwe"
 
-#: src/winio.c:3232
+#: src/winio.c:3293
 #, fuzzy
 msgid "Thank you for using nano!"
 msgstr "kugirango ikoresha"

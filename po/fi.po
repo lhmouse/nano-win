@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-29 07:20-0500\n"
+"POT-Creation-Date: 2007-04-06 08:48-0400\n"
 "PO-Revision-Date: 2003-02-17 22:32+0200\n"
 "Last-Translator: Kalle Olavi Niemitalo <kon@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -107,7 +107,7 @@ msgid "Switched to %s"
 msgstr "Vaihdoin tiedostoon %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2080
+#: src/files.c:245 src/global.c:303 src/winio.c:2141
 msgid "New Buffer"
 msgstr "Uusi teksti"
 
@@ -1609,7 +1609,7 @@ msgstr "käytössä"
 msgid "disabled"
 msgstr "ei käytössä"
 
-#: src/nano.c:1374 src/winio.c:1214
+#: src/nano.c:1374 src/winio.c:1275
 msgid "Unknown Command"
 msgstr ""
 
@@ -1918,66 +1918,66 @@ msgstr "Nanolta loppui muisti!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1515
+#: src/winio.c:1576
 msgid "Unicode Input"
 msgstr ""
 
-#: src/winio.c:2061 src/winio.c:2065
+#: src/winio.c:2122 src/winio.c:2126
 #, fuzzy
 msgid "Modified"
 msgstr " Muokattu "
 
-#: src/winio.c:2062
+#: src/winio.c:2123
 #, fuzzy
 msgid "View"
 msgstr " Näkymä "
 
-#: src/winio.c:2076
+#: src/winio.c:2137
 #, fuzzy
 msgid "DIR:"
 msgstr " HAKEMISTO: "
 
-#: src/winio.c:2083
+#: src/winio.c:2144
 #, fuzzy
 msgid "File:"
 msgstr "Tiedosto: "
 
-#: src/winio.c:3107
+#: src/winio.c:3168
 #, fuzzy, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "rivi %ld/%ld (%d%%), sarake %lu/%lu (%d%%), merkki %lu/%ld (%d%%)"
 
-#: src/winio.c:3225
+#: src/winio.c:3286
 msgid "The nano text editor"
 msgstr "Nano-editori"
 
-#: src/winio.c:3226
+#: src/winio.c:3287
 #, fuzzy
 msgid "version"
 msgstr "versio "
 
-#: src/winio.c:3227
+#: src/winio.c:3288
 msgid "Brought to you by:"
 msgstr "Tehneet:"
 
-#: src/winio.c:3228
+#: src/winio.c:3289
 msgid "Special thanks to:"
 msgstr "Erikoiskiitokset:"
 
-#: src/winio.c:3229
+#: src/winio.c:3290
 msgid "The Free Software Foundation"
 msgstr "Free Software Foundation"
 
 # Special thanks to: (nimiä) For ncurses: (nimiä)
-#: src/winio.c:3230
+#: src/winio.c:3291
 msgid "For ncurses:"
 msgstr "Ncursesista:"
 
-#: src/winio.c:3231
+#: src/winio.c:3292
 msgid "and anyone else we forgot..."
 msgstr "ja kaikille muille, jotka unohdimme..."
 
-#: src/winio.c:3232
+#: src/winio.c:3293
 #, fuzzy
 msgid "Thank you for using nano!"
 msgstr "Kiitos Nanon käyttämisestä!\n"
