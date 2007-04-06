@@ -1,3 +1,5 @@
+CVS code -
+
 GNU nano 2.0.4 - 2007.04.06
 - winio.c:
   get_escape_seq_kbinput()
