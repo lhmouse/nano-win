@@ -1,3 +1,10 @@
+2007-04-11  Mike Frysinger  <vapier@gentoo.org>
+
+	* doc/syntax/asm.nanorc, doc/syntax/c.nanorc,
+	doc/syntax/sh.nanorc: Copy the regex that highlights trailing
+	whitespace from doc/syntax/java.nanorc to these files, as it's
+	also useful in them.  (With minor tweaks by DLR.)
+
 2007-04-04  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* AUTHORS, faq.html: Update email address.
