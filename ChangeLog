@@ -1,4 +1,8 @@
 CVS code -
+- doc/syntax/asm.nanorc, doc/syntax/c.nanorc, doc/syntax/sh.nanorc:
+	- Copy the regex that highlights trailing whitespace from
+	  doc/syntax/java.nanorc to these files, as it's also useful in
+	  them. (Mike Frysinger, minor tweaks by DLR)
 
 GNU nano 2.0.4 - 2007.04.06
 - winio.c:
