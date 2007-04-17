@@ -1995,7 +1995,8 @@ char *real_dir_from_tilde(const char *buf)
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL &&
-		strncmp(userdata->pw_name, buf + 1, i - 1) != 0);
+		(strncmp(userdata->pw_name, buf + 1, i - 1) != 0 ||
+		strlen(userdata->pw_name) != strnlen(buf + 1, i - 1)));
 	    endpwent();
 	    if (userdata != NULL)
 		tilde_dir = userdata->pw_dir;

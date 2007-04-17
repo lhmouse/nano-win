@@ -1,3 +1,11 @@
+2007-04-17  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* files.c (real_dir_from_tilde): Fix long-standing problem where
+	directory names that began with "~", but that weren't users'
+	home directories, could be erroneously treated as users' home
+	directories (e.g. "~d/" would be treated as "~daemon/"). (DLR,
+	found by Justin Fletcher)
+
 2007-04-16  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* files.c (real_dir_from_tilde): Fix segfault when dealing with
