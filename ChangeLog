@@ -1,3 +1,9 @@
+2007-04-16  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* files.c (get_real_dir_from_tilde): Fix segfault when dealing
+	with directory names that begin with "~", but that aren't users'
+	home directories. (DLR, found by Justin Fletcher)
+
 2007-04-11  Mike Frysinger  <vapier@gentoo.org>
 
 	* doc/syntax/asm.nanorc, doc/syntax/c.nanorc,

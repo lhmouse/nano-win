@@ -1979,7 +1979,7 @@ char *real_dir_from_tilde(const char *buf)
 
     if (buf[0] == '~') {
 	size_t i;
-	const char *tilde_dir;
+	const char *tilde_dir = NULL;
 
 	/* Figure out how much of the str we need to compare. */
 	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
@@ -1997,7 +1997,8 @@ char *real_dir_from_tilde(const char *buf)
 	    } while (userdata != NULL &&
 		strncmp(userdata->pw_name, buf + 1, i - 1) != 0);
 	    endpwent();
-	    tilde_dir = userdata->pw_dir;
+	    if (userdata != NULL)
+		tilde_dir = userdata->pw_dir;
 	}
 
 	if (tilde_dir != NULL) {
