@@ -1,8 +1,8 @@
 2007-04-16  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* files.c (get_real_dir_from_tilde): Fix segfault when dealing
-	with directory names that begin with "~", but that aren't users'
-	home directories. (DLR, found by Justin Fletcher)
+	* files.c (real_dir_from_tilde): Fix segfault when dealing with
+	directory names that begin with "~", but that aren't users' home
+	directories. (DLR, found by Justin Fletcher)
 
 2007-04-11  Mike Frysinger  <vapier@gentoo.org>
 
