@@ -2254,7 +2254,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	matches = cwd_tab_completion(buf, allow_files, &num_matches,
 		*place);
 
-    if (num_matches <= 0)
+    if (num_matches == 0)
 	beep();
     else {
 	size_t match, common_len = 0;
