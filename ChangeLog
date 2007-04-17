@@ -9,6 +9,9 @@ CVS code -
 	  erroneously treated as users' home directories (e.g. "~d/"
 	  would be treated as "~daemon/"). (DLR, found by Justin
 	  Fletcher)
+  input_tab()
+	- Don't bother checking if num_matches is less than zero, as
+	  it's a size_t and hence unsigned. (DLR)
 - doc/syntax/asm.nanorc, doc/syntax/c.nanorc, doc/syntax/sh.nanorc:
 	- Copy the regex that highlights trailing whitespace from
 	  doc/syntax/java.nanorc to these files, as it's also useful in
