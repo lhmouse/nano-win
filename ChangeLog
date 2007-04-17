@@ -1,6 +1,6 @@
 CVS code -
 - files.c:
-  get_real_dir_from_tilde()
+  real_dir_from_tilde()
 	- Fix segfault when dealing with directory names that begin with
 	  "~", but that aren't users' home directories. (DLR, found by
 	  Justin Fletcher)
