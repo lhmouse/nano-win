@@ -4,6 +4,11 @@ CVS code -
 	- Fix segfault when dealing with directory names that begin with
 	  "~", but that aren't users' home directories. (DLR, found by
 	  Justin Fletcher)
+	- Fix long-standing problem where directory names that began
+	  with "~", but that weren't users' home directories, could be
+	  erroneously treated as users' home directories (e.g. "~d/"
+	  would be treated as "~daemon/"). (DLR, found by Justin
+	  Fletcher)
 - doc/syntax/asm.nanorc, doc/syntax/c.nanorc, doc/syntax/sh.nanorc:
 	- Copy the regex that highlights trailing whitespace from
 	  doc/syntax/java.nanorc to these files, as it's also useful in
