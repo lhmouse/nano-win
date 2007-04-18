@@ -1,5 +1,6 @@
 2007-04-18  David Lawrence Ramsey  <pooka109@gmail.com>
 
+	* winio.c (parse_kbinput): Interpret Cancel and Shift-Cancel.
 	* winio.c (get_escape_seq_kbinput): Add missing comments.
 
 2007-04-17  David Lawrence Ramsey  <pooka109@gmail.com>
