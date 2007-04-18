@@ -4,6 +4,11 @@
 	whenever possible, so that ~user/file.txt and "~user/file.txt"
 	are treated the same way if ~user is a user's home directory.
 	* files.c (real_dir_from_tilde): Simplify.
+	* files.c (do_writeout): Properly display the warning in all
+	cases if we try to save (a) an existing file under a different
+	name, or (b) a file with no name under an existing file's name.
+	* files.c (do_writeout): Rename variable different_name to
+	do_warning, for clarity.
 	* rcfile.c (parse_include): Open files using their full paths
 	whenever possible, so that ~user/file.txt and "~user/file.txt"
 	are treated the same way if ~user is a user's home directory.
