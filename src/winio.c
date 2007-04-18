@@ -558,6 +558,12 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		retval = ERR;
 		break;
 #endif
+#ifdef KEY_CANCEL
+	    /* Slang doesn't support KEY_CANCEL. */
+	    case KEY_CANCEL:
+		retval = NANO_CANCEL_KEY;
+		break;
+#endif
 #ifdef KEY_END
 	    /* HP-UX 10-11 doesn't support KEY_END. */
 	    case KEY_END:
@@ -569,6 +575,12 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    case KEY_SBEG:	/* Center (5) on numeric keypad with
 				 * NumLock off. */
 		retval = ERR;
+		break;
+#endif
+#ifdef KEY_SCANCEL
+	    /* Slang doesn't support KEY_SCANCEL. */
+	    case KEY_SCANCEL:
+		retval = NANO_CANCEL_KEY;
 		break;
 #endif
 #ifdef KEY_SDC

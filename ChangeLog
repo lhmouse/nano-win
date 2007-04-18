@@ -13,6 +13,8 @@ CVS code -
 	- Don't bother checking if num_matches is less than zero, as
 	  it's a size_t and hence unsigned. (DLR)
 - winio.c:
+  parse_kbinput()
+	- Interpret Cancel and Shift-Cancel. (DLR)
   get_escape_seq_kbinput()
 	- Add missing comments. (DLR)
 - doc/syntax/asm.nanorc, doc/syntax/c.nanorc, doc/syntax/sh.nanorc:
