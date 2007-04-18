@@ -14,6 +14,12 @@ CVS code -
 	  would be treated as "~daemon/"). (DLR, found by Justin
 	  Fletcher)
 	- Simplify. (DLR)
+  do_writeout()
+	- Properly display the warning in all cases if we try to save
+	  (a) an existing file under a different name, or (b) a file
+	  with no name under an existing file's name. (DLR)
+	- Rename variable different_name to do_warning, for clarity.
+	  (DLR)
   input_tab()
 	- Don't bother checking if num_matches is less than zero, as
 	  it's a size_t and hence unsigned. (DLR)

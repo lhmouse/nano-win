@@ -1892,7 +1892,7 @@ bool do_writeout(bool exiting)
 
 	    if (append == OVERWRITE) {
 		size_t answer_len = strlen(answer);
-		bool name_exists, different_name;
+		bool name_exists, do_warning;
 		char *full_answer, *full_filename;
 		struct stat st;
 
@@ -1900,12 +1900,14 @@ bool do_writeout(bool exiting)
 		 * full path. */
 		sunder(answer);
 
-		name_exists = (stat(answer, &st) != -1);
 		full_answer = get_full_path(answer);
 		full_filename = get_full_path(openfile->filename);
-		different_name = (strcmp((full_answer == NULL) ?
+		name_exists = (stat((full_answer == NULL) ? answer :
+			full_answer, &st) != -1);
+		do_warning = ((openfile->filename[0] == '\0' &&
+			name_exists) || (strcmp((full_answer == NULL) ?
 			answer : full_answer, (full_filename == NULL) ?
-			openfile->filename : full_filename) != 0);
+			openfile->filename : full_filename) != 0));
 
 		/* Convert nulls to newlines.  answer_len is the
 		 * string's real length. */
@@ -1916,7 +1918,7 @@ bool do_writeout(bool exiting)
 		if (full_answer != NULL)
 		    free(full_answer);
 
-		if (different_name) {
+		if (do_warning) {
 		    if (name_exists) {
 			/* If we're using restricted mode, we aren't
 			 * allowed to save a new file under the name of
