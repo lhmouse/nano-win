@@ -1990,11 +1990,11 @@ char *real_dir_from_tilde(const char *buf)
     assert(buf != NULL);
 
     if (buf[0] == '~') {
-	size_t i;
+	size_t i = 1;
 	char *tilde_dir;
 
 	/* Figure out how much of the str we need to compare. */
-	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
+	for (; buf[i] != '/' && buf[i] != '\0'; i++)
 	    ;
 
 	/* Get the home directory. */
