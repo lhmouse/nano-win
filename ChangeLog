@@ -1,3 +1,9 @@
+2007-04-18  John M. Gabriele  <jmg3000@gmail.com>
+
+	* doc/faq.html: Add a new section 4.14 (with minor tweaks by
+	David Lawrence Ramsey) to explain how autoindent affects pasted
+	text.
+
 2007-04-18  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* files.c (open_file): Open files using their full paths
