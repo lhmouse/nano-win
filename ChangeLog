@@ -1,6 +1,17 @@
 2007-04-18  David Lawrence Ramsey  <pooka109@gmail.com>
 
+	* files.c (open_file): Open files using their full paths
+	whenever possible, so that ~user/file.txt and "~user/file.txt"
+	are treated the same way if ~user is a user's home directory.
 	* files.c (real_dir_from_tilde): Simplify.
+	* rcfile.c (parse_include): Open files using their full paths
+	whenever possible, so that ~user/file.txt and "~user/file.txt"
+	are treated the same way if ~user is a user's home directory.
+	* rcfile.c (parse_include): Properly check for the included
+	file's being a directory, a character file, or a block file.
+	* rcfile.c (parse_include): For consistency, display the
+	filename as the user entered it if we can't read the specified
+	file.
 	* winio.c (parse_kbinput): Interpret Cancel and Shift-Cancel.
 	* winio.c (get_escape_seq_kbinput): Add missing comments.
 

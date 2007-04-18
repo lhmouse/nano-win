@@ -586,10 +586,17 @@ int open_file(const char *filename, bool newfie, FILE **f)
 {
     struct stat fileinfo;
     int fd;
+    char *full_filename;
 
     assert(filename != NULL && f != NULL);
 
-    if (stat(filename, &fileinfo) == -1) {
+    /* Get the specified file's full path. */
+    full_filename = get_full_path(filename);
+
+    if (full_filename == NULL)
+	full_filename = mallocstrcpy(NULL, filename);
+
+    if (stat(full_filename, &fileinfo) == -1) {
 	if (newfie) {
 	    statusbar(_("New File"));
 	    return -2;
@@ -606,8 +613,9 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		_("\"%s\" is a device file"), filename);
 	beep();
 	return -1;
-    } else if ((fd = open(filename, O_RDONLY)) == -1) {
-	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
+    } else if ((fd = open(full_filename, O_RDONLY)) == -1) {
+	statusbar(_("Error reading %s: %s"), filename,
+		strerror(errno));
 	beep();
  	return -1;
      } else {
@@ -622,6 +630,8 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	} else
 	    statusbar(_("Reading File"));
     }
+
+    free(full_filename);
 
     return 0;
 }
