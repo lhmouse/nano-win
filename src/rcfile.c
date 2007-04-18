@@ -363,25 +363,23 @@ void parse_include(char *ptr)
     /* Get the specified file's full path. */
     full_option = get_full_path(option);
 
-    if (full_option == NULL) {
-	rcfile_error(_("Error reading %s: %s"), option, strerror(errno));
-	goto cleanup_include;
-    }
+    if (full_option == NULL)
+	full_option = mallocstrcpy(NULL, option);
 
     /* Don't open directories, character files, or block files. */
-    if (stat(nanorc, &rcinfo) != -1) {
+    if (stat(full_option, &rcinfo) != -1) {
 	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
 		S_ISBLK(rcinfo.st_mode)) {
 	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
 		_("\"%s\" is a directory") :
-		_("\"%s\" is a device file"), nanorc);
+		_("\"%s\" is a device file"), option);
 	    goto cleanup_include;
 	}
     }
 
     /* Open the new syntax file. */
     if ((rcstream = fopen(full_option, "rb")) == NULL) {
-	rcfile_error(_("Error reading %s: %s"), full_option,
+	rcfile_error(_("Error reading %s: %s"), option,
 		strerror(errno));
 	goto cleanup_include;
     }

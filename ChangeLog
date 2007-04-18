@@ -1,5 +1,9 @@
 CVS code -
 - files.c:
+  open_file()
+	- Open files using their full paths whenever possible, so that
+	  ~user/file.txt and "~user/file.txt" are treated the same way
+	  if ~user is a user's home directory. (DLR)
   real_dir_from_tilde()
 	- Fix segfault when dealing with directory names that begin with
 	  "~", but that aren't users' home directories. (DLR, found by
@@ -13,6 +17,15 @@ CVS code -
   input_tab()
 	- Don't bother checking if num_matches is less than zero, as
 	  it's a size_t and hence unsigned. (DLR)
+- rcfile.c:
+  parse_include()
+	- Open files using their full paths whenever possible, so that
+	  ~user/file.txt and "~user/file.txt" are treated the same way
+	  if ~user is a user's home directory. (DLR)
+	- Properly check for the included file's being a directory, a
+	  character file, or a block file. (DLR)
+	- For consistency, display the filename as the user entered it
+	  if we can't read the specified file. (DLR)
 - winio.c:
   parse_kbinput()
 	- Interpret Cancel and Shift-Cancel. (DLR)
