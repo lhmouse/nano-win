@@ -1087,16 +1087,16 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			break;
 		    case 'A': /* Esc [ A == Up on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
-			       * rxvt/Eterm. */
+			       * rxvt/Eterm/Terminal. */
 		    case 'B': /* Esc [ B == Down on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
-			       * rxvt/Eterm. */
+			       * rxvt/Eterm/Terminal. */
 		    case 'C': /* Esc [ C == Right on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
-			       * rxvt/Eterm. */
+			       * rxvt/Eterm/Terminal. */
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
-			       * rxvt/Eterm. */
+			       * rxvt/Eterm/Terminal. */
 			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
