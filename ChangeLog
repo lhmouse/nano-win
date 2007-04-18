@@ -1,25 +1,26 @@
 2007-04-17  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* files.c (real_dir_from_tilde): Fix long-standing problem where
-	directory names that began with "~", but that weren't users'
-	home directories, could be erroneously treated as users' home
-	directories (e.g. "~d/" would be treated as "~daemon/"). (DLR,
-	found by Justin Fletcher)
+	* files.c (real_dir_from_tilde): Fix long-standing problem,
+	found by Justin Fletcher, where directory names that began with
+	"~", but that weren't users' home directories, could be
+	erroneously treated as users' home directories (e.g. "~d/" would
+	be treated as "~daemon/").
 	* files.c (input_tab): Don't bother checking if num_matches is
-	less than zero, as it's a size_t and hence unsigned. (DLR)
+	less than zero, as it's a size_t and hence unsigned.
 
 2007-04-16  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* files.c (real_dir_from_tilde): Fix segfault when dealing with
-	directory names that begin with "~", but that aren't users' home
-	directories. (DLR, found by Justin Fletcher)
+	* files.c (real_dir_from_tilde): Fix segfault, found by Justin
+	Fletcher, when dealing with directory names that begin with "~",
+	but that aren't users' home directories.
 
 2007-04-11  Mike Frysinger  <vapier@gentoo.org>
 
 	* doc/syntax/asm.nanorc, doc/syntax/c.nanorc,
 	doc/syntax/sh.nanorc: Copy the regex that highlights trailing
-	whitespace from doc/syntax/java.nanorc to these files, as it's
-	also useful in them.  (With minor tweaks by DLR.)
+	whitespace (with minor tweaks by David Lawrence Ramsey) from
+	doc/syntax/java.nanorc to these files, as it's also useful in
+	them.
 
 2007-04-04  David Lawrence Ramsey  <pooka109@gmail.com>
 
