@@ -9,6 +9,7 @@ CVS code -
 	  erroneously treated as users' home directories (e.g. "~d/"
 	  would be treated as "~daemon/"). (DLR, found by Justin
 	  Fletcher)
+	- Simplify. (DLR)
   input_tab()
 	- Don't bother checking if num_matches is less than zero, as
 	  it's a size_t and hence unsigned. (DLR)

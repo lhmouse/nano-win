@@ -1973,13 +1973,13 @@ void do_writeout_void(void)
  * convert ~user/ and ~/ notation. */
 char *real_dir_from_tilde(const char *buf)
 {
-    char *dirtmp = NULL;
+    char *retval;
 
     assert(buf != NULL);
 
     if (buf[0] == '~') {
 	size_t i;
-	const char *tilde_dir = NULL;
+	char *tilde_dir;
 
 	/* Figure out how much of the str we need to compare. */
 	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
@@ -1988,32 +1988,30 @@ char *real_dir_from_tilde(const char *buf)
 	/* Get the home directory. */
 	if (i == 1) {
 	    get_homedir();
-	    tilde_dir = homedir;
+	    tilde_dir = mallocstrcpy(NULL, homedir);
 	} else {
 	    const struct passwd *userdata;
+
+	    tilde_dir = mallocstrncpy(NULL, buf, i + 1);
+	    tilde_dir[i] = '\0';
 
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL &&
-		(strncmp(userdata->pw_name, buf + 1, i - 1) != 0 ||
-		strlen(userdata->pw_name) != strnlen(buf + 1, i - 1)));
+		strcmp(userdata->pw_name, tilde_dir + 1) != 0);
 	    endpwent();
 	    if (userdata != NULL)
-		tilde_dir = userdata->pw_dir;
+		tilde_dir = mallocstrcpy(tilde_dir, userdata->pw_dir);
 	}
 
-	if (tilde_dir != NULL) {
-	    dirtmp = charalloc(strlen(tilde_dir) + strlen(buf + i) + 1);
-	    sprintf(dirtmp, "%s%s", tilde_dir, buf + i);
-	}
-    }
+	retval = charalloc(strlen(tilde_dir) + strlen(buf + i) + 1);
+	sprintf(retval, "%s%s", tilde_dir, buf + i);
 
-    /* Set a default value for dirtmp, in case the user's home directory
-     * isn't found. */
-    if (dirtmp == NULL)
-	dirtmp = mallocstrcpy(NULL, buf);
+	free(tilde_dir);
+    } else
+	retval = mallocstrcpy(NULL, buf);
 
-    return dirtmp;
+    return retval;
 }
 
 #if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
