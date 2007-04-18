@@ -44,7 +44,8 @@
   <a href="#4.10b">4.10b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
   <a href="#4.11">4.11. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
   <a href="#4.12">4.12. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
-  <a href="#4.13">4.13. How do I select text for or paste text from the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a></p></blockquote>
+  <a href="#4.13">4.13. How do I select text for or paste text from the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a><br>
+  <a href="#4.14">4.14. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
 <blockquote><p><a href="#5.1">5.1. There's no translation for my language!</a><br>
   <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a><br>
@@ -216,6 +217,8 @@
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Some example configurations are in the <b>nanorc.sample</b> that comes with the nano source or your nano package. See Section <a href="#3.9">3.9</a>.</p></blockquote>
 <h2><a name="4.13"></a>4.13. How do I select text for or paste text from the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</h2>
 <blockquote><p>Try holding down the Shift key and selecting or pasting the text as you normally would.</p></blockquote>
+<h2><a name="4.14"></a>4.14. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</h2>
+<blockquote><p>You have the autoindent feature turned on. Hit Meta-I to turn it off, paste your text, and then hit Meta-I again to turn it back on.</p></blockquote>
 <hr width="100%">
 <h1><a name="5"></a>5. Internationalization</h1>
 <h2><a name="5.1"></a>5.1. There's no translation for my language!</h2>
@@ -256,7 +259,8 @@
 <h2><a name="7.5"></a>7.5. Can I have CVS write access?</h2>
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
 <h2><a name="8"></a>8. ChangeLog</h2>
-<blockquote><p>2007/04/04 - Update email address. (DLR)<br>
+<blockquote><p>2007/04/18 - Add a new section 4.14 to explain how autoindent affects pasted text. (John M. Gabriele, minor tweaks by DLR)<br>
+2007/04/04 - Update email address. (DLR)<br>
 2007/01/01 - Update section 4.1 to describe how to open files with names beginning with '+' at specified columns as well as lines. (DLR)<br>
 2006/11/25 - Add miscellaneous wording and capitalization fixes. (DLR)<br>
 2006/10/28 - Update various links for the 2.0 branch of nano. (DLR)<br>

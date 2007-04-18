@@ -37,6 +37,9 @@ CVS code -
 	- Interpret Cancel and Shift-Cancel. (DLR)
   get_escape_seq_kbinput()
 	- Add missing comments. (DLR)
+- doc/faq.html:
+	- Add a new section 4.14 to explain how autoindent affects
+	  pasted text. (John M. Gabriele, minor tweaks by DLR)
 - doc/syntax/asm.nanorc, doc/syntax/c.nanorc, doc/syntax/sh.nanorc:
 	- Copy the regex that highlights trailing whitespace from
 	  doc/syntax/java.nanorc to these files, as it's also useful in
