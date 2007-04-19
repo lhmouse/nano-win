@@ -1,3 +1,7 @@
+2007-04-19  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* files.c (tail): Remove unneeded if statement.
+
 2007-04-18  John M. Gabriele  <jmg3000@gmail.com>
 
 	* doc/faq.html: Add a new section 4.14 (with minor tweaks by
