@@ -1995,7 +1995,7 @@ char *real_dir_from_tilde(const char *buf)
 	size_t i = 1;
 	char *tilde_dir;
 
-	/* Figure out how much of the str we need to compare. */
+	/* Figure out how much of the string we need to compare. */
 	for (; buf[i] != '/' && buf[i] != '\0'; i++)
 	    ;
 

@@ -53,7 +53,7 @@ AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.
 
 dnl Checks for options.
 
-AC_ARG_ENABLE(debug, 
+AC_ARG_ENABLE(debug,
 [  --enable-debug          Enable debugging (disabled by default)],
 [if test x$enableval = xyes; then
     AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.]) debug_support=yes
@@ -98,7 +98,7 @@ fi])
 AC_ARG_ENABLE(justify,
 [  --disable-justify       Disable justify/unjustify functions],
 [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.]) 
+    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
 fi])
 
 AC_ARG_ENABLE(mouse,
@@ -122,7 +122,7 @@ fi])
 AC_ARG_ENABLE(tabcomp,
 [  --disable-tabcomp       Disable tab completion functions],
 [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.]) 
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
 fi])
 
 AC_ARG_ENABLE(wrapping,
