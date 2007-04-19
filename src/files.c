@@ -2253,7 +2253,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 
     /* If the word starts with `~' and there is no slash in the word,
      * then try completing this word as a username. */
-    if (*place > 0 && *buf == '~') {
+    if (*place > 0 && buf[0] == '~') {
 	const char *bob = strchr(buf, '/');
 
 	if (bob == NULL || bob >= buf + *place)
