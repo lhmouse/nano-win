@@ -23,6 +23,8 @@ CVS code -
   input_tab()
 	- Don't bother checking if num_matches is less than zero, as
 	  it's a size_t and hence unsigned. (DLR)
+  tail()
+	- Remove unneeded if statement. (DLR)
 - rcfile.c:
   parse_include()
 	- Open files using their full paths whenever possible, so that

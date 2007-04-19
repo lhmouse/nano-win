@@ -2422,7 +2422,7 @@ const char *tail(const char *foo)
 
     if (tmp == NULL)
 	tmp = foo;
-    else if (*tmp == '/')
+    else
 	tmp++;
 
     return tmp;
