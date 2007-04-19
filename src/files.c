@@ -701,9 +701,9 @@ void do_insertfile(
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {
-	    msg = 
+	    msg =
 #ifdef ENABLE_MULTIBUFFER
-		ISSET(MULTIBUFFER) ? 
+		ISSET(MULTIBUFFER) ?
 		_("Command to execute in new buffer [from %s] ") :
 #endif
 		_("Command to execute [from %s] ");
@@ -711,7 +711,7 @@ void do_insertfile(
 #endif
 	    msg =
 #ifdef ENABLE_MULTIBUFFER
-		ISSET(MULTIBUFFER) ? 
+		ISSET(MULTIBUFFER) ?
 		_("File to insert into new buffer [from %s] ") :
 #endif
 		_("File to insert [from %s] ");

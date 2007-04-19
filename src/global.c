@@ -239,7 +239,7 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc
 	for (s = *shortcutage; s->next != NULL; s = s->next)
 	    ;
 	s->next = (shortcut *)nmalloc(sizeof(shortcut));
-	s = s->next; 
+	s = s->next;
     }
 
     s->ctrlval = ctrlval;
