@@ -1556,7 +1556,7 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 /* Read in a stream of all available characters, and return the length
  * of the string in kbinput_len.  Translate the first few characters of
  * the input into the corresponding multibyte value if possible.  After
- * that, leave the input as-is. */ 
+ * that, leave the input as-is. */
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
     int *kbinput, *retval;
@@ -1816,6 +1816,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
 void blank_line(WINDOW *win, int y, int x, int n)
 {
     wmove(win, y, x);
+
     for (; n > 0; n--)
 	waddch(win, ' ');
 }
@@ -1839,6 +1840,7 @@ void blank_topbar(void)
 void blank_edit(void)
 {
     int i;
+
     for (i = 0; i < editwinrows; i++)
 	blank_line(edit, i, 0, COLS);
 }
@@ -1992,7 +1994,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		    converted[index++] = whitespace[i];
 	    } else
 #endif
-		converted[index++] = ' '; 
+		converted[index++] = ' ';
 	    start_col++;
 	    while (start_col % tabsize != 0) {
 		converted[index++] = ' ';
@@ -2028,7 +2030,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		    converted[index++] = whitespace[i];
 	    } else
 #endif
-		converted[index++] = ' '; 
+		converted[index++] = ' ';
 	    start_col++;
 	/* If buf contains a non-control character, interpret it.  If
 	 * buf contains an invalid multibyte non-control character,
@@ -3168,7 +3170,7 @@ void do_cursorpos(bool constant)
 	return;
     }
 
-    /* Display the current cursor position on the statusbar, and set 
+    /* Display the current cursor position on the statusbar, and set
      * disable_cursorpos to FALSE. */
     linepct = 100 * openfile->current->lineno /
 	openfile->filebot->lineno;

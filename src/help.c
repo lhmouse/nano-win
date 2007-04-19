@@ -191,7 +191,7 @@ void do_help(void (*refresh_func)(void))
     curs_set(1);
     refresh_func();
 
-    /* The help_init() at the beginning allocated help_text.  Since 
+    /* The help_init() at the beginning allocated help_text.  Since
      * help_text has now been written to the screen, we don't need it
      * anymore. */
     free(help_text);
@@ -212,7 +212,7 @@ void do_browser_help(void)
 }
 #endif
 
-/* This function allocates help_text, and stores the help string in it. 
+/* This function allocates help_text, and stores the help string in it.
  * help_text should be NULL initially. */
 void help_init(void)
 {

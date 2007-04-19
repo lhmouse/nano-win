@@ -86,7 +86,7 @@ void not_found_msg(const char *str)
 {
     char *disp;
     int numchars;
- 
+
     assert(str != NULL);
 
     disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
