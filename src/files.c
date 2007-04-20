@@ -2011,8 +2011,8 @@ char *real_dir_from_tilde(const char *buf)
 
 	    do {
 		userdata = getpwent();
-	    } while (userdata != NULL &&
-		strcmp(userdata->pw_name, tilde_dir + 1) != 0);
+	    } while (userdata != NULL && strcmp(userdata->pw_name,
+		tilde_dir + 1) != 0);
 	    endpwent();
 	    if (userdata != NULL)
 		tilde_dir = mallocstrcpy(tilde_dir, userdata->pw_dir);
