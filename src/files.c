@@ -1796,7 +1796,11 @@ bool do_writeout(bool exiting)
 
 	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
-	if (!exiting && openfile->mark_set)
+	/* If we're using restricted mode, don't display the "Write
+	 * Selection to File" prompt.  This is disabled, since it allows
+	 * reading from or writing to files not specified on the command
+	 * line. */
+	if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
 	    msg = (append == PREPEND) ?
 		_("Prepend Selection to File") : (append == APPEND) ?
 		_("Append Selection to File") :

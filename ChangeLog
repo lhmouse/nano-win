@@ -20,6 +20,9 @@ CVS code -
 	  with no name under an existing file's name. (DLR)
 	- Rename variable different_name to do_warning, for clarity.
 	  (DLR)
+	- If we're in restricted mode, we're not allowed to write
+	  selections to files, so don't display the "Write Selection to
+	  File" prompt. (DLR)
 	- Simplify. (DLR)
   input_tab()
 	- Don't bother checking if num_matches is less than zero, as
