@@ -20,6 +20,7 @@ CVS code -
 	  with no name under an existing file's name. (DLR)
 	- Rename variable different_name to do_warning, for clarity.
 	  (DLR)
+	- Simplify. (DLR)
   input_tab()
 	- Don't bother checking if num_matches is less than zero, as
 	  it's a size_t and hence unsigned. (DLR)

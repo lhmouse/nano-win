@@ -1921,27 +1921,25 @@ bool do_writeout(bool exiting)
 		    free(full_answer);
 
 		if (do_warning) {
-		    if (name_exists) {
-			/* If we're using restricted mode, we aren't
-			 * allowed to save a new file under the name of
-			 * an existing file. */
-			if (ISSET(RESTRICTED))
-			    continue;
+		    /* If we're using restricted mode, we aren't allowed
+		     * to overwrite an existing file with the current
+		     * file.  We also aren't allowed to change the name
+		     * of the current file if it has one, because that
+		     * would allow reading from or writing to files not
+		     * specified on the command line. */
+		    if (ISSET(RESTRICTED))
+			continue;
 
+		    if (name_exists) {
 			i = do_yesno_prompt(FALSE,
 				_("File exists, OVERWRITE ? "));
 			if (i == 0 || i == -1)
 			    continue;
-		    /* If we're using restricted mode, we aren't allowed
-		     * to change the name of a file once it has one,
-		     * because that would allow reading from or writing
-		     * to files not specified on the command line. */
-		    } else if (!ISSET(RESTRICTED) &&
-			openfile->filename[0] != '\0'
+		    } else
 #ifndef NANO_TINY
-			&& (exiting || !openfile->mark_set)
+		    if (exiting || !openfile->mark_set)
 #endif
-			) {
+		    {
 			i = do_yesno_prompt(FALSE,
 				_("Save file under DIFFERENT NAME ? "));
 			if (i == 0 || i == -1)
