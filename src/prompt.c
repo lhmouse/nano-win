@@ -999,10 +999,10 @@ int get_prompt_string(bool allow_tabs,
     wnoutrefresh(bottomwin);
 
     /* If we're using restricted mode, we aren't allowed to change the
-     * name of a file once it has one, because that would allow writing
-     * to files not specified on the command line.  In this case,
-     * disable all keys that would change the text if the filename isn't
-     * blank and we're at the "Write File" prompt. */
+     * name of the current file once it has one, because that would
+     * allow writing to files not specified on the command line.  In
+     * this case, disable all keys that would change the text if the
+     * filename isn't blank and we're at the "Write File" prompt. */
     while ((kbinput = do_statusbar_input(&meta_key, &func_key, &s_or_t,
 	&ran_func, &finished, TRUE, refresh_func)) != NANO_CANCEL_KEY &&
 	kbinput != NANO_ENTER_KEY) {
