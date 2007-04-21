@@ -1797,9 +1797,9 @@ bool do_writeout(bool exiting)
 	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
 	/* If we're using restricted mode, don't display the "Write
-	 * Selection to File" prompt.  This is disabled, since it allows
-	 * reading from or writing to files not specified on the command
-	 * line. */
+	 * Selection to File" prompt.  This function is disabled, since
+	 * it allows reading from or writing to files not specified on
+	 * the command line. */
 	if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
 	    msg = (append == PREPEND) ?
 		_("Prepend Selection to File") : (append == APPEND) ?
@@ -1958,9 +1958,9 @@ bool do_writeout(bool exiting)
 	    align(&answer);
 
 	    /* Here's where we allow the selected text to be written to
-	     * a separate file.  If we're using restricted mode, this is
-	     * disabled, since it allows reading from or writing to
-	     * files not specified on the command line. */
+	     * a separate file.  If we're using restricted mode, this
+	     * function is disabled, since it allows reading from or
+	     * writing to files not specified on the command line. */
 	    retval =
 #ifndef NANO_TINY
 		(!ISSET(RESTRICTED) && !exiting && openfile->mark_set) ?
