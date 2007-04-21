@@ -1,5 +1,8 @@
 2007-04-21  David Lawrence Ramsey  <pooka109@gmail.com>
 
+	* files.c (do_writeout): If we're in restricted mode, we're not
+	allowed to write selections to files, so don't display the
+	"Write Selection to File" prompt.
 	* files.c (do_writeout): Simplify.
 
 2007-04-19  David Lawrence Ramsey  <pooka109@gmail.com>
