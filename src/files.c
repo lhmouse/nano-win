@@ -1908,11 +1908,12 @@ bool do_writeout(bool exiting)
 		full_filename = get_full_path(openfile->filename);
 		name_exists = (stat((full_answer == NULL) ? answer :
 			full_answer, &st) != -1);
-		do_warning = (name_exists ||
-			(openfile->filename[0] != '\0' &&
-			strcmp((full_answer == NULL) ? answer :
-			full_answer, (full_filename == NULL) ?
-			openfile->filename : full_filename) != 0));
+		if (openfile->filename[0] == '\0')
+		    do_warning = name_exists;
+		else
+		    do_warning = (strcmp((full_answer == NULL) ?
+			answer : full_answer, (full_filename == NULL) ?
+			openfile->filename : full_filename) != 0);
 
 		/* Convert nulls to newlines.  answer_len is the
 		 * string's real length. */
