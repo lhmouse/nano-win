@@ -1,3 +1,8 @@
+2007-04-22  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* text.c (backup_lines): Avoid a segfault when the mark begins
+	and ends on the line after the last line of the paragraph.
+
 2007-04-21  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* files.c (do_writeout): If we're in restricted mode, we're not

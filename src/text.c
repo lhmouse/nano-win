@@ -1212,9 +1212,16 @@ void backup_lines(filestruct *first_line, size_t par_len)
      * line, putting first_line, edittop, current, and mark_begin at the
      * same lines in the copied paragraph that they had in the original
      * paragraph. */
-    if (openfile->current != openfile->fileage)
+    if (openfile->current != openfile->fileage) {
 	top = openfile->current->prev;
-    else
+#ifndef NANO_TINY
+	if (old_mark_set &&
+		openfile->current->lineno == mb_lineno_save) {
+	    openfile->mark_begin = openfile->current;
+	    openfile->mark_begin_x = mark_begin_x_save;
+	}
+#endif
+    } else
 	top = openfile->current;
     for (i = par_len; i > 0 && top != NULL; i--) {
 	if (top->lineno == fl_lineno_save)
