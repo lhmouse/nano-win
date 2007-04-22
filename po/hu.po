@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-06 08:48-0400\n"
+"POT-Creation-Date: 2007-04-22 08:36-0400\n"
 "PO-Revision-Date: 2006-09-09 00:16+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Könyvtárváltás"
 
-#: src/browser.c:239 src/browser.c:838 src/files.c:739 src/files.c:1823
+#: src/browser.c:239 src/browser.c:838 src/files.c:749 src/files.c:1837
 #: src/nano.c:962 src/search.c:213 src/search.c:934 src/search.c:995
 msgid "Cancelled"
 msgstr "Megszakítva"
@@ -33,10 +33,10 @@ msgstr "Megszakítva"
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Korlátozott módban nem léphet ki a következőből: %s"
 
-#: src/browser.c:283 src/browser.c:334 src/browser.c:357 src/files.c:610
-#: src/files.c:618 src/files.c:1361 src/files.c:1449 src/files.c:1495
-#: src/files.c:1516 src/files.c:1639 src/files.c:2449 src/rcfile.c:367
-#: src/rcfile.c:384 src/rcfile.c:916
+#: src/browser.c:283 src/browser.c:334 src/browser.c:357 src/files.c:617
+#: src/files.c:626 src/files.c:1371 src/files.c:1459 src/files.c:1505
+#: src/files.c:1526 src/files.c:1649 src/files.c:2465 src/rcfile.c:382
+#: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Hiba %s olvasásakor: %s"
@@ -107,7 +107,7 @@ msgid "Switched to %s"
 msgstr "Átváltva erre: %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2141
+#: src/files.c:245 src/global.c:303 src/winio.c:2155
 msgid "New Buffer"
 msgstr "Új puffer"
 
@@ -135,136 +135,136 @@ msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "%lu sor beolvasva"
 
-#: src/files.c:594
+#: src/files.c:601
 msgid "New File"
 msgstr "Új fájl"
 
-#: src/files.c:597
+#: src/files.c:604
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nem található"
 
-#: src/files.c:605 src/rcfile.c:376 src/rcfile.c:873 src/rcfile.c:907
+#: src/files.c:612 src/rcfile.c:374 src/rcfile.c:871 src/rcfile.c:905
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" egy könyvtár"
 
-#: src/files.c:606 src/rcfile.c:377 src/rcfile.c:874 src/rcfile.c:908
+#: src/files.c:613 src/rcfile.c:375 src/rcfile.c:872 src/rcfile.c:906
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "A(z) \"%s\" egy eszközfájl"
 
-#: src/files.c:623
+#: src/files.c:631
 msgid "Reading File"
 msgstr "Fájl beolvasása"
 
-#: src/files.c:697
+#: src/files.c:707
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "Az új pufferben futtatandó parancs [ebből: %s] "
 
-#: src/files.c:699
+#: src/files.c:709
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "Futtatandó parancs [ebből: %s] "
 
-#: src/files.c:705
+#: src/files.c:715
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Az új pufferbe szúrandó fájl [ebből: %s] "
 
-#: src/files.c:707
+#: src/files.c:717
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Beszúrandó fájl [ebből: %s] "
 
-#: src/files.c:907
+#: src/files.c:917
 msgid "Key invalid in non-multibuffer mode"
 msgstr "A billentyű illegális nem többpufferes módban"
 
-#: src/files.c:1315
+#: src/files.c:1325
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Nem lehet a következőn kívülre írni: %s"
 
-#: src/files.c:1330
+#: src/files.c:1340
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Nem lehet szimbolikus link elé vagy mögé szúrni, ha a --nofollow be van "
 "állítva"
 
-#: src/files.c:1402 src/files.c:1426 src/files.c:1453 src/files.c:1471
-#: src/files.c:1528 src/files.c:1547 src/files.c:1559 src/files.c:1583
-#: src/files.c:1601 src/files.c:1611 src/files.c:1647 src/files.c:2522
-#: src/files.c:2531
+#: src/files.c:1412 src/files.c:1436 src/files.c:1463 src/files.c:1481
+#: src/files.c:1538 src/files.c:1557 src/files.c:1569 src/files.c:1593
+#: src/files.c:1611 src/files.c:1621 src/files.c:1657 src/files.c:2538
+#: src/files.c:2547
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Hiba \"%s\" írása közben: %s"
 
-#: src/files.c:1403 src/nano.c:625
+#: src/files.c:1413 src/nano.c:625
 msgid "Too many backup files?"
 msgstr "Túl sok biztonsági mentés van?"
 
-#: src/files.c:1505 src/text.c:2310 src/text.c:2322
+#: src/files.c:1515 src/text.c:2310 src/text.c:2322
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Hiba az ideiglenes fájl írásakor: %s"
 
-#: src/files.c:1681
+#: src/files.c:1691
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "%lu sor kiírva"
 
-#: src/files.c:1784
+#: src/files.c:1794
 msgid " [DOS Format]"
 msgstr " [DOS formátum]"
 
-#: src/files.c:1785
+#: src/files.c:1795
 msgid " [Mac Format]"
 msgstr " [Mac formátum]"
 
-#: src/files.c:1787
+#: src/files.c:1797
 msgid " [Backup]"
 msgstr " [Biztonsági mentés]"
 
-#: src/files.c:1791
+#: src/files.c:1805
 msgid "Prepend Selection to File"
 msgstr "A kiválasztott rész beszúrása a szöveg elé"
 
-#: src/files.c:1792
+#: src/files.c:1806
 msgid "Append Selection to File"
 msgstr "A kiválasztott rész hozzáfűzése a fájlhoz"
 
-#: src/files.c:1793
+#: src/files.c:1807
 msgid "Write Selection to File"
 msgstr "A kiválasztott rész mentése fájlba"
 
-#: src/files.c:1796
+#: src/files.c:1810
 msgid "File Name to Prepend to"
 msgstr "Beszúrás ezen fájl elé"
 
-#: src/files.c:1797
+#: src/files.c:1811
 msgid "File Name to Append to"
 msgstr "Hozzáfűzés ehhez a fájlhoz"
 
-#: src/files.c:1798
+#: src/files.c:1812
 msgid "File Name to Write"
 msgstr "Mentés ebbe a fájlba"
 
-#: src/files.c:1918
+#: src/files.c:1939
 msgid "File exists, OVERWRITE ? "
 msgstr "A fájl már létezik, FELÜLÍRJA? "
 
-#: src/files.c:1932
+#: src/files.c:1948
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Menti a fájlt MÁS NÉVEN? "
 
-#: src/files.c:2369
+#: src/files.c:2385
 msgid "(more)"
 msgstr "(tovább)"
 
-#: src/files.c:2452 src/rcfile.c:851
+#: src/files.c:2468 src/rcfile.c:849
 #, c-format
 msgid ""
 "\n"
@@ -1520,7 +1520,7 @@ msgstr "engedélyezve"
 msgid "disabled"
 msgstr "kikapcsolva"
 
-#: src/nano.c:1374 src/winio.c:1275
+#: src/nano.c:1374 src/winio.c:1287
 msgid "Unknown Command"
 msgstr "Ismeretlen parancs"
 
@@ -1532,12 +1532,12 @@ msgstr "XON kihagyva, ej-ej"
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF kihagyva, ej-ej"
 
-#: src/nano.c:1840 src/rcfile.c:815
+#: src/nano.c:1840 src/rcfile.c:813
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "A kért \"%s\" tabméret érvénytelen"
 
-#: src/nano.c:1896 src/rcfile.c:740
+#: src/nano.c:1896 src/rcfile.c:738
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "A kért \"%s\" kitöltésméret érvénytelen"
@@ -1579,7 +1579,7 @@ msgstr "Hiba a(z) %s %lu. sorában: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "A(z) \"%s\" argumentum lezáratlan \" jellel rendelkezik"
 
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:525 src/rcfile.c:582
+#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:523 src/rcfile.c:580
 msgid "Regex strings must begin and end with a \" character"
 msgstr "A reguláris kifejezéseknek \" karakterekkel kezdődniük és végződniük"
 
@@ -1600,7 +1600,7 @@ msgstr "A \"nincs\" szintaxis fenn van tartva"
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Az \"alapértelmezett\" szintaxis nem vehet fel kiterjesztéseket"
 
-#: src/rcfile.c:439
+#: src/rcfile.c:437
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1614,74 +1614,74 @@ msgstr ""
 "\"white\", \"yellow\", \"cyan\", \"magenta\" és \n"
 "\"black\", opcionális \"bright\" előtaggal az előtérszínekhez."
 
-#: src/rcfile.c:461
+#: src/rcfile.c:459
 msgid "Cannot add a color command without a syntax command"
 msgstr "Nem adható meg színparancs szintaxissor nélkül"
 
-#: src/rcfile.c:466
+#: src/rcfile.c:464
 msgid "Missing color name"
 msgstr "Hiányzik a szín neve"
 
-#: src/rcfile.c:486
+#: src/rcfile.c:484
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "A(z) \"%s\" háttérszín nem lehet világos"
 
-#: src/rcfile.c:504
+#: src/rcfile.c:502
 msgid "Missing regex string"
 msgstr "Hiányzó regex karaktersorozat"
 
-#: src/rcfile.c:576
+#: src/rcfile.c:574
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\" -hoz kell egy megfelelő \"end=\""
 
-#: src/rcfile.c:647 src/rcfile.c:656 src/rcfile.c:666
+#: src/rcfile.c:645 src/rcfile.c:654 src/rcfile.c:664
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "A(z) \"%s\" parancs nem engedélyezett a tartalmazott fájlban"
 
-#: src/rcfile.c:672 src/rcfile.c:840
+#: src/rcfile.c:670 src/rcfile.c:838
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "A(z) \"%s\" szintaxis nem rendelkezik színparancsokkal"
 
-#: src/rcfile.c:681
+#: src/rcfile.c:679
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "A(z) \"%s\" parancs nem értelmezhető"
 
-#: src/rcfile.c:687
+#: src/rcfile.c:685
 msgid "Missing flag"
 msgstr "Hiányzik a jelző"
 
-#: src/rcfile.c:709
+#: src/rcfile.c:707
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "A(z) \"%s\" kapcsoló egy paramétert igényel"
 
-#: src/rcfile.c:727
+#: src/rcfile.c:725
 msgid "Option is not a valid multibyte string"
 msgstr "A kapcsoló nem érvényes több bájtos karaktersorozat"
 
-#: src/rcfile.c:753 src/rcfile.c:781 src/rcfile.c:790
+#: src/rcfile.c:751 src/rcfile.c:779 src/rcfile.c:788
 msgid "Non-blank characters required"
 msgstr "Nem üres karakterek szükségesek"
 
-#: src/rcfile.c:763
+#: src/rcfile.c:761
 msgid "Two single-column characters required"
 msgstr "Két egyoszlopos karakter szükséges"
 
-#: src/rcfile.c:829
+#: src/rcfile.c:827
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "A(z) \"%s\" jelző nem állítható vissza"
 
-#: src/rcfile.c:835
+#: src/rcfile.c:833
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Ismeretlen jelző: \"%s\""
 
-#: src/rcfile.c:897
+#: src/rcfile.c:895
 msgid "I can't find my home directory!  Wah!"
 msgstr "Nincs meg a saját könyvtár! Hopp!"
 
@@ -1815,59 +1815,59 @@ msgstr "nano: elfogyott a memória!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1576
+#: src/winio.c:1588
 msgid "Unicode Input"
 msgstr "Unicode bevitel"
 
-#: src/winio.c:2122 src/winio.c:2126
+#: src/winio.c:2136 src/winio.c:2140
 msgid "Modified"
 msgstr "Módosítva"
 
-#: src/winio.c:2123
+#: src/winio.c:2137
 msgid "View"
 msgstr "Nézet"
 
-#: src/winio.c:2137
+#: src/winio.c:2151
 msgid "DIR:"
 msgstr "Könyvtár:"
 
-#: src/winio.c:2144
+#: src/winio.c:2158
 msgid "File:"
 msgstr "Fájl:"
 
-#: src/winio.c:3168
+#: src/winio.c:3182
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "sor %ld/%ld (%d%%), oszlop %lu/%lu (%d%%), karakter %lu/%lu (%d%%)"
 
-#: src/winio.c:3286
+#: src/winio.c:3300
 msgid "The nano text editor"
 msgstr "A nano szövegszerkesztő"
 
-#: src/winio.c:3287
+#: src/winio.c:3301
 msgid "version"
 msgstr "verzió"
 
-#: src/winio.c:3288
+#: src/winio.c:3302
 msgid "Brought to you by:"
 msgstr "Fejlesztők:"
 
-#: src/winio.c:3289
+#: src/winio.c:3303
 msgid "Special thanks to:"
 msgstr "Külön köszönet:"
 
-#: src/winio.c:3290
+#: src/winio.c:3304
 msgid "The Free Software Foundation"
 msgstr "A Free Software Foundation"
 
-#: src/winio.c:3291
+#: src/winio.c:3305
 msgid "For ncurses:"
 msgstr "Az ncurses számára:"
 
-#: src/winio.c:3292
+#: src/winio.c:3306
 msgid "and anyone else we forgot..."
 msgstr "és mindenkinek, akit kifelejtettünk volna..."
 
-#: src/winio.c:3293
+#: src/winio.c:3307
 msgid "Thank you for using nano!"
 msgstr "Köszönjük, hogy a nano-t választotta!"

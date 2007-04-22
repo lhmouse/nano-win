@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.10pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-06 08:48-0400\n"
+"POT-Creation-Date: 2007-04-22 08:36-0400\n"
 "PO-Revision-Date: 2005-12-13 09:33+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "跳至目錄"
 
-#: src/browser.c:239 src/browser.c:838 src/files.c:739 src/files.c:1823
+#: src/browser.c:239 src/browser.c:838 src/files.c:749 src/files.c:1837
 #: src/nano.c:962 src/search.c:213 src/search.c:934 src/search.c:995
 msgid "Cancelled"
 msgstr "已取消"
@@ -30,10 +30,10 @@ msgstr "已取消"
 msgid "Can't go outside of %s in restricted mode"
 msgstr "在限制模式中無法至 %s 外部"
 
-#: src/browser.c:283 src/browser.c:334 src/browser.c:357 src/files.c:610
-#: src/files.c:618 src/files.c:1361 src/files.c:1449 src/files.c:1495
-#: src/files.c:1516 src/files.c:1639 src/files.c:2449 src/rcfile.c:367
-#: src/rcfile.c:384 src/rcfile.c:916
+#: src/browser.c:283 src/browser.c:334 src/browser.c:357 src/files.c:617
+#: src/files.c:626 src/files.c:1371 src/files.c:1459 src/files.c:1505
+#: src/files.c:1526 src/files.c:1649 src/files.c:2465 src/rcfile.c:382
+#: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "讀取 %s 時發生錯誤: %s"
@@ -104,7 +104,7 @@ msgid "Switched to %s"
 msgstr "切換至 %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:303 src/winio.c:2141
+#: src/files.c:245 src/global.c:303 src/winio.c:2155
 msgid "New Buffer"
 msgstr "新緩衝區"
 
@@ -132,135 +132,135 @@ msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "已讀取 %lu 列"
 
-#: src/files.c:594
+#: src/files.c:601
 msgid "New File"
 msgstr "新檔案"
 
-#: src/files.c:597
+#: src/files.c:604
 #, c-format
 msgid "\"%s\" not found"
 msgstr "找不到 \"%s\""
 
-#: src/files.c:605 src/rcfile.c:376 src/rcfile.c:873 src/rcfile.c:907
+#: src/files.c:612 src/rcfile.c:374 src/rcfile.c:871 src/rcfile.c:905
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" 是一個目錄"
 
-#: src/files.c:606 src/rcfile.c:377 src/rcfile.c:874 src/rcfile.c:908
+#: src/files.c:613 src/rcfile.c:375 src/rcfile.c:872 src/rcfile.c:906
 #, fuzzy, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" 是一個裝置檔案"
 
-#: src/files.c:623
+#: src/files.c:631
 msgid "Reading File"
 msgstr "正在讀取檔案"
 
-#: src/files.c:697
+#: src/files.c:707
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "在新緩衝區中執行的命令 [從 %s] "
 
-#: src/files.c:699
+#: src/files.c:709
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "執行的命令 [從 %s] "
 
-#: src/files.c:705
+#: src/files.c:715
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "所要插入新緩衝區的檔案 [從 %s] "
 
-#: src/files.c:707
+#: src/files.c:717
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "所要插入的檔案 [從 %s] "
 
-#: src/files.c:907
+#: src/files.c:917
 #, fuzzy
 msgid "Key invalid in non-multibuffer mode"
 msgstr "非多重緩衝區模式中此按鍵無效"
 
-#: src/files.c:1315
+#: src/files.c:1325
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "無法寫入 %s 外部"
 
-#: src/files.c:1330
+#: src/files.c:1340
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "--nofollow 設定下，無法前引或附加至符號連結檔"
 
-#: src/files.c:1402 src/files.c:1426 src/files.c:1453 src/files.c:1471
-#: src/files.c:1528 src/files.c:1547 src/files.c:1559 src/files.c:1583
-#: src/files.c:1601 src/files.c:1611 src/files.c:1647 src/files.c:2522
-#: src/files.c:2531
+#: src/files.c:1412 src/files.c:1436 src/files.c:1463 src/files.c:1481
+#: src/files.c:1538 src/files.c:1557 src/files.c:1569 src/files.c:1593
+#: src/files.c:1611 src/files.c:1621 src/files.c:1657 src/files.c:2538
+#: src/files.c:2547
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "寫入 %s 時發生錯誤: %s"
 
-#: src/files.c:1403 src/nano.c:625
+#: src/files.c:1413 src/nano.c:625
 msgid "Too many backup files?"
 msgstr "太多備份檔案？"
 
-#: src/files.c:1505 src/text.c:2310 src/text.c:2322
+#: src/files.c:1515 src/text.c:2310 src/text.c:2322
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "寫入暫存檔案 %s 時發生錯誤"
 
-#: src/files.c:1681
+#: src/files.c:1691
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "已寫入 %lu 列"
 
-#: src/files.c:1784
+#: src/files.c:1794
 msgid " [DOS Format]"
 msgstr " [DOS 格式]"
 
-#: src/files.c:1785
+#: src/files.c:1795
 msgid " [Mac Format]"
 msgstr " [Mac 格式]"
 
-#: src/files.c:1787
+#: src/files.c:1797
 msgid " [Backup]"
 msgstr " [備份]"
 
-#: src/files.c:1791
+#: src/files.c:1805
 msgid "Prepend Selection to File"
 msgstr "前引選擇部份於檔案"
 
-#: src/files.c:1792
+#: src/files.c:1806
 msgid "Append Selection to File"
 msgstr "附加選擇部份至檔案"
 
-#: src/files.c:1793
+#: src/files.c:1807
 msgid "Write Selection to File"
 msgstr "寫入選擇部份至檔案"
 
-#: src/files.c:1796
+#: src/files.c:1810
 msgid "File Name to Prepend to"
 msgstr "要前引於的檔案名稱"
 
-#: src/files.c:1797
+#: src/files.c:1811
 msgid "File Name to Append to"
 msgstr "要附加至的檔案名稱"
 
-#: src/files.c:1798
+#: src/files.c:1812
 msgid "File Name to Write"
 msgstr "要寫入的檔案名稱"
 
-#: src/files.c:1918
+#: src/files.c:1939
 msgid "File exists, OVERWRITE ? "
 msgstr "檔案已存在，要覆寫嗎？"
 
-#: src/files.c:1932
+#: src/files.c:1948
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "以不同的名稱存檔？"
 
-#: src/files.c:2369
+#: src/files.c:2385
 msgid "(more)"
 msgstr "(更多)"
 
-#: src/files.c:2452 src/rcfile.c:851
+#: src/files.c:2468 src/rcfile.c:849
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -1537,7 +1537,7 @@ msgstr "開啟"
 msgid "disabled"
 msgstr "關閉"
 
-#: src/nano.c:1374 src/winio.c:1275
+#: src/nano.c:1374 src/winio.c:1287
 #, fuzzy
 msgid "Unknown Command"
 msgstr "旗標 %s 無法辨識"
@@ -1552,12 +1552,12 @@ msgstr "忽略 XON，嗯嗯。"
 msgid "XOFF ignored, mumble mumble"
 msgstr "忽略 XOFF，嗯嗯。"
 
-#: src/nano.c:1840 src/rcfile.c:815
+#: src/nano.c:1840 src/rcfile.c:813
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "所要求的跳格寬度 %s 無效"
 
-#: src/nano.c:1896 src/rcfile.c:740
+#: src/nano.c:1896 src/rcfile.c:738
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "所要求的填滿行數 %s 無效"
@@ -1599,7 +1599,7 @@ msgstr "在 %s (位於第 %lu 列) 中發生錯誤: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "引數 %s 有未封閉的 \""
 
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:525 src/rcfile.c:582
+#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:523 src/rcfile.c:580
 msgid "Regex strings must begin and end with a \" character"
 msgstr "正規表示式字串必須以 \" 字元開始及結束"
 
@@ -1620,7 +1620,7 @@ msgstr "\"none\" 語法已被保留"
 msgid "The \"default\" syntax must take no extensions"
 msgstr "\"default\" 語法必須不含任何副檔名"
 
-#: src/rcfile.c:439
+#: src/rcfile.c:437
 #, fuzzy, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1635,75 +1635,75 @@ msgstr ""
 "\"black\"(黑)，選擇性的前置字 \"bright\"(明亮) \n"
 "可用於前景色。"
 
-#: src/rcfile.c:461
+#: src/rcfile.c:459
 #, fuzzy
 msgid "Cannot add a color command without a syntax command"
 msgstr "無法直接增加顏色而沒有語法列"
 
-#: src/rcfile.c:466
+#: src/rcfile.c:464
 msgid "Missing color name"
 msgstr "缺少顏色名稱"
 
-#: src/rcfile.c:486
+#: src/rcfile.c:484
 #, fuzzy, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "背景色 %s 不可為明亮"
 
-#: src/rcfile.c:504
+#: src/rcfile.c:502
 msgid "Missing regex string"
 msgstr "缺少正規表示式字串"
 
-#: src/rcfile.c:576
+#: src/rcfile.c:574
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\" 要求對應的 \"end=\""
 
-#: src/rcfile.c:647 src/rcfile.c:656 src/rcfile.c:666
+#: src/rcfile.c:645 src/rcfile.c:654 src/rcfile.c:664
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr ""
 
-#: src/rcfile.c:672 src/rcfile.c:840
+#: src/rcfile.c:670 src/rcfile.c:838
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr ""
 
-#: src/rcfile.c:681
+#: src/rcfile.c:679
 #, fuzzy, c-format
 msgid "Command \"%s\" not understood"
 msgstr "無法辨識 %s 命令"
 
-#: src/rcfile.c:687
+#: src/rcfile.c:685
 msgid "Missing flag"
 msgstr "缺少旗標"
 
-#: src/rcfile.c:709
+#: src/rcfile.c:707
 #, fuzzy, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "選項 %s 要求引數"
 
-#: src/rcfile.c:727
+#: src/rcfile.c:725
 msgid "Option is not a valid multibyte string"
 msgstr "選項並非正確的多位元字串"
 
-#: src/rcfile.c:753 src/rcfile.c:781 src/rcfile.c:790
+#: src/rcfile.c:751 src/rcfile.c:779 src/rcfile.c:788
 msgid "Non-blank characters required"
 msgstr "需要非空格字元"
 
-#: src/rcfile.c:763
+#: src/rcfile.c:761
 msgid "Two single-column characters required"
 msgstr "需要兩個單行字元"
 
-#: src/rcfile.c:829
+#: src/rcfile.c:827
 #, fuzzy, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "無法解除旗標 %s 設定"
 
-#: src/rcfile.c:835
+#: src/rcfile.c:833
 #, fuzzy, c-format
 msgid "Unknown flag \"%s\""
 msgstr "旗標 %s 無法辨識"
 
-#: src/rcfile.c:897
+#: src/rcfile.c:895
 msgid "I can't find my home directory!  Wah!"
 msgstr "我找不到我的家目錄！哇！"
 
@@ -1838,60 +1838,60 @@ msgstr "nano 已耗盡記憶體！"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1576
+#: src/winio.c:1588
 msgid "Unicode Input"
 msgstr ""
 
-#: src/winio.c:2122 src/winio.c:2126
+#: src/winio.c:2136 src/winio.c:2140
 msgid "Modified"
 msgstr "已更動"
 
-#: src/winio.c:2123
+#: src/winio.c:2137
 msgid "View"
 msgstr "觀看"
 
-#: src/winio.c:2137
+#: src/winio.c:2151
 msgid "DIR:"
 msgstr "目錄:"
 
-#: src/winio.c:2144
+#: src/winio.c:2158
 msgid "File:"
 msgstr "檔案:"
 
-#: src/winio.c:3168
+#: src/winio.c:3182
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "列 %ld/%ld (%d%%), 行 %lu/%lu (%d%%), 字元 %lu/%lu (%d%%)"
 
-#: src/winio.c:3286
+#: src/winio.c:3300
 msgid "The nano text editor"
 msgstr "nano 文字編輯器"
 
-#: src/winio.c:3287
+#: src/winio.c:3301
 msgid "version"
 msgstr "版本"
 
-#: src/winio.c:3288
+#: src/winio.c:3302
 msgid "Brought to you by:"
 msgstr "來自於:"
 
-#: src/winio.c:3289
+#: src/winio.c:3303
 msgid "Special thanks to:"
 msgstr "特別感謝:"
 
-#: src/winio.c:3290
+#: src/winio.c:3304
 msgid "The Free Software Foundation"
 msgstr "自由軟體基金會"
 
-#: src/winio.c:3291
+#: src/winio.c:3305
 msgid "For ncurses:"
 msgstr "ncurses 部份:"
 
-#: src/winio.c:3292
+#: src/winio.c:3306
 msgid "and anyone else we forgot..."
 msgstr "以及其他我們不記得的人..."
 
-#: src/winio.c:3293
+#: src/winio.c:3307
 msgid "Thank you for using nano!"
 msgstr "謝謝您使用 nano﹗"
 
