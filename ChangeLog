@@ -1,4 +1,8 @@
 CVS code -
+- text.c:
+  backup_lines()
+	- Avoid a segfault when the mark begins and ends on the line
+	  after the last line of the paragraph. (DLR)
 
 GNU nano 2.0.5 - 2007.04.22
 - files.c:
