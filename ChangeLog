@@ -3,6 +3,9 @@ CVS code -
   backup_lines()
 	- Avoid a segfault when the mark begins and ends on the line
 	  after the last line of the paragraph. (DLR)
+- TODO:
+	- Add entries for fixing limitations with pasting text and
+	  handling bad/incomplete UTF-8 sequences. (DLR)
 
 GNU nano 2.0.5 - 2007.04.22
 - files.c:
