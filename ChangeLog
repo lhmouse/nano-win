@@ -1,3 +1,8 @@
+2007-04-23  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* TODO: Add entries for fixing limitations with pasting text and
+	handling bad/incomplete UTF-8 sequences.
+
 2007-04-22  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* text.c (backup_lines): Avoid a segfault when the mark begins

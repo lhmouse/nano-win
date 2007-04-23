@@ -35,6 +35,11 @@ For the next version:
   the center line, and M-' (M-") to go to the last line.
 - Allow searching for and replacing newlines.
 - Allow soft wrapping as well as hard wrapping?
+- Detect when we're pasting text, so that we can handle it differently
+  from normal typing?
+- Make pasting text work as fast as it does in Pico.
+- Fix handling of bad/incomplete UTF-8 sequences to display one Unicode
+  FFFD (Replacement Character) per sequence instead of one per byte.
 
 Old requests:
 
