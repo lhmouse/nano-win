@@ -983,9 +983,7 @@ bool has_blank_mbchars(const char *s)
 	bool retval = FALSE;
 
 	while (*s != '\0') {
-	    int chr_mb_len;
-
-	    chr_mb_len = parse_mbchar(s, chr_mb, NULL);
+	    int chr_mb_len = parse_mbchar(s, chr_mb, NULL);
 
 	    if (is_blank_mbchar(chr_mb)) {
 		retval = TRUE;
