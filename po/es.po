@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano-1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-22 08:36-0400\n"
+"POT-Creation-Date: 2007-04-26 07:57-0400\n"
 "PO-Revision-Date: 2006-08-30 23:38+0100\n"
 "Last-Translator: Ricardo Javier Cardenes Medina <rcardenes@not.iac.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -214,7 +214,7 @@ msgstr "Error guardando '%s': %s"
 msgid "Too many backup files?"
 msgstr "Demasiados ficheros de respaldo?"
 
-#: src/files.c:1515 src/text.c:2310 src/text.c:2322
+#: src/files.c:1515 src/text.c:2317 src/text.c:2329
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Error escribiendo en fichero temporal: %s"
@@ -765,7 +765,7 @@ msgstr "Fichero siguiente"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2426
+#: src/global.c:673 src/text.c:2433
 msgid "Verbatim Input"
 msgstr "Entrada literal"
 
@@ -1759,75 +1759,75 @@ msgid "Could not pipe"
 msgstr "No se pudo canalizar"
 
 # Lo mismo. No se pudo cerrar. sv
-#: src/text.c:469 src/text.c:2027 src/text.c:2174
+#: src/text.c:469 src/text.c:2034 src/text.c:2181
 msgid "Could not fork"
 msgstr "No se pudo crear otro proceso"
 
-#: src/text.c:1265
+#: src/text.c:1272
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "El marcador de cita '%s' no es válido: %s"
 
 # ahora se puede. sv
-#: src/text.c:1661
+#: src/text.c:1668
 msgid "Can now UnJustify!"
 msgstr "¡Ahora se puede desjustificar!"
 
-#: src/text.c:1853
+#: src/text.c:1860
 msgid "Edit a replacement"
 msgstr "Editar un reemplazo"
 
 # Lo mismo. No se pudo cerrar. sv
-#: src/text.c:1939
+#: src/text.c:1946
 msgid "Could not create pipe"
 msgstr "No se pudo crear una tubería (\"pipe\")"
 
-#: src/text.c:1941
+#: src/text.c:1948
 msgid "Creating misspelled word list, please wait..."
 msgstr "Creando lista de palabras mal escritas. Espere, por favor..."
 
 # Ídem de ídem. Te dejo que revises los que siguen.
-#: src/text.c:2033
+#: src/text.c:2040
 msgid "Could not get size of pipe buffer"
 msgstr "No se pudo obtener el tamaño del búfer de la tubería (\"pipe\")"
 
-#: src/text.c:2084
+#: src/text.c:2091
 msgid "Error invoking \"spell\""
 msgstr "Error al invocar «spell»"
 
-#: src/text.c:2087
+#: src/text.c:2094
 msgid "Error invoking \"sort -f\""
 msgstr "Error al invocar «sort -f»"
 
-#: src/text.c:2090
+#: src/text.c:2097
 msgid "Error invoking \"uniq\""
 msgstr "Error al invocar «uniq»"
 
-#: src/text.c:2201
+#: src/text.c:2208
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Error al invocar \"%s\""
 
-#: src/text.c:2341
+#: src/text.c:2348
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Comprobación de ortografía fallida: \"%s\""
 
-#: src/text.c:2343
+#: src/text.c:2350
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Comprobación de ortografía fallida: %s: %s"
 
-#: src/text.c:2346
+#: src/text.c:2353
 msgid "Finished checking spelling"
 msgstr "Revisión de ortografía finalizada"
 
-#: src/text.c:2411
+#: src/text.c:2418
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sPalabras: %lu Líneas: %ld Caracteres: %lu"
 
-#: src/text.c:2412
+#: src/text.c:2419
 msgid "In Selection:  "
 msgstr "En la selección: "
 

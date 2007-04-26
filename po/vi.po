@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.10pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-22 08:36-0400\n"
+"POT-Creation-Date: 2007-04-26 07:57-0400\n"
 "PO-Revision-Date: 2006-03-01 23:52+0300\n"
 "Last-Translator: Phan Vinh Thinh <teppi82@gmail.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -204,7 +204,7 @@ msgstr "Lỗi ghi nhớ %s: %s"
 msgid "Too many backup files?"
 msgstr "Quá nhiều tập tin lưu trữ?"
 
-#: src/files.c:1515 src/text.c:2310 src/text.c:2322
+#: src/files.c:1515 src/text.c:2317 src/text.c:2329
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Lỗi ghi nhớ tập tin tạm thời: %s"
@@ -783,7 +783,7 @@ msgstr "Tập tin tiếp theo"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2426
+#: src/global.c:673 src/text.c:2433
 msgid "Verbatim Input"
 msgstr "Dữ liệu nhập nguyên bản"
 
@@ -1783,72 +1783,72 @@ msgstr "Bỏ chọn văn bản"
 msgid "Could not pipe"
 msgstr "Không thể pipe (đặt đường ống)"
 
-#: src/text.c:469 src/text.c:2027 src/text.c:2174
+#: src/text.c:469 src/text.c:2034 src/text.c:2181
 msgid "Could not fork"
 msgstr "Không thể fork (phân nhánh)"
 
-#: src/text.c:1265
+#: src/text.c:1272
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Chuỗi trích dẫn xấu %s: %s"
 
-#: src/text.c:1661
+#: src/text.c:1668
 msgid "Can now UnJustify!"
 msgstr "Bây giờ có thể Bỏ sắp chữ!"
 
-#: src/text.c:1853
+#: src/text.c:1860
 msgid "Edit a replacement"
 msgstr "Soạn thảo một sự thay thế"
 
-#: src/text.c:1939
+#: src/text.c:1946
 msgid "Could not create pipe"
 msgstr "Không thể tạo đường ống (pipe)"
 
-#: src/text.c:1941
+#: src/text.c:1948
 msgid "Creating misspelled word list, please wait..."
 msgstr "Đang tạo danh sách từ sai chính tả, xin hãy chờ..."
 
-#: src/text.c:2033
+#: src/text.c:2040
 msgid "Could not get size of pipe buffer"
 msgstr "Không lấy được kích thước của bộ đệm đường ống (pipe)"
 
-#: src/text.c:2084
+#: src/text.c:2091
 msgid "Error invoking \"spell\""
 msgstr "Lỗi gọi \"spell\""
 
-#: src/text.c:2087
+#: src/text.c:2094
 msgid "Error invoking \"sort -f\""
 msgstr "Lỗi gọi \"sort -f\""
 
-#: src/text.c:2090
+#: src/text.c:2097
 msgid "Error invoking \"uniq\""
 msgstr "Lỗi gọi \"uniq\""
 
-#: src/text.c:2201
+#: src/text.c:2208
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Lỗi gọi \"%s\""
 
-#: src/text.c:2341
+#: src/text.c:2348
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Kiểm tra chính tả không thành công: %s"
 
-#: src/text.c:2343
+#: src/text.c:2350
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Kiểm tra chính tả không thành công: %s: %s"
 
-#: src/text.c:2346
+#: src/text.c:2353
 msgid "Finished checking spelling"
 msgstr "Hoàn thành việc kiểm tra chính tả"
 
-#: src/text.c:2411
+#: src/text.c:2418
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sTừ: %lu  Dòng: %ld  KýTự: %lu"
 
-#: src/text.c:2412
+#: src/text.c:2419
 msgid "In Selection:  "
 msgstr "Trong lựa chọn:  "
 

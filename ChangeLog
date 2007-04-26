@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 2.0.6 - 2007.04.26
 - text.c:
   backup_lines()
 	- Avoid a segfault when the mark begins and ends on the line

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-22 08:36-0400\n"
+"POT-Creation-Date: 2007-04-26 07:57-0400\n"
 "PO-Revision-Date: 2006-08-24 20:53+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -206,7 +206,7 @@ msgstr "Fel vid skrivning av %s: %s"
 msgid "Too many backup files?"
 msgstr "För många säkerhetskopierade filer?"
 
-#: src/files.c:1515 src/text.c:2310 src/text.c:2322
+#: src/files.c:1515 src/text.c:2317 src/text.c:2329
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Fel vid skrivning av temporär fil: %s"
@@ -752,7 +752,7 @@ msgstr "Nästa fil"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2426
+#: src/global.c:673 src/text.c:2433
 msgid "Verbatim Input"
 msgstr "Ordagrann inmatning"
 
@@ -1728,72 +1728,72 @@ msgstr "Markera borttagen"
 msgid "Could not pipe"
 msgstr "Kunde inte använda rör"
 
-#: src/text.c:469 src/text.c:2027 src/text.c:2174
+#: src/text.c:469 src/text.c:2034 src/text.c:2181
 msgid "Could not fork"
 msgstr "Kunde inte grena"
 
-#: src/text.c:1265
+#: src/text.c:1272
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Felaktig citeringssträng %s: %s"
 
-#: src/text.c:1661
+#: src/text.c:1668
 msgid "Can now UnJustify!"
 msgstr "Kan ojustera nu!"
 
-#: src/text.c:1853
+#: src/text.c:1860
 msgid "Edit a replacement"
 msgstr "Redigera en ersättning"
 
-#: src/text.c:1939
+#: src/text.c:1946
 msgid "Could not create pipe"
 msgstr "Kunde inte skapa rör"
 
-#: src/text.c:1941
+#: src/text.c:1948
 msgid "Creating misspelled word list, please wait..."
 msgstr "Skapar lista över felstavade ord, var vänlig vänta..."
 
-#: src/text.c:2033
+#: src/text.c:2040
 msgid "Could not get size of pipe buffer"
 msgstr "Kunde inte få tag i rörbuffertens storlek"
 
-#: src/text.c:2084
+#: src/text.c:2091
 msgid "Error invoking \"spell\""
 msgstr "Fel vid start av \"spell\""
 
-#: src/text.c:2087
+#: src/text.c:2094
 msgid "Error invoking \"sort -f\""
 msgstr "Fel vid start av \"sort -f\""
 
-#: src/text.c:2090
+#: src/text.c:2097
 msgid "Error invoking \"uniq\""
 msgstr "Fel vid start av \"uniq\""
 
-#: src/text.c:2201
+#: src/text.c:2208
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Fel vid start av \"%s\""
 
-#: src/text.c:2341
+#: src/text.c:2348
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Stavningskontrollen misslyckades: %s"
 
-#: src/text.c:2343
+#: src/text.c:2350
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Stavningskontrollen misslyckades: %s: %s"
 
-#: src/text.c:2346
+#: src/text.c:2353
 msgid "Finished checking spelling"
 msgstr "Stavningskontrollen slutfördes"
 
-#: src/text.c:2411
+#: src/text.c:2418
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sOrd: %lu  Rader: %ld  Tecken: %lu"
 
-#: src/text.c:2412
+#: src/text.c:2419
 msgid "In Selection:  "
 msgstr "I markering:  "
 

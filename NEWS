@@ -1,3 +1,8 @@
+2007/04/26 - GNU nano 2.0.6 "that was quick" is released.  This release
+		fixes a potential segfault after justifying text marked
+		from the bottom up.  It also adds one more minor
+		documentation update.  Enjoy.
+
 2007/04/22 - GNU nano 2.0.5 braces for impact.  Among other things, this
 		release fixes various problems (including a segfault)
 		when trying to open or save a file in a directory
