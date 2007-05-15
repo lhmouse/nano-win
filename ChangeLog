@@ -1,8 +1,8 @@
 2007-05-15  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* winio.c (do_mouseinput): Add mouse wheel support, per Helmut
-	Jarausch's suggestion.  Now, if nano is built with mouse support
-	and is using a version of ncurses compiled with the
+	Jarausch's suggestion.  Now, if mouse support is enabled, and
+	nano is using a version of ncurses compiled with the
 	--enable-ext-mouse option, rolling the mouse wheel up or down
 	will move the cursor three lines up or down.
 
