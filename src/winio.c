@@ -1625,17 +1625,18 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
 #ifndef DISABLE_MOUSE
 /* Handle any mouse events that may have occurred.  We currently handle
- * releases or clicks of the first mouse button.  If allow_shortcuts is
- * TRUE, releasing or clicking on a visible shortcut will put back the
- * keystroke associated with that shortcut.  If NCURSES_MOUSE_VERSION is
- * at least 2, we also currently handle presses of the fourth mouse
- * button (upward rolls of the mouse wheel) by putting back the
- * keystrokes to move up, and presses of the fifth mouse button
- * (downward rolls of the mouse wheel) by putting back the keystrokes to
- * move down.  Return FALSE if we don't put back any keystrokes in the
- * course of handling mouse events, or TRUE if we do.  Assume that
- * KEY_MOUSE has already been read in. */
-bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
+ * releases of the first mouse button.  If allow_shortcuts is TRUE,
+ * releasing on a visible shortcut will put back the keystroke
+ * associated with that shortcut.  If NCURSES_MOUSE_VERSION is at least
+ * 2, we also currently handle presses of the fourth mouse button
+ * (upward rolls of the mouse wheel) by putting back the keystrokes to
+ * move up, and presses of the fifth mouse button (downward rolls of the
+ * mouse wheel) by putting back the keystrokes to move down.  Return -1
+ * on error, 0 if the mouse event needs to be handled, 1 if it's been
+ * handled by putting back keystrokes that need to be handled. or 2 if
+ * the mouse event is ignored.  Assume that KEY_MOUSE has already been
+ * read in. */
+int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 {
     MEVENT mevent;
 
@@ -1644,20 +1645,19 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 
     /* First, get the actual mouse event. */
     if (getmouse(&mevent) == ERR)
-	return FALSE;
+	return -1;
 
-    /* Handle releases or clicks of the first mouse button. */
-    if (mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
-	/* Save the screen coordinates where the mouse event took
-	 * place. */
-	*mouse_x = mevent.x;
-	*mouse_y = mevent.y;
+    /* Save the screen coordinates where the mouse event took place. */
+    *mouse_x = mevent.x;
+    *mouse_y = mevent.y;
 
+    /* Handle releases of the first mouse button. */
+    if (mevent.bstate & BUTTON1_RELEASED) {
 	/* If we're allowing shortcuts, the current shortcut list is
 	 * being displayed on the last two lines of the screen, and the
-	 * mouse event took place inside it, we need to figure out which
-	 * shortcut was clicked and put back the equivalent keystroke(s)
-	 * for it. */
+	 * first mouse button was pressed inside it, we need to figure
+	 * out which shortcut was clicked and put back the equivalent
+	 * keystroke(s) for it. */
 	if (allow_shortcuts && !ISSET(NO_HELP) && wenclose(bottomwin,
 		*mouse_y, *mouse_x)) {
 	    int i, j;
@@ -1665,7 +1665,7 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		/* The number of shortcuts in the current shortcut
 		 * list. */
 	    const shortcut *s = currshortcut;
-		/* The actual shortcut we clicked on, starting at the
+		/* The actual shortcut we released on, starting at the
 		 * first one in the current shortcut list. */
 
 	    /* Get the shortcut lists' length. */
@@ -1694,26 +1694,28 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * out, and set j to it. */
 	    j = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
 
-	    /* If we're on the statusbar, don't do anything. */
+	    /* Ignore releases of the first mouse button on the
+	     * statusbar. */
 	    if (j < 0)
-		return FALSE;
+		return 2;
 
 	    /* Calculate the x-coordinate relative to the beginning of
 	     * the shortcut list in bottomwin, and add it to j.  j
 	     * should now be the index in the shortcut list of the
-	     * shortcut we clicked. */
+	     * shortcut we released on. */
 	    j = (*mouse_x / i) * 2 + j;
 
-	    /* Adjust j if we clicked in the last two shortcuts. */
+	    /* Adjust j if we released on the last two shortcuts. */
 	    if ((j >= currslen) && (*mouse_x % i < COLS % i))
 		j -= 2;
 
-	    /* If we're beyond the last shortcut, don't do anything. */
+	    /* Ignore releases of the first mouse button beyond the last
+	     * shortcut. */
 	    if (j >= currslen)
-		return FALSE;
+		return 2;
 
 	    /* Go through the shortcut list to determine which shortcut
-	     * was clicked. */
+	     * we released on. */
 	    for (; j > 0; j--)
 		s = s->next;
 
@@ -1722,41 +1724,53 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * key, an equivalent primary meta key sequence, or both. */
 	    if (s->ctrlval != NANO_NO_KEY) {
 		unget_kbinput(s->ctrlval, FALSE, FALSE);
-		return TRUE;
+		return 1;
 	    } else if (s->metaval != NANO_NO_KEY) {
 		unget_kbinput(s->metaval, TRUE, FALSE);
-		return TRUE;
+		return 1;
 	    }
 	} else
-	    return FALSE;
+	    /* Handle releases of the first mouse button that aren't on
+	     * the current shortcut list elsewhere. */
+	    return 0;
     }
 #if NCURSES_MOUSE_VERSION >= 2
     /* Handle presses of the fourth mouse button (upward rolls of the
-     * mouse wheel). */
-    else if (mevent.bstate & BUTTON4_PRESSED) {
-	int i = 0;
+     * mouse wheel) and presses of the fifth mouse button (downward
+     * rolls of the mouse wheel) . */
+    else if (mevent.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
+	if (wenclose(edit, *mouse_y, *mouse_x) || wenclose(bottomwin,
+		*mouse_y, *mouse_x)) {
+	    /* Calculate the y-coordinate relative to the beginning of
+	     * the shortcut list in bottomwin, i.e. with the sizes of
+	     * topwin, edit, and the first line of bottomwin subtracted
+	     * out, and set i to it. */
+	    int i = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
 
-	/* One upward roll of the mouse wheel is equivalent to moving up
-	 * three lines. */
-	for (; i < 3; i++)
-	    unget_kbinput(NANO_PREVLINE_KEY, FALSE, FALSE);
+	    /* Ignore presses of the fourth mouse button and presses of
+	     * the fifth mouse button below the statusbar. */
+	    if (i >= 0)
+		return 2;
 
-	return TRUE;
-    /* Handle presses of the fifth mouse button (downward rolls of the
-     * mouse wheel). */
-    } else if (mevent.bstate & BUTTON5_PRESSED) {
-	int i = 0;
+	    /* One upward roll of the mouse wheel is equivalent to
+	     * moving up three lines, and one downward roll of the mouse
+	     * wheel is equivalent to moving down three lines. */
+	    for (i = 0; i < 3; i++)
+		unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
+			NANO_PREVLINE_KEY : NANO_NEXTLINE_KEY, FALSE,
+			FALSE);
 
-	/* One downward roll of the mouse wheel is equivalent to moving
-	 * down three lines. */
-	for (; i < 3; i++)
-	    unget_kbinput(NANO_NEXTLINE_KEY, FALSE, FALSE);
-
-	return TRUE;
+	    return 1;
+	} else
+	    /* Ignore presses of the fourth mouse button and presses of
+	     * the fifth mouse buttons that aren't on the edit window or
+	     * the statusbar. */
+	    return 2;
     }
 #endif
     else
-	return FALSE;
+	/* Ignore all other mouse events. */
+	return 2;
 }
 #endif /* !DISABLE_MOUSE */
 

@@ -76,7 +76,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	/* If we got a mouse click and it was on a shortcut, read in the
 	 * shortcut character. */
 	if (*func_key && input == KEY_MOUSE) {
-	    if (do_statusbar_mouse())
+	    if (do_statusbar_mouse() == 1)
 		input = get_kbinput(bottomwin, meta_key, func_key);
 	    else {
 		*meta_key = FALSE;
@@ -273,12 +273,12 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
 #ifndef DISABLE_MOUSE
 /* Handle a mouse click on the statusbar prompt or the shortcut list. */
-bool do_statusbar_mouse(void)
+int do_statusbar_mouse(void)
 {
     int mouse_x, mouse_y;
-    bool retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+    int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
-    if (!retval) {
+    if (retval == 0) {
 	/* We can click in the statusbar window text to move the
 	 * cursor. */
 	if (wenclose(bottomwin, mouse_y, mouse_x)) {
@@ -1337,9 +1337,8 @@ int do_yesno_prompt(bool all, const char *msg)
 		break;
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
-		get_mouseinput(&mouse_x, &mouse_y, FALSE);
-
-		if (wenclose(bottomwin, mouse_y, mouse_x) &&
+		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
+			wenclose(bottomwin, mouse_y, mouse_x) &&
 			!ISSET(NO_HELP) && mouse_x < (width * 2) &&
 			mouse_y - (2 - no_more_space()) -
 			editwinrows - 1 >= 0) {

@@ -131,7 +131,7 @@ char *do_browser(char *path, DIR *dir)
 		{
 		    int mouse_x, mouse_y;
 
-		    if (!get_mouseinput(&mouse_x, &mouse_y, TRUE)) {
+		    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == 0) {
 			/* We can click in the edit window to select a
 			 * filename. */
 			if (wenclose(edit, mouse_y, mouse_x)) {

@@ -1333,7 +1333,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	/* If we got a mouse click and it was on a shortcut, read in the
 	 * shortcut character. */
 	if (*func_key && input == KEY_MOUSE) {
-	    if (do_mouse())
+	    if (do_mouse() == 1)
 		input = get_kbinput(edit, meta_key, func_key);
 	    else {
 		*meta_key = FALSE;
@@ -1491,12 +1491,12 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 #ifndef DISABLE_MOUSE
 /* Handle a mouse click on the edit window or the shortcut list. */
-bool do_mouse(void)
+int do_mouse(void)
 {
     int mouse_x, mouse_y;
-    bool retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+    int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
-    if (!retval) {
+    if (retval == 0) {
 	/* We can click in the edit window to move the cursor. */
 	if (wenclose(edit, mouse_y, mouse_x)) {
 	    bool sameline;
