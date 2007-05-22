@@ -1,3 +1,13 @@
+2007-05-22  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* browser.c (do_browser), nano.c (do_mouse), prompt.c
+	(do_statusbar_mouse, do_yesno_prompt), winio.c (do_mouseinput):
+	Simplify processing of mouse events.  Instead of calling
+	wenclose() to get the window a mouse event took place in and
+	manually adjusting the returned coordinates to be relative to
+	that window the mouse event took place in, call wmouse_trafo(),
+	which does both.
+
 2007-05-20  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c

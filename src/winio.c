@@ -1658,15 +1658,29 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	 * first mouse button was pressed inside it, we need to figure
 	 * out which shortcut was clicked and put back the equivalent
 	 * keystroke(s) for it. */
-	if (allow_shortcuts && !ISSET(NO_HELP) && wenclose(bottomwin,
-		*mouse_y, *mouse_x)) {
-	    int i, j;
+	if (allow_shortcuts && !ISSET(NO_HELP) &&
+		wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE)) {
+	    int i;
+		/* The width of all the shortcuts, except for the last
+		 * two, in the shortcut list in bottomwin. */
+	    int j;
+		/* The y-coordinate relative to the beginning of the
+		 * shortcut list in bottomwin. */
 	    size_t currslen;
 		/* The number of shortcuts in the current shortcut
 		 * list. */
-	    const shortcut *s = currshortcut;
+	    const shortcut *s;
 		/* The actual shortcut we released on, starting at the
 		 * first one in the current shortcut list. */
+
+	    /* Ignore releases of the first mouse button on the
+	     * statusbar. */
+	    if (*mouse_y == 0)
+		return 2;
+
+	    /* Calculate the y-coordinate relative to the beginning of
+	     * the shortcut list in bottomwin. */
+	    j = *mouse_y - 1;
 
 	    /* Get the shortcut lists' length. */
 	    if (currshortcut == main_list)
@@ -1688,17 +1702,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    else
 		i = COLS / ((currslen / 2) + (currslen % 2));
 
-	    /* Calculate the y-coordinate relative to the beginning of
-	     * the shortcut list in bottomwin, i.e. with the sizes of
-	     * topwin, edit, and the first line of bottomwin subtracted
-	     * out, and set j to it. */
-	    j = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
-
-	    /* Ignore releases of the first mouse button on the
-	     * statusbar. */
-	    if (j < 0)
-		return 2;
-
 	    /* Calculate the x-coordinate relative to the beginning of
 	     * the shortcut list in bottomwin, and add it to j.  j
 	     * should now be the index in the shortcut list of the
@@ -1716,6 +1719,8 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 
 	    /* Go through the shortcut list to determine which shortcut
 	     * we released on. */
+	    s = currshortcut;
+
 	    for (; j > 0; j--)
 		s = s->next;
 
@@ -1739,18 +1744,23 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
      * mouse wheel) and presses of the fifth mouse button (downward
      * rolls of the mouse wheel) . */
     else if (mevent.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
-	if (wenclose(edit, *mouse_y, *mouse_x) || wenclose(bottomwin,
-		*mouse_y, *mouse_x)) {
-	    /* Calculate the y-coordinate relative to the beginning of
-	     * the shortcut list in bottomwin, i.e. with the sizes of
-	     * topwin, edit, and the first line of bottomwin subtracted
-	     * out, and set i to it. */
-	    int i = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
+	bool in_edit = wmouse_trafo(edit, mouse_y, mouse_x, FALSE);
+	bool in_bottomwin = wmouse_trafo(bottomwin, mouse_y, mouse_x,
+		FALSE);
+
+	if (in_edit || in_bottomwin) {
+	    int i;
+		/* The y-coordinate relative to the beginning of the
+		 * shortcut list in bottomwin. */
 
 	    /* Ignore presses of the fourth mouse button and presses of
 	     * the fifth mouse button below the statusbar. */
-	    if (i >= 0)
+	    if (in_bottomwin && *mouse_y > 0)
 		return 2;
+
+	    /* Calculate the y-coordinate relative to the beginning of
+	     * the shortcut list in bottomwin. */
+	    i = *mouse_y - 1;
 
 	    /* One upward roll of the mouse wheel is equivalent to
 	     * moving up three lines, and one downward roll of the mouse

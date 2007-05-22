@@ -1498,16 +1498,13 @@ int do_mouse(void)
 
     if (retval == 0) {
 	/* We can click in the edit window to move the cursor. */
-	if (wenclose(edit, mouse_y, mouse_x)) {
+	if (wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
 	    bool sameline;
 		/* Did they click on the line with the cursor?  If they
 		 * clicked on the cursor, we set the mark. */
 	    const filestruct *current_save = openfile->current;
 	    size_t current_x_save = openfile->current_x;
 	    size_t pww_save = openfile->placewewant;
-
-	    /* Subtract out the size of topwin. */
-	    mouse_y -= 2 - no_more_space();
 
 	    sameline = (mouse_y == openfile->current_y);
 

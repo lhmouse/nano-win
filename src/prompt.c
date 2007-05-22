@@ -281,15 +281,12 @@ int do_statusbar_mouse(void)
     if (retval == 0) {
 	/* We can click in the statusbar window text to move the
 	 * cursor. */
-	if (wenclose(bottomwin, mouse_y, mouse_x)) {
+	if (wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
 	    size_t start_col;
 
 	    assert(prompt != NULL);
 
 	    start_col = strlenpt(prompt) + 1;
-
-	    /* Subtract out the sizes of topwin and edit. */
-	    mouse_y -= (2 - no_more_space()) + editwinrows;
 
 	    /* Move to where the click occurred. */
 	    if (mouse_x > start_col && mouse_y == 0) {
@@ -1338,16 +1335,14 @@ int do_yesno_prompt(bool all, const char *msg)
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
 		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
-			wenclose(bottomwin, mouse_y, mouse_x) &&
-			!ISSET(NO_HELP) && mouse_x < (width * 2) &&
-			mouse_y - (2 - no_more_space()) -
-			editwinrows - 1 >= 0) {
+			wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
+			FALSE) && !ISSET(NO_HELP) && mouse_x <
+			(width * 2) && mouse_y > 0) {
 		    int x = mouse_x / width;
 			/* Calculate the x-coordinate relative to the
 			 * two columns of the Yes/No/All shortcuts in
 			 * bottomwin. */
-		    int y = mouse_y - (2 - no_more_space()) -
-			editwinrows - 1;
+		    int y = mouse_y - 1;
 			/* Calculate the y-coordinate relative to the
 			 * beginning of the Yes/No/All shortcuts in
 			 * bottomwin, i.e. with the sizes of topwin,

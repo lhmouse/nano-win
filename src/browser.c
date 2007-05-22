@@ -134,10 +134,8 @@ char *do_browser(char *path, DIR *dir)
 		    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == 0) {
 			/* We can click in the edit window to select a
 			 * filename. */
-			if (wenclose(edit, mouse_y, mouse_x)) {
-			    /* Subtract out the size of topwin. */
-			    mouse_y -= 2 - no_more_space();
-
+			if (wmouse_trafo(edit, &mouse_y, &mouse_x,
+				FALSE)) {
 			    /* longest is the width of each column.
 			     * There are two spaces between each
 			     * column. */
