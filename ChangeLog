@@ -1,9 +1,9 @@
 2007-05-20  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* nano.c (do_mouse), prompt.c (do_statusbar_mouse,
-	do_yesno_prompt), winio.c (do_mouseinput): Fix processing of
-	mouse events so that those we don't handle are ignored instead
-	of being erroneously passed through.
+	* browser.c (do_browser), nano.c (do_mouse), prompt.c
+	(do_statusbar_mouse, do_yesno_prompt), winio.c (do_mouseinput):
+	Fix processing of mouse events so that those we don't handle are
+	ignored instead of being erroneously passed through.
 	* winio.c (do_mouseinput): Simplify handling of mouse events
 	involving the first mouse button.
 	* winio.c (do_mouseinput): Improve mouse wheel support to only
