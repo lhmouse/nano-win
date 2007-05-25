@@ -138,9 +138,8 @@ void get_key_buffer(WINDOW *win)
     allow_pending_sigwinch(FALSE);
 #endif
 
-    /* Increment the length of the keystroke buffer, save the value of
-     * the keystroke in key, and set key_code to TRUE if the keystroke
-     * is an extended keypad value or FALSE if it isn't. */
+    /* Increment the length of the keystroke buffer, and save the value
+     * of the keystroke at the end of it. */
     key_buffer_len++;
     key_buffer = (int *)nmalloc(sizeof(int));
     key_buffer[0] = input;
@@ -159,10 +158,8 @@ void get_key_buffer(WINDOW *win)
 	if (input == ERR)
 	    break;
 
-	/* Otherwise, increment the length of the keystroke buffer, save
-	 * the value of the keystroke in key, and set key_code to TRUE
-	 * if the keystroke is an extended keypad value or FALSE if it
-	 * isn't. */
+	/* Otherwise, increment the length of the keystroke buffer, and
+	 * save the value of the keystroke at the end of it. */
 	key_buffer_len++;
 	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
 		sizeof(int));

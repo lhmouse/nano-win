@@ -2,6 +2,7 @@
 
 	* configure.ac, nano.c (main): Replace the current hackish check
 	for a UTF-8 locale with a proper call to nl_langinfo().
+	* winio.c (get_key_buffer): Fix inaccurate comments.
 
 2007-05-22  David Lawrence Ramsey  <pooka109@gmail.com>
 
