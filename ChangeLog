@@ -1,3 +1,8 @@
+2007-05-25  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* configure.ac, nano.c (main): Replace the current hackish check
+	for a UTF-8 locale with a proper call to nl_langinfo().
+
 2007-05-22  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c

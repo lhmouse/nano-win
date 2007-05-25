@@ -32,6 +32,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
+#include <langinfo.h>
 #include <termios.h>
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
@@ -1725,12 +1726,12 @@ int main(int argc, char **argv)
 
 #ifdef ENABLE_UTF8
     {
-	/* If the locale set exists and includes the case-insensitive
-	 * string "UTF8" or "UTF-8", we should use UTF-8. */
+	/* If the locale set exists and uses UTF-8, we should use
+	 * UTF-8. */
 	char *locale = setlocale(LC_ALL, "");
 
-	if (locale != NULL && (strcasestr(locale, "UTF8") != NULL ||
-		strcasestr(locale, "UTF-8") != NULL)) {
+	if (locale != NULL && (strcmp(nl_langinfo(CODESET),
+		"UTF-8") == 0)) {
 #ifdef USE_SLANG
 	    SLutf8_enable(1);
 #endif
