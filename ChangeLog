@@ -1,4 +1,7 @@
 CVS code -
+- winio.c:
+  get_key_buffer()
+	- Fix inaccurate comments. (DLR)
 
 GNU nano 2.0.6 - 2007.04.26
 - text.c:
