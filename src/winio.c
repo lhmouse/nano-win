@@ -1622,17 +1622,17 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
 #ifndef DISABLE_MOUSE
 /* Handle any mouse events that may have occurred.  We currently handle
- * releases of the first mouse button.  If allow_shortcuts is TRUE,
- * releasing on a visible shortcut will put back the keystroke
- * associated with that shortcut.  If NCURSES_MOUSE_VERSION is at least
- * 2, we also currently handle presses of the fourth mouse button
- * (upward rolls of the mouse wheel) by putting back the keystrokes to
- * move up, and presses of the fifth mouse button (downward rolls of the
- * mouse wheel) by putting back the keystrokes to move down.  Return -1
- * on error, 0 if the mouse event needs to be handled, 1 if it's been
- * handled by putting back keystrokes that need to be handled. or 2 if
- * the mouse event is ignored.  Assume that KEY_MOUSE has already been
- * read in. */
+ * releases/clicks of the first mouse button.  If allow_shortcuts is
+ * TRUE, releasing/clicking on a visible shortcut will put back the
+ * keystroke associated with that shortcut.  If NCURSES_MOUSE_VERSION is
+ * at least 2, we also currently handle presses of the fourth mouse
+ * button (upward rolls of the mouse wheel) by putting back the
+ * keystrokes to move up, and presses of the fifth mouse button
+ * (downward rolls of the mouse wheel) by putting back the keystrokes to
+ * move down.  Return -1 on error, 0 if the mouse event needs to be
+ * handled, 1 if it's been handled by putting back keystrokes that need
+ * to be handled. or 2 if it's been ignored.  Assume that KEY_MOUSE has
+ * already been read in. */
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 {
     MEVENT mevent;
@@ -1648,13 +1648,13 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
     *mouse_x = mevent.x;
     *mouse_y = mevent.y;
 
-    /* Handle releases of the first mouse button. */
-    if (mevent.bstate & BUTTON1_RELEASED) {
+    /* Handle clicks/releases of the first mouse button. */
+    if (mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
 	/* If we're allowing shortcuts, the current shortcut list is
 	 * being displayed on the last two lines of the screen, and the
-	 * first mouse button was pressed inside it, we need to figure
-	 * out which shortcut was clicked and put back the equivalent
-	 * keystroke(s) for it. */
+	 * first mouse button was released on/clicked inside it, we need
+	 * to figure out which shortcut was released on/clicked and put
+	 * back the equivalent keystroke(s) for it. */
 	if (allow_shortcuts && !ISSET(NO_HELP) &&
 		wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE)) {
 	    int i;
@@ -1670,7 +1670,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		/* The actual shortcut we released on, starting at the
 		 * first one in the current shortcut list. */
 
-	    /* Ignore releases of the first mouse button on the
+	    /* Ignore releases/clicks of the first mouse button on the
 	     * statusbar. */
 	    if (*mouse_y == 0)
 		return 2;
@@ -1702,20 +1702,20 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* Calculate the x-coordinate relative to the beginning of
 	     * the shortcut list in bottomwin, and add it to j.  j
 	     * should now be the index in the shortcut list of the
-	     * shortcut we released on. */
+	     * shortcut we released/clicked on. */
 	    j = (*mouse_x / i) * 2 + j;
 
 	    /* Adjust j if we released on the last two shortcuts. */
 	    if ((j >= currslen) && (*mouse_x % i < COLS % i))
 		j -= 2;
 
-	    /* Ignore releases of the first mouse button beyond the last
-	     * shortcut. */
+	    /* Ignore releases/clicks of the first mouse button beyond
+	     * the last shortcut. */
 	    if (j >= currslen)
 		return 2;
 
 	    /* Go through the shortcut list to determine which shortcut
-	     * we released on. */
+	     * we released/clicked on. */
 	    s = currshortcut;
 
 	    for (; j > 0; j--)
@@ -1732,8 +1732,8 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		return 1;
 	    }
 	} else
-	    /* Handle releases of the first mouse button that aren't on
-	     * the current shortcut list elsewhere. */
+	    /* Handle releases/clicks of the first mouse button that
+	     * aren't on the current shortcut list elsewhere. */
 	    return 0;
     }
 #if NCURSES_MOUSE_VERSION >= 2

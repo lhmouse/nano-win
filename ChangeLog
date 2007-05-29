@@ -1,3 +1,9 @@
+2007-05-29  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* winio.c (do_mouseinput): Deal with clicks of the first mouse
+	button again.  Oddly, ncurses built without --enable-ext-mouse
+	needs this, but ncurses built with --enable-ext-mouse doesn't.
+
 2007-05-25  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* configure.ac, nano.c (main): Replace the current hackish check
@@ -21,7 +27,7 @@
 	Fix processing of mouse events so that those we don't handle are
 	ignored instead of being erroneously passed through.
 	* winio.c (do_mouseinput): Simplify handling of mouse events
-	involving the first mouse button.
+	involving the first mouse button by only dealing with releases.
 	* winio.c (do_mouseinput): Improve mouse wheel support to only
 	move the cursor if we're in the edit window or on the statusbar.
 
