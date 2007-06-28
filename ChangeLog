@@ -1,7 +1,25 @@
 CVS code -
+- General:
+	- Simplify processing of mouse events.  Instead of calling
+	  wenclose() to get the window a mouse event took place in and
+	  manually adjusting the returned coordinates to be relative to
+	  that window the mouse event took place in, call
+	  wmouse_trafo(), which does both.  Changes to do_browser(),
+	  do_mouse(), do_statusbar_mouse(), do_yesno_prompt(), and
+	  do_mouseinput(). (DLR)
 - winio.c:
   get_key_buffer()
 	- Fix inaccurate comments. (DLR)
+  do_mouseinput()
+	- Add mouse wheel support.  Now, if mouse support is enabled,
+	  and nano is using a version of ncurses compiled with the
+	  --enable-ext-mouse option, rolling the mouse wheel up or down
+	  will move the cursor three lines up or down.  Note that
+	  ncurses built without --enable-ext-mouse needs to handle both
+	  clicks and releases of the first mouse button, but ncurses
+	  built with --enable-ext-mouse only needs to handle releases,
+	  so keep dealing with both events. (DLR, suggested by Helmut
+	  Jarausch)
 
 GNU nano 2.0.6 - 2007.04.26
 - text.c:

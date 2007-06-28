@@ -131,38 +131,32 @@ char *do_browser(char *path, DIR *dir)
 		{
 		    int mouse_x, mouse_y;
 
-		    if (!get_mouseinput(&mouse_x, &mouse_y, TRUE)) {
-			/* We can click in the edit window to select a
-			 * filename. */
-			if (wenclose(edit, mouse_y, mouse_x)) {
-			    /* Subtract out the size of topwin. */
-			    mouse_y -= 2 - no_more_space();
-
-			    /* longest is the width of each column.
-			     * There are two spaces between each
-			     * column. */
-			    selected = (fileline / editwinrows) *
+		    /* We can click on the edit window to select a
+		     * filename. */
+		    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == 0 &&
+			wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+			/* longest is the width of each column.  There
+			 * are two spaces between each column. */
+			selected = (fileline / editwinrows) *
 				(editwinrows * width) + (mouse_y *
 				width) + (mouse_x / (longest + 2));
 
-			    /* If they clicked beyond the end of a row,
-			     * select the filename at the end of that
-			     * row. */
-			    if (mouse_x > width * (longest + 2))
-				selected--;
+			/* If they clicked beyond the end of a row,
+			 * select the filename at the end of that
+			 * row. */
+			if (mouse_x > width * (longest + 2))
+			    selected--;
 
-			    /* If we're off the screen, select the last
-			     * filename. */
-			    if (selected > filelist_len - 1)
-				selected = filelist_len - 1;
+			/* If we're off the screen, select the last
+			 * filename. */
+			if (selected > filelist_len - 1)
+			    selected = filelist_len - 1;
 
-			    /* If we selected the same filename as last
-			     * time, put back the Enter key so that it's
-			     * read in. */
-			    if (old_selected == selected)
-				unget_kbinput(NANO_ENTER_KEY, FALSE,
-					FALSE);
-			}
+			/* If we selected the same filename as last
+			 * time, put back the Enter key so that it's
+			 * read in. */
+			if (old_selected == selected)
+			    unget_kbinput(NANO_ENTER_KEY, FALSE, FALSE);
 		    }
 		}
 		break;

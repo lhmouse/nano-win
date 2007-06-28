@@ -485,7 +485,7 @@ void terminal_init(void);
 int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	*ran_func, bool *finished, bool allow_funcs);
 #ifndef DISABLE_MOUSE
-bool do_mouse(void);
+int do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
@@ -494,7 +494,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	bool *ran_func, bool *finished, bool allow_funcs, void
 	(*refresh_func)(void));
 #ifndef DISABLE_MOUSE
-bool do_statusbar_mouse(void);
+int do_statusbar_mouse(void);
 #endif
 void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter, bool allow_cntrls);
@@ -749,7 +749,7 @@ void unparse_kbinput(char *output, size_t output_len);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
-bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
+int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
 const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	*meta_key, bool *func_key);

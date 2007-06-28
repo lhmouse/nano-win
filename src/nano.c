@@ -1332,7 +1332,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	/* If we got a mouse click and it was on a shortcut, read in the
 	 * shortcut character. */
 	if (*func_key && input == KEY_MOUSE) {
-	    if (do_mouse())
+	    if (do_mouse() == 1)
 		input = get_kbinput(edit, meta_key, func_key);
 	    else {
 		*meta_key = FALSE;
@@ -1490,50 +1490,43 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 #ifndef DISABLE_MOUSE
 /* Handle a mouse click on the edit window or the shortcut list. */
-bool do_mouse(void)
+int do_mouse(void)
 {
     int mouse_x, mouse_y;
-    bool retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+    int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
-    if (!retval) {
-	/* We can click in the edit window to move the cursor. */
-	if (wenclose(edit, mouse_y, mouse_x)) {
-	    bool sameline;
-		/* Did they click on the line with the cursor?  If they
-		 * clicked on the cursor, we set the mark. */
-	    const filestruct *current_save = openfile->current;
-	    size_t current_x_save = openfile->current_x;
-	    size_t pww_save = openfile->placewewant;
+    /* We can click on the edit window to move the cursor. */
+    if (retval == 0 && wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+	bool sameline;
+	    /* Did they click on the line with the cursor?  If they
+	     * clicked on the cursor, we set the mark. */
+	const filestruct *current_save = openfile->current;
+	size_t current_x_save = openfile->current_x;
+	size_t pww_save = openfile->placewewant;
 
-	    /* Subtract out the size of topwin. */
-	    mouse_y -= 2 - no_more_space();
+	sameline = (mouse_y == openfile->current_y);
 
-	    sameline = (mouse_y == openfile->current_y);
+	/* Move to where the click occurred. */
+	for (; openfile->current_y < mouse_y && openfile->current !=
+		openfile->filebot; openfile->current_y++)
+	    openfile->current = openfile->current->next;
+	for (; openfile->current_y > mouse_y && openfile->current !=
+		openfile->fileage; openfile->current_y--)
+	    openfile->current = openfile->current->prev;
 
-	    /* Move to where the click occurred. */
-	    for (; openfile->current_y < mouse_y &&
-		openfile->current != openfile->filebot;
-		openfile->current_y++)
-		openfile->current = openfile->current->next;
-	    for (; openfile->current_y > mouse_y &&
-		openfile->current != openfile->fileage;
-		openfile->current_y--)
-		openfile->current = openfile->current->prev;
-
-	    openfile->current_x = actual_x(openfile->current->data,
+	openfile->current_x = actual_x(openfile->current->data,
 		get_page_start(xplustabs()) + mouse_x);
-	    openfile->placewewant = xplustabs();
+	openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
-	    /* Clicking where the cursor is toggles the mark, as does
-	     * clicking beyond the line length with the cursor at the
-	     * end of the line. */
-	    if (sameline && openfile->current_x == current_x_save)
-		do_mark();
+	/* Clicking where the cursor is toggles the mark, as does
+	 * clicking beyond the line length with the cursor at the end of
+	 * the line. */
+	if (sameline && openfile->current_x == current_x_save)
+	    do_mark();
 #endif
 
-	    edit_redraw(current_save, pww_save);
-	}
+	edit_redraw(current_save, pww_save);
     }
 
     return retval;
