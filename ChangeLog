@@ -3,6 +3,9 @@
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c
 	(do_statusbar_mouse, do_yesno_prompt): Further simplify
 	processing of mouse events by consolidating if clauses.
+	* winio.c (do_mouseinput): Return unconditionally if we get a
+	mouse event that we don't deal with, instead of inside an else
+	clause.
 
 2007-05-29  David Lawrence Ramsey  <pooka109@gmail.com>
 
