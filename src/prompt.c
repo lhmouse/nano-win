@@ -278,29 +278,27 @@ int do_statusbar_mouse(void)
     int mouse_x, mouse_y;
     int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
-    if (retval == 0) {
-	/* We can click in the statusbar window text to move the
-	 * cursor. */
-	if (wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
-	    size_t start_col;
+    /* We can click on the statusbar window text to move the cursor. */
+    if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
+	FALSE)) {
+	size_t start_col;
 
-	    assert(prompt != NULL);
+	assert(prompt != NULL);
 
-	    start_col = strlenpt(prompt) + 1;
+	start_col = strlenpt(prompt) + 1;
 
-	    /* Move to where the click occurred. */
-	    if (mouse_x > start_col && mouse_y == 0) {
-		size_t pww_save = statusbar_pww;
+	/* Move to where the click occurred. */
+	if (mouse_x > start_col && mouse_y == 0) {
+	    size_t pww_save = statusbar_pww;
 
-		statusbar_x = actual_x(answer,
+	    statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
-			statusbar_xplustabs()) + mouse_x - start_col -
-			1);
-		statusbar_pww = statusbar_xplustabs();
+			statusbar_xplustabs()) + mouse_x -
+			start_col - 1);
+	    statusbar_pww = statusbar_xplustabs();
 
-		if (need_statusbar_horizontal_update(pww_save))
-		    update_statusbar_line(answer, statusbar_x);
-	    }
+	    if (need_statusbar_horizontal_update(pww_save))
+		update_statusbar_line(answer, statusbar_x);
 	}
     }
 
@@ -1334,6 +1332,8 @@ int do_yesno_prompt(bool all, const char *msg)
 		break;
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
+		/* We can click on the shortcut list to select an
+		 * answer. */
 		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
 			wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
 			FALSE) && !ISSET(NO_HELP) && mouse_x <

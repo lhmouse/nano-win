@@ -1497,42 +1497,38 @@ int do_mouse(void)
     int mouse_x, mouse_y;
     int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
-    if (retval == 0) {
-	/* We can click in the edit window to move the cursor. */
-	if (wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
-	    bool sameline;
-		/* Did they click on the line with the cursor?  If they
-		 * clicked on the cursor, we set the mark. */
-	    const filestruct *current_save = openfile->current;
-	    size_t current_x_save = openfile->current_x;
-	    size_t pww_save = openfile->placewewant;
+    /* We can click on the edit window to move the cursor. */
+    if (retval == 0 && wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+	bool sameline;
+	    /* Did they click on the line with the cursor?  If they
+	     * clicked on the cursor, we set the mark. */
+	const filestruct *current_save = openfile->current;
+	size_t current_x_save = openfile->current_x;
+	size_t pww_save = openfile->placewewant;
 
-	    sameline = (mouse_y == openfile->current_y);
+	sameline = (mouse_y == openfile->current_y);
 
-	    /* Move to where the click occurred. */
-	    for (; openfile->current_y < mouse_y &&
-		openfile->current != openfile->filebot;
-		openfile->current_y++)
-		openfile->current = openfile->current->next;
-	    for (; openfile->current_y > mouse_y &&
-		openfile->current != openfile->fileage;
-		openfile->current_y--)
-		openfile->current = openfile->current->prev;
+	/* Move to where the click occurred. */
+	for (; openfile->current_y < mouse_y && openfile->current !=
+		openfile->filebot; openfile->current_y++)
+	    openfile->current = openfile->current->next;
+	for (; openfile->current_y > mouse_y && openfile->current !=
+		openfile->fileage; openfile->current_y--)
+	    openfile->current = openfile->current->prev;
 
-	    openfile->current_x = actual_x(openfile->current->data,
+	openfile->current_x = actual_x(openfile->current->data,
 		get_page_start(xplustabs()) + mouse_x);
-	    openfile->placewewant = xplustabs();
+	openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
-	    /* Clicking where the cursor is toggles the mark, as does
-	     * clicking beyond the line length with the cursor at the
-	     * end of the line. */
-	    if (sameline && openfile->current_x == current_x_save)
-		do_mark();
+	/* Clicking where the cursor is toggles the mark, as does
+	 * clicking beyond the line length with the cursor at the end of
+	 * the line. */
+	if (sameline && openfile->current_x == current_x_save)
+	    do_mark();
 #endif
 
-	    edit_redraw(current_save, pww_save);
-	}
+	edit_redraw(current_save, pww_save);
     }
 
     return retval;

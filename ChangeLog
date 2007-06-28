@@ -1,3 +1,9 @@
+2007-06-28  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* browser.c (do_browser), nano.c (do_mouse), prompt.c
+	(do_statusbar_mouse, do_yesno_prompt): Further simplify
+	processing of mouse events by consolidating if clauses.
+
 2007-05-29  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* winio.c (do_mouseinput): Deal with clicks of the first mouse
