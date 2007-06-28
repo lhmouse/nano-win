@@ -1648,7 +1648,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
     *mouse_x = mevent.x;
     *mouse_y = mevent.y;
 
-    /* Handle clicks/releases of the first mouse button. */
+    /* Handle releases/clicks of the first mouse button. */
     if (mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
 	/* If we're allowing shortcuts, the current shortcut list is
 	 * being displayed on the last two lines of the screen, and the
