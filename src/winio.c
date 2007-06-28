@@ -1775,9 +1775,9 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    return 2;
     }
 #endif
-    else
-	/* Ignore all other mouse events. */
-	return 2;
+
+    /* Ignore all other mouse events. */
+    return 2;
 }
 #endif /* !DISABLE_MOUSE */
 
