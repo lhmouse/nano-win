@@ -7,6 +7,9 @@ CVS code -
 	  wmouse_trafo(), which does both.  Changes to do_browser(),
 	  do_mouse(), do_statusbar_mouse(), do_yesno_prompt(), and
 	  do_mouseinput(). (DLR)
+- prompt.c:
+  do_yesno_prompt()
+	- Remove redundant check for NO_HELP's being FALSE. (DLR)
 - winio.c:
   get_key_buffer()
 	- Fix inaccurate comments. (DLR)
