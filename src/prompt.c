@@ -1332,12 +1332,12 @@ int do_yesno_prompt(bool all, const char *msg)
 		break;
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
-		/* We can click on the shortcut list to select an
-		 * answer. */
+		/* We can click on the Yes/No/All shortcut list to
+		 * select an answer. */
 		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
 			wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
-			FALSE) && !ISSET(NO_HELP) && mouse_x <
-			(width * 2) && mouse_y > 0) {
+			FALSE) && mouse_x < (width * 2) &&
+			mouse_y > 0) {
 		    int x = mouse_x / width;
 			/* Calculate the x-coordinate relative to the
 			 * two columns of the Yes/No/All shortcuts in

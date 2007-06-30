@@ -1,3 +1,8 @@
+2007-06-30  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* prompt.c (do_yesno_prompt): Remove redundant check for
+	NO_HELP's being FALSE.
+
 2007-06-28  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c
