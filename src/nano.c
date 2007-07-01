@@ -609,7 +609,7 @@ void die_save_file(const char *die_filename)
 
     /* If we can't save, we have really bad problems, but we might as
      * well try. */
-    if (die_filename[0] == '\0')
+    if (*die_filename == '\0')
 	die_filename = "nano";
 
     retval = get_next_filename(die_filename, ".save");

@@ -208,8 +208,8 @@ int search_init(bool replacing, bool use_answer)
     backupstring = NULL;
 
     /* Cancel any search, or just return with no previous search. */
-    if (i == -1 || (i < 0 && last_search[0] == '\0') ||
-	    (!replacing && i == 0 && answer[0] == '\0')) {
+    if (i == -1 || (i < 0 && *last_search == '\0') || (!replacing &&
+	i == 0 && *answer == '\0')) {
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
@@ -444,7 +444,7 @@ void do_search(void)
 	return;
 
     /* If answer is now "", copy last_search into answer. */
-    if (answer[0] == '\0')
+    if (*answer == '\0')
 	answer = mallocstrcpy(answer, last_search);
     else
 	last_search = mallocstrcpy(last_search, answer);
