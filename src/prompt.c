@@ -1077,7 +1077,7 @@ int get_prompt_string(bool allow_tabs,
 		     * magichistory is set, save magichistory in
 		     * answer. */
 		    if ((*history_list)->next == NULL &&
-			answer[0] == '\0' && magichistory != NULL) {
+			*answer == '\0' && magichistory != NULL) {
 			answer = mallocstrcpy(answer, magichistory);
 			statusbar_x = strlen(answer);
 		    }
@@ -1221,7 +1221,7 @@ int do_prompt(bool allow_tabs,
 	    retval = -1;
 	    break;
 	case NANO_ENTER_KEY:
-	    retval = (answer[0] == '\0') ? -2 : 0;
+	    retval = (*answer == '\0') ? -2 : 0;
 	    break;
     }
 

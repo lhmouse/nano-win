@@ -741,7 +741,7 @@ void do_insertfile(
 	 * blank, open a new buffer instead of canceling.  If the
 	 * filename or command begins with a newline (i.e. an encoded
 	 * null), treat it as though it's blank. */
-	if (i == -1 || ((i == -2 || answer[0] == '\n')
+	if (i == -1 || ((i == -2 || *answer == '\n')
 #ifdef ENABLE_MULTIBUFFER
 		&& !ISSET(MULTIBUFFER)
 #endif
@@ -1307,7 +1307,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
     assert(name != NULL);
 
-    if (name[0] == '\0')
+    if (*name == '\0')
 	return -1;
 
     if (f_open != NULL)
@@ -1408,7 +1408,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    sprintf(backupname, "%s%s", backup_dir, backuptemp);
 	    free(backuptemp);
 	    backuptemp = get_next_filename(backupname, "~");
-	    if (backuptemp[0] == '\0') {
+	    if (*backuptemp == '\0') {
 		statusbar(_("Error writing %s: %s"), backupname,
 		    _("Too many backup files?"));
 		free(backuptemp);
@@ -1833,7 +1833,7 @@ bool do_writeout(bool exiting)
 
 	/* If the filename or command begins with a newline (i.e. an
 	 * encoded null), treat it as though it's blank. */
-	if (i < 0 || answer[0] == '\n') {
+	if (i < 0 || *answer == '\n') {
 	    statusbar(_("Cancelled"));
 	    retval = FALSE;
 	    break;
@@ -1993,7 +1993,7 @@ char *real_dir_from_tilde(const char *buf)
 
     assert(buf != NULL);
 
-    if (buf[0] == '~') {
+    if (*buf == '~') {
 	size_t i = 1;
 	char *tilde_dir;
 
@@ -2255,7 +2255,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 
     /* If the word starts with `~' and there is no slash in the word,
      * then try completing this word as a username. */
-    if (*place > 0 && buf[0] == '~') {
+    if (*place > 0 && *buf == '~') {
 	const char *bob = strchr(buf, '/');
 
 	if (bob == NULL || bob >= buf + *place)

@@ -227,7 +227,7 @@ char *do_browser(char *path, DIR *dir)
 
 		/* If the directory begins with a newline (i.e. an
 		 * encoded null), treat it as though it's blank. */
-		if (i < 0 || answer[0] == '\n') {
+		if (i < 0 || *answer == '\n') {
 		    /* We canceled.  Indicate that on the statusbar, and
 		     * blank out ans, since we're done with it. */
 		    statusbar(_("Cancelled"));
@@ -827,8 +827,8 @@ int filesearch_init(void)
     backupstring = NULL;
 
     /* Cancel any search, or just return with no previous search. */
-    if (i == -1 || (i < 0 && last_search[0] == '\0') ||
-	    (i == 0 && answer[0] == '\0')) {
+    if (i == -1 || (i < 0 && *last_search == '\0') || (i == 0 &&
+	*answer == '\0')) {
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
@@ -983,7 +983,7 @@ void do_filesearch(void)
 	return;
 
     /* If answer is now "", copy last_search into answer. */
-    if (answer[0] == '\0')
+    if (*answer == '\0')
 	answer = mallocstrcpy(answer, last_search);
     else
 	last_search = mallocstrcpy(last_search, answer);
