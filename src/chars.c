@@ -508,7 +508,7 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
 {
     assert(s1 != NULL && s2 != NULL);
 
-    for (; n > 0 && *s1 != '\0' && *s2 != '\0'; n--, s1++, s2++) {
+    for (; *s1 != '\0' && *s2 != '\0' && n > 0; s1++, s2++, n--) {
 	if (tolower(*s1) != tolower(*s2))
 	    break;
     }
@@ -531,7 +531,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	s1_mb = charalloc(MB_CUR_MAX);
 	s2_mb = charalloc(MB_CUR_MAX);
 
-	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
+	while (*s1 != '\0' && *s2 != '\0' && n > 0) {
 	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
 	    int s1_mb_len, s2_mb_len;
 
@@ -603,7 +603,7 @@ const char *nstrcasestr(const char *haystack, const char *needle)
     for (; *haystack != '\0'; haystack++) {
 	const char *r = haystack, *q = needle;
 
-	for (; tolower(*r) == tolower(*q) && *q != '\0'; r++, q++)
+	for (; *q != '\0' && tolower(*r) == tolower(*q); r++, q++)
 	    ;
 
 	if (*q == '\0')
@@ -687,7 +687,7 @@ const char *revstrstr(const char *haystack, const char *needle, const
     for (; rev_start >= haystack; rev_start--) {
 	const char *r, *q;
 
-	for (r = rev_start, q = needle; *r == *q && *q != '\0'; r++, q++)
+	for (r = rev_start, q = needle; *q != '\0' && *r == *q; r++, q++)
 	    ;
 
 	if (*q == '\0')
@@ -709,7 +709,7 @@ const char *revstrcasestr(const char *haystack, const char *needle,
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
 
-	for (; tolower(*r) == tolower(*q) && *q != '\0'; r++, q++)
+	for (; *q != '\0' && tolower(*r) == tolower(*q); r++, q++)
 	    ;
 
 	if (*q == '\0')
@@ -803,7 +803,7 @@ size_t nstrnlen(const char *s, size_t maxlen)
 
     assert(s != NULL);
 
-    for (; maxlen > 0 && *s != '\0'; maxlen--, n++, s++)
+    for (; *s != '\0' && maxlen > 0; s++, maxlen--, n++)
 	;
 
     return n;
@@ -826,8 +826,8 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	    if (maxlen == 0)
 		break;
 
-	    maxlen--;
 	    s += s_mb_len;
+	    maxlen--;
 	    n++;
 	}
 
