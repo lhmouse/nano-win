@@ -506,6 +506,9 @@ int mbstrcasecmp(const char *s1, const char *s2)
 /* This function is equivalent to strncasecmp(). */
 int nstrncasecmp(const char *s1, const char *s2, size_t n)
 {
+    if (s1 == s2)
+	return 0;
+
     assert(s1 != NULL && s2 != NULL);
 
     for (; *s1 != '\0' && *s2 != '\0' && n > 0; s1++, s2++, n--) {
@@ -525,6 +528,9 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
     if (use_utf8) {
 	char *s1_mb, *s2_mb;
 	wchar_t ws1, ws2;
+
+	if (s1 == s2)
+	    return 0;
 
 	assert(s1 != NULL && s2 != NULL);
 

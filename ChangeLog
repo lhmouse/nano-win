@@ -7,6 +7,10 @@ CVS code -
 	  wmouse_trafo(), which does both.  Changes to do_browser(),
 	  do_mouse(), do_statusbar_mouse(), do_yesno_prompt(), and
 	  do_mouseinput(). (DLR)
+- chars.c:
+  nstrncasecmp(), mbstrncasecmp()
+	- For efficiency, return zero immediately if s1 and s2 point to
+	  the same string. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
