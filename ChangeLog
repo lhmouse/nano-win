@@ -1,8 +1,8 @@
 2007-07-02  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
-	mbrevstrcasestr): For efficiency, return haystack immediately if
-	needle is blank.
+	mbrevstrcasestr): For efficiency, return haystack/rev_start
+	immediately if needle is blank.
 
 2007-07-01  David Lawrence Ramsey  <pooka109@gmail.com>
 
