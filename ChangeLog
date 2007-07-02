@@ -11,6 +11,10 @@ CVS code -
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
 	  the same string. (DLR)
+  nstrcasestr(), mbstrcasestr(), revstrstr(), revstrcasestr(),
+  mbrevstrcasestr()
+	- For efficiency, return haystack immediately if
+	  needle/rev_start is blank. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
