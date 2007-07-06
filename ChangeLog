@@ -1,3 +1,8 @@
+2007-07-06  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
+	mbrevstrcasestr): Return char* instead of const char*.
+
 2007-07-02  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,

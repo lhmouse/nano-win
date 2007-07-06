@@ -602,12 +602,12 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
  *     Boston, MA  02110-1301, USA. */
 
 /* This function is equivalent to strcasestr(). */
-const char *nstrcasestr(const char *haystack, const char *needle)
+char *nstrcasestr(const char *haystack, const char *needle)
 {
     assert(haystack != NULL && needle != NULL);
 
     if (needle == '\0')
-	return haystack;
+	return (char *)haystack;
 
     for (; *haystack != '\0'; haystack++) {
 	const char *r = haystack, *q = needle;
@@ -616,7 +616,7 @@ const char *nstrcasestr(const char *haystack, const char *needle)
 	    ;
 
 	if (*q == '\0')
-	    return haystack;
+	    return (char *)haystack;
     }
 
     return NULL;
@@ -624,7 +624,7 @@ const char *nstrcasestr(const char *haystack, const char *needle)
 #endif
 
 /* This function is equivalent to strcasestr() for multibyte strings. */
-const char *mbstrcasestr(const char *haystack, const char *needle)
+char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
@@ -635,7 +635,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	assert(haystack != NULL && needle != NULL);
 
 	if (needle == '\0')
-	    return haystack;
+	    return (char *)haystack;
 
 	r_mb = charalloc(MB_CUR_MAX);
 	q_mb = charalloc(MB_CUR_MAX);
@@ -682,7 +682,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	free(r_mb);
 	free(q_mb);
 
-	return found_needle ? haystack : NULL;
+	return found_needle ? (char *)haystack : NULL;
     } else
 #endif
 	return strcasestr(haystack, needle);
@@ -691,13 +691,13 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 #if !defined(NANO_TINY) || !defined(DISABLE_TABCOMP)
 /* This function is equivalent to strstr(), except in that it scans the
  * string in reverse, starting at rev_start. */
-const char *revstrstr(const char *haystack, const char *needle, const
-	char *rev_start)
+char *revstrstr(const char *haystack, const char *needle, const char
+	*rev_start)
 {
     assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
     if (needle == '\0')
-	return rev_start;
+	return (char *)rev_start;
 
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
@@ -706,7 +706,7 @@ const char *revstrstr(const char *haystack, const char *needle, const
 	    ;
 
 	if (*q == '\0')
-	    return rev_start;
+	    return (char *)rev_start;
     }
 
     return NULL;
@@ -716,13 +716,13 @@ const char *revstrstr(const char *haystack, const char *needle, const
 #ifndef NANO_TINY
 /* This function is equivalent to strcasestr(), except in that it scans
  * the string in reverse, starting at rev_start. */
-const char *revstrcasestr(const char *haystack, const char *needle,
-	const char *rev_start)
+char *revstrcasestr(const char *haystack, const char *needle, const char
+	*rev_start)
 {
     assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
     if (needle == '\0')
-	return rev_start;
+	return (char *)rev_start;
 
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
@@ -731,7 +731,7 @@ const char *revstrcasestr(const char *haystack, const char *needle,
 	    ;
 
 	if (*q == '\0')
-	    return rev_start;
+	    return (char *)rev_start;
     }
 
     return NULL;
@@ -740,8 +740,8 @@ const char *revstrcasestr(const char *haystack, const char *needle,
 /* This function is equivalent to strcasestr() for multibyte strings,
  * except in that it scans the string in reverse, starting at
  * rev_start. */
-const char *mbrevstrcasestr(const char *haystack, const char *needle,
-	const char *rev_start)
+char *mbrevstrcasestr(const char *haystack, const char *needle, const
+	char *rev_start)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
@@ -752,7 +752,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
 	if (needle == '\0')
-	    return rev_start;
+	    return (char *)rev_start;
 
 	r_mb = charalloc(MB_CUR_MAX);
 	q_mb = charalloc(MB_CUR_MAX);
@@ -803,7 +803,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	free(r_mb);
 	free(q_mb);
 
-	return found_needle ? rev_start : NULL;
+	return found_needle ? (char *)rev_start : NULL;
     } else
 #endif
 	return revstrcasestr(haystack, needle, rev_start);
