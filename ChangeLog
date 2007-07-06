@@ -15,6 +15,7 @@ CVS code -
   mbrevstrcasestr()
 	- For efficiency, return haystack immediately if
 	  needle/rev_start is blank. (DLR)
+	- Return char* instead of const char*. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)

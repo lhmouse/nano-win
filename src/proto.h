@@ -203,18 +203,18 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n);
 #endif
 int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 #ifndef HAVE_STRCASESTR
-const char *nstrcasestr(const char *haystack, const char *needle);
+char *nstrcasestr(const char *haystack, const char *needle);
 #endif
-const char *mbstrcasestr(const char *haystack, const char *needle);
+char *mbstrcasestr(const char *haystack, const char *needle);
 #if !defined(NANO_TINY) || !defined(DISABLE_TABCOMP)
-const char *revstrstr(const char *haystack, const char *needle, const
-	char *rev_start);
+char *revstrstr(const char *haystack, const char *needle, const char
+	*rev_start);
 #endif
 #ifndef NANO_TINY
-const char *revstrcasestr(const char *haystack, const char *needle,
-	const char *rev_start);
-const char *mbrevstrcasestr(const char *haystack, const char *needle,
-	const char *rev_start);
+char *revstrcasestr(const char *haystack, const char *needle, const char
+	*rev_start);
+char *mbrevstrcasestr(const char *haystack, const char *needle, const
+	char *rev_start);
 #endif
 size_t mbstrlen(const char *s);
 #ifndef HAVE_STRNLEN
