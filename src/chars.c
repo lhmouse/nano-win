@@ -700,9 +700,9 @@ const char *revstrstr(const char *haystack, const char *needle, const
 	return rev_start;
 
     for (; rev_start >= haystack; rev_start--) {
-	const char *r, *q;
+	const char *r = rev_start, *q = needle;
 
-	for (r = rev_start, q = needle; *q != '\0' && *r == *q; r++, q++)
+	for (; *q != '\0' && *r == *q; r++, q++)
 	    ;
 
 	if (*q == '\0')
