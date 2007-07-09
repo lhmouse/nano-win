@@ -827,7 +827,8 @@ ssize_t do_replace_loop(
 		openfile->current_x += match_len + length_change - 1;
 
 	    /* Cleanup. */
-	    openfile->totsize += length_change;
+	    openfile->totsize += mbstrlen(copy) -
+		mbstrlen(openfile->current->data);
 	    free(openfile->current->data);
 	    openfile->current->data = copy;
 

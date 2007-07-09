@@ -24,6 +24,11 @@ CVS code -
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
+- search.c:
+  do_replace_loop()
+	- Fix problem where replacing e.g. single-byte characters with
+	  multibyte ones could result in openfile->totsize's being
+	  miscalculated. (DLR)
 - winio.c:
   get_key_buffer()
 	- Fix inaccurate comments. (DLR)
