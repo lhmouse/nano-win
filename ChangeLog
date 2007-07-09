@@ -1,3 +1,10 @@
+2007-07-09  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* chars.c (mbstrncasecmp, mbstrnlen, mbstrpbrk,
+	has_blank_mbchars): Simplify by using for loops instead of while
+	loops where possible, to match the single-byte versions of these
+	functions.
+
 2007-07-06  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
