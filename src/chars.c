@@ -603,7 +603,7 @@ char *nstrcasestr(const char *haystack, const char *needle)
 {
     assert(haystack != NULL && needle != NULL);
 
-    if (needle == '\0')
+    if (*needle == '\0')
 	return (char *)haystack;
 
     for (; *haystack != '\0'; haystack++) {
@@ -631,7 +631,7 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 
 	assert(haystack != NULL && needle != NULL);
 
-	if (needle == '\0')
+	if (*needle == '\0')
 	    return (char *)haystack;
 
 	r_mb = charalloc(MB_CUR_MAX);
@@ -693,7 +693,7 @@ char *revstrstr(const char *haystack, const char *needle, const char
 {
     assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
-    if (needle == '\0')
+    if (*needle == '\0')
 	return (char *)rev_start;
 
     for (; rev_start >= haystack; rev_start--) {
@@ -718,7 +718,7 @@ char *revstrcasestr(const char *haystack, const char *needle, const char
 {
     assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
-    if (needle == '\0')
+    if (*needle == '\0')
 	return (char *)rev_start;
 
     for (; rev_start >= haystack; rev_start--) {
@@ -748,7 +748,7 @@ char *mbrevstrcasestr(const char *haystack, const char *needle, const
 
 	assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
-	if (needle == '\0')
+	if (*needle == '\0')
 	    return (char *)rev_start;
 
 	r_mb = charalloc(MB_CUR_MAX);

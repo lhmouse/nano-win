@@ -1,5 +1,8 @@
 2007-07-09  David Lawrence Ramsey  <pooka109@gmail.com>
 
+	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
+	mbrevstrcasestr): Fix typo that broke the check for needle's
+	being blank.
 	* chars.c (mbstrncasecmp, mbstrnlen, mbstrpbrk,
 	has_blank_mbchars): Simplify by using for loops instead of while
 	loops where possible, to match the single-byte versions of these
