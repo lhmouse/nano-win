@@ -7,6 +7,9 @@
 	has_blank_mbchars): Simplify by using for loops instead of while
 	loops where possible, to match the single-byte versions of these
 	functions.
+	* search.c (do_replace_loop): Fix problem where replacing e.g.
+	single-byte characters with multibyte ones could result in
+	openfile->totsize's being miscalculated.
 
 2007-07-06  David Lawrence Ramsey  <pooka109@gmail.com>
 
