@@ -7,6 +7,11 @@ CVS code -
 	  wmouse_trafo(), which does both.  Changes to do_browser(),
 	  do_mouse(), do_statusbar_mouse(), do_yesno_prompt(), and
 	  do_mouseinput(). (DLR)
+	- Simplify various multibyte string functions by using for loops
+	  instead of while loops where possible, to match the
+	  single-byte versions of these functions.  Changes to
+	  mbstrncasecmp(), mbstrnlen(), mbstrpbrk(), and
+	  has_blank_mbchars(). (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to

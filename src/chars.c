@@ -537,7 +537,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	s1_mb = charalloc(MB_CUR_MAX);
 	s2_mb = charalloc(MB_CUR_MAX);
 
-	while (*s1 != '\0' && *s2 != '\0' && n > 0) {
+	for (; *s1 != '\0' && *s2 != '\0' && n > 0; s1 +=
+		move_mbright(s1, 0), s2 += move_mbright(s2, 0), n--) {
 	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
 	    int s1_mb_len, s2_mb_len;
 
@@ -557,19 +558,15 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 		bad_s2_mb = TRUE;
 	    }
 
-	    if (n == 0 || bad_s1_mb != bad_s2_mb ||
-		towlower(ws1) != towlower(ws2))
+	    if (bad_s1_mb != bad_s2_mb || towlower(ws1) !=
+		towlower(ws2))
 		break;
-
-	    s1 += s1_mb_len;
-	    s2 += s2_mb_len;
-	    n--;
 	}
 
 	free(s1_mb);
 	free(s2_mb);
 
-	return towlower(ws1) - towlower(ws2);
+	return (n > 0) ? towlower(ws1) - towlower(ws2) : 0;
     } else
 #endif
 	return strncasecmp(s1, s2, n);
@@ -839,18 +836,10 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	size_t n = 0;
-	int s_mb_len;
 
-	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s, NULL, NULL);
-
-	    if (maxlen == 0)
-		break;
-
-	    s += s_mb_len;
-	    maxlen--;
-	    n++;
-	}
+	for (; *s != '\0' && maxlen > 0; s += move_mbright(s, 0),
+		maxlen--, n++)
+	    ;
 
 	return n;
     } else
@@ -914,11 +903,9 @@ char *mbstrpbrk(const char *s, const char *accept)
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	while (*s != '\0') {
+	for (; *s != '\0'; s += move_mbright(s, 0)) {
 	    if (mbstrchr(accept, s) != NULL)
 		return (char *)s;
-
-	    s += move_mbright(s, 0);
 	}
 
 	return NULL;
@@ -1000,18 +987,16 @@ bool has_blank_mbchars(const char *s)
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *chr_mb = charalloc(MB_CUR_MAX);
 	bool retval = FALSE;
+	char *chr_mb = charalloc(MB_CUR_MAX);
 
-	while (*s != '\0') {
-	    int chr_mb_len = parse_mbchar(s, chr_mb, NULL);
+	for (; *s != '\0'; s += move_mbright(s, 0)) {
+	    parse_mbchar(s, chr_mb, NULL);
 
 	    if (is_blank_mbchar(chr_mb)) {
 		retval = TRUE;
 		break;
 	    }
-
-	    s += chr_mb_len;
 	}
 
 	free(chr_mb);
