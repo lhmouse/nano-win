@@ -573,46 +573,22 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 }
 
 #ifndef HAVE_STRCASESTR
-/* This function, nstrcasestr() (originally mutt_stristr()), was adapted
- * from mutt 1.2.4i (lib.c).  Here is the notice from that file, with
- * the Free Software Foundation's address updated:
- *
- * Copyright (C) 1996, 1997, 1998, 1999, 2000 Michael R. Elkins
- * <me@cs.hmc.edu>
- * Copyright (C) 1999, 2000 Thomas Roessler <roessler@guug.de>
- *
- *     This program is free software; you can redistribute it
- *     and/or modify it under the terms of the GNU General Public
- *     License as published by the Free Software Foundation; either
- *     version 2 of the License, or (at your option) any later
- *     version.
- *
- *     This program is distributed in the hope that it will be
- *     useful, but WITHOUT ANY WARRANTY; without even the implied
- *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- *     PURPOSE.  See the GNU General Public License for more
- *     details.
- *
- *     You should have received a copy of the GNU General Public
- *     License along with this program; if not, write to the Free
- *     Software Foundation, Inc., 51 Franklin St, Fifth Floor,
- *     Boston, MA  02110-1301, USA. */
-
 /* This function is equivalent to strcasestr(). */
 char *nstrcasestr(const char *haystack, const char *needle)
 {
+    size_t haystack_len, needle_len;
+
     assert(haystack != NULL && needle != NULL);
 
     if (*needle == '\0')
 	return (char *)haystack;
 
-    for (; *haystack != '\0'; haystack++) {
-	const char *r = haystack, *q = needle;
+    haystack_len = strlen(haystack);
+    needle_len = strlen(needle);
 
-	for (; *q != '\0' && tolower(*r) == tolower(*q); r++, q++)
-	    ;
-
-	if (*q == '\0')
+    for (; *haystack != '\0' && haystack_len >= needle_len; haystack++,
+	haystack_len--) {
+	if (strncasecmp(haystack, needle, needle_len) == 0)
 	    return (char *)haystack;
     }
 
@@ -625,61 +601,23 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *r_mb, *q_mb;
-	wchar_t wr, wq;
-	bool found_needle = FALSE;
+	size_t haystack_len, needle_len;
 
 	assert(haystack != NULL && needle != NULL);
 
 	if (*needle == '\0')
 	    return (char *)haystack;
 
-	r_mb = charalloc(MB_CUR_MAX);
-	q_mb = charalloc(MB_CUR_MAX);
+	haystack_len = mbstrlen(haystack);
+	needle_len = mbstrlen(needle);
 
-	while (*haystack != '\0') {
-	    const char *r = haystack, *q = needle;
-	    int r_mb_len, q_mb_len;
-
-	    while (*q != '\0') {
-		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
-
-		r_mb_len = parse_mbchar(r, r_mb, NULL);
-
-		if (mbtowc(&wr, r_mb, r_mb_len) < 0) {
-		    mbtowc(NULL, NULL, 0);
-		    wr = (unsigned char)*r;
-		    bad_r_mb = TRUE;
-		}
-
-		q_mb_len = parse_mbchar(q, q_mb, NULL);
-
-		if (mbtowc(&wq, q_mb, q_mb_len) < 0) {
-		    mbtowc(NULL, NULL, 0);
-		    wq = (unsigned char)*q;
-		    bad_q_mb = TRUE;
-		}
-
-		if (bad_r_mb != bad_q_mb ||
-			towlower(wr) != towlower(wq))
-		    break;
-
-		r += r_mb_len;
-		q += q_mb_len;
-	    }
-
-	    if (*q == '\0') {
-		found_needle = TRUE;
-		break;
-	    }
-
-	    haystack += move_mbright(haystack, 0);
+	for (; *haystack != '\0' && haystack_len >= needle_len;
+		haystack += move_mbright(haystack, 0), haystack_len--) {
+	    if (mbstrncasecmp(haystack, needle, needle_len) == 0)
+		return (char *)haystack;
 	}
 
-	free(r_mb);
-	free(q_mb);
-
-	return found_needle ? (char *)haystack : NULL;
+	return NULL;
     } else
 #endif
 	return strcasestr(haystack, needle);
@@ -691,18 +629,23 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 char *revstrstr(const char *haystack, const char *needle, const char
 	*rev_start)
 {
+    size_t rev_start_len, needle_len;
+
     assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
     if (*needle == '\0')
 	return (char *)rev_start;
 
-    for (; rev_start >= haystack; rev_start--) {
-	const char *r = rev_start, *q = needle;
+    needle_len = strlen(needle);
 
-	for (; *q != '\0' && *r == *q; r++, q++)
-	    ;
+    if (strlen(haystack) < needle_len)
+	return NULL;
 
-	if (*q == '\0')
+    rev_start_len = strlen(rev_start);
+
+    for (; rev_start >= haystack; rev_start--, rev_start_len++) {
+	if (rev_start_len >= needle_len && strncmp(rev_start, needle,
+		needle_len) == 0)
 	    return (char *)rev_start;
     }
 
@@ -716,18 +659,23 @@ char *revstrstr(const char *haystack, const char *needle, const char
 char *revstrcasestr(const char *haystack, const char *needle, const char
 	*rev_start)
 {
+    size_t rev_start_len, needle_len;
+
     assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
     if (*needle == '\0')
 	return (char *)rev_start;
 
-    for (; rev_start >= haystack; rev_start--) {
-	const char *r = rev_start, *q = needle;
+    needle_len = strlen(needle);
 
-	for (; *q != '\0' && tolower(*r) == tolower(*q); r++, q++)
-	    ;
+    if (strlen(haystack) < needle_len)
+	return NULL;
 
-	if (*q == '\0')
+    rev_start_len = strlen(rev_start);
+
+    for (; rev_start >= haystack; rev_start--, rev_start_len++) {
+	if (rev_start_len >= needle_len && strncasecmp(rev_start,
+		needle, needle_len) == 0)
 	    return (char *)rev_start;
     }
 
@@ -742,65 +690,36 @@ char *mbrevstrcasestr(const char *haystack, const char *needle, const
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *r_mb, *q_mb;
-	wchar_t wr, wq;
-	bool begin_line = FALSE, found_needle = FALSE;
+	bool begin_line = FALSE;
+	size_t rev_start_len, needle_len;
 
 	assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
 	if (*needle == '\0')
 	    return (char *)rev_start;
 
-	r_mb = charalloc(MB_CUR_MAX);
-	q_mb = charalloc(MB_CUR_MAX);
+	needle_len = mbstrlen(needle);
+
+	if (mbstrlen(haystack) < needle_len)
+	    return NULL;
+
+	rev_start_len = mbstrlen(rev_start);
 
 	while (!begin_line) {
-	    const char *r = rev_start, *q = needle;
-	    int r_mb_len, q_mb_len;
-
-	    while (*q != '\0') {
-		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
-
-		r_mb_len = parse_mbchar(r, r_mb, NULL);
-
-		if (mbtowc(&wr, r_mb, r_mb_len) < 0) {
-		    mbtowc(NULL, NULL, 0);
-		    wr = (unsigned char)*r;
-		    bad_r_mb = TRUE;
-		}
-
-		q_mb_len = parse_mbchar(q, q_mb, NULL);
-
-		if (mbtowc(&wq, q_mb, q_mb_len) < 0) {
-		    mbtowc(NULL, NULL, 0);
-		    wq = (unsigned char)*q;
-		    bad_q_mb = TRUE;
-		}
-
-		if (bad_r_mb != bad_q_mb ||
-			towlower(wr) != towlower(wq))
-		    break;
-
-		r += r_mb_len;
-		q += q_mb_len;
-	    }
-
-	    if (*q == '\0') {
-		found_needle = TRUE;
-		break;
-	    }
+	    if (rev_start_len >= needle_len && mbstrncasecmp(rev_start,
+		needle, needle_len) == 0)
+		return (char *)rev_start;
 
 	    if (rev_start == haystack)
 		begin_line = TRUE;
-	    else
+	    else {
 		rev_start = haystack + move_mbleft(haystack, rev_start -
 			haystack);
+		rev_start_len++;
+	    }
 	}
 
-	free(r_mb);
-	free(q_mb);
-
-	return found_needle ? (char *)rev_start : NULL;
+	return NULL;
     } else
 #endif
 	return revstrcasestr(haystack, needle, rev_start);
