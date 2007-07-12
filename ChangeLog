@@ -1,3 +1,8 @@
+2007-07-11  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* files.c (copy_file): Assert that inn and out don't both point
+	to the same file.
+
 2007-07-10  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,

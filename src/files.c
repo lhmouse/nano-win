@@ -1234,11 +1234,11 @@ void init_backup_dir(void)
  * on write error. */
 int copy_file(FILE *inn, FILE *out)
 {
+    int retval = 0;
     char buf[BUFSIZ];
     size_t charsread;
-    int retval = 0;
 
-    assert(inn != NULL && out != NULL);
+    assert(inn != NULL && out != NULL && inn != out);
 
     do {
 	charsread = fread(buf, sizeof(char), BUFSIZ, inn);
