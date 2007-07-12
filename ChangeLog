@@ -22,6 +22,10 @@ CVS code -
 	  needle/rev_start is blank. (DLR)
 	- Return char* instead of const char*. (DLR)
 	- Simplify and rewrite to use strncasecmp(). (DLR)
+- files.c:
+  copy_file()
+	- Assert that inn and out don't both point to the same file.
+	  (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
