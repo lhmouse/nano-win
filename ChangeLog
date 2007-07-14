@@ -21,7 +21,8 @@ CVS code -
 	- For efficiency, return haystack immediately if
 	  needle/rev_start is blank. (DLR)
 	- Return char* instead of const char*. (DLR)
-	- Simplify and rewrite to use strncasecmp(). (DLR)
+	- Simplify and rewrite to use the strncasecmp() equivalents.
+	  (DLR)
 - files.c:
   copy_file()
 	- Assert that inn and out don't both point to the same file.
