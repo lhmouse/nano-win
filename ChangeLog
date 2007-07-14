@@ -6,7 +6,8 @@
 2007-07-10  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
-	mbrevstrcasestr): Simplify and rewrite to use strncasecmp().
+	mbrevstrcasestr): Simplify and rewrite to use the strncasecmp()
+	equivalents.
 
 2007-07-09  David Lawrence Ramsey  <pooka109@gmail.com>
 
