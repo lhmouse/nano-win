@@ -1,3 +1,7 @@
+2007-07-29  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* doc/faq.html: Update RPM links for nano 2.0.x.
+
 2007-07-11  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* files.c (copy_file): Assert that inn and out don't both point
