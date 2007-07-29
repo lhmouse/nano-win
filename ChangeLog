@@ -48,6 +48,8 @@ CVS code -
 	  built with --enable-ext-mouse only needs to handle releases,
 	  so keep dealing with both events. (DLR, suggested by Helmut
 	  Jarausch)
+- doc/faq.html:
+	- Update RPM links for nano 2.0.x. (DLR)
 
 GNU nano 2.0.6 - 2007.04.26
 - text.c:
