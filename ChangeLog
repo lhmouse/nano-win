@@ -1,3 +1,8 @@
+2007-07-31  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* configure.ac, po/update.pl: Update copyright notices to
+	account for modifications.
+
 2007-07-29  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* doc/faq.html: Update RPM links for nano 2.0.x.
