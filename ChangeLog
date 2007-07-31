@@ -48,6 +48,8 @@ CVS code -
 	  built with --enable-ext-mouse only needs to handle releases,
 	  so keep dealing with both events. (DLR, suggested by Helmut
 	  Jarausch)
+- configure.ac, po/update.pl:
+	- Update copyright notices to account for modifications. (DLR)
 - doc/faq.html:
 	- Update RPM links for nano 2.0.x. (DLR)
 
