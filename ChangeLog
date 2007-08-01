@@ -27,6 +27,9 @@ CVS code -
   copy_file()
 	- Assert that inn and out don't both point to the same file.
 	  (DLR)
+- nano.c:
+  version()
+	- Display copyright notices. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
