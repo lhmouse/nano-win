@@ -2092,7 +2092,7 @@ bool is_dir(const char *buf)
  *
  * Termios command line History and Editting, originally
  * intended for NetBSD sh (ash)
- * Copyright (c) 1999
+ * Copyright (C) 1999
  *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>
  *      Etc:                  Dave Cinege <dcinege@psychosis.com>
  *  Majorly adjusted/re-written for busybox:
