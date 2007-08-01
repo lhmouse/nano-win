@@ -3,7 +3,7 @@
 #
 #  GNOME PO Update Utility
 #
-#  Copyright (C) 2000, 2003, 2005 Free Software Foundation.
+#  Copyright (C) 2000, 2003 Free Software Foundation, Inc.
 #
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
