@@ -843,6 +843,8 @@ void version(void)
 {
     printf(_(" GNU nano version %s (compiled %s, %s)\n"), VERSION,
 	__TIME__, __DATE__);
+    printf(" (C) 1999, 2000, 2001, 2002, 2003, 2004 Chris Allegretta\n");
+    printf(" (C) 2005, 2006, 2007 David Lawrence Ramsey\n");
     printf(
 	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
     printf(_("\n Compiled options:"));

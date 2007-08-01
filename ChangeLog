@@ -1,3 +1,7 @@
+2007-08-01  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* nano.c (version): Display copyright notices.
+
 2007-07-31  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* configure.ac: Update copyright notice to account for
