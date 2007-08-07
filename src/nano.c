@@ -393,8 +393,21 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 {
     filestruct *top_save;
     bool edittop_inside;
+#ifndef NANO_TINY
+    bool right_side_up = FALSE;
+#endif
 
     assert(file_top != NULL && file_bot != NULL);
+
+#ifndef NANO_TINY
+    if (openfile->mark_set) {
+	filestruct *top, *bot;
+	size_t top_x, bot_x;
+
+	mark_order((const filestruct **)&top, &top_x,
+		(const filestruct **)&bot, &bot_x, &right_side_up);
+    }
+#endif
 
     /* Partition the filestruct so that it contains no text, and keep
      * track of whether the top of the edit window is inside the
@@ -410,11 +423,21 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     while (openfile->filebot->next != NULL)
 	openfile->filebot = openfile->filebot->next;
 
-    /* Restore the current line and cursor position. */
+    /* Restore the current line and cursor position.  If the mark begins
+     * inside the partition, adjust the mark coordinates to compensate
+     * for the change in the current line. */
     openfile->current = openfile->filebot;
     openfile->current_x = strlen(openfile->filebot->data);
-    if (openfile->fileage == openfile->filebot)
+    if (openfile->fileage == openfile->filebot) {
+#ifndef NANO_TINY
+	if (openfile->mark_set) {
+	    openfile->mark_begin = openfile->current;
+	    if (!right_side_up)
+		openfile->mark_begin_x += openfile->current_x;
+	}
+#endif
 	openfile->current_x += strlen(filepart->top_data);
+    }
 
     /* Get the number of characters in the copied text, and add it to
      * totsize. */

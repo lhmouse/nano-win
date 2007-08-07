@@ -30,6 +30,12 @@ CVS code -
 - nano.c:
   version()
 	- Display copyright notices. (DLR)
+  copy_from_file()
+	- Fix potential segfault after uncutting one line of text with
+	  the mark on by properly preserving the beginning of the mark.
+	  (DLR, found by Paul Goins)
+	- Make sure the mark is always properly positioned after
+	  uncutting one line of text with the mark on. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
