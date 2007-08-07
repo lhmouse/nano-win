@@ -527,7 +527,7 @@ void remove_magicline(void)
 
 /* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
  * respectively, based on the locations of top and bot.  If
- * right_side_up isn't NULL, set it to TRUE If the mark begins with
+ * right_side_up isn't NULL, set it to TRUE if the mark begins with
  * (mark_begin, mark_begin_x) and ends with (current, current_x), or
  * FALSE otherwise. */
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
