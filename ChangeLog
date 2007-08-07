@@ -1,3 +1,11 @@
+2007-08-07  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* nano.c (copy_from_file): Fix potential segfault, found by Paul
+	Goins, after uncutting one line of text with the mark on by
+	properly preserving the beginning of the mark.
+	* nano.c (copy_from_file): Make sure the mark is always properly
+	positioned after uncutting one line of text with the mark on.
+
 2007-08-01  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* nano.c (version): Display copyright notices.
