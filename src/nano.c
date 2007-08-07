@@ -344,22 +344,23 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	    renumber(file_bot_save->next);
     }
 
-    /* Since the text has now been saved, remove it from the filestruct.
-     * If the mark begins inside the partition, set the beginning of the
-     * mark to where the saved text used to start. */
+    /* Since the text has now been saved, remove it from the
+     * filestruct. */
     openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
-#ifndef NANO_TINY
-    if (mark_inside) {
-	openfile->mark_begin = openfile->fileage;
-	openfile->mark_begin_x = top_x;
-    }
-#endif
 
-    /* Restore the current line and cursor position. */
+    /* Restore the current line and cursor position.  If the mark begins
+     * inside the partition, set the beginning of the mark to where the
+     * saved text used to start. */
     openfile->current = openfile->fileage;
     openfile->current_x = top_x;
+#ifndef NANO_TINY
+    if (mark_inside) {
+	openfile->mark_begin = openfile->current;
+	openfile->mark_begin_x = openfile->current_x;
+    }
+#endif
 
     top_save = openfile->fileage;
 
