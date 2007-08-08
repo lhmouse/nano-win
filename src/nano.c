@@ -399,17 +399,17 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 
     assert(file_top != NULL && file_bot != NULL);
 
+    /* Partition the filestruct so that it contains no text, keep track
+     * of whether the top of the edit window is inside the partition,
+     * and keep track of whether the mark begins inside the partition
+     * and will need adjustment. */
+    filepart = partition_filestruct(openfile->current,
+	openfile->current_x, openfile->current, openfile->current_x);
+    edittop_inside = (openfile->edittop == openfile->fileage);
 #ifndef NANO_TINY
     if (openfile->mark_set)
 	do_mark_shift = (openfile->current_x <= openfile->mark_begin_x);
 #endif
-
-    /* Partition the filestruct so that it contains no text, and keep
-     * track of whether the top of the edit window is inside the
-     * partition. */
-    filepart = partition_filestruct(openfile->current,
-	openfile->current_x, openfile->current, openfile->current_x);
-    edittop_inside = (openfile->edittop == openfile->fileage);
 
     /* Put the top and bottom of the filestruct at copies of file_top
      * and file_bot. */
