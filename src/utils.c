@@ -165,7 +165,8 @@ void sunder(char *str)
  * Foundation's address updated:
  *
  * GNU Mailutils -- a suite of utilities for electronic mail
- * Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+ * Copyright (C) 1999, 2000, 2001, 2002, 2004, 2005, 2006, 2007 Free
+ * Software Foundation, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -207,15 +208,15 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Allocate the line the first time. */
     if (*lineptr == NULL) {
-	*lineptr = charalloc(MAX_BUF_SIZE);
 	*n = MAX_BUF_SIZE;
+	*lineptr = charalloc(*n);
     }
 
     while ((c = getc(stream)) != EOF) {
 	/* Check if more memory is needed. */
 	if (indx >= *n) {
-	    *lineptr = charealloc(*lineptr, *n + MAX_BUF_SIZE);
 	    *n += MAX_BUF_SIZE;
+	    *lineptr = charealloc(*lineptr, *n);
 	}
 
 	/* Put the result in the line. */
@@ -228,8 +229,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Make room for the null character. */
     if (indx >= *n) {
-	*lineptr = charealloc(*lineptr, *n + MAX_BUF_SIZE);
 	*n += MAX_BUF_SIZE;
+	*lineptr = charealloc(*lineptr, *n);
     }
 
     /* Null-terminate the buffer. */
