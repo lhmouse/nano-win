@@ -162,7 +162,7 @@ void sunder(char *str)
  * (originally getdelim()), were adapted from GNU mailutils 0.5
  * (mailbox/getline.c).  Here is the notice from that file, after
  * converting to the GPL via LGPL clause 3, and with the Free Software
- * Foundation's address updated:
+ * Foundation's address and the copyright years updated:
  *
  * GNU Mailutils -- a suite of utilities for electronic mail
  * Copyright (C) 1999, 2000, 2001, 2002, 2004, 2005, 2006, 2007 Free
