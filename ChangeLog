@@ -27,6 +27,8 @@ CVS code -
   copy_file()
 	- Assert that inn and out don't both point to the same file.
 	  (DLR)
+  username_tab_completion(), cwd_tab_completion(), input_tab()
+	- Update copyright notice to account for modifications. (DLR)
 - nano.c:
   version()
 	- Display copyright notices. (DLR)

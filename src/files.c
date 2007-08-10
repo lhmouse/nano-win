@@ -2088,11 +2088,11 @@ bool is_dir(const char *buf)
 /* These functions, username_tab_completion(), cwd_tab_completion()
  * (originally exe_n_cwd_tab_completion()), and input_tab(), were
  * adapted from busybox 0.46 (cmdedit.c).  Here is the notice from that
- * file:
+ * file, with the copyright years updated:
  *
  * Termios command line History and Editting, originally
  * intended for NetBSD sh (ash)
- * Copyright (C) 1999
+ * Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
  *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>
  *      Etc:                  Dave Cinege <dcinege@psychosis.com>
  *  Majorly adjusted/re-written for busybox:
