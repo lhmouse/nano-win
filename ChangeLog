@@ -44,6 +44,11 @@ CVS code -
 	- Fix problem where replacing e.g. single-byte characters with
 	  multibyte ones could result in openfile->totsize's being
 	  miscalculated. (DLR)
+- utils.c:
+  ngetline(), ngetdelim()
+	- Update copyright notice to account for modifications. (DLR)
+  ngetdelim()
+	- Simplify. (DLR)
 - winio.c:
   get_key_buffer()
 	- Fix inaccurate comments. (DLR)
