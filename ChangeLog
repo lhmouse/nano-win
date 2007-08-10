@@ -1,5 +1,8 @@
 2007-08-10  David Lawrence Ramsey  <pooka109@gmail.com>
 
+	* files.c (username_tab_completion, cwd_tab_completion,
+	input_tab): Update copyright notice to account for
+	modifications.
 	* utils.c (ngetdelim): Simplify.
 	* utils.c (ngetline, ngetdelim): Update copyright notice to
 	account for modifications.
