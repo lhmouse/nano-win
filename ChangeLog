@@ -1,3 +1,9 @@
+2007-08-11  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* COPYING: Add a copy of the GNU GPL version 3.
+	* configure.ac, *.c, *.h: Relicense to the GNU GPL version 3 or
+	later.
+
 2007-08-10  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* files.c (username_tab_completion, cwd_tab_completion,
