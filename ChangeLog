@@ -1,3 +1,9 @@
+2007-08-15  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* Makefile.am: Remove erroneous backslash after
+	ChangeLog.pre-2.1 in EXTRA_DIST, so that "make dist" works
+	again.
+
 2007-08-11  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* COPYING: Add a copy of the GNU GPL version 3.
