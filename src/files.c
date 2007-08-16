@@ -814,7 +814,10 @@ void do_insertfile(
 #ifndef NANO_TINY
 		if (openfile->mark_set)
 		    do_mark_shift = (openfile->current_x <=
-			openfile->mark_begin_x);
+			openfile->mark_begin_x ||
+			openfile->current->lineno <=
+			openfile->mark_begin->lineno);
+
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	    }
@@ -890,8 +893,12 @@ void do_insertfile(
 				openfile->current_x;
 		    }
 #endif
-		    openfile->current_x += strlen(filepart->top_data);
+		    openfile->current_x += current_x_save;
 		}
+#ifndef NANO_TINY
+		else if (openfile->mark_set && do_mark_shift)
+		    openfile->mark_begin_x -= current_x_save;
+#endif
 
 		/* Update the current y-coordinate to account for the
 		 * number of lines inserted. */
