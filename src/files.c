@@ -695,8 +695,7 @@ void do_insertfile(
     filestruct *edittop_save = openfile->edittop;
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
-    bool at_edittop = FALSE;
-	/* Whether we're at the top of the edit window. */
+    bool edittop_inside = FALSE;
 #ifndef NANO_TINY
     bool do_mark_shift = FALSE;
 #endif
@@ -804,14 +803,14 @@ void do_insertfile(
 		/* If we're not inserting into a new buffer, partition
 		 * the filestruct so that it contains no text and hence
 		 * looks like a new buffer, keep track of whether the
-		 * top of the partition is the top of the edit
-		 * window, and keep track of whether the mark begins
-		 * inside the partition and will need adjustment. */
+		 * top of the edit window is inside the partition, and
+		 * keep track of whether the mark begins inside the
+		 * partition and will need adjustment. */
 		filepart = partition_filestruct(openfile->current,
 			openfile->current_x, openfile->current,
 			openfile->current_x);
-		at_edittop =
-			(openfile->fileage == openfile->edittop);
+		edittop_inside =
+			(openfile->edittop == openfile->fileage);
 #ifndef NANO_TINY
 		if (openfile->mark_set)
 		    do_mark_shift = (openfile->current_x <=
@@ -873,7 +872,7 @@ void do_insertfile(
 		/* If we were at the top of the edit window before, set
 		 * the saved value of edittop to the new top of the edit
 		 * window. */
-		if (at_edittop)
+		if (edittop_inside)
 		    edittop_save = openfile->fileage;
 
 		/* Update the current x-coordinate to account for the
