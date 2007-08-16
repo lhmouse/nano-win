@@ -3,6 +3,8 @@
 	* Makefile.am: Remove erroneous backslash after
 	ChangeLog.pre-2.1 in EXTRA_DIST, so that "make dist" works
 	again.
+	* files.c (do_insertfile): Make sure the mark is always properly
+	positioned after inserting a one-line file with the mark on.
 
 2007-08-11  David Lawrence Ramsey  <pooka109@gmail.com>
 
