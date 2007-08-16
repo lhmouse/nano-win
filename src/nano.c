@@ -395,24 +395,31 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     size_t current_x_save = openfile->current_x;
     bool edittop_inside;
 #ifndef NANO_TINY
-    bool do_mark_shift = FALSE;
+    bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
     assert(file_top != NULL && file_bot != NULL);
 
-    /* Partition the filestruct so that it contains no text, keep track
-     * of whether the top of the edit window is inside the partition,
-     * and keep track of whether the mark begins inside the partition
-     * and will need adjustment. */
+#ifndef NANO_TINY
+    /* Keep track of whether the mark begins inside the partition and
+     * will need adjustment. */
+    if (openfile->mark_set) {
+	filestruct *top, *bot;
+	size_t top_x, bot_x;
+
+	mark_order((const filestruct **)&top, &top_x,
+		(const filestruct **)&bot, &bot_x, &right_side_up);
+
+	single_line = (top == bot);
+    }
+#endif
+
+    /* Partition the filestruct so that it contains no text, and keep
+     * track of whether the top of the edit window is inside the
+     * partition. */
     filepart = partition_filestruct(openfile->current,
 	openfile->current_x, openfile->current, openfile->current_x);
     edittop_inside = (openfile->edittop == openfile->fileage);
-#ifndef NANO_TINY
-    if (openfile->mark_set)
-	do_mark_shift = (openfile->current_x <=
-		openfile->mark_begin_x || openfile->current->lineno <=
-		openfile->mark_begin->lineno);
-#endif
 
     /* Put the top and bottom of the filestruct at copies of file_top
      * and file_bot. */
@@ -430,15 +437,22 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 #ifndef NANO_TINY
 	if (openfile->mark_set) {
 	    openfile->mark_begin = openfile->current;
-	    if (do_mark_shift)
+	    if (!right_side_up)
 		openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
 	openfile->current_x += current_x_save;
     }
 #ifndef NANO_TINY
-    else if (openfile->mark_set && do_mark_shift)
-	openfile->mark_begin_x -= openfile->current_x;
+    else if (openfile->mark_set) {
+	if (!right_side_up) {
+	    if (single_line) {
+		openfile->mark_begin = openfile->current;
+		openfile->mark_begin_x -= current_x_save;
+	    } else
+		openfile->mark_begin_x -= openfile->current_x;
+	}
+    }
 #endif
 
     /* Get the number of characters in the copied text, and add it to
