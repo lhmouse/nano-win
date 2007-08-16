@@ -28,7 +28,7 @@ CVS code -
 - files.c:
   do_insertfile()
 	- Make sure the mark is always properly positioned after
-	  inserting a one-line file with the mark on. (DLR)
+	  inserting a file with the mark on. (DLR)
   copy_file()
 	- Assert that inn and out don't both point to the same file.
 	  (DLR)
@@ -42,7 +42,7 @@ CVS code -
 	  the mark on by properly preserving the beginning of the mark.
 	  (DLR, found by Paul Goins)
 	- Make sure the mark is always properly positioned after
-	  uncutting one line of text with the mark on. (DLR)
+	  uncutting text with the mark on. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)

@@ -392,6 +392,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 {
     filestruct *top_save;
+    size_t current_x_save = openfile->current_x;
     bool edittop_inside;
 #ifndef NANO_TINY
     bool do_mark_shift = FALSE;
@@ -408,7 +409,9 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     edittop_inside = (openfile->edittop == openfile->fileage);
 #ifndef NANO_TINY
     if (openfile->mark_set)
-	do_mark_shift = (openfile->current_x <= openfile->mark_begin_x);
+	do_mark_shift = (openfile->current_x <=
+		openfile->mark_begin_x || openfile->current->lineno <=
+		openfile->mark_begin->lineno);
 #endif
 
     /* Put the top and bottom of the filestruct at copies of file_top
@@ -431,8 +434,12 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 		openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
-	openfile->current_x += strlen(filepart->top_data);
+	openfile->current_x += current_x_save;
     }
+#ifndef NANO_TINY
+    else if (openfile->mark_set && do_mark_shift)
+	openfile->mark_begin_x -= current_x_save;
+#endif
 
     /* Get the number of characters in the copied text, and add it to
      * totsize. */
