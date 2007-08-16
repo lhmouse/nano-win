@@ -897,7 +897,7 @@ void do_insertfile(
 		}
 #ifndef NANO_TINY
 		else if (openfile->mark_set && do_mark_shift)
-		    openfile->mark_begin_x -= current_x_save;
+		    openfile->mark_begin_x -= openfile->current_x;
 #endif
 
 		/* Update the current y-coordinate to account for the

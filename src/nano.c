@@ -439,7 +439,7 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     }
 #ifndef NANO_TINY
     else if (openfile->mark_set && do_mark_shift)
-	openfile->mark_begin_x -= current_x_save;
+	openfile->mark_begin_x -= openfile->current_x;
 #endif
 
     /* Get the number of characters in the copied text, and add it to
