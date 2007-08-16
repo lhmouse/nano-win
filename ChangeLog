@@ -26,6 +26,9 @@ CVS code -
 	- Simplify and rewrite to use the strncasecmp() equivalents.
 	  (DLR)
 - files.c:
+  do_insertfile()
+	- Make sure the mark is always properly positioned after
+	  inserting a one-line file with the mark on. (DLR)
   copy_file()
 	- Assert that inn and out don't both point to the same file.
 	  (DLR)

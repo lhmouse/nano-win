@@ -697,6 +697,9 @@ void do_insertfile(
     ssize_t current_y_save = openfile->current_y;
     bool at_edittop = FALSE;
 	/* Whether we're at the top of the edit window. */
+#ifndef NANO_TINY
+    bool do_mark_shift = FALSE;
+#endif
 
     while (TRUE) {
 #ifndef NANO_TINY
@@ -800,14 +803,20 @@ void do_insertfile(
 #endif
 		/* If we're not inserting into a new buffer, partition
 		 * the filestruct so that it contains no text and hence
-		 * looks like a new buffer, and keep track of whether
-		 * the top of the partition is the top of the edit
-		 * window. */
+		 * looks like a new buffer, keep track of whether the
+		 * top of the partition is the top of the edit
+		 * window, and keep track of whether the mark begins
+		 * inside the partition and will need adjustment. */
 		filepart = partition_filestruct(openfile->current,
 			openfile->current_x, openfile->current,
 			openfile->current_x);
 		at_edittop =
 			(openfile->fileage == openfile->edittop);
+#ifndef NANO_TINY
+		if (openfile->mark_set)
+		    do_mark_shift = (openfile->current_x <=
+			openfile->mark_begin_x);
+#endif
 #ifdef ENABLE_MULTIBUFFER
 	    }
 #endif
@@ -870,8 +879,20 @@ void do_insertfile(
 		/* Update the current x-coordinate to account for the
 		 * number of characters inserted on the current line. */
 		openfile->current_x = strlen(openfile->filebot->data);
-		if (openfile->fileage == openfile->filebot)
-		    openfile->current_x += current_x_save;
+		if (openfile->fileage == openfile->filebot) {
+#ifndef NANO_TINY
+		    /* If the mark begins inside the partition, update
+		     * the mark coordinates to account for the number of
+		     * characters inserted on the current line. */
+		    if (openfile->mark_set) {
+			openfile->mark_begin = openfile->current;
+			if (do_mark_shift)
+			    openfile->mark_begin_x +=
+				openfile->current_x;
+		    }
+#endif
+		    openfile->current_x += strlen(filepart->top_data);
+		}
 
 		/* Update the current y-coordinate to account for the
 		 * number of lines inserted. */
