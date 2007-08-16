@@ -697,7 +697,7 @@ void do_insertfile(
     ssize_t current_y_save = openfile->current_y;
     bool edittop_inside = FALSE;
 #ifndef NANO_TINY
-    bool do_mark_shift = FALSE;
+    bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
     while (TRUE) {
@@ -797,28 +797,34 @@ void do_insertfile(
 		)
 		continue;
 
+#ifndef NANO_TINY
+		/* Keep track of whether the mark begins inside the
+		 * partition and will need adjustment. */
+		if (openfile->mark_set) {
+		    filestruct *top, *bot;
+		    size_t top_x, bot_x;
+
+		    mark_order((const filestruct **)&top, &top_x,
+			(const filestruct **)&bot, &bot_x,
+			&right_side_up);
+
+		    single_line = (top == bot);
+		}
+#endif
+
 #ifdef ENABLE_MULTIBUFFER
 	    if (!ISSET(MULTIBUFFER)) {
 #endif
 		/* If we're not inserting into a new buffer, partition
 		 * the filestruct so that it contains no text and hence
-		 * looks like a new buffer, keep track of whether the
-		 * top of the edit window is inside the partition, and
-		 * keep track of whether the mark begins inside the
-		 * partition and will need adjustment. */
+		 * looks like a new buffer, and keep track of whether
+		 * the top of the edit window is inside the
+		 * partition. */
 		filepart = partition_filestruct(openfile->current,
 			openfile->current_x, openfile->current,
 			openfile->current_x);
 		edittop_inside =
 			(openfile->edittop == openfile->fileage);
-#ifndef NANO_TINY
-		if (openfile->mark_set)
-		    do_mark_shift = (openfile->current_x <=
-			openfile->mark_begin_x ||
-			openfile->current->lineno <=
-			openfile->mark_begin->lineno);
-
-#endif
 #ifdef ENABLE_MULTIBUFFER
 	    }
 #endif
@@ -888,7 +894,7 @@ void do_insertfile(
 #ifndef NANO_TINY
 		    if (openfile->mark_set) {
 			openfile->mark_begin = openfile->current;
-			if (do_mark_shift)
+			if (!right_side_up)
 			    openfile->mark_begin_x +=
 				openfile->current_x;
 		    }
@@ -896,8 +902,16 @@ void do_insertfile(
 		    openfile->current_x += current_x_save;
 		}
 #ifndef NANO_TINY
-		else if (openfile->mark_set && do_mark_shift)
-		    openfile->mark_begin_x -= openfile->current_x;
+		else if (openfile->mark_set) {
+		    if (!right_side_up) {
+			if (single_line) {
+			    openfile->mark_begin = openfile->current;
+			    openfile->mark_begin_x -= current_x_save;
+			} else
+			    openfile->mark_begin_x -=
+				openfile->current_x;
+		    }
+		}
 #endif
 
 		/* Update the current y-coordinate to account for the

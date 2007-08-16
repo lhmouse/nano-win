@@ -1,3 +1,10 @@
+2007-08-16  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* files.c (do_insertfile): Properly handle more cases of
+	inserting a file with the mark on.
+	* nano.c (copy_from_file): Properly handle more cases of
+	uncutting text with the mark on.
+
 2007-08-15  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* Makefile.am: Remove erroneous backslash after
