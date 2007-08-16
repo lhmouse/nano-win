@@ -876,13 +876,13 @@ void do_insertfile(
 		    edittop_save = openfile->fileage;
 
 		/* Update the current x-coordinate to account for the
-		 * number of characters inserted on the current line. */
+		 * number of characters inserted on the current line.
+		 * If the mark begins inside the partition, adjust the
+		 * mark coordinates to compensate for the change in the
+		 * current line. */
 		openfile->current_x = strlen(openfile->filebot->data);
 		if (openfile->fileage == openfile->filebot) {
 #ifndef NANO_TINY
-		    /* If the mark begins inside the partition, adjust
-		     * the mark coordinates to compensate for the change
-		     * in the current line. */
 		    if (openfile->mark_set) {
 			openfile->mark_begin = openfile->current;
 			if (do_mark_shift)
