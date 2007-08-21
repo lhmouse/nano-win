@@ -1,7 +1,9 @@
 2007-08-21  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* doc/man/rnano.1: Add missing copyright notice from
-	nano-tiny.1, which rnano.1 is based on.
+	* doc/man/rnano.1, doc/man/fr/rnano.1: Add missing copyright
+	notice from nano-tiny.1, which rnano.1 is based on.
+	* doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
+	Make all copyright notices consistent.
 
 2007-08-16  David Lawrence Ramsey  <pooka109@gmail.com>
 
