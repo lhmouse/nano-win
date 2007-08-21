@@ -75,6 +75,9 @@ CVS code -
 	- Add a copy of the GNU GPL version 3. (DLR)
 - doc/faq.html:
 	- Update RPM links for nano 2.0.x. (DLR)
+- doc/man/rnano.1:
+	- Add missing copyright notice from nano-tiny.1, which rnano.1
+	  is based on. (DLR)
 
 GNU nano 2.0.6 - 2007.04.26
 - text.c:
