@@ -1,3 +1,12 @@
+2007-08-22  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* COPYING.DOC: Add a copy of the GNU FDL version 1.2.
+	* Makefile.am: Add COPYING.DOC to EXTRA_DIST.
+	* doc/man/*.1, doc/man/nanorc.5, doc/man/fr/*.1,
+	doc/man/fr/nanorc.5, doc/texinfo/nano.texi: Relicense to the GNU
+	GPL version 3 or later/the GNU FDL version 1.2 or later with no
+	Invariant Sections, Front-Cover Texts, or Back-Cover Texts.
+
 2007-08-21  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* doc/man/rnano.1, doc/man/fr/rnano.1: Add missing copyright
