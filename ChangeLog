@@ -14,6 +14,11 @@ CVS code -
 	  has_blank_mbchars(). (DLR)
 	- Relicense all source files to the GNU GPL version 3 or later.
 	  Changes to configure.ac, *.c, and *.h. (DLR)
+	- Relicense all documentation to the GNU GPL version 3 or
+	  later/the GNU FDL version 1.2 or later with no Invariant
+	  Sections, Front-Cover Texts, or Back-Cover Texts.  Changes to
+	  doc/man/*.1, doc/man/nanorc.5, doc/man/fr/*.1,
+	  doc/man/fr/nanorc.5, and doc/texinfo/nano.texi. (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
@@ -73,6 +78,10 @@ CVS code -
 	- Update copyright notice to account for modifications. (DLR)
 - COPYING:
 	- Add a copy of the GNU GPL version 3. (DLR)
+- COPYING.DOC:
+	- Add a copy of the GNU FDL version 1.2. (DLR)
+- Makefile.am:
+	- Add COPYING.DOC to EXTRA_DIST. (DLR)
 - doc/faq.html:
 	- Update RPM links for nano 2.0.x. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
