@@ -87,7 +87,9 @@ CVS code -
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Make all copyright notices consistent. (DLR)
 	- Delete translation of old licensing terms, until it can be
-	  updated.
+	  updated. (DLR)
+	- Add translation of new licensing terms by Jean-Philippe
+	  Guérard.
 - doc/man/rnano.1, doc/man/fr/rnano.1:
 	- Add missing copyright notice from nano-tiny.1, which rnano.1
 	  is based on. (DLR)
