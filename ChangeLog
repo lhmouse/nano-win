@@ -1,3 +1,8 @@
+2007-08-23  Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>
+
+	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Add translation of new
+	licensing terms.
+
 2007-08-23  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Delete translation of
