@@ -84,6 +84,7 @@ CVS code -
 	- Add COPYING.DOC to EXTRA_DIST. (DLR)
 - doc/faq.html:
 	- Update RPM links for nano 2.0.x. (DLR)
+	- Update links to the Free Translation Project. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Make all copyright notices consistent. (DLR)
 	- Delete translation of old licensing terms, until it can be
