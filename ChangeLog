@@ -74,6 +74,10 @@ CVS code -
 	  built with --enable-ext-mouse only needs to handle releases,
 	  so keep dealing with both events. (DLR, suggested by Helmut
 	  Jarausch)
+  edit_scroll()
+	- Fix problem where the screen wouldn't be updated properly if
+	  you paged up with the first line of the file onscreen and the
+	  mark on. (DLR)
 - configure.ac:
 	- Update copyright notice to account for modifications. (DLR)
 - COPYING:
