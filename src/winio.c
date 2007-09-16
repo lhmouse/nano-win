@@ -2915,12 +2915,10 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
     /* Don't bother scrolling zero lines or more than the number of
      * lines in the edit window minus one; in both cases, get out, and
-     * in the latter case, call edit_refresh() beforehand. */
-    if (nlines == 0)
-	return;
-
-    if (nlines >= editwinrows) {
-	edit_refresh();
+     * call edit_refresh() beforehand if we need to. */
+    if (nlines == 0 || nlines >= editwinrows) {
+	if (do_redraw || nlines >= editwinrows)
+	    edit_refresh();
 	return;
     }
 
