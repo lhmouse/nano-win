@@ -19,6 +19,9 @@ CVS code -
 	  Sections, Front-Cover Texts, or Back-Cover Texts.  Changes to
 	  doc/man/*.1, doc/man/nanorc.5, doc/man/fr/*.1,
 	  doc/man/fr/nanorc.5, and doc/texinfo/nano.texi. (DLR)
+	- Update copyright notices, as my copyrights have now been
+	  assigned to the Free Software Foundation.  Changes to *.c and
+	  *.h. (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
