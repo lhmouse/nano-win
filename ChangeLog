@@ -48,6 +48,8 @@ CVS code -
 	  (DLR)
   username_tab_completion(), cwd_tab_completion(), input_tab()
 	- Update copyright notice to account for modifications. (DLR)
+  cwd_tab_completion()
+	- Remove unneeded assert. (DLR)
 - nano.c:
   version()
 	- Display copyright notices. (DLR)
