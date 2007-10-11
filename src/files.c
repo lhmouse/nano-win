@@ -2287,7 +2287,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	*lastwastab, void (*refresh_func)(void), bool *list)
 {
-    size_t num_matches = 0;
+    size_t num_matches = 0, buf_len;
     char **matches = NULL;
 
     assert(buf != NULL && place != NULL && *place <= strlen(buf) && lastwastab != NULL && refresh_func != NULL && list != NULL);
@@ -2309,7 +2309,9 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	matches = cwd_tab_completion(buf, allow_files, &num_matches,
 		*place);
 
-    if (num_matches == 0)
+    buf_len = strlen(buf);
+
+    if (num_matches == 0 || *place != buf_len)
 	beep();
     else {
 	size_t match, common_len = 0;
@@ -2368,8 +2370,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	 * twice in succession with no statusbar changes to see a match
 	 * list. */
 	if (common_len != *place) {
-	    size_t buf_len = strlen(buf);
-
 	    *lastwastab = FALSE;
 	    buf = charealloc(buf, common_len + buf_len - *place + 1);
 	    charmove(buf + common_len, buf + *place, buf_len -

@@ -53,6 +53,12 @@ CVS code -
   cwd_tab_completion()
 	- Remove unneeded assert. (DLR)
 	- Rename variable buflen to buf_len, for consistency. (DLR)
+  input_tab()
+	- Disable completion of usernames, directories, and filenames
+	  if the cursor isn't at the end of the line, as it can lead to
+	  odd behavior (e.g. adding a copy of the entire match to the
+	  middle of the line instead of just the uncompleted part of the
+	  match). (DLR)
 - nano.c:
   version()
 	- Display copyright notices. (DLR)
