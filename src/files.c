@@ -2195,7 +2195,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
     DIR *dir;
     const struct dirent *nextdir;
 
-    assert(dirname != NULL && num_matches != NULL && buflen >= 0);
+    assert(dirname != NULL && num_matches != NULL);
 
     *num_matches = 0;
     null_at(&dirname, buflen);

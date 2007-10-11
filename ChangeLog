@@ -6,6 +6,7 @@
 	Software Foundation.
 	* doc/man/nanorc.5, doc/man/fr/nanorc.5: Make copyright notices
 	for these files consistent in style.
+	* files.c (cwd_tab_completion): Remove unneeded assert.
 
 2007-10-05  David Lawrence Ramsey  <pooka109@gmail.com>
 
