@@ -7,6 +7,8 @@
 	* doc/man/nanorc.5, doc/man/fr/nanorc.5: Make copyright notices
 	for these files consistent in style.
 	* files.c (cwd_tab_completion): Remove unneeded assert.
+	* files.c (username_tab_completion, cwd_tab_completion): Rename
+	variable buflen to buf_len, for consistency.
 
 2007-10-05  David Lawrence Ramsey  <pooka109@gmail.com>
 

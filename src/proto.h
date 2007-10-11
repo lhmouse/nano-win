@@ -326,9 +326,9 @@ void free_chararray(char **array, size_t len);
 #ifndef DISABLE_TABCOMP
 bool is_dir(const char *buf);
 char **username_tab_completion(const char *buf, size_t *num_matches,
-	size_t buflen);
+	size_t buf_len);
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t
-	*num_matches, size_t buflen);
+	*num_matches, size_t buf_len);
 char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	*lastwastab, void (*refresh_func)(void), bool *list);
 #endif
