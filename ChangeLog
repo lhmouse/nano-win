@@ -22,6 +22,12 @@ CVS code -
 	- Update copyright notices, as my copyrights have now been
 	  assigned to the Free Software Foundation.  Changes to *.c and
 	  *.h. (DLR)
+	- Update copyright notices, as Chris Allegretta's copyrights
+	  have now been assigned to the Free Software Foundation.
+	  Changes to doc/man/nano.1, doc/man/fr/nano.1,
+	  doc/texinfo/nano.texi, *.c and *.h. (DLR)
+	- Make copyright notices consistent in style.  Changes to
+	  doc/man/nanorc.5 and doc/man/fr/nanorc.5. (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
