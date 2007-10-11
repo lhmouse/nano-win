@@ -2144,20 +2144,20 @@ bool is_dir(const char *buf)
  * This code is 'as is' with no warranty.
  * This code may safely be consumed by a BSD or GPL license. */
 
-/* We consider the first buflen characters of buf for ~username tab
+/* We consider the first buf_len characters of buf for ~username tab
  * completion. */
 char **username_tab_completion(const char *buf, size_t *num_matches,
-	size_t buflen)
+	size_t buf_len)
 {
     char **matches = NULL;
     const struct passwd *userdata;
 
-    assert(buf != NULL && num_matches != NULL && buflen > 0);
+    assert(buf != NULL && num_matches != NULL && buf_len > 0);
 
     *num_matches = 0;
 
     while ((userdata = getpwent()) != NULL) {
-	if (strncmp(userdata->pw_name, buf + 1, buflen - 1) == 0) {
+	if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
@@ -2181,10 +2181,10 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
     return matches;
 }
 
-/* We consider the first buflen characters of buf for filename tab
+/* We consider the first buf_len characters of buf for filename tab
  * completion. */
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t
-	*num_matches, size_t buflen)
+	*num_matches, size_t buf_len)
 {
     char *dirname = mallocstrcpy(NULL, buf), *filename;
 #ifndef DISABLE_OPERATINGDIR
@@ -2198,7 +2198,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
     assert(dirname != NULL && num_matches != NULL);
 
     *num_matches = 0;
-    null_at(&dirname, buflen);
+    null_at(&dirname, buf_len);
 
     /* Okie, if there's a / in the buffer, strip out the directory
      * part. */
@@ -2516,10 +2516,10 @@ void load_history(void)
 	     * Assume the last history entry is a blank line. */
 	    filestruct **history = &search_history;
 	    char *line = NULL;
-	    size_t buflen = 0;
+	    size_t buf_len = 0;
 	    ssize_t read;
 
-	    while ((read = getline(&line, &buflen, hist)) >= 0) {
+	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
 		if (read > 0 && line[read - 1] == '\n') {
 		    read--;
 		    line[read] = '\0';

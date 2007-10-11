@@ -48,8 +48,11 @@ CVS code -
 	  (DLR)
   username_tab_completion(), cwd_tab_completion(), input_tab()
 	- Update copyright notice to account for modifications. (DLR)
+  username_tab_completion()
+	- Rename variable buflen to buf_len, for consistency. (DLR)
   cwd_tab_completion()
 	- Remove unneeded assert. (DLR)
+	- Rename variable buflen to buf_len, for consistency. (DLR)
 - nano.c:
   version()
 	- Display copyright notices. (DLR)
