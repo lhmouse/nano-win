@@ -1,3 +1,12 @@
+2007-10-11  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* doc/man/nano.1, doc/man/fr/nano.1, doc/texinfo/nano.texi,
+	src/*.c, src/*.h: Update copyright notices, as Chris
+	Allegretta's copyrights have now been assigned to the Free
+	Software Foundation.
+	* doc/man/nanorc.5, doc/man/fr/nanorc.5: Make copyright notices
+	for these files consistent in style.
+
 2007-10-05  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* src/*.c, src/*.h: Update copyright notices, as my copyrights
