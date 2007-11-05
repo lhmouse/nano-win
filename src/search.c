@@ -1012,7 +1012,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	if (!parse_line_column(answer, &line, &column) || line < 1 ||
 		column < 1) {
 	    if (i == 0)
-		statusbar(_("Come on, be reasonable"));
+		statusbar(_("Invalid line or column number"));
 	    display_main_list();
 	    return;
 	}

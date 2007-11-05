@@ -1,3 +1,9 @@
+2007-11-05  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* search.c (do_gotolinecolumn): Use a clearer error message if
+	we enter an invalid line or column number, per Mike Melanson's
+	suggestion.
+
 2007-10-11  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* doc/man/nano.1, doc/man/fr/nano.1, doc/texinfo/nano.texi,
