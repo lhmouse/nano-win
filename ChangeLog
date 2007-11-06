@@ -1,3 +1,9 @@
+2007-11-06  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* doc/man/rnano.1, doc/man/fr/rnano.1: Update copyright notices,
+	as Jordi Mallach's copyrights have now been assigned to the Free
+	Software Foundation.
+
 2007-11-05  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* search.c (do_gotolinecolumn): Use a clearer error message if
