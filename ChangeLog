@@ -43,6 +43,10 @@ CVS code -
 	- Simplify and rewrite to use the strncasecmp() equivalents.
 	  (DLR)
 - files.c:
+  read_file()
+	- Improve autodetection of DOS and Mac format files to not
+	  trigger on carriage returns in the middle of files. (DLR,
+	  found by Kjell Braden)
   do_insertfile()
 	- Make sure the mark is always properly positioned after
 	  inserting a file with the mark on. (DLR)
