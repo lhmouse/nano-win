@@ -1,3 +1,9 @@
+2007-11-17  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* files.c (read_file): Improve autodetection of DOS and Mac
+	format files to not trigger on carriage returns in the middle of
+	files, as found by Kjell Braden.
+
 2007-11-06  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* doc/man/rnano.1, doc/man/fr/rnano.1: Update copyright notices,

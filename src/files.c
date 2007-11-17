@@ -382,12 +382,15 @@ void read_file(FILE *f, const char *filename)
 	 * conversion isn't disabled, handle it! */
 	if (input == '\n') {
 #ifndef NANO_TINY
-	    /* If there's a '\r' before the '\n', set format to DOS if
-	     * we currently think this is a *nix file, or to both if we
-	     * currently think it's a Mac file. */
-	    if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r' &&
-		(format == 0 || format == 2))
-		format++;
+	    /* If it's a DOS file or a DOS/Mac file ('\r' before '\n' on
+	     * the first line if we think it's a *nix file, or on any
+	     * line otherwise), and file conversion isn't disabled,
+	     * handle it! */
+	    if (!ISSET(NO_CONVERT) && (num_lines == 0 || format != 0) &&
+		i > 0 && buf[i - 1] == '\r') {
+		if (format == 0 || format == 2)
+		    format++;
+	    }
 #endif
 
 	    /* Read in the line properly. */
@@ -401,9 +404,11 @@ void read_file(FILE *f, const char *filename)
 	    buf[0] = '\0';
 	    i = 0;
 #ifndef NANO_TINY
-	/* If it's a Mac file ('\r' without '\n'), and file conversion
-	 * isn't disabled, handle it! */
-	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r') {
+	/* If it's a Mac file ('\r' without '\n' on the first line if we
+	 * think it's a *nix file, or on any line otherwise), and file
+	 * conversion isn't disabled, handle it! */
+	} else if (!ISSET(NO_CONVERT) && (num_lines == 0 ||
+		format != 0) && i > 0 && buf[i - 1] == '\r') {
 	    /* If we currently think the file is a *nix file, set format
 	     * to Mac.  If we currently think the file is a DOS file,
 	     * set format to both DOS and Mac. */
