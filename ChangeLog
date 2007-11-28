@@ -122,6 +122,8 @@ CVS code -
 	  updated. (DLR)
 	- Add translation of new licensing terms by Jean-Philippe
 	  Guérard.
+- doc/man/fr/nanorc.5:
+	- Remove trailing whitespace. (DLR)
 - doc/man/rnano.1, doc/man/fr/rnano.1:
 	- Add missing copyright notice from nano-tiny.1, which rnano.1
 	  is based on. (DLR)
