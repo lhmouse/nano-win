@@ -1,3 +1,9 @@
+2007-11-29  Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>
+
+	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Fix copyright notices.
+	The copyrights are disclaimed on these translations, but the
+	copyrights of the untranslated works also apply.
+
 2007-11-28  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* doc/man/fr/nanorc.5: Remove trailing whitespace.
