@@ -122,6 +122,9 @@ CVS code -
 	  updated. (DLR)
 	- Add translation of new licensing terms by Jean-Philippe
 	  Guérard.
+	- Fix copyright notices.  The copyrights are disclaimed on these
+	  translations, but the copyrights of the untranslated works
+	  also apply.  From Jean-Philippe Guérard.
 - doc/man/fr/nanorc.5:
 	- Remove trailing whitespace. (DLR)
 - doc/man/rnano.1, doc/man/fr/rnano.1:
