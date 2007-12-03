@@ -3122,7 +3122,6 @@ void edit_refresh(void)
 	blank_line(edit, nlines, 0, COLS);
 
     reset_cursor();
-
     wnoutrefresh(edit);
 }
 

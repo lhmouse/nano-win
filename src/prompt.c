@@ -899,10 +899,9 @@ void update_statusbar_line(const char *curranswer, size_t index)
     waddstr(bottomwin, expanded);
     free(expanded);
 
-    reset_statusbar_cursor();
-
     wattroff(bottomwin, reverse_attr);
 
+    reset_statusbar_cursor();
     wnoutrefresh(bottomwin);
 }
 
