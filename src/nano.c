@@ -2260,7 +2260,7 @@ int main(int argc, char **argv)
 
     display_main_list();
 
-    display_buffer();    
+    display_buffer();
 
     while (TRUE) {
 	bool meta_key, func_key, s_or_t, ran_func, finished;
