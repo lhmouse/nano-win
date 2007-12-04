@@ -2267,6 +2267,7 @@ int main(int argc, char **argv)
 
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
+	wnoutrefresh(edit);
 
 #ifndef NANO_TINY
 	if (!jump_buf_main) {

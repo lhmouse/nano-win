@@ -1,3 +1,11 @@
+2007-12-04  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* nano.c (main), prompt.c (get_prompt_string), winio.c
+	(do_replace_highlight): Per OKATA Akio's patch, with minor
+	tweaks by me, add wnoutrefresh() calls after
+	reset_(statusbar_)?cursor() calls, to ensure that the cursor is
+	placed properly when using NetBSD curses.
+
 2007-11-29  Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>
 
 	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Fix copyright notices.

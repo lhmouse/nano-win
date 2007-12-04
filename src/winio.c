@@ -3260,6 +3260,7 @@ void do_replace_highlight(bool highlight, const char *word)
 	y--;
 
     reset_cursor();
+    wnoutrefresh(edit);
 
     if (highlight)
 	wattron(edit, reverse_attr);
