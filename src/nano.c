@@ -40,6 +40,10 @@
 #include <sys/ioctl.h>
 #endif
 
+#ifndef DISABLE_MOUSE
+static int oldinterval = -1;
+	/* Used to store the user's original mouse click interval. */
+#endif
 #ifdef ENABLE_NANORC
 static bool no_rcfiles = FALSE;
 	/* Should we ignore all rcfiles? */
@@ -710,13 +714,14 @@ void window_init(void)
 void disable_mouse_support(void)
 {
     mousemask(0, NULL);
+    mouseinterval(oldinterval);
 }
 
 /* Enable mouse support. */
 void enable_mouse_support(void)
 {
     mousemask(ALL_MOUSE_EVENTS, NULL);
-    mouseinterval(50);
+    oldinterval = mouseinterval(50);
 }
 
 /* Initialize mouse support.  Enable it if the USE_MOUSE flag is set,
