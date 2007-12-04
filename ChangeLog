@@ -31,6 +31,10 @@ CVS code -
 	- Update copyright notices, as Jordi Mallach's copyrights have
 	  now been assigned to the Free Software Foundation.  Changes to
 	  doc/man/rnano.1 and doc/man/fr/rnano.1. (DLR)
+	- Add wnoutrefresh() calls after reset_(statusbar_)?cursor()
+	  calls, to ensure that the cursor is placed properly when using
+	  NetBSD curses.  Changes to main(), get_prompt_string(), and
+	  do_replace_highlight(). (OBATA Akio, minor tweaks by DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to

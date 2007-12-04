@@ -1116,6 +1116,7 @@ int get_prompt_string(bool allow_tabs,
 #endif
 
 	reset_statusbar_cursor();
+	wnoutrefresh(bottomwin);
     }
 
 #ifndef NANO_TINY
