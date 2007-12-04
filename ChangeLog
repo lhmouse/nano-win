@@ -5,6 +5,9 @@
 	tweaks by me, add wnoutrefresh() calls after
 	reset_(statusbar_)?cursor() calls, to ensure that the cursor is
 	placed properly when using NetBSD curses.
+	* nano.c (disable_mouse_support, enable_mouse_support): When
+	toggling mouse support on or off, save and restore the mouse
+	click interval.
 
 2007-11-29  Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>
 
