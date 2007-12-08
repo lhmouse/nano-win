@@ -108,6 +108,9 @@ CVS code -
 	  built with --enable-ext-mouse only needs to handle releases,
 	  so keep dealing with both events. (DLR, suggested by Helmut
 	  Jarausch)
+	- Fix longstanding problem where mouse clicks on the statusbar
+	  prompt text wouldn't be recognized unless the NO_HELP flag was
+	  turned off. (DLR)
   edit_scroll()
 	- Fix problem where the screen wouldn't be updated properly if
 	  you paged up with the first line of the file onscreen and the
