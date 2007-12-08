@@ -38,6 +38,9 @@ CVS code -
 	- When toggling mouse support on or off, save and restore the
 	  mouse click interval.  Changes to disable_mouse_support() and
 	  enable_mouse_support(). (DLR)
+	- Update copyright notices, as Thijs Kinkhorst's copyrights have
+	  now been assigned to the Free Software Foundation.  Changes to
+	  doc/man/rnano.1 and doc/man/fr/rnano.1. (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
