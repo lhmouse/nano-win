@@ -1,5 +1,5 @@
 # Galician translation of nano
-# Copyright (C) 2001, 2002, 2003, Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 # Jacobo Tarrio <jtarrio@trasno.net>, 2001, 2002, 2003.
 # Francisco Javier Tsao Santín <tsao@members.fsf.org>, 2006.
 #

@@ -1,7 +1,6 @@
 # Czech messages for the nano editor.
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # Václav Haisman <V.Haisman@sh.cvut.cz>, 2000, 2001.
-# $Id$
 #
 msgid ""
 msgstr ""

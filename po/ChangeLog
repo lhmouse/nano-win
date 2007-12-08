@@ -1,3 +1,11 @@
+2007-12-08  Jordi Mallach  <jordi@gnu.org>
+
+	* zh_CN.po: New Simplified Chinese translation by
+	LI Daobing <lidaobing@gmail.com>.
+	* fr.po, ga.po, ms.po, nl.po, nn.po, vi.po: Translation updates taken
+	from the Translation Project.
+	* Refreshed the rest of the files from the latest TP archive.
+
 2007-09-18  Jordi Mallach  <jordi@gnu.org>
 
 	* po/ru.po: Updated Russian translation by Sergey A. Ribalchenko.

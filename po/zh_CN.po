@@ -1,36 +1,33 @@
-# Translation of nano-2.0.6 to Dutch.
-# Copyright (C) 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
-# Guus Sliepen <guus@sliepen.eu.org>, 2003.
-# Reinout van Schouwen <reinout@cs.vu.nl>, 2005.
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007.
-#
+# Simplified Chinese Messages for the nano editor
+# Copyright (C) 2004, 05 Free Software Foundation, Inc.
+# This file is distributed under the same license as the nano package.
+# LI Daobing <lidaobing@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-26 08:03-0400\n"
-"PO-Revision-Date: 2007-09-04 23:41+0200\n"
-"Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
-"Language-Team: Dutch <vertaling@vrijschrift.org>\n"
+"PO-Revision-Date: 2007-10-19 20:08+0800\n"
+"Last-Translator: Li Daobing <lidaobing@gmail.com>\n"
+"Language-Team: Chinese (simplified) <translation-team-zh-cn@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/browser.c:226
 msgid "Go To Directory"
-msgstr "Naar map"
+msgstr "跳至目录"
 
 #: src/browser.c:239 src/browser.c:838 src/files.c:749 src/files.c:1837
 #: src/nano.c:962 src/search.c:213 src/search.c:934 src/search.c:995
 msgid "Cancelled"
-msgstr "Geannuleerd"
+msgstr "已取消"
 
 #: src/browser.c:272 src/browser.c:324
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
-msgstr "Kan in beperkte modus niet buiten %s gaan"
+msgstr "在限制模式中无法至 %s 外部"
 
 #: src/browser.c:283 src/browser.c:334 src/browser.c:357 src/files.c:617
 #: src/files.c:626 src/files.c:1371 src/files.c:1459 src/files.c:1505
@@ -38,161 +35,157 @@ msgstr "Kan in beperkte modus niet buiten %s gaan"
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
-msgstr "Fout tijdens lezen van %s: %s"
+msgstr "读取 %s 时发生错误: %s"
 
 #: src/browser.c:313
 msgid "Can't move up a directory"
-msgstr "Kan niet naar bovenliggende map gaan"
+msgstr "无法上移一个目录"
 
 #. TRANSLATORS: Try to keep this at most 7
 #. * characters.
 #: src/browser.c:676 src/browser.c:685
 msgid "(dir)"
-msgstr "(map)"
+msgstr "(目录)"
 
 #. TRANSLATORS: Try to keep this at most 12
 #. * characters.
 #: src/browser.c:682
 msgid "(parent dir)"
-msgstr "(oudermap)"
+msgstr "(父目录)"
 
 #: src/browser.c:809 src/search.c:180
 msgid "Search"
-msgstr "Zoeken"
+msgstr "搜寻"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:813 src/search.c:184
 msgid " [Case Sensitive]"
-msgstr " [Hoofdlettergevoelig]"
+msgstr " [符合大小写]"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:819 src/search.c:190
 msgid " [Regexp]"
-msgstr " [Reg.exp.]"
+msgstr " [正则表示式]"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:825 src/search.c:196
 msgid " [Backwards]"
-msgstr " [Achterwaarts]"
+msgstr " [向后搜寻]"
 
 #: src/browser.c:918 src/browser.c:926 src/search.c:369
 msgid "Search Wrapped"
-msgstr "Rondgelopen"
+msgstr "已从头搜寻"
 
 #: src/browser.c:1015 src/browser.c:1048 src/search.c:486 src/search.c:489
 #: src/search.c:546 src/search.c:549
 msgid "This is the only occurrence"
-msgstr "Dit is de enige overeenkomst"
+msgstr "这是惟一出现之处"
 
 #: src/browser.c:1051 src/search.c:555
 msgid "No current search pattern"
-msgstr "Nog geen zoekpatroon bekend"
+msgstr "没有符合目前搜寻形式者"
 
 #: src/files.c:119
 #, c-format
 msgid "Can't insert file from outside of %s"
-msgstr "Kan bestand van buiten %s niet invoegen"
+msgstr "无法插入 %s 外部的文件"
 
 #: src/files.c:228
 msgid "No more open file buffers"
-msgstr "Geen andere open buffers"
+msgstr "无多余文件缓冲区可开启"
 
 #: src/files.c:244
 #, c-format
 msgid "Switched to %s"
-msgstr "Overgeschakeld naar %s"
+msgstr "切换至 %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/files.c:245 src/global.c:303 src/winio.c:2155
 msgid "New Buffer"
-msgstr "Nieuwe buffer"
+msgstr "新缓冲区"
 
 #: src/files.c:559
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
-msgstr[0] "%lu regel gelezen (omgezet uit DOS- en Mac-indeling)"
-msgstr[1] "%lu regels gelezen (omgezet uit DOS- en Mac-indeling)"
+msgstr[0] "已读取 %lu 行 (转换自 DOS 与 Mac 格式)"
 
 #: src/files.c:564
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
-msgstr[0] "%lu regel gelezen (omgezet uit Mac-indeling)"
-msgstr[1] "%lu regels gelezen (omgezet uit Mac-indeling)"
+msgstr[0] "已读取 %lu 行 (转换自 Mac 格式)"
 
 #: src/files.c:569
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
-msgstr[0] "%lu regel gelezen (omgezet uit DOS-indeling)"
-msgstr[1] "%lu regels gelezen (omgezet uit DOS-indeling)"
+msgstr[0] "已读取 %lu 行 (转换自 DOS 格式)"
 
 #: src/files.c:574
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
-msgstr[0] "%lu regel gelezen"
-msgstr[1] "%lu regels gelezen"
+msgstr[0] "已读取 %lu 行"
 
 #: src/files.c:601
 msgid "New File"
-msgstr "Nieuw bestand"
+msgstr "新文件"
 
 #: src/files.c:604
 #, c-format
 msgid "\"%s\" not found"
-msgstr "'%s' niet gevonden"
+msgstr "找不到 \"%s\""
 
 #: src/files.c:612 src/rcfile.c:374 src/rcfile.c:871 src/rcfile.c:905
 #, c-format
 msgid "\"%s\" is a directory"
-msgstr "'%s' is een map"
+msgstr "\"%s\" 是一个目录"
 
 #: src/files.c:613 src/rcfile.c:375 src/rcfile.c:872 src/rcfile.c:906
 #, c-format
 msgid "\"%s\" is a device file"
-msgstr "'%s' is een apparaat"
+msgstr "\"%s\" 是一个设备文件"
 
 #: src/files.c:631
 msgid "Reading File"
-msgstr "Inlezen van bestand"
+msgstr "正在读取文件"
 
 #: src/files.c:707
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
-msgstr "In nieuwe buffer uit te voeren opdracht [vanuit %s] "
+msgstr "在新缓冲区中执行的命令 [从 %s] "
 
 #: src/files.c:709
 #, c-format
 msgid "Command to execute [from %s] "
-msgstr "Uit te voeren opdracht [vanuit %s] "
+msgstr "执行的命令 [从 %s] "
 
 #: src/files.c:715
 #, c-format
 msgid "File to insert into new buffer [from %s] "
-msgstr "In nieuwe buffer in te voegen bestand [vanuit %s] "
+msgstr "所要插入新缓冲区的文件 [从 %s] "
 
 #: src/files.c:717
 #, c-format
 msgid "File to insert [from %s] "
-msgstr "In te voegen bestand [vanuit %s] "
+msgstr "所要插入的文件 [从 %s] "
 
 #: src/files.c:917
 msgid "Key invalid in non-multibuffer mode"
-msgstr "In Kijkmodus is deze toets alleen geldig in multibuffermodus"
+msgstr "非多重缓冲区模式中此按键无效"
 
 #: src/files.c:1325
 #, c-format
 msgid "Can't write outside of %s"
-msgstr "Kan niet buiten %s opslaan"
+msgstr "无法写入 %s 外部"
 
 #: src/files.c:1340
 msgid "Cannot prepend or append to a symlink with --nofollow set"
-msgstr "Kan met '--nofollow' niet aan een symbolische koppeling toevoegen"
+msgstr "--nofollow 设定下，无法前引或附加至符号连结档"
 
 #: src/files.c:1412 src/files.c:1436 src/files.c:1463 src/files.c:1481
 #: src/files.c:1538 src/files.c:1557 src/files.c:1569 src/files.c:1593
@@ -200,71 +193,70 @@ msgstr "Kan met '--nofollow' niet aan een symbolische koppeling toevoegen"
 #: src/files.c:2547
 #, c-format
 msgid "Error writing %s: %s"
-msgstr "Fout tijdens schrijven van %s: %s"
+msgstr "写入 %s 时发生错误: %s"
 
 #: src/files.c:1413 src/nano.c:625
 msgid "Too many backup files?"
-msgstr "Te veel reservekopieën?"
+msgstr "太多备份文件？"
 
 #: src/files.c:1515 src/text.c:2317 src/text.c:2329
 #, c-format
 msgid "Error writing temp file: %s"
-msgstr "Fout tijdens schrijven van tijdelijk bestand: %s"
+msgstr "写入暂存文件 %s 时发生错误"
 
 #: src/files.c:1691
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
-msgstr[0] "%lu regel geschreven"
-msgstr[1] "%lu regels geschreven"
+msgstr[0] "已写入 %lu 行"
 
 #: src/files.c:1794
 msgid " [DOS Format]"
-msgstr " [DOS-indeling]"
+msgstr " [DOS 格式]"
 
 #: src/files.c:1795
 msgid " [Mac Format]"
-msgstr " [Mac-indeling]"
+msgstr " [Mac 格式]"
 
 #: src/files.c:1797
 msgid " [Backup]"
-msgstr " [Kopie maken]"
+msgstr " [备份]"
 
 #: src/files.c:1805
 msgid "Prepend Selection to File"
-msgstr "Selectie toevoegen vooraan bestand"
+msgstr "前引选择部份于文件"
 
 #: src/files.c:1806
 msgid "Append Selection to File"
-msgstr "Selectie toevoegen achteraan bestand"
+msgstr "附加选择部份至文件"
 
 #: src/files.c:1807
 msgid "Write Selection to File"
-msgstr "Selectie opslaan in bestand"
+msgstr "写入选择部份至文件"
 
 #: src/files.c:1810
 msgid "File Name to Prepend to"
-msgstr "Vooraan toevoegen aan bestand"
+msgstr "要前引于的文件名称"
 
 #: src/files.c:1811
 msgid "File Name to Append to"
-msgstr "Achteraan toevoegen aan bestand"
+msgstr "要附加至的文件名称"
 
 #: src/files.c:1812
 msgid "File Name to Write"
-msgstr "Opslaan in bestand"
+msgstr "要写入的文件名称"
 
 #: src/files.c:1939
 msgid "File exists, OVERWRITE ? "
-msgstr "Bestand bestaat al, OVERSCHRIJVEN? "
+msgstr "文件已存在，要覆盖吗？"
 
 #: src/files.c:1948
 msgid "Save file under DIFFERENT NAME ? "
-msgstr "Bestand opslaan onder een ANDERE NAAM? "
+msgstr "以不同的名称存档？"
 
 #: src/files.c:2385
 msgid "(more)"
-msgstr "(meer)"
+msgstr "(更多)"
 
 #: src/files.c:2468 src/rcfile.c:849
 #, c-format
@@ -273,623 +265,623 @@ msgid ""
 "Press Enter to continue starting nano.\n"
 msgstr ""
 "\n"
-"Druk op Enter om verder te gaan met het starten van nano.\n"
+"按下回车键继续启动 nano\n"
 
 #. TRANSLATORS: Try to keep this and following strings at most 10
 #. * characters.
 #: src/global.c:265 src/prompt.c:1310
 msgid "Cancel"
-msgstr "Annuleren"
+msgstr "取消"
 
 #: src/global.c:266
 msgid "Get Help"
-msgstr "Hulp tonen"
+msgstr "求助"
 
 #: src/global.c:267
 msgid "Exit"
-msgstr "Afsluiten"
+msgstr "离开"
 
 #: src/global.c:268
 msgid "Where Is"
-msgstr "Zoeken"
+msgstr "搜寻"
 
 #: src/global.c:269
 msgid "Prev Page"
-msgstr "Blad terug"
+msgstr "上页"
 
 #: src/global.c:270
 msgid "Next Page"
-msgstr "Blad verder"
+msgstr "下页"
 
 #: src/global.c:271
 msgid "Go To Line"
-msgstr "Naar regel..."
+msgstr "跳行"
 
 #. TRANSLATORS: Try to keep this and previous strings at most 10
 #. * characters.
 #: src/global.c:274
 msgid "Replace"
-msgstr "Vervangen"
+msgstr "置换"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
 #: src/global.c:277
 msgid "WhereIs Next"
-msgstr "Verderzoeken"
+msgstr "何处是下一个"
 
 #. TRANSLATORS: Try to keep this and following strings at most 10
 #. * characters.
 #: src/global.c:281
 msgid "First Line"
-msgstr "Naar top"
+msgstr "首行"
 
 #: src/global.c:282
 msgid "Last Line"
-msgstr "Naar eind"
+msgstr "尾行"
 
 #: src/global.c:284
 msgid "Beg of Par"
-msgstr "Beg.v.alinea"
+msgstr "段落开头"
 
 #: src/global.c:285
 msgid "End of Par"
-msgstr "Eind v.alinea"
+msgstr "段落结尾"
 
 #: src/global.c:286
 msgid "FullJstify"
-msgstr "VolUitvullen"
+msgstr "全部对齐"
 
 #: src/global.c:288
 msgid "Refresh"
-msgstr "Verversen"
+msgstr "重新显示"
 
 #: src/global.c:290
 msgid "Case Sens"
-msgstr "Hfdlgevoelig"
+msgstr "依大小写"
 
 #: src/global.c:291
 msgid "Backwards"
-msgstr "Achterwaarts"
+msgstr "向后搜索"
 
 #: src/global.c:294
 msgid "Regexp"
-msgstr "Reg.exp."
+msgstr "正则表达式"
 
 #: src/global.c:297
 msgid "PrevHstory"
-msgstr "Vorige"
+msgstr "历史记录"
 
 #. TRANSLATORS: Try to keep this and previous strings at most 10
 #. * characters.
 #: src/global.c:300
 msgid "NextHstory"
-msgstr "Volgende"
+msgstr "历史记录"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/global.c:308
 msgid "To Files"
-msgstr "Bestandenlijst"
+msgstr "文件选单"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
 #: src/global.c:310
 msgid "First File"
-msgstr "Naar top"
+msgstr "首文件"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
 #: src/global.c:312
 msgid "Last File"
-msgstr "Naar eind"
+msgstr "末文件"
 
 #: src/global.c:315
 msgid "Cancel the current function"
-msgstr "Huidige functie annuleren"
+msgstr "取消目前功能"
 
 #: src/global.c:316
 msgid "Display this help text"
-msgstr "Deze hulptekst tonen"
+msgstr "显示帮助"
 
 #: src/global.c:319
 msgid "Close the current file buffer / Exit from nano"
-msgstr "Huidige buffer sluiten / Nano afsluiten"
+msgstr "关闭目前文件缓冲区 / 离开 nano"
 
 #: src/global.c:321
 msgid "Exit from nano"
-msgstr "Nano afsluiten"
+msgstr "离开 nano"
 
 #: src/global.c:325
 msgid "Write the current file to disk"
-msgstr "Huidige buffer op schijf opslaan"
+msgstr "写入目前文件至磁盘"
 
 #: src/global.c:326
 msgid "Justify the current paragraph"
-msgstr "Huidige alinea uitvullen"
+msgstr "对齐目前段落"
 
 #: src/global.c:328
 msgid "Insert another file into the current one"
-msgstr "Een ander bestand in het huidige invoegen"
+msgstr "插入其他文件至目前文件"
 
 #: src/global.c:330
 msgid "Search for a string or a regular expression"
-msgstr "Tekst zoeken"
+msgstr "查找字符串或正则表示式"
 
 #: src/global.c:331
 msgid "Move to the previous screen"
-msgstr "Een schermvol terugscrollen"
+msgstr "跳至前一画面"
 
 #: src/global.c:332
 msgid "Move to the next screen"
-msgstr "Een schermvol verderscrollen"
+msgstr "跳至后一画面"
 
 #: src/global.c:334
 msgid "Cut the current line and store it in the cutbuffer"
-msgstr "Huidige regel knippen en bewaren in knipbuffer"
+msgstr "剪下目前这行并存至剪贴板"
 
 #: src/global.c:336
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "Plakken vanuit knipbuffer naar de huidige regel"
+msgstr "从剪贴板粘贴至目前这行"
 
 #: src/global.c:338
 msgid "Display the position of the cursor"
-msgstr "Huidige cursorpositie tonen"
+msgstr "显示游标位置"
 
 #: src/global.c:340
 msgid "Invoke the spell checker, if available"
-msgstr "Spellingscontrole oproepen (indien beschikbaar)"
+msgstr "尝试运行拼写检查"
 
 #: src/global.c:341
 msgid "Go to line and column number"
-msgstr "Naar op te geven regelnummer en kolomnummer gaan"
+msgstr "跳至指定行与列位置"
 
 #: src/global.c:343
 msgid "Replace a string or a regular expression"
-msgstr "Tekst vervangen"
+msgstr "替换字符串或正则表示式"
 
 #: src/global.c:345
 msgid "Mark text at the cursor position"
-msgstr "Tekst markeren vanaf huidige cursorpositie"
+msgstr "标记游标所在文字"
 
 #: src/global.c:346
 msgid "Repeat last search"
-msgstr "Laatste zoekactie herhalen"
+msgstr "重覆上次搜索"
 
 #: src/global.c:348
 msgid "Copy the current line and store it in the cutbuffer"
-msgstr "Huidige regel kopiëren naar knipbuffer"
+msgstr "拷贝当前行至剪贴板"
 
 #: src/global.c:349
 msgid "Indent the current line"
-msgstr "Huidige regel laten inspringen"
+msgstr "缩进当前行"
 
 #: src/global.c:350
 msgid "Unindent the current line"
-msgstr "Huidige regel laten terugspringen"
+msgstr "取消缩进当前行"
 
 #: src/global.c:352
 msgid "Move forward one character"
-msgstr "Eén teken vooruit"
+msgstr "向前跳一字符"
 
 #: src/global.c:353
 msgid "Move back one character"
-msgstr "Eén teken achteruit"
+msgstr "向后跳一字符"
 
 #: src/global.c:355
 msgid "Move forward one word"
-msgstr "Eén woord vooruit"
+msgstr "向前跳一个词"
 
 #: src/global.c:356
 msgid "Move back one word"
-msgstr "Eén woord achteruit"
+msgstr "向后跳一个词"
 
 #: src/global.c:358
 msgid "Move to the previous line"
-msgstr "Naar de voorgaande regel"
+msgstr "跳至前一行"
 
 #: src/global.c:359
 msgid "Move to the next line"
-msgstr "Naar de volgende regel"
+msgstr "跳至后一行"
 
 #: src/global.c:361
 msgid "Move to the beginning of the current line"
-msgstr "Naar het begin van de huidige regel"
+msgstr "跳至目前行首"
 
 #: src/global.c:363
 msgid "Move to the end of the current line"
-msgstr "Naar het eind van de huidige regel"
+msgstr "跳至目前行尾"
 
 #: src/global.c:366
 msgid "Move to the beginning of the current paragraph"
-msgstr "Naar het begin van de huidige alinea"
+msgstr "跳至目前段落开头"
 
 #: src/global.c:368
 msgid "Move to the end of the current paragraph"
-msgstr "Naar het eind van de huidige alinea"
+msgstr "跳至目前段落结尾"
 
 #: src/global.c:371
 msgid "Move to the first line of the file"
-msgstr "Naar de eerste regel (top) van het bestand"
+msgstr "跳至文件第一行"
 
 #: src/global.c:373
 msgid "Move to the last line of the file"
-msgstr "Naar de laatste regel (eind) van het bestand"
+msgstr "跳至文件最后一行"
 
 #: src/global.c:375
 msgid "Move to the matching bracket"
-msgstr "Naar bijbehorend haakje gaan"
+msgstr "移动至对应括号"
 
 #: src/global.c:377
 msgid "Scroll up one line without scrolling the cursor"
-msgstr "Eén regel terugscrollen (cursor niet verplaatsen)"
+msgstr "向上卷动一行但不卷动游标"
 
 #: src/global.c:379
 msgid "Scroll down one line without scrolling the cursor"
-msgstr "Eén regel verderscrollen (cursor niet verplaatsen)"
+msgstr "向下卷动一行但不卷动游标"
 
 #: src/global.c:383
 msgid "Switch to the previous file buffer"
-msgstr "Naar voorgaande bestandsbuffer schakelen"
+msgstr "切换至上个文件缓冲区"
 
 #: src/global.c:385
 msgid "Switch to the next file buffer"
-msgstr "Naar volgende bestandsbuffer schakelen"
+msgstr "切换至下个文件缓冲区"
 
 #: src/global.c:388
 msgid "Insert the next keystroke verbatim"
-msgstr "Eerstvolgende toetsaanslag verbatim invoegen"
+msgstr "插入下一按键原型"
 
 #: src/global.c:390
 msgid "Insert a tab at the cursor position"
-msgstr "Een tab invoegen op de cursorpositie"
+msgstr "插入制表符于游标位置"
 
 #: src/global.c:392
 msgid "Insert a newline at the cursor position"
-msgstr "Een regeleinde invoegen op de cursorpositie"
+msgstr "插入新行于游标位置"
 
 #: src/global.c:394
 msgid "Delete the character under the cursor"
-msgstr "Het teken onder de cursor verwijderen"
+msgstr "删除游标之下的字符"
 
 #: src/global.c:396
 msgid "Delete the character to the left of the cursor"
-msgstr "Het teken links van de cursor verwijderen"
+msgstr "删除游标左侧的字符"
 
 #: src/global.c:399
 msgid "Cut from the cursor position to the end of the file"
-msgstr "De hele rest van het bestand knippen (vanaf de cursor)"
+msgstr "从游标位置剪下至文件结尾"
 
 #: src/global.c:402
 msgid "Justify the entire file"
-msgstr "Het gehele bestand uitvullen"
+msgstr "对齐整个文件"
 
 #: src/global.c:406
 msgid "Count the number of words, lines, and characters"
-msgstr "Aantal woorden, regels en tekens in het bestand tellen"
+msgstr "计算字数、行数与字符数"
 
 #: src/global.c:409
 msgid "Refresh (redraw) the current screen"
-msgstr "Het scherm verversen (opnieuw tekenen)"
+msgstr "重新显示目前画面"
 
 #: src/global.c:412
 msgid "Toggle the case sensitivity of the search"
-msgstr "Hoofdlettergevoeligheid aan-/uitzetten"
+msgstr "切换查找的区分大小写选项"
 
 #: src/global.c:414
 msgid "Reverse the direction of the search"
-msgstr "De zoekrichting omdraaien"
+msgstr "反转搜索方向"
 
 #: src/global.c:418
 msgid "Toggle the use of regular expressions"
-msgstr "Gebruik van reguliere expressies aan-/uitzetten"
+msgstr "切换使用正则表示式"
 
 #: src/global.c:422
 msgid "Recall the previous search/replace string"
-msgstr "Vorige zoek-/vervangtekst oproepen"
+msgstr "编辑前次搜索/置换字串"
 
 #: src/global.c:424
 msgid "Recall the next search/replace string"
-msgstr "Volgende zoek-/vervangtekst oproepen"
+msgstr "编辑下次搜索/置换字串"
 
 #: src/global.c:427
 msgid "Go to file browser"
-msgstr "Bestandenlijst oproepen"
+msgstr "打开文件选单"
 
 #: src/global.c:430
 msgid "Toggle the use of DOS format"
-msgstr "DOS-indeling aan-/uitzetten"
+msgstr "切换使用 DOS 格式"
 
 #: src/global.c:431
 msgid "Toggle the use of Mac format"
-msgstr "Mac-indeling aan-/uitzetten"
+msgstr "切换使用 Mac 格式"
 
 #: src/global.c:433
 msgid "Toggle appending"
-msgstr "Achteraantoevoegen aan-/uitzetten"
+msgstr "切换追加"
 
 #: src/global.c:434
 msgid "Toggle prepending"
-msgstr "Vooraantoevoegen aan-/uitzetten"
+msgstr "切换前置插入"
 
 #: src/global.c:437
 msgid "Toggle backing up of the original file"
-msgstr "Maken van reservekopieën aan-/uitzetten"
+msgstr "切换储存既有文件的备份"
 
 #: src/global.c:438
 msgid "Execute external command"
-msgstr "Externe opdracht uitvoeren"
+msgstr "执行外部命令"
 
 #: src/global.c:442
 msgid "Toggle the use of a new buffer"
-msgstr "Gebruik van een nieuwe buffer aan-/uitzetten"
+msgstr "切换使用新缓冲区"
 
 #: src/global.c:445
 msgid "Exit from the file browser"
-msgstr "Bestandenlijst verlaten"
+msgstr "从文件选单离开"
 
 #: src/global.c:447
 msgid "Go to the first file in the list"
-msgstr "Naar het eerste bestand in de lijst gaan"
+msgstr "跳至文件第一列"
 
 #: src/global.c:449
 msgid "Go to the last file in the list"
-msgstr "Naar het laatste bestand in de lijst gaan"
+msgstr "跳至文件最后一列"
 
 #: src/global.c:450
 msgid "Go to directory"
-msgstr "Naar een op te geven map gaan"
+msgstr "跳至目录"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:478
 msgid "Close"
-msgstr "Sluiten"
+msgstr "关闭"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:484
 msgid "WriteOut"
-msgstr "Opslaan"
+msgstr "写入"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:489
 msgid "Justify"
-msgstr "Uitvullen"
+msgstr "对齐"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:505
 msgid "Read File"
-msgstr "Inlezen"
+msgstr "读档"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:528
 msgid "Cut Text"
-msgstr "Knippen"
+msgstr "剪下文字"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:534
 msgid "UnJustify"
-msgstr "onUitvullen"
+msgstr "还原对齐"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:539
 msgid "UnCut Text"
-msgstr "Plakken"
+msgstr "还原剪下"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:544
 msgid "Cur Pos"
-msgstr "Positie"
+msgstr "游标位置"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:552
 msgid "To Spell"
-msgstr "Spelling"
+msgstr "拼写检查"
 
 #: src/global.c:574
 msgid "Mark Text"
-msgstr "Markeren"
+msgstr "标记文字"
 
 #: src/global.c:582
 msgid "Copy Text"
-msgstr "Kopiëren"
+msgstr "复制文字"
 
 #: src/global.c:586
 msgid "Indent Text"
-msgstr "Inspringen"
+msgstr "缩进文字"
 
 #: src/global.c:590
 msgid "Unindent Text"
-msgstr "Terugspringen"
+msgstr "取消缩进"
 
 #: src/global.c:595
 msgid "Forward"
-msgstr "Vooruit"
+msgstr "向前"
 
 #: src/global.c:599
 msgid "Back"
-msgstr "Terug"
+msgstr "向后"
 
 #: src/global.c:604
 msgid "Next Word"
-msgstr "Woord verder"
+msgstr "后一个字"
 
 #: src/global.c:608
 msgid "Prev Word"
-msgstr "Woord terug"
+msgstr "前一个字"
 
 #: src/global.c:613 src/global.c:1076
 msgid "Prev Line"
-msgstr "Regel terug"
+msgstr "上行"
 
 #: src/global.c:617 src/global.c:1080
 msgid "Next Line"
-msgstr "Regel verder"
+msgstr "下行"
 
 #: src/global.c:621
 msgid "Home"
-msgstr "Begin"
+msgstr "顶端"
 
 #: src/global.c:625
 msgid "End"
-msgstr "Eind"
+msgstr "尾端"
 
 #: src/global.c:648
 msgid "Find Other Bracket"
-msgstr "Naar bijbehorend haakje"
+msgstr "寻找其他括号"
 
 #: src/global.c:652
 msgid "Scroll Up"
-msgstr "Omhoog scrollen"
+msgstr "向上卷动"
 
 #: src/global.c:656
 msgid "Scroll Down"
-msgstr "Omlaag scrollen"
+msgstr "向下卷动"
 
 #: src/global.c:662
 msgid "Previous File"
-msgstr "Vorig bestand"
+msgstr "上个文件"
 
 #: src/global.c:667
 msgid "Next File"
-msgstr "Volgend bestand"
+msgstr "下个文件"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
 #: src/global.c:673 src/text.c:2433
 msgid "Verbatim Input"
-msgstr "Verbatim invoer"
+msgstr "原形输入"
 
 #: src/global.c:677
 msgid "Tab"
-msgstr "Tab"
+msgstr "跳格键"
 
 #: src/global.c:681
 msgid "Enter"
-msgstr "Enter"
+msgstr "输入键"
 
 #: src/global.c:685
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "删除键"
 
 #: src/global.c:689
 msgid "Backspace"
-msgstr "Backspace"
+msgstr "退格键"
 
 #: src/global.c:698
 msgid "CutTillEnd"
-msgstr "RestKnippen"
+msgstr "删至末端"
 
 #: src/global.c:710
 msgid "Word Count"
-msgstr "Woordentelling"
+msgstr "计算字数"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
 #: src/global.c:824
 msgid "No Replace"
-msgstr "Zoeken"
+msgstr "不置换"
 
 #: src/global.c:915
 msgid "Go To Text"
-msgstr "Zoeken"
+msgstr "跳至文字"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/global.c:952
 msgid "DOS Format"
-msgstr "DOS-indeling"
+msgstr "DOS 格式"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/global.c:958
 msgid "Mac Format"
-msgstr "Mac-indeling"
+msgstr "Mac 格式"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/global.c:965
 msgid "Append"
-msgstr "Achtertoevoegen"
+msgstr "附加"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/global.c:971
 msgid "Prepend"
-msgstr "Voortoevoegen"
+msgstr "前引"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
 #: src/global.c:978
 msgid "Backup File"
-msgstr "Reservekopie"
+msgstr "备份文件"
 
 #. TRANSLATORS: Try to keep this at most 22
 #. * characters.
 #: src/global.c:1015
 msgid "Execute Command"
-msgstr "Opdracht uitvoeren"
+msgstr "执行命令"
 
 #: src/global.c:1046
 msgid "Insert File"
-msgstr "Bestand invoegen"
+msgstr "插入文件"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
 #: src/global.c:1147
 msgid "Go To Dir"
-msgstr "Naar map..."
+msgstr "跳至目录"
 
 #: src/global.c:1285
 msgid "Help mode"
-msgstr "Hulpregels"
+msgstr "辅助模式"
 
 #: src/global.c:1289
 msgid "Constant cursor position display"
-msgstr "Voortdurende cursorpositieweergave"
+msgstr "持续显示游标位置"
 
 #: src/global.c:1293
 msgid "Use of one more line for editing"
-msgstr "Extra regel voor bewerkingsvenster"
+msgstr "编辑时使用多一行"
 
 #: src/global.c:1298 src/global.c:1300 src/nano.c:777
 msgid "Smooth scrolling"
-msgstr "Per regel scrollen"
+msgstr "平滑式卷动画面"
 
 #: src/global.c:1307 src/global.c:1309
 msgid "Whitespace display"
-msgstr "Weergave van witruimte"
+msgstr "显示空格"
 
 #: src/global.c:1316
 msgid "Color syntax highlighting"
-msgstr "Syntaxaanduiding met kleuren"
+msgstr "语法色彩标示"
 
 #: src/global.c:1319
 msgid "Smart home key"
-msgstr "Slimme Home-toets"
+msgstr "智慧型 HOME 按键"
 
 #: src/global.c:1322
 msgid "Auto indent"
-msgstr "Automatisch inspringen"
+msgstr "自动缩排"
 
 #: src/global.c:1325
 msgid "Cut to end"
-msgstr "Knippen vanaf cursor"
+msgstr "剪下至行尾"
 
 #: src/global.c:1329
 msgid "Long line wrapping"
-msgstr "Terugloop van lange regels"
+msgstr "长行转换"
 
 #: src/global.c:1335 src/global.c:1338
 msgid "Conversion of typed tabs to spaces"
-msgstr "Omzetting van getypte tabs naar spaties"
+msgstr "已输入跳格符号至空白的转换"
 
 #: src/global.c:1346
 msgid "Backup files"
-msgstr "Reservekopieën maken"
+msgstr "备份文件"
 
 #: src/global.c:1354
 msgid "Multiple file buffers"
-msgstr "Meerdere bestandsbuffers"
+msgstr "多重文件缓冲区"
 
 #: src/global.c:1359
 msgid "Mouse support"
-msgstr "Muisondersteuning"
+msgstr "鼠标支持"
 
 #: src/global.c:1367
 msgid "No conversion from DOS/Mac format"
-msgstr "Geen omzetting uit DOS/Mac-indeling"
+msgstr "不从 DOS/Mac 格式转换"
 
 #: src/global.c:1373
 msgid "Suspension"
-msgstr "Proces-pauzering"
+msgstr "暂停"
 
 #: src/help.c:238
 msgid ""
@@ -899,11 +891,11 @@ msgid ""
 "\n"
 " The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
-"'Zoeken/vervangen'-hulptekst\n"
+"搜索命令辅助说明\n"
 "\n"
-" Voer de woorden of tekens in waar u naar wilt zoeken, en druk op Enter.  Als er een overeenkomst is voor de ingevoerde tekst, springt de cursor naar de plaats van de eerstvolgende overeenkomst.\n"
+" 首先输入您想要搜索的字串或字符，然后按下输入键 (Enter)。如果存在着 符合您所输入的文字，画面就会更新到最合乎搜索字串的位置。\n"
 "\n"
-" Een eventuele vorige zoektekst wordt tussen rechte haken na de zoekprompt getoond: op Enter drukken zonder tekst in te voeren herhaalt deze vorige zoekopdracht.  "
+" 前次搜索的字串将会显示在 搜索: 提示符号后面的括号中。不输入任何文字 而直接按下输入键则会履行前次的搜索。"
 
 #: src/help.c:247
 msgid ""
@@ -912,9 +904,9 @@ msgid ""
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"Als u via markering tekst hebt geselecteerd en dan een zoek- en vervangactie doet, worden alleen de overeenkomsten in de geselecteerde tekst vervangen.\n"
+"如果您已经用标记选择了一段文字 并进行搜索替换，就只有在选择文字中符合者将会被替换。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Zoek/vervang'-modus:\n"
+" 以下的功能键可用于搜索模式:\n"
 "\n"
 
 #: src/help.c:253
@@ -926,11 +918,11 @@ msgid ""
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
-"'Naar regel'-hulptekst\n"
+"跳行辅助说明\n"
 "\n"
-" Voer het regelnummer in waar u naar toe wilt gaan, en druk op Enter.  Als er minder regels tekst zijn dan het ingevoerde getal, wordt u naar het einde van de tekst gebracht.\n"
+" 首先输入您想去的行数编号并按下输入键 (Enter)。如果文章中的行数比您所输 入要少，您将会被带至文件的最后一行。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Naar regel'-modus:\n"
+" 以下的功能键可用于跳行模式: \n"
 "\n"
 
 #: src/help.c:262
@@ -941,11 +933,11 @@ msgid ""
 "\n"
 " If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
-"'Bestand invoegen'-hulptekst\n"
+"插入文件辅助说明\n"
 "\n"
-" Voer de naam in van een bestand dat ingevoegd moet worden op de plek van de cursor in het huidige bestand.\n"
+" 先把文件的名称键入，它将会插入在目前缓冲区的游标所在之处。\n"
 "\n"
-" Als nano gecompileerd is met ondersteuning voor meerdere bestandsbuffers en u deze ingeschakeld hebt (met de optie -F of --multibuffer, of met de Meta-F toets of via een nanorc-bestand), dan wordt het in te voegen bestand in een aparte buffer geladen.  Gebruik dan Meta-< en > om tussen bestandsbuffers te schakelen.  "
+" 如果您所编译的 nano 支持多重文件缓冲区，并且将此功能以命令列旗标 -F 或 --multibuffer、Meta-F 开关，或者 nanorc 文件来启动的话，所插入的文件 将会被载入另外的缓冲区中 (利用 Meta-< 和 > 在文件缓冲区间切换)。 "
 
 #: src/help.c:271
 msgid ""
@@ -954,9 +946,9 @@ msgid ""
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"Als u een lege buffer nodig hebt, voer dan geen bestandsnaam in, of typ een niet-bestaande bestandsnaam, en druk op Enter.\n"
+"如果您需要另一个空的缓冲区，那就不要输入任何档名，或是在提示符号后键 入一个不存在的档名，然后按下输入键。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Bestand invoegen'-modus:\n"
+" 以下的功能键可用于插入文件模式:\n"
 "\n"
 
 #: src/help.c:277
@@ -970,13 +962,13 @@ msgid ""
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
-"'Bestand opslaan'-hulptekst\n"
+"写入文件辅助说明\n"
 "\n"
-" Voer de naam in waaronder u de huidige bestandsbuffer op wilt slaan, en druk op Enter om het weg te schrijven.\n"
+" 先键入您想要以此来储存目前文件的名称，并按下输入键来储存文件。\n"
 "\n"
-" Als u tekst hebt gemarkeerd, dan wordt aangegeven dat alleen het geselecteerde deel opgeslagen wordt.  Om de kans te verkleinen dat u het huidige bestand op schijf overschrijft met slechts een deel ervan, is in deze modus de huidige bestandsnaam niet de standaardnaam.\n"
+" 如果已经用标记选择了文字，那么您将会被提示，只储存标记部份到另外的档 案。为了降低目前文件只被其中部份覆写的机会，在此模式下，目前的档名不会 成为预设值。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Bestand opslaan'-modus:\n"
+" 以下的功能键可用于写入文件模式: \n"
 "\n"
 
 #: src/help.c:291
@@ -988,11 +980,11 @@ msgid ""
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
-"'Bestandenlijst'-hulptekst\n"
+"文件选单辅助说明\n"
 "\n"
-" De bestandenlijst kan worden gebruikt om op een visuele manier door de beschikbare mappen te bladeren en een bestand te selecteren.  U kunt de pijltjestoetsen of PageUp/PageDown gebruiken om door de bestanden te lopen, en S of Enter om het aangewezen bestand te kiezen of de aangewezen map binnen te gaan.  Kies de map \"..\" bovenaan de bestandenlijst om een niveau omhoog te gaan.\n"
+" 文件选单是用来视觉化浏览目录结构，以选取要读出或写入的文件。您可以 使用上下左右键或上页/下页来浏览，并用 S 或输入键来选取所要的文件或者 进入所选的目录。要跳到上层时，选择在文件列表顶端名为 \"..\" 的目录。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Bestandenlijst'-modus:\n"
+" 以下的功能键可用于文件选单: \n"
 "\n"
 
 #: src/help.c:304
@@ -1004,11 +996,11 @@ msgid ""
 " The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
 msgstr ""
-"'Bestand zoeken'-hulptekst\n"
+"搜索命令辅助说明\n"
 "\n"
-" Voer het woord of de tekens in waar u naar wilt zoeken, en druk op Enter.  Als er een overeenkomst is voor de ingevoerde tekst, springt de cursor naar de plaats van de eerstvolgende overeenkomst.\n"
+" 首先输入您想要搜索的字串或字符，然后按下输入键 (Enter)。如果存在著 符合您所输入的文字，画面就会更新到最合乎搜索字串的位置。\n"
 "\n"
-" Een eventuele vorige zoektekst wordt tussen rechte haken na de zoekprompt getoond: op Enter drukken zonder tekst in te voeren herhaalt deze vorige zoekopdracht.\n"
+" 前次搜索的字串将会显示在 搜索: 提示符号后面的括号中。不输入任何文字 而直接按下输入键则会履行前次的搜索。\n"
 "\n"
 
 #: src/help.c:313
@@ -1016,7 +1008,7 @@ msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
 msgstr ""
-" De volgende toetsen zijn beschikbaar in 'Bestand zoeken'-modus:\n"
+"在搜索模式可使用如下的功能键:\n"
 "\n"
 
 #: src/help.c:317
@@ -1030,13 +1022,13 @@ msgid ""
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
 msgstr ""
-"'Naar map'-hulptekst\n"
+"跳至目录辅助说明\n"
 "\n"
-" Voer de naam in van de map waar u naar toe wilt gaan.\n"
+" 先输入您想要浏览的目录名称。\n"
 "\n"
-" Als Tab-aanvulling niet uitgeschakeld is, kunt u de Tab-toets gebruiken om (te proberen) de mapnaam automatisch aan te laten vullen.\n"
+" 如果跳格补正的功能没有被关闭，您可以利用跳格键 (TAB) 去 (尝试) 自动 补正目录名称。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Naar map'-modus:\n"
+" 以下的功能键可用于跳至目录模式: \n"
 "\n"
 
 #: src/help.c:330
@@ -1048,11 +1040,11 @@ msgid ""
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
-"'Spellingscontrole'-hulptekst\n"
+"拼写检查辅助说明\n"
 "\n"
-" Het spellingscontroleprogramma controleert de spelling van alle woorden in het huidige bestand.  Wanneer een onbekend woord wordt opgemerkt, zal het duidelijk aangegeven worden en kan een vervangend woord ingevoerd worden.  Daarna zal er gevraagd worden of elk voorkomen van het verkeerd gespelde woord vervangen moeten worden (in het hele huidige bestand, of alleen in de geselecteerde tekst als u tekst hebt gemarkeerd).\n"
+" 拼写检查程式会检查目前文件中所有文字的拼法。当遇到一个未知的字，它会 被标记起来，并让您编辑替代文字。对于目前文件中每一个拼错的字，都会显示 置换的提示；或者，如果已经用标记选择了文字的话，那就只作用于选取的文字 之中。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Spellingscontrole'-modus:\n"
+" 以下的功能键可用于拼写检查模式: \n"
 "\n"
 
 #: src/help.c:345
@@ -1064,11 +1056,11 @@ msgid ""
 " The following function keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
-"'Externe opdracht'-hulptekst\n"
+"执行命令辅助说明\n"
 "\n"
-" Voer de shell-opdracht in waarvan de uitvoer in het huidige bestand (of in een nieuwe buffer) ingevoegd moet worden.  Als u slechts een lege buffer nodig hebt, kies dan 'Nieuwe buffer' en voer geen opdracht in.\n"
+" 本选单允许您将 shell 执行的命令输出结果，插入目前的缓冲区 (或是多重缓冲 区模式下的新缓冲区)。如果您需要另一个空白缓冲区，就不要输入任何命令。\n"
 "\n"
-" De volgende toetsen zijn beschikbaar in 'Externe opdracht'-modus:\n"
+" 以下的功能键可用于执行命令模式: \n"
 "\n"
 
 #: src/help.c:358
@@ -1077,41 +1069,38 @@ msgid ""
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  "
 msgstr ""
-"Algemene Nano-hulptekst\n"
+"nano 辅助说明\n"
 "\n"
-" De nano editor is ontworpen om de functionaliteit en het gebruiksgemak van de Pico-editor te emuleren.  Het editorscherm bestaat uit vier onderdelen.  De bovenste regel toont nano's naam en versienummer, de naam van het huidige bestand, en of dit bestand gewijzigd is.  Daaronder begint het eigenlijke editvenster waarin het bestand getoond wordt.  De derde regel van onderen is de statusregel en toont belangrijke berichten.  "
+" nano 编辑器是设计来在功能性及易用性方面，模仿华盛顿大学的 Pico 文字 编辑器。它含有四个主要部份:顶行显示程式版本、目前被编辑的文件名称， 以及是否这文件已经更动过。接著是主要编辑区，显示正在编辑的文件。状态 行位于倒数第三行，用来显示重要的讯息。底部的两行则显示编辑器中最常用 到的快捷键。\n"
+"\n"
+" "
 
 #: src/help.c:368
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M-) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
-msgstr ""
-"De onderste twee regels tonen de meest gebruikte sneltoetsen.\n"
-"\n"
-" De notatie voor de sneltoetsen is als volgt: Control-toetscombinaties worden genoteerd met een dakje (^) en kunnen worden ingevoerd ofwel door de Control-toets te gebruiken ofwel door twee keer op Escape te drukken.  Escape-toetscombinaties worden genoteerd met het Meta-symbool (M-) en kunnen worden ingevoerd met Esc of Alt of Meta, afhankelijk van uw toetsenbordinstelling.  "
+msgstr "快捷键的记号定义如下：控制键组 (Control-key) 序列是以一个 \"帽子\" (caret, ^) 符号来表示，它可以藉由控制键 (Ctrl) 或是按两次脱离键 (Esc) 来输入。脱离键组 (Escape-key) 序列是以 \"中介\" (Meta, M) 符号表示，它 可以依照您的键盘设定，利用 Esc，Alt 或 Meta 来输入。"
 
 #: src/help.c:377
 msgid ""
 "Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"Verder zal het tweemaal op Escape drukken gevolgd door een decimaal getal van drie cijfers (van 000 tot 255) het teken met die waarde invoegen.\n"
-"\n"
-" De onderstaande toetscombinaties zijn beschikbaar in het hoofdvenster (alternatieve toetscombinaties staan tussen haakjes):\n"
+"另外，按 Esc 两次 之后再键入从 000 到 255 之间的三位数字，则会输入该 ASCII 码对应的字 元。下列按键组合可用于主要编辑区，替代按键则显示于括弧内:\n"
 "\n"
 
 #: src/help.c:408 src/help.c:551
 msgid "enable/disable"
-msgstr "aan-/uitzetten"
+msgstr "开启/关闭"
 
 #: src/help.c:446 src/help.c:497
 msgid "Space"
-msgstr "Spatie"
+msgstr "Space"
 
 #: src/nano.c:523
 msgid "Key invalid in view mode"
-msgstr "Toets is ongeldig in Kijkmodus"
+msgstr "观看模式中此按键无效"
 
 #: src/nano.c:619
 #, c-format
@@ -1120,7 +1109,7 @@ msgid ""
 "Buffer written to %s\n"
 msgstr ""
 "\n"
-"Buffer is geschreven naar %s\n"
+"缓冲区已写入 %s\n"
 
 #: src/nano.c:621
 #, c-format
@@ -1129,7 +1118,7 @@ msgid ""
 "Buffer not written to %s: %s\n"
 msgstr ""
 "\n"
-"Buffer is niet geschreven naar %s: %s\n"
+"缓冲区未写入至 %s: %s\n"
 
 #: src/nano.c:624
 #, c-format
@@ -1138,11 +1127,11 @@ msgid ""
 "Buffer not written: %s\n"
 msgstr ""
 "\n"
-"Buffer is niet geschreven: %s\n"
+"缓冲区未写入: %s\n"
 
 #: src/nano.c:636
 msgid "Window size is too small for nano...\n"
-msgstr "Schermformaat is te klein voor nano...\n"
+msgstr "视窗尺寸对 nano 来说太小了...\n"
 
 #: src/nano.c:728
 #, c-format
@@ -1150,238 +1139,236 @@ msgid ""
 "Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n"
 "\n"
 msgstr ""
-"Gebruik:  nano [OPTIES] [[+REGEL[,KOLOM]] BESTAND]...\n"
+"用法: nano [选项] [[+行,列] 文件名称]...\n"
 "\n"
 
 #: src/nano.c:731
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
-msgstr "Optie\t\tLange optie\t\tBetekenis\n"
+msgstr "选项\t\tGNU 长选项\t\t意义\n"
 
 #: src/nano.c:733
 #, c-format
 msgid "Option\t\tMeaning\n"
-msgstr "Optie\t\tBetekenis\n"
+msgstr "选项\t\t意义\n"
 
 #: src/nano.c:736
 msgid "Show this message"
-msgstr "deze hulptekst tonen en stoppen"
+msgstr "显示此讯息"
 
 #: src/nano.c:737
 msgid "+LINE,COLUMN"
-msgstr "+REGEL[,KOLOM]"
+msgstr "+行,列"
 
 #: src/nano.c:738
 msgid "Start at line LINE, column COLUMN"
-msgstr "op deze regel (en deze kolom) beginnen"
+msgstr "从所指列数与行数开始"
 
 #: src/nano.c:740
 msgid "Enable smart home key"
-msgstr "slimme Home-toets inschakelen"
+msgstr "开启智慧型 HOME 按键功能"
 
 #: src/nano.c:741
 msgid "Save backups of existing files"
-msgstr "reservekopieën maken van bestaande bestanden"
+msgstr "储存既有文件的备份"
 
 #: src/nano.c:742
 msgid "-C <dir>"
-msgstr "-C <map>"
+msgstr "-C <目录>"
 
 #: src/nano.c:742
 msgid "--backupdir=<dir>"
-msgstr "--backupdir=<map>"
+msgstr "--backupdir=<目录>"
 
 #: src/nano.c:743
 msgid "Directory for saving unique backup files"
-msgstr "map voor opslaan van reservekopieën"
+msgstr "用以储存独一备份文件的目录"
 
 #: src/nano.c:746
 msgid "Use bold instead of reverse video text"
-msgstr "vet in plaats van invers gebruiken"
+msgstr "用粗体替代颜色反转"
 
 #: src/nano.c:749
 msgid "Convert typed tabs to spaces"
-msgstr "getypte tabs omzetten naar spaties"
+msgstr "将已输入的跳格符号转换为空白"
 
 #: src/nano.c:752
 msgid "Enable multiple file buffers"
-msgstr "meerdere bestandsbuffers aanzetten"
+msgstr "开启多重文件缓冲区功能"
 
 #: src/nano.c:757
 msgid "Log & read search/replace string history"
-msgstr "zoek/vervangteksten bewaren en gebruiken"
+msgstr "记录与读取 搜索/置换 的历史字串"
 
 #: src/nano.c:760
 msgid "Don't look at nanorc files"
-msgstr "eventuele nanorc-bestanden negeren"
+msgstr "不要参考 nanorc 文件"
 
 #: src/nano.c:763
 msgid "Fix numeric keypad key confusion problem"
-msgstr "toetsverwarring op numeriek bordje oplossen"
+msgstr "修正数字键区按键混淆问题"
 
 #: src/nano.c:765
 msgid "Don't add newlines to the ends of files"
-msgstr "geen regeleinde toevoegen aan einde van bestanden"
+msgstr "不要将换行加到文件末端"
 
 #: src/nano.c:768
 msgid "Don't convert files from DOS/Mac format"
-msgstr "bestanden niet omzetten uit DOS/Mac-indeling"
+msgstr "不要从 DOS/Mac 格式转换"
 
 #: src/nano.c:770
 msgid "Use one more line for editing"
-msgstr "bewerkingsvenster een beetje vergroten"
+msgstr "编辑时多使用一行"
 
 #: src/nano.c:772
 msgid "-Q <str>"
-msgstr "-Q <tekens>"
+msgstr "-Q <字串>"
 
 #: src/nano.c:772
 msgid "--quotestr=<str>"
-msgstr "--quotestr=<tekens>"
+msgstr "--quotestr=<字串>"
 
 #: src/nano.c:773
 msgid "Quoting string"
-msgstr "te herkennen aanhaaltekens"
+msgstr "引用代表字串"
 
 #: src/nano.c:775
 msgid "Restricted mode"
-msgstr "beperkte modus"
+msgstr "限制模式"
 
 #: src/nano.c:779
 msgid "-T <#cols>"
-msgstr "-T <#kolommen>"
+msgstr "-T <#列数>"
 
 #: src/nano.c:779
 msgid "--tabsize=<#cols>"
-msgstr "--tabsize=<#kolommen>"
+msgstr "--tabsize=<#列数>"
 
 #: src/nano.c:780
 msgid "Set width of a tab to #cols columns"
-msgstr "te gebruiken tabbreedte"
+msgstr "设定跳格宽度为 #列数"
 
 #: src/nano.c:782
 msgid "Do quick statusbar blanking"
-msgstr "de statusregel snel wissen"
+msgstr "状态行快速闪动"
 
 #: src/nano.c:785
 msgid "Print version information and exit"
-msgstr "versie-informatie tonen en stoppen"
+msgstr "显示版本资讯并离开"
 
 #: src/nano.c:788
 msgid "Detect word boundaries more accurately"
-msgstr "woordgrenzen nauwkeuriger bepalen"
+msgstr "更正确地侦测单字边界"
 
 #: src/nano.c:791
 msgid "-Y <str>"
-msgstr "-Y <naam>"
+msgstr "-Y <字串>"
 
 #: src/nano.c:791
 msgid "--syntax=<str>"
-msgstr "--syntax=<naam>"
+msgstr "--syntax=<字串>"
 
 #: src/nano.c:792
 msgid "Syntax definition to use for coloring"
-msgstr "te gebruiken syntax (voor kleuring)"
+msgstr "用于加亮的语法定义"
 
 #: src/nano.c:794
 msgid "Constantly show cursor position"
-msgstr "cursorpositie voortdurend tonen"
+msgstr "持续显示游标位置"
 
 #: src/nano.c:796
 msgid "Fix Backspace/Delete confusion problem"
-msgstr "Backspace/Delete-verwarring oplossen"
+msgstr "修正 退格键/删除键 混淆问题"
 
 #: src/nano.c:799
 msgid "Automatically indent new lines"
-msgstr "automatisch inspringen van nieuwe regels"
+msgstr "自动缩排新行"
 
 #: src/nano.c:800
 msgid "Cut from cursor to end of line"
-msgstr "^K knipt vanaf cursor i.p.v. hele regel"
+msgstr "从游标剪下至行尾"
 
 #: src/nano.c:803
 msgid "Don't follow symbolic links, overwrite"
-msgstr "symbolische koppelingen overschrijven"
+msgstr "不要依照符号连结，而是覆写"
 
 #: src/nano.c:805
 msgid "Enable the use of the mouse"
-msgstr "gebruik van de muis mogelijk maken"
+msgstr "开启鼠标功能"
 
 #: src/nano.c:808
 msgid "-o <dir>"
-msgstr "-o <map>"
+msgstr "-o <目录>"
 
 #: src/nano.c:808
 msgid "--operatingdir=<dir>"
-msgstr "--operatingdir=<map>"
+msgstr "--operatingdir=<目录>"
 
 #: src/nano.c:809
 msgid "Set operating directory"
-msgstr "deze werkmap gebruiken"
+msgstr "设定操作目录"
 
 #: src/nano.c:812
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr "XON- en XOFF-toetsen behouden (^Q en ^S)"
+msgstr "保留 XON (^Q) 和 XOFF (^S) 按键"
 
 #: src/nano.c:814
 msgid "-r <#cols>"
-msgstr "-r <#kolommen>"
+msgstr "-r <#列数>"
 
 #: src/nano.c:814
 msgid "--fill=<#cols>"
-msgstr "--fill=<#kolommen>"
+msgstr "--fill=<#列数>"
 
 #: src/nano.c:815
 msgid "Set wrapping point at column #cols"
-msgstr "te gebruiken afbreek-/uitvulbreedte"
+msgstr "设定折行宽度为 #列数"
 
 #: src/nano.c:818
 msgid "-s <prog>"
-msgstr "-s <programma>"
+msgstr "-s <程式>"
 
 #: src/nano.c:818
 msgid "--speller=<prog>"
-msgstr "--speller=<programma>"
+msgstr "--speller=<程式>"
 
 #: src/nano.c:819
 msgid "Enable alternate speller"
-msgstr "deze spellingscontroleur gebruiken"
+msgstr "启用替代的拼写检查程式"
 
 #: src/nano.c:822
 msgid "Auto save on exit, don't prompt"
-msgstr "automatisch opslaan bij afsluiten"
+msgstr "离开时自动储存，不要提示"
 
 #: src/nano.c:823
 msgid "View mode (read-only)"
-msgstr "Kijkmodus (alleen lezen, geen bewerking)"
+msgstr "观看 (唯读) 模式"
 
 #: src/nano.c:825
 msgid "Don't wrap long lines"
-msgstr "lange regels niet afbreken"
+msgstr "不要自动换行"
 
 #: src/nano.c:827
 msgid "Don't show the two help lines"
-msgstr "niet de twee hulpregels tonen"
+msgstr "不要显示辅助区"
 
 #: src/nano.c:828
 msgid "Enable suspension"
-msgstr "proces-pauzering toestaan"
+msgstr "开启暂停功能"
 
 #: src/nano.c:832
 msgid "(ignored, for Pico compatibility)"
-msgstr "(genegeerd, maar herkend wegens Pico)"
+msgstr "(忽略，为了与 Pico 相容)"
 
 #: src/nano.c:842
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
-msgstr " GNU nano  versie %s  (gecompileerd %s, %s)\n"
+msgstr " GNU nano 版本 %s (编译于 %s, %s)\n"
 
 #: src/nano.c:845
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
-msgstr ""
-" Email: <nano@nano-editor.org>\tWeb: http://www.nano-editor.org/\n"
-" Meld fouten in de vertaling aan <vertaling@vrijschrift.org>."
+msgstr " 电子邮件: nano@nano-editor.org\t\t网页: http://www.nano-editor.org/"
 
 #: src/nano.c:846
 #, c-format
@@ -1390,113 +1377,112 @@ msgid ""
 " Compiled options:"
 msgstr ""
 "\n"
-" Gecompileerde opties:"
+" 编译选项:"
 
 #: src/nano.c:924
 msgid "Sorry, support for this function has been disabled"
-msgstr "Sorry, ondersteuning voor deze functie is uitgeschakeld"
+msgstr "抱歉，已经关闭此功能的支持"
 
 #: src/nano.c:946
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Gewijzigde buffer opslaan? (bij \"Nee\" gaan ALLE WIJZIGINGEN VERLOREN) "
+msgstr "储存更动过的缓冲区吗 (回答 \"No\" 会撤销修改)？"
 
 #: src/nano.c:1009
 msgid "Received SIGHUP or SIGTERM\n"
-msgstr "SIGHUP of SIGTERM ontvangen\n"
+msgstr "接收到 SIGHUP 或 SIGTERM\n"
 
 #: src/nano.c:1027
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
-msgstr "Gebruik 'fg' om terug te keren naar nano.\n"
+msgstr "利用 \"fg\" 来回到 nano\n"
 
 #: src/nano.c:1195
 msgid "enabled"
-msgstr "aangezet"
+msgstr "开启"
 
 #: src/nano.c:1196
 msgid "disabled"
-msgstr "uitgezet"
+msgstr "关闭"
 
 #: src/nano.c:1374 src/winio.c:1287
 msgid "Unknown Command"
-msgstr "Onbekend commando"
+msgstr "未知命令"
 
 #: src/nano.c:1438
 msgid "XON ignored, mumble mumble"
-msgstr "XON genegeerd, mmm-mmm"
+msgstr "忽略 XON，嗯嗯。"
 
 #: src/nano.c:1441
 msgid "XOFF ignored, mumble mumble"
-msgstr "XOFF genegeerd, mmm-mmm"
+msgstr "忽略 XOFF，嗯嗯。"
 
 #: src/nano.c:1840 src/rcfile.c:813
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
-msgstr "Gevraagde tabgrootte '%s' is ongeldig"
+msgstr "所要求的跳格宽度 %s 无效"
 
 #: src/nano.c:1896 src/rcfile.c:738
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
-msgstr "Gevraagde uitvulbreedte '%s' is ongeldig"
+msgstr "所要求的填满行数 \"%s\" 无效"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
 #. * For example, in French: "OoYy" for "Oui".
 #: src/prompt.c:1281
 msgid "Yy"
-msgstr "JjYy"
+msgstr "Yy"
 
 #: src/prompt.c:1282
 msgid "Nn"
-msgstr "NnNn"
+msgstr "Nn"
 
-# Accepteert ook de "O" van "Overal":
 #: src/prompt.c:1283
 msgid "Aa"
-msgstr "AaOo"
+msgstr "Aa"
 
 #: src/prompt.c:1297
 msgid "Yes"
-msgstr "Ja"
+msgstr "是"
 
 #: src/prompt.c:1302
 msgid "All"
-msgstr "Alle"
+msgstr "全部"
 
 #: src/prompt.c:1307
 msgid "No"
-msgstr "Nee"
+msgstr "否"
 
 #: src/rcfile.c:120
 #, c-format
 msgid "Error in %s on line %lu: "
-msgstr "Fout in %s op regel %lu: "
+msgstr "在 %s (位于第 %lu 行) 中发生错误: "
 
 #: src/rcfile.c:175
 #, c-format
 msgid "Argument '%s' has an unterminated \""
-msgstr "Argument '%s' heeft een ongepaarde \""
+msgstr "参数 %s 有未封闭的 \""
 
 #: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:523 src/rcfile.c:580
 msgid "Regex strings must begin and end with a \" character"
-msgstr "Reg.exp.-reeksen moeten beginnen en eindigen met een \"-teken"
+msgstr "正则表示式字串必须以 \" 字符开始及结束"
 
 #: src/rcfile.c:227 src/search.c:61
 #, c-format
 msgid "Bad regex \"%s\": %s"
-msgstr "Onjuiste reguliere expressie '%s': %s"
+msgstr "非法的正则表示式 \"%s\": %s"
 
 #: src/rcfile.c:248
 msgid "Missing syntax name"
-msgstr "Ontbrekende syntaxnaam"
+msgstr "缺少语法名称"
 
 #: src/rcfile.c:303
 msgid "The \"none\" syntax is reserved"
-msgstr "Het woordje 'none' is gereserveerd"
+msgstr "\"none\" 语法已被保留"
 
 #: src/rcfile.c:310
 msgid "The \"default\" syntax must take no extensions"
-msgstr "Bij het woordje 'default' horen geen extensies"
+msgstr "\"default\" 语法必须不含任何副档名"
 
 #: src/rcfile.c:437
 #, c-format
@@ -1507,266 +1493,266 @@ msgid ""
 "\"black\", with the optional prefix \"bright\"\n"
 "for foreground colors."
 msgstr ""
-"Kleur '%s' is onbekend.\n"
-"Geldige kleuren zijn: 'red', 'green', 'blue',\n"
-"'magenta', 'yellow', 'cyan', 'black' en 'white',\n"
-"met voor voorgrondkleuren het optionele voorvoegsel 'bright'."
+"颜色 %s 无法辨识。\n"
+"有效的颜色是 \"green\"(绿)、\"red\"(红)、\"blue\"(蓝)、\n"
+"\"white\"(白)、\"yellow\"(黄)、\"cyan\"(青)、\"magenta\"(瑰) 和 \n"
+"\"black\"(黑)，选择性的前置字 \"bright\"(明亮) \n"
+"可用于前景色。"
 
 #: src/rcfile.c:459
 msgid "Cannot add a color command without a syntax command"
-msgstr "Kan geen 'color'-commando verwerken zonder een 'syntax'-commando"
+msgstr "无法直接增加颜色而没有语法行"
 
 #: src/rcfile.c:464
 msgid "Missing color name"
-msgstr "Ontbrekende kleurnaam"
+msgstr "缺少颜色名称"
 
 #: src/rcfile.c:484
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
-msgstr "Achtergrondkleur '%s' kan niet 'bright' zijn"
+msgstr "背景色 %s 不可为明亮"
 
 #: src/rcfile.c:502
 msgid "Missing regex string"
-msgstr "Ontbrekende reg.exp.-tekenreeks"
+msgstr "缺少正则表示式字串"
 
 #: src/rcfile.c:574
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr "'start=' vereist een bijbehorende 'end='"
+msgstr "\"start=\" 要求对应的 \"end=\""
 
 #: src/rcfile.c:645 src/rcfile.c:654 src/rcfile.c:664
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
-msgstr "Commando '%s' is niet toegestaan in 'include'-bestand"
+msgstr "命令 \"%s\" 被禁止在包含文件中使用"
 
 #: src/rcfile.c:670 src/rcfile.c:838
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
-msgstr "Bij syntax '%s' ontbreken 'color'-commando's"
+msgstr "语法 \"%s\" 没有 color 命令"
 
 #: src/rcfile.c:679
 #, c-format
 msgid "Command \"%s\" not understood"
-msgstr "Commando '%s' is onbekend"
+msgstr "无法辨识 \"%s\" 命令"
 
 #: src/rcfile.c:685
 msgid "Missing flag"
-msgstr "Ontbrekende vlag"
+msgstr "缺少旗标"
 
 #: src/rcfile.c:707
 #, c-format
 msgid "Option \"%s\" requires an argument"
-msgstr "Optie '%s' vereist een argument"
+msgstr "选项 %s 要求一个参数"
 
 #: src/rcfile.c:725
 msgid "Option is not a valid multibyte string"
-msgstr "Optie is geen geldige multibyte-tekenreeks"
+msgstr "选项并非正确的多位元字串"
 
 #: src/rcfile.c:751 src/rcfile.c:779 src/rcfile.c:788
 msgid "Non-blank characters required"
-msgstr "Niet-blanco tekens vereist"
+msgstr "需要非空格字符"
 
 #: src/rcfile.c:761
 msgid "Two single-column characters required"
-msgstr "Twee enkelkoloms-tekens vereist"
+msgstr "需要两个单行字符"
 
 #: src/rcfile.c:827
 #, c-format
 msgid "Cannot unset flag \"%s\""
-msgstr "Kan vlag '%s' niet uitzetten"
+msgstr "无法解除旗标 %s 设定"
 
 #: src/rcfile.c:833
 #, c-format
 msgid "Unknown flag \"%s\""
-msgstr "Onbekende vlag '%s'"
+msgstr "旗标 %s 无法辨识"
 
 #: src/rcfile.c:895
 msgid "I can't find my home directory!  Wah!"
-msgstr "Kan de thuismap niet vinden!  Boehoe!"
+msgstr "我找不到我的家目录！哇！"
 
 #: src/search.c:95
 #, c-format
 msgid "\"%.*s%s\" not found"
-msgstr "'%.*s%s' niet gevonden"
+msgstr "找不到 \"%.*s%s\""
 
 #: src/search.c:200
 msgid " (to replace) in selection"
-msgstr " (om te vervangen) in selectie"
+msgstr " 在标记中(置换)"
 
 #: src/search.c:202
 msgid " (to replace)"
-msgstr " (om te vervangen)"
+msgstr " (置换)"
 
 #: src/search.c:753
 msgid "Replace this instance?"
-msgstr "Deze overeenkomst vervangen?"
+msgstr "置换这个？"
 
 #: src/search.c:921
 msgid "Replace with"
-msgstr "Vervangen door"
+msgstr "以此置换"
 
 #: src/search.c:963
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
-msgstr[0] "%lu overeenkomst vervangen"
-msgstr[1] "%lu overeenkomsten vervangen"
+msgstr[0] "已置换 %lu 处"
 
 #: src/search.c:989
 msgid "Enter line number, column number"
-msgstr "Geef regelnummer, kolomnummer"
+msgstr "输入列号，行号"
 
 #: src/search.c:1014
 msgid "Come on, be reasonable"
-msgstr "Kom, wees redelijk"
+msgstr "别这样，理性一点"
 
 #: src/search.c:1167
 msgid "Not a bracket"
-msgstr "Is geen haakje"
+msgstr "并非一个括号"
 
 #: src/search.c:1234
 msgid "No matching bracket"
-msgstr "Geen overeenkomend haakje"
+msgstr "无对应括号"
 
 #: src/text.c:54
 msgid "Mark Set"
-msgstr "Markering aangezet"
+msgstr "标记设定"
 
 #: src/text.c:58
 msgid "Mark Unset"
-msgstr "Uitgezet"
+msgstr "标记解除"
 
 #: src/text.c:442
 msgid "Could not pipe"
-msgstr "Kan niet doorsluizen"
+msgstr "管线功能无效"
 
 #: src/text.c:469 src/text.c:2034 src/text.c:2181
 msgid "Could not fork"
-msgstr "Kan geen nieuw proces starten"
+msgstr "执行功能无效"
 
 #: src/text.c:1272
 #, c-format
 msgid "Bad quote string %s: %s"
-msgstr "Ongeldige aanhaaltekens-tekenreeks '%s': %s"
+msgstr "不良引用字串 %s: %s"
 
 #: src/text.c:1668
 msgid "Can now UnJustify!"
-msgstr "Kan nu ON^Uitvullen!"
+msgstr "现在可以还原对齐！"
 
 #: src/text.c:1860
 msgid "Edit a replacement"
-msgstr "Vervanging bewerken"
+msgstr "编辑替代文字"
 
 #: src/text.c:1946
 msgid "Could not create pipe"
-msgstr "Kan geen pijp aanmaken"
+msgstr "无法建立管线功能"
 
 #: src/text.c:1948
 msgid "Creating misspelled word list, please wait..."
-msgstr "Aanmaken van lijst van verkeerd gespelde woorden, even geduld..."
+msgstr "正在建立错字列表，请稍待..."
 
 #: src/text.c:2040
 msgid "Could not get size of pipe buffer"
-msgstr "Kan grootte van doorsluisbuffer niet bepalen"
+msgstr "无法得知管线缓冲区大小"
 
 #: src/text.c:2091
 msgid "Error invoking \"spell\""
-msgstr "Fout tijdens aanroepen van 'spell'"
+msgstr "运行 \"spell\" 错误"
 
 #: src/text.c:2094
 msgid "Error invoking \"sort -f\""
-msgstr "Fout tijdens aanroepen van 'sort -f'"
+msgstr "运行 \"sort -f\" 错误"
 
 #: src/text.c:2097
 msgid "Error invoking \"uniq\""
-msgstr "Fout tijdens aanroepen van 'uniq'"
+msgstr "运行 \"uniq\" 错误"
 
 #: src/text.c:2208
 #, c-format
 msgid "Error invoking \"%s\""
-msgstr "Fout tijdens aanroepen van '%s'"
+msgstr "运行 \"%s\" 错误"
 
 #: src/text.c:2348
 #, c-format
 msgid "Spell checking failed: %s"
-msgstr "Spellingscontrole is mislukt: %s"
+msgstr "拼写检查失败: %s"
 
 #: src/text.c:2350
 #, c-format
 msgid "Spell checking failed: %s: %s"
-msgstr "Spellingscontrole is mislukt: %s: %s"
+msgstr "拼写检查失败: %s: %s"
 
 #: src/text.c:2353
 msgid "Finished checking spelling"
-msgstr "Spellingscontrole is voltooid"
+msgstr "拼写检查结束"
 
 #: src/text.c:2418
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
-msgstr "%swoorden: %lu  regels: %ld  tekens: %lu"
+msgstr "%s字数: %lu  行数: %ld  字符数: %lu"
 
 #: src/text.c:2419
 msgid "In Selection:  "
-msgstr "In de selectie:  "
+msgstr "于选择部份: "
 
 #: src/utils.c:367 src/utils.c:379
 msgid "nano is out of memory!"
-msgstr "Onvoldoende geheugen beschikbaar voor nano!"
+msgstr "nano 已耗尽内存！"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
 #: src/winio.c:1588
 msgid "Unicode Input"
-msgstr "Invoer van Unicode"
+msgstr "Unicode 输入"
 
 #: src/winio.c:2136 src/winio.c:2140
 msgid "Modified"
-msgstr "Gewijzigd"
+msgstr "已更动"
 
 #: src/winio.c:2137
 msgid "View"
-msgstr "Kijken"
+msgstr "观看"
 
 #: src/winio.c:2151
 msgid "DIR:"
-msgstr "Map:"
+msgstr "目录:"
 
 #: src/winio.c:2158
 msgid "File:"
-msgstr "Bestand:"
+msgstr "文件:"
 
 #: src/winio.c:3182
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
-msgstr "regel %ld/%ld (%d%%), kolom %lu/%lu (%d%%), teken %lu/%lu (%d%%)"
+msgstr "行 %ld/%ld (%d%%), 列 %lu/%lu (%d%%), 字符 %lu/%lu (%d%%)"
 
 #: src/winio.c:3300
 msgid "The nano text editor"
-msgstr "De nano teksteditor"
+msgstr "nano 文字编辑器"
 
 #: src/winio.c:3301
 msgid "version"
-msgstr "versie"
+msgstr "版本"
 
 #: src/winio.c:3302
 msgid "Brought to you by:"
-msgstr "U gebracht door:"
+msgstr "来自于:"
 
 #: src/winio.c:3303
 msgid "Special thanks to:"
-msgstr "Speciale dank aan:"
+msgstr "特别感谢:"
 
 #: src/winio.c:3304
 msgid "The Free Software Foundation"
-msgstr "De Free Software Foundation"
+msgstr "自由软体基金会"
 
 #: src/winio.c:3305
 msgid "For ncurses:"
-msgstr "Voor ncurses:"
+msgstr "ncurses 部份:"
 
 #: src/winio.c:3306
 msgid "and anyone else we forgot..."
-msgstr "en iedereen die we vergeten zijn..."
+msgstr "以及其他我们不记得的人..."
 
 #: src/winio.c:3307
 msgid "Thank you for using nano!"
-msgstr "Dank u voor het gebruiken van nano!"
+msgstr "谢谢您使用 nano！"
