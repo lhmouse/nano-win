@@ -285,16 +285,15 @@ int do_statusbar_mouse(void)
 
 	assert(prompt != NULL);
 
-	start_col = strlenpt(prompt) + 1;
+	start_col = strlenpt(prompt) + 2;
 
 	/* Move to where the click occurred. */
-	if (mouse_x > start_col && mouse_y == 0) {
+	if (mouse_x >= start_col && mouse_y == 0) {
 	    size_t pww_save = statusbar_pww;
 
 	    statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
-			statusbar_xplustabs()) + mouse_x -
-			start_col - 1);
+			statusbar_xplustabs()) + mouse_x - start_col);
 	    statusbar_pww = statusbar_xplustabs();
 
 	    if (need_statusbar_horizontal_update(pww_save))
@@ -865,10 +864,10 @@ size_t get_statusbar_page_start(size_t start_col, size_t column)
 /* Put the cursor in the statusbar prompt at statusbar_x. */
 void reset_statusbar_cursor(void)
 {
-    size_t start_col = strlenpt(prompt) + 1;
+    size_t start_col = strlenpt(prompt) + 2;
     size_t xpt = statusbar_xplustabs();
 
-    wmove(bottomwin, 0, start_col + 1 + xpt -
+    wmove(bottomwin, 0, start_col + xpt -
 	get_statusbar_page_start(start_col, start_col + xpt));
 }
 
@@ -882,7 +881,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
 
     assert(prompt != NULL && index <= strlen(curranswer));
 
-    start_col = strlenpt(prompt) + 1;
+    start_col = strlenpt(prompt) + 2;
     index = strnlenpt(curranswer, index);
     page_start = get_statusbar_page_start(start_col, start_col + index);
 
@@ -910,7 +909,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
  * different pages. */
 bool need_statusbar_horizontal_update(size_t pww_save)
 {
-    size_t start_col = strlenpt(prompt) + 1;
+    size_t start_col = strlenpt(prompt) + 2;
 
     return get_statusbar_page_start(start_col, start_col + pww_save) !=
 	get_statusbar_page_start(start_col, start_col + statusbar_pww);
