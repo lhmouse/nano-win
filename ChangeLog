@@ -1,3 +1,10 @@
+2007-12-08  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* prompt.c (do_statusbar_mouse, reset_statusbar_cursor,
+	update_statusbar_line, need_statusbar_horizontal_update): Fix
+	minor display and cursor placement problems when scrolling
+	between pages at the statusbar prompt.
+
 2007-12-07  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* winio.c (get_mouseinput): Fix longstanding problem where mouse
