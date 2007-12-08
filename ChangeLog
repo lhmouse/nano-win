@@ -3,6 +3,9 @@
 	* winio.c (get_mouseinput): Fix longstanding problem where mouse
 	clicks on the statusbar prompt text wouldn't be recognized
 	unless the NO_HELP flag was turned off.
+	* doc/man/rnano.1, doc/man/fr/rnano.1: Update copyright notices,
+	as Thijs Kinkhorst's copyrights have now been assigned to the
+	Free Software Foundation.
 
 2007-12-04  David Lawrence Ramsey  <pooka109@gmail.com>
 
