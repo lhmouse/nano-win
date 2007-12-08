@@ -1755,7 +1755,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
      * mouse wheel) and presses of the fifth mouse button (downward
      * rolls of the mouse wheel) . */
     else if (mevent.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
-	bool in_edit = wenclose(edit, mouse_y, mouse_x);
+	bool in_edit = wenclose(edit, *mouse_y, *mouse_x);
 
 	if (in_bottomwin)
 	    /* Translate the mouse event coordinates so that they're
@@ -1763,6 +1763,8 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
 
 	if (in_edit || (in_bottomwin && *mouse_y == 0)) {
+	    int i;
+
 	    /* One upward roll of the mouse wheel is equivalent to
 	     * moving up three lines, and one downward roll of the mouse
 	     * wheel is equivalent to moving down three lines. */
