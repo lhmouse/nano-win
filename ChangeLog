@@ -1,3 +1,9 @@
+2007-12-07  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* winio.c (get_mouseinput): Fix longstanding problem where mouse
+	clicks on the statusbar prompt text wouldn't be recognized
+	unless the NO_HELP flag was turned off.
+
 2007-12-04  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* nano.c (main), prompt.c (get_prompt_string), winio.c

@@ -1621,7 +1621,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 }
 
 #ifndef DISABLE_MOUSE
-/* Handle any mouse events that may have occurred.  We currently handle
+/* Handle any mouse event that may have occurred.  We currently handle
  * releases/clicks of the first mouse button.  If allow_shortcuts is
  * TRUE, releasing/clicking on a visible shortcut will put back the
  * keystroke associated with that shortcut.  If NCURSES_MOUSE_VERSION is
@@ -1629,13 +1629,16 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
  * button (upward rolls of the mouse wheel) by putting back the
  * keystrokes to move up, and presses of the fifth mouse button
  * (downward rolls of the mouse wheel) by putting back the keystrokes to
- * move down.  Return -1 on error, 0 if the mouse event needs to be
- * handled, 1 if it's been handled by putting back keystrokes that need
- * to be handled. or 2 if it's been ignored.  Assume that KEY_MOUSE has
- * already been read in. */
+ * move down.  We also store the coordinates of a mouse event that needs
+ * to be handled in mouse_x and mouse_y, relative to the entire screen.
+ * Return -1 on error, 0 if the mouse event needs to be handled, 1 if
+ * it's been handled by putting back keystrokes that need to be handled.
+ * or 2 if it's been ignored.  Assume that KEY_MOUSE has already been
+ * read in. */
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 {
     MEVENT mevent;
+    bool in_bottomwin;
 
     *mouse_x = -1;
     *mouse_y = -1;
@@ -1648,6 +1651,8 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
     *mouse_x = mevent.x;
     *mouse_y = mevent.y;
 
+    in_bottomwin = wenclose(bottomwin, *mouse_y, *mouse_x);
+
     /* Handle releases/clicks of the first mouse button. */
     if (mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
 	/* If we're allowing shortcuts, the current shortcut list is
@@ -1655,8 +1660,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	 * first mouse button was released on/clicked inside it, we need
 	 * to figure out which shortcut was released on/clicked and put
 	 * back the equivalent keystroke(s) for it. */
-	if (allow_shortcuts && !ISSET(NO_HELP) &&
-		wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE)) {
+	if (allow_shortcuts && !ISSET(NO_HELP) && in_bottomwin) {
 	    int i;
 		/* The width of all the shortcuts, except for the last
 		 * two, in the shortcut list in bottomwin. */
@@ -1670,10 +1674,20 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		/* The actual shortcut we released on, starting at the
 		 * first one in the current shortcut list. */
 
-	    /* Ignore releases/clicks of the first mouse button on the
-	     * statusbar. */
-	    if (*mouse_y == 0)
-		return 2;
+	    /* Translate the mouse event coordinates so that they're
+	     * relative to bottomwin. */
+	    wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
+
+	    /* Handle releases/clicks of the first mouse button on the
+	     * statusbar elsewhere. */
+	    if (*mouse_y == 0) {
+		/* Restore the untranslated mouse event coordinates, so
+		 * that they're relative to the entire screen again. */
+		*mouse_x = mevent.x;
+		*mouse_y = mevent.y;
+
+		return 0;
+	    }
 
 	    /* Calculate the y-coordinate relative to the beginning of
 	     * the shortcut list in bottomwin. */
@@ -1741,24 +1755,14 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
      * mouse wheel) and presses of the fifth mouse button (downward
      * rolls of the mouse wheel) . */
     else if (mevent.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
-	bool in_edit = wmouse_trafo(edit, mouse_y, mouse_x, FALSE);
-	bool in_bottomwin = wmouse_trafo(bottomwin, mouse_y, mouse_x,
-		FALSE);
+	bool in_edit = wenclose(edit, mouse_y, mouse_x);
 
-	if (in_edit || in_bottomwin) {
-	    int i;
-		/* The y-coordinate relative to the beginning of the
-		 * shortcut list in bottomwin. */
+	if (in_bottomwin)
+	    /* Translate the mouse event coordinates so that they're
+	     * relative to bottomwin. */
+	    wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
 
-	    /* Ignore presses of the fourth mouse button and presses of
-	     * the fifth mouse button below the statusbar. */
-	    if (in_bottomwin && *mouse_y > 0)
-		return 2;
-
-	    /* Calculate the y-coordinate relative to the beginning of
-	     * the shortcut list in bottomwin. */
-	    i = *mouse_y - 1;
-
+	if (in_edit || (in_bottomwin && *mouse_y == 0)) {
 	    /* One upward roll of the mouse wheel is equivalent to
 	     * moving up three lines, and one downward roll of the mouse
 	     * wheel is equivalent to moving down three lines. */
