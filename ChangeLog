@@ -1,3 +1,8 @@
+2007-12-09  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* faq.html: Add minor punctuation and wording fixes, and update
+	various sections to account for Alpine.
+
 2007-12-08  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* prompt.c (do_statusbar_mouse, reset_statusbar_cursor,
