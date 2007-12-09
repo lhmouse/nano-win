@@ -1,3 +1,9 @@
+2007-12-09  Jordi Mallach  <jordi@gnu.org>
+
+	* LINGUAS: Add zh_CN.
+	* es.po, fr.po, it.po, nb.po, nl.po, pt_BR.po: New pull from the TP, 
+	to fetch the now corrected latest pt_BR file.
+
 2007-12-08  Jordi Mallach  <jordi@gnu.org>
 
 	* zh_CN.po: New Simplified Chinese translation by
