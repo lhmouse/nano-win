@@ -90,6 +90,8 @@ CVS code -
 	  (DLR, found by Paul Goins)
 	- Make sure the mark is always properly positioned after
 	  uncutting text with the mark on. (DLR)
+  main()
+	- Exit if initscr() fails. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
