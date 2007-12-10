@@ -2038,7 +2038,7 @@ int main(int argc, char **argv)
 	    free(backup_dir);
 	    backup_dir = backup_dir_cpy;
 	}
-#endif	
+#endif
 #ifndef DISABLE_JUSTIFY
 	if (quotestr_cpy != NULL) {
 	    free(quotestr);
@@ -2164,8 +2164,9 @@ int main(int argc, char **argv)
     /* Back up the old terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
 
-    /* Initialize curses mode. */
-    initscr();
+    /* Initialize curses mode.  If this fails, get out. */
+    if (initscr() == NULL)
+	exit(1);
 
     /* Set up the terminal state. */
     terminal_init();
