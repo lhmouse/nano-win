@@ -1,3 +1,7 @@
+2007-12-17  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* ChangeLog.pre-2.1: Add missing attribution.
+
 2007-12-10  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* nano.c (main): Exit if initscr() fails.
