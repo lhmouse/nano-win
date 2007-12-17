@@ -1,6 +1,7 @@
 2007-12-17  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* ChangeLog.pre-2.1: Add missing attribution.
+	* NEWS: Resync with NEWS from the 2.0 branch.
 
 2007-12-10  David Lawrence Ramsey  <pooka109@gmail.com>
 

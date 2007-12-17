@@ -1,3 +1,28 @@
+2007/04/26 - GNU nano 2.0.6 "that was quick" is released.  This release
+		fixes a potential segfault after justifying text marked
+		from the bottom up.  It also adds one more minor
+		documentation update.  Enjoy.
+
+2007/04/22 - GNU nano 2.0.5 braces for impact.  Among other things, this
+		release fixes various problems (including a segfault)
+		when trying to open or save a file in a directory
+		beginning with "~" that isn't a home directory; fixes a
+		problem where a file with no name could be saved over an
+		existing filename with no warning about overwriting it;
+		properly disallows opening directories or device files
+		from "include" commands in nanorc files; no longer
+		displays a misleading prompt when trying to save in
+		restricted mode with the mark on; and properly supports
+		the Cancel and Shift-Cancel keys.  It also improves
+		several color syntaxes to highlight trailing whitespace,
+		just as the Java syntax does, and adds yet more minor
+		documentation updates.  Have fun.
+
+2007.04.06 - GNU nano 2.0.4 heralds the dawn.  This release contains
+		proper support for the Ctrl-[arrow key], Shift-[arrow
+		key], and F13-F16 keys under Xfce's Terminal.  It also
+		adds still more minor documentation updates.  Enjoy.
+
 2007.01.29 - GNU nano 2.0.3 flows toward its ending.  This release
 		contains several minor optimizations to make the
 		executable a little smaller under some circumstances,
