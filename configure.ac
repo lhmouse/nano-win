@@ -185,193 +185,6 @@ fi],
 [enable_utf8=auto])
 AC_MSG_RESULT($enable_utf8)
 
-AC_MSG_CHECKING([whether to use slang])
-CURSES_LIB_NAME=""
-AC_ARG_WITH(slang,
-[  --with-slang[=DIR]      Use the slang library instead of curses],
-[    case "$with_slang" in
-    no)
-	AC_MSG_RESULT(no)
-	;;
-    *)
-	AC_MSG_RESULT(yes)
-
-	if test x$with_slang != xyes; then
-	    # Add additional search path
-	    LDFLAGS="-L$with_slang/lib $LDFLAGS"
-	    CPPFLAGS="-I$with_slang/include $CPPFLAGS"
-	fi
-
-	if test x$enable_utf8 != xno; then
-	    AC_CHECK_HEADER(slcurses.h,
-		AC_MSG_CHECKING([for SLutf8_enable in -lslang])
-		_libs=$LIBS
-		LIBS="$LIBS -lslang"
-		AC_TRY_RUN([
-#include <slcurses.h>
-int main(void)
-{
-    SLutf8_enable(1);
-    return 0;
-}],
-		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
-		    CURSES_LIB_WIDE=yes
-		    if test x$with_slang != xyes; then
-			CURSES_LIB="-L${with_slang}/lib -lslang"
-		    else
-			CURSES_LIB="-lslang"
-		    fi
-		    CURSES_LIB_NAME=slang],
-		    [AC_MSG_RESULT(no)
-
-		    # We might need the term library
-		    for termlib in ncurses curses termcap terminfo termlib; do
-			AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
-			test -n "$tcap" && break
-		    done
-
-		    AC_MSG_CHECKING([for SLutf8_enable in -lslang $tcap])
-		    LIBS="$LIBS $tcap"
-		    AC_TRY_RUN([
-#include <slcurses.h>
-int main(void)
-{
-    SLutf8_enable(1);
-    return 0;
-}],
-			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
-			CURSES_LIB_WIDE=yes
-			if test x$with_slang != xyes; then
-			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
-			else
-			    CURSES_LIB="-lslang $tcap"
-			fi
-			CURSES_LIB_NAME=slang],
-			[AC_MSG_RESULT(no)
-
-			# We might need the math library
-			AC_MSG_CHECKING([for SLutf8_enable in -lslang $tcap -lm])
-			LIBS="$LIBS -lm"
-			AC_TRY_RUN([
-#include <slcurses.h>
-int main(void)
-{
-    SLutf8_enable(1);
-    return 0;
-}],
-			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
-			    CURSES_LIB_WIDE=yes
-			    if test x$with_slang != xyes; then
-				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
-			    else
-				CURSES_LIB="-lslang $tcap -lm"
-			    fi
-			    CURSES_LIB_NAME=slang],
-			    [AC_MSG_RESULT(no)],
-    AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
-    AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
-    AC_MSG_WARN([*** Can not use slang when cross-compiling])),
-	    AC_MSG_ERROR([
-*** The header file slcurses.h was not found.  If you wish to use
-*** slang support this header file is required.  Please either
-*** install a version of slang that includes the slcurses.h file or
-*** do not call the configure script with --with-slang.]))
-	fi
-
-	if eval "test x$CURSES_LIB_NAME = x"; then
-	    # Reset libs if the above slang tests failed
-	    if test x$enable_utf8 != xno; then
-		LIBS=$_libs
-	    fi
-
-	    AC_CHECK_HEADER(slcurses.h,
-		AC_MSG_CHECKING([for SLtt_initialize in -lslang])
-		_libs=$LIBS
-		LIBS="$LIBS -lslang"
-		AC_TRY_RUN([
-#include <slcurses.h>
-int main(void)
-{
-    SLtt_initialize(NULL);
-    return 0;
-}],
-		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
-		    if test x$with_slang != xyes; then
-			CURSES_LIB="-L${with_slang}/lib -lslang"
-		    else
-			CURSES_LIB="-lslang"
-		    fi
-		    CURSES_LIB_NAME=slang],
-		    [AC_MSG_RESULT(no)
-
-		    # We might need the term library
-		    for termlib in ncurses curses termcap terminfo termlib; do
-			AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
-			test -n "$tcap" && break
-		    done
-
-		    AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap])
-		    LIBS="$LIBS $tcap"
-		    AC_TRY_RUN([
-#include <slcurses.h>
-int main(void)
-{
-    SLtt_initialize(NULL);
-    return 0;
-}],
-			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
-			if test x$with_slang != xyes; then
-			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
-			else
-			    CURSES_LIB="-lslang $tcap"
-			fi
-			CURSES_LIB_NAME=slang],
-			[AC_MSG_RESULT(no)
-
-			# We might need the math library
-			AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap -lm])
-			LIBS="$LIBS -lm"
-			AC_TRY_RUN([
-#include <slcurses.h>
-int main(void)
-{
-    SLtt_initialize(NULL);
-    return 0;
-}],
-			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
-			    if test x$with_slang != xyes; then
-				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
-			    else
-				CURSES_LIB="-lslang $tcap -lm"
-			    fi
-			    CURSES_LIB_NAME=slang],
-			    [AC_MSG_RESULT(no)],
-    AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
-    AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
-    AC_MSG_WARN([*** Can not use slang when cross-compiling])),
-	    AC_MSG_ERROR([
-*** The header file slcurses.h was not found.  If you wish to use
-*** slang support this header file is required.  Please either
-*** install a version of slang that includes the slcurses.h file or
-*** do not call the configure script with --with-slang.]))
-	fi
-
-	if test "${_libs+set}" = "set"; then
-	    LIBS=$_libs
-	fi
-
-	if test x$with_slang != xyes; then
-	    LDFLAGS=${_ldflags}
-	fi
-	;;
-    esac], [AC_MSG_RESULT(no)])
-
 AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
 AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
 
@@ -466,16 +279,14 @@ else
 	AC_MSG_ERROR([
 *** UTF-8 support was requested, but insufficient UTF-8 support was
 *** detected in your curses and/or C libraries.  Please verify that your
-*** slang was built with UTF-8 support or your curses was built with
-*** wide character support, and that your C library was built with wide
-*** character support.])
+*** curses was built with wide character support, and that your C
+*** library was built with wide character support.])
     elif test x$enable_utf8 != xno; then
 	AC_MSG_WARN([
 *** Insufficient UTF-8 support was detected in your curses and/or C
-*** libraries.  If you want UTF-8 support, please verify that your slang
-*** was built with UTF-8 support or your curses was built with wide
-*** character support, and that your C library was built with wide
-*** character support.])
+*** libraries.  If you want UTF-8 support, please verify that your
+*** curses was built with wide character support, and that your C
+*** library was built with wide character support.])
     fi
 fi
 
