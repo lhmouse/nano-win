@@ -86,6 +86,10 @@ CVS code -
 	  middle of the line instead of just the uncompleted part of the
 	  match). (DLR)
 - nano.c:
+  print_opt_full()
+	- Use strlenpt() instead of strlen(), so that tabs are placed
+	  properly when displaying translated strings in UTF-8. (DLR,
+	  found by Jean-Philippe Guérard)
   version()
 	- Display copyright notices. (DLR)
   copy_from_file()
