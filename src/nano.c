@@ -1320,9 +1320,9 @@ void terminal_init(void)
     /* Slang curses emulation brain damage, part 2: Slang doesn't
      * implement raw(), nonl(), or noecho() properly, so there's no way
      * to properly reinitialize the terminal using them.  We have to
-     * disable the special control keys using termios, save the terminal
-     * state after the first call, and restore it on subsequent
-     * calls. */
+     * disable the special control keys and interpretation of the flow
+     * control characters using termios, save the terminal state after
+     * the first call, and restore it on subsequent calls. */
     static struct termios newterm;
     static bool newterm_set = FALSE;
 
