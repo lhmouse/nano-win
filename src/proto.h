@@ -475,7 +475,6 @@ void allow_pending_sigwinch(bool allow);
 void do_toggle(const toggle *which);
 #endif
 void disable_extended_io(void);
-void disable_signals(void);
 #ifndef NANO_TINY
 void enable_signals(void);
 #endif

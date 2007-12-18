@@ -46,6 +46,8 @@ CVS code -
 	  do_statusbar_mouse(), reset_statusbar_cursor(),
 	  update_statusbar_line(), and
 	  need_statusbar_horizontal_update(). (DLR)
+	- Simplify terminal handling by using raw mode instead of cbreak
+	  mode.  Changes to main(); removal of disable_signals(). (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
