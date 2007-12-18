@@ -752,14 +752,14 @@ void print_opt_full(const char *shortflag
 	, const char *desc)
 {
     printf(" %s\t", shortflag);
-    if (strlen(shortflag) < 8)
+    if (strlenpt(shortflag) < 8)
 	printf("\t");
 
 #ifdef HAVE_GETOPT_LONG
     printf("%s\t", longflag);
-    if (strlen(longflag) < 8)
+    if (strlenpt(longflag) < 8)
 	printf("\t\t");
-    else if (strlen(longflag) < 16)
+    else if (strlenpt(longflag) < 16)
 	printf("\t");
 #endif
 

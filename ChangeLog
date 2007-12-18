@@ -1,3 +1,9 @@
+2007-12-18  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* nano.c (print_opt_full): Use strlenpt() instead of strlen(),
+	so that tabs are placed properly when displaying translated
+	strings in UTF-8, as found by Jean-Philippe Guérard.
+
 2007-12-17  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* configure.ac, doc/texinfo/nano.texi, nano.c (terminal_init):
