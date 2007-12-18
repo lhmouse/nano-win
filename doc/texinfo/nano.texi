@@ -842,10 +842,14 @@ Disable long line wrapping by default when nano is run as root.
 
 @item --enable-utf8
 Enable support for reading and writing Unicode files.  This will require
-a wide version of curses.
+either a wide version of curses, or a UTF-8-enabled version of Slang.
 
 @item --disable-utf8
 Disable support for reading and writing Unicode files.
+
+@item --with-slang
+Compiling @code{nano} with Slang is supported, and will make the binary
+notably smaller than if compiled with ncurses or other curses libraries.
 
 @end table
 

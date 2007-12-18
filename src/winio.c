@@ -3167,7 +3167,14 @@ void edit_update(update_type location)
 /* Unconditionally redraw the entire screen. */
 void total_redraw(void)
 {
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage, part 4: Slang doesn't define
+     * curscr. */
+    SLsmg_touch_screen();
+    SLsmg_refresh();
+#else
     wrefresh(curscr);
+#endif
 }
 
 /* Unconditionally redraw the entire screen, and then refresh it using

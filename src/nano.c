@@ -945,6 +945,9 @@ void version(void)
 #ifdef ENABLE_UTF8
     printf(" --enable-utf8");
 #endif
+#ifdef USE_SLANG
+    printf(" --with-slang");
+#endif
     printf("\n");
 }
 
@@ -1143,10 +1146,19 @@ RETSIGTYPE handle_sigwinch(int signal)
     if (filepart != NULL)
 	unpartition_filestruct(&filepart);
 
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage, part 1: If we just do what
+     * curses does here, it'll only work properly if the resize made the
+     * window smaller.  Do what mutt does: Leave and immediately reenter
+     * Slang screen management mode. */
+    SLsmg_reset_smg();
+    SLsmg_init_smg();
+#else
     /* Do the equivalent of what Minimum Profit does: Leave and
      * immediately reenter curses mode. */
     endwin();
     doupdate();
+#endif
 
     /* Restore the terminal to its previous state. */
     terminal_init();
@@ -1246,6 +1258,19 @@ void disable_extended_io(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
+#ifdef USE_SLANG
+/* Disable interpretation of the special control keys in our terminal
+ * settings. */
+void disable_signals(void)
+{
+    struct termios term;
+
+    tcgetattr(0, &term);
+    term.c_lflag &= ~ISIG;
+    tcsetattr(0, TCSANOW, &term);
+}
+#endif
+
 #ifndef NANO_TINY
 /* Enable interpretation of the special control keys in our terminal
  * settings. */
@@ -1291,12 +1316,34 @@ void enable_flow_control(void)
  * control characters. */
 void terminal_init(void)
 {
-    raw();
-    nonl();
-    noecho();
-    disable_extended_io();
-    if (ISSET(PRESERVE))
-	enable_flow_control();
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage, part 2: Slang doesn't
+     * implement raw(), nonl(), or noecho() properly, so there's no way
+     * to properly reinitialize the terminal using them.  We have to
+     * disable the special control keys using termios, save the terminal
+     * state after the first call, and restore it on subsequent
+     * calls. */
+    static struct termios newterm;
+    static bool newterm_set = FALSE;
+
+    if (!newterm_set) {
+#endif
+
+	raw();
+	nonl();
+	noecho();
+	disable_extended_io();
+	if (ISSET(PRESERVE))
+	    enable_flow_control();
+
+#ifdef USE_SLANG
+	disable_signals();
+
+	tcgetattr(0, &newterm);
+	newterm_set = TRUE;
+    } else
+	tcsetattr(0, TCSANOW, &newterm);
+#endif
 }
 
 /* Read in a character, interpret it as a shortcut or toggle if

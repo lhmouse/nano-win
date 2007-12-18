@@ -1,13 +1,10 @@
 2007-12-17  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* configure.ac, doc/texinfo/nano.texi, nano.c (version,
-	handle_sigwinch, terminal_init), winio.c (total_redraw): Remove
-	slang curses emulation support, as it's hopelessly broken, and
-	it doesn't make the binary very much smaller, especially when
-	--enable-tiny is used.
+	* configure.ac, doc/texinfo/nano.texi, nano.c (terminal_init):
+	Change slang curses emulation support to turn off the same
+	options as --enable-tiny, as it's hopelessly broken otherwise.
 	* nano.c (disable_signals, main): Simplify terminal handling by
-	using raw mode instead of cbreak mode.  This eliminates the need
-	for disable_signals().
+	using raw mode instead of cbreak mode.
 	* text.c (execute_command): Call terminal_init() instead of just
 	disable_signals() after executing the command, as the command
 	may have changed the terminal settings.
