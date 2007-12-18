@@ -1,10 +1,13 @@
 2007-12-17  David Lawrence Ramsey  <pooka109@gmail.com>
 
-	* ChangeLog.pre-2.1: Add missing attribution.
-	* NEWS: Resync with NEWS from the 2.0 branch.
+	* nano.c (disable_signals, main): Simplify terminal handling by
+	using raw mode instead of cbreak mode.  This eliminates the need
+	for disable_signals().
 	* text.c (execute_command): Call terminal_init() instead of just
 	disable_signals() after executing the command, as the command
 	may have changed the terminal settings.
+	* ChangeLog.pre-2.1: Add missing attribution.
+	* NEWS: Resync with NEWS from the 2.0 branch.
 
 2007-12-10  David Lawrence Ramsey  <pooka109@gmail.com>
 

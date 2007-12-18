@@ -1258,17 +1258,6 @@ void disable_extended_io(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
-/* Disable interpretation of the special control keys in our terminal
- * settings. */
-void disable_signals(void)
-{
-    struct termios term;
-
-    tcgetattr(0, &term);
-    term.c_lflag &= ~ISIG;
-    tcsetattr(0, TCSANOW, &term);
-}
-
 #ifndef NANO_TINY
 /* Enable interpretation of the special control keys in our terminal
  * settings. */
@@ -1304,14 +1293,14 @@ void enable_flow_control(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
-/* Set up the terminal state.  Put the terminal in cbreak mode (read one
- * character at a time and interpret the special control keys), disable
- * translation of carriage return (^M) into newline (^J) so that we can
- * tell the difference between the Enter key and Ctrl-J, and disable
- * echoing of characters as they're typed.  Finally, disable extended
- * input and output processing, disable interpretation of the special
- * control keys, and if we're not in preserve mode, disable
- * interpretation of the flow control characters too. */
+/* Set up the terminal state.  Put the terminal in raw mode (read one
+ * character at a time, disable the special control keys, and disable
+ * the flow control characters), disable translation of carriage return
+ * (^M) into newline (^J) so that we can tell the difference between the
+ * Enter key and Ctrl-J, and disable echoing of characters as they're
+ * typed.  Finally, disable extended input and output processing, and,
+ * if we're not in preserve mode, reenable interpretation of the flow
+ * control characters. */
 void terminal_init(void)
 {
 #ifdef USE_SLANG
@@ -1326,13 +1315,12 @@ void terminal_init(void)
     if (!newterm_set) {
 #endif
 
-	cbreak();
+	raw();
 	nonl();
 	noecho();
 	disable_extended_io();
-	disable_signals();
-	if (!ISSET(PRESERVE))
-	    disable_flow_control();
+	if (ISSET(PRESERVE))
+	    enable_flow_control();
 
 #ifdef USE_SLANG
 	tcgetattr(0, &newterm);
