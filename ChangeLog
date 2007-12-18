@@ -48,6 +48,11 @@ CVS code -
 	  need_statusbar_horizontal_update(). (DLR)
 	- Simplify terminal handling by using raw mode instead of cbreak
 	  mode.  Changes to main(); removal of disable_signals(). (DLR)
+	- Remove slang curses emulation support, as it's hopelessly
+	  broken, and it doesn't make the binary very much smaller,
+	  especially when --enable-tiny is used.  Changes to
+	  configure.ac, doc/texinfo/nano.texi, version(),
+	  handle_sigwinch(), terminal_init(), and total_redraw(). (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
