@@ -46,13 +46,10 @@ CVS code -
 	  do_statusbar_mouse(), reset_statusbar_cursor(),
 	  update_statusbar_line(), and
 	  need_statusbar_horizontal_update(). (DLR)
-	- Simplify terminal handling by using raw mode instead of cbreak
-	  mode.  Changes to main(); removal of disable_signals(). (DLR)
-	- Remove slang curses emulation support, as it's hopelessly
-	  broken, and it doesn't make the binary very much smaller,
-	  especially when --enable-tiny is used.  Changes to
-	  configure.ac, doc/texinfo/nano.texi, version(),
-	  handle_sigwinch(), terminal_init(), and total_redraw(). (DLR)
+	- Change slang curses emulation support to turn off the same
+	  options as --enable-tiny, as it's hopelessly broken otherwise.
+	  Changes to configure.ac, doc/texinfo/nano.texi, and
+	  terminal_init(). (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
@@ -99,6 +96,8 @@ CVS code -
 	  uncutting text with the mark on. (DLR)
   main()
 	- Exit if initscr() fails. (DLR)
+	- Simplify terminal handling by using raw mode instead of cbreak
+	  mode. (DLR)
 - prompt.c:
   do_yesno_prompt()
 	- Remove redundant check for NO_HELP's being FALSE. (DLR)
