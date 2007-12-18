@@ -503,9 +503,10 @@ bool execute_command(const char *command)
     if (!sig_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
 
-    /* Disable interpretation of the special control keys so that we can
+    /* Restore the terminal to its previous state.  In the process,
+     * disable interpretation of the special control keys so that we can
      * use Ctrl-C for other things. */
-    disable_signals();
+    terminal_init();
 
     return TRUE;
 }

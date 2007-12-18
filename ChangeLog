@@ -100,6 +100,11 @@ CVS code -
 	- Fix problem where replacing e.g. single-byte characters with
 	  multibyte ones could result in openfile->totsize's being
 	  miscalculated. (DLR)
+- text.c:
+  execute_command()
+	- Call terminal_init() instead of just disable_signals() after
+	  executing the command, as the command may have changed the
+	  terminal settings. (DLR)
 - utils.c:
   ngetline(), ngetdelim()
 	- Update copyright notice to account for modifications. (DLR)
