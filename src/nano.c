@@ -1336,6 +1336,8 @@ void terminal_init(void)
 
 #ifdef USE_SLANG
 	disable_signals();
+	if (!ISSET(PRESERVE))
+	    disable_flow_control();
 
 	tcgetattr(0, &newterm);
 	newterm_set = TRUE;
