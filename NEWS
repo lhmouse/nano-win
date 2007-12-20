@@ -1,3 +1,25 @@
+2007/12/20 - GNU nano 2.0.7 keeps its balance.  This release fixes
+		several bugs, among others: a segfault and several
+		cursor positioning problems when uncutting text or
+		inserting files into the current buffer; a problem where
+		the total number of characters would be miscalculated
+		when replacing single-byte characters with multibyte
+		ones; several minor issues with the statusbar prompt
+		involving text display and mouse support; and several
+		oddities when tab-completing in the middle of a line.
+		It also improves autodetection of DOS and Mac format
+		files, properly supports the mouse wheel when using a
+		version of ncurses built with the --enable-ext-mouse
+		option, fixes some problems under NetBSD curses, adds a
+		lot of translation updates, and adds more minor
+		documentation updates.  Slang curses emulation support
+		has also been changed to turn off all the options that
+		--enable-tiny does, as it's hopelessly broken otherwise.
+		Finally, nano is now licensed under the GNU GPL version
+		3 or later, and its documentation is now dual-licensed
+		under the GNU GPL version 3 or later and the GNU FDL
+		version 1.2 or later.  Have fun.
+
 2007/04/26 - GNU nano 2.0.6 "that was quick" is released.  This release
 		fixes a potential segfault after justifying text marked
 		from the bottom up.  It also adds one more minor
