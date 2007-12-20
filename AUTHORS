@@ -7,7 +7,7 @@ Chris Allegretta <chrisa@asty.org>
 	* Original program author, former stable series maintainer.
 
 David Lawrence Ramsey <pooka109@gmail.com>
-	* Current stable series maintainer.  Multiple buffer support,
+	* Former stable series maintainer.  Multiple buffer support,
 	  operating dir (-o) option, bug fixes for display routines,
 	  wrapping code, spelling fixes, const mode, parts of the UTF-8
 	  support, and various other fixes.

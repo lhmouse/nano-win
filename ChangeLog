@@ -50,6 +50,8 @@ CVS code -
 	  options as --enable-tiny, as it's hopelessly broken otherwise.
 	  Changes to configure.ac, doc/texinfo/nano.texi, and
 	  terminal_init(). (DLR)
+	- Update maintenance information.  Changes to AUTHORS and
+	  doc/faq.html. (DLR)
 - chars.c:
   nstrncasecmp(), mbstrncasecmp()
 	- For efficiency, return zero immediately if s1 and s2 point to
