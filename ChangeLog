@@ -1,3 +1,7 @@
+2007-12-20  David Lawrence Ramsey  <pooka109@gmail.com>
+
+	* AUTHORS, doc/faq.html: Update maintenance information.
+
 2007-12-18  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* nano.c (print_opt_full): Use strlenpt() instead of strlen(),
