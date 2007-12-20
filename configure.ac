@@ -20,7 +20,7 @@
 #
 # $Id$
 
-AC_INIT([GNU nano], [2.0.7], [nano-devel@gnu.org], [nano])
+AC_INIT([GNU nano], [2.0.7-cvs], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE

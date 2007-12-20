@@ -1,3 +1,5 @@
+CVS code -
+
 GNU nano 2.0.7 - 2007.12.20
 - General:
 	- Simplify processing of mouse events.  Instead of calling
