@@ -165,6 +165,10 @@ typedef enum {
     CENTER, NONE
 } update_type;
 
+typedef enum {
+    CONTROL, META, FKEY, RAW
+}  function_type;
+
 /* Structure types. */
 typedef struct filestruct {
     char *data;
@@ -340,7 +344,51 @@ typedef struct rcoption {
    long flag;
 	/* The flag associated with it, if any. */
 } rcoption;
+
 #endif
+
+typedef struct sc {
+    char *keystr;
+	/* The shortcut key for a function, ASCII version */
+    function_type type;
+        /* What kind of function key is it for convenience later */
+    int seq;
+        /* The actual sequence to check on the the type is determined */
+    int menu;
+        /* What list does this apply to */
+    void (*scfunc)(void);
+        /* The function we're going to run */
+    int toggle;
+        /* If a toggle, what we're toggling */
+    bool execute;
+	/* Whether to execute the function in question or just return
+	   so the sequence can be caught by the calling code */
+    struct sc *next;
+        /* Next in the list */
+} sc;
+
+typedef struct subnfunc {
+   void (*scfunc)(void);
+	/* What function is this */
+    int menus;
+	/* In what menus does this function applu */
+    const char *desc;
+	/* The function's description, e.g. "Page Up". */
+#ifndef DISABLE_HELP
+    const char *help;
+	/* The help file entry text for this function. */
+    bool blank_after;
+	/* Whether there should be a blank line after the help entry
+	 * text for this function. */
+#endif
+    bool viewok;
+        /* Is this function allowed when in view mode? */
+    long toggle;
+	/* If this is a toggle, if nonzero what toggle to set */
+    struct subnfunc *next;
+	/* next item in the list */
+} subnfunc;
+
 
 /* Bitwise flags so that we can save space (or, more correctly, not
  * waste it). */
@@ -375,6 +423,23 @@ typedef struct rcoption {
 #define WORD_BOUNDS			(1<<28)
 #define NO_NEWLINES			(1<<29)
 #define BOLD_TEXT			(1<<30)
+
+/* Flags for which menus in which a given function should be present */
+#define MMAIN				(1<<0)
+#define	MWHEREIS			(1<<1)
+#define	MREPLACE			(1<<2)
+#define	MREPLACE2			(1<<3)
+#define	MGOTOLINE			(1<<4)
+#define	MWRITEFILE			(1<<5)
+#define	MINSERTFILE			(1<<6)
+#define	MEXTCMD				(1<<7)
+#define	MHELP				(1<<8)
+#define	MSPELL				(1<<9)
+#define	MBROWSER			(1<<10)
+#define	MWHEREISFILE			(1<<11)
+#define MGOTODIR			(1<<12)
+/* This really isnt all but close enough */
+#define	MALL				(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MHELP)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0

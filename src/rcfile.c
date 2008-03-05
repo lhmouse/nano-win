@@ -347,6 +347,95 @@ void parse_syntax(char *ptr)
     }
 }
 
+void parse_keybinding(char *ptr)
+{
+    char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
+    sc *s, *newsc;
+    int i, menu;
+
+    assert(ptr != NULL);
+
+    if (*ptr == '\0') {
+	rcfile_error(N_("Missing key name"));
+	return;
+    }
+
+    keyptr = ptr;
+    ptr = parse_next_word(ptr);
+    keycopy = mallocstrcpy(NULL, keyptr);
+    for (i = 0; i < strlen(keycopy); i++)
+	keycopy[i] = toupper(keycopy[i]);
+
+    if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F') {
+	rcfile_error(
+		N_("keybindings must begin with \"^\", \"M\", or \"F\"\n"));
+	return;
+    }
+
+    funcptr = ptr;
+    ptr = parse_next_word(ptr);
+
+    if (funcptr == NULL) {
+	rcfile_error(
+		N_("Must specify function to bind key to\n"));
+	return;
+    }
+
+    menuptr = ptr;
+    ptr = parse_next_word(ptr);
+
+    if (menuptr == NULL) {
+	rcfile_error(
+		/* Note to translators, do not translate the word "all"
+		   in the sentence below, everything else is fine */
+		N_("Must specify menu bind key to (or \"all\")\n"));
+	return;
+    }
+
+    menu = strtomenu(menuptr);
+    if (menu < 1) {
+	rcfile_error(
+		N_("Could not map name \"%s\" to a menu\n"), menuptr);
+	return;
+    }
+
+    newsc = strtosc(menu, funcptr);
+#ifdef DEBUG
+    fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
+	(int) newsc, (int) newsc->scfunc, menu);
+#endif
+
+    if (newsc == NULL) {
+	rcfile_error(
+		N_("Could not map name \"%s\" to a function\n"), funcptr);
+	return;
+    }
+    newsc->keystr = keycopy;
+    newsc->menu = menu;
+    newsc->type = strtokeytype(newsc->keystr);
+    assign_keyinfo(newsc);
+#ifdef DEBUG
+    fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
+    fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
+#endif
+
+    /* now let's have some fun.  Try and delete the other entries
+       we found for the same menu, then make this new new
+       beginning */
+    for (s = sclist; s != NULL; s = s->next) {
+        if (((s->menu & newsc->menu) || newsc->menu == MALL) &&
+	   (s->seq == newsc->seq)) {
+	    s->menu &= ~newsc->menu;
+#ifdef DEBUG
+	    fprintf(stderr, "replaced menu entry %d\n", s->menu);
+#endif
+	}
+    }
+    newsc->next = sclist;
+    sclist = newsc;
+}
+
+
 /* Read and parse additional syntax files. */
 void parse_include(char *ptr)
 {
@@ -674,6 +763,8 @@ void parse_rcfile(FILE *rcstream
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)
 	    parse_colors(ptr, TRUE);
+	else if (strcasecmp(keyword, "bind") == 0)
+	    parse_keybinding(ptr);
 #endif /* ENABLE_COLOR */
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);

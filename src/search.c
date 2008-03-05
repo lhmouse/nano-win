@@ -136,6 +136,8 @@ int search_init(bool replacing, bool use_answer)
 {
     int i = 0;
     char *buf;
+    sc *s;
+    void *func = NULL;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
@@ -173,7 +175,7 @@ int search_init(bool replacing, bool use_answer)
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
-	replacing ? replace_list : whereis_list, backupstring,
+	replacing ? MREPLACE : MWHEREIS, backupstring,
 #ifndef NANO_TINY
 	&search_history,
 #endif
@@ -201,6 +203,8 @@ int search_init(bool replacing, bool use_answer)
 #endif
 	_(" (to replace)") : "", buf);
 
+    fflush(stderr);
+
     /* Release buf now that we don't need it anymore. */
     free(buf);
 
@@ -213,9 +217,13 @@ int search_init(bool replacing, bool use_answer)
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
-	switch (i) {
-	    case -2:		/* It's an empty string. */
-	    case 0:		/* It's a new string. */
+	for  (s = sclist; s != NULL; s = s->next)
+	    if ((s->menu & currmenu) && i == s->seq) {
+	        func = s->scfunc;
+	  	break;
+	    }
+
+	if (i == -2 || i == 0 ) {
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or
 		 * answer if it isn't. */
@@ -223,33 +231,34 @@ int search_init(bool replacing, bool use_answer)
 			last_search : answer))
 		    return -1;
 #endif
-		break;
+		;
 #ifndef NANO_TINY
-	    case TOGGLE_CASE_KEY:
+	} else if (func == (void *) case_sens_msg) {
 		TOGGLE(CASE_SENSITIVE);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
-	    case TOGGLE_BACKWARDS_KEY:
+	} else if (func == (void *) backwards_msg) {
 		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
 #ifdef HAVE_REGEX_H
-	    case NANO_REGEXP_KEY:
+	} else if (func == (void *) regexp_msg) {
 		TOGGLE(USE_REGEXP);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
-	    case NANO_TOOTHERSEARCH_KEY:
+	} else if (func == (void *) do_replace || 
+	  func == (void *) no_replace_msg) {
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
-	    case NANO_TOGOTOLINE_KEY:
+	} else if (func == (void *) go_to_line_msg) {
 		do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE, FALSE,
 			TRUE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
-	    default:
+	} else {
 		return -1;
 	}
     }
@@ -915,7 +924,7 @@ void do_replace(void)
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
-	replace_list_2, last_replace,
+	MREPLACE2, last_replace,
 #ifndef NANO_TINY
 	&replace_history,
 #endif
@@ -983,7 +992,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 #ifndef DISABLE_TABCOMP
 		TRUE,
 #endif
-		gotoline_list, use_answer ? ans : "",
+		MGOTOLINE, use_answer ? ans : "",
 #ifndef NANO_TINY
 		NULL,
 #endif

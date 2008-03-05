@@ -91,34 +91,15 @@ extern char *full_operating_dir;
 extern char *alt_speller;
 #endif
 
-extern shortcut *main_list;
-extern shortcut *whereis_list;
-extern shortcut *replace_list;
-extern shortcut *replace_list_2;
-extern shortcut *gotoline_list;
-extern shortcut *writefile_list;
-extern shortcut *insertfile_list;
-#ifndef NANO_TINY
-extern shortcut *extcmd_list;
-#endif
-#ifndef DISABLE_HELP
-extern shortcut *help_list;
-#endif
-#ifndef DISABLE_SPELLER
-extern shortcut *spell_list;
-#endif
-#ifndef DISABLE_BROWSER
-extern shortcut *browser_list;
-extern shortcut *whereis_file_list;
-extern shortcut *gotodir_list;
-#endif
-
+extern sc *sclist;
+extern subnfunc *allfuncs;
 #ifdef ENABLE_COLOR
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 #endif
 
 extern const shortcut *currshortcut;
+extern int currmenu;
 #ifndef NANO_TINY
 extern toggle *toggles;
 #endif
@@ -341,7 +322,7 @@ void save_history(void);
 #endif
 
 /* All functions in global.c. */
-size_t length_of_list(const shortcut *s);
+size_t length_of_list(int menu);
 #ifndef NANO_TINY
 void toggle_init_one(int val
 #ifndef DISABLE_HELP
@@ -472,7 +453,7 @@ RETSIGTYPE handle_sigwinch(int signal);
 void allow_pending_sigwinch(bool allow);
 #endif
 #ifndef NANO_TINY
-void do_toggle(const toggle *which);
+void do_toggle(int flag);
 #endif
 void disable_extended_io(void);
 #ifdef USE_SLANG
@@ -531,7 +512,7 @@ int get_prompt_string(bool allow_tabs,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
-	void (*refresh_func)(void), const shortcut *s
+	void (*refresh_func)(void), int menu
 #ifndef DISABLE_TABCOMP
 	, bool *list
 #endif
@@ -540,7 +521,7 @@ int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
 #endif
-	const shortcut *s, const char *curranswer,
+	int menu, const char *curranswer,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -753,8 +734,9 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
-const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
+const sc *get_shortcut(int menu, int *kbinput, bool
 	*meta_key, bool *func_key);
+const sc *first_sc_for(int menu, void *func);
 #ifndef NANO_TINY
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
@@ -770,7 +752,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 void titlebar(const char *path);
 void set_modified(void);
 void statusbar(const char *msg, ...);
-void bottombars(const shortcut *s);
+void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, size_t len);
 void reset_cursor(void);
 void edit_draw(const filestruct *fileptr, const char *converted, int
@@ -788,6 +770,30 @@ void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
 void do_replace_highlight(bool highlight, const char *word);
+char *flagtostr(int flag);
+const subnfunc *sctofunc(sc *s);
+void print_sclist(void);
+sc *strtosc(int menu, char *input);
+function_type strtokeytype(char *str);
+int strtomenu(char *input);
+void assign_keyinfo(sc *s);
+void xon_complaint(void);
+void xoff_complaint(void);
+
+
+const char *cancel_msg;
+#ifndef NANO_TINY
+const char *case_sens_msg;
+const char *backwards_msg;
+#endif
+const char *replace_msg;
+const char *no_replace_msg;
+const char *go_to_line_msg;
+
+#ifdef HAVE_REGEX_H
+const char *regexp_msg;
+#endif
+
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif

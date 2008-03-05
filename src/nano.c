@@ -1174,7 +1174,7 @@ RETSIGTYPE handle_sigwinch(int signal)
     /* Redraw the contents of the windows that need it. */
     blank_statusbar();
     wnoutrefresh(bottomwin);
-    currshortcut = main_list;
+    currmenu = MMAIN;
     total_refresh();
 
     /* Jump back to either main() or the unjustify routine in
@@ -1196,52 +1196,54 @@ void allow_pending_sigwinch(bool allow)
 
 #ifndef NANO_TINY
 /* Handle the global toggle specified in which. */
-void do_toggle(const toggle *which)
+void do_toggle(int flag)
 {
     bool enabled;
+    char *desc;
 
-    TOGGLE(which->flag);
+    TOGGLE(flag);
 
-    switch (which->val) {
+    switch (flag) {
 #ifndef DISABLE_MOUSE
-	case TOGGLE_MOUSE_KEY:
+	case USE_MOUSE:
 	    mouse_init();
 	    break;
 #endif
-	case TOGGLE_MORESPACE_KEY:
-	case TOGGLE_NOHELP_KEY:
+	case MORE_SPACE:
+	case NO_HELP:
 	    window_init();
 	    total_refresh();
 	    break;
-	case TOGGLE_SUSPEND_KEY:
+	case SUSPEND:
 	    signal_init();
 	    break;
 #ifdef ENABLE_NANORC
-	case TOGGLE_WHITESPACE_KEY:
+	case WHITESPACE_DISPLAY:
 	    titlebar(NULL);
 	    edit_refresh();
 	    break;
 #endif
 #ifdef ENABLE_COLOR
-	case TOGGLE_SYNTAX_KEY:
+	case NO_COLOR_SYNTAX:
 	    edit_refresh();
 	    break;
 #endif
     }
 
-    enabled = ISSET(which->flag);
+    enabled = ISSET(flag);
 
-    if (which->val == TOGGLE_NOHELP_KEY
+    if (flag ==  NO_HELP
 #ifndef DISABLE_WRAPPING
-	|| which->val == TOGGLE_WRAP_KEY
+	|| flag == NO_WRAP
 #endif
 #ifdef ENABLE_COLOR
-	|| which->val == TOGGLE_SYNTAX_KEY
+	|| flag == NO_COLOR_SYNTAX
 #endif
 	)
 	enabled = !enabled;
 
-    statusbar("%s %s", which->desc, enabled ? _("enabled") :
+    desc = flagtostr(flag);
+    statusbar("%s %s", desc, enabled ? _("enabled") :
 	_("disabled"));
 }
 #endif /* !NANO_TINY */
@@ -1368,12 +1370,8 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	/* The length of the input buffer. */
     bool cut_copy = FALSE;
 	/* Are we cutting or copying text? */
-    const shortcut *s;
+    const sc *s;
     bool have_shortcut;
-#ifndef NANO_TINY
-    const toggle *t;
-    bool have_toggle;
-#endif
 
     *s_or_t = FALSE;
     *ran_func = FALSE;
@@ -1399,32 +1397,15 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 
     /* Check for a shortcut in the main list. */
-    s = get_shortcut(main_list, &input, meta_key, func_key);
+    s = get_shortcut(MMAIN, &input, meta_key, func_key);
 
     /* If we got a shortcut from the main list, or a "universal"
      * edit window shortcut, set have_shortcut to TRUE. */
-    have_shortcut = (s != NULL || input == NANO_XON_KEY ||
-	input == NANO_XOFF_KEY || input == NANO_SUSPEND_KEY);
-
-#ifndef NANO_TINY
-    /* Check for a toggle in the main list. */
-    t = get_toggle(input, *meta_key);
-
-    /* If we got a toggle from the main list, set have_toggle to
-     * TRUE. */
-    have_toggle = (t != NULL);
-#endif
-
-    /* Set s_or_t to TRUE if we got a shortcut or toggle. */
-    *s_or_t = (have_shortcut
-#ifndef NANO_TINY
-	|| have_toggle
-#endif
-	);
+    have_shortcut = (s != NULL || input == NANO_SUSPEND_KEY);
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
-    if (!*s_or_t) {
+    if (!have_shortcut) {
 	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
 	    statusbar(_("Unknown Command"));
 	    beep();
@@ -1439,7 +1420,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 * it's a normal text character.  Display the warning if we're
 	 * in view mode, or add the character to the input buffer if
 	 * we're not. */
-	if (input != ERR && !*s_or_t) {
+	if (input != ERR && !have_shortcut) {
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else {
@@ -1455,12 +1436,12 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 * output all the characters in the input buffer if it isn't
 	 * empty.  Note that it should be empty if we're in view
 	 * mode. */
-	 if (*s_or_t || get_key_buffer_len() == 0) {
+	 if (have_shortcut || get_key_buffer_len() == 0) {
 #ifndef DISABLE_WRAPPING
 	    /* If we got a shortcut or toggle, and it's not the shortcut
 	     * for verbatim input, turn off prepending of wrapped
 	     * text. */
-	    if (*s_or_t && (!have_shortcut || s == NULL || s->func !=
+	    if (have_shortcut && (!have_shortcut || s == NULL || s->scfunc !=
 		do_verbatim_input))
 		wrap_reset();
 #endif
@@ -1489,12 +1470,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	if (have_shortcut) {
 	    switch (input) {
 		/* Handle the "universal" edit window shortcuts. */
-		case NANO_XON_KEY:
-		    statusbar(_("XON ignored, mumble mumble"));
-		    break;
-		case NANO_XOFF_KEY:
-		    statusbar(_("XOFF ignored, mumble mumble"));
-		    break;
 		case NANO_SUSPEND_KEY:
 		    if (ISSET(SUSPEND))
 			do_suspend(0);
@@ -1507,32 +1482,31 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		default:
 		    /* If the function associated with this shortcut is
 		     * cutting or copying text, indicate this. */
-		    if (s->func == do_cut_text_void
+		    if (s->scfunc == do_cut_text_void
 #ifndef NANO_TINY
-			|| s->func == do_copy_text || s->func ==
+			|| s->scfunc == do_copy_text || s->scfunc ==
 			do_cut_till_end
 #endif
 			)
 			cut_copy = TRUE;
 
-		    if (s->func != NULL) {
+		    if (s->scfunc != NULL) {
+			const subnfunc *f = sctofunc((sc *) s);
 			*ran_func = TRUE;
-			if (ISSET(VIEW_MODE) && !s->viewok)
+			if (ISSET(VIEW_MODE) && f && !f->viewok)
 			    print_view_warning();
 			else
-			    s->func();
+#ifndef NANO_TINY
+			    if (s->scfunc == (void *) do_toggle)
+				do_toggle(s->toggle);
+			    else
+#endif
+				s->scfunc();
 		    }
 		    *finished = TRUE;
 		    break;
 	    }
 	}
-#ifndef NANO_TINY
-	else if (have_toggle) {
-	    /* Toggle the flag associated with this shortcut. */
-	    if (allow_funcs)
-		do_toggle(t);
-	}
-#endif
     }
 
     /* If we aren't cutting or copying text, blow away the text in the
@@ -1542,6 +1516,17 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
     return input;
 }
+
+void xon_complaint(void)
+{
+    statusbar(_("XON ignored, mumble mumble"));
+}
+
+void xoff_complaint(void)
+{
+    statusbar(_("XOFF ignored, mumble mumble"));
+}
+
 
 #ifndef DISABLE_MOUSE
 /* Handle a mouse click on the edit window or the shortcut list. */
@@ -1991,6 +1976,11 @@ int main(int argc, char **argv)
 #endif
     }
 
+
+    /* Set up the shortcut lists.
+       Need to do this before the rcfile */
+    shortcut_init(FALSE);
+
 /* We've read through the command line options.  Now back up the flags
  * and values that are set, and read the rcfile(s).  If the values
  * haven't changed afterward, restore the backed-up values. */
@@ -2028,6 +2018,11 @@ int main(int argc, char **argv)
 #endif
 
 	do_rcfile();
+
+#ifdef DEBUG
+        fprintf(stderr, "After rebinding keys...\n");
+        print_sclist();
+#endif
 
 #ifndef DISABLE_OPERATINGDIR
 	if (operating_dir_cpy != NULL) {
@@ -2191,9 +2186,6 @@ int main(int argc, char **argv)
     /* Set up the signal handlers. */
     signal_init();
 
-    /* Set up the shortcut lists. */
-    shortcut_init(FALSE);
-
 #ifndef DISABLE_MOUSE
     /* Initialize mouse support. */
     mouse_init();
@@ -2302,7 +2294,7 @@ int main(int argc, char **argv)
 	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
-	currshortcut = main_list;
+        currmenu = MMAIN;
 
 	/* Read in and interpret characters. */
 	do_input(&meta_key, &func_key, &s_or_t, &ran_func, &finished,

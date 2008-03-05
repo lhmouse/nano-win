@@ -61,7 +61,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	/* The input buffer. */
     static size_t kbinput_len = 0;
 	/* The length of the input buffer. */
-    const shortcut *s;
+    const sc *s;
+    const subnfunc *f;
     bool have_shortcut;
 
     *s_or_t = FALSE;
@@ -88,7 +89,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 #endif
 
     /* Check for a shortcut in the current list. */
-    s = get_shortcut(currshortcut, &input, meta_key, func_key);
+    s = get_shortcut(currmenu, &input, meta_key, func_key);
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
@@ -131,7 +132,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	     * and we're at the "Write File" prompt, disable text
 	     * input. */
 	    if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
-		currshortcut != writefile_list) {
+		currmenu != MWRITEFILE) {
 		kbinput_len++;
 		kbinput = (int *)nrealloc(kbinput, kbinput_len *
 			sizeof(int));
@@ -181,7 +182,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		     * isn't blank, and we're at the "Write File"
 		     * prompt, disable Cut. */
 		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currshortcut != writefile_list)
+			'\0' || currmenu != MWRITEFILE)
 			do_statusbar_cut_text();
 		    break;
 		case NANO_FORWARD_KEY:
@@ -218,7 +219,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			 * prompt, disable verbatim input. */
 			if (!ISSET(RESTRICTED) ||
 				openfile->filename[0] == '\0' ||
-				currshortcut != writefile_list) {
+				currmenu != MWRITEFILE) {
 			    bool got_enter;
 				/* Whether we got the Enter key. */
 
@@ -241,7 +242,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		     * isn't blank, and we're at the "Write File"
 		     * prompt, disable Delete. */
 		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currshortcut != writefile_list)
+			'\0' || currmenu != MWRITEFILE)
 			do_statusbar_delete();
 		    break;
 		case NANO_BACKSPACE_KEY:
@@ -249,7 +250,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		     * isn't blank, and we're at the "Write File"
 		     * prompt, disable Backspace. */
 		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currshortcut != writefile_list)
+			'\0' || currmenu != MWRITEFILE)
 			do_statusbar_backspace();
 		    break;
 		/* Handle the normal statusbar prompt shortcuts, setting
@@ -258,10 +259,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		 * that we're done after running or trying to run their
 		 * associated functions. */
 		default:
-		    if (s->func != NULL) {
+		    f = sctofunc((sc *) s);
+		    if (s->scfunc != NULL &&  s->execute == TRUE) {
 			*ran_func = TRUE;
-			if (!ISSET(VIEW_MODE) || s->viewok)
-			    s->func();
+			if (!ISSET(VIEW_MODE) || f->viewok)
+			    f->scfunc();
 		    }
 		    *finished = TRUE;
 	    }
@@ -933,7 +935,7 @@ int get_prompt_string(bool allow_tabs,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
-	void (*refresh_func)(void), const shortcut *s
+	void (*refresh_func)(void), int menu
 #ifndef DISABLE_TABCOMP
 	, bool *list
 #endif
@@ -982,7 +984,11 @@ int get_prompt_string(bool allow_tabs,
 	statusbar_pww = statusbar_xplustabs();
     }
 
-    currshortcut = s;
+    currmenu = menu;
+
+#ifdef DEBUG
+fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer, statusbar_x);
+#endif
 
     update_statusbar_line(answer, statusbar_x);
 
@@ -1118,6 +1124,7 @@ int get_prompt_string(bool allow_tabs,
 	wnoutrefresh(bottomwin);
     }
 
+
 #ifndef NANO_TINY
     /* Set the current position in the history list to the bottom and
      * free magichistory, if we need to. */
@@ -1128,6 +1135,7 @@ int get_prompt_string(bool allow_tabs,
 	    free(magichistory);
     }
 #endif
+
 
     /* We've finished putting in an answer or run a normal shortcut's
      * associated function, so reset statusbar_x and statusbar_pww.  If
@@ -1165,7 +1173,7 @@ int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
 #endif
-	const shortcut *s, const char *curranswer,
+	int menu, const char *curranswer,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -1184,7 +1192,7 @@ int do_prompt(bool allow_tabs,
 
     prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
-    bottombars(s);
+    bottombars(menu);
 
     va_start(ap, msg);
     vsnprintf(prompt, (COLS - 4) * mb_cur_max(), msg, ap);
@@ -1199,7 +1207,7 @@ int do_prompt(bool allow_tabs,
 #ifndef NANO_TINY
 	history_list,
 #endif
-	refresh_func, s
+	refresh_func, menu
 #ifndef DISABLE_TABCOMP
 	, &list
 #endif
@@ -1223,6 +1231,7 @@ int do_prompt(bool allow_tabs,
 	    retval = (*answer == '\0') ? -2 : 0;
 	    break;
     }
+
 
     blank_statusbar();
     wnoutrefresh(bottomwin);

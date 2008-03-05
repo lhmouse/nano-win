@@ -1854,7 +1854,7 @@ bool do_int_spell_fix(const char *word)
 #ifndef DISABLE_TABCOMP
 		TRUE,
 #endif
-		spell_list, word,
+		MSPELL, word,
 #ifndef NANO_TINY
 		NULL,
 #endif
@@ -2337,7 +2337,7 @@ void do_spell(void)
     unlink(temp);
     free(temp);
 
-    currshortcut = main_list;
+    currmenu = MMAIN;
 
     /* If the spell-checker printed any error messages onscreen, make
      * sure that they're cleared off. */

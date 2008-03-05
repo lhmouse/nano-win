@@ -64,9 +64,9 @@ char *do_browser(char *path, DIR *dir)
     curs_set(0);
     blank_statusbar();
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
-    currshortcut = browser_list;
+    currmenu = MBROWSER;
 #endif
-    bottombars(browser_list);
+    bottombars(MBROWSER);
     wnoutrefresh(bottomwin);
 
     UNSET(CONST_UPDATE);
@@ -213,17 +213,17 @@ char *do_browser(char *path, DIR *dir)
 #ifndef DISABLE_TABCOMP
 			FALSE,
 #endif
-			gotodir_list, ans,
+			MGOTODIR, ans,
 #ifndef NANO_TINY
 			NULL,
 #endif
-			browser_refresh, _("Go To Directory"));
+			browser_refresh, N_("Go To Directory"));
 
 		curs_set(0);
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
-		currshortcut = browser_list;
+		currmenu = MBROWSER;
 #endif
-		bottombars(browser_list);
+		bottombars(MBROWSER);
 
 		/* If the directory begins with a newline (i.e. an
 		 * encoded null), treat it as though it's blank. */
@@ -552,7 +552,7 @@ void browser_init(const char *path, DIR *dir)
  * shortcut keys. */
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 {
-    get_shortcut(browser_list, kbinput, meta_key, func_key);
+    get_shortcut(MBROWSER, kbinput, meta_key, func_key);
 
     /* Pico compatibility. */
     if (!*meta_key) {
@@ -796,7 +796,7 @@ int filesearch_init(void)
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
-	whereis_file_list, backupstring,
+	MWHEREISFILE, backupstring,
 #ifndef NANO_TINY
 	&search_history,
 #endif
@@ -955,8 +955,8 @@ void findnextfile_wrap_reset(void)
  * search, if any. */
 void filesearch_abort(void)
 {
-    currshortcut = browser_list;
-    bottombars(browser_list);
+    currmenu = MBROWSER;
+    bottombars(MBROWSER);
 #ifdef HAVE_REGEX_H
     regexp_cleanup();
 #endif

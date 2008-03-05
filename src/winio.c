@@ -1,3 +1,4 @@
+
 /* $Id$ */
 /**************************************************************************
  *   winio.c                                                              *
@@ -328,6 +329,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
     *meta_key = FALSE;
     *func_key = FALSE;
+    const sc *s;
 
     /* Read in a character. */
     while ((kbinput = get_input(win, 1)) == NULL);
@@ -492,49 +494,100 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			NANO_BACKSPACE_KEY;
 		break;
 	    case KEY_DOWN:
-		retval = NANO_NEXTLINE_KEY;
+#ifdef KEY_SDOWN
+	    /* ncurses and Slang don't support KEY_SDOWN. */
+	    case KEY_SDOWN:
+#endif
+		s = first_sc_for(currmenu, (void *) do_down_void);
+                if (s) 
+		     retval = s->seq;
 		break;
 	    case KEY_UP:
-		retval = NANO_PREVLINE_KEY;
+#ifdef KEY_SUP
+	    /* ncurses and Slang don't support KEY_SUP. */
+	    case KEY_SUP:
+#endif
+		s = first_sc_for(currmenu, (void *) do_up_void);
+                if (s) 
+		     retval = s->seq;
 		break;
 	    case KEY_LEFT:
-		retval = NANO_BACK_KEY;
+#ifdef KEY_SLEFT
+	    /* Slang doesn't support KEY_SLEFT. */
+	    case KEY_SLEFT:
+#endif
+		s = first_sc_for(currmenu, (void *) do_up_void);
+                if (s) 
+		     retval = s->seq;
 		break;
 	    case KEY_RIGHT:
-		retval = NANO_FORWARD_KEY;
+#ifdef KEY_SRIGHT
+	    /* Slang doesn't support KEY_SRIGHT. */
+	    case KEY_SRIGHT:
+#endif
+		s = first_sc_for(currmenu, (void *) do_right);
+                if (s) 
+		     retval = s->seq;
 		break;
 #ifdef KEY_HOME
 	    /* HP-UX 10-11 doesn't support KEY_HOME. */
 	    case KEY_HOME:
-		retval = NANO_HOME_KEY;
-		break;
 #endif
-	    case KEY_BACKSPACE:
-		retval = NANO_BACKSPACE_KEY;
-		break;
-	    case KEY_DC:
-		retval = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
-			NANO_DELETE_KEY;
-		break;
-	    case KEY_IC:
-		retval = NANO_INSERTFILE_KEY;
-		break;
-	    case KEY_NPAGE:
-		retval = NANO_NEXTPAGE_KEY;
-		break;
-	    case KEY_PPAGE:
-		retval = NANO_PREVPAGE_KEY;
-		break;
-	    case KEY_ENTER:
-		retval = NANO_ENTER_KEY;
-		break;
+#ifdef KEY_SHOME
+	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
+	    case KEY_SHOME:
+#endif
 	    case KEY_A1:	/* Home (7) on numeric keypad with
 				 * NumLock off. */
-		retval = NANO_HOME_KEY;
+		s = first_sc_for(currmenu, (void *) do_home);
+                if (s) 
+		     retval = s->seq;
 		break;
+	    case KEY_BACKSPACE:
+		s = first_sc_for(currmenu, (void *) do_backspace);
+                if (s) 
+		     retval = s->seq;
+		break;
+	    case KEY_DC:
+#ifdef KEY_SDC
+	    /* Slang doesn't support KEY_SDC. */
+	    case KEY_SDC:
+#endif
+		if (ISSET(REBIND_DELETE))
+		    s = first_sc_for(currmenu, (void *) do_delete);
+		else
+		    s = first_sc_for(currmenu, (void *) do_backspace);
+
+                if (s) 
+		     retval = s->seq;
+		break;
+	    case KEY_IC:
+#ifdef KEY_SIC
+	    /* Slang doesn't support KEY_SIC. */
+	    case KEY_SIC:
+#endif
+		s = first_sc_for(currmenu, (void *) do_insertfile_void);
+                if (s) 
+		     retval = s->seq;
+		break;
+	    case KEY_NPAGE:
+	    case KEY_C3:	/* PageDown (4) on numeric keypad with
+				 * NumLock off. */
+		s = first_sc_for(currmenu, (void *) do_page_down);
+                if (s) 
+		     retval = s->seq;
+		break;
+	    case KEY_PPAGE:
 	    case KEY_A3:	/* PageUp (9) on numeric keypad with
 				 * NumLock off. */
-		retval = NANO_PREVPAGE_KEY;
+		s = first_sc_for(currmenu, (void *) do_page_up);
+                if (s) 
+		     retval = s->seq;
+		break;
+	    case KEY_ENTER:
+		s = first_sc_for(currmenu, (void *) do_enter);
+                if (s) 
+		     retval = s->seq;
 		break;
 	    case KEY_B2:	/* Center (5) on numeric keypad with
 				 * NumLock off. */
@@ -542,11 +595,17 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		break;
 	    case KEY_C1:	/* End (1) on numeric keypad with
 				 * NumLock off. */
-		retval = NANO_END_KEY;
-		break;
-	    case KEY_C3:	/* PageDown (4) on numeric keypad with
-				 * NumLock off. */
-		retval = NANO_NEXTPAGE_KEY;
+#ifdef KEY_END
+	    /* HP-UX 10-11 doesn't support KEY_END. */
+	    case KEY_END:
+#endif
+#ifdef KEY_SEND
+	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
+	    case KEY_SEND:
+#endif
+		s = first_sc_for(currmenu, (void *) do_end);
+                if (s) 
+		     retval = s->seq;
 		break;
 #ifdef KEY_BEG
 	    /* Slang doesn't support KEY_BEG. */
@@ -558,13 +617,11 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #ifdef KEY_CANCEL
 	    /* Slang doesn't support KEY_CANCEL. */
 	    case KEY_CANCEL:
-		retval = NANO_CANCEL_KEY;
-		break;
+#ifdef KEY_SCANCEL
+	    /* Slang doesn't support KEY_SCANCEL. */
+	    case KEY_SCANCEL:
 #endif
-#ifdef KEY_END
-	    /* HP-UX 10-11 doesn't support KEY_END. */
-	    case KEY_END:
-		retval = NANO_END_KEY;
+		retval = first_sc_for(currmenu, (void *) cancel_msg)->seq;
 		break;
 #endif
 #ifdef KEY_SBEG
@@ -572,61 +629,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    case KEY_SBEG:	/* Center (5) on numeric keypad with
 				 * NumLock off. */
 		retval = ERR;
-		break;
-#endif
-#ifdef KEY_SCANCEL
-	    /* Slang doesn't support KEY_SCANCEL. */
-	    case KEY_SCANCEL:
-		retval = NANO_CANCEL_KEY;
-		break;
-#endif
-#ifdef KEY_SDC
-	    /* Slang doesn't support KEY_SDC. */
-	    case KEY_SDC:
-		retval = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
-			NANO_DELETE_KEY;
-		break;
-#endif
-#ifdef KEY_SEND
-	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
-	    case KEY_SEND:
-		retval = NANO_END_KEY;
-		break;
-#endif
-#ifdef KEY_SHOME
-	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
-	    case KEY_SHOME:
-		retval = NANO_HOME_KEY;
-		break;
-#endif
-#ifdef KEY_SIC
-	    /* Slang doesn't support KEY_SIC. */
-	    case KEY_SIC:
-		retval = NANO_INSERTFILE_KEY;
-		break;
-#endif
-#ifdef KEY_SDOWN
-	    /* ncurses and Slang don't support KEY_SDOWN. */
-	    case KEY_SDOWN:
-		retval = NANO_NEXTLINE_KEY;
-		break;
-#endif
-#ifdef KEY_SUP
-	    /* ncurses and Slang don't support KEY_SUP. */
-	    case KEY_SUP:
-		retval = NANO_PREVLINE_KEY;
-		break;
-#endif
-#ifdef KEY_SLEFT
-	    /* Slang doesn't support KEY_SLEFT. */
-	    case KEY_SLEFT:
-		retval = NANO_BACK_KEY;
-		break;
-#endif
-#ifdef KEY_SRIGHT
-	    /* Slang doesn't support KEY_SRIGHT. */
-	    case KEY_SRIGHT:
-		retval = NANO_FORWARD_KEY;
 		break;
 #endif
 #ifdef KEY_SSUSPEND
@@ -1639,6 +1641,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 {
     MEVENT mevent;
     bool in_bottomwin;
+    subnfunc *f;
 
     *mouse_x = -1;
     *mouse_y = -1;
@@ -1670,9 +1673,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    size_t currslen;
 		/* The number of shortcuts in the current shortcut
 		 * list. */
-	    const shortcut *s;
-		/* The actual shortcut we released on, starting at the
-		 * first one in the current shortcut list. */
 
 	    /* Translate the mouse event coordinates so that they're
 	     * relative to bottomwin. */
@@ -1694,10 +1694,10 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    j = *mouse_y - 1;
 
 	    /* Get the shortcut lists' length. */
-	    if (currshortcut == main_list)
+	    if (currmenu == MMAIN)
 		currslen = MAIN_VISIBLE;
 	    else {
-		currslen = length_of_list(currshortcut);
+		currslen = length_of_list(currmenu);
 
 		/* We don't show any more shortcuts than the main list
 		 * does. */
@@ -1730,20 +1730,16 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 
 	    /* Go through the shortcut list to determine which shortcut
 	     * we released/clicked on. */
-	    s = currshortcut;
+	    f = allfuncs;
 
 	    for (; j > 0; j--)
-		s = s->next;
+                while (f != NULL && (f->menus & currmenu) != 0)
+		     f = f->next;
 
-	    /* And put back the equivalent key.  Assume that each
-	     * shortcut has, at the very least, an equivalent control
-	     * key, an equivalent primary meta key sequence, or both. */
-	    if (s->ctrlval != NANO_NO_KEY) {
-		unget_kbinput(s->ctrlval, FALSE, FALSE);
-		return 1;
-	    } else if (s->metaval != NANO_NO_KEY) {
-		unget_kbinput(s->metaval, TRUE, FALSE);
-		return 1;
+	    /* And put back the equivalent key. */
+	    if (f != NULL) {
+                const sc *s = first_sc_for(currmenu, (void *) f->scfunc);
+		unget_kbinput(s->seq, s->type == META, FALSE);
 	    }
 	} else
 	    /* Handle releases/clicks of the first mouse button that
@@ -1795,53 +1791,29 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
  * example, passing in a meta key sequence that corresponds to a
  * function with a control key, a function key, and a meta key sequence
  * will return the control key corresponding to that function. */
-const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
+const sc *get_shortcut(int menu, int *kbinput, bool
 	*meta_key, bool *func_key)
 {
-    const shortcut *s = s_list;
-    size_t slen = length_of_list(s_list);
+    sc *s;
 
 #ifdef DEBUG
     fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s, func_key = %s\n", *kbinput, *meta_key ? "TRUE" : "FALSE", *func_key ? "TRUE" : "FALSE");
 #endif
 
     /* Check for shortcuts. */
-    for (; slen > 0; slen--) {
-	/* We've found a shortcut if:
-	 *
-	 * 1. The key exists.
-	 * 2. The key is a control key in the shortcut list.
-	 * 3. meta_key is TRUE and the key is the primary or
-	 *    miscellaneous meta sequence in the shortcut list.
-	 * 4. func_key is TRUE and the key is a function key in the
-	 *    shortcut list. */
-
-	if (*kbinput != NANO_NO_KEY && (*kbinput == s->ctrlval ||
-		(*meta_key && (*kbinput == s->metaval || *kbinput ==
-		s->miscval)) || (*func_key && *kbinput ==
-		s->funcval))) {
-	    break;
-	}
-
-	s = s->next;
-    }
-
-    /* Translate the shortcut to either its control key or its meta key
-     * equivalent.  Assume that the shortcut has an equivalent control
-     * key, an equivalent primary meta key sequence, or both. */
-    if (slen > 0) {
-	if (s->ctrlval != NANO_NO_KEY) {
-	    *meta_key = FALSE;
-	    *func_key = FALSE;
-	    *kbinput = s->ctrlval;
-	    return s;
-	} else if (s->metaval != NANO_NO_KEY) {
-	    *meta_key = TRUE;
-	    *func_key = FALSE;
-	    *kbinput = s->metaval;
+    for (s = sclist; s != NULL; s = s->next) {
+        if ((menu & s->menu)
+		&& ((s->type == META && *meta_key == TRUE && *kbinput == s->seq)
+		|| (s->type != META && *kbinput == s->seq))) {
+#ifdef DEBUG
+	    fprintf (stderr, "matched seq \"%s\" and btw meta was %d (menus %d = %d)\n", s->keystr, *meta_key, menu, s->menu);
+#endif
 	    return s;
 	}
     }
+#ifdef DEBUG
+    fprintf (stderr, "matched nothing btw meta was %d\n", *meta_key);
+#endif
 
     return NULL;
 }
@@ -2375,19 +2347,21 @@ void statusbar(const char *msg, ...)
 
 /* Display the shortcut list in s on the last two rows of the bottom
  * portion of the window. */
-void bottombars(const shortcut *s)
+void bottombars(int menu)
 {
     size_t i, colwidth, slen;
+    subnfunc *f;
+    const sc *s;
 
     if (ISSET(NO_HELP))
 	return;
 
-    if (s == main_list) {
+    if (menu == MMAIN) {
 	slen = MAIN_VISIBLE;
 
-	assert(slen <= length_of_list(s));
+	assert(slen <= length_of_list(menu));
     } else {
-	slen = length_of_list(s);
+	slen = length_of_list(menu);
 
 	/* Don't show any more shortcuts than the main list does. */
 	if (slen > MAIN_VISIBLE)
@@ -2402,26 +2376,34 @@ void bottombars(const shortcut *s)
 
     blank_bottombars();
 
-    for (i = 0; i < slen; i++, s = s->next) {
-	const char *keystr;
-	char foo[4] = "";
+#ifdef DEBUG
+    fprintf(stderr, "In bottombars, and slen == \"%d\"\n", (int) slen);
+#endif
 
-	/* Yucky sentinel values that we can't handle a better way. */
-	if (s->ctrlval == NANO_CONTROL_SPACE)
-	    strcpy(foo, "^ ");
-	else if (s->ctrlval == NANO_CONTROL_8)
-	    strcpy(foo, "^?");
-	/* Normal values.  Assume that the shortcut has an equivalent
-	 * control key, meta key sequence, or both. */
-	else if (s->ctrlval != NANO_NO_KEY)
-	    sprintf(foo, "^%c", s->ctrlval + 64);
-	else if (s->metaval != NANO_NO_KEY)
-	    sprintf(foo, "M-%c", toupper(s->metaval));
+    for (f = allfuncs, i = 0; i < slen && f != NULL; f = f->next) {
 
-	keystr = foo;
+#ifdef DEBUG
+        fprintf(stderr, "Checking menu items....");
+#endif
+        if ((f->menus & menu) == 0)
+	    continue;
 
+#ifdef DEBUG
+        fprintf(stderr, "found one! f->menus = %d\n", f->menus);
+#endif
+        s = first_sc_for(menu, f->scfunc);
+        if (s == NULL) {
+#ifdef DEBUG
+	    fprintf(stderr, "Whoops, guess not, no shortcut key found for func!\n");
+#endif
+            continue;
+        }
 	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
-	onekey(keystr, s->desc, colwidth + (COLS % colwidth));
+#ifdef DEBUG
+        fprintf(stderr, "Calling onekey with keystr \"%s\" and desc \"%s\"\n", s->keystr, f->desc);
+#endif
+	onekey(s->keystr, f->desc, colwidth + (COLS % colwidth));
+        i++;
     }
 
     wnoutrefresh(bottomwin);
@@ -3184,14 +3166,14 @@ void total_refresh(void)
     total_redraw();
     titlebar(NULL);
     edit_refresh();
-    bottombars(currshortcut);
+    bottombars(currmenu);
 }
 
 /* Display the main shortcut list on the last two rows of the bottom
  * portion of the window. */
 void display_main_list(void)
 {
-    bottombars(main_list);
+    bottombars(MMAIN);
 }
 
 /* If constant is TRUE, we display the current cursor position only if

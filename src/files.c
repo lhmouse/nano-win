@@ -731,9 +731,9 @@ void do_insertfile(
 		TRUE,
 #endif
 #ifndef NANO_TINY
-		execute ? extcmd_list :
+		execute ? MEXTCMD :
 #endif
-		insertfile_list, ans,
+		MINSERTFILE, ans,
 #ifndef NANO_TINY
 		NULL,
 #endif
@@ -1814,7 +1814,7 @@ bool do_writeout(bool exiting)
 #endif
     bool retval = FALSE;
 
-    currshortcut = writefile_list;
+    currmenu = MWRITEFILE;
 
     if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
 	retval = write_file(openfile->filename, NULL, FALSE, OVERWRITE,
@@ -1865,7 +1865,7 @@ bool do_writeout(bool exiting)
 #ifndef DISABLE_TABCOMP
 		TRUE,
 #endif
-		writefile_list, ans,
+		MWRITEFILE, ans,
 #ifndef NANO_TINY
 		NULL,
 #endif

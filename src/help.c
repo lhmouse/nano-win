@@ -47,13 +47,15 @@ void do_help(void (*refresh_func)(void))
 	/* The line number in help_text of the last help line.  This
 	 * variable is zero-based. */
 #ifndef DISABLE_MOUSE
-    const shortcut *oldshortcut = currshortcut;
 	/* The current shortcut list. */
+    int oldmenu = currmenu;
 #endif
     const char *ptr;
 	/* The current line of the help text. */
     size_t old_line = (size_t)-1;
 	/* The line we were on before the current line. */
+    const sc *s;
+    const subnfunc *f;
 
     curs_set(0);
     blank_edit();
@@ -66,9 +68,9 @@ void do_help(void (*refresh_func)(void))
     assert(help_text != NULL);
 
 #ifndef DISABLE_MOUSE
-    /* Set currshortcut to allow clicking on the help screen's shortcut
+    /* Set currmenu to allow clicking on the help screen's shortcut
      * list, after help_init() is called. */
-    currshortcut = help_list;
+    currmenu = MHELP;
 #endif
 
     if (ISSET(NO_HELP)) {
@@ -78,7 +80,7 @@ void do_help(void (*refresh_func)(void))
 	window_init();
     }
 
-    bottombars(help_list);
+    bottombars(MHELP);
     wnoutrefresh(bottomwin);
 
     /* Get the last line of the help text. */
@@ -127,57 +129,57 @@ void do_help(void (*refresh_func)(void))
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_help_input(&kbinput, &meta_key, &func_key);
 
-	switch (kbinput) {
+        s = get_shortcut(MMAIN, &kbinput, &meta_key, &func_key);
+	if (!s)
+	    continue;
+        f = sctofunc(s);
+	if (!f)
+	    continue;
+
+
+        if (f->scfunc == (void *) do_mouse) {
 #ifndef DISABLE_MOUSE
-	    case KEY_MOUSE:
-		{
 		    int mouse_x, mouse_y;
 
 		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
-		}
-		break;
 #endif
 	    /* Redraw the screen. */
-	    case NANO_REFRESH_KEY:
+	} else if (f->scfunc == total_refresh) {
 		total_redraw();
 		break;
-	    case NANO_PREVPAGE_KEY:
+	} else if (f->scfunc == do_page_up) {
 		if (line > editwinrows - 2)
 		    line -= editwinrows - 2;
 		else
 		    line = 0;
-		break;
-	    case NANO_NEXTPAGE_KEY:
+	} else if (f->scfunc == do_page_down) {
 		if (line + (editwinrows - 1) < last_line)
 		    line += editwinrows - 2;
-		break;
-	    case NANO_PREVLINE_KEY:
+	} else if (f->scfunc == do_up_void) {
 		if (line > 0)
 		    line--;
-		break;
-	    case NANO_NEXTLINE_KEY:
+	} else if (f->scfunc == do_down_void) {
 		if (line + (editwinrows - 1) < last_line)
 		    line++;
-		break;
-	    case NANO_FIRSTLINE_METAKEY:
+	} else if (f->scfunc == do_first_line) {
 		if (meta_key)
 		    line = 0;
 		break;
-	    case NANO_LASTLINE_METAKEY:
+	} else if (f->scfunc == do_last_line) {
 		if (meta_key) {
 		    if (line + (editwinrows - 1) < last_line)
 			line = last_line - (editwinrows - 1);
 		}
 		break;
 	    /* Abort the help browser. */
-	    case NANO_EXIT_KEY:
+	} else if (f->scfunc == do_exit) {
 		abort = TRUE;
 		break;
 	}
     }
 
 #ifndef DISABLE_MOUSE
-    currshortcut = oldshortcut;
+    currmenu = oldmenu;
 #endif
 
     if (old_no_help) {
@@ -186,7 +188,7 @@ void do_help(void (*refresh_func)(void))
 	SET(NO_HELP);
 	window_init();
     } else
-	bottombars(currshortcut);
+	bottombars(currmenu);
 
     curs_set(1);
     refresh_func();
@@ -222,9 +224,11 @@ void help_init(void)
 				 * full string is too long for the
 				 * compiler to handle. */
     char *ptr;
-    const shortcut *s;
+    const subnfunc *f;
+    const sc *s;
+    int scsfound = 0;
+
 #ifndef NANO_TINY
-    const toggle *t;
 #ifdef ENABLE_NANORC
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 
@@ -233,8 +237,7 @@ void help_init(void)
 #endif
 
     /* First, set up the initial help text for the current function. */
-    if (currshortcut == whereis_list || currshortcut == replace_list ||
-	currshortcut == replace_list_2) {
+    if (currmenu == MWHEREIS || currmenu == MREPLACE || currmenu == MREPLACE2) {
 	htx[0] = N_("Search Command Help Text\n\n "
 		"Enter the words or characters you would like to "
 		"search for, and then press Enter.  If there is a "
@@ -249,7 +252,7 @@ void help_init(void)
 		"will be replaced.\n\n The following function keys are "
 		"available in Search mode:\n\n");
 	htx[2] = NULL;
-    } else if (currshortcut == gotoline_list) {
+    } else if (currmenu == MGOTOLINE) {
 	htx[0] = N_("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
 		"Enter.  If there are fewer lines of text than the "
@@ -258,7 +261,7 @@ void help_init(void)
 		"available in Go To Line mode:\n\n");
 	htx[1] = NULL;
 	htx[2] = NULL;
-    } else if (currshortcut == insertfile_list) {
+    } else if (currmenu == MINSERTFILE) {
 	htx[0] = N_("Insert File Help Text\n\n "
 		"Type in the name of a file to be inserted into the "
 		"current file buffer at the current cursor "
@@ -273,7 +276,7 @@ void help_init(void)
 		"the prompt and press Enter.\n\n The following "
 		"function keys are available in Insert File mode:\n\n");
 	htx[2] = NULL;
-    } else if (currshortcut == writefile_list) {
+    } else if (currmenu == MWRITEFILE) {
 	htx[0] = N_("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
 		"as and press Enter to save the file.\n\n If you have "
@@ -287,7 +290,7 @@ void help_init(void)
 	htx[2] = NULL;
     }
 #ifndef DISABLE_BROWSER
-    else if (currshortcut == browser_list) {
+    else if (currmenu == MBROWSER) {
 	htx[0] = N_("File Browser Help Text\n\n "
 		"The file browser is used to visually browse the "
 		"directory structure to select a file for reading "
@@ -300,7 +303,7 @@ void help_init(void)
 		"in the file browser:\n\n");
 	htx[1] = NULL;
 	htx[2] = NULL;
-    } else if (currshortcut == whereis_file_list) {
+    } else if (currmenu == MWHEREISFILE) {
 	htx[0] = N_("Browser Search Command Help Text\n\n "
 		"Enter the words or characters you would like to "
 		"search for, and then press Enter.  If there is a "
@@ -313,7 +316,7 @@ void help_init(void)
 	htx[1] = N_(" The following function keys are available in "
 		"Browser Search mode:\n\n");
 	htx[2] = NULL;
-    } else if (currshortcut == gotodir_list) {
+    } else if (currmenu == MGOTODIR) {
 	htx[0] = N_("Browser Go To Directory Help Text\n\n "
 		"Enter the name of the directory you would like to "
 		"browse to.\n\n If tab completion has not been "
@@ -326,7 +329,7 @@ void help_init(void)
     }
 #endif /* !DISABLE_BROWSER */
 #ifndef DISABLE_SPELLER
-    else if (currshortcut == spell_list) {
+    else if (currmenu == MSPELL) {
 	htx[0] = N_("Spell Check Help Text\n\n "
 		"The spell checker checks the spelling of all text in "
 		"the current file.  When an unknown word is "
@@ -341,7 +344,7 @@ void help_init(void)
     }
 #endif /* !DISABLE_SPELLER */
 #ifndef NANO_TINY
-    else if (currshortcut == extcmd_list) {
+    else if (currmenu == MEXTCMD) {
 	htx[0] = N_("Execute Command Help Text\n\n "
 		"This mode allows you to insert the output of a "
 		"command run by the shell into the current buffer (or "
@@ -397,18 +400,21 @@ void help_init(void)
     /* Count the shortcut help text.  Each entry has up to three keys,
      * which fill 24 columns, plus translated text, plus one or two
      * \n's. */
-	for (s = currshortcut; s != NULL; s = s->next)
-	    allocsize += (24 * mb_cur_max()) + strlen(s->help) + 2;
+	for (f = allfuncs; f != NULL; f = f->next)
+            if (f->menus & currmenu)
+		allocsize += (24 * mb_cur_max()) + strlen(f->help) + 2;
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
      * Each entry has "M-%c\t\t\t", which fills 24 columns, plus a
      * space, plus translated text, plus one or two '\n's. */
-    if (currshortcut == main_list) {
+    if (currmenu == MMAIN) {
 	size_t endis_len = strlen(_("enable/disable"));
 
-	for (t = toggles; t != NULL; t = t->next)
-	    allocsize += strlen(t->desc) + endis_len + 9;
+	for (s = sclist; s != NULL; s = s->next)
+            if (s->scfunc == (void *) do_toggle)
+		allocsize += strlen(flagtostr(s->toggle)) + endis_len + 9;
+
     }
 #endif
 
@@ -429,131 +435,55 @@ void help_init(void)
 
     ptr = help_text + strlen(help_text);
 
-    /* Now add our shortcut info.  Assume that each shortcut has, at the
-     * very least, an equivalent control key, an equivalent primary meta
-     * key sequence, or both.  Also assume that the meta key values are
-     * not control characters.  We can display a maximum of three
-     * shortcut entries. */
-    for (s = currshortcut; s != NULL; s = s->next) {
-	int entries = 0;
+    /* Now add our shortcut info. */
+    for (f = allfuncs; f != NULL; f = f->next) {
 
-	/* Control key. */
-	if (s->ctrlval != NANO_NO_KEY) {
-	    entries++;
-	    /* Yucky sentinel values that we can't handle a better
-	     * way. */
-	    if (s->ctrlval == NANO_CONTROL_SPACE) {
-		char *space_ptr = display_string(_("Space"), 0, 14,
-			FALSE);
+        if ((f->menus & currmenu) == 0)
+	    continue;
 
-		if (s->funcval == NANO_NO_KEY && (s->metaval ==
-			NANO_NO_KEY || s->miscval == NANO_NO_KEY)) {
-		    /* If we're here, we have at least two entries worth
-		     * of blank space.  If this entry takes up more than
-		     * one entry's worth of space, use two to display
-		     * it. */
-		    if (mbstrlen(space_ptr) > 6)
-			entries++;
-		} else
-		    /* Otherwise, truncate it so that it takes up only
-		     * one entry's worth of space. */
-		    space_ptr[6] = '\0';
+        if (!f->desc || !strcmp(f->desc, ""))
+	    continue;
 
-		ptr += sprintf(ptr, "^%s", space_ptr);
+        /* Lets just try and use the first 3 shortcuts
+           from the new struct... */
+        for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
 
-		free(space_ptr);
-	    } else if (s->ctrlval == NANO_CONTROL_8)
-		ptr += sprintf(ptr, "^?");
-	    /* Normal values. */
-	    else
-		ptr += sprintf(ptr, "^%c", s->ctrlval + 64);
-	    *(ptr++) = '\t';
-	}
+            if (scsfound == 3)
+		continue;
 
-	/* Function key. */
-	if (s->funcval != NANO_NO_KEY) {
-	    entries++;
-	    /* If this is the first entry, put it in the middle. */
-	    if (entries == 1) {
-		entries++;
+	    if ((s->menu & currmenu) == 0)
+		continue;
+
+            if (s->scfunc == f->scfunc) {
+		scsfound++;
+
+		if (scsfound == 1)
+		    ptr += sprintf(ptr, "%s", s->keystr);
+		else
+		    ptr += sprintf(ptr, "(%s)", s->keystr);
 		*(ptr++) = '\t';
 	    }
-	    ptr += sprintf(ptr, "(F%d)", s->funcval - KEY_F0);
-	    *(ptr++) = '\t';
 	}
-
-	/* Primary meta key sequence.  If it's the first entry, don't
-	 * put parentheses around it. */
-	if (s->metaval != NANO_NO_KEY) {
-	    entries++;
-	    /* If this is the last entry, put it at the end. */
-	    if (entries == 2 && s->miscval == NANO_NO_KEY) {
-		entries++;
-		*(ptr++) = '\t';
-	    }
-	    /* Yucky sentinel values that we can't handle a better
-	     * way. */
-	    if (s->metaval == NANO_META_SPACE && entries == 1) {
-		char *space_ptr = display_string(_("Space"), 0, 13,
-			FALSE);
-
-		/* If we're here, we have at least two entries worth of
-		 * blank space.  If this entry takes up more than one
-		 * entry's worth of space, use two to display it. */
-		if (mbstrlen(space_ptr) > 5)
-		    entries++;
-
-		ptr += sprintf(ptr, "M-%s", space_ptr);
-
-		free(space_ptr);
-	    } else
-		/* Normal values. */
-		ptr += sprintf(ptr, (entries == 1) ? "M-%c" : "(M-%c)",
-			toupper(s->metaval));
+	/* Pad with tabs if we didnt find 3 */
+        for (; scsfound < 3; scsfound++) {
 	    *(ptr++) = '\t';
-	}
-
-	/* Miscellaneous meta key sequence. */
-	if (entries < 3 && s->miscval != NANO_NO_KEY) {
-	    entries++;
-	    /* If this is the last entry, put it at the end. */
-	    if (entries == 2) {
-		entries++;
-		*(ptr++) = '\t';
-	    }
-	    ptr += sprintf(ptr, "(M-%c)", toupper(s->miscval));
-	    *(ptr++) = '\t';
-	}
-
-	/* If this entry isn't blank, make sure all the help text starts
-	 * at the same place. */
-	if (s->ctrlval != NANO_NO_KEY || s->funcval != NANO_NO_KEY ||
-		s->metaval != NANO_NO_KEY || s->miscval !=
-		NANO_NO_KEY) {
-	    while (entries < 3) {
-		entries++;
-		*(ptr++) = '\t';
-	    }
 	}
 
 	/* The shortcut's help text. */
-	ptr += sprintf(ptr, "%s\n", s->help);
+	ptr += sprintf(ptr, "%s\n", f->help);
 
-	if (s->blank_after)
+	if (f->blank_after)
 	    ptr += sprintf(ptr, "\n");
     }
 
 #ifndef NANO_TINY
     /* And the toggles... */
-    if (currshortcut == main_list) {
-	for (t = toggles; t != NULL; t = t->next) {
-	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n",
-		toupper(t->val), t->desc, _("enable/disable"));
+    if (currmenu == MMAIN)
+        for (s = sclist; s != NULL; s = s->next)
+            if (s->scfunc == (void *) do_toggle)
+		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
+		    s->keystr, flagtostr(s->toggle), _("enable/disable"));
 
-	    if (t->blank_after)
-		ptr += sprintf(ptr, "\n");
-	}
-    }
 
 #ifdef ENABLE_NANORC
     if (old_whitespace)
@@ -573,7 +503,7 @@ void help_init(void)
  * shortcut keys. */
 void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 {
-    get_shortcut(help_list, kbinput, meta_key, func_key);
+    get_shortcut(MHELP, kbinput, meta_key, func_key);
 
     if (!*meta_key) {
 	switch (*kbinput) {
