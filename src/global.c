@@ -318,6 +318,13 @@ void assign_keyinfo(sc *s)
         s->seq = KEY_F0 + atoi(&s->keystr[1]);
     } else /* raw */
         s->seq = (int) s->keystr[0];
+
+    /* Override some keys which don't bind as nicely as we'd like */
+    if (s->type == CONTROL && (!strcasecmp(&s->keystr[1], "space")))
+	s->seq = 0;
+    else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
+	s->seq = (int) ' ';
+
 }
 
 #ifdef DEBUG
