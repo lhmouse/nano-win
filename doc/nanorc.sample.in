@@ -213,6 +213,15 @@
 ##
 ## All regexes should be extended regular expressions.
 
+## Key bindings
+## Please see nanorc(5) for more details on this
+##
+## Here are some samples to get you going
+##
+# bind M-W nowrap main
+# bind M-A casesens search
+# bind ^S research main
+
 
 ## Nanorc files
 # include "@PKGDATADIR@/nanorc.nanorc"

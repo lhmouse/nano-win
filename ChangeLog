@@ -1,3 +1,10 @@
+2008-03-04  Chris Allegretta <chrisa@asty.org
+	* everything - New shortcut backend.  New structs subnfunc
+	for menu functions and toggles and sc for shortcut keys, old 
+	'shortcut' and 'toggles' structs are gone.  The current implementation 
+	has a bunch of broken stuff (some of which is documented in BUGS). 
+	Updated nanorc.5 with some mostly complete documentation on configuring.
+
 2007-12-20  David Lawrence Ramsey  <pooka109@gmail.com>
 
 	* AUTHORS, doc/faq.html: Update maintenance information.
