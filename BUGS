@@ -1,14 +1,10 @@
 ** Open BUGS **
 - Cutting the line at the top of the screen recenters to center (71)
-- F-keys do not work with new shortcut backend (72)
 - Many menu items are probably missing from the new backend (73)
-- Need a 'check-vitals-mapped' function to check that the end used didn't
-  unbind all the keys for exit or cancel before starting up the editor (74)
 - Browser and prompt code still implement old switch on raw key input instead
   of new if block for subnfunc values (75)
 - New backend code probably does not compile under anything but default options, 
   if that (76)
-- -enable-tiny does not work with new code (78)
 
 
 ** Fixed BUGS **
@@ -151,5 +147,9 @@
   prompt (bug found by Ian Turner) (69) [1.0 series only] [FIXED].
 - Trying to insert a file of 0 bytes will hang nano (70) [FIXED].
 - Meta-space and ^Space are not yet handled  in new backend code (77) [FIXED]
+- F-keys do not work with new shortcut backend (72) [FIXED]
+- Need a 'check-vitals-mapped' function to check that the end used didn't
+  unbind all the keys for exit or cancel before starting up the editor (74) [FIXED]
+- -enable-tiny does not work with new code (78) [FIXED]
 
 $Id$
