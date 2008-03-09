@@ -129,10 +129,10 @@ void do_help(void (*refresh_func)(void))
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_help_input(&kbinput, &meta_key, &func_key);
 
-        s = get_shortcut(MMAIN, &kbinput, &meta_key, &func_key);
+        s = get_shortcut(MHELP, &kbinput, &meta_key, &func_key);
 	if (!s)
 	    continue;
-        f = sctofunc(s);
+        f = sctofunc((sc *) s);
 	if (!f)
 	    continue;
 

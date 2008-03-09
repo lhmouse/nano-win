@@ -779,6 +779,7 @@ int strtomenu(char *input);
 void assign_keyinfo(sc *s);
 void xon_complaint(void);
 void xoff_complaint(void);
+int sc_seq_or (void *func, int defaultval);
 
 
 const char *cancel_msg;
@@ -789,6 +790,10 @@ const char *backwards_msg;
 const char *replace_msg;
 const char *no_replace_msg;
 const char *go_to_line_msg;
+const char *whereis_next_msg;
+const char *first_file_msg;
+const char *last_file_msg;
+const char *goto_dir_msg;
 
 #ifdef HAVE_REGEX_H
 const char *regexp_msg;

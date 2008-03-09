@@ -60,6 +60,8 @@ char *do_browser(char *path, DIR *dir)
 	/* The last answer the user typed at the statusbar prompt. */
     size_t old_selected;
 	/* The selected file we had before the current selected file. */
+    const sc *s;
+    const subnfunc *f;
 
     curs_set(0);
     blank_statusbar();
@@ -124,11 +126,15 @@ char *do_browser(char *path, DIR *dir)
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
-
-	switch (kbinput) {
+        s = get_shortcut(MBROWSER, &kbinput, &meta_key, &func_key);
+        if (!s)
+            continue;
+        f = sctofunc((sc *) s);
+        if (!f)
+            break;
 #ifndef DISABLE_MOUSE
-	    case KEY_MOUSE:
-		{
+        if (f->scfunc == (void *) do_mouse) {
+
 		    int mouse_x, mouse_y;
 
 		    /* We can click on the edit window to select a
@@ -158,55 +164,45 @@ char *do_browser(char *path, DIR *dir)
 			if (old_selected == selected)
 			    unget_kbinput(NANO_ENTER_KEY, FALSE, FALSE);
 		    }
-		}
-		break;
+	} else
 #endif /* !DISABLE_MOUSE */
-	    /* Redraw the screen. */
-	    case NANO_REFRESH_KEY:
+	if (f->scfunc == total_refresh) {
 		total_redraw();
-		break;
-	    case NANO_HELP_KEY:
+	} else if (f->scfunc == do_help_void) {
 #ifndef DISABLE_HELP
 		do_browser_help();
 		curs_set(0);
 #else
 		nano_disabled_msg();
 #endif
-		break;
 	    /* Search for a filename. */
-	    case NANO_WHEREIS_KEY:
+	} else if (f->scfunc == do_search) {
 		curs_set(1);
 		do_filesearch();
 		curs_set(0);
-		break;
 	    /* Search for another filename. */
-	    case NANO_WHEREIS_NEXT_KEY:
+	} else if (f->scfunc == (void *) whereis_next_msg) {
 		do_fileresearch();
-		break;
-	    case NANO_PREVPAGE_KEY:
+	} else if (f->scfunc == do_page_up) {
 		if (selected >= (editwinrows + fileline % editwinrows) *
 			width)
 		    selected -= (editwinrows + fileline % editwinrows) *
 			width;
 		else
 		    selected = 0;
-		break;
-	    case NANO_NEXTPAGE_KEY:
+	} else if (f->scfunc == do_page_down) {
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
 		if (selected > filelist_len - 1)
 		    selected = filelist_len - 1;
-		break;
-	    case NANO_FIRSTFILE_METAKEY:
+	} else if (f->scfunc == (void *) first_file_msg) {
 		if (meta_key)
 		    selected = 0;
-		break;
-	    case NANO_LASTFILE_METAKEY:
+	} else if (f->scfunc == (void *) last_file_msg) {
 		if (meta_key)
 		    selected = filelist_len - 1;
-		break;
 	    /* Go to a specific directory. */
-	    case NANO_GOTODIR_KEY:
+	} else if (f->scfunc == (void *) goto_dir_msg) {
 		curs_set(1);
 
 		i = do_prompt(TRUE,
@@ -285,23 +281,19 @@ char *do_browser(char *path, DIR *dir)
 		free(path);
 		path = new_path;
 		goto change_browser_directory;
-	    case NANO_PREVLINE_KEY:
+	} else if (f->scfunc == do_up_void) {
 		if (selected >= width)
 		    selected -= width;
-		break;
-	    case NANO_BACK_KEY:
+	} else if (f->scfunc == do_left) {
 		if (selected > 0)
 		    selected--;
-		break;
-	    case NANO_NEXTLINE_KEY:
+	} else if (f->scfunc == do_down_void) {
 		if (selected + width <= filelist_len - 1)
 		    selected += width;
-		break;
-	    case NANO_FORWARD_KEY:
+	} else if (f->scfunc == do_right) {
 		if (selected < filelist_len - 1)
 		    selected++;
-		break;
-	    case NANO_ENTER_KEY:
+	} else if (f->scfunc == do_enter) {
 		/* We can't move up from "/". */
 		if (strcmp(filelist[selected], "/..") == 0) {
 		    statusbar(_("Can't move up a directory"));
@@ -359,12 +351,10 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		goto change_browser_directory;
 	    /* Abort the file browser. */
-	    case NANO_EXIT_KEY:
+	} else if (f->scfunc == do_exit) {
 		abort = TRUE;
-		break;
 	}
     }
-
     titlebar(NULL);
     edit_refresh();
     curs_set(1);
@@ -558,31 +548,31 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     if (!*meta_key) {
 	switch (*kbinput) {
 	    case ' ':
-		*kbinput = NANO_NEXTPAGE_KEY;
+		*kbinput = sc_seq_or(do_page_down, 0);
 		break;
 	    case '-':
-		*kbinput = NANO_PREVPAGE_KEY;
+		*kbinput = sc_seq_or(do_page_up, 0);
 		break;
 	    case '?':
-		*kbinput = NANO_HELP_KEY;
+		*kbinput = sc_seq_or(do_help_void, 0);
 		break;
-	    /* Cancel is equivalent to Exit here. */
+	    /* Cancel equivalent to Exit here. */
 	    case NANO_CANCEL_KEY:
 	    case 'E':
 	    case 'e':
-		*kbinput = NANO_EXIT_KEY;
+		*kbinput = sc_seq_or(do_exit, 0);
 		break;
 	    case 'G':
 	    case 'g':
-		*kbinput = NANO_GOTODIR_KEY;
+		*kbinput = sc_seq_or((void *) goto_dir_msg, 0);
 		break;
 	    case 'S':
 	    case 's':
-		*kbinput = NANO_ENTER_KEY;
+		*kbinput = sc_seq_or(do_enter, 0);
 		break;
 	    case 'W':
 	    case 'w':
-		*kbinput = NANO_WHEREIS_KEY;
+		*kbinput = sc_seq_or(do_search, 0);
 		break;
 	}
     }

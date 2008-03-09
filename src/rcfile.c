@@ -423,8 +423,7 @@ void parse_keybinding(char *ptr)
        we found for the same menu, then make this new new
        beginning */
     for (s = sclist; s != NULL; s = s->next) {
-        if (((s->menu & newsc->menu) || newsc->menu == MALL) &&
-	   (s->seq == newsc->seq)) {
+        if (((s->menu & newsc->menu)) && s->seq == newsc->seq) {
 	    s->menu &= ~newsc->menu;
 #ifdef DEBUG
 	    fprintf(stderr, "replaced menu entry %d\n", s->menu);
@@ -934,6 +933,8 @@ void parse_rcfile(FILE *rcstream
     fclose(rcstream);
     lineno = 0;
 
+    check_vitals_mapped();
+
     if (errors) {
 	errors = FALSE;
 	fprintf(stderr,
@@ -1018,6 +1019,32 @@ void do_rcfile(void)
 #ifdef ENABLE_COLOR
     set_colorpairs();
 #endif
+}
+
+/* Check whether the user has unmapped every shortcut for a
+sequence we consider 'vital', like the exit function */
+int check_vitals_mapped(void)
+{
+    subnfunc *f;
+    int v;
+#define VITALS 5
+    void *vitals[VITALS] = { do_exit, do_exit, (void *) cancel_msg, (void *) cancel_msg, (void *) cancel_msg };
+    int inmenus[VITALS] = { MMAIN, MHELP, MWHEREIS, MREPLACE, MGOTOLINE };
+
+    for  (v = 0; v < VITALS; v++) {
+	for (f = allfuncs; f != NULL; f = f->next) {
+	    if (f->scfunc == vitals[v] && f->menus & inmenus[v]) {
+		const sc *s = first_sc_for(inmenus[v], f->scfunc);
+		if (!s) {
+		    rcfile_error(N_("Fatal error: no keys mapped for function \"%s\""),
+			f->desc);
+		    fprintf(stderr, N_("Exiting.  Please use nano with the -I option if needed to adjust your nanorc settings\n"));
+		    exit(1);
+		}
+	    break;
+	    }
+	}
+    }
 }
 
 #endif /* ENABLE_NANORC */
