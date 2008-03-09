@@ -249,12 +249,25 @@ void add_to_funcs(void *func, int menus, const char *desc, const char *help,
 
 const sc *first_sc_for(int menu, void *func) {
     const sc *s;
+    const sc *metasc = NULL;
 
     for (s = sclist; s != NULL; s = s->next) {
 	if ((s->menu & menu) && s->scfunc == func) {
+	    /* try to use a meta sequence as a last resort.  Otherwise
+	       we will run into problems when we try and handle things like
+	       the arrow keys, home, etc, if for some reason the user bound
+	       them to a meta sequence first *shrug* */
+	    if (s->type == META) {
+		metasc = s;
+		continue;
+	    } /* otherwise it was something else, use it */
 	    return s;
 	}
     }
+
+    /* If we're here we may have found only meta sequences, if so use one */
+    if (metasc)
+	return metasc->seq;
 
 #ifdef DEBUG
     fprintf(stderr, "Whoops, returning null given func %ld in menu %d\n", (long) func, menu);

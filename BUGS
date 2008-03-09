@@ -5,6 +5,10 @@
   of new if block for subnfunc values (75)
 - New backend code probably does not compile under anything but default options, 
   if that (76)
+- If a user only binds meta sequences to a function like left, right
+  page up/down, insert, and unbinds all other control and F keys for it,
+  nano will do the wrong thing when reading the key which is normally
+  assigned to it (79 - may not be worth fixing)
 
 
 ** Fixed BUGS **
