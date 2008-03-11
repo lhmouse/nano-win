@@ -521,10 +521,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #endif
 		retval = sc_seq_or((void *) do_right, *kbinput);
 		break;
-#ifdef KEY_HOME
-	    /* HP-UX 10-11 doesn't support KEY_HOME. */
-	    case KEY_HOME:
-#endif
 #ifdef KEY_SHOME
 	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
 	    case KEY_SHOME:
@@ -536,29 +532,25 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    case KEY_BACKSPACE:
 		retval = sc_seq_or((void *) do_backspace, *kbinput);
 		break;
-	    case KEY_DC:
 #ifdef KEY_SDC
 	    /* Slang doesn't support KEY_SDC. */
 	    case KEY_SDC:
-#endif
 		if (ISSET(REBIND_DELETE))
 		   retval = sc_seq_or((void *) do_delete, *kbinput);
 		else
 		   retval = sc_seq_or((void *) do_backspace, *kbinput);
 		break;
-	    case KEY_IC:
+#endif
 #ifdef KEY_SIC
 	    /* Slang doesn't support KEY_SIC. */
 	    case KEY_SIC:
-#endif
 		retval = sc_seq_or((void *) do_insertfile_void, *kbinput);
 		break;
-	    case KEY_NPAGE:
+#endif
 	    case KEY_C3:	/* PageDown (4) on numeric keypad with
 				 * NumLock off. */
 		retval = sc_seq_or((void *) do_page_down, *kbinput);
 		break;
-	    case KEY_PPAGE:
 	    case KEY_A3:	/* PageUp (9) on numeric keypad with
 				 * NumLock off. */
 		retval = sc_seq_or((void *) do_page_up, *kbinput);
@@ -572,10 +564,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		break;
 	    case KEY_C1:	/* End (1) on numeric keypad with
 				 * NumLock off. */
-#ifdef KEY_END
-	    /* HP-UX 10-11 doesn't support KEY_END. */
-	    case KEY_END:
-#endif
 #ifdef KEY_SEND
 	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	    case KEY_SEND:
@@ -2364,7 +2352,7 @@ void bottombars(int menu)
 	    continue;
 
 #ifdef DEBUG
-        fprintf(stderr, "found one! f->menus = %d\n", f->menus);
+        fprintf(stderr, "found one! f->menus = %d, desc = \"%s\"\n", f->menus, f->desc);
 #endif
         s = first_sc_for(menu, f->scfunc);
         if (s == NULL) {

@@ -400,16 +400,17 @@ void parse_keybinding(char *ptr)
     }
 
     newsc = strtosc(menu, funcptr);
-#ifdef DEBUG
-    fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
-	(int) newsc, (int) newsc->scfunc, menu);
-#endif
-
     if (newsc == NULL) {
 	rcfile_error(
 		N_("Could not map name \"%s\" to a function\n"), funcptr);
 	return;
     }
+#ifdef DEBUG
+    fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
+	(int) newsc, (int) newsc->scfunc, menu);
+#endif
+
+
     newsc->keystr = keycopy;
     newsc->menu = menu;
     newsc->type = strtokeytype(newsc->keystr);

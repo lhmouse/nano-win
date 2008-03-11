@@ -205,15 +205,14 @@ size_t length_of_list(int menu)
 /* Set type of function based on the string */
 function_type strtokeytype(char *str)
 {
-    if (str[0] ==  'M' || str[0] == 'm') {
+    if (str[0] ==  'M' || str[0] == 'm')
         return META;
-    } else if (str[0] == '^') {
+    else if (str[0] == '^')
         return CONTROL;
-    } else if (str[0] ==  'F' || str[0] == 'F') {
+    else if (str[0] ==  'F' || str[0] == 'F')
         return FKEY;
-    } else {
+    else
 	return RAW;
-    }
 }
 
 /* Add a string to the new function list strict.
@@ -267,7 +266,7 @@ const sc *first_sc_for(int menu, void *func) {
 
     /* If we're here we may have found only meta sequences, if so use one */
     if (metasc)
-	return metasc->seq;
+	return metasc;
 
 #ifdef DEBUG
     fprintf(stderr, "Whoops, returning null given func %ld in menu %d\n", (long) func, menu);
@@ -350,6 +349,32 @@ void assign_keyinfo(sc *s)
 	s->seq = 0;
     else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
 	s->seq = (int) ' ';
+    /* Note to translators: these strings are internal sentinel values,
+       and aren't presented to the user.  Don't translate them */
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kup")))
+	s->seq = KEY_UP;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kdown")))
+	s->seq = KEY_DOWN;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kleft")))
+	s->seq = KEY_LEFT;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kright")))
+	s->seq = KEY_RIGHT;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kinsert")))
+	s->seq = KEY_IC;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kdel")))
+	s->seq = KEY_DC;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kpup")))
+	s->seq = KEY_PPAGE;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kpdown")))
+	s->seq = KEY_NPAGE;
+#ifdef KEY_HOME
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "khome")))
+	s->seq = KEY_HOME;
+#endif
+#ifdef KEY_END
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kend")))
+	s->seq = KEY_END;
+#endif
 
 }
 
@@ -999,12 +1024,15 @@ void shortcut_init(bool unjustify)
 #endif
     add_to_sclist(MMAIN, "^R", do_insertfile_void, 0, TRUE);
     add_to_sclist(MMAIN, "F5", do_insertfile_void, 0, TRUE);
+    add_to_sclist(MMAIN, "kinsert", do_insertfile_void, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "^W", do_search, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "F6", do_search, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "^Y", do_page_up, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "F7", do_page_up, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "^V", do_page_down, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "F8", do_page_down, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "^Y", do_page_up, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "F7", do_page_up, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "kpup", do_page_up, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "^V", do_page_down, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "F8", do_page_down, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "kpdown", do_page_down, 0, TRUE);
     add_to_sclist(MMAIN, "^K", do_cut_text_void, 0, TRUE);
     add_to_sclist(MMAIN, "F9", do_cut_text_void, 0, TRUE);
     add_to_sclist(MMAIN, "^U", do_uncut_text, 0, TRUE);
@@ -1035,16 +1063,22 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-}", do_indent_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP, "^F", do_right, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP, "kright", do_right, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP, "^B", do_left, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP, "kleft", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
 #endif
     add_to_sclist(MALL, "^Q", xon_complaint, 0, TRUE);
     add_to_sclist(MALL, "^X", xoff_complaint, 0, TRUE);
     add_to_sclist(MALL, "^P", do_up_void, 0, TRUE);
+    add_to_sclist(MALL, "kup", do_up_void, 0, TRUE);
     add_to_sclist(MALL, "^N", do_down_void, 0, TRUE);
+    add_to_sclist(MALL, "kdown", do_down_void, 0, TRUE);
     add_to_sclist(MALL, "^A", do_home, 0, TRUE);
+    add_to_sclist(MALL, "khome", do_home, 0, TRUE);
     add_to_sclist(MALL, "^E", do_end, 0, TRUE);
+    add_to_sclist(MALL, "kend", do_end, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"^W", do_para_begin_void, 0, TRUE);
@@ -1097,6 +1131,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
     add_to_sclist(MALL, "^M", do_enter, 0, TRUE);
     add_to_sclist(MALL, "^D", do_delete, 0, TRUE);
+    add_to_sclist(MALL, "kdel", do_delete, 0, TRUE);
     add_to_sclist(MALL, "^H", do_backspace, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
@@ -1121,10 +1156,6 @@ void shortcut_init(bool unjustify)
 #endif
     add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR), 
 	"^C", (void *) cancel_msg, 0, FALSE);
-    add_to_sclist(MHELP|MBROWSER|MWHEREISFILE, "^Y", do_page_up, 0, TRUE);
-    add_to_sclist(MHELP|MBROWSER|MWHEREISFILE, "F7", do_page_up, 0, TRUE);
-    add_to_sclist(MHELP|MBROWSER|MWHEREISFILE, "^V", do_page_down, 0, TRUE);
-    add_to_sclist(MHELP|MBROWSER|MWHEREISFILE, "F8", do_page_down, 0, TRUE);
     add_to_sclist(MHELP, "^X", do_exit, 0, TRUE);
     add_to_sclist(MHELP, "F2", do_exit, 0, TRUE);
     add_to_sclist(MWRITEFILE, "M-D", (void *) dos_format_msg, 0, FALSE);
@@ -1236,8 +1267,14 @@ sc *strtosc(int menu, char *input)
     else if (!strcasecmp(input, "whereis"))
 	s->scfunc = do_search;
     else if (!strcasecmp(input, "up"))
-	s->scfunc = do_page_up;
+	s->scfunc = do_up_void;
     else if (!strcasecmp(input, "down"))
+	s->scfunc = do_down_void;
+    else if (!strcasecmp(input, "pageup")
+	|| !strcasecmp(input, "prevpage"))
+	s->scfunc = do_page_up;
+    else if (!strcasecmp(input, "pagedown")
+	|| !strcasecmp(input, "nextpage"))
 	s->scfunc = do_page_down;
     else if (!strcasecmp(input, "cut"))
 	s->scfunc = do_cut_text_void;
