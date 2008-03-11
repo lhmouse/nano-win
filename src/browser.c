@@ -125,15 +125,9 @@ char *do_browser(char *path, DIR *dir)
 	old_selected = selected;
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
-	parse_browser_input(&kbinput, &meta_key, &func_key);
-        s = get_shortcut(MBROWSER, &kbinput, &meta_key, &func_key);
-        if (!s)
-            continue;
-        f = sctofunc((sc *) s);
-        if (!f)
-            break;
+
 #ifndef DISABLE_MOUSE
-        if (f->scfunc == (void *) do_mouse) {
+        if (kbinput == KEY_MOUSE) {
 
 		    int mouse_x, mouse_y;
 
@@ -164,8 +158,17 @@ char *do_browser(char *path, DIR *dir)
 			if (old_selected == selected)
 			    unget_kbinput(NANO_ENTER_KEY, FALSE, FALSE);
 		    }
-	} else
+	}
 #endif /* !DISABLE_MOUSE */
+
+	parse_browser_input(&kbinput, &meta_key, &func_key);
+        s = get_shortcut(MBROWSER, &kbinput, &meta_key, &func_key);
+        if (!s)
+            continue;
+        f = sctofunc((sc *) s);
+        if (!f)
+            break;
+
 	if (f->scfunc == total_refresh) {
 		total_redraw();
 	} else if (f->scfunc == do_help_void) {

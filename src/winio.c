@@ -1695,14 +1695,19 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * we released/clicked on. */
 	    f = allfuncs;
 
-	    for (; j > 0; j--)
-                while (f != NULL && (f->menus & currmenu) != 0)
+	    for (; j > 0; j--) {
+		if (f->next != NULL)
+		    f = f->next;
+                while (f->next != NULL && (f->menus & currmenu) == 0)
 		     f = f->next;
+	    }
+
 
 	    /* And put back the equivalent key. */
 	    if (f != NULL) {
                 const sc *s = first_sc_for(currmenu, (void *) f->scfunc);
-		unget_kbinput(s->seq, s->type == META, FALSE);
+		if (s != NULL)
+		    unget_kbinput(s->seq, s->type == META, FALSE);
 	    }
 	} else
 	    /* Handle releases/clicks of the first mouse button that

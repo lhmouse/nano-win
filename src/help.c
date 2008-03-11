@@ -127,8 +127,17 @@ void do_help(void (*refresh_func)(void))
 	old_line = line;
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
-	parse_help_input(&kbinput, &meta_key, &func_key);
 
+#ifndef DISABLE_MOUSE
+        if (kbinput == KEY_MOUSE) {
+		int mouse_x, mouse_y;
+		get_mouseinput(&mouse_x, &mouse_y, TRUE);
+		continue;
+	    /* Redraw the screen. */
+	}
+#endif
+
+	parse_help_input(&kbinput, &meta_key, &func_key);
         s = get_shortcut(MHELP, &kbinput, &meta_key, &func_key);
 	if (!s)
 	    continue;
@@ -136,15 +145,7 @@ void do_help(void (*refresh_func)(void))
 	if (!f)
 	    continue;
 
-
-        if (f->scfunc == (void *) do_mouse) {
-#ifndef DISABLE_MOUSE
-		    int mouse_x, mouse_y;
-
-		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
-#endif
-	    /* Redraw the screen. */
-	} else if (f->scfunc == total_refresh) {
+	  if (f->scfunc == total_refresh) {
 		total_redraw();
 		break;
 	} else if (f->scfunc == do_page_up) {
