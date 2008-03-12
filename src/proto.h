@@ -465,7 +465,7 @@ void enable_signals(void);
 void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
-int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
+int do_input(bool *meta_key, bool *func_key, bool *have_shortcut, bool
 	*ran_func, bool *finished, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 int do_mouse(void);
@@ -473,7 +473,7 @@ int do_mouse(void);
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* All functions in prompt.c. */
-int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
+int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 	bool *ran_func, bool *finished, bool allow_funcs, void
 	(*refresh_func)(void));
 #ifndef DISABLE_MOUSE
@@ -504,7 +504,7 @@ void reset_statusbar_cursor(void);
 void update_statusbar_line(const char *curranswer, size_t index);
 bool need_statusbar_horizontal_update(size_t pww_save);
 void total_statusbar_refresh(void (*refresh_func)(void));
-int get_prompt_string(bool allow_tabs,
+const sc *get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
 #endif
@@ -794,6 +794,19 @@ const char *whereis_next_msg;
 const char *first_file_msg;
 const char *last_file_msg;
 const char *goto_dir_msg;
+const char *ext_cmd_msg;
+const char *to_files_msg;
+const char *dos_format_msg;
+const char *mac_format_msg;
+const char *append_msg;
+const char *prepend_msg;
+const char *backup_file_msg;
+const char *dos_format_msg;
+const char *mac_format_msg;
+const char *append_msg;
+const char *prepend_msg;
+const char *backup_file_msg;
+
 
 #ifdef HAVE_REGEX_H
 const char *regexp_msg;

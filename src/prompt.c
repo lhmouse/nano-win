@@ -44,14 +44,14 @@ static bool reset_statusbar_x = FALSE;
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.  Set meta_key to TRUE if the character is a
  * meta sequence, set func_key to TRUE if the character is a function
- * key, set s_or_t to TRUE if the character is a shortcut or toggle
+ * key, set have_shortcut to TRUE if the character is a shortcut
  * key, set ran_func to TRUE if we ran a function associated with a
  * shortcut key, and set finished to TRUE if we're done after running
  * or trying to run a function associated with a shortcut key.  If
  * allow_funcs is FALSE, don't actually run any functions associated
  * with shortcut keys.  refresh_func is the function we will call to
  * refresh the edit window. */
-int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
+int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 	bool *ran_func, bool *finished, bool allow_funcs, void
 	(*refresh_func)(void))
 {
@@ -63,9 +63,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	/* The length of the input buffer. */
     const sc *s;
     const subnfunc *f;
-    bool have_shortcut;
 
-    *s_or_t = FALSE;
+    *have_shortcut = FALSE;
     *ran_func = FALSE;
     *finished = FALSE;
 
@@ -93,27 +92,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
-    have_shortcut = (s != NULL || input == NANO_TAB_KEY || input ==
-	NANO_ENTER_KEY || input == NANO_REFRESH_KEY || input ==
-	NANO_HOME_KEY || input == NANO_END_KEY || input ==
-	NANO_BACK_KEY || input == NANO_FORWARD_KEY || input ==
-	NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY || input ==
-	NANO_CUT_KEY ||
-#ifndef NANO_TINY
-	input == NANO_NEXTWORD_KEY ||
-#endif
-	(*meta_key && (
-#ifndef NANO_TINY
-	input == NANO_PREVWORD_KEY || input == NANO_BRACKET_KEY ||
-#endif
-	input == NANO_VERBATIM_KEY)));
-
-    /* Set s_or_t to TRUE if we got a shortcut. */
-    *s_or_t = have_shortcut;
+    *have_shortcut = (s != NULL);
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
-    if (!*s_or_t) {
+    if (!*have_shortcut) {
 	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
 	    beep();
 	    *meta_key = FALSE;
@@ -127,7 +110,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	 * it's a normal text character.  Display the warning if we're
 	 * in view mode, or add the character to the input buffer if
 	 * we're not. */
-	if (input != ERR && !*s_or_t) {
+	if (input != ERR && !*have_shortcut) {
 	    /* If we're using restricted mode, the filename isn't blank,
 	     * and we're at the "Write File" prompt, disable text
 	     * input. */
@@ -143,7 +126,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	/* If we got a shortcut, or if there aren't any other characters
 	 * waiting after the one we read in, we need to display all the
 	 * characters in the input buffer if it isn't empty. */
-	 if (*s_or_t || get_key_buffer_len() == 0) {
+	 if (*have_shortcut || get_key_buffer_len() == 0) {
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
@@ -168,60 +151,47 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	    }
 	}
 
-	if (have_shortcut) {
-	    switch (input) {
-		/* Handle the "universal" statusbar prompt shortcuts. */
-		case NANO_TAB_KEY:
-		case NANO_ENTER_KEY:
-		    break;
-		case NANO_REFRESH_KEY:
-		    total_statusbar_refresh(refresh_func);
-		    break;
-		case NANO_CUT_KEY:
+	if (*have_shortcut) {
+	    if (s->scfunc == do_tab || s->scfunc == do_enter)
+		;
+	    else if (s->scfunc == total_refresh)
+		total_statusbar_refresh(refresh_func);
+            else if (s->scfunc == (void *) do_cut_text) {
+		/* If we're using restricted mode, the filename
+		 * isn't blank, and we're at the "Write File"
+		 * prompt, disable Cut. */
+		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+			'\0' || currmenu != MWRITEFILE)
+		    do_statusbar_cut_text();
+	    } else if (s->scfunc == do_right)
+		do_statusbar_right();
+	    else if (s->scfunc == do_left)
+		do_statusbar_left();
+
+#ifndef NANO_TINY
+	    else if (s->scfunc == (void *) do_next_word)
+		do_statusbar_next_word(FALSE);
+	    else if (s->scfunc == (void *) do_prev_word)
+		    do_statusbar_prev_word(FALSE);
+#endif
+	    else if (s->scfunc == do_home)
+		    do_statusbar_home();
+	    else if (s->scfunc == do_end)
+		    do_statusbar_end();
+
+#ifndef NANO_TINY
+	    else if (s->scfunc == do_find_bracket)
+		do_statusbar_find_bracket();
+#endif
+	    else if (s->scfunc == do_verbatim_input) {
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
-		     * prompt, disable Cut. */
-		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currmenu != MWRITEFILE)
-			do_statusbar_cut_text();
-		    break;
-		case NANO_FORWARD_KEY:
-		    do_statusbar_right();
-		    break;
-		case NANO_BACK_KEY:
-		    do_statusbar_left();
-		    break;
-#ifndef NANO_TINY
-		case NANO_NEXTWORD_KEY:
-		    do_statusbar_next_word(FALSE);
-		    break;
-		case NANO_PREVWORD_KEY:
-		    if (*meta_key)
-			do_statusbar_prev_word(FALSE);
-		    break;
-#endif
-		case NANO_HOME_KEY:
-		    do_statusbar_home();
-		    break;
-		case NANO_END_KEY:
-		    do_statusbar_end();
-		    break;
-#ifndef NANO_TINY
-		case NANO_BRACKET_KEY:
-		    if (*meta_key)
-			do_statusbar_find_bracket();
-		    break;
-#endif
-		case NANO_VERBATIM_KEY:
-		    if (*meta_key) {
-			/* If we're using restricted mode, the filename
-			 * isn't blank, and we're at the "Write File"
-			 * prompt, disable verbatim input. */
-			if (!ISSET(RESTRICTED) ||
-				openfile->filename[0] == '\0' ||
-				currmenu != MWRITEFILE) {
+	   	     * prompt, disable verbatim input. */
+		    if (!ISSET(RESTRICTED) ||
+			openfile->filename[0] == '\0' ||
+			currmenu != MWRITEFILE) {
 			    bool got_enter;
-				/* Whether we got the Enter key. */
+			    /* Whether we got the Enter key. */
 
 			    do_statusbar_verbatim_input(&got_enter);
 
@@ -231,41 +201,38 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			     * to indicate that we're done. */
 			    if (got_enter) {
 				get_input(NULL, 1);
-				input = NANO_ENTER_KEY;
+				input = sc_seq_or(do_enter, 0);
 				*finished = TRUE;
 			    }
-			}
 		    }
-		    break;
-		case NANO_DELETE_KEY:
-		    /* If we're using restricted mode, the filename
-		     * isn't blank, and we're at the "Write File"
-		     * prompt, disable Delete. */
-		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+	    } else if (s->scfunc == do_delete) {
+		/* If we're using restricted mode, the filename
+		 * isn't blank, and we're at the "Write File"
+		 * prompt, disable Delete. */
+		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
 			'\0' || currmenu != MWRITEFILE)
-			do_statusbar_delete();
-		    break;
-		case NANO_BACKSPACE_KEY:
-		    /* If we're using restricted mode, the filename
-		     * isn't blank, and we're at the "Write File"
-		     * prompt, disable Backspace. */
-		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+		    do_statusbar_delete();
+	    } else if (s->scfunc == do_backspace) {
+		/* If we're using restricted mode, the filename
+		 * isn't blank, and we're at the "Write File"
+		 * prompt, disable Backspace. */
+		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
 			'\0' || currmenu != MWRITEFILE)
-			do_statusbar_backspace();
-		    break;
-		/* Handle the normal statusbar prompt shortcuts, setting
-		 * ran_func to TRUE if we try to run their associated
-		 * functions and setting finished to TRUE to indicate
-		 * that we're done after running or trying to run their
-		 * associated functions. */
-		default:
-		    f = sctofunc((sc *) s);
-		    if (s->scfunc != NULL &&  s->execute == TRUE) {
+		    do_statusbar_backspace();
+	    } else {
+	    /* Handle the normal statusbar prompt shortcuts, setting
+	     * ran_func to TRUE if we try to run their associated
+	     * functions and setting finished to TRUE to indicate
+	     * that we're done after running or trying to run their
+	     * associated functions. */
+
+		f = sctofunc((sc *) s);
+		if (s->scfunc != NULL &&  s->execute == TRUE) {
 			*ran_func = TRUE;
-			if (!ISSET(VIEW_MODE) || f->viewok)
-			    f->scfunc();
-		    }
-		    *finished = TRUE;
+		    if (!ISSET(VIEW_MODE) || f->viewok)
+		        f->scfunc();
+		}
+		*finished = TRUE;
 	    }
 	}
     }
@@ -927,7 +894,7 @@ void total_statusbar_refresh(void (*refresh_func)(void))
 
 /* Get a string of input at the statusbar prompt.  This should only be
  * called from do_prompt(). */
-int get_prompt_string(bool allow_tabs,
+const sc *get_prompt_string(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
 #endif
@@ -942,8 +909,9 @@ int get_prompt_string(bool allow_tabs,
 	)
 {
     int kbinput = ERR;
-    bool meta_key, func_key, s_or_t, ran_func, finished;
+    bool meta_key, func_key, have_shortcut, ran_func, finished;
     size_t curranswer_len;
+    const sc *s;
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
@@ -1002,22 +970,27 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
      * allow writing to files not specified on the command line.  In
      * this case, disable all keys that would change the text if the
      * filename isn't blank and we're at the "Write File" prompt. */
-    while ((kbinput = do_statusbar_input(&meta_key, &func_key, &s_or_t,
-	&ran_func, &finished, TRUE, refresh_func)) != NANO_CANCEL_KEY &&
-	kbinput != NANO_ENTER_KEY) {
+    while (1) {
+	kbinput = do_statusbar_input(&meta_key, &func_key, &have_shortcut,
+	    &ran_func, &finished, TRUE, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
+	s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+
+	if (s)
+	    if (s->scfunc == (void *) cancel_msg || s->scfunc == do_enter)
+		break;
+
 #ifndef DISABLE_TABCOMP
-	if (kbinput != NANO_TAB_KEY)
+	if (s && s->scfunc != do_tab)
 	    tabbed = FALSE;
 #endif
 
-	switch (kbinput) {
 #ifndef DISABLE_TABCOMP
 #ifndef NANO_TINY
-	    case NANO_TAB_KEY:
+	if (s && s->scfunc == do_tab) {
 		if (history_list != NULL) {
-		    if (last_kbinput != NANO_TAB_KEY)
+		    if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
 			complete_len = strlen(answer);
 
 		    if (complete_len > 0) {
@@ -1033,10 +1006,10 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 			&statusbar_x, &tabbed, refresh_func, list);
 
 		update_statusbar_line(answer, statusbar_x);
-		break;
+	} else 
 #endif /* !DISABLE_TABCOMP */
 #ifndef NANO_TINY
-	    case NANO_PREVLINE_KEY:
+	if (s && s->scfunc == do_up_void) {
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
 		     * history list and answer isn't blank, save answer
@@ -1064,8 +1037,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-		break;
-	    case NANO_NEXTLINE_KEY:
+	} else if (s && s->scfunc == do_down_void) {
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
 		     * save it in answer.  If there is no newer search,
@@ -1095,9 +1067,9 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-		break;
+	} else
 #endif /* !NANO_TINY */
-	    case NANO_HELP_KEY:
+	if (s && s->scfunc == do_help_void) {
 		update_statusbar_line(answer, statusbar_x);
 
 		/* This key has a shortcut list entry when it's used to
@@ -1107,7 +1079,6 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 		 * here, so that we aren't kicked out of the statusbar
 		 * prompt. */
 		finished = FALSE;
-		break;
 	}
 
 	/* If we have a shortcut with an associated function, break out
@@ -1141,20 +1112,23 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
      * associated function, so reset statusbar_x and statusbar_pww.  If
      * we've finished putting in an answer, reset the statusbar cursor
      * position too. */
-    if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
+    if (s) {
+	if (s->scfunc == (void *) cancel_msg || s->scfunc == do_enter ||
 	ran_func) {
-	statusbar_x = old_statusbar_x;
-	statusbar_pww = old_pww;
+	    statusbar_x = old_statusbar_x;
+	    statusbar_pww = old_pww;
 
-	if (!ran_func)
-	    reset_statusbar_x = TRUE;
+	    if (!ran_func)
+		reset_statusbar_x = TRUE;
     /* Otherwise, we're still putting in an answer or a shortcut with
      * an associated function, so leave the statusbar cursor position
      * alone. */
-    } else
-	reset_statusbar_x = FALSE;
+	} else
+	    reset_statusbar_x = FALSE;
+    }
 
-    return kbinput;
+    *actual = kbinput;
+    return s;
 }
 
 /* Ask a question on the statusbar.  The prompt will be stored in the
@@ -1181,6 +1155,7 @@ int do_prompt(bool allow_tabs,
 {
     va_list ap;
     int retval;
+    const sc *s;
 #ifndef DISABLE_TABCOMP
     bool list = FALSE;
 #endif
@@ -1199,7 +1174,7 @@ int do_prompt(bool allow_tabs,
     va_end(ap);
     null_at(&prompt, actual_x(prompt, COLS - 4));
 
-    retval = get_prompt_string(allow_tabs,
+    s = get_prompt_string(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
 	allow_files,
 #endif
@@ -1223,15 +1198,10 @@ int do_prompt(bool allow_tabs,
 
     /* If we left the prompt via Cancel or Enter, set the return value
      * properly. */
-    switch (retval) {
-	case NANO_CANCEL_KEY:
-	    retval = -1;
-	    break;
-	case NANO_ENTER_KEY:
-	    retval = (*answer == '\0') ? -2 : 0;
-	    break;
-    }
-
+    if (s && s->scfunc == (void *) cancel_msg)
+	retval = -1;
+    else if (s && s->scfunc == do_enter)
+	retval = (*answer == '\0') ? -2 : 0;
 
     blank_statusbar();
     wnoutrefresh(bottomwin);
@@ -1271,6 +1241,7 @@ int do_yesno_prompt(bool all, const char *msg)
     const char *yesstr;		/* String of Yes characters accepted. */
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
+    const sc *s;
 
     assert(msg != NULL);
 
@@ -1318,7 +1289,7 @@ int do_yesno_prompt(bool all, const char *msg)
     blank_statusbar();
     mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
-    wattroff(bottomwin, reverse_attr);
+     wattroff(bottomwin, reverse_attr);
 
     /* Refresh the edit window and the statusbar before getting
      * input. */
@@ -1333,13 +1304,12 @@ int do_yesno_prompt(bool all, const char *msg)
 #endif
 
 	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
+	s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
 
-	switch (kbinput) {
-	    case NANO_CANCEL_KEY:
-		ok = -1;
-		break;
+	if (s && s->scfunc == (void *) cancel_msg)
+	    ok = -1;
 #ifndef DISABLE_MOUSE
-	    case KEY_MOUSE:
+	else if (kbinput == KEY_MOUSE) {
 		/* We can click on the Yes/No/All shortcut list to
 		 * select an answer. */
 		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
@@ -1366,12 +1336,11 @@ int do_yesno_prompt(bool all, const char *msg)
 		    if (ok == 2 && !all)
 			ok = -2;
 		}
-		break;
 #endif /* !DISABLE_MOUSE */
-	    case NANO_REFRESH_KEY:
-		total_redraw();
-		continue;
-	    default:
+	} else if  (s && s->scfunc == total_refresh) {
+	    total_redraw();
+	    continue;
+	} else {
 		/* Look for the kbinput in the Yes, No and (optionally)
 		 * All strings. */
 		if (strchr(yesstr, kbinput) != NULL)

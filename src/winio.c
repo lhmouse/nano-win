@@ -1698,7 +1698,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    for (; j > 0; j--) {
 		if (f->next != NULL)
 		    f = f->next;
-                while (f->next != NULL && (f->menus & currmenu) == 0)
+                while (f->next != NULL && ((f->menus & currmenu) == 0 || strlen(f->help) == 0))
 		     f = f->next;
 	    }
 
@@ -2354,6 +2354,9 @@ void bottombars(int menu)
         fprintf(stderr, "Checking menu items....");
 #endif
         if ((f->menus & menu) == 0)
+	    continue;
+
+        if (strlen(f->desc) == 0)
 	    continue;
 
 #ifdef DEBUG

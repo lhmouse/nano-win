@@ -700,7 +700,8 @@ void do_insertfile(
     filestruct *edittop_save = openfile->edittop;
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
-    bool edittop_inside = FALSE;
+    bool edittop_inside = FALSE, meta_key = FALSE, func_key = FALSE;
+    const sc *s;
 #ifndef NANO_TINY
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
@@ -762,14 +763,16 @@ void do_insertfile(
 
 #ifndef NANO_TINY
 #ifdef ENABLE_MULTIBUFFER
-	    if (i == TOGGLE_MULTIBUFFER_KEY) {
+	    s = get_shortcut(currmenu, &i, &meta_key, &func_key);
+
+	    if (s && s->scfunc == (void *) do_toggle && s->toggle == MULTIBUFFER) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
 		continue;
 	    } else
 #endif
-	    if (i == NANO_TOOTHERINSERT_KEY) {
+	    if (s && s->scfunc == (void *) ext_cmd_msg) {
 		execute = !execute;
 		continue;
 	    }
@@ -779,7 +782,7 @@ void do_insertfile(
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
-	    if (i == NANO_TOFILES_KEY) {
+	    if (s && s->scfunc == (void *) to_files_msg) {
 		char *tmp = do_browse_from(answer);
 
 		if (tmp == NULL)
@@ -1812,7 +1815,8 @@ bool do_writeout(bool exiting)
 #ifdef NANO_EXTRA
     static bool did_credits = FALSE;
 #endif
-    bool retval = FALSE;
+    bool retval = FALSE, meta_key = FALSE, func_key = FALSE;
+    const sc *s;
 
     currmenu = MWRITEFILE;
 
@@ -1885,9 +1889,10 @@ bool do_writeout(bool exiting)
 	    break;
 	} else {
 	    ans = mallocstrcpy(ans, answer);
+            s = get_shortcut(currmenu, &i, &meta_key, &func_key);
 
 #ifndef DISABLE_BROWSER
-	    if (i == NANO_TOFILES_KEY) {
+	    if (s && s->scfunc == (void *) to_files_msg) {
 		char *tmp = do_browse_from(answer);
 
 		if (tmp == NULL)
@@ -1899,23 +1904,23 @@ bool do_writeout(bool exiting)
 	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_TINY
-	    if (i == TOGGLE_DOS_KEY) {
+	    if (s && s->scfunc == (void *) dos_format_msg) {
 		openfile->fmt = (openfile->fmt == DOS_FILE) ? NIX_FILE :
 			DOS_FILE;
 		continue;
-	    } else if (i == TOGGLE_MAC_KEY) {
+	    } else if (s && s->scfunc == (void *) mac_format_msg) {
 		openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE :
 			MAC_FILE;
 		continue;
-	    } else if (i == TOGGLE_BACKUP_KEY) {
+	    } else if (s && s->scfunc == (void *) backup_file_msg) {
 		TOGGLE(BACKUP_FILE);
 		continue;
 	    } else
 #endif /* !NANO_TINY */
-	    if (i == NANO_PREPEND_KEY) {
+	    if (s && s->scfunc == (void *) prepend_msg) {
 		append = (append == PREPEND) ? OVERWRITE : PREPEND;
 		continue;
-	    } else if (i == NANO_APPEND_KEY) {
+	    } else if (s && s->scfunc == (void *) append_msg) {
 		append = (append == APPEND) ? OVERWRITE : APPEND;
 		continue;
 	    }

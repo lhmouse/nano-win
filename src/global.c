@@ -23,6 +23,7 @@
  **************************************************************************/
 
 #include <ctype.h>
+#include <string.h>
 #include <strings.h>
 #include "assert.h"
 #include "proto.h"
@@ -196,7 +197,7 @@ size_t length_of_list(int menu)
     size_t i = 0;
 
     for (f = allfuncs; f != NULL; f = f->next)
-        if ((f->menus & menu) != 0) {
+        if ((f->menus & menu) != 0 && strlen(f->help) > 0) {
 	    i++;
 	}
     return i;
@@ -363,6 +364,10 @@ void assign_keyinfo(sc *s)
 	s->seq = KEY_IC;
     else if (s->type == RAW && (!strcasecmp(s->keystr, "kdel")))
 	s->seq = KEY_DC;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kbsp")))
+	s->seq = KEY_BACKSPACE;
+    else if (s->type == RAW && (!strcasecmp(s->keystr, "kenter")))
+	s->seq = KEY_ENTER;
     else if (s->type == RAW && (!strcasecmp(s->keystr, "kpup")))
 	s->seq = KEY_PPAGE;
     else if (s->type == RAW && (!strcasecmp(s->keystr, "kpdown")))
@@ -454,6 +459,7 @@ const char *whereis_next_msg = "";
 const char *last_file_msg = "";
 const char *new_buffer_msg = "";
 const char *goto_dir_msg;
+const char *ext_cmd_msg =  = "";
 
 #else
 /* TRANSLATORS: Try to keep this and previous strings at most 10
@@ -483,6 +489,7 @@ const char *append_msg = N_("Append");
 const char *prepend_msg = N_("Prepend");
 /* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *backup_file_msg = N_("Backup File");
+const char *ext_cmd_msg = N_("Execute Command");
 
 #ifdef ENABLE_MULTIBUFFER
 /* TRANSLATORS: Try to keep this at most 16 characters. */
@@ -516,7 +523,6 @@ void shortcut_init(bool unjustify)
 #endif
     const char *refresh_msg = N_("Refresh");
     const char *insert_file_msg =  N_("Insert File");
-    const char *ext_cmd_msg = N_("Execute Command");
     const char *go_to_line_msg = N_("Go To Line");
 
 #ifndef DISABLE_HELP
@@ -804,9 +810,11 @@ void shortcut_init(bool unjustify)
 
     add_to_funcs(do_right, (MMAIN|MBROWSER), N_("Forward"), nano_forward_msg,
 	FALSE, VIEW);
+    add_to_funcs(do_right, MALL, "", "", FALSE, VIEW);
 
     add_to_funcs(do_left, (MMAIN|MBROWSER), N_("Back"), nano_back_msg,
 	FALSE, VIEW);
+    add_to_funcs(do_left, MALL, "", "", FALSE, VIEW);
 
 #ifndef NANO_TINY
     add_to_funcs(do_next_word_void, MMAIN, N_("Next Word"),
@@ -858,17 +866,28 @@ void shortcut_init(bool unjustify)
 	nano_verbatim_msg, FALSE, NOVIEW);
     add_to_funcs(do_tab, MMAIN, N_("Tab"), nano_tab_msg,
 	FALSE, NOVIEW);
+    add_to_funcs(do_tab, MALL, "", "", FALSE, NOVIEW);
     add_to_funcs(do_enter, MMAIN, N_("Enter"), nano_enter_msg,
 	FALSE, NOVIEW);
+    add_to_funcs(do_enter, MALL, "", "", FALSE, NOVIEW);
     add_to_funcs(do_delete, MMAIN, N_("Delete"), nano_delete_msg,
 	FALSE, NOVIEW);
+    add_to_funcs(do_delete, MALL, "", "", FALSE, NOVIEW);
     add_to_funcs(do_backspace, MMAIN, N_("Backspace"), nano_backspace_msg,
 #ifndef NANO_TINY
 	FALSE,
 #else
 	TRUE,
 #endif
-	VIEW);
+	NOVIEW);
+
+    add_to_funcs(do_backspace, MALL, "", "",
+#ifndef NANO_TINY
+	FALSE,
+#else
+	TRUE,
+#endif
+	NOVIEW);
 
 #ifndef NANO_TINY
     add_to_funcs(do_cut_till_end, MMAIN, N_("CutTillEnd"),
@@ -1062,15 +1081,15 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-6", do_copy_text, 0, TRUE);
     add_to_sclist(MMAIN, "M-}", do_indent_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP, "^F", do_right, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP, "kright", do_right, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP, "^B", do_left, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP, "kleft", do_left, 0, TRUE);
+    add_to_sclist(MALL, "^F", do_right, 0, TRUE);
+    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
+    add_to_sclist(MALL, "^B", do_left, 0, TRUE);
+    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
 #endif
-    add_to_sclist(MALL, "^Q", xon_complaint, 0, TRUE);
-    add_to_sclist(MALL, "^X", xoff_complaint, 0, TRUE);
+    add_to_sclist(MMAIN, "^Q", xon_complaint, 0, TRUE);
+    add_to_sclist(MMAIN, "^S", xoff_complaint, 0, TRUE);
     add_to_sclist(MALL, "^P", do_up_void, 0, TRUE);
     add_to_sclist(MALL, "kup", do_up_void, 0, TRUE);
     add_to_sclist(MALL, "^N", do_down_void, 0, TRUE);
@@ -1130,9 +1149,11 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-V", do_verbatim_input, 0, TRUE);
     add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
     add_to_sclist(MALL, "^M", do_enter, 0, TRUE);
+    add_to_sclist(MALL, "kenter", do_enter, 0, TRUE);
     add_to_sclist(MALL, "^D", do_delete, 0, TRUE);
     add_to_sclist(MALL, "kdel", do_delete, 0, TRUE);
     add_to_sclist(MALL, "^H", do_backspace, 0, TRUE);
+    add_to_sclist(MALL, "kbsp", do_backspace, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
     add_to_sclist(MALL, "M-J", do_full_justify, 0, TRUE);
