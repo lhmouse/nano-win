@@ -1010,6 +1010,7 @@ void do_exit(void)
     } else if (i != 1)
 	statusbar(_("Cancelled"));
 
+    shortcut_init(FALSE);
     display_main_list();
 }
 
