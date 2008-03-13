@@ -984,6 +984,9 @@ void do_replace(void)
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update)
 {
+    bool meta_key, func_key;
+    const sc *s;
+
     if (interactive) {
 	char *ans = mallocstrcpy(NULL, answer);
 
@@ -1007,7 +1010,9 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    return;
 	}
 
-	if (i == NANO_TOOTHERWHEREIS_KEY) {
+
+	s = get_shortcut(currmenu, &i, &meta_key, &func_key);
+	if (s && s->scfunc == do_search) {
 	    /* Keep answer up on the statusbar. */
 	    search_init(TRUE, TRUE);
 

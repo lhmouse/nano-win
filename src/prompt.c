@@ -1069,6 +1069,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 		}
 	} else
 #endif /* !NANO_TINY */
+#ifndef DISABLE_HELP
 	if (s && s->scfunc == do_help_void) {
 		update_statusbar_line(answer, statusbar_x);
 
@@ -1080,6 +1081,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 		 * prompt. */
 		finished = FALSE;
 	}
+#endif
 
 	/* If we have a shortcut with an associated function, break out
 	 * if we're finished after running or trying to run the
@@ -1336,8 +1338,9 @@ int do_yesno_prompt(bool all, const char *msg)
 		    if (ok == 2 && !all)
 			ok = -2;
 		}
+	}
 #endif /* !DISABLE_MOUSE */
-	} else if  (s && s->scfunc == total_refresh) {
+	else if  (s && s->scfunc == total_refresh) {
 	    total_redraw();
 	    continue;
 	} else {

@@ -597,13 +597,13 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #ifdef KEY_SSUSPEND
 	    /* Slang doesn't support KEY_SSUSPEND. */
 	    case KEY_SSUSPEND:
-		retval = NANO_SUSPEND_KEY;
+		retval = sc_seq_or(do_suspend_void, 0);
 		break;
 #endif
 #ifdef KEY_SUSPEND
 	    /* Slang doesn't support KEY_SUSPEND. */
 	    case KEY_SUSPEND:
-		retval = NANO_SUSPEND_KEY;
+		retval =  sc_seq_or(do_suspend_void, 0);
 		break;
 #endif
 #ifdef PDCURSES
@@ -1786,30 +1786,6 @@ const sc *get_shortcut(int menu, int *kbinput, bool
     return NULL;
 }
 
-#ifndef NANO_TINY
-/* Return the global toggle corresponding to the values of kbinput (the
- * key itself) and meta_key (whether the key is a meta sequence), if
- * any. */
-const toggle *get_toggle(int kbinput, bool meta_key)
-{
-    const toggle *t = toggles;
-
-#ifdef DEBUG
-    fprintf(stderr, "get_toggle(): kbinput = %d, meta_key = %s\n", kbinput, meta_key ? "TRUE" : "FALSE");
-#endif
-
-    /* Check for toggles. */
-    for (; t != NULL; t = t->next) {
-	/* We've found a toggle if the key exists, meta_key is TRUE, and
-	 * the key is in the meta key toggle list. */
-	if (t->val != TOGGLE_NO_KEY && meta_key && kbinput == t->val)
-	    break;
-    }
-
-    return t;
-}
-#endif /* !NANO_TINY */
-
 /* Move to (x, y) in win, and display a line of n spaces with the
  * current attributes. */
 void blank_line(WINDOW *win, int y, int x, int n)
@@ -2356,7 +2332,7 @@ void bottombars(int menu)
         if ((f->menus & menu) == 0)
 	    continue;
 
-        if (strlen(f->desc) == 0)
+        if (!f->desc || strlen(f->desc) == 0)
 	    continue;
 
 #ifdef DEBUG

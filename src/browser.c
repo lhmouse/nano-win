@@ -156,7 +156,7 @@ char *do_browser(char *path, DIR *dir)
 			 * time, put back the Enter key so that it's
 			 * read in. */
 			if (old_selected == selected)
-			    unget_kbinput(NANO_ENTER_KEY, FALSE, FALSE);
+			    unget_kbinput(sc_seq_or(do_enter, 0), FALSE, FALSE);
 		    }
 	}
 #endif /* !DISABLE_MOUSE */
@@ -237,7 +237,7 @@ char *do_browser(char *path, DIR *dir)
 		     * answer in ans, so that the file list is displayed
 		     * again, the prompt is displayed again, and what we
 		     * typed before at the prompt is displayed again. */
-		    unget_kbinput(NANO_GOTOLINE_KEY, FALSE, FALSE);
+		    unget_kbinput(sc_seq_or(do_gotolinecolumn_void, 0), FALSE, FALSE);
 		    ans = mallocstrcpy(ans, answer);
 		    break;
 		}
@@ -560,7 +560,6 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 		*kbinput = sc_seq_or(do_help_void, 0);
 		break;
 	    /* Cancel equivalent to Exit here. */
-	    case NANO_CANCEL_KEY:
 	    case 'E':
 	    case 'e':
 		*kbinput = sc_seq_or(do_exit, 0);
@@ -758,6 +757,8 @@ int filesearch_init(void)
 {
     int i = 0;
     char *buf;
+    bool meta_key, func_key;
+    const sc *s;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
@@ -825,9 +826,8 @@ int filesearch_init(void)
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
-	switch (i) {
-	    case -2:		/* It's an empty string. */
-	    case 0:		/* It's a new string. */
+        s = get_shortcut(MBROWSER, &i, &meta_key, &func_key);
+	if (i == -2 || i == 0) {
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or
 		 * answer if it isn't. */
@@ -835,26 +835,26 @@ int filesearch_init(void)
 			last_search : answer))
 		    return -1;
 #endif
-		break;
+	} else
 #ifndef NANO_TINY
-	    case TOGGLE_CASE_KEY:
+	if (s && s->scfunc == (void *) case_sens_msg) {
 		TOGGLE(CASE_SENSITIVE);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
-	    case TOGGLE_BACKWARDS_KEY:
+	} else if (s && s->scfunc == (void *) backwards_msg) {
 		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
+	} else
 #endif
 #ifdef HAVE_REGEX_H
-	    case NANO_REGEXP_KEY:
+	if (s && s->scfunc == (void *) regexp_msg) {
 		TOGGLE(USE_REGEXP);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
+	} else
 #endif
-	    default:
-		return -1;
-	}
+	    return -1;
     }
 
     return 0;

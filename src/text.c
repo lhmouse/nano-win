@@ -1366,6 +1366,7 @@ void do_justify(bool full_justify)
 
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
+    const sc *s;
 
     /* Move to the beginning of the current line, so that justifying at
      * the end of the last line of the file, if that line isn't blank,
@@ -1681,8 +1682,9 @@ void do_justify(bool full_justify)
      * the keystroke and return. */
     kbinput = do_input(&meta_key, &func_key, &s_or_t, &ran_func,
 	&finished, FALSE);
+    s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
 
-    if (s_or_t && kbinput == NANO_UNJUSTIFY_KEY) {
+    if (s && s->scfunc == do_uncut_text) {
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {

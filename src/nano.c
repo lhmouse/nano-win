@@ -1089,6 +1089,13 @@ RETSIGTYPE do_suspend(int signal)
     kill(0, SIGSTOP);
 }
 
+/* the subnfunc version */
+void do_suspend_void(void) 
+{
+    if (ISSET(SUSPEND))
+	do_suspend(0);
+}
+
 /* Handler for SIGCONT (continue after suspend). */
 RETSIGTYPE do_continue(int signal)
 {
@@ -1401,7 +1408,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
     /* If we got a shortcut from the main list, or a "universal"
      * edit window shortcut, set have_shortcut to TRUE. */
-    have_shortcut = (s != NULL || input == NANO_SUSPEND_KEY);
+    have_shortcut = (s != NULL);
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
@@ -1469,11 +1476,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 	if (have_shortcut) {
 	    switch (input) {
-		/* Handle the "universal" edit window shortcuts. */
-		case NANO_SUSPEND_KEY:
-		    if (ISSET(SUSPEND))
-			do_suspend(0);
-		    break;
 		/* Handle the normal edit window shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate
