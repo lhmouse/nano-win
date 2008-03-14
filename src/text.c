@@ -1770,6 +1770,7 @@ bool do_int_spell_fix(const char *word)
     char *save_search, *save_replace;
     size_t match_len, current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
+    bool meta_key = FALSE, func_key = FALSE;
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 	/* Save where we are. */
@@ -1857,6 +1858,7 @@ bool do_int_spell_fix(const char *word)
 		TRUE,
 #endif
 		MSPELL, word,
+		&meta_key, &func_key,
 #ifndef NANO_TINY
 		NULL,
 #endif

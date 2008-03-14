@@ -509,6 +509,7 @@ const sc *get_prompt_string(int *value, bool allow_tabs,
 	bool allow_files,
 #endif
 	const char *curranswer,
+	bool *meta_key, bool *func_key,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -522,6 +523,7 @@ int do_prompt(bool allow_tabs,
 	bool allow_files,
 #endif
 	int menu, const char *curranswer,
+	bool *meta_key, bool *func_key,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -806,7 +808,8 @@ const char *mac_format_msg;
 const char *append_msg;
 const char *prepend_msg;
 const char *backup_file_msg;
-
+const char *gototext_msg;
+const char *new_buffer_msg;
 
 #ifdef HAVE_REGEX_H
 const char *regexp_msg;

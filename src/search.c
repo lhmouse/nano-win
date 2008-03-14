@@ -138,6 +138,7 @@ int search_init(bool replacing, bool use_answer)
     char *buf;
     sc *s;
     void *func = NULL;
+    bool meta_key = FALSE, func_key = FALSE;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
@@ -176,6 +177,7 @@ int search_init(bool replacing, bool use_answer)
 	TRUE,
 #endif
 	replacing ? MREPLACE : MWHEREIS, backupstring,
+	&meta_key, &func_key,
 #ifndef NANO_TINY
 	&search_history,
 #endif
@@ -883,6 +885,7 @@ void do_replace(void)
 {
     filestruct *edittop_save, *begin;
     size_t begin_x, pww_save;
+    bool meta_key = FALSE, func_key = FALSE;
     ssize_t numreplaced;
     int i;
 
@@ -925,6 +928,7 @@ void do_replace(void)
 	TRUE,
 #endif
 	MREPLACE2, last_replace,
+	&meta_key, &func_key,
 #ifndef NANO_TINY
 	&replace_history,
 #endif
@@ -984,7 +988,7 @@ void do_replace(void)
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update)
 {
-    bool meta_key, func_key;
+    bool meta_key = FALSE, func_key = FALSE;
     const sc *s;
 
     if (interactive) {
@@ -996,6 +1000,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		TRUE,
 #endif
 		MGOTOLINE, use_answer ? ans : "",
+		&meta_key, &func_key,
 #ifndef NANO_TINY
 		NULL,
 #endif
@@ -1012,7 +1017,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 
 	s = get_shortcut(currmenu, &i, &meta_key, &func_key);
-	if (s && s->scfunc == do_search) {
+	if (s && s->scfunc == (void *) gototext_msg) {
 	    /* Keep answer up on the statusbar. */
 	    search_init(TRUE, TRUE);
 

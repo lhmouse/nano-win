@@ -706,6 +706,8 @@ void do_insertfile(
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
+    currmenu = MINSERTFILE;
+
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {
@@ -735,11 +737,12 @@ void do_insertfile(
 		execute ? MEXTCMD :
 #endif
 		MINSERTFILE, ans,
+		&meta_key, &func_key,
+#ifndef DISABLE_OPERATINGDIR
 #ifndef NANO_TINY
 		NULL,
 #endif
 		edit_refresh, msg,
-#ifndef DISABLE_OPERATINGDIR
 		operating_dir != NULL && strcmp(operating_dir,
 		".") != 0 ? operating_dir :
 #endif
@@ -765,7 +768,7 @@ void do_insertfile(
 #ifdef ENABLE_MULTIBUFFER
 	    s = get_shortcut(currmenu, &i, &meta_key, &func_key);
 
-	    if (s && s->scfunc == (void *) do_toggle && s->toggle == MULTIBUFFER) {
+	    if (s && s->scfunc == (void *) new_buffer_msg) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
@@ -1871,6 +1874,7 @@ bool do_writeout(bool exiting)
 		TRUE,
 #endif
 		MWRITEFILE, ans,
+		&meta_key, &func_key,
 #ifndef NANO_TINY
 		NULL,
 #endif

@@ -925,7 +925,7 @@ void shortcut_init(bool unjustify)
 	no_replace_msg, IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
     add_to_funcs((void *) gototext_msg, MGOTOLINE,
-	gototext_msg, IFSCHELP(nano_whereis_msg), FALSE, VIEW);
+	gototext_msg, IFSCHELP(nano_whereis_msg), TRUE, VIEW);
 
 #ifndef DISABLE_BROWSER
     if (!ISSET(RESTRICTED))
@@ -973,7 +973,7 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
-	add_to_funcs((void *) new_buffer_msg, MWRITEFILE,
+	add_to_funcs((void *) new_buffer_msg, MINSERTFILE,
 	new_buffer_msg, nano_multibuffer_msg, FALSE, NOVIEW);
 #endif
 
@@ -1127,17 +1127,10 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-.", switch_to_next_buffer_void, 0, TRUE);
 #endif
     add_to_sclist(MMAIN, "M-V", do_verbatim_input, 0, TRUE);
-    add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
-    add_to_sclist(MALL, "^M", do_enter, 0, TRUE);
-    add_to_sclist(MALL, "kenter", do_enter, 0, TRUE);
-    add_to_sclist(MALL, "^D", do_delete, 0, TRUE);
-    add_to_sclist(MALL, "kdel", do_delete, 0, TRUE);
-    add_to_sclist(MALL, "^H", do_backspace, 0, TRUE);
-    add_to_sclist(MALL, "kbsp", do_backspace, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
     add_to_sclist(MALL, "M-J", do_full_justify, 0, TRUE);
-    add_to_sclist(MALL, "M-D", do_wordlinechar_count, 0, TRUE);
+    add_to_sclist(MMAIN, "M-D", do_wordlinechar_count, 0, TRUE);
     add_to_sclist(MMAIN, "M-X", do_toggle, NO_HELP, TRUE);
     add_to_sclist(MMAIN, "M-C", do_toggle, CONST_UPDATE, TRUE);
     add_to_sclist(MMAIN, "M-O", do_toggle, MORE_SPACE, TRUE);
@@ -1155,6 +1148,8 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-N", do_toggle, NO_CONVERT, TRUE);
     add_to_sclist(MMAIN, "M-Z", do_toggle, SUSPEND, TRUE);
 #endif
+    add_to_sclist(MGOTOLINE, "^T", (void *) gototext_msg, 0, FALSE);
+    add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", (void *) new_buffer_msg, 0, FALSE);
     add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR), 
 	"^C", (void *) cancel_msg, 0, FALSE);
     add_to_sclist(MHELP, "^X", do_exit, 0, TRUE);
@@ -1169,6 +1164,13 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MINSERTFILE, "^X", (void *) ext_cmd_msg, 0, FALSE);
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
     add_to_sclist(MMAIN, "^L", total_refresh, 0, TRUE);
+    add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
+    add_to_sclist(MALL, "^M", do_enter, 0, TRUE);
+    add_to_sclist(MALL, "kenter", do_enter, 0, TRUE);
+    add_to_sclist(MALL, "^D", do_delete, 0, TRUE);
+    add_to_sclist(MALL, "kdel", do_delete, 0, TRUE);
+    add_to_sclist(MALL, "^H", do_backspace, 0, TRUE);
+    add_to_sclist(MALL, "kbsp", do_backspace, 0, TRUE);
 
 #ifdef DEBUG
     print_sclist();

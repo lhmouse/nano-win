@@ -899,6 +899,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 	bool allow_files,
 #endif
 	const char *curranswer,
+	bool *meta_key, bool *func_key,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -909,7 +910,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 	)
 {
     int kbinput = ERR;
-    bool meta_key, func_key, have_shortcut, ran_func, finished;
+    bool have_shortcut, ran_func, finished;
     size_t curranswer_len;
     const sc *s;
 #ifndef DISABLE_TABCOMP
@@ -971,11 +972,11 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
      * this case, disable all keys that would change the text if the
      * filename isn't blank and we're at the "Write File" prompt. */
     while (1) {
-	kbinput = do_statusbar_input(&meta_key, &func_key, &have_shortcut,
+	kbinput = do_statusbar_input(meta_key, func_key, &have_shortcut,
 	    &ran_func, &finished, TRUE, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
-	s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+	s = get_shortcut(currmenu, &kbinput, meta_key, func_key);
 
 	if (s)
 	    if (s->scfunc == (void *) cancel_msg || s->scfunc == do_enter)
@@ -1150,6 +1151,7 @@ int do_prompt(bool allow_tabs,
 	bool allow_files,
 #endif
 	int menu, const char *curranswer,
+	bool *meta_key, bool *func_key,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -1181,6 +1183,7 @@ int do_prompt(bool allow_tabs,
 	allow_files,
 #endif
 	curranswer,
+	meta_key, func_key,
 #ifndef NANO_TINY
 	history_list,
 #endif

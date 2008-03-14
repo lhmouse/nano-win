@@ -213,6 +213,7 @@ char *do_browser(char *path, DIR *dir)
 			FALSE,
 #endif
 			MGOTODIR, ans,
+			&meta_key, &func_key,
 #ifndef NANO_TINY
 			NULL,
 #endif
@@ -791,6 +792,7 @@ int filesearch_init(void)
 	TRUE,
 #endif
 	MWHEREISFILE, backupstring,
+	&meta_key, &func_key, 
 #ifndef NANO_TINY
 	&search_history,
 #endif
