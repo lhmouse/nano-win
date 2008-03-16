@@ -354,8 +354,6 @@ void assign_keyinfo(sc *s)
 	s->seq = 0;
     else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
 	s->seq = (int) ' ';
-    /* Note to translators: these strings are internal sentinel values,
-       and aren't presented to the user.  Don't translate them */
     else if (s->type == RAW && (!strcasecmp(s->keystr, "kup")))
 	s->seq = KEY_UP;
     else if (s->type == RAW && (!strcasecmp(s->keystr, "kdown")))
@@ -434,14 +432,13 @@ const char *backup_file_msg = "";
 const char *to_files_msg = "";
 const char *first_file_msg = "";
 const char *whereis_next_msg = "";
-/* TRANSLATORS: Try to keep this at most 12 characters. */
 const char *last_file_msg = "";
 const char *new_buffer_msg = "";
 const char *goto_dir_msg;
 const char *ext_cmd_msg = "";
 
 #else
-/* TRANSLATORS: Try to keep this and previous strings at most 10
+/* TRANSLATORS: Try to keep the following five strings at most 10
  * characters. */
 const char *prev_history_msg = N_("PrevHstory");
 const char *next_history_msg = N_("NextHstory");
@@ -468,6 +465,7 @@ const char *append_msg = N_("Append");
 const char *prepend_msg = N_("Prepend");
 /* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *backup_file_msg = N_("Backup File");
+/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *ext_cmd_msg = N_("Execute Command");
 
 #ifdef ENABLE_MULTIBUFFER
@@ -489,10 +487,6 @@ void shortcut_init(bool unjustify)
     const char *whereis_msg = N_("Where Is");
     const char *prev_page_msg = N_("Prev Page");
     const char *next_page_msg = N_("Next Page");
-    /* TRANSLATORS: Try to keep this string at most 10 characters. */
-
-    /* TRANSLATORS: Try to keep this and following strings at most 10
-     * characters. */
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
     const char *suspend_msg = N_("Suspend");
@@ -503,6 +497,8 @@ void shortcut_init(bool unjustify)
 #endif
     const char *refresh_msg = N_("Refresh");
     const char *insert_file_msg =  N_("Insert File");
+    /* TRANSLATORS: Try to keep this and previous strings at most 10
+     * characters. */
     const char *go_to_line_msg = N_("Go To Line");
 
 #ifndef DISABLE_HELP
@@ -1356,7 +1352,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = (void *) do_toggle;
 	s->execute = FALSE;
 	s->toggle = SMOOTH_SCROLL;
-    } else if (!strcasecmp(input, "whitesplacedisplay")) {
+    } else if (!strcasecmp(input, "whitespacedisplay")) {
 	s->scfunc = (void *) do_toggle;
 	s->execute = FALSE;
 	s->toggle = WHITESPACE_DISPLAY;

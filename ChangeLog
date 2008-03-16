@@ -1,3 +1,9 @@
+2008-03-16  Benno Schulenberg <bensberg@justemail.net>
+	* src/help.c, src/global.  - Fix help strings no longer being 
+	  translated properly.
+	* src/global.c, doc/man/nanorc.5 - Fix typos and poorlly worded lines
+	  in the source and man pages.
+
 2008-03-04  Chris Allegretta <chrisa@asty.org
 	* everything - New shortcut backend.  New structs subnfunc
 	for menu functions and toggles and sc for shortcut keys, old 

@@ -266,7 +266,7 @@ followed by a prinable character or the word "Space".
 Example: M-C
 .TP
 .B F 
-followed by a numeric value from 1-16
+followed by a numeric value from 1 to 16.
 Example: F10
 .TP
 Valid function names to be bound include:
@@ -287,13 +287,14 @@ Write the current buffer to disk.
 Justify the current text.
 .TP
 .B insert
-Insert a file into the current buffer (or a new buffer with multi-buffer enbled).
+Insert a file into the current buffer (or into a new buffer when multibuffer
+is enabled).
 .TP
 .B whereis
-Search for text in the program.
+Search for text in the current buffer.
 .TP
 .B searchagain
-Repat the last search command.
+Repeat the last search command.
 .TP
 .B up
 Move up in the editor or browser.
@@ -311,13 +312,13 @@ Move right in the editor or browser.
 Cut the current line of text and store it.
 .TP
 .B uncut
-Copy the currently stored text into the current file location.
+Copy the currently stored text into the current buffer position.
 .TP
 .B curpos
 Show the current line, column, word positions in the file.
 .TP
 .B firstline
-Move to the first line of the file
+Move to the first line of the file.
 .TP
 .B lastline
 Move to the last line of the file.
@@ -326,7 +327,7 @@ Move to the last line of the file.
 Move to a specific line (and column if specified).
 .TP
 .B replace
-Interactively replace text within the editor.
+Interactively replace text within the current buffer.
 .TP
 .B mark
 Begin selecting text for cutting or pasting at the current position.
@@ -353,13 +354,14 @@ Move the cursor to the beginning of the current line.
 Move the cursor to the end of the current line.
 .TP
 .B beginpara
-Move the cursor to the beginning of the current paragraph
-.TP
-.B endpara
 Move the cursor to the beginning of the current paragraph.
 .TP
+.B endpara
+Move the cursor to the end of the current paragraph.
+.TP
 .B findbracket
-Move the cursor to the matching bracket (brace, etc) of the one under the cursor.
+Move the cursor to the matching bracket (brace, parenthesis, etc.) of the one
+under the cursor.
 .TP
 .B scrollup
 Scroll up one line of text from the current position.
@@ -392,17 +394,17 @@ Justify the entire current file.
 Count the number of words in the current buffer.
 .TP
 .B refresh
-Refresh the screen
+Refresh the screen.
 .TP
 .B suspend
-Suspend the editor (if the suspend functino is enabled, see the 
-"suspendenable" entry below.
+Suspend the editor (if the suspend function is enabled, see the 
+"suspendenable" entry below).
 .TP
 .B casesens
 Toggle case sensitivity in searching (search/replace menus only).
 .TP
 .B regexp
-Toggle whether searches/replaces are based on literal strings or regular expressions.
+Toggle whether searching/replacing is based on literal strings or regular expressions.
 .TP
 .B prevhistory
 Show the previous history entry in the prompt menus (e.g. search).
@@ -414,7 +416,7 @@ Show the next history entry in the prompt menus (e.g. search).
 Switch back to searching instead of replacing.
 .TP
 .B gototext
-Search for files matching a string in the file browser (reading or writing files)
+Search for files matching a string in the file browser (reading or writing files).
 .TP
 .B dosformat
 When writing a file, switch to writing a DOS format (CR/LF).
@@ -438,28 +440,29 @@ Move to the first file when using the file browser (reading or writing files).
 Move to the last file when using the file browser (reading or writing files).
 .TP
 .B nohelp
-Toggle showing/hiding the two line list of key bindings at the bottom of the screen.
+Toggle showing/hiding the two-line list of key bindings at the bottom of the screen.
 .TP
 .B constupdate
-Constantly display the current line, column, etc position.
+Constantly display the current line, column, word positions.
 .TP
 .B morespace
-Toggle showing/hiding the blank space which 'seperates' the 'title' from the file text.
+Toggle showing/hiding the blank line which 'separates' the 'title' from the file text.
 .TP
 .B smoothscroll
 Toggle smooth scrolling when moving via the arrow keys.
 .TP
-.B whitesplacedisplay
+.B whitespacedisplay
+Toggle whether whitespace is shown.
 .TP
 .B smarthome
 Toggle whether the smart home key function is enabled.
 .TP
 .B autoindent
-Toggle whether new lines will conain the same amount of whitespace as the line above.
+Toggle whether new lines will contain the same amount of whitespace as the line above.
 .TP
 .B cuttoend
-Toggle whether cutting text will cut the whole line or just from the current cursor. 
-position to the end of the line
+Toggle whether cutting text will cut the whole line or just from the current cursor
+position to the end of the line.
 .TP
 .B nowrap
 Toggle whether long lines will be wrapped to the next line.
@@ -507,10 +510,10 @@ The file browser for inserting or writing a file.
 The 'search for a file' menu in the file browser.
 .TP
 .B gotodir
-The 'go to directory' menu
+The 'go to directory' menu.
 .TP
 .B all
-Special name meaning apply to all menus where this function exists.
+A special name meaning: apply to all menus where this function exists.
 .SH FILES
 .TP
 .I SYSCONFDIR/nanorc

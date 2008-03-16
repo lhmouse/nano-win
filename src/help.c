@@ -474,7 +474,7 @@ void help_init(void)
 	}
 
 	/* The shortcut's help text. */
-	ptr += sprintf(ptr, "%s\n", f->help);
+	ptr += sprintf(ptr, "%s\n", _(f->help));
 
 	if (f->blank_after)
 	    ptr += sprintf(ptr, "\n");
@@ -486,7 +486,7 @@ void help_init(void)
         for (s = sclist; s != NULL; s = s->next)
             if (s->scfunc == (void *) do_toggle)
 		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
-		    s->keystr, flagtostr(s->toggle), _("enable/disable"));
+		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
 
 
 #ifdef ENABLE_NANORC
