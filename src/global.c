@@ -1017,7 +1017,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "F13", do_gotolinecolumn_void, 0, TRUE);
     add_to_sclist(MMAIN, "^O", do_writeout_void, 0, TRUE);
     add_to_sclist(MMAIN, "F3", do_writeout_void, 0, TRUE);
-#ifndef NANO_TINY
+#ifndef DISABLE_JUSTIFY
     add_to_sclist(MMAIN, "^J", do_justify_void, 0, TRUE);
     add_to_sclist(MMAIN, "F4", do_justify_void, 0, TRUE);
 #endif
@@ -1078,7 +1078,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "khome", do_home, 0, TRUE);
     add_to_sclist(MALL, "^E", do_end, 0, TRUE);
     add_to_sclist(MALL, "kend", do_end, 0, TRUE);
-#ifndef NANO_TINY
+#ifndef DISABLE_JUSTIFY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"^W", do_para_begin_void, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
@@ -1129,7 +1129,9 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-V", do_verbatim_input, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
+#ifndef DISABLE_JUSTIFY
     add_to_sclist(MALL, "M-J", do_full_justify, 0, TRUE);
+#endif
     add_to_sclist(MMAIN, "M-D", do_wordlinechar_count, 0, TRUE);
     add_to_sclist(MMAIN, "M-X", do_toggle, NO_HELP, TRUE);
     add_to_sclist(MMAIN, "M-C", do_toggle, CONST_UPDATE, TRUE);
@@ -1295,9 +1297,17 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = do_gotolinecolumn_void;
     else if (!strcasecmp(input, "replace"))
 	s->scfunc = do_replace;
-#ifndef NANO_TINY
+#ifndef DISABLE_JUSTIFY
     else if (!strcasecmp(input, "justify"))
 	s->scfunc = do_justify_void;
+    else if (!strcasecmp(input, "beginpara"))
+	s->scfunc = do_para_begin_void;
+    else if (!strcasecmp(input, "endpara"))
+	s->scfunc = do_para_end_void;
+    else if (!strcasecmp(input, "fulljustify"))
+	s->scfunc = do_full_justify;
+#endif
+#ifndef NANO_TINY
     else if (!strcasecmp(input, "mark"))
 	s->scfunc = do_mark;
     else if (!strcasecmp(input, "searchagain") ||
@@ -1394,12 +1404,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = (void *) do_toggle;
 	s->execute = FALSE;
 	s->toggle = SUSPEND;
-    } else if (!strcasecmp(input, "beginpara"))
-	s->scfunc = do_para_begin_void;
-    else if (!strcasecmp(input, "endpara"))
-	s->scfunc = do_para_end_void;
-    else if (!strcasecmp(input, "fulljustify"))
-	s->scfunc = do_full_justify;
+    }
 #endif /* NANO_TINY */
     else if (!strcasecmp(input, "right") ||
 		!strcasecmp(input, "forward"))
