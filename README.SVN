@@ -34,7 +34,7 @@ To obtain the current nano development code (called 'trunk'), use the
 following command.  It will create a copy of the files in a subdirectory 
 of your current working directory called 'nano':
 
-    $ svn co svn://svn.savannah.gnu.org/nano
+    $ svn co svn://svn.savannah.gnu.org/nano/trunk/nano
 
 If you want to download the stable SVN branch instead, use:
 
