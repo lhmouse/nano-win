@@ -19,7 +19,7 @@
 <blockquote><p><a href="#2.1">2.1. FTP and WWW sites that carry nano.</a><br>
   <a href="#2.2">2.2. RedHat and derivatives (.rpm) packages.</a><br>
   <a href="#2.3">2.3. Debian (.deb) packages.</a><br>
-  <a href="#2.4">2.4. By CVS (for the brave).</a></p></blockquote>
+  <a href="#2.4">2.4. By subversion (for the brave).</a></p></blockquote>
 <h2><a href="#3">3. Installation and Configuration</a></h2>
 <blockquote><p><a href="#3.1">3.1. How do I install the RPM or DEB package?</a><br>
   <a href="#3.2">3.2. Compiling from source: WHAT THE HECK DO I DO NOW?</a><br>
@@ -58,9 +58,9 @@
 <h2><a href="#7">7. Miscellaneous</a></h2>
 <blockquote><p><a href="#7.1">7.1. nano-related mailing lists.</a><br>
   <a href="#7.2">7.2. I want to send the development team a big load of cash (or just a thank you).</a><br>
-  <a href="#7.3">7.3. How do I submit a patch?</a><br>
+  <a href="#7.3">7.3. How do I submit a bug report or patch?</a><br>
   <a href="#7.4">7.4. How do I join the development team?</a><br>
-  <a href="#7.5">7.5. Can I have CVS write access?</a></p></blockquote>
+  <a href="#7.5">7.5. Can I have write access to the subversion tree?</a></p></blockquote>
 <h2><a href="#8">8. ChangeLog</a></h2>
 <hr width="100%">
 <h1><a name="1"></a>1. General</h1>
@@ -112,8 +112,8 @@
   </ul>
   <p>You can also have a look at the <a href="ftp://ftp.debian.org/debian/pool/main/n/nano/">Package Pool</a> to see all the available binary and source packages.</p>
   <p>Note that versions &lt; 0.9.10 are probably not for those wanting to get serious work done, so if you are using Debian 2.2, check that you have updated to 2.2r3, which comes with nano 0.9.23. If you're tracking unstable, you probably have the newest version already.</p></blockquote>
-<h2><a name="2.4"></a>2.4. By CVS (for the brave).</h2>
-<blockquote><p>For the 'bleeding edge' current version of nano, you can use CVS to download the current source code. <b>Note:</b> believe it or not, by downloading code that has not yet stabilized into an official release, there could quite possibly be bugs, in fact the code may not even compile! Anyway, see <a href="http://savannah.gnu.org/cvs/?group=nano">the nano CVS page</a> for info on anonymous CVS access to the nano source.</p></blockquote>
+<h2><a name="2.4"></a>2.4. By subversion (for the brave).</h2>
+<blockquote><p>For the 'bleeding edge' current version of nano, you can use subversion to download the current source code. <b>Note:</b> believe it or not, by downloading code that has not yet stabilized into an official release, there could quite possibly be bugs, in fact the code may not even compile! Anyway, see <a href="http://svn.savannah.gnu.org/viewvc/trunk/nano/README.SVN?root=nano&view=markup">the nano SVN document</a> for info on anonymous SVN access to the nano source.</p></blockquote>
 <hr width="100%">
 <h1><a name="3"></a>3. Installation and Configuration</h1>
 <h2><a name="3.1"></a>3.1. How do install the RPM or DEB package?</h2>
@@ -236,7 +236,8 @@
 <h2><a name="6.3"></a>6.3. What is so bad about the older Pine license?</h2>
 <blockquote><p>The U of W license for older versions of Pine and Pico is not considered truly Free Software according to both the Free Software Foundation and the <a href="http://www.debian.org/social_contract#guidelines">Debian Free Software Guidelines</a>. The main problem regards the limitations on distributing derived works: according to UW, you can distribute their software, and you can modify it, but you can not do both, i.e. distribute modified binaries.</p></blockquote>
 <h2><a name="6.4"></a>6.4. Okay, well, what mail program should I use then?</h2>
-<blockquote><p>If you are looking to use a Free Software program similar to Pine, and Emacs is not your thing, you should definitely take a look at <a href="http://www.mutt.org/">mutt</a>. It is a full-screen, console based mail program that actually has a lot more flexibility than Pine, but has a keymap included in the distribution that allows you to use the same keystrokes as Pine would to send and receive mail. It's also under the GNU General Public License, version 2.0.</p></blockquote>
+<blockquote><p>If you are looking to use a Free Software program similar to Pine, and Emacs is not your thing, you should definitely take a look at <a href="http://www.mutt.org/">mutt</a>. It is a full-screen, console based mail program that actually has a lot more flexibility than Pine, but has a keymap included in the distribution that allows you to use the same keystrokes as Pine would to send and receive mail. It's also under the GNU General Public License, version 2.0.<P>
+Of course, due to the license change you can now use the <A HREF="http://www.washington.edu/alpine/">Alpine distribution</A> of PINE as it is now considered Free Software, but you would be sacrificing many of nano's features to do so.</p></blockquote>
 <hr width="100%">
 <h1><a name="7"></a>7. Miscellaneous</h1>
 <h2><a name="7.1"></a>7.1. nano-related mailing lists.</h2>
@@ -246,14 +247,17 @@
   nano-devel - <a href="http://mail.gnu.org/mailman/listinfo/nano-devel/">http://mail.gnu.org/mailman/listinfo/nano-devel/</a></p></blockquote>
 <h2><a name="7.2"></a>7.2. I want to send the development team a big load of cash (or just a thank you).</h2>
 <blockquote><p>That's fine. Send it <a href="mailto:nano-devel@gnu.org">our way</a>! Better yet, fix a <a href="http://www.nano-editor.org/dist/v2.0/BUGS">bug</a> in the program or implement a <a href="http://www.nano-editor.org/dist/v2.0/TODO">cool feature</a> and send us that instead (though cash is fine too).</p></blockquote>
-<h2><a name="7.3"></a>7.3. How do I submit a patch?</h2>
-<blockquote><p>See Section <a href="#7.2">7.2</a>.</p></blockquote>
+<h2><a name="7.3"></a>7.3. How do I submit a bug report or patch?</h2>
+<blockquote>
+<p>The best place to submit bugs is to the <A HREF="https://savannah.gnu.org/bugs/?group=nano">Savannah bug tracker</A> as you can check whether the bug you are submitting has already been submitted.
+<p>Please submit patches for nano via the <a href="https://savannah.gnu.org/patch/?group=nano">Savannah project's patch manager</a> for the nano project.</p></blockquote>
 <h2><a name="7.4"></a>7.4. How do I join the development team?</h2>
-<blockquote><p>The easiest way is to consistently send in good patches that add some needed functionality, fix a bug or two and/or make the program more optimized/efficient. Then ask nicely and you will probably be added to the Savannah development list and be given CVS write access after awhile. There is a lot of responsibility that goes along with being a team member, so don't think it's just something to add to your resume.</p></blockquote>
-<h2><a name="7.5"></a>7.5. Can I have CVS write access?</h2>
+<blockquote><p>The easiest way is to consistently send in good patches that add some needed functionality, fix a bug or two and/or make the program more optimized/efficient. Then ask nicely and you will probably be added to the Savannah development list and be given SVN write access after awhile. There is a lot of responsibility that goes along with being a team member, so don't think it's just something to add to your resume.</p></blockquote>
+<h2><a name="7.5"></a>7.5. Can I have write access to the subversion tree?</h2>
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote><p>2007/12/21 - Update maintainer information. (DLR)<br>
+2008/03/16 - Update docs to refer to subversion instead of CVS, add more words about Apline, and refer to Savannah for bugs and patches.  (chrisa)
 2007/12/09 - Add minor punctuation and wording fixes, and update various sections to account for Alpine. (DLR)<br>
 2007/08/26 - Update links to the Free Translation Project. (DLR)<br>
 2007/07/29 - Update RPM links for nano 2.0.x. (DLR)<br>
