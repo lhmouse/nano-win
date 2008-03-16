@@ -1,7 +1,7 @@
 INSTRUCTIONS TO COMPILE AND INSTALL NANO CVS VERSIONS
 =====================================================
 
-GNU nano is available from CVS, but building this needs a bit more care
+GNU nano is available from SVN, but building this needs a bit more care
 than the official stable and unstable tarballs.
 
 
@@ -16,7 +16,7 @@ packages:
 - gettext  (version >= 0.11.5)
 - groff    (version >= 1.12)
 - texinfo  (version >= 4.0)
-- cvs
+- subversion (aka svn)
 - ssh (with support for the SSH version 2 protocol)
 - glib 2.x (if your system doesn't have vsnprintf(), which the configure
   script will check for)
@@ -30,23 +30,15 @@ to use UTF-8.
 Download the source
 -------------------
 
-First, you need to set up cvs to download the CVS tree using ssh.  If
-you're using a Bourne shell (e.g. bash or sh), do
+To obtain the current nano development code (called 'trunk'), use the 
+following command.  It will create a copy of the files in a subdirectory 
+of your current working directory called 'nano':
 
-    $ export CVS_RSH=ssh
+    $ svn co svn://svn.savannah.gnu.org/nano
 
-If you're using a C shell (e.g. tcsh or csh), do
+If you want to download the stable SVN branch instead, use:
 
-    $ setenv CVS_RSH ssh
-
-After that's set up, cd to your src directory and use the following
-command to download the CVS tree:
-
-    $ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout nano
-
-If you want to download the stable CVS branch, add "-r nano_2_0_branch":
-
-    $ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout -r nano_2_0_branch nano
+    $ svn co svn://svn.savannah.gnu.org/nano/branches/nano_2_0_branch/nano
 
 
 Generate the configure script
@@ -91,4 +83,5 @@ you'll need to run that "make install" command with root privileges.
 Problems?
 ---------
 
-Please submit any bugs in the CVS branch to nano-devel@gnu.org.
+Please submit any bugs in the SVN branch using the Savannah project's 
+bug tracker (https://savannah.gnu.org/bugs/?group=nano)
