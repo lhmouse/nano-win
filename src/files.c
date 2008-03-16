@@ -738,11 +738,9 @@ void do_insertfile(
 #endif
 		MINSERTFILE, ans,
 		&meta_key, &func_key,
-#ifndef DISABLE_OPERATINGDIR
-#ifndef NANO_TINY
 		NULL,
-#endif
 		edit_refresh, msg,
+#ifndef DISABLE_OPERATINGDIR
 		operating_dir != NULL && strcmp(operating_dir,
 		".") != 0 ? operating_dir :
 #endif
@@ -764,9 +762,10 @@ void do_insertfile(
 
 	    ans = mallocstrcpy(ans, answer);
 
+	    s = get_shortcut(currmenu, &i, &meta_key, &func_key);
+
 #ifndef NANO_TINY
 #ifdef ENABLE_MULTIBUFFER
-	    s = get_shortcut(currmenu, &i, &meta_key, &func_key);
 
 	    if (s && s->scfunc == (void *) new_buffer_msg) {
 		/* Don't allow toggling if we're in view mode. */
