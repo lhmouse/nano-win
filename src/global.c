@@ -842,6 +842,9 @@ void shortcut_init(bool unjustify)
 
     add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim Input"),
 	IFSCHELP(nano_verbatim_msg), FALSE, NOVIEW);
+    add_to_funcs(do_verbatim_input, MWHEREIS|MREPLACE|MREPLACE2|MEXTCMD|MSPELL,
+	"", "", FALSE, NOVIEW);
+
     add_to_funcs(do_tab, MMAIN, N_("Tab"), IFSCHELP(nano_tab_msg),
 	FALSE, NOVIEW);
     add_to_funcs(do_tab, MALL, "", "", FALSE, NOVIEW);
@@ -1122,7 +1125,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M->", switch_to_next_buffer_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-.", switch_to_next_buffer_void, 0, TRUE);
 #endif
-    add_to_sclist(MMAIN, "M-V", do_verbatim_input, 0, TRUE);
+    add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
