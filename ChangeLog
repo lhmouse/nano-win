@@ -1,3 +1,7 @@
+2008-03-17  Mike Frysinger <vapier@gentoo.org>
+	 * */.gitignore - Git ignore files for those running a local git
+	   against SVN.
+
 2008-03-16  Benno Schulenberg <bensberg@justemail.net>
 	* src/help.c, src/global.  - Fix help strings no longer being 
 	  translated properly.
