@@ -2349,7 +2349,7 @@ void bottombars(int menu)
 #ifdef DEBUG
         fprintf(stderr, "Calling onekey with keystr \"%s\" and desc \"%s\"\n", s->keystr, f->desc);
 #endif
-	onekey(s->keystr, f->desc, colwidth + (COLS % colwidth));
+	onekey(s->keystr, _(f->desc), colwidth + (COLS % colwidth));
         i++;
     }
 

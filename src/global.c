@@ -438,38 +438,27 @@ const char *goto_dir_msg;
 const char *ext_cmd_msg = "";
 
 #else
-/* TRANSLATORS: Try to keep the following five strings at most 10
- * characters. */
+/* TRANSLATORS: Try to keep the next five strings at most 10 characters. */
 const char *prev_history_msg = N_("PrevHstory");
 const char *next_history_msg = N_("NextHstory");
 const char *replace_msg = N_("Replace");
 const char *no_replace_msg = N_("No Replace");
 const char *gototext_msg = N_("Go To Text");
-/* TRANSLATORS: Try to keep this at most 12 characters. */
+/* TRANSLATORS: Try to keep the next three strings at most 12 characters. */
 const char *whereis_next_msg = N_("WhereIs Next");
 #ifndef DISABLE_BROWSER
-/* TRANSLATORS: Try to keep this at most 16 characters. */
-const char *to_files_msg = N_("To Files");
-/* TRANSLATORS: Try to keep this at most 12 characters. */
 const char *first_file_msg = N_("First File");
-/* TRANSLATORS: Try to keep this at most 12 characters. */
 const char *last_file_msg = N_("Last File");
+/* TRANSLATORS: Try to keep the next nine strings at most 16 characters. */
+const char *to_files_msg = N_("To Files");
 #endif
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *dos_format_msg = N_("DOS Format");
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *mac_format_msg = N_("Mac Format");
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *append_msg = N_("Append");
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *prepend_msg = N_("Prepend");
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *backup_file_msg = N_("Backup File");
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *ext_cmd_msg = N_("Execute Command");
-
 #ifdef ENABLE_MULTIBUFFER
-/* TRANSLATORS: Try to keep this at most 16 characters. */
 const char *new_buffer_msg = N_("New Buffer");
 #endif
 const char *goto_dir_msg = N_("Go To Dir");
@@ -480,8 +469,7 @@ const char *goto_dir_msg = N_("Go To Dir");
  * Uncut shortcut in the main shortcut list with UnJustify. */
 void shortcut_init(bool unjustify)
 {
-    /* TRANSLATORS: Try to keep this and following strings at most 10
-     * characters. */
+    /* TRANSLATORS: Try to keep the following strings at most 10 characters. */
     const char *get_help_msg = N_("Get Help");
     const char *exit_msg = N_("Exit");
     const char *whereis_msg = N_("Where Is");
@@ -497,11 +485,11 @@ void shortcut_init(bool unjustify)
 #endif
     const char *refresh_msg = N_("Refresh");
     const char *insert_file_msg =  N_("Insert File");
-    /* TRANSLATORS: Try to keep this and previous strings at most 10
-     * characters. */
     const char *go_to_line_msg = N_("Go To Line");
 
 #ifndef DISABLE_HELP
+    /* TRANSLATORS: The next long series of strings are shortcut descriptions;
+     * they are best kept shorter than 56 characters, but may be longer. */
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
@@ -687,8 +675,8 @@ void shortcut_init(bool unjustify)
      * restricted mode, inserting files is disabled, since it allows
      * reading from or writing to files not specified on the command
      * line. */
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(!ISSET(RESTRICTED) ? do_insertfile_void : nano_disabled_msg,
+	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
 #ifdef ENABLE_MULTIBUFFER
 	VIEW);
@@ -719,6 +707,7 @@ void shortcut_init(bool unjustify)
 	    FALSE, NOVIEW);
 
 #ifndef NANO_TINY
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
@@ -726,16 +715,16 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, spell checking is disabled
      * because it allows reading from or writing to files not specified
      * on the command line. */
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
 #ifndef DISABLE_SPELLER
 	if (!ISSET(RESTRICTED))
+	    /* TRANSLATORS: Try to keep this at most 10 characters. */
 	    add_to_funcs(do_spell, MMAIN, N_("To Spell"), nano_spell_msg,
 		TRUE, NOVIEW);
 #endif
 
     add_to_funcs(do_first_line,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP),
-	first_line_msg, first_line_msg, FALSE, VIEW);
+	first_line_msg, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
 
     add_to_funcs(do_last_line,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP),
@@ -745,8 +734,8 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
 	go_to_line_msg, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
 
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
 #ifdef NANO_TINY
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif

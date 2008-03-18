@@ -1,15 +1,20 @@
+2008-03-17  Benno Schulenberg <bensberg@justemail.net>
+	* global.c - Fix incorrect first line jump messsage, fix
+	  more comments to assist translators
+	* winio.c - Fix shortcut labels not being translated.
+
 2008-03-17  Mike Frysinger <vapier@gentoo.org>
-	 * */.gitignore - Git ignore files for those running a local git
+	 * */.gitignore: Git ignore files for those running a local git
 	   against SVN.
 
 2008-03-16  Benno Schulenberg <bensberg@justemail.net>
-	* src/help.c, src/global.  - Fix help strings no longer being 
+	* src/help.c, src/global: Fix help strings no longer being 
 	  translated properly.
-	* src/global.c, doc/man/nanorc.5 - Fix typos and poorlly worded lines
+	* src/global.c, doc/man/nanorc.5: Fix typos and poorlly worded lines
 	  in the source and man pages.
 
 2008-03-04  Chris Allegretta <chrisa@asty.org
-	* everything - New shortcut backend.  New structs subnfunc
+	* everything: New shortcut backend.  New structs subnfunc
 	for menu functions and toggles and sc for shortcut keys, old 
 	'shortcut' and 'toggles' structs are gone.  The current implementation 
 	has a bunch of broken stuff (some of which is documented in BUGS). 
