@@ -648,7 +648,7 @@ void shortcut_init(bool unjustify)
 #endif
 
     add_to_funcs((void *) cancel_msg,
-	(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR),
+	(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO),
 	cancel_msg, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
@@ -1140,7 +1140,7 @@ void shortcut_init(bool unjustify)
 #endif
     add_to_sclist(MGOTOLINE, "^T", (void *) gototext_msg, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", (void *) new_buffer_msg, 0, FALSE);
-    add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR), 
+    add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO),
 	"^C", (void *) cancel_msg, 0, FALSE);
     add_to_sclist(MHELP, "^X", do_exit, 0, TRUE);
     add_to_sclist(MHELP, "F2", do_exit, 0, TRUE);

@@ -438,6 +438,7 @@ typedef struct subnfunc {
 #define	MBROWSER			(1<<10)
 #define	MWHEREISFILE			(1<<11)
 #define MGOTODIR			(1<<12)
+#define MYESNO				(1<<13)
 /* This really isnt all but close enough */
 #define	MALL				(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MHELP)
 

@@ -1247,6 +1247,7 @@ int do_yesno_prompt(bool all, const char *msg)
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
     const sc *s;
+    int oldmenu = currmenu;
 
     assert(msg != NULL);
 
@@ -1308,6 +1309,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	int mouse_x, mouse_y;
 #endif
 
+	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
 	s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
 
@@ -1358,5 +1360,6 @@ int do_yesno_prompt(bool all, const char *msg)
 	}
     } while (ok == -2);
 
+    currmenu = oldmenu;
     return ok;
 }
