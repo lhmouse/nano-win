@@ -1,3 +1,13 @@
+2008/03/18 - GNU nano 2.1.0 "under old mismanagement" is released.
+		This first release in the 2.1 development series
+		introduces rebinadble keys for most actions inside
+                the editor.  Please see the nanorc(5) page for
+		more information on configuring key bindings.  Please 
+		also report all keybinding bugs (crashes, missing 
+		menu functions) using the Savannah bug tracker URL,
+		https://savannah.gnu.org/bugs/?group=nano and
+		thanks for sticking with us!
+
 2007/12/20 - GNU nano 2.0.7 keeps its balance.  This release fixes
 		several bugs, among others: a segfault and several
 		cursor positioning problems when uncutting text or
