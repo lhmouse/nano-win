@@ -662,7 +662,9 @@ void shortcut_init(bool unjustify)
 
     add_to_funcs(do_exit, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
 
+#ifndef DISABLE_BROWSER
     add_to_funcs(do_exit, MBROWSER, exit_msg, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);
+#endif
 
     /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_writeout_void, MMAIN, N_("WriteOut"),
