@@ -414,7 +414,7 @@ void help_init(void)
 
 	for (s = sclist; s != NULL; s = s->next)
             if (s->scfunc == (void *) do_toggle)
-		allocsize += strlen(flagtostr(s->toggle)) + endis_len + 9;
+		allocsize += strlen(_(flagtostr(s->toggle))) + endis_len + 9;
 
     }
 #endif

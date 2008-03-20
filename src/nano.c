@@ -1250,7 +1250,7 @@ void do_toggle(int flag)
 	)
 	enabled = !enabled;
 
-    desc = flagtostr(flag);
+    desc = _(flagtostr(flag));
     statusbar("%s %s", desc, enabled ? _("enabled") :
 	_("disabled"));
 }

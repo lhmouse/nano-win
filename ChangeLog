@@ -1,3 +1,7 @@
+2008-03-19  Benno Schulenberg <bensberg@justemail.net>
+	* help.c, nano.c: Fix toggle help not being translated, fix allocation
+	  issue.
+
 2008-03-19  Chris Allegretta <chrisa@asty.org>
 	* gloabl.c: Fix bracket matching sequence to be M-] not M-[, as reported
 	  Nick Warne <nick@ukfsn.org>.
