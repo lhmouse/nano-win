@@ -1107,7 +1107,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", (void *) last_file_msg, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", (void *) last_file_msg, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MMAIN, "M-[", do_find_bracket, 0, TRUE);
+    add_to_sclist(MMAIN, "M-]", do_find_bracket, 0, TRUE);
     add_to_sclist(MMAIN, "M--", do_scroll_up, 0, TRUE);
     add_to_sclist(MMAIN, "M-_", do_scroll_up, 0, TRUE);
     add_to_sclist(MMAIN, "M-+", do_scroll_down, 0, TRUE);

@@ -1,4 +1,8 @@
-2008-03-17  Mike Frysinger <vapier@gentoo.org>
+2008-03-19  Chris Allegretta <chrisa@asty.org>
+	* gloabl.c: Fix bracket matching sequence to be M-] not M-[, as reported
+	  Nick Warne <nick@ukfsn.org>.
+
+2008-03-18  Mike Frysinger <vapier@gentoo.org>
 	* winio.c: Remove unneeded variable in parse_kbinput()
 	* rcfile.c: relocate check_vitals_mapped() function to just above 
 	  where it actually gets used and declare it "static void" in the process
