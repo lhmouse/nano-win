@@ -501,7 +501,9 @@ void shortcut_init(bool unjustify)
 	;
     const char *nano_writeout_msg =
 	N_("Write the current file to disk");
+#ifndef DISABLE_JUSTIFY
     const char *nano_justify_msg = N_("Justify the current paragraph");
+#endif
     const char *nano_insert_msg =
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
@@ -658,7 +660,9 @@ void shortcut_init(bool unjustify)
 #endif
 	exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
 
-    add_to_funcs(do_exit, MBROWSER|MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
+    add_to_funcs(do_exit, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
+
+    add_to_funcs(do_exit, MBROWSER, exit_msg, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);
 
     /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_writeout_void, MMAIN, N_("WriteOut"),

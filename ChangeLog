@@ -1,7 +1,16 @@
+2008-03-17  Mike Frysinger <vapier@gentoo.org>
+	* winio.c: Remove unneeded variable in parse_kbinput()
+	* rcfile.c: relocate check_vitals_mapped() function to just above 
+	  where it actually gets used and declare it "static void" in the process
+	* global.c: only declare nano_justify_msg when justify support is enabled
+	* php.nanorc: Php syntax highlighting config
+	* tcl.nanorc: Tcl syntax highlighting config
+	* gentoo.nanorc: Gentoo syntax highlighting config
+
 2008-03-17  Benno Schulenberg <bensberg@justemail.net>
-	* global.c - Fix incorrect first line jump messsage, fix
+	* global.c: Fix incorrect first line jump messsage, fix
 	  more comments to assist translators
-	* winio.c - Fix shortcut labels not being translated.
+	* winio.c: Fix shortcut labels not being translated.
 
 2008-03-17  Mike Frysinger <vapier@gentoo.org>
 	 * */.gitignore: Git ignore files for those running a local git

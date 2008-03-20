@@ -329,7 +329,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
     *meta_key = FALSE;
     *func_key = FALSE;
-    const sc *s;
 
     /* Read in a character. */
     while ((kbinput = get_input(win, 1)) == NULL);
