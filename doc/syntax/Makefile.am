@@ -12,6 +12,10 @@ pkgdata_DATA =	asm.nanorc \
 		python.nanorc \
 		ruby.nanorc \
 		sh.nanorc \
-		tex.nanorc
+		tex.nanorc \
+		tcl.nanorc \
+		php.nanorc \
+		gentoo.nanorc \
+		debian.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA)

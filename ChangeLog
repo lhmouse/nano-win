@@ -1,6 +1,9 @@
 2008-03-19  Chris Allegretta <chrisa@asty.org>
 	* gloabl.c: Fix bracket matching sequence to be M-] not M-[, as reported
 	  Nick Warne <nick@ukfsn.org>.
+	* doc/syntax/Makefile.am - Actually include new syntaxes from Mike, etc
+	* debian.nanorc - New debian sources.list config since we're including
+	  gentoo, adapted from Milian Wolff <mail@milianw.de>
 
 2008-03-18  Mike Frysinger <vapier@gentoo.org>
 	* winio.c: Remove unneeded variable in parse_kbinput()

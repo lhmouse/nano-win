@@ -478,6 +478,10 @@ void parse_include(char *ptr)
     nanorc = full_option;
     lineno = 0;
 
+#ifdef DEBUG
+    fprintf(stderr, "Parsing file \"%s\"\n", full_option);
+#endif
+
     parse_rcfile(rcstream
 #ifdef ENABLE_COLOR
 	, TRUE
@@ -990,6 +994,10 @@ void do_rcfile(void)
 		_("\"%s\" is a directory") :
 		_("\"%s\" is a device file"), nanorc);
     }
+
+#ifdef DEBUG
+    fprintf(stderr, "Parsing file \"%s\"\n", nanorc);
+#endif
 
     /* Try to open the system-wide nanorc. */
     rcstream = fopen(nanorc, "rb");
