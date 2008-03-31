@@ -830,9 +830,9 @@ void shortcut_init(bool unjustify)
 
 #ifdef ENABLE_MULTIBUFFER
     add_to_funcs(switch_to_prev_buffer_void, MMAIN, _("Previous File"),
-	nano_prevfile_msg, FALSE, VIEW);
+	IFSCHELP(nano_prevfile_msg), FALSE, VIEW);
     add_to_funcs(switch_to_next_buffer_void, MMAIN, N_("Next File"),
-	nano_nextfile_msg, TRUE, VIEW);
+	IFSCHELP(nano_nextfile_msg), TRUE, VIEW);
 #endif
 
     add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim Input"),

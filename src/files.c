@@ -738,7 +738,9 @@ void do_insertfile(
 #endif
 		MINSERTFILE, ans,
 		&meta_key, &func_key,
+#ifndef NANO_TINY
 		NULL,
+#endif
 		edit_refresh, msg,
 #ifndef DISABLE_OPERATINGDIR
 		operating_dir != NULL && strcmp(operating_dir,
