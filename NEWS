@@ -1,4 +1,4 @@
-2008/04/01  GNU nano 2.1.1 wont get fooled again.  This release contains
+2008/04/01 - GNU nano 2.1.1 wont get fooled again.  This release contains
 		fixes for the new user-rebindable keys (in particular
 		bracket match which was mis-bound), and various
 		problems with translations and configure-related 
