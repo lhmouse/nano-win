@@ -1,3 +1,11 @@
+GNU nano 2.1.1 - 2008.04.01
+
+2008-03-31 Chris Allegretta <chrisa@asty.org>
+	* global.c: Fix for issues compiling with --enable-tiny and
+	  --enable-multibuffer, as reported by Mike Frysinger.
+	* files.c: Fix the fact that the insert file prompt text did not
+	  properly appears in tiny mode.
+
 2008-03-19  Benno Schulenberg <bensberg@justemail.net>
 	* help.c, nano.c: Fix toggle help not being translated, fix allocation
 	  issue.
