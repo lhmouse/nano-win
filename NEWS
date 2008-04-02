@@ -1,3 +1,16 @@
+2008/04/01  GNU nano 2.1.1 wont get fooled again.  This release contains
+		fixes for the new user-rebindable keys (in particular
+		bracket match which was mis-bound), and various
+		problems with translations and configure-related 
+		compilation problems are now fixed as well.
+		It also contains new syntax highlighting 
+		definitions for TCL, PHP, Gentoo and Debian-related 
+		files, and some documentation updates as well. 
+		Please continue to send reports with the key 
+		binding code to the Savannah page
+		(https://savannah.gnu.org/bugs/?group=nano).
+		
+
 2008/03/18 - GNU nano 2.1.0 "under old mismanagement" is released.
 		This first release in the 2.1 development series
 		introduces rebinadble keys for most actions inside
