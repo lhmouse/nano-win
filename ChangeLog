@@ -1,5 +1,10 @@
 2008-05-31 Chris Allegretta <chrisa@asty.org>
-	* global.c: Fix for compile error when --disable-speller is used (Savannah bug 23227 by Mike Frysinger)
+	* files.c,proto.h,text.c: Fix for conflicts with AIX curses
+	  variables, from William Jojo <jojowil@hvcc.edu>
+
+2008-05-31 Chris Allegretta <chrisa@asty.org>
+	* global.c: Fix for compile error when --disable-speller is used 
+	  (Savannah bug 23227 by Mike Frysinger)
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* Fix for seg fault when window size too small, by 
