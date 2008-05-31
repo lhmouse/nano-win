@@ -1,9 +1,9 @@
-GNU nano 2.1.1 - 2008.04.01
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* Fix for seg fault when window size too small, by 
           Andreas Amann <andreas.amann@tyndall.ie>
 
+GNU nano 2.1.1 - 2008.04.01
 2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* Added the following contributed files, by owner:
 	  Donnie Berkholz <dberkholz@gentoo.org>
