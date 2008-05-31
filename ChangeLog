@@ -1,4 +1,7 @@
 CVS code -
+- General:
+	- Fix for conflicts with AIX curses variables, from William 
+	  Jojo <jojowil@hvcc.edu>
 - nano.c:
 	- Fix for segfault on resize by Andreas Amann <andreas.amann@tyndall.ie>
 

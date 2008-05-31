@@ -761,7 +761,7 @@ bool do_wrap(filestruct *line)
  * blank, as does a '\n' if newline is TRUE. */
 ssize_t break_line(const char *line, ssize_t goal
 #ifndef DISABLE_HELP
-	, bool newline
+	, bool newln
 #endif
 	)
 {
@@ -781,13 +781,13 @@ ssize_t break_line(const char *line, ssize_t goal
 
 	if (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
-		|| (newline && *line == '\n')
+		|| (newln && *line == '\n')
 #endif
 		) {
 	    blank_loc = cur_loc;
 
 #ifndef DISABLE_HELP
-	    if (newline && *line == '\n')
+	    if (newln && *line == '\n')
 		break;
 #endif
 	}
@@ -810,7 +810,7 @@ ssize_t break_line(const char *line, ssize_t goal
 
 	    if (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
-		|| (newline && *line == '\n')
+		|| (newln && *line == '\n')
 #endif
 		) {
 		if (!found_blank)
@@ -834,11 +834,11 @@ ssize_t break_line(const char *line, ssize_t goal
 
     while (*line != '\0' && (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
-	|| (newline && *line == '\n')
+	|| (newln && *line == '\n')
 #endif
 	)) {
 #ifndef DISABLE_HELP
-	if (newline && *line == '\n')
+	if (newln && *line == '\n')
 	    break;
 #endif
 
@@ -2361,7 +2361,7 @@ void do_spell(void)
 void do_wordlinechar_count(void)
 {
     size_t words = 0, chars = 0;
-    ssize_t lines = 0;
+    ssize_t nlines = 0;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
@@ -2396,7 +2396,7 @@ void do_wordlinechar_count(void)
     /* Get the total line and character counts, as "wc -l"  and "wc -c"
      * do, but get the latter in multibyte characters. */
     if (old_mark_set) {
-	lines = openfile->filebot->lineno -
+	nlines = openfile->filebot->lineno -
 		openfile->fileage->lineno + 1;
 	chars = get_totsize(openfile->fileage, openfile->filebot);
 
@@ -2405,7 +2405,7 @@ void do_wordlinechar_count(void)
 	unpartition_filestruct(&filepart);
 	openfile->mark_set = TRUE;
     } else {
-	lines = openfile->filebot->lineno;
+	nlines = openfile->filebot->lineno;
 	chars = openfile->totsize;
     }
 
@@ -2417,7 +2417,7 @@ void do_wordlinechar_count(void)
     /* Display the total word, line, and character counts on the
      * statusbar. */
     statusbar(_("%sWords: %lu  Lines: %ld  Chars: %lu"), old_mark_set ?
-	_("In Selection:  ") : "", (unsigned long)words, (long)lines,
+	_("In Selection:  ") : "", (unsigned long)words, (long)nlines,
 	(unsigned long)chars);
 }
 #endif /* !NANO_TINY */

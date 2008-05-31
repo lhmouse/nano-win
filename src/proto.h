@@ -649,7 +649,7 @@ bool do_wrap(filestruct *line);
 #if !defined(DISABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal
 #ifndef DISABLE_HELP
-	, bool newline
+	, bool newln
 #endif
 	);
 #endif

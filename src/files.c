@@ -2384,7 +2384,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	} else if (!*lastwastab || num_matches < 2)
 	    *lastwastab = TRUE;
 	else {
-	    int longest_name = 0, columns, editline = 0;
+	    int longest_name = 0, ncols, editline = 0;
 
 	    /* Now we show a list of the available choices. */
 	    assert(num_matches > 1);
@@ -2409,7 +2409,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	    /* Each column will be (longest_name + 2) columns wide, i.e.
 	     * two spaces between columns, except that there will be
 	     * only one space after the last column. */
-	    columns = (COLS + 1) / (longest_name + 2);
+	    ncols = (COLS + 1) / (longest_name + 2);
 
 	    /* Blank the edit window, and print the matches out
 	     * there. */
@@ -2423,11 +2423,11 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 		char *disp;
 
 		wmove(edit, editline, (longest_name + 2) *
-			(match % columns));
+			(match % ncols));
 
-		if (match % columns == 0 &&
+		if (match % ncols == 0 &&
 			editline == editwinrows - 1 &&
-			num_matches - match > columns) {
+			num_matches - match > ncols) {
 		    waddstr(edit, _("(more)"));
 		    break;
 		}
@@ -2437,7 +2437,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 		waddstr(edit, disp);
 		free(disp);
 
-		if ((match + 1) % columns == 0)
+		if ((match + 1) % ncols == 0)
 		    editline++;
 	    }
 
