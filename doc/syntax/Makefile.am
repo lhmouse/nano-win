@@ -16,6 +16,9 @@ pkgdata_DATA =	asm.nanorc \
 		tcl.nanorc \
 		php.nanorc \
 		gentoo.nanorc \
-		debian.nanorc
+		debian.nanorc \
+		awk.nanorc \
+		css.nanorc \
+		xml.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA)

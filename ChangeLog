@@ -1,5 +1,14 @@
 GNU nano 2.1.1 - 2008.04.01
 
+2008-05-31 Chris Allegretta <chrisa@asty.org>
+	* Added the following contributed files, by owner:
+	  Donnie Berkholz <dberkholz@gentoo.org>
+	    * Sample awk.nanorc
+	  Simon Rupf <simon.rupf@int-ag.ch>
+	    * Sample css.nanorc
+	  Josef 'Jupp' Schugt <jupp@rubyforge.org>
+	    * sample ruby.nanorc
+
 2008-03-31 Chris Allegretta <chrisa@asty.org>
 	* global.c: Fix for issues compiling with --enable-tiny and
 	  --enable-multibuffer, as reported by Mike Frysinger.
