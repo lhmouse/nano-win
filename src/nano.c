@@ -611,7 +611,7 @@ void die(const char *msg, ...)
     va_end(ap);
 
     /* Save the current file buffer if it's been modified. */
-    if (openfile->modified) {
+    if (openfile && openfile->modified) {
 	/* If we've partitioned the filestruct, unpartition it now. */
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
