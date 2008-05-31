@@ -1032,7 +1032,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "F10", do_uncut_text, 0, TRUE);
     add_to_sclist(MMAIN, "^C", do_cursorpos_void, 0, TRUE);
     add_to_sclist(MMAIN, "F11", do_cursorpos_void, 0, TRUE);
-#ifndef NANO_TINY
+#ifndef DISABLE_SPELLER
     add_to_sclist(MMAIN, "^T", do_spell, 0, TRUE);
     add_to_sclist(MMAIN, "F12", do_spell, 0, TRUE);
 #endif
