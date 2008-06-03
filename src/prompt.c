@@ -1010,7 +1010,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 	} else 
 #endif /* !DISABLE_TABCOMP */
 #ifndef NANO_TINY
-	if (s && s->scfunc == do_up_void) {
+	if (s && s->scfunc == (void *) prev_history_msg) {
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
 		     * history list and answer isn't blank, save answer
@@ -1038,7 +1038,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-	} else if (s && s->scfunc == do_down_void) {
+	} else if (s && s->scfunc == (void *) next_history_msg) {
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
 		     * save it in answer.  If there is no newer search,

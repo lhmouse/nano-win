@@ -788,6 +788,8 @@ const char *cancel_msg;
 #ifndef NANO_TINY
 const char *case_sens_msg;
 const char *backwards_msg;
+const char *prev_history_msg;
+const char *next_history_msg;
 #endif
 const char *replace_msg;
 const char *no_replace_msg;

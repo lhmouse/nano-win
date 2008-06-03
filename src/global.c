@@ -1064,15 +1064,21 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Q", xon_complaint, 0, TRUE);
     add_to_sclist(MMAIN, "^S", xoff_complaint, 0, TRUE);
-    add_to_sclist(MALL, "^P", do_up_void, 0, TRUE);
-    add_to_sclist(MALL, "kup", do_up_void, 0, TRUE);
-    add_to_sclist(MALL, "^N", do_down_void, 0, TRUE);
-    add_to_sclist(MALL, "kdown", do_down_void, 0, TRUE);
+    add_to_sclist(MMAIN, "^P", do_up_void, 0, TRUE);
+    add_to_sclist(MMAIN, "kup", do_up_void, 0, TRUE);
+    add_to_sclist(MMAIN, "^N", do_down_void, 0, TRUE);
+    add_to_sclist(MMAIN, "kdown", do_down_void, 0, TRUE);
     add_to_sclist(MALL, "^A", do_home, 0, TRUE);
     add_to_sclist(MALL, "khome", do_home, 0, TRUE);
     add_to_sclist(MALL, "^E", do_end, 0, TRUE);
     add_to_sclist(MALL, "kend", do_end, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
+#ifndef NANO_TINY
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^P", (void *) prev_history_msg, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kup", (void *) prev_history_msg, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^N", (void *) next_history_msg, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kdown", (void *) next_history_msg, 0, FALSE);
+#endif
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"^W", do_para_begin_void, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
