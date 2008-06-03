@@ -1,4 +1,8 @@
 2008-05-31 Chris Allegretta <chrisa@asty.org>
+	* global.c: Fix for Savannah bug #23442: left/right arrow keys 
+	  do not work with --enable-tiny (by Mike Frysinger)
+
+2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* files.c,proto.h,text.c: Fix for conflicts with AIX curses
 	  variables, from William Jojo <jojowil@hvcc.edu>
 

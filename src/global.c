@@ -1056,12 +1056,12 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-}", do_indent_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
     add_to_sclist(MALL, "^F", do_right, 0, TRUE);
-    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
     add_to_sclist(MALL, "^B", do_left, 0, TRUE);
-    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
 #endif
+    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
+    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Q", xon_complaint, 0, TRUE);
     add_to_sclist(MMAIN, "^S", xoff_complaint, 0, TRUE);
     add_to_sclist(MALL, "^P", do_up_void, 0, TRUE);
