@@ -1383,7 +1383,7 @@ char *get_history_older(filestruct **h)
     assert(h != NULL);
 
     if ((*h)->prev == NULL)
-	return NULL;
+	return (*h)->data;
 
     *h = (*h)->prev;
 
@@ -1397,7 +1397,7 @@ char *get_history_newer(filestruct **h)
     assert(h != NULL);
 
     if ((*h)->next == NULL)
-	return NULL;
+	return (*h)->data;
 
     *h = (*h)->next;
 
