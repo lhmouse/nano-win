@@ -1,3 +1,7 @@
+2008-06-24 Chris Allegretta <chrisa@asty.org>
+	* rcfile.c: Added function check_bad_binding() to look for sequences which
+	  shouldn't be bound, per Savannah bug 22674.
+
 2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* prompt.c,search.c,global.c: Tentative fix for bug #23144: using arrow 
 	  keys in search buffer affects main window (by Mike Frysinger)
