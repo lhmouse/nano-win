@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-01 23:59-0400\n"
+"POT-Creation-Date: 2008-06-24 23:34-0400\n"
 "PO-Revision-Date: 2007-09-19 22:19+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -33,8 +33,8 @@ msgstr "Không đi ra được bên ngoài của %s trong chế độ hạn ch�
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:622
 #: src/files.c:631 src/files.c:1425 src/files.c:1513 src/files.c:1559
-#: src/files.c:1580 src/files.c:1703 src/files.c:2522 src/rcfile.c:471
-#: src/rcfile.c:1041
+#: src/files.c:1580 src/files.c:1703 src/files.c:2522 src/rcfile.c:494
+#: src/rcfile.c:1064
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Lỗi đọc %s: %s"
@@ -141,12 +141,12 @@ msgstr "Tập tin mới"
 msgid "\"%s\" not found"
 msgstr "Không tìm thấy \"%s\""
 
-#: src/files.c:617 src/rcfile.c:463 src/rcfile.c:994 src/rcfile.c:1032
+#: src/files.c:617 src/rcfile.c:486 src/rcfile.c:1017 src/rcfile.c:1055
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" là một thư mục"
 
-#: src/files.c:618 src/rcfile.c:464 src/rcfile.c:995 src/rcfile.c:1033
+#: src/files.c:618 src/rcfile.c:487 src/rcfile.c:1018 src/rcfile.c:1056
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" là một tập tin thiết bị"
@@ -261,7 +261,7 @@ msgstr "Ghi nhớ tập tin dưới TÊN KHÁC ? "
 msgid "(more)"
 msgstr "(còn nữa)"
 
-#: src/files.c:2525 src/rcfile.c:972
+#: src/files.c:2525 src/rcfile.c:995
 #, c-format
 msgid ""
 "\n"
@@ -831,67 +831,67 @@ msgstr "Cắt đến cuối"
 msgid "Word Count"
 msgstr "Đếm từ"
 
-#: src/global.c:1206
+#: src/global.c:1212
 msgid "Help mode"
 msgstr "Chế độ Trợ giúp"
 
-#: src/global.c:1208
+#: src/global.c:1214
 msgid "Constant cursor position display"
 msgstr "Hiển thị ví trí cố định của con trỏ"
 
-#: src/global.c:1210
+#: src/global.c:1216
 msgid "Use of one more line for editing"
 msgstr "Sử dụng dòng thêm để soạn thảo"
 
-#: src/global.c:1212
+#: src/global.c:1218
 msgid "Smooth scrolling"
 msgstr "Cuộn trơn mượt"
 
-#: src/global.c:1214
+#: src/global.c:1220
 msgid "Whitespace display"
 msgstr "Hiển thị khoảng trắng"
 
-#: src/global.c:1216
+#: src/global.c:1222
 msgid "Color syntax highlighting"
 msgstr "Chiếu sáng cú pháp"
 
-#: src/global.c:1218
+#: src/global.c:1224
 msgid "Smart home key"
 msgstr "Phím home khéo"
 
-#: src/global.c:1220
+#: src/global.c:1226
 msgid "Auto indent"
 msgstr "Tự động thụt lề"
 
-#: src/global.c:1222
+#: src/global.c:1228
 msgid "Cut to end"
 msgstr "Cắt tới cuối"
 
-#: src/global.c:1224
+#: src/global.c:1230
 msgid "Long line wrapping"
 msgstr "Ngắt dòng dài"
 
-#: src/global.c:1226
+#: src/global.c:1232
 msgid "Conversion of typed tabs to spaces"
 msgstr "Chuyển các tab thành dấu cách"
 
-#: src/global.c:1228
+#: src/global.c:1234
 msgid "Backup files"
 msgstr "Lưu trữ tập tin"
 
-#: src/global.c:1230
+#: src/global.c:1236
 msgid "Multiple file buffers"
 msgstr "Bộ đệm đa tập tin"
 
-#: src/global.c:1232
+#: src/global.c:1238
 msgid "Mouse support"
 msgstr "Hỗ trợ chuột"
 
-#: src/global.c:1234
+#: src/global.c:1240
 msgid "No conversion from DOS/Mac format"
 msgstr "Không chuyển đổi từ định dạng DOS/Mac"
 
-#: src/global.c:1236
+#: src/global.c:1242
 msgid "Suspension"
 msgstr "Tạm dừng"
 
@@ -1515,12 +1515,12 @@ msgstr "XON bị lờ đi."
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF bị lờ đi."
 
-#: src/nano.c:1876 src/rcfile.c:934
+#: src/nano.c:1876 src/rcfile.c:957
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tab « %s » không hợp lệ"
 
-#: src/nano.c:1932 src/rcfile.c:859
+#: src/nano.c:1932 src/rcfile.c:882
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tô đầy « %s » không hợp lệ"
@@ -1562,7 +1562,7 @@ msgstr "Lỗi trong %s trên dòng %lu: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "Đối số « %s » không kết thúc \""
 
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:616 src/rcfile.c:673
+#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:639 src/rcfile.c:696
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Biểu thức chính quy phải bắt đầu và kết thúc bởi một ký tự \""
 
@@ -1583,34 +1583,39 @@ msgstr "Cú pháp \"none\" bị hạn chế"
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Cú pháp \"default\" không chấp nhận phần mở rộng"
 
-#: src/rcfile.c:359
+#: src/rcfile.c:373
 #, fuzzy
 msgid "Missing key name"
 msgstr "Thiếu tên cú pháp"
 
-#: src/rcfile.c:371
+#: src/rcfile.c:385
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
 msgstr ""
 
-#: src/rcfile.c:380
+#: src/rcfile.c:394
 msgid "Must specify function to bind key to\n"
 msgstr ""
 
-#: src/rcfile.c:391
+#: src/rcfile.c:405
 msgid "Must specify menu bind key to (or \"all\")\n"
 msgstr ""
 
-#: src/rcfile.c:398
+#: src/rcfile.c:412
 #, c-format
 msgid "Could not map name \"%s\" to a menu\n"
 msgstr ""
 
-#: src/rcfile.c:405
+#: src/rcfile.c:419
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
 msgstr ""
 
-#: src/rcfile.c:530
+#: src/rcfile.c:441
+#, c-format
+msgid "Sorry, keystr \"%s\" is an illegal binding\n"
+msgstr ""
+
+#: src/rcfile.c:553
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1633,86 +1638,86 @@ msgstr ""
 " • bright\tsáng\n"
 "cho màu của văn bản."
 
-#: src/rcfile.c:552
+#: src/rcfile.c:575
 msgid "Cannot add a color command without a syntax command"
 msgstr "Không thêm được một chỉ thị màu mà không có dòng cú pháp"
 
-#: src/rcfile.c:557
+#: src/rcfile.c:580
 msgid "Missing color name"
 msgstr "Thiếu tên màu"
 
-#: src/rcfile.c:577
+#: src/rcfile.c:600
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Màu nền « %s » không thể là màu sáng (khó đọc)"
 
-#: src/rcfile.c:595
+#: src/rcfile.c:618
 msgid "Missing regex string"
 msgstr "Thiếu các chuỗi biểu thức chính quy"
 
-#: src/rcfile.c:667
+#: src/rcfile.c:690
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr ""
 "\"start=\" (bắt đầu) thì yêu cầu một phần \"end=\" (kết thúc) tương ứng"
 
-#: src/rcfile.c:712
+#: src/rcfile.c:735
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 
-#: src/rcfile.c:714
+#: src/rcfile.c:737
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 
-#: src/rcfile.c:764 src/rcfile.c:773 src/rcfile.c:783
+#: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Lệnh « %s » không được phép trong tập tin đã bao gồm"
 
-#: src/rcfile.c:789 src/rcfile.c:959
+#: src/rcfile.c:812 src/rcfile.c:982
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Cú pháp « %s » không có câu lệnh màu"
 
-#: src/rcfile.c:800
+#: src/rcfile.c:823
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Không hiểu câu lệnh « %s »"
 
-#: src/rcfile.c:806
+#: src/rcfile.c:829
 msgid "Missing flag"
 msgstr "Thiếu cờ"
 
-#: src/rcfile.c:828
+#: src/rcfile.c:851
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Tùy chọn « %s » cần một tham số"
 
-#: src/rcfile.c:846
+#: src/rcfile.c:869
 msgid "Option is not a valid multibyte string"
 msgstr "Tùy chọn không phải là một chuỗi đa byte hợp lệ"
 
-#: src/rcfile.c:872 src/rcfile.c:900 src/rcfile.c:909
+#: src/rcfile.c:895 src/rcfile.c:923 src/rcfile.c:932
 msgid "Non-blank characters required"
 msgstr "Yêu cầu các ký tự không phải khoảng trắng"
 
-#: src/rcfile.c:882
+#: src/rcfile.c:905
 msgid "Two single-column characters required"
 msgstr "Yêu cầu hai ký tự một cột"
 
-#: src/rcfile.c:948
+#: src/rcfile.c:971
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Không bỏ đặt được cờ « %s »"
 
-#: src/rcfile.c:954
+#: src/rcfile.c:977
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Cờ không rõ « %s »"
 
-#: src/rcfile.c:1022
+#: src/rcfile.c:1045
 msgid "I can't find my home directory!  Wah!"
 msgstr "Tôi không thể tìm thấy thư mục cá nhân của mình!"
 

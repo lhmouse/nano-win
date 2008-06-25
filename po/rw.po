@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-01 23:59-0400\n"
+"POT-Creation-Date: 2008-06-24 23:34-0400\n"
 "PO-Revision-Date: 2005-04-03 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -41,8 +41,8 @@ msgstr "Gyayo Hanze Bya in Nta gukoresha bisesuye Ubwoko"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:622
 #: src/files.c:631 src/files.c:1425 src/files.c:1513 src/files.c:1559
-#: src/files.c:1580 src/files.c:1703 src/files.c:2522 src/rcfile.c:471
-#: src/rcfile.c:1041
+#: src/files.c:1580 src/files.c:1703 src/files.c:2522 src/rcfile.c:494
+#: src/rcfile.c:1064
 #, c-format
 msgid "Error reading %s: %s"
 msgstr ""
@@ -162,12 +162,12 @@ msgstr "Idosiye"
 msgid "\"%s\" not found"
 msgstr "\"%s\"ntibyabonetse"
 
-#: src/files.c:617 src/rcfile.c:463 src/rcfile.c:994 src/rcfile.c:1032
+#: src/files.c:617 src/rcfile.c:486 src/rcfile.c:1017 src/rcfile.c:1055
 #, fuzzy, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\"ni a bushyinguro"
 
-#: src/files.c:618 src/rcfile.c:464 src/rcfile.c:995 src/rcfile.c:1033
+#: src/files.c:618 src/rcfile.c:487 src/rcfile.c:1018 src/rcfile.c:1056
 #, fuzzy, c-format
 msgid "\"%s\" is a device file"
 msgstr "Idosiye ni a APAREYE IDOSIYE"
@@ -293,7 +293,7 @@ msgstr "Kubika IDOSIYE"
 msgid "(more)"
 msgstr "(Birenzeho"
 
-#: src/files.c:2525 src/rcfile.c:972
+#: src/files.c:2525 src/rcfile.c:995
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -1013,80 +1013,80 @@ msgstr ""
 msgid "Word Count"
 msgstr ""
 
-#: src/global.c:1206
+#: src/global.c:1212
 #, fuzzy
 msgid "Help mode"
 msgstr "Ubwoko"
 
-#: src/global.c:1208
+#: src/global.c:1214
 #, fuzzy
 msgid "Constant cursor position display"
 msgstr "indanga Ibirindiro"
 
-#: src/global.c:1210
+#: src/global.c:1216
 #, fuzzy
 msgid "Use of one more line for editing"
 msgstr "Bya Birenzeho Umwanya kugirango"
 
-#: src/global.c:1212
+#: src/global.c:1218
 msgid "Smooth scrolling"
 msgstr ""
 
-#: src/global.c:1214
+#: src/global.c:1220
 #, fuzzy
 msgid "Whitespace display"
 msgstr "Kugaragaza"
 
-#: src/global.c:1216
+#: src/global.c:1222
 #, fuzzy
 msgid "Color syntax highlighting"
 msgstr "Igaragaza cyane"
 
-#: src/global.c:1218
+#: src/global.c:1224
 #, fuzzy
 msgid "Smart home key"
 msgstr "Ku Ntangiriro Urufunguzo"
 
-#: src/global.c:1220
+#: src/global.c:1226
 #, fuzzy
 msgid "Auto indent"
 msgstr "Ikurura"
 
-#: src/global.c:1222
+#: src/global.c:1228
 #, fuzzy
 msgid "Cut to end"
 msgstr "Kuri Impera"
 
-#: src/global.c:1224
+#: src/global.c:1230
 #, fuzzy
 msgid "Long line wrapping"
 msgstr "Umurongo Gufunika"
 
-#: src/global.c:1226
+#: src/global.c:1232
 msgid "Conversion of typed tabs to spaces"
 msgstr ""
 
-#: src/global.c:1228
+#: src/global.c:1234
 #, fuzzy
 msgid "Backup files"
 msgstr "Idosiye"
 
-#: src/global.c:1230
+#: src/global.c:1236
 #, fuzzy
 msgid "Multiple file buffers"
 msgstr "IDOSIYE"
 
-#: src/global.c:1232
+#: src/global.c:1238
 #, fuzzy
 msgid "Mouse support"
 msgstr "Gushigikira"
 
-#: src/global.c:1234
+#: src/global.c:1240
 #, fuzzy
 msgid "No conversion from DOS/Mac format"
 msgstr "Ihindurangero Bivuye Imiterere"
 
-#: src/global.c:1236
+#: src/global.c:1242
 msgid "Suspension"
 msgstr ""
 
@@ -1680,12 +1680,12 @@ msgstr ""
 msgid "XOFF ignored, mumble mumble"
 msgstr ""
 
-#: src/nano.c:1876 src/rcfile.c:934
+#: src/nano.c:1876 src/rcfile.c:957
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Isunika Ingano Sibyo"
 
-#: src/nano.c:1932 src/rcfile.c:859
+#: src/nano.c:1932 src/rcfile.c:882
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Kuzuza Ingano Sibyo"
@@ -1749,7 +1749,7 @@ msgstr "in ku Umurongo"
 msgid "Argument '%s' has an unterminated \""
 msgstr ""
 
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:616 src/rcfile.c:673
+#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:639 src/rcfile.c:696
 #, fuzzy
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Ikurikiranyanyuguti Na Impera Na: a Inyuguti"
@@ -1772,34 +1772,39 @@ msgstr ""
 msgid "The \"default\" syntax must take no extensions"
 msgstr ""
 
-#: src/rcfile.c:359
+#: src/rcfile.c:373
 #, fuzzy
 msgid "Missing key name"
 msgstr "Izina:"
 
-#: src/rcfile.c:371
+#: src/rcfile.c:385
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
 msgstr ""
 
-#: src/rcfile.c:380
+#: src/rcfile.c:394
 msgid "Must specify function to bind key to\n"
 msgstr ""
 
-#: src/rcfile.c:391
+#: src/rcfile.c:405
 msgid "Must specify menu bind key to (or \"all\")\n"
 msgstr ""
 
-#: src/rcfile.c:398
+#: src/rcfile.c:412
 #, fuzzy, c-format
 msgid "Could not map name \"%s\" to a menu\n"
 msgstr "OYA"
 
-#: src/rcfile.c:405
+#: src/rcfile.c:419
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
 msgstr ""
 
-#: src/rcfile.c:530
+#: src/rcfile.c:441
+#, c-format
+msgid "Sorry, keystr \"%s\" is an illegal binding\n"
+msgstr ""
+
+#: src/rcfile.c:553
 #, fuzzy, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1812,91 +1817,91 @@ msgstr ""
 "werurutse umukara Na: i Bitari ngombwa Imbanziriza Bibonerana kugirango "
 "Amabara"
 
-#: src/rcfile.c:552
+#: src/rcfile.c:575
 #, fuzzy
 msgid "Cannot add a color command without a syntax command"
 msgstr "Kongeramo a Ibara a Umurongo"
 
-#: src/rcfile.c:557
+#: src/rcfile.c:580
 #, fuzzy
 msgid "Missing color name"
 msgstr "Ibara Izina:"
 
-#: src/rcfile.c:577
+#: src/rcfile.c:600
 #, fuzzy, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Ibara Bibonerana"
 
-#: src/rcfile.c:595
+#: src/rcfile.c:618
 msgid "Missing regex string"
 msgstr ""
 
-#: src/rcfile.c:667
+#: src/rcfile.c:690
 #, fuzzy
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"Gutangira a Impera"
 
-#: src/rcfile.c:712
+#: src/rcfile.c:735
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 
-#: src/rcfile.c:714
+#: src/rcfile.c:737
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 
-#: src/rcfile.c:764 src/rcfile.c:773 src/rcfile.c:783
+#: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr ""
 
-#: src/rcfile.c:789 src/rcfile.c:959
+#: src/rcfile.c:812 src/rcfile.c:982
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr ""
 
-#: src/rcfile.c:800
+#: src/rcfile.c:823
 #, fuzzy, c-format
 msgid "Command \"%s\" not understood"
 msgstr "OYA"
 
-#: src/rcfile.c:806
+#: src/rcfile.c:829
 #, fuzzy
 msgid "Missing flag"
 msgstr "Ibendera"
 
-#: src/rcfile.c:828
+#: src/rcfile.c:851
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr ""
 
-#: src/rcfile.c:846
+#: src/rcfile.c:869
 msgid "Option is not a valid multibyte string"
 msgstr ""
 
-#: src/rcfile.c:872 src/rcfile.c:900 src/rcfile.c:909
+#: src/rcfile.c:895 src/rcfile.c:923 src/rcfile.c:932
 #, fuzzy
 msgid "Non-blank characters required"
 msgstr "Isunika Na Umwanya Inyuguti Bya ngombwa"
 
-#: src/rcfile.c:882
+#: src/rcfile.c:905
 #, fuzzy
 msgid "Two single-column characters required"
 msgstr "UMWE Inkingi Inyuguti Bya ngombwa"
 
-#: src/rcfile.c:948
+#: src/rcfile.c:971
 #, fuzzy, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Ibendera"
 
-#: src/rcfile.c:954
+#: src/rcfile.c:977
 #, fuzzy, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Ibendera"
 
-#: src/rcfile.c:1022
+#: src/rcfile.c:1045
 #, fuzzy
 msgid "I can't find my home directory!  Wah!"
 msgstr "Gushaka Ku Ntangiriro bushyinguro"

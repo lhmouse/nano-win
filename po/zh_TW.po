@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.10pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-01 23:59-0400\n"
+"POT-Creation-Date: 2008-06-24 23:34-0400\n"
 "PO-Revision-Date: 2005-12-13 09:33+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -32,8 +32,8 @@ msgstr "在限制模式中無法至 %s 外部"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:622
 #: src/files.c:631 src/files.c:1425 src/files.c:1513 src/files.c:1559
-#: src/files.c:1580 src/files.c:1703 src/files.c:2522 src/rcfile.c:471
-#: src/rcfile.c:1041
+#: src/files.c:1580 src/files.c:1703 src/files.c:2522 src/rcfile.c:494
+#: src/rcfile.c:1064
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "讀取 %s 時發生錯誤: %s"
@@ -140,12 +140,12 @@ msgstr "新檔案"
 msgid "\"%s\" not found"
 msgstr "找不到 \"%s\""
 
-#: src/files.c:617 src/rcfile.c:463 src/rcfile.c:994 src/rcfile.c:1032
+#: src/files.c:617 src/rcfile.c:486 src/rcfile.c:1017 src/rcfile.c:1055
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" 是一個目錄"
 
-#: src/files.c:618 src/rcfile.c:464 src/rcfile.c:995 src/rcfile.c:1033
+#: src/files.c:618 src/rcfile.c:487 src/rcfile.c:1018 src/rcfile.c:1056
 #, fuzzy, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" 是一個裝置檔案"
@@ -259,7 +259,7 @@ msgstr "以不同的名稱存檔？"
 msgid "(more)"
 msgstr "(更多)"
 
-#: src/files.c:2525 src/rcfile.c:972
+#: src/files.c:2525 src/rcfile.c:995
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -856,68 +856,68 @@ msgstr "刪至末端"
 msgid "Word Count"
 msgstr "計算字數"
 
-#: src/global.c:1206
+#: src/global.c:1212
 msgid "Help mode"
 msgstr "輔助模式"
 
-#: src/global.c:1208
+#: src/global.c:1214
 msgid "Constant cursor position display"
 msgstr "持續顯示游標位置"
 
-#: src/global.c:1210
+#: src/global.c:1216
 #, fuzzy
 msgid "Use of one more line for editing"
 msgstr "編輯時使用更多空間"
 
-#: src/global.c:1212
+#: src/global.c:1218
 msgid "Smooth scrolling"
 msgstr "平滑式捲動畫面"
 
-#: src/global.c:1214
+#: src/global.c:1220
 msgid "Whitespace display"
 msgstr "顯示空格"
 
-#: src/global.c:1216
+#: src/global.c:1222
 msgid "Color syntax highlighting"
 msgstr "語法色彩標示"
 
-#: src/global.c:1218
+#: src/global.c:1224
 msgid "Smart home key"
 msgstr "智慧型 HOME 按鍵"
 
-#: src/global.c:1220
+#: src/global.c:1226
 msgid "Auto indent"
 msgstr "自動縮排"
 
-#: src/global.c:1222
+#: src/global.c:1228
 msgid "Cut to end"
 msgstr "剪下至列尾"
 
-#: src/global.c:1224
+#: src/global.c:1230
 msgid "Long line wrapping"
 msgstr "長列轉換"
 
-#: src/global.c:1226
+#: src/global.c:1232
 msgid "Conversion of typed tabs to spaces"
 msgstr "已輸入跳格符號至空白的轉換"
 
-#: src/global.c:1228
+#: src/global.c:1234
 msgid "Backup files"
 msgstr "備份檔案"
 
-#: src/global.c:1230
+#: src/global.c:1236
 msgid "Multiple file buffers"
 msgstr "多重檔案緩衝區"
 
-#: src/global.c:1232
+#: src/global.c:1238
 msgid "Mouse support"
 msgstr "滑鼠支援"
 
-#: src/global.c:1234
+#: src/global.c:1240
 msgid "No conversion from DOS/Mac format"
 msgstr "不從 DOS/Mac 格式轉檔"
 
-#: src/global.c:1236
+#: src/global.c:1242
 #, fuzzy
 msgid "Suspension"
 msgstr "暫停"
@@ -1550,12 +1550,12 @@ msgstr "忽略 XON，嗯嗯。"
 msgid "XOFF ignored, mumble mumble"
 msgstr "忽略 XOFF，嗯嗯。"
 
-#: src/nano.c:1876 src/rcfile.c:934
+#: src/nano.c:1876 src/rcfile.c:957
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "所要求的跳格寬度 %s 無效"
 
-#: src/nano.c:1932 src/rcfile.c:859
+#: src/nano.c:1932 src/rcfile.c:882
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "所要求的填滿行數 %s 無效"
@@ -1597,7 +1597,7 @@ msgstr "在 %s (位於第 %lu 列) 中發生錯誤: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "引數 %s 有未封閉的 \""
 
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:616 src/rcfile.c:673
+#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:639 src/rcfile.c:696
 msgid "Regex strings must begin and end with a \" character"
 msgstr "正規表示式字串必須以 \" 字元開始及結束"
 
@@ -1618,34 +1618,39 @@ msgstr "\"none\" 語法已被保留"
 msgid "The \"default\" syntax must take no extensions"
 msgstr "\"default\" 語法必須不含任何副檔名"
 
-#: src/rcfile.c:359
+#: src/rcfile.c:373
 #, fuzzy
 msgid "Missing key name"
 msgstr "缺少語法名稱"
 
-#: src/rcfile.c:371
+#: src/rcfile.c:385
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
 msgstr ""
 
-#: src/rcfile.c:380
+#: src/rcfile.c:394
 msgid "Must specify function to bind key to\n"
 msgstr ""
 
-#: src/rcfile.c:391
+#: src/rcfile.c:405
 msgid "Must specify menu bind key to (or \"all\")\n"
 msgstr ""
 
-#: src/rcfile.c:398
+#: src/rcfile.c:412
 #, c-format
 msgid "Could not map name \"%s\" to a menu\n"
 msgstr ""
 
-#: src/rcfile.c:405
+#: src/rcfile.c:419
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
 msgstr ""
 
-#: src/rcfile.c:530
+#: src/rcfile.c:441
+#, c-format
+msgid "Sorry, keystr \"%s\" is an illegal binding\n"
+msgstr ""
+
+#: src/rcfile.c:553
 #, fuzzy, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1660,86 +1665,86 @@ msgstr ""
 "\"black\"(黑)，選擇性的前置字 \"bright\"(明亮) \n"
 "可用於前景色。"
 
-#: src/rcfile.c:552
+#: src/rcfile.c:575
 #, fuzzy
 msgid "Cannot add a color command without a syntax command"
 msgstr "無法直接增加顏色而沒有語法列"
 
-#: src/rcfile.c:557
+#: src/rcfile.c:580
 msgid "Missing color name"
 msgstr "缺少顏色名稱"
 
-#: src/rcfile.c:577
+#: src/rcfile.c:600
 #, fuzzy, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "背景色 %s 不可為明亮"
 
-#: src/rcfile.c:595
+#: src/rcfile.c:618
 msgid "Missing regex string"
 msgstr "缺少正規表示式字串"
 
-#: src/rcfile.c:667
+#: src/rcfile.c:690
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\" 要求對應的 \"end=\""
 
-#: src/rcfile.c:712
+#: src/rcfile.c:735
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 
-#: src/rcfile.c:714
+#: src/rcfile.c:737
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 
-#: src/rcfile.c:764 src/rcfile.c:773 src/rcfile.c:783
+#: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr ""
 
-#: src/rcfile.c:789 src/rcfile.c:959
+#: src/rcfile.c:812 src/rcfile.c:982
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr ""
 
-#: src/rcfile.c:800
+#: src/rcfile.c:823
 #, fuzzy, c-format
 msgid "Command \"%s\" not understood"
 msgstr "無法辨識 %s 命令"
 
-#: src/rcfile.c:806
+#: src/rcfile.c:829
 msgid "Missing flag"
 msgstr "缺少旗標"
 
-#: src/rcfile.c:828
+#: src/rcfile.c:851
 #, fuzzy, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "選項 %s 要求引數"
 
-#: src/rcfile.c:846
+#: src/rcfile.c:869
 msgid "Option is not a valid multibyte string"
 msgstr "選項並非正確的多位元字串"
 
-#: src/rcfile.c:872 src/rcfile.c:900 src/rcfile.c:909
+#: src/rcfile.c:895 src/rcfile.c:923 src/rcfile.c:932
 msgid "Non-blank characters required"
 msgstr "需要非空格字元"
 
-#: src/rcfile.c:882
+#: src/rcfile.c:905
 msgid "Two single-column characters required"
 msgstr "需要兩個單行字元"
 
-#: src/rcfile.c:948
+#: src/rcfile.c:971
 #, fuzzy, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "無法解除旗標 %s 設定"
 
-#: src/rcfile.c:954
+#: src/rcfile.c:977
 #, fuzzy, c-format
 msgid "Unknown flag \"%s\""
 msgstr "旗標 %s 無法辨識"
 
-#: src/rcfile.c:1022
+#: src/rcfile.c:1045
 msgid "I can't find my home directory!  Wah!"
 msgstr "我找不到我的家目錄！哇！"
 

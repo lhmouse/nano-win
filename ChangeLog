@@ -1,3 +1,4 @@
+GNU nano 2.1.2 - 2008.06.24
 2008-06-24 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c: Added function check_bad_binding() to look for sequences which
 	  shouldn't be bound, per Savannah bug 22674.
