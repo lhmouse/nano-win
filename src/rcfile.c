@@ -347,6 +347,20 @@ void parse_syntax(char *ptr)
     }
 }
 
+int check_bad_binding(sc *s)
+{
+#define BADLISTLEN 1
+    int badtypes[BADLISTLEN] = {META};
+    int badseqs[BADLISTLEN] = { 91 };
+    int i;
+
+    for (i = 0; i < BADLISTLEN; i++)
+        if (s->type == badtypes[i] && s->seq == badseqs[i])
+	    return 1;
+
+    return 0;
+}
+
 void parse_keybinding(char *ptr)
 {
     char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
@@ -405,6 +419,8 @@ void parse_keybinding(char *ptr)
 		N_("Could not map name \"%s\" to a function\n"), funcptr);
 	return;
     }
+
+
 #ifdef DEBUG
     fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
 	(int) newsc, (int) newsc->scfunc, menu);
@@ -419,6 +435,13 @@ void parse_keybinding(char *ptr)
     fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
     fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
 #endif
+
+    if (check_bad_binding(newsc)) {
+	rcfile_error(
+		N_("Sorry, keystr \"%s\" is an illegal binding\n"), newsc->keystr);
+	return;
+    }
+
 
     /* now let's have some fun.  Try and delete the other entries
        we found for the same menu, then make this new new
