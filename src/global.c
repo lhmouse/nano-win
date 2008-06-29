@@ -1072,13 +1072,13 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "khome", do_home, 0, TRUE);
     add_to_sclist(MALL, "^E", do_end, 0, TRUE);
     add_to_sclist(MALL, "kend", do_end, 0, TRUE);
-#ifndef DISABLE_JUSTIFY
 #ifndef NANO_TINY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^P", (void *) prev_history_msg, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kup", (void *) prev_history_msg, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^N", (void *) next_history_msg, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kdown", (void *) next_history_msg, 0, FALSE);
 #endif
+#ifndef DISABLE_JUSTIFY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"^W", do_para_begin_void, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
