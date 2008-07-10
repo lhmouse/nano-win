@@ -1,4 +1,4 @@
-/* $Id$ */
+/* $Id$ */ 
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
@@ -502,6 +502,7 @@ openfilestruct *make_new_opennode(void)
     newnode->filebot = NULL;
     newnode->edittop = NULL;
     newnode->current = NULL;
+    newnode->last_action = OTHER;
 
     return newnode;
 }
@@ -1642,6 +1643,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	set_modified();
 
 #ifndef NANO_TINY
+	update_undo(ADD, openfile);
+
+
 	/* Note that current_x has not yet been incremented. */
 	if (openfile->mark_set && openfile->current ==
 		openfile->mark_begin && openfile->current_x <

@@ -60,6 +60,7 @@ extern char *matchbrackets;
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 extern char *whitespace;
 extern int whitespace_len[2];
+extern undo_type last_action;
 #endif
 
 #ifndef DISABLE_JUSTIFY
@@ -100,9 +101,6 @@ extern char *syntaxstr;
 
 extern const shortcut *currshortcut;
 extern int currmenu;
-#ifndef NANO_TINY
-extern toggle *toggles;
-#endif
 
 #ifndef NANO_TINY
 extern filestruct *search_history;
@@ -619,6 +617,8 @@ void do_tab(void);
 void do_indent(ssize_t cols);
 void do_indent_void(void);
 void do_unindent(void);
+void do_undo(void);
+void do_redo(void);
 #endif
 void do_enter(void);
 #ifndef NANO_TINY
@@ -706,6 +706,8 @@ void new_magicline(void);
 void remove_magicline(void);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
+void add_undo(undo_type current_action, openfilestruct *fs);
+void update_undo(undo_type action, openfilestruct *fs);
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
 #ifdef DEBUG
@@ -739,9 +741,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 const sc *get_shortcut(int menu, int *kbinput, bool
 	*meta_key, bool *func_key);
 const sc *first_sc_for(int menu, void *func);
-#ifndef NANO_TINY
-const toggle *get_toggle(int kbinput, bool meta_key);
-#endif
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);

@@ -169,6 +169,10 @@ typedef enum {
     CONTROL, META, FKEY, RAW
 }  function_type;
 
+typedef enum {
+    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, OTHER
+} undo_type;
+
 /* Structure types. */
 typedef struct filestruct {
     char *data;
@@ -245,6 +249,21 @@ typedef struct syntaxtype {
 } syntaxtype;
 #endif /* ENABLE_COLOR */
 
+#ifndef NANO_TINY
+typedef struct undo {
+    undo_type type;
+    filestruct *fs;
+    int begin;
+	/* Where did this  action begin or end */
+    char *strdata;
+	/* Generic pointer for data regardless of what type it is */
+    filestruct *fsdata;
+	/* Generic pointer for data regardless of what type it is */
+    struct undo *next;
+    ssize_t lineno;
+} undo;
+#endif /* NANO_TINY */
+
 typedef struct openfilestruct {
     char *filename;
 	/* The current file's name. */
@@ -278,6 +297,11 @@ typedef struct openfilestruct {
 	/* The current file's format. */
     struct stat *current_stat;
 	/* The current file's stat. */
+    undo *undotop;
+	/* Top of the undo list */
+    undo *current_undo;
+	/* The current (i.e. n ext) level of undo */
+    undo_type last_action;
 #endif
 #ifdef ENABLE_COLOR
     colortype *colorstrings;
@@ -317,25 +341,6 @@ typedef struct shortcut {
     struct shortcut *next;
 	/* Next shortcut. */
 } shortcut;
-
-#ifndef NANO_TINY
-typedef struct toggle {
-   int val;
-	/* The sequence to toggle the key.  We should only need one. */
-   const char *desc;
-	/* The description of the toggle, e.g. "Cut to end"; we'll
-	 * append Enabled or Disabled to it. */
-#ifndef DISABLE_HELP
-   bool blank_after;
-	/* Whether there should be a blank line after the description of
-	 * the toggle. */
-#endif
-   long flag;
-	/* Which flag actually gets toggled. */
-   struct toggle *next;
-	/* Next toggle. */
-} toggle;
-#endif
 
 #ifdef ENABLE_NANORC
 typedef struct rcoption {

@@ -423,7 +423,7 @@ void parse_keybinding(char *ptr)
 
 #ifdef DEBUG
     fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
-	(int) newsc, (int) newsc->scfunc, menu);
+	&newsc, &newsc->scfunc, menu);
 #endif
 
 

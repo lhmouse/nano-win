@@ -1,6 +1,11 @@
+2008-07-09 Chris Allegretta <chrisa@asty.org>
+        * nano.c/nano.h/global.c/text.c: New generalized undo code, currently
+	  just works for adding and deleting text and splitting and unsplitting lines.
+
 2008-06-29 Chris Allegretta <chrisa@asty.org>
 	* global.c: Fix for not having search history when --disable-justify is used
 	  (Savannah bug 23733)
+
 
 GNU nano 2.1.2 - 2008.06.24
 2008-06-24 Chris Allegretta <chrisa@asty.org>

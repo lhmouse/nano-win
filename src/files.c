@@ -75,6 +75,8 @@ void initialize_buffer(void)
     openfile->fmt = NIX_FILE;
 
     openfile->current_stat = NULL;
+    openfile->undotop = NULL;
+    openfile->current_undo = NULL;
 #endif
 #ifdef ENABLE_COLOR
     openfile->colorstrings = NULL;

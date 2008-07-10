@@ -1,5 +1,4 @@
-/* $Id$ 
-*/
+/* $Id$ */
 /**************************************************************************
  *   global.c                                                             *
  *                                                                        *
@@ -149,11 +148,6 @@ const shortcut *currshortcut;
 	/* The current shortcut list we're using. */
 int currmenu;
 	/* The currently loaded menu */
-
-#ifndef NANO_TINY
-toggle *toggles = NULL;
-	/* The global toggle list. */
-#endif
 
 sc *sclist = NULL;
 	/* New shortcut key struct */
@@ -486,6 +480,8 @@ void shortcut_init(bool unjustify)
     const char *refresh_msg = N_("Refresh");
     const char *insert_file_msg =  N_("Insert File");
     const char *go_to_line_msg = N_("Go To Line");
+    const char *prev_undo_msg = N_("Prev Undo");
+    const char *next_undo_msg = N_("Next Undo");
 
 #ifndef DISABLE_HELP
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
@@ -528,6 +524,8 @@ void shortcut_init(bool unjustify)
 	N_("Copy the current line and store it in the cutbuffer");
     const char *nano_indent_msg = N_("Indent the current line");
     const char *nano_unindent_msg = N_("Unindent the current line");
+    const char *nano_undo_msg = N_("Undo the last operation");
+    const char *nano_redo_msg = N_("Redo the last undone operation");
 #endif
     const char *nano_forward_msg = N_("Go forward one character");
     const char *nano_back_msg = N_("Go back one character");
@@ -602,6 +600,10 @@ void shortcut_init(bool unjustify)
 	N_("Recall the previous search/replace string");
     const char *nano_next_history_msg =
 	N_("Recall the next search/replace string");
+    const char *nano_prev_undo_msg =
+	N_("Recall the previous undo action");
+    const char *nano_next_undo_msg =
+	N_("Recall the next undo action");
 #endif
 #ifndef DISABLE_BROWSER
     const char *nano_tofiles_msg = N_("Go to file browser");
@@ -698,6 +700,7 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_page_down, MMAIN|MHELP,
 	next_page_msg, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
 
+
     /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_cut_text_void, MMAIN, N_("Cut Text"), IFSCHELP(nano_cut_msg),
 	FALSE, NOVIEW);
@@ -771,7 +774,13 @@ void shortcut_init(bool unjustify)
 	nano_indent_msg, FALSE, NOVIEW);
 
     add_to_funcs(do_unindent, MMAIN, N_("Unindent Text"),
-	nano_unindent_msg, TRUE, NOVIEW);
+	nano_unindent_msg, FALSE, NOVIEW);
+
+    add_to_funcs(do_undo, MMAIN, N_("Undo"),
+	nano_undo_msg, FALSE, NOVIEW);
+
+    add_to_funcs(do_redo, MMAIN, N_("Redo"),
+	nano_redo_msg, TRUE, NOVIEW);
 
 #endif
 
@@ -1055,6 +1064,8 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-6", do_copy_text, 0, TRUE);
     add_to_sclist(MMAIN, "M-}", do_indent_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
+    add_to_sclist(MMAIN, "M-U", do_undo, 0, TRUE);
+    add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
     add_to_sclist(MALL, "^F", do_right, 0, TRUE);
     add_to_sclist(MALL, "^B", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
@@ -1576,15 +1587,6 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_JUSTIFY
     if (jusbuffer != NULL)
 	free_filestruct(jusbuffer);
-#endif
-#ifndef NANO_TINY
-    /* Free the memory associated with each toggle. */
-    while (toggles != NULL) {
-	toggle *t = toggles;
-
-	toggles = toggles->next;
-	free(t);
-    }
 #endif
     /* Free the memory associated with each open file buffer. */
     if (openfile != NULL)
