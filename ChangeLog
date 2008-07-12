@@ -1,7 +1,3 @@
-2008-07-11 Michael Haubenwallner <michael.haubenwallner@salomon.at>
-	* global.c: include proto.h earlier in file to fix AIX compilation
-	  (Savannah patch 6559)
-
 2008-07-11 Mitsuya Shibata <mty.shibata@gmail.com>
 	* text.c: Fix crashing in help menu when using certain locales
 	  (Savannah bug 23751)
