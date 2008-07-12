@@ -1127,6 +1127,15 @@ ssize_t break_line(const char *line, ssize_t goal
 	/* In fact, the whole line displays shorter than goal. */
 	return cur_loc;
 
+#ifndef DISABLE_HELP
+    if (newln && blank_loc <= 0) {
+       /* If blank was not found or was found only first character,
+        * force line break. */
+       cur_loc -= line_len;
+       return cur_loc;
+    }
+#endif
+
     if (blank_loc == -1) {
 	/* No blank was found that was short enough. */
 	bool found_blank = FALSE;

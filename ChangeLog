@@ -1,3 +1,6 @@
+2008-07-11 Mitsuya Shibata <mty.shibata@gmail.com>
+	* text.c: Fix crashing in help menu when using certain locales
+
 2008-07-09 Chris Allegretta <chrisa@asty.org>
         * nano.c/nano.h/global.c/text.c: New generalized undo code, currently
 	  just works for adding and deleting text and splitting and unsplitting lines.
