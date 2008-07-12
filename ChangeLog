@@ -1,5 +1,10 @@
+2008-07-11 Michael Haubenwallner <michael.haubenwallner@salomon.at>
+	* global.c: include proto.h earlier in file to fix AIX compilation
+	  (Savannah patch 6559)
+
 2008-07-11 Mitsuya Shibata <mty.shibata@gmail.com>
 	* text.c: Fix crashing in help menu when using certain locales
+	  (Savannah bug 23751)
 
 2008-07-09 Chris Allegretta <chrisa@asty.org>
         * nano.c/nano.h/global.c/text.c: New generalized undo code, currently
