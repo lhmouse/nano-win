@@ -1,3 +1,7 @@
+2008-07-11 Fabian Groffen <grobian@gentoo.org>
+	* nano.c: Don't include langinfo.h if not using ENABLE_UTF8
+	  (Savannah patch 6565)
+
 2008-07-11 Mitsuya Shibata <mty.shibata@gmail.com>
 	* text.c: Fix crashing in help menu when using certain locales
 	  (Savannah bug 23751)

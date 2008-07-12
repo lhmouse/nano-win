@@ -32,7 +32,9 @@
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
+#ifdef ENABLE_UTF8
 #include <langinfo.h>
+#endif
 #include <termios.h>
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
