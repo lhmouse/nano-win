@@ -481,8 +481,6 @@ void shortcut_init(bool unjustify)
     const char *refresh_msg = N_("Refresh");
     const char *insert_file_msg =  N_("Insert File");
     const char *go_to_line_msg = N_("Go To Line");
-    const char *prev_undo_msg = N_("Prev Undo");
-    const char *next_undo_msg = N_("Next Undo");
 
 #ifndef DISABLE_HELP
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
@@ -601,10 +599,6 @@ void shortcut_init(bool unjustify)
 	N_("Recall the previous search/replace string");
     const char *nano_next_history_msg =
 	N_("Recall the next search/replace string");
-    const char *nano_prev_undo_msg =
-	N_("Recall the previous undo action");
-    const char *nano_next_undo_msg =
-	N_("Recall the next undo action");
 #endif
 #ifndef DISABLE_BROWSER
     const char *nano_tofiles_msg = N_("Go to file browser");

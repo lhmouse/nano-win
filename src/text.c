@@ -370,7 +370,7 @@ void do_undo(void)
     undo *u = openfile->current_undo;
     filestruct *f = openfile->current, *t;
     int len = 0;
-    char *action, *data, *uu;
+    char *action, *data;
 
     if (!u) {
 	statusbar(_("Nothing in undo buffer!"));
@@ -454,7 +454,7 @@ void do_redo(void)
     undo *u = openfile->undotop;
     filestruct *f = openfile->current, *t;
     int len = 0;
-    char *action, *data, *uu;
+    char *action, *data;
 
     for (; u != NULL && u->next != openfile->current_undo; u = u->next)
 	;
@@ -693,7 +693,6 @@ bool execute_command(const char *command)
 
 void add_undo(undo_type current_action, openfilestruct *fs)
 {
-    int i;
     undo *u = nmalloc(sizeof(undo));
     char *data;
 
