@@ -1,13 +1,14 @@
-CVS code -
-- General:
-	- Fix for conflicts with AIX curses variables, from William 
-	  Jojo <jojowil@hvcc.edu>
-- nano.c:
-	- Fix for segfault on resize by Andreas Amann <andreas.amann@tyndall.ie>
-- text.c:
-	* Fix for crashing in help menu when using certain locales
-	  from Mitsuya Shibata <mty.shibata@gmail.com> (Savannah bug 
-	  23751)
+2008-07-11 Mitsuya Shibata <mty.shibata@gmail.com>
+        * text.c: Fix crashing in help menu when using certain locales
+          (Savannah bug 23751)
+
+2008-05-31 Chris Allegretta <chrisa@asty.org>
+        * files.c,proto.h,text.c: Fix for conflicts with AIX curses
+          variables, from William Jojo <jojowil@hvcc.edu>
+
+2008-05-31 Chris Allegretta <chrisa@asty.org>
+        * Fix for seg fault when window size too small, by
+          Andreas Amann <andreas.amann@tyndall.ie>
 
 GNU nano 2.0.7 - 2007.12.20
 - General:
