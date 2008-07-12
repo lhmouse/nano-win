@@ -1,3 +1,6 @@
+2008-07-11 Mike Frysinger <vapier@gentoo.org>
+	* doc/nanorc.sample.in: Include the updates files in the default sample nanorc.
+
 2008-07-11 Fabian Groffen <grobian@gentoo.org>
 	* nano.c: Don't include langinfo.h if not using ENABLE_UTF8
 	  (Savannah patch 6565)

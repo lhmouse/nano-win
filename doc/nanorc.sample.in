@@ -229,8 +229,23 @@
 ## C/C++
 # include "@PKGDATADIR@/c.nanorc"
 
+## Cascading Style Sheets
+# include "@PKGDATADIR@/css.nanorc"
+
+## Debian files
+# include "@PKGDATADIR@/debian.nanorc"
+
+## Gentoo files
+# include "@PKGDATADIR@/gentoo.nanorc"
+
 ## HTML
 # include "@PKGDATADIR@/html.nanorc"
+
+## PHP
+# include "@PKGDATADIR@/php.nanorc"
+
+## TCL
+# include "@PKGDATADIR@/tcl.nanorc"
 
 ## TeX
 # include "@PKGDATADIR@/tex.nanorc"
@@ -259,6 +274,9 @@
 ## Java
 # include "@PKGDATADIR@/java.nanorc"
 
+## AWK
+# include "@PKGDATADIR@/awk.nanorc"
+
 ## Assembler
 # include "@PKGDATADIR@/asm.nanorc"
 
@@ -267,3 +285,6 @@
 
 ## POV-Ray
 # include "@PKGDATADIR@/pov.nanorc"
+
+## XML-type files
+# include "@PKGDATADIR@/xml.nanorc"
