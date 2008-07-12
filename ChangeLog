@@ -4,6 +4,10 @@ CVS code -
 	  Jojo <jojowil@hvcc.edu>
 - nano.c:
 	- Fix for segfault on resize by Andreas Amann <andreas.amann@tyndall.ie>
+- text.c:
+	* Fix for crashing in help menu when using certain locales
+	  from Mitsuya Shibata <mty.shibata@gmail.com> (Savannah bug 
+	  23751)
 
 GNU nano 2.0.7 - 2007.12.20
 - General:
