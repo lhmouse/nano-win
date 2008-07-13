@@ -1339,6 +1339,10 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))
 	s->scfunc = do_wordlinechar_count;
+    else if (!strcasecmp(input, "undo"))
+	s->scfunc = do_undo;
+    else if (!strcasecmp(input, "redo"))
+	s->scfunc = do_redo;
     else if (!strcasecmp(input, "prevhistory")) {
 	s->scfunc = (void *) prev_history_msg;
 	s->execute = FALSE;
