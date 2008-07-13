@@ -393,6 +393,7 @@ void do_undo(void)
     fprintf(stderr, "Undo running for type %d\n", u->type);
 #endif
 
+    openfile->current_x = u->begin;
     switch(u->type) {
     case ADD:
 	action = _("text add");
@@ -413,6 +414,7 @@ void do_undo(void)
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
 	free(f->data);
 	f->data = data;
+	openfile->current_x += strlen(u->strdata);
 	break;
     case SPLIT:
 	action = _("line split");
@@ -442,7 +444,6 @@ void do_undo(void)
 
     }
     openfile->current = f;
-    openfile->current_x = u->begin;
     edit_refresh();
     statusbar(_("Undid action (%s)"), action);
     openfile->current_undo = openfile->current_undo->next;

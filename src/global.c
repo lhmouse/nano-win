@@ -1446,6 +1446,8 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = do_enter;
     else if (!strcasecmp(input, "delete"))
 	s->scfunc = do_delete;
+    else if (!strcasecmp(input, "backspace"))
+	s->scfunc = do_backspace;
     else if (!strcasecmp(input, "refresh"))
 	s->scfunc = total_refresh;
     else if (!strcasecmp(input, "casesens")) {

@@ -222,6 +222,9 @@
 # bind M-A casesens search
 # bind ^S research main
 
+## Set this if your backspace key sends delete most of the time (2.1.3+)
+# bind kdel backspace all
+
 
 ## Nanorc files
 # include "@PKGDATADIR@/nanorc.nanorc"
