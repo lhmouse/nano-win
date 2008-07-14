@@ -414,7 +414,8 @@ void do_undo(void)
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
 	free(f->data);
 	f->data = data;
-	openfile->current_x += strlen(u->strdata);
+	if (u->xflags == UNDO_DEL_BACKSPACE)
+	    openfile->current_x += strlen(u->strdata);
 	break;
     case SPLIT:
 	action = _("line split");
@@ -425,7 +426,7 @@ void do_undo(void)
 	    unlink_node(tmp);
 	    delete_node(tmp);
 	}
-	renumber(openfile->current->prev);
+	renumber(f);
 	break;
     case UNSPLIT:
 	action = _("line join");
@@ -436,7 +437,7 @@ void do_undo(void)
 	free(f->data);
 	f->data = data;
 	splice_node(f, t, f->next);
-	renumber(openfile->current->prev);
+	renumber(f);
 	break;
     default:
 	action = _("wtf?");
@@ -511,18 +512,22 @@ void do_redo(void)
 	free(f->data);
 	f->data = data;
 	splice_node(f, t, f->next);
-	renumber(openfile->current->prev);
+	renumber(f);
 	break;
     case UNSPLIT:
 	action = _("line join");
+	len = strlen(f->data) + strlen(u->strdata + 1);
+	data = charalloc(len);
+	strcpy(data, f->data);
+	strcat(data, u->strdata);
 	free(f->data);
-	f->data = mallocstrcpy(NULL, u->strdata);
+	f->data = data;
 	if (f->next != NULL) {
 	    filestruct *tmp = f->next;
 	    unlink_node(tmp);
 	    delete_node(tmp);
 	}
-	renumber(openfile->current->prev);
+	renumber(f);
 	break;
     default:
 	action = _("wtf?");
@@ -709,6 +714,7 @@ void add_undo(undo_type current_action, openfilestruct *fs)
     u->lineno = fs->current->lineno;
     u->begin = fs->current_x;
     u->fs = fs->current;
+    u->xflags = 0;
     u->next = fs->undotop;
     fs->undotop = u;
     fs->current_undo = u;
@@ -768,7 +774,7 @@ void update_undo(undo_type action, openfilestruct *fs)
     assert(fs->undotop != NULL);
     u = fs->undotop;
 
-    if (u->fs->data != openfile->current->data) {
+    if (u->fs->data != openfile->current->data || u->lineno !=  openfile->current->lineno) {
         add_undo(action, fs);
 	return;
     }
@@ -795,6 +801,12 @@ void update_undo(undo_type action, openfilestruct *fs)
 	assert(len > 2);
         if (fs->current_x == u->begin) {
 	    /* They're deleting */
+	    if (!u->xflags)
+		u->xflags = UNDO_DEL_DEL;
+	    else if (u->xflags != UNDO_DEL_DEL) {
+		add_undo(action, fs);
+		return;
+	    }
 	    data = charalloc(len);
 	    strcpy(data, u->strdata);
 	    data[len-2] = fs->current->data[fs->current_x];;
@@ -803,6 +815,12 @@ void update_undo(undo_type action, openfilestruct *fs)
 	    u->strdata = data;
 	} else if (fs->current_x == u->begin - 1) {
 	    /* They're backspacing */
+	    if (!u->xflags)
+		u->xflags = UNDO_DEL_BACKSPACE;
+	    else if (u->xflags != UNDO_DEL_BACKSPACE) {
+		add_undo(action, fs);
+		return;
+	    }
 	    data = charalloc(len);
 	    data[0] = fs->current->data[fs->current_x];
 	    strcpy(&data[1], u->strdata);
@@ -815,7 +833,7 @@ void update_undo(undo_type action, openfilestruct *fs)
 	    return;
 	}
 #ifdef DEBUG
-	fprintf(stderr, "current undo data now \"%s\"\n", u->strdata);
+	fprintf(stderr, "current undo data now \"%s\"\nu->begin = %d\n", u->strdata, u->begin);
 #endif
 	break;
     case SPLIT:

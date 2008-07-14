@@ -261,6 +261,7 @@ typedef struct undo {
 	/* Generic pointer for data regardless of what type it is */
     struct undo *next;
     ssize_t lineno;
+    int xflags;
 } undo;
 #endif /* NANO_TINY */
 
@@ -672,6 +673,11 @@ typedef struct subnfunc {
 #define TOGGLE_BACKWARDS_KEY		NANO_META_B
 #define TOGGLE_DOS_KEY			NANO_META_D
 #define TOGGLE_MAC_KEY			NANO_META_M
+
+/* Extra bits for the undo function */
+#define UNDO_DEL_DEL		(1<<0)
+#define UNDO_DEL_BACKSPACE	(1<<1)
+
 #endif /* !NANO_TINY */
 
 #define VIEW TRUE
