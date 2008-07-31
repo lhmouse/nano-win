@@ -47,6 +47,7 @@ extern WINDOW *bottomwin;
 extern int editwinrows;
 
 extern filestruct *cutbuffer;
+extern filestruct *cutbottom;
 #ifndef DISABLE_JUSTIFY
 extern filestruct *jusbuffer;
 #endif

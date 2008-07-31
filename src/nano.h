@@ -170,7 +170,7 @@ typedef enum {
 }  function_type;
 
 typedef enum {
-    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, OTHER
+    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, CUTTOEND, UNCUT, OTHER
 } undo_type;
 
 /* Structure types. */
@@ -251,19 +251,36 @@ typedef struct syntaxtype {
 
 #ifndef NANO_TINY
 typedef struct undo {
+    ssize_t lineno;
     undo_type type;
-    filestruct *fs;
+	/* What type of undo was this */
     int begin;
 	/* Where did this  action begin or end */
     char *strdata;
-	/* Generic pointer for data regardless of what type it is */
-    filestruct *fsdata;
-	/* Generic pointer for data regardless of what type it is */
-    struct undo *next;
-    ssize_t lineno;
+	/* String type data we will use for ccopying the affected line back */
     int xflags;
+	/* Some flag data we need */
+
+    /* Cut specific stuff we need */
+    filestruct *cutbuffer;
+	/* Copy of the cutbuffer */
+    filestruct *cutbottom;
+	/* Copy of cutbottom */
+    bool mark_set;
+	/* was the marker set when we cut */
+    bool to_end;
+	/* was this a cut to end */
+    ssize_t mark_begin_lineno;
+	/* copy copy copy */
+    ssize_t mark_begin_x;
+	/* Another shadow variable */
+
+    struct undo *next;
 } undo;
+
+
 #endif /* NANO_TINY */
+
 
 typedef struct openfilestruct {
     char *filename;

@@ -28,7 +28,6 @@
 
 static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */
-static filestruct *cutbottom = NULL;
 	/* Pointer to the end of the cutbuffer. */
 
 /* Indicate that we should no longer keep the contents of the
@@ -163,6 +162,7 @@ void do_cut_text(
     keep_cutbuffer = TRUE;
 
 #ifndef NANO_TINY
+
     if (cut_till_end) {
 	/* If cut_till_end is TRUE, move all text up to the end of the
 	 * file into the cutbuffer. */
@@ -205,10 +205,12 @@ void do_cut_text(
 	if (!old_no_newlines)
 	    UNSET(NO_NEWLINES);
     } else
+	update_undo(CUT, openfile);
 #endif
 	/* Leave the text in the cutbuffer, and mark the file as
 	 * modified. */
 	set_modified();
+
 
     /* Update the screen. */
     edit_refresh();
@@ -221,6 +223,7 @@ void do_cut_text(
 /* Move text from the current filestruct into the cutbuffer. */
 void do_cut_text_void(void)
 {
+    add_undo(CUT, openfile);
     do_cut_text(
 #ifndef NANO_TINY
 	FALSE, FALSE
@@ -239,6 +242,7 @@ void do_copy_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_end(void)
 {
+    add_undo(CUTTOEND, openfile);
     do_cut_text(FALSE, TRUE);
 }
 #endif /* !NANO_TINY */

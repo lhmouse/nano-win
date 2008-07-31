@@ -69,6 +69,7 @@ int editwinrows = 0;
 
 filestruct *cutbuffer = NULL;
 	/* The buffer where we store cut text. */
+filestruct *cutbottom = NULL;
 #ifndef DISABLE_JUSTIFY
 filestruct *jusbuffer = NULL;
 	/* The buffer where we store unjustified text. */

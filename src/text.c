@@ -368,9 +368,9 @@ void do_unindent(void)
 void do_undo(void)
 {
     undo *u = openfile->current_undo;
-    filestruct *f = openfile->current, *t;
+    filestruct *f = openfile->current, *t, *t2;
     int len = 0;
-    char *action, *data;
+    char *undidmsg, *data;
 
     if (!u) {
 	statusbar(_("Nothing in undo buffer!"));
@@ -396,7 +396,7 @@ void do_undo(void)
     openfile->current_x = u->begin;
     switch(u->type) {
     case ADD:
-	action = _("text add");
+	undidmsg = _("text add");
 	len = strlen(f->data) - strlen(u->strdata) + 1;
         data = charalloc(len);
         strncpy(data, f->data, u->begin);
@@ -405,7 +405,7 @@ void do_undo(void)
 	f->data = data;
 	break;
     case DEL:
-	action = _("text delete");
+	undidmsg = _("text delete");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	data = charalloc(len);
 
@@ -418,7 +418,7 @@ void do_undo(void)
 	    openfile->current_x += strlen(u->strdata);
 	break;
     case SPLIT:
-	action = _("line split");
+	undidmsg = _("line split");
 	free(f->data);
 	f->data = mallocstrcpy(NULL, u->strdata);
 	if (f->next != NULL) {
@@ -429,7 +429,7 @@ void do_undo(void)
 	renumber(f);
 	break;
     case UNSPLIT:
-	action = _("line join");
+	undidmsg = _("line join");
 	t = make_new_node(f);
 	t->data = mallocstrcpy(NULL, u->strdata);
 	data = mallocstrncpy(NULL, f->data, u->begin);
@@ -439,14 +439,26 @@ void do_undo(void)
 	splice_node(f, t, f->next);
 	renumber(f);
 	break;
+    case CUT:
+    case CUTTOEND:
+	undidmsg = _("text cut");
+	cutbuffer = copy_filestruct(u->cutbuffer);
+	for (cutbottom = cutbuffer; cutbottom->next != NULL; cutbottom = cutbottom->next)
+	    ;
+	if (u->mark_set && u->mark_begin_lineno < u->lineno)
+	    do_gotolinecolumn(u->mark_begin_lineno, u->mark_begin_x+1, FALSE, FALSE, FALSE, FALSE);
+	else
+	    do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	do_uncut_text();
+	free_filestruct(cutbuffer);
+	break;
     default:
-	action = _("wtf?");
+	undidmsg = _("wtf?");
 	break;
 
     }
-    openfile->current = f;
-    edit_refresh();
-    statusbar(_("Undid action (%s)"), action);
+    do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
+    statusbar(_("Undid action (%s)"), undidmsg);
     openfile->current_undo = openfile->current_undo->next;
 
 }
@@ -454,9 +466,9 @@ void do_undo(void)
 void do_redo(void)
 {
     undo *u = openfile->undotop;
-    filestruct *f = openfile->current, *t;
-    int len = 0;
-    char *action, *data;
+    filestruct *f = openfile->current, *t, *t2;
+    int len = 0, i, i2;
+    char *undidmsg, *data;
 
     for (; u != NULL && u->next != openfile->current_undo; u = u->next)
 	;
@@ -486,7 +498,7 @@ void do_redo(void)
 
     switch(u->type) {
     case ADD:
-	action = _("text add");
+	undidmsg = _("text add");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
         data = charalloc(len);
 	strcpy(&data[u->begin], u->strdata);
@@ -495,7 +507,7 @@ void do_redo(void)
 	f->data = data;
 	break;
     case DEL:
-	action = _("text delete");
+	undidmsg = _("text delete");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	data = charalloc(len);
         strncpy(data, f->data, u->begin);
@@ -504,7 +516,7 @@ void do_redo(void)
 	f->data = data;
 	break;
     case SPLIT:
-	action = _("line split");
+	undidmsg = _("line split");
 	t = make_new_node(f);
 	t->data = mallocstrcpy(NULL, u->strdata);
 	data = mallocstrncpy(NULL, f->data, u->begin);
@@ -515,7 +527,7 @@ void do_redo(void)
 	renumber(f);
 	break;
     case UNSPLIT:
-	action = _("line join");
+	undidmsg = _("line join");
 	len = strlen(f->data) + strlen(u->strdata + 1);
 	data = charalloc(len);
 	strcpy(data, f->data);
@@ -529,15 +541,33 @@ void do_redo(void)
 	}
 	renumber(f);
 	break;
+    case CUT:
+    case CUTTOEND:
+	undidmsg = _("line cut");
+	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	openfile->mark_set = u->mark_set;
+	t = cutbuffer;
+	cutbuffer = NULL;
+	if (u->mark_set) {
+	    for (i = 1, t = openfile->fileage; i != u->mark_begin_lineno; i++)
+		t = t->next;
+	    openfile->mark_begin = t;
+	}
+	openfile->mark_begin_x = u->mark_begin_x;
+	do_cut_text(FALSE, u->to_end);
+	openfile->mark_set = FALSE;
+        openfile->mark_begin = NULL;
+        openfile->mark_begin_x = 0;
+	cutbuffer = t;
+	edit_refresh();
+	break;
     default:
-	action = _("wtf?");
+	undidmsg = _("wtf?");
 	break;
 
     }
-    openfile->current = f;
-    openfile->current_x = u->begin;
-    edit_refresh();
-    statusbar(_("Redid action (%s)"), action);
+    do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
+    statusbar(_("Redid action (%s)"), undidmsg);
 
     openfile->current_undo = u;
 
@@ -697,6 +727,7 @@ bool execute_command(const char *command)
     return TRUE;
 }
 
+/* Add a new undo struct to the top of the current pile */
 void add_undo(undo_type current_action, openfilestruct *fs)
 {
     undo *u = nmalloc(sizeof(undo));
@@ -713,8 +744,6 @@ void add_undo(undo_type current_action, openfilestruct *fs)
     u->type = current_action;
     u->lineno = fs->current->lineno;
     u->begin = fs->current_x;
-    u->fs = fs->current;
-    u->xflags = 0;
     u->next = fs->undotop;
     fs->undotop = u;
     fs->current_undo = u;
@@ -746,40 +775,50 @@ void add_undo(undo_type current_action, openfilestruct *fs)
 	break;
     case SPLIT:
 	data = mallocstrcpy(NULL, fs->current->data);
-	u->strdata = data;
         u->begin = fs->current_x;
+	u->strdata = data;
+	break;
+    case CUT:
+    case CUTTOEND:
+	u->mark_set = openfile->mark_set;
+	if (u->mark_set) {
+	    u->mark_begin_lineno = openfile->mark_begin->lineno;
+	    u->mark_begin_x = openfile->mark_begin_x;
+	}
+	u->to_end = (current_action == CUTTOEND);
 	break;
     }
 
 #ifdef DEBUG
     fprintf(stderr, "fs->current->data = \"%s\", current_x = %d, u->begin = %d, type = %d\n",
 			fs->current->data,  fs->current_x, u->begin, current_action);
-    fprintf(stderr, "u->strdata = \"%s\"\n", u->strdata);
     fprintf(stderr, "left update_add...\n");
 #endif
     fs->last_action = current_action;
 }
 
+/* Update an undo item, or determine whether a new one
+   is really needed and bounce the data to add_undo
+   instead.  The latter functionality just feels
+   gimmicky and may just be more hassle than
+   it's worth, so it should be axed if needed. */
 void update_undo(undo_type action, openfilestruct *fs)
 {
     undo *u;
     char *data;
     int len = 0;
 
-    if (action != fs->last_action) {
+    /* Change to an add if we're not using the same undo struct
+       that we should be using */
+    if (action != fs->last_action
+	|| (action != CUT && action != CUTTOEND
+	    && openfile->current->lineno != fs->undotop->lineno)) {
         add_undo(action, fs);
 	return;
     }
 
     assert(fs->undotop != NULL);
     u = fs->undotop;
-
-    if (u->fs->data != openfile->current->data || u->lineno !=  openfile->current->lineno) {
-        add_undo(action, fs);
-	return;
-    }
-
-
 
     switch (u->type) {
     case ADD:
@@ -835,6 +874,12 @@ void update_undo(undo_type action, openfilestruct *fs)
 #ifdef DEBUG
 	fprintf(stderr, "current undo data now \"%s\"\nu->begin = %d\n", u->strdata, u->begin);
 #endif
+	break;
+    case CUT:
+    case CUTTOEND:
+    case UNCUT:
+	u->cutbuffer = copy_filestruct(cutbuffer);
+	u->cutbottom = cutbottom;
 	break;
     case SPLIT:
     case UNSPLIT:
