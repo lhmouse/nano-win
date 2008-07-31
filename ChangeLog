@@ -1,3 +1,6 @@
+2008-07-23 Chris Allegretta <chrisa@asty.org>
+	* configure.ac: Add ncursesw dir to include path if lib detected
+
 2008-07-11 Mike Frysinger <vapier@gentoo.org>
 	* doc/nanorc.sample.in: Include the updates files in the default sample nanorc.
 
