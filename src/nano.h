@@ -274,7 +274,8 @@ typedef struct undo {
 	/* copy copy copy */
     ssize_t mark_begin_x;
 	/* Another shadow variable */
-
+    ssize_t linescut;
+	/* How many lines we cut on a straight non-marked non-to-end cut */
     struct undo *next;
 } undo;
 
