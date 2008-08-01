@@ -501,6 +501,7 @@ void do_redo(void)
 	undidmsg = _("text add");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
         data = charalloc(len);
+	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], u->strdata);
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
 	free(f->data);
