@@ -451,6 +451,7 @@ void do_undo(void)
 	    do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
 	do_uncut_text();
 	free_filestruct(cutbuffer);
+	cutbuffer = NULL;
 	break;
     default:
 	undidmsg = _("wtf?");
@@ -731,8 +732,14 @@ bool execute_command(const char *command)
 /* Add a new undo struct to the top of the current pile */
 void add_undo(undo_type current_action, openfilestruct *fs)
 {
-    undo *u = nmalloc(sizeof(undo));
+    undo *u;
     char *data;
+
+    /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
+       we need to  abort here */
+    u = fs->current_undo;
+    if (u && u->type == CUT && !u->mark_set && u->lineno == fs->current->lineno)
+	return;
 
     /* Blow away the old undo stack if we are starting from the middle */
     while (fs->undotop != NULL && fs->undotop != fs->current_undo) {
@@ -748,6 +755,8 @@ void add_undo(undo_type current_action, openfilestruct *fs)
 	free(u2);
     }
 
+    /* Allocate and initialize a new undo type */
+    u = nmalloc(sizeof(undo));
     u->type = current_action;
     u->lineno = fs->current->lineno;
     u->begin = fs->current_x;
@@ -895,6 +904,8 @@ void update_undo(undo_type action, openfilestruct *fs)
     case CUT:
     case CUTTOEND:
     case UNCUT:
+	if (u->cutbuffer)
+	    free(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
 	u->cutbottom = cutbottom;
 	break;
