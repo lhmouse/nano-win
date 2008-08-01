@@ -113,7 +113,7 @@ void cut_to_eof(void)
  * position to the end of the file into the cutbuffer. */
 void do_cut_text(
 #ifndef NANO_TINY
-	bool copy_text, bool cut_till_end
+	bool copy_text, bool cut_till_end, bool undoing
 #else
 	void
 #endif
@@ -204,7 +204,7 @@ void do_cut_text(
 	 * disturbing the text. */
 	if (!old_no_newlines)
 	    UNSET(NO_NEWLINES);
-    } else
+    } else if (!undoing)
 	update_undo(CUT, openfile);
 #endif
 	/* Leave the text in the cutbuffer, and mark the file as
@@ -226,7 +226,7 @@ void do_cut_text_void(void)
     add_undo(CUT, openfile);
     do_cut_text(
 #ifndef NANO_TINY
-	FALSE, FALSE
+	FALSE, FALSE, FALSE
 #endif
 	);
 }
@@ -236,14 +236,14 @@ void do_cut_text_void(void)
  * back into the filestruct afterward. */
 void do_copy_text(void)
 {
-    do_cut_text(TRUE, FALSE);
+    do_cut_text(TRUE, FALSE, FALSE);
 }
 
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_end(void)
 {
     add_undo(CUTTOEND, openfile);
-    do_cut_text(FALSE, TRUE);
+    do_cut_text(FALSE, TRUE, FALSE);
 }
 #endif /* !NANO_TINY */
 

@@ -554,7 +554,7 @@ void do_redo(void)
 	    openfile->mark_begin = t;
 	}
 	openfile->mark_begin_x = u->mark_begin_x;
-	do_cut_text(FALSE, u->to_end);
+	do_cut_text(FALSE, u->to_end, TRUE);
 	openfile->mark_set = FALSE;
         openfile->mark_begin = NULL;
         openfile->mark_begin_x = 0;
@@ -734,11 +734,17 @@ void add_undo(undo_type current_action, openfilestruct *fs)
     char *data;
 
     /* Blow away the old undo stack if we are starting from the middle */
-    while (fs->undotop != fs->current_undo) {
-	undo *tmp = fs->undotop;
+    while (fs->undotop != NULL && fs->undotop != fs->current_undo) {
+	undo *u2 = fs->undotop;
 	fs->undotop = fs->undotop->next;
-	free(tmp->strdata);
-	free(tmp);
+	if (u2->strdata != NULL)
+	    free(u2->strdata);
+	while (u2->cutbuffer != NULL) {
+	    filestruct *f2 = u2->cutbuffer->next;
+	    u2->cutbuffer = u2->cutbuffer->next;
+	    free(f2);
+	}
+	free(u2);
     }
 
     u->type = current_action;
@@ -747,6 +753,10 @@ void add_undo(undo_type current_action, openfilestruct *fs)
     u->next = fs->undotop;
     fs->undotop = u;
     fs->current_undo = u;
+    u->strdata = NULL;
+    u->cutbuffer = NULL;
+    u->cutbottom  = NULL;
+    u->xflags = 0;
 
     switch (u->type) {
     /* We need to start copying data into the undo buffer or we wont be able
@@ -808,11 +818,17 @@ void update_undo(undo_type action, openfilestruct *fs)
     char *data;
     int len = 0;
 
+
+#ifdef DEBUG
+        fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %d, fs->current_undo->lineno = %d\n", 
+		action, fs->last_action, openfile->current->lineno,  fs->current_undo->lineno);
+#endif
+
     /* Change to an add if we're not using the same undo struct
        that we should be using */
     if (action != fs->last_action
 	|| (action != CUT && action != CUTTOEND
-	    && openfile->current->lineno != fs->undotop->lineno)) {
+	    && openfile->current->lineno != fs->current_undo->lineno)) {
         add_undo(action, fs);
 	return;
     }
