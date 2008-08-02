@@ -368,7 +368,7 @@ void do_unindent(void)
 void do_undo(void)
 {
     undo *u = openfile->current_undo;
-    filestruct *f = openfile->current, *t, *t2;
+    filestruct *f = openfile->current, *t;
     int len = 0;
     char *undidmsg, *data;
 
@@ -458,6 +458,12 @@ void do_undo(void)
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 	break;
+    case REPLACE:
+	undidmsg = _("text replace");
+	data = u->strdata;
+	u->strdata = f->data;
+	f->data = data;
+	break;
     default:
 	undidmsg = _("wtf?");
 	break;
@@ -472,8 +478,8 @@ void do_undo(void)
 void do_redo(void)
 {
     undo *u = openfile->undotop;
-    filestruct *f = openfile->current, *t, *t2;
-    int len = 0, i, i2;
+    filestruct *f = openfile->current, *t;
+    int len = 0, i;
     char *undidmsg, *data;
 
     for (; u != NULL && u->next != openfile->current_undo; u = u->next)
@@ -587,6 +593,12 @@ void do_redo(void)
         openfile->mark_begin = NULL;
         openfile->mark_begin_x = 0;
 	edit_refresh();
+	break;
+    case REPLACE:
+	undidmsg = _("text replace");
+	data = u->strdata;
+	u->strdata = f->data;
+	f->data = data;
 	break;
     default:
 	undidmsg = _("wtf?");
@@ -822,6 +834,7 @@ void add_undo(undo_type current_action, openfilestruct *fs)
 	u->begin = fs->current_x;
 	break;
     case SPLIT:
+    case REPLACE:
 	data = mallocstrcpy(NULL, fs->current->data);
         u->begin = fs->current_x;
 	u->strdata = data;
@@ -834,6 +847,11 @@ void add_undo(undo_type current_action, openfilestruct *fs)
 	    u->mark_begin_x = openfile->mark_begin_x;
 	}
 	u->to_end = (current_action == CUTTOEND);
+	break;
+    case UNCUT:
+	break;
+    case OTHER:
+	statusbar(_("OOPS. Tried to add unknown thing to undo struct, I'd save your work"));
 	break;
     }
 
@@ -858,8 +876,12 @@ void update_undo(undo_type action, openfilestruct *fs)
 
 
 #ifdef DEBUG
-        fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %d, fs->current_undo->lineno = %d\n", 
-		action, fs->last_action, openfile->current->lineno,  fs->current_undo->lineno);
+        fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %d",
+		action, fs->last_action, openfile->current->lineno);
+	if (fs->current_undo)
+	    fprintf(stderr, "fs->current_undo->lineno = %d\n",  fs->current_undo->lineno);
+	else
+	    fprintf(stderr, "\n");
 #endif
 
     /* Change to an add if we're not using the same undo struct
@@ -938,10 +960,13 @@ void update_undo(undo_type action, openfilestruct *fs)
 	u->cutbottom = cutbottom;
 	u->linescut++;
 	break;
+    case REPLACE:
+	add_undo(action, fs);
+	break;
     case SPLIT:
     case UNSPLIT:
-	/* We don't really ever update an enter key press, treat it as a new */
-//	add_undo(action, fs);
+	/* These cases are handled by the earlier check for a new line and action */
+    case OTHER:
 	break;
     }
 

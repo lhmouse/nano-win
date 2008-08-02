@@ -788,6 +788,9 @@ ssize_t do_replace_loop(
 	    char *copy;
 	    size_t length_change;
 
+#ifndef NANO_TINY
+	    update_undo(REPLACE, openfile);
+#endif
 	    if (i == 2)
 		replaceall = TRUE;
 
