@@ -613,10 +613,10 @@ filestruct *fsfromline(ssize_t lineno)
 	   ;
     else
         for (; f->lineno != lineno && f->next != NULL; f = f->next)
+	    ;
 
     if (f->lineno != lineno)
-	return NULL;
-
+	f = NULL;
     return f;
 }
 

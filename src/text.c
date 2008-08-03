@@ -498,6 +498,7 @@ void do_redo(void)
 {
     undo *u = openfile->undotop;
     filestruct *f = openfile->current, *t;
+    filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
     int len = 0, i;
     char *undidmsg, *data;
 
@@ -618,6 +619,15 @@ void do_redo(void)
 	data = u->strdata;
 	u->strdata = f->data;
 	f->data = data;
+	break;
+     case INSERT:
+	undidmsg = _("text insert");
+	cutbuffer = u->cutbuffer;
+	cutbottom = u->cutbottom;
+	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	do_uncut_text();
+	cutbuffer = oldcutbuffer;
+	cutbottom = oldcutbottom;
 	break;
     default:
 	undidmsg = _("wtf?");
@@ -804,11 +814,8 @@ void add_undo(undo_type current_action)
 	fs->undotop = fs->undotop->next;
 	if (u2->strdata != NULL)
 	    free(u2->strdata);
-	while (u2->cutbuffer != NULL) {
-	    filestruct *f2 = u2->cutbuffer->next;
-	    u2->cutbuffer = u2->cutbuffer->next;
-	    free(f2);
-	}
+	if (u2->cutbuffer);
+	    free_filestruct(u2->cutbuffer);
 	free(u2);
     }
 
