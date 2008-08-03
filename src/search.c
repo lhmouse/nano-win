@@ -789,7 +789,7 @@ ssize_t do_replace_loop(
 	    size_t length_change;
 
 #ifndef NANO_TINY
-	    update_undo(REPLACE, openfile);
+	    update_undo(REPLACE);
 #endif
 	    if (i == 2)
 		replaceall = TRUE;

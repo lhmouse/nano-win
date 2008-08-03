@@ -101,7 +101,7 @@ void initialize_buffer_text(void)
 
 /* If it's not "", filename is a file to open.  We make a new buffer, if
  * necessary, and then open and read the file, if applicable. */
-void open_buffer(const char *filename)
+void open_buffer(const char *filename, bool undoable)
 {
     bool new_buffer = (openfile == NULL
 #ifdef ENABLE_MULTIBUFFER
@@ -142,7 +142,7 @@ void open_buffer(const char *filename)
     /* If we have a non-new file, read it in.  Then, if the buffer has
      * no stat, update the stat, if applicable. */
     if (rc == 0) {
-	read_file(f, filename);
+	read_file(f, filename, undoable);
 #ifndef NANO_TINY
 	if (openfile->current_stat == NULL) {
 	    openfile->current_stat =
@@ -192,7 +192,7 @@ void replace_buffer(const char *filename)
 
     /* If we have a non-new file, read it in. */
     if (rc == 0)
-	read_file(f, filename);
+	read_file(f, filename, FALSE);
 
     /* Move back to the beginning of the first line of the buffer. */
     openfile->current = openfile->fileage;
@@ -339,8 +339,9 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 }
 
 /* Read an open file into the current buffer.  f should be set to the
- * open file, and filename should be set to the name of the file. */
-void read_file(FILE *f, const char *filename)
+ * open file, and filename should be set to the name of the file.
+   undoable  means do we want to create undo records to try and undo this */
+void read_file(FILE *f, const char *filename, bool undoable)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
@@ -370,6 +371,11 @@ void read_file(FILE *f, const char *filename)
 
     buf = charalloc(bufx);
     buf[0] = '\0';
+
+#ifndef NANO_TINY
+    if (undoable)
+	add_undo(INSERT);
+#endif
 
     if (openfile->current == openfile->fileage)
 	first_line_ins = TRUE;
@@ -489,7 +495,7 @@ void read_file(FILE *f, const char *filename)
     /* If we didn't get a file and we don't already have one, open a
      * blank buffer. */
     if (fileptr == NULL)
-	open_buffer("");
+	open_buffer("", FALSE);
 
     /* Attach the file we got to the filestruct.  If we got a file of
      * zero bytes, don't do anything. */
@@ -561,6 +567,9 @@ void read_file(FILE *f, const char *filename)
     openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
+    if (undoable)
+	update_undo(INSERT);
+
     if (format == 3)
 	statusbar(
 		P_("Read %lu line (Converted from DOS and Mac format)",
@@ -853,7 +862,7 @@ void do_insertfile(
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
 		    /* Open a blank buffer. */
-		    open_buffer("");
+		    open_buffer("", FALSE);
 #endif
 
 		/* Save the command's output in the current buffer. */
@@ -877,7 +886,7 @@ void do_insertfile(
 
 		/* Save the file specified in answer in the current
 		 * buffer. */
-		open_buffer(answer);
+		open_buffer(answer, TRUE);
 #ifndef NANO_TINY
 	    }
 #endif

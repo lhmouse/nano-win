@@ -1647,7 +1647,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	set_modified();
 
 #ifndef NANO_TINY
-	update_undo(ADD, openfile);
+	update_undo(ADD);
 
 
 	/* Note that current_x has not yet been incremented. */
@@ -2232,7 +2232,7 @@ int main(int argc, char **argv)
 		icol == 1)
 		parse_line_column(&argv[i][1], &iline, &icol);
 	    else {
-		open_buffer(argv[i]);
+		open_buffer(argv[i], FALSE);
 
 		if (iline > 1 || icol > 1) {
 		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE,
@@ -2249,14 +2249,14 @@ int main(int argc, char **argv)
      * buffer or a new buffer, depending on whether multibuffer mode is
      * enabled. */
     if (optind < argc)
-	open_buffer(argv[optind]);
+	open_buffer(argv[optind], FALSE);
 
     /* We didn't open any files if all the command line arguments were
      * invalid files like directories or if there were no command line
      * arguments given.  In this case, we have to load a blank buffer.
      * Also, we unset view mode to allow editing. */
     if (openfile == NULL) {
-	open_buffer("");
+	open_buffer("", FALSE);
 	UNSET(VIEW_MODE);
     }
 

@@ -255,7 +255,7 @@ void do_uncut_text(void);
 void make_new_buffer(void);
 void initialize_buffer(void);
 void initialize_buffer_text(void);
-void open_buffer(const char *filename);
+void open_buffer(const char *filename, bool undoable);
 #ifndef DISABLE_SPELLER
 void replace_buffer(const char *filename);
 #endif
@@ -268,7 +268,7 @@ bool close_buffer(void);
 #endif
 filestruct *read_line(char *buf, filestruct *prevnode, bool
 	*first_line_ins, size_t buf_len);
-void read_file(FILE *f, const char *filename);
+void read_file(FILE *f, const char *filename, bool undoable);
 int open_file(const char *filename, bool newfie, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
 void do_insertfile(
@@ -707,10 +707,11 @@ void new_magicline(void);
 void remove_magicline(void);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
-void add_undo(undo_type current_action, openfilestruct *fs);
-void update_undo(undo_type action, openfilestruct *fs);
+void add_undo(undo_type current_action);
+void update_undo(undo_type action);
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
+filestruct *fsfromline(ssize_t lineno);
 #ifdef DEBUG
 void dump_filestruct(const filestruct *inptr);
 void dump_filestruct_reverse(void);

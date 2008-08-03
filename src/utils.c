@@ -603,6 +603,24 @@ void dump_filestruct(const filestruct *inptr)
     }
 }
 
+/* Get back a pointer given a line number in the current openfilestruct */
+filestruct *fsfromline(ssize_t lineno)
+{
+    filestruct *f = openfile->current;
+
+    if (lineno <= openfile->current->lineno)
+	for (; f->lineno != lineno && f != openfile->fileage; f = f->prev)
+	   ;
+    else
+        for (; f->lineno != lineno && f->next != NULL; f = f->next)
+
+    if (f->lineno != lineno)
+	return NULL;
+
+    return f;
+}
+
+
 /* Dump the current buffer's filestruct to stderr in reverse. */
 void dump_filestruct_reverse(void)
 {
