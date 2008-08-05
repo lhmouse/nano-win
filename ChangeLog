@@ -1,3 +1,4 @@
+GNU nano 2.1.3 - 2008.08.04
 2008-07-23 Chris Allegretta <chrisa@asty.org>
 	* configure.ac: Add ncursesw dir to include path if lib detected
 

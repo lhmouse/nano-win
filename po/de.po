@@ -1,15 +1,16 @@
 # German Messages for the nano editor
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# This file is distributed under the same license as the nano package.
 # Karl Eichwalder <keichwa@gmx.net>, 2001.
 # Florian König <floki@bigfoot.com>, 2000, 2001.
-# Michael Piefel <piefel@informatik.hu-berlin.de>, 2001, 2002, 2003, 2004, 2005, 2006.
+# Michael Piefel <piefel@informatik.hu-berlin.de>, 2001, 2002, 2003, 2004, 2005, 2006, 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.9.99pre0\n"
+"Project-Id-Version: nano 2.1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-24 23:34-0400\n"
-"PO-Revision-Date: 2006-08-31 14:55+0200\n"
+"PO-Revision-Date: 2008-06-26 09:25+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -190,9 +191,7 @@ msgstr "Kann nicht außerhalb von %s schreiben"
 
 #: src/files.c:1394
 msgid "Cannot prepend or append to a symlink with --nofollow set"
-msgstr ""
-"Kann nicht vorn oder hinten an eine symbolische Verknüpfung anfügen, wenn --"
-"nofollow gesetzt ist"
+msgstr "Kann nicht vorn oder hinten an eine symbolische Verknüpfung anfügen, wenn --nofollow gesetzt ist"
 
 #: src/files.c:1466 src/files.c:1490 src/files.c:1517 src/files.c:1535
 #: src/files.c:1592 src/files.c:1611 src/files.c:1623 src/files.c:1647
@@ -388,9 +387,8 @@ msgid "Last Line"
 msgstr "Letzte Zeile"
 
 #: src/global.c:480
-#, fuzzy
 msgid "Suspend"
-msgstr "Suspendierung"
+msgstr "in den Hintergrund"
 
 #: src/global.c:482
 msgid "Beg of Par"
@@ -451,14 +449,12 @@ msgid "Search for a string or a regular expression"
 msgstr "nach einer Zeichenkette oder einem regulären Ausdruck suchen"
 
 #: src/global.c:511
-#, fuzzy
 msgid "Go to previous screen"
-msgstr "zur vorhergehenden Seite springen"
+msgstr "zum vorhergehenden Bildschirm springen"
 
 #: src/global.c:512
-#, fuzzy
 msgid "Go to next screen"
-msgstr "zur folgenden Seite springen"
+msgstr "zum folgenden Bildschirm springen"
 
 #: src/global.c:514
 msgid "Cut the current line and store it in the cutbuffer"
@@ -505,67 +501,54 @@ msgid "Unindent the current line"
 msgstr "die aktuelle Zeile ausrücken"
 
 #: src/global.c:532
-#, fuzzy
 msgid "Go forward one character"
-msgstr "Zum folgenden Zeichen springen"
+msgstr "ein Zeichen vorwärts gehen"
 
 #: src/global.c:533
-#, fuzzy
 msgid "Go back one character"
-msgstr "Zum vorhergehenden Zeichen springen"
+msgstr "ein Zeichen rückwärts gehen"
 
 #: src/global.c:535
-#, fuzzy
 msgid "Go forward one word"
-msgstr "Zum folgenden Wort springen"
+msgstr "ein Wort vorwärts gehen"
 
 #: src/global.c:536
-#, fuzzy
 msgid "Go back one word"
-msgstr "ein Wort zurück springen"
+msgstr "ein Wort rückwärts gehen"
 
 #: src/global.c:538
-#, fuzzy
 msgid "Go to previous line"
-msgstr "zur vorhergehenden Zeile springen"
+msgstr "zur vorhergehenden Zeile gehen"
 
 #: src/global.c:539
-#, fuzzy
 msgid "Go to next line"
-msgstr "zur folgenden Zeile springen"
+msgstr "zur folgenden Zeile gehen"
 
 #: src/global.c:540
-#, fuzzy
 msgid "Go to beginning of current line"
-msgstr "zum Zeilenanfang springen"
+msgstr "zum Anfang der aktuellen Zeile springen"
 
 #: src/global.c:541
-#, fuzzy
 msgid "Go to end of current line"
-msgstr "zum Zeilenende springen"
+msgstr "zum Ende der aktuellen Zeile springen"
 
 #: src/global.c:544
-#, fuzzy
 msgid "Go to beginning of paragraph; then of previous paragraph"
-msgstr "zum Anfang des aktuellen Absatzes springen"
+msgstr "zum Anfang des aktuellen Absatzes springen; dann des vorigen Absatzes"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Go just beyond end of paragraph; then of next paragraph"
-msgstr "zum Ende des aktuellen Absatzes springen"
+msgstr "hinter das Ende des aktuellen Absatzes springen; dann des vorigen Absatzes"
 
 #: src/global.c:549
-#, fuzzy
 msgid "Go to the first line of the file"
 msgstr "zur ersten Zeile der Datei springen"
 
 #: src/global.c:551
-#, fuzzy
 msgid "Go to the last line of the file"
 msgstr "zur letzten Zeile der Datei springen"
 
 #: src/global.c:553
-#, fuzzy
 msgid "Go to the matching bracket"
 msgstr "zur passenden Klammer springen"
 
@@ -623,7 +606,7 @@ msgstr "Bildschirm auffrischen (neu zeichnen)"
 
 #: src/global.c:589
 msgid "Suspend the editor (if suspend is enabled)"
-msgstr ""
+msgstr "den Editor in den Hintergrund schieben (wenn „suspend“ angeschaltet ist)"
 
 #: src/global.c:592
 msgid "Toggle the case sensitivity of the search"
@@ -898,41 +881,30 @@ msgstr "Keine Umwandlung aus DOS/Mac-Format"
 
 #: src/global.c:1242
 msgid "Suspension"
-msgstr "Suspendierung"
+msgstr "in den Hintergrund"
 
 #: src/help.c:242
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.  "
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
 "Hilfetext für das Suchkommando\n"
 "\n"
-" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, "
-"und drücken Sie die Eingabetaste.  Wenn eine Übereinstimmung für den "
-"eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten "
-"Fundstelle bewegt.\n"
+" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, und drücken Sie die Eingabetaste.  Wenn eine Übereinstimmung für den eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten Fundstelle bewegt.\n"
 "\n"
-" Die vorhergehende Suchzeichenkette wird in eckigen Klammern nach der Such-"
-"Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgenwelchen "
-"Textes führt die vorhergehende Suche durch.  "
+" Die vorhergehende Suchzeichenkette wird in eckigen Klammern nach der Such-Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgenwelchen Textes führt die vorhergehende Suche durch.  "
 
 #: src/help.c:251
 msgid ""
-"If you have selected text with the mark and then search to replace, only "
-"matches in the selected text will be replaced.\n"
+"If you have selected text with the mark and then search to replace, only matches in the selected text will be replaced.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"Wenn Sie Text markiert haben und dann Suchen, um zu Ersetzen, werden nur "
-"Treffer in der ausgewählten Region ersetzt.\n"
+"Wenn Sie Text markiert haben und dann Suchen, um zu Ersetzen, werden nur Treffer in der ausgewählten Region ersetzt.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Suchmodus verfügbar:\n"
 "\n"
@@ -941,18 +913,14 @@ msgstr ""
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für „Zu Zeile“\n"
 "\n"
-" Geben Sie die Nummer der gewünschten Zeile ein und drücken Sie die "
-"Eingabetaste. Gibt es weniger Zeilen im Text, so springt nano zur letzten "
-"Zeile der Datei.\n"
+" Geben Sie die Nummer der gewünschten Zeile ein und drücken Sie die Eingabetaste. Gibt es weniger Zeilen im Text, so springt nano zur letzten Zeile der Datei.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Zu-Zeile-Modus verfügbar:\n"
 "\n"
@@ -961,37 +929,24 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple file buffers with the -F or --multibuffer command line flags, the "
-"Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).  "
+" If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
 "Hilfetext für „Datei einfügen“\n"
 "\n"
-" Geben Sie den Namen einer Datei ein, die an der momentanen Cursorposition "
-"in den momentanen Dateipuffer eingefügt werden soll.\n"
+" Geben Sie den Namen einer Datei ein, die an der momentanen Cursorposition in den momentanen Dateipuffer eingefügt werden soll.\n"
 "\n"
-" Wenn Sie nano mit Unterstützung für mehrere Dateipuffer compiliert haben "
-"und diese Funktion mit den Kommandozeilenoptionen -F oder --multibuffer, mit "
-"der Tastenkombination Meta-F oder mittels einer nanorc-Datei eingeschaltet "
-"haben, so wird die Einfügeoperation die Datei in einen separaten Puffer "
-"laden. (Benutzen Sie Meta-< und >, um zwischen den Dateipuffern "
-"umzuschalten.)  "
+" Wenn Sie nano mit Unterstützung für mehrere Dateipuffer compiliert haben und diese Funktion mit den Kommandozeilenoptionen -F oder --multibuffer, mit der Tastenkombination Meta-F oder mittels einer nanorc-Datei eingeschaltet haben, so wird die Einfügeoperation die Datei in einen separaten Puffer laden. (Benutzen Sie Meta-< und >, um zwischen den Dateipuffern umzuschalten.)  "
 
 #: src/help.c:275
 msgid ""
-"If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+"If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"Wenn Sie einen weiteren leeren Puffer benötigen, drücken Sie einfach die "
-"Eingabetaste, ohne einen Dateinamen einzugeben, oder geben Sie einen "
-"nichtexistierenden Dateinamen an.\n"
+"Wenn Sie einen weiteren leeren Puffer benötigen, drücken Sie einfach die Eingabetaste, ohne einen Dateinamen einzugeben, oder geben Sie einen nichtexistierenden Dateinamen an.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Datei-Einfügen-Modus verfügbar:\n"
 "\n"
@@ -1000,26 +955,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and press Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and press Enter to save the file.\n"
 "\n"
-" If you have selected text with the mark, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with the mark, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für „Datei schreiben“\n"
 "\n"
-" Geben Sie den Namen ein, unter dem Sie die momentane Datei speichern wollen "
-"und drücken Sie die Eingabetaste.\n"
+" Geben Sie den Namen ein, unter dem Sie die momentane Datei speichern wollen und drücken Sie die Eingabetaste.\n"
 "\n"
-" Wenn Sie Text markiert haben, so werden Sie gefragt, ob Sie nur den "
-"ausgewählten Teil des Textes in eine separate Datei schreiben wollen. Um die "
-"Gefahr, eine Datei mit einem Teil von ihr zu überschreiben, zu minimieren, "
-"ist der aktuelle Dateiname in diesem Modus nicht die Vorgabe.\n"
+" Wenn Sie Text markiert haben, so werden Sie gefragt, ob Sie nur den ausgewählten Teil des Textes in eine separate Datei schreiben wollen. Um die Gefahr, eine Datei mit einem Teil von ihr zu überschreiben, zu minimieren, ist der aktuelle Dateiname in diesem Modus nicht die Vorgabe.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Datei-Schreiben-Modus verfügbar:\n"
 "\n"
@@ -1028,23 +975,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Hilfetext für den Dateiwähler\n"
 "\n"
-" Mit dem Dateiwähler kann die Verzeichnisstruktur visuell durchsucht werden, "
-"um eine Datei für Lese- und Schreiboperationen auszuwählen. Sie können die "
-"Pfeiltasten oder Bild-Auf/Ab benutzen, um durch die Dateien zu blättern, und "
-"S oder die Eingabe, um die markierte Datei bzw. das markierte Verzeichnis "
-"auszuwählen. Um sich eine Ebene aufwärts zu bewegen, wählen Sie das "
-"Verzeichnis namens „..“ ganz oben in der Dateiliste.\n"
+" Mit dem Dateiwähler kann die Verzeichnisstruktur visuell durchsucht werden, um eine Datei für Lese- und Schreiboperationen auszuwählen. Sie können die Pfeiltasten oder Bild-Auf/Ab benutzen, um durch die Dateien zu blättern, und S oder die Eingabe, um die markierte Datei bzw. das markierte Verzeichnis auszuwählen. Um sich eine Ebene aufwärts zu bewegen, wählen Sie das Verzeichnis namens „..“ ganz oben in der Dateiliste.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Dateiwähler verfügbar:\n"
 "\n"
@@ -1053,25 +991,16 @@ msgstr ""
 msgid ""
 "Browser Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.\n"
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
 msgstr ""
 "Hilfetext für das Suchkommando des Dateiwählers\n"
 "\n"
-" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, "
-"und drücken Sie die Eingabetaste.  Wenn eine Übereinstimmung für den "
-"eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten "
-"Fundstelle bewegt.\n"
+" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, und drücken Sie die Eingabetaste.  Wenn eine Übereinstimmung für den eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten Fundstelle bewegt.\n"
 "\n"
-" Die vorhergehende Suchzeichenkette wird in eckigen Klammern nach der Such-"
-"Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgenwelchen "
-"Textes führt die vorhergehende Suche durch.\n"
+" Die vorhergehende Suchzeichenkette wird in eckigen Klammern nach der Such-Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgenwelchen Textes führt die vorhergehende Suche durch.\n"
 "\n"
 
 #: src/help.c:317
@@ -1079,8 +1008,7 @@ msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
 msgstr ""
-" Die folgenden Funktionstasten sind im Suchkommando-Modus des Dateiwählers "
-"verfügbar:\n"
+" Die folgenden Funktionstasten sind im Suchkommando-Modus des Dateiwählers verfügbar:\n"
 "\n"
 
 #: src/help.c:321
@@ -1089,8 +1017,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the Tab key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the Tab key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -1099,56 +1026,39 @@ msgstr ""
 "\n"
 " Geben Sie den Namen des Verzeichnisses ein, das Sie durchsuchen wollen.\n"
 "\n"
-" Wenn Tabulator-Vervollständigung nicht abgeschaltet worden ist, so können "
-"Sie die Tabulator-Taste benutzen, um (zu versuchen) den Verzeichnisnamen "
-"automatisch vervollständigen zu lassen.\n"
+" Wenn Tabulator-Vervollständigung nicht abgeschaltet worden ist, so können Sie die Tabulator-Taste benutzen, um (zu versuchen) den Verzeichnisnamen automatisch vervollständigen zu lassen.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Gehe-zu-Verzeichnis-Modus des "
-"Dateiwählers verfügbar:\n"
+" Die folgenden Funktionstasten sind im Gehe-zu-Verzeichnis-Modus des Dateiwählers verfügbar:\n"
 "\n"
 
 #: src/help.c:334
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file, or, if you have selected text with the "
-"mark, in the selected text.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file, or, if you have selected text with the mark, in the selected text.\n"
 "\n"
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für die Rechtschreibprüfung\n"
 "\n"
-" Die Rechtschreibprüfung überprüft die Rechtschreibung des gesamten Texts "
-"der aktuellen Datei. Wenn ein unbekanntes Wort gefunden wird, wird es "
-"hervorgehoben und eine Ersetzung kann bearbeitet werden. Sie werden dann "
-"gefragt, ob Sie die vorgenommene Ersetzung in der ganzen Datei, oder, wenn "
-"Sie Text markiert haben, innerhalb der Auswahl vornehmen lassen wollen.\n"
+" Die Rechtschreibprüfung überprüft die Rechtschreibung des gesamten Texts der aktuellen Datei. Wenn ein unbekanntes Wort gefunden wird, wird es hervorgehoben und eine Ersetzung kann bearbeitet werden. Sie werden dann gefragt, ob Sie die vorgenommene Ersetzung in der ganzen Datei, oder, wenn Sie Text markiert haben, innerhalb der Auswahl vornehmen lassen wollen.\n"
 "\n"
 " Die folgenden Funktionstasten sind in der Rechtschreibprüfung verfügbar:\n"
 "\n"
 
 #: src/help.c:349
-#, fuzzy
 msgid ""
 "Execute Command Help Text\n"
 "\n"
-" This mode allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multiple file buffer mode).  If "
-"you need another blank buffer, do not enter any command.\n"
+" This mode allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode).  If you need another blank buffer, do not enter any command.\n"
 "\n"
 " The following function keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für Externen Befehl\n"
 "\n"
-" Dieses Menü erlaubt es, die Ausgabe eines externen Befehls, der in der "
-"Shell ausgeführt wird, in den aktuellen Puffer einzufügen (oder in einen "
-"neuen Puffer, wenn Unterstützung für mehrere Puffer aktiviert ist). Wenn Sie "
-"einen weiteren leeren Puffer benötigen, geben Sie keinen Befehl ein.\n"
+" Dieses Menü erlaubt es, die Ausgabe eines externen Befehls, der in der Shell ausgeführt wird, in den aktuellen Puffer einzufügen (oder in einen neuen Puffer, wenn Unterstützung für mehrere Puffer aktiviert ist). Wenn Sie einen weiteren leeren Puffer benötigen, geben Sie keinen Befehl ein.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Befehl-Ausführen-Modus verfügbar:\n"
 "\n"
@@ -1157,53 +1067,28 @@ msgstr ""
 msgid ""
 "Main nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor.  The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages.  "
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  "
 msgstr ""
 "Haupt-Hilfe für nano\n"
 "\n"
-" Nano wurde konzipiert, die Funktionalität und die Benutzerfreundlichkeit "
-"des UW-Pico-Texteditors zu imitieren.  Es gibt vier Hauptbereiche: Die "
-"Titelzeile zeigt die Version des Programms, den Namen der momentan "
-"editierten Datei und ob die Datei verändert wurde oder nicht.  Das "
-"Hauptfenster enthält die zu bearbeitende Datei.  Die Statuszeile (die dritte "
-"Zeile von unten) zeigt wichtige Meldungen.  "
+" Nano wurde konzipiert, die Funktionalität und die Benutzerfreundlichkeit des UW-Pico-Texteditors zu imitieren.  Es gibt vier Hauptbereiche: Die Titelzeile zeigt die Version des Programms, den Namen der momentan editierten Datei und ob die Datei verändert wurde oder nicht.  Das Hauptfenster enthält die zu bearbeitende Datei.  Die Statuszeile (die dritte Zeile von unten) zeigt wichtige Meldungen.  "
 
 #: src/help.c:372
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and can be entered either by using the Control "
-"(Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are "
-"notated with the Meta (M-) symbol and can be entered using either the Esc, "
-"Alt, or Meta key depending on your keyboard setup.  "
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M-) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
 msgstr ""
-"Die untersten zwei Zeilen listen die meistgebrauchten Tastenkombinationen "
-"von nano auf.\n"
+"Die untersten zwei Zeilen listen die meistgebrauchten Tastenkombinationen von nano auf.\n"
 "\n"
-" Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der Strg-"
-"Taste werden mit einem ^ ausgedrückt und können auch eingegeben werden, "
-"indem Esc zwei Mal gedrückt wird. Escape-Sequenzen werden mit dem Meta-"
-"Symbol (M) angegeben und können je nach Tastatureinstellung mit Esc, Alt "
-"oder Meta eingegeben werden, abhängig von Ihrer Tastatureinstellung.  "
+" Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der Strg-Taste werden mit einem ^ ausgedrückt und können auch eingegeben werden, indem Esc zwei Mal gedrückt wird. Escape-Sequenzen werden mit dem Meta-Symbol (M) angegeben und können je nach Tastatureinstellung mit Esc, Alt oder Meta eingegeben werden, abhängig von Ihrer Tastatureinstellung.  "
 
 #: src/help.c:381
 msgid ""
-"Also, pressing Esc twice and then typing a three-digit decimal number from "
-"000 to 255 will enter the character with the corresponding value.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+"Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"Zudem kann durch zweimaliges Drücken von Esc und anschließender Eingabe "
-"einer dreistelliger Zahl von 000 bis 255 das Zeichen mit dem entsprechenden "
-"Wert eingegeben werden.  Die folgenden Tasten(kombinationen) sind im "
-"Hauptfenster verfügbar. Alternative Tasten stehen in Klammern:\n"
+"Zudem kann durch zweimaliges Drücken von Esc und anschließender Eingabe einer dreistelliger Zahl von 000 bis 255 das Zeichen mit dem entsprechenden Wert eingegeben werden.  Die folgenden Tasten(kombinationen) sind im Hauptfenster verfügbar. Alternative Tasten stehen in Klammern:\n"
 "\n"
 
 #: src/help.c:413 src/help.c:489
@@ -1350,7 +1235,7 @@ msgstr "eingeschränkter Modus"
 
 #: src/nano.c:824
 msgid "Scroll by line instead of half-screen"
-msgstr ""
+msgstr "zeilenweise rollen (statt halb-bildschirm-weise)"
 
 #: src/nano.c:826
 msgid "-T <#cols>"
@@ -1470,7 +1355,7 @@ msgstr "die zwei Hilfe-Zeilen nicht anzeigen"
 
 #: src/nano.c:875
 msgid "Enable suspension"
-msgstr "Suspendierung (anhalten und zurück zur Shell) aktivieren"
+msgstr "schieben in den Hintergrund (anhalten und zurück zur Shell) aktivieren"
 
 #: src/nano.c:879
 msgid "(ignored, for Pico compatibility)"
@@ -1601,36 +1486,35 @@ msgid "The \"default\" syntax must take no extensions"
 msgstr "Die Syntax „default“ darf keine Erweiterungen haben"
 
 #: src/rcfile.c:373
-#, fuzzy
 msgid "Missing key name"
-msgstr "Fehlender Syntaxname"
+msgstr "Fehlender Schlüsselname"
 
 #: src/rcfile.c:385
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
-msgstr ""
+msgstr "Tastenkürzel müssen mit „^“, „M“ oder „F“ beginnen\n"
 
 #: src/rcfile.c:394
 msgid "Must specify function to bind key to\n"
-msgstr ""
+msgstr "Die an die Taste zu bindene Funktion muss angegeben werden\n"
 
 #: src/rcfile.c:405
 msgid "Must specify menu bind key to (or \"all\")\n"
-msgstr ""
+msgstr "Das an die Taste zu bindene Menü (oder „all“) muss angegeben werden\n"
 
 #: src/rcfile.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "Could not map name \"%s\" to a menu\n"
-msgstr "Konnte „%s“ nicht aufrufen"
+msgstr "Konnte „%s“ nicht auf ein Menü binden\n"
 
 #: src/rcfile.c:419
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
-msgstr ""
+msgstr "Konnte „%s“ nicht auf eine Funktion binden\n"
 
 #: src/rcfile.c:441
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding\n"
-msgstr ""
+msgstr "Tut mir Leid, keystr „%s“ ist keine legale Zuordnung\n"
 
 #: src/rcfile.c:553
 #, c-format
@@ -1671,13 +1555,11 @@ msgstr "„start=“ erfordert ein entsprechendes „end=“"
 #: src/rcfile.c:735
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
-msgstr ""
+msgstr "Schwerwiegender Fehler: keine Tassten an Funktion „%s“ gebunden"
 
 #: src/rcfile.c:737
-msgid ""
-"Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
-"settings\n"
-msgstr ""
+msgid "Exiting.  Please use nano with the -I option if needed to adjust your nanorc settings\n"
+msgstr "Beende. Bitte starten Sie nano bei Bedarf mit der Option „-I“, wenn Sie Ihre nanorc-Einstellungen anpassen wollen\n"
 
 #: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
 #, c-format
@@ -1762,9 +1644,8 @@ msgid "Enter line number, column number"
 msgstr "Zeilennummer, Spaltennummer eingeben"
 
 #: src/search.c:1034
-#, fuzzy
 msgid "Invalid line or column number"
-msgstr "Zeilennummer, Spaltennummer eingeben"
+msgstr "Ungültige Zeilen- oder Spaltennummer"
 
 #: src/search.c:1187
 msgid "Not a bracket"
@@ -1940,9 +1821,7 @@ msgstr "Danke für die Benutzung von nano!"
 #~ msgstr "Passende Klammer finden"
 
 #~ msgid "Make the current search/replace case (in)sensitive"
-#~ msgstr ""
-#~ "Groß- und Kleinschreibung bei aktueller Suche oder Ersetzen (nicht) "
-#~ "berücksichtigen"
+#~ msgstr "Groß- und Kleinschreibung bei aktueller Suche oder Ersetzen (nicht) berücksichtigen"
 
 #~ msgid "Make the current search/replace go backwards"
 #~ msgstr "Aktuelle Suche oder Ersetzen rückwärts gehen lassen"
@@ -2023,12 +1902,10 @@ msgstr "Danke für die Benutzung von nano!"
 #~ msgstr "Konnte Rechte %o für Sicherungskopie %s nicht setzen: %s"
 
 #~ msgid "Could not set owner %d/group %d on backup %s: %s"
-#~ msgstr ""
-#~ "Konnte Besitzer %d/Gruppe %d für Sicherungskopie %s nicht setzen: %s"
+#~ msgstr "Konnte Besitzer %d/Gruppe %d für Sicherungskopie %s nicht setzen: %s"
 
 #~ msgid "Could not set access/modification time on backup %s: %s"
-#~ msgstr ""
-#~ "Konnte Zugriffs-/Änderungszeit für Sicherungskopie %s nicht setzen: %s"
+#~ msgstr "Konnte Zugriffs-/Änderungszeit für Sicherungskopie %s nicht setzen: %s"
 
 #~ msgid "Could not open file for writing: %s"
 #~ msgstr "Konnte nicht in Datei schreiben: %s"
@@ -2097,9 +1974,7 @@ msgstr "Danke für die Benutzung von nano!"
 #~ msgstr "Nachher, data = „%s“\n"
 
 #~ msgid "Spell checking failed: unable to write temp file!"
-#~ msgstr ""
-#~ "Rechtschreibprüfung fehlgeschlagen: konnte nicht in temporäre Datei "
-#~ "schreiben"
+#~ msgstr "Rechtschreibprüfung fehlgeschlagen: konnte nicht in temporäre Datei schreiben"
 
 #~ msgid "Cannot resize top win"
 #~ msgstr "Kann die Größe des oberen Fensters nicht verändern"
@@ -2120,9 +1995,7 @@ msgstr "Danke für die Benutzung von nano!"
 #~ msgstr "Kann unteres Fenster nicht verschieben"
 
 #~ msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-#~ msgstr ""
-#~ "NumLock-Problem entdeckt. Tastenblock funktioniert bei ausgeschaltetem "
-#~ "NumLock nicht"
+#~ msgstr "NumLock-Problem entdeckt. Tastenblock funktioniert bei ausgeschaltetem NumLock nicht"
 
 #~ msgid "Tab size is too small for nano...\n"
 #~ msgstr "Tabulatorweite ist zu klein für Nano...\n"

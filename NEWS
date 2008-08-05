@@ -1,4 +1,14 @@
-2008/04/24 - GNU nano 2.1.2 "New York City" is released.  This release
+2008.08.04 - GNY nano 2.1.3 "least stable version ever" is released.  This
+		release includes new (and experimental) undo and redo
+		functionality for most text operations.  The default 
+		key bindings are Meta-U for undo and Meta-E for redo, but
+		these can be remapped using the new 2.1 keybinding code.
+		Also included are some fixes for configuring using wide 
+		curses, crashing when invoking the help menu with 
+		certain locales, and not saving the search history when
+		compiled with configure options.
+
+2008.04.24 - GNU nano 2.1.2 "New York City" is released.  This release
 		contains fixes for binding bad keys, some 
 		configure-specific compilation failures, and more issues 
 		with the new input back end and in particular the status 
@@ -6,7 +16,7 @@
 		compiling on AIX, and a segfault when making the terminal
 		window too small.  Rest in Peace Tim and George!
 
-2008/04/01 - GNU nano 2.1.1 wont get fooled again.  This release contains
+2008.04.01 - GNU nano 2.1.1 wont get fooled again.  This release contains
 		fixes for the new user-rebindable keys (in particular
 		bracket match which was mis-bound), and various
 		problems with translations and configure-related 
@@ -18,7 +28,7 @@
 		binding code to the Savannah page
 		(https://savannah.gnu.org/bugs/?group=nano).
 		
-2008/03/18 - GNU nano 2.1.0 "under old mismanagement" is released.
+2008.03.18 - GNU nano 2.1.0 "under old mismanagement" is released.
 		This first release in the 2.1 development series
 		introduces rebinadble keys for most actions inside
                 the editor.  Please see the nanorc(5) page for
@@ -28,7 +38,7 @@
 		https://savannah.gnu.org/bugs/?group=nano and
 		thanks for sticking with us!
 
-2007/12/20 - GNU nano 2.0.7 keeps its balance.  This release fixes
+2007.12.20- GNU nano 2.0.7 keeps its balance.  This release fixes
 		several bugs, among others: a segfault and several
 		cursor positioning problems when uncutting text or
 		inserting files into the current buffer; a problem where
@@ -50,12 +60,12 @@
 		under the GNU GPL version 3 or later and the GNU FDL
 		version 1.2 or later.  Have fun.
 
-2007/04/26 - GNU nano 2.0.6 "that was quick" is released.  This release
+2007.04.26- GNU nano 2.0.6 "that was quick" is released.  This release
 		fixes a potential segfault after justifying text marked
 		from the bottom up.  It also adds one more minor
 		documentation update.  Enjoy.
 
-2007/04/22 - GNU nano 2.0.5 braces for impact.  Among other things, this
+2007.04.22- GNU nano 2.0.5 braces for impact.  Among other things, this
 		release fixes various problems (including a segfault)
 		when trying to open or save a file in a directory
 		beginning with "~" that isn't a home directory; fixes a

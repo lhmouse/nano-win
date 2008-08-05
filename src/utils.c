@@ -586,23 +586,6 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
     return totsize;
 }
 
-#ifdef DEBUG
-/* Dump the filestruct inptr to stderr. */
-void dump_filestruct(const filestruct *inptr)
-{
-    if (inptr == openfile->fileage)
-	fprintf(stderr, "Dumping file buffer to stderr...\n");
-    else if (inptr == cutbuffer)
-	fprintf(stderr, "Dumping cutbuffer to stderr...\n");
-    else
-	fprintf(stderr, "Dumping a buffer to stderr...\n");
-
-    while (inptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", (long)inptr->lineno, inptr->data);
-	inptr = inptr->next;
-    }
-}
-
 /* Get back a pointer given a line number in the current openfilestruct */
 filestruct *fsfromline(ssize_t lineno)
 {
@@ -620,6 +603,22 @@ filestruct *fsfromline(ssize_t lineno)
     return f;
 }
 
+#ifdef DEBUG
+/* Dump the filestruct inptr to stderr. */
+void dump_filestruct(const filestruct *inptr)
+{
+    if (inptr == openfile->fileage)
+	fprintf(stderr, "Dumping file buffer to stderr...\n");
+    else if (inptr == cutbuffer)
+	fprintf(stderr, "Dumping cutbuffer to stderr...\n");
+    else
+	fprintf(stderr, "Dumping a buffer to stderr...\n");
+
+    while (inptr != NULL) {
+	fprintf(stderr, "(%ld) %s\n", (long)inptr->lineno, inptr->data);
+	inptr = inptr->next;
+    }
+}
 
 /* Dump the current buffer's filestruct to stderr in reverse. */
 void dump_filestruct_reverse(void)

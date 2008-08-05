@@ -1,21 +1,22 @@
 # Vietnamese translation for Nano.
-# Copyright © 2007 Free Software Foundation, Inc.
+# Copyright © 2008 Free Software Foundation, Inc.
+# This file is distributed under the same license as the nano package.
 # Phan Vinh Thinh <teppi82@gmail.com>, 2005, 2006.
-# Clytie Siddall <clytie@riverland.net.au>, 2007.
-#
+# Clytie Siddall <clytie@riverland.net.au>, 2007-2008.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.0.6\n"
+"Project-Id-Version: nano 2.1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-24 23:34-0400\n"
-"PO-Revision-Date: 2007-09-19 22:19+0930\n"
+"PO-Revision-Date: 2008-06-26 22:42+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: LocFactoryEditor 1.7b1\n"
+"X-Generator: LocFactoryEditor 1.7b3\n"
 
 #: src/browser.c:220
 msgid "Go To Directory"
@@ -186,9 +187,7 @@ msgstr "Không ghi được ra bên ngoài của %s"
 
 #: src/files.c:1394
 msgid "Cannot prepend or append to a symlink with --nofollow set"
-msgstr ""
-"Không thể thêm vào trước hoặc thêm vào sau một liên kết mềm bằng tùy chọn --"
-"nofollow"
+msgstr "Không thể thêm vào trước hoặc thêm vào sau một liên kết mềm bằng tùy chọn --nofollow"
 
 #: src/files.c:1466 src/files.c:1490 src/files.c:1517 src/files.c:1535
 #: src/files.c:1592 src/files.c:1611 src/files.c:1623 src/files.c:1647
@@ -383,9 +382,8 @@ msgid "Last Line"
 msgstr "Dòng cuối"
 
 #: src/global.c:480
-#, fuzzy
 msgid "Suspend"
-msgstr "Tạm dừng"
+msgstr "Ngưng"
 
 #: src/global.c:482
 msgid "Beg of Par"
@@ -446,14 +444,12 @@ msgid "Search for a string or a regular expression"
 msgstr "Tìm một chuỗi hay biểu thức chính quy"
 
 #: src/global.c:511
-#, fuzzy
 msgid "Go to previous screen"
-msgstr "Di chuyển tới màn hình trước"
+msgstr "Về màn hình trước"
 
 #: src/global.c:512
-#, fuzzy
 msgid "Go to next screen"
-msgstr "Di chuyển tới màn hình tiếp theo"
+msgstr "Tới màn hình kế"
 
 #: src/global.c:514
 msgid "Cut the current line and store it in the cutbuffer"
@@ -500,69 +496,56 @@ msgid "Unindent the current line"
 msgstr "Hủy thụt lề dòng hiện tại"
 
 #: src/global.c:532
-#, fuzzy
 msgid "Go forward one character"
-msgstr "Di chuyển con trỏ một ký tự về bên phải"
+msgstr "Tiếp tới một ký tự"
 
 #: src/global.c:533
-#, fuzzy
 msgid "Go back one character"
-msgstr "Di chuyển con trỏ một ký tự về bên trái"
+msgstr "Lùi lại một ký tự"
 
 #: src/global.c:535
-#, fuzzy
 msgid "Go forward one word"
-msgstr "Di chuyển con trỏ một từ sang bên phải"
+msgstr "Tiếp tới một từ"
 
 #: src/global.c:536
-#, fuzzy
 msgid "Go back one word"
-msgstr "Di chuyển con trỏ một từ sang bên trái"
+msgstr "Lùi lại một từ"
 
 #: src/global.c:538
-#, fuzzy
 msgid "Go to previous line"
-msgstr "Di chuyển tới dòng trước đó"
+msgstr "Về dòng trước"
 
 #: src/global.c:539
-#, fuzzy
 msgid "Go to next line"
-msgstr "Di chuyển tới dòng tiếp theo"
+msgstr "Tới dòng kế"
 
 #: src/global.c:540
-#, fuzzy
 msgid "Go to beginning of current line"
-msgstr "Di chuyển con trỏ tới đầu dòng hiện thời"
+msgstr "Về đầu của dòng hiện tại"
 
 #: src/global.c:541
-#, fuzzy
 msgid "Go to end of current line"
-msgstr "Di chuyển con trỏ tới cuối dòng hiện thời"
+msgstr "Tới cuối của dòng hiện tại"
 
 #: src/global.c:544
-#, fuzzy
 msgid "Go to beginning of paragraph; then of previous paragraph"
-msgstr "Di chuyển tới đầu đoạn văn hiện thời"
+msgstr "Về đầu của đoạn văn này; rồi về đầu của đoạn văn trước"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Go just beyond end of paragraph; then of next paragraph"
-msgstr "Di chuyển tới cuối đoạn văn hiện thời"
+msgstr "Tới đúng sau cuối của đoạn văn này; rồi tới đúng sau cuối của đoạn văn sau"
 
 #: src/global.c:549
-#, fuzzy
 msgid "Go to the first line of the file"
-msgstr "Chuyển tới dòng đầu tiên của tập tin"
+msgstr "Về dòng đầu của tập tin"
 
 #: src/global.c:551
-#, fuzzy
 msgid "Go to the last line of the file"
-msgstr "Chuyển tới dòng cuối cùng của tập tin"
+msgstr "Tới dòng cuối của tập tin"
 
 #: src/global.c:553
-#, fuzzy
 msgid "Go to the matching bracket"
-msgstr "Chuyển tới dấu ngoặc tương ứng"
+msgstr "Tới dấu ngoặc tương ứng"
 
 #: src/global.c:555
 msgid "Scroll up one line without scrolling the cursor"
@@ -618,7 +601,7 @@ msgstr "Cập nhật (vẽ lại) màn hình hiện thời"
 
 #: src/global.c:589
 msgid "Suspend the editor (if suspend is enabled)"
-msgstr ""
+msgstr "Ngưng trình soạn thảo (nếu tính năng ngưng đã được bật)"
 
 #: src/global.c:592
 msgid "Toggle the case sensitivity of the search"
@@ -899,34 +882,24 @@ msgstr "Tạm dừng"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.  "
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
 "Văn bản của Trợ giúp cho Câu lệnh Tìm kiếm\n"
 "\n"
-" Nhập từ hoặc ký tự bạn muốn tìm kiếm, sau đó gõ Enter.  Nếu có tương ứng "
-"với văn bản bạn đã nhập, thì trên màn hình sẽ là vị trí của tương ứng gần "
-"nhất cho chuỗi tìm kiếm này.\n"
+" Nhập từ hoặc ký tự bạn muốn tìm kiếm, sau đó gõ Enter.  Nếu có tương ứng với văn bản bạn đã nhập, thì trên màn hình sẽ là vị trí của tương ứng gần nhất cho chuỗi tìm kiếm này.\n"
 "\n"
-" Chuỗi tìm kiếm ngay trước sẽ hiển thị trong ngoặc đơn ở sau dấu nhắc tìm "
-"kiếm.  Không nhập văn bản nào và gõ Enter sẽ thực hiện tìm kiếm ngay trước "
-"này.  "
+" Chuỗi tìm kiếm ngay trước sẽ hiển thị trong ngoặc đơn ở sau dấu nhắc tìm kiếm.  Không nhập văn bản nào và gõ Enter sẽ thực hiện tìm kiếm ngay trước này.  "
 
 #: src/help.c:251
 msgid ""
-"If you have selected text with the mark and then search to replace, only "
-"matches in the selected text will be replaced.\n"
+"If you have selected text with the mark and then search to replace, only matches in the selected text will be replaced.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"Nếu đã có văn bản đánh dấu và sau đó tìm kiếm để thay thế, thì chỉ thay thế "
-"những tương ứng có trong vùng đánh dấu.\n"
+"Nếu đã có văn bản đánh dấu và sau đó tìm kiếm để thay thế, thì chỉ thay thế những tương ứng có trong vùng đánh dấu.\n"
 "\n"
 " Những phím chức năng sau có trong chế độ Tìm kiếm:\n"
 "\n"
@@ -935,17 +908,14 @@ msgstr ""
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Văn bản của Trợ giúp cho Tới dòng\n"
 "\n"
-" Nhập số thứ tự của dòng bạn muốn đi tới và gõ Enter.  Nếu có ít dòng hơn số "
-"bạn nhập vào, thì chương trình sẽ đưa tới dòng cuối cùng của tập tin.\n"
+" Nhập số thứ tự của dòng bạn muốn đi tới và gõ Enter.  Nếu có ít dòng hơn số bạn nhập vào, thì chương trình sẽ đưa tới dòng cuối cùng của tập tin.\n"
 "\n"
 " Có thể dùng các phím chức năng sau trong chế độ Tới dòng:\n"
 "\n"
@@ -954,35 +924,24 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple file buffers with the -F or --multibuffer command line flags, the "
-"Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).  "
+" If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
 "Văn bản của Trợ giúp cho Chèn tập tin\n"
 "\n"
-" Hãy gõ tên của tập tin bạn muốn chèn vào bộ đệm hiện thời tại vị trí con "
-"trỏ.\n"
+" Hãy gõ tên của tập tin bạn muốn chèn vào bộ đệm hiện thời tại vị trí con trỏ.\n"
 "\n"
-" Nếu bạn đã biên dịch nano với sự hỗ trợ đa bộ đệm, và bật sự hỗ trợ này "
-"bằng các cờ (flag) dòng lệnh -F hay --multibuffer, bằng tổ hợp phím bật tắt "
-"Meta-F, hay bằng tập tin nanorc, thì việc chèn một tập tin đồng nghĩa với "
-"việc nạp tập tin đó vào một bộ đệm riêng (sử dụng Meta-< và > để chuyển giữa "
-"các bộ đệm này).  "
+" Nếu bạn đã biên dịch nano với sự hỗ trợ đa bộ đệm, và bật sự hỗ trợ này bằng các cờ (flag) dòng lệnh -F hay --multibuffer, bằng tổ hợp phím bật tắt Meta-F, hay bằng tập tin nanorc, thì việc chèn một tập tin đồng nghĩa với việc nạp tập tin đó vào một bộ đệm riêng (sử dụng Meta-< và > để chuyển giữa các bộ đệm này).  "
 
 #: src/help.c:275
 msgid ""
-"If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+"If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"Nếu cần một bộ đệm trống khác, thì đừng nhập tên tập tin, hoặc nhập vào tên "
-"một tập tin không có trên dấu nhắc rồi nhấn Enter.\n"
+"Nếu cần một bộ đệm trống khác, thì đừng nhập tên tập tin, hoặc nhập vào tên một tập tin không có trên dấu nhắc rồi nhấn Enter.\n"
 "\n"
 " Có những phím chức năng sau trong chế độ Chèn Tập tin:\n"
 "\n"
@@ -991,26 +950,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and press Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and press Enter to save the file.\n"
 "\n"
-" If you have selected text with the mark, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with the mark, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Văn bản của Trợ giúp cho Ghi nhớ tập tin\n"
 "\n"
-" Hãy gõ tên bạn muốn ghi nhớ cho tập tin hiện thời và gõ Enter để hoàn thành "
-"ghi nhớ.\n"
+" Hãy gõ tên bạn muốn ghi nhớ cho tập tin hiện thời và gõ Enter để hoàn thành ghi nhớ.\n"
 "\n"
-" Nếu đã lựa chọn một đoạn văn bản nào đó (bằng dấu hiệu), thì chương trình "
-"sẽ nhắc ghi nhớ đoạn văn bản đã lựa chọn đó vào một tập tin riêng rẽ.  Để "
-"giảm khả năng ghi một phần đè lên cả tập tin hiện thời, thì tên tập tin hiện "
-"thời không phải là mặc định trong chế độ này.\n"
+" Nếu đã lựa chọn một đoạn văn bản nào đó (bằng dấu hiệu), thì chương trình sẽ nhắc ghi nhớ đoạn văn bản đã lựa chọn đó vào một tập tin riêng rẽ.  Để giảm khả năng ghi một phần đè lên cả tập tin hiện thời, thì tên tập tin hiện thời không phải là mặc định trong chế độ này.\n"
 "\n"
 " Có thể dùng các phím chức năng sau trong chế độ Ghi nhớ Tập tin:\n"
 "\n"
@@ -1019,22 +970,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Văn bản của Trợ giúp cho Trình duyệt Tập tin\n"
 "\n"
-" Trình duyệt tập tin sử dụng cho việc xem cấu trúc thư mục và chọn một tập "
-"tin để đọc hay soạn thảo.  Bạn có thể sử dụng các phím mũi tên hoặc Page Up/"
-"Down để di chuyển qua các tập tin, và S hoặc Enter để chọn tập tin hay thư "
-"mục đánh dấu.  Để di chuyển lên trên một bậc, hãy chọn thư mục có tên \"..\" "
-"trên đầu danh sách.\n"
+" Trình duyệt tập tin sử dụng cho việc xem cấu trúc thư mục và chọn một tập tin để đọc hay soạn thảo.  Bạn có thể sử dụng các phím mũi tên hoặc Page Up/Down để di chuyển qua các tập tin, và S hoặc Enter để chọn tập tin hay thư mục đánh dấu.  Để di chuyển lên trên một bậc, hãy chọn thư mục có tên \"..\" trên đầu danh sách.\n"
 "\n"
 " Có thể dùng các phím chức năng sau trong trình duyệt:\n"
 "\n"
@@ -1043,24 +986,16 @@ msgstr ""
 msgid ""
 "Browser Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.\n"
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
 msgstr ""
 "Văn bản của Trợ giúp cho Câu lệnh Tìm kiếm trong trình duyệt\n"
 "\n"
-" Nhập từ hoặc ký tự bạn muốn tìm kiếm, sau đó gõ Enter.  Nếu có tương ứng "
-"với văn bản bạn đã nhập, thì trên màn hình sẽ là vị trí của tương ứng gần "
-"nhất cho chuỗi tìm kiếm này.\n"
+" Nhập từ hoặc ký tự bạn muốn tìm kiếm, sau đó gõ Enter.  Nếu có tương ứng với văn bản bạn đã nhập, thì trên màn hình sẽ là vị trí của tương ứng gần nhất cho chuỗi tìm kiếm này.\n"
 "\n"
-" Chuỗi tìm kiếm ngay trước sẽ hiển thị trong ngoặc đơn ở sau dấu nhắc tìm "
-"kiếm.  Không nhập văn bản nào và gõ Enter sẽ thực hiện tìm kiếm ngay trước "
-"này.\n"
+" Chuỗi tìm kiếm ngay trước sẽ hiển thị trong ngoặc đơn ở sau dấu nhắc tìm kiếm.  Không nhập văn bản nào và gõ Enter sẽ thực hiện tìm kiếm ngay trước này.\n"
 "\n"
 
 #: src/help.c:317
@@ -1077,8 +1012,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the Tab key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the Tab key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -1087,106 +1021,69 @@ msgstr ""
 "\n"
 " Hãy nhập tên của thư mục bạn muốn duyệt tới.\n"
 "\n"
-" Nếu việc tự động hoàn thành tab không bị tắt, thì bạn có thể sử dụng phím "
-"Tab để (thử) tự động hoàn thành tên tập tin.\n"
+" Nếu việc tự động hoàn thành tab không bị tắt, thì bạn có thể sử dụng phím Tab để (thử) tự động hoàn thành tên tập tin.\n"
 "\n"
-" Có thể dùng các phím chức năng sau trong chế độ Trình duyệt Đi tới thư "
-"mục:\n"
+" Có thể dùng các phím chức năng sau trong chế độ Trình duyệt Đi tới thư mục:\n"
 "\n"
 
 #: src/help.c:334
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file, or, if you have selected text with the "
-"mark, in the selected text.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file, or, if you have selected text with the mark, in the selected text.\n"
 "\n"
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Văn bản của Trợ giúp cho Kiểm tra chính tả\n"
 "\n"
-" Trình kiểm tra chính tả sẽ kiểm tra chính tả của tất cả văn bản trong tập "
-"tin hiện thời.  Khi tìm thấy một từ không biết, nó sẽ chiếu sáng và có thể "
-"soạn thảo một thay thế.  Sau đó nó sẽ nhắc thay thế mọi từ sai lỗi chính tả "
-"này trong tập tin hiện thời, hoặc, trong đoạn văn bản đã đánh dấu, nếu có.\n"
+" Trình kiểm tra chính tả sẽ kiểm tra chính tả của tất cả văn bản trong tập tin hiện thời.  Khi tìm thấy một từ không biết, nó sẽ chiếu sáng và có thể soạn thảo một thay thế.  Sau đó nó sẽ nhắc thay thế mọi từ sai lỗi chính tả này trong tập tin hiện thời, hoặc, trong đoạn văn bản đã đánh dấu, nếu có.\n"
 "\n"
 " Có các chức năng sau trong chế độ Kiểm tra chính tả:\n"
 "\n"
 
 #: src/help.c:349
-#, fuzzy
 msgid ""
 "Execute Command Help Text\n"
 "\n"
-" This mode allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multiple file buffer mode).  If "
-"you need another blank buffer, do not enter any command.\n"
+" This mode allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode).  If you need another blank buffer, do not enter any command.\n"
 "\n"
 " The following function keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
 "Văn bản của Trợ giúp cho Thực hiện Câu lệnh\n"
 "\n"
-" Trình đơn này cho phép bạn chèn kết quả của một câu lệnh chạy bằng trình "
-"bao vào bộ đệm hiện thời (hoặc vào một bộ đệm mới trong chế độ đa bộ đệm). "
-"Nếu cần một bộ đệm trống khác, thì đừng nhập bất kỳ câu lệnh nào.\n"
+" Chế độ này cho phép bạn chèn kết quả của một câu lệnh chạy bằng trình bao vào bộ đệm hiện thời (hoặc vào một bộ đệm mới ở chế độ đa bộ đệm). Nếu cần một bộ đệm trống khác, thì đừng nhập câu lệnh.\n"
 "\n"
-" Có thể dùng các phím sau trong chế độ này:\n"
+" Có thể dùng các phím sau trong chế độ Thực hiện Câu lệnh:\n"
 "\n"
 
 #: src/help.c:362
 msgid ""
 "Main nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor.  The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages.  "
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  "
 msgstr ""
 "Văn bản Trợ giúp Chính của nano\n"
 "\n"
-" Trình soạn thảo nano được thiết kế để nâng cao tính năng suất và sự dễ sử "
-"dụng của trình soạn thảo UW Pico.  Nano gồm bốn phần chính. Dòng trên cùng "
-"hiển thị phiên bản chương trình, tên của tập tin đang soạn thảo, và tập tin "
-"đã thay đổi hay chưa.  Tiếp theo là cửa sổ soạn thảo chính hiển thị tập tin "
-"đang soạn thảo.  Dòng trạng thái là dòng thứ ba từ dưới lên và hiển thị "
-"những thông báo quan trọng."
+" Trình soạn thảo nano được thiết kế để nâng cao tính năng suất và sự dễ sử dụng của trình soạn thảo UW Pico.  Nano gồm bốn phần chính. Dòng trên cùng hiển thị phiên bản chương trình, tên của tập tin đang soạn thảo, và tập tin đã thay đổi hay chưa.  Tiếp theo là cửa sổ soạn thảo chính hiển thị tập tin đang soạn thảo.  Dòng trạng thái là dòng thứ ba từ dưới lên và hiển thị những thông báo quan trọng."
 
 #: src/help.c:372
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and can be entered either by using the Control "
-"(Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are "
-"notated with the Meta (M-) symbol and can be entered using either the Esc, "
-"Alt, or Meta key depending on your keyboard setup.  "
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M-) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
 msgstr ""
-"Dưới cùng là hai dòng hiển thị những phím tắt thông dụng trong trình soạn "
-"thảo.\n"
+"Dưới cùng là hai dòng hiển thị những phím tắt thông dụng trong trình soạn thảo.\n"
 "\n"
-"Ký hiệu cho phím tắt như sau: Phím Control ký hiệu bởi một dấu ^ và nhập vào "
-"bằng phím Control (Ctrl) hoặc nhấn phím Escape (Esc) hai lần.  Phím Escape "
-"ký hiệu bằng ký tự Meta (M) và nhập vào bằng (một trong) các phím Esc, Alt "
-"hay Meta tùy thuộc vào cấu hình bàn phím.  "
+"Ký hiệu cho phím tắt như sau: Phím Control ký hiệu bởi một dấu ^ và nhập vào bằng phím Control (Ctrl) hoặc nhấn phím Escape (Esc) hai lần.  Phím Escape ký hiệu bằng ký tự Meta (M) và nhập vào bằng (một trong) các phím Esc, Alt hay Meta tùy thuộc vào cấu hình bàn phím.  "
 
 #: src/help.c:381
 msgid ""
-"Also, pressing Esc twice and then typing a three-digit decimal number from "
-"000 to 255 will enter the character with the corresponding value.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+"Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"Đồng thời, nhấn phím Esc hai lần và sau đó gõ một số ba chữ số từ 000 tới "
-"255 sẽ nhập ký tự với giá trị tương ứng.  Có những tổ hợp phím sau trong cửa "
-"sổ soạn thảo chính.  Các phím tương đương đặt trong dấu ngoặc đơn:\n"
+"Đồng thời, nhấn phím Esc hai lần và sau đó gõ một số ba chữ số từ 000 tới 255 sẽ nhập ký tự với giá trị tương ứng.  Có những tổ hợp phím sau trong cửa sổ soạn thảo chính.  Các phím tương đương đặt trong dấu ngoặc đơn:\n"
 "\n"
 
 #: src/help.c:413 src/help.c:489
@@ -1333,7 +1230,7 @@ msgstr "Chế độ hạn chế"
 
 #: src/nano.c:824
 msgid "Scroll by line instead of half-screen"
-msgstr ""
+msgstr "Cuộn theo dòng thay vào theo nửa màn hình"
 
 #: src/nano.c:826
 msgid "-T <#cols>"
@@ -1497,11 +1394,11 @@ msgstr "Sử dụng \"fg\" để quay lại nano.\n"
 
 #: src/nano.c:1254
 msgid "enabled"
-msgstr "bật"
+msgstr "đã bật"
 
 #: src/nano.c:1255
 msgid "disabled"
-msgstr "tắt"
+msgstr "bị tắt"
 
 #: src/nano.c:1418 src/winio.c:1248
 msgid "Unknown Command"
@@ -1584,36 +1481,35 @@ msgid "The \"default\" syntax must take no extensions"
 msgstr "Cú pháp \"default\" không chấp nhận phần mở rộng"
 
 #: src/rcfile.c:373
-#, fuzzy
 msgid "Missing key name"
-msgstr "Thiếu tên cú pháp"
+msgstr "Thiếu tên khoá"
 
 #: src/rcfile.c:385
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
-msgstr ""
+msgstr "tổ hợp phím phải bắt đầu với « ^ », « M » hoặc « F »\n"
 
 #: src/rcfile.c:394
 msgid "Must specify function to bind key to\n"
-msgstr ""
+msgstr "Phải ghi rõ chức năng với đó cần tổ hợp phím\n"
 
 #: src/rcfile.c:405
 msgid "Must specify menu bind key to (or \"all\")\n"
-msgstr ""
+msgstr "Phải ghi rõ trình đơn với đó cần tổ hợp phím (hoặc đặt « all » (tất cả))\n"
 
 #: src/rcfile.c:412
 #, c-format
 msgid "Could not map name \"%s\" to a menu\n"
-msgstr ""
+msgstr "Không thể ánh xạ tên « %s » với một trình đơn\n"
 
 #: src/rcfile.c:419
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
-msgstr ""
+msgstr "Không thể ánh xạ tên « %s » với một chức năng\n"
 
 #: src/rcfile.c:441
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding\n"
-msgstr ""
+msgstr "Tiếc là không cho phép dùng tổ hợp phím « %s »\n"
 
 #: src/rcfile.c:553
 #, c-format
@@ -1657,19 +1553,16 @@ msgstr "Thiếu các chuỗi biểu thức chính quy"
 
 #: src/rcfile.c:690
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr ""
-"\"start=\" (bắt đầu) thì yêu cầu một phần \"end=\" (kết thúc) tương ứng"
+msgstr "\"start=\" (bắt đầu) thì yêu cầu một phần \"end=\" (kết thúc) tương ứng"
 
 #: src/rcfile.c:735
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
-msgstr ""
+msgstr "Lỗi nghiêm trọng: chưa ánh xạ phím với chức năng « %s »"
 
 #: src/rcfile.c:737
-msgid ""
-"Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
-"settings\n"
-msgstr ""
+msgid "Exiting.  Please use nano with the -I option if needed to adjust your nanorc settings\n"
+msgstr "Đang thoát... Hãy sử dụng trình soạn thảo nano với tùy chọn « -l » nếu cần thiết, để điều chỉnh thiết lập nanorc của bạn\n"
 
 #: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
 #, c-format
@@ -1753,9 +1646,8 @@ msgid "Enter line number, column number"
 msgstr "Nhập số thứ tự dòng, cột"
 
 #: src/search.c:1034
-#, fuzzy
 msgid "Invalid line or column number"
-msgstr "Nhập số thứ tự dòng, cột"
+msgstr "Sai số thứ tự dòng hoặc cột"
 
 #: src/search.c:1187
 msgid "Not a bracket"
@@ -1908,9 +1800,3 @@ msgstr "và những người khác mà chúng tôi quên..."
 #: src/winio.c:3292
 msgid "Thank you for using nano!"
 msgstr "Cảm ơn bạn đã dùng nano!"
-
-#~ msgid "Space"
-#~ msgstr "Khoảng trắng"
-
-#~ msgid "Come on, be reasonable"
-#~ msgstr "Cố lên nào, phải có lý trí"
