@@ -491,7 +491,7 @@ void do_undo(void)
     do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Undid action (%s)"), undidmsg);
     openfile->current_undo = openfile->current_undo->next;
-
+    openfile->last_action = OTHER;
 }
 
 void do_redo(void)
@@ -638,6 +638,7 @@ void do_redo(void)
     statusbar(_("Redid action (%s)"), undidmsg);
 
     openfile->current_undo = u;
+    openfile->last_action = OTHER;
 
 }
 #endif /* !NANO_TINY */
@@ -814,7 +815,7 @@ void add_undo(undo_type current_action)
 	fs->undotop = fs->undotop->next;
 	if (u2->strdata != NULL)
 	    free(u2->strdata);
-	if (u2->cutbuffer);
+	if (u2->cutbuffer)
 	    free_filestruct(u2->cutbuffer);
 	free(u2);
     }

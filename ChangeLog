@@ -1,3 +1,9 @@
+2008-07-23 Chris Allegretta <chrisa@asty.org>
+	* text.c: Reset openfile-> to OTHER after an undo or redo so we don't mistakenly
+	  mistakenly think this is an update when it's really an add.  Also
+          Fix an extra ; after an if statement which makes nano try to free a struct which
+          may be NULL
+
 GNU nano 2.1.3 - 2008.08.04
 2008-07-23 Chris Allegretta <chrisa@asty.org>
 	* configure.ac: Add ncursesw dir to include path if lib detected
