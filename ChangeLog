@@ -1,3 +1,7 @@
+2008-08-08 Chris Allegretta <chrisa@asty.org>
+	* files.c: Do not go on and attempt to write the main file if writing the backup file failed,
+	  related to Savannah bug 24000.
+
 2008-07-23 Chris Allegretta <chrisa@asty.org>
 	* text.c: Reset openfile-> to OTHER after an undo or redo so we don't mistakenly
 	  mistakenly think this is an update when it's really an add.  Also

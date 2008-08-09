@@ -1474,14 +1474,15 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    free(backuptemp);
 	    backuptemp = get_next_filename(backupname, "~");
 	    if (*backuptemp == '\0') {
-		statusbar(_("Error writing %s: %s"), backupname,
+		statusbar(_("Error writing backup file %s: %s"), backupname,
 		    _("Too many backup files?"));
 		free(backuptemp);
 		free(backupname);
-		/* If we can't write to the backup, go on, since only
-		 * saving the original file is better than saving
-		 * nothing. */
-		goto skip_backup;
+		/* If we can't write to the backup, DONT go on, since
+		   whatever caused the backup file to fail (e.g. disk
+		   full may well cause the real file write to fail, which
+		   means we could lose both the backup and the original! */
+		goto cleanup_and_exit;
 	    } else {
 		free(backupname);
 		backupname = backuptemp;
@@ -1498,14 +1499,16 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	if (backup_file == NULL || chmod(backupname,
 		openfile->current_stat->st_mode) == -1) {
-	    statusbar(_("Error writing %s: %s"), backupname,
+	    statusbar(_("Error writing backup file %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);
 	    if (backup_file != NULL)
 		fclose(backup_file);
-	    /* If we can't write to the backup, go on, since only saving
-	     * the original file is better than saving nothing. */
-	    goto skip_backup;
+	    /* If we can't write to the backup, DONT go on, since
+	       whatever caused the backup file to fail (e.g. disk
+	       full may well cause the real file write to fail, which
+	       means we could lose both the backup and the original! */
+	    goto cleanup_and_exit;
 	}
 
 #ifdef DEBUG
@@ -1525,11 +1528,13 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 			strerror(errno));
 		beep();
 	    } else
-		statusbar(_("Error writing %s: %s"), backupname,
+		statusbar(_("Error writing backup file %s: %s"), backupname,
 			strerror(errno));
-	    /* If we can't read from or write to the backup, go on,
-	     * since only saving the original file is better than saving
-	     * nothing. */
+	    /* If we can't write to the backup, DONT go on, since
+	       whatever caused the backup file to fail (e.g. disk
+	       full may well cause the real file write to fail, which
+	       means we could lose both the backup and the original! */
+	    goto cleanup_and_exit;
 	}
 
 	free(backupname);
