@@ -551,7 +551,7 @@ void do_redo(void)
     case SPLIT:
 	undidmsg = _("line split");
 	t = make_new_node(f);
-	t->data = mallocstrcpy(NULL, u->strdata);
+	t->data = mallocstrcpy(NULL, &u->strdata[u->begin]);
 	data = mallocstrncpy(NULL, f->data, u->begin);
 	data[u->begin] = '\0';
 	free(f->data);
