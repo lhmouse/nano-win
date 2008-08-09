@@ -1540,6 +1540,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	free(backupname);
     }
 
+    skip_backup:
 #endif /* !NANO_TINY */
 
     /* If NOFOLLOW_SYMLINKS is set and the file is a link, we aren't
