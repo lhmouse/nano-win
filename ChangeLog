@@ -2,6 +2,7 @@
 	* files.c (write_file): Do not go on and attempt to write the main file if writing the backup file failed,
 	  related to Savannah bug 24000.
 	* text.c (do_redo): Fix improperly restoring the text when redoing a line split.
+        * text.c (add_undo): Fix check for multi-line cut check skips adding other new legit events.
 
 2008-07-23 Chris Allegretta <chrisa@asty.org>
 	* text.c: Reset openfile-> to OTHER after an undo or redo so we don't mistakenly
