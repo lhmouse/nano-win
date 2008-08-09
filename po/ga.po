@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-04 21:37-0400\n"
+"POT-Creation-Date: 2008-08-09 06:24-0400\n"
 "PO-Revision-Date: 2008-06-25 10:17-0500\n"
 "Last-Translator: Kevin Patrick Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Téigh go Comhadlann"
 
-#: src/browser.c:233 src/browser.c:828 src/files.c:771 src/files.c:1904
+#: src/browser.c:233 src/browser.c:828 src/files.c:771 src/files.c:1909
 #: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
 msgid "Cancelled"
 msgstr "Cealaithe"
@@ -32,8 +32,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Ní féidir %s a fhágáil sa mhód teoranta"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
-#: src/files.c:642 src/files.c:1436 src/files.c:1524 src/files.c:1570
-#: src/files.c:1591 src/files.c:1714 src/files.c:2533 src/rcfile.c:494
+#: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
+#: src/files.c:1596 src/files.c:1719 src/files.c:2538 src/rcfile.c:494
 #: src/rcfile.c:1064
 #, c-format
 msgid "Error reading %s: %s"
@@ -207,24 +207,28 @@ msgstr ""
 "Ní féidir réamhcheangal nó iarcheangal le nasc siombalach nuair atá --"
 "nofollow socraithe"
 
-#: src/files.c:1477 src/files.c:1501 src/files.c:1528 src/files.c:1546
-#: src/files.c:1603 src/files.c:1622 src/files.c:1634 src/files.c:1658
-#: src/files.c:1676 src/files.c:1686 src/files.c:1722 src/files.c:2606
-#: src/files.c:2615
-#, c-format
-msgid "Error writing %s: %s"
-msgstr "Earráid agus %s á scríobh: %s"
+#: src/files.c:1477 src/files.c:1502 src/files.c:1531
+#, fuzzy, c-format
+msgid "Error writing backup file %s: %s"
+msgstr "Earráid agus comhad sealadach á scríobh: %s"
 
 #: src/files.c:1478 src/nano.c:675
 msgid "Too many backup files?"
 msgstr "An iomarca comhad cúltaca?"
 
-#: src/files.c:1580 src/text.c:2831 src/text.c:2843
+#: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
+#: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
+#: src/files.c:2611 src/files.c:2620
+#, c-format
+msgid "Error writing %s: %s"
+msgstr "Earráid agus %s á scríobh: %s"
+
+#: src/files.c:1585 src/text.c:2833 src/text.c:2845
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Earráid agus comhad sealadach á scríobh: %s"
 
-#: src/files.c:1756
+#: src/files.c:1761
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
@@ -234,55 +238,55 @@ msgstr[2] "Scríobhadh %lu líne"
 msgstr[3] "Scríobhadh %lu líne"
 msgstr[4] "Scríobhadh %lu líne"
 
-#: src/files.c:1860
+#: src/files.c:1865
 msgid " [DOS Format]"
 msgstr " [Formáid DOS]"
 
-#: src/files.c:1861
+#: src/files.c:1866
 msgid " [Mac Format]"
 msgstr " [Formáid Mac]"
 
-#: src/files.c:1863
+#: src/files.c:1868
 msgid " [Backup]"
 msgstr " [Cúltaca]"
 
-#: src/files.c:1871
+#: src/files.c:1876
 msgid "Prepend Selection to File"
 msgstr "Réamhcheangail an Roghnúchán le Comhad"
 
-#: src/files.c:1872
+#: src/files.c:1877
 msgid "Append Selection to File"
 msgstr "Iarcheangail an Roghnúchán le Comhad"
 
-#: src/files.c:1873
+#: src/files.c:1878
 msgid "Write Selection to File"
 msgstr "Scríobh an Roghnúchán i gComhad"
 
-#: src/files.c:1876
+#: src/files.c:1881
 msgid "File Name to Prepend to"
 msgstr "Comhad is mian leat Réamhcheangal leis"
 
-#: src/files.c:1877
+#: src/files.c:1882
 msgid "File Name to Append to"
 msgstr "Comhad is mian leat Iarcheangal leis"
 
-#: src/files.c:1878
+#: src/files.c:1883
 msgid "File Name to Write"
 msgstr "Ainm Comhaid le Scríobh"
 
-#: src/files.c:2007
+#: src/files.c:2012
 msgid "File exists, OVERWRITE ? "
 msgstr "Tá an comhad ann; FORSCRÍOBH ? "
 
-#: src/files.c:2016
+#: src/files.c:2021
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Sábháil an comhad le hAINM DIFRIÚIL ? "
 
-#: src/files.c:2453
+#: src/files.c:2458
 msgid "(more)"
 msgstr "(tuilleadh)"
 
-#: src/files.c:2536 src/rcfile.c:995
+#: src/files.c:2541 src/rcfile.c:995
 #, c-format
 msgid ""
 "\n"
@@ -829,7 +833,7 @@ msgstr "An Chéad Chomhad Eile"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:843 src/text.c:2947
+#: src/global.c:843 src/text.c:2949
 msgid "Verbatim Input"
 msgstr "Ionchur Litriúil"
 
@@ -1864,80 +1868,80 @@ msgstr ""
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:726
+#: src/text.c:727
 msgid "Could not pipe"
 msgstr "Níorbh fhéidir píopa a dhéanamh"
 
-#: src/text.c:753 src/text.c:2548 src/text.c:2695
+#: src/text.c:754 src/text.c:2550 src/text.c:2697
 msgid "Could not fork"
 msgstr "Níorbh fhéidir forc a dhéanamh"
 
-#: src/text.c:880
+#: src/text.c:882
 msgid "OOPS. Tried to add unknown thing to undo struct, I'd save your work"
 msgstr ""
 
-#: src/text.c:1782
+#: src/text.c:1784
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Drochtheaghrán athfhriotail %s: %s"
 
-#: src/text.c:2179
+#: src/text.c:2181
 msgid "Can now UnJustify!"
 msgstr "Is féidir DíChomhfhadú anois!"
 
-#: src/text.c:2374
+#: src/text.c:2376
 msgid "Edit a replacement"
 msgstr "Cuir ionadaí in eagar"
 
-#: src/text.c:2460
+#: src/text.c:2462
 msgid "Could not create pipe"
 msgstr "Níorbh fhéidir píopa a chruthú"
 
-#: src/text.c:2462
+#: src/text.c:2464
 msgid "Creating misspelled word list, please wait..."
 msgstr "Liosta d'fhocail mílitrithe á chruthú; fan go fóill, le do thoil..."
 
-#: src/text.c:2554
+#: src/text.c:2556
 msgid "Could not get size of pipe buffer"
 msgstr "Níl aon fháil ar mhéid an mhaoláin píopa"
 
-#: src/text.c:2605
+#: src/text.c:2607
 msgid "Error invoking \"spell\""
 msgstr "Earráid agus \"spell\" á thosú"
 
-#: src/text.c:2608
+#: src/text.c:2610
 msgid "Error invoking \"sort -f\""
 msgstr "Earráid agus \"sort -f\" á thosú"
 
-#: src/text.c:2611
+#: src/text.c:2613
 msgid "Error invoking \"uniq\""
 msgstr "Earráid agus \"uniq\" á thosú"
 
-#: src/text.c:2722
+#: src/text.c:2724
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Earráid agus \"%s\" á thosú"
 
-#: src/text.c:2862
+#: src/text.c:2864
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Theip ar an litreoir: %s"
 
-#: src/text.c:2864
+#: src/text.c:2866
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Theip ar an litreoir: %s: %s"
 
-#: src/text.c:2867
+#: src/text.c:2869
 msgid "Finished checking spelling"
 msgstr "Chríochnaigh an litreoir"
 
-#: src/text.c:2932
+#: src/text.c:2934
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sFocail: %lu  Línte: %ld  Carachtair: %lu"
 
-#: src/text.c:2933
+#: src/text.c:2935
 msgid "In Selection:  "
 msgstr "Sa Roghnúchán:  "
 

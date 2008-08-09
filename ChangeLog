@@ -1,3 +1,4 @@
+GNU nano 2.1.4 - 2008.08.09
 2008-08-08 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Do not go on and attempt to write the main file if writing the backup file failed,
 	  related to Savannah bug 24000.

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-04 21:37-0400\n"
+"POT-Creation-Date: 2008-08-09 06:24-0400\n"
 "PO-Revision-Date: 2002-01-30 16:03+0100\n"
 "Last-Translator: Václav Haisman <V.Haisman@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Jdi do adresáøe"
 
-#: src/browser.c:233 src/browser.c:828 src/files.c:771 src/files.c:1904
+#: src/browser.c:233 src/browser.c:828 src/files.c:771 src/files.c:1909
 #: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
 msgid "Cancelled"
 msgstr "Zru¹eno"
@@ -30,8 +30,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Nemohu jít mimo %s v omezeném módu"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
-#: src/files.c:642 src/files.c:1436 src/files.c:1524 src/files.c:1570
-#: src/files.c:1591 src/files.c:1714 src/files.c:2533 src/rcfile.c:494
+#: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
+#: src/files.c:1596 src/files.c:1719 src/files.c:2538 src/rcfile.c:494
 #: src/rcfile.c:1064
 #, fuzzy, c-format
 msgid "Error reading %s: %s"
@@ -195,13 +195,10 @@ msgstr "Nemohu zapisovat mimo %s"
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 
-#: src/files.c:1477 src/files.c:1501 src/files.c:1528 src/files.c:1546
-#: src/files.c:1603 src/files.c:1622 src/files.c:1634 src/files.c:1658
-#: src/files.c:1676 src/files.c:1686 src/files.c:1722 src/files.c:2606
-#: src/files.c:2615
+#: src/files.c:1477 src/files.c:1502 src/files.c:1531
 #, fuzzy, c-format
-msgid "Error writing %s: %s"
-msgstr "Nemohu zavøít %s: %s"
+msgid "Error writing backup file %s: %s"
+msgstr "Chyba pøi mazání doèasného souboru, jejda!"
 
 #: src/files.c:1478 src/nano.c:675
 #, fuzzy
@@ -210,74 +207,81 @@ msgstr ""
 "\n"
 " %s nezapsán (soubor existuje?)\n"
 
-#: src/files.c:1580 src/text.c:2831 src/text.c:2843
+#: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
+#: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
+#: src/files.c:2611 src/files.c:2620
+#, fuzzy, c-format
+msgid "Error writing %s: %s"
+msgstr "Nemohu zavøít %s: %s"
+
+#: src/files.c:1585 src/text.c:2833 src/text.c:2845
 #, fuzzy, c-format
 msgid "Error writing temp file: %s"
 msgstr "Chyba pøi mazání doèasného souboru, jejda!"
 
-#: src/files.c:1756
+#: src/files.c:1761
 #, fuzzy, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Zapsáno %d øádek"
 msgstr[1] "Zapsáno %d øádek"
 
-#: src/files.c:1860
+#: src/files.c:1865
 msgid " [DOS Format]"
 msgstr ""
 
-#: src/files.c:1861
+#: src/files.c:1866
 msgid " [Mac Format]"
 msgstr ""
 
-#: src/files.c:1863
+#: src/files.c:1868
 #, fuzzy
 msgid " [Backup]"
 msgstr " [Zpìt]"
 
-#: src/files.c:1871
+#: src/files.c:1876
 #, fuzzy
 msgid "Prepend Selection to File"
 msgstr "Pøidat výbìr do souboru"
 
-#: src/files.c:1872
+#: src/files.c:1877
 #, fuzzy
 msgid "Append Selection to File"
 msgstr "Pøidat výbìr do souboru"
 
-#: src/files.c:1873
+#: src/files.c:1878
 msgid "Write Selection to File"
 msgstr "Zapsat výbìr do souboru"
 
-#: src/files.c:1876
+#: src/files.c:1881
 #, fuzzy
 msgid "File Name to Prepend to"
 msgstr "Jméno souboru pro zapsání"
 
-#: src/files.c:1877
+#: src/files.c:1882
 #, fuzzy
 msgid "File Name to Append to"
 msgstr "Jméno souboru pro zapsání"
 
-#: src/files.c:1878
+#: src/files.c:1883
 #, fuzzy
 msgid "File Name to Write"
 msgstr "Jméno souboru pro zapsání"
 
-#: src/files.c:2007
+#: src/files.c:2012
 #, fuzzy
 msgid "File exists, OVERWRITE ? "
 msgstr "Soubor existuje, PØEPSAT ?"
 
-#: src/files.c:2016
+#: src/files.c:2021
 msgid "Save file under DIFFERENT NAME ? "
 msgstr ""
 
-#: src/files.c:2453
+#: src/files.c:2458
 msgid "(more)"
 msgstr "(více)"
 
-#: src/files.c:2536 src/rcfile.c:995
+#: src/files.c:2541 src/rcfile.c:995
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -886,7 +890,7 @@ msgstr "Nový Soubor"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:843 src/text.c:2947
+#: src/global.c:843 src/text.c:2949
 msgid "Verbatim Input"
 msgstr ""
 
@@ -1906,84 +1910,84 @@ msgstr ""
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:726
+#: src/text.c:727
 #, fuzzy
 msgid "Could not pipe"
 msgstr "Nemou vyvolat program \"ispell\""
 
-#: src/text.c:753 src/text.c:2548 src/text.c:2695
+#: src/text.c:754 src/text.c:2550 src/text.c:2697
 #, fuzzy
 msgid "Could not fork"
 msgstr "Nemou vyvolat program \"ispell\""
 
-#: src/text.c:880
+#: src/text.c:882
 msgid "OOPS. Tried to add unknown thing to undo struct, I'd save your work"
 msgstr ""
 
-#: src/text.c:1782
+#: src/text.c:1784
 #, fuzzy, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: src/text.c:2179
+#: src/text.c:2181
 msgid "Can now UnJustify!"
 msgstr "Mù¾e nyní OdZarovnat!"
 
-#: src/text.c:2374
+#: src/text.c:2376
 msgid "Edit a replacement"
 msgstr "Edituj náhradu"
 
-#: src/text.c:2460
+#: src/text.c:2462
 #, fuzzy
 msgid "Could not create pipe"
 msgstr "Nemou vyvolat program \"ispell\""
 
-#: src/text.c:2462
+#: src/text.c:2464
 msgid "Creating misspelled word list, please wait..."
 msgstr ""
 
-#: src/text.c:2554
+#: src/text.c:2556
 #, fuzzy
 msgid "Could not get size of pipe buffer"
 msgstr "Nemohu otevøít %s pro zápis: %s"
 
-#: src/text.c:2605
+#: src/text.c:2607
 msgid "Error invoking \"spell\""
 msgstr ""
 
-#: src/text.c:2608
+#: src/text.c:2610
 msgid "Error invoking \"sort -f\""
 msgstr ""
 
-#: src/text.c:2611
+#: src/text.c:2613
 msgid "Error invoking \"uniq\""
 msgstr ""
 
-#: src/text.c:2722
+#: src/text.c:2724
 #, fuzzy, c-format
 msgid "Error invoking \"%s\""
 msgstr "Chyba v %s na øádce %d: "
 
-#: src/text.c:2862
+#: src/text.c:2864
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Kontrola pravopisu selhala"
 
-#: src/text.c:2864
+#: src/text.c:2866
 #, fuzzy, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Kontrola pravopisu selhala"
 
-#: src/text.c:2867
+#: src/text.c:2869
 msgid "Finished checking spelling"
 msgstr "Kontrola pravopisu dokonèena"
 
-#: src/text.c:2932
+#: src/text.c:2934
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr ""
 
-#: src/text.c:2933
+#: src/text.c:2935
 #, fuzzy
 msgid "In Selection:  "
 msgstr "Pøidat výbìr do souboru"

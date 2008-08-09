@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-04 21:37-0400\n"
+"POT-Creation-Date: 2008-08-09 06:24-0400\n"
 "PO-Revision-Date: 2003-11-05 22:27+0100\n"
 "Last-Translator: Danilo Segan <dsegan@gmx.net>\n"
 "Language-Team: Serbian <sr@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Иди у директоријум"
 
-#: src/browser.c:233 src/browser.c:828 src/files.c:771 src/files.c:1904
+#: src/browser.c:233 src/browser.c:828 src/files.c:771 src/files.c:1909
 #: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
 msgid "Cancelled"
 msgstr "Отказано"
@@ -32,8 +32,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Не могох да одем ван %s у ограниченом режиму"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
-#: src/files.c:642 src/files.c:1436 src/files.c:1524 src/files.c:1570
-#: src/files.c:1591 src/files.c:1714 src/files.c:2533 src/rcfile.c:494
+#: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
+#: src/files.c:1596 src/files.c:1719 src/files.c:2538 src/rcfile.c:494
 #: src/rcfile.c:1064
 #, fuzzy, c-format
 msgid "Error reading %s: %s"
@@ -198,13 +198,10 @@ msgstr "Не могох да упишем изван %s"
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 
-#: src/files.c:1477 src/files.c:1501 src/files.c:1528 src/files.c:1546
-#: src/files.c:1603 src/files.c:1622 src/files.c:1634 src/files.c:1658
-#: src/files.c:1676 src/files.c:1686 src/files.c:1722 src/files.c:2606
-#: src/files.c:2615
-#, fuzzy, c-format
-msgid "Error writing %s: %s"
-msgstr "Лоша ниска за цитирање %s: %s"
+#: src/files.c:1477 src/files.c:1502 src/files.c:1531
+#, c-format
+msgid "Error writing backup file %s: %s"
+msgstr ""
 
 #: src/files.c:1478 src/nano.c:675
 #, fuzzy
@@ -213,12 +210,19 @@ msgstr ""
 "\n"
 "Не уписах %s (превише резервних датотека?)\n"
 
-#: src/files.c:1580 src/text.c:2831 src/text.c:2843
+#: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
+#: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
+#: src/files.c:2611 src/files.c:2620
+#, fuzzy, c-format
+msgid "Error writing %s: %s"
+msgstr "Лоша ниска за цитирање %s: %s"
+
+#: src/files.c:1585 src/text.c:2833 src/text.c:2845
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr ""
 
-#: src/files.c:1756
+#: src/files.c:1761
 #, fuzzy, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
@@ -226,56 +230,56 @@ msgstr[0] "Уписах %d ред"
 msgstr[1] "Уписах %d реда"
 msgstr[2] "Уписах %d редова"
 
-#: src/files.c:1860
+#: src/files.c:1865
 msgid " [DOS Format]"
 msgstr "[ДОС запис]"
 
-#: src/files.c:1861
+#: src/files.c:1866
 msgid " [Mac Format]"
 msgstr "[Мек запис]"
 
-#: src/files.c:1863
+#: src/files.c:1868
 msgid " [Backup]"
 msgstr "[Резерва]"
 
-#: src/files.c:1871
+#: src/files.c:1876
 msgid "Prepend Selection to File"
 msgstr "Додај избор на почетак датотеке"
 
-#: src/files.c:1872
+#: src/files.c:1877
 msgid "Append Selection to File"
 msgstr "Додај избор на крај датотеке"
 
-#: src/files.c:1873
+#: src/files.c:1878
 msgid "Write Selection to File"
 msgstr "Упиши избор у датотеку"
 
-#: src/files.c:1876
+#: src/files.c:1881
 msgid "File Name to Prepend to"
 msgstr "У коју датотеку додати"
 
-#: src/files.c:1877
+#: src/files.c:1882
 msgid "File Name to Append to"
 msgstr "У коју датотеку додати"
 
-#: src/files.c:1878
+#: src/files.c:1883
 msgid "File Name to Write"
 msgstr "У коју датотеку уписати"
 
-#: src/files.c:2007
+#: src/files.c:2012
 #, fuzzy
 msgid "File exists, OVERWRITE ? "
 msgstr "Датотека постоји, да ПРЕСНИМИМ?"
 
-#: src/files.c:2016
+#: src/files.c:2021
 msgid "Save file under DIFFERENT NAME ? "
 msgstr ""
 
-#: src/files.c:2453
+#: src/files.c:2458
 msgid "(more)"
 msgstr "(више)"
 
-#: src/files.c:2536 src/rcfile.c:995
+#: src/files.c:2541 src/rcfile.c:995
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -867,7 +871,7 @@ msgstr "Следећа датотека"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:843 src/text.c:2947
+#: src/global.c:843 src/text.c:2949
 msgid "Verbatim Input"
 msgstr ""
 
@@ -1934,80 +1938,80 @@ msgstr ""
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:726
+#: src/text.c:727
 msgid "Could not pipe"
 msgstr "Не могу да направим цев"
 
-#: src/text.c:753 src/text.c:2548 src/text.c:2695
+#: src/text.c:754 src/text.c:2550 src/text.c:2697
 msgid "Could not fork"
 msgstr "Не могу да покренем"
 
-#: src/text.c:880
+#: src/text.c:882
 msgid "OOPS. Tried to add unknown thing to undo struct, I'd save your work"
 msgstr ""
 
-#: src/text.c:1782
+#: src/text.c:1784
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Лоша ниска за цитирање %s: %s"
 
-#: src/text.c:2179
+#: src/text.c:2181
 msgid "Can now UnJustify!"
 msgstr "Сада могу да „одравнам“!"
 
-#: src/text.c:2374
+#: src/text.c:2376
 msgid "Edit a replacement"
 msgstr "Измените замену"
 
-#: src/text.c:2460
+#: src/text.c:2462
 msgid "Could not create pipe"
 msgstr "Не могох да направим цевку"
 
-#: src/text.c:2462
+#: src/text.c:2464
 msgid "Creating misspelled word list, please wait..."
 msgstr "Образујем списак погрешно унетих речи, сачекајте..."
 
-#: src/text.c:2554
+#: src/text.c:2556
 msgid "Could not get size of pipe buffer"
 msgstr "Не могох да сазнам величину бафера за цевку"
 
-#: src/text.c:2605
+#: src/text.c:2607
 msgid "Error invoking \"spell\""
 msgstr "Грешка при покретању „spell“-а"
 
-#: src/text.c:2608
+#: src/text.c:2610
 msgid "Error invoking \"sort -f\""
 msgstr "Грешка при покретању „sort -f“-а"
 
-#: src/text.c:2611
+#: src/text.c:2613
 msgid "Error invoking \"uniq\""
 msgstr "Грешка при покретању „uniq“-а"
 
-#: src/text.c:2722
+#: src/text.c:2724
 #, fuzzy, c-format
 msgid "Error invoking \"%s\""
 msgstr "Грешка при покретању „spell“-а"
 
-#: src/text.c:2862
+#: src/text.c:2864
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Неуспешна провера правописа: %s"
 
-#: src/text.c:2864
+#: src/text.c:2866
 #, fuzzy, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Неуспешна провера правописа: %s"
 
-#: src/text.c:2867
+#: src/text.c:2869
 msgid "Finished checking spelling"
 msgstr "Завршена провера правописа"
 
-#: src/text.c:2932
+#: src/text.c:2934
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr ""
 
-#: src/text.c:2933
+#: src/text.c:2935
 #, fuzzy
 msgid "In Selection:  "
 msgstr "Додај избор на крај датотеке"
