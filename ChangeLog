@@ -1,3 +1,7 @@
+2008-08-08 Magnus Granberg <zorry@ume.nu> / Adam Conrad <?>
+	* files.c: (write_file): Add needed flags to open() calls when writing out files.  Fixes Savannah bug 
+	  #23827: Compilation fails with -D_FORTIFY_SOURCE=2
+
 2008-08-08 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Check exit code of fclose(), since in certain out of space conditions the OS will
 	  happily report successful fwrite()s until you try and close the file.  Fix for Savannah bug

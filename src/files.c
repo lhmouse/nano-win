@@ -1588,7 +1588,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (f_open == NULL) {
-	    fd_source = open(realname, O_RDONLY | O_CREAT);
+	    fd_source = open(realname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 
 	    if (fd_source != -1) {
 		f_source = fdopen(fd_source, "rb");
@@ -1707,7 +1707,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	int fd_source;
 	FILE *f_source = NULL;
 
-	fd_source = open(tempname, O_RDONLY | O_CREAT);
+	fd_source = open(tempname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 
 	if (fd_source != -1) {
 	    f_source = fdopen(fd_source, "rb");
