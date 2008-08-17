@@ -1704,8 +1704,11 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		strerror(errno));
 	    goto cleanup_and_exit;
 	}
-    } else
-	fclose(f);
+    } else if (fclose(f) != 0) {
+	    statusbar(_("Error writing %s: %s"), realname,
+		strerror(errno));
+	    goto cleanup_and_exit;
+    }
 
     if (!tmp && append == OVERWRITE) {
 	if (!nonamechange) {
