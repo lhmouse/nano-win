@@ -386,7 +386,7 @@ void do_undo(void)
         for (; f->next != NULL && f->lineno != u->lineno; f = f->next)
 	    ;
     if (f->lineno != u->lineno) {
-        statusbar(_("Couldnt match current undo line"));
+        statusbar(_("Internal error: can't match line %d.  Please save your work"), u->lineno);
 	return;
     }
 #ifdef DEBUG
@@ -484,7 +484,7 @@ void do_undo(void)
 	f->data = data;
 	break;
     default:
-	undidmsg = _("wtf?");
+	undidmsg = _("Internal error: unknown type.  Please save your work");
 	break;
 
     }
@@ -509,7 +509,7 @@ void do_redo(void)
 	return;
     }
     if (u->next != openfile->current_undo) {
-	statusbar(_("Can't find previous undo to re-do, argh"));
+	statusbar(_("Internal error: Redo setup failed.  Please save your work"));
 	return;
     }
 
@@ -520,7 +520,7 @@ void do_redo(void)
         for (; f->next != NULL && f->lineno != u->lineno; f = f->next)
 	    ;
     if (f->lineno != u->lineno) {
-        statusbar(_("Couldnt match current undo line"));
+        statusbar(_("Internal error: can't match line %d.  Please save your work"), u->lineno);
 	return;
     }
 #ifdef DEBUG
@@ -630,7 +630,7 @@ void do_redo(void)
 	cutbottom = oldcutbottom;
 	break;
     default:
-	undidmsg = _("wtf?");
+	undidmsg = _("Internal error: unknown type.  Please save your work");
 	break;
 
     }
@@ -879,7 +879,7 @@ void add_undo(undo_type current_action)
     case UNCUT:
 	break;
     case OTHER:
-	statusbar(_("OOPS. Tried to add unknown thing to undo struct, I'd save your work"));
+	statusbar(_("Internal error: unknown type.  Please save your work."));
 	break;
     }
 

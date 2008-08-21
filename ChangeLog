@@ -1,3 +1,7 @@
+2008-08-21 Chris Allegretta <chrisa@asty.org>
+	* text.c: Change error messages where we may possibly get into a bad state and urge
+	  the user to save when this happens.  Originally by Benno Schulenberg <bensberg@justemail.net>
+
 2008-08-08 Magnus Granberg <zorry@ume.nu> / Adam Conrad <?>
 	* files.c: (write_file): Add needed flags to open() calls when writing out files.  Fixes Savannah bug 
 	  #23827: Compilation fails with -D_FORTIFY_SOURCE=2
