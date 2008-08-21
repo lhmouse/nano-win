@@ -649,7 +649,7 @@ void do_enter(void)
     filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
 
-    assert(openfile->current != NULL && xopenfile->current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_TINY
     update_undo(SPLIT);
