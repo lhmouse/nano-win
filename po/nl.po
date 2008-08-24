@@ -1,15 +1,16 @@
-# Translation of nano-2.0.7pre1 to Dutch.
-# Copyright (C) 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Dutch translations for nano-2.1.5pre1.
+# Copyright (C) 2008 Free Software Foundation, Inc.
+# This file is distributed under the same license as the nano package.
 #
 # Guus Sliepen <guus@sliepen.eu.org>, 2003.
 # Reinout van Schouwen <reinout@cs.vu.nl>, 2005.
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007.
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-2.0.7pre1\n"
+"Project-Id-Version: nano-2.1.5pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-20 13:03-0600\n"
-"PO-Revision-Date: 2007-12-08 20:00+0100\n"
+"POT-Creation-Date: 2008-08-24 02:41-0400\n"
+"PO-Revision-Date: 2008-08-21 22:27+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Naar map"
 
-#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1883
+#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1886
 #: src/nano.c:1009 src/search.c:213 src/search.c:935 src/search.c:996
 msgid "Cancelled"
 msgstr "Geannuleerd"
@@ -34,7 +35,7 @@ msgstr "Kan in beperkte modus niet buiten %s gaan"
 
 #: src/browser.c:277 src/browser.c:328 src/browser.c:351 src/files.c:622
 #: src/files.c:631 src/files.c:1417 src/files.c:1505 src/files.c:1551
-#: src/files.c:1572 src/files.c:1695 src/files.c:2511 src/rcfile.c:382
+#: src/files.c:1572 src/files.c:1695 src/files.c:2514 src/rcfile.c:382
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
@@ -196,8 +197,8 @@ msgstr "Kan met '--nofollow' niet aan een symbolische koppeling toevoegen"
 
 #: src/files.c:1458 src/files.c:1482 src/files.c:1509 src/files.c:1527
 #: src/files.c:1584 src/files.c:1603 src/files.c:1615 src/files.c:1639
-#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:2584
-#: src/files.c:2593
+#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:1708
+#: src/files.c:2587 src/files.c:2596
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Fout tijdens schrijven van %s: %s"
@@ -206,67 +207,67 @@ msgstr "Fout tijdens schrijven van %s: %s"
 msgid "Too many backup files?"
 msgstr "Te veel reservekopieën?"
 
-#: src/files.c:1561 src/text.c:2318 src/text.c:2330
+#: src/files.c:1561 src/text.c:2327 src/text.c:2339
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Fout tijdens schrijven van tijdelijk bestand: %s"
 
-#: src/files.c:1737
+#: src/files.c:1740
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "%lu regel geschreven"
 msgstr[1] "%lu regels geschreven"
 
-#: src/files.c:1840
+#: src/files.c:1843
 msgid " [DOS Format]"
 msgstr " [DOS-indeling]"
 
-#: src/files.c:1841
+#: src/files.c:1844
 msgid " [Mac Format]"
 msgstr " [Mac-indeling]"
 
-#: src/files.c:1843
+#: src/files.c:1846
 msgid " [Backup]"
 msgstr " [Kopie maken]"
 
-#: src/files.c:1851
+#: src/files.c:1854
 msgid "Prepend Selection to File"
 msgstr "Selectie toevoegen vooraan bestand"
 
-#: src/files.c:1852
+#: src/files.c:1855
 msgid "Append Selection to File"
 msgstr "Selectie toevoegen achteraan bestand"
 
-#: src/files.c:1853
+#: src/files.c:1856
 msgid "Write Selection to File"
 msgstr "Selectie opslaan in bestand"
 
-#: src/files.c:1856
+#: src/files.c:1859
 msgid "File Name to Prepend to"
 msgstr "Vooraan toevoegen aan bestand"
 
-#: src/files.c:1857
+#: src/files.c:1860
 msgid "File Name to Append to"
 msgstr "Achteraan toevoegen aan bestand"
 
-#: src/files.c:1858
+#: src/files.c:1861
 msgid "File Name to Write"
 msgstr "Opslaan in bestand"
 
-#: src/files.c:1985
+#: src/files.c:1988
 msgid "File exists, OVERWRITE ? "
 msgstr "Bestand bestaat al, OVERSCHRIJVEN? "
 
-#: src/files.c:1994
+#: src/files.c:1997
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Bestand opslaan onder een ANDERE NAAM? "
 
-#: src/files.c:2431
+#: src/files.c:2434
 msgid "(more)"
 msgstr "(meer)"
 
-#: src/files.c:2514 src/rcfile.c:849
+#: src/files.c:2517 src/rcfile.c:849
 #, c-format
 msgid ""
 "\n"
@@ -283,7 +284,7 @@ msgstr "Annuleren"
 
 #: src/global.c:266
 msgid "Get Help"
-msgstr "Hulp tonen"
+msgstr "Hulp"
 
 #: src/global.c:267
 msgid "Exit"
@@ -412,10 +413,12 @@ msgid "Search for a string or a regular expression"
 msgstr "Tekst zoeken"
 
 #: src/global.c:331
+#, fuzzy
 msgid "Move to the previous screen"
 msgstr "Een schermvol terugscrollen"
 
 #: src/global.c:332
+#, fuzzy
 msgid "Move to the next screen"
 msgstr "Een schermvol verderscrollen"
 
@@ -464,54 +467,67 @@ msgid "Unindent the current line"
 msgstr "Huidige regel laten terugspringen"
 
 #: src/global.c:352
+#, fuzzy
 msgid "Move forward one character"
 msgstr "Eén teken vooruit"
 
 #: src/global.c:353
+#, fuzzy
 msgid "Move back one character"
 msgstr "Eén teken achteruit"
 
 #: src/global.c:355
+#, fuzzy
 msgid "Move forward one word"
 msgstr "Eén woord vooruit"
 
 #: src/global.c:356
+#, fuzzy
 msgid "Move back one word"
 msgstr "Eén woord achteruit"
 
 #: src/global.c:358
+#, fuzzy
 msgid "Move to the previous line"
 msgstr "Naar de voorgaande regel"
 
 #: src/global.c:359
+#, fuzzy
 msgid "Move to the next line"
 msgstr "Naar de volgende regel"
 
 #: src/global.c:361
+#, fuzzy
 msgid "Move to the beginning of the current line"
 msgstr "Naar het begin van de huidige regel"
 
 #: src/global.c:363
+#, fuzzy
 msgid "Move to the end of the current line"
 msgstr "Naar het eind van de huidige regel"
 
 #: src/global.c:366
+#, fuzzy
 msgid "Move to the beginning of the current paragraph"
-msgstr "Naar het begin van de huidige alinea"
+msgstr "Naar het begin van de huidige regel"
 
 #: src/global.c:368
+#, fuzzy
 msgid "Move to the end of the current paragraph"
-msgstr "Naar het eind van de huidige alinea"
+msgstr "Huidige alinea uitvullen"
 
 #: src/global.c:371
+#, fuzzy
 msgid "Move to the first line of the file"
 msgstr "Naar de eerste regel (top) van het bestand"
 
 #: src/global.c:373
+#, fuzzy
 msgid "Move to the last line of the file"
 msgstr "Naar de laatste regel (eind) van het bestand"
 
 #: src/global.c:375
+#, fuzzy
 msgid "Move to the matching bracket"
 msgstr "Naar bijbehorend haakje gaan"
 
@@ -750,7 +766,7 @@ msgstr "Volgend bestand"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2434
+#: src/global.c:673 src/text.c:2443
 msgid "Verbatim Input"
 msgstr "Verbatim invoer"
 
@@ -1117,6 +1133,7 @@ msgstr ""
 "\n"
 
 #: src/help.c:345
+#, fuzzy
 msgid ""
 "Execute Command Help Text\n"
 "\n"
@@ -1195,8 +1212,9 @@ msgid "enable/disable"
 msgstr "aan-/uitzetten"
 
 #: src/help.c:446 src/help.c:497
+#, fuzzy
 msgid "Space"
-msgstr "Spatie"
+msgstr "Vervangen"
 
 #: src/nano.c:567
 msgid "Key invalid in view mode"
@@ -1270,7 +1288,7 @@ msgstr "slimme Home-toets inschakelen"
 
 #: src/nano.c:786
 msgid "Save backups of existing files"
-msgstr "reservekopieën maken van bestaande bestanden"
+msgstr "van bestaand bestand reservekopie maken"
 
 #: src/nano.c:787
 msgid "-C <dir>"
@@ -1306,15 +1324,15 @@ msgstr "eventuele nanorc-bestanden negeren"
 
 #: src/nano.c:808
 msgid "Fix numeric keypad key confusion problem"
-msgstr "toetsverwarring op numeriek bordje oplossen"
+msgstr "toetsverwarring numeriek bordje oplossen"
 
 #: src/nano.c:810
 msgid "Don't add newlines to the ends of files"
-msgstr "geen regeleinde toevoegen aan einde van bestanden"
+msgstr "geen regeleindeteken toevoegen aan slot"
 
 #: src/nano.c:813
 msgid "Don't convert files from DOS/Mac format"
-msgstr "bestanden niet omzetten uit DOS/Mac-indeling"
+msgstr "bestand niet omzetten uit DOS/Mac-opmaak"
 
 #: src/nano.c:815
 msgid "Use one more line for editing"
@@ -1354,7 +1372,7 @@ msgstr "de statusregel snel wissen"
 
 #: src/nano.c:830
 msgid "Print version information and exit"
-msgstr "versie-informatie tonen en stoppen"
+msgstr "programmaversie tonen en stoppen"
 
 #: src/nano.c:833
 msgid "Detect word boundaries more accurately"
@@ -1454,7 +1472,7 @@ msgstr "niet de twee hulpregels tonen"
 
 #: src/nano.c:873
 msgid "Enable suspension"
-msgstr "proces-pauzering toestaan"
+msgstr "pauzeren van editor toestaan"
 
 #: src/nano.c:877
 msgid "(ignored, for Pico compatibility)"
@@ -1469,7 +1487,7 @@ msgstr " GNU nano  versie %s  (gecompileerd %s, %s)\n"
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr ""
-" Email: <nano@nano-editor.org>\tWeb: http://www.nano-editor.org/\n"
+" E-mail: <nano@nano-editor.org>  Website: http://www.nano-editor.org/\n"
 " Meld fouten in de vertaling aan <vertaling@vrijschrift.org>."
 
 #: src/nano.c:893
@@ -1479,11 +1497,11 @@ msgid ""
 " Compiled options:"
 msgstr ""
 "\n"
-" Gecompileerde opties:"
+" Compilatie-opties:"
 
 #: src/nano.c:971
 msgid "Sorry, support for this function has been disabled"
-msgstr "Sorry, ondersteuning voor deze functie is uitgeschakeld"
+msgstr "Ondersteuning voor deze functie is uitgeschakeld"
 
 #: src/nano.c:993
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
@@ -1538,7 +1556,7 @@ msgstr "JjYy"
 
 #: src/prompt.c:1276
 msgid "Nn"
-msgstr "NnNn"
+msgstr "Nn"
 
 # Accepteert ook de "O" van "Overal":
 #: src/prompt.c:1277
@@ -1707,7 +1725,7 @@ msgstr "Geef regelnummer, kolomnummer"
 
 #: src/search.c:1015
 msgid "Come on, be reasonable"
-msgstr "Kom, wees redelijk"
+msgstr ""
 
 #: src/search.c:1168
 msgid "Not a bracket"
@@ -1729,72 +1747,72 @@ msgstr "Uitgezet"
 msgid "Could not pipe"
 msgstr "Kan niet doorsluizen"
 
-#: src/text.c:469 src/text.c:2035 src/text.c:2182
+#: src/text.c:469 src/text.c:2044 src/text.c:2191
 msgid "Could not fork"
 msgstr "Kan geen nieuw proces starten"
 
-#: src/text.c:1273
+#: src/text.c:1282
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Ongeldige aanhaaltekens-tekenreeks '%s': %s"
 
-#: src/text.c:1669
+#: src/text.c:1678
 msgid "Can now UnJustify!"
 msgstr "Kan nu ON^Uitvullen!"
 
-#: src/text.c:1861
+#: src/text.c:1870
 msgid "Edit a replacement"
 msgstr "Vervanging bewerken"
 
-#: src/text.c:1947
+#: src/text.c:1956
 msgid "Could not create pipe"
 msgstr "Kan geen pijp aanmaken"
 
-#: src/text.c:1949
+#: src/text.c:1958
 msgid "Creating misspelled word list, please wait..."
 msgstr "Aanmaken van lijst van verkeerd gespelde woorden, even geduld..."
 
-#: src/text.c:2041
+#: src/text.c:2050
 msgid "Could not get size of pipe buffer"
 msgstr "Kan grootte van doorsluisbuffer niet bepalen"
 
-#: src/text.c:2092
+#: src/text.c:2101
 msgid "Error invoking \"spell\""
 msgstr "Fout tijdens aanroepen van 'spell'"
 
-#: src/text.c:2095
+#: src/text.c:2104
 msgid "Error invoking \"sort -f\""
 msgstr "Fout tijdens aanroepen van 'sort -f'"
 
-#: src/text.c:2098
+#: src/text.c:2107
 msgid "Error invoking \"uniq\""
 msgstr "Fout tijdens aanroepen van 'uniq'"
 
-#: src/text.c:2209
+#: src/text.c:2218
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Fout tijdens aanroepen van '%s'"
 
-#: src/text.c:2349
+#: src/text.c:2358
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Spellingscontrole is mislukt: %s"
 
-#: src/text.c:2351
+#: src/text.c:2360
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Spellingscontrole is mislukt: %s: %s"
 
-#: src/text.c:2354
+#: src/text.c:2363
 msgid "Finished checking spelling"
 msgstr "Spellingscontrole is voltooid"
 
-#: src/text.c:2419
+#: src/text.c:2428
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%swoorden: %lu  regels: %ld  tekens: %lu"
 
-#: src/text.c:2420
+#: src/text.c:2429
 msgid "In Selection:  "
 msgstr "In de selectie:  "
 
@@ -1843,11 +1861,11 @@ msgstr "U bezorgd door:"
 
 #: src/winio.c:3360
 msgid "Special thanks to:"
-msgstr "Speciale dank aan:"
+msgstr "Met speciale dank aan:"
 
 #: src/winio.c:3361
 msgid "The Free Software Foundation"
-msgstr "De Free Software Foundation"
+msgstr "de Free Software Foundation"
 
 #: src/winio.c:3362
 msgid "For ncurses:"
@@ -1860,3 +1878,114 @@ msgstr "en iedereen die we vergeten zijn..."
 #: src/winio.c:3364
 msgid "Thank you for using nano!"
 msgstr "Dank u voor het gebruiken van nano!"
+
+#~ msgid "Error writing backup file %s: %s"
+#~ msgstr "Fout tijdens schrijven van tijdelijk bestand %s: %s"
+
+#~ msgid "Suspend"
+#~ msgstr "Pauzeren"
+
+#~ msgid "Undo the last operation"
+#~ msgstr "De laatste bewerking ongedaan maken"
+
+#~ msgid "Redo the last undone operation"
+#~ msgstr "De laatst ongedaangemaakte bewerking herdoen"
+
+#~ msgid "Go to beginning of paragraph; then of previous paragraph"
+#~ msgstr "Naar het begin van huidige alinea; daarna naar vorige"
+
+#~ msgid "Go just beyond end of paragraph; then of next paragraph"
+#~ msgstr "Naar het eind van huidige alinea; daarna naar volgende"
+
+#~ msgid "Suspend the editor (if suspend is enabled)"
+#~ msgstr "De editor laten pauzeren (indien ingeschakeld)"
+
+#~ msgid "Undo"
+#~ msgstr "Ongedaan maken"
+
+#~ msgid "Redo"
+#~ msgstr "Herdoen"
+
+#~ msgid "Scroll by line instead of half-screen"
+#~ msgstr "per regel scrollen i.p.v. half scherm"
+
+#~ msgid "Missing key name"
+#~ msgstr "Ontbrekende toetsnaam"
+
+#~ msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
+#~ msgstr "Toetsbindingen moeten beginnen met \"^\", \"M\", of \"F\"\n"
+
+#~ msgid "Must specify function to bind key to\n"
+#~ msgstr "Functie waaraan de toets gebonden moet worden ontbreekt\n"
+
+#~ msgid "Must specify menu bind key to (or \"all\")\n"
+#~ msgstr "Menu waarin toets gebonden moet worden ontbreekt\n"
+
+#~ msgid "Could not map name \"%s\" to a menu\n"
+#~ msgstr "Kan in naam '%s' geen menu herkennen\n"
+
+#~ msgid "Could not map name \"%s\" to a function\n"
+#~ msgstr "Kan in naam '%s' geen functie herkennen\n"
+
+#~ msgid "Sorry, keystr \"%s\" is an illegal binding\n"
+#~ msgstr "Toets '%s' mag niet herbonden worden\n"
+
+#~ msgid "Fatal error: no keys mapped for function \"%s\""
+#~ msgstr "Fatale fout: aan functie '%s' is geen toets gebonden"
+
+#~ msgid ""
+#~ "Exiting.  Please use nano with the -I option if needed to adjust your "
+#~ "nanorc settings\n"
+#~ msgstr ""
+#~ "Gestopt.  Start eventueel nano met optie -I om uw nanorc te corrigeren.\n"
+
+#~ msgid "Invalid line or column number"
+#~ msgstr "Ongeldig regel- of kolomnummer"
+
+#~ msgid "Nothing in undo buffer!"
+#~ msgstr "Er is niets om ongedaan te maken"
+
+#~ msgid "Internal error: can't match line %d.  Please save your work"
+#~ msgstr "*Interne fout*: kan regel %d niet vinden.  Sla uw werk op."
+
+#~ msgid "text add"
+#~ msgstr "teksttoevoeging"
+
+#~ msgid "text delete"
+#~ msgstr "tekstverwijdering"
+
+#~ msgid "line split"
+#~ msgstr "regelsplitsing"
+
+#~ msgid "line join"
+#~ msgstr "regelsamenvoeging"
+
+#~ msgid "text cut"
+#~ msgstr "tekstwegneming"
+
+#~ msgid "text insert"
+#~ msgstr "tekstinvoeging"
+
+#~ msgid "text replace"
+#~ msgstr "tekstvervanging"
+
+#~ msgid "Internal error: unknown type.  Please save your work"
+#~ msgstr "*Interne fout*: onbekend type.  Sla uw werk op."
+
+#~ msgid "Undid action (%s)"
+#~ msgstr "Bewerking (%s) is ongedaan gemaakt"
+
+#~ msgid "Nothing to re-do!"
+#~ msgstr "Er is niets om opnieuw te doen"
+
+#~ msgid "Internal error: Redo setup failed.  Please save your work"
+#~ msgstr "*Interne fout*: kan geen herdoening voorbereiden.  Sla uw werk op."
+
+#~ msgid "line cut"
+#~ msgstr "regelwegneming"
+
+#~ msgid "Redid action (%s)"
+#~ msgstr "Bewerking (%s) is opnieuw gedaan"
+
+#~ msgid "Internal error: unknown type.  Please save your work."
+#~ msgstr "*Interne fout*: onbekend type.  Sla uw werk op."

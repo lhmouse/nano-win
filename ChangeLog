@@ -1,3 +1,4 @@
+GNU nano 2.0.8 - 2008.08.24
 2008-08-08 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Check exit code of fclose(), since in certain out of space conditions the OS will
 	  happily report successful fwrite()s until you try and close the file.  Fix for Savannah bug

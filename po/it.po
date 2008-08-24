@@ -1,15 +1,15 @@
 # Italian messages for nano.
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2001-2006, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# Marco Colombo <m.colombo@ed.ac.uk>, 2001-2006.
+# Marco Colombo <m.colombo@ed.ac.uk>, 2001-2008.
 # $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.9.99pre0\n"
+"Project-Id-Version: nano 2.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-20 13:03-0600\n"
-"PO-Revision-Date: 2006-08-24 18:14+0100\n"
+"POT-Creation-Date: 2008-08-24 02:41-0400\n"
+"PO-Revision-Date: 2008-07-07 11:25+0100\n"
 "Last-Translator: Marco Colombo <m.colombo@ed.ac.uk>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Vai alla directory"
 
-#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1883
+#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1886
 #: src/nano.c:1009 src/search.c:213 src/search.c:935 src/search.c:996
 msgid "Cancelled"
 msgstr "Annullato"
@@ -33,7 +33,7 @@ msgstr "Impossibile uscire da %s in modalità ristretta"
 
 #: src/browser.c:277 src/browser.c:328 src/browser.c:351 src/files.c:622
 #: src/files.c:631 src/files.c:1417 src/files.c:1505 src/files.c:1551
-#: src/files.c:1572 src/files.c:1695 src/files.c:2511 src/rcfile.c:382
+#: src/files.c:1572 src/files.c:1695 src/files.c:2514 src/rcfile.c:382
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
@@ -196,8 +196,8 @@ msgstr "Impossibile aggiungere in testa o in coda a un link con --nofollow"
 
 #: src/files.c:1458 src/files.c:1482 src/files.c:1509 src/files.c:1527
 #: src/files.c:1584 src/files.c:1603 src/files.c:1615 src/files.c:1639
-#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:2584
-#: src/files.c:2593
+#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:1708
+#: src/files.c:2587 src/files.c:2596
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Errore durante la scrittura di %s: %s"
@@ -206,67 +206,67 @@ msgstr "Errore durante la scrittura di %s: %s"
 msgid "Too many backup files?"
 msgstr "Troppi file di backup?"
 
-#: src/files.c:1561 src/text.c:2318 src/text.c:2330
+#: src/files.c:1561 src/text.c:2327 src/text.c:2339
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Errore durante la scrittura del file temporaneo: %s"
 
-#: src/files.c:1737
+#: src/files.c:1740
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Scritta %lu riga"
 msgstr[1] "Scritte %lu righe"
 
-#: src/files.c:1840
+#: src/files.c:1843
 msgid " [DOS Format]"
 msgstr " [Formato DOS]"
 
-#: src/files.c:1841
+#: src/files.c:1844
 msgid " [Mac Format]"
 msgstr " [Formato Mac]"
 
-#: src/files.c:1843
+#: src/files.c:1846
 msgid " [Backup]"
 msgstr " [Backup]"
 
-#: src/files.c:1851
+#: src/files.c:1854
 msgid "Prepend Selection to File"
 msgstr "Inserisce selezione in testa al file"
 
-#: src/files.c:1852
+#: src/files.c:1855
 msgid "Append Selection to File"
 msgstr "Accoda selezione al file"
 
-#: src/files.c:1853
+#: src/files.c:1856
 msgid "Write Selection to File"
 msgstr "Salva selezione nel file"
 
-#: src/files.c:1856
+#: src/files.c:1859
 msgid "File Name to Prepend to"
 msgstr "Nome del file in cui inserire in testa"
 
-#: src/files.c:1857
+#: src/files.c:1860
 msgid "File Name to Append to"
 msgstr "Nome del file a cui accodare"
 
-#: src/files.c:1858
+#: src/files.c:1861
 msgid "File Name to Write"
 msgstr "Nome del file in cui salvare"
 
-#: src/files.c:1985
+#: src/files.c:1988
 msgid "File exists, OVERWRITE ? "
 msgstr "Il file esiste, SOVRASCRIVERE?"
 
-#: src/files.c:1994
+#: src/files.c:1997
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Salvare il file con un NOME DIFFERENTE?"
 
-#: src/files.c:2431
+#: src/files.c:2434
 msgid "(more)"
 msgstr "(ancora)"
 
-#: src/files.c:2514 src/rcfile.c:849
+#: src/files.c:2517 src/rcfile.c:849
 #, c-format
 msgid ""
 "\n"
@@ -416,12 +416,14 @@ msgid "Search for a string or a regular expression"
 msgstr "Cerca una stringa o un'espressione regolare"
 
 #: src/global.c:331
+#, fuzzy
 msgid "Move to the previous screen"
-msgstr "Va alla pagina precedente"
+msgstr "Va alla schermata precedente"
 
 #: src/global.c:332
+#, fuzzy
 msgid "Move to the next screen"
-msgstr "Va alla pagina successiva"
+msgstr "Va alla schermata successiva"
 
 #: src/global.c:334
 msgid "Cut the current line and store it in the cutbuffer"
@@ -468,54 +470,67 @@ msgid "Unindent the current line"
 msgstr "Deindenta la riga corrente"
 
 #: src/global.c:352
+#, fuzzy
 msgid "Move forward one character"
 msgstr "Avanza di un carattere"
 
 #: src/global.c:353
+#, fuzzy
 msgid "Move back one character"
 msgstr "Arretra di un carattere"
 
 #: src/global.c:355
+#, fuzzy
 msgid "Move forward one word"
 msgstr "Avanza di una parola"
 
 #: src/global.c:356
+#, fuzzy
 msgid "Move back one word"
 msgstr "Arretra di una parola"
 
 #: src/global.c:358
+#, fuzzy
 msgid "Move to the previous line"
 msgstr "Va alla riga precedente"
 
 #: src/global.c:359
+#, fuzzy
 msgid "Move to the next line"
 msgstr "Va alla riga successiva"
 
 #: src/global.c:361
+#, fuzzy
 msgid "Move to the beginning of the current line"
 msgstr "Va all'inizio della riga corrente"
 
 #: src/global.c:363
+#, fuzzy
 msgid "Move to the end of the current line"
 msgstr "Va alla fine della riga corrente"
 
 #: src/global.c:366
+#, fuzzy
 msgid "Move to the beginning of the current paragraph"
-msgstr "Va all'inizio del paragrafo corrente"
+msgstr "Va all'inizio della riga corrente"
 
 #: src/global.c:368
+#, fuzzy
 msgid "Move to the end of the current paragraph"
-msgstr "Va alla fine del paragrafo corrente"
+msgstr "Giustifica il paragrafo corrente"
 
 #: src/global.c:371
+#, fuzzy
 msgid "Move to the first line of the file"
 msgstr "Va alla prima riga del file"
 
 #: src/global.c:373
+#, fuzzy
 msgid "Move to the last line of the file"
 msgstr "Va all'ultima riga del file"
 
 #: src/global.c:375
+#, fuzzy
 msgid "Move to the matching bracket"
 msgstr "Va alla parentesi corrispondente"
 
@@ -765,7 +780,7 @@ msgstr "File succ."
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2434
+#: src/global.c:673 src/text.c:2443
 msgid "Verbatim Input"
 msgstr "Input letterale"
 
@@ -1132,6 +1147,7 @@ msgstr ""
 "\n"
 
 #: src/help.c:345
+#, fuzzy
 msgid ""
 "Execute Command Help Text\n"
 "\n"
@@ -1751,72 +1767,72 @@ msgstr "Marcatura disattivata"
 msgid "Could not pipe"
 msgstr "Impossibile effettuare una pipe"
 
-#: src/text.c:469 src/text.c:2035 src/text.c:2182
+#: src/text.c:469 src/text.c:2044 src/text.c:2191
 msgid "Could not fork"
 msgstr "Impossibile effettuare un fork"
 
-#: src/text.c:1273
+#: src/text.c:1282
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Stringa di quoting non corretta %s: %s"
 
-#: src/text.c:1669
+#: src/text.c:1678
 msgid "Can now UnJustify!"
 msgstr "E' ora possibile togliere la giustificazione!"
 
-#: src/text.c:1861
+#: src/text.c:1870
 msgid "Edit a replacement"
 msgstr "Modifica sostituzione"
 
-#: src/text.c:1947
+#: src/text.c:1956
 msgid "Could not create pipe"
 msgstr "Impossibile creare la pipe"
 
-#: src/text.c:1949
+#: src/text.c:1958
 msgid "Creating misspelled word list, please wait..."
 msgstr "Creazione della lista delle parole non corrette in corso..."
 
-#: src/text.c:2041
+#: src/text.c:2050
 msgid "Could not get size of pipe buffer"
 msgstr "Impossibile ottenere la dimensione del buffer della pipe"
 
-#: src/text.c:2092
+#: src/text.c:2101
 msgid "Error invoking \"spell\""
 msgstr "Errore nel chiamare \"spell\""
 
-#: src/text.c:2095
+#: src/text.c:2104
 msgid "Error invoking \"sort -f\""
 msgstr "Errore nel chiamare \"sort -f\""
 
-#: src/text.c:2098
+#: src/text.c:2107
 msgid "Error invoking \"uniq\""
 msgstr "Errore nel chiamare \"uniq\""
 
-#: src/text.c:2209
+#: src/text.c:2218
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Errore nel chiamare \"%s\""
 
-#: src/text.c:2349
+#: src/text.c:2358
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Controllo ortografico fallito: %s"
 
-#: src/text.c:2351
+#: src/text.c:2360
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Controllo ortografico fallito: %s: %s"
 
-#: src/text.c:2354
+#: src/text.c:2363
 msgid "Finished checking spelling"
 msgstr "Controllo ortografico terminato"
 
-#: src/text.c:2419
+#: src/text.c:2428
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sParole: %lu  Righe: %ld  Caratteri: %lu"
 
-#: src/text.c:2420
+#: src/text.c:2429
 msgid "In Selection:  "
 msgstr "Nella selezione:  "
 
@@ -1882,6 +1898,57 @@ msgstr "e chiunque altro abbiamo dimenticato..."
 #: src/winio.c:3364
 msgid "Thank you for using nano!"
 msgstr "Grazie di usare nano!"
+
+#~ msgid "Suspend"
+#~ msgstr "Sospendi"
+
+#~ msgid "Go to beginning of paragraph; then of previous paragraph"
+#~ msgstr "Va all'inizio del paragrafo; poi al paragrafo precedente"
+
+#~ msgid "Go just beyond end of paragraph; then of next paragraph"
+#~ msgstr "Va alla fine del paragrafo; poi al paragrafo successivo"
+
+#~ msgid "Suspend the editor (if suspend is enabled)"
+#~ msgstr "Sospendi l'editor (se la sospensione è abilitata)"
+
+#~ msgid "Scroll by line instead of half-screen"
+#~ msgstr "Scorrimento ad ogni riga invece che ad ogni metà schermata"
+
+#~ msgid "Missing key name"
+#~ msgstr "Nome di chiave mancante"
+
+#~ msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
+#~ msgstr "le chiavi devono cominciare con \"^\", \"M\", o \"F\"\n"
+
+#~ msgid "Must specify function to bind key to\n"
+#~ msgstr "Occorre specificare una funzione a cui associare la chiave\n"
+
+#~ msgid "Must specify menu bind key to (or \"all\")\n"
+#~ msgstr ""
+#~ "Occorre specificare un menù a cui associare la chiave (oppure \"all\")\n"
+
+#~ msgid "Could not map name \"%s\" to a menu\n"
+#~ msgstr "Impossibile associare il nome \"%s\" a un menù\n"
+
+#~ msgid "Could not map name \"%s\" to a function\n"
+#~ msgstr "Impossibile associare il nome \"%s\" a una funzione\n"
+
+# FIXME
+#~ msgid "Sorry, keystr \"%s\" is an illegal binding\n"
+#~ msgstr "Spiacenti, la chiave \"%s\" è illegale\n"
+
+#~ msgid "Fatal error: no keys mapped for function \"%s\""
+#~ msgstr "Errore fatale: nessuna chiave associata alla funzione \"%s\""
+
+#~ msgid ""
+#~ "Exiting.  Please use nano with the -I option if needed to adjust your "
+#~ "nanorc settings\n"
+#~ msgstr ""
+#~ "Uscita. Usare nano con l'opzione -I se occorre modificare le impostazioni "
+#~ "di nanorc\n"
+
+#~ msgid "Invalid line or column number"
+#~ msgstr "Numero di riga o di colonna non valido"
 
 # FIXME
 #~ msgid "Unindent marked text"
