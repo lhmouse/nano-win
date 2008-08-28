@@ -387,6 +387,12 @@ fi
 AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
 AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
 
+AC_ARG_ENABLE(altrcname,
+[  --enable-altrcname          Specify alternate rcfile name (default: .nanorc)],
+[if test x$enableval != no; then
+    AC_DEFINE_UNQUOTED(RCFILE_NAME, "$enableval", [Specify alternate rcfile name (default: .nanorc)]) rcfilename=$enableval
+fi])
+
 dnl Checks for functions.
 
 AC_CHECK_FUNCS(getdelim getline isblank strcasecmp strcasestr strncasecmp strnlen vsnprintf)

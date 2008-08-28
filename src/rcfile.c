@@ -1044,8 +1044,11 @@ void do_rcfile(void)
     if (homedir == NULL)
 	rcfile_error(N_("I can't find my home directory!  Wah!"));
     else {
-	nanorc = charealloc(nanorc, strlen(homedir) + 9);
-	sprintf(nanorc, "%s/.nanorc", homedir);
+#ifndef RCFILE_NAME
+#define RCFILE_NAME ".nanorc"
+#endif
+	nanorc = charealloc(nanorc, strlen(homedir) + strlen(RCFILE_NAME) + 2);
+	sprintf(nanorc, "%s/%s", homedir, RCFILE_NAME);
 
 	/* Don't open directories, character files, or block files. */
 	if (stat(nanorc, &rcinfo) != -1) {

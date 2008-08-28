@@ -1,3 +1,8 @@
+2008-08-28 Chris Allegretta <chrisa@asty.org>
+	* configure.ac, rcfile.c:  Add support for an alternate rcfilename at configure time.  Maybe this
+	  should become a command line option some day, but I don't see the need currently.  Start of
+	  fix for Savannah bug #24128: Add nanorc support to win32 platform.
+
 2008-08-21 Chris Allegretta <chrisa@asty.org>
 	* text.c: Change error messages where we may possibly get into a bad state and urge
 	  the user to save when this happens.  Originally by Benno Schulenberg <bensberg@justemail.net>
