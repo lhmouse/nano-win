@@ -253,6 +253,42 @@ bool regexp_bol_or_eol(const regex_t *preg, const char *string)
 	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
 	REG_NOMATCH);
 }
+
+/* Fix the regex if we're on platforms which requires an adjustment
+ * from GNU-style to BSD-style word boundaries.  */
+const char *fixbounds(const char *r) {
+#ifndef GNU_WORDBOUNDS
+    int i, j = 0;
+    char *r2 = charalloc(strlen(r) * 5);
+    char *r3;
+
+#ifdef DEBUG
+    fprintf(stderr, "fixbounds(): Start string = \"%s\"\n", r);
+#endif
+
+    for (i = 0; i < strlen(r); i++) {
+        if (r[i] != '\0' && r[i] == '\\' && (r[i+1] == '>' || r[i+1] == '<')) {
+            strcpy(&r2[j], "[[:");
+            r2[j+3] = r[i+1];
+            strcpy(&r2[j+4], ":]]");
+            i++;
+            j += 6;
+        } else
+            r2[j] = r[i];
+        j++;
+    }
+    r2[j] = '\0';
+    r3 = mallocstrcpy(NULL, r2);
+    free(r2);
+#ifdef DEBUG
+    fprintf(stderr, "fixbounds(): Ending string = \"%s\"\n", r3);
+#endif
+    return (const char *) r3;
+#endif
+
+    return r;
+}
+
 #endif
 
 #ifndef DISABLE_SPELLER

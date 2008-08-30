@@ -1,3 +1,8 @@
+2008-08-29 Chris Allegretta <chrisa@asty.org>
+	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems which don't support
+	  GNU-style word boundaries.  New function fixbounds() to translate from GNU-style to 
+	  BSD-style, autoconf option GNU_WORDBOUNDS.
+
 2008-08-28 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, rcfile.c:  Add support for an alternate rcfilename at configure time.  Maybe this
 	  should become a command line option some day, but I don't see the need currently.  Start of

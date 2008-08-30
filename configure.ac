@@ -144,6 +144,32 @@ AC_ARG_ENABLE(color,
     if test x$ac_cv_header_regex_h = xyes; then
 	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
 	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
+
+	# now check for the end of word boundary support (/< and />)
+	AC_MSG_CHECKING([for GNU-style word boundary regex support])
+	AC_TRY_RUN([
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <regex.h>
+int main(void)
+{
+    regex_t r;
+    size_t nmatch;
+    regmatch_t pmatch;
+
+    if (regcomp(&r, "\\\\>", REG_EXTENDED|REG_NOSUB))
+        return 1;
+    if (regexec(&r, "word boundary", nmatch, &pmatch, 0))
+        return 1;
+    return 0;
+}],
+	AC_MSG_RESULT(yes)
+	AC_DEFINE(GNU_WORDBOUNDS, 1, [Define if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
+	AC_MSG_RESULT(no),
+        AC_MSG_WARN([*** Can't check for gnu word boundary support when cross-compiling])
+)
+
     else
 	AC_MSG_ERROR([
 *** The header file regex.h was not found.  If you wish to use color

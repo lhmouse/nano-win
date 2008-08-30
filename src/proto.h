@@ -685,6 +685,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 #endif
 #ifdef HAVE_REGEX_H
 bool regexp_bol_or_eol(const regex_t *preg, const char *string);
+const char *fixbounds(const char *r);
 #endif
 #ifndef DISABLE_SPELLER
 bool is_whole_word(size_t pos, const char *buf, const char *word);
