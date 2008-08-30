@@ -1,3 +1,14 @@
+2008.08.30 - GNU nano 2.1.5 is ready to lead on day one.  This release
+		contains a better fix for incorrectly reported successful
+		writes on full filesystems, more helpful messages when
+		an internal error occurs in the undo code, and fixes for 
+		various combinations of configure-time options and 
+		compiler flags.  Also included is new support for 
+		changing the rc file name at configure time, and
+		using GNU-style regexes for word-boundaries on systems 
+		which do not support them natively, as well as the ever 
+		popular translation updates.  Rock the tarball.
+
 2008.08.09 - GNU nano 2.1.4 "I told you so!" is released.  This release
 		includes fixes for several severe issues with the new
 		undo/redo code.  Also the behavior of writing

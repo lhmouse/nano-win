@@ -1,3 +1,4 @@
+GNU nano 2.1.5 - 2008.08.30
 2008-08-29 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems which don't support
 	  GNU-style word boundaries.  New function fixbounds() to translate from GNU-style to 
