@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+use strict;
+
+sub combinations {
+  return [] unless @_;
+  my $first = shift;
+  my @rest = combinations(@_);
+  return @rest, map { [$first, @$_] } @rest;
+} 
+
+my @allargs=("--enable-debug", "--enable-extra", "--enable-tiny", "--disable-browser --disable-help --disable-mouse --disable-operatingdir --disable-operatingdir --disable-speller", "--enable-multibuffer", "--enable-nanorc", "--with-slang");
+my @combos =  combinations(@allargs);
+
+my $i = 0;
+foreach my $name (@combos) {
+    my @args = @$name;
+    my $pct = $i / $#combos * 100;
+    printf "Trying with options: @args, %d%% done...\n", $pct;
+    if (system "(./configure @args && make clean all) >/dev/null 2>&1") {
+	print "Build failed for args: @args\n";
+	print "Try running make to reproduce\n";
+	exit(1);
+    }
+    $i++;
+}
+
+print "All options completed successfully!\n";
