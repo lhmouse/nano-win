@@ -2,13 +2,15 @@
 	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems which don't support
 	  GNU-style word boundaries.  New function fixbounds() to translate from GNU-style to 
 	  BSD-style, autoconf option GNU_WORDBOUNDS.
+	* nano-regress: New perl script to check for some of the more obvious issues with compilation
+	  issues with certain configure options.
+	* global.c, help.c, browser.c, files.c, proto.h: Fix several compipation and programmatic 
+	  issues with --disable-help, especially that do-writeout was treating ^G the same as ^M.
 
 2008-08-28 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, rcfile.c:  Add support for an alternate rcfilename at configure time.  Maybe this
 	  should become a command line option some day, but I don't see the need currently.  Start of
 	  fix for Savannah bug #24128: Add nanorc support to win32 platform.
-	* nano-regress: New perl script to check for some of the more obvious issues with compilation
-	  issues with certain configure options.
 
 2008-08-21 Chris Allegretta <chrisa@asty.org>
 	* text.c: Change error messages where we may possibly get into a bad state and urge

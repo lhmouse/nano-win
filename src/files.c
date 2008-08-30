@@ -1948,6 +1948,8 @@ bool do_writeout(bool exiting)
 	    } else if (s && s->scfunc == (void *) append_msg) {
 		append = (append == APPEND) ? OVERWRITE : APPEND;
 		continue;
+	    } else if (s && s->scfunc == do_help_void) {
+		continue;
 	    }
 
 #ifdef DEBUG

@@ -1697,7 +1697,12 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    for (; j > 0; j--) {
 		if (f->next != NULL)
 		    f = f->next;
-                while (f->next != NULL && ((f->menus & currmenu) == 0 || strlen(f->help) == 0))
+
+                while (f->next != NULL && ((f->menus & currmenu) == 0
+#ifndef DISABLE_HELP
+                       || strlen(f->help) == 0
+#endif
+		))
 		     f = f->next;
 	    }
 

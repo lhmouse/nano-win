@@ -173,8 +173,8 @@ char *do_browser(char *path, DIR *dir)
 		total_redraw();
 	} else if (f->scfunc == do_help_void) {
 #ifndef DISABLE_HELP
-		do_browser_help();
-		curs_set(0);
+	    do_browser_help();
+	    curs_set(0);
 #else
 		nano_disabled_msg();
 #endif
@@ -558,7 +558,9 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 		*kbinput = sc_seq_or(do_page_up, 0);
 		break;
 	    case '?':
+#ifndef DISABLE_HELP
 		*kbinput = sc_seq_or(do_help_void, 0);
+#endif
 		break;
 	    /* Cancel equivalent to Exit here. */
 	    case 'E':

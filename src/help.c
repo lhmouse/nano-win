@@ -201,12 +201,6 @@ void do_help(void (*refresh_func)(void))
     help_text = NULL;
 }
 
-/* Start the help browser for the edit window. */
-void do_help_void(void)
-{
-    do_help(&edit_refresh);
-}
-
 #ifndef DISABLE_BROWSER
 /* Start the help browser for the file browser. */
 void do_browser_help(void)
@@ -552,3 +546,18 @@ size_t help_line_len(const char *ptr)
 }
 
 #endif /* !DISABLE_HELP */
+
+/* Start the help browser for the edit window. */
+void do_help_void(void)
+{
+
+#ifndef DISABLE_HELP
+    /* Start the help browser for the edit window. */
+    do_help(&edit_refresh);
+#else
+    if (currmenu == MMAIN)
+	nano_disabled_msg();
+    else
+	beep();
+#endif
+}
