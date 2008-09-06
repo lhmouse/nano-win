@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the nano package.
 # Mikel Olasagasti <hey_neken@mundurat.net>, 2004,2005,2006.
 # Peio Ziarsolo <peio@sindominio.net>, 2001, 2002.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-24 02:41-0400\n"
+"POT-Creation-Date: 2007-12-20 13:03-0600\n"
 "PO-Revision-Date: 2006-09-25 19:59+0200\n"
 "Last-Translator: Mikel Olasagasti <hey_neken@mundurat.net>\n"
 "Language-Team: Basque <translation-team-eu@lists.sourceforge.net>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Joan direktorio honetara"
 
-#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1886
+#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1883
 #: src/nano.c:1009 src/search.c:213 src/search.c:935 src/search.c:996
 msgid "Cancelled"
 msgstr "Bertan behera utzita"
@@ -34,7 +34,7 @@ msgstr "Ezin da %stik kanpora joan era murriztuan"
 
 #: src/browser.c:277 src/browser.c:328 src/browser.c:351 src/files.c:622
 #: src/files.c:631 src/files.c:1417 src/files.c:1505 src/files.c:1551
-#: src/files.c:1572 src/files.c:1695 src/files.c:2514 src/rcfile.c:382
+#: src/files.c:1572 src/files.c:1695 src/files.c:2511 src/rcfile.c:382
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
@@ -198,8 +198,8 @@ msgstr ""
 
 #: src/files.c:1458 src/files.c:1482 src/files.c:1509 src/files.c:1527
 #: src/files.c:1584 src/files.c:1603 src/files.c:1615 src/files.c:1639
-#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:1708
-#: src/files.c:2587 src/files.c:2596
+#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:2584
+#: src/files.c:2593
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Errorea %s idazten: %s"
@@ -208,67 +208,67 @@ msgstr "Errorea %s idazten: %s"
 msgid "Too many backup files?"
 msgstr "Babes-kopia fitxategi gehiegi?"
 
-#: src/files.c:1561 src/text.c:2327 src/text.c:2339
+#: src/files.c:1561 src/text.c:2318 src/text.c:2330
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Errorea aldi baterako fitxategia idazten: %s"
 
-#: src/files.c:1740
+#: src/files.c:1737
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Lerro %lu idatzia"
 msgstr[1] "%lu lerro idatziak"
 
-#: src/files.c:1843
+#: src/files.c:1840
 msgid " [DOS Format]"
 msgstr "[DOS formatua]"
 
-#: src/files.c:1844
+#: src/files.c:1841
 msgid " [Mac Format]"
 msgstr "[Mac formatua]"
 
-#: src/files.c:1846
+#: src/files.c:1843
 msgid " [Backup]"
 msgstr " [Babeskopia]"
 
-#: src/files.c:1854
+#: src/files.c:1851
 msgid "Prepend Selection to File"
 msgstr "Gehitu aukeraketa fitxategiaren hasieran"
 
-#: src/files.c:1855
+#: src/files.c:1852
 msgid "Append Selection to File"
 msgstr "Gehitu aukeraketa fitxategian"
 
-#: src/files.c:1856
+#: src/files.c:1853
 msgid "Write Selection to File"
 msgstr "Ahuatespena artxiboan idatzi"
 
-#: src/files.c:1859
+#: src/files.c:1856
 msgid "File Name to Prepend to"
 msgstr "Gehitu nahi duzun fitxategiaren izena"
 
-#: src/files.c:1860
+#: src/files.c:1857
 msgid "File Name to Append to"
 msgstr "Gehituko zaion fitxategiaren izena "
 
-#: src/files.c:1861
+#: src/files.c:1858
 msgid "File Name to Write"
 msgstr "Idatzi nahi duzun artxiboaren izena"
 
-#: src/files.c:1988
+#: src/files.c:1985
 msgid "File exists, OVERWRITE ? "
 msgstr "Fitxategia existitzen da dagoeneko, GAINIDATZI?"
 
-#: src/files.c:1997
+#: src/files.c:1994
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Gorde fitxategia BESTE izen batekin?"
 
-#: src/files.c:2434
+#: src/files.c:2431
 msgid "(more)"
 msgstr "(gehiago)"
 
-#: src/files.c:2517 src/rcfile.c:849
+#: src/files.c:2514 src/rcfile.c:849
 #, c-format
 msgid ""
 "\n"
@@ -764,7 +764,7 @@ msgstr "Hurrengo fitxategia"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2443
+#: src/global.c:673 src/text.c:2434
 msgid "Verbatim Input"
 msgstr "Sarrera literala"
 
@@ -1737,72 +1737,72 @@ msgstr "Markatu ez hautatua"
 msgid "Could not pipe"
 msgstr "Ezin da hoditik pasa"
 
-#: src/text.c:469 src/text.c:2044 src/text.c:2191
+#: src/text.c:469 src/text.c:2035 src/text.c:2182
 msgid "Could not fork"
 msgstr "Ezin izan da bikoiztu"
 
-#: src/text.c:1282
+#: src/text.c:1273
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "%s aipamen kate okerra: %s"
 
-#: src/text.c:1678
+#: src/text.c:1669
 msgid "Can now UnJustify!"
 msgstr "Orain ez-justifikatu dezakezu!"
 
-#: src/text.c:1870
+#: src/text.c:1861
 msgid "Edit a replacement"
 msgstr "Ordezkoa editatu"
 
-#: src/text.c:1956
+#: src/text.c:1947
 msgid "Could not create pipe"
 msgstr "Ezin izan da hodia sortu"
 
-#: src/text.c:1958
+#: src/text.c:1949
 msgid "Creating misspelled word list, please wait..."
 msgstr "Gaizki idatzitako hiz zerrenda sortzen, itxaron mesedez..."
 
-#: src/text.c:2050
+#: src/text.c:2041
 msgid "Could not get size of pipe buffer"
 msgstr "Ezin izan da hodi buffer-aren tamainua lortu"
 
-#: src/text.c:2101
+#: src/text.c:2092
 msgid "Error invoking \"spell\""
 msgstr "Errorea \"spell\"-i deitzen"
 
-#: src/text.c:2104
+#: src/text.c:2095
 msgid "Error invoking \"sort -f\""
 msgstr "Errorea \"sort -f\"-i deitzen"
 
-#: src/text.c:2107
+#: src/text.c:2098
 msgid "Error invoking \"uniq\""
 msgstr "Errorea \"uniq\"-i deitzen"
 
-#: src/text.c:2218
+#: src/text.c:2209
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Errorea \"%s\"-(e)ri deitzen"
 
-#: src/text.c:2358
+#: src/text.c:2349
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Zuzenketa ortografikoan huts egin du: %s"
 
-#: src/text.c:2360
+#: src/text.c:2351
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Zuzenketa ortografikoan huts egin du: %s: %s"
 
-#: src/text.c:2363
+#: src/text.c:2354
 msgid "Finished checking spelling"
 msgstr "Zuzenketa ortografikoa bukatu da"
 
-#: src/text.c:2428
+#: src/text.c:2419
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sHitzak: %lu  Lerroak: %ld  Karaktereak: %lu"
 
-#: src/text.c:2429
+#: src/text.c:2420
 msgid "In Selection:  "
 msgstr "Aukeraketan:  "
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.10pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-24 02:41-0400\n"
+"POT-Creation-Date: 2007-12-20 13:03-0600\n"
 "PO-Revision-Date: 2005-12-13 09:33+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "跳至目錄"
 
-#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1886
+#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1883
 #: src/nano.c:1009 src/search.c:213 src/search.c:935 src/search.c:996
 msgid "Cancelled"
 msgstr "已取消"
@@ -32,7 +32,7 @@ msgstr "在限制模式中無法至 %s 外部"
 
 #: src/browser.c:277 src/browser.c:328 src/browser.c:351 src/files.c:622
 #: src/files.c:631 src/files.c:1417 src/files.c:1505 src/files.c:1551
-#: src/files.c:1572 src/files.c:1695 src/files.c:2514 src/rcfile.c:382
+#: src/files.c:1572 src/files.c:1695 src/files.c:2511 src/rcfile.c:382
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
@@ -191,8 +191,8 @@ msgstr "--nofollow 設定下，無法前引或附加至符號連結檔"
 
 #: src/files.c:1458 src/files.c:1482 src/files.c:1509 src/files.c:1527
 #: src/files.c:1584 src/files.c:1603 src/files.c:1615 src/files.c:1639
-#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:1708
-#: src/files.c:2587 src/files.c:2596
+#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:2584
+#: src/files.c:2593
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "寫入 %s 時發生錯誤: %s"
@@ -201,66 +201,66 @@ msgstr "寫入 %s 時發生錯誤: %s"
 msgid "Too many backup files?"
 msgstr "太多備份檔案？"
 
-#: src/files.c:1561 src/text.c:2327 src/text.c:2339
+#: src/files.c:1561 src/text.c:2318 src/text.c:2330
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "寫入暫存檔案 %s 時發生錯誤"
 
-#: src/files.c:1740
+#: src/files.c:1737
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "已寫入 %lu 列"
 
-#: src/files.c:1843
+#: src/files.c:1840
 msgid " [DOS Format]"
 msgstr " [DOS 格式]"
 
-#: src/files.c:1844
+#: src/files.c:1841
 msgid " [Mac Format]"
 msgstr " [Mac 格式]"
 
-#: src/files.c:1846
+#: src/files.c:1843
 msgid " [Backup]"
 msgstr " [備份]"
 
-#: src/files.c:1854
+#: src/files.c:1851
 msgid "Prepend Selection to File"
 msgstr "前引選擇部份於檔案"
 
-#: src/files.c:1855
+#: src/files.c:1852
 msgid "Append Selection to File"
 msgstr "附加選擇部份至檔案"
 
-#: src/files.c:1856
+#: src/files.c:1853
 msgid "Write Selection to File"
 msgstr "寫入選擇部份至檔案"
 
-#: src/files.c:1859
+#: src/files.c:1856
 msgid "File Name to Prepend to"
 msgstr "要前引於的檔案名稱"
 
-#: src/files.c:1860
+#: src/files.c:1857
 msgid "File Name to Append to"
 msgstr "要附加至的檔案名稱"
 
-#: src/files.c:1861
+#: src/files.c:1858
 msgid "File Name to Write"
 msgstr "要寫入的檔案名稱"
 
-#: src/files.c:1988
+#: src/files.c:1985
 msgid "File exists, OVERWRITE ? "
 msgstr "檔案已存在，要覆寫嗎？"
 
-#: src/files.c:1997
+#: src/files.c:1994
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "以不同的名稱存檔？"
 
-#: src/files.c:2434
+#: src/files.c:2431
 msgid "(more)"
 msgstr "(更多)"
 
-#: src/files.c:2517 src/rcfile.c:849
+#: src/files.c:2514 src/rcfile.c:849
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -780,7 +780,7 @@ msgstr "下個檔案"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2443
+#: src/global.c:673 src/text.c:2434
 msgid "Verbatim Input"
 msgstr "原形輸入"
 
@@ -1763,72 +1763,72 @@ msgstr "標記解除"
 msgid "Could not pipe"
 msgstr "管線功能無效"
 
-#: src/text.c:469 src/text.c:2044 src/text.c:2191
+#: src/text.c:469 src/text.c:2035 src/text.c:2182
 msgid "Could not fork"
 msgstr "執行功能無效"
 
-#: src/text.c:1282
+#: src/text.c:1273
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "不良引用字串 %s: %s"
 
-#: src/text.c:1678
+#: src/text.c:1669
 msgid "Can now UnJustify!"
 msgstr "現在可以還原對齊！"
 
-#: src/text.c:1870
+#: src/text.c:1861
 msgid "Edit a replacement"
 msgstr "編輯替代文字"
 
-#: src/text.c:1956
+#: src/text.c:1947
 msgid "Could not create pipe"
 msgstr "無法建立管線功能"
 
-#: src/text.c:1958
+#: src/text.c:1949
 msgid "Creating misspelled word list, please wait..."
 msgstr "正在建立錯字列表，請稍待..."
 
-#: src/text.c:2050
+#: src/text.c:2041
 msgid "Could not get size of pipe buffer"
 msgstr "無法得知管線緩衝區大小"
 
-#: src/text.c:2101
+#: src/text.c:2092
 msgid "Error invoking \"spell\""
 msgstr "呼叫 \"spell\" 錯誤"
 
-#: src/text.c:2104
+#: src/text.c:2095
 msgid "Error invoking \"sort -f\""
 msgstr "呼叫 \"sort -f\" 錯誤"
 
-#: src/text.c:2107
+#: src/text.c:2098
 msgid "Error invoking \"uniq\""
 msgstr "呼叫 \"uniq\" 錯誤"
 
-#: src/text.c:2218
+#: src/text.c:2209
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "呼叫 \"%s\" 錯誤"
 
-#: src/text.c:2358
+#: src/text.c:2349
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "拼字檢查失敗: %s"
 
-#: src/text.c:2360
+#: src/text.c:2351
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "拼字檢查失敗: %s: %s"
 
-#: src/text.c:2363
+#: src/text.c:2354
 msgid "Finished checking spelling"
 msgstr "拼字檢查結束"
 
-#: src/text.c:2428
+#: src/text.c:2419
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%s字數: %lu  列數: %ld  字元數: %lu"
 
-#: src/text.c:2429
+#: src/text.c:2420
 msgid "In Selection:  "
 msgstr "於選擇部份: "
 
