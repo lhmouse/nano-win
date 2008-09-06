@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-20 13:03-0600\n"
+"POT-Creation-Date: 2008-08-24 02:41-0400\n"
 "PO-Revision-Date: 2006-08-24 18:14+0100\n"
 "Last-Translator: Marco Colombo <m.colombo@ed.ac.uk>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Vai alla directory"
 
-#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1883
+#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1886
 #: src/nano.c:1009 src/search.c:213 src/search.c:935 src/search.c:996
 msgid "Cancelled"
 msgstr "Annullato"
@@ -33,7 +33,7 @@ msgstr "Impossibile uscire da %s in modalità ristretta"
 
 #: src/browser.c:277 src/browser.c:328 src/browser.c:351 src/files.c:622
 #: src/files.c:631 src/files.c:1417 src/files.c:1505 src/files.c:1551
-#: src/files.c:1572 src/files.c:1695 src/files.c:2511 src/rcfile.c:382
+#: src/files.c:1572 src/files.c:1695 src/files.c:2514 src/rcfile.c:382
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
@@ -196,8 +196,8 @@ msgstr "Impossibile aggiungere in testa o in coda a un link con --nofollow"
 
 #: src/files.c:1458 src/files.c:1482 src/files.c:1509 src/files.c:1527
 #: src/files.c:1584 src/files.c:1603 src/files.c:1615 src/files.c:1639
-#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:2584
-#: src/files.c:2593
+#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:1708
+#: src/files.c:2587 src/files.c:2596
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Errore durante la scrittura di %s: %s"
@@ -206,67 +206,67 @@ msgstr "Errore durante la scrittura di %s: %s"
 msgid "Too many backup files?"
 msgstr "Troppi file di backup?"
 
-#: src/files.c:1561 src/text.c:2318 src/text.c:2330
+#: src/files.c:1561 src/text.c:2327 src/text.c:2339
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Errore durante la scrittura del file temporaneo: %s"
 
-#: src/files.c:1737
+#: src/files.c:1740
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Scritta %lu riga"
 msgstr[1] "Scritte %lu righe"
 
-#: src/files.c:1840
+#: src/files.c:1843
 msgid " [DOS Format]"
 msgstr " [Formato DOS]"
 
-#: src/files.c:1841
+#: src/files.c:1844
 msgid " [Mac Format]"
 msgstr " [Formato Mac]"
 
-#: src/files.c:1843
+#: src/files.c:1846
 msgid " [Backup]"
 msgstr " [Backup]"
 
-#: src/files.c:1851
+#: src/files.c:1854
 msgid "Prepend Selection to File"
 msgstr "Inserisce selezione in testa al file"
 
-#: src/files.c:1852
+#: src/files.c:1855
 msgid "Append Selection to File"
 msgstr "Accoda selezione al file"
 
-#: src/files.c:1853
+#: src/files.c:1856
 msgid "Write Selection to File"
 msgstr "Salva selezione nel file"
 
-#: src/files.c:1856
+#: src/files.c:1859
 msgid "File Name to Prepend to"
 msgstr "Nome del file in cui inserire in testa"
 
-#: src/files.c:1857
+#: src/files.c:1860
 msgid "File Name to Append to"
 msgstr "Nome del file a cui accodare"
 
-#: src/files.c:1858
+#: src/files.c:1861
 msgid "File Name to Write"
 msgstr "Nome del file in cui salvare"
 
-#: src/files.c:1985
+#: src/files.c:1988
 msgid "File exists, OVERWRITE ? "
 msgstr "Il file esiste, SOVRASCRIVERE?"
 
-#: src/files.c:1994
+#: src/files.c:1997
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Salvare il file con un NOME DIFFERENTE?"
 
-#: src/files.c:2431
+#: src/files.c:2434
 msgid "(more)"
 msgstr "(ancora)"
 
-#: src/files.c:2514 src/rcfile.c:849
+#: src/files.c:2517 src/rcfile.c:849
 #, c-format
 msgid ""
 "\n"
@@ -765,7 +765,7 @@ msgstr "File succ."
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2434
+#: src/global.c:673 src/text.c:2443
 msgid "Verbatim Input"
 msgstr "Input letterale"
 
@@ -1751,72 +1751,72 @@ msgstr "Marcatura disattivata"
 msgid "Could not pipe"
 msgstr "Impossibile effettuare una pipe"
 
-#: src/text.c:469 src/text.c:2035 src/text.c:2182
+#: src/text.c:469 src/text.c:2044 src/text.c:2191
 msgid "Could not fork"
 msgstr "Impossibile effettuare un fork"
 
-#: src/text.c:1273
+#: src/text.c:1282
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Stringa di quoting non corretta %s: %s"
 
-#: src/text.c:1669
+#: src/text.c:1678
 msgid "Can now UnJustify!"
 msgstr "E' ora possibile togliere la giustificazione!"
 
-#: src/text.c:1861
+#: src/text.c:1870
 msgid "Edit a replacement"
 msgstr "Modifica sostituzione"
 
-#: src/text.c:1947
+#: src/text.c:1956
 msgid "Could not create pipe"
 msgstr "Impossibile creare la pipe"
 
-#: src/text.c:1949
+#: src/text.c:1958
 msgid "Creating misspelled word list, please wait..."
 msgstr "Creazione della lista delle parole non corrette in corso..."
 
-#: src/text.c:2041
+#: src/text.c:2050
 msgid "Could not get size of pipe buffer"
 msgstr "Impossibile ottenere la dimensione del buffer della pipe"
 
-#: src/text.c:2092
+#: src/text.c:2101
 msgid "Error invoking \"spell\""
 msgstr "Errore nel chiamare \"spell\""
 
-#: src/text.c:2095
+#: src/text.c:2104
 msgid "Error invoking \"sort -f\""
 msgstr "Errore nel chiamare \"sort -f\""
 
-#: src/text.c:2098
+#: src/text.c:2107
 msgid "Error invoking \"uniq\""
 msgstr "Errore nel chiamare \"uniq\""
 
-#: src/text.c:2209
+#: src/text.c:2218
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Errore nel chiamare \"%s\""
 
-#: src/text.c:2349
+#: src/text.c:2358
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Controllo ortografico fallito: %s"
 
-#: src/text.c:2351
+#: src/text.c:2360
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Controllo ortografico fallito: %s: %s"
 
-#: src/text.c:2354
+#: src/text.c:2363
 msgid "Finished checking spelling"
 msgstr "Controllo ortografico terminato"
 
-#: src/text.c:2419
+#: src/text.c:2428
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sParole: %lu  Righe: %ld  Caratteri: %lu"
 
-#: src/text.c:2420
+#: src/text.c:2429
 msgid "In Selection:  "
 msgstr "Nella selezione:  "
 

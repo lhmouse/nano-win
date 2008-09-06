@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-20 13:03-0600\n"
+"POT-Creation-Date: 2008-08-24 02:41-0400\n"
 "PO-Revision-Date: 2007-02-12 00:19 +0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Pergi Ke Direktori"
 
-#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1883
+#: src/browser.c:233 src/browser.c:832 src/files.c:756 src/files.c:1886
 #: src/nano.c:1009 src/search.c:213 src/search.c:935 src/search.c:996
 msgid "Cancelled"
 msgstr "Dibatalkan"
@@ -32,7 +32,7 @@ msgstr "Tidak boleh ke luar dari %s dalam mod terhad"
 
 #: src/browser.c:277 src/browser.c:328 src/browser.c:351 src/files.c:622
 #: src/files.c:631 src/files.c:1417 src/files.c:1505 src/files.c:1551
-#: src/files.c:1572 src/files.c:1695 src/files.c:2511 src/rcfile.c:382
+#: src/files.c:1572 src/files.c:1695 src/files.c:2514 src/rcfile.c:382
 #: src/rcfile.c:914
 #, c-format
 msgid "Error reading %s: %s"
@@ -190,8 +190,8 @@ msgstr "Tidak dapat tambah awal atau tambah ke symlink dengan set --nofollow"
 
 #: src/files.c:1458 src/files.c:1482 src/files.c:1509 src/files.c:1527
 #: src/files.c:1584 src/files.c:1603 src/files.c:1615 src/files.c:1639
-#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:2584
-#: src/files.c:2593
+#: src/files.c:1657 src/files.c:1667 src/files.c:1703 src/files.c:1708
+#: src/files.c:2587 src/files.c:2596
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Ralat menulis %s: %s"
@@ -200,66 +200,66 @@ msgstr "Ralat menulis %s: %s"
 msgid "Too many backup files?"
 msgstr "Terlalu banyak fail salinan?"
 
-#: src/files.c:1561 src/text.c:2318 src/text.c:2330
+#: src/files.c:1561 src/text.c:2327 src/text.c:2339
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Ralat menulis fail sementara: %s"
 
-#: src/files.c:1737
+#: src/files.c:1740
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "%lu baris ditulis"
 
-#: src/files.c:1840
+#: src/files.c:1843
 msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
-#: src/files.c:1841
+#: src/files.c:1844
 msgid " [Mac Format]"
 msgstr " [Format Mac]"
 
-#: src/files.c:1843
+#: src/files.c:1846
 msgid " [Backup]"
 msgstr " [Salinan]"
 
-#: src/files.c:1851
+#: src/files.c:1854
 msgid "Prepend Selection to File"
 msgstr "Tambahan Awalan Pilihan ke Fail"
 
-#: src/files.c:1852
+#: src/files.c:1855
 msgid "Append Selection to File"
 msgstr "Tambahan Akhiran Pilihan ke Fail"
 
-#: src/files.c:1853
+#: src/files.c:1856
 msgid "Write Selection to File"
 msgstr "Tulis Pilihan ke Fail"
 
-#: src/files.c:1856
+#: src/files.c:1859
 msgid "File Name to Prepend to"
 msgstr "Nama Fail untuk di Tambah Awalan"
 
-#: src/files.c:1857
+#: src/files.c:1860
 msgid "File Name to Append to"
 msgstr "Nama Fail untuk di Tambah Akhiran"
 
-#: src/files.c:1858
+#: src/files.c:1861
 msgid "File Name to Write"
 msgstr "Nama Fail untuk di Tulis"
 
-#: src/files.c:1985
+#: src/files.c:1988
 msgid "File exists, OVERWRITE ? "
 msgstr "Fail telah wujud, TINDIH ? "
 
-#: src/files.c:1994
+#: src/files.c:1997
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Simpan fail dengan NAMA BERLAINAN ? "
 
-#: src/files.c:2431
+#: src/files.c:2434
 msgid "(more)"
 msgstr "(lagi)"
 
-#: src/files.c:2514 src/rcfile.c:849
+#: src/files.c:2517 src/rcfile.c:849
 #, c-format
 msgid ""
 "\n"
@@ -743,7 +743,7 @@ msgstr "Fail Selepas"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2434
+#: src/global.c:673 src/text.c:2443
 msgid "Verbatim Input"
 msgstr "Masukan Verbatim"
 
@@ -1719,72 +1719,72 @@ msgstr "Nyahtetap Tanda"
 msgid "Could not pipe"
 msgstr "Tidak dapat menyalurkan"
 
-#: src/text.c:469 src/text.c:2035 src/text.c:2182
+#: src/text.c:469 src/text.c:2044 src/text.c:2191
 msgid "Could not fork"
 msgstr "Tidak dapat mencabang"
 
-#: src/text.c:1273
+#: src/text.c:1282
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Petikan rentetan tidak sesuai %s: %s"
 
-#: src/text.c:1669
+#: src/text.c:1678
 msgid "Can now UnJustify!"
 msgstr "Sekarang boleh UnJustify!"
 
-#: src/text.c:1861
+#: src/text.c:1870
 msgid "Edit a replacement"
 msgstr "Ubah penggantian"
 
-#: src/text.c:1947
+#: src/text.c:1956
 msgid "Could not create pipe"
 msgstr "Tidak dapat mencipta paip"
 
-#: src/text.c:1949
+#: src/text.c:1958
 msgid "Creating misspelled word list, please wait..."
 msgstr "Menghasilkan senarai perkataan salah eja, sila tunggu..."
 
-#: src/text.c:2041
+#: src/text.c:2050
 msgid "Could not get size of pipe buffer"
 msgstr "Tidak dapat memperoleh saiz buffer paip"
 
-#: src/text.c:2092
+#: src/text.c:2101
 msgid "Error invoking \"spell\""
 msgstr "Ralat melaksanakan \"spell\""
 
-#: src/text.c:2095
+#: src/text.c:2104
 msgid "Error invoking \"sort -f\""
 msgstr "Ralat melaksanakan \"sort -f\""
 
-#: src/text.c:2098
+#: src/text.c:2107
 msgid "Error invoking \"uniq\""
 msgstr "Ralat melaksanakan \"uniq\""
 
-#: src/text.c:2209
+#: src/text.c:2218
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Ralat melaksanakan \"%s\""
 
-#: src/text.c:2349
+#: src/text.c:2358
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Semakan ejaan gagal: %s"
 
-#: src/text.c:2351
+#: src/text.c:2360
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Semakan ejaan gagal: %s: %s"
 
-#: src/text.c:2354
+#: src/text.c:2363
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: src/text.c:2419
+#: src/text.c:2428
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sPerkataan: %lu  Baris: %ld  Aksara: %lu"
 
-#: src/text.c:2420
+#: src/text.c:2429
 msgid "In Selection:  "
 msgstr "Dalam Pilihan:"
 
