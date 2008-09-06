@@ -1,3 +1,7 @@
+2008-09-06 Chris Allegretta <chrisa@asty.org>
+	* nano.c: Do call disable_signals at startup regardless, since under cygwin we can't generate
+	  ^C without it.
+
 GNU nano 2.1.5 - 2008.08.30
 2008-08-29 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems which don't support

@@ -1273,7 +1273,6 @@ void disable_extended_io(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
-#ifdef USE_SLANG
 /* Disable interpretation of the special control keys in our terminal
  * settings. */
 void disable_signals(void)
@@ -1284,7 +1283,6 @@ void disable_signals(void)
     term.c_lflag &= ~ISIG;
     tcsetattr(0, TCSANOW, &term);
 }
-#endif
 
 #ifndef NANO_TINY
 /* Enable interpretation of the special control keys in our terminal
@@ -1351,8 +1349,8 @@ void terminal_init(void)
 	if (ISSET(PRESERVE))
 	    enable_flow_control();
 
-#ifdef USE_SLANG
 	disable_signals();
+#ifdef USE_SLANG
 	if (!ISSET(PRESERVE))
 	    disable_flow_control();
 
