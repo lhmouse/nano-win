@@ -260,6 +260,10 @@ void do_uncut_text(void)
     if (cutbuffer == NULL)
 	return;
 
+#ifndef NANO_TINY
+     update_undo(UNCUT);
+#endif
+
     /* Add a copy of the text in the cutbuffer to the current filestruct
      * at the current cursor position. */
     copy_from_filestruct(cutbuffer, cutbottom);

@@ -1,3 +1,6 @@
+2008-09-16 Chris Allegretta <chrisa@asty.org>
+	* text.c: Add support for undoing a text uncut.  Split out the undo and redo of a text cut 
+	  in order to avoid code duplication.
 2008-09-06 Chris Allegretta <chrisa@asty.org>
 	* nano.c: Do call disable_signals at startup regardless, since under cygwin we can't generate
 	  ^C without it.

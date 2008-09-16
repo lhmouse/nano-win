@@ -364,6 +364,70 @@ void do_unindent(void)
     do_indent(-tabsize);
 }
 
+/* undo a cut, or re-do an uncut */
+void undo_cut(undo *u)
+{
+	cutbuffer = copy_filestruct(u->cutbuffer);
+
+        /* Compute cutbottom for the uncut using out copy */
+	for (cutbottom = cutbuffer; cutbottom->next != NULL; cutbottom = cutbottom->next)
+	    ;
+
+	/* Get to where we need to uncut from */
+	if (u->mark_set && u->mark_begin_lineno < u->lineno)
+	    do_gotolinecolumn(u->mark_begin_lineno, u->mark_begin_x+1, FALSE, FALSE, FALSE, FALSE);
+	else
+	    do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+
+        copy_from_filestruct(cutbuffer, cutbottom);
+	free_filestruct(cutbuffer);
+	cutbuffer = NULL;
+
+}
+
+/* Re-do a cut, or undo an uncut */
+void redo_cut(undo *u) {
+    int i;
+    filestruct *t;
+
+	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	openfile->mark_set = u->mark_set;
+	if (cutbuffer)
+	    free(cutbuffer);
+	cutbuffer = NULL;
+
+	/* Move ahead the same # lines we had if a marked cut */
+	if (u->mark_set) {
+	    for (i = 1, t = openfile->fileage; i != u->mark_begin_lineno; i++)
+		t = t->next;
+	    openfile->mark_begin = t;
+	} else if (!u->to_end) {
+	    /* Here we have a regular old potentially multi-line ^K cut.  We'll
+		need to trick nano into thinking it's a marked cut to cut more
+		than one line again */
+#ifdef DEBUG
+	    fprintf(stderr, "Undoing multi-^K cut, u->linescut = %d\n", u->linescut);
+#endif
+	    for (i = 0, t = openfile->current; i < u->linescut; i++) {
+
+#ifdef DEBUG
+	    fprintf(stderr, "Advancing, lineno  = %d, data = \"%s\"\n", t->lineno, t->data);
+#endif
+		t = t->next;
+	    }
+	    openfile->mark_begin = t;
+	    openfile->mark_begin_x = 0;
+	    openfile->mark_set = TRUE;
+	}
+
+	openfile->mark_begin_x = u->mark_begin_x;
+	do_cut_text(FALSE, u->to_end, TRUE);
+	openfile->mark_set = FALSE;
+        openfile->mark_begin = NULL;
+        openfile->mark_begin_x = 0;
+	edit_refresh();
+}
+
 /* Undo the last thing(s) we did */
 void do_undo(void)
 {
@@ -443,21 +507,11 @@ void do_undo(void)
     case CUT:
     case CUTTOEND:
 	undidmsg = _("text cut");
-	cutbuffer = copy_filestruct(u->cutbuffer);
-
-        /* Compute cutbottom for the uncut using out copy */
-	for (cutbottom = cutbuffer; cutbottom->next != NULL; cutbottom = cutbottom->next)
-	    ;
-
-	/* Get to where we need to uncut from */
-	if (u->mark_set && u->mark_begin_lineno < u->lineno)
-	    do_gotolinecolumn(u->mark_begin_lineno, u->mark_begin_x+1, FALSE, FALSE, FALSE, FALSE);
-	else
-	    do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
-
-	do_uncut_text();
-	free_filestruct(cutbuffer);
-	cutbuffer = NULL;
+        undo_cut(u);
+	break;
+    case UNCUT:
+	undidmsg = _("text uncut");
+	redo_cut(u);
 	break;
     case INSERT:
 	undidmsg = _("text insert");
@@ -576,43 +630,12 @@ void do_redo(void)
 	break;
     case CUT:
     case CUTTOEND:
-	undidmsg = _("line cut");
-	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
-	openfile->mark_set = u->mark_set;
-	if (cutbuffer)
-	    free(cutbuffer);
-	cutbuffer = NULL;
-
-	/* Move ahead the same # lines we had if a marked cut */
-	if (u->mark_set) {
-	    for (i = 1, t = openfile->fileage; i != u->mark_begin_lineno; i++)
-		t = t->next;
-	    openfile->mark_begin = t;
-	} else if (!u->to_end) {
-	    /* Here we have a regular old potentially multi-line ^K cut.  We'll
-		need to trick nano into thinking it's a marked cut to cut more
-		than one line again */
-#ifdef DEBUG
-	    fprintf(stderr, "Undoing multi-^K cut, u->linescut = %d\n", u->linescut);
-#endif
-	    for (i = 0, t = openfile->current; i < u->linescut; i++) {
-
-#ifdef DEBUG
-	    fprintf(stderr, "Advancing, lineno  = %d, data = \"%s\"\n", t->lineno, t->data);
-#endif
-		t = t->next;
-	    }
-	    openfile->mark_begin = t;
-	    openfile->mark_begin_x = 0;
-	    openfile->mark_set = TRUE;
-	}
-
-	openfile->mark_begin_x = u->mark_begin_x;
-	do_cut_text(FALSE, u->to_end, TRUE);
-	openfile->mark_set = FALSE;
-        openfile->mark_begin = NULL;
-        openfile->mark_begin_x = 0;
-	edit_refresh();
+	undidmsg = _("text cut");
+	redo_cut(u);
+	break;
+    case UNCUT:
+	undidmsg = _("text uncut");
+	undo_cut(u);
 	break;
     case REPLACE:
 	undidmsg = _("text replace");
@@ -620,14 +643,11 @@ void do_redo(void)
 	u->strdata = f->data;
 	f->data = data;
 	break;
-     case INSERT:
+    case INSERT:
 	undidmsg = _("text insert");
-	cutbuffer = u->cutbuffer;
-	cutbottom = u->cutbottom;
 	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
-	do_uncut_text();
-	cutbuffer = oldcutbuffer;
-	cutbottom = oldcutbottom;
+        copy_from_filestruct(u->cutbuffer, u->cutbottom);
+	openfile->placewewant = xplustabs();
 	break;
     default:
 	undidmsg = _("Internal error: unknown type.  Please save your work");
@@ -799,7 +819,7 @@ bool execute_command(const char *command)
 /* Add a new undo struct to the top of the current pile */
 void add_undo(undo_type current_action)
 {
-    undo *u;
+    undo *u, *cutu;
     char *data;
     openfilestruct *fs = openfile;
 
@@ -832,6 +852,7 @@ void add_undo(undo_type current_action)
     u->strdata = NULL;
     u->cutbuffer = NULL;
     u->cutbottom  = NULL;
+    u->mark_set = 0;
     u->mark_begin_lineno = 0;
     u->mark_begin_x = 0;
     u->linescut = 0;
@@ -877,6 +898,20 @@ void add_undo(undo_type current_action)
 	u->to_end = (current_action == CUTTOEND);
 	break;
     case UNCUT:
+	for (cutu = u; cutu != NULL && cutu->type != CUT; cutu = cutu->next)
+	    ;
+	if (cutu->type == CUT) {
+	    u->cutbuffer = cutu->cutbuffer;
+	    u->cutbottom = cutu->cutbottom;
+	    if (!cutu->mark_set)
+		u->linescut = cutu->linescut;
+	    else {
+		filestruct *c;
+		for (c = u->cutbuffer; c != NULL; c = c->next)
+		    u->linescut++;
+	    }
+	} else
+	    statusbar(_("Internal error: can't setup uncut.  Please save your work."));
 	break;
     case OTHER:
 	statusbar(_("Internal error: unknown type.  Please save your work."));
@@ -981,7 +1016,6 @@ void update_undo(undo_type action)
 	break;
     case CUT:
     case CUTTOEND:
-    case UNCUT:
 	if (u->cutbuffer)
 	    free(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
@@ -989,6 +1023,7 @@ void update_undo(undo_type action)
 	u->linescut++;
 	break;
     case REPLACE:
+    case UNCUT:
 	add_undo(action);
 	break;
     case INSERT:
