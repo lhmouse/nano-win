@@ -103,6 +103,8 @@ static char *nanorc = NULL;
 #ifdef ENABLE_COLOR
 static syntaxtype *endsyntax = NULL;
 	/* The end of the list of syntaxes. */
+static exttype *endheader = NULL;
+	/* End of header list */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
@@ -290,7 +292,9 @@ void parse_syntax(char *ptr)
     endsyntax->desc = mallocstrcpy(NULL, nameptr);
     endsyntax->color = NULL;
     endcolor = NULL;
+    endheader = NULL;
     endsyntax->extensions = NULL;
+    endsyntax->headers = NULL;
     endsyntax->next = NULL;
 
 #ifdef DEBUG
@@ -715,6 +719,71 @@ void parse_colors(char *ptr, bool icase)
 	}
     }
 }
+
+/* Parse the headers (1st line) of the file which may influence the regex used. */
+void parse_headers(char *ptr)
+{
+    char *h, *regstr;
+
+    assert(ptr != NULL);
+
+    if (syntaxes == NULL) {
+	rcfile_error(
+		N_("Cannot add a header regex without a syntax command"));
+	return;
+    }
+
+    if (*ptr == '\0') {
+	rcfile_error(N_("Missing regex string"));
+	return;
+    }
+
+    /* Now for the fun part.  Start adding regexes to individual strings
+     * in the colorstrings array, woo! */
+    while (ptr != NULL && *ptr != '\0') {
+	exttype *newheader;
+	    /* The new color structure. */
+	bool cancelled = FALSE;
+	    /* The start expression was bad. */
+
+	if (*ptr != '"') {
+	    rcfile_error(
+		N_("Regex strings must begin and end with a \" character"));
+	    ptr = parse_next_regex(ptr);
+	    continue;
+	}
+
+	ptr++;
+
+	regstr = ptr;
+	ptr = parse_next_regex(ptr);
+	if (ptr == NULL)
+	    break;
+
+	newheader = (exttype *)nmalloc(sizeof(exttype));
+
+	/* Save the regex string if it's valid */
+	if (nregcomp(regstr, 0)) {
+	    newheader->ext_regex = mallocstrcpy(NULL, regstr);
+	    newheader->ext = NULL;
+	    newheader->next = NULL;
+
+#ifdef DEBUG
+	     fprintf(stderr, "Starting a new header entry: %s\n", newheader->ext_regex);
+#endif
+
+	    if (endheader == NULL) {
+		endsyntax->headers = newheader;
+	    } else {
+		endheader->next = newheader;
+	    }
+
+	    endheader = newheader;
+	} else
+	    free(newheader);
+
+    }
+}
 #endif /* ENABLE_COLOR */
 
 /* Check whether the user has unmapped every shortcut for a
@@ -812,7 +881,9 @@ void parse_rcfile(FILE *rcstream
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 			endsyntax->desc);
 	    parse_syntax(ptr);
-	} else if (strcasecmp(keyword, "color") == 0)
+	} else if (strcasecmp(keyword, "header") == 0)
+	    parse_headers(ptr);
+	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)
 	    parse_colors(ptr, TRUE);

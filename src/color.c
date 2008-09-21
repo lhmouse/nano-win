@@ -131,7 +131,7 @@ void color_update(void)
 
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
-     * file extension. */
+     * file extension, and then look in the header. */
     if (openfile->colorstrings == NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
@@ -174,7 +174,50 @@ void color_update(void)
 		}
 	    }
 	}
+
+	/* If we haven't matched anything yet, try the headers */
+	if (openfile->colorstrings == NULL) {
+#ifdef DEBUG
+	    fprintf(stderr, "No match for file extensions, looking at headers...\n");
+#endif
+	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+		tmpsyntax = tmpsyntax->next) {
+		exttype *e;
+
+		for (e = tmpsyntax->headers; e != NULL; e = e->next) {
+		    bool not_compiled = (e->ext == NULL);
+
+		    /* e->ext_regex has already been checked for validity
+		     * elsewhere.  Compile its specified regex if we haven't
+		     * already. */
+		    if (not_compiled) {
+			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
+			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
+		    }
+
+		    /* Set colorstrings if we matched the extension
+		     * regex. */
+#ifdef DEBUG
+		fprintf(stderr, "Comparing header regex \"%s\" to fileage \"%s\"...\n", e->ext_regex, openfile->fileage->data);
+#endif
+		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0)
+			openfile->colorstrings = tmpsyntax->color;
+
+		    if (openfile->colorstrings != NULL)
+			break;
+
+		    /* Decompile e->ext_regex's specified regex if we aren't
+		     * going to use it. */
+		    if (not_compiled) {
+			regfree(e->ext);
+			free(e->ext);
+			e->ext = NULL;
+		    }
+		}
+	    }
+	}
     }
+
 
     /* If we didn't get a syntax based on the file extension, and we
      * have a default syntax, use it. */

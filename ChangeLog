@@ -1,3 +1,7 @@
+2008-09-21 Chris Allegretta <chrisa@asty.org>
+	* rcfile.c, color.c, nano.h: Add new capability for matching a syntax type by the "header" (1st line)
+	  of a file being edited.  Based on Savannah bug 24197 and inital proof of concept by Dave Geering 
+	  <dgeering@toshiba-tap.com>
 2008-09-16 Chris Allegretta <chrisa@asty.org>
 	* text.c: Add support for undoing a text uncut.  Split out the undo and redo of a text cut 
 	  in order to avoid code duplication.

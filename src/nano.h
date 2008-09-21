@@ -242,6 +242,8 @@ typedef struct syntaxtype {
 	/* The name of this syntax. */
     exttype *extensions;
 	/* The list of extensions that this syntax applies to. */
+    exttype *headers;
+	/* Regexes to match on the 'header' (1st line) of the file */
     colortype *color;
 	/* The colors used in this syntax. */
     struct syntaxtype *next;
