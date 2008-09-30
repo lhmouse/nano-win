@@ -1,3 +1,5 @@
+2008-09-30 Chris Allegretta <chrisa@asty.org>
+	* python.nanorc, ruby.nanorc: Add header lines for python and ruby as well
 2008-09-21 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c, color.c, nano.h: Add new capability for matching a syntax type by the "header" (1st line)
 	  of a file being edited.  Based on Savannah bug 24197 and inital proof of concept by Dave Geering 
