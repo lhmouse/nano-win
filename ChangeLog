@@ -1,4 +1,5 @@
 2008-09-30 Chris Allegretta <chrisa@asty.org>
+        * configure.ac: Change extra, multibuffer, color and rcfile to default to enabled
 	* python.nanorc, ruby.nanorc: Add header lines for python and ruby as well
 2008-09-21 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c, color.c, nano.h: Add new capability for matching a syntax type by the "header" (1st line)

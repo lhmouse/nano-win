@@ -65,10 +65,11 @@ if test x$debug_support != xyes; then
 fi
 
 AC_ARG_ENABLE(extra,
-[  --enable-extra          Enable extra features, currently only easter eggs],
-[if test x$enableval = xyes; then
+[  --disable-extra          Disable extra features, currently only easter eggs],
+[if test x$enableval != xno; then
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
-fi])
+fi], 
+    [AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes])
 
 AC_ARG_ENABLE(tiny,
 [  --enable-tiny           Disable features for the sake of size],
@@ -139,8 +140,8 @@ AC_ARG_ENABLE(wrapping-as-root,
 fi])
 
 AC_ARG_ENABLE(color,
-[  --enable-color          Enable color and syntax highlighting],
-[if test x$enableval = xyes; then
+[  --disable-color          Disable color and syntax highlighting],
+[if test x$enableval != xno; then
     if test x$ac_cv_header_regex_h = xyes; then
 	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
 	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
@@ -148,30 +149,40 @@ AC_ARG_ENABLE(color,
 	AC_MSG_ERROR([
 *** The header file regex.h was not found.  If you wish to use color
 *** support this header file is required.  Please either install C
-*** libraries that include the regex.h file or do not call the configure
-*** script with --enable-color.])
+*** libraries that include the regex.h file or call the configure
+*** script with --disable-color.])
     fi
-fi])
+fi], [
+    if test x$ac_cv_header_regex_h = xyes; then
+	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
+	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
+    else
+	AC_MSG_ERROR([
+*** The header file regex.h was not found.  If you wish to use color
+*** support this header file is required.  Please either install C
+*** libraries that include the regex.h file or call the configure
+*** script with --disable-color.])
+    fi
+])
 
 AC_ARG_ENABLE(multibuffer,
-[  --enable-multibuffer    Enable multiple file buffers],
-[if test x$enableval = xyes; then
+[  --disable-multibuffer    Disable multiple file buffers],
+[if test x$enableval != xno; then
     AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
-fi])
+fi], 
+    [AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes])
 
 AC_ARG_ENABLE(nanorc,
-[  --enable-nanorc         Enable use of .nanorc files],
-[if test x$enableval = xyes; then
+[  --disable-nanorc         Disable use of .nanorc files],
+[if test x$enableval != xno; then
     AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-fi])
+fi], 
+    [AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes])
 
 AC_ARG_ENABLE(all,
-[  --enable-all            Enable ALL extra nano functionality (kitchen sink option)],
+[  --enable-all            Enable ALL extra nano functionality (ignored for compatibility as all options default to on)],
 [if test x$enableval = xyes; then
-    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
-    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
-    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
+    echo "--enable-all option no longer needed, ignoring for compatiblity"
 fi])
 
 if test x$color_support = xyes; then
