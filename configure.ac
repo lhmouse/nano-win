@@ -64,13 +64,6 @@ if test x$debug_support != xyes; then
     AC_DEFINE(NDEBUG, 1, [Shut up assert warnings :-)])
 fi
 
-AC_ARG_ENABLE(extra,
-[  --disable-extra          Disable extra features, currently only easter eggs],
-[if test x$enableval != xno; then
-    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
-fi], 
-    [AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes])
-
 AC_ARG_ENABLE(tiny,
 [  --enable-tiny           Disable features for the sake of size],
 [if test x$enableval = xyes; then
@@ -84,6 +77,16 @@ AC_ARG_ENABLE(tiny,
     AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
 fi])
+
+
+AC_ARG_ENABLE(extra,
+[  --disable-extra          Disable extra features, currently only easter eggs],
+[if test x$enableval != xno; then
+    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
+fi], 
+    [if test x$enable_tiny != xyes; then
+        AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
+    fi])
 
 AC_ARG_ENABLE(browser,
 [  --disable-browser       Disable built-in file browser],
@@ -153,15 +156,17 @@ AC_ARG_ENABLE(color,
 *** script with --disable-color.])
     fi
 fi], [
-    if test x$ac_cv_header_regex_h = xyes; then
-	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
-    else
-	AC_MSG_ERROR([
+    if test x$enable_tiny != xyes; then
+	if test x$ac_cv_header_regex_h = xyes; then
+	    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
+	    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes	
+	else
+	    AC_MSG_ERROR([
 *** The header file regex.h was not found.  If you wish to use color
 *** support this header file is required.  Please either install C
 *** libraries that include the regex.h file or call the configure
 *** script with --disable-color.])
+	fi
     fi
 ])
 
@@ -170,14 +175,18 @@ AC_ARG_ENABLE(multibuffer,
 [if test x$enableval != xno; then
     AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
 fi], 
-    [AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes])
+    [if test x$enable_tiny != xyes; then
+        AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
+    fi])
 
 AC_ARG_ENABLE(nanorc,
 [  --disable-nanorc         Disable use of .nanorc files],
 [if test x$enableval != xno; then
     AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
 fi], 
-    [AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes])
+    [if test x$enable_tiny != xyes; then
+        AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
+    fi])
 
 AC_ARG_ENABLE(all,
 [  --enable-all            Enable ALL extra nano functionality (ignored for compatibility as all options default to on)],
