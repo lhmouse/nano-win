@@ -1,3 +1,6 @@
+2009-09-30 Dirkjan Ochtman <dirkjan@ochtman.nl>
+	* python.nanorc: Small python syntax update
+
 2008-09-30 <bluestorm_dylc@hotmail.com>
 	* ocaml.nanorc: Sample OCaml syntax highlighting file
 
