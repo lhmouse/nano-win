@@ -19,6 +19,8 @@ pkgdata_DATA =	asm.nanorc \
 		debian.nanorc \
 		awk.nanorc \
 		css.nanorc \
-		xml.nanorc
+		xml.nanorc \
+		ocaml.nanorc \
+		objc.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA)
