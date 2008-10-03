@@ -1,4 +1,7 @@
-2009-09-30 Dirkjan Ochtman <dirkjan@ochtman.nl>
+2008-10-03 Pascal Gentil <pascal.gentil@univ-rennes1.fr>
+	* fortran.nanorc: Sample python syntax highlighting file
+
+2008-09-30 Dirkjan Ochtman <dirkjan@ochtman.nl>
 	* python.nanorc: Small python syntax update
 
 2008-09-30 <bluestorm_dylc@hotmail.com>

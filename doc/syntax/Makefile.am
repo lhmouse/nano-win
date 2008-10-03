@@ -21,6 +21,7 @@ pkgdata_DATA =	asm.nanorc \
 		css.nanorc \
 		xml.nanorc \
 		ocaml.nanorc \
-		objc.nanorc
+		objc.nanorc \
+		fortran.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA)
