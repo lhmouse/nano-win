@@ -8,7 +8,7 @@ sub combinations {
   return @rest, map { [$first, @$_] } @rest;
 } 
 
-my @allargs=("--enable-debug", "--enable-extra", "--enable-tiny", "--disable-browser --disable-help --disable-mouse --disable-operatingdir --disable-operatingdir --disable-speller", "--enable-multibuffer", "--enable-nanorc", "--with-slang");
+my @allargs=("--enable-debug", "--disable-extra", "--enable-tiny", "--disable-browser --disable-help --disable-mouse --disable-operatingdir --disable-speller", "--disable-multibuffer", "--disable-nanorc", "--with-slang");
 my @combos =  combinations(@allargs);
 
 my $i = 0;

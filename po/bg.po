@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-30 17:39-0400\n"
+"POT-Creation-Date: 2008-10-03 18:22-0400\n"
 "PO-Revision-Date: 2006-08-25 00:56+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -36,8 +36,8 @@ msgstr "Не може да се излезе от %s в ограничен ре�
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
 #: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
-#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:494
-#: src/rcfile.c:1067
+#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:498
+#: src/rcfile.c:1138
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Грешка при четене на %s: %s"
@@ -149,12 +149,12 @@ msgstr "Нов файл"
 msgid "\"%s\" not found"
 msgstr "„%s“ не е намерен"
 
-#: src/files.c:628 src/rcfile.c:486 src/rcfile.c:1017 src/rcfile.c:1058
+#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1088 src/rcfile.c:1129
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "„%s“ е директория"
 
-#: src/files.c:629 src/rcfile.c:487 src/rcfile.c:1018 src/rcfile.c:1059
+#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1089 src/rcfile.c:1130
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "„%s“ е файл за устройство"
@@ -212,7 +212,7 @@ msgstr "Твърде много резервни копия?"
 msgid "Error writing %s: %s"
 msgstr "Грешка при запис на %s: %s"
 
-#: src/files.c:1585 src/text.c:2833 src/text.c:2845
+#: src/files.c:1585 src/text.c:2868 src/text.c:2880
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Грешка при записа на временен файл: %s"
@@ -272,7 +272,7 @@ msgstr "Запазване под РАЗЛИЧНО ИМЕ? "
 msgid "(more)"
 msgstr "(повече)"
 
-#: src/files.c:2546 src/rcfile.c:995
+#: src/files.c:2546 src/rcfile.c:1066
 #, c-format
 msgid ""
 "\n"
@@ -830,7 +830,7 @@ msgstr "Следващ файл"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:841 src/text.c:2949
+#: src/global.c:841 src/text.c:2984
 msgid "Verbatim Input"
 msgstr "Дословен вход"
 
@@ -1533,24 +1533,24 @@ msgstr "активирано"
 msgid "disabled"
 msgstr "деактивирано"
 
-#: src/nano.c:1423 src/winio.c:1248
+#: src/nano.c:1421 src/winio.c:1248
 msgid "Unknown Command"
 msgstr "Неизвестна команда"
 
-#: src/nano.c:1530
+#: src/nano.c:1528
 msgid "XON ignored, mumble mumble"
 msgstr "„XON“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:1535
+#: src/nano.c:1533
 msgid "XOFF ignored, mumble mumble"
 msgstr "„XOFF“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:1884 src/rcfile.c:957
+#: src/nano.c:1882 src/rcfile.c:1028
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Поисканият размер на табулация „%s“ е неправилен"
 
-#: src/nano.c:1940 src/rcfile.c:882
+#: src/nano.c:1938 src/rcfile.c:953
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Поисканият размер „%s“ за максимална дължина на редове е неправилен"
@@ -1582,71 +1582,72 @@ msgstr "Всички"
 msgid "No"
 msgstr "Не"
 
-#: src/rcfile.c:120
+#: src/rcfile.c:122
 #, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Грешка в %s на ред %lu: "
 
-#: src/rcfile.c:175
+#: src/rcfile.c:177
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Аргументът „%s“ има незатворенa \""
 
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:639 src/rcfile.c:696
+#: src/rcfile.c:204 src/rcfile.c:256 src/rcfile.c:643 src/rcfile.c:700
+#: src/rcfile.c:751
 msgid "Regex strings must begin and end with a \" character"
 msgstr ""
 "Низовете за регулярни изрази трябва да започват и завършват със символа \""
 
-#: src/rcfile.c:228 src/search.c:61
+#: src/rcfile.c:230 src/search.c:61
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Неправилен регулярен израз \"%s\": %s"
 
-#: src/rcfile.c:248
+#: src/rcfile.c:250
 msgid "Missing syntax name"
 msgstr "Липсва името на синтаксиса"
 
-#: src/rcfile.c:303
+#: src/rcfile.c:307
 msgid "The \"none\" syntax is reserved"
 msgstr "Синтаксисът „none“ е запазен"
 
-#: src/rcfile.c:310
+#: src/rcfile.c:314
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Синтаксисът „default“ не приема разширения"
 
-#: src/rcfile.c:373
+#: src/rcfile.c:377
 #, fuzzy
 msgid "Missing key name"
 msgstr "Липсва името на синтаксиса"
 
-#: src/rcfile.c:385
+#: src/rcfile.c:389
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
 msgstr ""
 
-#: src/rcfile.c:394
+#: src/rcfile.c:398
 msgid "Must specify function to bind key to\n"
 msgstr ""
 
-#: src/rcfile.c:405
+#: src/rcfile.c:409
 msgid "Must specify menu bind key to (or \"all\")\n"
 msgstr ""
 
-#: src/rcfile.c:412
+#: src/rcfile.c:416
 #, fuzzy, c-format
 msgid "Could not map name \"%s\" to a menu\n"
 msgstr "Неуспех при извикване на „%s“"
 
-#: src/rcfile.c:419
+#: src/rcfile.c:423
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
 msgstr ""
 
-#: src/rcfile.c:441
+#: src/rcfile.c:445
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding\n"
 msgstr ""
 
-#: src/rcfile.c:553
+#: src/rcfile.c:557
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1661,85 +1662,90 @@ msgstr ""
 "„black“, с възможна представка „bright“\n"
 "за цветове на преден план."
 
-#: src/rcfile.c:575
+#: src/rcfile.c:579
 msgid "Cannot add a color command without a syntax command"
 msgstr "Не може да бъде добавена команда за цвят без синтактична команда"
 
-#: src/rcfile.c:580
+#: src/rcfile.c:584
 msgid "Missing color name"
 msgstr "Липсва името на цвета"
 
-#: src/rcfile.c:600
+#: src/rcfile.c:604
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Цветът за фон „%s“ не може да бъде ярък"
 
-#: src/rcfile.c:618
+#: src/rcfile.c:622 src/rcfile.c:737
 msgid "Missing regex string"
 msgstr "Липсва низът за регулярния израз"
 
-#: src/rcfile.c:690
+#: src/rcfile.c:694
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "„start=“ изисква съответстващ „end=“"
 
-#: src/rcfile.c:735
+#: src/rcfile.c:732
+#, fuzzy
+msgid "Cannot add a header regex without a syntax command"
+msgstr "Не може да бъде добавена команда за цвят без синтактична команда"
+
+#: src/rcfile.c:804
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 
-#: src/rcfile.c:737
+#: src/rcfile.c:806
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 
-#: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
+#: src/rcfile.c:856 src/rcfile.c:865 src/rcfile.c:875
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Командата „%s“ не е позволена във вмъкван файл"
 
-#: src/rcfile.c:812 src/rcfile.c:982
+#: src/rcfile.c:881 src/rcfile.c:1053
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Синтаксисът „%s“ няма команди за цветове"
 
-#: src/rcfile.c:823
+#: src/rcfile.c:894
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Командата „%s“ е неизвестна"
 
-#: src/rcfile.c:829
+#: src/rcfile.c:900
 msgid "Missing flag"
 msgstr "Липсващ флаг"
 
-#: src/rcfile.c:851
+#: src/rcfile.c:922
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Опцията „%s“ изисква аргумент"
 
-#: src/rcfile.c:869
+#: src/rcfile.c:940
 msgid "Option is not a valid multibyte string"
 msgstr "Опцията не е правилен многобайтов низ"
 
-#: src/rcfile.c:895 src/rcfile.c:923 src/rcfile.c:932
+#: src/rcfile.c:966 src/rcfile.c:994 src/rcfile.c:1003
 msgid "Non-blank characters required"
 msgstr "Необходими са символи, които не са празни"
 
-#: src/rcfile.c:905
+#: src/rcfile.c:976
 msgid "Two single-column characters required"
 msgstr "Необходими са два символа с нормална ширина"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:1042
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Не може да се отмени флаг „%s“"
 
-#: src/rcfile.c:977
+#: src/rcfile.c:1048
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Неизвестен флаг „%s“"
 
-#: src/rcfile.c:1045
+#: src/rcfile.c:1116
 msgid "I can't find my home directory!  Wah!"
 msgstr "Не може да бъде намерена домашната директория! Ах!"
 
@@ -1796,146 +1802,150 @@ msgstr "Уставено е маркиране"
 msgid "Mark Unset"
 msgstr "Отменено е маркирането"
 
-#: src/text.c:377
+#: src/text.c:441
 msgid "Nothing in undo buffer!"
 msgstr ""
 
-#: src/text.c:389 src/text.c:523
+#: src/text.c:453 src/text.c:577
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 
-#: src/text.c:400 src/text.c:533
+#: src/text.c:464 src/text.c:587
 msgid "text add"
 msgstr ""
 
-#: src/text.c:409 src/text.c:543
+#: src/text.c:473 src/text.c:597
 #, fuzzy
 msgid "text delete"
 msgstr "Следващ файл"
 
-#: src/text.c:422 src/text.c:552
+#: src/text.c:486 src/text.c:606
 msgid "line split"
 msgstr ""
 
-#: src/text.c:433 src/text.c:563
+#: src/text.c:497 src/text.c:617
 msgid "line join"
 msgstr ""
 
-#: src/text.c:445
+#: src/text.c:509 src/text.c:633
 msgid "text cut"
 msgstr ""
 
-#: src/text.c:463 src/text.c:624
+#: src/text.c:513 src/text.c:637
+msgid "text uncut"
+msgstr ""
+
+#: src/text.c:517 src/text.c:647
 #, fuzzy
 msgid "text insert"
 msgstr "Следващ ред"
 
-#: src/text.c:481 src/text.c:618
+#: src/text.c:535 src/text.c:641
 #, fuzzy
 msgid "text replace"
 msgstr " (за замяна)"
 
-#: src/text.c:487 src/text.c:633
+#: src/text.c:541 src/text.c:653
 msgid "Internal error: unknown type.  Please save your work"
 msgstr ""
 
-#: src/text.c:492
+#: src/text.c:546
 #, c-format
 msgid "Undid action (%s)"
 msgstr ""
 
-#: src/text.c:508
+#: src/text.c:562
 msgid "Nothing to re-do!"
 msgstr ""
 
-#: src/text.c:512
+#: src/text.c:566
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 
-#: src/text.c:579
-msgid "line cut"
-msgstr ""
-
-#: src/text.c:638
+#: src/text.c:658
 #, c-format
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:727
+#: src/text.c:747
 msgid "Could not pipe"
 msgstr "Неуспех при pipe"
 
-#: src/text.c:754 src/text.c:2550 src/text.c:2697
+#: src/text.c:774 src/text.c:2585 src/text.c:2732
 msgid "Could not fork"
 msgstr "Неуспех при fork"
 
-#: src/text.c:882
+#: src/text.c:914
+msgid "Internal error: can't setup uncut.  Please save your work."
+msgstr ""
+
+#: src/text.c:917
 msgid "Internal error: unknown type.  Please save your work."
 msgstr ""
 
-#: src/text.c:1784
+#: src/text.c:1819
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Неправилен низ за цитиране %s: %s"
 
-#: src/text.c:2181
+#: src/text.c:2216
 msgid "Can now UnJustify!"
 msgstr "Сега може да се отмени подравняването!"
 
-#: src/text.c:2376
+#: src/text.c:2411
 msgid "Edit a replacement"
 msgstr "Редактиране на замяна"
 
-#: src/text.c:2462
+#: src/text.c:2497
 msgid "Could not create pipe"
 msgstr "Неуспех при създаването на pipe"
 
-#: src/text.c:2464
+#: src/text.c:2499
 msgid "Creating misspelled word list, please wait..."
 msgstr "Създаване на списък със сгрешени думи, изчакайте..."
 
-#: src/text.c:2556
+#: src/text.c:2591
 msgid "Could not get size of pipe buffer"
 msgstr "Не може да се определи размера на буфера на pipe"
 
-#: src/text.c:2607
+#: src/text.c:2642
 msgid "Error invoking \"spell\""
 msgstr "Грешка при извикване на „spell“"
 
-#: src/text.c:2610
+#: src/text.c:2645
 msgid "Error invoking \"sort -f\""
 msgstr "Грешка при извикване на „sort -f“"
 
-#: src/text.c:2613
+#: src/text.c:2648
 msgid "Error invoking \"uniq\""
 msgstr "Грешка при извикване на „uniq“"
 
-#: src/text.c:2724
+#: src/text.c:2759
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Грешка при извикване на „%s“"
 
-#: src/text.c:2864
+#: src/text.c:2899
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Неуспех при проверката на правописа: %s"
 
-#: src/text.c:2866
+#: src/text.c:2901
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Неуспех при проверката на правописа: %s: %s"
 
-#: src/text.c:2869
+#: src/text.c:2904
 msgid "Finished checking spelling"
 msgstr "Проверката на правописа завърши"
 
-#: src/text.c:2934
+#: src/text.c:2969
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sДуми: %lu  Редове: %ld  Знаци: %lu"
 
-#: src/text.c:2935
+#: src/text.c:2970
 msgid "In Selection:  "
 msgstr "В избрания текст: "
 

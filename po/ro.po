@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-30 17:39-0400\n"
+"POT-Creation-Date: 2008-10-03 18:22-0400\n"
 "PO-Revision-Date: 2005-04-18 07:00-0500\n"
 "Last-Translator: Laurentiu Buzdugan <lbuz@rolix.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
@@ -33,8 +33,8 @@ msgstr "Nu pot merge în afara %s în modul restricþionat"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
 #: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
-#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:494
-#: src/rcfile.c:1067
+#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:498
+#: src/rcfile.c:1138
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Eroare citind %s: %s"
@@ -145,12 +145,12 @@ msgstr "Fiºier nou"
 msgid "\"%s\" not found"
 msgstr "\"%s\" nu a fost gãsit"
 
-#: src/files.c:628 src/rcfile.c:486 src/rcfile.c:1017 src/rcfile.c:1058
+#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1088 src/rcfile.c:1129
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" este un director"
 
-#: src/files.c:629 src/rcfile.c:487 src/rcfile.c:1018 src/rcfile.c:1059
+#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1089 src/rcfile.c:1130
 #, fuzzy, c-format
 msgid "\"%s\" is a device file"
 msgstr "Fiºierul \"%s\" este un fiºier dispozitiv (device)"
@@ -210,7 +210,7 @@ msgstr "Fiºiere copie de siguranþã (backup)"
 msgid "Error writing %s: %s"
 msgstr "Eroare scriind %s: %s"
 
-#: src/files.c:1585 src/text.c:2833 src/text.c:2845
+#: src/files.c:1585 src/text.c:2868 src/text.c:2880
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Eroare la scrierea fiºierului temporar: %s"
@@ -270,7 +270,7 @@ msgstr "Salveazã fiºierul sun UN NUME DIFERIT ? "
 msgid "(more)"
 msgstr "(suplimentar)"
 
-#: src/files.c:2546 src/rcfile.c:995
+#: src/files.c:2546 src/rcfile.c:1066
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -856,7 +856,7 @@ msgstr "Fiºier urmãtor"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:841 src/text.c:2949
+#: src/global.c:841 src/text.c:2984
 msgid "Verbatim Input"
 msgstr "Intrare identicã"
 
@@ -1593,27 +1593,27 @@ msgstr "activat"
 msgid "disabled"
 msgstr "deactivat"
 
-#: src/nano.c:1423 src/winio.c:1248
+#: src/nano.c:1421 src/winio.c:1248
 #, fuzzy
 msgid "Unknown Command"
 msgstr "Indicator (flag) necunoscut %s"
 
-#: src/nano.c:1530
+#: src/nano.c:1528
 #, fuzzy
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignorat, murmur, murmur."
 
-#: src/nano.c:1535
+#: src/nano.c:1533
 #, fuzzy
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorat, murmur, murmur."
 
-#: src/nano.c:1884 src/rcfile.c:957
+#: src/nano.c:1882 src/rcfile.c:1028
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Dimensiune tab cerutã %s invalidã"
 
-#: src/nano.c:1940 src/rcfile.c:882
+#: src/nano.c:1938 src/rcfile.c:953
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Dimensiune umplere cerutã %s invalidã"
@@ -1645,71 +1645,72 @@ msgstr "Tot"
 msgid "No"
 msgstr "Nu"
 
-#: src/rcfile.c:120
+#: src/rcfile.c:122
 #, fuzzy, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Eroare în %s pe linia %d: "
 
-#: src/rcfile.c:175
+#: src/rcfile.c:177
 #, fuzzy, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Argumentul %s are \" neterminat"
 
 #
-#: src/rcfile.c:202 src/rcfile.c:254 src/rcfile.c:639 src/rcfile.c:696
+#: src/rcfile.c:204 src/rcfile.c:256 src/rcfile.c:643 src/rcfile.c:700
+#: src/rcfile.c:751
 msgid "Regex strings must begin and end with a \" character"
 msgstr "ªirurile regex trebuie sã înceapã ºi sfârºeascã cu un caracter \""
 
-#: src/rcfile.c:228 src/search.c:61
+#: src/rcfile.c:230 src/search.c:61
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Regex incorect \"%s\": %s"
 
-#: src/rcfile.c:248
+#: src/rcfile.c:250
 msgid "Missing syntax name"
 msgstr "Lipseºte nume sintaxã"
 
-#: src/rcfile.c:303
+#: src/rcfile.c:307
 msgid "The \"none\" syntax is reserved"
 msgstr ""
 
-#: src/rcfile.c:310
+#: src/rcfile.c:314
 msgid "The \"default\" syntax must take no extensions"
 msgstr ""
 
-#: src/rcfile.c:373
+#: src/rcfile.c:377
 #, fuzzy
 msgid "Missing key name"
 msgstr "Lipseºte nume sintaxã"
 
-#: src/rcfile.c:385
+#: src/rcfile.c:389
 msgid "keybindings must begin with \"^\", \"M\", or \"F\"\n"
 msgstr ""
 
-#: src/rcfile.c:394
+#: src/rcfile.c:398
 msgid "Must specify function to bind key to\n"
 msgstr ""
 
-#: src/rcfile.c:405
+#: src/rcfile.c:409
 msgid "Must specify menu bind key to (or \"all\")\n"
 msgstr ""
 
-#: src/rcfile.c:412
+#: src/rcfile.c:416
 #, fuzzy, c-format
 msgid "Could not map name \"%s\" to a menu\n"
 msgstr "Nu am putut invoca \"%s\""
 
-#: src/rcfile.c:419
+#: src/rcfile.c:423
 #, c-format
 msgid "Could not map name \"%s\" to a function\n"
 msgstr ""
 
-#: src/rcfile.c:441
+#: src/rcfile.c:445
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding\n"
 msgstr ""
 
-#: src/rcfile.c:553
+#: src/rcfile.c:557
 #, fuzzy, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1724,87 +1725,92 @@ msgstr ""
 "\"black\"(negru), cu prefixul opþional \"bright\"(strãlucitor) \n"
 "pentru culorile de scriere."
 
-#: src/rcfile.c:575
+#: src/rcfile.c:579
 #, fuzzy
 msgid "Cannot add a color command without a syntax command"
 msgstr "Nu pot adãuga o directivã de culoare fãrã o linie de sintaxã"
 
-#: src/rcfile.c:580
+#: src/rcfile.c:584
 msgid "Missing color name"
 msgstr "Lipseºte nume culoare"
 
-#: src/rcfile.c:600
+#: src/rcfile.c:604
 #, fuzzy, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Culoarea de fundal %s nu poate fi strãlucitoare"
 
-#: src/rcfile.c:618
+#: src/rcfile.c:622 src/rcfile.c:737
 msgid "Missing regex string"
 msgstr ""
 
-#: src/rcfile.c:690
+#: src/rcfile.c:694
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\" necesitã un \"end=\" corespunzãtor"
 
-#: src/rcfile.c:735
+#: src/rcfile.c:732
+#, fuzzy
+msgid "Cannot add a header regex without a syntax command"
+msgstr "Nu pot adãuga o directivã de culoare fãrã o linie de sintaxã"
+
+#: src/rcfile.c:804
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 
-#: src/rcfile.c:737
+#: src/rcfile.c:806
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 
-#: src/rcfile.c:787 src/rcfile.c:796 src/rcfile.c:806
+#: src/rcfile.c:856 src/rcfile.c:865 src/rcfile.c:875
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr ""
 
-#: src/rcfile.c:812 src/rcfile.c:982
+#: src/rcfile.c:881 src/rcfile.c:1053
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr ""
 
-#: src/rcfile.c:823
+#: src/rcfile.c:894
 #, fuzzy, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Comanda %s nu a fost înþeleasã"
 
-#: src/rcfile.c:829
+#: src/rcfile.c:900
 msgid "Missing flag"
 msgstr "Lipseºte indicator (flag)"
 
-#: src/rcfile.c:851
+#: src/rcfile.c:922
 #, fuzzy, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Opþiunea %s necesitã un argument"
 
-#: src/rcfile.c:869
+#: src/rcfile.c:940
 msgid "Option is not a valid multibyte string"
 msgstr ""
 
-#: src/rcfile.c:895 src/rcfile.c:923 src/rcfile.c:932
+#: src/rcfile.c:966 src/rcfile.c:994 src/rcfile.c:1003
 #, fuzzy
 msgid "Non-blank characters required"
 msgstr "Sunt necesare douã caractere non-tab ºi non-spaþiu"
 
-#: src/rcfile.c:905
+#: src/rcfile.c:976
 msgid "Two single-column characters required"
 msgstr "Sunt necesare douã caractere de o singurã coloanã"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:1042
 #, fuzzy, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Nu pot de-seta indicatorul (flag) %s"
 
-#: src/rcfile.c:977
+#: src/rcfile.c:1048
 #, fuzzy, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Indicator (flag) necunoscut %s"
 
-#: src/rcfile.c:1045
+#: src/rcfile.c:1116
 msgid "I can't find my home directory!  Wah!"
 msgstr "Nu pot gãsi directorul meu home!  Uãu!"
 
@@ -1863,146 +1869,150 @@ msgstr "Marcaj Setare"
 msgid "Mark Unset"
 msgstr "Marcaj DEsetare"
 
-#: src/text.c:377
+#: src/text.c:441
 msgid "Nothing in undo buffer!"
 msgstr ""
 
-#: src/text.c:389 src/text.c:523
+#: src/text.c:453 src/text.c:577
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 
-#: src/text.c:400 src/text.c:533
+#: src/text.c:464 src/text.c:587
 msgid "text add"
 msgstr ""
 
-#: src/text.c:409 src/text.c:543
+#: src/text.c:473 src/text.c:597
 #, fuzzy
 msgid "text delete"
 msgstr "Fiºier urmãtor"
 
-#: src/text.c:422 src/text.c:552
+#: src/text.c:486 src/text.c:606
 msgid "line split"
 msgstr ""
 
-#: src/text.c:433 src/text.c:563
+#: src/text.c:497 src/text.c:617
 msgid "line join"
 msgstr ""
 
-#: src/text.c:445
+#: src/text.c:509 src/text.c:633
 msgid "text cut"
 msgstr ""
 
-#: src/text.c:463 src/text.c:624
+#: src/text.c:513 src/text.c:637
+msgid "text uncut"
+msgstr ""
+
+#: src/text.c:517 src/text.c:647
 #, fuzzy
 msgid "text insert"
 msgstr "Linia urmãtoare"
 
-#: src/text.c:481 src/text.c:618
+#: src/text.c:535 src/text.c:641
 #, fuzzy
 msgid "text replace"
 msgstr " (de înlocuit)"
 
-#: src/text.c:487 src/text.c:633
+#: src/text.c:541 src/text.c:653
 msgid "Internal error: unknown type.  Please save your work"
 msgstr ""
 
-#: src/text.c:492
+#: src/text.c:546
 #, c-format
 msgid "Undid action (%s)"
 msgstr ""
 
-#: src/text.c:508
+#: src/text.c:562
 msgid "Nothing to re-do!"
 msgstr ""
 
-#: src/text.c:512
+#: src/text.c:566
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 
-#: src/text.c:579
-msgid "line cut"
-msgstr ""
-
-#: src/text.c:638
+#: src/text.c:658
 #, c-format
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:727
+#: src/text.c:747
 msgid "Could not pipe"
 msgstr "Nu am putut pipe"
 
-#: src/text.c:754 src/text.c:2550 src/text.c:2697
+#: src/text.c:774 src/text.c:2585 src/text.c:2732
 msgid "Could not fork"
 msgstr "Nu am putut fork"
 
-#: src/text.c:882
+#: src/text.c:914
+msgid "Internal error: can't setup uncut.  Please save your work."
+msgstr ""
+
+#: src/text.c:917
 msgid "Internal error: unknown type.  Please save your work."
 msgstr ""
 
-#: src/text.c:1784
+#: src/text.c:1819
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "ªir greºit pentru ghilimele %s: %s"
 
-#: src/text.c:2181
+#: src/text.c:2216
 msgid "Can now UnJustify!"
 msgstr "Nu pot De-Alinia!"
 
-#: src/text.c:2376
+#: src/text.c:2411
 msgid "Edit a replacement"
 msgstr "Editeazã o înlocuire"
 
-#: src/text.c:2462
+#: src/text.c:2497
 msgid "Could not create pipe"
 msgstr "Nu am putut crea pipe"
 
-#: src/text.c:2464
+#: src/text.c:2499
 msgid "Creating misspelled word list, please wait..."
 msgstr "Creez listã cuvinte ortografiate greºit, vã rog aºteptaþi..."
 
-#: src/text.c:2556
+#: src/text.c:2591
 msgid "Could not get size of pipe buffer"
 msgstr "Nu am putut obþine dimensiune bufer pentru pipe"
 
-#: src/text.c:2607
+#: src/text.c:2642
 msgid "Error invoking \"spell\""
 msgstr "Eroare invocare \"spell\""
 
-#: src/text.c:2610
+#: src/text.c:2645
 msgid "Error invoking \"sort -f\""
 msgstr "Eroare invocare \"sort -f\""
 
-#: src/text.c:2613
+#: src/text.c:2648
 msgid "Error invoking \"uniq\""
 msgstr "Eroare invocare \"uniq\""
 
-#: src/text.c:2724
+#: src/text.c:2759
 #, fuzzy, c-format
 msgid "Error invoking \"%s\""
 msgstr "Eroare invocare \"spell\""
 
-#: src/text.c:2864
+#: src/text.c:2899
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Verificarea ortografiei a eºuat: %s: %s"
 
-#: src/text.c:2866
+#: src/text.c:2901
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Verificarea ortografiei a eºuat: %s: %s"
 
-#: src/text.c:2869
+#: src/text.c:2904
 msgid "Finished checking spelling"
 msgstr "Am terminat verificarea ortografiei"
 
-#: src/text.c:2934
+#: src/text.c:2969
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr ""
 
-#: src/text.c:2935
+#: src/text.c:2970
 #, fuzzy
 msgid "In Selection:  "
 msgstr "Adaugã Selecþie la fiºier"

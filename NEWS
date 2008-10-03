@@ -1,3 +1,19 @@
+2008.10.03 - GNU nano 2.1.6 was for new features before it was against
+		them.  This release includes more undo capability, 
+		several new syntax highlighting configurations including
+		Objective C, OCaml, and Fortran, and a new capability
+		to activate highlighting based on the 1st line of the
+		file being edited.  Also, the new default configure 
+		options now include color syntax highlighting, .nanorc
+		support, multibuffer and extras.  These items can still
+		be disabled and are not enabled with --enable-tiny.  Bug
+		fixes include better signal handling under Cygwin, and 
+		that's about it.  Again please remember to
+		submit bug reports via Savannah at 
+		http://savannah.gnu.org/bugs/?func=additem&group=nano
+		as undo functions certainly need more testing.  
+		Bon appetit.
+
 2008.08.30 - GNU nano 2.1.5 is ready to lead on day one.  This release
 		contains a better fix for incorrectly reported successful
 		writes on full filesystems, more helpful messages when
