@@ -1,3 +1,7 @@
+2008-10-04 Chris Allegretta <chrisa@asty.org>
+	* cut.c (Add_undo): Save last cut undo information so it can be used for next uncut, fixes
+	  Savannah bug 24183.
+
 GNU nano 2.1.6 - 2008.10.03
 2008-10-03 Pascal Gentil <pascal.gentil@univ-rennes1.fr>
 	* fortran.nanorc: Sample python syntax highlighting file

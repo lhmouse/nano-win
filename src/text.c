@@ -822,6 +822,7 @@ void add_undo(undo_type current_action)
     undo *u, *cutu;
     char *data;
     openfilestruct *fs = openfile;
+    static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut */
 
     /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
        we need to  abort here */
@@ -896,22 +897,22 @@ void add_undo(undo_type current_action)
 	    u->mark_begin_x = openfile->mark_begin_x;
 	}
 	u->to_end = (current_action == CUTTOEND);
+	last_cutu = u;
 	break;
     case UNCUT:
-	for (cutu = u; cutu != NULL && cutu->type != CUT; cutu = cutu->next)
-	    ;
-	if (cutu->type == CUT) {
-	    u->cutbuffer = cutu->cutbuffer;
-	    u->cutbottom = cutu->cutbottom;
-	    if (!cutu->mark_set)
-		u->linescut = cutu->linescut;
+	if (!last_cutu)
+	    statusbar(_("Internal error: can't setup uncut.  Please save your work."));
+	else if (last_cutu->type == CUT) {
+	    u->cutbuffer = last_cutu->cutbuffer;
+	    u->cutbottom = last_cutu->cutbottom;
+	    if (!last_cutu->mark_set)
+		u->linescut = last_cutu->linescut;
 	    else {
 		filestruct *c;
 		for (c = u->cutbuffer; c != NULL; c = c->next)
 		    u->linescut++;
 	    }
-	} else
-	    statusbar(_("Internal error: can't setup uncut.  Please save your work."));
+	}
 	break;
     case OTHER:
 	statusbar(_("Internal error: unknown type.  Please save your work."));
