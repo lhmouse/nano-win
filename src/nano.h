@@ -170,7 +170,7 @@ typedef enum {
 }  function_type;
 
 typedef enum {
-    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, CUTTOEND, UNCUT, INSERT, OTHER
+    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, INSERT, OTHER
 } undo_type;
 
 /* Structure types. */

@@ -245,7 +245,7 @@ void do_copy_text(void)
 void do_cut_till_end(void)
 {
 #ifndef NANO_TINY
-    add_undo(CUTTOEND);
+    add_undo(CUT);
 #endif
     do_cut_text(FALSE, TRUE, FALSE);
 }

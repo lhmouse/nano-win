@@ -408,7 +408,7 @@ void redo_cut(undo *u) {
 #ifdef DEBUG
 	    fprintf(stderr, "Undoing multi-^K cut, u->linescut = %d\n", u->linescut);
 #endif
-	    for (i = 0, t = openfile->current; i < u->linescut; i++) {
+	    for (i = 0, t = openfile->current; i < u->linescut && t->next != NULL ; i++) {
 
 #ifdef DEBUG
 	    fprintf(stderr, "Advancing, lineno  = %d, data = \"%s\"\n", t->lineno, t->data);
@@ -505,7 +505,6 @@ void do_undo(void)
 	renumber(f);
 	break;
     case CUT:
-    case CUTTOEND:
 	undidmsg = _("text cut");
         undo_cut(u);
 	break;
@@ -629,7 +628,6 @@ void do_redo(void)
 	renumber(f);
 	break;
     case CUT:
-    case CUTTOEND:
 	undidmsg = _("text cut");
 	redo_cut(u);
 	break;
@@ -890,13 +888,12 @@ void add_undo(undo_type current_action)
 	u->strdata = data;
 	break;
     case CUT:
-    case CUTTOEND:
 	u->mark_set = openfile->mark_set;
 	if (u->mark_set) {
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;
 	    u->mark_begin_x = openfile->mark_begin_x;
 	}
-	u->to_end = (current_action == CUTTOEND);
+	u->to_end = (ISSET(CUT_TO_END)) ? TRUE : FALSE;
 	last_cutu = u;
 	break;
     case UNCUT:
@@ -951,7 +948,7 @@ void update_undo(undo_type action)
     /* Change to an add if we're not using the same undo struct
        that we should be using */
     if (action != fs->last_action
-	|| (action != CUT && action != CUTTOEND && action != INSERT
+	|| (action != CUT && action != INSERT
 	    && openfile->current->lineno != fs->current_undo->lineno)) {
         add_undo(action);
 	return;
@@ -1016,7 +1013,8 @@ void update_undo(undo_type action)
 #endif
 	break;
     case CUT:
-    case CUTTOEND:
+	if (!cutbuffer)
+	    break;
 	if (u->cutbuffer)
 	    free(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
