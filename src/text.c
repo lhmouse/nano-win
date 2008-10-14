@@ -549,8 +549,7 @@ void do_redo(void)
 {
     undo *u = openfile->undotop;
     filestruct *f = openfile->current, *t;
-    filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
-    int len = 0, i;
+    int len = 0;
     char *undidmsg, *data;
 
     for (; u != NULL && u->next != openfile->current_undo; u = u->next)
@@ -815,7 +814,7 @@ bool execute_command(const char *command)
 /* Add a new undo struct to the top of the current pile */
 void add_undo(undo_type current_action)
 {
-    undo *u, *cutu;
+    undo *u;
     char *data;
     openfilestruct *fs = openfile;
     static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut */

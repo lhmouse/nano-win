@@ -723,7 +723,7 @@ void parse_colors(char *ptr, bool icase)
 /* Parse the headers (1st line) of the file which may influence the regex used. */
 void parse_headers(char *ptr)
 {
-    char *h, *regstr;
+    char *regstr;
 
     assert(ptr != NULL);
 
@@ -743,8 +743,6 @@ void parse_headers(char *ptr)
     while (ptr != NULL && *ptr != '\0') {
 	exttype *newheader;
 	    /* The new color structure. */
-	bool cancelled = FALSE;
-	    /* The start expression was bad. */
 
 	if (*ptr != '"') {
 	    rcfile_error(
