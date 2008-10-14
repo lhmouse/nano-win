@@ -1,3 +1,7 @@
+2008-10-14 Chris Allegretta <chrisa@asty.org>
+	* nanorc.5: Fix redo man page entry and update explanation, reported by
+	  Eitan Adler <eitanadlerlist@gmail.com>
+
 2008-10-13 Chris Allegretta <chrisa@asty.org>
 	* Remove CUTTOEND as an undo type as it's unneeded, fix u->to_end logic in undo struct.
 	* undo.c (update_undo): Don't free cutbuffer if NULL, fix for Savannah bug #24499
