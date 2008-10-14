@@ -388,7 +388,7 @@ void undo_cut(undo *u)
 /* Re-do a cut, or undo an uncut */
 void redo_cut(undo *u) {
     int i;
-    filestruct *t;
+    filestruct *t, *c;
 
 	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
 	openfile->mark_set = u->mark_set;
@@ -405,14 +405,12 @@ void redo_cut(undo *u) {
 	    /* Here we have a regular old potentially multi-line ^K cut.  We'll
 		need to trick nano into thinking it's a marked cut to cut more
 		than one line again */
-#ifdef DEBUG
-	    fprintf(stderr, "Undoing multi-^K cut, u->linescut = %d\n", u->linescut);
-#endif
-	    for (i = 0, t = openfile->current; i < u->linescut && t->next != NULL ; i++) {
+	    for (c = u->cutbuffer, t = openfile->current; c->next != NULL && t->next != NULL; ) {
 
 #ifdef DEBUG
 	    fprintf(stderr, "Advancing, lineno  = %d, data = \"%s\"\n", t->lineno, t->data);
 #endif
+		c = c->next;
 		t = t->next;
 	    }
 	    openfile->mark_begin = t;
@@ -854,8 +852,8 @@ void add_undo(undo_type current_action)
     u->mark_set = 0;
     u->mark_begin_lineno = 0;
     u->mark_begin_x = 0;
-    u->linescut = 0;
     u->xflags = 0;
+    u->to_end = FALSE;
 
     switch (u->type) {
     /* We need to start copying data into the undo buffer or we wont be able
@@ -902,13 +900,6 @@ void add_undo(undo_type current_action)
 	else if (last_cutu->type == CUT) {
 	    u->cutbuffer = last_cutu->cutbuffer;
 	    u->cutbottom = last_cutu->cutbottom;
-	    if (!last_cutu->mark_set)
-		u->linescut = last_cutu->linescut;
-	    else {
-		filestruct *c;
-		for (c = u->cutbuffer; c != NULL; c = c->next)
-		    u->linescut++;
-	    }
 	}
 	break;
     case OTHER:
@@ -1018,8 +1009,9 @@ void update_undo(undo_type action)
 	if (u->cutbuffer)
 	    free(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
-	u->cutbottom = cutbottom;
-	u->linescut++;
+        /* Compute cutbottom for the uncut using out copy */
+        for (u->cutbottom = u->cutbuffer; u->cutbottom->next != NULL; u->cutbottom = u->cutbottom->next)
+            ;
 	break;
     case REPLACE:
     case UNCUT:
