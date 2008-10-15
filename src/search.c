@@ -254,12 +254,13 @@ int search_init(bool replacing, bool use_answer)
 	  func == (void *) no_replace_msg) {
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
-	} else if (func == (void *) go_to_line_msg) {
+	} else if (func == do_gotolinecolumn_void) {
 		do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE, FALSE,
 			TRUE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
+		return 3;
 	} else {
 		return -1;
 	}

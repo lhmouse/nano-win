@@ -1045,7 +1045,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-R", do_replace, 0, TRUE);
     add_to_sclist(MWHEREIS, "^R", do_replace, 0, FALSE);
     add_to_sclist(MREPLACE, "^R", (void *) no_replace_msg, 0, FALSE);
-    add_to_sclist(MWHEREIS, "^T", do_gotolinecolumn_void, 0, TRUE);
+    add_to_sclist(MWHEREIS, "^T", do_gotolinecolumn_void, 0, FALSE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "^^", do_mark, 0, TRUE);
     add_to_sclist(MMAIN, "F15", do_mark, 0, TRUE);

@@ -1,6 +1,8 @@
 2008-10-14 Chris Allegretta <chrisa@asty.org>
 	* nanorc.5: Fix redo man page entry and update explanation, reported by
 	  Eitan Adler <eitanadlerlist@gmail.com>
+	* global.c (shortcut_init), search.c (search_init): Fix add_to_sclist for ^W^T so
+	  invalid messages will display properly.  Fixes Savannah bug 24507.
 
 2008-10-13 Chris Allegretta <chrisa@asty.org>
 	* Remove CUTTOEND as an undo type as it's unneeded, fix u->to_end logic in undo struct.
