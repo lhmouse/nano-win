@@ -2028,6 +2028,13 @@ bool do_writeout(bool exiting)
 			    continue;
 		    }
 		}
+		if (openfile->current_stat && openfile->current_stat->st_mtime < st.st_mtime) {
+		    i = do_yesno_prompt(FALSE,
+			_("File was modified since you opened it, continue saving ? "));
+		    if (i == 0 || i == -1)
+			continue;
+		}
+
 	    }
 
 	    /* Convert newlines to nulls, just before we save the
