@@ -10,10 +10,10 @@
 # Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>, 2001-2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.1.6pre1\n"
+"Project-Id-Version: nano 2.1.7pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 18:22-0400\n"
-"PO-Revision-Date: 2008-10-01 00:02+0200\n"
+"POT-Creation-Date: 2008-11-10 01:33-0500\n"
+"PO-Revision-Date: 2008-10-30 00:48+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir."
 "org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -47,7 +47,7 @@ msgstr "Changer de répertoire"
 # File: src/search.c, line: 934
 # File: src/search.c, line: 995
 #: src/browser.c:233 src/browser.c:830 src/files.c:771 src/files.c:1912
-#: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
+#: src/nano.c:1016 src/search.c:219 src/search.c:952 src/search.c:1017
 msgid "Cancelled"
 msgstr "Annulé"
 
@@ -92,8 +92,8 @@ msgstr "En mode restreint, sortir de %s est impossible"
 # File: src/rcfile.c, line: 913
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
 #: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
-#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:498
-#: src/rcfile.c:1138
+#: src/files.c:1596 src/files.c:1719 src/files.c:2552 src/rcfile.c:498
+#: src/rcfile.c:1136
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Erreur lors de la lecture de %s : %s"
@@ -171,7 +171,7 @@ msgstr " [Arrière]"
 # File: src/browser.c, line: 760
 # File: src/browser.c, line: 768
 # File: src/search.c, line: 369
-#: src/browser.c:909 src/browser.c:917 src/search.c:380
+#: src/browser.c:909 src/browser.c:917 src/search.c:381
 msgid "Search Wrapped"
 msgstr "La recherche a fait le tour"
 
@@ -188,8 +188,8 @@ msgstr "La recherche a fait le tour"
 # File: src/search.c, line: 489
 # File: src/search.c, line: 546
 # File: src/search.c, line: 549
-#: src/browser.c:1006 src/browser.c:1039 src/search.c:497 src/search.c:500
-#: src/search.c:557 src/search.c:560
+#: src/browser.c:1006 src/browser.c:1039 src/search.c:498 src/search.c:501
+#: src/search.c:558 src/search.c:561
 msgid "This is the only occurrence"
 msgstr "C'est la seule occurrence"
 
@@ -198,7 +198,7 @@ msgstr "C'est la seule occurrence"
 # File: src/search.c, line: 555
 # File: src/browser.c, line: 891
 # File: src/search.c, line: 555
-#: src/browser.c:1042 src/search.c:566
+#: src/browser.c:1042 src/search.c:567
 msgid "No current search pattern"
 msgstr "Aucun de motif de recherche défini"
 
@@ -300,7 +300,7 @@ msgstr "« %s » non trouvé"
 # File: src/rcfile.c, line: 375
 # File: src/rcfile.c, line: 870
 # File: src/rcfile.c, line: 904
-#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1088 src/rcfile.c:1129
+#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1086 src/rcfile.c:1127
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "« %s » est un répertoire"
@@ -314,7 +314,7 @@ msgstr "« %s » est un répertoire"
 # File: src/rcfile.c, line: 376
 # File: src/rcfile.c, line: 871
 # File: src/rcfile.c, line: 905
-#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1089 src/rcfile.c:1130
+#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1087 src/rcfile.c:1128
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "« %s » est un périphérique"
@@ -430,7 +430,7 @@ msgstr "Trop de copies de sécurité ?"
 # File: src/files.c, line: 2458
 #: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
 #: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
-#: src/files.c:1732 src/files.c:2616 src/files.c:2625
+#: src/files.c:1732 src/files.c:2625 src/files.c:2634
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Erreur lors de l'écriture de %s : %s"
@@ -442,7 +442,7 @@ msgstr "Erreur lors de l'écriture de %s : %s"
 # File: src/files.c, line: 1476
 # File: src/text.c, line: 2315
 # File: src/text.c, line: 2327
-#: src/files.c:1585 src/text.c:2868 src/text.c:2880
+#: src/files.c:1585 src/text.c:2858 src/text.c:2870
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Erreur d'écriture du fichier temporaire : %s"
@@ -534,10 +534,16 @@ msgstr "Le fichier existe, VOULEZ-VOUS L'ÉCRASER ? "
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Écrire le fichier sous un NOM MODIFIÉ ? "
 
+#: src/files.c:2034
+msgid "File was modified since you opened it, continue saving ? "
+msgstr ""
+"Le fichier a été modifié après que vous l'ayez ouvert. Voulez-vous vraiment "
+"sauvegarder ?"
+
 #
 # File: src/files.c, line: 2298
 # File: src/files.c, line: 2298
-#: src/files.c:2463
+#: src/files.c:2472
 msgid "(more)"
 msgstr "(suite)"
 
@@ -546,7 +552,7 @@ msgstr "(suite)"
 # File: src/rcfile.c, line: 848
 # File: src/files.c, line: 2379
 # File: src/rcfile.c, line: 848
-#: src/files.c:2546 src/rcfile.c:1066
+#: src/files.c:2555 src/rcfile.c:1064
 #, c-format
 msgid ""
 "\n"
@@ -1473,7 +1479,7 @@ msgstr "Fichier suivant"
 # File: src/text.c, line: 2431
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:841 src/text.c:2984
+#: src/global.c:841 src/text.c:2974
 msgid "Verbatim Input"
 msgstr "Entrée telle quelle"
 
@@ -2550,7 +2556,7 @@ msgstr "XOFF ignoré, humm humm"
 # File: src/rcfile.c, line: 814
 # File: src/nano.c, line: 1827
 # File: src/rcfile.c, line: 814
-#: src/nano.c:1882 src/rcfile.c:1028
+#: src/nano.c:1882 src/rcfile.c:1026
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "taille de tabulation « %s » demandée non valide"
@@ -2560,7 +2566,7 @@ msgstr "taille de tabulation « %s » demandée non valide"
 # File: src/rcfile.c, line: 739
 # File: src/nano.c, line: 1883
 # File: src/rcfile.c, line: 739
-#: src/nano.c:1938 src/rcfile.c:953
+#: src/nano.c:1938 src/rcfile.c:951
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "la colonne maximale « %s » n'est pas valide"
@@ -2636,7 +2642,7 @@ msgstr "l'argument %s contient un \" non fermé"
 # File: src/rcfile.c, line: 524
 # File: src/rcfile.c, line: 581
 #: src/rcfile.c:204 src/rcfile.c:256 src/rcfile.c:643 src/rcfile.c:700
-#: src/rcfile.c:751
+#: src/rcfile.c:749
 msgid "Regex strings must begin and end with a \" character"
 msgstr "les expr. rationnelles doivent être encadrées par des « \" »"
 
@@ -2774,13 +2780,13 @@ msgid "Cannot add a header regex without a syntax command"
 msgstr ""
 "impossible d'ajouter un motif d'en-tête non précédé d'une commande « syntax »"
 
-#: src/rcfile.c:804
+#: src/rcfile.c:802
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 "Erreur bloquante : aucune combinaison n'est associée à la fonction « %s »"
 
-#: src/rcfile.c:806
+#: src/rcfile.c:804
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -2795,7 +2801,7 @@ msgstr ""
 # File: src/rcfile.c, line: 646
 # File: src/rcfile.c, line: 655
 # File: src/rcfile.c, line: 665
-#: src/rcfile.c:856 src/rcfile.c:865 src/rcfile.c:875
+#: src/rcfile.c:854 src/rcfile.c:863 src/rcfile.c:873
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "la commande « %s » est interdite dans un fichier inclus"
@@ -2805,7 +2811,7 @@ msgstr "la commande « %s » est interdite dans un fichier inclus"
 # File: src/rcfile.c, line: 838
 # File: src/rcfile.c, line: 671
 # File: src/rcfile.c, line: 838
-#: src/rcfile.c:881 src/rcfile.c:1053
+#: src/rcfile.c:879 src/rcfile.c:1051
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "la syntaxe « %s » ne contient aucune commande de colorisation (color)"
@@ -2813,7 +2819,7 @@ msgstr "la syntaxe « %s » ne contient aucune commande de colorisation (color
 #
 # File: src/rcfile.c, line: 680
 # File: src/rcfile.c, line: 680
-#: src/rcfile.c:894
+#: src/rcfile.c:892
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "impossible de comprendre la commande « %s »"
@@ -2821,14 +2827,14 @@ msgstr "impossible de comprendre la commande « %s »"
 #
 # File: src/rcfile.c, line: 686
 # File: src/rcfile.c, line: 686
-#: src/rcfile.c:900
+#: src/rcfile.c:898
 msgid "Missing flag"
 msgstr "nom de l'option manquant"
 
 #
 # File: src/rcfile.c, line: 708
 # File: src/rcfile.c, line: 708
-#: src/rcfile.c:922
+#: src/rcfile.c:920
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "l'option « %s » nécessite un argument"
@@ -2836,7 +2842,7 @@ msgstr "l'option « %s » nécessite un argument"
 #
 # File: src/rcfile.c, line: 726
 # File: src/rcfile.c, line: 726
-#: src/rcfile.c:940
+#: src/rcfile.c:938
 msgid "Option is not a valid multibyte string"
 msgstr "l'option n'est pas une chaîne multioctet valide"
 
@@ -2847,21 +2853,21 @@ msgstr "l'option n'est pas une chaîne multioctet valide"
 # File: src/rcfile.c, line: 752
 # File: src/rcfile.c, line: 780
 # File: src/rcfile.c, line: 789
-#: src/rcfile.c:966 src/rcfile.c:994 src/rcfile.c:1003
+#: src/rcfile.c:964 src/rcfile.c:992 src/rcfile.c:1001
 msgid "Non-blank characters required"
 msgstr "les blancs sont interdits"
 
 #
 # File: src/rcfile.c, line: 762
 # File: src/rcfile.c, line: 762
-#: src/rcfile.c:976
+#: src/rcfile.c:974
 msgid "Two single-column characters required"
 msgstr "indiquez 2 caractères (mono-colonne)"
 
 #
 # File: src/rcfile.c, line: 828
 # File: src/rcfile.c, line: 828
-#: src/rcfile.c:1042
+#: src/rcfile.c:1040
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "impossible de désactiver l'option « %s »"
@@ -2869,7 +2875,7 @@ msgstr "impossible de désactiver l'option « %s »"
 #
 # File: src/rcfile.c, line: 834
 # File: src/rcfile.c, line: 834
-#: src/rcfile.c:1048
+#: src/rcfile.c:1046
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "option inconnue « %s »"
@@ -2877,7 +2883,7 @@ msgstr "option inconnue « %s »"
 #
 # File: src/rcfile.c, line: 894
 # File: src/rcfile.c, line: 894
-#: src/rcfile.c:1116
+#: src/rcfile.c:1114
 msgid "I can't find my home directory!  Wah!"
 msgstr "impossible de trouver mon répertoire personnel ! Ouah !"
 
@@ -2906,21 +2912,21 @@ msgstr " (à remplacer)"
 #
 # File: src/search.c, line: 753
 # File: src/search.c, line: 753
-#: src/search.c:764
+#: src/search.c:765
 msgid "Replace this instance?"
 msgstr "Remplacer cette occurrence ?"
 
 #
 # File: src/search.c, line: 921
 # File: src/search.c, line: 921
-#: src/search.c:938
+#: src/search.c:939
 msgid "Replace with"
 msgstr "Remplacer par"
 
 #
 # File: src/search.c, line: 963
 # File: src/search.c, line: 963
-#: src/search.c:980
+#: src/search.c:981
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
@@ -2930,28 +2936,28 @@ msgstr[1] "%lu remplacements effectués"
 #
 # File: src/search.c, line: 989
 # File: src/search.c, line: 989
-#: src/search.c:1010
+#: src/search.c:1011
 msgid "Enter line number, column number"
 msgstr "Entrez : numéro de ligne, numéro de colonne "
 
 #
 # File: src/search.c, line: 989
 # File: src/search.c, line: 989
-#: src/search.c:1037
+#: src/search.c:1038
 msgid "Invalid line or column number"
 msgstr "numéro de ligne ou de colonne incorrect"
 
 #
 # File: src/search.c, line: 1167
 # File: src/search.c, line: 1167
-#: src/search.c:1190
+#: src/search.c:1191
 msgid "Not a bracket"
 msgstr "N'est pas un crochet"
 
 #
 # File: src/search.c, line: 1234
 # File: src/search.c, line: 1234
-#: src/search.c:1257
+#: src/search.c:1258
 msgid "No matching bracket"
 msgstr "Aucun crochet correspondant"
 
@@ -2969,41 +2975,41 @@ msgstr "Marque posée"
 msgid "Mark Unset"
 msgstr "Marque enlevée"
 
-#: src/text.c:441
+#: src/text.c:439
 msgid "Nothing in undo buffer!"
 msgstr "Aucune opération à annuler !"
 
-#: src/text.c:453 src/text.c:577
+#: src/text.c:451 src/text.c:573
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 "Erreur interne : impossible de trouver une correspondance pour la ligne %d. "
 "Sauvegardez votre travail"
 
-#: src/text.c:464 src/text.c:587
+#: src/text.c:462 src/text.c:583
 msgid "text add"
 msgstr "ajout de texte"
 
 #
 # File: src/global.c, line: 668
 # File: src/global.c, line: 668
-#: src/text.c:473 src/text.c:597
+#: src/text.c:471 src/text.c:593
 msgid "text delete"
 msgstr "effacement de texte"
 
-#: src/text.c:486 src/text.c:606
+#: src/text.c:484 src/text.c:602
 msgid "line split"
 msgstr "coupure de ligne"
 
-#: src/text.c:497 src/text.c:617
+#: src/text.c:495 src/text.c:613
 msgid "line join"
 msgstr "fusion de lignes"
 
-#: src/text.c:509 src/text.c:633
+#: src/text.c:506 src/text.c:628
 msgid "text cut"
 msgstr "texte coupé"
 
-#: src/text.c:513 src/text.c:637
+#: src/text.c:510 src/text.c:632
 msgid "text uncut"
 msgstr "texte restauré"
 
@@ -3012,37 +3018,37 @@ msgstr "texte restauré"
 # File: src/global.c, line: 1087
 # File: src/global.c, line: 618
 # File: src/global.c, line: 1087
-#: src/text.c:517 src/text.c:647
+#: src/text.c:514 src/text.c:642
 msgid "text insert"
 msgstr "insertion de texte"
 
 #
 # File: src/search.c, line: 201
 # File: src/search.c, line: 201
-#: src/text.c:535 src/text.c:641
+#: src/text.c:532 src/text.c:636
 msgid "text replace"
 msgstr "remplacement de texte"
 
-#: src/text.c:541 src/text.c:653
+#: src/text.c:538 src/text.c:648
 msgid "Internal error: unknown type.  Please save your work"
 msgstr "Erreur interne : type inconnu. Sauvegardez votre travail"
 
-#: src/text.c:546
+#: src/text.c:543
 #, c-format
 msgid "Undid action (%s)"
 msgstr "Action annulée (%s)"
 
-#: src/text.c:562
+#: src/text.c:558
 msgid "Nothing to re-do!"
 msgstr "Rien à refaire !"
 
-#: src/text.c:566
+#: src/text.c:562
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 "Erreur interne : impossible de se préparer à refaire l'action. Sauvegardez "
 "votre travail"
 
-#: src/text.c:658
+#: src/text.c:653
 #, c-format
 msgid "Redid action (%s)"
 msgstr "Action refaite (%s)"
@@ -3050,7 +3056,7 @@ msgstr "Action refaite (%s)"
 #
 # File: src/text.c, line: 441
 # File: src/text.c, line: 441
-#: src/text.c:747
+#: src/text.c:742
 msgid "Could not pipe"
 msgstr "Impossible d'ouvrir un tube"
 
@@ -3061,24 +3067,24 @@ msgstr "Impossible d'ouvrir un tube"
 # File: src/text.c, line: 468
 # File: src/text.c, line: 2032
 # File: src/text.c, line: 2179
-#: src/text.c:774 src/text.c:2585 src/text.c:2732
+#: src/text.c:769 src/text.c:2575 src/text.c:2722
 msgid "Could not fork"
 msgstr "Impossible de créer un nouveau processus"
 
-#: src/text.c:914
+#: src/text.c:898
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
 "Erreur interne : impossible de mettre en place le moyen d'annuler l'action "
 "« couper ». Sauvegardez votre travail."
 
-#: src/text.c:917
+#: src/text.c:905
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Erreur interne : type inconnu. Sauvegardez votre travail"
 
 #
 # File: src/text.c, line: 1270
 # File: src/text.c, line: 1270
-#: src/text.c:1819
+#: src/text.c:1809
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Mauvaise chaîne de citation %s : %s"
@@ -3086,63 +3092,63 @@ msgstr "Mauvaise chaîne de citation %s : %s"
 #
 # File: src/text.c, line: 1666
 # File: src/text.c, line: 1666
-#: src/text.c:2216
+#: src/text.c:2206
 msgid "Can now UnJustify!"
 msgstr "Il est maintenant possible de dé-justifier !"
 
 #
 # File: src/text.c, line: 1858
 # File: src/text.c, line: 1858
-#: src/text.c:2411
+#: src/text.c:2401
 msgid "Edit a replacement"
 msgstr "Entrez une correction"
 
 #
 # File: src/text.c, line: 1944
 # File: src/text.c, line: 1944
-#: src/text.c:2497
+#: src/text.c:2487
 msgid "Could not create pipe"
 msgstr "Impossible de créer un tube"
 
 #
 # File: src/text.c, line: 1946
 # File: src/text.c, line: 1946
-#: src/text.c:2499
+#: src/text.c:2489
 msgid "Creating misspelled word list, please wait..."
 msgstr "Création de la liste des fautes, veuillez patienter..."
 
 #
 # File: src/text.c, line: 2038
 # File: src/text.c, line: 2038
-#: src/text.c:2591
+#: src/text.c:2581
 msgid "Could not get size of pipe buffer"
 msgstr "Impossible d'obtenir la taille de tampon du tube"
 
 #
 # File: src/text.c, line: 2089
 # File: src/text.c, line: 2089
-#: src/text.c:2642
+#: src/text.c:2632
 msgid "Error invoking \"spell\""
 msgstr "erreur d'appel de « spell »"
 
 #
 # File: src/text.c, line: 2092
 # File: src/text.c, line: 2092
-#: src/text.c:2645
+#: src/text.c:2635
 msgid "Error invoking \"sort -f\""
 msgstr "erreur à l'appel de « sort -f »"
 
 #
 # File: src/text.c, line: 2095
 # File: src/text.c, line: 2095
-#: src/text.c:2648
+#: src/text.c:2638
 msgid "Error invoking \"uniq\""
 msgstr "erreur à l'appel de « uniq »"
 
 #
 # File: src/text.c, line: 2206
 # File: src/text.c, line: 2206
-#: src/text.c:2759
+#: src/text.c:2749
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "erreur d'appel de « %s »"
@@ -3150,7 +3156,7 @@ msgstr "erreur d'appel de « %s »"
 #
 # File: src/text.c, line: 2346
 # File: src/text.c, line: 2346
-#: src/text.c:2899
+#: src/text.c:2889
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Échec de la correction : %s"
@@ -3158,7 +3164,7 @@ msgstr "Échec de la correction : %s"
 #
 # File: src/text.c, line: 2348
 # File: src/text.c, line: 2348
-#: src/text.c:2901
+#: src/text.c:2891
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Échec de la correction : %s : %s"
@@ -3166,14 +3172,14 @@ msgstr "Échec de la correction : %s : %s"
 #
 # File: src/text.c, line: 2351
 # File: src/text.c, line: 2351
-#: src/text.c:2904
+#: src/text.c:2894
 msgid "Finished checking spelling"
 msgstr "Vérification orthographique terminée"
 
 #
 # File: src/text.c, line: 2416
 # File: src/text.c, line: 2416
-#: src/text.c:2969
+#: src/text.c:2959
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%s %lu mots,  %ld lignes, %lu caractères"
@@ -3181,7 +3187,7 @@ msgstr "%s %lu mots,  %ld lignes, %lu caractères"
 #
 # File: src/text.c, line: 2417
 # File: src/text.c, line: 2417
-#: src/text.c:2970
+#: src/text.c:2960
 msgid "In Selection:  "
 msgstr "Contenu de la sélection : "
 

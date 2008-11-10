@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.6pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 18:22-0400\n"
+"POT-Creation-Date: 2008-11-10 01:33-0500\n"
 "PO-Revision-Date: 2008-09-23 18:42+0200\n"
 "Last-Translator: Francisco Javier Tsao Santín <tsao@enelparaiso.org>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -21,7 +21,7 @@ msgid "Go To Directory"
 msgstr "Ir ó Directorio"
 
 #: src/browser.c:233 src/browser.c:830 src/files.c:771 src/files.c:1912
-#: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
+#: src/nano.c:1016 src/search.c:219 src/search.c:952 src/search.c:1017
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -32,8 +32,8 @@ msgstr "Non se pode saír de %s en modo restrinxido"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
 #: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
-#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:498
-#: src/rcfile.c:1138
+#: src/files.c:1596 src/files.c:1719 src/files.c:2552 src/rcfile.c:498
+#: src/rcfile.c:1136
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Erro lendo %s: %s"
@@ -76,16 +76,16 @@ msgstr " [Expreg]"
 msgid " [Backwards]"
 msgstr " [Cara Atrás]"
 
-#: src/browser.c:909 src/browser.c:917 src/search.c:380
+#: src/browser.c:909 src/browser.c:917 src/search.c:381
 msgid "Search Wrapped"
 msgstr "Buscando dende o Principio"
 
-#: src/browser.c:1006 src/browser.c:1039 src/search.c:497 src/search.c:500
-#: src/search.c:557 src/search.c:560
+#: src/browser.c:1006 src/browser.c:1039 src/search.c:498 src/search.c:501
+#: src/search.c:558 src/search.c:561
 msgid "This is the only occurrence"
 msgstr "Esta é a única aparición"
 
-#: src/browser.c:1042 src/search.c:566
+#: src/browser.c:1042 src/search.c:567
 msgid "No current search pattern"
 msgstr "Non hai patrón de busca"
 
@@ -144,12 +144,12 @@ msgstr "Ficheiro Novo"
 msgid "\"%s\" not found"
 msgstr "Non se atopou \"%s\""
 
-#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1088 src/rcfile.c:1129
+#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1086 src/rcfile.c:1127
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" é un directorio"
 
-#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1089 src/rcfile.c:1130
+#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1087 src/rcfile.c:1128
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" é un ficheiro de dispositivo"
@@ -204,12 +204,12 @@ msgstr "¿Demasiados ficheiros de copia de seguridade?"
 
 #: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
 #: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
-#: src/files.c:1732 src/files.c:2616 src/files.c:2625
+#: src/files.c:1732 src/files.c:2625 src/files.c:2634
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Erro writing %s: %s"
 
-#: src/files.c:1585 src/text.c:2868 src/text.c:2880
+#: src/files.c:1585 src/text.c:2858 src/text.c:2870
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Erro escribindo ficheiro temporal: %s"
@@ -265,11 +265,15 @@ msgstr "O ficheiro xa existe, ¿SOBREESCRIBIR? "
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "¿Gravar ficheiro baixo NOME DIFERENTE? "
 
-#: src/files.c:2463
+#: src/files.c:2034
+msgid "File was modified since you opened it, continue saving ? "
+msgstr ""
+
+#: src/files.c:2472
 msgid "(more)"
 msgstr "(máis)"
 
-#: src/files.c:2546 src/rcfile.c:1066
+#: src/files.c:2555 src/rcfile.c:1064
 #, c-format
 msgid ""
 "\n"
@@ -811,7 +815,7 @@ msgstr "Ficheiro Seguinte"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:841 src/text.c:2984
+#: src/global.c:841 src/text.c:2974
 msgid "Verbatim Input"
 msgstr "Entrada Literal"
 
@@ -1534,12 +1538,12 @@ msgstr "Iñórase XON, hmmmm..."
 msgid "XOFF ignored, mumble mumble"
 msgstr "Iñórase XOFF, hmmmm..."
 
-#: src/nano.c:1882 src/rcfile.c:1028
+#: src/nano.c:1882 src/rcfile.c:1026
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "O tamaño de lingüeta solicitado \"%s\" non é válido"
 
-#: src/nano.c:1938 src/rcfile.c:953
+#: src/nano.c:1938 src/rcfile.c:951
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "O tamaño de recheo solicitado \"%s\" non é válido"
@@ -1582,7 +1586,7 @@ msgid "Argument '%s' has an unterminated \""
 msgstr "O argumento '%s' ten un \" sen rematar"
 
 #: src/rcfile.c:204 src/rcfile.c:256 src/rcfile.c:643 src/rcfile.c:700
-#: src/rcfile.c:751
+#: src/rcfile.c:749
 msgid "Regex strings must begin and end with a \" character"
 msgstr ""
 "As cadeas de expresión regular deben comezar e rematar cun carácter \" "
@@ -1680,12 +1684,12 @@ msgstr ""
 "Non se pode engadir unha cabeceira de expresión regular sen unha directiva "
 "de sintaxe"
 
-#: src/rcfile.c:804
+#: src/rcfile.c:802
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Erro fatal: non hai teclas sinaladas para a función \"%s\""
 
-#: src/rcfile.c:806
+#: src/rcfile.c:804
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -1693,53 +1697,53 @@ msgstr ""
 "Saíndo. Por favor, use nano coa opción -I se precisa axeita-la súa "
 "configuración no nanorc\n"
 
-#: src/rcfile.c:856 src/rcfile.c:865 src/rcfile.c:875
+#: src/rcfile.c:854 src/rcfile.c:863 src/rcfile.c:873
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "O comando \"%s\" non se permite no ficheiro incluído"
 
-#: src/rcfile.c:881 src/rcfile.c:1053
+#: src/rcfile.c:879 src/rcfile.c:1051
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "A sintaxe \"%s\" non ten directiva de cor"
 
-#: src/rcfile.c:894
+#: src/rcfile.c:892
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Non se entende o comando \"%s\""
 
-#: src/rcfile.c:900
+#: src/rcfile.c:898
 msgid "Missing flag"
 msgstr "Falla o indicador"
 
-#: src/rcfile.c:922
+#: src/rcfile.c:920
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "A opción \"%s\" precisa dun argumento"
 
-#: src/rcfile.c:940
+#: src/rcfile.c:938
 msgid "Option is not a valid multibyte string"
 msgstr "A opción non é unha cadea multibyte válida"
 
-#: src/rcfile.c:966 src/rcfile.c:994 src/rcfile.c:1003
+#: src/rcfile.c:964 src/rcfile.c:992 src/rcfile.c:1001
 msgid "Non-blank characters required"
 msgstr "Se requiren caracteres non baleiros"
 
-#: src/rcfile.c:976
+#: src/rcfile.c:974
 msgid "Two single-column characters required"
 msgstr "Se requiren dous caracteres de columna simple"
 
-#: src/rcfile.c:1042
+#: src/rcfile.c:1040
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Non se pode desactiva-lo indicador \"%s\""
 
-#: src/rcfile.c:1048
+#: src/rcfile.c:1046
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Indicador descoñecido \"%s\""
 
-#: src/rcfile.c:1116
+#: src/rcfile.c:1114
 msgid "I can't find my home directory!  Wah!"
 msgstr "¡Non podo atopa-lo meu directorio de inicio! ¡Aaagh!"
 
@@ -1756,34 +1760,34 @@ msgstr "(para substituír) na selección"
 msgid " (to replace)"
 msgstr "(para substituír)"
 
-#: src/search.c:764
+#: src/search.c:765
 msgid "Replace this instance?"
 msgstr "¿Substituír?"
 
-#: src/search.c:938
+#: src/search.c:939
 msgid "Replace with"
 msgstr "Substituír por"
 
-#: src/search.c:980
+#: src/search.c:981
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
 msgstr[0] "Fíxose %lu substitución"
 msgstr[1] "Fixéronse %lu substitucións"
 
-#: src/search.c:1010
+#: src/search.c:1011
 msgid "Enter line number, column number"
 msgstr "Introduza liña número, columna número"
 
-#: src/search.c:1037
+#: src/search.c:1038
 msgid "Invalid line or column number"
 msgstr "Número de liña ou columna non válida"
 
-#: src/search.c:1190
+#: src/search.c:1191
 msgid "Not a bracket"
 msgstr "Non hai delimitador"
 
-#: src/search.c:1257
+#: src/search.c:1258
 msgid "No matching bracket"
 msgstr "Non hai parella do delimitador"
 
@@ -1795,152 +1799,152 @@ msgstr "Marca activada"
 msgid "Mark Unset"
 msgstr "Marca desactivada"
 
-#: src/text.c:441
+#: src/text.c:439
 msgid "Nothing in undo buffer!"
 msgstr "Buffer para desfacer baleiro"
 
-#: src/text.c:453 src/text.c:577
+#: src/text.c:451 src/text.c:573
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 "Erro interno: non podo atopar a liña %d. Por favor, grave o seu traballo "
 
-#: src/text.c:464 src/text.c:587
+#: src/text.c:462 src/text.c:583
 msgid "text add"
 msgstr "engadir texto"
 
-#: src/text.c:473 src/text.c:597
+#: src/text.c:471 src/text.c:593
 msgid "text delete"
 msgstr "borrar texto"
 
-#: src/text.c:486 src/text.c:606
+#: src/text.c:484 src/text.c:602
 msgid "line split"
 msgstr "dividir liña"
 
-#: src/text.c:497 src/text.c:617
+#: src/text.c:495 src/text.c:613
 msgid "line join"
 msgstr "unir liña"
 
-#: src/text.c:509 src/text.c:633
+#: src/text.c:506 src/text.c:628
 msgid "text cut"
 msgstr "cortar texto"
 
-#: src/text.c:513 src/text.c:637
+#: src/text.c:510 src/text.c:632
 msgid "text uncut"
 msgstr "repór texto"
 
-#: src/text.c:517 src/text.c:647
+#: src/text.c:514 src/text.c:642
 msgid "text insert"
 msgstr "inserir texto"
 
-#: src/text.c:535 src/text.c:641
+#: src/text.c:532 src/text.c:636
 msgid "text replace"
 msgstr "substituir texto"
 
-#: src/text.c:541 src/text.c:653
+#: src/text.c:538 src/text.c:648
 msgid "Internal error: unknown type.  Please save your work"
 msgstr "Erro interno: tipo descoñecido. Por favor, grave o seu traballo"
 
-#: src/text.c:546
+#: src/text.c:543
 #, c-format
 msgid "Undid action (%s)"
 msgstr "Desfíxose a acción (%s)"
 
-#: src/text.c:562
+#: src/text.c:558
 msgid "Nothing to re-do!"
 msgstr "Nada para refacer"
 
-#: src/text.c:566
+#: src/text.c:562
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 "Erro interno: fallou a configuracion de refacer. Por favor, grave o seu "
 "traballo "
 
-#: src/text.c:658
+#: src/text.c:653
 #, c-format
 msgid "Redid action (%s)"
 msgstr "A Acción (%s) refíxose"
 
-#: src/text.c:747
+#: src/text.c:742
 msgid "Could not pipe"
 msgstr "Non se puido crear unha canle"
 
-#: src/text.c:774 src/text.c:2585 src/text.c:2732
+#: src/text.c:769 src/text.c:2575 src/text.c:2722
 msgid "Could not fork"
 msgstr "Non se puido iniciar outro proceso"
 
-#: src/text.c:914
+#: src/text.c:898
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
 "Erro interno: non podo arranxa-la reposición de texto. Por favor, grave o "
 "seu traballo."
 
-#: src/text.c:917
+#: src/text.c:905
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Erro interno: tipo descoñecido. Por favor, grave o seu traballo"
 
-#: src/text.c:1819
+#: src/text.c:1809
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Cadea de cita %s incorrecta: %s"
 
-#: src/text.c:2216
+#: src/text.c:2206
 msgid "Can now UnJustify!"
 msgstr "¡Agora pode De-Xustificar!"
 
-#: src/text.c:2411
+#: src/text.c:2401
 msgid "Edit a replacement"
 msgstr "Editar unha substitución"
 
-#: src/text.c:2497
+#: src/text.c:2487
 msgid "Could not create pipe"
 msgstr "Non se puido crear unha canle"
 
-#: src/text.c:2499
+#: src/text.c:2489
 msgid "Creating misspelled word list, please wait..."
 msgstr "Creando a lista de palabras mal escritas, por favor, espere..."
 
-#: src/text.c:2591
+#: src/text.c:2581
 msgid "Could not get size of pipe buffer"
 msgstr "Non se puido obte-lo tamaño do buffer da canle"
 
-#: src/text.c:2642
+#: src/text.c:2632
 msgid "Error invoking \"spell\""
 msgstr "Erro ó chamar \"spell\""
 
-#: src/text.c:2645
+#: src/text.c:2635
 msgid "Error invoking \"sort -f\""
 msgstr "Erro ó chamar \"sort -f\""
 
-#: src/text.c:2648
+#: src/text.c:2638
 msgid "Error invoking \"uniq\""
 msgstr "Erro ó chamar \"uniq\""
 
-#: src/text.c:2759
+#: src/text.c:2749
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Erro ó chamar \"%s\""
 
-#: src/text.c:2899
+#: src/text.c:2889
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Fallou a revisión ortográfica: %s"
 
-#: src/text.c:2901
+#: src/text.c:2891
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Fallou a corrección ortográfica: %s: %s"
 
-#: src/text.c:2904
+#: src/text.c:2894
 msgid "Finished checking spelling"
 msgstr "Rematou a corrección ortográfica"
 
-#: src/text.c:2969
+#: src/text.c:2959
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sVerbas: %lu  Liñas: %ld  Caracteres: %lu"
 
-#: src/text.c:2970
+#: src/text.c:2960
 msgid "In Selection:  "
 msgstr "In Selección:  "
 

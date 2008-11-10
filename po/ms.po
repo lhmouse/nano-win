@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 18:22-0400\n"
+"POT-Creation-Date: 2008-11-10 01:33-0500\n"
 "PO-Revision-Date: 2008-04-16 15:28+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -22,7 +22,7 @@ msgid "Go To Directory"
 msgstr "Pergi Ke Direktori"
 
 #: src/browser.c:233 src/browser.c:830 src/files.c:771 src/files.c:1912
-#: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
+#: src/nano.c:1016 src/search.c:219 src/search.c:952 src/search.c:1017
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -33,8 +33,8 @@ msgstr "Tidak boleh ke luar dari %s dalam mod terhad"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
 #: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
-#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:498
-#: src/rcfile.c:1138
+#: src/files.c:1596 src/files.c:1719 src/files.c:2552 src/rcfile.c:498
+#: src/rcfile.c:1136
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Ralat membaca %s: %s"
@@ -77,16 +77,16 @@ msgstr " [Regexp]"
 msgid " [Backwards]"
 msgstr " [Undur]"
 
-#: src/browser.c:909 src/browser.c:917 src/search.c:380
+#: src/browser.c:909 src/browser.c:917 src/search.c:381
 msgid "Search Wrapped"
 msgstr "Pancarian diulangi dari awal"
 
-#: src/browser.c:1006 src/browser.c:1039 src/search.c:497 src/search.c:500
-#: src/search.c:557 src/search.c:560
+#: src/browser.c:1006 src/browser.c:1039 src/search.c:498 src/search.c:501
+#: src/search.c:558 src/search.c:561
 msgid "This is the only occurrence"
 msgstr "Hanya inilah sahaja yang dijumpai"
 
-#: src/browser.c:1042 src/search.c:566
+#: src/browser.c:1042 src/search.c:567
 msgid "No current search pattern"
 msgstr "Tiada corak carian semasa"
 
@@ -141,12 +141,12 @@ msgstr "Fail Baru"
 msgid "\"%s\" not found"
 msgstr "\"%s\" tidak dijumpai"
 
-#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1088 src/rcfile.c:1129
+#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1086 src/rcfile.c:1127
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" adalah sebuah direktori"
 
-#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1089 src/rcfile.c:1130
+#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1087 src/rcfile.c:1128
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" adalah sebuah fail peranti"
@@ -199,12 +199,12 @@ msgstr "Terlalu banyak fail salinan?"
 
 #: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
 #: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
-#: src/files.c:1732 src/files.c:2616 src/files.c:2625
+#: src/files.c:1732 src/files.c:2625 src/files.c:2634
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Ralat menulis %s: %s"
 
-#: src/files.c:1585 src/text.c:2868 src/text.c:2880
+#: src/files.c:1585 src/text.c:2858 src/text.c:2870
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Ralat menulis fail sementara: %s"
@@ -259,11 +259,15 @@ msgstr "Fail telah wujud, TINDIH ? "
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Simpan fail dengan NAMA BERLAINAN ? "
 
-#: src/files.c:2463
+#: src/files.c:2034
+msgid "File was modified since you opened it, continue saving ? "
+msgstr ""
+
+#: src/files.c:2472
 msgid "(more)"
 msgstr "(lagi)"
 
-#: src/files.c:2546 src/rcfile.c:1066
+#: src/files.c:2555 src/rcfile.c:1064
 #, c-format
 msgid ""
 "\n"
@@ -807,7 +811,7 @@ msgstr "Fail Selepas"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:841 src/text.c:2984
+#: src/global.c:841 src/text.c:2974
 msgid "Verbatim Input"
 msgstr "Masukan Verbatim"
 
@@ -1525,12 +1529,12 @@ msgstr "XON diabaikan, mumble mumble"
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF diabaikan, mumble mumble"
 
-#: src/nano.c:1882 src/rcfile.c:1028
+#: src/nano.c:1882 src/rcfile.c:1026
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Saiz tab \"%s\" yang diminta tidak sah"
 
-#: src/nano.c:1938 src/rcfile.c:953
+#: src/nano.c:1938 src/rcfile.c:951
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Saiz isian \"%s\" yang diminta tidak sah"
@@ -1573,7 +1577,7 @@ msgid "Argument '%s' has an unterminated \""
 msgstr "Hujah '%s' tiada pengakhiran \""
 
 #: src/rcfile.c:204 src/rcfile.c:256 src/rcfile.c:643 src/rcfile.c:700
-#: src/rcfile.c:751
+#: src/rcfile.c:749
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Rentetan regex mesti bermula dan tamat dengan aksara \""
 
@@ -1666,12 +1670,12 @@ msgstr "\"start=\" memerlukan padanan \"end=\""
 msgid "Cannot add a header regex without a syntax command"
 msgstr "Tidak dapat menambah arahan warna tanpa arahan sintaks"
 
-#: src/rcfile.c:804
+#: src/rcfile.c:802
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Ralat maut: tiada kekunci dipetakan untuk fungsi \"%s\""
 
-#: src/rcfile.c:806
+#: src/rcfile.c:804
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -1679,53 +1683,53 @@ msgstr ""
 "Keluar. Sila guna nano dengan pilihan -I jika perlu untuk mengubah tetapan "
 "nanorc anda\n"
 
-#: src/rcfile.c:856 src/rcfile.c:865 src/rcfile.c:875
+#: src/rcfile.c:854 src/rcfile.c:863 src/rcfile.c:873
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Arahan \"%s\" tidak dibenarkan dalam fail diselitkan"
 
-#: src/rcfile.c:881 src/rcfile.c:1053
+#: src/rcfile.c:879 src/rcfile.c:1051
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Sintaks \"%s\" tidak mempunyai arahan warna"
 
-#: src/rcfile.c:894
+#: src/rcfile.c:892
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Arahan \"%s\" tidak difahami"
 
-#: src/rcfile.c:900
+#: src/rcfile.c:898
 msgid "Missing flag"
 msgstr "Penanda hilang"
 
-#: src/rcfile.c:922
+#: src/rcfile.c:920
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Pilihan \"%s\" memerlukan hujah"
 
-#: src/rcfile.c:940
+#: src/rcfile.c:938
 msgid "Option is not a valid multibyte string"
 msgstr "Pilihan bukan rentetan pelbagai byte yang sah"
 
-#: src/rcfile.c:966 src/rcfile.c:994 src/rcfile.c:1003
+#: src/rcfile.c:964 src/rcfile.c:992 src/rcfile.c:1001
 msgid "Non-blank characters required"
 msgstr "Aksara bukan-kosong diperlukan"
 
-#: src/rcfile.c:976
+#: src/rcfile.c:974
 msgid "Two single-column characters required"
 msgstr "Dua aksara satu-lajur diperlukan"
 
-#: src/rcfile.c:1042
+#: src/rcfile.c:1040
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Tidak dapat nyahtetap penanda \"%s\""
 
-#: src/rcfile.c:1048
+#: src/rcfile.c:1046
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Penanda \"%s\" tidak diketahui"
 
-#: src/rcfile.c:1116
+#: src/rcfile.c:1114
 msgid "I can't find my home directory!  Wah!"
 msgstr "Saya tidak dapat mencari direktori utama!  Wah!"
 
@@ -1742,33 +1746,33 @@ msgstr " (untuk mengganti) dalam pilihan"
 msgid " (to replace)"
 msgstr " (untuk mengganti)"
 
-#: src/search.c:764
+#: src/search.c:765
 msgid "Replace this instance?"
 msgstr "Ganti dikedudukan ini?"
 
-#: src/search.c:938
+#: src/search.c:939
 msgid "Replace with"
 msgstr "Ganti dengan"
 
-#: src/search.c:980
+#: src/search.c:981
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
 msgstr[0] "%lu tempat telah diganti"
 
-#: src/search.c:1010
+#: src/search.c:1011
 msgid "Enter line number, column number"
 msgstr "Masukkan nombor baris, nombor lajur"
 
-#: src/search.c:1037
+#: src/search.c:1038
 msgid "Invalid line or column number"
 msgstr "Nombor baris atau lajur tidak sah"
 
-#: src/search.c:1190
+#: src/search.c:1191
 msgid "Not a bracket"
 msgstr "Bukan kurungan"
 
-#: src/search.c:1257
+#: src/search.c:1258
 msgid "No matching bracket"
 msgstr "Tiada padanan kurungan"
 
@@ -1780,150 +1784,150 @@ msgstr "Tetapkan Tanda"
 msgid "Mark Unset"
 msgstr "Nyahtetap Tanda"
 
-#: src/text.c:441
+#: src/text.c:439
 msgid "Nothing in undo buffer!"
 msgstr ""
 
-#: src/text.c:453 src/text.c:577
+#: src/text.c:451 src/text.c:573
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 
-#: src/text.c:464 src/text.c:587
+#: src/text.c:462 src/text.c:583
 msgid "text add"
 msgstr ""
 
-#: src/text.c:473 src/text.c:597
+#: src/text.c:471 src/text.c:593
 #, fuzzy
 msgid "text delete"
 msgstr "Fail Selepas"
 
-#: src/text.c:486 src/text.c:606
+#: src/text.c:484 src/text.c:602
 msgid "line split"
 msgstr ""
 
-#: src/text.c:497 src/text.c:617
+#: src/text.c:495 src/text.c:613
 msgid "line join"
 msgstr ""
 
-#: src/text.c:509 src/text.c:633
+#: src/text.c:506 src/text.c:628
 msgid "text cut"
 msgstr ""
 
-#: src/text.c:513 src/text.c:637
+#: src/text.c:510 src/text.c:632
 msgid "text uncut"
 msgstr ""
 
-#: src/text.c:517 src/text.c:647
+#: src/text.c:514 src/text.c:642
 #, fuzzy
 msgid "text insert"
 msgstr "Baris Berikut"
 
-#: src/text.c:535 src/text.c:641
+#: src/text.c:532 src/text.c:636
 #, fuzzy
 msgid "text replace"
 msgstr " (untuk mengganti)"
 
-#: src/text.c:541 src/text.c:653
+#: src/text.c:538 src/text.c:648
 msgid "Internal error: unknown type.  Please save your work"
 msgstr ""
 
-#: src/text.c:546
+#: src/text.c:543
 #, c-format
 msgid "Undid action (%s)"
 msgstr ""
 
-#: src/text.c:562
+#: src/text.c:558
 msgid "Nothing to re-do!"
 msgstr ""
 
-#: src/text.c:566
+#: src/text.c:562
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 
-#: src/text.c:658
+#: src/text.c:653
 #, c-format
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:747
+#: src/text.c:742
 msgid "Could not pipe"
 msgstr "Tidak dapat menyalurkan"
 
-#: src/text.c:774 src/text.c:2585 src/text.c:2732
+#: src/text.c:769 src/text.c:2575 src/text.c:2722
 msgid "Could not fork"
 msgstr "Tidak dapat mencabang"
 
-#: src/text.c:914
+#: src/text.c:898
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
 
-#: src/text.c:917
+#: src/text.c:905
 msgid "Internal error: unknown type.  Please save your work."
 msgstr ""
 
-#: src/text.c:1819
+#: src/text.c:1809
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Petikan rentetan tidak sesuai %s: %s"
 
-#: src/text.c:2216
+#: src/text.c:2206
 msgid "Can now UnJustify!"
 msgstr "Sekarang boleh UnJustify!"
 
-#: src/text.c:2411
+#: src/text.c:2401
 msgid "Edit a replacement"
 msgstr "Ubah penggantian"
 
-#: src/text.c:2497
+#: src/text.c:2487
 msgid "Could not create pipe"
 msgstr "Tidak dapat mencipta paip"
 
-#: src/text.c:2499
+#: src/text.c:2489
 msgid "Creating misspelled word list, please wait..."
 msgstr "Menghasilkan senarai perkataan salah eja, sila tunggu..."
 
-#: src/text.c:2591
+#: src/text.c:2581
 msgid "Could not get size of pipe buffer"
 msgstr "Tidak dapat memperoleh saiz buffer paip"
 
-#: src/text.c:2642
+#: src/text.c:2632
 msgid "Error invoking \"spell\""
 msgstr "Ralat melaksanakan \"spell\""
 
-#: src/text.c:2645
+#: src/text.c:2635
 msgid "Error invoking \"sort -f\""
 msgstr "Ralat melaksanakan \"sort -f\""
 
-#: src/text.c:2648
+#: src/text.c:2638
 msgid "Error invoking \"uniq\""
 msgstr "Ralat melaksanakan \"uniq\""
 
-#: src/text.c:2759
+#: src/text.c:2749
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Ralat melaksanakan \"%s\""
 
-#: src/text.c:2899
+#: src/text.c:2889
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Semakan ejaan gagal: %s"
 
-#: src/text.c:2901
+#: src/text.c:2891
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Semakan ejaan gagal: %s: %s"
 
-#: src/text.c:2904
+#: src/text.c:2894
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: src/text.c:2969
+#: src/text.c:2959
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sPerkataan: %lu  Baris: %ld  Aksara: %lu"
 
-#: src/text.c:2970
+#: src/text.c:2960
 msgid "In Selection:  "
 msgstr "Dalam Pilihan:"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.6pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 18:22-0400\n"
+"POT-Creation-Date: 2008-11-10 01:33-0500\n"
 "PO-Revision-Date: 2008-09-23 22:10+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -23,7 +23,7 @@ msgid "Go To Directory"
 msgstr "Đi tới thư mục"
 
 #: src/browser.c:233 src/browser.c:830 src/files.c:771 src/files.c:1912
-#: src/nano.c:1016 src/search.c:219 src/search.c:951 src/search.c:1016
+#: src/nano.c:1016 src/search.c:219 src/search.c:952 src/search.c:1017
 msgid "Cancelled"
 msgstr "Bị thôi"
 
@@ -34,8 +34,8 @@ msgstr "Không đi ra được bên ngoài của %s trong chế độ hạn ch�
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:633
 #: src/files.c:642 src/files.c:1436 src/files.c:1527 src/files.c:1575
-#: src/files.c:1596 src/files.c:1719 src/files.c:2543 src/rcfile.c:498
-#: src/rcfile.c:1138
+#: src/files.c:1596 src/files.c:1719 src/files.c:2552 src/rcfile.c:498
+#: src/rcfile.c:1136
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Lỗi đọc %s: %s"
@@ -78,16 +78,16 @@ msgstr " [Biểu thức chính quy]"
 msgid " [Backwards]"
 msgstr " [Ngược lại]"
 
-#: src/browser.c:909 src/browser.c:917 src/search.c:380
+#: src/browser.c:909 src/browser.c:917 src/search.c:381
 msgid "Search Wrapped"
 msgstr "Tìm (cuộn lại)"
 
-#: src/browser.c:1006 src/browser.c:1039 src/search.c:497 src/search.c:500
-#: src/search.c:557 src/search.c:560
+#: src/browser.c:1006 src/browser.c:1039 src/search.c:498 src/search.c:501
+#: src/search.c:558 src/search.c:561
 msgid "This is the only occurrence"
 msgstr "Đây là tương ứng duy nhất"
 
-#: src/browser.c:1042 src/search.c:566
+#: src/browser.c:1042 src/search.c:567
 msgid "No current search pattern"
 msgstr "Không có mẫu tìm kiếm hiện thời"
 
@@ -142,12 +142,12 @@ msgstr "Tập tin mới"
 msgid "\"%s\" not found"
 msgstr "Không tìm thấy \"%s\""
 
-#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1088 src/rcfile.c:1129
+#: src/files.c:628 src/rcfile.c:490 src/rcfile.c:1086 src/rcfile.c:1127
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" là một thư mục"
 
-#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1089 src/rcfile.c:1130
+#: src/files.c:629 src/rcfile.c:491 src/rcfile.c:1087 src/rcfile.c:1128
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" là một tập tin thiết bị"
@@ -202,12 +202,12 @@ msgstr "Quá nhiều tập tin lưu trữ?"
 
 #: src/files.c:1551 src/files.c:1608 src/files.c:1627 src/files.c:1639
 #: src/files.c:1663 src/files.c:1681 src/files.c:1691 src/files.c:1727
-#: src/files.c:1732 src/files.c:2616 src/files.c:2625
+#: src/files.c:1732 src/files.c:2625 src/files.c:2634
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Lỗi ghi nhớ %s: %s"
 
-#: src/files.c:1585 src/text.c:2868 src/text.c:2880
+#: src/files.c:1585 src/text.c:2858 src/text.c:2870
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Lỗi ghi nhớ tập tin tạm thời: %s"
@@ -262,11 +262,15 @@ msgstr "Tập tin đã tồn tại, GHI ĐÈ LÊN ? "
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Ghi nhớ tập tin dưới TÊN KHÁC ? "
 
-#: src/files.c:2463
+#: src/files.c:2034
+msgid "File was modified since you opened it, continue saving ? "
+msgstr ""
+
+#: src/files.c:2472
 msgid "(more)"
 msgstr "(còn nữa)"
 
-#: src/files.c:2546 src/rcfile.c:1066
+#: src/files.c:2555 src/rcfile.c:1064
 #, c-format
 msgid ""
 "\n"
@@ -809,7 +813,7 @@ msgstr "Tập tin kế"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:841 src/text.c:2984
+#: src/global.c:841 src/text.c:2974
 msgid "Verbatim Input"
 msgstr "Dữ liệu nhập nguyên bản"
 
@@ -1520,12 +1524,12 @@ msgstr "XON bị lờ đi."
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF bị lờ đi."
 
-#: src/nano.c:1882 src/rcfile.c:1028
+#: src/nano.c:1882 src/rcfile.c:1026
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tab « %s » không hợp lệ"
 
-#: src/nano.c:1938 src/rcfile.c:953
+#: src/nano.c:1938 src/rcfile.c:951
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tô đầy « %s » không hợp lệ"
@@ -1568,7 +1572,7 @@ msgid "Argument '%s' has an unterminated \""
 msgstr "Đối số « %s » không kết thúc \""
 
 #: src/rcfile.c:204 src/rcfile.c:256 src/rcfile.c:643 src/rcfile.c:700
-#: src/rcfile.c:751
+#: src/rcfile.c:749
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Biểu thức chính quy phải bắt đầu và kết thúc bởi một ký tự \""
 
@@ -1672,12 +1676,12 @@ msgstr ""
 "Không thêm được một biểu thức chính quy kiểu phần đầu mà không có câu lệnh "
 "cú pháp"
 
-#: src/rcfile.c:804
+#: src/rcfile.c:802
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Lỗi nghiêm trọng: chưa ánh xạ phím với chức năng « %s »"
 
-#: src/rcfile.c:806
+#: src/rcfile.c:804
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -1685,53 +1689,53 @@ msgstr ""
 "Đang thoát... Hãy sử dụng trình soạn thảo nano với tùy chọn « -l » nếu cần "
 "thiết, để điều chỉnh thiết lập nanorc của bạn\n"
 
-#: src/rcfile.c:856 src/rcfile.c:865 src/rcfile.c:875
+#: src/rcfile.c:854 src/rcfile.c:863 src/rcfile.c:873
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Lệnh « %s » không được phép trong tập tin đã bao gồm"
 
-#: src/rcfile.c:881 src/rcfile.c:1053
+#: src/rcfile.c:879 src/rcfile.c:1051
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Cú pháp « %s » không có câu lệnh màu"
 
-#: src/rcfile.c:894
+#: src/rcfile.c:892
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Không hiểu câu lệnh « %s »"
 
-#: src/rcfile.c:900
+#: src/rcfile.c:898
 msgid "Missing flag"
 msgstr "Thiếu cờ"
 
-#: src/rcfile.c:922
+#: src/rcfile.c:920
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Tùy chọn « %s » cần một tham số"
 
-#: src/rcfile.c:940
+#: src/rcfile.c:938
 msgid "Option is not a valid multibyte string"
 msgstr "Tùy chọn không phải là một chuỗi đa byte hợp lệ"
 
-#: src/rcfile.c:966 src/rcfile.c:994 src/rcfile.c:1003
+#: src/rcfile.c:964 src/rcfile.c:992 src/rcfile.c:1001
 msgid "Non-blank characters required"
 msgstr "Yêu cầu các ký tự không phải khoảng trắng"
 
-#: src/rcfile.c:976
+#: src/rcfile.c:974
 msgid "Two single-column characters required"
 msgstr "Yêu cầu hai ký tự một cột"
 
-#: src/rcfile.c:1042
+#: src/rcfile.c:1040
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Không bỏ đặt được cờ « %s »"
 
-#: src/rcfile.c:1048
+#: src/rcfile.c:1046
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Cờ không rõ « %s »"
 
-#: src/rcfile.c:1116
+#: src/rcfile.c:1114
 msgid "I can't find my home directory!  Wah!"
 msgstr "Tôi không thể tìm thấy thư mục cá nhân của mình!"
 
@@ -1748,33 +1752,33 @@ msgstr " (thay thế) trong lựa chọn"
 msgid " (to replace)"
 msgstr " (thay thế)"
 
-#: src/search.c:764
+#: src/search.c:765
 msgid "Replace this instance?"
 msgstr "Thay thế tương ứng này?"
 
-#: src/search.c:938
+#: src/search.c:939
 msgid "Replace with"
 msgstr "Thay thế bởi"
 
-#: src/search.c:980
+#: src/search.c:981
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
 msgstr[0] "Đã thay thế %lu lần"
 
-#: src/search.c:1010
+#: src/search.c:1011
 msgid "Enter line number, column number"
 msgstr "Nhập số thứ tự dòng, cột"
 
-#: src/search.c:1037
+#: src/search.c:1038
 msgid "Invalid line or column number"
 msgstr "Sai số thứ tự dòng hoặc cột"
 
-#: src/search.c:1190
+#: src/search.c:1191
 msgid "Not a bracket"
 msgstr "Không phải ngoặc đơn"
 
-#: src/search.c:1257
+#: src/search.c:1258
 msgid "No matching bracket"
 msgstr "Không có ngoặc đơn tương ứng"
 
@@ -1786,147 +1790,147 @@ msgstr "Đánh dấu văn bản"
 msgid "Mark Unset"
 msgstr "Hủy dấu văn bản"
 
-#: src/text.c:441
+#: src/text.c:439
 msgid "Nothing in undo buffer!"
 msgstr "Không có gì trong vùng đệm hủy bước !"
 
-#: src/text.c:453 src/text.c:577
+#: src/text.c:451 src/text.c:573
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr "Lỗi nội bộ : không thể khớp dòng %d. Hãy lưu tập tin"
 
-#: src/text.c:464 src/text.c:587
+#: src/text.c:462 src/text.c:583
 msgid "text add"
 msgstr "thêm văn bản"
 
-#: src/text.c:473 src/text.c:597
+#: src/text.c:471 src/text.c:593
 msgid "text delete"
 msgstr "xoá văn bản"
 
-#: src/text.c:486 src/text.c:606
+#: src/text.c:484 src/text.c:602
 msgid "line split"
 msgstr "chia dòng"
 
-#: src/text.c:497 src/text.c:617
+#: src/text.c:495 src/text.c:613
 msgid "line join"
 msgstr "nối dòng"
 
-#: src/text.c:509 src/text.c:633
+#: src/text.c:506 src/text.c:628
 msgid "text cut"
 msgstr "cắt văn bản"
 
-#: src/text.c:513 src/text.c:637
+#: src/text.c:510 src/text.c:632
 msgid "text uncut"
 msgstr "văn bản không cắt"
 
-#: src/text.c:517 src/text.c:647
+#: src/text.c:514 src/text.c:642
 msgid "text insert"
 msgstr "chèn văn bản"
 
-#: src/text.c:535 src/text.c:641
+#: src/text.c:532 src/text.c:636
 msgid "text replace"
 msgstr "thay thế văn bản"
 
-#: src/text.c:541 src/text.c:653
+#: src/text.c:538 src/text.c:648
 msgid "Internal error: unknown type.  Please save your work"
 msgstr "Lỗi nội bộ : kiểu không rõ. Hãy lưu tập tin"
 
-#: src/text.c:546
+#: src/text.c:543
 #, c-format
 msgid "Undid action (%s)"
 msgstr "Bước được hủy (%s)"
 
-#: src/text.c:562
+#: src/text.c:558
 msgid "Nothing to re-do!"
 msgstr "Không có gì cần hoàn lại !"
 
-#: src/text.c:566
+#: src/text.c:562
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr "Lỗi nội bộ : không thiết lập được việc hoàn lại. Hãy lưu tập tin"
 
-#: src/text.c:658
+#: src/text.c:653
 #, c-format
 msgid "Redid action (%s)"
 msgstr "Bước được hoàn lại (%s)"
 
-#: src/text.c:747
+#: src/text.c:742
 msgid "Could not pipe"
 msgstr "Không thể gửi qua đường ống"
 
-#: src/text.c:774 src/text.c:2585 src/text.c:2732
+#: src/text.c:769 src/text.c:2575 src/text.c:2722
 msgid "Could not fork"
 msgstr "Không thể tạo tiến trình con"
 
-#: src/text.c:914
+#: src/text.c:898
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr "Lỗi nội bộ : không thể thiết lập mà không cắt. Hãy lưu tập tin."
 
-#: src/text.c:917
+#: src/text.c:905
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Lỗi nội bộ : kiểu không rõ. Hãy lưu tập tin."
 
-#: src/text.c:1819
+#: src/text.c:1809
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Chuỗi trích dẫn xấu %s: %s"
 
-#: src/text.c:2216
+#: src/text.c:2206
 msgid "Can now UnJustify!"
 msgstr "Bây giờ có thể Bỏ sắp chữ!"
 
-#: src/text.c:2411
+#: src/text.c:2401
 msgid "Edit a replacement"
 msgstr "Sửa chuỗi thay thế"
 
-#: src/text.c:2497
+#: src/text.c:2487
 msgid "Could not create pipe"
 msgstr "Không thể tạo đường ống"
 
-#: src/text.c:2499
+#: src/text.c:2489
 msgid "Creating misspelled word list, please wait..."
 msgstr "Đang tạo danh sách từ sai chính tả, xin hãy chờ..."
 
-#: src/text.c:2591
+#: src/text.c:2581
 msgid "Could not get size of pipe buffer"
 msgstr "Không lấy được kích thước của bộ đệm đường ống"
 
-#: src/text.c:2642
+#: src/text.c:2632
 msgid "Error invoking \"spell\""
 msgstr "Lỗi gọi \"spell\""
 
-#: src/text.c:2645
+#: src/text.c:2635
 msgid "Error invoking \"sort -f\""
 msgstr "Lỗi gọi \"sort -f\""
 
-#: src/text.c:2648
+#: src/text.c:2638
 msgid "Error invoking \"uniq\""
 msgstr "Lỗi gọi \"uniq\""
 
-#: src/text.c:2759
+#: src/text.c:2749
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Lỗi gọi \"%s\""
 
-#: src/text.c:2899
+#: src/text.c:2889
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Kiểm tra chính tả không thành công: %s"
 
-#: src/text.c:2901
+#: src/text.c:2891
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Kiểm tra chính tả không thành công: %s: %s"
 
-#: src/text.c:2904
+#: src/text.c:2894
 msgid "Finished checking spelling"
 msgstr "Hoàn thành việc kiểm tra chính tả"
 
-#: src/text.c:2969
+#: src/text.c:2959
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sTừ: %lu  Dòng: %ld  Ký tự: %lu"
 
-#: src/text.c:2970
+#: src/text.c:2960
 msgid "In Selection:  "
 msgstr "Trong lựa chọn:  "
 

@@ -1,3 +1,4 @@
+GNU nano 2.1.7 - 2008.11.10
 2008-10-20 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Add check for file modification when saving
 	  the file so the user can at least know they may be blowing away changes.

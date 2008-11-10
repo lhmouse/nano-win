@@ -1,3 +1,13 @@
+2008.11.10 - GNU nano 2.1.7 "Effingham" is ready to make good on those
+		campaign promises of lower bug rates and 50% more pie.
+		This release includes a new check for external
+		modifications when saving a file, some code and 
+		documentation cleanups, and more bug fixes for 
+		the new undo code (but we continue to welcome your bug
+		reports via the Savananh bug page at 
+		http://savannah.gnu.org/bugs/?func=additem&group=nano.
+		Come get some.
+
 2008.10.03 - GNU nano 2.1.6 was for new features before it was against
 		them.  This release includes more undo capability, 
 		several new syntax highlighting configurations including
