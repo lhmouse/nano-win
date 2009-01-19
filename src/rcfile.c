@@ -427,7 +427,7 @@ void parse_keybinding(char *ptr)
 
 #ifdef DEBUG
     fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
-	&newsc, &newsc->scfunc, menu);
+	&newsc, newsc->scfunc, menu);
 #endif
 
 
@@ -791,7 +791,7 @@ static void check_vitals_mapped(void)
     subnfunc *f;
     int v;
 #define VITALS 5
-    void *vitals[VITALS] = { do_exit, do_exit, (void *) cancel_msg, (void *) cancel_msg, (void *) cancel_msg };
+    short vitals[VITALS] = { DO_EXIT, DO_EXIT, CANCEL_MSG, CANCEL_MSG, CANCEL_MSG };
     int inmenus[VITALS] = { MMAIN, MHELP, MWHEREIS, MREPLACE, MGOTOLINE };
 
     for  (v = 0; v < VITALS; v++) {

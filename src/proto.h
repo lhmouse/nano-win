@@ -743,7 +743,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
 const sc *get_shortcut(int menu, int *kbinput, bool
 	*meta_key, bool *func_key);
-const sc *first_sc_for(int menu, void *func);
+const sc *first_sc_for(int menu, short func);
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);
@@ -783,7 +783,7 @@ int strtomenu(char *input);
 void assign_keyinfo(sc *s);
 void xon_complaint(void);
 void xoff_complaint(void);
-int sc_seq_or (void *func, int defaultval);
+int sc_seq_or (short func, int defaultval);
 void do_suspend_void(void);
 
 const char *cancel_msg;
@@ -814,6 +814,7 @@ const char *prepend_msg;
 const char *backup_file_msg;
 const char *gototext_msg;
 const char *new_buffer_msg;
+void iso_me_harder_funcmap(short func);
 
 #ifdef HAVE_REGEX_H
 const char *regexp_msg;

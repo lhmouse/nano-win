@@ -1,3 +1,8 @@
+2009-01-19 Chris Allegretta <chrisa@asty.org>
+	* Change funcion definitions to shorts instead of (void *)s.  New mapping function
+          iso_me_harder_funcmap().  Fixes compilation complaints with -pedantic, 
+	  reported by Eitan Adler <eitanadlerlist@gmail.com>.
+
 GNU nano 2.1.7 - 2008.11.10
 2008-10-20 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Add check for file modification when saving

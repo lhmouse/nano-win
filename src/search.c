@@ -137,7 +137,7 @@ int search_init(bool replacing, bool use_answer)
     int i = 0;
     char *buf;
     sc *s;
-    void *func = NULL;
+    char func = 0;
     bool meta_key = FALSE, func_key = FALSE;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
@@ -235,26 +235,26 @@ int search_init(bool replacing, bool use_answer)
 #endif
 		;
 #ifndef NANO_TINY
-	} else if (func == (void *) case_sens_msg) {
+	} else if (func == CASE_SENS_MSG) {
 		TOGGLE(CASE_SENSITIVE);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
-	} else if (func == (void *) backwards_msg) {
+	} else if (func == BACKWARDS_MSG) {
 		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
 #ifdef HAVE_REGEX_H
-	} else if (func == (void *) regexp_msg) {
+	} else if (func == REGEXP_MSG) {
 		TOGGLE(USE_REGEXP);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
-	} else if (func == (void *) do_replace || 
-	  func == (void *) no_replace_msg) {
+	} else if (func == DO_REPLACE || 
+	  func == NO_REPLACE_MSG) {
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
-	} else if (func == do_gotolinecolumn_void) {
+	} else if (func == DO_GOTOLINECOLUMN_VOID) {
 		do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE, FALSE,
 			TRUE);
@@ -1021,7 +1021,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 
 	s = get_shortcut(currmenu, &i, &meta_key, &func_key);
-	if (s && s->scfunc == (void *) gototext_msg) {
+	if (s && s->scfunc ==  GOTOTEXT_MSG) {
 	    /* Keep answer up on the statusbar. */
 	    search_init(TRUE, TRUE);
 

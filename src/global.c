@@ -218,7 +218,7 @@ function_type strtokeytype(char *str)
 
 /* Add a string to the new function list strict.
    Does not allow updates, yet anyway */
-void add_to_funcs(void *func, int menus, const char *desc, const char *help,
+void add_to_funcs(short func, int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
 {
     subnfunc *f;
@@ -247,7 +247,7 @@ void add_to_funcs(void *func, int menus, const char *desc, const char *help,
 #endif
 }
 
-const sc *first_sc_for(int menu, void *func) {
+const sc *first_sc_for(int menu, short func) {
     const sc *s;
     const sc *metasc = NULL;
 
@@ -279,7 +279,7 @@ const sc *first_sc_for(int menu, void *func) {
 
 /* Add a string to the new shortcut list implementation
    Allows updates to existing entries in the list */
-void add_to_sclist(int menu, char *scstring, void *func, int toggle, int execute)
+void add_to_sclist(int menu, char *scstring, short func, int toggle, int execute)
 {
     sc *s;
 
@@ -318,7 +318,7 @@ void add_to_sclist(int menu, char *scstring, void *func, int toggle, int execute
 
 /* Return the given menu's first shortcut sequence, or the default value
   (2nd arg).  Assumes currmenu for the menu to check*/
-int sc_seq_or (void *func, int defaultval) 
+int sc_seq_or (short func, int defaultval) 
 {
     const sc *s = first_sc_for(currmenu, func);
 
@@ -642,33 +642,33 @@ void shortcut_init(bool unjustify)
         free(f);
     }
 
-    add_to_funcs(do_help_void, MALL, get_help_msg, IFSCHELP(nano_help_msg),
+    add_to_funcs(DO_HELP_VOID, MALL, get_help_msg, IFSCHELP(nano_help_msg),
 	FALSE, VIEW);
 
-    add_to_funcs((void *) cancel_msg,
+    add_to_funcs( CANCEL_MSG,
 	(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO),
 	cancel_msg, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
-    add_to_funcs(do_exit, MMAIN,
+    add_to_funcs(DO_EXIT, MMAIN,
 #ifdef ENABLE_MULTIBUFFER
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
 	exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
 
-    add_to_funcs(do_exit, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
+    add_to_funcs(DO_EXIT, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
 
 #ifndef DISABLE_BROWSER
-    add_to_funcs(do_exit, MBROWSER, exit_msg, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);
+    add_to_funcs(DO_EXIT, MBROWSER, exit_msg, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);
 #endif
 
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_writeout_void, MMAIN, N_("WriteOut"),
+    add_to_funcs(DO_WRITEOUT_VOID, MMAIN, N_("WriteOut"),
 	IFSCHELP(nano_writeout_msg), FALSE, NOVIEW);
 
 #ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_justify_void, MMAIN, N_("Justify"),
+    add_to_funcs(DO_JUSTIFY_VOID, MMAIN, N_("Justify"),
 	nano_justify_msg, TRUE, NOVIEW);
 #endif
 
@@ -677,7 +677,7 @@ void shortcut_init(bool unjustify)
      * restricted mode, inserting files is disabled, since it allows
      * reading from or writing to files not specified on the command
      * line. */
-    add_to_funcs(!ISSET(RESTRICTED) ? do_insertfile_void : nano_disabled_msg,
+    add_to_funcs(!ISSET(RESTRICTED) ? DO_INSERTFILE_VOID : NANO_DISABLED_MSG,
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
 #ifdef ENABLE_MULTIBUFFER
@@ -686,32 +686,32 @@ void shortcut_init(bool unjustify)
 	NOVIEW);
 #endif
 
-    add_to_funcs(do_search, MMAIN|MBROWSER, whereis_msg,
+    add_to_funcs(DO_SEARCH, MMAIN|MBROWSER, whereis_msg,
 	IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
-    add_to_funcs(do_page_up, MMAIN|MHELP,
+    add_to_funcs(DO_PAGE_UP, MMAIN|MHELP,
 	prev_page_msg, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
-    add_to_funcs(do_page_down, MMAIN|MHELP,
+    add_to_funcs(DO_PAGE_DOWN, MMAIN|MHELP,
 	next_page_msg, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
 
 
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_cut_text_void, MMAIN, N_("Cut Text"), IFSCHELP(nano_cut_msg),
+    add_to_funcs(DO_CUT_TEXT_VOID, MMAIN, N_("Cut Text"), IFSCHELP(nano_cut_msg),
 	FALSE, NOVIEW);
 
     if (unjustify)
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_uncut_text, MMAIN, N_("UnJustify"), "",
+	add_to_funcs(DO_UNCUT_TEXT, MMAIN, N_("UnJustify"), "",
 	    FALSE, NOVIEW);
 
     else
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_uncut_text, MMAIN, N_("UnCut Text"), IFSCHELP(nano_uncut_msg),
+	add_to_funcs(DO_UNCUT_TEXT, MMAIN, N_("UnCut Text"), IFSCHELP(nano_uncut_msg),
 	    FALSE, NOVIEW);
 
 #ifndef NANO_TINY
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
+    add_to_funcs(DO_CURSORPOS_VOID, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
 
@@ -721,30 +721,30 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_SPELLER
 	if (!ISSET(RESTRICTED))
 	    /* TRANSLATORS: Try to keep this at most 10 characters. */
-	    add_to_funcs(do_spell, MMAIN, N_("To Spell"), IFSCHELP(nano_spell_msg),
+	    add_to_funcs(DO_SPELL, MMAIN, N_("To Spell"), IFSCHELP(nano_spell_msg),
 		TRUE, NOVIEW);
 #endif
 
-    add_to_funcs(do_first_line,
+    add_to_funcs(DO_FIRST_LINE,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP),
 	first_line_msg, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
 
-    add_to_funcs(do_last_line,
+    add_to_funcs(DO_LAST_LINE,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP),
 	last_line_msg, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
 
-    add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
+    add_to_funcs(DO_GOTOLINECOLUMN_VOID, (MMAIN|MWHEREIS),
 	go_to_line_msg, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
 
 #ifdef NANO_TINY
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
+    add_to_funcs(DO_CURSORPOS_VOID, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
 
 
-    add_to_funcs(do_replace, (MMAIN|MWHEREIS), replace_msg, IFSCHELP(nano_replace_msg),
+    add_to_funcs(DO_REPLACE, (MMAIN|MWHEREIS), replace_msg, IFSCHELP(nano_replace_msg),
 
 #ifndef NANO_TINY
 	FALSE,
@@ -755,104 +755,104 @@ void shortcut_init(bool unjustify)
 
 #ifndef NANO_TINY
 
-    add_to_funcs(do_mark, MMAIN, N_("Mark Text"), 
+    add_to_funcs(DO_MARK, MMAIN, N_("Mark Text"), 
 	IFSCHELP(nano_mark_msg), FALSE, VIEW);
 
-    add_to_funcs(do_research, (MMAIN|MBROWSER), whereis_next_msg,
+    add_to_funcs(DO_RESEARCH, (MMAIN|MBROWSER), whereis_next_msg,
 	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
 
-    add_to_funcs(do_copy_text, MMAIN, N_("Copy Text"),
+    add_to_funcs(DO_COPY_TEXT, MMAIN, N_("Copy Text"),
 	IFSCHELP(nano_copy_msg), FALSE, NOVIEW);
 
-    add_to_funcs(do_indent_void, MMAIN, N_("Indent Text"),
+    add_to_funcs(DO_INDENT_VOID, MMAIN, N_("Indent Text"),
 	IFSCHELP(nano_indent_msg), FALSE, NOVIEW);
 
-    add_to_funcs(do_unindent, MMAIN, N_("Unindent Text"),
+    add_to_funcs(DO_UNINDENT, MMAIN, N_("Unindent Text"),
 	IFSCHELP(nano_unindent_msg), FALSE, NOVIEW);
 
-    add_to_funcs(do_undo, MMAIN, N_("Undo"),
+    add_to_funcs(DO_UNDO, MMAIN, N_("Undo"),
 	IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
 
-    add_to_funcs(do_redo, MMAIN, N_("Redo"),
+    add_to_funcs(DO_REDO, MMAIN, N_("Redo"),
 	IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
 
 #endif
 
-    add_to_funcs(do_page_up, MBROWSER,
+    add_to_funcs(DO_PAGE_UP, MBROWSER,
 	prev_page_msg, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
-    add_to_funcs(do_page_down, MBROWSER,
+    add_to_funcs(DO_PAGE_DOWN, MBROWSER,
 	next_page_msg, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
 
 
-    add_to_funcs(do_right, (MMAIN|MBROWSER), N_("Forward"), IFSCHELP(nano_forward_msg),
+    add_to_funcs(DO_RIGHT, (MMAIN|MBROWSER), N_("Forward"), IFSCHELP(nano_forward_msg),
 	FALSE, VIEW);
-    add_to_funcs(do_right, MALL, "", "", FALSE, VIEW);
+    add_to_funcs(DO_RIGHT, MALL, "", "", FALSE, VIEW);
 
-    add_to_funcs(do_left, (MMAIN|MBROWSER), N_("Back"), IFSCHELP(nano_back_msg),
+    add_to_funcs(DO_LEFT, (MMAIN|MBROWSER), N_("Back"), IFSCHELP(nano_back_msg),
 	FALSE, VIEW);
-    add_to_funcs(do_left, MALL, "", "", FALSE, VIEW);
+    add_to_funcs(DO_LEFT, MALL, "", "", FALSE, VIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs(do_next_word_void, MMAIN, N_("Next Word"),
+    add_to_funcs(DO_NEXT_WORD_VOID, MMAIN, N_("Next Word"),
 	IFSCHELP(nano_nextword_msg), FALSE, VIEW);
 
-    add_to_funcs(do_prev_word_void, MMAIN, N_("Prev Word"),
+    add_to_funcs(DO_PREV_WORD_VOID, MMAIN, N_("Prev Word"),
 	IFSCHELP(nano_prevword_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_up_void, (MMAIN|MHELP|MBROWSER), N_("Prev Line"),
+    add_to_funcs(DO_UP_VOID, (MMAIN|MHELP|MBROWSER), N_("Prev Line"),
 	IFSCHELP(nano_prevline_msg), FALSE, VIEW);
 
-    add_to_funcs(do_down_void, (MMAIN|MHELP|MBROWSER), N_("Next Line"),
+    add_to_funcs(DO_DOWN_VOID, (MMAIN|MHELP|MBROWSER), N_("Next Line"),
 	IFSCHELP(nano_nextline_msg), TRUE, VIEW);
 
-    add_to_funcs(do_home, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
+    add_to_funcs(DO_HOME, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
 	FALSE, VIEW);
 
-    add_to_funcs(do_end, MMAIN, N_("End"), IFSCHELP(nano_end_msg),
+    add_to_funcs(DO_END, MMAIN, N_("End"), IFSCHELP(nano_end_msg),
 	FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_para_begin_void, (MMAIN|MWHEREIS), beg_of_par_msg,
+    add_to_funcs(DO_PARA_BEGIN_VOID, (MMAIN|MWHEREIS), beg_of_par_msg,
 	IFSCHELP(nano_parabegin_msg), FALSE, VIEW);
 
-    add_to_funcs(do_para_end_void, (MMAIN|MWHEREIS), end_of_par_msg,
+    add_to_funcs(DO_PARA_END_VOID, (MMAIN|MWHEREIS), end_of_par_msg,
 	IFSCHELP(nano_paraend_msg), FALSE, VIEW);
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(do_find_bracket, MMAIN, _("Find Other Bracket"),
+    add_to_funcs(DO_FIND_BRACKET, MMAIN, _("Find Other Bracket"),
 	IFSCHELP(nano_bracket_msg), FALSE, VIEW);
 
-    add_to_funcs(do_scroll_up, MMAIN, N_("Scroll Up"),
+    add_to_funcs(DO_SCROLL_UP, MMAIN, N_("Scroll Up"),
 	IFSCHELP(nano_scrollup_msg), FALSE, VIEW);
 
-    add_to_funcs(do_scroll_down, MMAIN, N_("Scroll Down"),
+    add_to_funcs(DO_SCROLL_DOWN, MMAIN, N_("Scroll Down"),
 	IFSCHELP(nano_scrolldown_msg), FALSE, VIEW);
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-    add_to_funcs(switch_to_prev_buffer_void, MMAIN, _("Previous File"),
+    add_to_funcs(SWITCH_TO_PREV_BUFFER_VOID, MMAIN, _("Previous File"),
 	IFSCHELP(nano_prevfile_msg), FALSE, VIEW);
-    add_to_funcs(switch_to_next_buffer_void, MMAIN, N_("Next File"),
+    add_to_funcs(SWITCH_TO_NEXT_BUFFER_VOID, MMAIN, N_("Next File"),
 	IFSCHELP(nano_nextfile_msg), TRUE, VIEW);
 #endif
 
-    add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim Input"),
+    add_to_funcs(DO_VERBATIM_INPUT, MMAIN, N_("Verbatim Input"),
 	IFSCHELP(nano_verbatim_msg), FALSE, NOVIEW);
-    add_to_funcs(do_verbatim_input, MWHEREIS|MREPLACE|MREPLACE2|MEXTCMD|MSPELL,
+    add_to_funcs(DO_VERBATIM_INPUT, MWHEREIS|MREPLACE|MREPLACE2|MEXTCMD|MSPELL,
 	"", "", FALSE, NOVIEW);
 
-    add_to_funcs(do_tab, MMAIN, N_("Tab"), IFSCHELP(nano_tab_msg),
+    add_to_funcs(DO_TAB, MMAIN, N_("Tab"), IFSCHELP(nano_tab_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_tab, MALL, "", "", FALSE, NOVIEW);
-    add_to_funcs(do_enter, MMAIN, N_("Enter"), IFSCHELP(nano_enter_msg),
+    add_to_funcs(DO_TAB, MALL, "", "", FALSE, NOVIEW);
+    add_to_funcs(DO_ENTER, MMAIN, N_("Enter"), IFSCHELP(nano_enter_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_enter, MALL, "", "", FALSE, NOVIEW);
-    add_to_funcs(do_delete, MMAIN, N_("Delete"), IFSCHELP(nano_delete_msg),
+    add_to_funcs(DO_ENTER, MALL, "", "", FALSE, NOVIEW);
+    add_to_funcs(DO_DELETE, MMAIN, N_("Delete"), IFSCHELP(nano_delete_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_delete, MALL, "", "", FALSE, NOVIEW);
-    add_to_funcs(do_backspace, MMAIN, N_("Backspace"), IFSCHELP(nano_backspace_msg),
+    add_to_funcs(DO_DELETE, MALL, "", "", FALSE, NOVIEW);
+    add_to_funcs(DO_BACKSPACE, MMAIN, N_("Backspace"), IFSCHELP(nano_backspace_msg),
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -860,7 +860,7 @@ void shortcut_init(bool unjustify)
 #endif
 	NOVIEW);
 
-    add_to_funcs(do_backspace, MALL, "", "",
+    add_to_funcs(DO_BACKSPACE, MALL, "", "",
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -869,64 +869,64 @@ void shortcut_init(bool unjustify)
 	NOVIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs(do_cut_till_end, MMAIN, N_("CutTillEnd"),
+    add_to_funcs(DO_CUT_TILL_END, MMAIN, N_("CutTillEnd"),
 	IFSCHELP(nano_cut_till_end_msg), TRUE, NOVIEW);
 #endif
 
-    add_to_funcs(xon_complaint, MMAIN, "", "", FALSE, VIEW);
-    add_to_funcs(xoff_complaint, MMAIN, "", "", FALSE, VIEW);
+    add_to_funcs(XON_COMPLAINT, MMAIN, "", "", FALSE, VIEW);
+    add_to_funcs(XOFF_COMPLAINT, MMAIN, "", "", FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_full_justify, (MMAIN|MWHEREIS), fulljstify_msg,
+    add_to_funcs(DO_FULL_JUSTIFY, (MMAIN|MWHEREIS), fulljstify_msg,
 	IFSCHELP(nano_fulljustify_msg), FALSE, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(do_wordlinechar_count, MMAIN, N_("Word Count"),
+    add_to_funcs(DO_WORDLINECHAR_COUNT, MMAIN, N_("Word Count"),
 	IFSCHELP(nano_wordcount_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs(total_refresh, (MMAIN|MHELP), refresh_msg, 
+    add_to_funcs(TOTAL_REFRESH, (MMAIN|MHELP), refresh_msg, 
 	IFSCHELP(nano_refresh_msg), FALSE, VIEW);
 
-    add_to_funcs(do_suspend_void, MMAIN, suspend_msg,
+    add_to_funcs(DO_SUSPEND_VOID, MMAIN, suspend_msg,
 	IFSCHELP(nano_suspend_msg), TRUE, VIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs((void *) case_sens_msg,
+    add_to_funcs( CASE_SENS_MSG,
 	(MWHEREIS|MREPLACE|MWHEREISFILE),
 	case_sens_msg, IFSCHELP(nano_case_msg), FALSE, VIEW);
 
-    add_to_funcs((void *) backwards_msg,
+    add_to_funcs( BACKWARDS_MSG,
 	(MWHEREIS|MREPLACE|MWHEREISFILE),
 	backwards_msg, IFSCHELP(nano_reverse_msg), FALSE, VIEW);
 #endif
 
 #ifdef HAVE_REGEX_H
-    add_to_funcs((void *) regexp_msg,
+    add_to_funcs( REGEXP_MSG,
 	(MWHEREIS|MREPLACE|MWHEREISFILE),
 	regexp_msg, IFSCHELP(nano_regexp_msg), FALSE, VIEW);
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs((void *) prev_history_msg,
+    add_to_funcs( PREV_HISTORY_MSG,
 	(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE),
 	prev_history_msg, IFSCHELP(nano_prev_history_msg), FALSE, VIEW);
 
-    add_to_funcs((void *) next_history_msg,
+    add_to_funcs( NEXT_HISTORY_MSG,
 	(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE),
 	next_history_msg, IFSCHELP(nano_next_history_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs((void *) no_replace_msg, MREPLACE,
+    add_to_funcs( NO_REPLACE_MSG, MREPLACE,
 	no_replace_msg, IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
-    add_to_funcs((void *) gototext_msg, MGOTOLINE,
+    add_to_funcs( GOTOTEXT_MSG, MGOTOLINE,
 	gototext_msg, IFSCHELP(nano_whereis_msg), TRUE, VIEW);
 
 #ifndef DISABLE_BROWSER
     if (!ISSET(RESTRICTED))
-	add_to_funcs((void *) to_files_msg,
+	add_to_funcs( TO_FILES_MSG,
 	    (MGOTOLINE|MINSERTFILE),
 	    to_files_msg, IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
 #endif
@@ -939,23 +939,23 @@ void shortcut_init(bool unjustify)
      * specified on the command line, and the fifth is useless since
      * backups are disabled. */
     if (!ISSET(RESTRICTED))
-        add_to_funcs((void *) dos_format_msg, MWRITEFILE,
+        add_to_funcs( DOS_FORMAT_MSG, MWRITEFILE,
             dos_format_msg, IFSCHELP(nano_dos_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs((void *) mac_format_msg, MWRITEFILE,
+        add_to_funcs( MAC_FORMAT_MSG, MWRITEFILE,
             mac_format_msg, IFSCHELP(nano_mac_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs((void *) append_msg, MWRITEFILE,
+        add_to_funcs( APPEND_MSG, MWRITEFILE,
             append_msg, IFSCHELP(nano_append_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs((void *) prepend_msg, MWRITEFILE,
+        add_to_funcs( PREPEND_MSG, MWRITEFILE,
             prepend_msg, IFSCHELP(nano_prepend_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs((void *) backup_file_msg, MWRITEFILE,
+        add_to_funcs( BACKUP_FILE_MSG, MWRITEFILE,
             backup_file_msg, IFSCHELP(nano_backup_msg), FALSE, NOVIEW);
 #endif
 
@@ -963,225 +963,338 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, command execution is disabled.
      * It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
-        add_to_funcs((void *) ext_cmd_msg, MINSERTFILE,
+        add_to_funcs( EXT_CMD_MSG, MINSERTFILE,
 	    ext_cmd_msg, IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
-	add_to_funcs((void *) new_buffer_msg, MINSERTFILE,
+	add_to_funcs( NEW_BUFFER_MSG, MINSERTFILE,
 	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
 
-    add_to_funcs((void *)  insert_file_msg, MEXTCMD,
+    add_to_funcs(  INSERT_FILE_MSG, MEXTCMD,
 	insert_file_msg, IFSCHELP(nano_insert_msg), FALSE, VIEW);
 
 #ifdef ENABLE_MULTIBUFFER
-     add_to_funcs((void *) new_buffer_msg, MEXTCMD,
+     add_to_funcs( NEW_BUFFER_MSG, MEXTCMD,
 	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
 #endif
 
 #ifndef DISABLE_HELP
-    add_to_funcs((void *) refresh_msg, MHELP,
+    add_to_funcs( REFRESH_MSG, MHELP,
 	refresh_msg, nano_refresh_msg, FALSE, VIEW);
 #endif
 
 #ifndef DISABLE_BROWSER
 
-    add_to_funcs((void *) first_file_msg,
+    add_to_funcs( FIRST_FILE_MSG,
 	(MBROWSER|MWHEREISFILE),
 	first_file_msg, IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
 
-    add_to_funcs((void *) last_file_msg,
+    add_to_funcs( LAST_FILE_MSG,
 	(MBROWSER|MWHEREISFILE),
 	last_file_msg, IFSCHELP(nano_lastfile_msg), FALSE, VIEW);
 
-    add_to_funcs((void *) goto_dir_msg, MBROWSER,
+    add_to_funcs( GOTO_DIR_MSG, MBROWSER,
 	goto_dir_msg, IFSCHELP(nano_gotodir_msg), FALSE, VIEW);
 #endif
 
     currmenu = MMAIN;
 
-    add_to_sclist(MALL, "^G", do_help_void, 0, TRUE);
-    add_to_sclist(MALL, "F1", do_help_void, 0, TRUE);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", do_exit, 0, TRUE);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", do_exit, 0, TRUE);
-    add_to_sclist(MMAIN, "^_", do_gotolinecolumn_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F13", do_gotolinecolumn_void, 0, TRUE);
-    add_to_sclist(MMAIN, "^O", do_writeout_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F3", do_writeout_void, 0, TRUE);
+    add_to_sclist(MALL, "^G", DO_HELP_VOID, 0, TRUE);
+    add_to_sclist(MALL, "F1", DO_HELP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", DO_EXIT, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", DO_EXIT, 0, TRUE);
+    add_to_sclist(MMAIN, "^_", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F13", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "^O", DO_WRITEOUT_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F3", DO_WRITEOUT_VOID, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
-    add_to_sclist(MMAIN, "^J", do_justify_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F4", do_justify_void, 0, TRUE);
+    add_to_sclist(MMAIN, "^J", DO_JUSTIFY_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F4", DO_JUSTIFY_VOID, 0, TRUE);
 #endif
-    add_to_sclist(MMAIN, "^R", do_insertfile_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F5", do_insertfile_void, 0, TRUE);
-    add_to_sclist(MMAIN, "kinsert", do_insertfile_void, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "^W", do_search, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "F6", do_search, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "^Y", do_page_up, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "F7", do_page_up, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "kpup", do_page_up, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "^V", do_page_down, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "F8", do_page_down, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "kpdown", do_page_down, 0, TRUE);
-    add_to_sclist(MMAIN, "^K", do_cut_text_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F9", do_cut_text_void, 0, TRUE);
-    add_to_sclist(MMAIN, "^U", do_uncut_text, 0, TRUE);
-    add_to_sclist(MMAIN, "F10", do_uncut_text, 0, TRUE);
-    add_to_sclist(MMAIN, "^C", do_cursorpos_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F11", do_cursorpos_void, 0, TRUE);
+    add_to_sclist(MMAIN, "^R", DO_INSERTFILE_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F5", DO_INSERTFILE_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "kinsert", DO_INSERTFILE_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "^W", DO_SEARCH, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "F6", DO_SEARCH, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "^Y", DO_PAGE_UP, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "F7", DO_PAGE_UP, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "kpup", DO_PAGE_UP, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "^V", DO_PAGE_DOWN, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "F8", DO_PAGE_DOWN, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE, "kpdown", DO_PAGE_DOWN, 0, TRUE);
+    add_to_sclist(MMAIN, "^K", DO_CUT_TEXT_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F9", DO_CUT_TEXT_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "^U", DO_UNCUT_TEXT, 0, TRUE);
+    add_to_sclist(MMAIN, "F10", DO_UNCUT_TEXT, 0, TRUE);
+    add_to_sclist(MMAIN, "^C", DO_CURSORPOS_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F11", DO_CURSORPOS_VOID, 0, TRUE);
 #ifndef DISABLE_SPELLER
-    add_to_sclist(MMAIN, "^T", do_spell, 0, TRUE);
-    add_to_sclist(MMAIN, "F12", do_spell, 0, TRUE);
+    add_to_sclist(MMAIN, "^T", DO_SPELL, 0, TRUE);
+    add_to_sclist(MMAIN, "F12", DO_SPELL, 0, TRUE);
 #endif
-    add_to_sclist(MMAIN, "^_", do_gotolinecolumn_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F13", do_gotolinecolumn_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M-G", do_gotolinecolumn_void, 0, TRUE);
-    add_to_sclist(MMAIN, "^\\", do_replace, 0, TRUE);
-    add_to_sclist(MMAIN, "F14", do_replace, 0, TRUE);
-    add_to_sclist(MMAIN, "M-R", do_replace, 0, TRUE);
-    add_to_sclist(MWHEREIS, "^R", do_replace, 0, FALSE);
-    add_to_sclist(MREPLACE, "^R", (void *) no_replace_msg, 0, FALSE);
-    add_to_sclist(MWHEREIS, "^T", do_gotolinecolumn_void, 0, FALSE);
+    add_to_sclist(MMAIN, "^_", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "F13", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M-G", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "^\\", DO_REPLACE, 0, TRUE);
+    add_to_sclist(MMAIN, "F14", DO_REPLACE, 0, TRUE);
+    add_to_sclist(MMAIN, "M-R", DO_REPLACE, 0, TRUE);
+    add_to_sclist(MWHEREIS, "^R", DO_REPLACE, 0, FALSE);
+    add_to_sclist(MREPLACE, "^R", NO_REPLACE_MSG, 0, FALSE);
+    add_to_sclist(MWHEREIS, "^T", DO_GOTOLINECOLUMN_VOID, 0, FALSE);
 #ifndef NANO_TINY
-    add_to_sclist(MMAIN, "^^", do_mark, 0, TRUE);
-    add_to_sclist(MMAIN, "F15", do_mark, 0, TRUE);
-    add_to_sclist(MMAIN, "M-A", do_mark, 0, TRUE);
-    add_to_sclist(MALL, "M-W", do_research, 0, TRUE);
-    add_to_sclist(MALL, "F16", do_research, 0, TRUE);
-    add_to_sclist(MMAIN, "M-^", do_copy_text, 0, TRUE);
-    add_to_sclist(MMAIN, "M-6", do_copy_text, 0, TRUE);
-    add_to_sclist(MMAIN, "M-}", do_indent_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
-    add_to_sclist(MMAIN, "M-U", do_undo, 0, TRUE);
-    add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
-    add_to_sclist(MALL, "^F", do_right, 0, TRUE);
-    add_to_sclist(MALL, "^B", do_left, 0, TRUE);
-    add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
+    add_to_sclist(MMAIN, "^^", DO_MARK, 0, TRUE);
+    add_to_sclist(MMAIN, "F15", DO_MARK, 0, TRUE);
+    add_to_sclist(MMAIN, "M-A", DO_MARK, 0, TRUE);
+    add_to_sclist(MALL, "M-W", DO_RESEARCH, 0, TRUE);
+    add_to_sclist(MALL, "F16", DO_RESEARCH, 0, TRUE);
+    add_to_sclist(MMAIN, "M-^", DO_COPY_TEXT, 0, TRUE);
+    add_to_sclist(MMAIN, "M-6", DO_COPY_TEXT, 0, TRUE);
+    add_to_sclist(MMAIN, "M-}", DO_INDENT_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M-{", DO_UNINDENT, 0, TRUE);
+    add_to_sclist(MMAIN, "M-U", DO_UNDO, 0, TRUE);
+    add_to_sclist(MMAIN, "M-E", DO_REDO, 0, TRUE);
+    add_to_sclist(MALL, "^F", DO_RIGHT, 0, TRUE);
+    add_to_sclist(MALL, "^B", DO_LEFT, 0, TRUE);
+    add_to_sclist(MMAIN, "^Space", DO_NEXT_WORD_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M-Space", DO_PREV_WORD_VOID, 0, TRUE);
 #endif
-    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
-    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
-    add_to_sclist(MMAIN, "^Q", xon_complaint, 0, TRUE);
-    add_to_sclist(MMAIN, "^S", xoff_complaint, 0, TRUE);
-    add_to_sclist(MMAIN, "^P", do_up_void, 0, TRUE);
-    add_to_sclist(MMAIN, "kup", do_up_void, 0, TRUE);
-    add_to_sclist(MMAIN, "^N", do_down_void, 0, TRUE);
-    add_to_sclist(MMAIN, "kdown", do_down_void, 0, TRUE);
-    add_to_sclist(MALL, "^A", do_home, 0, TRUE);
-    add_to_sclist(MALL, "khome", do_home, 0, TRUE);
-    add_to_sclist(MALL, "^E", do_end, 0, TRUE);
-    add_to_sclist(MALL, "kend", do_end, 0, TRUE);
+    add_to_sclist(MALL, "kright", DO_RIGHT, 0, TRUE);
+    add_to_sclist(MALL, "kleft", DO_LEFT, 0, TRUE);
+    add_to_sclist(MMAIN, "^Q", XON_COMPLAINT, 0, TRUE);
+    add_to_sclist(MMAIN, "^S", XOFF_COMPLAINT, 0, TRUE);
+    add_to_sclist(MMAIN, "^P", DO_UP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "kup", DO_UP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "^N", DO_DOWN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "kdown", DO_DOWN_VOID, 0, TRUE);
+    add_to_sclist(MALL, "^A", DO_HOME, 0, TRUE);
+    add_to_sclist(MALL, "khome", DO_HOME, 0, TRUE);
+    add_to_sclist(MALL, "^E", DO_END, 0, TRUE);
+    add_to_sclist(MALL, "kend", DO_END, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^P", (void *) prev_history_msg, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kup", (void *) prev_history_msg, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^N", (void *) next_history_msg, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kdown", (void *) next_history_msg, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^P",  PREV_HISTORY_MSG, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kup",  PREV_HISTORY_MSG, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^N",  NEXT_HISTORY_MSG, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kdown",  NEXT_HISTORY_MSG, 0, FALSE);
 #endif
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
-	"^W", do_para_begin_void, 0, TRUE);
+	"^W", DO_PARA_BEGIN_VOID, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
-	"^O", do_para_end_void, 0, TRUE);
-    add_to_sclist(MALL, "M-(", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MALL, "M-9", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MALL, "M-)", do_para_end_void, 0, TRUE);
-    add_to_sclist(MALL, "M-0", do_para_end_void, 0, TRUE);
+	"^O", DO_PARA_END_VOID, 0, TRUE);
+    add_to_sclist(MALL, "M-(", DO_PARA_BEGIN_VOID, 0, TRUE);
+    add_to_sclist(MALL, "M-9", DO_PARA_BEGIN_VOID, 0, TRUE);
+    add_to_sclist(MALL, "M-)", DO_PARA_END_VOID, 0, TRUE);
+    add_to_sclist(MALL, "M-0", DO_PARA_END_VOID, 0, TRUE);
 #endif
     add_to_sclist(MWHEREIS,
-	"M-C", (void *) case_sens_msg, 0, FALSE);
+	"M-C", CASE_SENS_MSG, 0, FALSE);
     add_to_sclist(MREPLACE,
-	"M-C", (void *) case_sens_msg, 0, FALSE);
+	"M-C", CASE_SENS_MSG, 0, FALSE);
     add_to_sclist(MREPLACE2,
-	"M-C", (void *) case_sens_msg, 0, FALSE);
+	"M-C", CASE_SENS_MSG, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
-	"M-B", (void *) backwards_msg, 0, FALSE);
+	"M-B", BACKWARDS_MSG, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
-	"M-R", (void *) regexp_msg, 0, FALSE);
+	"M-R", REGEXP_MSG, 0, FALSE);
 
-    add_to_sclist(MMAIN, "M-\\", do_first_line, 0, TRUE);
-    add_to_sclist(MMAIN, "M-|", do_first_line, 0, TRUE);
-    add_to_sclist(MMAIN, "M-/", do_last_line, 0, TRUE);
-    add_to_sclist(MMAIN, "M-?", do_last_line, 0, TRUE);
+    add_to_sclist(MMAIN, "M-\\", DO_FIRST_LINE, 0, TRUE);
+    add_to_sclist(MMAIN, "M-|", DO_FIRST_LINE, 0, TRUE);
+    add_to_sclist(MMAIN, "M-/", DO_LAST_LINE, 0, TRUE);
+    add_to_sclist(MMAIN, "M-?", DO_LAST_LINE, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP,
-	"^Y", do_first_line, 0, TRUE);
+	"^Y", DO_FIRST_LINE, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP,
-	"^V", do_last_line, 0, TRUE);
+	"^V", DO_LAST_LINE, 0, TRUE);
 
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-\\", (void *) first_file_msg, 0, TRUE);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", (void *) first_file_msg, 0, TRUE);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", (void *) last_file_msg, 0, TRUE);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", (void *) last_file_msg, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-\\",  FIRST_FILE_MSG, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-|",  FIRST_FILE_MSG, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-/",  LAST_FILE_MSG, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-?",  LAST_FILE_MSG, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MMAIN, "M-]", do_find_bracket, 0, TRUE);
-    add_to_sclist(MMAIN, "M--", do_scroll_up, 0, TRUE);
-    add_to_sclist(MMAIN, "M-_", do_scroll_up, 0, TRUE);
-    add_to_sclist(MMAIN, "M-+", do_scroll_down, 0, TRUE);
-    add_to_sclist(MMAIN, "M-=", do_scroll_down, 0, TRUE);
+    add_to_sclist(MMAIN, "M-]", DO_FIND_BRACKET, 0, TRUE);
+    add_to_sclist(MMAIN, "M--", DO_SCROLL_UP, 0, TRUE);
+    add_to_sclist(MMAIN, "M-_", DO_SCROLL_UP, 0, TRUE);
+    add_to_sclist(MMAIN, "M-+", DO_SCROLL_DOWN, 0, TRUE);
+    add_to_sclist(MMAIN, "M-=", DO_SCROLL_DOWN, 0, TRUE);
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-    add_to_sclist(MMAIN, "M-<", switch_to_prev_buffer_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M-,", switch_to_prev_buffer_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M->", switch_to_next_buffer_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M-.", switch_to_next_buffer_void, 0, TRUE);
+    add_to_sclist(MMAIN, "M-<", SWITCH_TO_PREV_BUFFER_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M-,", SWITCH_TO_PREV_BUFFER_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M->", SWITCH_TO_NEXT_BUFFER_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M-.", SWITCH_TO_NEXT_BUFFER_VOID, 0, TRUE);
 #endif
-    add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
+    add_to_sclist(MALL, "M-V", DO_VERBATIM_INPUT, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
+    add_to_sclist(MALL, "M-T", DO_CUT_TILL_END, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
-    add_to_sclist(MALL, "M-J", do_full_justify, 0, TRUE);
+    add_to_sclist(MALL, "M-J", DO_FULL_JUSTIFY, 0, TRUE);
 #endif
-    add_to_sclist(MMAIN, "M-D", do_wordlinechar_count, 0, TRUE);
-    add_to_sclist(MMAIN, "M-X", do_toggle, NO_HELP, TRUE);
-    add_to_sclist(MMAIN, "M-C", do_toggle, CONST_UPDATE, TRUE);
-    add_to_sclist(MMAIN, "M-O", do_toggle, MORE_SPACE, TRUE);
-    add_to_sclist(MMAIN, "M-S", do_toggle, SMOOTH_SCROLL, TRUE);
-    add_to_sclist(MMAIN, "M-P", do_toggle, WHITESPACE_DISPLAY, TRUE);
-    add_to_sclist(MMAIN, "M-Y", do_toggle, NO_COLOR_SYNTAX, TRUE);
-    add_to_sclist(MMAIN, "M-H", do_toggle, SMART_HOME, TRUE);
-    add_to_sclist(MMAIN, "M-I", do_toggle, AUTOINDENT, TRUE);
-    add_to_sclist(MMAIN, "M-K", do_toggle, CUT_TO_END, TRUE);
-    add_to_sclist(MMAIN, "M-L", do_toggle, NO_WRAP, TRUE);
-    add_to_sclist(MMAIN, "M-Q", do_toggle, TABS_TO_SPACES, TRUE);
-    add_to_sclist(MMAIN, "M-B", do_toggle, BACKUP_FILE, TRUE);
-    add_to_sclist(MMAIN, "M-F", do_toggle, MULTIBUFFER, TRUE);
-    add_to_sclist(MMAIN, "M-M", do_toggle, USE_MOUSE, TRUE);
-    add_to_sclist(MMAIN, "M-N", do_toggle, NO_CONVERT, TRUE);
-    add_to_sclist(MMAIN, "M-Z", do_toggle, SUSPEND, TRUE);
+    add_to_sclist(MMAIN, "M-D", DO_WORDLINECHAR_COUNT, 0, TRUE);
+    add_to_sclist(MMAIN, "M-X", DO_TOGGLE, NO_HELP, TRUE);
+    add_to_sclist(MMAIN, "M-C", DO_TOGGLE, CONST_UPDATE, TRUE);
+    add_to_sclist(MMAIN, "M-O", DO_TOGGLE, MORE_SPACE, TRUE);
+    add_to_sclist(MMAIN, "M-S", DO_TOGGLE, SMOOTH_SCROLL, TRUE);
+    add_to_sclist(MMAIN, "M-P", DO_TOGGLE, WHITESPACE_DISPLAY, TRUE);
+    add_to_sclist(MMAIN, "M-Y", DO_TOGGLE, NO_COLOR_SYNTAX, TRUE);
+    add_to_sclist(MMAIN, "M-H", DO_TOGGLE, SMART_HOME, TRUE);
+    add_to_sclist(MMAIN, "M-I", DO_TOGGLE, AUTOINDENT, TRUE);
+    add_to_sclist(MMAIN, "M-K", DO_TOGGLE, CUT_TO_END, TRUE);
+    add_to_sclist(MMAIN, "M-L", DO_TOGGLE, NO_WRAP, TRUE);
+    add_to_sclist(MMAIN, "M-Q", DO_TOGGLE, TABS_TO_SPACES, TRUE);
+    add_to_sclist(MMAIN, "M-B", DO_TOGGLE, BACKUP_FILE, TRUE);
+    add_to_sclist(MMAIN, "M-F", DO_TOGGLE, MULTIBUFFER, TRUE);
+    add_to_sclist(MMAIN, "M-M", DO_TOGGLE, USE_MOUSE, TRUE);
+    add_to_sclist(MMAIN, "M-N", DO_TOGGLE, NO_CONVERT, TRUE);
+    add_to_sclist(MMAIN, "M-Z", DO_TOGGLE, SUSPEND, TRUE);
 #endif
-    add_to_sclist(MGOTOLINE, "^T", (void *) gototext_msg, 0, FALSE);
-    add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", (void *) new_buffer_msg, 0, FALSE);
+    add_to_sclist(MGOTOLINE, "^T",  GOTOTEXT_MSG, 0, FALSE);
+    add_to_sclist(MINSERTFILE|MEXTCMD, "M-F",  NEW_BUFFER_MSG, 0, FALSE);
     add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO),
-	"^C", (void *) cancel_msg, 0, FALSE);
-    add_to_sclist(MHELP, "^X", do_exit, 0, TRUE);
-    add_to_sclist(MHELP, "F2", do_exit, 0, TRUE);
-    add_to_sclist(MWRITEFILE, "M-D", (void *) dos_format_msg, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-M", (void *) mac_format_msg, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-A", (void *) append_msg, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-P", (void *) prepend_msg, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-B", (void *) backup_file_msg, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "^T", (void *) to_files_msg, 0, FALSE);
-    add_to_sclist(MINSERTFILE, "^T", (void *) to_files_msg, 0, FALSE);
-    add_to_sclist(MINSERTFILE, "^X", (void *) ext_cmd_msg, 0, FALSE);
-    add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
-    add_to_sclist(MMAIN, "^L", total_refresh, 0, TRUE);
-    add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
-    add_to_sclist(MALL, "^M", do_enter, 0, TRUE);
-    add_to_sclist(MALL, "kenter", do_enter, 0, TRUE);
-    add_to_sclist(MALL, "^D", do_delete, 0, TRUE);
-    add_to_sclist(MALL, "kdel", do_delete, 0, TRUE);
-    add_to_sclist(MALL, "^H", do_backspace, 0, TRUE);
-    add_to_sclist(MALL, "kbsp", do_backspace, 0, TRUE);
+	"^C", CANCEL_MSG, 0, FALSE);
+    add_to_sclist(MHELP, "^X", DO_EXIT, 0, TRUE);
+    add_to_sclist(MHELP, "F2", DO_EXIT, 0, TRUE);
+    add_to_sclist(MWRITEFILE, "M-D",  DOS_FORMAT_MSG, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-M",  MAC_FORMAT_MSG, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-A",  APPEND_MSG, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-P",  PREPEND_MSG, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-B",  BACKUP_FILE_MSG, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "^T",  TO_FILES_MSG, 0, FALSE);
+    add_to_sclist(MINSERTFILE, "^T",  TO_FILES_MSG, 0, FALSE);
+    add_to_sclist(MINSERTFILE, "^X",  EXT_CMD_MSG, 0, FALSE);
+    add_to_sclist(MMAIN, "^Z", DO_SUSPEND_VOID, 0, FALSE);
+    add_to_sclist(MMAIN, "^L", TOTAL_REFRESH, 0, TRUE);
+    add_to_sclist(MALL, "^I", DO_TAB, 0, TRUE);
+    add_to_sclist(MALL, "^M", DO_ENTER, 0, TRUE);
+    add_to_sclist(MALL, "kenter", DO_ENTER, 0, TRUE);
+    add_to_sclist(MALL, "^D", DO_DELETE, 0, TRUE);
+    add_to_sclist(MALL, "kdel", DO_DELETE, 0, TRUE);
+    add_to_sclist(MALL, "^H", DO_BACKSPACE, 0, TRUE);
+    add_to_sclist(MALL, "kbsp", DO_BACKSPACE, 0, TRUE);
 
 #ifdef DEBUG
     print_sclist();
 #endif
 
 }
+
+/* Given a function alias, execute the proper
+   function, and then me */
+void iso_me_harder_funcmap(short func)
+{
+    if (func == TOTAL_REFRESH)
+	total_refresh();
+    else if (func == DO_HELP_VOID)
+	do_help_void();
+    else if (func == DO_SEARCH)
+	do_search();
+    else if (func == DO_PAGE_UP)
+	do_page_up();
+    else if (func == DO_PAGE_DOWN)
+	do_page_down();
+    else if (func == DO_UP_VOID)
+	do_up_void();
+    else if (func == DO_LEFT)
+	do_left();
+    else if (func == DO_DOWN_VOID)
+	do_down_void();
+    else if (func == DO_RIGHT)
+	do_right();
+    else if (func == DO_ENTER)
+	do_enter();
+    else if (func == DO_EXIT)
+	do_exit();
+    else if (func == DO_FIRST_LINE)
+	do_first_line();
+    else if (func == DO_LAST_LINE)
+	do_last_line();
+    else if (func == DO_BACKSPACE)
+	do_backspace();
+    else if (func == DO_DELETE)
+	do_delete();
+    else if (func == DO_TAB)
+	do_tab();
+    else if (func == DO_VERBATIM_INPUT)
+	do_verbatim_input();
+    else if (func == SWITCH_TO_NEXT_BUFFER_VOID)
+	switch_to_next_buffer_void();
+    else if (func == SWITCH_TO_PREV_BUFFER_VOID)
+	switch_to_prev_buffer_void();
+    else if (func == DO_END)
+	do_end();
+    else if (func == DO_HOME)
+	do_home();
+    else if (func == DO_REDO)
+	do_redo();
+    else if (func == DO_UNDO)
+	do_undo();
+    else if (func == DO_WORDLINECHAR_COUNT)
+	do_wordlinechar_count();
+    else if (func == DO_FIND_BRACKET)
+	do_find_bracket();
+    else if (func == DO_PREV_WORD_VOID)
+	do_prev_word_void();
+    else if (func == DO_SUSPEND_VOID)
+	do_suspend_void();
+    else if (func == DO_WRITEOUT_VOID)
+	do_writeout_void();
+    else if (func == DO_INSERTFILE_VOID)
+	do_insertfile_void();
+    else if (func == DO_CUT_TEXT_VOID)
+	do_cut_text_void();
+    else if (func == DO_UNCUT_TEXT)
+	do_uncut_text();
+    else if (func == DO_CURSORPOS_VOID)
+	do_cursorpos_void();
+    else if (func == DO_GOTOLINECOLUMN_VOID)
+	do_gotolinecolumn_void();
+    else if (func == DO_REPLACE)
+	do_replace();
+    else if (func == DO_JUSTIFY_VOID)
+	do_justify_void();
+    else if (func == DO_PARA_BEGIN_VOID)
+	do_para_begin_void();
+    else if (func == DO_PARA_END_VOID)
+	do_para_end_void();
+    else if (func == DO_FULL_JUSTIFY)
+	do_full_justify();
+    else if (func == DO_MARK)
+	do_mark();
+    else if (func == DO_RESEARCH)
+	do_research();
+    else if (func == DO_COPY_TEXT)
+	do_copy_text();
+    else if (func == DO_INDENT_VOID)
+	do_indent_void();
+    else if (func == DO_UNINDENT)
+	do_unindent();
+    else if (func == DO_SCROLL_UP)
+	do_scroll_up();
+    else if (func == DO_SCROLL_DOWN)
+	do_scroll_down();
+    else if (func == DO_NEXT_WORD_VOID)
+	do_next_word_void();
+    else if (func == DO_CUT_TILL_END)
+	do_cut_till_end();
+    else if (func == XOFF_COMPLAINT)
+	xoff_complaint();
+    else if (func == XON_COMPLAINT)
+	xon_complaint();
+    else if (func == DO_SPELL)
+	do_spell();
+    else if (func == DO_CUT_TEXT)
+	do_cut_text_void();
+    else if (func == DO_NEXT_WORD)
+	do_next_word_void();
+    else if (func == DO_PREV_WORD)
+	do_prev_word_void();
+}
+
 
 /* Free the given shortcut. */
 void free_shortcutage(shortcut **shortcutage)
@@ -1261,234 +1374,234 @@ sc *strtosc(int menu, char *input)
 
 #ifndef DISABLE_HELP
     if (!strcasecmp(input, "help"))
-	s->scfunc = do_help_void;
+	s->scfunc = DO_HELP_VOID;
     else 
 #endif
     if (!strcasecmp(input, "cancel")) {
-	s->scfunc = (void *) cancel_msg;
+	s->scfunc =  CANCEL_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "exit"))
-	s->scfunc = do_exit;
+	s->scfunc = DO_EXIT;
     else if (!strcasecmp(input, "writeout"))
-	s->scfunc = do_writeout_void;
+	s->scfunc = DO_WRITEOUT_VOID;
     else if (!strcasecmp(input, "insert"))
-	s->scfunc = do_insertfile_void;
+	s->scfunc = DO_INSERTFILE_VOID;
     else if (!strcasecmp(input, "whereis"))
-	s->scfunc = do_search;
+	s->scfunc = DO_SEARCH;
     else if (!strcasecmp(input, "up"))
-	s->scfunc = do_up_void;
+	s->scfunc = DO_UP_VOID;
     else if (!strcasecmp(input, "down"))
-	s->scfunc = do_down_void;
+	s->scfunc = DO_DOWN_VOID;
     else if (!strcasecmp(input, "pageup")
 	|| !strcasecmp(input, "prevpage"))
-	s->scfunc = do_page_up;
+	s->scfunc = DO_PAGE_UP;
     else if (!strcasecmp(input, "pagedown")
 	|| !strcasecmp(input, "nextpage"))
-	s->scfunc = do_page_down;
+	s->scfunc = DO_PAGE_DOWN;
     else if (!strcasecmp(input, "cut"))
-	s->scfunc = do_cut_text_void;
+	s->scfunc = DO_CUT_TEXT_VOID;
     else if (!strcasecmp(input, "uncut"))
-	s->scfunc = do_uncut_text;
+	s->scfunc = DO_UNCUT_TEXT;
     else if (!strcasecmp(input, "curpos") ||
 	!strcasecmp(input, "cursorpos"))
-	s->scfunc = do_cursorpos_void;
+	s->scfunc = DO_CURSORPOS_VOID;
     else if (!strcasecmp(input, "firstline"))
-	s->scfunc = do_first_line;
+	s->scfunc = DO_FIRST_LINE;
     else if (!strcasecmp(input, "lastline"))
-	s->scfunc = do_last_line;
+	s->scfunc = DO_LAST_LINE;
     else if (!strcasecmp(input, "gotoline"))
-	s->scfunc = do_gotolinecolumn_void;
+	s->scfunc = DO_GOTOLINECOLUMN_VOID;
     else if (!strcasecmp(input, "replace"))
-	s->scfunc = do_replace;
+	s->scfunc = DO_REPLACE;
 #ifndef DISABLE_JUSTIFY
     else if (!strcasecmp(input, "justify"))
-	s->scfunc = do_justify_void;
+	s->scfunc = DO_JUSTIFY_VOID;
     else if (!strcasecmp(input, "beginpara"))
-	s->scfunc = do_para_begin_void;
+	s->scfunc = DO_PARA_BEGIN_VOID;
     else if (!strcasecmp(input, "endpara"))
-	s->scfunc = do_para_end_void;
+	s->scfunc = DO_PARA_END_VOID;
     else if (!strcasecmp(input, "fulljustify"))
-	s->scfunc = do_full_justify;
+	s->scfunc = DO_FULL_JUSTIFY;
 #endif
 #ifndef NANO_TINY
     else if (!strcasecmp(input, "mark"))
-	s->scfunc = do_mark;
+	s->scfunc = DO_MARK;
     else if (!strcasecmp(input, "searchagain") ||
 		!strcasecmp(input, "research"))
-	s->scfunc = do_research;
+	s->scfunc = DO_RESEARCH;
     else if (!strcasecmp(input, "copytext"))
-	s->scfunc = do_copy_text;
+	s->scfunc = DO_COPY_TEXT;
     else if (!strcasecmp(input, "indent"))
-	s->scfunc = do_indent_void;
+	s->scfunc = DO_INDENT_VOID;
     else if (!strcasecmp(input, "unindent"))
-	s->scfunc = do_unindent;
+	s->scfunc = DO_UNINDENT;
     else if (!strcasecmp(input, "scrollup"))
-	s->scfunc = do_scroll_up;
+	s->scfunc = DO_SCROLL_UP;
     else if (!strcasecmp(input, "scrolldown"))
-	s->scfunc = do_scroll_down;
+	s->scfunc = DO_SCROLL_DOWN;
     else if (!strcasecmp(input, "nextword"))
-	s->scfunc = do_next_word_void;
+	s->scfunc = DO_NEXT_WORD_VOID;
     else if (!strcasecmp(input, "suspend"))
-	s->scfunc = do_suspend_void;
+	s->scfunc = DO_SUSPEND_VOID;
     else if (!strcasecmp(input, "prevword"))
-	s->scfunc = do_prev_word_void;
+	s->scfunc = DO_PREV_WORD_VOID;
     else if (!strcasecmp(input, "findbracket"))
-	s->scfunc = do_find_bracket;
+	s->scfunc = DO_FIND_BRACKET;
     else if (!strcasecmp(input, "wordcount"))
-	s->scfunc = do_wordlinechar_count;
+	s->scfunc = DO_WORDLINECHAR_COUNT;
     else if (!strcasecmp(input, "undo"))
-	s->scfunc = do_undo;
+	s->scfunc = DO_UNDO;
     else if (!strcasecmp(input, "redo"))
-	s->scfunc = do_redo;
+	s->scfunc = DO_REDO;
     else if (!strcasecmp(input, "prevhistory")) {
-	s->scfunc = (void *) prev_history_msg;
+	s->scfunc =  PREV_HISTORY_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "nexthistory")) {
-	s->scfunc = (void *) next_history_msg;
+	s->scfunc =  NEXT_HISTORY_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "nohelp") ||
 		!strcasecmp(input, "nohelp")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = NO_HELP;
     } else if (!strcasecmp(input, "constupdate")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = CONST_UPDATE;
     } else if (!strcasecmp(input, "morespace")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = MORE_SPACE;
     } else if (!strcasecmp(input, "smoothscroll")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = SMOOTH_SCROLL;
     } else if (!strcasecmp(input, "whitespacedisplay")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = WHITESPACE_DISPLAY;
     } else if (!strcasecmp(input, "nosyntax")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = NO_COLOR_SYNTAX;
     } else if (!strcasecmp(input, "smarthome")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = SMART_HOME;
     } else if (!strcasecmp(input, "autoindent")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = AUTOINDENT;
     } else if (!strcasecmp(input, "cuttoend")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = CUT_TO_END;
     } else if (!strcasecmp(input, "nowrap")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = NO_WRAP;
     } else if (!strcasecmp(input, "tabstospaces")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = TABS_TO_SPACES;
     } else if (!strcasecmp(input, "backupfile")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = BACKUP_FILE;
     } else if (!strcasecmp(input, "mutlibuffer")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = MULTIBUFFER;
     } else if (!strcasecmp(input, "mouse")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = USE_MOUSE;
     } else if (!strcasecmp(input, "noconvert")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = NO_CONVERT;
     } else if (!strcasecmp(input, "suspendenable")) {
-	s->scfunc = (void *) do_toggle;
+	s->scfunc =  DO_TOGGLE;
 	s->execute = FALSE;
 	s->toggle = SUSPEND;
     }
 #endif /* NANO_TINY */
     else if (!strcasecmp(input, "right") ||
 		!strcasecmp(input, "forward"))
-	s->scfunc = do_right;
+	s->scfunc = DO_RIGHT;
     else if (!strcasecmp(input, "left") ||
 		!strcasecmp(input, "back"))
-	s->scfunc = do_left;
+	s->scfunc = DO_LEFT;
     else if (!strcasecmp(input, "up") ||
 		!strcasecmp(input, "prevline"))
-	s->scfunc = do_up_void;
+	s->scfunc = DO_UP_VOID;
     else if (!strcasecmp(input, "down") ||
 		!strcasecmp(input, "nextline"))
-	s->scfunc = do_down_void;
+	s->scfunc = DO_DOWN_VOID;
     else if (!strcasecmp(input, "home"))
-	s->scfunc = do_home;
+	s->scfunc = DO_HOME;
     else if (!strcasecmp(input, "end"))
-	s->scfunc = do_end;
+	s->scfunc = DO_END;
 #ifdef ENABLE_MULTIBUFFER
     else if (!strcasecmp(input, "prevbuf"))
-	s->scfunc = switch_to_prev_buffer_void;
+	s->scfunc = SWITCH_TO_PREV_BUFFER_VOID;
     else if (!strcasecmp(input, "nextbuf"))
-	s->scfunc = switch_to_next_buffer_void;
+	s->scfunc = SWITCH_TO_NEXT_BUFFER_VOID;
 #endif
     else if (!strcasecmp(input, "verbatim"))
-	s->scfunc = do_verbatim_input;
+	s->scfunc = DO_VERBATIM_INPUT;
     else if (!strcasecmp(input, "tab"))
-	s->scfunc = do_tab;
+	s->scfunc = DO_TAB;
     else if (!strcasecmp(input, "enter"))
-	s->scfunc = do_enter;
+	s->scfunc = DO_ENTER;
     else if (!strcasecmp(input, "delete"))
-	s->scfunc = do_delete;
+	s->scfunc = DO_DELETE;
     else if (!strcasecmp(input, "backspace"))
-	s->scfunc = do_backspace;
+	s->scfunc = DO_BACKSPACE;
     else if (!strcasecmp(input, "refresh"))
-	s->scfunc = total_refresh;
+	s->scfunc = TOTAL_REFRESH;
     else if (!strcasecmp(input, "casesens")) {
-	s->scfunc = (void *) case_sens_msg;
+	s->scfunc =  CASE_SENS_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "regexp") ||
 		!strcasecmp(input, "regex")) {
-	s->scfunc = (void *) regexp_msg;
+	s->scfunc =  REGEXP_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "dontreplace")) {
-	s->scfunc = (void *) no_replace_msg;
+	s->scfunc =  NO_REPLACE_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "gototext")) {
-	s->scfunc = (void *) gototext_msg;
+	s->scfunc =  GOTOTEXT_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "browser") ||
 		!strcasecmp(input, "tofiles")) {
-	s->scfunc = (void *) to_files_msg;
+	s->scfunc =  TO_FILES_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "dosformat")) {
-	s->scfunc = (void *) dos_format_msg;
+	s->scfunc =  DOS_FORMAT_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "macformat")) {
-	s->scfunc = (void *) mac_format_msg;
+	s->scfunc =  MAC_FORMAT_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "append")) {
-	s->scfunc = (void *) append_msg;
+	s->scfunc =  APPEND_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "prepend")) {
-	s->scfunc = (void *) prepend_msg;
+	s->scfunc =  PREPEND_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "backup")) {
-	s->scfunc = (void *) backup_file_msg;
+	s->scfunc =  BACKUP_FILE_MSG;
 	s->execute = FALSE;
 #ifdef ENABLE_MULTIBUFFER
     } else if (!strcasecmp(input, "newbuffer")) {
-	s->scfunc = (void *) new_buffer_msg;
+	s->scfunc =  NEW_BUFFER_MSG;
 	s->execute = FALSE;
 #endif
     } else if (!strcasecmp(input, "firstfile")) {
-	s->scfunc = (void *) first_file_msg;
+	s->scfunc =  FIRST_FILE_MSG;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "lastfile")) {
-	s->scfunc = (void *) last_file_msg;
+	s->scfunc =  LAST_FILE_MSG;
 	s->execute = FALSE;
     } else {
 	free(s);

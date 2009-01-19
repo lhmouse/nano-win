@@ -156,7 +156,7 @@ char *do_browser(char *path, DIR *dir)
 			 * time, put back the Enter key so that it's
 			 * read in. */
 			if (old_selected == selected)
-			    unget_kbinput(sc_seq_or(do_enter, 0), FALSE, FALSE);
+			    unget_kbinput(sc_seq_or(DO_ENTER, 0), FALSE, FALSE);
 		    }
 	}
 #endif /* !DISABLE_MOUSE */
@@ -169,9 +169,9 @@ char *do_browser(char *path, DIR *dir)
         if (!f)
             break;
 
-	if (f->scfunc == total_refresh) {
+	if (f->scfunc == TOTAL_REFRESH) {
 		total_redraw();
-	} else if (f->scfunc == do_help_void) {
+	} else if (f->scfunc == DO_HELP_VOID) {
 #ifndef DISABLE_HELP
 	    do_browser_help();
 	    curs_set(0);
@@ -179,33 +179,33 @@ char *do_browser(char *path, DIR *dir)
 		nano_disabled_msg();
 #endif
 	    /* Search for a filename. */
-	} else if (f->scfunc == do_search) {
+	} else if (f->scfunc == DO_SEARCH) {
 		curs_set(1);
 		do_filesearch();
 		curs_set(0);
 	    /* Search for another filename. */
-	} else if (f->scfunc == (void *) whereis_next_msg) {
+	} else if (f->scfunc ==  WHEREIS_NEXT_MSG) {
 		do_fileresearch();
-	} else if (f->scfunc == do_page_up) {
+	} else if (f->scfunc == DO_PAGE_UP) {
 		if (selected >= (editwinrows + fileline % editwinrows) *
 			width)
 		    selected -= (editwinrows + fileline % editwinrows) *
 			width;
 		else
 		    selected = 0;
-	} else if (f->scfunc == do_page_down) {
+	} else if (f->scfunc == DO_PAGE_DOWN) {
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
 		if (selected > filelist_len - 1)
 		    selected = filelist_len - 1;
-	} else if (f->scfunc == (void *) first_file_msg) {
+	} else if (f->scfunc ==  FIRST_FILE_MSG) {
 		if (meta_key)
 		    selected = 0;
-	} else if (f->scfunc == (void *) last_file_msg) {
+	} else if (f->scfunc ==  LAST_FILE_MSG) {
 		if (meta_key)
 		    selected = filelist_len - 1;
 	    /* Go to a specific directory. */
-	} else if (f->scfunc == (void *) goto_dir_msg) {
+	} else if (f->scfunc ==  GOTO_DIR_MSG) {
 		curs_set(1);
 
 		i = do_prompt(TRUE,
@@ -238,7 +238,7 @@ char *do_browser(char *path, DIR *dir)
 		     * answer in ans, so that the file list is displayed
 		     * again, the prompt is displayed again, and what we
 		     * typed before at the prompt is displayed again. */
-		    unget_kbinput(sc_seq_or(do_gotolinecolumn_void, 0), FALSE, FALSE);
+		    unget_kbinput(sc_seq_or(DO_GOTOLINECOLUMN_VOID, 0), FALSE, FALSE);
 		    ans = mallocstrcpy(ans, answer);
 		    break;
 		}
@@ -285,19 +285,19 @@ char *do_browser(char *path, DIR *dir)
 		free(path);
 		path = new_path;
 		goto change_browser_directory;
-	} else if (f->scfunc == do_up_void) {
+	} else if (f->scfunc == DO_UP_VOID) {
 		if (selected >= width)
 		    selected -= width;
-	} else if (f->scfunc == do_left) {
+	} else if (f->scfunc == DO_LEFT) {
 		if (selected > 0)
 		    selected--;
-	} else if (f->scfunc == do_down_void) {
+	} else if (f->scfunc == DO_DOWN_VOID) {
 		if (selected + width <= filelist_len - 1)
 		    selected += width;
-	} else if (f->scfunc == do_right) {
+	} else if (f->scfunc == DO_RIGHT) {
 		if (selected < filelist_len - 1)
 		    selected++;
-	} else if (f->scfunc == do_enter) {
+	} else if (f->scfunc == DO_ENTER) {
 		/* We can't move up from "/". */
 		if (strcmp(filelist[selected], "/..") == 0) {
 		    statusbar(_("Can't move up a directory"));
@@ -355,7 +355,7 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		goto change_browser_directory;
 	    /* Abort the file browser. */
-	} else if (f->scfunc == do_exit) {
+	} else if (f->scfunc == DO_EXIT) {
 		abort = TRUE;
 	}
     }
@@ -552,32 +552,32 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     if (!*meta_key) {
 	switch (*kbinput) {
 	    case ' ':
-		*kbinput = sc_seq_or(do_page_down, 0);
+		*kbinput = sc_seq_or(DO_PAGE_DOWN, 0);
 		break;
 	    case '-':
-		*kbinput = sc_seq_or(do_page_up, 0);
+		*kbinput = sc_seq_or(DO_PAGE_UP, 0);
 		break;
 	    case '?':
 #ifndef DISABLE_HELP
-		*kbinput = sc_seq_or(do_help_void, 0);
+		*kbinput = sc_seq_or(DO_HELP_VOID, 0);
 #endif
 		break;
 	    /* Cancel equivalent to Exit here. */
 	    case 'E':
 	    case 'e':
-		*kbinput = sc_seq_or(do_exit, 0);
+		*kbinput = sc_seq_or(DO_EXIT, 0);
 		break;
 	    case 'G':
 	    case 'g':
-		*kbinput = sc_seq_or((void *) goto_dir_msg, 0);
+		*kbinput = sc_seq_or(GOTO_DIR_MSG, 0);
 		break;
 	    case 'S':
 	    case 's':
-		*kbinput = sc_seq_or(do_enter, 0);
+		*kbinput = sc_seq_or(DO_ENTER, 0);
 		break;
 	    case 'W':
 	    case 'w':
-		*kbinput = sc_seq_or(do_search, 0);
+		*kbinput = sc_seq_or(DO_SEARCH, 0);
 		break;
 	}
     }
@@ -841,18 +841,18 @@ int filesearch_init(void)
 #endif
 	} else
 #ifndef NANO_TINY
-	if (s && s->scfunc == (void *) case_sens_msg) {
+	if (s && s->scfunc == CASE_SENS_MSG) {
 		TOGGLE(CASE_SENSITIVE);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
-	} else if (s && s->scfunc == (void *) backwards_msg) {
+	} else if (s && s->scfunc == BACKWARDS_MSG) {
 		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 	} else
 #endif
 #ifdef HAVE_REGEX_H
-	if (s && s->scfunc == (void *) regexp_msg) {
+	if (s && s->scfunc ==  REGEXP_MSG) {
 		TOGGLE(USE_REGEXP);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;

@@ -2220,7 +2220,7 @@ void do_justify(bool full_justify)
 	&finished, FALSE);
     s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
 
-    if (s && s->scfunc == do_uncut_text) {
+    if (s && s->scfunc == DO_UNCUT_TEXT) {
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {

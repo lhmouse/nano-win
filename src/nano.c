@@ -67,6 +67,11 @@ filestruct *make_new_node(filestruct *prevnode)
     newnode->next = NULL;
     newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
 
+#ifdef ENABLE_COLOR
+    newnode->colors = NULL;
+    newnode->colorclean = FALSE;
+#endif
+
     return newnode;
 }
 
@@ -1453,7 +1458,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	     * for verbatim input, turn off prepending of wrapped
 	     * text. */
 	    if (have_shortcut && (!have_shortcut || s == NULL || s->scfunc !=
-		do_verbatim_input))
+		DO_VERBATIM_INPUT))
 		wrap_reset();
 #endif
 
@@ -1488,26 +1493,26 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		default:
 		    /* If the function associated with this shortcut is
 		     * cutting or copying text, indicate this. */
-		    if (s->scfunc == do_cut_text_void
+		    if (s->scfunc == DO_CUT_TEXT_VOID
 #ifndef NANO_TINY
-			|| s->scfunc == do_copy_text || s->scfunc ==
-			do_cut_till_end
+			|| s->scfunc == DO_COPY_TEXT || s->scfunc ==
+			DO_CUT_TILL_END
 #endif
 			)
 			cut_copy = TRUE;
 
-		    if (s->scfunc != NULL) {
+		    if (s->scfunc != 0) {
 			const subnfunc *f = sctofunc((sc *) s);
 			*ran_func = TRUE;
 			if (ISSET(VIEW_MODE) && f && !f->viewok)
 			    print_view_warning();
 			else
 #ifndef NANO_TINY
-			    if (s->scfunc == (void *) do_toggle)
+			    if (s->scfunc ==  DO_TOGGLE)
 				do_toggle(s->toggle);
 			    else
 #endif
-				s->scfunc();
+				iso_me_harder_funcmap(s->scfunc);
 		    }
 		    *finished = TRUE;
 		    break;
