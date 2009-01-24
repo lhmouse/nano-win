@@ -1,5 +1,10 @@
+2009-01-24 Chris Allegretta <chrisa@asty.org>
+	* Add interruptability to search functions.  New functions enable_nodelay and
+	  disable_nodelay and changes to the routines to handle checking for pending
+	  searches.  Fixes Savnnah bug 24946: Need interrrupt for search.
+
 2009-01-19 Chris Allegretta <chrisa@asty.org>
-	* Change funcion definitions to shorts instead of (void *)s.  New mapping function
+	* Change function definitions to shorts instead of (void *)s.  New mapping function
           iso_me_harder_funcmap().  Fixes compilation complaints with -pedantic, 
 	  reported by Eitan Adler <eitanadlerlist@gmail.com>.
 

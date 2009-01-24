@@ -1,4 +1,3 @@
-
 /* $Id$ */
 /**************************************************************************
  *   winio.c                                                              *
@@ -123,17 +122,21 @@ void get_key_buffer(WINDOW *win)
     doupdate();
 
     errcount = 0;
-    while ((input = wgetch(win)) == ERR) {
-	errcount++;
+    if (nodelay_mode) {
+	if ((input =  wgetch(win)) == ERR)
+           return;
+    } else
+	while ((input = wgetch(win)) == ERR) {
+	    errcount++;
 
-	/* If we've failed to get a character MAX_BUF_SIZE times in a
-	 * row, assume that the input source we were using is gone and
-	 * die gracefully.  We could check if errno is set to EIO
-	 * ("Input/output error") and die gracefully in that case, but
-	 * it's not always set properly.  Argh. */
-	if (errcount == MAX_BUF_SIZE)
-	    handle_hupterm(0);
-    }
+	    /* If we've failed to get a character MAX_BUF_SIZE times in a
+	     * row, assume that the input source we were using is gone and
+	     * die gracefully.  We could check if errno is set to EIO
+	     * ("Input/output error") and die gracefully in that case, but
+	     * it's not always set properly.  Argh. */
+	    if (errcount == MAX_BUF_SIZE)
+		handle_hupterm(0);
+	}
 
 #ifndef NANO_TINY
     allow_pending_sigwinch(FALSE);
@@ -331,7 +334,12 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     *func_key = FALSE;
 
     /* Read in a character. */
-    while ((kbinput = get_input(win, 1)) == NULL);
+    if (nodelay_mode) {
+	kbinput = get_input(win, 1);
+	if (kbinput == 0)
+	    return 0;
+    } else
+	while ((kbinput = get_input(win, 1)) == NULL);
 
     switch (*kbinput) {
 	case ERR:
@@ -1790,6 +1798,32 @@ const sc *get_shortcut(int menu, int *kbinput, bool
     return NULL;
 }
 
+
+/* Try to get a function back from a window.  Just a wrapper so
+   functions to need to create function_key meta_key blah blah 
+    mmenu - what menu name to look through for valid funcs */
+const subnfunc *getfuncfromkey(WINDOW *win)
+{
+    int kbinput;
+    bool func_key = FALSE, meta_key = FALSE;
+    const sc *s;
+    const subnfunc *f;
+
+    kbinput = parse_kbinput(win, &meta_key, &func_key);
+    if (kbinput == 0)
+	return NULL;
+
+    s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+    if (!s)
+	return NULL;
+
+    f = sctofunc((sc *) s);
+    return f;
+
+}
+
+
+
 /* Move to (x, y) in win, and display a line of n spaces with the
  * current attributes. */
 void blank_line(WINDOW *win, int y, int x, int n)
@@ -3182,6 +3216,19 @@ void do_cursorpos_void(void)
 {
     do_cursorpos(FALSE);
 }
+
+void enable_nodelay(void)
+{
+   nodelay_mode = TRUE;
+   nodelay(edit, TRUE);
+}
+
+void disable_nodelay(void)
+{
+   nodelay_mode = FALSE;
+   nodelay(edit, FALSE);
+}
+
 
 /* Highlight the current word being replaced or spell checked.  We
  * expect word to have tabs and control characters expanded. */

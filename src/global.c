@@ -115,6 +115,9 @@ size_t quotelen;
 #endif
 #endif
 
+bool nodelay_mode = FALSE;
+	/* Are we in nodelay mode (checking for a cancel wile doing something */
+
 char *answer = NULL;
 	/* The answer string used by the statusbar prompt. */
 

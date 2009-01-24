@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <errno.h>
+#include <time.h>
 
 static bool search_last_line = FALSE;
 	/* Have we gone past the last line while searching? */
@@ -288,6 +289,8 @@ bool findnextstr(
     ssize_t current_y_find = openfile->current_y;
     filestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
+    const subnfunc *f;
+    time_t lastkbcheck = time(NULL);
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -302,7 +305,17 @@ bool findnextstr(
 	openfile->current_x + 1;
 
     /* Look for needle in the current line we're searching. */
+    enable_nodelay();
     while (TRUE) {
+        if (time(NULL) - lastkbcheck > 1) {
+            lastkbcheck = time(NULL);
+	    f = getfuncfromkey(edit);
+            if (f && f->scfunc == CANCEL_MSG) {
+		statusbar(_("Cancelled"));
+		return FALSE;
+	    }
+	}
+
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
 	/* We've found a potential match. */
@@ -348,6 +361,7 @@ bool findnextstr(
 	/* We've finished processing the file, so get out. */
 	if (search_last_line) {
 	    not_found_msg(needle);
+            disable_nodelay();
 	    return FALSE;
 	}
 
@@ -405,9 +419,11 @@ bool findnextstr(
 #endif
 	) {
 	not_found_msg(needle);
+	disable_nodelay();
 	return FALSE;
     }
 
+    disable_nodelay();
     /* We've definitely found something. */
     openfile->current = fileptr;
     openfile->current_x = current_x_find;

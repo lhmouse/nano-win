@@ -76,7 +76,7 @@ extern char *quoteerr;
 extern size_t quotelen;
 #endif
 #endif
-
+bool nodelay_mode;
 extern char *answer;
 
 extern ssize_t tabsize;
@@ -776,6 +776,7 @@ void do_cursorpos_void(void);
 void do_replace_highlight(bool highlight, const char *word);
 char *flagtostr(int flag);
 const subnfunc *sctofunc(sc *s);
+const subnfunc *getfuncfromkey(WINDOW *win);
 void print_sclist(void);
 sc *strtosc(int menu, char *input);
 function_type strtokeytype(char *str);
@@ -815,6 +816,8 @@ const char *backup_file_msg;
 const char *gototext_msg;
 const char *new_buffer_msg;
 void iso_me_harder_funcmap(short func);
+void enable_nodelay(void);
+void disable_nodelay(void);
 
 #ifdef HAVE_REGEX_H
 const char *regexp_msg;
