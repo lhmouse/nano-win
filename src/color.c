@@ -105,11 +105,13 @@ void color_init(void)
 /* Update the color information based on the current filename. */
 void color_update(void)
 {
-    const syntaxtype *tmpsyntax;
+    syntaxtype *tmpsyntax;
+    syntaxtype *defsyntax = NULL;
     colortype *tmpcolor, *defcolor = NULL;
 
     assert(openfile != NULL);
 
+    openfile->syntax = NULL;
     openfile->colorstrings = NULL;
 
     /* If we specified a syntax override string, use it. */
@@ -121,8 +123,10 @@ void color_update(void)
 
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-	    if (strcmp(tmpsyntax->desc, syntaxstr) == 0)
+	    if (strcmp(tmpsyntax->desc, syntaxstr) == 0) {
+		openfile->syntax = tmpsyntax;
 		openfile->colorstrings = tmpsyntax->color;
+	    }
 
 	    if (openfile->colorstrings != NULL)
 		break;
@@ -141,6 +145,7 @@ void color_update(void)
 	     * extensions, which we've checked for elsewhere.  Skip over
 	     * it here, but keep track of its color regexes. */
 	    if (strcmp(tmpsyntax->desc, "default") == 0) {
+		defsyntax = tmpsyntax;
 		defcolor = tmpsyntax->color;
 		continue;
 	    }
@@ -159,8 +164,10 @@ void color_update(void)
 		/* Set colorstrings if we matched the extension
 		 * regex. */
 		if (regexec(e->ext, openfile->filename, 0, NULL,
-			0) == 0)
+			0) == 0) {
+		    openfile->syntax = tmpsyntax;
 		    openfile->colorstrings = tmpsyntax->color;
+		}
 
 		if (openfile->colorstrings != NULL)
 		    break;
@@ -200,8 +207,10 @@ void color_update(void)
 #ifdef DEBUG
 		fprintf(stderr, "Comparing header regex \"%s\" to fileage \"%s\"...\n", e->ext_regex, openfile->fileage->data);
 #endif
-		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0)
+		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0) {
+			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
+		    }
 
 		    if (openfile->colorstrings != NULL)
 			break;
@@ -221,8 +230,10 @@ void color_update(void)
 
     /* If we didn't get a syntax based on the file extension, and we
      * have a default syntax, use it. */
-    if (openfile->colorstrings == NULL && defcolor != NULL)
+    if (openfile->colorstrings == NULL && defcolor != NULL) {
+	openfile->syntax = defsyntax;
 	openfile->colorstrings = defcolor;
+    }
 
     for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
 	tmpcolor = tmpcolor->next) {
@@ -243,4 +254,30 @@ void color_update(void)
     }
 }
 
+/* Reset multi line strings around a filestruct ptr, trying to be smart about stopping */
+void reset_multis(filestruct *fileptr) 
+{
+    int i;
+    filestruct *oof;
+
+    for (i = 0; i < openfile->syntax->nmultis; i++) {
+	for (oof = fileptr->next; oof != NULL; oof = oof->next) {
+	    if (oof->multiswatching == NULL)
+		continue;
+	    if (oof->multiswatching[i] == FALSE)
+		oof->multiswatching[i] = TRUE;
+	    else
+		break;
+	}
+	for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
+	    if (oof->multiswatching == NULL)
+		continue;
+	    if (oof->multiswatching[i] == FALSE)
+		oof->multiswatching[i] = TRUE;
+	    else
+		break;
+	    }
+	fileptr->multiswatching[i] = TRUE;
+    }
+}
 #endif /* ENABLE_COLOR */

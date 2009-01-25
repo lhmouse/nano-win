@@ -542,6 +542,7 @@ void parse_syntax(char *ptr);
 void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
+void reset_multis(filestruct *fileptr);
 #endif
 void parse_rcfile(FILE *rcstream
 #ifdef ENABLE_COLOR
@@ -759,13 +760,13 @@ void statusbar(const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, size_t len);
 void reset_cursor(void);
-void edit_draw(const filestruct *fileptr, const char *converted, int
+void edit_draw(filestruct *fileptr, const char *converted, int
 	line, size_t start);
-void update_line(const filestruct *fileptr, size_t index);
+void update_line(filestruct *fileptr, size_t index);
 bool need_horizontal_update(size_t pww_save);
 bool need_vertical_update(size_t pww_save);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
-void edit_redraw(const filestruct *old_current, size_t pww_save);
+void edit_redraw(filestruct *old_current, size_t pww_save);
 void edit_refresh(void);
 void edit_update(update_type location);
 void total_redraw(void);

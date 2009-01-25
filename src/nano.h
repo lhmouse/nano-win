@@ -196,6 +196,8 @@ typedef struct colortype {
 	/* The compiled end (if any) of the regex string. */
     struct colortype *next;
 	/* Next set of colors. */
+     int id;
+	/* basic id for assigning to lines later */
 } colortype;
 
 typedef struct exttype {
@@ -216,6 +218,8 @@ typedef struct syntaxtype {
 	/* Regexes to match on the 'header' (1st line) of the file */
     colortype *color;
 	/* The colors used in this syntax. */
+    int nmultis;
+	/* How many multi line strings this syntax has */
     struct syntaxtype *next;
 	/* Next syntax. */
 } syntaxtype;
@@ -233,8 +237,7 @@ typedef struct filestruct {
     struct filestruct *prev;
 	/* Previous node. */
 #ifdef ENABLE_COLOR
-    colortype **colors;		/* Will be a series of pointers to the colorstrings we're painting */
-    bool colorclean;		/* Did we do something to the line which necessitates recalculating the colors */
+    bool *multiswatching;		/* Array of which multi-line regexes apply to this line */
 #endif
 } filestruct;
 
@@ -328,6 +331,8 @@ typedef struct openfilestruct {
     undo_type last_action;
 #endif
 #ifdef ENABLE_COLOR
+    syntaxtype *syntax;
+	/* The  syntax struct for this file, if any */
     colortype *colorstrings;
 	/* The current file's associated colors. */
 #endif

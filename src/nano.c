@@ -68,8 +68,7 @@ filestruct *make_new_node(filestruct *prevnode)
     newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
 
 #ifdef ENABLE_COLOR
-    newnode->colors = NULL;
-    newnode->colorclean = FALSE;
+    newnode->multiswatching = NULL;
 #endif
 
     return newnode;
@@ -88,6 +87,9 @@ filestruct *copy_node(const filestruct *src)
     dst->next = src->next;
     dst->prev = src->prev;
     dst->lineno = src->lineno;
+#ifdef ENABLE_COLOR
+    dst->multiswatching = NULL;
+#endif
 
     return dst;
 }
@@ -123,6 +125,11 @@ void delete_node(filestruct *fileptr)
 
     if (fileptr->data != NULL)
 	free(fileptr->data);
+
+#ifdef ENABLE_COLOR
+    if (fileptr->multiswatching)
+	free(fileptr->multiswatching);
+#endif
 
     free(fileptr);
 }
@@ -1444,6 +1451,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		kbinput = (int *)nrealloc(kbinput, kbinput_len *
 			sizeof(int));
 		kbinput[kbinput_len - 1] = input;
+
 	    }
 	}
 
@@ -1510,9 +1518,17 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #ifndef NANO_TINY
 			    if (s->scfunc ==  DO_TOGGLE)
 				do_toggle(s->toggle);
-			    else
+			    else {
 #endif
 				iso_me_harder_funcmap(s->scfunc);
+#ifdef ENABLE_COLOR
+				if (!f->viewok && openfile->syntax != NULL 
+					&& openfile->current->multiswatching && openfile->syntax->nmultis > 0) {
+				    reset_multis(openfile->current);
+				    edit_refresh();
+				}
+#endif
+			    }				
 		    }
 		    *finished = TRUE;
 		    break;
@@ -1551,7 +1567,7 @@ int do_mouse(void)
 	bool sameline;
 	    /* Did they click on the line with the cursor?  If they
 	     * clicked on the cursor, we set the mark. */
-	const filestruct *current_save = openfile->current;
+	filestruct *current_save = openfile->current;
 	size_t current_x_save = openfile->current_x;
 	size_t pww_save = openfile->placewewant;
 
@@ -1688,6 +1704,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     openfile->placewewant = xplustabs();
 
+
+    reset_multis(openfile->current);
     if (do_refresh)
 	edit_refresh();
     else

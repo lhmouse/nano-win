@@ -107,6 +107,7 @@ static exttype *endheader = NULL;
 	/* End of header list */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
+
 #endif
 
 /* We have an error in some part of the rcfile.  Print the error message
@@ -296,6 +297,7 @@ void parse_syntax(char *ptr)
     endsyntax->extensions = NULL;
     endsyntax->headers = NULL;
     endsyntax->next = NULL;
+    endsyntax->nmultis = 0;
 
 #ifdef DEBUG
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
@@ -716,6 +718,10 @@ void parse_colors(char *ptr, bool icase)
 	    /* Save the ending regex string if it's valid. */
 	    newcolor->end_regex = (nregcomp(fgstr, icase ? REG_ICASE :
 		0)) ? mallocstrcpy(NULL, fgstr) : NULL;
+
+	    /* Lame way to skip another static counter */
+            newcolor->id = endsyntax->nmultis;
+            endsyntax->nmultis++;
 	}
     }
 }

@@ -2450,7 +2450,7 @@ void reset_cursor(void)
  * character of this page.  That is, the first character of converted
  * corresponds to character number actual_x(fileptr->data, start) of the
  * line. */
-void edit_draw(const filestruct *fileptr, const char *converted, int
+void edit_draw(filestruct *fileptr, const char *converted, int
 	line, size_t start)
 {
 #if !defined(NANO_TINY) || defined(ENABLE_COLOR)
@@ -2478,6 +2478,14 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
 
+	/* Set up multi-line color data for this line if it's not yet calculated  */
+        if (fileptr->multiswatching == NULL && openfile->syntax
+		&& openfile->syntax->nmultis > 0) {
+ 	    int i;
+	    fileptr->multiswatching = nmalloc(openfile->syntax->nmultis * sizeof(bool));
+            for (i = 0; i < openfile->syntax->nmultis; i++) 
+		fileptr->multiswatching[i] = TRUE;	/* Assue this applies until we know otherwise */
+	}
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;
 		/* Starting column for mvwaddnstr.  Zero-based. */
@@ -2543,7 +2551,7 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 		    }
 		    k = startmatch.rm_eo;
 		}
-	    } else {
+	    } else if (fileptr->multiswatching != NULL && fileptr->multiswatching[tmpcolor->id] == TRUE) {
 		/* This is a multi-line regex.  There are two steps.
 		 * First, we have to see if the beginning of the line is
 		 * colored by a start on an earlier line, and an end on
@@ -2560,6 +2568,8 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 		regoff_t start_col;
 		    /* Where it starts in that line. */
 		const filestruct *end_line;
+
+		fileptr->multiswatching[tmpcolor->id] = FALSE; /* until we find out otherwise */
 
 		while (start_line != NULL && regexec(tmpcolor->start,
 			start_line->data, 1, &startmatch, 0) ==
@@ -2631,7 +2641,7 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 				endmatch.rm_eo) - start);
 
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
-
+		    fileptr->multiswatching[tmpcolor->id] = TRUE;
   step_two:
 		    /* Second step, we look for starts on this line. */
 		    start_col = 0;
@@ -2676,6 +2686,9 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 
 				mvwaddnstr(edit, line, x_start,
 					converted + index, paintlen);
+				if (paintlen > 0)
+				    fileptr->multiswatching[tmpcolor->id] = TRUE;
+
 			    }
 			} else {
 			    /* There is no end on this line.  But we
@@ -2696,6 +2709,7 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 				/* We painted to the end of the line, so
 				 * don't bother checking any more
 				 * starts. */
+				fileptr->multiswatching[tmpcolor->id] = TRUE;
 				break;
 			    }
 			}
@@ -2785,7 +2799,7 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 /* Just update one line in the edit buffer.  This is basically a wrapper
  * for edit_draw().  The line will be displayed starting with
  * fileptr->data[index].  Likely arguments are current_x or zero. */
-void update_line(const filestruct *fileptr, size_t index)
+void update_line(filestruct *fileptr, size_t index)
 {
     int line;
 	/* The line in the edit window that we want to update. */
@@ -2858,7 +2872,7 @@ bool need_vertical_update(size_t pww_save)
 void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
     bool do_redraw = need_vertical_update(0);
-    const filestruct *foo;
+    filestruct *foo;
     ssize_t i;
 
     /* Don't bother scrolling less than one line. */
@@ -2953,11 +2967,11 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
-void edit_redraw(const filestruct *old_current, size_t pww_save)
+void edit_redraw(filestruct *old_current, size_t pww_save)
 {
     bool do_redraw = need_vertical_update(0) ||
 	need_vertical_update(pww_save);
-    const filestruct *foo = NULL;
+    filestruct *foo = NULL;
 
     /* If either old_current or current is offscreen, scroll the edit
      * window until it's onscreen and get out. */
@@ -3065,7 +3079,7 @@ void edit_redraw(const filestruct *old_current, size_t pww_save)
  * if we've moved and changed text. */
 void edit_refresh(void)
 {
-    const filestruct *foo;
+    filestruct *foo;
     int nlines;
 
     if (openfile->current->lineno < openfile->edittop->lineno ||

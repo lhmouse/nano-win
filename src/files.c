@@ -311,6 +311,10 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 	fileptr->data[buf_len - 1] = '\0';
 #endif
 
+#ifdef ENABLE_COLOR
+	fileptr->multiswatching = NULL;
+#endif
+
     if (*first_line_ins) {
 	/* Special case: We're inserting with the cursor on the first
 	 * line. */

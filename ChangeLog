@@ -1,4 +1,6 @@
 2009-01-24 Chris Allegretta <chrisa@asty.org>
+	* First pass at some caching of caching color info.  Right now it's only for
+	  multi-line regexes but this may not be enough to increase performance.
 	* Add interruptability to search functions.  New functions enable_nodelay and
 	  disable_nodelay and changes to the routines to handle checking for pending
 	  searches.  Fixes Savnnah bug 24946: Need interrrupt for search.

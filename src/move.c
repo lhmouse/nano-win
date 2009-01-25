@@ -29,7 +29,7 @@
 /* Move to the first line of the file. */
 void do_first_line(void)
 {
-    const filestruct *current_save = openfile->current;
+    filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
     openfile->current = openfile->fileage;
@@ -42,7 +42,7 @@ void do_first_line(void)
 /* Move to the last line of the file. */
 void do_last_line(void)
 {
-    const filestruct *current_save = openfile->current;
+    filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
     openfile->current = openfile->filebot;
@@ -130,7 +130,7 @@ void do_page_down(void)
  * afterwards. */
 void do_para_begin(bool allow_update)
 {
-    const filestruct *current_save = openfile->current;
+    filestruct *current_save = openfile->current;
     const size_t pww_save = openfile->placewewant;
 
     if (openfile->current != openfile->fileage) {
@@ -162,7 +162,7 @@ void do_para_begin_void(void)
  * paragraph or isn't in a paragraph. */
 void do_para_end(bool allow_update)
 {
-    const filestruct *const current_save = openfile->current;
+    filestruct *const current_save = openfile->current;
     const size_t pww_save = openfile->placewewant;
 
     while (openfile->current != openfile->filebot &&
@@ -206,7 +206,7 @@ void do_para_end_void(void)
 bool do_next_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
-    const filestruct *current_save = openfile->current;
+    filestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
     bool end_line = FALSE, started_on_word = FALSE;
@@ -301,7 +301,7 @@ void do_next_word_void(void)
 bool do_prev_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
-    const filestruct *current_save = openfile->current;
+    filestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE, started_on_word = FALSE;
