@@ -470,7 +470,7 @@ void parse_include(char *ptr)
 {
     struct stat rcinfo;
     FILE *rcstream;
-    char *option, *full_option, *nanorc_save = nanorc;
+    char *option, *nanorc_save = nanorc;
     size_t lineno_save = lineno;
 
     option = ptr;
@@ -478,33 +478,28 @@ void parse_include(char *ptr)
 	option++;
     ptr = parse_argument(ptr);
 
-    /* Get the specified file's full path. */
-    full_option = get_full_path(option);
-
-    if (full_option == NULL)
-	full_option = mallocstrcpy(NULL, option);
+    /* Can't get the specified file's full path cause it may screw up
+	our cwd depending on the parent dirs' permissions, (see Savannah bug 25297) */
 
     /* Don't open directories, character files, or block files. */
-    if (stat(full_option, &rcinfo) != -1) {
+    if (stat(option, &rcinfo) != -1) {
 	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
 		S_ISBLK(rcinfo.st_mode)) {
 	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
 		_("\"%s\" is a directory") :
 		_("\"%s\" is a device file"), option);
-	    goto cleanup_include;
 	}
     }
 
     /* Open the new syntax file. */
-    if ((rcstream = fopen(full_option, "rb")) == NULL) {
+    if ((rcstream = fopen(option, "rb")) == NULL) {
 	rcfile_error(_("Error reading %s: %s"), option,
 		strerror(errno));
-	goto cleanup_include;
     }
 
     /* Use the name and line number position of the new syntax file
      * while parsing it, so we can know where any errors in it are. */
-    nanorc = full_option;
+    nanorc = option;
     lineno = 0;
 
 #ifdef DEBUG
@@ -522,8 +517,6 @@ void parse_include(char *ptr)
     nanorc = nanorc_save;
     lineno = lineno_save;
 
-  cleanup_include:
-    free(full_option);
 }
 
 /* Return the short value corresponding to the color named in colorname,

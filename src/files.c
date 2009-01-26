@@ -604,7 +604,7 @@ void read_file(FILE *f, const char *filename, bool undoable)
  * return value.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, FILE **f)
 {
-    struct stat fileinfo;
+    struct stat fileinfo, fileinfo2;
     int fd;
     char *full_filename;
 
@@ -613,10 +613,21 @@ int open_file(const char *filename, bool newfie, FILE **f)
     /* Get the specified file's full path. */
     full_filename = get_full_path(filename);
 
-    if (full_filename == NULL)
+    /* Okay, if we can't stat the path due to a component's
+       permissions, just try the relative one */
+    if (full_filename == NULL 
+	|| (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
 
     if (stat(full_filename, &fileinfo) == -1) {
+	/* Well, maybe we can open the file even if the OS
+	   says its not there */
+        if ((fd = open(filename, O_RDONLY)) != -1) {
+	    statusbar(_("Reading File"));
+	    free(full_filename);
+	    return 0;
+	}
+
 	if (newfie) {
 	    statusbar(_("New File"));
 	    return -2;
