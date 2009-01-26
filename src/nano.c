@@ -1705,7 +1705,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     openfile->placewewant = xplustabs();
 
 
+#ifdef ENABLE_COLOR
     reset_multis(openfile->current);
+#endif
     if (do_refresh)
 	edit_refresh();
     else
