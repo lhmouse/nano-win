@@ -1224,24 +1224,16 @@ void iso_me_harder_funcmap(short func)
 	do_tab();
     else if (func == DO_VERBATIM_INPUT)
 	do_verbatim_input();
+#ifdef ENABLE_MULTIBUFFER
     else if (func == SWITCH_TO_NEXT_BUFFER_VOID)
 	switch_to_next_buffer_void();
     else if (func == SWITCH_TO_PREV_BUFFER_VOID)
 	switch_to_prev_buffer_void();
+#endif
     else if (func == DO_END)
 	do_end();
     else if (func == DO_HOME)
 	do_home();
-    else if (func == DO_REDO)
-	do_redo();
-    else if (func == DO_UNDO)
-	do_undo();
-    else if (func == DO_WORDLINECHAR_COUNT)
-	do_wordlinechar_count();
-    else if (func == DO_FIND_BRACKET)
-	do_find_bracket();
-    else if (func == DO_PREV_WORD_VOID)
-	do_prev_word_void();
     else if (func == DO_SUSPEND_VOID)
 	do_suspend_void();
     else if (func == DO_WRITEOUT_VOID)
@@ -1258,6 +1250,25 @@ void iso_me_harder_funcmap(short func)
 	do_gotolinecolumn_void();
     else if (func == DO_REPLACE)
 	do_replace();
+    else if (func == XOFF_COMPLAINT)
+	xoff_complaint();
+    else if (func == XON_COMPLAINT)
+	xon_complaint();
+    else if (func == DO_CUT_TEXT)
+	do_cut_text_void();
+#ifndef NANO_TINY
+    else if (func == DO_CUT_TILL_END)
+	do_cut_till_end();
+    else if (func == DO_REDO)
+	do_redo();
+    else if (func == DO_UNDO)
+	do_undo();
+    else if (func == DO_WORDLINECHAR_COUNT)
+	do_wordlinechar_count();
+    else if (func == DO_FIND_BRACKET)
+	do_find_bracket();
+    else if (func == DO_PREV_WORD_VOID)
+	do_prev_word_void();
     else if (func == DO_JUSTIFY_VOID)
 	do_justify_void();
     else if (func == DO_PARA_BEGIN_VOID)
@@ -1282,20 +1293,15 @@ void iso_me_harder_funcmap(short func)
 	do_scroll_down();
     else if (func == DO_NEXT_WORD_VOID)
 	do_next_word_void();
-    else if (func == DO_CUT_TILL_END)
-	do_cut_till_end();
-    else if (func == XOFF_COMPLAINT)
-	xoff_complaint();
-    else if (func == XON_COMPLAINT)
-	xon_complaint();
+#ifndef DISABLE_SPELLER
     else if (func == DO_SPELL)
 	do_spell();
-    else if (func == DO_CUT_TEXT)
-	do_cut_text_void();
+#endif
     else if (func == DO_NEXT_WORD)
 	do_next_word_void();
     else if (func == DO_PREV_WORD)
 	do_prev_word_void();
+#endif
 }
 
 

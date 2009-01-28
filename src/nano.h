@@ -711,6 +711,8 @@ typedef struct subnfunc {
   can go cut my wrists after writing the big switch statement
   that will necessitate. */
 
+#endif /* !NANO_TINY */
+
 #define CASE_SENS_MSG 1
 #define BACKWARDS_MSG 2
 #define REGEXP_MSG 3
@@ -864,7 +866,6 @@ typedef struct subnfunc {
 
 
 
-#endif /* !NANO_TINY */
 
 #define VIEW TRUE
 #define NOVIEW FALSE

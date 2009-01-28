@@ -503,7 +503,7 @@ void parse_include(char *ptr)
     lineno = 0;
 
 #ifdef DEBUG
-    fprintf(stderr, "Parsing file \"%s\"\n", full_option);
+    fprintf(stderr, "Parsing file \"%s\"\n", option);
 #endif
 
     parse_rcfile(rcstream
