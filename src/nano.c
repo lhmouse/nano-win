@@ -2239,6 +2239,30 @@ int main(int argc, char **argv)
 	optind++;
     }
 
+    if (optind < argc && !strcmp(argv[optind], "-")) {
+	FILE *f;
+	int ttystdin;
+	struct termios term;
+
+	enable_signals();
+	open_buffer("", FALSE);
+	endwin();
+
+	f = fopen("/dev/stdin", "rb");
+   	if (f == NULL)
+	    nperror("fopen");
+
+	read_file(f, "stdin", TRUE);
+	ttystdin = open("/dev/tty", O_RDONLY);
+	if (!ttystdin)
+	    die(_("Couldn't reopen stdin from keyboard, sorry\n"));
+
+	dup2(ttystdin,0);
+	close(ttystdin);
+	set_modified();
+	optind++;
+    }
+
 #ifdef ENABLE_MULTIBUFFER
     old_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);

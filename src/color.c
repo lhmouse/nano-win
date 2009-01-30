@@ -260,6 +260,9 @@ void reset_multis(filestruct *fileptr)
     int i;
     filestruct *oof;
 
+    if (!openfile->syntax)
+	return;
+
     for (i = 0; i < openfile->syntax->nmultis; i++) {
 	for (oof = fileptr->next; oof != NULL; oof = oof->next) {
 	    if (oof->multiswatching == NULL)
