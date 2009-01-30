@@ -1,6 +1,6 @@
 2009-01-29 Chris Allegretta <chrisa@asty.org>
 	* nano.c (main): Add support for nano acting like a pager when invoked with - as first
-	  file argument.  Not yet perfect (garbles screen state on exit) but it's something.
+	  file argument.
 
 2009-01-28 Davide Pesavento <davidepesa@gmail.com>
 	* doc/syntax/gentoo.nanorc: Updates from David and Mike Frysinger.
