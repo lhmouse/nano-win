@@ -1031,6 +1031,73 @@ void do_exit(void)
     display_main_list();
 }
 
+
+
+static struct sigaction pager_oldaction, pager_newaction;  /* Original and temporary handlers for SIGINT. */
+static bool pager_sig_failed = FALSE; /* Did sigaction() fail without changing the signal handlers? */
+
+/* Things which need to be run regardless of whether
+   we finished the stdin pipe correctly or not */
+void finish_stdin_pager(void)
+{
+    FILE *f;
+    int ttystdin;
+
+    /* Read whatever we did get from stdin */
+    f = fopen("/dev/stdin", "rb");
+       if (f == NULL)
+        nperror("fopen");
+
+    read_file(f, "stdin", TRUE);
+    ttystdin = open("/dev/tty", O_RDONLY);
+    if (!ttystdin)
+        die(_("Couldn't reopen stdin from keyboard, sorry\n"));
+
+    dup2(ttystdin,0);
+    close(ttystdin);
+    tcgetattr(0, &oldterm);
+    if (!pager_sig_failed && sigaction(SIGINT, &pager_oldaction, NULL) == -1)
+        nperror("sigaction");
+    terminal_init();
+    doupdate();
+}
+
+
+/* Cancel reading from stdin like a pager */
+RETSIGTYPE cancel_stdin_pager(int signal)
+{
+    /* Currently do nothing, just handle the intr silently */
+}
+
+/* Let nano read stdin for the first file at least */
+void stdin_pager(void)
+{
+    endwin();
+    tcsetattr(0, TCSANOW, &oldterm);
+    fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
+
+    /* Set things up so that Ctrl-C will cancel the new process. */
+    /* Enable interpretation of the special control keys so that we get
+     * SIGINT when Ctrl-C is pressed. */
+    enable_signals();
+
+    if (sigaction(SIGINT, NULL, &pager_newaction) == -1) {
+	pager_sig_failed = TRUE;
+	nperror("sigaction");
+    } else {
+	pager_newaction.sa_handler = cancel_stdin_pager;
+	if (sigaction(SIGINT, &pager_newaction, &pager_oldaction) == -1) {
+	    pager_sig_failed = TRUE;
+	    nperror("sigaction");
+	}
+    }
+ 
+    open_buffer("", FALSE);
+    finish_stdin_pager();
+}
+
+
+
 /* Initialize the signal handlers. */
 void signal_init(void)
 {
@@ -2240,25 +2307,7 @@ int main(int argc, char **argv)
     }
 
     if (optind < argc && !strcmp(argv[optind], "-")) {
-	FILE *f;
-	int ttystdin;
-	struct termios term;
-
-	enable_signals();
-	open_buffer("", FALSE);
-	endwin();
-
-	f = fopen("/dev/stdin", "rb");
-   	if (f == NULL)
-	    nperror("fopen");
-
-	read_file(f, "stdin", TRUE);
-	ttystdin = open("/dev/tty", O_RDONLY);
-	if (!ttystdin)
-	    die(_("Couldn't reopen stdin from keyboard, sorry\n"));
-
-	dup2(ttystdin,0);
-	close(ttystdin);
+	stdin_pager();
 	set_modified();
 	optind++;
     }
@@ -2364,3 +2413,4 @@ int main(int argc, char **argv)
     /* We should never get here. */
     assert(FALSE);
 }
+
