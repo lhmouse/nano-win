@@ -1269,6 +1269,7 @@ void iso_me_harder_funcmap(short func)
 	do_find_bracket();
     else if (func == DO_PREV_WORD_VOID)
 	do_prev_word_void();
+#ifndef DISABLE_JUSTIFY
     else if (func == DO_JUSTIFY_VOID)
 	do_justify_void();
     else if (func == DO_PARA_BEGIN_VOID)
@@ -1277,6 +1278,7 @@ void iso_me_harder_funcmap(short func)
 	do_para_end_void();
     else if (func == DO_FULL_JUSTIFY)
 	do_full_justify();
+#endif
     else if (func == DO_MARK)
 	do_mark();
     else if (func == DO_RESEARCH)
