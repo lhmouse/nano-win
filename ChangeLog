@@ -1,4 +1,8 @@
 2009-01-29 Chris Allegretta <chrisa@asty.org>
+	* nano.c (move_to_filestruct) - properky initialize new fileage for multiswatching, sigh.
+	  Fix cut sefaults discovered by Mike Frysinger.
+
+2009-01-29 Chris Allegretta <chrisa@asty.org>
 	* nano.c (main): Add support for nano acting like a pager when invoked with - as first
 	  file argument.
 

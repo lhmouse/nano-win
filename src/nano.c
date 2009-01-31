@@ -368,6 +368,10 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
 
+#ifdef ENABLE_COLOR
+    openfile->fileage->multiswatching = NULL;
+#endif
+
     /* Restore the current line and cursor position.  If the mark begins
      * inside the partition, set the beginning of the mark to where the
      * saved text used to start. */
