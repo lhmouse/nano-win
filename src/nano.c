@@ -1083,7 +1083,9 @@ void stdin_pager(void)
     /* Set things up so that Ctrl-C will cancel the new process. */
     /* Enable interpretation of the special control keys so that we get
      * SIGINT when Ctrl-C is pressed. */
+#ifndef NANO_TINY
     enable_signals();
+#endif
 
     if (sigaction(SIGINT, NULL, &pager_newaction) == -1) {
 	pager_sig_failed = TRUE;

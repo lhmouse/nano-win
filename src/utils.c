@@ -183,14 +183,7 @@ void sunder(char *str)
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301, USA. */
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
-#ifndef HAVE_GETLINE
-/* This function is equivalent to getline(). */
-ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
-{
-    return getdelim(lineptr, n, '\n', stream);
-}
-#endif
+#ifdef ENABLE_NANORC
 
 #ifndef HAVE_GETDELIM
 /* This function is equivalent to getdelim(). */
@@ -242,7 +235,15 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     return (c == EOF && (indx - 1) == 0) ? -1 : indx - 1;
 }
 #endif
-#endif /* !NANO_TINY && ENABLE_NANORC */
+
+#ifndef HAVE_GETLINE
+/* This function is equivalent to getline(). */
+ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
+{
+    return getdelim(lineptr, n, '\n', stream);
+}
+#endif
+#endif /* ENABLE_NANORC */
 
 #ifdef HAVE_REGEX_H
 /* Do the compiled regex in preg and the regex in string match the
