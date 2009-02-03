@@ -68,7 +68,7 @@ filestruct *make_new_node(filestruct *prevnode)
     newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
 
 #ifdef ENABLE_COLOR
-    newnode->multiswatching = NULL;
+    newnode->multidata = NULL;
 #endif
 
     return newnode;
@@ -88,7 +88,7 @@ filestruct *copy_node(const filestruct *src)
     dst->prev = src->prev;
     dst->lineno = src->lineno;
 #ifdef ENABLE_COLOR
-    dst->multiswatching = NULL;
+    dst->multidata = NULL;
 #endif
 
     return dst;
@@ -127,8 +127,8 @@ void delete_node(filestruct *fileptr)
 	free(fileptr->data);
 
 #ifdef ENABLE_COLOR
-    if (fileptr->multiswatching)
-	free(fileptr->multiswatching);
+    if (fileptr->multidata)
+	free(fileptr->multidata);
 #endif
 
     free(fileptr);
@@ -369,7 +369,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     openfile->filebot = openfile->fileage;
 
 #ifdef ENABLE_COLOR
-    openfile->fileage->multiswatching = NULL;
+    openfile->fileage->multidata = NULL;
 #endif
 
     /* Restore the current line and cursor position.  If the mark begins
@@ -1596,7 +1596,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 				iso_me_harder_funcmap(s->scfunc);
 #ifdef ENABLE_COLOR
 				if (!f->viewok && openfile->syntax != NULL 
-					&& openfile->current->multiswatching && openfile->syntax->nmultis > 0) {
+					&& openfile->current->multidata && openfile->syntax->nmultis > 0) {
 				    reset_multis(openfile->current);
 				    edit_refresh();
 				}
@@ -1674,6 +1674,87 @@ int do_mouse(void)
     return retval;
 }
 #endif /* !DISABLE_MOUSE */
+
+#ifdef ENABLE_COLOR
+/* Precalculate the multi-line start and end regex info so we can speed up
+   rendering (with any hope at all...) */
+void precalc_multicolorinfo(void)
+{
+    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
+	const colortype *tmpcolor = openfile->colorstrings;
+	regmatch_t startmatch, endmatch;
+	filestruct *fileptr, *endptr;
+	time_t last_check = time(NULL), cur_check = 0;
+
+	/* Let us get keypresses to see if the user is trying to
+	   start editing.  We may want to throw up a statusbar
+	   message before starting this later if it takes
+	   too long to do this routine.  For now silently
+	   abort if they hit a key */
+ 	nodelay(edit, FALSE);
+
+	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+
+	    /* If it's not a multi-line regex, amscray */
+	    if (tmpcolor->end == NULL)
+		continue;
+
+	    for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
+		int startx = 0;
+
+		if (!fileptr->multidata)
+		    fileptr->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+
+		if ((cur_check = time(NULL)) - last_check > 1) {
+		    last_check = cur_check;
+		    if (wgetch(edit) != ERR)
+	   		goto precalc_cleanup;
+		}
+
+		fileptr->multidata[tmpcolor->id] = CNONE;
+		while (regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0)  == 0) {
+		    /* Look for end and start marking how many lines are encompassed
+		       whcih should speed up rendering later */
+		     startx += startmatch.rm_eo;
+
+		    /* Look on this line first for end */
+		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch, 0)  == 0) {
+			startx += endmatch.rm_eo;
+			fileptr->multidata[tmpcolor->id] |= CSTARTENDHERE;
+			continue;
+		    }
+
+		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it */
+		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
+
+			/* Check for keyboard input  again */
+			if ((cur_check = time(NULL)) - last_check > 1) {
+			    last_check = cur_check;
+			    if (wgetch(edit) != ERR)
+		   		goto precalc_cleanup;
+			}
+			if (regexec(tmpcolor->end, &endptr->data[startx], 1, &endmatch, 0) == 0)
+			   break;
+		    }
+
+		    if (endptr == NULL)
+			break;
+
+		    /* We found it, we found it, la la la la la.  Mark all the
+			lines in between and the ends properly */
+		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
+		    for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
+			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+		    }
+		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
+		}
+	    }
+	}
+    }
+precalc_cleanup:
+    nodelay(edit, FALSE);
+}
+#endif /* ENABLE_COLOR */
 
 /* The user typed output_len multibyte characters.  Add them to the edit
  * buffer, filtering out all ASCII control characters if allow_cntrls is
@@ -2371,6 +2452,11 @@ int main(int argc, char **argv)
 
 #ifdef DEBUG
     fprintf(stderr, "Main: top and bottom win\n");
+#endif
+
+#ifdef ENABLE_COLOR
+    if (openfile->syntax && openfile->syntax->nmultis > 0)
+	precalc_multicolorinfo();
 #endif
 
     if (startline > 1 || startcol > 1)

@@ -2479,12 +2479,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	const colortype *tmpcolor = openfile->colorstrings;
 
 	/* Set up multi-line color data for this line if it's not yet calculated  */
-        if (fileptr->multiswatching == NULL && openfile->syntax
+        if (fileptr->multidata == NULL && openfile->syntax
 		&& openfile->syntax->nmultis > 0) {
  	    int i;
-	    fileptr->multiswatching = nmalloc(openfile->syntax->nmultis * sizeof(bool));
-            for (i = 0; i < openfile->syntax->nmultis; i++) 
-		fileptr->multiswatching[i] = TRUE;	/* Assue this applies until we know otherwise */
+	    fileptr->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+            for (i = 0; i < openfile->syntax->nmultis; i++)
+		fileptr->multidata[i] = -1;	/* Assue this applies until we know otherwise */
 	}
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;
@@ -2551,7 +2551,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    }
 		    k = startmatch.rm_eo;
 		}
-	    } else if (fileptr->multiswatching != NULL && fileptr->multiswatching[tmpcolor->id] == TRUE) {
+	    } else if (fileptr->multidata != NULL && fileptr->multidata[tmpcolor->id] != 0) {
 		/* This is a multi-line regex.  There are two steps.
 		 * First, we have to see if the beginning of the line is
 		 * colored by a start on an earlier line, and an end on
@@ -2568,8 +2568,16 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		regoff_t start_col;
 		    /* Where it starts in that line. */
 		const filestruct *end_line;
+		short md = fileptr->multidata[tmpcolor->id];
 
-		fileptr->multiswatching[tmpcolor->id] = FALSE; /* until we find out otherwise */
+		if (md == -1)
+		    fileptr->multidata[tmpcolor->id] = 0; /* until we find out otherwise */
+		else if (md == CNONE)
+		    continue;
+		else if (md == CWHOLELINE) {
+		    mvwaddnstr(edit, line, 0, converted, -1);
+		    continue;
+		}
 
 		while (start_line != NULL && regexec(tmpcolor->start,
 			start_line->data, 1, &startmatch, 0) ==
@@ -2633,15 +2641,16 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		     * expanded location of the end of the match minus
 		     * the expanded location of the beginning of the
 		     * page. */
-		    if (end_line != fileptr)
+		    if (end_line != fileptr) {
 			paintlen = -1;
-		    else
+			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+		    } else {
 			paintlen = actual_x(converted,
 				strnlenpt(fileptr->data,
 				endmatch.rm_eo) - start);
-
+			fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+		    }
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
-		    fileptr->multiswatching[tmpcolor->id] = TRUE;
   step_two:
 		    /* Second step, we look for starts on this line. */
 		    start_col = 0;
@@ -2687,7 +2696,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 				mvwaddnstr(edit, line, x_start,
 					converted + index, paintlen);
 				if (paintlen > 0)
-				    fileptr->multiswatching[tmpcolor->id] = TRUE;
+				    fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
 
 			    }
 			} else {
@@ -2709,7 +2718,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 				/* We painted to the end of the line, so
 				 * don't bother checking any more
 				 * starts. */
-				fileptr->multiswatching[tmpcolor->id] = TRUE;
+				fileptr->multidata[tmpcolor->id] = CENDAFTER;
 				break;
 			    }
 			}

@@ -312,7 +312,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 #endif
 
 #ifdef ENABLE_COLOR
-	fileptr->multiswatching = NULL;
+	fileptr->multidata = NULL;
 #endif
 
     if (*first_line_ins) {

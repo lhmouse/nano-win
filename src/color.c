@@ -265,22 +265,22 @@ void reset_multis(filestruct *fileptr)
 
     for (i = 0; i < openfile->syntax->nmultis; i++) {
 	for (oof = fileptr->next; oof != NULL; oof = oof->next) {
-	    if (oof->multiswatching == NULL)
+	    if (oof->multidata == NULL)
 		continue;
-	    if (oof->multiswatching[i] == FALSE)
-		oof->multiswatching[i] = TRUE;
+	    if (oof->multidata[i] != 0)
+		oof->multidata[i] = -1;
 	    else
 		break;
 	}
 	for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
-	    if (oof->multiswatching == NULL)
+	    if (oof->multidata == NULL)
 		continue;
-	    if (oof->multiswatching[i] == FALSE)
-		oof->multiswatching[i] = TRUE;
+	    if (oof->multidata[i] == 0)
+		oof->multidata[i] = -1;
 	    else
 		break;
 	    }
-	fileptr->multiswatching[i] = TRUE;
+	fileptr->multidata[i] = -1;
     }
 }
 #endif /* ENABLE_COLOR */
