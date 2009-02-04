@@ -1676,6 +1676,12 @@ int do_mouse(void)
 #endif /* !DISABLE_MOUSE */
 
 #ifdef ENABLE_COLOR
+void alloc_multidata_if_needed(filestruct *fileptr)
+{
+    if (!fileptr->multidata)
+	fileptr->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+}
+
 /* Precalculate the multi-line start and end regex info so we can speed up
    rendering (with any hope at all...) */
 void precalc_multicolorinfo(void)
@@ -1702,8 +1708,7 @@ void precalc_multicolorinfo(void)
 	    for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 		int startx = 0;
 
-		if (!fileptr->multidata)
-		    fileptr->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+		alloc_multidata_if_needed(fileptr);
 
 		if ((cur_check = time(NULL)) - last_check > 1) {
 		    last_check = cur_check;
@@ -1744,8 +1749,10 @@ void precalc_multicolorinfo(void)
 			lines in between and the ends properly */
 		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
 		    for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
+			alloc_multidata_if_needed(fileptr);
 			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
 		    }
+		    alloc_multidata_if_needed(endptr);
 		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
 		}
 	    }
