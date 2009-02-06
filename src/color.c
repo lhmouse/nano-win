@@ -254,33 +254,68 @@ void color_update(void)
     }
 }
 
-/* Reset multi line strings around a filestruct ptr, trying to be smart about stopping */
-void reset_multis(filestruct *fileptr) 
+/* Reset the multicolor info cache for records for any lines which need
+   to be recalculated */
+void reset_multis_after(filestruct *fileptr, int mindex)
 {
-    int i;
     filestruct *oof;
+    for (oof = fileptr->next; oof != NULL; oof = oof->next) {
+	if (oof->multidata == NULL)
+	    continue;
+	if (oof->multidata[mindex] != 0)
+	    oof->multidata[mindex] = -1;
+	else
+	    break;
+    }
+}
+
+void reset_multis_before(filestruct *fileptr, int mindex)
+{
+    filestruct *oof;
+    for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
+	if (oof->multidata == NULL)
+	    continue;
+	if (oof->multidata[mindex] != 0)
+	    oof->multidata[mindex] = -1;
+	else
+	    break;
+    }
+}
+
+
+/* Reset multi line strings around a filestruct ptr, trying to be smart about stopping */
+void reset_multis(filestruct *fileptr)
+{
+    int nobegin, noend;
+    regmatch_t startmatch, endmatch;
+    const colortype *tmpcolor = openfile->colorstrings;
 
     if (!openfile->syntax)
 	return;
 
-    for (i = 0; i < openfile->syntax->nmultis; i++) {
-	for (oof = fileptr->next; oof != NULL; oof = oof->next) {
-	    if (oof->multidata == NULL)
+    for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+
+	/* If it's not a multi-line regex, amscray */
+	if (tmpcolor->end == NULL)
+	    continue;
+
+	/* Figure out where the first begin and end are to determine if
+	   things changed drastically for the precalculated multi values */
+        nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
+        noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
+	if (fileptr->multidata[tmpcolor->id] ==  CWHOLELINE) {
+	    if (nobegin && noend)
 		continue;
-	    if (oof->multidata[i] != 0)
-		oof->multidata[i] = -1;
-	    else
-		break;
+	} else if (fileptr->multidata[tmpcolor->id] & CBEGINBEFORE && !noend
+	  && (nobegin || endmatch.rm_eo > startmatch.rm_eo)) {
+	    reset_multis_after(fileptr, tmpcolor->id);
+	    continue;
 	}
-	for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
-	    if (oof->multidata == NULL)
-		continue;
-	    if (oof->multidata[i] == 0)
-		oof->multidata[i] = -1;
-	    else
-		break;
-	    }
-	fileptr->multidata[i] = -1;
+
+	/* If we got here assume the worst */
+	reset_multis_before(fileptr, tmpcolor->id);
+	reset_multis_after(fileptr, tmpcolor->id);
+	fileptr->multidata[tmpcolor->id] = -1;
     }
 }
 #endif /* ENABLE_COLOR */

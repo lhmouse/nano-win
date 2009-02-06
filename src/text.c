@@ -148,7 +148,7 @@ void do_delete(void)
 #endif
 
     if (do_refresh)
-	edit_refresh();
+	edit_refresh_needed = TRUE;
     else
 	update_line(openfile->current, openfile->current_x);
 }
@@ -346,7 +346,7 @@ void do_indent(ssize_t cols)
 	set_modified();
 
 	/* Update the screen. */
-	edit_refresh();
+	edit_refresh_needed = TRUE;
     }
 }
 
@@ -423,7 +423,7 @@ void redo_cut(undo *u) {
 	openfile->mark_set = FALSE;
         openfile->mark_begin = NULL;
         openfile->mark_begin_x = 0;
-	edit_refresh();
+	edit_refresh_needed = TRUE;
 }
 
 /* Undo the last thing(s) we did */
@@ -714,7 +714,7 @@ void do_enter(void)
 
     openfile->placewewant = xplustabs();
 
-    edit_refresh();
+    edit_refresh_needed = TRUE;
 }
 
 #ifndef NANO_TINY
@@ -1956,7 +1956,7 @@ void do_justify(bool full_justify)
 		last_par_line = openfile->filebot;
 		break;
 	    } else {
-		edit_refresh();
+		edit_refresh_needed = TRUE;
 		return;
 	    }
 	}
@@ -2268,7 +2268,7 @@ void do_justify(bool full_justify)
 
 	    if (!openfile->modified)
 		titlebar(NULL);
-	    edit_refresh();
+	    edit_refresh_needed = TRUE;
 	}
     } else {
 	unget_kbinput(kbinput, meta_key, func_key);
@@ -2621,7 +2621,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     free(read_buff);
     search_replace_abort();
-    edit_refresh();
+    edit_refresh_needed = TRUE;
 
     /* Process the end of the spell process. */
     waitpid(pid_spell, &spell_status, 0);

@@ -1,3 +1,14 @@
+2009-02-05 Chris Allegretta <chrisa@asty.org>
+	* More color syntax speedups:  Determine in reset_multis() whether we really need to call
+	  edit_refresh().  Additional global var edit_refresh_needed() to hopefully reduce
+	  repeated calls to the function.  New helper funcs reset_multis_before() and 
+	  reset_multis_after().
+
+2009-02-02 Chris Allegretta <chrisa@asty.org>
+	* New color precalculation code for mult-line regexes.  New function precalc_multicolorinfo(),
+	  new structure multidata for keeping track of where regexes start/stop.  More 
+	  performance improvements forthcoming.
+
 2009-01-29 Chris Allegretta <chrisa@asty.org>
 	* nano.c (move_to_filestruct) - properky initialize new fileage for multiswatching, sigh.
 	  Fix cut sefaults discovered by Mike Frysinger.
