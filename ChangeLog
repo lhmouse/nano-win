@@ -1,3 +1,7 @@
+2009-02-06 Chris Allegretta <chrisa@asty.org>
+	* rcfile.c (parse_include): Abort on being unable to open an included rcfile.  Fixes
+	  Savannah bug 25490, nanorc: "include"ing a file which doesn't exist causes nano to segfault.
+
 2009-02-05 Chris Allegretta <chrisa@asty.org>
 	* More color syntax speedups:  Determine in reset_multis() whether we really need to call
 	  edit_refresh().  Additional global var edit_refresh_needed() to hopefully reduce

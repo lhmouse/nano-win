@@ -495,6 +495,7 @@ void parse_include(char *ptr)
     if ((rcstream = fopen(option, "rb")) == NULL) {
 	rcfile_error(_("Error reading %s: %s"), option,
 		strerror(errno));
+	return;
     }
 
     /* Use the name and line number position of the new syntax file
