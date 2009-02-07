@@ -544,6 +544,7 @@ void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
 void reset_multis(filestruct *fileptr);
+void alloc_multidata_if_needed(filestruct *fileptr);
 #endif
 void parse_rcfile(FILE *rcstream
 #ifdef ENABLE_COLOR

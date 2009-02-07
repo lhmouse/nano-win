@@ -2551,7 +2551,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    }
 		    k = startmatch.rm_eo;
 		}
-	    } else if (fileptr->multidata != NULL && fileptr->multidata[tmpcolor->id] != 0) {
+	    } else if (fileptr->multidata != NULL && fileptr->multidata[tmpcolor->id] != CNONE) {
 		/* This is a multi-line regex.  There are two steps.
 		 * First, we have to see if the beginning of the line is
 		 * colored by a start on an earlier line, and an end on
@@ -2571,7 +2571,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		short md = fileptr->multidata[tmpcolor->id];
 
 		if (md == -1)
-		    fileptr->multidata[tmpcolor->id] = 0; /* until we find out otherwise */
+		    fileptr->multidata[tmpcolor->id] = CNONE; /* until we find out otherwise */
 		else if (md == CNONE)
 		    continue;
 		else if (md == CWHOLELINE) {

@@ -224,17 +224,17 @@ typedef struct syntaxtype {
 	/* Next syntax. */
 } syntaxtype;
 
-#define CNONE 		(1<<0)
+#define CNONE 		(1<<1)
 	/* Yay, regex doesn't apply to this line at all! */
-#define CBEGINBEFORE 	(1<<1)
+#define CBEGINBEFORE 	(1<<2)
 	/* regex starts on an earlier line, ends on this one */
-#define CENDAFTER 	(1<<2)
+#define CENDAFTER 	(1<<3)
 	/* regex sraers on this line and ends on a later one */
-#define CWHOLELINE 	(1<<3)
+#define CWHOLELINE 	(1<<4)
 	/* whole line engulfed by the regex  start < me, end > me */
-#define CSTARTENDHERE 	(1<<4)
+#define CSTARTENDHERE 	(1<<5)
 	/* regex starts and ends within this line */
-#define CWTF		(1<<5)
+#define CWTF		(1<<6)
 	/* Something else */
 
 #endif /* ENABLE_COLOR */

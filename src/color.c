@@ -260,9 +260,10 @@ void reset_multis_after(filestruct *fileptr, int mindex)
 {
     filestruct *oof;
     for (oof = fileptr->next; oof != NULL; oof = oof->next) {
+	alloc_multidata_if_needed(oof);
 	if (oof->multidata == NULL)
 	    continue;
-	if (oof->multidata[mindex] != 0)
+	if (oof->multidata[mindex] != CNONE)
 	    oof->multidata[mindex] = -1;
 	else
 	    break;
@@ -273,9 +274,10 @@ void reset_multis_before(filestruct *fileptr, int mindex)
 {
     filestruct *oof;
     for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
+	alloc_multidata_if_needed(oof);
 	if (oof->multidata == NULL)
 	    continue;
-	if (oof->multidata[mindex] != 0)
+	if (oof->multidata[mindex] != CNONE)
 	    oof->multidata[mindex] = -1;
 	else
 	    break;
@@ -299,6 +301,7 @@ void reset_multis(filestruct *fileptr)
 	if (tmpcolor->end == NULL)
 	    continue;
 
+	alloc_multidata_if_needed(fileptr);
 	/* Figure out where the first begin and end are to determine if
 	   things changed drastically for the precalculated multi values */
         nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
