@@ -1,7 +1,5 @@
 ** Open BUGS **
 - Cutting the line at the top of the screen recenters to center (71)
-- Segfault editing at COLS presumably due to new color syntax 
-  highlighting (80)
 
 ** Fixed BUGS **
 - Marked cutting sometimes leaves a newline in the file unintelligently,
@@ -156,6 +154,8 @@
   page up/down, insert, and unbinds all other control and F keys for it,
   nano will do the wrong thing when reading the key which is normally
   assigned to it (79 - may not be worth fixing) [FIXED]
+- Segfault editing at COLS presumably due to new color syntax 
+  highlighting (80) [FIXED]
 
 
 $Id$
