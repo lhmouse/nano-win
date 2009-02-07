@@ -2577,6 +2577,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		else if (md == CWHOLELINE) {
 		    mvwaddnstr(edit, line, 0, converted, -1);
 		    continue;
+		} else if (md == CBEGINBEFORE) {
+		    regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
+		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
+			endmatch.rm_eo) - start);
+		    mvwaddnstr(edit, line, 0, converted, paintlen);
+		    continue;
 		}
 
 		while (start_line != NULL && regexec(tmpcolor->start,

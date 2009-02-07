@@ -1,6 +1,7 @@
 ** Open BUGS **
 - Cutting the line at the top of the screen recenters to center (71)
-- Many menu items are probably missing from the new backend (73)
+- Segfault editing at COLS presumably due to new color syntax 
+  highlighting (80)
 
 ** Fixed BUGS **
 - Marked cutting sometimes leaves a newline in the file unintelligently,
@@ -143,6 +144,7 @@
 - Trying to insert a file of 0 bytes will hang nano (70) [FIXED].
 - Meta-space and ^Space are not yet handled  in new backend code (77) [FIXED]
 - F-keys do not work with new shortcut backend (72) [FIXED]
+- Many menu items are probably missing from the new backend (73) [FIXED]
 - Need a 'check-vitals-mapped' function to check that the end used didn't
   unbind all the keys for exit or cancel before starting up the editor (74) [FIXED]
 - Browser and prompt code still implement old switch on raw key input instead
