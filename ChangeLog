@@ -1,3 +1,4 @@
+GNU nano 2.1.8 - 2009.02.07
 2009-02-06 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c (parse_include): Abort on being unable to open an included rcfile.  Fixes
 	  Savannah bug 25490, nanorc: "include"ing a file which doesn't exist causes nano to segfault.
