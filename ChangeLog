@@ -1,3 +1,7 @@
+2009-02-08 Chris Allegretta <chrisa@asty.org>
+	* Add more multidata initliazers for new buffers and 'magic lines'.  Fixes segfaults
+	  with syntax highlighting in new buffers, initially reported by Mike Frysinger.
+
 GNU nano 2.1.8 - 2009.02.07
 2009-02-06 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c (parse_include): Abort on being unable to open an included rcfile.  Fixes

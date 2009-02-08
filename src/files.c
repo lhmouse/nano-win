@@ -96,6 +96,10 @@ void initialize_buffer_text(void)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
 
+#ifdef ENABLE_COLOR
+    openfile->fileage->multidata = NULL;
+#endif
+
     openfile->totsize = 0;
 }
 
