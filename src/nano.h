@@ -471,6 +471,7 @@ typedef struct subnfunc {
 #define WORD_BOUNDS			(1<<28)
 #define NO_NEWLINES			(1<<29)
 #define BOLD_TEXT			(1<<30)
+#define QUIET				(1<<31)
 
 /* Flags for which menus in which a given function should be present */
 #define MMAIN				(1<<0)

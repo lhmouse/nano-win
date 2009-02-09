@@ -145,6 +145,11 @@ paragraphs.  They cannot contain blank characters.  Only closing
 punctuation, optionally followed by closing brackets, can end sentences.
 The default value is "\fI!.?\fP".
 .TP
+.B set/unset quiet
+\fBnano\fP will not report errors in the nanorc file and ask them to 
+be acknowledged by pressing enter at startup.  If this is used it should
+be placed at the top of the file to be fully effective.
+.TP
 .B set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
 keystroke instead of 25.

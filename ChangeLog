@@ -1,3 +1,11 @@
+2009-02-09 Chris Allegretta <chrisa@asty.org>
+	* New option -q, --quiet, rcfile option "quiet" implemented.  Skips printing
+	  errors about the rcfile and asking user to press enter.  Also, nano should
+	  now only ask for one enter press when there is an error when not using -q.
+	  Based on discussion between Eitan Adler and Mike Frysinger.
+	* rcfile.c (parse_keybinding) -  Significant cleanups and fixes for 
+	  detecting and reporting errors in key bindings code.
+
 2009-02-08 Chris Allegretta <chrisa@asty.org>
 	* Make reset_multidata reset more lines, since contrary to previous problems the
 	  syntax highlting is now too *un*ambitious, causing display glitches when

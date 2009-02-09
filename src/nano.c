@@ -879,6 +879,8 @@ void usage(void)
 #endif
     print_opt("-p", "--preserve",
 	N_("Preserve XON (^Q) and XOFF (^S) keys"));
+    print_opt("-q", "--quiet",
+	N_("Silently ignore startup issues like rc file errors"));
 #ifndef DISABLE_WRAPJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
 	N_("Set wrapping point at column #cols"));
@@ -1930,6 +1932,7 @@ int main(int argc, char **argv)
 	{"operatingdir", 1, NULL, 'o'},
 #endif
 	{"preserve", 0, NULL, 'p'},
+	{"quiet", 0, NULL, 'q'},
 #ifndef DISABLE_WRAPJUSTIFY
 	{"fill", 1, NULL, 'r'},
 #endif
@@ -1993,11 +1996,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tvwxz")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2124,6 +2127,9 @@ int main(int argc, char **argv)
 #endif
 	    case 'p':
 		SET(PRESERVE);
+		break;
+	    case 'q':
+		SET(QUIET);
 		break;
 #ifndef DISABLE_WRAPJUSTIFY
 	    case 'r':

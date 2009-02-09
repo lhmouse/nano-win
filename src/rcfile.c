@@ -84,6 +84,7 @@ static const rcoption rcopts[] = {
     {"historylog", HISTORYLOG},
     {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},
+    {"quiet", QUIET},
     {"quickblank", QUICK_BLANK},
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
@@ -116,6 +117,9 @@ static colortype *endcolor = NULL;
 void rcfile_error(const char *msg, ...)
 {
     va_list ap;
+
+    if (ISSET(QUIET))
+	return;
 
     fprintf(stderr, "\n");
     if (lineno > 0) {
@@ -388,41 +392,41 @@ void parse_keybinding(char *ptr)
 
     if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F' && keycopy[0] != 'K') {
 	rcfile_error(
-		N_("keybindings must begin with \"^\", \"M\", or \"F\"\n"));
+		N_("keybindings must begin with \"^\", \"M\", or \"F\""));
 	return;
     }
 
     funcptr = ptr;
     ptr = parse_next_word(ptr);
 
-    if (funcptr == NULL) {
+    if (!strcmp(funcptr, "")) {
 	rcfile_error(
-		N_("Must specify function to bind key to\n"));
+		N_("Must specify function to bind key to"));
 	return;
     }
 
     menuptr = ptr;
     ptr = parse_next_word(ptr);
 
-    if (menuptr == NULL) {
+    if (!strcmp(menuptr, "")) {
 	rcfile_error(
 		/* Note to translators, do not translate the word "all"
 		   in the sentence below, everything else is fine */
-		N_("Must specify menu bind key to (or \"all\")\n"));
-	return;
-    }
-
-    menu = strtomenu(menuptr);
-    if (menu < 1) {
-	rcfile_error(
-		N_("Could not map name \"%s\" to a menu\n"), menuptr);
+		N_("Must specify menu to bind key to (or \"all\")"));
 	return;
     }
 
     newsc = strtosc(menu, funcptr);
     if (newsc == NULL) {
 	rcfile_error(
-		N_("Could not map name \"%s\" to a function\n"), funcptr);
+		N_("Could not map name \"%s\" to a function"), funcptr);
+	return;
+    }
+
+    menu = strtomenu(menuptr);
+    if (menu < 1) {
+	rcfile_error(
+		N_("Could not map name \"%s\" to a menu"), menuptr);
 	return;
     }
 
@@ -444,7 +448,7 @@ void parse_keybinding(char *ptr)
 
     if (check_bad_binding(newsc)) {
 	rcfile_error(
-		N_("Sorry, keystr \"%s\" is an illegal binding\n"), newsc->keystr);
+		N_("Sorry, keystr \"%s\" is an illegal binding"), newsc->keystr);
 	return;
     }
 
@@ -1057,15 +1061,6 @@ void parse_rcfile(FILE *rcstream
     lineno = 0;
 
     check_vitals_mapped();
-
-    if (errors) {
-	errors = FALSE;
-	fprintf(stderr,
-		_("\nPress Enter to continue starting nano.\n"));
-	while (getchar() != '\n')
-	    ;
-    }
-
     return;
 }
 
@@ -1145,6 +1140,14 @@ void do_rcfile(void)
 
     free(nanorc);
     nanorc = NULL;
+
+    if (errors && !ISSET(QUIET)) {
+	errors = FALSE;
+	fprintf(stderr,
+		_("\nPress Enter to continue starting nano.\n"));
+	while (getchar() != '\n')
+	    ;
+    }
 
 #ifdef ENABLE_COLOR
     set_colorpairs();
