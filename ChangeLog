@@ -1,3 +1,8 @@
+2009-02-11 Chris Allegretta <chrisa@asty.org>
+	* nanorc.c (parse_include): Do call real_dir_from_tilde() on included
+	  files in .nanorc, but still avoiding bug #25297.  Fixes ~ and ~user
+	  specifications for nanorc include files, as reported by Eitan Adler.
+
 2009-02-09 Chris Allegretta <chrisa@asty.org>
 	* New option -q, --quiet, rcfile option "quiet" implemented.  Skips printing
 	  errors about the rcfile and asking user to press enter.  Also, nano should

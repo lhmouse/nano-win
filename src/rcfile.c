@@ -474,7 +474,7 @@ void parse_include(char *ptr)
 {
     struct stat rcinfo;
     FILE *rcstream;
-    char *option, *nanorc_save = nanorc;
+    char *option, *nanorc_save = nanorc, *expanded;
     size_t lineno_save = lineno;
 
     option = ptr;
@@ -495,20 +495,22 @@ void parse_include(char *ptr)
 	}
     }
 
+    expanded = real_dir_from_tilde(option);
+
     /* Open the new syntax file. */
-    if ((rcstream = fopen(option, "rb")) == NULL) {
-	rcfile_error(_("Error reading %s: %s"), option,
+    if ((rcstream = fopen(expanded, "rb")) == NULL) {
+	rcfile_error(_("Error reading %s: %s"), expanded,
 		strerror(errno));
 	return;
     }
 
     /* Use the name and line number position of the new syntax file
      * while parsing it, so we can know where any errors in it are. */
-    nanorc = option;
+    nanorc = expanded;
     lineno = 0;
 
 #ifdef DEBUG
-    fprintf(stderr, "Parsing file \"%s\"\n", option);
+    fprintf(stderr, "Parsing file \"%s\" (expanded from \"%s\")\n", expanded, option);
 #endif
 
     parse_rcfile(rcstream
