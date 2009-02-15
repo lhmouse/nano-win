@@ -1692,6 +1692,9 @@ void alloc_multidata_if_needed(filestruct *fileptr)
    rendering (with any hope at all...) */
 void precalc_multicolorinfo(void)
 {
+#ifdef DEBUG
+	    fprintf(stderr, "entering precalc_multicolorinfo()\n");
+#endif
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
 	regmatch_t startmatch, endmatch;
@@ -1710,9 +1713,19 @@ void precalc_multicolorinfo(void)
 	    /* If it's not a multi-line regex, amscray */
 	    if (tmpcolor->end == NULL)
 		continue;
+#ifdef DEBUG
+	    fprintf(stderr, "working on color id %d\n", tmpcolor->id);
+#endif
+
 
 	    for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 		int startx = 0;
+		int nostart = 0;
+
+
+#ifdef DEBUG
+	    fprintf(stderr, "working on lineno %d\n", fileptr->lineno);
+#endif
 
 		alloc_multidata_if_needed(fileptr);
 
@@ -1722,44 +1735,84 @@ void precalc_multicolorinfo(void)
 	   		goto precalc_cleanup;
 		}
 
-		fileptr->multidata[tmpcolor->id] = CNONE;
-		while (regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0)  == 0) {
+		while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0))  == 0) {
 		    /* Look for end and start marking how many lines are encompassed
 		       whcih should speed up rendering later */
-		     startx += startmatch.rm_eo;
+		    startx += startmatch.rm_eo;
+#ifdef DEBUG
+		    fprintf(stderr, "match found at pos %d...", startx);
+#endif
 
 		    /* Look on this line first for end */
 		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch, 0)  == 0) {
 			startx += endmatch.rm_eo;
 			fileptr->multidata[tmpcolor->id] |= CSTARTENDHERE;
+#ifdef DEBUG
+	    fprintf(stderr, "end found on this line\n");
+#endif
 			continue;
 		    }
 
 		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it */
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
 
+#ifdef DEBUG
+	    fprintf(stderr, "advancing to line %d to find end...\n", endptr->lineno);
+#endif
 			/* Check for keyboard input  again */
 			if ((cur_check = time(NULL)) - last_check > 1) {
 			    last_check = cur_check;
 			    if (wgetch(edit) != ERR)
 		   		goto precalc_cleanup;
 			}
-			if (regexec(tmpcolor->end, &endptr->data[startx], 1, &endmatch, 0) == 0)
+			if (regexec(tmpcolor->end, endptr->data, 1, &endmatch, 0) == 0)
 			   break;
 		    }
 
-		    if (endptr == NULL)
+		    if (endptr == NULL) {
+#ifdef DEBUG
+	    		fprintf(stderr, "no end found, breaking out\n");
+#endif
 			break;
+		    }
+
+
+#ifdef DEBUG
+		    fprintf(stderr, "end found\n");
+#endif
 
 		    /* We found it, we found it, la la la la la.  Mark all the
 			lines in between and the ends properly */
 		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
+#ifdef DEBUG
+		    fprintf(stderr, "marking line %d as CENDAFTER\n", fileptr->lineno);
+#endif
 		    for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
 			alloc_multidata_if_needed(fileptr);
 			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+#ifdef DEBUG
+			fprintf(stderr, "marking intermediary line %d as CWHOLELINE\n", fileptr->lineno);
+#endif
 		    }
 		    alloc_multidata_if_needed(endptr);
+#ifdef DEBUG
+		    fprintf(stderr, "marking line %d as BEGINBEFORE\n", fileptr->lineno);
+#endif
 		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
+		    /* We should be able to skip all the way to the line of the match.
+			This may introduce more bugs but it's the Right Thing to do */
+		    fileptr = endptr;
+		    startx = endmatch.rm_eo;
+#ifdef DEBUG
+		    fprintf(stderr, "jumping to line %d pos %d to continue\n", endptr->lineno, startx);
+#endif
+		}
+		if (nostart && startx == 0) {
+#ifdef DEBUG
+		    fprintf(stderr, "no start found on line %d, continuing\n", fileptr->lineno);
+#endif
+		    fileptr->multidata[tmpcolor->id] = CNONE;
+		    continue;
 		}
 	    }
 	}
@@ -1836,7 +1889,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 #ifndef NANO_TINY
 	update_undo(ADD);
-
 
 	/* Note that current_x has not yet been incremented. */
 	if (openfile->mark_set && openfile->current ==

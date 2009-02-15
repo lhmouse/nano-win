@@ -1,3 +1,9 @@
+2009-02-14 Chris Allegretta <chrisa@asty.org>
+        * nano.c (precalc_multicolorinfo) - Add debugging so we have a better clue if further
+          issues arise.   Also start at the beginning of later lines when trying to match the
+          end of a multi-line regex.  Fixes more overly aggressive highlighting found by 
+          Mike Frysinger.  Finally, advance to the match end for performance.
+
 2009-02-11 Chris Allegretta <chrisa@asty.org>
 	* nanorc.c (parse_include): Do call real_dir_from_tilde() on included
 	  files in .nanorc, but still avoiding bug #25297.  Fixes ~ and ~user
