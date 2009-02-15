@@ -1,3 +1,9 @@
+2009-02-15 Chris Allegretta <chrisa@asty.org>
+	* configure.ac, doc/man/Makefile.am - Add check for HTML output support in GNU
+	  groff.  Fixes Savannah bug #24461: build traps on groff.  Also, add installation
+	  of html-ized man pages to $datadir/nano/man-html, since we should probably
+	  install files we went to all the trouble of generating.
+
 2009-02-14 Chris Allegretta <chrisa@asty.org>
         * nano.c (precalc_multicolorinfo) - Add debugging so we have a better clue if further
           issues arise.   Also start at the beginning of later lines when trying to match the

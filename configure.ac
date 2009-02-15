@@ -545,6 +545,21 @@ else
     fi
 fi
 
+# Check for groff html support
+AC_MSG_CHECKING([for HTML support in groff])
+groff -t -mandoc -Thtml </dev/null >/dev/null
+if test $? -ne 0 ; then 
+    echo "no"
+    echo "*** Will not generate HTML version of man pages  ***"
+    echo "*** Consider installing a newer version of groff with HTML support ***"
+    groff_html_support=no
+else
+    echo "yes"
+    groff_html_support=yes
+fi
+AM_CONDITIONAL(GROFF_HTML, test x$groff_html_support = xyes)
+
+
 AC_CONFIG_FILES([
 Makefile
 doc/Makefile
