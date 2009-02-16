@@ -140,13 +140,6 @@ void do_delete(void)
 
     set_modified();
 
-#ifdef ENABLE_COLOR
-    /* If color syntaxes are available and turned on, we need to call
-     * edit_refresh(). */
-    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
-	do_refresh = TRUE;
-#endif
-
     if (do_refresh)
 	edit_refresh_needed = TRUE;
     else

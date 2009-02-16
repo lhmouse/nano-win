@@ -1590,24 +1590,31 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			*ran_func = TRUE;
 			if (ISSET(VIEW_MODE) && f && !f->viewok)
 			    print_view_warning();
-			else
+			else {
 #ifndef NANO_TINY
 			    if (s->scfunc ==  DO_TOGGLE)
 				do_toggle(s->toggle);
 			    else {
+#else
+			    {
 #endif
 				iso_me_harder_funcmap(s->scfunc);
 #ifdef ENABLE_COLOR
 				if (!f->viewok && openfile->syntax != NULL
 					&& openfile->syntax->nmultis > 0) {
-				    reset_multis(openfile->current, TRUE);
+				    reset_multis(openfile->current, FALSE);
 				}
 				if (edit_refresh_needed) {
+#ifdef DEBUG
+	    			    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
+#endif
 				    edit_refresh();
 				    edit_refresh_needed = FALSE;
 				}
+
 #endif
 			    }
+			}
 #ifndef NANO_TINY
 		    }
 #endif
