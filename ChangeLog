@@ -1,3 +1,9 @@
+2009-02-16 Chris Allegretta <chrisa@asty.org>
+	* Add new argument to reset_multis for force redraws without attempting to
+	  guess whether we need to, force updates when running a non-viewok function.
+	  New utility function color.c:reset_multis_for_id().  Fixes e.g. incorrect
+	  highlighting when cutting text.
+
 2009-02-15 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, doc/man/Makefile.am - Add check for HTML output support in GNU
 	  groff.  Fixes Savannah bug #24461: build traps on groff.  Also, add installation

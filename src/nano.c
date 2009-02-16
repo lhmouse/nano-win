@@ -1598,9 +1598,9 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 				iso_me_harder_funcmap(s->scfunc);
 #ifdef ENABLE_COLOR
-				if (!f->viewok && openfile->syntax != NULL 
-					&& openfile->current->multidata && openfile->syntax->nmultis > 0) {
-				    reset_multis(openfile->current);
+				if (!f->viewok && openfile->syntax != NULL
+					&& openfile->syntax->nmultis > 0) {
+				    reset_multis(openfile->current, TRUE);
 				}
 				if (edit_refresh_needed) {
 				    edit_refresh();
@@ -1927,7 +1927,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 
 #ifdef ENABLE_COLOR
-    reset_multis(openfile->current);
+    reset_multis(openfile->current, FALSE);
 #endif
     if (do_refresh) {
 	edit_refresh();

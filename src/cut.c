@@ -211,9 +211,8 @@ void do_cut_text(
 	 * modified. */
 	set_modified();
 
-
     /* Update the screen. */
-    edit_refresh();
+    edit_refresh_needed = TRUE;
 
 #ifdef DEBUG
     dump_filestruct(cutbuffer);
@@ -276,7 +275,7 @@ void do_uncut_text(void)
     set_modified();
 
     /* Update the screen. */
-    edit_refresh();
+    edit_refresh_needed = TRUE;
 
 #ifdef DEBUG
     dump_filestruct_reverse();

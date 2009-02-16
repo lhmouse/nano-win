@@ -305,9 +305,18 @@ void reset_multis_before(filestruct *fileptr, int mindex)
     edit_refresh_needed = TRUE;
 }
 
+/* Reset one multiline regex info */
+void reset_multis_for_id(filestruct *fileptr, int num)
+{
+    reset_multis_before(fileptr, num);
+    reset_multis_after(fileptr, num);
+    fileptr->multidata[num] = -1;
+}
 
-/* Reset multi line strings around a filestruct ptr, trying to be smart about stopping */
-void reset_multis(filestruct *fileptr)
+/* Reset multi line strings around a filestruct ptr, trying to be smart about stopping
+   force = reset everything regardless, useful when we don't know how much screen state
+           has changed  */
+void reset_multis(filestruct *fileptr, bool force)
 {
     int nobegin, noend;
     regmatch_t startmatch, endmatch;
@@ -323,6 +332,11 @@ void reset_multis(filestruct *fileptr)
 	    continue;
 
 	alloc_multidata_if_needed(fileptr);
+	if (force == TRUE) {
+	    reset_multis_for_id(fileptr, tmpcolor->id);
+	    continue;
+	}
+
 	/* Figure out where the first begin and end are to determine if
 	   things changed drastically for the precalculated multi values */
         nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
@@ -337,9 +351,7 @@ void reset_multis(filestruct *fileptr)
 	}
 
 	/* If we got here assume the worst */
-	reset_multis_before(fileptr, tmpcolor->id);
-	reset_multis_after(fileptr, tmpcolor->id);
-	fileptr->multidata[tmpcolor->id] = -1;
+	reset_multis_for_id(fileptr, tmpcolor->id);
     }
 }
 #endif /* ENABLE_COLOR */
