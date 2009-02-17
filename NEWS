@@ -1,3 +1,16 @@
+2009.02.16 - GNU nano 2.1.9 wonders what all that glass is doing on the
+		floor!  This release is primarily meant as a less buggy 
+		version of 2.1.8, particularly for issues with the new 
+		sped-up syntax highlighting code.  Other fixes include 
+		configure-time detection of groff HTML support before 
+		attempting to generate the HTML version of man pages, 
+		and using ~ or ~username syntax in .nanorc should now 
+		work again.  Also, nano will now only ask for one 
+		acknowledgement of errors it encounters when parsing 
+		nanorc files, and a new flag -q (--quiet) will silence 
+		these messages altogether.  Give it a go, and happy 
+		birthday lenny!
+
 2009.02.07 - GNU nano 2.1.8 "unsafe at any speed" is released.  This
 		release include some long overdue performance 
 		improvements in syntax color highlighting, the ability
