@@ -719,6 +719,9 @@ ssize_t do_replace_loop(
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 	openfile->edittop = openfile->fileage;
 	openfile->mark_set = FALSE;
+#ifdef ENABLE_COLOR
+	reset_multis(openfile->current, TRUE);
+#endif
 	edit_refresh();
     }
 #endif
@@ -863,6 +866,10 @@ ssize_t do_replace_loop(
 	    free(openfile->current->data);
 	    openfile->current->data = copy;
 
+#ifdef ENABLE_COLOR
+	reset_multis(openfile->current, TRUE);
+#endif
+	edit_refresh();
 	    if (!replaceall) {
 #ifdef ENABLE_COLOR
 		/* If color syntaxes are available and turned on, we
