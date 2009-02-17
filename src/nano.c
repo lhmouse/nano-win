@@ -1615,9 +1615,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 			    }
 			}
-#ifndef NANO_TINY
 		    }
-#endif
 		    *finished = TRUE;
 		    break;
 	    }
