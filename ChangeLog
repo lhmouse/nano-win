@@ -1,3 +1,5 @@
+
+GNU nano 2.1.9 - 2009.02.16
 2009-02-16 Chris Allegretta <chrisa@asty.org>
 	* Add new argument to reset_multis for force redraws without attempting to
 	  guess whether we need to, for functions that we don't have good info about
