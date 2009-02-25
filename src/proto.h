@@ -76,7 +76,7 @@ extern char *quoteerr;
 extern size_t quotelen;
 #endif
 #endif
-bool nodelay_mode;
+extern bool nodelay_mode;
 extern char *answer;
 
 extern ssize_t tabsize;
@@ -806,11 +806,6 @@ const char *last_file_msg;
 const char *goto_dir_msg;
 const char *ext_cmd_msg;
 const char *to_files_msg;
-const char *dos_format_msg;
-const char *mac_format_msg;
-const char *append_msg;
-const char *prepend_msg;
-const char *backup_file_msg;
 const char *dos_format_msg;
 const char *mac_format_msg;
 const char *append_msg;

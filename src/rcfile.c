@@ -416,6 +416,7 @@ void parse_keybinding(char *ptr)
 	return;
     }
 
+    menu = strtomenu(menuptr);
     newsc = strtosc(menu, funcptr);
     if (newsc == NULL) {
 	rcfile_error(
@@ -423,7 +424,6 @@ void parse_keybinding(char *ptr)
 	return;
     }
 
-    menu = strtomenu(menuptr);
     if (menu < 1) {
 	rcfile_error(
 		N_("Could not map name \"%s\" to a menu"), menuptr);

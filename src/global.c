@@ -232,7 +232,7 @@ void add_to_funcs(short func, int menus, const char *desc, const char *help,
     subnfunc *f;
 
     if (allfuncs == NULL) {
-	allfuncs = nmalloc(sizeof(subnfunc));
+	allfuncs = (subnfunc *) nmalloc(sizeof(subnfunc));
 	f = allfuncs;
     } else {
 	for (f = allfuncs; f->next != NULL; f = f->next)
@@ -292,7 +292,7 @@ void add_to_sclist(int menu, char *scstring, short func, int toggle, int execute
     sc *s;
 
     if (sclist == NULL) {
-	sclist = nmalloc(sizeof(sc));
+	sclist = (sc *) nmalloc(sizeof(sc));
 	s = sclist;
         s->next = NULL;
     } else {
