@@ -1,7 +1,11 @@
+2009-02-23 Eitan Adler <eitanadlerlist@gmail.com>
+	* doc/man/Makefile.am: Fix make variable substitution to be more portable
+
 2009-02-23 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c (parse_keybinding) - Define a var before tryung to use it.  Whoops!
 	* fix some redefinitions causing compiler warnings, from Eitan Adler.  Other
 	  (hopefully) fixes for uncasted malloc()s, reported by the same.
+	* doc/man/fr/Makefile.am: Add groff check fix to fr files.
 
 GNU nano 2.1.9 - 2009.02.16
 2009-02-16 Chris Allegretta <chrisa@asty.org>
