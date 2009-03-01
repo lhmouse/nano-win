@@ -28,6 +28,12 @@
 #include <config.h>
 #endif
 
+#ifdef NEED_XOPEN_SOURCE_EXTENDED
+#ifndef _XOPEN_SOURCE_EXTENDED
+#define _XOPEN_SOURCE_EXTENDED 1
+#endif /* _XOPEN_SOURCE_EXTENDED */
+#endif /* NEED_XOPEN_SOURCE_EXTENDED */
+
 #ifdef __TANDEM
 /* Tandem NonStop Kernel support. */
 #include <floss.h>
@@ -42,6 +48,10 @@
 
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
+#endif
+
+#ifdef HAVE_STDARG_H
+#include <stdarg.h>
 #endif
 
 /* Macros for flags. */
