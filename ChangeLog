@@ -1,3 +1,7 @@
+2009-03-08 Chris Allegretta <chrisa@asty.org>
+	* TODO - Break out some targets for various features into 2.2 
+	  and 2.4 series for things which are feasible.
+
 2009-02-28 Chris Allegretta <chrisa@asty.org>
 	* configure.ac: Add check for whether _XOPEN_SOURCE_EXTENDED is needed for
 	  curses to work w/color.  Fixes compilation on HP-UX with older GCC, 
