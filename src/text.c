@@ -475,13 +475,16 @@ void do_undo(void)
 	break;
     case SPLIT:
 	undidmsg = _("line split");
-	free(f->data);
-	f->data = mallocstrcpy(NULL, u->strdata);
-	if (f->next != NULL) {
-	    filestruct *tmp = f->next;
-	    unlink_node(tmp);
-	    delete_node(tmp);
+	fprintf(stderr, "u->strdata = \"%s\"\n", u->strdata);
+	f->data = nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
+	strcat(f->data, u->strdata);
+	if (u->xflags & UNDO_SPLIT_MADENEW) {
+	    filestruct *foo = openfile->current->next;
+	    unlink_node(foo);
+	    delete_node(foo);
 	}
+	if (u->strdata2 != NULL)
+	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
 	renumber(f);
 	break;
     case UNSPLIT:
@@ -811,6 +814,7 @@ void add_undo(undo_type current_action)
     char *data;
     openfilestruct *fs = openfile;
     static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut */
+    ssize_t wrap_loc;	/* For calculating split beginning */
 
     /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
        we need to  abort here */
@@ -871,8 +875,16 @@ void add_undo(undo_type current_action)
 	    u->strdata = data;
 	}
 	break;
-    case INSERT:
     case SPLIT:
+	wrap_loc = break_line(openfile->current->data, fill
+#ifndef DISABLE_HELP
+	, FALSE
+#endif
+	);
+	u->strdata = mallocstrcpy(NULL, &openfile->current->data[wrap_loc]);
+	u->strdata2 = mallocstrcpy(NULL, fs->current->next->data);
+	break;
+    case INSERT:
     case REPLACE:
 	data = mallocstrcpy(NULL, fs->current->data);
 	u->strdata = data;
@@ -902,7 +914,7 @@ void add_undo(undo_type current_action)
 #ifdef DEBUG
     fprintf(stderr, "fs->current->data = \"%s\", current_x = %d, u->begin = %d, type = %d\n",
 			fs->current->data,  fs->current_x, u->begin, current_action);
-    fprintf(stderr, "left update_add...\n");
+    fprintf(stderr, "left add_undo...\n");
 #endif
     fs->last_action = current_action;
 }
@@ -1011,7 +1023,12 @@ void update_undo(undo_type action)
 	break;
     case INSERT:
 	u->mark_begin_lineno = openfile->current->lineno;
+	break;
     case SPLIT:
+	/* This will only be called if we made a completely new line,
+	   and as such we should note that so we can destroy it later */
+	u->xflags = UNDO_SPLIT_MADENEW;
+	break;
     case UNSPLIT:
 	/* These cases are handled by the earlier check for a new line and action */
     case OTHER:
@@ -1108,6 +1125,8 @@ bool do_wrap(filestruct *line)
 	return FALSE;
 
 #ifndef NANO_TINY
+    add_undo(SPLIT);
+
     /* If autoindent is turned on, and we're on the character just after
      * the indentation, we don't wrap. */
     if (ISSET(AUTOINDENT)) {

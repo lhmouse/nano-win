@@ -292,6 +292,8 @@ typedef struct undo {
 	/* Where did this  action begin or end */
     char *strdata;
 	/* String type data we will use for ccopying the affected line back */
+    char *strdata2;
+	/* Sigh, need this too it looks like */
     int xflags;
 	/* Some flag data we need */
 
@@ -730,6 +732,7 @@ typedef struct subnfunc {
 /* Extra bits for the undo function */
 #define UNDO_DEL_DEL		(1<<0)
 #define UNDO_DEL_BACKSPACE	(1<<1)
+#define UNDO_SPLIT_MADENEW	(1<<2)
 
 /* Since in ISO C you can't pass around function pointers anymore,
   let's make some integer macros for function names, and then I
