@@ -475,9 +475,8 @@ void do_undo(void)
 	break;
     case SPLIT:
 	undidmsg = _("line split");
-	fprintf(stderr, "u->strdata = \"%s\"\n", u->strdata);
 	f->data = nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
-	strcat(f->data, u->strdata);
+	strcpy(&f->data[strlen(f->data) - 1], u->strdata);
 	if (u->xflags & UNDO_SPLIT_MADENEW) {
 	    filestruct *foo = openfile->current->next;
 	    unlink_node(foo);
@@ -843,6 +842,7 @@ void add_undo(undo_type current_action)
     fs->undotop = u;
     fs->current_undo = u;
     u->strdata = NULL;
+    u->strdata2 = NULL;
     u->cutbuffer = NULL;
     u->cutbottom  = NULL;
     u->mark_set = 0;
@@ -882,7 +882,10 @@ void add_undo(undo_type current_action)
 #endif
 	);
 	u->strdata = mallocstrcpy(NULL, &openfile->current->data[wrap_loc]);
-	u->strdata2 = mallocstrcpy(NULL, fs->current->next->data);
+	/* Don't both saving the next line if we're not prepending as a new line
+	   will be created */
+	if (prepend_wrap)
+	    u->strdata2 = mallocstrcpy(NULL, fs->current->next->data);
 	break;
     case INSERT:
     case REPLACE:
