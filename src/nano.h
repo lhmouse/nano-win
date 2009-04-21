@@ -180,7 +180,7 @@ typedef enum {
 }  function_type;
 
 typedef enum {
-    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, INSERT, OTHER
+    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, ENTER, INSERT, OTHER
 } undo_type;
 
 #ifdef ENABLE_COLOR

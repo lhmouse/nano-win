@@ -474,7 +474,7 @@ void do_undo(void)
 	    openfile->current_x += strlen(u->strdata);
 	break;
     case SPLIT:
-	undidmsg = _("line split");
+	undidmsg = _("line wrap");
 	f->data = nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcpy(&f->data[strlen(f->data) - 1], u->strdata);
 	if (u->xflags & UNDO_SPLIT_MADENEW) {
@@ -505,6 +505,16 @@ void do_undo(void)
 	undidmsg = _("text uncut");
 	redo_cut(u);
 	break;
+    case ENTER:
+	undidmsg = _("line break");
+	if (f->next) {
+	    f->data = nrealloc(f->data, strlen(f->data) + strlen(f->next->data) + 1);
+	    strcat(f->data,  f->next->data);
+	    filestruct *foo = f->next;
+	    unlink_node(foo);
+	    delete_node(foo);
+	}
+	break;
     case INSERT:
 	undidmsg = _("text insert");
 	cutbuffer = NULL;
@@ -529,11 +539,13 @@ void do_undo(void)
 	u->strdata = f->data;
 	f->data = data;
 	break;
+
     default:
 	undidmsg = _("Internal error: unknown type.  Please save your work");
 	break;
 
     }
+    renumber(f);
     do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Undid action (%s)"), undidmsg);
     openfile->current_undo = openfile->current_undo->next;
@@ -593,8 +605,13 @@ void do_redo(void)
 	free(f->data);
 	f->data = data;
 	break;
+    case ENTER:
+	undidmsg = _("line break");
+	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	do_enter();
+	break;
     case SPLIT:
-	undidmsg = _("line split");
+	undidmsg = _("line wrap");
 	t = make_new_node(f);
 	t->data = mallocstrcpy(NULL, &u->strdata[u->begin]);
 	data = mallocstrncpy(NULL, f->data, u->begin);
@@ -662,7 +679,7 @@ void do_enter(void)
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_TINY
-    update_undo(SPLIT);
+    update_undo(ENTER);
 
 
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
@@ -908,6 +925,8 @@ void add_undo(undo_type current_action)
 	    u->cutbuffer = last_cutu->cutbuffer;
 	    u->cutbottom = last_cutu->cutbottom;
 	}
+	break;
+    case ENTER:
 	break;
     case OTHER:
 	statusbar(_("Internal error: unknown type.  Please save your work."));
