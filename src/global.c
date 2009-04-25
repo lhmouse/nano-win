@@ -1214,7 +1214,7 @@ void iso_me_harder_funcmap(short func)
     else if (func == DO_RIGHT)
 	do_right();
     else if (func == DO_ENTER)
-	do_enter();
+	do_enter(FALSE);
     else if (func == DO_EXIT)
 	do_exit();
     else if (func == DO_FIRST_LINE)

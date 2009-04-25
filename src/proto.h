@@ -624,7 +624,7 @@ void do_unindent(void);
 void do_undo(void);
 void do_redo(void);
 #endif
-void do_enter(void);
+void do_enter(bool undoing);
 #ifndef NANO_TINY
 RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);

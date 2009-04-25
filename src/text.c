@@ -608,7 +608,7 @@ void do_redo(void)
     case ENTER:
 	undidmsg = _("line break");
 	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
-	do_enter();
+	do_enter(TRUE);
 	break;
     case SPLIT:
 	undidmsg = _("line wrap");
@@ -671,7 +671,7 @@ void do_redo(void)
 #endif /* !NANO_TINY */
 
 /* Someone hits Enter *gasp!* */
-void do_enter(void)
+void do_enter(bool undoing)
 {
     filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
@@ -679,7 +679,8 @@ void do_enter(void)
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_TINY
-    update_undo(ENTER);
+    if (!undoing)
+	add_undo(ENTER);
 
 
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
