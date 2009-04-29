@@ -477,13 +477,13 @@ void do_undo(void)
 	undidmsg = _("line wrap");
 	f->data = nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcpy(&f->data[strlen(f->data) - 1], u->strdata);
-	if (u->xflags & UNDO_SPLIT_MADENEW) {
+	if (u->strdata2 != NULL)
+	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
+	else {
 	    filestruct *foo = openfile->current->next;
 	    unlink_node(foo);
 	    delete_node(foo);
 	}
-	if (u->strdata2 != NULL)
-	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
 	renumber(f);
 	break;
     case UNSPLIT:
@@ -612,13 +612,16 @@ void do_redo(void)
 	break;
     case SPLIT:
 	undidmsg = _("line wrap");
-	t = make_new_node(f);
-	t->data = mallocstrcpy(NULL, &u->strdata[u->begin]);
 	data = mallocstrncpy(NULL, f->data, u->begin);
 	data[u->begin] = '\0';
 	free(f->data);
 	f->data = data;
-	splice_node(f, t, f->next);
+        if (u->strdata2 == NULL) {
+	    t = make_new_node(f);
+	    t->data = mallocstrcpy(NULL, u->strdata);
+	    splice_node(f, t, f->next);
+	} else
+	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
 	renumber(f);
 	break;
     case UNSPLIT:
@@ -904,6 +907,7 @@ void add_undo(undo_type current_action)
 	   will be created */
 	if (prepend_wrap)
 	    u->strdata2 = mallocstrcpy(NULL, fs->current->next->data);
+	u->begin = wrap_loc;
 	break;
     case INSERT:
     case REPLACE:
