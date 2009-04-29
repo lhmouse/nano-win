@@ -631,7 +631,7 @@ bool execute_command(const char *command);
 #endif
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
-bool do_wrap(filestruct *line);
+bool do_wrap(filestruct *line, bool undoing);
 #endif
 #if !defined(DISABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal

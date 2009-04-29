@@ -612,16 +612,9 @@ void do_redo(void)
 	break;
     case SPLIT:
 	undidmsg = _("line wrap");
-	data = mallocstrncpy(NULL, f->data, u->begin);
-	data[u->begin] = '\0';
-	free(f->data);
-	f->data = data;
-        if (u->strdata2 == NULL) {
-	    t = make_new_node(f);
-	    t->data = mallocstrcpy(NULL, u->strdata);
-	    splice_node(f, t, f->next);
-	} else
-	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
+	if (u->xflags & UNDO_SPLIT_MADENEW)
+	    prepend_wrap = TRUE;
+        do_wrap(f, TRUE);
 	renumber(f);
 	break;
     case UNSPLIT:
@@ -970,7 +963,7 @@ void update_undo(undo_type action)
     /* Change to an add if we're not using the same undo struct
        that we should be using */
     if (action != fs->last_action
-	|| (action != CUT && action != INSERT
+	|| (action != CUT && action != INSERT && action != SPLIT
 	    && openfile->current->lineno != fs->current_undo->lineno)) {
         add_undo(action);
 	return;
@@ -1087,7 +1080,7 @@ void wrap_reset(void)
 /* We wrap the given line.  Precondition: we assume the cursor has been
  * moved forward since the last typed character.  Return TRUE if we
  * wrapped, and FALSE otherwise. */
-bool do_wrap(filestruct *line)
+bool do_wrap(filestruct *line, bool undoing)
 {
     size_t line_len;
 	/* The length of the line we wrap. */
@@ -1152,7 +1145,8 @@ bool do_wrap(filestruct *line)
 	return FALSE;
 
 #ifndef NANO_TINY
-    add_undo(SPLIT);
+    if (!undoing)
+	add_undo(SPLIT);
 
     /* If autoindent is turned on, and we're on the character just after
      * the indentation, we don't wrap. */
@@ -1248,6 +1242,8 @@ bool do_wrap(filestruct *line)
     null_at(&line->data, wrap_loc);
 
     if (prepending) {
+	if (!undoing)
+	    update_undo(SPLIT);
 	/* If we're prepending, copy the text from the next line, minus
 	 * the indentation that we already copied above. */
 	strcat(new_line, next_line);

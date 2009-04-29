@@ -1909,7 +1909,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	if (!ISSET(NO_WRAP)) {
 	    bool do_refresh_save = do_refresh;
 
-	    do_refresh = do_wrap(openfile->current);
+	    do_refresh = do_wrap(openfile->current, FALSE);
 
 	    /* If we needed to call edit_refresh() before this, we'll
 	     * still need to after this. */
