@@ -30,6 +30,7 @@
 #ifndef NANO_TINY
 extern sigjmp_buf jump_buf;
 extern bool jump_buf_main;
+extern bool use_undo;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY

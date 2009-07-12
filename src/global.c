@@ -36,6 +36,9 @@ sigjmp_buf jump_buf;
 bool jump_buf_main = FALSE;
 	/* Have we set jump_buf so that we return to main() after a
 	 * SIGWINCH? */
+bool use_undo = FALSE;
+	/* Are we actually using the undo code - disabled by default
+	   as the undo code is too unstable */
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -778,11 +781,13 @@ void shortcut_init(bool unjustify)
     add_to_funcs(DO_UNINDENT, MMAIN, N_("Unindent Text"),
 	IFSCHELP(nano_unindent_msg), FALSE, NOVIEW);
 
-    add_to_funcs(DO_UNDO, MMAIN, N_("Undo"),
-	IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
+    if (use_undo) {
+	add_to_funcs(DO_UNDO, MMAIN, N_("Undo"),
+	    IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
 
-    add_to_funcs(DO_REDO, MMAIN, N_("Redo"),
-	IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
+	add_to_funcs(DO_REDO, MMAIN, N_("Redo"),
+	    IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
+    }
 
 #endif
 
@@ -1064,8 +1069,10 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-6", DO_COPY_TEXT, 0, TRUE);
     add_to_sclist(MMAIN, "M-}", DO_INDENT_VOID, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", DO_UNINDENT, 0, TRUE);
-    add_to_sclist(MMAIN, "M-U", DO_UNDO, 0, TRUE);
-    add_to_sclist(MMAIN, "M-E", DO_REDO, 0, TRUE);
+    if (use_undo) {
+	add_to_sclist(MMAIN, "M-U", DO_UNDO, 0, TRUE);
+ 	add_to_sclist(MMAIN, "M-E", DO_REDO, 0, TRUE);
+    }
     add_to_sclist(MALL, "^F", DO_RIGHT, 0, TRUE);
     add_to_sclist(MALL, "^B", DO_LEFT, 0, TRUE);
     add_to_sclist(MMAIN, "^Space", DO_NEXT_WORD_VOID, 0, TRUE);

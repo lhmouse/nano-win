@@ -508,9 +508,9 @@ void do_undo(void)
     case ENTER:
 	undidmsg = _("line break");
 	if (f->next) {
+	    filestruct *foo = f->next;
 	    f->data = nrealloc(f->data, strlen(f->data) + strlen(f->next->data) + 1);
 	    strcat(f->data,  f->next->data);
-	    filestruct *foo = f->next;
 	    unlink_node(foo);
 	    delete_node(foo);
 	}
@@ -555,7 +555,7 @@ void do_undo(void)
 void do_redo(void)
 {
     undo *u = openfile->undotop;
-    filestruct *f = openfile->current, *t;
+    filestruct *f = openfile->current;
     int len = 0;
     char *undidmsg, *data;
 
@@ -829,6 +829,9 @@ void add_undo(undo_type current_action)
     static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut */
     ssize_t wrap_loc;	/* For calculating split beginning */
 
+    if (!use_undo)
+	return;
+
     /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
        we need to  abort here */
     u = fs->current_undo;
@@ -951,6 +954,9 @@ void update_undo(undo_type action)
     int len = 0;
     openfilestruct *fs = openfile;
 
+    if (!use_undo)
+	return;
+
 #ifdef DEBUG
         fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %d",
 		action, fs->last_action, openfile->current->lineno);
@@ -1051,6 +1057,7 @@ void update_undo(undo_type action)
 	break;
     case UNSPLIT:
 	/* These cases are handled by the earlier check for a new line and action */
+    case ENTER:
     case OTHER:
 	break;
     }

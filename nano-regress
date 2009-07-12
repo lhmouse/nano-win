@@ -16,10 +16,11 @@ foreach my $name (@combos) {
     my @args = @$name;
     my $pct = $i / $#combos * 100;
     printf "Trying with options: @args, %d%% done...\n", $pct;
-    system("(./configure @args && make clean all) >/dev/null 2>&1");
+    my $cmd = "./configure @args && make clean all";
+    system("($cmd) >/dev/null 2>&1");
     if ($? != 0)  {
 	print "Build failed for args: @args\n";
-	print "Try running make to reproduce\n";
+	print "To reproduce, run:\n $cmd\n";
 	exit(1);
     }
     $i++;

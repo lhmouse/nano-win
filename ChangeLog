@@ -1,3 +1,8 @@
+2009-07-11 Chris Allegretta <chrisa@asty.org>
+	* nano-regress: Small tweaks
+	* Change undo code to off unless unabled via a command line option (-u/--undo).  Until this code
+	  stabilizes this is the only responsible way to treat it.
+
 2009-03-08 Chris Allegretta <chrisa@asty.org>
 	* TODO - Break out some targets for various features into 2.2 
 	  and 2.4 series for things which are feasible.
