@@ -89,6 +89,7 @@ static const rcoption rcopts[] = {
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
     {"tabstospaces", TABS_TO_SPACES},
+    {"undo", 0},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
 #endif
@@ -907,6 +908,15 @@ void parse_rcfile(FILE *rcstream
 
 	option = ptr;
 	ptr = parse_next_word(ptr);
+
+#ifndef NANO_TINY
+	/* FIXME: Hack which should go away ASAP */
+	if (strcasecmp(option,  "undo") == 0) {
+	    use_undo = TRUE;
+	    shortcut_init(0);
+	    continue;
+	}
+#endif
 
 	for (i = 0; rcopts[i].name != NULL; i++) {
 	    if (strcasecmp(option, rcopts[i].name) == 0) {
