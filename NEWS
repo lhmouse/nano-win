@@ -1,3 +1,14 @@
+2009.07.28 - GNU nano 2.1.10 "Ellie" is released.  This version includes
+		various fixes for portability including some older HP-UX
+		compiler combos, various compiler warnings, and some crash
+		fixes in the undo code.  On the topic of the latter item,
+		the undo code is now marked as experimental since it can
+		cause severe stability and memory issues, and thus now 
+		requires a flag (-u, --undo) in order to enable it.  
+		Please feel free to continue to test the undo code and 
+		thanks again for using nano for your text editing needs.
+		Go team Nano!
+
 2009.02.16 - GNU nano 2.1.9 wonders what all that glass is doing on the
 		floor!  This release is primarily meant as a less buggy 
 		version of 2.1.8, particularly for issues with the new 
