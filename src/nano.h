@@ -55,10 +55,13 @@
 #endif
 
 /* Macros for flags. */
-#define SET(bit) flags |= bit
-#define UNSET(bit) flags &= ~bit
-#define ISSET(bit) ((flags & bit) != 0)
-#define TOGGLE(bit) flags ^= bit
+#define FLAGOFF(flag) ((flag) / (sizeof(unsigned) * 8))
+#define FLAGMASK(flag) (1 << ((flag) % (sizeof(unsigned) * 8)))
+#define FLAGS(flag) flags[FLAGOFF(flag)]
+#define SET(flag) FLAGS(flag) |= FLAGMASK(flag)
+#define UNSET(flag) FLAGS(flag) &= ~FLAGMASK(flag)
+#define ISSET(flag) ((FLAGS(flag) & FLAGMASK(flag)) != 0)
+#define TOGGLE(flag) FLAGS(flag) ^= FLAGMASK(flag)
 
 /* Macros for character allocation and more. */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
@@ -450,40 +453,44 @@ typedef struct subnfunc {
 } subnfunc;
 
 
-/* Bitwise flags so that we can save space (or, more correctly, not
- * waste it). */
-#define CASE_SENSITIVE			(1<<0)
-#define CONST_UPDATE			(1<<1)
-#define NO_HELP				(1<<2)
-#define NOFOLLOW_SYMLINKS		(1<<3)
-#define SUSPEND				(1<<4)
-#define NO_WRAP				(1<<5)
-#define AUTOINDENT			(1<<6)
-#define VIEW_MODE			(1<<7)
-#define USE_MOUSE			(1<<8)
-#define USE_REGEXP			(1<<9)
-#define TEMP_FILE			(1<<10)
-#define CUT_TO_END			(1<<11)
-#define BACKWARDS_SEARCH		(1<<12)
-#define MULTIBUFFER			(1<<13)
-#define SMOOTH_SCROLL			(1<<14)
-#define REBIND_DELETE			(1<<15)
-#define REBIND_KEYPAD			(1<<16)
-#define NO_CONVERT			(1<<17)
-#define BACKUP_FILE			(1<<18)
-#define NO_COLOR_SYNTAX			(1<<19)
-#define PRESERVE			(1<<20)
-#define HISTORYLOG			(1<<21)
-#define RESTRICTED			(1<<22)
-#define SMART_HOME			(1<<23)
-#define WHITESPACE_DISPLAY		(1<<24)
-#define MORE_SPACE			(1<<25)
-#define TABS_TO_SPACES			(1<<26)
-#define QUICK_BLANK			(1<<27)
-#define WORD_BOUNDS			(1<<28)
-#define NO_NEWLINES			(1<<29)
-#define BOLD_TEXT			(1<<30)
-#define QUIET				(1<<31)
+/* Enumeration to be used in flags table. See FLAGBIT and FLAGOFF 
+ * definitions. */
+enum
+{
+    CASE_SENSITIVE,
+    CONST_UPDATE,
+    NO_HELP,
+    NOFOLLOW_SYMLINKS,
+    SUSPEND,
+    NO_WRAP,
+    AUTOINDENT,
+    VIEW_MODE,
+    USE_MOUSE,
+    USE_REGEXP,
+    TEMP_FILE,
+    CUT_TO_END,
+    BACKWARDS_SEARCH,
+    MULTIBUFFER,
+    SMOOTH_SCROLL,
+    REBIND_DELETE,
+    REBIND_KEYPAD,
+    NO_CONVERT,
+    BACKUP_FILE,
+    NO_COLOR_SYNTAX,
+    PRESERVE,
+    HISTORYLOG,
+    RESTRICTED,
+    SMART_HOME,
+    WHITESPACE_DISPLAY,
+    MORE_SPACE,
+    TABS_TO_SPACES,
+    QUICK_BLANK,
+    WORD_BOUNDS,
+    NO_NEWLINES,
+    BOLD_TEXT,
+    QUIET,
+    UNDOABLE,
+};
 
 /* Flags for which menus in which a given function should be present */
 #define MMAIN				(1<<0)

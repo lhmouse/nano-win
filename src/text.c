@@ -837,7 +837,7 @@ void add_undo(undo_type current_action)
     static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut */
     ssize_t wrap_loc;	/* For calculating split beginning */
 
-    if (!use_undo)
+    if (!ISSET(UNDOABLE))
 	return;
 
     /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
@@ -962,7 +962,7 @@ void update_undo(undo_type action)
     int len = 0;
     openfilestruct *fs = openfile;
 
-    if (!use_undo)
+    if (!ISSET(UNDOABLE))
 	return;
 
 #ifdef DEBUG

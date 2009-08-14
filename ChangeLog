@@ -1,4 +1,9 @@
+2009-08-13 Chris Allegretta <chrisa@asty.org>
+	* New global flag implementation courtesy of Adam Wysocki <gophi@arcabit.pl>, allows
+ 	  previous undo flag to be implemented consistent with other flags.
+
 GNU nano 2.1.10 - 2009.07.28
+
 2009-07-27 Chris Allegretta <chrisa@asty.org>
 	* text.c (undo_cut, redo_cut): Don't actually try and undo/redo an empty cut, i.e. the magicline. 
 	  Fixes crash on cutting last line discovered by Eitan Adler <eitanadlerlist@gmail.com>.

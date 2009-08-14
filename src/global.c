@@ -36,9 +36,6 @@ sigjmp_buf jump_buf;
 bool jump_buf_main = FALSE;
 	/* Have we set jump_buf so that we return to main() after a
 	 * SIGWINCH? */
-bool use_undo = FALSE;
-	/* Are we actually using the undo code - disabled by default
-	   as the undo code is too unstable */
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -55,7 +52,7 @@ char *last_search = NULL;
 char *last_replace = NULL;
 	/* The last replacement string we searched for. */
 
-long flags = 0;
+unsigned flags[4] = {0, 0, 0, 0};
 	/* Our flag containing the states of all global options. */
 WINDOW *topwin;
 	/* The top portion of the window, where we display the version
@@ -781,7 +778,7 @@ void shortcut_init(bool unjustify)
     add_to_funcs(DO_UNINDENT, MMAIN, N_("Unindent Text"),
 	IFSCHELP(nano_unindent_msg), FALSE, NOVIEW);
 
-    if (use_undo) {
+    if (ISSET(UNDOABLE)) {
 	add_to_funcs(DO_UNDO, MMAIN, N_("Undo"),
 	    IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
 
@@ -1069,7 +1066,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-6", DO_COPY_TEXT, 0, TRUE);
     add_to_sclist(MMAIN, "M-}", DO_INDENT_VOID, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", DO_UNINDENT, 0, TRUE);
-    if (use_undo) {
+    if (ISSET(UNDOABLE)) {
 	add_to_sclist(MMAIN, "M-U", DO_UNDO, 0, TRUE);
  	add_to_sclist(MMAIN, "M-E", DO_REDO, 0, TRUE);
     }

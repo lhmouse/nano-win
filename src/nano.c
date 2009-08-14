@@ -2213,7 +2213,7 @@ int main(int argc, char **argv)
 		break;
 #ifndef NANO_TINY
 	    case 'u':
-		use_undo = TRUE;
+		SET(UNDOABLE);
 		break;
 #endif
 	    case 'v':
@@ -2277,7 +2277,10 @@ int main(int argc, char **argv)
 	char *alt_speller_cpy = alt_speller;
 #endif
 	ssize_t tabsize_cpy = tabsize;
-	long flags_cpy = flags;
+	unsigned flags_cpy[sizeof(flags) / sizeof(flags[0])];
+	size_t i;
+
+	memcpy(flags_cpy, flags, sizeof(flags_cpy));
 
 #ifndef DISABLE_OPERATINGDIR
 	operating_dir = NULL;
@@ -2329,7 +2332,9 @@ int main(int argc, char **argv)
 #endif
 	if (tabsize_cpy != -1)
 	    tabsize = tabsize_cpy;
-	flags |= flags_cpy;
+
+	for (i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
+	    flags[i] |= flags_cpy[i];
     }
 #ifdef DISABLE_ROOTWRAPPING
     /* If we don't have any rcfiles, --disable-wrapping-as-root is used,
