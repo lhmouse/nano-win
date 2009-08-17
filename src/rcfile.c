@@ -92,6 +92,7 @@ static const rcoption rcopts[] = {
     {"undo", 0},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
+    {"softwrap", SOFTWRAP},
 #endif
     {NULL, 0}
 };

@@ -205,6 +205,13 @@ Disable help screen at bottom of editor.
 .B \-z (\-\-suspend)
 Enable suspend ability.
 .TP
+.B \-$ (\-\-softwrap)
+Enable 'soft wrapping'.  Nano will attempt to display lines the entire 
+contents of a line, even if it is longer than the screen width.
+Since '$' normally refers to a variable in the Unix shell, you should
+specify this option last when using other options (e.g. 'nano -wS$') 
+or pass it separately (e.g. 'nano -wS -$'). 
+.TP
 .B \-a, \-b, \-e, \-f, \-g, \-j
 Ignored, for compatibility with Pico.
 

@@ -2426,6 +2426,7 @@ void onekey(const char *keystroke, const char *desc, size_t len)
  * in the edit window at (current_y, current_x). */
 void reset_cursor(void)
 {
+    size_t xpt;
     /* If we haven't opened any files yet, put the cursor in the top
      * left corner of the edit window and get out. */
     if (openfile == NULL) {
@@ -2433,13 +2434,24 @@ void reset_cursor(void)
 	return;
     }
 
-    openfile->current_y = openfile->current->lineno -
-	openfile->edittop->lineno;
-    if (openfile->current_y < editwinrows) {
-	size_t xpt = xplustabs();
+    xpt = xplustabs();
 
-	wmove(edit, openfile->current_y, xpt - get_page_start(xpt));
-     }
+    if (ISSET(SOFTWRAP)) {
+	openfile->current_y = 0;
+	filestruct *tmp;
+	for (tmp = openfile->edittop; tmp != openfile->current; tmp = tmp->next)
+	    openfile->current_y += 1 + strlenpt(tmp->data) / COLS;
+
+	openfile->current_y += xplustabs() / COLS;
+	if (openfile->current_y < editwinrows)
+	    wmove(edit, openfile->current_y, xpt % COLS);
+    } else {
+	openfile->current_y = openfile->current->lineno -
+	    openfile->edittop->lineno;
+
+	if (openfile->current_y < editwinrows)
+	    wmove(edit, openfile->current_y, xpt - get_page_start(xpt));
+    }
 }
 
 /* edit_draw() takes care of the job of actually painting a line into
@@ -2813,19 +2825,35 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 /* Just update one line in the edit buffer.  This is basically a wrapper
  * for edit_draw().  The line will be displayed starting with
- * fileptr->data[index].  Likely arguments are current_x or zero. */
-void update_line(filestruct *fileptr, size_t index)
+ * fileptr->data[index].  Likely arguments are current_x or zero.
+ * Returns: Number of additiona lines consumed (needed for SOFTWRAP)
+ */
+int update_line(filestruct *fileptr, size_t index)
 {
-    int line;
+    int line = 0;
+    int extralinesused = 0;
 	/* The line in the edit window that we want to update. */
     char *converted;
 	/* fileptr->data converted to have tabs and control characters
 	 * expanded. */
     size_t page_start;
+    filestruct *tmp;
 
     assert(fileptr != NULL);
 
-    line = fileptr->lineno - openfile->edittop->lineno;
+    if (ISSET(SOFTWRAP)) {
+	for (tmp = openfile->edittop; tmp != fileptr; tmp = tmp->next) {
+	    line += 1 + (strlenpt(tmp->data) / COLS);
+#ifdef DEBUG
+	    fprintf(stderr, "update_line(): inside loop, line = %d\n", line);
+#endif
+	}
+    } else
+	line = fileptr->lineno - openfile->edittop->lineno;
+
+#ifdef DEBUG
+	fprintf(stderr, "update_line(): line = %d\n", line);
+#endif
 
     if (line < 0 || line >= editwinrows)
 	return;
@@ -2835,7 +2863,10 @@ void update_line(filestruct *fileptr, size_t index)
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
-    index = strnlenpt(fileptr->data, index);
+    if (ISSET(SOFTWRAP))
+	index = 0;
+    else
+	index = strnlenpt(fileptr->data, index);
     page_start = get_page_start(index);
 
     /* Expand the line, replacing tabs with spaces, and control
@@ -2846,10 +2877,31 @@ void update_line(filestruct *fileptr, size_t index)
     edit_draw(fileptr, converted, line, page_start);
     free(converted);
 
-    if (page_start > 0)
-	mvwaddch(edit, line, 0, '$');
-    if (strlenpt(fileptr->data) > page_start + COLS)
-	mvwaddch(edit, line, COLS - 1, '$');
+    if (!ISSET(SOFTWRAP)) {
+	if (page_start > 0)
+	    mvwaddch(edit, line, 0, '$');
+	if (strlenpt(fileptr->data) > page_start + COLS)
+	    mvwaddch(edit, line, COLS - 1, '$');
+    } else {
+        int full_length = strlenpt(fileptr->data);
+	for (index += COLS; index < full_length && line < editwinrows; index += COLS) {
+	    line++;
+#ifdef DEBUG
+	    fprintf(stderr, "update_line(): Softwrap code, moving to %d\n", line);
+#endif
+ 	    blank_line(edit, line, 0, COLS);
+
+	    /* Expand the line, replacing tabs with spaces, and control
+ 	     * characters with their displayed forms. */
+	    converted = display_string(fileptr->data, index, COLS, TRUE);
+
+	    /* Paint the line. */
+	    edit_draw(fileptr, converted, line, index);
+ 	    free(converted);
+	    extralinesused++;
+	}
+    }
+    return extralinesused;
 }
 
 /* Return TRUE if we need an update after moving horizontally, and FALSE
@@ -3115,7 +3167,7 @@ void edit_refresh(void)
 #endif
 
     for (nlines = 0; nlines < editwinrows && foo != NULL; nlines++) {
-	update_line(foo, (foo == openfile->current) ?
+	nlines += update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
 	foo = foo->next;
     }

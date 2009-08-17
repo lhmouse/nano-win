@@ -901,6 +901,7 @@ void usage(void)
 #endif
     print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
     print_opt("-z", "--suspend", N_("Enable suspension"));
+    print_opt("-$", "--softwrap", N_("Enable soft line wrapping"));
 
     /* This is a special case. */
     print_opt("-a, -b, -e,", "", NULL);
@@ -1333,6 +1334,9 @@ void do_toggle(int flag)
 	    edit_refresh();
 	    break;
 #endif
+	case SOFTWRAP:
+	    total_refresh();
+	    break;
     }
 
     enabled = ISSET(flag);
@@ -1733,7 +1737,7 @@ void precalc_multicolorinfo(void)
 
 
 #ifdef DEBUG
-	    fprintf(stderr, "working on lineno %d\n", fileptr->lineno);
+	    fprintf(stderr, "working on lineno %zd\n", fileptr->lineno);
 #endif
 
 		alloc_multidata_if_needed(fileptr);
@@ -1766,7 +1770,7 @@ void precalc_multicolorinfo(void)
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
 
 #ifdef DEBUG
-	    fprintf(stderr, "advancing to line %d to find end...\n", endptr->lineno);
+	    fprintf(stderr, "advancing to line %zd to find end...\n", endptr->lineno);
 #endif
 			/* Check for keyboard input  again */
 			if ((cur_check = time(NULL)) - last_check > 1) {
@@ -1794,18 +1798,18 @@ void precalc_multicolorinfo(void)
 			lines in between and the ends properly */
 		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %d as CENDAFTER\n", fileptr->lineno);
+		    fprintf(stderr, "marking line %zd as CENDAFTER\n", fileptr->lineno);
 #endif
 		    for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
 			alloc_multidata_if_needed(fileptr);
 			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
 #ifdef DEBUG
-			fprintf(stderr, "marking intermediary line %d as CWHOLELINE\n", fileptr->lineno);
+			fprintf(stderr, "marking intermediary line %zd as CWHOLELINE\n", fileptr->lineno);
 #endif
 		    }
 		    alloc_multidata_if_needed(endptr);
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %d as BEGINBEFORE\n", fileptr->lineno);
+		    fprintf(stderr, "marking line %zd as BEGINBEFORE\n", fileptr->lineno);
 #endif
 		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
 		    /* We should be able to skip all the way to the line of the match.
@@ -1813,12 +1817,12 @@ void precalc_multicolorinfo(void)
 		    fileptr = endptr;
 		    startx = endmatch.rm_eo;
 #ifdef DEBUG
-		    fprintf(stderr, "jumping to line %d pos %d to continue\n", endptr->lineno, startx);
+		    fprintf(stderr, "jumping to line %zd pos %d to continue\n", endptr->lineno, startx);
 #endif
 		}
 		if (nostart && startx == 0) {
 #ifdef DEBUG
-		    fprintf(stderr, "no start found on line %d, continuing\n", fileptr->lineno);
+		    fprintf(stderr, "no start found on line %zd, continuing\n", fileptr->lineno);
 #endif
 		    fileptr->multidata[tmpcolor->id] = CNONE;
 		    continue;
@@ -2020,6 +2024,7 @@ int main(int argc, char **argv)
 	{"wordbounds", 0, NULL, 'W'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
+	{"softwrap", 0, NULL, '$'},
 #endif
 	{NULL, 0, NULL, 0}
     };
@@ -2058,11 +2063,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz",
+		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz")
+		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2230,6 +2235,11 @@ int main(int argc, char **argv)
 	    case 'z':
 		SET(SUSPEND);
 		break;
+#ifndef NANO_TINY
+	    case '$':
+		SET(SOFTWRAP);
+		break;
+#endif
 	    default:
 		usage();
 	}

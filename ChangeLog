@@ -1,3 +1,8 @@
+2009-08-17 Chris Allegretta <chrisa@asty.org>
+	* Initial soft line wrapping implementation.  Command line flags
+	  -$ or --softwrap.  
+	* nano.c, text.c: Clean up some fprintf warnings in debug mode due to printing
+	  a size_t without using the zd specifier.
 2009-08-13 Chris Allegretta <chrisa@asty.org>
 	* New global flag implementation courtesy of Adam Wysocki <gophi@arcabit.pl>, allows
  	  previous undo flag to be implemented consistent with other flags.

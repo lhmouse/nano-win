@@ -1164,6 +1164,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-M", DO_TOGGLE, USE_MOUSE, TRUE);
     add_to_sclist(MMAIN, "M-N", DO_TOGGLE, NO_CONVERT, TRUE);
     add_to_sclist(MMAIN, "M-Z", DO_TOGGLE, SUSPEND, TRUE);
+    add_to_sclist(MMAIN, "M-$", DO_TOGGLE, SOFTWRAP, TRUE);
 #endif
     add_to_sclist(MGOTOLINE, "^T",  GOTOTEXT_MSG, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F",  NEW_BUFFER_MSG, 0, FALSE);
@@ -1376,6 +1377,8 @@ char *flagtostr(int flag)
             return N_("No conversion from DOS/Mac format");
         case SUSPEND:
             return N_("Suspension");
+        case SOFTWRAP:
+            return N_("Soft line wrapping");
         default:
             return "?????";
     }

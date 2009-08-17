@@ -24,7 +24,6 @@ For the future (no targeted version, catch-all)
   allow movement between them with a single keystroke? (we're running 
   out of keystrokes)
 - Allow searching for and replacing newlines.
-- Allow soft wrapping as well as hard wrapping?
 - Fix handling of bad/incomplete UTF-8 sequences to display one Unicode
   FFFD (Replacement Character) per sequence instead of one per byte.
 
@@ -48,6 +47,7 @@ For version 2.2:
 - Allow nano to work like a pager (read from stdin) [DONE]
 - Allow color syntaxes to be selected based on more than just filename
   extension, [DONE]
+- Allow soft wrapping as well as hard wrapping? [DONE]
 
 For version 2.0:
 - UTF-8 support. [DONE]

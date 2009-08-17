@@ -409,7 +409,7 @@ void redo_cut(undo *u) {
 	for (c = u->cutbuffer, t = openfile->current; c->next != NULL && t->next != NULL; ) {
 
 #ifdef DEBUG
-	fprintf(stderr, "Advancing, lineno  = %d, data = \"%s\"\n", t->lineno, t->data);
+	fprintf(stderr, "Advancing, lineno  = %zd, data = \"%s\"\n", t->lineno, t->data);
 #endif
 	    c = c->next;
 	    t = t->next;
@@ -943,7 +943,7 @@ void add_undo(undo_type current_action)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "fs->current->data = \"%s\", current_x = %d, u->begin = %d, type = %d\n",
+    fprintf(stderr, "fs->current->data = \"%s\", current_x = %zd, u->begin = %d, type = %d\n",
 			fs->current->data,  fs->current_x, u->begin, current_action);
     fprintf(stderr, "left add_undo...\n");
 #endif
@@ -966,10 +966,10 @@ void update_undo(undo_type action)
 	return;
 
 #ifdef DEBUG
-        fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %d",
+        fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %zd",
 		action, fs->last_action, openfile->current->lineno);
 	if (fs->current_undo)
-	    fprintf(stderr, "fs->current_undo->lineno = %d\n",  fs->current_undo->lineno);
+	    fprintf(stderr, "fs->current_undo->lineno = %zd\n",  fs->current_undo->lineno);
 	else
 	    fprintf(stderr, "\n");
 #endif
@@ -989,7 +989,7 @@ void update_undo(undo_type action)
     switch (u->type) {
     case ADD:
 #ifdef DEBUG
-        fprintf(stderr, "fs->current->data = \"%s\", current_x = %d, u->begin = %d\n",
+        fprintf(stderr, "fs->current->data = \"%s\", current_x = %zd, u->begin = %d\n",
 			fs->current->data,  fs->current_x, u->begin);
 #endif
         len = strlen(u->strdata) + 2;
