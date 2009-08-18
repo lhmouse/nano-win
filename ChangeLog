@@ -1,3 +1,7 @@
+2009-08-17 Mike Frysinger <vapier@gentoo.org>
+	* doc/syntax/(gentoo|sh|tcl).nanorc: Fix problems with empty regexes on POSIX.
+	  Fixes Savannah bug 27175.
+
 2009-08-17 Chris Allegretta <chrisa@asty.org>
 	* Initial soft line wrapping implementation.  Command line flags
 	  -$ or --softwrap.  
