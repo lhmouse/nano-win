@@ -1,3 +1,7 @@
+2009-08-19 Chris Allegretta <chrisa@asty.org>
+	* Fix issue with soft wrapping not displaying the last character of each line,
+	  fixed bug discovered by Hannes <mr_creosote@mutantwatch.de>.
+
 2009-08-17 Mike Frysinger <vapier@gentoo.org>
 	* doc/syntax/(gentoo|sh|tcl).nanorc: Fix problems with empty regexes on POSIX.
 	  Fixes Savannah bug 27175.

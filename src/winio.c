@@ -2440,11 +2440,11 @@ void reset_cursor(void)
 	openfile->current_y = 0;
 	filestruct *tmp;
 	for (tmp = openfile->edittop; tmp != openfile->current; tmp = tmp->next)
-	    openfile->current_y += 1 + strlenpt(tmp->data) / COLS;
+	    openfile->current_y += 1 + strlenpt(tmp->data) / (COLS - 1);
 
-	openfile->current_y += xplustabs() / COLS;
+	openfile->current_y += xplustabs() / (COLS - 1);
 	if (openfile->current_y < editwinrows)
-	    wmove(edit, openfile->current_y, xpt % COLS);
+	    wmove(edit, openfile->current_y, xpt % (COLS - 1));
     } else {
 	openfile->current_y = openfile->current->lineno -
 	    openfile->edittop->lineno;
@@ -2884,7 +2884,7 @@ int update_line(filestruct *fileptr, size_t index)
 	    mvwaddch(edit, line, COLS - 1, '$');
     } else {
         int full_length = strlenpt(fileptr->data);
-	for (index += COLS; index < full_length && line < editwinrows; index += COLS) {
+	for (index += COLS - 1; index < full_length && line < editwinrows; index += COLS - 1) {
 	    line++;
 #ifdef DEBUG
 	    fprintf(stderr, "update_line(): Softwrap code, moving to %d\n", line);
