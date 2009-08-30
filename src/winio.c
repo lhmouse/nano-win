@@ -2439,7 +2439,7 @@ void reset_cursor(void)
     if (ISSET(SOFTWRAP)) {
 	openfile->current_y = 0;
 	filestruct *tmp;
-	for (tmp = openfile->edittop; tmp != openfile->current; tmp = tmp->next)
+	for (tmp = openfile->edittop; tmp && tmp != openfile->current; tmp = tmp->next)
 	    openfile->current_y += 1 + strlenpt(tmp->data) / (COLS - 1);
 
 	openfile->current_y += xplustabs() / (COLS - 1);
@@ -2842,18 +2842,11 @@ int update_line(filestruct *fileptr, size_t index)
     assert(fileptr != NULL);
 
     if (ISSET(SOFTWRAP)) {
-	for (tmp = openfile->edittop; tmp != fileptr; tmp = tmp->next) {
+	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next) {
 	    line += 1 + (strlenpt(tmp->data) / COLS);
-#ifdef DEBUG
-	    fprintf(stderr, "update_line(): inside loop, line = %d\n", line);
-#endif
 	}
     } else
 	line = fileptr->lineno - openfile->edittop->lineno;
-
-#ifdef DEBUG
-	fprintf(stderr, "update_line(): line = %d\n", line);
-#endif
 
     if (line < 0 || line >= editwinrows)
 	return;
@@ -2938,13 +2931,45 @@ bool need_vertical_update(size_t pww_save)
  * also assume that scrollok(edit) is FALSE. */
 void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
-    bool do_redraw = need_vertical_update(0);
     filestruct *foo;
-    ssize_t i;
+    ssize_t i, extracuzsoft = 0;
+    bool do_redraw = FALSE;
 
     /* Don't bother scrolling less than one line. */
     if (nlines < 1)
 	return;
+
+    if (need_vertical_update(0) || ISSET(SOFTWRAP) && strlen(openfile->edittop->data) / (COLS - 1) > 1)
+	do_redraw = TRUE;
+
+
+    /* If using soft wrapping, we want to scroll down enough to display the entire next
+        line, if possible... */
+    if (ISSET(SOFTWRAP)) {
+#ifdef DEBUG
+	   fprintf(stderr, "Softwrap: Entering check for extracuzsoft\n");
+#endif
+	for (i = editwinrows, foo = openfile->edittop; foo && i > 0; i--, foo = foo->next)
+	    i -= strlenpt(foo->data) / (COLS - 1);
+	if (foo) {
+	   extracuzsoft += strlenpt(foo->data) / (COLS - 1);
+#ifdef DEBUG
+	   fprintf(stderr, "Setting extracuzsoft to %zd due to strlen %zd of line %zd\n", extracuzsoft,
+		strlenpt(foo->data), foo->lineno);
+#endif
+	    /* Now account for whether the edittop line itself is >COLS, if scrolling down */
+	   for (foo = openfile->edittop; direction != UP_DIR && foo && extracuzsoft > 0; nlines++) {
+		extracuzsoft -= strlenpt(foo->data) / (COLS - 1) + 1;
+#ifdef DEBUG
+ 		fprintf(stderr, "Edittop adjustment, setting nlines to %zd\n", nlines);
+#endif
+		if (foo == openfile->filebot)
+		    break;
+		foo = foo->next;
+	    }
+	}
+    }
+
 
     /* Part 1: nlines is the number of lines we're going to scroll the
      * text of the edit window. */
@@ -2970,7 +2995,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     /* Don't bother scrolling zero lines or more than the number of
      * lines in the edit window minus one; in both cases, get out, and
      * call edit_refresh() beforehand if we need to. */
-    if (nlines == 0 || nlines >= editwinrows) {
+    if (nlines == 0 || do_redraw || nlines >= editwinrows) {
 	if (do_redraw || nlines >= editwinrows)
 	    edit_refresh();
 	return;
@@ -3039,6 +3064,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
     bool do_redraw = need_vertical_update(0) ||
 	need_vertical_update(pww_save);
     filestruct *foo = NULL;
+    ssize_t i = 0, extracuzsoft = 0;
 
     /* If either old_current or current is offscreen, scroll the edit
      * window until it's onscreen and get out. */
@@ -3047,6 +3073,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	editwinrows || openfile->current->lineno <
 	openfile->edittop->lineno || openfile->current->lineno >=
 	openfile->edittop->lineno + editwinrows) {
+
 	filestruct *old_edittop = openfile->edittop;
 	ssize_t nlines;
 

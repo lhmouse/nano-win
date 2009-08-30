@@ -1,3 +1,7 @@
+2009-08-29 Chris Allegretta <chrisa@asty.org>
+	* Fix more soft wrapping issues, particularly with soft scrolling,
+	  discovered by Hannes <mr_creosote@mutantwatch.de>.
+
 2009-08-19 Chris Allegretta <chrisa@asty.org>
 	* Fix issue with soft wrapping not displaying the last character of each line,
 	  fixed bug discovered by Hannes <mr_creosote@mutantwatch.de>.

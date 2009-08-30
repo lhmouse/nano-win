@@ -550,23 +550,41 @@ void do_down(
 #endif
 	)
 {
+    bool onlastline = FALSE;
+
     /* If we're at the bottom of the file, get out. */
     if (openfile->current == openfile->filebot)
 	return;
 
-    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
+
+    assert(ISSET(SOFTWRAP) || openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
     /* Move the current line of the edit window down. */
     openfile->current = openfile->current->next;
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
+    if (ISSET(SOFTWRAP)) {
+	filestruct *foo;
+	ssize_t extracuzsoft = 0;
+
+	for (foo = openfile->edittop; foo
+		&& foo->lineno - openfile->edittop->lineno + extracuzsoft < editwinrows;
+		foo = foo->next) {
+	    extracuzsoft += strlenpt(foo->data) / (COLS - 1);
+	    if (foo == openfile->current)
+		break;
+	}
+	if (foo && foo->lineno - openfile->edittop->lineno + extracuzsoft >= editwinrows)
+	    onlastline = TRUE;
+    }
+
     /* If scroll_only is FALSE and if we're on the first line of the
      * edit window, scroll the edit window down one line if we're in
      * smooth scrolling mode, or down half a page if we're not.  If
      * scroll_only is TRUE, scroll the edit window down one line
      * unconditionally. */
-    if (openfile->current_y == editwinrows - 1
+    if (onlastline || openfile->current_y == editwinrows - 1
 #ifndef NANO_TINY
 	|| scroll_only
 #endif
@@ -581,7 +599,7 @@ void do_down(
      * we were on before and the line we're on now.  The former needs to
      * be redrawn if we're not on the first page, and the latter needs
      * to be drawn unconditionally. */
-    if (openfile->current_y < editwinrows - 1) {
+    if (ISSET(SOFTWRAP) || openfile->current_y < editwinrows - 1) {
 	if (need_vertical_update(0))
 	    update_line(openfile->current->prev, 0);
 	update_line(openfile->current, openfile->current_x);
