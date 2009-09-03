@@ -488,7 +488,7 @@ void do_up(
 	)
 	return;
 
-    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
+    assert(ISSET(SOFTWRAP) || openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
     /* Move the current line of the edit window up. */
     openfile->current = openfile->current->prev;
@@ -500,7 +500,7 @@ void do_up(
      * smooth scrolling mode, or up half a page if we're not.  If
      * scroll_only is TRUE, scroll the edit window up one line
      * unconditionally. */
-    if (openfile->current_y == 0
+    if (openfile->current_y == 0 || (ISSET(SOFTWRAP) && openfile->edittop->lineno == openfile->current->next->lineno)
 #ifndef NANO_TINY
 	|| scroll_only
 #endif

@@ -1079,10 +1079,10 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "kleft", DO_LEFT, 0, TRUE);
     add_to_sclist(MMAIN, "^Q", XON_COMPLAINT, 0, TRUE);
     add_to_sclist(MMAIN, "^S", XOFF_COMPLAINT, 0, TRUE);
-    add_to_sclist(MMAIN, "^P", DO_UP_VOID, 0, TRUE);
-    add_to_sclist(MMAIN, "kup", DO_UP_VOID, 0, TRUE);
-    add_to_sclist(MMAIN, "^N", DO_DOWN_VOID, 0, TRUE);
-    add_to_sclist(MMAIN, "kdown", DO_DOWN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "^P", DO_UP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "kup", DO_UP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "^N", DO_DOWN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "kdown", DO_DOWN_VOID, 0, TRUE);
     add_to_sclist(MALL, "^A", DO_HOME, 0, TRUE);
     add_to_sclist(MALL, "khome", DO_HOME, 0, TRUE);
     add_to_sclist(MALL, "^E", DO_END, 0, TRUE);

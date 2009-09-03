@@ -1,3 +1,9 @@
+2009-09-03 Chris Allegretta <chrisa@asty.org>
+	* global.c (shortcut_init): Fix up/down keys not responding in the file browser,
+	  discovered by Hannes <mr_creosote@mutantwatch.de>.
+	* move.c (do_up) - Fix another scrolling issue with softwrap when the
+	  cursor is beyond COLS, discovered by Hannes <mr_creosote@mutantwatch.de>.
+
 2009-09-02 Chris Allegretta <chrisa@asty.org>
 	* Attempt to check file writability and emit a warning on the status bar
 	  if nano doesn't think the file can be written to.  Feature originally
