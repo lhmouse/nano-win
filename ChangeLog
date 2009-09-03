@@ -1,5 +1,5 @@
 2009-08-29 Chris Allegretta <chrisa@asty.org>
-	* Fix more soft wrapping issues, particularly with soft scrolling,
+	* Fix more soft wrapping issues, particularly with scrolling,
 	  discovered by Hannes <mr_creosote@mutantwatch.de>.
 
 2009-08-19 Chris Allegretta <chrisa@asty.org>
