@@ -812,7 +812,7 @@ bool execute_command(const char *command)
     if (f == NULL)
 	nperror("fdopen");
 
-    read_file(f, "stdin", TRUE);
+    read_file(f, 0, "stdin", TRUE);
 
     if (wait(NULL) == -1)
 	nperror("wait");

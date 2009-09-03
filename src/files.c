@@ -145,8 +145,8 @@ void open_buffer(const char *filename, bool undoable)
 
     /* If we have a non-new file, read it in.  Then, if the buffer has
      * no stat, update the stat, if applicable. */
-    if (rc == 0) {
-	read_file(f, filename, undoable);
+    if (rc > 0) {
+	read_file(f, rc, filename, undoable);
 #ifndef NANO_TINY
 	if (openfile->current_stat == NULL) {
 	    openfile->current_stat =
@@ -195,8 +195,8 @@ void replace_buffer(const char *filename)
     initialize_buffer_text();
 
     /* If we have a non-new file, read it in. */
-    if (rc == 0)
-	read_file(f, filename, FALSE);
+    if (rc > 0)
+	read_file(f, rc, filename, FALSE);
 
     /* Move back to the beginning of the first line of the buffer. */
     openfile->current = openfile->fileage;
@@ -348,8 +348,10 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 
 /* Read an open file into the current buffer.  f should be set to the
  * open file, and filename should be set to the name of the file.
-   undoable  means do we want to create undo records to try and undo this */
-void read_file(FILE *f, const char *filename, bool undoable)
+ * undoable  means do we want to create undo records to try and undo this.
+ * Will also attempt to check file writability if fd > 0
+ */
+void read_file(FILE *f, int fd, const char *filename, bool undoable)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
@@ -370,6 +372,8 @@ void read_file(FILE *f, const char *filename, bool undoable)
     int input_int;
 	/* The current value we read from the file, whether an input
 	 * character or EOF. */
+    bool writable = TRUE;
+	/* Is the file writable (if we care) */
 #ifndef NANO_TINY
     int format = 0;
 	/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
@@ -469,6 +473,11 @@ void read_file(FILE *f, const char *filename, bool undoable)
     if (ferror(f))
 	nperror(filename);
     fclose(f);
+    if (fd > 0) {
+	int closecode = close(fd);
+	fprintf(stderr, "Closecode = %d\n", closecode);
+	writable = is_file_writable(filename);
+    }
 
 #ifndef NANO_TINY
     /* If file conversion isn't disabled and the last character in this
@@ -578,24 +587,45 @@ void read_file(FILE *f, const char *filename, bool undoable)
     if (undoable)
 	update_undo(INSERT);
 
-    if (format == 3)
-	statusbar(
+    if (format == 3) {
+	if (writable)
+	    statusbar(
 		P_("Read %lu line (Converted from DOS and Mac format)",
 		"Read %lu lines (Converted from DOS and Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-    else if (format == 2) {
+	else
+	    statusbar(
+		P_("Read %lu line (Converted from DOS and Mac format - Warning: No write permission)",
+		"Read %lu lines (Converted from DOS and Mac format - Warning: No write permission)",
+		(unsigned long)num_lines), (unsigned long)num_lines);
+    } else if (format == 2) {
 	openfile->fmt = MAC_FILE;
-	statusbar(P_("Read %lu line (Converted from Mac format)",
+	if (writable)
+	    statusbar(P_("Read %lu line (Converted from Mac format)",
 		"Read %lu lines (Converted from Mac format)",
+		(unsigned long)num_lines), (unsigned long)num_lines);
+	else
+	    statusbar(P_("Read %lu line (Converted from Mac format - Warning: No write permission)",
+		"Read %lu lines (Converted from Mac format - Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 1) {
 	openfile->fmt = DOS_FILE;
-	statusbar(P_("Read %lu line (Converted from DOS format)",
+	if (writable)
+	    statusbar(P_("Read %lu line (Converted from DOS format)",
 		"Read %lu lines (Converted from DOS format)",
+		(unsigned long)num_lines), (unsigned long)num_lines);
+	else
+	    statusbar(P_("Read %lu line (Converted from DOS format - Warning: No write permission)",
+		"Read %lu lines (Converted from DOS format - Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else
 #endif
-	statusbar(P_("Read %lu line", "Read %lu lines",
+	if (writable)
+	    statusbar(P_("Read %lu line", "Read %lu lines",
+		(unsigned long)num_lines), (unsigned long)num_lines);
+	else
+	    statusbar(P_("Read %lu line ( Warning: No write permission)",
+		"Read %lu lines (Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 }
 
@@ -603,9 +633,9 @@ void read_file(FILE *f, const char *filename, bool undoable)
  * "New File" if the file is missing.  Otherwise, say "[filename] not
  * found".
  *
- * Return -2 if we say "New File", -1 if the file isn't opened, and 0
- * otherwise.  The file might still have an error while reading with a 0
- * return value.  *f is set to the opened file. */
+ * Return -2 if we say "New File", -1 if the file isn't opened, and the
+ * fd opened otherwise.  The file might still have an error while reading 
+ * with a 0 return value.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, FILE **f)
 {
     struct stat fileinfo, fileinfo2;
@@ -668,8 +698,50 @@ int open_file(const char *filename, bool newfie, FILE **f)
 
     free(full_filename);
 
-    return 0;
+    return fd;
 }
+
+/* A bit of a copy and paste from open_file(), is_file_writable()
+ * just checks whether the file is appendable as a quick
+ * permissions check, and we tend to err on the side of permissiveness
+ * (reporting TRUE when it might be wrong) to not fluster users
+ * editing on odd filesystems by printing incorrect warnings.
+ */
+int is_file_writable(const char *filename)
+{
+    struct stat fileinfo, fileinfo2;
+    int fd;
+    FILE *f;
+    char *full_filename;
+    bool ans = TRUE;
+
+
+    if (ISSET(VIEW_MODE))
+	return TRUE;
+
+    assert(filename != NULL && f != NULL);
+
+    /* Get the specified file's full path. */
+    full_filename = get_full_path(filename);
+
+    /* Okay, if we can't stat the path due to a component's
+       permissions, just try the relative one */
+    if (full_filename == NULL
+        || (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
+        full_filename = mallocstrcpy(NULL, filename);
+
+    if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
+                S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1
+	|| (f = fdopen(fd, "a")) == NULL)
+	ans = FALSE;
+    else
+        fclose(f);
+    close(fd);
+
+    free(full_filename);
+    return ans;
+}
+
 
 /* This function will return the name of the first available extension
  * of a filename (starting with [name][suffix], then [name][suffix].1,
