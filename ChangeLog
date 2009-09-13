@@ -1,3 +1,8 @@
+2009-09-12 Chris Allegretta <chrisa@asty.org>
+	* winio.c (edit_update) - properly update edittop when using soft wrapping.
+	  Fixes lack of centering for searching for off-screen answers, found by 
+	  Hannes <mr_creosote@mutantwatch.de>.
+
 2009-09-03 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init): Fix up/down keys not responding in the file browser,
 	  discovered by Hannes <mr_creosote@mutantwatch.de>.

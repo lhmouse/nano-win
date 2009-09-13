@@ -3245,9 +3245,11 @@ void edit_update(update_type location)
 	    goal = editwinrows - 1;
     }
 
-    for (; goal > 0 && foo->prev != NULL; goal--)
+    for (; goal > 0 && foo->prev != NULL; goal--) {
+	if (ISSET(SOFTWRAP))
+	    goal -= strlenpt(foo->data) / (COLS - 1);
 	foo = foo->prev;
-
+    }
     openfile->edittop = foo;
 }
 
