@@ -2849,7 +2849,7 @@ int update_line(filestruct *fileptr, size_t index)
 	line = fileptr->lineno - openfile->edittop->lineno;
 
     if (line < 0 || line >= editwinrows)
-	return;
+	return 1;
 
     /* First, blank out the line. */
     blank_line(edit, line, 0, COLS);
@@ -3076,7 +3076,6 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
     bool do_redraw = need_vertical_update(0) ||
 	need_vertical_update(pww_save);
     filestruct *foo = NULL;
-    ssize_t i = 0, extracuzsoft = 0;
 
     /* If either old_current or current is offscreen, scroll the edit
      * window until it's onscreen and get out. */

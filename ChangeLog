@@ -1,3 +1,6 @@
+2009-09-15 Chris Allegretta <chrisa@asty.org>
+	* winio.c: Clean up some unused variables from the soft wrapping code.
+
 GNU nano 2.1.11 - 2009.09.14
 2009-09-12 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_update) - properly update edittop when using soft wrapping.
