@@ -1,3 +1,8 @@
+2009-10-27 Chris Allegretta <chrisa@asty.org>
+	* browser.c (browser_init): Set column width to something sane when 
+	  initializing in a directory with no file entries.  Fixes Savannah
+	  bug 24163 found (and initial patch) by Paul Wise.
+
 2009-09-15 Chris Allegretta <chrisa@asty.org>
 	* winio.c: Clean up some unused variables from the soft wrapping code.
 
