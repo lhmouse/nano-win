@@ -89,7 +89,7 @@ static const rcoption rcopts[] = {
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
     {"tabstospaces", TABS_TO_SPACES},
-    {"undo", 0},
+    {"undo", UNDOABLE},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
     {"softwrap", SOFTWRAP},
@@ -1047,6 +1047,9 @@ void parse_rcfile(FILE *rcstream
 		else
 		    rcfile_error(N_("Cannot unset flag \"%s\""),
 			rcopts[i].name);
+		/* Looks like we still need this specific hack for undo */
+		if (strcasecmp(rcopts[i].name, "undo") == 0)
+		    shortcut_init(0);
 		break;
 	    }
 	}

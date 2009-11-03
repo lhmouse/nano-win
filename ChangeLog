@@ -1,5 +1,8 @@
 2009-11-03 Chris Allegretta <chrisa@asty.org>
 	* nano.h - Fix comma at end of enumerator list which angers -pedantic.
+	* rcfile.c - Add in specific check for UNDOABLE and fix declaration as
+	  to what flag it toggles.  Fixes undo mode being able to be called from
+	  the rc file, reported by Helmut Jarausch <jarausch@igpm.rwth-aachen.de>
 
 2009-11-03 Mike Frysinger <vapier@gentoo.org>
 	* files.c - Move up is_file_writable() to stop implicit definition complaints.
