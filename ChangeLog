@@ -1,3 +1,9 @@
+2009-11-03 Chris Allegretta <chrisa@asty.org>
+	* nano.h - Fix comma at end of enumerator list which angers -pedantic.
+
+2009-11-03 Mike Frysinger <vapier@gentoo.org>
+	* files.c - Move up is_file_writable() to stop implicit definition complaints.
+
 2009-10-27 Chris Allegretta <chrisa@asty.org>
 	* browser.c (browser_init): Set column width to something sane when 
 	  initializing in a directory with no file entries.  Fixes Savannah

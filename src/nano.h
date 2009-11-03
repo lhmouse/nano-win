@@ -490,7 +490,7 @@ enum
     BOLD_TEXT,
     QUIET,
     UNDOABLE,
-    SOFTWRAP,
+    SOFTWRAP
 };
 
 /* Flags for which menus in which a given function should be present */

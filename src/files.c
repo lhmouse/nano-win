@@ -291,6 +291,47 @@ bool close_buffer(void)
 }
 #endif /* ENABLE_MULTIBUFFER */
 
+/* A bit of a copy and paste from open_file(), is_file_writable()
+ * just checks whether the file is appendable as a quick
+ * permissions check, and we tend to err on the side of permissiveness
+ * (reporting TRUE when it might be wrong) to not fluster users
+ * editing on odd filesystems by printing incorrect warnings.
+ */
+int is_file_writable(const char *filename)
+{
+    struct stat fileinfo, fileinfo2;
+    int fd;
+    FILE *f;
+    char *full_filename;
+    bool ans = TRUE;
+
+
+    if (ISSET(VIEW_MODE))
+	return TRUE;
+
+    assert(filename != NULL && f != NULL);
+
+    /* Get the specified file's full path. */
+    full_filename = get_full_path(filename);
+
+    /* Okay, if we can't stat the path due to a component's
+       permissions, just try the relative one */
+    if (full_filename == NULL
+        || (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
+        full_filename = mallocstrcpy(NULL, filename);
+
+    if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
+                S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1
+	|| (f = fdopen(fd, "a")) == NULL)
+	ans = FALSE;
+    else
+        fclose(f);
+    close(fd);
+
+    free(full_filename);
+    return ans;
+}
+
 /* We make a new line of text from buf.  buf is length buf_len.  If
  * first_line_ins is TRUE, then we put the new line at the top of the
  * file.  Otherwise, we assume prevnode is the last line of the file,
@@ -700,48 +741,6 @@ int open_file(const char *filename, bool newfie, FILE **f)
 
     return fd;
 }
-
-/* A bit of a copy and paste from open_file(), is_file_writable()
- * just checks whether the file is appendable as a quick
- * permissions check, and we tend to err on the side of permissiveness
- * (reporting TRUE when it might be wrong) to not fluster users
- * editing on odd filesystems by printing incorrect warnings.
- */
-int is_file_writable(const char *filename)
-{
-    struct stat fileinfo, fileinfo2;
-    int fd;
-    FILE *f;
-    char *full_filename;
-    bool ans = TRUE;
-
-
-    if (ISSET(VIEW_MODE))
-	return TRUE;
-
-    assert(filename != NULL && f != NULL);
-
-    /* Get the specified file's full path. */
-    full_filename = get_full_path(filename);
-
-    /* Okay, if we can't stat the path due to a component's
-       permissions, just try the relative one */
-    if (full_filename == NULL
-        || (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
-        full_filename = mallocstrcpy(NULL, filename);
-
-    if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
-                S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1
-	|| (f = fdopen(fd, "a")) == NULL)
-	ans = FALSE;
-    else
-        fclose(f);
-    close(fd);
-
-    free(full_filename);
-    return ans;
-}
-
 
 /* This function will return the name of the first available extension
  * of a filename (starting with [name][suffix], then [name][suffix].1,
