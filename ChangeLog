@@ -1,3 +1,8 @@
+2009-11-07 Chris Allegretta <chrisa@asty.org>
+	* nano.h - Add bogus value at begin of flags enumeration because it
+	  causes casesens rcfile option to misbehave, reported by Helmut 
+	  Jarausch <jarausch@igpm.rwth-aachen.de>
+
 2009-11-03 Chris Allegretta <chrisa@asty.org>
 	* nano.h - Fix comma at end of enumerator list which angers -pedantic.
 	* rcfile.c - Add in specific check for UNDOABLE and fix declaration as

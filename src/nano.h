@@ -457,6 +457,7 @@ typedef struct subnfunc {
  * definitions. */
 enum
 {
+    DONTUSE,
     CASE_SENSITIVE,
     CONST_UPDATE,
     NO_HELP,
