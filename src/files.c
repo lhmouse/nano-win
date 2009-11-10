@@ -516,7 +516,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
     fclose(f);
     if (fd > 0) {
 	int closecode = close(fd);
-	fprintf(stderr, "Closecode = %d\n", closecode);
 	writable = is_file_writable(filename);
     }
 
