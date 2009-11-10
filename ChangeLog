@@ -1,5 +1,6 @@
 2009-11-09 Chris Allegretta <chrisa@asty.org>
-	* files.c (read_file): - Remove debugging messages from file load
+	* files.c (read_file): - Remove debugging messages from file load.  Fixes
+	  Savannah bug 27838.
 
 2009-11-07 Chris Allegretta <chrisa@asty.org>
 	* nano.h - Add bogus value at begin of flags enumeration because it

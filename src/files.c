@@ -515,7 +515,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	nperror(filename);
     fclose(f);
     if (fd > 0) {
-	int closecode = close(fd);
+	close(fd);
 	writable = is_file_writable(filename);
     }
 
