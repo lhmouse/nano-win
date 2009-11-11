@@ -1,3 +1,10 @@
+2009-11-11 Chris Allegretta <chrisa@asty.org>
+	* winio.c: Large tweaking of cursor and text display based on COLS not COLS - 1, 
+	  due to finally understanding that display_string wasn't being called properly
+	  when softwrap was enabled.  Fixes Savnnah bug 27603, Return key doesn't scroll 
+	  viewport reported by Hannes Schueller.
+	* - Fix size_t formatting issues with -pedantic
+
 2009-11-09 Chris Allegretta <chrisa@asty.org>
 	* files.c (read_file): - Remove debugging messages from file load.  Fixes
 	  Savannah bug 27838.

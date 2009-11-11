@@ -1737,7 +1737,7 @@ void precalc_multicolorinfo(void)
 
 
 #ifdef DEBUG
-	    fprintf(stderr, "working on lineno %zd\n", fileptr->lineno);
+	    fprintf(stderr, "working on lineno %lu\n", (unsigned long) fileptr->lineno);
 #endif
 
 		alloc_multidata_if_needed(fileptr);
@@ -1770,7 +1770,7 @@ void precalc_multicolorinfo(void)
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
 
 #ifdef DEBUG
-	    fprintf(stderr, "advancing to line %zd to find end...\n", endptr->lineno);
+	    fprintf(stderr, "advancing to line %lu to find end...\n", (unsigned long) endptr->lineno);
 #endif
 			/* Check for keyboard input  again */
 			if ((cur_check = time(NULL)) - last_check > 1) {
@@ -1798,18 +1798,18 @@ void precalc_multicolorinfo(void)
 			lines in between and the ends properly */
 		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %zd as CENDAFTER\n", fileptr->lineno);
+		    fprintf(stderr, "marking line %lu as CENDAFTER\n", (unsigned long) fileptr->lineno);
 #endif
 		    for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
 			alloc_multidata_if_needed(fileptr);
 			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
 #ifdef DEBUG
-			fprintf(stderr, "marking intermediary line %zd as CWHOLELINE\n", fileptr->lineno);
+			fprintf(stderr, "marking intermediary line %lu as CWHOLELINE\n", (unsigned long) fileptr->lineno);
 #endif
 		    }
 		    alloc_multidata_if_needed(endptr);
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %zd as BEGINBEFORE\n", fileptr->lineno);
+		    fprintf(stderr, "marking line %lu as BEGINBEFORE\n", (unsigned long) fileptr->lineno);
 #endif
 		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
 		    /* We should be able to skip all the way to the line of the match.
@@ -1817,12 +1817,12 @@ void precalc_multicolorinfo(void)
 		    fileptr = endptr;
 		    startx = endmatch.rm_eo;
 #ifdef DEBUG
-		    fprintf(stderr, "jumping to line %zd pos %d to continue\n", endptr->lineno, startx);
+		    fprintf(stderr, "jumping to line %lu pos %d to continue\n", (unsigned long) endptr->lineno, startx);
 #endif
 		}
 		if (nostart && startx == 0) {
 #ifdef DEBUG
-		    fprintf(stderr, "no start found on line %zd, continuing\n", fileptr->lineno);
+		    fprintf(stderr, "no start found on line %lu, continuing\n", (unsigned long) fileptr->lineno);
 #endif
 		    fileptr->multidata[tmpcolor->id] = CNONE;
 		    continue;

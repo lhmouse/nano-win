@@ -956,7 +956,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
     currmenu = menu;
 
 #ifdef DEBUG
-fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %d\n", answer, statusbar_x);
+fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
 #endif
 
     update_statusbar_line(answer, statusbar_x);
