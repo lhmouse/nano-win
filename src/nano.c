@@ -1667,17 +1667,53 @@ int do_mouse(void)
 
 	sameline = (mouse_y == openfile->current_y);
 
-	/* Move to where the click occurred. */
-	for (; openfile->current_y < mouse_y && openfile->current !=
-		openfile->filebot; openfile->current_y++)
-	    openfile->current = openfile->current->next;
-	for (; openfile->current_y > mouse_y && openfile->current !=
-		openfile->fileage; openfile->current_y--)
-	    openfile->current = openfile->current->prev;
+#ifdef DEBUG
+	    fprintf(stderr, "mouse_y = %d, current_y = %d\n", mouse_y, openfile->current_y);
+#endif
 
-	openfile->current_x = actual_x(openfile->current->data,
+ 	if (ISSET(SOFTWRAP)) {
+	    int i = 0;
+	    for (openfile->current = openfile->edittop;
+		 openfile->current->next && i < mouse_y;
+		 openfile->current = openfile->current->next, i++) {
+		openfile->current_y = i;
+		i += strlenpt(openfile->current->data) / COLS;
+	    }
+
+#ifdef DEBUG
+	    fprintf(stderr, "do_mouse(): moving to current_y = %d, i %d\n", openfile->current_y, i);
+	    fprintf(stderr, "            openfile->current->data = \"%s\"\n", openfile->current->data);
+#endif
+
+	    if (i > mouse_y) {
+		openfile->current = openfile->current->prev;
+		openfile->current_x = actual_x(openfile->current->data, mouse_x + (mouse_y - openfile->current_y) * COLS);
+#ifdef DEBUG
+	    fprintf(stderr, "do_mouse(): i > mouse_y, mouse_x = %d, current_x to = %d\n", mouse_x, openfile->current_x);
+#endif
+	    } else {
+	        openfile->current_x = actual_x(openfile->current->data, mouse_x);
+#ifdef DEBUG
+	    fprintf(stderr, "do_mouse(): i <= mouse_y, mouse_x = %d, setting current_x to = %d\n", mouse_x, openfile->current_x);
+#endif
+	    }
+
+	    openfile->placewewant = xplustabs();
+
+	} else {
+	    /* Move to where the click occurred. */
+	    for (; openfile->current_y < mouse_y && openfile->current !=
+		   openfile->filebot; openfile->current_y++)
+		openfile->current = openfile->current->next;
+	    for (; openfile->current_y > mouse_y && openfile->current !=
+		   openfile->fileage; openfile->current_y--)
+		openfile->current = openfile->current->prev;
+
+	    openfile->current_x = actual_x(openfile->current->data,
 		get_page_start(xplustabs()) + mouse_x);
-	openfile->placewewant = xplustabs();
+
+	    openfile->placewewant = xplustabs();
+	}
 
 #ifndef NANO_TINY
 	/* Clicking where the cursor is toggles the mark, as does

@@ -1,6 +1,8 @@
 2009-11-13 Chris Allegretta <chrisa@asty.org>
 	* winio.c: Add new static maxsize to be able to easier calculation with
 	  softwrap.
+	* nano.c (do_mouse): Fix mouse support not working with soft wrapping.  Fixes
+	  Savannah bug 27549 reported by Hannes Schueller.
 
 2009-11-11 Chris Allegretta <chrisa@asty.org>
 	* winio.c: Large tweaking of cursor and text display based on COLS not COLS - 1, 
