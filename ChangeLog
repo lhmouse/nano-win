@@ -1,3 +1,7 @@
+2009-11-13 Chris Allegretta <chrisa@asty.org>
+	* winio.c: Add new static maxsize to be able to easier calculation with
+	  softwrap.
+
 2009-11-11 Chris Allegretta <chrisa@asty.org>
 	* winio.c: Large tweaking of cursor and text display based on COLS not COLS - 1, 
 	  due to finally understanding that display_string wasn't being called properly

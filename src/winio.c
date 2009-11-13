@@ -41,6 +41,9 @@ static bool disable_cursorpos = FALSE;
 	/* Should we temporarily disable constant cursor position
 	 * display? */
 
+static int maxrows = 0;
+	/* With soft wrapping, how many lines really fit on the curent page */
+
 /* Control character compatibility:
  *
  * - NANO_BACKSPACE_KEY is Ctrl-H, which is Backspace under ASCII, ANSI,
@@ -2934,6 +2937,26 @@ bool need_vertical_update(size_t pww_save)
 	get_page_start(openfile->placewewant);
 }
 
+/* When edittop changes, try and figure out how many lines
+ * we really have to work with (i.e. set maxrows) 
+ */
+void compute_maxrows(void)
+{
+    int n;
+    filestruct *foo = openfile->edittop;
+
+    maxrows = 0;
+    for (n = 0; n < editwinrows && foo; n++) {
+	maxrows += 1 - strlenpt(foo->data) / COLS;
+	foo = foo->next;
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "compute_maxrows(): maxrows = %ld\n", maxrows);
+#endif
+
+}
+
 /* Scroll the edit window in the given direction and the given number
  * of lines, and draw new lines on the blank lines left after the
  * scrolling.  direction is the direction to scroll, either UP_DIR or
@@ -3092,9 +3115,9 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
      * window until it's onscreen and get out. */
     if (old_current->lineno < openfile->edittop->lineno ||
 	old_current->lineno >= openfile->edittop->lineno +
-	editwinrows || openfile->current->lineno <
+	maxrows || openfile->current->lineno <
 	openfile->edittop->lineno || openfile->current->lineno >=
-	openfile->edittop->lineno + editwinrows) {
+	openfile->edittop->lineno + maxrows) {
 
 	filestruct *old_edittop = openfile->edittop;
 	ssize_t nlines;
@@ -3109,7 +3132,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	    if (old_edittop->lineno < openfile->edittop->lineno)
 		old_lineno = old_edittop->lineno;
 	    else
-		old_lineno = (old_edittop->lineno + editwinrows <=
+		old_lineno = (old_edittop->lineno + maxrows <=
 			openfile->filebot->lineno) ?
 			old_edittop->lineno + editwinrows :
 			openfile->filebot->lineno;
@@ -3149,6 +3172,8 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	    edit_scroll(UP_DIR, -nlines);
 	else
 	    edit_scroll(DOWN_DIR, nlines);
+
+        compute_maxrows();
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between the old first
@@ -3198,9 +3223,13 @@ void edit_refresh(void)
     filestruct *foo;
     int nlines;
 
+    /* Figure out what maxrows should really be */
+    if (ISSET(SOFTWRAP) && openfile->current->lineno > openfile->edittop->lineno)
+	compute_maxrows();
+
     if (openfile->current->lineno < openfile->edittop->lineno ||
 	openfile->current->lineno >= openfile->edittop->lineno +
-	editwinrows)
+	maxrows)
 	/* Put the top line of the edit window in range of the current
 	 * line. */
 	edit_update(
