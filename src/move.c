@@ -29,28 +29,22 @@
 /* Move to the first line of the file. */
 void do_first_line(void)
 {
-    filestruct *current_save = openfile->current;
-    size_t pww_save = openfile->placewewant;
-
     openfile->current = openfile->fileage;
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
-    edit_redraw(current_save, pww_save);
+    edit_refresh_needed = 1;
 }
 
 /* Move to the last line of the file. */
 void do_last_line(void)
 {
-    filestruct *current_save = openfile->current;
-    size_t pww_save = openfile->placewewant;
-
     openfile->current = openfile->filebot;
     openfile->current_x = strlen(openfile->filebot->data);
     openfile->placewewant = xplustabs();
     openfile->current_y = editwinrows - 1;
 
-    edit_redraw(current_save, pww_save);
+    edit_refresh_needed = 1;
 }
 
 /* Move up one page. */
