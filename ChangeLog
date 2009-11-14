@@ -1,6 +1,8 @@
 2009-11-14 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_first_line, do_last_line): Just set edit_refresh_needed rather than 
 	  get messy.
+	* files.c (do_writeout) - Only mention file modification if we're writing the same
+	  file we originally opened.
 
 2009-11-13 Chris Allegretta <chrisa@asty.org>
 	* winio.c: Add new static maxsize to be able to easier calculation with
