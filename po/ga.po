@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.7pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-14 23:49-0400\n"
+"POT-Creation-Date: 2009-11-15 01:17-0500\n"
 "PO-Revision-Date: 2008-10-23 15:14-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Téigh go Comhadlann"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:862 src/files.c:2003
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2001
 #: src/nano.c:1040 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -32,10 +32,10 @@ msgstr "Cealaithe"
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Ní féidir %s a fhágáil sa mhód teoranta"
 
-#: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:682
-#: src/files.c:691 src/files.c:1527 src/files.c:1618 src/files.c:1666
-#: src/files.c:1687 src/files.c:1810 src/files.c:2643 src/rcfile.c:504
-#: src/rcfile.c:1135
+#: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
+#: src/files.c:731 src/files.c:1525 src/files.c:1616 src/files.c:1664
+#: src/files.c:1685 src/files.c:1808 src/files.c:2641 src/rcfile.c:504
+#: src/rcfile.c:1138
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Earráid agus %s á léamh: %s"
@@ -106,11 +106,11 @@ msgstr "Níl aon mhaoláin oscailte fágtha"
 msgid "Switched to %s"
 msgstr "Athraithe go %s"
 
-#: src/files.c:251 src/global.c:466 src/winio.c:2168
+#: src/files.c:251 src/global.c:466 src/winio.c:2171
 msgid "New Buffer"
 msgstr "Maolán Nua"
 
-#: src/files.c:593
+#: src/files.c:633
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
@@ -120,7 +120,7 @@ msgstr[2] "Léadh %lu líne (tiontaithe ó fhormáid DOS/Mac)"
 msgstr[3] "Léadh %lu líne (tiontaithe ó fhormáid DOS/Mac)"
 msgstr[4] "Léadh %lu líne (tiontaithe ó fhormáid DOS/Mac)"
 
-#: src/files.c:598
+#: src/files.c:638
 #, fuzzy, c-format
 msgid ""
 "Read %lu line (Converted from DOS and Mac format - Warning: No write "
@@ -134,7 +134,7 @@ msgstr[2] "Léadh %lu líne (tiontaithe ó fhormáid DOS/Mac)"
 msgstr[3] "Léadh %lu líne (tiontaithe ó fhormáid DOS/Mac)"
 msgstr[4] "Léadh %lu líne (tiontaithe ó fhormáid DOS/Mac)"
 
-#: src/files.c:604
+#: src/files.c:644
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
@@ -144,7 +144,7 @@ msgstr[2] "Léadh %lu líne (tiontaithe ó fhormáid Mac)"
 msgstr[3] "Léadh %lu líne (tiontaithe ó fhormáid Mac)"
 msgstr[4] "Léadh %lu líne (tiontaithe ó fhormáid Mac)"
 
-#: src/files.c:608
+#: src/files.c:648
 #, fuzzy, c-format
 msgid ""
 "Read %lu line (Converted from Mac format - Warning: No write permission)"
@@ -156,7 +156,7 @@ msgstr[2] "Léadh %lu líne (tiontaithe ó fhormáid Mac)"
 msgstr[3] "Léadh %lu líne (tiontaithe ó fhormáid Mac)"
 msgstr[4] "Léadh %lu líne (tiontaithe ó fhormáid Mac)"
 
-#: src/files.c:614
+#: src/files.c:654
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
@@ -166,7 +166,7 @@ msgstr[2] "Léadh %lu líne (tiontaithe ó fhormáid DOS)"
 msgstr[3] "Léadh %lu líne (tiontaithe ó fhormáid DOS)"
 msgstr[4] "Léadh %lu líne (tiontaithe ó fhormáid DOS)"
 
-#: src/files.c:618
+#: src/files.c:658
 #, fuzzy, c-format
 msgid ""
 "Read %lu line (Converted from DOS format - Warning: No write permission)"
@@ -178,7 +178,7 @@ msgstr[2] "Léadh %lu líne (tiontaithe ó fhormáid DOS)"
 msgstr[3] "Léadh %lu líne (tiontaithe ó fhormáid DOS)"
 msgstr[4] "Léadh %lu líne (tiontaithe ó fhormáid DOS)"
 
-#: src/files.c:624
+#: src/files.c:664
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
@@ -188,7 +188,7 @@ msgstr[2] "Léadh %lu líne"
 msgstr[3] "Léadh %lu líne"
 msgstr[4] "Léadh %lu líne"
 
-#: src/files.c:627
+#: src/files.c:667
 #, c-format
 msgid "Read %lu line ( Warning: No write permission)"
 msgid_plural "Read %lu lines (Warning: No write permission)"
@@ -198,86 +198,86 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/files.c:660 src/files.c:696
+#: src/files.c:700 src/files.c:736
 msgid "Reading File"
 msgstr "Comhad á Léamh"
 
-#: src/files.c:666
+#: src/files.c:706
 msgid "New File"
 msgstr "Comhad Nua"
 
-#: src/files.c:669
+#: src/files.c:709
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" gan aimsiú"
 
-#: src/files.c:677 src/rcfile.c:495 src/rcfile.c:1085 src/rcfile.c:1126
+#: src/files.c:717 src/rcfile.c:495 src/rcfile.c:1088 src/rcfile.c:1129
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "Is comhadlann é \"%s\""
 
-#: src/files.c:678 src/rcfile.c:496 src/rcfile.c:1086 src/rcfile.c:1127
+#: src/files.c:718 src/rcfile.c:496 src/rcfile.c:1089 src/rcfile.c:1130
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "Is comhad gléis é \"%s\""
 
-#: src/files.c:819
+#: src/files.c:817
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "Ordú le rith i maolán nua [ó %s] "
 
-#: src/files.c:821
+#: src/files.c:819
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "Ordú le rith [ó %s]"
 
-#: src/files.c:827
+#: src/files.c:825
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Comhad le hionsá i maolán nua [ó %s] "
 
-#: src/files.c:829
+#: src/files.c:827
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Comhad le hionsá [ó %s]"
 
-#: src/files.c:1073
+#: src/files.c:1071
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Eochair neamhcheadaithe mura bhfuiltear i mód ilmhaoláin"
 
-#: src/files.c:1481
+#: src/files.c:1479
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Ní féidir scríobh lasmuigh de %s"
 
-#: src/files.c:1496
+#: src/files.c:1494
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Ní féidir réamhcheangal nó iarcheangal le nasc siombalach nuair atá --"
 "nofollow socraithe"
 
-#: src/files.c:1568 src/files.c:1593 src/files.c:1622
+#: src/files.c:1566 src/files.c:1591 src/files.c:1620
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Earráid agus comhad cúltaca %s á scríobh: %s"
 
-#: src/files.c:1569 src/nano.c:692
+#: src/files.c:1567 src/nano.c:692
 msgid "Too many backup files?"
 msgstr "An iomarca comhad cúltaca?"
 
-#: src/files.c:1642 src/files.c:1699 src/files.c:1718 src/files.c:1730
-#: src/files.c:1754 src/files.c:1772 src/files.c:1782 src/files.c:1818
-#: src/files.c:1823 src/files.c:2716 src/files.c:2725
+#: src/files.c:1640 src/files.c:1697 src/files.c:1716 src/files.c:1728
+#: src/files.c:1752 src/files.c:1770 src/files.c:1780 src/files.c:1816
+#: src/files.c:1821 src/files.c:2714 src/files.c:2723
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Earráid agus %s á scríobh: %s"
 
-#: src/files.c:1676 src/text.c:2908 src/text.c:2920
+#: src/files.c:1674 src/text.c:2908 src/text.c:2920
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Earráid agus comhad sealadach á scríobh: %s"
 
-#: src/files.c:1855
+#: src/files.c:1853
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
@@ -287,59 +287,59 @@ msgstr[2] "Scríobhadh %lu líne"
 msgstr[3] "Scríobhadh %lu líne"
 msgstr[4] "Scríobhadh %lu líne"
 
-#: src/files.c:1959
+#: src/files.c:1957
 msgid " [DOS Format]"
 msgstr " [Formáid DOS]"
 
-#: src/files.c:1960
+#: src/files.c:1958
 msgid " [Mac Format]"
 msgstr " [Formáid Mac]"
 
-#: src/files.c:1962
+#: src/files.c:1960
 msgid " [Backup]"
 msgstr " [Cúltaca]"
 
-#: src/files.c:1970
+#: src/files.c:1968
 msgid "Prepend Selection to File"
 msgstr "Réamhcheangail an Roghnúchán le Comhad"
 
-#: src/files.c:1971
+#: src/files.c:1969
 msgid "Append Selection to File"
 msgstr "Iarcheangail an Roghnúchán le Comhad"
 
-#: src/files.c:1972
+#: src/files.c:1970
 msgid "Write Selection to File"
 msgstr "Scríobh an Roghnúchán i gComhad"
 
-#: src/files.c:1975
+#: src/files.c:1973
 msgid "File Name to Prepend to"
 msgstr "Comhad is mian leat Réamhcheangal leis"
 
-#: src/files.c:1976
+#: src/files.c:1974
 msgid "File Name to Append to"
 msgstr "Comhad is mian leat Iarcheangal leis"
 
-#: src/files.c:1977
+#: src/files.c:1975
 msgid "File Name to Write"
 msgstr "Ainm Comhaid le Scríobh"
 
-#: src/files.c:2108
+#: src/files.c:2106
 msgid "File exists, OVERWRITE ? "
 msgstr "Tá an comhad ann; FORSCRÍOBH ? "
 
-#: src/files.c:2117
+#: src/files.c:2115
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Sábháil an comhad le hAINM DIFRIÚIL ? "
 
-#: src/files.c:2125
+#: src/files.c:2123
 msgid "File was modified since you opened it, continue saving ? "
 msgstr "Athraíodh an comhad ón am a d'oscail tú é; sábháil é mar sin féin?"
 
-#: src/files.c:2563
+#: src/files.c:2561
 msgid "(more)"
 msgstr "(tuilleadh)"
 
-#: src/files.c:2646 src/rcfile.c:1151
+#: src/files.c:2644 src/rcfile.c:1154
 #, c-format
 msgid ""
 "\n"
@@ -1614,7 +1614,7 @@ msgstr "cumasaithe"
 msgid "disabled"
 msgstr "díchumasaithe"
 
-#: src/nano.c:1517 src/winio.c:1256
+#: src/nano.c:1517 src/winio.c:1259
 msgid "Unknown Command"
 msgstr "Ordú Anaithnid"
 
@@ -1626,12 +1626,12 @@ msgstr "Rinneadh neamhshuim ar XON :-("
 msgid "XOFF ignored, mumble mumble"
 msgstr "Rinneadh neamhshuim ar XOFF :-("
 
-#: src/nano.c:2145 src/rcfile.c:1034
+#: src/nano.c:2181 src/rcfile.c:1034
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Is neamhbhailí í méid táib iarrtha \"%s\""
 
-#: src/nano.c:2204 src/rcfile.c:959
+#: src/nano.c:2240 src/rcfile.c:959
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Is neamhbhailí í méid líonta iarrtha \"%s\""
@@ -1791,7 +1791,7 @@ msgstr ""
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Ní cheadaítear ordú \"%s\" i gcomhad iniata"
 
-#: src/rcfile.c:887 src/rcfile.c:1059
+#: src/rcfile.c:887 src/rcfile.c:1062
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Níl orduithe datha ag an gcomhréir \"%s\""
@@ -1827,12 +1827,12 @@ msgstr "Dhá charachtar aoncholúin de dhíth"
 msgid "Cannot unset flag \"%s\""
 msgstr "Ní féidir bratach \"%s\" a dhíchumasú"
 
-#: src/rcfile.c:1054
+#: src/rcfile.c:1057
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Bratach anaithnid \"%s\""
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1116
 msgid "I can't find my home directory!  Wah!"
 msgstr "Ní féidir mo chomhadlann bhaile a aimsiú!  Ochón!"
 
@@ -2049,60 +2049,60 @@ msgstr "cuimhne nano ídithe!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1557
+#: src/winio.c:1560
 msgid "Unicode Input"
 msgstr "Ionchur Unicode"
 
-#: src/winio.c:2149 src/winio.c:2153
+#: src/winio.c:2152 src/winio.c:2156
 msgid "Modified"
 msgstr "Athraithe"
 
-#: src/winio.c:2150
+#: src/winio.c:2153
 msgid "View"
 msgstr "Amharc"
 
-#: src/winio.c:2164
+#: src/winio.c:2167
 msgid "DIR:"
 msgstr "COMHADLANN:"
 
-#: src/winio.c:2171
+#: src/winio.c:2174
 msgid "File:"
 msgstr "Comhad:"
 
-#: src/winio.c:3327
+#: src/winio.c:3366
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "líne %ld/%ld (%d%%), colún %lu/%lu (%d%%), carachtar %lu/%lu (%d%%)"
 
-#: src/winio.c:3459
+#: src/winio.c:3498
 msgid "The nano text editor"
 msgstr "Eagarthóir téacs nano"
 
-#: src/winio.c:3460
+#: src/winio.c:3499
 msgid "version"
 msgstr "leagan"
 
-#: src/winio.c:3461
+#: src/winio.c:3500
 msgid "Brought to you by:"
 msgstr "Scríofa ag:"
 
-#: src/winio.c:3462
+#: src/winio.c:3501
 msgid "Special thanks to:"
 msgstr "Táimid fíorbhuíoch de:"
 
-#: src/winio.c:3463
+#: src/winio.c:3502
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3464
+#: src/winio.c:3503
 msgid "For ncurses:"
 msgstr "As ncurses:"
 
-#: src/winio.c:3465
+#: src/winio.c:3504
 msgid "and anyone else we forgot..."
 msgstr "agus de gach duine eile a ndearnamar dearmad orthu..."
 
-#: src/winio.c:3466
+#: src/winio.c:3505
 msgid "Thank you for using nano!"
 msgstr "Go raibh maith agat as úsáid nano!"
 

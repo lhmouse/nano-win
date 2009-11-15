@@ -1,3 +1,4 @@
+GNU nano 2.1.99pre1 - 2009.11.15
 2009-11-14 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_first_line, do_last_line): Just set edit_refresh_needed rather than 
 	  get messy.

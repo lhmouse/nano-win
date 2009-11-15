@@ -1,3 +1,14 @@
+2009.11.15 - GNU nano 2.1.99pre1 "take a bow" is out there, man, it's
+		out there all right.  This release contains mainly 
+		bugfixes, underscoring that we are preparing for the 
+		next stable series release.  Included are many fixes 
+		for the new soft wrapping code, compiler warning tweaks, 
+		and the modification time warning no longer triggers 
+		when saving a file as a new name.  Also include are 
+		some fixes for various nanorc options, and there are 
+		surely more bugs to find before we call the code base 
+		stable, so please keep those reports coming!
+
 2009.09.14 - GNU nano 2.1.11 is on very thin ice, very thin ice, very thin
 		ice.  This release includes two new features: first, nano
 		will check whether the current file is writable when it
