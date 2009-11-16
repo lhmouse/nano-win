@@ -41,9 +41,6 @@ static bool disable_cursorpos = FALSE;
 	/* Should we temporarily disable constant cursor position
 	 * display? */
 
-static int maxrows = 0;
-	/* With soft wrapping, how many lines really fit on the curent page */
-
 /* Control character compatibility:
  *
  * - NANO_BACKSPACE_KEY is Ctrl-H, which is Backspace under ASCII, ANSI,
@@ -2945,16 +2942,23 @@ void compute_maxrows(void)
     int n;
     filestruct *foo = openfile->edittop;
 
+    if (!ISSET(SOFTWRAP)) {
+	maxrows = editwinrows;
+	return;
+    }
+
     maxrows = 0;
     for (n = 0; n < editwinrows && foo; n++) {
 	maxrows += 1 - strlenpt(foo->data) / COLS;
 	foo = foo->next;
     }
 
+    if (n < editwinrows)
+	maxrows += editwinrows - n;
+
 #ifdef DEBUG
     fprintf(stderr, "compute_maxrows(): maxrows = %ld\n", maxrows);
 #endif
-
 }
 
 /* Scroll the edit window in the given direction and the given number
@@ -3035,6 +3039,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	}
     }
 
+    compute_maxrows();
     /* Limit nlines to the number of lines we could scroll. */
     nlines -= i;
 
@@ -3173,8 +3178,6 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	else
 	    edit_scroll(DOWN_DIR, nlines);
 
-        compute_maxrows();
-
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between the old first
 	 * line or old last line of the edit window (depending on
@@ -3224,12 +3227,16 @@ void edit_refresh(void)
     int nlines;
 
     /* Figure out what maxrows should really be */
-    if (openfile->current->lineno > openfile->edittop->lineno)
-	compute_maxrows();
+    compute_maxrows();
 
     if (openfile->current->lineno < openfile->edittop->lineno ||
 	openfile->current->lineno >= openfile->edittop->lineno +
-	maxrows)
+	maxrows) {
+
+#ifdef DEBUG
+    fprintf(stderr, "edit_refresh(): line = %d, edittop %d + maxrows %d\n", openfile->current->lineno, openfile->edittop->lineno, maxrows);
+#endif
+
 	/* Put the top line of the edit window in range of the current
 	 * line. */
 	edit_update(
@@ -3237,6 +3244,7 @@ void edit_refresh(void)
 		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);
+    }
 
     foo = openfile->edittop;
 
@@ -3275,21 +3283,22 @@ void edit_update(update_type location)
      * screen as before, or at the top or bottom of the screen if
      * edittop is beyond either. */
     if (location == CENTER)
-	goal = editwinrows / 2;
+	goal = maxrows / 2;
     else {
 	goal = openfile->current_y;
 
 	/* Limit goal to (editwinrows - 1) lines maximum. */
-	if (goal > editwinrows - 1)
-	    goal = editwinrows - 1;
+	if (goal > maxrows - 1)
+	    goal = maxrows - 1;
     }
 
     for (; goal > 0 && foo->prev != NULL; goal--) {
 	if (ISSET(SOFTWRAP))
-	    goal -= strlenpt(foo->data) / COLS;
+	    goal -= 1 + strlenpt(foo->data) / COLS;
 	foo = foo->prev;
     }
     openfile->edittop = foo;
+    compute_maxrows();
 }
 
 /* Unconditionally redraw the entire screen. */

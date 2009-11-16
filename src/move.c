@@ -29,7 +29,7 @@
 /* Move to the first line of the file. */
 void do_first_line(void)
 {
-    openfile->current = openfile->fileage;
+    openfile->current = openfile->edittop = openfile->fileage;
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
@@ -90,7 +90,7 @@ void do_page_down(void)
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the last line of the file, and then
      * update the edit window. */
-    if (openfile->current->lineno + editwinrows - 2 >=
+    if (openfile->current->lineno + maxrows - 2 >=
 	openfile->filebot->lineno) {
 	do_last_line();
 	return;
@@ -107,15 +107,24 @@ void do_page_down(void)
     }
 #endif
 
-    for (i = editwinrows - 2; i > 0 && openfile->current !=
-	openfile->filebot; i--)
+#ifdef DEBUG
+    fprintf(stderr, "do_page_down: maxrows = %d\n", maxrows);
+#endif
+
+    for (i = maxrows - 2; i > 0 && openfile->current !=
+	openfile->filebot; i--) {
 	openfile->current = openfile->current->next;
+#ifdef DEBUG
+    fprintf(stderr, "do_page_down: moving to line %d\n", openfile->current->lineno);
+#endif
+
+    }
 
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    edit_scroll(DOWN_DIR, editwinrows - 2);
+    edit_scroll(DOWN_DIR, maxrows - 2);
 }
 
 #ifndef DISABLE_JUSTIFY

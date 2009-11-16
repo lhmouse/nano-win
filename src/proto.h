@@ -46,6 +46,7 @@ extern WINDOW *topwin;
 extern WINDOW *edit;
 extern WINDOW *bottomwin;
 extern int editwinrows;
+extern int maxrows;
 
 extern filestruct *cutbuffer;
 extern filestruct *cutbottom;
