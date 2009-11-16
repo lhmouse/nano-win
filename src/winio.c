@@ -3224,7 +3224,7 @@ void edit_refresh(void)
     int nlines;
 
     /* Figure out what maxrows should really be */
-    if (ISSET(SOFTWRAP) && openfile->current->lineno > openfile->edittop->lineno)
+    if (openfile->current->lineno > openfile->edittop->lineno)
 	compute_maxrows();
 
     if (openfile->current->lineno < openfile->edittop->lineno ||
