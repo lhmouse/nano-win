@@ -1,3 +1,7 @@
+2009-11-18 Adrian Bunk <bunk via Savannah>
+	* nano.c (main) - Allow --fill and --nowrap to override nanorc entries and each other
+          on the command line.
+
 2009-11-15 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_refresh): Always computer maxsize regardless of whether smooth scrolling
 	  is enabled.  Fixes Savannah bug 28024 by Mike Frysinger.
