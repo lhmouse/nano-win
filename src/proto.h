@@ -428,7 +428,7 @@ void free_openfilestruct(openfilestruct *src);
 void print_view_warning(void);
 void finish(void);
 void die(const char *msg, ...);
-void die_save_file(const char *die_filename);
+void die_save_file(const char *die_filename, struct stat *die_stat);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void disable_mouse_support(void);

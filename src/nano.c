@@ -638,7 +638,7 @@ void die(const char *msg, ...)
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
 
-	die_save_file(openfile->filename);
+	die_save_file(openfile->filename, openfile->current_stat);
     }
 
 #ifdef ENABLE_MULTIBUFFER
@@ -651,7 +651,7 @@ void die(const char *msg, ...)
 
 	    /* Save the current file buffer if it's been modified. */
 	    if (openfile->modified)
-		die_save_file(openfile->filename);
+		die_save_file(openfile->filename, openfile->current_stat);
 	}
     }
 #endif
@@ -662,7 +662,7 @@ void die(const char *msg, ...)
 
 /* Save the current file under the name spacified in die_filename, which
  * is modified to be unique if necessary. */
-void die_save_file(const char *die_filename)
+void die_save_file(const char *die_filename, struct stat *die_stat)
 {
     char *retval;
     bool failed = TRUE;
@@ -690,6 +690,15 @@ void die_save_file(const char *die_filename)
     else
 	fprintf(stderr, _("\nBuffer not written: %s\n"),
 		_("Too many backup files?"));
+
+    /* Try and chmod/chown the save file to the values of the original file, but
+       dont worry if it fails because we're supposed to be bailing as fast
+       as possible. */
+    if (die_stat) {
+	int shush;
+	shush = chmod(retval, die_stat->st_mode);
+	shush = chown(retval, die_stat->st_uid, die_stat->st_gid);
+    }
 
     free(retval);
 }

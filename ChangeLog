@@ -1,5 +1,10 @@
+2009-11-19 Chris Allegretta <chrisa@asty.org>
+	* nano.c (die_save_file) Try nd match the permissions of the file we were
+	  editing but only make a minimal effort to do so. Fixes Savannah bug 27273
+	  reported by Mike Frysinger.
+
 2009-11-18 Adrian Bunk <bunk via Savannah>
-	* nano.c (main) - Allow --fill and --nowrap to override nanorc entries and each other
+	* nano.c (main): Allow --fill and --nowrap to override nanorc entries and each other
           on the command line.
 
 2009-11-15 Chris Allegretta <chrisa@asty.org>
