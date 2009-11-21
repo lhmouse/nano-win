@@ -534,6 +534,13 @@ The 'go to directory' menu.
 .TP
 .B all
 A special name meaning: apply to all menus where this function exists.
+
+.TP
+.B unbind \fIkey\fP \fImenu\fP
+Unbind the key \fIkey\fP from the menu named \fImenu\fP or from all 
+menus by using \fIall\fP.  Same key syntax as for binding.
+Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
+context of menu \fImenu\fP.  The format of  \fIkey\fP should be one of:
 .SH FILES
 .TP
 .I SYSCONFDIR/nanorc
