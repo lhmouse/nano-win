@@ -1,5 +1,7 @@
 2009-11-21 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c: Add unbinding keyword, fixes Savannah bug 22852 reported by frankd.
+	* prompt.c (update_statusbar_line): Set statusbar_pww when updating the line.
+	  Fixes Savannah bug 24957 by Mike Frysinger.
 
 2009-11-19 Chris Allegretta <chrisa@asty.org>
 	* nano.c (die_save_file) Try nd match the permissions of the file we were

@@ -868,7 +868,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
     free(expanded);
 
     wattroff(bottomwin, reverse_attr);
-
+    statusbar_pww = statusbar_xplustabs();
     reset_statusbar_cursor();
     wnoutrefresh(bottomwin);
 }
