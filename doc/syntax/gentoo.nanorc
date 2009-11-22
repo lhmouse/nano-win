@@ -27,7 +27,7 @@ color brightblue "\<(doc|ins|exe)?into\>" "\<(f|games)(owners|perms)\>" "\<(exe|
 ## Highlight common commands used in ebuilds
 color blue "\<make\>" "\<(awk|cat|cd|chmod|chown|cp|echo|env|export|find|e?grep|ln|mkdir|mv|rm|sed|set|tar|touch|unset|xargs)\>"
 ## Highlight comments (doesnt work that well)
-color yellow "#.*$"
+color yellow "(^|[[:space:]])#.*$"
 ## Highlight strings (doesnt work that well)
 color brightyellow ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
 ## Trailing space is bad!
