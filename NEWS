@@ -1,3 +1,17 @@
+2009.11.21 - GNU nano 2.1.99pre2 is available for a special pre-Black
+		Friday discount.  Included are some (hopefully
+		final) fixes for issues with last page display
+		caused by the soft wrapping code, and a fix for
+		a long standing issue with hittig the home key when 
+		going through the search history.  On the features
+		front, nano will now attempt to retain the proper 
+		ownership and permissions when trying to create a 
+		.save file due to receiving a signal.  Nano can also 
+		now unbind keys from one or more menus via the 'unbind' 
+		keyword.   Finally, passing --fill or --nowrap on 
+		the command line will now override any related 
+		.nanorc entries.  Speak now or forever hold your bugs!	
+
 2009.11.15 - GNU nano 2.1.99pre1 "take a bow" is out there, man, it's
 		out there all right.  This release contains mainly 
 		bugfixes, underscoring that we are preparing for the 

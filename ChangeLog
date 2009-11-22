@@ -1,3 +1,4 @@
+GNU nano 2.1.99pre2 - 2009.11.21
 2009-11-21 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c: Add unbinding keyword, fixes Savannah bug 22852 reported by frankd.
 	* prompt.c (update_statusbar_line): Set statusbar_pww when updating the line.
