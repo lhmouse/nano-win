@@ -3156,11 +3156,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	/* Put edittop in range of current, get the difference in lines
 	 * between the original edittop and the current edittop, and
 	 * then restore the original edittop. */
-	edit_update(
-#ifndef NANO_TINY
-		ISSET(SMOOTH_SCROLL) ? NONE :
-#endif
-		CENTER);
+	edit_update(NONE);
 
 	nlines = openfile->edittop->lineno - old_edittop->lineno;
 
@@ -3239,11 +3235,7 @@ void edit_refresh(void)
 
 	/* Put the top line of the edit window in range of the current
 	 * line. */
-	edit_update(
-#ifndef NANO_TINY
-		ISSET(SMOOTH_SCROLL) ? NONE :
-#endif
-		CENTER);
+	edit_update(NONE);
     }
 
     foo = openfile->edittop;
