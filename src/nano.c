@@ -394,11 +394,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     /* If the top of the edit window was inside the old partition, put
      * it in range of current. */
     if (edittop_inside)
-	edit_update(
-#ifndef NANO_TINY
-		ISSET(SMOOTH_SCROLL) ? NONE :
-#endif
-		CENTER);
+	edit_update(NONE);
 
     /* Renumber starting with the beginning line of the old
      * partition. */
@@ -638,7 +634,11 @@ void die(const char *msg, ...)
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
 
-	die_save_file(openfile->filename, openfile->current_stat);
+	die_save_file(openfile->filename
+#ifndef NANO_TINY
+		, openfile->current_stat
+#endif
+		);
     }
 
 #ifdef ENABLE_MULTIBUFFER
@@ -651,7 +651,11 @@ void die(const char *msg, ...)
 
 	    /* Save the current file buffer if it's been modified. */
 	    if (openfile->modified)
-		die_save_file(openfile->filename, openfile->current_stat);
+		die_save_file(openfile->filename
+#ifndef NANO_TINY
+			, openfile->current_stat
+#endif
+			);
 	}
     }
 #endif
@@ -662,7 +666,11 @@ void die(const char *msg, ...)
 
 /* Save the current file under the name spacified in die_filename, which
  * is modified to be unique if necessary. */
-void die_save_file(const char *die_filename, struct stat *die_stat)
+void die_save_file(const char *die_filename
+#ifndef NANO_TINY
+	, struct stat *die_stat
+#endif
+	)
 {
     char *retval;
     bool failed = TRUE;
@@ -691,6 +699,7 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
 	fprintf(stderr, _("\nBuffer not written: %s\n"),
 		_("Too many backup files?"));
 
+#ifndef NANO_TINY
     /* Try and chmod/chown the save file to the values of the original file, but
        dont worry if it fails because we're supposed to be bailing as fast
        as possible. */
@@ -699,6 +708,7 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
 	shush = chmod(retval, die_stat->st_mode);
 	shush = chown(retval, die_stat->st_uid, die_stat->st_gid);
     }
+#endif
 
     free(retval);
 }
@@ -1621,6 +1631,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 					&& openfile->syntax->nmultis > 0) {
 				    reset_multis(openfile->current, FALSE);
 				}
+#endif
 				if (edit_refresh_needed) {
 #ifdef DEBUG
 	    			    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
@@ -1629,7 +1640,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 				    edit_refresh_needed = FALSE;
 				}
 
-#endif
 			    }
 			}
 		    }
@@ -2404,10 +2414,12 @@ int main(int argc, char **argv)
 #endif
 #endif /* ENABLE_NANORC */
 
+#ifndef DISABLE_WRAPPING
     /* Overwrite an rcfile "set nowrap" or --disable-wrapping-as-root
        if a --fill option was given on the command line. */ 
     if (fill_used)
 	UNSET(NO_WRAP);
+#endif
 
     /* If we're using bold text instead of reverse video text, set it up
      * now. */

@@ -1,3 +1,11 @@
+2009-11-22 Chris Allegretta <chrisa@asty.org>
+	* nano.c (main): Allow edit_refresh_needed to take effect when using --enable-tiny
+	  (fixes Savannah bug 28076 reported by David Lawrence Ramsey).
+
+2009-11-22 David Lawrence Ramsey <pooka109@gmail.com>
+	* nano.c (move_to_filestruct): Fix bug 71 (cut at top of line recenters)
+	* Fix compilation with --enable-tiny
+
 2009-11-22 Mike Frysinger <vapier@gentoo.org>
 	* doc/syntax/gentoo.nanorc: Tweak comment highlighting.
 
