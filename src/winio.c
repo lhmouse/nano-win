@@ -2949,7 +2949,8 @@ void compute_maxrows(void)
 
     maxrows = 0;
     for (n = 0; n < editwinrows && foo; n++) {
-	maxrows += 1 - strlenpt(foo->data) / COLS;
+	maxrows ++;
+	n += strlenpt(foo->data) / COLS;
 	foo = foo->next;
     }
 

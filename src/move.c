@@ -50,18 +50,19 @@ void do_last_line(void)
 /* Move up one page. */
 void do_page_up(void)
 {
-    int i;
+    int i, skipped = 0;
 
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the first line of the file, and then
      * update the edit window. */
-    if (openfile->current->lineno <= editwinrows - 2) {
+    if (!ISSET(SOFTWRAP) && openfile->current->lineno <= editwinrows - 2) {
 	do_first_line();
 	return;
     }
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
+
 #ifndef NANO_TINY
     if (!ISSET(SMOOTH_SCROLL)) {
 #endif
@@ -71,15 +72,23 @@ void do_page_up(void)
     }
 #endif
 
-    for (i = editwinrows - 2; i > 0 && openfile->current !=
-	openfile->fileage; i--)
+    for (i = editwinrows - 2; i - skipped > 0 && openfile->current !=
+	openfile->fileage; i--) {
 	openfile->current = openfile->current->prev;
+	if (ISSET(SOFTWRAP) && openfile->current)
+	    skipped += strlenpt(openfile->current->data) / COLS;
+
+    }
 
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
+#ifdef DEBUG
+    fprintf(stderr, "do_page_up: openfile->current->lineno = %lu, skipped = %d\n", (unsigned long) openfile->current->lineno, skipped);
+#endif
+
     /* Scroll the edit window up a page. */
-    edit_scroll(UP_DIR, editwinrows - 2);
+    edit_scroll(UP_DIR, editwinrows - skipped - 2);
 }
 
 /* Move down one page. */
@@ -107,15 +116,11 @@ void do_page_down(void)
     }
 #endif
 
-#ifdef DEBUG
-    fprintf(stderr, "do_page_down: maxrows = %d\n", maxrows);
-#endif
-
     for (i = maxrows - 2; i > 0 && openfile->current !=
 	openfile->filebot; i--) {
 	openfile->current = openfile->current->next;
 #ifdef DEBUG
-    fprintf(stderr, "do_page_down: moving to line %d\n", openfile->current->lineno);
+    fprintf(stderr, "do_page_down: moving to line %lu\n", (unsigned long) openfile->current->lineno);
 #endif
 
     }

@@ -1,3 +1,8 @@
+2009-11-24 Chris Allegretta <chrisa@asty.org>
+	* move.c (do_page_up, do_page_down): Make these functions work better with soft
+	  line wrapping.
+	* winio.c (compute_maxrows): Make maxrows calculation more accurate when all lines are > COLS.
+
 2009-11-22 Chris Allegretta <chrisa@asty.org>
 	* nano.c (main): Allow edit_refresh_needed to take effect when using --enable-tiny
 	  (fixes Savannah bug 28076 reported by David Lawrence Ramsey).
