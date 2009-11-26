@@ -75,9 +75,13 @@ void do_page_up(void)
     for (i = editwinrows - 2; i - skipped > 0 && openfile->current !=
 	openfile->fileage; i--) {
 	openfile->current = openfile->current->prev;
-	if (ISSET(SOFTWRAP) && openfile->current)
+	if (ISSET(SOFTWRAP) && openfile->current) {
 	    skipped += strlenpt(openfile->current->data) / COLS;
-
+#ifdef DEBUG
+    fprintf(stderr, "do_page_up: i = %d, skipped = %d based on line %ld len %d\n", i, (unsigned long) skipped, 
+openfile->current->lineno, strlenpt(openfile->current->data));
+#endif
+	}
     }
 
     openfile->current_x = actual_x(openfile->current->data,
@@ -573,17 +577,7 @@ void do_down(
 	openfile->placewewant);
 
     if (ISSET(SOFTWRAP)) {
-	filestruct *foo;
-	ssize_t extracuzsoft = 0;
-
-	for (foo = openfile->edittop; foo
-		&& foo->lineno - openfile->edittop->lineno + extracuzsoft < editwinrows;
-		foo = foo->next) {
-	    extracuzsoft += strlenpt(foo->data) / (COLS - 1);
-	    if (foo == openfile->current)
-		break;
-	}
-	if (foo && foo->lineno - openfile->edittop->lineno + extracuzsoft >= editwinrows)
+	if (openfile->current->lineno - openfile->edittop->lineno >= maxrows)
 	    onlastline = TRUE;
     }
 
