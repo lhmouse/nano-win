@@ -1,5 +1,7 @@
 2009-11-26 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_scroll): Adjust for long lines when scrolling.
+	* rcfile.c (parse_rcfile), initialize size argument to getline(), fixes crash on FreeBSD 
+	  reported by Eitan Adler <eitanadlerlist@gmail.com>.
 
 2009-11-26 Jordi Mallach <jordi@gnu.org>
 	* doc/man/*: Update all man pages to escape unescapred hyphens.

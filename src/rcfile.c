@@ -892,7 +892,7 @@ void parse_rcfile(FILE *rcstream
 {
     char *buf = NULL;
     ssize_t len;
-    size_t n;
+    size_t n = 0;
 
     while ((len = getline(&buf, &n, rcstream)) > 0) {
 	char *ptr, *keyword, *option;
