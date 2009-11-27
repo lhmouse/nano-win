@@ -133,7 +133,7 @@ void do_page_down(void)
 	openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    edit_scroll(DOWN_DIR, maxrows - 2);
+    edit_scroll(DOWN_DIR, editwinrows - 2);
 }
 
 #ifndef DISABLE_JUSTIFY

@@ -3038,6 +3038,9 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 		break;
 	    openfile->edittop = openfile->edittop->next;
 	}
+	/* Don't over-scroll on long lines */
+	if (ISSET(SOFTWRAP))
+	    i -= strlenpt(openfile->edittop->data) / COLS;
     }
 
     compute_maxrows();
