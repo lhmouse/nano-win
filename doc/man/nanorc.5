@@ -91,7 +91,7 @@ Use cut to end of line by default.
 .B set fill \fIn\fP
 Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the
 maximum line length will be the screen width less \fIn\fP columns.  The
-default value is -8.
+default value is \-8.
 .TP
 .B set/unset historylog
 Enable \fI~/.nano_history\fP for saving and reading search/replace
@@ -224,7 +224,7 @@ characters as parts of words.
 .TP
 .B syntax "\fIstr\fP" ["\fIfileregex\fP" ... ]
 Defines a syntax named \fIstr\fP which can be activated via the
--Y/--syntax command line option, or will be automatically activated if
+\-Y/\-\-syntax command line option, or will be automatically activated if
 the current filename matches the extended regular expression
 \fIfileregex\fP.  All following \fBcolor\fP and \fBicolor\fP statements
 will apply to \fIsyntax\fP until a new syntax is defined.

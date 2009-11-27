@@ -1,3 +1,6 @@
+2009-11-26 Jordi Mallach <jordi@gnu.org>
+	* doc/man/*: Update all man pages to escape unescapred hyphens.
+
 2009-11-24 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Make these functions work better with soft
 	  line wrapping.
