@@ -1,3 +1,9 @@
+2009-11-27 Chris Allegretta <chrisa@asty.org>
+	* nano.c (do_suspend): Don't clear the screen but do move the cursor down to the last line
+	  first in an effort to not corrupt the screen, which contradicts Pico but is consistent
+	  with almost all other text editors.  Fixes Savannah bug 28110/Debian bug 460510
+	  reported by Tim Connors <reportbug@rather.puzzling.org>.
+
 2009-11-26 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_scroll): Adjust for long lines when scrolling.
 	* rcfile.c (parse_rcfile), initialize size argument to getline(), fixes crash on FreeBSD 

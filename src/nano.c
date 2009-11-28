@@ -1186,9 +1186,8 @@ RETSIGTYPE do_suspend(int signal)
 
     /* Blank the screen, and move the cursor to the last line of the
      * screen. */
-    erase();
     move(LINES - 1, 0);
-    refresh();
+    endwin();
 
     /* Display our helpful message. */
     printf(_("Use \"fg\" to return to nano.\n"));
