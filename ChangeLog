@@ -3,6 +3,7 @@
 	  first in an effort to not corrupt the screen, which contradicts Pico but is consistent
 	  with almost all other text editors.  Fixes Savannah bug 28110/Debian bug 460510
 	  reported by Tim Connors <reportbug@rather.puzzling.org>.
+	* doc/dyntax/makefile.nanorc - Sample Makefile highlighting based on wiki.linuxhelp.net version.
 
 2009-11-26 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_scroll): Adjust for long lines when scrolling.

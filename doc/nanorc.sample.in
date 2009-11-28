@@ -238,6 +238,9 @@
 ## C/C++
 # include "@PKGDATADIR@/c.nanorc"
 
+## Makefiles
+# include "@PKGDATADIR@/makefile.nanorc"
+
 ## Cascading Style Sheets
 # include "@PKGDATADIR@/css.nanorc"
 
