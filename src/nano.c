@@ -1184,8 +1184,7 @@ RETSIGTYPE do_suspend(int signal)
     disable_mouse_support();
 #endif
 
-    /* Blank the screen, and move the cursor to the last line of the
-     * screen. */
+    /* Move the cursor to the last line of the screen. */
     move(LINES - 1, 0);
     endwin();
 

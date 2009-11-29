@@ -411,7 +411,10 @@ void print_sclist(void)
 
 
 /* Stuff we need to make at least static here so we can access it below */
+/* TRANSLATORS: Try to keep the next five strings at most 10 characters. */
 const char *cancel_msg = N_("Cancel");
+const char *replace_msg = N_("Replace");
+const char *no_replace_msg = N_("No Replace");
 
 #ifndef NANO_TINY
 const char *case_sens_msg = N_("Case Sens");
@@ -447,8 +450,6 @@ const char *ext_cmd_msg = "";
 /* TRANSLATORS: Try to keep the next five strings at most 10 characters. */
 const char *prev_history_msg = N_("PrevHstory");
 const char *next_history_msg = N_("NextHstory");
-const char *replace_msg = N_("Replace");
-const char *no_replace_msg = N_("No Replace");
 const char *gototext_msg = N_("Go To Text");
 /* TRANSLATORS: Try to keep the next three strings at most 12 characters. */
 const char *whereis_next_msg = N_("WhereIs Next");
@@ -490,7 +491,9 @@ void shortcut_init(bool unjustify)
     const char *fulljstify_msg = N_("FullJstify");
 #endif
     const char *refresh_msg = N_("Refresh");
+#ifndef NANO_TINY
     const char *insert_file_msg =  N_("Insert File");
+#endif
     const char *go_to_line_msg = N_("Go To Line");
 
 #ifndef DISABLE_JUSTIFY

@@ -5,6 +5,10 @@
 
 2009-11-29 David Lawrence Ramsey <pooka109@gmail.com>
 	* Change several *chars to const char, additional cleanups and casts to make compilers happier.
+	* global.c: Fix replace and insert file initializations for proper compilation options.
+	* nano.c (do_suspend): Update comments to reflect actual code path, bad Chris and thanks for
+	  noticing Jordi.
+	* configure.ac: Fix typos
 
 2009-11-27 Chris Allegretta <chrisa@asty.org>
 	* nano.c (do_suspend): Don't clear the screen but do move the cursor down to the last line

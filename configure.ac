@@ -191,7 +191,7 @@ fi],
 AC_ARG_ENABLE(all,
 [  --enable-all            Enable ALL extra nano functionality (ignored for compatibility as all options default to on)],
 [if test x$enableval = xyes; then
-    echo "--enable-all option no longer needed, ignoring for compatiblity"
+    echo "--enable-all option no longer needed, ignoring for compatibility"
 fi])
 
 AC_MSG_CHECKING([whether to enable UTF-8 support])
