@@ -783,12 +783,12 @@ void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
 void do_replace_highlight(bool highlight, const char *word);
-char *flagtostr(int flag);
+const char *flagtostr(int flag);
 const subnfunc *sctofunc(sc *s);
 const subnfunc *getfuncfromkey(WINDOW *win);
 void print_sclist(void);
 sc *strtosc(int menu, char *input);
-function_type strtokeytype(char *str);
+function_type strtokeytype(const char *str);
 int strtomenu(char *input);
 void assign_keyinfo(sc *s);
 void xon_complaint(void);
@@ -796,35 +796,36 @@ void xoff_complaint(void);
 int sc_seq_or (short func, int defaultval);
 void do_suspend_void(void);
 
-const char *cancel_msg;
+extern const char *cancel_msg;
 #ifndef NANO_TINY
-const char *case_sens_msg;
-const char *backwards_msg;
-const char *prev_history_msg;
-const char *next_history_msg;
+extern const char *case_sens_msg;
+extern const char *backwards_msg;
+extern const char *prev_history_msg;
+extern const char *next_history_msg;
 #endif
-const char *replace_msg;
-const char *no_replace_msg;
-const char *go_to_line_msg;
-const char *whereis_next_msg;
-const char *first_file_msg;
-const char *last_file_msg;
-const char *goto_dir_msg;
-const char *ext_cmd_msg;
-const char *to_files_msg;
-const char *dos_format_msg;
-const char *mac_format_msg;
-const char *append_msg;
-const char *prepend_msg;
-const char *backup_file_msg;
-const char *gototext_msg;
-const char *new_buffer_msg;
+extern const char *replace_msg;
+extern const char *no_replace_msg;
+extern const char *go_to_line_msg;
+extern const char *whereis_next_msg;
+extern const char *first_file_msg;
+extern const char *last_file_msg;
+extern const char *goto_dir_msg;
+extern const char *ext_cmd_msg;
+extern const char *to_files_msg;
+extern const char *dos_format_msg;
+extern const char *mac_format_msg;
+extern const char *append_msg;
+extern const char *prepend_msg;
+extern const char *backup_file_msg;
+extern const char *gototext_msg;
+extern const char *new_buffer_msg;
+
 void iso_me_harder_funcmap(short func);
 void enable_nodelay(void);
 void disable_nodelay(void);
 
 #ifdef HAVE_REGEX_H
-const char *regexp_msg;
+extern const char *regexp_msg;
 #endif
 
 #ifdef NANO_EXTRA

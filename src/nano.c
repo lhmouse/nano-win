@@ -1752,7 +1752,7 @@ int do_mouse(void)
 void alloc_multidata_if_needed(filestruct *fileptr)
 {
     if (!fileptr->multidata)
-	fileptr->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+	fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
 }
 
 /* Precalculate the multi-line start and end regex info so we can speed up

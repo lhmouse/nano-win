@@ -2495,7 +2495,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
         if (fileptr->multidata == NULL && openfile->syntax
 		&& openfile->syntax->nmultis > 0) {
  	    int i;
-	    fileptr->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+	    fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
             for (i = 0; i < openfile->syntax->nmultis; i++)
 		fileptr->multidata[i] = -1;	/* Assue this applies until we know otherwise */
 	}

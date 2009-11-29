@@ -181,7 +181,7 @@ void do_tab(void)
 	free(output);
     } else {
 #endif
-	do_output("\t", 1, TRUE);
+	do_output((char *) "\t", 1, TRUE);
 #ifndef NANO_TINY
     }
 #endif
@@ -483,7 +483,7 @@ void do_undo(void)
 	break;
     case SPLIT:
 	undidmsg = _("line wrap");
-	f->data = nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
+	f->data = (char *) nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcpy(&f->data[strlen(f->data) - 1], u->strdata);
 	if (u->strdata2 != NULL)
 	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
@@ -517,7 +517,7 @@ void do_undo(void)
 	undidmsg = _("line break");
 	if (f->next) {
 	    filestruct *foo = f->next;
-	    f->data = nrealloc(f->data, strlen(f->data) + strlen(f->next->data) + 1);
+	    f->data = (char *) nrealloc(f->data, strlen(f->data) + strlen(f->next->data) + 1);
 	    strcat(f->data,  f->next->data);
 	    unlink_node(foo);
 	    delete_node(foo);
@@ -765,7 +765,7 @@ bool execute_command(const char *command)
      * arguments. */
     shellenv = getenv("SHELL");
     if (shellenv == NULL)
-	shellenv = "/bin/sh";
+	shellenv = (char *) "/bin/sh";
 
     /* Fork a child. */
     if ((pid = fork()) == 0) {
@@ -859,7 +859,7 @@ void add_undo(undo_type current_action)
     }
 
     /* Allocate and initialize a new undo type */
-    u = nmalloc(sizeof(undo));
+    u = (undo *) nmalloc(sizeof(undo));
     u->type = current_action;
     u->lineno = fs->current->lineno;
     u->begin = fs->current_x;
@@ -993,7 +993,7 @@ void update_undo(undo_type action)
 			fs->current->data, (unsigned long) fs->current_x, u->begin);
 #endif
         len = strlen(u->strdata) + 2;
-        data = nrealloc((void *) u->strdata, len * sizeof(char *));
+        data = (char *) nrealloc((void *) u->strdata, len * sizeof(char *));
         data[len-2] = fs->current->data[fs->current_x];
         data[len-1] = '\0';
         u->strdata = (char *) data;

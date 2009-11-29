@@ -1,3 +1,11 @@
+2009-11-29 Chris Allegretta <chrisa@asty.org>
+	* prompt.c (get_prompt_string) - Universally handle help key when is disabled.  Fixes Savannah
+	  bug 28117 by David Lawrence Ramsey <pooka109@gmail.com>.
+	* chars.c, files.c: Add junk vars to silence the compiler.  Sigh.
+
+2009-11-29 David Lawrence Ramsey <pooka109@gmail.com>
+	* Change several *chars to const char, additional cleanups and casts to make compilers happier.
+
 2009-11-27 Chris Allegretta <chrisa@asty.org>
 	* nano.c (do_suspend): Don't clear the screen but do move the cursor down to the last line
 	  first in an effort to not corrupt the screen, which contradicts Pico but is consistent

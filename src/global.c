@@ -214,7 +214,7 @@ size_t length_of_list(int menu)
 }
 
 /* Set type of function based on the string */
-function_type strtokeytype(char *str)
+function_type strtokeytype(const char *str)
 {
     if (str[0] ==  'M' || str[0] == 'm')
         return META;
@@ -289,7 +289,7 @@ const sc *first_sc_for(int menu, short func) {
 
 /* Add a string to the new shortcut list implementation
    Allows updates to existing entries in the list */
-void add_to_sclist(int menu, char *scstring, short func, int toggle, int execute)
+void add_to_sclist(int menu, const char *scstring, short func, int toggle, int execute)
 {
     sc *s;
 
@@ -315,7 +315,7 @@ void add_to_sclist(int menu, char *scstring, short func, int toggle, int execute
     s->type = strtokeytype(scstring);
     s->menu = menu;
     s->toggle = toggle;
-    s->keystr = scstring;
+    s->keystr = (char *) scstring;
     s->scfunc = func;
     s->execute = execute;
     assign_keyinfo(s);
@@ -1344,7 +1344,7 @@ const subnfunc *sctofunc(sc *s)
 #ifndef NANO_TINY
 /* Now lets come up with a single (hopefully)
    function to get a string for each flag */
-char *flagtostr(int flag)
+const char *flagtostr(int flag)
 {
    switch (flag) {
         case NO_HELP:
