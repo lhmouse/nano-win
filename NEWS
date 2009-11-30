@@ -1,3 +1,22 @@
+2009.11.30 - GNU nano 2.2.0 "Doc Brown" is released!  The culmination
+		of almost two years of development and hot on the heels
+		of nano's 10th birthday is available for all your
+		editing needs!  Bugs fixed since the last release
+		include several fixes for tiny mode (involving both
+		the help keys and replace menu text), more 'final'
+		fixes for soft wrapping, and several typo and documentation
+		updates including nanorc tweaks and a new syntax 
+		highlighting file for makefiles. Also included is a long
+		standing fix for random crashing when using nanorc on
+		FreeBSD, and nano will no longer clear the screen on
+		suspend to maintain compatibility with other *nix editors.
+		For those who haven't been playing along at home, please
+		see the official web page for the summary of new
+		features since 2.0.  Special thanks to all who have 
+		submitted bug reports recently in support of our new 
+		stable release, and apologies for all those bugs we 
+		didn't yet find :-) Peace to all.
+
 2009.11.21 - GNU nano 2.1.99pre2 is available for a special pre-Black
 		Friday discount.  Included are some (hopefully
 		final) fixes for issues with last page display

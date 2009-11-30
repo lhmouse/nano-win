@@ -1,3 +1,4 @@
+GNU nano 2.2.0 - 2009.11.30
 2009-11-29 Chris Allegretta <chrisa@asty.org>
 	* prompt.c (get_prompt_string) - Universally handle help key when is disabled.  Fixes Savannah
 	  bug 28117 by David Lawrence Ramsey <pooka109@gmail.com>.
@@ -23,7 +24,7 @@
 	  reported by Eitan Adler <eitanadlerlist@gmail.com>.
 
 2009-11-26 Jordi Mallach <jordi@gnu.org>
-	* doc/man/*: Update all man pages to escape unescapred hyphens.
+	* doc/man/*: Update all man pages to escape unescaped hyphens.
 
 2009-11-24 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Make these functions work better with soft
