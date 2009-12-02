@@ -1092,7 +1092,6 @@ char *get_full_path(const char *origpath)
     char *d_here, *d_there, *d_there_file = NULL;
     const char *last_slash;
     bool path_only;
-    int shutup;
 
     if (origpath == NULL)
     	return NULL;
@@ -1191,7 +1190,7 @@ char *get_full_path(const char *origpath)
 	    /* Finally, go back to the path specified in d_here,
 	     * where we were before.  We don't check for a chdir()
 	     * error, since we can do nothing if we get one. */
-	    shutup = chdir(d_here);
+	    IGNORE_CALL_RESULT(chdir(d_here));
 
 	    /* Free d_here, since we're done using it. */
 	    free(d_here);

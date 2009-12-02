@@ -739,11 +739,11 @@ void shortcut_init(bool unjustify)
 #endif
 
     add_to_funcs(DO_FIRST_LINE,
-	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP),
+	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	first_line_msg, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
 
     add_to_funcs(DO_LAST_LINE,
-	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP),
+	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	last_line_msg, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
 
@@ -1084,10 +1084,10 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "kleft", DO_LEFT, 0, TRUE);
     add_to_sclist(MMAIN, "^Q", XON_COMPLAINT, 0, TRUE);
     add_to_sclist(MMAIN, "^S", XOFF_COMPLAINT, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "^P", DO_UP_VOID, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "kup", DO_UP_VOID, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "^N", DO_DOWN_VOID, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER, "kdown", DO_DOWN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", DO_UP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "kup", DO_UP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", DO_DOWN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "kdown", DO_DOWN_VOID, 0, TRUE);
     add_to_sclist(MALL, "^A", DO_HOME, 0, TRUE);
     add_to_sclist(MALL, "khome", DO_HOME, 0, TRUE);
     add_to_sclist(MALL, "^E", DO_END, 0, TRUE);

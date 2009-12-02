@@ -1,6 +1,19 @@
+2009-12-01 Kamil Dudka <kdudka@redhat.com>
+	* chars.c, file.c - Better handle unused results for things like mbtowc(), new
+	  macro IGNORE_CALL_RESULT.
+
+2009-12-01 Chris Allegretta <chrisa@asty.org>
+	* global.c (shortcut_init) - Remove redundant entries for ^Y/^V reported by
+	  Christian Weisgerber.
+	* doc/man/nanorc.5 - Fix typo in Meta documentation, reported by gibboris@gmail.com.
+
+2009-11-29 David Lawrence Ramsey <pooka109@gmail.com>
+	* global.c (shortcut_init) - Add support for ^P and ^N in the help menu.
+
 GNU nano 2.2.0 - 2009.11.30
 2009-11-29 Chris Allegretta <chrisa@asty.org>
-	* prompt.c (get_prompt_string) - Universally handle help key when is disabled.  Fixes Savannah
+	* prompt.c (get_prompt_string) - Universally handle help key when is 
+disabled.  Fixes Savannah
 	  bug 28117 by David Lawrence Ramsey <pooka109@gmail.com>.
 	* chars.c, files.c: Add junk vars to silence the compiler.  Sigh.
 
