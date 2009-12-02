@@ -1,3 +1,6 @@
+2009-12-02 Jordi Mallach <jordi@gnu.org>
+	* doc/man/nano.1: Fix escaping of hyphens for the -$ option.
+
 2009-12-01 Kamil Dudka <kdudka@redhat.com>
 	* chars.c, file.c - Better handle unused results for things like mbtowc(), new
 	  macro IGNORE_CALL_RESULT.
