@@ -1,5 +1,5 @@
 .\" Hey, EMACS: -*- nroff -*-
-.\" Copyright (C) 2003, 2004, 2005, 2006, 2007
+.\" Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009
 .\" Free Software Foundation, Inc.
 .\"
 .\" This document is dual-licensed.  You may distribute and/or modify it
@@ -45,9 +45,9 @@ the command line options.  Additionally, the \fBsyntax\fP, \fBcolor\fP,
 and \fBicolor\fP keywords are used to define syntax highlighting rules
 for different text patterns.  \fBnano\fP will read one command per line.
 
-Options in nanorc files take precedence over nano's defaults, and
-command line options override nanorc settings.  Also, options are unset
-by default, except for those that take arguments.
+Options in \fInanorc\fP files take precedence over nano's defaults, and
+command line options override \fInanorc\fP settings.  Also, options are
+unset by default, except for those that take arguments.
 
 Quotes inside string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
@@ -146,9 +146,9 @@ punctuation, optionally followed by closing brackets, can end sentences.
 The default value is "\fI!.?\fP".
 .TP
 .B set/unset quiet
-\fBnano\fP will not report errors in the nanorc file and ask them to 
-be acknowledged by pressing enter at startup.  If this is used it should
-be placed at the top of the file to be fully effective.
+\fBnano\fP will not report errors in the \fInanorc\fP file and ask them
+to be acknowledged by pressing enter at startup.  If this is used it
+should be placed at the top of the file to be fully effective.
 .TP
 .B set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -414,7 +414,7 @@ Refresh the screen.
 Undo the text action peformed (add text, delete text, etc).
 .TP
 .B redo
-"Re-do" the last undone action (i.e. undo an undo)
+Redo the last undone action (i.e., undo an undo).
 .TP
 .B suspend
 Suspend the editor (if the suspend function is enabled, see the 

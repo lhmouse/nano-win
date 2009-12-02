@@ -7,8 +7,10 @@
 	  Christian Weisgerber.
 	* doc/man/nanorc.5 - Fix typo in Meta documentation, reported by gibboris@gmail.com.
 
-2009-11-29 David Lawrence Ramsey <pooka109@gmail.com>
+2009-12-01 David Lawrence Ramsey <pooka109@gmail.com>
 	* global.c (shortcut_init) - Add support for ^P and ^N in the help menu.
+	* Update documentation for 2.2 features including sample nanorc file, texinfo
+	  file, man pages, UPGRADE file, and update copyright noticed for the current year.
 
 GNU nano 2.2.0 - 2009.11.30
 2009-11-29 Chris Allegretta <chrisa@asty.org>

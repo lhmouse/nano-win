@@ -1,6 +1,22 @@
 GNU nano upgrading information
 ==============================
 
+Visible changes since 2.0
+-------------------------
+* Editor Features
+  - The ability to rebind (reassign) keys using the nanorc.
+  - The ability to read standard input like a pager ("nano -").
+  - Color syntax highlighting can be set by the first line of a file.
+  - The ability to silence nanorc error messages (-q).
+  - Undo/redo operations (-u).
+  - Soft wrapping of text (-$).
+
+* File Handling
+  - Better handling of backup files: if nano can't write a backup file,
+    it won't try to write the original file afterward.
+  - Emergency savefiles retain ownerships and permissions when possible.
+  - Performance improvements in color syntax highlighting.
+
 Visible changes since 1.2
 -------------------------
 * Editor Features

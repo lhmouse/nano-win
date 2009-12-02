@@ -141,6 +141,9 @@
 ## Use smooth scrolling as the default.
 # set smooth
 
+## Enable soft line wrapping (AKA full line display).
+# set softwrap
+
 ## Use this spelling checker instead of the internal one.  This option
 ## does not properly have a default value.
 ##
@@ -148,6 +151,10 @@
 
 ## Allow nano to be suspended.
 # set suspend
+
+## If nano is allowed to be suspended, allow the suspend key (usually
+## ^Z) to actually suspend it.
+# set suspendenable
 
 ## Use this tab size instead of the default; it must be greater than 0.
 # set tabsize 8
@@ -157,6 +164,10 @@
 
 ## Save automatically on exit, don't prompt.
 # set tempfile
+
+## Enable the new (EXPERIMENTAL) generic undo code, not just for line
+## cuts.
+# set undo
 
 ## Disallow file modification.  Why would you want this in an rcfile? ;)
 # set view
@@ -169,12 +180,6 @@
 ## Detect word boundaries more accurately by treating punctuation
 ## characters as parts of words.
 # set wordbounds
-
-## Enable the new (EXPERIMENTAL) generic undo code, not just for line cuts
-# set undo
-
-## Enable soft line wrapping (AKA full line display)
-# set softwrap
 
 
 ## Color setup

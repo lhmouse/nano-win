@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 2.0.0
-@set UPDATED 17 Dec 2007
+@set VERSION 2.2.0
+@set UPDATED 30 Nov 2009
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.0.0
+@subtitle version 2.2.0
 
 @author Chris Allegretta
 @page
@@ -33,8 +33,8 @@ editor.
 
 This manual is part of the GNU @code{nano} distribution.@*
 @sp4
-Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
-Free Software Foundation, Inc.
+Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009 Free Software Foundation, Inc.
 
 This document is dual-licensed.  You may distribute and/or modify it
 under the terms of either of the following licenses:
@@ -249,6 +249,10 @@ a chroot.
 Preserve the ^Q (XON) and ^S (XOFF) sequences so data being sent to the
 editor can be can be stopped and started.
 
+@item -q, --quiet
+Do not report errors in the nanorc file and ask them to be acknowledged
+by pressing Enter at startup.
+
 @item -r <#cols>, --fill=<#cols>
 Wrap lines at column #cols.  If this value is 0 or less, wrapping will
 occur at the width of the screen less #cols, allowing it to vary along
@@ -265,6 +269,10 @@ SPELL is not set, its own interactive spell checker that requires the
 Don't ask whether or not to save the current contents of the file when
 exiting, assume yes.  This is most useful when using @code{nano} as the
 composer of a mailer program.
+
+@item -u, --undo
+Enable experimental generic-purpose undo code.  By default, the undo and
+redo shortcuts are Meta-U and Meta-E, respectively.
 
 @item -v, --view
 Don't allow the contents of the file to be altered.  Note that this
@@ -287,6 +295,13 @@ disabled to display the help system navigation keys.
 @item -z, --suspend
 Enable @code{nano}'s suspend ability using the system's suspend
 keystroke (usually ^Z).
+
+@item -$, --softwrap
+Enable 'soft wrapping'.  @code{nano} will attempt to display the entire
+contents of a line, even if it is longer than the screen width.  Since
+'$' normally refers to a variable in the Unix shell, you should specify
+this option last when using other options (e.g. 'nano -wS$') or pass it
+separately (e.g. 'nano -wS -$').
 
 @item -a, -b, -e, -f, -g, -j
 Ignored, for compatibility with Pico.
@@ -446,6 +461,9 @@ nanorc.  See @xref{Nanorc Files}, for more info.
 
 @item Suspend Toggle (Meta-Z)
 toggles the -z (@code{--suspend}) command line option.
+
+@item Soft Wrapping Toggle (Meta-$)
+toggles the -$ (@code{--softwrap}) command line option.
 
 @end table
 
@@ -615,12 +633,19 @@ line.
 @item set/unset smooth
 Use smooth scrolling by default.
 
+@item set/unset softwrap
+Use soft wrapping by default.
+
 @item set speller "spellprog"
 Use spelling checker "spellprog" instead of the built-in one, which
 calls "spell".
 
 @item set/unset suspend
 Allow @code{nano} to be suspended.
+
+@item set/unset suspendenable
+If @code{nano} is allowed to be suspended, allow the suspend key
+(usually ^Z) to actually suspend it.
 
 @item set tabsize "n"
 Use a tab size of "n" columns.  The value of "n" must be greater than 0.
@@ -631,6 +656,9 @@ Convert typed tabs to spaces.
 
 @item set/unset tempfile
 Save automatically on exit, don't prompt.
+
+@item set/unset undo
+Enable experimental generic-purpose undo code.
 
 @item set/unset view
 Disallow file modification.

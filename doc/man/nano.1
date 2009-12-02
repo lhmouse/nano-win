@@ -1,6 +1,6 @@
 .\" Hey, EMACS: -*- nroff -*-
-.\" Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
-.\" Free Software Foundation, Inc.
+.\" Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+.\" 2008, 2009 Free Software Foundation, Inc.
 .\"
 .\" This document is dual-licensed.  You may distribute and/or modify it
 .\" under the terms of either of the following licenses:
@@ -19,7 +19,7 @@
 .\"   <http://www.gnu.org/licenses/>.
 .\"
 .\" $Id$
-.TH NANO 1 "version 2.0.0" "August 23, 2007"
+.TH NANO 1 "version 2.2.0" "November 30, 2009"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -79,11 +79,11 @@ Enable multiple file buffers, if available.
 .TP
 .B \-H (\-\-historylog)
 Log search and replace strings to \fI~/.nano_history\fP, so they can be
-retrieved in later sessions, if nanorc support is available.
+retrieved in later sessions, if \fInanorc\fP support is available.
 .TP
 .B \-I (\-\-ignorercfiles)
-Don't look at \fISYSCONFDIR/nanorc\fP or \fI~/.nanorc\fP, if nanorc
-support is available.
+Don't look at \fISYSCONFDIR/nanorc\fP or \fI~/.nanorc\fP, if
+\fInanorc\fP support is available.
 .TP
 .B \-K (\-\-rebindkeypad)
 Interpret the numeric keypad keys so that they all work properly.  You
@@ -107,10 +107,11 @@ Tab.
 .TP
 .B \-R (\-\-restricted)
 Restricted mode: don't read or write to any file not specified on the
-command line; read any nanorc files; allow suspending; allow a file
-to be appended to, prepended to, or saved under a different name if it
-already has one; or use backup files or spell checking.  Also accessible
-by invoking \fBnano\fP with any name beginning with 'r' (e.g. "rnano").
+command line; read any \fInanorc\fP files; allow suspending; allow a
+file to be appended to, prepended to, or saved under a different name if
+it already has one; or use backup files or spell checking.  Also
+accessible by invoking \fBnano\fP with any name beginning with 'r' (e.g.
+"rnano").
 .TP
 .B \-S (\-\-smooth)
 Enable smooth scrolling.  Text will scroll line-by-line, instead of the
@@ -173,8 +174,8 @@ Preserve the XON and XOFF sequences (^Q and ^S) so they will be caught
 by the terminal.
 .TP
 .B \-q (\-\-quiet)
-Do not report errors in the nanorc file and ask them to
-be acknowledged by pressing enter at startup.
+Do not report errors in the \fInanorc\fP file and ask them to be
+acknowledged by pressing Enter at startup.
 .TP
 .B \-r \fIcols\fP (\-\-fill=\fIcols\fP)
 Wrap lines at column \fIcols\fP.  If this value is 0 or less, wrapping
@@ -206,11 +207,11 @@ Disable help screen at bottom of editor.
 Enable suspend ability.
 .TP
 .B \-$ (\-\-softwrap)
-Enable 'soft wrapping'.  Nano will attempt to display lines the entire 
-contents of a line, even if it is longer than the screen width.
-Since '$' normally refers to a variable in the Unix shell, you should
-specify this option last when using other options (e.g. 'nano -wS$') 
-or pass it separately (e.g. 'nano -wS -$'). 
+Enable 'soft wrapping'.  \fBnano\fP will attempt to display the entire
+contents of a line, even if it is longer than the screen width.  Since
+'$' normally refers to a variable in the Unix shell, you should specify
+this option last when using other options (e.g. 'nano -wS$') or pass it
+separately (e.g. 'nano -wS -$').
 .TP
 .B \-a, \-b, \-e, \-f, \-g, \-j
 Ignored, for compatibility with Pico.
@@ -223,7 +224,7 @@ should be provided with \fBnano\fP.
 
 .SH NOTES
 If no alternative spell checker command is specified on the command
-line or in one of the nanorc files, \fBnano\fP will check the
+line or in one of the \fInanorc\fP files, \fBnano\fP will check the
 \fBSPELL\fP environment variable for one.
 
 In some cases \fBnano\fP will try to dump the buffer into an emergency
