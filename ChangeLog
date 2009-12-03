@@ -1,3 +1,7 @@
+2009-12-02 Chris Allegretta <chrisa@asty.org>
+	* text.c (add_undo, do_undo, do_redo) - Do not execute cases for SPLIT when DISABLE_WRAPPING
+	  is defined.  Fixes Savannah bug 28151 (anon).
+
 2009-12-02 Jordi Mallach <jordi@gnu.org>
 	* doc/man/nano.1: Fix escaping of hyphens for the -$ option.
 
