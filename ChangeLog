@@ -1,3 +1,7 @@
+2009-12-03 Eitan Adler <eitanadlerlist@gmail.com>
+	* doc/syntax/makefile.nanorc - Fix poor regex for all alpha characters which sometimes leads to
+	  error messages, reported by gibboris@gmail.com.
+
 2009-12-02 Chris Allegretta <chrisa@asty.org>
 	* text.c (add_undo, do_undo, do_redo) - Do not execute cases for SPLIT when DISABLE_WRAPPING
 	  is defined.  Fixes Savannah bug 28151 (anon).
