@@ -1,3 +1,7 @@
+2009-12-03 David Lawrence Ramsey <pooka109@gmail.com>
+	* global.c (shortcut_init) - Remove help shortcut from help shortcut list :-)  Tweaked 
+	  to reorder exit shortcut to end of list to not mess up prev/next shortcut symmetry.
+
 2009-12-03 Eitan Adler <eitanadlerlist@gmail.com>
 	* doc/syntax/makefile.nanorc - Fix poor regex for all alpha characters which sometimes leads to
 	  error messages, reported by gibboris@gmail.com.

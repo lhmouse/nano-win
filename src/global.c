@@ -655,8 +655,9 @@ void shortcut_init(bool unjustify)
         free(f);
     }
 
-    add_to_funcs(DO_HELP_VOID, MALL, get_help_msg, IFSCHELP(nano_help_msg),
-	FALSE, VIEW);
+    add_to_funcs(DO_HELP_VOID,
+	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR),
+	get_help_msg, IFSCHELP(nano_help_msg), FALSE, VIEW);
 
     add_to_funcs( CANCEL_MSG,
 	(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO),
@@ -668,8 +669,6 @@ void shortcut_init(bool unjustify)
 	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
 	exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
-
-    add_to_funcs(DO_EXIT, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
 
 #ifndef DISABLE_BROWSER
     add_to_funcs(DO_EXIT, MBROWSER, exit_msg, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);
@@ -1001,6 +1000,10 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_HELP
     add_to_funcs( REFRESH_MSG, MHELP,
 	refresh_msg, nano_refresh_msg, FALSE, VIEW);
+
+    add_to_funcs(DO_EXIT, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
+
+
 #endif
 
 #ifndef DISABLE_BROWSER
@@ -1019,8 +1022,10 @@ void shortcut_init(bool unjustify)
 
     currmenu = MMAIN;
 
-    add_to_sclist(MALL, "^G", DO_HELP_VOID, 0, TRUE);
-    add_to_sclist(MALL, "F1", DO_HELP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR,
+	"^G", DO_HELP_VOID, 0, TRUE);
+    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR,
+	"F1", DO_HELP_VOID, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", DO_EXIT, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", DO_EXIT, 0, TRUE);
     add_to_sclist(MMAIN, "^_", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
