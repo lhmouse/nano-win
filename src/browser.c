@@ -232,7 +232,7 @@ char *do_browser(char *path, DIR *dir)
 		     * blank out ans, since we're done with it. */
 		    statusbar(_("Cancelled"));
 		    ans = mallocstrcpy(ans, "");
-		    break;
+		    continue;
 		} else if (i != 0) {
 		    /* Put back the "Go to Directory" key and save
 		     * answer in ans, so that the file list is displayed
@@ -240,7 +240,7 @@ char *do_browser(char *path, DIR *dir)
 		     * typed before at the prompt is displayed again. */
 		    unget_kbinput(sc_seq_or(DO_GOTOLINECOLUMN_VOID, 0), FALSE, FALSE);
 		    ans = mallocstrcpy(ans, answer);
-		    break;
+		    continue;
 		}
 
 		/* We have a directory.  Blank out ans, since we're done
@@ -266,7 +266,7 @@ char *do_browser(char *path, DIR *dir)
 			_("Can't go outside of %s in restricted mode"),
 			operating_dir);
 		    free(new_path);
-		    break;
+		    continue;
 		}
 #endif
 
@@ -278,7 +278,7 @@ char *do_browser(char *path, DIR *dir)
 			strerror(errno));
 		    beep();
 		    free(new_path);
-		    break;
+		    continue;
 		}
 
 		/* Start over again with the new path value. */
@@ -302,7 +302,7 @@ char *do_browser(char *path, DIR *dir)
 		if (strcmp(filelist[selected], "/..") == 0) {
 		    statusbar(_("Can't move up a directory"));
 		    beep();
-		    break;
+		    continue;
 		}
 
 #ifndef DISABLE_OPERATINGDIR
@@ -314,7 +314,7 @@ char *do_browser(char *path, DIR *dir)
 			_("Can't go outside of %s in restricted mode"),
 			operating_dir);
 		    beep();
-		    break;
+		    continue;
 		}
 #endif
 
@@ -324,7 +324,7 @@ char *do_browser(char *path, DIR *dir)
 		    statusbar(_("Error reading %s: %s"),
 			filelist[selected], strerror(errno));
 		    beep();
-		    break;
+		    continue;
 		}
 
 		/* If we've successfully opened a file, we're done, so
@@ -332,7 +332,7 @@ char *do_browser(char *path, DIR *dir)
 		if (!S_ISDIR(st.st_mode)) {
 		    retval = mallocstrcpy(NULL, filelist[selected]);
 		    abort = TRUE;
-		    break;
+		    continue;
 		/* If we've successfully opened a directory, and it's
 		 * "..", save the current directory in prev_dir, so that
 		 * we can select it later. */
@@ -347,7 +347,7 @@ char *do_browser(char *path, DIR *dir)
 		    statusbar(_("Error reading %s: %s"),
 			filelist[selected], strerror(errno));
 		    beep();
-		    break;
+		    continue;
 		}
 
 		path = mallocstrcpy(path, filelist[selected]);

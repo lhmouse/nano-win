@@ -701,9 +701,9 @@ void shortcut_init(bool unjustify)
     add_to_funcs(DO_SEARCH, MMAIN|MBROWSER, whereis_msg,
 	IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
-    add_to_funcs(DO_PAGE_UP, MMAIN|MHELP,
+    add_to_funcs(DO_PAGE_UP, MMAIN|MHELP|MBROWSER,
 	prev_page_msg, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
-    add_to_funcs(DO_PAGE_DOWN, MMAIN|MHELP,
+    add_to_funcs(DO_PAGE_DOWN, MMAIN|MHELP|MBROWSER,
 	next_page_msg, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
 
 
@@ -791,12 +791,6 @@ void shortcut_init(bool unjustify)
     }
 
 #endif
-
-    add_to_funcs(DO_PAGE_UP, MBROWSER,
-	prev_page_msg, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
-    add_to_funcs(DO_PAGE_DOWN, MBROWSER,
-	next_page_msg, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
-
 
     add_to_funcs(DO_RIGHT, (MMAIN|MBROWSER), N_("Forward"), IFSCHELP(nano_forward_msg),
 	FALSE, VIEW);
@@ -1030,6 +1024,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", DO_EXIT, 0, TRUE);
     add_to_sclist(MMAIN, "^_", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
     add_to_sclist(MMAIN, "F13", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
+    add_to_sclist(MMAIN, "M-G", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
     add_to_sclist(MMAIN, "^O", DO_WRITEOUT_VOID, 0, TRUE);
     add_to_sclist(MMAIN, "F3", DO_WRITEOUT_VOID, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
@@ -1057,9 +1052,6 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "^T", DO_SPELL, 0, TRUE);
     add_to_sclist(MMAIN, "F12", DO_SPELL, 0, TRUE);
 #endif
-    add_to_sclist(MMAIN, "^_", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
-    add_to_sclist(MMAIN, "F13", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
-    add_to_sclist(MMAIN, "M-G", DO_GOTOLINECOLUMN_VOID, 0, TRUE);
     add_to_sclist(MMAIN, "^\\", DO_REPLACE, 0, TRUE);
     add_to_sclist(MMAIN, "F14", DO_REPLACE, 0, TRUE);
     add_to_sclist(MMAIN, "M-R", DO_REPLACE, 0, TRUE);
@@ -1137,6 +1129,9 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-|",  FIRST_FILE_MSG, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/",  LAST_FILE_MSG, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?",  LAST_FILE_MSG, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "^_",  GOTO_DIR_MSG, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "F13",  GOTO_DIR_MSG, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-G",  GOTO_DIR_MSG, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-]", DO_FIND_BRACKET, 0, TRUE);
     add_to_sclist(MMAIN, "M--", DO_SCROLL_UP, 0, TRUE);

@@ -1,3 +1,10 @@
+2009-12-07 David Lawrence Ramsey <pooka109@gmail.com>
+	* global.c (shortcut_init): Many fixes for keybindings code oversights, including
+	  restore page up/down and GotoDir to browser, 
+	* browser.c (do_browser): Fix breaking out of a submenu (e.g. gotodir) breaks out
+	  of browser altogether.
+	* doc/nanorc.sample.in: Add missing entries for fortran/ObjC/OCaml entries.
+
 2009-12-03 David Lawrence Ramsey <pooka109@gmail.com>
 	* global.c (shortcut_init) - Remove help shortcut from help shortcut list :-)  Tweaked 
 	  to reorder exit shortcut to end of list to not mess up prev/next shortcut symmetry.

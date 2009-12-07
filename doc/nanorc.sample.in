@@ -291,6 +291,15 @@
 ## Java
 # include "@PKGDATADIR@/java.nanorc"
 
+## Fortran
+# include "@PKGDATADIR@/fortran.nanorc"
+
+## Objective-C
+# include "@PKGDATADIR@/objc.nanorc"
+
+## OCaml
+# include "@PKGDATADIR@/ocaml.nanorc"
+
 ## AWK
 # include "@PKGDATADIR@/awk.nanorc"
 
