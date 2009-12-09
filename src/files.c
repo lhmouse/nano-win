@@ -146,7 +146,7 @@ void open_buffer(const char *filename, bool undoable)
     /* If we have a non-new file, read it in.  Then, if the buffer has
      * no stat, update the stat, if applicable. */
     if (rc > 0) {
-	read_file(f, rc, filename, undoable);
+	read_file(f, rc, filename, undoable, new_buffer);
 #ifndef NANO_TINY
 	if (openfile->current_stat == NULL) {
 	    openfile->current_stat =
@@ -196,7 +196,7 @@ void replace_buffer(const char *filename)
 
     /* If we have a non-new file, read it in. */
     if (rc > 0)
-	read_file(f, rc, filename, FALSE);
+	read_file(f, rc, filename, FALSE, TRUE);
 
     /* Move back to the beginning of the first line of the buffer. */
     openfile->current = openfile->fileage;
@@ -390,9 +390,9 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 /* Read an open file into the current buffer.  f should be set to the
  * open file, and filename should be set to the name of the file.
  * undoable  means do we want to create undo records to try and undo this.
- * Will also attempt to check file writability if fd > 0
+ * Will also attempt to check file writability if fd > 0 and checkwritable == TRUE
  */
-void read_file(FILE *f, int fd, const char *filename, bool undoable)
+void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
@@ -514,7 +514,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
     if (ferror(f))
 	nperror(filename);
     fclose(f);
-    if (fd > 0) {
+    if (fd > 0 && checkwritable) {
 	close(fd);
 	writable = is_file_writable(filename);
     }

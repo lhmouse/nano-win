@@ -1079,7 +1079,7 @@ void finish_stdin_pager(void)
        if (f == NULL)
         nperror("fopen");
 
-    read_file(f, 0, "stdin", TRUE);
+    read_file(f, 0, "stdin", TRUE, FALSE);
     ttystdin = open("/dev/tty", O_RDONLY);
     if (!ttystdin)
         die(_("Couldn't reopen stdin from keyboard, sorry\n"));
