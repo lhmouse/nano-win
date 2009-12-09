@@ -1062,8 +1062,8 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "^^", DO_MARK, 0, TRUE);
     add_to_sclist(MMAIN, "F15", DO_MARK, 0, TRUE);
     add_to_sclist(MMAIN, "M-A", DO_MARK, 0, TRUE);
-    add_to_sclist(MALL, "M-W", DO_RESEARCH, 0, TRUE);
-    add_to_sclist(MALL, "F16", DO_RESEARCH, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "M-W", DO_RESEARCH, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER, "F16", DO_RESEARCH, 0, TRUE);
     add_to_sclist(MMAIN, "M-^", DO_COPY_TEXT, 0, TRUE);
     add_to_sclist(MMAIN, "M-6", DO_COPY_TEXT, 0, TRUE);
     add_to_sclist(MMAIN, "M-}", DO_INDENT_VOID, 0, TRUE);

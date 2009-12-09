@@ -1,3 +1,7 @@
+2009-12-07 David Lawrence Ramsey <pooka109@gmail.com>
+	* global.c (shortcut_init), browser.c (do_browser): Fix M-W not being bound to 
+	  research in either main menu or browser.
+
 2009-12-09 Chris Allegretta <chrisa@asty.org>
 	* files.c (read_file) - Add parameter for whether we should even try to check
 	  file writability, as the message is useless when we're inserting into an 

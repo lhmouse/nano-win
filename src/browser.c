@@ -184,7 +184,7 @@ char *do_browser(char *path, DIR *dir)
 		do_filesearch();
 		curs_set(0);
 	    /* Search for another filename. */
-	} else if (f->scfunc ==  WHEREIS_NEXT_MSG) {
+	} else if (f->scfunc == DO_RESEARCH) {
 		do_fileresearch();
 	} else if (f->scfunc == DO_PAGE_UP) {
 		if (selected >= (editwinrows + fileline % editwinrows) *
