@@ -1,4 +1,10 @@
-2009-12-07 David Lawrence Ramsey <pooka109@gmail.com>
+2009-12-12 Chris Allegretta <chrisa@asty.org>
+	* text.c (do_delete), nano.c (do_output): Add check for length of current line 
+	  before and after adding/deleting text, and do full refresh if it is now
+	  a different multiple of COLS.  Also get rid of superfluous do_refresh
+	  vars now that we have edit_refresh_needed.
+
+2009-12-09 David Lawrence Ramsey <pooka109@gmail.com>
 	* global.c (shortcut_init), browser.c (do_browser): Fix M-W not being bound to 
 	  research in either main menu or browser.
 

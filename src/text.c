@@ -66,9 +66,7 @@ void do_mark(void)
 /* Delete the character under the cursor. */
 void do_delete(void)
 {
-    bool do_refresh = FALSE;
-	/* Do we have to call edit_refresh(), or can we get away with
-	 * just update_line()? */
+    size_t orig_lenpt = 0;
 
 #ifndef NANO_TINY
     update_undo(DEL);
@@ -85,6 +83,9 @@ void do_delete(void)
 		openfile->current_x);
 
 	assert(openfile->current_x < strlen(openfile->current->data));
+
+	if (ISSET(SOFTWRAP))
+	    orig_lenpt = strlenpt(openfile->current->data);
 
 	/* Let's get dangerous. */
 	charmove(&openfile->current->data[openfile->current_x],
@@ -108,7 +109,7 @@ void do_delete(void)
 	/* If we're deleting at the end of a line, we need to call
 	 * edit_refresh(). */
 	if (openfile->current->data[openfile->current_x] == '\0')
-	    do_refresh = TRUE;
+	    edit_refresh_needed = TRUE;
 
 	openfile->current->data = charealloc(openfile->current->data,
 		openfile->current_x + strlen(foo->data) + 1);
@@ -138,11 +139,13 @@ void do_delete(void)
     } else
 	return;
 
+    if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
+	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
+	    edit_refresh_needed  = TRUE;
+
     set_modified();
 
-    if (do_refresh)
-	edit_refresh_needed = TRUE;
-    else
+    if (edit_refresh_needed  == FALSE)
 	update_line(openfile->current, openfile->current_x);
 }
 

@@ -1893,17 +1893,15 @@ precalc_cleanup:
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
-    size_t current_len, i = 0;
-    bool do_refresh = FALSE;
-	/* Do we have to call edit_refresh(), or can we get away with
-	 * just update_line()? */
-
+    size_t current_len, orig_lenpt, i = 0;
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
     current_len = strlen(openfile->current->data);
+    if (ISSET(SOFTWRAP))
+	orig_lenpt = strlenpt(openfile->current->data);
 
     while (i < output_len) {
 	/* If allow_cntrls is TRUE, convert nulls and newlines
@@ -1967,25 +1965,24 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 #ifndef DISABLE_WRAPPING
 	/* If we're wrapping text, we need to call edit_refresh(). */
-	if (!ISSET(NO_WRAP)) {
-	    bool do_refresh_save = do_refresh;
-
-	    do_refresh = do_wrap(openfile->current, FALSE);
-
-	    /* If we needed to call edit_refresh() before this, we'll
-	     * still need to after this. */
-	    if (do_refresh_save)
-		do_refresh = TRUE;
-	}
+	if (!ISSET(NO_WRAP))
+	    if (do_wrap(openfile->current, FALSE))
+		edit_refresh_needed = TRUE;
 #endif
 
 #ifdef ENABLE_COLOR
 	/* If color syntaxes are available and turned on, we need to
 	 * call edit_refresh(). */
 	if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
-	    do_refresh = TRUE;
+	    edit_refresh_needed = TRUE;
 #endif
     }
+
+    /* Well we might also need a full refresh if we've changed the 
+       line length to be a new multiple of COLS */
+    if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
+	if (strlenpt(openfile->current->data) / COLS  != orig_lenpt / COLS)
+	    edit_refresh_needed = TRUE;
 
     free(char_buf);
 
@@ -1995,7 +1992,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #ifdef ENABLE_COLOR
     reset_multis(openfile->current, FALSE);
 #endif
-    if (do_refresh) {
+    if (edit_refresh_needed == TRUE) {
 	edit_refresh();
 	edit_refresh_needed = FALSE;
     } else
