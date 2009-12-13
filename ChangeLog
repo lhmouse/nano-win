@@ -1,3 +1,4 @@
+GNU nano 2.2.1 - 2009.12.12
 2009-12-12 Chris Allegretta <chrisa@asty.org>
 	* text.c (do_delete), nano.c (do_output): Add check for length of current line 
 	  before and after adding/deleting text, and do full refresh if it is now

@@ -1,3 +1,19 @@
+2009.12.12 - GNU nano 2.2.1 "DLR strikes back" is open for business.
+		This release fixes many bugs, including: missing
+		keybindings for page up/down and GotoDir in the browser, 
+		^P/^N in the help menu, and restoration of M-W as the 
+		default re-search binding.  Other fixes include several
+		issues with compiler warnings and configure options, and 
+		documentation updates, including the nano texinfo manual, 
+		nano and nanorc man pages, and UPGRADE file, and some
+		missing syntax highliting entries for the saple nanorc.
+		And no release would be complete without the latest round
+		of 'final' soft wrapping fixes!  Finally, nano will no 
+		longer print a warning when attempting to insert the 
+		contents of a read-only file into an existing buffer.  
+		Enjoy and Happy Hanukkah.
+		
+
 2009.11.30 - GNU nano 2.2.0 "Doc Brown" is released!  The culmination
 		of almost two years of development and hot on the heels
 		of nano's 10th birthday is available for all your

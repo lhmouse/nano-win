@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.11pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-30 00:24-0500\n"
+"POT-Creation-Date: 2009-12-12 22:26-0500\n"
 "PO-Revision-Date: 2009-09-19 13:28+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Vés a un directori"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2002
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2001
 #: src/nano.c:1059 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -33,8 +33,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "No es pot anar fora de %s en mode restringit"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1526 src/files.c:1617 src/files.c:1665
-#: src/files.c:1686 src/files.c:1809 src/files.c:2642 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1525 src/files.c:1616 src/files.c:1664
+#: src/files.c:1685 src/files.c:1808 src/files.c:2641 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -232,97 +232,97 @@ msgstr "Fitxer a inserir [des de %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Tecla il·legal en mode no-multibuffer"
 
-#: src/files.c:1480
+#: src/files.c:1479
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "No es pot escriure fora de %s"
 
-#: src/files.c:1495
+#: src/files.c:1494
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "No es pot avantposar o afegir a un enllaç simbòlic amb --nofollow establert"
 
-#: src/files.c:1567 src/files.c:1592 src/files.c:1621
+#: src/files.c:1566 src/files.c:1591 src/files.c:1620
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "S'ha produït un error en escriure la còpia de seguretat %s: %s"
 
-#: src/files.c:1568 src/nano.c:700
+#: src/files.c:1567 src/nano.c:700
 msgid "Too many backup files?"
 msgstr "Massa fitxers de còpia de seguretat?"
 
-#: src/files.c:1641 src/files.c:1698 src/files.c:1717 src/files.c:1729
-#: src/files.c:1753 src/files.c:1771 src/files.c:1781 src/files.c:1817
-#: src/files.c:1822 src/files.c:2715 src/files.c:2724
+#: src/files.c:1640 src/files.c:1697 src/files.c:1716 src/files.c:1728
+#: src/files.c:1752 src/files.c:1770 src/files.c:1780 src/files.c:1816
+#: src/files.c:1821 src/files.c:2714 src/files.c:2723
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "S'ha produït un error en escriure %s: %s"
 
-#: src/files.c:1675 src/text.c:2908 src/text.c:2920
+#: src/files.c:1674 src/text.c:2919 src/text.c:2931
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "S'ha produït un error en escriure un fitxer temporal: %s"
 
-#: src/files.c:1854
+#: src/files.c:1853
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "S'ha escrit %lu línia"
 msgstr[1] "S'han escrit %lu línies"
 
-#: src/files.c:1958
+#: src/files.c:1957
 msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
-#: src/files.c:1959
+#: src/files.c:1958
 msgid " [Mac Format]"
 msgstr " [Format Mac]"
 
-#: src/files.c:1961
+#: src/files.c:1960
 msgid " [Backup]"
 msgstr " [Còpia de seguretat]"
 
-#: src/files.c:1969
+#: src/files.c:1968
 msgid "Prepend Selection to File"
 msgstr "Avantposa sel·lecció a un fitxer"
 
-#: src/files.c:1970
+#: src/files.c:1969
 msgid "Append Selection to File"
 msgstr "Afegeix la sel·lecció a un fitxer"
 
-#: src/files.c:1971
+#: src/files.c:1970
 msgid "Write Selection to File"
 msgstr "Escriu la sel·lecció a un fitxer"
 
-#: src/files.c:1974
+#: src/files.c:1973
 msgid "File Name to Prepend to"
 msgstr "Nom del fitxer en el qual avantposar"
 
-#: src/files.c:1975
+#: src/files.c:1974
 msgid "File Name to Append to"
 msgstr "Nom del fitxer en el qual afegir"
 
-#: src/files.c:1976
+#: src/files.c:1975
 msgid "File Name to Write"
 msgstr "Nom del fitxer a escriure"
 
-#: src/files.c:2107
+#: src/files.c:2106
 msgid "File exists, OVERWRITE ? "
 msgstr "El fitxer existeix, el voleu SOBREESCRIURE? "
 
-#: src/files.c:2116
+#: src/files.c:2115
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Voleu desar el fitxer sota un NOM DIFERENT? "
 
-#: src/files.c:2124
+#: src/files.c:2123
 msgid "File was modified since you opened it, continue saving ? "
 msgstr "S'ha modificat el fitxer des de que l'heu obert, voleu desar-lo?"
 
-#: src/files.c:2562
+#: src/files.c:2561
 msgid "(more)"
 msgstr "(més)"
 
-#: src/files.c:2645 src/rcfile.c:1219
+#: src/files.c:2644 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -746,153 +746,153 @@ msgid "Go to directory"
 msgstr "Vés al directori"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:668
+#: src/global.c:669
 msgid "Close"
 msgstr "Tanca"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:679
+#: src/global.c:678
 msgid "WriteOut"
 msgstr "Desa"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:684
+#: src/global.c:683
 msgid "Justify"
 msgstr "Justifica"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:695
+#: src/global.c:694
 msgid "Read File"
 msgstr "Llegeix"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:712
+#: src/global.c:711
 msgid "Cut Text"
 msgstr "Retalla"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:717
+#: src/global.c:716
 msgid "UnJustify"
 msgstr "Desjustifica"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:722
+#: src/global.c:721
 msgid "UnCut Text"
 msgstr "Destalla el text"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:727 src/global.c:755
+#: src/global.c:726 src/global.c:754
 msgid "Cur Pos"
 msgstr "Pos Act"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:737
+#: src/global.c:736
 msgid "To Spell"
 msgstr "Ortografia"
 
-#: src/global.c:771
+#: src/global.c:770
 msgid "Mark Text"
 msgstr "Marca text"
 
-#: src/global.c:777
+#: src/global.c:776
 msgid "Copy Text"
 msgstr "Copia text"
 
-#: src/global.c:780
+#: src/global.c:779
 msgid "Indent Text"
 msgstr "Sagna text"
 
-#: src/global.c:783
+#: src/global.c:782
 msgid "Unindent Text"
 msgstr "Desagna text"
 
-#: src/global.c:787
+#: src/global.c:786
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/global.c:790
+#: src/global.c:789
 msgid "Redo"
 msgstr "Refés"
 
-#: src/global.c:802
+#: src/global.c:795
 msgid "Forward"
 msgstr "Endavant"
 
-#: src/global.c:806
+#: src/global.c:799
 msgid "Back"
 msgstr "Enrere"
 
-#: src/global.c:811
+#: src/global.c:804
 msgid "Next Word"
 msgstr "Paraula següent"
 
-#: src/global.c:814
+#: src/global.c:807
 msgid "Prev Word"
 msgstr "Paraula anterior"
 
-#: src/global.c:818
+#: src/global.c:811
 msgid "Prev Line"
 msgstr "Ant Línia"
 
-#: src/global.c:821
+#: src/global.c:814
 msgid "Next Line"
 msgstr "Seg Línia"
 
-#: src/global.c:824
+#: src/global.c:817
 msgid "Home"
 msgstr "Inici"
 
-#: src/global.c:827
+#: src/global.c:820
 msgid "End"
 msgstr "Fi"
 
-#: src/global.c:839
+#: src/global.c:832
 msgid "Find Other Bracket"
 msgstr "Troba la clau corresponent"
 
-#: src/global.c:842
+#: src/global.c:835
 msgid "Scroll Up"
 msgstr "Desplaça amunt"
 
-#: src/global.c:845
+#: src/global.c:838
 msgid "Scroll Down"
 msgstr "Desplaça avall"
 
-#: src/global.c:850
+#: src/global.c:843
 msgid "Previous File"
 msgstr "Anterior fitxer"
 
-#: src/global.c:852
+#: src/global.c:845
 msgid "Next File"
 msgstr "Següent fitxer"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:856 src/text.c:3024
+#: src/global.c:849 src/text.c:3035
 msgid "Verbatim Input"
 msgstr "Entrada textual"
 
-#: src/global.c:861
+#: src/global.c:854
 msgid "Tab"
 msgstr "Tab"
 
-#: src/global.c:864
+#: src/global.c:857
 msgid "Enter"
 msgstr "Retorn"
 
-#: src/global.c:867
+#: src/global.c:860
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: src/global.c:870
+#: src/global.c:863
 msgid "Backspace"
 msgstr "Retrocés"
 
-#: src/global.c:887
+#: src/global.c:880
 msgid "CutTillEnd"
 msgstr "RetallaFinsFinal"
 
-#: src/global.c:900
+#: src/global.c:893
 msgid "Word Count"
 msgstr "Compte de paraules"
 
@@ -1614,12 +1614,12 @@ msgstr "XON ignorat, blah, blah"
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorat, blah, blah"
 
-#: src/nano.c:2198 src/rcfile.c:1099
+#: src/nano.c:2195 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "La mida de tabulador demanada «%s» és invàlida"
 
-#: src/nano.c:2257 src/rcfile.c:1024
+#: src/nano.c:2254 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "La mida de plenat demanada «%s» és invàlida"
@@ -1870,155 +1870,155 @@ msgstr "Marca establida"
 msgid "Mark Unset"
 msgstr "Marca esborrada"
 
-#: src/text.c:440
+#: src/text.c:443
 msgid "Nothing in undo buffer!"
 msgstr "No hi ha res al búfer de desfer."
 
-#: src/text.c:452 src/text.c:588
+#: src/text.c:455 src/text.c:593
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 "Error intern: no hi ha coincidència per a la línia %d. Deseu el vostre "
 "treball"
 
-#: src/text.c:463 src/text.c:598
+#: src/text.c:466 src/text.c:603
 msgid "text add"
 msgstr "afegiment de text"
 
-#: src/text.c:472 src/text.c:608
+#: src/text.c:475 src/text.c:613
 msgid "text delete"
 msgstr "supressió de text"
 
-#: src/text.c:485 src/text.c:622
+#: src/text.c:489 src/text.c:628
 msgid "line wrap"
 msgstr "ajustament de línies llargues"
 
-#: src/text.c:498 src/text.c:629
+#: src/text.c:503 src/text.c:636
 msgid "line join"
 msgstr "unió de línia"
 
-#: src/text.c:509 src/text.c:644
+#: src/text.c:514 src/text.c:651
 msgid "text cut"
 msgstr "tall de text"
 
-#: src/text.c:513 src/text.c:648
+#: src/text.c:518 src/text.c:655
 msgid "text uncut"
 msgstr "enganxada de text"
 
-#: src/text.c:517 src/text.c:617
+#: src/text.c:522 src/text.c:622
 msgid "line break"
 msgstr "trencat de línia"
 
-#: src/text.c:527 src/text.c:658
+#: src/text.c:532 src/text.c:665
 msgid "text insert"
 msgstr "inserció de text"
 
-#: src/text.c:545 src/text.c:652
+#: src/text.c:550 src/text.c:659
 msgid "text replace"
 msgstr "reemplaçament de text"
 
-#: src/text.c:552 src/text.c:664
+#: src/text.c:557 src/text.c:671
 msgid "Internal error: unknown type.  Please save your work"
 msgstr "Error intern: tipus desconegut. Deseu el vostre treball"
 
-#: src/text.c:558
+#: src/text.c:563
 #, c-format
 msgid "Undid action (%s)"
 msgstr "S'ha desfet l'acció (%s)"
 
-#: src/text.c:573
+#: src/text.c:578
 msgid "Nothing to re-do!"
 msgstr "No hi ha res a refer."
 
-#: src/text.c:577
+#: src/text.c:582
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 "Error intern: la configuració del refer ha fallat. Deseu el vostre treball"
 
-#: src/text.c:669
+#: src/text.c:676
 #, c-format
 msgid "Redid action (%s)"
 msgstr "S'ha refet l'acció (%s)"
 
-#: src/text.c:759
+#: src/text.c:766
 msgid "Could not pipe"
 msgstr "No s'ha pogut canalitzar"
 
-#: src/text.c:786 src/text.c:2625 src/text.c:2772
+#: src/text.c:793 src/text.c:2636 src/text.c:2783
 msgid "Could not fork"
 msgstr "No s'ha pogut iniciar un altre procés"
 
-#: src/text.c:932
+#: src/text.c:941
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
 "Error intern: no es pot configurar l'enganxada. Deseu el vostre treball."
 
-#: src/text.c:941
+#: src/text.c:950
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Error intern: tipus desconegut. Deseu el vostre treball."
 
-#: src/text.c:1859
+#: src/text.c:1870
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "El marcador de cita %s és erroni: %s"
 
-#: src/text.c:2256
+#: src/text.c:2267
 msgid "Can now UnJustify!"
 msgstr "Ara podeu desjustificar!"
 
-#: src/text.c:2451
+#: src/text.c:2462
 msgid "Edit a replacement"
 msgstr "Edita un reemplaçament"
 
-#: src/text.c:2537
+#: src/text.c:2548
 msgid "Could not create pipe"
 msgstr "No s'ha pogut crear un conducte"
 
-#: src/text.c:2539
+#: src/text.c:2550
 msgid "Creating misspelled word list, please wait..."
 msgstr "S'està creant una llista de paraules incorrectes, espereu..."
 
-#: src/text.c:2631
+#: src/text.c:2642
 msgid "Could not get size of pipe buffer"
 msgstr "No s'ha pogut obtindre la mida de la memòria intermèdia del conducte"
 
-#: src/text.c:2682
+#: src/text.c:2693
 msgid "Error invoking \"spell\""
 msgstr "S'ha produït un error en iniciar «spell»"
 
-#: src/text.c:2685
+#: src/text.c:2696
 msgid "Error invoking \"sort -f\""
 msgstr "S'ha produït un error en iniciar «sort -f»"
 
-#: src/text.c:2688
+#: src/text.c:2699
 msgid "Error invoking \"uniq\""
 msgstr "S'ha produït un error en iniciar «uniq»"
 
-#: src/text.c:2799
+#: src/text.c:2810
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "S'ha produït un error en iniciar executar «%s»"
 
-#: src/text.c:2939
+#: src/text.c:2950
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s"
 
-#: src/text.c:2941
+#: src/text.c:2952
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s: %s"
 
-#: src/text.c:2944
+#: src/text.c:2955
 msgid "Finished checking spelling"
 msgstr "Revisió d'ortografia finalitzada"
 
-#: src/text.c:3009
+#: src/text.c:3020
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sParaules: %lu  Línies: %ld  Caràcters: %lu"
 
-#: src/text.c:3010
+#: src/text.c:3021
 msgid "In Selection:  "
 msgstr "A la selecció:  "
 

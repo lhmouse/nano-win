@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.11pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-30 00:24-0500\n"
+"POT-Creation-Date: 2009-12-12 22:26-0500\n"
 "PO-Revision-Date: 2009-10-20 16:35+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Könyvtárváltás"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2002
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2001
 #: src/nano.c:1059 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -36,8 +36,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Korlátozott módban nem léphet ki a következőből: %s"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1526 src/files.c:1617 src/files.c:1665
-#: src/files.c:1686 src/files.c:1809 src/files.c:2642 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1525 src/files.c:1616 src/files.c:1664
+#: src/files.c:1685 src/files.c:1808 src/files.c:2641 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -235,98 +235,98 @@ msgstr "Beszúrandó fájl [ebből: %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "A billentyű illegális nem többpufferes módban"
 
-#: src/files.c:1480
+#: src/files.c:1479
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Nem lehet a következőn kívülre írni: %s"
 
-#: src/files.c:1495
+#: src/files.c:1494
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Nem lehet szimbolikus link elé vagy mögé szúrni, ha a --nofollow be van "
 "állítva"
 
-#: src/files.c:1567 src/files.c:1592 src/files.c:1621
+#: src/files.c:1566 src/files.c:1591 src/files.c:1620
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Hiba a biztonságimentés-fájl (%s) írásakor: %s"
 
-#: src/files.c:1568 src/nano.c:700
+#: src/files.c:1567 src/nano.c:700
 msgid "Too many backup files?"
 msgstr "Túl sok biztonsági mentés van?"
 
-#: src/files.c:1641 src/files.c:1698 src/files.c:1717 src/files.c:1729
-#: src/files.c:1753 src/files.c:1771 src/files.c:1781 src/files.c:1817
-#: src/files.c:1822 src/files.c:2715 src/files.c:2724
+#: src/files.c:1640 src/files.c:1697 src/files.c:1716 src/files.c:1728
+#: src/files.c:1752 src/files.c:1770 src/files.c:1780 src/files.c:1816
+#: src/files.c:1821 src/files.c:2714 src/files.c:2723
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Hiba „%s” írása közben: %s"
 
-#: src/files.c:1675 src/text.c:2908 src/text.c:2920
+#: src/files.c:1674 src/text.c:2919 src/text.c:2931
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Hiba az ideiglenes fájl írásakor: %s"
 
-#: src/files.c:1854
+#: src/files.c:1853
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "%lu sor kiírva"
 msgstr[1] "%lu sor kiírva"
 
-#: src/files.c:1958
+#: src/files.c:1957
 msgid " [DOS Format]"
 msgstr " [DOS formátum]"
 
-#: src/files.c:1959
+#: src/files.c:1958
 msgid " [Mac Format]"
 msgstr " [Mac formátum]"
 
-#: src/files.c:1961
+#: src/files.c:1960
 msgid " [Backup]"
 msgstr " [Biztonsági mentés]"
 
-#: src/files.c:1969
+#: src/files.c:1968
 msgid "Prepend Selection to File"
 msgstr "A kiválasztott rész beszúrása a szöveg elé"
 
-#: src/files.c:1970
+#: src/files.c:1969
 msgid "Append Selection to File"
 msgstr "A kiválasztott rész hozzáfűzése a fájlhoz"
 
-#: src/files.c:1971
+#: src/files.c:1970
 msgid "Write Selection to File"
 msgstr "A kiválasztott rész mentése fájlba"
 
-#: src/files.c:1974
+#: src/files.c:1973
 msgid "File Name to Prepend to"
 msgstr "Beszúrás ezen fájl elé"
 
-#: src/files.c:1975
+#: src/files.c:1974
 msgid "File Name to Append to"
 msgstr "Hozzáfűzés ehhez a fájlhoz"
 
-#: src/files.c:1976
+#: src/files.c:1975
 msgid "File Name to Write"
 msgstr "Mentés ebbe a fájlba"
 
-#: src/files.c:2107
+#: src/files.c:2106
 msgid "File exists, OVERWRITE ? "
 msgstr "A fájl már létezik, FELÜLÍRJA? "
 
-#: src/files.c:2116
+#: src/files.c:2115
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Menti a fájlt MÁS NÉVEN? "
 
-#: src/files.c:2124
+#: src/files.c:2123
 msgid "File was modified since you opened it, continue saving ? "
 msgstr "A fájl módosult, mióta megnyitotta, folytatja a mentést?"
 
-#: src/files.c:2562
+#: src/files.c:2561
 msgid "(more)"
 msgstr "(tovább)"
 
-#: src/files.c:2645 src/rcfile.c:1219
+#: src/files.c:2644 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -747,153 +747,153 @@ msgid "Go to directory"
 msgstr "Könyvtárváltás"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:668
+#: src/global.c:669
 msgid "Close"
 msgstr "Bezárás"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:679
+#: src/global.c:678
 msgid "WriteOut"
 msgstr "Mentés"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:684
+#: src/global.c:683
 msgid "Justify"
 msgstr "Sorkizárás"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:695
+#: src/global.c:694
 msgid "Read File"
 msgstr "Beolvasás"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:712
+#: src/global.c:711
 msgid "Cut Text"
 msgstr "Kivágás"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:717
+#: src/global.c:716
 msgid "UnJustify"
 msgstr "Nem sork."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:722
+#: src/global.c:721
 msgid "UnCut Text"
 msgstr "Beillesztés"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:727 src/global.c:755
+#: src/global.c:726 src/global.c:754
 msgid "Cur Pos"
 msgstr "Pozíció"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:737
+#: src/global.c:736
 msgid "To Spell"
 msgstr "Helyes-e?"
 
-#: src/global.c:771
+#: src/global.c:770
 msgid "Mark Text"
 msgstr "Kijelöl"
 
-#: src/global.c:777
+#: src/global.c:776
 msgid "Copy Text"
 msgstr "Szöveg másolása"
 
-#: src/global.c:780
+#: src/global.c:779
 msgid "Indent Text"
 msgstr "Szövegbehúzás"
 
-#: src/global.c:783
+#: src/global.c:782
 msgid "Unindent Text"
 msgstr "Szövegbehúzás megsz."
 
-#: src/global.c:787
+#: src/global.c:786
 msgid "Undo"
 msgstr "Vissza"
 
-#: src/global.c:790
+#: src/global.c:789
 msgid "Redo"
 msgstr "Újra"
 
-#: src/global.c:802
+#: src/global.c:795
 msgid "Forward"
 msgstr "Előre"
 
-#: src/global.c:806
+#: src/global.c:799
 msgid "Back"
 msgstr "Vissza"
 
-#: src/global.c:811
+#: src/global.c:804
 msgid "Next Word"
 msgstr "Köv. szó"
 
-#: src/global.c:814
+#: src/global.c:807
 msgid "Prev Word"
 msgstr "Előző szó"
 
-#: src/global.c:818
+#: src/global.c:811
 msgid "Prev Line"
 msgstr "Előző sor"
 
-#: src/global.c:821
+#: src/global.c:814
 msgid "Next Line"
 msgstr "Köv. sor"
 
-#: src/global.c:824
+#: src/global.c:817
 msgid "Home"
 msgstr "Eleje"
 
-#: src/global.c:827
+#: src/global.c:820
 msgid "End"
 msgstr "Vége"
 
-#: src/global.c:839
+#: src/global.c:832
 msgid "Find Other Bracket"
 msgstr "Másik zárójel megkeresése"
 
-#: src/global.c:842
+#: src/global.c:835
 msgid "Scroll Up"
 msgstr "Görgetés fel"
 
-#: src/global.c:845
+#: src/global.c:838
 msgid "Scroll Down"
 msgstr "Görgetés le"
 
-#: src/global.c:850
+#: src/global.c:843
 msgid "Previous File"
 msgstr "Előző fájl"
 
-#: src/global.c:852
+#: src/global.c:845
 msgid "Next File"
 msgstr "Következő fájl"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:856 src/text.c:3024
+#: src/global.c:849 src/text.c:3035
 msgid "Verbatim Input"
 msgstr "Szó szerinti bevitel"
 
-#: src/global.c:861
+#: src/global.c:854
 msgid "Tab"
 msgstr "Tabulátor"
 
-#: src/global.c:864
+#: src/global.c:857
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:867
+#: src/global.c:860
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/global.c:870
+#: src/global.c:863
 msgid "Backspace"
 msgstr "Visszalép"
 
-#: src/global.c:887
+#: src/global.c:880
 msgid "CutTillEnd"
 msgstr "KivágAVégéig"
 
-#: src/global.c:900
+#: src/global.c:893
 msgid "Word Count"
 msgstr "Szavak száma"
 
@@ -1641,12 +1641,12 @@ msgstr "XON kihagyva, ej-ej"
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF kihagyva, ej-ej"
 
-#: src/nano.c:2198 src/rcfile.c:1099
+#: src/nano.c:2195 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "A kért „%s” tabméret érvénytelen"
 
-#: src/nano.c:2257 src/rcfile.c:1024
+#: src/nano.c:2254 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "A kért „%s” kitöltésméret érvénytelen"
@@ -1898,152 +1898,152 @@ msgstr "Kijelölés kezdete"
 msgid "Mark Unset"
 msgstr "Kijelölés vége"
 
-#: src/text.c:440
+#: src/text.c:443
 msgid "Nothing in undo buffer!"
 msgstr "A visszavonási puffer üres!"
 
-#: src/text.c:452 src/text.c:588
+#: src/text.c:455 src/text.c:593
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr "Belső hiba: a(z) %d. sor nem illeszthető. Mentse a munkáját."
 
-#: src/text.c:463 src/text.c:598
+#: src/text.c:466 src/text.c:603
 msgid "text add"
 msgstr "szöveg hozzáadása"
 
-#: src/text.c:472 src/text.c:608
+#: src/text.c:475 src/text.c:613
 msgid "text delete"
 msgstr "szöveg törlése"
 
-#: src/text.c:485 src/text.c:622
+#: src/text.c:489 src/text.c:628
 msgid "line wrap"
 msgstr "sorok körbefuttatása"
 
-#: src/text.c:498 src/text.c:629
+#: src/text.c:503 src/text.c:636
 msgid "line join"
 msgstr "sorok egyesítése"
 
-#: src/text.c:509 src/text.c:644
+#: src/text.c:514 src/text.c:651
 msgid "text cut"
 msgstr "szöveg kivágása"
 
-#: src/text.c:513 src/text.c:648
+#: src/text.c:518 src/text.c:655
 msgid "text uncut"
 msgstr "kivágás visszavonása"
 
-#: src/text.c:517 src/text.c:617
+#: src/text.c:522 src/text.c:622
 msgid "line break"
 msgstr "sortörés"
 
-#: src/text.c:527 src/text.c:658
+#: src/text.c:532 src/text.c:665
 msgid "text insert"
 msgstr "szöveg beszúrása"
 
-#: src/text.c:545 src/text.c:652
+#: src/text.c:550 src/text.c:659
 msgid "text replace"
 msgstr "szöveg cseréje"
 
-#: src/text.c:552 src/text.c:664
+#: src/text.c:557 src/text.c:671
 msgid "Internal error: unknown type.  Please save your work"
 msgstr "Belső hiba: ismeretlen típus. Mentse a munkáját."
 
-#: src/text.c:558
+#: src/text.c:563
 #, c-format
 msgid "Undid action (%s)"
 msgstr "Művelet visszavonva (%s)"
 
-#: src/text.c:573
+#: src/text.c:578
 msgid "Nothing to re-do!"
 msgstr "Nincs mit ismételni."
 
-#: src/text.c:577
+#: src/text.c:582
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr "Belső hiba: a visszavonás beállítása sikertelen. Mentse a munkáját."
 
-#: src/text.c:669
+#: src/text.c:676
 #, c-format
 msgid "Redid action (%s)"
 msgstr "Művelet megismételve (%s)"
 
-#: src/text.c:759
+#: src/text.c:766
 msgid "Could not pipe"
 msgstr "Nem küldhető tovább"
 
-#: src/text.c:786 src/text.c:2625 src/text.c:2772
+#: src/text.c:793 src/text.c:2636 src/text.c:2783
 msgid "Could not fork"
 msgstr "Nem forkolható"
 
-#: src/text.c:932
+#: src/text.c:941
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
 "Belső hiba: a kivágás visszavonása nem állítható be. Mentse a munkáját."
 
-#: src/text.c:941
+#: src/text.c:950
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Belső hiba: ismeretlen típus. Mentse a munkáját."
 
-#: src/text.c:1859
+#: src/text.c:1870
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Hibás idézetszöveg: %s: %s"
 
-#: src/text.c:2256
+#: src/text.c:2267
 msgid "Can now UnJustify!"
 msgstr "Most már lehet nem sorkizárttá tenni!"
 
-#: src/text.c:2451
+#: src/text.c:2462
 msgid "Edit a replacement"
 msgstr "A helyettesítő érték módosítása"
 
-#: src/text.c:2537
+#: src/text.c:2548
 msgid "Could not create pipe"
 msgstr "Nem hozható létre a cső"
 
-#: src/text.c:2539
+#: src/text.c:2550
 msgid "Creating misspelled word list, please wait..."
 msgstr "Elgépelt szavak listájának létrehozása, kis türelmet..."
 
-#: src/text.c:2631
+#: src/text.c:2642
 msgid "Could not get size of pipe buffer"
 msgstr "Nem kérhető le a csőpuffer mérete"
 
-#: src/text.c:2682
+#: src/text.c:2693
 msgid "Error invoking \"spell\""
 msgstr "Hiba a „spell” meghívásakor"
 
-#: src/text.c:2685
+#: src/text.c:2696
 msgid "Error invoking \"sort -f\""
 msgstr "Hiba a „sort -f” meghívásakor"
 
-#: src/text.c:2688
+#: src/text.c:2699
 msgid "Error invoking \"uniq\""
 msgstr "Hiba a „uniq” meghívásakor"
 
-#: src/text.c:2799
+#: src/text.c:2810
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Hiba a(z) „%s” meghívásakor"
 
-#: src/text.c:2939
+#: src/text.c:2950
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "A helyesírás-ellenőrzés meghiúsult: %s"
 
-#: src/text.c:2941
+#: src/text.c:2952
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "A helyesírás-ellenőrzés meghiúsult: %s: %s"
 
-#: src/text.c:2944
+#: src/text.c:2955
 msgid "Finished checking spelling"
 msgstr "A helyesírás-ellenőrzés befejeződött"
 
-#: src/text.c:3009
+#: src/text.c:3020
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sSzavak: %lu  Sorok: %ld  Karakterek: %lu"
 
-#: src/text.c:3010
+#: src/text.c:3021
 msgid "In Selection:  "
 msgstr "A kiválasztásban:  "
 

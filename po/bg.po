@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-30 00:24-0500\n"
+"POT-Creation-Date: 2009-12-12 22:26-0500\n"
 "PO-Revision-Date: 2006-08-25 00:56+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Отиване в директория"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2002
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2001
 #: src/nano.c:1059 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -36,8 +36,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Не може да се излезе от %s в ограничен режим"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1526 src/files.c:1617 src/files.c:1665
-#: src/files.c:1686 src/files.c:1809 src/files.c:2642 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1525 src/files.c:1616 src/files.c:1664
+#: src/files.c:1685 src/files.c:1808 src/files.c:2641 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -224,96 +224,96 @@ msgstr "Файл за вмъкване [от %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Клавишът е недопустим в режим без буфери"
 
-#: src/files.c:1480
+#: src/files.c:1479
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Не може да се запише извън %s"
 
-#: src/files.c:1495
+#: src/files.c:1494
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "Не може да се добавя нищо към символна връзка, настроена с --nofollow"
 
-#: src/files.c:1567 src/files.c:1592 src/files.c:1621
+#: src/files.c:1566 src/files.c:1591 src/files.c:1620
 #, fuzzy, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Грешка при записа на временен файл: %s"
 
-#: src/files.c:1568 src/nano.c:700
+#: src/files.c:1567 src/nano.c:700
 msgid "Too many backup files?"
 msgstr "Твърде много резервни копия?"
 
-#: src/files.c:1641 src/files.c:1698 src/files.c:1717 src/files.c:1729
-#: src/files.c:1753 src/files.c:1771 src/files.c:1781 src/files.c:1817
-#: src/files.c:1822 src/files.c:2715 src/files.c:2724
+#: src/files.c:1640 src/files.c:1697 src/files.c:1716 src/files.c:1728
+#: src/files.c:1752 src/files.c:1770 src/files.c:1780 src/files.c:1816
+#: src/files.c:1821 src/files.c:2714 src/files.c:2723
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Грешка при запис на %s: %s"
 
-#: src/files.c:1675 src/text.c:2908 src/text.c:2920
+#: src/files.c:1674 src/text.c:2919 src/text.c:2931
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Грешка при записа на временен файл: %s"
 
-#: src/files.c:1854
+#: src/files.c:1853
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Запазен е %lu ред"
 msgstr[1] "Запазени са %lu реда"
 
-#: src/files.c:1958
+#: src/files.c:1957
 msgid " [DOS Format]"
 msgstr " [DOS формат]"
 
-#: src/files.c:1959
+#: src/files.c:1958
 msgid " [Mac Format]"
 msgstr " [Mac формат]"
 
-#: src/files.c:1961
+#: src/files.c:1960
 msgid " [Backup]"
 msgstr " [Резервно копие]"
 
-#: src/files.c:1969
+#: src/files.c:1968
 msgid "Prepend Selection to File"
 msgstr "Прикрепяне на избрания текст в началото на файл"
 
-#: src/files.c:1970
+#: src/files.c:1969
 msgid "Append Selection to File"
 msgstr "Прикрепяне на избрания текст в края на файл"
 
-#: src/files.c:1971
+#: src/files.c:1970
 msgid "Write Selection to File"
 msgstr "Запазване на избрания текст във файл"
 
-#: src/files.c:1974
+#: src/files.c:1973
 msgid "File Name to Prepend to"
 msgstr "Име на файла за прикрепяне в началото му"
 
-#: src/files.c:1975
+#: src/files.c:1974
 msgid "File Name to Append to"
 msgstr "Име на файла за прикрепяне в края му"
 
-#: src/files.c:1976
+#: src/files.c:1975
 msgid "File Name to Write"
 msgstr "Име на файл за запазване"
 
-#: src/files.c:2107
+#: src/files.c:2106
 msgid "File exists, OVERWRITE ? "
 msgstr "Файлът съществува, ПРЕЗАПИСВАНЕ? "
 
-#: src/files.c:2116
+#: src/files.c:2115
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Запазване под РАЗЛИЧНО ИМЕ? "
 
-#: src/files.c:2124
+#: src/files.c:2123
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2562
+#: src/files.c:2561
 msgid "(more)"
 msgstr "(повече)"
 
-#: src/files.c:2645 src/rcfile.c:1219
+#: src/files.c:2644 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -750,153 +750,153 @@ msgid "Go to directory"
 msgstr "Отиване в директория"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:668
+#: src/global.c:669
 msgid "Close"
 msgstr "Затваряне"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:679
+#: src/global.c:678
 msgid "WriteOut"
 msgstr "Запазване"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:684
+#: src/global.c:683
 msgid "Justify"
 msgstr "Подравн."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:695
+#: src/global.c:694
 msgid "Read File"
 msgstr "Отваряне"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:712
+#: src/global.c:711
 msgid "Cut Text"
 msgstr "Отрязване"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:717
+#: src/global.c:716
 msgid "UnJustify"
 msgstr "Изкл.подр."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:722
+#: src/global.c:721
 msgid "UnCut Text"
 msgstr "Поставяне"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:727 src/global.c:755
+#: src/global.c:726 src/global.c:754
 msgid "Cur Pos"
 msgstr "Поз.курсор"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:737
+#: src/global.c:736
 msgid "To Spell"
 msgstr "Правопис"
 
-#: src/global.c:771
+#: src/global.c:770
 msgid "Mark Text"
 msgstr "Избор на текст"
 
-#: src/global.c:777
+#: src/global.c:776
 msgid "Copy Text"
 msgstr "Копиране"
 
-#: src/global.c:780
+#: src/global.c:779
 msgid "Indent Text"
 msgstr "Отстъп"
 
-#: src/global.c:783
+#: src/global.c:782
 msgid "Unindent Text"
 msgstr "Без отстъп"
 
-#: src/global.c:787
+#: src/global.c:786
 msgid "Undo"
 msgstr ""
 
-#: src/global.c:790
+#: src/global.c:789
 msgid "Redo"
 msgstr ""
 
-#: src/global.c:802
+#: src/global.c:795
 msgid "Forward"
 msgstr "Напред"
 
-#: src/global.c:806
+#: src/global.c:799
 msgid "Back"
 msgstr "Назад"
 
-#: src/global.c:811
+#: src/global.c:804
 msgid "Next Word"
 msgstr "Следваща дума"
 
-#: src/global.c:814
+#: src/global.c:807
 msgid "Prev Word"
 msgstr "Предишна дума"
 
-#: src/global.c:818
+#: src/global.c:811
 msgid "Prev Line"
 msgstr "Предишен ред"
 
-#: src/global.c:821
+#: src/global.c:814
 msgid "Next Line"
 msgstr "Следващ ред"
 
-#: src/global.c:824
+#: src/global.c:817
 msgid "Home"
 msgstr "Home"
 
-#: src/global.c:827
+#: src/global.c:820
 msgid "End"
 msgstr "End"
 
-#: src/global.c:839
+#: src/global.c:832
 msgid "Find Other Bracket"
 msgstr "Намиране на другата скоба"
 
-#: src/global.c:842
+#: src/global.c:835
 msgid "Scroll Up"
 msgstr "Превъртане нагоре"
 
-#: src/global.c:845
+#: src/global.c:838
 msgid "Scroll Down"
 msgstr "Превъртане надолу"
 
-#: src/global.c:850
+#: src/global.c:843
 msgid "Previous File"
 msgstr "Предишен файл"
 
-#: src/global.c:852
+#: src/global.c:845
 msgid "Next File"
 msgstr "Следващ файл"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:856 src/text.c:3024
+#: src/global.c:849 src/text.c:3035
 msgid "Verbatim Input"
 msgstr "Дословен вход"
 
-#: src/global.c:861
+#: src/global.c:854
 msgid "Tab"
 msgstr "Tab"
 
-#: src/global.c:864
+#: src/global.c:857
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:867
+#: src/global.c:860
 msgid "Delete"
 msgstr "Delete"
 
-#: src/global.c:870
+#: src/global.c:863
 msgid "Backspace"
 msgstr "Backspace"
 
-#: src/global.c:887
+#: src/global.c:880
 msgid "CutTillEnd"
 msgstr "Отр. до края"
 
-#: src/global.c:900
+#: src/global.c:893
 msgid "Word Count"
 msgstr "Брой на думи"
 
@@ -1614,12 +1614,12 @@ msgstr "„XON“ е пренебрегнат, мън-мън."
 msgid "XOFF ignored, mumble mumble"
 msgstr "„XOFF“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:2198 src/rcfile.c:1099
+#: src/nano.c:2195 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Поисканият размер на табулация „%s“ е неправилен"
 
-#: src/nano.c:2257 src/rcfile.c:1024
+#: src/nano.c:2254 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Поисканият размер „%s“ за максимална дължина на редове е неправилен"
@@ -1871,155 +1871,155 @@ msgstr "Уставено е маркиране"
 msgid "Mark Unset"
 msgstr "Отменено е маркирането"
 
-#: src/text.c:440
+#: src/text.c:443
 msgid "Nothing in undo buffer!"
 msgstr ""
 
-#: src/text.c:452 src/text.c:588
+#: src/text.c:455 src/text.c:593
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
 msgstr ""
 
-#: src/text.c:463 src/text.c:598
+#: src/text.c:466 src/text.c:603
 msgid "text add"
 msgstr ""
 
-#: src/text.c:472 src/text.c:608
+#: src/text.c:475 src/text.c:613
 #, fuzzy
 msgid "text delete"
 msgstr "Следващ файл"
 
-#: src/text.c:485 src/text.c:622
+#: src/text.c:489 src/text.c:628
 #, fuzzy
 msgid "line wrap"
 msgstr "Автоматично пренасяне"
 
-#: src/text.c:498 src/text.c:629
+#: src/text.c:503 src/text.c:636
 msgid "line join"
 msgstr ""
 
-#: src/text.c:509 src/text.c:644
+#: src/text.c:514 src/text.c:651
 msgid "text cut"
 msgstr ""
 
-#: src/text.c:513 src/text.c:648
+#: src/text.c:518 src/text.c:655
 msgid "text uncut"
 msgstr ""
 
-#: src/text.c:517 src/text.c:617
+#: src/text.c:522 src/text.c:622
 msgid "line break"
 msgstr ""
 
-#: src/text.c:527 src/text.c:658
+#: src/text.c:532 src/text.c:665
 #, fuzzy
 msgid "text insert"
 msgstr "Следващ ред"
 
-#: src/text.c:545 src/text.c:652
+#: src/text.c:550 src/text.c:659
 #, fuzzy
 msgid "text replace"
 msgstr " (за замяна)"
 
-#: src/text.c:552 src/text.c:664
+#: src/text.c:557 src/text.c:671
 msgid "Internal error: unknown type.  Please save your work"
 msgstr ""
 
-#: src/text.c:558
+#: src/text.c:563
 #, c-format
 msgid "Undid action (%s)"
 msgstr ""
 
-#: src/text.c:573
+#: src/text.c:578
 msgid "Nothing to re-do!"
 msgstr ""
 
-#: src/text.c:577
+#: src/text.c:582
 msgid "Internal error: Redo setup failed.  Please save your work"
 msgstr ""
 
-#: src/text.c:669
+#: src/text.c:676
 #, c-format
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:759
+#: src/text.c:766
 msgid "Could not pipe"
 msgstr "Неуспех при pipe"
 
-#: src/text.c:786 src/text.c:2625 src/text.c:2772
+#: src/text.c:793 src/text.c:2636 src/text.c:2783
 msgid "Could not fork"
 msgstr "Неуспех при fork"
 
-#: src/text.c:932
+#: src/text.c:941
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
 
-#: src/text.c:941
+#: src/text.c:950
 msgid "Internal error: unknown type.  Please save your work."
 msgstr ""
 
-#: src/text.c:1859
+#: src/text.c:1870
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Неправилен низ за цитиране %s: %s"
 
-#: src/text.c:2256
+#: src/text.c:2267
 msgid "Can now UnJustify!"
 msgstr "Сега може да се отмени подравняването!"
 
-#: src/text.c:2451
+#: src/text.c:2462
 msgid "Edit a replacement"
 msgstr "Редактиране на замяна"
 
-#: src/text.c:2537
+#: src/text.c:2548
 msgid "Could not create pipe"
 msgstr "Неуспех при създаването на pipe"
 
-#: src/text.c:2539
+#: src/text.c:2550
 msgid "Creating misspelled word list, please wait..."
 msgstr "Създаване на списък със сгрешени думи, изчакайте..."
 
-#: src/text.c:2631
+#: src/text.c:2642
 msgid "Could not get size of pipe buffer"
 msgstr "Не може да се определи размера на буфера на pipe"
 
-#: src/text.c:2682
+#: src/text.c:2693
 msgid "Error invoking \"spell\""
 msgstr "Грешка при извикване на „spell“"
 
-#: src/text.c:2685
+#: src/text.c:2696
 msgid "Error invoking \"sort -f\""
 msgstr "Грешка при извикване на „sort -f“"
 
-#: src/text.c:2688
+#: src/text.c:2699
 msgid "Error invoking \"uniq\""
 msgstr "Грешка при извикване на „uniq“"
 
-#: src/text.c:2799
+#: src/text.c:2810
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Грешка при извикване на „%s“"
 
-#: src/text.c:2939
+#: src/text.c:2950
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Неуспех при проверката на правописа: %s"
 
-#: src/text.c:2941
+#: src/text.c:2952
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Неуспех при проверката на правописа: %s: %s"
 
-#: src/text.c:2944
+#: src/text.c:2955
 msgid "Finished checking spelling"
 msgstr "Проверката на правописа завърши"
 
-#: src/text.c:3009
+#: src/text.c:3020
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sДуми: %lu  Редове: %ld  Знаци: %lu"
 
-#: src/text.c:3010
+#: src/text.c:3021
 msgid "In Selection:  "
 msgstr "В избрания текст: "
 
