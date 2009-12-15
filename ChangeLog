@@ -1,3 +1,8 @@
+2009-12-15 Chris Allegretta <chrisa@asty.org>
+	* doc/nanorc.sample.in - Remove erroneous 'set suspendenable' as it's actually a 
+	  key binding (e.g. 'bind M-Z suspendenable all') and not a settable flag.  Fixes
+	  Savannah bug 28299 reported by Mike Frysinger.
+
 GNU nano 2.2.1 - 2009.12.12
 2009-12-12 Chris Allegretta <chrisa@asty.org>
 	* text.c (do_delete), nano.c (do_output): Add check for length of current line 

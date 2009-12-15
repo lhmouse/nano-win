@@ -152,10 +152,6 @@
 ## Allow nano to be suspended.
 # set suspend
 
-## If nano is allowed to be suspended, allow the suspend key (usually
-## ^Z) to actually suspend it.
-# set suspendenable
-
 ## Use this tab size instead of the default; it must be greater than 0.
 # set tabsize 8
 
