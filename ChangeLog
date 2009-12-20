@@ -1,3 +1,7 @@
+2009-12-20 Chris Allegretta <chrisa@asty.org>
+	* files.c (is_file_writable): remove assert check for f, since it's not
+	  initialized at the time.  Fixes Savannah bug 28309, reported by Zoltan Kovacs.
+
 2009-12-20 Brian Szymanski <skibrianski via Savannah>
 	* src/files.c (write_file): Check stat struct exists, and if not use just obtained stat data.
 	  Fixes Ubuntu bug 471568, "reproducible crash in nano on trying to save to a file 

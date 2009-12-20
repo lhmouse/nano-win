@@ -309,7 +309,7 @@ int is_file_writable(const char *filename)
     if (ISSET(VIEW_MODE))
 	return TRUE;
 
-    assert(filename != NULL && f != NULL);
+    assert(filename != NULL);
 
     /* Get the specified file's full path. */
     full_filename = get_full_path(filename);
