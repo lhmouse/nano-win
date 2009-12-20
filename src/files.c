@@ -1499,6 +1499,13 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * one). */
     realexists = (stat(realname, &st) != -1);
 
+    /* if we have not stat()d this file before (say, the user just
+     * specified it interactively), use the info we just got from
+     * stat()ing or else we will chase null pointers when we do
+     * modtime checks, preserve file times, etc. during backup */
+    if(openfile->current_stat == NULL)
+	openfile->current_stat = &st;
+
 #ifndef NANO_TINY
     /* We backup only if the backup toggle is set, the file isn't
      * temporary, and the file already exists.  Furthermore, if we

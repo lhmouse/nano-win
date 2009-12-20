@@ -1,3 +1,8 @@
+2009-12-20 Brian Szymanski <skibrianski via Savannah>
+	* src/files.c (write_file): Check stat struct exists, and if not use just obtained stat data.
+	  Fixes Ubuntu bug 471568, "reproducible crash in nano on trying to save to a file 
+	  different than the one specified on the command line".
+
 2009-12-15 Chris Allegretta <chrisa@asty.org>
 	* doc/nanorc.sample.in - Remove erroneous 'set suspendenable' as it's actually a 
 	  key binding (e.g. 'bind M-Z suspendenable all') and not a settable flag.  Fixes
