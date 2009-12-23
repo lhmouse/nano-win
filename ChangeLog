@@ -1,3 +1,10 @@
+2009-12-22 Chris Allegretta <chrisa@asty.org>
+	* files.c (write_file): Fix compatibility with previous stat fix and tiny mode.
+
+2009-12-22 David Lawrence Ramsey <pooka109@gmail.com>
+	* global.c: Add new strings for forward/back in the file browser.  New variables
+	  nano_forwardfile_msg and nano_backfile_msg.
+
 2009-12-20 Chris Allegretta <chrisa@asty.org>
 	* files.c (is_file_writable): remove assert check for f, since it's not
 	  initialized at the time.  Fixes Savannah bug 28309, reported by Zoltan Kovacs.

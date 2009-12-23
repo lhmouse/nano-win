@@ -638,8 +638,9 @@ void shortcut_init(bool unjustify)
 	N_("Go to the first file in the list");
     const char *nano_lastfile_msg =
 	N_("Go to the last file in the list");
+    const char *nano_forwardfile_msg = N_("Go to the next file in the list");
+    const char *nano_backfile_msg = N_("Go to the previous file in the list");
     const char *nano_gotodir_msg = N_("Go to directory");
-
 #endif
 #endif /* !DISABLE_HELP */
 
@@ -792,12 +793,24 @@ void shortcut_init(bool unjustify)
 
 #endif
 
-    add_to_funcs(DO_RIGHT, (MMAIN|MBROWSER), N_("Forward"), IFSCHELP(nano_forward_msg),
+    add_to_funcs(DO_RIGHT, MMAIN, N_("Forward"), IFSCHELP(nano_forward_msg),
 	FALSE, VIEW);
+
+#ifndef DISABLE_BROWSER
+    add_to_funcs(DO_RIGHT, MBROWSER, N_("Forward"), IFSCHELP(nano_forwardfile_msg),
+	FALSE, VIEW);
+#endif
+
     add_to_funcs(DO_RIGHT, MALL, "", "", FALSE, VIEW);
 
-    add_to_funcs(DO_LEFT, (MMAIN|MBROWSER), N_("Back"), IFSCHELP(nano_back_msg),
+    add_to_funcs(DO_LEFT, MMAIN, N_("Back"), IFSCHELP(nano_back_msg),
 	FALSE, VIEW);
+
+#ifndef DISABLE_BROWSER
+    add_to_funcs(DO_LEFT, MBROWSER, N_("Back"), IFSCHELP(nano_backfile_msg),
+	FALSE, VIEW);
+#endif
+
     add_to_funcs(DO_LEFT, MALL, "", "", FALSE, VIEW);
 
 #ifndef NANO_TINY
