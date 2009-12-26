@@ -1,3 +1,7 @@
+2009-12-26 Jordi Mallach <jordi@gnu.org>
+	* doc/man/nano.1: Avoid a groff warning by prepending a zero-width
+	space to a line starting with '.
+
 2009-12-22 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Fix compatibility with previous stat fix and tiny mode.
 
