@@ -1,3 +1,7 @@
+2010-01-04 Chris Allegretta <chrisa@asty.org>
+	* winio.c: edit_update, edit_redraw - Fix search not scrolling to the middle of the screen
+	  (reported by alpha@qzx.com) and places where we rely on maxrows but should not.
+
 2009-12-26 Jordi Mallach <jordi@gnu.org>
 	* doc/man/nano.1: Avoid a groff warning by prepending a zero-width
 	space to a line starting with '.

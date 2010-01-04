@@ -2935,7 +2935,7 @@ bool need_vertical_update(size_t pww_save)
 }
 
 /* When edittop changes, try and figure out how many lines
- * we really have to work with (i.e. set maxrows) 
+ * we really have to work with (i.e. set maxrows)
  */
 void compute_maxrows(void)
 {
@@ -3160,7 +3160,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	/* Put edittop in range of current, get the difference in lines
 	 * between the original edittop and the current edittop, and
 	 * then restore the original edittop. */
-	edit_update(NONE);
+	edit_update(CENTER);
 
 	nlines = openfile->edittop->lineno - old_edittop->lineno;
 
@@ -3239,7 +3239,7 @@ void edit_refresh(void)
 
 	/* Put the top line of the edit window in range of the current
 	 * line. */
-	edit_update(NONE);
+	edit_update(CENTER);
     }
 
     foo = openfile->edittop;
@@ -3279,13 +3279,13 @@ void edit_update(update_type location)
      * screen as before, or at the top or bottom of the screen if
      * edittop is beyond either. */
     if (location == CENTER)
-	goal = maxrows / 2;
+	goal = editwinrows / 2;
     else {
 	goal = openfile->current_y;
 
 	/* Limit goal to (editwinrows - 1) lines maximum. */
-	if (goal > maxrows - 1)
-	    goal = maxrows - 1;
+	if (goal > editwinrows - 1)
+	    goal = editwinrows - 1;
     }
 
     for (; goal > 0 && foo->prev != NULL; goal--) {
