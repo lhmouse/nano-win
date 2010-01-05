@@ -1357,7 +1357,7 @@ void update_history(filestruct **h, const char *s)
     assert(hage != NULL && hbot != NULL);
 
     /* If this string is already in the history, delete it. */
-    p = find_history(*hage, *hbot, s, (size_t)-1);
+    p = find_history(*hage, *hbot, s, strlen(s));
 
     if (p != NULL) {
 	filestruct *foo, *bar;
