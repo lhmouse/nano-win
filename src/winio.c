@@ -2988,19 +2988,15 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 #ifdef DEBUG
 	   fprintf(stderr, "Softwrap: Entering check for extracuzsoft\n");
 #endif
-	for (i = editwinrows, foo = openfile->edittop; foo && i > 0; i--, foo = foo->next) {
-	    ssize_t len = strlenpt(foo->data) / COLS;
-	    if (len > 0)
-	        do_redraw = TRUE;
-	    i -= len;
-	}
+	for (i = maxrows, foo = openfile->edittop; foo && i > 0; i--, foo = foo->next)
+	    ;
+
 	if (foo) {
 	   extracuzsoft += strlenpt(foo->data) / COLS;
 #ifdef DEBUG
 	   fprintf(stderr, "Setting extracuzsoft to %lu due to strlen %lu of line %lu\n", (unsigned long) extracuzsoft,
 		(unsigned long) strlenpt(foo->data), (unsigned long) foo->lineno);
 #endif
-
 
 	    /* Now account for whether the edittop line itself is >COLS, if scrolling down */
 	   for (foo = openfile->edittop; foo && extracuzsoft > 0; nlines++) {
@@ -3011,13 +3007,6 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 		if (foo == openfile->filebot)
 		    break;
 		foo = foo->next;
-	    }
-	}
-    } else if (ISSET(SOFTWRAP) && direction == UP_DIR) {
-	for (foo = openfile->edittop, i = editwinrows; foo && i > 0; i--, foo = foo->prev) {
-	    if (strlenpt(foo->data) / COLS > 0) {
-		do_redraw = TRUE;
-		break;
 	    }
 	}
     }
@@ -3039,11 +3028,14 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	    openfile->edittop = openfile->edittop->next;
 	}
 	/* Don't over-scroll on long lines */
-	if (ISSET(SOFTWRAP))
-	    i -= strlenpt(openfile->edittop->data) / COLS;
+	if (ISSET(SOFTWRAP)) {
+	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
+	    i -=  len;
+	    if (len > 0)
+		do_redraw = TRUE;
+	}
     }
 
-    compute_maxrows();
     /* Limit nlines to the number of lines we could scroll. */
     nlines -= i;
 
@@ -3052,7 +3044,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * call edit_refresh() beforehand if we need to. */
     if (nlines == 0 || do_redraw || nlines >= editwinrows) {
 	if (do_redraw || nlines >= editwinrows)
-	    edit_refresh();
+	    edit_refresh_needed = TRUE;
 	return;
     }
 
@@ -3128,6 +3120,10 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	openfile->edittop->lineno || openfile->current->lineno >=
 	openfile->edittop->lineno + maxrows) {
 
+#ifdef DEBUG
+    fprintf(stderr, "edit_redraw(): line %lu was offscreen, oldcurrent = %lu edittop = %lu", openfile->current->lineno,
+                    old_current->lineno, openfile->edittop->lineno);
+#endif
 	filestruct *old_edittop = openfile->edittop;
 	ssize_t nlines;
 
@@ -3162,21 +3158,10 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	 * then restore the original edittop. */
 	edit_update(CENTER);
 
-	nlines = openfile->edittop->lineno - old_edittop->lineno;
-
-	openfile->edittop = old_edittop;
-
 	/* Update old_current if we're not on the same page as
 	 * before. */
 	if (do_redraw)
 	    update_line(old_current, 0);
-
-	/* Scroll the edit window up or down until edittop is in range
-	 * of current. */
-	if (nlines < 0)
-	    edit_scroll(UP_DIR, -nlines);
-	else
-	    edit_scroll(DOWN_DIR, nlines);
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between the old first
@@ -3289,12 +3274,16 @@ void edit_update(update_type location)
     }
 
     for (; goal > 0 && foo->prev != NULL; goal--) {
-	if (ISSET(SOFTWRAP))
-	    goal -= 1 + strlenpt(foo->data) / COLS;
 	foo = foo->prev;
+	if (ISSET(SOFTWRAP) && foo)
+	    goal -= strlenpt(foo->data) / COLS;
     }
     openfile->edittop = foo;
+#ifdef DEBUG
+    fprintf(stderr, "edit_udpate(), setting edittop to lineno %d\n", openfile->edittop->lineno);
+#endif
     compute_maxrows();
+    edit_refresh_needed = TRUE;
 }
 
 /* Unconditionally redraw the entire screen. */

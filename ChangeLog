@@ -1,8 +1,16 @@
+2010-01-12 Chris Allegretta <chrisa@asty.org>
+	* move.c (do_page_up, do_page_down): Fix issues with not enough scrolling down/up
+	  and cursor centering.
+	* winio.c (edit_scroll): Remove lots of needless checking of line length for 
+	  soft wrapping code.
+	* winio.c (edit_update) - Remove extra code for when updating with old_current outside
+	  of the new buffer boundary and centering issues.
+
 2010-01-05 Tito <farmatito@tiscali.it>
-	* search.c (update_history) - Fix bad length check causing search crash on armel platform.
+	* search.c (update_history): Fix bad length check causing search crash on armel platform.
 
 2010-01-04 Chris Allegretta <chrisa@asty.org>
-	* winio.c: edit_update, edit_redraw - Fix search not scrolling to the middle of the screen
+	* winio.c: edit_update, edit_redraw: Fix search not scrolling to the middle of the screen
 	  (reported by alpha@qzx.com) and places where we rely on maxrows but should not.
 
 2009-12-26 Jordi Mallach <jordi@gnu.org>

@@ -55,7 +55,8 @@ void do_page_up(void)
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the first line of the file, and then
      * update the edit window. */
-    if (!ISSET(SOFTWRAP) && openfile->current->lineno <= editwinrows - 2) {
+    if (openfile->current->lineno == 1 || (!ISSET(SOFTWRAP) &&
+	openfile->current->lineno <= editwinrows - 2)) {
 	do_first_line();
 	return;
     }
@@ -92,7 +93,8 @@ openfile->current->lineno, strlenpt(openfile->current->data));
 #endif
 
     /* Scroll the edit window up a page. */
-    edit_scroll(UP_DIR, editwinrows - skipped - 2);
+    openfile->current_y = 0;
+    edit_update(NONE);
 }
 
 /* Move down one page. */
@@ -133,7 +135,8 @@ void do_page_down(void)
 	openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    edit_scroll(DOWN_DIR, editwinrows - 2);
+    openfile->current_y = 0;
+    edit_update(NONE);
 }
 
 #ifndef DISABLE_JUSTIFY
@@ -521,7 +524,7 @@ void do_up(
 #ifndef NANO_TINY
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
 #endif
-		editwinrows / 2);
+		editwinrows / 2 + 1);
 
     /* If we're below the first line of the edit window, update the
      * line we were on before and the line we're on now.  The former
@@ -590,13 +593,15 @@ void do_down(
 #ifndef NANO_TINY
 	|| scroll_only
 #endif
-	)
+	) {
 	edit_scroll(DOWN_DIR,
 #ifndef NANO_TINY
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
 #endif
-		editwinrows / 2);
+		editwinrows / 2 + 1);
 
+	edit_refresh_needed = TRUE;
+    }
     /* If we're above the last line of the edit window, update the line
      * we were on before and the line we're on now.  The former needs to
      * be redrawn if we're not on the first page, and the latter needs
