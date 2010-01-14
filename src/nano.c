@@ -517,6 +517,7 @@ openfilestruct *make_new_opennode(void)
     newnode->filebot = NULL;
     newnode->edittop = NULL;
     newnode->current = NULL;
+    newnode->current_stat = NULL;
 #ifndef NANO_TINY
     newnode->last_action = OTHER;
 #endif

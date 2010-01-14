@@ -1,3 +1,7 @@
+2010-01-14 Chris Allegretta <chrisa@asty.org>
+	* files.c (do_writeout): Fix for crash / incorrect external modification warning
+	  due to earlier fix in r4467.
+
 2010-01-12 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Fix issues with not enough scrolling down/up
 	  and cursor centering.

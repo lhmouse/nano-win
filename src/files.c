@@ -1504,7 +1504,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * specified it interactively), use the info we just got from
      * stat()ing or else we will chase null pointers when we do
      * modtime checks, preserve file times, etc. during backup */
-    if(openfile->current_stat == NULL)
+    if (openfile->current_stat == NULL && realexists)
 	openfile->current_stat = &st;
 
     /* We backup only if the backup toggle is set, the file isn't
@@ -2125,6 +2125,7 @@ bool do_writeout(bool exiting)
 		    }
 		}
 #ifndef NANO_TINY
+
 		if (name_exists && openfile->current_stat && openfile->current_stat->st_mtime < st.st_mtime) {
 		    i = do_yesno_prompt(FALSE,
 			_("File was modified since you opened it, continue saving ? "));
