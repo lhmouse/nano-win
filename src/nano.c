@@ -1626,7 +1626,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 				iso_me_harder_funcmap(s->scfunc);
 #ifdef ENABLE_COLOR
-				if (!f->viewok && openfile->syntax != NULL
+				if (f && !f->viewok && openfile->syntax != NULL
 					&& openfile->syntax->nmultis > 0) {
 				    reset_multis(openfile->current, FALSE);
 				}

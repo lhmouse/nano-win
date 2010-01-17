@@ -229,7 +229,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 		f = sctofunc((sc *) s);
 		if (s->scfunc != 0 &&  s->execute == TRUE) {
 			*ran_func = TRUE;
-		    if (!ISSET(VIEW_MODE) || f->viewok)
+		    if (f && (!ISSET(VIEW_MODE) || (f->viewok)))
 		        iso_me_harder_funcmap(f->scfunc);
 		}
 		*finished = TRUE;
