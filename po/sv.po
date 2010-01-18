@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-12 22:26-0500\n"
+"POT-Creation-Date: 2010-01-17 22:45-0500\n"
 "PO-Revision-Date: 2006-08-24 20:53+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -20,8 +20,8 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Gå till katalog"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2001
-#: src/nano.c:1059 src/search.c:220 src/search.c:314 src/search.c:975
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2008
+#: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
 msgstr "Avbruten"
@@ -32,8 +32,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Kan inte gå utanför %s i begränsat läge"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1525 src/files.c:1616 src/files.c:1664
-#: src/files.c:1685 src/files.c:1808 src/files.c:2641 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1532 src/files.c:1623 src/files.c:1671
+#: src/files.c:1692 src/files.c:1815 src/files.c:2649 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -230,87 +230,87 @@ msgstr ""
 "Kan inte infoga före eller lägga till efter i en symbolisk länk då --"
 "nofollow är angivet"
 
-#: src/files.c:1566 src/files.c:1591 src/files.c:1620
+#: src/files.c:1573 src/files.c:1598 src/files.c:1627
 #, fuzzy, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Fel vid skrivning av temporär fil: %s"
 
-#: src/files.c:1567 src/nano.c:700
+#: src/files.c:1574 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "För många säkerhetskopierade filer?"
 
-#: src/files.c:1640 src/files.c:1697 src/files.c:1716 src/files.c:1728
-#: src/files.c:1752 src/files.c:1770 src/files.c:1780 src/files.c:1816
-#: src/files.c:1821 src/files.c:2714 src/files.c:2723
+#: src/files.c:1647 src/files.c:1704 src/files.c:1723 src/files.c:1735
+#: src/files.c:1759 src/files.c:1777 src/files.c:1787 src/files.c:1823
+#: src/files.c:1828 src/files.c:2722 src/files.c:2731
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Fel vid skrivning av %s: %s"
 
-#: src/files.c:1674 src/text.c:2919 src/text.c:2931
+#: src/files.c:1681 src/text.c:2919 src/text.c:2931
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Fel vid skrivning av temporär fil: %s"
 
-#: src/files.c:1853
+#: src/files.c:1860
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Skrev %lu rad"
 msgstr[1] "Skrev %lu rader"
 
-#: src/files.c:1957
+#: src/files.c:1964
 msgid " [DOS Format]"
 msgstr " [DOS-format]"
 
-#: src/files.c:1958
+#: src/files.c:1965
 msgid " [Mac Format]"
 msgstr " [Mac-format]"
 
-#: src/files.c:1960
+#: src/files.c:1967
 msgid " [Backup]"
 msgstr " [Säkerhetskopia]"
 
-#: src/files.c:1968
+#: src/files.c:1975
 msgid "Prepend Selection to File"
 msgstr "Infoga markering till fil"
 
-#: src/files.c:1969
+#: src/files.c:1976
 msgid "Append Selection to File"
 msgstr "Lägg till markering till fil"
 
-#: src/files.c:1970
+#: src/files.c:1977
 msgid "Write Selection to File"
 msgstr "Skriv markering till fil"
 
-#: src/files.c:1973
+#: src/files.c:1980
 msgid "File Name to Prepend to"
 msgstr "Filnamn att infoga i"
 
-#: src/files.c:1974
+#: src/files.c:1981
 msgid "File Name to Append to"
 msgstr "Filnamn att lägga till i"
 
-#: src/files.c:1975
+#: src/files.c:1982
 msgid "File Name to Write"
 msgstr "Filnamn att skriva"
 
-#: src/files.c:2106
+#: src/files.c:2113
 msgid "File exists, OVERWRITE ? "
 msgstr "Filen existerar, SKRIVA ÖVER? "
 
-#: src/files.c:2115
+#: src/files.c:2122
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Spara filen med ANNAT NAMN? "
 
-#: src/files.c:2123
+#: src/files.c:2131
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2561
+#: src/files.c:2569
 msgid "(more)"
 msgstr "(mer)"
 
-#: src/files.c:2644 src/rcfile.c:1219
+#: src/files.c:2652 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -745,225 +745,235 @@ msgid "Go to the last file in the list"
 msgstr "Gå till sista filen i listan"
 
 #: src/global.c:641
+#, fuzzy
+msgid "Go to the next file in the list"
+msgstr "Gå till sista filen i listan"
+
+#: src/global.c:642
+#, fuzzy
+msgid "Go to the previous file in the list"
+msgstr "Gå till första filen i listan"
+
+#: src/global.c:643
 msgid "Go to directory"
 msgstr "Gå till katalog"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:669
+#: src/global.c:670
 msgid "Close"
 msgstr "Stäng"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:678
+#: src/global.c:679
 msgid "WriteOut"
 msgstr "Spara"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:683
+#: src/global.c:684
 msgid "Justify"
 msgstr "Justera"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:694
+#: src/global.c:695
 msgid "Read File"
 msgstr "Läs fil"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:711
+#: src/global.c:712
 msgid "Cut Text"
 msgstr "Klipp ut"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:716
+#: src/global.c:717
 msgid "UnJustify"
 msgstr "Ojustera"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:721
+#: src/global.c:722
 msgid "UnCut Text"
 msgstr "Ångra kopi"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:726 src/global.c:754
+#: src/global.c:727 src/global.c:755
 msgid "Cur Pos"
 msgstr "Akt. pos"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:736
+#: src/global.c:737
 msgid "To Spell"
 msgstr "Stavkontr."
 
-#: src/global.c:770
+#: src/global.c:771
 msgid "Mark Text"
 msgstr "Markera text"
 
-#: src/global.c:776
+#: src/global.c:777
 msgid "Copy Text"
 msgstr "Kopiera text"
 
-#: src/global.c:779
+#: src/global.c:780
 msgid "Indent Text"
 msgstr "Dra in text"
 
-#: src/global.c:782
+#: src/global.c:783
 msgid "Unindent Text"
 msgstr "Ångra indragning av text"
 
-#: src/global.c:786
+#: src/global.c:787
 msgid "Undo"
 msgstr ""
 
-#: src/global.c:789
+#: src/global.c:790
 msgid "Redo"
 msgstr ""
 
-#: src/global.c:795
+#: src/global.c:796 src/global.c:800
 msgid "Forward"
 msgstr "Framåt"
 
-#: src/global.c:799
+#: src/global.c:806 src/global.c:810
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/global.c:804
+#: src/global.c:817
 msgid "Next Word"
 msgstr "Nästa ord"
 
-#: src/global.c:807
+#: src/global.c:820
 msgid "Prev Word"
 msgstr "Föreg ord"
 
-#: src/global.c:811
+#: src/global.c:824
 msgid "Prev Line"
 msgstr "Föreg rad"
 
-#: src/global.c:814
+#: src/global.c:827
 msgid "Next Line"
 msgstr "Nästa rad"
 
-#: src/global.c:817
+#: src/global.c:830
 msgid "Home"
 msgstr "Hem"
 
-#: src/global.c:820
+#: src/global.c:833
 msgid "End"
 msgstr "Slut"
 
-#: src/global.c:832
+#: src/global.c:845
 msgid "Find Other Bracket"
 msgstr "Hitta andra klammern"
 
-#: src/global.c:835
+#: src/global.c:848
 msgid "Scroll Up"
 msgstr "Rulla upp"
 
-#: src/global.c:838
+#: src/global.c:851
 msgid "Scroll Down"
 msgstr "Rulla ned"
 
-#: src/global.c:843
+#: src/global.c:856
 msgid "Previous File"
 msgstr "Föregående fil"
 
-#: src/global.c:845
+#: src/global.c:858
 msgid "Next File"
 msgstr "Nästa fil"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:849 src/text.c:3035
+#: src/global.c:862 src/text.c:3035
 msgid "Verbatim Input"
 msgstr "Ordagrann inmatning"
 
-#: src/global.c:854
+#: src/global.c:867
 msgid "Tab"
 msgstr "Tabb"
 
-#: src/global.c:857
+#: src/global.c:870
 msgid "Enter"
 msgstr "Retur"
 
-#: src/global.c:860
+#: src/global.c:873
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/global.c:863
+#: src/global.c:876
 msgid "Backspace"
 msgstr "Backsteg"
 
-#: src/global.c:880
+#: src/global.c:893
 msgid "CutTillEnd"
 msgstr "KlippTillSlut"
 
-#: src/global.c:893
+#: src/global.c:906
 msgid "Word Count"
 msgstr "Antal ord"
 
-#: src/global.c:1354
+#: src/global.c:1367
 msgid "Help mode"
 msgstr "Hjälpläge"
 
-#: src/global.c:1356
+#: src/global.c:1369
 msgid "Constant cursor position display"
 msgstr "Konstant visning av markörposition"
 
-#: src/global.c:1358
+#: src/global.c:1371
 msgid "Use of one more line for editing"
 msgstr "Användning av ytterligare en rad för redigering"
 
-#: src/global.c:1360
+#: src/global.c:1373
 msgid "Smooth scrolling"
 msgstr "Mjuk rullning"
 
-#: src/global.c:1362
+#: src/global.c:1375
 msgid "Whitespace display"
 msgstr "Visning av mellanrum"
 
-#: src/global.c:1364
+#: src/global.c:1377
 msgid "Color syntax highlighting"
 msgstr "Färgmarkering av syntax"
 
-#: src/global.c:1366
+#: src/global.c:1379
 msgid "Smart home key"
 msgstr "Smart hemtangent"
 
-#: src/global.c:1368
+#: src/global.c:1381
 msgid "Auto indent"
 msgstr "Automatisk indragning"
 
-#: src/global.c:1370
+#: src/global.c:1383
 msgid "Cut to end"
 msgstr "Klipp ut till slutet"
 
-#: src/global.c:1372
+#: src/global.c:1385
 msgid "Long line wrapping"
 msgstr "Radbryt långa rader"
 
-#: src/global.c:1374
+#: src/global.c:1387
 msgid "Conversion of typed tabs to spaces"
 msgstr "Konvertering av inmatade tabulatorer till blanksteg"
 
-#: src/global.c:1376
+#: src/global.c:1389
 msgid "Backup files"
 msgstr "Säkerhetskopiera filer"
 
-#: src/global.c:1378
+#: src/global.c:1391
 msgid "Multiple file buffers"
 msgstr "Flera filbuffertar"
 
-#: src/global.c:1380
+#: src/global.c:1393
 msgid "Mouse support"
 msgstr "Musstöd"
 
-#: src/global.c:1382
+#: src/global.c:1395
 msgid "No conversion from DOS/Mac format"
 msgstr "Ingen konvertering från DOS/Mac-format"
 
-#: src/global.c:1384
+#: src/global.c:1397
 msgid "Suspension"
 msgstr "Suspendering"
 
-#: src/global.c:1386
+#: src/global.c:1399
 #, fuzzy
 msgid "Soft line wrapping"
 msgstr "Radbryt långa rader"
@@ -1271,11 +1281,11 @@ msgstr ""
 msgid "enable/disable"
 msgstr "aktivera/inaktivera"
 
-#: src/nano.c:586
+#: src/nano.c:587
 msgid "Key invalid in view mode"
 msgstr "Tangenten ogiltig i visningsläget"
 
-#: src/nano.c:694
+#: src/nano.c:695
 #, c-format
 msgid ""
 "\n"
@@ -1284,7 +1294,7 @@ msgstr ""
 "\n"
 "Bufferten skrevs till %s\n"
 
-#: src/nano.c:696
+#: src/nano.c:697
 #, c-format
 msgid ""
 "\n"
@@ -1293,7 +1303,7 @@ msgstr ""
 "\n"
 "Bufferten skrevs inte till %s: %s\n"
 
-#: src/nano.c:699
+#: src/nano.c:700
 #, c-format
 msgid ""
 "\n"
@@ -1302,11 +1312,11 @@ msgstr ""
 "\n"
 "Bufferten skrevs inte: %s\n"
 
-#: src/nano.c:722
+#: src/nano.c:723
 msgid "Window size is too small for nano...\n"
 msgstr "Fönsterstorleken är för liten för Nano...\n"
 
-#: src/nano.c:815
+#: src/nano.c:816
 #, c-format
 msgid ""
 "Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n"
@@ -1315,252 +1325,252 @@ msgstr ""
 "Användning: nano [FLAGGOR] [[+RAD,KOLUMN] FIL]...\n"
 "\n"
 
-#: src/nano.c:818
+#: src/nano.c:819
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
 msgstr "Flagga\t\tLång GNU flagga\t\tBetydelse\n"
 
-#: src/nano.c:820
+#: src/nano.c:821
 #, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Flagga\t\tBetydelse\n"
 
-#: src/nano.c:823
+#: src/nano.c:824
 msgid "Show this message"
 msgstr "Visa detta meddelande"
 
-#: src/nano.c:824
+#: src/nano.c:825
 msgid "+LINE,COLUMN"
 msgstr "+RAD,KOLUMN"
 
-#: src/nano.c:825
+#: src/nano.c:826
 msgid "Start at line LINE, column COLUMN"
 msgstr "Starta vid radnummer RAD, kolumn KOLUMN"
 
-#: src/nano.c:827
+#: src/nano.c:828
 msgid "Enable smart home key"
 msgstr "Aktivera smart hemtangent"
 
-#: src/nano.c:828
+#: src/nano.c:829
 msgid "Save backups of existing files"
 msgstr "Spara säkerhetskopior av befintliga filer"
 
-#: src/nano.c:829
+#: src/nano.c:830
 msgid "-C <dir>"
 msgstr "-C <kat>"
 
-#: src/nano.c:829
+#: src/nano.c:830
 msgid "--backupdir=<dir>"
 msgstr "--backupdir=<kat>"
 
-#: src/nano.c:830
+#: src/nano.c:831
 msgid "Directory for saving unique backup files"
 msgstr "Katalog för att spara unika säkerhetskopior"
 
-#: src/nano.c:833
+#: src/nano.c:834
 msgid "Use bold instead of reverse video text"
 msgstr "Använd fet stil istället för omvänd videotext"
 
-#: src/nano.c:836
+#: src/nano.c:837
 msgid "Convert typed tabs to spaces"
 msgstr "Convertera angivna tabulatorer till blanksteg"
 
-#: src/nano.c:839
+#: src/nano.c:840
 msgid "Enable multiple file buffers"
 msgstr "Använd flera filbuffertar"
 
-#: src/nano.c:844
+#: src/nano.c:845
 msgid "Log & read search/replace string history"
 msgstr "Logga och läs stränghistorik för sök/ersätt"
 
-#: src/nano.c:847
+#: src/nano.c:848
 msgid "Don't look at nanorc files"
 msgstr "Titta inte i nanorc-filer"
 
-#: src/nano.c:850
+#: src/nano.c:851
 msgid "Fix numeric keypad key confusion problem"
 msgstr "Ta hand om förvirringsproblemet med numeriska tangentbordet"
 
-#: src/nano.c:852
+#: src/nano.c:853
 msgid "Don't add newlines to the ends of files"
 msgstr "Lägg inte till nya rader på slutet av filer"
 
-#: src/nano.c:855
+#: src/nano.c:856
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Konvertera inte filer från DOS/Mac-format"
 
-#: src/nano.c:857
+#: src/nano.c:858
 msgid "Use one more line for editing"
 msgstr "Använd en rad till för redigering"
 
-#: src/nano.c:859
+#: src/nano.c:860
 msgid "-Q <str>"
 msgstr "-Q <str>"
 
-#: src/nano.c:859
+#: src/nano.c:860
 msgid "--quotestr=<str>"
 msgstr "--quotestr=<str>"
 
-#: src/nano.c:860
+#: src/nano.c:861
 msgid "Quoting string"
 msgstr "Citatsträng"
 
-#: src/nano.c:862
+#: src/nano.c:863
 msgid "Restricted mode"
 msgstr "Begränsat läge"
 
-#: src/nano.c:865
+#: src/nano.c:866
 msgid "Scroll by line instead of half-screen"
 msgstr ""
 
-#: src/nano.c:867
+#: src/nano.c:868
 msgid "-T <#cols>"
 msgstr "-T <kolumner>"
 
-#: src/nano.c:867
+#: src/nano.c:868
 msgid "--tabsize=<#cols>"
 msgstr "--tabsize=<kolumner>"
 
-#: src/nano.c:868
+#: src/nano.c:869
 msgid "Set width of a tab to #cols columns"
 msgstr "Ställ in bredden på ett tabbsteg till antal kolumner"
 
-#: src/nano.c:870
+#: src/nano.c:871
 msgid "Do quick statusbar blanking"
 msgstr "Gör en snabb rensning av statusraden"
 
-#: src/nano.c:873
+#: src/nano.c:874
 msgid "Print version information and exit"
 msgstr "Skriv ut versionsinformation och avsluta"
 
-#: src/nano.c:876
+#: src/nano.c:877
 msgid "Detect word boundaries more accurately"
 msgstr "Identifiera ordgränsen mer noggrant"
 
-#: src/nano.c:879
+#: src/nano.c:880
 msgid "-Y <str>"
 msgstr "-Y <str>"
 
-#: src/nano.c:879
+#: src/nano.c:880
 msgid "--syntax=<str>"
 msgstr "--syntax=<str>"
 
-#: src/nano.c:880
+#: src/nano.c:881
 msgid "Syntax definition to use for coloring"
 msgstr "Syntaxdefinition att använda för färger"
 
-#: src/nano.c:882
+#: src/nano.c:883
 msgid "Constantly show cursor position"
 msgstr "Visa markörposition hela tiden"
 
-#: src/nano.c:884
+#: src/nano.c:885
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Fixa förvirringsproblemet med Backspace/Delete"
 
-#: src/nano.c:887
+#: src/nano.c:888
 msgid "Automatically indent new lines"
 msgstr "Dra automatiskt in nya rader"
 
-#: src/nano.c:888
+#: src/nano.c:889
 msgid "Cut from cursor to end of line"
 msgstr "Klipp ut från markören till slutet på raden"
 
-#: src/nano.c:891
+#: src/nano.c:892
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Följ inte symboliska länkar, skriv över"
 
-#: src/nano.c:893
+#: src/nano.c:894
 msgid "Enable the use of the mouse"
 msgstr "Aktivera användning av musen"
 
-#: src/nano.c:896
+#: src/nano.c:897
 msgid "-o <dir>"
 msgstr "-o <kat>"
 
-#: src/nano.c:896
+#: src/nano.c:897
 msgid "--operatingdir=<dir>"
 msgstr "--operatingdir=<kat>"
 
-#: src/nano.c:897
+#: src/nano.c:898
 msgid "Set operating directory"
 msgstr "Ställ in arbetskatalog"
 
-#: src/nano.c:900
+#: src/nano.c:901
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Bevara XON (^Q)- och XOFF (^S)-tangenter"
 
-#: src/nano.c:902
+#: src/nano.c:903
 msgid "Silently ignore startup issues like rc file errors"
 msgstr ""
 
-#: src/nano.c:904
+#: src/nano.c:905
 msgid "-r <#cols>"
 msgstr "-r <kolumner>"
 
-#: src/nano.c:904
+#: src/nano.c:905
 msgid "--fill=<#cols>"
 msgstr "--fill=<kolumner>"
 
-#: src/nano.c:905
+#: src/nano.c:906
 msgid "Set wrapping point at column #cols"
 msgstr "Ställ in brytpunkt vid kolumnen \"kolumner\""
 
-#: src/nano.c:908
+#: src/nano.c:909
 msgid "-s <prog>"
 msgstr "-s <prog>"
 
-#: src/nano.c:908
+#: src/nano.c:909
 msgid "--speller=<prog>"
 msgstr "--speller=<prog>"
 
-#: src/nano.c:909
+#: src/nano.c:910
 msgid "Enable alternate speller"
 msgstr "Använd alternativ stavningskontroll"
 
-#: src/nano.c:912
+#: src/nano.c:913
 msgid "Auto save on exit, don't prompt"
 msgstr "Spara automatiskt vid avslut, fråga inte"
 
-#: src/nano.c:914
+#: src/nano.c:915
 msgid "Allow generic undo [EXPERIMENTAL]"
 msgstr ""
 
-#: src/nano.c:917
+#: src/nano.c:918
 msgid "View mode (read-only)"
 msgstr "Visningsläge (skrivskyddat)"
 
-#: src/nano.c:919
+#: src/nano.c:920
 msgid "Don't wrap long lines"
 msgstr "Radbryt inte långa rader"
 
-#: src/nano.c:921
+#: src/nano.c:922
 msgid "Don't show the two help lines"
 msgstr "Visa inte de två hjälpraderna"
 
-#: src/nano.c:922
+#: src/nano.c:923
 msgid "Enable suspension"
 msgstr "Använd suspendering"
 
-#: src/nano.c:923
+#: src/nano.c:924
 #, fuzzy
 msgid "Enable soft line wrapping"
 msgstr "Radbryt långa rader"
 
-#: src/nano.c:927
+#: src/nano.c:928
 msgid "(ignored, for Pico compatibility)"
 msgstr "(ignorerad för kompatibilitet med Pico)"
 
-#: src/nano.c:937
+#: src/nano.c:938
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano version %s (kompilerad %s, %s)\n"
 
-#: src/nano.c:942
+#: src/nano.c:943
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " E-post: nano@nano-editor.org\tHemsida: http://www.nano-editor.org/"
 
-#: src/nano.c:943
+#: src/nano.c:944
 #, c-format
 msgid ""
 "\n"
@@ -1569,59 +1579,59 @@ msgstr ""
 "\n"
 " Kompileringsflaggor:"
 
-#: src/nano.c:1021
+#: src/nano.c:1022
 msgid "Sorry, support for this function has been disabled"
 msgstr "Tyvärr, stöd för denna funktion har inaktiverats"
 
-#: src/nano.c:1043
+#: src/nano.c:1044
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Spara ändrad buffert (ATT SVARA \"Nej\" KOMMER ATT FÖRSTÖRA ÄNDRINGAR)? "
 
-#: src/nano.c:1085
+#: src/nano.c:1086
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr ""
 
-#: src/nano.c:1108
+#: src/nano.c:1109
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr ""
 
-#: src/nano.c:1176
+#: src/nano.c:1177
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Mottog SIGHUP eller SIGTERM\n"
 
-#: src/nano.c:1192
+#: src/nano.c:1193
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Använd \"fg\" för att återvända till nano.\n"
 
-#: src/nano.c:1372
+#: src/nano.c:1373
 msgid "enabled"
 msgstr "aktiverad"
 
-#: src/nano.c:1373
+#: src/nano.c:1374
 msgid "disabled"
 msgstr "inaktiverad"
 
-#: src/nano.c:1534 src/winio.c:1256
+#: src/nano.c:1535 src/winio.c:1256
 msgid "Unknown Command"
 msgstr "Okänt kommando"
 
-#: src/nano.c:1660
+#: src/nano.c:1661
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignorerades, mummel mummel"
 
-#: src/nano.c:1665
+#: src/nano.c:1666
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorerades, mummel mummel"
 
-#: src/nano.c:2195 src/rcfile.c:1099
+#: src/nano.c:2196 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Begärd tabulatorstorlek \"%s\" är ogiltig"
 
-#: src/nano.c:2254 src/rcfile.c:1024
+#: src/nano.c:2255 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Begärd fyllningsstorlek \"%s\" är ogiltig"
@@ -2050,40 +2060,40 @@ msgstr "KAT:"
 msgid "File:"
 msgstr "Fil:"
 
-#: src/winio.c:3371
+#: src/winio.c:3360
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "rad %ld/%ld (%d%%), kolumn %lu/%lu (%d%%), tecken %lu/%lu (%d%%)"
 
-#: src/winio.c:3503
+#: src/winio.c:3492
 msgid "The nano text editor"
 msgstr "Textredigeraren nano"
 
-#: src/winio.c:3504
+#: src/winio.c:3493
 msgid "version"
 msgstr "version"
 
-#: src/winio.c:3505
+#: src/winio.c:3494
 msgid "Brought to you by:"
 msgstr "Presenteras av:"
 
-#: src/winio.c:3506
+#: src/winio.c:3495
 msgid "Special thanks to:"
 msgstr "Ytterligare tack till:"
 
-#: src/winio.c:3507
+#: src/winio.c:3496
 msgid "The Free Software Foundation"
 msgstr "Free Software Foundation"
 
-#: src/winio.c:3508
+#: src/winio.c:3497
 msgid "For ncurses:"
 msgstr "För ncurses:"
 
-#: src/winio.c:3509
+#: src/winio.c:3498
 msgid "and anyone else we forgot..."
 msgstr "och alla andra som vi har glömt..."
 
-#: src/winio.c:3510
+#: src/winio.c:3499
 msgid "Thank you for using nano!"
 msgstr "Tack för att du använder nano!"
 

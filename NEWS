@@ -1,3 +1,15 @@
+2010.01.17 - GNU nano 2.2.2 is released for you, you, you.  This
+		release includes fixes for: crashed when writing
+		backup files in certain conditions, improper
+		screen centering when moving up/down in various
+		combination of smooth scrolling and soft wrapping modes,
+		a search crash on the armel arch, and issues with
+		lots of keybinding customizations causing crashing
+		particularly on FreeBSD.  Also included are better
+		help menu entries for forward/back in the file browser,
+		some man page tweaks and one assert fix.   As always,
+		share and enjoy!
+
 2009.12.12 - GNU nano 2.2.1 "DLR strikes back" is open for business.
 		This release fixes many bugs, including: missing
 		keybindings for page up/down and GotoDir in the browser, 
