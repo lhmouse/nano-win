@@ -1,3 +1,8 @@
+2010-01-28 Chris Allegretta <chrisa@asty.org>
+	* move.c (do_page_up, do_page_down): Fix for smooth mode not preserving cusor 
+	  position.  Part one of fix for Savannah bug 21178 by Mike Frysinger.
+
+GNU nano 2.2.2 - 2010.01.17
 2010-01-17 Chris Allegretta <chrisa@asty.org>
 	* nano.c (main), prompt.c (do_statusbar_input): Handle problems with an unmapped 
 	  function due to key rebinding, fixes crashes on FreeBSD repoted by Eitan 

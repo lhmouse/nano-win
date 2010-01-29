@@ -93,7 +93,6 @@ openfile->current->lineno, strlenpt(openfile->current->data));
 #endif
 
     /* Scroll the edit window up a page. */
-    openfile->current_y = 0;
     edit_update(NONE);
 }
 
@@ -135,7 +134,6 @@ void do_page_down(void)
 	openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    openfile->current_y = 0;
     edit_update(NONE);
 }
 
