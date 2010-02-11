@@ -1,3 +1,4 @@
+GNU nano 2.2.3 - 2010.02.11
 2010-01-28 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Fix for smooth mode not preserving cusor 
 	  position.  Part one of fix for Savannah bug 21178 by Mike Frysinger.

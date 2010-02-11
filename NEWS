@@ -1,3 +1,13 @@
+2010.02.11 - GNU nano 2.2.3 "fumbling toward stability" is released.
+		This release contains a fix for only one bug, but a 
+		rather irritating one: when paging up/down with smooth 
+		scrolling, the cursor position was not being preserved 
+		due to a bug in 2.2.2. With such a targeted fix 
+		like this what could POSSIBLY go WRONG?  Hahaha.
+		Enjoy and if you find new bugs, as always please
+		use Savannah's bug tracker.
+		http://savannah.gnu.org/bugs/?func=additem&group=nano
+
 2010.01.17 - GNU nano 2.2.2 is released for you, you, you.  This
 		release includes fixes for: crashed when writing
 		backup files in certain conditions, improper
