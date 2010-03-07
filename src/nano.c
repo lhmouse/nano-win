@@ -1263,8 +1263,10 @@ RETSIGTYPE handle_sigwinch(int signal)
      * otherwise.  However, COLS and LINES are curses global variables,
      * and in some cases curses has already updated them.  But not in
      * all cases.  Argh. */
+#ifdef REDEFINIG_MACROS_OK
     COLS = win.ws_col;
     LINES = win.ws_row;
+#endif
 
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)

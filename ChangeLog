@@ -1,3 +1,11 @@
+2010-03-07 Chris Allegretta <chrisa@asty.org>
+	* configure.ac, nano.c (handle_sigwinch): Create check for whether LINES and
+	  COLS can safely be redefined.  Fixes compilation issues with cygwin, and likely
+	  with newer versions of ncurses, fixes Savannah bug 28984 repoted by Andy Koppe
+          and Eric Oliver via mailing list.
+	* winio.c (get_mouseinput) - fix stray semicolon in code, also reported in
+	  bug 28984.
+
 GNU nano 2.2.3 - 2010.02.11
 2010-01-28 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Fix for smooth mode not preserving cusor 
