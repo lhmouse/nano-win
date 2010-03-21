@@ -1067,6 +1067,8 @@ void do_exit(void)
 
 static struct sigaction pager_oldaction, pager_newaction;  /* Original and temporary handlers for SIGINT. */
 static bool pager_sig_failed = FALSE; /* Did sigaction() fail without changing the signal handlers? */
+static bool pager_input_aborted = FALSE; /* Did someone invoke the pager and abort it via ^C? */
+
 
 /* Things which need to be run regardless of whether
    we finished the stdin pipe correctly or not */
@@ -1087,7 +1089,8 @@ void finish_stdin_pager(void)
 
     dup2(ttystdin,0);
     close(ttystdin);
-    tcgetattr(0, &oldterm);
+    if (!pager_input_aborted)
+	tcgetattr(0, &oldterm);
     if (!pager_sig_failed && sigaction(SIGINT, &pager_oldaction, NULL) == -1)
         nperror("sigaction");
     terminal_init();
@@ -1099,13 +1102,15 @@ void finish_stdin_pager(void)
 RETSIGTYPE cancel_stdin_pager(int signal)
 {
     /* Currently do nothing, just handle the intr silently */
+    pager_input_aborted = TRUE;
 }
 
 /* Let nano read stdin for the first file at least */
 void stdin_pager(void)
 {
     endwin();
-    tcsetattr(0, TCSANOW, &oldterm);
+    if (!pager_input_aborted)
+	tcsetattr(0, TCSANOW, &oldterm);
     fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
 
     /* Set things up so that Ctrl-C will cancel the new process. */
@@ -1125,7 +1130,7 @@ void stdin_pager(void)
 	    nperror("sigaction");
 	}
     }
- 
+
     open_buffer("", FALSE);
     finish_stdin_pager();
 }

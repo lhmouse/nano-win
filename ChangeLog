@@ -1,3 +1,8 @@
+2010-03-21 Chris Allegretta <chrisa@asty.org>
+	* nano.c (page_stdin et al): Don't attempt to reset/reopen the terminal
+	  settings when reading stdin if it was aborted with SIGINT.  May fix Savannah
+	  bug 29114 reported by  Mike Frysinger.
+
 2010-03-21 Mike Frysinger <vapier@gentoo.org>
 	* doc/syntax/c.nanorc: Add additional support for #include_next and #pragma
 
