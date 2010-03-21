@@ -1,3 +1,6 @@
+2010-03-21 Mike Frysinger <vapier@gentoo.org>
+	* doc/syntax/c.nanorc: Add additional support for #include_next and #pragma
+
 2010-03-21 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down()): Explicitly set current_y to 0 when paging 
 	  up when not in smooth scroll mode, as previous fixes would otherwise cause 

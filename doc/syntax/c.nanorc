@@ -8,7 +8,7 @@ color green "\<(class|namespace|template|public|protected|private|typename|this|
 color brightyellow "\<(for|if|while|do|else|case|default|switch)\>"
 color brightyellow "\<(try|throw|catch|operator|new|delete)\>"
 color magenta "\<(goto|continue|break|return)\>"
-color brightcyan "^[[:space:]]*#[[:space:]]*(define|include|(un|ifn?)def|endif|el(if|se)|if|warning|error)"
+color brightcyan "^[[:space:]]*#[[:space:]]*(define|include(_next)?|(un|ifn?)def|endif|el(if|se)|if|warning|error|pragma)"
 color brightmagenta "'([^'\]|(\\["'abfnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
 ##
 ## GCC builtins
