@@ -68,8 +68,7 @@ void do_page_up(void)
     if (!ISSET(SMOOTH_SCROLL)) {
 #endif
 	openfile->current = openfile->edittop;
-	openfile->current_y = 0;
-	openfile->placewewant = 0;
+	openfile->placewewant = openfile->current_y = 0;
 #ifndef NANO_TINY
     }
 #endif
@@ -117,7 +116,7 @@ void do_page_down(void)
     if (!ISSET(SMOOTH_SCROLL)) {
 #endif
 	openfile->current = openfile->edittop;
-	openfile->placewewant = 0;
+	openfile->placewewant = openfile->current_y = 0;
 #ifndef NANO_TINY
     }
 #endif
