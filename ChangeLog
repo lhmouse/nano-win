@@ -1,3 +1,8 @@
+2010-03-21 Chris Allegretta <chrisa@asty.org>
+	* move.c (do_page_up): Explicitly set current_y to 0 when paging up when not in
+	  smooth scroll mode, as previous fixes would otherwise cause the cursor to not
+	  really be moved to the stop of the screen.
+
 2010-03-07 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, nano.c (handle_sigwinch): Create check for whether LINES and
 	  COLS can safely be redefined.  Fixes compilation issues with cygwin, and likely
