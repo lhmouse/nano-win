@@ -2126,7 +2126,8 @@ bool do_writeout(bool exiting)
 		}
 #ifndef NANO_TINY
 
-		if (name_exists && openfile->current_stat && openfile->current_stat->st_mtime < st.st_mtime) {
+		if (name_exists && openfile->current_stat && openfile->current_stat->st_mtime < st.st_mtime ||
+                    openfile->current_stat->st_dev != st.st_dev || openfile->current_stat->st_ino != st.st_ino) {
 		    i = do_yesno_prompt(FALSE,
 			_("File was modified since you opened it, continue saving ? "));
 		    if (i == 0 || i == -1)

@@ -1,3 +1,9 @@
+2010-04-02 Chris Allegretta <chrisa@asty.org>
+	* files.c (do_writeout): Expand modification check to include both the
+	  original file's device ID and inode number as reasons to warn the 
+          user that the file has been modified.  Based on security article on nano
+          by Dan Rosenberg.
+
 2010-03-21 Chris Allegretta <chrisa@asty.org>
 	* nano.c (page_stdin et al): Don't attempt to reset/reopen the terminal
 	  settings when reading stdin if it was aborted with SIGINT.  May fix Savannah
