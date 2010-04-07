@@ -1519,6 +1519,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	char *backupname;
 	struct utimbuf filetime;
 	int copy_status;
+	struct stat backupst;
 
 	/* Save the original file's access and modification times. */
 	filetime.actime = openfile->current_stat->st_atime;
@@ -1587,6 +1588,15 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    backupname = charalloc(strlen(realname) + 2);
 	    sprintf(backupname, "%s~", realname);
 	}
+
+	if (stat(backupname, &backupst) != -1 &&
+	    (backupst.st_uid != st.st_uid)) {
+	    statusbar(_("Error writing backup file %s: Permission mismatch"), backupname,
+		strerror(errno));
+	    free(backupname);
+	    goto cleanup_and_exit;
+	}
+
 
 	/* Open the destination backup file.  Before we write to it, we
 	 * set its permissions, so no unauthorized person can read it as
