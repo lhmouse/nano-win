@@ -1,3 +1,7 @@
+2010-04-07 Chris Allegretta <chrisa@asty.org>
+	* doc/man/nano.1,nanorc.5: Add warnings about using backup
+	  mode as root due to the Dan Rosenberg security analysis.
+ 
 2010-04-02 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Expand modification check to include both the
 	  original file's device ID and inode number as reasons to warn the 
