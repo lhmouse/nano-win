@@ -1591,7 +1591,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	if (stat(backupname, &backupst) != -1 &&
 	    (backupst.st_uid != st.st_uid)) {
-	    statusbar(_("Error writing backup file %s: Permission mismatch"), backupname,
+	    statusbar(_("Error writing backup file %s: File owner mismatch"), backupname,
 		strerror(errno));
 	    free(backupname);
 	    goto cleanup_and_exit;
