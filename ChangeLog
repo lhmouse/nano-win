@@ -1,3 +1,7 @@
+2010-04-02 Chris Allegretta <chrisa@asty.org>
+	* files.c (do_writeout): Previous fixes should not cause a crash 
+	  when saving a new file.  Discovered by Mike Frysinger <vapier@gentoo.org>.
+
 2010-04-07 Chris Allegretta <chrisa@asty.org>
 	* doc/man/nano.1,nanorc.5: Add warnings about using backup
 	  mode as root due to the Dan Rosenberg security analysis.
