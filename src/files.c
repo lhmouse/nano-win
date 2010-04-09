@@ -1515,11 +1515,11 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append !=
 	OVERWRITE || openfile->mark_set) ||
 	openfile->current_stat->st_mtime == st.st_mtime)) {
+	int backup_fd;
 	FILE *backup_file;
 	char *backupname;
 	struct utimbuf filetime;
 	int copy_status;
-	struct stat backupst;
 
 	/* Save the original file's access and modification times. */
 	filetime.actime = openfile->current_stat->st_atime;
@@ -1589,27 +1589,36 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    sprintf(backupname, "%s~", realname);
 	}
 
-	if (stat(backupname, &backupst) != -1 &&
-	    (backupst.st_uid != st.st_uid)) {
-	    statusbar(_("Error writing backup file %s: File owner mismatch"), backupname,
-		strerror(errno));
+	/* First, unlink any existing backups.  Next, open the backup
+	   file with O_CREAT and O_EXCL.  If it succeeds, we
+	   have a file descriptor to a new backup file. */
+	if (unlink(backupname) < 0 && errno != ENOENT) {
+	    statusbar(_("Error writing backup file %s: %s"), backupname,
+			strerror(errno));
 	    free(backupname);
 	    goto cleanup_and_exit;
 	}
 
+	backup_fd = open(backupname, O_WRONLY | O_CREAT | O_APPEND,
+		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	/* Now we've got a safe file stream.  If the previous open()
+	   call failed, this will return NULL. */
+	backup_file = fdopen(backup_fd, "wb");
 
-	/* Open the destination backup file.  Before we write to it, we
-	 * set its permissions, so no unauthorized person can read it as
-	 * we write. */
-	backup_file = fopen(backupname, "wb");
+	if (backup_fd < 0 || backup_file == NULL) {
+	    statusbar(_("Error writing backup file %s: %s"), backupname,
+			strerror(errno));
+	    free(backupname);
+	    goto cleanup_and_exit;
+	}
 
-	if (backup_file == NULL || chmod(backupname,
-		openfile->current_stat->st_mode) == -1) {
+	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 ||
+	    fchown(backup_fd, openfile->current_stat->st_uid,
+		   openfile->current_stat->st_gid) == -1 ) {
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);
-	    if (backup_file != NULL)
-		fclose(backup_file);
+	    fclose(backup_file);
 	    /* If we can't write to the backup, DONT go on, since
 	       whatever caused the backup file to fail (e.g. disk
 	       full may well cause the real file write to fail, which
@@ -1625,10 +1634,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	copy_status = copy_file(f, backup_file);
 
 	/* And set its metadata. */
-	if (copy_status != 0 || chown(backupname,
-		openfile->current_stat->st_uid,
-		openfile->current_stat->st_gid) == -1 ||
-		utime(backupname, &filetime) == -1) {
+	if (copy_status != 0  || utime(backupname, &filetime) == -1) {
 	    if (copy_status == -1) {
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));

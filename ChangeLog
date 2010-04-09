@@ -1,4 +1,8 @@
-2010-04-02 Chris Allegretta <chrisa@asty.org>
+2010-04-09 Chris Allegretta <chrisa@asty.org>
+	* files.c (do_writeout): Better security fixes for backup file writing, 
+	  mangled from submission by Dan Rosenberg <dan.j.rosenberg at gmail>.
+
+2010-04-08 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Previous fixes should not cause a crash 
 	  when saving a new file.  Discovered by Mike Frysinger <vapier@gentoo.org>.
 
