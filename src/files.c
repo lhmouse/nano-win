@@ -1599,7 +1599,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
-	backup_fd = open(backupname, O_WRONLY | O_CREAT | O_APPEND,
+	backup_fd = open(backupname, O_WRONLY | O_CREAT | O_EXCL | O_APPEND,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	/* Now we've got a safe file stream.  If the previous open()
 	   call failed, this will return NULL. */
