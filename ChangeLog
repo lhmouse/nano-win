@@ -1,6 +1,11 @@
-2010-04-09 Chris Allegretta <chrisa@asty.org>
+2010-04-14 Chris Allegretta <chrisa@asty.org>
 	* text.c (do_alt_speller): Skip invoking the alt speller if the file size 
 	  is 0 bytes.  Fixes Savannah bug 29393 reported by Mike Frysinger.
+	* files.c (wirte_file): Don't set current_stat when tmp == TRUE, check
+	  whether current_stat is set when trying to use it, and don't do the
+	  modification check if the filename changed, since we have no way
+	  of knowing about it in that case.  Fixes Savannah bug 29392, reported
+	  by Mike Frysinger.
 
 2010-04-13 Felipe Bugno <necron@bol.com.br>
 	* doc/syntax/cmake.nanorc: Added cmake syntax highlighting file.

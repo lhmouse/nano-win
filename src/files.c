@@ -1501,11 +1501,11 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 #ifndef NANO_TINY
     /* if we have not stat()d this file before (say, the user just
-     * specified it interactively), use the info we just got from
-     * stat()ing or else we will chase null pointers when we do
+     * specified it interactively), stat and save the value
+     * or else we will chase null pointers when we do
      * modtime checks, preserve file times, etc. during backup */
-    if (openfile->current_stat == NULL && realexists)
-	openfile->current_stat = &st;
+    if (openfile->current_stat == NULL && !tmp && realexists)
+	stat(realname, openfile->current_stat);
 
     /* We backup only if the backup toggle is set, the file isn't
      * temporary, and the file already exists.  Furthermore, if we
@@ -1513,8 +1513,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * only if the file has not been modified by someone else since nano
      * opened it. */
     if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append !=
-	OVERWRITE || openfile->mark_set) ||
-	openfile->current_stat->st_mtime == st.st_mtime)) {
+	OVERWRITE || openfile->mark_set) || (openfile->current_stat &&
+	openfile->current_stat->st_mtime == st.st_mtime))) {
 	int backup_fd;
 	FILE *backup_file;
 	char *backupname;
@@ -2141,8 +2141,9 @@ bool do_writeout(bool exiting)
 		    }
 		}
 #ifndef NANO_TINY
-
-		if (name_exists && openfile->current_stat && (openfile->current_stat->st_mtime < st.st_mtime ||
+		/* Complain if the file exists, the name hasn't changed, and the
+		    stat information we had before does not match what we have now */
+		else if (name_exists && openfile->current_stat && (openfile->current_stat->st_mtime < st.st_mtime ||
                     openfile->current_stat->st_dev != st.st_dev || openfile->current_stat->st_ino != st.st_ino)) {
 		    i = do_yesno_prompt(FALSE,
 			_("File was modified since you opened it, continue saving ? "));
