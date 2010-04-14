@@ -5,14 +5,15 @@
 	  whether current_stat is set when trying to use it, and don't do the
 	  modification check if the filename changed, since we have no way
 	  of knowing about it in that case.  Fixes Savannah bug 29392, reported
-	  by Mike Frysinger.
+	  by Mike Frysinger.  [CVE-2010-1160]
 
 2010-04-13 Felipe Bugno <necron@bol.com.br>
 	* doc/syntax/cmake.nanorc: Added cmake syntax highlighting file.
 
 2010-04-09 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Better security fixes for backup file writing, 
-	  mangled from submission by Dan Rosenberg <dan.j.rosenberg at gmail>.
+	  mangled from submission by Dan Rosenberg <dan.j.rosenberg at gmail> 
+          [CVE-2010-1161]
 
 2010-04-08 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Previous fixes should not cause a crash 
@@ -27,7 +28,8 @@
 	  original file's device ID and inode number as reasons to warn the 
           user that the file has been modified.  Also abort on writing a backup
 	  file when its owner doesn't match the edited file. Based on security 
-	  analysis on nano by Dan Rosenberg.
+	  analysis on nano by Dan Rosenberg. [CVE-2010-1160]
+
 
 2010-03-21 Chris Allegretta <chrisa@asty.org>
 	* nano.c (page_stdin et al): Don't attempt to reset/reopen the terminal
