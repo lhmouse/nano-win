@@ -2752,6 +2752,11 @@ const char *do_alt_speller(char *tempfile_name)
     }
 #endif
 
+    if (openfile->totsize == 0) {
+	statusbar(_("Finished checking spelling"));
+	return NULL;
+    }
+
     endwin();
 
     /* Set up an argument list to pass execvp(). */
