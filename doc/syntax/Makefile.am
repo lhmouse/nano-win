@@ -1,5 +1,6 @@
 pkgdata_DATA =	asm.nanorc \
 		c.nanorc \
+		cmake.nanorc \
 		groff.nanorc \
 		html.nanorc \
 		java.nanorc \

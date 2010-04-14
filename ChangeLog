@@ -1,3 +1,6 @@
+2010-04-13 Felipe Bugno <necron@bol.com.br>
+	* doc/syntax/cmake.nanorc: Added cmake syntax highlighting file.
+
 2010-04-09 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Better security fixes for backup file writing, 
 	  mangled from submission by Dan Rosenberg <dan.j.rosenberg at gmail>.
