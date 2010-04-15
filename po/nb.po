@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 22:45-0500\n"
+"POT-Creation-Date: 2010-04-14 23:38-0400\n"
 "PO-Revision-Date: 2006-10-16 23:09+0200\n"
 "Last-Translator: Geir Helland <pjallabais@users.sourceforge.net>\n"
 "Language-Team: Norwegian Bokmaal <i18n-nb@lister.ping.uio.no>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Gå til katalog"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2008
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -34,8 +34,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Kan ikke gå utenfor %s i begrenset modus"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1532 src/files.c:1623 src/files.c:1671
-#: src/files.c:1692 src/files.c:1815 src/files.c:2649 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
+#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -232,87 +232,88 @@ msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Kan ikke prependere eller appendere til en symbolsk lenke med --nofollow satt"
 
-#: src/files.c:1573 src/files.c:1598 src/files.c:1627
+#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
+#: src/files.c:1643
 #, fuzzy, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Feil ved skriving til midlertidlig fil: %s"
 
-#: src/files.c:1574 src/nano.c:701
+#: src/files.c:1575 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "For mange sikkerhetskopier?"
 
-#: src/files.c:1647 src/files.c:1704 src/files.c:1723 src/files.c:1735
-#: src/files.c:1759 src/files.c:1777 src/files.c:1787 src/files.c:1823
-#: src/files.c:1828 src/files.c:2722 src/files.c:2731
+#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
+#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
+#: src/files.c:1844 src/files.c:2740 src/files.c:2749
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Skrivefeil %s: %s"
 
-#: src/files.c:1681 src/text.c:2919 src/text.c:2931
+#: src/files.c:1697 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Feil ved skriving til midlertidlig fil: %s"
 
-#: src/files.c:1860
+#: src/files.c:1876
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Skrev %lu linje"
 msgstr[1] "Skrev %lu linjer"
 
-#: src/files.c:1964
+#: src/files.c:1980
 msgid " [DOS Format]"
 msgstr " [DOS Format]"
 
-#: src/files.c:1965
+#: src/files.c:1981
 msgid " [Mac Format]"
 msgstr " {Mac Format]"
 
-#: src/files.c:1967
+#: src/files.c:1983
 msgid " [Backup]"
 msgstr " [Sikkerhetskopi]"
 
-#: src/files.c:1975
+#: src/files.c:1991
 msgid "Prepend Selection to File"
 msgstr "Legg til valgt område først i fil"
 
-#: src/files.c:1976
+#: src/files.c:1992
 msgid "Append Selection to File"
 msgstr "Legg til valgt område sist i fil"
 
-#: src/files.c:1977
+#: src/files.c:1993
 msgid "Write Selection to File"
 msgstr "Skriv valgt område til fil"
 
-#: src/files.c:1980
+#: src/files.c:1996
 msgid "File Name to Prepend to"
 msgstr "Filnavn det skal legges til på slutten av"
 
-#: src/files.c:1981
+#: src/files.c:1997
 msgid "File Name to Append to"
 msgstr "Filnavn det skal legges til først i"
 
-#: src/files.c:1982
+#: src/files.c:1998
 msgid "File Name to Write"
 msgstr "Filnavn som skal skrives til"
 
-#: src/files.c:2113
+#: src/files.c:2129
 msgid "File exists, OVERWRITE ? "
 msgstr "Filen finnes, SKRIVE OVER ? "
 
-#: src/files.c:2122
+#: src/files.c:2138
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Lagre filen under et ANNET NAVN ? "
 
-#: src/files.c:2131
+#: src/files.c:2149
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2569
+#: src/files.c:2587
 msgid "(more)"
 msgstr "(mer)"
 
-#: src/files.c:2652 src/rcfile.c:1219
+#: src/files.c:2670 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -881,7 +882,7 @@ msgstr "Neste fil"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:862 src/text.c:3035
+#: src/global.c:862 src/text.c:3040
 msgid "Verbatim Input"
 msgstr "Legg inn ord for ord"
 
@@ -1581,50 +1582,50 @@ msgstr "Beklager, støtte for denne funksjonen er deaktivert"
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Lagre endret buffer (\"No\" VIL MISTE ENDRINGENE) ? "
 
-#: src/nano.c:1086
+#: src/nano.c:1088
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr ""
 
-#: src/nano.c:1109
+#: src/nano.c:1114
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr ""
 
-#: src/nano.c:1177
+#: src/nano.c:1182
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Mottok SIGHUP eller SIGTERM\n"
 
-#: src/nano.c:1193
+#: src/nano.c:1198
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Bruk \"fg\" for å returnere til nano\n"
 
-#: src/nano.c:1373
+#: src/nano.c:1380
 msgid "enabled"
 msgstr "på"
 
-#: src/nano.c:1374
+#: src/nano.c:1381
 msgid "disabled"
 msgstr "av"
 
-#: src/nano.c:1535 src/winio.c:1256
+#: src/nano.c:1542 src/winio.c:1256
 msgid "Unknown Command"
 msgstr "Ukjent kommando"
 
-#: src/nano.c:1661
+#: src/nano.c:1668
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignorert, mumle mumle."
 
-#: src/nano.c:1666
+#: src/nano.c:1673
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorert, mumle mumle."
 
-#: src/nano.c:2196 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Angitt tabulatorstørrels \"%s\" er ugyldig"
 
-#: src/nano.c:2255 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Foreslått fyllbredden \"%s\" er ugyldig"
@@ -1951,7 +1952,7 @@ msgstr ""
 msgid "Could not pipe"
 msgstr "Kunne ikke pipe"
 
-#: src/text.c:793 src/text.c:2636 src/text.c:2783
+#: src/text.c:793 src/text.c:2636 src/text.c:2788
 msgid "Could not fork"
 msgstr "Kunne ikke forke"
 
@@ -2000,31 +2001,31 @@ msgstr "Feil ved start av \"sort -f\""
 msgid "Error invoking \"uniq\""
 msgstr "Feil ved start av \"uniq\""
 
-#: src/text.c:2810
+#: src/text.c:2756 src/text.c:2960
+msgid "Finished checking spelling"
+msgstr "Stavekontroll fullført"
+
+#: src/text.c:2815
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Feil ved start av \"%s\""
 
-#: src/text.c:2950
+#: src/text.c:2955
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Stavekontroll feilet: %s"
 
-#: src/text.c:2952
+#: src/text.c:2957
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Stavekontroll feilet: %s: %s"
 
-#: src/text.c:2955
-msgid "Finished checking spelling"
-msgstr "Stavekontroll fullført"
-
-#: src/text.c:3020
+#: src/text.c:3025
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sOrd: %lu Linjer: %ld Tegn: %lu"
 
-#: src/text.c:3021
+#: src/text.c:3026
 msgid "In Selection:  "
 msgstr "I seksjon:  "
 

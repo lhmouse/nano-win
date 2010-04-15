@@ -1,3 +1,22 @@
+2010.04.15 - GNU nano 2.2.4 is nobody's fool.  First and foremost,
+		this relase includes some security fixes due to
+		an assessment of nano's vulnerability to symlink attacks
+		on open files.  The CVEs fixed with this release are
+		CVE-2010-1160 and CVE-2010-1161.  Also included are fixes
+		for various crash modes when using the spell checker
+		on new files in multibuffer mode (surely you've used
+		that combination recently? No?) as well as a fixing
+		the 'file was modified' message when saving to a 
+		new filename (since how would nano know?).  And
+		the list would not be complete without our 
+		third-times-the-charm fixes to page up/down due to
+		the soft wrapping code.  The lone new feature 
+		included is a new syntax higlighting definition for 
+		cmake-related files.  Please do consider upgrading to
+		this release if still using the 2.0 series since
+		fixes for that version are still forthcoming.
+
+
 2010.02.11 - GNU nano 2.2.3 "fumbling toward stability" is released.
 		This release contains a fix for only one bug, but a 
 		rather irritating one: when paging up/down with smooth 

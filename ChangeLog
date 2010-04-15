@@ -1,3 +1,4 @@
+GNU nano 2.2.4 - 2010.04.15
 2010-04-07 Chris Allegretta <chrisa@asty.org>
 	* doc/man/nano.1,nanorc.5: Remove the backup file warnings now
           that a sufficient security fix exists for the backup file code.

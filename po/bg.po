@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 22:45-0500\n"
+"POT-Creation-Date: 2010-04-14 23:38-0400\n"
 "PO-Revision-Date: 2006-08-25 00:56+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Отиване в директория"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2008
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -36,8 +36,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Не може да се излезе от %s в ограничен режим"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1532 src/files.c:1623 src/files.c:1671
-#: src/files.c:1692 src/files.c:1815 src/files.c:2649 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
+#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -233,87 +233,88 @@ msgstr "Не може да се запише извън %s"
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "Не може да се добавя нищо към символна връзка, настроена с --nofollow"
 
-#: src/files.c:1573 src/files.c:1598 src/files.c:1627
+#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
+#: src/files.c:1643
 #, fuzzy, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Грешка при записа на временен файл: %s"
 
-#: src/files.c:1574 src/nano.c:701
+#: src/files.c:1575 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Твърде много резервни копия?"
 
-#: src/files.c:1647 src/files.c:1704 src/files.c:1723 src/files.c:1735
-#: src/files.c:1759 src/files.c:1777 src/files.c:1787 src/files.c:1823
-#: src/files.c:1828 src/files.c:2722 src/files.c:2731
+#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
+#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
+#: src/files.c:1844 src/files.c:2740 src/files.c:2749
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Грешка при запис на %s: %s"
 
-#: src/files.c:1681 src/text.c:2919 src/text.c:2931
+#: src/files.c:1697 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Грешка при записа на временен файл: %s"
 
-#: src/files.c:1860
+#: src/files.c:1876
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Запазен е %lu ред"
 msgstr[1] "Запазени са %lu реда"
 
-#: src/files.c:1964
+#: src/files.c:1980
 msgid " [DOS Format]"
 msgstr " [DOS формат]"
 
-#: src/files.c:1965
+#: src/files.c:1981
 msgid " [Mac Format]"
 msgstr " [Mac формат]"
 
-#: src/files.c:1967
+#: src/files.c:1983
 msgid " [Backup]"
 msgstr " [Резервно копие]"
 
-#: src/files.c:1975
+#: src/files.c:1991
 msgid "Prepend Selection to File"
 msgstr "Прикрепяне на избрания текст в началото на файл"
 
-#: src/files.c:1976
+#: src/files.c:1992
 msgid "Append Selection to File"
 msgstr "Прикрепяне на избрания текст в края на файл"
 
-#: src/files.c:1977
+#: src/files.c:1993
 msgid "Write Selection to File"
 msgstr "Запазване на избрания текст във файл"
 
-#: src/files.c:1980
+#: src/files.c:1996
 msgid "File Name to Prepend to"
 msgstr "Име на файла за прикрепяне в началото му"
 
-#: src/files.c:1981
+#: src/files.c:1997
 msgid "File Name to Append to"
 msgstr "Име на файла за прикрепяне в края му"
 
-#: src/files.c:1982
+#: src/files.c:1998
 msgid "File Name to Write"
 msgstr "Име на файл за запазване"
 
-#: src/files.c:2113
+#: src/files.c:2129
 msgid "File exists, OVERWRITE ? "
 msgstr "Файлът съществува, ПРЕЗАПИСВАНЕ? "
 
-#: src/files.c:2122
+#: src/files.c:2138
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Запазване под РАЗЛИЧНО ИМЕ? "
 
-#: src/files.c:2131
+#: src/files.c:2149
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2569
+#: src/files.c:2587
 msgid "(more)"
 msgstr "(повече)"
 
-#: src/files.c:2652 src/rcfile.c:1219
+#: src/files.c:2670 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -882,7 +883,7 @@ msgstr "Следващ файл"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:862 src/text.c:3035
+#: src/global.c:862 src/text.c:3040
 msgid "Verbatim Input"
 msgstr "Дословен вход"
 
@@ -1586,50 +1587,50 @@ msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Запазване на променения буфер? (ПРИ ОТГОВОР „Не“ ПРОМЕНИТЕ ЩЕ СЕ ЗАГУБЯТ)"
 
-#: src/nano.c:1086
+#: src/nano.c:1088
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr ""
 
-#: src/nano.c:1109
+#: src/nano.c:1114
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr ""
 
-#: src/nano.c:1177
+#: src/nano.c:1182
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Получи се SIGHUP или SIGTERM\n"
 
-#: src/nano.c:1193
+#: src/nano.c:1198
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Използвайте „fg“, за да се върнете в nano.\n"
 
-#: src/nano.c:1373
+#: src/nano.c:1380
 msgid "enabled"
 msgstr "активирано"
 
-#: src/nano.c:1374
+#: src/nano.c:1381
 msgid "disabled"
 msgstr "деактивирано"
 
-#: src/nano.c:1535 src/winio.c:1256
+#: src/nano.c:1542 src/winio.c:1256
 msgid "Unknown Command"
 msgstr "Неизвестна команда"
 
-#: src/nano.c:1661
+#: src/nano.c:1668
 msgid "XON ignored, mumble mumble"
 msgstr "„XON“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:1666
+#: src/nano.c:1673
 msgid "XOFF ignored, mumble mumble"
 msgstr "„XOFF“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:2196 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Поисканият размер на табулация „%s“ е неправилен"
 
-#: src/nano.c:2255 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Поисканият размер „%s“ за максимална дължина на редове е неправилен"
@@ -1956,7 +1957,7 @@ msgstr ""
 msgid "Could not pipe"
 msgstr "Неуспех при pipe"
 
-#: src/text.c:793 src/text.c:2636 src/text.c:2783
+#: src/text.c:793 src/text.c:2636 src/text.c:2788
 msgid "Could not fork"
 msgstr "Неуспех при fork"
 
@@ -2005,31 +2006,31 @@ msgstr "Грешка при извикване на „sort -f“"
 msgid "Error invoking \"uniq\""
 msgstr "Грешка при извикване на „uniq“"
 
-#: src/text.c:2810
+#: src/text.c:2756 src/text.c:2960
+msgid "Finished checking spelling"
+msgstr "Проверката на правописа завърши"
+
+#: src/text.c:2815
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Грешка при извикване на „%s“"
 
-#: src/text.c:2950
+#: src/text.c:2955
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Неуспех при проверката на правописа: %s"
 
-#: src/text.c:2952
+#: src/text.c:2957
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Неуспех при проверката на правописа: %s: %s"
 
-#: src/text.c:2955
-msgid "Finished checking spelling"
-msgstr "Проверката на правописа завърши"
-
-#: src/text.c:3020
+#: src/text.c:3025
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sДуми: %lu  Редове: %ld  Знаци: %lu"
 
-#: src/text.c:3021
+#: src/text.c:3026
 msgid "In Selection:  "
 msgstr "В избрания текст: "
 

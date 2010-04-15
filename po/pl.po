@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 22:45-0500\n"
+"POT-Creation-Date: 2010-04-14 23:38-0400\n"
 "PO-Revision-Date: 2003-02-05 10:10+0200\n"
 "Last-Translator: Wojciech Kotwica <wkotwica@post.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Przejd¼ do katalogu"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2008
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -35,8 +35,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "W trybie ograniczonym nie mo¿na wyj¶æ poza %s"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1532 src/files.c:1623 src/files.c:1671
-#: src/files.c:1692 src/files.c:1815 src/files.c:2649 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
+#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, fuzzy, c-format
 msgid "Error reading %s: %s"
@@ -241,31 +241,32 @@ msgstr "Nie mo¿na zapisaæ poza %s"
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 
-#: src/files.c:1573 src/files.c:1598 src/files.c:1627
+#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
+#: src/files.c:1643
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr ""
 
-#: src/files.c:1574 src/nano.c:701
+#: src/files.c:1575 src/nano.c:701
 #, fuzzy
 msgid "Too many backup files?"
 msgstr ""
 "\n"
 "Nie zapisano %s (zbyt wiele kopii zapasowych?)\n"
 
-#: src/files.c:1647 src/files.c:1704 src/files.c:1723 src/files.c:1735
-#: src/files.c:1759 src/files.c:1777 src/files.c:1787 src/files.c:1823
-#: src/files.c:1828 src/files.c:2722 src/files.c:2731
+#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
+#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
+#: src/files.c:1844 src/files.c:2740 src/files.c:2749
 #, fuzzy, c-format
 msgid "Error writing %s: %s"
 msgstr "Nieprawid³owy znacznik cytowania %s: %s"
 
-#: src/files.c:1681 src/text.c:2919 src/text.c:2931
+#: src/files.c:1697 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr ""
 
-#: src/files.c:1860
+#: src/files.c:1876
 #, fuzzy, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
@@ -273,60 +274,60 @@ msgstr[0] "Zapisano %d liniê"
 msgstr[1] "Zapisano %d linie"
 msgstr[2] "Zapisano %d linii"
 
-#: src/files.c:1964
+#: src/files.c:1980
 msgid " [DOS Format]"
 msgstr " [format DOS]"
 
-#: src/files.c:1965
+#: src/files.c:1981
 msgid " [Mac Format]"
 msgstr " [format Mac]"
 
-#: src/files.c:1967
+#: src/files.c:1983
 msgid " [Backup]"
 msgstr " [Kopia zap.]"
 
-#: src/files.c:1975
+#: src/files.c:1991
 msgid "Prepend Selection to File"
 msgstr "Wpisz wybór na pocz±tek pliku"
 
-#: src/files.c:1976
+#: src/files.c:1992
 msgid "Append Selection to File"
 msgstr "Dopisz wybór do pliku"
 
-#: src/files.c:1977
+#: src/files.c:1993
 msgid "Write Selection to File"
 msgstr "Zapisz wybór do pliku"
 
-#: src/files.c:1980
+#: src/files.c:1996
 msgid "File Name to Prepend to"
 msgstr "Nazwa pliku do wpisania"
 
-#: src/files.c:1981
+#: src/files.c:1997
 msgid "File Name to Append to"
 msgstr "Nazwa pliku do dopisania"
 
-#: src/files.c:1982
+#: src/files.c:1998
 msgid "File Name to Write"
 msgstr "Nazwa pliku do zapisu"
 
-#: src/files.c:2113
+#: src/files.c:2129
 #, fuzzy
 msgid "File exists, OVERWRITE ? "
 msgstr "Plik istnieje, ZAMAZAÆ?"
 
-#: src/files.c:2122
+#: src/files.c:2138
 msgid "Save file under DIFFERENT NAME ? "
 msgstr ""
 
-#: src/files.c:2131
+#: src/files.c:2149
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2569
+#: src/files.c:2587
 msgid "(more)"
 msgstr "(wiêcej)"
 
-#: src/files.c:2652 src/rcfile.c:1219
+#: src/files.c:2670 src/rcfile.c:1219
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -929,7 +930,7 @@ msgstr "Nastêpny plik"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:862 src/text.c:3035
+#: src/global.c:862 src/text.c:3040
 msgid "Verbatim Input"
 msgstr ""
 
@@ -1661,52 +1662,52 @@ msgstr "Przepraszamy, obs³uga tej funkcji zosta³a wy³±czona"
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Zapisaæ zmieniony bufor (ODPOWIED¬ \"Nie\" SPOWODUJE UTRATÊ ZMIAN) ? "
 
-#: src/nano.c:1086
+#: src/nano.c:1088
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr ""
 
-#: src/nano.c:1109
+#: src/nano.c:1114
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr ""
 
-#: src/nano.c:1177
+#: src/nano.c:1182
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Otrzymano SIGHUP lub SIGTERM\n"
 
-#: src/nano.c:1193
+#: src/nano.c:1198
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr ""
 
-#: src/nano.c:1373
+#: src/nano.c:1380
 msgid "enabled"
 msgstr "w³±czony(e)"
 
-#: src/nano.c:1374
+#: src/nano.c:1381
 msgid "disabled"
 msgstr "wy³±czony(e)"
 
-#: src/nano.c:1535 src/winio.c:1256
+#: src/nano.c:1542 src/winio.c:1256
 msgid "Unknown Command"
 msgstr ""
 
-#: src/nano.c:1661
+#: src/nano.c:1668
 #, fuzzy
 msgid "XON ignored, mumble mumble"
 msgstr "Zignorowano XON, hmm, hmm."
 
-#: src/nano.c:1666
+#: src/nano.c:1673
 #, fuzzy
 msgid "XOFF ignored, mumble mumble"
 msgstr "Zignorowano XOFF, hmm, hmm."
 
-#: src/nano.c:2196 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1099
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "¿±dana wielko¶æ tabulacji %d niepoprawna"
 
-#: src/nano.c:2255 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1024
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "¿±dana pozycja ³amania linii %d niepoprawna"
@@ -2036,7 +2037,7 @@ msgstr ""
 msgid "Could not pipe"
 msgstr "Nie mo¿na utworzyæ potoku"
 
-#: src/text.c:793 src/text.c:2636 src/text.c:2783
+#: src/text.c:793 src/text.c:2636 src/text.c:2788
 msgid "Could not fork"
 msgstr "Nie mo¿na rozwidliæ procesu"
 
@@ -2085,31 +2086,31 @@ msgstr "B³±d podczas wywo³ywania \"sort -f\""
 msgid "Error invoking \"uniq\""
 msgstr "B³±d podczas wywo³ywania \"uniq\""
 
-#: src/text.c:2810
+#: src/text.c:2756 src/text.c:2960
+msgid "Finished checking spelling"
+msgstr "Zakoñczono sprawdzanie pisowni"
+
+#: src/text.c:2815
 #, fuzzy, c-format
 msgid "Error invoking \"%s\""
 msgstr "B³±d podczas wywo³ywania \"spell\""
 
-#: src/text.c:2950
+#: src/text.c:2955
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Niepowodzenie sprawdzania pisowni: %s"
 
-#: src/text.c:2952
+#: src/text.c:2957
 #, fuzzy, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Niepowodzenie sprawdzania pisowni: %s"
 
-#: src/text.c:2955
-msgid "Finished checking spelling"
-msgstr "Zakoñczono sprawdzanie pisowni"
-
-#: src/text.c:3020
+#: src/text.c:3025
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr ""
 
-#: src/text.c:3021
+#: src/text.c:3026
 #, fuzzy
 msgid "In Selection:  "
 msgstr "Dopisz wybór do pliku"

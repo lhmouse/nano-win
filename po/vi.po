@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.1.11pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 22:45-0500\n"
+"POT-Creation-Date: 2010-04-14 23:38-0400\n"
 "PO-Revision-Date: 2009-09-18 22:11+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Đi tới thư mục"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2008
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -34,8 +34,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Không đi ra được bên ngoài của %s trong chế độ hạn chế"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1532 src/files.c:1623 src/files.c:1671
-#: src/files.c:1692 src/files.c:1815 src/files.c:2649 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
+#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -228,87 +228,88 @@ msgstr ""
 "Không thể thêm vào trước hoặc thêm vào sau một liên kết mềm bằng tùy chọn --"
 "nofollow"
 
-#: src/files.c:1573 src/files.c:1598 src/files.c:1627
+#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
+#: src/files.c:1643
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Gặp lỗi khi ghi tập tin sao lưu %s: %s"
 
-#: src/files.c:1574 src/nano.c:701
+#: src/files.c:1575 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Quá nhiều tập tin lưu trữ?"
 
-#: src/files.c:1647 src/files.c:1704 src/files.c:1723 src/files.c:1735
-#: src/files.c:1759 src/files.c:1777 src/files.c:1787 src/files.c:1823
-#: src/files.c:1828 src/files.c:2722 src/files.c:2731
+#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
+#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
+#: src/files.c:1844 src/files.c:2740 src/files.c:2749
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Lỗi ghi nhớ %s: %s"
 
-#: src/files.c:1681 src/text.c:2919 src/text.c:2931
+#: src/files.c:1697 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Lỗi ghi nhớ tập tin tạm thời: %s"
 
-#: src/files.c:1860
+#: src/files.c:1876
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Đã ghi %lu dòng"
 
-#: src/files.c:1964
+#: src/files.c:1980
 msgid " [DOS Format]"
 msgstr " [Định dạng DOS]"
 
-#: src/files.c:1965
+#: src/files.c:1981
 msgid " [Mac Format]"
 msgstr " [Định dạng Mac]"
 
-#: src/files.c:1967
+#: src/files.c:1983
 msgid " [Backup]"
 msgstr " [Lưu trữ]"
 
-#: src/files.c:1975
+#: src/files.c:1991
 msgid "Prepend Selection to File"
 msgstr "Thêm lựa chọn vào trước Tập tin"
 
-#: src/files.c:1976
+#: src/files.c:1992
 msgid "Append Selection to File"
 msgstr "Thêm lựa chọn vào sau Tập tin"
 
-#: src/files.c:1977
+#: src/files.c:1993
 msgid "Write Selection to File"
 msgstr "Ghi nhớ lựa chọn vào một tập tin"
 
-#: src/files.c:1980
+#: src/files.c:1996
 msgid "File Name to Prepend to"
 msgstr "Tên tập tin để thêm vào trước"
 
-#: src/files.c:1981
+#: src/files.c:1997
 msgid "File Name to Append to"
 msgstr "Tên tập tin để thêm vào sau"
 
-#: src/files.c:1982
+#: src/files.c:1998
 msgid "File Name to Write"
 msgstr "Tên tập tin để ghi nhớ"
 
-#: src/files.c:2113
+#: src/files.c:2129
 msgid "File exists, OVERWRITE ? "
 msgstr "Tập tin đã tồn tại, GHI ĐÈ LÊN ? "
 
-#: src/files.c:2122
+#: src/files.c:2138
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Ghi nhớ tập tin dưới TÊN KHÁC ? "
 
-#: src/files.c:2131
+#: src/files.c:2149
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 "Tập tin bị sửa đổi kể từ lần bạn mở cuối cùng: có nên tiếp tục lưu không?"
 
-#: src/files.c:2569
+#: src/files.c:2587
 msgid "(more)"
 msgstr "(còn nữa)"
 
-#: src/files.c:2652 src/rcfile.c:1219
+#: src/files.c:2670 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -862,7 +863,7 @@ msgstr "Tập tin kế"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:862 src/text.c:3035
+#: src/global.c:862 src/text.c:3040
 msgid "Verbatim Input"
 msgstr "Dữ liệu nhập nguyên bản"
 
@@ -1561,50 +1562,50 @@ msgstr "Rất tiếc, hỗ trợ cho chức năng này bị tắt"
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Ghi bộ đệm đã sửa đổi (TRẢ LỜI \"K\" SẼ BỎ MỌI THAY ĐỔI) (C/K) ? "
 
-#: src/nano.c:1086
+#: src/nano.c:1088
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr "Tiếc là không thể mở lại đầu vào tiêu chuẩn từ bàn phím\n"
 
-#: src/nano.c:1109
+#: src/nano.c:1114
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr "Đang đọc từ đầu vào tiêu chuẩn (bấm ^C để hủy bỏ)\n"
 
-#: src/nano.c:1177
+#: src/nano.c:1182
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Nhận được tín hiệu SIGHUP hoặc SIGTERM\n"
 
-#: src/nano.c:1193
+#: src/nano.c:1198
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Sử dụng \"fg\" để quay lại nano.\n"
 
-#: src/nano.c:1373
+#: src/nano.c:1380
 msgid "enabled"
 msgstr "đã bật"
 
-#: src/nano.c:1374
+#: src/nano.c:1381
 msgid "disabled"
 msgstr "bị tắt"
 
-#: src/nano.c:1535 src/winio.c:1256
+#: src/nano.c:1542 src/winio.c:1256
 msgid "Unknown Command"
 msgstr "Lệnh không rõ"
 
-#: src/nano.c:1661
+#: src/nano.c:1668
 msgid "XON ignored, mumble mumble"
 msgstr "XON bị lờ đi."
 
-#: src/nano.c:1666
+#: src/nano.c:1673
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF bị lờ đi."
 
-#: src/nano.c:2196 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tab « %s » không hợp lệ"
 
-#: src/nano.c:2255 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tô đầy « %s » không hợp lệ"
@@ -1936,7 +1937,7 @@ msgstr "Bước được hoàn lại (%s)"
 msgid "Could not pipe"
 msgstr "Không thể gửi qua đường ống"
 
-#: src/text.c:793 src/text.c:2636 src/text.c:2783
+#: src/text.c:793 src/text.c:2636 src/text.c:2788
 msgid "Could not fork"
 msgstr "Không thể tạo tiến trình con"
 
@@ -1985,31 +1986,31 @@ msgstr "Lỗi gọi \"sort -f\""
 msgid "Error invoking \"uniq\""
 msgstr "Lỗi gọi \"uniq\""
 
-#: src/text.c:2810
+#: src/text.c:2756 src/text.c:2960
+msgid "Finished checking spelling"
+msgstr "Hoàn thành việc kiểm tra chính tả"
+
+#: src/text.c:2815
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Lỗi gọi \"%s\""
 
-#: src/text.c:2950
+#: src/text.c:2955
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Kiểm tra chính tả không thành công: %s"
 
-#: src/text.c:2952
+#: src/text.c:2957
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Kiểm tra chính tả không thành công: %s: %s"
 
-#: src/text.c:2955
-msgid "Finished checking spelling"
-msgstr "Hoàn thành việc kiểm tra chính tả"
-
-#: src/text.c:3020
+#: src/text.c:3025
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sTừ: %lu  Dòng: %ld  Ký tự: %lu"
 
-#: src/text.c:3021
+#: src/text.c:3026
 msgid "In Selection:  "
 msgstr "Trong lựa chọn:  "
 

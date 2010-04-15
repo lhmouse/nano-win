@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.2.2pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 22:45-0500\n"
+"POT-Creation-Date: 2010-04-14 23:38-0400\n"
 "PO-Revision-Date: 2010-01-04 10:46+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir."
 "org>\n"
@@ -46,7 +46,7 @@ msgstr "Changer de répertoire"
 # File: src/search.c, line: 212
 # File: src/search.c, line: 934
 # File: src/search.c, line: 995
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2008
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -92,8 +92,8 @@ msgstr "En mode restreint, sortir de %s est impossible"
 # File: src/rcfile.c, line: 383
 # File: src/rcfile.c, line: 913
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1532 src/files.c:1623 src/files.c:1671
-#: src/files.c:1692 src/files.c:1815 src/files.c:2649 src/rcfile.c:567
+#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
+#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
 #: src/rcfile.c:1203
 #, c-format
 msgid "Error reading %s: %s"
@@ -438,7 +438,8 @@ msgstr "Impossible d'ajouter pour un lien symbolique (option --nofollow)"
 # File: src/files.c, line: 1476
 # File: src/text.c, line: 2315
 # File: src/text.c, line: 2327
-#: src/files.c:1573 src/files.c:1598 src/files.c:1627
+#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
+#: src/files.c:1643
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Erreur d'écriture de la copie de sécurité %s : %s"
@@ -448,7 +449,7 @@ msgstr "Erreur d'écriture de la copie de sécurité %s : %s"
 # File: src/nano.c, line: 624
 # File: src/files.c, line: 1374
 # File: src/nano.c, line: 624
-#: src/files.c:1574 src/nano.c:701
+#: src/files.c:1575 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Trop de copies de sécurité ?"
 
@@ -479,9 +480,9 @@ msgstr "Trop de copies de sécurité ?"
 # File: src/files.c, line: 1617
 # File: src/files.c, line: 2449
 # File: src/files.c, line: 2458
-#: src/files.c:1647 src/files.c:1704 src/files.c:1723 src/files.c:1735
-#: src/files.c:1759 src/files.c:1777 src/files.c:1787 src/files.c:1823
-#: src/files.c:1828 src/files.c:2722 src/files.c:2731
+#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
+#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
+#: src/files.c:1844 src/files.c:2740 src/files.c:2749
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Erreur lors de l'écriture de %s : %s"
@@ -493,7 +494,7 @@ msgstr "Erreur lors de l'écriture de %s : %s"
 # File: src/files.c, line: 1476
 # File: src/text.c, line: 2315
 # File: src/text.c, line: 2327
-#: src/files.c:1681 src/text.c:2919 src/text.c:2931
+#: src/files.c:1697 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Erreur d'écriture du fichier temporaire : %s"
@@ -501,7 +502,7 @@ msgstr "Erreur d'écriture du fichier temporaire : %s"
 #
 # File: src/files.c, line: 1651
 # File: src/files.c, line: 1651
-#: src/files.c:1860
+#: src/files.c:1876
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
@@ -511,81 +512,81 @@ msgstr[1] "%lu lignes écrites"
 #
 # File: src/files.c, line: 1751
 # File: src/files.c, line: 1751
-#: src/files.c:1964
+#: src/files.c:1980
 msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
 #
 # File: src/files.c, line: 1752
 # File: src/files.c, line: 1752
-#: src/files.c:1965
+#: src/files.c:1981
 msgid " [Mac Format]"
 msgstr " [Format Mac]"
 
 #
 # File: src/files.c, line: 1754
 # File: src/files.c, line: 1754
-#: src/files.c:1967
+#: src/files.c:1983
 msgid " [Backup]"
 msgstr " [Copie de sécurité]"
 
 #
 # File: src/files.c, line: 1758
 # File: src/files.c, line: 1758
-#: src/files.c:1975
+#: src/files.c:1991
 msgid "Prepend Selection to File"
 msgstr "Ajouter la sélection au début d'un fichier"
 
 #
 # File: src/files.c, line: 1759
 # File: src/files.c, line: 1759
-#: src/files.c:1976
+#: src/files.c:1992
 msgid "Append Selection to File"
 msgstr "Ajouter la sélection à la fin d'un fichier"
 
 #
 # File: src/files.c, line: 1760
 # File: src/files.c, line: 1760
-#: src/files.c:1977
+#: src/files.c:1993
 msgid "Write Selection to File"
 msgstr "Écrire la sélection dans un fichier"
 
 #
 # File: src/files.c, line: 1763
 # File: src/files.c, line: 1763
-#: src/files.c:1980
+#: src/files.c:1996
 msgid "File Name to Prepend to"
 msgstr "Nom du fichier au tête duquel ajouter"
 
 #
 # File: src/files.c, line: 1764
 # File: src/files.c, line: 1764
-#: src/files.c:1981
+#: src/files.c:1997
 msgid "File Name to Append to"
 msgstr "Nom du fichier à la fin duquel ajouter"
 
 #
 # File: src/files.c, line: 1765
 # File: src/files.c, line: 1765
-#: src/files.c:1982
+#: src/files.c:1998
 msgid "File Name to Write"
 msgstr "Nom du fichier à écrire"
 
 #
 # File: src/files.c, line: 1856
 # File: src/files.c, line: 1856
-#: src/files.c:2113
+#: src/files.c:2129
 msgid "File exists, OVERWRITE ? "
 msgstr "Le fichier existe, VOULEZ-VOUS L'ÉCRASER ? "
 
 #
 # File: src/files.c, line: 1871
 # File: src/files.c, line: 1871
-#: src/files.c:2122
+#: src/files.c:2138
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Écrire le fichier sous un NOM MODIFIÉ ? "
 
-#: src/files.c:2131
+#: src/files.c:2149
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 "Le fichier a été modifié après que vous l'ayez ouvert. Voulez-vous vraiment "
@@ -594,7 +595,7 @@ msgstr ""
 #
 # File: src/files.c, line: 2298
 # File: src/files.c, line: 2298
-#: src/files.c:2569
+#: src/files.c:2587
 msgid "(more)"
 msgstr "(suite)"
 
@@ -603,7 +604,7 @@ msgstr "(suite)"
 # File: src/rcfile.c, line: 848
 # File: src/files.c, line: 2379
 # File: src/rcfile.c, line: 848
-#: src/files.c:2652 src/rcfile.c:1219
+#: src/files.c:2670 src/rcfile.c:1219
 #, c-format
 msgid ""
 "\n"
@@ -1545,7 +1546,7 @@ msgstr "Fichier suivant"
 # File: src/text.c, line: 2431
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:862 src/text.c:3035
+#: src/global.c:862 src/text.c:3040
 msgid "Verbatim Input"
 msgstr "Entrée telle quelle"
 
@@ -2587,11 +2588,11 @@ msgstr "Désolé, le support de cette fonction a été désactivé"
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Sauver l'espace modifié (RÉPONDRE « Non » EFFACERA LES CHANGEMENTS) ? "
 
-#: src/nano.c:1086
+#: src/nano.c:1088
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr "Impossible de rouvrir l'entrée standard depuis le clavier, désolé\n"
 
-#: src/nano.c:1109
+#: src/nano.c:1114
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr "Lecture depuis l'entrée standard, ^C pour abandonner\n"
@@ -2599,14 +2600,14 @@ msgstr "Lecture depuis l'entrée standard, ^C pour abandonner\n"
 #
 # File: src/nano.c, line: 1003
 # File: src/nano.c, line: 1003
-#: src/nano.c:1177
+#: src/nano.c:1182
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Réception de SIGHUP ou SIGTERM\n"
 
 #
 # File: src/nano.c, line: 1020
 # File: src/nano.c, line: 1020
-#: src/nano.c:1193
+#: src/nano.c:1198
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Utilisez « fg » pour revenir à nano.\n"
@@ -2614,14 +2615,14 @@ msgstr "Utilisez « fg » pour revenir à nano.\n"
 #
 # File: src/nano.c, line: 1186
 # File: src/nano.c, line: 1186
-#: src/nano.c:1373
+#: src/nano.c:1380
 msgid "enabled"
 msgstr "- marche"
 
 #
 # File: src/nano.c, line: 1187
 # File: src/nano.c, line: 1187
-#: src/nano.c:1374
+#: src/nano.c:1381
 msgid "disabled"
 msgstr "- arrêt"
 
@@ -2630,21 +2631,21 @@ msgstr "- arrêt"
 # File: src/winio.c, line: 530
 # File: src/nano.c, line: 1361
 # File: src/winio.c, line: 530
-#: src/nano.c:1535 src/winio.c:1256
+#: src/nano.c:1542 src/winio.c:1256
 msgid "Unknown Command"
 msgstr "Commande inconnue"
 
 #
 # File: src/nano.c, line: 1425
 # File: src/nano.c, line: 1425
-#: src/nano.c:1661
+#: src/nano.c:1668
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignoré, humm humm"
 
 #
 # File: src/nano.c, line: 1428
 # File: src/nano.c, line: 1428
-#: src/nano.c:1666
+#: src/nano.c:1673
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignoré, humm humm"
 
@@ -2653,7 +2654,7 @@ msgstr "XOFF ignoré, humm humm"
 # File: src/rcfile.c, line: 814
 # File: src/nano.c, line: 1827
 # File: src/rcfile.c, line: 814
-#: src/nano.c:2196 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1099
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "taille de tabulation « %s » demandée non valide"
@@ -2663,7 +2664,7 @@ msgstr "taille de tabulation « %s » demandée non valide"
 # File: src/rcfile.c, line: 739
 # File: src/nano.c, line: 1883
 # File: src/rcfile.c, line: 739
-#: src/nano.c:2255 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1024
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "la colonne maximale « %s » n'est pas valide"
@@ -3171,7 +3172,7 @@ msgstr "Impossible d'ouvrir un tube"
 # File: src/text.c, line: 468
 # File: src/text.c, line: 2032
 # File: src/text.c, line: 2179
-#: src/text.c:793 src/text.c:2636 src/text.c:2783
+#: src/text.c:793 src/text.c:2636 src/text.c:2788
 msgid "Could not fork"
 msgstr "Impossible de créer un nouveau processus"
 
@@ -3250,9 +3251,16 @@ msgid "Error invoking \"uniq\""
 msgstr "erreur à l'appel de « uniq »"
 
 #
+# File: src/text.c, line: 2351
+# File: src/text.c, line: 2351
+#: src/text.c:2756 src/text.c:2960
+msgid "Finished checking spelling"
+msgstr "Vérification orthographique terminée"
+
+#
 # File: src/text.c, line: 2206
 # File: src/text.c, line: 2206
-#: src/text.c:2810
+#: src/text.c:2815
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "erreur d'appel de « %s »"
@@ -3260,7 +3268,7 @@ msgstr "erreur d'appel de « %s »"
 #
 # File: src/text.c, line: 2346
 # File: src/text.c, line: 2346
-#: src/text.c:2950
+#: src/text.c:2955
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Échec de la correction : %s"
@@ -3268,22 +3276,15 @@ msgstr "Échec de la correction : %s"
 #
 # File: src/text.c, line: 2348
 # File: src/text.c, line: 2348
-#: src/text.c:2952
+#: src/text.c:2957
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Échec de la correction : %s : %s"
 
 #
-# File: src/text.c, line: 2351
-# File: src/text.c, line: 2351
-#: src/text.c:2955
-msgid "Finished checking spelling"
-msgstr "Vérification orthographique terminée"
-
-#
 # File: src/text.c, line: 2416
 # File: src/text.c, line: 2416
-#: src/text.c:3020
+#: src/text.c:3025
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%s %lu mots,  %ld lignes, %lu caractères"
@@ -3291,7 +3292,7 @@ msgstr "%s %lu mots,  %ld lignes, %lu caractères"
 #
 # File: src/text.c, line: 2417
 # File: src/text.c, line: 2417
-#: src/text.c:3021
+#: src/text.c:3026
 msgid "In Selection:  "
 msgstr "Contenu de la sélection : "
 
