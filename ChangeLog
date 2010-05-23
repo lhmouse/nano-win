@@ -1,3 +1,9 @@
+2010-05-23 Chris Allegretta <chrisa@asty.org>
+	* files.c (write_file): Don't even try to chown() the backup
+	  file unless we're root, since it's probably going to fail if
+	  we're editing a file we don't own.  Fixes Savannah bug
+	  29514: [nano 2.2.2] backup should ignore chown errors.
+
 GNU nano 2.2.4 - 2010.04.15
 2010-04-07 Chris Allegretta <chrisa@asty.org>
 	* doc/man/nano.1,nanorc.5: Remove the backup file warnings now
