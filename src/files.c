@@ -1615,7 +1615,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
         /* We shouldn't worry about chown()ing something if we're not
 	   root, since it's likely to fail! */
 	if (geteuid() == NANO_ROOT_UID && fchown(backup_fd,
-		openfile->current_stat->st_uid, openfile->current_stat->st_gid) == -1 ) {
+		openfile->current_stat->st_uid, openfile->current_stat->st_gid) == -1
+                && !ISSET(INSECURE_BACKUP)) {
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);
@@ -1623,7 +1624,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
-	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1) {
+	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 && !ISSET(INSECURE_BACKUP)) {
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);

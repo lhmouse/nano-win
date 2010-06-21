@@ -1,3 +1,8 @@
+2010-06-20 Chris Allegretta <chrisa@asty.org>
+	* New rc file option allow_insecure_backup, allows the previous security
+	  fixes for backup files to be overridden if you're really positive
+	  you want to.  Fixes Savannah bug 29732 by Brian Szymanski <skibrianski>.
+
 2010-05-23 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Don't even try to chown() the backup
 	  file unless we're root, since it's probably going to fail if

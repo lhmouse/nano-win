@@ -77,6 +77,7 @@ static const rcoption rcopts[] = {
 #ifndef NANO_TINY
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
+    {"allow_insecure_backup", INSECURE_BACKUP},
     {"backupdir", 0},
     {"backwards", BACKWARDS_SEARCH},
     {"casesensitive", CASE_SENSITIVE},

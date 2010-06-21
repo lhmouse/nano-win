@@ -57,6 +57,11 @@ match \fI"\fP, \fI'\fP, \fI)\fP, \fI>\fP, \fI]\fP, and \fI}\fP.
 The supported commands and arguments are:
 
 .TP 3
+.B set/unset allow_insecure_backup
+When backing up files, allow the backup to succeed even if its permissions
+can't be (re)set due to special OS considerations.  You should 
+NOT enable this option unless you are sure you need it.
+.TP
 .B set/unset autoindent
 Use auto-indentation.
 .TP
