@@ -1458,6 +1458,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* The actual file, realname, we are writing to. */
     char *tempname = NULL;
 	/* The temp file name we write to on prepend. */
+    int backup_cflags;
 
     assert(name != NULL);
 
@@ -1592,14 +1593,19 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* First, unlink any existing backups.  Next, open the backup
 	   file with O_CREAT and O_EXCL.  If it succeeds, we
 	   have a file descriptor to a new backup file. */
-	if (unlink(backupname) < 0 && errno != ENOENT) {
+	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 			strerror(errno));
 	    free(backupname);
 	    goto cleanup_and_exit;
 	}
 
-	backup_fd = open(backupname, O_WRONLY | O_CREAT | O_EXCL | O_APPEND,
+	if (ISSET(INSECURE_BACKUP))
+	    backup_cflags = O_WRONLY | O_CREAT | O_APPEND;
+        else
+	    backup_cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
+
+	backup_fd = open(backupname, backup_cflags,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	/* Now we've got a safe file stream.  If the previous open()
 	   call failed, this will return NULL. */
@@ -1643,14 +1649,16 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* Copy the file. */
 	copy_status = copy_file(f, backup_file);
 
-	/* And set its metadata. */
-	if (copy_status != 0  || utime(backupname, &filetime) == -1) {
-	    if (copy_status == -1) {
-		statusbar(_("Error reading %s: %s"), realname,
+	if (copy_status != 0) {
+	    statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
-		beep();
-	    } else
-		statusbar(_("Error writing backup file %s: %s"), backupname,
+	    beep();
+	    goto cleanup_and_exit;
+	}
+
+	/* And set its metadata. */
+	if (utime(backupname, &filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
+	    statusbar(_("Error writing backup file %s: %s"), backupname,
 			strerror(errno));
 	    /* If we can't write to the backup, DONT go on, since
 	       whatever caused the backup file to fail (e.g. disk
