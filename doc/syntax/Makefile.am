@@ -24,6 +24,7 @@ pkgdata_DATA =	asm.nanorc \
 		ocaml.nanorc \
 		objc.nanorc \
 		fortran.nanorc \
-		makefile.nanorc
+		makefile.nanorc \
+		mgp.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA)

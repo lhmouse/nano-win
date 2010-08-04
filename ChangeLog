@@ -1,3 +1,6 @@
+2010-08-04 Lauri Kasanen <curaga@operamail.comcuraga@operamail.com>
+        * doc/syntax/mgp.nanorc: New Magicpoint syntax highlighting definition
+
 2010-08-04 Peter <exodus@savannah>
 	* doc/syntax/tex.nanorc: No longer highlight escaped comments
 
