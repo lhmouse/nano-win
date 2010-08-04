@@ -3,4 +3,4 @@
 syntax "tex" "\.tex$"
 icolor green "\\.|\\[A-Z]*"
 color magenta "[{}]"
-color blue "%.*"
+color blue "(^|[^\])%.*"

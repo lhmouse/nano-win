@@ -1,3 +1,6 @@
+2010-08-04 Peter <exodus@savannah>
+	* doc/syntax/tex.nanorc: No longer highlight escaped comments
+
 2010-06-20 Chris Allegretta <chrisa@asty.org>
 	* New rc file option allow_insecure_backup, allows the previous security
 	  fixes for backup files to be overridden if you're really positive
