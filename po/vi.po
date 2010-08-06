@@ -1,15 +1,15 @@
 # Vietnamese translation for Nano.
-# Copyright © 2009 Free Software Foundation, Inc.
+# Copyright © 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 # Phan Vinh Thinh <teppi82@gmail.com>, 2005, 2006.
-# Clytie Siddall <clytie@riverland.net.au>, 2007-2009.
+# Clytie Siddall <clytie@riverland.net.au>, 2007-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.1.11pre1\n"
+"Project-Id-Version: nano 2.2.4pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 23:38-0400\n"
-"PO-Revision-Date: 2009-09-18 22:11+0930\n"
+"POT-Creation-Date: 2010-08-05 21:19-0400\n"
+"PO-Revision-Date: 2010-04-07 17:07+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Đi tới thư mục"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2042
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -34,9 +34,9 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Không đi ra được bên ngoài của %s trong chế độ hạn chế"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
-#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
-#: src/rcfile.c:1203
+#: src/files.c:731 src/files.c:1534 src/files.c:1653 src/files.c:1705
+#: src/files.c:1726 src/files.c:1849 src/files.c:2685 src/rcfile.c:568
+#: src/rcfile.c:1204
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Lỗi đọc %s: %s"
@@ -183,12 +183,12 @@ msgstr "Tập tin mới"
 msgid "\"%s\" not found"
 msgstr "Không tìm thấy « %s »"
 
-#: src/files.c:717 src/rcfile.c:558 src/rcfile.c:1153 src/rcfile.c:1194
+#: src/files.c:717 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "« %s » là một thư mục"
 
-#: src/files.c:718 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
+#: src/files.c:718 src/rcfile.c:560 src/rcfile.c:1155 src/rcfile.c:1196
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "« %s » là một tập tin thiết bị"
@@ -217,99 +217,99 @@ msgstr "Tập tin để chèn [từ %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Phím không hợp lệ trong chế độ khác đa bộ đệm"
 
-#: src/files.c:1479
+#: src/files.c:1480
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Không ghi được ra bên ngoài của %s"
 
-#: src/files.c:1494
+#: src/files.c:1495
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Không thể thêm vào trước hoặc thêm vào sau một liên kết mềm bằng tùy chọn --"
 "nofollow"
 
-#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
-#: src/files.c:1643
+#: src/files.c:1575 src/files.c:1597 src/files.c:1615 src/files.c:1626
+#: src/files.c:1634 src/files.c:1661
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Gặp lỗi khi ghi tập tin sao lưu %s: %s"
 
-#: src/files.c:1575 src/nano.c:701
+#: src/files.c:1576 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Quá nhiều tập tin lưu trữ?"
 
-#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
-#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
-#: src/files.c:1844 src/files.c:2740 src/files.c:2749
+#: src/files.c:1681 src/files.c:1738 src/files.c:1757 src/files.c:1769
+#: src/files.c:1793 src/files.c:1811 src/files.c:1821 src/files.c:1857
+#: src/files.c:1862 src/files.c:2758 src/files.c:2767
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Lỗi ghi nhớ %s: %s"
 
-#: src/files.c:1697 src/text.c:2924 src/text.c:2936
+#: src/files.c:1715 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Lỗi ghi nhớ tập tin tạm thời: %s"
 
-#: src/files.c:1876
+#: src/files.c:1894
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Đã ghi %lu dòng"
 
-#: src/files.c:1980
+#: src/files.c:1998
 msgid " [DOS Format]"
 msgstr " [Định dạng DOS]"
 
-#: src/files.c:1981
+#: src/files.c:1999
 msgid " [Mac Format]"
 msgstr " [Định dạng Mac]"
 
-#: src/files.c:1983
+#: src/files.c:2001
 msgid " [Backup]"
 msgstr " [Lưu trữ]"
 
-#: src/files.c:1991
+#: src/files.c:2009
 msgid "Prepend Selection to File"
 msgstr "Thêm lựa chọn vào trước Tập tin"
 
-#: src/files.c:1992
+#: src/files.c:2010
 msgid "Append Selection to File"
 msgstr "Thêm lựa chọn vào sau Tập tin"
 
-#: src/files.c:1993
+#: src/files.c:2011
 msgid "Write Selection to File"
 msgstr "Ghi nhớ lựa chọn vào một tập tin"
 
-#: src/files.c:1996
+#: src/files.c:2014
 msgid "File Name to Prepend to"
 msgstr "Tên tập tin để thêm vào trước"
 
-#: src/files.c:1997
+#: src/files.c:2015
 msgid "File Name to Append to"
 msgstr "Tên tập tin để thêm vào sau"
 
-#: src/files.c:1998
+#: src/files.c:2016
 msgid "File Name to Write"
 msgstr "Tên tập tin để ghi nhớ"
 
-#: src/files.c:2129
+#: src/files.c:2147
 msgid "File exists, OVERWRITE ? "
 msgstr "Tập tin đã tồn tại, GHI ĐÈ LÊN ? "
 
-#: src/files.c:2138
+#: src/files.c:2156
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Ghi nhớ tập tin dưới TÊN KHÁC ? "
 
-#: src/files.c:2149
+#: src/files.c:2167
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 "Tập tin bị sửa đổi kể từ lần bạn mở cuối cùng: có nên tiếp tục lưu không?"
 
-#: src/files.c:2587
+#: src/files.c:2605
 msgid "(more)"
 msgstr "(còn nữa)"
 
-#: src/files.c:2670 src/rcfile.c:1219
+#: src/files.c:2688 src/rcfile.c:1220
 #, c-format
 msgid ""
 "\n"
@@ -727,14 +727,12 @@ msgid "Go to the last file in the list"
 msgstr "Chuyển tới dòng cuối cùng của danh sách"
 
 #: src/global.c:641
-#, fuzzy
 msgid "Go to the next file in the list"
-msgstr "Chuyển tới dòng cuối cùng của danh sách"
+msgstr "Chuyển tới tập tin đằng sau trong danh sách"
 
 #: src/global.c:642
-#, fuzzy
 msgid "Go to the previous file in the list"
-msgstr "Chuyển tới dòng đầu tiên của danh sách"
+msgstr "Chuyển tới tập tin đằng trước trong danh sách"
 
 #: src/global.c:643
 msgid "Go to directory"
@@ -1600,12 +1598,12 @@ msgstr "XON bị lờ đi."
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF bị lờ đi."
 
-#: src/nano.c:2203 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1100
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tab « %s » không hợp lệ"
 
-#: src/nano.c:2262 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1025
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tô đầy « %s » không hợp lệ"
@@ -1637,71 +1635,71 @@ msgstr "Tất cả"
 msgid "No"
 msgstr "Không"
 
-#: src/rcfile.c:129
+#: src/rcfile.c:130
 #, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Lỗi trong %s trên dòng %lu: "
 
-#: src/rcfile.c:184
+#: src/rcfile.c:185
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Đối số « %s » không kết thúc \""
 
-#: src/rcfile.c:211 src/rcfile.c:263 src/rcfile.c:710 src/rcfile.c:767
-#: src/rcfile.c:820
+#: src/rcfile.c:212 src/rcfile.c:264 src/rcfile.c:711 src/rcfile.c:768
+#: src/rcfile.c:821
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Biểu thức chính quy phải bắt đầu và kết thúc bởi một ký tự \""
 
-#: src/rcfile.c:237 src/search.c:62
+#: src/rcfile.c:238 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Biểu thức chính quy xấu \"%s\": %s"
 
-#: src/rcfile.c:257
+#: src/rcfile.c:258
 msgid "Missing syntax name"
 msgstr "Thiếu tên cú pháp"
 
-#: src/rcfile.c:315
+#: src/rcfile.c:316
 msgid "The \"none\" syntax is reserved"
 msgstr "Cú pháp \"none\" bị hạn chế"
 
-#: src/rcfile.c:322
+#: src/rcfile.c:323
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Cú pháp \"default\" không chấp nhận phần mở rộng"
 
-#: src/rcfile.c:385 src/rcfile.c:482
+#: src/rcfile.c:386 src/rcfile.c:483
 msgid "Missing key name"
 msgstr "Thiếu tên khoá"
 
-#: src/rcfile.c:397 src/rcfile.c:498
+#: src/rcfile.c:398 src/rcfile.c:499
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
 msgstr "tổ hợp phím phải bắt đầu với « ^ », « M » hoặc « F »"
 
-#: src/rcfile.c:406
+#: src/rcfile.c:407
 msgid "Must specify function to bind key to"
 msgstr "Phải ghi rõ chức năng với đó cần tổ hợp phím"
 
-#: src/rcfile.c:417 src/rcfile.c:509
+#: src/rcfile.c:418 src/rcfile.c:510
 msgid "Must specify menu to bind key to (or \"all\")"
 msgstr ""
 "Phải ghi rõ trình đơn với đó cần tổ hợp phím (hoặc đặt « all » (tất cả))"
 
-#: src/rcfile.c:425
+#: src/rcfile.c:426
 #, c-format
 msgid "Could not map name \"%s\" to a function"
 msgstr "Không thể ánh xạ tên « %s » tới một chức năng"
 
-#: src/rcfile.c:431 src/rcfile.c:516
+#: src/rcfile.c:432 src/rcfile.c:517
 #, c-format
 msgid "Could not map name \"%s\" to a menu"
 msgstr "Không thể ánh xạ tên « %s » tới một trình đơn"
 
-#: src/rcfile.c:453
+#: src/rcfile.c:454
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
 msgstr "Tiếc là không cho phép dùng tổ hợp phím « %s »"
 
-#: src/rcfile.c:624
+#: src/rcfile.c:625
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1724,40 +1722,40 @@ msgstr ""
 " • bright\tsáng\n"
 "cho màu của văn bản."
 
-#: src/rcfile.c:646
+#: src/rcfile.c:647
 msgid "Cannot add a color command without a syntax command"
 msgstr "Không thêm được một chỉ thị màu mà không có dòng cú pháp"
 
-#: src/rcfile.c:651
+#: src/rcfile.c:652
 msgid "Missing color name"
 msgstr "Thiếu tên màu"
 
-#: src/rcfile.c:671
+#: src/rcfile.c:672
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Màu nền « %s » không thể là màu sáng (khó đọc)"
 
-#: src/rcfile.c:689 src/rcfile.c:808
+#: src/rcfile.c:690 src/rcfile.c:809
 msgid "Missing regex string"
 msgstr "Thiếu các chuỗi biểu thức chính quy"
 
-#: src/rcfile.c:761
+#: src/rcfile.c:762
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr ""
 "\"start=\" (bắt đầu) thì yêu cầu một phần \"end=\" (kết thúc) tương ứng"
 
-#: src/rcfile.c:803
+#: src/rcfile.c:804
 msgid "Cannot add a header regex without a syntax command"
 msgstr ""
 "Không thêm được một biểu thức chính quy kiểu phần đầu mà không có câu lệnh "
 "cú pháp"
 
-#: src/rcfile.c:873
+#: src/rcfile.c:874
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Lỗi nghiêm trọng: chưa ánh xạ phím với chức năng « %s »"
 
-#: src/rcfile.c:875
+#: src/rcfile.c:876
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -1765,53 +1763,53 @@ msgstr ""
 "Đang thoát... Hãy sử dụng trình soạn thảo nano với tùy chọn « -l » nếu cần "
 "thiết, để điều chỉnh thiết lập nanorc của bạn\n"
 
-#: src/rcfile.c:925 src/rcfile.c:934 src/rcfile.c:944
+#: src/rcfile.c:926 src/rcfile.c:935 src/rcfile.c:945
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Lệnh « %s » không được phép trong tập tin đã bao gồm"
 
-#: src/rcfile.c:950 src/rcfile.c:1127
+#: src/rcfile.c:951 src/rcfile.c:1128
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Cú pháp « %s » không có câu lệnh màu"
 
-#: src/rcfile.c:965
+#: src/rcfile.c:966
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Không hiểu câu lệnh « %s »"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:972
 msgid "Missing flag"
 msgstr "Thiếu cờ"
 
-#: src/rcfile.c:993
+#: src/rcfile.c:994
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Tùy chọn « %s » cần một tham số"
 
-#: src/rcfile.c:1011
+#: src/rcfile.c:1012
 msgid "Option is not a valid multibyte string"
 msgstr "Tùy chọn không phải là một chuỗi đa byte hợp lệ"
 
-#: src/rcfile.c:1037 src/rcfile.c:1065 src/rcfile.c:1074
+#: src/rcfile.c:1038 src/rcfile.c:1066 src/rcfile.c:1075
 msgid "Non-blank characters required"
 msgstr "Yêu cầu các ký tự không phải khoảng trắng"
 
-#: src/rcfile.c:1047
+#: src/rcfile.c:1048
 msgid "Two single-column characters required"
 msgstr "Yêu cầu hai ký tự một cột"
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1114
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Không bỏ đặt được cờ « %s »"
 
-#: src/rcfile.c:1122
+#: src/rcfile.c:1123
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Cờ không rõ « %s »"
 
-#: src/rcfile.c:1181
+#: src/rcfile.c:1182
 msgid "I can't find my home directory!  Wah!"
 msgstr "Tôi không thể tìm thấy thư mục cá nhân của mình!"
 
@@ -2076,3 +2074,7 @@ msgstr "và những người khác mà chúng tôi quên..."
 #: src/winio.c:3499
 msgid "Thank you for using nano!"
 msgstr "Cảm ơn bạn đã dùng nano!"
+
+#~ msgid "Error writing backup file %s: File owner mismatch"
+#~ msgstr ""
+#~ "Gặp lỗi khi ghi tập tin sao lưu %s: chủ sở hữu tập tin không tương ứng"
