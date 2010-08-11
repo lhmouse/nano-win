@@ -4,7 +4,7 @@
 		when being used out of crontab).  For very strange situations
 		(such as where you cannot change the permissions on the
 		file you're writing, there is a new rc file option 
-		"allow_insecure_backup" to be even more permission and
+		"allow_insecure_backup" to be even more permissive and
 		allowing the write to proceed.  Also included are
 		some syntax highlighting updated, and that is about it.
 		Keep fighting the good fight children.
