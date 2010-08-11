@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.9.99pre0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 23:38-0400\n"
+"POT-Creation-Date: 2010-08-05 21:19-0400\n"
 "PO-Revision-Date: 2006-10-16 23:09+0200\n"
 "Last-Translator: Geir Helland <pjallabais@users.sourceforge.net>\n"
 "Language-Team: Norwegian Bokmaal <i18n-nb@lister.ping.uio.no>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Gå til katalog"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2042
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -34,9 +34,9 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Kan ikke gå utenfor %s i begrenset modus"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
-#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
-#: src/rcfile.c:1203
+#: src/files.c:731 src/files.c:1534 src/files.c:1653 src/files.c:1705
+#: src/files.c:1726 src/files.c:1849 src/files.c:2685 src/rcfile.c:568
+#: src/rcfile.c:1204
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Lesefeil på %s: %s"
@@ -187,13 +187,13 @@ msgstr "Ny fil"
 msgid "\"%s\" not found"
 msgstr "\"%s\" ikke funnet"
 
-#: src/files.c:717 src/rcfile.c:558 src/rcfile.c:1153 src/rcfile.c:1194
+#: src/files.c:717 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" er en katalog"
 
 # "enhet" = "device", kanskje, men det er litt forvirrande
-#: src/files.c:718 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
+#: src/files.c:718 src/rcfile.c:560 src/rcfile.c:1155 src/rcfile.c:1196
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" er en enhetsfil (device)"
@@ -222,98 +222,98 @@ msgstr "Fil som skal settes inn [fra %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Tasten er ugyldig utenfor multibuffer-modus"
 
-#: src/files.c:1479
+#: src/files.c:1480
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan ikke skrive utenfor %s"
 
-#: src/files.c:1494
+#: src/files.c:1495
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Kan ikke prependere eller appendere til en symbolsk lenke med --nofollow satt"
 
-#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
-#: src/files.c:1643
+#: src/files.c:1575 src/files.c:1597 src/files.c:1615 src/files.c:1626
+#: src/files.c:1634 src/files.c:1661
 #, fuzzy, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Feil ved skriving til midlertidlig fil: %s"
 
-#: src/files.c:1575 src/nano.c:701
+#: src/files.c:1576 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "For mange sikkerhetskopier?"
 
-#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
-#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
-#: src/files.c:1844 src/files.c:2740 src/files.c:2749
+#: src/files.c:1681 src/files.c:1738 src/files.c:1757 src/files.c:1769
+#: src/files.c:1793 src/files.c:1811 src/files.c:1821 src/files.c:1857
+#: src/files.c:1862 src/files.c:2758 src/files.c:2767
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Skrivefeil %s: %s"
 
-#: src/files.c:1697 src/text.c:2924 src/text.c:2936
+#: src/files.c:1715 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Feil ved skriving til midlertidlig fil: %s"
 
-#: src/files.c:1876
+#: src/files.c:1894
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Skrev %lu linje"
 msgstr[1] "Skrev %lu linjer"
 
-#: src/files.c:1980
+#: src/files.c:1998
 msgid " [DOS Format]"
 msgstr " [DOS Format]"
 
-#: src/files.c:1981
+#: src/files.c:1999
 msgid " [Mac Format]"
 msgstr " {Mac Format]"
 
-#: src/files.c:1983
+#: src/files.c:2001
 msgid " [Backup]"
 msgstr " [Sikkerhetskopi]"
 
-#: src/files.c:1991
+#: src/files.c:2009
 msgid "Prepend Selection to File"
 msgstr "Legg til valgt område først i fil"
 
-#: src/files.c:1992
+#: src/files.c:2010
 msgid "Append Selection to File"
 msgstr "Legg til valgt område sist i fil"
 
-#: src/files.c:1993
+#: src/files.c:2011
 msgid "Write Selection to File"
 msgstr "Skriv valgt område til fil"
 
-#: src/files.c:1996
+#: src/files.c:2014
 msgid "File Name to Prepend to"
 msgstr "Filnavn det skal legges til på slutten av"
 
-#: src/files.c:1997
+#: src/files.c:2015
 msgid "File Name to Append to"
 msgstr "Filnavn det skal legges til først i"
 
-#: src/files.c:1998
+#: src/files.c:2016
 msgid "File Name to Write"
 msgstr "Filnavn som skal skrives til"
 
-#: src/files.c:2129
+#: src/files.c:2147
 msgid "File exists, OVERWRITE ? "
 msgstr "Filen finnes, SKRIVE OVER ? "
 
-#: src/files.c:2138
+#: src/files.c:2156
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Lagre filen under et ANNET NAVN ? "
 
-#: src/files.c:2149
+#: src/files.c:2167
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2587
+#: src/files.c:2605
 msgid "(more)"
 msgstr "(mer)"
 
-#: src/files.c:2670 src/rcfile.c:1219
+#: src/files.c:2688 src/rcfile.c:1220
 #, c-format
 msgid ""
 "\n"
@@ -1620,12 +1620,12 @@ msgstr "XON ignorert, mumle mumle."
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorert, mumle mumle."
 
-#: src/nano.c:2203 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1100
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Angitt tabulatorstørrels \"%s\" er ugyldig"
 
-#: src/nano.c:2262 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1025
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Foreslått fyllbredden \"%s\" er ugyldig"
@@ -1657,71 +1657,71 @@ msgstr "Alle"
 msgid "No"
 msgstr "Nei"
 
-#: src/rcfile.c:129
+#: src/rcfile.c:130
 #, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Feil i %s på linje %lu: "
 
-#: src/rcfile.c:184
+#: src/rcfile.c:185
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Atrument '%s' har uterminert \""
 
-#: src/rcfile.c:211 src/rcfile.c:263 src/rcfile.c:710 src/rcfile.c:767
-#: src/rcfile.c:820
+#: src/rcfile.c:212 src/rcfile.c:264 src/rcfile.c:711 src/rcfile.c:768
+#: src/rcfile.c:821
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Strenger med reguttrykk må begynne med et \" tegn"
 
-#: src/rcfile.c:237 src/search.c:62
+#: src/rcfile.c:238 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Ugyldig reguttrykk \"%s\": %s"
 
-#: src/rcfile.c:257
+#: src/rcfile.c:258
 msgid "Missing syntax name"
 msgstr "Mangler syntaksnavn"
 
-#: src/rcfile.c:315
+#: src/rcfile.c:316
 msgid "The \"none\" syntax is reserved"
 msgstr "Syntaksen \"none\" (ingen) er reservert"
 
-#: src/rcfile.c:322
+#: src/rcfile.c:323
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Syntaksen \"default\" (forvalgt) kan ikke ta utvidelser"
 
-#: src/rcfile.c:385 src/rcfile.c:482
+#: src/rcfile.c:386 src/rcfile.c:483
 #, fuzzy
 msgid "Missing key name"
 msgstr "Mangler syntaksnavn"
 
-#: src/rcfile.c:397 src/rcfile.c:498
+#: src/rcfile.c:398 src/rcfile.c:499
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
 msgstr ""
 
-#: src/rcfile.c:406
+#: src/rcfile.c:407
 msgid "Must specify function to bind key to"
 msgstr ""
 
-#: src/rcfile.c:417 src/rcfile.c:509
+#: src/rcfile.c:418 src/rcfile.c:510
 msgid "Must specify menu to bind key to (or \"all\")"
 msgstr ""
 
-#: src/rcfile.c:425
+#: src/rcfile.c:426
 #, c-format
 msgid "Could not map name \"%s\" to a function"
 msgstr ""
 
-#: src/rcfile.c:431 src/rcfile.c:516
+#: src/rcfile.c:432 src/rcfile.c:517
 #, fuzzy, c-format
 msgid "Could not map name \"%s\" to a menu"
 msgstr "Kunne ikke starte \"%s\""
 
-#: src/rcfile.c:453
+#: src/rcfile.c:454
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
 msgstr ""
 
-#: src/rcfile.c:624
+#: src/rcfile.c:625
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1737,90 +1737,90 @@ msgstr ""
 "(sort), med valgfritt prefiks \"bright\" (lys)\n"
 "på forgrunnsfarver."
 
-#: src/rcfile.c:646
+#: src/rcfile.c:647
 msgid "Cannot add a color command without a syntax command"
 msgstr "Kan ikke legge til et fargedirektiv uten en syntakskommando"
 
-#: src/rcfile.c:651
+#: src/rcfile.c:652
 msgid "Missing color name"
 msgstr "Mangler farvenavn"
 
-#: src/rcfile.c:671
+#: src/rcfile.c:672
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Bakgrunnsfargen %s kan ikke være lys"
 
-#: src/rcfile.c:689 src/rcfile.c:808
+#: src/rcfile.c:690 src/rcfile.c:809
 msgid "Missing regex string"
 msgstr "Regulært uttrykk mangler"
 
-#: src/rcfile.c:761
+#: src/rcfile.c:762
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start= forutsetter et korresponderende \"end=\""
 
-#: src/rcfile.c:803
+#: src/rcfile.c:804
 #, fuzzy
 msgid "Cannot add a header regex without a syntax command"
 msgstr "Kan ikke legge til et fargedirektiv uten en syntakskommando"
 
-#: src/rcfile.c:873
+#: src/rcfile.c:874
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr ""
 
-#: src/rcfile.c:875
+#: src/rcfile.c:876
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 
-#: src/rcfile.c:925 src/rcfile.c:934 src/rcfile.c:944
+#: src/rcfile.c:926 src/rcfile.c:935 src/rcfile.c:945
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Kommandoen \"%s\" tillates ikke i inkludert fil"
 
-#: src/rcfile.c:950 src/rcfile.c:1127
+#: src/rcfile.c:951 src/rcfile.c:1128
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Syntaksen \"%s\" har ingen farvekommandoer"
 
-#: src/rcfile.c:965
+#: src/rcfile.c:966
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "kommando \"%s\" ikke forstått"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:972
 msgid "Missing flag"
 msgstr "Mangler flagg"
 
-#: src/rcfile.c:993
+#: src/rcfile.c:994
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Valg \"%s\" krever et argument"
 
-#: src/rcfile.c:1011
+#: src/rcfile.c:1012
 msgid "Option is not a valid multibyte string"
 msgstr "Brukervalget er ikke gyldig for flerbyte strenger"
 
-#: src/rcfile.c:1037 src/rcfile.c:1065 src/rcfile.c:1074
+#: src/rcfile.c:1038 src/rcfile.c:1066 src/rcfile.c:1075
 msgid "Non-blank characters required"
 msgstr "Må ha tegn som ikke er tabulator eller mellomslag"
 
-#: src/rcfile.c:1047
+#: src/rcfile.c:1048
 msgid "Two single-column characters required"
 msgstr "To enkelt-tegn kreves"
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1114
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Kan ikke skru av flagget \"%s\""
 
-#: src/rcfile.c:1122
+#: src/rcfile.c:1123
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Ukjent flagg \"%s\""
 
-#: src/rcfile.c:1181
+#: src/rcfile.c:1182
 msgid "I can't find my home directory!  Wah!"
 msgstr "Finner ikke hjemmekatalogen! Buhu!"
 

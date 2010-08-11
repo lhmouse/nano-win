@@ -28,6 +28,7 @@ For the future (no targeted version, catch-all)
   FFFD (Replacement Character) per sequence instead of one per byte.
 
 For version 2.4:
+- New regression framework built on expect.
 - Allow text searches in the help browser.
 - Handle window resizes better.  After we resize, we should stay
   wherever we were before we resized, as Pico does.

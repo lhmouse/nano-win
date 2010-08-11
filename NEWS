@@ -1,3 +1,14 @@
+2010.08.05 - GNU nano 2.2.5 "Inactivity timeout" is now available.
+		This release includes slightly less restrictive checkng
+		when writing files in strange environments (e.g. 
+		when being used out of crontab).  For very strange situations
+		(such as where you cannot change the permissions on the
+		file you're writing, there is a new rc file option 
+		"allow_insecure_backup" to be even more permissive and
+		allowing the write to proceed.  Also included are
+		some syntax highlighting updated, and that is about it.
+		Keep fighting the good fight children.
+
 2010.04.15 - GNU nano 2.2.4 is nobody's fool.  First and foremost,
 		this relase includes some security fixes due to
 		an assessment of nano's vulnerability to symlink attacks

@@ -1,17 +1,17 @@
 # GNU nano Finnish Translation.
-# Copyright © 2000, 2001, 2003, 2009 Free Software Foundation, Inc.
+# Copyright © 2000, 2001, 2003, 2009, 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 # Pauli Virtanen <pauli.virtanen@saunalahti.fi>, 2000, 2001.
 # Kalle Kivimaa <kalle.kivimaa@iki.fi>, 2003.
 # Kalle Olavi Niemitalo <kon@iki.fi>, 2003.
-# Jorma Karvonen <karvonen.jorma@gmail.com>, 2009
+# Jorma Karvonen <karvonen.jorma@gmail.com>, 2009-2010
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.2.2pre1\n"
+"Project-Id-Version: nano 2.2.4pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 23:38-0400\n"
-"PO-Revision-Date: 2009-12-23 20:00+0200\n"
+"POT-Creation-Date: 2010-08-05 21:19-0400\n"
+"PO-Revision-Date: 2010-04-08 10:55+0200\n"
 "Last-Translator: Jorma Karvonen <karvonen.jorma@gmail.com>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Siirry hakemistoon"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2042
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -35,9 +35,9 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Ei voi siirtyä pois hakemistosta %s rajoitetussa tilassa"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
-#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
-#: src/rcfile.c:1203
+#: src/files.c:731 src/files.c:1534 src/files.c:1653 src/files.c:1705
+#: src/files.c:1726 src/files.c:1849 src/files.c:2685 src/rcfile.c:568
+#: src/rcfile.c:1204
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Virhe luettaessa kohdetta %s: %s"
@@ -194,12 +194,12 @@ msgstr "Uusi tiedosto"
 msgid "\"%s\" not found"
 msgstr "Ei löytynyt: ”%s”"
 
-#: src/files.c:717 src/rcfile.c:558 src/rcfile.c:1153 src/rcfile.c:1194
+#: src/files.c:717 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "”%s” on hakemisto"
 
-#: src/files.c:718 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
+#: src/files.c:718 src/rcfile.c:560 src/rcfile.c:1155 src/rcfile.c:1196
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "”%s” on laitetiedosto"
@@ -232,105 +232,105 @@ msgstr "Lisättävä tiedosto [hakemistosta %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Virheellinen näppäin yhden puskurin tilassa"
 
-#: src/files.c:1479
+#: src/files.c:1480
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Ei voi kirjoittaa hakemiston %s ulkopuolelle"
 
 #  "Prepend" ei ole englanti, oikea sana on "prefix"
 #  "Prepend" is not an English word, use "prefix"
-#: src/files.c:1494
+#: src/files.c:1495
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Symboliseen linkkiin ei voi liittää etuliitettä eikä jälkiliikettä "
 "parametrillä ”--nofollow set”"
 
-#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
-#: src/files.c:1643
+#: src/files.c:1575 src/files.c:1597 src/files.c:1615 src/files.c:1626
+#: src/files.c:1634 src/files.c:1661
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Virhe kirjoitettaessa varmuuskopiotiedostoon %s: %s"
 
-#: src/files.c:1575 src/nano.c:701
+#: src/files.c:1576 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Liian monta varmuuskopiotiedostoa?"
 
-#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
-#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
-#: src/files.c:1844 src/files.c:2740 src/files.c:2749
+#: src/files.c:1681 src/files.c:1738 src/files.c:1757 src/files.c:1769
+#: src/files.c:1793 src/files.c:1811 src/files.c:1821 src/files.c:1857
+#: src/files.c:1862 src/files.c:2758 src/files.c:2767
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Virhe kirjoitettaessa %s: %s"
 
-#: src/files.c:1697 src/text.c:2924 src/text.c:2936
+#: src/files.c:1715 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Virhe kirjoitettaessa tilapäiseen tiedostoon: %s"
 
-#: src/files.c:1876
+#: src/files.c:1894
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Kirjoitettu %lu rivi"
 msgstr[1] "Kirjoitettu %lu riviä"
 
-#: src/files.c:1980
+#: src/files.c:1998
 msgid " [DOS Format]"
 msgstr " [DOS-muoto]"
 
-#: src/files.c:1981
+#: src/files.c:1999
 msgid " [Mac Format]"
 msgstr " [Mac-muoto]"
 
-#: src/files.c:1983
+#: src/files.c:2001
 msgid " [Backup]"
 msgstr " [Varmuuskopio]"
 
 #  "Prepend" is not an English word, use "prefix"
-#: src/files.c:1991
+#: src/files.c:2009
 msgid "Prepend Selection to File"
 msgstr "Lisää valinta tiedoston alkuun"
 
-#: src/files.c:1992
+#: src/files.c:2010
 msgid "Append Selection to File"
 msgstr "Lisää valinta tiedoston loppuun"
 
-#: src/files.c:1993
+#: src/files.c:2011
 msgid "Write Selection to File"
 msgstr "Kirjoita valinta tiedostoon"
 
 #  "Alkuun lisättävä tiedosto" olisi väärinpäin.
-#: src/files.c:1996
+#: src/files.c:2014
 msgid "File Name to Prepend to"
 msgstr "Minkä tiedoston alkuun"
 
-#: src/files.c:1997
+#: src/files.c:2015
 msgid "File Name to Append to"
 msgstr "Minkä tiedoston loppuun"
 
-#: src/files.c:1998
+#: src/files.c:2016
 msgid "File Name to Write"
 msgstr "Kirjoitettava tiedosto"
 
-#: src/files.c:2129
+#: src/files.c:2147
 msgid "File exists, OVERWRITE ? "
 msgstr "Tiedosto olemassa, korvataanko ? "
 
-#: src/files.c:2138
+#: src/files.c:2156
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Tallennetaanko tiedosto eri nimellä ? "
 
-#: src/files.c:2149
+#: src/files.c:2167
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 "Tiedostoa on muokattu sen jälkeen kun avasit sen, jatketaanko "
 "tallentamista ? "
 
-#: src/files.c:2587
+#: src/files.c:2605
 msgid "(more)"
 msgstr "(jatkuu)"
 
-#: src/files.c:2670 src/rcfile.c:1219
+#: src/files.c:2688 src/rcfile.c:1220
 #, c-format
 msgid ""
 "\n"
@@ -1645,13 +1645,13 @@ msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF:ia ei käytetä, mutinaa"
 
 #  puuttuu tai liian iso tai liian pieni
-#: src/nano.c:2203 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1100
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Haluttu sarkaimen koko ”%s” ei kelpaa"
 
 #  puuttuu tai liian iso tai liian pieni
-#: src/nano.c:2262 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1025
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Haluttu täydennyspituus ”%s” ei kelpaa"
@@ -1683,70 +1683,70 @@ msgstr "Kaikki"
 msgid "No"
 msgstr "Ei"
 
-#: src/rcfile.c:129
+#: src/rcfile.c:130
 #, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Virhe tiedostossa %s rivillä %lu: "
 
-#: src/rcfile.c:184
+#: src/rcfile.c:185
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "parametri ’%s’ sisältää parittoman ”-merkin"
 
-#: src/rcfile.c:211 src/rcfile.c:263 src/rcfile.c:710 src/rcfile.c:767
-#: src/rcfile.c:820
+#: src/rcfile.c:212 src/rcfile.c:264 src/rcfile.c:711 src/rcfile.c:768
+#: src/rcfile.c:821
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Säännöllisten lausekkeiden on alettava ja loputtava ”-merkillä"
 
-#: src/rcfile.c:237 src/search.c:62
+#: src/rcfile.c:238 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Säännöllinen lauseke ”%s” ei kelpaa: %s"
 
-#: src/rcfile.c:257
+#: src/rcfile.c:258
 msgid "Missing syntax name"
 msgstr "Puuttuva syntaksin nimi"
 
-#: src/rcfile.c:315
+#: src/rcfile.c:316
 msgid "The \"none\" syntax is reserved"
 msgstr "Syntaksi ”none” on varattu"
 
-#: src/rcfile.c:322
+#: src/rcfile.c:323
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Syntaksi ”default” ei saa ottaa laajennuksia"
 
-#: src/rcfile.c:385 src/rcfile.c:482
+#: src/rcfile.c:386 src/rcfile.c:483
 msgid "Missing key name"
 msgstr "Puuttuva näppäinnimi"
 
-#: src/rcfile.c:397 src/rcfile.c:498
+#: src/rcfile.c:398 src/rcfile.c:499
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
 msgstr "Näppäinsidontojen on alettava merkeillä ”^”, ”M”, tai ”F”"
 
-#: src/rcfile.c:406
+#: src/rcfile.c:407
 msgid "Must specify function to bind key to"
 msgstr "On määriteltävä funktionäppäin, johon näppäin sidotaan"
 
-#: src/rcfile.c:417 src/rcfile.c:509
+#: src/rcfile.c:418 src/rcfile.c:510
 msgid "Must specify menu to bind key to (or \"all\")"
 msgstr "On määriteltävä valikko, johon näppäin sidotaan (tai ”all”)"
 
-#: src/rcfile.c:425
+#: src/rcfile.c:426
 #, c-format
 msgid "Could not map name \"%s\" to a function"
 msgstr "Ei voitu kartoittaa nimeä ”%s” funktioon"
 
-#: src/rcfile.c:431 src/rcfile.c:516
+#: src/rcfile.c:432 src/rcfile.c:517
 #, c-format
 msgid "Could not map name \"%s\" to a menu"
 msgstr "Ei voitu kartoittaa nimeä ”%s” valikkoon"
 
-#: src/rcfile.c:453
+#: src/rcfile.c:454
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
 msgstr "Valitettavasti näppäinmerkkijonossa ”%s” on väärä sidonta"
 
-#: src/rcfile.c:624
+#: src/rcfile.c:625
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1761,37 +1761,37 @@ msgstr ""
 "”black”, ja alussa voi olla ”bright”\n"
 "edustaväreinä."
 
-#: src/rcfile.c:646
+#: src/rcfile.c:647
 msgid "Cannot add a color command without a syntax command"
 msgstr "En voi lisätä värikomentoa ilman syntaksikomentoa"
 
-#: src/rcfile.c:651
+#: src/rcfile.c:652
 msgid "Missing color name"
 msgstr "Puuttuva värin nimi"
 
-#: src/rcfile.c:671
+#: src/rcfile.c:672
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Taustaväri ”%s” ei  voi olla ”bright”"
 
-#: src/rcfile.c:689 src/rcfile.c:808
+#: src/rcfile.c:690 src/rcfile.c:809
 msgid "Missing regex string"
 msgstr "Puuttuva säännöllinen lausekemerkkijono"
 
-#: src/rcfile.c:761
+#: src/rcfile.c:762
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "”start=” vaatii vastaavan ”end=”:n"
 
-#: src/rcfile.c:803
+#: src/rcfile.c:804
 msgid "Cannot add a header regex without a syntax command"
 msgstr "Ei voi lisätä säännöllistä otsakelauseketta ilman syntaksikomentoa"
 
-#: src/rcfile.c:873
+#: src/rcfile.c:874
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Vakava virhe: funktioon ”%s” ei ole kartoitettu näppäimiä"
 
-#: src/rcfile.c:875
+#: src/rcfile.c:876
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -1799,53 +1799,53 @@ msgstr ""
 "Poistutaan. Käytä Nano-ohjelmaa ”-I”-valitsimella, jos nanorc-asetuksia "
 "täytyy säätää\n"
 
-#: src/rcfile.c:925 src/rcfile.c:934 src/rcfile.c:944
+#: src/rcfile.c:926 src/rcfile.c:935 src/rcfile.c:945
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Komentoa ”%s” ei sallita sisällytetyssä tiedostossa"
 
-#: src/rcfile.c:950 src/rcfile.c:1127
+#: src/rcfile.c:951 src/rcfile.c:1128
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Syntaksissa ”%s” ei ole värikomentoja"
 
-#: src/rcfile.c:965
+#: src/rcfile.c:966
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Komentoa ”%s” ei ymmärretty"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:972
 msgid "Missing flag"
 msgstr "Puuttuva lippu"
 
-#: src/rcfile.c:993
+#: src/rcfile.c:994
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "valitsin ”%s” vaatii argumentin"
 
-#: src/rcfile.c:1011
+#: src/rcfile.c:1012
 msgid "Option is not a valid multibyte string"
 msgstr "Valitsin ei ole monitavuinen merkkijono"
 
-#: src/rcfile.c:1037 src/rcfile.c:1065 src/rcfile.c:1074
+#: src/rcfile.c:1038 src/rcfile.c:1066 src/rcfile.c:1075
 msgid "Non-blank characters required"
 msgstr "Ei-tyhjemerkkejä vaadittu"
 
-#: src/rcfile.c:1047
+#: src/rcfile.c:1048
 msgid "Two single-column characters required"
 msgstr "Kaksi yksisarakkeista merkkiä vaadittu"
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1114
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Ei voi poistaa lippua ”%s”"
 
-#: src/rcfile.c:1122
+#: src/rcfile.c:1123
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Tuntematon lippu ”%s”"
 
-#: src/rcfile.c:1181
+#: src/rcfile.c:1182
 msgid "I can't find my home directory!  Wah!"
 msgstr "Kotihakemistoa ei löydy! Vää!"
 
@@ -2114,6 +2114,11 @@ msgstr "ja kaikille muille, jotka unohdimme..."
 #: src/winio.c:3499
 msgid "Thank you for using nano!"
 msgstr "Kiitos Nanon käyttämisestä!"
+
+#~ msgid "Error writing backup file %s: File owner mismatch"
+#~ msgstr ""
+#~ "Virhe kirjoitettaessa varmuuskopiotiedostoon %s: Tiedoston "
+#~ "omistajatäsmäämättömyys"
 
 #~ msgid "Space"
 #~ msgstr "Väli"

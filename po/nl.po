@@ -1,29 +1,30 @@
-# Dutch translations for nano
-# Copyright (C) 2009 Free Software Foundation, Inc.
+# Dutch translations for nano.
+# Copyright (C) 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 #
 # Guus Sliepen <guus@sliepen.eu.org>, 2003.
 # Reinout van Schouwen <reinout@cs.vu.nl>, 2005.
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008.
-# Erwin Poeze <erwin.poeze@gmail.com>, 2009
+# Erwin Poeze <erwin.poeze@gmail.com>, 2009.
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-2.2.2pre1\n"
+"Project-Id-Version: nano-2.2.4pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 23:38-0400\n"
-"PO-Revision-Date: 2009-12-23 11:24+0100\n"
-"Last-Translator: Erwin Poeze <erwin.poeze@gmail.com>\n"
+"POT-Creation-Date: 2010-08-05 21:19-0400\n"
+"PO-Revision-Date: 2010-04-09 20:25+0200\n"
+"Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.0\n"
 
 #: src/browser.c:220
 msgid "Go To Directory"
 msgstr "Naar map"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2042
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -35,9 +36,9 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Kan in beperkte modus niet buiten %s gaan"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
-#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
-#: src/rcfile.c:1203
+#: src/files.c:731 src/files.c:1534 src/files.c:1653 src/files.c:1705
+#: src/files.c:1726 src/files.c:1849 src/files.c:2685 src/rcfile.c:568
+#: src/rcfile.c:1204
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Fout tijdens lezen van %s: %s"
@@ -198,14 +199,14 @@ msgstr "Nieuw bestand"
 #: src/files.c:709
 #, c-format
 msgid "\"%s\" not found"
-msgstr "'%s' niet gevonden"
+msgstr "'%s' is niet gevonden"
 
-#: src/files.c:717 src/rcfile.c:558 src/rcfile.c:1153 src/rcfile.c:1194
+#: src/files.c:717 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "'%s' is een map"
 
-#: src/files.c:718 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
+#: src/files.c:718 src/rcfile.c:560 src/rcfile.c:1155 src/rcfile.c:1196
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "'%s' is een apparaat"
@@ -234,97 +235,97 @@ msgstr "In te voegen bestand [vanuit %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "In Kijkmodus is deze toets alleen geldig in multibuffermodus"
 
-#: src/files.c:1479
+#: src/files.c:1480
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan buiten %s niets opslaan"
 
-#: src/files.c:1494
+#: src/files.c:1495
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "Kan met '--nofollow' niet aan een symbolische koppeling toevoegen"
 
-#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
-#: src/files.c:1643
+#: src/files.c:1575 src/files.c:1597 src/files.c:1615 src/files.c:1626
+#: src/files.c:1634 src/files.c:1661
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Fout tijdens schrijven van tijdelijk bestand %s: %s"
 
-#: src/files.c:1575 src/nano.c:701
+#: src/files.c:1576 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Te veel reservekopieën?"
 
-#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
-#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
-#: src/files.c:1844 src/files.c:2740 src/files.c:2749
+#: src/files.c:1681 src/files.c:1738 src/files.c:1757 src/files.c:1769
+#: src/files.c:1793 src/files.c:1811 src/files.c:1821 src/files.c:1857
+#: src/files.c:1862 src/files.c:2758 src/files.c:2767
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Fout tijdens schrijven van %s: %s"
 
-#: src/files.c:1697 src/text.c:2924 src/text.c:2936
+#: src/files.c:1715 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Fout tijdens schrijven van tijdelijk bestand: %s"
 
-#: src/files.c:1876
+#: src/files.c:1894
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "%lu regel geschreven"
 msgstr[1] "%lu regels geschreven"
 
-#: src/files.c:1980
+#: src/files.c:1998
 msgid " [DOS Format]"
 msgstr " [DOS-indeling]"
 
-#: src/files.c:1981
+#: src/files.c:1999
 msgid " [Mac Format]"
 msgstr " [Mac-indeling]"
 
-#: src/files.c:1983
+#: src/files.c:2001
 msgid " [Backup]"
 msgstr " [Kopie maken]"
 
-#: src/files.c:1991
+#: src/files.c:2009
 msgid "Prepend Selection to File"
 msgstr "Selectie toevoegen vooraan bestand"
 
-#: src/files.c:1992
+#: src/files.c:2010
 msgid "Append Selection to File"
 msgstr "Selectie toevoegen achteraan bestand"
 
-#: src/files.c:1993
+#: src/files.c:2011
 msgid "Write Selection to File"
 msgstr "Selectie opslaan in bestand"
 
-#: src/files.c:1996
+#: src/files.c:2014
 msgid "File Name to Prepend to"
 msgstr "Vooraan toevoegen aan bestand"
 
-#: src/files.c:1997
+#: src/files.c:2015
 msgid "File Name to Append to"
 msgstr "Achteraan toevoegen aan bestand"
 
-#: src/files.c:1998
+#: src/files.c:2016
 msgid "File Name to Write"
 msgstr "Opslaan in bestand"
 
-#: src/files.c:2129
+#: src/files.c:2147
 msgid "File exists, OVERWRITE ? "
-msgstr "Bestand bestaat al, OVERSCHRIJVEN? "
+msgstr "Bestand bestaat al; OVERSCHRIJVEN? "
 
-#: src/files.c:2138
+#: src/files.c:2156
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Bestand opslaan onder een ANDERE NAAM? "
 
-#: src/files.c:2149
+#: src/files.c:2167
 msgid "File was modified since you opened it, continue saving ? "
-msgstr "Bestand is aangepast na opening. Doorgaan met opslaan?"
+msgstr "Bestand is gewijzigd na opening; doorgaan met opslaan? "
 
-#: src/files.c:2587
+#: src/files.c:2605
 msgid "(more)"
 msgstr "(meer)"
 
-#: src/files.c:2670 src/rcfile.c:1219
+#: src/files.c:2688 src/rcfile.c:1220
 #, c-format
 msgid ""
 "\n"
@@ -626,7 +627,7 @@ msgstr "Eén regel terugscrollen (cursor niet verplaatsen)"
 
 #: src/global.c:568
 msgid "Scroll down one line without scrolling the cursor"
-msgstr "Eén regel verderscrollen (cursor niet verplaatsen)"
+msgstr "Eén regel vooruitscrollen (cursor niet verplaatsen)"
 
 #: src/global.c:572
 msgid "Switch to the previous file buffer"
@@ -742,11 +743,11 @@ msgstr "Naar het laatste bestand in de lijst gaan"
 
 #: src/global.c:641
 msgid "Go to the next file in the list"
-msgstr "Ga naar het laatste bestand in de lijst"
+msgstr "Naar het volgende bestand in de lijst gaan"
 
 #: src/global.c:642
 msgid "Go to the previous file in the list"
-msgstr "Ga naar het eerste bestand in de lijst"
+msgstr "Naar het vorige bestand in de lijst gaan"
 
 #: src/global.c:643
 msgid "Go to directory"
@@ -969,7 +970,7 @@ msgstr "Proces-pauzering"
 
 #: src/global.c:1399
 msgid "Soft line wrapping"
-msgstr "Terugloop van lange regels"
+msgstr "Zachte terugloop van lange regels"
 
 #: src/help.c:236
 msgid ""
@@ -1229,12 +1230,13 @@ msgid ""
 msgstr ""
 "Algemene Nano-hulptekst\n"
 "\n"
-" De nano editor is ontworpen om de functionaliteit en het gebruiksgemak van "
+" De Nano-editor is ontworpen om de functionaliteit en het gebruiksgemak van "
 "de Pico-editor te emuleren.  Het editorscherm bestaat uit vier onderdelen.  "
-"De bovenste regel toont nano's naam en versienummer, de naam van het huidige "
-"bestand, en of dit bestand gewijzigd is.  Daaronder begint het eigenlijke "
-"editvenster waarin het bestand getoond wordt.  De derde regel van onderen is "
-"de statusregel en toont belangrijke berichten.  "
+"De bovenste regel toont links nano's naam en versienummer, in het midden de "
+"naam van het huidige bestand, en rechts of dit bestand gewijzigd is.  "
+"Daaronder begint het eigenlijke editvenster waarin het bestand getoond "
+"wordt.  De derde regel van onderen is de statusregel en toont belangrijke "
+"berichten.  "
 
 #: src/help.c:366
 msgid ""
@@ -1321,12 +1323,12 @@ msgstr ""
 #: src/nano.c:819
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
-msgstr "Optie\t\tLange optie\t\tBetekenis\n"
+msgstr "Optie\t\tLange optie\t\t  Betekenis\n"
 
 #: src/nano.c:821
 #, c-format
 msgid "Option\t\tMeaning\n"
-msgstr "Optie\t\tBetekenis\n"
+msgstr "Optie\t\t  Betekenis\n"
 
 #: src/nano.c:824
 msgid "Show this message"
@@ -1494,7 +1496,7 @@ msgstr "XON- en XOFF-toetsen behouden (^Q en ^S)"
 
 #: src/nano.c:903
 msgid "Silently ignore startup issues like rc file errors"
-msgstr "Stilletjes de opstartzaken negeren, zoals rc-bestandsfouten"
+msgstr "opstartproblemen zoals rc-fouten negeren"
 
 #: src/nano.c:905
 msgid "-r <#cols>"
@@ -1526,11 +1528,11 @@ msgstr "automatisch opslaan bij afsluiten"
 
 #: src/nano.c:915
 msgid "Allow generic undo [EXPERIMENTAL]"
-msgstr "Algeheel ongedaanmaken toegestaan (EXPERIMENTEEL)"
+msgstr "ongedaanmaken toestaan (EXPERIMENTEEL)"
 
 #: src/nano.c:918
 msgid "View mode (read-only)"
-msgstr "Kijkmodus (alleen lezen, geen bewerking)"
+msgstr "kijkmodus (alleen lezen, geen bewerking)"
 
 #: src/nano.c:920
 msgid "Don't wrap long lines"
@@ -1546,7 +1548,7 @@ msgstr "pauzeren van editor toestaan"
 
 #: src/nano.c:924
 msgid "Enable soft line wrapping"
-msgstr "Terugloop van lange regels inschakelen"
+msgstr "rest van lange regels tonen op volgende"
 
 #: src/nano.c:928
 msgid "(ignored, for Pico compatibility)"
@@ -1584,12 +1586,12 @@ msgstr ""
 
 #: src/nano.c:1088
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
-msgstr "Kan stdin afkomstig van toetsenbord niet heropenen, sorry\n"
+msgstr "Kan standaardinvoer vanaf toetsenbord niet heropenen\n"
 
 #: src/nano.c:1114
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
-msgstr "Van stdin lezen, ^C om af te breken\n"
+msgstr "Lezen van standaardinvoer; ^C om af te breken\n"
 
 #: src/nano.c:1182
 msgid "Received SIGHUP or SIGTERM\n"
@@ -1602,11 +1604,11 @@ msgstr "Gebruik 'fg' om terug te keren naar nano.\n"
 
 #: src/nano.c:1380
 msgid "enabled"
-msgstr "aangezet"
+msgstr "is aangezet"
 
 #: src/nano.c:1381
 msgid "disabled"
-msgstr "uitgezet"
+msgstr "is uitgezet"
 
 #: src/nano.c:1542 src/winio.c:1256
 msgid "Unknown Command"
@@ -1614,18 +1616,18 @@ msgstr "Onbekend commando"
 
 #: src/nano.c:1668
 msgid "XON ignored, mumble mumble"
-msgstr "XON genegeerd, mmm-mmm"
+msgstr "XON genegeerd; mmm-mmm"
 
 #: src/nano.c:1673
 msgid "XOFF ignored, mumble mumble"
-msgstr "XOFF genegeerd, mmm-mmm"
+msgstr "XOFF genegeerd; mmm-mmm"
 
-#: src/nano.c:2203 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1100
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Gevraagde tabgrootte '%s' is ongeldig"
 
-#: src/nano.c:2262 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1025
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Gevraagde uitvulbreedte '%s' is ongeldig"
@@ -1639,7 +1641,7 @@ msgstr "JjYy"
 
 #: src/prompt.c:1260
 msgid "Nn"
-msgstr "Nn"
+msgstr "NnNn"
 
 # Accepteert ook de "O" van "Overal":
 #: src/prompt.c:1261
@@ -1658,71 +1660,71 @@ msgstr "Alle"
 msgid "No"
 msgstr "Nee"
 
-#: src/rcfile.c:129
+#: src/rcfile.c:130
 #, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Fout in %s op regel %lu: "
 
-#: src/rcfile.c:184
+#: src/rcfile.c:185
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Argument '%s' heeft een ongepaarde \""
 
-#: src/rcfile.c:211 src/rcfile.c:263 src/rcfile.c:710 src/rcfile.c:767
-#: src/rcfile.c:820
+#: src/rcfile.c:212 src/rcfile.c:264 src/rcfile.c:711 src/rcfile.c:768
+#: src/rcfile.c:821
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Reg.exp.-reeksen moeten beginnen en eindigen met een \"-teken"
 
-#: src/rcfile.c:237 src/search.c:62
+#: src/rcfile.c:238 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Onjuiste reguliere expressie '%s': %s"
 
-#: src/rcfile.c:257
+#: src/rcfile.c:258
 msgid "Missing syntax name"
 msgstr "Ontbrekende syntaxnaam"
 
-#: src/rcfile.c:315
+#: src/rcfile.c:316
 msgid "The \"none\" syntax is reserved"
 msgstr "Het woordje 'none' is gereserveerd"
 
-#: src/rcfile.c:322
+#: src/rcfile.c:323
 msgid "The \"default\" syntax must take no extensions"
 msgstr "Bij het woordje 'default' horen geen extensies"
 
-#: src/rcfile.c:385 src/rcfile.c:482
+#: src/rcfile.c:386 src/rcfile.c:483
 msgid "Missing key name"
 msgstr "Ontbrekende toetsnaam"
 
-#: src/rcfile.c:397 src/rcfile.c:498
+#: src/rcfile.c:398 src/rcfile.c:499
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
 msgstr "Toetsbindingen moeten beginnen met \"^\", \"M\", of \"F\""
 
-#: src/rcfile.c:406
+#: src/rcfile.c:407
 msgid "Must specify function to bind key to"
 msgstr "Functie waaraan de toets gebonden moet worden ontbreekt"
 
-#: src/rcfile.c:417 src/rcfile.c:509
+#: src/rcfile.c:418 src/rcfile.c:510
 msgid "Must specify menu to bind key to (or \"all\")"
 msgstr ""
-"Menu waarin toets moet worden gebonden moet worden opgegeven (of \"alles\")"
+"Menu waarin de toets moet worden gebonden moet worden opgegeven (of \"all\")"
 
-#: src/rcfile.c:425
+#: src/rcfile.c:426
 #, c-format
 msgid "Could not map name \"%s\" to a function"
 msgstr "Kan in naam '%s' geen functie herkennen"
 
-#: src/rcfile.c:431 src/rcfile.c:516
+#: src/rcfile.c:432 src/rcfile.c:517
 #, c-format
 msgid "Could not map name \"%s\" to a menu"
-msgstr "Kan in naam \"%s\" geen menu herkennen"
+msgstr "Kan in naam '%s' geen menu herkennen"
 
-#: src/rcfile.c:453
+#: src/rcfile.c:454
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
-msgstr "Toets \"%s\" mag niet herbonden worden"
+msgstr "Toets '%s' mag niet herbonden worden"
 
-#: src/rcfile.c:624
+#: src/rcfile.c:625
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1736,90 +1738,90 @@ msgstr ""
 "'magenta', 'yellow', 'cyan', 'black' en 'white',\n"
 "met voor voorgrondkleuren het optionele voorvoegsel 'bright'."
 
-#: src/rcfile.c:646
+#: src/rcfile.c:647
 msgid "Cannot add a color command without a syntax command"
 msgstr "Kan geen 'color'-commando verwerken zonder een 'syntax'-commando"
 
-#: src/rcfile.c:651
+#: src/rcfile.c:652
 msgid "Missing color name"
 msgstr "Ontbrekende kleurnaam"
 
-#: src/rcfile.c:671
+#: src/rcfile.c:672
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Achtergrondkleur '%s' kan niet 'bright' zijn"
 
-#: src/rcfile.c:689 src/rcfile.c:808
+#: src/rcfile.c:690 src/rcfile.c:809
 msgid "Missing regex string"
 msgstr "Ontbrekende reg.exp.-tekenreeks"
 
-#: src/rcfile.c:761
+#: src/rcfile.c:762
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "'start=' vereist een bijbehorende 'end='"
 
-#: src/rcfile.c:803
+#: src/rcfile.c:804
 msgid "Cannot add a header regex without a syntax command"
-msgstr "Kan geen kopregel-expressie verwerken zonder een 'syntax'-commando"
+msgstr "Kan geen topregel-expressie verwerken zonder een 'syntax'-commando"
 
-#: src/rcfile.c:873
+#: src/rcfile.c:874
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Fatale fout: aan functie '%s' is geen toets gebonden"
 
-#: src/rcfile.c:875
+#: src/rcfile.c:876
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
 "Gestopt.  Start eventueel nano met optie -I om uw nanorc te corrigeren.\n"
 
-#: src/rcfile.c:925 src/rcfile.c:934 src/rcfile.c:944
+#: src/rcfile.c:926 src/rcfile.c:935 src/rcfile.c:945
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Commando '%s' is niet toegestaan in 'include'-bestand"
 
-#: src/rcfile.c:950 src/rcfile.c:1127
+#: src/rcfile.c:951 src/rcfile.c:1128
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Bij syntax '%s' ontbreken 'color'-commando's"
 
-#: src/rcfile.c:965
+#: src/rcfile.c:966
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Commando '%s' is onbekend"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:972
 msgid "Missing flag"
 msgstr "Ontbrekende vlag"
 
-#: src/rcfile.c:993
+#: src/rcfile.c:994
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Optie '%s' vereist een argument"
 
-#: src/rcfile.c:1011
+#: src/rcfile.c:1012
 msgid "Option is not a valid multibyte string"
 msgstr "Optie is geen geldige multibyte-tekenreeks"
 
-#: src/rcfile.c:1037 src/rcfile.c:1065 src/rcfile.c:1074
+#: src/rcfile.c:1038 src/rcfile.c:1066 src/rcfile.c:1075
 msgid "Non-blank characters required"
 msgstr "Niet-blanco tekens vereist"
 
-#: src/rcfile.c:1047
+#: src/rcfile.c:1048
 msgid "Two single-column characters required"
 msgstr "Twee enkelkoloms-tekens vereist"
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1114
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Kan vlag '%s' niet uitzetten"
 
-#: src/rcfile.c:1122
+#: src/rcfile.c:1123
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Onbekende vlag '%s'"
 
-#: src/rcfile.c:1181
+#: src/rcfile.c:1182
 msgid "I can't find my home directory!  Wah!"
 msgstr "Kan de thuismap niet vinden!  Boehoe!"
 
@@ -1869,7 +1871,7 @@ msgstr "Geen overeenkomend haakje"
 
 #: src/text.c:54
 msgid "Mark Set"
-msgstr "Markering aangezet"
+msgstr "Markering is aangezet"
 
 #: src/text.c:58
 msgid "Mark Unset"
@@ -1894,7 +1896,7 @@ msgstr "tekstverwijdering"
 
 #: src/text.c:489 src/text.c:628
 msgid "line wrap"
-msgstr "Terugloop van lange regels"
+msgstr "regelterugloop"
 
 #: src/text.c:503 src/text.c:636
 msgid "line join"
@@ -2085,6 +2087,10 @@ msgstr "en iedereen die we vergeten zijn..."
 #: src/winio.c:3499
 msgid "Thank you for using nano!"
 msgstr "Dank u voor het gebruiken van nano!"
+
+#~ msgid "Error writing backup file %s: File owner mismatch"
+#~ msgstr ""
+#~ "Fout tijdens schrijven van reservekopiebestand %s: een ander is eigenaar"
 
 #~ msgid "line split"
 #~ msgstr "regelsplitsing"

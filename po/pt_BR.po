@@ -1,14 +1,14 @@
 # Portugueses Translation for the nano textual domain
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# João Victor Duarte Martins <jvdm@sdf.lonestar.org>, 2009.
+# João Victor Duarte Martins <jvdm@sdf.lonestar.org>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.1.10pre1\n"
+"Project-Id-Version: nano 2.2.4pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 23:38-0400\n"
-"PO-Revision-Date: 2009-07-12 12:13-0300\n"
+"POT-Creation-Date: 2010-08-05 21:19-0400\n"
+"PO-Revision-Date: 2010-04-07 10:02-0300\n"
 "Last-Translator: João Victor Duarte Martins <jvdm@sdf.lonestar.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Ir para o Diretório"
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2024
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2042
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -32,9 +32,9 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Impossível mover-se fora de %s no modo restrito"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1533 src/files.c:1639 src/files.c:1687
-#: src/files.c:1708 src/files.c:1831 src/files.c:2667 src/rcfile.c:567
-#: src/rcfile.c:1203
+#: src/files.c:731 src/files.c:1534 src/files.c:1653 src/files.c:1705
+#: src/files.c:1726 src/files.c:1849 src/files.c:2685 src/rcfile.c:568
+#: src/rcfile.c:1204
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Erro na leitura %s: %s"
@@ -116,15 +116,19 @@ msgstr[0] "%lu linha lida (Convertida do formato DOS e Mac)"
 msgstr[1] "%lu linhas lidas (Convertidas do formato DOS e Mac)"
 
 #: src/files.c:638
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Read %lu line (Converted from DOS and Mac format - Warning: No write "
 "permission)"
 msgid_plural ""
 "Read %lu lines (Converted from DOS and Mac format - Warning: No write "
 "permission)"
-msgstr[0] "%lu linha lida (Convertida do formato DOS e Mac)"
-msgstr[1] "%lu linhas lidas (Convertidas do formato DOS e Mac)"
+msgstr[0] ""
+"%lu linha lida (Convertida do formato DOS e Mac - Atenção: Sem permissão de "
+"escrita)"
+msgstr[1] ""
+"%lu linhas lidas (Convertidas do formato DOS e Mac - Atenção: Sem permissão "
+"de escrita)"
 
 #: src/files.c:644
 #, c-format
@@ -134,13 +138,17 @@ msgstr[0] "%lu linha lida (Convertida do formato Mac)"
 msgstr[1] "%lu linhas lidas (Convertidas do formato Mac)"
 
 #: src/files.c:648
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Read %lu line (Converted from Mac format - Warning: No write permission)"
 msgid_plural ""
 "Read %lu lines (Converted from Mac format - Warning: No write permission)"
-msgstr[0] "%lu linha lida (Convertida do formato Mac)"
-msgstr[1] "%lu linhas lidas (Convertidas do formato Mac)"
+msgstr[0] ""
+"%lu linha lida (Convertida do formato Mac - Atenção: Sem permissão de "
+"escrita)"
+msgstr[1] ""
+"%lu linhas lidas (Convertidas do formato Mac - Atenção: Sem permissão de "
+"escrita)"
 
 #: src/files.c:654
 #, c-format
@@ -150,13 +158,17 @@ msgstr[0] "%lu linha lida (Convertida do formato DOS)"
 msgstr[1] "%lu linhas lidas (Convertidas do formato DOS)"
 
 #: src/files.c:658
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Read %lu line (Converted from DOS format - Warning: No write permission)"
 msgid_plural ""
 "Read %lu lines (Converted from DOS format - Warning: No write permission)"
-msgstr[0] "%lu linha lida (Convertida do formato DOS)"
-msgstr[1] "%lu linhas lidas (Convertidas do formato DOS)"
+msgstr[0] ""
+"%lu linha lida (Convertida do formato DOS - Atenção: Sem permissão de "
+"escrita)"
+msgstr[1] ""
+"%lu linhas lidas (Convertidas do formato DOS - Atenção: Sem permissão de "
+"escrita)"
 
 #: src/files.c:664
 #, c-format
@@ -169,8 +181,8 @@ msgstr[1] "%lu linhas lidas"
 #, c-format
 msgid "Read %lu line ( Warning: No write permission)"
 msgid_plural "Read %lu lines (Warning: No write permission)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%lu linha lida ( Atenção: Sem permissão de escrita)"
+msgstr[1] "%lu linhas lidas ( Atenção: sem permissão de escrita)"
 
 #: src/files.c:700 src/files.c:736
 msgid "Reading File"
@@ -185,12 +197,12 @@ msgstr "Novo Arquivo"
 msgid "\"%s\" not found"
 msgstr "\"%s\" não encontrado"
 
-#: src/files.c:717 src/rcfile.c:558 src/rcfile.c:1153 src/rcfile.c:1194
+#: src/files.c:717 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" é um diretório"
 
-#: src/files.c:718 src/rcfile.c:559 src/rcfile.c:1154 src/rcfile.c:1195
+#: src/files.c:718 src/rcfile.c:560 src/rcfile.c:1155 src/rcfile.c:1196
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" é um arquivo dispositivo"
@@ -219,99 +231,99 @@ msgstr "Arquivo para inserção [de %s] "
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Tecla ilegal em modo não-multibuffer"
 
-#: src/files.c:1479
+#: src/files.c:1480
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Impossível escrever fora de %s"
 
-#: src/files.c:1494
+#: src/files.c:1495
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "Impossível acrecentar uma ligação simbólica com a opção --nofollow"
 
-#: src/files.c:1574 src/files.c:1596 src/files.c:1609 src/files.c:1618
-#: src/files.c:1643
+#: src/files.c:1575 src/files.c:1597 src/files.c:1615 src/files.c:1626
+#: src/files.c:1634 src/files.c:1661
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Erro ao escrever o arquivo reserva %s : %s"
 
-#: src/files.c:1575 src/nano.c:701
+#: src/files.c:1576 src/nano.c:701
 msgid "Too many backup files?"
 msgstr "Muitos arquivos reserva?"
 
-#: src/files.c:1663 src/files.c:1720 src/files.c:1739 src/files.c:1751
-#: src/files.c:1775 src/files.c:1793 src/files.c:1803 src/files.c:1839
-#: src/files.c:1844 src/files.c:2740 src/files.c:2749
+#: src/files.c:1681 src/files.c:1738 src/files.c:1757 src/files.c:1769
+#: src/files.c:1793 src/files.c:1811 src/files.c:1821 src/files.c:1857
+#: src/files.c:1862 src/files.c:2758 src/files.c:2767
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Erro ao escrever %s: %s"
 
-#: src/files.c:1697 src/text.c:2924 src/text.c:2936
+#: src/files.c:1715 src/text.c:2924 src/text.c:2936
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Erro ao escrever o arquivo temporário: %s"
 
-#: src/files.c:1876
+#: src/files.c:1894
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Escrito %lu linha"
 msgstr[1] "Escrito %lu linhas"
 
-#: src/files.c:1980
+#: src/files.c:1998
 msgid " [DOS Format]"
 msgstr " [Formato DOS]"
 
-#: src/files.c:1981
+#: src/files.c:1999
 msgid " [Mac Format]"
 msgstr " [Formato Mac]"
 
-#: src/files.c:1983
+#: src/files.c:2001
 msgid " [Backup]"
 msgstr " [Arq Reserva]"
 
-#: src/files.c:1991
+#: src/files.c:2009
 msgid "Prepend Selection to File"
 msgstr "Pre-Adicionar seleção para o Arquivo"
 
-#: src/files.c:1992
+#: src/files.c:2010
 msgid "Append Selection to File"
 msgstr "Adicionar seleção para o Arquivo"
 
-#: src/files.c:1993
+#: src/files.c:2011
 msgid "Write Selection to File"
 msgstr "Escrever a Seleção para o Arquivo"
 
-#: src/files.c:1996
+#: src/files.c:2014
 msgid "File Name to Prepend to"
 msgstr "Nome Arquivo para Pré-Adicionar"
 
-#: src/files.c:1997
+#: src/files.c:2015
 msgid "File Name to Append to"
 msgstr "Arquivo para Adicionar ao"
 
-#: src/files.c:1998
+#: src/files.c:2016
 msgid "File Name to Write"
 msgstr "Nome do Arquivo para Gravar"
 
-#: src/files.c:2129
+#: src/files.c:2147
 msgid "File exists, OVERWRITE ? "
 msgstr "Arquivo já existe, SOBRESCREVER ?"
 
-#: src/files.c:2138
+#: src/files.c:2156
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Salvar o Arquivo com um NOME DIFERENTE ?"
 
-#: src/files.c:2149
+#: src/files.c:2167
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 "O arquivo foi modificado desde a última vez que você abriu, continuar "
 "salvando ? "
 
-#: src/files.c:2587
+#: src/files.c:2605
 msgid "(more)"
 msgstr "(mais)"
 
-#: src/files.c:2670 src/rcfile.c:1219
+#: src/files.c:2688 src/rcfile.c:1220
 #, c-format
 msgid ""
 "\n"
@@ -730,14 +742,12 @@ msgid "Go to the last file in the list"
 msgstr "Ir para o último arquivo na lista"
 
 #: src/global.c:641
-#, fuzzy
 msgid "Go to the next file in the list"
-msgstr "Ir para o último arquivo na lista"
+msgstr "Ir para o próximo arquivo na lista"
 
 #: src/global.c:642
-#, fuzzy
 msgid "Go to the previous file in the list"
-msgstr "Ir para o primeiro arquivo na lista"
+msgstr "Ir para o prévio arquivo na lista"
 
 #: src/global.c:643
 msgid "Go to directory"
@@ -958,8 +968,8 @@ msgstr "Sem conversões do formato DOS/Mac"
 msgid "Suspension"
 msgstr "Suspenção"
 
+# Soft line wrapping?
 #: src/global.c:1399
-#, fuzzy
 msgid "Soft line wrapping"
 msgstr "Ajuste de linhas longas"
 
@@ -1549,10 +1559,10 @@ msgstr "Não as duas linhas de ajuda"
 msgid "Enable suspension"
 msgstr "Permitir suspenção"
 
+# Soft line wrapping?
 #: src/nano.c:924
-#, fuzzy
 msgid "Enable soft line wrapping"
-msgstr "Ajuste de linhas longas"
+msgstr "Habilita ajuste de linhas longas"
 
 #: src/nano.c:928
 msgid "(ignored, for Pico compatibility)"
@@ -1624,12 +1634,12 @@ msgstr "XON ignorado, mumble mumble."
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorado, mumble mumble"
 
-#: src/nano.c:2203 src/rcfile.c:1099
+#: src/nano.c:2203 src/rcfile.c:1100
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Tamanho \"%s\" de tabulação é inválido"
 
-#: src/nano.c:2262 src/rcfile.c:1024
+#: src/nano.c:2262 src/rcfile.c:1025
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Pedido de tamanho \"%s\" inválido"
@@ -1661,71 +1671,71 @@ msgstr "Todos"
 msgid "No"
 msgstr "Não"
 
-#: src/rcfile.c:129
+#: src/rcfile.c:130
 #, c-format
 msgid "Error in %s on line %lu: "
 msgstr "Erro no %s na linha %lu: "
 
-#: src/rcfile.c:184
+#: src/rcfile.c:185
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Argumento '%s' possui inderterminado \""
 
-#: src/rcfile.c:211 src/rcfile.c:263 src/rcfile.c:710 src/rcfile.c:767
-#: src/rcfile.c:820
+#: src/rcfile.c:212 src/rcfile.c:264 src/rcfile.c:711 src/rcfile.c:768
+#: src/rcfile.c:821
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Expressão regular deve começar e terminar com um caractere \""
 
-#: src/rcfile.c:237 src/search.c:62
+#: src/rcfile.c:238 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Expressão regular errônea \"%s\": %s"
 
-#: src/rcfile.c:257
+#: src/rcfile.c:258
 msgid "Missing syntax name"
 msgstr "Falta o nome da sintaxe"
 
-#: src/rcfile.c:315
+#: src/rcfile.c:316
 msgid "The \"none\" syntax is reserved"
 msgstr "A sintaxe \"none\" é reservada"
 
-#: src/rcfile.c:322
+#: src/rcfile.c:323
 msgid "The \"default\" syntax must take no extensions"
 msgstr "A sintaxe padrão não deve conter extensões"
 
-#: src/rcfile.c:385 src/rcfile.c:482
+#: src/rcfile.c:386 src/rcfile.c:483
 msgid "Missing key name"
 msgstr "Falta o nome da chave"
 
-#: src/rcfile.c:397 src/rcfile.c:498
+#: src/rcfile.c:398 src/rcfile.c:499
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
 msgstr "vínculos de teclas devem começar com \"^\", \"M\" ou \"F\""
 
-#: src/rcfile.c:406
+#: src/rcfile.c:407
 msgid "Must specify function to bind key to"
 msgstr "É preciso especificar uma função para o vínculo da tecla"
 
-#: src/rcfile.c:417 src/rcfile.c:509
+#: src/rcfile.c:418 src/rcfile.c:510
 msgid "Must specify menu to bind key to (or \"all\")"
 msgstr "É preciso especificar um menu para o vínculo da tecla (ou \"all\")"
 
-#: src/rcfile.c:425
+#: src/rcfile.c:426
 #, c-format
 msgid "Could not map name \"%s\" to a function"
 msgstr "Não foi possível mapear o nome \"%s\" com uma função"
 
-#: src/rcfile.c:431 src/rcfile.c:516
+#: src/rcfile.c:432 src/rcfile.c:517
 #, c-format
 msgid "Could not map name \"%s\" to a menu"
 msgstr "Não foi possível mapear o nome \"%s\" com um menu"
 
 # TODO keystr pode ser traduzido?
-#: src/rcfile.c:453
+#: src/rcfile.c:454
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
 msgstr "Desculpe, keystr \"%s\" é um vínculo ilegal"
 
-#: src/rcfile.c:624
+#: src/rcfile.c:625
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1740,38 +1750,38 @@ msgstr ""
 "\"magente\" (maguenta) e \"black\" (preto), com o prefixo \n"
 "opcional \"bright\" (claro) para cores de fundo."
 
-#: src/rcfile.c:646
+#: src/rcfile.c:647
 msgid "Cannot add a color command without a syntax command"
 msgstr "Impossível adicionar um diretiva de cor sem um diretiva de sintaxe"
 
-#: src/rcfile.c:651
+#: src/rcfile.c:652
 msgid "Missing color name"
 msgstr "Falta o nome da cor"
 
-#: src/rcfile.c:671
+#: src/rcfile.c:672
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Cor do fundo \"%s\" não pode ser clara"
 
-#: src/rcfile.c:689 src/rcfile.c:808
+#: src/rcfile.c:690 src/rcfile.c:809
 msgid "Missing regex string"
 msgstr "Falta a expressão regular"
 
-#: src/rcfile.c:761
+#: src/rcfile.c:762
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\\\"start=\\\" precisa de um correspondende \\\"end=\\\""
 
 # TODO analisar no programa se isso faz sentido
-#: src/rcfile.c:803
+#: src/rcfile.c:804
 msgid "Cannot add a header regex without a syntax command"
 msgstr "Impossível adicionar um cabeçalho regex sem um comando de sintaxe"
 
-#: src/rcfile.c:873
+#: src/rcfile.c:874
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
 msgstr "Erro fatal: nenhuma tecla mapeada para a função \"%s\""
 
-#: src/rcfile.c:875
+#: src/rcfile.c:876
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
@@ -1779,54 +1789,54 @@ msgstr ""
 "Saindo.  Por favor utilize o nano com a opção -I se for preciso para\n"
 "ajustar as configurações do seu nanorc\n"
 
-#: src/rcfile.c:925 src/rcfile.c:934 src/rcfile.c:944
+#: src/rcfile.c:926 src/rcfile.c:935 src/rcfile.c:945
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Não é permitido o comando \"%s\" em arquivo incluido"
 
-#: src/rcfile.c:950 src/rcfile.c:1127
+#: src/rcfile.c:951 src/rcfile.c:1128
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Sintaxe \"%s\" não possui comandos de cor"
 
-#: src/rcfile.c:965
+#: src/rcfile.c:966
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Comando \"%s\" desconhecido"
 
-#: src/rcfile.c:971
+#: src/rcfile.c:972
 msgid "Missing flag"
 msgstr "Falta sinalizador"
 
-#: src/rcfile.c:993
+#: src/rcfile.c:994
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Opção \"%s\" precisa de um argumento"
 
-#: src/rcfile.c:1011
+#: src/rcfile.c:1012
 msgid "Option is not a valid multibyte string"
 msgstr "Opção não é uma string multibyte válida"
 
-#: src/rcfile.c:1037 src/rcfile.c:1065 src/rcfile.c:1074
+#: src/rcfile.c:1038 src/rcfile.c:1066 src/rcfile.c:1075
 msgid "Non-blank characters required"
 msgstr "Caracteres imprimíveis são necessário"
 
 # Tradução para single-column?
-#: src/rcfile.c:1047
+#: src/rcfile.c:1048
 msgid "Two single-column characters required"
 msgstr "É necessário dois caracteres single-column"
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1114
 #, c-format
 msgid "Cannot unset flag \"%s\""
 msgstr "Impossível desativar sinalizador \"%s\""
 
-#: src/rcfile.c:1122
+#: src/rcfile.c:1123
 #, c-format
 msgid "Unknown flag \"%s\""
 msgstr "Sinalizador \"%s\" desconhecido"
 
-#: src/rcfile.c:1181
+#: src/rcfile.c:1182
 msgid "I can't find my home directory!  Wah!"
 msgstr "Impossível encontrar o meu diretório pessoal!  Putz!"
 
@@ -2097,7 +2107,7 @@ msgstr "e qualquer outro que nós esquecemos..."
 
 #: src/winio.c:3499
 msgid "Thank you for using nano!"
-msgstr "Obrigado por utilizar o nano!"
+msgstr "Obrigado por usar o nano!"
 
-#~ msgid "line split"
-#~ msgstr "quebrar linha"
+#~ msgid "Error writing backup file %s: File owner mismatch"
+#~ msgstr "Erro ao escrever o arquivo reserva %s : Dono do arquivo não casou"
