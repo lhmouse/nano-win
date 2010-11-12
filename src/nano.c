@@ -1185,6 +1185,12 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
+
+    if (ISSET(RESTRICTED)) {
+        nano_disabled_msg();
+	return;
+    }
+
 #ifndef DISABLE_MOUSE
     /* Turn mouse support off. */
     disable_mouse_support();
@@ -1212,7 +1218,7 @@ RETSIGTYPE do_suspend(int signal)
 }
 
 /* the subnfunc version */
-void do_suspend_void(void) 
+void do_suspend_void(void)
 {
     if (ISSET(SUSPEND))
 	do_suspend(0);

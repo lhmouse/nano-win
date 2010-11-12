@@ -1066,6 +1066,12 @@ void do_insertfile(
  * allow inserting a file into a new buffer. */
 void do_insertfile_void(void)
 {
+
+    if (ISSET(RESTRICTED)) {
+        nano_disabled_msg();
+	return;
+    }
+
 #ifdef ENABLE_MULTIBUFFER
     if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
 	statusbar(_("Key invalid in non-multibuffer mode"));
