@@ -690,7 +690,8 @@ void shortcut_init(bool unjustify)
      * restricted mode, inserting files is disabled, since it allows
      * reading from or writing to files not specified on the command
      * line. */
-    add_to_funcs(!ISSET(RESTRICTED) ? DO_INSERTFILE_VOID : NANO_DISABLED_MSG,
+
+    add_to_funcs(DO_INSERTFILE_VOID,
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
 #ifdef ENABLE_MULTIBUFFER
@@ -732,10 +733,9 @@ void shortcut_init(bool unjustify)
      * because it allows reading from or writing to files not specified
      * on the command line. */
 #ifndef DISABLE_SPELLER
-	if (!ISSET(RESTRICTED))
-	    /* TRANSLATORS: Try to keep this at most 10 characters. */
-	    add_to_funcs(DO_SPELL, MMAIN, N_("To Spell"), IFSCHELP(nano_spell_msg),
-		TRUE, NOVIEW);
+	/* TRANSLATORS: Try to keep this at most 10 characters. */
+	add_to_funcs(DO_SPELL, MMAIN, N_("To Spell"), IFSCHELP(nano_spell_msg),
+	    TRUE, NOVIEW);
 #endif
 
     add_to_funcs(DO_FIRST_LINE,
