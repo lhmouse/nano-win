@@ -29,7 +29,8 @@
   <a href="#3.6">3.6. How can I make the executable smaller? This is too bloated!</a><br>
   <a href="#3.7">3.7. Tell me more about this multibuffer stuff!</a><br>
   <a href="#3.8">3.8. Tell me more about this verbatim input stuff!</a><br>
-  <a href="#3.9">3.9. How do I make a .nanorc file that nano will read when I start it?</a></p></blockquote>
+  <a href="#3.9">3.9. How do I make a .nanorc file that nano will read when I start it?</a></br>
+  <a href="#3.9.1">3.9.1. How about in Win32?</a></p></blockquote>
 <h2><a href="#4">4. Running</a></h2>
 <blockquote><p><a href="#4.1">4.1. How do I open a file with a name beginning with '+' from the command line?</a><br>
   <a href="#4.2">4.2. Ack! My Backspace/Delete/Enter/Meta/double bucky key doesn't seem to work! What can I do?</a><br>
@@ -167,6 +168,10 @@
   <p>Alternatively, if you've enabled Unicode support (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code from 000000 to 10FFFF (case-insensitive), and the character with the corresponding value will be inserted instead. The prompt will change to &quot;Unicode Input&quot; when you do this.</p></blockquote>
 <h2><a name="3.9"></a>3.9. How do I make a .nanorc file that nano will read when I start it?</h2>
 <blockquote><p>It's not hard at all! But, your version of nano must have been compiled with <b>--enable-nanorc</b>, and again must be version 1.1.12 or newer (use nano -V to check your version and compiled features). Then simply copy the <b>nanorc.sample</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax is simple. Flags are turned on and off by using the word <b>set</b> and the getopt_long flag for the feature, for example &quot;set nowrap&quot; or &quot;set suspend&quot;.</p></blockquote>
+<h2><a name="3.9.1"></a>3.9. How about in Win32?</h2>
+<blockquote><p>If you're using the official nano .zip file and have extracted all the files, you should take the file nano.rc and place it somewhere on your Win32 system (for example if you have write permission to do so, at the top of C:\).  Then you must create an Environment variable called HOME which points to the directory where you put nano.rc.  In Windows XP, you can get to Environment variables by right-clicking "My Computer" either on the desktop or in the Start Menu, and selecting Properties.  This should bring up the System Properties panel.  Then click the Advanced Tab, and there should be a button called Environment Variables.  Click that to bring up the Environment Variables section. Now, under User Variables you should be able to click the New button, and make a new Variables Name called HOME, with the Variable Value of whatever path you copied nano.rc into (just the directory name; don't add nano.rc onto the end).</p>
+<p>We're still working on documentatino for enabling synax highlighting on Win32; please bear with us</p>
+<p>Note that the nano.rc file must remain Unix formated in order for nano to unerstand it.  In other words, you should use probably only use nano to edit its config file.  Other programs like Wordpad and Notepad will either convert the file to DOS format when saving, and the latter does not even properly read Unix-formatted files to begin with.</p></blockquote>
 <hr width="100%">
 <h1><a name="4"></a>4. Running</h1>
 <h2><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h2>
