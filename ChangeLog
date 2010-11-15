@@ -1,3 +1,6 @@
+2010-11-15 Chris Allegretta <chrisa@asty.org>
+	* Add a section to the FAQ about using nanorc on Win32 systems.
+
 2010-11-12 Chris Allegretta <chrisa@asty.org>
 	* Add check for RESTRICTED mode back to speller, suspend and insert file
 	  routines, since adding key bindings broke the fact that they should be
