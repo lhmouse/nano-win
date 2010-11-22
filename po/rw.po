@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 21:19-0400\n"
+"POT-Creation-Date: 2010-11-22 06:34-0500\n"
 "PO-Revision-Date: 2005-04-03 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr ""
 
-#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2042
+#: src/browser.c:233 src/browser.c:830 src/files.c:860 src/files.c:2048
 #: src/nano.c:1060 src/search.c:220 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
@@ -41,8 +41,8 @@ msgid "Can't go outside of %s in restricted mode"
 msgstr "Gyayo Hanze Bya in Nta gukoresha bisesuye Ubwoko"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:722
-#: src/files.c:731 src/files.c:1534 src/files.c:1653 src/files.c:1705
-#: src/files.c:1726 src/files.c:1849 src/files.c:2685 src/rcfile.c:568
+#: src/files.c:731 src/files.c:1540 src/files.c:1659 src/files.c:1711
+#: src/files.c:1732 src/files.c:1855 src/files.c:2691 src/rcfile.c:568
 #: src/rcfile.c:1204
 #, c-format
 msgid "Error reading %s: %s"
@@ -231,112 +231,112 @@ msgstr "Idosiye Kuri Kongeramo Gishya Bivuye"
 msgid "File to insert [from %s] "
 msgstr "Idosiye Kuri Kongeramo Bivuye"
 
-#: src/files.c:1071
+#: src/files.c:1077
 #, fuzzy
 msgid "Key invalid in non-multibuffer mode"
 msgstr "in Ubwoko"
 
-#: src/files.c:1480
+#: src/files.c:1486
 #, fuzzy, c-format
 msgid "Can't write outside of %s"
 msgstr "Kwandika Hanze Bya"
 
-#: src/files.c:1495
+#: src/files.c:1501
 #, fuzzy
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "Cyangwa Kongeraho... Kuri a Na: Gushyiraho"
 
-#: src/files.c:1575 src/files.c:1597 src/files.c:1615 src/files.c:1626
-#: src/files.c:1634 src/files.c:1661
+#: src/files.c:1581 src/files.c:1603 src/files.c:1621 src/files.c:1632
+#: src/files.c:1640 src/files.c:1667
 #, fuzzy, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "IDOSIYE"
 
-#: src/files.c:1576 src/nano.c:701
+#: src/files.c:1582 src/nano.c:701
 #, fuzzy
 msgid "Too many backup files?"
 msgstr "Idosiye"
 
-#: src/files.c:1681 src/files.c:1738 src/files.c:1757 src/files.c:1769
-#: src/files.c:1793 src/files.c:1811 src/files.c:1821 src/files.c:1857
-#: src/files.c:1862 src/files.c:2758 src/files.c:2767
+#: src/files.c:1687 src/files.c:1744 src/files.c:1763 src/files.c:1775
+#: src/files.c:1799 src/files.c:1817 src/files.c:1827 src/files.c:1863
+#: src/files.c:1868 src/files.c:2764 src/files.c:2773
 #, c-format
 msgid "Error writing %s: %s"
 msgstr ""
 
-#: src/files.c:1715 src/text.c:2924 src/text.c:2936
+#: src/files.c:1721 src/text.c:2929 src/text.c:2941
 #, fuzzy, c-format
 msgid "Error writing temp file: %s"
 msgstr "IDOSIYE"
 
-#: src/files.c:1894
+#: src/files.c:1900
 #, fuzzy, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Umurongo"
 
-#: src/files.c:1998
+#: src/files.c:2004
 msgid " [DOS Format]"
 msgstr ""
 
-#: src/files.c:1999
+#: src/files.c:2005
 msgid " [Mac Format]"
 msgstr ""
 
-#: src/files.c:2001
+#: src/files.c:2007
 msgid " [Backup]"
 msgstr ""
 
-#: src/files.c:2009
+#: src/files.c:2015
 #, fuzzy
 msgid "Prepend Selection to File"
 msgstr "Kuri Idosiye"
 
-#: src/files.c:2010
+#: src/files.c:2016
 #, fuzzy
 msgid "Append Selection to File"
 msgstr "Kuri Idosiye"
 
-#: src/files.c:2011
+#: src/files.c:2017
 #, fuzzy
 msgid "Write Selection to File"
 msgstr "Kuri Idosiye"
 
-#: src/files.c:2014
+#: src/files.c:2020
 #, fuzzy
 msgid "File Name to Prepend to"
 msgstr "Idosiye Kuri Kuri"
 
-#: src/files.c:2015
+#: src/files.c:2021
 #, fuzzy
 msgid "File Name to Append to"
 msgstr "Idosiye Kuri Kuri"
 
-#: src/files.c:2016
+#: src/files.c:2022
 #, fuzzy
 msgid "File Name to Write"
 msgstr "Idosiye Kuri"
 
-#: src/files.c:2147
+#: src/files.c:2153
 #, fuzzy
 msgid "File exists, OVERWRITE ? "
 msgstr "Idosiye"
 
-#: src/files.c:2156
+#: src/files.c:2162
 #, fuzzy
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Kubika IDOSIYE"
 
-#: src/files.c:2167
+#: src/files.c:2173
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2605
+#: src/files.c:2611
 #, fuzzy
 msgid "(more)"
 msgstr "(Birenzeho"
 
-#: src/files.c:2688 src/rcfile.c:1220
+#: src/files.c:2694 src/rcfile.c:1220
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -898,28 +898,28 @@ msgid "Justify"
 msgstr "Gukwiza umurongo wose"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:695
+#: src/global.c:696
 #, fuzzy
 msgid "Read File"
 msgstr "Idosiye"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:712
+#: src/global.c:713
 msgid "Cut Text"
 msgstr ""
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:717
+#: src/global.c:718
 msgid "UnJustify"
 msgstr ""
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:722
+#: src/global.c:723
 msgid "UnCut Text"
 msgstr ""
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:727 src/global.c:755
+#: src/global.c:728 src/global.c:755
 msgid "Cur Pos"
 msgstr ""
 
@@ -1038,7 +1038,7 @@ msgstr "Idosiye"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:862 src/text.c:3040
+#: src/global.c:862 src/text.c:3045
 msgid "Verbatim Input"
 msgstr ""
 
@@ -1749,40 +1749,40 @@ msgstr ""
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Cyangwa"
 
-#: src/nano.c:1198
+#: src/nano.c:1204
 #, fuzzy, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Kuri Garuka Kuri"
 
-#: src/nano.c:1380
+#: src/nano.c:1386
 #, fuzzy
 msgid "enabled"
 msgstr "Bikora"
 
-#: src/nano.c:1381
+#: src/nano.c:1387
 #, fuzzy
 msgid "disabled"
 msgstr "Yahagaritswe"
 
-#: src/nano.c:1542 src/winio.c:1256
+#: src/nano.c:1548 src/winio.c:1256
 #, fuzzy
 msgid "Unknown Command"
 msgstr "Ibendera"
 
-#: src/nano.c:1668
+#: src/nano.c:1674
 msgid "XON ignored, mumble mumble"
 msgstr ""
 
-#: src/nano.c:1673
+#: src/nano.c:1679
 msgid "XOFF ignored, mumble mumble"
 msgstr ""
 
-#: src/nano.c:2203 src/rcfile.c:1100
+#: src/nano.c:2209 src/rcfile.c:1100
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Isunika Ingano Sibyo"
 
-#: src/nano.c:2262 src/rcfile.c:1025
+#: src/nano.c:2268 src/rcfile.c:1025
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Kuzuza Ingano Sibyo"
@@ -2207,7 +2207,7 @@ msgstr "Ishungura F"
 msgid "Error invoking \"uniq\""
 msgstr ""
 
-#: src/text.c:2756 src/text.c:2960
+#: src/text.c:2756 src/text.c:2965
 #, fuzzy
 msgid "Finished checking spelling"
 msgstr "Ivuganyuguti"
@@ -2217,22 +2217,22 @@ msgstr "Ivuganyuguti"
 msgid "Error invoking \"%s\""
 msgstr "Genzuranyuguti"
 
-#: src/text.c:2955
+#: src/text.c:2960
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Byanze"
 
-#: src/text.c:2957
+#: src/text.c:2962
 #, fuzzy, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Byanze"
 
-#: src/text.c:3025
+#: src/text.c:3030
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr ""
 
-#: src/text.c:3026
+#: src/text.c:3031
 #, fuzzy
 msgid "In Selection:  "
 msgstr "Kuri Idosiye"
