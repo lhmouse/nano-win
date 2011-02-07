@@ -1366,6 +1366,23 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp)
 #endif
 
 #ifndef NANO_TINY
+/* Although this sucks, it sucks less than having a single 'my system is messed up
+ * and I'm blanket allowing insecure file writing operations.
+ */
+
+int prompt_failed_backupwrite(const char *filename)
+{
+    static int i;
+    static char *prevfile = NULL; /* What was the laast file we were paased so we don't keep asking this?
+                                     though maybe we should.... */
+    if (prevfile == NULL || strcmp(filename, prevfile)) {
+	i = do_yesno_prompt(FALSE,
+                         _("Failed to write backup file, continue saving? (Say N if unsure) "));
+	prevfile = mallocstrcpy(prevfile, filename);
+    }
+    return i;
+}
+
 void init_backup_dir(void)
 {
     char *full_backup_dir;
@@ -1600,6 +1617,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	   file with O_CREAT and O_EXCL.  If it succeeds, we
 	   have a file descriptor to a new backup file. */
 	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
+	    if (prompt_failed_backupwrite(backupname))
+		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 			strerror(errno));
 	    free(backupname);
@@ -1628,7 +1647,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	   root, since it's likely to fail! */
 	if (geteuid() == NANO_ROOT_UID && fchown(backup_fd,
 		openfile->current_stat->st_uid, openfile->current_stat->st_gid) == -1
-                && !ISSET(INSECURE_BACKUP)) {
+		&& !ISSET(INSECURE_BACKUP)) {
+	    if (prompt_failed_backupwrite(backupname))
+		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);
@@ -1636,7 +1657,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
-	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 && !ISSET(INSECURE_BACKUP)) {
+	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1
+		&& !ISSET(INSECURE_BACKUP)) {
+	    if (prompt_failed_backupwrite(backupname))
+		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);
@@ -1664,6 +1688,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	/* And set its metadata. */
 	if (utime(backupname, &filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
+	    if (prompt_failed_backupwrite(backupname))
+		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 			strerror(errno));
 	    /* If we can't write to the backup, DONT go on, since

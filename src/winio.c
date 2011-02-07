@@ -3125,7 +3125,6 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
                     old_current->lineno, openfile->edittop->lineno);
 #endif
 	filestruct *old_edittop = openfile->edittop;
-	ssize_t nlines;
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between old_current

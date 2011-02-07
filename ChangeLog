@@ -1,3 +1,9 @@
+2011-02-06 Chris Allegretta <chrisa@asty.org>
+	* files.c (write_file) - Fix problems with writing the backup file (albeit interactively)
+	  with new function prompt_failed_backupwrite(), allows more secure handling of problems
+	  with failing to write the backup file compared to 'allow_insecure_backup'.
+	* winio.c (edit_redraw): Removed unused variable
+
 2010-11-15 Chris Allegretta <chrisa@asty.org>
 	* Add a section to the FAQ about using nanorc on Win32 systems.
 
