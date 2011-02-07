@@ -863,7 +863,7 @@ static void check_vitals_mapped(void)
     subnfunc *f;
     int v;
 #define VITALS 5
-    short vitals[VITALS] = { DO_EXIT, DO_EXIT, CANCEL_MSG, CANCEL_MSG, CANCEL_MSG };
+    void (*vitals[VITALS])(void) = { do_exit, do_exit, do_cancel, do_cancel, do_cancel };
     int inmenus[VITALS] = { MMAIN, MHELP, MWHEREIS, MREPLACE, MGOTOLINE };
 
     for  (v = 0; v < VITALS; v++) {

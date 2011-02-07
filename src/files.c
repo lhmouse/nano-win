@@ -869,14 +869,14 @@ void do_insertfile(
 #ifndef NANO_TINY
 #ifdef ENABLE_MULTIBUFFER
 
-	    if (s && s->scfunc == NEW_BUFFER_MSG) {
+	    if (s && s->scfunc == new_buffer_void) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
 		continue;
 	    } else
 #endif
-	    if (s && s->scfunc == EXT_CMD_MSG) {
+	    if (s && s->scfunc == ext_cmd_void) {
 		execute = !execute;
 		continue;
 	    }
@@ -886,7 +886,7 @@ void do_insertfile(
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
-	    if (s && s->scfunc == TO_FILES_MSG) {
+	    if (s && s->scfunc == to_files_void) {
 		char *tmp = do_browse_from(answer);
 
 		if (tmp == NULL)
@@ -2079,7 +2079,7 @@ bool do_writeout(bool exiting)
             s = get_shortcut(currmenu, &i, &meta_key, &func_key);
 
 #ifndef DISABLE_BROWSER
-	    if (s && s->scfunc == TO_FILES_MSG) {
+	    if (s && s->scfunc == to_files_void) {
 		char *tmp = do_browse_from(answer);
 
 		if (tmp == NULL)
@@ -2091,26 +2091,26 @@ bool do_writeout(bool exiting)
 	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_TINY
-	    if (s && s->scfunc ==  DOS_FORMAT_MSG) {
+	    if (s && s->scfunc == dos_format_void) {
 		openfile->fmt = (openfile->fmt == DOS_FILE) ? NIX_FILE :
 			DOS_FILE;
 		continue;
-	    } else if (s && s->scfunc ==  MAC_FORMAT_MSG) {
+	    } else if (s && s->scfunc == mac_format_void) {
 		openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE :
 			MAC_FILE;
 		continue;
-	    } else if (s && s->scfunc ==  BACKUP_FILE_MSG) {
+	    } else if (s && s->scfunc == backup_file_void) {
 		TOGGLE(BACKUP_FILE);
 		continue;
 	    } else
 #endif /* !NANO_TINY */
-	    if (s && s->scfunc ==  PREPEND_MSG) {
+	    if (s && s->scfunc == prepend_void) {
 		append = (append == PREPEND) ? OVERWRITE : PREPEND;
 		continue;
-	    } else if (s && s->scfunc ==  APPEND_MSG) {
+	    } else if (s && s->scfunc == append_void) {
 		append = (append == APPEND) ? OVERWRITE : APPEND;
 		continue;
-	    } else if (s && s->scfunc == DO_HELP_VOID) {
+	    } else if (s && s->scfunc == do_help_void) {
 		continue;
 	    }
 

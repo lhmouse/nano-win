@@ -145,35 +145,35 @@ void do_help(void (*refresh_func)(void))
 	if (!f)
 	    continue;
 
-	  if (f->scfunc == TOTAL_REFRESH) {
+	  if (f->scfunc == total_refresh) {
 		total_redraw();
 		break;
-	} else if (f->scfunc == DO_PAGE_UP) {
+	} else if (f->scfunc == do_page_up) {
 		if (line > editwinrows - 2)
 		    line -= editwinrows - 2;
 		else
 		    line = 0;
-	} else if (f->scfunc == DO_PAGE_DOWN) {
+	} else if (f->scfunc == do_page_down) {
 		if (line + (editwinrows - 1) < last_line)
 		    line += editwinrows - 2;
-	} else if (f->scfunc == DO_UP_VOID) {
+	} else if (f->scfunc == do_up_void) {
 		if (line > 0)
 		    line--;
-	} else if (f->scfunc == DO_DOWN_VOID) {
+	} else if (f->scfunc == do_down_void) {
 		if (line + (editwinrows - 1) < last_line)
 		    line++;
-	} else if (f->scfunc == DO_FIRST_LINE) {
+	} else if (f->scfunc == do_first_line) {
 		if (meta_key)
 		    line = 0;
 		break;
-	} else if (f->scfunc == DO_LAST_LINE) {
+	} else if (f->scfunc == do_last_line) {
 		if (meta_key) {
 		    if (line + (editwinrows - 1) < last_line)
 			line = last_line - (editwinrows - 1);
 		}
 		break;
 	    /* Abort the help browser. */
-	} else if (f->scfunc == DO_EXIT) {
+	} else if (f->scfunc == do_exit) {
 		abort = TRUE;
 		break;
 	}
@@ -407,7 +407,7 @@ void help_init(void)
 	size_t endis_len = strlen(_("enable/disable"));
 
 	for (s = sclist; s != NULL; s = s->next)
-            if (s->scfunc ==  DO_TOGGLE)
+            if (s->scfunc ==  do_toggle_void)
 		allocsize += strlen(_(flagtostr(s->toggle))) + endis_len + 9;
 
     }
@@ -478,7 +478,7 @@ void help_init(void)
     /* And the toggles... */
     if (currmenu == MMAIN)
         for (s = sclist; s != NULL; s = s->next)
-            if (s->scfunc ==  DO_TOGGLE)
+            if (s->scfunc == do_toggle_void)
 		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
 		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
 
@@ -507,15 +507,15 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
 	    case ' ':
-		*kbinput = sc_seq_or(DO_PAGE_UP, 0);
+		*kbinput = sc_seq_or(do_page_up, 0);
 		break;
 	    case '-':
-		*kbinput = sc_seq_or(DO_PAGE_DOWN, 0);;
+		*kbinput = sc_seq_or(do_page_down, 0);;
 		break;
 	    /* Cancel is equivalent to Exit here. */
 	    case 'E':
 	    case 'e':
-		*kbinput = sc_seq_or(DO_EXIT, 0);;
+		*kbinput = sc_seq_or(do_exit, 0);;
 		break;
 	}
     }

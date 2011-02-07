@@ -460,6 +460,7 @@ void allow_pending_sigwinch(bool allow);
 #endif
 #ifndef NANO_TINY
 void do_toggle(int flag);
+void do_toggle_void(void);
 #endif
 void disable_extended_io(void);
 #ifdef USE_SLANG
@@ -611,6 +612,8 @@ filestruct *find_history(const filestruct *h_start, const filestruct
 void update_history(filestruct **h, const char *s);
 char *get_history_older(filestruct **h);
 char *get_history_newer(filestruct **h);
+void get_history_older_void(void);
+void get_history_newer_void(void);
 #ifndef DISABLE_TABCOMP
 char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif
@@ -631,6 +634,7 @@ void do_undo(void);
 void do_redo(void);
 #endif
 void do_enter(bool undoing);
+void do_enter_void(void);
 #ifndef NANO_TINY
 RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
@@ -752,7 +756,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
 const sc *get_shortcut(int menu, int *kbinput, bool
 	*meta_key, bool *func_key);
-const sc *first_sc_for(int menu, short func);
+const sc *first_sc_for(int menu, void (*func)(void));
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);
@@ -793,7 +797,7 @@ int strtomenu(char *input);
 void assign_keyinfo(sc *s);
 void xon_complaint(void);
 void xoff_complaint(void);
-int sc_seq_or (short func, int defaultval);
+int sc_seq_or (void (*func)(void), int defaultval);
 void do_suspend_void(void);
 
 extern const char *cancel_msg;
@@ -820,7 +824,6 @@ extern const char *backup_file_msg;
 extern const char *gototext_msg;
 extern const char *new_buffer_msg;
 
-void iso_me_harder_funcmap(short func);
 void enable_nodelay(void);
 void disable_nodelay(void);
 
@@ -831,5 +834,23 @@ extern const char *regexp_msg;
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif
+
+/* May as just throw these here since they are just placeholders */
+void do_cancel(void);
+void case_sens_void(void);
+void regexp_void(void);
+void gototext_void(void);
+void to_files_void(void);
+void dos_format_void(void);
+void mac_format_void(void);
+void append_void(void);
+void prepend_void(void);
+void backup_file_void(void);
+void new_buffer_void(void);
+void backwards_void(void);
+void goto_dir_void(void);
+void no_replace_void(void);
+void ext_cmd_void(void);
+
 
 #endif /* !PROTO_H */

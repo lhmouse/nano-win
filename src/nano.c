@@ -1063,7 +1063,11 @@ void do_exit(void)
     display_main_list();
 }
 
-
+/* Another placeholder for function mapping */
+void do_cancel(void)
+{
+    ;
+}
 
 static struct sigaction pager_oldaction, pager_newaction;  /* Original and temporary handlers for SIGINT. */
 static bool pager_sig_failed = FALSE; /* Did sigaction() fail without changing the signal handlers? */
@@ -1386,6 +1390,12 @@ void do_toggle(int flag)
     statusbar("%s %s", desc, enabled ? _("enabled") :
 	_("disabled"));
 }
+
+/* Bleh */
+void do_toggle_void(void)
+{
+;
+}
 #endif /* !NANO_TINY */
 
 /* Disable extended input and output processing in our terminal
@@ -1581,7 +1591,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	     * for verbatim input, turn off prepending of wrapped
 	     * text. */
 	    if (have_shortcut && (!have_shortcut || s == NULL || s->scfunc !=
-		DO_VERBATIM_INPUT))
+		do_verbatim_input))
 		wrap_reset();
 #endif
 
@@ -1616,10 +1626,10 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		default:
 		    /* If the function associated with this shortcut is
 		     * cutting or copying text, indicate this. */
-		    if (s->scfunc == DO_CUT_TEXT_VOID
+		    if (s->scfunc == do_cut_text_void
 #ifndef NANO_TINY
-			|| s->scfunc == DO_COPY_TEXT || s->scfunc ==
-			DO_CUT_TILL_END
+			|| s->scfunc == do_copy_text || s->scfunc ==
+			do_cut_till_end
 #endif
 			)
 			cut_copy = TRUE;
@@ -1631,13 +1641,13 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			    print_view_warning();
 			else {
 #ifndef NANO_TINY
-			    if (s->scfunc ==  DO_TOGGLE)
+			    if (s->scfunc == do_toggle_void)
 				do_toggle(s->toggle);
 			    else {
 #else
 			    {
 #endif
-				iso_me_harder_funcmap(s->scfunc);
+				s->scfunc();
 #ifdef ENABLE_COLOR
 				if (f && !f->viewok && openfile->syntax != NULL
 					&& openfile->syntax->nmultis > 0) {

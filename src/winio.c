@@ -497,36 +497,36 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     if (retval != ERR) {
 	switch (retval) {
 	    case NANO_CONTROL_8:
-		retval = ISSET(REBIND_DELETE) ? sc_seq_or(DO_DELETE, 0) :
-			sc_seq_or(DO_BACKSPACE, 0);
+		retval = ISSET(REBIND_DELETE) ? sc_seq_or(do_delete, 0) :
+			sc_seq_or(do_backspace, 0);
 		break;
 	    case KEY_DOWN:
 #ifdef KEY_SDOWN
 	    /* ncurses and Slang don't support KEY_SDOWN. */
 	    case KEY_SDOWN:
 #endif
-		retval = sc_seq_or(DO_DOWN_VOID, *kbinput);
+		retval = sc_seq_or(do_down_void, *kbinput);
 		break;
 	    case KEY_UP:
 #ifdef KEY_SUP
 	    /* ncurses and Slang don't support KEY_SUP. */
 	    case KEY_SUP:
 #endif
-		retval = sc_seq_or(DO_UP_VOID, *kbinput);
+		retval = sc_seq_or(do_up_void, *kbinput);
 		break;
 	    case KEY_LEFT:
 #ifdef KEY_SLEFT
 	    /* Slang doesn't support KEY_SLEFT. */
 	    case KEY_SLEFT:
 #endif
-		retval = sc_seq_or(DO_LEFT, *kbinput);
+		retval = sc_seq_or(do_left, *kbinput);
 		break;
 	    case KEY_RIGHT:
 #ifdef KEY_SRIGHT
 	    /* Slang doesn't support KEY_SRIGHT. */
 	    case KEY_SRIGHT:
 #endif
-		retval = sc_seq_or(DO_RIGHT, *kbinput);
+		retval = sc_seq_or(do_right, *kbinput);
 		break;
 #ifdef KEY_SHOME
 	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
@@ -534,36 +534,36 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #endif
 	    case KEY_A1:	/* Home (7) on numeric keypad with
 				 * NumLock off. */
-		retval = sc_seq_or(DO_HOME, *kbinput);
+		retval = sc_seq_or(do_home, *kbinput);
 		break;
 	    case KEY_BACKSPACE:
-		retval = sc_seq_or(DO_BACKSPACE, *kbinput);
+		retval = sc_seq_or(do_backspace, *kbinput);
 		break;
 #ifdef KEY_SDC
 	    /* Slang doesn't support KEY_SDC. */
 	    case KEY_SDC:
 		if (ISSET(REBIND_DELETE))
-		   retval = sc_seq_or(DO_DELETE, *kbinput);
+		   retval = sc_seq_or(do_delete, *kbinput);
 		else
-		   retval = sc_seq_or(DO_BACKSPACE, *kbinput);
+		   retval = sc_seq_or(do_backspace, *kbinput);
 		break;
 #endif
 #ifdef KEY_SIC
 	    /* Slang doesn't support KEY_SIC. */
 	    case KEY_SIC:
-		retval = sc_seq_or(DO_INSERTFILE_VOID, *kbinput);
+		retval = sc_seq_or(do_insertfile_void, *kbinput);
 		break;
 #endif
 	    case KEY_C3:	/* PageDown (4) on numeric keypad with
 				 * NumLock off. */
-		retval = sc_seq_or(DO_PAGE_DOWN, *kbinput);
+		retval = sc_seq_or(do_page_down, *kbinput);
 		break;
 	    case KEY_A3:	/* PageUp (9) on numeric keypad with
 				 * NumLock off. */
-		retval = sc_seq_or(DO_PAGE_UP, *kbinput);
+		retval = sc_seq_or(do_page_up, *kbinput);
 		break;
 	    case KEY_ENTER:
-		retval = sc_seq_or(DO_ENTER, *kbinput);
+		retval = sc_seq_or(do_enter_void, *kbinput);
 		break;
 	    case KEY_B2:	/* Center (5) on numeric keypad with
 				 * NumLock off. */
@@ -575,7 +575,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	    case KEY_SEND:
 #endif
-		retval = sc_seq_or(DO_END, *kbinput);
+		retval = sc_seq_or(do_end, *kbinput);
 		break;
 #ifdef KEY_BEG
 	    /* Slang doesn't support KEY_BEG. */
@@ -591,7 +591,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    /* Slang doesn't support KEY_SCANCEL. */
 	    case KEY_SCANCEL:
 #endif
-		retval = first_sc_for(currmenu, CANCEL_MSG)->seq;
+		retval = first_sc_for(currmenu, do_cancel)->seq;
 		break;
 #endif
 #ifdef KEY_SBEG
@@ -604,13 +604,13 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #ifdef KEY_SSUSPEND
 	    /* Slang doesn't support KEY_SSUSPEND. */
 	    case KEY_SSUSPEND:
-		retval = sc_seq_or(DO_SUSPEND_VOID, 0);
+		retval = sc_seq_or(do_suspend_void, 0);
 		break;
 #endif
 #ifdef KEY_SUSPEND
 	    /* Slang doesn't support KEY_SUSPEND. */
 	    case KEY_SUSPEND:
-		retval =  sc_seq_or(DO_SUSPEND_VOID, 0);
+		retval =  sc_seq_or(do_suspend_void, 0);
 		break;
 #endif
 #ifdef PDCURSES
@@ -758,15 +758,15 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			retval = KEY_B2;
 			break;
 		    case 'F': /* Esc O F == End on xterm/Terminal. */
-			retval = sc_seq_or(DO_END, 0);
+			retval = sc_seq_or(do_end, 0);
 			break;
 		    case 'H': /* Esc O H == Home on xterm/Terminal. */
-			retval = sc_seq_or(DO_HOME, 0);;
+			retval = sc_seq_or(do_home, 0);;
 			break;
 		    case 'M': /* Esc O M == Enter on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm. */
-			retval = sc_seq_or(DO_HOME, 0);;
+			retval = sc_seq_or(do_home, 0);;
 			break;
 		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach
 			       * console. */
@@ -831,7 +831,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'n': /* Esc O n == Delete (.) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * xterm/rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_DELETE, 0);;
+			retval = sc_seq_or(do_delete, 0);;
 			break;
 		    case 'o': /* Esc O o == '/' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
@@ -841,27 +841,27 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'p': /* Esc O p == Insert (0) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_INSERTFILE_VOID, 0);;
+			retval = sc_seq_or(do_insertfile_void, 0);;
 			break;
 		    case 'q': /* Esc O q == End (1) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_END, 0);;
+			retval = sc_seq_or(do_end, 0);;
 			break;
 		    case 'r': /* Esc O r == Down (2) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_DOWN_VOID, 0);;
+			retval = sc_seq_or(do_down_void, 0);;
 			break;
 		    case 's': /* Esc O s == PageDown (3) on numeric
 			       * keypad with NumLock off on VT100/VT220/
 			       * VT320/rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_PAGE_DOWN, 0);;
+			retval = sc_seq_or(do_page_down, 0);;
 			break;
 		    case 't': /* Esc O t == Left (4) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_LEFT, 0);;
+			retval = sc_seq_or(do_left, 0);;
 			break;
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
@@ -871,22 +871,22 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_RIGHT, 0);
+			retval = sc_seq_or(do_right, 0);
 			break;
 		    case 'w': /* Esc O w == Home (7) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_HOME, 0);
+			retval = sc_seq_or(do_home, 0);
 			break;
 		    case 'x': /* Esc O x == Up (8) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_UP_VOID, 0);
+			retval = sc_seq_or(do_up_void, 0);
 			break;
 		    case 'y': /* Esc O y == PageUp (9) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(DO_PAGE_UP, 0);
+			retval = sc_seq_or(do_page_up, 0);
 			break;
 		}
 		break;
@@ -980,7 +980,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 				    break;
 				default: /* Esc [ 1 ~ == Home on
 					  * VT320/Linux console. */
-				    retval = sc_seq_or(DO_HOME, 0);;
+				    retval = sc_seq_or(do_home, 0);;
 				    break;
 			    }
 			}
@@ -1031,40 +1031,40 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 				default: /* Esc [ 2 ~ == Insert on
 					  * VT220/VT320/Linux console/
 					  * xterm/Terminal. */
-				    retval = sc_seq_or(DO_INSERTFILE_VOID, 0);;
+				    retval = sc_seq_or(do_insertfile_void, 0);;
 				    break;
 			    }
 			}
 			break;
 		    case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 			       * Linux console/xterm/Terminal. */
-			retval = sc_seq_or(DO_DELETE, 0);;
+			retval = sc_seq_or(do_delete, 0);;
 			break;
 		    case '4': /* Esc [ 4 ~ == End on VT220/VT320/Linux
 			       * console/xterm. */
-			retval = sc_seq_or(DO_END, 0);;
+			retval = sc_seq_or(do_end, 0);;
 			break;
 		    case '5': /* Esc [ 5 ~ == PageUp on VT220/VT320/
 			       * Linux console/xterm/Terminal;
 			       * Esc [ 5 ^ == PageUp on Eterm. */
-			retval = sc_seq_or(DO_PAGE_UP, 0);;
+			retval = sc_seq_or(do_page_up, 0);;
 			break;
 		    case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
 			       * Linux console/xterm/Terminal;
 			        * Esc [ 6 ^ == PageDown on Eterm. */
-			retval = sc_seq_or(DO_PAGE_DOWN, 0);;
+			retval = sc_seq_or(do_page_down, 0);;
 			break;
 		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
-			retval = sc_seq_or(DO_HOME, 0);
+			retval = sc_seq_or(do_home, 0);
 			break;
 		    case '8': /* Esc [ 8 ~ == End on rxvt. */
-			retval = sc_seq_or(DO_END, 0);
+			retval = sc_seq_or(do_end, 0);
 			break;
 		    case '9': /* Esc [ 9 == Delete on Mach console. */
-			retval = sc_seq_or(DO_DELETE, 0);;
+			retval = sc_seq_or(do_delete, 0);;
 			break;
 		    case '@': /* Esc [ @ == Insert on Mach console. */
-			retval = sc_seq_or(DO_INSERTFILE_VOID, 0);;
+			retval = sc_seq_or(do_insertfile_void, 0);;
 			break;
 		    case 'A': /* Esc [ A == Up on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
@@ -1087,23 +1087,23 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			break;
 		    case 'F': /* Esc [ F == End on FreeBSD
 			       * console/Eterm. */
-			retval = sc_seq_or(DO_END, 0);
+			retval = sc_seq_or(do_end, 0);
 			break;
 		    case 'G': /* Esc [ G == PageDown on FreeBSD
 			       * console. */
-			retval = sc_seq_or(DO_PAGE_DOWN, 0);
+			retval = sc_seq_or(do_page_down, 0);
 			break;
 		    case 'H': /* Esc [ H == Home on ANSI/VT220/FreeBSD
 			       * console/Mach console/Eterm. */
-			retval = sc_seq_or(DO_HOME, 0);
+			retval = sc_seq_or(do_home, 0);
 			break;
 		    case 'I': /* Esc [ I == PageUp on FreeBSD
 			       * console. */
-			retval = sc_seq_or(DO_PAGE_UP, 0);
+			retval = sc_seq_or(do_page_up, 0);
 			break;
 		    case 'L': /* Esc [ L == Insert on ANSI/FreeBSD
 			       * console. */
-			retval = sc_seq_or(DO_INSERTFILE_VOID, 0);
+			retval = sc_seq_or(do_insertfile_void, 0);
 			break;
 		    case 'M': /* Esc [ M == F1 on FreeBSD console. */
 			retval = KEY_F(1);
@@ -1151,10 +1151,10 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			retval = KEY_F(8);
 			break;
 		    case 'U': /* Esc [ U == PageDown on Mach console. */
-			retval = sc_seq_or(DO_PAGE_DOWN, 0);
+			retval = sc_seq_or(do_page_down, 0);
 			break;
 		    case 'V': /* Esc [ V == PageUp on Mach console. */
-			retval = sc_seq_or(DO_PAGE_UP, 0);
+			retval = sc_seq_or(do_page_up, 0);
 			break;
 		    case 'W': /* Esc [ W == F11 on FreeBSD console. */
 			retval = KEY_F(11);
@@ -1163,7 +1163,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			retval = KEY_F(12);
 			break;
 		    case 'Y': /* Esc [ Y == End on Mach console. */
-			retval = sc_seq_or(DO_END, 0);
+			retval = sc_seq_or(do_end, 0);
 			break;
 		    case 'Z': /* Esc [ Z == F14 on FreeBSD console. */
 			retval = KEY_F(14);
@@ -1220,13 +1220,13 @@ int get_escape_seq_abcd(int kbinput)
 {
     switch (tolower(kbinput)) {
 	case 'a':
-	    return sc_seq_or(DO_UP_VOID, 0);;
+	    return sc_seq_or(do_up_void, 0);;
 	case 'b':
-	    return sc_seq_or(DO_DOWN_VOID, 0);;
+	    return sc_seq_or(do_down_void, 0);;
 	case 'c':
-	    return sc_seq_or(DO_RIGHT, 0);;
+	    return sc_seq_or(do_right, 0);;
 	case 'd':
-	    return sc_seq_or(DO_LEFT, 0);;
+	    return sc_seq_or(do_left, 0);;
 	default:
 	    return ERR;
     }
@@ -1746,7 +1746,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * wheel is equivalent to moving down three lines. */
 	    for (i = 0; i < 3; i++)
 		unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
-			 sc_seq_or(DO_UP_VOID, 0) : sc_seq_or(DO_DOWN_VOID, 0), FALSE,
+			 sc_seq_or(up_void, 0) : sc_seq_or(DO_DOWN_VOID, 0), FALSE,
 			FALSE);
 
 	    return 1;

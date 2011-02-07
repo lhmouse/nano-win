@@ -138,7 +138,7 @@ int search_init(bool replacing, bool use_answer)
     int i = 0;
     char *buf;
     sc *s;
-    char func = 0;
+    void (*func)(void);
     bool meta_key = FALSE, func_key = FALSE;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
@@ -236,26 +236,25 @@ int search_init(bool replacing, bool use_answer)
 #endif
 		;
 #ifndef NANO_TINY
-	} else if (func == CASE_SENS_MSG) {
+	} else if (func == case_sens_void) {
 		TOGGLE(CASE_SENSITIVE);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
-	} else if (func == BACKWARDS_MSG) {
+	} else if (func == backwards_void) {
 		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
 #ifdef HAVE_REGEX_H
-	} else if (func == REGEXP_MSG) {
+	} else if (func == regexp_void) {
 		TOGGLE(USE_REGEXP);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
-	} else if (func == DO_REPLACE || 
-	  func == NO_REPLACE_MSG) {
+	} else if (func == do_replace || func == no_replace_void) {
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
-	} else if (func == DO_GOTOLINECOLUMN_VOID) {
+	} else if (func == do_gotolinecolumn_void) {
 		do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE, FALSE,
 			TRUE);
@@ -310,7 +309,7 @@ bool findnextstr(
         if (time(NULL) - lastkbcheck > 1) {
             lastkbcheck = time(NULL);
 	    f = getfuncfromkey(edit);
-            if (f && f->scfunc == CANCEL_MSG) {
+            if (f && f->scfunc == do_cancel) {
 		statusbar(_("Cancelled"));
 		return FALSE;
 	    }
@@ -1044,7 +1043,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 
 	s = get_shortcut(currmenu, &i, &meta_key, &func_key);
-	if (s && s->scfunc ==  GOTOTEXT_MSG) {
+	if (s && s->scfunc ==  gototext_void) {
 	    /* Keep answer up on the statusbar. */
 	    search_init(TRUE, TRUE);
 
@@ -1429,6 +1428,16 @@ char *get_history_newer(filestruct **h)
     *h = (*h)->next;
 
     return (*h)->data;
+}
+
+/* More placeholders */
+void get_history_newer_void(void)
+{
+    ;
+}
+void get_history_older_void(void)
+{
+    ;
 }
 
 #ifndef DISABLE_TABCOMP

@@ -1,5 +1,9 @@
 2011-02-06 Chris Allegretta <chrisa@asty.org>
-	* files.c (write_file) - Fix problems with writing the backup file (albeit interactively)
+        * src/*: Retire iso_me_harder_funcmap based on suggestion by <bernd.spaeth@gmx.net>
+	  This does add 20KB to nano's executable size but it gets rid of a lot of indirection
+	  that makes people stomach turn.  There are several new stub functions and need of more
+	  tidying as a result of this.
+	* files.c (write_file): Fix problems with writing the backup file (albeit interactively)
 	  with new function prompt_failed_backupwrite(), allows more secure handling of problems
 	  with failing to write the backup file compared to 'allow_insecure_backup'.
 	* winio.c (edit_redraw): Removed unused variable
