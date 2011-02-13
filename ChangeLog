@@ -1,3 +1,7 @@
+2011-02-12 Chris Allegretta <chrisa@asty.org>
+	* Initial libmagic implementation, adapted from Eitan Adler <eitanadlerlist@gmail.com>.
+	  New nanorc entry "magic" to enable this functionality, nanorc file and man page updates.
+
 2011-02-06 Chris Allegretta <chrisa@asty.org>
         * src/*: Retire iso_me_harder_funcmap based on suggestion by <bernd.spaeth@gmx.net>
 	  This does add 20KB to nano's executable size but it gets rid of a lot of indirection

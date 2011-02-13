@@ -25,6 +25,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+
+#ifdef HAVE_MAGIC_H
+#include <magic.h>
+#endif
 
 #ifdef ENABLE_COLOR
 
@@ -102,12 +107,32 @@ void color_init(void)
     }
 }
 
+/* Cleanup a regex we previously compiled */
+void nfreeregex(regex_t *r)
+{
+    assert(r != NULL);
+
+    regfree(r);
+    free(r);
+    r = NULL;
+}
+
 /* Update the color information based on the current filename. */
 void color_update(void)
 {
     syntaxtype *tmpsyntax;
     syntaxtype *defsyntax = NULL;
     colortype *tmpcolor, *defcolor = NULL;
+    exttype *e;
+
+/* libmagic structures */
+/* magicstring will be NULL if we fail to get magic result */
+#ifdef HAVE_LIBMAGIC
+    const char *magicstring = NULL;
+    const char *magicerr = NULL;
+    magic_t m;
+#endif /* HAVE_LIBMAGIC */
+
 
     assert(openfile != NULL);
 
@@ -133,13 +158,35 @@ void color_update(void)
 	}
     }
 
+#ifdef HAVE_LIBMAGIC
+
+    if (strcmp(openfile->filename,"")) {
+	m = magic_open(MAGIC_SYMLINK |
+#ifdef DEBUG
+                       MAGIC_DEBUG | MAGIC_CHECK |
+#endif /* DEBUG */
+                       MAGIC_ERROR);
+	if (m == NULL || magic_load(m, NULL) < 0)
+	    fprintf(stderr, "something went wrong: %s [%s]\n", strerror(errno), openfile->filename);
+	else {
+	    magicstring = magic_file(m,openfile->filename);
+	    if (magicstring == NULL) {
+		magicerr = magic_error(m);
+		fprintf(stderr, "something went wrong: %s [%s]\n", magicerr, openfile->filename);
+            }
+#ifdef DEBUG
+	    fprintf(stderr, "magic string returned: %s\n", magicstring);
+#endif /* DEBUG */
+	}
+    }
+#endif /* HAVE_LIBMAGIC */
+
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
      * file extension, and then look in the header. */
     if (openfile->colorstrings == NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-	    exttype *e;
 
 	    /* If this is the default syntax, it has no associated
 	     * extensions, which we've checked for elsewhere.  Skip over
@@ -163,24 +210,52 @@ void color_update(void)
 
 		/* Set colorstrings if we matched the extension
 		 * regex. */
-		if (regexec(e->ext, openfile->filename, 0, NULL,
-			0) == 0) {
+		if (regexec(e->ext, openfile->filename, 0, NULL, 0) == 0) {
 		    openfile->syntax = tmpsyntax;
 		    openfile->colorstrings = tmpsyntax->color;
-		}
-
-		if (openfile->colorstrings != NULL)
 		    break;
+		}
 
 		/* Decompile e->ext_regex's specified regex if we aren't
 		 * going to use it. */
-		if (not_compiled) {
-		    regfree(e->ext);
-		    free(e->ext);
-		    e->ext = NULL;
+		if (not_compiled)
+		    nfreeregex(e->ext);
+	    }
+	}
+
+	    /* Check magic if we don't yet have an answer */
+#ifdef HAVE_LIBMAGIC
+	if (openfile->colorstrings == NULL) {
+
+#ifdef DEBUG
+	    fprintf(stderr, "No match using extension, trying libmagic...\n");
+#endif /* DEBUG */
+
+	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+		tmpsyntax = tmpsyntax->next) {
+		for (e = tmpsyntax->magics; e != NULL; e = e->next) {
+		    bool not_compiled = (e->ext == NULL);
+		    if (not_compiled) {
+			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
+			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
+		    }
+#ifdef DEBUG
+		    fprintf(stderr,"Matching regex \"%s\" against \"%s\"\n",e->ext_regex, magicstring);
+#endif /* DEBUG */
+
+		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
+			fprintf(stderr,"We matched!\n");
+			openfile->syntax = tmpsyntax;
+			openfile->colorstrings = tmpsyntax->color;
+			break;
+		    }
+
+		    if (not_compiled)
+			nfreeregex(e->ext);
 		}
 	    }
 	}
+#endif /* HAVE_LIBMAGIC */
 
 	/* If we haven't matched anything yet, try the headers */
 	if (openfile->colorstrings == NULL) {
@@ -189,7 +264,6 @@ void color_update(void)
 #endif
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-		exttype *e;
 
 		for (e = tmpsyntax->headers; e != NULL; e = e->next) {
 		    bool not_compiled = (e->ext == NULL);
@@ -217,11 +291,8 @@ void color_update(void)
 
 		    /* Decompile e->ext_regex's specified regex if we aren't
 		     * going to use it. */
-		    if (not_compiled) {
-			regfree(e->ext);
-			free(e->ext);
-			e->ext = NULL;
-		    }
+		    if (not_compiled)
+			nfreeregex(e->ext);
 		}
 	    }
 	}

@@ -1,6 +1,7 @@
 ## Here is an example for awk.
 ##
 syntax "awk" "\.awk$"
+magic "awk.*script text"
 ## records
 icolor brightred "\$[0-9A-Z_!@#$*?-]+"
 ## awk-set variables

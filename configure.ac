@@ -50,7 +50,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 dnl Checks for header files.
 
 AC_HEADER_STDC
-AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.h stdarg.h)
+AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.h stdarg.h magic.h)
 
 dnl Checks for options.
 
@@ -583,6 +583,7 @@ AC_MSG_RESULT(yes),
 AC_MSG_RESULT(no),
 AC_MSG_WARN([*** Can't check for macro redefinability when cross-compiling]))
 
+AC_CHECK_LIB(magic, magic_open)
 
 # Check for groff html support
 AC_MSG_CHECKING([for HTML support in groff])

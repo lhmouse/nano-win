@@ -1,6 +1,7 @@
 ## Here is an example for PHP
 ##
 syntax "php" "\.php[2345s~]?$"
+magic "PHP script text"
 
 ## php markings
 color brightgreen "(<\?(php)?|\?>)"

@@ -232,6 +232,8 @@ typedef struct syntaxtype {
 	/* The list of extensions that this syntax applies to. */
     exttype *headers;
 	/* Regexes to match on the 'header' (1st line) of the file */
+    exttype *magics;
+	/* Regexes to match libmagic results */
     colortype *color;
 	/* The colors used in this syntax. */
     int nmultis;

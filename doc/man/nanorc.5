@@ -239,6 +239,13 @@ the same as not having a syntax at all.  The \fIdefault\fP syntax is
 special: it takes no \fIfileregex\fP, and applies to files that don't
 match any other syntax's \fIfileregex\fP.
 .TP
+.B magic ["\fIregex\fP" ... ]
+For the currently defined syntax, add one or more regexes which 
+will be compared against the \fBmagic\fP database when attempting
+to determine which highlighting rules to use for a given file. This 
+functionality only works when \fBlibmagic\fP is installed on the 
+system and will be silently ignored otherwise.
+.TP
 .B color \fIfgcolor\fP,\fIbgcolor\fP "\fIregex\fP" ...
 For the currently defined syntax, display all expressions matching
 the extended regular expression \fIregex\fP with foreground color

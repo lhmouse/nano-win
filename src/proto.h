@@ -547,6 +547,7 @@ char *parse_argument(char *ptr);
 char *parse_next_regex(char *ptr);
 bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
+void parse_magic_syntax(char *ptr);
 void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
