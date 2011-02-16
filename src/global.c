@@ -179,6 +179,8 @@ filestruct *replaceage = NULL;
 	/* The top of the replace string history list. */
 filestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
+poshiststruct *poshistory;
+	/* The cursor position history list  */
 #endif
 
 /* Regular expressions. */

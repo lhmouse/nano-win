@@ -322,6 +322,15 @@ typedef struct undo {
 } undo;
 
 
+typedef struct poshiststruct {
+    char *filename;
+        /* The file. */
+    ssize_t lineno;
+	/* Line number we left off on */
+    ssize_t xno;
+	/* x position in the file we left off on */
+    struct poshiststruct *next;
+} poshiststruct;
 #endif /* NANO_TINY */
 
 
@@ -497,7 +506,8 @@ enum
     BOLD_TEXT,
     QUIET,
     UNDOABLE,
-    SOFTWRAP
+    SOFTWRAP,
+    POS_HISTORY
 };
 
 /* Flags for which menus in which a given function should be present */

@@ -113,6 +113,7 @@ extern filestruct *searchbot;
 extern filestruct *replace_history;
 extern filestruct *replaceage;
 extern filestruct *replacebot;
+extern poshiststruct *poshistory;
 #endif
 
 #ifdef HAVE_REGEX_H
@@ -321,6 +322,10 @@ char *histfilename(void);
 void load_history(void);
 bool writehist(FILE *hist, filestruct *histhead);
 void save_history(void);
+int check_dotnano(void);
+void load_poshistory(void);
+void save_poshistory(void);
+int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 #endif
 
 /* All functions in global.c. */

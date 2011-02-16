@@ -605,6 +605,8 @@ void finish(void)
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     if (!no_rcfiles && ISSET(HISTORYLOG))
 	save_history();
+    if (!no_rcfiles && ISSET(POS_HISTORY))
+	save_poshistory();
 #endif
 
 #ifdef DEBUG
@@ -856,6 +858,10 @@ void usage(void)
 	N_("Don't convert files from DOS/Mac format"));
 #endif
     print_opt("-O", "--morespace", N_("Use one more line for editing"));
+#ifndef NANO_TINY
+    print_opt("-P", "--poshistory",
+	N_("Save and load history of cursor position"));
+#endif
 #ifndef DISABLE_JUSTIFY
     print_opt(_("-Q <str>"), _("--quotestr=<str>"),
 	N_("Quoting string"));
@@ -2092,6 +2098,7 @@ int main(int argc, char **argv)
 	{"tabstospaces", 0, NULL, 'E'},
 	{"historylog", 0, NULL, 'H'},
 	{"noconvert", 0, NULL, 'N'},
+	{"poshistory", 0, NULL, 'P'},
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
 	{"undo", 0, NULL, 'u'},
@@ -2137,11 +2144,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$",
+		"h?ABC:DEFHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$")
+		"h?ABC:DEFHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2201,6 +2208,11 @@ int main(int argc, char **argv)
 	    case 'O':
 		SET(MORE_SPACE);
 		break;
+#ifndef NANO_TINY
+	    case 'P':
+		SET(POS_HISTORY);
+		break;
+#endif
 #ifndef DISABLE_JUSTIFY
 	    case 'Q':
 		quotestr = mallocstrcpy(quotestr, optarg);
@@ -2449,10 +2461,20 @@ int main(int argc, char **argv)
     /* Set up the search/replace history. */
     history_init();
 #ifdef ENABLE_NANORC
-    if (!no_rcfiles && ISSET(HISTORYLOG))
-	load_history();
-#endif
-#endif
+    if (!no_rcfiles) {
+	if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
+	    if (check_dotnano() == 0) {
+		UNSET(HISTORYLOG);
+		UNSET(POS_HISTORY);
+	    }
+	}
+	if (ISSET(HISTORYLOG))
+	    load_history();
+	if (ISSET(POS_HISTORY))
+	    load_poshistory();
+    }
+#endif /* ENABLE_NANORC */
+#endif /* NANO_TINY */
 
 #ifndef NANO_TINY
     /* Set up the backup directory (unless we're using restricted mode,
@@ -2611,6 +2633,15 @@ int main(int argc, char **argv)
 		    iline = 1;
 		    icol = 1;
 		}
+#ifndef NANO_TINY
+                  else {
+		    /* See if we have a POS history to use if we haven't overridden it */
+		    ssize_t savedposline, savedposcol;
+		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
+			do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE,
+			FALSE);
+		}
+#endif /* NANO_TINY */
 	    }
 	}
     }
@@ -2648,6 +2679,14 @@ int main(int argc, char **argv)
     if (startline > 1 || startcol > 1)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
 		FALSE);
+# ifndef NANO_TINY
+    else {
+	/* See if we have a POS history to use if we haven't overridden it */
+	ssize_t savedposline, savedposcol;
+	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
+	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
+    }
+#endif /* NANO_TINY */
 
     display_main_list();
 
