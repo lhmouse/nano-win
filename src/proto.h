@@ -114,6 +114,7 @@ extern filestruct *replace_history;
 extern filestruct *replaceage;
 extern filestruct *replacebot;
 extern poshiststruct *poshistory;
+void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
 #endif
 
 #ifdef HAVE_REGEX_H

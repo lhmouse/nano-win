@@ -85,6 +85,7 @@ static const rcoption rcopts[] = {
     {"historylog", HISTORYLOG},
     {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},
+    {"poslog", POS_HISTORY},
     {"quiet", QUIET},
     {"quickblank", QUICK_BLANK},
     {"smarthome", SMART_HOME},

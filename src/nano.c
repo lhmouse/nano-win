@@ -605,8 +605,10 @@ void finish(void)
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     if (!no_rcfiles && ISSET(HISTORYLOG))
 	save_history();
-    if (!no_rcfiles && ISSET(POS_HISTORY))
+    if (!no_rcfiles && ISSET(POS_HISTORY)) {
+	update_poshistory(openfile->filename, openfile->current->lineno, xplustabs()+1);
 	save_poshistory();
+    }
 #endif
 
 #ifdef DEBUG
@@ -859,8 +861,8 @@ void usage(void)
 #endif
     print_opt("-O", "--morespace", N_("Use one more line for editing"));
 #ifndef NANO_TINY
-    print_opt("-P", "--poshistory",
-	N_("Save and load history of cursor position"));
+    print_opt("-P", "--poslog",
+	N_("Log & read location of cursor position"));
 #endif
 #ifndef DISABLE_JUSTIFY
     print_opt(_("-Q <str>"), _("--quotestr=<str>"),
@@ -2098,7 +2100,7 @@ int main(int argc, char **argv)
 	{"tabstospaces", 0, NULL, 'E'},
 	{"historylog", 0, NULL, 'H'},
 	{"noconvert", 0, NULL, 'N'},
-	{"poshistory", 0, NULL, 'P'},
+	{"poslog", 0, NULL, 'P'},
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
 	{"undo", 0, NULL, 'u'},

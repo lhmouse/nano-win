@@ -279,6 +279,10 @@ bool close_buffer(void)
     if (openfile == openfile->next)
 	return FALSE;
 
+#ifndef NANO_TINY
+        update_poshistory(openfile->filename, openfile->current->lineno, xplustabs()+1);
+#endif /* NANO_TINY */
+
     /* Switch to the next file buffer. */
     switch_to_next_buffer_void();
 
@@ -2880,8 +2884,8 @@ void save_history(void)
 void save_poshistory(void)
 {
     char *poshist;
-    char *statusstr;
-    openfilestruct *ofptr = openfile;
+    char *statusstr = NULL;
+    poshiststruct *posptr;
 
     poshist = poshistfilename();
 
@@ -2896,18 +2900,14 @@ void save_poshistory(void)
 	     * history file. */
 	    chmod(poshist, S_IRUSR | S_IWUSR);
 
-	    while (1) {
-		char *name = get_full_path(ofptr->filename);
-		statusstr = charalloc(strlen(name) + 2 * sizeof(ssize_t) + 4);
-		sprintf(statusstr, "%s %d %d\n", name, (int) ofptr->current->lineno,
-			(int) strnlenpt(openfile->current->data, openfile->current_x) + 1);
+            for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
+		statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
+		sprintf(statusstr, "%s %d %d\n", posptr->filename, (int) posptr->lineno,
+			(int) posptr->xno);
 		if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))
 		    history_error(N_("Error writing %s: %s"), poshist,
 			strerror(errno));
-		free(name);
-		if (ofptr->next == ofptr)
-		    break;
-		ofptr = ofptr->next;
+		free(statusstr);
 	    }
 	    fclose(hist);
 	}
@@ -2915,7 +2915,44 @@ void save_poshistory(void)
     }
 }
 
-/* Check the POS history to see if file matches 
+/* Update the POS history, given a filename line and column.
+ * If no entry is found, add a new entry on the end
+ */
+void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
+{
+   poshiststruct *posptr, *posprev = NULL;
+   char *fullpath = get_full_path(filename);
+
+    if (fullpath == NULL)
+        return;
+
+    for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
+        if (!strcmp(posptr->filename, fullpath)) {
+	    posptr->lineno = lineno;
+	    posptr->xno = xpos;
+            return;
+        }
+	posprev = posptr;
+    }
+
+    /* Didn't find it, make a new node yo! */
+
+    posptr = nmalloc(sizeof(poshiststruct));
+    posptr->filename = mallocstrcpy(NULL, fullpath);
+    posptr->lineno = lineno;
+    posptr->xno = xpos;
+    posptr->next = NULL;
+
+    if (!poshistory)
+	poshistory = posptr;
+    else
+	posprev->next = posptr;
+
+    free(fullpath);
+}
+
+
+/* Check the POS history to see if file matches
  * an existing entry.  If so return 1 and set line and column
  * to the right values  Otherwise return 0
  */
@@ -2931,9 +2968,11 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
 	if (!strcmp(posptr->filename, fullpath)) {
 	    *line = posptr->lineno;
 	    *column = posptr->xno;
+	    free(fullpath);
 	    return 1;
 	}
     }
+    free(fullpath);
     return 0;
 }
 
@@ -2942,7 +2981,6 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
 void load_poshistory(void)
 {
     char *nanohist = poshistfilename();
-
 
     /* Assume do_rcfile() has reported a missing home directory. */
     if (nanohist != NULL) {
@@ -2974,7 +3012,6 @@ void load_poshistory(void)
 		xptr = parse_next_word(lineptr);
 		lineno = atoi(lineptr);
 		xno = atoi(xptr);
-		fprintf(stderr, "Read data: file %s, line %d, xpos %d\n", line, lineno, xno);
 		if (poshistory == NULL) {
 		    poshistory = nmalloc(sizeof(poshiststruct));
 		    poshistory->filename = mallocstrcpy(NULL, line);
@@ -2982,7 +3019,7 @@ void load_poshistory(void)
 		    poshistory->xno = xno;
 		    poshistory->next = NULL;
 		} else {
-		    for (posptr = poshistory; posptr != NULL; posptr = posptr->next)
+		    for (posptr = poshistory; posptr->next != NULL; posptr = posptr->next)
 			;
 		    posptr->next = nmalloc(sizeof(poshiststruct));
 		    posptr->next->filename = mallocstrcpy(NULL, line);
