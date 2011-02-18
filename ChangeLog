@@ -5,6 +5,9 @@
 	  location.  Several new functions to files.c: load_poshistory(), save_poshistory(), 
 	  check_poshistory(), update_poshistory(), and reworking of histfilename().  New FAQ entry
 	  4.15 discussing the change and offering an interoperability workaround.
+	* files.c (load_history): Set last_search to the last search value we loaded from history,
+	  so do_research will succeed without needing to manually load the last seach in.  Fixes
+	  bug reported by Matt "ML" at gmail.
 
 2011-02-12 Chris Allegretta <chrisa@asty.org>
 	* Initial libmagic implementation, adapted from Eitan Adler <eitanadlerlist@gmail.com>.
