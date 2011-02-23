@@ -108,13 +108,13 @@ void color_init(void)
 }
 
 /* Cleanup a regex we previously compiled */
-void nfreeregex(regex_t *r)
+void nfreeregex(regex_t **r)
 {
     assert(r != NULL);
 
-    regfree(r);
-    free(r);
-    r = NULL;
+    regfree(*r);
+    free(*r);
+    *r = NULL;
 }
 
 /* Update the color information based on the current filename. */
@@ -219,7 +219,7 @@ void color_update(void)
 		/* Decompile e->ext_regex's specified regex if we aren't
 		 * going to use it. */
 		if (not_compiled)
-		    nfreeregex(e->ext);
+		    nfreeregex(&e->ext);
 	    }
 	}
 
@@ -251,7 +251,7 @@ void color_update(void)
 		    }
 
 		    if (not_compiled)
-			nfreeregex(e->ext);
+			nfreeregex(&e->ext);
 		}
 	    }
 	}
@@ -292,7 +292,7 @@ void color_update(void)
 		    /* Decompile e->ext_regex's specified regex if we aren't
 		     * going to use it. */
 		    if (not_compiled)
-			nfreeregex(e->ext);
+			nfreeregex(&e->ext);
 		}
 	    }
 	}
