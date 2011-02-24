@@ -1,3 +1,6 @@
+2011-02-23 Kamil Dudka <kdudka@redhat.com>
+	* doc/man/nanorc.5: Fix small typo
+
 2011-02-22 Chris Allegretta <chrisa@asty.org>
 	* color.c (nfreeregex): Fix that we were trying to set the pointer passed by value
 	  to NULL.  Fixes crashes on file save reported by Ken Tyler and Matthieu Lejeune.
