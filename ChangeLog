@@ -1,3 +1,7 @@
+2011-02-23 Chris Allegretta <chrisa@asty.org>
+	* Fix some more severe warnings from 'g++ -pedantic', from patch originally 
+	  by Eitan Adler <lists@eitanadler.com>
+
 2011-02-23 Kamil Dudka <kdudka@redhat.com>
 	* doc/man/nanorc.5: Fix small typo
 

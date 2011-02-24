@@ -2690,7 +2690,7 @@ const char *tail(const char *foo)
 /* Return the constructed dorfile path, or NULL if we can't find the home
  * directory.  The string is dynamically allocated, and should be
  * freed. */
-char *construct_filename(char *str)
+char *construct_filename(const char *str)
 {
     char *newstr = NULL;
 
@@ -2708,7 +2708,7 @@ char *construct_filename(char *str)
 
 char *histfilename(void)
 {
-    return construct_filename( "/.nano/search_history");
+    return construct_filename("/.nano/search_history");
 }
 
 /* Construct the legacy history filename
@@ -2721,7 +2721,7 @@ char *legacyhistfilename(void)
 
 char *poshistfilename(void)
 {
-    return construct_filename( "/.nano/filepos_history");
+    return construct_filename("/.nano/filepos_history");
 }
 
 
@@ -2770,8 +2770,7 @@ void load_history(void)
     struct stat hstat;
 
 
-    if (histfilename && stat(legacyhist, &hstat) != -1
-		&& stat(nanohist, &hstat) == -1) {
+    if (stat(legacyhist, &hstat) != -1 && stat(nanohist, &hstat) == -1) {
 	if (rename(legacyhist, nanohist)  == -1)
 	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\nto the preferred location (%s) but encountered an error: %s"),
 		legacyhist, nanohist, strerror(errno));
@@ -2939,7 +2938,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 
     /* Didn't find it, make a new node yo! */
 
-    posptr = nmalloc(sizeof(poshiststruct));
+    posptr = (poshiststruct *) nmalloc(sizeof(poshiststruct));
     posptr->filename = mallocstrcpy(NULL, fullpath);
     posptr->lineno = lineno;
     posptr->xno = xpos;
@@ -3015,7 +3014,7 @@ void load_poshistory(void)
 		lineno = atoi(lineptr);
 		xno = atoi(xptr);
 		if (poshistory == NULL) {
-		    poshistory = nmalloc(sizeof(poshiststruct));
+		    poshistory = (poshiststruct *) nmalloc(sizeof(poshiststruct));
 		    poshistory->filename = mallocstrcpy(NULL, line);
 		    poshistory->lineno = lineno;
 		    poshistory->xno = xno;
@@ -3023,7 +3022,7 @@ void load_poshistory(void)
 		} else {
 		    for (posptr = poshistory; posptr->next != NULL; posptr = posptr->next)
 			;
-		    posptr->next = nmalloc(sizeof(poshiststruct));
+		    posptr->next = (poshiststruct *) nmalloc(sizeof(poshiststruct));
 		    posptr->next->filename = mallocstrcpy(NULL, line);
 		    posptr->next->lineno = lineno;
 		    posptr->next->xno = xno;

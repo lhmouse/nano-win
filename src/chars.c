@@ -630,7 +630,7 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 	return NULL;
     } else
 #endif
-	return strcasestr(haystack, needle);
+	return (char *) strcasestr(haystack, needle);
 }
 
 #if !defined(NANO_TINY) || !defined(DISABLE_TABCOMP)
@@ -820,7 +820,7 @@ char *mbstrchr(const char *s, const char *c)
 	return (char *)q;
     } else
 #endif
-	return strchr(s, *c);
+	return (char *) strchr(s, *c);
 }
 #endif /* !NANO_TINY || !DISABLE_JUSTIFY */
 
@@ -840,7 +840,7 @@ char *mbstrpbrk(const char *s, const char *accept)
 	return NULL;
     } else
 #endif
-	return strpbrk(s, accept);
+	return (char *) strpbrk(s, accept);
 }
 
 /* This function is equivalent to strpbrk(), except in that it scans the
