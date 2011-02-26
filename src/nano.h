@@ -182,7 +182,7 @@ typedef enum {
 } update_type;
 
 typedef enum {
-    CONTROL, META, FKEY, RAW
+    CONTROL, META, FKEY, RAWINPUT
 }  function_type;
 
 typedef enum {

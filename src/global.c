@@ -269,7 +269,7 @@ function_type strtokeytype(const char *str)
     else if (str[0] ==  'F' || str[0] == 'F')
         return FKEY;
     else
-	return RAW;
+	return RAWINPUT;
 }
 
 /* Add a string to the new function list strict.
@@ -398,7 +398,7 @@ void assign_keyinfo(sc *s)
     } else if (s->type == FKEY) {
         assert(strlen(s->keystr) > 1);
         s->seq = KEY_F0 + atoi(&s->keystr[1]);
-    } else /* raw */
+    } else /* RAWINPUT */
         s->seq = (int) s->keystr[0];
 
     /* Override some keys which don't bind as nicely as we'd like */
@@ -406,32 +406,32 @@ void assign_keyinfo(sc *s)
 	s->seq = 0;
     else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
 	s->seq = (int) ' ';
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kup")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kup")))
 	s->seq = KEY_UP;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kdown")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kdown")))
 	s->seq = KEY_DOWN;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kleft")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kleft")))
 	s->seq = KEY_LEFT;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kright")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kright")))
 	s->seq = KEY_RIGHT;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kinsert")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kinsert")))
 	s->seq = KEY_IC;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kdel")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kdel")))
 	s->seq = KEY_DC;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kbsp")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kbsp")))
 	s->seq = KEY_BACKSPACE;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kenter")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kenter")))
 	s->seq = KEY_ENTER;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kpup")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kpup")))
 	s->seq = KEY_PPAGE;
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kpdown")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kpdown")))
 	s->seq = KEY_NPAGE;
 #ifdef KEY_HOME
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "khome")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "khome")))
 	s->seq = KEY_HOME;
 #endif
 #ifdef KEY_END
-    else if (s->type == RAW && (!strcasecmp(s->keystr, "kend")))
+    else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kend")))
 	s->seq = KEY_END;
 #endif
 

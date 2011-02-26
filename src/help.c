@@ -446,7 +446,7 @@ void help_init(void)
             if (scsfound == 3)
 		continue;
 
-            if (s->type == RAW)
+            if (s->type == RAWINPUT)
 		continue;
 
 	    if ((s->menu & currmenu) == 0)
