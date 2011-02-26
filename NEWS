@@ -1,3 +1,17 @@
+GNU nano 2.3.0 - 2011.02.26
+2011.02.26 - GNU nano 2.3.0 "Septic surprise" is released.  This first
+		release in the 2.3 unstable series bring several new 
+		features.  First, libmagic support for syntax highlighting
+		has been added on top of the existing file extension 
+		and header support already available.  Secondly, cursor 
+		position can be saved between editing sessions with 
+		the -P or --poslog command line flags, or via "set poslog" 
+		in your .nanorc.  Also included are some fixes for 
+		compilation with g++, and better handling of issues 
+		writing the backup file, which should reduce the need 
+		for the 'set allow_insecure_backup" nanorc option.  
+		Don't stop, get it get it, don't stop, get it get it.
+
 2010.08.05 - GNU nano 2.2.5 "Inactivity timeout" is now available.
 		This release includes slightly less restrictive checkng
 		when writing files in strange environments (e.g. 
