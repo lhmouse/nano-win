@@ -1,3 +1,8 @@
+2011-03-03 Chris Allegretta <chrisa@asty.org>
+	* color.c (color_update): Remove unneeded debugging message from
+	  libmagic commit.  Fixed extra messages going to stderr reported by Mike Frysinger.
+
+GNU nano 2.3.0 - 2011.02.26
 2011-02-26 Chris Allegretta <chrisa@asty.org>
 	* Change RAW in function_type enum to RAWINPUT, to fix compilation on AIX, 
 	  reported by Richard G  Daniel <skunk@iskunk.org>.

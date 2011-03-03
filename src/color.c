@@ -244,7 +244,6 @@ void color_update(void)
 #endif /* DEBUG */
 
 		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
-			fprintf(stderr,"We matched!\n");
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
 			break;
