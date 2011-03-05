@@ -131,6 +131,7 @@ void color_update(void)
     const char *magicstring = NULL;
     const char *magicerr = NULL;
     magic_t m;
+    struct stat fileinfo;
 #endif /* HAVE_LIBMAGIC */
 
 
@@ -160,7 +161,7 @@ void color_update(void)
 
 #ifdef HAVE_LIBMAGIC
 
-    if (strcmp(openfile->filename,"")) {
+    if (strcmp(openfile->filename,"") && stat(openfile->filename, &fileinfo) == 0) {
 	m = magic_open(MAGIC_SYMLINK |
 #ifdef DEBUG
                        MAGIC_DEBUG | MAGIC_CHECK |

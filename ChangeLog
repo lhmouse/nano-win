@@ -1,3 +1,8 @@
+2011-03-04 Chris Allegretta <chrisa@asty.org>
+	* color.c (color_update): Add check for whether the file even exists
+	  before we try to run the magic check on it.  Fixes error messages to stderr
+	  when reading in files that don't exist, reported by Mike Frysinger.
+
 2011-03-03 Chris Allegretta <chrisa@asty.org>
 	* color.c (color_update): Remove unneeded debugging message from
 	  libmagic commit.  Fixed extra messages going to stderr reported by Mike Frysinger.
