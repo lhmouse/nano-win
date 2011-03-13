@@ -1,37 +1,37 @@
-# Simplified Chinese Messages for the nano editor
-# Copyright (C) 2004, 2005, 2009, 2010, 2011 Free Software Foundation, Inc.
+# Esperanto translations for GNU nano.
+# Copyright (C) 2011 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# LI Daobing <lidaobing@gmail.com>, 2007, 2008, 2009.
-# Aron Xu <happyaron.xu@gmail.com>, 2009, 2010, 2011.
 #
+# Benno Schulenberg <benno@vertaalt.nl>, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-26 09:24-0500\n"
-"PO-Revision-Date: 2011-03-08 03:15+0800\n"
-"Last-Translator: Aron Xu <happyaron.xu@gmail.com>\n"
-"Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2011-03-10 12:30+0100\n"
+"Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
+"Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.0\n"
 
 #: src/browser.c:220
 msgid "Go To Directory"
-msgstr "跳至目录"
+msgstr "Iri dosierujon"
 
 #: src/browser.c:233 src/browser.c:830 src/files.c:864 src/files.c:2078
 #: src/nano.c:1068 src/search.c:220 src/search.c:313 src/search.c:974
 #: src/search.c:1039
 msgid "Cancelled"
-msgstr "已取消"
+msgstr "Rezignita"
 
 #: src/browser.c:266 src/browser.c:314
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
-msgstr "在限制模式中无法跳至%s 外部"
+msgstr "Ne eblas iri ekstere de %s en limigita reĝimo"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:726
 #: src/files.c:735 src/files.c:1561 src/files.c:1687 src/files.c:1741
@@ -39,194 +39,202 @@ msgstr "在限制模式中无法跳至%s 外部"
 #: src/rcfile.c:640 src/rcfile.c:1279
 #, c-format
 msgid "Error reading %s: %s"
-msgstr "读取%s 出错：%s"
+msgstr "Eraro dum legado de %s: %s"
 
 #: src/browser.c:303
 msgid "Can't move up a directory"
-msgstr "无法上移一个目录"
+msgstr "Ne eblas iri al supra dosierujo"
 
 #. TRANSLATORS: Try to keep this at most 7
 #. * characters.
 #: src/browser.c:665 src/browser.c:674
 msgid "(dir)"
-msgstr "(目录)"
+msgstr "(ujo)"
 
 #. TRANSLATORS: Try to keep this at most 12
 #. * characters.
 #: src/browser.c:671
 msgid "(parent dir)"
-msgstr "(父目录)"
+msgstr "(patra ujo)"
 
 #: src/browser.c:801 src/search.c:185
 msgid "Search"
-msgstr "搜索"
+msgstr "Serĉi"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:805 src/search.c:189
 msgid " [Case Sensitive]"
-msgstr " [区分大小写]"
+msgstr " [usklecdistinge]"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:811 src/search.c:195
 msgid " [Regexp]"
-msgstr " [正则表示式]"
+msgstr " [regulesprime]"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:817 src/search.c:201
 msgid " [Backwards]"
-msgstr " [向后搜索]"
+msgstr " [malantaŭen]"
 
 #: src/browser.c:909 src/browser.c:917 src/search.c:394
 msgid "Search Wrapped"
-msgstr "已从头搜索"
+msgstr "Serĉado ĉirkaŭiris"
 
 #: src/browser.c:1006 src/browser.c:1039 src/search.c:513 src/search.c:516
 #: src/search.c:573 src/search.c:576
 msgid "This is the only occurrence"
-msgstr "这是惟一出现之处"
+msgstr "Ĉi tiu estas la ununura aperaĵo"
 
 #: src/browser.c:1042 src/search.c:582
 msgid "No current search pattern"
-msgstr "没有当前搜索模式"
+msgstr "Mankas ankoraŭ serĉendaĵo"
 
 #: src/files.c:125
 #, c-format
 msgid "Can't insert file from outside of %s"
-msgstr "无法插入%s 外部的文件"
+msgstr "Ne eblas enmeti dosieron el ekstere de %s"
 
 #: src/files.c:234
 msgid "No more open file buffers"
-msgstr "无多余文件缓冲区可启用"
+msgstr "Ne ekzistas pliaj malfermaj bufroj"
 
 #: src/files.c:250
 #, c-format
 msgid "Switched to %s"
-msgstr "切换至%s"
+msgstr "Ŝaltita al %s"
 
 #: src/files.c:251 src/global.c:515 src/winio.c:2168
 msgid "New Buffer"
-msgstr "新缓冲区"
+msgstr "Nova bufro"
 
 #: src/files.c:637
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
-msgstr[0] "已读取%lu 行(转换自DOS 与Mac 格式)"
+msgstr[0] "Legiĝis %lu linio (konvertita el DOS- kaj Mac-aranĝo)"
+msgstr[1] "Legiĝis %lu linioj (konvertita el DOS- kaj Mac-aranĝo)"
 
 #: src/files.c:642
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format - Warning: No write permission)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format - Warning: No write permission)"
-msgstr[0] "已读取%lu 行(转换自DOS 与Mac 格式- 警告：无写入权限)"
+msgstr[0] "Legiĝis %lu linio (konvertita el DOS- kaj Mac-aranĝo -- Averto: skribrajto mankas)"
+msgstr[1] "Legiĝis %lu linioj (konvertita el DOS- kaj Mac-aranĝo -- Averto: skribrajto mankas)"
 
 #: src/files.c:648
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
-msgstr[0] "已读取%lu 行 (转换自Mac 格式)"
+msgstr[0] "Legiĝis %lu linio (konvertita el Mac-aranĝo)"
+msgstr[1] "Legiĝis %lu linioj (konvertitaj el Mac-aranĝo)"
 
 #: src/files.c:652
 #, c-format
 msgid "Read %lu line (Converted from Mac format - Warning: No write permission)"
 msgid_plural "Read %lu lines (Converted from Mac format - Warning: No write permission)"
-msgstr[0] "已读取%lu 行 (转换自Mac 格式- 警告：无写入权限)"
+msgstr[0] "Legiĝis %lu linio (konvertita el Mac-aranĝo -- Averto: skribrajto mankas)"
+msgstr[1] "Legiĝis %lu linioj (konvertitaj el Mac-aranĝo -- Averto: skribrajto mankas)"
 
 #: src/files.c:658
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
-msgstr[0] "已读取%lu 行 (转换自DOS 格式)"
+msgstr[0] "Legiĝis %lu linio (konvertita el DOS-aranĝo)"
+msgstr[1] "Legiĝis %lu linioj (konvertitaj el DOS-aranĝo)"
 
 #: src/files.c:662
 #, c-format
 msgid "Read %lu line (Converted from DOS format - Warning: No write permission)"
 msgid_plural "Read %lu lines (Converted from DOS format - Warning: No write permission)"
-msgstr[0] "已读取%lu 行 (转换自DOS 格式- 警告：无写入权限)"
+msgstr[0] "Legiĝis %lu linio (konvertita el DOS-aranĝo -- Averto: skribrajto mankas)"
+msgstr[1] "Legiĝis %lu linioj (konvertitaj el DOS-aranĝo -- Averto: skribrajto mankas)"
 
 #: src/files.c:668
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
-msgstr[0] "已读取%lu 行"
+msgstr[0] "Legiĝis %lu linio"
+msgstr[1] "Legiĝis %lu linioj"
 
 #: src/files.c:671
 #, c-format
 msgid "Read %lu line ( Warning: No write permission)"
 msgid_plural "Read %lu lines (Warning: No write permission)"
-msgstr[0] "已读取%lu 行(警告：无写入权限)"
+msgstr[0] "Legiĝis %lu linio (Averto: skribrajto mankas)"
+msgstr[1] "Legiĝis %lu linioj (Averto: skribrajto mankas)"
 
 #: src/files.c:704 src/files.c:740
 msgid "Reading File"
-msgstr "正在读取文件"
+msgstr "Legante dosieron"
 
 #: src/files.c:710
 msgid "New File"
-msgstr "新文件"
+msgstr "Nova dosiero"
 
 #: src/files.c:713
 #, c-format
 msgid "\"%s\" not found"
-msgstr "找不到\"%s\""
+msgstr "\"%s\" ne trovatas"
 
 #: src/files.c:721 src/rcfile.c:631 src/rcfile.c:1229 src/rcfile.c:1270
 #, c-format
 msgid "\"%s\" is a directory"
-msgstr "\"%s\" 是一个目录"
+msgstr "\"%s\" estas dosierujo"
 
 #: src/files.c:722 src/rcfile.c:632 src/rcfile.c:1230 src/rcfile.c:1271
 #, c-format
 msgid "\"%s\" is a device file"
-msgstr "\"%s\" 是一个设备文件"
+msgstr "\"%s\" estas aparato"
 
 #: src/files.c:821
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
-msgstr "在新缓冲区中执行的命令 [从%s] "
+msgstr "Rulenda komando en nova bufro [el %s] "
 
 #: src/files.c:823
 #, c-format
 msgid "Command to execute [from %s] "
-msgstr "执行的命令 [从%s] "
+msgstr "Rulenda komando [el %s] "
 
 #: src/files.c:829
 #, c-format
 msgid "File to insert into new buffer [from %s] "
-msgstr "要插入新缓冲区的文件 [从%s] "
+msgstr "Enmetenda dosiero en nova bufro [el %s] "
 
 #: src/files.c:831
 #, c-format
 msgid "File to insert [from %s] "
-msgstr "要插入的文件 [从%s] "
+msgstr "Enmetenda dosiero [el %s] "
 
 #: src/files.c:1081
 msgid "Key invalid in non-multibuffer mode"
-msgstr "非多重缓冲区模式中此按键无效"
+msgstr "Klavo nur validas en multbufra moduso"
 
 #: src/files.c:1384
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
-msgstr "写入备份文件失败，继续保存吗？(如果不确定请输入N)"
+msgstr "Malsukcesis skribi savkopion; ĉu tamen konservi? (N se vi ne certas) "
 
 #: src/files.c:1507
 #, c-format
 msgid "Can't write outside of %s"
-msgstr "无法写入%s 外部"
+msgstr "Ne eblas skribi ekstere de %s"
 
 #: src/files.c:1522
 msgid "Cannot prepend or append to a symlink with --nofollow set"
-msgstr "--nofollow 设定下，无法前引或附加至符号连结档"
+msgstr "Kun \"--nofollow\" ne eblas antaŭglui nek postglui al simbola ligilo"
 
 #: src/files.c:1602 src/files.c:1626 src/files.c:1644 src/files.c:1657
 #: src/files.c:1668 src/files.c:1697
 #, c-format
 msgid "Error writing backup file %s: %s"
-msgstr "写入备份文件%s 出错：%s"
+msgstr "Eraro dum skribado de savkopio %s: %s"
 
 #: src/files.c:1603 src/nano.c:705
 msgid "Too many backup files?"
-msgstr "太多备份文件？"
+msgstr "Ĉu troaj savkopioj?"
 
 #: src/files.c:1717 src/files.c:1774 src/files.c:1793 src/files.c:1805
 #: src/files.c:1829 src/files.c:1847 src/files.c:1857 src/files.c:1893
@@ -234,70 +242,71 @@ msgstr "太多备份文件？"
 #: src/files.c:2909
 #, c-format
 msgid "Error writing %s: %s"
-msgstr "写入%s 出错：%s"
+msgstr "Eraro dum skribado de %s: %s"
 
 #: src/files.c:1751 src/text.c:2934 src/text.c:2946
 #, c-format
 msgid "Error writing temp file: %s"
-msgstr "写入临时文件%s 出错"
+msgstr "Eraro dum skribado de portempa dosiero: %s"
 
 #: src/files.c:1930
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
-msgstr[0] "已写入%lu 行"
+msgstr[0] "Skribiĝis %lu linio"
+msgstr[1] "Skribiĝis %lu linioj"
 
 #: src/files.c:2034
 msgid " [DOS Format]"
-msgstr " [DOS 格式]"
+msgstr " [DOS-aranĝo]"
 
 #: src/files.c:2035
 msgid " [Mac Format]"
-msgstr " [Mac 格式]"
+msgstr " [Mac-aranĝo]"
 
 #: src/files.c:2037
 msgid " [Backup]"
-msgstr " [备份]"
+msgstr " [savkopii]"
 
 #: src/files.c:2045
 msgid "Prepend Selection to File"
-msgstr "前引选择部份于文件"
+msgstr "Antaŭglui markaĵon al dosiero"
 
 #: src/files.c:2046
 msgid "Append Selection to File"
-msgstr "附加选择部份至文件"
+msgstr "Postglui markaĵon al dosiero"
 
 #: src/files.c:2047
 msgid "Write Selection to File"
-msgstr "写入选择部份至文件"
+msgstr "Konservi markaĵon en dosiero"
 
 #: src/files.c:2050
 msgid "File Name to Prepend to"
-msgstr "要前引于的文件名"
+msgstr "Nomo de dosiero al kiu antaŭglui"
 
 #: src/files.c:2051
 msgid "File Name to Append to"
-msgstr "要附加至的文件名"
+msgstr "Nomo de dosiero al kiu postglui"
 
 #: src/files.c:2052
 msgid "File Name to Write"
-msgstr "要写入的文件名"
+msgstr "Nomo de skribota dosiero"
 
 #: src/files.c:2183
 msgid "File exists, OVERWRITE ? "
-msgstr "文件已存在，要覆盖吗？"
+msgstr "Dosiero jam ekzistas; ĉu ANSTATAŬIGI? "
 
 #: src/files.c:2192
 msgid "Save file under DIFFERENT NAME ? "
-msgstr "以不同的名称存档？"
+msgstr "Ĉu konservi ALINOME? "
 
 #: src/files.c:2203
 msgid "File was modified since you opened it, continue saving ? "
-msgstr "在您打开文件后文件已被改变，是否继续保存？"
+msgstr "Dosiero modifiĝis post malfermo; ĉu tamen surskribi ĝin? "
 
 #: src/files.c:2641
 msgid "(more)"
-msgstr "(更多)"
+msgstr "(plu)"
 
 #: src/files.c:2737
 #, c-format
@@ -306,7 +315,7 @@ msgid ""
 "Press Enter to continue\n"
 msgstr ""
 "\n"
-"按下回车键继续\n"
+"Premu \"Enter\" por daŭrigi.\n"
 
 #: src/files.c:2754
 #, c-format
@@ -314,8 +323,8 @@ msgid ""
 "Unable to create directory %s: %s\n"
 "It is required for saving/loading search history or cursor position\n"
 msgstr ""
-"无法创建目录 %s：%s\n"
-"然而保存和载入搜索历史或光标位置需要它。\n"
+"Malsukcesis krei dosierujon %s: %s\n"
+"Ĉi tiu dosierujo bezonatas por konservi/relegi serĉan historion kaj kursoran pozicion.\n"
 
 #: src/files.c:2759
 #, c-format
@@ -323,8 +332,8 @@ msgid ""
 "Path %s is not a directory and needs to be.\n"
 "Nano will be unable to load or save search or cursor position history\n"
 msgstr ""
-"路径%s 应为一个目录，但现在不是。\n"
-"Nano 将无法载入或保存搜索历史或光标位置\n"
+"Vojo %s ne estas dosierujo sed devas esti.\n"
+"'Nano' ne kapablos konservi/relegi serĉan historion nek kursoran pozicion.\n"
 
 #: src/files.c:2775
 #, c-format
@@ -332,8 +341,9 @@ msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
 "to the preferred location (%s) but encountered an error: %s"
 msgstr ""
-"检测到了旧版的Nano 历史文件(%s)并试图移动到默认位置(%s)。\n"
-"此操作出现错误：%s"
+"Troviĝis olda historia dosiero (%s);\n"
+"dum movo al preferata loko (%s)\n"
+"okazis eraro: %s"
 
 #: src/files.c:2778
 #, c-format
@@ -342,646 +352,647 @@ msgid ""
 "to the preferred location (%s)\n"
 "(see the nano FAQ about this change)"
 msgstr ""
-"检测到了旧版的Nano 历史文件(%s)并已移动到默认位置(%s)。\n"
-"(关于这个变更请参阅Nano 常见问题解答)"
+"Troviĝis olda historia dosiero (%s)\n"
+"kiu nun moviĝis al preferata loko (%s).\n"
+"(Vidu la 'nano-FAQ' por informo pri ĉi tiu ŝanĝo.)"
 
 #. TRANSLATORS: Try to keep the next five strings at most 10 characters.
 #: src/global.c:461 src/prompt.c:1288
 msgid "Cancel"
-msgstr "取消"
+msgstr "Rezigni"
 
 #: src/global.c:462
 msgid "Replace"
-msgstr "替换"
+msgstr "Anstataŭigi"
 
 #: src/global.c:463
 msgid "No Replace"
-msgstr "不替换"
+msgstr "Ne anstataŭigi"
 
 #: src/global.c:466
 msgid "Case Sens"
-msgstr "区分大小写"
+msgstr "Usklece"
 
 #: src/global.c:467
 msgid "Backwards"
-msgstr "向后搜索"
+msgstr "Malantaŭen"
 
 #: src/global.c:471
 msgid "Regexp"
-msgstr "正则表达式"
+msgstr "Regulesprime"
 
 #. TRANSLATORS: Try to keep the next five strings at most 10 characters.
 #: src/global.c:497
 msgid "PrevHstory"
-msgstr "前一记录"
+msgstr "Pli olda"
 
 #: src/global.c:498
 msgid "NextHstory"
-msgstr "后一记录"
+msgstr "Malpli olda"
 
 #: src/global.c:499
 msgid "Go To Text"
-msgstr "跳至文字"
+msgstr "Serĉi"
 
 #. TRANSLATORS: Try to keep the next three strings at most 12 characters.
 #: src/global.c:501
 msgid "WhereIs Next"
-msgstr "何处是下一个"
+msgstr "Serĉi sekvan"
 
 #: src/global.c:503
 msgid "First File"
-msgstr "首文件"
+msgstr "Unua dosiero"
 
 #: src/global.c:504
 msgid "Last File"
-msgstr "末文件"
+msgstr "Lasta dosiero"
 
 #. TRANSLATORS: Try to keep the next nine strings at most 16 characters.
 #: src/global.c:506
 msgid "To Files"
-msgstr "文件选单"
+msgstr "Dosierlisto"
 
 #: src/global.c:508
 msgid "DOS Format"
-msgstr "DOS 格式"
+msgstr "DOS-aranĝo"
 
 #: src/global.c:509
 msgid "Mac Format"
-msgstr "Mac 格式"
+msgstr "Mac-aranĝo"
 
 #: src/global.c:510
 msgid "Append"
-msgstr "附加"
+msgstr "Postglui"
 
 #: src/global.c:511
 msgid "Prepend"
-msgstr "前引"
+msgstr "Antaŭglui"
 
 #: src/global.c:512
 msgid "Backup File"
-msgstr "备份文件"
+msgstr "Savkopii"
 
 #: src/global.c:513
 msgid "Execute Command"
-msgstr "执行命令"
+msgstr "Ruli komandon"
 
 #: src/global.c:517
 msgid "Go To Dir"
-msgstr "跳至目录"
+msgstr "Iri dosierujon"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:526
 msgid "Get Help"
-msgstr "求助"
+msgstr "Helpo"
 
 #: src/global.c:527
 msgid "Exit"
-msgstr "离开"
+msgstr "Fini"
 
 #: src/global.c:528
 msgid "Where Is"
-msgstr "搜索"
+msgstr "Serĉi"
 
 #: src/global.c:529
 msgid "Prev Page"
-msgstr "上页"
+msgstr "Paĝo supren"
 
 #: src/global.c:530
 msgid "Next Page"
-msgstr "下页"
+msgstr "Paĝo suben"
 
 #: src/global.c:531
 msgid "First Line"
-msgstr "首行"
+msgstr "Unua linio"
 
 #: src/global.c:532
 msgid "Last Line"
-msgstr "尾行"
+msgstr "Lasta linio"
 
 #: src/global.c:533
 msgid "Suspend"
-msgstr "暂停"
+msgstr "Paŭzigi"
 
 #: src/global.c:535
 msgid "Beg of Par"
-msgstr "段落开头"
+msgstr "Alineo-eken"
 
 #: src/global.c:536
 msgid "End of Par"
-msgstr "段落结尾"
+msgstr "Alineo-finen"
 
 #: src/global.c:537
 msgid "FullJstify"
-msgstr "全部对齐"
+msgstr "Rektigi ĉion"
 
 #: src/global.c:539
 msgid "Refresh"
-msgstr "刷新"
+msgstr "Remontri"
 
 #: src/global.c:541
 msgid "Insert File"
-msgstr "插入文件"
+msgstr "Enmeti dosieron"
 
 #: src/global.c:543
 msgid "Go To Line"
-msgstr "跳行"
+msgstr "Iri linion"
 
 #: src/global.c:546
 msgid "Justify the current paragraph"
-msgstr "对齐当前段落"
+msgstr "Rektigi la nunan alineon"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
 #: src/global.c:551
 msgid "Cancel the current function"
-msgstr "取消当前功能"
+msgstr "Rezigni la nunan operacion"
 
 #: src/global.c:552
 msgid "Display this help text"
-msgstr "显示帮助"
+msgstr "Montri ĉi tiun helptekston"
 
 #: src/global.c:555
 msgid "Close the current file buffer / Exit from nano"
-msgstr "关闭当前文件缓冲区 / 离开 nano"
+msgstr "Fermi la nunan bufron / Eliri el 'nano'"
 
 #: src/global.c:557
 msgid "Exit from nano"
-msgstr "离开 nano"
+msgstr "Eliri el 'nano'"
 
 #: src/global.c:561
 msgid "Write the current file to disk"
-msgstr "写入当前文件至磁盘"
+msgstr "Konservi la nunan dosieron sur disko"
 
 #: src/global.c:563
 msgid "Insert another file into the current one"
-msgstr "插入其他文件至当前文件"
+msgstr "Enmeti alian dosieron en la nuna bufro"
 
 #: src/global.c:565
 msgid "Search for a string or a regular expression"
-msgstr "查找字符串或正则表示式"
+msgstr "Serĉi signoĉenon aŭ regulesprimon"
 
 #: src/global.c:566
 msgid "Go to previous screen"
-msgstr "跳至前一屏"
+msgstr "Iri al la supra paĝo"
 
 #: src/global.c:567
 msgid "Go to next screen"
-msgstr "跳至后一屏"
+msgstr "Iri al la suba paĝo"
 
 #: src/global.c:569
 msgid "Cut the current line and store it in the cutbuffer"
-msgstr "剪切当前这行并存至剪贴板"
+msgstr "Eltondi la nunan linion kaj konservi ĝin en tondbufro"
 
 #: src/global.c:571
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "从剪贴板粘贴至当前行"
+msgstr "Glui tekstaĵon el la tondbufro en la nuna linio"
 
 #: src/global.c:573
 msgid "Display the position of the cursor"
-msgstr "显示光标位置"
+msgstr "Montri la pozicion de la kursoro"
 
 #: src/global.c:575
 msgid "Invoke the spell checker, if available"
-msgstr "尝试运行拼写检查"
+msgstr "Ruli literumilon (se disponeblas)"
 
 #: src/global.c:577
 msgid "Replace a string or a regular expression"
-msgstr "替换字符串或正则表示式"
+msgstr "Anstataŭigi signoĉenon aŭ regulesprimon"
 
 #: src/global.c:578
 msgid "Go to line and column number"
-msgstr "跳至指定行与列位置"
+msgstr "Iri al linionumero (kaj kolumnonumero)"
 
 #: src/global.c:580
 msgid "Mark text at the cursor position"
-msgstr "标记游标所在文字"
+msgstr "Marki tekston ekde la kursora pozicio"
 
 #: src/global.c:581
 msgid "Repeat last search"
-msgstr "重复上次搜索"
+msgstr "Ripeti lastan serĉon"
 
 #: src/global.c:583
 msgid "Copy the current line and store it in the cutbuffer"
-msgstr "拷贝当前行至剪贴板"
+msgstr "Kopii la nunan linion kaj konservi ĝin en tondbufro"
 
 #: src/global.c:584
 msgid "Indent the current line"
-msgstr "缩进当前行"
+msgstr "Deŝovi enen la nunan linion"
 
 #: src/global.c:585
 msgid "Unindent the current line"
-msgstr "取消缩进当前行"
+msgstr "Deŝovi eksteren la nunan linion"
 
 #: src/global.c:586
 msgid "Undo the last operation"
-msgstr "撤销上次操作"
+msgstr "Malfari la lastan operacion"
 
 #: src/global.c:587
 msgid "Redo the last undone operation"
-msgstr "重做撤销的操作"
+msgstr "Refari la lastan malfaratan operacion"
 
 #: src/global.c:589
 msgid "Go forward one character"
-msgstr "向前跳一字符"
+msgstr "Iri unu signon antaŭen"
 
 #: src/global.c:590
 msgid "Go back one character"
-msgstr "向后跳一字符"
+msgstr "Iri unu signon malantaŭen"
 
 #: src/global.c:592
 msgid "Go forward one word"
-msgstr "向前跳一个词"
+msgstr "Iri unu vorton antaŭen"
 
 #: src/global.c:593
 msgid "Go back one word"
-msgstr "向后跳一个词"
+msgstr "Iri unu vorton malantaŭen"
 
 #: src/global.c:595
 msgid "Go to previous line"
-msgstr "跳至前一行"
+msgstr "Iri al la supra linio"
 
 #: src/global.c:596
 msgid "Go to next line"
-msgstr "跳至后一行"
+msgstr "Iri al la suba linio"
 
 #: src/global.c:597
 msgid "Go to beginning of current line"
-msgstr "跳至当前行首"
+msgstr "Iri al la komenco de la nuna linio"
 
 #: src/global.c:598
 msgid "Go to end of current line"
-msgstr "跳至当前行尾"
+msgstr "Iri al la fino de la nuna linio"
 
 #: src/global.c:601
 msgid "Go to beginning of paragraph; then of previous paragraph"
-msgstr "跳至当前段落开头，如已在段落开头，则调至上一段落起始处"
+msgstr "Iri al komenco de alineo; poste al ĝi de antaŭa alineo"
 
 #: src/global.c:603
 msgid "Go just beyond end of paragraph; then of next paragraph"
-msgstr "跳至当前段落结尾，如已在段落结尾，则调至下一段落结尾"
+msgstr "Iri al postfino de alineo; poste al ĝi de posta alineo"
 
 #: src/global.c:606
 msgid "Go to the first line of the file"
-msgstr "跳至文件第一行"
+msgstr "Iri al la unua linio de la dosiero"
 
 #: src/global.c:608
 msgid "Go to the last line of the file"
-msgstr "跳至文件最后一行"
+msgstr "Iri al la lasta linio de la dosiero"
 
 #: src/global.c:610
 msgid "Go to the matching bracket"
-msgstr "移动至对应括号"
+msgstr "Iri al para krampo"
 
 #: src/global.c:612
 msgid "Scroll up one line without scrolling the cursor"
-msgstr "向上卷动一行但不卷动游标"
+msgstr "Rulumi unu linion supren sen movi la kursoron"
 
 #: src/global.c:614
 msgid "Scroll down one line without scrolling the cursor"
-msgstr "向下卷动一行但不卷动游标"
+msgstr "Rulumi unu linion suben sen movi la kursoron"
 
 #: src/global.c:618
 msgid "Switch to the previous file buffer"
-msgstr "切换至上个文件缓冲区"
+msgstr "Ŝalti al malsekva dosierbufro"
 
 #: src/global.c:620
 msgid "Switch to the next file buffer"
-msgstr "切换至下个文件缓冲区"
+msgstr "Ŝalti al sekva dosierbufro"
 
 #: src/global.c:623
 msgid "Insert the next keystroke verbatim"
-msgstr "插入下一按键原型"
+msgstr "Enmeti la tujsekvan klavon tielkiel"
 
 #: src/global.c:625
 msgid "Insert a tab at the cursor position"
-msgstr "插入制表符于游标位置"
+msgstr "Enmeti tabon je la kursora pozicio"
 
 #: src/global.c:627
 msgid "Insert a newline at the cursor position"
-msgstr "插入新行于游标位置"
+msgstr "Enmeti novlinion je la kursora pozicio"
 
 #: src/global.c:629
 msgid "Delete the character under the cursor"
-msgstr "删除游标之下的字符"
+msgstr "Forigi la signon sub la kursoro"
 
 #: src/global.c:631
 msgid "Delete the character to the left of the cursor"
-msgstr "删除游标左侧的字符"
+msgstr "Forigi la signon maldekstran de la kursoro"
 
 #: src/global.c:634
 msgid "Cut from the cursor position to the end of the file"
-msgstr "从游标位置剪切至文件结尾"
+msgstr "Forigi ĉion ekde de la kursoro ĝis la dosierfino"
 
 #: src/global.c:637
 msgid "Justify the entire file"
-msgstr "对齐整个文件"
+msgstr "Rektigi la tutan dosieron"
 
 #: src/global.c:641
 msgid "Count the number of words, lines, and characters"
-msgstr "计算字数、行数与字符数"
+msgstr "Nombri la vortojn, liniojn, kaj signojn"
 
 #: src/global.c:644
 msgid "Refresh (redraw) the current screen"
-msgstr "重新显示当前画面"
+msgstr "Aktualigi (redesegni) la nunan ekranon"
 
 #: src/global.c:646
 msgid "Suspend the editor (if suspend is enabled)"
-msgstr "暂停编辑器(如果启用了暂停)"
+msgstr "Paŭzigi la redaktilon (se paŭzigebleco enŝaltitas)"
 
 #: src/global.c:649
 msgid "Toggle the case sensitivity of the search"
-msgstr "切换查找的区分大小写选项"
+msgstr "Ŝalti la usklecdistingon de serĉo"
 
 #: src/global.c:651
 msgid "Reverse the direction of the search"
-msgstr "反转搜索方向"
+msgstr "Mali la direkton de serĉo"
 
 #: src/global.c:655
 msgid "Toggle the use of regular expressions"
-msgstr "切换使用正则表示式"
+msgstr "Ŝalti la uzon de regulesprimoj"
 
 #: src/global.c:659
 msgid "Recall the previous search/replace string"
-msgstr "编辑前次搜索/替换字符串"
+msgstr "Repreni la antaŭan serĉendan signoĉenon"
 
 #: src/global.c:661
 msgid "Recall the next search/replace string"
-msgstr "编辑下次搜索/替换字符串"
+msgstr "Repreni la postan serĉendan signoĉenon"
 
 #: src/global.c:664
 msgid "Go to file browser"
-msgstr "打开文件选单"
+msgstr "Iri al dosieresplorilo"
 
 #: src/global.c:667
 msgid "Toggle the use of DOS format"
-msgstr "切换使用DOS 格式"
+msgstr "Ŝalti la uzon de DOS-aranĝo"
 
 #: src/global.c:668
 msgid "Toggle the use of Mac format"
-msgstr "切换使用Mac 格式"
+msgstr "Ŝalti la uzon de Mac-aranĝo"
 
 #: src/global.c:670
 msgid "Toggle appending"
-msgstr "切换追加"
+msgstr "Ŝalti postgluon"
 
 #: src/global.c:671
 msgid "Toggle prepending"
-msgstr "切换前置插入"
+msgstr "Ŝalti antaŭgluon"
 
 #: src/global.c:674
 msgid "Toggle backing up of the original file"
-msgstr "切换储存既有文件的备份"
+msgstr "Ŝalti fari savkopion de redaktota dosiero"
 
 #: src/global.c:675
 msgid "Execute external command"
-msgstr "执行外部命令"
+msgstr "Ruli eksteran komandon"
 
 #: src/global.c:679
 msgid "Toggle the use of a new buffer"
-msgstr "切换使用新缓冲区"
+msgstr "Ŝalti la uzon de nova bufro"
 
 #: src/global.c:682
 msgid "Exit from the file browser"
-msgstr "从文件选单离开"
+msgstr "Eliri el dosieresplorilo"
 
 #: src/global.c:684
 msgid "Go to the first file in the list"
-msgstr "跳至文件第一列"
+msgstr "Iri al la unua dosiero en la listo"
 
 #: src/global.c:686
 msgid "Go to the last file in the list"
-msgstr "跳至文件最后一列"
+msgstr "Iri al la lasta dosiero en la listo"
 
 #: src/global.c:687
 msgid "Go to the next file in the list"
-msgstr "跳至列表中的下一个文件"
+msgstr "Iri al la sekva dosiero en la listo"
 
 #: src/global.c:688
 msgid "Go to the previous file in the list"
-msgstr "跳至列表中的前一个文件"
+msgstr "Iri al la malsekva dosiero en la listo"
 
 #: src/global.c:689
 msgid "Go to directory"
-msgstr "跳至目录"
+msgstr "Iri al indikota dosierujo"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:716
 msgid "Close"
-msgstr "关闭"
+msgstr "Fermi"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:725
 msgid "WriteOut"
-msgstr "写入"
+msgstr "Konservi"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:730
 msgid "Justify"
-msgstr "对齐"
+msgstr "Rektigi"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:742
 msgid "Read File"
-msgstr "读档"
+msgstr "Enmeti"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:759
 msgid "Cut Text"
-msgstr "剪切文字"
+msgstr "Eltondi"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:764
 msgid "UnJustify"
-msgstr "还原对齐"
+msgstr "Malrektigi"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:769
 msgid "UnCut Text"
-msgstr "还原剪切"
+msgstr "Alglui"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:774 src/global.c:801
 msgid "Cur Pos"
-msgstr "游标位置"
+msgstr "Pozicio"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:783
 msgid "To Spell"
-msgstr "拼写检查"
+msgstr "Literumo"
 
 #: src/global.c:817
 msgid "Mark Text"
-msgstr "标记文字"
+msgstr "Marki tekston"
 
 #: src/global.c:823
 msgid "Copy Text"
-msgstr "复制文字"
+msgstr "Kopii tekston"
 
 #: src/global.c:826
 msgid "Indent Text"
-msgstr "缩进文字"
+msgstr "Deŝovi enen"
 
 #: src/global.c:829
 msgid "Unindent Text"
-msgstr "取消缩进"
+msgstr "Deŝovi eksteren"
 
 #: src/global.c:833
 msgid "Undo"
-msgstr "撤销"
+msgstr "Malfari"
 
 #: src/global.c:836
 msgid "Redo"
-msgstr "重做"
+msgstr "Refari"
 
 #: src/global.c:842 src/global.c:846
 msgid "Forward"
-msgstr "向前"
+msgstr "Antaŭen"
 
 #: src/global.c:852 src/global.c:856
 msgid "Back"
-msgstr "向后"
+msgstr "Malantaŭen"
 
 #: src/global.c:863
 msgid "Next Word"
-msgstr "后一个字"
+msgstr "Posta vorto"
 
 #: src/global.c:866
 msgid "Prev Word"
-msgstr "前一个字"
+msgstr "Antaŭa vorto"
 
 #: src/global.c:870
 msgid "Prev Line"
-msgstr "上行"
+msgstr "Linio supren"
 
 #: src/global.c:873
 msgid "Next Line"
-msgstr "下行"
+msgstr "Linio suben"
 
 #: src/global.c:876
 msgid "Home"
-msgstr "顶端"
+msgstr "Linikomencen"
 
 #: src/global.c:879
 msgid "End"
-msgstr "尾端"
+msgstr "Linifinen"
 
 #: src/global.c:891
 msgid "Find Other Bracket"
-msgstr "寻找其他括号"
+msgstr "Al para krampo"
 
 #: src/global.c:894
 msgid "Scroll Up"
-msgstr "向上卷动"
+msgstr "Rulumi supren"
 
 #: src/global.c:897
 msgid "Scroll Down"
-msgstr "向下卷动"
+msgstr "Rulumi suben"
 
 #: src/global.c:902
 msgid "Previous File"
-msgstr "上个文件"
+msgstr "Malsekvan dosieron"
 
 #: src/global.c:904
 msgid "Next File"
-msgstr "下个文件"
+msgstr "Sekvan dosieron"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
 #: src/global.c:908 src/text.c:3050
 msgid "Verbatim Input"
-msgstr "原形输入"
+msgstr "Konforma enigo"
 
 #: src/global.c:913
 msgid "Tab"
-msgstr "制表符"
+msgstr "«Tabo»"
 
 #: src/global.c:916
 msgid "Enter"
-msgstr "回车"
+msgstr "«Enigo»"
 
 #: src/global.c:919
 msgid "Delete"
-msgstr "删除"
+msgstr "«Forigo»"
 
 #: src/global.c:922
 msgid "Backspace"
-msgstr "退格"
+msgstr "«Retropaŝo»"
 
 #: src/global.c:939
 msgid "CutTillEnd"
-msgstr "删至末端"
+msgstr "Tondi ĝis fino"
 
 #: src/global.c:952
 msgid "Word Count"
-msgstr "字数统计"
+msgstr "Nombri vortojn"
 
 #: src/global.c:1294
 msgid "Help mode"
-msgstr "辅助模式"
+msgstr "Helpaj linioj"
 
 #: src/global.c:1296
 msgid "Constant cursor position display"
-msgstr "持续显示游标位置"
+msgstr "Daŭra montro de kursora pozicio"
 
 #: src/global.c:1298
 msgid "Use of one more line for editing"
-msgstr "编辑时使用多一行"
+msgstr "Uzi unu plian linion por redakti"
 
 #: src/global.c:1300
 msgid "Smooth scrolling"
-msgstr "平滑式卷动画面"
+msgstr "Rulumi linie"
 
 #: src/global.c:1302
 msgid "Whitespace display"
-msgstr "显示空格"
+msgstr "Montri blankan spacon"
 
 #: src/global.c:1304
 msgid "Color syntax highlighting"
-msgstr "语法色彩高亮"
+msgstr "Kolore montri sintakson"
 
 #: src/global.c:1306
 msgid "Smart home key"
-msgstr "智能HOME 键"
+msgstr "Inteligenta klavo «Komencen»"
 
 #: src/global.c:1308
 msgid "Auto indent"
-msgstr "自动缩进"
+msgstr "Aŭtomate deŝovi"
 
 #: src/global.c:1310
 msgid "Cut to end"
-msgstr "剪切至行尾"
+msgstr "Eltondi ĝis dosierfino"
 
 #: src/global.c:1312
 msgid "Long line wrapping"
-msgstr "长行转换"
+msgstr "Faldi longajn liniojn"
 
 #: src/global.c:1314
 msgid "Conversion of typed tabs to spaces"
-msgstr "已输入制表符至空白的转换"
+msgstr "Konverti tajpatajn tabojn al spacoj"
 
 #: src/global.c:1316
 msgid "Backup files"
-msgstr "备份文件"
+msgstr "Fari savkopion de redaktota dosiero"
 
 #: src/global.c:1318
 msgid "Multiple file buffers"
-msgstr "多重文件缓冲区"
+msgstr "Pluraj dosierbufroj"
 
 #: src/global.c:1320
 msgid "Mouse support"
-msgstr "鼠标支持"
+msgstr "Subteni uzon de muso"
 
 #: src/global.c:1322
 msgid "No conversion from DOS/Mac format"
-msgstr "不从 DOS/Mac 格式转换"
+msgstr "Ne konverti el DOS-/Mac-aranĝo"
 
 #: src/global.c:1324
 msgid "Suspension"
-msgstr "暂停"
+msgstr "Paŭzigebleco"
 
 #: src/global.c:1326
 msgid "Soft line wrapping"
-msgstr "软换行"
+msgstr "Ĉirkaŭfluo de linioj"
 
 #: src/help.c:236
 msgid ""
@@ -991,11 +1002,11 @@ msgid ""
 "\n"
 " The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
-"搜索命令辅助说明\n"
+"Serĉa helpteksto\n"
 "\n"
-" 首先输入您想要搜索的字符串或字符，然后按下回车键。如果存在着符合您所输入的文字，画面就会更新到最合乎搜索字符串的位置。\n"
+" Enigu la vortojn aŭ signojn kiujn vi volas trovi, kaj premu «Enigo».  Se ekzistas kongruo por la teksto kiun vi enigis, la ekrano aktualiĝos al la loko de la unue trovata kongruo.\n"
 "\n"
-"最近一次搜索的字符串将会显示在搜索提示符后的括号中。不输入任何文字而直接按下回车键则会重复使用最近一次的搜索条件。"
+" La antaŭa serĉendaĵo montriĝas inter krampoj post la serĉa invito -- premi «Enigo» sen enigi iun ajn tekston, kontinuigos tiun antaŭan serĉon.  "
 
 #: src/help.c:245
 msgid ""
@@ -1004,9 +1015,9 @@ msgid ""
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"如果您已经用标记选择了一段文字并进行搜索替换，就只有在选择文字中符合者将会被替换。\n"
+"Se vi markis tekston kaj tiam serĉas por anstataŭigi, nur kongruoj en la markita teksto anstataŭiĝos.\n"
 "\n"
-" 以下的功能键可用于搜索模式：\n"
+" La subaj klavkomandoj disponeblas en serĉa moduso:\n"
 "\n"
 
 #: src/help.c:251
@@ -1018,11 +1029,11 @@ msgid ""
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
-"跳行辅助说明\n"
+"Helpteksto por iri al specifa linio\n"
 "\n"
-" 首先输入您想去的行数编号并按下回车键。如果文章中的行数比您所输入少，您将会被带至文件的最后一行。\n"
+" Enigu la numeron de la linio al kiu vi volas iri, kaj premu «Enigo».  Se ekzistas malpli linioj da teksto ol la numero kiun vi enigis, la fino de la dosiero estos montrata.\n"
 "\n"
-" 以下的功能键可用于跳行模式：\n"
+" La subaj klavkomandoj disponeblas dum «Iri linion»:\n"
 "\n"
 
 #: src/help.c:260
@@ -1033,11 +1044,11 @@ msgid ""
 "\n"
 " If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
-"插入文件辅助说明\n"
+"Helpteksto por enmeti dosieron\n"
 "\n"
-" 先把文件的名称键入，它将会插入在当前缓冲区的游标所在之处。\n"
+" Tajpu la nomon de la dosiero kiu enmetendas en la nuna dosierbufro je la nuna kursora pozicio.\n"
 "\n"
-" 如果您所编译的 nano 支持多重文件缓冲区，并且将此功能以命令列旗标-F 或--multibuffer、Meta-F 开关，或者 nanorc 文件来启动的话，所插入的文件 将会被载入另外的缓冲区中 (利用 Meta-< 和 > 在文件缓冲区间切换)。 "
+" Se vi kompilis 'nano' kun subteno por pluraj dosierbufroj, kaj se vi ebligis multbufran moduson (per opcio '-F' aŭ '--multibuffer', per 'nanorc', aŭ per ŝalto Meta-F), enmeti dosieron ŝargos ĝin en aparta bufro.  Uzu Meta-< kaj Meta-> por ŝalti inter bufroj.  "
 
 #: src/help.c:269
 msgid ""
@@ -1046,9 +1057,9 @@ msgid ""
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"如果您需要另一个空的缓冲区，那就不要输入任何文件名，或是在提示符号后键入一个不存在的文件名，然后按下回车键。\n"
+"Se vi bezonas novan, vakan bufron, ne enigu nomon (aŭ enigu neekzistantan nomon) kaj premu «Enigo».\n"
 "\n"
-" 以下的功能键可用于插入文件模式：\n"
+" La subaj klavkomandoj disponeblas dum «Enmeti dosieron»:\n"
 "\n"
 
 #: src/help.c:275
@@ -1062,13 +1073,13 @@ msgid ""
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
-"写入文件辅助说明\n"
+"Helpteksto por konservi dosieron\n"
 "\n"
-" 先键入您想要以此来储存当前文件的名称，并按下回车键来储存文件。\n"
+" Tajpu la nomon sub kiu konservi la nunan dosierbufron, kaj premu «Enigo».\n"
 "\n"
-" 如果已经用标记选择了文字，那么您将会被提示，只储存标记部份到另外的档案。为了降低当前文件只被其中部份覆盖的机会，在此模式下，当前的文件名不会成为默认值。\n"
+" Se vi markis tekston, vi invitiĝos konservi nur la markitan tekston.  Por limigi la ŝancon de surskribi la nunan dosieron kun nur parton de tiu, la nuna dosiernomo ne estas la defaŭlto en ĉi tiu moduso.\n"
 "\n"
-" 以下的功能键可用于写入文件模式：\n"
+" La subaj klavkomandoj disponeblas dum «Konservi dosieron»:\n"
 "\n"
 
 #: src/help.c:289
@@ -1080,11 +1091,11 @@ msgid ""
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
-"文件选单辅助说明\n"
+"Helpteksto por dosieresplorilo\n"
 "\n"
-" 文件选单是用来视觉化浏览目录结构，以选取要读出或写入的文件。您可以 使用上下左右键或上页/下页来浏览，并用S 或回车键来选取所要的文件或者进入所选的目录。要跳到上层时，选择在文件列表顶端名为 \"..\" 的目录。\n"
+" La dosieresplorilo uzeblas por esplori la arbo de dosierujoj por elekti dosieron por legi aŭ skribi.  Vi povas uzi la sagoklavojn aŭ «paĝon supren/suben» por foliumi tra la dosieroj, kaj «S» aŭ «Enigo» por elekti la indikatan dosieron aŭ eniri la indikatan dosierujon.  Por iri unu nivelon supren, elektu la dosierujon «..» je la supro de la listo.\n"
 "\n"
-" 以下的功能键可用于文件选单：\n"
+" La subaj klavkomandoj disponeblas en la dosieresplorilo:\n"
 "\n"
 
 #: src/help.c:302
@@ -1096,11 +1107,11 @@ msgid ""
 " The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
 msgstr ""
-"搜索命令辅助说明\n"
+"Helpteksto por serĉi dosieron\n"
 "\n"
-" 首先输入您想要搜索的字符串或字符，然后按下回车键。如果存在著 符合您所输入的文字，画面就会更新到最合乎搜索字符串的位置。\n"
+" Enigu la vortojn aŭ signojn kiujn vi volas trovi, kaj premu «Enigo».  Se ekzistas kongruo por la teksto kiun vi enigis, la ekrano aktualiĝos al la loko de la unue trovata kongruo.\n"
 "\n"
-" 最近一次搜索的字符串将会显示在搜索提示符号后面的括号中。不输入任何文字而直接按下回车键则会重复最近一次的搜索条件。\n"
+" La antaŭa serĉendaĵo montriĝas inter krampoj post la serĉa invito -- premi «Enigo» sen enigi iun ajn tekston, kontinuigos tiun antaŭan serĉon.\n"
 "\n"
 
 #: src/help.c:311
@@ -1108,7 +1119,7 @@ msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
 msgstr ""
-"在搜索模式可使用如下的功能键：\n"
+" La subaj klavkomandoj disponeblas dum «Serĉi dosieron»:\n"
 "\n"
 
 #: src/help.c:315
@@ -1122,13 +1133,13 @@ msgid ""
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
 msgstr ""
-"跳至目录辅助说明\n"
+"Helpteksto por iri al dosierujo\n"
 "\n"
-" 先输入您想要浏览的目录名称。\n"
+" Enigu la nomon de la dosierujo kiun vi volas viziti.\n"
 "\n"
-" 如果制表符补全的功能没有被关闭，您可以利用制表符(尝试)自动补全目录名称。\n"
+" Se kompletigo-per-tabo ne malŝaltitas, eblas uzi la taban klavon por (provi) aŭtomate kompletigi la nomon de la dosierujo.\n"
 "\n"
-" 以下的功能键可用于跳至目录模式：\n"
+" La subaj klavkomandoj disponeblas dum «Iri dosierujon»:\n"
 "\n"
 
 #: src/help.c:328
@@ -1140,11 +1151,11 @@ msgid ""
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
-"拼写检查辅助说明\n"
+"Helpteksto por literuma kontrolo\n"
 "\n"
-" 拼写检查程序会检查当前文件中所有文字的拼法。当遇到一个未知的字，它会 被标记起来，并让您编辑替代文字。对于当前文件中每一个拼错的字，都会显示 替换的提示；或者，如果已经用标记选择了文字的话，那就只作用于选取的文字之中。\n"
+" La literumilo kontrolas la otrografion de la tuta teksto en la nuna dosierbufro.  Kiam nekonata vorto renkontiĝas, ĉi tiu emfaziĝas kaj eblas redakti anstataŭigo.  Poste, la literumilo demandas ĉu anstataŭigi la misliterumatan vorton en la tuta nuna dosiero, aŭ, se vi markis tekston, en la markita teksto.\n"
 "\n"
-" 以下的功能键可用于拼写检查模式：\n"
+" La subaj klavkomandoj disponeblas dum «Literuma kontrolo»:\n"
 "\n"
 
 #: src/help.c:343
@@ -1156,11 +1167,11 @@ msgid ""
 " The following function keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
-"执行命令辅助说明\n"
+"Helpteksto por ruli komandon\n"
 "\n"
-" 本选单允许您将shell 执行的命令输出结果，插入当前的缓冲区(或是多重缓冲区模式下的新缓冲区)。如果您需要另一个空白缓冲区，就不要输入任何命令。\n"
+" Ĉi tiu moduso permesas enmeti eligon de ŝela komando en la nuna dosierbufro (aŭ en nova bufro en multbufra moduso).  Se vi bezonas novan, vakan bufron, ne enigu komandon.\n"
 "\n"
-" 以下的功能键可用于执行命令模式：\n"
+" La subaj klavkomandoj disponeblas dum «Ruli komandon»:\n"
 "\n"
 
 #: src/help.c:356
@@ -1169,34 +1180,37 @@ msgid ""
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  "
 msgstr ""
-"nano 辅助说明\n"
+"Ĉefa helpteksto de 'nano'\n"
 "\n"
-" nano 编辑器是设计来在功能性及易用性方面，模仿华盛顿大学的Pico 文字编辑器。它包括四个主要部份：顶行显示程序版本、当前被编辑的文件名， 以及是否这文件已经更动过。接着是主要编辑区，显示正在编辑的文件。状态行位于倒数第三行，用来显示重要的信息。底部的两行则显示编辑器中最常用到的快捷键。\n"
-"\n"
-" "
+" La redaktilo 'nano' estas dizajnita por imiti la funkciojn kaj uzfacilecon de la 'UW Pico' tekstredaktilo.  La redaktila ekrano konsistas el kvar sekcioj.  La supra linio montras la programversion, la nomon de la redaktata dosiero, kaj ĉu la dosiero modifiĝis.  Sube sekvas la ĉefa fenestro, kiu montras la redaktatan dosieron.  La tria linio ekde la fundo estas la stata linio, kiu montras gravajn mesaĝojn.  "
 
 #: src/help.c:366
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M-) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
-msgstr "快捷键的记号定义如下：控制键组(Control-key) 序列是以一个 \"帽子\" (caret, ^)符号来表示，它可以通过Ctrl键或是按两次Esc 键来输入。脱离键组(Escape-key) 序列是以\"中介\" (Meta, M) 符号表示，它可以依照您的键盘设定，利用Esc，Alt 或Meta 来输入。"
+msgstr ""
+"La du fundaj linioj montras la plej uzatajn klavkomandojn de la redaktilo.\n"
+"\n"
+" La notmaniero por klavkomandoj estas tiel: kombinoj kun Stir-klavo montriĝas per \"^\" kaj eblas enigi ilin premtenante klavon \"Ctrl\", aŭ premante antaŭe dufoje klavon \"Esc\"; kombinoj kun Alt-klavo montriĝas per \"M-\" kaj eblas enigi ilin premtenante klavon \"Alt\" aŭ \"Meta\", aŭ premante antaŭe unufoje klavon \"Esc\".  "
 
 #: src/help.c:375
 msgid ""
 "Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"另外，按Esc 两次之后再键入从000 到255 之间的三位数字，则会输入该ASCII 码对应的字符。下列按键组合可用于主要编辑区，替代按键则显示于括号内“\n"
+"Ankaŭ, premante dufoje \"Esc\" kaj poste tajpante triciferan dekuman nombron (de 000 al 255) enmetos la signon de tiu kodo.\n"
+"\n"
+" La subaj klavkomandoj disponeblas en la ĉefa redaktila fenestro; alternativaj kombinoj montriĝas inter krampoj:\n"
 "\n"
 
 #: src/help.c:407 src/help.c:483
 msgid "enable/disable"
-msgstr "启用/关闭"
+msgstr " (ŝalto)"
 
 #: src/nano.c:587
 msgid "Key invalid in view mode"
-msgstr "观看模式中此按键无效"
+msgstr "Klavo ne validas en rigarda reĝimo"
 
 #: src/nano.c:699
 #, c-format
@@ -1205,7 +1219,7 @@ msgid ""
 "Buffer written to %s\n"
 msgstr ""
 "\n"
-"缓冲内容已写入 %s\n"
+"Bufro skribiĝis al %s\n"
 
 #: src/nano.c:701
 #, c-format
@@ -1214,7 +1228,7 @@ msgid ""
 "Buffer not written to %s: %s\n"
 msgstr ""
 "\n"
-"缓冲内容未写入至 %s：%s\n"
+"Bufro ne skribiĝis al %s: %s\n"
 
 #: src/nano.c:704
 #, c-format
@@ -1223,11 +1237,11 @@ msgid ""
 "Buffer not written: %s\n"
 msgstr ""
 "\n"
-"缓冲区未写入：%s\n"
+"Bufro ne skribiĝis: %s\n"
 
 #: src/nano.c:727
 msgid "Window size is too small for nano...\n"
-msgstr "窗口尺寸对 nano 来说太小了...\n"
+msgstr "Fenestro estas tro malgranda por 'nano'...\n"
 
 #: src/nano.c:820
 #, c-format
@@ -1235,256 +1249,258 @@ msgid ""
 "Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n"
 "\n"
 msgstr ""
-"用法: nano [选项] [[+行,列] 文件名]...\n"
+"Uzmaniero:  nano [OPCIO...] [[+LINIO,KOLUMNO] DOSIERO...]\n"
 "\n"
 
 #: src/nano.c:823
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
-msgstr "选项\t\tGNU 长选项\t\t意义\n"
+msgstr "Opcio\t\tLonga GNU-a opcio\t  Signifo\n"
 
 #: src/nano.c:825
 #, c-format
 msgid "Option\t\tMeaning\n"
-msgstr "选项\t\t意义\n"
+msgstr "Opcio\t\t  Signifo\n"
 
+# La sekvaj mesaĝoj komencas en traduko per minusklo,
+# ĉar ili estas komandlinia helpteksto, kaj tiel normalas.
 #: src/nano.c:828
 msgid "Show this message"
-msgstr "显示此信息"
+msgstr "montri ĉi tiun mesaĝon"
 
 #: src/nano.c:829
 msgid "+LINE,COLUMN"
-msgstr "+行,列"
+msgstr "+LINIO,KOLUMNO"
 
 #: src/nano.c:830
 msgid "Start at line LINE, column COLUMN"
-msgstr "从所指列数与行数开始"
+msgstr "komenci en linio LINIO (kaj kolumno KOLUMNO)"
 
 #: src/nano.c:832
 msgid "Enable smart home key"
-msgstr "启用智能 HOME 键"
+msgstr "estigi klavon «Komencen» inteligenta"
 
 #: src/nano.c:833
 msgid "Save backups of existing files"
-msgstr "储存既有文件的备份"
+msgstr "fari savkopion de ekzistanta dosiero"
 
 #: src/nano.c:834
 msgid "-C <dir>"
-msgstr "-C <目录>"
+msgstr "-C <ujo>"
 
 #: src/nano.c:834
 msgid "--backupdir=<dir>"
-msgstr "--backupdir=<目录>"
+msgstr "--backupdir=<ujo>"
 
 #: src/nano.c:835
 msgid "Directory for saving unique backup files"
-msgstr "用以储存独一备份文件的目录"
+msgstr "dosierujo por konservi unikajn savkopiojn"
 
 #: src/nano.c:838
 msgid "Use bold instead of reverse video text"
-msgstr "用粗体替代颜色反转"
+msgstr "uzi grasan anstataŭ negativan tekston"
 
 #: src/nano.c:841
 msgid "Convert typed tabs to spaces"
-msgstr "将已输入的制表符转换为空白"
+msgstr "konverti tajpatajn tabojn al spacoj"
 
 #: src/nano.c:844
 msgid "Enable multiple file buffers"
-msgstr "启用多重文件缓冲区功能"
+msgstr "ebligi uzon de pluraj dosierbufroj"
 
 #: src/nano.c:849
 msgid "Log & read search/replace string history"
-msgstr "记录与读取搜索/替换的历史字符串"
+msgstr "memori historion de serĉendaj signoĉenoj"
 
 #: src/nano.c:852
 msgid "Don't look at nanorc files"
-msgstr "不要参考nanorc 文件"
+msgstr "ignori 'nanorc'-dosierojn"
 
 #: src/nano.c:855
 msgid "Fix numeric keypad key confusion problem"
-msgstr "修正数字键区按键混淆问题"
+msgstr "fliki konfuzon je cifera klavareto"
 
 #: src/nano.c:857
 msgid "Don't add newlines to the ends of files"
-msgstr "不要将换行加到文件末端"
+msgstr "ne aldoni novlinion al fino de dosiero"
 
 #: src/nano.c:860
 msgid "Don't convert files from DOS/Mac format"
-msgstr "不要从 DOS/Mac 格式转换"
+msgstr "ne konverti el DOS-/Mac-aranĝo"
 
 #: src/nano.c:862
 msgid "Use one more line for editing"
-msgstr "编辑时多使用一行"
+msgstr "uzi unu plian linion por redakti"
 
 #: src/nano.c:865
 msgid "Log & read location of cursor position"
-msgstr "记录并读取光标位置"
+msgstr "konservi kaj relegi kursoran pozicion"
 
 #: src/nano.c:868
 msgid "-Q <str>"
-msgstr "-Q <字符串>"
+msgstr "-Q <ĉeno>"
 
 #: src/nano.c:868
 msgid "--quotestr=<str>"
-msgstr "--quotestr=<字符串>"
+msgstr "--quotestr=<ĉeno>"
 
 #: src/nano.c:869
 msgid "Quoting string"
-msgstr "引用代表字符串"
+msgstr "signoĉeno de rekonendaj citiloj"
 
 #: src/nano.c:871
 msgid "Restricted mode"
-msgstr "限制模式"
+msgstr "limigita reĝimo"
 
 #: src/nano.c:874
 msgid "Scroll by line instead of half-screen"
-msgstr "按行滚动而不是半屏"
+msgstr "rulumi po linio anstataŭ po duon-ekrano"
 
 #: src/nano.c:876
 msgid "-T <#cols>"
-msgstr "-T <#列数>"
+msgstr "-T <kolumnoj>"
 
 #: src/nano.c:876
 msgid "--tabsize=<#cols>"
-msgstr "--tabsize=<#列数>"
+msgstr "--tabsize=<kolumnoj>"
 
 #: src/nano.c:877
 msgid "Set width of a tab to #cols columns"
-msgstr "设定制表符宽度为 #列数"
+msgstr "uzenda larĝo de tabo"
 
 #: src/nano.c:879
 msgid "Do quick statusbar blanking"
-msgstr "状态行快速闪动"
+msgstr "viŝi statlinio tuj post sekva klavtuŝo"
 
 #: src/nano.c:882
 msgid "Print version information and exit"
-msgstr "显示版本资讯并离开"
+msgstr "montri programversion kaj fini"
 
 #: src/nano.c:885
 msgid "Detect word boundaries more accurately"
-msgstr "更正确地侦测单字边界"
+msgstr "detekti vortlimojn pli akurate"
 
 #: src/nano.c:888
 msgid "-Y <str>"
-msgstr "-Y <字符串>"
+msgstr "-Y <ĉeno>"
 
 #: src/nano.c:888
 msgid "--syntax=<str>"
-msgstr "--syntax=<字符串>"
+msgstr "--syntax=<ĉeno>"
 
 #: src/nano.c:889
 msgid "Syntax definition to use for coloring"
-msgstr "用于加亮的语法定义"
+msgstr "uzenda sintaksdifino por kolorigi"
 
 #: src/nano.c:891
 msgid "Constantly show cursor position"
-msgstr "持续显示游标位置"
+msgstr "daŭre montri kursoran pozicion"
 
 #: src/nano.c:893
 msgid "Fix Backspace/Delete confusion problem"
-msgstr "修正退格键/删除键混淆问题"
+msgstr "fliki konfuzon pri «Retropaŝo»/«Forigo»"
 
 #: src/nano.c:896
 msgid "Automatically indent new lines"
-msgstr "自动缩进新行"
+msgstr "aŭtomate deŝovi novajn liniojn"
 
 #: src/nano.c:897
 msgid "Cut from cursor to end of line"
-msgstr "从游标剪切至行尾"
+msgstr "forigi ekde de la kursoro ĝis liniofino"
 
 #: src/nano.c:900
 msgid "Don't follow symbolic links, overwrite"
-msgstr "不要依照符号连结，而是覆盖"
+msgstr "ne sekvi simbolajn ligilojn; anstataŭigi"
 
 #: src/nano.c:902
 msgid "Enable the use of the mouse"
-msgstr "启用鼠标功能"
+msgstr "ebligi uzon de muso"
 
 #: src/nano.c:905
 msgid "-o <dir>"
-msgstr "-o <目录>"
+msgstr "-o <ujo>"
 
 #: src/nano.c:905
 msgid "--operatingdir=<dir>"
-msgstr "--operatingdir=<目录>"
+msgstr "--operatingdir=<ujo>"
 
 #: src/nano.c:906
 msgid "Set operating directory"
-msgstr "设定操作目录"
+msgstr "uzenda kuranta dosierujo"
 
 #: src/nano.c:909
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr "保留XON (^Q) 和XOFF (^S) 按键"
+msgstr "ebligi klavojn ^Q (XON) kaj ^S (XOFF)"
 
 #: src/nano.c:911
 msgid "Silently ignore startup issues like rc file errors"
-msgstr "沉默忽略启动问题, 比如rc 文件错误"
+msgstr "silente ignori lanĉajn problemetojn"
 
 #: src/nano.c:913
 msgid "-r <#cols>"
-msgstr "-r <#列数>"
+msgstr "-r <kolumnoj>"
 
 #: src/nano.c:913
 msgid "--fill=<#cols>"
-msgstr "--fill=<#列数>"
+msgstr "--fill=<kolumnoj>"
 
 #: src/nano.c:914
 msgid "Set wrapping point at column #cols"
-msgstr "设定折行宽度为 #列数"
+msgstr "uzenda larĝo por faldi/rektigi"
 
 #: src/nano.c:917
 msgid "-s <prog>"
-msgstr "-s <程序>"
+msgstr "-s <programo>"
 
 #: src/nano.c:917
 msgid "--speller=<prog>"
-msgstr "--speller=<程序>"
+msgstr "--speller=<programo>"
 
 #: src/nano.c:918
 msgid "Enable alternate speller"
-msgstr "启用替代的拼写检查程序"
+msgstr "uzenda alternativa literumilo"
 
 #: src/nano.c:921
 msgid "Auto save on exit, don't prompt"
-msgstr "离开时自动储存，不要提示"
+msgstr "aŭtomate konservi je fino, sen demandi"
 
 #: src/nano.c:923
 msgid "Allow generic undo [EXPERIMENTAL]"
-msgstr "允许通用撤销[试验性特性]"
+msgstr "ebligi ĝeneralan malfaron [PROVA]"
 
 #: src/nano.c:926
 msgid "View mode (read-only)"
-msgstr "查看(只读)模式"
+msgstr "rigarda reĝimo (ne eblas redakti)"
 
 #: src/nano.c:928
 msgid "Don't wrap long lines"
-msgstr "不要自动换行"
+msgstr "ne faldi longajn liniojn"
 
 #: src/nano.c:930
 msgid "Don't show the two help lines"
-msgstr "不要显示辅助区"
+msgstr "ne montri la du helpajn liniojn"
 
 #: src/nano.c:931
 msgid "Enable suspension"
-msgstr "启用暂停功能"
+msgstr "ebligi paŭzigo"
 
 #: src/nano.c:932
 msgid "Enable soft line wrapping"
-msgstr "启用软换行"
+msgstr "ebligi ĉirkaŭfluon de linioj"
 
 #: src/nano.c:936
 msgid "(ignored, for Pico compatibility)"
-msgstr "(忽略，为与Pico 相容)"
+msgstr "(ignoritaj, por kongruo kun 'Pico')"
 
 #: src/nano.c:946
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
-msgstr " GNU nano 版本%s (编译于%s, %s)\n"
+msgstr " GNU nano  versio %s  (kompilita %s, %s)\n"
 
 #: src/nano.c:951
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
-msgstr " 电子邮件: nano@nano-editor.org\t\t网页: http://www.nano-editor.org/"
+msgstr " Retpoŝto: nano@nano-editor.org    TTT: http://www.nano-editor.org/"
 
 #: src/nano.c:952
 #, c-format
@@ -1493,161 +1509,163 @@ msgid ""
 " Compiled options:"
 msgstr ""
 "\n"
-" 编译选项："
+" Kompilaj opcioj:"
 
 #: src/nano.c:1030
 msgid "Sorry, support for this function has been disabled"
-msgstr "对不起，此功能的支持以禁用"
+msgstr "Subteno de ĉi tiu funkcio malebliĝis"
 
 #: src/nano.c:1052
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "储存更动过的缓冲区吗(回答 \"No\" 会撤销修改)？"
+msgstr "Ĉu konservi modifitan bufron? (\"N\" DETRUOS ŜANĜOJN) "
 
 #: src/nano.c:1100
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
-msgstr "对不起，无法从键盘设备重新打开标准输入\n"
+msgstr "Maleblas remalfermi klavaron kiel ĉefenigujon\n"
 
 #: src/nano.c:1126
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
-msgstr "正在从标准输入读入，可用 ^C 中断\n"
+msgstr "Legante el ĉefenigujo; ^C por ĉesigi\n"
 
 #: src/nano.c:1194
 msgid "Received SIGHUP or SIGTERM\n"
-msgstr "接收到SIGHUP 或SIGTERM\n"
+msgstr "Ricevitas SIGHUP aŭ SIGTERM\n"
 
 #: src/nano.c:1216
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
-msgstr "使用\"fg\" 返回nano\n"
+msgstr "Uzu \"fg\" por reveni al 'nano'.\n"
 
 #: src/nano.c:1398
 msgid "enabled"
-msgstr "已启用"
+msgstr "(enŝaltitas)"
 
 #: src/nano.c:1399
 msgid "disabled"
-msgstr "已禁用"
+msgstr "(malŝaltitas)"
 
 #: src/nano.c:1566 src/winio.c:1256
 msgid "Unknown Command"
-msgstr "未知命令"
+msgstr "Nekonata komando"
 
 #: src/nano.c:1692
 msgid "XON ignored, mumble mumble"
-msgstr "忽略XON，嗯嗯。"
+msgstr "Mmm-mmm, XON ignoratas"
 
 #: src/nano.c:1697
 msgid "XOFF ignored, mumble mumble"
-msgstr "忽略XOFF，嗯嗯。"
+msgstr "Mmm-mmm, XOFF ignoratas"
 
 #: src/nano.c:2233 src/rcfile.c:1175
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
-msgstr "所要求的制表符宽度%s 无效"
+msgstr "Petata tablarĝo \"%s\" ne validas"
 
 #: src/nano.c:2292 src/rcfile.c:1100
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
-msgstr "所要求的填满行数\"%s\" 无效"
+msgstr "Petata faldlarĝo \"%s\" ne validas"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
 #. * For example, in French: "OoYy" for "Oui".
 #: src/prompt.c:1259
 msgid "Yy"
-msgstr "Yy"
+msgstr "JjYy"
 
 #: src/prompt.c:1260
 msgid "Nn"
-msgstr "Nn"
+msgstr "NnNn"
 
+# Tute, All.
+# "Ĉiujn" ne eblas, ĉar plurbitokajn klavojn 'nano' ĉi tie ne komprenas.
 #: src/prompt.c:1261
 msgid "Aa"
-msgstr "Aa"
+msgstr "TtCcAa"
 
 #: src/prompt.c:1275
 msgid "Yes"
-msgstr "是"
+msgstr "Jes"
 
 #: src/prompt.c:1280
 msgid "All"
-msgstr "全部"
+msgstr "Tute"
 
 #: src/prompt.c:1285
 msgid "No"
-msgstr "否"
+msgstr "Ne"
 
 #: src/rcfile.c:131
 #, c-format
 msgid "Error in %s on line %lu: "
-msgstr "在%s(第%lu 行)中发生错误："
+msgstr "Eraro en %s en linio %lu: "
 
 #: src/rcfile.c:186
 #, c-format
 msgid "Argument '%s' has an unterminated \""
-msgstr "参数%s 有未封闭的 \""
+msgstr "Argumento '%s' havas senparan citilon \""
 
 #: src/rcfile.c:213 src/rcfile.c:265 src/rcfile.c:390 src/rcfile.c:783
 #: src/rcfile.c:840 src/rcfile.c:893
 msgid "Regex strings must begin and end with a \" character"
-msgstr "正则表示式字符串必须以 \" 字符开始及结束"
+msgstr "Regulesprimaj signoĉenoj devas komenci kaj fini kun citilo \""
 
 #: src/rcfile.c:239 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
-msgstr "非法的正则表示式 \"%s\": %s"
+msgstr "Malbonas regulesprimo \"%s\": %s"
 
 #: src/rcfile.c:259
 msgid "Missing syntax name"
-msgstr "缺少语法名称"
+msgstr "Mankas nomo de sintakso"
 
 #: src/rcfile.c:318
 msgid "The \"none\" syntax is reserved"
-msgstr "\"none\" 语法已被保留"
+msgstr "Sintakso \"none\" estas rezervita"
 
 #: src/rcfile.c:325
 msgid "The \"default\" syntax must take no extensions"
-msgstr "\"default\" 语法必须不含任何副文件名"
+msgstr "Sintakso \"default\" ne permesas finaĵojn"
 
 #: src/rcfile.c:379
 msgid "Cannot add a magic string regex without a syntax command"
-msgstr "无法在没有语法命令的情况下添加魔字符串"
+msgstr "Ne eblas aldoni regulesprimon por magia signoĉeno sen sintaksa komando"
 
 #: src/rcfile.c:384
 msgid "Missing magic string name"
-msgstr "缺少魔字符串名称"
+msgstr "Mankas nomo de magia signoĉeno"
 
 #: src/rcfile.c:458 src/rcfile.c:555
 msgid "Missing key name"
-msgstr "缺少键名称"
+msgstr "Mankas nomo de klavo"
 
 #: src/rcfile.c:470 src/rcfile.c:571
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
-msgstr "键绑定必须以\"^\", \"M\" 或 \"F\" 开始"
+msgstr "Klavligoj devas komenci kun \"^\", \"M\", aŭ \"F\""
 
 #: src/rcfile.c:479
 msgid "Must specify function to bind key to"
-msgstr "必须指定键绑定到的函数"
+msgstr "Mankas funkcio al kiu ligi klavon"
 
 #: src/rcfile.c:490 src/rcfile.c:582
 msgid "Must specify menu to bind key to (or \"all\")"
-msgstr "必须指定键绑定到的菜单(或 \"all\")"
+msgstr "Mankas menuo (aŭ \"all\") al kiu ligi klavon"
 
 #: src/rcfile.c:498
 #, c-format
 msgid "Could not map name \"%s\" to a function"
-msgstr "无法映射名字\"%s\" 到一个函数"
+msgstr "Ĉeno \"%s\" ne estas nomo de funkcio"
 
 #: src/rcfile.c:504 src/rcfile.c:589
 #, c-format
 msgid "Could not map name \"%s\" to a menu"
-msgstr "无法映射名字\"%s\" 到一个菜单"
+msgstr "Ĉeno \"%s\" ne estas nomo de menuo"
 
 #: src/rcfile.c:526
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
-msgstr "对不起，键\"%s\" 属非法绑定"
+msgstr "Klavĉeno \"%s\" ne estas valida ligo"
 
 #: src/rcfile.c:697
 #, c-format
@@ -1658,95 +1676,95 @@ msgid ""
 "\"black\", with the optional prefix \"bright\"\n"
 "for foreground colors."
 msgstr ""
-"颜色 %s 无法识别。\n"
-"有效的颜色是 \"green\"(绿)、\"red\"(红)、\"blue\"(蓝)、\n"
-"\"white\"(白)、\"yellow\"(黄)、\"cyan\"(青)、\"magenta\"(瑰)和\n"
-"\"black\"(黑)，选择性的前置字 \"bright\"(明亮) \n"
-"可用于前景色。"
+"Koloro \"%s\" ne estas komprenata.\n"
+"Validaj koloroj estas: \"red\" (ruĝa), \"green\" (verda), \"blue\" (blua),\n"
+"\"magenta\" (fuksina), \"yellow\" (flava), \"cyan\" (cejana),\n"
+"\"black\" (nigra) kaj \"white\" (blanka),\n"
+"kun (por malfonaj koloroj) la malnepra prefikso \"bright\" (hela)."
 
 #: src/rcfile.c:719
 msgid "Cannot add a color command without a syntax command"
-msgstr "无法直接增加颜色而没有语法行"
+msgstr "Ne eblas aldoni koloran komandon sen sintaksa komando"
 
 #: src/rcfile.c:724
 msgid "Missing color name"
-msgstr "缺少颜色名称"
+msgstr "Mankas nomo de koloro"
 
 #: src/rcfile.c:744
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
-msgstr "背景色%s 不可为明亮"
+msgstr "Fona koloro \"%s\" ne povas esti hela"
 
 #: src/rcfile.c:762 src/rcfile.c:881
 msgid "Missing regex string"
-msgstr "缺少正则表示式字符串"
+msgstr "Mankas regulesprima signoĉeno"
 
 #: src/rcfile.c:834
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr "\"start=\" 要求对应的\"end=\""
+msgstr "\"start=\" bezonas paran \"end=\""
 
 #: src/rcfile.c:876
 msgid "Cannot add a header regex without a syntax command"
-msgstr "无法直接增加头部正则表达式而没有语法行"
+msgstr "Ne eblas aldoni kapan regulesprimon sen sintaksa komando"
 
 #: src/rcfile.c:946
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
-msgstr "严重错误; 没有键映射到函数 \"%s\""
+msgstr "Neignorebla eraro: neniu klavo ligita al funkcio \"%s\""
 
 #: src/rcfile.c:948
 msgid "Exiting.  Please use nano with the -I option if needed to adjust your nanorc settings\n"
-msgstr "正在退出。如果您想调整您的nanorc 设置，请使用nano 的-I 选项。\n"
+msgstr "Eliro.  Se necesas, uzu 'nano -I' por ĝustigi agordojn en 'nanorc'.\n"
 
 #: src/rcfile.c:998 src/rcfile.c:1007 src/rcfile.c:1017
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
-msgstr "命令\"%s\" 被禁止在包含文件中使用"
+msgstr "Komando \"%s\" ne permesatas en inkluda dosiero"
 
 #: src/rcfile.c:1023 src/rcfile.c:1203
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
-msgstr "语法\"%s\" 没有color 命令"
+msgstr "Sintakso \"%s\" ne havas kolorajn komandojn"
 
 #: src/rcfile.c:1041
 #, c-format
 msgid "Command \"%s\" not understood"
-msgstr "无法识别\"%s\" 命令"
+msgstr "Komando \"%s\" ne estas komprenata"
 
 #: src/rcfile.c:1047
 msgid "Missing flag"
-msgstr "缺少旗标"
+msgstr "Mankas flago"
 
 #: src/rcfile.c:1069
 #, c-format
 msgid "Option \"%s\" requires an argument"
-msgstr "选项%s 需要参数"
+msgstr "Opcio \"%s\" bezonas argumenton"
 
 #: src/rcfile.c:1087
 msgid "Option is not a valid multibyte string"
-msgstr "选项并非正确的多字节字符串"
+msgstr "Opcia argumento ne estas valida plurbitoka signoĉeno"
 
 #: src/rcfile.c:1113 src/rcfile.c:1141 src/rcfile.c:1150
 msgid "Non-blank characters required"
-msgstr "需要非空格字符"
+msgstr "Neblankaj signoj bezonatas"
 
 #: src/rcfile.c:1123
 msgid "Two single-column characters required"
-msgstr "需要两个单行字符"
+msgstr "Du unukolumnaj signoj bezonatas"
 
 #: src/rcfile.c:1189
 #, c-format
 msgid "Cannot unset flag \"%s\""
-msgstr "无法解除旗标 %s 设定"
+msgstr "Ne eblas malŝalti flagon \"%s\""
 
 #: src/rcfile.c:1198
 #, c-format
 msgid "Unknown flag \"%s\""
-msgstr "未知旗标 %s"
+msgstr "Nekonata flago \"%s\""
 
 #: src/rcfile.c:1257
 msgid "I can't find my home directory!  Wah!"
-msgstr "我找不到我的家目录！哇！"
+msgstr "Ne eblas trovi hejman dosierujon.  Ve!"
 
 #: src/rcfile.c:1295
 #, c-format
@@ -1755,272 +1773,270 @@ msgid ""
 "Press Enter to continue starting nano.\n"
 msgstr ""
 "\n"
-"按下回车键继续启动 nano\n"
+"Premu \"Enter\" por daŭrigi la lanĉon de 'nano'.\n"
 
 #: src/search.c:96
 #, c-format
 msgid "\"%.*s%s\" not found"
-msgstr "找不到 \"%.*s%s\""
+msgstr "\"%.*s%s\" ne trovatas"
 
 #: src/search.c:205
 msgid " (to replace) in selection"
-msgstr " 在标记中(替换)"
+msgstr " (por anstataŭigi) en markaĵo"
 
 #: src/search.c:207
 msgid " (to replace)"
-msgstr " (替换)"
+msgstr " (por anstataŭigi)"
 
 #: src/search.c:783
 msgid "Replace this instance?"
-msgstr "替换这个？"
+msgstr "Anstataŭigi ĉi tiun aperaĵon?"
 
 #: src/search.c:961
 msgid "Replace with"
-msgstr "替换我"
+msgstr "Anstataŭigi per"
 
 #: src/search.c:1003
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
-msgstr[0] "已替换%lu 处"
+msgstr[0] "Anstataŭiĝis %lu aperaĵo"
+msgstr[1] "Anstataŭiĝis %lu aperaĵoj"
 
 #: src/search.c:1033
 msgid "Enter line number, column number"
-msgstr "输入列号，行号"
+msgstr "Enigu linionumeron, kolumnonumeron"
 
 #: src/search.c:1060
 msgid "Invalid line or column number"
-msgstr "无效的列号或行号"
+msgstr "Ne validas numero de linio aŭ kolumno"
 
 #: src/search.c:1213
 msgid "Not a bracket"
-msgstr "并非一个括号"
+msgstr "Ne estas krampo"
 
 #: src/search.c:1280
 msgid "No matching bracket"
-msgstr "无对应括号"
+msgstr "Ne ekzistas para krampo"
 
 #: src/text.c:54
 msgid "Mark Set"
-msgstr "标记设定"
+msgstr "Markado enŝaltitas"
 
 #: src/text.c:58
 msgid "Mark Unset"
-msgstr "标记解除"
+msgstr "Malŝaltitas"
 
 #: src/text.c:443
 msgid "Nothing in undo buffer!"
-msgstr "没有可撤销的操作！"
+msgstr "Nenio por malfari!"
 
 #: src/text.c:455 src/text.c:593
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
-msgstr "内部错误：无法匹配行 %d。请保存您的工作"
+msgstr "**Programeraro**: ne eblas kongrui linion %d.  Konservu vian laboron."
 
 #: src/text.c:466 src/text.c:603
 msgid "text add"
-msgstr "文字增加"
+msgstr "teksta aldono"
 
 #: src/text.c:475 src/text.c:613
 msgid "text delete"
-msgstr "文本删除"
+msgstr "teksta forigo"
 
 #: src/text.c:489 src/text.c:628
 msgid "line wrap"
-msgstr "自动换行"
+msgstr "linifaldo"
 
 #: src/text.c:503 src/text.c:636
 msgid "line join"
-msgstr "行合并"
+msgstr "linikunigo"
 
 #: src/text.c:514 src/text.c:651
 msgid "text cut"
-msgstr "文字剪切"
+msgstr "teksta eltondo"
 
 #: src/text.c:518 src/text.c:655
 msgid "text uncut"
-msgstr "取消剪切"
+msgstr "teksta algluo"
 
 #: src/text.c:522 src/text.c:622
 msgid "line break"
-msgstr "换行符"
+msgstr "linisalto"
 
 #: src/text.c:532 src/text.c:665
 msgid "text insert"
-msgstr "文本插入"
+msgstr "teksta enmeto"
 
 #: src/text.c:550 src/text.c:659
 msgid "text replace"
-msgstr "文本替换"
+msgstr "teksta anstataŭigo"
 
 #: src/text.c:557 src/text.c:671
 msgid "Internal error: unknown type.  Please save your work"
-msgstr "内部错误：未知类型。请保存您的工作"
+msgstr "**Programeraro**: nekonata tipo.  Konservu vian laboron."
 
 #: src/text.c:563
 #, c-format
 msgid "Undid action (%s)"
-msgstr "已撤销操作(%s)"
+msgstr "Malfariĝis ago (%s)"
 
 #: src/text.c:578
 msgid "Nothing to re-do!"
-msgstr "没有可重做的操作！"
+msgstr "Nenio por refari!"
 
 #: src/text.c:582
 msgid "Internal error: Redo setup failed.  Please save your work"
-msgstr "内部错误：重做设置失败。请保存您的工作"
+msgstr "**Programeraro**: refara preparado malsukcesis.  Konservu vian laboron."
 
 #: src/text.c:676
 #, c-format
 msgid "Redid action (%s)"
-msgstr "已重做操作(%s)"
+msgstr "Refariĝis ago (%s)"
 
 #: src/text.c:771
 msgid "Could not pipe"
-msgstr "管线功能无效"
+msgstr "Ne eblas krei dukton"
 
 #: src/text.c:798 src/text.c:2641 src/text.c:2793
 msgid "Could not fork"
-msgstr "执行功能无效"
+msgstr "Ne eblas krei novan procezon"
 
 #: src/text.c:946
 msgid "Internal error: can't setup uncut.  Please save your work."
-msgstr "内部错误：无法配置取消剪切。请保存您的工作"
+msgstr "**Programeraro**: ne eblas prepari maltondon.  Konservu vian laboron."
 
 #: src/text.c:955
 msgid "Internal error: unknown type.  Please save your work."
-msgstr "内部错误：未知类型。请保存您的工作。"
+msgstr "**Programeraro**: nekonata tipo.  Konservu vian laboron."
 
 #: src/text.c:1875
 #, c-format
 msgid "Bad quote string %s: %s"
-msgstr "不良引用字符串%s：%s"
+msgstr "Signoĉeno de citiloj %s ne validas: %s"
 
 #: src/text.c:2272
 msgid "Can now UnJustify!"
-msgstr "现在可以还原对齐！"
+msgstr "Nun eblas malrektigi (per ^U)!"
 
 #: src/text.c:2467
 msgid "Edit a replacement"
-msgstr "编辑替代文字"
+msgstr "Redakti anstataŭigon"
 
 #: src/text.c:2553
 msgid "Could not create pipe"
-msgstr "无法建立管线功能"
+msgstr "Ne eblas krei dukton"
 
 #: src/text.c:2555
 msgid "Creating misspelled word list, please wait..."
-msgstr "正在建立错字列表，请稍待..."
+msgstr "Kreante liston de misliterumataj vortoj; bonvolu atendi..."
 
 #: src/text.c:2647
 msgid "Could not get size of pipe buffer"
-msgstr "无法得知管线缓冲区大小"
+msgstr "Ne eblas scii grandon de dukta bufro"
 
 #: src/text.c:2698
 msgid "Error invoking \"spell\""
-msgstr "运行 \"spell\" 错误"
+msgstr "Eraro dum lanĉo de 'spell'"
 
 #: src/text.c:2701
 msgid "Error invoking \"sort -f\""
-msgstr "运行 \"sort -f\" 错误"
+msgstr "Eraro dum lanĉo de 'sort -f'"
 
 #: src/text.c:2704
 msgid "Error invoking \"uniq\""
-msgstr "运行 \"uniq\" 错误"
+msgstr "Eraro dum lanĉo de 'uniq'"
 
 #: src/text.c:2761 src/text.c:2970
 msgid "Finished checking spelling"
-msgstr "拼写检查结束"
+msgstr "Finiĝis literuma kontrolo"
 
 #: src/text.c:2820
 #, c-format
 msgid "Error invoking \"%s\""
-msgstr "运行 \"%s\" 错误"
+msgstr "Eraro dum lanĉo de '%s'"
 
 #: src/text.c:2965
 #, c-format
 msgid "Spell checking failed: %s"
-msgstr "拼写检查失败：%s"
+msgstr "Literuma kontrolo malsukcesis: %s"
 
 #: src/text.c:2967
 #, c-format
 msgid "Spell checking failed: %s: %s"
-msgstr "拼写检查失败：%s：%s"
+msgstr "Literuma kontrolo malsukcesis: %s: %s"
 
 #: src/text.c:3035
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
-msgstr "%s字数: %lu  行数: %ld  字符数: %lu"
+msgstr "%sVortoj: %lu  Linioj: %ld  Literoj: %lu"
 
 #: src/text.c:3036
 msgid "In Selection:  "
-msgstr "于选择部份："
+msgstr "En markaĵo:  "
 
 #: src/utils.c:405 src/utils.c:417
 msgid "nano is out of memory!"
-msgstr "nano 已耗尽内存！"
+msgstr "Mankas sufiĉa memoro por 'nano'!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
 #: src/winio.c:1557
 msgid "Unicode Input"
-msgstr "Unicode 输入"
+msgstr "Enigo de Unikodo"
 
 #: src/winio.c:2149 src/winio.c:2153
 msgid "Modified"
-msgstr "已更改"
+msgstr "Ŝanĝita"
 
 #: src/winio.c:2150
 msgid "View"
-msgstr "查看"
+msgstr "Nur rigardi"
 
 #: src/winio.c:2164
 msgid "DIR:"
-msgstr "目录："
+msgstr "DOSIERUJO:"
 
 #: src/winio.c:2171
 msgid "File:"
-msgstr "文件："
+msgstr "Dosiero:"
 
 #: src/winio.c:3359
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
-msgstr "行 %ld/%ld (%d%%)，列 %lu/%lu (%d%%)，字符 %lu/%lu (%d%%)"
+msgstr "linio %ld/%ld (%d%%), kolumno %lu/%lu (%d%%), litero %lu/%lu (%d%%)"
 
 #: src/winio.c:3491
 msgid "The nano text editor"
-msgstr "nano 文本编辑器"
+msgstr "La tekstredaktilo 'nano'"
 
 #: src/winio.c:3492
 msgid "version"
-msgstr "版本"
+msgstr "versio"
 
 #: src/winio.c:3493
 msgid "Brought to you by:"
-msgstr "来自于:"
+msgstr "Prezentita al vi per:"
 
 #: src/winio.c:3494
 msgid "Special thanks to:"
-msgstr "特别感谢:"
+msgstr "Specialan dankon al:"
 
 #: src/winio.c:3495
 msgid "The Free Software Foundation"
-msgstr "自由软体基金会"
+msgstr "la “Free Software Foundation”"
 
 #: src/winio.c:3496
 msgid "For ncurses:"
-msgstr "ncurses 部份:"
+msgstr "por 'ncurses':"
 
 #: src/winio.c:3497
 msgid "and anyone else we forgot..."
-msgstr "以及其他我们不记得的人..."
+msgstr "kaj iuj ajn kiujn ni forgesis..."
 
 #: src/winio.c:3498
 msgid "Thank you for using nano!"
-msgstr "谢谢您使用 nano！"
+msgstr "Dankon pro via uzo de 'nano'!"
 
 #~ msgid "Error writing backup file %s: File owner mismatch"
-#~ msgstr "写入备份文件%s 出错：文件所有者不匹配"
-
-#~ msgid "line split"
-#~ msgstr "行分割"
+#~ msgstr "Eraro dum skribado de savkopio %s: alia posedanto"

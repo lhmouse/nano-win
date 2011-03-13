@@ -1,3 +1,7 @@
+2011-03-12 Chris Allegretta <chrisa@asty.org>
+	* po/*: Sync latest translation fixes, add an update_linguas.sh script.  Rename
+	  existing update.pl to update_sources.pl to make it more specific.
+      
 2011-03-04 Chris Allegretta <chrisa@asty.org>
 	* color.c (color_update): Add check for whether the file even exists
 	  before we try to run the magic check on it.  Fixes error messages to stderr
