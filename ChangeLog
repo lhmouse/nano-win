@@ -1,3 +1,6 @@
+2011-03-28 Asterios Dramis <asterios.dramis@gmail.com>
+	* doc/syntax/spec.nanorc: New RPM spec file highlighting file 
+
 2011-03-12 Chris Allegretta <chrisa@asty.org>
 	* po/*: Sync latest translation fixes, add an update_linguas.sh script.  Rename
 	  existing update.pl to update_sources.pl to make it more specific.
@@ -25,7 +28,7 @@ GNU nano 2.3.0 - 2011.02.26
 
 2011-02-22 Chris Allegretta <chrisa@asty.org>
 	* color.c (nfreeregex): Fix that we were trying to set the pointer passed by value
-	  to NULL.  Fixes crashes on file save reported by Ken Tyler and Matthieu Lejeune.
+	  to NULL.  Fixes crashes on file save reported by Ken Tyler and Matthieu Lejeune. 
 
 2011-02-18 Chris Allegretta <chrisa@asty.org>
 	* New saved cursor position history option.  Command line option -P or --poslog, rc file
