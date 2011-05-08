@@ -1,5 +1,11 @@
+2011-05-08 Chris Allegretta <chrisa@asty.org>
+	* doc/syntax/Makefile.am: Finally get around to sorting the syntax file list
+
+2011-05-08 Matthew Wild <mattj100@Savannah>
+	* doc/syntax/spec.nanorc: New lua syntax highlighting config
+
 2011-03-28 Asterios Dramis <asterios.dramis@gmail.com>
-	* doc/syntax/spec.nanorc: New RPM spec file highlighting file 
+	* doc/syntax/spec.nanorc: New RPM spec file highlighting config
 
 2011-03-12 Chris Allegretta <chrisa@asty.org>
 	* po/*: Sync latest translation fixes, add an update_linguas.sh script.  Rename
