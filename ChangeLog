@@ -1,3 +1,7 @@
+2011-05-10 Chris Allegretta <chrisa@asty.org>
+        * text.c (do_enter): Only increment totsize by the auto-indented amount, size the previous line's size was
+	  already counted.  Fixes bug reported by Robert Spanjaard.
+
 2011-05-08 Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/Makefile.am: Finally get around to sorting the syntax file list
 

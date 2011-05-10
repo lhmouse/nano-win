@@ -711,7 +711,7 @@ void do_enter(bool undoing)
 #ifndef NANO_TINY
     if (ISSET(AUTOINDENT)) {
 	strncpy(newnode->data, openfile->current->data, extra);
-	openfile->totsize += mbstrlen(newnode->data);
+	openfile->totsize += extra;
     }
 #endif
     null_at(&openfile->current->data, openfile->current_x);
