@@ -1,4 +1,10 @@
-GNU nano 2.3.0 - 2011.02.26
+2011.05.10 - GNU nano 2.3.1 "I'm in space" is released.  This 
+		release includes some fixes for the new libmagic code, as
+		well as a fix for improper character counts when using
+		auto-indent.  Also included are new syntax highlighting
+		definitions for RPM spec and lua files.  Thanks for 
+		using nano and keep circulating the tapes.
+
 2011.02.26 - GNU nano 2.3.0 "Septic surprise" is released.  This first
 		release in the 2.3 unstable series bring several new 
 		features.  First, libmagic support for syntax highlighting

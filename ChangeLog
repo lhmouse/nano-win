@@ -1,3 +1,4 @@
+GNU nano 2.3.1 - 2011.05.10
 2011-05-10 Chris Allegretta <chrisa@asty.org>
         * text.c (do_enter): Only increment totsize by the auto-indented amount, size the previous line's size was
 	  already counted.  Fixes bug reported by Robert Spanjaard.
