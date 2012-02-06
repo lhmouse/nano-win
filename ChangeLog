@@ -1,3 +1,12 @@
+2012-02-05 Chris Allegretta <chrisa@asty.org>
+	* src/*: Fix overlapping strings highlighting each other.  new variables in edit_draw 
+	  (slmatcharray, pbegin, paintok), new logic (with repeated setting od values in the 
+	  array but its BFI after all).  FIXME: Need to create a new 'overlap'
+	* src/*: Fix a silly issue with the argument to nregcomp, as it's confusing to the caller
+	* src/nano.h: Change the color types to a compiler macro (COLORWIDTH), may not actually 
+	  even be worth doing, but someday who knows how wide a color curses implementation might 
+	  be, and maybe we'll even start checking for it in autoconf!
+
 GNU nano 2.3.1 - 2011.05.10
 2011-05-10 Chris Allegretta <chrisa@asty.org>
         * text.c (do_enter): Only increment totsize by the auto-indented amount, size the previous line's size was

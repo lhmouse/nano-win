@@ -190,10 +190,11 @@ typedef enum {
 } undo_type;
 
 #ifdef ENABLE_COLOR
+#define COLORWIDTH short
 typedef struct colortype {
-    short fg;
+    COLORWIDTH fg;
 	/* This syntax's foreground color. */
-    short bg;
+    COLORWIDTH bg;
 	/* This syntax's background color. */
     bool bright;
 	/* Is this color A_BOLD? */
@@ -212,7 +213,9 @@ typedef struct colortype {
 	/* The compiled end (if any) of the regex string. */
     struct colortype *next;
 	/* Next set of colors. */
-     int id;
+    bool overlap;
+	/* Is it acceptable for other regexes to overlap this one? */
+    int id;
 	/* basic id for assigning to lines later */
 } colortype;
 
