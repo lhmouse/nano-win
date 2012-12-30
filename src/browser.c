@@ -794,7 +794,7 @@ int filesearch_init(void)
 	TRUE,
 #endif
 	MWHEREISFILE, backupstring,
-	&meta_key, &func_key, 
+	&meta_key, &func_key,
 #ifndef NANO_TINY
 	&search_history,
 #endif

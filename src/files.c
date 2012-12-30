@@ -678,7 +678,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
  * found".
  *
  * Return -2 if we say "New File", -1 if the file isn't opened, and the
- * fd opened otherwise.  The file might still have an error while reading 
+ * fd opened otherwise.  The file might still have an error while reading
  * with a 0 return value.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, FILE **f)
 {
@@ -693,7 +693,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 
     /* Okay, if we can't stat the path due to a component's
        permissions, just try the relative one */
-    if (full_filename == NULL 
+    if (full_filename == NULL
 	|| (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
 

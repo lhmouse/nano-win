@@ -1800,7 +1800,7 @@ const sc *get_shortcut(int menu, int *kbinput, bool
 
 
 /* Try to get a function back from a window.  Just a wrapper so
-   functions to need to create function_key meta_key blah blah 
+   functions to need to create function_key meta_key blah blah
     mmenu - what menu name to look through for valid funcs */
 const subnfunc *getfuncfromkey(WINDOW *win)
 {

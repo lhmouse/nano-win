@@ -1,4 +1,4 @@
-/* $Id$ */ 
+/* $Id$ */
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
@@ -2010,7 +2010,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
     }
 
-    /* Well we might also need a full refresh if we've changed the 
+    /* Well we might also need a full refresh if we've changed the
        line length to be a new multiple of COLS */
     if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS  != orig_lenpt / COLS)
@@ -2449,7 +2449,7 @@ int main(int argc, char **argv)
 
 #ifndef DISABLE_WRAPPING
     /* Overwrite an rcfile "set nowrap" or --disable-wrapping-as-root
-       if a --fill option was given on the command line. */ 
+       if a --fill option was given on the command line. */
     if (fill_used)
 	UNSET(NO_WRAP);
 #endif

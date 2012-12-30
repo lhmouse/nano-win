@@ -153,7 +153,7 @@ char *syntaxstr = NULL;
 #endif
 
 bool edit_refresh_needed = 0;
-	/* Did a command mangle enough of the buffer refresh that we 
+	/* Did a command mangle enough of the buffer refresh that we
 	   should repaint the screen */
 
 const shortcut *currshortcut;
@@ -374,7 +374,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
 
 /* Return the given menu's first shortcut sequence, or the default value
   (2nd arg).  Assumes currmenu for the menu to check*/
-int sc_seq_or (void (*func)(void), int defaultval) 
+int sc_seq_or (void (*func)(void), int defaultval)
 {
     const sc *s = first_sc_for(currmenu, func);
 
@@ -385,7 +385,7 @@ int sc_seq_or (void (*func)(void), int defaultval)
 
 }
 
-/* Assign the info to the shortcut struct 
+/* Assign the info to the shortcut struct
    Assumes keystr is already assigned, naturally */
 void assign_keyinfo(sc *s)
 {
@@ -814,7 +814,7 @@ void shortcut_init(bool unjustify)
 
 #ifndef NANO_TINY
 
-    add_to_funcs(do_mark, MMAIN, N_("Mark Text"), 
+    add_to_funcs(do_mark, MMAIN, N_("Mark Text"),
 	IFSCHELP(nano_mark_msg), FALSE, VIEW);
 
     add_to_funcs(do_research, (MMAIN|MBROWSER), whereis_next_msg,
@@ -953,7 +953,7 @@ void shortcut_init(bool unjustify)
 	IFSCHELP(nano_wordcount_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs(total_refresh, (MMAIN|MHELP), refresh_msg, 
+    add_to_funcs(total_refresh, (MMAIN|MHELP), refresh_msg,
 	IFSCHELP(nano_refresh_msg), FALSE, VIEW);
 
     add_to_funcs(do_suspend_void, MMAIN, suspend_msg,

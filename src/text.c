@@ -1,4 +1,4 @@
-/* $Id$ */ 
+/* $Id$ */
 /**************************************************************************
  *   text.c                                                               *
  *                                                                        *
@@ -855,7 +855,7 @@ void add_undo(undo_type current_action)
     /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
        we need to  abort here */
     u = fs->current_undo;
-    if (current_action == CUT && u && u->type == CUT 
+    if (current_action == CUT && u && u->type == CUT
 	&& !u->mark_set && u->lineno == fs->current->lineno)
 	return;
 

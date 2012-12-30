@@ -470,7 +470,7 @@ typedef struct subnfunc {
 } subnfunc;
 
 
-/* Enumeration to be used in flags table. See FLAGBIT and FLAGOFF 
+/* Enumeration to be used in flags table. See FLAGBIT and FLAGOFF
  * definitions. */
 enum
 {
