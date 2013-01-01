@@ -520,6 +520,7 @@ openfilestruct *make_new_opennode(void)
 #ifndef NANO_TINY
     newnode->current_stat = NULL;
     newnode->last_action = OTHER;
+    newnode->lock_filename = NULL;
 #endif
 
     return newnode;
@@ -845,6 +846,8 @@ void usage(void)
 #endif
 #ifdef ENABLE_NANORC
 #ifndef NANO_TINY
+    print_opt("-G", "--locking",
+	N_("Use (vim-style) lock files"));
     print_opt("-H", "--historylog",
 	N_("Log & read search/replace string history"));
 #endif
@@ -1058,6 +1061,12 @@ void do_exit(void)
     /* If the user chose not to save, or if the user chose to save and
      * the save succeeded, we're ready to exit. */
     if (i == 0 || (i == 1 && do_writeout(TRUE))) {
+
+#ifndef NANO_TINY
+        if (ISSET(LOCKING) && openfile->lock_filename)
+            delete_lockfile(openfile->lock_filename);
+#endif /* NANO_TINY */
+
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
 	if (!close_buffer())
@@ -2098,6 +2107,7 @@ int main(int argc, char **argv)
 	{"backup", 0, NULL, 'B'},
 	{"backupdir", 1, NULL, 'C'},
 	{"tabstospaces", 0, NULL, 'E'},
+	{"locking", 0, NULL, 'G'},
 	{"historylog", 0, NULL, 'H'},
 	{"noconvert", 0, NULL, 'N'},
 	{"poslog", 0, NULL, 'P'},
@@ -2146,11 +2156,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:DEFHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$",
+		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:DEFHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$")
+		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2188,6 +2198,9 @@ int main(int argc, char **argv)
 #endif
 #ifdef ENABLE_NANORC
 #ifndef NANO_TINY
+	    case 'G':
+		SET(LOCKING);
+		break;
 	    case 'H':
 		SET(HISTORYLOG);
 		break;

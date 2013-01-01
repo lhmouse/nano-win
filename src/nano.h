@@ -375,6 +375,8 @@ typedef struct openfilestruct {
     undo *current_undo;
 	/* The current (i.e. n ext) level of undo */
     undo_type last_action;
+    const char *lock_filename;
+        /* The path of the lockfile, if we created one */
 #endif
 #ifdef ENABLE_COLOR
     syntaxtype *syntax;
@@ -510,7 +512,8 @@ enum
     QUIET,
     UNDOABLE,
     SOFTWRAP,
-    POS_HISTORY
+    POS_HISTORY,
+    LOCKING
 };
 
 /* Flags for which menus in which a given function should be present */

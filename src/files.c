@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <pwd.h>
+#include <libgen.h>
 
 /* Add an entry to the openfile openfilestruct.  This should only be
  * called from open_buffer(). */
@@ -77,6 +78,7 @@ void initialize_buffer(void)
     openfile->current_stat = NULL;
     openfile->undotop = NULL;
     openfile->current_undo = NULL;
+    openfile->lock_filename = NULL;
 #endif
 #ifdef ENABLE_COLOR
     openfile->colorstrings = NULL;
@@ -103,6 +105,197 @@ void initialize_buffer_text(void)
     openfile->totsize = 0;
 }
 
+
+#ifndef NANO_TINY
+/* Actyally write the lock file.  This function will
+   ALWAYS annihilate any previous version of the file.
+   We'll borrow INSECURE_BACKUP here to decide about lock file
+   paranoia here as well...
+   Args:
+       lockfilename: file name for lock
+       origfilename: name of the file the lock is for
+       modified: whether to set the modified bit in the file
+
+   Returns: 1 on success, -1 on failure
+ */
+int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
+{
+    int cflags, fd;
+    FILE *filestream;
+    pid_t mypid;
+    uid_t myuid;
+    struct passwd *mypwuid;
+    char *lockdata = charalloc(1024);
+    char myhostname[32];
+    ssize_t lockdatalen = 1024;
+    ssize_t wroteamt;
+
+    /* Run things which might fail first before we try and blow away
+       the old state */
+    myuid = geteuid();
+    if ((mypwuid = getpwuid(myuid)) == NULL) {
+        statusbar(_("Couldn't determine my identity for lock file (getpwuid() failed)"));
+        return -1;
+    }
+    mypid = getpid();
+
+    if (gethostname(myhostname, 31) < 0) {
+       statusbar(_("Couldn't determine hosttname for lock file: %s"), strerror(errno));
+       return -1;
+    }
+
+    if (delete_lockfile(lockfilename) < 0)
+        return -1;
+
+    if (ISSET(INSECURE_BACKUP))
+        cflags = O_WRONLY | O_CREAT | O_APPEND;
+    else
+        cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
+
+    fd = open(lockfilename, cflags,
+	    S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+    /* Now we've got a safe file stream.  If the previous open()
+    call failed, this will return NULL. */
+    filestream = fdopen(fd, "wb");
+
+    if (fd < 0 || filestream == NULL) {
+        statusbar(_("Error writing lock file %s: %s"), lockfilename,
+		    strerror(errno));
+        return -1;
+    }
+
+
+    /* Okay. so at the moment we're following this state for how
+       to store the lock data:
+       byte 0        - 0x62
+       byte 1        - 0x30
+       bytes 2-12    - program name which created the lock
+       bytes 24,25   - little endian store of creator program's PID
+                       (b24 = 256^0 column, b25 = 256^1 column)
+       bytes 28-44   - username of who created the lock
+       bytes 68-100  - hostname of where the lock was created
+       bytes 108-876 - filename the lock is for
+       byte 1018     - 0x55 if file is modified
+                       (TODO: set if 'modified' == TRUE)
+
+       Looks like VIM also stores undo state in this file so we're
+       gonna have to figure out how to slap a 'OMG don't use recover
+       on our lockfile' message in here...
+
+       This is likely very wrong, so this is a WIP
+     */
+    null_at(&lockdata, lockdatalen);
+    lockdata[0] = 0x62;
+    lockdata[1] = 0x30;
+    lockdata[24] = mypid % 256;
+    lockdata[25] = mypid / 256;
+    snprintf(&lockdata[2], 10, "nano %s", VERSION);
+    strncpy(&lockdata[28], mypwuid->pw_name, 16);
+    strncpy(&lockdata[68], myhostname, 31);
+    strncpy(&lockdata[108], origfilename, 768);
+
+    wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
+    if (wroteamt < lockdatalen) {
+        statusbar(_("Error writing lock file %s: %s"),
+                  lockfilename, ferror(filestream));
+        return -1;
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "In write_lockfile(), write successful (wrote %d bytes)\n", wroteamt);
+#endif /* DEBUG */
+
+    if (fclose(filestream) == EOF) {
+        statusbar(_("Error writing lock file %s: %s"),
+                  lockfilename, strerror(errno));
+        return -1;
+    }
+
+    openfile->lock_filename = lockfilename;
+
+    return 1;
+}
+
+
+/* Less exciting, delete the lock file.
+   Return -1 if successful and complain on the statusbar, 1 otherwite
+ */
+int delete_lockfile(const char *lockfilename)
+{
+    if (unlink(lockfilename) < 0 && errno != ENOENT) {
+        statusbar(_("Error deleting lock file %s: %s"), lockfilename,
+		    strerror(errno));
+        return -1;
+    }
+    return 1;
+}
+
+
+/* Deal with lockfiles.  Return -1 on refusing to override
+   the lock file, and 1 on successfully created the lockfile.
+ */
+int do_lockfile(const char *filename)
+{
+    char *lockdir = dirname((char *) mallocstrcpy(NULL, filename));
+    char *lockbase = basename((char *) mallocstrcpy(NULL, filename));
+    ssize_t lockfilesize = (sizeof (char *) * (strlen(filename)
+                   + strlen(locking_prefix) + strlen(locking_suffix) + 3));
+    char *lockfilename = nmalloc(lockfilesize);
+    char lockprog[12], lockuser[16];
+    struct stat fileinfo;
+    int lockfd, lockpid;
+
+
+    snprintf(lockfilename, lockfilesize, "%s/%s%s%s", lockdir,
+             locking_prefix, lockbase, locking_suffix);
+#ifdef DEBUG
+    fprintf(stderr, "lock file name is %s\n", lockfilename);
+#endif /* DEBUG */
+    if (stat(lockfilename, &fileinfo) != -1) {
+        ssize_t readtot = 0;
+        ssize_t readamt = 0;
+        char *lockbuf = nmalloc(8192);
+        char *promptstr = nmalloc(128);
+        int ans;
+        if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
+            statusbar(_("Error opening lockfile %s: %s"),
+                      lockfilename, strerror(errno));
+            return -1;
+        }
+        do {
+            readamt = read(lockfd, &lockbuf[readtot], BUFSIZ);
+            readtot += readamt;
+        } while (readtot < 8192 && readamt > 0);
+
+        if (readtot < 48) {
+            statusbar(_("Error reading lockfile %s: Not enough data read"),
+                      lockfilename);
+            return -1;
+        }
+        strncpy(lockprog, &lockbuf[2], 10);
+        lockpid = lockbuf[25] * 256 + lockbuf[24];
+        strncpy(lockuser, &lockbuf[28], 16);
+#ifdef DEBUG
+        fprintf(stderr, "lockpid = %d\n", lockpid);
+        fprintf(stderr, "program name which created this lock file should be %s\n",
+                lockprog);
+        fprintf(stderr, "user which created this lock file should be %s\n",
+                lockuser);
+#endif /* DEBUG */
+        sprintf(promptstr, "File being edited (by %s, PID %d, user %s), continue?",
+                              lockprog, lockpid, lockuser);
+        ans = do_yesno_prompt(FALSE, promptstr);
+        if (ans < 1) {
+            blank_statusbar();
+            return -1;
+        }
+    }
+
+    return write_lockfile(lockfilename, filename, FALSE);
+}
+#endif /* NANO_TINY */
+
+
 /* If it's not "", filename is a file to open.  We make a new buffer, if
  * necessary, and then open and read the file, if applicable. */
 void open_buffer(const char *filename, bool undoable)
@@ -128,15 +321,15 @@ void open_buffer(const char *filename, bool undoable)
     }
 #endif
 
-    /* If the filename isn't blank, open the file.  Otherwise, treat it
-     * as a new file. */
-    rc = (filename[0] != '\0') ? open_file(filename, new_buffer, &f) :
-	-2;
-
     /* If we're loading into a new buffer, add a new entry to
      * openfile. */
     if (new_buffer)
 	make_new_buffer();
+
+    /* If the filename isn't blank, open the file.  Otherwise, treat it
+     * as a new file. */
+    rc = (filename[0] != '\0') ? open_file(filename, new_buffer, &f) :
+	-2;
 
     /* If we have a file, and we're loading into a new buffer, update
      * the filename. */
@@ -696,6 +889,13 @@ int open_file(const char *filename, bool newfie, FILE **f)
     if (full_filename == NULL
 	|| (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
+
+
+#ifndef NANO_TINY
+    if (ISSET(LOCKING))
+        if (do_lockfile(full_filename) < 0)
+            return -1;
+#endif
 
     if (stat(full_filename, &fileinfo) == -1) {
 	/* Well, maybe we can open the file even if the OS
@@ -1990,6 +2190,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 
     return retval;
 }
+
 #endif /* !NANO_TINY */
 
 /* Write the current file to disk.  If the mark is on, write the current
