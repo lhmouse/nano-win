@@ -252,7 +252,7 @@ bool nregcomp(const char *regex, int cflags)
 void parse_syntax(char *ptr)
 {
     const char *fileregptr = NULL, *nameptr = NULL;
-    syntaxtype *tmpsyntax;
+    syntaxtype *tmpsyntax, *prev_syntax;
     exttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
@@ -279,15 +279,26 @@ void parse_syntax(char *ptr)
 
     /* Search for a duplicate syntax name.  If we find one, free it, so
      * that we always use the last syntax with a given name. */
+    prev_syntax = NULL;
     for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	tmpsyntax = tmpsyntax->next) {
 	if (strcmp(nameptr, tmpsyntax->desc) == 0) {
-	    syntaxtype *prev_syntax = tmpsyntax;
+	    syntaxtype *old_syntax = tmpsyntax;
+
+	    if (endsyntax == tmpsyntax)
+		endsyntax = prev_syntax;
 
 	    tmpsyntax = tmpsyntax->next;
-	    free(prev_syntax);
+	    if (prev_syntax != NULL)
+		prev_syntax->next = tmpsyntax;
+	    else
+		syntaxes = tmpsyntax;
+
+	    free(old_syntax->desc);
+	    free(old_syntax);
 	    break;
 	}
+	prev_syntax = tmpsyntax;
     }
 
     if (syntaxes == NULL) {

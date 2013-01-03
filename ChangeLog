@@ -1,3 +1,7 @@
+2013-01-02 David Benjamin <davidben@Savannah>
+        * src/search.c (parse_syntax): Fix blatantly and dangerously incorrect  code for 
+          deleting old syntaxes.
+
 2013-01-02 Mike Frysinger <vapier@gentoo.org>
         * src/files.c (cwd_tab_completion): Remove unnecessary variables
         * src/search.c (search_init): Fix gcc complaints on certain versions
