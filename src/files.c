@@ -116,7 +116,7 @@ void initialize_buffer_text(void)
        origfilename: name of the file the lock is for
        modified: whether to set the modified bit in the file
 
-   Returns: 1 on success, -1 on failure
+   Returns: 1 on success, 0 on failure (but continue loading), -1 on failure and abort
  */
 int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
 {
@@ -154,6 +154,13 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
     fd = open(lockfilename, cflags,
 	    S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+
+    /* Maybe we just don't have write access, don't stop us from
+       opening the file at all, just don't set the lock_filename
+       and return success */
+    if (fd < 0 && errno == EACCES)
+        return 1;
+
     /* Now we've got a safe file stream.  If the previous open()
     call failed, this will return NULL. */
     filestream = fdopen(fd, "wb");
@@ -232,7 +239,9 @@ int delete_lockfile(const char *lockfilename)
 
 
 /* Deal with lockfiles.  Return -1 on refusing to override
-   the lock file, and 1 on successfully created the lockfile.
+   the lock file, and 1 on successfully created the lockfile, 0 means
+   we were not successful on creating the lockfile but we should
+   continue to load the file and complain to the user.
  */
 int do_lockfile(const char *filename)
 {
