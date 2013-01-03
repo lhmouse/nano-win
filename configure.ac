@@ -22,7 +22,7 @@
 
 AC_INIT([GNU nano], [2.3.1-svn], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])
-AC_CANONICAL_TARGET([])
+AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 
@@ -49,7 +49,6 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
 dnl Checks for header files.
 
-AC_HEADER_STDC
 AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.h stdarg.h magic.h)
 
 dnl Checks for options.

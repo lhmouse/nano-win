@@ -1,3 +1,6 @@
+2013-01-02 Eitan Adler <lists@eitanadler.com>
+        * configure.ac: Remove unnecessary checks
+
 2012-12-31 Chris Allegretta <chrisa@asty.org>
         * src/*: Introduce (basic) vim-style file locks.  Does not allow vim to recover
           our changes, and just lets a vim user know we're editing a file.  Commands line "-G" 
