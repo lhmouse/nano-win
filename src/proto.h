@@ -297,6 +297,7 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp);
 #ifndef NANO_TINY
 void init_backup_dir(void);
 int delete_lockfile(const char *lockfilename);
+int write_lockfile(const char *lockfilename, const char *origfilename, bool modified);
 #endif
 int copy_file(FILE *inn, FILE *out);
 bool write_file(const char *name, FILE *f_open, bool tmp, append_type
