@@ -131,9 +131,9 @@ ssize_t tabsize = -1;
 char *backup_dir = NULL;
 	/* The directory where we store backup files. */
 
-char *locking_prefix = ".";
+const char *locking_prefix = ".";
         /* Prefix of how to store the vim-style lock file */
-char *locking_suffix = ".swp";
+const char *locking_suffix = ".swp";
         /* Suffix of the vim-style lock file */
 #endif
 #ifndef DISABLE_OPERATINGDIR

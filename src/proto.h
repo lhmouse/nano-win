@@ -85,8 +85,8 @@ extern ssize_t tabsize;
 
 #ifndef NANO_TINY
 extern char *backup_dir;
-extern char *locking_prefix;
-extern char *locking_suffix;
+extern const char *locking_prefix;
+extern const char *locking_suffix;
 #endif
 #ifndef DISABLE_OPERATINGDIR
 extern char *operating_dir;
