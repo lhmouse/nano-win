@@ -435,7 +435,7 @@ typedef struct sc {
     function_type type;
         /* What kind of function key is it for convenience later */
     int seq;
-        /* The actual sequence to check on the the type is determined */
+        /* The actual sequence to check on the type is determined */
     int menu;
         /* What list does this apply to */
     void (*scfunc)(void);

@@ -745,10 +745,10 @@
 		new option to ignore rc files (-I,--ignorercfiles),
 		compatibility with -pedantic, handling null characters
 		before EOF, a slightly sportier nanorc.sample and more.
-			Fixes are included included for justification,
+		Fixes are included for justification,
 		the reading and writing file routines, resizing and fill
 		length, millions of memory leaks, the usage screen was
-		updated, and the the --quotestr and --regexp really work
+		updated, and the --quotestr and --regexp really work
 		now ;-)  Enjoy :)
 
 05/12/2002 - GNU nano 1.1.9 is released, happy Mother's Day!  This
@@ -1073,7 +1073,7 @@
 
 08/03/2000 - Nano 0.9.15 is the "I can't think of a release description"
 		release.  There are the usual gala of display bugfixes,
-		a fix for the the nasty bug in -k mode that could create
+		a fix for the nasty bug in -k mode that could create
 		a loop in the file being edited, and some other code
 		cleanup.  Also, the -T option should now work regardless
 		of the curses library used.  Yay.
