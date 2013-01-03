@@ -79,12 +79,12 @@ bool is_byte(int c)
     return ((unsigned int)c == (unsigned char)c);
 }
 
-static void mbtowc_reset(void)
+void mbtowc_reset(void)
 {
     IGNORE_CALL_RESULT(mbtowc(NULL, NULL, 0));
 }
 
-static void wctomb_reset(void)
+void wctomb_reset(void)
 {
     IGNORE_CALL_RESULT(wctomb(NULL, 0));
 }

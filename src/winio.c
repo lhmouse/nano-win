@@ -3173,7 +3173,6 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
     fprintf(stderr, "edit_redraw(): line %lu was offscreen, oldcurrent = %lu edittop = %lu", openfile->current->lineno,
                     old_current->lineno, openfile->edittop->lineno);
 #endif
-	filestruct *old_edittop = openfile->edittop;
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between old_current
@@ -3181,6 +3180,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	 * whether we've scrolled up or down) of the edit window. */
 	if (openfile->mark_set) {
 	    ssize_t old_lineno;
+	    filestruct *old_edittop = openfile->edittop;
 
 	    if (old_edittop->lineno < openfile->edittop->lineno)
 		old_lineno = old_edittop->lineno;
