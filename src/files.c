@@ -182,8 +182,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
        bytes 28-44   - username of who created the lock
        bytes 68-100  - hostname of where the lock was created
        bytes 108-876 - filename the lock is for
-       byte 1018     - 0x55 if file is modified
-                       (TODO: set if 'modified' == TRUE)
+       byte 1007     - 0x55 if file is modified
 
        Looks like VIM also stores undo state in this file so we're
        gonna have to figure out how to slap a 'OMG don't use recover
@@ -200,6 +199,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     strncpy(&lockdata[28], mypwuid->pw_name, 16);
     strncpy(&lockdata[68], myhostname, 31);
     strncpy(&lockdata[108], origfilename, 768);
+    if (modified == TRUE)
+        lockdata[1007] = 0x55;
 
     wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
     if (wroteamt < lockdatalen) {

@@ -1,9 +1,8 @@
 2012-12-31 Chris Allegretta <chrisa@asty.org>
         * src/*: Introduce (basic) vim-style file locks.  Does not allow vim to recover
-          our files, and doesn't yet support setting the file as modified; just lets a
-          vim user know we're editing a file.  Commands line "-G" or "--locking", nanorc 
-          option "locking".  New functions src/files.c:do_lockfile(), write_lockfile(), 
-          and delete_lockfile().
+          our changes, and just lets a vim user know we're editing a file.  Commands line "-G" 
+          or "--locking", nanorc option "locking".  New functions 
+          src/files.c:do_lockfile(), write_lockfile(), and delete_lockfile().
 
 2012-02-05 Chris Allegretta <chrisa@asty.org>
 	* src/*: Fix overlapping strings highlighting each other.  new variables in edit_draw 

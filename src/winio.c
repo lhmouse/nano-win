@@ -2259,11 +2259,16 @@ void set_modified(void)
 	openfile->modified = TRUE;
 	titlebar(NULL);
 #ifndef NANO_TINY
-	if (ISSET(LOCKING) && openfile->lock_filename == NULL)
-            /* Translators: Try to keep this at most 80 characters. */
-            statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
+	if (ISSET(LOCKING)) {
+	    if (openfile->lock_filename == NULL) {
+                /* Translators: Try to keep this at most 80 characters. */
+                statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
+	    } else {
+		write_lockfile(openfile->lock_filename,
+                               get_full_path(openfile->filename), TRUE);
+            }
+	}
 #endif
-
     }
 }
 
