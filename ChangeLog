@@ -1,5 +1,6 @@
 2013-01-02 Mike Frysinger <vapier@gentoo.org>
-        * src/files.c: (cwd_tab_completion): Remove unnecessary variables
+        * src/files.c (cwd_tab_completion): Remove unnecessary variables
+        * src/search.c (search_init): Fix gcc complaints on certain versions
 
 2013-01-02 Eitan Adler <lists@eitanadler.com>
         * configure.ac: Remove unnecessary checks
