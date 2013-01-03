@@ -1,3 +1,6 @@
+2013-01-02 Mike Frysinger <vapier@gentoo.org>
+        * src/files.c: (cwd_tab_completion): Remove unnecessary variables
+
 2013-01-02 Eitan Adler <lists@eitanadler.com>
         * configure.ac: Remove unnecessary checks
         * src/nano.h, NEWS: Fix redundant wording
