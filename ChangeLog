@@ -1,3 +1,6 @@
+2013-01-02 Mike Frysinger <vapier@gentoo.org>
+        * configure.ac: Check for ncursesw5-config and base $CPPFLAGS based on it.
+
 2013-01-09 Fabian Groffen <grobian@Savannah>
         * configure.ac, src/nano.h: Make search for ncursesw more generalized.
 
