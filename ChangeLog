@@ -1,3 +1,6 @@
+2013-01-09 Fabian Groffen <grobian@Savannah>
+        * configure.ac, src/nano.h: Make search for ncursesw more generalized.
+
 2013-01-02 David Benjamin <davidben@Savannah>
         * src/search.c (parse_syntax): Fix blatantly and dangerously incorrect  code for 
           deleting old syntaxes.
