@@ -1,4 +1,9 @@
-2013-01-02 Mike Frysinger <vapier@gentoo.org>
+2013-01-13 Chris Allegretta <chrisa@asty.org>
+        * src/utils.c (parse_num): Initalize errno before calling strtol().  Fixes issue
+          where trying to go to a line number too long will break legitimate goto-lines
+          for the remainder of the editing session, reported by Joshua Rogers.
+
+2013-01-09 Mike Frysinger <vapier@gentoo.org>
         * configure.ac: Check for ncursesw5-config and base $CPPFLAGS based on it.
 
 2013-01-09 Fabian Groffen <grobian@Savannah>
