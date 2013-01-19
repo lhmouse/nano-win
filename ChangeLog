@@ -1,3 +1,7 @@
+2013-01-19 Chris Allegretta <chrisa@asty.org>
+        * configure.ac: Make ncursesw checking dependent on the presence of ncursesw.h, 
+          since without the header files we can't compile.
+
 2013-01-13 Chris Allegretta <chrisa@asty.org>
         * src/utils.c (parse_num): Initalize errno before calling strtol().  Fixes issue
           where trying to go to a line number too long will break legitimate goto-lines
