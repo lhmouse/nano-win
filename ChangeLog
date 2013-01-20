@@ -1,3 +1,7 @@
+2013-01-20 Chris Allegretta <chrisa@asty.org>
+        * src/text.c (do_histify): Don't allow sigwinch to be received while justifying
+          as that puts us into a wacky state.  Fixess crash on justify by Joshua Rogers.
+
 2013-01-19 Chris Allegretta <chrisa@asty.org>
         * configure.ac: Make ncursesw checking dependent on the presence of ncursesw.h, 
           since without the header files we can't compile.
