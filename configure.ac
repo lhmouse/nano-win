@@ -528,7 +528,22 @@ fi
 if test x$color_support = xyes; then
 	# now check for the end of word boundary support (/< and />)
 	AC_MSG_CHECKING([for GNU-style word boundary regex support])
-	AC_TRY_RUN([
+
+	AC_ARG_WITH(wordbounds,
+        [  --with-wordbounds            Use GNU-style word boundary delimiters],
+	[ case "$with_wordbounds" in
+	    no)
+		AC_MSG_RESULT(no)
+		;;
+	    *)
+		AC_MSG_RESULT(yes)
+		# We explicitly don't check if the user forced the option, because
+		# this is needed for cross compilers and we cant test the target
+		AC_DEFINE(GNU_WORDBOUNDS, 1, [Define if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
+                ;;
+          esac
+        ], [
+	    AC_TRY_RUN([
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -545,11 +560,13 @@ int main(void)
         return 1;
     return 0;
 }],
-	AC_MSG_RESULT(yes)
-	AC_DEFINE(GNU_WORDBOUNDS, 1, [Define if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
-	AC_MSG_RESULT(no),
-        AC_MSG_WARN([*** Can't check for GNU-style word boundary support when cross-compiling])
-)
+	    AC_MSG_RESULT(yes)
+	    AC_DEFINE(GNU_WORDBOUNDS, 1, [Define if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
+	    AC_MSG_RESULT(no),
+	    AC_MSG_WARN([*** Can't check for GNU-style word boundary support when cross-compiling])
+	)
+])
+
 #    if test x$CURSES_LIB_NAME = xcurses; then
 	AC_MSG_CHECKING([whether _XOPEN_SOURCE_EXTENDED is needed])
 	AC_TRY_RUN([

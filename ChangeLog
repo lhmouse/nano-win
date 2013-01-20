@@ -1,6 +1,9 @@
 2013-01-20 Chris Allegretta <chrisa@asty.org>
         * src/text.c (do_histify): Don't allow sigwinch to be received while justifying
           as that puts us into a wacky state.  Fixess crash on justify by Joshua Rogers.
+	* configure.ac: Added --with-wordbounds option to let cross compilers force
+	  whether their target system support GNU-style word boundaries or not.  
+	  Originally reported by dave festing.
 
 2013-01-19 Chris Allegretta <chrisa@asty.org>
         * configure.ac: Make ncursesw checking dependent on the presence of ncursesw.h, 
