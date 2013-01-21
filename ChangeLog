@@ -4,6 +4,8 @@
 	* configure.ac: Added --with-wordbounds option to let cross compilers force
 	  whether their target system support GNU-style word boundaries or not.  
 	  Originally reported by dave festing.
+	* doc/man/nanorc.5: Fix typo in softwrap description, reported by
+	  cbart387@Savannah.
 
 2013-01-19 Chris Allegretta <chrisa@asty.org>
         * configure.ac: Make ncurses checking to set $LIBS and check the ncursesw lib
