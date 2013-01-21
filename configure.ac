@@ -441,17 +441,17 @@ if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(ncurses.h)
 
     if test x$enable_utf8 != xno; then
-	AC_CHECK_HEADERS(ncursesw/ncurses.h, [
-            AC_CHECK_TOOL(NCURSESW_CONFIG, ncursesw5-config, no)
-            if test "x$NCURSESW_CONFIG" != xno; then
-                CURSES_LIB=`$NCURSESW_CONFIG --libs`
-                CPPFLAGS="`$NCURSESW_CONFIG --cflags` $CPPFLAGS"
-                CURSES_LIB_NAME=ncursesw
-                CURSES_LIB_WIDE=yes
-             else
-                AC_CHECK_LIB(ncursesw, get_wch, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE=yes])
-            fi
-        ])
+	OLDLIBS="$LIBS"
+	AC_CHECK_TOOL(NCURSESW_CONFIG, ncursesw5-config, no)
+	if test "x$NCURSESW_CONFIG" != xno; then
+	    CURSES_LIB=`$NCURSESW_CONFIG --libs`
+	    LIBS="$CURSES_LIB $LIBS"
+	    CPPFLAGS="`$NCURSESW_CONFIG --cflags` $CPPFLAGS"
+	    AC_CHECK_LIB(ncursesw, get_wch, [CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE=yes])
+	else
+	    AC_CHECK_LIB(ncursesw, get_wch, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE=yes])
+	fi
+	LIBS="$OLDLIBS"
     fi
 
     if eval "test x$CURSES_LIB_NAME = x"; then
