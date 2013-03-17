@@ -556,7 +556,7 @@ char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
 char *parse_next_regex(char *ptr);
-bool nregcomp(const char *regex, int cflags);
+bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
 void parse_magic_syntax(char *ptr);
 void parse_include(char *ptr);

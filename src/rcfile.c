@@ -228,11 +228,11 @@ char *parse_next_regex(char *ptr)
 
 /* Compile the regular expression regex to see if it's valid.  Return
  * TRUE if it is, or FALSE otherwise. */
-bool nregcomp(const char *regex, int cflags)
+bool nregcomp(const char *regex, int eflags)
 {
     regex_t preg;
     const char *r = fixbounds(regex);
-    int rc = regcomp(&preg, r, REG_EXTENDED | cflags);
+    int rc = regcomp(&preg, r, REG_EXTENDED | eflags);
 
     if (rc != 0) {
 	size_t len = regerror(rc, &preg, NULL, 0);
@@ -680,9 +680,9 @@ void parse_include(char *ptr)
 
 /* Return the short value corresponding to the color named in colorname,
  * and set bright to TRUE if that color is bright. */
-COLORWIDTH color_to_short(const char *colorname, bool *bright)
+short color_to_short(const char *colorname, bool *bright)
 {
-    COLORWIDTH mcolor = -1;
+    short mcolor = -1;
 
     assert(colorname != NULL && bright != NULL);
 
@@ -722,7 +722,7 @@ COLORWIDTH color_to_short(const char *colorname, bool *bright)
  * as case insensitive. */
 void parse_colors(char *ptr, bool icase)
 {
-    COLORWIDTH fg, bg;
+    short fg, bg;
     bool bright = FALSE, no_fgcolor = FALSE;
     char *fgstr;
 
@@ -872,7 +872,7 @@ void parse_colors(char *ptr, bool icase)
 		0)) ? mallocstrcpy(NULL, fgstr) : NULL;
 
 	    /* Lame way to skip another static counter */
-	    newcolor->id = endsyntax->nmultis;
+            newcolor->id = endsyntax->nmultis;
             endsyntax->nmultis++;
 	}
     }

@@ -2501,29 +2501,14 @@ void edit_draw(filestruct *fileptr, const char *converted, int
      * them. */
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
- 	int i, coloruid = 0; /* We need a unique color ID now */
-	static filestruct *lastptr = NULL;
-	static COLORWIDTH *slmatcharray = NULL;
-	    /* Array to track how much we've painted of the line for single line matches */
-
-	if (lastptr != fileptr || start == 0) {
-	    if (slmatcharray != NULL)
-		free(slmatcharray);
-	    slmatcharray = (COLORWIDTH *)nmalloc(strlenpt(fileptr->data) * sizeof(COLORWIDTH));
-
-	    /* Init slmatcharray */
-	    for (i = 0; i < strlenpt(fileptr->data); i++)
-		slmatcharray[i] = -1;
-	}
-
 
 	/* Set up multi-line color data for this line if it's not yet calculated  */
         if (fileptr->multidata == NULL && openfile->syntax
 		&& openfile->syntax->nmultis > 0) {
+ 	    int i;
 	    fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
-	    for (i = 0; i < openfile->syntax->nmultis; i++)
+            for (i = 0; i < openfile->syntax->nmultis; i++)
 		fileptr->multidata[i] = -1;	/* Assue this applies until we know otherwise */
-
 	}
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;
@@ -2538,7 +2523,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    regmatch_t endmatch;
 		/* Match position for end_regex. */
 
-	    coloruid++;
 	    if (tmpcolor->bright)
 		wattron(edit, A_BOLD);
 	    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
@@ -2546,7 +2530,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	     * that there is a match.  Also, rm_eo is the first
 	     * non-matching character after the match. */
 
-	    /* First case,tmpcolor is a single-line expression. */
+	    /* First case, tmpcolor is a single-line expression. */
 	    if (tmpcolor->end == NULL) {
 		size_t k = 0;
 
@@ -2555,8 +2539,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		 * want to ignore them, so that we can highlight e.g. C
 		 * strings correctly. */
 		while (k < endpos) {
-		    bool paintok = TRUE;
-
 		    /* Note the fifth parameter to regexec().  It says
 		     * not to match the beginning-of-line character
 		     * unless k is zero.  If regexec() returns
@@ -2566,8 +2548,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			&startmatch, (k == 0) ? 0 : REG_NOTBOL) ==
 			REG_NOMATCH)
 			break;
-
-
 		    /* Translate the match to the beginning of the
 		     * line. */
 		    startmatch.rm_so += k;
@@ -2578,8 +2558,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			startmatch.rm_eo++;
 		    else if (startmatch.rm_so < endpos &&
 			startmatch.rm_eo > startpos) {
-			size_t pbegin = strnlenpt(fileptr->data, startmatch.rm_so);
-
 			x_start = (startmatch.rm_so <= startpos) ? 0 :
 				strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
@@ -2592,25 +2570,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 			assert(0 <= x_start && 0 <= paintlen);
 
-			/* Check that the match is not preceeded by another previous
-			   (single line) match before proceeding to paint it */
-			if (slmatcharray[pbegin] != -1 && slmatcharray[pbegin] != coloruid)
-			    paintok = FALSE;
-
-			if (paintok == TRUE) {
-			    int p;
-
-			    mvwaddnstr(edit, line, x_start, converted +
+			mvwaddnstr(edit, line, x_start, converted +
 				index, paintlen);
-			    for (p = pbegin; p < pbegin + (startmatch.rm_eo - startmatch.rm_so); p++) {
-				slmatcharray[p] = coloruid;  /* Add to our match array for the proper length */
-			    }
-			}
 		    }
-		    if (paintok)
-			k = startmatch.rm_eo;
-		    else
-			k = startmatch.rm_so + 1;
+		    k = startmatch.rm_eo;
 		}
 	    } else if (fileptr->multidata != NULL && fileptr->multidata[tmpcolor->id] != CNONE) {
 		/* This is a multi-line regex.  There are two steps.
@@ -2797,7 +2760,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    wattroff(edit, A_BOLD);
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	}
-	lastptr = fileptr;
     }
 #endif /* ENABLE_COLOR */
 

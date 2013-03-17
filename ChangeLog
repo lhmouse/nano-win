@@ -1,3 +1,7 @@
+2013-03-17 Chris Allegretta <chrisa@asty.org>
+        * Revert r4547 as we should have a new release and the overlap code is not yet
+          ready for public consumption.
+
 2013-01-20 Chris Allegretta <chrisa@asty.org>
         * src/text.c (do_histify): Don't allow sigwinch to be received while justifying
           as that puts us into a wacky state.  Fixess crash on justify by Joshua Rogers.
