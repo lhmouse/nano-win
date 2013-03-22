@@ -1,40 +1,41 @@
-# Hungarian translation of nano
+# Slovenian translation of nano.
+# Copyright (C) 2009 - 2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# Copyright (C) 2001, 2002, 2006, 2008, 2009, 2010 Free Software Foundation, Inc.
 #
-# Szabolcs Horvath <horvaths@fi.inf.elte.hu>, 2001.
-# Gergely Nagy <algernon@debian.org>, 2002.
-# SZERVÁC Attila <sas@321.hu>, 2006.
-# Gabor Kelemen <kelemeng@gnome.hu>, 2006, 2008, 2009, 2010.
+# Damir Jerovšek <damir.jerovsek@gmail.com>, 2012.
+# Klemen Košir <klemen913@gmail.com>, 2009, 2012 - 2013.
+# Matej Urbančič <matej.urban@gmail.com>, 2012.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.2.2pre1\n"
+"Project-Id-Version: nano 2.3.2pre4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-22 10:09-0400\n"
-"PO-Revision-Date: 2010-03-03 12:57+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
-"Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
-"Language: hu\n"
+"PO-Revision-Date: 2013-03-18 21:33+0100\n"
+"Last-Translator: Klemen Košir <klemen913@gmail.com>\n"
+"Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #: src/browser.c:220
 msgid "Go To Directory"
-msgstr "Könyvtárváltás"
+msgstr "Pojdi v mapo"
 
 #: src/browser.c:233 src/browser.c:830 src/files.c:1074 src/files.c:2289
 #: src/nano.c:1077 src/search.c:219 src/search.c:314 src/search.c:975
 #: src/search.c:1040
 msgid "Cancelled"
-msgstr "Megszakítva"
+msgstr "Preklicano"
 
 #: src/browser.c:266 src/browser.c:314
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
-msgstr "Korlátozott módban nem léphet ki a következőből: %s"
+msgstr "V omejenem načinu ni mogoče zapustiti %s"
 
 #: src/browser.c:277 src/browser.c:324 src/browser.c:347 src/files.c:936
 #: src/files.c:945 src/files.c:1771 src/files.c:1897 src/files.c:1951
@@ -42,33 +43,33 @@ msgstr "Korlátozott módban nem léphet ki a következőből: %s"
 #: src/rcfile.c:654 src/rcfile.c:1293
 #, c-format
 msgid "Error reading %s: %s"
-msgstr "Hiba %s olvasásakor: %s"
+msgstr "Napaka med branjem %s: %s"
 
 #: src/browser.c:303
 msgid "Can't move up a directory"
-msgstr "Nem lehet egy könyvtárral feljebb lépni"
+msgstr "Mape ni mogoče premakniti višje"
 
 #. TRANSLATORS: Try to keep this at most 7
 #. * characters.
 #: src/browser.c:665 src/browser.c:674
 msgid "(dir)"
-msgstr "(könyvtár)"
+msgstr "(mapa)"
 
 #. TRANSLATORS: Try to keep this at most 12
 #. * characters.
 #: src/browser.c:671
 msgid "(parent dir)"
-msgstr "(szülőkvt)"
+msgstr "(nad. mapa)"
 
 #: src/browser.c:801 src/search.c:184
 msgid "Search"
-msgstr "Keresés"
+msgstr "Iskanje"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:805 src/search.c:188
 msgid " [Case Sensitive]"
-msgstr " [kis/Nagy]"
+msgstr " [Case Sensitive]"
 
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
@@ -80,74 +81,80 @@ msgstr " [Regexp]"
 #. * prompt; no grammar is implied.
 #: src/browser.c:817 src/search.c:200
 msgid " [Backwards]"
-msgstr " [Vissza]"
+msgstr " [Backwards]"
 
 #: src/browser.c:909 src/browser.c:917 src/search.c:395
 msgid "Search Wrapped"
-msgstr "A keresés körbeért"
+msgstr "Iskanje je ovito"
 
 #: src/browser.c:1006 src/browser.c:1039 src/search.c:514 src/search.c:517
 #: src/search.c:574 src/search.c:577
 msgid "This is the only occurrence"
-msgstr "Ez az egyetlen előfordulás"
+msgstr "To je edina pojavitev niza"
 
 #: src/browser.c:1042 src/search.c:583
 msgid "No current search pattern"
-msgstr "Nincs keresési minta"
+msgstr "Ni trenutnega vzorca iskanja"
 
 #: src/files.c:137
 msgid "Couldn't determine my identity for lock file (getpwuid() failed)"
 msgstr ""
+"Istovetnosti za zaklepno datoteko ni mogoče določiti. Funkcija getpwuid() je "
+"spodletela."
 
 #: src/files.c:143
 #, c-format
 msgid "Couldn't determine hosttname for lock file: %s"
-msgstr ""
+msgstr "Imena gostitelja zaklepne datoteke ni mogoče določiti: %s"
 
 #: src/files.c:169 src/files.c:207 src/files.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing lock file %s: %s"
-msgstr "Hiba a biztonságimentés-fájl (%s) írásakor: %s"
+msgstr "Med zapisovanjem zaklepne datoteke %s je prišlo do napake: %s"
 
 #: src/files.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "Error deleting lock file %s: %s"
-msgstr "Hiba a biztonságimentés-fájl (%s) írásakor: %s"
+msgstr "Med brisanjem zaklepne datoteke %s je prišlo do napake: %s"
 
 #: src/files.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lockfile %s: %s"
-msgstr "Hiba a biztonságimentés-fájl (%s) írásakor: %s"
+msgstr "Med odpiranjem zaklepne datoteke %s je prišlo do napake: %s"
 
 #: src/files.c:281
 #, c-format
 msgid "Error reading lockfile %s: Not enough data read"
 msgstr ""
+"Med branjem zaklepne datoteke %s je prišlo do napake. Prebranih je bilo "
+"premalo podatkov."
 
 #: src/files.c:328
 #, c-format
 msgid "Can't insert file from outside of %s"
-msgstr "Nem szúrható be fájl a következőn kívülről: %s"
+msgstr "Ni mogoče vstaviti datoteke izven %s"
 
 #: src/files.c:437
 msgid "No more open file buffers"
-msgstr "Nincs több nyitott fájlpuffer"
+msgstr "Ni več medpomnilnikov odprtih datotek"
 
 #: src/files.c:453
 #, c-format
 msgid "Switched to %s"
-msgstr "Átváltva erre: %s"
+msgstr "Preklopljeno na %s"
 
 #: src/files.c:454 src/global.c:520 src/winio.c:2168
 msgid "New Buffer"
-msgstr "Új puffer"
+msgstr "Nov medpomnilnik"
 
 #: src/files.c:840
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
-msgstr[0] "%lu sor beolvasva (DOS és Mac formátumról átalakítva)"
-msgstr[1] "%lu sor beolvasva (DOS és Mac formátumról átalakítva)"
+msgstr[0] "Prebranih je %lu vrstic (pretvorjeno iz oblike DOS in Mac)"
+msgstr[1] "Prebrana je %lu vrstica (pretvorjeno iz oblike DOS in Mac)"
+msgstr[2] "Prebrani sta %lu vrstici (pretvorjeno iz oblike DOS in Mac)"
+msgstr[3] "Prebrane so %lu vrstice (pretvorjeno iz oblike DOS in Mac)"
 
 #: src/files.c:845
 #, c-format
@@ -158,18 +165,26 @@ msgid_plural ""
 "Read %lu lines (Converted from DOS and Mac format - Warning: No write "
 "permission)"
 msgstr[0] ""
-"%lu sor beolvasva (DOS és Mac formátumról átalakítva - Figyelmeztetés: nincs "
-"írásjog)"
+"Prebranih je %lu vrstic (pretvorjeno iz oblike DOS in Mac - Opozorilo: ni "
+"dovoljenj za pisanje)"
 msgstr[1] ""
-"%lu sor beolvasva (DOS és Mac formátumról átalakítva - Figyelmeztetés: nincs "
-"írásjog)"
+"Prebrana je %lu vrstica (pretvorjeno iz oblike DOS in Mac - Opozorilo: ni "
+"dovoljenj za pisanje)"
+msgstr[2] ""
+"Prebrani sta %lu vrstici (pretvorjeno iz oblike DOS in Mac - Opozorilo: ni "
+"dovoljenj za pisanje)"
+msgstr[3] ""
+"Prebrane so %lu vrstice (pretvorjeno iz oblike DOS in Mac - Opozorilo: ni "
+"dovoljenj za pisanje)"
 
 #: src/files.c:851
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
-msgstr[0] "%lu sor beolvasva (Mac formátumról átalakítva)"
-msgstr[1] "%lu sor beolvasva (Mac formátumról átalakítva)"
+msgstr[0] "Prebranih je %lu vrstic (pretvorjeno iz oblike Mac)"
+msgstr[1] "Prebrana je %lu vrstica (pretvorjeno iz oblike Mac)"
+msgstr[2] "Prebrani sta %lu vrstici (pretvorjeno iz oblike Mac)"
+msgstr[3] "Prebrane so %lu vrstice (pretvorjeno iz oblike Mac)"
 
 #: src/files.c:855
 #, c-format
@@ -178,18 +193,26 @@ msgid ""
 msgid_plural ""
 "Read %lu lines (Converted from Mac format - Warning: No write permission)"
 msgstr[0] ""
-"%lu sor beolvasva (Mac formátumról átalakítva - Figyelmeztetés: nincs "
-"írásjog)"
+"Prebranih je %lu vrstic (pretvorjeno iz oblike Mac - Opozorilo: ni dovoljenj "
+"za pisanje)"
 msgstr[1] ""
-"%lu sor beolvasva (Mac formátumról átalakítva - Figyelmeztetés: nincs "
-"írásjog)"
+"Prebrana je %lu vrstica (pretvorjeno iz oblike Mac - Opozorilo: ni dovoljenj "
+"za pisanje)"
+msgstr[2] ""
+"Prebrani sta %lu vrstici (pretvorjeno iz oblike Mac - Opozorilo: ni "
+"dovoljenj za pisanje)"
+msgstr[3] ""
+"Prebrane so %lu vrstice (pretvorjeno iz oblike Mac - Opozorilo: ni dovoljenj "
+"za pisanje)"
 
 #: src/files.c:861
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
-msgstr[0] "%lu sor beolvasva (DOS formátumról átalakítva)"
-msgstr[1] "%lu sor beolvasva (DOS formátumról átalakítva)"
+msgstr[0] "Prebranih je %lu vrstic (Pretvorjeno iz oblike DOS)"
+msgstr[1] "Prebrana je %lu vrstica (Pretvorjeno iz oblike DOS)"
+msgstr[2] "Prebrani sta %lu vrstici (Pretvorjeno iz oblike DOS)"
+msgstr[3] "Prebrane so %lu vrstice (Pretvorjeno iz oblike DOS)"
 
 #: src/files.c:865
 #, c-format
@@ -198,97 +221,108 @@ msgid ""
 msgid_plural ""
 "Read %lu lines (Converted from DOS format - Warning: No write permission)"
 msgstr[0] ""
-"%lu sor beolvasva (DOS formátumról átalakítva - Figyelmeztetés: nincs "
-"írásjog)"
+"Prebranih je %lu vrstic (Pretvorjeno iz oblike DOS - Opozorilo: ni dovoljenj "
+"za pisanje)"
 msgstr[1] ""
-"%lu sor beolvasva (DOS formátumról átalakítva - Figyelmeztetés: nincs "
-"írásjog)"
+"Prebrana je %lu vrstica (Pretvorjeno iz oblike DOS - Opozorilo: ni dovoljenj "
+"za pisanje)"
+msgstr[2] ""
+"Prebrani sta %lu vrstici (Pretvorjeno iz oblike DOS - Opozorilo: ni "
+"dovoljenj za pisanje)"
+msgstr[3] ""
+"Prebrane so %lu vrstice (Pretvorjeno iz oblike DOS - Opozorilo: ni dovoljenj "
+"za pisanje)"
 
 #: src/files.c:871
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
-msgstr[0] "%lu sor beolvasva"
-msgstr[1] "%lu sor beolvasva"
+msgstr[0] "Prebranih je %lu vrstic"
+msgstr[1] "Prebrana je %lu vrstica"
+msgstr[2] "Prebrani sta %lu vrstici"
+msgstr[3] "Prebrane so %lu vrstice"
 
 #: src/files.c:874
 #, c-format
 msgid "Read %lu line ( Warning: No write permission)"
 msgid_plural "Read %lu lines (Warning: No write permission)"
-msgstr[0] "%lu sor beolvasva (Figyelmeztetés: nincs írásjog)"
-msgstr[1] "%lu sor beolvasva (Figyelmeztetés: nincs írásjog)"
+msgstr[0] "Prebranih je %lu vrstic (opozorilo: ni dovoljenj za pisanje)"
+msgstr[1] "Prebrana je %lu vrstica (opozorilo: ni dovoljenj za pisanje)"
+msgstr[2] "Prebrani sta %lu vrstici (opozorilo: ni dovoljenj za pisanje)"
+msgstr[3] "Prebrane so %lu vrstice (opozorilo: ni dovoljenj za pisanje)"
 
 #: src/files.c:914 src/files.c:950
 msgid "Reading File"
-msgstr "Fájl beolvasása"
+msgstr "Branje datoteke"
 
 #: src/files.c:920
 msgid "New File"
-msgstr "Új fájl"
+msgstr "Nova datoteka"
 
 #: src/files.c:923
 #, c-format
 msgid "\"%s\" not found"
-msgstr "„%s” nem található"
+msgstr "\"%s\" ni mogoče najti"
 
 #: src/files.c:931 src/rcfile.c:645 src/rcfile.c:1243 src/rcfile.c:1284
 #, c-format
 msgid "\"%s\" is a directory"
-msgstr "„%s” egy könyvtár"
+msgstr "\"%s\" je mapa"
 
 #: src/files.c:932 src/rcfile.c:646 src/rcfile.c:1244 src/rcfile.c:1285
 #, c-format
 msgid "\"%s\" is a device file"
-msgstr "A(z) „%s” egy eszközfájl"
+msgstr "\"%s\" je datoteka naprave"
 
 #: src/files.c:1031
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
-msgstr "Az új pufferben futtatandó parancs [ebből: %s] "
+msgstr "Ukaz za izvedbo v novem medpomnilniku [iz %s] "
 
 #: src/files.c:1033
 #, c-format
 msgid "Command to execute [from %s] "
-msgstr "Futtatandó parancs [ebből: %s] "
+msgstr "Ukaz za izvedbo [iz %s] "
 
 #: src/files.c:1039
 #, c-format
 msgid "File to insert into new buffer [from %s] "
-msgstr "Az új pufferbe szúrandó fájl [ebből: %s] "
+msgstr "Datoteka za vstavitev v nov medpomnilnik [iz %s] "
 
 #: src/files.c:1041
 #, c-format
 msgid "File to insert [from %s] "
-msgstr "Beszúrandó fájl [ebből: %s] "
+msgstr "Datoteka za vstavitev [iz %s] "
 
 #: src/files.c:1291
 msgid "Key invalid in non-multibuffer mode"
-msgstr "A billentyű illegális nem többpufferes módban"
+msgstr "Neveljavna tipka v ne-več-medpomnilniškem načinu"
 
 #: src/files.c:1594
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
 msgstr ""
+"Varnostne datoteke ni mogoče zapisati. Ali želite datoteko vseeno shraniti? "
+"Če niste popolnoma prepričani, pritisnite N."
 
 #: src/files.c:1716
 #, c-format
 msgid "Can't write outside of %s"
-msgstr "Nem lehet a következőn kívülre írni: %s"
+msgstr "Ni mogoče pisati zunaj %s"
 
 #: src/files.c:1731
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
-"Nem lehet szimbolikus link elé vagy mögé szúrni, ha a --nofollow be van "
-"állítva"
+"Ni mogoče pripeti na začetek ali pripeti k simbolni povezavi z --nofollow"
 
 #: src/files.c:1812 src/files.c:1836 src/files.c:1854 src/files.c:1867
 #: src/files.c:1878 src/files.c:1907
 #, c-format
 msgid "Error writing backup file %s: %s"
-msgstr "Hiba a biztonságimentés-fájl (%s) írásakor: %s"
+msgstr "Napaka med pisanjem datoteke varnostne kopije %s: %s"
 
 #: src/files.c:1813 src/nano.c:706
 msgid "Too many backup files?"
-msgstr "Túl sok biztonsági mentés van?"
+msgstr "Ali je preveč varnostnih kopij datotek?"
 
 #: src/files.c:1927 src/files.c:1984 src/files.c:2003 src/files.c:2015
 #: src/files.c:2039 src/files.c:2057 src/files.c:2067 src/files.c:2103
@@ -296,80 +330,83 @@ msgstr "Túl sok biztonsági mentés van?"
 #: src/files.c:3114
 #, c-format
 msgid "Error writing %s: %s"
-msgstr "Hiba „%s” írása közben: %s"
+msgstr "Napaka med pisanjem %s:%s"
 
 #: src/files.c:1961 src/text.c:2939 src/text.c:2951
 #, c-format
 msgid "Error writing temp file: %s"
-msgstr "Hiba az ideiglenes fájl írásakor: %s"
+msgstr "Napaka med pisanjem v začasno datoteko: %s"
 
 #: src/files.c:2140
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
-msgstr[0] "%lu sor kiírva"
-msgstr[1] "%lu sor kiírva"
+msgstr[0] "Zapisanih je %lu vrstic"
+msgstr[1] "Zapisana je %lu vrstica"
+msgstr[2] "Zapisani sta %lu vrstici"
+msgstr[3] "Zapisane so %lu vrstice"
 
 #: src/files.c:2245
 msgid " [DOS Format]"
-msgstr " [DOS formátum]"
+msgstr " [Oblika DOS]"
 
 #: src/files.c:2246
 msgid " [Mac Format]"
-msgstr " [Mac formátum]"
+msgstr " [Oblika Mac]"
 
 #: src/files.c:2248
 msgid " [Backup]"
-msgstr " [Biztonsági mentés]"
+msgstr " [Varnostna kopija]"
 
 #: src/files.c:2256
 msgid "Prepend Selection to File"
-msgstr "A kiválasztott rész beszúrása a szöveg elé"
+msgstr "Pripni izbiro pred datoteko"
 
 #: src/files.c:2257
 msgid "Append Selection to File"
-msgstr "A kiválasztott rész hozzáfűzése a fájlhoz"
+msgstr "Pripni izbiro datoteki"
 
 #: src/files.c:2258
 msgid "Write Selection to File"
-msgstr "A kiválasztott rész mentése fájlba"
+msgstr "Zapiši izbiro v datoteko"
 
 #: src/files.c:2261
 msgid "File Name to Prepend to"
-msgstr "Beszúrás ezen fájl elé"
+msgstr "Ime datoteke, ki naj bo pripeta na začetek"
 
 #: src/files.c:2262
 msgid "File Name to Append to"
-msgstr "Hozzáfűzés ehhez a fájlhoz"
+msgstr "Ime datoteke, ki naj bo pripeta"
 
 #: src/files.c:2263
 msgid "File Name to Write"
-msgstr "Mentés ebbe a fájlba"
+msgstr "Ime datoteke za zapis"
 
 #: src/files.c:2394
 msgid "File exists, OVERWRITE ? "
-msgstr "A fájl már létezik, FELÜLÍRJA? "
+msgstr "Datoteka že obstraja. Ali naj bo prepisana? "
 
 #: src/files.c:2403
 msgid "Save file under DIFFERENT NAME ? "
-msgstr "Menti a fájlt MÁS NÉVEN? "
+msgstr "Ali želite datoteko shraniti z DRUGIM imenom? "
 
 #: src/files.c:2414
 msgid "File was modified since you opened it, continue saving ? "
-msgstr "A fájl módosult, mióta megnyitotta, folytatja a mentést?"
+msgstr ""
+"Datoteka je bila po odpiranju spremenjena. Ali jo želite vseeno shraniti? "
 
 #: src/files.c:2846
 msgid "(more)"
-msgstr "(tovább)"
+msgstr "(več)"
 
 #: src/files.c:2942
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Press Enter to continue\n"
 msgstr ""
 "\n"
-"A nano indításának folytatásához nyomja le az Enter billentyűt.\n"
+"Za nadaljevanje pritisnite Enter\n"
 
 #: src/files.c:2959
 #, c-format
@@ -377,6 +414,9 @@ msgid ""
 "Unable to create directory %s: %s\n"
 "It is required for saving/loading search history or cursor position\n"
 msgstr ""
+"Mape %s ni mogoče ustvariti: %s\n"
+"Mapa je namenjena shranjevanju in nalaganju zgodovine iskanja in položaja "
+"kazalke\n"
 
 #: src/files.c:2964
 #, c-format
@@ -384,6 +424,9 @@ msgid ""
 "Path %s is not a directory and needs to be.\n"
 "Nano will be unable to load or save search or cursor position history\n"
 msgstr ""
+"Pot %s ni mapa.\n"
+"S programom Nano ne bo mogoče shranjevati in nalagati zgodovine iskanja in "
+"položaja kazalke\n"
 
 #: src/files.c:2980
 #, c-format
@@ -391,6 +434,8 @@ msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
 "to the preferred location (%s) but encountered an error: %s"
 msgstr ""
+"Zaznana je bila opuščena datoteka zgodovine (%s). Med premikanjem\n"
+"datoteke na prednostno mesto (%s) je prišlo do napake: %s"
 
 #: src/files.c:2983
 #, c-format
@@ -399,556 +444,559 @@ msgid ""
 "to the preferred location (%s)\n"
 "(see the nano FAQ about this change)"
 msgstr ""
+"Zaznana je bila opuščena datoteka zgodovine (%s).\n"
+"Premaknjena je na prednostno mesto (%s)\n"
+"Za več podrobnosti si poglejte pogosto zastavljena vprašanja."
 
 #. TRANSLATORS: Try to keep the next five strings at most 10 characters.
 #: src/global.c:466 src/prompt.c:1288
 msgid "Cancel"
-msgstr "Mégsem"
+msgstr "Prekliči"
 
 #: src/global.c:467
 msgid "Replace"
-msgstr "Csere"
+msgstr "Zamenjaj"
 
 #: src/global.c:468
 msgid "No Replace"
-msgstr "Nincs csere"
+msgstr "Brez. zam."
 
 #: src/global.c:471
 msgid "Case Sens"
-msgstr "Kis/Nagy"
+msgstr "Loč. črk"
 
 #: src/global.c:472
 msgid "Backwards"
-msgstr "Vissza"
+msgstr "Nazaj"
 
 #: src/global.c:476
 msgid "Regexp"
-msgstr "Regkif"
+msgstr "Log. izraz"
 
 #. TRANSLATORS: Try to keep the next five strings at most 10 characters.
 #: src/global.c:502
 msgid "PrevHstory"
-msgstr "ElőzőElőzm"
+msgstr "Prej. Zgo."
 
 #: src/global.c:503
 msgid "NextHstory"
-msgstr "KövElőzm"
+msgstr "Nasl. Zgo."
 
 #: src/global.c:504
 msgid "Go To Text"
-msgstr "Ugrás szövegre"
+msgstr "Nasl. bes."
 
 #. TRANSLATORS: Try to keep the next three strings at most 12 characters.
 #: src/global.c:506
 msgid "WhereIs Next"
-msgstr "Következőre"
+msgstr "Išči nas."
 
 #: src/global.c:508
 msgid "First File"
-msgstr "Első fájl"
+msgstr "Prva dat."
 
 #: src/global.c:509
 msgid "Last File"
-msgstr "Utolsó fájl"
+msgstr "Zadnja dat."
 
 #. TRANSLATORS: Try to keep the next nine strings at most 16 characters.
 #: src/global.c:511
 msgid "To Files"
-msgstr "Tallózás"
+msgstr "Do datotek"
 
 #: src/global.c:513
 msgid "DOS Format"
-msgstr "DOS formátum"
+msgstr "oblika DOS"
 
 #: src/global.c:514
 msgid "Mac Format"
-msgstr "Mac formátum"
+msgstr "oblika Mac"
 
 #: src/global.c:515
 msgid "Append"
-msgstr "Hozzáfűz"
+msgstr "Pripni"
 
 #: src/global.c:516
 msgid "Prepend"
-msgstr "Elejére beszúrás"
+msgstr "Pripni na začet."
 
 #: src/global.c:517
 msgid "Backup File"
-msgstr "Bizt. fájlmentés"
+msgstr "Varnostna kopija"
 
 #: src/global.c:518
 msgid "Execute Command"
-msgstr "Parancs végrehajtása"
+msgstr "Izvedi ukaz"
 
 #: src/global.c:522
 msgid "Go To Dir"
-msgstr "Könyvtárba"
+msgstr "Pojdi v mapo"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:531
 msgid "Get Help"
-msgstr "Súgó"
+msgstr "Pomoč"
 
 #: src/global.c:532
 msgid "Exit"
-msgstr "Kilépés"
+msgstr "Končaj"
 
 #: src/global.c:533
 msgid "Where Is"
-msgstr "Keresés"
+msgstr "Poišči"
 
 #: src/global.c:534
 msgid "Prev Page"
-msgstr "Előző old."
+msgstr "Pred. str."
 
 #: src/global.c:535
 msgid "Next Page"
-msgstr "Köv. old."
+msgstr "Nasl. str."
 
 #: src/global.c:536
 msgid "First Line"
-msgstr "Első sor"
+msgstr "Prva vrst."
 
 #: src/global.c:537
 msgid "Last Line"
-msgstr "Utolsó sor"
+msgstr "Zad. vrst."
 
 #: src/global.c:538
 msgid "Suspend"
-msgstr "Felfüggesztés"
+msgstr "V priprav."
 
 #: src/global.c:540
 msgid "Beg of Par"
-msgstr "Bek. kezdete"
+msgstr "Zač. odst."
 
 #: src/global.c:541
 msgid "End of Par"
-msgstr "Bek. vége"
+msgstr "Kon. odst."
 
 #: src/global.c:542
 msgid "FullJstify"
-msgstr "Sorkizár"
+msgstr "Pop. por."
 
 #: src/global.c:544
 msgid "Refresh"
-msgstr "Frissít"
+msgstr "Osveži"
 
 #: src/global.c:546
 msgid "Insert File"
-msgstr "Fájl beszúrása"
+msgstr "Vstavi dat."
 
 #: src/global.c:548
 msgid "Go To Line"
-msgstr "Ugrás sorra"
+msgstr "V vrstico"
 
 #: src/global.c:551
 msgid "Justify the current paragraph"
-msgstr "Aktuális bekezdés sorkizárttá rendezése"
+msgstr "Poravnaj trenutni odstavek"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
 #: src/global.c:556
 msgid "Cancel the current function"
-msgstr "Aktuális művelet megszakítása"
+msgstr "Prekliči trenutno funkcijo"
 
 #: src/global.c:557
 msgid "Display this help text"
-msgstr "Ezen súgószöveg megjelenítése"
+msgstr "Pokaži to besedilo pomoči"
 
 #: src/global.c:560
 msgid "Close the current file buffer / Exit from nano"
-msgstr "Aktuális fájlpuffer bezárása/Kilépés a nanoból"
+msgstr "Zapri trenutni medpomnilnik datoteke / Končaj nano"
 
 #: src/global.c:562
 msgid "Exit from nano"
-msgstr "Kilépés a nanoból"
+msgstr "Končaj nano"
 
 #: src/global.c:566
 msgid "Write the current file to disk"
-msgstr "Az aktuális fájl lemezre mentése"
+msgstr "Zapiši trenutno datoteko na disk"
 
 #: src/global.c:568
 msgid "Insert another file into the current one"
-msgstr "Másik fájl beszúrása"
+msgstr "Vstavi drugo datoteko v trenutno"
 
 #: src/global.c:570
 msgid "Search for a string or a regular expression"
-msgstr "Karakterlánc vagy reguláris kifejezés keresése"
+msgstr "Poišči niz znakov ali logični izraz"
 
 #: src/global.c:571
 msgid "Go to previous screen"
-msgstr "Ugrás az előző oldalra"
+msgstr "Pojdi na predhodni zaslon"
 
 #: src/global.c:572
 msgid "Go to next screen"
-msgstr "Ugrás a következő oldalra"
+msgstr "Pojdi na naslednji zaslon"
 
 #: src/global.c:574
 msgid "Cut the current line and store it in the cutbuffer"
-msgstr "Aktuális sor kivágása és tárolása a kivágási pufferben"
+msgstr "Izreži trenutno vrstico in jo shrani v medpomnil. izreza"
 
 #: src/global.c:576
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "A kivágási pufferben lévő sor beillesztése az aktuális sorba"
+msgstr "Prilepi iz medpomnilnika izreza v trenutno vrstico"
 
 #: src/global.c:578
 msgid "Display the position of the cursor"
-msgstr "A kurzor helyének megjelenítése"
+msgstr "Prikaži položaj kazalke"
 
 #: src/global.c:580
 msgid "Invoke the spell checker, if available"
-msgstr "A helyesírás-ellenőrző indítása, ha elérhető"
+msgstr "Vključi črkovalnik, če je na voljo"
 
 #: src/global.c:582
 msgid "Replace a string or a regular expression"
-msgstr "Karakterlánc vagy reguláris kifejezés cseréje"
+msgstr "Zamenjaj niz ali logični izraz"
 
 #: src/global.c:583
 msgid "Go to line and column number"
-msgstr "Ugrás megadott pozícióra"
+msgstr "Pojdi v številko vrstice in stolpca"
 
 #: src/global.c:585
 msgid "Mark text at the cursor position"
-msgstr "A kurzornál lévő szöveg kijelölése"
+msgstr "Označi besedilo na mestu kazalke"
 
 #: src/global.c:586
 msgid "Repeat last search"
-msgstr "Az utolsó keresés megismétlése"
+msgstr "Ponovi zadnje iskanje"
 
 #: src/global.c:588
 msgid "Copy the current line and store it in the cutbuffer"
-msgstr "Aktuális sor másolása és tárolása a kivágási pufferben"
+msgstr "Kopiraj trenutno vrstico in jo shrani v medpomni. izreza"
 
 #: src/global.c:589
 msgid "Indent the current line"
-msgstr "Aktuális sor behúzása"
+msgstr "Zamakni trenutno vrstico"
 
 #: src/global.c:590
 msgid "Unindent the current line"
-msgstr "Aktuális sor behúzásának megszüntetése"
+msgstr "Odstrani zamik trenutne vrstice"
 
 #: src/global.c:591
 msgid "Undo the last operation"
-msgstr "Utolsó művelet visszavonása"
+msgstr "Razveljavi zadnje dejanje"
 
 #: src/global.c:592
 msgid "Redo the last undone operation"
-msgstr "Az utoljára visszavont művelet ismétlése"
+msgstr "Uveljavi zadnje razveljavljeno dejanje"
 
 #: src/global.c:594
 msgid "Go forward one character"
-msgstr "Egy karakterrel előre"
+msgstr "Pojdi naprej za en znak"
 
 #: src/global.c:595
 msgid "Go back one character"
-msgstr "Egy karakterrel vissza"
+msgstr "Pojdi nazaj za en znak"
 
 #: src/global.c:597
 msgid "Go forward one word"
-msgstr "Egy szóval előre"
+msgstr "Pojdi naprej za eno besedo"
 
 #: src/global.c:598
 msgid "Go back one word"
-msgstr "Egy szóval vissza"
+msgstr "Pojdi nazaj za eno besedo"
 
 #: src/global.c:600
 msgid "Go to previous line"
-msgstr "Az előző sorra"
+msgstr "Pojdi v predhodno vrstico"
 
 #: src/global.c:601
 msgid "Go to next line"
-msgstr "A következő sorra"
+msgstr "Pojdi v naslednjo vrstico"
 
 #: src/global.c:602
 msgid "Go to beginning of current line"
-msgstr "A sor elejére"
+msgstr "Pojdi na začetek trenutne vrstice"
 
 #: src/global.c:603
 msgid "Go to end of current line"
-msgstr "A sor végére"
+msgstr "Pojdi na konec trenutne vrstice"
 
 #: src/global.c:606
 msgid "Go to beginning of paragraph; then of previous paragraph"
-msgstr "A bekezdés elejére; majd az előző bekezdésére"
+msgstr "Pojdi na začetek odstavka; nato prejšnjega odstavka"
 
 #: src/global.c:608
 msgid "Go just beyond end of paragraph; then of next paragraph"
-msgstr "A bekezdés végére; majd a következő bekezdésére"
+msgstr "Pojdi preko konca odstavka; nato naslednjega odstavka"
 
 #: src/global.c:611
 msgid "Go to the first line of the file"
-msgstr "A fájl első sorára"
+msgstr "Pojdi v prvo vrstico datoteke"
 
 #: src/global.c:613
 msgid "Go to the last line of the file"
-msgstr "A fájl utolsó sorára"
+msgstr "Pojdi v zadnjo vrstico datoteke"
 
 #: src/global.c:615
 msgid "Go to the matching bracket"
-msgstr "Az illeszkedő zárójelre"
+msgstr "Pojdi do ujemajočega oklepaja"
 
 #: src/global.c:617
 msgid "Scroll up one line without scrolling the cursor"
-msgstr "Görgetés egy sorral fel a kurzor görgetése nélkül"
+msgstr "Pomakni se navzgor za eno vrstico brez drsenja kazalke"
 
 #: src/global.c:619
 msgid "Scroll down one line without scrolling the cursor"
-msgstr "Görgetés egy sorral le a kurzor görgetése nélkül"
+msgstr "Pomakni se navzdol za eno vrstico brez drsenja kazalke"
 
 #: src/global.c:623
 msgid "Switch to the previous file buffer"
-msgstr "Váltás az előző fájlpufferre"
+msgstr "Preklopi na prejšnji medpomnilnik datoteke"
 
 #: src/global.c:625
 msgid "Switch to the next file buffer"
-msgstr "Váltás a következő fájlpufferre"
+msgstr "Preklopi na naslednji medpomnilnik datoteke"
 
 #: src/global.c:628
 msgid "Insert the next keystroke verbatim"
-msgstr "A következő billentyűleütés szó szerinti beszúrása"
+msgstr "Vstavi naslednji natančni pritisk tipk"
 
 #: src/global.c:630
 msgid "Insert a tab at the cursor position"
-msgstr "Tabulátor beszúrása a kurzor helyére"
+msgstr "Vstavi tabulator na položaju kazalke"
 
 #: src/global.c:632
 msgid "Insert a newline at the cursor position"
-msgstr "Új sor beszúrása a kurzor helyére"
+msgstr "Vstavi novo vrstico na položaju kazalke"
 
 #: src/global.c:634
 msgid "Delete the character under the cursor"
-msgstr "A kurzor helyén lévő karakter törlése"
+msgstr "Izbriši znak pod kazalko"
 
 #: src/global.c:636
 msgid "Delete the character to the left of the cursor"
-msgstr "A kurzor előtt álló karakter törlése"
+msgstr "Izbriši znak levo od kazalke"
 
 #: src/global.c:639
 msgid "Cut from the cursor position to the end of the file"
-msgstr "Kivágás a kurzortól a fájl végéig"
+msgstr "Izreži s položaja kazalke na konec datoteke"
 
 #: src/global.c:642
 msgid "Justify the entire file"
-msgstr "Az egész fájl sorkizárttá rendezése"
+msgstr "Poravnaj celotno datoteko"
 
 #: src/global.c:646
 msgid "Count the number of words, lines, and characters"
-msgstr "A szavak, sorok és karakterek megszámolása"
+msgstr "Preštej število besed, vrstic in znakov"
 
 #: src/global.c:649
 msgid "Refresh (redraw) the current screen"
-msgstr "A képernyő frissítése"
+msgstr "Osveži (ponovno nariši) trenutni zaslon"
 
 #: src/global.c:651
 msgid "Suspend the editor (if suspend is enabled)"
-msgstr "A szerkesztő felfüggesztése (ha engedélyezett)"
+msgstr "Daj urejevalnik v pripravljenost (če je omogočeno)"
 
 #: src/global.c:654
 msgid "Toggle the case sensitivity of the search"
-msgstr "A keresés kis- és nagybetűérzékenységének átváltása"
+msgstr "Preklopi ločevanje velikosti črk iskanja"
 
 #: src/global.c:656
 msgid "Reverse the direction of the search"
-msgstr "A keresés irányának megfordítása"
+msgstr "Obrni smer iskanja"
 
 #: src/global.c:660
 msgid "Toggle the use of regular expressions"
-msgstr "Reguláris kifejezések használatának átváltása"
+msgstr "Preklopi uporabo logičnih izrazov"
 
 #: src/global.c:664
 msgid "Recall the previous search/replace string"
-msgstr "Az előző kereső- vagy cserekifejezés előhozása"
+msgstr "Prikliči predhodni niz iskanja/zamenjave"
 
 #: src/global.c:666
 msgid "Recall the next search/replace string"
-msgstr "A következő kereső- vagy cserekifejezés előhozása"
+msgstr "Prikliči naslednji niz iskanja/zamenjave"
 
 #: src/global.c:669
 msgid "Go to file browser"
-msgstr "Tallózás"
+msgstr "Pojdi v brskalnik datotek"
 
 #: src/global.c:672
 msgid "Toggle the use of DOS format"
-msgstr "DOS formátum használatának átváltása"
+msgstr "Preklopi uporabo oblike DOS"
 
 #: src/global.c:673
 msgid "Toggle the use of Mac format"
-msgstr "Mac formátum használatának átváltása"
+msgstr "Preklopi uporabo oblike Mac"
 
 #: src/global.c:675
 msgid "Toggle appending"
-msgstr "Hozzáfűzés átváltása"
+msgstr "Preklopi pripenjanje"
 
 #: src/global.c:676
 msgid "Toggle prepending"
-msgstr "Elejére beszúrás átváltása"
+msgstr "Preklopi pripenjanje na začetek"
 
 #: src/global.c:679
 msgid "Toggle backing up of the original file"
-msgstr "Eredeti fájlról biztonsági másolat készítésének átváltása"
+msgstr "Preklopi ustvarjanje varnostne kopije izvirne datoteke"
 
 #: src/global.c:680
 msgid "Execute external command"
-msgstr "Külső parancs végrehajtása"
+msgstr "Izvedi zunanji ukaz"
 
 #: src/global.c:684
 msgid "Toggle the use of a new buffer"
-msgstr "Új puffer használatának átváltása"
+msgstr "Preklopi uporabo novega medpomnilnika"
 
 #: src/global.c:687
 msgid "Exit from the file browser"
-msgstr "Kilépés a fájlböngészőből"
+msgstr "Končaj brskalnik datotek"
 
 #: src/global.c:689
 msgid "Go to the first file in the list"
-msgstr "Ugrás a lista első fájljára"
+msgstr "Pojdi k prvi datoteki na seznamu"
 
 #: src/global.c:691
 msgid "Go to the last file in the list"
-msgstr "Ugrás a lista utolsó fájljára"
+msgstr "Pojdi k zadnji datoteki na seznamu"
 
 #: src/global.c:692
 msgid "Go to the next file in the list"
-msgstr "Ugrás a lista következő fájljára"
+msgstr "Pojdi k naslednji datoteki na seznamu"
 
 #: src/global.c:693
 msgid "Go to the previous file in the list"
-msgstr "Ugrás a lista előző fájljára"
+msgstr "Pojdi k predhodni datoteki na seznamu"
 
 #: src/global.c:694
 msgid "Go to directory"
-msgstr "Könyvtárváltás"
+msgstr "Pojdi v mapo"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:721
 msgid "Close"
-msgstr "Bezárás"
+msgstr "Zapri"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:730
 msgid "WriteOut"
-msgstr "Mentés"
+msgstr "Zapiši"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:735
 msgid "Justify"
-msgstr "Sorkizárás"
+msgstr "Poravnaj"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:747
 msgid "Read File"
-msgstr "Beolvasás"
+msgstr "Odpri dat."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:764
 msgid "Cut Text"
-msgstr "Kivágás"
+msgstr "Izre. bes."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:769
 msgid "UnJustify"
-msgstr "Nem sork."
+msgstr "Odporavnaj"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:774
 msgid "UnCut Text"
-msgstr "Beillesztés"
+msgstr "Odizr. be."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:779 src/global.c:806
 msgid "Cur Pos"
-msgstr "Pozíció"
+msgstr "Položaj kaz."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:788
 msgid "To Spell"
-msgstr "Helyes-e?"
+msgstr "Črkuj"
 
 #: src/global.c:822
 msgid "Mark Text"
-msgstr "Kijelöl"
+msgstr "Ozna. bes."
 
 #: src/global.c:828
 msgid "Copy Text"
-msgstr "Szöveg másolása"
+msgstr "Kopi. bes."
 
 #: src/global.c:831
 msgid "Indent Text"
-msgstr "Szövegbehúzás"
+msgstr "Zama. bes."
 
 #: src/global.c:834
 msgid "Unindent Text"
-msgstr "Szövegbehúzás megsz."
+msgstr "Odzam. be."
 
 #: src/global.c:838
 msgid "Undo"
-msgstr "Vissza"
+msgstr "Razveljavi"
 
 #: src/global.c:841
 msgid "Redo"
-msgstr "Újra"
+msgstr "Uveljavi"
 
 #: src/global.c:847 src/global.c:851
 msgid "Forward"
-msgstr "Előre"
+msgstr "Naprej"
 
 #: src/global.c:857 src/global.c:861
 msgid "Back"
-msgstr "Vissza"
+msgstr "Nazaj"
 
 #: src/global.c:868
 msgid "Next Word"
-msgstr "Köv. szó"
+msgstr "Nasl. bes."
 
 #: src/global.c:871
 msgid "Prev Word"
-msgstr "Előző szó"
+msgstr "Pred. bes."
 
 #: src/global.c:875
 msgid "Prev Line"
-msgstr "Előző sor"
+msgstr "Pred. vrs."
 
 #: src/global.c:878
 msgid "Next Line"
-msgstr "Köv. sor"
+msgstr "Nasl. vrs."
 
 #: src/global.c:881
 msgid "Home"
-msgstr "Eleje"
+msgstr "Domov"
 
 #: src/global.c:884
 msgid "End"
-msgstr "Vége"
+msgstr "Konec"
 
 #: src/global.c:896
 msgid "Find Other Bracket"
-msgstr "Másik zárójel megkeresése"
+msgstr "Najdi drug oklepaj"
 
 #: src/global.c:899
 msgid "Scroll Up"
-msgstr "Görgetés fel"
+msgstr "Pomik gor"
 
 #: src/global.c:902
 msgid "Scroll Down"
-msgstr "Görgetés le"
+msgstr "Pomik dol"
 
 #: src/global.c:907
 msgid "Previous File"
-msgstr "Előző fájl"
+msgstr "Predhodna datoteka"
 
 #: src/global.c:909
 msgid "Next File"
-msgstr "Következő fájl"
+msgstr "Naslednja datoteka"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
 #: src/global.c:913 src/text.c:3055
 msgid "Verbatim Input"
-msgstr "Szó szerinti bevitel"
+msgstr "Natančni vnos"
 
 #: src/global.c:918
 msgid "Tab"
-msgstr "Tabulátor"
+msgstr "Tabulator"
 
 #: src/global.c:921
 msgid "Enter"
@@ -956,87 +1004,87 @@ msgstr "Enter"
 
 #: src/global.c:924
 msgid "Delete"
-msgstr "Törlés"
+msgstr "Delete"
 
 #: src/global.c:927
 msgid "Backspace"
-msgstr "Visszalép"
+msgstr "Vračalka"
 
 #: src/global.c:944
 msgid "CutTillEnd"
-msgstr "KivágAVégéig"
+msgstr "IzrezDoKonca"
 
 #: src/global.c:957
 msgid "Word Count"
-msgstr "Szavak száma"
+msgstr "Štetje besed"
 
 #: src/global.c:1299
 msgid "Help mode"
-msgstr "Súgó mód"
+msgstr "Način pomoči"
 
 #: src/global.c:1301
 msgid "Constant cursor position display"
-msgstr "Kurzor pozíciójának állandó mutatása"
+msgstr "Stalni prikaz položaja kazalke"
 
 #: src/global.c:1303
 msgid "Use of one more line for editing"
-msgstr "Eggyel több sor használata a szerkesztéshez"
+msgstr "Uporaba ene vrstice več za urejanje"
 
 #: src/global.c:1305
 msgid "Smooth scrolling"
-msgstr "Egyenletes görgetés"
+msgstr "Gladko drsenje"
 
 #: src/global.c:1307
 msgid "Whitespace display"
-msgstr "Üreshely karakterek megjelenítése"
+msgstr "Prikaz presledkov"
 
 #: src/global.c:1309
 msgid "Color syntax highlighting"
-msgstr "Színes szintaxiskiemelés"
+msgstr "Barvno poudarjanje skladnje"
 
 #: src/global.c:1311
 msgid "Smart home key"
-msgstr "Intelligens home billentyű"
+msgstr "Pametna tipka za Domov"
 
 #: src/global.c:1313
 msgid "Auto indent"
-msgstr "Automatikus igazítás"
+msgstr "Samodejno zamikanje"
 
 #: src/global.c:1315
 msgid "Cut to end"
-msgstr "Kivágás a végéig"
+msgstr "Izreži do konca"
 
 #: src/global.c:1317
 msgid "Long line wrapping"
-msgstr "Hosszú sorok tördelése"
+msgstr "Prelomi dolgih vrstic"
 
 #: src/global.c:1319
 msgid "Conversion of typed tabs to spaces"
-msgstr "Bevitt tabulátorok szóközzé alakítása"
+msgstr "Pretvarjanje tabulatorjev v presledne znake"
 
 #: src/global.c:1321
 msgid "Backup files"
-msgstr "Fájlok biztonsági mentése"
+msgstr "Datoteke varnostnih kopij"
 
 #: src/global.c:1323
 msgid "Multiple file buffers"
-msgstr "Több fájlpuffer"
+msgstr "Več medpomnilnikov datotek"
 
 #: src/global.c:1325
 msgid "Mouse support"
-msgstr "Egér támogatása"
+msgstr "Podpora za miško"
 
 #: src/global.c:1327
 msgid "No conversion from DOS/Mac format"
-msgstr "Ne legyen átalakítás DOS/Mac formátumból"
+msgstr "Ni pretvorbe iz oblike DOS/Mac"
 
 #: src/global.c:1329
 msgid "Suspension"
-msgstr "Felfüggesztés"
+msgstr "Stanje pripravljenosti"
 
 #: src/global.c:1331
 msgid "Soft line wrapping"
-msgstr "Laza sortördelés"
+msgstr "Blagi prelomi vrstic"
 
 #: src/help.c:236
 msgid ""
@@ -1050,14 +1098,13 @@ msgid ""
 "prompt.  Hitting Enter without entering any text will perform the previous "
 "search.  "
 msgstr ""
-"Keresés parancs súgója\n"
+"Pomoč za ukaz iskanja\n"
 "\n"
-" Írja be a szavakat vagy karaktereket, melyekre keresni szeretne, majd "
-"nyomjon entert. Ha van találat a keresett szövegre, akkor a képernyő a "
-"legközelebbi találatot fogja mutatni.\n"
+" Vnesite besede ali znake, ki jih želite poiskati, in vnos potrdite. Ko je "
+"niz najden, se na zaslonu pokaže mesto prvega zadetka.\n"
 "\n"
-" Az előző keresési kifejezés a keresés után zárójelben meg lesz jelenítve. "
-"Új szöveg beírása nélkül Entert ütve az előző keresés lesz megismételve.  "
+" Predhodni iskalni niz bo prikazan v oklepajih. Pritisk vnosne tipke brez "
+"predhodnega vnosa besedila, izvede predhodno iskanje.  "
 
 #: src/help.c:245
 msgid ""
@@ -1067,10 +1114,10 @@ msgid ""
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"Ha a szöveg kijelölővel lett kiválasztva és ezután keres és cserél, csak a "
-"kijelölt szöveg találatai lesznek cserélve.\n"
+"Kadar je izbrano besedilo z oznako in je uporabljena možnost iskanja in "
+"zamenjave, bodo zamenjani le nizi v izbranem besedilu.\n"
 "\n"
-" Kereső módban a következő funkcióbillentyűk állnak rendelkezésre:\n"
+" V načinu Iskanja so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:251
@@ -1084,13 +1131,13 @@ msgid ""
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
-"Sorra ugrás súgója\n"
+"Pomoč za skok v vrstico\n"
 "\n"
-" Írja be annak a sornak a számát, melyre ugrani kíván, majd nyomjon entert. "
-"Ha a beírt számnál kevesebb sor van, akkor az utolsó sorra fog pozicionálni "
-"a szerkesztő.\n"
+" Vnesite številko vrstice, v katero želite skočiti, in pritisnite vnosno "
+"tipko. Kadar je število vrstic besedila manjše do vpisanega števila, bo "
+"kazalka premaknjena v zadnjo vrstico.\n"
 "\n"
-" Sorra ugrás módban a következő funkcióbillentyűk állnak rendelkezésre:\n"
+"V načinu V vrstico so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:260
@@ -1105,16 +1152,16 @@ msgid ""
 "Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
 "into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
-"Fájlbeszúrás súgója\n"
+"Pomoč za vstavljanje datoteke\n"
 "\n"
-" Írja be az aktuális fájlpufferben az aktuális kurzorpozícióba illesztendő "
-"fájl nevét.\n"
+" Vnesite ime datoteke, ki jo želite vstaviti v medpomnilnik trenutne "
+"datoteke na trenutnem položaju kazalke.\n"
 "\n"
-" Ha a nano több fájlpuffer támogatásával lett fordítva, és ezt akár a -F, "
-"vagy a --multipuffer parancssori kapcsolók, akár a Meta-F gomb, akár a "
-"nanorcben beállított kapcsoló bekapcsolta, akkor egy fájl beszúrásakor az "
-"külön pufferbe fog betöltődni (melyek között a Meta-< és > gombokkal lehet "
-"navigálni).  "
+" V primeru, da je program nano kodno preveden s podporo več medpomnilnikom "
+"in so medpomnilniki več datotek omogočeni z zastavicami ukazne vrstice -F "
+"ali --multibuffer ali datoteko nanorc, bo datoteka naložena v ločen "
+"medpomnilnik (za preklop med medpomnilniki datotek je na voljo bližnjica "
+"Meta-< in >).  "
 
 #: src/help.c:269
 msgid ""
@@ -1124,10 +1171,11 @@ msgid ""
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"Ha egy új, üres pufferre van szüksége, ne adjon meg fájlnevet vagy írja be a "
-"mezőbe egy nem létező fájl nevét és nyomja le az entert.\n"
+"Kadar potrebujete dodaten prazen medpomnilnik, ob pozivu ne vnašajte imen "
+"datotek ali pa vnesite neobstoječe ime datoteke, nato pritisnite vnosno "
+"tipko.\n"
 "\n"
-" Fájlbeszúrás módban a következő funkcióbillentyűk állnak rendelkezésre:\n"
+" V načinu vstavljanja datoteke so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:275
@@ -1145,18 +1193,16 @@ msgid ""
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
-"Fájlmentés súgója\n"
+"Pomoč za zapisovanje datotek\n"
 "\n"
-" Írja be a nevet, amelyen el kívánja menteni az aktuális fájlt, majd nyomjon "
-"entert a mentéshez.\n"
+" Vnesite ime, s katerim želite shraniti trenutno datoteko, in pritisnite "
+"vnosno tipko za potrditev. \n"
 "\n"
-" Ha szöveget jelölt ki a kijelölő mód használatával, akkor a program meg "
-"fogja kérdezni, hogy csak a kijelölt részt akarja-e menteni. Az aktuális "
-"fájl annak csak egy kijelölt részével való felülírásának esélyét "
-"csökkentendő, ebben a módban nem az aktuális fájlnév lesz az "
-"alapértelmezett.\n"
+" Če ste izbrali besedilo z oznako, bo prikazana možnost za shranjevanje le "
+"izbranega dela besedila v ločeno datoteko. Za zmanjšanje možnosti prepisa "
+"trenutne datoteke, v tem načinu trenutno ime ni določeno privzeto.\n"
 "\n"
-" Fájlmentés módban a következő funkcióbillentyűk állnak rendelkezésre:\n"
+" V načinu zapisovanja so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:289
@@ -1172,16 +1218,14 @@ msgid ""
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
-"Fájlböngésző súgója\n"
+"Pomoč za brskalnik datotek\n"
 "\n"
-" A fájlböngésző használható arra, hogy a fájl-struktúrában böngészve "
-"lehessen kiválasztani az egyes fájlokat olvasáshoz, vagy mentéshez. "
-"Mozgáshoz a kurzormozgató gombok, valamint a Page Up/Page Down gombok "
-"használhatók, a fájlt kiválasztani, vagy egy könyvtárba belépni az S vagy "
-"Enter billentyűkkel lehet. Egy szinttel feljebb a „..” könyvtárat választva "
-"lehet jutni.\n"
+" Brskalnik je uporaben pri iskanju datotek po drevesu map. Uporabiti je "
+"mogoče smerne tipke in tipki stran gor in dol ter S ali vnosno tipko za "
+"izbor datoteke oziroma vstop v izbrano mapo. Za premik na višjo raven map, "
+"izberite mapo z oznako \"..\" na vrhu seznama datotek.\n"
 "\n"
-" A fájlböngészőben a következő funkcióbillentyűk állnak rendelkezésre:\n"
+"  V načinu brskanja so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:302
@@ -1197,15 +1241,13 @@ msgid ""
 "search.\n"
 "\n"
 msgstr ""
-"Keresés parancs súgója\n"
+"Pomoč za brskanje med ukazi\n"
 "\n"
-" Írja be a szavakat vagy karaktereket, amelyekre keresni szeretne, majd "
-"nyomjon entert. Ha van találat a keresett szövegre, akkor a képernyő a "
-"keresett szöveg legközelebbi előfordulását fogja mutatni.\n"
+" Vnesite besede in znake, ki jih želite poiskati, in pritisnite vnosno "
+"tipko.  Če je niz najden, se na zaslonu pokaže mesto prvega zadetka.\n"
 "\n"
-" Az előző keresési kifejezés a keresési prompt után zárójelben lesz\n"
-"megjelenítve. Új szöveg beírása nélkül Entert ütve az előző keresés\n"
-"kerül megismétlésre.\n"
+" Predhodni iskalni niz bo prikazan v oklepajih. Pritisk vnosne tipke, brez "
+"predhodnega vnosa besedila, izvede predhodno iskanje.\n"
 "\n"
 
 #: src/help.c:311
@@ -1213,7 +1255,7 @@ msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
 msgstr ""
-" A következő funkcióbillentyűk állnak rendelkezésre keresés módban:\n"
+" V načinu iskanja v brskalniku so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:315
@@ -1228,15 +1270,15 @@ msgid ""
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
 msgstr ""
-"Könyvtárváltás súgója\n"
+"Pomoč za premikanje med mapami\n"
 "\n"
-" Írja be a megjeleníteni kívánt könyvtár nevét.\n"
+" Vnesite ime mape, po kateri želite brskati.\n"
 "\n"
-" Ha a tab-kiegészités nincs kikapcsolva, akkor a tabulátor billentyűt "
-"használva megpróbálható a könyvtárnév kiegészítése.\n"
+" Kadar je omogočena možnost dopolnjevanja niza, se s tipko Tab ime mape "
+"samodejno dopolni.\n"
 "\n"
-" A könyvtárváltás módban a következő funkcióbillentyűk állnak "
-"rendelkezésre:\n"
+" V načinu premikanja med mapami v brskalniku so na voljo naslednje "
+"funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:328
@@ -1252,16 +1294,15 @@ msgid ""
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
-"Helyesírás-ellenőrző súgója\n"
+"Pomoč za črkovanje\n"
 "\n"
-" A helyesírás-ellenőrző ellenőrzi az aktuális fájl teljes szövegének "
-"helyesírását. Amikor ismeretlen szót talál, azt kiemeli, és egy "
-"helyettesítendő szót szerkesztésre kínál fel. Ezután a program felajánlja az "
-"adott elírt szó összes előfordulásának cseréjét az aktuális fájlban, vagy ha "
-"ki van jelölve szöveg, akkor abban.\n"
+" S črkovalnikom lahko preverimo pravilnost zapisa celotnega besedila v "
+"trenutni datoteki. Kadar črkovalnik naleti na neznano besedo, jo poudari in "
+"omogoči urejanje. Po urejanju se pojavi možnost za zamenjavo vsakega "
+"primerka dane napačno črkovane besede v trenutni datoteki ali, če je "
+"besedilo izbrano, v izboru besedila.\n"
 "\n"
-" Helyesírás-ellenőrző módban a következő funkcióbillentyűk állnak "
-"rendelkezésre:\n"
+" V načinu črkovanja so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:343
@@ -1275,14 +1316,13 @@ msgid ""
 " The following function keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
-"Parancsvégrehajtás súgója\n"
+"Pomoč za izvajanje ukazov\n"
 "\n"
-" Ez a mód lehetővé teszi a parancsértelmező által futtatott parancs "
-"kimenetének beszúrását az aktuális pufferbe (vagy többpufferes mód esetén "
-"egy új pufferbe). Ha egy újabb üres pufferre van szüksége, ne adjon meg "
-"parancsot.\n"
+" Možnost omogoča vnos izpisa ukaza iz lupine v trenutni medpomnilnik (ali "
+"nov medpomnilnik v načinu medpomnilnika več datotek). Pri uporabi praznega "
+"medpomnilnika, ni treba vnesti ukazov.\n"
 "\n"
-" Parancs-végrehajtási módban a következő billentyűk állnak rendelkezésre:\n"
+" V načinu izvajanja ukazov so na voljo naslednje funkcijske tipke:\n"
 "\n"
 
 #: src/help.c:356
@@ -1296,14 +1336,14 @@ msgid ""
 "showing the file being edited.  The status line is the third line from the "
 "bottom and shows important messages.  "
 msgstr ""
-"A nano fő súgószövege\n"
+"Splošna pomoč programa nano\n"
 "\n"
-" A nano szerkesztő az UW Pico szerkesztő funkcionalitásának és könnyű "
-"kezelhetőségének emulálására lett tervezve. A szerkesztőnek négy nagy része "
-"van: A felső sor mutatja a program verzióját, az éppen szerkesztett fájl "
-"nevét, és hogy a fájl módosítva van-e. A következő a fő szerkesztő-ablak, "
-"amely az épp szerkesztett fájl mutatja. Az állapotsor alulról a harmadik "
-"sor, és fontos üzeneteket jelenít meg.  "
+" Urejevalnik nano posnema delovanje in preprostost uporabe urejevalnika "
+"besedil UW Pico. Urejevalnik ima štiri osrednje dele, na katere je treba "
+"biti pozoren. Zgornja vrstica prikazuje različico programa, trenutno ime "
+"odprte datoteke in, ali je bila datoteka spremenjena ali ne. Naslednji del "
+"je osrednje okno urejevalnika z besedilom odprte datoteke. Vrstica stanja je "
+"tretja vrstica od spodaj navzgor, v kateri so izpisana pomembna sporočila."
 
 #: src/help.c:366
 msgid ""
@@ -1315,14 +1355,13 @@ msgid ""
 "notated with the Meta (M-) symbol and can be entered using either the Esc, "
 "Alt, or Meta key depending on your keyboard setup.  "
 msgstr ""
-"Az alsó két sor a szerkesztőben leggyakrabban használt gyorsbillentyűket "
-"tartalmazza.\n"
+"Spodnji dve vrstici prikazujeta najpogosteje uporabljene bližnjice.\n"
 "\n"
-" A gyorsbillentyűk jelölése a következő: A Control billentyű sorozatait egy "
-"hiányjel (^) jelöli, és vagy a Control (Ctrl) billentyűvel, vagy az Escape "
-"(Esc) billentyű kétszeri megnyomásával vihető be. Az Escape billentyű "
-"sorozatai a Meta (M) szimbólum jelöli és az Esc, Alt vagy Meta billentyűk "
-"egyikével vihető be, a billentyűzet beállításaitól függően.  "
+" Zapis za bližnjice je poenoten. Bližnice CTRL-tipka so zapisana s "
+"korektorskim znakom (^) in se jih lahko vnese bodisi z uporabo tipke Control "
+"(Ctrl) bodisi z dvojnim pritiskom ubežne tipke (Esc). Zaporedja Esc-tipka so "
+"zabeležena s simbolom Meta (M-) in se jih lahko vnese s tipkami Esc, Alt ali "
+"Meta, odvisno od nastavitve tipkovnice."
 
 #: src/help.c:375
 msgid ""
@@ -1332,19 +1371,19 @@ msgid ""
 "keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"Ezen kívül az Esc kétszeri megnyomása és egy 000 és 255 közötti háromjegyű "
-"decimális szám beírása a megfelelő értékű karaktert fogja bevinni. A "
-"következő billentyűkombinációk élnek a fő szerkesztőablakban. Az alternatív "
-"billentyűk zárójelben vannak megjelenítve:\n"
+"Prav tako lahko z dvojnim pritiskom ubežne tipke (Esc), in nato z vnosom "
+"trimestnega decimalnega števila od 000 do 255, vnesete znak z ustrezno "
+"vrednostjo. Naslednje poteze tipk so na voljo v osrednjem oknu urejevalnika. "
+"Nadomestne tipke so prikazane v oklepajih:\n"
 "\n"
 
 #: src/help.c:407 src/help.c:483
 msgid "enable/disable"
-msgstr "be/kikapcsolása"
+msgstr "omogoči/onemogoči"
 
 #: src/nano.c:588
 msgid "Key invalid in view mode"
-msgstr "A billentyű illegális megjelenítés módban"
+msgstr "Ključ je neveljaven v načinu pogleda"
 
 #: src/nano.c:700
 #, c-format
@@ -1353,7 +1392,7 @@ msgid ""
 "Buffer written to %s\n"
 msgstr ""
 "\n"
-"A puffer a(z) %s fájlba írva\n"
+"Medpomnilnik je zapisan v %s\n"
 
 #: src/nano.c:702
 #, c-format
@@ -1362,7 +1401,7 @@ msgid ""
 "Buffer not written to %s: %s\n"
 msgstr ""
 "\n"
-"A puffer nem lett a(z) %s fájlba írva: %s\n"
+"Medpomnilnik ni zapisan v %s: %s\n"
 
 #: src/nano.c:705
 #, c-format
@@ -1371,11 +1410,11 @@ msgid ""
 "Buffer not written: %s\n"
 msgstr ""
 "\n"
-"A puffer nem került mentésre: %s\n"
+"Medpomnilnik ni zapisan: %s\n"
 
 #: src/nano.c:728
 msgid "Window size is too small for nano...\n"
-msgstr "Az ablak mérete túl kicsi a nanonak…\n"
+msgstr "Velikost okna je premajhna za nano ...\n"
 
 #: src/nano.c:821
 #, c-format
@@ -1383,231 +1422,206 @@ msgid ""
 "Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n"
 "\n"
 msgstr ""
-"Használat: nano [KAPCSOLÓK] [[+SOR,OSZLOP] FÁJL]...\n"
+"Uporaba: nano [MOŽNOSTI] [[+VRSTICA,STOLPEC] DATOTEKA] ...\n"
 "\n"
 
 #: src/nano.c:824
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
-msgstr "Kapcsoló\t\tGNU hosszú kapcsoló\t\tJelentés\n"
+msgstr "Možnost\t\tdolga možnost GNU\t\tPomen\n"
 
 #: src/nano.c:826
 #, c-format
 msgid "Option\t\tMeaning\n"
-msgstr "Kapcsoló\t\tJelentés\n"
+msgstr "Možnost\t\tPomen\n"
 
 #: src/nano.c:829
 msgid "Show this message"
-msgstr "Ezen üzenet kiírása"
+msgstr "Pokaži to sporočilo"
 
 #: src/nano.c:830
 msgid "+LINE,COLUMN"
-msgstr "+SOR,OSZLOP"
+msgstr "+VRSTICA,STOLPEC"
 
 #: src/nano.c:831
 msgid "Start at line LINE, column COLUMN"
-msgstr "A SOR. sorban és OSZLOP. oszlopban kezd"
+msgstr "Začetek v vrstici VRSTICA, stolpcu STOLPEC"
 
 #: src/nano.c:833
 msgid "Enable smart home key"
-msgstr "Okos home billentyű engedélyezése"
+msgstr "Omogoči pametno tipko za Domov"
 
 #: src/nano.c:834
 msgid "Save backups of existing files"
-msgstr ""
-"Meglévő fájlokról biztonsági másolatok\n"
-"\t\t\t\t\t  mentése"
+msgstr "Shrani varnostne kopije obstoječih datotek"
 
 #: src/nano.c:835
 msgid "-C <dir>"
-msgstr "-C <könyvtár>"
+msgstr "-C <mapa>"
 
 #: src/nano.c:835
 msgid "--backupdir=<dir>"
-msgstr "--backupdir=<könyvtár>"
+msgstr "--backupdir=<mapa>"
 
 #: src/nano.c:836
 msgid "Directory for saving unique backup files"
-msgstr ""
-"Az egyedi biztonsági mentés fájlok\n"
-"\t\t\t\t\t  mentési könyvtára"
+msgstr "Mapa za shranjevanje edinstvenih varnostnih kopij"
 
 #: src/nano.c:839
 msgid "Use bold instead of reverse video text"
-msgstr ""
-"Félkövér használata invertált szöveg\n"
-"\t\t\t\t\t  helyett"
+msgstr "Uporabi krepko namesto obratnega besedila videa"
 
 #: src/nano.c:842
 msgid "Convert typed tabs to spaces"
-msgstr ""
-"Beírt tab karakterek átalakítása\n"
-"\t\t\t\t\t  szóközökké"
+msgstr "Pretvori vpisane tabulatorske znake v presledke"
 
 #: src/nano.c:845
 msgid "Enable multiple file buffers"
-msgstr "Több fájlpuffer engedélyezése"
+msgstr "Omogoči več medpomnilnikov datotek"
 
 #: src/nano.c:850
 msgid "Use (vim-style) lock files"
-msgstr ""
+msgstr "Uporabi zaklepne datoteke"
 
 #: src/nano.c:852
 msgid "Log & read search/replace string history"
-msgstr ""
-"Keresés/csere előzményeinek naplózása\n"
-"\t\t\t\t\t  és olvasása"
+msgstr "Beleži in beri zgodovino niza iskanja in zamenjave"
 
 #: src/nano.c:855
 msgid "Don't look at nanorc files"
-msgstr "nanorc fájlok keresésének kihagyása"
+msgstr "Ne glej datotek nanorc"
 
 #: src/nano.c:858
 msgid "Fix numeric keypad key confusion problem"
-msgstr ""
-"A numerikus billentyűzet zavarainak\n"
-"\t\t\t\t\t  javítása"
+msgstr "Popravi težavo z zmedo s tipkami številčnice"
 
 #: src/nano.c:860
 msgid "Don't add newlines to the ends of files"
-msgstr "Ne adjon új sorokat a fájlok végéhez"
+msgstr "Ne dodajaj novih vrstic na konec datotek"
 
 #: src/nano.c:863
 msgid "Don't convert files from DOS/Mac format"
-msgstr ""
-"Ne alakítsa át a fájlokat DOS/Mac\n"
-"\t\t\t\t\t  formátumról"
+msgstr "Ne pretvarjaj datotek iz oblike DOS/Mac"
 
 #: src/nano.c:865
 msgid "Use one more line for editing"
-msgstr ""
-"Eggyel több sor használata a\n"
-"\t\t\t\t\t  szerkesztéshez"
+msgstr "Uporabi eno ali več vrstic za urejanje"
 
 #: src/nano.c:868
-#, fuzzy
 msgid "Log & read location of cursor position"
-msgstr "Tabulátor beszúrása a kurzor helyére"
+msgstr "Shrani in preberi mesto kazalke"
 
 #: src/nano.c:871
 msgid "-Q <str>"
-msgstr "-Q <szöveg>"
+msgstr "-Q <niz>"
 
 #: src/nano.c:871
 msgid "--quotestr=<str>"
-msgstr "--quotestr=<szöveg>"
+msgstr "--quotestr=<niz>"
 
 #: src/nano.c:872
 msgid "Quoting string"
-msgstr "Idézetszöveg"
+msgstr "Niz za navajanje"
 
 #: src/nano.c:874
 msgid "Restricted mode"
-msgstr "Korlátozott mód"
+msgstr "Omejen način"
 
 #: src/nano.c:877
 msgid "Scroll by line instead of half-screen"
-msgstr "Görgetés soronként fél képernyő helyett"
+msgstr "Pomikaj se vrstično namesto pol-zaslonsko"
 
 #: src/nano.c:879
 msgid "-T <#cols>"
-msgstr "-T <#oszlop>"
+msgstr "-T <št. stolpcev>"
 
 #: src/nano.c:879
 msgid "--tabsize=<#cols>"
-msgstr "--tabsize=<#oszlop>"
+msgstr "--tabsize=<št. stolpcev>"
 
 #: src/nano.c:880
 msgid "Set width of a tab to #cols columns"
-msgstr ""
-"A tabulátorszélesség legyen #oszlop\n"
-"\t\t\t\t\t  oszlop"
+msgstr "Nastavi širino tabulatorja na št. stolpcev stolpcev"
 
 #: src/nano.c:882
 msgid "Do quick statusbar blanking"
-msgstr "Törölje gyorsan az állapotsort"
+msgstr "Hitro prazni vrstico stanja"
 
 #: src/nano.c:885
 msgid "Print version information and exit"
-msgstr "Verziószám kiírása és kilépés"
+msgstr "Prikaži podrobnosti različice in končaj"
 
 #: src/nano.c:888
 msgid "Detect word boundaries more accurately"
-msgstr "Szóhatárok pontosabb észlelése"
+msgstr "Zaznaj meje besed natančneje"
 
 #: src/nano.c:891
 msgid "-Y <str>"
-msgstr "-Y <szöveg>"
+msgstr "-Y <niz>"
 
 #: src/nano.c:891
 msgid "--syntax=<str>"
-msgstr "--syntax=<szöveg>"
+msgstr "--syntax=<niz>"
 
 #: src/nano.c:892
 msgid "Syntax definition to use for coloring"
-msgstr ""
-"A színezéshez használandó\n"
-"\t\t\t\t\t  szintaxisleírás"
+msgstr "Uporaba določila skladnje za barvanje"
 
 #: src/nano.c:894
 msgid "Constantly show cursor position"
-msgstr "Kurzor pozíciójának állandó mutatása"
+msgstr "Nenehno kaži položaj kazalke"
 
 #: src/nano.c:896
 msgid "Fix Backspace/Delete confusion problem"
-msgstr "Visszatörlés/törlés zavarainak javítása"
+msgstr "Popravi težavo zmede tipk vračalke/izbriši"
 
 #: src/nano.c:899
 msgid "Automatically indent new lines"
-msgstr "Új sorok automatikus behúzása"
+msgstr "Samodejno zamakni nove vrstice"
 
 #: src/nano.c:900
 msgid "Cut from cursor to end of line"
-msgstr "Kivágás a kurzor helyétől a sor végéig"
+msgstr "Izreži od kazalke do konca vrstice"
 
 #: src/nano.c:903
 msgid "Don't follow symbolic links, overwrite"
-msgstr ""
-"Szimbolikus linkek követése helyett\n"
-"\t\t\t\t\t  felülírás"
+msgstr "Ne dovoli simbolnih povezav, ampak prepiši"
 
 #: src/nano.c:905
 msgid "Enable the use of the mouse"
-msgstr "Egér használatának engedélyezése"
+msgstr "Omogoči uporabo miške"
 
 #: src/nano.c:908
 msgid "-o <dir>"
-msgstr "-o <könyvtár>"
+msgstr "-o <mapa>"
 
 #: src/nano.c:908
 msgid "--operatingdir=<dir>"
-msgstr "--operatingdir=<könyvtár>"
+msgstr "--operatingdir=<mapa>"
 
 #: src/nano.c:909
 msgid "Set operating directory"
-msgstr "Munkakönyvtár beállítása"
+msgstr "Nastavi mapo delovanja"
 
 #: src/nano.c:912
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr ""
-"XON (^Q) és XOFF (^S) billentyűk\n"
-"\t\t\t\t\t  megőrzése"
+msgstr "Ohrani tipke XON (^Q) in XOFF (^S)"
 
 #: src/nano.c:914
 msgid "Silently ignore startup issues like rc file errors"
-msgstr "Indítási hibák, például rc-fájlhibák csendes mellőzése"
+msgstr "Tiho prezri težave začenjanja kot napake datoteke rc"
 
 #: src/nano.c:916
 msgid "-r <#cols>"
-msgstr "-r <#oszlop>"
+msgstr "-r <št. stolpcev>"
 
 #: src/nano.c:916
 msgid "--fill=<#cols>"
-msgstr "--fill=<#oszlop>"
+msgstr "--fill=<št. stolpcev>"
 
 #: src/nano.c:917
 msgid "Set wrapping point at column #cols"
-msgstr "Töréspont beállítása a #oszlop oszlopnál"
+msgstr "Nastavi točko preloma na stolpcu št. stoplca"
 
 #: src/nano.c:920
 msgid "-s <prog>"
@@ -1619,53 +1633,50 @@ msgstr "--speller=<prog>"
 
 #: src/nano.c:921
 msgid "Enable alternate speller"
-msgstr ""
-"Alternatív helyesírás-ellenőrző\n"
-"\t\t\t\t\t  használata"
+msgstr "Omogoči nadomestni črkovalnik"
 
 #: src/nano.c:924
 msgid "Auto save on exit, don't prompt"
-msgstr "Automatikus mentés kilépéskor"
+msgstr "Samodejno shrani ob izhodu in ne pokaži poziva"
 
 #: src/nano.c:926
 msgid "Allow generic undo [EXPERIMENTAL]"
-msgstr "Általános visszavonás engedélyezése [KÍSÉRLETI]"
+msgstr "Dovoli splošno razveljavitev [POSKUSNO]"
 
 #: src/nano.c:929
 msgid "View mode (read-only)"
-msgstr "Megjelenítés mód (csak olvasható)"
+msgstr "Način pogleda (samo za branje)"
 
 #: src/nano.c:931
 msgid "Don't wrap long lines"
-msgstr "Ne tördelje a hosszú sorokat"
+msgstr "Ne lomi dolgih vrstic"
 
 #: src/nano.c:933
 msgid "Don't show the two help lines"
-msgstr "A két súgósor elrejtése"
+msgstr "Ne pokaži dveh vrstic pomoči"
 
 #: src/nano.c:934
 msgid "Enable suspension"
-msgstr "Felfüggesztés engedélyezése"
+msgstr "Omogoči stanje pripravljenosti"
 
 #: src/nano.c:935
 msgid "Enable soft line wrapping"
-msgstr "Laza sortördelés engedélyezése"
+msgstr "Omogoči blage prelome vrstic"
 
 #: src/nano.c:939
 msgid "(ignored, for Pico compatibility)"
-msgstr ""
-"(A Pico kompatibilitás érdekében\n"
-"\t\t\t\t\t mellőzve)"
+msgstr "(prezrto, za združljivost s programom Pico)"
 
 #: src/nano.c:949
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
-msgstr " GNU nano %s verzió. (fordítva: %s, %s)\n"
+msgstr " GNU nano različica %s (kodno prevedena %s, %s)\n"
 
 #: src/nano.c:954
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
-msgstr " E-mail: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
+msgstr ""
+" Elektronska pošta: nano@nano-editor.org\tSplet: http://www.nano-editor.org/"
 
 #: src/nano.c:955
 #, c-format
@@ -1674,167 +1685,163 @@ msgid ""
 " Compiled options:"
 msgstr ""
 "\n"
-" Fordítási kapcsolók:"
+" Kodno prevedene možnosti:"
 
 #: src/nano.c:1033
 msgid "Sorry, support for this function has been disabled"
-msgstr "Elnézést, a funkció támogatása ki van kapcsolva"
+msgstr "Žal je podpora za to funkcijo onemogočena"
 
 #: src/nano.c:1055
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
-"Menti a változtatásokat („NEM” VÁLASZ ESETÉN MINDEN MÓDOSÍTÁS ELVÉSZ)? "
+"Ali naj se spremembe datoteke shranijo (z odgovorom \"Ne\" bodo SPREMEMBE "
+"IZGUBLJENE)? "
 
 #: src/nano.c:1109
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
-msgstr "Az stdin nem nyitható újra a billentyűzetről.\n"
+msgstr "Na žalost ni bilo mogoče ponovno odpreti stdin s tipkovnice\n"
 
 #: src/nano.c:1135
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
-msgstr "Olvasás stdinről, ^C megszakítja\n"
+msgstr "Branje iz stdin, ^C za prekinitev\n"
 
 #: src/nano.c:1203
 msgid "Received SIGHUP or SIGTERM\n"
-msgstr "SIGHUP vagy SIGTERM érkezett\n"
+msgstr "Prejet je bil SIGHUP ali SIGTERM\n"
 
 #: src/nano.c:1225
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
-msgstr "Az „fg” kiadásával visszatérhet a nanohoz.\n"
+msgstr "Za vrnitev v nano uporabite \"fg\".\n"
 
 #: src/nano.c:1407
 msgid "enabled"
-msgstr "engedélyezve"
+msgstr "omogočeno"
 
 #: src/nano.c:1408
 msgid "disabled"
-msgstr "kikapcsolva"
+msgstr "onemogočeno"
 
 #: src/nano.c:1575 src/winio.c:1256
 msgid "Unknown Command"
-msgstr "Ismeretlen parancs"
+msgstr "Neznan ukaz"
 
 #: src/nano.c:1701
 msgid "XON ignored, mumble mumble"
-msgstr "XON kihagyva, ej-ej"
+msgstr "XON je prezrt, mumble mumble"
 
 #: src/nano.c:1706
 msgid "XOFF ignored, mumble mumble"
-msgstr "XOFF kihagyva, ej-ej"
+msgstr "XOFF je prezrt, mumble mumble"
 
 #: src/nano.c:2246 src/rcfile.c:1189
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
-msgstr "A kért „%s” tabméret érvénytelen"
+msgstr "Zahtevana velikost tabulatorja \"%s\" je neveljavna"
 
 #: src/nano.c:2305 src/rcfile.c:1114
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
-msgstr "A kért „%s” kitöltésméret érvénytelen"
+msgstr "Zahtevana velikost zapolnitve \"%s\" je neveljavna"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
 #. * For example, in French: "OoYy" for "Oui".
 #: src/prompt.c:1259
 msgid "Yy"
-msgstr "IiYy"
+msgstr "DdYy"
 
 #: src/prompt.c:1260
 msgid "Nn"
-msgstr "Nn"
+msgstr "NnNn"
 
 #: src/prompt.c:1261
 msgid "Aa"
-msgstr "MmAa"
+msgstr "VvAa"
 
 #: src/prompt.c:1275
 msgid "Yes"
-msgstr "Igen"
+msgstr "Da"
 
 #: src/prompt.c:1280
 msgid "All"
-msgstr "Mindet"
+msgstr "Vse"
 
 #: src/prompt.c:1285
 msgid "No"
-msgstr "Nem"
+msgstr "Ne"
 
 #: src/rcfile.c:134
 #, c-format
 msgid "Error in %s on line %lu: "
-msgstr "Hiba a(z) %s %lu. sorában: "
+msgstr "Napaka v %s v vrstici %lu: "
 
 #: src/rcfile.c:189
 #, c-format
 msgid "Argument '%s' has an unterminated \""
-msgstr "A(z) „%s” argumentum lezáratlan \" jellel rendelkezik"
+msgstr "Argument '%s' ima neuničen \""
 
 #: src/rcfile.c:216 src/rcfile.c:268 src/rcfile.c:404 src/rcfile.c:797
 #: src/rcfile.c:854 src/rcfile.c:907
 msgid "Regex strings must begin and end with a \" character"
-msgstr "A reguláris kifejezéseknek \" karakterekkel kezdődniük és végződniük"
+msgstr "Nizi logičnega izraza se morajo začeti in končati z znakom \""
 
 #: src/rcfile.c:242 src/search.c:62
 #, c-format
 msgid "Bad regex \"%s\": %s"
-msgstr "Hibás regex: „%s”: %s"
+msgstr "Slab logični izraz \"%s\": %s"
 
 #: src/rcfile.c:262
 msgid "Missing syntax name"
-msgstr "Hiányzó szintaxisnév"
+msgstr "Manjka ime skladnje"
 
 #: src/rcfile.c:332
 msgid "The \"none\" syntax is reserved"
-msgstr "A „nincs” szintaxis fenn van tartva"
+msgstr "Skladnja \"none\" je pridržana"
 
 #: src/rcfile.c:339
 msgid "The \"default\" syntax must take no extensions"
-msgstr "Az „alapértelmezett” szintaxis nem vehet fel kiterjesztéseket"
+msgstr "Skladnja \"default\" ne sme prejeti nobene pripone"
 
 #: src/rcfile.c:393
-#, fuzzy
 msgid "Cannot add a magic string regex without a syntax command"
-msgstr "Nem adható meg fejléc regex szintaxisparancs nélkül"
+msgstr "Ni mogoče dodati logičnega izraza čarobnega niza brez ukaza skladnje"
 
 #: src/rcfile.c:398
-#, fuzzy
 msgid "Missing magic string name"
-msgstr "Hiányzó regex karaktersorozat"
+msgstr "Manjka ime čarobnega niza"
 
 #: src/rcfile.c:472 src/rcfile.c:569
 msgid "Missing key name"
-msgstr "Hiányzó kulcsnév"
+msgstr "Manjka ime tipke"
 
 #: src/rcfile.c:484 src/rcfile.c:585
 msgid "keybindings must begin with \"^\", \"M\", or \"F\""
-msgstr ""
-"a billentyűtársításoknak a „^”, „M”, vagy „F” egyikével kell kezdődniük"
+msgstr "Tipkovne bližnjice se morajo začeti s \"^\", \"M\", ali \"F\""
 
 #: src/rcfile.c:493
 msgid "Must specify function to bind key to"
-msgstr "Meg kell adnia a funkciót, amelyhez billentyűt kíván kötni"
+msgstr "Treba je navesti funkcijo, ki se veže na tipko"
 
 #: src/rcfile.c:504 src/rcfile.c:596
 msgid "Must specify menu to bind key to (or \"all\")"
-msgstr ""
-"Meg kell adnia a menüt, amelyhez billentyűt kíván kötni (vagy az „all” "
-"értéket)"
+msgstr "Treba je navesti meni, ki se veže na tipko (ali \"all\")"
 
 #: src/rcfile.c:512
 #, c-format
 msgid "Could not map name \"%s\" to a function"
-msgstr "A név („%s”) nem képezhető le funkcióra"
+msgstr "Ni mogoče preslikati imena \"%s\" k funkciji"
 
 #: src/rcfile.c:518 src/rcfile.c:603
 #, c-format
 msgid "Could not map name \"%s\" to a menu"
-msgstr "A név („%s”) nem képezhető le menüre"
+msgstr "Ni mogoče preslikati imena \"%s\" k meniju"
 
 #: src/rcfile.c:540
 #, c-format
 msgid "Sorry, keystr \"%s\" is an illegal binding"
-msgstr "A billentyű-karakterlánc („%s”) nem érvényes kötés"
+msgstr "Na žalost je pritisk tipk \"%s\" neveljavna vezava"
 
 #: src/rcfile.c:711
 #, c-format
@@ -1845,98 +1852,99 @@ msgid ""
 "\"black\", with the optional prefix \"bright\"\n"
 "for foreground colors."
 msgstr ""
-"A(z) „%s” szín nem értelmezhető.\n"
-"A megengedett színek: „green”, „red”, „blue”,\n"
-"„white”, „yellow”, „cyan”, „magenta” és \n"
-"„black”, opcionális „bright” előtaggal az előtérszínekhez."
+"Barva \"%s\" ni razumljiva.\n"
+"Veljavne barve so \"green\", \"red\", \"blue\",\n"
+"\"white\", \"yellow\", \"cyan\", \"magenta\" in\n"
+"\"black\", z neobvezno predpono \"bright\"\n"
+"za osprednje barve."
 
 #: src/rcfile.c:733
 msgid "Cannot add a color command without a syntax command"
-msgstr "Nem adható meg színparancs szintaxissor nélkül"
+msgstr "Ni mogoče dodati ukaza barve brez ukaza skladnje"
 
 #: src/rcfile.c:738
 msgid "Missing color name"
-msgstr "Hiányzik a szín neve"
+msgstr "Manjka ime barve"
 
 #: src/rcfile.c:758
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
-msgstr "A(z) „%s” háttérszín nem lehet világos"
+msgstr "Barva ozadja \"%s\" ne more biti svetla"
 
 #: src/rcfile.c:776 src/rcfile.c:895
 msgid "Missing regex string"
-msgstr "Hiányzó regex karaktersorozat"
+msgstr "Manjka niz logičnega izraza"
 
 #: src/rcfile.c:848
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr "„start=” -hoz kell egy megfelelő „end=”"
+msgstr "\"start=\" potrebuje ustrezen \"end=\""
 
 #: src/rcfile.c:890
 msgid "Cannot add a header regex without a syntax command"
-msgstr "Nem adható meg fejléc regex szintaxisparancs nélkül"
+msgstr "Ni mogoče dodati logičnega izraza glave brez ukaza skladnje"
 
 #: src/rcfile.c:960
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\""
-msgstr "Végzetes hiba: nincsenek billentyűk leképezve a függvényhez („%s”)"
+msgstr "Usodna napaka: nobenih tipk ni preslikanih za funkcijo \"%s\""
 
 #: src/rcfile.c:962
 msgid ""
 "Exiting.  Please use nano with the -I option if needed to adjust your nanorc "
 "settings\n"
 msgstr ""
-"Kilépés. Használja a nanot a -I kapcsolóval, ha módosítani kívánja a nanorc "
-"beállításait\n"
+"Poteka končanje programa. Za prilagajanje nastavitev nanorc, uporabite ukaz "
+"nano z možnostjo -I.\n"
 
 #: src/rcfile.c:1012 src/rcfile.c:1021 src/rcfile.c:1031
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
-msgstr "A(z) „%s” parancs nem engedélyezett a tartalmazott fájlban"
+msgstr "Ukaz \"%s\" ni dovoljen v vključeni datoteki"
 
 #: src/rcfile.c:1037 src/rcfile.c:1217
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
-msgstr "A(z) „%s” szintaxis nem rendelkezik színparancsokkal"
+msgstr "Skladnja \"%s\" nima ukazov barv"
 
 #: src/rcfile.c:1055
 #, c-format
 msgid "Command \"%s\" not understood"
-msgstr "A(z) „%s” parancs nem értelmezhető"
+msgstr "Ukaz \"%s\" ni razumljiv"
 
 #: src/rcfile.c:1061
 msgid "Missing flag"
-msgstr "Hiányzik a jelző"
+msgstr "Manjka zastavica"
 
 #: src/rcfile.c:1083
 #, c-format
 msgid "Option \"%s\" requires an argument"
-msgstr "A(z) „%s” kapcsoló egy paramétert igényel"
+msgstr "Možnost \"%s\" zahteva argument"
 
 #: src/rcfile.c:1101
 msgid "Option is not a valid multibyte string"
-msgstr "A kapcsoló nem érvényes több bájtos karaktersorozat"
+msgstr "Možnost ni veljaven večbajtni niz"
 
 #: src/rcfile.c:1127 src/rcfile.c:1155 src/rcfile.c:1164
 msgid "Non-blank characters required"
-msgstr "Nem üres karakterek szükségesek"
+msgstr "Zahtevani so ne-prazni znaki"
 
 #: src/rcfile.c:1137
 msgid "Two single-column characters required"
-msgstr "Két egyoszlopos karakter szükséges"
+msgstr "Potrebna sta dva enostolpčna znaka"
 
 #: src/rcfile.c:1203
 #, c-format
 msgid "Cannot unset flag \"%s\""
-msgstr "A(z) „%s” jelző nem állítható vissza"
+msgstr "Ni mogoče ponastaviti zastavice \"%s\""
 
 #: src/rcfile.c:1212
 #, c-format
 msgid "Unknown flag \"%s\""
-msgstr "Ismeretlen jelző: „%s”"
+msgstr "Neznana zastavica \"%s\""
 
 #: src/rcfile.c:1271
 msgid "I can't find my home directory!  Wah!"
-msgstr "Nincs meg a saját könyvtár! Hopp!"
+msgstr "Ni mogoče najti domače mape!"
 
 #: src/rcfile.c:1309
 #, c-format
@@ -1945,273 +1953,278 @@ msgid ""
 "Press Enter to continue starting nano.\n"
 msgstr ""
 "\n"
-"A nano indításának folytatásához nyomja le az Enter billentyűt.\n"
+"Za nadaljevanje uporabe programa nano pritisnite vnosno tipko.\n"
 
 #: src/search.c:96
 #, c-format
 msgid "\"%.*s%s\" not found"
-msgstr "A(z) „%.*s%s” nem található"
+msgstr "\"%.*s%s\" ni mogoče najti"
 
 #: src/search.c:204
 msgid " (to replace) in selection"
-msgstr " (cseréhez) a kijelölésben"
+msgstr " (za zamenjavo) v izbor"
 
 #: src/search.c:206
 msgid " (to replace)"
-msgstr " (cseréhez)"
+msgstr " (za zamenjavo)"
 
 #: src/search.c:784
 msgid "Replace this instance?"
-msgstr "Lecseréli ezt a találatot?"
+msgstr "Ali naj se primerek zamenja?"
 
 #: src/search.c:962
 msgid "Replace with"
-msgstr "Csere ezzel"
+msgstr "Zamenjaj z"
 
 #: src/search.c:1004
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
-msgstr[0] "%lu előfordulás cserélve"
-msgstr[1] "%lu előfordulás cserélve"
+msgstr[0] "Zamenjanih je %lu pojavitev"
+msgstr[1] "Zamenjana je %lu pojavitev"
+msgstr[2] "Zamenjani sta %lu pojavitvi"
+msgstr[3] "Zamenjane so %lu pojavitve"
 
 #: src/search.c:1034
 msgid "Enter line number, column number"
-msgstr "Kérem a sor, oszlop számát"
+msgstr "Vnesite številko vrstice, številko stolpca"
 
 #: src/search.c:1061
 msgid "Invalid line or column number"
-msgstr "Érvénytelen sor- vagy oszlopszám"
+msgstr "Neveljavna številka vrstice ali stolpca"
 
 #: src/search.c:1214
 msgid "Not a bracket"
-msgstr "Nem zárójel"
+msgstr "Ni oklepaj"
 
 #: src/search.c:1281
 msgid "No matching bracket"
-msgstr "Nincs illeszkedő zárójel"
+msgstr "Ni ujemajočega oklepaja"
 
 #: src/text.c:54
 msgid "Mark Set"
-msgstr "Kijelölés kezdete"
+msgstr "Označba je nastavljena"
 
 #: src/text.c:58
 msgid "Mark Unset"
-msgstr "Kijelölés vége"
+msgstr "Označba je ponastavljena"
 
 #: src/text.c:443
 msgid "Nothing in undo buffer!"
-msgstr "A visszavonási puffer üres!"
+msgstr "Ničesar ni v medpomnilniku razveljavitve!"
 
 #: src/text.c:455 src/text.c:593
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work"
-msgstr "Belső hiba: a(z) %d. sor nem illeszthető. Mentse a munkáját."
+msgstr "Notranja napaka: ni mogoče primerjati vrstice %d. Shranite svoje delo."
 
 #: src/text.c:466 src/text.c:603
 msgid "text add"
-msgstr "szöveg hozzáadása"
+msgstr "dodaj besedilo"
 
 #: src/text.c:475 src/text.c:613
 msgid "text delete"
-msgstr "szöveg törlése"
+msgstr "izbriši besedilo"
 
 #: src/text.c:489 src/text.c:628
 msgid "line wrap"
-msgstr "sorok körbefuttatása"
+msgstr "prelomi vrstico"
 
 #: src/text.c:503 src/text.c:636
 msgid "line join"
-msgstr "sorok egyesítése"
+msgstr "združi vrstici"
 
 #: src/text.c:514 src/text.c:651
 msgid "text cut"
-msgstr "szöveg kivágása"
+msgstr "izreži besedilo"
 
 #: src/text.c:518 src/text.c:655
 msgid "text uncut"
-msgstr "kivágás visszavonása"
+msgstr "odizreži besedilo"
 
 #: src/text.c:522 src/text.c:622
 msgid "line break"
-msgstr "sortörés"
+msgstr "prekini vrstico"
 
 #: src/text.c:532 src/text.c:665
 msgid "text insert"
-msgstr "szöveg beszúrása"
+msgstr "vnesi besedilo"
 
 #: src/text.c:550 src/text.c:659
 msgid "text replace"
-msgstr "szöveg cseréje"
+msgstr "zamenjaj besedilo"
 
 #: src/text.c:557 src/text.c:671
 msgid "Internal error: unknown type.  Please save your work"
-msgstr "Belső hiba: ismeretlen típus. Mentse a munkáját."
+msgstr "Notranja napaka: neznana vrsta. Shranite svoje delo"
 
 #: src/text.c:563
 #, c-format
 msgid "Undid action (%s)"
-msgstr "Művelet visszavonva (%s)"
+msgstr "Ponastavljeno dejanje (%s)"
 
 #: src/text.c:578
 msgid "Nothing to re-do!"
-msgstr "Nincs mit ismételni."
+msgstr "Ničesar ni mogoče uveljaviti!"
 
 #: src/text.c:582
 msgid "Internal error: Redo setup failed.  Please save your work"
-msgstr "Belső hiba: a visszavonás beállítása sikertelen. Mentse a munkáját."
+msgstr ""
+"Notranja napaka: nastavitev uveljavitve je spodletela. Shranite svoje delo."
 
 #: src/text.c:676
 #, c-format
 msgid "Redid action (%s)"
-msgstr "Művelet megismételve (%s)"
+msgstr "Uveljavljeno dejanje (%s)"
 
 #: src/text.c:771
 msgid "Could not pipe"
-msgstr "Nem küldhető tovább"
+msgstr "Ni mogoče povezati"
 
 #: src/text.c:798 src/text.c:2646 src/text.c:2798
 msgid "Could not fork"
-msgstr "Nem forkolható"
+msgstr "Ni mogoče razvejiti"
 
 #: src/text.c:946
 msgid "Internal error: can't setup uncut.  Please save your work."
 msgstr ""
-"Belső hiba: a kivágás visszavonása nem állítható be. Mentse a munkáját."
+"Notranja napaka: ni mogoče nastaviti preklica izreza. Shranite svoje delo."
 
 #: src/text.c:955
 msgid "Internal error: unknown type.  Please save your work."
-msgstr "Belső hiba: ismeretlen típus. Mentse a munkáját."
+msgstr "Notranja napaka: neznana vrsta. Shranite svoje delo."
 
 #: src/text.c:1875
 #, c-format
 msgid "Bad quote string %s: %s"
-msgstr "Hibás idézetszöveg: %s: %s"
+msgstr "Slab niz navedka %s: %s"
 
 #: src/text.c:2274
 msgid "Can now UnJustify!"
-msgstr "Most már lehet nem sorkizárttá tenni!"
+msgstr "Zdaj je mogoče preklicati poravnavo!"
 
 #: src/text.c:2472
 msgid "Edit a replacement"
-msgstr "A helyettesítő érték módosítása"
+msgstr "Uredi zamenjavo"
 
 #: src/text.c:2558
 msgid "Could not create pipe"
-msgstr "Nem hozható létre a cső"
+msgstr "Ni mogoče ustvariti cevi"
 
 #: src/text.c:2560
 msgid "Creating misspelled word list, please wait..."
-msgstr "Elgépelt szavak listájának létrehozása, kis türelmet..."
+msgstr "Ustvarjanje napačno črkovanega seznama besed, počakajte ..."
 
 #: src/text.c:2652
 msgid "Could not get size of pipe buffer"
-msgstr "Nem kérhető le a csőpuffer mérete"
+msgstr "Ni mogoče pridobiti velikosti medpomnilnika cevi"
 
 #: src/text.c:2703
 msgid "Error invoking \"spell\""
-msgstr "Hiba a „spell” meghívásakor"
+msgstr "Napaka pri priklicu \"spell\""
 
 #: src/text.c:2706
 msgid "Error invoking \"sort -f\""
-msgstr "Hiba a „sort -f” meghívásakor"
+msgstr "Napaka pri priklicu \"sort -f\""
 
 #: src/text.c:2709
 msgid "Error invoking \"uniq\""
-msgstr "Hiba a „uniq” meghívásakor"
+msgstr "Napaka pri priklicu \"uniq\""
 
 #: src/text.c:2766 src/text.c:2975
 msgid "Finished checking spelling"
-msgstr "A helyesírás-ellenőrzés befejeződött"
+msgstr "Končano preverjanje črkovanja"
 
 #: src/text.c:2825
 #, c-format
 msgid "Error invoking \"%s\""
-msgstr "Hiba a(z) „%s” meghívásakor"
+msgstr "Napaka pri priklicu \"%s\""
 
 #: src/text.c:2970
 #, c-format
 msgid "Spell checking failed: %s"
-msgstr "A helyesírás-ellenőrzés meghiúsult: %s"
+msgstr "Preverjanje črkovanja je spodletelo: %s"
 
 #: src/text.c:2972
 #, c-format
 msgid "Spell checking failed: %s: %s"
-msgstr "A helyesírás-ellenőrzés meghiúsult: %s: %s"
+msgstr "Preverjanje črkovanja je spodletelo: %s: %s"
 
 #: src/text.c:3040
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
-msgstr "%sSzavak: %lu  Sorok: %ld  Karakterek: %lu"
+msgstr "%sBesede: %lu  Vrstice: %ld  Znaki: %lu"
 
 #: src/text.c:3041
 msgid "In Selection:  "
-msgstr "A kiválasztásban:  "
+msgstr "V izboru:  "
 
 #: src/utils.c:409 src/utils.c:421
 msgid "nano is out of memory!"
-msgstr "nano: elfogyott a memória!"
+msgstr "Programu nano je zmanjkalo pomnilnika!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
 #: src/winio.c:1557
 msgid "Unicode Input"
-msgstr "Unicode bevitel"
+msgstr "Vnos Unikod"
 
 #: src/winio.c:2149 src/winio.c:2153
 msgid "Modified"
-msgstr "Módosítva"
+msgstr "Spremenjeno"
 
 #: src/winio.c:2150
 msgid "View"
-msgstr "Nézet"
+msgstr "Pogled"
 
 #: src/winio.c:2164
 msgid "DIR:"
-msgstr "Könyvtár:"
+msgstr "MAPA:"
 
 #: src/winio.c:2171
 msgid "File:"
-msgstr "Fájl:"
+msgstr "Datoteka:"
 
 #: src/winio.c:2265
 msgid ""
 "Warning: Modifying a file which is not locked, check directory permission?"
 msgstr ""
+"Opozorilo: Spreminjati želite datoteko, ki ni zaklenjena. Prosimo, preverite "
+"dovoljenja mape."
 
 #: src/winio.c:3370
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
-msgstr "sor %ld/%ld (%d%%), oszlop %lu/%lu (%d%%), karakter %lu/%lu (%d%%)"
+msgstr "vrstica %ld/%ld (%d%%), stolpec %lu/%lu (%d%%), znak %lu/%lu (%d%%)"
 
 #: src/winio.c:3502
 msgid "The nano text editor"
-msgstr "A nano szövegszerkesztő"
+msgstr "Urejevalnik besedil nano"
 
 #: src/winio.c:3503
 msgid "version"
-msgstr "verzió"
+msgstr "različica"
 
 #: src/winio.c:3504
 msgid "Brought to you by:"
-msgstr "Fejlesztők:"
+msgstr "Zaslužni za izid programa:"
 
 #: src/winio.c:3505
 msgid "Special thanks to:"
-msgstr "Külön köszönet:"
+msgstr "Posebna zahvala:"
 
 #: src/winio.c:3506
 msgid "The Free Software Foundation"
-msgstr "A Free Software Foundation"
+msgstr "The Free Software Foundation"
 
 #: src/winio.c:3507
 msgid "For ncurses:"
-msgstr "Az ncurses számára:"
+msgstr "Za ncurses:"
 
 #: src/winio.c:3508
 msgid "and anyone else we forgot..."
-msgstr "és mindenkinek, akit kifelejtettünk volna..."
+msgstr "in vse, ki smo jih pozabili navesti ..."
 
 #: src/winio.c:3509
 msgid "Thank you for using nano!"
-msgstr "Köszönjük, hogy a nano-t választotta!"
+msgstr "Hvala, ker uporabljate nano!"

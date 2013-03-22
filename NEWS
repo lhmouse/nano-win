@@ -1,3 +1,13 @@
+2013.03.22 - GNU nano 2.3.2 "Annoy your coworkers for fun and profit" is
+                released.  This release introduces vim-style file locking
+		(though not backup/restore), useful when using nano
+		in a multi-editor environment.  Feedback is welcome if
+		you run into any issues with this new code.  Other new
+		features include additional support for word boundary 
+		checking when cross compiling, fixes for trying to go to
+		an invalid line number, and the usual documentation
+                tweaks.  
+
 2011.05.10 - GNU nano 2.3.1 "I'm in space" is released.  This 
 		release includes some fixes for the new libmagic code, as
 		well as a fix for improper character counts when using
