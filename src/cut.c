@@ -209,7 +209,9 @@ void do_cut_text(
 #endif
 	/* Leave the text in the cutbuffer, and mark the file as
 	 * modified. */
-	set_modified();
+  if (!copy_text) {
+	  set_modified();
+  }
 
     /* Update the screen. */
     edit_refresh_needed = TRUE;
