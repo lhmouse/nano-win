@@ -1,3 +1,7 @@
+2013-04-12 Chris Allegretta <chrisa@asty.org>
+        * src/files.c (do_insertfile): Check for saved cursor position when inserting a
+          file as well.  Fixes Savannah bug 38600 reported by Craig Barnes.
+
 2013-04-07 Michael Berg <mike@berg-net.us>
 	* do_cut_text - Fix copying (not cutting) text setting Modified state.  Fixes
 	  issue reported by Benno Schulenberg.
