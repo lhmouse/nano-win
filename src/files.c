@@ -2139,7 +2139,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	if (openfile->current_stat == NULL)
 	    openfile->current_stat =
 		(struct stat *)nmalloc(sizeof(struct stat));
-	stat(realname, openfile->current_stat);
+	if (!openfile->mark_set)
+	    stat(realname, openfile->current_stat);
 #endif
 
 	statusbar(P_("Wrote %lu line", "Wrote %lu lines",
