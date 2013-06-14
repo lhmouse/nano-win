@@ -1,3 +1,6 @@
+2013-06-13 Kamil Dudka <kdudka@redhat.com>
+	* doc/man/nano.1 - Actually document the -P (--poslog) option.
+
 2013-04-12 Chris Allegretta <chrisa@asty.org>
 	* src/files.c (do_insertfile): Check for saved cursor position when inserting a
 	  file as well.  Fixes Savannah bug 38600 reported by Craig Barnes.
