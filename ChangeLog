@@ -1,3 +1,6 @@
+2013-06-13 Matthew Fischer <mfisch@Savannah>
+	* doc/syntax/c.nanorc - Add auto keyword
+
 2013-06-13  David Lawrence Ramsey <pooka109@gmail.com>
 	* src/global.c (first_sc_for) - try and more consistently display keystrokes,
 	  useful when the user has re-binded a bunch of them.

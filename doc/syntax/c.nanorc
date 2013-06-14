@@ -3,7 +3,7 @@
 syntax "c" "\.(c(c|pp|xx)?|C)$" "\.(h(h|pp|xx)?|H)$" "\.ii?$"
 magic "ASCII C(\+\+)? program text"
 color brightred "\<[A-Z_][0-9A-Z_]+\>" 
-color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
+color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|auto|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
 color green "\<((s?size)|((u_?)?int(8|16|32|64|ptr)))_t\>"
 color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|using|mutable|volatile|register|explicit)\>"
 color brightyellow "\<(for|if|while|do|else|case|default|switch)\>"
