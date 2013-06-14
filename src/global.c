@@ -308,26 +308,41 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 #endif
 }
 
-const sc *first_sc_for(int menu, void (*func)(void)) {
+const sc *first_sc_for(int menu, void (*func)(void))
+{
     const sc *s;
+    const sc *fkeysc = NULL;
     const sc *metasc = NULL;
 
     for (s = sclist; s != NULL; s = s->next) {
 	if ((s->menu & menu) && s->scfunc == func) {
-	    /* try to use a meta sequence as a last resort.  Otherwise
-	       we will run into problems when we try and handle things like
-	       the arrow keys, home, etc, if for some reason the user bound
-	       them to a meta sequence first *shrug* */
-	    if (s->type == META) {
-		metasc = s;
+	    /* Try to use function keys and meta sequences as last
+	     * resorts.  Otherwise, we will run into problems when we
+	     * try and handle things like the arrow keys, Home, etc., if
+	     * for some reason the user bound them to a function key or
+	     * meta sequence first *shrug*. */
+	    if (s->type == FKEY) {
+		if (!fkeysc)
+		    fkeysc = s;
 		continue;
-	    } /* otherwise it was something else, use it */
+	    } else if (s->type == META) {
+		if (!metasc)
+		    metasc = s;
+		continue;
+	    }
+
+	    /* Otherwise, it was something else, so use it. */
 	    return s;
 	}
     }
 
-    /* If we're here we may have found only meta sequences, if so use one */
-    if (metasc)
+    /* If we're here, we may have found only function keys or meta
+     * sequences.  If so, use one, with the same priority as in the
+     * help browser: function keys come first, unless meta sequences are
+     * available, in which case meta sequences come first. */
+    if (fkeysc && !metasc)
+	return fkeysc;
+    else if (metasc)
 	return metasc;
 
 #ifdef DEBUG

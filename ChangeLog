@@ -1,3 +1,7 @@
+2013-06-13  David Lawrence Ramsey <pooka109@gmail.com>
+	* src/global.c (first_sc_for) - try and more consistently display keystrokes,
+	  useful when the user has re-binded a bunch of them.
+
 2013-06-13 Kamil Dudka <kdudka@redhat.com>
 	* doc/man/nano.1 - Actually document the -P (--poslog) option.
 
