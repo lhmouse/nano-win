@@ -271,7 +271,7 @@ function_type strtokeytype(const char *str)
         return META;
     else if (str[0] == '^')
         return CONTROL;
-    else if (str[0] ==  'F' || str[0] == 'F')
+    else if (str[0] ==  'F' || str[0] == 'f')
         return FKEY;
     else
 	return RAWINPUT;

@@ -1,3 +1,8 @@
+2014-01-01 Chris Allegretta <chrisa@asty.org>
+	* src/global.c (strtokeytype) - Check for lower-case 'f' for defining F-key
+	  sequences for consistency (previously was two checks for upper case F). Fixes
+	  bug 40815 reported by David Binderman <dcb314@Savannah>.
+
 2013-06-13 Matthew Fischer <mfisch@Savannah>
 	* doc/syntax/c.nanorc - Add auto keyword
 
