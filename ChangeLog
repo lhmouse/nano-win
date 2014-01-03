@@ -1,4 +1,9 @@
 2014-01-01 Chris Allegretta <chrisa@asty.org>
+	* doc/texinfo/nano.texi - Change '@sp4' since makeinfo 5.1 hates the
+	  lack of spacing.  Fixes Savannah bug 40103 repored by flapane@Savannah.
+	  Also change SVN status to non-binary so diffs work.
+
+2014-01-01 Chris Allegretta <chrisa@asty.org>
 	* src/global.c (strtokeytype) - Check for lower-case 'f' for defining F-key
 	  sequences for consistency (previously was two checks for upper case F). Fixes
 	  bug 40815 reported by David Binderman <dcb314@Savannah>.
