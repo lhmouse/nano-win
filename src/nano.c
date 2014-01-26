@@ -465,7 +465,12 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     }
 #ifndef NANO_TINY
     else if (openfile->mark_set) {
-	if (!right_side_up) {
+	if (right_side_up) {
+	    if (single_line)
+		/* get the new data, stuff was inserted on mark line */
+		openfile->mark_begin = openfile->fileage;
+		/* the x is okay, it did not move */
+	} else {
 	    if (single_line) {
 		openfile->mark_begin = openfile->current;
 		openfile->mark_begin_x -= current_x_save;
