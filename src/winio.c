@@ -2260,7 +2260,9 @@ void set_modified(void)
 	titlebar(NULL);
 #ifndef NANO_TINY
 	if (ISSET(LOCKING)) {
-	    if (openfile->lock_filename == NULL) {
+	    if (!strcmp(openfile->filename, ""))
+		return;
+	    else if (openfile->lock_filename == NULL) {
                 /* Translators: Try to keep this at most 80 characters. */
                 statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
 	    } else {
