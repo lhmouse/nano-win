@@ -1,4 +1,9 @@
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (move_to_filestruct) - Update the data in 'mark_begin'
+	when mark and cursor are on the same line.  This avoids a segfault
+	after M-A, right, M-T, left, ^K, or a hang when the left is left out.
+
+2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main) - Add two conditions on ENABLE_NANORC.
 	* src/files.c (close_buffer, do_insertfile) - Likewise.
 	This avoids compilation failure when nano is configured

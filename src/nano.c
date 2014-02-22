@@ -297,6 +297,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     bool edittop_inside;
 #ifndef NANO_TINY
     bool mark_inside = FALSE;
+    bool same_line = FALSE;
 #endif
 
     assert(file_top != NULL && file_bot != NULL && top != NULL && bot != NULL);
@@ -314,7 +315,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	openfile->fileage->lineno && openfile->edittop->lineno <=
 	openfile->filebot->lineno);
 #ifndef NANO_TINY
-    if (openfile->mark_set)
+    if (openfile->mark_set) {
 	mark_inside = (openfile->mark_begin->lineno >=
 		openfile->fileage->lineno &&
 		openfile->mark_begin->lineno <=
@@ -323,6 +324,8 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 		openfile->mark_begin_x >= top_x) &&
 		(openfile->mark_begin != openfile->filebot ||
 		openfile->mark_begin_x <= bot_x));
+	same_line = (openfile->mark_begin == openfile->fileage);
+    }
 #endif
 
     /* Get the number of characters in the text, and subtract it from
@@ -382,7 +385,9 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     if (mark_inside) {
 	openfile->mark_begin = openfile->current;
 	openfile->mark_begin_x = openfile->current_x;
-    }
+    } else if (same_line)
+	/* update the content of this partially cut line */
+	openfile->mark_begin = openfile->current;
 #endif
 
     top_save = openfile->fileage;
