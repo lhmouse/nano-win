@@ -207,11 +207,15 @@ void do_cut_text(
     } else if (!undoing)
 	update_undo(CUT);
 #endif
-	/* Leave the text in the cutbuffer, and mark the file as
-	 * modified. */
-  if (!copy_text) {
-	  set_modified();
-  }
+    /* Leave the text in the cutbuffer, and mark the file as
+     * modified. */
+#ifndef NANO_TINY
+    if (!copy_text) {
+#endif
+	set_modified();
+#ifndef NANO_TINY
+    }
+#endif
 
     /* Update the screen. */
     edit_refresh_needed = TRUE;

@@ -1398,7 +1398,7 @@ void do_toggle(int flag)
 
     enabled = ISSET(flag);
 
-    if (flag ==  NO_HELP
+    if (flag == NO_HELP
 #ifndef DISABLE_WRAPPING
 	|| flag == NO_WRAP
 #endif
@@ -1408,7 +1408,7 @@ void do_toggle(int flag)
 	)
 	enabled = !enabled;
 
-    desc = _(flagtostr(flag));
+    desc = (char *) _(flagtostr(flag));
     statusbar("%s %s", desc, enabled ? _("enabled") :
 	_("disabled"));
 }

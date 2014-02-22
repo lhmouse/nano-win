@@ -1,5 +1,8 @@
 2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/nano.c (allow_pending_sigwinch) - A (char *) cast for pedantic purposes.
+	* src/cut.c (do_cut_text) - Wrap a reference to 'copy_text' in NANO_TINY.
 
+2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
 	* ChangeLog, NEWS, doc/faq.html - Fix typos, wording, and spacing.
 
 2014-01-24 Benno Schulenberg <bens>
