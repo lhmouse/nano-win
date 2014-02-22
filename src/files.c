@@ -482,9 +482,9 @@ bool close_buffer(void)
     if (openfile == openfile->next)
 	return FALSE;
 
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
         update_poshistory(openfile->filename, openfile->current->lineno, xplustabs()+1);
-#endif /* NANO_TINY */
+#endif
 
     /* Switch to the next file buffer. */
     switch_to_next_buffer_void();
@@ -1194,7 +1194,7 @@ void do_insertfile(
 	    }
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
+#if defined(ENABLE_MULTIBUFFER) && defined(ENABLE_NANORC)
 	    if (ISSET(MULTIBUFFER)) {
 		/* Update the screen to account for the current
 		 * buffer. */

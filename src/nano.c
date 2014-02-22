@@ -2653,7 +2653,7 @@ int main(int argc, char **argv)
 		    iline = 1;
 		    icol = 1;
 		}
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
                   else {
 		    /* See if we have a POS history to use if we haven't overridden it */
 		    ssize_t savedposline, savedposcol;
@@ -2661,7 +2661,7 @@ int main(int argc, char **argv)
 			do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE,
 			FALSE);
 		}
-#endif /* NANO_TINY */
+#endif
 	    }
 	}
     }
@@ -2699,14 +2699,14 @@ int main(int argc, char **argv)
     if (startline > 1 || startcol > 1)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
 		FALSE);
-# ifndef NANO_TINY
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     else {
 	/* See if we have a POS history to use if we haven't overridden it */
 	ssize_t savedposline, savedposcol;
 	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
 	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
     }
-#endif /* NANO_TINY */
+#endif
 
     display_main_list();
 
