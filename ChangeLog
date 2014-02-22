@@ -1,4 +1,8 @@
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_file) - Add a missing malloc.
+	Reported by an anonymous cross compiler, bug #30671.
+
+2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput) - Correct an oversight,
 	use the proper 'do_up_void' and 'do_down_void' names.
 	Reported by Zhou Z.J. <zzj666@Savannah>, bug #38268.

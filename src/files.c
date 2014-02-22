@@ -1746,8 +1746,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * specified it interactively), stat and save the value
      * or else we will chase null pointers when we do
      * modtime checks, preserve file times, etc. during backup */
-    if (openfile->current_stat == NULL && !tmp && realexists)
+    if (openfile->current_stat == NULL && !tmp && realexists) {
+	openfile->current_stat = (struct stat *)nmalloc(sizeof(struct stat));
 	stat(realname, openfile->current_stat);
+    }
 
     /* We backup only if the backup toggle is set, the file isn't
      * temporary, and the file already exists.  Furthermore, if we
