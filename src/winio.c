@@ -1746,8 +1746,8 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * wheel is equivalent to moving down three lines. */
 	    for (i = 0; i < 3; i++)
 		unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
-			 sc_seq_or(up_void, 0) : sc_seq_or(DO_DOWN_VOID, 0), FALSE,
-			FALSE);
+			 sc_seq_or(do_up_void, 0) : sc_seq_or(do_down_void, 0),
+			FALSE, FALSE);
 
 	    return 1;
 	} else
