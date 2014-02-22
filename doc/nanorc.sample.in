@@ -250,6 +250,9 @@
 ## Cascading Style Sheets
 # include "@PKGDATADIR@/css.nanorc"
 
+## CMake files
+# include "@PKGDATADIR@/cmake.nanorc"
+
 ## Debian files
 # include "@PKGDATADIR@/debian.nanorc"
 

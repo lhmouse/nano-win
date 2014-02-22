@@ -1,3 +1,6 @@
+2014-02-22  Felipe Bugno  <capent@Savannah>  (tiny change)
+	* doc/nanorc.sample.in - Add an include for CMake files.
+
 2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/nano.c (allow_pending_sigwinch) - A (char *) cast for pedantic purposes.
 	* src/cut.c (do_cut_text) - Wrap a reference to 'copy_text' in NANO_TINY.
