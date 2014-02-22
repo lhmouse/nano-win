@@ -1,3 +1,6 @@
+2014-02-22  Dennis Jenkins  <dennisjenkins@Savannah>  (tiny change)
+	* doc/syntax/c.nanorc - Also recognize c++ as extension.
+
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (move_to_filestruct) - Update the data in 'mark_begin'
 	when mark and cursor are on the same line.  This avoids a segfault
