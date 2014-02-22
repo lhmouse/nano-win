@@ -1,3 +1,8 @@
+2014-02-22  Lauri Kasanen  <laxy@Savannah>  (tiny change)
+	* doc/syntax/html.nanorc - Also recognize htm as extension,
+	use cyan for tags (more visible on dark background), correct
+	the expression for ampersand codes, and colour strings too.
+
 2014-02-22  Dennis Jenkins  <dennisjenkins@Savannah>  (tiny change)
 	* doc/syntax/c.nanorc - Also recognize c++ as extension.
 
