@@ -452,7 +452,7 @@ void do_undo(void)
         for (; f->next != NULL && f->lineno != u->lineno; f = f->next)
 	    ;
     if (f->lineno != u->lineno) {
-        statusbar(_("Internal error: can't match line %d.  Please save your work"), u->lineno);
+        statusbar(_("Internal error: can't match line %d.  Please save your work."), u->lineno);
 	return;
     }
 #ifdef DEBUG
@@ -554,7 +554,7 @@ void do_undo(void)
 	break;
 
     default:
-	undidmsg = _("Internal error: unknown type.  Please save your work");
+	undidmsg = _("Internal error: unknown type.  Please save your work.");
 	break;
 
     }
@@ -579,7 +579,7 @@ void do_redo(void)
 	return;
     }
     if (u->next != openfile->current_undo) {
-	statusbar(_("Internal error: Redo setup failed.  Please save your work"));
+	statusbar(_("Internal error: cannot set up redo.  Please save your work."));
 	return;
     }
 
@@ -590,7 +590,7 @@ void do_redo(void)
         for (; f->next != NULL && f->lineno != u->lineno; f = f->next)
 	    ;
     if (f->lineno != u->lineno) {
-        statusbar(_("Internal error: can't match line %d.  Please save your work"), u->lineno);
+        statusbar(_("Internal error: can't match line %d.  Please save your work."), u->lineno);
 	return;
     }
 #ifdef DEBUG
@@ -668,7 +668,7 @@ void do_redo(void)
 	openfile->placewewant = xplustabs();
 	break;
     default:
-	undidmsg = _("Internal error: unknown type.  Please save your work");
+	undidmsg = _("Internal error: unknown type.  Please save your work.");
 	break;
 
     }
@@ -943,7 +943,7 @@ void add_undo(undo_type current_action)
 	break;
     case UNCUT:
 	if (!last_cutu)
-	    statusbar(_("Internal error: can't setup uncut.  Please save your work."));
+	    statusbar(_("Internal error: cannot set up uncut.  Please save your work."));
 	else if (last_cutu->type == CUT) {
 	    u->cutbuffer = last_cutu->cutbuffer;
 	    u->cutbottom = last_cutu->cutbottom;

@@ -1,3 +1,7 @@
+2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_undo, do_redo, add_undo) - Make warning
+	sentences in the status bar consistently end in a period.
+
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file) - Add a missing malloc.
 	Reported by an anonymous cross compiler, bug #30671.
