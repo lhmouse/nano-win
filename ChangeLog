@@ -40,28 +40,28 @@
 2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
 	* ChangeLog, NEWS, doc/faq.html - Fix typos, wording, and spacing.
 
-2014-01-24 Benno Schulenberg <bens>
+2014-01-25 Chris Allegretta <chrisa@asty.org>
+	* src/winio.c (set_modified) - Check for a filename before trying to lock.
+
+2014-01-24  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (copy_from_filestruct) - Check explicitly for mark being set when
 	  trying to partition, as we shouldn't be messing with the x address, etc.
 
-2014-01-25 Chris Allegretta <chrisa@asty.org>
-	* src/winio.c (set_modified) - Check for a filename before we bother trying to lock
-
 2014-01-01 Chris Allegretta <chrisa@asty.org>
 	* doc/texinfo/nano.texi - Change '@sp4' since makeinfo 5.1 hates the
-	  lack of spacing.  Fixes Savannah bug 40103 repored by flapane@Savannah.
+	  lack of spacing.  Fixes bug #40103 reported by flapane@Savannah.
 	  Also change SVN status to non-binary so diffs work.
 
 2014-01-01 Chris Allegretta <chrisa@asty.org>
 	* src/global.c (strtokeytype) - Check for lower-case 'f' for defining F-key
-	  sequences for consistency (previously was two checks for upper case F). Fixes
-	  bug 40815 reported by David Binderman <dcb314@Savannah>.
+	  sequences for consistency (previously was two checks for upper case 'F').
+	  Fixes bug #40815 reported by David Binderman <dcb314@Savannah>.
 
 2013-06-13 Matthew Fischer <mfisch@Savannah>
-	* doc/syntax/c.nanorc - Add auto keyword
+	* doc/syntax/c.nanorc - Add the 'auto' keyword.
 
 2013-06-13  David Lawrence Ramsey <pooka109@gmail.com>
-	* src/global.c (first_sc_for) - try and more consistently display keystrokes,
+	* src/global.c (first_sc_for) - Try to more consistently display keystrokes,
 	  useful when the user has re-binded a bunch of them.
 
 2013-06-13 Kamil Dudka <kdudka@redhat.com>
@@ -69,14 +69,14 @@
 
 2013-04-12 Chris Allegretta <chrisa@asty.org>
 	* src/files.c (do_insertfile): Check for saved cursor position when inserting a
-	  file as well.  Fixes Savannah bug 38600 reported by Craig Barnes.
+	  file as well.  Fixes Savannah bug #38600 reported by Craig Barnes.
 	* src/files.c (write_file): Don't re-stat() the file if we're writing out
-	  a marked file (especially that would give it the wrong stat info).  Part
-	  2 of issue reported by Benno Schulenberg.
+	  a marked portion (especially because it would give the wrong stat info).
+	  Part two of issue reported by Benno Schulenberg.
 
 2013-04-07 Michael Berg <mike@berg-net.us>
-	* do_cut_text - Fix copying (not cutting) text setting Modified state.  Fixes
-	  issue reported by Benno Schulenberg.
+	* do_cut_text - Fix copying (not cutting) text setting Modified state.
+	  Partly fixes an issue reported by Benno Schulenberg.
 
 GNU nano 2.3.2 - 2013.03.23
 2013-03-17 Chris Allegretta <chrisa@asty.org>
@@ -87,7 +87,7 @@ GNU nano 2.3.2 - 2013.03.23
 	* src/text.c (do_histify): Don't allow sigwinch to be received while justifying
 	  as that puts us into a wacky state.  Fixes crash on justify by Joshua Rogers.
 	* configure.ac: Added --with-wordbounds option to let cross compilers force
-	  whether their target system support GNU-style word boundaries or not.  
+	  whether their target system support GNU-style word boundaries or not.
 	  Originally reported by dave festing.
 	* doc/man/nanorc.5: Fix typo in softwrap description, reported by
 	  cbart387@Savannah.
@@ -108,80 +108,80 @@ GNU nano 2.3.2 - 2013.03.23
 	* configure.ac, src/nano.h: Make search for ncursesw more generalized.
 
 2013-01-02 David Benjamin <davidben@Savannah>
-	* src/search.c (parse_syntax): Fix blatantly and dangerously incorrect code for 
+	* src/search.c (parse_syntax): Fix blatantly and dangerously incorrect code for
 	  deleting old syntaxes.
 
 2013-01-02 Mike Frysinger <vapier@gentoo.org>
-	* src/files.c (cwd_tab_completion): Remove unnecessary variables
-	* src/search.c (search_init): Fix gcc complaints on certain versions
+	* src/files.c (cwd_tab_completion): Remove unnecessary variables.
+	* src/search.c (search_init): Fix gcc complaints on certain versions.
 
 2013-01-02 Eitan Adler <lists@eitanadler.com>
-	* configure.ac: Remove unnecessary checks
-	* src/nano.h, NEWS: Fix redundant wording
+	* configure.ac: Remove unnecessary checks.
+	* src/nano.h, NEWS: Fix redundant wording.
 
 2012-12-31 Chris Allegretta <chrisa@asty.org>
 	* src/*: Introduce (basic) vim-style file locks.  Does not allow vim to recover
-	  our changes, and just lets a vim user know we're editing a file.  Commands line "-G" 
-	  or "--locking", nanorc option "locking".  New functions 
-	  src/files.c:do_lockfile(), write_lockfile(), and delete_lockfile().
+	  our changes, and just lets a vim user know we're editing a file.  Command-line
+	  option "-G" or "--locking", nanorc option "locking".  New functions in
+	  src/files.c: do_lockfile(), write_lockfile(), and delete_lockfile().
 
 2012-02-05 Chris Allegretta <chrisa@asty.org>
-	* src/*: Fix overlapping strings highlighting each other.  new variables in edit_draw 
-	  (slmatcharray, pbegin, paintok), new logic (with repeated setting of values in the 
-	  array but it's BFI after all).  FIXME: Need to create a new 'overlap'
-	* src/*: Fix a silly issue with the argument to nregcomp, as it's confusing to the caller
-	* src/nano.h: Change the color types to a compiler macro (COLORWIDTH), may not actually 
-	  even be worth doing, but someday who knows how wide a color curses implementation might 
+	* src/*: Fix overlapping strings highlighting each other.  New variables in edit_draw
+	  (slmatcharray, pbegin, paintok), new logic (with repeated setting of values in the
+	  array but it's BFI after all).  FIXME: Need to create a new 'overlap'.
+	* src/*: Fix a silly issue with the argument to nregcomp, as it's confusing to the caller.
+	* src/nano.h: Change the color types to a compiler macro (COLORWIDTH), may not actually
+	  even be worth doing, but someday who knows how wide a color curses implementation might
 	  be, and maybe we'll even start checking for it in autoconf!
 
 GNU nano 2.3.1 - 2011.05.10
 2011-05-10 Chris Allegretta <chrisa@asty.org>
-	* text.c (do_enter): Only increment totsize by the auto-indented amount, since the previous line's size was
-	  already counted.  Fixes bug reported by Robert Spanjaard.
+	* text.c (do_enter): Only increment totsize by the auto-indented amount, since the previous
+	  line's size was already counted.  Fixes bug reported by Robert Spanjaard.
 
 2011-05-08 Chris Allegretta <chrisa@asty.org>
-	* doc/syntax/Makefile.am: Finally get around to sorting the syntax file list
+	* doc/syntax/Makefile.am: Finally get around to sorting the syntax file list.
 
 2011-05-08 Matthew Wild <mattj100@Savannah>
-	* doc/syntax/spec.nanorc: New lua syntax highlighting config
+	* doc/syntax/spec.nanorc: New lua syntax highlighting config.
 
 2011-03-28 Asterios Dramis <asterios.dramis@gmail.com>
-	* doc/syntax/spec.nanorc: New RPM spec file highlighting config
+	* doc/syntax/spec.nanorc: New RPM spec file highlighting config.
 
 2011-03-12 Chris Allegretta <chrisa@asty.org>
 	* po/*: Sync latest translation fixes, add an update_linguas.sh script.  Rename
 	  existing update.pl to update_sources.pl to make it more specific.
-      
+
 2011-03-04 Chris Allegretta <chrisa@asty.org>
 	* color.c (color_update): Add check for whether the file even exists
 	  before we try to run the magic check on it.  Fixes error messages to stderr
 	  when reading in files that don't exist, reported by Mike Frysinger.
 
 2011-03-03 Chris Allegretta <chrisa@asty.org>
-	* color.c (color_update): Remove unneeded debugging message from
-	  libmagic commit.  Fixed extra messages going to stderr reported by Mike Frysinger.
+	* color.c (color_update): Remove unneeded debugging message from libmagic commit.
+	  Fixed extra messages going to stderr, reported by Mike Frysinger.
 
 GNU nano 2.3.0 - 2011.02.26
 2011-02-26 Chris Allegretta <chrisa@asty.org>
-	* Change RAW in function_type enum to RAWINPUT, to fix compilation on AIX, 
+	* Change RAW in function_type enum to RAWINPUT, to fix compilation on AIX,
 	  reported by Richard G Daniel <skunk@iskunk.org>.
 
 2011-02-23 Chris Allegretta <chrisa@asty.org>
-	* Fix some more severe warnings from 'g++ -pedantic', from patch originally 
-	  by Eitan Adler <lists@eitanadler.com>
+	* Fix some more severe warnings from 'g++ -pedantic', from patch originally
+	  by Eitan Adler <lists@eitanadler.com>.
 
 2011-02-23 Kamil Dudka <kdudka@redhat.com>
-	* doc/man/nanorc.5: Fix small typo
+	* doc/man/nanorc.5: Fix small typo.
 
 2011-02-22 Chris Allegretta <chrisa@asty.org>
 	* color.c (nfreeregex): Fix that we were trying to set the pointer passed by value
-	  to NULL.  Fixes crashes on file save reported by Ken Tyler and Matthieu Lejeune. 
+	  to NULL.  Fixes crashes on file save reported by Ken Tyler and Matthieu Lejeune.
 
 2011-02-18 Chris Allegretta <chrisa@asty.org>
 	* New saved cursor position history option.  Command line option -P or --poslog, rc file
 	  entry "poslog".  Search history changes to ~/.nano/search_history, cursor position log
-	  is ~/.nano/filepos_history.  Added checks to move the legacy .nano_history file to the new
-	  location.  Several new functions to files.c: load_poshistory(), save_poshistory(), 
+	  is ~/.nano/filepos_history.  Added checks to move the legacy .nano_history file to the
+	  new location.  Several new functions to files.c: load_poshistory(), save_poshistory(),
 	  check_poshistory(), update_poshistory(), and reworking of histfilename().  New FAQ entry
 	  4.15 discussing the change and offering an interoperability workaround.
 	* files.c (load_history): Set last_search to the last search value we loaded from history,
@@ -200,20 +200,19 @@ GNU nano 2.3.0 - 2011.02.26
 	* files.c (write_file): Fix problems with writing the backup file (albeit interactively)
 	  with new function prompt_failed_backupwrite(), allows more secure handling of problems
 	  with failing to write the backup file compared to 'allow_insecure_backup'.
-	* winio.c (edit_redraw): Removed unused variable
+	* winio.c (edit_redraw): Removed unused variable.
 
 2010-11-15 Chris Allegretta <chrisa@asty.org>
 	* Add a section to the FAQ about using nanorc on Win32 systems.
 
 2010-11-12 Chris Allegretta <chrisa@asty.org>
-	* Add check for RESTRICTED mode back to speller, suspend and insert file
-	  routines, since adding key bindings broke the fact that they should be
-	  disabled in restricted mode.  Fixes Savannah bug 31625 reported by
-	  Charlie Somerville.
+	* Add check for RESTRICTED mode back to speller, suspend and insert file routines,
+	  since adding key bindings broke the fact that they should be disabled in restricted\
+	  mode.  Fixes Savannah bug #31625 reported by Charlie Somerville.
 
 GNU nano 2.2.5 - 2010.08.05
 2010-08-04 Lauri Kasanen <curaga@operamail.comcuraga@operamail.com>
-	* doc/syntax/mgp.nanorc: New Magicpoint syntax highlighting definition
+	* doc/syntax/mgp.nanorc: New Magicpoint syntax highlighting definition.
 
 2010-08-04 Peter <exodus@savannah>
 	* doc/syntax/tex.nanorc: No longer highlight escaped comments
@@ -221,13 +220,13 @@ GNU nano 2.2.5 - 2010.08.05
 2010-06-20 Chris Allegretta <chrisa@asty.org>
 	* New rc file option allow_insecure_backup, allows the previous security
 	  fixes for backup files to be overridden if you're really positive
-	  you want to.  Fixes Savannah bug 29732 by Brian Szymanski <skibrianski>.
+	  you want to.  Fixes Savannah bug #29732 by Brian Szymanski <skibrianski>.
 
 2010-05-23 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Don't even try to chown() the backup
 	  file unless we're root, since it's probably going to fail if
 	  we're editing a file we don't own.  Fixes Savannah bug
-	  29514: [nano 2.2.2] backup should ignore chown errors.
+	  #29514: [nano 2.2.2] backup should ignore chown errors.
 
 GNU nano 2.2.4 - 2010.04.15
 2010-04-07 Chris Allegretta <chrisa@asty.org>
@@ -235,67 +234,67 @@ GNU nano 2.2.4 - 2010.04.15
 	  that a sufficient security fix exists for the backup file code.
 
 2010-04-14 Chris Allegretta <chrisa@asty.org>
-	* text.c (do_alt_speller): Skip invoking the alt speller if the file size 
-	  is 0 bytes.  Fixes Savannah bug 29393 reported by Mike Frysinger.
+	* text.c (do_alt_speller): Skip invoking the alt speller if the file size
+	  is 0 bytes.  Fixes Savannah bug #29393 reported by Mike Frysinger.
 	* files.c (write_file): Don't set current_stat when tmp == TRUE, check
 	  whether current_stat is set when trying to use it, and don't do the
 	  modification check if the filename changed, since we have no way
-	  of knowing about it in that case.  Fixes Savannah bug 29392, reported
+	  of knowing about it in that case.  Fixes Savannah bug #29392, reported
 	  by Mike Frysinger.  [CVE-2010-1160]
 
 2010-04-13 Felipe Bugno <necron@bol.com.br>
 	* doc/syntax/cmake.nanorc: Added cmake syntax highlighting file.
 
 2010-04-09 Chris Allegretta <chrisa@asty.org>
-	* files.c (do_writeout): Better security fixes for backup file writing, 
-	  mangled from submission by Dan Rosenberg <dan.j.rosenberg at gmail> 
+	* files.c (do_writeout): Better security fixes for backup file writing,
+	  mangled from submission by Dan Rosenberg <dan.j.rosenberg at gmail>.
 	  [CVE-2010-1161]
 
 2010-04-08 Chris Allegretta <chrisa@asty.org>
-	* files.c (do_writeout): Previous fixes should not cause a crash 
+	* files.c (do_writeout): Previous fixes should not cause a crash
 	  when saving a new file.  Discovered by Mike Frysinger <vapier@gentoo.org>.
 
 2010-04-07 Chris Allegretta <chrisa@asty.org>
 	* doc/man/nano.1,nanorc.5: Add warnings about using backup
 	  mode as root due to the Dan Rosenberg security analysis.
- 
+
 2010-04-02 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Expand modification check to include both the
-	  original file's device ID and inode number as reasons to warn the 
+	  original file's device ID and inode number as reasons to warn the
 	  user that the file has been modified.  Also abort on writing a backup
-	  file when its owner doesn't match the edited file. Based on security 
-	  analysis on nano by Dan Rosenberg. [CVE-2010-1160]
+	  file when its owner doesn't match the edited file. Based on security
+	  analysis on nano by Dan Rosenberg.  [CVE-2010-1160]
 
 2010-03-21 Chris Allegretta <chrisa@asty.org>
 	* nano.c (page_stdin et al): Don't attempt to reset/reopen the terminal
-	  settings when reading stdin if it was aborted with SIGINT.  May fix Savannah
-	  bug 29114 reported by  Mike Frysinger.
+	  settings when reading stdin if it was aborted with SIGINT.  May fix
+	  Savannah bug #29114 reported by  Mike Frysinger.
 
 2010-03-21 Mike Frysinger <vapier@gentoo.org>
-	* doc/syntax/c.nanorc: Add additional support for #include_next and #pragma
+	* doc/syntax/c.nanorc: Add additional support for #include_next and #pragma.
 
 2010-03-21 Chris Allegretta <chrisa@asty.org>
-	* move.c (do_page_up, do_page_down()): Explicitly set current_y to 0 when paging 
-	  up when not in smooth scroll mode, as previous fixes would otherwise cause 
-	  the cursor to not really be moved to the stop of the screen.
+	* move.c (do_page_up, do_page_down()): Explicitly set current_y to 0 when
+	  paging up when not in smooth scroll mode, as previous fixes would otherwise
+	  cause the cursor to not really be moved to the top of the screen.
 
 2010-03-07 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, nano.c (handle_sigwinch): Create check for whether LINES and
-	  COLS can safely be redefined.  Fixes compilation issues with cygwin, and likely
-	  with newer versions of ncurses, fixes Savannah bug 28984 reported by Andy Koppe
-	  and Eric Oliver via mailing list.
-	* winio.c (get_mouseinput) - fix stray semicolon in code, also reported in
-	  bug 28984.
+	  COLS can safely be redefined.  Fixes compilation issues with Cygwin, and likely
+	  with newer versions of ncurses.  Fixes Savannah bug #28984 reported by Andy Koppe
+	  and by Eric Oliver via mailing list.
+	* winio.c (get_mouseinput) - Fix stray semicolon in code, also reported in
+	  bug #28984.
 
 GNU nano 2.2.3 - 2010.02.11
 2010-01-28 Chris Allegretta <chrisa@asty.org>
-	* move.c (do_page_up, do_page_down): Fix for smooth mode not preserving cursor 
-	  position.  Part one of fix for Savannah bug 21178 by Mike Frysinger.
+	* move.c (do_page_up, do_page_down): Fix for smooth mode not preserving cursor
+	  position.  Part one of fix for Savannah bug #21178 by Mike Frysinger.
 
 GNU nano 2.2.2 - 2010.01.17
 2010-01-17 Chris Allegretta <chrisa@asty.org>
-	* nano.c (main), prompt.c (do_statusbar_input): Handle problems with an unmapped 
-	  function due to key rebinding, fixes crashes on FreeBSD reported by Eitan 
+	* nano.c (main), prompt.c (do_statusbar_input): Handle problems with an unmapped
+	  function due to key rebinding, fixes crashes on FreeBSD reported by Eitan
 	  Adler <eitanadlerlist@gmail.com>.
 
 2010-01-14 Chris Allegretta <chrisa@asty.org>
@@ -305,7 +304,7 @@ GNU nano 2.2.2 - 2010.01.17
 2010-01-12 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Fix issues with not enough scrolling down/up
 	  and cursor centering.
-	* winio.c (edit_scroll): Remove lots of needless checking of line length for 
+	* winio.c (edit_scroll): Remove lots of needless checking of line length for
 	  soft wrapping code.
 	* winio.c (edit_update) - Remove extra code for when updating with old_current outside
 	  of the new buffer boundary and centering issues.
@@ -333,49 +332,49 @@ GNU nano 2.2.2 - 2010.01.17
 	  initialized at the time.  Fixes Savannah bug 28309, reported by Zoltan Kovacs.
 
 2009-12-20 Brian Szymanski <skibrianski via Savannah>
-	* src/files.c (write_file): Check stat struct exists, and if not use just obtained stat data.
-	  Fixes Ubuntu bug 471568, "reproducible crash in nano on trying to save to a file 
-	  different than the one specified on the command line".
+	* src/files.c (write_file): Check whether stat struct exists, and if not, use the
+	  just obtained stat data.  Fixes Ubuntu bug 471568, "reproducible crash in nano on
+	  trying to save to a file different than the one specified on the command line".
 
 2009-12-15 Chris Allegretta <chrisa@asty.org>
-	* doc/nanorc.sample.in - Remove erroneous 'set suspendenable' as it's actually a 
+	* doc/nanorc.sample.in - Remove erroneous 'set suspendenable' as it's actually a
 	  key binding (e.g. 'bind M-Z suspendenable all') and not a settable flag.  Fixes
-	  Savannah bug 28299 reported by Mike Frysinger.
+	  Savannah bug #28299 reported by Mike Frysinger.
 
 GNU nano 2.2.1 - 2009.12.12
 2009-12-12 Chris Allegretta <chrisa@asty.org>
-	* text.c (do_delete), nano.c (do_output): Add check for length of current line 
+	* text.c (do_delete), nano.c (do_output): Add check for length of current line
 	  before and after adding/deleting text, and do full refresh if it is now
 	  a different multiple of COLS.  Also get rid of superfluous do_refresh
 	  vars now that we have edit_refresh_needed.
 
 2009-12-09 David Lawrence Ramsey <pooka109@gmail.com>
-	* global.c (shortcut_init), browser.c (do_browser): Fix M-W not being bound to 
+	* global.c (shortcut_init), browser.c (do_browser): Fix M-W not being bound to
 	  research in either main menu or browser.
 
 2009-12-09 Chris Allegretta <chrisa@asty.org>
 	* files.c (read_file) - Add parameter for whether we should even try to check
-	  file writability, as the message is useless when we're inserting into an 
-	  existing buffer.  Fixes Savannah bug 28219.
+	  file writability, as the message is useless when we're inserting into an
+	  existing buffer.  Fixes Savannah bug #28219.
 
 2009-12-07 David Lawrence Ramsey <pooka109@gmail.com>
 	* global.c (shortcut_init): Many fixes for keybindings code oversights, including
-	  restore page up/down and GotoDir to browser, 
-	* browser.c (do_browser): Fix breaking out of a submenu (e.g. gotodir) breaks out
-	  of browser altogether.
+	  restore page up/down and GotoDir in browser.
+	* browser.c (do_browser): Fix breaking out of a submenu (e.g. gotodir), it broke
+	  out of the browser altogether.
 	* doc/nanorc.sample.in: Add missing entries for fortran/ObjC/OCaml entries.
 
 2009-12-03 David Lawrence Ramsey <pooka109@gmail.com>
-	* global.c (shortcut_init) - Remove help shortcut from help shortcut list :-)  Tweaked 
+	* global.c (shortcut_init) - Remove help shortcut from help shortcut list. :-)  Tweaked
 	  to reorder exit shortcut to end of list to not mess up prev/next shortcut symmetry.
 
 2009-12-03 Eitan Adler <eitanadlerlist@gmail.com>
-	* doc/syntax/makefile.nanorc - Fix poor regex for all alpha characters which sometimes leads to
-	  error messages, reported by gibboris@gmail.com.
+	* doc/syntax/makefile.nanorc - Fix poor regex for all alpha characters which sometimes
+	  leads to error messages, reported by gibboris@gmail.com.
 
 2009-12-02 Chris Allegretta <chrisa@asty.org>
-	* text.c (add_undo, do_undo, do_redo) - Do not execute cases for SPLIT when DISABLE_WRAPPING
-	  is defined.  Fixes Savannah bug 28151 (anon).
+	* text.c (add_undo, do_undo, do_redo) - Do not execute cases for SPLIT when
+	  DISABLE_WRAPPING is defined.  Fixes Savannah bug #28151 (anon).
 
 2009-12-02 Jordi Mallach <jordi@gnu.org>
 	* doc/man/nano.1: Fix escaping of hyphens for the -$ option.
@@ -392,31 +391,31 @@ GNU nano 2.2.1 - 2009.12.12
 2009-12-01 David Lawrence Ramsey <pooka109@gmail.com>
 	* global.c (shortcut_init) - Add support for ^P and ^N in the help menu.
 	* Update documentation for 2.2 features including sample nanorc file, texinfo
-	  file, man pages, UPGRADE file, and update copyright noticed for the current year.
+	  file, man pages, UPGRADE file, and update copyright notice for the current year.
 
 GNU nano 2.2.0 - 2009.11.30
 2009-11-29 Chris Allegretta <chrisa@asty.org>
-	* prompt.c (get_prompt_string) - Universally handle help key when it is 
-	  disabled.  Fixes Savannah bug 28117 by David Lawrence Ramsey <pooka109@gmail.com>.
+	* prompt.c (get_prompt_string) - Universally handle help key when it is disabled.
+	  Fixes Savannah bug #28117 by David Lawrence Ramsey <pooka109@gmail.com>.
 	* chars.c, files.c: Add junk vars to silence the compiler.  Sigh.
 
 2009-11-29 David Lawrence Ramsey <pooka109@gmail.com>
 	* Change several *chars to const char, additional cleanups and casts to make compilers happier.
 	* global.c: Fix replace and insert file initializations for proper compilation options.
-	* nano.c (do_suspend): Update comments to reflect actual code path, bad Chris and thanks for
-	  noticing Jordi.
-	* configure.ac: Fix typos
+	* nano.c (do_suspend): Update comments to reflect actual code path, bad Chris, and thanks for
+	  noticing, Jordi.
+	* configure.ac: Fix typos.
 
 2009-11-27 Chris Allegretta <chrisa@asty.org>
 	* nano.c (do_suspend): Don't clear the screen but do move the cursor down to the last line
 	  first in an effort to not corrupt the screen, which contradicts Pico but is consistent
-	  with almost all other text editors.  Fixes Savannah bug 28110/Debian bug 460510
+	  with almost all other text editors.  Fixes Savannah bug #28110 / Debian bug 460510
 	  reported by Tim Connors <reportbug@rather.puzzling.org>.
 	* doc/syntax/makefile.nanorc - Sample Makefile highlighting based on wiki.linuxhelp.net version.
 
 2009-11-26 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_scroll): Adjust for long lines when scrolling.
-	* rcfile.c (parse_rcfile): initialize size argument to getline(), fixes crash on FreeBSD 
+	* rcfile.c (parse_rcfile): initialize size argument to getline(), fixes crash on FreeBSD
 	  reported by Eitan Adler <eitanadlerlist@gmail.com>.
 
 2009-11-26 Jordi Mallach <jordi@gnu.org>
@@ -429,7 +428,7 @@ GNU nano 2.2.0 - 2009.11.30
 
 2009-11-22 Chris Allegretta <chrisa@asty.org>
 	* nano.c (main): Allow edit_refresh_needed to take effect when using --enable-tiny
-	  (fixes Savannah bug 28076 reported by David Lawrence Ramsey).
+	  (fixes Savannah bug #28076 reported by David Lawrence Ramsey).
 
 2009-11-22 David Lawrence Ramsey <pooka109@gmail.com>
 	* nano.c (move_to_filestruct): Fix bug 71 (cut at top of line recenters)
