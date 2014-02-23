@@ -2,7 +2,6 @@
 ##
 syntax "m" "\.m$"
 
-
 ## Stuffs
 color brightwhite "\<[A-Z_][0-9A-Z_]+\>" 
 color green "\<(float|double|BOOL|bool|char|int|short|long|id|sizeof|enum|void|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
@@ -12,7 +11,7 @@ color brightgreen "\<(for|if|while|do|else|case|default|switch)\>"
 color brightgreen "\<(try|throw|catch|operator|new|delete)\>"
 color brightgreen "\<(goto|continue|break|return)\>"
 color brightgreen "@\<(en(code|d)|i(mplementation|nterface)|selector)\>"
-##
+
 ## GCC builtins
 color cyan "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
 
@@ -22,14 +21,12 @@ color white ":[[:alnum:]]*"
 color magenta "[[:alnum:]]*:"
 color white "\[[^][:space:]]*\]"
 
-##
 ## String highlighting.  You will in general want your comments and
 ## strings to come last, because syntax highlighting rules will be
 ## applied in the order they are read in.
 color brightblack "'([^'\]|(\\["'abfnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
 color brightblack "<[^= 	]*>" ""(\\.|[^"])*""
 color brightblue "@"(\\.|[^"])*""
-##
 ## This string is VERY resource intensive!
 ## color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 

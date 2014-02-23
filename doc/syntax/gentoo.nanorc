@@ -1,4 +1,4 @@
-## Here is an example for Gentoo ebuilds/eclasses
+## Here is an example for Gentoo ebuilds/eclasses.
 ##
 syntax "ebuild" "\.e(build|class)$"
 ## All the standard portage functions
@@ -33,7 +33,7 @@ color brightyellow ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
 ## Trailing space is bad!
 color ,green "[[:space:]]+$"
 
-## Here is an example for Portage control files
+## Here is an example for Portage control files.
 ##
 syntax "/etc/portage" "\.(keywords|mask|unmask|use)(/.+)?$"
 ## Base text:

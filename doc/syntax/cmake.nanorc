@@ -1,4 +1,4 @@
-## CMake syntax highlighter for GNU Nano
+## Syntax highlighting for CMake files.
 ##
 syntax "cmake" "(CMakeLists\.txt|\.cmake)$"
 

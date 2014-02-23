@@ -1,4 +1,4 @@
-## Here is an example for PHP
+## Here is an example for PHP.
 ##
 syntax "php" "\.php[2345s~]?$"
 magic "PHP script text"
@@ -27,5 +27,5 @@ color brightblue start="/\*" end="\*/"
 #color blue start="<" end=">"
 #color red "&[^;[[:space:]]]*;"
 
-## Trailing whitespace
+## trailing whitespace
 color ,green "[[:space:]]+$"

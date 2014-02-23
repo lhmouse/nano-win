@@ -1,4 +1,7 @@
 2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/*.nanorc - Comment and punctuation tweaks.
+
+2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, do_redo, add_undo) - Make warning
 	sentences in the status bar consistently end in a period.
 

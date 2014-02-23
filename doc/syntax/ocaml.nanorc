@@ -1,5 +1,5 @@
-# OCaml sample nanorc
-#
+## Syntax highlighting for OCaml.
+
 syntax "ocaml" "\.mli?$"
 #uid
 color red "\<[A-Z][0-9a-z_]{2,}\>"

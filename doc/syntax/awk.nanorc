@@ -26,7 +26,6 @@ color magenta "\<(mktime|strftime|systime)\>"
 color magenta "\<(and|compl|lshift|or|rshift|xor)\>"
 color magenta "\<(bindtextdomain|dcgettext|dcngettext)\>"
 
-##
 ## String highlighting.  You will in general want your comments and
 ## strings to come last, because syntax highlighting rules will be
 ## applied in the order they are read in.

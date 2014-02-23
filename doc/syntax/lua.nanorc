@@ -51,7 +51,6 @@ color red "\<([0-9]+)\>"
 # Symbols
 color brightmagenta "(\(|\)|\[|\]|\{|\})"
 
-
 # Shebang
 color brightcyan   "^#!.*"
 
@@ -62,15 +61,8 @@ color green        "\-\-.*$"
 color green         start="\-\-\[\[" end="\]\]"
 
 # Strings
-#color green "\"(\\.|[^\\\"])*\"|'(\\.|[^\\'])*'"
-
-# Strings
 color red "\"(\\.|[^\\\"])*\"|'(\\.|[^\\'])*'"
-
-# color red         start="\[\[" end="\]\]"
-
+##color red         start="\[\[" end="\]\]"
 
 # Hex literals
 color red "0x[0-9a-fA-F]*"
-
-

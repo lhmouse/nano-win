@@ -1,4 +1,4 @@
-## Here is an example for xml files.
+## Here is an example for XML files.
 ##
 syntax "xml" "\.([jrs]html?|sgml?|xml|xslt?)$"
 magic "XML.*document text"

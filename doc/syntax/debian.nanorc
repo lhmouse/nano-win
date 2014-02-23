@@ -1,6 +1,5 @@
-## Here is an exmaple for apt's sources.list
-## Adapted from http://milianw.de/blog/Syntax-Highlighting-in-Nano
-## (mail@milianw.de).
+## Here is an exmaple for apt's sources.list.
+## (adapted from http://milianw.de/blog/Syntax-Highlighting-in-Nano)
 ##
 syntax "apt/sources.list" "sources\.list(\.old|~)?$"
 # component

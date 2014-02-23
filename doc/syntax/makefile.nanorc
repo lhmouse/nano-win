@@ -1,4 +1,5 @@
-# unattributed syntax highlighting example from wiki.linuxhelp.net/
+## Syntax highlighting for Makefiles.
+## (unattributed example from http://wiki.linuxhelp.net/)
 
 syntax "makefile" "Makefile[^/]*$"
 color red "[:=]"
