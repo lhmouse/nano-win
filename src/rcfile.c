@@ -321,6 +321,7 @@ void parse_syntax(char *ptr)
     endsyntax->magics = NULL;
     endsyntax->next = NULL;
     endsyntax->nmultis = 0;
+    endsyntax->linter = NULL;
 
 #ifdef DEBUG
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
@@ -940,7 +941,32 @@ void parse_headers(char *ptr)
 
     }
 }
+
+
+/* Parse the linter requested for this syntax.  Simple? */
+void parse_linter(char *ptr)
+{
+    assert(ptr != NULL);
+
+    if (syntaxes == NULL) {
+	rcfile_error(
+		N_("Cannot add a linter without a syntax command"));
+	return;
+    }
+
+    if (*ptr == '\0') {
+	rcfile_error(N_("Missing linter command"));
+	return;
+    }
+
+    if (endsyntax->linter != NULL)
+	free(endsyntax->linter);
+
+    endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
+}
 #endif /* ENABLE_COLOR */
+
+
 
 /* Check whether the user has unmapped every shortcut for a
 sequence we consider 'vital', like the exit function */
@@ -1050,6 +1076,9 @@ void parse_rcfile(FILE *rcstream
 	    parse_keybinding(ptr);
 	else if (strcasecmp(keyword, "unbind") == 0)
 	    parse_unbinding(ptr);
+	else if (strcasecmp(keyword, "linter") == 0) {
+	    parse_linter(ptr);
+	}
 #endif /* ENABLE_COLOR */
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);

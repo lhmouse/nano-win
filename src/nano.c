@@ -2697,8 +2697,9 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef ENABLE_COLOR
-    if (openfile->syntax && openfile->syntax->nmultis > 0)
-	precalc_multicolorinfo();
+    if (openfile->syntax)
+	if (openfile->syntax->nmultis > 0)
+	    precalc_multicolorinfo();
 #endif
 
     if (startline > 1 || startcol > 1)

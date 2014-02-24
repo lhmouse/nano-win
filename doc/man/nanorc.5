@@ -245,6 +245,11 @@ the same as not having a syntax at all.  The \fIdefault\fP syntax is
 special: it takes no \fIfileregex\fP, and applies to files that don't
 match any other syntax's \fIfileregex\fP.
 .TP
+.B linter \fIprogram\fP [\fIargs\fP ... ]
+For the currently defined syntax, add the following command
+to invoke the linter (overrides the speller function when
+defined.
+.TP
 .B magic ["\fIregex\fP" ... ]
 For the currently defined syntax, add one or more regexes which 
 will be compared against the \fBmagic\fP database when attempting

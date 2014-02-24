@@ -457,6 +457,7 @@ void switch_to_prevnext_buffer(bool next_buf)
 #ifdef DEBUG
     dump_filestruct(openfile->current);
 #endif
+    display_main_list();
 }
 
 /* Switch to the previous entry in the openfile filebuffer. */
@@ -1201,9 +1202,11 @@ void do_insertfile(
 		ssize_t savedposline, savedposcol;
 
 		display_buffer();
+#ifndef NANO_TINY
 		if (!execute && ISSET(POS_HISTORY)
 			&& check_poshistory(answer, &savedposline, &savedposcol))
 		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
+#endif
 	    } else
 #endif
 	    {
@@ -1485,11 +1488,11 @@ char *safe_tempfile(FILE **f)
 
     /* If $TMPDIR is unset, empty, or not a writable directory, and
      * full_tempdir is NULL, try P_tmpdir instead. */
-    if (full_tempdir == NULL)
+     if (full_tempdir == NULL)
 	full_tempdir = check_writable_directory(P_tmpdir);
 
-    /* if P_tmpdir is NULL, use /tmp. */
-    if (full_tempdir == NULL)
+     /* if P_tmpdir is NULL, use /tmp. */
+     if (full_tempdir == NULL)
 	full_tempdir = mallocstrcpy(NULL, "/tmp/");
 
     full_tempdir = charealloc(full_tempdir, strlen(full_tempdir) + 12);

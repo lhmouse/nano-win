@@ -206,7 +206,7 @@ void do_cut_text(
 	    UNSET(NO_NEWLINES);
     } else if (!undoing)
 	update_undo(CUT);
-#endif
+
     /* Leave the text in the cutbuffer, and mark the file as
      * modified. */
 #ifndef NANO_TINY
@@ -215,6 +215,7 @@ void do_cut_text(
 	set_modified();
 #ifndef NANO_TINY
     }
+#endif
 #endif
 
     /* Update the screen. */

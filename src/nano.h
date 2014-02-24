@@ -238,11 +238,29 @@ typedef struct syntaxtype {
 	/* Regexes to match libmagic results */
     colortype *color;
 	/* The colors used in this syntax. */
+    char *linter;
+	/* Command to lint this type of file */
     int nmultis;
 	/* How many multi line strings this syntax has */
     struct syntaxtype *next;
 	/* Next syntax. */
 } syntaxtype;
+
+typedef struct lintstruct {
+    ssize_t lineno;
+	/* Line number of the error. */
+    ssize_t colno;
+	/* Column # of the error. */
+    char *msg;
+	/* Error message text */
+    char *filename;
+	/* Filename */
+    struct lintstruct *next;
+	/* Next error. */
+    struct lintstruct *prev;
+	/* Previous error */
+} lintstruct;
+
 
 #define CNONE 		(1<<1)
 	/* Yay, regex doesn't apply to this line at all! */
@@ -333,6 +351,7 @@ typedef struct poshiststruct {
 	/* x position in the file we left off on */
     struct poshiststruct *next;
 } poshiststruct;
+
 #endif /* NANO_TINY */
 
 
@@ -530,8 +549,9 @@ enum
 #define	MWHEREISFILE			(1<<11)
 #define MGOTODIR			(1<<12)
 #define MYESNO				(1<<13)
+#define MLINTER				(1<<14)
 /* This really isnt all but close enough */
-#define	MALL				(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MHELP)
+#define	MALL				(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MHELP|MLINTER)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0

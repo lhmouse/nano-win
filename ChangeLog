@@ -1,3 +1,8 @@
+2014-02-24 Chris Allegretta <chrisa@asty.org>
+	* new linter functionality.  rcfile option "linter"
+	* src/global.c (shortcut_init) - Actually free the sclist
+	  if it was allocated before.
+
 2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/*.nanorc - Comment and punctuation tweaks.
 	* doc/syntax/sh.nanorc - Colour $VAR within a "" string

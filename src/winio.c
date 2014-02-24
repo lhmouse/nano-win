@@ -3325,6 +3325,13 @@ void total_refresh(void)
  * portion of the window. */
 void display_main_list(void)
 {
+#ifdef ENABLE_COLOR
+    if (openfile->syntax && openfile->syntax->linter)
+	set_lint_shortcuts();
+    else
+	set_spell_shortcuts();
+#endif
+
     bottombars(MMAIN);
 }
 

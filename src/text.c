@@ -2976,6 +2976,306 @@ void do_spell(void)
 }
 #endif /* !DISABLE_SPELLER */
 
+#ifdef ENABLE_COLOR
+/* Run linter.  Based on alt-speller code.  Return NULL for normal
+ * termination, and the error string otherwise. */
+void do_linter(void)
+{
+    char *read_buff, *read_buff_ptr, *read_buff_word, *ptr;
+    size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
+    size_t parsesuccess = 0;
+    int lint_fd[2], tempfile_fd = -1;
+    pid_t pid_lint;
+    int lint_status;
+    static int arglen = 3;
+    static char **lintargs = NULL;
+    FILE *temp_file;
+    char *lintcopy;
+    char *convendptr = NULL;
+    const sc *s;
+    lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
+
+    if (!openfile->syntax || !openfile->syntax->linter) {
+	statusbar(_("No linter defined for this file!"));
+	return;
+    }
+
+    if (ISSET(RESTRICTED)) {
+        nano_disabled_msg();
+	return;
+    }
+
+    if (openfile->modified) {
+	int i = do_yesno_prompt(FALSE,
+                _("Save modified buffer before linting?"));
+
+	if (i == 1) {
+	    if (do_writeout(FALSE) != TRUE) {
+		return;
+	    }
+	}
+    }
+
+    lintcopy = mallocstrcpy(NULL, openfile->syntax->linter);
+    /* Create pipe up front. */
+    if (pipe(lint_fd) == -1) {
+	statusbar(_("Could not create pipe"));
+	return;
+    }
+
+    statusbar(_("Invoking linter, please wait"));
+
+    /* Set up an argument list to pass execvp(). */
+    if (lintargs == NULL) {
+	lintargs = (char **)nmalloc(arglen * sizeof(char *));
+
+	lintargs[0] = strtok(lintcopy, " ");
+	while ((ptr = strtok(NULL, " ")) != NULL) {
+	    arglen++;
+	    lintargs = (char **)nrealloc(lintargs, arglen *
+		sizeof(char *));
+	    lintargs[arglen - 3] = ptr;
+	}
+	lintargs[arglen - 1] = NULL;
+    }
+    lintargs[arglen - 2] = openfile->filename;
+
+    /* A new process to run linter. */
+    if ((pid_lint = fork()) == 0) {
+
+	/* Child continues (i.e. future spell process). */
+	close(lint_fd[0]);
+
+        /* Send spell's standard output/err to the pipe. */
+        if (dup2(lint_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+            exit(1);
+        if (dup2(lint_fd[1], STDERR_FILENO) != STDERR_FILENO)
+            exit(1);
+
+        close(lint_fd[1]);
+
+	/* Start the linter program; we are using $PATH. */
+	execvp(lintargs[0], lintargs);
+
+	/* This should not be reached if linter is found. */
+	exit(1);
+    }
+
+    /* Parent continues here. */
+    close(lint_fd[1]);
+
+    /* The child process was not forked successfully. */
+    if (pid_lint < 0) {
+	close(lint_fd[0]);
+	statusbar(_("Could not fork"));
+	return;
+    }
+
+    /* Get the system pipe buffer size. */
+    if ((pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF)) < 1) {
+	close(lint_fd[0]);
+ 	statusbar(_("Could not get size of pipe buffer"));
+	return;
+    }
+
+    /* Read in the returned spelling errors. */
+    read_buff_read = 0;
+    read_buff_size = pipe_buff_size + 1;
+    read_buff = read_buff_ptr = charalloc(read_buff_size);
+
+    while ((bytesread = read(lint_fd[0], read_buff_ptr,
+	pipe_buff_size)) > 0) {
+#ifdef DEBUG
+	fprintf(stderr, "text.c:do_linter:%d bytes (%s)\n", bytesread, read_buff_ptr);
+#endif
+	read_buff_read += bytesread;
+	read_buff_size += pipe_buff_size;
+	read_buff = read_buff_ptr = charealloc(read_buff,
+		read_buff_size);
+	read_buff_ptr += read_buff_read;
+    }
+
+    *read_buff_ptr = '\0';
+    close(lint_fd[0]);
+
+#ifdef DEBUG
+		fprintf(stderr, "text.c:do_lint:Raw output: %s\n", read_buff);
+#endif
+
+    /* Process output. */
+    read_buff_word = read_buff_ptr = read_buff;
+
+    while (*read_buff_ptr != '\0') {
+	if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
+	    *read_buff_ptr = '\0';
+	    if (read_buff_word != read_buff_ptr) {
+		char *filename = NULL, *linestr = NULL, *maybecol = NULL;
+		char *message = mallocstrcpy(NULL, read_buff_word);
+
+		/* At the moment we're assuming the following formats:
+		   filenameorcategory:line:column:message (e.g. splint)
+		   filenameorcategory:line:message        (e.g. pyflakes)
+		   filenameorcategory:line,col:message    (e.g. pylint)
+		   This could be turnes into some scanf() based parser but ugh.
+		*/
+		if ((filename = strtok(read_buff_word, ":")) != NULL) {
+		    if ((linestr = strtok(NULL, ":")) != NULL) {
+			if ((maybecol = strtok(NULL, ":")) != NULL) {
+			    ssize_t tmplineno = 0, tmpcolno = 0;
+			    char *tmplinecol;
+
+			    tmplineno = strtol(linestr, NULL, 10);
+			    if (tmplineno <= 0) {
+				read_buff_ptr++;
+				free(message);
+				continue;
+			    }
+
+			    tmpcolno =  strtol(maybecol, &convendptr, 10);
+			    if (*convendptr != '\0') {
+
+				/* Prev field might still be line,col format */
+				strtok(linestr, ",");
+				if ((tmplinecol = strtok(NULL, ",")) != NULL)
+				    tmpcolno = strtol(tmplinecol, NULL, 10);
+			    }
+
+#ifdef DEBUG
+			    fprintf(stderr, "text.c:do_lint:Successful parse! %d:%d:%s\n", tmplineno, tmpcolno, message);
+#endif
+			    /* Nice we have a lint message we can use */
+			    parsesuccess++;
+			    tmplint = curlint;
+			    curlint = nmalloc(sizeof(lintstruct));
+			    curlint->next = NULL;
+			    curlint->prev = tmplint;
+			    if (curlint->prev != NULL)
+				curlint->prev->next = curlint;
+			    curlint->msg = mallocstrcpy(NULL, message);
+			    curlint->lineno = tmplineno;
+			    curlint->colno = tmpcolno;
+			    curlint->filename = mallocstrcpy(NULL, filename);
+
+			    if (lints == NULL)
+				lints = curlint;
+			}
+		    }
+		} else
+		    free(message);
+	    }
+	    read_buff_word = read_buff_ptr + 1;
+	}
+	read_buff_ptr++;
+    }
+
+    /* Process the end of the lint process. */
+    waitpid(pid_lint, &lint_status, 0);
+
+    free(read_buff);
+
+    if (parsesuccess == 0) {
+	statusbar(_("Got 0 parsable lines from command: %s"), openfile->syntax->linter);
+	return;
+    }
+
+    currmenu = MLINTER;
+    bottombars(MLINTER);
+    tmplint = NULL;
+    curlint = lints;
+    while (1) {
+	ssize_t tmpcol = 1;
+	int kbinput;
+	bool meta_key, func_key;
+	struct stat lintfileinfo;
+
+	if (curlint->colno > 0)
+	    tmpcol = curlint->colno;
+
+	if (tmplint != curlint) {
+	    struct stat lintfileinfo;
+
+#ifndef NANO_TINY
+	    new_lint_loop:
+	    if (stat(curlint->filename, &lintfileinfo) != -1) {
+		if (openfile->current_stat->st_ino != lintfileinfo.st_ino) {
+		    openfilestruct *tmpof = openfile;
+		    while (tmpof != openfile->next) {
+			if (tmpof->current_stat->st_ino == lintfileinfo.st_ino)
+			    break;
+			tmpof = tmpof->next;
+		    }
+		    if (tmpof->current_stat->st_ino != lintfileinfo.st_ino) {
+			char *msg = charalloc(1024 + strlen(curlint->filename));
+			int i;
+
+			sprintf(msg, _("This message is for unopened file %s, open it in a new buffer?"),
+				curlint->filename);
+			i = do_yesno_prompt(FALSE, msg);
+			free(msg);
+			if (i == 1) {
+			    SET(MULTIBUFFER);
+			    open_buffer(curlint->filename, FALSE);
+			} else {
+			    char *dontwantfile = curlint->filename;
+
+			    while (curlint != NULL && !strcmp(curlint->filename, dontwantfile))
+				curlint = curlint->next;
+			    if (curlint == NULL) {
+				statusbar("No more errors in un-opened filed, cancelling");
+				break;
+			    } else
+				goto new_lint_loop;
+			}
+		    } else
+			openfile = tmpof;
+		}
+	    }
+#endif /* NANO_TINY */
+	    do_gotolinecolumn(curlint->lineno, tmpcol, FALSE, FALSE, FALSE, FALSE);
+	    titlebar(NULL);
+	    edit_refresh();
+	    statusbar(curlint->msg);
+	    bottombars(MLINTER);
+	}
+
+        kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
+        s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+	tmplint = curlint;
+
+	if (!s)
+	    continue;
+        else if (s->scfunc == do_cancel)
+	    break;
+        else if (s->scfunc == do_help_void) {
+	    tmplint = NULL;
+	    do_help_void();
+        } else if (s->scfunc == do_page_down) {
+	    if (curlint->next != NULL)
+	        curlint = curlint->next;
+	    else {
+	        statusbar(_("At last message"));
+		continue;
+	    }
+	} else if (s->scfunc == do_page_up) {
+	    if (curlint->prev != NULL)
+		curlint = curlint->prev;
+	    else {
+	        statusbar(_("At first message"));
+		continue;
+	    }
+	}
+    }
+    for (tmplint = lints; tmplint != NULL; tmplint = tmplint->next) {
+	free(tmplint->msg);
+	free(tmplint->filename);
+	free(tmplint);
+    }
+    blank_statusbar();
+    currmenu = MMAIN;
+    display_main_list();
+}
+#endif /* ENABLE_COLOR */
+
 #ifndef NANO_TINY
 /* Our own version of "wc".  Note that its character counts are in
  * multibyte characters instead of single-byte characters. */

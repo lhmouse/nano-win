@@ -333,6 +333,11 @@ void load_poshistory(void);
 void save_poshistory(void);
 int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 #endif
+#ifdef ENABLE_COLOR
+void do_linter(void);
+void set_lint_shortcuts(void);
+void set_spell_shortcuts(void);
+#endif
 
 /* All functions in global.c. */
 size_t length_of_list(int menu);
@@ -849,6 +854,8 @@ void do_credits(void);
 
 /* May as just throw these here since they are just placeholders */
 void do_cancel(void);
+void do_page_up(void);
+void do_page_down(void);
 void case_sens_void(void);
 void regexp_void(void);
 void gototext_void(void);

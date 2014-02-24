@@ -1083,10 +1083,11 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     edit_update(save_pos ? NONE : CENTER);
 
     /* If allow_update is TRUE, update the screen. */
-    if (allow_update)
+    if (allow_update) {
 	edit_refresh();
 
-    display_main_list();
+	display_main_list();
+    }
 }
 
 /* Go to the specified line and column, asking for them beforehand. */
