@@ -3439,7 +3439,7 @@ void do_replace_highlight(bool highlight, const char *word)
 }
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 55
+#define CREDIT_LEN 57
 #define XLCREDIT_LEN 8
 
 /* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
@@ -3463,9 +3463,10 @@ void do_credits(void)
 	"David Lawrence Ramsey",
 	"David Benbennick",
 	"Mike Frysinger",
+	"Benno Schulenberg",
 	"Ken Tyler",
 	"Sven Guckes",
-	NULL,				/* credits[15], handled below. */
+	NULL,				/* credits[16], handled below. */
 	"Pauli Virtanen",
 	"Daniele Medri",
 	"Clement Laforet",
@@ -3479,6 +3480,7 @@ void do_credits(void)
 	"Albert Chin",
 	"",
 	NULL,				/* "Special thanks to:" */
+	"Monique, Brielle & Joseph",
 	"Plattsburgh State University",
 	"Benet Laboratories",
 	"Amy Allegretta",
@@ -3498,7 +3500,7 @@ void do_credits(void)
 	"",
 	"",
 	"",
-	"(C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007",
+	"(C) 1999 - 2014",
 	"Free Software Foundation, Inc.",
 	"",
 	"",
@@ -3521,7 +3523,7 @@ void do_credits(void)
     /* credits[15]: Make sure this name is displayed properly, since we
      * can't dynamically assign it above, using Unicode 00F6 (Latin
      * Small Letter O with Diaresis) if applicable. */
-    credits[15] =
+    credits[16] =
 #ifdef ENABLE_UTF8
 	 using_utf8() ? "Florian K\xC3\xB6nig" :
 #endif
