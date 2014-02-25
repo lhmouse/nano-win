@@ -1286,12 +1286,12 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-Z", do_toggle_void, SUSPEND, TRUE);
     add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
 #endif
+    add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
+    add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
     add_to_sclist(MGOTOLINE, "^T",  gototext_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F",  new_buffer_void, 0, FALSE);
     add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
 	"^C", do_cancel, 0, FALSE);
-    add_to_sclist(MHELP, "^X", do_exit, 0, TRUE);
-    add_to_sclist(MHELP, "F2", do_exit, 0, TRUE);
     add_to_sclist(MWRITEFILE, "M-D",  dos_format_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-M",  mac_format_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-A",  append_void, 0, FALSE);

@@ -3,7 +3,10 @@
 	* src/global.c - Correcting some translator comments, removal
 	of a few superfluous blank lines, and some pedantic comment
 	tweaks (mainly adding missing periods and stars).
- 	* src/global.c - Ordering "Prev Word" and "Next Word" better.
+	* src/global.c - Ordering "Prev Word" and "Next Word" better.
+	* src/global.c - Make ^G not only call help but also exit from
+	it, and make ^C also exit from help and from the file browser.
+	Also remove two redundant shortcut definitions.
 
 2014-02-25  Mike Frysinger  <vapier@gentoo.org>
 	* src/Makefile.am - Rename 'INCLUDES' to 'AM_CPPFLAGS', since
