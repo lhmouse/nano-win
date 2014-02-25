@@ -1,3 +1,9 @@
+2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/help.c (do_help_void) - Call the help browser with the correct
+	refresher for afterwards.  This solves a bug reported by myself on
+	nano-devel in August 2010: after typing ^R ^T ^W ^G ^X, the file
+	being edited would get displayed instead of the list of files.
+
 2014-02-24 Chris Allegretta <chrisa@asty.org>
 	* new linter functionality.  rcfile option "linter"
 	* src/global.c (shortcut_init) - Actually free the sclist

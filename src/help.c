@@ -547,13 +547,15 @@ size_t help_line_len(const char *ptr)
 
 #endif /* !DISABLE_HELP */
 
-/* Start the help browser for the edit window. */
+/* Start the help browser. */
 void do_help_void(void)
 {
-
 #ifndef DISABLE_HELP
-    /* Start the help browser for the edit window. */
-    do_help(&edit_refresh);
+    /* Start the help browser, with the correct refresher for afterwards. */
+    if (currmenu == MBROWSER || currmenu == MWHEREISFILE || currmenu == MGOTODIR)
+	do_help(&browser_refresh);
+    else
+	do_help(&edit_refresh);
 #else
     if (currmenu == MMAIN)
 	nano_disabled_msg();
