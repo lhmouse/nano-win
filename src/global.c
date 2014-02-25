@@ -911,11 +911,11 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_left, MALL, "", "", FALSE, VIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs(do_next_word_void, MMAIN, N_("Next Word"),
-	IFSCHELP(nano_nextword_msg), FALSE, VIEW);
-
     add_to_funcs(do_prev_word_void, MMAIN, N_("Prev Word"),
 	IFSCHELP(nano_prevword_msg), FALSE, VIEW);
+
+    add_to_funcs(do_next_word_void, MMAIN, N_("Next Word"),
+	IFSCHELP(nano_nextword_msg), FALSE, VIEW);
 #endif
 
     add_to_funcs(do_up_void, (MMAIN|MHELP|MBROWSER), N_("Prev Line"),

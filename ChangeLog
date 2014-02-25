@@ -3,6 +3,7 @@
 	* src/global.c - Correcting some translator comments, removal
 	of a few superfluous blank lines, and some pedantic comment
 	tweaks (mainly adding missing periods and stars).
+ 	* src/global.c - Ordering "Prev Word" and "Next Word" better.
 
 2014-02-25  Mike Frysinger  <vapier@gentoo.org>
 	* src/Makefile.am - Rename 'INCLUDES' to 'AM_CPPFLAGS', since
