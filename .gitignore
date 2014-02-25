@@ -1,8 +1,14 @@
+*~
+*.bak
 *.o
 .deps
 .libs
 Makefile
 Makefile.in
+
+core
+.gdb_history
+.gdbinit
 
 /ABOUT-NLS
 /INSTALL

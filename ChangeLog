@@ -2,6 +2,7 @@
 	* src/Makefile.am - Rename 'INCLUDES' to 'AM_CPPFLAGS', since
 	Automake changed the naming of these a while ago, and at least
 	version 1.13 now starts warning about it.
+	* .gitignore - Ignore generated files (and bak files).
 
 2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_lockfile, do_lockfile) - Fix a typo reported
