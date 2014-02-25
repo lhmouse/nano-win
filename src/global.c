@@ -67,7 +67,7 @@ WINDOW *bottomwin;
 int editwinrows = 0;
 	/* How many rows does the edit window take up? */
 int maxrows = 0;
-	/* How many usable lines are there (due to soft wrapping) */
+	/* How many usable lines there are (due to soft wrapping). */
 
 filestruct *cutbuffer = NULL;
 	/* The buffer where we store cut text. */
@@ -159,17 +159,17 @@ char *syntaxstr = NULL;
 
 bool edit_refresh_needed = 0;
 	/* Did a command mangle enough of the buffer refresh that we
-	   should repaint the screen */
+	 * should repaint the screen? */
 
 const shortcut *currshortcut;
 	/* The current shortcut list we're using. */
 int currmenu;
-	/* The currently loaded menu */
+	/* The currently loaded menu. */
 
 sc *sclist = NULL;
-	/* New shortcut key struct */
+	/* New shortcut key struct. */
 subnfunc *allfuncs = NULL;
-	/* New struct for the function list */
+	/* New struct for the function list. */
 
 #ifndef NANO_TINY
 filestruct *search_history = NULL;
@@ -185,7 +185,7 @@ filestruct *replaceage = NULL;
 filestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
 poshiststruct *poshistory;
-	/* The cursor position history list  */
+	/* The cursor position history list. */
 #endif
 
 /* Regular expressions. */
@@ -203,7 +203,7 @@ int reverse_attr = A_REVERSE;
 char *homedir = NULL;
 	/* The user's home directory, from $HOME or /etc/passwd. */
 
-/* Return the number of entries in the shortcut list s for a given menu. */
+/* Return the number of entries in the shortcut list for a given menu. */
 size_t length_of_list(int menu)
 {
     subnfunc *f;
@@ -220,7 +220,7 @@ size_t length_of_list(int menu)
     return i;
 }
 
-/* Just throw this here */
+/* Just throw this here. */
 void case_sens_void(void)
 {
 }
@@ -264,7 +264,7 @@ void ext_cmd_void(void)
 {
 }
 
-/* Set type of function based on the string */
+/* Set type of function based on the string. */
 function_type strtokeytype(const char *str)
 {
     if (str[0] ==  'M' || str[0] == 'm')
@@ -277,8 +277,8 @@ function_type strtokeytype(const char *str)
 	return RAWINPUT;
 }
 
-/* Add a string to the new function list strict.
-   Does not allow updates, yet anyway */
+/* Add a string to the new function list struct.
+ * Does not allow updates, not yet anyway. */
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
 {
@@ -353,8 +353,8 @@ const sc *first_sc_for(int menu, void (*func)(void))
 }
 
 
-/* Add a string to the new shortcut list implementation
-   Allows updates to existing entries in the list */
+/* Add a string to the new shortcut list implementation.
+ * Allows updates to existing entries in the list. */
 void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggle, int execute)
 {
     sc *s;
@@ -393,7 +393,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
 }
 
 
-/* Assign one menu's shortcuts to another function */
+/* Assign one menu's shortcuts to another function. */
 void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 {
     sc *s;
@@ -409,7 +409,7 @@ void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 
 
 /* Return the given menu's first shortcut sequence, or the default value
-  (2nd arg).  Assumes currmenu for the menu to check*/
+ * (2nd arg).  Assumes currmenu for the menu to check. */
 int sc_seq_or (void (*func)(void), int defaultval)
 {
     const sc *s = first_sc_for(currmenu, func);
@@ -421,8 +421,8 @@ int sc_seq_or (void (*func)(void), int defaultval)
 
 }
 
-/* Assign the info to the shortcut struct
-   Assumes keystr is already assigned, naturally */
+/* Assign the info to the shortcut struct.
+ * Assumes keystr is already assigned, naturally. */
 void assign_keyinfo(sc *s)
 {
     if (s->type == CONTROL) {
@@ -437,7 +437,7 @@ void assign_keyinfo(sc *s)
     } else /* RAWINPUT */
         s->seq = (int) s->keystr[0];
 
-    /* Override some keys which don't bind as nicely as we'd like */
+    /* Override some keys which don't bind as nicely as we'd like. */
     if (s->type == CONTROL && (!strcasecmp(&s->keystr[1], "space")))
 	s->seq = 0;
     else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
@@ -474,7 +474,6 @@ void assign_keyinfo(sc *s)
 }
 
 #ifdef DEBUG
-
 void print_sclist(void)
 {
     sc *s;
@@ -487,13 +486,12 @@ void print_sclist(void)
 	else
 	    fprintf(stderr, "Hmm, didnt find a func for \"%s\"\n", s->keystr);
     }
-
 }
 #endif
 
 
-/* Stuff we need to make at least static here so we can access it below */
-/* TRANSLATORS: Try to keep the next five strings at most 10 characters. */
+/* Stuff we need to make at least static here so we can access it below. */
+/* TRANSLATORS: Try to keep the next six strings at most 10 characters. */
 const char *cancel_msg = N_("Cancel");
 const char *replace_msg = N_("Replace");
 const char *no_replace_msg = N_("No Replace");
@@ -507,7 +505,7 @@ const char *backwards_msg = N_("Backwards");
 const char *regexp_msg = N_("Regexp");
 #endif
 
-/* Stuff we want to just stun out if we're in TINY mode */
+/* Stuff we want to just stun out if we're in TINY mode. */
 #ifdef NANO_TINY
 const char *gototext_msg = "";
 const char *do_para_begin_msg = "";
@@ -529,7 +527,7 @@ const char *goto_dir_msg;
 const char *ext_cmd_msg = "";
 
 #else
-/* TRANSLATORS: Try to keep the next five strings at most 10 characters. */
+/* TRANSLATORS: Try to keep the next three strings at most 10 characters. */
 const char *prev_history_msg = N_("PrevHstory");
 const char *next_history_msg = N_("NextHstory");
 const char *gototext_msg = N_("Go To Text");
@@ -554,8 +552,8 @@ const char *goto_dir_msg = N_("Go To Dir");
 
 #endif /* NANO_TINY */
 
-/* Initialize all shortcut lists.  If unjustify is TRUE, replace the
- * Uncut shortcut in the main shortcut list with UnJustify. */
+/* Initialize all shortcut lists.  If unjustify is TRUE, replace
+ * the Uncut shortcut in the main shortcut list with UnJustify. */
 void shortcut_init(bool unjustify)
 {
     /* TRANSLATORS: Try to keep the following strings at most 10 characters. */
@@ -587,11 +585,11 @@ void shortcut_init(bool unjustify)
 #endif
 
 #ifndef DISABLE_JUSTIFY
+    /* TRANSLATORS: The next long series of strings are shortcut descriptions;
+     * they are best kept shorter than 56 characters, but may be longer. */
     const char *nano_justify_msg = N_("Justify the current paragraph");
 #endif
 #ifndef DISABLE_HELP
-    /* TRANSLATORS: The next long series of strings are shortcut descriptions;
-     * they are best kept shorter than 56 characters, but may be longer. */
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
@@ -817,7 +815,6 @@ void shortcut_init(bool unjustify)
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	add_to_funcs(do_uncut_text, MMAIN, N_("UnJustify"), "",
 	    FALSE, NOVIEW);
-
     else
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	add_to_funcs(do_uncut_text, MMAIN, N_("UnCut Text"), IFSCHELP(nano_uncut_msg),
@@ -851,7 +848,6 @@ void shortcut_init(bool unjustify)
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	last_line_msg, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
-
     add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
 	go_to_line_msg, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
 
@@ -861,9 +857,7 @@ void shortcut_init(bool unjustify)
 	FALSE, VIEW);
 #endif
 
-
     add_to_funcs(do_replace, (MMAIN|MWHEREIS), replace_msg, IFSCHELP(nano_replace_msg),
-
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -872,7 +866,6 @@ void shortcut_init(bool unjustify)
 	NOVIEW);
 
 #ifndef NANO_TINY
-
     add_to_funcs(do_mark, MMAIN, N_("Mark Text"),
 	IFSCHELP(nano_mark_msg), FALSE, VIEW);
 
@@ -895,7 +888,6 @@ void shortcut_init(bool unjustify)
 	add_to_funcs(do_redo, MMAIN, N_("Redo"),
 	    IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
     }
-
 #endif
 
     add_to_funcs(do_right, MMAIN, N_("Forward"), IFSCHELP(nano_forward_msg),
@@ -1104,22 +1096,19 @@ void shortcut_init(bool unjustify)
 	insert_file_msg, IFSCHELP(nano_insert_msg), FALSE, VIEW);
 
 #ifdef ENABLE_MULTIBUFFER
-     add_to_funcs( new_buffer_void, MEXTCMD,
+    add_to_funcs( new_buffer_void, MEXTCMD,
 	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
-#endif
+#endif /* NANO_TINY */
 
 #ifndef DISABLE_HELP
     add_to_funcs(edit_refresh, MHELP,
 	refresh_msg, nano_refresh_msg, FALSE, VIEW);
 
     add_to_funcs(do_exit, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
-
-
 #endif
 
 #ifndef DISABLE_BROWSER
-
     add_to_funcs(do_first_file,
 	(MBROWSER|MWHEREISFILE),
 	first_file_msg, IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
@@ -1367,8 +1356,8 @@ const subnfunc *sctofunc(sc *s)
 }
 
 #ifndef NANO_TINY
-/* Now lets come up with a single (hopefully)
-   function to get a string for each flag */
+/* Now let's come up with a single (hopefully)
+ * function to get a string for each flag. */
 const char *flagtostr(int flag)
 {
    switch (flag) {
@@ -1413,7 +1402,7 @@ const char *flagtostr(int flag)
 #endif /* NANO_TINY */
 
 /* Interpret the string given by the rc file and return a
-    shortcut struct, complete with proper value for execute */
+ * shortcut struct, complete with proper value for execute. */
 sc *strtosc(int menu, char *input)
 {
      sc *s;
@@ -1665,7 +1654,7 @@ sc *strtosc(int menu, char *input)
 }
 
 #ifdef ENABLE_NANORC
-/* Same thing as abnove but for the menu */
+/* Same thing as above but for the menu. */
 int strtomenu(char *input)
 {
     if (!strcasecmp(input, "all"))
@@ -1809,4 +1798,3 @@ void thanks_for_all_the_fish(void)
 }
 
 #endif /* DEBUG */
-
