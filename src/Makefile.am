@@ -1,5 +1,5 @@
 localedir = $(datadir)/locale
-INCLUDES = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\"
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\"
 
 ACLOCAL_AMFLAGS = -I m4
 
