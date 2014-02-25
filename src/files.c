@@ -140,7 +140,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     mypid = getpid();
 
     if (gethostname(myhostname, 31) < 0) {
-       statusbar(_("Couldn't determine hosttname for lock file: %s"), strerror(errno));
+       statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
        return -1;
     }
 
@@ -268,7 +268,7 @@ int do_lockfile(const char *filename)
         char *promptstr = (char *) nmalloc(128);
         int ans;
         if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
-            statusbar(_("Error opening lockfile %s: %s"),
+            statusbar(_("Error opening lock file %s: %s"),
                       lockfilename, strerror(errno));
             return -1;
         }
@@ -278,7 +278,7 @@ int do_lockfile(const char *filename)
         } while (readtot < 8192 && readamt > 0);
 
         if (readtot < 48) {
-            statusbar(_("Error reading lockfile %s: Not enough data read"),
+            statusbar(_("Error reading lock file %s: Not enough data read"),
                       lockfilename);
             return -1;
         }

@@ -1,4 +1,9 @@
 2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_lockfile, do_lockfile) - Fix a typo reported
+	by Jean-Philippe Guérard and inconsistent spelling of "lock file"
+	reported by myself on nano-devel in March 2013.
+
+2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (do_help_void) - Call the help browser with the correct
 	refresher for afterwards.  This solves a bug reported by myself on
 	nano-devel in August 2010: after typing ^R ^T ^W ^G ^X, the file
