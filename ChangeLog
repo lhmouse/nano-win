@@ -1,3 +1,6 @@
+2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
+	* NEWS - Fix some typos and wordings, and rewrap a few lines.
+
 2014-02-25  Mike Frysinger  <vapier@gentoo.org>
 	* src/Makefile.am - Rename 'INCLUDES' to 'AM_CPPFLAGS', since
 	Automake changed the naming of these a while ago, and at least

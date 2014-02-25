@@ -16,12 +16,12 @@
 		using nano and keep circulating the tapes.
 
 2011.02.26 - GNU nano 2.3.0 "Septic surprise" is released.  This first
-		release in the 2.3 unstable series bring several new
+		release in the 2.3 unstable series brings several new
 		features.  First, libmagic support for syntax highlighting
 		has been added on top of the existing file extension
 		and header support already available.  Secondly, cursor
 		position can be saved between editing sessions with
-		the -P or --poslog command line flags, or via "set poslog"
+		the -P or --poslog command-line flag, or via "set poslog"
 		in your .nanorc.  Also included are some fixes for
 		compilation with g++, and better handling of issues
 		writing the backup file, which should reduce the need
@@ -40,13 +40,13 @@
 
 2010.08.05 - GNU nano 2.2.5 "Inactivity timeout" is now available.
 		This release includes slightly less restrictive checking
-		when writing files in strange environments (e.g.
-		when being used out of crontab).  For very strange situations
+		when writing files in strange environments (e.g. when
+		being used out of crontab).  For very strange situations
 		(such as where you cannot change the permissions on the
-		file you're writing, there is a new rc file option
+		file you're writing), there is a new rc file option
 		"allow_insecure_backup" to be even more permissive and
-		allowing the write to proceed.  Also included are
-		some syntax highlighting updated, and that is about it.
+		allow the write to proceed.  Also included are some
+		syntax highlighting updates, and that is about it.
 		Keep fighting the good fight children.
 
 2010.04.15 - GNU nano 2.2.4 is nobody's fool.  First and foremost,
@@ -56,7 +56,7 @@
 		CVE-2010-1160 and CVE-2010-1161.  Also included are fixes
 		for various crash modes when using the spell checker
 		on new files in multibuffer mode (surely you've used
-		that combination recently? No?) as well as a fixing
+		that combination recently? no?) as well as a fixing
 		the 'file was modified' message when saving to a
 		new filename (since how would nano know?).  And
 		the list would not be complete without our
@@ -78,7 +78,7 @@
 		http://savannah.gnu.org/bugs/?func=additem&group=nano
 
 2010.01.17 - GNU nano 2.2.2 is released for you, you, you.  This
-		release includes fixes for: crashed when writing
+		release includes fixes for: crashes when writing
 		backup files in certain conditions, improper
 		screen centering when moving up/down in various
 		combination of smooth scrolling and soft wrapping modes,
@@ -97,7 +97,7 @@
 		issues with compiler warnings and configure options, and
 		documentation updates, including the nano texinfo manual,
 		nano and nanorc man pages, and UPGRADE file, and some
-		missing syntax highliting entries for the saple nanorc.
+		missing syntax highliting entries for the sample nanorc.
 		And no release would be complete without the latest round
 		of 'final' soft wrapping fixes!  Finally, nano will no
 		longer print a warning when attempting to insert the
