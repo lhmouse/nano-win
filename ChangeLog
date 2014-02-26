@@ -1,3 +1,8 @@
+2014-02-26  Mike Frysinger  <vapier@gentoo.org>
+	* doc/syntax/sh.nanorc - Highlight more shell builtins and
+	common commands, and rewrite the variable highlighting to be
+	more exact and handle cases where string operations are used.
+
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) -  Put PageUp and PageDown
 	and also WhereIs and WhereIsNext together in the help lines
