@@ -1,3 +1,7 @@
+2014-02-26  Konstantin Abakumov  <abakumov@Savannah>  (tiny change)
+	* doc/syntax/python.nanorc - Slightly improve the regexes for
+	multiline strings in Python, reducing spillage.
+
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/move.c (do_down), src/winio.c (edit_scroll) - Scroll an
 	extra amount when softwrap is on and the current line would
