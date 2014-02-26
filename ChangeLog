@@ -2,6 +2,9 @@
 	* doc/syntax/sh.nanorc - Highlight more shell builtins and
 	common commands, and rewrite the variable highlighting to be
 	more exact and handle cases where string operations are used.
+	* doc/syntax/gentoo.nanorc - Update to newer EAPIs, and fold
+	in updated shell changes too.  Much of this is based on work
+	by Davide Pesavento <pesa@gentoo.org>.
 
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) -  Put PageUp and PageDown
