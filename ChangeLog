@@ -5,6 +5,7 @@
 	* doc/syntax/gentoo.nanorc - Update to newer EAPIs, and fold
 	in updated shell changes too.  Much of this is based on work
 	by Davide Pesavento <pesa@gentoo.org>.
+	* doc/syntax/makefile.nanorc: Highlight trailing whitespace.
 
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) -  Put PageUp and PageDown

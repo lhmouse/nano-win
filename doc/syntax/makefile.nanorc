@@ -7,3 +7,5 @@ color magenta "\<(if|ifeq|else|endif)\>"
 color blue "\$+[{(][a-zA-Z0-9_-]+[})]"
 color brightblue "^[^ 	]+:"
 color green "#.*$"
+## Trailing whitespace.
+color ,green "[[:space:]]+$"
