@@ -1,3 +1,9 @@
+2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (shortcut_init) -  Put PageUp and PageDown
+	and also WhereIs and WhereIsNext together in the help lines
+	of the file browser, and WriteOut and Readfile in the help
+	lines of the main window -- related stuff in one column.
+
 2014-02-26  Konstantin Abakumov  <abakumov@Savannah>  (tiny change)
 	* doc/syntax/python.nanorc - Slightly improve the regexes for
 	multiline strings in Python, reducing spillage.

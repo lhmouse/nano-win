@@ -771,12 +771,6 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_writeout_void, MMAIN, N_("WriteOut"),
 	IFSCHELP(nano_writeout_msg), FALSE, NOVIEW);
 
-#ifndef DISABLE_JUSTIFY
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_justify_void, MMAIN, N_("Justify"),
-	nano_justify_msg, TRUE, NOVIEW);
-#endif
-
     /* We allow inserting files in view mode if multibuffers are
      * available, so that we can view multiple files.  If we're using
      * restricted mode, inserting files is disabled, since it allows
@@ -794,6 +788,15 @@ void shortcut_init(bool unjustify)
 
     add_to_funcs(do_search, MMAIN|MBROWSER, whereis_msg,
 	IFSCHELP(nano_whereis_msg), FALSE, VIEW);
+
+    add_to_funcs(do_research, MBROWSER, whereis_next_msg,
+	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
+
+#ifndef DISABLE_JUSTIFY
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
+    add_to_funcs(do_justify_void, MMAIN, N_("Justify"),
+	nano_justify_msg, TRUE, NOVIEW);
+#endif
 
     add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
 	prev_page_msg, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
@@ -869,7 +872,7 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_mark, MMAIN, N_("Mark Text"),
 	IFSCHELP(nano_mark_msg), FALSE, VIEW);
 
-    add_to_funcs(do_research, (MMAIN|MBROWSER), whereis_next_msg,
+    add_to_funcs(do_research, MMAIN, whereis_next_msg,
 	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
 
     add_to_funcs(do_copy_text, MMAIN, N_("Copy Text"),
