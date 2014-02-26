@@ -1,3 +1,9 @@
+2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
+	* src/move.c (do_down), src/winio.c (edit_scroll) - Scroll an
+	extra amount when softwrap is on and the current line would
+	otherwise run off the screen, and recalculate maxrows after
+	each scroll.  Solves bug #27550 reported by Hannes Schueller.
+
 2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
 	* NEWS - Fix some typos and wordings, and rewrap a few lines.
 	* src/global.c - Correcting some translator comments, removal

@@ -3115,6 +3115,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 		openfile->current_x : 0);
 	foo = foo->next;
     }
+    compute_maxrows();
 }
 
 /* Update any lines between old_current and current that need to be
