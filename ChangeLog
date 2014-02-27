@@ -1,6 +1,8 @@
 2014-02-27  Mike Frysinger  <vapier@gentoo.org>
 	* doc/man/nanorc.5 - Relocate the misplaced unbind section,
 	and improve formatting.  (Patch tweaked by Benno.)
+	* doc/syntax/nanorc.nanorc - Add the bind/unbind commands,
+	so they will look supported when using syntax highlighting.
 
 2014-02-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (parse_help_input) - Make 'Space' again an alias
