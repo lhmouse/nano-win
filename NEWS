@@ -762,7 +762,7 @@
 		new option to ignore rc files (-I,--ignorercfiles),
 		compatibility with -pedantic, handling null characters
 		before EOF, a slightly sportier nanorc.sample and more.
-		Fixes are included for justification,
+			Fixes are included for justification,
 		the reading and writing file routines, resizing and fill
 		length, millions of memory leaks, the usage screen was
 		updated, and the --quotestr and --regexp really work
