@@ -1,3 +1,8 @@
+2014-02-27  Benno Schulenberg  <bensberg@justemail.net>
+	src/help.c (parse_help_input) - Make 'Space' again an alias
+	for PageDown and 'Minus' for PageUp -- they were mistakenly
+	swapped during code conversion in revision 4223.
+
 2014-02-26  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/sh.nanorc - Highlight more shell builtins and
 	common commands, and rewrite the variable highlighting to be

@@ -507,10 +507,10 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
 	    case ' ':
-		*kbinput = sc_seq_or(do_page_up, 0);
+		*kbinput = sc_seq_or(do_page_down, 0);
 		break;
 	    case '-':
-		*kbinput = sc_seq_or(do_page_down, 0);;
+		*kbinput = sc_seq_or(do_page_up, 0);;
 		break;
 	    /* Cancel is equivalent to Exit here. */
 	    case 'E':
