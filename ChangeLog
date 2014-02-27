@@ -1,5 +1,9 @@
+2014-02-27  Mike Frysinger  <vapier@gentoo.org>
+	* doc/man/nanorc.5 - Relocate the misplaced unbind section,
+	and improve formatting.  (Patch tweaked by Benno.)
+
 2014-02-27  Benno Schulenberg  <bensberg@justemail.net>
-	src/help.c (parse_help_input) - Make 'Space' again an alias
+	* src/help.c (parse_help_input) - Make 'Space' again an alias
 	for PageDown and 'Minus' for PageUp -- they were mistakenly
 	swapped during code conversion in revision 4223.
 

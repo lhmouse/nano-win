@@ -19,7 +19,7 @@
 .\"   <http://www.gnu.org/licenses/>.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 2.0.0" "August 23, 2007"
+.TH NANORC 5 "version 2.3.2" "February 2014
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -287,12 +287,20 @@ Same as above, except that the expression matching is case insensitive.
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
 \fIsyntaxfile\fP can only contain \fBsyntax\fP, \fBcolor\fP, and
 \fBicolor\fP commands.
+
 .SH KEY BINDINGS
 Key bindings may be reassigned via the following commands:
 .TP
-.B bind \fIkey\fP \fIfunction\fP  \fImenu\fP
+.B bind \fIkey\fP \fIfunction\fP \fImenu\fP
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
-context of menu \fImenu\fP.  The format of  \fIkey\fP should be one of:
+context of menu \fImenu\fP.
+.TP
+.B unbind \fIkey\fP \fImenu\fP
+Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all 
+menus where it exists by using \fBall\fP).
+
+.TP
+The format of \fIkey\fP should be one of:
 .TP
 .B ^ 
 followed by an alpha character or the word "Space".
@@ -306,8 +314,10 @@ Example: M-C
 followed by a numeric value from 1 to 16.
 Example: F10
 .TP
-Valid function names to be bound include:
-.TP 3
+
+Valid \fIfunction\fP names to be bound include:
+
+.TP 2
 .B help
 Invoke the help menu.
 .TP
@@ -514,8 +524,9 @@ Toggle whether long lines will be wrapped to the next line.
 Toggle whether the suspend sequence (normally ^Z) will suspend the editor window.
 .TP
 
-Valid menu sections are:
-.TP
+Valid \fImenu\fP sections are:
+
+.TP 2
 .B main
 The main editor window where text is entered.
 .TP
@@ -538,7 +549,7 @@ The 'write file' menu.
 The 'insert file' menu.
 .TP
 .B extcmd
-The menu for inserting output from an external comman, reached from the insert menu.
+The menu for inserting output from an external command, reached from the insert menu.
 .TP
 .B help
 The help menu.
@@ -558,12 +569,6 @@ The 'go to directory' menu.
 .B all
 A special name meaning: apply to all menus where this function exists.
 
-.TP
-.B unbind \fIkey\fP \fImenu\fP
-Unbind the key \fIkey\fP from the menu named \fImenu\fP or from all 
-menus by using \fIall\fP.  Same key syntax as for binding.
-Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
-context of menu \fImenu\fP.  The format of  \fIkey\fP should be one of:
 .SH FILES
 .TP
 .I SYSCONFDIR/nanorc
