@@ -985,7 +985,8 @@ static void check_vitals_mapped(void)
                if (!s) {
                    rcfile_error(N_("Fatal error: no keys mapped for function \"%s\""),
                        f->desc);
-                   fprintf(stderr, N_("Exiting.  Please use nano with the -I option if needed to adjust your nanorc settings\n"));
+                   fprintf(stderr, _("Exiting.  If needed, use nano with the -I option "
+				     "to adjust your nanorc settings.\n"));
                    exit(1);
                }
            break;

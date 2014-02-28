@@ -3,6 +3,8 @@
 	* src/global.c (thanks_for_all_the_fish) - Remove a redundant
 	'#ifdef DEBUG', it is contained within a wider one.
 	* src/global.c (strtosc) - Correct a misspelled keyword.
+	* src/rcfile.c (check_vitals_mapped) - Actually translate a
+	helpful message, and reword it somewhat for clarity.
 
 2014-02-28  Eitan Adler  <lists@eitanadler.com>
 	* src/nano.c (do_toggle) - Constify a char pointer, to fix
