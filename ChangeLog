@@ -5,6 +5,7 @@
 	* src/global.c (strtosc) - Correct a misspelled keyword.
 	* src/rcfile.c (check_vitals_mapped) - Actually translate a
 	helpful message, and reword it somewhat for clarity.
+	* src/global.c - Remove unused function 'free_shortcutage'.
 
 2014-02-28  Eitan Adler  <lists@eitanadler.com>
 	* src/nano.c (do_toggle) - Constify a char pointer, to fix

@@ -356,7 +356,6 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc
 	, int metaval, int funcval, int miscval, bool view, void
 	(*func)(void));
 void shortcut_init(bool unjustify);
-void free_shortcutage(shortcut **shortcutage);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif
