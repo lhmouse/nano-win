@@ -2,6 +2,7 @@
 	* src/text.c (execute_command) - Equalize pipe error messages.
 	* src/global.c (thanks_for_all_the_fish) - Remove a redundant
 	'#ifdef DEBUG', it is contained within a wider one.
+	* src/global.c (strtosc) - Correct a misspelled keyword.
 
 2014-02-28  Eitan Adler  <lists@eitanadler.com>
 	* src/nano.c (do_toggle) - Constify a char pointer, to fix

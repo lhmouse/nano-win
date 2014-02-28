@@ -1550,7 +1550,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = BACKUP_FILE;
-    } else if (!strcasecmp(input, "mutlibuffer")) {
+    } else if (!strcasecmp(input, "multibuffer")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = MULTIBUFFER;
