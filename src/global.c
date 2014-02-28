@@ -1743,11 +1743,9 @@ void thanks_for_all_the_fish(void)
     if (jusbuffer != NULL)
 	free_filestruct(jusbuffer);
 #endif
-#ifdef DEBUG
     /* Free the memory associated with each open file buffer. */
     if (openfile != NULL)
 	free_openfilestruct(openfile);
-#endif
 #ifdef ENABLE_COLOR
     if (syntaxstr != NULL)
 	free(syntaxstr);
