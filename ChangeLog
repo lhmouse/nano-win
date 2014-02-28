@@ -1,3 +1,7 @@
+2014-02-28  Eitan Adler  <lists@eitanadler.com>
+	* src/nano.c (do_toggle) - Constify a char pointer, to fix
+	a warning when compiling with clang (and -Wall).
+
 2014-02-27  Mike Frysinger  <vapier@gentoo.org>
 	* doc/man/nanorc.5 - Relocate the misplaced unbind section,
 	and improve formatting.  (Patch tweaked by Benno.)
