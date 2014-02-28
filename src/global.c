@@ -1401,7 +1401,6 @@ sc *strtosc(int menu, char *input)
     s = (sc *)nmalloc(sizeof(sc));
     s->execute = TRUE; /* overridden as needed below */
 
-
 #ifndef DISABLE_HELP
     if (!strcasecmp(input, "help"))
 	s->scfunc = do_help_void;
@@ -1422,18 +1421,18 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = do_up_void;
     else if (!strcasecmp(input, "down"))
 	s->scfunc = do_down_void;
-    else if (!strcasecmp(input, "pageup")
-	|| !strcasecmp(input, "prevpage"))
+    else if (!strcasecmp(input, "pageup") ||
+	     !strcasecmp(input, "prevpage"))
 	s->scfunc = do_page_up;
-    else if (!strcasecmp(input, "pagedown")
-	|| !strcasecmp(input, "nextpage"))
+    else if (!strcasecmp(input, "pagedown") ||
+	     !strcasecmp(input, "nextpage"))
 	s->scfunc = do_page_down;
     else if (!strcasecmp(input, "cut"))
 	s->scfunc = do_cut_text_void;
     else if (!strcasecmp(input, "uncut"))
 	s->scfunc = do_uncut_text;
     else if (!strcasecmp(input, "curpos") ||
-	!strcasecmp(input, "cursorpos"))
+	     !strcasecmp(input, "cursorpos"))
 	s->scfunc = do_cursorpos_void;
     else if (!strcasecmp(input, "firstline"))
 	s->scfunc = do_first_line;
@@ -1457,7 +1456,7 @@ sc *strtosc(int menu, char *input)
     else if (!strcasecmp(input, "mark"))
 	s->scfunc = do_mark;
     else if (!strcasecmp(input, "searchagain") ||
-		!strcasecmp(input, "research"))
+	     !strcasecmp(input, "research"))
 	s->scfunc = do_research;
     else if (!strcasecmp(input, "copytext"))
 	s->scfunc = do_copy_text;
@@ -1490,7 +1489,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc =  get_history_newer_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "nohelp") ||
-		!strcasecmp(input, "nohelp")) {
+	       !strcasecmp(input, "nohelp")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_HELP;
@@ -1557,16 +1556,16 @@ sc *strtosc(int menu, char *input)
     }
 #endif /* NANO_TINY */
     else if (!strcasecmp(input, "right") ||
-		!strcasecmp(input, "forward"))
+	     !strcasecmp(input, "forward"))
 	s->scfunc = do_right;
     else if (!strcasecmp(input, "left") ||
-		!strcasecmp(input, "back"))
+	     !strcasecmp(input, "back"))
 	s->scfunc = do_left;
     else if (!strcasecmp(input, "up") ||
-		!strcasecmp(input, "prevline"))
+	     !strcasecmp(input, "prevline"))
 	s->scfunc = do_up_void;
     else if (!strcasecmp(input, "down") ||
-		!strcasecmp(input, "nextline"))
+	     !strcasecmp(input, "nextline"))
 	s->scfunc = do_down_void;
     else if (!strcasecmp(input, "home"))
 	s->scfunc = do_home;
@@ -1594,7 +1593,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = case_sens_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "regexp") ||
-		!strcasecmp(input, "regex")) {
+	       !strcasecmp(input, "regex")) {
 	s->scfunc = regexp_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "dontreplace")) {
@@ -1604,7 +1603,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = gototext_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "browser") ||
-		!strcasecmp(input, "tofiles")) {
+	       !strcasecmp(input, "tofiles")) {
 	s->scfunc = to_files_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "dosformat")) {
@@ -1639,9 +1638,7 @@ sc *strtosc(int menu, char *input)
 	free(s);
 	return NULL;
     }
-
     return s;
-
 }
 
 #ifdef ENABLE_NANORC
