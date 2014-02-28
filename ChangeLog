@@ -1,3 +1,6 @@
+2014-02-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (execute_command): Equalize pipe error messages.
+
 2014-02-28  Eitan Adler  <lists@eitanadler.com>
 	* src/nano.c (do_toggle) - Constify a char pointer, to fix
 	a warning when compiling with clang (and -Wall).
