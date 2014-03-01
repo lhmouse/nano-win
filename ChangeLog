@@ -1,3 +1,12 @@
+2014-03-01  Mike Frysinger  <vapier@gentoo.org>
+	* src/color.c (color_update) - Do not write to stderr on magic
+	errors.  If the magic db has errors such that magic_load() fails,
+	the current code dumps to stderr which messes up the terminal.
+	The error message is also vague to the point where it's confusing
+	-- I thought nano had problems writing to the file I was editing.
+	Instead, use statusbar() and clarify the messages.
+	(Patch tweaked by Benno.)
+
 2014-02-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (execute_command) - Equalize pipe error messages.
 	* src/global.c (thanks_for_all_the_fish) - Remove a redundant
