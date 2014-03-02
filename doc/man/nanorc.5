@@ -287,6 +287,13 @@ Same as above, except that the expression matching is case insensitive.
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
 \fIsyntaxfile\fP can only contain \fBsyntax\fP, \fBcolor\fP, and
 \fBicolor\fP commands.
+.TP
+.B extendsyntax \fIstr\fP \fIdirective\fP [ \fIarg\fP ... ]
+Extend the syntax previously defined as \fIstr\fP to include
+new information.  Allows you to add a new \fIcolor\fP, \fIicolor\fP,
+\fImagic\fP, \fIheader\fP, or \fIlinter\fP directive to a syntax
+defined.  Useful when you want to add to definitions from the
+system-installed syntax definitions (which are normally not writable).
 
 .SH KEY BINDINGS
 Key bindings may be reassigned via the following commands:

@@ -1,3 +1,12 @@
+2014-03-01 Chris Allegretta <chrisa@asty.org>
+	* global.c (shortcut_init) - fix an issue with the split
+	  do_research() setup when using --enable-tiny
+	* rcfile.c (parse_linter) - Allow linter to be unset using ""
+	* rcfile.c - Allow syntaxes to be extended via "extendsyntax"
+	  directive.  Color, header, magic and linter should all be
+	  able to be extended.  Man page updates for nanorc(5).
+	* doc/nanorc.sample.in - Document 'set quiet'
+
 2014-03-01  Mike Frysinger  <vapier@gentoo.org>
 	* src/color.c (color_update) - Do not write to stderr on magic
 	errors.  If the magic db has errors such that magic_load() fails,

@@ -789,8 +789,10 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_search, MMAIN|MBROWSER, whereis_msg,
 	IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
+#ifndef NANO_TINY
     add_to_funcs(do_research, MBROWSER, whereis_next_msg,
 	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
+#endif /* NANO_TINY */
 
 #ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: Try to keep this at most 10 characters. */

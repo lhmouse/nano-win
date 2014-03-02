@@ -834,6 +834,9 @@ void parse_colors(char *ptr, bool icase)
 #ifdef DEBUG
 		fprintf(stderr, "Adding new entry for fg %hd, bg %hd\n", fg, bg);
 #endif
+		/* Need to recompute endcolor now so we can extend colors to syntaxes */
+		for (endcolor = endsyntax->color; endcolor->next != NULL; endcolor = endcolor->next)
+			;
 		endcolor->next = newcolor;
 	    }
 
@@ -962,7 +965,11 @@ void parse_linter(char *ptr)
     if (endsyntax->linter != NULL)
 	free(endsyntax->linter);
 
-    endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
+    /* Let them unset the linter by using "" */
+    if (!strcmp(ptr, "\"\""))
+	endsyntax->linter = NULL;
+    else
+	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
 }
 #endif /* ENABLE_COLOR */
 
@@ -1007,6 +1014,9 @@ void parse_rcfile(FILE *rcstream
     char *buf = NULL;
     ssize_t len;
     size_t n = 0;
+#ifdef ENABLE_COLOR
+    syntaxtype *end_syn_save = NULL;
+#endif
 
     while ((len = getline(&buf, &n, rcstream)) > 0) {
 	char *ptr, *keyword, *option;
@@ -1030,6 +1040,28 @@ void parse_rcfile(FILE *rcstream
 	/* Otherwise, skip to the next space. */
 	keyword = ptr;
 	ptr = parse_next_word(ptr);
+
+
+	/* Handle extending first... */
+	if (strcasecmp(keyword, "extendsyntax") == 0) {
+	    char *syntaxname = ptr;
+	    syntaxtype *ts = NULL;
+
+	    ptr = parse_next_word(ptr);
+	    for (ts = syntaxes; ts != NULL; ts = ts->next)
+		if (!strcmp(ts->desc, syntaxname))
+		    break;
+
+	    if (ts == NULL) {
+		rcfile_error(N_("Could not find syntax \"%s\" to extend"), syntaxname);
+		continue;
+	    } else {
+		end_syn_save = endsyntax;
+		endsyntax = ts;
+		keyword = ptr;
+		ptr = parse_next_word(ptr);
+	    }
+	}
 
 	/* Try to parse the keyword. */
 	if (strcasecmp(keyword, "set") == 0) {
@@ -1083,6 +1115,15 @@ void parse_rcfile(FILE *rcstream
 #endif /* ENABLE_COLOR */
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
+
+#ifdef ENABLE_COLOR
+	/* If we temporarily reset emdsyntax to allow extending, reset
+	   the value here */
+	if (end_syn_save != NULL) {
+	    endsyntax = end_syn_save;
+	    end_syn_save = NULL;
+	}
+#endif
 
 	if (set == 0)
 	    continue;
