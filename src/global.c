@@ -304,7 +304,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "Added func \"%s\"", f->desc);
+    fprintf(stderr, "Added func \"%s\"\n", f->desc);
 #endif
 }
 
@@ -944,7 +944,7 @@ void shortcut_init(bool unjustify)
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(do_find_bracket, MMAIN, _("Find Other Bracket"),
+    add_to_funcs(do_find_bracket, MMAIN, N_("Find Other Bracket"),
 	IFSCHELP(nano_bracket_msg), FALSE, VIEW);
 
     add_to_funcs(do_scroll_up, MMAIN, N_("Scroll Up"),
@@ -955,7 +955,7 @@ void shortcut_init(bool unjustify)
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-    add_to_funcs(switch_to_prev_buffer_void, MMAIN, _("Previous File"),
+    add_to_funcs(switch_to_prev_buffer_void, MMAIN, N_("Previous File"),
 	IFSCHELP(nano_prevfile_msg), FALSE, VIEW);
     add_to_funcs(switch_to_next_buffer_void, MMAIN, N_("Next File"),
 	IFSCHELP(nano_nextfile_msg), TRUE, VIEW);

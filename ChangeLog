@@ -1,3 +1,7 @@
+2014-03-03  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (add_to_funcs) - Add a newline, for clarity.
+	* src/global.c (shortcut_init) - Mark, don't translate yet.
+
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - fix an issue with the split
 	  do_research() setup when using --enable-tiny
