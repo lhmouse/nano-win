@@ -4,6 +4,9 @@
 	* src/move.c (do_down) - Correctly compute the minimum amount
 	to scroll when softwrap is on and there are overlong lines.
 	* src/winio.c (edit_scroll) - Disable amount computation here.
+	* src/move.c (do_down) - Trim some redundant code, and correct
+	the scrolling behaviour when softwrap is off -- the construct
+	(amount ? amount : 1) wasn't doing what I intended.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - fix an issue with the split
