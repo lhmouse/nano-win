@@ -942,7 +942,9 @@ void usage(void)
 #endif
     print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
     print_opt("-z", "--suspend", N_("Enable suspension"));
+#ifndef NANO_TINY
     print_opt("-$", "--softwrap", N_("Enable soft line wrapping"));
+#endif
 
     /* This is a special case. */
     print_opt("-a, -b, -e,", "", NULL);

@@ -10,6 +10,7 @@
 	* doc/man/nano{.1,rc.5} - Slightly improve formatting and wording.
 	* doc/{texinfo/nano.texi,man/nanorc.5} - Add some missing options
 	to the texinfo documentation, and improve alphabetization a bit.
+	* src/nano.c (usage) - Don't mention --softwrap in tiny version.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - fix an issue with the split
