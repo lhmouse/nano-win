@@ -7,6 +7,7 @@
 	* src/move.c (do_down) - Trim some redundant code, and correct
 	the scrolling behaviour when softwrap is off -- the construct
 	(amount ? amount : 1) wasn't doing what I intended.
+	* doc/man/nano{.1,rc.5} - Slightly improve formatting and wording.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - fix an issue with the split

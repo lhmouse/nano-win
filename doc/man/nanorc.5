@@ -19,7 +19,7 @@
 .\"   <http://www.gnu.org/licenses/>.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 2.3.2" "February 2014
+.TH NANORC 5 "version 2.3.3" "March 2014"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -246,14 +246,14 @@ special: it takes no \fIfileregex\fP, and applies to files that don't
 match any other syntax's \fIfileregex\fP.
 .TP
 .B linter \fIprogram\fP [\fIargs\fP ... ]
-For the currently defined syntax, add the following command
-to invoke the linter (overrides the speller function when
-defined.
+For the currently defined syntax, use the given \fIprogram\fR
+to invoke the linter (this overrides the speller function when
+defined).
 .TP
 .B magic ["\fIregex\fP" ... ]
 For the currently defined syntax, add one or more regexes which 
 will be compared against the \fBmagic\fP database when attempting
-to determine which highlighting rules to use for a given file. This 
+to determine which highlighting rules to use for a given file.  This 
 functionality only works when \fBlibmagic\fP is installed on the 
 system and will be silently ignored otherwise.
 .TP
