@@ -564,7 +564,8 @@ void do_down(
 	)
 {
     bool onlastline = FALSE;
-    int extra = 0;
+    int amount, enough = 0;
+    filestruct *topline;
 
     /* If we're at the bottom of the file, get out. */
     if (openfile->current == openfile->filebot)
@@ -581,11 +582,22 @@ void do_down(
     if (ISSET(SOFTWRAP)) {
 	if (openfile->current->lineno - openfile->edittop->lineno >= maxrows)
 	    onlastline = TRUE;
-	/* Compute the extra amount to scroll when the current line is overlong. */
-	extra = (strlenpt(openfile->current->data) / COLS + openfile->current_y + 2 - editwinrows);
+	/* Compute the amount to scroll. */
+	amount = (strlenpt(openfile->current->data) / COLS + openfile->current_y + 2
+		 + strlenpt(openfile->current->prev->data) / COLS - editwinrows);
+	topline = openfile->edittop;
+	/* Reduce the amount when there are overlong lines at the top. */
+	for (enough = 1; enough < amount; enough++) {
+	    if (amount <= strlenpt(topline->data) / COLS) {
+		amount = enough;
+		break;
+	    }
+	    amount -= strlenpt(topline->data) / COLS;
+	    topline = topline->next;
+	}
     }
 
-    /* If scroll_only is FALSE and if we're on the first line of the
+    /* If scroll_only is FALSE and if we're on the last line of the
      * edit window, scroll the edit window down one line if we're in
      * smooth scrolling mode, or down half a page if we're not.  If
      * scroll_only is TRUE, scroll the edit window down one line
@@ -597,13 +609,13 @@ void do_down(
 	) {
 	edit_scroll(DOWN_DIR,
 #ifndef NANO_TINY
-		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
+		(ISSET(SMOOTH_SCROLL) || scroll_only) ? (amount ? amount : 1) :
 #endif
 		editwinrows / 2 + 1);
 
 	edit_refresh_needed = TRUE;
-    } else if (extra > 0) {
-	edit_scroll(DOWN_DIR, extra);
+    } else if (amount > 0) {
+	edit_scroll(DOWN_DIR, amount);
 	edit_refresh_needed = TRUE;
     }
     /* If we're above the last line of the edit window, update the line

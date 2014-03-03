@@ -1,6 +1,9 @@
 2014-03-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_funcs) - Add a newline, for clarity.
 	* src/global.c (shortcut_init) - Mark, don't translate yet.
+	* src/move.c (do_down) - Correctly compute the minimum amount
+	to scroll when softwrap is on and there are overlong lines.
+	* src/winio.c (edit_scroll) - Disable amount computation here.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - fix an issue with the split

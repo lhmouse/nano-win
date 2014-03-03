@@ -2997,7 +2997,9 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
     /* If using soft wrapping, we want to scroll down enough to display the entire next
         line, if possible... */
-    if (ISSET(SOFTWRAP) && direction == DOWN_DIR) {
+
+/* DEFEAT the extracuzsoft computation for now; the amount should be okay already. */
+    if (FALSE && ISSET(SOFTWRAP) && direction == DOWN_DIR) {
 #ifdef DEBUG
 	   fprintf(stderr, "Softwrap: Entering check for extracuzsoft\n");
 #endif
@@ -3041,7 +3043,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	    openfile->edittop = openfile->edittop->next;
 	}
 	/* Don't over-scroll on long lines */
-	if (ISSET(SOFTWRAP)) {
+	if (ISSET(SOFTWRAP) && (direction == UP_DIR)) {
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
 	    i -=  len;
 	    if (len > 0)
