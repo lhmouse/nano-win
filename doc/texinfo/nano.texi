@@ -501,6 +501,11 @@ The supported commands and arguments are:
 
 @table @code
 
+@item set/unset allow_insecure_backup
+When backing up files, allow the backup to succeed even if its
+permissions can't be (re)set due to special OS considerations.
+You should NOT enable this option unless you are sure you need it.
+
 @item set/unset autoindent
 Use auto-indentation.
 
@@ -544,6 +549,9 @@ length will be the screen width less "n" columns.  The default value is
 @item set/unset historylog
 Enable ~/.nano_history for saving and reading search/replace strings.
 
+@ item set/unset locking
+Enable vim-style lock-files for when editing files.
+
 @item set matchbrackets "string"
 Set the opening and closing brackets that can be found by bracket
 searches.  They cannot contain blank characters.  The former set must
@@ -585,6 +593,9 @@ subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
 directory feature is turned off.
 
+@item set/unset poslog
+Save the cursor position of files between editing sessions.
+
 @item set/unset preserve
 Preserve the XON and XOFF keys (^Q and ^S).
 
@@ -597,6 +608,11 @@ The default value is @code{"!.?"}.
 @item set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
 keystroke instead of 25.
+
+@item set/unset quiet
+When set, @code{nano} will not report errors in the nanorc file nor ask them
+to be acknowledged by pressing Enter at startup.  If this option is used, it
+should be placed at the top of the file to be fully effective.
 
 @item set quotestr "string"
 The email-quote string, used to justify email-quoted paragraphs.  This
@@ -634,7 +650,7 @@ line.
 Use smooth scrolling by default.
 
 @item set/unset softwrap
-Use soft wrapping by default.
+Enable soft line wrapping for easier viewing of very long lines.
 
 @item set speller "spellprog"
 Use spelling checker "spellprog" instead of the built-in one, which
@@ -683,6 +699,16 @@ same as not having a syntax at all.  The "default" syntax is special: it
 takes no "fileregex", and applies to files that don't match any other
 syntax's "fileregex".
 
+@item linter program [arg @dots{} ]
+For the currently defined syntax, use the given program to invoke the
+linter (this overrides the speller function when defined).
+
+@item magic ["regex" @dots{} ]
+For the currently defined syntax, add one or more regexes which will be
+compared against the magic database when attempting to determine which
+highlighting rules to use for a given file.  This functionality only works
+when libmagic is installed on the system and will be silently ignored otherwise.
+
 @item color fgcolor,bgcolor "regex" @dots{}
 For the currently defined syntax, display all expressions matching the
 extended regular expression "regex" with foreground color "fgcolor" and
@@ -710,6 +736,12 @@ Same as above, except that the expression matching is case insensitive.
 @item include "syntaxfile"
 Read in self-contained color syntaxes from "syntaxfile".  Note that
 "syntaxfile" can only contain "syntax", "color", and "icolor" commands.
+
+@item extendsyntax str directive [arg @dots{} ]
+Extend the syntax previously defined as str to include new information.
+Allows you to add a new color, icolor, magic, header, or linter directive
+to an already defined syntax.  Useful when you want to add to definitions
+from the system-installed syntax definitions (which are normally not writable).
 
 @end table
 
@@ -827,8 +859,8 @@ line option, which allows specifying an alternate spell checker.
 Disable the tab completion code when reading or writing files.
 
 @item --disable-wrapping
-Disable all long line wrapping.  This also eliminates the -w command
-line option, which enables long line wrapping.
+Disable all long-line wrapping.  This also eliminates the -w command
+line option, which enables long-line wrapping.
 
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
@@ -866,7 +898,7 @@ Disables Native Language support.  This will disable use of the
 available GNU @code{nano} translations.
 
 @item --disable-wrapping-as-root
-Disable long line wrapping by default when nano is run as root.
+Disable long-line wrapping by default when @code{nano} is run as root.
 
 @item --enable-utf8
 Enable support for reading and writing Unicode files.  This will require
