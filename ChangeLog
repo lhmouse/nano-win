@@ -1,3 +1,7 @@
+2014-03-04  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/nanorc.nanorc - Add keyword 'quiet', sort 'locking',
+	and concatenate the two separate strings into one.
+
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - Don't actually free the shortcut
 	  list, since the next pass via justifying will then remove
