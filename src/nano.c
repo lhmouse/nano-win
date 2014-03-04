@@ -2577,7 +2577,7 @@ int main(int argc, char **argv)
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     /* If whitespace wasn't specified, set its default value. */
     if (whitespace == NULL) {
-	whitespace = mallocstrcpy(NULL, "  ");
+	whitespace = mallocstrcpy(NULL, ":.");
 	whitespace_len[0] = 1;
 	whitespace_len[1] = 1;
     }

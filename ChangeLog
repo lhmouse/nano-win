@@ -1,6 +1,8 @@
 2014-03-04  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc - Add keyword 'quiet', sort 'locking',
 	and concatenate the two separate strings into one.
+	* src/nano.c (main), doc/nanorc.sample.in - Make the M-P toggle
+	actually do something by default, by using visible characters.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - Don't actually free the shortcut
