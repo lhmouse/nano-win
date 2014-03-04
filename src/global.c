@@ -768,7 +768,7 @@ void shortcut_init(bool unjustify)
 #endif
 
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-    add_to_funcs(do_writeout_void, MMAIN, N_("WriteOut"),
+    add_to_funcs(do_writeout_void, MMAIN, N_("Write Out"),
 	IFSCHELP(nano_writeout_msg), FALSE, NOVIEW);
 
     /* We allow inserting files in view mode if multibuffers are
@@ -818,11 +818,11 @@ void shortcut_init(bool unjustify)
 
     if (unjustify)
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_uncut_text, MMAIN, N_("UnJustify"), "",
+	add_to_funcs(do_uncut_text, MMAIN, N_("Unjustify"), "",
 	    FALSE, NOVIEW);
     else
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_uncut_text, MMAIN, N_("UnCut Text"), IFSCHELP(nano_uncut_msg),
+	add_to_funcs(do_uncut_text, MMAIN, N_("Uncut Text"), IFSCHELP(nano_uncut_msg),
 	    FALSE, NOVIEW);
 
 #ifndef NANO_TINY

@@ -3,6 +3,9 @@
 	and concatenate the two separate strings into one.
 	* src/nano.c (main), doc/nanorc.sample.in - Make the M-P toggle
 	actually do something by default, by using visible characters.
+	* src/global.c (shortcut_init) - Normalize the writing of three
+	help-line items: "Write Out", "Uncut Text", and "Unjustify", to
+	better stress the O and U -- the big C and J were distracting.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - Don't actually free the shortcut
