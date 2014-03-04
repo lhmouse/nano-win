@@ -2984,12 +2984,11 @@ void do_linter(void)
     char *read_buff, *read_buff_ptr, *read_buff_word, *ptr;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
     size_t parsesuccess = 0;
-    int lint_fd[2], tempfile_fd = -1;
+    int lint_fd[2];
     pid_t pid_lint;
     int lint_status;
     static int arglen = 3;
     static char **lintargs = NULL;
-    FILE *temp_file;
     char *lintcopy;
     char *convendptr = NULL;
     const sc *s;
@@ -3186,7 +3185,6 @@ void do_linter(void)
 	ssize_t tmpcol = 1;
 	int kbinput;
 	bool meta_key, func_key;
-	struct stat lintfileinfo;
 
 	if (curlint->colno > 0)
 	    tmpcol = curlint->colno;

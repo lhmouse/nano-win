@@ -1,3 +1,10 @@
+2014-03-01 Chris Allegretta <chrisa@asty.org>
+	* global.c (shortcut_init) - Don't actually free the shortcut
+	  list, since the next pass via justifying will then remove
+	  all custom shortcuts.  Fixed bug discovered by Benno Schulenberg.
+	* text.c (do_linter) - Remove some unused variables to quiet
+	  -pedanic -Wall.
+
 2014-03-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_funcs) - Add a newline, for clarity.
 	* src/global.c (shortcut_init) - Mark, don't translate yet.

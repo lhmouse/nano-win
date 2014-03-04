@@ -1128,12 +1128,6 @@ void shortcut_init(bool unjustify)
 
     currmenu = MMAIN;
 
-    while (sclist != NULL) {
-        sc *s = sclist;
-        sclist = (s)->next;
-        free(s);
-    }
-
     add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
 	"^G", do_help_void, 0, TRUE);
     add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
