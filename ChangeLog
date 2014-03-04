@@ -6,6 +6,9 @@
 	* src/global.c (shortcut_init) - Normalize the writing of three
 	help-line items: "Write Out", "Uncut Text", and "Unjustify", to
 	better stress the O and U -- the big C and J were distracting.
+	* doc/{syntax/nanorc.nanorc,man/nanorc.5,texinfo/nano.texi} -
+	Remove erroneous 'suspendenable' -- it is not a settable option
+	but a bindable function.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - Don't actually free the shortcut
