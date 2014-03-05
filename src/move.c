@@ -564,7 +564,7 @@ void do_down(
 	)
 {
 #ifndef NANO_TINY
-    int amount, enough = 0;
+    int amount = 0, enough;
     filestruct *topline;
 #endif
 

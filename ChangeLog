@@ -1,3 +1,7 @@
+2014-03-05  Benno Schulenberg  <bensberg@justemail.net>
+	* src/move.c (do_down) - Initialize the correct variable to zero.
+	Solves jumpy scrolling behaviour reported by Chris Allegretta .
+
 2014-03-04 Chris Allegretta <chrisa@asty.org>
 	* global.c (first_sc_for) - Return raw keystrokes last, so
 	  they will not be displayed if there are F-key or Meta keys
