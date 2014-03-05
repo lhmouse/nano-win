@@ -1,3 +1,8 @@
+2014-03-04 Chris Allegretta <chrisa@asty.org>
+	* global.c (first_sc_for) - Return raw keystrokes last, so
+	  they will not be displayed if there are F-key or Meta keys
+	  mapped for an item in the shortcut list.
+
 2014-03-04  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc - Add keyword 'quiet', sort 'locking',
 	and concatenate the two separate strings into one.
