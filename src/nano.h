@@ -795,7 +795,7 @@ enum
 #define NOVIEW FALSE
 
 /* The maximum number of entries displayed in the main shortcut list. */
-#define MAIN_VISIBLE 12
+#define MAIN_VISIBLE (((COLS + 40) / 20) * 2)
 
 /* The minimum editor window columns and rows required for nano to work
  * correctly. */
