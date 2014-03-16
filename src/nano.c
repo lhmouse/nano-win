@@ -2576,11 +2576,16 @@ int main(int argc, char **argv)
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     /* If whitespace wasn't specified, set its default value. */
-    if (whitespace == NULL) {
-	whitespace = mallocstrcpy(NULL, ":.");
-	whitespace_len[0] = 1;
-	whitespace_len[1] = 1;
-    }
+    if (whitespace == NULL)
+	if (using_utf8()) {
+	    whitespace = mallocstrcpy(NULL, "»·");
+	    whitespace_len[0] = 2;
+	    whitespace_len[1] = 2;
+	} else {
+	    whitespace = mallocstrcpy(NULL, ">.");
+	    whitespace_len[0] = 1;
+	    whitespace_len[1] = 1;
+	}
 #endif
 
     /* If tabsize wasn't specified, set its default value. */
