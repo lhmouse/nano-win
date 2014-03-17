@@ -5,6 +5,9 @@
 	and newlines, condense three statements into one, place an #endif
 	better, melt two #ifndefs into one, and add a comment.
 	* src/winio.c (edit_scroll) - Remove the old softwrap scrolling code.
+	* src/{nano.h,proto.h,color.c,cut.c,files.c,global.c,help.c,nano.c,
+	search.c,text.c,utils.c} - Add, fix, and remove some #endif comments,
+	remove an obsolete comment, and remove some superfluous #ifndefs.
 
 2014-03-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h - Display more help items when the terminal is wider.

@@ -211,7 +211,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
 #ifdef DEBUG
     fprintf(stderr, "In write_lockfile(), write successful (wrote %d bytes)\n", wroteamt);
-#endif /* DEBUG */
+#endif
 
     if (fclose(filestream) == EOF) {
         statusbar(_("Error writing lock file %s: %s"),
@@ -260,7 +260,7 @@ int do_lockfile(const char *filename)
              locking_prefix, lockbase, locking_suffix);
 #ifdef DEBUG
     fprintf(stderr, "lock file name is %s\n", lockfilename);
-#endif /* DEBUG */
+#endif
     if (stat(lockfilename, &fileinfo) != -1) {
         ssize_t readtot = 0;
         ssize_t readamt = 0;
@@ -291,7 +291,7 @@ int do_lockfile(const char *filename)
                 lockprog);
         fprintf(stderr, "user which created this lock file should be %s\n",
                 lockuser);
-#endif /* DEBUG */
+#endif
         sprintf(promptstr, "File being edited (by %s, PID %d, user %s), continue?",
                               lockprog, lockpid, lockuser);
         ans = do_yesno_prompt(FALSE, promptstr);
@@ -303,7 +303,7 @@ int do_lockfile(const char *filename)
 
     return write_lockfile(lockfilename, filename, FALSE);
 }
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 
 
 /* If it's not "", filename is a file to open.  We make a new buffer, if
@@ -1626,7 +1626,7 @@ void init_backup_dir(void)
 	backup_dir = full_backup_dir;
     }
 }
-#endif
+#endif /* !NANO_TINY */
 
 /* Read from inn, write to out.  We assume inn is opened for reading,
  * and out for writing.  We return 0 on success, -1 on read error, or -2

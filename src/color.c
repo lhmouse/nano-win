@@ -229,7 +229,7 @@ void color_update(void)
 
 #ifdef DEBUG
 	    fprintf(stderr, "No match using extension, trying libmagic...\n");
-#endif /* DEBUG */
+#endif
 
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
@@ -241,7 +241,7 @@ void color_update(void)
 		    }
 #ifdef DEBUG
 		    fprintf(stderr,"Matching regex \"%s\" against \"%s\"\n",e->ext_regex, magicstring);
-#endif /* DEBUG */
+#endif
 
 		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
 			openfile->syntax = tmpsyntax;

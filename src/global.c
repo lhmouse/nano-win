@@ -800,7 +800,7 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     add_to_funcs(do_research, MBROWSER, whereis_next_msg,
 	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
-#endif /* NANO_TINY */
+#endif
 
 #ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: Try to keep this at most 10 characters. */
@@ -901,7 +901,7 @@ void shortcut_init(bool unjustify)
 	add_to_funcs(do_redo, MMAIN, N_("Redo"),
 	    IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
     }
-#endif
+#endif /* !NANO_TINY */
 
     add_to_funcs(do_right, MMAIN, N_("Forward"), IFSCHELP(nano_forward_msg),
 	FALSE, VIEW);
@@ -1106,7 +1106,7 @@ void shortcut_init(bool unjustify)
     add_to_funcs(new_buffer_void, MEXTCMD,
 	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 
 #ifndef DISABLE_HELP
     add_to_funcs(edit_refresh, MHELP,
@@ -1283,7 +1283,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-N", do_toggle_void, NO_CONVERT, TRUE);
     add_to_sclist(MMAIN, "M-Z", do_toggle_void, SUSPEND, TRUE);
     add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
@@ -1386,7 +1386,7 @@ const char *flagtostr(int flag)
             return "?????";
     }
 }
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 
 /* Interpret the string given by the rc file and return a
  * shortcut struct, complete with proper value for execute. */
@@ -1550,7 +1550,7 @@ sc *strtosc(int menu, char *input)
 	s->execute = FALSE;
 	s->toggle = SUSPEND;
     }
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
     else if (!strcasecmp(input, "right") ||
 	     !strcasecmp(input, "forward"))
 	s->scfunc = do_right;

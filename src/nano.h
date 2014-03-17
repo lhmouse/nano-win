@@ -352,7 +352,7 @@ typedef struct poshiststruct {
     struct poshiststruct *next;
 } poshiststruct;
 
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 
 
 typedef struct openfilestruct {
@@ -783,11 +783,6 @@ enum
 #define UNdel_del		(1<<0)
 #define UNdel_backspace	(1<<1)
 #define UNsplit_madenew	(1<<2)
-
-/* Since in ISO C you can't pass around function pointers anymore,
-  let's make some integer macros for function names, and then I
-  can go cut my wrists after writing the big switch statement
-  that will necessitate. */
 
 #endif /* !NANO_TINY */
 

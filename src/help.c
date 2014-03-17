@@ -482,7 +482,6 @@ void help_init(void)
 		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
 		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
 
-
 #ifdef ENABLE_NANORC
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);

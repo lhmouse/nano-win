@@ -598,7 +598,7 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	    *right_side_up = FALSE;
     }
 }
-#endif
+#endif /* !NANO_TINY */
 
 /* Calculate the number of characters between begin and end, and return
  * it. */

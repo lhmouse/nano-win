@@ -573,7 +573,7 @@ void do_research(void)
 			openfile->current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
-#endif
+#endif /* HAVE_REGEX_H */
 		statusbar(_("This is the only occurrence"));
 #ifdef HAVE_REGEX_H
 	    }
@@ -586,7 +586,7 @@ void do_research(void)
     edit_redraw(fileptr, pww_save);
     search_replace_abort();
 }
-#endif
+#endif /* !NANO_TINY */
 
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, bool create)
@@ -636,7 +636,7 @@ int replace_regexp(char *string, bool create)
 
     return new_line_size;
 }
-#endif
+#endif /* HAVE_REGEX_H */
 
 char *replace_line(const char *needle)
 {
@@ -724,7 +724,7 @@ ssize_t do_replace_loop(
 #endif
 	edit_refresh();
     }
-#endif
+#endif /* !NANO_TINY */
 
     if (canceled != NULL)
 	*canceled = FALSE;

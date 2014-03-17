@@ -162,7 +162,6 @@ void do_cut_text(
     keep_cutbuffer = TRUE;
 
 #ifndef NANO_TINY
-
     if (cut_till_end) {
 	/* If cut_till_end is TRUE, move all text up to the end of the
 	 * file into the cutbuffer. */
@@ -209,14 +208,10 @@ void do_cut_text(
 
     /* Leave the text in the cutbuffer, and mark the file as
      * modified. */
-#ifndef NANO_TINY
     if (!copy_text) {
-#endif
 	set_modified();
-#ifndef NANO_TINY
     }
-#endif
-#endif
+#endif /* !NANO_TINY */
 
     /* Update the screen. */
     edit_refresh_needed = TRUE;
@@ -254,9 +249,7 @@ void do_copy_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_end(void)
 {
-#ifndef NANO_TINY
     add_undo(CUT);
-#endif
     do_cut_text(FALSE, TRUE, FALSE);
 }
 #endif /* !NANO_TINY */

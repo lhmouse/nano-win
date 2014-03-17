@@ -255,7 +255,6 @@ void do_cut_text_void(void);
 #ifndef NANO_TINY
 void do_copy_text(void);
 void do_cut_till_end(void);
-
 #endif
 void do_uncut_text(void);
 
@@ -472,8 +471,6 @@ RETSIGTYPE do_continue(int signal);
 #ifndef NANO_TINY
 RETSIGTYPE handle_sigwinch(int signal);
 void allow_pending_sigwinch(bool allow);
-#endif
-#ifndef NANO_TINY
 void do_toggle(int flag);
 void do_toggle_void(void);
 #endif

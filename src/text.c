@@ -3228,7 +3228,7 @@ void do_linter(void)
 			openfile = tmpof;
 		}
 	    }
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 	    do_gotolinecolumn(curlint->lineno, tmpcol, FALSE, FALSE, FALSE, FALSE);
 	    titlebar(NULL);
 	    edit_refresh();

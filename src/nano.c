@@ -1077,7 +1077,7 @@ void do_exit(void)
 #ifndef NANO_TINY
         if (ISSET(LOCKING) && openfile->lock_filename)
             delete_lockfile(openfile->lock_filename);
-#endif /* NANO_TINY */
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
@@ -2501,7 +2501,7 @@ int main(int argc, char **argv)
 	    load_poshistory();
     }
 #endif /* ENABLE_NANORC */
-#endif /* NANO_TINY */
+#endif /* !NANO_TINY */
 
 #ifndef NANO_TINY
     /* Set up the backup directory (unless we're using restricted mode,
