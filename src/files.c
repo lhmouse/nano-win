@@ -937,7 +937,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	statusbar(_("Error reading %s: %s"), filename,
 		strerror(errno));
 	beep();
- 	return -1;
+	return -1;
      } else {
 	/* The file is A-OK.  Open it. */
 	*f = fdopen(fd, "rb");

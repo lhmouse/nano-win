@@ -1685,7 +1685,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 				if (edit_refresh_needed) {
 #ifdef DEBUG
-	    			    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
+				    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
 #endif
 				    edit_refresh();
 				    edit_refresh_needed = FALSE;
@@ -1741,7 +1741,7 @@ int do_mouse(void)
 	    fprintf(stderr, "mouse_y = %d, current_y = %d\n", mouse_y, openfile->current_y);
 #endif
 
- 	if (ISSET(SOFTWRAP)) {
+	if (ISSET(SOFTWRAP)) {
 	    int i = 0;
 	    for (openfile->current = openfile->edittop;
 		 openfile->current->next && i < mouse_y;
@@ -1825,7 +1825,7 @@ void precalc_multicolorinfo(void)
 	   message before starting this later if it takes
 	   too long to do this routine.  For now silently
 	   abort if they hit a key */
- 	nodelay(edit, FALSE);
+	nodelay(edit, FALSE);
 
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 
@@ -1851,7 +1851,7 @@ void precalc_multicolorinfo(void)
 		if ((cur_check = time(NULL)) - last_check > 1) {
 		    last_check = cur_check;
 		    if (wgetch(edit) != ERR)
-	   		goto precalc_cleanup;
+			goto precalc_cleanup;
 		}
 
 		while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0))  == 0) {
@@ -1882,7 +1882,7 @@ void precalc_multicolorinfo(void)
 			if ((cur_check = time(NULL)) - last_check > 1) {
 			    last_check = cur_check;
 			    if (wgetch(edit) != ERR)
-		   		goto precalc_cleanup;
+				goto precalc_cleanup;
 			}
 			if (regexec(tmpcolor->end, endptr->data, 1, &endmatch, 0) == 0)
 			   break;
@@ -1890,7 +1890,7 @@ void precalc_multicolorinfo(void)
 
 		    if (endptr == NULL) {
 #ifdef DEBUG
-	    		fprintf(stderr, "no end found, breaking out\n");
+			fprintf(stderr, "no end found, breaking out\n");
 #endif
 			break;
 		    }

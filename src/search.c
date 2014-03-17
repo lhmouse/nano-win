@@ -224,7 +224,7 @@ int search_init(bool replacing, bool use_answer)
 	for  (s = sclist; s != NULL; s = s->next)
 	    if ((s->menu & currmenu) && i == s->seq) {
 	        func = s->scfunc;
-	  	break;
+		break;
 	    }
 
 	if (i == -2 || i == 0 ) {

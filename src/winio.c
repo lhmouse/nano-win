@@ -2507,7 +2507,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	/* Set up multi-line color data for this line if it's not yet calculated  */
         if (fileptr->multidata == NULL && openfile->syntax
 		&& openfile->syntax->nmultis > 0) {
- 	    int i;
+	    int i;
 	    fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
             for (i = 0; i < openfile->syntax->nmultis; i++)
 		fileptr->multidata[i] = -1;	/* Assue this applies until we know otherwise */

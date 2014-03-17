@@ -418,7 +418,7 @@ void redo_cut(undo *u) {
 	    t = t->next;
 	 }
 	openfile->mark_begin = t;
- 	openfile->mark_begin_x = 0;
+	openfile->mark_begin_x = 0;
 	openfile->mark_set = TRUE;
     }
 
@@ -3073,7 +3073,7 @@ void do_linter(void)
     /* Get the system pipe buffer size. */
     if ((pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(lint_fd[0]);
- 	statusbar(_("Could not get size of pipe buffer"));
+	statusbar(_("Could not get size of pipe buffer"));
 	return;
     }
 

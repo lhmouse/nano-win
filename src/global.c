@@ -604,7 +604,7 @@ void shortcut_init(bool unjustify)
 #ifdef ENABLE_MULTIBUFFER
 	N_("Close the current file buffer / Exit from nano")
 #else
-   	N_("Exit from nano")
+	N_("Exit from nano")
 #endif
 	;
     const char *nano_writeout_msg =
@@ -1177,7 +1177,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
     if (ISSET(UNDOABLE)) {
 	add_to_sclist(MMAIN, "M-U", do_undo, 0, TRUE);
- 	add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
+	add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
     }
 #endif
     add_to_sclist(MALL, "^F", do_right, 0, TRUE);

@@ -186,7 +186,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 	    else if (s->scfunc == do_verbatim_input) {
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
-	   	     * prompt, disable verbatim input. */
+		     * prompt, disable verbatim input. */
 		    if (!ISSET(RESTRICTED) ||
 			openfile->filename[0] == '\0' ||
 			currmenu != MWRITEFILE) {

@@ -1070,7 +1070,7 @@ char *striponedir(const char *path)
     tmp = strrchr(retval, '/');
 
     if (tmp != NULL)
- 	null_at(&retval, tmp - retval);
+	null_at(&retval, tmp - retval);
 
     return retval;
 }

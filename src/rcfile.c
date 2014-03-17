@@ -1098,7 +1098,7 @@ void parse_rcfile(FILE *rcstream
 	    parse_syntax(ptr);
 	}
 	else if (strcasecmp(keyword, "magic") == 0) {
- 	    parse_magictype(ptr);
+	    parse_magictype(ptr);
 	} else if (strcasecmp(keyword, "header") == 0)
 	    parse_headers(ptr);
 	else if (strcasecmp(keyword, "color") == 0)
