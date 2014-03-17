@@ -8,6 +8,8 @@
 	* src/{nano.h,proto.h,color.c,cut.c,files.c,global.c,help.c,nano.c,
 	search.c,text.c,utils.c} - Add, fix, and remove some #endif comments,
 	remove an obsolete comment, and remove some superfluous #ifndefs.
+	* src/global.c (shortcut_init) - Put ^B and ^F in the same order as
+	all other command keys: first the backward then the forward motion.
 
 2014-03-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h - Display more help items when the terminal is wider.

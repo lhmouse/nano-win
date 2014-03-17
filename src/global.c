@@ -903,25 +903,20 @@ void shortcut_init(bool unjustify)
     }
 #endif /* !NANO_TINY */
 
-    add_to_funcs(do_right, MMAIN, N_("Forward"), IFSCHELP(nano_forward_msg),
-	FALSE, VIEW);
-
-#ifndef DISABLE_BROWSER
-    add_to_funcs(do_right, MBROWSER, N_("Forward"), IFSCHELP(nano_forwardfile_msg),
-	FALSE, VIEW);
-#endif
-
-    add_to_funcs(do_right, MALL, "", "", FALSE, VIEW);
-
     add_to_funcs(do_left, MMAIN, N_("Back"), IFSCHELP(nano_back_msg),
+	FALSE, VIEW);
+    add_to_funcs(do_right, MMAIN, N_("Forward"), IFSCHELP(nano_forward_msg),
 	FALSE, VIEW);
 
 #ifndef DISABLE_BROWSER
     add_to_funcs(do_left, MBROWSER, N_("Back"), IFSCHELP(nano_backfile_msg),
 	FALSE, VIEW);
+    add_to_funcs(do_right, MBROWSER, N_("Forward"), IFSCHELP(nano_forwardfile_msg),
+	FALSE, VIEW);
 #endif
 
     add_to_funcs(do_left, MALL, "", "", FALSE, VIEW);
+    add_to_funcs(do_right, MALL, "", "", FALSE, VIEW);
 
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MMAIN, N_("Prev Word"),
