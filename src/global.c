@@ -1192,13 +1192,15 @@ void shortcut_init(bool unjustify)
 	add_to_sclist(MMAIN, "M-U", do_undo, 0, TRUE);
  	add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
     }
+#endif
     add_to_sclist(MALL, "^F", do_right, 0, TRUE);
     add_to_sclist(MALL, "^B", do_left, 0, TRUE);
+    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
+    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
+#ifndef NANO_TINY
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
 #endif
-    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
-    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
     add_to_sclist(MMAIN, "^Q", xon_complaint, 0, TRUE);
     add_to_sclist(MMAIN, "^S", xoff_complaint, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", do_up_void, 0, TRUE);
