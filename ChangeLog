@@ -19,11 +19,11 @@
 
 2014-03-05  Benno Schulenberg  <bensberg@justemail.net>
 	* src/move.c (do_down) - Initialize the correct variable to zero.
-	Solves jumpy scrolling behaviour reported by Chris Allegretta .
+	Solves jumpy scrolling behaviour reported by Chris Allegretta.
 
 2014-03-04 Chris Allegretta <chrisa@asty.org>
 	* global.c (first_sc_for) - Return raw keystrokes last, so
-	  they will not be displayed if there are F-key or Meta keys
+	  they will not be displayed if there are F-keys or Meta keys
 	  mapped for an item in the shortcut list.
 
 2014-03-04  Benno Schulenberg  <bensberg@justemail.net>
@@ -38,10 +38,10 @@
 	Remove erroneous 'suspendenable' -- it is not a settable option
 	but a bindable function.
 
-2014-03-01 Chris Allegretta <chrisa@asty.org>
+2014-03-03 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init) - Don't actually free the shortcut
-	  list, since the next pass via justifying will then remove
-	  all custom shortcuts.  Fixed bug discovered by Benno Schulenberg.
+	  list, since the next pass via justifying will then remove all
+	  custom shortcuts.  Fixes bug discovered by Benno Schulenberg.
 	* text.c (do_linter) - Remove some unused variables to quiet
 	  -pedanic -Wall.
 
@@ -60,13 +60,13 @@
 	* src/nano.c (usage) - Don't mention --softwrap in tiny version.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
-	* global.c (shortcut_init) - fix an issue with the split
-	  do_research() setup when using --enable-tiny
-	* rcfile.c (parse_linter) - Allow linter to be unset using ""
+	* global.c (shortcut_init) - Fix an issue with the split
+	  do_research() setup when using --enable-tiny.
+	* rcfile.c (parse_linter) - Allow linter to be unset using "".
 	* rcfile.c - Allow syntaxes to be extended via "extendsyntax"
 	  directive.  Color, header, magic and linter should all be
 	  able to be extended.  Man page updates for nanorc(5).
-	* doc/nanorc.sample.in - Document 'set quiet'
+	* doc/nanorc.sample.in - Document 'set quiet'.
 
 2014-03-01  Mike Frysinger  <vapier@gentoo.org>
 	* src/color.c (color_update) - Do not write to stderr on magic
@@ -156,11 +156,11 @@
 	being edited would get displayed instead of the list of files.
 
 2014-02-24 Chris Allegretta <chrisa@asty.org>
-	* new linter functionality.  rcfile option "linter"
+	* New linter functionality, rcfile option "linter".
 	* src/global.c (shortcut_init) - Actually free the sclist
 	  if it was allocated before.
 	* src/winio.c (do_credits) - Add Benno, my children,
-	  update copyright info
+	  update copyright info.
 
 2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/*.nanorc - Comment and punctuation tweaks.
