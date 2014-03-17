@@ -4,6 +4,7 @@
 	* src/global.c (shortcut_init) - Remove some inconsistent spaces
 	and newlines, condense three statements into one, place an #endif
 	better, melt two #ifndefs into one, and add a comment.
+	* src/winio.c (edit_scroll) - Remove the old softwrap scrolling code.
 
 2014-03-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h - Display more help items when the terminal is wider.

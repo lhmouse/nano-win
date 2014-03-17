@@ -2983,8 +2983,8 @@ void compute_maxrows(void)
  * also assume that scrollok(edit) is FALSE. */
 void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
+    ssize_t i;
     filestruct *foo;
-    ssize_t i, extracuzsoft = 0;
     bool do_redraw = FALSE;
 
     /* Don't bother scrolling less than one line. */
@@ -2993,38 +2993,6 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
     if (need_vertical_update(0))
 	do_redraw = TRUE;
-
-
-    /* If using soft wrapping, we want to scroll down enough to display the entire next
-        line, if possible... */
-
-/* DEFEAT the extracuzsoft computation for now; the amount should be okay already. */
-    if (FALSE && ISSET(SOFTWRAP) && direction == DOWN_DIR) {
-#ifdef DEBUG
-	   fprintf(stderr, "Softwrap: Entering check for extracuzsoft\n");
-#endif
-	for (i = maxrows, foo = openfile->edittop; foo && i > 0; i--, foo = foo->next)
-	    ;
-
-	if (foo) {
-	   extracuzsoft += strlenpt(foo->data) / COLS;
-#ifdef DEBUG
-	   fprintf(stderr, "Setting extracuzsoft to %lu due to strlen %lu of line %lu\n", (unsigned long) extracuzsoft,
-		(unsigned long) strlenpt(foo->data), (unsigned long) foo->lineno);
-#endif
-
-	    /* Now account for whether the edittop line itself is >COLS, if scrolling down */
-	   for (foo = openfile->edittop; foo && extracuzsoft > 0; nlines++) {
-		extracuzsoft -= 1 + strlenpt(foo->data) / COLS;
-#ifdef DEBUG
- 		fprintf(stderr, "Edittop adjustment, setting nlines to %lu\n", (unsigned long) nlines);
-#endif
-		if (foo == openfile->filebot)
-		    break;
-		foo = foo->next;
-	    }
-	}
-    }
 
     /* Part 1: nlines is the number of lines we're going to scroll the
      * text of the edit window. */
