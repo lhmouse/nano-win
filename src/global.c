@@ -760,7 +760,7 @@ void shortcut_init(bool unjustify)
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER),
 	get_help_msg, IFSCHELP(nano_help_msg), FALSE, VIEW);
 
-    add_to_funcs( do_cancel,
+    add_to_funcs(do_cancel,
 	(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
 	cancel_msg, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
@@ -1024,18 +1024,15 @@ void shortcut_init(bool unjustify)
 	IFSCHELP(nano_suspend_msg), TRUE, VIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs(case_sens_void,
-	(MWHEREIS|MREPLACE|MWHEREISFILE),
+    add_to_funcs(case_sens_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
 	case_sens_msg, IFSCHELP(nano_case_msg), FALSE, VIEW);
 
-    add_to_funcs(backwards_void,
-	(MWHEREIS|MREPLACE|MWHEREISFILE),
+    add_to_funcs(backwards_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
 	backwards_msg, IFSCHELP(nano_reverse_msg), FALSE, VIEW);
 #endif
 
 #ifdef HAVE_REGEX_H
-    add_to_funcs(regexp_void,
-	(MWHEREIS|MREPLACE|MWHEREISFILE),
+    add_to_funcs(regexp_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
 	regexp_msg, IFSCHELP(nano_regexp_msg), FALSE, VIEW);
 #endif
 
@@ -1057,8 +1054,7 @@ void shortcut_init(bool unjustify)
 
 #ifndef DISABLE_BROWSER
     if (!ISSET(RESTRICTED))
-	add_to_funcs(to_files_void,
-	    (MGOTOLINE|MINSERTFILE),
+	add_to_funcs(to_files_void, (MGOTOLINE|MINSERTFILE),
 	    to_files_msg, IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
 #endif
 
@@ -1078,38 +1074,36 @@ void shortcut_init(bool unjustify)
             mac_format_msg, IFSCHELP(nano_mac_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs( append_void, MWRITEFILE,
+        add_to_funcs(append_void, MWRITEFILE,
             append_msg, IFSCHELP(nano_append_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs( prepend_void, MWRITEFILE,
+        add_to_funcs(prepend_void, MWRITEFILE,
             prepend_msg, IFSCHELP(nano_prepend_msg), FALSE, NOVIEW);
 
     if (!ISSET(RESTRICTED))
-        add_to_funcs( backup_file_void, MWRITEFILE,
+        add_to_funcs(backup_file_void, MWRITEFILE,
             backup_file_msg, IFSCHELP(nano_backup_msg), FALSE, NOVIEW);
-#endif
 
-#ifndef NANO_TINY
     /* If we're using restricted mode, command execution is disabled.
      * It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
-        add_to_funcs( ext_cmd_void, MINSERTFILE,
+        add_to_funcs(ext_cmd_void, MINSERTFILE,
 	    ext_cmd_msg, IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
-	add_to_funcs( new_buffer_void, MINSERTFILE,
+	add_to_funcs(new_buffer_void, MINSERTFILE,
 	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
 
-    add_to_funcs( do_insertfile_void, MEXTCMD,
+    add_to_funcs(do_insertfile_void, MEXTCMD,
 	insert_file_msg, IFSCHELP(nano_insert_msg), FALSE, VIEW);
 
 #ifdef ENABLE_MULTIBUFFER
-    add_to_funcs( new_buffer_void, MEXTCMD,
+    add_to_funcs(new_buffer_void, MEXTCMD,
 	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
 #endif /* NANO_TINY */
@@ -1122,12 +1116,10 @@ void shortcut_init(bool unjustify)
 #endif
 
 #ifndef DISABLE_BROWSER
-    add_to_funcs(do_first_file,
-	(MBROWSER|MWHEREISFILE),
+    add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
 	first_file_msg, IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
 
-    add_to_funcs(do_last_file,
-	(MBROWSER|MWHEREISFILE),
+    add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
 	last_file_msg, IFSCHELP(nano_lastfile_msg), FALSE, VIEW);
 
     add_to_funcs(goto_dir_void, MBROWSER,
@@ -1227,11 +1219,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MALL, "M-)", do_para_end_void, 0, TRUE);
     add_to_sclist(MALL, "M-0", do_para_end_void, 0, TRUE);
 #endif
-    add_to_sclist(MWHEREIS,
-	"M-C", case_sens_void, 0, FALSE);
-    add_to_sclist(MREPLACE,
-	"M-C", case_sens_void, 0, FALSE);
-    add_to_sclist(MREPLACE2,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"M-C", case_sens_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"M-B", backwards_void, 0, FALSE);
@@ -1252,10 +1240,10 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", do_first_file, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", do_last_file, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", do_last_file, 0, TRUE);
-#endif
     add_to_sclist(MBROWSER|MWHEREISFILE, "^_", goto_dir_void, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "F13", goto_dir_void, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-G", goto_dir_void, 0, TRUE);
+#endif
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-]", do_find_bracket, 0, TRUE);
     add_to_sclist(MMAIN, "M--", do_scroll_up, 0, TRUE);
@@ -1271,6 +1259,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-.", switch_to_next_buffer_void, 0, TRUE);
 #endif
     add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
+
 #ifndef NANO_TINY
     add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
@@ -1294,7 +1283,8 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-N", do_toggle_void, NO_CONVERT, TRUE);
     add_to_sclist(MMAIN, "M-Z", do_toggle_void, SUSPEND, TRUE);
     add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
-#endif
+#endif /* NANO_TINY */
+
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
     add_to_sclist(MGOTOLINE, "^T",  gototext_void, 0, FALSE);
