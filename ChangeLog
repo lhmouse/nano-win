@@ -1,3 +1,7 @@
+2014-03-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (shortcut_init) - In the file browser one cannot
+	search for a regular expression, so do not mention it.
+
 2014-03-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) - Show ^F and ^B instead of kright
 	and kleft in the help lines of the tiny version.

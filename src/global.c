@@ -613,6 +613,8 @@ void shortcut_init(bool unjustify)
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
 	N_("Search for a string or a regular expression");
+    const char *nano_browser_whereis_msg =
+	N_("Search for a string");
     const char *nano_prevpage_msg = N_("Go to previous screen");
     const char *nano_nextpage_msg = N_("Go to next screen");
     const char *nano_cut_msg =
@@ -794,8 +796,11 @@ void shortcut_init(bool unjustify)
 	NOVIEW);
 #endif
 
-    add_to_funcs(do_search, MMAIN|MBROWSER, whereis_msg,
+    add_to_funcs(do_search, MMAIN, whereis_msg,
 	IFSCHELP(nano_whereis_msg), FALSE, VIEW);
+
+    add_to_funcs(do_search, MBROWSER, whereis_msg,
+	IFSCHELP(nano_browser_whereis_msg), FALSE, VIEW);
 
 #ifndef NANO_TINY
     add_to_funcs(do_research, MBROWSER, whereis_next_msg,
