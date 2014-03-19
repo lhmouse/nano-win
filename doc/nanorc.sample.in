@@ -249,11 +249,17 @@
 ## Nanorc files
 # include "@PKGDATADIR@/nanorc.nanorc"
 
+## Assembler
+# include "@PKGDATADIR@/asm.nanorc"
+
+## AWK
+# include "@PKGDATADIR@/awk.nanorc"
+
+## Bourne shell scripts
+# include "@PKGDATADIR@/sh.nanorc"
+
 ## C/C++
 # include "@PKGDATADIR@/c.nanorc"
-
-## Makefiles
-# include "@PKGDATADIR@/makefile.nanorc"
 
 ## Cascading Style Sheets
 # include "@PKGDATADIR@/css.nanorc"
@@ -264,47 +270,32 @@
 ## Debian files
 # include "@PKGDATADIR@/debian.nanorc"
 
+## Fortran
+# include "@PKGDATADIR@/fortran.nanorc"
+
 ## Gentoo files
 # include "@PKGDATADIR@/gentoo.nanorc"
-
-## HTML
-# include "@PKGDATADIR@/html.nanorc"
-
-## PHP
-# include "@PKGDATADIR@/php.nanorc"
-
-## TCL
-# include "@PKGDATADIR@/tcl.nanorc"
-
-## TeX
-# include "@PKGDATADIR@/tex.nanorc"
-
-## Quoted emails (under e.g. mutt)
-# include "@PKGDATADIR@/mutt.nanorc"
-
-## Patch files
-# include "@PKGDATADIR@/patch.nanorc"
-
-## Manpages
-# include "@PKGDATADIR@/man.nanorc"
 
 ## Groff
 # include "@PKGDATADIR@/groff.nanorc"
 
-## Perl
-# include "@PKGDATADIR@/perl.nanorc"
-
-## Python
-# include "@PKGDATADIR@/python.nanorc"
-
-## Ruby
-# include "@PKGDATADIR@/ruby.nanorc"
+## HTML
+# include "@PKGDATADIR@/html.nanorc"
 
 ## Java
 # include "@PKGDATADIR@/java.nanorc"
 
-## Fortran
-# include "@PKGDATADIR@/fortran.nanorc"
+## Luan
+# include "@PKGDATADIR@/lua.nanorc"
+
+## Magicpoint presentations
+# include "@PKGDATADIR@/mgp.nanorc"
+
+## Makefiles
+# include "@PKGDATADIR@/makefile.nanorc"
+
+## Manpages
+# include "@PKGDATADIR@/man.nanorc"
 
 ## Objective-C
 # include "@PKGDATADIR@/objc.nanorc"
@@ -312,17 +303,35 @@
 ## OCaml
 # include "@PKGDATADIR@/ocaml.nanorc"
 
-## AWK
-# include "@PKGDATADIR@/awk.nanorc"
+## Patch files
+# include "@PKGDATADIR@/patch.nanorc"
 
-## Assembler
-# include "@PKGDATADIR@/asm.nanorc"
+## Perl
+# include "@PKGDATADIR@/perl.nanorc"
 
-## Bourne shell scripts
-# include "@PKGDATADIR@/sh.nanorc"
+## PHP
+# include "@PKGDATADIR@/php.nanorc"
 
 ## POV-Ray
 # include "@PKGDATADIR@/pov.nanorc"
+
+## Python
+# include "@PKGDATADIR@/python.nanorc"
+
+## Quoted emails (under e.g. mutt)
+# include "@PKGDATADIR@/mutt.nanorc"
+
+## Ruby
+# include "@PKGDATADIR@/ruby.nanorc"
+
+## Spec files (in RPMs)
+# include "@PKGDATADIR@/spec.nanorc"
+
+## TCL
+# include "@PKGDATADIR@/tcl.nanorc"
+
+## TeX
+# include "@PKGDATADIR@/tex.nanorc"
 
 ## XML-type files
 # include "@PKGDATADIR@/xml.nanorc"
