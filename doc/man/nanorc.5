@@ -500,7 +500,7 @@ Move to the last file when using the file browser (reading or writing files).
 Toggle showing/hiding the two-line list of key bindings at the bottom of the screen.
 .TP
 .B constupdate
-Constantly display the current line, column, word positions.
+Toggle the constant display of the current line, column, and word positions.
 .TP
 .B morespace
 Toggle showing/hiding the blank line which 'separates' the 'title' from the file text.
@@ -509,10 +509,13 @@ Toggle showing/hiding the blank line which 'separates' the 'title' from the file
 Toggle smooth scrolling when moving via the arrow keys.
 .TP
 .B whitespacedisplay
-Toggle whether whitespace is shown.
+Toggle the showing of whitespace.
+.TP
+.B nosyntax
+Toggle syntax highlighting.
 .TP
 .B softwrap
-Toggle whether long lines will be displayed on multiple screen lines.
+Toggle the displaying of overlong lines on multiple screen lines.
 .TP
 .B smarthome
 Toggle whether the smart home key function is enabled.
@@ -525,7 +528,22 @@ Toggle whether cutting text will cut the whole line or just from the current cur
 position to the end of the line.
 .TP
 .B nowrap
-Toggle whether long lines will be wrapped to the next line.
+Toggle whether long lines will be hard-wrapped to the next line.
+.TP
+.B tabstospaces
+Toggle whether typed tabs will be converted to spaces.
+.TP
+.B backupfile
+Toggle whether a backup will be made of the file to be edited.
+.TP
+.B multibuffer
+Toggle the use of multiple file buffers (if available).
+.TP
+.B mouse
+Toggle mouse support.
+.TP
+.B noconvert
+Toggle automatic conversion of files from DOS/Mac format.
 .TP
 .B suspendenable
 Toggle whether the suspend sequence (normally ^Z) will suspend the editor window.

@@ -7,6 +7,8 @@
 	* src/global.c, doc/man/nanorc.5 - Group softwrap with the toggles
 	that affect how things look -- it does not belong in the group of
 	general program functions, nor in the group of editing behaviour.
+	* doc/man/nanorc.5 - Add the descriptions of six missing bindable
+	functions, and tweak those of a few others.
 
 2014-03-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) - In the file browser one cannot
