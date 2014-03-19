@@ -5,7 +5,7 @@
 ## DOS or Mac format, and that characters specially interpreted by the
 ## shell should not be escaped here.
 ##
-## To make sure a value is disabled, use "unset <option>".
+## To make sure an option is disabled, use "unset <option>".
 ##
 ## For the options that take parameters, the default value is given.
 ## Other options are unset by default.
@@ -17,7 +17,7 @@
 
 ## Silently ignore problems with unknown directives in the nanorc file.
 ## Useful when your nanorc file might be read on systems with multiple
-## versions of nano installed (e.g. your home directory is on NFS)
+## versions of nano installed (e.g. your home directory is on NFS).
 # set quiet
 
 ## Use auto-indentation.
@@ -39,23 +39,21 @@
 ## paragraphs.  They cannot contain blank characters.  Only closing
 ## punctuation, optionally followed by closing brackets, can end
 ## sentences.
-##
 # set brackets ""')>]}"
 
-## Do case sensitive searches by default.
+## Do case-sensitive searches by default.
 # set casesensitive
 
 ## Constantly display the cursor position in the statusbar.  Note that
 ## this overrides "quickblank".
 # set const
 
-## Use cut to end of line by default.
+## Use cut-to-end-of-line by default.
 # set cut
 
 ## Set the line length for wrapping text and justifying paragraphs.
-## If fill is 0 or less, the line length will be the screen width less
-## this number.
-##
+## If the value is 0 or less, the wrapping point will be the screen
+## width less this number.
 # set fill -8
 
 ## Enable ~/.nano_history for saving and reading search/replace strings.
@@ -69,7 +67,6 @@
 ## The opening and closing brackets that can be found by bracket
 ## searches.  They cannot contain blank characters.  The former set must
 ## come before the latter set, and both must be in the same order.
-##
 # set matchbrackets "(<[{)>]}"
 
 ## Use the blank line below the titlebar as extra editing space.
@@ -79,13 +76,11 @@
 ## mouse clicks can be used to place the cursor, set the mark (with a
 ## double click), and execute shortcuts.  The mouse will work in the X
 ## Window System, and on the console when gpm is running.
-##
 # set mouse
 
 ## Allow multiple file buffers (inserting a file will put it into a
 ## separate buffer).  You must have configured with --enable-multibuffer
 ## for this to work.
-##
 # set multibuffer
 
 ## Don't convert files from DOS/Mac format.
@@ -106,9 +101,11 @@
 ## Set operating directory.  nano will not read or write files outside
 ## this directory and its subdirectories.  Also, the current directory
 ## is changed to here, so any files are inserted from this dir.  A blank
-## string means the operating directory feature is turned off.
-##
+## string means the operating-directory feature is turned off.
 # set operatingdir ""
+
+## Remember the cursor position in each file for the next editing session.
+# set poslog
 
 ## Preserve the XON and XOFF keys (^Q and ^S).
 # set preserve
@@ -117,19 +114,18 @@
 ## paragraphs.  They cannot contain blank characters.  Only closing
 ## punctuation, optionally followed by closing brackets, can end
 ## sentences.
-##
 # set punct "!.?"
 
 ## Do quick statusbar blanking.  Statusbar messages will disappear after
 ## 1 keystroke instead of 26.  Note that "const" overrides this.
-##
 # set quickblank
 
 ## The email-quote string, used to justify email-quoted paragraphs.
 ## This is an extended regular expression if your system supports them,
-## otherwise a literal string.  Default:
+## otherwise a literal string.
+## If you have extended regular expression support, the default is:
 # set quotestr "^([ 	]*[#:>\|}])+"
-## if you have extended regular expression support, otherwise:
+## Otherwise:
 # set quotestr "> "
 
 ## Fix Backspace/Delete confusion problem.
@@ -151,12 +147,11 @@
 ## Use smooth scrolling as the default.
 # set smooth
 
-## Enable soft line wrapping (AKA full line display).
+## Enable soft line wrapping (AKA full-line display).
 # set softwrap
 
 ## Use this spelling checker instead of the internal one.  This option
 ## does not properly have a default value.
-##
 # set speller "aspell -x -c"
 
 ## Allow nano to be suspended.
