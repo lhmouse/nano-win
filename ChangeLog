@@ -4,6 +4,9 @@
 	* doc/nanorc.sample.in - Sort the includes alphabetically, and
 	add the ones for Lua, Magicpoint, and Spec files.
 	* doc/nanorc.sample.in - Add "poslog", plus tiny textual tweaks.
+	* src/global.c, doc/man/nanorc.5 - Group softwrap with the toggles
+	that affect how things look -- it does not belong in the group of
+	general program functions, nor in the group of editing behaviour.
 
 2014-03-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) - In the file browser one cannot

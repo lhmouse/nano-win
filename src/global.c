@@ -1272,6 +1272,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-S", do_toggle_void, SMOOTH_SCROLL, TRUE);
     add_to_sclist(MMAIN, "M-P", do_toggle_void, WHITESPACE_DISPLAY, TRUE);
     add_to_sclist(MMAIN, "M-Y", do_toggle_void, NO_COLOR_SYNTAX, TRUE);
+    add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
     add_to_sclist(MMAIN, "M-H", do_toggle_void, SMART_HOME, TRUE);
     add_to_sclist(MMAIN, "M-I", do_toggle_void, AUTOINDENT, TRUE);
     add_to_sclist(MMAIN, "M-K", do_toggle_void, CUT_TO_END, TRUE);
@@ -1282,7 +1283,6 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-M", do_toggle_void, USE_MOUSE, TRUE);
     add_to_sclist(MMAIN, "M-N", do_toggle_void, NO_CONVERT, TRUE);
     add_to_sclist(MMAIN, "M-Z", do_toggle_void, SUSPEND, TRUE);
-    add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
 #endif /* !NANO_TINY */
 
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
@@ -1360,6 +1360,8 @@ const char *flagtostr(int flag)
             return N_("Whitespace display");
         case NO_COLOR_SYNTAX:
             return N_("Color syntax highlighting");
+        case SOFTWRAP:
+            return N_("Soft line wrapping");
         case SMART_HOME:
             return N_("Smart home key");
         case AUTOINDENT:
@@ -1380,8 +1382,6 @@ const char *flagtostr(int flag)
             return N_("No conversion from DOS/Mac format");
         case SUSPEND:
             return N_("Suspension");
-        case SOFTWRAP:
-            return N_("Soft line wrapping");
         default:
             return "?????";
     }
@@ -1508,6 +1508,10 @@ sc *strtosc(int menu, char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_COLOR_SYNTAX;
+    } else if (!strcasecmp(input, "softwrap")) {
+	s->scfunc =  do_toggle_void;
+	s->execute = FALSE;
+	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "smarthome")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
@@ -1524,10 +1528,6 @@ sc *strtosc(int menu, char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_WRAP;
-    } else if (!strcasecmp(input, "softwrap")) {
-	s->scfunc =  do_toggle_void;
-	s->execute = FALSE;
-	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "tabstospaces")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
