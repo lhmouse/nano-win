@@ -1484,8 +1484,7 @@ sc *strtosc(int menu, char *input)
     } else if (!strcasecmp(input, "nexthistory")) {
 	s->scfunc =  get_history_newer_void;
 	s->execute = FALSE;
-    } else if (!strcasecmp(input, "nohelp") ||
-	       !strcasecmp(input, "nohelp")) {
+    } else if (!strcasecmp(input, "nohelp")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_HELP;
@@ -1525,6 +1524,10 @@ sc *strtosc(int menu, char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_WRAP;
+    } else if (!strcasecmp(input, "softwrap")) {
+	s->scfunc =  do_toggle_void;
+	s->execute = FALSE;
+	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "tabstospaces")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;

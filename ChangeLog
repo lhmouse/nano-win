@@ -1,5 +1,6 @@
-2014-03-18  Benno Schulenberg  <bensberg@justemail.net>
+2014-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/nanorc.sample.in - Document the changed whitespace defaults.
+	* src/global.c, doc/man/nanorc.5 - Allow softwrap to be rebound.
 
 2014-03-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init) - In the file browser one cannot
