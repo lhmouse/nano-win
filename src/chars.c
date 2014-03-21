@@ -184,9 +184,8 @@ bool is_punct_mbchar(const char *c)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len < 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc_reset();
 	    wc = bad_wchar;
 	}
@@ -788,9 +787,8 @@ char *mbstrchr(const char *s, const char *c)
 	char *s_mb = charalloc(MB_CUR_MAX);
 	const char *q = s;
 	wchar_t ws, wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len < 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc_reset();
 	    wc = (unsigned char)*c;
 	    bad_c_mb = TRUE;
