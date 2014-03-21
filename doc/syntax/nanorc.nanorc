@@ -8,7 +8,7 @@ icolor brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(allow_insecure_backup|a
 icolor brightgreen "^[[:space:]]*bind[[:space:]]+((\^|M-)([[:alpha:]]|space)|F([0-9]|1[0-6]))[[:space:]]+[[:alpha:]]+[[:space:]]+[[:alpha:]]+[[:space:]]*$"
 icolor brightgreen "^[[:space:]]*unbind[[:space:]]+((\^|M-)([[:alpha:]]|space)|F([0-9]|1[0-6]))[[:space:]]+[[:alpha:]]+[[:space:]]*$"
 icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]+(i?color|header|magic|linter)[[:space:]]+.*$"
-icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|linter)\>"
+icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|linter|extendsyntax)\>"
 ## Colors
 icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
