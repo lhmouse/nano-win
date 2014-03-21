@@ -1,6 +1,8 @@
 2014-03-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c (is_punct_mbchar, mbstrchr) - Elide a variable,
 	thus making two ifs identical to six others.
+	* doc/syntax/nanorc.nanorc - Add the 'extendsyntax' directive,
+	and change two colours to be legible on a light background.
 
 2014-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/nanorc.sample.in - Document the changed whitespace defaults.
