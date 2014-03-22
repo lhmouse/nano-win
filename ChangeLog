@@ -1,3 +1,6 @@
+2014-03-22  Benno Schulenberg  <bensberg@justemail.net>
+	* THANKS - Add some missing translator names, and tweak others.
+
 2014-03-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c (is_punct_mbchar, mbstrchr) - Elide a variable,
 	thus making two ifs identical to six others.
