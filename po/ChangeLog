@@ -1,6 +1,9 @@
 2014-03-22  Benno Schulenberg  <bensberg@justemail.net>
 
 	* nano.pot - Regenerated the POT file.
+	* cs.po, es.po, it.po, nb.po, sr.po, zh_TW: Updates from the TP
+	for Czech, Spanish, Italian, Norwegian, Serbian, and Chinese.
+	* LINGUAS - Removed rw (Kinyarwanda) -- it was just fragments.
 
 2007-12-09  Jordi Mallach  <jordi@gnu.org>
 
