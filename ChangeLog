@@ -1,3 +1,7 @@
+2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a
+	debugging message, fix a translator comment, and tweak others.
+
 2014-03-22  Benno Schulenberg  <bensberg@justemail.net>
 	* THANKS - Add some missing translator names, and tweak others.
 

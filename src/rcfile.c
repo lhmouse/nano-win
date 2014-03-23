@@ -447,6 +447,7 @@ void parse_magictype(char *ptr)
 #endif /* HAVE_LIBMAGIC */
 }
 
+
 int check_bad_binding(sc *s)
 {
 #define BADLISTLEN 1
@@ -482,7 +483,7 @@ void parse_keybinding(char *ptr)
 
     if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F' && keycopy[0] != 'K') {
 	rcfile_error(
-		N_("keybindings must begin with \"^\", \"M\", or \"F\""));
+		N_("Keybindings must begin with \"^\", \"M\", or \"F\""));
 	return;
     }
 
@@ -500,8 +501,7 @@ void parse_keybinding(char *ptr)
 
     if (!strcmp(menuptr, "")) {
 	rcfile_error(
-		/* Note to translators, do not translate the word "all"
-		   in the sentence below, everything else is fine */
+		/* TRANSLATORS: do not translate the word "all". */
 		N_("Must specify menu to bind key to (or \"all\")"));
 	return;
     }
@@ -520,12 +520,10 @@ void parse_keybinding(char *ptr)
 	return;
     }
 
-
 #ifdef DEBUG
     fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
 	&newsc, newsc->scfunc, menu);
 #endif
-
 
     newsc->keystr = keycopy;
     newsc->menu = menu;
@@ -542,9 +540,8 @@ void parse_keybinding(char *ptr)
 	return;
     }
 
-    /* now let's have some fun.  Try and delete the other entries
-       we found for the same menu, then make this new new
-       beginning */
+    /* Now let's have some fun.  Try and delete the other entries
+       we found for the same menu, then make this the new beginning. */
     for (s = sclist; s != NULL; s = s->next) {
         if (((s->menu & newsc->menu)) && s->seq == newsc->seq) {
 	    s->menu &= ~newsc->menu;
@@ -557,7 +554,7 @@ void parse_keybinding(char *ptr)
     sclist = newsc;
 }
 
-/* Let user unbind a sequence from a given (or all) menus */
+/* Let the user unbind a sequence from a given (or all) menus. */
 void parse_unbinding(char *ptr)
 {
     char *keyptr = NULL, *keycopy = NULL, *menuptr = NULL;
@@ -578,12 +575,12 @@ void parse_unbinding(char *ptr)
 	keycopy[i] = toupper(keycopy[i]);
 
 #ifdef DEBUG
-    fprintf(stderr, "Starting unbinding code");
+    fprintf(stderr, "Starting the unbinding code...\n");
 #endif
 
     if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F' && keycopy[0] != 'K') {
 	rcfile_error(
-		N_("keybindings must begin with \"^\", \"M\", or \"F\""));
+		N_("Keybindings must begin with \"^\", \"M\", or \"F\""));
 	return;
     }
 
@@ -592,8 +589,7 @@ void parse_unbinding(char *ptr)
 
     if (!strcmp(menuptr, "")) {
 	rcfile_error(
-		/* Note to translators, do not translate the word "all"
-		   in the sentence below, everything else is fine */
+		/* TRANSLATORS: do not translate the word "all". */
 		N_("Must specify menu to bind key to (or \"all\")"));
 	return;
     }
@@ -605,12 +601,11 @@ void parse_unbinding(char *ptr)
 	return;
     }
 
-
 #ifdef DEBUG
     fprintf(stderr, "unbinding \"%s\" from menu = %d\n", keycopy, menu);
 #endif
 
-    /* Now find the apropriate entries in the menu to delete */
+    /* Now find the appropriate entries in the menu to delete. */
     for (s = sclist; s != NULL; s = s->next) {
         if (((s->menu & menu)) && !strcmp(s->keystr,keycopy)) {
 	    s->menu &= ~menu;
