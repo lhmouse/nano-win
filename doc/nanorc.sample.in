@@ -280,6 +280,9 @@
 ## Java
 # include "@PKGDATADIR@/java.nanorc"
 
+## Javascript
+# include "@PKGDATADIR@/javascript.nanorc"
+
 ## Luan
 # include "@PKGDATADIR@/lua.nanorc"
 
