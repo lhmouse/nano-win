@@ -8,6 +8,9 @@
 	with warnings enabled by default, to help prevent issues from
 	silently creeping in.  Patch by Mike Frysinger.
 	* src/{nano,move,winio}.c - Fix a few compiler warnings.
+	* configure.ac - Newer ncurses installs include pkg-config files
+	which tell us the right -I/-L paths we need, so default to that
+	before trying the legacy ways.  Patch by Mike Frysinger.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a

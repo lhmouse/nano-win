@@ -35,6 +35,7 @@ AC_PROG_CC
 AC_PROG_LN_S
 AC_ISC_POSIX
 AC_SYS_LARGEFILE
+PKG_PROG_PKG_CONFIG
 
 dnl Internationalization macros.
 
@@ -439,6 +440,23 @@ AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(getopt_long)
 dnl Checks for libraries.
+
+if eval "test x$CURSES_LIB_NAME = x"; then
+    if test x$enable_utf8 != xno; then
+	PKG_CHECK_MODULES([NCURSESW], [ncursesw], [
+	    CURSES_LIB=$NCURSESW_LIBS
+	    CPPFLAGS="$NCURSESW_CFLAGS $CPPFLAGS"
+	    CURSES_LIB_NAME=ncursesw
+	    CURSES_LIB_WIDE=yes
+	], [:])
+    else
+	PKG_CHECK_MODULES([NCURSES], [ncurses], [
+	    CURSES_LIB=$NCURSES_LIBS
+	    CPPFLAGS="$NCURSES_CFLAGS $CPPFLAGS"
+	    CURSES_LIB_NAME=ncurses
+	], [:])
+    fi
+fi
 
 if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(ncurses.h)
