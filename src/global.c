@@ -354,7 +354,7 @@ const sc *first_sc_for(int menu, void (*func)(void))
 	return rawsc;
 
 #ifdef DEBUG
-    fprintf(stderr, "Whoops, returning null given func %ld in menu %d\n", (long) func, menu);
+    fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long) func, menu);
 #endif
     /* Otherwise... */
     return NULL;
@@ -395,8 +395,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
     assign_keyinfo(s);
 
 #ifdef DEBUG
-    fprintf(stderr, "list val = %d\n", (int) s->menu);
-    fprintf(stderr, "Hey, set sequence to %d for shortcut \"%s\"\n", s->seq, scstring);
+    fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menu %x\n", s->seq, scstring, (int) s->menu);
 #endif
 }
 
@@ -490,7 +489,7 @@ void print_sclist(void)
     for (s = sclist; s->next != NULL; s = s->next) {
 	f = sctofunc(s);
         if (f)
-	    fprintf(stderr, "Shortcut \"%s\", function: %s, menus %d\n",  s->keystr, f->desc, f->menus);
+	    fprintf(stderr, "Shortcut \"%s\", function: %s, menus %x\n",  s->keystr, f->desc, f->menus);
 	else
 	    fprintf(stderr, "Hmm, didnt find a func for \"%s\"\n", s->keystr);
     }

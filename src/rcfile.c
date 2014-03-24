@@ -521,7 +521,7 @@ void parse_keybinding(char *ptr)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "newsc now address %d, menu func assigned = %d, menu = %d\n",
+    fprintf(stderr, "newsc now address %d, func assigned = %d, menu = %x\n",
 	&newsc, newsc->scfunc, menu);
 #endif
 
@@ -544,10 +544,10 @@ void parse_keybinding(char *ptr)
        we found for the same menu, then make this the new beginning. */
     for (s = sclist; s != NULL; s = s->next) {
         if (((s->menu & newsc->menu)) && s->seq == newsc->seq) {
-	    s->menu &= ~newsc->menu;
 #ifdef DEBUG
-	    fprintf(stderr, "replaced menu entry %d\n", s->menu);
+	    fprintf(stderr, "replacing entry in menu %x\n", s->menu);
 #endif
+	    s->menu &= ~newsc->menu;
 	}
     }
     newsc->next = sclist;
@@ -602,16 +602,16 @@ void parse_unbinding(char *ptr)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "unbinding \"%s\" from menu = %d\n", keycopy, menu);
+    fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
 #endif
 
     /* Now find the appropriate entries in the menu to delete. */
     for (s = sclist; s != NULL; s = s->next) {
         if (((s->menu & menu)) && !strcmp(s->keystr,keycopy)) {
-	    s->menu &= ~menu;
 #ifdef DEBUG
-	    fprintf(stderr, "deleted menu entry %d\n", s->menu);
+	    fprintf(stderr, "deleting entry from menu %x\n", s->menu);
 #endif
+	    s->menu &= ~menu;
 	}
     }
 }

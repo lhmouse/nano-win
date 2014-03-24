@@ -13,6 +13,8 @@
 	before trying the legacy ways.  Patch by Mike Frysinger.
 	* configure.ac - Add a configure flag to disable the use of the
 	fattening libmagic.  Patch by Mike Frysinger.
+	* src/{global,rcfile,winio}.c - Print menu numbers for debugging
+	in hex, and tweak a few of those debugging messages.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a

@@ -1786,13 +1786,13 @@ const sc *get_shortcut(int menu, int *kbinput, bool
 		&& ((s->type == META && *meta_key == TRUE && *kbinput == s->seq)
 		|| (s->type != META && *kbinput == s->seq))) {
 #ifdef DEBUG
-	    fprintf (stderr, "matched seq \"%s\" and btw meta was %d (menus %d = %d)\n", s->keystr, *meta_key, menu, s->menu);
+	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menus %x = %x)\n", s->keystr, *meta_key, menu, s->menu);
 #endif
 	    return s;
 	}
     }
 #ifdef DEBUG
-    fprintf (stderr, "matched nothing btw meta was %d\n", *meta_key);
+    fprintf (stderr, "matched nothing, btw meta was %d\n", *meta_key);
 #endif
 
     return NULL;
@@ -2387,7 +2387,7 @@ void bottombars(int menu)
 	    continue;
 
 #ifdef DEBUG
-        fprintf(stderr, "found one! f->menus = %d, desc = \"%s\"\n", f->menus, f->desc);
+        fprintf(stderr, "found one! f->menus = %x, desc = \"%s\"\n", f->menus, f->desc);
 #endif
         s = first_sc_for(menu, f->scfunc);
         if (s == NULL) {
