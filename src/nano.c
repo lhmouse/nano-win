@@ -386,7 +386,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	openfile->mark_begin = openfile->current;
 	openfile->mark_begin_x = openfile->current_x;
     } else if (same_line)
-	/* update the content of this partially cut line */
+	/* Update the content of this partially cut line. */
 	openfile->mark_begin = openfile->current;
 #endif
 
@@ -472,9 +472,9 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     else if (openfile->mark_set) {
 	if (right_side_up) {
 	    if (single_line)
-		/* get the new data, stuff was inserted on mark line */
+		/* Get the new data, stuff was inserted on the mark line. */
 		openfile->mark_begin = openfile->fileage;
-		/* the x is okay, it did not move */
+		/* The x is okay, it did not move. */
 	} else {
 	    if (single_line) {
 		openfile->mark_begin = openfile->current;
@@ -1102,15 +1102,14 @@ static struct sigaction pager_oldaction, pager_newaction;  /* Original and tempo
 static bool pager_sig_failed = FALSE; /* Did sigaction() fail without changing the signal handlers? */
 static bool pager_input_aborted = FALSE; /* Did someone invoke the pager and abort it via ^C? */
 
-
 /* Things which need to be run regardless of whether
-   we finished the stdin pipe correctly or not */
+ * we finished the stdin pipe correctly or not. */
 void finish_stdin_pager(void)
 {
     FILE *f;
     int ttystdin;
 
-    /* Read whatever we did get from stdin */
+    /* Read whatever we did get from stdin. */
     f = fopen("/dev/stdin", "rb");
        if (f == NULL)
         nperror("fopen");
@@ -1130,15 +1129,14 @@ void finish_stdin_pager(void)
     doupdate();
 }
 
-
-/* Cancel reading from stdin like a pager */
+/* Cancel reading from stdin like a pager. */
 RETSIGTYPE cancel_stdin_pager(int signal)
 {
-    /* Currently do nothing, just handle the intr silently */
+    /* Currently do nothing, just handle the intr silently. */
     pager_input_aborted = TRUE;
 }
 
-/* Let nano read stdin for the first file at least */
+/* Let nano read stdin for the first file at least. */
 void stdin_pager(void)
 {
     endwin();
@@ -1147,8 +1145,8 @@ void stdin_pager(void)
     fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
 
     /* Set things up so that Ctrl-C will cancel the new process. */
-    /* Enable interpretation of the special control keys so that we get
-     * SIGINT when Ctrl-C is pressed. */
+    /* Enable interpretation of the special control keys so that
+     * we get SIGINT when Ctrl-C is pressed. */
 #ifndef NANO_TINY
     enable_signals();
 #endif
@@ -1167,8 +1165,6 @@ void stdin_pager(void)
     open_buffer("", FALSE);
     finish_stdin_pager();
 }
-
-
 
 /* Initialize the signal handlers. */
 void signal_init(void)
@@ -1365,7 +1361,7 @@ void allow_pending_sigwinch(bool allow)
 #endif /* !NANO_TINY */
 
 #ifndef NANO_TINY
-/* Handle the global toggle specified in which. */
+/* Handle the global toggle specified in flag. */
 void do_toggle(int flag)
 {
     bool enabled;
@@ -1617,8 +1613,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 if (have_shortcut || get_key_buffer_len() == 0) {
 #ifndef DISABLE_WRAPPING
 	    /* If we got a shortcut or toggle, and it's not the shortcut
-	     * for verbatim input, turn off prepending of wrapped
-	     * text. */
+	     * for verbatim input, turn off prepending of wrapped text. */
 	    if (have_shortcut && (!have_shortcut || s == NULL || s->scfunc !=
 		do_verbatim_input))
 		wrap_reset();
@@ -1807,8 +1802,8 @@ void alloc_multidata_if_needed(filestruct *fileptr)
 	fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
 }
 
-/* Precalculate the multi-line start and end regex info so we can speed up
-   rendering (with any hope at all...) */
+/* Precalculate the multi-line start and end regex info so we can
+ * speed up rendering (with any hope at all...). */
 void precalc_multicolorinfo(void)
 {
 #ifdef DEBUG
@@ -1821,29 +1816,26 @@ void precalc_multicolorinfo(void)
 	time_t last_check = time(NULL), cur_check = 0;
 
 	/* Let us get keypresses to see if the user is trying to
-	   start editing.  We may want to throw up a statusbar
-	   message before starting this later if it takes
-	   too long to do this routine.  For now silently
-	   abort if they hit a key */
+	 * start editing.  We may want to throw up a statusbar
+	 * message before starting this later if it takes
+	 * too long to do this routine.  For now silently
+	 * abort if they hit a key. */
 	nodelay(edit, FALSE);
 
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 
-	    /* If it's not a multi-line regex, amscray */
+	    /* If it's not a multi-line regex, amscray. */
 	    if (tmpcolor->end == NULL)
 		continue;
 #ifdef DEBUG
 	    fprintf(stderr, "working on color id %d\n", tmpcolor->id);
 #endif
 
-
 	    for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 		int startx = 0;
 		int nostart = 0;
-
-
 #ifdef DEBUG
-	    fprintf(stderr, "working on lineno %lu\n", (unsigned long) fileptr->lineno);
+		fprintf(stderr, "working on lineno %lu\n", (unsigned long) fileptr->lineno);
 #endif
 
 		alloc_multidata_if_needed(fileptr);
@@ -1855,30 +1847,30 @@ void precalc_multicolorinfo(void)
 		}
 
 		while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0))  == 0) {
-		    /* Look for end and start marking how many lines are encompassed
-		       whcih should speed up rendering later */
+		    /* Look for end, and start marking how many lines are
+		     * encompassed which should speed up rendering later. */
 		    startx += startmatch.rm_eo;
 #ifdef DEBUG
 		    fprintf(stderr, "match found at pos %d...", startx);
 #endif
 
-		    /* Look on this line first for end */
+		    /* Look on this line first for end. */
 		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch, 0)  == 0) {
 			startx += endmatch.rm_eo;
 			fileptr->multidata[tmpcolor->id] |= CSTARTENDHERE;
 #ifdef DEBUG
-	    fprintf(stderr, "end found on this line\n");
+			fprintf(stderr, "end found on this line\n");
 #endif
 			continue;
 		    }
 
-		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it */
+		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
 
 #ifdef DEBUG
-	    fprintf(stderr, "advancing to line %lu to find end...\n", (unsigned long) endptr->lineno);
+			fprintf(stderr, "advancing to line %lu to find end...\n", (unsigned long) endptr->lineno);
 #endif
-			/* Check for keyboard input  again */
+			/* Check for keyboard input, again. */
 			if ((cur_check = time(NULL)) - last_check > 1) {
 			    last_check = cur_check;
 			    if (wgetch(edit) != ERR)
@@ -1895,13 +1887,11 @@ void precalc_multicolorinfo(void)
 			break;
 		    }
 
-
 #ifdef DEBUG
 		    fprintf(stderr, "end found\n");
 #endif
-
-		    /* We found it, we found it, la la la la la.  Mark all the
-			lines in between and the ends properly */
+		    /* We found it, we found it, la la la la la.  Mark all
+		     * the lines in between and the end properly. */
 		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
 #ifdef DEBUG
 		    fprintf(stderr, "marking line %lu as CENDAFTER\n", (unsigned long) fileptr->lineno);
@@ -1919,7 +1909,7 @@ void precalc_multicolorinfo(void)
 #endif
 		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
 		    /* We should be able to skip all the way to the line of the match.
-			This may introduce more bugs but it's the Right Thing to do */
+		     * This may introduce more bugs but it's the Right Thing to do. */
 		    fileptr = endptr;
 		    startx = endmatch.rm_eo;
 #ifdef DEBUG
@@ -2032,7 +2022,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     }
 
     /* Well we might also need a full refresh if we've changed the
-       line length to be a new multiple of COLS */
+     * line length to be a new multiple of COLS. */
     if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS  != orig_lenpt / COLS)
 	    edit_refresh_needed = TRUE;
@@ -2040,7 +2030,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     free(char_buf);
 
     openfile->placewewant = xplustabs();
-
 
 #ifdef ENABLE_COLOR
     reset_multis(openfile->current, FALSE);
@@ -2340,11 +2329,9 @@ int main(int argc, char **argv)
 #ifndef DISABLE_WRAPPING
 	    case 'w':
 		SET(NO_WRAP);
-
-		/* If both --fill and --nowrap are given on the command line,
-		   the last option wins, */
+		/* If both --fill and --nowrap are given on the
+		 * command line, the last given option wins. */
 		fill_used = FALSE;
-
 		break;
 #endif
 	    case 'x':
@@ -2379,9 +2366,8 @@ int main(int argc, char **argv)
 #endif
     }
 
-
     /* Set up the shortcut lists.
-       Need to do this before the rcfile */
+     * Need to do this before the rcfile. */
     shortcut_init(FALSE);
 
 /* We've read through the command line options.  Now back up the flags
@@ -2668,7 +2654,7 @@ int main(int argc, char **argv)
 		}
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
                   else {
-		    /* See if we have a POS history to use if we haven't overridden it */
+		    /* See if we have a POS history to use if we haven't overridden it. */
 		    ssize_t savedposline, savedposcol;
 		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
 			do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE,
@@ -2715,7 +2701,7 @@ int main(int argc, char **argv)
 		FALSE);
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     else {
-	/* See if we have a POS history to use if we haven't overridden it */
+	/* See if we have a POS history to use if we haven't overridden it. */
 	ssize_t savedposline, savedposcol;
 	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
 	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);

@@ -15,6 +15,7 @@
 	fattening libmagic.  Patch by Mike Frysinger.
 	* src/{global,rcfile,winio}.c - Print menu numbers for debugging
 	in hex, and tweak a few of those debugging messages.
+	* src/nano.c - Harmonize comments, and trim some blank lines.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a
