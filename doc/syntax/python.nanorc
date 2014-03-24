@@ -9,3 +9,6 @@ color brightgreen "["][^"]*[^\\]["]" "["]{3}.*[^\\]["]{3}"
 color brightgreen start="\"\"\"[^"]" end="\"\"\""
 color brightgreen start="\'\'\'[^']" end="\'\'\'"
 color brightred "#.*$"
+
+## Trailing whitespace
+color ,green "[[:space:]]+$"

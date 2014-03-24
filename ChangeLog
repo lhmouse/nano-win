@@ -2,6 +2,8 @@
 	* doc/syntax/gentoo.nanorc - Match more files, add a trailing
 	whitespace check, and EAPI=5 updates.  Patch by Mike Frysinger.
 	* doc/syntax/javascript.nanorc - New file, by Mike Frysinger.
+	* doc/syntax/{nanorc,python}.nanorc - Highlight trailing
+	whitespace.  Patches by Mike Frysinger <vapier@gentoo.org>.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a
