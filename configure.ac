@@ -431,6 +431,9 @@ fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
+dnl Checks for available flags.
+AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [], [])
+
 dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF

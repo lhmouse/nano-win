@@ -4,6 +4,9 @@
 	* doc/syntax/javascript.nanorc - New file, by Mike Frysinger.
 	* doc/syntax/{nanorc,python}.nanorc - Highlight trailing
 	whitespace.  Patches by Mike Frysinger <vapier@gentoo.org>.
+	* configure.ac, m4/ax_check_compile_flag.m4 - Start building
+	with warnings enabled by default, to help prevent issues from
+	silently creeping in.  Patch by Mike Frysinger.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a
