@@ -50,7 +50,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
 dnl Checks for header files.
 
-AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.h stdarg.h magic.h)
+AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.h stdarg.h)
 
 dnl Checks for options.
 
@@ -78,6 +78,8 @@ AC_ARG_ENABLE(tiny,
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
 fi])
 
+AC_ARG_ENABLE(libmagic,
+AS_HELP_STRING([--disable-libmagic], [Disable detection of file types via libmagic]))
 
 AC_ARG_ENABLE(extra,
 [  --disable-extra          Disable extra features, currently only easter eggs],
@@ -630,7 +632,10 @@ AC_MSG_RESULT(yes),
 AC_MSG_RESULT(no),
 AC_MSG_WARN([*** Can't check for macro redefinability when cross-compiling]))
 
-AC_CHECK_LIB(magic, magic_open)
+AS_IF([test "x$enable_libmagic" != "xno"], [
+  AC_CHECK_HEADERS_ONCE([magic.h])
+  AC_CHECK_LIB(magic, magic_open)
+])
 
 # Check for groff html support
 AC_MSG_CHECKING([for HTML support in groff])
