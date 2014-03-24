@@ -79,8 +79,8 @@ void do_page_up(void)
 	if (ISSET(SOFTWRAP) && openfile->current) {
 	    skipped += strlenpt(openfile->current->data) / COLS;
 #ifdef DEBUG
-    fprintf(stderr, "do_page_up: i = %d, skipped = %d based on line %ld len %d\n", i, (unsigned long) skipped,
-openfile->current->lineno, strlenpt(openfile->current->data));
+    fprintf(stderr, "do_page_up: i = %d, skipped = %d based on line %lu len %d\n",
+	i, skipped, (unsigned long) openfile->current->lineno, strlenpt(openfile->current->data));
 #endif
 	}
     }
@@ -89,7 +89,8 @@ openfile->current->lineno, strlenpt(openfile->current->data));
 	openfile->placewewant);
 
 #ifdef DEBUG
-    fprintf(stderr, "do_page_up: openfile->current->lineno = %lu, skipped = %d\n", (unsigned long) openfile->current->lineno, skipped);
+    fprintf(stderr, "do_page_up: openfile->current->lineno = %lu, skipped = %d\n",
+	(unsigned long) openfile->current->lineno, skipped);
 #endif
 
     /* Scroll the edit window up a page. */

@@ -7,6 +7,7 @@
 	* configure.ac, m4/ax_check_compile_flag.m4 - Start building
 	with warnings enabled by default, to help prevent issues from
 	silently creeping in.  Patch by Mike Frysinger.
+	* src/{nano,move,winio}.c - Fix a few compiler warnings.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a

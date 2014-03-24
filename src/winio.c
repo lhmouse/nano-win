@@ -2971,7 +2971,7 @@ void compute_maxrows(void)
 	maxrows += editwinrows - n;
 
 #ifdef DEBUG
-    fprintf(stderr, "compute_maxrows(): maxrows = %ld\n", maxrows);
+    fprintf(stderr, "compute_maxrows(): maxrows = %i\n", maxrows);
 #endif
 }
 
@@ -3105,8 +3105,8 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	openfile->edittop->lineno + maxrows) {
 
 #ifdef DEBUG
-    fprintf(stderr, "edit_redraw(): line %lu was offscreen, oldcurrent = %lu edittop = %lu", openfile->current->lineno,
-                    old_current->lineno, openfile->edittop->lineno);
+    fprintf(stderr, "edit_redraw(): line %d was offscreen, oldcurrent = %d edittop = %d",
+	openfile->current->lineno, old_current->lineno, openfile->edittop->lineno);
 #endif
 
 #ifndef NANO_TINY
