@@ -387,7 +387,9 @@ show some of the more commonly used functions in the editor.
 When mouse support has been configured and enabled, a single mouse click
 places the cursor at the indicated position.  Clicking a second time in
 the same position toggles the mark.  Clicking in the shortcut list
-executes the selected shortcut.
+executes the selected shortcut.  To be able to select text with the
+left button, or paste text with the middle button, hold down the
+Shift key during those actions.
 
 The mouse will work in the X Window System, and on the console when gpm
 is running.
