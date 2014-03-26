@@ -10,23 +10,23 @@
 	- use AC_MSG_* helpers instead of raw `echo`.
 
 2014-03-24  Benno Schulenberg  <bensberg@justemail.net>
-	* doc/syntax/gentoo.nanorc - Match more files, add a trailing
-	whitespace check, and EAPI=5 updates.  Patch by Mike Frysinger.
-	* doc/syntax/javascript.nanorc - New file, by Mike Frysinger.
-	* doc/syntax/{nanorc,python}.nanorc - Highlight trailing
-	whitespace.  Patches by Mike Frysinger <vapier@gentoo.org>.
-	* configure.ac, m4/ax_check_compile_flag.m4 - Start building
-	with warnings enabled by default, to help prevent issues from
-	silently creeping in.  Patch by Mike Frysinger.
 	* src/{nano,move,winio}.c - Fix a few compiler warnings.
-	* configure.ac - Newer ncurses installs include pkg-config files
-	which tell us the right -I/-L paths we need, so default to that
-	before trying the legacy ways.  Patch by Mike Frysinger.
-	* configure.ac - Add a configure flag to disable the use of the
-	fattening libmagic.  Patch by Mike Frysinger.
 	* src/{global,rcfile,winio}.c - Print menu numbers for debugging
 	in hex, and tweak a few of those debugging messages.
 	* src/nano.c - Harmonize comments, and trim some blank lines.
+
+2014-03-24  Mike Frysinger  <vapier@gentoo.org>
+	* doc/syntax/gentoo.nanorc - Match more files, add a trailing
+	whitespace check, and EAPI=5 updates.
+	* doc/syntax/javascript.nanorc - New file, based on C syntax.
+	* doc/syntax/{nanorc,python}.nanorc - Highlight trailing whitespace.
+	* configure.ac, m4/ax_check_compile_flag.m4 - Start building with
+	warnings enabled, to help prevent issues from silently creeping in.
+	* configure.ac - Newer ncurses include pkg-config files which tell
+	us the right -I/-L paths we need, so default to that before trying
+	the legacy ways.
+	* configure.ac - Add a configure flag to disable the use of the
+	fattening libmagic.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a
