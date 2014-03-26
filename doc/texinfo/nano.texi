@@ -887,10 +887,6 @@ custom settings in the nanorc file rather than having to pass command
 line options to get desired behavior.  See @xref{Nanorc Files}, for
 more info.
 
-@item --enable-all
-Shortcut for enabling the above four features (extra, color,
-multibuffer, and nanorc).
-
 @item --disable-nls
 Disables Native Language support.  This will disable use of the
 available GNU @code{nano} translations.

@@ -21,7 +21,7 @@ Pico text editor while also offering a few enhancements.
 %setup -q
 
 %build
-%configure --enable-all
+%configure
 make
 
 %install

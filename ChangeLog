@@ -4,6 +4,8 @@
 	* src/global.c (print_sclist) - Also print last shortcut in list.
 	* doc/texinfo/nano.texi - Explain how to select and paste with
 	the mouse when mouse support is enabled: by holding down Shift.
+	* nano.spec.in, doc/faq.html, doc/texinfo/nano.texi - Remove
+	vestiges of the obsolete '--enable-all' configure flag.
 
 2014-03-26  Mike Frysinger  <vapier@gentoo.org>.
 	* configure.ac - Clean up most of the --with/--enable flags:
