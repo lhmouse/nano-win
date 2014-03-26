@@ -167,9 +167,9 @@ int currmenu;
 	/* The currently loaded menu. */
 
 sc *sclist = NULL;
-	/* New shortcut key struct. */
+	/* Struct for the shortcut-key list. */
 subnfunc *allfuncs = NULL;
-	/* New struct for the function list. */
+	/* Struct for the function list. */
 
 #ifndef NANO_TINY
 filestruct *search_history = NULL;
@@ -277,7 +277,7 @@ function_type strtokeytype(const char *str)
 	return RAWINPUT;
 }
 
-/* Add a string to the new function list struct.
+/* Add a string to the function list struct.
  * Does not allow updates, not yet anyway. */
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
@@ -361,7 +361,7 @@ const sc *first_sc_for(int menu, void (*func)(void))
 }
 
 
-/* Add a string to the new shortcut list implementation.
+/* Add a string to the shortcut list.
  * Allows updates to existing entries in the list. */
 void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggle, int execute)
 {
@@ -425,7 +425,6 @@ int sc_seq_or (void (*func)(void), int defaultval)
         return s->seq;
     /* else */
     return defaultval;
-
 }
 
 /* Assign the info to the shortcut struct.
@@ -477,7 +476,6 @@ void assign_keyinfo(sc *s)
     else if (s->type == RAWINPUT && (!strcasecmp(s->keystr, "kend")))
 	s->seq = KEY_END;
 #endif
-
 }
 
 #ifdef DEBUG
@@ -489,7 +487,7 @@ void print_sclist(void)
     for (s = sclist; s->next != NULL; s = s->next) {
 	f = sctofunc(s);
         if (f)
-	    fprintf(stderr, "Shortcut \"%s\", function: %s, menus %x\n",  s->keystr, f->desc, f->menus);
+	    fprintf(stderr, "Shortcut \"%s\", function: %s, menus %x\n", s->keystr, f->desc, f->menus);
 	else
 	    fprintf(stderr, "Hmm, didnt find a func for \"%s\"\n", s->keystr);
     }
@@ -1286,18 +1284,18 @@ void shortcut_init(bool unjustify)
 
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
-    add_to_sclist(MGOTOLINE, "^T",  gototext_void, 0, FALSE);
-    add_to_sclist(MINSERTFILE|MEXTCMD, "M-F",  new_buffer_void, 0, FALSE);
+    add_to_sclist(MGOTOLINE, "^T", gototext_void, 0, FALSE);
+    add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
     add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
 	"^C", do_cancel, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-D",  dos_format_void, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-M",  mac_format_void, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-A",  append_void, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-P",  prepend_void, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "M-B",  backup_file_void, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "^T",   to_files_void, 0, FALSE);
-    add_to_sclist(MINSERTFILE, "^T",  to_files_void, 0, FALSE);
-    add_to_sclist(MINSERTFILE, "^X",  ext_cmd_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-D", dos_format_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-M", mac_format_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-A", append_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-P", prepend_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "M-B", backup_file_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE, "^T", to_files_void, 0, FALSE);
+    add_to_sclist(MINSERTFILE, "^T", to_files_void, 0, FALSE);
+    add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
     add_to_sclist(MMAIN, "^L", total_refresh, 0, TRUE);
     add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
@@ -1311,7 +1309,6 @@ void shortcut_init(bool unjustify)
 #ifdef DEBUG
     print_sclist();
 #endif
-
 }
 
 #ifdef ENABLE_COLOR

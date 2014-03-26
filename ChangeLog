@@ -1,5 +1,6 @@
 2014-03-26  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac - Word, tab, and comment tweaks.
+	* src/global.c - Some comment tweaks, and whitespace trimmings.
 
 2014-03-26  Mike Frysinger  <vapier@gentoo.org>.
 	* configure.ac - Clean up most of the --with/--enable flags:
