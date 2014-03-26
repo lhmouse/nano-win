@@ -55,19 +55,21 @@ AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.
 dnl Checks for options.
 
 AC_ARG_ENABLE(debug,
-[  --enable-debug          Enable debugging (disabled by default)],
-[if test x$enableval = xyes; then
-    AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.]) debug_support=yes
-fi])
+AS_HELP_STRING([--enable-debug], [Enable debugging (disabled by default)]))
+if test "x$enable_debug" = xyes; then
+    AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.])
+    debug_support=yes
+fi
 
 if test x$debug_support != xyes; then
     AC_DEFINE(NDEBUG, 1, [Shut up assert warnings :-)])
 fi
 
 AC_ARG_ENABLE(tiny,
-[  --enable-tiny           Disable features for the sake of size],
-[if test x$enableval = xyes; then
-    AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
+AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
+if test "x$enable_tiny" = xyes; then
+    AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
+    tiny_support=yes
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
@@ -76,141 +78,112 @@ AC_ARG_ENABLE(tiny,
     AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
     AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
-fi])
+fi
 
 AC_ARG_ENABLE(libmagic,
 AS_HELP_STRING([--disable-libmagic], [Disable detection of file types via libmagic]))
 
 AC_ARG_ENABLE(extra,
-[  --disable-extra          Disable extra features, currently only easter eggs],
-[if test x$enableval != xno; then
-    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
-fi], 
-    [if test x$enable_tiny != xyes; then
-        AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.]) extra_support=yes
-    fi])
+AS_HELP_STRING([--disable-extra], [Disable extra features, currently only easter eggs]))
+if test "x$enable_extra" != xno; then
+    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.])
+    extra_support=yes
+fi
 
 AC_ARG_ENABLE(browser,
-[  --disable-browser       Disable built-in file browser],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-browser], [Disable built-in file browser]))
+if test "x$enable_browser" = xno; then
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
-fi])
+fi
 
 AC_ARG_ENABLE(help,
-[  --disable-help          Disable help functions],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-help], [Disable help functions]))
+if test "x$enable_help" = xno; then
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
-fi])
+fi
 
 AC_ARG_ENABLE(justify,
-[  --disable-justify       Disable justify/unjustify functions],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-justify], [Disable justify/unjustify functions]))
+if test "x$enable_justify" = xno; then
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
-fi])
+fi
 
 AC_ARG_ENABLE(mouse,
-[  --disable-mouse         Disable mouse support (and -m flag)],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-mouse], [Disable mouse support (and -m flag)]))
+if test "x$enable_mouse" = xno; then
     AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
-fi])
+fi
 
 AC_ARG_ENABLE(operatingdir,
-[  --disable-operatingdir  Disable setting of operating directory (chroot of sorts)],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-operatingdir], [Disable setting of operating directory (chroot of sorts)]))
+if test "x$enable_operatingdir" = xno; then
     AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
-fi])
+fi
 
 AC_ARG_ENABLE(speller,
-[  --disable-speller       Disable spell checker functions],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-speller], [Disable spell checker functions]))
+if test "x$enable_speller" = xno; then
     AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
-fi])
+fi
 
 AC_ARG_ENABLE(tabcomp,
-[  --disable-tabcomp       Disable tab completion functions],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-tabcomp], [Disable tab completion functions]))
+if test "x$enable_tabcomp" = xno; then
     AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
-fi])
+fi
 
 AC_ARG_ENABLE(wrapping,
-[  --disable-wrapping      Disable all wrapping of text (and -w flag)],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-wrapping], [Disable all wrapping of text (and -w flag)]))
+if test "x$enable_wrapping" = xno; then
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
-fi])
+fi
 
 AC_ARG_ENABLE(wrapping-as-root,
-[  --disable-wrapping-as-root  Disable wrapping of text as root by default],
-[if test x$enableval != xyes; then
+AS_HELP_STRING([--disable-wrapping-as-root], [Disable wrapping of text as root by default]))
+if test "x$enable_wrapping_as_root" = xno; then
     AC_DEFINE(DISABLE_ROOTWRAPPING, 1, [Define this to disable text wrapping as root by default.])
-fi])
+fi
 
 AC_ARG_ENABLE(color,
-[  --disable-color          Disable color and syntax highlighting],
-if test x$enableval != xno; then
+AS_HELP_STRING([--disable-color], [Disable color and syntax highlighting]))
+if test "x$enable_color" != xno; then
     if test x$ac_cv_header_regex_h = xyes; then
-	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
-    else
+	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.])
+	nanorc_support=yes
+	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!])
+	color_support=yes
+    elif test "x$enable_color" = xyes; then
 	AC_MSG_ERROR([
 *** The header file regex.h was not found.  If you wish to use color
 *** support this header file is required.  Please either install C
 *** libraries that include the regex.h file or call the configure
 *** script with --disable-color.])
     fi
-fi, 
-    if test x$enable_tiny != xyes; then
-	if test x$ac_cv_header_regex_h = xyes; then
-	    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-	    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes	
-	else
-	    AC_MSG_ERROR([
-*** The header file regex.h was not found.  If you wish to use color
-*** support this header file is required.  Please either install C
-*** libraries that include the regex.h file or call the configure
-*** script with --disable-color.])
-	fi
-    fi
-)
+fi
 
 AC_ARG_ENABLE(multibuffer,
-[  --disable-multibuffer    Disable multiple file buffers],
-[if test x$enableval != xno; then
-    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
-fi], 
-    [if test x$enable_tiny != xyes; then
-        AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
-    fi])
+AS_HELP_STRING([--disable-multibuffer], [Disable multiple file buffers]))
+if test "x$enable_multibuffer" != xno; then
+    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
+    multibuffer_support=yes
+fi
 
 AC_ARG_ENABLE(nanorc,
-[  --disable-nanorc         Disable use of .nanorc files],
-[if test x$enableval != xno; then
-    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-fi], 
-    [if test x$enable_tiny != xyes; then
-        AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.]) nanorc_support=yes
-    fi])
-
-AC_ARG_ENABLE(all,
-[  --enable-all            Enable ALL extra nano functionality (ignored for compatibility as all options default to on)],
-[if test x$enableval = xyes; then
-    echo "--enable-all option no longer needed, ignoring for compatibility"
-fi])
+AS_HELP_STRING([--disable-nanorc], [Disable use of .nanorc files]))
+if test "x$enable_nanorc" != xno; then
+    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.])
+    nanorc_support=yes
+fi
 
 AC_MSG_CHECKING([whether to enable UTF-8 support])
-AC_ARG_ENABLE(utf8,
-[  --enable-utf8           Enable UTF-8 support],
-[if test x$enableval = xyes; then
-    enable_utf8=yes
-else
-    enable_utf8=no
-fi],
-[enable_utf8=auto])
+enable_utf8=auto
+AC_ARG_ENABLE(utf8, AS_HELP_STRING([--enable-utf8], [Enable UTF-8 support]))
 AC_MSG_RESULT($enable_utf8)
 
 AC_MSG_CHECKING([whether to use slang])
 CURSES_LIB_NAME=""
 AC_ARG_WITH(slang,
-[  --with-slang[=DIR]      Use the slang library instead of curses],
+AS_HELP_STRING([--with-slang[=DIR]], [Use the slang library instead of curses]),
 [    case "$with_slang" in
     no)
 	AC_MSG_RESULT(no)
@@ -224,7 +197,7 @@ AC_ARG_WITH(slang,
 	    CPPFLAGS="-I$with_slang/include $CPPFLAGS"
 	fi
 
-	if test x$enable_utf8 != xno; then
+	if test "x$enable_utf8" != xno; then
 	    AC_CHECK_HEADER(slcurses.h,
 		AC_MSG_CHECKING([for SLutf8_enable in -lslang])
 		_libs=$LIBS
@@ -237,7 +210,8 @@ int main(void)
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
+		    slang_support=yes
 		    CURSES_LIB_WIDE=yes
 		    if test x$with_slang != xyes; then
 			CURSES_LIB="-L${with_slang}/lib -lslang"
@@ -305,7 +279,7 @@ int main(void)
 
 	if eval "test x$CURSES_LIB_NAME = x"; then
 	    # Reset libs if the above slang tests failed
-	    if test x$enable_utf8 != xno; then
+	    if test "x$enable_utf8" != xno; then
 		LIBS=$_libs
 	    fi
 
@@ -395,7 +369,8 @@ int main(void)
     esac], [AC_MSG_RESULT(no)])
 
 if test x$CURSES_LIB_NAME = xslang; then
-    AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
+    AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
+    tiny_support=yes
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
@@ -410,7 +385,7 @@ AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
 AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
 
 AC_ARG_ENABLE(altrcname,
-[  --enable-altrcname          Specify alternate rcfile name (default: .nanorc)],
+AS_HELP_STRING([--enable-altrcname], [Specify alternate rcfile name (default: .nanorc)]),
 [if test x$enableval != no; then
     AC_DEFINE_UNQUOTED(RCFILE_NAME, "$enableval", [Specify alternate rcfile name (default: .nanorc)]) rcfilename=$enableval
 fi])
@@ -419,7 +394,7 @@ dnl Checks for functions.
 
 AC_CHECK_FUNCS(getdelim getline isblank strcasecmp strcasestr strncasecmp strnlen vsnprintf)
 
-if test x$enable_utf8 != xno; then
+if test "x$enable_utf8" != xno; then
     AC_CHECK_FUNCS(iswalnum iswblank iswpunct iswspace nl_langinfo mblen mbstowcs mbtowc wctomb wcwidth)
 fi
 
@@ -444,7 +419,7 @@ AC_CHECK_FUNCS(getopt_long)
 dnl Checks for libraries.
 
 if eval "test x$CURSES_LIB_NAME = x"; then
-    if test x$enable_utf8 != xno; then
+    if test "x$enable_utf8" != xno; then
 	PKG_CHECK_MODULES([NCURSESW], [ncursesw], [
 	    CURSES_LIB=$NCURSESW_LIBS
 	    CPPFLAGS="$NCURSESW_CFLAGS $CPPFLAGS"
@@ -463,7 +438,7 @@ fi
 if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(ncurses.h)
 
-    if test x$enable_utf8 != xno; then
+    if test "x$enable_utf8" != xno; then
 	OLDLIBS="$LIBS"
 	AC_CHECK_TOOL(NCURSESW_CONFIG, ncursesw5-config, no)
 	if test "x$NCURSESW_CONFIG" != xno; then
@@ -485,7 +460,7 @@ fi
 if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(curses.h)
 
-    if test x$enable_utf8 != xno; then
+    if test "x$enable_utf8" != xno; then
 	AC_CHECK_LIB(curses, get_wch, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE=yes])
     fi
 
@@ -518,7 +493,7 @@ if test "x$GLIB_LIBS" != "x"; then
     LDFLAGS="$LDFLAGS $GLIB_LIBS"
 fi
 
-if test x$enable_utf8 != xno && \
+if test "x$enable_utf8" != xno && \
     test x$CURSES_LIB_WIDE = xyes && \
     test x$ac_cv_func_iswalnum = xyes && \
     test x$ac_cv_func_iswpunct = xyes && \
@@ -531,14 +506,14 @@ if test x$enable_utf8 != xno && \
     test x$ac_cv_func_wcwidth = xyes; then
 	AC_DEFINE(ENABLE_UTF8, 1, [Define this if your system has sufficient UTF-8 support (a wide curses library, iswalnum(), iswpunct(), iswblank() or iswspace(), nl_langinfo, mblen(), mbstowcs(), mbtowc(), wctomb(), and wcwidth()).])
 else
-    if test x$enable_utf8 = xyes; then
+    if test "x$enable_utf8" = xyes; then
 	AC_MSG_ERROR([
 *** UTF-8 support was requested, but insufficient UTF-8 support was
 *** detected in your curses and/or C libraries.  Please verify that your
 *** slang was built with UTF-8 support or your curses was built with
 *** wide character support, and that your C library was built with wide
 *** character support.])
-    elif test x$enable_utf8 != xno; then
+    elif test "x$enable_utf8" != xno; then
 	AC_MSG_WARN([
 *** Insufficient UTF-8 support was detected in your curses and/or C
 *** libraries.  If you want UTF-8 support, please verify that your slang
@@ -553,7 +528,7 @@ if test x$color_support = xyes; then
 	AC_MSG_CHECKING([for GNU-style word boundary regex support])
 
 	AC_ARG_WITH(wordbounds,
-        [  --with-wordbounds            Use GNU-style word boundary delimiters],
+        AS_HELP_STRING([--with-wordbounds], [Use GNU-style word boundary delimiters]),
 	[ case "$with_wordbounds" in
 	    no)
 		AC_MSG_RESULT(no)
@@ -626,7 +601,7 @@ int main(void)
     LINES = 80;
     COLS = 25;
     return 0;
-}], 
+}],
 AC_DEFINE(REDEFINIG_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug])
 AC_MSG_RESULT(yes),
 AC_MSG_RESULT(no),
@@ -640,13 +615,13 @@ AS_IF([test "x$enable_libmagic" != "xno"], [
 # Check for groff html support
 AC_MSG_CHECKING([for HTML support in groff])
 groff -t -mandoc -Thtml </dev/null >/dev/null
-if test $? -ne 0 ; then 
-    echo "no"
-    echo "*** Will not generate HTML version of man pages  ***"
-    echo "*** Consider installing a newer version of groff with HTML support ***"
+if test $? -ne 0 ; then
+    AC_MSG_RESULT([no])
+    AC_MSG_WARN([*** Will not generate HTML version of man pages  ***
+*** Consider installing a newer version of groff with HTML support ***])
     groff_html_support=no
 else
-    echo "yes"
+    AC_MSG_RESULT([yes])
     groff_html_support=yes
 fi
 AM_CONDITIONAL(GROFF_HTML, test x$groff_html_support = xyes)

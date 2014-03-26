@@ -1,3 +1,14 @@
+2014-03-26  Mike Frysinger  <vapier@gentoo.org>.
+	* configure.ac - Clean up most of the --with/--enable flags:
+	- use AS_HELP_STRING instead of writing the text ourselves;
+	- use the normal enable_xxx var AC_ARG_ENABLE creates for us;
+	- delete duplicate checks in a few places (due to previous cleanup);
+	- unwrap some macros/var assignments;
+	- delete trailing whitespace;
+	- delete old --enable-all flag;
+	- fix quoting on a lot of vars that come from the user;
+	- use AC_MSG_* helpers instead of raw `echo`.
+
 2014-03-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/gentoo.nanorc - Match more files, add a trailing
 	whitespace check, and EAPI=5 updates.  Patch by Mike Frysinger.
