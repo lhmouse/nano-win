@@ -173,10 +173,10 @@ char *do_browser(char *path, DIR *dir)
 		total_redraw();
 	} else if (f->scfunc == do_help_void) {
 #ifndef DISABLE_HELP
-	    do_browser_help();
+	    do_help_void();
 	    curs_set(0);
 #else
-		nano_disabled_msg();
+	    nano_disabled_msg();
 #endif
 	    /* Search for a filename. */
 	} else if (f->scfunc == do_search) {

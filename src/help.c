@@ -201,14 +201,6 @@ void do_help(void (*refresh_func)(void))
     help_text = NULL;
 }
 
-#ifndef DISABLE_BROWSER
-/* Start the help browser for the file browser. */
-void do_browser_help(void)
-{
-    do_help(&browser_refresh);
-}
-#endif
-
 /* This function allocates help_text, and stores the help string in it.
  * help_text should be NULL initially. */
 void help_init(void)

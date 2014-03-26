@@ -9,6 +9,7 @@
 	* src/rcfile.c - Fix compilation with --disable-color.
 	* src/rcfile.c - Allow (un)binding keys when colour is disabled.
 	* src/help.c - Fix compilation with --disable-browser.
+	* src/{proto.h,browser.c,help.c} - Remove a superfluous function.
 
 2014-03-26  Mike Frysinger  <vapier@gentoo.org>.
 	* configure.ac - Clean up most of the --with/--enable flags:
