@@ -76,7 +76,7 @@ if test "x$enable_tiny" = xyes; then
     AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
     AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
     AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
 fi
 
@@ -129,7 +129,7 @@ fi
 AC_ARG_ENABLE(tabcomp,
 AS_HELP_STRING([--disable-tabcomp], [Disable tab completion functions]))
 if test "x$enable_tabcomp" = xno; then
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
 fi
 
 AC_ARG_ENABLE(wrapping,
@@ -192,7 +192,7 @@ AS_HELP_STRING([--with-slang[=DIR]], [Use the slang library instead of curses]),
 	AC_MSG_RESULT(yes)
 
 	if test x$with_slang != xyes; then
-	    # Add additional search path
+	    # Add additional search path.
 	    LDFLAGS="-L$with_slang/lib $LDFLAGS"
 	    CPPFLAGS="-I$with_slang/include $CPPFLAGS"
 	fi
@@ -210,7 +210,7 @@ int main(void)
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
+		    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
 		    slang_support=yes
 		    CURSES_LIB_WIDE=yes
 		    if test x$with_slang != xyes; then
@@ -221,7 +221,7 @@ int main(void)
 		    CURSES_LIB_NAME=slang],
 		    [AC_MSG_RESULT(no)
 
-		    # We might need the term library
+		    # We might need the term library.
 		    for termlib in ncurses curses termcap terminfo termlib; do
 			AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
 			test -n "$tcap" && break
@@ -237,7 +237,7 @@ int main(void)
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			CURSES_LIB_WIDE=yes
 			if test x$with_slang != xyes; then
 			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
@@ -247,7 +247,7 @@ int main(void)
 			CURSES_LIB_NAME=slang],
 			[AC_MSG_RESULT(no)
 
-			# We might need the math library
+			# We might need the math library.
 			AC_MSG_CHECKING([for SLutf8_enable in -lslang $tcap -lm])
 			LIBS="$LIBS -lm"
 			AC_TRY_RUN([
@@ -258,7 +258,7 @@ int main(void)
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			    CURSES_LIB_WIDE=yes
 			    if test x$with_slang != xyes; then
 				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
@@ -278,7 +278,7 @@ int main(void)
 	fi
 
 	if eval "test x$CURSES_LIB_NAME = x"; then
-	    # Reset libs if the above slang tests failed
+	    # Reset libs if the above slang tests failed.
 	    if test "x$enable_utf8" != xno; then
 		LIBS=$_libs
 	    fi
@@ -295,7 +295,7 @@ int main(void)
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+		    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 		    if test x$with_slang != xyes; then
 			CURSES_LIB="-L${with_slang}/lib -lslang"
 		    else
@@ -304,7 +304,7 @@ int main(void)
 		    CURSES_LIB_NAME=slang],
 		    [AC_MSG_RESULT(no)
 
-		    # We might need the term library
+		    # We might need the term library.
 		    for termlib in ncurses curses termcap terminfo termlib; do
 			AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
 			test -n "$tcap" && break
@@ -320,7 +320,7 @@ int main(void)
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			if test x$with_slang != xyes; then
 			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
 			else
@@ -329,7 +329,7 @@ int main(void)
 			CURSES_LIB_NAME=slang],
 			[AC_MSG_RESULT(no)
 
-			# We might need the math library
+			# We might need the math library.
 			AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap -lm])
 			LIBS="$LIBS -lm"
 			AC_TRY_RUN([
@@ -340,7 +340,7 @@ int main(void)
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
 			    if test x$with_slang != xyes; then
 				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
 			    else
@@ -377,7 +377,7 @@ if test x$CURSES_LIB_NAME = xslang; then
     AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
     AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
     AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion functions for files and search strings.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
 fi
 
@@ -385,9 +385,9 @@ AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
 AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
 
 AC_ARG_ENABLE(altrcname,
-AS_HELP_STRING([--enable-altrcname], [Specify alternate rcfile name (default: .nanorc)]),
+AS_HELP_STRING([--enable-altrcname], [Specify an alternate rcfile name (default: .nanorc)]),
 [if test x$enableval != no; then
-    AC_DEFINE_UNQUOTED(RCFILE_NAME, "$enableval", [Specify alternate rcfile name (default: .nanorc)]) rcfilename=$enableval
+    AC_DEFINE_UNQUOTED(RCFILE_NAME, "$enableval", [Specify an alternate rcfile name (default: .nanorc).]) rcfilename=$enableval
 fi])
 
 dnl Checks for functions.
@@ -465,7 +465,7 @@ if eval "test x$CURSES_LIB_NAME = x"; then
     fi
 
     if eval "test x$CURSES_LIB_NAME = x"; then
-	 AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
+	AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
     fi
 fi
 
@@ -524,7 +524,7 @@ else
 fi
 
 if test x$color_support = xyes; then
-	# now check for the end of word boundary support (/< and />)
+	# Now check for the end-of-word boundary support (/< and />).
 	AC_MSG_CHECKING([for GNU-style word boundary regex support])
 
 	AC_ARG_WITH(wordbounds,
@@ -536,11 +536,11 @@ if test x$color_support = xyes; then
 	    *)
 		AC_MSG_RESULT(yes)
 		# We explicitly don't check if the user forced the option, because
-		# this is needed for cross compilers and we cant test the target
-		AC_DEFINE(GNU_WORDBOUNDS, 1, [Define if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
-                ;;
-          esac
-        ], [
+		# this is needed for cross compilers and we can't test the target.
+		AC_DEFINE(GNU_WORDBOUNDS, 1, [Define this if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
+		;;
+	  esac
+	], [
 	    AC_TRY_RUN([
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -553,13 +553,13 @@ int main(void)
     regmatch_t pmatch;
 
     if (regcomp(&r, "\\\\>", REG_EXTENDED|REG_NOSUB))
-        return 1;
+	return 1;
     if (regexec(&r, "word boundary", nmatch, &pmatch, 0))
-        return 1;
+	return 1;
     return 0;
 }],
 	    AC_MSG_RESULT(yes)
-	    AC_DEFINE(GNU_WORDBOUNDS, 1, [Define if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
+	    AC_DEFINE(GNU_WORDBOUNDS, 1, [Define this if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
 	    AC_MSG_RESULT(no),
 	    AC_MSG_WARN([*** Can't check for GNU-style word boundary support when cross-compiling])
 	)
@@ -602,7 +602,7 @@ int main(void)
     COLS = 25;
     return 0;
 }],
-AC_DEFINE(REDEFINIG_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug])
+AC_DEFINE(REDEFINING_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug])
 AC_MSG_RESULT(yes),
 AC_MSG_RESULT(no),
 AC_MSG_WARN([*** Can't check for macro redefinability when cross-compiling]))

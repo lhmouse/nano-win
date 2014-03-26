@@ -1,3 +1,6 @@
+2014-03-26  Benno Schulenberg  <bensberg@justemail.net>
+	* configure.ac - Word, tab, and comment tweaks.
+
 2014-03-26  Mike Frysinger  <vapier@gentoo.org>.
 	* configure.ac - Clean up most of the --with/--enable flags:
 	- use AS_HELP_STRING instead of writing the text ourselves;
