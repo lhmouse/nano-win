@@ -1037,6 +1037,7 @@ void parse_rcfile(FILE *rcstream
 	ptr = parse_next_word(ptr);
 
 
+#ifdef ENABLE_COLOR
 	/* Handle extending first... */
 	if (strcasecmp(keyword, "extendsyntax") == 0) {
 	    char *syntaxname = ptr;
@@ -1057,6 +1058,7 @@ void parse_rcfile(FILE *rcstream
 		ptr = parse_next_word(ptr);
 	    }
 	}
+#endif
 
 	/* Try to parse the keyword. */
 	if (strcasecmp(keyword, "set") == 0) {
