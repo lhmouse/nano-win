@@ -484,9 +484,9 @@ void print_sclist(void)
     sc *s;
     const subnfunc *f;
 
-    for (s = sclist; s->next != NULL; s = s->next) {
+    for (s = sclist; s != NULL; s = s->next) {
 	f = sctofunc(s);
-        if (f)
+	if (f)
 	    fprintf(stderr, "Shortcut \"%s\", function: %s, menus %x\n", s->keystr, f->desc, f->menus);
 	else
 	    fprintf(stderr, "Hmm, didnt find a func for \"%s\"\n", s->keystr);
