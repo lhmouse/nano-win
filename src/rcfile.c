@@ -446,6 +446,7 @@ void parse_magictype(char *ptr)
     }
 #endif /* HAVE_LIBMAGIC */
 }
+#endif /* ENABLE_COLOR */
 
 
 int check_bad_binding(sc *s)
@@ -617,6 +618,7 @@ void parse_unbinding(char *ptr)
 }
 
 
+#ifdef ENABLE_COLOR
 /* Read and parse additional syntax files. */
 void parse_include(char *ptr)
 {
@@ -1094,22 +1096,21 @@ void parse_rcfile(FILE *rcstream
 			endsyntax->desc);
 	    parse_syntax(ptr);
 	}
-	else if (strcasecmp(keyword, "magic") == 0) {
+	else if (strcasecmp(keyword, "magic") == 0)
 	    parse_magictype(ptr);
-	} else if (strcasecmp(keyword, "header") == 0)
+	else if (strcasecmp(keyword, "header") == 0)
 	    parse_headers(ptr);
 	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)
 	    parse_colors(ptr, TRUE);
+	else if (strcasecmp(keyword, "linter") == 0)
+	    parse_linter(ptr);
+#endif /* ENABLE_COLOR */
 	else if (strcasecmp(keyword, "bind") == 0)
 	    parse_keybinding(ptr);
 	else if (strcasecmp(keyword, "unbind") == 0)
 	    parse_unbinding(ptr);
-	else if (strcasecmp(keyword, "linter") == 0) {
-	    parse_linter(ptr);
-	}
-#endif /* ENABLE_COLOR */
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
