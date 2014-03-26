@@ -551,14 +551,16 @@ void do_help_void(void)
 {
 #ifndef DISABLE_HELP
     /* Start the help browser, with the correct refresher for afterwards. */
+#ifndef DISABLE_BROWSER
     if (currmenu == MBROWSER || currmenu == MWHEREISFILE || currmenu == MGOTODIR)
 	do_help(&browser_refresh);
     else
+#endif
 	do_help(&edit_refresh);
 #else
     if (currmenu == MMAIN)
 	nano_disabled_msg();
     else
 	beep();
-#endif
+#endif /* !DISABLE_HELP */
 }
