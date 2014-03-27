@@ -576,9 +576,6 @@ void shortcut_init(bool unjustify)
     const char *fulljstify_msg = N_("FullJstify");
 #endif
     const char *refresh_msg = N_("Refresh");
-#ifndef NANO_TINY
-    const char *insert_file_msg =  N_("Insert File");
-#endif
     const char *go_to_line_msg = N_("Go To Line");
     const char *spell_msg = N_("To Spell");
 #ifdef ENABLE_COLOR
