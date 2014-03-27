@@ -146,10 +146,16 @@ fi
 
 AC_ARG_ENABLE(color,
 AS_HELP_STRING([--disable-color], [Disable color and syntax highlighting]))
+if test "x$enable_nanorc" = xno; then
+    if test "x$enable_color" = xyes; then
+	AC_MSG_ERROR([--enable-color cannot work with --disable-nanorc])
+    else
+	enable_color=no
+    fi
+fi
 if test "x$enable_color" != xno; then
     if test x$ac_cv_header_regex_h = xyes; then
-	AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.])
-	nanorc_support=yes
+	enable_nanorc=yes
 	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!])
 	color_support=yes
     elif test "x$enable_color" = xyes; then
