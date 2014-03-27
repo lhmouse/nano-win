@@ -583,8 +583,6 @@ void shortcut_init(bool unjustify)
     const char *spell_msg = N_("To Spell");
 #ifdef ENABLE_COLOR
     const char *lint_msg = N_("To Linter");
-    const char *nano_lint_msg =
-	N_("Invoke the linter, if available");
     const char *prev_lint_msg = N_("Prev Lint Msg");
     const char *next_lint_msg = N_("Next Lint Msg");
 #endif
@@ -738,6 +736,7 @@ void shortcut_init(bool unjustify)
     const char *nano_gotodir_msg = N_("Go to directory");
 #endif
 #ifdef ENABLE_COLOR
+    const char *nano_lint_msg = N_("Invoke the linter, if available");
     const char *nano_prevlint_msg = N_("Go to previous linter msg");
     const char *nano_nextlint_msg = N_("Go to next linter msg");
 #endif
@@ -783,7 +782,6 @@ void shortcut_init(bool unjustify)
      * restricted mode, inserting files is disabled, since it allows
      * reading from or writing to files not specified on the command
      * line. */
-
     add_to_funcs(do_insertfile_void,
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
@@ -845,9 +843,9 @@ void shortcut_init(bool unjustify)
      * because it allows reading from or writing to files not specified
      * on the command line. */
 #ifndef DISABLE_SPELLER
-	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_spell, MMAIN, spell_msg, IFSCHELP(nano_spell_msg),
-	    TRUE, NOVIEW);
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
+    add_to_funcs(do_spell, MMAIN, spell_msg, IFSCHELP(nano_spell_msg),
+	TRUE, NOVIEW);
 #endif
 
 #ifdef ENABLE_COLOR
@@ -858,7 +856,6 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_first_line,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	first_line_msg, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
-
     add_to_funcs(do_last_line,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	last_line_msg, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
@@ -892,14 +889,12 @@ void shortcut_init(bool unjustify)
 
     add_to_funcs(do_indent_void, MMAIN, N_("Indent Text"),
 	IFSCHELP(nano_indent_msg), FALSE, NOVIEW);
-
     add_to_funcs(do_unindent, MMAIN, N_("Unindent Text"),
 	IFSCHELP(nano_unindent_msg), FALSE, NOVIEW);
 
     if (ISSET(UNDOABLE)) {
 	add_to_funcs(do_undo, MMAIN, N_("Undo"),
 	    IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
-
 	add_to_funcs(do_redo, MMAIN, N_("Redo"),
 	    IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
     }
@@ -923,27 +918,23 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MMAIN, N_("Prev Word"),
 	IFSCHELP(nano_prevword_msg), FALSE, VIEW);
-
     add_to_funcs(do_next_word_void, MMAIN, N_("Next Word"),
 	IFSCHELP(nano_nextword_msg), FALSE, VIEW);
 #endif
 
     add_to_funcs(do_up_void, (MMAIN|MHELP|MBROWSER), N_("Prev Line"),
 	IFSCHELP(nano_prevline_msg), FALSE, VIEW);
-
     add_to_funcs(do_down_void, (MMAIN|MHELP|MBROWSER), N_("Next Line"),
 	IFSCHELP(nano_nextline_msg), TRUE, VIEW);
 
     add_to_funcs(do_home, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
 	FALSE, VIEW);
-
     add_to_funcs(do_end, MMAIN, N_("End"), IFSCHELP(nano_end_msg),
 	FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_para_begin_void, (MMAIN|MWHEREIS), beg_of_par_msg,
 	IFSCHELP(nano_parabegin_msg), FALSE, VIEW);
-
     add_to_funcs(do_para_end_void, (MMAIN|MWHEREIS), end_of_par_msg,
 	IFSCHELP(nano_paraend_msg), FALSE, VIEW);
 #endif
@@ -954,7 +945,6 @@ void shortcut_init(bool unjustify)
 
     add_to_funcs(do_scroll_up, MMAIN, N_("Scroll Up"),
 	IFSCHELP(nano_scrollup_msg), FALSE, VIEW);
-
     add_to_funcs(do_scroll_down, MMAIN, N_("Scroll Down"),
 	IFSCHELP(nano_scrolldown_msg), FALSE, VIEW);
 #endif
@@ -1062,47 +1052,33 @@ void shortcut_init(bool unjustify)
      * and fourth are disabled because they allow writing to files not
      * specified on the command line, and the fifth is useless since
      * backups are disabled. */
-    if (!ISSET(RESTRICTED))
+    if (!ISSET(RESTRICTED)) {
         add_to_funcs(dos_format_void, MWRITEFILE,
             dos_format_msg, IFSCHELP(nano_dos_msg), FALSE, NOVIEW);
 
-    if (!ISSET(RESTRICTED))
         add_to_funcs(mac_format_void, MWRITEFILE,
             mac_format_msg, IFSCHELP(nano_mac_msg), FALSE, NOVIEW);
 
-    if (!ISSET(RESTRICTED))
         add_to_funcs(append_void, MWRITEFILE,
             append_msg, IFSCHELP(nano_append_msg), FALSE, NOVIEW);
-
-    if (!ISSET(RESTRICTED))
         add_to_funcs(prepend_void, MWRITEFILE,
             prepend_msg, IFSCHELP(nano_prepend_msg), FALSE, NOVIEW);
 
-    if (!ISSET(RESTRICTED))
         add_to_funcs(backup_file_void, MWRITEFILE,
             backup_file_msg, IFSCHELP(nano_backup_msg), FALSE, NOVIEW);
+    }
 
-    /* If we're using restricted mode, command execution is disabled.
-     * It's useless since inserting files is disabled. */
-    if (!ISSET(RESTRICTED))
+    /* If we're using restricted mode, file insertion is disabled, and
+     * thus command execution and the multibuffer toggle have no place. */
+    if (!ISSET(RESTRICTED)) {
         add_to_funcs(ext_cmd_void, MINSERTFILE,
 	    ext_cmd_msg, IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
 #ifdef ENABLE_MULTIBUFFER
-    /* If we're using restricted mode, the multibuffer toggle is
-     * disabled.  It's useless since inserting files is disabled. */
-    if (!ISSET(RESTRICTED))
-	add_to_funcs(new_buffer_void, MINSERTFILE,
-	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
+	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
+	    new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
-
-    add_to_funcs(do_insertfile_void, MEXTCMD,
-	insert_file_msg, IFSCHELP(nano_insert_msg), FALSE, VIEW);
-
-#ifdef ENABLE_MULTIBUFFER
-    add_to_funcs(new_buffer_void, MEXTCMD,
-	new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
-#endif
+    }
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_HELP
@@ -1115,7 +1091,6 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_BROWSER
     add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
 	first_file_msg, IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
-
     add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
 	last_file_msg, IFSCHELP(nano_lastfile_msg), FALSE, VIEW);
 
