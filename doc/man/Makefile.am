@@ -18,8 +18,7 @@ endif
 
 nano_man_mans = nano.1 nanorc.5 rnano.1
 if GROFF_HTML
-htmlman_DATA = nano.1.html nanorc.5.html rnano.1.html
-htmlmandir = $(datadir)/nano/man-html
+dist_html_DATA = nano.1.html nanorc.5.html rnano.1.html
 nano_built_sources = nano.1.html nanorc.5.html rnano.1.html
 
 nano.1.html: nano.1

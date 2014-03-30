@@ -4,4 +4,4 @@ else
 SUBDIRS = man texinfo
 endif
 
-EXTRA_DIST = faq.html
+dist_html_DATA = faq.html

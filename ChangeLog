@@ -1,10 +1,15 @@
+2014-03-30  Mike Frysinger  <vapier@gentoo.org>
+	* doc/Makefile.am, doc/man/Makefile.am, doc/man/fr/Makefile.am -
+	The build already provides a standard htmldir for installing html
+	files.  Use that instead of creating our own.
+
 2014-03-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main) - Fix compilation with --disable-utf8.
 	* src/global.c (shortcut_init) - Place a help string among
 	its kin, adjust some indentation, group function pairs more
 	tightly, bundle restricted stuff, and delete an unused item.
 
-2014-03-27  Mike Frysinger  <vapier@gentoo.org>.
+2014-03-27  Mike Frysinger  <vapier@gentoo.org>
 	* configure.ac - Make --disable-nanorc with --enable-color barf.
 	* configure.ac - Allow --disable-utf8 and --enable-utf8 to work.
 
@@ -21,7 +26,7 @@
 	* src/help.c - Fix compilation with --disable-browser.
 	* src/{proto.h,browser.c,help.c} - Remove a superfluous function.
 
-2014-03-26  Mike Frysinger  <vapier@gentoo.org>.
+2014-03-26  Mike Frysinger  <vapier@gentoo.org>
 	* configure.ac - Clean up most of the --with/--enable flags:
 	- use AS_HELP_STRING instead of writing the text ourselves;
 	- use the normal enable_xxx var AC_ARG_ENABLE creates for us;
