@@ -1,44 +1,45 @@
 2014-03-30  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/changelog.nanorc: New file, first attemp at colouring
 	Changelog files.
+	* ChangeLog: Consistently use a colon after names of changed files.
 
 2014-03-30  Mike Frysinger  <vapier@gentoo.org>
 	* doc/Makefile.am, doc/man/Makefile.am, doc/man/fr/Makefile.am -
 	The build already provides a standard htmldir for installing html
 	files.  Use that instead of creating our own.
-	* doc/man/Makefile.am, doc/man/fr/Makefile.am - Use dist_ prefixes
+	* doc/man/Makefile.am, doc/man/fr/Makefile.am: Use dist_ prefixes
 	and += appending supported by automake to produce simpler files.
-	* doc/Makefile.am - Drop redundant localedir, as autoconf/automake
+	* doc/Makefile.am: Drop redundant localedir, as autoconf/automake
 	already creates this for us.
-	* src/rcfile.c, doc/nanorc.sample.in - Hard-listing all the wanted
+	* src/rcfile.c, doc/nanorc.sample.in: Hard-listing all the wanted
 	syntax files is a PITA.  Support globs in include paths, so people
 	can easily drop in new files and have it "just work".
 
 2014-03-27  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (main) - Fix compilation with --disable-utf8.
-	* src/global.c (shortcut_init) - Place a help string among
+	* src/nano.c (main): Fix compilation with --disable-utf8.
+	* src/global.c (shortcut_init): Place a help string among
 	its kin, adjust some indentation, group function pairs more
 	tightly, bundle restricted stuff, and delete an unused item.
 
 2014-03-27  Mike Frysinger  <vapier@gentoo.org>
-	* configure.ac - Make --disable-nanorc with --enable-color barf.
-	* configure.ac - Allow --disable-utf8 and --enable-utf8 to work.
+	* configure.ac: Make --disable-nanorc with --enable-color barf.
+	* configure.ac: Allow --disable-utf8 and --enable-utf8 to work.
 
 2014-03-26  Benno Schulenberg  <bensberg@justemail.net>
-	* configure.ac - Word, tab, and comment tweaks.
-	* src/global.c - Some comment tweaks, and whitespace trimmings.
-	* src/global.c (print_sclist) - Also print last shortcut in list.
-	* doc/texinfo/nano.texi - Explain how to select and paste with
+	* configure.ac: Word, tab, and comment tweaks.
+	* src/global.c: Some comment tweaks, and whitespace trimmings.
+	* src/global.c (print_sclist): Also print last shortcut in list.
+	* doc/texinfo/nano.texi: Explain how to select and paste with
 	the mouse when mouse support is enabled: by holding down Shift.
-	* nano.spec.in, doc/faq.html, doc/texinfo/nano.texi - Remove
+	* nano.spec.in, doc/faq.html, doc/texinfo/nano.texi: Remove
 	vestiges of the obsolete '--enable-all' configure flag.
-	* src/rcfile.c - Fix compilation with --disable-color.
-	* src/rcfile.c - Allow (un)binding keys when colour is disabled.
-	* src/help.c - Fix compilation with --disable-browser.
-	* src/{proto.h,browser.c,help.c} - Remove a superfluous function.
+	* src/rcfile.c: Fix compilation with --disable-color.
+	* src/rcfile.c: Allow (un)binding keys when colour is disabled.
+	* src/help.c: Fix compilation with --disable-browser.
+	* src/{proto.h,browser.c,help.c}: Remove a superfluous function.
 
 2014-03-26  Mike Frysinger  <vapier@gentoo.org>
-	* configure.ac - Clean up most of the --with/--enable flags:
+	* configure.ac: Clean up most of the --with/--enable flags:
 	- use AS_HELP_STRING instead of writing the text ourselves;
 	- use the normal enable_xxx var AC_ARG_ENABLE creates for us;
 	- delete duplicate checks in a few places (due to previous cleanup);
@@ -49,90 +50,90 @@
 	- use AC_MSG_* helpers instead of raw `echo`.
 
 2014-03-24  Benno Schulenberg  <bensberg@justemail.net>
-	* src/{nano,move,winio}.c - Fix a few compiler warnings.
-	* src/{global,rcfile,winio}.c - Print menu numbers for debugging
+	* src/{nano,move,winio}.c: Fix a few compiler warnings.
+	* src/{global,rcfile,winio}.c: Print menu numbers for debugging
 	in hex, and tweak a few of those debugging messages.
-	* src/nano.c - Harmonize comments, and trim some blank lines.
+	* src/nano.c: Harmonize comments, and trim some blank lines.
 
 2014-03-24  Mike Frysinger  <vapier@gentoo.org>
-	* doc/syntax/gentoo.nanorc - Match more files, add a trailing
+	* doc/syntax/gentoo.nanorc: Match more files, add a trailing
 	whitespace check, and EAPI=5 updates.
-	* doc/syntax/javascript.nanorc - New file, based on C syntax.
-	* doc/syntax/{nanorc,python}.nanorc - Highlight trailing whitespace.
-	* configure.ac, m4/ax_check_compile_flag.m4 - Start building with
+	* doc/syntax/javascript.nanorc: New file, based on C syntax.
+	* doc/syntax/{nanorc,python}.nanorc: Highlight trailing whitespace.
+	* configure.ac, m4/ax_check_compile_flag.m4: Start building with
 	warnings enabled, to help prevent issues from silently creeping in.
-	* configure.ac - Newer ncurses include pkg-config files which tell
+	* configure.ac: Newer ncurses include pkg-config files which tell
 	us the right -I/-L paths we need, so default to that before trying
 	the legacy ways.
-	* configure.ac - Add a configure flag to disable the use of the
+	* configure.ac: Add a configure flag to disable the use of the
 	fattening libmagic.
 
 2014-03-23  Benno Schulenberg  <bensberg@justemail.net>
-	* src/rcfile.c (parse_keybinding, parse_unbinding) - Improve a
+	* src/rcfile.c (parse_keybinding, parse_unbinding): Improve a
 	debugging message, fix a translator comment, and tweak others.
 
 2014-03-22  Benno Schulenberg  <bensberg@justemail.net>
-	* THANKS - Add some missing translator names, and tweak others.
+	* THANKS: Add some missing translator names, and tweak others.
 
 2014-03-21  Benno Schulenberg  <bensberg@justemail.net>
-	* src/chars.c (is_punct_mbchar, mbstrchr) - Elide a variable,
+	* src/chars.c (is_punct_mbchar, mbstrchr): Elide a variable,
 	thus making two ifs identical to six others.
-	* doc/syntax/nanorc.nanorc - Add the 'extendsyntax' directive,
+	* doc/syntax/nanorc.nanorc: Add the 'extendsyntax' directive,
 	and change two colours to be legible on a light background.
 
 2014-03-19  Benno Schulenberg  <bensberg@justemail.net>
-	* doc/nanorc.sample.in - Document the changed whitespace defaults.
-	* src/global.c, doc/man/nanorc.5 - Allow softwrap to be rebound.
-	* doc/nanorc.sample.in - Sort the includes alphabetically, and
+	* doc/nanorc.sample.in: Document the changed whitespace defaults.
+	* src/global.c, doc/man/nanorc.5: Allow softwrap to be rebound.
+	* doc/nanorc.sample.in: Sort the includes alphabetically, and
 	add the ones for Lua, Magicpoint, and Spec files.
-	* doc/nanorc.sample.in - Add "poslog", plus tiny textual tweaks.
-	* src/global.c, doc/man/nanorc.5 - Group softwrap with the toggles
+	* doc/nanorc.sample.in: Add "poslog", plus tiny textual tweaks.
+	* src/global.c, doc/man/nanorc.5: Group softwrap with the toggles
 	that affect how things look -- it does not belong in the group of
 	general program functions, nor in the group of editing behaviour.
-	* doc/man/nanorc.5 - Add the descriptions of six missing bindable
+	* doc/man/nanorc.5: Add the descriptions of six missing bindable
 	functions, and tweak those of a few others.
 
 2014-03-18  Benno Schulenberg  <bensberg@justemail.net>
-	* src/global.c (shortcut_init) - In the file browser one cannot
+	* src/global.c (shortcut_init): In the file browser one cannot
 	search for a regular expression, so do not mention it.
 
 2014-03-17  Benno Schulenberg  <bensberg@justemail.net>
-	* src/global.c (shortcut_init) - Show ^F and ^B instead of kright
+	* src/global.c (shortcut_init): Show ^F and ^B instead of kright
 	and kleft in the help lines of the tiny version.
-	* src/global.c (shortcut_init) - Remove some inconsistent spaces
+	* src/global.c (shortcut_init): Remove some inconsistent spaces
 	and newlines, condense three statements into one, place an #endif
 	better, melt two #ifndefs into one, and add a comment.
-	* src/winio.c (edit_scroll) - Remove the old softwrap scrolling code.
+	* src/winio.c (edit_scroll): Remove the old softwrap scrolling code.
 	* src/{nano.h,proto.h,color.c,cut.c,files.c,global.c,help.c,nano.c,
-	search.c,text.c,utils.c} - Add, fix, and remove some #endif comments,
+	search.c,text.c,utils.c}: Add, fix, and remove some #endif comments,
 	remove an obsolete comment, and remove some superfluous #ifndefs.
-	* src/global.c (shortcut_init) - Put ^B and ^F in the same order as
+	* src/global.c (shortcut_init): Put ^B and ^F in the same order as
 	all other command keys: first the backward then the forward motion.
-	* src/{nano.h,*.c} - Remove stray spaces before tabs.
+	* src/{nano.h,*.c}: Remove stray spaces before tabs.
 
 2014-03-16  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.h - Display more help items when the terminal is wider.
+	* src/nano.h: Display more help items when the terminal is wider.
 
 2014-03-14  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (main) - When in a UTF-8 locale, use prettier characters
+	* src/nano.c (main): When in a UTF-8 locale, use prettier characters
 	(»·) for indicating whitespace, and for similarity use ">." instead of
 	":." when not in a UTF-8 locale.  Changes suggested by Mike Frysinger.
 
 2014-03-05  Benno Schulenberg  <bensberg@justemail.net>
-	* src/move.c (do_down) - Initialize the correct variable to zero.
+	* src/move.c (do_down): Initialize the correct variable to zero.
 	Solves jumpy scrolling behaviour reported by Chris Allegretta.
 
 2014-03-04 Chris Allegretta <chrisa@asty.org>
-	* global.c (first_sc_for) - Return raw keystrokes last, so
+	* global.c (first_sc_for): Return raw keystrokes last, so
 	  they will not be displayed if there are F-keys or Meta keys
 	  mapped for an item in the shortcut list.
 
 2014-03-04  Benno Schulenberg  <bensberg@justemail.net>
-	* doc/syntax/nanorc.nanorc - Add keyword 'quiet', sort 'locking',
+	* doc/syntax/nanorc.nanorc: Add keyword 'quiet', sort 'locking',
 	and concatenate the two separate strings into one.
-	* src/nano.c (main), doc/nanorc.sample.in - Make the M-P toggle
+	* src/nano.c (main), doc/nanorc.sample.in: Make the M-P toggle
 	actually do something by default, by using visible characters.
-	* src/global.c (shortcut_init) - Normalize the writing of three
+	* src/global.c (shortcut_init): Normalize the writing of three
 	help-line items: "Write Out", "Uncut Text", and "Unjustify", to
 	better stress the O and U -- the big C and J were distracting.
 	* doc/{syntax/nanorc.nanorc,man/nanorc.5,texinfo/nano.texi} -
@@ -140,37 +141,37 @@
 	but a bindable function.
 
 2014-03-03 Chris Allegretta <chrisa@asty.org>
-	* global.c (shortcut_init) - Don't actually free the shortcut
+	* global.c (shortcut_init): Don't actually free the shortcut
 	  list, since the next pass via justifying will then remove all
 	  custom shortcuts.  Fixes bug discovered by Benno Schulenberg.
-	* text.c (do_linter) - Remove some unused variables to quiet
+	* text.c (do_linter): Remove some unused variables to quiet
 	  -pedanic -Wall.
 
 2014-03-03  Benno Schulenberg  <bensberg@justemail.net>
-	* src/global.c (add_to_funcs) - Add a newline, for clarity.
-	* src/global.c (shortcut_init) - Mark, don't translate yet.
-	* src/move.c (do_down) - Correctly compute the minimum amount
+	* src/global.c (add_to_funcs): Add a newline, for clarity.
+	* src/global.c (shortcut_init): Mark, don't translate yet.
+	* src/move.c (do_down): Correctly compute the minimum amount
 	to scroll when softwrap is on and there are overlong lines.
-	* src/winio.c (edit_scroll) - Disable amount computation here.
-	* src/move.c (do_down) - Trim some redundant code, and correct
+	* src/winio.c (edit_scroll): Disable amount computation here.
+	* src/move.c (do_down): Trim some redundant code, and correct
 	the scrolling behaviour when softwrap is off -- the construct
 	(amount ? amount : 1) wasn't doing what I intended.
-	* doc/man/nano{.1,rc.5} - Slightly improve formatting and wording.
-	* doc/{texinfo/nano.texi,man/nanorc.5} - Add some missing options
+	* doc/man/nano{.1,rc.5}: Slightly improve formatting and wording.
+	* doc/{texinfo/nano.texi,man/nanorc.5}: Add some missing options
 	to the texinfo documentation, and improve alphabetization a bit.
-	* src/nano.c (usage) - Don't mention --softwrap in tiny version.
+	* src/nano.c (usage): Don't mention --softwrap in tiny version.
 
 2014-03-01 Chris Allegretta <chrisa@asty.org>
-	* global.c (shortcut_init) - Fix an issue with the split
+	* global.c (shortcut_init): Fix an issue with the split
 	  do_research() setup when using --enable-tiny.
-	* rcfile.c (parse_linter) - Allow linter to be unset using "".
-	* rcfile.c - Allow syntaxes to be extended via "extendsyntax"
+	* rcfile.c (parse_linter): Allow linter to be unset using "".
+	* rcfile.c: Allow syntaxes to be extended via "extendsyntax"
 	  directive.  Color, header, magic and linter should all be
 	  able to be extended.  Man page updates for nanorc(5).
-	* doc/nanorc.sample.in - Document 'set quiet'.
+	* doc/nanorc.sample.in: Document 'set quiet'.
 
 2014-03-01  Mike Frysinger  <vapier@gentoo.org>
-	* src/color.c (color_update) - Do not write to stderr on magic
+	* src/color.c (color_update): Do not write to stderr on magic
 	errors.  If the magic db has errors such that magic_load() fails,
 	the current code dumps to stderr which messes up the terminal.
 	The error message is also vague to the point where it's confusing
@@ -179,164 +180,164 @@
 	(Patch tweaked by Benno.)
 
 2014-02-28  Benno Schulenberg  <bensberg@justemail.net>
-	* src/text.c (execute_command) - Equalize pipe error messages.
-	* src/global.c (thanks_for_all_the_fish) - Remove a redundant
+	* src/text.c (execute_command): Equalize pipe error messages.
+	* src/global.c (thanks_for_all_the_fish): Remove a redundant
 	'#ifdef DEBUG', it is contained within a wider one.
-	* src/global.c (strtosc) - Correct a misspelled keyword.
-	* src/rcfile.c (check_vitals_mapped) - Actually translate a
+	* src/global.c (strtosc): Correct a misspelled keyword.
+	* src/rcfile.c (check_vitals_mapped): Actually translate a
 	helpful message, and reword it somewhat for clarity.
-	* src/global.c - Remove unused function 'free_shortcutage'.
-	* src/global.c (strtosc) - Indent conditions consistently.
+	* src/global.c: Remove unused function 'free_shortcutage'.
+	* src/global.c (strtosc): Indent conditions consistently.
 
 2014-02-28  Eitan Adler  <lists@eitanadler.com>
-	* src/nano.c (do_toggle) - Constify a char pointer, to fix
+	* src/nano.c (do_toggle): Constify a char pointer, to fix
 	a warning when compiling with clang (and -Wall).
 
 2014-02-27  Mike Frysinger  <vapier@gentoo.org>
-	* doc/man/nanorc.5 - Relocate the misplaced unbind section,
+	* doc/man/nanorc.5: Relocate the misplaced unbind section,
 	and improve formatting.  (Patch tweaked by Benno.)
-	* doc/syntax/nanorc.nanorc - Add the bind/unbind commands,
+	* doc/syntax/nanorc.nanorc: Add the bind/unbind commands,
 	so they will look supported when using syntax highlighting.
 
 2014-02-27  Benno Schulenberg  <bensberg@justemail.net>
-	* src/help.c (parse_help_input) - Make 'Space' again an alias
+	* src/help.c (parse_help_input): Make 'Space' again an alias
 	for PageDown and 'Minus' for PageUp -- they were mistakenly
 	swapped during code conversion in revision 4223.
 
 2014-02-26  Mike Frysinger  <vapier@gentoo.org>
-	* doc/syntax/sh.nanorc - Highlight more shell builtins and
+	* doc/syntax/sh.nanorc: Highlight more shell builtins and
 	common commands, and rewrite the variable highlighting to be
 	more exact and handle cases where string operations are used.
-	* doc/syntax/gentoo.nanorc - Update to newer EAPIs, and fold
+	* doc/syntax/gentoo.nanorc: Update to newer EAPIs, and fold
 	in updated shell changes too.  Much of this is based on work
 	by Davide Pesavento <pesa@gentoo.org>.
 	* doc/syntax/makefile.nanorc: Highlight trailing whitespace.
 
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
-	* src/global.c (shortcut_init) -  Put PageUp and PageDown
+	* src/global.c (shortcut_init):  Put PageUp and PageDown
 	and also WhereIs and WhereIsNext together in the help lines
 	of the file browser, and WriteOut and Readfile in the help
 	lines of the main window -- related stuff in one column.
-	* doc/syntax/man.nanorc - Better colouring of manpage files.
+	* doc/syntax/man.nanorc: Better colouring of manpage files.
 
 2014-02-26  Konstantin Abakumov  <abakumov@Savannah>  (tiny change)
-	* doc/syntax/python.nanorc - Slightly improve the regexes for
+	* doc/syntax/python.nanorc: Slightly improve the regexes for
 	multiline strings in Python, reducing spillage.
 
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
-	* src/move.c (do_down), src/winio.c (edit_scroll) - Scroll an
+	* src/move.c (do_down), src/winio.c (edit_scroll): Scroll an
 	extra amount when softwrap is on and the current line would
 	otherwise run off the screen, and recalculate maxrows after
 	each scroll.  Solves bug #27550 reported by Hannes Schueller.
 
 2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
-	* NEWS - Fix some typos and wordings, and rewrap a few lines.
-	* src/global.c - Correcting some translator comments, removal
+	* NEWS: Fix some typos and wordings, and rewrap a few lines.
+	* src/global.c: Correcting some translator comments, removal
 	of a few superfluous blank lines, and some pedantic comment
 	tweaks (mainly adding missing periods and stars).
-	* src/global.c - Ordering "Prev Word" and "Next Word" better.
-	* src/global.c - Make ^G not only call help but also exit from
+	* src/global.c: Ordering "Prev Word" and "Next Word" better.
+	* src/global.c: Make ^G not only call help but also exit from
 	it, and make ^C also exit from help and from the file browser.
 	Also remove two redundant shortcut definitions.
 
 2014-02-25  Mike Frysinger  <vapier@gentoo.org>
-	* src/Makefile.am - Rename 'INCLUDES' to 'AM_CPPFLAGS', since
+	* src/Makefile.am: Rename 'INCLUDES' to 'AM_CPPFLAGS', since
 	Automake changed the naming of these a while ago, and at least
 	version 1.13 now starts warning about it.
-	* .gitignore - Ignore generated files (and bak files).
+	* .gitignore: Ignore generated files (and bak files).
 
 2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
-	* src/files.c (write_lockfile, do_lockfile) - Fix a typo reported
+	* src/files.c (write_lockfile, do_lockfile): Fix a typo reported
 	by Jean-Philippe Guérard and inconsistent spelling of "lock file"
 	reported by myself on nano-devel in March 2013.
 
 2014-02-25  Benno Schulenberg  <bensberg@justemail.net>
-	* src/help.c (do_help_void) - Call the help browser with the correct
+	* src/help.c (do_help_void): Call the help browser with the correct
 	refresher for afterwards.  This solves a bug reported by myself on
 	nano-devel in August 2010: after typing ^R ^T ^W ^G ^X, the file
 	being edited would get displayed instead of the list of files.
 
 2014-02-24 Chris Allegretta <chrisa@asty.org>
 	* New linter functionality, rcfile option "linter".
-	* src/global.c (shortcut_init) - Actually free the sclist
+	* src/global.c (shortcut_init): Actually free the sclist
 	  if it was allocated before.
-	* src/winio.c (do_credits) - Add Benno, my children,
+	* src/winio.c (do_credits): Add Benno, my children,
 	  update copyright info.
 
 2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
-	* doc/syntax/*.nanorc - Comment and punctuation tweaks.
-	* doc/syntax/sh.nanorc - Colour $VAR within a "" string
+	* doc/syntax/*.nanorc: Comment and punctuation tweaks.
+	* doc/syntax/sh.nanorc: Colour $VAR within a "" string
 	but not within a '' string, and do not colour strings
 	within comments.  Fixes bug #29943.
 
 2014-02-23  Benno Schulenberg  <bensberg@justemail.net>
-	* src/text.c (do_undo, do_redo, add_undo) - Make warning
+	* src/text.c (do_undo, do_redo, add_undo): Make warning
 	sentences in the status bar consistently end in a period.
 
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
-	* src/files.c (write_file) - Add a missing malloc.
+	* src/files.c (write_file): Add a missing malloc.
 	Reported by an anonymous cross compiler, bug #30671.
 
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
-	* src/winio.c (get_mouseinput) - Correct an oversight,
+	* src/winio.c (get_mouseinput): Correct an oversight,
 	use the proper 'do_up_void' and 'do_down_void' names.
 	Reported by Zhou Z.J. <zzj666@Savannah>, bug #38268.
 
 2014-02-22  Lauri Kasanen  <laxy@Savannah>  (tiny change)
-	* doc/syntax/html.nanorc - Also recognize htm as extension,
+	* doc/syntax/html.nanorc: Also recognize htm as extension,
 	use cyan for tags (more visible on dark background), correct
 	the expression for ampersand codes, and colour strings too.
 
 2014-02-22  Dennis Jenkins  <dennisjenkins@Savannah>  (tiny change)
-	* doc/syntax/c.nanorc - Also recognize c++ as extension.
+	* doc/syntax/c.nanorc: Also recognize c++ as extension.
 
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (move_to_filestruct) - Update the data in 'mark_begin'
+	* src/nano.c (move_to_filestruct): Update the data in 'mark_begin'
 	when mark and cursor are on the same line.  This avoids a segfault
 	after M-A, right, M-T, left, ^K, or a hang when the left is left out.
 
 2014-02-22  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (main) - Add two conditions on ENABLE_NANORC.
-	* src/files.c (close_buffer, do_insertfile) - Likewise.
+	* src/nano.c (main): Add two conditions on ENABLE_NANORC.
+	* src/files.c (close_buffer, do_insertfile): Likewise.
 	This avoids compilation failure when nano is configured
 	with both --disable-color and --disable-nanorc.
 
 2014-02-22  Felipe Bugno  <capent@Savannah>  (tiny change)
-	* doc/nanorc.sample.in - Add an include for CMake files.
+	* doc/nanorc.sample.in: Add an include for CMake files.
 
 2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
-	* src/nano.c (allow_pending_sigwinch) - A (char *) cast for pedantic purposes.
-	* src/cut.c (do_cut_text) - Wrap a reference to 'copy_text' in NANO_TINY.
+	* src/nano.c (allow_pending_sigwinch): A (char *) cast for pedantic purposes.
+	* src/cut.c (do_cut_text): Wrap a reference to 'copy_text' in NANO_TINY.
 
 2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
-	* ChangeLog, NEWS, doc/faq.html - Fix typos, wording, and spacing.
+	* ChangeLog, NEWS, doc/faq.html: Fix typos, wording, and spacing.
 
 2014-01-25 Chris Allegretta <chrisa@asty.org>
-	* src/winio.c (set_modified) - Check for a filename before trying to lock.
+	* src/winio.c (set_modified): Check for a filename before trying to lock.
 
 2014-01-24  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (copy_from_filestruct) - Check explicitly for mark being set when
+	* src/nano.c (copy_from_filestruct): Check explicitly for mark being set when
 	  trying to partition, as we shouldn't be messing with the x address, etc.
 
 2014-01-01 Chris Allegretta <chrisa@asty.org>
-	* doc/texinfo/nano.texi - Change '@sp4' since makeinfo 5.1 hates the
+	* doc/texinfo/nano.texi: Change '@sp4' since makeinfo 5.1 hates the
 	  lack of spacing.  Fixes bug #40103 reported by flapane@Savannah.
 	  Also change SVN status to non-binary so diffs work.
 
 2014-01-01 Chris Allegretta <chrisa@asty.org>
-	* src/global.c (strtokeytype) - Check for lower-case 'f' for defining F-key
+	* src/global.c (strtokeytype): Check for lower-case 'f' for defining F-key
 	  sequences for consistency (previously was two checks for upper case 'F').
 	  Fixes bug #40815 reported by David Binderman <dcb314@Savannah>.
 
 2013-06-13 Matthew Fischer <mfisch@Savannah>
-	* doc/syntax/c.nanorc - Add the 'auto' keyword.
+	* doc/syntax/c.nanorc: Add the 'auto' keyword.
 
 2013-06-13  David Lawrence Ramsey <pooka109@gmail.com>
-	* src/global.c (first_sc_for) - Try to more consistently display keystrokes,
+	* src/global.c (first_sc_for): Try to more consistently display keystrokes,
 	  useful when the user has re-binded a bunch of them.
 
 2013-06-13 Kamil Dudka <kdudka@redhat.com>
-	* doc/man/nano.1 - Actually document the -P (--poslog) option.
+	* doc/man/nano.1: Actually document the -P (--poslog) option.
 
 2013-04-12 Chris Allegretta <chrisa@asty.org>
 	* src/files.c (do_insertfile): Check for saved cursor position when inserting a
@@ -346,7 +347,7 @@
 	  Part two of issue reported by Benno Schulenberg.
 
 2013-04-07 Michael Berg <mike@berg-net.us>
-	* do_cut_text - Fix copying (not cutting) text setting Modified state.
+	* do_cut_text: Fix copying (not cutting) text setting Modified state.
 	  Partly fixes an issue reported by Benno Schulenberg.
 
 GNU nano 2.3.2 - 2013.03.23
@@ -554,7 +555,7 @@ GNU nano 2.2.4 - 2010.04.15
 	  COLS can safely be redefined.  Fixes compilation issues with Cygwin, and likely
 	  with newer versions of ncurses.  Fixes Savannah bug #28984 reported by Andy Koppe
 	  and by Eric Oliver via mailing list.
-	* winio.c (get_mouseinput) - Fix stray semicolon in code, also reported in
+	* winio.c (get_mouseinput): Fix stray semicolon in code, also reported in
 	  bug #28984.
 
 GNU nano 2.2.3 - 2010.02.11
@@ -577,7 +578,7 @@ GNU nano 2.2.2 - 2010.01.17
 	  and cursor centering.
 	* winio.c (edit_scroll): Remove lots of needless checking of line length for
 	  soft wrapping code.
-	* winio.c (edit_update) - Remove extra code for when updating with old_current outside
+	* winio.c (edit_update): Remove extra code for when updating with old_current outside
 	  of the new buffer boundary and centering issues.
 
 2010-01-05 Tito <farmatito@tiscali.it>
@@ -608,7 +609,7 @@ GNU nano 2.2.2 - 2010.01.17
 	  trying to save to a file different than the one specified on the command line".
 
 2009-12-15 Chris Allegretta <chrisa@asty.org>
-	* doc/nanorc.sample.in - Remove erroneous 'set suspendenable' as it's actually a
+	* doc/nanorc.sample.in: Remove erroneous 'set suspendenable' as it's actually a
 	  key binding (e.g. 'bind M-Z suspendenable all') and not a settable flag.  Fixes
 	  Savannah bug #28299 reported by Mike Frysinger.
 
@@ -624,7 +625,7 @@ GNU nano 2.2.1 - 2009.12.12
 	  research in either main menu or browser.
 
 2009-12-09 Chris Allegretta <chrisa@asty.org>
-	* files.c (read_file) - Add parameter for whether we should even try to check
+	* files.c (read_file): Add parameter for whether we should even try to check
 	  file writability, as the message is useless when we're inserting into an
 	  existing buffer.  Fixes Savannah bug #28219.
 
@@ -636,37 +637,37 @@ GNU nano 2.2.1 - 2009.12.12
 	* doc/nanorc.sample.in: Add missing entries for fortran/ObjC/OCaml entries.
 
 2009-12-03 David Lawrence Ramsey <pooka109@gmail.com>
-	* global.c (shortcut_init) - Remove help shortcut from help shortcut list. :-)  Tweaked
+	* global.c (shortcut_init): Remove help shortcut from help shortcut list. :-)  Tweaked
 	  to reorder exit shortcut to end of list to not mess up prev/next shortcut symmetry.
 
 2009-12-03 Eitan Adler <eitanadlerlist@gmail.com>
-	* doc/syntax/makefile.nanorc - Fix poor regex for all alpha characters which sometimes
+	* doc/syntax/makefile.nanorc: Fix poor regex for all alpha characters which sometimes
 	  leads to error messages, reported by gibboris@gmail.com.
 
 2009-12-02 Chris Allegretta <chrisa@asty.org>
-	* text.c (add_undo, do_undo, do_redo) - Do not execute cases for SPLIT when
+	* text.c (add_undo, do_undo, do_redo): Do not execute cases for SPLIT when
 	  DISABLE_WRAPPING is defined.  Fixes Savannah bug #28151 (anon).
 
 2009-12-02 Jordi Mallach <jordi@gnu.org>
 	* doc/man/nano.1: Fix escaping of hyphens for the -$ option.
 
 2009-12-01 Kamil Dudka <kdudka@redhat.com>
-	* chars.c, file.c - Better handle unused results for things like mbtowc(), new
+	* chars.c, file.c: Better handle unused results for things like mbtowc(), new
 	  macro IGNORE_CALL_RESULT.
 
 2009-12-01 Chris Allegretta <chrisa@asty.org>
-	* global.c (shortcut_init) - Remove redundant entries for ^Y/^V reported by
+	* global.c (shortcut_init): Remove redundant entries for ^Y/^V reported by
 	  Christian Weisgerber.
-	* doc/man/nanorc.5 - Fix typo in Meta documentation, reported by <gibboris@gmail.com>.
+	* doc/man/nanorc.5: Fix typo in Meta documentation, reported by <gibboris@gmail.com>.
 
 2009-12-01 David Lawrence Ramsey <pooka109@gmail.com>
-	* global.c (shortcut_init) - Add support for ^P and ^N in the help menu.
+	* global.c (shortcut_init): Add support for ^P and ^N in the help menu.
 	* Update documentation for 2.2 features including sample nanorc file, texinfo
 	  file, man pages, UPGRADE file, and update copyright notice for the current year.
 
 GNU nano 2.2.0 - 2009.11.30
 2009-11-29 Chris Allegretta <chrisa@asty.org>
-	* prompt.c (get_prompt_string) - Universally handle help key when it is disabled.
+	* prompt.c (get_prompt_string): Universally handle help key when it is disabled.
 	  Fixes Savannah bug #28117 by David Lawrence Ramsey <pooka109@gmail.com>.
 	* chars.c, files.c: Add junk vars to silence the compiler.  Sigh.
 
@@ -682,7 +683,7 @@ GNU nano 2.2.0 - 2009.11.30
 	  first in an effort to not corrupt the screen, which contradicts Pico but is consistent
 	  with almost all other text editors.  Fixes Savannah bug #28110 / Debian bug 460510
 	  reported by Tim Connors <reportbug@rather.puzzling.org>.
-	* doc/syntax/makefile.nanorc - Sample Makefile highlighting based on wiki.linuxhelp.net version.
+	* doc/syntax/makefile.nanorc: Sample Makefile highlighting based on wiki.linuxhelp.net version.
 
 2009-11-26 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_scroll): Adjust for long lines when scrolling.
@@ -731,7 +732,7 @@ GNU nano 2.1.99pre1 - 2009.11.15
 2009-11-14 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_first_line, do_last_line): Just set edit_refresh_needed
 	  rather than get messy.
-	* files.c (do_writeout) - Only mention file modification if we're
+	* files.c (do_writeout): Only mention file modification if we're
 	  writing the same file we originally opened.
 
 2009-11-13 Chris Allegretta <chrisa@asty.org>
@@ -748,22 +749,22 @@ GNU nano 2.1.99pre1 - 2009.11.15
 	* Fix size_t formatting issues with -pedantic
 
 2009-11-09 Chris Allegretta <chrisa@asty.org>
-	* files.c (read_file): - Remove debugging messages from file load.
+	* files.c (read_file): Remove debugging messages from file load.
 	  Fixes Savannah bug #27838.
 
 2009-11-07 Chris Allegretta <chrisa@asty.org>
-	* nano.h - Add bogus value at begin of flags enumeration because it
+	* nano.h: Add bogus value at begin of flags enumeration because it
 	  caused the casesens rcfile option to misbehave, reported by Helmut
 	  Jarausch <jarausch@igpm.rwth-aachen.de>.
 
 2009-11-03 Chris Allegretta <chrisa@asty.org>
-	* nano.h - Fix comma at end of enumerator list which angers -pedantic.
-	* rcfile.c - Add in specific check for UNDOABLE and fix declaration as
+	* nano.h: Fix comma at end of enumerator list which angers -pedantic.
+	* rcfile.c: Add in specific check for UNDOABLE and fix declaration as
 	  to what flag it toggles.  Fixes undo mode being able to be called from
 	  the rc file, reported by Helmut Jarausch <jarausch@igpm.rwth-aachen.de>.
 
 2009-11-03 Mike Frysinger <vapier@gentoo.org>
-	* files.c - Move up is_file_writable() to stop implicit definition complaints.
+	* files.c: Move up is_file_writable() to stop implicit definition complaints.
 
 2009-10-27 Chris Allegretta <chrisa@asty.org>
 	* browser.c (browser_init): Set column width to something sane when
@@ -775,14 +776,14 @@ GNU nano 2.1.99pre1 - 2009.11.15
 
 GNU nano 2.1.11 - 2009.09.14
 2009-09-12 Chris Allegretta <chrisa@asty.org>
-	* winio.c (edit_update) - properly update edittop when using soft wrapping.
+	* winio.c (edit_update): properly update edittop when using soft wrapping.
 	  Fixes lack of centering for searching for off-screen answers, found by
 	  Hannes Schueller <mr_creosote@mutantwatch.de>.
 
 2009-09-03 Chris Allegretta <chrisa@asty.org>
 	* global.c (shortcut_init): Fix up/down keys not responding in the file browser,
 	  discovered by Hannes Schueller <mr_creosote@mutantwatch.de>.
-	* move.c (do_up) - Fix another scrolling issue with softwrap when the cursor
+	* move.c (do_up): Fix another scrolling issue with softwrap when the cursor
 	  is beyond COLS, discovered by Hannes Schueller <mr_creosote@mutantwatch.de>.
 
 2009-09-02 Chris Allegretta <chrisa@asty.org>
@@ -821,7 +822,7 @@ GNU nano 2.1.10 - 2009.07.28
 	  stabilizes this is the only responsible way to treat it.
 
 2009-03-08 Chris Allegretta <chrisa@asty.org>
-	* TODO - Break out some targets for various features into 2.2
+	* TODO: Break out some targets for various features into 2.2
 	  and 2.4 series for things which are feasible.
 
 2009-02-28 Chris Allegretta <chrisa@asty.org>
@@ -833,7 +834,7 @@ GNU nano 2.1.10 - 2009.07.28
 	* doc/man/Makefile.am: Fix make variable substitution to be more portable.
 
 2009-02-23 Chris Allegretta <chrisa@asty.org>
-	* rcfile.c (parse_keybinding) - Define a var before tryung to use it.  Whoops!
+	* rcfile.c (parse_keybinding): Define a var before tryung to use it.  Whoops!
 	* fix some redefinitions causing compiler warnings, from Eitan Adler.  Other
 	  (hopefully) fixes for uncasted malloc()s, reported by the same.
 	* doc/man/fr/Makefile.am: Add groff check fix to fr files.
@@ -845,13 +846,13 @@ GNU nano 2.1.9 - 2009.02.16
 	  the text state.  New utility function color.c:reset_multis_for_id().
 
 2009-02-15 Chris Allegretta <chrisa@asty.org>
-	* configure.ac, doc/man/Makefile.am - Add check for HTML output support in GNU
+	* configure.ac, doc/man/Makefile.am: Add check for HTML output support in GNU
 	  groff.  Fixes Savannah bug #24461: build traps on groff.  Also, add installation
 	  of html-ized man pages to $datadir/nano/man-html, since we should probably
 	  install files we went to all the trouble of generating.
 
 2009-02-14 Chris Allegretta <chrisa@asty.org>
-	* nano.c (precalc_multicolorinfo) - Add debugging so we have a better clue if further
+	* nano.c (precalc_multicolorinfo): Add debugging so we have a better clue if further
 	  issues arise.   Also start at the beginning of later lines when trying to match the
 	  end of a multi-line regex.  Fixes more overly aggressive highlighting found by
 	  Mike Frysinger.  Finally, advance to the match end for performance.
@@ -866,7 +867,7 @@ GNU nano 2.1.9 - 2009.02.16
 	  errors about the rcfile and asking user to press enter.  Also, nano should
 	  now only ask for one enter press when there is an error when not using -q.
 	  Based on discussion between Eitan Adler and Mike Frysinger.
-	* rcfile.c (parse_keybinding) -  Significant cleanups and fixes for
+	* rcfile.c (parse_keybinding):  Significant cleanups and fixes for
 	  detecting and reporting errors in key bindings code.
 
 2009-02-08 Chris Allegretta <chrisa@asty.org>
@@ -894,7 +895,7 @@ GNU nano 2.1.8 - 2009.02.07
 	  performance improvements forthcoming.
 
 2009-01-29 Chris Allegretta <chrisa@asty.org>
-	* nano.c (move_to_filestruct) - properky initialize new fileage for multiswatching, sigh.
+	* nano.c (move_to_filestruct): Properly initialize new fileage for multiswatching, sigh.
 	  Fix cut segfaults discovered by Mike Frysinger.
 
 2009-01-29 Chris Allegretta <chrisa@asty.org>
@@ -1083,24 +1084,24 @@ GNU nano 2.1.1 - 2008.04.01
 	  issue.
 
 2008-03-19  Chris Allegretta <chrisa@asty.org>
-	* gloabl.c: Fix bracket matching sequence to be M-] not M-[, as reported
+	* global.c: Fix bracket matching sequence to be M-] not M-[, as reported
 	  Nick Warne <nick@ukfsn.org>.
-	* doc/syntax/Makefile.am - Actually include new syntaxes from Mike, etc
-	* debian.nanorc - New debian sources.list config since we're including
-	  gentoo, adapted from Milian Wolff <mail@milianw.de>
+	* doc/syntax/Makefile.am: Actually include new syntaxes from Mike, etc.
+	* debian.nanorc: New debian sources.list config since we're including
+	  gentoo, adapted from Milian Wolff <mail@milianw.de>.
 
 2008-03-18  Mike Frysinger <vapier@gentoo.org>
-	* winio.c: Remove unneeded variable in parse_kbinput()
-	* rcfile.c: relocate check_vitals_mapped() function to just above 
-	  where it actually gets used and declare it "static void" in the process
-	* global.c: only declare nano_justify_msg when justify support is enabled
-	* php.nanorc: Php syntax highlighting config
-	* tcl.nanorc: Tcl syntax highlighting config
-	* gentoo.nanorc: Gentoo syntax highlighting config
+	* winio.c: Remove unneeded variable in parse_kbinput().
+	* rcfile.c: Relocate check_vitals_mapped() function to just above where
+	  it actually gets used and declare it "static void" in the process.
+	* global.c: Only declare nano_justify_msg when justify support is enabled.
+	* php.nanorc: Php syntax highlighting config.
+	* tcl.nanorc: Tcl syntax highlighting config.
+	* gentoo.nanorc: Gentoo syntax highlighting config.
 
 2008-03-17  Benno Schulenberg <bensberg@justemail.net>
 	* global.c: Fix incorrect first line jump messsage, fix
-	  more comments to assist translators
+	  more comments to assist translators.
 	* winio.c: Fix shortcut labels not being translated.
 
 2008-03-17  Mike Frysinger <vapier@gentoo.org>
@@ -1108,16 +1109,16 @@ GNU nano 2.1.1 - 2008.04.01
 	   against SVN.
 
 2008-03-16  Benno Schulenberg <bensberg@justemail.net>
-	* src/help.c, src/global: Fix help strings no longer being 
+	* src/help.c, src/global: Fix help strings no longer being
 	  translated properly.
-	* src/global.c, doc/man/nanorc.5: Fix typos and poorlly worded lines
-	  in the source and man pages.
+	* src/global.c, doc/man/nanorc.5: Fix typos and poorly worded
+	  lines in the source and man pages.
 
 2008-03-04  Chris Allegretta <chrisa@asty.org
 	* everything: New shortcut backend.  New structs subnfunc
-	for menu functions and toggles and sc for shortcut keys, old 
-	'shortcut' and 'toggles' structs are gone.  The current implementation 
-	has a bunch of broken stuff (some of which is documented in BUGS). 
+	for menu functions and toggles and sc for shortcut keys, old
+	'shortcut' and 'toggles' structs are gone.  The current implementation
+	has a bunch of broken stuff (some of which is documented in BUGS).
 	Updated nanorc.5 with some mostly complete documentation on configuring.
 
 2007-12-20  David Lawrence Ramsey  <pooka109@gmail.com>
