@@ -2,6 +2,8 @@
 	* doc/Makefile.am, doc/man/Makefile.am, doc/man/fr/Makefile.am -
 	The build already provides a standard htmldir for installing html
 	files.  Use that instead of creating our own.
+	* doc/man/Makefile.am, doc/man/fr/Makefile.am - Use dist_ prefixes
+	and += appending supported by automake to produce simpler files.
 
 2014-03-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main) - Fix compilation with --disable-utf8.
