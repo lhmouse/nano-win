@@ -6,6 +6,9 @@
 	and += appending supported by automake to produce simpler files.
 	* doc/Makefile.am - Drop redundant localedir, as autoconf/automake
 	already creates this for us.
+	* src/rcfile.c, doc/nanorc.sample.in - Hard-listing all the wanted
+	syntax files is a PITA.  Support globs in include paths, so people
+	can easily drop in new files and have it "just work".
 
 2014-03-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main) - Fix compilation with --disable-utf8.

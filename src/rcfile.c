@@ -23,6 +23,7 @@
 
 #include "proto.h"
 
+#include <glob.h>
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
@@ -620,47 +621,38 @@ void parse_unbinding(char *ptr)
 
 #ifdef ENABLE_COLOR
 /* Read and parse additional syntax files. */
-void parse_include(char *ptr)
+static void _parse_include(char *file)
 {
     struct stat rcinfo;
     FILE *rcstream;
-    char *option, *nanorc_save = nanorc, *expanded;
-    size_t lineno_save = lineno;
-
-    option = ptr;
-    if (*option == '"')
-	option++;
-    ptr = parse_argument(ptr);
 
     /* Can't get the specified file's full path cause it may screw up
 	our cwd depending on the parent dirs' permissions, (see Savannah bug 25297) */
 
     /* Don't open directories, character files, or block files. */
-    if (stat(option, &rcinfo) != -1) {
+    if (stat(file, &rcinfo) != -1) {
 	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
 		S_ISBLK(rcinfo.st_mode)) {
 	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
 		_("\"%s\" is a directory") :
-		_("\"%s\" is a device file"), option);
+		_("\"%s\" is a device file"), file);
 	}
     }
 
-    expanded = real_dir_from_tilde(option);
-
     /* Open the new syntax file. */
-    if ((rcstream = fopen(expanded, "rb")) == NULL) {
-	rcfile_error(_("Error reading %s: %s"), expanded,
+    if ((rcstream = fopen(file, "rb")) == NULL) {
+	rcfile_error(_("Error reading %s: %s"), file,
 		strerror(errno));
 	return;
     }
 
     /* Use the name and line number position of the new syntax file
      * while parsing it, so we can know where any errors in it are. */
-    nanorc = expanded;
+    nanorc = file;
     lineno = 0;
 
 #ifdef DEBUG
-    fprintf(stderr, "Parsing file \"%s\" (expanded from \"%s\")\n", expanded, option);
+    fprintf(stderr, "Parsing file \"%s\"\n", file);
 #endif
 
     parse_rcfile(rcstream
@@ -668,12 +660,34 @@ void parse_include(char *ptr)
 	, TRUE
 #endif
 	);
+}
+
+void parse_include(char *ptr)
+{
+    char *option, *nanorc_save = nanorc, *expanded;
+    size_t lineno_save = lineno, i;
+    glob_t files;
+
+    option = ptr;
+    if (*option == '"')
+	option++;
+    ptr = parse_argument(ptr);
+
+    /* Expand tildes first, then the globs. */
+    expanded = real_dir_from_tilde(option);
+
+    if (glob(expanded, GLOB_ERR|GLOB_NOSORT, NULL, &files) == 0) {
+	for (i = 0; i < files.gl_pathc; ++i)
+	    _parse_include(files.gl_pathv[i]);
+    } else {
+	rcfile_error(_("Error expanding %s: %s"), option,
+		strerror(errno));
+    }
 
     /* We're done with the new syntax file.  Restore the original
      * filename and line number position. */
     nanorc = nanorc_save;
     lineno = lineno_save;
-
 }
 
 /* Return the short value corresponding to the color named in colorname,

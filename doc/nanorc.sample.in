@@ -228,6 +228,9 @@
 ##
 ## All regexes should be extended regular expressions.
 
+# include "@PKGDATADIR@/*.nanorc"
+
+
 ## Key bindings
 ## Please see nanorc(5) for more details on this
 ##
@@ -239,97 +242,3 @@
 
 ## Set this if your backspace key sends delete most of the time (2.1.3+)
 # bind kdel backspace all
-
-
-## Nanorc files
-# include "@PKGDATADIR@/nanorc.nanorc"
-
-## Assembler
-# include "@PKGDATADIR@/asm.nanorc"
-
-## AWK
-# include "@PKGDATADIR@/awk.nanorc"
-
-## Bourne shell scripts
-# include "@PKGDATADIR@/sh.nanorc"
-
-## C/C++
-# include "@PKGDATADIR@/c.nanorc"
-
-## Cascading Style Sheets
-# include "@PKGDATADIR@/css.nanorc"
-
-## CMake files
-# include "@PKGDATADIR@/cmake.nanorc"
-
-## Debian files
-# include "@PKGDATADIR@/debian.nanorc"
-
-## Fortran
-# include "@PKGDATADIR@/fortran.nanorc"
-
-## Gentoo files
-# include "@PKGDATADIR@/gentoo.nanorc"
-
-## Groff
-# include "@PKGDATADIR@/groff.nanorc"
-
-## HTML
-# include "@PKGDATADIR@/html.nanorc"
-
-## Java
-# include "@PKGDATADIR@/java.nanorc"
-
-## Javascript
-# include "@PKGDATADIR@/javascript.nanorc"
-
-## Luan
-# include "@PKGDATADIR@/lua.nanorc"
-
-## Magicpoint presentations
-# include "@PKGDATADIR@/mgp.nanorc"
-
-## Makefiles
-# include "@PKGDATADIR@/makefile.nanorc"
-
-## Manpages
-# include "@PKGDATADIR@/man.nanorc"
-
-## Objective-C
-# include "@PKGDATADIR@/objc.nanorc"
-
-## OCaml
-# include "@PKGDATADIR@/ocaml.nanorc"
-
-## Patch files
-# include "@PKGDATADIR@/patch.nanorc"
-
-## Perl
-# include "@PKGDATADIR@/perl.nanorc"
-
-## PHP
-# include "@PKGDATADIR@/php.nanorc"
-
-## POV-Ray
-# include "@PKGDATADIR@/pov.nanorc"
-
-## Python
-# include "@PKGDATADIR@/python.nanorc"
-
-## Quoted emails (under e.g. mutt)
-# include "@PKGDATADIR@/mutt.nanorc"
-
-## Ruby
-# include "@PKGDATADIR@/ruby.nanorc"
-
-## Spec files (in RPMs)
-# include "@PKGDATADIR@/spec.nanorc"
-
-## TCL
-# include "@PKGDATADIR@/tcl.nanorc"
-
-## TeX
-# include "@PKGDATADIR@/tex.nanorc"
-
-## XML-type files
-# include "@PKGDATADIR@/xml.nanorc"
