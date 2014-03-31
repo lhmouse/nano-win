@@ -1,3 +1,6 @@
+2014-03-31 Chris Allegretta <chrisa@asty.org>
+	* doc/syntax/go.nanorc: basic go syntax highlighting
+
 2014-03-30  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/changelog.nanorc: New file, first attemp at colouring
 	Changelog files.

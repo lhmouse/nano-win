@@ -1,0 +1,21 @@
+## Here is an example for Python.
+##
+syntax "go" "\.go$"
+header "^#!.*/python[-0-9._]*"
+
+icolor brightblue "def [0-9A-Z_]+"
+color brightcyan "\<(break|default|func|interface|select|case|defer|go|map|struct|chan|else|goto|package|switch|const|fallthrough|if|range|type|continue|for|import|return|var)\>"
+
+## String highlighting.  You will in general want your comments and
+## strings to come last, because syntax highlighting rules will be
+## applied in the order they are read in.
+color brightyellow "<[^=	]*>" ""(\\.|[^"])*""
+##
+## This string is VERY resource intensive!
+color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+
+
+## Comment highlighting
+color brightblue "//.*"
+color brightblue start="/\*" end="\*/"
+
