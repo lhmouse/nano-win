@@ -4,7 +4,7 @@
 	* ChangeLog: Consistently use a colon after names of changed files.
 
 2014-03-30  Mike Frysinger  <vapier@gentoo.org>
-	* doc/Makefile.am, doc/man/Makefile.am, doc/man/fr/Makefile.am -
+	* doc/Makefile.am, doc/man/Makefile.am, doc/man/fr/Makefile.am:
 	The build already provides a standard htmldir for installing html
 	files.  Use that instead of creating our own.
 	* doc/man/Makefile.am, doc/man/fr/Makefile.am: Use dist_ prefixes
@@ -136,7 +136,7 @@
 	* src/global.c (shortcut_init): Normalize the writing of three
 	help-line items: "Write Out", "Uncut Text", and "Unjustify", to
 	better stress the O and U -- the big C and J were distracting.
-	* doc/{syntax/nanorc.nanorc,man/nanorc.5,texinfo/nano.texi} -
+	* doc/{syntax/nanorc.nanorc,man/nanorc.5,texinfo/nano.texi}:
 	Remove erroneous 'suspendenable' -- it is not a settable option
 	but a bindable function.
 
@@ -534,7 +534,7 @@ GNU nano 2.2.4 - 2010.04.15
 	* files.c (do_writeout): Expand modification check to include both the
 	  original file's device ID and inode number as reasons to warn the
 	  user that the file has been modified.  Also abort on writing a backup
-	  file when its owner doesn't match the edited file. Based on security
+	  file when its owner doesn't match the edited file.  Based on security
 	  analysis on nano by Dan Rosenberg.  [CVE-2010-1160]
 
 2010-03-21 Chris Allegretta <chrisa@asty.org>
@@ -703,8 +703,8 @@ GNU nano 2.2.0 - 2009.11.30
 	  (fixes Savannah bug #28076 reported by David Lawrence Ramsey).
 
 2009-11-22 David Lawrence Ramsey <pooka109@gmail.com>
-	* nano.c (move_to_filestruct): Fix bug 71 (cut at top of line recenters)
-	* Fix compilation with --enable-tiny
+	* nano.c (move_to_filestruct): Fix bug 71 (cut at top of line recenters).
+	* Fix compilation with --enable-tiny.
 
 2009-11-22 Mike Frysinger <vapier@gentoo.org>
 	* doc/syntax/gentoo.nanorc: Tweak comment highlighting.
@@ -938,7 +938,7 @@ GNU nano 2.1.7 - 2008.11.10
 	* undo.c (update_undo): Don't free cutbuffer if NULL, fixes Savannah bug #24499.
 
 2008-10-04 Chris Allegretta <chrisa@asty.org>
-	* cut.c (Add_undo): Save last cut undo information so it can be used for
+	* cut.c (add_undo): Save last cut undo information so it can be used for
 	  next uncut, fixes Savannah bug #24183.
 
 GNU nano 2.1.6 - 2008.10.03
@@ -962,7 +962,7 @@ GNU nano 2.1.6 - 2008.10.03
 2008-09-21 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c, color.c, nano.h: Add new capability for matching a syntax type by
 	  the "header" (1st line) of a file being edited.  Based on Savannah bug #24197
-	  and inital proof of concept by Dave Geering <dgeering@toshiba-tap.com>.
+	  and initial proof of concept by Dave Geering <dgeering@toshiba-tap.com>.
 
 2008-09-16 Chris Allegretta <chrisa@asty.org>
 	* text.c: Add support for undoing a text uncut.  Split out the undo and redo
@@ -974,13 +974,14 @@ GNU nano 2.1.6 - 2008.10.03
 
 GNU nano 2.1.5 - 2008.08.30
 2008-08-29 Chris Allegretta <chrisa@asty.org>
-	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems which don't support
-	  GNU-style word boundaries.  New function fixbounds() to translate from GNU-style to 
-	  BSD-style, autoconf option GNU_WORDBOUNDS.
-	* nano-regress: New perl script to check for some of the more obvious issues with compilation
-	  issues with certain configure options.
-	* global.c, help.c, browser.c, files.c, proto.h: Fix several compipation and programmatic 
-	  issues with --disable-help, especially that do-writeout was treating ^G the same as ^M.
+	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems
+	  which don't support GNU-style word boundaries.  New function fixbounds() to
+	  translate from GNU-style to BSD-style, autoconf option GNU_WORDBOUNDS.
+	* nano-regress: New perl script to check for some of the more obvious issues
+	  with compilation issues with certain configure options.
+	* global.c, help.c, browser.c, files.c, proto.h: Fix several compilation and
+	  programmatic issues with --disable-help, especially that do-writeout was
+	  treating ^G the same as ^M.
 
 2008-08-28 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, rcfile.c:  Add support for an alternate rcfilename at configure time.  Maybe this
@@ -988,80 +989,81 @@ GNU nano 2.1.5 - 2008.08.30
 	  fix for Savannah bug #24128: Add nanorc support to win32 platform.
 
 2008-08-21 Chris Allegretta <chrisa@asty.org>
-	* text.c: Change error messages where we may possibly get into a bad state and urge
-	  the user to save when this happens.  Originally by Benno Schulenberg <bensberg@justemail.net>
-	* text.c (do_enter):  Fix issue when compiled with --enable-debug, fixes Savannah bug 24092.
+	* text.c: Change error messages where we may possibly get into a bad state and urge the
+	  user to save when this happens.  Originally by Benno Schulenberg <bensberg@justemail.net>
+	* text.c (do_enter): Fix issue when compiled with --enable-debug, fixes Savannah bug #24092.
 
 2008-08-08 Magnus Granberg <zorry@ume.nu> / Adam Conrad <?>
-	* files.c (write_file): Add needed flags to open() calls when writing out files.  Fixes Savannah bug 
-	  #23827: Compilation fails with -D_FORTIFY_SOURCE=2
+	* files.c (write_file): Add needed flags to open() calls when writing out files.
+	  Fixes Savannah bug #23827: Compilation fails with -D_FORTIFY_SOURCE=2.
 
 2008-08-08 Chris Allegretta <chrisa@asty.org>
-	* files.c (write_file): Check exit code of fclose(), since in certain out of space conditions the OS will
-	  happily report successful fwrite()s until you try and close the file.  Fix for Savannah bug
-	  #24000: no free space on partition - nano claims successful write - file empty 
+	* files.c (write_file): Check the exit code of fclose(), since in certain
+	  out-of-space conditions the OS will happily report successful fwrite()s
+	  until you try and close the file.  Fixes Savannah bug #24000: no free
+	  space on partition - nano claims successful write - file is empty.
 
 GNU nano 2.1.4 - 2008.08.09
 2008-08-08 Chris Allegretta <chrisa@asty.org>
-	* files.c (write_file): Do not go on and attempt to write the main file if writing the backup file failed,
-	  related to Savannah bug 24000.
+	* files.c (write_file): Do not go on and attempt to write the main file if writing
+	  the backup file failed, related to Savannah bug #24000.
 	* text.c (do_redo): Fix improperly restoring the text when redoing a line split.
 	* text.c (add_undo): Fix check for multi-line cut check skips adding other new legit events.
 
 2008-07-23 Chris Allegretta <chrisa@asty.org>
-	* text.c: Reset openfile-> to OTHER after an undo or redo so we don't mistakenly
+	* text.c: Reset openfile-> to OTHER after an undo or redo so we don't
 	  mistakenly think this is an update when it's really an add.  Also
-	  Fix an extra ; after an if statement which makes nano try to free a struct which
-	  may be NULL
+	  fix an extra ; after an if statement which makes nano try to free
+	  a struct which may be NULL.
 
 GNU nano 2.1.3 - 2008.08.04
 2008-07-23 Chris Allegretta <chrisa@asty.org>
-	* configure.ac: Add ncursesw dir to include path if lib detected
+	* configure.ac: Add ncursesw dir to include path if lib is detected.
 
 2008-07-11 Mike Frysinger <vapier@gentoo.org>
 	* doc/nanorc.sample.in: Include the updates files in the default sample nanorc.
 
 2008-07-11 Fabian Groffen <grobian@gentoo.org>
 	* nano.c: Don't include langinfo.h if not using ENABLE_UTF8
-	  (Savannah patch 6565)
+	  (Savannah patch #6565).
 
 2008-07-11 Mitsuya Shibata <mty.shibata@gmail.com>
 	* text.c: Fix crashing in help menu when using certain locales
-	  (Savannah bug 23751)
+	  (Savannah bug #23751).
 
 2008-07-09 Chris Allegretta <chrisa@asty.org>
 	* nano.c/nano.h/global.c/text.c: New generalized undo code, currently
 	  just works for adding and deleting text and splitting and unsplitting lines.
 
 2008-06-29 Chris Allegretta <chrisa@asty.org>
-	* global.c: Fix for not having search history when --disable-justify is used
-	  (Savannah bug 23733)
+	* global.c: Fix for not having a search history when --disable-justify is used
+	  (Savannah bug #23733).
 
 
 GNU nano 2.1.2 - 2008.06.24
 2008-06-24 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c: Added function check_bad_binding() to look for sequences which
-	  shouldn't be bound, per Savannah bug 22674.
+	  shouldn't be bound, per Savannah bug #22674.
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
-	* prompt.c,search.c,global.c: Tentative fix for bug #23144: using arrow 
-	  keys in search buffer affects main window (by Mike Frysinger)
+	* prompt.c,search.c,global.c: Tentative fix for bug #23144: using arrow
+	  keys in search buffer affects main window (by Mike Frysinger).
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
-	* global.c: Fix for Savannah bug #23442: left/right arrow keys 
-	  do not work with --enable-tiny (by Mike Frysinger)
+	* global.c: Fix for Savannah bug #23442: left/right arrow keys
+	  do not work with --enable-tiny (by Mike Frysinger).
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* files.c,proto.h,text.c: Fix for conflicts with AIX curses
-	  variables, from William Jojo <jojowil@hvcc.edu>
+	  variables, from William Jojo <jojowil@hvcc.edu>.
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
-	* global.c: Fix for compile error when --disable-speller is used 
-	  (Savannah bug 23227 by Mike Frysinger)
+	* global.c: Fix for compile error when --disable-speller is used
+	  (Savannah bug #23227 by Mike Frysinger).
 
 2008-05-31 Chris Allegretta <chrisa@asty.org>
-	* Fix for seg fault when window size too small, by 
-	  Andreas Amann <andreas.amann@tyndall.ie>
+	* Fix for seg fault when window size is too small,
+	  by Andreas Amann <andreas.amann@tyndall.ie>.
 
 GNU nano 2.1.1 - 2008.04.01
 2008-05-31 Chris Allegretta <chrisa@asty.org>
