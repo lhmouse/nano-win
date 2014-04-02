@@ -1,6 +1,8 @@
 2014-04-02  Mike Frysinger  <vapier@gentoo.org>
 	* doc/man/{,fr}/Makefile.am: Simplify the man rules still further.
 	* .gitignore: Add 'config.cache', created by './configure -C'.
+	* src/nano.c (die_save_file): Newer gcc warns about set-but-unused
+	variables, so add a dummy if() check to kill that off.
 
 2014-03-31 Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/go.nanorc: basic go syntax highlighting

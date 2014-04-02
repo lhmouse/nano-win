@@ -723,6 +723,8 @@ void die_save_file(const char *die_filename
 	int shush;
 	shush = chmod(retval, die_stat->st_mode);
 	shush = chown(retval, die_stat->st_uid, die_stat->st_gid);
+	if (shush)
+	    ;
     }
 #endif
 
