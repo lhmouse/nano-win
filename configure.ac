@@ -617,7 +617,7 @@ AS_IF([test "x$enable_libmagic" != "xno"], [
   AC_CHECK_LIB(magic, magic_open)
 ])
 
-# Check for groff html support
+# Check for groff html support.
 AC_MSG_CHECKING([for HTML support in groff])
 groff -t -mandoc -Thtml </dev/null >/dev/null
 if test $? -ne 0 ; then
@@ -630,6 +630,10 @@ else
     groff_html_support=yes
 fi
 AM_CONDITIONAL(GROFF_HTML, test x$groff_html_support = xyes)
+
+# Check for the availability of makeinfo.
+AC_CHECK_PROG(haveit, makeinfo, yes, no)
+AM_CONDITIONAL(HAVE_MAKEINFO, test x$haveit = xyes)
 
 
 AC_CONFIG_FILES([

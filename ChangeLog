@@ -1,3 +1,7 @@
+2014-04-02  Benno Schulenberg  <bensberg@justemail.net>
+	* configure.ac, doc/Makefile.am: Try to build the info documentation
+	only when 'makeinfo' is available.  Patch partly by Mike Frysinger.
+
 2014-04-02  Mike Frysinger  <vapier@gentoo.org>
 	* doc/man/{,fr}/Makefile.am: Simplify the man rules still further.
 	* .gitignore: Add 'config.cache', created by './configure -C'.
