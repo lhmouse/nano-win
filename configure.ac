@@ -26,7 +26,9 @@ AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 
-AC_PREREQ(2.54)
+dnl Make sure the ONCE macros are available.
+
+AC_PREREQ(2.61)
 
 dnl Checks for programs.
 
@@ -415,12 +417,15 @@ fi
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for available flags.
+
 AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [], [])
 
 dnl Checks for library functions.
+
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(getopt_long)
+
 dnl Checks for libraries.
 
 if eval "test x$CURSES_LIB_NAME = x"; then
