@@ -3,6 +3,8 @@
 	* .gitignore: Add 'config.cache', created by './configure -C'.
 	* src/nano.c (die_save_file): Newer gcc warns about set-but-unused
 	variables, so add a dummy if() check to kill that off.
+	* src/search.c (search_init): Silence a compiler warning about a
+	variable possibly being used uninitialized.
 
 2014-03-31 Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/go.nanorc: basic go syntax highlighting
