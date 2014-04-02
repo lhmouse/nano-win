@@ -1,5 +1,6 @@
 2014-04-02  Mike Frysinger  <vapier@gentoo.org>
 	* doc/man/{,fr}/Makefile.am: Simplify the man rules still further.
+	* .gitignore: Add 'config.cache', created by './configure -C'.
 
 2014-03-31 Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/go.nanorc: basic go syntax highlighting

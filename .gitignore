@@ -14,10 +14,11 @@ core
 /INSTALL
 /aclocal.m4
 /autom4te.cache
+/config.cache
 /config.guess
-/config.log
 /config.h
 /config.h.in
+/config.log
 /config.rpath
 /config.status
 /config.sub
