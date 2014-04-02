@@ -1,7 +1,7 @@
 2014-04-02  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac, doc/Makefile.am: Try to build the info documentation
 	only when 'makeinfo' is available.  Patch partly by Mike Frysinger.
-	* configure.ac: Upping the required version of Automake, to ensure the
+	* configure.ac: Upping the required version of Autoconf, to ensure the
 	ONCE macros are defined.  Suggested by Kamil Dudka and Mike Frysinger.
 
 2014-04-02  Mike Frysinger  <vapier@gentoo.org>
