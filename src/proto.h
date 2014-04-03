@@ -841,7 +841,7 @@ void disable_nodelay(void);
 extern const char *regexp_msg;
 #endif
 
-#ifdef NANO_EXTRA
+#ifndef DISABLE_EXTRA
 void do_credits(void);
 #endif
 

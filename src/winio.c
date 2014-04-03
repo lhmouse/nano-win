@@ -3409,7 +3409,7 @@ void do_replace_highlight(bool highlight, const char *word)
 	wattroff(edit, reverse_attr);
 }
 
-#ifdef NANO_EXTRA
+#ifndef DISABLE_EXTRA
 #define CREDIT_LEN 57
 #define XLCREDIT_LEN 8
 
@@ -3576,4 +3576,4 @@ void do_credits(void)
 
     total_refresh();
 }
-#endif /* NANO_EXTRA */
+#endif /* !DISABLE_EXTRA */

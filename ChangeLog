@@ -5,6 +5,8 @@
 	* configure.ac: Sort all the disabling options alphabetically.
 	* src/{proto.h,files.c,global.c,nano.c,rcfile.c}, configure.ac:
 	Convert #ifdef ENABLE_MULTIBUFFER to #ifndef DISABLE_MULTIBUFFER.
+	* src/{proto.h,files.c,,nano.c,winio.c}, configure.ac:
+	Convert #ifdef NANO_EXTRA to #ifndef DISABLE_EXTRA.
 
 2014-04-02  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac, doc/Makefile.am: Try to build the info documentation

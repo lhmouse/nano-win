@@ -2223,7 +2223,7 @@ bool do_writeout(bool exiting)
     append_type append = OVERWRITE;
     char *ans;
 	/* The last answer the user typed at the statusbar prompt. */
-#ifdef NANO_EXTRA
+#ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
     bool retval = FALSE, meta_key = FALSE, func_key = FALSE;
@@ -2343,7 +2343,7 @@ bool do_writeout(bool exiting)
 	    fprintf(stderr, "filename is %s\n", answer);
 #endif
 
-#ifdef NANO_EXTRA
+#ifndef DISABLE_EXTRA
 	    /* If the current file has been modified, we've pressed
 	     * Ctrl-X at the edit window to exit, we've pressed "y" at
 	     * the "Save modified buffer" prompt to save, we've entered

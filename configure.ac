@@ -69,6 +69,7 @@ AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
 if test "x$enable_tiny" = xyes; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
+    AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
     AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
@@ -110,8 +111,8 @@ fi
 
 AC_ARG_ENABLE(extra,
 AS_HELP_STRING([--disable-extra], [Disable extra features, currently only easter eggs]))
-if test "x$enable_extra" != xno; then
-    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.])
+if test "x$enable_extra" = xno; then
+    AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
 fi
 
 AC_ARG_ENABLE(help,

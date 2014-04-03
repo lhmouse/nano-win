@@ -971,6 +971,9 @@ void version(void)
 #ifdef DISABLE_BROWSER
     printf(" --disable-browser");
 #endif
+#ifdef DISABLE_EXTRA
+    printf(" --disable-extra");
+#endif
 #ifdef DISABLE_HELP
     printf(" --disable-help");
 #endif
@@ -1006,9 +1009,6 @@ void version(void)
 #endif
 #ifdef DEBUG
     printf(" --enable-debug");
-#endif
-#ifdef NANO_EXTRA
-    printf(" --enable-extra");
 #endif
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
