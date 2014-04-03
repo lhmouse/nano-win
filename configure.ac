@@ -78,19 +78,39 @@ if test "x$enable_tiny" = xyes; then
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
 fi
 
-AC_ARG_ENABLE(libmagic,
-AS_HELP_STRING([--disable-libmagic], [Disable detection of file types via libmagic]))
+AC_ARG_ENABLE(browser,
+AS_HELP_STRING([--disable-browser], [Disable built-in file browser]))
+if test "x$enable_browser" = xno; then
+    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
+fi
+
+AC_ARG_ENABLE(color,
+AS_HELP_STRING([--disable-color], [Disable color and syntax highlighting]))
+if test "x$enable_nanorc" = xno; then
+    if test "x$enable_color" = xyes; then
+	AC_MSG_ERROR([--enable-color cannot work with --disable-nanorc])
+    else
+	enable_color=no
+    fi
+fi
+if test "x$enable_color" != xno; then
+    if test x$ac_cv_header_regex_h = xyes; then
+	enable_nanorc=yes
+	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!])
+	color_support=yes
+    elif test "x$enable_color" = xyes; then
+	AC_MSG_ERROR([
+*** The header file regex.h was not found.  If you wish to use color
+*** support this header file is required.  Please either install C
+*** libraries that include the regex.h file or call the configure
+*** script with --disable-color.])
+    fi
+fi
 
 AC_ARG_ENABLE(extra,
 AS_HELP_STRING([--disable-extra], [Disable extra features, currently only easter eggs]))
 if test "x$enable_extra" != xno; then
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.])
-fi
-
-AC_ARG_ENABLE(browser,
-AS_HELP_STRING([--disable-browser], [Disable built-in file browser]))
-if test "x$enable_browser" = xno; then
-    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
 fi
 
 AC_ARG_ENABLE(help,
@@ -105,10 +125,26 @@ if test "x$enable_justify" = xno; then
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
 fi
 
+AC_ARG_ENABLE(libmagic,
+AS_HELP_STRING([--disable-libmagic], [Disable detection of file types via libmagic]))
+
 AC_ARG_ENABLE(mouse,
 AS_HELP_STRING([--disable-mouse], [Disable mouse support (and -m flag)]))
 if test "x$enable_mouse" = xno; then
     AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
+fi
+
+AC_ARG_ENABLE(multibuffer,
+AS_HELP_STRING([--disable-multibuffer], [Disable multiple file buffers]))
+if test "x$enable_multibuffer" != xno; then
+    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
+fi
+
+AC_ARG_ENABLE(nanorc,
+AS_HELP_STRING([--disable-nanorc], [Disable use of .nanorc files]))
+if test "x$enable_nanorc" != xno; then
+    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.])
+    nanorc_support=yes
 fi
 
 AC_ARG_ENABLE(operatingdir,
@@ -141,45 +177,19 @@ if test "x$enable_wrapping_as_root" = xno; then
     AC_DEFINE(DISABLE_ROOTWRAPPING, 1, [Define this to disable text wrapping as root by default.])
 fi
 
-AC_ARG_ENABLE(color,
-AS_HELP_STRING([--disable-color], [Disable color and syntax highlighting]))
-if test "x$enable_nanorc" = xno; then
-    if test "x$enable_color" = xyes; then
-	AC_MSG_ERROR([--enable-color cannot work with --disable-nanorc])
-    else
-	enable_color=no
-    fi
-fi
-if test "x$enable_color" != xno; then
-    if test x$ac_cv_header_regex_h = xyes; then
-	enable_nanorc=yes
-	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!])
-	color_support=yes
-    elif test "x$enable_color" = xyes; then
-	AC_MSG_ERROR([
-*** The header file regex.h was not found.  If you wish to use color
-*** support this header file is required.  Please either install C
-*** libraries that include the regex.h file or call the configure
-*** script with --disable-color.])
-    fi
-fi
-
-AC_ARG_ENABLE(multibuffer,
-AS_HELP_STRING([--disable-multibuffer], [Disable multiple file buffers]))
-if test "x$enable_multibuffer" != xno; then
-    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
-fi
-
-AC_ARG_ENABLE(nanorc,
-AS_HELP_STRING([--disable-nanorc], [Disable use of .nanorc files]))
-if test "x$enable_nanorc" != xno; then
-    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.])
-    nanorc_support=yes
-fi
+AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
+AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
 
 AC_MSG_CHECKING([whether to enable UTF-8 support])
 AC_ARG_ENABLE(utf8, AS_HELP_STRING([--enable-utf8], [Enable UTF-8 support]))
 AC_MSG_RESULT(${enable_utf8:-auto})
+
+AC_ARG_ENABLE(altrcname,
+AS_HELP_STRING([--enable-altrcname], [Specify an alternate rcfile name (default: .nanorc)]),
+[if test x$enableval != no; then
+    AC_DEFINE_UNQUOTED(RCFILE_NAME, "$enableval", [Specify an alternate rcfile name (default: .nanorc).]) rcfilename=$enableval
+fi])
+
 
 AC_MSG_CHECKING([whether to use slang])
 CURSES_LIB_NAME=""
@@ -368,14 +378,6 @@ int main(void)
 	;;
     esac], [AC_MSG_RESULT(no)])
 
-AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
-AM_CONDITIONAL(USE_NANORC, test x$nanorc_support = xyes)
-
-AC_ARG_ENABLE(altrcname,
-AS_HELP_STRING([--enable-altrcname], [Specify an alternate rcfile name (default: .nanorc)]),
-[if test x$enableval != no; then
-    AC_DEFINE_UNQUOTED(RCFILE_NAME, "$enableval", [Specify an alternate rcfile name (default: .nanorc).]) rcfilename=$enableval
-fi])
 
 dnl Checks for functions.
 
