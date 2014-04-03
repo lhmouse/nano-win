@@ -3190,9 +3190,9 @@ void do_linter(void)
 	    tmpcol = curlint->colno;
 
 	if (tmplint != curlint) {
+#ifndef NANO_TINY
 	    struct stat lintfileinfo;
 
-#ifndef NANO_TINY
 	    new_lint_loop:
 	    if (stat(curlint->filename, &lintfileinfo) != -1) {
 		if (openfile->current_stat->st_ino != lintfileinfo.st_ino) {

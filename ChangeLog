@@ -7,6 +7,7 @@
 	Convert #ifdef ENABLE_MULTIBUFFER to #ifndef DISABLE_MULTIBUFFER.
 	* src/{proto.h,files.c,,nano.c,winio.c}, configure.ac:
 	Convert #ifdef NANO_EXTRA to #ifndef DISABLE_EXTRA.
+	* src/{global.c,text.c}: Fix two compilation warnings for tiny.
 
 2014-04-02  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac, doc/Makefile.am: Try to build the info documentation

@@ -577,7 +577,9 @@ void shortcut_init(bool unjustify)
 #endif
     const char *refresh_msg = N_("Refresh");
     const char *go_to_line_msg = N_("Go To Line");
+#ifndef DISABLE_SPELLER
     const char *spell_msg = N_("To Spell");
+#endif
 #ifdef ENABLE_COLOR
     const char *lint_msg = N_("To Linter");
     const char *prev_lint_msg = N_("Prev Lint Msg");
@@ -615,8 +617,10 @@ void shortcut_init(bool unjustify)
 	N_("Uncut from the cutbuffer into the current line");
     const char *nano_cursorpos_msg =
 	N_("Display the position of the cursor");
+#ifndef DISABLE_SPELLER
     const char *nano_spell_msg =
 	N_("Invoke the spell checker, if available");
+#endif
     const char *nano_replace_msg =
 	N_("Replace a string or a regular expression");
      const char *nano_gotoline_msg = N_("Go to line and column number");
