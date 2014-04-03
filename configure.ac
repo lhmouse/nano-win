@@ -60,10 +60,7 @@ AC_ARG_ENABLE(debug,
 AS_HELP_STRING([--enable-debug], [Enable debugging (disabled by default)]))
 if test "x$enable_debug" = xyes; then
     AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.])
-    debug_support=yes
-fi
-
-if test x$debug_support != xyes; then
+else
     AC_DEFINE(NDEBUG, 1, [Shut up assert warnings :-)])
 fi
 
@@ -71,7 +68,6 @@ AC_ARG_ENABLE(tiny,
 AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
 if test "x$enable_tiny" = xyes; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
-    tiny_support=yes
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
@@ -89,7 +85,6 @@ AC_ARG_ENABLE(extra,
 AS_HELP_STRING([--disable-extra], [Disable extra features, currently only easter eggs]))
 if test "x$enable_extra" != xno; then
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable extra stuff.])
-    extra_support=yes
 fi
 
 AC_ARG_ENABLE(browser,
@@ -173,7 +168,6 @@ AC_ARG_ENABLE(multibuffer,
 AS_HELP_STRING([--disable-multibuffer], [Disable multiple file buffers]))
 if test "x$enable_multibuffer" != xno; then
     AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
-    multibuffer_support=yes
 fi
 
 AC_ARG_ENABLE(nanorc,
@@ -218,7 +212,6 @@ int main(void)
 }],
 		    [AC_MSG_RESULT(yes)
 		    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
-		    slang_support=yes
 		    CURSES_LIB_WIDE=yes
 		    if test x$with_slang != xyes; then
 			CURSES_LIB="-L${with_slang}/lib -lslang"
@@ -244,7 +237,7 @@ int main(void)
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
 			CURSES_LIB_WIDE=yes
 			if test x$with_slang != xyes; then
 			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
@@ -265,7 +258,7 @@ int main(void)
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
 			    CURSES_LIB_WIDE=yes
 			    if test x$with_slang != xyes; then
 				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
@@ -302,7 +295,7 @@ int main(void)
     return 0;
 }],
 		    [AC_MSG_RESULT(yes)
-		    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+		    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
 		    if test x$with_slang != xyes; then
 			CURSES_LIB="-L${with_slang}/lib -lslang"
 		    else
@@ -327,7 +320,7 @@ int main(void)
     return 0;
 }],
 			[AC_MSG_RESULT(yes)
-			AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
 			if test x$with_slang != xyes; then
 			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
 			else
@@ -347,7 +340,7 @@ int main(void)
     return 0;
 }],
 			    [AC_MSG_RESULT(yes)
-			    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.]) slang_support=yes
+			    AC_DEFINE(USE_SLANG, 1, [Define this to use the slang wrappers for curses instead of native curses.])
 			    if test x$with_slang != xyes; then
 				CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
 			    else
@@ -377,7 +370,6 @@ int main(void)
 
 if test x$CURSES_LIB_NAME = xslang; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
-    tiny_support=yes
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
