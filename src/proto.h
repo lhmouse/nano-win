@@ -267,7 +267,7 @@ void open_buffer(const char *filename, bool undoable);
 void replace_buffer(const char *filename);
 #endif
 void display_buffer(void);
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 void switch_to_prevnext_buffer(bool next);
 void switch_to_prev_buffer_void(void);
 void switch_to_next_buffer_void(void);

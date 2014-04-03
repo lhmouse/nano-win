@@ -657,7 +657,7 @@ void die(const char *msg, ...)
 		);
     }
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     /* Save all of the other modified file buffers, if any. */
     if (openfile != NULL) {
 	openfilestruct *tmp = openfile;
@@ -853,7 +853,7 @@ void usage(void)
     print_opt("-E", "--tabstospaces",
 	N_("Convert typed tabs to spaces"));
 #endif
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     print_opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
@@ -980,6 +980,9 @@ void version(void)
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
 #endif
+#ifdef DISABLE_MULTIBUFFER
+    printf(" --disable-multibuffer");
+#endif
 #ifndef ENABLE_NLS
     printf(" --disable-nls");
 #endif
@@ -1006,9 +1009,6 @@ void version(void)
 #endif
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
-#endif
-#ifdef ENABLE_MULTIBUFFER
-    printf(" --enable-multibuffer");
 #endif
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
@@ -1081,7 +1081,7 @@ void do_exit(void)
             delete_lockfile(openfile->lock_filename);
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
 	if (!close_buffer())
 #endif
@@ -2054,7 +2054,7 @@ int main(int argc, char **argv)
     bool fill_used = FALSE;
 	/* Was the fill option used? */
 #endif
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     bool old_multibuffer;
 	/* The old value of the multibuffer option, restored after we
 	 * load all files on the command line. */
@@ -2063,7 +2063,7 @@ int main(int argc, char **argv)
     const struct option long_options[] = {
 	{"help", 0, NULL, 'h'},
 	{"boldtext", 0, NULL, 'D'},
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	{"multibuffer", 0, NULL, 'F'},
 #endif
 #ifdef ENABLE_NANORC
@@ -2194,7 +2194,7 @@ int main(int argc, char **argv)
 		SET(TABS_TO_SPACES);
 		break;
 #endif
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	    case 'F':
 		SET(MULTIBUFFER);
 		break;
@@ -2631,7 +2631,7 @@ int main(int argc, char **argv)
 	optind++;
     }
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     old_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);
 
@@ -2686,7 +2686,7 @@ int main(int argc, char **argv)
 	UNSET(VIEW_MODE);
     }
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     if (!old_multibuffer)
 	UNSET(MULTIBUFFER);
 #endif

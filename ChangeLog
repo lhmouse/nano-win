@@ -3,6 +3,8 @@
 	* doc/syntax/po.nanorc: New file, syntax colouring for PO files.
 	* configure.ac: Stop --with-slang from duplicating --enable-tiny.
 	* configure.ac: Sort all the disabling options alphabetically.
+	* src/{proto.h,files.c,global.c,nano.c,rcfile.c}, configure.ac:
+	Convert #ifdef ENABLE_MULTIBUFFER to #ifndef DISABLE_MULTIBUFFER.
 
 2014-04-02  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac, doc/Makefile.am: Try to build the info documentation

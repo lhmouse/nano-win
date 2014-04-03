@@ -550,7 +550,7 @@ const char *append_msg = N_("Append");
 const char *prepend_msg = N_("Prepend");
 const char *backup_file_msg = N_("Backup File");
 const char *ext_cmd_msg = N_("Execute Command");
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 const char *new_buffer_msg = N_("New Buffer");
 #endif
 const char *goto_dir_msg = N_("Go To Dir");
@@ -593,7 +593,7 @@ void shortcut_init(bool unjustify)
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	N_("Close the current file buffer / Exit from nano")
 #else
 	N_("Exit from nano")
@@ -657,7 +657,7 @@ void shortcut_init(bool unjustify)
     const char *nano_scrolldown_msg =
 	N_("Scroll down one line without scrolling the cursor");
 #endif
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     const char *nano_prevfile_msg =
 	N_("Switch to the previous file buffer");
     const char *nano_nextfile_msg =
@@ -718,7 +718,7 @@ void shortcut_init(bool unjustify)
 	N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
-#if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
+#ifndef DISABLE_MULTIBUFFER
     const char *nano_multibuffer_msg =
 	N_("Toggle the use of a new buffer");
 #endif
@@ -760,7 +760,7 @@ void shortcut_init(bool unjustify)
 	cancel_msg, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
@@ -782,7 +782,7 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_insertfile_void,
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	VIEW);
 #else
 	NOVIEW);
@@ -946,7 +946,7 @@ void shortcut_init(bool unjustify)
 	IFSCHELP(nano_scrolldown_msg), FALSE, VIEW);
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     add_to_funcs(switch_to_prev_buffer_void, MMAIN, N_("Previous File"),
 	IFSCHELP(nano_prevfile_msg), FALSE, VIEW);
     add_to_funcs(switch_to_next_buffer_void, MMAIN, N_("Next File"),
@@ -1071,7 +1071,7 @@ void shortcut_init(bool unjustify)
         add_to_funcs(ext_cmd_void, MINSERTFILE,
 	    ext_cmd_msg, IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
 	    new_buffer_msg, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
@@ -1221,7 +1221,7 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M-=", do_scroll_down, 0, TRUE);
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     add_to_sclist(MMAIN, "M-<", switch_to_prev_buffer_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-,", switch_to_prev_buffer_void, 0, TRUE);
     add_to_sclist(MMAIN, "M->", switch_to_next_buffer_void, 0, TRUE);
@@ -1538,7 +1538,7 @@ sc *strtosc(int menu, char *input)
 	s->scfunc = do_home;
     else if (!strcasecmp(input, "end"))
 	s->scfunc = do_end;
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     else if (!strcasecmp(input, "prevbuf"))
 	s->scfunc = switch_to_prev_buffer_void;
     else if (!strcasecmp(input, "nextbuf"))
@@ -1588,7 +1588,7 @@ sc *strtosc(int menu, char *input)
     } else if (!strcasecmp(input, "backup")) {
 	s->scfunc =  backup_file_void;
 	s->execute = FALSE;
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     } else if (!strcasecmp(input, "newbuffer")) {
 	s->scfunc =  new_buffer_void;
 	s->execute = FALSE;

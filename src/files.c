@@ -311,7 +311,7 @@ int do_lockfile(const char *filename)
 void open_buffer(const char *filename, bool undoable)
 {
     bool new_buffer = (openfile == NULL
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	 || ISSET(MULTIBUFFER)
 #endif
 	);
@@ -424,7 +424,7 @@ void display_buffer(void)
     edit_refresh();
 }
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 /* Switch to the next file buffer if next_buf is TRUE.  Otherwise,
  * switch to the previous file buffer. */
 void switch_to_prevnext_buffer(bool next_buf)
@@ -497,7 +497,7 @@ bool close_buffer(void)
 
     return TRUE;
 }
-#endif /* ENABLE_MULTIBUFFER */
+#endif /* !DISABLE_MULTIBUFFER */
 
 /* A bit of a copy and paste from open_file(), is_file_writable()
  * just checks whether the file is appendable as a quick
@@ -1027,7 +1027,7 @@ void do_insertfile(
 #ifndef NANO_TINY
 	if (execute) {
 	    msg =
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 		ISSET(MULTIBUFFER) ?
 		_("Command to execute in new buffer [from %s] ") :
 #endif
@@ -1035,7 +1035,7 @@ void do_insertfile(
 	} else {
 #endif
 	    msg =
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 		ISSET(MULTIBUFFER) ?
 		_("File to insert into new buffer [from %s] ") :
 #endif
@@ -1068,7 +1068,7 @@ void do_insertfile(
 	 * filename or command begins with a newline (i.e. an encoded
 	 * null), treat it as though it's blank. */
 	if (i == -1 || ((i == -2 || *answer == '\n')
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 		&& !ISSET(MULTIBUFFER)
 #endif
 		)) {
@@ -1082,8 +1082,7 @@ void do_insertfile(
 	    s = get_shortcut(currmenu, &i, &meta_key, &func_key);
 
 #ifndef NANO_TINY
-#ifdef ENABLE_MULTIBUFFER
-
+#ifndef DISABLE_MULTIBUFFER
 	    if (s && s->scfunc == new_buffer_void) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
@@ -1118,7 +1117,7 @@ void do_insertfile(
 	    /* If we don't have a file yet, go back to the statusbar
 	     * prompt. */
 	    if (i != 0
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 		&& (i != -2 || !ISSET(MULTIBUFFER))
 #endif
 		)
@@ -1139,7 +1138,7 @@ void do_insertfile(
 		}
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	    if (!ISSET(MULTIBUFFER)) {
 #endif
 		/* If we're not inserting into a new buffer, partition
@@ -1152,7 +1151,7 @@ void do_insertfile(
 			openfile->current_x);
 		edittop_inside =
 			(openfile->edittop == openfile->fileage);
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 	    }
 #endif
 
@@ -1163,7 +1162,7 @@ void do_insertfile(
 
 #ifndef NANO_TINY
 	    if (execute) {
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
 		    /* Open a blank buffer. */
 		    open_buffer("", FALSE);
@@ -1172,7 +1171,7 @@ void do_insertfile(
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER)) {
 		    /* Move back to the beginning of the first line of
 		     * the buffer. */
@@ -1195,7 +1194,7 @@ void do_insertfile(
 	    }
 #endif
 
-#if defined(ENABLE_MULTIBUFFER) && defined(ENABLE_NANORC)
+#if !defined(DISABLE_MULTIBUFFER) && defined(ENABLE_NANORC)
 	    if (ISSET(MULTIBUFFER)) {
 		/* Update the screen to account for the current
 		 * buffer. */
@@ -1294,7 +1293,7 @@ void do_insertfile_void(void)
 	return;
     }
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_MULTIBUFFER
     if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
 	statusbar(_("Key invalid in non-multibuffer mode"));
     else
