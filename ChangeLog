@@ -1,5 +1,6 @@
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.
+	* doc/syntax/po.nanorc: New file, syntax colouring for PO files.
 
 2014-04-02  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac, doc/Makefile.am: Try to build the info documentation
