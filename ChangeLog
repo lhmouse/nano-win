@@ -15,6 +15,8 @@
 	* src/global.c (shortcut_init): Fix warnings with --enable-help.
 	* src/text.c (do_justify): Fix compilation with --enable-justify.
 	* src/nano.c (do_mouse): Fix warning with --enable-mouse.
+	* src/prompt.c (get_prompt_string): Fix compilation for the
+	combination of --enable-tiny with --enable-tabcomp.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.

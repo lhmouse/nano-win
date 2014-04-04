@@ -985,11 +985,9 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 #ifndef DISABLE_TABCOMP
 	if (s && s->scfunc != do_tab)
 	    tabbed = FALSE;
-#endif
 
-#ifndef DISABLE_TABCOMP
-#ifndef NANO_TINY
 	if (s && s->scfunc == do_tab) {
+#ifndef NANO_TINY
 		if (history_list != NULL) {
 		    if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
 			complete_len = strlen(answer);
