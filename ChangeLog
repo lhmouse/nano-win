@@ -1,5 +1,7 @@
 2014-04-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{files.c,nano.c}: Avoid two more compilation warnings.
+	* configure.ac: Allow --enable-extra and --enable-multibuffer
+	to override --enable-tiny.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.
