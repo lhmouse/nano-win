@@ -169,6 +169,10 @@ AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
 if test "x$enable_tiny" = xyes; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
+    if test "x$enable_color" != xyes; then
+	AC_DEFINE(DISABLE_COLOR, 1, [Define this to disable syntax highlighting.])
+	color_support=no
+    fi
     if test "x$enable_extra" = xno; then
 	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
     fi

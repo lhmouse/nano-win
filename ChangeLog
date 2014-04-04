@@ -9,6 +9,7 @@
 	#ifdef ENABLE_COLOR to #ifndef DISABLE_COLOR.⏎
 	* src/nano.h: Comment tweaks.
 	* configure.ac: Move the enabling stuff to after the disablers.
+	* configure.ac: Add submissive colour disabling to --enable-tiny.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.
