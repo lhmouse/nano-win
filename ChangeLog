@@ -18,7 +18,7 @@
 	* src/prompt.c (get_prompt_string): Fix compilation for the
 	combination of --enable-tiny with --enable-tabcomp.
 	* src/prompt.c (get_prompt_string): Normalize the indentation.
-	* src/text.c (do_wrap): Fix compilation with --enable-wrapping.
+	* src/text.c: Comment tweaks.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.

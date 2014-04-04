@@ -216,8 +216,7 @@ void do_indent(ssize_t cols)
     if (cols == 0)
 	return;
 
-    /* If cols is negative, make it positive and set unindent to
-     * TRUE. */
+    /* If cols is negative, make it positive and set unindent to TRUE. */
     if (cols < 0) {
 	cols = -cols;
 	unindent = TRUE;
@@ -360,20 +359,21 @@ void do_unindent(void)
     do_indent(-tabsize);
 }
 
-/* undo a cut, or re-do an uncut */
+
+/* Undo a cut, or redo an uncut. */
 void undo_cut(undo *u)
 {
-    /* If we cut the magicline may was well not crash :/ */
+    /* If we cut the magicline, we may as well not crash. :/ */
     if (!u->cutbuffer)
 	return;
 
     cutbuffer = copy_filestruct(u->cutbuffer);
 
-    /* Compute cutbottom for the uncut using out copy */
+    /* Compute cutbottom for the uncut using our copy. */
     for (cutbottom = cutbuffer; cutbottom->next != NULL; cutbottom = cutbottom->next)
 	;
 
-    /* Get to where we need to uncut from */
+    /* Get to where we need to uncut from. */
     if (u->mark_set && u->mark_begin_lineno < u->lineno)
 	do_gotolinecolumn(u->mark_begin_lineno, u->mark_begin_x+1, FALSE, FALSE, FALSE, FALSE);
     else
@@ -385,12 +385,12 @@ void undo_cut(undo *u)
 
 }
 
-/* Re-do a cut, or undo an uncut */
+/* Redo a cut, or undo an uncut. */
 void redo_cut(undo *u) {
     int i;
     filestruct *t, *c;
 
-    /* If we cut the magicline may was well not crash :/ */
+    /* If we cut the magicline, we may as well not crash. :/ */
     if (!u->cutbuffer)
 	return;
 
@@ -400,15 +400,15 @@ void redo_cut(undo *u) {
 	free(cutbuffer);
     cutbuffer = NULL;
 
-    /* Move ahead the same # lines we had if a marked cut */
+    /* Move ahead the same # lines we had if a marked cut. */
     if (u->mark_set) {
 	for (i = 1, t = openfile->fileage; i != u->mark_begin_lineno; i++)
 	    t = t->next;
 	openfile->mark_begin = t;
     } else if (!u->to_end) {
-	/* Here we have a regular old potentially multi-line ^K cut.  We'll
-	   need to trick nano into thinking it's a marked cut to cut more
-	   than one line again */
+	/* Here we have a regular old potentially multi-line ^K cut.
+	 * We'll need to trick nano into thinking it's a marked cut,
+	 * to cut more than one line again. */
 	for (c = u->cutbuffer, t = openfile->current; c->next != NULL && t->next != NULL; ) {
 
 #ifdef DEBUG
@@ -430,7 +430,7 @@ void redo_cut(undo *u) {
     edit_refresh_needed = TRUE;
 }
 
-/* Undo the last thing(s) we did */
+/* Undo the last thing(s) we did. */
 void do_undo(void)
 {
     undo *u = openfile->current_undo;
@@ -443,7 +443,6 @@ void do_undo(void)
 	statusbar(_("Nothing in undo buffer!"));
 	return;
     }
-
 
     if (u->lineno <= f->lineno)
         for (; f->prev != NULL && f->lineno != u->lineno; f = f->prev)
@@ -498,7 +497,7 @@ void do_undo(void)
 	}
 	renumber(f);
 	break;
-#endif /* DISABLE_WRAPPING */
+#endif /* !DISABLE_WRAPPING */
     case UNSPLIT:
 	undidmsg = _("line join");
 	t = make_new_node(f);
@@ -532,9 +531,9 @@ void do_undo(void)
 	undidmsg = _("text insert");
 	cutbuffer = NULL;
 	cutbottom = NULL;
-	/* When we updated mark_begin_lineno in update_undo, it was effectively how many line
-	   were inserted due to being partitioned before read_file was called.  So we
-	   add its value here */
+	/* When we updated mark_begin_lineno in update_undo, it was effectively
+	 * how many lines were inserted due to being partitioned before read_file
+	 * was called.  So we add its value here. */
 	openfile->mark_begin = fsfromline(u->lineno + u->mark_begin_lineno - 1);
 	openfile->mark_begin_x = 0;
 	openfile->mark_set = TRUE;
@@ -565,6 +564,7 @@ void do_undo(void)
     openfile->last_action = OTHER;
 }
 
+/* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
     undo *u = openfile->undotop;
@@ -631,7 +631,7 @@ void do_redo(void)
         do_wrap(f, TRUE);
 	renumber(f);
 	break;
-#endif /* DISABLE_WRAPPING */
+#endif /* !DISABLE_WRAPPING */
     case UNSPLIT:
 	undidmsg = _("line join");
 	len = strlen(f->data) + strlen(u->strdata + 1);
@@ -772,9 +772,8 @@ bool execute_command(const char *command)
 	return FALSE;
     }
 
-    /* Check $SHELL for the shell to use.  If it isn't set, use
-     * /bin/sh.  Note that $SHELL should contain only a path, with no
-     * arguments. */
+    /* Check $SHELL for the shell to use.  If it isn't set, use /bin/sh.
+     * Note that $SHELL should contain only a path, with no arguments. */
     shellenv = getenv("SHELL");
     if (shellenv == NULL)
 	shellenv = (char *) "/bin/sh";
@@ -840,26 +839,26 @@ bool execute_command(const char *command)
     return TRUE;
 }
 
-/* Add a new undo struct to the top of the current pile */
+/* Add a new undo struct to the top of the current pile. */
 void add_undo(undo_type current_action)
 {
     undo *u;
     char *data;
     openfilestruct *fs = openfile;
-    static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut */
-    ssize_t wrap_loc;	/* For calculating split beginning */
+    static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut. */
+    ssize_t wrap_loc;	/* For calculating split beginning. */
 
     if (!ISSET(UNDOABLE))
 	return;
 
-    /* Ugh, if we were called while cutting not-to-end, non-marked and on the same lineno,
-       we need to  abort here */
+    /* Ugh, if we were called while cutting not-to-end, non-marked, and
+     * on the same lineno, we need to abort here. */
     u = fs->current_undo;
     if (current_action == CUT && u && u->type == CUT
 	&& !u->mark_set && u->lineno == fs->current->lineno)
 	return;
 
-    /* Blow away the old undo stack if we are starting from the middle */
+    /* Blow away the old undo stack if we are starting from the middle. */
     while (fs->undotop != NULL && fs->undotop != fs->current_undo) {
 	undo *u2 = fs->undotop;
 	fs->undotop = fs->undotop->next;
@@ -870,7 +869,7 @@ void add_undo(undo_type current_action)
 	free(u2);
     }
 
-    /* Allocate and initialize a new undo type */
+    /* Allocate and initialize a new undo type. */
     u = (undo *) nmalloc(sizeof(undo));
     u->type = current_action;
     u->lineno = fs->current->lineno;
@@ -889,8 +888,8 @@ void add_undo(undo_type current_action)
     u->to_end = FALSE;
 
     switch (u->type) {
-    /* We need to start copying data into the undo buffer or we wont be able
-       to restore it later */
+    /* We need to start copying data into the undo buffer
+     * or we won't be able to restore it later. */
     case ADD:
         data = charalloc(2);
         data[0] = fs->current->data[fs->current_x];
@@ -904,7 +903,7 @@ void add_undo(undo_type current_action)
             u->strdata = data;
 	    break;
 	}
-	/* Else purposely fall into unsplit code */
+	/* Else purposely fall into unsplit code. */
 	current_action = u->type = UNSPLIT;
     case UNSPLIT:
 	if (fs->current->next) {
@@ -920,13 +919,13 @@ void add_undo(undo_type current_action)
 #endif
 	);
 	u->strdata = mallocstrcpy(NULL, &openfile->current->data[wrap_loc]);
-	/* Don't both saving the next line if we're not prepending as a new line
-	   will be created */
+	/* Don't bother saving the next line if we're not prepending,
+	 * as a new line will be created. */
 	if (prepend_wrap)
 	    u->strdata2 = mallocstrcpy(NULL, fs->current->next->data);
 	u->begin = wrap_loc;
 	break;
-#endif /* DISABLE_WRAPPING */
+#endif /* !DISABLE_WRAPPING */
     case INSERT:
     case REPLACE:
 	data = mallocstrcpy(NULL, fs->current->data);
@@ -964,11 +963,10 @@ void add_undo(undo_type current_action)
     fs->last_action = current_action;
 }
 
-/* Update an undo item, or determine whether a new one
-   is really needed and bounce the data to add_undo
-   instead.  The latter functionality just feels
-   gimmicky and may just be more hassle than
-   it's worth, so it should be axed if needed. */
+/* Update an undo item, or determine whether a new one is really needed
+ * and bounce the data to add_undo instead.  The latter functionality
+ * just feels gimmicky and may just be more hassle than it's worth,
+ * so it should be axed if needed. */
 void update_undo(undo_type action)
 {
     undo *u;
@@ -989,7 +987,7 @@ void update_undo(undo_type action)
 #endif
 
     /* Change to an add if we're not using the same undo struct
-       that we should be using */
+     * that we should be using. */
     if (action != fs->last_action
 	|| (action != CUT && action != INSERT && action != SPLIT
 	    && openfile->current->lineno != fs->current_undo->lineno)) {
@@ -1019,7 +1017,7 @@ void update_undo(undo_type action)
 	len = strlen(u->strdata) + 2;
 	assert(len > 2);
         if (fs->current_x == u->begin) {
-	    /* They're deleting */
+	    /* They're deleting. */
 	    if (!u->xflags)
 		u->xflags = UNdel_del;
 	    else if (u->xflags != UNdel_del) {
@@ -1033,7 +1031,7 @@ void update_undo(undo_type action)
 	    free(u->strdata);
 	    u->strdata = data;
 	} else if (fs->current_x == u->begin - 1) {
-	    /* They're backspacing */
+	    /* They're backspacing. */
 	    if (!u->xflags)
 		u->xflags = UNdel_backspace;
 	    else if (u->xflags != UNdel_backspace) {
@@ -1047,7 +1045,7 @@ void update_undo(undo_type action)
 	    u->strdata = data;
 	    u->begin--;
 	} else {
-	    /* They deleted something else on the line */
+	    /* They deleted something else on the line. */
 	    add_undo(DEL);
 	    return;
 	}
@@ -1061,7 +1059,7 @@ void update_undo(undo_type action)
 	if (u->cutbuffer)
 	    free(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
-        /* Compute cutbottom for the uncut using out copy */
+        /* Compute cutbottom for the uncut using our copy. */
         for (u->cutbottom = u->cutbuffer; u->cutbottom->next != NULL; u->cutbottom = u->cutbottom->next)
             ;
 	break;
@@ -1075,12 +1073,12 @@ void update_undo(undo_type action)
 #ifndef DISABLE_WRAPPING
     case SPLIT:
 	/* This will only be called if we made a completely new line,
-	   and as such we should note that so we can destroy it later */
+	 * and as such we should note that so we can destroy it later. */
 	u->xflags = UNsplit_madenew;
 	break;
 #endif /* DISABLE_WRAPPING */
     case UNSPLIT:
-	/* These cases are handled by the earlier check for a new line and action */
+	/* These cases are handled by the earlier check for a new line and action. */
     case ENTER:
     case OTHER:
 	break;
