@@ -12,6 +12,7 @@
 	* configure.ac: Add submissive colour disabling to --enable-tiny.
 	* configure.ac: Allow other enablers to override --enable-tiny too.
 	* src/{proto.h,search.c}: Fix compilation with --enable-browser.
+	* src/global.c (shortcut_init): Fix warnings with --enable-help.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.

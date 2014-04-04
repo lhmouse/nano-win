@@ -714,10 +714,8 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     const char *nano_dos_msg = N_("Toggle the use of DOS format");
     const char *nano_mac_msg = N_("Toggle the use of Mac format");
-#endif
     const char *nano_append_msg = N_("Toggle appending");
     const char *nano_prepend_msg = N_("Toggle prepending");
-#ifndef NANO_TINY
     const char *nano_backup_msg =
 	N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
