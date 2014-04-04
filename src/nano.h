@@ -215,7 +215,7 @@ typedef struct colortype {
     struct colortype *next;
 	/* Next set of colors. */
      int id;
-	/* basic id for assigning to lines later */
+	/* Basic id for assigning to lines later. */
 } colortype;
 
 typedef struct exttype {
@@ -233,15 +233,15 @@ typedef struct syntaxtype {
     exttype *extensions;
 	/* The list of extensions that this syntax applies to. */
     exttype *headers;
-	/* Regexes to match on the 'header' (1st line) of the file */
+	/* Regexes to match on the 'header' (1st line) of the file. */
     exttype *magics;
-	/* Regexes to match libmagic results */
+	/* Regexes to match libmagic results. */
     colortype *color;
 	/* The colors used in this syntax. */
     char *linter;
-	/* Command to lint this type of file */
+	/* Command to lint this type of file. */
     int nmultis;
-	/* How many multi line strings this syntax has */
+	/* How many multi-line strings this syntax has. */
     struct syntaxtype *next;
 	/* Next syntax. */
 } syntaxtype;
@@ -252,28 +252,28 @@ typedef struct lintstruct {
     ssize_t colno;
 	/* Column # of the error. */
     char *msg;
-	/* Error message text */
+	/* Error message text. */
     char *filename;
-	/* Filename */
+	/* Filename. */
     struct lintstruct *next;
 	/* Next error. */
     struct lintstruct *prev;
-	/* Previous error */
+	/* Previous error. */
 } lintstruct;
 
 
 #define CNONE		(1<<1)
 	/* Yay, regex doesn't apply to this line at all! */
 #define CBEGINBEFORE	(1<<2)
-	/* regex starts on an earlier line, ends on this one */
+	/* Regex starts on an earlier line, ends on this one. */
 #define CENDAFTER	(1<<3)
-	/* regex sraers on this line and ends on a later one */
+	/* Regex starts on this line and ends on a later one. */
 #define CWHOLELINE	(1<<4)
-	/* whole line engulfed by the regex  start < me, end > me */
+	/* Whole line engulfed by the regex, start < me, end > me. */
 #define CSTARTENDHERE	(1<<5)
-	/* regex starts and ends within this line */
+	/* Regex starts and ends within this line. */
 #define CWTF		(1<<6)
-	/* Something else */
+	/* Something else. */
 
 #endif /* !DISABLE_COLOR */
 
@@ -289,7 +289,8 @@ typedef struct filestruct {
     struct filestruct *prev;
 	/* Previous node. */
 #ifndef DISABLE_COLOR
-    short *multidata;		/* Array of which multi-line regexes apply to this line */
+    short *multidata;
+	/* Array of which multi-line regexes apply to this line. */
 #endif
 } filestruct;
 
@@ -315,29 +316,29 @@ typedef struct partition {
 typedef struct undo {
     ssize_t lineno;
     undo_type type;
-	/* What type of undo was this */
+	/* What type of undo this was. */
     int begin;
-	/* Where did this  action begin or end */
+	/* Where did this action begin or end. */
     char *strdata;
-	/* String type data we will use for ccopying the affected line back */
+	/* String type data we will use for copying the affected line back. */
     char *strdata2;
-	/* Sigh, need this too it looks like */
+	/* Sigh, need this too, it looks like. */
     int xflags;
-	/* Some flag data we need */
+	/* Some flag data we need. */
 
-    /* Cut specific stuff we need */
+    /* Cut-specific stuff we need. */
     filestruct *cutbuffer;
-	/* Copy of the cutbuffer */
+	/* Copy of the cutbuffer. */
     filestruct *cutbottom;
-	/* Copy of cutbottom */
+	/* Copy of cutbottom. */
     bool mark_set;
-	/* was the marker set when we cut */
+	/* Was the marker set when we cut? */
     bool to_end;
-	/* was this a cut to end */
+	/* Was this a cut to end? */
     ssize_t mark_begin_lineno;
 	/* copy copy copy */
     ssize_t mark_begin_x;
-	/* Another shadow variable */
+	/* Another shadow variable. */
     struct undo *next;
 } undo;
 
@@ -346,9 +347,9 @@ typedef struct poshiststruct {
     char *filename;
         /* The file. */
     ssize_t lineno;
-	/* Line number we left off on */
+	/* Line number we left off on. */
     ssize_t xno;
-	/* x position in the file we left off on */
+	/* x position in the file we left off on. */
     struct poshiststruct *next;
 } poshiststruct;
 
@@ -371,7 +372,7 @@ typedef struct openfilestruct {
     size_t current_x;
 	/* The current file's x-coordinate position. */
     size_t placewewant;
-	/* The current file's place we want. */
+	/* The current file's x position we would like. */
     ssize_t current_y;
 	/* The current file's y-coordinate position. */
     bool modified;
@@ -389,16 +390,16 @@ typedef struct openfilestruct {
     struct stat *current_stat;
 	/* The current file's stat. */
     undo *undotop;
-	/* Top of the undo list */
+	/* Top of the undo list. */
     undo *current_undo;
-	/* The current (i.e. n ext) level of undo */
+	/* The current (i.e. next) level of undo. */
     undo_type last_action;
     const char *lock_filename;
-        /* The path of the lockfile, if we created one */
+        /* The path of the lockfile, if we created one. */
 #endif
 #ifndef DISABLE_COLOR
     syntaxtype *syntax;
-	/* The  syntax struct for this file, if any */
+	/* The  syntax struct for this file, if any. */
     colortype *colorstrings;
 	/* The current file's associated colors. */
 #endif
@@ -449,29 +450,29 @@ typedef struct rcoption {
 
 typedef struct sc {
     char *keystr;
-	/* The shortcut key for a function, ASCII version */
+	/* The shortcut key for a function, ASCII version. */
     function_type type;
-        /* What kind of function key is it for convenience later */
+        /* What kind of function key it is, for convenience later. */
     int seq;
-        /* The actual sequence to check on the type is determined */
+        /* The actual sequence to check on the type is determined. */
     int menu;
-        /* What list does this apply to */
+        /* What list this applies to. */
     void (*scfunc)(void);
-        /* The function we're going to run */
+        /* The function we're going to run. */
     int toggle;
-        /* If a toggle, what we're toggling */
+        /* If a toggle, what we're toggling. */
     bool execute;
 	/* Whether to execute the function in question or just return
-	   so the sequence can be caught by the calling code */
+	 * so the sequence can be caught by the calling code. */
     struct sc *next;
-        /* Next in the list */
+        /* Next in the list. */
 } sc;
 
 typedef struct subnfunc {
     void (*scfunc)(void);
-	/* What function is this */
+	/* What function this is. */
     int menus;
-	/* In what menus does this function applu */
+	/* In what menus this function applies. */
     const char *desc;
 	/* The function's description, e.g. "Page Up". */
 #ifndef DISABLE_HELP
@@ -484,9 +485,9 @@ typedef struct subnfunc {
     bool viewok;
         /* Is this function allowed when in view mode? */
     long toggle;
-	/* If this is a toggle, if nonzero what toggle to set */
+	/* If this is a toggle, if nonzero what toggle to set. */
     struct subnfunc *next;
-	/* next item in the list */
+	/* Next item in the list. */
 } subnfunc;
 
 
@@ -534,7 +535,7 @@ enum
     LOCKING
 };
 
-/* Flags for which menus in which a given function should be present */
+/* Flags for the menus in which a given function should be present. */
 #define MMAIN				(1<<0)
 #define	MWHEREIS			(1<<1)
 #define	MREPLACE			(1<<2)
@@ -550,7 +551,7 @@ enum
 #define MGOTODIR			(1<<12)
 #define MYESNO				(1<<13)
 #define MLINTER				(1<<14)
-/* This really isnt all but close enough */
+/* This isn't really all, but close enough. */
 #define	MALL				(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MHELP|MLINTER)
 
 /* Control key sequences.  Changing these would be very, very bad. */
@@ -779,7 +780,7 @@ enum
 #define TOGGLE_DOS_KEY			NANO_META_D
 #define TOGGLE_MAC_KEY			NANO_META_M
 
-/* Extra bits for the undo function */
+/* Extra bits for the undo function. */
 #define UNdel_del		(1<<0)
 #define UNdel_backspace	(1<<1)
 #define UNsplit_madenew	(1<<2)
