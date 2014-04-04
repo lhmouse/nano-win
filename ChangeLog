@@ -10,6 +10,7 @@
 	* src/nano.h: Comment tweaks.
 	* configure.ac: Move the enabling stuff to after the disablers.
 	* configure.ac: Add submissive colour disabling to --enable-tiny.
+	* configure.ac: Allow other enablers to override --enable-tiny too.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.
