@@ -525,7 +525,7 @@ void do_search(void)
     search_replace_abort();
 }
 
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 /* Search for the last string without prompting. */
 void do_research(void)
 {

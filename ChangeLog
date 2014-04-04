@@ -6,11 +6,12 @@
 	to suppress a fatal-error message, make sure the user sees it.
 	* src/color.c: Comment tweaks.
 	* src/{*.h,*.c}, configure.ac:Convert all occurrences of
-	#ifdef ENABLE_COLOR to #ifndef DISABLE_COLOR.⏎
+	#ifdef ENABLE_COLOR to #ifndef DISABLE_COLOR.
 	* src/nano.h: Comment tweaks.
 	* configure.ac: Move the enabling stuff to after the disablers.
 	* configure.ac: Add submissive colour disabling to --enable-tiny.
 	* configure.ac: Allow other enablers to override --enable-tiny too.
+	* src/{proto.h,search.c}: Fix compilation with --enable-browser.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.

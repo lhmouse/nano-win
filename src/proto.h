@@ -588,7 +588,7 @@ bool findnextstr(
 	char *needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 void do_research(void);
 #endif
 #ifdef HAVE_REGEX_H
