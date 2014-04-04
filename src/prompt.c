@@ -988,101 +988,89 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 
 	if (s && s->scfunc == do_tab) {
 #ifndef NANO_TINY
-		if (history_list != NULL) {
-		    if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
-			complete_len = strlen(answer);
+	    if (history_list != NULL) {
+		if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
+		    complete_len = strlen(answer);
 
-		    if (complete_len > 0) {
-			answer = mallocstrcpy(answer,
+		if (complete_len > 0) {
+		    answer = mallocstrcpy(answer,
 				get_history_completion(history_list,
-				answer, complete_len));
-			statusbar_x = strlen(answer);
-		    }
-		} else
+					answer, complete_len));
+		    statusbar_x = strlen(answer);
+		}
+	    } else
 #endif /* !NANO_TINY */
-		if (allow_tabs)
-		    answer = input_tab(answer, allow_files,
-			&statusbar_x, &tabbed, refresh_func, list);
+	    if (allow_tabs)
+		answer = input_tab(answer, allow_files, &statusbar_x,
+				   &tabbed, refresh_func, list);
 
-		update_statusbar_line(answer, statusbar_x);
+	    update_statusbar_line(answer, statusbar_x);
 	} else
 #endif /* !DISABLE_TABCOMP */
 #ifndef NANO_TINY
 	if (s && s->scfunc == get_history_older_void) {
-		if (history_list != NULL) {
-		    /* If we're scrolling up at the bottom of the
-		     * history list and answer isn't blank, save answer
-		     * in magichistory. */
-		    if ((*history_list)->next == NULL &&
-			answer[0] != '\0')
-			magichistory = mallocstrcpy(magichistory,
-				answer);
+	    if (history_list != NULL) {
+		/* If we're scrolling up at the bottom of the history list
+		 * and answer isn't blank, save answer in magichistory. */
+		if ((*history_list)->next == NULL && answer[0] != '\0')
+		    magichistory = mallocstrcpy(magichistory, answer);
 
-		    /* Get the older search from the history list and
-		     * save it in answer.  If there is no older search,
-		     * don't do anything. */
-		    if ((history =
-			get_history_older(history_list)) != NULL) {
-			answer = mallocstrcpy(answer, history);
-			statusbar_x = strlen(answer);
-		    }
-
-		    update_statusbar_line(answer, statusbar_x);
-
-		    /* This key has a shortcut list entry when it's used
-		     * to move to an older search, which means that
-		     * finished has been set to TRUE.  Set it back to
-		     * FALSE here, so that we aren't kicked out of the
-		     * statusbar prompt. */
-		    finished = FALSE;
+		/* Get the older search from the history list and save it in
+		 * answer.  If there is no older search, don't do anything. */
+		if ((history = get_history_older(history_list)) != NULL) {
+		    answer = mallocstrcpy(answer, history);
+		    statusbar_x = strlen(answer);
 		}
-	} else if (s && s->scfunc == get_history_newer_void) {
-		if (history_list != NULL) {
-		    /* Get the newer search from the history list and
-		     * save it in answer.  If there is no newer search,
-		     * don't do anything. */
-		    if ((history =
-			get_history_newer(history_list)) != NULL) {
-			answer = mallocstrcpy(answer, history);
-			statusbar_x = strlen(answer);
-		    }
 
-		    /* If, after scrolling down, we're at the bottom of
-		     * the history list, answer is blank, and
-		     * magichistory is set, save magichistory in
-		     * answer. */
-		    if ((*history_list)->next == NULL &&
-			*answer == '\0' && magichistory != NULL) {
+		update_statusbar_line(answer, statusbar_x);
+
+		/* This key has a shortcut-list entry when it's used to
+		 * move to an older search, which means that finished has
+		 * been set to TRUE.  Set it back to FALSE here, so that
+		 * we aren't kicked out of the statusbar prompt. */
+		 finished = FALSE;
+	    }
+	} else if (s && s->scfunc == get_history_newer_void) {
+	    if (history_list != NULL) {
+		/* Get the newer search from the history list and save it in
+		 * answer.  If there is no newer search, don't do anything. */
+		if ((history = get_history_newer(history_list)) != NULL) {
+		    answer = mallocstrcpy(answer, history);
+		    statusbar_x = strlen(answer);
+		}
+
+		/* If, after scrolling down, we're at the bottom of the
+		 * history list, answer is blank, and magichistory is set,
+		 * save magichistory in answer. */
+		if ((*history_list)->next == NULL &&
+		    *answer == '\0' && magichistory != NULL) {
 			answer = mallocstrcpy(answer, magichistory);
 			statusbar_x = strlen(answer);
 		    }
 
-		    update_statusbar_line(answer, statusbar_x);
+		update_statusbar_line(answer, statusbar_x);
 
-		    /* This key has a shortcut list entry when it's used
-		     * to move to a newer search, which means that
-		     * finished has been set to TRUE.  Set it back to
-		     * FALSE here, so that we aren't kicked out of the
-		     * statusbar prompt. */
-		    finished = FALSE;
-		}
+		/* This key has a shortcut-list entry when it's used to
+		 * move to a newer search, which means that finished has
+		 * been set to TRUE.  Set it back to FALSE here, so that
+		 * we aren't kicked out of the statusbar prompt. */
+		finished = FALSE;
+	    }
 	} else
 #endif /* !NANO_TINY */
 	if (s && s->scfunc == do_help_void) {
-		update_statusbar_line(answer, statusbar_x);
+	    update_statusbar_line(answer, statusbar_x);
 
-		/* This key has a shortcut list entry when it's used to
-		 * go to the help browser or display a message
-		 * indicating that help is disabled, which means that
-		 * finished has been set to TRUE.  Set it back to FALSE
-		 * here, so that we aren't kicked out of the statusbar
-		 * prompt. */
-		finished = FALSE;
+	    /* This key has a shortcut-list entry when it's used to go to
+	     * the help browser or display a message indicating that help
+	     * is disabled, which means that finished has been set to TRUE.
+	     * Set it back to FALSE here, so that we aren't kicked out of
+	     * the statusbar prompt. */
+	    finished = FALSE;
 	}
 
-	/* If we have a shortcut with an associated function, break out
-	 * if we're finished after running or trying to run the
-	 * function. */
+	/* If we have a shortcut with an associated function, break out if
+	 * we're finished after running or trying to run the function. */
 	if (finished)
 	    break;
 
@@ -1096,8 +1084,8 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 
 
 #ifndef NANO_TINY
-    /* Set the current position in the history list to the bottom and
-     * free magichistory, if we need to. */
+    /* Set the current position in the history list to the bottom,
+     * and free magichistory if we need to. */
     if (history_list != NULL) {
 	history_reset(*history_list);
 
