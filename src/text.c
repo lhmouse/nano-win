@@ -1979,7 +1979,9 @@ void do_justify(bool full_justify)
     if (full_justify)
 	openfile->current = openfile->fileage;
 
+#ifndef NANO_TINY
     allow_pending_sigwinch(FALSE);
+#endif
 
     while (TRUE) {
 	size_t i;
@@ -2352,8 +2354,9 @@ void do_justify(bool full_justify)
     shortcut_init(FALSE);
     display_main_list();
 
+#ifndef NANO_TINY
     allow_pending_sigwinch(TRUE);
-
+#endif
 }
 
 /* Justify the current paragraph. */

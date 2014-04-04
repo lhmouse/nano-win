@@ -13,6 +13,7 @@
 	* configure.ac: Allow other enablers to override --enable-tiny too.
 	* src/{proto.h,search.c}: Fix compilation with --enable-browser.
 	* src/global.c (shortcut_init): Fix warnings with --enable-help.
+	* src/text.c (do_justify): Fix compilation with --enable-justify.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.
