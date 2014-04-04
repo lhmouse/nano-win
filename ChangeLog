@@ -1,3 +1,6 @@
+2014-04-04  Benno Schulenberg  <bensberg@justemail.net>
+	* src/{files.c,nano.c}: Avoid two more compilation warnings.
+
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.
 	* doc/syntax/po.nanorc: New file, syntax colouring for PO files.

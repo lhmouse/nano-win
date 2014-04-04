@@ -1198,10 +1198,10 @@ void do_insertfile(
 	    if (ISSET(MULTIBUFFER)) {
 		/* Update the screen to account for the current
 		 * buffer. */
-		ssize_t savedposline, savedposcol;
-
 		display_buffer();
+
 #ifndef NANO_TINY
+		ssize_t savedposline, savedposcol;
 		if (!execute && ISSET(POS_HISTORY)
 			&& check_poshistory(answer, &savedposline, &savedposcol))
 		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
