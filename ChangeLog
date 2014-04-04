@@ -8,6 +8,7 @@
 	* src/{*.h,*.c}, configure.ac:Convert all occurrences of
 	#ifdef ENABLE_COLOR to #ifndef DISABLE_COLOR.⏎
 	* src/nano.h: Comment tweaks.
+	* configure.ac: Move the enabling stuff to after the disablers.
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.

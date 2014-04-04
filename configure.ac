@@ -56,34 +56,6 @@ AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.
 
 dnl Checks for options.
 
-AC_ARG_ENABLE(debug,
-AS_HELP_STRING([--enable-debug], [Enable debugging (disabled by default)]))
-if test "x$enable_debug" = xyes; then
-    AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.])
-else
-    AC_DEFINE(NDEBUG, 1, [Shut up assert warnings :-)])
-fi
-
-AC_ARG_ENABLE(tiny,
-AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
-if test "x$enable_tiny" = xyes; then
-    AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
-    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
-    if test "x$enable_extra" = xno; then
-	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
-    fi
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
-    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
-    if test "x$enable_multibuffer" = xno; then
-	AC_DEFINE(DISABLE_MULTIBUFFER, 1, [Define this to disable multiple file buffers.])
-    fi
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
-    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
-fi
-
 AC_ARG_ENABLE(browser,
 AS_HELP_STRING([--disable-browser], [Disable built-in file browser]))
 if test "x$enable_browser" = xno; then
@@ -182,6 +154,34 @@ AC_ARG_ENABLE(wrapping-as-root,
 AS_HELP_STRING([--disable-wrapping-as-root], [Disable wrapping of text as root by default]))
 if test "x$enable_wrapping_as_root" = xno; then
     AC_DEFINE(DISABLE_ROOTWRAPPING, 1, [Define this to disable text wrapping as root by default.])
+fi
+
+AC_ARG_ENABLE(debug,
+AS_HELP_STRING([--enable-debug], [Enable debugging (disabled by default)]))
+if test "x$enable_debug" = xyes; then
+    AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.])
+else
+    AC_DEFINE(NDEBUG, 1, [Shut up assert warnings :-)])
+fi
+
+AC_ARG_ENABLE(tiny,
+AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
+if test "x$enable_tiny" = xyes; then
+    AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
+    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
+    if test "x$enable_extra" = xno; then
+	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
+    fi
+    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
+    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
+    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
+    if test "x$enable_multibuffer" = xno; then
+	AC_DEFINE(DISABLE_MULTIBUFFER, 1, [Define this to disable multiple file buffers.])
+    fi
+    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
+    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
+    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
 fi
 
 AM_CONDITIONAL(USE_COLOR, test x$color_support = xyes)
