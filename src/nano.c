@@ -1729,7 +1729,9 @@ int do_mouse(void)
 	    /* Did they click on the line with the cursor?  If they
 	     * clicked on the cursor, we set the mark. */
 	filestruct *current_save = openfile->current;
+#ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
+#endif
 	size_t pww_save = openfile->placewewant;
 
 	sameline = (mouse_y == openfile->current_y);
