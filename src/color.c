@@ -107,7 +107,7 @@ void color_init(void)
     }
 }
 
-/* Cleanup a regex we previously compiled */
+/* Clean up a regex we previously compiled. */
 void nfreeregex(regex_t **r)
 {
     assert(r != NULL);
@@ -125,15 +125,13 @@ void color_update(void)
     colortype *tmpcolor, *defcolor = NULL;
     exttype *e;
 
-/* libmagic structures */
-/* magicstring will be NULL if we fail to get magic result */
+/* Var magicstring will stay NULL if we fail to get a magic result. */
 #ifdef HAVE_LIBMAGIC
     const char *magicstring = NULL;
     const char *magicerr = NULL;
     magic_t m;
     struct stat fileinfo;
 #endif /* HAVE_LIBMAGIC */
-
 
     assert(openfile != NULL);
 
@@ -208,8 +206,7 @@ void color_update(void)
 		    regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		}
 
-		/* Set colorstrings if we matched the extension
-		 * regex. */
+		/* Set colorstrings if we matched the extension regex. */
 		if (regexec(e->ext, openfile->filename, 0, NULL, 0) == 0) {
 		    openfile->syntax = tmpsyntax;
 		    openfile->colorstrings = tmpsyntax->color;
@@ -223,14 +220,12 @@ void color_update(void)
 	    }
 	}
 
-	    /* Check magic if we don't yet have an answer */
 #ifdef HAVE_LIBMAGIC
+	/* Check magic if we don't have an answer yet. */
 	if (openfile->colorstrings == NULL) {
-
 #ifdef DEBUG
 	    fprintf(stderr, "No match using extension, trying libmagic...\n");
 #endif
-
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
 		for (e = tmpsyntax->magics; e != NULL; e = e->next) {
@@ -256,7 +251,7 @@ void color_update(void)
 	}
 #endif /* HAVE_LIBMAGIC */
 
-	/* If we haven't matched anything yet, try the headers */
+	/* If we haven't matched anything yet, try the headers. */
 	if (openfile->colorstrings == NULL) {
 #ifdef DEBUG
 	    fprintf(stderr, "No match for file extensions, looking at headers...\n");
@@ -275,11 +270,10 @@ void color_update(void)
 			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		    }
 
-		    /* Set colorstrings if we matched the extension
-		     * regex. */
 #ifdef DEBUG
 		fprintf(stderr, "Comparing header regex \"%s\" to fileage \"%s\"...\n", e->ext_regex, openfile->fileage->data);
 #endif
+		    /* Set colorstrings if we matched the extension regex. */
 		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0) {
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
@@ -298,8 +292,8 @@ void color_update(void)
     }
 
 
-    /* If we didn't get a syntax based on the file extension, and we
-     * have a default syntax, use it. */
+    /* If we didn't find any syntax yet, and we do have a default one,
+     * use it. */
     if (openfile->colorstrings == NULL && defcolor != NULL) {
 	openfile->syntax = defsyntax;
 	openfile->colorstrings = defcolor;
@@ -325,7 +319,7 @@ void color_update(void)
 }
 
 /* Reset the multicolor info cache for records for any lines which need
-   to be recalculated */
+ * to be recalculated. */
 void reset_multis_after(filestruct *fileptr, int mindex)
 {
     filestruct *oof;
@@ -375,7 +369,7 @@ void reset_multis_before(filestruct *fileptr, int mindex)
     edit_refresh_needed = TRUE;
 }
 
-/* Reset one multiline regex info */
+/* Reset one multiline regex info. */
 void reset_multis_for_id(filestruct *fileptr, int num)
 {
     reset_multis_before(fileptr, num);
@@ -383,9 +377,9 @@ void reset_multis_for_id(filestruct *fileptr, int num)
     fileptr->multidata[num] = -1;
 }
 
-/* Reset multi line strings around a filestruct ptr, trying to be smart about stopping
-   force = reset everything regardless, useful when we don't know how much screen state
-           has changed  */
+/* Reset multi-line strings around a filestruct ptr, trying to be smart
+ * about stopping.  Bool force means: reset everything regardless, useful
+ * when we don't know how much screen state has changed. */
 void reset_multis(filestruct *fileptr, bool force)
 {
     int nobegin, noend;
@@ -397,7 +391,7 @@ void reset_multis(filestruct *fileptr, bool force)
 
     for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 
-	/* If it's not a multi-line regex, amscray */
+	/* If it's not a multi-line regex, amscray. */
 	if (tmpcolor->end == NULL)
 	    continue;
 
@@ -408,7 +402,7 @@ void reset_multis(filestruct *fileptr, bool force)
 	}
 
 	/* Figure out where the first begin and end are to determine if
-	   things changed drastically for the precalculated multi values */
+	 * things changed drastically for the precalculated multi values. */
         nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
         noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
 	if (fileptr->multidata[tmpcolor->id] ==  CWHOLELINE) {
@@ -423,7 +417,7 @@ void reset_multis(filestruct *fileptr, bool force)
 	    continue;
 	}
 
-	/* If we got here assume the worst */
+	/* If we got here, assume the worst. */
 	reset_multis_for_id(fileptr, tmpcolor->id);
     }
 }
