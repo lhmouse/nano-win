@@ -1273,8 +1273,10 @@ bool do_wrap(filestruct *line, bool undoing)
     null_at(&line->data, wrap_loc);
 
     if (prepending) {
+#ifndef NANO_TINY
 	if (!undoing)
 	    update_undo(SPLIT);
+#endif
 	/* If we're prepending, copy the text from the next line, minus
 	 * the indentation that we already copied above. */
 	strcat(new_line, next_line);
