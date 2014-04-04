@@ -216,7 +216,7 @@ void do_cut_text(
     /* Update the screen. */
     edit_refresh_needed = TRUE;
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     reset_multis(openfile->current, FALSE);
 #endif
 
@@ -281,7 +281,7 @@ void do_uncut_text(void)
     /* Update the screen. */
     edit_refresh_needed = TRUE;
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     reset_multis(openfile->current, FALSE);
 #endif
 

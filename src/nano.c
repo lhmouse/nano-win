@@ -68,7 +68,7 @@ filestruct *make_new_node(filestruct *prevnode)
     newnode->next = NULL;
     newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     newnode->multidata = NULL;
 #endif
 
@@ -88,7 +88,7 @@ filestruct *copy_node(const filestruct *src)
     dst->next = src->next;
     dst->prev = src->prev;
     dst->lineno = src->lineno;
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     dst->multidata = NULL;
 #endif
 
@@ -127,7 +127,7 @@ void delete_node(filestruct *fileptr)
     if (fileptr->data != NULL)
 	free(fileptr->data);
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     if (fileptr->multidata)
 	free(fileptr->multidata);
 #endif
@@ -372,7 +372,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     openfile->fileage->multidata = NULL;
 #endif
 
@@ -899,7 +899,7 @@ void usage(void)
     print_opt("-W", "--wordbounds",
 	N_("Detect word boundaries more accurately"));
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     print_opt(_("-Y <str>"), _("--syntax=<str>"),
 	N_("Syntax definition to use for coloring"));
 #endif
@@ -1004,7 +1004,7 @@ void version(void)
 #ifdef DISABLE_ROOTWRAPPING
     printf(" --disable-wrapping-as-root");
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     printf(" --enable-color");
 #endif
 #ifdef DEBUG
@@ -1391,7 +1391,7 @@ void do_toggle(int flag)
 	    edit_refresh();
 	    break;
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
 	    edit_refresh();
 	    break;
@@ -1407,7 +1407,7 @@ void do_toggle(int flag)
 #ifndef DISABLE_WRAPPING
 	|| flag == NO_WRAP
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	|| flag == NO_COLOR_SYNTAX
 #endif
 	)
@@ -1674,7 +1674,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			    {
 #endif
 				s->scfunc();
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 				if (f && !f->viewok && openfile->syntax != NULL
 					&& openfile->syntax->nmultis > 0) {
 				    reset_multis(openfile->current, FALSE);
@@ -1797,7 +1797,7 @@ int do_mouse(void)
 }
 #endif /* !DISABLE_MOUSE */
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 void alloc_multidata_if_needed(filestruct *fileptr)
 {
     if (!fileptr->multidata)
@@ -1931,7 +1931,7 @@ void precalc_multicolorinfo(void)
 precalc_cleanup:
     nodelay(edit, FALSE);
 }
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 
 /* The user typed output_len multibyte characters.  Add them to the edit
  * buffer, filtering out all ASCII control characters if allow_cntrls is
@@ -2015,7 +2015,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		edit_refresh_needed = TRUE;
 #endif
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	/* If color syntaxes are available and turned on, we need to
 	 * call edit_refresh(). */
 	if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
@@ -2033,7 +2033,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     openfile->placewewant = xplustabs();
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     reset_multis(openfile->current, FALSE);
 #endif
     if (edit_refresh_needed == TRUE) {
@@ -2078,7 +2078,7 @@ int main(int argc, char **argv)
 	{"restricted", 0, NULL, 'R'},
 	{"tabsize", 1, NULL, 'T'},
 	{"version", 0, NULL, 'V'},
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	{"syntax", 1, NULL, 'Y'},
 #endif
 	{"const", 0, NULL, 'c'},
@@ -2264,7 +2264,7 @@ int main(int argc, char **argv)
 		SET(WORD_BOUNDS);
 		break;
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	    case 'Y':
 		syntaxstr = mallocstrcpy(syntaxstr, optarg);
 		break;
@@ -2695,7 +2695,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: top and bottom win\n");
 #endif
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     if (openfile->syntax)
 	if (openfile->syntax->nmultis > 0)
 	    precalc_multicolorinfo();

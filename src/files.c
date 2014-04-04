@@ -80,7 +80,7 @@ void initialize_buffer(void)
     openfile->current_undo = NULL;
     openfile->lock_filename = NULL;
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     openfile->colorstrings = NULL;
 #endif
 }
@@ -98,7 +98,7 @@ void initialize_buffer_text(void)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     openfile->fileage->multidata = NULL;
 #endif
 
@@ -367,7 +367,7 @@ void open_buffer(const char *filename, bool undoable)
 	openfile->placewewant = 0;
     }
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     /* If we're loading into a new buffer, update the colors to account
      * for it, if applicable. */
     if (new_buffer)
@@ -414,7 +414,7 @@ void display_buffer(void)
     /* Update the titlebar, since the filename may have changed. */
     titlebar(NULL);
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     /* Make sure we're using the buffer's associated colors, if
      * applicable. */
     color_init();
@@ -564,7 +564,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 	fileptr->data[buf_len - 1] = '\0';
 #endif
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	fileptr->multidata = NULL;
 #endif
 
@@ -2123,7 +2123,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	if (!nonamechange) {
 	    openfile->filename = mallocstrcpy(openfile->filename,
 		realname);
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	    /* We might have changed the filename, so update the colors
 	     * to account for it, and then make sure we're using
 	     * them. */

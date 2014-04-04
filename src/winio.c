@@ -2479,7 +2479,7 @@ void reset_cursor(void)
 void edit_draw(filestruct *fileptr, const char *converted, int
 	line, size_t start)
 {
-#if !defined(NANO_TINY) || defined(ENABLE_COLOR)
+#if !defined(NANO_TINY) || !defined(DISABLE_COLOR)
     size_t startpos = actual_x(fileptr->data, start);
 	/* The position in fileptr->data of the leftmost character
 	 * that displays at least partially on the window. */
@@ -2498,7 +2498,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
      * just the text that needs it). */
     mvwaddstr(edit, line, 0, converted);
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     /* If color syntaxes are available and turned on, we need to display
      * them. */
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
@@ -2763,7 +2763,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	}
     }
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 
 #ifndef NANO_TINY
     /* If the mark is on, we need to display it. */
@@ -3296,7 +3296,7 @@ void total_refresh(void)
  * portion of the window. */
 void display_main_list(void)
 {
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     if (openfile->syntax && openfile->syntax->linter)
 	set_lint_shortcuts();
     else

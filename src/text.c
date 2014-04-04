@@ -2976,7 +2976,7 @@ void do_spell(void)
 }
 #endif /* !DISABLE_SPELLER */
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 /* Run linter.  Based on alt-speller code.  Return NULL for normal
  * termination, and the error string otherwise. */
 void do_linter(void)
@@ -3272,7 +3272,7 @@ void do_linter(void)
     currmenu = MMAIN;
     display_main_list();
 }
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 
 #ifndef NANO_TINY
 /* Our own version of "wc".  Note that its character counts are in

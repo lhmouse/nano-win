@@ -96,20 +96,21 @@ if test "x$enable_nanorc" = xno; then
     if test "x$enable_color" = xyes; then
 	AC_MSG_ERROR([--enable-color cannot work with --disable-nanorc])
     else
+	# Disabling nanorc silently disables color support.
 	enable_color=no
     fi
 fi
-if test "x$enable_color" != xno; then
-    if test x$ac_cv_header_regex_h = xyes; then
-	enable_nanorc=yes
-	AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!])
-	color_support=yes
-    elif test "x$enable_color" = xyes; then
+if test "x$enable_color" = xno; then
+    AC_DEFINE(DISABLE_COLOR, 1, [Define this to disable syntax highlighting.])
+else
+    if test x$ac_cv_header_regex_h != xyes; then
 	AC_MSG_ERROR([
-*** The header file regex.h was not found.  If you wish to use color
-*** support this header file is required.  Please either install C
-*** libraries that include the regex.h file or call the configure
-*** script with --disable-color.])
+*** The header file regex.h was not found.  If you wish to have
+*** color support, this header file is required.  Please either
+*** install C libraries that include the regex.h file, or call
+*** the configure script with --disable-color.])
+    else
+	color_support=yes
     fi
 fi
 

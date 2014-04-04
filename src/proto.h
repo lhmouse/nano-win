@@ -99,7 +99,7 @@ extern char *alt_speller;
 
 extern sc *sclist;
 extern subnfunc *allfuncs;
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 #endif
@@ -230,7 +230,7 @@ bool is_valid_mbstring(const char *s);
 #endif
 
 /* All functions in color.c. */
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
@@ -332,7 +332,7 @@ void load_poshistory(void);
 void save_poshistory(void);
 int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 void do_linter(void);
 void set_lint_shortcuts(void);
 void set_spell_shortcuts(void);
@@ -552,7 +552,7 @@ int do_yesno_prompt(bool all, const char *msg);
 void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 char *parse_next_regex(char *ptr);
 bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
@@ -564,7 +564,7 @@ void reset_multis(filestruct *fileptr, bool force);
 void alloc_multidata_if_needed(filestruct *fileptr);
 #endif
 void parse_rcfile(FILE *rcstream
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	, bool syntax_only
 #endif
 	);

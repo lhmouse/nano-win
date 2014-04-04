@@ -149,7 +149,7 @@ char *alt_speller = NULL;
 	/* The command to use for the alternate spell checker. */
 #endif
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 syntaxtype *syntaxes = NULL;
 	/* The global list of color syntaxes. */
 char *syntaxstr = NULL;
@@ -580,7 +580,7 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_SPELLER
     const char *spell_msg = N_("To Spell");
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     const char *lint_msg = N_("To Linter");
     const char *prev_lint_msg = N_("Prev Lint Msg");
     const char *next_lint_msg = N_("Next Lint Msg");
@@ -736,7 +736,7 @@ void shortcut_init(bool unjustify)
     const char *nano_backfile_msg = N_("Go to the previous file in the list");
     const char *nano_gotodir_msg = N_("Go to directory");
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     const char *nano_lint_msg = N_("Invoke the linter, if available");
     const char *nano_prevlint_msg = N_("Go to previous linter msg");
     const char *nano_nextlint_msg = N_("Go to next linter msg");
@@ -814,7 +814,7 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_page_down, MMAIN|MHELP|MBROWSER,
 	next_page_msg, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     add_to_funcs(do_page_up, MLINTER,
 	prev_lint_msg, IFSCHELP(nano_prevlint_msg), FALSE, VIEW);
     add_to_funcs(do_page_down, MLINTER,
@@ -849,7 +849,7 @@ void shortcut_init(bool unjustify)
 	TRUE, NOVIEW);
 #endif
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     add_to_funcs(do_linter, MMAIN, lint_msg, IFSCHELP(nano_lint_msg),
 	TRUE, NOVIEW);
 #endif
@@ -1287,7 +1287,7 @@ void shortcut_init(bool unjustify)
 #endif
 }
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 void set_lint_shortcuts(void)
 {
 #ifndef DISABLE_SPELLER
@@ -1702,7 +1702,7 @@ void thanks_for_all_the_fish(void)
     /* Free the memory associated with each open file buffer. */
     if (openfile != NULL)
 	free_openfilestruct(openfile);
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     if (syntaxstr != NULL)
 	free(syntaxstr);
     while (syntaxes != NULL) {
@@ -1740,7 +1740,7 @@ void thanks_for_all_the_fish(void)
 	syntaxes = syntaxes->next;
 	free(bill);
     }
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 #ifndef NANO_TINY
     /* Free the search and replace history lists. */
     if (searchage != NULL)

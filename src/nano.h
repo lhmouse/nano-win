@@ -191,7 +191,7 @@ typedef enum {
     ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, ENTER, INSERT, OTHER
 } undo_type;
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 typedef struct colortype {
     short fg;
 	/* This syntax's foreground color. */
@@ -275,7 +275,7 @@ typedef struct lintstruct {
 #define CWTF		(1<<6)
 	/* Something else */
 
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 
 
 /* Structure types. */
@@ -288,7 +288,7 @@ typedef struct filestruct {
 	/* Next node. */
     struct filestruct *prev;
 	/* Previous node. */
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     short *multidata;		/* Array of which multi-line regexes apply to this line */
 #endif
 } filestruct;
@@ -396,7 +396,7 @@ typedef struct openfilestruct {
     const char *lock_filename;
         /* The path of the lockfile, if we created one */
 #endif
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     syntaxtype *syntax;
 	/* The  syntax struct for this file, if any */
     colortype *colorstrings;

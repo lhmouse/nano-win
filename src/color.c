@@ -31,7 +31,7 @@
 #include <magic.h>
 #endif
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 
 /* For each syntax list entry, go through the list of colors and assign
  * the color pairs. */
@@ -421,4 +421,5 @@ void reset_multis(filestruct *fileptr, bool force)
 	reset_multis_for_id(fileptr, tmpcolor->id);
     }
 }
-#endif /* ENABLE_COLOR */
+
+#endif /* !DISABLE_COLOR */

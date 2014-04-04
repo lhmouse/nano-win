@@ -5,6 +5,8 @@
 	* src/rcfile.c (check_vitals_mapped): Do not allow 'set quiet'
 	to suppress a fatal-error message, make sure the user sees it.
 	* src/color.c: Comment tweaks.
+	* src/{*.h,*.c}, configure.ac:Convert all occurrences of
+	#ifdef ENABLE_COLOR to #ifndef DISABLE_COLOR.⏎
 
 2014-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: Remove unused '*_support' variables.

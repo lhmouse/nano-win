@@ -109,14 +109,13 @@ static size_t lineno = 0;
 	/* If we did, the line number where the last error occurred. */
 static char *nanorc = NULL;
 	/* The path to the rcfile we're parsing. */
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 static syntaxtype *endsyntax = NULL;
 	/* The end of the list of syntaxes. */
 static exttype *endheader = NULL;
 	/* End of header list */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
-
 #endif
 
 /* We have an error in some part of the rcfile.  Print the error message
@@ -198,7 +197,7 @@ char *parse_argument(char *ptr)
     return ptr;
 }
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 /* Parse the next regex string from the line at ptr, and return it. */
 char *parse_next_regex(char *ptr)
 {
@@ -376,7 +375,6 @@ void parse_syntax(char *ptr)
 	} else
 	    free(newext);
     }
-
 }
 
 
@@ -447,7 +445,7 @@ void parse_magictype(char *ptr)
     }
 #endif /* HAVE_LIBMAGIC */
 }
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 
 
 int check_bad_binding(sc *s)
@@ -619,7 +617,7 @@ void parse_unbinding(char *ptr)
 }
 
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 /* Read and parse additional syntax files. */
 static void _parse_include(char *file)
 {
@@ -656,7 +654,7 @@ static void _parse_include(char *file)
 #endif
 
     parse_rcfile(rcstream
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	, TRUE
 #endif
 	);
@@ -952,7 +950,6 @@ void parse_headers(char *ptr)
 	    endheader = newheader;
 	} else
 	    free(newheader);
-
     }
 }
 
@@ -982,12 +979,11 @@ void parse_linter(char *ptr)
     else
 	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
 }
-#endif /* ENABLE_COLOR */
-
+#endif /* !DISABLE_COLOR */
 
 
 /* Check whether the user has unmapped every shortcut for a
-sequence we consider 'vital', like the exit function */
+ * sequence we consider 'vital', like the exit function. */
 static void check_vitals_mapped(void)
 {
     subnfunc *f;
@@ -1017,7 +1013,7 @@ static void check_vitals_mapped(void)
  * and close it afterwards.  If syntax_only is TRUE, only allow the file
  * to contain color syntax commands: syntax, color, and icolor. */
 void parse_rcfile(FILE *rcstream
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	, bool syntax_only
 #endif
 	)
@@ -1025,7 +1021,7 @@ void parse_rcfile(FILE *rcstream
     char *buf = NULL;
     ssize_t len;
     size_t n = 0;
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     syntaxtype *end_syn_save = NULL;
 #endif
 
@@ -1053,7 +1049,7 @@ void parse_rcfile(FILE *rcstream
 	ptr = parse_next_word(ptr);
 
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	/* Handle extending first... */
 	if (strcasecmp(keyword, "extendsyntax") == 0) {
 	    char *syntaxname = ptr;
@@ -1078,7 +1074,7 @@ void parse_rcfile(FILE *rcstream
 
 	/* Try to parse the keyword. */
 	if (strcasecmp(keyword, "set") == 0) {
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	    if (syntax_only)
 		rcfile_error(
 			N_("Command \"%s\" not allowed in included file"),
@@ -1087,7 +1083,7 @@ void parse_rcfile(FILE *rcstream
 #endif
 		set = 1;
 	} else if (strcasecmp(keyword, "unset") == 0) {
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	    if (syntax_only)
 		rcfile_error(
 			N_("Command \"%s\" not allowed in included file"),
@@ -1096,7 +1092,7 @@ void parse_rcfile(FILE *rcstream
 #endif
 		set = -1;
 	}
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 	else if (strcasecmp(keyword, "include") == 0) {
 	    if (syntax_only)
 		rcfile_error(
@@ -1120,7 +1116,7 @@ void parse_rcfile(FILE *rcstream
 	    parse_colors(ptr, TRUE);
 	else if (strcasecmp(keyword, "linter") == 0)
 	    parse_linter(ptr);
-#endif /* ENABLE_COLOR */
+#endif /* !DISABLE_COLOR */
 	else if (strcasecmp(keyword, "bind") == 0)
 	    parse_keybinding(ptr);
 	else if (strcasecmp(keyword, "unbind") == 0)
@@ -1128,9 +1124,9 @@ void parse_rcfile(FILE *rcstream
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
-#ifdef ENABLE_COLOR
-	/* If we temporarily reset emdsyntax to allow extending, reset
-	   the value here */
+#ifndef DISABLE_COLOR
+	/* If we temporarily reset endsyntax to allow extending,
+	 * restore the value here. */
 	if (end_syn_save != NULL) {
 	    endsyntax = end_syn_save;
 	    end_syn_save = NULL;
@@ -1295,7 +1291,7 @@ void parse_rcfile(FILE *rcstream
 	    rcfile_error(N_("Unknown flag \"%s\""), option);
     }
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     if (endsyntax != NULL && endcolor == NULL)
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
 		endsyntax->desc);
@@ -1335,7 +1331,7 @@ void do_rcfile(void)
     rcstream = fopen(nanorc, "rb");
     if (rcstream != NULL)
 	parse_rcfile(rcstream
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 		, FALSE
 #endif
 		);
@@ -1377,7 +1373,7 @@ void do_rcfile(void)
 			strerror(errno));
 	} else
 	    parse_rcfile(rcstream
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
 		, FALSE
 #endif
 		);
@@ -1394,7 +1390,7 @@ void do_rcfile(void)
 	    ;
     }
 
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     set_colorpairs();
 #endif
 }

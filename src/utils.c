@@ -546,7 +546,7 @@ void new_magicline(void)
     openfile->filebot->next->prev = openfile->filebot;
     openfile->filebot->next->next = NULL;
     openfile->filebot->next->lineno = openfile->filebot->lineno + 1;
-#ifdef ENABLE_COLOR
+#ifndef DISABLE_COLOR
     openfile->filebot->next->multidata = NULL;
 #endif
     openfile->filebot = openfile->filebot->next;
