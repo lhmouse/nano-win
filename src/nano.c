@@ -1451,8 +1451,7 @@ void do_toggle(int flag)
 	enabled = !enabled;
 
     desc = (char *) _(flagtostr(flag));
-    statusbar("%s %s", desc, enabled ? _("enabled") :
-	_("disabled"));
+    statusbar("%s %s", desc, enabled ? _("enabled") : _("disabled"));
 }
 
 /* Bleh */
@@ -1706,10 +1705,9 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #ifndef NANO_TINY
 			    if (s->scfunc == do_toggle_void)
 				do_toggle(s->toggle);
-			    else {
-#else
-			    {
+			    else
 #endif
+			    {
 				s->scfunc();
 #ifndef DISABLE_COLOR
 				/* The command might have re-initialized shortcuts,
@@ -1727,7 +1725,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 				    edit_refresh();
 				    edit_refresh_needed = FALSE;
 				}
-
 			    }
 			}
 		    }
@@ -2531,9 +2528,7 @@ int main(int argc, char **argv)
 	    load_poshistory();
     }
 #endif /* ENABLE_NANORC */
-#endif /* !NANO_TINY */
 
-#ifndef NANO_TINY
     /* Set up the backup directory (unless we're using restricted mode,
      * in which case backups are disabled, since they would allow
      * reading from or writing to files not specified on the command
@@ -2541,7 +2536,7 @@ int main(int argc, char **argv)
      * that backup files will be saved there. */
     if (!ISSET(RESTRICTED))
 	init_backup_dir();
-#endif
+#endif /* !NANO_TINY */
 
 #ifndef DISABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
@@ -2602,9 +2597,8 @@ int main(int argc, char **argv)
     /* If matchbrackets wasn't specified, set its default value. */
     if (matchbrackets == NULL)
 	matchbrackets = mallocstrcpy(NULL, "(<[{)>]}");
-#endif
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#ifdef ENABLE_NANORC
     /* If whitespace wasn't specified, set its default value. */
     if (whitespace == NULL) {
 #ifdef ENABLE_UTF8
@@ -2620,7 +2614,8 @@ int main(int argc, char **argv)
 	    whitespace_len[1] = 1;
 	}
     }
-#endif
+#endif /* ENABLE_NANORC */
+#endif /* !NANO_TINY */
 
     /* If tabsize wasn't specified, set its default value. */
     if (tabsize == -1)
@@ -2711,7 +2706,7 @@ int main(int argc, char **argv)
 	    }
 	}
     }
-#endif
+#endif /* !DISABLE_MULTIBUFFER */
 
     /* Read the first file on the command line into either the current
      * buffer or a new buffer, depending on whether multibuffer mode is

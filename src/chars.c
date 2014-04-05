@@ -54,7 +54,7 @@ bool using_utf8(void)
 {
     return use_utf8;
 }
-#endif
+#endif /* ENABLE_UTF8 */
 
 #ifndef HAVE_ISBLANK
 /* This function is equivalent to isblank(). */

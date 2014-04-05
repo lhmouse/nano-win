@@ -1076,7 +1076,7 @@ void update_undo(undo_type action)
 	 * and as such we should note that so we can destroy it later. */
 	u->xflags = UNsplit_madenew;
 	break;
-#endif /* DISABLE_WRAPPING */
+#endif /* !DISABLE_WRAPPING */
     case UNSPLIT:
 	/* These cases are handled by the earlier check for a new line and action. */
     case ENTER:
