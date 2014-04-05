@@ -833,6 +833,13 @@ The possible options to @code{./configure} are:
 @item --disable-browser
 Disable the mini file browser when reading or writing files.
 
+@item --disable-color
+Disable support for syntax coloring of files using the nanorc file.
+
+@item --disable-extra
+Disable extra features.  At the moment, this is just easter-egg-type
+stuff.
+
 @item --disable-help
 Disable the help function.  Doing this makes the binary much smaller,
 but makes it difficult for new users to learn more than very basic
@@ -842,44 +849,36 @@ things about using the editor.
 Disable the justify and unjustify functions.
 
 @item --disable-mouse
-Disable all mouse functionality.  This also disables the -m command line
-option, which enables the mouse functionality.
+Disable all mouse functionality.  This also eliminates the -m
+command-line option, which enables the mouse functionality.
+
+@item --disable-multibuffer
+Disable support for opening multiple files at a time and switching
+between them on the fly.
 
 @item --disable-operatingdir
-Disable setting the operating directory.  This also disables the -o
-command line option, which sets the operating directory.
+Disable setting the operating directory.  This also eliminates the -o
+command-line option, which sets the operating directory.
 
 @item --disable-speller
-Disable use of the spell checker.  This also disables the -s command
-line option, which allows specifying an alternate spell checker.
+Disable use of the spell checker.  This also eliminates the -s
+command-line option, which allows specifying an alternate spell checker.
 
 @item --disable-tabcomp
 Disable the tab completion code when reading or writing files.
 
 @item --disable-wrapping
-Disable all long-line wrapping.  This also eliminates the -w command
-line option, which enables long-line wrapping.
+Disable all long-line wrapping.  This also eliminates the -w
+command-line option, which enables long-line wrapping.
 
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
-internals of the editor, like the marking code and the cut to end of
-line code.  It also disables the function toggles.
+internals of the editor, like the marking code and the cut-to-end-of-line
+code.  It also disables the function toggles.
 
 @item --enable-debug
 Enable support for runtime debug output.  This can get pretty messy, so
-chances are you only want this feature to work on the nano source.
-
-@item --enable-extra
-Enable extra features.  At the moment, this is just easter egg-type
-stuff.
-
-@item --enable-color
-Enable support for syntax coloring of files using the nanorc file.  This
-enables nanorc support as well.
-
-@item --enable-multibuffer
-Enable support for opening multiple files at a time and switching
-between them on the fly.
+chances are you only want this feature when you're working on the nano source.
 
 @item --enable-nanorc
 Enable support for reading the nanorc file at startup.  You can store
@@ -899,7 +898,9 @@ Enable support for reading and writing Unicode files.  This will require
 either a wide version of curses, or a UTF-8-enabled version of Slang.
 
 @item --disable-utf8
-Disable support for reading and writing Unicode files.
+Disable support for reading and writing Unicode files.  Normally the
+configure script auto-detects whether to enable UTF-8 support or not.
+You can use this or the previous option to override that detection.
 
 @item --with-slang
 Compiling @code{nano} with Slang is supported, and will make the binary
