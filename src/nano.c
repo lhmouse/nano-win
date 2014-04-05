@@ -1675,6 +1675,9 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 				s->scfunc();
 #ifndef DISABLE_COLOR
+				/* The command might have re-initialized shortcuts,
+				 * in which case f is now invalid.  Let's reload it. */
+				f = sctofunc((sc *) s);
 				if (f && !f->viewok && openfile->syntax != NULL
 					&& openfile->syntax->nmultis > 0) {
 				    reset_multis(openfile->current, FALSE);
