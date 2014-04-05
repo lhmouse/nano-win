@@ -968,8 +968,47 @@ void version(void)
 	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
     printf(_("\n Compiled options:"));
 
+#ifdef NANO_TINY
+    printf(" --enable-tiny");
+#ifndef DISABLE_BROWSER
+    printf(" --enable-browser");
+#endif
+#ifndef DISABLE_COLOR
+    printf(" --enable-color");
+#endif
+#ifndef DISABLE_EXTRA
+    printf(" --enable-extra");
+#endif
+#ifndef DISABLE_HELP
+    printf(" --enable-help");
+#endif
+#ifndef DISABLE_JUSTIFY
+    printf(" --enable-justify");
+#endif
+#ifndef DISABLE_MOUSE
+    printf(" --enable-mouse");
+#endif
+#ifndef DISABLE_MULTIBUFFER
+    printf(" --enable-multibuffer");
+#endif
+#ifndef DISABLE_OPERATINGDIR
+    printf(" --enable-operatingdir");
+#endif
+#ifndef DISABLE_SPELLER
+    printf(" --enable-speller");
+#endif
+#ifndef DISABLE_TABCOMP
+    printf(" --enable-tabcomp");
+#endif
+#ifndef DISABLE_WRAPPING
+    printf(" --enable-wrapping");
+#endif
+#else /* !NANO_TINY */
 #ifdef DISABLE_BROWSER
     printf(" --disable-browser");
+#endif
+#ifdef DISABLE_COLOR
+    printf(" --disable-color");
 #endif
 #ifdef DISABLE_EXTRA
     printf(" --disable-extra");
@@ -986,9 +1025,6 @@ void version(void)
 #ifdef DISABLE_MULTIBUFFER
     printf(" --disable-multibuffer");
 #endif
-#ifndef ENABLE_NLS
-    printf(" --disable-nls");
-#endif
 #ifdef DISABLE_OPERATINGDIR
     printf(" --disable-operatingdir");
 #endif
@@ -1001,11 +1037,10 @@ void version(void)
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
+#endif /* !NANO_TINY */
+
 #ifdef DISABLE_ROOTWRAPPING
     printf(" --disable-wrapping-as-root");
-#endif
-#ifndef DISABLE_COLOR
-    printf(" --enable-color");
 #endif
 #ifdef DEBUG
     printf(" --enable-debug");
@@ -1013,11 +1048,13 @@ void version(void)
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
-#ifdef NANO_TINY
-    printf(" --enable-tiny");
+#ifndef ENABLE_NLS
+    printf(" --disable-nls");
 #endif
 #ifdef ENABLE_UTF8
     printf(" --enable-utf8");
+#else
+    printf(" --disable-utf8");
 #endif
 #ifdef USE_SLANG
     printf(" --with-slang");
