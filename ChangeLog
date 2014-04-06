@@ -1,8 +1,10 @@
 2014-04-06  Benno Schulenberg  <bensberg@justemail.net>
-	* src/global.c (shortcut_init): Limit M-T (cut-till-end) to the main
-	menu, and M-J (full-justify) to the main and search menus.
+	* src/global.c (shortcut_init): Limit M-T (cut-till-end-of-file) to
+	the main menu, and M-J (full-justify) to the main and search menus.
 	* src/proto.h: There is no need for the helpline tags to be external,
 	they are only ever used in src/global.c.
+	* src/global.c: Do not set any helpline tags to empty strings;
+	compilation should fail if they are needed and not defined.
 
 2014-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (version): Print the correct configuration options.

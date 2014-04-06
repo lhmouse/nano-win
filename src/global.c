@@ -510,52 +510,33 @@ const char *backwards_msg = N_("Backwards");
 const char *regexp_msg = N_("Regexp");
 #endif
 
-/* Stuff we want to just stun out if we're in TINY mode. */
-#ifdef NANO_TINY
-const char *gototext_msg = "";
-const char *do_para_begin_msg = "";
-const char *do_para_end_msg = "";
-const char *case_sens_msg = "";
-const char *backwards_msg = "";
-const char *do_cut_till_end = "";
-const char *dos_format_msg = "";
-const char *mac_format_msg = "";
-const char *append_msg = "";
-const char *prepend_msg = "";
-const char *backup_file_msg = "";
-const char *to_files_msg = "";
-const char *first_file_msg = "";
-const char *whereis_next_msg = "";
-const char *last_file_msg = "";
-const char *new_buffer_msg = "";
-const char *goto_dir_msg;
-const char *ext_cmd_msg = "";
-
-#else
-/* TRANSLATORS: Try to keep the next three strings at most 10 characters. */
+#ifndef NANO_TINY
+/* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
 const char *prev_history_msg = N_("PrevHstory");
 const char *next_history_msg = N_("NextHstory");
-const char *gototext_msg = N_("Go To Text");
-/* TRANSLATORS: Try to keep the next three strings at most 12 characters. */
+/* TRANSLATORS: Try to keep the next four strings at most 12 characters. */
 const char *whereis_next_msg = N_("WhereIs Next");
+#endif
+const char *gototext_msg = N_("Go To Text");
 #ifndef DISABLE_BROWSER
 const char *first_file_msg = N_("First File");
 const char *last_file_msg = N_("Last File");
 /* TRANSLATORS: Try to keep the next nine strings at most 16 characters. */
 const char *to_files_msg = N_("To Files");
+const char *goto_dir_msg = N_("Go To Dir");
 #endif
+#ifndef NANO_TINY
 const char *dos_format_msg = N_("DOS Format");
 const char *mac_format_msg = N_("Mac Format");
 const char *append_msg = N_("Append");
 const char *prepend_msg = N_("Prepend");
 const char *backup_file_msg = N_("Backup File");
 const char *ext_cmd_msg = N_("Execute Command");
+#endif
 #ifndef DISABLE_MULTIBUFFER
 const char *new_buffer_msg = N_("New Buffer");
 #endif
-const char *goto_dir_msg = N_("Go To Dir");
 
-#endif /* NANO_TINY */
 
 /* Initialize all shortcut lists.  If unjustify is TRUE, replace
  * the Uncut shortcut in the main shortcut list with UnJustify. */
