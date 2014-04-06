@@ -1229,14 +1229,15 @@ void shortcut_init(bool unjustify)
     add_to_sclist(MMAIN, "M->", switch_to_next_buffer_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-.", switch_to_next_buffer_void, 0, TRUE);
 #endif
-    add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
 
+    add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MALL, "M-T", do_cut_till_end, 0, TRUE);
+    add_to_sclist(MMAIN, "M-T", do_cut_till_end, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
-    add_to_sclist(MALL, "M-J", do_full_justify, 0, TRUE);
+    add_to_sclist(MMAIN|MWHEREIS, "M-J", do_full_justify, 0, TRUE);
 #endif
     add_to_sclist(MMAIN, "M-D", do_wordlinechar_count, 0, TRUE);
+
     add_to_sclist(MMAIN, "M-X", do_toggle_void, NO_HELP, TRUE);
     add_to_sclist(MMAIN, "M-C", do_toggle_void, CONST_UPDATE, TRUE);
     add_to_sclist(MMAIN, "M-O", do_toggle_void, MORE_SPACE, TRUE);
