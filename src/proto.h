@@ -810,29 +810,6 @@ void xoff_complaint(void);
 int sc_seq_or (void (*func)(void), int defaultval);
 void do_suspend_void(void);
 
-extern const char *cancel_msg;
-#ifndef NANO_TINY
-extern const char *case_sens_msg;
-extern const char *backwards_msg;
-extern const char *prev_history_msg;
-extern const char *next_history_msg;
-#endif
-extern const char *replace_msg;
-extern const char *no_replace_msg;
-extern const char *go_to_line_msg;
-extern const char *whereis_next_msg;
-extern const char *first_file_msg;
-extern const char *last_file_msg;
-extern const char *goto_dir_msg;
-extern const char *ext_cmd_msg;
-extern const char *to_files_msg;
-extern const char *dos_format_msg;
-extern const char *mac_format_msg;
-extern const char *append_msg;
-extern const char *prepend_msg;
-extern const char *backup_file_msg;
-extern const char *gototext_msg;
-extern const char *new_buffer_msg;
 
 void enable_nodelay(void);
 void disable_nodelay(void);
