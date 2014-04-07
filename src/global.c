@@ -170,6 +170,8 @@ sc *sclist = NULL;
 	/* Struct for the shortcut-key list. */
 subnfunc *allfuncs = NULL;
 	/* Struct for the function list. */
+subnfunc *uncutfunc;
+	/* Pointer to the special Uncut/Unjustify item. */
 
 #ifndef NANO_TINY
 filestruct *search_history = NULL;
@@ -510,8 +512,12 @@ const char *backwards_msg = N_("Backwards");
 const char *regexp_msg = N_("Regexp");
 #endif
 
+/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
+const char *uncut_tag = N_("Uncut Text");
+#ifndef DISABLE_JUSITIFY
+const char *unjust_tag = N_("Unjustify");
+#endif
 #ifndef NANO_TINY
-/* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
 const char *prev_history_msg = N_("PrevHstory");
 const char *next_history_msg = N_("NextHstory");
 /* TRANSLATORS: Try to keep the next four strings at most 12 characters. */
@@ -804,14 +810,12 @@ void shortcut_init(bool unjustify)
     add_to_funcs(do_cut_text_void, MMAIN, N_("Cut Text"), IFSCHELP(nano_cut_msg),
 	FALSE, NOVIEW);
 
-    if (unjustify)
-	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_uncut_text, MMAIN, N_("Unjustify"), "",
-	    FALSE, NOVIEW);
-    else
-	/* TRANSLATORS: Try to keep this at most 10 characters. */
-	add_to_funcs(do_uncut_text, MMAIN, N_("Uncut Text"), IFSCHELP(nano_uncut_msg),
-	    FALSE, NOVIEW);
+    add_to_funcs(do_uncut_text, MMAIN, uncut_tag, IFSCHELP(nano_uncut_msg),
+	FALSE, NOVIEW);
+
+    /* Remember the entry for Uncut, to be able to replace it with Unjustify. */
+    for (uncutfunc = allfuncs; uncutfunc->next != NULL; uncutfunc = uncutfunc->next)
+	;
 
 #ifndef NANO_TINY
     /* TRANSLATORS: Try to keep this at most 10 characters. */

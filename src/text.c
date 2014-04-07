@@ -2281,14 +2281,14 @@ void do_justify(bool full_justify)
 	do_cursorpos(TRUE);
 
     /* Display the shortcut list with UnJustify. */
-    shortcut_init(TRUE);
+    uncutfunc->desc = unjust_tag;
     display_main_list();
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
     kbinput = do_input(&meta_key, &func_key, &s_or_t, &ran_func,
 	&finished, FALSE);
-    s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+    s = get_shortcut(MMAIN, &kbinput, &meta_key, &func_key);
 
     if (s && s->scfunc == do_uncut_text) {
 	/* Splice the justify buffer back into the file, but only if we
@@ -2351,7 +2351,7 @@ void do_justify(bool full_justify)
     blank_statusbar();
 
     /* Display the shortcut list with UnCut. */
-    shortcut_init(FALSE);
+    uncutfunc->desc = uncut_tag;
     display_main_list();
 
 #ifndef NANO_TINY

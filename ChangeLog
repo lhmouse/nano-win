@@ -1,3 +1,11 @@
+2014-04-07  Benno Schulenberg  <bensberg@justemail.net>
+	* src/{proto.h,global.c,text.c}: Keep a pointer to the Uncut item in
+	the functions list, to be able to change its description to Unjustify
+	at the appropriate moment.  This avoids having to fully repopulate
+	the functions and shortcuts lists before and after every Justify.
+	Also, look for ^U only in the main menu, to which ^W M-J factually
+	returns and which shortcut_init() "sneakily" sets.
+
 2014-04-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Limit M-T (cut-till-end-of-file) to
 	the main menu, and M-J (full-justify) to the main and search menus.
