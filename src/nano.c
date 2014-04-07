@@ -2184,9 +2184,9 @@ int main(int argc, char **argv)
     textdomain(PACKAGE);
 #endif
 
-#ifdef DISABLE_ROOTWRAPPING
-    /* If --disable-wrapping-as-root was used,
-     * and we're root, turn wrapping off. */
+#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
+    /* If we don't have rcfile support, --disable-wrapping-as-root is
+     * used, and we're root, turn wrapping off. */
     if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
@@ -2487,6 +2487,12 @@ int main(int argc, char **argv)
 	for (i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 	    flags[i] |= flags_cpy[i];
     }
+#ifdef DISABLE_ROOTWRAPPING
+    /* If we don't have any rcfiles, --disable-wrapping-as-root is used,
+     * and we're root, turn wrapping off. */
+    else if (geteuid() == NANO_ROOT_UID)
+	SET(NO_WRAP);
+#endif
 #endif /* ENABLE_NANORC */
 
 #ifndef DISABLE_WRAPPING

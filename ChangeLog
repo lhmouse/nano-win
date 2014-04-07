@@ -8,9 +8,6 @@
 	* src/{proto.h,files.c,global.c,nano.c,rcfile.c}: Drop the obsolete
 	argument of shortcut_init(), and remove two unneeded calls of it.
 	* src/global.c (shortcut_init): Allow M-J after an --enable-justify.
-	* src/nano.c (main): No matter whether nanorc support was disabled
-	or not, or the rcfile should be ignored or not, when we're root and
-	--disable-wrapping-as-root was used, switch wrapping off.
 
 2014-04-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Limit M-T (cut-till-end-of-file) to
