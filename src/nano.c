@@ -1127,7 +1127,6 @@ void do_exit(void)
     } else if (i != 1)
 	statusbar(_("Cancelled"));
 
-    shortcut_init(FALSE);
     display_main_list();
 }
 
@@ -1710,9 +1709,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			    {
 				s->scfunc();
 #ifndef DISABLE_COLOR
-				/* The command might have re-initialized shortcuts,
-				 * in which case f is now invalid.  Let's reload it. */
-				f = sctofunc((sc *) s);
 				if (f && !f->viewok && openfile->syntax != NULL
 					&& openfile->syntax->nmultis > 0) {
 				    reset_multis(openfile->current, FALSE);
@@ -2407,9 +2403,9 @@ int main(int argc, char **argv)
 #endif
     }
 
-    /* Set up the shortcut lists.
-     * Need to do this before the rcfile. */
-    shortcut_init(FALSE);
+    /* Set up the function and shortcut lists.  This needs to be done
+     * before reading the rcfile, to be able to rebind/unbind keys. */
+    shortcut_init();
 
 /* We've read through the command line options.  Now back up the flags
  * and values that are set, and read the rcfile(s).  If the values

@@ -1281,9 +1281,9 @@ void parse_rcfile(FILE *rcstream
 		else
 		    rcfile_error(N_("Cannot unset flag \"%s\""),
 			rcopts[i].name);
-		/* Looks like we still need this specific hack for undo */
+		/* If undo/redo was enabled, reinitialize the lists. */
 		if (strcasecmp(rcopts[i].name, "undo") == 0)
-		    shortcut_init(0);
+		    shortcut_init();
 		break;
 	    }
 	}

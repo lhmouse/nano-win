@@ -1277,8 +1277,6 @@ void do_insertfile(
 	    break;
 	}
     }
-    shortcut_init(FALSE);
-
     free(ans);
 }
 

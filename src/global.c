@@ -544,9 +544,8 @@ const char *new_buffer_msg = N_("New Buffer");
 #endif
 
 
-/* Initialize all shortcut lists.  If unjustify is TRUE, replace
- * the Uncut shortcut in the main shortcut list with UnJustify. */
-void shortcut_init(bool unjustify)
+/* Initialize the list of functions and the list of shortcuts. */
+void shortcut_init(void)
 {
     /* TRANSLATORS: Try to keep the following strings at most 10 characters. */
     const char *get_help_msg = N_("Get Help");
