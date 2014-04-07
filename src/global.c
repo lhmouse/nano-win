@@ -1217,9 +1217,11 @@ void shortcut_init(void)
     add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-T", do_cut_till_end, 0, TRUE);
+#endif
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MMAIN|MWHEREIS, "M-J", do_full_justify, 0, TRUE);
 #endif
+#ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-D", do_wordlinechar_count, 0, TRUE);
 
     add_to_sclist(MMAIN, "M-X", do_toggle_void, NO_HELP, TRUE);

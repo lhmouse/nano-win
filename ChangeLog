@@ -7,6 +7,7 @@
 	returns and which shortcut_init() "sneakily" sets.
 	* src/{proto.h,files.c,global.c,nano.c,rcfile.c}: Drop the obsolete
 	argument of shortcut_init(), and remove two unneeded calls of it.
+	* src/global.c (shortcut_init): Allow M-J after an --enable-justify.
 
 2014-04-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Limit M-T (cut-till-end-of-file) to
