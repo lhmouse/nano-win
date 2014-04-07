@@ -1137,7 +1137,7 @@ void parse_rcfile(FILE *rcstream
 	    continue;
 
 	if (*ptr == '\0') {
-	    rcfile_error(N_("Missing flag"));
+	    rcfile_error(N_("Missing option"));
 	    continue;
 	}
 
@@ -1279,7 +1279,7 @@ void parse_rcfile(FILE *rcstream
 		} else if (rcopts[i].flag != 0)
 		    UNSET(rcopts[i].flag);
 		else
-		    rcfile_error(N_("Cannot unset flag \"%s\""),
+		    rcfile_error(N_("Cannot unset option \"%s\""),
 			rcopts[i].name);
 		/* If undo/redo was enabled, reinitialize the lists. */
 		if (strcasecmp(rcopts[i].name, "undo") == 0)
@@ -1288,7 +1288,7 @@ void parse_rcfile(FILE *rcstream
 	    }
 	}
 	if (rcopts[i].name == NULL)
-	    rcfile_error(N_("Unknown flag \"%s\""), option);
+	    rcfile_error(N_("Unknown option \"%s\""), option);
     }
 
 #ifndef DISABLE_COLOR
