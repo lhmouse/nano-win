@@ -997,9 +997,9 @@ static void check_vitals_mapped(void)
            if (f->scfunc == vitals[v] && f->menus & inmenus[v]) {
                const sc *s = first_sc_for(inmenus[v], f->scfunc);
                if (!s) {
-                   fprintf(stderr, _("Fatal error: no keys mapped for function \"%s\".\n"),
-                       f->desc);
-                   fprintf(stderr, _("Exiting.  If needed, use nano with the -I option "
+                   fprintf(stderr, _("Fatal error: no keys mapped for function "
+				     "\"%s\".  Exiting.\n"), f->desc);
+                   fprintf(stderr, _("If needed, use nano with the -I option "
 				     "to adjust your nanorc settings.\n"));
                    exit(1);
                }

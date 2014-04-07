@@ -10,6 +10,7 @@
 	* src/global.c (shortcut_init): Allow M-J after an --enable-justify.
 	* src/rcfile.c (parse_rcfile): The user documentation only speaks
 	of options, not of flags.  Make the error messages conform.
+	* src/rcfile.c (check_vitals_mapped): Improve layout of message.
 
 2014-04-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Limit M-T (cut-till-end-of-file) to
