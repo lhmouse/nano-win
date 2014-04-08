@@ -2840,8 +2840,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 /* Just update one line in the edit buffer.  This is basically a wrapper
  * for edit_draw().  The line will be displayed starting with
  * fileptr->data[index].  Likely arguments are current_x or zero.
- * Returns: Number of additiona lines consumed (needed for SOFTWRAP)
- */
+ * Returns: Number of additional lines consumed (needed for SOFTWRAP). */
 int update_line(filestruct *fileptr, size_t index)
 {
     int line = 0;
@@ -2948,8 +2947,7 @@ bool need_vertical_update(size_t pww_save)
 }
 
 /* When edittop changes, try and figure out how many lines
- * we really have to work with (i.e. set maxrows)
- */
+ * we really have to work with (i.e. set maxrows). */
 void compute_maxrows(void)
 {
     int n;
@@ -2962,7 +2960,7 @@ void compute_maxrows(void)
 
     maxrows = 0;
     for (n = 0; n < editwinrows && foo; n++) {
-	maxrows ++;
+	maxrows++;
 	n += strlenpt(foo->data) / COLS;
 	foo = foo->next;
     }
@@ -3491,7 +3489,7 @@ void do_credits(void)
 	N_("Thank you for using nano!")
     };
 
-    /* credits[15]: Make sure this name is displayed properly, since we
+    /* credits[16]: Make sure this name is displayed properly, since we
      * can't dynamically assign it above, using Unicode 00F6 (Latin
      * Small Letter O with Diaresis) if applicable. */
     credits[16] =

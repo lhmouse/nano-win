@@ -401,7 +401,6 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
 #endif
 }
 
-
 /* Assign one menu's shortcuts to another function. */
 void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 {
@@ -415,7 +414,6 @@ void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 	    s->scfunc = newfunc;
 	}
 }
-
 
 /* Return the given menu's first shortcut sequence, or the default value
  * (2nd arg).  Assumes currmenu for the menu to check. */
@@ -491,11 +489,10 @@ void print_sclist(void)
 	if (f)
 	    fprintf(stderr, "Shortcut \"%s\", function: %s, menus %x\n", s->keystr, f->desc, f->menus);
 	else
-	    fprintf(stderr, "Hmm, didnt find a func for \"%s\"\n", s->keystr);
+	    fprintf(stderr, "Hmm, didn't find a func for \"%s\"\n", s->keystr);
     }
 }
 #endif
-
 
 /* Stuff we need to make at least static here so we can access it below. */
 /* TRANSLATORS: Try to keep the next six strings at most 10 characters. */
@@ -542,7 +539,6 @@ const char *ext_cmd_msg = N_("Execute Command");
 #ifndef DISABLE_MULTIBUFFER
 const char *new_buffer_msg = N_("New Buffer");
 #endif
-
 
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
@@ -1287,7 +1283,6 @@ void set_spell_shortcuts(void)
 #endif
 }
 #endif
-
 
 const subnfunc *sctofunc(sc *s)
 {

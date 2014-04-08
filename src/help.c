@@ -431,8 +431,8 @@ void help_init(void)
         if (!f->desc || !strcmp(f->desc, ""))
 	    continue;
 
-        /* Lets just try and use the first 3 shortcuts
-           from the new struct... */
+        /* Let's just try and use the first 3 shortcuts from the new
+         * struct... */
         for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
 
             if (scsfound == 3)
@@ -454,7 +454,7 @@ void help_init(void)
 		*(ptr++) = '\t';
 	    }
 	}
-	/* Pad with tabs if we didnt find 3 */
+	/* Pad with tabs if we didn't find 3. */
         for (; scsfound < 3; scsfound++) {
 	    *(ptr++) = '\t';
 	}
