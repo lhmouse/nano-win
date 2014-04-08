@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 2.2.0
-@set UPDATED 30 Nov 2009
+@set VERSION 2.3.3
+@set UPDATED April 2014
 
 @dircategory Editors
 @direntry
@@ -240,6 +240,13 @@ Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
 System, and on the console when gpm is running.
+
+@item -n, --noread
+Treat any name given on the command line as a new file.  This allows
+@code{nano} to write to named pipes: it will start with a blank buffer,
+and will write to the pipe when the user saves the "file".  This way
+@code{nano} can be used as an editor in combination with for instance
+@code{gpg} without having to write sensitive data to disk first.
 
 @item -o <dir>, --operatingdir=<dir>
 Set operating directory.  Makes @code{nano} set up something similar to

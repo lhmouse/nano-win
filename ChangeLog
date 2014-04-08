@@ -1,3 +1,6 @@
+2014-04-08  Benno Schulenberg  <bensberg@justemail.net>
+	* doc: Add the documentation for the new --noread option.
+
 2014-04-08  Hans Alves  <fonsvandeachterburen@gmail.com>
 	* nano.h, files.c, nano.c: Adding the command-line option --noread
 	to treat any name on the command line as a new file.  This allows

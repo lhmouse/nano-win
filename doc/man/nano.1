@@ -19,7 +19,7 @@
 .\"   <http://www.gnu.org/licenses/>.
 .\"
 .\" $Id$
-.TH NANO 1 "version 2.3.3" "March 2014"
+.TH NANO 1 "version 2.3.3" "April 2014"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -170,6 +170,13 @@ Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
 System, and on the console when gpm is running.
+.TP
+.B \-n (\-\-noread)
+Treat any name given on the command line as a new file.  This allows
+\fBnano\fR to write to named pipes: it will start with a blank buffer,
+and will write to the pipe when the user saves the "file".  This way
+\fBnano\fR can be used as an editor in combination with for instance
+\fBgpg\fR without having to write sensitive data to disk first.
 .TP
 .B \-o \fIdir\fP (\-\-operatingdir=\fIdir\fP)
 Set operating directory.  Makes \fBnano\fP set up something similar to a
