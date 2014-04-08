@@ -1,3 +1,6 @@
+2014-04-08  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/*.c: More editing of comment blocks and trimming of blank lines.
+
 2014-04-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Correct two comments, and tweak two others.
 	* src/color.c (color_update): Correct one comment, tweak some others,

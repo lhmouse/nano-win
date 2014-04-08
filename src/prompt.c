@@ -220,12 +220,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 			'\0' || currmenu != MWRITEFILE)
 		    do_statusbar_backspace();
 	    } else {
-	    /* Handle the normal statusbar prompt shortcuts, setting
-	     * ran_func to TRUE if we try to run their associated
-	     * functions and setting finished to TRUE to indicate
-	     * that we're done after running or trying to run their
-	     * associated functions. */
-
+		/* Handle the normal statusbar prompt shortcuts, setting
+		 * ran_func to TRUE if we try to run their associated
+		 * functions and setting finished to TRUE to indicate
+		 * that we're done after running or trying to run their
+		 * associated functions. */
 		f = sctofunc((sc *) s);
 		if (s->scfunc != 0 &&  s->execute == TRUE) {
 			*ran_func = TRUE;

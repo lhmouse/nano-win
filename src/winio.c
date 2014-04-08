@@ -1714,7 +1714,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		     f = f->next;
 	    }
 
-
 	    /* And put back the equivalent key. */
 	    if (f != NULL) {
                 const sc *s = first_sc_for(currmenu, f->scfunc);
@@ -1798,10 +1797,9 @@ const sc *get_shortcut(int menu, int *kbinput, bool
     return NULL;
 }
 
-
-/* Try to get a function back from a window.  Just a wrapper so
-   functions to need to create function_key meta_key blah blah
-    mmenu - what menu name to look through for valid funcs */
+/* Try to get a function back from a window.  Just a wrapper
+ * functions need to create a function_key meta_key blah blah
+ * menu - what menu name to look through for valid funcs. */
 const subnfunc *getfuncfromkey(WINDOW *win)
 {
     int kbinput;
@@ -1821,8 +1819,6 @@ const subnfunc *getfuncfromkey(WINDOW *win)
     return f;
 
 }
-
-
 
 /* Move to (x, y) in win, and display a line of n spaces with the
  * current attributes. */
@@ -3371,7 +3367,6 @@ void disable_nodelay(void)
    nodelay_mode = FALSE;
    nodelay(edit, FALSE);
 }
-
 
 /* Highlight the current word being replaced or spell checked.  We
  * expect word to have tabs and control characters expanded. */

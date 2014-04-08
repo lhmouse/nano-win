@@ -825,7 +825,7 @@ extern const char *regexp_msg;
 void do_credits(void);
 #endif
 
-/* May as just throw these here since they are just placeholders */
+/* May as well throw these here, since they are just placeholders. */
 void do_cancel(void);
 void do_page_up(void);
 void do_page_down(void);
@@ -843,6 +843,5 @@ void backwards_void(void);
 void goto_dir_void(void);
 void no_replace_void(void);
 void ext_cmd_void(void);
-
 
 #endif /* !PROTO_H */

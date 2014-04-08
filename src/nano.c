@@ -1130,7 +1130,7 @@ void do_exit(void)
     display_main_list();
 }
 
-/* Another placeholder for function mapping */
+/* Another placeholder for function mapping. */
 void do_cancel(void)
 {
     ;
@@ -1453,10 +1453,10 @@ void do_toggle(int flag)
     statusbar("%s %s", desc, enabled ? _("enabled") : _("disabled"));
 }
 
-/* Bleh */
+/* Bleh. */
 void do_toggle_void(void)
 {
-;
+    ;
 }
 #endif /* !NANO_TINY */
 
@@ -1903,7 +1903,6 @@ void precalc_multicolorinfo(void)
 
 		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
-
 #ifdef DEBUG
 			fprintf(stderr, "advancing to line %lu to find end...\n", (unsigned long) endptr->lineno);
 #endif
@@ -2791,4 +2790,3 @@ int main(int argc, char **argv)
     /* We should never get here. */
     assert(FALSE);
 }
-

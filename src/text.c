@@ -359,7 +359,6 @@ void do_unindent(void)
     do_indent(-tabsize);
 }
 
-
 /* Undo a cut, or redo an uncut. */
 void undo_cut(undo *u)
 {
@@ -386,7 +385,8 @@ void undo_cut(undo *u)
 }
 
 /* Redo a cut, or undo an uncut. */
-void redo_cut(undo *u) {
+void redo_cut(undo *u)
+{
     int i;
     filestruct *t, *c;
 
@@ -400,7 +400,7 @@ void redo_cut(undo *u) {
 	free(cutbuffer);
     cutbuffer = NULL;
 
-    /* Move ahead the same # lines we had if a marked cut. */
+    /* Move ahead the same number of lines we had if a marked cut. */
     if (u->mark_set) {
 	for (i = 1, t = openfile->fileage; i != u->mark_begin_lineno; i++)
 	    t = t->next;
@@ -410,13 +410,12 @@ void redo_cut(undo *u) {
 	 * We'll need to trick nano into thinking it's a marked cut,
 	 * to cut more than one line again. */
 	for (c = u->cutbuffer, t = openfile->current; c->next != NULL && t->next != NULL; ) {
-
 #ifdef DEBUG
-	fprintf(stderr, "Advancing, lineno  = %lu, data = \"%s\"\n", (unsigned long) t->lineno, t->data);
+	    fprintf(stderr, "Advancing, lineno = %lu, data = \"%s\"\n", (unsigned long) t->lineno, t->data);
 #endif
 	    c = c->next;
 	    t = t->next;
-	 }
+	}
 	openfile->mark_begin = t;
 	openfile->mark_begin_x = 0;
 	openfile->mark_set = TRUE;
@@ -460,7 +459,7 @@ void do_undo(void)
 #endif
 
     openfile->current_x = u->begin;
-    switch(u->type) {
+    switch (u->type) {
     case ADD:
 	undidmsg = _("text add");
 	len = strlen(f->data) - strlen(u->strdata) + 1;
@@ -598,7 +597,7 @@ void do_redo(void)
     fprintf(stderr, "Redo running for type %d\n", u->type);
 #endif
 
-    switch(u->type) {
+    switch (u->type) {
     case ADD:
 	undidmsg = _("text add");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
@@ -693,7 +692,6 @@ void do_enter(bool undoing)
     if (!undoing)
 	add_undo(ENTER);
 
-
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
     if (ISSET(AUTOINDENT)) {
 	/* If we are breaking the line in the indentation, the new
@@ -742,7 +740,8 @@ void do_enter(bool undoing)
 }
 
 /* Need this again... */
-void do_enter_void(void) {
+void do_enter_void(void)
+{
     do_enter(FALSE);
 }
 
@@ -845,8 +844,10 @@ void add_undo(undo_type current_action)
     undo *u;
     char *data;
     openfilestruct *fs = openfile;
-    static undo *last_cutu = NULL; /* Last thing we cut to set up the undo for uncut. */
-    ssize_t wrap_loc;	/* For calculating split beginning. */
+    static undo *last_cutu = NULL;
+	/* Last thing we cut to set up the undo for uncut. */
+    ssize_t wrap_loc;
+	/* For calculating split beginning. */
 
     if (!ISSET(UNDOABLE))
 	return;
@@ -1085,7 +1086,7 @@ void update_undo(undo_type action)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "Done in udpate_undo (type was %d)\n", action);
+    fprintf(stderr, "Done in update_undo (type was %d)\n", action);
 #endif
     if (fs->last_action != action) {
 #ifdef DEBUG
@@ -3115,11 +3116,13 @@ void do_linter(void)
 		char *message = mallocstrcpy(NULL, read_buff_word);
 
 		/* At the moment we're assuming the following formats:
-		   filenameorcategory:line:column:message (e.g. splint)
-		   filenameorcategory:line:message        (e.g. pyflakes)
-		   filenameorcategory:line,col:message    (e.g. pylint)
-		   This could be turnes into some scanf() based parser but ugh.
-		*/
+		 *
+		 * filenameorcategory:line:column:message (e.g. splint)
+		 * filenameorcategory:line:message        (e.g. pyflakes)
+		 * filenameorcategory:line,col:message    (e.g. pylint)
+		 *
+		 * This could be turned into some scanf() based parser,
+		 * but ugh. */
 		if ((filename = strtok(read_buff_word, ":")) != NULL) {
 		    if ((linestr = strtok(NULL, ":")) != NULL) {
 			if ((maybecol = strtok(NULL, ":")) != NULL) {
@@ -3135,8 +3138,8 @@ void do_linter(void)
 
 			    tmpcolno =  strtol(maybecol, &convendptr, 10);
 			    if (*convendptr != '\0') {
-
-				/* Prev field might still be line,col format */
+				/* Previous field might still be
+				 * line,col format. */
 				strtok(linestr, ",");
 				if ((tmplinecol = strtok(NULL, ",")) != NULL)
 				    tmpcolno = strtol(tmplinecol, NULL, 10);
@@ -3145,7 +3148,7 @@ void do_linter(void)
 #ifdef DEBUG
 			    fprintf(stderr, "text.c:do_lint:Successful parse! %d:%d:%s\n", tmplineno, tmpcolno, message);
 #endif
-			    /* Nice we have a lint message we can use */
+			    /* Nice.  We have a lint message we can use. */
 			    parsesuccess++;
 			    tmplint = curlint;
 			    curlint = nmalloc(sizeof(lintstruct));
@@ -3382,4 +3385,3 @@ void do_verbatim_input(void)
 
     free(output);
 }
-

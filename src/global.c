@@ -1295,8 +1295,8 @@ const subnfunc *sctofunc(sc *s)
 }
 
 #ifndef NANO_TINY
-/* Now let's come up with a single (hopefully)
- * function to get a string for each flag. */
+/* Now let's come up with a single (hopefully) function to get a string
+ * for each flag. */
 const char *flagtostr(int flag)
 {
    switch (flag) {
@@ -1340,8 +1340,8 @@ const char *flagtostr(int flag)
 }
 #endif /* !NANO_TINY */
 
-/* Interpret the string given by the rc file and return a
- * shortcut struct, complete with proper value for execute. */
+/* Interpret the string given by the rc file and return a shortcut
+ * struct, complete with proper value for execute. */
 sc *strtosc(int menu, char *input)
 {
      sc *s;

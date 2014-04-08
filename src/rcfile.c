@@ -518,7 +518,7 @@ void parse_binding(char *ptr, bool dobind)
     ptr = parse_next_word(ptr);
 
     if (!strcmp(menuptr, "")) {
-	/* TRANSLATORS: do not translate the word "all". */
+	/* TRANSLATORS: Do not translate the word "all". */
 	rcfile_error(N_("Must specify menu in which to bind/unbind key (or \"all\")"));
 	return;
     }
@@ -586,8 +586,9 @@ static void _parse_include(char *file)
     struct stat rcinfo;
     FILE *rcstream;
 
-    /* Can't get the specified file's full path cause it may screw up
-	our cwd depending on the parent dirs' permissions, (see Savannah bug 25297) */
+    /* Can't get the specified file's full path because it may screw up
+     * our cwd depending on the parent directories' permissions (see
+     * Savannah bug #25297). */
 
     /* Don't open directories, character files, or block files. */
     if (stat(file, &rcinfo) != -1) {
@@ -805,9 +806,10 @@ void parse_colors(char *ptr, bool icase)
 #ifdef DEBUG
 		fprintf(stderr, "Adding new entry for fg %hd, bg %hd\n", fg, bg);
 #endif
-		/* Need to recompute endcolor now so we can extend colors to syntaxes */
+		/* Need to recompute endcolor now so we can extend
+		 * colors to syntaxes. */
 		for (endcolor = endsyntax->color; endcolor->next != NULL; endcolor = endcolor->next)
-			;
+		    ;
 		endcolor->next = newcolor;
 	    }
 
@@ -837,8 +839,8 @@ void parse_colors(char *ptr, bool icase)
 	    if (ptr == NULL)
 		break;
 
-	    /* If the start regex was invalid, skip past the end regex to
-	     * stay in sync. */
+	    /* If the start regex was invalid, skip past the end regex
+	     * to stay in sync. */
 	    if (cancelled)
 		continue;
 
@@ -915,7 +917,6 @@ void parse_headers(char *ptr)
     }
 }
 
-
 /* Parse the linter requested for this syntax.  Simple? */
 void parse_linter(char *ptr)
 {
@@ -942,7 +943,6 @@ void parse_linter(char *ptr)
 	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
 }
 #endif /* !DISABLE_COLOR */
-
 
 /* Check whether the user has unmapped every shortcut for a
  * sequence we consider 'vital', like the exit function. */
@@ -1009,7 +1009,6 @@ void parse_rcfile(FILE *rcstream
 	/* Otherwise, skip to the next space. */
 	keyword = ptr;
 	ptr = parse_next_word(ptr);
-
 
 #ifndef DISABLE_COLOR
 	/* Handle extending first... */

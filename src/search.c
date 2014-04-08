@@ -1432,7 +1432,7 @@ char *get_history_newer(filestruct **h)
     return (*h)->data;
 }
 
-/* More placeholders */
+/* More placeholders. */
 void get_history_newer_void(void)
 {
     ;

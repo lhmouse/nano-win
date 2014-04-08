@@ -1810,10 +1810,11 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		    _("Too many backup files?"));
 		free(backuptemp);
 		free(backupname);
-		/* If we can't write to the backup, DONT go on, since
-		   whatever caused the backup file to fail (e.g. disk
-		   full may well cause the real file write to fail, which
-		   means we could lose both the backup and the original! */
+		/* If we can't write to the backup, DON'T go on, since
+		 * whatever caused the backup file to fail (e.g. disk
+		 * full may well cause the real file write to fail,
+		 * which means we could lose both the backup and the
+		 * original! */
 		goto cleanup_and_exit;
 	    } else {
 		free(backupname);
@@ -1825,8 +1826,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	/* First, unlink any existing backups.  Next, open the backup
-	   file with O_CREAT and O_EXCL.  If it succeeds, we
-	   have a file descriptor to a new backup file. */
+	 * file with O_CREAT and O_EXCL.  If it succeeds, we have a file
+	 * descriptor to a new backup file. */
 	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
@@ -1844,7 +1845,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	backup_fd = open(backupname, backup_cflags,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	/* Now we've got a safe file stream.  If the previous open()
-	   call failed, this will return NULL. */
+	 * call failed, this will return NULL. */
 	backup_file = fdopen(backup_fd, "wb");
 
 	if (backup_fd < 0 || backup_file == NULL) {
@@ -1903,10 +1904,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
 			strerror(errno));
-	    /* If we can't write to the backup, DONT go on, since
-	       whatever caused the backup file to fail (e.g. disk
-	       full may well cause the real file write to fail, which
-	       means we could lose both the backup and the original! */
+	    /* If we can't write to the backup, DON'T go on, since
+	     * whatever caused the backup file to fail (e.g. disk full
+	     * may well cause the real file write to fail, which means
+	     * we could lose both the backup and the original! */
 	    goto cleanup_and_exit;
 	}
 
@@ -2404,8 +2405,9 @@ bool do_writeout(bool exiting)
 		    }
 		}
 #ifndef NANO_TINY
-		/* Complain if the file exists, the name hasn't changed, and the
-		    stat information we had before does not match what we have now */
+		/* Complain if the file exists, the name hasn't changed,
+		 * and the stat information we had before does not match
+		 * what we have now. */
 		else if (name_exists && openfile->current_stat && (openfile->current_stat->st_mtime < st.st_mtime ||
                     openfile->current_stat->st_dev != st.st_dev || openfile->current_stat->st_ino != st.st_ino)) {
 		    i = do_yesno_prompt(FALSE,
@@ -2926,8 +2928,6 @@ char *poshistfilename(void)
     return construct_filename("/.nano/filepos_history");
 }
 
-
-
 void history_error(const char *msg, ...)
 {
    va_list ap;
@@ -2979,8 +2979,6 @@ void load_history(void)
 	    history_error(N_("Detected a legacy nano history file (%s) which I moved\nto the preferred location (%s)\n(see the nano FAQ about this change)"),
 		legacyhist, nanohist);
     }
-
-
 
     /* Assume do_rcfile() has reported a missing home directory. */
     if (nanohist != NULL) {
@@ -3136,7 +3134,6 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     }
 
     /* Didn't find it, make a new node yo! */
-
     posptr = (poshiststruct *) nmalloc(sizeof(poshiststruct));
     posptr->filename = mallocstrcpy(NULL, fullpath);
     posptr->lineno = lineno;
@@ -3174,7 +3171,6 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
     free(fullpath);
     return 0;
 }
-
 
 /* Load histories from ~/.nano_history. */
 void load_poshistory(void)
