@@ -1,5 +1,6 @@
 2014-04-08  Benno Schulenberg  <bensberg@justemail.net>
 	* doc: Add the documentation for the new --noread option.
+	* doc: Add missing --poslog option to the texinfo file, plus tweaks.
 
 2014-04-08  Hans Alves  <fonsvandeachterburen@gmail.com>
 	* nano.h, files.c, nano.c: Adding the command-line option --noread

@@ -32,14 +32,9 @@ nano \- Nano's ANOther editor, an enhanced free Pico clone
 .br
 
 .SH DESCRIPTION
-This manual page briefly documents the \fBnano\fP command.
-.PP
-.\" TeX users may be more comfortable with the \fB<whatever>\fP and
-.\" \fI<whatever>\fP escape sequences to invoke bold face and italics,
-.\" respectively.
 \fBnano\fP is a small, free and friendly editor which aims to replace
-Pico, the default editor included in the non-free Pine package.  Rather
-than just copying Pico's look and feel, \fBnano\fP also implements some
+Pico, the default editor included in the non-free Pine package.  On
+top of copying Pico's look and feel, \fBnano\fP also implements some
 missing (or disabled by default) features in Pico, such as "search and
 replace" and "go to line and column number".
 
@@ -103,7 +98,8 @@ Disable automatic conversion of files from DOS/Mac format.
 Use the blank line below the titlebar as extra editing space.
 .TP
 .B \-P (\-\-poslog)
-Log & read location of cursor position.
+Log and later read back the location of the cursor and place it there
+again.
 .TP
 .B \-Q \fIstr\fP (\-\-quotestr=\fIstr\fP)
 Set the quoting string for justifying.  The default is

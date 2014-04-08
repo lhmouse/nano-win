@@ -20,7 +20,7 @@
 .\"   <http://www.gnu.org/licenses/>.
 .\"
 .\" $Id$
-.TH RNANO 1 "version 2.0.0" "August 23, 2007"
+.TH RNANO 1 "version 2.3.3" "April 2014"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -29,18 +29,13 @@ Pico clone
 
 .SH SYNOPSIS
 .B rnano
-.I [OPTIONS]\ [[\+LINE,COLUMN]\ FILE]...
+.RI [ options "] [[\+" line , column "]\ " file "]..."
 .br
 
 .SH DESCRIPTION
-This manual page briefly documents the \fBrnano\fP command.
-.PP
-.\" TeX users may be more comfortable with the \fB<whatever>\fP and
-.\" \fI<whatever>\fP escape sequences to invoke bold face and italics, 
-.\" respectively.
 \fBnano\fP is a small, free and friendly editor which aims to replace
-Pico, the default editor included in the non-free Pine package. Rather
-than just copying Pico's look and feel, \fBnano\fP also implements some
+Pico, the default editor included in the non-free Pine package.  On
+top of copying Pico's look and feel, \fBnano\fP also implements some
 missing (or disabled by default) features in Pico, such as "search and
 replace" and "go to line and column number".
 .PP
@@ -62,14 +57,6 @@ name;
 use backup files or spell checking.
 
 .SH OPTIONS
-.TP
-.B \+\fILINE\fP,\fICOLUMN\fP
-Places cursor at line number \fILINE\fP and column number \fICOLUMN\fP
-(at least one of which must be specified) on startup, instead of the
-default of line 1, column 1.
-.TP
-.B \-?
-Same as \fB-h (\-\-help)\fP.
 .TP
 .B \-h (\-\-help)
 Show a summary of command line options and exit.
