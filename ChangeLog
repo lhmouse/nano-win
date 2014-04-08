@@ -1,3 +1,7 @@
+2014-04-08  Benno Schulenberg  <bensberg@justemail.net>
+	* src/rcfile.c (parse_binding): Melt the binding and unbinding code,
+	which are very similar, into a single function.
+
 2014-04-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,global.c,text.c}: Keep a pointer to the Uncut item in
 	the functions list, to be able to change its description to Unjustify

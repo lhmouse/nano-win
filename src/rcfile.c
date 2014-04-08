@@ -462,13 +462,17 @@ int check_bad_binding(sc *s)
     return 0;
 }
 
-void parse_keybinding(char *ptr)
+void parse_binding(char *ptr, bool dobind)
 {
     char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
-    sc *s, *newsc;
+    sc *s, *newsc = NULL;
     int i, menu;
 
     assert(ptr != NULL);
+
+#ifdef DEBUG
+    fprintf(stderr, "Starting the rebinding code...\n");
+#endif
 
     if (*ptr == '\0') {
 	rcfile_error(N_("Missing key name"));
@@ -487,102 +491,15 @@ void parse_keybinding(char *ptr)
 	return;
     }
 
-    funcptr = ptr;
-    ptr = parse_next_word(ptr);
+    if (dobind) {
+	funcptr = ptr;
+	ptr = parse_next_word(ptr);
 
-    if (!strcmp(funcptr, "")) {
-	rcfile_error(
-		N_("Must specify function to bind key to"));
-	return;
-    }
-
-    menuptr = ptr;
-    ptr = parse_next_word(ptr);
-
-    if (!strcmp(menuptr, "")) {
-	rcfile_error(
-		/* TRANSLATORS: do not translate the word "all". */
-		N_("Must specify menu to bind key to (or \"all\")"));
-	return;
-    }
-
-    menu = strtomenu(menuptr);
-    newsc = strtosc(menu, funcptr);
-    if (newsc == NULL) {
-	rcfile_error(
-		N_("Could not map name \"%s\" to a function"), funcptr);
-	return;
-    }
-
-    if (menu < 1) {
-	rcfile_error(
-		N_("Could not map name \"%s\" to a menu"), menuptr);
-	return;
-    }
-
-#ifdef DEBUG
-    fprintf(stderr, "newsc now address %d, func assigned = %d, menu = %x\n",
-	&newsc, newsc->scfunc, menu);
-#endif
-
-    newsc->keystr = keycopy;
-    newsc->menu = menu;
-    newsc->type = strtokeytype(newsc->keystr);
-    assign_keyinfo(newsc);
-#ifdef DEBUG
-    fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
-    fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
-#endif
-
-    if (check_bad_binding(newsc)) {
-	rcfile_error(
-		N_("Sorry, keystr \"%s\" is an illegal binding"), newsc->keystr);
-	return;
-    }
-
-    /* Now let's have some fun.  Try and delete the other entries
-       we found for the same menu, then make this the new beginning. */
-    for (s = sclist; s != NULL; s = s->next) {
-        if (((s->menu & newsc->menu)) && s->seq == newsc->seq) {
-#ifdef DEBUG
-	    fprintf(stderr, "replacing entry in menu %x\n", s->menu);
-#endif
-	    s->menu &= ~newsc->menu;
+	if (!strcmp(funcptr, "")) {
+	    rcfile_error(N_("Must specify function to bind key to"));
+	    return;
 	}
     }
-    newsc->next = sclist;
-    sclist = newsc;
-}
-
-/* Let the user unbind a sequence from a given (or all) menus. */
-void parse_unbinding(char *ptr)
-{
-    char *keyptr = NULL, *keycopy = NULL, *menuptr = NULL;
-    sc *s;
-    int i, menu;
-
-    assert(ptr != NULL);
-
-    if (*ptr == '\0') {
-	rcfile_error(N_("Missing key name"));
-	return;
-    }
-
-    keyptr = ptr;
-    ptr = parse_next_word(ptr);
-    keycopy = mallocstrcpy(NULL, keyptr);
-    for (i = 0; i < strlen(keycopy); i++)
-	keycopy[i] = toupper(keycopy[i]);
-
-#ifdef DEBUG
-    fprintf(stderr, "Starting the unbinding code...\n");
-#endif
-
-    if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F' && keycopy[0] != 'K') {
-	rcfile_error(
-		N_("Keybindings must begin with \"^\", \"M\", or \"F\""));
-	return;
-    }
 
     menuptr = ptr;
     ptr = parse_next_word(ptr);
@@ -595,6 +512,15 @@ void parse_unbinding(char *ptr)
     }
 
     menu = strtomenu(menuptr);
+
+    if (dobind) {
+	newsc = strtosc(menu, funcptr);
+	if (newsc == NULL) {
+	    rcfile_error(N_("Could not map name \"%s\" to a function"), funcptr);
+	    return;
+	}
+    }
+
     if (menu < 1) {
 	rcfile_error(
 		N_("Could not map name \"%s\" to a menu"), menuptr);
@@ -602,17 +528,43 @@ void parse_unbinding(char *ptr)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
+    if (dobind)
+	fprintf(stderr, "newsc now address %d, func assigned = %d, menu = %x\n",
+	    &newsc, newsc->scfunc, menu);
+   else
+	fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
 #endif
 
-    /* Now find the appropriate entries in the menu to delete. */
+    if (dobind) {
+	newsc->keystr = keycopy;
+	newsc->menu = menu;
+	newsc->type = strtokeytype(newsc->keystr);
+	assign_keyinfo(newsc);
+#ifdef DEBUG
+	fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
+	fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
+#endif
+
+	if (check_bad_binding(newsc)) {
+	    rcfile_error(N_("Sorry, keystr \"%s\" is an illegal binding"), newsc->keystr);
+	    return;
+	}
+    }
+
+    /* Now find and delete any existing same shortcut in the menu(s). */
     for (s = sclist; s != NULL; s = s->next) {
-        if (((s->menu & menu)) && !strcmp(s->keystr,keycopy)) {
+        if (((s->menu & menu)) && !strcmp(s->keystr, keycopy)) {
 #ifdef DEBUG
 	    fprintf(stderr, "deleting entry from menu %x\n", s->menu);
 #endif
 	    s->menu &= ~menu;
 	}
+    }
+
+    if (dobind) {
+	/* Add the new shortcut at the start of the list. */
+	newsc->next = sclist;
+	sclist = newsc;
     }
 }
 
@@ -1118,9 +1070,9 @@ void parse_rcfile(FILE *rcstream
 	    parse_linter(ptr);
 #endif /* !DISABLE_COLOR */
 	else if (strcasecmp(keyword, "bind") == 0)
-	    parse_keybinding(ptr);
+	    parse_binding(ptr, TRUE);
 	else if (strcasecmp(keyword, "unbind") == 0)
-	    parse_unbinding(ptr);
+	    parse_binding(ptr, FALSE);
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
