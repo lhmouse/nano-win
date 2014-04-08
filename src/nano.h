@@ -532,7 +532,8 @@ enum
     UNDOABLE,
     SOFTWRAP,
     POS_HISTORY,
-    LOCKING
+    LOCKING,
+    NOREAD_MODE
 };
 
 /* Flags for the menus in which a given function should be present. */

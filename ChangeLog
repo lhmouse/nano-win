@@ -1,3 +1,11 @@
+2014-04-08  Hans Alves  <fonsvandeachterburen@gmail.com>
+	* nano.h, files.c, nano.c: Adding the command-line option --noread
+	to treat any name on the command line as a new file.  This allows
+	nano to write to named pipes -- it will start with a blank buffer,
+	and will write to the pipe when the user saves the file.  This way
+	nano can be used as an editor in combination with for instance gpg
+	without having to write sensitive data to disk first.
+
 2014-04-08  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/*.c: More editing of comment blocks and trimming of blank lines.
 

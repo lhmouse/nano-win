@@ -916,6 +916,7 @@ void usage(void)
 #ifndef DISABLE_MOUSE
     print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
+    print_opt("-n", "--noread", N_("Do not read the file (only write it)"));
 #ifndef DISABLE_OPERATINGDIR
     print_opt(_("-o <dir>"), _("--operatingdir=<dir>"),
 	N_("Set operating directory"));
@@ -2121,6 +2122,7 @@ int main(int argc, char **argv)
 #ifndef DISABLE_MOUSE
 	{"mouse", 0, NULL, 'm'},
 #endif
+	{"noread", 0, NULL, 'n'},
 #ifndef DISABLE_OPERATINGDIR
 	{"operatingdir", 1, NULL, 'o'},
 #endif
@@ -2193,11 +2195,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$",
+		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmno:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmo:pqr:s:tuvwxz$")
+		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmno:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2325,6 +2327,9 @@ int main(int argc, char **argv)
 		SET(USE_MOUSE);
 		break;
 #endif
+	    case 'n':
+		SET(NOREAD_MODE);
+		break;
 #ifndef DISABLE_OPERATINGDIR
 	    case 'o':
 		operating_dir = mallocstrcpy(operating_dir, optarg);

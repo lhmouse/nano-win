@@ -328,10 +328,10 @@ void open_buffer(const char *filename, bool undoable)
     if (new_buffer)
 	make_new_buffer();
 
-    /* If the filename isn't blank, open the file.  Otherwise, treat it
-     * as a new file. */
-    rc = (filename[0] != '\0') ? open_file(filename, new_buffer, &f) :
-	-2;
+    /* If the filename isn't blank, and we are not in NOREAD_MODE,
+     * open the file.  Otherwise, treat it as a new file. */
+    rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
+		open_file(filename, new_buffer, &f) : -2;
 
     /* If we have a file, and we're loading into a new buffer, update
      * the filename. */
