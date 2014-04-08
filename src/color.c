@@ -181,7 +181,7 @@ void color_update(void)
 
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
-     * file extension, and then look in the header. */
+     * file extension, then try magic, and then look in the header. */
     if (openfile->colorstrings == NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
@@ -206,7 +206,7 @@ void color_update(void)
 		    regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		}
 
-		/* Set colorstrings if we matched the extension regex. */
+		/* Set colorstrings if we match the extension regex. */
 		if (regexec(e->ext, openfile->filename, 0, NULL, 0) == 0) {
 		    openfile->syntax = tmpsyntax;
 		    openfile->colorstrings = tmpsyntax->color;
@@ -235,9 +235,9 @@ void color_update(void)
 			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		    }
 #ifdef DEBUG
-		    fprintf(stderr,"Matching regex \"%s\" against \"%s\"\n",e->ext_regex, magicstring);
+		    fprintf(stderr, "Matching regex \"%s\" against \"%s\"\n", e->ext_regex, magicstring);
 #endif
-
+		    /* Set colorstrings if we match the magic-string regex. */
 		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
@@ -262,35 +262,27 @@ void color_update(void)
 		for (e = tmpsyntax->headers; e != NULL; e = e->next) {
 		    bool not_compiled = (e->ext == NULL);
 
-		    /* e->ext_regex has already been checked for validity
-		     * elsewhere.  Compile its specified regex if we haven't
-		     * already. */
 		    if (not_compiled) {
 			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
 			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		    }
-
 #ifdef DEBUG
-		fprintf(stderr, "Comparing header regex \"%s\" to fileage \"%s\"...\n", e->ext_regex, openfile->fileage->data);
+		    fprintf(stderr, "Comparing header regex \"%s\" to fileage \"%s\"...\n",
+				    e->ext_regex, openfile->fileage->data);
 #endif
-		    /* Set colorstrings if we matched the extension regex. */
+		    /* Set colorstrings if we match the header-line regex. */
 		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0) {
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
+			break;
 		    }
 
-		    if (openfile->colorstrings != NULL)
-			break;
-
-		    /* Decompile e->ext_regex's specified regex if we aren't
-		     * going to use it. */
 		    if (not_compiled)
 			nfreeregex(&e->ext);
 		}
 	    }
 	}
     }
-
 
     /* If we didn't find any syntax yet, and we do have a default one,
      * use it. */
