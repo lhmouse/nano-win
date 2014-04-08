@@ -462,11 +462,12 @@ int check_bad_binding(sc *s)
     return 0;
 }
 
+/* Bind or unbind a key combo, to or from a function. */
 void parse_binding(char *ptr, bool dobind)
 {
     char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
     sc *s, *newsc = NULL;
-    int i, menu;
+    int menu;
 
     assert(ptr != NULL);
 
@@ -482,12 +483,26 @@ void parse_binding(char *ptr, bool dobind)
     keyptr = ptr;
     ptr = parse_next_word(ptr);
     keycopy = mallocstrcpy(NULL, keyptr);
-    for (i = 0; i < strlen(keycopy); i++)
-	keycopy[i] = toupper(keycopy[i]);
+
+    if (strlen(keycopy) < 2) {
+	rcfile_error(N_("Key name is too short"));
+	return;
+    }
+
+    /* Uppercase only the first two or three characters of the key name. */
+    keycopy[0] = toupper(keycopy[0]);
+    keycopy[1] = toupper(keycopy[1]);
+    if (keycopy[0] == 'M' && keycopy[1] == '-') {
+	if (strlen(keycopy) > 2)
+	    keycopy[2] = toupper(keycopy[2]);
+	else {
+	    rcfile_error(N_("Key name is too short"));
+	    return;
+	}
+    }
 
     if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F' && keycopy[0] != 'K') {
-	rcfile_error(
-		N_("Keybindings must begin with \"^\", \"M\", or \"F\""));
+	rcfile_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
 	return;
     }
 
@@ -505,26 +520,23 @@ void parse_binding(char *ptr, bool dobind)
     ptr = parse_next_word(ptr);
 
     if (!strcmp(menuptr, "")) {
-	rcfile_error(
-		/* TRANSLATORS: do not translate the word "all". */
-		N_("Must specify menu to bind key to (or \"all\")"));
+	/* TRANSLATORS: do not translate the word "all". */
+	rcfile_error(N_("Must specify menu in which to bind/unbind key (or \"all\")"));
 	return;
     }
 
     menu = strtomenu(menuptr);
+    if (menu < 1) {
+	rcfile_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
+	return;
+    }
 
     if (dobind) {
 	newsc = strtosc(menu, funcptr);
 	if (newsc == NULL) {
-	    rcfile_error(N_("Could not map name \"%s\" to a function"), funcptr);
+	    rcfile_error(N_("Cannot map name \"%s\" to a function"), funcptr);
 	    return;
 	}
-    }
-
-    if (menu < 1) {
-	rcfile_error(
-		N_("Could not map name \"%s\" to a menu"), menuptr);
-	return;
     }
 
 #ifdef DEBUG

@@ -1,6 +1,9 @@
 2014-04-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_binding): Melt the binding and unbinding code,
 	which are very similar, into a single function.
+	* src/rcfile.c (parse_binding): Uppercase only the first two or three
+	characters of the key name, in order to preserve ^Space and M-Space,
+	so they can be unbound.  Fixes Savannah bug #41940.
 
 2014-04-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,global.c,text.c}: Keep a pointer to the Uncut item in
