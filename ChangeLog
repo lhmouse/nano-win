@@ -1,3 +1,6 @@
+2014-04-08  Benno Schulenberg  <bensberg@justemail.net>
+	* src/rcfile.c: Correct two comments, and tweak two others.
+
 2014-04-08  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/nano.c (main): Convert the literal UTF-8 whitespace string into
 	its corresponding byte sequence, and add a comment for it.

@@ -113,7 +113,7 @@ static char *nanorc = NULL;
 static syntaxtype *endsyntax = NULL;
 	/* The end of the list of syntaxes. */
 static exttype *endheader = NULL;
-	/* End of header list */
+	/* End of header list. */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
@@ -377,9 +377,7 @@ void parse_syntax(char *ptr)
     }
 }
 
-
-/* Parse the next syntax string from the line at ptr, and add it to the
- * global list of color syntaxes. */
+/* Parse the magic regex that may influence the choice of syntax. */
 void parse_magictype(char *ptr)
 {
 #ifdef HAVE_LIBMAGIC
@@ -848,14 +846,14 @@ void parse_colors(char *ptr, bool icase)
 	    newcolor->end_regex = (nregcomp(fgstr, icase ? REG_ICASE :
 		0)) ? mallocstrcpy(NULL, fgstr) : NULL;
 
-	    /* Lame way to skip another static counter */
+	    /* Lame way to skip another static counter. */
             newcolor->id = endsyntax->nmultis;
             endsyntax->nmultis++;
 	}
     }
 }
 
-/* Parse the headers (1st line) of the file which may influence the regex used. */
+/* Parse the header-line regex that may influence the choice of syntax. */
 void parse_headers(char *ptr)
 {
     char *regstr;
