@@ -1,14 +1,17 @@
 pkgdata_DATA =	asm.nanorc \
 		awk.nanorc \
+		changelog.nanorc \
 		cmake.nanorc \
 		c.nanorc \
 		css.nanorc \
 		debian.nanorc \
 		fortran.nanorc \
 		gentoo.nanorc \
+		go.nanorc \
 		groff.nanorc \
 		html.nanorc \
 		java.nanorc \
+		javascript.nanorc \
 		lua.nanorc \
 		makefile.nanorc \
 		man.nanorc \
@@ -20,6 +23,7 @@ pkgdata_DATA =	asm.nanorc \
 		patch.nanorc \
 		perl.nanorc \
 		php.nanorc \
+		po.nanorc \
 		pov.nanorc \
 		python.nanorc \
 		ruby.nanorc \
