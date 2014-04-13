@@ -475,7 +475,7 @@ bool close_buffer(void)
     if (openfile == openfile->next)
 	return FALSE;
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
         update_poshistory(openfile->filename, openfile->current->lineno, xplustabs()+1);
 #endif
 
@@ -1185,7 +1185,7 @@ void do_insertfile(
 	    }
 #endif
 
-#if !defined(DISABLE_MULTIBUFFER) && defined(ENABLE_NANORC)
+#if !defined(DISABLE_MULTIBUFFER) && !defined(DISABLE_NANORC)
 	    if (ISSET(MULTIBUFFER)) {
 		/* Update the screen to account for the current
 		 * buffer. */
@@ -2891,7 +2891,7 @@ const char *tail(const char *foo)
     return tmp;
 }
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 /* Return the constructed dorfile path, or NULL if we can't find the home
  * directory.  The string is dynamically allocated, and should be
  * freed. */
@@ -2939,7 +2939,6 @@ void history_error(const char *msg, ...)
     fprintf(stderr, _("\nPress Enter to continue\n"));
     while (getchar() != '\n')
 	;
-
 }
 
 /* Now that we have more than one history file, let's just rely on a
@@ -3158,7 +3157,7 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
     char *fullpath = get_full_path(file);
 
     if (fullpath == NULL)
-    	return 0;
+	return 0;
 
     for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
 	if (!strcmp(posptr->filename, fullpath)) {
@@ -3232,4 +3231,4 @@ void load_poshistory(void)
     }
 }
 
-#endif /* !NANO_TINY && ENABLE_NANORC */
+#endif /* !NANO_TINY && !DISABLE_NANORC */

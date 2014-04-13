@@ -121,8 +121,9 @@ fi
 
 AC_ARG_ENABLE(nanorc,
 AS_HELP_STRING([--disable-nanorc], [Disable use of .nanorc files]))
-if test "x$enable_nanorc" != xno; then
-    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use .nanorc files.])
+if test "x$enable_nanorc" = xno; then
+    AC_DEFINE(DISABLE_NANORC, 1, [Define this to disable the use of .nanorc files.])
+else
     nanorc_support=yes
 fi
 
@@ -192,6 +193,9 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_multibuffer" != xyes; then
 	AC_DEFINE(DISABLE_MULTIBUFFER, 1, [Define this to disable multiple file buffers.])
+    fi
+    if test "x$enable_nanorc" != xyes; then
+	AC_DEFINE(DISABLE_NANORC, 1, [Define this to disable the use of .nanorc files.])
     fi
     if test "x$enable_operatingdir" != xyes; then
 	AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])

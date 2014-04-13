@@ -872,6 +872,12 @@ command-line option, which enables the mouse functionality.
 Disable support for opening multiple files at a time and switching
 between them on the fly.
 
+@item --disable-nanorc
+Disable support for reading the nanorc files at startup.  With such
+support, you can store custom settings in a system-wide and a per-user
+nanorc file rather than having to pass command-line options to get
+the desired behavior.  See @xref{Nanorc Files}, for more info.
+
 @item --disable-operatingdir
 Disable setting the operating directory.  This also eliminates the -o
 command-line option, which sets the operating directory.
@@ -895,12 +901,6 @@ code.  It also disables the function toggles.
 @item --enable-debug
 Enable support for runtime debug output.  This can get pretty messy, so
 chances are you only want this feature when you're working on the nano source.
-
-@item --enable-nanorc
-Enable support for reading the nanorc file at startup.  You can store
-custom settings in the nanorc file rather than having to pass command
-line options to get desired behavior.  See @xref{Nanorc Files}, for
-more info.
 
 @item --disable-nls
 Disables Native Language support.  This will disable use of the

@@ -1995,7 +1995,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	/* If buf contains a tab character, interpret it. */
 	if (*buf_mb == '\t') {
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 	    if (ISSET(WHITESPACE_DISPLAY)) {
 		int i;
 
@@ -2030,7 +2030,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    free(ctrl_buf_mb);
 	/* If buf contains a space character, interpret it. */
 	} else if (*buf_mb == ' ') {
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 	    if (ISSET(WHITESPACE_DISPLAY)) {
 		int i;
 
@@ -2278,7 +2278,7 @@ void statusbar(const char *msg, ...)
     va_list ap;
     char *bar, *foo;
     size_t start_x, foo_len;
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
     bool old_whitespace;
 #endif
 
@@ -2294,7 +2294,7 @@ void statusbar(const char *msg, ...)
 
     blank_statusbar();
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
     old_whitespace = ISSET(WHITESPACE_DISPLAY);
     UNSET(WHITESPACE_DISPLAY);
 #endif
@@ -2302,7 +2302,7 @@ void statusbar(const char *msg, ...)
     vsnprintf(bar, mb_cur_max() * (COLS - 3), msg, ap);
     va_end(ap);
     foo = display_string(bar, 0, COLS - 4, FALSE);
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
 #endif

@@ -88,7 +88,7 @@ char *matchbrackets = NULL;
 	 * searches. */
 #endif
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 char *whitespace = NULL;
 	/* The characters used when displaying the first characters of
 	 * tabs and spaces. */
@@ -1593,7 +1593,7 @@ sc *strtosc(char *input)
     return s;
 }
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 /* Same thing as above but for the menu. */
 int strtomenu(char *input)
 {
@@ -1729,7 +1729,7 @@ void thanks_for_all_the_fish(void)
     if (replaceage != NULL)
 	free_filestruct(replaceage);
 #endif
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     if (homedir != NULL)
 	free(homedir);
 #endif

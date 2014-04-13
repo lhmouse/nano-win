@@ -187,7 +187,7 @@ void sunder(char *str)
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301, USA. */
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 
 #ifndef HAVE_GETDELIM
 /* This function is equivalent to getdelim(). */
@@ -247,7 +247,7 @@ ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
     return getdelim(lineptr, n, '\n', stream);
 }
 #endif
-#endif /* ENABLE_NANORC */
+#endif /* !DISABLE_NANORC */
 
 #ifdef HAVE_REGEX_H
 /* Do the compiled regex in preg and the regex in string match the

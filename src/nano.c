@@ -48,7 +48,7 @@
 static int oldinterval = -1;
 	/* Used to store the user's original mouse click interval. */
 #endif
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 static bool no_rcfiles = FALSE;
 	/* Should we ignore all rcfiles? */
 #endif
@@ -613,7 +613,7 @@ void finish(void)
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
     if (!no_rcfiles && ISSET(HISTORYLOG))
 	save_history();
     if (!no_rcfiles && ISSET(POS_HISTORY)) {
@@ -856,7 +856,7 @@ void usage(void)
 #ifndef DISABLE_MULTIBUFFER
     print_opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
 #endif
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 #ifndef NANO_TINY
     print_opt("-G", "--locking",
 	N_("Use (vim-style) lock files"));
@@ -992,6 +992,9 @@ void version(void)
 #ifndef DISABLE_MOUSE
     printf(" --enable-mouse");
 #endif
+#ifndef DISABLE_NANORC
+    printf(" --enable-nanorc");
+#endif
 #ifndef DISABLE_MULTIBUFFER
     printf(" --enable-multibuffer");
 #endif
@@ -1032,6 +1035,9 @@ void version(void)
 #ifdef DISABLE_MULTIBUFFER
     printf(" --disable-multibuffer");
 #endif
+#ifdef DISABLE_NANORC
+    printf(" --disable-nanorc");
+#endif
 #ifdef DISABLE_OPERATINGDIR
     printf(" --disable-operatingdir");
 #endif
@@ -1051,9 +1057,6 @@ void version(void)
 #endif
 #ifdef DEBUG
     printf(" --enable-debug");
-#endif
-#ifdef ENABLE_NANORC
-    printf(" --enable-nanorc");
 #endif
 #ifndef ENABLE_NLS
     printf(" --disable-nls");
@@ -1428,7 +1431,7 @@ void do_toggle(int flag)
 	case SUSPEND:
 	    signal_init();
 	    break;
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 	case WHITESPACE_DISPLAY:
 	    titlebar(NULL);
 	    edit_refresh();
@@ -2107,7 +2110,7 @@ int main(int argc, char **argv)
 #ifndef DISABLE_MULTIBUFFER
 	{"multibuffer", 0, NULL, 'F'},
 #endif
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 	{"ignorercfiles", 0, NULL, 'I'},
 #endif
 	{"rebindkeypad", 0, NULL, 'K'},
@@ -2191,7 +2194,7 @@ int main(int argc, char **argv)
     textdomain(PACKAGE);
 #endif
 
-#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
+#if defined(DISABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
     /* If we don't have rcfile support, --disable-wrapping-as-root is
      * used, and we're root, turn wrapping off. */
     if (geteuid() == NANO_ROOT_UID)
@@ -2241,7 +2244,7 @@ int main(int argc, char **argv)
 		SET(MULTIBUFFER);
 		break;
 #endif
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 #ifndef NANO_TINY
 	    case 'G':
 		SET(LOCKING);
@@ -2408,7 +2411,7 @@ int main(int argc, char **argv)
     if (ISSET(RESTRICTED)) {
 	UNSET(SUSPEND);
 	UNSET(BACKUP_FILE);
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 	no_rcfiles = TRUE;
 #endif
     }
@@ -2420,7 +2423,7 @@ int main(int argc, char **argv)
 /* We've read through the command line options.  Now back up the flags
  * and values that are set, and read the rcfile(s).  If the values
  * haven't changed afterward, restore the backed-up values. */
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     if (!no_rcfiles) {
 #ifndef DISABLE_OPERATINGDIR
 	char *operating_dir_cpy = operating_dir;
@@ -2503,7 +2506,7 @@ int main(int argc, char **argv)
     else if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
-#endif /* ENABLE_NANORC */
+#endif /* !DISABLE_NANORC */
 
 #ifndef DISABLE_WRAPPING
     /* Overwrite an rcfile "set nowrap" or --disable-wrapping-as-root
@@ -2520,7 +2523,7 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
     /* Set up the search/replace history. */
     history_init();
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     if (!no_rcfiles) {
 	if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
 	    if (check_dotnano() == 0) {
@@ -2533,7 +2536,7 @@ int main(int argc, char **argv)
 	if (ISSET(POS_HISTORY))
 	    load_poshistory();
     }
-#endif /* ENABLE_NANORC */
+#endif /* !DISABLE_NANORC */
 
     /* Set up the backup directory (unless we're using restricted mode,
      * in which case backups are disabled, since they would allow
@@ -2604,7 +2607,7 @@ int main(int argc, char **argv)
     if (matchbrackets == NULL)
 	matchbrackets = mallocstrcpy(NULL, "(<[{)>]}");
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     /* If whitespace wasn't specified, set its default value.  If we're
      * using UTF-8, it's Unicode 00BB (Right-Pointing Double Angle
      * Quotation Mark) and Unicode 00B7 (Middle Dot).  Otherwise, it's
@@ -2623,7 +2626,7 @@ int main(int argc, char **argv)
 	    whitespace_len[1] = 1;
 	}
     }
-#endif /* ENABLE_NANORC */
+#endif /* !DISABLE_NANORC */
 #endif /* !NANO_TINY */
 
     /* If tabsize wasn't specified, set its default value. */
@@ -2703,7 +2706,7 @@ int main(int argc, char **argv)
 		    iline = 1;
 		    icol = 1;
 		}
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
                   else {
 		    /* See if we have a POS history to use if we haven't overridden it. */
 		    ssize_t savedposline, savedposcol;
@@ -2750,7 +2753,7 @@ int main(int argc, char **argv)
     if (startline > 1 || startcol > 1)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
 		FALSE);
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
     else {
 	/* See if we have a POS history to use if we haven't overridden it. */
 	ssize_t savedposline, savedposcol;

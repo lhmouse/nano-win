@@ -438,7 +438,7 @@ typedef struct shortcut {
 	/* Next shortcut. */
 } shortcut;
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 typedef struct rcoption {
    const char *name;
 	/* The name of the rcfile option. */

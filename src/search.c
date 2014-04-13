@@ -32,7 +32,7 @@
 
 static bool search_last_line = FALSE;
 	/* Have we gone past the last line while searching? */
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 static bool history_changed = FALSE;
 	/* Have any of the history lists changed? */
 #endif
@@ -1292,7 +1292,7 @@ void do_find_bracket(void)
     free(found_ch);
 }
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 /* Indicate whether any of the history lists have changed. */
 bool history_has_changed(void)
 {
@@ -1395,7 +1395,7 @@ void update_history(filestruct **h, const char *s)
     *hbot = (*hbot)->next;
     (*hbot)->data = mallocstrcpy(NULL, "");
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     /* Indicate that the history's been changed. */
     history_changed = TRUE;
 #endif

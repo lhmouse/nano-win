@@ -31,7 +31,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 
 static const rcoption rcopts[] = {
     {"boldtext", BOLD_TEXT},
@@ -1356,4 +1356,4 @@ void do_rcfile(void)
 #endif
 }
 
-#endif /* ENABLE_NANORC */
+#endif /* !DISABLE_NANORC */

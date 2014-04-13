@@ -60,7 +60,7 @@ extern openfilestruct *openfile;
 extern char *matchbrackets;
 #endif
 
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 extern char *whitespace;
 extern int whitespace_len[2];
 extern undo_type last_action;
@@ -221,14 +221,14 @@ char *revstrpbrk(const char *s, const char *accept, const char
 char *mbrevstrpbrk(const char *s, const char *accept, const char
 	*rev_start);
 #endif
-#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
+#if !defined(DISABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
 bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);
 #endif
 #ifdef ENABLE_UTF8
 bool is_valid_unicode(wchar_t wc);
 #endif
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 bool is_valid_mbstring(const char *s);
 #endif
 
@@ -325,7 +325,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	*lastwastab, void (*refresh_func)(void), bool *list);
 #endif
 const char *tail(const char *foo);
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 char *histfilename(void);
 void load_history(void);
 bool writehist(FILE *hist, filestruct *histhead);
@@ -551,7 +551,7 @@ void do_prompt_abort(void);
 int do_yesno_prompt(bool all, const char *msg);
 
 /* All functions in rcfile.c. */
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
@@ -615,7 +615,7 @@ void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
 #ifndef NANO_TINY
 bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
 bool history_has_changed(void);
 #endif
 void history_init(void);
@@ -701,7 +701,7 @@ void align(char **str);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
-#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 #ifndef HAVE_GETLINE
 ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
 #endif

@@ -9,6 +9,8 @@
 	* configure.ac, doc/texinfo/nano.texi: Make --enable-tiny disable
 	the use of libmagic, and document the --disable-libmagic flag.
 	* src/nano.c (version): Print the correct --enable/--disable option.
+	* configure.ac, src/*, doc/texinfo/nano.texi: Convert all occurrences
+	of #ifdef ENABLE_NANORC to #ifndef DISABLE_NANORC, and adapt for it.
 
 2014-04-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add four recent syntaxes to the packlist.

@@ -216,7 +216,7 @@ void help_init(void)
     int scsfound = 0;
 
 #ifndef NANO_TINY
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 
     UNSET(WHITESPACE_DISPLAY);
@@ -474,7 +474,7 @@ void help_init(void)
 		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
 		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
 
-#ifdef ENABLE_NANORC
+#ifndef DISABLE_NANORC
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
 #endif
