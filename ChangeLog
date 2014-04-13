@@ -6,6 +6,8 @@
 	* global.c (shortcut_init): Delete a misplaced setting of 'currmenu'.
 	* global.c (shortcut_init, strtomenu): Cosmetic tweaks.
 	* doc/syntax/{changelog,c,po}.nanorc: Some small extra colourings.
+	* configure.ac, doc/texinfo/nano.texi: Make --enable-tiny disable
+	the use of libmagic, and document the --disable-libmagic flag.
 
 2014-04-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add four recent syntaxes to the packlist.

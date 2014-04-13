@@ -184,6 +184,9 @@ if test "x$enable_tiny" = xyes; then
     if test "x$enable_justify" != xyes; then
 	AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
     fi
+    if test "x$enable_libmagic" != xyes; then
+	enable_libmagic=no
+    fi
     if test "x$enable_mouse" != xyes; then
 	AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
     fi
