@@ -11,6 +11,7 @@
 	* src/nano.c (version): Print the correct --enable/--disable option.
 	* configure.ac, src/*, doc/texinfo/nano.texi: Convert all occurrences
 	of #ifdef ENABLE_NANORC to #ifndef DISABLE_NANORC, and adapt for it.
+	* configure.ac: Complain about --enable-color without --enable-nanorc.
 
 2014-04-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add four recent syntaxes to the packlist.

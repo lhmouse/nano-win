@@ -175,6 +175,10 @@ if test "x$enable_tiny" = xyes; then
     if test "x$enable_color" != xyes; then
 	AC_DEFINE(DISABLE_COLOR, 1, [Define this to disable syntax highlighting.])
 	color_support=no
+    else
+	if test "x$enable_nanorc" != xyes; then
+	    AC_MSG_ERROR([--enable-color with --enable-tiny cannot work without --enable-nanorc])
+	fi
     fi
     if test "x$enable_extra" != xyes; then
 	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
