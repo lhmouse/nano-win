@@ -530,7 +530,7 @@ void parse_binding(char *ptr, bool dobind)
     }
 
     if (dobind) {
-	newsc = strtosc(menu, funcptr);
+	newsc = strtosc(funcptr);
 	if (newsc == NULL) {
 	    rcfile_error(N_("Cannot map name \"%s\" to a function"), funcptr);
 	    return;

@@ -804,7 +804,7 @@ const char *flagtostr(int flag);
 const subnfunc *sctofunc(sc *s);
 const subnfunc *getfuncfromkey(WINDOW *win);
 void print_sclist(void);
-sc *strtosc(int menu, char *input);
+sc *strtosc(char *input);
 function_type strtokeytype(const char *str);
 int strtomenu(char *input);
 void assign_keyinfo(sc *s);

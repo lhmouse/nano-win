@@ -1340,14 +1340,14 @@ const char *flagtostr(int flag)
 }
 #endif /* !NANO_TINY */
 
-/* Interpret the string given by the rc file and return a shortcut
- * struct, complete with proper value for execute. */
-sc *strtosc(int menu, char *input)
+/* Interpret a function string given in the rc file, and return a
+ * shortcut struct, complete with the proper value for execute. */
+sc *strtosc(char *input)
 {
-     sc *s;
+    sc *s;
 
     s = (sc *)nmalloc(sizeof(sc));
-    s->execute = TRUE; /* overridden as needed below */
+    s->execute = TRUE; /* will be overridden as needed below */
 
 #ifndef DISABLE_HELP
     if (!strcasecmp(input, "help"))
