@@ -986,6 +986,9 @@ void version(void)
 #ifndef DISABLE_JUSTIFY
     printf(" --enable-justify");
 #endif
+#ifdef HAVE_LIBMAGIC
+    printf(" --enable-libmagic");
+#endif
 #ifndef DISABLE_MOUSE
     printf(" --enable-mouse");
 #endif
@@ -1019,6 +1022,9 @@ void version(void)
 #endif
 #ifdef DISABLE_JUSTIFY
     printf(" --disable-justify");
+#endif
+#ifndef HAVE_LIBMAGIC
+    printf(" --disable-libmagic");
 #endif
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
