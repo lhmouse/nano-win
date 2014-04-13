@@ -23,9 +23,12 @@ color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
 ## This string is VERY resource intensive!
 color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 
-## Comment highlighting
+## Comments
 color brightblue "//.*"
 color brightblue start="/\*" end="\*/"
+
+## Reminders
+color ,yellow "(FIXME|TODO|XXX)"
 
 ## Trailing whitespace
 color ,green "[[:space:]]+$"

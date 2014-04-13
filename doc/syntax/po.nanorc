@@ -1,4 +1,4 @@
-## Syntax colouring for PO files.
+## Colouring for PO files.
 ##
 syntax "po" "\.pot?$"
 # Comments.
@@ -20,5 +20,7 @@ color brightmagenta "%([1-9]\$)?[a-z]*"
 # Quotes and newlines.
 color yellow "\""
 color cyan "\\n"
+# Reminders.
+color ,yellow "(FIXME|TODO|XXX)"
 # Obsolete strings.
 color red "#~.*$"

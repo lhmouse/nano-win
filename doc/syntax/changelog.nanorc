@@ -1,19 +1,28 @@
 ## Colouring for Changelogs.
 ##
-syntax "changelog" "^Change[Ll]og"
+syntax "changelog" "Change[Ll]og.*"
 
 # Author lines.
 color green "^(19|20).*$"
 # Dates.
-color red "^(19|20)[-0123456789]*"
+color red "^(19|20)[0-9-]{8}"
 # Email addresses.
 color yellow "<[^>]*@[^>]*>"
 
 # Changed files.
 color magenta "[[:space:]]\*[[:space:]].*:"
 
+# Command-line options.
+color cyan "[[:space:]]-[a-zA-Z\$]" "--[8a-z-]+"
+
+# Bug numbers.
+color cyan "bug #[0-9]{5}"
+
 # Probable variables, for variety.
 color brightred "\<[A-Z_][0-9A-Z_]+\>" 
+
+# Key sequences.
+color brightblue "\^[A-Z]" "\<M-." "\<F1?[0-9]" "(\^|M-)Space"
 
 # Trailing whitespace.
 color ,green "[[:space:]]+$"
