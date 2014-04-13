@@ -4,6 +4,7 @@
 	* global.c (shortcut_init): Remove mistaken browser item from the
 	Go-To-Line menu.
 	* global.c (shortcut_init): Delete a misplaced setting of 'currmenu'.
+	* global.c (shortcut_init, strtomenu): Cosmetic tweaks.
 
 2014-04-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add four recent syntaxes to the packlist.

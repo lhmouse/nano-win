@@ -605,7 +605,7 @@ void shortcut_init(void)
 #endif
     const char *nano_replace_msg =
 	N_("Replace a string or a regular expression");
-     const char *nano_gotoline_msg = N_("Go to line and column number");
+    const char *nano_gotoline_msg = N_("Go to line and column number");
 #ifndef NANO_TINY
     const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_whereis_next_msg = N_("Repeat last search");
@@ -734,6 +734,8 @@ void shortcut_init(void)
         allfuncs = (allfuncs)->next;
         free(f);
     }
+
+    /* Start populating the different menus with functions. */
 
     add_to_funcs(do_help_void,
 	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER),
@@ -1077,6 +1079,8 @@ void shortcut_init(void)
 	goto_dir_msg, IFSCHELP(nano_gotodir_msg), FALSE, VIEW);
 #endif
 
+    /* Start associating key combos with functions in specific menus. */
+
     add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
 	"^G", do_help_void, 0, TRUE);
     add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
@@ -1248,8 +1252,7 @@ void shortcut_init(void)
     add_to_sclist(MWRITEFILE, "M-A", append_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-P", prepend_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-B", backup_file_void, 0, FALSE);
-    add_to_sclist(MWRITEFILE, "^T", to_files_void, 0, FALSE);
-    add_to_sclist(MINSERTFILE, "^T", to_files_void, 0, FALSE);
+    add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0, FALSE);
     add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
     add_to_sclist(MMAIN, "^L", total_refresh, 0, TRUE);
@@ -1603,7 +1606,7 @@ int strtomenu(char *input)
     else if (!strcasecmp(input, "replace"))
 	return MREPLACE;
     else if (!strcasecmp(input, "replace2") ||
-		!strcasecmp(input, "replacewith"))
+	     !strcasecmp(input, "replacewith"))
 	return MREPLACE2;
     else if (!strcasecmp(input, "gotoline"))
 	return MGOTOLINE;
@@ -1612,7 +1615,7 @@ int strtomenu(char *input)
     else if (!strcasecmp(input, "insert"))
 	return MINSERTFILE;
     else if (!strcasecmp(input, "externalcmd") ||
-		!strcasecmp(input, "extcmd"))
+	     !strcasecmp(input, "extcmd"))
 	return MEXTCMD;
     else if (!strcasecmp(input, "help"))
 	return MHELP;
