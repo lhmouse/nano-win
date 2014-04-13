@@ -1,6 +1,8 @@
 2014-04-13  Benno Schulenberg  <bensberg@justemail.net>
 	* proto.h, global.c, rcfile.c: Remove unused parameter 'menu'
 	from strtosc().
+	* global.c (shortcut_init):  Remove mistaken browser item from
+	Go-To-Line menu.
 
 2014-04-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add four recent syntaxes to the packlist.

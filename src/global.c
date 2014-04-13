@@ -1020,7 +1020,7 @@ void shortcut_init(void)
 
 #ifndef DISABLE_BROWSER
     if (!ISSET(RESTRICTED))
-	add_to_funcs(to_files_void, (MGOTOLINE|MINSERTFILE),
+	add_to_funcs(to_files_void, MINSERTFILE,
 	    to_files_msg, IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
 #endif
 
