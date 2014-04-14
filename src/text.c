@@ -550,12 +550,11 @@ void do_undo(void)
 	u->strdata = f->data;
 	f->data = data;
 	break;
-
     default:
 	undidmsg = _("Internal error: unknown type.  Please save your work.");
 	break;
-
     }
+
     renumber(f);
     do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Undid action (%s)"), undidmsg);
@@ -669,14 +668,13 @@ void do_redo(void)
     default:
 	undidmsg = _("Internal error: unknown type.  Please save your work.");
 	break;
-
     }
+
     do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Redid action (%s)"), undidmsg);
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
-
 }
 #endif /* !NANO_TINY */
 
@@ -1361,7 +1359,7 @@ ssize_t break_line(const char *line, ssize_t goal
 {
     ssize_t blank_loc = -1;
 	/* Current tentative return value.  Index of the last blank we
-	 * found with short enough display width.  */
+	 * found with short enough display width. */
     ssize_t cur_loc = 0;
 	/* Current index in line. */
     size_t cur_pos = 0;

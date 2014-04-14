@@ -2496,13 +2496,13 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
 
-	/* Set up multi-line color data for this line if it's not yet calculated  */
+	/* Set up multi-line color data for this line if it's not yet calculated. */
         if (fileptr->multidata == NULL && openfile->syntax
 		&& openfile->syntax->nmultis > 0) {
 	    int i;
 	    fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
             for (i = 0; i < openfile->syntax->nmultis; i++)
-		fileptr->multidata[i] = -1;	/* Assue this applies until we know otherwise */
+		fileptr->multidata[i] = -1;	/* Assume this applies until we know otherwise. */
 	}
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;

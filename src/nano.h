@@ -214,7 +214,7 @@ typedef struct colortype {
 	/* The compiled end (if any) of the regex string. */
     struct colortype *next;
 	/* Next set of colors. */
-     int id;
+    int id;
 	/* Basic id for assigning to lines later. */
 } colortype;
 

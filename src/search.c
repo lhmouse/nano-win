@@ -307,10 +307,10 @@ bool findnextstr(
     /* Look for needle in the current line we're searching. */
     enable_nodelay();
     while (TRUE) {
-        if (time(NULL) - lastkbcheck > 1) {
-            lastkbcheck = time(NULL);
+	if (time(NULL) - lastkbcheck > 1) {
+	    lastkbcheck = time(NULL);
 	    f = getfuncfromkey(edit);
-            if (f && f->scfunc == do_cancel) {
+	    if (f && f->scfunc == do_cancel) {
 		statusbar(_("Cancelled"));
 		return FALSE;
 	    }
@@ -361,7 +361,7 @@ bool findnextstr(
 	/* We've finished processing the file, so get out. */
 	if (search_last_line) {
 	    not_found_msg(needle);
-            disable_nodelay();
+	    disable_nodelay();
 	    return FALSE;
 	}
 
@@ -580,7 +580,7 @@ void do_research(void)
 #endif
 	}
     } else
-        statusbar(_("No current search pattern"));
+	statusbar(_("No current search pattern"));
 
     openfile->placewewant = xplustabs();
     edit_redraw(fileptr, pww_save);

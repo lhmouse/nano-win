@@ -259,8 +259,8 @@ bool regexp_bol_or_eol(const regex_t *preg, const char *string)
 	REG_NOMATCH);
 }
 
-/* Fix the regex if we're on platforms which requires an adjustment
- * from GNU-style to BSD-style word boundaries.  */
+/* Fix the regex if we're on platforms which require an adjustment
+ * from GNU-style to BSD-style word boundaries. */
 const char *fixbounds(const char *r) {
 #ifndef GNU_WORDBOUNDS
     int i, j = 0;

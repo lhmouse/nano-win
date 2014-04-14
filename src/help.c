@@ -47,8 +47,8 @@ void do_help(void (*refresh_func)(void))
 	/* The line number in help_text of the last help line.  This
 	 * variable is zero-based. */
 #ifndef DISABLE_MOUSE
-	/* The current shortcut list. */
     int oldmenu = currmenu;
+	/* The menu we were called from. */
 #endif
     const char *ptr;
 	/* The current line of the help text. */
@@ -129,11 +129,10 @@ void do_help(void (*refresh_func)(void))
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 
 #ifndef DISABLE_MOUSE
-        if (kbinput == KEY_MOUSE) {
+	if (kbinput == KEY_MOUSE) {
 		int mouse_x, mouse_y;
 		get_mouseinput(&mouse_x, &mouse_y, TRUE);
-		continue;
-	    /* Redraw the screen. */
+		continue;    /* Redraw the screen. */
 	}
 #endif
 
@@ -141,7 +140,7 @@ void do_help(void (*refresh_func)(void))
 	s = get_shortcut(MHELP, &kbinput, &meta_key);
 	if (!s)
 	    continue;
-        f = sctofunc((sc *) s);
+	f = sctofunc((sc *) s);
 	if (!f)
 	    continue;
 
@@ -388,7 +387,7 @@ void help_init(void)
      * which fill 24 columns, plus translated text, plus one or two
      * \n's. */
 	for (f = allfuncs; f != NULL; f = f->next)
-            if (f->menus & currmenu)
+	    if (f->menus & currmenu)
 		allocsize += (24 * mb_cur_max()) + strlen(f->help) + 2;
 
 #ifndef NANO_TINY
@@ -399,7 +398,7 @@ void help_init(void)
 	size_t endis_len = strlen(_("enable/disable"));
 
 	for (s = sclist; s != NULL; s = s->next)
-            if (s->scfunc ==  do_toggle_void)
+	    if (s->scfunc ==  do_toggle_void)
 		allocsize += strlen(_(flagtostr(s->toggle))) + endis_len + 9;
 
     }
@@ -425,26 +424,26 @@ void help_init(void)
     /* Now add our shortcut info. */
     for (f = allfuncs; f != NULL; f = f->next) {
 
-        if ((f->menus & currmenu) == 0)
+	if ((f->menus & currmenu) == 0)
 	    continue;
 
-        if (!f->desc || !strcmp(f->desc, ""))
+	if (!f->desc || !strcmp(f->desc, ""))
 	    continue;
 
-        /* Let's just try and use the first 3 shortcuts from the new
-         * struct... */
-        for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
+	/* Let's just try and use the first 3 shortcuts from the new
+	 * struct... */
+	for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
 
-            if (scsfound == 3)
+	    if (scsfound == 3)
 		continue;
 
-            if (s->type == RAWINPUT)
+	    if (s->type == RAWINPUT)
 		continue;
 
 	    if ((s->menu & currmenu) == 0)
 		continue;
 
-            if (s->scfunc == f->scfunc) {
+	    if (s->scfunc == f->scfunc) {
 		scsfound++;
 
 		if (scsfound == 1)
@@ -455,7 +454,7 @@ void help_init(void)
 	    }
 	}
 	/* Pad with tabs if we didn't find 3. */
-        for (; scsfound < 3; scsfound++) {
+	for (; scsfound < 3; scsfound++) {
 	    *(ptr++) = '\t';
 	}
 
@@ -469,8 +468,8 @@ void help_init(void)
 #ifndef NANO_TINY
     /* And the toggles... */
     if (currmenu == MMAIN)
-        for (s = sclist; s != NULL; s = s->next)
-            if (s->scfunc == do_toggle_void)
+	for (s = sclist; s != NULL; s = s->next)
+	    if (s->scfunc == do_toggle_void)
 		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
 		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
 

@@ -1278,7 +1278,7 @@ int do_yesno_prompt(bool all, const char *msg)
     blank_statusbar();
     mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
-     wattroff(bottomwin, reverse_attr);
+    wattroff(bottomwin, reverse_attr);
 
     /* Refresh the edit window and the statusbar before getting
      * input. */

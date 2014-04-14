@@ -125,7 +125,7 @@ void do_cut_text(
 	 * it. */
     size_t cb_save_len = 0;
 	/* The length of the string at the current end of the cutbuffer,
-	 * before we add text to it.  */
+	 * before we add text to it. */
     bool old_no_newlines = ISSET(NO_NEWLINES);
 #endif
 
@@ -264,7 +264,7 @@ void do_uncut_text(void)
 	return;
 
 #ifndef NANO_TINY
-     update_undo(UNCUT);
+    update_undo(UNCUT);
 #endif
 
     /* Add a copy of the text in the cutbuffer to the current filestruct

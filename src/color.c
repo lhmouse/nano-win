@@ -161,9 +161,9 @@ void color_update(void)
     if (stat(openfile->filename, &fileinfo) == 0) {
 	m = magic_open(MAGIC_SYMLINK |
 #ifdef DEBUG
-                       MAGIC_DEBUG | MAGIC_CHECK |
+		       MAGIC_DEBUG | MAGIC_CHECK |
 #endif
-                       MAGIC_ERROR);
+		       MAGIC_ERROR);
 	if (m == NULL || magic_load(m, NULL) < 0)
 	    statusbar(_("magic_load() failed: %s"), strerror(errno));
 	else {
@@ -171,7 +171,7 @@ void color_update(void)
 	    if (magicstring == NULL) {
 		magicerr = magic_error(m);
 		statusbar(_("magic_file(%s) failed: %s"), openfile->filename, magicerr);
-            }
+	    }
 #ifdef DEBUG
 	fprintf(stderr, "magic string returned: %s\n", magicstring);
 #endif
@@ -395,8 +395,8 @@ void reset_multis(filestruct *fileptr, bool force)
 
 	/* Figure out where the first begin and end are to determine if
 	 * things changed drastically for the precalculated multi values. */
-        nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
-        noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
+	nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
+	noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
 	if (fileptr->multidata[tmpcolor->id] ==  CWHOLELINE) {
 	    if (nobegin && noend)
 		continue;
