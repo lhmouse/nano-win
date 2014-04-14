@@ -411,10 +411,9 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	new_magicline();
 }
 
-/* Copy all the text from the filestruct beginning with file_top and
- * ending with file_bot to the current filestruct at the current cursor
- * position. */
-void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
+/* Copy all text from the given filestruct to the current filestruct
+ * at the current cursor position. */
+void copy_from_filestruct(filestruct *somebuffer)
 {
     filestruct *top_save;
     size_t current_x_save = openfile->current_x;
@@ -423,7 +422,7 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
-    assert(file_top != NULL && file_bot != NULL);
+    assert(somebuffer != NULL);
 
 #ifndef NANO_TINY
     /* Keep track of whether the mark begins inside the partition and
@@ -446,9 +445,9 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 	openfile->current_x, openfile->current, openfile->current_x);
     edittop_inside = (openfile->edittop == openfile->fileage);
 
-    /* Put the top and bottom of the filestruct at copies of file_top
-     * and file_bot. */
-    openfile->fileage = copy_filestruct(file_top);
+    /* Put the top and bottom of the current filestruct at the top and
+     * bottom of a copy of the passed buffer. */
+    openfile->fileage = copy_filestruct(somebuffer);
     openfile->filebot = openfile->fileage;
     while (openfile->filebot->next != NULL)
 	openfile->filebot = openfile->filebot->next;

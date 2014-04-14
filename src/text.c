@@ -378,7 +378,7 @@ void undo_cut(undo *u)
     else
 	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
 
-    copy_from_filestruct(cutbuffer, cutbottom);
+    copy_from_filestruct(cutbuffer);
     free_filestruct(cutbuffer);
     cutbuffer = NULL;
 
@@ -663,7 +663,7 @@ void do_redo(void)
     case INSERT:
 	undidmsg = _("text insert");
 	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
-        copy_from_filestruct(u->cutbuffer, u->cutbottom);
+	copy_from_filestruct(u->cutbuffer);
 	openfile->placewewant = xplustabs();
 	break;
     default:
@@ -1810,7 +1810,7 @@ void backup_lines(filestruct *first_line, size_t par_len)
 
     /* Copy the paragraph back to the current buffer's filestruct from
      * the justify buffer. */
-    copy_from_filestruct(jusbuffer, jusbottom);
+    copy_from_filestruct(jusbuffer);
 
     /* Move upward from the last line of the paragraph to the first
      * line, putting first_line, edittop, current, and mark_begin at the
