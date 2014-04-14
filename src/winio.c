@@ -1793,15 +1793,12 @@ const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
     return NULL;
 }
 
-/* Try to get a function back from a window.  Just a wrapper
- * functions need to create a function_key meta_key blah blah
- * menu - what menu name to look through for valid funcs. */
+/* Try to get a function back from a window.  Just a wrapper. */
 const subnfunc *getfuncfromkey(WINDOW *win)
 {
     int kbinput;
     bool func_key = FALSE, meta_key = FALSE;
     const sc *s;
-    const subnfunc *f;
 
     kbinput = parse_kbinput(win, &meta_key, &func_key);
     if (kbinput == 0)
@@ -1811,9 +1808,7 @@ const subnfunc *getfuncfromkey(WINDOW *win)
     if (!s)
 	return NULL;
 
-    f = sctofunc((sc *) s);
-    return f;
-
+    return sctofunc((sc *) s);
 }
 
 /* Move to (x, y) in win, and display a line of n spaces with the
