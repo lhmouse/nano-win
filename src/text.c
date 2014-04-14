@@ -1350,7 +1350,7 @@ bool do_wrap(filestruct *line, bool undoing)
  * that the display length to there is at most (goal + 1).  If there is
  * no such blank, then we find the first blank.  We then take the last
  * blank in that group of blanks.  The terminating '\0' counts as a
- * blank, as does a '\n' if newline is TRUE. */
+ * blank, as does a '\n' if newln is TRUE. */
 ssize_t break_line(const char *line, ssize_t goal
 #ifndef DISABLE_HELP
 	, bool newln
@@ -1364,12 +1364,13 @@ ssize_t break_line(const char *line, ssize_t goal
 	/* Current index in line. */
     size_t cur_pos = 0;
 	/* Current column position in line. */
-    int line_len;
+    int char_len = 0;
+	/* Length of current character, in bytes. */
 
     assert(line != NULL);
 
     while (*line != '\0' && goal >= cur_pos) {
-	line_len = parse_mbchar(line, NULL, &cur_pos);
+	char_len = parse_mbchar(line, NULL, &cur_pos);
 
 	if (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
@@ -1384,8 +1385,8 @@ ssize_t break_line(const char *line, ssize_t goal
 #endif
 	}
 
-	line += line_len;
-	cur_loc += line_len;
+	line += char_len;
+	cur_loc += char_len;
     }
 
     if (goal >= cur_pos)
@@ -1394,34 +1395,34 @@ ssize_t break_line(const char *line, ssize_t goal
 
 #ifndef DISABLE_HELP
     if (newln && blank_loc <= 0) {
-       /* If blank was not found or was found only first character,
-        * force line break. */
-       cur_loc -= line_len;
+       /* If no blank was found, or was found only as the first
+        * character, force a line break. */
+       cur_loc -= char_len;
        return cur_loc;
     }
 #endif
 
     if (blank_loc == -1) {
-	/* No blank was found that was short enough. */
+	/* No blank was found within the goal width,
+	 * so now try and find a blank beyond it. */
 	bool found_blank = FALSE;
 	ssize_t found_blank_loc = 0;
 
 	while (*line != '\0') {
-	    line_len = parse_mbchar(line, NULL, NULL);
+	    char_len = parse_mbchar(line, NULL, NULL);
 
 	    if (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
 		|| (newln && *line == '\n')
 #endif
 		) {
-		if (!found_blank)
-		    found_blank = TRUE;
+		found_blank = TRUE;
 		found_blank_loc = cur_loc;
 	    } else if (found_blank)
 		return found_blank_loc;
 
-	    line += line_len;
-	    cur_loc += line_len;
+	    line += char_len;
+	    cur_loc += char_len;
 	}
 
 	return -1;
@@ -1430,8 +1431,8 @@ ssize_t break_line(const char *line, ssize_t goal
     /* Move to the last blank after blank_loc, if there is one. */
     line -= cur_loc;
     line += blank_loc;
-    line_len = parse_mbchar(line, NULL, NULL);
-    line += line_len;
+    char_len = parse_mbchar(line, NULL, NULL);
+    line += char_len;
 
     while (*line != '\0' && (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
@@ -1443,10 +1444,10 @@ ssize_t break_line(const char *line, ssize_t goal
 	    break;
 #endif
 
-	line_len = parse_mbchar(line, NULL, NULL);
+	char_len = parse_mbchar(line, NULL, NULL);
 
-	line += line_len;
-	blank_loc += line_len;
+	line += char_len;
+	blank_loc += char_len;
     }
 
     return blank_loc;
