@@ -1762,21 +1762,16 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 }
 #endif /* !DISABLE_MOUSE */
 
-/* Return the shortcut corresponding to the values of kbinput (the key
- * itself), meta_key (whether the key is a meta sequence), and func_key
- * (whether the key is a function key), if any.  The shortcut will be
- * the first one in the list (control key, meta key sequence, function
- * key, other meta key sequence) for the corresponding function.  For
- * example, passing in a meta key sequence that corresponds to a
- * function with a control key, a function key, and a meta key sequence
- * will return the control key corresponding to that function. */
-const sc *get_shortcut(int menu, int *kbinput, bool
-	*meta_key, bool *func_key)
+/* Return the shortcut that corresponds to the values of kbinput (the
+ * key itself) and meta_key (whether the key is a meta sequence).  The
+ * returned shortcut will be the first in the list that corresponds to
+ * the given sequence. */
+const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
 {
     sc *s;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s, func_key = %s\n", *kbinput, *meta_key ? "TRUE" : "FALSE", *func_key ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s", *kbinput, *meta_key ? "TRUE" : "FALSE");
 #endif
 
     /* Check for shortcuts. */
@@ -1785,7 +1780,8 @@ const sc *get_shortcut(int menu, int *kbinput, bool
 		&& ((s->type == META && *meta_key == TRUE && *kbinput == s->seq)
 		|| (s->type != META && *kbinput == s->seq))) {
 #ifdef DEBUG
-	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menus %x = %x)\n", s->keystr, *meta_key, menu, s->menu);
+	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
+			     s->keystr, *meta_key, menu, s->menu);
 #endif
 	    return s;
 	}
@@ -1811,7 +1807,7 @@ const subnfunc *getfuncfromkey(WINDOW *win)
     if (kbinput == 0)
 	return NULL;
 
-    s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+    s = get_shortcut(currmenu, &kbinput, &meta_key);
     if (!s)
 	return NULL;
 

@@ -161,8 +161,8 @@ char *do_browser(char *path, DIR *dir)
 	}
 #endif /* !DISABLE_MOUSE */
 
-	parse_browser_input(&kbinput, &meta_key, &func_key);
-        s = get_shortcut(MBROWSER, &kbinput, &meta_key, &func_key);
+	parse_browser_input(&kbinput, &meta_key);
+	s = get_shortcut(MBROWSER, &kbinput, &meta_key);
         if (!s)
             continue;
         f = sctofunc((sc *) s);
@@ -540,13 +540,12 @@ void browser_init(const char *path, DIR *dir)
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
- * (the key itself), meta_key (whether the key is a meta sequence), and
- * func_key (whether the key is a function key), if any.  In the
- * process, convert certain non-shortcut keys into their corresponding
+ * (the key itself) and meta_key (whether the key is a meta sequence).
+ * Also convert certain non-shortcut keys into their corresponding
  * shortcut keys. */
-void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
+void parse_browser_input(int *kbinput, bool *meta_key)
 {
-    get_shortcut(MBROWSER, kbinput, meta_key, func_key);
+    get_shortcut(MBROWSER, kbinput, meta_key);
 
     /* Pico compatibility. */
     if (!*meta_key) {
@@ -830,7 +829,7 @@ int filesearch_init(void)
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
-        s = get_shortcut(MBROWSER, &i, &meta_key, &func_key);
+	s = get_shortcut(MBROWSER, &i, &meta_key);
 	if (i == -2 || i == 0) {
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or

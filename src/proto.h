@@ -136,7 +136,7 @@ extern char *homedir;
 char *do_browser(char *path, DIR *dir);
 char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
-void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key);
+void parse_browser_input(int *kbinput, bool *meta_key);
 void browser_refresh(void);
 bool browser_select_filename(const char *needle);
 int filesearch_init(void);
@@ -367,7 +367,7 @@ void do_help_void(void);
 #ifndef DISABLE_HELP
 void do_help(void (*refresh_func)(void));
 void help_init(void);
-void parse_help_input(int *kbinput, bool *meta_key, bool *func_key);
+void parse_help_input(int *kbinput, bool *meta_key);
 size_t help_line_len(const char *ptr);
 #endif
 
@@ -767,8 +767,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
-const sc *get_shortcut(int menu, int *kbinput, bool
-	*meta_key, bool *func_key);
+const sc *get_shortcut(int menu, int *kbinput, bool *meta_key);
 const sc *first_sc_for(int menu, void (*func)(void));
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);

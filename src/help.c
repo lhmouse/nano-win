@@ -137,8 +137,8 @@ void do_help(void (*refresh_func)(void))
 	}
 #endif
 
-	parse_help_input(&kbinput, &meta_key, &func_key);
-        s = get_shortcut(MHELP, &kbinput, &meta_key, &func_key);
+	parse_help_input(&kbinput, &meta_key);
+	s = get_shortcut(MHELP, &kbinput, &meta_key);
 	if (!s)
 	    continue;
         f = sctofunc((sc *) s);
@@ -486,13 +486,12 @@ void help_init(void)
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
- * (the key itself), meta_key (whether the key is a meta sequence), and
- * func_key (whether the key is a function key), if any.  In the
- * process, convert certain non-shortcut keys into their corresponding
+ * (the key itself) and meta_key (whether the key is a meta sequence).
+ * Also convert certain non-shortcut keys into their corresponding
  * shortcut keys. */
-void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
+void parse_help_input(int *kbinput, bool *meta_key)
 {
-    get_shortcut(MHELP, kbinput, meta_key, func_key);
+    get_shortcut(MHELP, kbinput, meta_key);
 
     if (!*meta_key) {
 	switch (*kbinput) {

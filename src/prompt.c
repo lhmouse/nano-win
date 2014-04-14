@@ -88,7 +88,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 #endif
 
     /* Check for a shortcut in the current list. */
-    s = get_shortcut(currmenu, &input, meta_key, func_key);
+    s = get_shortcut(currmenu, &input, meta_key);
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
@@ -975,7 +975,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	    &ran_func, &finished, TRUE, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
-	s = get_shortcut(currmenu, &kbinput, meta_key, func_key);
+	s = get_shortcut(currmenu, &kbinput, meta_key);
 
 	if (s)
 	    if (s->scfunc == do_cancel || s->scfunc == do_enter_void)
@@ -1294,7 +1294,7 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
-	s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+	s = get_shortcut(currmenu, &kbinput, &meta_key);
 
 	if (s && s->scfunc ==  do_cancel)
 	    ok = -1;

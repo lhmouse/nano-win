@@ -2289,7 +2289,7 @@ void do_justify(bool full_justify)
      * the keystroke and return. */
     kbinput = do_input(&meta_key, &func_key, &s_or_t, &ran_func,
 	&finished, FALSE);
-    s = get_shortcut(MMAIN, &kbinput, &meta_key, &func_key);
+    s = get_shortcut(MMAIN, &kbinput, &meta_key);
 
     if (s && s->scfunc == do_uncut_text) {
 	/* Splice the justify buffer back into the file, but only if we
@@ -3243,7 +3243,7 @@ void do_linter(void)
 	}
 
         kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
-        s = get_shortcut(currmenu, &kbinput, &meta_key, &func_key);
+	s = get_shortcut(currmenu, &kbinput, &meta_key);
 	tmplint = curlint;
 
 	if (!s)

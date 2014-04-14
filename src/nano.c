@@ -1616,7 +1616,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 
     /* Check for a shortcut in the main list. */
-    s = get_shortcut(MMAIN, &input, meta_key, func_key);
+    s = get_shortcut(MMAIN, &input, meta_key);
 
     /* If we got a shortcut from the main list, or a "universal"
      * edit window shortcut, set have_shortcut to TRUE. */
