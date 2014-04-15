@@ -38,8 +38,6 @@ void do_help(void (*refresh_func)(void))
 {
     int kbinput = ERR;
     bool meta_key, func_key, old_no_help = ISSET(NO_HELP);
-    bool abort = FALSE;
-	/* Whether we should abort the help browser. */
     size_t line = 0;
 	/* The line number in help_text of the first displayed help
 	 * line.  This variable is zero-based. */
@@ -94,7 +92,7 @@ void do_help(void (*refresh_func)(void))
     if (last_line > 0)
 	last_line--;
 
-    while (!abort) {
+    while (TRUE) {
 	size_t i;
 
 	/* Display the help text if we don't have a key, or if the help
@@ -169,10 +167,9 @@ void do_help(void (*refresh_func)(void))
 		    if (line + (editwinrows - 1) < last_line)
 			line = last_line - (editwinrows - 1);
 		}
-	    /* Abort the help browser. */
 	} else if (f->scfunc == do_exit) {
-		abort = TRUE;
-		break;
+	    /* Abort the help browser. */
+	    break;
 	}
     }
 

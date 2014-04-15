@@ -10,6 +10,7 @@
 	shortcuts M-\ and M-/ for First Line and Last Line to the help
 	viewer, instead of ^Y and ^V, which are already taken for Page
 	Up and Page Down.  Also, stop them from aborting the viewer.
+	* src/help.c (do_help): Remove superfluous abortion variable.
 
 2014-04-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,cut.c,nano.c,text.c}: Remove the unused parameter
