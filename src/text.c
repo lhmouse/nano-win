@@ -145,7 +145,7 @@ void do_delete(void)
 
     set_modified();
 
-    if (edit_refresh_needed  == FALSE)
+    if (edit_refresh_needed == FALSE)
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -2705,7 +2705,7 @@ const char *do_int_speller(const char *tempfile_name)
     if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
 	return _("Error invoking \"spell\"");
 
-    if (WIFEXITED(sort_status)  == 0 || WEXITSTATUS(sort_status))
+    if (WIFEXITED(sort_status) == 0 || WEXITSTATUS(sort_status))
 	return _("Error invoking \"sort -f\"");
 
     if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))

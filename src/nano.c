@@ -1891,7 +1891,7 @@ void precalc_multicolorinfo(void)
 			goto precalc_cleanup;
 		}
 
-		while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0))  == 0) {
+		while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0)) == 0) {
 		    /* Look for end, and start marking how many lines are
 		     * encompassed which should speed up rendering later. */
 		    startx += startmatch.rm_eo;
@@ -1900,7 +1900,7 @@ void precalc_multicolorinfo(void)
 #endif
 
 		    /* Look on this line first for end. */
-		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch, 0)  == 0) {
+		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch, 0) == 0) {
 			startx += endmatch.rm_eo;
 			fileptr->multidata[tmpcolor->id] |= CSTARTENDHERE;
 #ifdef DEBUG

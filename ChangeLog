@@ -3,13 +3,14 @@
 	non-blocking mode for keyboard input.
 	* src/winio.c: Relocate and correct a few comments.
 	* README.SVN: To build nano from svn, ssh is not required.
+	* src/*.c: Normalize whitespace around '==' comparison.
 
 2014-04-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,cut.c,nano.c,text.c}: Remove the unused parameter
 	'file_bot' from copy_from_filestruct(), and rename the other.
 	* src/*: Remove the unused parameter 'func_key' from get_shortcut(),
 	and subsequently from parse_browser_input() and parse_help_input().
-	* src/*: Whitespace adjustments, plus a few comment tweaks.
+	* src/*: Adjust some whitespace and tweak a few comments.
 	* src/winio.c (getfuncfromkey): Elide variable and condense comment.
 	* src/text.c (break_line): Initialize a variable to avoid a compiler
 	warning, rename it to be more apt, add a comment, tweak some others,
@@ -107,7 +108,7 @@
 	* src/rcfile.c (check_vitals_mapped): Do not allow 'set quiet'
 	to suppress a fatal-error message, make sure the user sees it.
 	* src/color.c: Comment tweaks.
-	* src/{*.h,*.c}, configure.ac:Convert all occurrences of
+	* src/{*.h,*.c}, configure.ac: Convert all occurrences of
 	#ifdef ENABLE_COLOR to #ifndef DISABLE_COLOR.
 	* src/nano.h: Comment tweaks.
 	* configure.ac: Move the enabling stuff to after the disablers.
@@ -148,7 +149,7 @@
 	variable possibly being used uninitialized.
 
 2014-03-31 Chris Allegretta <chrisa@asty.org>
-	* doc/syntax/go.nanorc: basic go syntax highlighting
+	* doc/syntax/go.nanorc: New file, basic go syntax highlighting.
 
 2014-03-30  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/changelog.nanorc: New file, first attempt at colouring

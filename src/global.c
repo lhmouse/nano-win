@@ -269,11 +269,11 @@ void ext_cmd_void(void)
 /* Set type of function based on the string. */
 function_type strtokeytype(const char *str)
 {
-    if (str[0] ==  'M' || str[0] == 'm')
+    if (str[0] == 'M' || str[0] == 'm')
         return META;
     else if (str[0] == '^')
         return CONTROL;
-    else if (str[0] ==  'F' || str[0] == 'f')
+    else if (str[0] == 'F' || str[0] == 'f')
         return FKEY;
     else
 	return RAWINPUT;

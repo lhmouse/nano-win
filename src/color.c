@@ -397,7 +397,7 @@ void reset_multis(filestruct *fileptr, bool force)
 	 * things changed drastically for the precalculated multi values. */
 	nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
 	noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
-	if (fileptr->multidata[tmpcolor->id] ==  CWHOLELINE) {
+	if (fileptr->multidata[tmpcolor->id] == CWHOLELINE) {
 	    if (nobegin && noend)
 		continue;
 	} else if (fileptr->multidata[tmpcolor->id] == CNONE) {

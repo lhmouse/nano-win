@@ -126,7 +126,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 	/* If we got a shortcut, or if there aren't any other characters
 	 * waiting after the one we read in, we need to display all the
 	 * characters in the input buffer if it isn't empty. */
-	 if (*have_shortcut || get_key_buffer_len() == 0) {
+	if (*have_shortcut || get_key_buffer_len() == 0) {
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
@@ -226,8 +226,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 		 * that we're done after running or trying to run their
 		 * associated functions. */
 		f = sctofunc((sc *) s);
-		if (s->scfunc != 0 &&  s->execute == TRUE) {
-			*ran_func = TRUE;
+		if (s->scfunc != 0 && s->execute == TRUE) {
+		    *ran_func = TRUE;
 		    if (f && (!ISSET(VIEW_MODE) || (f->viewok)))
 		        f->scfunc();
 		}
@@ -1099,7 +1099,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
      * we've finished putting in an answer, reset the statusbar cursor
      * position too. */
     if (s) {
-	if (s->scfunc ==  do_cancel || s->scfunc == do_enter_void ||
+	if (s->scfunc == do_cancel || s->scfunc == do_enter_void ||
 	ran_func) {
 	    statusbar_x = old_statusbar_x;
 	    statusbar_pww = old_pww;
@@ -1186,7 +1186,7 @@ int do_prompt(bool allow_tabs,
 
     /* If we left the prompt via Cancel or Enter, set the return value
      * properly. */
-    if (s && s->scfunc ==  do_cancel)
+    if (s && s->scfunc == do_cancel)
 	retval = -1;
     else if (s && s->scfunc == do_enter_void)
 	retval = (*answer == '\0') ? -2 : 0;
@@ -1296,7 +1296,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
 	s = get_shortcut(currmenu, &kbinput, &meta_key);
 
-	if (s && s->scfunc ==  do_cancel)
+	if (s && s->scfunc == do_cancel)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {

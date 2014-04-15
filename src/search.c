@@ -1044,7 +1044,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 	s = get_shortcut(currmenu, &i, &meta_key);
 
-	if (s && s->scfunc ==  gototext_void) {
+	if (s && s->scfunc == gototext_void) {
 	    /* Keep answer up on the statusbar. */
 	    search_init(TRUE, TRUE);
 

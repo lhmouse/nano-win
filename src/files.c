@@ -2971,7 +2971,7 @@ void load_history(void)
 
 
     if (stat(legacyhist, &hstat) != -1 && stat(nanohist, &hstat) == -1) {
-	if (rename(legacyhist, nanohist)  == -1)
+	if (rename(legacyhist, nanohist) == -1)
 	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\nto the preferred location (%s) but encountered an error: %s"),
 		legacyhist, nanohist, strerror(errno));
 	else

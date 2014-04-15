@@ -844,7 +844,7 @@ int filesearch_init(void)
 		TOGGLE(CASE_SENSITIVE);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
-	} else if (s && s->scfunc ==  backwards_void) {
+	} else if (s && s->scfunc == backwards_void) {
 		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
