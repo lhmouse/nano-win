@@ -1,6 +1,7 @@
 2014-04-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (precalc_multicolorinfo): Actually set the intended
 	non-blocking mode for keyboard input.
+	* src/winio.c: Relocate and correct a few comments.
 
 2014-04-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,cut.c,nano.c,text.c}: Remove the unused parameter

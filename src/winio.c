@@ -112,7 +112,6 @@ void get_key_buffer(WINDOW *win)
     if (key_buffer != NULL)
 	return;
 
-    /* Read in the first character using blocking input. */
 #ifndef NANO_TINY
     allow_pending_sigwinch(TRUE);
 #endif
@@ -121,6 +120,7 @@ void get_key_buffer(WINDOW *win)
      * screen updates. */
     doupdate();
 
+    /* Read in the first character using whatever mode we're in. */
     errcount = 0;
     if (nodelay_mode) {
 	if ((input =  wgetch(win)) == ERR)
@@ -174,7 +174,7 @@ void get_key_buffer(WINDOW *win)
 #endif
     }
 
-    /* Switch back to non-blocking input. */
+    /* Switch back to waiting mode for input. */
     nodelay(win, FALSE);
 
 #ifdef DEBUG
@@ -304,7 +304,7 @@ int *get_input(WINDOW *win, size_t input_len)
  * [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
  * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
  * the function keypad (F1-F16), and the numeric keypad with NumLock
- * off.  Assume nodelay(win) is FALSE. */
+ * off. */
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 {
     int kbinput;
@@ -324,7 +324,7 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 /* Translate ASCII characters, extended keypad values, and escape
  * sequences into their corresponding key values.  Set meta_key to TRUE
  * when we get a meta key sequence, and set func_key to TRUE when we get
- * a function key.  Assume nodelay(win) is FALSE. */
+ * a function key. */
 int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 {
     static int escapes = 0, byte_digits = 0;
@@ -1301,15 +1301,13 @@ int get_byte_kbinput(int kbinput)
 	    break;
 	case 3:
 	    /* Third digit: This must be from zero to five if the first
-	     * was two and the second was between zero and five, and may
-	     * be any decimal value if the first was zero or one and the
-	     * second was between six and nine.  Put it in the 1's
-	     * position of the byte sequence holder. */
+	     * was two and the second was five, and may be any decimal
+	     * value otherwise.  Put it in the 1's position of the byte
+	     * sequence holder. */
 	    if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
 		'6' <= kbinput && kbinput <= '9')) {
 		byte += kbinput - '0';
-		/* If this character is a valid decimal value, then the
-		 * byte sequence is complete. */
+		/* The byte sequence is complete. */
 		retval = byte;
 	    } else
 		/* This isn't the third digit of a byte sequence.
@@ -2831,8 +2829,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 int update_line(filestruct *fileptr, size_t index)
 {
     int line = 0;
-    int extralinesused = 0;
 	/* The line in the edit window that we want to update. */
+    int extralinesused = 0;
     char *converted;
 	/* fileptr->data converted to have tabs and control characters
 	 * expanded. */
@@ -2995,7 +2993,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 		break;
 	    openfile->edittop = openfile->edittop->next;
 	}
-	/* Don't over-scroll on long lines */
+	/* Don't over-scroll on long lines. */
 	if (ISSET(SOFTWRAP) && (direction == UP_DIR)) {
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
 	    i -=  len;
@@ -3179,7 +3177,7 @@ void edit_refresh(void)
     filestruct *foo;
     int nlines;
 
-    /* Figure out what maxrows should really be */
+    /* Figure out what maxrows should really be. */
     compute_maxrows();
 
     if (openfile->current->lineno < openfile->edittop->lineno ||
