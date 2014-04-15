@@ -6,6 +6,10 @@
 	* src/*.c: Normalize whitespace around '==' comparison.
 	* configure.ac: Check for the availability of snprintf(),
 	fixes Savannah bug #42070 reported by David Lawrence Ramsey.
+	* src/global.c (shortcut_init), src/help.c (do_help): Add the
+	shortcuts M-\ and M-/ for First Line and Last Line to the help
+	viewer, instead of ^Y and ^V, which are already taken for Page
+	Up and Page Down.  Also, stop them from aborting the viewer.
 
 2014-04-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,cut.c,nano.c,text.c}: Remove the unused parameter

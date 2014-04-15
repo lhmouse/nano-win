@@ -835,10 +835,10 @@ void shortcut_init(void)
 #endif
 
     add_to_funcs(do_first_line,
-	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
+	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	first_line_msg, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
     add_to_funcs(do_last_line,
-	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
+	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
 	last_line_msg, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
     add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
@@ -1179,13 +1179,13 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"M-R", regexp_void, 0, FALSE);
 
-    add_to_sclist(MMAIN, "M-\\", do_first_line, 0, TRUE);
-    add_to_sclist(MMAIN, "M-|", do_first_line, 0, TRUE);
-    add_to_sclist(MMAIN, "M-/", do_last_line, 0, TRUE);
-    add_to_sclist(MMAIN, "M-?", do_last_line, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP,
+    add_to_sclist(MMAIN|MHELP, "M-\\", do_first_line, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP, "M-|", do_first_line, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP, "M-/", do_last_line, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP, "M-?", do_last_line, 0, TRUE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE,
 	"^Y", do_first_line, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MHELP,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE,
 	"^V", do_last_line, 0, TRUE);
 
 #ifndef DISABLE_BROWSER
