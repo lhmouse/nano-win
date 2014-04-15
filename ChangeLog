@@ -1,3 +1,7 @@
+2014-04-15  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (precalc_multicolorinfo): Actually set the intended
+	non-blocking mode for keyboard input.
+
 2014-04-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/{proto.h,cut.c,nano.c,text.c}: Remove the unused parameter
 	'file_bot' from copy_from_filestruct(), and rename the other.

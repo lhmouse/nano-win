@@ -1861,12 +1861,11 @@ void precalc_multicolorinfo(void)
 	filestruct *fileptr, *endptr;
 	time_t last_check = time(NULL), cur_check = 0;
 
-	/* Let us get keypresses to see if the user is trying to
-	 * start editing.  We may want to throw up a statusbar
-	 * message before starting this later if it takes
-	 * too long to do this routine.  For now silently
-	 * abort if they hit a key. */
-	nodelay(edit, FALSE);
+	/* Let us get keypresses to see if the user is trying to start
+	 * editing.  Later we may want to throw up a statusbar message
+	 * before starting this if it takes too long to do this routine.
+	 * For now silently abort if they hit a key. */
+	nodelay(edit, TRUE);
 
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 
