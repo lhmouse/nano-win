@@ -142,9 +142,8 @@ void do_help(void (*refresh_func)(void))
 	if (!f)
 	    continue;
 
-	  if (f->scfunc == total_refresh) {
+	if (f->scfunc == total_refresh) {
 		total_redraw();
-		break;
 	} else if (f->scfunc == do_page_up) {
 		if (line > editwinrows - 2)
 		    line -= editwinrows - 2;

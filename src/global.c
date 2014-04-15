@@ -306,7 +306,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "Added func \"%s\"\n", f->desc);
+    fprintf(stderr, "Added func %ld (%s) for menus %x\n", (long)func, f->desc, menus);
 #endif
 }
 
@@ -791,6 +791,12 @@ void shortcut_init(void)
 	nano_justify_msg, TRUE, NOVIEW);
 #endif
 
+#ifndef DISABLE_HELP
+    add_to_funcs(do_exit, MHELP, exit_msg, nano_exit_msg, FALSE, VIEW);
+
+    add_to_funcs(total_refresh, MHELP, refresh_msg, nano_refresh_msg, FALSE, VIEW);
+#endif
+
     add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
 	prev_page_msg, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
     add_to_funcs(do_page_down, MMAIN|MHELP|MBROWSER,
@@ -985,7 +991,7 @@ void shortcut_init(void)
 	IFSCHELP(nano_wordcount_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs(total_refresh, (MMAIN|MHELP), refresh_msg,
+    add_to_funcs(total_refresh, MMAIN, refresh_msg,
 	IFSCHELP(nano_refresh_msg), FALSE, VIEW);
 
     add_to_funcs(do_suspend_void, MMAIN, suspend_msg,
@@ -1061,13 +1067,6 @@ void shortcut_init(void)
 #endif
     }
 #endif /* !NANO_TINY */
-
-#ifndef DISABLE_HELP
-    add_to_funcs(edit_refresh, MHELP,
-	refresh_msg, nano_refresh_msg, FALSE, VIEW);
-
-    add_to_funcs(do_exit, MHELP, exit_msg, IFSCHELP(nano_exit_msg), FALSE, VIEW);
-#endif
 
 #ifndef DISABLE_BROWSER
     add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
@@ -1255,7 +1254,7 @@ void shortcut_init(void)
     add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0, FALSE);
     add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
-    add_to_sclist(MMAIN, "^L", total_refresh, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP, "^L", total_refresh, 0, FALSE);
     add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
     add_to_sclist(MALL, "^M", do_enter_void, 0, TRUE);
     add_to_sclist(MALL, "kenter", do_enter_void, 0, TRUE);
