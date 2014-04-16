@@ -345,7 +345,7 @@ typedef struct undo {
 
 typedef struct poshiststruct {
     char *filename;
-        /* The file. */
+	/* The file. */
     ssize_t lineno;
 	/* Line number we left off on. */
     ssize_t xno;
@@ -395,7 +395,7 @@ typedef struct openfilestruct {
 	/* The current (i.e. next) level of undo. */
     undo_type last_action;
     const char *lock_filename;
-        /* The path of the lockfile, if we created one. */
+	/* The path of the lockfile, if we created one. */
 #endif
 #ifndef DISABLE_COLOR
     syntaxtype *syntax;
@@ -452,20 +452,20 @@ typedef struct sc {
     char *keystr;
 	/* The shortcut key for a function, ASCII version. */
     function_type type;
-        /* What kind of function key it is, for convenience later. */
+	/* What kind of function key it is, for convenience later. */
     int seq;
-        /* The actual sequence to check on the type is determined. */
+	/* The actual sequence to check on the type is determined. */
     int menu;
-        /* What list this applies to. */
+	/* What list this applies to. */
     void (*scfunc)(void);
-        /* The function we're going to run. */
+	/* The function we're going to run. */
     int toggle;
-        /* If a toggle, what we're toggling. */
+	/* If a toggle, what we're toggling. */
     bool execute;
 	/* Whether to execute the function in question or just return
 	 * so the sequence can be caught by the calling code. */
     struct sc *next;
-        /* Next in the list. */
+	/* Next in the list. */
 } sc;
 
 typedef struct subnfunc {
@@ -483,7 +483,7 @@ typedef struct subnfunc {
 	 * text for this function. */
 #endif
     bool viewok;
-        /* Is this function allowed when in view mode? */
+	/* Is this function allowed when in view mode? */
     long toggle;
 	/* If this is a toggle, if nonzero what toggle to set. */
     struct subnfunc *next;
@@ -537,23 +537,23 @@ enum
 };
 
 /* Flags for the menus in which a given function should be present. */
-#define MMAIN				(1<<0)
-#define	MWHEREIS			(1<<1)
-#define	MREPLACE			(1<<2)
-#define	MREPLACEWITH			(1<<3)
-#define	MGOTOLINE			(1<<4)
-#define	MWRITEFILE			(1<<5)
-#define	MINSERTFILE			(1<<6)
-#define	MEXTCMD				(1<<7)
-#define	MHELP				(1<<8)
-#define	MSPELL				(1<<9)
-#define	MBROWSER			(1<<10)
-#define	MWHEREISFILE			(1<<11)
-#define MGOTODIR			(1<<12)
-#define MYESNO				(1<<13)
-#define MLINTER				(1<<14)
+#define MMAIN			(1<<0)
+#define MWHEREIS		(1<<1)
+#define MREPLACE		(1<<2)
+#define MREPLACEWITH		(1<<3)
+#define MGOTOLINE		(1<<4)
+#define MWRITEFILE		(1<<5)
+#define MINSERTFILE		(1<<6)
+#define MEXTCMD			(1<<7)
+#define MHELP			(1<<8)
+#define MSPELL			(1<<9)
+#define MBROWSER		(1<<10)
+#define MWHEREISFILE		(1<<11)
+#define MGOTODIR		(1<<12)
+#define MYESNO			(1<<13)
+#define MLINTER			(1<<14)
 /* This is an abbreviation for all menus except Help and YesNo. */
-#define	MMOST	(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
+#define MMOST	(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
