@@ -552,8 +552,8 @@ enum
 #define MGOTODIR			(1<<12)
 #define MYESNO				(1<<13)
 #define MLINTER				(1<<14)
-/* This isn't really all, but close enough. */
-#define	MALL				(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER)
+/* This is an abbreviation for all menus except Help and YesNo. */
+#define	MMOST	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0

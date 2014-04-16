@@ -899,8 +899,8 @@ void shortcut_init(void)
 	FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_left, MALL, "", "", FALSE, VIEW);
-    add_to_funcs(do_right, MALL, "", "", FALSE, VIEW);
+    add_to_funcs(do_left, MMOST, "", "", FALSE, VIEW);
+    add_to_funcs(do_right, MMOST, "", "", FALSE, VIEW);
 
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MMAIN, N_("Prev Word"),
@@ -950,13 +950,13 @@ void shortcut_init(void)
 
     add_to_funcs(do_tab, MMAIN, N_("Tab"), IFSCHELP(nano_tab_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_tab, MALL, "", "", FALSE, NOVIEW);
+    add_to_funcs(do_tab, MMOST, "", "", FALSE, NOVIEW);
     add_to_funcs(do_enter_void, MMAIN, N_("Enter"), IFSCHELP(nano_enter_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_enter_void, MALL, "", "", FALSE, NOVIEW);
+    add_to_funcs(do_enter_void, MMOST, "", "", FALSE, NOVIEW);
     add_to_funcs(do_delete, MMAIN, N_("Delete"), IFSCHELP(nano_delete_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_delete, MALL, "", "", FALSE, NOVIEW);
+    add_to_funcs(do_delete, MMOST, "", "", FALSE, NOVIEW);
     add_to_funcs(do_backspace, MMAIN, N_("Backspace"), IFSCHELP(nano_backspace_msg),
 #ifndef NANO_TINY
 	FALSE,
@@ -965,7 +965,7 @@ void shortcut_init(void)
 #endif
 	NOVIEW);
 
-    add_to_funcs(do_backspace, MALL, "", "",
+    add_to_funcs(do_backspace, MMOST, "", "",
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -1137,10 +1137,10 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
     }
 #endif
-    add_to_sclist(MALL, "^F", do_right, 0, TRUE);
-    add_to_sclist(MALL, "^B", do_left, 0, TRUE);
-    add_to_sclist(MALL, "kright", do_right, 0, TRUE);
-    add_to_sclist(MALL, "kleft", do_left, 0, TRUE);
+    add_to_sclist(MMOST, "^F", do_right, 0, TRUE);
+    add_to_sclist(MMOST, "^B", do_left, 0, TRUE);
+    add_to_sclist(MMOST, "kright", do_right, 0, TRUE);
+    add_to_sclist(MMOST, "kleft", do_left, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
@@ -1151,10 +1151,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "kup", do_up_void, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "kdown", do_down_void, 0, TRUE);
-    add_to_sclist(MALL, "^A", do_home, 0, TRUE);
-    add_to_sclist(MALL, "khome", do_home, 0, TRUE);
-    add_to_sclist(MALL, "^E", do_end, 0, TRUE);
-    add_to_sclist(MALL, "kend", do_end, 0, TRUE);
+    add_to_sclist(MMOST, "^A", do_home, 0, TRUE);
+    add_to_sclist(MMOST, "khome", do_home, 0, TRUE);
+    add_to_sclist(MMOST, "^E", do_end, 0, TRUE);
+    add_to_sclist(MMOST, "kend", do_end, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^P", get_history_older_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kup", get_history_older_void, 0, FALSE);
@@ -1166,10 +1166,10 @@ void shortcut_init(void)
 	"^W", do_para_begin_void, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"^O", do_para_end_void, 0, TRUE);
-    add_to_sclist(MALL, "M-(", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MALL, "M-9", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MALL, "M-)", do_para_end_void, 0, TRUE);
-    add_to_sclist(MALL, "M-0", do_para_end_void, 0, TRUE);
+    add_to_sclist(MMOST, "M-(", do_para_begin_void, 0, TRUE);
+    add_to_sclist(MMOST, "M-9", do_para_begin_void, 0, TRUE);
+    add_to_sclist(MMOST, "M-)", do_para_end_void, 0, TRUE);
+    add_to_sclist(MMOST, "M-0", do_para_end_void, 0, TRUE);
 #endif
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
 	"M-C", case_sens_void, 0, FALSE);
@@ -1211,7 +1211,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-.", switch_to_next_buffer_void, 0, TRUE);
 #endif
 
-    add_to_sclist(MALL, "M-V", do_verbatim_input, 0, TRUE);
+    add_to_sclist(MMOST, "M-V", do_verbatim_input, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-T", do_cut_till_end, 0, TRUE);
 #endif
@@ -1255,13 +1255,13 @@ void shortcut_init(void)
     add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
     add_to_sclist(MMAIN|MHELP, "^L", total_refresh, 0, FALSE);
-    add_to_sclist(MALL, "^I", do_tab, 0, TRUE);
-    add_to_sclist(MALL, "^M", do_enter_void, 0, TRUE);
-    add_to_sclist(MALL, "kenter", do_enter_void, 0, TRUE);
-    add_to_sclist(MALL, "^D", do_delete, 0, TRUE);
-    add_to_sclist(MALL, "kdel", do_delete, 0, TRUE);
-    add_to_sclist(MALL, "^H", do_backspace, 0, TRUE);
-    add_to_sclist(MALL, "kbsp", do_backspace, 0, TRUE);
+    add_to_sclist(MMOST, "^I", do_tab, 0, TRUE);
+    add_to_sclist(MMOST, "^M", do_enter_void, 0, TRUE);
+    add_to_sclist(MMOST, "kenter", do_enter_void, 0, TRUE);
+    add_to_sclist(MMOST, "^D", do_delete, 0, TRUE);
+    add_to_sclist(MMOST, "kdel", do_delete, 0, TRUE);
+    add_to_sclist(MMOST, "^H", do_backspace, 0, TRUE);
+    add_to_sclist(MMOST, "kbsp", do_backspace, 0, TRUE);
 
 #ifdef DEBUG
     print_sclist();
@@ -1597,7 +1597,7 @@ sc *strtosc(char *input)
 int strtomenu(char *input)
 {
     if (!strcasecmp(input, "all"))
-	return MALL;
+	return (MMOST|MHELP|MYESNO);
     else if (!strcasecmp(input, "main"))
 	return MMAIN;
     else if (!strcasecmp(input, "search"))
