@@ -7,6 +7,8 @@
 	Enter and Backspace and so on don't make any sense there.
 	* src/nano.h, src/global.c (shortcut_init): Rename MALL to MMOST,
 	to be more accurate.
+	* src/nano.h, src/global.c, src/help.c, src/search.c: Rename
+	MREPLACE2 to MREPLACEWITH, for clarity.
 
 2014-04-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (precalc_multicolorinfo): Actually set the intended

@@ -540,7 +540,7 @@ enum
 #define MMAIN				(1<<0)
 #define	MWHEREIS			(1<<1)
 #define	MREPLACE			(1<<2)
-#define	MREPLACE2			(1<<3)
+#define	MREPLACEWITH			(1<<3)
 #define	MGOTOLINE			(1<<4)
 #define	MWRITEFILE			(1<<5)
 #define	MINSERTFILE			(1<<6)
@@ -553,7 +553,7 @@ enum
 #define MYESNO				(1<<13)
 #define MLINTER				(1<<14)
 /* This is an abbreviation for all menus except Help and YesNo. */
-#define	MMOST	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
+#define	MMOST	(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0

@@ -954,7 +954,7 @@ void do_replace(void)
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
-	MREPLACE2, last_replace,
+	MREPLACEWITH, last_replace,
 	&meta_key, &func_key,
 #ifndef NANO_TINY
 	&replace_history,

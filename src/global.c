@@ -738,11 +738,11 @@ void shortcut_init(void)
     /* Start populating the different menus with functions. */
 
     add_to_funcs(do_help_void,
-	(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER),
+	(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER),
 	get_help_msg, IFSCHELP(nano_help_msg), FALSE, VIEW);
 
     add_to_funcs(do_cancel,
-	(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
+	(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
 	cancel_msg, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
@@ -841,10 +841,10 @@ void shortcut_init(void)
 #endif
 
     add_to_funcs(do_first_line,
-	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
+	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
 	first_line_msg, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
     add_to_funcs(do_last_line,
-	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE),
+	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
 	last_line_msg, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
     add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
@@ -945,7 +945,7 @@ void shortcut_init(void)
 
     add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim Input"),
 	IFSCHELP(nano_verbatim_msg), FALSE, NOVIEW);
-    add_to_funcs(do_verbatim_input, MWHEREIS|MREPLACE|MREPLACE2|MEXTCMD|MSPELL,
+    add_to_funcs(do_verbatim_input, MWHEREIS|MREPLACE|MREPLACEWITH|MEXTCMD|MSPELL,
 	"", "", FALSE, NOVIEW);
 
     add_to_funcs(do_tab, MMAIN, N_("Tab"), IFSCHELP(nano_tab_msg),
@@ -1012,11 +1012,11 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
     add_to_funcs(get_history_older_void,
-	(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE),
+	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	prev_history_msg, IFSCHELP(nano_prev_history_msg), FALSE, VIEW);
 
     add_to_funcs(get_history_newer_void,
-	(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE),
+	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	next_history_msg, IFSCHELP(nano_next_history_msg), FALSE, VIEW);
 #endif
 
@@ -1080,9 +1080,9 @@ void shortcut_init(void)
 
     /* Start associating key combos with functions in specific menus. */
 
-    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
+    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
 	"^G", do_help_void, 0, TRUE);
-    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
+    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
 	"F1", do_help_void, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", do_exit, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", do_exit, 0, TRUE);
@@ -1156,35 +1156,35 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "^E", do_end, 0, TRUE);
     add_to_sclist(MMOST, "kend", do_end, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^P", get_history_older_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kup", get_history_older_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "^N", get_history_newer_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MWHEREISFILE, "kdown", get_history_newer_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^P", get_history_older_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "kup", get_history_older_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^N", get_history_newer_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "kdown", get_history_newer_void, 0, FALSE);
 #endif
 #ifndef DISABLE_JUSTIFY
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
 	"^W", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
 	"^O", do_para_end_void, 0, TRUE);
     add_to_sclist(MMOST, "M-(", do_para_begin_void, 0, TRUE);
     add_to_sclist(MMOST, "M-9", do_para_begin_void, 0, TRUE);
     add_to_sclist(MMOST, "M-)", do_para_end_void, 0, TRUE);
     add_to_sclist(MMOST, "M-0", do_para_end_void, 0, TRUE);
 #endif
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
 	"M-C", case_sens_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
 	"M-B", backwards_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
 	"M-R", regexp_void, 0, FALSE);
 
     add_to_sclist(MMAIN|MHELP, "M-\\", do_first_line, 0, TRUE);
     add_to_sclist(MMAIN|MHELP, "M-|", do_first_line, 0, TRUE);
     add_to_sclist(MMAIN|MHELP, "M-/", do_last_line, 0, TRUE);
     add_to_sclist(MMAIN|MHELP, "M-?", do_last_line, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	"^Y", do_first_line, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE,
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	"^V", do_last_line, 0, TRUE);
 
 #ifndef DISABLE_BROWSER
@@ -1244,7 +1244,7 @@ void shortcut_init(void)
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
     add_to_sclist(MGOTOLINE, "^T", gototext_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
-    add_to_sclist((MWHEREIS|MREPLACE|MREPLACE2|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
+    add_to_sclist((MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
 	"^C", do_cancel, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-D", dos_format_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-M", mac_format_void, 0, FALSE);
@@ -1606,7 +1606,7 @@ int strtomenu(char *input)
 	return MREPLACE;
     else if (!strcasecmp(input, "replace2") ||
 	     !strcasecmp(input, "replacewith"))
-	return MREPLACE2;
+	return MREPLACEWITH;
     else if (!strcasecmp(input, "gotoline"))
 	return MGOTOLINE;
     else if (!strcasecmp(input, "writeout"))
