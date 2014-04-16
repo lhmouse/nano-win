@@ -10,6 +10,7 @@
 	* src/nano.h, src/global.c, src/help.c, src/search.c: Rename
 	MREPLACE2 to MREPLACEWITH, for clarity.
 	* src/nano.h: Adjust some tabbing and spacing.
+	* src/global.c (shortcut_init): Make better use of MMOST.
 
 2014-04-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (precalc_multicolorinfo): Actually set the intended

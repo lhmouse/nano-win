@@ -737,12 +737,10 @@ void shortcut_init(void)
 
     /* Start populating the different menus with functions. */
 
-    add_to_funcs(do_help_void,
-	(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER),
+    add_to_funcs(do_help_void, MMOST,
 	get_help_msg, IFSCHELP(nano_help_msg), FALSE, VIEW);
 
-    add_to_funcs(do_cancel,
-	(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
+    add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
 	cancel_msg, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
@@ -1080,10 +1078,8 @@ void shortcut_init(void)
 
     /* Start associating key combos with functions in specific menus. */
 
-    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
-	"^G", do_help_void, 0, TRUE);
-    add_to_sclist(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MBROWSER|MWHEREISFILE|MGOTODIR|MLINTER,
-	"F1", do_help_void, 0, TRUE);
+    add_to_sclist(MMOST, "^G", do_help_void, 0, TRUE);
+    add_to_sclist(MMOST, "F1", do_help_void, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", do_exit, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", do_exit, 0, TRUE);
     add_to_sclist(MMAIN, "^_", do_gotolinecolumn_void, 0, TRUE);
@@ -1240,12 +1236,9 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-Z", do_toggle_void, SUSPEND, TRUE);
 #endif /* !NANO_TINY */
 
-    add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
-    add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
     add_to_sclist(MGOTOLINE, "^T", gototext_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
-    add_to_sclist((MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MSPELL|MWHEREISFILE|MGOTODIR|MYESNO|MLINTER),
-	"^C", do_cancel, 0, FALSE);
+    add_to_sclist(((MMOST & ~MMAIN & ~MBROWSER) | MYESNO), "^C", do_cancel, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-D", dos_format_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-M", mac_format_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-A", append_void, 0, FALSE);
@@ -1255,6 +1248,8 @@ void shortcut_init(void)
     add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
     add_to_sclist(MMAIN|MHELP, "^L", total_refresh, 0, FALSE);
+    add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
+    add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
     add_to_sclist(MMOST, "^I", do_tab, 0, TRUE);
     add_to_sclist(MMOST, "^M", do_enter_void, 0, TRUE);
     add_to_sclist(MMOST, "kenter", do_enter_void, 0, TRUE);
