@@ -1690,29 +1690,35 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* Adjust j if we released on the last two shortcuts. */
 	    if ((j >= currslen) && (*mouse_x % i < COLS % i))
 		j -= 2;
-
+#ifdef DEBUG
+	    fprintf(stderr, "Calculated %i as index in shortcut list, currmenu = %x.\n", j, currmenu);
+#endif
 	    /* Ignore releases/clicks of the first mouse button beyond
 	     * the last shortcut. */
 	    if (j >= currslen)
 		return 2;
 
-	    /* Go through the shortcut list to determine which shortcut
-	     * we released/clicked on. */
+	    /* Go through the list of functions to determine which
+	     * shortcut in the current menu we released/clicked on. */
 	    f = allfuncs;
 
-	    for (; j > 0; j--) {
-		if (f->next != NULL)
-		    f = f->next;
-
-                while (f->next != NULL && ((f->menus & currmenu) == 0
+	    while (TRUE) {
+		while ((f->menus & currmenu) == 0
 #ifndef DISABLE_HELP
-                       || strlen(f->help) == 0
+			|| strlen(f->help) == 0
 #endif
-		))
-		     f = f->next;
+			)
+		    f = f->next;
+		if (j == 0)
+		    break;
+		f = f->next;
+		j -= 1;
 	    }
+#ifdef DEBUG
+	    fprintf(stderr, "Stopped on func %ld present in menus %x\n", f->scfunc, f->menus);
+#endif
 
-	    /* And put back the equivalent key. */
+	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
                 const sc *s = first_sc_for(currmenu, f->scfunc);
 		if (s != NULL)
@@ -1769,7 +1775,7 @@ const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
     sc *s;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s", *kbinput, *meta_key ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ", *kbinput, *meta_key ? "TRUE" : "FALSE");
 #endif
 
     /* Check for shortcuts. */

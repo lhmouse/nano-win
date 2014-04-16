@@ -1,3 +1,9 @@
+2014-04-16  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (get_mouseinput): Properly find also the zeroeth
+	item from a certain menu in the list of functions.  Until now
+	this accidentally worked, because "Get Help" was the very first
+	item in almost all menus.  Partly fixes Savannah bug #42093.
+
 2014-04-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (precalc_multicolorinfo): Actually set the intended
 	non-blocking mode for keyboard input.
