@@ -3,6 +3,8 @@
 	item from a certain menu in the list of functions.  Until now
 	this accidentally worked, because "Get Help" was the very first
 	item in almost all menus.  Partly fixes Savannah bug #42093.
+	* src/nano.h: MHELP should not be part of MALL, as ^B and ^F and
+	Enter and Backspace and so on don't make any sense there.
 
 2014-04-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (precalc_multicolorinfo): Actually set the intended
