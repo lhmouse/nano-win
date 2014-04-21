@@ -319,11 +319,10 @@ const sc *first_sc_for(int menu, void (*func)(void))
 
     for (s = sclist; s != NULL; s = s->next) {
 	if ((s->menu & menu) && s->scfunc == func) {
-	    /* Try to use function keys and meta sequences as last
-	     * resorts.  Otherwise, we will run into problems when we
-	     * try and handle things like the arrow keys, Home, etc., if
-	     * for some reason the user bound them to a function key or
-	     * meta sequence first *shrug*. */
+	    /* Memorize the first meta sequence, first function key,
+	     * and first dedicated key.  The latter is needed to be
+	     * able to show something when the user has rebound all
+	     * other sequences for a specific func. */
 	    if (s->type == FKEY) {
 		if (!fkeysc)
 		    fkeysc = s;
@@ -343,11 +342,8 @@ const sc *first_sc_for(int menu, void (*func)(void))
 	}
     }
 
-    /* If we're here, we may have found only function keys or meta
-     * sequences.  If so, use one, with the same priority as in the
-     * help browser: function keys come first, unless meta sequences are
-     * available, in which case meta sequences come first. Last choice
-     * is the raw key. */
+    /* If we did not find any control sequence, then prefer a
+     * meta sequence over a function key over a dedicated key. */
     if (fkeysc && !metasc)
 	return fkeysc;
     else if (metasc)
