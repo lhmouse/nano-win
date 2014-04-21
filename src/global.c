@@ -445,32 +445,32 @@ void assign_keyinfo(sc *s)
     else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
 	s->seq = (int) ' ';
     else if (s->type == RAWINPUT) {
-	if (!strcasecmp(s->keystr, "kup"))
+	if (!strcasecmp(s->keystr, "Up"))
 	    s->seq = KEY_UP;
-	else if (!strcasecmp(s->keystr, "kdown"))
+	else if (!strcasecmp(s->keystr, "Down"))
 	    s->seq = KEY_DOWN;
-	else if (!strcasecmp(s->keystr, "kleft"))
+	else if (!strcasecmp(s->keystr, "Left"))
 	    s->seq = KEY_LEFT;
-	else if (!strcasecmp(s->keystr, "kright"))
+	else if (!strcasecmp(s->keystr, "Right"))
 	    s->seq = KEY_RIGHT;
-	else if (!strcasecmp(s->keystr, "kinsert"))
+	else if (!strcasecmp(s->keystr, "Insert"))
 	    s->seq = KEY_IC;
-	else if (!strcasecmp(s->keystr, "kdel"))
+	else if (!strcasecmp(s->keystr, "Del"))
 	    s->seq = KEY_DC;
-	else if (!strcasecmp(s->keystr, "kbsp"))
+	else if (!strcasecmp(s->keystr, "Bsp"))
 	    s->seq = KEY_BACKSPACE;
-	else if (!strcasecmp(s->keystr, "kenter"))
+	else if (!strcasecmp(s->keystr, "Enter"))
 	    s->seq = KEY_ENTER;
-	else if (!strcasecmp(s->keystr, "kpup"))
+	else if (!strcasecmp(s->keystr, "PgUp"))
 	    s->seq = KEY_PPAGE;
-	else if (!strcasecmp(s->keystr, "kpdown"))
+	else if (!strcasecmp(s->keystr, "PgDn"))
 	    s->seq = KEY_NPAGE;
 #ifdef KEY_HOME
-	else if (!strcasecmp(s->keystr, "khome"))
+	else if (!strcasecmp(s->keystr, "Home"))
 	    s->seq = KEY_HOME;
 #endif
 #ifdef KEY_END
-	else if (!strcasecmp(s->keystr, "kend"))
+	else if (!strcasecmp(s->keystr, "End"))
 	    s->seq = KEY_END;
 #endif
     }
@@ -1091,15 +1091,15 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MMAIN, "^R", do_insertfile_void, 0, TRUE);
     add_to_sclist(MMAIN, "F5", do_insertfile_void, 0, TRUE);
-    add_to_sclist(MMAIN, "kinsert", do_insertfile_void, 0, TRUE);
+    add_to_sclist(MMAIN, "Insert", do_insertfile_void, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "^W", do_search, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "F6", do_search, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "^Y", do_page_up, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "F7", do_page_up, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "kpup", do_page_up, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "PgUp", do_page_up, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "^V", do_page_down, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "F8", do_page_down, 0, TRUE);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "kpdown", do_page_down, 0, TRUE);
+    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "PgDn", do_page_down, 0, TRUE);
     add_to_sclist(MMAIN, "^K", do_cut_text_void, 0, TRUE);
     add_to_sclist(MMAIN, "F9", do_cut_text_void, 0, TRUE);
     add_to_sclist(MMAIN, "^U", do_uncut_text, 0, TRUE);
@@ -1133,8 +1133,8 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MMOST, "^F", do_right, 0, TRUE);
     add_to_sclist(MMOST, "^B", do_left, 0, TRUE);
-    add_to_sclist(MMOST, "kright", do_right, 0, TRUE);
-    add_to_sclist(MMOST, "kleft", do_left, 0, TRUE);
+    add_to_sclist(MMOST, "Right", do_right, 0, TRUE);
+    add_to_sclist(MMOST, "Left", do_left, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
@@ -1142,18 +1142,18 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^Q", xon_complaint, 0, TRUE);
     add_to_sclist(MMAIN, "^S", xoff_complaint, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", do_up_void, 0, TRUE);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "kup", do_up_void, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", do_up_void, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0, TRUE);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "kdown", do_down_void, 0, TRUE);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", do_down_void, 0, TRUE);
     add_to_sclist(MMOST, "^A", do_home, 0, TRUE);
-    add_to_sclist(MMOST, "khome", do_home, 0, TRUE);
+    add_to_sclist(MMOST, "Home", do_home, 0, TRUE);
     add_to_sclist(MMOST, "^E", do_end, 0, TRUE);
-    add_to_sclist(MMOST, "kend", do_end, 0, TRUE);
+    add_to_sclist(MMOST, "End", do_end, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^P", get_history_older_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "kup", get_history_older_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Up", get_history_older_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^N", get_history_newer_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "kdown", get_history_newer_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Down", get_history_newer_void, 0, FALSE);
 #endif
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
@@ -1250,11 +1250,11 @@ void shortcut_init(void)
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
     add_to_sclist(MMOST, "^I", do_tab, 0, TRUE);
     add_to_sclist(MMOST, "^M", do_enter_void, 0, TRUE);
-    add_to_sclist(MMOST, "kenter", do_enter_void, 0, TRUE);
+    add_to_sclist(MMOST, "Enter", do_enter_void, 0, TRUE);
     add_to_sclist(MMOST, "^D", do_delete, 0, TRUE);
-    add_to_sclist(MMOST, "kdel", do_delete, 0, TRUE);
+    add_to_sclist(MMOST, "Del", do_delete, 0, TRUE);
     add_to_sclist(MMOST, "^H", do_backspace, 0, TRUE);
-    add_to_sclist(MMOST, "kbsp", do_backspace, 0, TRUE);
+    add_to_sclist(MMOST, "Bsp", do_backspace, 0, TRUE);
 
 #ifdef DEBUG
     print_sclist();
