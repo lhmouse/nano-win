@@ -12,6 +12,7 @@
 	* src/nano.h, src/proto.h: Delete some more unused stuff.
 	* src/rcfile.c (parse_binding), src/winio.c (get_mouseinput):
 	Avoid three compiler warnings with --enable-debug.
+	* src/global.c (assign_keyinfo): Decombine repetitive condition.
 
 2014-04-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Properly find also the zeroeth
