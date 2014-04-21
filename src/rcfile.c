@@ -513,7 +513,7 @@ void parse_binding(char *ptr, bool dobind)
 	ptr = parse_next_word(ptr);
 
 	if (!strcmp(funcptr, "")) {
-	    rcfile_error(N_("Must specify function to bind key to"));
+	    rcfile_error(N_("Must specify a function to bind the key to"));
 	    return;
 	}
     }
@@ -523,13 +523,7 @@ void parse_binding(char *ptr, bool dobind)
 
     if (!strcmp(menuptr, "")) {
 	/* TRANSLATORS: Do not translate the word "all". */
-	rcfile_error(N_("Must specify menu in which to bind/unbind key (or \"all\")"));
-	return;
-    }
-
-    menu = strtomenu(menuptr);
-    if (menu < 1) {
-	rcfile_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
+	rcfile_error(N_("Must specify a menu (or \"all\") in which to bind/unbind the key"));
 	return;
     }
 
@@ -539,6 +533,12 @@ void parse_binding(char *ptr, bool dobind)
 	    rcfile_error(N_("Cannot map name \"%s\" to a function"), funcptr);
 	    return;
 	}
+    }
+
+    menu = strtomenu(menuptr);
+    if (menu < 1) {
+	rcfile_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
+	return;
     }
 
 #ifdef DEBUG

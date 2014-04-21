@@ -18,6 +18,8 @@
 	* src/rcfile.c (parse_binding): K-keys no longer exist.
 	* src/global.c, src/rcfile.c, doc/nanorc.sample.in: Allow the
 	codes from the Ins and Del keys to be rebound.
+	* src/rcfile.c (parse_binding): Improve two error messages, and
+	complain about wrong menu names after wrong function names.
 
 2014-04-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Properly find also the zeroeth
