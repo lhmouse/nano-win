@@ -419,15 +419,6 @@ typedef struct shortcut {
 	/* Whether there should be a blank line after the help entry
 	 * text for this function. */
 #endif
-    int ctrlval;
-	/* The special sentinel key or control key we want bound, if
-	 * any. */
-    int metaval;
-	/* The meta key we want bound, if any. */
-    int funcval;
-	/* The function key we want bound, if any. */
-    int miscval;
-	/* The other meta key we want bound, if any. */
     bool viewok;
 	/* Is this function allowed when in view mode? */
     void (*func)(void);

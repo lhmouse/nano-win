@@ -336,40 +336,25 @@ void save_poshistory(void);
 int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 #endif
 #ifndef DISABLE_COLOR
-void do_linter(void);
 void set_lint_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
 
-/* All functions in global.c. */
+/* Some functions in global.c. */
 size_t length_of_list(int menu);
-#ifndef NANO_TINY
-void toggle_init_one(int val
-#ifndef DISABLE_HELP
-	, const char *desc, bool blank_after
-#endif
-	, long flag);
-void toggle_init(void);
-#endif
-void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc
-#ifndef DISABLE_HELP
-	, const char *help, bool blank_after
-#endif
-	, int metaval, int funcval, int miscval, bool view, void
-	(*func)(void));
 void shortcut_init(void);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif
 
 /* All functions in help.c. */
-void do_help_void(void);
 #ifndef DISABLE_HELP
 void do_help(void (*refresh_func)(void));
 void help_init(void);
 void parse_help_input(int *kbinput, bool *meta_key);
 size_t help_line_len(const char *ptr);
 #endif
+void do_help_void(void);
 
 /* All functions in move.c. */
 void do_first_line(void);
@@ -686,6 +671,9 @@ bool do_int_spell_fix(const char *word);
 const char *do_int_speller(const char *tempfile_name);
 const char *do_alt_speller(char *tempfile_name);
 void do_spell(void);
+#endif
+#ifndef DISABLE_COLOR
+void do_linter(void);
 #endif
 #ifndef NANO_TINY
 void do_wordlinechar_count(void);
