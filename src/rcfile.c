@@ -539,8 +539,8 @@ void parse_binding(char *ptr, bool dobind)
 
 #ifdef DEBUG
     if (dobind)
-	fprintf(stderr, "newsc now address %d, func assigned = %d, menu = %x\n",
-	    &newsc, newsc->scfunc, menu);
+	fprintf(stderr, "newsc address is now %ld, assigned func = %ld, menu = %x\n",
+	    (long)&newsc, (long)newsc->scfunc, menu);
    else
 	fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
 #endif

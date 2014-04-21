@@ -1715,7 +1715,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		j -= 1;
 	    }
 #ifdef DEBUG
-	    fprintf(stderr, "Stopped on func %ld present in menus %x\n", f->scfunc, f->menus);
+	    fprintf(stderr, "Stopped on func %ld present in menus %x\n", (long)f->scfunc, f->menus);
 #endif
 
 	    /* And put the corresponding key into the keyboard buffer. */
