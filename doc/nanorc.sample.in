@@ -232,13 +232,13 @@
 
 
 ## Key bindings
-## Please see nanorc(5) for more details on this
+## Please see nanorc(5) for more details on this.
 ##
-## Here are some samples to get you going
+## Here are some samples to get you going.
 ##
 # bind M-W nowrap main
 # bind M-A casesens search
 # bind ^S research main
 
-## Set this if your backspace key sends delete most of the time (2.1.3+)
-# bind kdel backspace all
+## Set this if your backspace key sends Del most of the time.
+# bind Del backspace all

@@ -453,7 +453,7 @@ void assign_keyinfo(sc *s)
 	    s->seq = KEY_LEFT;
 	else if (!strcasecmp(s->keystr, "Right"))
 	    s->seq = KEY_RIGHT;
-	else if (!strcasecmp(s->keystr, "Insert"))
+	else if (!strcasecmp(s->keystr, "Ins"))
 	    s->seq = KEY_IC;
 	else if (!strcasecmp(s->keystr, "Del"))
 	    s->seq = KEY_DC;
@@ -1091,7 +1091,7 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MMAIN, "^R", do_insertfile_void, 0, TRUE);
     add_to_sclist(MMAIN, "F5", do_insertfile_void, 0, TRUE);
-    add_to_sclist(MMAIN, "Insert", do_insertfile_void, 0, TRUE);
+    add_to_sclist(MMAIN, "Ins", do_insertfile_void, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "^W", do_search, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "F6", do_search, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "^Y", do_page_up, 0, TRUE);

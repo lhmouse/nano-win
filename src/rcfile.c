@@ -499,7 +499,11 @@ void parse_binding(char *ptr, bool dobind)
 	}
     }
 
-    if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
+    /* Allow the codes for Insert and Delete to be rebound, but apart
+     * from those two only Control, Meta and Function sequences. */
+    if (!strcasecmp(keycopy, "Ins") || !strcasecmp(keycopy, "Del"))
+	keycopy[1] = tolower(keycopy[1]);
+    else if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
 	rcfile_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
 	return;
     }
