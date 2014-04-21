@@ -3,6 +3,9 @@
 	* src/global.c (first_sc_for): Adjust two comments -- the help
 	viewer no longer sorts keys to be control first, meta second.
 	* src/global.c (first_sc_for): Put meta first, for clarity.
+	* src/global.c (strtokeytype): No need to check for lowercase
+	'm' or 'f', the source doesn't use them and rc-file processing
+	uppercases them.  Also put control first, for clarity.
 
 2014-04-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Properly find also the zeroeth
