@@ -323,13 +323,13 @@ const sc *first_sc_for(int menu, void (*func)(void))
 	     * and first dedicated key.  The latter is needed to be
 	     * able to show something when the user has rebound all
 	     * other sequences for a specific func. */
-	    if (s->type == FKEY) {
-		if (!fkeysc)
-		    fkeysc = s;
-		continue;
-	    } else if (s->type == META) {
+	    if (s->type == META) {
 		if (!metasc)
 		    metasc = s;
+		continue;
+	    } else if (s->type == FKEY) {
+		if (!fkeysc)
+		    fkeysc = s;
 		continue;
 	    } else if (s->type == RAWINPUT) {
 		if (!rawsc)
@@ -344,10 +344,10 @@ const sc *first_sc_for(int menu, void (*func)(void))
 
     /* If we did not find any control sequence, then prefer a
      * meta sequence over a function key over a dedicated key. */
-    if (fkeysc && !metasc)
-	return fkeysc;
-    else if (metasc)
+    if (metasc)
 	return metasc;
+    else if (fkeysc)
+	return fkeysc;
     else if (rawsc)
 	return rawsc;
 
