@@ -1407,16 +1407,16 @@ sc *strtosc(char *input)
 	s->scfunc = do_scroll_up;
     else if (!strcasecmp(input, "scrolldown"))
 	s->scfunc = do_scroll_down;
-    else if (!strcasecmp(input, "nextword"))
-	s->scfunc = do_next_word_void;
-    else if (!strcasecmp(input, "suspend"))
-	s->scfunc = do_suspend_void;
     else if (!strcasecmp(input, "prevword"))
 	s->scfunc = do_prev_word_void;
+    else if (!strcasecmp(input, "nextword"))
+	s->scfunc = do_next_word_void;
     else if (!strcasecmp(input, "findbracket"))
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))
 	s->scfunc = do_wordlinechar_count;
+    else if (!strcasecmp(input, "suspend"))
+	s->scfunc = do_suspend_void;
     else if (!strcasecmp(input, "undo"))
 	s->scfunc = do_undo;
     else if (!strcasecmp(input, "redo"))
@@ -1611,6 +1611,8 @@ int strtomenu(char *input)
 	return MHELP;
     else if (!strcasecmp(input, "spell"))
 	return MSPELL;
+    else if (!strcasecmp(input, "linter"))
+	return MLINTER;
     else if (!strcasecmp(input, "browser"))
 	return MBROWSER;
     else if (!strcasecmp(input, "whereisfile"))
