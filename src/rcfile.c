@@ -499,7 +499,7 @@ void parse_binding(char *ptr, bool dobind)
 	}
     }
 
-    if (keycopy[0] != 'M' && keycopy[0] != '^' && keycopy[0] != 'F' && keycopy[0] != 'K') {
+    if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
 	rcfile_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
 	return;
     }

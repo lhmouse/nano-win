@@ -15,6 +15,7 @@
 	* src/global.c (assign_keyinfo): Decombine repetitive condition.
 	* src/global.c (assign_keyinfo, shortcut_init): Give nicer names
 	to the dedicated keys, for when they show up in the help lines.
+	* src/rcfile.c (parse_binding): K-keys no longer exist.
 
 2014-04-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Properly find also the zeroeth
