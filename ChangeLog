@@ -8,6 +8,7 @@
 	uppercases them.  Also put control first, for clarity.
 	* src/global.c (strtosc, strtomenu): Sort functions slightly
 	better, and allow things to be rebound in the linter menu.
+	* src/nano.h: Delete a large bunch of unused defines.
 
 2014-04-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Properly find also the zeroeth
