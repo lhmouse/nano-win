@@ -848,9 +848,6 @@ void shortcut_init(void)
 	FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_left, MMOST, "", "", FALSE, VIEW);
-    add_to_funcs(do_right, MMOST, "", "", FALSE, VIEW);
-
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MMAIN, N_("Prev Word"),
 	IFSCHELP(nano_prevword_msg), FALSE, VIEW);
@@ -866,7 +863,12 @@ void shortcut_init(void)
     add_to_funcs(do_home, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
 	FALSE, VIEW);
     add_to_funcs(do_end, MMAIN, N_("End"), IFSCHELP(nano_end_msg),
-	FALSE, VIEW);
+#ifndef NANO_TINY
+	FALSE,
+#else
+	TRUE,
+#endif
+	VIEW);
 
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_para_begin_void, (MMAIN|MWHEREIS), N_("Beg of Par"),
@@ -894,27 +896,14 @@ void shortcut_init(void)
 
     add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim"),
 	IFSCHELP(nano_verbatim_msg), FALSE, NOVIEW);
-    add_to_funcs(do_verbatim_input, MWHEREIS|MREPLACE|MREPLACEWITH|MEXTCMD|MSPELL,
-	"", "", FALSE, NOVIEW);
 
     add_to_funcs(do_tab, MMAIN, N_("Tab"), IFSCHELP(nano_tab_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_tab, MMOST, "", "", FALSE, NOVIEW);
     add_to_funcs(do_enter_void, MMAIN, N_("Enter"), IFSCHELP(nano_enter_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_enter_void, MMOST, "", "", FALSE, NOVIEW);
     add_to_funcs(do_delete, MMAIN, N_("Delete"), IFSCHELP(nano_delete_msg),
 	FALSE, NOVIEW);
-    add_to_funcs(do_delete, MMOST, "", "", FALSE, NOVIEW);
     add_to_funcs(do_backspace, MMAIN, N_("Backspace"), IFSCHELP(nano_backspace_msg),
-#ifndef NANO_TINY
-	FALSE,
-#else
-	TRUE,
-#endif
-	NOVIEW);
-
-    add_to_funcs(do_backspace, MMOST, "", "",
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -926,9 +915,6 @@ void shortcut_init(void)
     add_to_funcs(do_cut_till_end, MMAIN, N_("CutTillEnd"),
 	IFSCHELP(nano_cut_till_end_msg), TRUE, NOVIEW);
 #endif
-
-    add_to_funcs(xon_complaint, MMAIN, "", "", FALSE, VIEW);
-    add_to_funcs(xoff_complaint, MMAIN, "", "", FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_full_justify, (MMAIN|MWHEREIS), N_("FullJstify"),
