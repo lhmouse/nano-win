@@ -463,10 +463,13 @@ void help_init(void)
 #ifndef NANO_TINY
     /* And the toggles... */
     if (currmenu == MMAIN)
-	for (s = sclist; s != NULL; s = s->next)
+	for (s = sclist; s != NULL; s = s->next) {
 	    if (s->scfunc == do_toggle_void)
-		ptr += sprintf(ptr, "(%s)\t\t%s %s\n",
-		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
+		ptr += sprintf(ptr, "%s\t\t%s %s\n", (s->menu == MMAIN ? s->keystr : ""),
+				 _(flagtostr(s->toggle)), _("enable/disable"));
+	    if (s->toggle == NO_COLOR_SYNTAX || s->toggle == TABS_TO_SPACES)
+		ptr += sprintf(ptr, "\n");
+	}
 
 #ifndef DISABLE_NANORC
     if (old_whitespace)
