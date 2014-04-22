@@ -545,6 +545,8 @@ void shortcut_init(void)
     const char *get_help_msg = N_("Get Help");
     const char *exit_msg = N_("Exit");
     const char *whereis_msg = N_("Where Is");
+    const char *prev_line_tag = N_("Prev Line");
+    const char *next_line_tag = N_("Next Line");
     const char *prev_page_msg = N_("Prev Page");
     const char *next_page_msg = N_("Next Page");
     const char *first_line_msg = N_("First Line");
@@ -788,9 +790,14 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_HELP
-    add_to_funcs(do_exit, MHELP, exit_msg, nano_exit_msg, FALSE, VIEW);
+    /* The description ("x") and blank_after (0) are irrelevant,
+     * because the help viewer does not have a help text. */
+    add_to_funcs(do_exit, MHELP, exit_msg, "x", 0, VIEW);
 
-    add_to_funcs(total_refresh, MHELP, refresh_msg, nano_refresh_msg, FALSE, VIEW);
+    add_to_funcs(total_refresh, MHELP, refresh_msg, "x", 0, VIEW);
+
+    add_to_funcs(do_up_void, MHELP, prev_line_tag, "x", 0, VIEW);
+    add_to_funcs(do_down_void, MHELP, next_line_tag, "x" , 0, VIEW);
 #endif
 
     add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
@@ -905,9 +912,9 @@ void shortcut_init(void)
 	IFSCHELP(nano_nextword_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_up_void, (MMAIN|MHELP|MBROWSER), N_("Prev Line"),
+    add_to_funcs(do_up_void, (MMAIN|MBROWSER), prev_line_tag,
 	IFSCHELP(nano_prevline_msg), FALSE, VIEW);
-    add_to_funcs(do_down_void, (MMAIN|MHELP|MBROWSER), N_("Next Line"),
+    add_to_funcs(do_down_void, (MMAIN|MBROWSER), next_line_tag,
 	IFSCHELP(nano_nextline_msg), TRUE, VIEW);
 
     add_to_funcs(do_home, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
