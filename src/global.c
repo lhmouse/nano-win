@@ -1020,8 +1020,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", do_exit, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", do_exit, 0, TRUE);
     add_to_sclist(MMAIN, "^_", do_gotolinecolumn_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F13", do_gotolinecolumn_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-G", do_gotolinecolumn_void, 0, TRUE);
+    add_to_sclist(MMAIN, "F13", do_gotolinecolumn_void, 0, TRUE);
     add_to_sclist(MMAIN, "^O", do_writeout_void, 0, TRUE);
     add_to_sclist(MMAIN, "F3", do_writeout_void, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
@@ -1050,15 +1050,15 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "F12", do_spell, 0, TRUE);
 #endif
     add_to_sclist(MMAIN, "^\\", do_replace, 0, TRUE);
-    add_to_sclist(MMAIN, "F14", do_replace, 0, TRUE);
     add_to_sclist(MMAIN, "M-R", do_replace, 0, TRUE);
+    add_to_sclist(MMAIN, "F14", do_replace, 0, TRUE);
     add_to_sclist(MWHEREIS, "^R", do_replace, 0, FALSE);
     add_to_sclist(MREPLACE, "^R", no_replace_void, 0, FALSE);
     add_to_sclist(MWHEREIS, "^T", do_gotolinecolumn_void, 0, FALSE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "^^", do_mark, 0, TRUE);
-    add_to_sclist(MMAIN, "F15", do_mark, 0, TRUE);
     add_to_sclist(MMAIN, "M-A", do_mark, 0, TRUE);
+    add_to_sclist(MMAIN, "F15", do_mark, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "M-W", do_research, 0, TRUE);
     add_to_sclist(MMAIN|MBROWSER, "F16", do_research, 0, TRUE);
     add_to_sclist(MMAIN, "M-^", do_copy_text, 0, TRUE);
@@ -1126,8 +1126,8 @@ void shortcut_init(void)
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", do_last_file, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", do_last_file, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "^_", goto_dir_void, 0, TRUE);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "F13", goto_dir_void, 0, TRUE);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-G", goto_dir_void, 0, TRUE);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "F13", goto_dir_void, 0, TRUE);
 #endif
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-]", do_find_bracket, 0, TRUE);
