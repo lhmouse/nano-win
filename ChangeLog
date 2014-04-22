@@ -4,6 +4,8 @@
 	* src/global.c (shortcut_init): Rename many constants from
 	'*_msg' to '*_tag' to reduce confusion with 'nano_*_msg'.
 	* src/global.c (shortcut_init): Elide several pointless constants.
+	* src/global.c (shortcut_init): Elide more unneeded constants, and
+	update some translator comments and shorten a few tags.
 
 2014-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc: There is no F0 key.

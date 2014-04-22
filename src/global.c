@@ -505,29 +505,18 @@ const char *whereis_next_tag = N_("WhereIs Next");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    /* TRANSLATORS: Try to keep the following strings at most 10 characters. */
-    const char *get_help_tag = N_("Get Help");
+    /* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
     const char *exit_tag = N_("Exit");
     const char *whereis_tag = N_("Where Is");
     const char *prev_line_tag = N_("Prev Line");
     const char *next_line_tag = N_("Next Line");
-    const char *prev_page_tag = N_("Prev Page");
-    const char *next_page_tag = N_("Next Page");
-    const char *first_line_tag = N_("First Line");
-    const char *last_line_tag = N_("Last Line");
-    const char *suspend_tag = N_("Suspend");
-#ifndef DISABLE_JUSTIFY
-    const char *beg_of_par_tag = N_("Beg of Par");
-    const char *end_of_par_tag = N_("End of Par");
-    const char *fulljstify_tag = N_("FullJstify");
-#endif
     const char *refresh_tag = N_("Refresh");
-    const char *go_to_line_tag = N_("Go To Line");
 #ifndef DISABLE_SPELLER
     const char *spell_tag = N_("To Spell");
 #endif
 #ifndef DISABLE_COLOR
     const char *lint_tag = N_("To Linter");
+    /* TRANSLATORS: Try to keep the next two strings at most 14 characters. */
     const char *prev_lint_tag = N_("Prev Lint Msg");
     const char *next_lint_tag = N_("Next Lint Msg");
 #endif
@@ -702,14 +691,14 @@ void shortcut_init(void)
     /* Start populating the different menus with functions. */
 
     add_to_funcs(do_help_void, MMOST,
-	get_help_tag, IFSCHELP(nano_help_msg), FALSE, VIEW);
+	/* TRANSLATORS: Try to keep the following strings at most 10 characters. */
+	N_("Get Help"), IFSCHELP(nano_help_msg), FALSE, VIEW);
 
     add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
 	N_("Cancel"), IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
 #ifndef DISABLE_MULTIBUFFER
-	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
 	exit_tag, IFSCHELP(nano_exit_msg), FALSE, VIEW);
@@ -718,7 +707,6 @@ void shortcut_init(void)
     add_to_funcs(do_exit, MBROWSER, exit_tag, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);
 #endif
 
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_writeout_void, MMAIN, N_("Write Out"),
 	IFSCHELP(nano_writeout_msg), FALSE, NOVIEW);
 
@@ -728,7 +716,6 @@ void shortcut_init(void)
      * reading from or writing to files not specified on the command
      * line. */
     add_to_funcs(do_insertfile_void,
-	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
 #ifndef DISABLE_MULTIBUFFER
 	VIEW);
@@ -748,7 +735,6 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_justify_void, MMAIN, N_("Justify"),
 	nano_justify_msg, TRUE, NOVIEW);
 #endif
@@ -765,9 +751,9 @@ void shortcut_init(void)
 #endif
 
     add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
-	prev_page_tag, IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
+	N_("Prev Page"), IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
     add_to_funcs(do_page_down, MMAIN|MHELP|MBROWSER,
-	next_page_tag, IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
+	N_("Next Page"), IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
 
 #ifndef DISABLE_COLOR
     add_to_funcs(do_page_up, MLINTER,
@@ -776,7 +762,6 @@ void shortcut_init(void)
 	next_lint_tag, IFSCHELP(nano_nextlint_msg), FALSE, VIEW);
 #endif
 
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_cut_text_void, MMAIN, N_("Cut Text"), IFSCHELP(nano_cut_msg),
 	FALSE, NOVIEW);
 
@@ -788,7 +773,6 @@ void shortcut_init(void)
 	;
 
 #ifndef NANO_TINY
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
@@ -797,7 +781,6 @@ void shortcut_init(void)
      * because it allows reading from or writing to files not specified
      * on the command line. */
 #ifndef DISABLE_SPELLER
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_spell, MMAIN, spell_tag, IFSCHELP(nano_spell_msg),
 	TRUE, NOVIEW);
 #endif
@@ -809,16 +792,15 @@ void shortcut_init(void)
 
     add_to_funcs(do_first_line,
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
-	first_line_tag, IFSCHELP(nano_firstline_msg), FALSE, VIEW);
+	N_("First Line"), IFSCHELP(nano_firstline_msg), FALSE, VIEW);
     add_to_funcs(do_last_line,
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
-	last_line_tag, IFSCHELP(nano_lastline_msg), TRUE, VIEW);
+	N_("Last Line"), IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
     add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
-	go_to_line_tag, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
+	N_("Go To Line"), IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
 
 #ifdef NANO_TINY
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
@@ -887,14 +869,14 @@ void shortcut_init(void)
 	FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_para_begin_void, (MMAIN|MWHEREIS), beg_of_par_tag,
+    add_to_funcs(do_para_begin_void, (MMAIN|MWHEREIS), N_("Beg of Par"),
 	IFSCHELP(nano_parabegin_msg), FALSE, VIEW);
-    add_to_funcs(do_para_end_void, (MMAIN|MWHEREIS), end_of_par_tag,
+    add_to_funcs(do_para_end_void, (MMAIN|MWHEREIS), N_("End of Par"),
 	IFSCHELP(nano_paraend_msg), FALSE, VIEW);
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(do_find_bracket, MMAIN, N_("Find Other Bracket"),
+    add_to_funcs(do_find_bracket, MMAIN, N_("To Bracket"),
 	IFSCHELP(nano_bracket_msg), FALSE, VIEW);
 
     add_to_funcs(do_scroll_up, MMAIN, N_("Scroll Up"),
@@ -904,13 +886,13 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_MULTIBUFFER
-    add_to_funcs(switch_to_prev_buffer_void, MMAIN, N_("Previous File"),
+    add_to_funcs(switch_to_prev_buffer_void, MMAIN, N_("Prev File"),
 	IFSCHELP(nano_prevfile_msg), FALSE, VIEW);
     add_to_funcs(switch_to_next_buffer_void, MMAIN, N_("Next File"),
 	IFSCHELP(nano_nextfile_msg), TRUE, VIEW);
 #endif
 
-    add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim Input"),
+    add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim"),
 	IFSCHELP(nano_verbatim_msg), FALSE, NOVIEW);
     add_to_funcs(do_verbatim_input, MWHEREIS|MREPLACE|MREPLACEWITH|MEXTCMD|MSPELL,
 	"", "", FALSE, NOVIEW);
@@ -949,7 +931,7 @@ void shortcut_init(void)
     add_to_funcs(xoff_complaint, MMAIN, "", "", FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_full_justify, (MMAIN|MWHEREIS), fulljstify_tag,
+    add_to_funcs(do_full_justify, (MMAIN|MWHEREIS), N_("FullJstify"),
 	IFSCHELP(nano_fulljustify_msg), FALSE, NOVIEW);
 #endif
 
@@ -961,7 +943,7 @@ void shortcut_init(void)
     add_to_funcs(total_refresh, MMAIN, refresh_tag,
 	IFSCHELP(nano_refresh_msg), FALSE, VIEW);
 
-    add_to_funcs(do_suspend_void, MMAIN, suspend_tag,
+    add_to_funcs(do_suspend_void, MMAIN, N_("Suspend"),
 	IFSCHELP(nano_suspend_msg), TRUE, VIEW);
 
 #ifndef NANO_TINY
@@ -1265,6 +1247,8 @@ const char *flagtostr(int flag)
 {
    switch (flag) {
         case NO_HELP:
+            /* TRANSLATORS: The next seventeen strings are toggle descriptions;
+             * they are best kept shorter than 40 characters, but may be longer. */
             return N_("Help mode");
         case CONST_UPDATE:
             return N_("Constant cursor position display");
