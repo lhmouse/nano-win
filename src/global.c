@@ -1070,10 +1070,10 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
     }
 #endif
-    add_to_sclist(MMOST, "^F", do_right, 0, TRUE);
     add_to_sclist(MMOST, "^B", do_left, 0, TRUE);
-    add_to_sclist(MMOST, "Right", do_right, 0, TRUE);
+    add_to_sclist(MMOST, "^F", do_right, 0, TRUE);
     add_to_sclist(MMOST, "Left", do_left, 0, TRUE);
+    add_to_sclist(MMOST, "Right", do_right, 0, TRUE);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
@@ -1440,12 +1440,12 @@ sc *strtosc(char *input)
 	s->toggle = SUSPEND;
     }
 #endif /* !NANO_TINY */
-    else if (!strcasecmp(input, "right") ||
-	     !strcasecmp(input, "forward"))
-	s->scfunc = do_right;
     else if (!strcasecmp(input, "left") ||
 	     !strcasecmp(input, "back"))
 	s->scfunc = do_left;
+    else if (!strcasecmp(input, "right") ||
+	     !strcasecmp(input, "forward"))
+	s->scfunc = do_right;
     else if (!strcasecmp(input, "up") ||
 	     !strcasecmp(input, "prevline"))
 	s->scfunc = do_up_void;

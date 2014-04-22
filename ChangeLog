@@ -8,6 +8,7 @@
 	update some translator comments and shorten a few tags.
 	* src/global.c (shortcut_init): Delete unneeded empty funcs; being
 	in the list of shortcuts is enough.
+	* src/global.c (shortcut_init): Put left/right in normal order.
 
 2014-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc: There is no F0 key.
