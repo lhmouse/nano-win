@@ -423,11 +423,10 @@ void help_init(void)
 	if (!f->desc || !strcmp(f->desc, ""))
 	    continue;
 
-	/* Let's just try and use the first 3 shortcuts from the new
-	 * struct... */
+	/* Let's simply show the first two shortcuts from the list. */
 	for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
 
-	    if (scsfound == 3)
+	    if (scsfound == 2)
 		continue;
 
 	    if (s->type == RAWINPUT)
@@ -438,18 +437,21 @@ void help_init(void)
 
 	    if (s->scfunc == f->scfunc) {
 		scsfound++;
-
-		if (scsfound == 1)
-		    ptr += sprintf(ptr, "%s", s->keystr);
-		else
-		    ptr += sprintf(ptr, "(%s)", s->keystr);
-		*(ptr++) = '\t';
+		/* Make the first column narrower (6) than the second (10),
+		 * but allow it to spill into the second, for "M-Space". */
+		if (scsfound == 1) {
+		    sprintf(ptr, "%s              ", s->keystr);
+		    ptr += 6;
+		} else {
+		    ptr += sprintf(ptr, "(%s)\t", s->keystr);
+		}
 	    }
 	}
-	/* Pad with tabs if we didn't find 3. */
-	for (; scsfound < 3; scsfound++) {
-	    *(ptr++) = '\t';
-	}
+
+	if (scsfound == 0)
+	    ptr += sprintf(ptr, "\t\t");
+	else if (scsfound == 1)
+	    ptr += 10;
 
 	/* The shortcut's help text. */
 	ptr += sprintf(ptr, "%s\n", _(f->help));
@@ -463,7 +465,7 @@ void help_init(void)
     if (currmenu == MMAIN)
 	for (s = sclist; s != NULL; s = s->next)
 	    if (s->scfunc == do_toggle_void)
-		ptr += sprintf(ptr, "(%s)\t\t\t%s %s\n",
+		ptr += sprintf(ptr, "(%s)\t\t%s %s\n",
 		    s->keystr, _(flagtostr(s->toggle)), _("enable/disable"));
 
 #ifndef DISABLE_NANORC

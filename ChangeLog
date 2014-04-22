@@ -10,6 +10,8 @@
 	in the list of shortcuts is enough.
 	* src/global.c (shortcut_init): Put left/right in normal order.
 	* src/global.c (shortcut_init): List function key after meta key.
+	* src/help.c (help_init): Show just two shortcuts per function --
+	only three functions showed three, but who has an F13, F14, F15?
 
 2014-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc: There is no F0 key.
