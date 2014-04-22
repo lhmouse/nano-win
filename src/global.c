@@ -492,50 +492,14 @@ void print_sclist(void)
 }
 #endif
 
-/* Stuff we need to make at least static here so we can access it below. */
-/* TRANSLATORS: Try to keep the next six strings at most 10 characters. */
-const char *cancel_tag = N_("Cancel");
-const char *replace_tag = N_("Replace");
-const char *no_replace_tag = N_("No Replace");
-
-#ifndef NANO_TINY
-const char *case_sens_tag = N_("Case Sens");
-const char *backwards_tag = N_("Backwards");
-#endif
-
-#ifdef HAVE_REGEX_H
-const char *regexp_tag = N_("Regexp");
-#endif
-
-/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
+/* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
 const char *uncut_tag = N_("Uncut Text");
 #ifndef DISABLE_JUSITIFY
 const char *unjust_tag = N_("Unjustify");
 #endif
 #ifndef NANO_TINY
-const char *prev_history_tag = N_("PrevHstory");
-const char *next_history_tag = N_("NextHstory");
-/* TRANSLATORS: Try to keep the next four strings at most 12 characters. */
+/* TRANSLATORS: Try to keep this at most 12 characters. */
 const char *whereis_next_tag = N_("WhereIs Next");
-#endif
-const char *gototext_tag = N_("Go To Text");
-#ifndef DISABLE_BROWSER
-const char *first_file_tag = N_("First File");
-const char *last_file_tag = N_("Last File");
-/* TRANSLATORS: Try to keep the next nine strings at most 16 characters. */
-const char *to_files_tag = N_("To Files");
-const char *goto_dir_tag = N_("Go To Dir");
-#endif
-#ifndef NANO_TINY
-const char *dos_format_tag = N_("DOS Format");
-const char *mac_format_tag = N_("Mac Format");
-const char *append_tag = N_("Append");
-const char *prepend_tag = N_("Prepend");
-const char *backup_file_tag = N_("Backup File");
-const char *ext_cmd_tag = N_("Execute Command");
-#endif
-#ifndef DISABLE_MULTIBUFFER
-const char *new_buffer_tag = N_("New Buffer");
 #endif
 
 /* Initialize the list of functions and the list of shortcuts. */
@@ -741,7 +705,7 @@ void shortcut_init(void)
 	get_help_tag, IFSCHELP(nano_help_msg), FALSE, VIEW);
 
     add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
-	cancel_tag, IFSCHELP(nano_cancel_msg), FALSE, VIEW);
+	N_("Cancel"), IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
 #ifndef DISABLE_MULTIBUFFER
@@ -859,7 +823,7 @@ void shortcut_init(void)
 	FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_replace, (MMAIN|MWHEREIS), replace_tag, IFSCHELP(nano_replace_msg),
+    add_to_funcs(do_replace, (MMAIN|MWHEREIS), N_("Replace"), IFSCHELP(nano_replace_msg),
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -1002,37 +966,37 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
     add_to_funcs(case_sens_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
-	case_sens_tag, IFSCHELP(nano_case_msg), FALSE, VIEW);
+	N_("Case Sens"), IFSCHELP(nano_case_msg), FALSE, VIEW);
 
     add_to_funcs(backwards_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
-	backwards_tag, IFSCHELP(nano_reverse_msg), FALSE, VIEW);
+	N_("Backwards"), IFSCHELP(nano_reverse_msg), FALSE, VIEW);
 #endif
 
 #ifdef HAVE_REGEX_H
     add_to_funcs(regexp_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
-	regexp_tag, IFSCHELP(nano_regexp_msg), FALSE, VIEW);
+	N_("Regexp"), IFSCHELP(nano_regexp_msg), FALSE, VIEW);
 #endif
 
 #ifndef NANO_TINY
     add_to_funcs(get_history_older_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
-	prev_history_tag, IFSCHELP(nano_prev_history_msg), FALSE, VIEW);
+	N_("PrevHstory"), IFSCHELP(nano_prev_history_msg), FALSE, VIEW);
 
     add_to_funcs(get_history_newer_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
-	next_history_tag, IFSCHELP(nano_next_history_msg), FALSE, VIEW);
+	N_("NextHstory"), IFSCHELP(nano_next_history_msg), FALSE, VIEW);
 #endif
 
     add_to_funcs(no_replace_void, MREPLACE,
-	no_replace_tag, IFSCHELP(nano_whereis_msg), FALSE, VIEW);
+	N_("No Replace"), IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
     add_to_funcs(gototext_void, MGOTOLINE,
-	gototext_tag, IFSCHELP(nano_whereis_msg), TRUE, VIEW);
+	N_("Go To Text"), IFSCHELP(nano_whereis_msg), TRUE, VIEW);
 
 #ifndef DISABLE_BROWSER
     if (!ISSET(RESTRICTED))
 	add_to_funcs(to_files_void, MINSERTFILE,
-	    to_files_tag, IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
+	    N_("To Files"), IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -1044,41 +1008,41 @@ void shortcut_init(void)
      * backups are disabled. */
     if (!ISSET(RESTRICTED)) {
         add_to_funcs(dos_format_void, MWRITEFILE,
-            dos_format_tag, IFSCHELP(nano_dos_msg), FALSE, NOVIEW);
+            N_("DOS Format"), IFSCHELP(nano_dos_msg), FALSE, NOVIEW);
 
         add_to_funcs(mac_format_void, MWRITEFILE,
-            mac_format_tag, IFSCHELP(nano_mac_msg), FALSE, NOVIEW);
+            N_("Mac Format"), IFSCHELP(nano_mac_msg), FALSE, NOVIEW);
 
         add_to_funcs(append_void, MWRITEFILE,
-            append_tag, IFSCHELP(nano_append_msg), FALSE, NOVIEW);
+            N_("Append"), IFSCHELP(nano_append_msg), FALSE, NOVIEW);
         add_to_funcs(prepend_void, MWRITEFILE,
-            prepend_tag, IFSCHELP(nano_prepend_msg), FALSE, NOVIEW);
+            N_("Prepend"), IFSCHELP(nano_prepend_msg), FALSE, NOVIEW);
 
         add_to_funcs(backup_file_void, MWRITEFILE,
-            backup_file_tag, IFSCHELP(nano_backup_msg), FALSE, NOVIEW);
+            N_("Backup File"), IFSCHELP(nano_backup_msg), FALSE, NOVIEW);
     }
 
     /* If we're using restricted mode, file insertion is disabled, and
      * thus command execution and the multibuffer toggle have no place. */
     if (!ISSET(RESTRICTED)) {
         add_to_funcs(ext_cmd_void, MINSERTFILE,
-	    ext_cmd_tag, IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
+	    N_("Execute Command"), IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
 #ifndef DISABLE_MULTIBUFFER
 	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
-	    new_buffer_tag, IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
+	    N_("New Buffer"), IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
 #endif
     }
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
     add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
-	first_file_tag, IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
+	N_("First File"), IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
     add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
-	last_file_tag, IFSCHELP(nano_lastfile_msg), FALSE, VIEW);
+	N_("Last File"), IFSCHELP(nano_lastfile_msg), FALSE, VIEW);
 
     add_to_funcs(goto_dir_void, MBROWSER,
-	goto_dir_tag, IFSCHELP(nano_gotodir_msg), FALSE, VIEW);
+	N_("Go To Dir"), IFSCHELP(nano_gotodir_msg), FALSE, VIEW);
 #endif
 
     /* Start associating key combos with functions in specific menus. */

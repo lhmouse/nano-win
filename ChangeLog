@@ -3,6 +3,7 @@
 	help viewer in the order of increasing stride.
 	* src/global.c (shortcut_init): Rename many constants from
 	'*_msg' to '*_tag' to reduce confusion with 'nano_*_msg'.
+	* src/global.c (shortcut_init): Elide several pointless constants.
 
 2014-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc: There is no F0 key.
