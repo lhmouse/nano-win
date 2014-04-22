@@ -1,6 +1,8 @@
 2014-04-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Put the movement keys in the
 	help viewer in the order of increasing stride.
+	* src/global.c (shortcut_init): Rename many constants from
+	'*_msg' to '*_tag' to reduce confusion with 'nano_*_msg'.
 
 2014-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc: There is no F0 key.
