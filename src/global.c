@@ -1129,11 +1129,11 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-S", do_toggle_void, SMOOTH_SCROLL, TRUE);
     add_to_sclist(MMAIN, "M-P", do_toggle_void, WHITESPACE_DISPLAY, TRUE);
     add_to_sclist(MMAIN, "M-Y", do_toggle_void, NO_COLOR_SYNTAX, TRUE);
-    add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
     add_to_sclist(MMAIN, "M-H", do_toggle_void, SMART_HOME, TRUE);
     add_to_sclist(MMAIN, "M-I", do_toggle_void, AUTOINDENT, TRUE);
     add_to_sclist(MMAIN, "M-K", do_toggle_void, CUT_TO_END, TRUE);
     add_to_sclist(MMAIN, "M-L", do_toggle_void, NO_WRAP, TRUE);
+    add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
     add_to_sclist(MMAIN, "M-Q", do_toggle_void, TABS_TO_SPACES, TRUE);
     add_to_sclist(MMAIN, "M-B", do_toggle_void, BACKUP_FILE, TRUE);
     add_to_sclist(MMAIN, "M-F", do_toggle_void, MULTIBUFFER, TRUE);
@@ -1215,8 +1215,6 @@ const char *flagtostr(int flag)
             return N_("Whitespace display");
         case NO_COLOR_SYNTAX:
             return N_("Color syntax highlighting");
-        case SOFTWRAP:
-            return N_("Soft line wrapping");
         case SMART_HOME:
             return N_("Smart home key");
         case AUTOINDENT:
@@ -1224,7 +1222,9 @@ const char *flagtostr(int flag)
         case CUT_TO_END:
             return N_("Cut to end");
         case NO_WRAP:
-            return N_("Long line wrapping");
+            return N_("Hard wrapping of overlong lines");
+        case SOFTWRAP:
+            return N_("Soft wrapping of overlong lines");
         case TABS_TO_SPACES:
             return N_("Conversion of typed tabs to spaces");
         case BACKUP_FILE:
@@ -1363,10 +1363,6 @@ sc *strtosc(char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_COLOR_SYNTAX;
-    } else if (!strcasecmp(input, "softwrap")) {
-	s->scfunc =  do_toggle_void;
-	s->execute = FALSE;
-	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "smarthome")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
@@ -1383,6 +1379,10 @@ sc *strtosc(char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_WRAP;
+    } else if (!strcasecmp(input, "softwrap")) {
+	s->scfunc =  do_toggle_void;
+	s->execute = FALSE;
+	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "tabstospaces")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;

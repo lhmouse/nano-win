@@ -11,6 +11,8 @@
 	one in the list -- just like the function name implies.  This will
 	make a user-defined shortcut appear in the two bottomlines without
 	having to unbind the existing one first -- better feedback.
+	* src/global.c(shortcut_init, flagtostr, strtosc): Put the two
+	wrapping toggles together and increase the contrast a bit.
 
 2014-04-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Put the movement keys in the
