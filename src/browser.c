@@ -561,7 +561,6 @@ void parse_browser_input(int *kbinput, bool *meta_key)
 		*kbinput = sc_seq_or(do_help_void, 0);
 #endif
 		break;
-	    /* Cancel equivalent to Exit here. */
 	    case 'E':
 	    case 'e':
 		*kbinput = sc_seq_or(do_exit, 0);

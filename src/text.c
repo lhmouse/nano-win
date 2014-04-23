@@ -1025,7 +1025,7 @@ void update_undo(undo_type action)
 	    }
 	    data = charalloc(len);
 	    strcpy(data, u->strdata);
-	    data[len-2] = fs->current->data[fs->current_x];;
+	    data[len-2] = fs->current->data[fs->current_x];
 	    data[len-1] = '\0';
 	    free(u->strdata);
 	    u->strdata = data;

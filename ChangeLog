@@ -1,3 +1,7 @@
+2014-04-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c, src/help.c, src/text.c, src/browser.c: Remove
+        several unneeded double semicolons, and two relic comments.
+
 2014-04-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Put the movement keys in the
 	help viewer in the order of increasing stride.
@@ -12,6 +16,7 @@
 	* src/global.c (shortcut_init): List function key after meta key.
 	* src/help.c (help_init): Show just two shortcuts per function --
 	only three functions showed three, but who has an F13, F14, F15?
+	This also fixes Savannah bug #41889: misalignment of help text.
 	* src/help.c (help_init): Split the toggles into three groups,
 	and do not show toggle keys that have been rebound.
 
