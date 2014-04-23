@@ -551,10 +551,10 @@ void parse_browser_input(int *kbinput, bool *meta_key)
     if (!*meta_key) {
 	switch (*kbinput) {
 	    case ' ':
-		*kbinput = sc_seq_or(do_page_down, 0);
+		*kbinput = KEY_NPAGE;
 		break;
 	    case '-':
-		*kbinput = sc_seq_or(do_page_up, 0);
+		*kbinput = KEY_PPAGE;
 		break;
 	    case '?':
 #ifndef DISABLE_HELP

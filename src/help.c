@@ -494,10 +494,10 @@ void parse_help_input(int *kbinput, bool *meta_key)
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
 	    case ' ':
-		*kbinput = sc_seq_or(do_page_down, 0);
+		*kbinput = KEY_NPAGE;
 		break;
 	    case '-':
-		*kbinput = sc_seq_or(do_page_up, 0);
+		*kbinput = KEY_PPAGE;
 		break;
 	    case 'E':
 	    case 'e':
