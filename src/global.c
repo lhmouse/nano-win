@@ -310,46 +310,15 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 #endif
 }
 
+/* Return the first shortcut in the list of shortcuts that
+ * matches the given func in the given menu. */
 const sc *first_sc_for(int menu, void (*func)(void))
 {
     const sc *s;
-    const sc *fkeysc = NULL;
-    const sc *metasc = NULL;
-    const sc *rawsc = NULL;
 
-    for (s = sclist; s != NULL; s = s->next) {
-	if ((s->menu & menu) && s->scfunc == func) {
-	    /* Memorize the first meta sequence, first function key,
-	     * and first dedicated key.  The latter is needed to be
-	     * able to show something when the user has rebound all
-	     * other sequences for a specific func. */
-	    if (s->type == META) {
-		if (!metasc)
-		    metasc = s;
-		continue;
-	    } else if (s->type == FKEY) {
-		if (!fkeysc)
-		    fkeysc = s;
-		continue;
-	    } else if (s->type == RAWINPUT) {
-		if (!rawsc)
-		    rawsc = s;
-		continue;
-	    }
-
-	    /* Otherwise, it was something else, so use it. */
+    for (s = sclist; s != NULL; s = s->next)
+	if ((s->menu & menu) && s->scfunc == func)
 	    return s;
-	}
-    }
-
-    /* If we did not find any control sequence, then prefer a
-     * meta sequence over a function key over a dedicated key. */
-    if (metasc)
-	return metasc;
-    else if (fkeysc)
-	return fkeysc;
-    else if (rawsc)
-	return rawsc;
 
 #ifdef DEBUG
     fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long) func, menu);

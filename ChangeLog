@@ -6,6 +6,11 @@
 	also when the PrevPage and NextPage functions are bound to meta-key
 	sequences -- searching for these will not find them.  So, instead put
 	in the standard key code.  This fixes Savannah bug #42140.
+	* src/global.c (first_sc_for): Stop the whole charade of preferring
+	control keys over meta keys over function keys, but return the first
+	one in the list -- just like the function name implies.  This will
+	make a user-defined shortcut appear in the two bottomlines without
+	having to unbind the existing one first -- better feedback.
 
 2014-04-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Put the movement keys in the
