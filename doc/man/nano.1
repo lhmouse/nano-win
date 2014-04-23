@@ -187,7 +187,7 @@ Do not report errors in the \fInanorc\fP file nor ask them to be
 acknowledged by pressing Enter at startup.
 .TP
 .B \-r \fIcols\fP (\-\-fill=\fIcols\fP)
-Wrap lines at column \fIcols\fP.  If this value is 0 or less, wrapping
+Hard-wrap lines at column \fIcols\fP.  If this value is 0 or less, wrapping
 will occur at the width of the screen less \fIcols\fP columns, allowing
 the wrap point to vary along with the width of the screen if the screen
 is resized.  The default value is \-8.
@@ -207,7 +207,7 @@ shortcuts are Meta-U and Meta-E, respectively.
 View file (read only) mode.
 .TP
 .B \-w (\-\-nowrap)
-Disable wrapping of long lines.
+Disable the hard-wrapping of long lines.
 .TP
 .B \-x (\-\-nohelp)
 Disable help screen at bottom of editor.

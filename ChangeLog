@@ -1,6 +1,6 @@
 2014-04-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c, src/help.c, src/text.c, src/browser.c: Remove
-        several unneeded double semicolons, and two relic comments.
+	several unneeded double semicolons, and two relic comments.
 	* src/help.c (parse_help_input), src/browser.c (parse_browser_input):
 	Make the Minus and Space keys work in the help viewer and file browser
 	also when the PrevPage and NextPage functions are bound to meta-key
@@ -12,7 +12,9 @@
 	make a user-defined shortcut appear in the two bottomlines without
 	having to unbind the existing one first -- better feedback.
 	* src/global.c(shortcut_init, flagtostr, strtosc): Put the two
-	wrapping toggles together and increase the contrast a bit.
+	wrapping toggles together and increase their contrast a bit.
+	* src/nano.c (usage), doc/man/nano{.1,rc.5}, doc/texinfo/nano.texi:
+	Increase the contrast between hard-wrapping and soft-wrapping.
 
 2014-04-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Put the movement keys in the

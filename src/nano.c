@@ -926,7 +926,7 @@ void usage(void)
 	N_("Silently ignore startup issues like rc file errors"));
 #ifndef DISABLE_WRAPJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
-	N_("Set wrapping point at column #cols"));
+	N_("Set hard-wrapping point at column #cols"));
 #endif
 #ifndef DISABLE_SPELLER
     print_opt(_("-s <prog>"), _("--speller=<prog>"),
@@ -940,7 +940,7 @@ void usage(void)
 
     print_opt("-v", "--view", N_("View mode (read-only)"));
 #ifndef DISABLE_WRAPPING
-    print_opt("-w", "--nowrap", N_("Don't wrap long lines"));
+    print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines"));
 #endif
     print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
     print_opt("-z", "--suspend", N_("Enable suspension"));

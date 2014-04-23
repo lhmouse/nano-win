@@ -265,10 +265,11 @@ Do not report errors in the nanorc file and ask them to be acknowledged
 by pressing Enter at startup.
 
 @item -r <#cols>, --fill=<#cols>
-Wrap lines at column #cols.  If this value is 0 or less, wrapping will
-occur at the width of the screen less #cols, allowing it to vary along
-with the width of the screen if the screen is resized.  The default
-value is -8.
+Hard-wrap lines at column #cols (by inserting a newline character).
+If the given value is 0 or less, wrapping will occur at the width of
+the screen minus the given amount, allowing the wrapping width to
+vary along with the width of the screen if and when it is resized.
+The default value is -8.
 
 @item -s <prog>, --speller=<prog>
 Invoke the given program as the spell checker.  By default, @code{nano}
@@ -291,7 +292,7 @@ option should NOT be used in place of correct file permissions to
 implement a read-only file.
 
 @item -w, --nowrap
-Don't wrap long lines at any length.  This option overrides any value
+Don't hard-wrap long lines at any length.  This option overrides any value
 for -r.
 
 @anchor{Expert Mode}
@@ -308,8 +309,9 @@ Enable @code{nano}'s suspend ability using the system's suspend
 keystroke (usually ^Z).
 
 @item -$, --softwrap
-Enable 'soft wrapping'.  @code{nano} will attempt to display the entire
-contents of a line, even if it is longer than the screen width.  Since
+Enable 'soft wrapping'.  This will make @code{nano} attempt to display the
+entire contents of any line, even if it is longer than the screen width, by
+continuing it over multiple screen lines.  Since
 '$' normally refers to a variable in the Unix shell, you should specify
 this option last when using other options (e.g. 'nano -wS$') or pass it
 separately (e.g. 'nano -wS -$').
@@ -555,7 +557,7 @@ Constantly display the cursor position in the status bar.
 Use cut to end of line by default, instead of cutting the whole line.
 
 @item set fill "n"
-Wrap lines at column number "n".  If "n" is 0 or less, the maximum line
+Hard-wrap lines at column number "n".  If "n" is 0 or less, the maximum line
 length will be the screen width less "n" columns.  The default value is
 -8.
 
@@ -598,7 +600,7 @@ Don't display the help lists at the bottom of the screen.
 Don't add newlines to the ends of files.
 
 @item set/unset nowrap
-Don't wrap text at all.
+Don't hard-wrap text at all.
 
 @item set operatingdir "directory"
 @code{nano} will only read and write files inside "directory" and its
@@ -890,7 +892,7 @@ command-line option, which allows specifying an alternate spell checker.
 Disable the tab completion code when reading or writing files.
 
 @item --disable-wrapping
-Disable all long-line wrapping.  This also eliminates the -w
+Disable hard-wrapping of overlong lines.  This also eliminates the -w
 command-line option, which enables long-line wrapping.
 
 @item --enable-tiny
@@ -907,7 +909,8 @@ Disables Native Language support.  This will disable use of the
 available GNU @code{nano} translations.
 
 @item --disable-wrapping-as-root
-Disable long-line wrapping by default when @code{nano} is run as root.
+Disable hard-wrapping of overlong lines by default when @code{nano}
+is run as root.
 
 @item --enable-utf8
 Enable support for reading and writing Unicode files.  This will require
