@@ -1,3 +1,8 @@
+2014-04-24  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/faq.html: Update a few URLs, delete some obsolete ones, update
+	the section on configuration flags and on translating nano, a whole
+	series of other small fixes and adjustments.
+
 2014-04-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c, src/help.c, src/text.c, src/browser.c: Remove
 	several unneeded double semicolons, and two relic comments.
