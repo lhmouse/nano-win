@@ -1281,6 +1281,9 @@ sc *strtosc(char *input)
 	s->scfunc = do_cut_text_void;
     else if (!strcasecmp(input, "uncut"))
 	s->scfunc = do_uncut_text;
+    else if (!strcasecmp(input, "tospell") ||
+	     !strcasecmp(input, "speller"))
+	s->scfunc = do_spell;
     else if (!strcasecmp(input, "curpos") ||
 	     !strcasecmp(input, "cursorpos"))
 	s->scfunc = do_cursorpos_void;

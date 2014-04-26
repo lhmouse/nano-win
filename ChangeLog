@@ -4,6 +4,8 @@
 	make use of it to remember the location of the Uncut item.
 	* src/global.c, src/files.c (make_new_buffer, close_buffer): Make
 	help lines show "Close" again when more than one buffer is open.
+	* src/global.c (strtosc), doc/man/nanorc.5: Allow the do_spell
+	(and thus do_lint) function to be bound to other key combos.
 
 2014-04-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/faq.html: Update a few URLs, delete some obsolete ones, update
