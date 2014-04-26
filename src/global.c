@@ -167,9 +167,11 @@ int currmenu;
 	/* The currently loaded menu. */
 
 sc *sclist = NULL;
-	/* Struct for the shortcut-key list. */
+	/* Pointer to the start of the shortcuts list. */
 subnfunc *allfuncs = NULL;
-	/* Struct for the function list. */
+	/* Pointer to the start of the functions list. */
+subnfunc *tailfunc;
+	/* Pointer to the last function in the list. */
 subnfunc *uncutfunc;
 	/* Pointer to the special Uncut/Unjustify item. */
 
@@ -284,17 +286,14 @@ function_type strtokeytype(const char *str)
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
 {
-    subnfunc *f;
+    subnfunc *f = nmalloc(sizeof(subnfunc));
 
-    if (allfuncs == NULL) {
-	allfuncs = (subnfunc *) nmalloc(sizeof(subnfunc));
-	f = allfuncs;
-    } else {
-	for (f = allfuncs; f->next != NULL; f = f->next)
-		;
-        f->next = (subnfunc *)nmalloc(sizeof(subnfunc));
-        f = f->next;
-    }
+    if (allfuncs == NULL)
+	allfuncs = f;
+    else
+	tailfunc->next = f;
+    tailfunc = f;
+
     f->next = NULL;
     f->scfunc = func;
     f->menus = menus;
@@ -736,10 +735,8 @@ void shortcut_init(void)
 
     add_to_funcs(do_uncut_text, MMAIN, uncut_tag, IFSCHELP(nano_uncut_msg),
 	FALSE, NOVIEW);
-
     /* Remember the entry for Uncut, to be able to replace it with Unjustify. */
-    for (uncutfunc = allfuncs; uncutfunc->next != NULL; uncutfunc = uncutfunc->next)
-	;
+    uncutfunc = tailfunc;
 
 #ifndef NANO_TINY
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),

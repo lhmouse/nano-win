@@ -1,3 +1,8 @@
+2014-04-26  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (add_to_funcs): Add a pointer to the tail of the
+	functions list, to simplify and speed up adding new items.  And
+	make use of it to remember the location of the Uncut item.
+
 2014-04-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/faq.html: Update a few URLs, delete some obsolete ones, update
 	the section on configuration flags and on translating nano, a whole
