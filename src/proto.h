@@ -66,6 +66,8 @@ extern int whitespace_len[2];
 extern undo_type last_action;
 #endif
 
+extern const char *exit_tag;
+extern const char *close_tag;
 extern const char *uncut_tag;
 #ifndef DISABLE_JUSTIFY
 extern const char *unjust_tag;
@@ -101,6 +103,7 @@ extern char *alt_speller;
 
 extern sc *sclist;
 extern subnfunc *allfuncs;
+extern subnfunc *exitfunc;
 extern subnfunc *uncutfunc;
 #ifndef DISABLE_COLOR
 extern syntaxtype *syntaxes;

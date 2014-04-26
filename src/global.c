@@ -172,6 +172,8 @@ subnfunc *allfuncs = NULL;
 	/* Pointer to the start of the functions list. */
 subnfunc *tailfunc;
 	/* Pointer to the last function in the list. */
+subnfunc *exitfunc;
+	/* Pointer to the special Exit/Close item. */
 subnfunc *uncutfunc;
 	/* Pointer to the special Uncut/Unjustify item. */
 
@@ -460,7 +462,9 @@ void print_sclist(void)
 }
 #endif
 
-/* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
+/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
+const char *exit_tag = N_("Exit");
+const char *close_tag = N_("Close");
 const char *uncut_tag = N_("Uncut Text");
 #ifndef DISABLE_JUSITIFY
 const char *unjust_tag = N_("Unjustify");
@@ -473,8 +477,7 @@ const char *whereis_next_tag = N_("WhereIs Next");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    /* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
-    const char *exit_tag = N_("Exit");
+    /* TRANSLATORS: Try to keep the next six strings at most 10 characters. */
     const char *whereis_tag = N_("Where Is");
     const char *prev_line_tag = N_("Prev Line");
     const char *next_line_tag = N_("Next Line");
@@ -666,10 +669,9 @@ void shortcut_init(void)
 	N_("Cancel"), IFSCHELP(nano_cancel_msg), FALSE, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
-#ifndef DISABLE_MULTIBUFFER
-	openfile != NULL && openfile != openfile->next ? N_("Close") :
-#endif
 	exit_tag, IFSCHELP(nano_exit_msg), FALSE, VIEW);
+    /* Remember the entry for Exit, to be able to replace it with Close. */
+    exitfunc = tailfunc;
 
 #ifndef DISABLE_BROWSER
     add_to_funcs(do_exit, MBROWSER, exit_tag, IFSCHELP(nano_exitbrowser_msg), FALSE, VIEW);

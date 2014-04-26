@@ -2,6 +2,8 @@
 	* src/global.c (add_to_funcs): Add a pointer to the tail of the
 	functions list, to simplify and speed up adding new items.  And
 	make use of it to remember the location of the Uncut item.
+	* src/global.c, src/files.c (make_new_buffer, close_buffer): Make
+	help lines show "Close" again when more than one buffer is open.
 
 2014-04-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/faq.html: Update a few URLs, delete some obsolete ones, update

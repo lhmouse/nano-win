@@ -47,6 +47,8 @@ void make_new_buffer(void)
     } else {
 	splice_opennode(openfile, make_new_opennode(), openfile->next);
 	openfile = openfile->next;
+	/* More than one file open, show Close in help lines. */
+	exitfunc->desc = close_tag;
     }
 
     /* Initialize the new buffer. */
@@ -485,7 +487,9 @@ bool close_buffer(void)
     /* Close the file buffer we had open before. */
     unlink_opennode(openfile->prev);
 
-    display_main_list();
+    /* If only one buffer is open now, show Exit in the help lines. */
+    if (openfile == openfile->next)
+	exitfunc->desc = exit_tag;
 
     return TRUE;
 }
