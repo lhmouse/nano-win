@@ -334,9 +334,6 @@ Exit from the program.
 .B writeout
 Write the current buffer to disk.
 .TP
-.B justify
-Justify the current text.
-.TP
 .B insert
 Insert a file into the current buffer (or into a new buffer when multibuffer
 is enabled).
@@ -347,54 +344,60 @@ Search for text in the current buffer.
 .B searchagain
 Repeat the last search command.
 .TP
-.B up
-Move up in the editor or browser.
-.TP
-.B down
-Move down in the editor or browser.
-.TP
-.B left
-Move left in the editor or browser.
-.TP
-.B right
-Move right in the editor or browser.
+.B replace
+Interactively replace text within the current buffer.
 .TP
 .B cut
 Cut the current line of text and store it.
 .TP
+.B copytext
+Copy the currently marked text without deleting it.
+.TP
 .B uncut
 Copy the currently stored text into the current buffer position.
 .TP
+.B mark
+Begin selecting text for cutting at the current position.
+.TP
 .B curpos
 Show the current line, column, word positions in the file.
+.TP
+.B wordcount
+Count the number of words in the current buffer.
 .TP
 .B speller
 Invoke a spell checking program (or a linting program, if the current
 syntax highlighting defines one).
 .TP
-.B firstline
-Move to the first line of the file.
+.B justify
+Justify the current text.
 .TP
-.B lastline
-Move to the last line of the file.
-.TP
-.B gotoline
-Move to a specific line (and column if specified).
-.TP
-.B replace
-Interactively replace text within the current buffer.
-.TP
-.B mark
-Begin selecting text for cutting or pasting at the current position.
-.TP
-.B copytext
-Copy the currently marked text without deleting it.
+.B fulljustify
+Justify the entire current file.
 .TP
 .B indent
 Indent the currently marked text (shift to the right).
 .TP
 .B unindent
 Un-indent the currently marked text (shift to the left).
+.TP
+.B left
+Go left one position (in the editor or browser).
+.TP
+.B right
+Go right one position (in the editor or browser).
+.TP
+.B up
+Go one line up (in the editor or browser).
+.TP
+.B down
+Go one line down (in the editor or browser).
+.TP
+.B scrollup
+Scroll up one line of text from the current position.
+.TP
+.B scrolldown
+Scroll down one line of text from the current position.
 .TP
 .B nextword
 Move the cursor to the beginning of the next word.
@@ -414,15 +417,24 @@ Move the cursor to the beginning of the current paragraph.
 .B endpara
 Move the cursor to the end of the current paragraph.
 .TP
+.B prevpage
+Go one screenful up.
+.TP
+.B nextpage
+Go one screenful down.
+.TP
+.B firstline
+Go to the first line of the file.
+.TP
+.B lastline
+Go to the last line of the file.
+.TP
+.B gotoline
+Move to a specific line (and column if specified).
+.TP
 .B findbracket
 Move the cursor to the matching bracket (brace, parenthesis, etc.) of the one
 under the cursor.
-.TP
-.B scrollup
-Scroll up one line of text from the current position.
-.TP
-.B scrolldown
-Scroll down one line of text from the current position.
 .TP
 .B prevbuf
 Switch to editing/viewing the previous buffer when using multibuffer mode.
@@ -442,20 +454,14 @@ Insert a new line below the current one.
 .B delete
 Delete the character under the cursor.
 .TP
-.B fulljustify
-Justify the entire current file.
-.TP
-.B wordcount
-Count the number of words in the current buffer.
-.TP
-.B refresh
-Refresh the screen.
-.TP
 .B undo
 Undo the text action peformed (add text, delete text, etc).
 .TP
 .B redo
 Redo the last undone action (i.e., undo an undo).
+.TP
+.B refresh
+Refresh the screen.
 .TP
 .B suspend
 Suspend the editor (if the suspend function is enabled, see the 
@@ -518,9 +524,6 @@ Toggle the showing of whitespace.
 .B nosyntax
 Toggle syntax highlighting.
 .TP
-.B softwrap
-Toggle the displaying of overlong lines on multiple screen lines.
-.TP
 .B smarthome
 Toggle whether the smart home key function is enabled.
 .TP
@@ -533,6 +536,9 @@ position to the end of the line.
 .TP
 .B nowrap
 Toggle whether long lines will be hard-wrapped to the next line.
+.TP
+.B softwrap
+Toggle the displaying of overlong lines on multiple screen lines.
 .TP
 .B tabstospaces
 Toggle whether typed tabs will be converted to spaces.

@@ -1267,52 +1267,38 @@ sc *strtosc(char *input)
 	s->scfunc = do_insertfile_void;
     else if (!strcasecmp(input, "whereis"))
 	s->scfunc = do_search;
-    else if (!strcasecmp(input, "up"))
-	s->scfunc = do_up_void;
-    else if (!strcasecmp(input, "down"))
-	s->scfunc = do_down_void;
-    else if (!strcasecmp(input, "pageup") ||
-	     !strcasecmp(input, "prevpage"))
-	s->scfunc = do_page_up;
-    else if (!strcasecmp(input, "pagedown") ||
-	     !strcasecmp(input, "nextpage"))
-	s->scfunc = do_page_down;
+    else if (!strcasecmp(input, "searchagain") ||
+	     !strcasecmp(input, "research"))
+	s->scfunc = do_research;
+    else if (!strcasecmp(input, "replace"))
+	s->scfunc = do_replace;
     else if (!strcasecmp(input, "cut"))
 	s->scfunc = do_cut_text_void;
+    else if (!strcasecmp(input, "copytext"))
+	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "uncut"))
 	s->scfunc = do_uncut_text;
+    else if (!strcasecmp(input, "mark"))
+	s->scfunc = do_mark;
     else if (!strcasecmp(input, "tospell") ||
 	     !strcasecmp(input, "speller"))
 	s->scfunc = do_spell;
     else if (!strcasecmp(input, "curpos") ||
 	     !strcasecmp(input, "cursorpos"))
 	s->scfunc = do_cursorpos_void;
-    else if (!strcasecmp(input, "firstline"))
-	s->scfunc = do_first_line;
-    else if (!strcasecmp(input, "lastline"))
-	s->scfunc = do_last_line;
     else if (!strcasecmp(input, "gotoline"))
 	s->scfunc = do_gotolinecolumn_void;
-    else if (!strcasecmp(input, "replace"))
-	s->scfunc = do_replace;
 #ifndef DISABLE_JUSTIFY
     else if (!strcasecmp(input, "justify"))
 	s->scfunc = do_justify_void;
+    else if (!strcasecmp(input, "fulljustify"))
+	s->scfunc = do_full_justify;
     else if (!strcasecmp(input, "beginpara"))
 	s->scfunc = do_para_begin_void;
     else if (!strcasecmp(input, "endpara"))
 	s->scfunc = do_para_end_void;
-    else if (!strcasecmp(input, "fulljustify"))
-	s->scfunc = do_full_justify;
 #endif
 #ifndef NANO_TINY
-    else if (!strcasecmp(input, "mark"))
-	s->scfunc = do_mark;
-    else if (!strcasecmp(input, "searchagain") ||
-	     !strcasecmp(input, "research"))
-	s->scfunc = do_research;
-    else if (!strcasecmp(input, "copytext"))
-	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "indent"))
 	s->scfunc = do_indent_void;
     else if (!strcasecmp(input, "unindent"))
@@ -1427,6 +1413,16 @@ sc *strtosc(char *input)
 	s->scfunc = do_home;
     else if (!strcasecmp(input, "end"))
 	s->scfunc = do_end;
+    else if (!strcasecmp(input, "pageup") ||
+	     !strcasecmp(input, "prevpage"))
+	s->scfunc = do_page_up;
+    else if (!strcasecmp(input, "pagedown") ||
+	     !strcasecmp(input, "nextpage"))
+	s->scfunc = do_page_down;
+    else if (!strcasecmp(input, "firstline"))
+	s->scfunc = do_first_line;
+    else if (!strcasecmp(input, "lastline"))
+	s->scfunc = do_last_line;
 #ifndef DISABLE_MULTIBUFFER
     else if (!strcasecmp(input, "prevbuf"))
 	s->scfunc = switch_to_prev_buffer_void;

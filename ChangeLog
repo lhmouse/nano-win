@@ -6,6 +6,8 @@
 	help lines show "Close" again when more than one buffer is open.
 	* src/global.c (strtosc), doc/man/nanorc.5: Allow the do_spell
 	(and thus do_lint) function to be bound to other key combos.
+	* src/global.c (strtosc), doc/man/nanorc.5: Group related functions
+	together, remove duplicate up/down, add missing prevpage/nextpage.
 
 2014-04-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/faq.html: Update a few URLs, delete some obsolete ones, update
