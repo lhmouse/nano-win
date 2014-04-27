@@ -477,10 +477,13 @@ const char *whereis_next_tag = N_("WhereIs Next");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    /* TRANSLATORS: Try to keep the next six strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep the next nine strings at most 10 characters. */
     const char *whereis_tag = N_("Where Is");
+    const char *replace_tag = N_("Replace");
+    const char *gotoline_tag = N_("Go To Line");
     const char *prev_line_tag = N_("Prev Line");
     const char *next_line_tag = N_("Next Line");
+    const char *fulljustify_tag = N_("FullJstify");
     const char *refresh_tag = N_("Refresh");
 #ifndef DISABLE_SPELLER
     const char *spell_tag = N_("To Spell");
@@ -758,6 +761,35 @@ void shortcut_init(void)
 	TRUE, NOVIEW);
 #endif
 
+#ifndef NANO_TINY
+    add_to_funcs(case_sens_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
+	N_("Case Sens"), IFSCHELP(nano_case_msg), FALSE, VIEW);
+#endif
+
+#ifdef HAVE_REGEX_H
+    add_to_funcs(regexp_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
+	N_("Regexp"), IFSCHELP(nano_regexp_msg), FALSE, VIEW);
+#endif
+
+#ifndef NANO_TINY
+    add_to_funcs(backwards_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
+	N_("Backwards"), IFSCHELP(nano_reverse_msg), FALSE, VIEW);
+#endif
+
+    add_to_funcs(do_replace, MWHEREIS,
+	replace_tag, IFSCHELP(nano_replace_msg), FALSE, VIEW);
+
+    add_to_funcs(no_replace_void, MREPLACE,
+	N_("No Replace"), IFSCHELP(nano_whereis_msg), FALSE, VIEW);
+
+#ifndef DISABLE_JUSTIFY
+    add_to_funcs(do_full_justify, MWHEREIS, fulljustify_tag,
+	IFSCHELP(nano_fulljustify_msg), FALSE, NOVIEW);
+#endif
+
+    add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
+
     add_to_funcs(do_first_line,
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
 	N_("First Line"), IFSCHELP(nano_firstline_msg), FALSE, VIEW);
@@ -765,15 +797,15 @@ void shortcut_init(void)
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
 	N_("Last Line"), IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
-    add_to_funcs(do_gotolinecolumn_void, (MMAIN|MWHEREIS),
-	N_("Go To Line"), IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
+    add_to_funcs(do_gotolinecolumn_void, MMAIN,
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
 
 #ifdef NANO_TINY
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_replace, (MMAIN|MWHEREIS), N_("Replace"), IFSCHELP(nano_replace_msg),
+    add_to_funcs(do_replace, MMAIN, replace_tag, IFSCHELP(nano_replace_msg),
 #ifndef NANO_TINY
 	FALSE,
 #else
@@ -885,7 +917,7 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_full_justify, (MMAIN|MWHEREIS), N_("FullJstify"),
+    add_to_funcs(do_full_justify, MMAIN, fulljustify_tag,
 	IFSCHELP(nano_fulljustify_msg), FALSE, NOVIEW);
 #endif
 
@@ -901,19 +933,6 @@ void shortcut_init(void)
 	IFSCHELP(nano_suspend_msg), TRUE, VIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs(case_sens_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
-	N_("Case Sens"), IFSCHELP(nano_case_msg), FALSE, VIEW);
-
-    add_to_funcs(backwards_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
-	N_("Backwards"), IFSCHELP(nano_reverse_msg), FALSE, VIEW);
-#endif
-
-#ifdef HAVE_REGEX_H
-    add_to_funcs(regexp_void, (MWHEREIS|MREPLACE|MWHEREISFILE),
-	N_("Regexp"), IFSCHELP(nano_regexp_msg), FALSE, VIEW);
-#endif
-
-#ifndef NANO_TINY
     add_to_funcs(get_history_older_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	N_("PrevHstory"), IFSCHELP(nano_prev_history_msg), FALSE, VIEW);
@@ -922,9 +941,6 @@ void shortcut_init(void)
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	N_("NextHstory"), IFSCHELP(nano_next_history_msg), FALSE, VIEW);
 #endif
-
-    add_to_funcs(no_replace_void, MREPLACE,
-	N_("No Replace"), IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
     add_to_funcs(gototext_void, MGOTOLINE,
 	N_("Go To Text"), IFSCHELP(nano_whereis_msg), TRUE, VIEW);
