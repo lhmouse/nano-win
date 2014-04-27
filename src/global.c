@@ -520,8 +520,8 @@ void shortcut_init(void)
 	N_("Search for a string or a regular expression");
     const char *nano_browser_whereis_msg =
 	N_("Search for a string");
-    const char *nano_prevpage_msg = N_("Go to previous screen");
-    const char *nano_nextpage_msg = N_("Go to next screen");
+    const char *nano_prevpage_msg = N_("Go one screenful up");
+    const char *nano_nextpage_msg = N_("Go one screenful down");
     const char *nano_cut_msg =
 	N_("Cut the current line and store it in the cutbuffer");
     const char *nano_uncut_msg =
@@ -691,7 +691,7 @@ void shortcut_init(void)
      * reading from or writing to files not specified on the command
      * line. */
     add_to_funcs(do_insertfile_void,
-	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), FALSE,
+	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), TRUE,
 #ifndef DISABLE_MULTIBUFFER
 	VIEW);
 #else
@@ -701,17 +701,15 @@ void shortcut_init(void)
     add_to_funcs(do_search, MMAIN, whereis_tag,
 	IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
+    add_to_funcs(do_replace, MMAIN, replace_tag,
+	IFSCHELP(nano_replace_msg), FALSE, NOVIEW);
+
+#ifndef DISABLE_BROWSER
     add_to_funcs(do_search, MBROWSER, whereis_tag,
 	IFSCHELP(nano_browser_whereis_msg), FALSE, VIEW);
 
-#ifndef NANO_TINY
-    add_to_funcs(do_research, MBROWSER, whereis_next_tag,
-	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
-#endif
-
-#ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_justify_void, MMAIN, N_("Justify"),
-	nano_justify_msg, TRUE, NOVIEW);
+    add_to_funcs(goto_dir_void, MBROWSER,
+	N_("Go To Dir"), IFSCHELP(nano_gotodir_msg), TRUE, VIEW);
 #endif
 
 #ifndef DISABLE_HELP
@@ -725,29 +723,17 @@ void shortcut_init(void)
     add_to_funcs(do_down_void, MHELP, next_line_tag, "x" , 0, VIEW);
 #endif
 
-    add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
-	N_("Prev Page"), IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
-    add_to_funcs(do_page_down, MMAIN|MHELP|MBROWSER,
-	N_("Next Page"), IFSCHELP(nano_nextpage_msg), TRUE, VIEW);
-
-#ifndef DISABLE_COLOR
-    add_to_funcs(do_page_up, MLINTER,
-	prev_lint_tag, IFSCHELP(nano_prevlint_msg), FALSE, VIEW);
-    add_to_funcs(do_page_down, MLINTER,
-	next_lint_tag, IFSCHELP(nano_nextlint_msg), FALSE, VIEW);
-#endif
-
     add_to_funcs(do_cut_text_void, MMAIN, N_("Cut Text"), IFSCHELP(nano_cut_msg),
 	FALSE, NOVIEW);
 
     add_to_funcs(do_uncut_text, MMAIN, uncut_tag, IFSCHELP(nano_uncut_msg),
-	FALSE, NOVIEW);
+	TRUE, NOVIEW);
     /* Remember the entry for Uncut, to be able to replace it with Unjustify. */
     uncutfunc = tailfunc;
 
-#ifndef NANO_TINY
-    add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
-	FALSE, VIEW);
+#ifndef DISABLE_JUSTIFY
+    add_to_funcs(do_justify_void, MMAIN, N_("Justify"),
+	nano_justify_msg, FALSE, NOVIEW);
 #endif
 
     /* If we're using restricted mode, spell checking is disabled
@@ -755,7 +741,7 @@ void shortcut_init(void)
      * on the command line. */
 #ifndef DISABLE_SPELLER
     add_to_funcs(do_spell, MMAIN, spell_tag, IFSCHELP(nano_spell_msg),
-	TRUE, NOVIEW);
+	FALSE, NOVIEW);
 #endif
 
 #ifndef DISABLE_COLOR
@@ -789,26 +775,23 @@ void shortcut_init(void)
 	IFSCHELP(nano_fulljustify_msg), FALSE, NOVIEW);
 #endif
 
-    add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
-	gotoline_tag, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
+    add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"),
+	IFSCHELP(nano_cursorpos_msg), FALSE, VIEW);
+
+    add_to_funcs(do_gotolinecolumn_void, MMAIN|MWHEREIS,
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), TRUE, VIEW);
+
+    add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
+	N_("Prev Page"), IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
+    add_to_funcs(do_page_down, MMAIN|MHELP|MBROWSER,
+	N_("Next Page"), IFSCHELP(nano_nextpage_msg), FALSE, VIEW);
 
     add_to_funcs(do_first_line,
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
 	N_("First Line"), IFSCHELP(nano_firstline_msg), FALSE, VIEW);
     add_to_funcs(do_last_line,
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
-	N_("Last Line"), IFSCHELP(nano_lastline_msg), FALSE, VIEW);
-
-    add_to_funcs(do_gotolinecolumn_void, MMAIN,
-	gotoline_tag, IFSCHELP(nano_gotoline_msg), TRUE, VIEW);
-
-#ifdef NANO_TINY
-    add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
-	FALSE, VIEW);
-#endif
-
-    add_to_funcs(do_replace, MMAIN, replace_tag,
-	IFSCHELP(nano_replace_msg), FALSE, NOVIEW);
+	N_("Last Line"), IFSCHELP(nano_lastline_msg), TRUE, VIEW);
 
 #ifndef NANO_TINY
     add_to_funcs(do_research, MMAIN, whereis_next_tag,
@@ -855,20 +838,15 @@ void shortcut_init(void)
 	IFSCHELP(nano_nextword_msg), FALSE, VIEW);
 #endif
 
+    add_to_funcs(do_home, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
+	FALSE, VIEW);
+    add_to_funcs(do_end, MMAIN, N_("End"), IFSCHELP(nano_end_msg),
+	FALSE, VIEW);
+
     add_to_funcs(do_up_void, (MMAIN|MBROWSER), prev_line_tag,
 	IFSCHELP(nano_prevline_msg), FALSE, VIEW);
     add_to_funcs(do_down_void, (MMAIN|MBROWSER), next_line_tag,
 	IFSCHELP(nano_nextline_msg), TRUE, VIEW);
-
-    add_to_funcs(do_home, MMAIN, N_("Home"), IFSCHELP(nano_home_msg),
-	FALSE, VIEW);
-    add_to_funcs(do_end, MMAIN, N_("End"), IFSCHELP(nano_end_msg),
-#ifndef NANO_TINY
-	FALSE,
-#else
-	TRUE,
-#endif
-	VIEW);
 
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_para_begin_void, (MMAIN|MWHEREIS), N_("Beg of Par"),
@@ -942,12 +920,6 @@ void shortcut_init(void)
     add_to_funcs(gototext_void, MGOTOLINE,
 	N_("Go To Text"), IFSCHELP(nano_whereis_msg), TRUE, VIEW);
 
-#ifndef DISABLE_BROWSER
-    if (!ISSET(RESTRICTED))
-	add_to_funcs(to_files_void, MINSERTFILE,
-	    N_("To Files"), IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
-#endif
-
 #ifndef NANO_TINY
     /* If we're using restricted mode, the DOS format, Mac format,
      * append, prepend, and backup toggles are disabled.  The first and
@@ -985,13 +957,26 @@ void shortcut_init(void)
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
+    if (!ISSET(RESTRICTED))
+	add_to_funcs(to_files_void, MWRITEFILE|MINSERTFILE,
+	    N_("To Files"), IFSCHELP(nano_tofiles_msg), FALSE, VIEW);
+
     add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
 	N_("First File"), IFSCHELP(nano_firstfile_msg), FALSE, VIEW);
     add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
 	N_("Last File"), IFSCHELP(nano_lastfile_msg), FALSE, VIEW);
+#endif
 
-    add_to_funcs(goto_dir_void, MBROWSER,
-	N_("Go To Dir"), IFSCHELP(nano_gotodir_msg), FALSE, VIEW);
+#if !defined(NANO_TINY) && !defined(DISABLE_BROWSER)
+    add_to_funcs(do_research, MBROWSER, whereis_next_tag,
+	IFSCHELP(nano_whereis_next_msg), FALSE, VIEW);
+#endif
+
+#ifndef DISABLE_COLOR
+    add_to_funcs(do_page_up, MLINTER,
+	prev_lint_tag, IFSCHELP(nano_prevlint_msg), FALSE, VIEW);
+    add_to_funcs(do_page_down, MLINTER,
+	next_lint_tag, IFSCHELP(nano_nextlint_msg), FALSE, VIEW);
 #endif
 
     /* Start associating key combos with functions in specific menus. */

@@ -9,6 +9,8 @@
 	* src/global.c (shortcut_init): Improve order and grouping in the
 	main help text and help lines.
 	* src/global.c (strtosc): Fix compilation with --enable-tiny.
+	* src/global.c (shortcut_init): Improve the order of the help items
+	still further, and make them also group nicely in the tiny version.
 
 2014-04-27  Mark Majeres  <mark@engine12.com>
 	* src/rcfile.c (parse_include): Plug two tiny memory leaks.
