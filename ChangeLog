@@ -1,3 +1,6 @@
+2014-04-27  Mark Majeres  <mark@engine12.com>
+	* src/rcfile.c (parse_include): Plug two tiny memory leaks.
+
 2014-04-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_funcs): Add a pointer to the tail of the
 	functions list, to simplify and speed up adding new items.  And

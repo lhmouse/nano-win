@@ -649,6 +649,9 @@ void parse_include(char *ptr)
 		strerror(errno));
     }
 
+    globfree(&files);
+    free(expanded);
+
     /* We're done with the new syntax file.  Restore the original
      * filename and line number position. */
     nanorc = nanorc_save;
