@@ -534,8 +534,8 @@ void shortcut_init(void)
 	N_("Replace a string or a regular expression");
     const char *nano_gotoline_msg = N_("Go to line and column number");
 #ifndef NANO_TINY
-    const char *nano_mark_msg = N_("Mark text at the cursor position");
-    const char *nano_whereis_next_msg = N_("Repeat last search");
+    const char *nano_mark_msg = N_("Mark text starting from the cursor position");
+    const char *nano_whereis_next_msg = N_("Repeat the last search");
     const char *nano_copy_msg =
 	N_("Copy the current line and store it in the cutbuffer");
     const char *nano_indent_msg = N_("Indent the current line");
@@ -795,38 +795,36 @@ void shortcut_init(void)
 	N_("First Line"), IFSCHELP(nano_firstline_msg), FALSE, VIEW);
     add_to_funcs(do_last_line,
 	(MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE),
-	N_("Last Line"), IFSCHELP(nano_lastline_msg), TRUE, VIEW);
+	N_("Last Line"), IFSCHELP(nano_lastline_msg), FALSE, VIEW);
 
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
-	gotoline_tag, IFSCHELP(nano_gotoline_msg), FALSE, VIEW);
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), TRUE, VIEW);
 
 #ifdef NANO_TINY
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg),
 	FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_replace, MMAIN, replace_tag, IFSCHELP(nano_replace_msg),
-#ifndef NANO_TINY
-	FALSE,
-#else
-	TRUE,
-#endif
-	NOVIEW);
+    add_to_funcs(do_replace, MMAIN, replace_tag,
+	IFSCHELP(nano_replace_msg), FALSE, NOVIEW);
 
 #ifndef NANO_TINY
+    add_to_funcs(do_research, MMAIN, whereis_next_tag,
+	IFSCHELP(nano_whereis_next_msg), FALSE, VIEW);
+
+    add_to_funcs(do_find_bracket, MMAIN, N_("To Bracket"),
+	IFSCHELP(nano_bracket_msg), FALSE, VIEW);
+
     add_to_funcs(do_mark, MMAIN, N_("Mark Text"),
 	IFSCHELP(nano_mark_msg), FALSE, VIEW);
 
-    add_to_funcs(do_research, MMAIN, whereis_next_tag,
-	IFSCHELP(nano_whereis_next_msg), TRUE, VIEW);
-
     add_to_funcs(do_copy_text, MMAIN, N_("Copy Text"),
-	IFSCHELP(nano_copy_msg), FALSE, NOVIEW);
+	IFSCHELP(nano_copy_msg), TRUE, NOVIEW);
 
     add_to_funcs(do_indent_void, MMAIN, N_("Indent Text"),
 	IFSCHELP(nano_indent_msg), FALSE, NOVIEW);
     add_to_funcs(do_unindent, MMAIN, N_("Unindent Text"),
-	IFSCHELP(nano_unindent_msg), FALSE, NOVIEW);
+	IFSCHELP(nano_unindent_msg), TRUE, NOVIEW);
 
     if (ISSET(UNDOABLE)) {
 	add_to_funcs(do_undo, MMAIN, N_("Undo"),
@@ -878,13 +876,10 @@ void shortcut_init(void)
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(do_find_bracket, MMAIN, N_("To Bracket"),
-	IFSCHELP(nano_bracket_msg), FALSE, VIEW);
-
     add_to_funcs(do_scroll_up, MMAIN, N_("Scroll Up"),
 	IFSCHELP(nano_scrollup_msg), FALSE, VIEW);
     add_to_funcs(do_scroll_down, MMAIN, N_("Scroll Down"),
-	IFSCHELP(nano_scrolldown_msg), FALSE, VIEW);
+	IFSCHELP(nano_scrolldown_msg), TRUE, VIEW);
 #endif
 
 #ifndef DISABLE_MULTIBUFFER
