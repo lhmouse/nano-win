@@ -947,10 +947,6 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-$", "--softwrap", N_("Enable soft line wrapping"));
 #endif
-
-    /* This is a special case. */
-    print_opt("-a, -b, -e,", "", NULL);
-    print_opt("-f, -g, -j", "", N_("(ignored, for Pico compatibility)"));
 }
 
 /* Display the current version of nano, the date and time it was

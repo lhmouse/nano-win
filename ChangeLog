@@ -2,6 +2,8 @@
 	* src/nano.c (usage, main): Don't blurt out the full help text
 	but just a hint when the command line contains some mistake, to
 	avoid drowning out the error message.
+	* src/nano.c (usage): Mention only those options that actually do
+	something.  For the no-op compat flags the man page is the place.
 
 2014-04-27  Mark Majeres  <mark@engine12.com>
 	* src/rcfile.c (parse_include): Plug two tiny memory leaks.
