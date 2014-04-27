@@ -483,7 +483,9 @@ void shortcut_init(void)
     const char *gotoline_tag = N_("Go To Line");
     const char *prev_line_tag = N_("Prev Line");
     const char *next_line_tag = N_("Next Line");
+#ifndef DISABLE_JUSTIFY
     const char *fulljustify_tag = N_("FullJstify");
+#endif
     const char *refresh_tag = N_("Refresh");
 #ifndef DISABLE_SPELLER
     const char *spell_tag = N_("To Spell");
@@ -1278,22 +1280,26 @@ sc *strtosc(char *input)
 	s->scfunc = do_insertfile_void;
     else if (!strcasecmp(input, "whereis"))
 	s->scfunc = do_search;
+#ifndef NANO_TINY
     else if (!strcasecmp(input, "searchagain") ||
 	     !strcasecmp(input, "research"))
 	s->scfunc = do_research;
+#endif
     else if (!strcasecmp(input, "replace"))
 	s->scfunc = do_replace;
     else if (!strcasecmp(input, "cut"))
 	s->scfunc = do_cut_text_void;
-    else if (!strcasecmp(input, "copytext"))
-	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "uncut"))
 	s->scfunc = do_uncut_text;
+#ifndef NANO_TINY
+    else if (!strcasecmp(input, "copytext"))
+	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "mark"))
 	s->scfunc = do_mark;
     else if (!strcasecmp(input, "tospell") ||
 	     !strcasecmp(input, "speller"))
 	s->scfunc = do_spell;
+#endif
     else if (!strcasecmp(input, "curpos") ||
 	     !strcasecmp(input, "cursorpos"))
 	s->scfunc = do_cursorpos_void;

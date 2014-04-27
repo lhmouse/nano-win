@@ -8,6 +8,7 @@
 	show the important toggles early on, and group them better.
 	* src/global.c (shortcut_init): Improve order and grouping in the
 	main help text and help lines.
+	* src/global.c (strtosc): Fix compilation with --enable-tiny.
 
 2014-04-27  Mark Majeres  <mark@engine12.com>
 	* src/rcfile.c (parse_include): Plug two tiny memory leaks.
