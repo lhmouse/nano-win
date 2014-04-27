@@ -837,7 +837,6 @@ void usage(void)
 	_("Option\t\tMeaning\n")
 #endif
 	);
-    print_opt("-h, -?", "--help", N_("Show this message"));
     print_opt(_("+LINE,COLUMN"), "",
 	N_("Start at line LINE, column COLUMN"));
 #ifndef NANO_TINY
@@ -906,6 +905,7 @@ void usage(void)
     print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
 #ifndef NANO_TINY
+    print_opt("-h", "--help", N_("Show this help text"));
     print_opt("-i", "--autoindent",
 	N_("Automatically indent new lines"));
     print_opt("-k", "--cut", N_("Cut from cursor to end of line"));
@@ -951,8 +951,6 @@ void usage(void)
     /* This is a special case. */
     print_opt("-a, -b, -e,", "", NULL);
     print_opt("-f, -g, -j", "", N_("(ignored, for Pico compatibility)"));
-
-    exit(0);
 }
 
 /* Display the current version of nano, the date and time it was
@@ -2202,11 +2200,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmno:pqr:s:tuvwxz$",
+		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefgijklmno:pqr:s:tuvwxz$")
+		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2393,8 +2391,12 @@ int main(int argc, char **argv)
 		SET(SOFTWRAP);
 		break;
 #endif
-	    default:
+	    case 'h':
 		usage();
+		exit(0);
+	    default:
+		printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);
+		exit(1);
 	}
     }
 
