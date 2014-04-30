@@ -1,3 +1,7 @@
+2014-04-30  Benno Schulenberg  <bensberg@justemail.net>
+	* src/*, doc/*: Update the years in the copyright notices -- there
+	were releases in 2010, 2011, and 2013, and there will be in 2014.
+
 2014-04-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (usage, main): Don't blurt out the full help text
 	but just a hint when the command line contains some mistake, to
