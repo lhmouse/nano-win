@@ -1,7 +1,7 @@
 2014-05-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*.h, src/*.c: Add the ability to colour four elements of
 	nano's interface differently: title bar, status bar, key combo,
-	and function tag.  Idea and original patch by Mark Majeres.
+	and function tag.  Idea and original patch #8421 by Mark Majeres.
 	* src/global.c (shortcut_init): Unfold long lines consistently.
 	* src/global.c (shortcut_init): Order the shortcuts in roughly
 	the same manner as in the help lines, and group them per menu.
@@ -60,7 +60,7 @@
 	one in the list -- just like the function name implies.  This will
 	make a user-defined shortcut appear in the two bottomlines without
 	having to unbind the existing one first -- better feedback.
-	* src/global.c(shortcut_init, flagtostr, strtosc): Put the two
+	* src/global.c (shortcut_init, flagtostr, strtosc): Put the two
 	wrapping toggles together and increase their contrast a bit.
 	* src/nano.c (usage), doc/man/nano{.1,rc.5}, doc/texinfo/nano.texi:
 	Increase the contrast between hard-wrapping and soft-wrapping.
