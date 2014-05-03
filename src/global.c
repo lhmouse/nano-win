@@ -1061,10 +1061,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0, TRUE);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", do_down_void, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
-    add_to_sclist(MMOST, "M-(", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MMOST, "M-9", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MMOST, "M-)", do_para_end_void, 0, TRUE);
-    add_to_sclist(MMOST, "M-0", do_para_end_void, 0, TRUE);
+    add_to_sclist(MMAIN, "M-(", do_para_begin_void, 0, TRUE);
+    add_to_sclist(MMAIN, "M-9", do_para_begin_void, 0, TRUE);
+    add_to_sclist(MMAIN, "M-)", do_para_end_void, 0, TRUE);
+    add_to_sclist(MMAIN, "M-0", do_para_end_void, 0, TRUE);
 #endif
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M--", do_scroll_up, 0, TRUE);

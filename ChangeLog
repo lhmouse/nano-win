@@ -7,6 +7,8 @@
 	the same manner as in the help lines, and group them per menu.
 	* src/global.c (shortcut_init): Remove the search-mode toggles
 	from the inappropriate WHEREISFILE and REPLACEWITH menus.
+	* src/global.c (shortcut_init): Paragraph jumping only makes
+	sense in the main editing menu; remove it from all others.
 
 2014-04-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*, doc/*: Update the years in the copyright notices -- there
