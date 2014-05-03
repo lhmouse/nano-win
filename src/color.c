@@ -38,10 +38,38 @@
 void set_colorpairs(void)
 {
     const syntaxtype *this_syntax = syntaxes;
+    bool bright = FALSE, defok = FALSE;
+    short fg, bg;
+    size_t i;
+
+    start_color();
+
+#ifdef HAVE_USE_DEFAULT_COLORS
+    /* Use the default colors, if available. */
+    defok = (use_default_colors() != ERR);
+#endif
+
+    for (i = 0; i < NUMBER_OF_ELEMENTS; i++) {
+	if (parse_color_names(specified_color_combo[i], &fg, &bg, &bright)) {
+	    if (fg == -1 && !defok)
+		fg = COLOR_WHITE;
+	    if (bg == -1 && !defok)
+		bg = COLOR_BLACK;
+	    init_pair(i + 1, fg, bg);
+	    interface_color_pair[i] = COLOR_PAIR(i + 1);
+	}
+	else if (i != FUNCTION_TAG)
+	    interface_color_pair[i] = reverse_attr;
+
+	if (specified_color_combo[i] != NULL) {
+	    free(specified_color_combo[i]);
+	    specified_color_combo[i] = NULL;
+	}
+    }
 
     for (; this_syntax != NULL; this_syntax = this_syntax->next) {
 	colortype *this_color = this_syntax->color;
-	int color_pair = 1;
+	int color_pair = NUMBER_OF_ELEMENTS + 1;
 
 	for (; this_color != NULL; this_color = this_color->next) {
 	    const colortype *beforenow = this_syntax->color;
@@ -71,14 +99,8 @@ void color_init(void)
     if (has_colors()) {
 	const colortype *tmpcolor;
 #ifdef HAVE_USE_DEFAULT_COLORS
-	bool defok;
-#endif
-
-	start_color();
-
-#ifdef HAVE_USE_DEFAULT_COLORS
 	/* Use the default colors, if available. */
-	defok = (use_default_colors() != ERR);
+	bool defok = (use_default_colors() != ERR);
 #endif
 
 	for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;

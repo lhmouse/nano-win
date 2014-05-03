@@ -2657,6 +2657,15 @@ int main(int argc, char **argv)
     mouse_init();
 #endif
 
+#ifndef DISABLE_COLOR
+    set_colorpairs();
+#else
+    interface_color_pair[TITLE_BAR] = reverse_attr;
+    interface_color_pair[STATUS_BAR] = reverse_attr;
+    interface_color_pair[KEY_COMBO] = reverse_attr;
+    interface_color_pair[FUNCTION_TAG] = A_NORMAL;
+#endif
+
 #ifdef DEBUG
     fprintf(stderr, "Main: open file\n");
 #endif

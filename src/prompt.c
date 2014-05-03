@@ -853,7 +853,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
     index = strnlenpt(curranswer, index);
     page_start = get_statusbar_page_start(start_col, start_col + index);
 
-    wattron(bottomwin, reverse_attr);
+    wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 
     blank_statusbar();
 
@@ -866,7 +866,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
     waddstr(bottomwin, expanded);
     free(expanded);
 
-    wattroff(bottomwin, reverse_attr);
+    wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
     statusbar_pww = statusbar_xplustabs();
     reset_statusbar_cursor();
     wnoutrefresh(bottomwin);
@@ -1273,12 +1273,12 @@ int do_yesno_prompt(bool all, const char *msg)
 	onekey("^C", _("Cancel"), width);
     }
 
-    wattron(bottomwin, reverse_attr);
+    wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 
     blank_statusbar();
     mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
-    wattroff(bottomwin, reverse_attr);
+    wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
     /* Refresh the edit window and the statusbar before getting
      * input. */

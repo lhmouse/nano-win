@@ -131,6 +131,10 @@ extern regmatch_t regmatches[10];
 #endif
 
 extern int reverse_attr;
+#ifndef DISABLE_COLOR
+extern char* specified_color_combo[NUMBER_OF_ELEMENTS];
+#endif
+extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
 
@@ -551,6 +555,7 @@ void parse_magic_syntax(char *ptr);
 void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
+bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
 void reset_multis(filestruct *fileptr, bool force);
 void alloc_multidata_if_needed(filestruct *fileptr);
 #endif

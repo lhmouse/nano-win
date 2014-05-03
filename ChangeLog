@@ -1,3 +1,8 @@
+2014-05-03  Benno Schulenberg  <bensberg@justemail.net>
+	* src/*.h, src/*.c: Add the ability to colour four elements of
+	nano's interface differently: title bar, status bar, key combo,
+	and function tag.  Idea and original patch by Mark Majeres.
+
 2014-04-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*, doc/*: Update the years in the copyright notices -- there
 	were releases in 2010, 2011, and 2013, and there will be in 2014.

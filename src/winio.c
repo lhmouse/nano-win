@@ -2104,7 +2104,7 @@ void titlebar(const char *path)
 
     assert(path != NULL || openfile->filename != NULL);
 
-    wattron(topwin, reverse_attr);
+    wattron(topwin, interface_color_pair[TITLE_BAR]);
 
     blank_titlebar();
 
@@ -2235,7 +2235,7 @@ void titlebar(const char *path)
 	}
     }
 
-    wattroff(topwin, reverse_attr);
+    wattroff(topwin, interface_color_pair[TITLE_BAR]);
 
     wnoutrefresh(topwin);
     reset_cursor();
@@ -2306,12 +2306,12 @@ void statusbar(const char *msg, ...)
     start_x = (COLS - foo_len - 4) / 2;
 
     wmove(bottomwin, 0, start_x);
-    wattron(bottomwin, reverse_attr);
+    wattron(bottomwin, interface_color_pair[STATUS_BAR]);
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     free(foo);
     waddstr(bottomwin, " ]");
-    wattroff(bottomwin, reverse_attr);
+    wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
     wnoutrefresh(bottomwin);
     reset_cursor();
     wnoutrefresh(edit);
@@ -2411,9 +2411,9 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 
     assert(keystroke != NULL && desc != NULL);
 
-    wattron(bottomwin, reverse_attr);
+    wattron(bottomwin, interface_color_pair[KEY_COMBO]);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, len));
-    wattroff(bottomwin, reverse_attr);
+    wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
 
     if (len > keystroke_len)
 	len -= keystroke_len;
@@ -2421,8 +2421,10 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 	len = 0;
 
     if (len > 0) {
+	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
 	waddch(bottomwin, ' ');
 	waddnstr(bottomwin, desc, actual_x(desc, len));
+	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
     }
 }
 

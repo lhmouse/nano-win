@@ -100,6 +100,12 @@ static const rcoption rcopts[] = {
     {"wordbounds", WORD_BOUNDS},
     {"softwrap", SOFTWRAP},
 #endif
+#ifndef DISABLE_COLOR
+    {"titlecolor", 0},
+    {"statuscolor", 0},
+    {"keycolor", 0},
+    {"functioncolor", 0},
+#endif
     {NULL, 0}
 };
 
@@ -703,7 +709,7 @@ short color_to_short(const char *colorname, bool *bright)
 void parse_colors(char *ptr, bool icase)
 {
     short fg, bg;
-    bool bright = FALSE, no_fgcolor = FALSE;
+    bool bright = FALSE;
     char *fgstr;
 
     assert(ptr != NULL);
@@ -721,36 +727,8 @@ void parse_colors(char *ptr, bool icase)
 
     fgstr = ptr;
     ptr = parse_next_word(ptr);
-
-    if (strchr(fgstr, ',') != NULL) {
-	char *bgcolorname;
-
-	strtok(fgstr, ",");
-	bgcolorname = strtok(NULL, ",");
-	if (bgcolorname == NULL) {
-	    /* If we have a background color without a foreground color,
-	     * parse it properly. */
-	    bgcolorname = fgstr + 1;
-	    no_fgcolor = TRUE;
-	}
-	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
-	    rcfile_error(
-		N_("Background color \"%s\" cannot be bright"),
-		bgcolorname);
-	    return;
-	}
-	bg = color_to_short(bgcolorname, &bright);
-    } else
-	bg = -1;
-
-    if (!no_fgcolor) {
-	fg = color_to_short(fgstr, &bright);
-
-	/* Don't try to parse screwed-up foreground colors. */
-	if (fg == -1)
-	    return;
-    } else
-	fg = -1;
+    if (!parse_color_names(fgstr, &fg, &bg, &bright))
+	return;
 
     if (*ptr == '\0') {
 	rcfile_error(N_("Missing regex string"));
@@ -860,6 +838,44 @@ void parse_colors(char *ptr, bool icase)
             endsyntax->nmultis++;
 	}
     }
+}
+
+/* Parse the color name, or pair of color names, in combostr. */
+bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
+{
+    bool no_fgcolor = FALSE;
+
+    if (combostr == NULL)
+	return false;
+
+    if (strchr(combostr, ',') != NULL) {
+	char *bgcolorname;
+	strtok(combostr, ",");
+	bgcolorname = strtok(NULL, ",");
+	if (bgcolorname == NULL) {
+	    /* If we have a background color without a foreground color,
+	     * parse it properly. */
+	    bgcolorname = combostr + 1;
+	    no_fgcolor = TRUE;
+	}
+	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
+	    rcfile_error(N_("Background color \"%s\" cannot be bright"), bgcolorname);
+	    return false;
+	}
+	*bg = color_to_short(bgcolorname, bright);
+    } else
+	*bg = -1;
+
+    if (!no_fgcolor) {
+	*fg = color_to_short(combostr, bright);
+
+	/* Don't try to parse screwed-up foreground colors. */
+	if (*fg == -1)
+	    return false;
+    } else
+	*fg = -1;
+
+    return true;
 }
 
 /* Parse the header-line regex that may influence the choice of syntax. */
@@ -1149,6 +1165,17 @@ void parse_rcfile(FILE *rcstream
 			    break;
 			}
 
+#ifndef DISABLE_COLOR
+			if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
+			    specified_color_combo[TITLE_BAR] = option;
+			else if (strcasecmp(rcopts[i].name, "statuscolor") == 0)
+			    specified_color_combo[STATUS_BAR] = option;
+			else if (strcasecmp(rcopts[i].name, "keycolor") == 0)
+			    specified_color_combo[KEY_COMBO] = option;
+			else if (strcasecmp(rcopts[i].name, "functioncolor") == 0)
+			    specified_color_combo[FUNCTION_TAG] = option;
+			else
+#endif
 #ifndef DISABLE_OPERATINGDIR
 			if (strcasecmp(rcopts[i].name, "operatingdir") == 0)
 			    operating_dir = option;
@@ -1357,10 +1384,6 @@ void do_rcfile(void)
 	while (getchar() != '\n')
 	    ;
     }
-
-#ifndef DISABLE_COLOR
-    set_colorpairs();
-#endif
 }
 
 #endif /* !DISABLE_NANORC */

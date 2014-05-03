@@ -205,6 +205,12 @@ regmatch_t regmatches[10];
 
 int reverse_attr = A_REVERSE;
 	/* The curses attribute we use for reverse video. */
+#ifndef DISABLE_COLOR
+char* specified_color_combo[] = {};
+	/* The color combinations as specified in the rcfile. */
+#endif
+int interface_color_pair[] = {};
+	/* The processed color pairs for the interface elements. */
 
 char *homedir = NULL;
 	/* The user's home directory, from $HOME or /etc/passwd. */
