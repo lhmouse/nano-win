@@ -1067,30 +1067,23 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Down", get_history_newer_void, 0, FALSE);
 #endif
 #ifndef DISABLE_JUSTIFY
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
-	"^W", do_para_begin_void, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
-	"^O", do_para_end_void, 0, TRUE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^W", do_para_begin_void, 0, TRUE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^O", do_para_end_void, 0, TRUE);
     add_to_sclist(MMOST, "M-(", do_para_begin_void, 0, TRUE);
     add_to_sclist(MMOST, "M-9", do_para_begin_void, 0, TRUE);
     add_to_sclist(MMOST, "M-)", do_para_end_void, 0, TRUE);
     add_to_sclist(MMOST, "M-0", do_para_end_void, 0, TRUE);
 #endif
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
-	"M-C", case_sens_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
-	"M-B", backwards_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH,
-	"M-R", regexp_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "M-C", case_sens_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "M-B", backwards_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "M-R", regexp_void, 0, FALSE);
 
     add_to_sclist(MMAIN|MHELP, "M-\\", do_first_line, 0, TRUE);
     add_to_sclist(MMAIN|MHELP, "M-|", do_first_line, 0, TRUE);
     add_to_sclist(MMAIN|MHELP, "M-/", do_last_line, 0, TRUE);
     add_to_sclist(MMAIN|MHELP, "M-?", do_last_line, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
-	"^Y", do_first_line, 0, TRUE);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
-	"^V", do_last_line, 0, TRUE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", do_first_line, 0, TRUE);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^V", do_last_line, 0, TRUE);
 
 #ifndef DISABLE_BROWSER
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-\\", do_first_file, 0, TRUE);
