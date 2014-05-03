@@ -3,6 +3,8 @@
 	nano's interface differently: title bar, status bar, key combo,
 	and function tag.  Idea and original patch by Mark Majeres.
 	* src/global.c (shortcut_init): Unfold long lines consistently.
+	* src/global.c (shortcut_init): Order the shortcuts in roughly
+	the same manner as in the help lines, and group them per menu.
 
 2014-04-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*, doc/*: Update the years in the copyright notices -- there
