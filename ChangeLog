@@ -4,6 +4,8 @@
 	and remove an unneeded call of wattroff().
 	* doc/man/nanorc.5, doc/texinfo/nano.tex: Document the settings
 	of titlecolor, statuscolor, keycolor and functioncolor.
+	* doc/man/nanorc.5, doc/texinfo/nano.tex: Show quotes where quotes
+	are needed, remove some unneeded spaces, and do other tweaks.
 
 2014-05-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*.h, src/*.c: Add the ability to colour four elements of

@@ -250,31 +250,32 @@ spaces.  They must be single-column characters.
 Detect word boundaries more accurately by treating punctuation
 characters as parts of words.
 .TP
-.B syntax "\fIstr\fP" ["\fIfileregex\fP" ... ]
+.BR syntax " ""\fIstr\fR"" [""\fIfileregex\fR"" ...]"
 Defines a syntax named \fIstr\fP which can be activated via the
-\-Y/\-\-syntax command line option, or will be automatically activated if
+.BR \-Y / \-\-syntax
+command-line option, or will be automatically activated if
 the current filename matches the extended regular expression
 \fIfileregex\fP.  All following \fBcolor\fP and \fBicolor\fP statements
-will apply to \fIsyntax\fP until a new syntax is defined.
+will apply to this \fIstr\fP syntax until a new syntax is defined.
 
-The \fInone\fP syntax is reserved; specifying it on the command line is
-the same as not having a syntax at all.  The \fIdefault\fP syntax is
+The \fBnone\fP syntax is reserved; specifying it on the command line is
+the same as not having a syntax at all.  The \fBdefault\fP syntax is
 special: it takes no \fIfileregex\fP, and applies to files that don't
 match any other syntax's \fIfileregex\fP.
 .TP
-.B linter \fIprogram\fP [\fIarg\fP ... ]
+.BI linter " program " \fR[ "arg " \fR...]
 For the currently defined syntax, use the given \fIprogram\fR
 to invoke the linter (this overrides the speller function when
 defined).
 .TP
-.B magic ["\fIregex\fP" ... ]
+.BR magic " [""\fIregex\fR"" ...]
 For the currently defined syntax, add one or more regexes which 
 will be compared against the \fBmagic\fP database when attempting
 to determine which highlighting rules to use for a given file.  This 
 functionality only works when \fBlibmagic\fP is installed on the 
 system and will be silently ignored otherwise.
 .TP
-.B color \fIfgcolor\fP,\fIbgcolor\fP "\fIregex\fP" ...
+.B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
 For the currently defined syntax, display all expressions matching
 the extended regular expression \fIregex\fP with foreground color
 \fIfgcolor\fP and background color \fIbgcolor\fP, at least one of which
@@ -285,10 +286,10 @@ foreground.  If your terminal supports transparency, not specifying a
 \fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent
 background.
 .TP
-.B icolor \fIfgcolor\fP,\fIbgcolor\fP "\fIregex\fP" ...
+.B icolor \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
 Same as above, except that the expression matching is case insensitive.
 .TP
-.B color \fIfgcolor\fP,\fIbgcolor\fP start="\fIsr\fP" end="\fIer\fP"
+.BR color " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIsr\fR"" " end= """\fIer\fR""
 Display expressions which start with the extended regular expression
 \fIsr\fP and end with the extended regular expression \fIer\fP with
 foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
@@ -297,15 +298,15 @@ highlighting to span multiple lines.  Note that all subsequent instances
 of \fIsr\fP after an initial \fIsr\fP is found will be highlighted until
 the first instance of \fIer\fP.
 .TP
-.B icolor \fIfgcolor\fP,\fIbgcolor\fP start="\fIsr\fP" end="\fIer\fP"
+.BR icolor " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIsr\fR"" " end= """\fIer\fR""
 Same as above, except that the expression matching is case insensitive.
 .TP
-.B include "\fIsyntaxfile\fP"
+.BR include " ""\fIsyntaxfile\fR"""
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
 \fIsyntaxfile\fP can only contain \fBsyntax\fP, \fBcolor\fP, and
 \fBicolor\fP commands.
 .TP
-.B extendsyntax \fIstr\fP \fIdirective\fP [ \fIarg\fP ... ]
+.BI extendsyntax " str directive " \fR[ "arg " \fR...]
 Extend the syntax previously defined as \fIstr\fP to include
 new information.  Allows you to add a new \fIcolor\fP, \fIicolor\fP,
 \fImagic\fP, \fIheader\fP, or \fIlinter\fP directive to a syntax
@@ -315,11 +316,11 @@ system-installed syntax definitions (which are normally not writable).
 .SH KEY BINDINGS
 Key bindings may be reassigned via the following commands:
 .TP
-.B bind \fIkey\fP \fIfunction\fP \fImenu\fP
+.BI bind " key function menu"
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
 context of menu \fImenu\fP.
 .TP
-.B unbind \fIkey\fP \fImenu\fP
+.BI unbind " key menu"
 Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all 
 menus where it exists by using \fBall\fP).
 

@@ -562,7 +562,7 @@ length will be the screen width less "n" columns.  The default value is
 -8.
 
 @item set functioncolor fgcolor,bgcolor
-Specify the color (combination) to use for the function descriptions
+Specify the color combination to use for the function descriptions
 in the two help lines at the bottom of the screen.
 See "set titlecolor" for more details.
 
@@ -570,7 +570,7 @@ See "set titlecolor" for more details.
 Enable ~/.nano_history for saving and reading search/replace strings.
 
 @item set keycolor fgcolor,bgcolor
-Specify the color (combination) to use for the shortcut key combos
+Specify the color combination to use for the shortcut key combos
 in the two help lines at the bottom of the screen.
 See "set titlecolor" for more details.
 
@@ -682,7 +682,7 @@ Use spelling checker "spellprog" instead of the built-in one, which
 calls "spell".
 
 @item set statuscolor fgcolor,bgcolor
-Specify the color (combination) to use for the statusbar.
+Specify the color combination to use for the statusbar.
 See "set titlecolor" for more details.
 
 @item set/unset suspend
@@ -699,7 +699,7 @@ Convert typed tabs to spaces.
 Save automatically on exit, don't prompt.
 
 @item set titlecolor fgcolor,bgcolor
-Specify the color (combination) to use for the titlebar.
+Specify the color combination to use for the titlebar.
 Valid color names for foreground and background are:
 white, black, red, blue, green, yellow, magenta, and cyan.
 And either "fgcolor" or ",bgcolor" may be left out.
@@ -718,23 +718,23 @@ spaces.  They must be single-column characters.
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 
-@item syntax "str" ["fileregex" @dots{} ]
+@item syntax "str" ["fileregex" @dots{}]
 Defines a syntax named "str" which can be activated via the -Y/--syntax
 command line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
-following "color" and "icolor" statements will apply to "syntax" until a
-new syntax is defined.
+following "color" and "icolor" statements will apply to this "str"
+syntax until a new syntax is defined.
 
 The "none" syntax is reserved; specifying it on the command line is the
 same as not having a syntax at all.  The "default" syntax is special: it
 takes no "fileregex", and applies to files that don't match any other
 syntax's "fileregex".
 
-@item linter program [arg @dots{} ]
+@item linter program [arg @dots{}]
 For the currently defined syntax, use the given program to invoke the
 linter (this overrides the speller function when defined).
 
-@item magic ["regex" @dots{} ]
+@item magic ["regex" @dots{}]
 For the currently defined syntax, add one or more regexes which will be
 compared against the magic database when attempting to determine which
 highlighting rules to use for a given file.  This functionality only works
@@ -768,7 +768,7 @@ Same as above, except that the expression matching is case insensitive.
 Read in self-contained color syntaxes from "syntaxfile".  Note that
 "syntaxfile" can only contain "syntax", "color", and "icolor" commands.
 
-@item extendsyntax str directive [arg @dots{} ]
+@item extendsyntax str directive [arg @dots{}]
 Extend the syntax previously defined as str to include new information.
 Allows you to add a new color, icolor, magic, header, or linter directive
 to an already defined syntax.  Useful when you want to add to definitions
