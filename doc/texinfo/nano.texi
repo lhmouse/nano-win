@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 2.3.3
-@set UPDATED April 2014
+@set UPDATED May 2014
 
 @dircategory Editors
 @direntry
@@ -313,8 +313,8 @@ Enable 'soft wrapping'.  This will make @code{nano} attempt to display the
 entire contents of any line, even if it is longer than the screen width, by
 continuing it over multiple screen lines.  Since
 '$' normally refers to a variable in the Unix shell, you should specify
-this option last when using other options (e.g. 'nano -wS$') or pass it
-separately (e.g. 'nano -wS -$').
+this option last when using other options (e.g. @code{nano -wS$}) or pass it
+separately (e.g. @code{nano -wS -$}).
 
 @item -a, -b, -e, -f, -g, -j
 Ignored, for compatibility with Pico.
@@ -561,10 +561,20 @@ Hard-wrap lines at column number "n".  If "n" is 0 or less, the maximum line
 length will be the screen width less "n" columns.  The default value is
 -8.
 
+@item set functioncolor fgcolor,bgcolor
+Specify the color (combination) to use for the function descriptions
+in the two help lines at the bottom of the screen.
+See "set titlecolor" for more details.
+
 @item set/unset historylog
 Enable ~/.nano_history for saving and reading search/replace strings.
 
-@ item set/unset locking
+@item set keycolor fgcolor,bgcolor
+Specify the color (combination) to use for the shortcut key combos
+in the two help lines at the bottom of the screen.
+See "set titlecolor" for more details.
+
+@item set/unset locking
 Enable vim-style lock-files for when editing files.
 
 @item set matchbrackets "string"
@@ -671,6 +681,10 @@ Enable soft line wrapping for easier viewing of very long lines.
 Use spelling checker "spellprog" instead of the built-in one, which
 calls "spell".
 
+@item set statuscolor fgcolor,bgcolor
+Specify the color (combination) to use for the statusbar.
+See "set titlecolor" for more details.
+
 @item set/unset suspend
 Allow @code{nano} to be suspended.
 
@@ -683,6 +697,12 @@ Convert typed tabs to spaces.
 
 @item set/unset tempfile
 Save automatically on exit, don't prompt.
+
+@item set titlecolor fgcolor,bgcolor
+Specify the color (combination) to use for the titlebar.
+Valid color names for foreground and background are:
+white, black, red, blue, green, yellow, magenta, and cyan.
+And either "fgcolor" or ",bgcolor" may be left out.
 
 @item set/unset undo
 Enable experimental generic-purpose undo code.
@@ -724,10 +744,10 @@ when libmagic is installed on the system and will be silently ignored otherwise.
 For the currently defined syntax, display all expressions matching the
 extended regular expression "regex" with foreground color "fgcolor" and
 background color "bgcolor", at least one of which must be specified.
-Legal colors for foreground and background color are: white, black, red,
+Valid colors for foreground and background are: white, black, red,
 blue, green, yellow, magenta, and cyan.  You may use the prefix "bright"
-to force a stronger color highlight for the foreground.  If your
-terminal supports transparency, not specifying a "bgcolor" tells "nano"
+to get a stronger color highlight for the foreground.  If your
+terminal supports transparency, not specifying a "bgcolor" tells @code{nano}
 to attempt to use a transparent background.
 
 @item icolor fgcolor,bgcolor "regex" @dots{}
