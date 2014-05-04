@@ -59,7 +59,7 @@ void set_colorpairs(void)
 	    interface_color_pair[i] = COLOR_PAIR(i + 1);
 	}
 	else if (i != FUNCTION_TAG)
-	    interface_color_pair[i] = reverse_attr;
+	    interface_color_pair[i] = hilite_attribute;
 
 	if (specified_color_combo[i] != NULL) {
 	    free(specified_color_combo[i]);

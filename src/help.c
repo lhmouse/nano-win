@@ -57,7 +57,6 @@ void do_help(void (*refresh_func)(void))
 
     curs_set(0);
     blank_edit();
-    wattroff(bottomwin, reverse_attr);
     blank_statusbar();
 
     /* Set help_text as the string to display. */

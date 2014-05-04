@@ -633,7 +633,7 @@ void browser_refresh(void)
 	/* Start highlighting the currently selected file or
 	 * directory. */
 	if (i == selected)
-	    wattron(edit, reverse_attr);
+	    wattron(edit, hilite_attribute);
 
 	blank_line(edit, line, col, longest);
 
@@ -708,7 +708,7 @@ void browser_refresh(void)
 	/* Finish highlighting the currently selected file or
 	 * directory. */
 	if (i == selected)
-	    wattroff(edit, reverse_attr);
+	    wattroff(edit, hilite_attribute);
 
 	free(foo);
 

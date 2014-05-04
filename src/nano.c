@@ -2513,7 +2513,7 @@ int main(int argc, char **argv)
     /* If we're using bold text instead of reverse video text, set it up
      * now. */
     if (ISSET(BOLD_TEXT))
-	reverse_attr = A_BOLD;
+	hilite_attribute = A_BOLD;
 
 #ifndef NANO_TINY
     /* Set up the search/replace history. */
@@ -2660,9 +2660,9 @@ int main(int argc, char **argv)
 #ifndef DISABLE_COLOR
     set_colorpairs();
 #else
-    interface_color_pair[TITLE_BAR] = reverse_attr;
-    interface_color_pair[STATUS_BAR] = reverse_attr;
-    interface_color_pair[KEY_COMBO] = reverse_attr;
+    interface_color_pair[TITLE_BAR] = hilite_attribute;
+    interface_color_pair[STATUS_BAR] = hilite_attribute;
+    interface_color_pair[KEY_COMBO] = hilite_attribute;
     interface_color_pair[FUNCTION_TAG] = A_NORMAL;
 #endif
 

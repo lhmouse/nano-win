@@ -130,7 +130,7 @@ extern regex_t search_regexp;
 extern regmatch_t regmatches[10];
 #endif
 
-extern int reverse_attr;
+extern int hilite_attribute;
 #ifndef DISABLE_COLOR
 extern char* specified_color_combo[NUMBER_OF_ELEMENTS];
 #endif

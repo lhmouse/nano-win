@@ -2820,10 +2820,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    if (paintlen > 0)
 		paintlen = actual_x(converted + index, paintlen);
 
-	    wattron(edit, reverse_attr);
+	    wattron(edit, hilite_attribute);
 	    mvwaddnstr(edit, line, x_start, converted + index,
 		paintlen);
-	    wattroff(edit, reverse_attr);
+	    wattroff(edit, hilite_attribute);
 	}
     }
 #endif /* !NANO_TINY */
@@ -3383,7 +3383,7 @@ void do_replace_highlight(bool highlight, const char *word)
     wnoutrefresh(edit);
 
     if (highlight)
-	wattron(edit, reverse_attr);
+	wattron(edit, hilite_attribute);
 
     /* This is so we can show zero-length matches. */
     if (word_len == 0)
@@ -3395,7 +3395,7 @@ void do_replace_highlight(bool highlight, const char *word)
 	waddch(edit, '$');
 
     if (highlight)
-	wattroff(edit, reverse_attr);
+	wattroff(edit, hilite_attribute);
 }
 
 #ifndef DISABLE_EXTRA

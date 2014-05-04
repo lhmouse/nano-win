@@ -1,5 +1,7 @@
 2014-05-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (statusbar): Elide a variable.
+	* src/*: Rename the variable 'reverse_attr' to 'hilite_attribute',
+	and remove an unneeded call of wattroff().
 
 2014-05-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*.h, src/*.c: Add the ability to colour four elements of
