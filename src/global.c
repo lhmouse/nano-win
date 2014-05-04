@@ -1451,6 +1451,9 @@ sc *strtosc(char *input)
 	       !strcasecmp(input, "regex")) {
 	s->scfunc = regexp_void;
 	s->execute = FALSE;
+    } else if (!strcasecmp(input, "backwards") {
+	s->scfunc = backwards_void;
+	s->execute = FALSE;
     } else if (!strcasecmp(input, "dontreplace")) {
 	s->scfunc = no_replace_void;
 	s->execute = FALSE;

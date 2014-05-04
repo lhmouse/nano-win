@@ -475,6 +475,9 @@ Insert a new line below the current one.
 .B delete
 Delete the character under the cursor.
 .TP
+.B backspace
+Delete the character before the cursor.
+.TP
 .B undo
 Undo the text action peformed (add text, delete text, etc).
 .TP
@@ -493,6 +496,9 @@ Toggle case sensitivity in searching (search/replace menus only).
 .TP
 .B regexp
 Toggle whether searching/replacing is based on literal strings or regular expressions.
+.TP
+.B backwards
+Toggle whether searching/replacing goes forward or backward.
 .TP
 .B prevhistory
 Show the previous history entry in the prompt menus (e.g. search).

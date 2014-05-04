@@ -6,6 +6,8 @@
 	of titlecolor, statuscolor, keycolor and functioncolor.
 	* doc/man/nanorc.5, doc/texinfo/nano.tex: Show quotes where quotes
 	are needed, remove some unneeded spaces, and do other tweaks.
+	* src/global.c (strtosc), doc/man/nanorc.5: Allow the Backwards
+	toggle to be rebound, document it, and document Backspace too.
 
 2014-05-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/*.h, src/*.c: Add the ability to colour four elements of
