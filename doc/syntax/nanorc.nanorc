@@ -4,7 +4,7 @@ syntax "nanorc" "\.?nanorc$"
 ## Possible errors and parameters
 icolor brightred "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|linter|i?color|extendsyntax).*$"
 ## Keywords
-icolor brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(allow_insecure_backup|autoindent|backup|backupdir|backwards|boldtext|brackets|casesensitive|const|cut|fill|historylog|locking|matchbrackets|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|poslog|preserve|punct|quickblank|quiet|quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|softwrap|speller|suspend|tabsize|tabstospaces|tempfile|undo|view|whitespace|wordbounds)\>"
+icolor brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(allow_insecure_backup|autoindent|backup|backupdir|backwards|boldtext|brackets|casesensitive|const|cut|fill|functioncolor|historylog|keycolor|locking|matchbrackets|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|poslog|preserve|punct|quickblank|quiet|quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|softwrap|speller|statuscolor|suspend|tabsize|tabstospaces|tempfile|titlecolor|undo|view|whitespace|wordbounds)\>"
 icolor brightgreen "^[[:space:]]*bind[[:space:]]+((\^|M-)([[:alpha:]]|space)|F([1-9]|1[0-6]))[[:space:]]+[[:alpha:]]+[[:space:]]+[[:alpha:]]+[[:space:]]*$"
 icolor brightgreen "^[[:space:]]*unbind[[:space:]]+((\^|M-)([[:alpha:]]|space)|F([1-9]|1[0-6]))[[:space:]]+[[:alpha:]]+[[:space:]]*$"
 icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]+(i?color|header|magic|linter)[[:space:]]+.*$"
