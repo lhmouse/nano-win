@@ -1278,6 +1278,8 @@ sc *strtosc(char *input)
     else if (!strcasecmp(input, "uncut"))
 	s->scfunc = do_uncut_text;
 #ifndef NANO_TINY
+    else if (!strcasecmp(input, "cutrestoffile"))
+	s->scfunc = do_cut_till_end;
     else if (!strcasecmp(input, "copytext"))
 	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "mark"))

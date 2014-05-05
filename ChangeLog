@@ -2,6 +2,8 @@
 	* doc/man/nanorc.5: Give syntax highlighting its own section,
 	add the "header" command, tweak some wording and formatting,
 	and trim some duplicate introductory information.
+	* src/global.c (strtosc), doc/man/nanorc.5: Allow the function
+	do_cut_till_end (naming it "cutrestoffile") to be rebound.
 
 2014-05-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (statusbar): Elide a variable.
