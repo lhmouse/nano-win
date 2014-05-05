@@ -25,34 +25,27 @@
 .SH NAME
 nanorc \- GNU nano's rcfile
 .SH DESCRIPTION
-This manual page briefly documents GNU \fBnano\fP's rcfile.
-.PP
-\fBnano\fP is a small, free and friendly editor which aims to replace
-Pico, the default editor included in the non-free Pine package.  Rather
-than just copying Pico's look and feel, \fBnano\fP also implements some
-missing (or disabled by default) features in Pico, such as "search and
-replace" and "go to line and column number".
-.PP
-The \fInanorc\fP file contains the default settings for \fBnano\fP.  It
-should not be in DOS or Mac format.  During startup, \fBnano\fP will
-first read its system-wide settings from \fISYSCONFDIR/nanorc\fP, and
-then user-specific settings from \fI~/.nanorc\fP.
+The \fInanorc\fP file contains the default settings for \fBnano\fP, a
+small and friendly editor.  The file should be in Unix format, not in
+DOS or Mac format.  During startup, \fBnano\fP will first read the
+system-wide settings, from \fBSYSCONFDIR/nanorc\fP, and then the
+user-specific settings, from \fB~/.nanorc\fP.
 
 .SH OPTIONS
 The configuration file accepts a series of \fBset\fP and \fBunset\fP
 commands, which can be used to configure nano on startup without using
-the command line options.  Additionally, the \fBsyntax\fP, \fBcolor\fP,
-and \fBicolor\fP keywords are used to define syntax highlighting rules
-for different text patterns.  \fBnano\fP will read one command per line.
+command-line options.  Additionally, there are some commands to define
+syntax highlighting and to rebind keys -- see the two separate sections
+on those.  \fBnano\fP reads one command per line.
 
 Options in \fInanorc\fP files take precedence over nano's defaults, and
-command line options override \fInanorc\fP settings.  Also, options are
+command-line options override \fInanorc\fP settings.  Also, options are
 unset by default, except for those that take arguments.
 
 Quotes inside string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
-end.  For example, for the \fBbrackets\fP option, "\fI"')>]}\fP" will
-match \fI"\fP, \fI'\fP, \fI)\fP, \fI>\fP, \fI]\fP, and \fI}\fP.
+end.  For example, for the \fBbrackets\fP option, "\fB"')>]}\fP" will
+match \fB"\fP, \fB'\fP, \fB)\fP, \fB>\fP, \fB]\fP, and \fB}\fP.
 
 The supported commands and arguments are:
 
@@ -66,7 +59,7 @@ NOT enable this option unless you are sure you need it.
 Use auto-indentation.
 .TP
 .B set/unset backup
-Create backup files in \fIfilename~\fP.
+Create backup files by adding a tilde (\fB~\fP) to each file's name.
 .TP
 .B set backupdir "\fIdirectory\fP"
 Set the directory where \fBnano\fP puts unique backup files if file
@@ -76,16 +69,18 @@ backups are enabled.
 Do backwards searches by default.
 .TP
 .B set/unset boldtext
-Use bold text instead of reverse video text.
+Use bold instead of reverse video for the titlebar, statusbar, key combos,
+and selected text.  This can be overridden for the first three by setting
+the options \fBtitlecolor\fP, \fBstatuscolor\fP, and \fBkeycolor\fP.
 .TP
 .B set brackets "\fIstring\fP"
 Set the characters treated as closing brackets when justifying
-paragraphs.  They cannot contain blank characters.  Only closing
-punctuation, optionally followed by closing brackets, can end sentences.
-The default value is "\fI"')>]}\fP".
+paragraphs.  This cannot include blank characters.  Only closing
+punctuation, optionally followed by the specified closing brackets,
+can end sentences.  The default value is "\fB"')>]}\fP".
 .TP
 .B set/unset casesensitive
-Do case sensitive searches by default.
+Do case-sensitive searches by default.
 .TP
 .B set/unset const
 Constantly display the cursor position in the status bar.
@@ -104,8 +99,8 @@ in the two help lines at the bottom of the screen.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set/unset historylog
-Enable \fI~/.nano_history\fP for saving and reading search/replace
-strings.
+Enable the use of \fB~/.nano_history\fP for saving and reading
+search/replace strings.
 .TP
 .B set keycolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for the shortcut key combos
@@ -117,9 +112,9 @@ Enable vim-style lock-files for when editing files.
 .TP
 .B set matchbrackets "\fIstring\fP"
 Set the opening and closing brackets that can be found by bracket
-searches.  They cannot contain blank characters.  The former set must
-come before the latter set, and both must be in the same order.  The
-default value is "\fI(<[{)>]}\fP".
+searches.  They cannot contain blank characters.  The opening set must
+come before the closing set, and both must be in the same order.  The
+default value is "\fB(<[{)>]}\fP".
 .TP
 .B set/unset morespace
 Use the blank line below the titlebar as extra editing space.
@@ -128,7 +123,8 @@ Use the blank line below the titlebar as extra editing space.
 Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
-System, and on the console when gpm is running.
+System, and on the console when gpm is running.  Text can still be
+selected through dragging by holding the Shift key.
 .TP
 .B set/unset multibuffer
 Allow inserting files into their own buffers.
@@ -140,10 +136,10 @@ Don't convert files from DOS/Mac format.
 Don't follow symlinks when writing files.
 .TP
 .B set/unset nohelp
-Don't display the help lists at the bottom of the screen.
+Don't display the two help lines at the bottom of the screen.
 .TP
 .B set/unset nonewlines
-Don't add newlines to the ends of files.
+Don't automatically add a newline to the ends of files.
 .TP
 .B set/unset nowrap
 Don't hard-wrap text at all.
@@ -162,9 +158,9 @@ Preserve the XON and XOFF keys (^Q and ^S).
 .TP
 .B set punct "\fIstring\fP"
 Set the characters treated as closing punctuation when justifying
-paragraphs.  They cannot contain blank characters.  Only closing
-punctuation, optionally followed by closing brackets, can end sentences.
-The default value is "\fI!.?\fP".
+paragraphs.  This cannot include blank characters.  Only the specfified
+closing punctuation, optionally followed by closing brackets, can end
+sentences.  The default value is "\fB!.?\fP".
 .TP
 .B set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -179,8 +175,8 @@ should be placed at the top of the file to be fully effective.
 The email-quote string, used to justify email-quoted paragraphs.  This
 is an extended regular expression if your system supports them,
 otherwise a literal string.  The default value is
-"\fI^([\ \\t]*[#:>\\|}])+\fP" if you have extended regular expression
-support, or "\fI>\ \fP" otherwise.  Note that '\\t' stands for a literal
+"\fB^([\ \\t]*[#:>\\|}])+\fP" if you have extended regular expression
+support, and "\fB>\ \fP" otherwise.  Note that '\\t' stands for a literal
 Tab character.
 .TP
 .B set/unset rebinddelete
@@ -237,18 +233,22 @@ Valid color names for foreground and background are:
 And either "\fIfgcolor\fR" or ",\fIbgcolor\fR" may be left out.
 .TP
 .B set/unset undo
-Enable experimental generic-purpose undo code.
+Enable the experimental generic-purpose undo/redo code.
 .TP
 .B set/unset view
 Disallow file modification.
 .TP
 .B set whitespace "\fIstring\fP"
-Set the two characters used to display the first characters of tabs and
+Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.
 .TP
 .B set/unset wordbounds
 Detect word boundaries more accurately by treating punctuation
 characters as parts of words.
+
+.SH SYNTAX HIGHLIGHTING
+Coloring the different syntactic elements of a file
+can be defined via the following commands:
 .TP
 .BR syntax " ""\fIstr\fR"" [""\fIfileregex\fR"" ...]"
 Defines a syntax named \fIstr\fP which can be activated via the
@@ -268,10 +268,16 @@ For the currently defined syntax, use the given \fIprogram\fR
 to invoke the linter (this overrides the speller function when
 defined).
 .TP
+.BR header " [""\fIregex\fR"" ...]
+For the currently defined syntax, add one or more regexes which will
+be compared against the very first line of the file to be edited,
+to determine whether this syntax should be used for that file.
+.TP
 .BR magic " [""\fIregex\fR"" ...]
 For the currently defined syntax, add one or more regexes which 
-will be compared against the \fBmagic\fP database when attempting
-to determine which highlighting rules to use for a given file.  This 
+will be compared against the result of querying the \fBmagic\fP
+database about the file to be edited, to determine whether this
+syntax should be used for that file.  This
 functionality only works when \fBlibmagic\fP is installed on the 
 system and will be silently ignored otherwise.
 .TP
@@ -303,22 +309,23 @@ Same as above, except that the expression matching is case insensitive.
 .TP
 .BR include " ""\fIsyntaxfile\fR"""
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
-\fIsyntaxfile\fP can only contain \fBsyntax\fP, \fBcolor\fP, and
-\fBicolor\fP commands.
+\fIsyntaxfile\fP can only contain the above commands, from \fBsyntax\fP
+to \fBicolor\fP.
 .TP
 .BI extendsyntax " str directive " \fR[ "arg " \fR...]
 Extend the syntax previously defined as \fIstr\fP to include
-new information.  Allows you to add a new \fIcolor\fP, \fIicolor\fP,
-\fImagic\fP, \fIheader\fP, or \fIlinter\fP directive to a syntax
-defined.  Useful when you want to add to definitions from the
+new information.  This allows you to add a new \fIcolor\fP, \fIicolor\fP,
+\fImagic\fP, \fIheader\fP, or \fIlinter\fP directive to an already
+defined syntax -- useful when you want to add to definitions from the
 system-installed syntax definitions (which are normally not writable).
 
-.SH KEY BINDINGS
+.SH REBINDING KEYS
 Key bindings may be reassigned via the following commands:
 .TP
 .BI bind " key function menu"
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
-context of menu \fImenu\fP.
+context of menu \fImenu\fP (or in all menus where the function exists
+by using \fBall\fP).
 .TP
 .BI unbind " key menu"
 Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all 
@@ -344,13 +351,13 @@ Valid \fIfunction\fP names to be bound include:
 
 .TP 2
 .B help
-Invoke the help menu.
+Invoke the help viewer.
 .TP
 .B cancel
 Cancel the current command.
 .TP
 .B exit
-Exit from the program.
+Exit from the program (or from the help viewer or the file browser).
 .TP
 .B writeout
 Write the current buffer to disk.
@@ -391,7 +398,7 @@ Invoke a spell checking program (or a linting program, if the current
 syntax highlighting defines one).
 .TP
 .B justify
-Justify the current text.
+Justify the current paragraph.
 .TP
 .B fulljustify
 Justify the entire current file.
@@ -454,8 +461,8 @@ Go to the last line of the file.
 Move to a specific line (and column if specified).
 .TP
 .B findbracket
-Move the cursor to the matching bracket (brace, parenthesis, etc.) of the one
-under the cursor.
+Move the cursor to the bracket (brace, parenthesis, etc.) that matches
+(pairs) with the one under the cursor.
 .TP
 .B prevbuf
 Switch to editing/viewing the previous buffer when using multibuffer mode.
@@ -479,7 +486,7 @@ Delete the character under the cursor.
 Delete the character before the cursor.
 .TP
 .B undo
-Undo the text action peformed (add text, delete text, etc).
+Undo the last text action performed (add text, delete text, etc).
 .TP
 .B redo
 Redo the last undone action (i.e., undo an undo).
@@ -614,7 +621,7 @@ The 'insert file' menu.
 The menu for inserting output from an external command, reached from the insert menu.
 .TP
 .B help
-The help menu.
+The help-viewer menu.
 .TP
 .B spell
 The interactive spell checker Yes/no menu.
@@ -626,20 +633,19 @@ The file browser for inserting or writing a file.
 The 'search for a file' menu in the file browser.
 .TP
 .B gotodir
-The 'go to directory' menu.
+The 'go to directory' menu in the file browser.
 .TP
 .B all
 A special name meaning: apply to all menus where this function exists.
 
 .SH FILES
 .TP
-.I SYSCONFDIR/nanorc
+.B SYSCONFDIR/nanorc
 System-wide configuration file
 .TP
-.I ~/.nanorc
+.B ~/.nanorc
 Per-user configuration file
 .SH SEE ALSO
-.PD 0
 .TP
 \fBnano\fP(1)
 .PP

@@ -1,3 +1,8 @@
+2014-05-05  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/man/nanorc.5: Give syntax highlighting its own section,
+	add the "header" command, tweak some wording and formatting,
+	and trim some duplicate introductory information.
+
 2014-05-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (statusbar): Elide a variable.
 	* src/*: Rename the variable 'reverse_attr' to 'hilite_attribute',
