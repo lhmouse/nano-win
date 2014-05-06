@@ -1,5 +1,6 @@
 2014-05-06  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Let makeinfo figure out the node pointers.
+	* doc/syntax/texinfo.nanorc: New file, colouring for Texinfo files.
 
 2014-05-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5: Give syntax highlighting its own section,
