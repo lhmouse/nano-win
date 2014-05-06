@@ -62,7 +62,7 @@ Use auto-indentation.
 Create backup files by adding a tilde (\fB~\fP) to each file's name.
 .TP
 .B set backupdir "\fIdirectory\fP"
-Set the directory where \fBnano\fP puts unique backup files if file
+Set the directory where \fBnano\fP puts unique backup files, if file
 backups are enabled.
 .TP
 .B set/unset backwards
@@ -75,9 +75,9 @@ the options \fBtitlecolor\fP, \fBstatuscolor\fP, and \fBkeycolor\fP.
 .TP
 .B set brackets "\fIstring\fP"
 Set the characters treated as closing brackets when justifying
-paragraphs.  This cannot include blank characters.  Only closing
-punctuation, optionally followed by the specified closing brackets,
-can end sentences.  The default value is "\fB"')>]}\fP".
+paragraphs.  This may not include blank characters.  Only closing
+punctuation (see \fBpunct\fP), optionally followed by the specified
+closing brackets, can end sentences.  The default value is "\fB"')>]}\fP".
 .TP
 .B set/unset casesensitive
 Do case-sensitive searches by default.
@@ -86,7 +86,7 @@ Do case-sensitive searches by default.
 Constantly display the cursor position in the status bar.
 .TP
 .B set/unset cut
-Use cut to end of line by default.
+Use cut-to-end-of-line by default, instead of cutting the whole line.
 .TP
 .B set fill \fIn\fP
 Hard-wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the
@@ -112,9 +112,9 @@ Enable vim-style lock-files for when editing files.
 .TP
 .B set matchbrackets "\fIstring\fP"
 Set the opening and closing brackets that can be found by bracket
-searches.  They cannot contain blank characters.  The opening set must
-come before the closing set, and both must be in the same order.  The
-default value is "\fB(<[{)>]}\fP".
+searches.  This may not include blank characters.  The opening set must
+come before the closing set, and the two sets must be in the same order.
+The default value is "\fB(<[{)>]}\fP".
 .TP
 .B set/unset morespace
 Use the blank line below the titlebar as extra editing space.
@@ -124,7 +124,7 @@ Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
 System, and on the console when gpm is running.  Text can still be
-selected through dragging by holding the Shift key.
+selected through dragging by holding down the Shift key.
 .TP
 .B set/unset multibuffer
 Allow inserting files into their own buffers.
@@ -158,9 +158,9 @@ Preserve the XON and XOFF keys (^Q and ^S).
 .TP
 .B set punct "\fIstring\fP"
 Set the characters treated as closing punctuation when justifying
-paragraphs.  This cannot include blank characters.  Only the specfified
-closing punctuation, optionally followed by closing brackets, can end
-sentences.  The default value is "\fB!.?\fP".
+paragraphs.  This may not include blank characters.  Only the
+specfified closing punctuation, optionally followed by closing brackets
+(see \fBbrackets\fP), can end sentences.  The default value is "\fB!.?\fP".
 .TP
 .B set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -168,7 +168,7 @@ keystroke instead of 25.
 .TP
 .B set/unset quiet
 \fBnano\fP will not report errors in the \fInanorc\fP file nor ask them
-to be acknowledged by pressing enter at startup.  If this is used it
+to be acknowledged by pressing Enter at startup.  If this is used it
 should be placed at the top of the file to be fully effective.
 .TP
 .B set quotestr "\fIstring\fP"

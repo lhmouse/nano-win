@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.2.0
+@subtitle version 2.3.3
 
 @author Chris Allegretta
 @page
@@ -54,6 +54,7 @@ You may contact the author by
 e-mail: @email{chrisa@@asty.org}@*
 @end titlepage
 
+
 @node Top
 @top
 
@@ -76,8 +77,8 @@ editor.
 @chapter Introduction
 
 GNU @code{nano} is a small and friendly text editor.  Besides basic text
-editing, @code{nano} offers many extra features like an interactive
-search and replace, go to line and column number, auto-indentation,
+editing, @code{nano} offers many extra features, like an interactive
+search-and-replace, go-to-line-and-column-number, auto-indentation,
 feature toggles, internationalization support, and filename tab
 completion.
 
@@ -121,8 +122,8 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @code{nano} takes the following options from the command line:
 
 @table @code
-@item +LINE,COLUMN
-Start at line number LINE and column number COLUMN (at least one of
+@item +<line>,<column>
+Start at line number <line> and column number <column> (at least one of
 which must be specified) instead of the default of line 1, column 1.
 
 @item -A, --smarthome
@@ -149,6 +150,9 @@ Convert typed tabs to spaces.
 @item -F, --multibuffer
 Enable multiple file buffers, if available.
 
+@item -G, --locking
+Enable vim-style file locking when editing files.
+
 @item -H, --historylog
 Log search and replace strings to ~/.nano_history, so they can be
 retrieved in later sessions, if nanorc support is available.
@@ -166,7 +170,7 @@ won't work properly with this option enabled.
 Don't add newlines to the ends of files.
 
 @item -N, --noconvert
-Don't convert files from DOS/Mac format.
+Disable automatic conversion of files from DOS/Mac format.
 
 @item -O, --morespace
 Use the blank line below the titlebar as extra editing space.
@@ -187,18 +191,19 @@ Note that @code{\t} above stands for a literal Tab character.
 
 @item -R, --restricted
 Restricted mode: don't read or write to any file not specified on the
-command line; read any nanorc files; allow suspending; allow a file to
-be appended to, prepended to, or saved under a different name if it
-already has one; or use backup files or spell checking.  Also accessible
-by invoking @code{nano} with any name beginning with 'r' (e.g. "rnano").
+command line; don't read any nanorc files; don't allow suspending; don't
+allow a file to be appended to, prepended to, or saved under a different
+name if it already has one; don't use backup files nor spell checking.
+This restricted mode is also accessible by invoking @code{nano} with
+any name beginning with 'r' (e.g. "rnano").
 
 @item -S, --smooth
 Enable smooth scrolling.  Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
 
-@item -T <#cols>, --tabsize=<#cols>
-Set the displayed tab length to #cols columns.  The value of #cols must
-be greater than 0.  The default value is 8.
+@item -T <number>, --tabsize=<number>
+Set the displayed tab length to <number> columns.  The value of <number>
+must be greater than 0.  The default value is 8.
 
 @item -U, --quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -232,7 +237,8 @@ Automatically indent new lines to the same number of spaces and tabs as
 the previous line.
 
 @item -k, --cut
-Cut from the current cursor position to the end of the current line.
+Make the 'Cut Text' command (normally ^K) cut from the current cursor
+position to the end of the line, instead of cutting the entire line.
 
 @item -l, --nofollow
 When writing files, if the given file is a symbolic link, it is removed
@@ -242,7 +248,8 @@ and a new file is created.
 Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
-System, and on the console when gpm is running.
+System, and on the console when gpm is running.  Text can still be
+selected through dragging by holding down the Shift key.
 
 @item -n, --noread
 Treat any name given on the command line as a new file.  This allows
@@ -263,14 +270,15 @@ editor can be can be stopped and started.
 Do not report errors in the nanorc file and ask them to be acknowledged
 by pressing Enter at startup.
 
-@item -r <#cols>, --fill=<#cols>
-Hard-wrap lines at column #cols (by inserting a newline character).
+@item -r <number>, --fill=<number>
+Hard-wrap lines at column <number> (by inserting a newline character).
 If the given value is 0 or less, wrapping will occur at the width of
 the screen minus the given amount, allowing the wrapping width to
 vary along with the width of the screen if and when it is resized.
-The default value is -8.
+The default value is -8.  This option conflicts with -w -- the last
+one given takes effect.
 
-@item -s <prog>, --speller=<prog>
+@item -s <program>, --speller=<program>
 Invoke the given program as the spell checker.  By default, @code{nano}
 uses the command specified in the SPELL environment variable, or, if
 SPELL is not set, its own interactive spell checker that requires the
@@ -291,8 +299,8 @@ option should NOT be used in place of correct file permissions to
 implement a read-only file.
 
 @item -w, --nowrap
-Don't hard-wrap long lines at any length.  This option overrides any value
-for -r.
+Don't hard-wrap long lines at any length.  This option conflicts with
+-r -- the last one given takes effect.
 
 @anchor{Expert Mode}
 @item -x, --nohelp
@@ -301,10 +309,10 @@ This affects the location of the statusbar as well, as in Expert Mode it
 is located at the very bottom of the editor.
 
 Note: When accessing the help system, Expert Mode is temporarily
-disabled to display the help system navigation keys.
+disabled to display the help-system navigation keys.
 
 @item -z, --suspend
-Enable @code{nano}'s suspend ability using the system's suspend
+Enable the ability to suspend @code{nano} using the system's suspend
 keystroke (usually ^Z).
 
 @item -$, --softwrap
@@ -554,36 +562,39 @@ You should NOT enable this option unless you are sure you need it.
 Use auto-indentation.
 
 @item set/unset backup
-Create backup files in "filename~".
+When saving a file, back up the previous version of it to the current
+filename suffixed with a tilde (@code{~}).
 
 @item set backupdir "directory"
-Set the directory where @code{nano} puts unique backup files if file
+Set the directory where @code{nano} puts unique backup files, if file
 backups are enabled.
 
 @item set/unset backwards
 Do backwards searches by default.
 
 @item set/unset boldtext
-Use bold text instead of reverse video text.
+Use bold instead of reverse video for the titlebar, statusbar, key combos,
+and selected text.  This can be overridden for the first three by setting
+the options "titlecolor", "statuscolor", and "keycolor".
 
 @item set brackets "string"
 Set the characters treated as closing brackets when justifying
-paragraphs.  They cannot contain blank characters.  Only closing
-punctuation, optionally followed by closing brackets, can end sentences.
-The default value is
+paragraphs.  This may not include blank characters.  Only closing
+punctuation (see "punct"), optionally followed by the specified
+closing brackets, can end sentences.  The default value is
 
 @quotation
 @code{""')>]@}"}
 @end quotation
 
 @item set/unset casesensitive
-Do case sensitive searches by default.
+Do case-sensitive searches by default.
 
 @item set/unset const
 Constantly display the cursor position in the status bar.
 
 @item set/unset cut
-Use cut to end of line by default, instead of cutting the whole line.
+Use cut-to-end-of-line by default, instead of cutting the whole line.
 
 @item set fill "n"
 Hard-wrap lines at column number "n".  If "n" is 0 or less, the maximum line
@@ -608,9 +619,9 @@ Enable vim-style lock-files for when editing files.
 
 @item set matchbrackets "string"
 Set the opening and closing brackets that can be found by bracket
-searches.  They cannot contain blank characters.  The former set must
-come before the latter set, and both must be in the same order.  The
-default value is
+searches.  This may not include blank characters.  The opening set must
+come before the closing set, and the two sets must be in the same order.
+The default value is
 
 @quotation
 @code{"(<[@{)>]@}"}
@@ -655,9 +666,9 @@ Preserve the XON and XOFF keys (^Q and ^S).
 
 @item set punct "string"
 Set the characters treated as closing punctuation when justifying
-paragraphs.  They cannot contain blank characters.  Only closing
-punctuation, optionally followed by closing brackets, can end sentences.
-The default value is @code{"!.?"}.
+paragraphs.  This may not include blank characters.  Only the
+specified closing punctuation, optionally followed by closing brackets
+(see "brackets"), can end sentences.  The default value is @code{"!.?"}.
 
 @item set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -677,7 +688,7 @@ otherwise a literal string.  The default value is
 @code{"^([ \\t]*[#:>\\|@}])+"}
 @end quotation
 
-if you have extended regular expression support, or "> " otherwise.
+if you have extended regular expression support, and "> " otherwise.
 Note that '\\t' stands for a literal Tab character.
 
 @item set/unset rebinddelete
@@ -734,13 +745,13 @@ white, black, red, blue, green, yellow, magenta, and cyan.
 And either "fgcolor" or ",bgcolor" may be left out.
 
 @item set/unset undo
-Enable experimental generic-purpose undo code.
+Enable the experimental generic-purpose undo/redo code.
 
 @item set/unset view
 Disallow file modification.
 
 @item set whitespace "string"
-Set the two characters used to display the first characters of tabs and
+Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.
 
 @item set/unset wordbounds
