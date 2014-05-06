@@ -6,7 +6,7 @@ magic "Texinfo source text"
 
 # Command arguments, trailing and enclosed.
 color cyan "^@[a-z]+[[:space:]]+.*$"
-color brightmagenta "@[a-z]+\{.*\}"
+color brightmagenta "@[a-z]+\{[^}]*\}"
 # Commands themselves.
 color yellow "@[a-z]+\{?" "\}"
 

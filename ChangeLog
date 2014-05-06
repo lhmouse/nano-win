@@ -5,6 +5,7 @@
 	remove option '-?', and make some other tweaks.
 	* doc/man/{nano.1,nanorc.5}, doc/texinfo/nano.texi: Synchronize the
 	documentation, and tweak some wording here and there.
+	* doc/syntax/texinfo.nanorc: Stop the brace content from spilling.
 
 2014-05-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5: Give syntax highlighting its own section,
