@@ -125,9 +125,6 @@ Email bug reports to @email{nano@@nano-editor.org}.
 Start at line number LINE and column number COLUMN (at least one of
 which must be specified) instead of the default of line 1, column 1.
 
-@item -?
-Same as @code{-h, --help}.
-
 @item -A, --smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
 very beginning of non-whitespace characters on a line, the cursor will
@@ -228,7 +225,7 @@ work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
 
 @item -h, --help
-Show a summary of command line options and exit.
+Show a summary of command-line options and exit.
 
 @item -i, --autoindent
 Automatically indent new lines to the same number of spaces and tabs as
@@ -285,8 +282,8 @@ exiting, assume yes.  This is most useful when using @code{nano} as the
 composer of a mailer program.
 
 @item -u, --undo
-Enable experimental generic-purpose undo code.  By default, the undo and
-redo shortcuts are Meta-U and Meta-E, respectively.
+Enable the experimental generic-purpose undo/redo code.  The default undo
+and redo shortcuts are Meta-U and Meta-E, respectively.
 
 @item -v, --view
 Don't allow the contents of the file to be altered.  Note that this
@@ -329,6 +326,8 @@ Ignored, for compatibility with Pico.
 @menu
 * Entering Text::
 * Special Functions::
+* The Cutbuffer::
+* The Mark::
 * The Titlebar::
 * The Statusbar::
 * Shortcut Lists::
@@ -338,34 +337,61 @@ Ignored, for compatibility with Pico.
 @node Entering Text
 @section Entering Text
 
+@code{nano} is a "modeless" editor.  All keystrokes, with the exception
+of Control and Meta key sequences, enter text into the file being edited.
 All key sequences in @code{nano} are entered using the keyboard.
-@code{nano} is a "modeless" editor.  All keys, with the exception of
-Control and Meta key sequences, will enter text into the file being
-edited.
 
 @node Special Functions
 @section Special Functions
 
-Special functions use the Control (Ctrl) key, displayed in the help and
-shortcut lists as ^; the Meta key, displayed as M; or the Escape (Esc)
-key.
+Special functions use the Control key (Ctrl), displayed in the help and
+shortcut lists as ^; the Meta key (Alt or Cmd), displayed as M-; or the
+Escape key (Esc).
 
 @itemize @bullet
 @item
 Control key sequences are entered by holding down the Ctrl key and
-pressing the desired key, or by pressing the Esc key twice and pressing
-the desired key.
+pressing the desired key, or by pressing the Esc key twice and then
+pressing the desired key.
 @item
-Pressing Esc twice and then typing a three-digit number from 000 to 255
-will enter the character with the corresponding value.
+Pressing the Esc key twice and then typing a three-digit number from
+000 to 255 will enter the character with the corresponding value.
 @item
 Meta key sequences are entered by holding down the Meta key (normally
 the Alt key) and pressing the desired key, or by pressing the Esc key
-once and pressing the desired key.  Certain operating systems "swallow"
+once and then pressing the desired key.  Certain operating systems "swallow"
 the Alt key so that it never reaches the application; if your operating
 system does this, you should use the Esc key to generate Meta key
 sequences.
 @end itemize
+
+@node The Cutbuffer
+@section The Cutbuffer
+
+Text can be cut from a file, a whole line at a time, by using the 'Cut Text'
+command (default key binding: ^K).  The cut line is stored in the cutbuffer.
+Consecutive strokes of ^K will add each cut line to this buffer, but a ^K
+after any other keystroke will overwrite the entire cutbuffer.
+
+The contents of the cutbuffer can be pasted back into the file with the
+'Uncut Text' command (default key binding: ^U).
+
+A line of text can be copied into the cutbuffer (without cutting it) with
+the 'Copy Text' command (default key binding: M-6).
+
+@node The Mark
+@section The Mark
+
+Text can be selected by first 'setting the Mark' (default key bindings:
+^6 and M-A) and then moving the cursor to the other end of the portion
+to be selected.  The selected portion of text will be highlighted in
+reverse video (or in bold if you set the boldtext option).
+This selection can now be cut or copied in its entirety with a single
+^K or M-6.  Or the selection can be used to limit the scope of a
+search-and-replace (^\) or spell-checking session (^T).
+
+Cutting or copying selected text will toggle the mark off automatically.
+If necessary, it can be toggled off manually with another ^6 or M-A.
 
 @node The Titlebar
 @section The Titlebar
@@ -415,7 +441,7 @@ is running.
 @chapter Online Help
 
 The online help system in @code{nano} is available by pressing ^G.
-It is fairly self explanatory, documenting the various parts of the
+It is fairly self-explanatory, documenting the various parts of the
 editor and available keystrokes.  Navigation is via the ^Y (Page Up)
 and ^V (Page Down) keys.  ^X exits the help system.
 
@@ -424,7 +450,7 @@ and ^V (Page Down) keys.  ^X exits the help system.
 @chapter Feature Toggles
 
 Toggles allow you to change certain aspects of the editor that would
-normally be done via command line options.  They are invoked via Meta
+normally be done via command-line options.  They are invoked via Meta
 key sequences.  See @xref{Special Functions}, for more info.  The
 following global toggles are available:
 
@@ -501,7 +527,7 @@ keywords are used to define syntax highlighting rules for different text
 patterns.  @code{nano} will read one command per line.
 
 Options in nanorc files take precedence over @code{nano}'s defaults, and
-command line options override nanorc settings.  Options are also unset
+command-line options override nanorc settings.  Options are also unset
 by default, except for those that take arguments.
 
 Quotes inside string parameters don't have to be escaped with
@@ -723,7 +749,7 @@ characters as part of a word.
 
 @item syntax "str" ["fileregex" @dots{}]
 Defines a syntax named "str" which can be activated via the -Y/--syntax
-command line option, or will be automatically activated if the current
+command-line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
 following "color" and "icolor" statements will apply to this "str"
 syntax until a new syntax is defined.
@@ -833,14 +859,14 @@ functions can be toggled for a particular version of @code{nano}.  See
 
 @item Cursor Position Display
 The output of the "Display Cursor Position" in @code{nano} displays
-the given column position, as well as the row and total character
-position of the cursor.
+the current line position of the cursor, as well as the column and
+total character position.
 
 @item Interactive Replace and Spell Checker
 It is worth noting that @code{nano}'s replace function is interactive,
-i.e. it does not stop after one search string is found and automatically
-replace it.  The @code{nano} implementation will pause at each search
-string found and query whether to replace this instance or not.  The
+i.e. it does not stop after one search string was found and automatically
+replaced.  The @code{nano} implementation will pause at each found
+search string and query whether to replace this instance or not.  The
 internal spell checker operates similarly.  Note that there is no way to
 force these functions to behave in the Pico fashion.  As of version
 1.1.99pre1, misspelled words are sorted and trimmed for uniqueness in
@@ -947,8 +973,8 @@ configure script auto-detects whether to enable UTF-8 support or not.
 You can use this or the previous option to override that detection.
 
 @item --with-slang
-Compiling @code{nano} with Slang is supported, and will make the binary
-notably smaller than if compiled with ncurses or other curses libraries.
+Compile @code{nano} against Slang instead of against ncurses or other
+curses libraries.
 
 @end table
 
