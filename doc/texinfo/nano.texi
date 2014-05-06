@@ -54,7 +54,8 @@ You may contact the author by
 e-mail: @email{chrisa@@asty.org}@*
 @end titlepage
 
-@node Top, Introduction, (dir), (dir)
+@node Top
+@top
 
 This manual documents GNU @code{nano}, a small and friendly text
 editor.
@@ -70,7 +71,8 @@ editor.
 * Building and Configure Options::
 @end menu
 
-@node Introduction, Editor Basics, Top, Top
+
+@node Introduction
 @chapter Introduction
 
 GNU @code{nano} is a small and friendly text editor.  Besides basic text
@@ -84,7 +86,7 @@ completion.
 * Command Line Options::
 @end menu
 
-@node Overview, Command Line Options, Introduction, Introduction
+@node Overview
 @section Overview
 
 The original goal for @code{nano} was a complete bug-for-bug compatible
@@ -113,7 +115,7 @@ adding it with a comma.  So the complete synopsis is:
 
 Email bug reports to @email{nano@@nano-editor.org}.
 
-@node Command Line Options, , Overview, Introduction
+@node Command Line Options
 @section Command Line Options
 
 @code{nano} takes the following options from the command line:
@@ -321,8 +323,9 @@ Ignored, for compatibility with Pico.
 @end table
 
 
-@node Editor Basics, Online Help, Introduction, Top
+@node Editor Basics
 @chapter Editor Basics
+
 @menu
 * Entering Text::
 * Special Functions::
@@ -332,7 +335,7 @@ Ignored, for compatibility with Pico.
 * Using the Mouse::
 @end menu
 
-@node Entering Text, Special Functions, Editor Basics, Editor Basics
+@node Entering Text
 @section Entering Text
 
 All key sequences in @code{nano} are entered using the keyboard.
@@ -340,7 +343,7 @@ All key sequences in @code{nano} are entered using the keyboard.
 Control and Meta key sequences, will enter text into the file being
 edited.
 
-@node Special Functions, The Titlebar, Entering Text, Editor Basics
+@node Special Functions
 @section Special Functions
 
 Special functions use the Control (Ctrl) key, displayed in the help and
@@ -364,7 +367,7 @@ system does this, you should use the Esc key to generate Meta key
 sequences.
 @end itemize
 
-@node The Titlebar, The Statusbar, Special Functions, Editor Basics
+@node The Titlebar
 @section The Titlebar
 
 The titlebar is the line displayed at the top of the editor.  There are
@@ -378,7 +381,7 @@ Special modes: When @code{nano} is in "File browser" mode, the center
 section will display the current directory instead of the filename.  See
 @xref{The File Browser}, for more info.
 
-@node The Statusbar, Shortcut Lists, The Titlebar, Editor Basics
+@node The Statusbar
 @section The Statusbar
 
 The statusbar is the third line from the bottom of the screen, or the
@@ -388,13 +391,13 @@ occur from using the editor will appear on the statusbar.  Any questions
 that are asked of the user will be asked on the statusbar, and any user
 input (search strings, filenames, etc.) will be input on the statusbar.
 
-@node Shortcut Lists, Using the Mouse, The Statusbar, Editor Basics
+@node Shortcut Lists
 @section Shortcut Lists
 
 The Shortcut Lists are the two lines at the bottom of the screen which
 show some of the more commonly used functions in the editor.
 
-@node Using the Mouse, , Shortcut Lists, Editor Basics
+@node Using the Mouse
 @section Using the Mouse
 
 When mouse support has been configured and enabled, a single mouse click
@@ -408,7 +411,7 @@ The mouse will work in the X Window System, and on the console when gpm
 is running.
 
 
-@node Online Help, Feature Toggles, Editor Basics, Top
+@node Online Help
 @chapter Online Help
 
 The online help system in @code{nano} is available by pressing ^G.
@@ -417,7 +420,7 @@ editor and available keystrokes.  Navigation is via the ^Y (Page Up)
 and ^V (Page Down) keys.  ^X exits the help system.
 
 
-@node Feature Toggles, Nanorc Files, Online Help, Top
+@node Feature Toggles
 @chapter Feature Toggles
 
 Toggles allow you to change certain aspects of the editor that would
@@ -483,7 +486,7 @@ toggles the -$ (@code{--softwrap}) command line option.
 @end table
 
 
-@node Nanorc Files, The File Browser, Feature Toggles, Top
+@node Nanorc Files
 @chapter Nanorc Files
 
 The nanorc files contain the default settings for @code{nano}.  They
@@ -777,7 +780,7 @@ from the system-installed syntax definitions (which are normally not writable).
 @end table
 
 
-@node The File Browser, Pico Compatibility, Nanorc Files, Top
+@node The File Browser
 @chapter The File Browser
 
 When reading or writing files, pressing ^T will invoke the file browser.
@@ -793,7 +796,8 @@ enter and display the contents of the directory.  If the object is a
 file, this filename and path are copied to the statusbar, and the file
 browser exits.
 
-@node Pico Compatibility, Building and Configure Options, The File Browser, Top
+
+@node Pico Compatibility
 @chapter Pico Compatibility
 
 @code{nano} attempts to emulate Pico as closely as possible, but there
@@ -844,7 +848,8 @@ the internal spell checker such that the words 'apple' and 'Apple' will
 be prompted for correction separately.
 @end table
 
-@node Building and Configure Options, , Pico Compatibility, Top
+
+@node Building and Configure Options
 @chapter Building and Configure Options
 
 Building @code{nano} from source is fairly straightforward if you are
