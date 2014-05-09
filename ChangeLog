@@ -4,6 +4,8 @@
 	again correctly.  This fixes the second part of Savannah bug #42093.
 	* src/global.c (shortcut_init, strtosc): Do not define nor accept
 	shortcuts for functions that are disabled.
+	* src/global.c (shortcut_init, strtosc): Define shortcut for the linter
+	when speller is disabled, and fix compilation with --disable-speller.
 
 2014-05-06  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Let makeinfo figure out the node pointers.

@@ -742,9 +742,6 @@ void shortcut_init(void)
 	nano_justify_msg, FALSE, NOVIEW);
 #endif
 
-    /* If we're using restricted mode, spell checking is disabled
-     * because it allows reading from or writing to files not specified
-     * on the command line. */
 #ifndef DISABLE_SPELLER
     add_to_funcs(do_spell, MMAIN, spell_tag, IFSCHELP(nano_spell_msg),
 	FALSE, NOVIEW);
@@ -1012,6 +1009,11 @@ void shortcut_init(void)
 #ifndef DISABLE_SPELLER
     add_to_sclist(MMAIN, "^T", do_spell, 0, TRUE);
     add_to_sclist(MMAIN, "F12", do_spell, 0, TRUE);
+#else
+#ifndef DISABLE_COLOR
+    add_to_sclist(MMAIN, "^T", do_linter, 0, TRUE);
+    add_to_sclist(MMAIN, "F12", do_linter, 0, TRUE);
+#endif
 #endif
     add_to_sclist(MMAIN, "^C", do_cursorpos_void, 0, TRUE);
     add_to_sclist(MMAIN, "F11", do_cursorpos_void, 0, TRUE);
@@ -1292,6 +1294,8 @@ sc *strtosc(char *input)
 	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "mark"))
 	s->scfunc = do_mark;
+#endif
+#ifndef DISABLE_SPELLER
     else if (!strcasecmp(input, "tospell") ||
 	     !strcasecmp(input, "speller"))
 	s->scfunc = do_spell;
