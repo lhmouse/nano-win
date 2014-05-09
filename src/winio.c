@@ -1636,8 +1636,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		/* The width of all the shortcuts, except for the last
 		 * two, in the shortcut list in bottomwin. */
 	    int j;
-		/* The y-coordinate relative to the beginning of the
-		 * shortcut list in bottomwin. */
+		/* The calculated index number of the clicked item. */
 	    size_t currslen;
 		/* The number of shortcuts in the current shortcut
 		 * list. */
@@ -1656,10 +1655,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 
 		return 0;
 	    }
-
-	    /* Calculate the y-coordinate relative to the beginning of
-	     * the shortcut list in bottomwin. */
-	    j = *mouse_y - 1;
 
 	    /* Get the shortcut lists' length. */
 	    if (currmenu == MMAIN)
@@ -1681,38 +1676,35 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    else
 		i = COLS / ((currslen / 2) + (currslen % 2));
 
-	    /* Calculate the x-coordinate relative to the beginning of
-	     * the shortcut list in bottomwin, and add it to j.  j
-	     * should now be the index in the shortcut list of the
-	     * shortcut we released/clicked on. */
-	    j = (*mouse_x / i) * 2 + j;
+	    /* Calculate the one-based index in the shortcut list. */
+	    j = (*mouse_x / i) * 2 + *mouse_y;
 
-	    /* Adjust j if we released on the last two shortcuts. */
-	    if ((j >= currslen) && (*mouse_x % i < COLS % i))
+	    /* Adjust the index if we hit the last two wider ones. */
+	    if ((j > currslen) && (*mouse_x % i < COLS % i))
 		j -= 2;
 #ifdef DEBUG
 	    fprintf(stderr, "Calculated %i as index in shortcut list, currmenu = %x.\n", j, currmenu);
 #endif
 	    /* Ignore releases/clicks of the first mouse button beyond
 	     * the last shortcut. */
-	    if (j >= currslen)
+	    if (j > currslen)
 		return 2;
 
 	    /* Go through the list of functions to determine which
 	     * shortcut in the current menu we released/clicked on. */
-	    f = allfuncs;
-
-	    while (TRUE) {
-		while ((f->menus & currmenu) == 0
+	    for (f = allfuncs; f != NULL; f = f->next) {
+	        if ((f->menus & currmenu) == 0)
+		    continue;
 #ifndef DISABLE_HELP
-			|| strlen(f->help) == 0
+		if (!f->help || strlen(f->help) == 0)
+		    continue;
 #endif
-			)
-		    f = f->next;
+		if (first_sc_for(currmenu, f->scfunc) == NULL)
+	            continue;
+		/* Tick off an actually shown shortcut. */
+		j -= 1;
 		if (j == 0)
 		    break;
-		f = f->next;
-		j -= 1;
 	    }
 #ifdef DEBUG
 	    fprintf(stderr, "Stopped on func %ld present in menus %x\n", (long)f->scfunc, f->menus);
@@ -1721,8 +1713,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
                 const sc *s = first_sc_for(currmenu, f->scfunc);
-		if (s != NULL)
-		    unget_kbinput(s->seq, s->type == META, FALSE);
+		unget_kbinput(s->seq, s->type == META, FALSE);
 	    }
 	} else
 	    /* Handle releases/clicks of the first mouse button that
