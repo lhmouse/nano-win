@@ -351,256 +351,257 @@ Valid \fIfunction\fP names to be bound include:
 
 .TP 2
 .B help
-Invoke the help viewer.
+Invokes the help viewer.
 .TP
 .B cancel
-Cancel the current command.
+Cancels the current command.
 .TP
 .B exit
-Exit from the program (or from the help viewer or the file browser).
+Exits from the program (or from the help viewer or the file browser).
 .TP
 .B writeout
-Write the current buffer to disk.
+Writes the current buffer to disk.
 .TP
 .B insert
-Insert a file into the current buffer (or into a new buffer when multibuffer
+Inserts a file into the current buffer (or into a new buffer when multibuffer
 is enabled).
 .TP
 .B whereis
-Search for text in the current buffer.
+Searches for text in the current buffer.
 .TP
 .B searchagain
-Repeat the last search command.
+Repeats the last search command.
 .TP
 .B replace
-Interactively replace text within the current buffer.
+Interactively replaces text within the current buffer.
 .TP
 .B cut
-Cut the current line of text and store it.
+Cuts and stores the current line (or the marked region).
 .TP
 .B copytext
-Copy the currently marked text without deleting it.
+Copies the current line (or the marked region) without deleting it.
 .TP
 .B uncut
-Copy the currently stored text into the current buffer position.
+Copies the currently stored text into the current buffer at the
+current cursor position.
 .TP
 .B mark
-Begin selecting text for cutting at the current position.
+Sets the mark at the current position, to start selecting text.
 .TP
 .B cutrestoffile
-Cut all text from the cursor position till the end of the buffer.
+Cuts all text from the cursor position till the end of the buffer.
 .TP
 .B curpos
-Show the current cursor position: the line, column, and character positions.
+Shows the current cursor position: the line, column, and character positions.
 .TP
 .B wordcount
-Count the number of words in the current buffer.
+Counts the number of words, lines and characters in the current buffer.
 .TP
 .B speller
-Invoke a spell checking program (or a linting program, if the current
+Invokes a spell-checking program (or a linting program, if the current
 syntax highlighting defines one).
 .TP
 .B justify
-Justify the current paragraph.
+Justifies the current paragraph.
 .TP
 .B fulljustify
-Justify the entire current file.
+Justifies the entire current buffer.
 .TP
 .B indent
-Indent the currently marked text (shift to the right).
+Indents (shifts to the right) the currently marked text.
 .TP
 .B unindent
-Un-indent the currently marked text (shift to the left).
+Unindents (shifts to the left) the currently marked text.
 .TP
 .B left
-Go left one position (in the editor or browser).
+Goes left one position (in the editor or browser).
 .TP
 .B right
-Go right one position (in the editor or browser).
+Goes right one position (in the editor or browser).
 .TP
 .B up
-Go one line up (in the editor or browser).
+Goes one line up (in the editor or browser).
 .TP
 .B down
-Go one line down (in the editor or browser).
+Goes one line down (in the editor or browser).
 .TP
 .B scrollup
-Scroll up one line of text from the current position.
+Scrolls up one line of text from the current position.
 .TP
 .B scrolldown
-Scroll down one line of text from the current position.
+Scrolls down one line of text from the current position.
 .TP
 .B nextword
-Move the cursor to the beginning of the next word.
+Moves the cursor to the beginning of the next word.
 .TP
 .B prevword
-Move the cursor to the beginning of the previous word.
+Moves the cursor to the beginning of the previous word.
 .TP
 .B home
-Move the cursor to the beginning of the current line.
+Moves the cursor to the beginning of the current line.
 .TP
 .B end
-Move the cursor to the end of the current line.
+Moves the cursor to the end of the current line.
 .TP
 .B beginpara
-Move the cursor to the beginning of the current paragraph.
+Moves the cursor to the beginning of the current paragraph.
 .TP
 .B endpara
-Move the cursor to the end of the current paragraph.
+Moves the cursor to the end of the current paragraph.
 .TP
 .B prevpage
-Go one screenful up.
+Goes up one screenful.
 .TP
 .B nextpage
-Go one screenful down.
+Goes down one screenful.
 .TP
 .B firstline
-Go to the first line of the file.
+Goes to the first line of the file.
 .TP
 .B lastline
-Go to the last line of the file.
+Goes to the last line of the file.
 .TP
 .B gotoline
-Move to a specific line (and column if specified).
+Goes to a specific line (and column if specified).
 .TP
 .B findbracket
-Move the cursor to the bracket (brace, parenthesis, etc.) that matches
+Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 (pairs) with the one under the cursor.
 .TP
 .B prevbuf
-Switch to editing/viewing the previous buffer when using multibuffer mode.
+Switches to editing/viewing the previous buffer when using multibuffer mode.
 .TP
 .B nextbuf
-Switch to editing/viewing the next buffer when using multibuffer mode.
+Switches to editing/viewing the next buffer when using multibuffer mode.
 .TP
 .B verbatim
-Insert the next character verbatim into the file.
+Inserts the next character verbatim into the file.
 .TP
 .B tab
-Insert a tab at the current cursor location.
+Inserts a tab at the current cursor location.
 .TP
 .B enter
-Insert a new line below the current one.
+Inserts a new line below the current one.
 .TP
 .B delete
-Delete the character under the cursor.
+Deletes the character under the cursor.
 .TP
 .B backspace
-Delete the character before the cursor.
+Deletes the character before the cursor.
 .TP
 .B undo
-Undo the last text action performed (add text, delete text, etc).
+Undoes the last performed text action (add text, delete text, etc).
 .TP
 .B redo
-Redo the last undone action (i.e., undo an undo).
+Redoes the last undone action (i.e., it undoes an undo).
 .TP
 .B refresh
-Refresh the screen.
+Refreshes the screen.
 .TP
 .B suspend
-Suspend the editor (if the suspend function is enabled, see the 
+Suspends the editor (if the suspending function is enabled, see the
 "suspendenable" entry below).
 .TP
 .B casesens
-Toggle case sensitivity in searching (search/replace menus only).
+Toggles case sensitivity in searching (search/replace menus only).
 .TP
 .B regexp
-Toggle whether searching/replacing is based on literal strings or regular expressions.
+Toggles whether searching/replacing is based on literal strings or regular expressions.
 .TP
 .B backwards
-Toggle whether searching/replacing goes forward or backward.
+Toggles whether searching/replacing goes forward or backward.
 .TP
 .B prevhistory
-Show the previous history entry in the prompt menus (e.g. search).
+Shows the previous history entry in the prompt menus (e.g. search).
 .TP
 .B nexthistory
-Show the next history entry in the prompt menus (e.g. search).
+Shows the next history entry in the prompt menus (e.g. search).
 .TP
 .B dontreplace
-Switch back to searching instead of replacing.
+Switches back to searching instead of replacing.
 .TP
 .B gototext
-Search for files matching a string in the file browser (reading or writing files).
+Searches for files matching a string in the file browser (reading or writing files).
 .TP
 .B dosformat
-When writing a file, switch to writing a DOS format (CR/LF).
+When writing a file, switches to writing a DOS format (CR/LF).
 .TP
 .B macformat
-When writing a file, switch to writing a Mac format.
+When writing a file, switches to writing a Mac format.
 .TP
 .B append
-When writing a file, append to the end instead of overwriting.
+When writing a file, appends to the end instead of overwriting.
 .TP
 .B prepend
-When writing a file, 'prepend' (write at the beginning) instead of overwriting.
+When writing a file, 'prepends' (writes at the beginning) instead of overwriting.
 .TP
 .B backup
-When writing a file, create a backup of the current file. 
+When writing a file, creates a backup of the current file.
 .TP
 .B firstfile
-Move to the first file when using the file browser (reading or writing files).
+Goes to the first file when using the file browser (reading or writing files).
 .TP
 .B lastfile
-Move to the last file when using the file browser (reading or writing files).
+Goes to the last file when using the file browser (reading or writing files).
 .TP
 .B nohelp
-Toggle showing/hiding the two-line list of key bindings at the bottom of the screen.
+Toggles the presence of the two-line list of key bindings at the bottom of the screen.
 .TP
 .B constupdate
-Toggle the constant display of the current line, column, and word positions.
+Toggles the constant display of the current line, column, and character positions.
 .TP
 .B morespace
-Toggle showing/hiding the blank line which 'separates' the 'title' from the file text.
+Toggles the presence of the blank line which 'separates' the titlebar from the file text.
 .TP
 .B smoothscroll
-Toggle smooth scrolling when moving via the arrow keys.
+Toggles smooth scrolling (when moving around with the arrow keys).
 .TP
 .B softwrap
-Toggle the displaying of overlong lines on multiple screen lines.
+Toggles the displaying of overlong lines on multiple screen lines.
 .TP
 .B whitespacedisplay
-Toggle the showing of whitespace.
+Toggles the showing of whitespace.
 .TP
 .B nosyntax
-Toggle syntax highlighting.
+Toggles syntax highlighting.
 .TP
 .B smarthome
-Toggle whether the smart home key function is enabled.
+Toggles the smartness of the Home key.
 .TP
 .B autoindent
-Toggle whether new lines will contain the same amount of whitespace as the line above.
+Toggles whether new lines will contain the same amount of whitespace as the preceding line.
 .TP
 .B cuttoend
-Toggle whether cutting text will cut the whole line or just from the current cursor
+Toggles whether cutting text will cut the whole line or just from the current cursor
 position to the end of the line.
 .TP
 .B nowrap
-Toggle whether long lines will be hard-wrapped to the next line.
+Toggles whether long lines will be hard-wrapped to the next line.
 .TP
 .B tabstospaces
-Toggle whether typed tabs will be converted to spaces.
+Toggles whether typed tabs will be converted to spaces.
 .TP
 .B backupfile
-Toggle whether a backup will be made of the file to be edited.
+Toggles whether a backup will be made of the file to be edited.
 .TP
 .B multibuffer
-Toggle the use of multiple file buffers (if available).
+Toggles the use of multiple file buffers (if available).
 .TP
 .B mouse
-Toggle mouse support.
+Toggles mouse support.
 .TP
 .B noconvert
-Toggle automatic conversion of files from DOS/Mac format.
+Toggles automatic conversion of files from DOS/Mac format.
 .TP
 .B suspendenable
-Toggle whether the suspend sequence (normally ^Z) will suspend the editor window.
+Toggles whether the suspend sequence (normally ^Z) will suspend the editor window.
 .TP
 
 Valid \fImenu\fP sections are:
 
 .TP 2
 .B main
-The main editor window where text is entered.
+The main editor window where text is entered and edited.
 .TP
 .B search
 The search menu (AKA whereis).
@@ -628,6 +629,9 @@ The help-viewer menu.
 .TP
 .B spell
 The interactive spell checker Yes/no menu.
+.TP
+.B linter
+The linter menu.
 .TP
 .B browser
 The file browser for inserting or writing a file.

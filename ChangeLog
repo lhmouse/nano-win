@@ -8,6 +8,7 @@
 	when speller is disabled, and fix compilation with --disable-speller.
 	* src/global.c (shortcut_init, strtosc), doc/man/nanorc.5: Put softwrap
 	back among the "Appearance" toggles.
+	* doc/man/nanorc.5: Describe bindable functions in the third person.
 
 2014-05-06  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Let makeinfo figure out the node pointers.
