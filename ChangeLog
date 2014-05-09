@@ -2,6 +2,8 @@
 	* src/winio.c (get_mouseinput): Count only shortcuts that are actually
 	shown, so that clicking on the ones after ^T (Speller/Linter) will work
 	again correctly.  This fixes the second part of Savannah bug #42093.
+	* src/global.c (shortcut_init, strtosc): Do not define nor accept
+	shortcuts for functions that are disabled.
 
 2014-05-06  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Let makeinfo figure out the node pointers.

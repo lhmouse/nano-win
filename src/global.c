@@ -1095,18 +1095,26 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-O", do_toggle_void, MORE_SPACE, TRUE);
     add_to_sclist(MMAIN, "M-S", do_toggle_void, SMOOTH_SCROLL, TRUE);
     add_to_sclist(MMAIN, "M-P", do_toggle_void, WHITESPACE_DISPLAY, TRUE);
+#ifndef DISABLE_COLOR
     add_to_sclist(MMAIN, "M-Y", do_toggle_void, NO_COLOR_SYNTAX, TRUE);
+#endif
 
     add_to_sclist(MMAIN, "M-H", do_toggle_void, SMART_HOME, TRUE);
     add_to_sclist(MMAIN, "M-I", do_toggle_void, AUTOINDENT, TRUE);
     add_to_sclist(MMAIN, "M-K", do_toggle_void, CUT_TO_END, TRUE);
+#ifndef DISABLE_WRAPPING
     add_to_sclist(MMAIN, "M-L", do_toggle_void, NO_WRAP, TRUE);
+#endif
     add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
     add_to_sclist(MMAIN, "M-Q", do_toggle_void, TABS_TO_SPACES, TRUE);
 
     add_to_sclist(MMAIN, "M-B", do_toggle_void, BACKUP_FILE, TRUE);
+#ifndef DISABLE_MULTIBUFFER
     add_to_sclist(MMAIN, "M-F", do_toggle_void, MULTIBUFFER, TRUE);
+#endif
+#ifndef DISABLE_MOUSE
     add_to_sclist(MMAIN, "M-M", do_toggle_void, USE_MOUSE, TRUE);
+#endif
     add_to_sclist(MMAIN, "M-N", do_toggle_void, NO_CONVERT, TRUE);
     add_to_sclist(MMAIN, "M-Z", do_toggle_void, SUSPEND, TRUE);
 #endif /* !NANO_TINY */
@@ -1352,10 +1360,12 @@ sc *strtosc(char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = WHITESPACE_DISPLAY;
+#ifndef DISABLE_COLOR
     } else if (!strcasecmp(input, "nosyntax")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_COLOR_SYNTAX;
+#endif
     } else if (!strcasecmp(input, "smarthome")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
@@ -1368,10 +1378,12 @@ sc *strtosc(char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = CUT_TO_END;
+#ifndef DISABLE_WRAPPING
     } else if (!strcasecmp(input, "nowrap")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_WRAP;
+#endif
     } else if (!strcasecmp(input, "softwrap")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
@@ -1384,14 +1396,18 @@ sc *strtosc(char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = BACKUP_FILE;
+#ifndef DISABLE_MULTIBUFFER
     } else if (!strcasecmp(input, "multibuffer")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = MULTIBUFFER;
+#endif
+#ifndef DISABLE_MOUSE
     } else if (!strcasecmp(input, "mouse")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = USE_MOUSE;
+#endif
     } else if (!strcasecmp(input, "noconvert")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
