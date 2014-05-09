@@ -1092,24 +1092,27 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^Z", do_suspend_void, 0, FALSE);
 
 #ifndef NANO_TINY
+    /* Group of "Appearance" toggles. */
     add_to_sclist(MMAIN, "M-X", do_toggle_void, NO_HELP, TRUE);
     add_to_sclist(MMAIN, "M-C", do_toggle_void, CONST_UPDATE, TRUE);
     add_to_sclist(MMAIN, "M-O", do_toggle_void, MORE_SPACE, TRUE);
     add_to_sclist(MMAIN, "M-S", do_toggle_void, SMOOTH_SCROLL, TRUE);
+    add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
     add_to_sclist(MMAIN, "M-P", do_toggle_void, WHITESPACE_DISPLAY, TRUE);
 #ifndef DISABLE_COLOR
     add_to_sclist(MMAIN, "M-Y", do_toggle_void, NO_COLOR_SYNTAX, TRUE);
 #endif
 
+    /* Group of "Editing-behavior" toggles. */
     add_to_sclist(MMAIN, "M-H", do_toggle_void, SMART_HOME, TRUE);
     add_to_sclist(MMAIN, "M-I", do_toggle_void, AUTOINDENT, TRUE);
     add_to_sclist(MMAIN, "M-K", do_toggle_void, CUT_TO_END, TRUE);
 #ifndef DISABLE_WRAPPING
     add_to_sclist(MMAIN, "M-L", do_toggle_void, NO_WRAP, TRUE);
 #endif
-    add_to_sclist(MMAIN, "M-$", do_toggle_void, SOFTWRAP, TRUE);
     add_to_sclist(MMAIN, "M-Q", do_toggle_void, TABS_TO_SPACES, TRUE);
 
+    /* Group of "Peripheral-feature" toggles. */
     add_to_sclist(MMAIN, "M-B", do_toggle_void, BACKUP_FILE, TRUE);
 #ifndef DISABLE_MULTIBUFFER
     add_to_sclist(MMAIN, "M-F", do_toggle_void, MULTIBUFFER, TRUE);
@@ -1219,6 +1222,8 @@ const char *flagtostr(int flag)
             return N_("Use of one more line for editing");
         case SMOOTH_SCROLL:
             return N_("Smooth scrolling");
+        case SOFTWRAP:
+            return N_("Soft wrapping of overlong lines");
         case WHITESPACE_DISPLAY:
             return N_("Whitespace display");
         case NO_COLOR_SYNTAX:
@@ -1231,8 +1236,6 @@ const char *flagtostr(int flag)
             return N_("Cut to end");
         case NO_WRAP:
             return N_("Hard wrapping of overlong lines");
-        case SOFTWRAP:
-            return N_("Soft wrapping of overlong lines");
         case TABS_TO_SPACES:
             return N_("Conversion of typed tabs to spaces");
         case BACKUP_FILE:
@@ -1360,6 +1363,10 @@ sc *strtosc(char *input)
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = SMOOTH_SCROLL;
+    } else if (!strcasecmp(input, "softwrap")) {
+	s->scfunc =  do_toggle_void;
+	s->execute = FALSE;
+	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "whitespacedisplay")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
@@ -1388,10 +1395,6 @@ sc *strtosc(char *input)
 	s->execute = FALSE;
 	s->toggle = NO_WRAP;
 #endif
-    } else if (!strcasecmp(input, "softwrap")) {
-	s->scfunc =  do_toggle_void;
-	s->execute = FALSE;
-	s->toggle = SOFTWRAP;
     } else if (!strcasecmp(input, "tabstospaces")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;

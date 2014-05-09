@@ -6,6 +6,8 @@
 	shortcuts for functions that are disabled.
 	* src/global.c (shortcut_init, strtosc): Define shortcut for the linter
 	when speller is disabled, and fix compilation with --disable-speller.
+	* src/global.c (shortcut_init, strtosc), doc/man/nanorc.5: Put softwrap
+	back among the "Appearance" toggles.
 
 2014-05-06  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Let makeinfo figure out the node pointers.
