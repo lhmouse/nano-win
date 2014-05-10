@@ -2095,7 +2095,9 @@ void titlebar(const char *path)
 
     assert(path != NULL || openfile->filename != NULL);
 
-    wattron(topwin, interface_color_pair[TITLE_BAR]);
+    if (interface_color_pair[TITLE_BAR].bright)
+	wattron(topwin, A_BOLD);
+    wattron(topwin, interface_color_pair[TITLE_BAR].pairnum);
 
     blank_titlebar();
 
@@ -2226,7 +2228,8 @@ void titlebar(const char *path)
 	}
     }
 
-    wattroff(topwin, interface_color_pair[TITLE_BAR]);
+    wattroff(topwin, A_BOLD);
+    wattroff(topwin, interface_color_pair[TITLE_BAR].pairnum);
 
     wnoutrefresh(topwin);
     reset_cursor();
@@ -2296,12 +2299,15 @@ void statusbar(const char *msg, ...)
     start_x = (COLS - strlenpt(foo) - 4) / 2;
 
     wmove(bottomwin, 0, start_x);
-    wattron(bottomwin, interface_color_pair[STATUS_BAR]);
+    if (interface_color_pair[STATUS_BAR].bright)
+	wattron(bottomwin, A_BOLD);
+    wattron(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     free(foo);
     waddstr(bottomwin, " ]");
-    wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
+    wattroff(bottomwin, A_BOLD);
+    wattroff(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
     wnoutrefresh(bottomwin);
     reset_cursor();
     wnoutrefresh(edit);
@@ -2401,9 +2407,12 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 
     assert(keystroke != NULL && desc != NULL);
 
-    wattron(bottomwin, interface_color_pair[KEY_COMBO]);
+    if (interface_color_pair[KEY_COMBO].bright)
+	wattron(bottomwin, A_BOLD);
+    wattron(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, len));
-    wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
+    wattroff(bottomwin, A_BOLD);
+    wattroff(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
 
     if (len > keystroke_len)
 	len -= keystroke_len;
@@ -2411,10 +2420,13 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 	len = 0;
 
     if (len > 0) {
-	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
 	waddch(bottomwin, ' ');
+	if (interface_color_pair[FUNCTION_TAG].bright)
+	    wattron(bottomwin, A_BOLD);
+	wattron(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
 	waddnstr(bottomwin, desc, actual_x(desc, len));
-	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
+	wattroff(bottomwin, A_BOLD);
+	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
     }
 }
 

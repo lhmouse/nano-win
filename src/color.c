@@ -38,7 +38,7 @@
 void set_colorpairs(void)
 {
     const syntaxtype *this_syntax = syntaxes;
-    bool bright = FALSE, defok = FALSE;
+    bool defok = FALSE;
     short fg, bg;
     size_t i;
 
@@ -50,16 +50,24 @@ void set_colorpairs(void)
 #endif
 
     for (i = 0; i < NUMBER_OF_ELEMENTS; i++) {
+	bool bright = FALSE;
+
 	if (parse_color_names(specified_color_combo[i], &fg, &bg, &bright)) {
 	    if (fg == -1 && !defok)
 		fg = COLOR_WHITE;
 	    if (bg == -1 && !defok)
 		bg = COLOR_BLACK;
 	    init_pair(i + 1, fg, bg);
-	    interface_color_pair[i] = COLOR_PAIR(i + 1);
+	    interface_color_pair[i].bright = bright;
+	    interface_color_pair[i].pairnum = COLOR_PAIR(i + 1);
 	}
-	else if (i != FUNCTION_TAG)
-	    interface_color_pair[i] = hilite_attribute;
+	else {
+	    interface_color_pair[i].bright = FALSE;
+	    if (i != FUNCTION_TAG)
+		interface_color_pair[i].pairnum = hilite_attribute;
+	    else
+		interface_color_pair[i].pairnum = A_NORMAL;
+	}
 
 	if (specified_color_combo[i] != NULL) {
 	    free(specified_color_combo[i]);
@@ -69,7 +77,7 @@ void set_colorpairs(void)
 
     for (; this_syntax != NULL; this_syntax = this_syntax->next) {
 	colortype *this_color = this_syntax->color;
-	int color_pair = NUMBER_OF_ELEMENTS + 1;
+	int clr_pair = NUMBER_OF_ELEMENTS + 1;
 
 	for (; this_color != NULL; this_color = this_color->next) {
 	    const colortype *beforenow = this_syntax->color;
@@ -84,8 +92,8 @@ void set_colorpairs(void)
 	    if (beforenow != this_color)
 		this_color->pairnum = beforenow->pairnum;
 	    else {
-		this_color->pairnum = color_pair;
-		color_pair++;
+		this_color->pairnum = clr_pair;
+		clr_pair++;
 	    }
 	}
     }

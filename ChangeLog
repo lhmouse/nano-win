@@ -1,3 +1,7 @@
+2014-05-10  Mark Majeres  <mark@engine12.com>
+	* src/*.h, src/*.c: Make it possible for the foreground colour of
+	interface elements to be bright.
+
 2014-05-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Count only shortcuts that are actually
 	shown, so that clicking on the ones after ^T (Speller/Linter) will work
