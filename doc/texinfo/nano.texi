@@ -217,8 +217,8 @@ Detect word boundaries more accurately by treating punctuation
 characters as parts of words.
 
 @item -Y <str>, --syntax=<str>
-Specify a specific syntax highlighting from the nanorc to use, if
-available.  See @xref{Nanorc Files}, for more info.
+Specify a specific syntax from the nanorc to use for highlighting, if
+available.  See @xref{Syntax Highlighting}, for more info.
 
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
@@ -496,7 +496,7 @@ toggles the -O (@code{--morespace}) command line option.
 
 @item Whitespace Display Toggle (Meta-P)
 toggles whitespace display mode if you have a "whitespace" option in
-your nanorc.  See @xref{Nanorc Files}, for more info.
+your nanorc.  See @xref{Whitespace}, for more info.
 
 @item Tabs to Spaces Toggle (Meta-Q)
 toggles the -E (@code{--tabstospaces}) command line option.
@@ -509,7 +509,7 @@ toggles the -x (@code{--nohelp}) command line option.
 
 @item Color Syntax Highlighting Toggle (Meta-Y)
 toggles color syntax highlighting if you have color syntaxes in your
-nanorc.  See @xref{Nanorc Files}, for more info.
+nanorc.  See @xref{Syntax Highlighting}, for more info.
 
 @item Suspend Toggle (Meta-Z)
 toggles the -z (@code{--suspend}) command line option.
@@ -524,15 +524,15 @@ toggles the -$ (@code{--softwrap}) command line option.
 @chapter Nanorc Files
 
 The nanorc files contain the default settings for @code{nano}.  They
-should not be in DOS or Mac format.  During startup, @code{nano} will
-first read its system-wide settings from SYSCONFDIR/nanorc, and then
-user-specific settings from ~/.nanorc.
+should be in Unix format, not in DOS or Mac format.  During startup,
+@code{nano} will first read the system-wide settings, from /etc/nanorc,
+and then the user-specific settings, from ~/.nanorc.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
-be used to configure @code{nano} on startup without using the command
-line options.  Additionally, the "syntax", "color", and "icolor"
-keywords are used to define syntax highlighting rules for different text
-patterns.  @code{nano} will read one command per line.
+be used to configure @code{nano} on startup without using command-line
+options.  Additionally, there are some commands to define syntax highlighting
+and to rebind keys -- @xref{Syntax Highlighting}, and @xref{Rebinding Keys}.
+@code{nano} will read one command per line.
 
 Options in nanorc files take precedence over @code{nano}'s defaults, and
 command-line options override nanorc settings.  Options are also unset
@@ -540,16 +540,19 @@ by default, except for those that take arguments.
 
 Quotes inside string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
-end.  For example, for the "brackets" option,
+end.  For example, for the "brackets" option, @code{""')>]@}"} will match
+@code{"}, @code{'}, @code{)}, @code{>}, @code{]}, and @code{@}}.
 
-@quotation
-@code{""')>]@}"}
-@end quotation
+@menu
+* Settings::
+* Syntax Highlighting::
+* Rebinding Keys::
+@end menu
 
-will match @code{"}, @code{'}, @code{)}, @code{>}, @code{]}, and
-@code{@}}.
+@node Settings
+@section Settings
 
-The supported commands and arguments are:
+The supported settings in a nanorc file are:
 
 @table @code
 
@@ -750,13 +753,25 @@ Enable the experimental generic-purpose undo/redo code.
 @item set/unset view
 Disallow file modification.
 
+@anchor{Whitespace}
 @item set whitespace "string"
 Set the two characters used to indicate the presence of tabs and
-spaces.  They must be single-column characters.
+spaces.  They must be single-column characters.  The default pair
+for a UTF-8 locale is "»·", and for other locales ">.".
 
 @item set/unset wordbounds
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
+
+@end table
+
+@node Syntax Highlighting
+@section Syntax Highlighting
+
+Coloring the different syntactic elements of a file can be defined
+via the following commands in a nanorc file:
+
+@table @code
 
 @item syntax "str" ["fileregex" @dots{}]
 Defines a syntax named "str" which can be activated via the -Y/--syntax
@@ -774,11 +789,17 @@ syntax's "fileregex".
 For the currently defined syntax, use the given program to invoke the
 linter (this overrides the speller function when defined).
 
+@item header "regex" @dots{}
+For the currently defined syntax, add one or more regexes which will
+be compared against the very first line of the file to be edited,
+to determine whether this syntax should be used for that file.
+
 @item magic ["regex" @dots{}]
 For the currently defined syntax, add one or more regexes which will be
-compared against the magic database when attempting to determine which
-highlighting rules to use for a given file.  This functionality only works
-when libmagic is installed on the system and will be silently ignored otherwise.
+compared against the result of querying the magic database about the file
+to be edited, to determine whether this syntax should be used for that
+file.  This functionality only works when libmagic is installed on the
+system and will be silently ignored otherwise.
 
 @item color fgcolor,bgcolor "regex" @dots{}
 For the currently defined syntax, display all expressions matching the
@@ -806,13 +827,353 @@ Same as above, except that the expression matching is case insensitive.
 
 @item include "syntaxfile"
 Read in self-contained color syntaxes from "syntaxfile".  Note that
-"syntaxfile" can only contain "syntax", "color", and "icolor" commands.
+"syntaxfile" can only contain the above commands, from "syntax" to
+"icolor".
 
 @item extendsyntax str directive [arg @dots{}]
 Extend the syntax previously defined as str to include new information.
 Allows you to add a new color, icolor, magic, header, or linter directive
 to an already defined syntax.  Useful when you want to add to definitions
 from the system-installed syntax definitions (which are normally not writable).
+
+@end table
+
+@node Rebinding Keys
+@section Rebinding Keys
+
+Key bindings may be reassigned via the following two commands in a
+nanorc file:
+
+@table @code
+
+@item bind key function menu
+Rebinds @code{key} to @code{function} in the context of @code{menu}
+(or in all menus where the function exists by using @code{all}.
+
+@item unbind key menu
+Unbinds @code{key} from the specified @code{menu}
+(or from all menus where it exists by using @code{all}).
+
+@end table
+
+The format of @code{key} should be one of:
+
+@table @code
+
+@item ^
+followed by an alpha character or the word "Space".
+Example: @code{^C}
+
+@item M-
+followed by a printable character or the word "Space".
+Example: @code{M-C}
+
+@item F
+followed by a numeric value from 1 to 16.
+Example: @code{F10}
+
+@end table
+
+Valid names for the @code{function} to be bound are:
+
+@table @code
+
+@item help
+Invokes the help viewer.
+
+@item cancel
+Cancels the current command.
+
+@item exit
+Exits from the program (or from the help viewer or the file browser).
+
+@item writeout
+Writes the current buffer to disk.
+
+@item insert
+Inserts a file into the current buffer (or into a new buffer when multibuffer
+is enabled).
+
+@item whereis
+Searches for text in the current buffer.
+
+@item searchagain
+Repeats the last search command.
+
+@item replace
+Interactively replaces text within the current buffer.
+
+@item cut
+Cuts and stores the current line (or the marked region).
+
+@item copytext
+Copies the current line (or the marked region) without deleting it.
+
+@item uncut
+Copies the currently stored text into the current buffer at the
+current cursor position.
+
+@item mark
+Sets the mark at the current position, to start selecting text.
+
+@item cutrestoffile
+Cuts all text from the cursor position till the end of the buffer.
+
+@item curpos
+Shows the current cursor position: the line, column, and character positions.
+
+@item wordcount
+Counts the number of words, lines and characters in the current buffer.
+
+@item speller
+Invokes a spell-checking program (or a linting program, if the current
+syntax highlighting defines one).
+
+@item justify
+Justifies the current paragraph.
+
+@item fulljustify
+Justifies the entire current buffer.
+
+@item indent
+Indents (shifts to the right) the currently marked text.
+
+@item unindent
+Unindents (shifts to the left) the currently marked text.
+
+@item left
+Goes left one position (in the editor or browser).
+
+@item right
+Goes right one position (in the editor or browser).
+
+@item up
+Goes one line up (in the editor or browser).
+
+@item down
+Goes one line down (in the editor or browser).
+
+@item scrollup
+Scrolls up one line of text from the current position.
+
+@item scrolldown
+Scrolls down one line of text from the current position.
+
+@item nextword
+Moves the cursor to the beginning of the next word.
+
+@item prevword
+Moves the cursor to the beginning of the previous word.
+
+@item home
+Moves the cursor to the beginning of the current line.
+
+@item end
+Moves the cursor to the end of the current line.
+
+@item beginpara
+Moves the cursor to the beginning of the current paragraph.
+
+@item endpara
+Moves the cursor to the end of the current paragraph.
+
+@item prevpage
+Goes up one screenful.
+
+@item nextpage
+Goes down one screenful.
+
+@item firstline
+Goes to the first line of the file.
+
+@item lastline
+Goes to the last line of the file.
+
+@item gotoline
+Goes to a specific line (and column if specified).
+
+@item findbracket
+Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
+(pairs) with the one under the cursor.
+
+@item prevbuf
+Switches to editing/viewing the previous buffer when using multibuffer mode.
+
+@item nextbuf
+Switches to editing/viewing the next buffer when using multibuffer mode.
+
+@item verbatim
+Inserts the next character verbatim into the file.
+
+@item tab
+Inserts a tab at the current cursor location.
+
+@item enter
+Inserts a new line below the current one.
+
+@item delete
+Deletes the character under the cursor.
+
+@item backspace
+Deletes the character before the cursor.
+
+@item undo
+Undoes the last performed text action (add text, delete text, etc).
+
+@item redo
+Redoes the last undone action (i.e., it undoes an undo).
+
+@item refresh
+Refreshes the screen.
+
+@item suspend
+Suspends the editor (if the suspending function is enabled, see the
+"suspendenable" entry below).
+
+@item casesens
+Toggles case sensitivity in searching (search/replace menus only).
+
+@item regexp
+Toggles whether searching/replacing is based on literal strings or regular expressions.
+
+@item backwards
+Toggles whether searching/replacing goes forward or backward.
+
+@item prevhistory
+Shows the previous history entry in the prompt menus (e.g. search).
+
+@item nexthistory
+Shows the next history entry in the prompt menus (e.g. search).
+
+@item dontreplace
+Switches back to searching instead of replacing.
+
+@item gototext
+Searches for files matching a string in the file browser (reading or writing files).
+
+@item dosformat
+When writing a file, switches to writing a DOS format (CR/LF).
+
+@item macformat
+When writing a file, switches to writing a Mac format.
+
+@item append
+When writing a file, appends to the end instead of overwriting.
+
+@item prepend
+When writing a file, 'prepends' (writes at the beginning) instead of overwriting.
+
+@item backup
+When writing a file, creates a backup of the current file.
+
+@item firstfile
+Goes to the first file when using the file browser (reading or writing files).
+
+@item lastfile
+Goes to the last file when using the file browser (reading or writing files).
+
+@item nohelp
+Toggles the presence of the two-line list of key bindings at the bottom of the screen.
+
+@item constupdate
+Toggles the constant display of the current line, column, and character positions.
+
+@item morespace
+Toggles the presence of the blank line which 'separates' the titlebar from the file text.
+
+@item smoothscroll
+Toggles smooth scrolling (when moving around with the arrow keys).
+
+@item softwrap
+Toggles the displaying of overlong lines on multiple screen lines.
+
+@item whitespacedisplay
+Toggles the showing of whitespace.
+
+@item nosyntax
+Toggles syntax highlighting.
+
+@item smarthome
+Toggles the smartness of the Home key.
+
+@item autoindent
+Toggles whether new lines will contain the same amount of whitespace as the preceding line.
+
+@item cuttoend
+Toggles whether cutting text will cut the whole line or just from the current cursor
+position to the end of the line.
+
+@item nowrap
+Toggles whether long lines will be hard-wrapped to the next line.
+
+@item tabstospaces
+Toggles whether typed tabs will be converted to spaces.
+
+@item backupfile
+Toggles whether a backup will be made of the file to be edited.
+
+@item multibuffer
+Toggles the use of multiple file buffers (if available).
+
+@item mouse
+Toggles mouse support.
+
+@item noconvert
+Toggles automatic conversion of files from DOS/Mac format.
+
+@item suspendenable
+Toggles whether the suspend sequence (normally ^Z) will suspend the editor window.
+
+@end table
+
+Valid names for @code{menu} are:
+
+@table @code
+
+@item main
+The main editor window where text is entered and edited.
+
+@item search
+The search menu (AKA whereis).
+
+@item replace
+The 'search to replace' menu.
+
+@item replacewith
+The 'replace with' menu, which comes up after 'search to replace'.
+
+@item gotoline
+The 'goto line (and column)' menu.
+
+@item writeout
+The 'write file' menu.
+
+@item insert
+The 'insert file' menu.
+
+@item extcmd
+The menu for inserting output from an external command, reached from the insert menu.
+
+@item help
+The help-viewer menu.
+
+@item spell
+The interactive spell checker Yes/no menu.
+
+@item linter
+The linter menu.
+
+@item browser
+The file browser for inserting or writing a file.
+
+@item whereisfile
+The 'search for a file' menu in the file browser.
+
+@item gotodir
+The 'go to directory' menu in the file browser.
+
+@item all
+A special name meaning: apply to all menus where this function exists.
 
 @end table
 
