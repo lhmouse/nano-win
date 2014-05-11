@@ -1,3 +1,13 @@
+2014-05-10 Chris Allegretta <chrisa@asty.org>
+	* src/rcfile.c (parse_color_names): Redefine false and true to
+	  their appropriate macro names so --with-slang works (slangv2 anyway).
+	* src/text.c (do_linter): Care about whether user cancelled the file
+	  save (cancel the operation) versus justy said no (continue but don't
+	  save the file).  Also doupdate() after statusbar message that
+	  linter is being invoked and blank the shortcuts to draw the eye.
+	  Also allow user to cancel at the "open in a new buffer" prompt.
+	  New function lint_cleanup().  Fixes Savannah bug 42203.
+
 2014-05-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Make syntax highlighting into a separate
 	section, and add the still missing section on rebinding keys.

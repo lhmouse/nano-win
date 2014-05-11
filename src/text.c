@@ -2980,6 +2980,14 @@ void do_spell(void)
 #endif /* !DISABLE_SPELLER */
 
 #ifndef DISABLE_COLOR
+/* Cleanup things to do after leaving the linter */
+void lint_cleanup(void)
+{
+    currmenu = MMAIN;
+    display_main_list();
+}
+
+
 /* Run linter.  Based on alt-speller code.  Return NULL for normal
  * termination, and the error string otherwise. */
 void do_linter(void)
@@ -3010,9 +3018,13 @@ void do_linter(void)
     if (openfile->modified) {
 	int i = do_yesno_prompt(FALSE,
                 _("Save modified buffer before linting?"));
-
-	if (i == 1) {
+	if (i == -1) {
+	    statusbar(_("Cancelled"));
+	    lint_cleanup();
+	    return;
+	} else if (i == 1) {
 	    if (do_writeout(FALSE) != TRUE) {
+		lint_cleanup();
 		return;
 	    }
 	}
@@ -3022,10 +3034,13 @@ void do_linter(void)
     /* Create pipe up front. */
     if (pipe(lint_fd) == -1) {
 	statusbar(_("Could not create pipe"));
+	lint_cleanup();
 	return;
     }
 
+    blank_bottombars();
     statusbar(_("Invoking linter, please wait"));
+    doupdate();
 
     /* Set up an argument list to pass execvp(). */
     if (lintargs == NULL) {
@@ -3070,6 +3085,7 @@ void do_linter(void)
     if (pid_lint < 0) {
 	close(lint_fd[0]);
 	statusbar(_("Could not fork"));
+	lint_cleanup();
 	return;
     }
 
@@ -3077,6 +3093,7 @@ void do_linter(void)
     if ((pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(lint_fd[0]);
 	statusbar(_("Could not get size of pipe buffer"));
+	lint_cleanup();
 	return;
     }
 
@@ -3179,6 +3196,7 @@ void do_linter(void)
 
     if (parsesuccess == 0) {
 	statusbar(_("Got 0 parsable lines from command: %s"), openfile->syntax->linter);
+	lint_cleanup();
 	return;
     }
 
@@ -3215,7 +3233,10 @@ void do_linter(void)
 				curlint->filename);
 			i = do_yesno_prompt(FALSE, msg);
 			free(msg);
-			if (i == 1) {
+			if (i == -1) {
+			    statusbar(_("Cancelled"));
+			    goto free_lints_and_return;
+			} else if (i == 1) {
 			    SET(MULTIBUFFER);
 			    open_buffer(curlint->filename, FALSE);
 			} else {
@@ -3268,14 +3289,14 @@ void do_linter(void)
 	    }
 	}
     }
+    blank_statusbar();
+free_lints_and_return:
     for (tmplint = lints; tmplint != NULL; tmplint = tmplint->next) {
 	free(tmplint->msg);
 	free(tmplint->filename);
 	free(tmplint);
     }
-    blank_statusbar();
-    currmenu = MMAIN;
-    display_main_list();
+    lint_cleanup();
 }
 #endif /* !DISABLE_COLOR */
 

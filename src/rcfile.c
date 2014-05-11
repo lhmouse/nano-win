@@ -846,7 +846,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
     bool no_fgcolor = FALSE;
 
     if (combostr == NULL)
-	return false;
+	return FALSE;
 
     if (strchr(combostr, ',') != NULL) {
 	char *bgcolorname;
@@ -860,7 +860,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 	}
 	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
 	    rcfile_error(N_("Background color \"%s\" cannot be bright"), bgcolorname);
-	    return false;
+	    return FALSE;
 	}
 	*bg = color_to_short(bgcolorname, bright);
     } else
@@ -871,11 +871,11 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 
 	/* Don't try to parse screwed-up foreground colors. */
 	if (*fg == -1)
-	    return false;
+	    return FALSE;
     } else
 	*fg = -1;
 
-    return true;
+    return TRUE;
 }
 
 /* Parse the header-line regex that may influence the choice of syntax. */
