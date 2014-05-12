@@ -17,6 +17,7 @@
 	one with single quotes work again, and add some comments.
 	* doc/syntax/{man,python,fortran}.nanorc: Add regexes for comments,
 	trailing whitespace and reminders, and trim some trailing spaces.
+	* src/rcfile.c: Move parse_magic_exp() next to its sister.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to
