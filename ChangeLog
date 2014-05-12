@@ -3,6 +3,7 @@
 	* doc/syntax/nanorc.nanorc: Show bright foreground colours as valid.
 	* src/rcfile.c: Improve some comments, and remove some others that
 	are mispasted or superfluous.
+	* doc/texinfo/nano.texi: Add missing parenthesis, remove blank line.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to

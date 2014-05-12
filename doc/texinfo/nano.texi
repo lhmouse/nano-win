@@ -848,7 +848,7 @@ nanorc file:
 
 @item bind key function menu
 Rebinds @code{key} to @code{function} in the context of @code{menu}
-(or in all menus where the function exists by using @code{all}.
+(or in all menus where the function exists by using @code{all}).
 
 @item unbind key menu
 Unbinds @code{key} from the specified @code{menu}
@@ -1174,7 +1174,6 @@ The 'go to directory' menu in the file browser.
 
 @item all
 A special name meaning: apply to all menus where this function exists.
-
 @end table
 
 
