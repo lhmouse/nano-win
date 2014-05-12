@@ -380,10 +380,9 @@ void parse_syntax(char *ptr)
 }
 
 /* Parse the magic regexes that may influence the choice of syntax. */
-void parse_magictype(char *ptr)
+void parse_magic_exp(char *ptr)
 {
 #ifdef HAVE_LIBMAGIC
-    const char *fileregptr = NULL;
     exttype *endmagic = NULL;
 
     assert(ptr != NULL);
@@ -411,6 +410,7 @@ void parse_magictype(char *ptr)
 
     /* Now load the magic regexes into their part of the struct. */
     while (*ptr != '\0') {
+	const char *regexstring;
 	exttype *newmagic;
 
 	while (*ptr != '"' && *ptr != '\0')
@@ -421,7 +421,7 @@ void parse_magictype(char *ptr)
 
 	ptr++;
 
-	fileregptr = ptr;
+	regexstring = ptr;
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
 	    break;
@@ -429,8 +429,8 @@ void parse_magictype(char *ptr)
 	newmagic = (exttype *)nmalloc(sizeof(exttype));
 
 	/* Save the regex string if it's valid. */
-	if (nregcomp(fileregptr, REG_NOSUB)) {
-	    newmagic->ext_regex = mallocstrcpy(NULL, fileregptr);
+	if (nregcomp(regexstring, REG_NOSUB)) {
+	    newmagic->ext_regex = mallocstrcpy(NULL, regexstring);
 	    newmagic->ext = NULL;
 
 	    if (endmagic == NULL)
@@ -874,9 +874,8 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 }
 
 /* Parse the header-line regexes that may influence the choice of syntax. */
-void parse_headers(char *ptr)
+void parse_header_exp(char *ptr)
 {
-    char *regstr;
     exttype *endheader = NULL;
 
     assert(ptr != NULL);
@@ -892,7 +891,8 @@ void parse_headers(char *ptr)
 	return;
     }
 
-    while (ptr != NULL && *ptr != '\0') {
+    while (*ptr != '\0') {
+	const char *regexstring;
 	exttype *newheader;
 
 	if (*ptr != '"') {
@@ -904,7 +904,7 @@ void parse_headers(char *ptr)
 
 	ptr++;
 
-	regstr = ptr;
+	regexstring = ptr;
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
 	    break;
@@ -912,8 +912,8 @@ void parse_headers(char *ptr)
 	newheader = (exttype *)nmalloc(sizeof(exttype));
 
 	/* Save the regex string if it's valid */
-	if (nregcomp(regstr, 0)) {
-	    newheader->ext_regex = mallocstrcpy(NULL, regstr);
+	if (nregcomp(regexstring, 0)) {
+	    newheader->ext_regex = mallocstrcpy(NULL, regexstring);
 	    newheader->ext = NULL;
 
 	    if (endheader == NULL)
@@ -1078,9 +1078,9 @@ void parse_rcfile(FILE *rcstream
 	    parse_syntax(ptr);
 	}
 	else if (strcasecmp(keyword, "magic") == 0)
-	    parse_magictype(ptr);
+	    parse_magic_exp(ptr);
 	else if (strcasecmp(keyword, "header") == 0)
-	    parse_headers(ptr);
+	    parse_header_exp(ptr);
 	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)

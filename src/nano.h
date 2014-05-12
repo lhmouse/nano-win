@@ -228,11 +228,11 @@ typedef struct colortype {
 
 typedef struct exttype {
     char *ext_regex;
-	/* The extensions that match this syntax. */
+	/* The regexstrings for the things that match this syntax. */
     regex_t *ext;
-	/* The compiled extensions that match this syntax. */
+	/* The compiled regexes. */
     struct exttype *next;
-	/* Next set of extensions. */
+	/* Next set of regexes. */
 } exttype;
 
 typedef struct syntaxtype {
@@ -241,13 +241,13 @@ typedef struct syntaxtype {
     exttype *extensions;
 	/* The list of extensions that this syntax applies to. */
     exttype *headers;
-	/* Regexes to match on the 'header' (1st line) of the file. */
+	/* The list of headerlines that this syntax applies to. */
     exttype *magics;
-	/* Regexes to match libmagic results. */
+	/* The list of libmagic results that this syntax applies to. */
     colortype *color;
 	/* The colors used in this syntax. */
     char *linter;
-	/* Command to lint this type of file. */
+	/* The command to lint this type of file. */
     int nmultis;
 	/* How many multi-line strings this syntax has. */
     struct syntaxtype *next;

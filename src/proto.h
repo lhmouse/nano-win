@@ -542,7 +542,7 @@ int do_prompt(bool allow_tabs,
 void do_prompt_abort(void);
 int do_yesno_prompt(bool all, const char *msg);
 
-/* All functions in rcfile.c. */
+/* Most functions in rcfile.c. */
 #ifndef DISABLE_NANORC
 void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
@@ -551,7 +551,6 @@ char *parse_argument(char *ptr);
 char *parse_next_regex(char *ptr);
 bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
-void parse_magic_syntax(char *ptr);
 void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
