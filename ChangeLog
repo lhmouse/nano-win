@@ -13,6 +13,8 @@
 	* src/nano.h, src/color.c, src/global.c, src/rcfile.c: Rename struct
 	type 'exttype' to 'regexlisttype', to better match its functions, and
 	upon exit also free the regexes for libmagic results and headerlines.
+	* doc/syntax/python.nanorc: Improve the multiline regexes, make the
+	one with single quotes work again, and add some comments.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to
