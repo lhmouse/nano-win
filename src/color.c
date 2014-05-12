@@ -158,10 +158,9 @@ void color_update(void)
 /* Var magicstring will stay NULL if we fail to get a magic result. */
 #ifdef HAVE_LIBMAGIC
     const char *magicstring = NULL;
-    const char *magicerr = NULL;
-    magic_t m;
+    magic_t cookie;
     struct stat fileinfo;
-#endif /* HAVE_LIBMAGIC */
+#endif
 
     assert(openfile != NULL);
 
@@ -189,21 +188,21 @@ void color_update(void)
 
 #ifdef HAVE_LIBMAGIC
     if (stat(openfile->filename, &fileinfo) == 0) {
-	m = magic_open(MAGIC_SYMLINK |
+	cookie = magic_open(MAGIC_SYMLINK |
 #ifdef DEBUG
 		       MAGIC_DEBUG | MAGIC_CHECK |
 #endif
 		       MAGIC_ERROR);
-	if (m == NULL || magic_load(m, NULL) < 0)
+	if (cookie == NULL || magic_load(cookie, NULL) < 0)
 	    statusbar(_("magic_load() failed: %s"), strerror(errno));
 	else {
-	    magicstring = magic_file(m,openfile->filename);
+	    magicstring = magic_file(cookie, openfile->filename);
 	    if (magicstring == NULL) {
-		magicerr = magic_error(m);
-		statusbar(_("magic_file(%s) failed: %s"), openfile->filename, magicerr);
+		statusbar(_("magic_file(%s) failed: %s"),
+				openfile->filename, magic_error(cookie));
 	    }
 #ifdef DEBUG
-	fprintf(stderr, "magic string returned: %s\n", magicstring);
+	fprintf(stderr, "Returned magic string is: %s\n", magicstring);
 #endif
 	}
     }
