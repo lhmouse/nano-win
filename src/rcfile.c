@@ -347,10 +347,9 @@ void parse_syntax(char *ptr)
 	return;
     }
 
-    /* Now load the extensions into their part of the struct. */
+    /* Now load the extension regexes into their part of the struct. */
     while (*ptr != '\0') {
 	exttype *newext;
-	    /* The new extension structure. */
 
 	while (*ptr != '"' && *ptr != '\0')
 	    ptr++;
@@ -383,7 +382,7 @@ void parse_syntax(char *ptr)
     }
 }
 
-/* Parse the magic regex that may influence the choice of syntax. */
+/* Parse the magic regexes that may influence the choice of syntax. */
 void parse_magictype(char *ptr)
 {
 #ifdef HAVE_LIBMAGIC
@@ -413,10 +412,9 @@ void parse_magictype(char *ptr)
     fprintf(stderr, "Starting a magic type: \"%s\"\n", ptr);
 #endif
 
-    /* Now load the extensions into their part of the struct. */
+    /* Now load the magic regexes into their part of the struct. */
     while (*ptr != '\0') {
 	exttype *newext;
-	    /* The new extension structure. */
 
 	while (*ptr != '"' && *ptr != '\0')
 	    ptr++;
@@ -739,7 +737,7 @@ void parse_colors(char *ptr, bool icase)
      * in the colorstrings array, woo! */
     while (ptr != NULL && *ptr != '\0') {
 	colortype *newcolor;
-	    /* The new color structure. */
+	    /* The container for a color plus its regexes. */
 	bool cancelled = FALSE;
 	    /* The start expression was bad. */
 	bool expectend = FALSE;
@@ -878,7 +876,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
     return TRUE;
 }
 
-/* Parse the header-line regex that may influence the choice of syntax. */
+/* Parse the header-line regexes that may influence the choice of syntax. */
 void parse_headers(char *ptr)
 {
     char *regstr;
@@ -896,11 +894,8 @@ void parse_headers(char *ptr)
 	return;
     }
 
-    /* Now for the fun part.  Start adding regexes to individual strings
-     * in the colorstrings array, woo! */
     while (ptr != NULL && *ptr != '\0') {
 	exttype *newheader;
-	    /* The new color structure. */
 
 	if (*ptr != '"') {
 	    rcfile_error(

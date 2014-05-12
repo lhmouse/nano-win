@@ -1,6 +1,8 @@
 2014-05-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell): Provide startup feedback, as for the linter.
 	* doc/syntax/nanorc.nanorc: Show bright foreground colours as valid.
+	* src/rcfile.c: Improve some comments, and remove some others that
+	are mispasted or superfluous.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to
