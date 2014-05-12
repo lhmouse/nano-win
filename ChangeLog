@@ -15,6 +15,8 @@
 	upon exit also free the regexes for libmagic results and headerlines.
 	* doc/syntax/python.nanorc: Improve the multiline regexes, make the
 	one with single quotes work again, and add some comments.
+	* doc/syntax/{man,python,fortran}.nanorc: Add regexes for comments,
+	trailing whitespace and reminders, and trim some trailing spaces.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to

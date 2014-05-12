@@ -8,3 +8,7 @@ color brightred "\.(B[IR]?|I[BR]?|R[BI]|S[BM]) .*$"
 color brightblue "\.(B[IR]?|I[BR]?|R[BI]|S[BM]) " "\.([LP]?P)$"
 color magenta "\\f[BIPR]"
 color yellow "\.(br|DT|RS|RE|PD)"
+# Comments.
+color cyan "\.?\\\".*$"
+# Trailing whitespace.
+color ,green "[[:space:]]+$"
