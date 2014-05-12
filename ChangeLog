@@ -1,3 +1,6 @@
+2014-05-12  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_spell): Provide startup feedback, as for the linter.
+
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to
 	  their appropriate macro names so --with-slang works (slangv2 anyway).

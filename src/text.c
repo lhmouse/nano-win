@@ -2956,6 +2956,10 @@ void do_spell(void)
 	return;
     }
 
+    blank_bottombars();
+    statusbar(_("Invoking spell checker, please wait"));
+    doupdate();
+
     spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
 	do_int_speller(temp);
     unlink(temp);
