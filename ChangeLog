@@ -4,6 +4,9 @@
 	* src/rcfile.c: Improve some comments, and remove some others that
 	are mispasted or superfluous.
 	* doc/texinfo/nano.texi: Add missing parenthesis, remove blank line.
+	* src/rcfile.c (parse_magictype, parse_headers): Handle the libmagic
+	and headerline regexes in the same manner, eliding a static variable
+	while renaming some others.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to

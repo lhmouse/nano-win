@@ -118,8 +118,6 @@ static char *nanorc = NULL;
 #ifndef DISABLE_COLOR
 static syntaxtype *endsyntax = NULL;
 	/* The end of the list of syntaxes. */
-static exttype *endheader = NULL;
-	/* End of header list. */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
@@ -321,7 +319,6 @@ void parse_syntax(char *ptr)
     endsyntax->desc = mallocstrcpy(NULL, nameptr);
     endsyntax->color = NULL;
     endcolor = NULL;
-    endheader = NULL;
     endsyntax->extensions = NULL;
     endsyntax->headers = NULL;
     endsyntax->magics = NULL;
@@ -387,7 +384,7 @@ void parse_magictype(char *ptr)
 {
 #ifdef HAVE_LIBMAGIC
     const char *fileregptr = NULL;
-    exttype *endext = NULL;
+    exttype *endmagic = NULL;
 
     assert(ptr != NULL);
 
@@ -414,7 +411,7 @@ void parse_magictype(char *ptr)
 
     /* Now load the magic regexes into their part of the struct. */
     while (*ptr != '\0') {
-	exttype *newext;
+	exttype *newmagic;
 
 	while (*ptr != '"' && *ptr != '\0')
 	    ptr++;
@@ -429,21 +426,21 @@ void parse_magictype(char *ptr)
 	if (ptr == NULL)
 	    break;
 
-	newext = (exttype *)nmalloc(sizeof(exttype));
+	newmagic = (exttype *)nmalloc(sizeof(exttype));
 
-	/* Save the regex if it's valid. */
+	/* Save the regex string if it's valid. */
 	if (nregcomp(fileregptr, REG_NOSUB)) {
-	    newext->ext_regex = mallocstrcpy(NULL, fileregptr);
-	    newext->ext = NULL;
+	    newmagic->ext_regex = mallocstrcpy(NULL, fileregptr);
+	    newmagic->ext = NULL;
 
-	    if (endext == NULL)
-		endsyntax->magics = newext;
+	    if (endmagic == NULL)
+		endsyntax->magics = newmagic;
 	    else
-		endext->next = newext;
-	    endext = newext;
-	    endext->next = NULL;
+		endmagic->next = newmagic;
+	    endmagic = newmagic;
+	    endmagic->next = NULL;
 	} else
-	    free(newext);
+	    free(newmagic);
     }
 #endif /* HAVE_LIBMAGIC */
 }
@@ -880,6 +877,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 void parse_headers(char *ptr)
 {
     char *regstr;
+    exttype *endheader = NULL;
 
     assert(ptr != NULL);
 
@@ -917,19 +915,13 @@ void parse_headers(char *ptr)
 	if (nregcomp(regstr, 0)) {
 	    newheader->ext_regex = mallocstrcpy(NULL, regstr);
 	    newheader->ext = NULL;
-	    newheader->next = NULL;
 
-#ifdef DEBUG
-	     fprintf(stderr, "Starting a new header entry: %s\n", newheader->ext_regex);
-#endif
-
-	    if (endheader == NULL) {
+	    if (endheader == NULL)
 		endsyntax->headers = newheader;
-	    } else {
+	    else
 		endheader->next = newheader;
-	    }
-
 	    endheader = newheader;
+	    endheader->next = NULL;
 	} else
 	    free(newheader);
     }
