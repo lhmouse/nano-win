@@ -226,23 +226,23 @@ typedef struct colortype {
 	/* Basic id for assigning to lines later. */
 } colortype;
 
-typedef struct exttype {
+typedef struct regexlisttype {
     char *ext_regex;
 	/* The regexstrings for the things that match this syntax. */
     regex_t *ext;
 	/* The compiled regexes. */
-    struct exttype *next;
+    struct regexlisttype *next;
 	/* Next set of regexes. */
-} exttype;
+} regexlisttype;
 
 typedef struct syntaxtype {
     char *desc;
 	/* The name of this syntax. */
-    exttype *extensions;
+    regexlisttype *extensions;
 	/* The list of extensions that this syntax applies to. */
-    exttype *headers;
+    regexlisttype *headers;
 	/* The list of headerlines that this syntax applies to. */
-    exttype *magics;
+    regexlisttype *magics;
 	/* The list of libmagic results that this syntax applies to. */
     colortype *color;
 	/* The colors used in this syntax. */

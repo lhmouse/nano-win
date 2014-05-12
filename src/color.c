@@ -153,7 +153,7 @@ void color_update(void)
     syntaxtype *tmpsyntax;
     syntaxtype *defsyntax = NULL;
     colortype *tmpcolor, *defcolor = NULL;
-    exttype *e;
+    regexlisttype *e;
 
 /* Var magicstring will stay NULL if we fail to get a magic result. */
 #ifdef HAVE_LIBMAGIC

@@ -257,7 +257,7 @@ void parse_syntax(char *ptr)
 {
     const char *fileregptr = NULL, *nameptr = NULL;
     syntaxtype *tmpsyntax, *prev_syntax;
-    exttype *endext = NULL;
+    regexlisttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
     assert(ptr != NULL);
@@ -346,7 +346,7 @@ void parse_syntax(char *ptr)
 
     /* Now load the extension regexes into their part of the struct. */
     while (*ptr != '\0') {
-	exttype *newext;
+	regexlisttype *newext;
 
 	while (*ptr != '"' && *ptr != '\0')
 	    ptr++;
@@ -361,7 +361,7 @@ void parse_syntax(char *ptr)
 	if (ptr == NULL)
 	    break;
 
-	newext = (exttype *)nmalloc(sizeof(exttype));
+	newext = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 
 	/* Save the extension regex if it's valid. */
 	if (nregcomp(fileregptr, REG_NOSUB)) {
@@ -383,7 +383,7 @@ void parse_syntax(char *ptr)
 void parse_magic_exp(char *ptr)
 {
 #ifdef HAVE_LIBMAGIC
-    exttype *endmagic = NULL;
+    regexlisttype *endmagic = NULL;
 
     assert(ptr != NULL);
 
@@ -411,7 +411,7 @@ void parse_magic_exp(char *ptr)
     /* Now load the magic regexes into their part of the struct. */
     while (*ptr != '\0') {
 	const char *regexstring;
-	exttype *newmagic;
+	regexlisttype *newmagic;
 
 	while (*ptr != '"' && *ptr != '\0')
 	    ptr++;
@@ -426,7 +426,7 @@ void parse_magic_exp(char *ptr)
 	if (ptr == NULL)
 	    break;
 
-	newmagic = (exttype *)nmalloc(sizeof(exttype));
+	newmagic = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 
 	/* Save the regex string if it's valid. */
 	if (nregcomp(regexstring, REG_NOSUB)) {
@@ -876,7 +876,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 /* Parse the header-line regexes that may influence the choice of syntax. */
 void parse_header_exp(char *ptr)
 {
-    exttype *endheader = NULL;
+    regexlisttype *endheader = NULL;
 
     assert(ptr != NULL);
 
@@ -893,7 +893,7 @@ void parse_header_exp(char *ptr)
 
     while (*ptr != '\0') {
 	const char *regexstring;
-	exttype *newheader;
+	regexlisttype *newheader;
 
 	if (*ptr != '"') {
 	    rcfile_error(
@@ -909,7 +909,7 @@ void parse_header_exp(char *ptr)
 	if (ptr == NULL)
 	    break;
 
-	newheader = (exttype *)nmalloc(sizeof(exttype));
+	newheader = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 
 	/* Save the regex string if it's valid */
 	if (nregcomp(regexstring, 0)) {

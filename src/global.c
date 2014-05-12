@@ -1624,9 +1624,28 @@ void thanks_for_all_the_fish(void)
 
 	free(syntaxes->desc);
 	while (syntaxes->extensions != NULL) {
-	    exttype *bob = syntaxes->extensions;
-
+	    regexlisttype *bob = syntaxes->extensions;
 	    syntaxes->extensions = bob->next;
+	    free(bob->ext_regex);
+	    if (bob->ext != NULL) {
+		regfree(bob->ext);
+		free(bob->ext);
+	    }
+	    free(bob);
+	}
+	while (syntaxes->headers != NULL) {
+	    regexlisttype *bob = syntaxes->headers;
+	    syntaxes->headers = bob->next;
+	    free(bob->ext_regex);
+	    if (bob->ext != NULL) {
+		regfree(bob->ext);
+		free(bob->ext);
+	    }
+	    free(bob);
+	}
+	while (syntaxes->magics != NULL) {
+	    regexlisttype *bob = syntaxes->magics;
+	    syntaxes->magics = bob->next;
 	    free(bob->ext_regex);
 	    if (bob->ext != NULL) {
 		regfree(bob->ext);

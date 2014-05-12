@@ -10,6 +10,9 @@
 	* src/*.h, src/rcfile.c (parse_magictype, parse_headers): Rename them
 	to parse_magic_exp() and parse_header_exp() to be more fitting, further
 	symmetrify them, and improve some comments.
+	* src/nano.h, src/color.c, src/global.c, src/rcfile.c: Rename struct
+	type 'exttype' to 'regexlisttype', to better match its functions, and
+	upon exit also free the regexes for libmagic results and headerlines.
 
 2014-05-10 Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to
