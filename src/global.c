@@ -239,12 +239,20 @@ void case_sens_void(void)
 void regexp_void(void)
 {
 }
+void backwards_void(void)
+{
+}
 void gototext_void(void)
 {
 }
+#ifndef DISABLE_BROWSER
 void to_files_void(void)
 {
 }
+void goto_dir_void(void)
+{
+}
+#endif
 void dos_format_void(void)
 {
 }
@@ -261,12 +269,6 @@ void backup_file_void(void)
 {
 }
 void new_buffer_void(void)
-{
-}
-void backwards_void(void)
-{
-}
-void goto_dir_void(void)
 {
 }
 void no_replace_void(void)
@@ -521,8 +523,10 @@ void shortcut_init(void)
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
 	N_("Search for a string or a regular expression");
+#ifndef DISABLE_BROWSER
     const char *nano_browser_whereis_msg =
 	N_("Search for a string");
+#endif
     const char *nano_prevpage_msg = N_("Go one screenful up");
     const char *nano_nextpage_msg = N_("Go one screenful down");
     const char *nano_cut_msg =
@@ -1159,7 +1163,9 @@ void shortcut_init(void)
     add_to_sclist(MWRITEFILE, "M-A", append_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-P", prepend_void, 0, FALSE);
     add_to_sclist(MWRITEFILE, "M-B", backup_file_void, 0, FALSE);
+#ifndef DISABLE_BROWSER
     add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0, FALSE);
+#endif
     add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
@@ -1482,10 +1488,12 @@ sc *strtosc(char *input)
     } else if (!strcasecmp(input, "gototext")) {
 	s->scfunc = gototext_void;
 	s->execute = FALSE;
+#ifndef DISABLE_BROWSER
     } else if (!strcasecmp(input, "browser") ||
 	       !strcasecmp(input, "tofiles")) {
 	s->scfunc = to_files_void;
 	s->execute = FALSE;
+#endif
     } else if (!strcasecmp(input, "dosformat")) {
 	s->scfunc = dos_format_void;
 	s->execute = FALSE;
