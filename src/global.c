@@ -373,15 +373,12 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
 #endif
 }
 
-/* Assign one menu's shortcuts to another function. */
+/* Assign one function's shortcuts to another function. */
 void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 {
     sc *s;
 
-    if (sclist == NULL)
-	return;
-
-    for (s = sclist; s->next != NULL; s = s->next)
+    for (s = sclist; s != NULL; s = s->next)
 	if (s->scfunc == oldfunc) {
 	    s->scfunc = newfunc;
 	}
