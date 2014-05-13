@@ -948,7 +948,7 @@ void parse_linter(char *ptr)
     if (endsyntax->linter != NULL)
 	free(endsyntax->linter);
 
-    /* Let them unset the linter by using "" */
+    /* Let them unset the linter by using "". */
     if (!strcmp(ptr, "\"\""))
 	endsyntax->linter = NULL;
     else

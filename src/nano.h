@@ -54,7 +54,7 @@
 #include <stdarg.h>
 #endif
 
-/* Suppress warnings for __attribute__((warn_unused_result)) */
+/* Suppress warnings for __attribute__((warn_unused_result)). */
 #define IGNORE_CALL_RESULT(call) do { if (call) {} } while(0)
 
 /* Macros for flags. */

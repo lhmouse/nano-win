@@ -2000,7 +2000,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    }
 	/* If buf contains a control character, interpret it.  If buf
 	 * contains an invalid multibyte control character, display it
-	 * as such.*/
+	 * as such. */
 	} else if (is_cntrl_mbchar(buf_mb)) {
 	    char *ctrl_buf_mb = charalloc(mb_cur_max());
 	    int ctrl_buf_mb_len, i;

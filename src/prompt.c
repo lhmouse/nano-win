@@ -319,7 +319,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
 		char_buf_len)))
 	    continue;
 
-	/* More dangerousness fun =) */
+	/* More dangerousness fun. =) */
 	answer = charealloc(answer, answer_len + (char_buf_len * 2));
 
 	assert(statusbar_x <= answer_len);

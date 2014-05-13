@@ -2517,7 +2517,7 @@ int diralphasort(const void *va, const void *vb)
     /* Standard function brain damage: We should be sorting
      * alphabetically and case-insensitively according to the current
      * locale, but there's no standard strcasecoll() function, so we
-     * have to use multibyte strcasecmp() instead, */
+     * have to use multibyte strcasecmp() instead. */
     return mbstrcasecmp(a, b);
 }
 
