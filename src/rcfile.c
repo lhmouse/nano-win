@@ -845,7 +845,7 @@ void parse_header_exp(char *ptr)
 
 	newheader = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 
-	/* Save the regex string if it's valid */
+	/* Save the regex string if it's valid. */
 	if (nregcomp(regexstring, 0)) {
 	    newheader->ext_regex = mallocstrcpy(NULL, regexstring);
 	    newheader->ext = NULL;

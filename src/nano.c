@@ -2667,7 +2667,7 @@ int main(int argc, char **argv)
     interface_color_pair[TITLE_BAR].bright = FALSE;
     interface_color_pair[STATUS_BAR].bright = FALSE;
     interface_color_pair[KEY_COMBO].bright = FALSE;
-    interface_color_pair[FUNCTION_TAG].bright = FALSE;	
+    interface_color_pair[FUNCTION_TAG].bright = FALSE;
 #endif
 
 #ifdef DEBUG

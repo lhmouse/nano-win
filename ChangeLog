@@ -4,6 +4,7 @@
 	* doc/syntax/nanorc.nanorc: Show key names like M-6 and M-/ as valid.
 	* src/global.c (thanks_for_all_the_fish): Upon exit also free the
 	lists with functions and shortcuts.
+	* src/*.c: Several random whitespace and comment tweaks.
 
 2014-05-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell): Provide startup feedback, as for the linter.

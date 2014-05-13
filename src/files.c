@@ -508,7 +508,6 @@ int is_file_writable(const char *filename)
     char *full_filename;
     bool ans = TRUE;
 
-
     if (ISSET(VIEW_MODE))
 	return TRUE;
 
@@ -518,7 +517,7 @@ int is_file_writable(const char *filename)
     full_filename = get_full_path(filename);
 
     /* Okay, if we can't stat the path due to a component's
-       permissions, just try the relative one */
+       permissions, just try the relative one. */
     if (full_filename == NULL
         || (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
         full_filename = mallocstrcpy(NULL, filename);
@@ -891,7 +890,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
     full_filename = get_full_path(filename);
 
     /* Okay, if we can't stat the path due to a component's
-       permissions, just try the relative one */
+       permissions, just try the relative one. */
     if (full_filename == NULL
 	|| (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
@@ -1280,7 +1279,6 @@ void do_insertfile(
  * allow inserting a file into a new buffer. */
 void do_insertfile_void(void)
 {
-
     if (ISSET(RESTRICTED)) {
         nano_disabled_msg();
 	return;
@@ -1314,7 +1312,7 @@ char *get_full_path(const char *origpath)
     bool path_only;
 
     if (origpath == NULL)
-    	return NULL;
+	return NULL;
 
     /* Get the current directory.  If it doesn't exist, back up and try
      * again until we get a directory that does, and use that as the
@@ -1731,15 +1729,14 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	goto cleanup_and_exit;
     }
 
-    /* Save the state of the file at the end of the symlink (if there is
-     * one). */
+    /* Check whether the file (at the end of the symlink) exists. */
     realexists = (stat(realname, &st) != -1);
 
 #ifndef NANO_TINY
-    /* if we have not stat()d this file before (say, the user just
-     * specified it interactively), stat and save the value
-     * or else we will chase null pointers when we do
-     * modtime checks, preserve file times, etc. during backup */
+    /* If we haven't stat()d this file before (say, the user just
+     * specified it interactively), stat and save the value now,
+     * or else we will chase null pointers when we do modtime checks,
+     * preserve file times, and so on, during backup. */
     if (openfile->current_stat == NULL && !tmp && realexists) {
 	openfile->current_stat = (struct stat *)nmalloc(sizeof(struct stat));
 	stat(realname, openfile->current_stat);
@@ -2912,7 +2909,6 @@ char *construct_filename(const char *str)
     }
 
     return newstr;
-
 }
 
 char *histfilename(void)
@@ -3197,7 +3193,7 @@ void load_poshistory(void)
 	    ssize_t read, lineno, xno;
 	    poshiststruct *posptr;
 
-	    /* See if we can find the file we're currently editing */
+	    /* See if we can find the file we're currently editing. */
 	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
 		if (read > 0 && line[read - 1] == '\n') {
 		    read--;

@@ -381,7 +381,6 @@ void undo_cut(undo *u)
     copy_from_filestruct(cutbuffer);
     free_filestruct(cutbuffer);
     cutbuffer = NULL;
-
 }
 
 /* Redo a cut, or undo an uncut. */
@@ -2984,7 +2983,7 @@ void do_spell(void)
 #endif /* !DISABLE_SPELLER */
 
 #ifndef DISABLE_COLOR
-/* Cleanup things to do after leaving the linter */
+/* Cleanup things to do after leaving the linter. */
 void lint_cleanup(void)
 {
     currmenu = MMAIN;

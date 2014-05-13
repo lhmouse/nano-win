@@ -311,7 +311,8 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
     /* Read in a character and interpret it.  Continue doing this until
      * we get a recognized value or sequence. */
-    while ((kbinput = parse_kbinput(win, meta_key, func_key)) == ERR);
+    while ((kbinput = parse_kbinput(win, meta_key, func_key)) == ERR)
+	;
 
     /* If we read from the edit window, blank the statusbar if we need
      * to. */
@@ -339,7 +340,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	if (kbinput == 0)
 	    return 0;
     } else
-	while ((kbinput = get_input(win, 1)) == NULL);
+	while ((kbinput = get_input(win, 1)) == NULL)
+	    ;
 
     switch (*kbinput) {
 	case ERR:
@@ -1529,7 +1531,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     int *kbinput, *retval;
 
     /* Read in the first keystroke. */
-    while ((kbinput = get_input(win, 1)) == NULL);
+    while ((kbinput = get_input(win, 1)) == NULL)
+	;
 
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
@@ -1555,8 +1558,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 		statusbar(_("Unicode Input"));
 
 	    while (uni == ERR) {
-		while ((kbinput = get_input(win, 1)) == NULL);
-
+		while ((kbinput = get_input(win, 1)) == NULL)
+		    ;
 		uni = get_unicode_kbinput(*kbinput);
 	    }
 
@@ -2896,10 +2899,10 @@ int update_line(filestruct *fileptr, size_t index)
 #ifdef DEBUG
 	    fprintf(stderr, "update_line(): Softwrap code, moving to %d index %lu\n", line, (unsigned long) index);
 #endif
- 	    blank_line(edit, line, 0, COLS);
+	    blank_line(edit, line, 0, COLS);
 
 	    /* Expand the line, replacing tabs with spaces, and control
- 	     * characters with their displayed forms. */
+	     * characters with their displayed forms. */
 	    converted = display_string(fileptr->data, index, COLS, !ISSET(SOFTWRAP));
 #ifdef DEBUG
 	    if (ISSET(SOFTWRAP) && strlen(converted) >= COLS - 2)
@@ -2908,7 +2911,7 @@ int update_line(filestruct *fileptr, size_t index)
 
 	    /* Paint the line. */
 	    edit_draw(fileptr, converted, line, index);
- 	    free(converted);
+	    free(converted);
 	    extralinesused++;
 	}
     }
@@ -3096,10 +3099,9 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	maxrows || openfile->current->lineno <
 	openfile->edittop->lineno || openfile->current->lineno >=
 	openfile->edittop->lineno + maxrows) {
-
 #ifdef DEBUG
-    fprintf(stderr, "edit_redraw(): line %d was offscreen, oldcurrent = %d edittop = %d",
-	openfile->current->lineno, old_current->lineno, openfile->edittop->lineno);
+	fprintf(stderr, "edit_redraw(): line %d was offscreen, oldcurrent = %d edittop = %d",
+	    openfile->current->lineno, old_current->lineno, openfile->edittop->lineno);
 #endif
 
 #ifndef NANO_TINY

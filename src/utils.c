@@ -630,7 +630,7 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
     return totsize;
 }
 
-/* Get back a pointer given a line number in the current openfilestruct */
+/* Get back a pointer given a line number in the current openfilestruct. */
 filestruct *fsfromline(ssize_t lineno)
 {
     filestruct *f = openfile->current;

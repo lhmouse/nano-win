@@ -118,7 +118,7 @@ size_t quotelen;
 #endif
 
 bool nodelay_mode = FALSE;
-	/* Are we in nodelay mode (checking for a cancel wile doing something */
+	/* Are we checking for a cancel wile doing something? */
 
 char *answer = NULL;
 	/* The answer string used by the statusbar prompt. */
@@ -132,9 +132,9 @@ char *backup_dir = NULL;
 	/* The directory where we store backup files. */
 
 const char *locking_prefix = ".";
-        /* Prefix of how to store the vim-style lock file */
+        /* Prefix of how to store the vim-style lock file. */
 const char *locking_suffix = ".swp";
-        /* Suffix of the vim-style lock file */
+        /* Suffix of the vim-style lock file. */
 #endif
 #ifndef DISABLE_OPERATINGDIR
 char *operating_dir = NULL;

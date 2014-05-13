@@ -376,23 +376,23 @@ void help_init(void)
     if (htx[2] != NULL)
 	allocsize += strlen(htx[2]);
 
-    /* Count the shortcut help text.  Each entry has up to three keys,
-     * which fill 24 columns, plus translated text, plus one or two
-     * \n's. */
+    /* Calculate the length of the shortcut help text.  Each entry has
+     * one or two keys, which fill 16 columns, plus translated text,
+     * plus one or two \n's. */
 	for (f = allfuncs; f != NULL; f = f->next)
 	    if (f->menus & currmenu)
-		allocsize += (24 * mb_cur_max()) + strlen(f->help) + 2;
+		allocsize += (16 * mb_cur_max()) + strlen(f->help) + 2;
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
-     * Each entry has "M-%c\t\t\t", which fills 24 columns, plus a
-     * space, plus translated text, plus one or two '\n's. */
+     * Each entry has "M-%c\t\t", five chars which fill 16 columns,
+     * plus a space, plus translated text, plus one or two '\n's. */
     if (currmenu == MMAIN) {
 	size_t endis_len = strlen(_("enable/disable"));
 
 	for (s = sclist; s != NULL; s = s->next)
 	    if (s->scfunc == do_toggle_void)
-		allocsize += strlen(_(flagtostr(s->toggle))) + endis_len + 9;
+		allocsize += strlen(_(flagtostr(s->toggle))) + endis_len + 8;
     }
 #endif
 
@@ -474,7 +474,7 @@ void help_init(void)
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
 #endif
-#endif
+#endif /* !NANO_TINY */
 
     /* If all went well, we didn't overwrite the allocated space for
      * help_text. */
