@@ -3010,7 +3010,7 @@ void do_linter(void)
     lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
     if (!openfile->syntax || !openfile->syntax->linter) {
-	statusbar(_("No linter defined for this file!"));
+	statusbar(_("No linter defined for this type of file!"));
 	return;
     }
 
