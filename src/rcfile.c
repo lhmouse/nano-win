@@ -479,7 +479,7 @@ void parse_binding(char *ptr, bool dobind)
     if (dobind)
 	fprintf(stderr, "newsc address is now %ld, assigned func = %ld, menu = %x\n",
 	    (long)&newsc, (long)newsc->scfunc, menu);
-   else
+    else
 	fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
 #endif
 
@@ -494,7 +494,8 @@ void parse_binding(char *ptr, bool dobind)
 #endif
 
 	if (check_bad_binding(newsc)) {
-	    rcfile_error(N_("Sorry, keystr \"%s\" is an illegal binding"), newsc->keystr);
+	    rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
+	    free(newsc);
 	    return;
 	}
     }

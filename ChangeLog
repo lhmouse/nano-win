@@ -1,5 +1,6 @@
 2014-05-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): Make an error message somewhat clearer.
+	* src/rcfile.c (parse_binding): Improve another error message.
 
 2014-05-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell): Provide startup feedback, as for the linter.
