@@ -425,9 +425,6 @@ void help_init(void)
 	/* Let's simply show the first two shortcuts from the list. */
 	for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
 
-	    if (scsfound == 2)
-		continue;
-
 	    if (s->type == RAWINPUT)
 		continue;
 
@@ -443,6 +440,7 @@ void help_init(void)
 		    ptr += 6;
 		} else {
 		    ptr += sprintf(ptr, "(%s)\t", s->keystr);
+		    break;
 		}
 	    }
 	}
