@@ -666,7 +666,7 @@ void shortcut_init(void)
 
     while (allfuncs != NULL) {
         subnfunc *f = allfuncs;
-        allfuncs = (allfuncs)->next;
+        allfuncs = allfuncs->next;
         free(f);
     }
 
@@ -1681,6 +1681,17 @@ void thanks_for_all_the_fish(void)
     if (replaceage != NULL)
 	free_filestruct(replaceage);
 #endif
+    /* Free the functions and shortcuts lists. */
+    while (allfuncs != NULL) {
+        subnfunc *f = allfuncs;
+        allfuncs = allfuncs->next;
+        free(f);
+    }
+    while (sclist != NULL) {
+        subnfunc *f = sclist;
+        sclist = sclist->next;
+        free(f);
+    }
 #ifndef DISABLE_NANORC
     if (homedir != NULL)
 	free(homedir);

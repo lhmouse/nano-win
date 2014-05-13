@@ -2,6 +2,8 @@
 	* src/text.c (do_linter): Make an error message somewhat clearer.
 	* src/rcfile.c (parse_binding): Improve another error message.
 	* doc/syntax/nanorc.nanorc: Show key names like M-6 and M-/ as valid.
+	* src/global.c (thanks_for_all_the_fish): Upon exit also free the
+	lists with functions and shortcuts.
 
 2014-05-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell): Provide startup feedback, as for the linter.
