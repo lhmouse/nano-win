@@ -1688,9 +1688,9 @@ void thanks_for_all_the_fish(void)
         free(f);
     }
     while (sclist != NULL) {
-        subnfunc *f = sclist;
+        sc *s = sclist;
         sclist = sclist->next;
-        free(f);
+        free(s);
     }
 #ifndef DISABLE_NANORC
     if (homedir != NULL)
