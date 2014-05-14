@@ -48,11 +48,11 @@
 	* src/rcfile.c (parse_color_names): Redefine false and true to
 	  their appropriate macro names so --with-slang works (slangv2 anyway).
 	* src/text.c (do_linter): Care about whether user cancelled the file
-	  save (cancel the operation) versus justy said no (continue but don't
+	  save (cancel the operation) versus just said no (continue but don't
 	  save the file).  Also doupdate() after statusbar message that
 	  linter is being invoked and blank the shortcuts to draw the eye.
 	  Also allow user to cancel at the "open in a new buffer" prompt.
-	  New function lint_cleanup().  Fixes Savannah bug 42203.
+	  New function lint_cleanup().  Fixes Savannah bug #42203.
 
 2014-05-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Make syntax highlighting into a separate
@@ -150,8 +150,8 @@
 
 2014-04-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/faq.html: Update a few URLs, delete some obsolete ones, update
-	the section on configuration flags and on translating nano, a whole
-	series of other small fixes and adjustments.
+	the section on configuration flags and on translating nano, plus a
+	whole series of other small fixes and adjustments.
 
 2014-04-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c, src/help.c, src/text.c, src/browser.c: Remove
@@ -536,7 +536,7 @@
 	  list, since the next pass via justifying will then remove all
 	  custom shortcuts.  Fixes bug discovered by Benno Schulenberg.
 	* text.c (do_linter): Remove some unused variables to quiet
-	  -pedanic -Wall.
+	  -pedantic -Wall.
 
 2014-03-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_funcs): Add a newline, for clarity.
