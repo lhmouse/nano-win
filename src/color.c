@@ -310,6 +310,8 @@ void color_update(void)
 		    if (not_compiled)
 			nfreeregex(&e->ext);
 		}
+		if (openfile->syntax)
+		    break;
 	    }
 	    if (stat(openfile->filename, &fileinfo) == 0)
 		magic_close(cookie);

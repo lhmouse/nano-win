@@ -8,6 +8,7 @@
 	* src/color.c (color_update): Open the magic database only when
 	actually going to use it, and close it afterward.
 	* doc/syntax/{perl.nanorc,xml.nanorc}: Improve two magic regexes.
+	* src/color.c (color_update): Stop seeking when a magic matched.
 
 2014-05-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): Make an error message somewhat clearer.
