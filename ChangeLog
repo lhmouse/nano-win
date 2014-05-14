@@ -9,6 +9,8 @@
 	actually going to use it, and close it afterward.
 	* doc/syntax/{perl.nanorc,xml.nanorc}: Improve two magic regexes.
 	* src/color.c (color_update): Stop seeking when a magic matched.
+	* doc/nanorc.sample.in: Add an example of colouring nano's interface
+	elements, and tweak some of the other descriptions.
 
 2014-05-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): Make an error message somewhat clearer.

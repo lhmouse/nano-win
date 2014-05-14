@@ -23,7 +23,7 @@
 ## Use auto-indentation.
 # set autoindent
 
-## Backup files to filename~.
+## Back up files to the current filename plus a tilde.
 # set backup
 
 ## The directory to put unique backup files in.
@@ -78,9 +78,8 @@
 ## Window System, and on the console when gpm is running.
 # set mouse
 
-## Allow multiple file buffers (inserting a file will put it into a
-## separate buffer).  You must have configured with --enable-multibuffer
-## for this to work.
+## Switch on multiple file buffers (inserting a file will put it into
+## a separate buffer).
 # set multibuffer
 
 ## Don't convert files from DOS/Mac format.
@@ -186,7 +185,15 @@
 # set wordbounds
 
 
-## Color setup
+## Paint the interface elements of nano.
+## This is an example, by default there are no colors.
+# set titlecolor brightwhite,blue
+# set statuscolor brightwhite,green
+# set keycolor green
+# set functioncolor yellow
+
+
+## Setup of syntax coloring.
 ##
 ## Format:
 ##
@@ -201,8 +208,8 @@
 ## or
 ## icolor foreground,background "regex" ["regex"...]
 ##
-## "color" will do case sensitive matches, while "icolor" will do case
-## insensitive matches.
+## "color" will do case-sensitive matches, while "icolor" will do
+## case-insensitive matches.
 ##
 ## Valid colors: white, black, red, blue, green, yellow, magenta, cyan.
 ## For foreground colors, you may use the prefix "bright" to get a
@@ -215,9 +222,10 @@
 ## color will use a transparent color.  If you don't want this, be sure
 ## to set the background color to black or white.
 ##
-## If you wish, you may put your syntaxes in separate files.  You can
-## make use of such files (which can only include "syntax", "color", and
-## "icolor" commands) as follows:
+## All regexes should be extended regular expressions.
+##
+## If you wish, you may put your syntax definitions in separate files.
+## You can make use of such files as follows:
 ##
 ## include "/path/to/syntax_file.nanorc"
 ##
@@ -226,15 +234,14 @@
 ## name inside that file.  These names are kept fairly short to make
 ## them easier to remember and faster to type using nano's -Y option.
 ##
-## All regexes should be extended regular expressions.
-
+## To include all existing syntax definitions, you can do:
 # include "@PKGDATADIR@/*.nanorc"
 
 
-## Key bindings
-## Please see nanorc(5) for more details on this.
+## Key bindings.
+## See nanorc(5) for more details on this.
 ##
-## Here are some samples to get you going.
+## Here are a few samples to get you going.
 ##
 # bind M-W nowrap main
 # bind M-A casesens search
