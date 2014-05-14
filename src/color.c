@@ -158,7 +158,7 @@ void color_update(void)
 /* Var magicstring will stay NULL if we fail to get a magic result. */
 #ifdef HAVE_LIBMAGIC
     const char *magicstring = NULL;
-    magic_t cookie;
+    magic_t cookie = NULL;
     struct stat fileinfo;
 #endif
 
@@ -185,28 +185,6 @@ void color_update(void)
 		break;
 	}
     }
-
-#ifdef HAVE_LIBMAGIC
-    if (stat(openfile->filename, &fileinfo) == 0) {
-	cookie = magic_open(MAGIC_SYMLINK |
-#ifdef DEBUG
-		       MAGIC_DEBUG | MAGIC_CHECK |
-#endif
-		       MAGIC_ERROR);
-	if (cookie == NULL || magic_load(cookie, NULL) < 0)
-	    statusbar(_("magic_load() failed: %s"), strerror(errno));
-	else {
-	    magicstring = magic_file(cookie, openfile->filename);
-	    if (magicstring == NULL) {
-		statusbar(_("magic_file(%s) failed: %s"),
-				openfile->filename, magic_error(cookie));
-	    }
-#ifdef DEBUG
-	    fprintf(stderr, "Returned magic string is: %s\n", magicstring);
-#endif
-	}
-    }
-#endif /* HAVE_LIBMAGIC */
 
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
@@ -287,6 +265,28 @@ void color_update(void)
 #ifdef DEBUG
 	    fprintf(stderr, "No result from headerline either, trying libmagic...\n");
 #endif
+	    if (stat(openfile->filename, &fileinfo) == 0) {
+		/* Open the magic database and get a diagnosis of the file. */
+		cookie = magic_open(MAGIC_SYMLINK |
+#ifdef DEBUG
+				       MAGIC_DEBUG | MAGIC_CHECK |
+#endif
+				       MAGIC_ERROR);
+		if (cookie == NULL || magic_load(cookie, NULL) < 0)
+		    statusbar(_("magic_load() failed: %s"), strerror(errno));
+		else {
+		    magicstring = magic_file(cookie, openfile->filename);
+		    if (magicstring == NULL) {
+			statusbar(_("magic_file(%s) failed: %s"),
+					openfile->filename, magic_error(cookie));
+		    }
+#ifdef DEBUG
+		    fprintf(stderr, "Returned magic string is: %s\n", magicstring);
+#endif
+		}
+	    }
+
+	    /* Now try and find a syntax that matches the magicstring. */
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
 
@@ -311,6 +311,8 @@ void color_update(void)
 			nfreeregex(&e->ext);
 		}
 	    }
+	    if (stat(openfile->filename, &fileinfo) == 0)
+		magic_close(cookie);
 	}
 #endif /* HAVE_LIBMAGIC */
     }
