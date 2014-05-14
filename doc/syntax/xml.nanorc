@@ -1,7 +1,8 @@
 ## Here is an example for XML files.
-##
+
 syntax "xml" "\.([jrs]html?|sgml?|xml|xslt?)$"
-magic "XML.*document text"
+magic "(XML|SGML) (sub)?document text"
+
 color green  start="<" end=">"
 color cyan   "<[^> ]+"
 color cyan   ">"
