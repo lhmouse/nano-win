@@ -201,7 +201,6 @@ void color_update(void)
 		statusbar(_("magic_file(%s) failed: %s"),
 				openfile->filename, magic_error(cookie));
 	    }
-	    magic_close(cookie);
 #ifdef DEBUG
 	    fprintf(stderr, "Returned magic string is: %s\n", magicstring);
 #endif
