@@ -249,41 +249,10 @@ void color_update(void)
 	    }
 	}
 
-#ifdef HAVE_LIBMAGIC
-	/* Check magic if we don't have an answer yet. */
+	/* Check the headerline if the extension didn't match anything. */
 	if (openfile->colorstrings == NULL) {
 #ifdef DEBUG
-	    fprintf(stderr, "No match using extension, trying libmagic...\n");
-#endif
-	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-		tmpsyntax = tmpsyntax->next) {
-		for (e = tmpsyntax->magics; e != NULL; e = e->next) {
-		    bool not_compiled = (e->ext == NULL);
-		    if (not_compiled) {
-			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
-		    }
-#ifdef DEBUG
-		    fprintf(stderr, "Matching regex \"%s\" against \"%s\"\n", e->ext_regex, magicstring);
-#endif
-		    /* Set colorstrings if we match the magic-string regex. */
-		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
-			openfile->syntax = tmpsyntax;
-			openfile->colorstrings = tmpsyntax->color;
-			break;
-		    }
-
-		    if (not_compiled)
-			nfreeregex(&e->ext);
-		}
-	    }
-	}
-#endif /* HAVE_LIBMAGIC */
-
-	/* If we haven't matched anything yet, try the headers. */
-	if (openfile->colorstrings == NULL) {
-#ifdef DEBUG
-	    fprintf(stderr, "No match for file extensions, looking at headers...\n");
+	    fprintf(stderr, "No result from file extension, trying headerline...\n");
 #endif
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
@@ -311,6 +280,39 @@ void color_update(void)
 		}
 	    }
 	}
+
+#ifdef HAVE_LIBMAGIC
+	/* Check magic if we don't have an answer yet. */
+	if (openfile->colorstrings == NULL) {
+#ifdef DEBUG
+	    fprintf(stderr, "No result from headerline either, trying libmagic...\n");
+#endif
+	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+		tmpsyntax = tmpsyntax->next) {
+
+		for (e = tmpsyntax->magics; e != NULL; e = e->next) {
+		    bool not_compiled = (e->ext == NULL);
+
+		    if (not_compiled) {
+			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
+			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
+		    }
+#ifdef DEBUG
+		    fprintf(stderr, "Matching regex \"%s\" against \"%s\"\n", e->ext_regex, magicstring);
+#endif
+		    /* Set colorstrings if we match the magic-string regex. */
+		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
+			openfile->syntax = tmpsyntax;
+			openfile->colorstrings = tmpsyntax->color;
+			break;
+		    }
+
+		    if (not_compiled)
+			nfreeregex(&e->ext);
+		}
+	    }
+	}
+#endif /* HAVE_LIBMAGIC */
     }
 
     /* If we didn't find any syntax yet, and we do have a default one,
