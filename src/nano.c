@@ -1846,7 +1846,7 @@ void alloc_multidata_if_needed(filestruct *fileptr)
 void precalc_multicolorinfo(void)
 {
 #ifdef DEBUG
-	    fprintf(stderr, "entering precalc_multicolorinfo()\n");
+    fprintf(stderr, "Entering precalculation of multiline color info\n");
 #endif
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
@@ -1866,14 +1866,14 @@ void precalc_multicolorinfo(void)
 	    if (tmpcolor->end == NULL)
 		continue;
 #ifdef DEBUG
-	    fprintf(stderr, "working on color id %d\n", tmpcolor->id);
+	    fprintf(stderr, "Starting work on color id %d\n", tmpcolor->id);
 #endif
 
 	    for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 		int startx = 0;
 		int nostart = 0;
 #ifdef DEBUG
-		fprintf(stderr, "working on lineno %lu\n", (unsigned long) fileptr->lineno);
+		fprintf(stderr, "working on lineno %lu... ", (unsigned long) fileptr->lineno);
 #endif
 
 		alloc_multidata_if_needed(fileptr);
@@ -1885,14 +1885,14 @@ void precalc_multicolorinfo(void)
 		}
 
 		while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx], 1, &startmatch, 0)) == 0) {
-		    /* Look for end, and start marking how many lines are
-		     * encompassed which should speed up rendering later. */
+		    /* Look for an end, and start marking how many lines are
+		     * encompassed, which should speed up rendering later. */
 		    startx += startmatch.rm_eo;
 #ifdef DEBUG
-		    fprintf(stderr, "match found at pos %d...", startx);
+		    fprintf(stderr, "start found at pos %d... ", startx);
 #endif
 
-		    /* Look on this line first for end. */
+		    /* Look first on this line for an end. */
 		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch, 0) == 0) {
 			startx += endmatch.rm_eo;
 			fileptr->multidata[tmpcolor->id] |= CSTARTENDHERE;
@@ -1905,7 +1905,7 @@ void precalc_multicolorinfo(void)
 		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
 #ifdef DEBUG
-			fprintf(stderr, "advancing to line %lu to find end...\n", (unsigned long) endptr->lineno);
+			fprintf(stderr, "\nadvancing to line %lu to find end... ", (unsigned long) endptr->lineno);
 #endif
 			/* Check for keyboard input, again. */
 			if ((cur_check = time(NULL)) - last_check > 1) {
@@ -1941,21 +1941,19 @@ void precalc_multicolorinfo(void)
 #endif
 		    }
 		    alloc_multidata_if_needed(endptr);
+		    fileptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %lu as BEGINBEFORE\n", (unsigned long) fileptr->lineno);
+		    fprintf(stderr, "marking line %lu as CBEGINBEFORE\n", (unsigned long) fileptr->lineno);
 #endif
-		    endptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
-		    /* We should be able to skip all the way to the line of the match.
-		     * This may introduce more bugs but it's the Right Thing to do. */
-		    fileptr = endptr;
+		    /* Skip to the end point of the match. */
 		    startx = endmatch.rm_eo;
 #ifdef DEBUG
-		    fprintf(stderr, "jumping to line %lu pos %d to continue\n", (unsigned long) endptr->lineno, startx);
+		    fprintf(stderr, "jumping to line %lu pos %d to continue\n", (unsigned long) fileptr->lineno, startx);
 #endif
 		}
 		if (nostart && startx == 0) {
 #ifdef DEBUG
-		    fprintf(stderr, "no start found on line %lu, continuing\n", (unsigned long) fileptr->lineno);
+		    fprintf(stderr, "no match\n");
 #endif
 		    fileptr->multidata[tmpcolor->id] = CNONE;
 		    continue;

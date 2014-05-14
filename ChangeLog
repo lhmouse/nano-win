@@ -2,6 +2,8 @@
 	* src/winio.c (edit_draw): Poke a non-breaking space into the last
 	column of every line, to startle the terminal into handling wide,
 	two-column characters properly.  This fixes Savannah bug #31743.
+	* src/nano.c (precalc_multicolorinfo): Improve debugging messages,
+	and remove superfluous assignment (fileptr already equals endptr).
 
 2014-05-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): Make an error message somewhat clearer.
