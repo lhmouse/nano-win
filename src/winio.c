@@ -2495,6 +2495,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     /* Just paint the string in any case (we'll add color or reverse on
      * just the text that needs it). */
     mvwaddstr(edit, line, 0, converted);
+#ifdef ENABLE_UTF8
+    if (using_utf8())
+	/* Tickle the terminal into displaying two-column characters properly. */
+	mvwaddstr(edit, line, COLS - 1, "\xC2\xA0\x00");
+#endif
 
 #ifndef DISABLE_COLOR
     /* If color syntaxes are available and turned on, we need to display
