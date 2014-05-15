@@ -1,3 +1,6 @@
+2014-05-15  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/c.nanorc: Improve the magic regex, plus tweaks.
+
 2014-05-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Poke a non-breaking space into the last
 	column of every line, to startle the terminal into handling wide,
