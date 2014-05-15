@@ -57,10 +57,9 @@
 /* Suppress warnings for __attribute__((warn_unused_result)). */
 #define IGNORE_CALL_RESULT(call) do { if (call) {} } while(0)
 
-/* Macros for flags. */
-#define FLAGOFF(flag) ((flag) / (sizeof(unsigned) * 8))
+/* Macros for flags, indexing each bit in a small array. */
+#define FLAGS(flag) flags[((flag) / (sizeof(unsigned) * 8))]
 #define FLAGMASK(flag) (1 << ((flag) % (sizeof(unsigned) * 8)))
-#define FLAGS(flag) flags[FLAGOFF(flag)]
 #define SET(flag) FLAGS(flag) |= FLAGMASK(flag)
 #define UNSET(flag) FLAGS(flag) &= ~FLAGMASK(flag)
 #define ISSET(flag) ((FLAGS(flag) & FLAGMASK(flag)) != 0)
@@ -497,8 +496,7 @@ enum
     NUMBER_OF_ELEMENTS
 };
 
-/* Enumeration to be used in flags table. See FLAGBIT and FLAGOFF
- * definitions. */
+/* Enumeration used in the flags array.  See the definition of FLAGMASK. */
 enum
 {
     DONTUSE,
