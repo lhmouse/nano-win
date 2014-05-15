@@ -1,7 +1,8 @@
 2014-05-15  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/c.nanorc: Improve the magic regex, plus tweaks.
-	* src/color.c (color_update): Adjust comment, and be clear.
+	* src/color.c (color_update): Adjust a comment, and be clearer.
 	* src/nano.h: Improve two comments, and elide one macro.
+	* doc/syntax/Makefile.am: Add texinfo.nanorc to the packing list.
 
 2014-05-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Poke a non-breaking space into the last

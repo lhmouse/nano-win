@@ -31,6 +31,7 @@ pkgdata_DATA =	asm.nanorc \
 		spec.nanorc \
 		tcl.nanorc \
 		tex.nanorc \
+		texinfo.nanorc \
 		xml.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA)
