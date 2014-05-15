@@ -188,7 +188,7 @@ void color_update(void)
 
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
-     * file extension, then try magic, and then look in the header. */
+     * file extension, then try the headerline, and then try magic. */
     if (openfile->colorstrings == NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
@@ -310,7 +310,7 @@ void color_update(void)
 		    if (not_compiled)
 			nfreeregex(&e->ext);
 		}
-		if (openfile->syntax)
+		if (openfile->syntax != NULL)
 		    break;
 	    }
 	    if (stat(openfile->filename, &fileinfo) == 0)
