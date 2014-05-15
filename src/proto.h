@@ -604,6 +604,7 @@ void do_gotolinecolumn_void(void);
 void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
 	pos_pww);
 #endif
+void goto_line_posx(ssize_t line, size_t pos_x);
 #ifndef NANO_TINY
 bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);

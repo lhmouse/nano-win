@@ -476,7 +476,10 @@ size_t get_page_start(size_t column)
  * current_x. */
 size_t xplustabs(void)
 {
-    return strnlenpt(openfile->current->data, openfile->current_x);
+    if (openfile->current)
+	return strnlenpt(openfile->current->data, openfile->current_x);
+    else
+	return 0;
 }
 
 /* Return the index in s of the character displayed at the given column,

@@ -570,7 +570,7 @@ void do_down(
 #endif
 
     /* If we're at the bottom of the file, get out. */
-    if (openfile->current == openfile->filebot)
+    if (openfile->current == openfile->filebot || !openfile->current->next)
 	return;
 
     assert(ISSET(SOFTWRAP) || openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);

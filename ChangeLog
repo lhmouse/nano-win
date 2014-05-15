@@ -1,3 +1,8 @@
+2014-05-15  Mark Majeres  <mark@engine12.com>
+	* src/*, but mainly src/text.c (undo_cut, redo_cut, do_undo, do_redo):
+	Go to the correct positions for undoing/redoing the cuts and pastes.
+	This fixes several undo problems and Savannah bug #25585.
+
 2014-05-15  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/c.nanorc: Improve the magic regex, plus tweaks.
 	* src/color.c (color_update): Adjust a comment, and be clearer.

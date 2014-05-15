@@ -112,9 +112,8 @@ void do_delete(void)
 	    edit_refresh_needed = TRUE;
 
 	openfile->current->data = charealloc(openfile->current->data,
-		openfile->current_x + strlen(foo->data) + 1);
-	strcpy(openfile->current->data + openfile->current_x,
-		foo->data);
+		strlen(openfile->current->data) + strlen(foo->data) + 1);
+	strcat(openfile->current->data, foo->data);
 #ifndef NANO_TINY
 	if (openfile->mark_set && openfile->mark_begin ==
 		openfile->current->next) {
@@ -359,6 +358,9 @@ void do_unindent(void)
     do_indent(-tabsize);
 }
 
+#define redo_paste undo_cut
+#define undo_paste redo_cut
+
 /* Undo a cut, or redo an uncut. */
 void undo_cut(undo *u)
 {
@@ -373,10 +375,7 @@ void undo_cut(undo *u)
 	;
 
     /* Get to where we need to uncut from. */
-    if (u->mark_set && u->mark_begin_lineno < u->lineno)
-	do_gotolinecolumn(u->mark_begin_lineno, u->mark_begin_x+1, FALSE, FALSE, FALSE, FALSE);
-    else
-	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+    goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 
     copy_from_filestruct(cutbuffer);
     free_filestruct(cutbuffer);
@@ -386,39 +385,26 @@ void undo_cut(undo *u)
 /* Redo a cut, or undo an uncut. */
 void redo_cut(undo *u)
 {
-    int i;
-    filestruct *t, *c;
-
     /* If we cut the magicline, we may as well not crash. :/ */
     if (!u->cutbuffer)
 	return;
 
-    do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+    goto_line_posx(u->lineno, u->begin);
+
+    if (ISSET(NO_NEWLINES) && openfile->current->lineno != u->lineno) {
+	openfile->current_x = strlen(openfile->current->data);
+	openfile->placewewant = xplustabs();
+    }
+
     openfile->mark_set = u->mark_set;
     if (cutbuffer)
 	free(cutbuffer);
     cutbuffer = NULL;
 
-    /* Move ahead the same number of lines we had if a marked cut. */
-    if (u->mark_set) {
-	for (i = 1, t = openfile->fileage; i != u->mark_begin_lineno; i++)
-	    t = t->next;
-	openfile->mark_begin = t;
-    } else if (!u->to_end) {
-	/* Here we have a regular old potentially multi-line ^K cut.
-	 * We'll need to trick nano into thinking it's a marked cut,
-	 * to cut more than one line again. */
-	for (c = u->cutbuffer, t = openfile->current; c->next != NULL && t->next != NULL; ) {
-#ifdef DEBUG
-	    fprintf(stderr, "Advancing, lineno = %lu, data = \"%s\"\n", (unsigned long) t->lineno, t->data);
-#endif
-	    c = c->next;
-	    t = t->next;
-	}
-	openfile->mark_begin = t;
-	openfile->mark_begin_x = 0;
+    openfile->mark_begin = fsfromline(u->mark_begin_lineno);
+
+    if (!ISSET(CUT_TO_END))
 	openfile->mark_set = TRUE;
-    }
 
     openfile->mark_begin_x = u->mark_begin_x;
     do_cut_text(FALSE, u->to_end, TRUE);
@@ -431,8 +417,9 @@ void redo_cut(undo *u)
 /* Undo the last thing(s) we did. */
 void do_undo(void)
 {
+    bool gotolinecolumn = FALSE;
     undo *u = openfile->current_undo;
-    filestruct *f = openfile->current, *t;
+    filestruct *t = 0;
     int len = 0;
     char *undidmsg, *data;
     filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
@@ -442,14 +429,9 @@ void do_undo(void)
 	return;
     }
 
-    if (u->lineno <= f->lineno)
-        for (; f->prev != NULL && f->lineno != u->lineno; f = f->prev)
-	    ;
-    else
-        for (; f->next != NULL && f->lineno != u->lineno; f = f->next)
-	    ;
-    if (f->lineno != u->lineno) {
-        statusbar(_("Internal error: can't match line %d.  Please save your work."), u->lineno);
+    filestruct *f = fsfromline(u->mark_begin_lineno);
+    if (!f) {
+	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
 	return;
     }
 #ifdef DEBUG
@@ -467,6 +449,7 @@ void do_undo(void)
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
 	f->data = data;
+	goto_line_posx(u->lineno, u->begin);
 	break;
     case DEL:
 	undidmsg = _("text delete");
@@ -480,6 +463,7 @@ void do_undo(void)
 	f->data = data;
 	if (u->xflags == UNdel_backspace)
 	    openfile->current_x += strlen(u->strdata);
+	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x + 1);
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT:
@@ -494,26 +478,28 @@ void do_undo(void)
 	    delete_node(foo);
 	}
 	renumber(f);
+	gotolinecolumn = TRUE;
 	break;
 #endif /* !DISABLE_WRAPPING */
     case UNSPLIT:
 	undidmsg = _("line join");
 	t = make_new_node(f);
 	t->data = mallocstrcpy(NULL, u->strdata);
-	data = mallocstrncpy(NULL, f->data, u->begin);
+	data = mallocstrncpy(NULL, f->data, u->begin + 1);
 	data[u->begin] = '\0';
 	free(f->data);
 	f->data = data;
 	splice_node(f, t, f->next);
-	renumber(f);
+	gotolinecolumn = TRUE;
 	break;
+    case CUT_EOF:
     case CUT:
 	undidmsg = _("text cut");
         undo_cut(u);
 	break;
-    case UNCUT:
+    case PASTE:
 	undidmsg = _("text uncut");
-	redo_cut(u);
+	undo_paste(u);
 	break;
     case ENTER:
 	undidmsg = _("line break");
@@ -524,6 +510,7 @@ void do_undo(void)
 	    unlink_node(foo);
 	    delete_node(foo);
 	}
+	goto_line_posx(u->lineno, u->begin);
 	break;
     case INSERT:
 	undidmsg = _("text insert");
@@ -535,7 +522,7 @@ void do_undo(void)
 	openfile->mark_begin = fsfromline(u->lineno + u->mark_begin_lineno - 1);
 	openfile->mark_begin_x = 0;
 	openfile->mark_set = TRUE;
-	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	goto_line_posx(u->lineno, u->begin);
 	cut_marked();
 	u->cutbuffer = cutbuffer;
 	u->cutbottom = cutbottom;
@@ -545,6 +532,7 @@ void do_undo(void)
 	break;
     case REPLACE:
 	undidmsg = _("text replace");
+	goto_line_posx(u->lineno, u->begin);
 	data = u->strdata;
 	u->strdata = f->data;
 	f->data = data;
@@ -555,17 +543,19 @@ void do_undo(void)
     }
 
     renumber(f);
-    do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
+    if (gotolinecolumn)
+	do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Undid action (%s)"), undidmsg);
     openfile->current_undo = openfile->current_undo->next;
     openfile->last_action = OTHER;
+    set_modified();
 }
 
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
+    bool gotolinecolumn = FALSE;
     undo *u = openfile->undotop;
-    filestruct *f = openfile->current;
     int len = 0;
     char *undidmsg, *data;
 
@@ -580,14 +570,9 @@ void do_redo(void)
 	return;
     }
 
-    if (u->lineno <= f->lineno)
-        for (; f->prev != NULL && f->lineno != u->lineno; f = f->prev)
-	    ;
-    else
-        for (; f->next != NULL && f->lineno != u->lineno; f = f->next)
-	    ;
-    if (f->lineno != u->lineno) {
-        statusbar(_("Internal error: can't match line %d.  Please save your work."), u->lineno);
+    filestruct *f = fsfromline(u->mark_begin_lineno);
+    if (!f) {
+	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
 	return;
     }
 #ifdef DEBUG
@@ -605,6 +590,7 @@ void do_redo(void)
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
 	free(f->data);
 	f->data = data;
+	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 	break;
     case DEL:
 	undidmsg = _("text delete");
@@ -614,10 +600,13 @@ void do_redo(void)
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
 	f->data = data;
+	openfile->current_x = u->begin;
+	openfile->placewewant = xplustabs();
+	goto_line_posx(u->lineno, u->begin);
 	break;
     case ENTER:
 	undidmsg = _("line break");
-	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	goto_line_posx(u->lineno, u->begin);
 	do_enter(TRUE);
 	break;
 #ifndef DISABLE_WRAPPING
@@ -627,53 +616,55 @@ void do_redo(void)
 	    prepend_wrap = TRUE;
         do_wrap(f, TRUE);
 	renumber(f);
+	gotolinecolumn = TRUE;
 	break;
 #endif /* !DISABLE_WRAPPING */
     case UNSPLIT:
 	undidmsg = _("line join");
-	len = strlen(f->data) + strlen(u->strdata + 1);
-	data = charalloc(len);
-	strcpy(data, f->data);
-	strcat(data, u->strdata);
-	free(f->data);
-	f->data = data;
+	len = strlen(f->data) + strlen(u->strdata) + 1;
+	f->data = charealloc(f->data, len);
+	strcat(f->data, u->strdata);
 	if (f->next != NULL) {
 	    filestruct *tmp = f->next;
 	    unlink_node(tmp);
 	    delete_node(tmp);
 	}
 	renumber(f);
+	gotolinecolumn = TRUE;
 	break;
+    case CUT_EOF:
     case CUT:
 	undidmsg = _("text cut");
 	redo_cut(u);
 	break;
-    case UNCUT:
+    case PASTE:
 	undidmsg = _("text uncut");
-	undo_cut(u);
+	redo_paste(u);
 	break;
     case REPLACE:
 	undidmsg = _("text replace");
 	data = u->strdata;
 	u->strdata = f->data;
 	f->data = data;
+	goto_line_posx(u->lineno, u->begin);
 	break;
     case INSERT:
 	undidmsg = _("text insert");
-	do_gotolinecolumn(u->lineno, u->begin+1, FALSE, FALSE, FALSE, FALSE);
+	goto_line_posx(u->lineno, u->begin);
 	copy_from_filestruct(u->cutbuffer);
-	openfile->placewewant = xplustabs();
 	break;
     default:
 	undidmsg = _("Internal error: unknown type.  Please save your work.");
 	break;
     }
 
-    do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
+    if (gotolinecolumn)
+	do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Redid action (%s)"), undidmsg);
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
+    set_modified();
 }
 #endif /* !NANO_TINY */
 
@@ -841,7 +832,6 @@ void add_undo(undo_type current_action)
     undo *u;
     char *data;
     openfilestruct *fs = openfile;
-    static undo *last_cutu = NULL;
 	/* Last thing we cut to set up the undo for uncut. */
     ssize_t wrap_loc;
 	/* For calculating split beginning. */
@@ -852,8 +842,9 @@ void add_undo(undo_type current_action)
     /* Ugh, if we were called while cutting not-to-end, non-marked, and
      * on the same lineno, we need to abort here. */
     u = fs->current_undo;
-    if (current_action == CUT && u && u->type == CUT
-	&& !u->mark_set && u->lineno == fs->current->lineno)
+    if (u && u->mark_begin_lineno == fs->current->lineno &&
+	((current_action == CUT && u->type == CUT && !u->mark_set) ||
+	(current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x)))
 	return;
 
     /* Blow away the old undo stack if we are starting from the middle. */
@@ -880,8 +871,8 @@ void add_undo(undo_type current_action)
     u->cutbuffer = NULL;
     u->cutbottom  = NULL;
     u->mark_set = 0;
-    u->mark_begin_lineno = 0;
-    u->mark_begin_x = 0;
+    u->mark_begin_lineno = fs->current->lineno;
+    u->mark_begin_x =  fs->current_x;
     u->xflags = 0;
     u->to_end = FALSE;
 
@@ -890,8 +881,7 @@ void add_undo(undo_type current_action)
      * or we won't be able to restore it later. */
     case ADD:
         data = charalloc(2);
-        data[0] = fs->current->data[fs->current_x];
-        data[1] = '\0';
+	data[0] = '\0';
         u->strdata = data;
 	break;
     case DEL:
@@ -929,21 +919,43 @@ void add_undo(undo_type current_action)
 	data = mallocstrcpy(NULL, fs->current->data);
 	u->strdata = data;
 	break;
+    case CUT_EOF:
+	u->to_end = TRUE;
     case CUT:
 	u->mark_set = openfile->mark_set;
 	if (u->mark_set) {
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;
 	    u->mark_begin_x = openfile->mark_begin_x;
 	}
-	u->to_end = (ISSET(CUT_TO_END)) ? TRUE : FALSE;
-	last_cutu = u;
+	else if (!ISSET(CUT_TO_END) && !u->to_end) {
+	    /* The entire line is being cut regardless of the cursor position. */
+	    u->begin = 0;
+	    u->mark_begin_x = 0;
+	}
 	break;
-    case UNCUT:
-	if (!last_cutu)
+    case PASTE:
+	if (!cutbuffer)
 	    statusbar(_("Internal error: cannot set up uncut.  Please save your work."));
-	else if (last_cutu->type == CUT) {
-	    u->cutbuffer = last_cutu->cutbuffer;
-	    u->cutbottom = last_cutu->cutbottom;
+	else {
+	    if (u->cutbuffer)
+		free(u->cutbuffer);
+	    u->cutbuffer = copy_filestruct(cutbuffer);
+	    u->mark_begin_lineno = fs->current->lineno;
+	    u->mark_begin_x =  fs->current_x;
+	    u->lineno =  fs->current->lineno + cutbottom->lineno - cutbuffer->lineno;
+
+	    filestruct *fs_buff = cutbuffer;
+	    if (fs_buff->lineno == cutbottom->lineno)
+		u->begin = fs->current_x +  get_totsize(fs_buff,cutbottom);
+	    else {
+		/* Advance fs_buff to the last line in the cutbuffer. */
+		while (fs_buff->lineno != cutbottom->lineno && fs_buff->next != NULL)
+		    fs_buff = fs_buff->next;
+		assert(fs_buff->next != NULL);
+		u->begin = get_totsize(fs_buff,cutbottom);
+	    }
+
+	    u->mark_set = TRUE;
 	}
 	break;
     case ENTER:
@@ -1004,12 +1016,14 @@ void update_undo(undo_type action)
 #endif
         len = strlen(u->strdata) + 2;
         data = (char *) nrealloc((void *) u->strdata, len * sizeof(char *));
-        data[len-2] = fs->current->data[fs->current_x];
+        data[len-2] = fs->current->data[fs->current_x - 1];
         data[len-1] = '\0';
         u->strdata = (char *) data;
 #ifdef DEBUG
 	fprintf(stderr, "current undo data now \"%s\"\n", u->strdata);
 #endif
+	u->mark_begin_lineno = fs->current->lineno;
+	u->mark_begin_x =  fs->current_x;
 	break;
     case DEL:
 	len = strlen(u->strdata) + 2;
@@ -1051,18 +1065,37 @@ void update_undo(undo_type action)
 	fprintf(stderr, "current undo data now \"%s\"\nu->begin = %d\n", u->strdata, u->begin);
 #endif
 	break;
+    case CUT_EOF:
     case CUT:
 	if (!cutbuffer)
 	    break;
 	if (u->cutbuffer)
 	    free(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
-        /* Compute cutbottom for the uncut using our copy. */
-        for (u->cutbottom = u->cutbuffer; u->cutbottom->next != NULL; u->cutbottom = u->cutbottom->next)
-            ;
+	if (u->mark_set) {
+	    /* If the "marking" operation was from right-->left or
+	     * bottom-->top, then swap the mark points. */
+	    if ((u->lineno == u->mark_begin_lineno && u->begin < u->mark_begin_x)
+			|| u->lineno < u->mark_begin_lineno) {
+		size_t x_loc = u->begin;
+		u->begin = u->mark_begin_x;
+		u->mark_begin_x = x_loc;
+
+		ssize_t line = u->lineno;
+		u->lineno = u->mark_begin_lineno;
+		u->mark_begin_lineno = line;
+	    }
+	} else if (!ISSET(CUT_TO_END)) {
+	    /* Compute cutbottom for the uncut using our copy. */
+	    u->cutbottom = u->cutbuffer;
+	    while (u->cutbottom->next != NULL)
+		u->cutbottom = u->cutbottom->next;
+	    if (!u->to_end)
+		u->lineno++;
+	}
 	break;
     case REPLACE:
-    case UNCUT:
+    case PASTE:
 	add_undo(action);
 	break;
     case INSERT:
@@ -1085,14 +1118,8 @@ void update_undo(undo_type action)
 #ifdef DEBUG
     fprintf(stderr, "Done in update_undo (type was %d)\n", action);
 #endif
-    if (fs->last_action != action) {
-#ifdef DEBUG
-	fprintf(stderr, "Starting add_undo for new action as it does not match last_action\n");
-#endif
-	add_undo(action);
+
     }
-    fs->last_action = action;
-}
 
 #endif /* !NANO_TINY */
 

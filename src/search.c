@@ -1008,6 +1008,20 @@ void do_replace(void)
     search_replace_abort();
 }
 
+/* Go to the specified line and x position. */
+void goto_line_posx(ssize_t line, size_t pos_x)
+{
+    for (openfile->current = openfile->fileage; openfile->current != openfile->filebot &&
+					openfile->current->next != NULL && line > 1; line--)
+	openfile->current = openfile->current->next;
+
+    openfile->current_x = pos_x;
+    openfile->placewewant = xplustabs();
+
+    edit_refresh_needed = TRUE;
+    edit_refresh();
+}
+
 /* Go to the specified line and column, or ask for them if interactive
  * is TRUE.  Save the x-coordinate and y-coordinate if save_pos is TRUE.
  * Update the screen afterwards if allow_update is TRUE.  Note that both

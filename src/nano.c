@@ -2030,7 +2030,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	set_modified();
 
 #ifndef NANO_TINY
-	update_undo(ADD);
+	add_undo(ADD);
 
 	/* Note that current_x has not yet been incremented. */
 	if (openfile->mark_set && openfile->current ==
@@ -2040,6 +2040,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
 	openfile->current_x += char_buf_len;
+
+#ifndef NANO_TINY
+	update_undo(ADD);
+#endif
 
 #ifndef DISABLE_WRAPPING
 	/* If we're wrapping text, we need to call edit_refresh(). */

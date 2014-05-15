@@ -187,7 +187,7 @@ typedef enum {
 }  function_type;
 
 typedef enum {
-    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, UNCUT, ENTER, INSERT, OTHER
+    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, CUT_EOF, PASTE, ENTER, INSERT, OTHER
 } undo_type;
 
 typedef struct color_pair {
@@ -324,7 +324,7 @@ typedef struct undo {
     ssize_t lineno;
     undo_type type;
 	/* What type of undo this was. */
-    int begin;
+    size_t begin;
 	/* Where did this action begin or end. */
     char *strdata;
 	/* String type data we will use for copying the affected line back. */
@@ -344,7 +344,7 @@ typedef struct undo {
 	/* Was this a cut to end? */
     ssize_t mark_begin_lineno;
 	/* copy copy copy */
-    ssize_t mark_begin_x;
+    size_t mark_begin_x;
 	/* Another shadow variable. */
     struct undo *next;
 } undo;
