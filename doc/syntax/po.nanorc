@@ -1,6 +1,7 @@
 ## Colouring for PO files.
-##
+
 syntax "po" "\.pot?$"
+
 # Comments.
 color green "^#.*$"
 color yellow "Copyright|\(C\)"

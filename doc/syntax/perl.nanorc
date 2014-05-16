@@ -1,4 +1,5 @@
 ## Here is an example for Perl.
+
 syntax "perl" "\.p[lm]$"
 header "^#!.*/perl[-0-9._]*"
 magic "Perl script text"

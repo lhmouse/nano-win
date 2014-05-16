@@ -1,5 +1,5 @@
 ## Colouring for Changelogs.
-##
+
 syntax "changelog" "Change[Ll]og.*"
 
 # Author lines.
@@ -14,13 +14,10 @@ color magenta "[[:space:]]\*[[:space:]].*:"
 
 # Command-line options.
 color cyan "[[:space:]]-[a-zA-Z\$]" "--[8a-z-]+"
-
 # Bug numbers.
 color cyan "bug #[0-9]{5}"
-
 # Probable variables, for variety.
-color brightred "\<[A-Z_][0-9A-Z_]+\>" 
-
+color brightred "\<[A-Z_][0-9A-Z_]+\>"
 # Key sequences.
 color brightblue "\^[A-Z]" "\<M-." "\<F1?[0-9]" "(\^|M-)Space"
 

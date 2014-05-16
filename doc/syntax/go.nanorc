@@ -1,5 +1,5 @@
 ## Here is an example for Go.
-##
+
 syntax "go" "\.go$"
 
 # Types.
