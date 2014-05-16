@@ -868,10 +868,10 @@ void add_undo(undo_type current_action)
     u->strdata = NULL;
     u->strdata2 = NULL;
     u->cutbuffer = NULL;
-    u->cutbottom  = NULL;
+    u->cutbottom = NULL;
     u->mark_set = 0;
     u->mark_begin_lineno = fs->current->lineno;
-    u->mark_begin_x =  fs->current_x;
+    u->mark_begin_x = fs->current_x;
     u->xflags = 0;
     u->to_end = FALSE;
 
@@ -940,8 +940,8 @@ void add_undo(undo_type current_action)
 		free(u->cutbuffer);
 	    u->cutbuffer = copy_filestruct(cutbuffer);
 	    u->mark_begin_lineno = fs->current->lineno;
-	    u->mark_begin_x =  fs->current_x;
-	    u->lineno =  fs->current->lineno + cutbottom->lineno - cutbuffer->lineno;
+	    u->mark_begin_x = fs->current_x;
+	    u->lineno = fs->current->lineno + cutbottom->lineno - cutbuffer->lineno;
 
 	    filestruct *fs_buff = cutbuffer;
 	    if (fs_buff->lineno == cutbottom->lineno)
@@ -951,7 +951,7 @@ void add_undo(undo_type current_action)
 		while (fs_buff->lineno != cutbottom->lineno && fs_buff->next != NULL)
 		    fs_buff = fs_buff->next;
 		assert(fs_buff->next != NULL);
-		u->begin = get_totsize(fs_buff,cutbottom);
+		u->begin = get_totsize(fs_buff, cutbottom);
 	    }
 
 	    u->mark_set = TRUE;
@@ -1022,7 +1022,7 @@ void update_undo(undo_type action)
 	fprintf(stderr, "current undo data now \"%s\"\n", u->strdata);
 #endif
 	u->mark_begin_lineno = fs->current->lineno;
-	u->mark_begin_x =  fs->current_x;
+	u->mark_begin_x = fs->current_x;
 	break;
     case DEL:
 	len = strlen(u->strdata) + 2;
@@ -3181,7 +3181,7 @@ void do_linter(void)
 				continue;
 			    }
 
-			    tmpcolno =  strtol(maybecol, &convendptr, 10);
+			    tmpcolno = strtol(maybecol, &convendptr, 10);
 			    if (*convendptr != '\0') {
 				/* Previous field might still be
 				 * line,col format. */

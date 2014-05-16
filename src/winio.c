@@ -123,7 +123,7 @@ void get_key_buffer(WINDOW *win)
     /* Read in the first character using whatever mode we're in. */
     errcount = 0;
     if (nodelay_mode) {
-	if ((input =  wgetch(win)) == ERR)
+	if ((input = wgetch(win)) == ERR)
            return;
     } else
 	while ((input = wgetch(win)) == ERR) {
@@ -612,7 +612,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #ifdef KEY_SUSPEND
 	    /* Slang doesn't support KEY_SUSPEND. */
 	    case KEY_SUSPEND:
-		retval =  sc_seq_or(do_suspend_void, 0);
+		retval = sc_seq_or(do_suspend_void, 0);
 		break;
 #endif
 #ifdef PDCURSES
@@ -3015,7 +3015,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	/* Don't over-scroll on long lines. */
 	if (ISSET(SOFTWRAP) && (direction == UP_DIR)) {
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
-	    i -=  len;
+	    i -= len;
 	    if (len > 0)
 		do_redraw = TRUE;
 	}

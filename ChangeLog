@@ -1,3 +1,6 @@
+2014-05-16  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c, src/winio.c: Remove some more double spaces.
+
 2014-05-16  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/color.c, src/cut.c, src/text.c: Tweak some whitespace.
 	* src/global.c, src/move.c: Use TRUE and FALSE instead of 1 and 0.
