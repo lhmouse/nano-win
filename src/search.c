@@ -1019,7 +1019,6 @@ void goto_line_posx(ssize_t line, size_t pos_x)
     openfile->placewewant = xplustabs();
 
     edit_refresh_needed = TRUE;
-    edit_refresh();
 }
 
 /* Go to the specified line and column, or ask for them if interactive

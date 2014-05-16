@@ -2,6 +2,8 @@
 	* src/color.c, src/cut.c, src/text.c: Tweak some whitespace.
 	* src/global.c, src/move.c: Use TRUE and FALSE instead of 1 and 0.
 	* src/winio.c (edit_draw): Mention the name of the tickling character.
+	* src/search.c (goto_line_posx): Remove unneeded call of edit_refresh.
+	* src/text.c (do_undo, do_redo): Use size_t for line lengths.
 
 2014-05-15  Mark Majeres  <mark@engine12.com>
 	* src/*, but mainly src/text.c (undo_cut, redo_cut, do_undo, do_redo):
