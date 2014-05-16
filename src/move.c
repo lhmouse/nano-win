@@ -33,7 +33,7 @@ void do_first_line(void)
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
-    edit_refresh_needed = 1;
+    edit_refresh_needed = TRUE;
 }
 
 /* Move to the last line of the file. */
@@ -44,7 +44,7 @@ void do_last_line(void)
     openfile->placewewant = xplustabs();
     openfile->current_y = editwinrows - 1;
 
-    edit_refresh_needed = 1;
+    edit_refresh_needed = TRUE;
 }
 
 /* Move up one page. */

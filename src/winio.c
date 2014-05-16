@@ -2497,7 +2497,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     mvwaddstr(edit, line, 0, converted);
 #ifdef ENABLE_UTF8
     if (using_utf8())
-	/* Tickle the terminal into displaying two-column characters properly. */
+	/* Tickle the terminal into displaying two-column characters
+	 * properly, using Unicode 00A0 (No-Break Space). */
 	mvwaddstr(edit, line, COLS - 1, "\xC2\xA0\x00");
 #endif
 

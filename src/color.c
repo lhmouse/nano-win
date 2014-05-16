@@ -392,7 +392,6 @@ void reset_multis_before(filestruct *fileptr, int mindex)
 	else
 	    break;
     }
-
     edit_refresh_needed = TRUE;
 }
 

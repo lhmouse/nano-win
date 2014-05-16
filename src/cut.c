@@ -44,7 +44,7 @@ void cutbuffer_reset(void)
  * current line. */
 void cut_line(void)
 {
-    if(!openfile->mark_begin)
+    if (!openfile->mark_begin)
 	openfile->mark_begin = openfile->current;
 
     if (openfile->current != openfile->filebot)

@@ -140,7 +140,7 @@ void do_delete(void)
 
     if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
-	    edit_refresh_needed  = TRUE;
+	    edit_refresh_needed = TRUE;
 
     set_modified();
 
@@ -455,7 +455,6 @@ void do_undo(void)
 	undidmsg = _("text delete");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	data = charalloc(len);
-
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], u->strdata);
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
@@ -506,7 +505,7 @@ void do_undo(void)
 	if (f->next) {
 	    filestruct *foo = f->next;
 	    f->data = (char *) nrealloc(f->data, strlen(f->data) + strlen(f->next->data) + 1);
-	    strcat(f->data,  f->next->data);
+	    strcat(f->data, f->next->data);
 	    unlink_node(foo);
 	    delete_node(foo);
 	}
@@ -946,7 +945,7 @@ void add_undo(undo_type current_action)
 
 	    filestruct *fs_buff = cutbuffer;
 	    if (fs_buff->lineno == cutbottom->lineno)
-		u->begin = fs->current_x +  get_totsize(fs_buff,cutbottom);
+		u->begin = fs->current_x + get_totsize(fs_buff, cutbottom);
 	    else {
 		/* Advance fs_buff to the last line in the cutbuffer. */
 		while (fs_buff->lineno != cutbottom->lineno && fs_buff->next != NULL)

@@ -1,3 +1,8 @@
+2014-05-16  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/color.c, src/cut.c, src/text.c: Tweak some whitespace.
+	* src/global.c, src/move.c: Use TRUE and FALSE instead of 1 and 0.
+	* src/winio.c (edit_draw): Mention the name of the tickling character.
+
 2014-05-15  Mark Majeres  <mark@engine12.com>
 	* src/*, but mainly src/text.c (undo_cut, redo_cut, do_undo, do_redo):
 	Go to the correct positions for undoing/redoing the cuts and pastes.

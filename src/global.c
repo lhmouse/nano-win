@@ -157,7 +157,7 @@ char *syntaxstr = NULL;
 
 #endif
 
-bool edit_refresh_needed = 0;
+bool edit_refresh_needed = FALSE;
 	/* Did a command mangle enough of the buffer refresh that we
 	 * should repaint the screen? */
 
