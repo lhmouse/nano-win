@@ -1,6 +1,8 @@
 2014-05-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c, src/winio.c: Remove some more double spaces.
 	* doc/syntax/patch.nanorc: Show trailing whitespace on added lines.
+	* doc/syntax/debian.nanorc: Make the component colouring simpler,
+	and the URI colouring completer, and improve the comments.
 
 2014-05-16  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/color.c, src/cut.c, src/text.c: Tweak some whitespace.
