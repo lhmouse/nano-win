@@ -1,11 +1,21 @@
 ## Here is an example for patch files.
-##
+
 syntax "patch" "\.(patch|diff)$"
 magic "diff output text"
+
+# Added lines.
 color brightgreen "^\+.*"
-color green "^\+\+\+.*"
+# Show trailing whitespace only on added lines.
+color ,green "[[:space:]]+$"
+# Context lines.
 color brightblue "^ .*"
+# Deleted lines.
 color brightred "^-.*"
+
+# File names and dates.
 color red "^---.*"
+color green "^\+\+\+.*"
+# Line numbers.
 color brightyellow "^@@.*"
+# Header lines.
 color magenta "^diff.*"
