@@ -6,13 +6,14 @@
 # Pierre Tane <tanep@bigfoot.com>, 2000.
 # Clement Laforet <sheep.killer@free.fr>, 2000.
 # Michel Robitaille <robitail@IRO.UMontreal.CA>, 2001.
-# Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>, 2001-2010, 2011.
+# Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>, 2001-2010, 2011, 2014.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.3.2pre4\n"
+"Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2013-03-19 00:32+0100\n"
+"PO-Revision-Date: 2014-05-14 23:45+0200\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir."
 "org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -20,7 +21,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #
 # File: src/browser.c, line: 207
@@ -208,9 +210,9 @@ msgid "Couldn't determine my identity for lock file (getpwuid() failed)"
 msgstr "Fichier verrou : compte actuel inconnu (échec de getpwuid())"
 
 #: src/files.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine hostname for lock file: %s"
-msgstr "Fichier verrou : nom d'hôte inconnu : %s"
+msgstr "Impossible d'identifier l'hôte courant pour créer le verrou : %s"
 
 #
 # File: src/files.c, line: 1476
@@ -244,12 +246,12 @@ msgstr "Erreur de suppression du fichier verrou %s : %s"
 # File: src/text.c, line: 2315
 # File: src/text.c, line: 2327
 #: src/files.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "Erreur d'ouverture du fichier verrou %s : %s"
 
 #: src/files.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr "Erreur de lecture du fichier verrou %s : pas assez de données lues"
 
@@ -469,8 +471,8 @@ msgstr "Touche illégale hors du mode multi-espace"
 #: src/files.c:1593
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
 msgstr ""
-"Impossible d'écrire la copie de sécurité, sauvegarder quand même ? (Dites N "
-"en cas de doute) "
+"Impossible d'écrire la copie de sécurité, sauver quand même ? (Dites N en "
+"cas de doute) "
 
 #
 # File: src/files.c, line: 1286
@@ -645,9 +647,7 @@ msgstr "Écrire le fichier sous un NOM MODIFIÉ ? "
 
 #: src/files.c:2418
 msgid "File was modified since you opened it, continue saving ? "
-msgstr ""
-"Le fichier a été modifié depuis son ouverture. Voulez-vous vraiment "
-"sauvegarder ?"
+msgstr "Le fichier a été modifié depuis son ouverture. Continuer à sauver ?"
 
 #
 # File: src/files.c, line: 2298
@@ -730,7 +730,6 @@ msgstr "Fermer"
 # File: src/global.c, line: 539
 # File: src/global.c, line: 539
 #: src/global.c:474
-#, fuzzy
 msgid "Uncut Text"
 msgstr "Coller"
 
@@ -738,7 +737,6 @@ msgstr "Coller"
 # File: src/global.c, line: 534
 # File: src/global.c, line: 534
 #: src/global.c:476
-#, fuzzy
 msgid "Unjustify"
 msgstr "Dé-justif."
 
@@ -815,9 +813,8 @@ msgstr "Orthograp."
 # File: src/global.c, line: 270
 # File: src/global.c, line: 270
 #: src/global.c:500
-#, fuzzy
 msgid "To Linter"
-msgstr "Aller lig."
+msgstr "Analyse statique"
 
 #
 # File: src/global.c, line: 614
@@ -826,9 +823,8 @@ msgstr "Aller lig."
 # File: src/global.c, line: 1083
 #. TRANSLATORS: Try to keep the next two strings at most 14 characters.
 #: src/global.c:502
-#, fuzzy
 msgid "Prev Lint Msg"
-msgstr "Ligne préc."
+msgstr "Analyse préc."
 
 #
 # File: src/global.c, line: 618
@@ -836,9 +832,8 @@ msgstr "Ligne préc."
 # File: src/global.c, line: 618
 # File: src/global.c, line: 1087
 #: src/global.c:503
-#, fuzzy
 msgid "Next Lint Msg"
-msgstr "Ligne suiv."
+msgstr "Analyse suiv."
 
 #
 # File: src/global.c, line: 325
@@ -861,7 +856,7 @@ msgstr "Annuler la fonction courante"
 # File: src/global.c, line: 315
 #: src/global.c:513
 msgid "Display this help text"
-msgstr "Affiche de message"
+msgstr "Afficher ce message"
 
 #
 # File: src/global.c, line: 318
@@ -896,31 +891,28 @@ msgstr "Insérer un autre fichier dans l'espace en cours"
 # File: src/global.c, line: 329
 #: src/global.c:526
 msgid "Search for a string or a regular expression"
-msgstr "Recherche d'une chaîne ou d'une expression rationnelle"
+msgstr "Rechercher une chaîne ou une expression rationnelle"
 
 #
 # File: src/global.c, line: 329
 # File: src/global.c, line: 329
 #: src/global.c:528
-#, fuzzy
 msgid "Search for a string"
-msgstr "Recherche d'une chaîne ou d'une expression rationnelle"
+msgstr "Recherche d'une chaîne"
 
 #
 # File: src/global.c, line: 331
 # File: src/global.c, line: 331
 #: src/global.c:529
-#, fuzzy
 msgid "Go one screenful up"
-msgstr "Aller à l'écran suivant"
+msgstr "Monter d'un écran"
 
 #
 # File: src/global.c, line: 331
 # File: src/global.c, line: 331
 #: src/global.c:530
-#, fuzzy
 msgid "Go one screenful down"
-msgstr "Aller à l'écran suivant"
+msgstr "Descendre d'un écran"
 
 #
 # File: src/global.c, line: 333
@@ -968,15 +960,13 @@ msgstr "Aller à la ligne et à la colonne indiquées"
 # File: src/global.c, line: 344
 # File: src/global.c, line: 344
 #: src/global.c:545
-#, fuzzy
 msgid "Mark text starting from the cursor position"
-msgstr "Marquer le texte à la position du curseur"
+msgstr "Marquer le texte depuis la position du curseur"
 
 #
 # File: src/global.c, line: 345
 # File: src/global.c, line: 345
 #: src/global.c:546
-#, fuzzy
 msgid "Repeat the last search"
 msgstr "Recommencer la dernière recherche"
 
@@ -992,14 +982,14 @@ msgstr "Copier la ligne courante dans le presse-papiers"
 # File: src/global.c, line: 314
 #: src/global.c:549
 msgid "Indent the current line"
-msgstr "Mise en retrait de la ligne courante"
+msgstr "Augmenter la marge de la ligne courante"
 
 #
 # File: src/global.c, line: 314
 # File: src/global.c, line: 314
 #: src/global.c:550
 msgid "Unindent the current line"
-msgstr "Annuler le retrait de la ligne courante"
+msgstr "Diminuer la marge de la ligne courante"
 
 #: src/global.c:551
 msgid "Undo the last operation"
@@ -1168,7 +1158,7 @@ msgstr "Supprimer le caractère à la gauche du curseur"
 # File: src/global.c, line: 398
 #: src/global.c:599
 msgid "Cut from the cursor position to the end of the file"
-msgstr "Coupe du curseur à la fin du fichier"
+msgstr "Couper du curseur à la fin du fichier"
 
 #
 # File: src/global.c, line: 401
@@ -1242,14 +1232,14 @@ msgstr "Ouvrir le navigateur de fichiers"
 # File: src/global.c, line: 429
 #: src/global.c:632
 msgid "Toggle the use of DOS format"
-msgstr "Utilisation du format DOS (commutateur)"
+msgstr "Utiliser le format DOS (commutateur)"
 
 #
 # File: src/global.c, line: 430
 # File: src/global.c, line: 430
 #: src/global.c:633
 msgid "Toggle the use of Mac format"
-msgstr "Utilisation du format Mac (commutateur)"
+msgstr "Utiliser le format Mac (commutateur)"
 
 #
 # File: src/global.c, line: 432
@@ -1332,25 +1322,22 @@ msgstr "Changer de répertoire"
 # File: src/global.c, line: 339
 # File: src/global.c, line: 339
 #: src/global.c:655
-#, fuzzy
 msgid "Invoke the linter, if available"
-msgstr "Appeler le correcteur orthographique (si dispo.)"
+msgstr "Appeler l'analyse statique (si dispo.)"
 
 #
 # File: src/global.c, line: 357
 # File: src/global.c, line: 357
 #: src/global.c:656
-#, fuzzy
 msgid "Go to previous linter msg"
-msgstr "Aller à la ligne précédente"
+msgstr "Aller au message précédent de l'analyse statique"
 
 #
 # File: src/global.c, line: 358
 # File: src/global.c, line: 358
 #: src/global.c:657
-#, fuzzy
 msgid "Go to next linter msg"
-msgstr "Aller à la ligne suivante"
+msgstr "Aller au message suivant de l'analyse statique"
 
 #
 # Les messages suivants doivent tenir sur 10 caractères !
@@ -1375,7 +1362,6 @@ msgstr "Annuler"
 # File: src/global.c, line: 483
 # File: src/global.c, line: 483
 #: src/global.c:691
-#, fuzzy
 msgid "Write Out"
 msgstr "Écrire"
 
@@ -1474,9 +1460,8 @@ msgstr "Dern. Lig."
 # File: src/search.c, line: 1167
 # File: src/search.c, line: 1167
 #: src/global.c:803
-#, fuzzy
 msgid "To Bracket"
-msgstr "N'est pas un crochet"
+msgstr "Parenthèse corresp."
 
 #
 # File: src/global.c, line: 575
@@ -1588,7 +1573,6 @@ msgstr "Descendre"
 # File: src/global.c, line: 663
 # File: src/global.c, line: 663
 #: src/global.c:869
-#, fuzzy
 msgid "Prev File"
 msgstr "Fichier précédent"
 
@@ -1605,7 +1589,6 @@ msgstr "Fichier suivant"
 # File: src/global.c, line: 673
 # File: src/text.c, line: 2431
 #: src/global.c:875
-#, fuzzy
 msgid "Verbatim"
 msgstr "Entrée telle quelle"
 
@@ -1778,9 +1761,8 @@ msgstr "Défilement progressif"
 # File: src/nano.c, line: 824
 # File: src/nano.c, line: 824
 #: src/global.c:1226
-#, fuzzy
 msgid "Soft wrapping of overlong lines"
-msgstr "Désactive le passage auto. à la ligne"
+msgstr "Affichage automatique sur plusieurs lignes"
 
 #
 # File: src/global.c, line: 1294
@@ -1821,9 +1803,8 @@ msgstr "Couper jusqu'en fin de ligne"
 # File: src/nano.c, line: 824
 # File: src/nano.c, line: 824
 #: src/global.c:1238
-#, fuzzy
 msgid "Hard wrapping of overlong lines"
-msgstr "Désactive le passage auto. à la ligne"
+msgstr "Passer à la ligne automatiquement"
 
 #
 # File: src/global.c, line: 1323
@@ -2001,13 +1982,13 @@ msgstr ""
 " Aide de l'écriture de fichier\n"
 "\n"
 " Indiquez le nom sous lequel vous désirez écrire le fichier courant et "
-"appuyez sur la touche « Entrée » pour effectuer la sauvegarde.\n"
+"appuyez sur la touche « Entrée » pour sauver le fichier.\n"
 "\n"
 " Si vous avez sélectionné du texte en le marquant, il vous sera proposé de "
-"sauvegarder seulement la partie sélectionnée du texte dans un fichier "
-"différent. Pour limiter le risque d'écraser le fichier en cours avec une "
-"simple portion de ce dernier, le nom du fichier courant ne vous sera proposé "
-"par défaut dans ce mode.\n"
+"sauver seulement la partie sélectionnée du texte dans un fichier différent. "
+"Pour limiter le risque d'écraser le fichier en cours avec une simple portion "
+"de ce dernier, le nom du fichier courant ne vous sera proposé par défaut "
+"dans ce mode.\n"
 "\n"
 " Les touches de fonction suivantes sont disponibles en mode écriture de "
 "fichier :\n"
@@ -2207,7 +2188,7 @@ msgstr ""
 "soit via la touche Contrôle (Ctrl), soit en pressant 2 fois la touche "
 "« Échap. ». Les séquences d'échappement sont représentées par le symbole "
 "« Méta » (M) et peuvent être entrées via les touches « Échap. », « Alt. » ou "
-"« Méta » selon la configuration de votre clavier.  "
+"« Méta » selon la configuration de votre clavier. "
 
 #
 # File: src/help.c, line: 366
@@ -2221,9 +2202,9 @@ msgid ""
 "\n"
 msgstr ""
 "Appuyer 2 fois sur la touche « Échap. » puis entrer un nombre à 3 chiffres "
-"entre 000 et 255 insère le caractère de code correspondant. Les combinaisons "
+"entre 000 et 255 insère le caractère de code correspondant. Les raccourcis "
 "suivantes sont disponibles dans la fenêtre principale de l'éditeur. Les "
-"combinaisons pouvant être utilisées comme alternatives sont affichées entre "
+"raccourcis pouvant être utilisées comme alternatives sont affichées entre "
 "parenthèses :\n"
 "\n"
 
@@ -2343,7 +2324,7 @@ msgstr "Touche « Début » intelligente"
 # File: src/nano.c, line: 740
 #: src/nano.c:844
 msgid "Save backups of existing files"
-msgstr "Sauver en créant une copie de sécurité"
+msgstr "Créer des copies de sécurité des fichiers existants"
 
 #
 # File: src/nano.c, line: 741
@@ -2553,7 +2534,6 @@ msgstr "Corrige la confusion effac. arr./suppr."
 # File: src/global.c, line: 315
 # File: src/global.c, line: 315
 #: src/nano.c:908
-#, fuzzy
 msgid "Show this help text"
 msgstr "Affiche de message"
 
@@ -2587,7 +2567,7 @@ msgstr "Active l'utilisation de la souris"
 
 #: src/nano.c:918
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "Ne pas lire le fichier existant (mais l'écraser)"
 
 #
 # File: src/nano.c, line: 807
@@ -2639,9 +2619,8 @@ msgstr "--fill=<numéro>"
 # File: src/nano.c, line: 779
 # File: src/nano.c, line: 779
 #: src/nano.c:929
-#, fuzzy
 msgid "Set hard-wrapping point at column #cols"
-msgstr "Colonne de passage à la ligne"
+msgstr "Passer automatiquement à la ligne à la colonne #col"
 
 #
 # File: src/nano.c, line: 817
@@ -2686,7 +2665,6 @@ msgstr "Mode visualisation (lecture seule)"
 # File: src/nano.c, line: 824
 # File: src/nano.c, line: 824
 #: src/nano.c:943
-#, fuzzy
 msgid "Don't hard-wrap long lines"
 msgstr "Désactive le passage auto. à la ligne"
 
@@ -2837,7 +2815,7 @@ msgstr "la colonne maximale « %s » n'est pas valide"
 #: src/nano.c:2393
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr ""
+msgstr "Entrez « %s -h » pour une liste des options disponibles.\n"
 
 #
 # File: src/prompt.c, line: 1252
@@ -2950,42 +2928,41 @@ msgstr "la syntaxe « default » ne doit être associée à aucune extension"
 # File: src/rcfile.c, line: 247
 #: src/rcfile.c:411
 msgid "Missing key name"
-msgstr "Nom de clef manquant"
+msgstr "Raccourci manquant"
 
 #: src/rcfile.c:420 src/rcfile.c:431
 msgid "Key name is too short"
-msgstr ""
+msgstr "Raccourci trop court"
 
 #: src/rcfile.c:441
-#, fuzzy
 msgid "Key name must begin with \"^\", \"M\", or \"F\""
-msgstr "Les combinaisons clavier doivent commencer par « ^ », « M » ou « F »"
+msgstr "Les raccourcis doivent commencer par « ^ », « M » ou « F »"
 
 #: src/rcfile.c:450
-#, fuzzy
 msgid "Must specify a function to bind the key to"
-msgstr ""
-"vous devez indiquer la fonction à laquelle cette combinaison est associée"
+msgstr "Vous devez indiquer la fonction à laquelle ce raccourci est associée"
 
 #. TRANSLATORS: Do not translate the word "all".
 #: src/rcfile.c:460
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
 msgstr ""
+"Vous devez indiquer le menu (ou « all » pour tous) auquel ce raccourci est "
+"rattaché"
 
 #: src/rcfile.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a function"
 msgstr "impossible de trouver la fonction « %s »"
 
 #: src/rcfile.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a menu"
 msgstr "impossible de trouver le menu « %s »"
 
 #: src/rcfile.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
-msgstr "désolé, « %s » n'est pas une combinaison valide"
+msgstr "désolé, le raccourci « %s » ne peut être réattribué"
 
 #
 # File: src/browser.c, line: 257
@@ -3017,9 +2994,9 @@ msgstr "désolé, « %s » n'est pas une combinaison valide"
 # File: src/rcfile.c, line: 383
 # File: src/rcfile.c, line: 913
 #: src/rcfile.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Error expanding %s: %s"
-msgstr "Erreur lors de la lecture de %s : %s"
+msgstr "Erreur lors de l'expansion de %s : %s"
 
 #
 # File: src/rcfile.c, line: 438
@@ -3105,37 +3082,35 @@ msgstr "chaîne de motif Magic manquante"
 # File: src/rcfile.c, line: 460
 # File: src/rcfile.c, line: 460
 #: src/rcfile.c:939
-#, fuzzy
 msgid "Cannot add a linter without a syntax command"
-msgstr ""
-"impossible d'ajouter un motif d'en-tête non précédé d'une commande « syntax »"
+msgstr "impossible d'ajouter un analyseur statique sans commande « syntax »"
 
 #
 # File: src/rcfile.c, line: 465
 # File: src/rcfile.c, line: 465
 #: src/rcfile.c:944
-#, fuzzy
 msgid "Missing linter command"
-msgstr "nom de couleur manquant"
+msgstr "Commande d'analyse statique manquante"
 
 #: src/rcfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
 msgstr ""
-"Erreur bloquante : aucune combinaison n'est associée à la fonction « %s »"
+"Erreur bloquante : aucun raccourci n'est associé à la fonction « %s ». "
+"Arrêt.\n"
 
 #: src/rcfile.c:976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
-"Arrêt. Si besoin, lancez nano avec l'option -I pour modifier les paramètres "
-"de votre fichier nanorc\n"
+"Si besoin, lancez nano avec l'option -I pour modifier les paramètres de "
+"votre fichier nanorc\n"
 
 #: src/rcfile.c:1037
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "impossible de trouver le menu « %s »"
+msgstr "impossible de trouver la syntaxe « %s » à étendre"
 
 #
 # File: src/rcfile.c, line: 646
@@ -3171,9 +3146,8 @@ msgstr "impossible de comprendre la commande « %s »"
 # File: src/rcfile.c, line: 465
 # File: src/rcfile.c, line: 465
 #: src/rcfile.c:1113
-#, fuzzy
 msgid "Missing option"
-msgstr "nom de couleur manquant"
+msgstr "Option manquante"
 
 #
 # File: src/rcfile.c, line: 708
@@ -3212,7 +3186,7 @@ msgstr "indiquez 2 caractères (mono-colonne)"
 # File: src/rcfile.c, line: 828
 # File: src/rcfile.c, line: 828
 #: src/rcfile.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unset option \"%s\""
 msgstr "impossible de désactiver l'option « %s »"
 
@@ -3220,9 +3194,9 @@ msgstr "impossible de désactiver l'option « %s »"
 # File: src/rcfile.c, line: 834
 # File: src/rcfile.c, line: 834
 #: src/rcfile.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option \"%s\""
-msgstr "option inconnue « %s »"
+msgstr "Option « %s » inconnue"
 
 #
 # File: src/rcfile.c, line: 894
@@ -3338,11 +3312,11 @@ msgid "Nothing in undo buffer!"
 msgstr "Aucune opération à annuler !"
 
 #: src/text.c:453 src/text.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
 "Erreur interne : impossible de trouver une correspondance pour la ligne %d. "
-"Sauvegardez votre travail"
+"Sauvez votre travail."
 
 #: src/text.c:464 src/text.c:601
 msgid "text add"
@@ -3396,7 +3370,7 @@ msgstr "remplacement de texte"
 
 #: src/text.c:554 src/text.c:669 src/text.c:953
 msgid "Internal error: unknown type.  Please save your work."
-msgstr "Erreur interne : type inconnu. Sauvegardez votre travail"
+msgstr "Erreur interne : type inconnu. Sauvez votre travail"
 
 #: src/text.c:560
 #, c-format
@@ -3408,11 +3382,10 @@ msgid "Nothing to re-do!"
 msgstr "Rien à refaire !"
 
 #: src/text.c:580
-#, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr ""
-"Erreur interne : impossible de mettre en place le moyen d'annuler l'action "
-"« couper ». Sauvegardez votre travail."
+"Erreur interne : impossible de préparer le retour en avant. Sauvez votre "
+"travail."
 
 #: src/text.c:674
 #, c-format
@@ -3438,11 +3411,10 @@ msgid "Could not fork"
 msgstr "Impossible de créer un nouveau processus"
 
 #: src/text.c:944
-#, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr ""
-"Erreur interne : impossible de mettre en place le moyen d'annuler l'action "
-"« couper ». Sauvegardez votre travail."
+"Erreur interne : impossible de préparer l'action « coller ». Sauvez votre "
+"travail."
 
 #
 # File: src/text.c, line: 1270
@@ -3520,9 +3492,8 @@ msgstr "erreur d'appel de « %s »"
 # File: src/global.c, line: 339
 # File: src/global.c, line: 339
 #: src/text.c:2960
-#, fuzzy
 msgid "Invoking spell checker, please wait"
-msgstr "Appeler le correcteur orthographique (si dispo.)"
+msgstr "Appel du correcteur orthographique, veuillez patienter"
 
 #
 # File: src/text.c, line: 2346
@@ -3544,43 +3515,42 @@ msgstr "Échec de la correction : %s : %s"
 # File: src/nano.c, line: 764
 # File: src/nano.c, line: 764
 #: src/text.c:3013
-#, fuzzy
 msgid "No linter defined for this type of file!"
-msgstr "Pas d'ajout de ligne en fin de fichier"
+msgstr "Aucun analyseur statique défini pour ce type de fichiers !"
 
 #: src/text.c:3024
 msgid "Save modified buffer before linting?"
-msgstr ""
+msgstr "Sauver l'espace modifié avant l'analyse statique ?"
 
 #: src/text.c:3046
 msgid "Invoking linter, please wait"
-msgstr ""
+msgstr "Lancement de l'analyse statique, veuillez patienter"
 
 #: src/text.c:3202
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr ""
+msgstr "La commande « %s » n'a produit aucune ligne analysable"
 
 #: src/text.c:3236
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
+"Ce message concerne le fichier non ouvert %s. L'ouvrir dans un nouvel "
+"espace ?"
 
 #
 # File: src/nano.c, line: 735
 # File: src/nano.c, line: 735
 #: src/text.c:3284
-#, fuzzy
 msgid "At last message"
-msgstr "Affiche ce message"
+msgstr "Dernier message"
 
 #
 # File: src/nano.c, line: 735
 # File: src/nano.c, line: 735
 #: src/text.c:3291
-#, fuzzy
 msgid "At first message"
-msgstr "Affiche ce message"
+msgstr "Premier message"
 
 #
 # File: src/text.c, line: 2416
@@ -3729,84 +3699,3 @@ msgstr "et toute autre personne que nous aurions oubliée..."
 #: src/winio.c:3483
 msgid "Thank you for using nano!"
 msgstr "Merci d'utiliser nano !"
-
-#
-# File: src/global.c, line: 1053
-# File: src/global.c, line: 1053
-#~ msgid "Insert File"
-#~ msgstr "Insérer un fichier"
-
-#
-# File: src/global.c, line: 330
-# File: src/global.c, line: 330
-#~ msgid "Go to previous screen"
-#~ msgstr "Aller à l'écran précédent"
-
-#
-# File: src/global.c, line: 649
-# File: src/global.c, line: 649
-#~ msgid "Find Other Bracket"
-#~ msgstr "Trouver l'autre crochet"
-
-#
-# File: src/global.c, line: 1318
-# File: src/global.c, line: 1318
-#~ msgid "Soft line wrapping"
-#~ msgstr "Affichage multiligne automatique"
-
-#
-# File: src/global.c, line: 1318
-# File: src/global.c, line: 1318
-#~ msgid "Long line wrapping"
-#~ msgstr "Passer à la ligne automatiquement"
-
-#
-# File: src/nano.c, line: 735
-# File: src/nano.c, line: 735
-#~ msgid "Show this message"
-#~ msgstr "Affiche ce message"
-
-#
-# File: src/nano.c, line: 831
-# File: src/nano.c, line: 831
-#~ msgid "(ignored, for Pico compatibility)"
-#~ msgstr "(ignoré, pour être compatible Pico)"
-
-#~ msgid "Must specify menu to bind key to (or \"all\")"
-#~ msgstr ""
-#~ "vous devez indiquer dans quel menu cette combinaison sera utilisée (ou "
-#~ "« all » pour tous)"
-
-#
-# File: src/rcfile.c, line: 686
-# File: src/rcfile.c, line: 686
-#~ msgid "Missing flag"
-#~ msgstr "nom de l'option manquant"
-
-#~ msgid "Internal error: unknown type.  Please save your work"
-#~ msgstr "Erreur interne : type inconnu. Sauvegardez votre travail"
-
-#~ msgid "Internal error: Redo setup failed.  Please save your work"
-#~ msgstr ""
-#~ "Erreur interne : impossible de se préparer à refaire l'action. "
-#~ "Sauvegardez votre travail"
-
-#
-# File: src/text.c, line: 441
-# File: src/text.c, line: 441
-#~ msgid "Could not pipe"
-#~ msgstr "Impossible d'ouvrir un tube"
-
-#
-# File: src/files.c, line: 1476
-# File: src/text.c, line: 2315
-# File: src/text.c, line: 2327
-# File: src/files.c, line: 1476
-# File: src/text.c, line: 2315
-# File: src/text.c, line: 2327
-#~ msgid "Error writing backup file %s: File owner mismatch"
-#~ msgstr ""
-#~ "Erreur d'écriture de la copie de sécurité %s : propriétaire différent"
-
-#~ msgid "line split"
-#~ msgstr "coupure de ligne"

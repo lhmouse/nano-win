@@ -1,17 +1,17 @@
 # GNU nano Finnish Translation.
-# Copyright © 2000, 2001, 2003, 2009, 2010, 2011, 2013 Free Software Foundation, Inc.
+# Copyright © 2000, 2001, 2003, 2009, 2010, 2011, 2013, 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 #
 # Pauli Virtanen <pauli.virtanen@saunalahti.fi>, 2000, 2001.
 # Kalle Kivimaa <kalle.kivimaa@iki.fi>, 2003.
 # Kalle Olavi Niemitalo <kon@iki.fi>, 2003.
-# Jorma Karvonen <karvonen.jorma@gmail.com>, 2009-2011, 2013
+# Jorma Karvonen <karvonen.jorma@gmail.com>, 2009-2011, 2013-2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.3.2pre4\n"
+"Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2013-03-20 08:25+0200\n"
+"PO-Revision-Date: 2014-05-14 19:45+0200\n"
 "Last-Translator: Jorma Karvonen <karvonen.jorma@gmail.com>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr ""
 "epäonnistui"
 
 #: src/files.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine hostname for lock file: %s"
 msgstr "Tietokonenimen määritteleminen lukitustiedostolle epäonnistui: %s"
 
@@ -116,12 +116,12 @@ msgid "Error deleting lock file %s: %s"
 msgstr "Virhe poistettaessa lukitustiedostoa %s: %s"
 
 #: src/files.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "Virhe avattaessa lukitustiedostoa %s: %s"
 
 #: src/files.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr "Virhe luettaessa lukitustiedostoa %s: Dataa ei luettu riittävästi"
 
@@ -428,13 +428,11 @@ msgid "Close"
 msgstr "Sulje"
 
 #: src/global.c:474
-#, fuzzy
 msgid "Uncut Text"
 msgstr "Liitä"
 
 #  80 sarakkeen näytöllä mahtuu 10 merkkiä, mieluummin 9.
 #: src/global.c:476
-#, fuzzy
 msgid "Unjustify"
 msgstr "Epätasaa"
 
@@ -484,20 +482,17 @@ msgstr "Oikolue"
 #  80 sarakkeen näytöllä mahtuu 13 merkkiä, mieluummin 12.
 #  Huomaa myös "Go To Line Help Text".
 #: src/global.c:500
-#, fuzzy
 msgid "To Linter"
-msgstr "Rivinumero"
+msgstr "Esikatseluun"
 
 #. TRANSLATORS: Try to keep the next two strings at most 14 characters.
 #: src/global.c:502
-#, fuzzy
 msgid "Prev Lint Msg"
-msgstr "Ed. rivi"
+msgstr "Ed. esikatselu"
 
 #: src/global.c:503
-#, fuzzy
 msgid "Next Lint Msg"
-msgstr "Seuraava rivi"
+msgstr "Seur. esikats."
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
@@ -534,19 +529,16 @@ msgid "Search for a string or a regular expression"
 msgstr "Etsi merkkijonoa tai säännöllistä lauseketta"
 
 #: src/global.c:528
-#, fuzzy
 msgid "Search for a string"
-msgstr "Etsi merkkijonoa tai säännöllistä lauseketta"
+msgstr "Etsi merkkijonoa"
 
 #: src/global.c:529
-#, fuzzy
 msgid "Go one screenful up"
-msgstr "Siirry seuraavaan ruutuun"
+msgstr "Siirry ruutu ylöspäin"
 
 #: src/global.c:530
-#, fuzzy
 msgid "Go one screenful down"
-msgstr "Siirry seuraavaan ruutuun"
+msgstr "Siirry ruutu alaspäin"
 
 #: src/global.c:532
 msgid "Cut the current line and store it in the cutbuffer"
@@ -573,12 +565,10 @@ msgid "Go to line and column number"
 msgstr "Siirry riville ja sarakkeelle numero"
 
 #: src/global.c:545
-#, fuzzy
 msgid "Mark text starting from the cursor position"
-msgstr "Merkitse kohdistimen kohdalla oleva teksti"
+msgstr "Merkitse teksti alkaen kohdistimen kohdalta"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Repeat the last search"
 msgstr "Toista viimeisin etsintä"
 
@@ -789,19 +779,16 @@ msgid "Go to directory"
 msgstr "Siirry hakemistoon"
 
 #: src/global.c:655
-#, fuzzy
 msgid "Invoke the linter, if available"
-msgstr "Käynnistä oikoluin (jos saatavilla)"
+msgstr "Käynnistä esikatselu (jos saatavilla)"
 
 #: src/global.c:656
-#, fuzzy
 msgid "Go to previous linter msg"
-msgstr "Siirry edelliselle riville"
+msgstr "Siirry edelliseen esikatseluun"
 
 #: src/global.c:657
-#, fuzzy
 msgid "Go to next linter msg"
-msgstr "Siirry seuraavalle riville"
+msgstr "Siirry seuraavaan esikatseluun"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:677
@@ -813,7 +800,6 @@ msgid "Cancel"
 msgstr "Peru"
 
 #: src/global.c:691
-#, fuzzy
 msgid "Write Out"
 msgstr "Kirjoita"
 
@@ -872,9 +858,8 @@ msgstr "Viim. rivi"
 
 #  versiossa 1.1.99pre2 hakee merkkejä "([{<>}])"
 #: src/global.c:803
-#, fuzzy
 msgid "To Bracket"
-msgstr "Ei ole suljemerkki"
+msgstr "Sulkeeseen"
 
 #: src/global.c:806
 msgid "Mark Text"
@@ -942,7 +927,6 @@ msgid "Scroll Down"
 msgstr "Vieritä alas"
 
 #: src/global.c:869
-#, fuzzy
 msgid "Prev File"
 msgstr "Edellinen tiedosto"
 
@@ -951,9 +935,8 @@ msgid "Next File"
 msgstr "Seuraava tiedosto"
 
 #: src/global.c:875
-#, fuzzy
 msgid "Verbatim"
-msgstr "Merkintarkka syöte"
+msgstr "Merkintarkka"
 
 #: src/global.c:878
 msgid "Tab"
@@ -1061,9 +1044,8 @@ msgid "Smooth scrolling"
 msgstr "Pehmeä vieritys"
 
 #: src/global.c:1226
-#, fuzzy
 msgid "Soft wrapping of overlong lines"
-msgstr "Älä rivitä pitkiä rivejä"
+msgstr "Pitkien rivien pehmeä rivitys"
 
 #: src/global.c:1228
 msgid "Whitespace display"
@@ -1086,9 +1068,8 @@ msgid "Cut to end"
 msgstr "Leikkaa loppuun saakka"
 
 #: src/global.c:1238
-#, fuzzy
 msgid "Hard wrapping of overlong lines"
-msgstr "Älä rivitä pitkiä rivejä"
+msgstr "Pitkien rivien kova rivitys"
 
 #: src/global.c:1240
 msgid "Conversion of typed tabs to spaces"
@@ -1609,7 +1590,6 @@ msgid "Fix Backspace/Delete confusion problem"
 msgstr "Korjaa Backspace/Delete -näppäinten sekaantumispulma"
 
 #: src/nano.c:908
-#, fuzzy
 msgid "Show this help text"
 msgstr "Näytä tämä ohjeteksti"
 
@@ -1631,7 +1611,7 @@ msgstr "Käytä hiirtä"
 
 #: src/nano.c:918
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "Älä lue tiedostoa (vain kirjoita se)"
 
 #: src/nano.c:920
 msgid "-o <dir>"
@@ -1662,9 +1642,8 @@ msgid "--fill=<#cols>"
 msgstr "--fill=<#sarakkeet>"
 
 #: src/nano.c:929
-#, fuzzy
 msgid "Set hard-wrapping point at column #cols"
-msgstr "Aseta rivityspiste sarakkeeseen #cols"
+msgstr "Aseta kova rivitys sarakkeeseen #cols"
 
 #: src/nano.c:932
 msgid "-s <prog>"
@@ -1691,9 +1670,8 @@ msgid "View mode (read-only)"
 msgstr "Katselutila (vain luku)"
 
 #: src/nano.c:943
-#, fuzzy
 msgid "Don't hard-wrap long lines"
-msgstr "Älä rivitä pitkiä rivejä"
+msgstr "Älä kovarivitä pitkiä rivejä"
 
 #: src/nano.c:945
 msgid "Don't show the two help lines"
@@ -1787,7 +1765,7 @@ msgstr "Haluttu täydennyspituus ”%s” ei kelpaa"
 #: src/nano.c:2393
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr ""
+msgstr "Hae käytettävissä olevat valitsimet kirjoittamalla ’%s -h’.\n"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
@@ -1854,15 +1832,13 @@ msgstr "Puuttuva näppäinnimi"
 
 #: src/rcfile.c:420 src/rcfile.c:431
 msgid "Key name is too short"
-msgstr ""
+msgstr "Näppäinnimi on liian lyhyt"
 
 #: src/rcfile.c:441
-#, fuzzy
 msgid "Key name must begin with \"^\", \"M\", or \"F\""
-msgstr "Näppäinsidontojen on alettava merkeillä ”^”, ”M”, tai ”F”"
+msgstr "Näppäinnimien on alettava merkeillä ”^”, ”M”, tai ”F”"
 
 #: src/rcfile.c:450
-#, fuzzy
 msgid "Must specify a function to bind the key to"
 msgstr "On määriteltävä funktionäppäin, johon näppäin sidotaan"
 
@@ -1870,26 +1846,28 @@ msgstr "On määriteltävä funktionäppäin, johon näppäin sidotaan"
 #: src/rcfile.c:460
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
 msgstr ""
+"On määriteltävä valikko (tai ”all”), johon näppäin sidotaan/josta näppäin "
+"irrotetaan"
 
 #: src/rcfile.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a function"
 msgstr "Nimen ”%s” kartoittaminen funktioon epäonnistui"
 
 #: src/rcfile.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a menu"
 msgstr "Nimen ”%s” kartoittaminen valikkoon epäonnistui"
 
 #: src/rcfile.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
 msgstr "Valitettavasti näppäinmerkkijonossa ”%s” on väärä sidonta"
 
 #: src/rcfile.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Error expanding %s: %s"
-msgstr "Virhe luettaessa kohdetta %s: %s"
+msgstr "Virhe laajennettaessa kohdetta %s: %s"
 
 #: src/rcfile.c:626
 #, c-format
@@ -1941,32 +1919,31 @@ msgid "Missing magic string name"
 msgstr "Puuttuva maaginen säännöllinen lausekemerkkijono"
 
 #: src/rcfile.c:939
-#, fuzzy
 msgid "Cannot add a linter without a syntax command"
-msgstr "Ei voi lisätä säännöllistä otsakelauseketta ilman syntaksikomentoa"
+msgstr "Ei voi lisätä esikatselua ilman syntaksikomentoa"
 
 #: src/rcfile.c:944
-#, fuzzy
 msgid "Missing linter command"
-msgstr "Puuttuva värin nimi"
+msgstr "Puuttuva esikatselukomento"
 
 #: src/rcfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
-msgstr "Vakava virhe: funktioon ”%s” ei ole kartoitettu näppäimiä"
+msgstr ""
+"Vakava virhe: funktioon ”%s” ei ole kartoitettu näppäimiä. Poistutaan.\n"
 
 #: src/rcfile.c:976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
-"Poistutaan. Käytä Nano-ohjelmaa ”-I”-valitsimella, jos nanorc-asetuksia "
-"täytyy säätää\n"
+"Tarvittaessa käytä Nano-ohjelmaa ”-I”-valitsimella, jos nanorc-asetuksia "
+"täytyy säätää.\n"
 
 #: src/rcfile.c:1037
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "Nimen ”%s” kartoittaminen valikkoon epäonnistui"
+msgstr "Laajennettavan syntaksin ”%s” löytäminen epäonnistui"
 
 #: src/rcfile.c:1053 src/rcfile.c:1062 src/rcfile.c:1072
 #, c-format
@@ -1984,14 +1961,13 @@ msgid "Command \"%s\" not understood"
 msgstr "Komentoa ”%s” ei ymmärretty"
 
 #: src/rcfile.c:1113
-#, fuzzy
 msgid "Missing option"
-msgstr "Puuttuva värin nimi"
+msgstr "Puuttuva valitsin"
 
 #: src/rcfile.c:1135
 #, c-format
 msgid "Option \"%s\" requires an argument"
-msgstr "valitsin ”%s” vaatii argumentin"
+msgstr "Valitsin ”%s” vaatii argumentin"
 
 #: src/rcfile.c:1153
 msgid "Option is not a valid multibyte string"
@@ -2006,14 +1982,14 @@ msgid "Two single-column characters required"
 msgstr "Kaksi yksisarakkeista merkkiä vaadittu"
 
 #: src/rcfile.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unset option \"%s\""
-msgstr "Ei voi poistaa lippua ”%s”"
+msgstr "Ei voi poistaa valitsinta ”%s”"
 
 #: src/rcfile.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option \"%s\""
-msgstr "Tuntematon lippu ”%s”"
+msgstr "Tuntematon valitsin ”%s”"
 
 #: src/rcfile.c:1334
 msgid "I can't find my home directory!  Wah!"
@@ -2087,9 +2063,9 @@ msgid "Nothing in undo buffer!"
 msgstr "Peruutuspuskurissa ei ole mitään!"
 
 #: src/text.c:453 src/text.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
-msgstr "Sisäinen virhe: vastaavaa riviä %d ei löydy. Tallenna työsi"
+msgstr "Sisäinen virhe: vastaavaa riviä %d ei löydy. Tallenna työsi."
 
 #: src/text.c:464 src/text.c:601
 msgid "text add"
@@ -2141,9 +2117,8 @@ msgid "Nothing to re-do!"
 msgstr "Ei mitään tehtävää!"
 
 #: src/text.c:580
-#, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
-msgstr "Sisäinen virhe: komennon uncut asettaminen epäonnistui. Tallenna työsi"
+msgstr "Sisäinen virhe: komennon redo asettaminen epäonnistui. Tallenna työsi."
 
 #: src/text.c:674
 #, c-format
@@ -2159,9 +2134,9 @@ msgid "Could not fork"
 msgstr "Lapsiprosessi epäonnistui"
 
 #: src/text.c:944
-#, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
-msgstr "Sisäinen virhe: komennon uncut asettaminen epäonnistui. Tallenna työsi"
+msgstr ""
+"Sisäinen virhe: komennon uncut asettaminen epäonnistui. Tallenna työsi."
 
 #: src/text.c:1875
 #, c-format
@@ -2206,9 +2181,8 @@ msgid "Error invoking \"%s\""
 msgstr "Virhe kutsuttaessa kohdetta ”%s”"
 
 #: src/text.c:2960
-#, fuzzy
 msgid "Invoking spell checker, please wait"
-msgstr "Käynnistä oikoluin (jos saatavilla)"
+msgstr "Käynnistä oikoluin, odota hetki"
 
 #: src/text.c:2977
 #, c-format
@@ -2221,37 +2195,36 @@ msgid "Spell checking failed: %s: %s"
 msgstr "Oikoluku epäonnistui: %s: %s"
 
 #: src/text.c:3013
-#, fuzzy
 msgid "No linter defined for this type of file!"
-msgstr "Älä lisää rivinvaihtoa tiedostojen loppuun"
+msgstr "Esikatselua ei ole määritelty tämäntyyppiselle tiedostolle"
 
 #: src/text.c:3024
 msgid "Save modified buffer before linting?"
-msgstr ""
+msgstr "Tallennetaanko muokattu puskuri ennen esikatselua?"
 
 #: src/text.c:3046
 msgid "Invoking linter, please wait"
-msgstr ""
+msgstr "Kutsutaan esikastelua, odota vähän"
 
 #: src/text.c:3202
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr ""
+msgstr "Saatiin 0 jäsenneltäviltä riveiltä komennosta: %s"
 
 #: src/text.c:3236
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
+"Tämä viesti on avamaattomalle tiedostolle %s, avataanko se uudessa "
+"puskurissa?"
 
 #: src/text.c:3284
-#, fuzzy
 msgid "At last message"
-msgstr "Näytä tämä ohje"
+msgstr "Viimeisessä viestissä"
 
 #: src/text.c:3291
-#, fuzzy
 msgid "At first message"
-msgstr "Näytä tämä ohje"
+msgstr "Ensimmäisessä viestissä"
 
 #: src/text.c:3368
 #, c-format
@@ -2260,7 +2233,7 @@ msgstr "%sSanoja: %lu  riviä: %ld  merkkiä: %lu"
 
 #: src/text.c:3369
 msgid "In Selection:  "
-msgstr "Valinnassa:"
+msgstr "Valinnassa:    "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
@@ -2348,14 +2321,11 @@ msgstr "Kiitos Nanon käyttämisestä!"
 #~ msgid "Find Other Bracket"
 #~ msgstr "Etsi toinen sulje"
 
-#~ msgid "Soft line wrapping"
-#~ msgstr "Pehmeä rivin jakaminen usealle riville"
-
 #~ msgid "Long line wrapping"
 #~ msgstr "Pitkän rivin jakaminen eri riveille"
 
-#~ msgid "Show this message"
-#~ msgstr "Näytä tämä ohje"
+#~ msgid "Soft line wrapping"
+#~ msgstr "Pehmeä rivin jakaminen usealle riville"
 
 #~ msgid "(ignored, for Pico compatibility)"
 #~ msgstr "(eivät vaikuta Nanoon; Pico käyttäisi)"

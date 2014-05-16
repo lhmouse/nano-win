@@ -1,17 +1,17 @@
 # Esperanto translations for GNU nano.
-# Copyright (C) 2013 Free Software Foundation, Inc.
+# Copyright (C) 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 #
 # "Wovor hat diese Stadt Angst?
 # Es haben doch alle goldene Nasen hier!"
 #
-# Benno Schulenberg <benno@vertaalt.nl>, 2010, 2011, 2013.
+# Benno Schulenberg <benno@vertaalt.nl>, 2010, 2011, 2013, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.3.2pre4\n"
+"Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2013-03-18 21:02+0100\n"
+"PO-Revision-Date: 2014-05-15 22:52+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -98,12 +98,12 @@ msgstr "Mankas ankoraŭ serĉendaĵo"
 #: src/files.c:138
 msgid "Couldn't determine my identity for lock file (getpwuid() failed)"
 msgstr ""
-"ne eblas eltrovi mian identecon por rigla dosiero (getpwuid() malsukcesis)"
+"Malsukcesis eltrovi mian identecon por rigla dosiero (getpwuid() fiaskis)"
 
 #: src/files.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine hostname for lock file: %s"
-msgstr "ne eblas eltrovi komputilretnomon por rigla dosiero: %s"
+msgstr "Malsukcesis eltrovi komputilretnomon por rigla dosiero: %s"
 
 #: src/files.c:170 src/files.c:207 src/files.c:217
 #, c-format
@@ -116,12 +116,12 @@ msgid "Error deleting lock file %s: %s"
 msgstr "Eraro dum forigo de rigla dosiero %s: %s"
 
 #: src/files.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "Eraro dum malfermo de rigla dosiero %s: %s"
 
 #: src/files.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr "Eraro dum legado de rigla dosiero %s: nesufiĉaj datumoj legiĝis"
 
@@ -416,12 +416,10 @@ msgid "Close"
 msgstr "Fermi"
 
 #: src/global.c:474
-#, fuzzy
 msgid "Uncut Text"
 msgstr "Alglui"
 
 #: src/global.c:476
-#, fuzzy
 msgid "Unjustify"
 msgstr "Malrektigi"
 
@@ -464,20 +462,17 @@ msgid "To Spell"
 msgstr "Literumo"
 
 #: src/global.c:500
-#, fuzzy
 msgid "To Linter"
-msgstr "Iri linion"
+msgstr "Trakombi"
 
 #. TRANSLATORS: Try to keep the next two strings at most 14 characters.
 #: src/global.c:502
-#, fuzzy
 msgid "Prev Lint Msg"
-msgstr "Linio supren"
+msgstr "Antaŭa mesaĝo"
 
 #: src/global.c:503
-#, fuzzy
 msgid "Next Lint Msg"
-msgstr "Linio suben"
+msgstr "Sekva mesaĝo"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
@@ -514,19 +509,16 @@ msgid "Search for a string or a regular expression"
 msgstr "Serĉi signoĉenon aŭ regulesprimon"
 
 #: src/global.c:528
-#, fuzzy
 msgid "Search for a string"
-msgstr "Serĉi signoĉenon aŭ regulesprimon"
+msgstr "Serĉi parton de dosiernomo"
 
 #: src/global.c:529
-#, fuzzy
 msgid "Go one screenful up"
-msgstr "Iri al la suba paĝo"
+msgstr "Iri unu paĝo supren"
 
 #: src/global.c:530
-#, fuzzy
 msgid "Go one screenful down"
-msgstr "Iri al la suba paĝo"
+msgstr "Iri unu paĝo suben"
 
 #: src/global.c:532
 msgid "Cut the current line and store it in the cutbuffer"
@@ -553,12 +545,10 @@ msgid "Go to line and column number"
 msgstr "Iri al linionumero (kaj kolumnonumero)"
 
 #: src/global.c:545
-#, fuzzy
 msgid "Mark text starting from the cursor position"
 msgstr "Marki tekston ekde la kursora pozicio"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Repeat the last search"
 msgstr "Ripeti lastan serĉon"
 
@@ -767,19 +757,16 @@ msgid "Go to directory"
 msgstr "Iri al indikota dosierujo"
 
 #: src/global.c:655
-#, fuzzy
 msgid "Invoke the linter, if available"
-msgstr "Ruli literumilon (se disponeblas)"
+msgstr "Ruli sintaks-kontrolilon (se disponeblas)"
 
 #: src/global.c:656
-#, fuzzy
 msgid "Go to previous linter msg"
-msgstr "Iri al la supra linio"
+msgstr "Iri al la antaŭa mesaĝo de la kontrolilo"
 
 #: src/global.c:657
-#, fuzzy
 msgid "Go to next linter msg"
-msgstr "Iri al la suba linio"
+msgstr "Iri al la sekva mesaĝo de la kontrolilo"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:677
@@ -791,7 +778,6 @@ msgid "Cancel"
 msgstr "Rezigni"
 
 #: src/global.c:691
-#, fuzzy
 msgid "Write Out"
 msgstr "Konservi"
 
@@ -848,13 +834,12 @@ msgid "Last Line"
 msgstr "Lasta linio"
 
 #: src/global.c:803
-#, fuzzy
 msgid "To Bracket"
-msgstr "Ne estas krampo"
+msgstr "Al krampo"
 
 #: src/global.c:806
 msgid "Mark Text"
-msgstr "Marki tekston"
+msgstr "Markŝalto"
 
 #: src/global.c:809
 msgid "Copy Text"
@@ -917,18 +902,16 @@ msgid "Scroll Down"
 msgstr "Rulumi suben"
 
 #: src/global.c:869
-#, fuzzy
 msgid "Prev File"
-msgstr "Malsekvan dosieron"
+msgstr "Malsekvan"
 
 #: src/global.c:871
 msgid "Next File"
-msgstr "Sekvan dosieron"
+msgstr "Sekvan"
 
 #: src/global.c:875
-#, fuzzy
 msgid "Verbatim"
-msgstr "Konforma enigo"
+msgstr "Konforme"
 
 #: src/global.c:878
 msgid "Tab"
@@ -948,7 +931,7 @@ msgstr "«Retropaŝo»"
 
 #: src/global.c:893
 msgid "CutTillEnd"
-msgstr "Tondi ĝis fino"
+msgstr "Tondi reston"
 
 #: src/global.c:903
 msgid "Word Count"
@@ -1025,9 +1008,8 @@ msgid "Smooth scrolling"
 msgstr "Rulumi linie"
 
 #: src/global.c:1226
-#, fuzzy
 msgid "Soft wrapping of overlong lines"
-msgstr "ne faldi longajn liniojn"
+msgstr "Ĉirkaŭfluigo de tro longaj linioj"
 
 #: src/global.c:1228
 msgid "Whitespace display"
@@ -1047,12 +1029,11 @@ msgstr "Aŭtomate deŝovi"
 
 #: src/global.c:1236
 msgid "Cut to end"
-msgstr "Eltondi ĝis dosierfino"
+msgstr "Tondi ekde kursoro ĝis linifino"
 
 #: src/global.c:1238
-#, fuzzy
 msgid "Hard wrapping of overlong lines"
-msgstr "ne faldi longajn liniojn"
+msgstr "Faldi longajn liniojn (enmeti linifinon)"
 
 #: src/global.c:1240
 msgid "Conversion of typed tabs to spaces"
@@ -1068,7 +1049,7 @@ msgstr "Pluraj dosierbufroj"
 
 #: src/global.c:1246
 msgid "Mouse support"
-msgstr "Subteni uzon de muso"
+msgstr "Subteno de muso"
 
 #: src/global.c:1248
 msgid "No conversion from DOS/Mac format"
@@ -1096,8 +1077,8 @@ msgstr ""
 "ekzistas kongruo por la teksto kiun vi enigis, la ekrano aktualiĝos al la "
 "loko de la unue trovata kongruo.\n"
 "\n"
-" La antaŭa serĉendaĵo montriĝas inter krampoj post la serĉa invito -- premi "
-"«Enigo» sen enigi iun ajn tekston, kontinuigos tiun antaŭan serĉon.  "
+" La antaŭa serĉendaĵo montriĝas inter krampoj post la serĉa invito -- premo "
+"de «Enigo» sen enigi iun ajn tekston kontinuigos tiun antaŭan serĉon.  "
 
 #: src/help.c:229
 msgid ""
@@ -1287,9 +1268,9 @@ msgid ""
 msgstr ""
 "Helpteksto por literuma kontrolo\n"
 "\n"
-" La literumilo kontrolas la otrografion de la tuta teksto en la nuna "
+" La literumilo kontrolas la ortografion de la tuta teksto en la nuna "
 "dosierbufro.  Kiam nekonata vorto renkontiĝas, ĉi tiu emfaziĝas kaj eblas "
-"redakti anstataŭigo.  Poste, la literumilo demandas ĉu anstataŭigi la "
+"redakti anstataŭigon.  Poste, la literumilo demandas ĉu anstataŭigi la "
 "misliterumatan vorton en la tuta nuna dosiero, aŭ, se vi markis tekston, en "
 "la markita teksto.\n"
 "\n"
@@ -1564,9 +1545,8 @@ msgid "Fix Backspace/Delete confusion problem"
 msgstr "fliki konfuzon pri «Retropaŝo»/«Forigo»"
 
 #: src/nano.c:908
-#, fuzzy
 msgid "Show this help text"
-msgstr "Montri ĉi tiun helptekston"
+msgstr "montri ĉi tiun helptekston"
 
 #: src/nano.c:910
 msgid "Automatically indent new lines"
@@ -1586,7 +1566,7 @@ msgstr "ebligi uzon de muso"
 
 #: src/nano.c:918
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "ne legi dosieron (nur skribi ĝin)"
 
 #: src/nano.c:920
 msgid "-o <dir>"
@@ -1617,7 +1597,6 @@ msgid "--fill=<#cols>"
 msgstr "--fill=<kolumnoj>"
 
 #: src/nano.c:929
-#, fuzzy
 msgid "Set hard-wrapping point at column #cols"
 msgstr "uzenda larĝo por faldi/rektigi"
 
@@ -1646,7 +1625,6 @@ msgid "View mode (read-only)"
 msgstr "rigarda reĝimo (ne eblas redakti)"
 
 #: src/nano.c:943
-#, fuzzy
 msgid "Don't hard-wrap long lines"
 msgstr "ne faldi longajn liniojn"
 
@@ -1660,7 +1638,7 @@ msgstr "ebligi paŭzigo"
 
 #: src/nano.c:948
 msgid "Enable soft line wrapping"
-msgstr "ebligi ĉirkaŭfluon de linioj"
+msgstr "ĉirkaŭfluigi longajn liniojn"
 
 #: src/nano.c:957
 #, c-format
@@ -1740,7 +1718,7 @@ msgstr "Petata faldlarĝo \"%s\" ne validas"
 #: src/nano.c:2393
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr ""
+msgstr "Tajpu '%s -h' por vidi liston de eblaj opcioj.\n"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
@@ -1809,42 +1787,40 @@ msgstr "Mankas nomo de klavo"
 
 #: src/rcfile.c:420 src/rcfile.c:431
 msgid "Key name is too short"
-msgstr ""
+msgstr "Klavnomo tro mallongas"
 
 #: src/rcfile.c:441
-#, fuzzy
 msgid "Key name must begin with \"^\", \"M\", or \"F\""
-msgstr "Klavligoj devas komenci kun \"^\", \"M\", aŭ \"F\""
+msgstr "Klavnomo devas komenci kun \"^\", \"M\", aŭ \"F\""
 
 #: src/rcfile.c:450
-#, fuzzy
 msgid "Must specify a function to bind the key to"
 msgstr "Mankas funkcio al kiu ligi klavon"
 
 #. TRANSLATORS: Do not translate the word "all".
 #: src/rcfile.c:460
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
-msgstr ""
+msgstr "Mankas menuo (aŭ \"all\") en kiu ligi/malligi la klavon"
 
 #: src/rcfile.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a function"
 msgstr "Ĉeno \"%s\" ne estas nomo de funkcio"
 
 #: src/rcfile.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a menu"
 msgstr "Ĉeno \"%s\" ne estas nomo de menuo"
 
 #: src/rcfile.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
-msgstr "Klavĉeno \"%s\" ne estas valida ligo"
+msgstr "Ne eblas religi klavĉenon \"%s\""
 
 #: src/rcfile.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Error expanding %s: %s"
-msgstr "Eraro dum legado de %s: %s"
+msgstr "Eraro dum malvolvo de %s: %s"
 
 #: src/rcfile.c:626
 #, c-format
@@ -1863,7 +1839,7 @@ msgstr ""
 
 #: src/rcfile.c:648
 msgid "Cannot add a color command without a syntax command"
-msgstr "Ne eblas aldoni koloran komandon sen sintaksa komando"
+msgstr "Ne eblas aldoni komandon 'color' sen komando 'syntax'"
 
 #: src/rcfile.c:653
 msgid "Missing color name"
@@ -1884,41 +1860,39 @@ msgstr "Fona koloro \"%s\" ne povas esti hela"
 
 #: src/rcfile.c:819
 msgid "Cannot add a header regex without a syntax command"
-msgstr "Ne eblas aldoni kapan regulesprimon sen sintaksa komando"
+msgstr "Ne eblas aldoni regulesprimon por kaplinio sen komando 'syntax'"
 
 #: src/rcfile.c:875
 msgid "Cannot add a magic string regex without a syntax command"
-msgstr "Ne eblas aldoni regulesprimon por magia signoĉeno sen sintaksa komando"
+msgstr "Ne eblas aldoni regulesprimon por magia signoĉeno sen komando 'syntax'"
 
 #: src/rcfile.c:880
 msgid "Missing magic string name"
 msgstr "Mankas nomo de magia signoĉeno"
 
 #: src/rcfile.c:939
-#, fuzzy
 msgid "Cannot add a linter without a syntax command"
-msgstr "Ne eblas aldoni kapan regulesprimon sen sintaksa komando"
+msgstr "Ne eblas aldoni komandon por 'linter' sen komando 'syntax'"
 
 #: src/rcfile.c:944
-#, fuzzy
 msgid "Missing linter command"
-msgstr "Mankas nomo de koloro"
+msgstr "Mankas programnomo post 'linter'"
 
 #: src/rcfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
-msgstr "Neignorebla eraro: neniu klavo ligita al funkcio \"%s\""
+msgstr "Neignorebla eraro: neniu klavo ligita al funkcio \"%s\".  Eliro.\n"
 
 #: src/rcfile.c:976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
-msgstr "Eliro.  Se necesas, uzu 'nano -I' por ĝustigi agordojn en 'nanorc'.\n"
+msgstr "Se necesas, uzu 'nano -I' por ĝustigi la agordojn en 'nanorc'.\n"
 
 #: src/rcfile.c:1037
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "Ĉeno \"%s\" ne estas nomo de menuo"
+msgstr "Ne troviĝas sintakso '%s' por pliampleksigi"
 
 #: src/rcfile.c:1053 src/rcfile.c:1062 src/rcfile.c:1072
 #, c-format
@@ -1936,9 +1910,8 @@ msgid "Command \"%s\" not understood"
 msgstr "Komando \"%s\" ne estas komprenata"
 
 #: src/rcfile.c:1113
-#, fuzzy
 msgid "Missing option"
-msgstr "Mankas nomo de koloro"
+msgstr "Mankas opcio"
 
 #: src/rcfile.c:1135
 #, c-format
@@ -1958,18 +1931,18 @@ msgid "Two single-column characters required"
 msgstr "Du unukolumnaj signoj bezonatas"
 
 #: src/rcfile.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unset option \"%s\""
-msgstr "Ne eblas malŝalti flagon \"%s\""
+msgstr "Ne eblas malŝalti opcion \"%s\""
 
 #: src/rcfile.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option \"%s\""
-msgstr "Nekonata flago \"%s\""
+msgstr "Nekonata opcio \"%s\""
 
 #: src/rcfile.c:1334
 msgid "I can't find my home directory!  Wah!"
-msgstr "Ne eblas trovi hejman dosierujon.  Ve!"
+msgstr "Malsukcesis trovi hejman dosierujon.  Ve!"
 
 #: src/rcfile.c:1372
 #, c-format
@@ -2037,7 +2010,7 @@ msgid "Nothing in undo buffer!"
 msgstr "Nenio por malfari!"
 
 #: src/text.c:453 src/text.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr "**Programeraro**: ne eblas kongrui linion %d.  Konservu vian laboron."
 
@@ -2091,9 +2064,8 @@ msgid "Nothing to re-do!"
 msgstr "Nenio por refari!"
 
 #: src/text.c:580
-#, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
-msgstr "**Programeraro**: ne eblas prepari maltondon.  Konservu vian laboron."
+msgstr "**Programeraro**: ne eblas prepari refaron.  Konservu vian laboron."
 
 #: src/text.c:674
 #, c-format
@@ -2102,14 +2074,13 @@ msgstr "Refariĝis ago (%s)"
 
 #: src/text.c:768 src/text.c:2561 src/text.c:3040
 msgid "Could not create pipe"
-msgstr "Ne eblas krei dukton"
+msgstr "Malsukcesis krei dukton"
 
 #: src/text.c:794 src/text.c:2649 src/text.c:2801 src/text.c:3091
 msgid "Could not fork"
-msgstr "Ne eblas krei novan procezon"
+msgstr "Malsukcesis krei novan procezon"
 
 #: src/text.c:944
-#, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr "**Programeraro**: ne eblas prepari maltondon.  Konservu vian laboron."
 
@@ -2120,7 +2091,7 @@ msgstr "Signoĉeno de citiloj %s ne validas: %s"
 
 #: src/text.c:2276
 msgid "Can now UnJustify!"
-msgstr "Nun eblas malrektigi (per ^U)!"
+msgstr "Nun eblas malrektigi!"
 
 #: src/text.c:2475
 msgid "Edit a replacement"
@@ -2156,9 +2127,8 @@ msgid "Error invoking \"%s\""
 msgstr "Eraro dum lanĉo de '%s'"
 
 #: src/text.c:2960
-#, fuzzy
 msgid "Invoking spell checker, please wait"
-msgstr "Ruli literumilon (se disponeblas)"
+msgstr "Ekruliĝas literumilo, bonvolu atendi"
 
 #: src/text.c:2977
 #, c-format
@@ -2171,41 +2141,39 @@ msgid "Spell checking failed: %s: %s"
 msgstr "Literuma kontrolo malsukcesis: %s: %s"
 
 #: src/text.c:3013
-#, fuzzy
 msgid "No linter defined for this type of file!"
-msgstr "ne aldoni novlinion al fino de dosiero"
+msgstr "Ne definiĝis sintaks-kontrolilo por ĉi tiu tipo de dosiero"
 
 #: src/text.c:3024
 msgid "Save modified buffer before linting?"
-msgstr ""
+msgstr "Ĉu konservi modifitan bufron antaŭ la kontrolo?"
 
 #: src/text.c:3046
 msgid "Invoking linter, please wait"
-msgstr ""
+msgstr "Ekruliĝas sintaks-kontrolilo, bonvolu atendi"
 
 #: src/text.c:3202
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr ""
+msgstr "Riceviĝis nul analizeblaj linioj de la komando «%s»"
 
 #: src/text.c:3236
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
+"Ĉi tiu mesaĝo estas por malferma dosiero %s; ĉu malfermi ĝin en nova bufro?"
 
 # La sekvaj mesaĝoj komencas en traduko per minusklo,
 # ĉar ili estas komandlinia helpteksto, kaj tiel normalas.
 #: src/text.c:3284
-#, fuzzy
 msgid "At last message"
-msgstr "montri ĉi tiun mesaĝon"
+msgstr "Ĉi tiu estas la lasta mesaĝo"
 
 # La sekvaj mesaĝoj komencas en traduko per minusklo,
 # ĉar ili estas komandlinia helpteksto, kaj tiel normalas.
 #: src/text.c:3291
-#, fuzzy
 msgid "At first message"
-msgstr "montri ĉi tiun mesaĝon"
+msgstr "Ĉi tiu estas la unua mesaĝo"
 
 #: src/text.c:3368
 #, c-format
@@ -2300,16 +2268,11 @@ msgstr "Dankon pro via uzo de 'nano'!"
 #~ msgid "Find Other Bracket"
 #~ msgstr "Al para krampo"
 
-#~ msgid "Soft line wrapping"
-#~ msgstr "Ĉirkaŭfluo de linioj"
-
 #~ msgid "Long line wrapping"
 #~ msgstr "Faldi longajn liniojn"
 
-# La sekvaj mesaĝoj komencas en traduko per minusklo,
-# ĉar ili estas komandlinia helpteksto, kaj tiel normalas.
-#~ msgid "Show this message"
-#~ msgstr "montri ĉi tiun mesaĝon"
+#~ msgid "Soft line wrapping"
+#~ msgstr "Ĉirkaŭfluo de longaj linioj"
 
 #~ msgid "(ignored, for Pico compatibility)"
 #~ msgstr "(ignoritaj, por kongruo kun 'Pico')"
@@ -2328,7 +2291,7 @@ msgstr "Dankon pro via uzo de 'nano'!"
 #~ "**Programeraro**: refara preparado malsukcesis.  Konservu vian laboron."
 
 #~ msgid "Could not pipe"
-#~ msgstr "Ne eblas krei dukton"
+#~ msgstr "Malsukcesis krei dukton"
 
 #~ msgid "Error writing backup file %s: File owner mismatch"
 #~ msgstr "Eraro dum skribado de savkopio %s: alia posedanto"

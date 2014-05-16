@@ -1,20 +1,20 @@
 # Dutch translations for GNU nano.
-# Copyright (C) 2013 Free Software Foundation, Inc.
+# Copyright (C) 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 #
 # "Geluk komt niet vanzelf,
 # je moet erheen lopen."
 #
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008, 2010, 2011, 2013.
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008, 2010, 2011, 2013, 2014.
 # Erwin Poeze <erwin.poeze@gmail.com>, 2009.
 # Reinout van Schouwen <reinout@cs.vu.nl>, 2005.
 # Guus Sliepen <guus@sliepen.eu.org>, 2003.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-2.3.2pre4\n"
+"Project-Id-Version: nano-2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2013-03-18 20:35+0100\n"
+"PO-Revision-Date: 2014-05-14 21:55+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -105,27 +105,27 @@ msgstr ""
 "mislukt)"
 
 #: src/files.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine hostname for lock file: %s"
 msgstr "Kan hostnaam voor vergrendelingsbestand niet bepalen: %s"
 
 #: src/files.c:170 src/files.c:207 src/files.c:217
 #, c-format
 msgid "Error writing lock file %s: %s"
-msgstr "Fout tijdens schrijven van vergrendelingsbestand %s: %s"
+msgstr "Fout bij schrijven van vergrendelingsbestand %s: %s"
 
 #: src/files.c:232
 #, c-format
 msgid "Error deleting lock file %s: %s"
-msgstr "Fout tijdens verwijderen van vergrendelingsbestand %s: %s"
+msgstr "Fout bij verwijderen van vergrendelingsbestand %s: %s"
 
 #: src/files.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lock file %s: %s"
-msgstr "Fout tijdens openen van vergrendelingsbestand %s: %s"
+msgstr "Fout bij openen van vergrendelingsbestand %s: %s"
 
 #: src/files.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr ""
 "Fout tijdens lezen van vergrendelingsbestand %s: niet genoeg gegevens gelezen"
@@ -288,7 +288,7 @@ msgstr "Kan met '--nofollow' niet aan een symbolische koppeling toevoegen"
 #: src/files.c:1880 src/files.c:1909
 #, c-format
 msgid "Error writing backup file %s: %s"
-msgstr "Fout tijdens schrijven van tijdelijk bestand %s: %s"
+msgstr "Fout tijdens schrijven van reservekopiebestand %s: %s"
 
 #: src/files.c:1814 src/nano.c:715
 msgid "Too many backup files?"
@@ -425,12 +425,10 @@ msgid "Close"
 msgstr "Sluiten"
 
 #: src/global.c:474
-#, fuzzy
 msgid "Uncut Text"
 msgstr "Plakken"
 
 #: src/global.c:476
-#, fuzzy
 msgid "Unjustify"
 msgstr "onUitvullen"
 
@@ -473,20 +471,17 @@ msgid "To Spell"
 msgstr "Spelling"
 
 #: src/global.c:500
-#, fuzzy
 msgid "To Linter"
-msgstr "Naar regel..."
+msgstr "Linter"
 
 #. TRANSLATORS: Try to keep the next two strings at most 14 characters.
 #: src/global.c:502
-#, fuzzy
 msgid "Prev Lint Msg"
-msgstr "Regel terug"
+msgstr "Vorige Lint"
 
 #: src/global.c:503
-#, fuzzy
 msgid "Next Lint Msg"
-msgstr "Regel verder"
+msgstr "Volgende Lint"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
@@ -520,20 +515,17 @@ msgstr "Een ander bestand in het huidige invoegen"
 
 #: src/global.c:526
 msgid "Search for a string or a regular expression"
-msgstr "Tekst zoeken"
+msgstr "Tekst zoeken (of een reguliere expressie)"
 
 #: src/global.c:528
-#, fuzzy
 msgid "Search for a string"
-msgstr "Tekst zoeken"
+msgstr "Deel van naam zoeken"
 
 #: src/global.c:529
-#, fuzzy
 msgid "Go one screenful up"
-msgstr "Een schermvol verderscrollen"
+msgstr "Een schermvol terugscrollen"
 
 #: src/global.c:530
-#, fuzzy
 msgid "Go one screenful down"
 msgstr "Een schermvol verderscrollen"
 
@@ -555,19 +547,17 @@ msgstr "Spellingscontrole oproepen (indien beschikbaar)"
 
 #: src/global.c:542
 msgid "Replace a string or a regular expression"
-msgstr "Tekst vervangen"
+msgstr "Tekst vervangen (of een reguliere expressie)"
 
 #: src/global.c:543
 msgid "Go to line and column number"
-msgstr "Naar op te geven regelnummer en kolomnummer gaan"
+msgstr "Naar op te geven regelnummer (en kolomnummer) gaan"
 
 #: src/global.c:545
-#, fuzzy
 msgid "Mark text starting from the cursor position"
 msgstr "Tekst markeren vanaf huidige cursorpositie"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Repeat the last search"
 msgstr "Laatste zoekactie herhalen"
 
@@ -653,11 +643,11 @@ msgstr "Eén regel vooruitscrollen (cursor niet verplaatsen)"
 
 #: src/global.c:583
 msgid "Switch to the previous file buffer"
-msgstr "Naar voorgaande bestandsbuffer schakelen"
+msgstr "Overschakelen naar voorgaande bestandsbuffer"
 
 #: src/global.c:585
 msgid "Switch to the next file buffer"
-msgstr "Naar volgende bestandsbuffer schakelen"
+msgstr "Overschakelen naar volgende bestandsbuffer"
 
 #: src/global.c:588
 msgid "Insert the next keystroke verbatim"
@@ -776,19 +766,16 @@ msgid "Go to directory"
 msgstr "Naar een op te geven map gaan"
 
 #: src/global.c:655
-#, fuzzy
 msgid "Invoke the linter, if available"
-msgstr "Spellingscontrole oproepen (indien beschikbaar)"
+msgstr "Een linter oproepen (syntaxcontrole, indien beschikbaar)"
 
 #: src/global.c:656
-#, fuzzy
 msgid "Go to previous linter msg"
-msgstr "Naar de voorgaande regel"
+msgstr "Naar de voorgaande lintermelding springen"
 
 #: src/global.c:657
-#, fuzzy
 msgid "Go to next linter msg"
-msgstr "Naar de volgende regel"
+msgstr "Naar de volgende lintermelding springen"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:677
@@ -800,7 +787,6 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 #: src/global.c:691
-#, fuzzy
 msgid "Write Out"
 msgstr "Opslaan"
 
@@ -857,9 +843,8 @@ msgid "Last Line"
 msgstr "Naar eind"
 
 #: src/global.c:803
-#, fuzzy
 msgid "To Bracket"
-msgstr "Is geen haakje"
+msgstr "Naar haakje"
 
 #: src/global.c:806
 msgid "Mark Text"
@@ -926,7 +911,6 @@ msgid "Scroll Down"
 msgstr "Omlaag scrollen"
 
 #: src/global.c:869
-#, fuzzy
 msgid "Prev File"
 msgstr "Vorig bestand"
 
@@ -935,9 +919,8 @@ msgid "Next File"
 msgstr "Volgend bestand"
 
 #: src/global.c:875
-#, fuzzy
 msgid "Verbatim"
-msgstr "Verbatim invoer"
+msgstr "Verbatim"
 
 #: src/global.c:878
 msgid "Tab"
@@ -949,7 +932,7 @@ msgstr "Enter"
 
 #: src/global.c:882
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "Delete"
 
 #: src/global.c:884
 msgid "Backspace"
@@ -1034,9 +1017,8 @@ msgid "Smooth scrolling"
 msgstr "Per regel scrollen"
 
 #: src/global.c:1226
-#, fuzzy
 msgid "Soft wrapping of overlong lines"
-msgstr "lange regels niet afbreken"
+msgstr "Zachte terugloop van te lange regels"
 
 #: src/global.c:1228
 msgid "Whitespace display"
@@ -1059,9 +1041,8 @@ msgid "Cut to end"
 msgstr "Knippen vanaf cursor"
 
 #: src/global.c:1238
-#, fuzzy
 msgid "Hard wrapping of overlong lines"
-msgstr "lange regels niet afbreken"
+msgstr "Afbreking van lange regels"
 
 #: src/global.c:1240
 msgid "Conversion of typed tabs to spaces"
@@ -1582,9 +1563,8 @@ msgid "Fix Backspace/Delete confusion problem"
 msgstr "Backspace/Delete-verwarring oplossen"
 
 #: src/nano.c:908
-#, fuzzy
 msgid "Show this help text"
-msgstr "Deze hulptekst tonen"
+msgstr "deze hulptekst tonen"
 
 #: src/nano.c:910
 msgid "Automatically indent new lines"
@@ -1592,7 +1572,7 @@ msgstr "automatisch inspringen van nieuwe regels"
 
 #: src/nano.c:911
 msgid "Cut from cursor to end of line"
-msgstr "^K knipt vanaf cursor i.p.v. hele regel"
+msgstr "vanaf cursor knippen i.p.v. hele regel"
 
 #: src/nano.c:914
 msgid "Don't follow symbolic links, overwrite"
@@ -1604,7 +1584,7 @@ msgstr "gebruik van de muis mogelijk maken"
 
 #: src/nano.c:918
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "bestand niet lezen (alleen schrijven)"
 
 #: src/nano.c:920
 msgid "-o <dir>"
@@ -1635,7 +1615,6 @@ msgid "--fill=<#cols>"
 msgstr "--fill=<#kolommen>"
 
 #: src/nano.c:929
-#, fuzzy
 msgid "Set hard-wrapping point at column #cols"
 msgstr "te gebruiken afbreek-/uitvulbreedte"
 
@@ -1664,7 +1643,6 @@ msgid "View mode (read-only)"
 msgstr "kijkmodus (alleen lezen, geen bewerking)"
 
 #: src/nano.c:943
-#, fuzzy
 msgid "Don't hard-wrap long lines"
 msgstr "lange regels niet afbreken"
 
@@ -1678,7 +1656,7 @@ msgstr "pauzeren van editor toestaan"
 
 #: src/nano.c:948
 msgid "Enable soft line wrapping"
-msgstr "rest van lange regels tonen op volgende"
+msgstr "rest van te lange regels tonen op volgende"
 
 #: src/nano.c:957
 #, c-format
@@ -1761,7 +1739,7 @@ msgstr "Gevraagde uitvulbreedte '%s' is ongeldig"
 #: src/nano.c:2393
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr ""
+msgstr "Typ '%s -h' voor een lijst van beschikbare opties.\n"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
@@ -1829,15 +1807,13 @@ msgstr "Ontbrekende toetsnaam"
 
 #: src/rcfile.c:420 src/rcfile.c:431
 msgid "Key name is too short"
-msgstr ""
+msgstr "Toetsnaam is te kort"
 
 #: src/rcfile.c:441
-#, fuzzy
 msgid "Key name must begin with \"^\", \"M\", or \"F\""
-msgstr "Toetsbindingen moeten beginnen met \"^\", \"M\", of \"F\""
+msgstr "Toetsnaam moet beginnen met \"^\", \"M\", of \"F\""
 
 #: src/rcfile.c:450
-#, fuzzy
 msgid "Must specify a function to bind the key to"
 msgstr "Functie waaraan de toets gebonden moet worden ontbreekt"
 
@@ -1845,26 +1821,27 @@ msgstr "Functie waaraan de toets gebonden moet worden ontbreekt"
 #: src/rcfile.c:460
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
 msgstr ""
+"Menu waarin de toets gebonden/ontbonden moet worden ontbreekt (of \"all\")"
 
 #: src/rcfile.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a function"
 msgstr "Kan in naam '%s' geen functie herkennen"
 
 #: src/rcfile.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a menu"
 msgstr "Kan in naam '%s' geen menu herkennen"
 
 #: src/rcfile.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
 msgstr "Toets '%s' mag niet herbonden worden"
 
 #: src/rcfile.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Error expanding %s: %s"
-msgstr "Fout tijdens lezen van %s: %s"
+msgstr "Fout bij expanderen van %s: %s"
 
 #: src/rcfile.c:626
 #, c-format
@@ -1916,31 +1893,28 @@ msgid "Missing magic string name"
 msgstr "Ontbrekende naam van magische tekenreeks"
 
 #: src/rcfile.c:939
-#, fuzzy
 msgid "Cannot add a linter without a syntax command"
-msgstr "Kan geen topregel-expressie verwerken zonder een 'syntax'-commando"
+msgstr "Kan geen linter toevoegen zonder een 'syntax'-commando"
 
 #: src/rcfile.c:944
-#, fuzzy
 msgid "Missing linter command"
-msgstr "Ontbrekende kleurnaam"
+msgstr "Ontbrekend commando bij 'linter'"
 
 #: src/rcfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
-msgstr "Fatale fout: aan functie '%s' is geen toets gebonden"
+msgstr "Fatale fout: aan functie '%s' is geen toets gebonden.  Gestopt.\n"
 
 #: src/rcfile.c:976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
-msgstr ""
-"Gestopt.  Start eventueel nano met optie -I om uw nanorc te corrigeren.\n"
+msgstr "Start eventueel nano met optie -I om uw nanorc te corrigeren.\n"
 
 #: src/rcfile.c:1037
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "Kan in naam '%s' geen menu herkennen"
+msgstr "Kan geen syntax '%s' vinden om aan toe te voegen"
 
 #: src/rcfile.c:1053 src/rcfile.c:1062 src/rcfile.c:1072
 #, c-format
@@ -1958,36 +1932,36 @@ msgid "Command \"%s\" not understood"
 msgstr "Commando '%s' is onbekend"
 
 #: src/rcfile.c:1113
-#, fuzzy
 msgid "Missing option"
-msgstr "Ontbrekende kleurnaam"
+msgstr "Ontbrekende optie"
 
 #: src/rcfile.c:1135
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Optie '%s' vereist een argument"
 
+# FIXME: option *argument* is meant
 #: src/rcfile.c:1153
 msgid "Option is not a valid multibyte string"
-msgstr "Optie is geen geldige multibyte-tekenreeks"
+msgstr "Argument is geen geldige multibyte-tekenreeks"
 
 #: src/rcfile.c:1190 src/rcfile.c:1218 src/rcfile.c:1227
 msgid "Non-blank characters required"
-msgstr "Niet-blanco tekens vereist"
+msgstr "Niet-blanco tekens zijn vereist"
 
 #: src/rcfile.c:1200
 msgid "Two single-column characters required"
-msgstr "Twee enkelkoloms-tekens vereist"
+msgstr "Twee enkelkoloms-tekens zijn vereist"
 
 #: src/rcfile.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unset option \"%s\""
-msgstr "Kan vlag '%s' niet uitzetten"
+msgstr "Kan optie '%s' niet uitzetten"
 
 #: src/rcfile.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option \"%s\""
-msgstr "Onbekende vlag '%s'"
+msgstr "Onbekende optie '%s'"
 
 #: src/rcfile.c:1334
 msgid "I can't find my home directory!  Wah!"
@@ -2059,7 +2033,7 @@ msgid "Nothing in undo buffer!"
 msgstr "Er is niets om ongedaan te maken"
 
 #: src/text.c:453 src/text.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr "*Interne fout*: kan regel %d niet vinden.  Sla uw werk op."
 
@@ -2113,9 +2087,8 @@ msgid "Nothing to re-do!"
 msgstr "Er is niets om opnieuw te doen"
 
 #: src/text.c:580
-#, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
-msgstr "*Interne fout*: kan terugplaatsing niet voorbereiden.  Sla uw werk op."
+msgstr "*Interne fout*: kan herdoening niet voorbereiden.  Sla uw werk op."
 
 #: src/text.c:674
 #, c-format
@@ -2131,7 +2104,6 @@ msgid "Could not fork"
 msgstr "Kan geen nieuw proces starten"
 
 #: src/text.c:944
-#, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr "*Interne fout*: kan terugplaatsing niet voorbereiden.  Sla uw werk op."
 
@@ -2142,7 +2114,7 @@ msgstr "Ongeldige aanhaaltekens-tekenreeks '%s': %s"
 
 #: src/text.c:2276
 msgid "Can now UnJustify!"
-msgstr "Kan nu ON^Uitvullen!"
+msgstr "Kan nu onuitvullen!"
 
 #: src/text.c:2475
 msgid "Edit a replacement"
@@ -2158,15 +2130,15 @@ msgstr "Kan grootte van doorsluisbuffer niet bepalen"
 
 #: src/text.c:2706
 msgid "Error invoking \"spell\""
-msgstr "Fout tijdens aanroepen van 'spell'"
+msgstr "Fout bij aanroepen van 'spell'"
 
 #: src/text.c:2709
 msgid "Error invoking \"sort -f\""
-msgstr "Fout tijdens aanroepen van 'sort -f'"
+msgstr "Fout bij aanroepen van 'sort -f'"
 
 #: src/text.c:2712
 msgid "Error invoking \"uniq\""
-msgstr "Fout tijdens aanroepen van 'uniq'"
+msgstr "Fout bij aanroepen van 'uniq'"
 
 #: src/text.c:2769 src/text.c:2982
 msgid "Finished checking spelling"
@@ -2175,12 +2147,11 @@ msgstr "Spellingscontrole is voltooid"
 #: src/text.c:2828
 #, c-format
 msgid "Error invoking \"%s\""
-msgstr "Fout tijdens aanroepen van '%s'"
+msgstr "Fout bij aanroepen van '%s'"
 
 #: src/text.c:2960
-#, fuzzy
 msgid "Invoking spell checker, please wait"
-msgstr "Spellingscontrole oproepen (indien beschikbaar)"
+msgstr "Oproepen van spellingscontrole, even geduld"
 
 #: src/text.c:2977
 #, c-format
@@ -2193,37 +2164,34 @@ msgid "Spell checking failed: %s: %s"
 msgstr "Spellingscontrole is mislukt: %s: %s"
 
 #: src/text.c:3013
-#, fuzzy
 msgid "No linter defined for this type of file!"
-msgstr "geen regeleindeteken toevoegen aan slot"
+msgstr "Er is geen linter gedefinieerd voor dit type bestand"
 
 #: src/text.c:3024
 msgid "Save modified buffer before linting?"
-msgstr ""
+msgstr "Gewijzigd buffer opslaan alvorens te linten?"
 
 #: src/text.c:3046
 msgid "Invoking linter, please wait"
-msgstr ""
+msgstr "Oproepen van de linter, even geduld"
 
 #: src/text.c:3202
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr ""
+msgstr "Kreeg nul ontleedbare regels terug van commando '%s'"
 
 #: src/text.c:3236
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
-msgstr ""
+msgstr "Deze melding is voor ongeopend bestand %s; in nieuwe buffer openen?"
 
 #: src/text.c:3284
-#, fuzzy
 msgid "At last message"
-msgstr "deze hulptekst tonen en stoppen"
+msgstr "Dit is de laatste melding"
 
 #: src/text.c:3291
-#, fuzzy
 msgid "At first message"
-msgstr "deze hulptekst tonen en stoppen"
+msgstr "Dit is de eerste melding"
 
 #: src/text.c:3368
 #, c-format
@@ -2319,14 +2287,11 @@ msgstr "Dank u voor het gebruiken van nano!"
 #~ msgid "Find Other Bracket"
 #~ msgstr "Naar bijbehorend haakje"
 
-#~ msgid "Soft line wrapping"
-#~ msgstr "Zachte terugloop van lange regels"
-
 #~ msgid "Long line wrapping"
 #~ msgstr "Terugloop van lange regels"
 
-#~ msgid "Show this message"
-#~ msgstr "deze hulptekst tonen en stoppen"
+#~ msgid "Soft line wrapping"
+#~ msgstr "Zachte terugloop van lange regels"
 
 #~ msgid "(ignored, for Pico compatibility)"
 #~ msgstr "(genegeerd, maar herkend wegens Pico)"
