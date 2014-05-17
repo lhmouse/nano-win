@@ -1,6 +1,9 @@
 2014-05-17  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/json.nanorc: New file, originally from Aapo Rantalainen,
 	but edited, extended, and improved.  See Savannah patch #7410.
+	* src/winio.c (edit_draw): Do not skip the colour-off commands at the
+	end of the loop.  Based on Savannah patch #7550 by Ryan Lothian.
+	This fixes bug #26111 reported by Dave Geering <dreamlax@Savannah>.
 
 2014-05-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c, src/winio.c: Remove some more double spaces.

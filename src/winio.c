@@ -2603,16 +2603,16 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		if (md == -1)
 		    fileptr->multidata[tmpcolor->id] = CNONE; /* until we find out otherwise */
 		else if (md == CNONE)
-		    continue;
+		    goto end_of_loop;
 		else if (md == CWHOLELINE) {
 		    mvwaddnstr(edit, line, 0, converted, -1);
-		    continue;
+		    goto end_of_loop;
 		} else if (md == CBEGINBEFORE) {
 		    regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
 		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
 			endmatch.rm_eo) - start);
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
-		    continue;
+		    goto end_of_loop;
 		}
 
 		while (start_line != NULL && regexec(tmpcolor->start,
@@ -2762,7 +2762,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    }
 		}
 	    }
-
+  end_of_loop:
 	    wattroff(edit, A_BOLD);
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	}
