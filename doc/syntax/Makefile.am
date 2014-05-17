@@ -12,6 +12,7 @@ pkgdata_DATA =	asm.nanorc \
 		html.nanorc \
 		java.nanorc \
 		javascript.nanorc \
+		json.nanorc \
 		lua.nanorc \
 		makefile.nanorc \
 		man.nanorc \

@@ -1,3 +1,7 @@
+2014-05-17  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/json.nanorc: New file, originally from Aapo Rantalainen,
+	but edited, extended, and improved.  See Savannah patch #7410.
+
 2014-05-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c, src/winio.c: Remove some more double spaces.
 	* doc/syntax/patch.nanorc: Show trailing whitespace on added lines.
