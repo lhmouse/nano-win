@@ -5,6 +5,7 @@ pkgdata_DATA =	asm.nanorc \
 		c.nanorc \
 		css.nanorc \
 		debian.nanorc \
+		default.nanorc \
 		fortran.nanorc \
 		gentoo.nanorc \
 		go.nanorc \

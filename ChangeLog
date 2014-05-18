@@ -2,6 +2,7 @@
 	* src/nano (precalc_multicolorinfo): Do not match the ^ anchor when
 	looking further on in a line.  This prevents an end="^$" from being
 	sometimes mistakenly matched.  Fix inspired by Savannah bug #27708.
+	* doc/syntax/default.nanorc: New file, example for a default syntax.
 
 2014-05-17  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/json.nanorc: New file, originally from Aapo Rantalainen,
