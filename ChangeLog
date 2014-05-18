@@ -1,3 +1,8 @@
+2014-05-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano (precalc_multicolorinfo): Do not match the ^ anchor when
+	looking further on in a line.  This prevents an end="^$" from being
+	sometimes mistakenly matched.  Fix inspired by Savannah bug #27708.
+
 2014-05-17  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/json.nanorc: New file, originally from Aapo Rantalainen,
 	but edited, extended, and improved.  See Savannah patch #7410.
