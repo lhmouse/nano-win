@@ -2492,15 +2492,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     assert(openfile != NULL && fileptr != NULL && converted != NULL);
     assert(strlenpt(converted) <= COLS);
 
-    /* Just paint the string in any case (we'll add color or reverse on
-     * just the text that needs it). */
-    mvwaddstr(edit, line, 0, converted);
 #ifdef ENABLE_UTF8
     if (using_utf8())
 	/* Tickle the terminal into displaying two-column characters
 	 * properly, using Unicode 00A0 (No-Break Space). */
 	mvwaddstr(edit, line, COLS - 1, "\xC2\xA0\x00");
 #endif
+    /* First simply paint the line -- then we'll add colors or the
+     * marking highlight on just the pieces that need it. */
+    mvwaddstr(edit, line, 0, converted);
 
 #ifndef DISABLE_COLOR
     /* If color syntaxes are available and turned on, we need to display
