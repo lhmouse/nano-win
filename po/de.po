@@ -7,16 +7,16 @@
 # Michael Piefel <piefel@informatik.hu-berlin.de>, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2011, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.3.2pre4\n"
+"Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2013-03-21 15:08+0100\n"
+"PO-Revision-Date: 2014-05-22 20:08+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/browser.c:220
@@ -100,7 +100,7 @@ msgstr ""
 "fehlgeschlagen)"
 
 #: src/files.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine hostname for lock file: %s"
 msgstr "Konnte Rechnernamen für Lock-Datei nicht bestimmen: %s"
 
@@ -115,12 +115,12 @@ msgid "Error deleting lock file %s: %s"
 msgstr "Fehler beim Löschen der Lock-Datei %s: %s"
 
 #: src/files.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "Fehler beim Öffnen der Lock-Datei %s: %s"
 
 #: src/files.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr "Fehler beim Lesen der Lock-Datei %s: Nicht genügend Daten gelesen"
 
@@ -418,12 +418,10 @@ msgid "Close"
 msgstr "Schließen"
 
 #: src/global.c:474
-#, fuzzy
 msgid "Uncut Text"
 msgstr "Ausschn. rückgängig"
 
 #: src/global.c:476
-#, fuzzy
 msgid "Unjustify"
 msgstr "Ausr.rückgängig"
 
@@ -466,20 +464,17 @@ msgid "To Spell"
 msgstr "Rechtschr."
 
 #: src/global.c:500
-#, fuzzy
 msgid "To Linter"
-msgstr "Zu Zeile"
+msgstr "Zum Linter"
 
 #. TRANSLATORS: Try to keep the next two strings at most 14 characters.
 #: src/global.c:502
-#, fuzzy
 msgid "Prev Lint Msg"
-msgstr "Zeile zurück"
+msgstr "Lintmld. zurück"
 
 #: src/global.c:503
-#, fuzzy
 msgid "Next Lint Msg"
-msgstr "Zeile vor"
+msgstr "Lintmld. vor"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
@@ -516,19 +511,16 @@ msgid "Search for a string or a regular expression"
 msgstr "nach einer Zeichenkette oder einem regulären Ausdruck suchen"
 
 #: src/global.c:528
-#, fuzzy
 msgid "Search for a string"
-msgstr "nach einer Zeichenkette oder einem regulären Ausdruck suchen"
+msgstr "nach einer Zeichenkette suchen"
 
 #: src/global.c:529
-#, fuzzy
 msgid "Go one screenful up"
-msgstr "zum folgenden Bildschirm springen"
+msgstr "eine Bildschirmseite hoch gehen"
 
 #: src/global.c:530
-#, fuzzy
 msgid "Go one screenful down"
-msgstr "zum folgenden Bildschirm springen"
+msgstr "eine Bildschirmseite runter gehen"
 
 #: src/global.c:532
 msgid "Cut the current line and store it in the cutbuffer"
@@ -555,14 +547,12 @@ msgid "Go to line and column number"
 msgstr "zu einer bestimmten Zeile und Spalte springen"
 
 #: src/global.c:545
-#, fuzzy
 msgid "Mark text starting from the cursor position"
-msgstr "Text an der Cursorposition markieren"
+msgstr "Text beginnend an Cursorposition markieren"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Repeat the last search"
-msgstr "letzte Suche wiederholen"
+msgstr "die letzte Suche wiederholen"
 
 #: src/global.c:548
 msgid "Copy the current line and store it in the cutbuffer"
@@ -771,19 +761,16 @@ msgid "Go to directory"
 msgstr "gehe zu Verzeichnis"
 
 #: src/global.c:655
-#, fuzzy
 msgid "Invoke the linter, if available"
-msgstr "Rechtschreibprüfung aufrufen (wenn verfügbar)"
+msgstr "Den Linter aufrufen (wenn verfügbar)"
 
 #: src/global.c:656
-#, fuzzy
 msgid "Go to previous linter msg"
-msgstr "zur vorhergehenden Zeile gehen"
+msgstr "zur vorhergehenden Linter-Meldung gehen"
 
 #: src/global.c:657
-#, fuzzy
 msgid "Go to next linter msg"
-msgstr "zur folgenden Zeile gehen"
+msgstr "zur folgenden Linter-Meldung gehen"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:677
@@ -795,7 +782,6 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: src/global.c:691
-#, fuzzy
 msgid "Write Out"
 msgstr "Speichern"
 
@@ -852,9 +838,8 @@ msgid "Last Line"
 msgstr "Letzte Zeile"
 
 #: src/global.c:803
-#, fuzzy
 msgid "To Bracket"
-msgstr "Keine Klammer"
+msgstr "Zu Klammer"
 
 #: src/global.c:806
 msgid "Mark Text"
@@ -921,18 +906,16 @@ msgid "Scroll Down"
 msgstr "Herunterrollen"
 
 #: src/global.c:869
-#, fuzzy
 msgid "Prev File"
-msgstr "Vorherige Datei"
+msgstr "Vorh. Datei"
 
 #: src/global.c:871
 msgid "Next File"
 msgstr "Nächste Datei"
 
 #: src/global.c:875
-#, fuzzy
 msgid "Verbatim"
-msgstr "Direkte Eingabe"
+msgstr "Direkt"
 
 #: src/global.c:878
 msgid "Tab"
@@ -1029,9 +1012,8 @@ msgid "Smooth scrolling"
 msgstr "Sanftes Rollen"
 
 #: src/global.c:1226
-#, fuzzy
 msgid "Soft wrapping of overlong lines"
-msgstr "Lange Zeilen nicht in neue Zeilen umbrechen"
+msgstr "Überlange Zeilen fließend umbrechen"
 
 #: src/global.c:1228
 msgid "Whitespace display"
@@ -1054,9 +1036,8 @@ msgid "Cut to end"
 msgstr "Bis Ende ausschneiden"
 
 #: src/global.c:1238
-#, fuzzy
 msgid "Hard wrapping of overlong lines"
-msgstr "Lange Zeilen nicht in neue Zeilen umbrechen"
+msgstr "Überlange Zeilen hart umbrechen"
 
 #: src/global.c:1240
 msgid "Conversion of typed tabs to spaces"
@@ -1582,7 +1563,6 @@ msgid "Fix Backspace/Delete confusion problem"
 msgstr "Vertauschung von Rücktaste/Entf beheben"
 
 #: src/nano.c:908
-#, fuzzy
 msgid "Show this help text"
 msgstr "Diese Hilfe anzeigen"
 
@@ -1604,7 +1584,7 @@ msgstr "Benutzung der Maus aktivieren"
 
 #: src/nano.c:918
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "Datei nicht lesen (nur schreiben)"
 
 #: src/nano.c:920
 msgid "-o <dir>"
@@ -1635,9 +1615,8 @@ msgid "--fill=<#cols>"
 msgstr "--fill=<#spalten>"
 
 #: src/nano.c:929
-#, fuzzy
 msgid "Set hard-wrapping point at column #cols"
-msgstr "Umbruchpunkt bei #spalten setzen"
+msgstr "Harten Umbruchpunkt bei #spalten setzen"
 
 #: src/nano.c:932
 msgid "-s <prog>"
@@ -1664,9 +1643,8 @@ msgid "View mode (read-only)"
 msgstr "Nur-Lese-Modus (keine Veränderungen möglich)"
 
 #: src/nano.c:943
-#, fuzzy
 msgid "Don't hard-wrap long lines"
-msgstr "Lange Zeilen nicht in neue Zeilen umbrechen"
+msgstr "Lange Zeilen nicht hart umbrechen"
 
 #: src/nano.c:945
 msgid "Don't show the two help lines"
@@ -1758,7 +1736,7 @@ msgstr "Angeforderte Füllgröße „%s“ ungültig"
 #: src/nano.c:2393
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr ""
+msgstr "Benutzen Sie „%s -h“ für eine Liste verfügbarer Optionen.\n"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
@@ -1825,15 +1803,13 @@ msgstr "Fehlender Schlüsselname"
 
 #: src/rcfile.c:420 src/rcfile.c:431
 msgid "Key name is too short"
-msgstr ""
+msgstr "Schlüsselname ist zu kurz"
 
 #: src/rcfile.c:441
-#, fuzzy
 msgid "Key name must begin with \"^\", \"M\", or \"F\""
-msgstr "Tastenkürzel müssen mit „^“, „M“ oder „F“ beginnen"
+msgstr "Schlüsselnamen müssen mit „^“, „M“ oder „F“ beginnen"
 
 #: src/rcfile.c:450
-#, fuzzy
 msgid "Must specify a function to bind the key to"
 msgstr "Die an die Taste zu bindene Funktion muss angegeben werden"
 
@@ -1841,26 +1817,27 @@ msgstr "Die an die Taste zu bindene Funktion muss angegeben werden"
 #: src/rcfile.c:460
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
 msgstr ""
+"Ein Menü (oder „all“) muss angegeben werden, um Tasten zu binden/zu lösen"
 
 #: src/rcfile.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a function"
-msgstr "Konnte „%s“ nicht auf eine Funktion binden"
+msgstr "Kann „%s“ nicht auf eine Funktion binden"
 
 #: src/rcfile.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a menu"
-msgstr "Konnte „%s“ nicht auf ein Menü binden"
+msgstr "Kann „%s“ nicht auf ein Menü binden"
 
 #: src/rcfile.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
-msgstr "Tut mir Leid, keystr „%s“ ist keine legale Zuordnung"
+msgstr "Tut mir Leid, Taste „%s“ kann nicht neu zugewiesen werden"
 
 #: src/rcfile.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Error expanding %s: %s"
-msgstr "Fehler beim Lesen von %s: %s"
+msgstr "Fehler beim Erweitern von %s: %s"
 
 #: src/rcfile.c:626
 #, c-format
@@ -1915,34 +1892,31 @@ msgid "Missing magic string name"
 msgstr "Fehlender Name für magische Zeichenkette"
 
 #: src/rcfile.c:939
-#, fuzzy
 msgid "Cannot add a linter without a syntax command"
-msgstr ""
-"Kann keinen reg. Ausdruck für Header hinzufügen, ohne einen Syntaxbefehl zu "
-"haben"
+msgstr "Kann keinen Linter hinzufügen, ohne einen Syntaxbefehl zu haben"
 
 #: src/rcfile.c:944
-#, fuzzy
 msgid "Missing linter command"
-msgstr "Fehlender Farbname"
+msgstr "Fehlender Linter-Name"
 
 #: src/rcfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
-msgstr "Schwerwiegender Fehler: keine Tassten an Funktion „%s“ gebunden"
+msgstr ""
+"Schwerwiegender Fehler: keine Tasten an Funktion „%s“ gebunden. Beende.\n"
 
 #: src/rcfile.c:976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
-"Beende. Bitte starten Sie nano bei Bedarf mit der Option „-I“, wenn Sie Ihre "
-"nanorc-Einstellungen anpassen wollen\n"
+"Bitte starten Sie nano bei Bedarf mit der Option „-I“, um Ihre nanorc-"
+"Einstellungen anzupassen\n"
 
 #: src/rcfile.c:1037
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "Konnte „%s“ nicht auf ein Menü binden"
+msgstr "Konnte zu erweiternde Syntax „%s“ nicht finden"
 
 #: src/rcfile.c:1053 src/rcfile.c:1062 src/rcfile.c:1072
 #, c-format
@@ -1960,9 +1934,8 @@ msgid "Command \"%s\" not understood"
 msgstr "Befehl „%s“ nicht verstanden"
 
 #: src/rcfile.c:1113
-#, fuzzy
 msgid "Missing option"
-msgstr "Fehlender Farbname"
+msgstr "Fehlende Option"
 
 #: src/rcfile.c:1135
 #, c-format
@@ -1982,14 +1955,14 @@ msgid "Two single-column characters required"
 msgstr "Zwei einspaltige Zeichen erforderlich"
 
 #: src/rcfile.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unset option \"%s\""
-msgstr "kann Flag „%s“ nicht löschen"
+msgstr "kann Option „%s“ nicht zurücksetzen"
 
 #: src/rcfile.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option \"%s\""
-msgstr "Unbekanntes Flag „%s“"
+msgstr "Unbekannte Option „%s“"
 
 #: src/rcfile.c:1334
 msgid "I can't find my home directory!  Wah!"
@@ -2061,10 +2034,10 @@ msgid "Nothing in undo buffer!"
 msgstr "Nichts im Rückgängig-Puffer!"
 
 #: src/text.c:453 src/text.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
-"Interner Fehler: kann Zeile %d nicht finden. Bitte speichern Sie Ihre Arbeit"
+"Interner Fehler: kann Zeile %d nicht finden. Bitte speichern Sie Ihre Arbeit."
 
 #: src/text.c:464 src/text.c:601
 msgid "text add"
@@ -2116,11 +2089,10 @@ msgid "Nothing to re-do!"
 msgstr "Nichts zu wiederholen!"
 
 #: src/text.c:580
-#, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr ""
-"Interner Fehler: kann Zurücknehmen des Ausschneidens nicht aufsetzen. Bitte "
-"speichern Sie Ihre Arbeit"
+"Interner Fehler: kann „Erneut durchführen“ nicht aufsetzen. Bitte speichern "
+"Sie Ihre Arbeit."
 
 #: src/text.c:674
 #, c-format
@@ -2136,7 +2108,6 @@ msgid "Could not fork"
 msgstr "Konnte kein Fork durchführen"
 
 #: src/text.c:944
-#, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr ""
 "Interner Fehler: kann Zurücknehmen des Ausschneidens nicht aufsetzen. Bitte "
@@ -2185,9 +2156,8 @@ msgid "Error invoking \"%s\""
 msgstr "Fehler beim Aufruf von „%s“"
 
 #: src/text.c:2960
-#, fuzzy
 msgid "Invoking spell checker, please wait"
-msgstr "Rechtschreibprüfung aufrufen (wenn verfügbar)"
+msgstr "Rechtschreibprüfung aufrufen, bitte warten"
 
 #: src/text.c:2977
 #, c-format
@@ -2200,37 +2170,35 @@ msgid "Spell checking failed: %s: %s"
 msgstr "Rechtschreibprüfung fehlgeschlagen: %s: %s"
 
 #: src/text.c:3013
-#, fuzzy
 msgid "No linter defined for this type of file!"
-msgstr "keine Zeilenvorschübe an die Enden von Dateien anhängen"
+msgstr "Kein Linter für diesen Dateitype definiert"
 
 #: src/text.c:3024
 msgid "Save modified buffer before linting?"
-msgstr ""
+msgstr "Geänderten Puffer vor dem Linter-Aufruf speichern?"
 
 #: src/text.c:3046
 msgid "Invoking linter, please wait"
-msgstr ""
+msgstr "Rufe Linter auf, bitte warten"
 
 #: src/text.c:3202
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr ""
+msgstr "Habe 0 parsebare Zeilen vom Befehl erhalten: %s"
 
 #: src/text.c:3236
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
+"Diese Meldung ist für nicht geöffnete Datei %s, in neuem Puffer öffnen?"
 
 #: src/text.c:3284
-#, fuzzy
 msgid "At last message"
-msgstr "diese Meldung anzeigen"
+msgstr "Bei letzter Meldung"
 
 #: src/text.c:3291
-#, fuzzy
 msgid "At first message"
-msgstr "diese Meldung anzeigen"
+msgstr "Bei erster Meldung"
 
 #: src/text.c:3368
 #, c-format
@@ -2325,14 +2293,11 @@ msgstr "Danke für die Benutzung von nano!"
 #~ msgid "Find Other Bracket"
 #~ msgstr "Andere Klammer finden"
 
-#~ msgid "Soft line wrapping"
-#~ msgstr "Lange Zeilen fließend umbrechen"
-
 #~ msgid "Long line wrapping"
 #~ msgstr "Lange Zeilen umbrechen"
 
-#~ msgid "Show this message"
-#~ msgstr "diese Meldung anzeigen"
+#~ msgid "Soft line wrapping"
+#~ msgstr "Lange Zeilen fließend umbrechen"
 
 #~ msgid "(ignored, for Pico compatibility)"
 #~ msgstr "(ignoriert, für Kompatibilität zu Pico)"
