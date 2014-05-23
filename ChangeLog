@@ -1,3 +1,10 @@
+2014-05-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (edit_draw): Finally, the proper fix for bug #31743;
+	telling ncurses to really redraw the line, without optimization, so
+	it will not mistakenly assume that a wide character at the start of
+	a line takes up just one column.  This deletes the workaround that
+	had the side effect of creating pastes full of trailing whitespace.
+
 2014-05-19  Mark Majeres  <mark@engine12.com>
 	* src/winio.c (edit_draw): Paint the current line *after* tickling the
 	terminal, so that the character in the final column will be displayed

@@ -2492,15 +2492,13 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     assert(openfile != NULL && fileptr != NULL && converted != NULL);
     assert(strlenpt(converted) <= COLS);
 
-#ifdef ENABLE_UTF8
-    if (using_utf8())
-	/* Tickle the terminal into displaying two-column characters
-	 * properly, using Unicode 00A0 (No-Break Space). */
-	mvwaddstr(edit, line, COLS - 1, "\xC2\xA0\x00");
-#endif
     /* First simply paint the line -- then we'll add colors or the
      * marking highlight on just the pieces that need it. */
     mvwaddstr(edit, line, 0, converted);
+    /* Tell ncurses to really redraw the line without trying to optimize
+       for what it thinks is already there, because it gets it wrong in
+       the case of a wide character in column zero.  See bug #31743. */
+    wredrawln(edit, line, 1);
 
 #ifndef DISABLE_COLOR
     /* If color syntaxes are available and turned on, we need to display
