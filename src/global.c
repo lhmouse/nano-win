@@ -1257,6 +1257,7 @@ const char *flagtostr(int flag)
 }
 #endif /* !NANO_TINY */
 
+#ifndef DISABLE_NANORC
 /* Interpret a function string given in the rc file, and return a
  * shortcut struct, complete with the proper value for execute. */
 sc *strtosc(char *input)
@@ -1529,8 +1530,7 @@ sc *strtosc(char *input)
     return s;
 }
 
-#ifndef DISABLE_NANORC
-/* Same thing as above but for the menu. */
+/* Interpret a menu name and return the corresponding menu flag. */
 int strtomenu(char *input)
 {
     if (!strcasecmp(input, "all"))
@@ -1553,22 +1553,27 @@ int strtomenu(char *input)
     else if (!strcasecmp(input, "externalcmd") ||
 	     !strcasecmp(input, "extcmd"))
 	return MEXTCMD;
+#ifndef DISABLE_HELP
     else if (!strcasecmp(input, "help"))
 	return MHELP;
+#endif
+#ifndef DISABLE_SPELLER
     else if (!strcasecmp(input, "spell"))
 	return MSPELL;
+#endif
     else if (!strcasecmp(input, "linter"))
 	return MLINTER;
+#ifndef DISABLE_BROWSER
     else if (!strcasecmp(input, "browser"))
 	return MBROWSER;
     else if (!strcasecmp(input, "whereisfile"))
 	return MWHEREISFILE;
     else if (!strcasecmp(input, "gotodir"))
 	return MGOTODIR;
-
+#endif
     return -1;
 }
-#endif
+#endif /* !DISABLE_NANORC */
 
 
 #ifdef DEBUG

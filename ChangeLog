@@ -1,3 +1,7 @@
+2014-05-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c: Cut down on the size of tiny nano, by not compiling
+	the function strtosc() when --disable-nanorc is given or implied.
+
 2014-05-25  Mark Majeres  <mark@engine12.com>
 	* src/chars.c (addstrings): New function, concatenates two allocated
 	strings, tacking the second onto the first and freeing the second.
