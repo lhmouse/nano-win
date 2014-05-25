@@ -2,13 +2,13 @@
 # Copyright (C) 2001-2006, 2008, 2009, 2010, 2011 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 #
-# Marco Colombo <m.colombo@ed.ac.uk>, 2001-2013.
+# Marco Colombo <m.colombo@ed.ac.uk>, 2001-2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 2.3.2pre4\n"
+"Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2013-07-01 12:55+0100\n"
+"PO-Revision-Date: 2014-05-25 17:37+0100\n"
 "Last-Translator: Marco Colombo <m.colombo@ed.ac.uk>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr ""
 "non riuscito)"
 
 #: src/files.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine hostname for lock file: %s"
 msgstr "Impossibile determinare il nome dell'host per il file di lock: %s"
 
@@ -114,12 +114,12 @@ msgid "Error deleting lock file %s: %s"
 msgstr "Errore durante l'eliminazione del file di lock %s: %s"
 
 #: src/files.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "Errore durante l'apertura del file di lock %s: %s"
 
 #: src/files.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr ""
 "Errore durante la lettura del file di lock %s: letti non abbastanza dati"
@@ -416,14 +416,12 @@ msgid "Close"
 msgstr "Chiudi"
 
 #: src/global.c:474
-#, fuzzy
 msgid "Uncut Text"
 msgstr "Incolla"
 
 #: src/global.c:476
-#, fuzzy
 msgid "Unjustify"
-msgstr "DeGiustif."
+msgstr "Degiustif."
 
 # FIXME
 #. TRANSLATORS: Try to keep this at most 12 characters.
@@ -465,20 +463,17 @@ msgid "To Spell"
 msgstr "Ortografia"
 
 #: src/global.c:500
-#, fuzzy
 msgid "To Linter"
-msgstr "Vai a riga"
+msgstr "Linter"
 
 #. TRANSLATORS: Try to keep the next two strings at most 14 characters.
 #: src/global.c:502
-#, fuzzy
 msgid "Prev Lint Msg"
-msgstr "Riga prec."
+msgstr "Msg lint prec."
 
 #: src/global.c:503
-#, fuzzy
 msgid "Next Lint Msg"
-msgstr "Riga succ."
+msgstr "Msg lint succ."
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
@@ -515,17 +510,14 @@ msgid "Search for a string or a regular expression"
 msgstr "Cerca una stringa o un'espressione regolare"
 
 #: src/global.c:528
-#, fuzzy
 msgid "Search for a string"
-msgstr "Cerca una stringa o un'espressione regolare"
+msgstr "Cerca una stringa"
 
 #: src/global.c:529
-#, fuzzy
 msgid "Go one screenful up"
-msgstr "Va alla schermata successiva"
+msgstr "Va alla schermata precedente"
 
 #: src/global.c:530
-#, fuzzy
 msgid "Go one screenful down"
 msgstr "Va alla schermata successiva"
 
@@ -554,12 +546,10 @@ msgid "Go to line and column number"
 msgstr "Va a un numero di riga e di colonna specifico"
 
 #: src/global.c:545
-#, fuzzy
 msgid "Mark text starting from the cursor position"
-msgstr "Marca testo alla posizione del cursore"
+msgstr "Marca testo partendo dalla posizione del cursore"
 
 #: src/global.c:546
-#, fuzzy
 msgid "Repeat the last search"
 msgstr "Ripete l'ultima ricerca"
 
@@ -775,19 +765,16 @@ msgid "Go to directory"
 msgstr "Va alla directory"
 
 #: src/global.c:655
-#, fuzzy
 msgid "Invoke the linter, if available"
-msgstr "Esegue il correttore ortografico, se disponibile"
+msgstr "Esegue il linter, se disponibile"
 
 #: src/global.c:656
-#, fuzzy
 msgid "Go to previous linter msg"
-msgstr "Va alla riga precedente"
+msgstr "Va alla messaggio precedente del linter"
 
 #: src/global.c:657
-#, fuzzy
 msgid "Go to next linter msg"
-msgstr "Va alla riga successiva"
+msgstr "Va al messaggio successivo del linter"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
 #: src/global.c:677
@@ -799,7 +786,6 @@ msgid "Cancel"
 msgstr "Annulla"
 
 #: src/global.c:691
-#, fuzzy
 msgid "Write Out"
 msgstr "Salva"
 
@@ -857,9 +843,8 @@ msgid "Last Line"
 msgstr "Ultima riga"
 
 #: src/global.c:803
-#, fuzzy
 msgid "To Bracket"
-msgstr "Non è una parentesi"
+msgstr "Parentesi"
 
 #: src/global.c:806
 msgid "Mark Text"
@@ -927,7 +912,6 @@ msgid "Scroll Down"
 msgstr "Scorri giù"
 
 #: src/global.c:869
-#, fuzzy
 msgid "Prev File"
 msgstr "File prec."
 
@@ -936,9 +920,8 @@ msgid "Next File"
 msgstr "File succ."
 
 #: src/global.c:875
-#, fuzzy
 msgid "Verbatim"
-msgstr "Input letterale"
+msgstr "Letterale"
 
 #: src/global.c:878
 msgid "Tab"
@@ -1039,9 +1022,8 @@ msgid "Smooth scrolling"
 msgstr "Scorrimento continuo"
 
 #: src/global.c:1226
-#, fuzzy
 msgid "Soft wrapping of overlong lines"
-msgstr "Non interrompe le righe lunghe"
+msgstr "A capo automatico morbido delle righe lunghe"
 
 #: src/global.c:1228
 msgid "Whitespace display"
@@ -1064,9 +1046,8 @@ msgid "Cut to end"
 msgstr "Taglia fino a fine riga"
 
 #: src/global.c:1238
-#, fuzzy
 msgid "Hard wrapping of overlong lines"
-msgstr "Non interrompe le righe lunghe"
+msgstr "A capo automatico delle righe lunghe"
 
 #: src/global.c:1240
 msgid "Conversion of typed tabs to spaces"
@@ -1588,7 +1569,6 @@ msgid "Fix Backspace/Delete confusion problem"
 msgstr "Risolve il problema Backspace/Canc"
 
 #: src/nano.c:908
-#, fuzzy
 msgid "Show this help text"
 msgstr "Mostra questo messaggio di aiuto"
 
@@ -1610,7 +1590,7 @@ msgstr "Abilita l'uso del mouse"
 
 #: src/nano.c:918
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "Non legge il file (solo scrittura)"
 
 #: src/nano.c:920
 msgid "-o <dir>"
@@ -1642,7 +1622,6 @@ msgstr "--fill=<#cols>"
 
 # FIXME
 #: src/nano.c:929
-#, fuzzy
 msgid "Set hard-wrapping point at column #cols"
 msgstr "Imposta l'interruzione delle righe a #cols"
 
@@ -1673,7 +1652,6 @@ msgid "View mode (read-only)"
 msgstr "Visualizza (sola lettura)"
 
 #: src/nano.c:943
-#, fuzzy
 msgid "Don't hard-wrap long lines"
 msgstr "Non interrompe le righe lunghe"
 
@@ -1769,7 +1747,7 @@ msgstr "Lunghezza del riempimento \"%s\" non valida"
 #: src/nano.c:2393
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr ""
+msgstr "Usare '%s -h' per elencare le opzioni disponibili.\n"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
@@ -1836,43 +1814,40 @@ msgstr "Nome di chiave mancante"
 
 #: src/rcfile.c:420 src/rcfile.c:431
 msgid "Key name is too short"
-msgstr ""
+msgstr "Il nome di chiave è troppo corto"
 
 #: src/rcfile.c:441
-#, fuzzy
 msgid "Key name must begin with \"^\", \"M\", or \"F\""
-msgstr "le chiavi devono cominciare con \"^\", \"M\", o \"F\""
+msgstr "I nomi di chiavi devono cominciare con \"^\", \"M\", o \"F\""
 
 #: src/rcfile.c:450
-#, fuzzy
 msgid "Must specify a function to bind the key to"
 msgstr "Occorre specificare una funzione a cui associare la chiave"
 
 #. TRANSLATORS: Do not translate the word "all".
 #: src/rcfile.c:460
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
-msgstr ""
+msgstr "Occorre specificare un menù (oppure \"all\") a cui associare la chiave"
 
 #: src/rcfile.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a function"
 msgstr "Impossibile associare il nome \"%s\" a una funzione"
 
 #: src/rcfile.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot map name \"%s\" to a menu"
 msgstr "Impossibile associare il nome \"%s\" a un menù"
 
-# FIXME
 #: src/rcfile.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
-msgstr "La chiave \"%s\" è un binding non consentito"
+msgstr "La chiave \"%s\" non può essere reimpostata"
 
 #: src/rcfile.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Error expanding %s: %s"
-msgstr "Errore durante la lettura di %s: %s"
+msgstr "Errore durante l'espansione di %s: %s"
 
 #: src/rcfile.c:626
 #, c-format
@@ -1928,35 +1903,32 @@ msgstr ""
 msgid "Missing magic string name"
 msgstr "Stringa di intestazione mancante"
 
-# FIXME
 #: src/rcfile.c:939
-#, fuzzy
 msgid "Cannot add a linter without a syntax command"
-msgstr ""
-"Impossibile aggiungere un'intestazione regex senza una riga di sintassi"
+msgstr "Impossibile aggiungere un linter senza una riga di sintassi"
 
 #: src/rcfile.c:944
-#, fuzzy
 msgid "Missing linter command"
-msgstr "Nome del colore mancante"
+msgstr "Comando linter mancante"
 
 #: src/rcfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
-msgstr "Errore fatale: nessuna chiave associata alla funzione \"%s\""
+msgstr ""
+"Errore fatale: nessuna chiave associata alla funzione \"%s\". Uscita.\n"
 
 #: src/rcfile.c:976
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
-"Uscita. Usare nano con l'opzione -I se occorre modificare le impostazioni di "
-"nanorc\n"
+"Usare nano con l'opzione -I se occorre modificare le impostazioni di "
+"nanorc.\n"
 
 #: src/rcfile.c:1037
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "Impossibile associare il nome \"%s\" a un menù"
+msgstr "Impossibile trovare sintassi \"%s\" da estendere"
 
 # FIXME
 #: src/rcfile.c:1053 src/rcfile.c:1062 src/rcfile.c:1072
@@ -1975,9 +1947,8 @@ msgid "Command \"%s\" not understood"
 msgstr "Comando \"%s\" non riconosciuto"
 
 #: src/rcfile.c:1113
-#, fuzzy
 msgid "Missing option"
-msgstr "Nome del colore mancante"
+msgstr "Opzione mancante"
 
 #: src/rcfile.c:1135
 #, c-format
@@ -1997,14 +1968,14 @@ msgid "Two single-column characters required"
 msgstr "Sono richiesti due caratteri a colonna singola"
 
 #: src/rcfile.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unset option \"%s\""
-msgstr "Impossibile rimuovere il flag \"%s\""
+msgstr "Impossibile rimuovere l'opzione \"%s\""
 
 #: src/rcfile.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option \"%s\""
-msgstr "Flag \"%s\" sconosciuto"
+msgstr "Opzione \"%s\" sconosciuta"
 
 #: src/rcfile.c:1334
 msgid "I can't find my home directory!  Wah!"
@@ -2077,11 +2048,11 @@ msgstr "Buffer di annullamento vuoto."
 
 # FIXME
 #: src/text.c:453 src/text.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
 "Errore interno: impossibile trovare la corrispondenza della riga %d. Salvare "
-"il lavoro"
+"il lavoro."
 
 #: src/text.c:464 src/text.c:601
 msgid "text add"
@@ -2134,11 +2105,9 @@ msgstr "Azione annullata (%s)"
 msgid "Nothing to re-do!"
 msgstr "Niente da ripetere."
 
-# FIXME
 #: src/text.c:580
-#, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
-msgstr "Errore interno: impossibile incollare. Salvare il lavoro."
+msgstr "Errore interno: impossibile ripetere. Salvare il lavoro."
 
 #: src/text.c:674
 #, c-format
@@ -2153,9 +2122,7 @@ msgstr "Impossibile creare la pipe"
 msgid "Could not fork"
 msgstr "Impossibile effettuare un fork"
 
-# FIXME
 #: src/text.c:944
-#, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr "Errore interno: impossibile incollare. Salvare il lavoro."
 
@@ -2202,9 +2169,8 @@ msgid "Error invoking \"%s\""
 msgstr "Errore nel chiamare \"%s\""
 
 #: src/text.c:2960
-#, fuzzy
 msgid "Invoking spell checker, please wait"
-msgstr "Esegue il correttore ortografico, se disponibile"
+msgstr "Esecuzione del correttore ortografico, attendere"
 
 #: src/text.c:2977
 #, c-format
@@ -2216,39 +2182,36 @@ msgstr "Controllo ortografico non riuscito: %s"
 msgid "Spell checking failed: %s: %s"
 msgstr "Controllo ortografico non riuscito: %s: %s"
 
-# FIXME
 #: src/text.c:3013
-#, fuzzy
 msgid "No linter defined for this type of file!"
-msgstr "Non aggiunge caratteri newline in fondo ai file"
+msgstr "Nessun linter definito per questo tipo di file!"
 
 #: src/text.c:3024
 msgid "Save modified buffer before linting?"
-msgstr ""
+msgstr "Salvare il buffer prima dell'esecuzione del linter?"
 
 #: src/text.c:3046
 msgid "Invoking linter, please wait"
-msgstr ""
+msgstr "Esecuzione del linter, attendere"
 
 #: src/text.c:3202
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr ""
+msgstr "Ricevute 0 righe dal comando: %s"
 
 #: src/text.c:3236
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
+"Questo messaggio è per il file non aperto %s, aprire in un nuovo buffer?"
 
 #: src/text.c:3284
-#, fuzzy
 msgid "At last message"
-msgstr "Mostra questo messaggio"
+msgstr "Ultimo messaggio"
 
 #: src/text.c:3291
-#, fuzzy
 msgid "At first message"
-msgstr "Mostra questo messaggio"
+msgstr "Primo messaggio"
 
 #: src/text.c:3368
 #, c-format
@@ -2335,42 +2298,19 @@ msgstr "e chiunque altro abbiamo dimenticato..."
 msgid "Thank you for using nano!"
 msgstr "Grazie di usare nano!"
 
-#~ msgid "Insert File"
-#~ msgstr "Inserisci file"
-
-#~ msgid "Go to previous screen"
-#~ msgstr "Va alla schermata precedente"
-
 #~ msgid "Find Other Bracket"
 #~ msgstr "Trova la parentesi corrispondente"
+
+#~ msgid "Long line wrapping"
+#~ msgstr "A capo automatico"
 
 # FIXME
 #~ msgid "Soft line wrapping"
 #~ msgstr "A capo morbido"
 
-#~ msgid "Long line wrapping"
-#~ msgstr "A capo automatico"
-
-#~ msgid "Show this message"
-#~ msgstr "Mostra questo messaggio"
-
-# NdT: Più di un'opzione viene ignorata.
-#~ msgid "(ignored, for Pico compatibility)"
-#~ msgstr "(ignorate, per compatibilità con Pico)"
-
 #~ msgid "Must specify menu to bind key to (or \"all\")"
 #~ msgstr ""
 #~ "Occorre specificare un menù a cui associare la chiave (oppure \"all\")"
 
-#~ msgid "Missing flag"
-#~ msgstr "Flag mancante"
-
 #~ msgid "Internal error: unknown type.  Please save your work"
 #~ msgstr "Errore interno: tipo sconosciuto. Salvare il lavoro"
-
-# FIXME
-#~ msgid "Internal error: Redo setup failed.  Please save your work"
-#~ msgstr "Errore interno: ripetizione non riuscita. Salvare il lavoro"
-
-#~ msgid "Could not pipe"
-#~ msgstr "Impossibile effettuare una pipe"
