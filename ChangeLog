@@ -1,3 +1,11 @@
+2014-05-25  Mark Majeres  <mark@engine12.com>
+	* src/chars.c (addstrings): New function, concatenates two allocated
+	strings, tacking the second onto the first and freeing the second.
+	* src/cut.c (do_uncut_text): Update the undo structure for a paste.
+	* src/text.c (undo_cut, redo_cut, add_undo, update_undo): Place the
+	cursor after an undo there where it was before the do, and handle
+	multibyte characters correctly.
+
 2014-05-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Finally, the proper fix for bug #31743;
 	telling ncurses to really redraw the line, without optimization, so

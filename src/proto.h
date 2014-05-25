@@ -162,6 +162,7 @@ char *striponedir(const char *path);
 void utf8_init(void);
 bool using_utf8(void);
 #endif
+char *addstrings(char* str1, size_t len1, char* str2, size_t len2);
 #ifndef HAVE_ISBLANK
 bool nisblank(int c);
 #endif

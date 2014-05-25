@@ -572,6 +572,7 @@ enum
 #define UNdel_del		(1<<0)
 #define UNdel_backspace	(1<<1)
 #define UNsplit_madenew	(1<<2)
+#define UNcut_cutline		(1<<3)
 #endif /* !NANO_TINY */
 
 #define VIEW TRUE
