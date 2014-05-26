@@ -1,3 +1,7 @@
+2014-05-26  Benno Schulenberg  <bensberg@justemail.net>
+	* src/cut.c (cut_line): Fix compilation with --enable-tiny.
+	* src/text.c (do_linter): Avoid a warning with --enable-tiny.
+
 2014-05-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c: Cut down on the size of tiny nano, by not compiling
 	the function strtosc() when --disable-nanorc is given or implied.

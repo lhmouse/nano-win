@@ -3297,7 +3297,9 @@ void do_linter(void)
 	}
     }
     blank_statusbar();
+#ifndef NANO_TINY
 free_lints_and_return:
+#endif
     for (tmplint = lints; tmplint != NULL; tmplint = tmplint->next) {
 	free(tmplint->msg);
 	free(tmplint->filename);
