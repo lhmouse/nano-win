@@ -533,14 +533,11 @@ void shortcut_init(void)
 	N_("Cut the current line and store it in the cutbuffer");
     const char *nano_uncut_msg =
 	N_("Uncut from the cutbuffer into the current line");
-    const char *nano_cursorpos_msg =
-	N_("Display the position of the cursor");
+    const char *nano_cursorpos_msg = N_("Display the position of the cursor");
 #ifndef DISABLE_SPELLER
-    const char *nano_spell_msg =
-	N_("Invoke the spell checker, if available");
+    const char *nano_spell_msg = N_("Invoke the spell checker, if available");
 #endif
-    const char *nano_replace_msg =
-	N_("Replace a string or a regular expression");
+    const char *nano_replace_msg = N_("Replace a string or a regular expression");
     const char *nano_gotoline_msg = N_("Go to line and column number");
 #ifndef NANO_TINY
     const char *nano_mark_msg = N_("Mark text starting from the cursor position");
@@ -568,10 +565,8 @@ void shortcut_init(void)
     const char *nano_paraend_msg =
 	N_("Go just beyond end of paragraph; then of next paragraph");
 #endif
-    const char *nano_firstline_msg =
-	N_("Go to the first line of the file");
-    const char *nano_lastline_msg =
-	N_("Go to the last line of the file");
+    const char *nano_firstline_msg = N_("Go to the first line of the file");
+    const char *nano_lastline_msg = N_("Go to the last line of the file");
 #ifndef NANO_TINY
     const char *nano_bracket_msg = N_("Go to the matching bracket");
     const char *nano_scrollup_msg =
@@ -580,19 +575,13 @@ void shortcut_init(void)
 	N_("Scroll down one line without scrolling the cursor");
 #endif
 #ifndef DISABLE_MULTIBUFFER
-    const char *nano_prevfile_msg =
-	N_("Switch to the previous file buffer");
-    const char *nano_nextfile_msg =
-	N_("Switch to the next file buffer");
+    const char *nano_prevfile_msg = N_("Switch to the previous file buffer");
+    const char *nano_nextfile_msg = N_("Switch to the next file buffer");
 #endif
-    const char *nano_verbatim_msg =
-	N_("Insert the next keystroke verbatim");
-    const char *nano_tab_msg =
-	N_("Insert a tab at the cursor position");
-    const char *nano_enter_msg =
-	N_("Insert a newline at the cursor position");
-    const char *nano_delete_msg =
-	N_("Delete the character under the cursor");
+    const char *nano_verbatim_msg = N_("Insert the next keystroke verbatim");
+    const char *nano_tab_msg = N_("Insert a tab at the cursor position");
+    const char *nano_enter_msg = N_("Insert a newline at the cursor position");
+    const char *nano_delete_msg = N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
@@ -634,22 +623,18 @@ void shortcut_init(void)
     const char *nano_mac_msg = N_("Toggle the use of Mac format");
     const char *nano_append_msg = N_("Toggle appending");
     const char *nano_prepend_msg = N_("Toggle prepending");
-    const char *nano_backup_msg =
-	N_("Toggle backing up of the original file");
+    const char *nano_backup_msg = N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
 #ifndef DISABLE_MULTIBUFFER
-    const char *nano_multibuffer_msg =
-	N_("Toggle the use of a new buffer");
+    const char *nano_multibuffer_msg = N_("Toggle the use of a new buffer");
 #endif
 #ifndef DISABLE_BROWSER
     const char *nano_exitbrowser_msg = N_("Exit from the file browser");
-    const char *nano_firstfile_msg =
-	N_("Go to the first file in the list");
-    const char *nano_lastfile_msg =
-	N_("Go to the last file in the list");
-    const char *nano_forwardfile_msg = N_("Go to the next file in the list");
+    const char *nano_firstfile_msg = N_("Go to the first file in the list");
+    const char *nano_lastfile_msg = N_("Go to the last file in the list");
     const char *nano_backfile_msg = N_("Go to the previous file in the list");
+    const char *nano_forwardfile_msg = N_("Go to the next file in the list");
     const char *nano_gotodir_msg = N_("Go to directory");
 #endif
 #ifndef DISABLE_COLOR
