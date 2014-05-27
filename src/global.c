@@ -767,8 +767,12 @@ void shortcut_init(void)
     add_to_funcs(do_cursorpos_void, MMAIN, N_("Cur Pos"),
 	IFSCHELP(nano_cursorpos_msg), FALSE, VIEW);
 
+#if !defined(NANO_TINY) || defined(DISABLE_COLOR)
+    /* Conditionally placing this one here or further on, to keep the
+     * help items nicely paired in most conditions. */
     add_to_funcs(do_gotolinecolumn_void, MMAIN|MWHEREIS,
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), TRUE, VIEW);
+#endif
 
     add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
 	N_("Prev Page"), IFSCHELP(nano_prevpage_msg), FALSE, VIEW);
@@ -856,6 +860,11 @@ void shortcut_init(void)
 	IFSCHELP(nano_prevfile_msg), FALSE, VIEW);
     add_to_funcs(switch_to_next_buffer_void, MMAIN, N_("Next File"),
 	IFSCHELP(nano_nextfile_msg), TRUE, VIEW);
+#endif
+
+#if defined(NANO_TINY) && !defined(DISABLE_COLOR)
+    add_to_funcs(do_gotolinecolumn_void, MMAIN|MWHEREIS,
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), TRUE, VIEW);
 #endif
 
     add_to_funcs(do_verbatim_input, MMAIN, N_("Verbatim"),
