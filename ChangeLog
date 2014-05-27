@@ -3,6 +3,8 @@
 	under certain compilation conditions.
 	* src/global.c (strtosc): Make tiny nano a bit tinier.
 	* src/global.c (strtosc): Allow rebinding 'suspend' in tiny nano.
+	* src/winio.c (set_modified): Adjust translator comment to make it
+	show up in the POT file, and make it take the "[  ]" into account.
 
 2014-05-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/cut.c (cut_line): Fix compilation with --enable-tiny.

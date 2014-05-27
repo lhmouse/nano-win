@@ -2251,7 +2251,7 @@ void set_modified(void)
 	    if (!strcmp(openfile->filename, ""))
 		return;
 	    else if (openfile->lock_filename == NULL) {
-                /* Translators: Try to keep this at most 80 characters. */
+                /* TRANSLATORS: Try to keep this at most 76 characters. */
                 statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
 	    } else {
 		write_lockfile(openfile->lock_filename,
