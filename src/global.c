@@ -1470,6 +1470,7 @@ sc *strtosc(char *input)
     else if (!strcasecmp(input, "casesens")) {
 	s->scfunc = case_sens_void;
 	s->execute = FALSE;
+#ifndef NANO_TINY
     } else if (!strcasecmp(input, "regexp") ||
 	       !strcasecmp(input, "regex")) {
 	s->scfunc = regexp_void;
@@ -1477,6 +1478,7 @@ sc *strtosc(char *input)
     } else if (!strcasecmp(input, "backwards")) {
 	s->scfunc = backwards_void;
 	s->execute = FALSE;
+#endif
     } else if (!strcasecmp(input, "dontreplace")) {
 	s->scfunc = no_replace_void;
 	s->execute = FALSE;
