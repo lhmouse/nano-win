@@ -2,6 +2,7 @@
 	* src/global.c (shortcut_init): Improve the arrangement of help items
 	under certain compilation conditions.
 	* src/global.c (strtosc): Make tiny nano a bit tinier.
+	* src/global.c (strtosc): Allow rebinding 'suspend' in tiny nano.
 
 2014-05-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/cut.c (cut_line): Fix compilation with --enable-tiny.

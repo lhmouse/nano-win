@@ -1333,8 +1333,6 @@ sc *strtosc(char *input)
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))
 	s->scfunc = do_wordlinechar_count;
-    else if (!strcasecmp(input, "suspend"))
-	s->scfunc = do_suspend_void;
     else if (!strcasecmp(input, "undo"))
 	s->scfunc = do_undo;
     else if (!strcasecmp(input, "redo"))
@@ -1467,6 +1465,8 @@ sc *strtosc(char *input)
 	s->scfunc = do_backspace;
     else if (!strcasecmp(input, "refresh"))
 	s->scfunc = total_refresh;
+    else if (!strcasecmp(input, "suspend"))
+	s->scfunc = do_suspend_void;
     else if (!strcasecmp(input, "casesens")) {
 	s->scfunc = case_sens_void;
 	s->execute = FALSE;
