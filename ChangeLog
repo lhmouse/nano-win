@@ -6,6 +6,11 @@
 	* src/browser, src/search.c: There is no need to repeat translator
 	comments for the same string -- once is enough to get them included.
 	Add instead some translator comments for the prompts.
+	* src/global.c (shortcut_init): Make ^X in the Read-File menu toggle
+	between executing a command and inserting a file.  The mechanism in
+	do_insertfile() in files.c is already present -- in the past just
+	the wrong function was used in the relevant function-list item:
+	'do_insertfile_void' instead of the unintuitive 'ext_cmd_void'.
 
 2014-05-27  Chris Allegretta <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under

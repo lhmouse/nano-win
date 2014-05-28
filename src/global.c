@@ -488,6 +488,7 @@ void shortcut_init(void)
     const char *gotoline_tag = N_("Go To Line");
     const char *prev_line_tag = N_("Prev Line");
     const char *next_line_tag = N_("Next Line");
+    const char *read_file_tag = N_("Read File");
 #ifndef DISABLE_JUSTIFY
     const char *fulljustify_tag = N_("FullJstify");
 #endif
@@ -683,7 +684,7 @@ void shortcut_init(void)
      * reading from or writing to files not specified on the command
      * line. */
     add_to_funcs(do_insertfile_void,
-	MMAIN, N_("Read File"), IFSCHELP(nano_insert_msg), TRUE,
+	MMAIN, read_file_tag, IFSCHELP(nano_insert_msg), TRUE,
 #ifndef DISABLE_MULTIBUFFER
 	VIEW);
 #else
@@ -947,6 +948,9 @@ void shortcut_init(void)
         add_to_funcs(ext_cmd_void, MINSERTFILE,
 	    N_("Execute Command"), IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
+        add_to_funcs(ext_cmd_void, MEXTCMD,
+	    read_file_tag, IFSCHELP(nano_insert_msg), FALSE, NOVIEW);
+
 #ifndef DISABLE_MULTIBUFFER
 	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
 	    N_("New Buffer"), IFSCHELP(nano_multibuffer_msg), FALSE, NOVIEW);
@@ -1160,7 +1164,7 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0, FALSE);
 #endif
-    add_to_sclist(MINSERTFILE, "^X", ext_cmd_void, 0, FALSE);
+    add_to_sclist(MINSERTFILE|MEXTCMD, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
