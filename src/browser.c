@@ -797,7 +797,7 @@ int filesearch_init(void)
 #ifndef NANO_TINY
 	&search_history,
 #endif
-	browser_refresh, "%s%s%s%s%s%s", _("Search"),
+	browser_refresh, "%s%s%s%s%s", _("Search"),
 #ifndef NANO_TINY
 	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
 #endif
@@ -809,7 +809,7 @@ int filesearch_init(void)
 #ifndef NANO_TINY
 	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
 #endif
-	"", "", buf);
+	"", buf);
 
     /* Release buf now that we don't need it anymore. */
     free(buf);

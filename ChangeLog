@@ -11,6 +11,7 @@
 	do_insertfile() in files.c is already present -- in the past just
 	the wrong function was used in the relevant function-list item:
 	'do_insertfile_void' instead of the unintuitive 'ext_cmd_void'.
+	* src/browser (filesearch_init): Remove an unneeded format specifier.
 
 2014-05-27  Chris Allegretta <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under
