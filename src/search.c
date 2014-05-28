@@ -181,26 +181,23 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_TINY
 	&search_history,
 #endif
+	/* TRANSLATORS: This is the main search prompt. */
 	edit_refresh, "%s%s%s%s%s%s", _("Search"),
 #ifndef NANO_TINY
-	/* TRANSLATORS: This string is just a modifier for the search
-	 * prompt; no grammar is implied. */
+	/* TRANSLATORS: The next three strings are modifiers of the search prompt. */
 	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
 #endif
 	"",
 #ifdef HAVE_REGEX_H
-	/* TRANSLATORS: This string is just a modifier for the search
-	 * prompt; no grammar is implied. */
 	ISSET(USE_REGEXP) ? _(" [Regexp]") :
 #endif
 	"",
 #ifndef NANO_TINY
-	/* TRANSLATORS: This string is just a modifier for the search
-	 * prompt; no grammar is implied. */
 	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
 #endif
 	"", replacing ?
 #ifndef NANO_TINY
+	/* TRANSLATORS: The next two strings are modifiers of the search prompt. */
 	openfile->mark_set ? _(" (to replace) in selection") :
 #endif
 	_(" (to replace)") : "", buf);
@@ -781,6 +778,7 @@ ssize_t do_replace_loop(
 
 	    do_replace_highlight(TRUE, exp_word);
 
+	    /* TRANSLATORS: This is a prompt. */
 	    i = do_yesno_prompt(TRUE, _("Replace this instance?"));
 
 	    do_replace_highlight(FALSE, exp_word);
@@ -959,6 +957,7 @@ void do_replace(void)
 #ifndef NANO_TINY
 	&replace_history,
 #endif
+	/* TRANSLATORS: This is a prompt. */
 	edit_refresh, _("Replace with"));
 
 #ifndef NANO_TINY
@@ -1044,6 +1043,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 #ifndef NANO_TINY
 		NULL,
 #endif
+		/* TRANSLATORS: This is a prompt. */
 		edit_refresh, _("Enter line number, column number"));
 
 	free(ans);

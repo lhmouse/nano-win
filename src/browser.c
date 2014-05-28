@@ -217,6 +217,7 @@ char *do_browser(char *path, DIR *dir)
 #ifndef NANO_TINY
 			NULL,
 #endif
+			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
 
 		curs_set(0);
@@ -798,20 +799,14 @@ int filesearch_init(void)
 #endif
 	browser_refresh, "%s%s%s%s%s%s", _("Search"),
 #ifndef NANO_TINY
-	/* This string is just a modifier for the search prompt; no
-	 * grammar is implied. */
 	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
 #endif
 	"",
 #ifdef HAVE_REGEX_H
-	/* This string is just a modifier for the search prompt; no
-	 * grammar is implied. */
 	ISSET(USE_REGEXP) ? _(" [Regexp]") :
 #endif
 	"",
 #ifndef NANO_TINY
-	/* This string is just a modifier for the search prompt; no
-	 * grammar is implied. */
 	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
 #endif
 	"", "", buf);

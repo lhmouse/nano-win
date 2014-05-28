@@ -3,6 +3,9 @@
 	'ran_func', and 'finished'.  They are only ever set and never used.
 	* src/text.c (do_justify): Adjust a call of do_input().
 	* src/browser (do_browser): Actually translate the go-to-dir prompt.
+	* src/browser, src/search.c: There is no need to repeat translator
+	comments for the same string -- once is enough to get them included.
+	Add instead some translator comments for the prompts.
 
 2014-05-27  Chris Allegretta <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under
