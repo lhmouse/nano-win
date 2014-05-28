@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2014-05-15 22:52+0200\n"
+"PO-Revision-Date: 2014-05-28 21:45+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1414,7 +1414,7 @@ msgstr "+LINIO,KOLUMNO"
 
 #: src/nano.c:841
 msgid "Start at line LINE, column COLUMN"
-msgstr "komenci en linio LINIO (kaj kolumno KOLUMNO)"
+msgstr "komenci en ĉi tiu LINIO (kaj KOLUMNO)"
 
 #: src/nano.c:843
 msgid "Enable smart home key"
@@ -1502,11 +1502,11 @@ msgstr "rulumi po linio anstataŭ po duon-ekrano"
 
 #: src/nano.c:889
 msgid "-T <#cols>"
-msgstr "-T <kolumnoj>"
+msgstr "-T <nombro>"
 
 #: src/nano.c:889
 msgid "--tabsize=<#cols>"
-msgstr "--tabsize=<kolumnoj>"
+msgstr "--tabsize=<nombro>"
 
 #: src/nano.c:890
 msgid "Set width of a tab to #cols columns"
@@ -1526,11 +1526,11 @@ msgstr "detekti vortlimojn pli akurate"
 
 #: src/nano.c:901
 msgid "-Y <str>"
-msgstr "-Y <ĉeno>"
+msgstr "-Y <nomo>"
 
 #: src/nano.c:901
 msgid "--syntax=<str>"
-msgstr "--syntax=<ĉeno>"
+msgstr "--syntax=<nomo>"
 
 #: src/nano.c:902
 msgid "Syntax definition to use for coloring"
@@ -1590,11 +1590,11 @@ msgstr "silente ignori lanĉajn problemetojn"
 
 #: src/nano.c:928
 msgid "-r <#cols>"
-msgstr "-r <kolumnoj>"
+msgstr "-r <nombro>"
 
 #: src/nano.c:928
 msgid "--fill=<#cols>"
-msgstr "--fill=<kolumnoj>"
+msgstr "--fill=<nombro>"
 
 #: src/nano.c:929
 msgid "Set hard-wrapping point at column #cols"

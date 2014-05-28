@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: nano-2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 10:34+0200\n"
-"PO-Revision-Date: 2014-05-27 21:42+0200\n"
+"PO-Revision-Date: 2014-05-28 21:44+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -1520,11 +1520,11 @@ msgstr "per regel scrollen i.p.v. half scherm"
 
 #: src/nano.c:889
 msgid "-T <#cols>"
-msgstr "-T <#kolommen>"
+msgstr "-T <getal>"
 
 #: src/nano.c:889
 msgid "--tabsize=<#cols>"
-msgstr "--tabsize=<#kolommen>"
+msgstr "--tabsize=<getal>"
 
 #: src/nano.c:890
 msgid "Set width of a tab to #cols columns"
@@ -1608,11 +1608,11 @@ msgstr "opstartproblemen zoals rc-fouten negeren"
 
 #: src/nano.c:928
 msgid "-r <#cols>"
-msgstr "-r <#kolommen>"
+msgstr "-r <getal>"
 
 #: src/nano.c:928
 msgid "--fill=<#cols>"
-msgstr "--fill=<#kolommen>"
+msgstr "--fill=<getal>"
 
 #: src/nano.c:929
 msgid "Set hard-wrapping point at column #cols"
@@ -1708,7 +1708,7 @@ msgstr "Gebruik 'fg' om terug te keren naar nano.\n"
 
 #: src/nano.c:1455
 msgid "enabled"
-msgstr "is aangezet"
+msgstr " (aangezet)"
 
 #: src/nano.c:1455
 msgid "disabled"
