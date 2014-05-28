@@ -1970,7 +1970,7 @@ void do_justify(bool full_justify)
     bool modified_save = openfile->modified;
 
     int kbinput;
-    bool meta_key, func_key, s_or_t, ran_func, finished;
+    bool meta_key, func_key;
     const sc *s;
 
     /* Move to the beginning of the current line, so that justifying at
@@ -2289,8 +2289,7 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
-    kbinput = do_input(&meta_key, &func_key, &s_or_t, &ran_func,
-	&finished, FALSE);
+    kbinput = do_input(&meta_key, &func_key, FALSE);
     s = get_shortcut(MMAIN, &kbinput, &meta_key);
 
     if (s && s->scfunc == do_uncut_text) {

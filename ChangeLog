@@ -1,3 +1,8 @@
+2014-05-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (do_input): Remove the three unused parameters 's_or_t',
+	'ran_func', and 'finished'.  They are only ever set and never used.
+	* src/text.c (do_justify): Adjust a call of do_input().
+
 2014-05-27  Chris Allegretta <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under
 	  slang.

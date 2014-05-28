@@ -477,8 +477,7 @@ void enable_signals(void);
 void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
-int do_input(bool *meta_key, bool *func_key, bool *have_shortcut, bool
-	*ran_func, bool *finished, bool allow_funcs);
+int do_input(bool *meta_key, bool *func_key, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 int do_mouse(void);
 #endif

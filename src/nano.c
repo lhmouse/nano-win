@@ -1564,15 +1564,10 @@ void terminal_init(void)
 
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.  Set meta_key to TRUE if the character is a
- * meta sequence, set func_key to TRUE if the character is a function
- * key, set s_or_t to TRUE if the character is a shortcut or toggle
- * key, set ran_func to TRUE if we ran a function associated with a
- * shortcut key, and set finished to TRUE if we're done after running
- * or trying to run a function associated with a shortcut key.  If
- * allow_funcs is FALSE, don't actually run any functions associated
+ * meta sequence, set func_key to TRUE if the character is a function key.
+ * If allow_funcs is FALSE, don't actually run any functions associated
  * with shortcut keys. */
-int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
-	*ran_func, bool *finished, bool allow_funcs)
+int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 {
     int input;
 	/* The character we read in. */
@@ -1584,10 +1579,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	/* Are we cutting or copying text? */
     const sc *s;
     bool have_shortcut;
-
-    *s_or_t = FALSE;
-    *ran_func = FALSE;
-    *finished = FALSE;
 
     /* Read in a character. */
     input = get_kbinput(edit, meta_key, func_key);
@@ -1681,11 +1672,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 	if (have_shortcut) {
 	    switch (input) {
-		/* Handle the normal edit window shortcuts, setting
-		 * ran_func to TRUE if we try to run their associated
-		 * functions and setting finished to TRUE to indicate
-		 * that we're done after running or trying to run their
-		 * associated functions. */
+		/* Handle the normal edit-window shortcuts. */
 		default:
 		    /* If the function associated with this shortcut is
 		     * cutting or copying text, indicate this. */
@@ -1699,7 +1686,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 		    if (s->scfunc != 0) {
 			const subnfunc *f = sctofunc((sc *) s);
-			*ran_func = TRUE;
 			if (ISSET(VIEW_MODE) && f && !f->viewok)
 			    print_view_warning();
 			else {
@@ -1726,7 +1712,6 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			    }
 			}
 		    }
-		    *finished = TRUE;
 		    break;
 	    }
 	}
@@ -2779,7 +2764,7 @@ int main(int argc, char **argv)
     display_buffer();
 
     while (TRUE) {
-	bool meta_key, func_key, s_or_t, ran_func, finished;
+	bool meta_key, func_key;
 
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
@@ -2809,8 +2794,7 @@ int main(int argc, char **argv)
         currmenu = MMAIN;
 
 	/* Read in and interpret characters. */
-	do_input(&meta_key, &func_key, &s_or_t, &ran_func, &finished,
-		TRUE);
+	do_input(&meta_key, &func_key, TRUE);
     }
 
     /* We should never get here. */
