@@ -494,12 +494,12 @@ void shortcut_init(void)
 #endif
     const char *refresh_tag = N_("Refresh");
 
+#ifndef DISABLE_HELP
 #ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
      * they are best kept shorter than 56 characters, but may be longer. */
     const char *nano_justify_msg = N_("Justify the current paragraph");
 #endif
-#ifndef DISABLE_HELP
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
@@ -1120,9 +1120,11 @@ void shortcut_init(void)
 
     add_to_sclist(((MMOST & ~MMAIN & ~MBROWSER) | MYESNO), "^C", do_cancel, 0, FALSE);
 
-    add_to_sclist(MWHEREIS|MREPLACE, "M-C", case_sens_void, 0, FALSE);
-    add_to_sclist(MWHEREIS|MREPLACE, "M-R", regexp_void, 0, FALSE);
+#ifndef NANO_TINY
     add_to_sclist(MWHEREIS|MREPLACE, "M-B", backwards_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE, "M-C", case_sens_void, 0, FALSE);
+#endif
+    add_to_sclist(MWHEREIS|MREPLACE, "M-R", regexp_void, 0, FALSE);
     add_to_sclist(MWHEREIS, "^R", do_replace, 0, FALSE);
     add_to_sclist(MREPLACE, "^R", no_replace_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", do_first_line, 0, TRUE);
@@ -1159,7 +1161,9 @@ void shortcut_init(void)
     add_to_sclist(MINSERTFILE|MEXTCMD, "^X", ext_cmd_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
+#ifndef DISABLE_HELP
     add_to_sclist(MHELP, "^G", do_exit, 0, TRUE);
+#endif
     add_to_sclist(MMOST, "^I", do_tab, 0, TRUE);
     add_to_sclist(MMOST, "^M", do_enter_void, 0, TRUE);
     add_to_sclist(MMOST, "Enter", do_enter_void, 0, TRUE);
