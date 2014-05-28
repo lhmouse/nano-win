@@ -13,6 +13,7 @@
 	'do_insertfile_void' instead of the unintuitive 'ext_cmd_void'.
 	* src/browser (filesearch_init): Remove an unneeded format specifier.
 	* src/nano.c (usage): Add a translator comment for the --help output.
+	* src/global.c (shortcut_init): Elide four unneeded tags.
 
 2014-05-27  Chris Allegretta <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under

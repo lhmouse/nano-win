@@ -482,7 +482,7 @@ const char *whereis_next_tag = N_("WhereIs Next");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    /* TRANSLATORS: Try to keep the next nine strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep the next eight strings at most 10 characters. */
     const char *whereis_tag = N_("Where Is");
     const char *replace_tag = N_("Replace");
     const char *gotoline_tag = N_("Go To Line");
@@ -493,15 +493,6 @@ void shortcut_init(void)
     const char *fulljustify_tag = N_("FullJstify");
 #endif
     const char *refresh_tag = N_("Refresh");
-#ifndef DISABLE_SPELLER
-    const char *spell_tag = N_("To Spell");
-#endif
-#ifndef DISABLE_COLOR
-    const char *lint_tag = N_("To Linter");
-    /* TRANSLATORS: Try to keep the next two strings at most 14 characters. */
-    const char *prev_lint_tag = N_("Prev Lint Msg");
-    const char *next_lint_tag = N_("Next Lint Msg");
-#endif
 
 #ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
@@ -730,13 +721,13 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_SPELLER
-    add_to_funcs(do_spell, MMAIN, spell_tag, IFSCHELP(nano_spell_msg),
-	FALSE, NOVIEW);
+    add_to_funcs(do_spell, MMAIN,
+	N_("To Spell"), IFSCHELP(nano_spell_msg), FALSE, NOVIEW);
 #endif
 
 #ifndef DISABLE_COLOR
-    add_to_funcs(do_linter, MMAIN, lint_tag, IFSCHELP(nano_lint_msg),
-	TRUE, NOVIEW);
+    add_to_funcs(do_linter, MMAIN,
+	N_("To Linter"), IFSCHELP(nano_lint_msg), TRUE, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -975,10 +966,11 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_COLOR
+    /* TRANSLATORS: Try to keep the next two strings at most 20 characters. */
     add_to_funcs(do_page_up, MLINTER,
-	prev_lint_tag, IFSCHELP(nano_prevlint_msg), FALSE, VIEW);
+	N_("Prev Lint Msg"), IFSCHELP(nano_prevlint_msg), FALSE, VIEW);
     add_to_funcs(do_page_down, MLINTER,
-	next_lint_tag, IFSCHELP(nano_nextlint_msg), FALSE, VIEW);
+	N_("Next Lint Msg"), IFSCHELP(nano_nextlint_msg), FALSE, VIEW);
 #endif
 
     /* Start associating key combos with functions in specific menus. */
