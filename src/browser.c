@@ -217,7 +217,7 @@ char *do_browser(char *path, DIR *dir)
 #ifndef NANO_TINY
 			NULL,
 #endif
-			browser_refresh, N_("Go To Directory"));
+			browser_refresh, _("Go To Directory"));
 
 		curs_set(0);
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
