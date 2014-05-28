@@ -1,3 +1,7 @@
+2014-05-27  Chris Allegretta <chrisa@asty.org>
+	* src/winio.c (edit_refresh): wredrawln() is not supported under
+	  slang.
+
 2014-05-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Improve the arrangement of help items
 	under certain compilation conditions.
