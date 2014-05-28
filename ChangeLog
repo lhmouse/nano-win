@@ -15,6 +15,8 @@
 	* src/nano.c (usage): Add a translator comment for the --help output.
 	* src/global.c (shortcut_init): Elide four unneeded tags.
 	* src/global.c (shortcut_init): Make tiny nano just a bit tinier.
+	* src/global.c (shortcut_init): Standardize the add_to_funcs() calls,
+	breaking always between the menus and the tag.
 
 2014-05-27  Chris Allegretta <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under
