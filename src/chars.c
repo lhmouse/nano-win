@@ -43,17 +43,6 @@ static const wchar_t bad_wchar = 0xFFFD;
 static const char *const bad_mbchar = "\xEF\xBF\xBD";
 static const int bad_mbchar_len = 3;
 
-/* Concatenate two allocated strings. */
-char* addstrings(char* str1, size_t len1, char* str2, size_t len2)
-{
-    str1 = charealloc(str1, len1 + len2 + 1);
-    str1[len1] = '\0';
-    strncat(&str1[len1], str2, len2);
-    free(str2);
-
-    return str1;
-}
-
 /* Enable UTF-8 support. */
 void utf8_init(void)
 {
@@ -66,6 +55,18 @@ bool using_utf8(void)
     return use_utf8;
 }
 #endif /* ENABLE_UTF8 */
+
+/* Concatenate two allocated strings. */
+char* addstrings(char* str1, size_t len1, char* str2, size_t len2)
+{
+    str1 = charealloc(str1, len1 + len2 + 1);
+    str1[len1] = '\0';
+    strncat(&str1[len1], str2, len2);
+    free(str2);
+
+    return str1;
+}
+
 
 #ifndef HAVE_ISBLANK
 /* This function is equivalent to isblank(). */

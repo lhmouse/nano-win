@@ -1,3 +1,8 @@
+2014-05-29  Chris Allegretta <chrisa@asty.org>
+	* src/chars.c (addstrings): Needs to be available even on
+	  non-utf-8 sustems.
+	* nano-regress: Added --disable-utf8 to regression check
+
 2014-05-28  Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/mutt.nanorc: Include Benno's awesome signature
 	  matcher, modified slightly to also work for quoted sigs.
