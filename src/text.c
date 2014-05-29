@@ -68,10 +68,6 @@ void do_delete(void)
 {
     size_t orig_lenpt = 0;
 
-#ifndef NANO_TINY
-    update_undo(DEL);
-#endif
-
     assert(openfile->current != NULL && openfile->current->data != NULL && openfile->current_x <= strlen(openfile->current->data));
 
     openfile->placewewant = xplustabs();
@@ -84,6 +80,9 @@ void do_delete(void)
 
 	assert(openfile->current_x < strlen(openfile->current->data));
 
+#ifndef NANO_TINY
+	update_undo(DEL);
+#endif
 	if (ISSET(SOFTWRAP))
 	    orig_lenpt = strlenpt(openfile->current->data);
 
@@ -106,6 +105,9 @@ void do_delete(void)
 
 	assert(openfile->current_x == strlen(openfile->current->data));
 
+#ifndef NANO_TINY
+	add_undo(DEL);
+#endif
 	/* If we're deleting at the end of a line, we need to call
 	 * edit_refresh(). */
 	if (openfile->current->data[openfile->current_x] == '\0')
