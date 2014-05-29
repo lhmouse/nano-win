@@ -1,3 +1,11 @@
+2014-05-28  Chris Allegretta <chrisa@asty.org>
+	* doc/syntax/mutt.nanorc: Include Benno's awesome signature
+	  matcher, modified slightly to also work for quoted sigs.
+	* doc/syntax/default.nanorc: Be far more gentle with something
+	  which affects every file which doesn't match another syntax, and
+	  the user may not be able to override if their distro turns on
+	  highlighting by default.
+
 2014-05-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Remove the three unused parameters 's_or_t',
 	'ran_func', and 'finished'.  They are only ever set and never used.

@@ -1,4 +1,4 @@
-## An example of a default syntax, which is used
+## A default syntax, which is used
 ## for files that do not match any other syntax.
 
 syntax "default"
@@ -9,11 +9,5 @@ color ,red " +	+"
 # Trailing blanks.
 color ,red "[[:blank:]]+$"
 
-# E-mail signatures.
-color yellow start="^-- $" end="^$"
-
-# Nano's name.
-color brightred "(GNU )?nano( [1-9]\.[0-9]\.[^ ]+)?"
-
-# Tease.
-color green "\<yellow\>"
+# Nano's name, including version.
+color brightred "(GNU )?nano [1-9]\.[0-9]\.[^[:space:][:punct:]]+"
