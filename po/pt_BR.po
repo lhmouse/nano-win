@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.2.4pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 01:07-0400\n"
+"POT-Creation-Date: 2014-06-02 11:15-0400\n"
 "PO-Revision-Date: 2010-04-07 10:02-0300\n"
 "Last-Translator: João Victor Duarte Martins <jvdm@sdf.lonestar.org>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -24,7 +24,7 @@ msgstr "Ir para o Diretório"
 
 #: src/browser.c:234 src/browser.c:823 src/files.c:1069 src/files.c:2289
 #: src/nano.c:1132 src/search.c:216 src/search.c:311 src/search.c:974
-#: src/search.c:1053 src/text.c:3028 src/text.c:3243
+#: src/search.c:1053 src/text.c:3030 src/text.c:3245
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -289,7 +289,7 @@ msgstr "Muitos arquivos reserva?"
 msgid "Error writing %s: %s"
 msgstr "Erro ao escrever %s: %s"
 
-#: src/files.c:1960 src/text.c:2944 src/text.c:2956
+#: src/files.c:1960 src/text.c:2946 src/text.c:2958
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Erro ao escrever o arquivo temporário: %s"
@@ -2059,194 +2059,194 @@ msgid "Mark Unset"
 msgstr "Marcação desativada"
 
 # revisão: como traduzir undo buffer? 'desfazer' como um adjetivo?
-#: src/text.c:434
+#: src/text.c:436
 msgid "Nothing in undo buffer!"
 msgstr "Não há nada para desfazer!"
 
-#: src/text.c:440 src/text.c:578
+#: src/text.c:442 src/text.c:580
 #, fuzzy, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
 "Erro interno: não consegui casar a linha %d:  Por favor salve o seu trabalho"
 
-#: src/text.c:451 src/text.c:588
+#: src/text.c:453 src/text.c:590
 msgid "text add"
 msgstr "adic txt"
 
-#: src/text.c:461 src/text.c:599
+#: src/text.c:463 src/text.c:601
 msgid "text delete"
 msgstr "remover txt"
 
-#: src/text.c:473 src/text.c:617
+#: src/text.c:475 src/text.c:619
 msgid "line wrap"
 msgstr "quebra de linha"
 
-#: src/text.c:488 src/text.c:626
+#: src/text.c:490 src/text.c:628
 msgid "line join"
 msgstr "juntar linha"
 
-#: src/text.c:500 src/text.c:640
+#: src/text.c:502 src/text.c:642
 msgid "text cut"
 msgstr "recortar txt"
 
-#: src/text.c:504 src/text.c:644
+#: src/text.c:506 src/text.c:646
 msgid "text uncut"
 msgstr "colar txt"
 
-#: src/text.c:508 src/text.c:611
+#: src/text.c:510 src/text.c:613
 msgid "line break"
 msgstr "quebra de linha"
 
-#: src/text.c:519 src/text.c:655
+#: src/text.c:521 src/text.c:657
 msgid "text insert"
 msgstr "inserir txt"
 
-#: src/text.c:537 src/text.c:648
+#: src/text.c:539 src/text.c:650
 msgid "text replace"
 msgstr "substituir txt"
 
-#: src/text.c:544 src/text.c:660 src/text.c:959
+#: src/text.c:546 src/text.c:662 src/text.c:961
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Erro interno: tipo desconhecido.  Por favor salve o seu trabalho"
 
-#: src/text.c:551
+#: src/text.c:553
 #, c-format
 msgid "Undid action (%s)"
 msgstr "Ação desfeita (%s)"
 
-#: src/text.c:568
+#: src/text.c:570
 msgid "Nothing to re-do!"
 msgstr "Nada para refazer!"
 
-#: src/text.c:572
+#: src/text.c:574
 #, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr ""
 "Erro interno: não consegui configurar colagem.  Por favor salve o seu "
 "trabalho"
 
-#: src/text.c:666
+#: src/text.c:668
 #, c-format
 msgid "Redid action (%s)"
 msgstr "Ação repetida (%s)"
 
-#: src/text.c:766 src/text.c:2563 src/text.c:3042
+#: src/text.c:768 src/text.c:2565 src/text.c:3044
 msgid "Could not create pipe"
 msgstr "Impossível criar o duto"
 
-#: src/text.c:792 src/text.c:2651 src/text.c:2803 src/text.c:3093
+#: src/text.c:794 src/text.c:2653 src/text.c:2805 src/text.c:3095
 msgid "Could not fork"
 msgstr "Impossível bifurcar"
 
-#: src/text.c:945
+#: src/text.c:947
 #, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr ""
 "Erro interno: não consegui configurar colagem.  Por favor salve o seu "
 "trabalho"
 
-#: src/text.c:1878
+#: src/text.c:1880
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "String de citação ruim: %s: %s"
 
-#: src/text.c:2279
+#: src/text.c:2281
 msgid "Can now UnJustify!"
 msgstr "É possível DesJustificar!"
 
-#: src/text.c:2477
+#: src/text.c:2479
 msgid "Edit a replacement"
 msgstr "Editar uma substituição"
 
-#: src/text.c:2565
+#: src/text.c:2567
 msgid "Creating misspelled word list, please wait..."
 msgstr "Criando a lista de palavra com erros ortográficos, por favor espere..."
 
-#: src/text.c:2657 src/text.c:3101
+#: src/text.c:2659 src/text.c:3103
 msgid "Could not get size of pipe buffer"
 msgstr "Impossível descobrir o tamanho do buffer do duto"
 
-#: src/text.c:2708
+#: src/text.c:2710
 msgid "Error invoking \"spell\""
 msgstr "Erro ao clamar o \"spell\""
 
-#: src/text.c:2711
+#: src/text.c:2713
 msgid "Error invoking \"sort -f\""
 msgstr "Erro ao clamar o \"sort -f\""
 
-#: src/text.c:2714
+#: src/text.c:2716
 msgid "Error invoking \"uniq\""
 msgstr "Erro ao clamar o \"uniq\""
 
-#: src/text.c:2771 src/text.c:2984
+#: src/text.c:2773 src/text.c:2986
 msgid "Finished checking spelling"
 msgstr "Checagem ortográfica finalizada"
 
-#: src/text.c:2830
+#: src/text.c:2832
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Erro ao clamar o \"%s\""
 
-#: src/text.c:2962
+#: src/text.c:2964
 #, fuzzy
 msgid "Invoking spell checker, please wait"
 msgstr "Chamar pelo verificador ortográfico, se disponível"
 
-#: src/text.c:2979
+#: src/text.c:2981
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Falha na checagem ortográfica: %s"
 
-#: src/text.c:2981
+#: src/text.c:2983
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Falha na checagem ortográfica: %s: %s"
 
-#: src/text.c:3015
+#: src/text.c:3017
 #, fuzzy
 msgid "No linter defined for this type of file!"
 msgstr "Não adicionar retorno de carro nos finais das linhas"
 
-#: src/text.c:3026
+#: src/text.c:3028
 msgid "Save modified buffer before linting?"
 msgstr ""
 
-#: src/text.c:3048
+#: src/text.c:3050
 msgid "Invoking linter, please wait"
 msgstr ""
 
-#: src/text.c:3204
+#: src/text.c:3206
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr ""
 
-#: src/text.c:3238
+#: src/text.c:3240
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 
-#: src/text.c:3286
+#: src/text.c:3288
 #, fuzzy
 msgid "At last message"
 msgstr "Mostrar essa mensagem"
 
-#: src/text.c:3293
+#: src/text.c:3295
 #, fuzzy
 msgid "At first message"
 msgstr "Mostrar essa mensagem"
 
-#: src/text.c:3372
+#: src/text.c:3374
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sPalav: %lu  Linhs: %ld  Carac: %lu"
 
-#: src/text.c:3373
+#: src/text.c:3375
 msgid "In Selection:  "
 msgstr "Na seleção:  "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3387
+#: src/text.c:3389
 msgid "Verbatim Input"
 msgstr "Entrada Literal"
 

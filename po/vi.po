@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.3pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 01:07-0400\n"
+"POT-Creation-Date: 2014-06-02 11:15-0400\n"
 "PO-Revision-Date: 2014-05-14 15:15+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <translation-team-vi@lists.sourceforge.net>\n"
@@ -30,7 +30,7 @@ msgstr "Đi tới thư mục"
 
 #: src/browser.c:234 src/browser.c:823 src/files.c:1069 src/files.c:2289
 #: src/nano.c:1132 src/search.c:216 src/search.c:311 src/search.c:974
-#: src/search.c:1053 src/text.c:3028 src/text.c:3243
+#: src/search.c:1053 src/text.c:3030 src/text.c:3245
 msgid "Cancelled"
 msgstr "Bị hủy bỏ"
 
@@ -285,7 +285,7 @@ msgstr "Quá nhiều tập tin sao lưu dự phòng?"
 msgid "Error writing %s: %s"
 msgstr "Gặp lỗi khi ghi %s: %s"
 
-#: src/files.c:1960 src/text.c:2944 src/text.c:2956
+#: src/files.c:1960 src/text.c:2946 src/text.c:2958
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Gặp lỗi khi ghi tập tin tạm thời: %s"
@@ -2016,186 +2016,186 @@ msgstr "Đánh dấu văn bản"
 msgid "Mark Unset"
 msgstr "Hủy dấu văn bản"
 
-#: src/text.c:434
+#: src/text.c:436
 msgid "Nothing in undo buffer!"
 msgstr "Không có gì trong vùng đệm hủy bước!"
 
-#: src/text.c:440 src/text.c:578
+#: src/text.c:442 src/text.c:580
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr "Lỗi nội bộ: không thể khớp dòng %d. Hãy lưu công việc của bạn lại."
 
-#: src/text.c:451 src/text.c:588
+#: src/text.c:453 src/text.c:590
 msgid "text add"
 msgstr "thêm văn bản"
 
-#: src/text.c:461 src/text.c:599
+#: src/text.c:463 src/text.c:601
 msgid "text delete"
 msgstr "xoá văn bản"
 
-#: src/text.c:473 src/text.c:617
+#: src/text.c:475 src/text.c:619
 msgid "line wrap"
 msgstr "ngắt dòng"
 
-#: src/text.c:488 src/text.c:626
+#: src/text.c:490 src/text.c:628
 msgid "line join"
 msgstr "nối dòng"
 
-#: src/text.c:500 src/text.c:640
+#: src/text.c:502 src/text.c:642
 msgid "text cut"
 msgstr "văn bản cắt"
 
-#: src/text.c:504 src/text.c:644
+#: src/text.c:506 src/text.c:646
 msgid "text uncut"
 msgstr "văn bản dán"
 
-#: src/text.c:508 src/text.c:611
+#: src/text.c:510 src/text.c:613
 msgid "line break"
 msgstr "ngắt dòng"
 
-#: src/text.c:519 src/text.c:655
+#: src/text.c:521 src/text.c:657
 msgid "text insert"
 msgstr "chèn văn bản"
 
-#: src/text.c:537 src/text.c:648
+#: src/text.c:539 src/text.c:650
 msgid "text replace"
 msgstr "thay thế văn bản"
 
-#: src/text.c:544 src/text.c:660 src/text.c:959
+#: src/text.c:546 src/text.c:662 src/text.c:961
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Lỗi nội bộ: kiểu không rõ. Hãy lưu công việc của bạn lại."
 
-#: src/text.c:551
+#: src/text.c:553
 #, c-format
 msgid "Undid action (%s)"
 msgstr "Bước được hủy (%s)"
 
-#: src/text.c:568
+#: src/text.c:570
 msgid "Nothing to re-do!"
 msgstr "Không có gì cần hoàn lại!"
 
-#: src/text.c:572
+#: src/text.c:574
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr ""
 "Lỗi nội bộ: không thể cài đặt redo (hoàn lại). Hãy lưu công việc của bạn lại."
 
-#: src/text.c:666
+#: src/text.c:668
 #, c-format
 msgid "Redid action (%s)"
 msgstr "Bước được hoàn lại (%s)"
 
-#: src/text.c:766 src/text.c:2563 src/text.c:3042
+#: src/text.c:768 src/text.c:2565 src/text.c:3044
 msgid "Could not create pipe"
 msgstr "Không thể tạo đường ống"
 
-#: src/text.c:792 src/text.c:2651 src/text.c:2803 src/text.c:3093
+#: src/text.c:794 src/text.c:2653 src/text.c:2805 src/text.c:3095
 msgid "Could not fork"
 msgstr "Không thể tạo tiến trình con"
 
-#: src/text.c:945
+#: src/text.c:947
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr ""
 "Lỗi nội bộ: không thể cài đặt uncut (dán). Hãy lưu công việc của bạn lại."
 
-#: src/text.c:1878
+#: src/text.c:1880
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Chuỗi trích dẫn sai %s: %s"
 
-#: src/text.c:2279
+#: src/text.c:2281
 msgid "Can now UnJustify!"
 msgstr "Bây giờ có thể Bỏ sắp chữ!"
 
-#: src/text.c:2477
+#: src/text.c:2479
 msgid "Edit a replacement"
 msgstr "Sửa chuỗi thay thế"
 
-#: src/text.c:2565
+#: src/text.c:2567
 msgid "Creating misspelled word list, please wait..."
 msgstr "Đang tạo danh sách từ sai chính tả, xin hãy chờ..."
 
-#: src/text.c:2657 src/text.c:3101
+#: src/text.c:2659 src/text.c:3103
 msgid "Could not get size of pipe buffer"
 msgstr "Không lấy được kích thước của bộ đệm đường ống"
 
-#: src/text.c:2708
+#: src/text.c:2710
 msgid "Error invoking \"spell\""
 msgstr "Gặp lỗi khi gọi “spell”"
 
-#: src/text.c:2711
+#: src/text.c:2713
 msgid "Error invoking \"sort -f\""
 msgstr "Gặp lỗi khi gọi “sort -f”"
 
-#: src/text.c:2714
+#: src/text.c:2716
 msgid "Error invoking \"uniq\""
 msgstr "Gặp lỗi khi gọi “uniq”"
 
-#: src/text.c:2771 src/text.c:2984
+#: src/text.c:2773 src/text.c:2986
 msgid "Finished checking spelling"
 msgstr "Hoàn thành việc kiểm tra chính tả"
 
-#: src/text.c:2830
+#: src/text.c:2832
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Lỗi gọi “%s”"
 
-#: src/text.c:2962
+#: src/text.c:2964
 msgid "Invoking spell checker, please wait"
 msgstr "Gọi trình kiểm tra chính tả, vui lòng chờ"
 
-#: src/text.c:2979
+#: src/text.c:2981
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Kiểm tra chính tả không thành công: %s"
 
-#: src/text.c:2981
+#: src/text.c:2983
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Kiểm tra chính tả không thành công: %s: %s"
 
-#: src/text.c:3015
+#: src/text.c:3017
 msgid "No linter defined for this type of file!"
 msgstr "Không có lint cho kiểu này của tập tin!"
 
-#: src/text.c:3026
+#: src/text.c:3028
 msgid "Save modified buffer before linting?"
 msgstr "Ghi lại bộ đệm đã sửa trước khi lint?"
 
-#: src/text.c:3048
+#: src/text.c:3050
 msgid "Invoking linter, please wait"
 msgstr "Đang gọi bộ lint, vui lòng chờ"
 
-#: src/text.c:3204
+#: src/text.c:3206
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Nhận được 0 dòng có thể phân tích từ lệnh: %s"
 
-#: src/text.c:3238
+#: src/text.c:3240
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Lời nhắn này là dành cho tập tin %s chưa được mở, mở nó trong bộ đệm mới?"
 
-#: src/text.c:3286
+#: src/text.c:3288
 msgid "At last message"
 msgstr "Tại thông báo cuối"
 
-#: src/text.c:3293
+#: src/text.c:3295
 msgid "At first message"
 msgstr "Tại thông báo đầu"
 
-#: src/text.c:3372
+#: src/text.c:3374
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sTừ: %lu  Dòng: %ld  Ký tự: %lu"
 
-#: src/text.c:3373
+#: src/text.c:3375
 msgid "In Selection:  "
 msgstr "Trong lựa chọn:  "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3387
+#: src/text.c:3389
 msgid "Verbatim Input"
 msgstr "Dữ liệu nhập nguyên bản"
 

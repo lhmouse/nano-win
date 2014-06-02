@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 01:07-0400\n"
+"POT-Creation-Date: 2014-06-02 11:15-0400\n"
 "PO-Revision-Date: 2011-03-08 03:15+0800\n"
 "Last-Translator: Aron Xu <happyaron.xu@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -25,7 +25,7 @@ msgstr "跳至目录"
 
 #: src/browser.c:234 src/browser.c:823 src/files.c:1069 src/files.c:2289
 #: src/nano.c:1132 src/search.c:216 src/search.c:311 src/search.c:974
-#: src/search.c:1053 src/text.c:3028 src/text.c:3243
+#: src/search.c:1053 src/text.c:3030 src/text.c:3245
 msgid "Cancelled"
 msgstr "已取消"
 
@@ -270,7 +270,7 @@ msgstr "太多备份文件？"
 msgid "Error writing %s: %s"
 msgstr "写入%s 出错：%s"
 
-#: src/files.c:1960 src/text.c:2944 src/text.c:2956
+#: src/files.c:1960 src/text.c:2946 src/text.c:2958
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "写入临时文件%s 出错"
@@ -1990,189 +1990,189 @@ msgstr "标记设定"
 msgid "Mark Unset"
 msgstr "标记解除"
 
-#: src/text.c:434
+#: src/text.c:436
 msgid "Nothing in undo buffer!"
 msgstr "没有可撤销的操作！"
 
-#: src/text.c:440 src/text.c:578
+#: src/text.c:442 src/text.c:580
 #, fuzzy, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr "内部错误：无法匹配行 %d。请保存您的工作"
 
-#: src/text.c:451 src/text.c:588
+#: src/text.c:453 src/text.c:590
 msgid "text add"
 msgstr "文字增加"
 
-#: src/text.c:461 src/text.c:599
+#: src/text.c:463 src/text.c:601
 msgid "text delete"
 msgstr "文本删除"
 
-#: src/text.c:473 src/text.c:617
+#: src/text.c:475 src/text.c:619
 msgid "line wrap"
 msgstr "自动换行"
 
-#: src/text.c:488 src/text.c:626
+#: src/text.c:490 src/text.c:628
 msgid "line join"
 msgstr "行合并"
 
-#: src/text.c:500 src/text.c:640
+#: src/text.c:502 src/text.c:642
 msgid "text cut"
 msgstr "文字剪切"
 
-#: src/text.c:504 src/text.c:644
+#: src/text.c:506 src/text.c:646
 msgid "text uncut"
 msgstr "取消剪切"
 
-#: src/text.c:508 src/text.c:611
+#: src/text.c:510 src/text.c:613
 msgid "line break"
 msgstr "换行符"
 
-#: src/text.c:519 src/text.c:655
+#: src/text.c:521 src/text.c:657
 msgid "text insert"
 msgstr "文本插入"
 
-#: src/text.c:537 src/text.c:648
+#: src/text.c:539 src/text.c:650
 msgid "text replace"
 msgstr "文本替换"
 
-#: src/text.c:544 src/text.c:660 src/text.c:959
+#: src/text.c:546 src/text.c:662 src/text.c:961
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "内部错误：未知类型。请保存您的工作。"
 
-#: src/text.c:551
+#: src/text.c:553
 #, c-format
 msgid "Undid action (%s)"
 msgstr "已撤销操作(%s)"
 
-#: src/text.c:568
+#: src/text.c:570
 msgid "Nothing to re-do!"
 msgstr "没有可重做的操作！"
 
-#: src/text.c:572
+#: src/text.c:574
 #, fuzzy
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr "内部错误：无法配置取消剪切。请保存您的工作"
 
-#: src/text.c:666
+#: src/text.c:668
 #, c-format
 msgid "Redid action (%s)"
 msgstr "已重做操作(%s)"
 
-#: src/text.c:766 src/text.c:2563 src/text.c:3042
+#: src/text.c:768 src/text.c:2565 src/text.c:3044
 msgid "Could not create pipe"
 msgstr "无法建立管线功能"
 
-#: src/text.c:792 src/text.c:2651 src/text.c:2803 src/text.c:3093
+#: src/text.c:794 src/text.c:2653 src/text.c:2805 src/text.c:3095
 msgid "Could not fork"
 msgstr "执行功能无效"
 
-#: src/text.c:945
+#: src/text.c:947
 #, fuzzy
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr "内部错误：无法配置取消剪切。请保存您的工作"
 
-#: src/text.c:1878
+#: src/text.c:1880
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "不良引用字符串%s：%s"
 
-#: src/text.c:2279
+#: src/text.c:2281
 msgid "Can now UnJustify!"
 msgstr "现在可以还原对齐！"
 
-#: src/text.c:2477
+#: src/text.c:2479
 msgid "Edit a replacement"
 msgstr "编辑替代文字"
 
-#: src/text.c:2565
+#: src/text.c:2567
 msgid "Creating misspelled word list, please wait..."
 msgstr "正在建立错字列表，请稍待..."
 
-#: src/text.c:2657 src/text.c:3101
+#: src/text.c:2659 src/text.c:3103
 msgid "Could not get size of pipe buffer"
 msgstr "无法得知管线缓冲区大小"
 
-#: src/text.c:2708
+#: src/text.c:2710
 msgid "Error invoking \"spell\""
 msgstr "运行 \"spell\" 错误"
 
-#: src/text.c:2711
+#: src/text.c:2713
 msgid "Error invoking \"sort -f\""
 msgstr "运行 \"sort -f\" 错误"
 
-#: src/text.c:2714
+#: src/text.c:2716
 msgid "Error invoking \"uniq\""
 msgstr "运行 \"uniq\" 错误"
 
-#: src/text.c:2771 src/text.c:2984
+#: src/text.c:2773 src/text.c:2986
 msgid "Finished checking spelling"
 msgstr "拼写检查结束"
 
-#: src/text.c:2830
+#: src/text.c:2832
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "运行 \"%s\" 错误"
 
-#: src/text.c:2962
+#: src/text.c:2964
 #, fuzzy
 msgid "Invoking spell checker, please wait"
 msgstr "尝试运行拼写检查"
 
-#: src/text.c:2979
+#: src/text.c:2981
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "拼写检查失败：%s"
 
-#: src/text.c:2981
+#: src/text.c:2983
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "拼写检查失败：%s：%s"
 
-#: src/text.c:3015
+#: src/text.c:3017
 #, fuzzy
 msgid "No linter defined for this type of file!"
 msgstr "不要将换行加到文件末端"
 
-#: src/text.c:3026
+#: src/text.c:3028
 msgid "Save modified buffer before linting?"
 msgstr ""
 
-#: src/text.c:3048
+#: src/text.c:3050
 msgid "Invoking linter, please wait"
 msgstr ""
 
-#: src/text.c:3204
+#: src/text.c:3206
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr ""
 
-#: src/text.c:3238
+#: src/text.c:3240
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 
-#: src/text.c:3286
+#: src/text.c:3288
 #, fuzzy
 msgid "At last message"
 msgstr "显示此信息"
 
-#: src/text.c:3293
+#: src/text.c:3295
 #, fuzzy
 msgid "At first message"
 msgstr "显示此信息"
 
-#: src/text.c:3372
+#: src/text.c:3374
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%s字数: %lu  行数: %ld  字符数: %lu"
 
-#: src/text.c:3373
+#: src/text.c:3375
 msgid "In Selection:  "
 msgstr "于选择部份："
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3387
+#: src/text.c:3389
 msgid "Verbatim Input"
 msgstr "原形输入"
 

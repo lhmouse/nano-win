@@ -1,3 +1,10 @@
+2014.06.02 - GNU nano 2.3.4 won't leave you high, won't leave you dry. This
+		release contains only a small number of fixes, but in
+		particular allows nano to compile on non-UTF8 curses
+		implementations (i.e. libncursesw).  Other small fixes to
+		the undo implementation and the default syntax config are
+		also included. As always, Share and Enjoy!
+
 2014.05.28 - GNU nano 2.3.3 is in its right place.  This release contains
 		many many improvements to the core system, including
 		substantial improvements to the undo/redo code, UTF-8
