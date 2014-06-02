@@ -1,3 +1,8 @@
+2014-06-02  Chris Allegretta <chrisa@asty.org>
+	* doc/syntax/default.nanorc: Can't do trailing spaces in the
+	  default syntax or it will hilight the spaces as you type
+	  them into a new file, which for non-programming is infuriating. 
+
 2014-05-29  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_delete): For the undo structure, differentiate
 	between deleting a newline and any other character.

@@ -6,8 +6,5 @@ syntax "default"
 # Spaces in front of tabs.
 color ,red " +	+"
 
-# Trailing blanks.
-color ,red "[[:blank:]]+$"
-
 # Nano's name, including version.
 color brightred "(GNU )?nano [1-9]\.[0-9]\.[^[:space:][:punct:]]+"
