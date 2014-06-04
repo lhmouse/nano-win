@@ -1,6 +1,6 @@
 2014-06-04  David Lawrence Ramsey  <pooka109@gmail.com>
-        * src/*.c: Adjustments of whitespace and comments.
-        * doc/nanorc.sample.in: Interpunction tweaks.
+	* src/*.c: Adjustments of whitespace and comments.
+	* doc/nanorc.sample.in: Interpunction tweaks.
 	* src/global.c (add_to_funcs): Add cast to subnfunc* for nmalloc().
 	* src/files.c (do_lockfile): Properly make the variable 'lockfilesize'
 	a size_t instead of a ssize_t, since it holds the result of strlen().
@@ -12,17 +12,17 @@
 
 2014-06-02  Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/default.nanorc: Can't do trailing spaces in the
-	  default syntax or it will hilight the spaces as you type
-	  them into a new file, which for non-programming is infuriating. 
+	  default syntax or it will hilight the spaces as you type them
+	  into a new file, which for non-programming is infuriating.
 
 2014-05-29  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_delete): For the undo structure, differentiate
 	between deleting a newline and any other character.
 
 2014-05-29  Chris Allegretta <chrisa@asty.org>
-	* src/chars.c (addstrings): Needs to be available even on
-	  non-utf-8 sustems.
-	* nano-regress: Added --disable-utf8 to regression check
+	* src/chars.c (addstrings): This function needs to be available even
+	  on non-utf-8 systems.
+	* nano-regress: Added --disable-utf8 to regression check.
 
 2014-05-28  Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/mutt.nanorc: Include Benno's awesome signature
