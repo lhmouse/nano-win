@@ -473,7 +473,7 @@ void do_undo(void)
 #ifndef DISABLE_WRAPPING
     case SPLIT:
 	undidmsg = _("line wrap");
-	f->data = (char *) nrealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
+	f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcpy(&f->data[strlen(f->data) - 1], u->strdata);
 	if (u->strdata2 != NULL)
 	    f->next->data = mallocstrcpy(f->next->data, u->strdata2);
@@ -510,7 +510,7 @@ void do_undo(void)
 	undidmsg = _("line break");
 	if (f->next) {
 	    filestruct *foo = f->next;
-	    f->data = (char *) nrealloc(f->data, strlen(f->data) + strlen(&f->next->data[u->mark_begin_x]) + 1);
+	    f->data = charealloc(f->data, strlen(f->data) + strlen(&f->next->data[u->mark_begin_x]) + 1);
 	    strcat(f->data, &f->next->data[u->mark_begin_x]);
 	    unlink_node(foo);
 	    delete_node(foo);
@@ -895,8 +895,8 @@ void add_undo(undo_type current_action)
 	if (u->begin != strlen(fs->current->data)) {
 	    char *char_buf = charalloc(mb_cur_max() + 1);
 	    int char_buf_len = parse_mbchar(&fs->current->data[u->begin], char_buf, NULL);
-	    char_buf[char_buf_len] = '\0';
-	    u->strdata = char_buf;  /* Note: there is likely more memory allocated than necessary. */
+	    null_at(&char_buf, char_buf_len);
+	    u->strdata = char_buf;
 	    u->mark_begin_x += char_buf_len;
 	    break;
 	}

@@ -296,7 +296,7 @@ function_type strtokeytype(const char *str)
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
 {
-    subnfunc *f = nmalloc(sizeof(subnfunc));
+    subnfunc *f = (subnfunc *)nmalloc(sizeof(subnfunc));
 
     if (allfuncs == NULL)
 	allfuncs = f;
