@@ -1,3 +1,10 @@
+2014-06-04  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (shortcut_init), src/files.c (do_insertfile): Rename
+	'ext_cmd_void' to 'flip_execute_void' to better match what it does.
+	* src/global.c (strtosc), doc/man/nanorc.5, doc/texinfo/nano.texi:
+	Add function name 'flipexecute' to enable rebinding ^X in the menus
+	Read File and Execute Command.
+
 2014-06-04  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/*.c: Adjustments of whitespace and comments.
 	* doc/nanorc.sample.in: Interpunction tweaks.

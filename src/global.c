@@ -274,7 +274,7 @@ void new_buffer_void(void)
 void no_replace_void(void)
 {
 }
-void ext_cmd_void(void)
+void flip_execute_void(void)
 {
 }
 
@@ -936,10 +936,10 @@ void shortcut_init(void)
     /* If we're using restricted mode, file insertion is disabled, and
      * thus command execution and the multibuffer toggle have no place. */
     if (!ISSET(RESTRICTED)) {
-        add_to_funcs(ext_cmd_void, MINSERTFILE,
+        add_to_funcs(flip_execute_void, MINSERTFILE,
 	    N_("Execute Command"), IFSCHELP(nano_execute_msg), FALSE, NOVIEW);
 
-        add_to_funcs(ext_cmd_void, MEXTCMD,
+        add_to_funcs(flip_execute_void, MEXTCMD,
 	    read_file_tag, IFSCHELP(nano_insert_msg), FALSE, NOVIEW);
 
 #ifndef DISABLE_MULTIBUFFER
@@ -1158,7 +1158,7 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0, FALSE);
 #endif
-    add_to_sclist(MINSERTFILE|MEXTCMD, "^X", ext_cmd_void, 0, FALSE);
+    add_to_sclist(MINSERTFILE|MEXTCMD, "^X", flip_execute_void, 0, FALSE);
     add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0, FALSE);
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0, TRUE);
 #ifndef DISABLE_HELP
@@ -1506,6 +1506,11 @@ sc *strtosc(char *input)
     } else if (!strcasecmp(input, "backup")) {
 	s->scfunc =  backup_file_void;
 	s->execute = FALSE;
+#ifndef ENABLE_TINY
+    } else if (!strcasecmp(input, "flipexecute")) {
+	s->scfunc = flip_execute_void;
+	s->execute = FALSE;
+#endif
 #ifndef DISABLE_MULTIBUFFER
     } else if (!strcasecmp(input, "newbuffer")) {
 	s->scfunc =  new_buffer_void;

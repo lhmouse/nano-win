@@ -1084,7 +1084,7 @@ void do_insertfile(
 		continue;
 	    } else
 #endif
-	    if (s && s->scfunc == ext_cmd_void) {
+	    if (s && s->scfunc == flip_execute_void) {
 		execute = !execute;
 		continue;
 	    }

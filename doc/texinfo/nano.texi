@@ -1048,6 +1048,9 @@ Shows the next history entry in the prompt menus (e.g. search).
 @item dontreplace
 Switches back to searching instead of replacing.
 
+@item flipexecute
+Toggles between inserting a file and executing a command.
+
 @item gototext
 Searches for files matching a string in the file browser (reading or writing files).
 
