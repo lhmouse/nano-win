@@ -3133,7 +3133,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     }
 
     /* Didn't find it, make a new node yo! */
-    posptr = (poshiststruct *) nmalloc(sizeof(poshiststruct));
+    posptr = (poshiststruct *)nmalloc(sizeof(poshiststruct));
     posptr->filename = mallocstrcpy(NULL, fullpath);
     posptr->lineno = lineno;
     posptr->xno = xpos;
@@ -3207,7 +3207,7 @@ void load_poshistory(void)
 		lineno = atoi(lineptr);
 		xno = atoi(xptr);
 		if (poshistory == NULL) {
-		    poshistory = (poshiststruct *) nmalloc(sizeof(poshiststruct));
+		    poshistory = (poshiststruct *)nmalloc(sizeof(poshiststruct));
 		    poshistory->filename = mallocstrcpy(NULL, line);
 		    poshistory->lineno = lineno;
 		    poshistory->xno = xno;
@@ -3215,7 +3215,7 @@ void load_poshistory(void)
 		} else {
 		    for (posptr = poshistory; posptr->next != NULL; posptr = posptr->next)
 			;
-		    posptr->next = (poshiststruct *) nmalloc(sizeof(poshiststruct));
+		    posptr->next = (poshiststruct *)nmalloc(sizeof(poshiststruct));
 		    posptr->next->filename = mallocstrcpy(NULL, line);
 		    posptr->next->lineno = lineno;
 		    posptr->next->xno = xno;

@@ -127,8 +127,7 @@ char *do_browser(char *path, DIR *dir)
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 
 #ifndef DISABLE_MOUSE
-        if (kbinput == KEY_MOUSE) {
-
+	if (kbinput == KEY_MOUSE) {
 		    int mouse_x, mouse_y;
 
 		    /* We can click on the edit window to select a

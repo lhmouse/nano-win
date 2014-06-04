@@ -616,7 +616,7 @@ void finish(void)
     if (!no_rcfiles && ISSET(HISTORYLOG))
 	save_history();
     if (!no_rcfiles && ISSET(POS_HISTORY)) {
-	update_poshistory(openfile->filename, openfile->current->lineno, xplustabs()+1);
+	update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
 	save_poshistory();
     }
 #endif
@@ -1825,7 +1825,7 @@ int do_mouse(void)
 void alloc_multidata_if_needed(filestruct *fileptr)
 {
     if (!fileptr->multidata)
-	fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
+	fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
 }
 
 /* Precalculate the multi-line start and end regex info so we can

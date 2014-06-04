@@ -1011,7 +1011,7 @@ void update_undo(undo_type action)
 #endif
 	char *char_buf = charalloc(mb_cur_max());
 	size_t char_buf_len = parse_mbchar(&fs->current->data[u->mark_begin_x], char_buf, NULL);
-	u->strdata = addstrings(u->strdata, u->strdata?strlen(u->strdata):0, char_buf, char_buf_len);
+	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_buf_len);
 #ifdef DEBUG
 	fprintf(stderr, "current undo data now \"%s\"\n", u->strdata);
 #endif
@@ -1022,11 +1022,11 @@ void update_undo(undo_type action)
     case DEL: {
 	char *char_buf = charalloc(mb_cur_max());
 	size_t char_buf_len = parse_mbchar(&fs->current->data[fs->current_x], char_buf, NULL);
-        if (fs->current_x == u->begin) {
+	if (fs->current_x == u->begin) {
 	    /* They're deleting. */
 	    u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_buf_len);
 	    u->mark_begin_x = fs->current_x;
-	} else if (fs->current_x == u->begin - char_buf_len){
+	} else if (fs->current_x == u->begin - char_buf_len) {
 	    /* They're backspacing. */
 	    u->strdata = addstrings(char_buf, char_buf_len, u->strdata, strlen(u->strdata));
 	    u->begin = fs->current_x;

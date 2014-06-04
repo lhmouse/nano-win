@@ -344,7 +344,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
     sc *s;
 
     if (sclist == NULL) {
-	sclist = (sc *) nmalloc(sizeof(sc));
+	sclist = (sc *)nmalloc(sizeof(sc));
 	s = sclist;
         s->next = NULL;
     } else {

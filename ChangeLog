@@ -1,3 +1,7 @@
+2014-06-04  David Lawrence Ramsey  <pooka109@gmail.com>
+        * src/*.c: Adjustments of whitespace and comments.
+        * doc/nanorc.sample.in: Interpunction tweaks.
+
 2014-06-02  Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/default.nanorc: Can't do trailing spaces in the
 	  default syntax or it will hilight the spaces as you type

@@ -1053,7 +1053,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			break;
 		    case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
 			       * Linux console/xterm/Terminal;
-			        * Esc [ 6 ^ == PageDown on Eterm. */
+			       * Esc [ 6 ^ == PageDown on Eterm. */
 			retval = sc_seq_or(do_page_down, 0);
 			break;
 		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
@@ -2495,10 +2495,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     /* First simply paint the line -- then we'll add colors or the
      * marking highlight on just the pieces that need it. */
     mvwaddstr(edit, line, 0, converted);
-    /* Tell ncurses to really redraw the line without trying to optimize
-       for what it thinks is already there, because it gets it wrong in
-       the case of a wide character in column zero.  See bug #31743. */
+
 #ifndef USE_SLANG
+    /* Tell ncurses to really redraw the line without trying to optimize
+     * for what it thinks is already there, because it gets it wrong in
+     * the case of a wide character in column zero.  See bug #31743. */
     wredrawln(edit, line, 1);
 #endif
 
@@ -2508,13 +2509,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = openfile->colorstrings;
 
-	/* Set up multi-line color data for this line if it's not yet calculated. */
-        if (fileptr->multidata == NULL && openfile->syntax
+	/* Set up multi-line color data for this line if it's not yet
+	 * calculated. */
+	if (fileptr->multidata == NULL && openfile->syntax
 		&& openfile->syntax->nmultis > 0) {
 	    int i;
-	    fileptr->multidata = (short *) nmalloc(openfile->syntax->nmultis * sizeof(short));
-            for (i = 0; i < openfile->syntax->nmultis; i++)
-		fileptr->multidata[i] = -1;	/* Assume this applies until we know otherwise. */
+	    fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
+	    for (i = 0; i < openfile->syntax->nmultis; i++)
+		/* Assume this applies until we know otherwise. */
+		fileptr->multidata[i] = -1;
 	}
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;
@@ -2601,7 +2604,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		short md = fileptr->multidata[tmpcolor->id];
 
 		if (md == -1)
-		    fileptr->multidata[tmpcolor->id] = CNONE; /* until we find out otherwise */
+		    /* Assume this until we know otherwise. */
+		    fileptr->multidata[tmpcolor->id] = CNONE;
 		else if (md == CNONE)
 		    goto end_of_loop;
 		else if (md == CWHOLELINE) {
