@@ -1,3 +1,8 @@
+2014-06-08  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_delete, do_deletion, do_undo, do_redo, update_undo):
+	Differentiate between undoing a Delete and undoing a Backspace -- the
+	cursor should be in a slightly but significantly different position.
+
 2014-06-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init), src/files.c (do_insertfile): Rename
 	'ext_cmd_void' to 'flip_execute_void' to better match what it does.

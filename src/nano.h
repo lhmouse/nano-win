@@ -187,7 +187,7 @@ typedef enum {
 }  function_type;
 
 typedef enum {
-    ADD, DEL, REPLACE, SPLIT, UNSPLIT, CUT, CUT_EOF, PASTE, ENTER, INSERT, OTHER
+    ADD, DEL, BACK, REPLACE, SPLIT, UNSPLIT, CUT, CUT_EOF, PASTE, ENTER, INSERT, OTHER
 } undo_type;
 
 typedef struct color_pair {
