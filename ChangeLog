@@ -4,6 +4,8 @@
 	not comparing with an empty string but checking for the final \0.
 	* src/files.c, src/nano.c, src/text.c, src/winio.c: Type fixes in
 	debugging stuff -- line numbers are long, x positions unsigned long.
+	* src/files.c, src/move.c, src/nano.c, src/text.c, src/winio.c:
+	Make tiny nano a bit tinier by preening out some soft-wrap stuff.
 
 2014-06-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Remove two superfluous false conditions.

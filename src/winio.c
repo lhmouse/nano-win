@@ -2447,6 +2447,7 @@ void reset_cursor(void)
 
     xpt = xplustabs();
 
+#ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	filestruct *tmp;
 	openfile->current_y = 0;
@@ -2457,7 +2458,9 @@ void reset_cursor(void)
 	openfile->current_y += xplustabs() / COLS;
 	if (openfile->current_y < editwinrows)
 	    wmove(edit, openfile->current_y, xpt % COLS);
-    } else {
+    } else
+#endif
+    {
 	openfile->current_y = openfile->current->lineno -
 	    openfile->edittop->lineno;
 
@@ -2858,15 +2861,18 @@ int update_line(filestruct *fileptr, size_t index)
 	/* fileptr->data converted to have tabs and control characters
 	 * expanded. */
     size_t page_start;
-    filestruct *tmp;
 
     assert(fileptr != NULL);
 
+#ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
+	filestruct *tmp;
+
 	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next) {
 	    line += 1 + (strlenpt(tmp->data) / COLS);
 	}
     } else
+#endif
 	line = fileptr->lineno - openfile->edittop->lineno;
 
     if (line < 0 || line >= editwinrows)
@@ -2877,30 +2883,38 @@ int update_line(filestruct *fileptr, size_t index)
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
+#ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
 	index = 0;
     else
+#endif
 	index = strnlenpt(fileptr->data, index);
     page_start = get_page_start(index);
 
     /* Expand the line, replacing tabs with spaces, and control
      * characters with their displayed forms. */
+#ifdef NANO_TINY
+    converted = display_string(fileptr->data, page_start, COLS, TRUE);
+#else
     converted = display_string(fileptr->data, page_start, COLS, !ISSET(SOFTWRAP));
-
 #ifdef DEBUG
     if (ISSET(SOFTWRAP) && strlen(converted) >= COLS - 2)
 	fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
 #endif
+#endif /* !NANO_TINY */
 
     /* Paint the line. */
     edit_draw(fileptr, converted, line, page_start);
     free(converted);
 
+#ifndef NANO_TINY
     if (!ISSET(SOFTWRAP)) {
+#endif
 	if (page_start > 0)
 	    mvwaddch(edit, line, 0, '$');
 	if (strlenpt(fileptr->data) > page_start + COLS)
 	    mvwaddch(edit, line, COLS - 1, '$');
+#ifndef NANO_TINY
     } else {
         int full_length = strlenpt(fileptr->data);
 	for (index += COLS; index <= full_length && line < editwinrows; index += COLS) {
@@ -2924,6 +2938,7 @@ int update_line(filestruct *fileptr, size_t index)
 	    extralinesused++;
 	}
     }
+#endif /* !NANO_TINY */
     return extralinesused;
 }
 
@@ -3015,6 +3030,8 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 		break;
 	    openfile->edittop = openfile->edittop->next;
 	}
+
+#ifndef NANO_TINY
 	/* Don't over-scroll on long lines. */
 	if (ISSET(SOFTWRAP) && (direction == UP_DIR)) {
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
@@ -3022,6 +3039,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	    if (len > 0)
 		do_redraw = TRUE;
 	}
+#endif
     }
 
     /* Limit nlines to the number of lines we could scroll. */
@@ -3262,8 +3280,10 @@ void edit_update(update_type location)
 
     for (; goal > 0 && foo->prev != NULL; goal--) {
 	foo = foo->prev;
+#ifndef NANO_TINY
 	if (ISSET(SOFTWRAP) && foo)
 	    goal -= strlenpt(foo->data) / COLS;
+#endif
     }
     openfile->edittop = foo;
 #ifdef DEBUG

@@ -1761,6 +1761,7 @@ int do_mouse(void)
 	fprintf(stderr, "mouse_y = %d, current_y = %ld\n", mouse_y, (long)openfile->current_y);
 #endif
 
+#ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
 	    int i = 0;
 	    for (openfile->current = openfile->edittop;
@@ -1769,6 +1770,7 @@ int do_mouse(void)
 		openfile->current_y = i;
 		i += strlenpt(openfile->current->data) / COLS;
 	    }
+#endif
 
 #ifdef DEBUG
 	    fprintf(stderr, "do_mouse(): moving to current_y = %d, i %d\n", openfile->current_y, i);
@@ -1961,15 +1963,22 @@ precalc_cleanup:
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
-    size_t current_len, orig_lenpt = 0, i = 0;
+    size_t current_len, i = 0;
+#ifndef NANO_TINY
+    size_t orig_lenpt = 0;
+#endif
+
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
     current_len = strlen(openfile->current->data);
+
+#ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
 	orig_lenpt = strlenpt(openfile->current->data);
+#endif
 
     while (i < output_len) {
 	/* If allow_cntrls is TRUE, convert nulls and newlines
@@ -2050,11 +2059,13 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
     }
 
-    /* Well we might also need a full refresh if we've changed the
+#ifndef NANO_TINY
+    /* Well, we might also need a full refresh if we've changed the
      * line length to be a new multiple of COLS. */
     if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS  != orig_lenpt / COLS)
 	    edit_refresh_needed = TRUE;
+#endif
 
     free(char_buf);
 

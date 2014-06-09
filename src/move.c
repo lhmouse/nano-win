@@ -55,7 +55,10 @@ void do_page_up(void)
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the first line of the file, and then
      * update the edit window. */
-    if (openfile->current->lineno == 1 || (!ISSET(SOFTWRAP) &&
+    if (openfile->current->lineno == 1 || (
+#ifndef NANO_TINY
+	!ISSET(SOFTWRAP) &&
+#endif
 	openfile->current->lineno <= editwinrows - 2)) {
 	do_first_line();
 	return;
@@ -513,9 +516,9 @@ void do_up(
      * smooth scrolling mode, or up half a page if we're not.  If
      * scroll_only is TRUE, scroll the edit window up one line
      * unconditionally. */
-    if (openfile->current_y == 0 || (ISSET(SOFTWRAP) && openfile->edittop->lineno == openfile->current->next->lineno)
+    if (openfile->current_y == 0
 #ifndef NANO_TINY
-	|| scroll_only
+	|| (ISSET(SOFTWRAP) && openfile->edittop->lineno == openfile->current->next->lineno) || scroll_only
 #endif
 	)
 	edit_scroll(UP_DIR,
@@ -622,7 +625,11 @@ void do_down(
      * we were on before and the line we're on now.  The former needs to
      * be redrawn if we're not on the first page, and the latter needs
      * to be drawn unconditionally. */
-    if (ISSET(SOFTWRAP) || openfile->current_y < editwinrows - 1) {
+    if (openfile->current_y < editwinrows - 1
+#ifndef NANO_TINY
+	|| ISSET(SOFTWRAP)
+#endif
+	) {
 	if (need_vertical_update(0))
 	    update_line(openfile->current->prev, 0);
 	update_line(openfile->current, openfile->current_x);

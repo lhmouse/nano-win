@@ -1010,8 +1010,8 @@ void do_insertfile(
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
     bool edittop_inside = FALSE, meta_key = FALSE, func_key = FALSE;
-    const sc *s;
 #ifndef NANO_TINY
+    const sc *s;
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
@@ -1073,9 +1073,9 @@ void do_insertfile(
 
 	    ans = mallocstrcpy(ans, answer);
 
+#ifndef NANO_TINY
 	    s = get_shortcut(currmenu, &i, &meta_key);
 
-#ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
 	    if (s && s->scfunc == new_buffer_void) {
 		/* Don't allow toggling if we're in view mode. */
@@ -1675,12 +1675,14 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* The file descriptor we use. */
     mode_t original_umask = 0;
 	/* Our umask, from when nano started. */
+#ifndef NANO_TINY
     bool realexists;
 	/* The result of stat().  TRUE if the file exists, FALSE
 	 * otherwise.  If name is a link that points nowhere, realexists
 	 * is FALSE. */
     struct stat st;
 	/* The status fields filled in by stat(). */
+#endif
     bool anyexists;
 	/* The result of lstat().  The same as realexists, unless name
 	 * is a link. */
@@ -1729,10 +1731,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	goto cleanup_and_exit;
     }
 
+#ifndef NANO_TINY
     /* Check whether the file (at the end of the symlink) exists. */
     realexists = (stat(realname, &st) != -1);
 
-#ifndef NANO_TINY
     /* If we haven't stat()d this file before (say, the user just
      * specified it interactively), stat and save the value now,
      * or else we will chase null pointers when we do modtime checks,

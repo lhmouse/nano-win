@@ -66,7 +66,9 @@ void do_mark(void)
 /* Delete the character under the cursor. */
 void do_deletion(undo_type action)
 {
+#ifndef NANO_TINY
     size_t orig_lenpt = 0;
+#endif
 
     assert(openfile->current != NULL && openfile->current->data != NULL && openfile->current_x <= strlen(openfile->current->data));
 
@@ -82,9 +84,10 @@ void do_deletion(undo_type action)
 
 #ifndef NANO_TINY
 	update_undo(action);
-#endif
+
 	if (ISSET(SOFTWRAP))
 	    orig_lenpt = strlenpt(openfile->current->data);
+#endif
 
 	/* Let's get dangerous. */
 	charmove(&openfile->current->data[openfile->current_x],
@@ -140,9 +143,11 @@ void do_deletion(undo_type action)
     } else
 	return;
 
+#ifndef NANO_TINY
     if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
 	    edit_refresh_needed = TRUE;
+#endif
 
     set_modified();
 
