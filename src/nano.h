@@ -187,7 +187,7 @@ typedef enum {
 }  function_type;
 
 typedef enum {
-    ADD, DEL, BACK, REPLACE, SPLIT, UNSPLIT, CUT, CUT_EOF, PASTE, ENTER, INSERT, OTHER
+    ADD, DEL, BACK, REPLACE, SPLIT_BEGIN, SPLIT_END, UNSPLIT, CUT, CUT_EOF, PASTE, ENTER, INSERT, OTHER
 } undo_type;
 
 typedef struct color_pair {
@@ -571,7 +571,7 @@ enum
 /* Extra bits for the undo function. */
 #define UNdel_del		(1<<0)
 #define UNdel_backspace	(1<<1)
-#define UNsplit_madenew	(1<<2)
+#define UNsplit_completed	(1<<2)
 #define UNcut_cutline		(1<<3)
 #endif /* !NANO_TINY */
 

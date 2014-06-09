@@ -1,3 +1,9 @@
+2014-06-09  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_undo, do_redo, add_undo, update_undo, do-wrap):
+	Rewrite the line-wrapping code to make use of the existing line-break
+	code.  And undo line wraps together with their causal text additions,
+	and not as separate actions because the user did not make them.
+
 2014-06-08  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_delete, do_deletion, do_undo, do_redo, update_undo):
 	Differentiate between undoing a Delete and undoing a Backspace -- the
