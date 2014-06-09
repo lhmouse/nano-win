@@ -1,5 +1,7 @@
 2014-06-09  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/*.c: Cosmetic tweaks of comments and whitespace.
+	* src/help.c, src/rcfile.c, src/winio.c: Elide a function call by
+	not comparing with an empty string but checking for the final \0.
 
 2014-06-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Remove two superfluous false conditions.

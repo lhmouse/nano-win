@@ -2248,7 +2248,7 @@ void set_modified(void)
 	titlebar(NULL);
 #ifndef NANO_TINY
 	if (ISSET(LOCKING)) {
-	    if (!strcmp(openfile->filename, ""))
+	    if (openfile->filename[0] == '\0')
 		return;
 	    else if (openfile->lock_filename == NULL) {
                 /* TRANSLATORS: Try to keep this at most 76 characters. */

@@ -419,7 +419,7 @@ void help_init(void)
 	if ((f->menus & currmenu) == 0)
 	    continue;
 
-	if (!f->desc || !strcmp(f->desc, ""))
+	if (!f->desc || f->desc[0] == '\0')
 	    continue;
 
 	/* Let's simply show the first two shortcuts from the list. */

@@ -446,7 +446,7 @@ void parse_binding(char *ptr, bool dobind)
 	funcptr = ptr;
 	ptr = parse_next_word(ptr);
 
-	if (!strcmp(funcptr, "")) {
+	if (funcptr[0] == '\0') {
 	    rcfile_error(N_("Must specify a function to bind the key to"));
 	    return;
 	}
@@ -455,7 +455,7 @@ void parse_binding(char *ptr, bool dobind)
     menuptr = ptr;
     ptr = parse_next_word(ptr);
 
-    if (!strcmp(menuptr, "")) {
+    if (menuptr[0] == '\0') {
 	/* TRANSLATORS: Do not translate the word "all". */
 	rcfile_error(N_("Must specify a menu (or \"all\") in which to bind/unbind the key"));
 	return;
