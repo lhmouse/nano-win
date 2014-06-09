@@ -1763,7 +1763,7 @@ int do_mouse(void)
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-	    int i = 0;
+	    size_t i = 0;
 	    for (openfile->current = openfile->edittop;
 		 openfile->current->next && i < mouse_y;
 		 openfile->current = openfile->current->next, i++) {
@@ -1773,7 +1773,8 @@ int do_mouse(void)
 #endif
 
 #ifdef DEBUG
-	    fprintf(stderr, "do_mouse(): moving to current_y = %d, i %d\n", openfile->current_y, i);
+	    fprintf(stderr, "do_mouse(): moving to current_y = %ld, index i = %lu\n",
+			(long)openfile->current_y, (unsigned long)i);
 	    fprintf(stderr, "            openfile->current->data = \"%s\"\n", openfile->current->data);
 #endif
 

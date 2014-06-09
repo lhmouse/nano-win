@@ -330,7 +330,7 @@ const sc *first_sc_for(int menu, void (*func)(void))
 	    return s;
 
 #ifdef DEBUG
-    fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long) func, menu);
+    fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long)func, menu);
 #endif
     /* Otherwise... */
     return NULL;
@@ -371,7 +371,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
     assign_keyinfo(s);
 
 #ifdef DEBUG
-    fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menu %x\n", s->seq, scstring, (int) s->menu);
+    fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menu %x\n", s->seq, scstring, (int)s->menu);
 #endif
 }
 

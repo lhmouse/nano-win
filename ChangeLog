@@ -6,6 +6,8 @@
 	debugging stuff -- line numbers are long, x positions unsigned long.
 	* src/files.c, src/move.c, src/nano.c, src/text.c, src/winio.c:
 	Make tiny nano a bit tinier by preening out some soft-wrap stuff.
+	* src/global.c, src/nano.c, src/winio.c: A few more cosmetic tweaks
+	(whitespace, order, braces, parentheses, and a typo) and type fixes.
 
 2014-06-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Remove two superfluous false conditions.

@@ -2453,7 +2453,7 @@ void reset_cursor(void)
 	openfile->current_y = 0;
 
 	for (tmp = openfile->edittop; tmp && tmp != openfile->current; tmp = tmp->next)
-	    openfile->current_y += 1 + strlenpt(tmp->data) / COLS;
+	    openfile->current_y += (strlenpt(tmp->data) / COLS) + 1;
 
 	openfile->current_y += xplustabs() / COLS;
 	if (openfile->current_y < editwinrows)
@@ -2868,9 +2868,8 @@ int update_line(filestruct *fileptr, size_t index)
     if (ISSET(SOFTWRAP)) {
 	filestruct *tmp;
 
-	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next) {
-	    line += 1 + (strlenpt(tmp->data) / COLS);
-	}
+	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next)
+	    line += (strlenpt(tmp->data) / COLS) + 1;
     } else
 #endif
 	line = fileptr->lineno - openfile->edittop->lineno;
@@ -3033,7 +3032,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
 #ifndef NANO_TINY
 	/* Don't over-scroll on long lines. */
-	if (ISSET(SOFTWRAP) && (direction == UP_DIR)) {
+	if (ISSET(SOFTWRAP) && direction == UP_DIR) {
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
 	    i -= len;
 	    if (len > 0)
@@ -3287,7 +3286,7 @@ void edit_update(update_type location)
     }
     openfile->edittop = foo;
 #ifdef DEBUG
-    fprintf(stderr, "edit_udpate(), setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
+    fprintf(stderr, "edit_update(), setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
     compute_maxrows();
     edit_refresh_needed = TRUE;
