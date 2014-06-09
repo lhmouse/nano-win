@@ -1646,8 +1646,7 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 #ifndef DISABLE_WRAPPING
 	    /* If we got a shortcut or toggle, and it's not the shortcut
 	     * for verbatim input, turn off prepending of wrapped text. */
-	    if (have_shortcut && (!have_shortcut || s == NULL || s->scfunc !=
-		do_verbatim_input))
+	    if (have_shortcut && s->scfunc != do_verbatim_input)
 		wrap_reset();
 #endif
 
