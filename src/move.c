@@ -63,7 +63,6 @@ void do_page_up(void)
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
-
 #ifndef NANO_TINY
     if (!ISSET(SMOOTH_SCROLL)) {
 #endif

@@ -1,3 +1,6 @@
+2014-06-09  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/*.c: Cosmetic tweaks of comments and whitespace.
+
 2014-06-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Remove two superfluous false conditions.
 	* src/nano.h, src/text.c (add_undo): Avoid a compiler warning with

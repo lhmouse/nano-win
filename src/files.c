@@ -478,7 +478,7 @@ bool close_buffer(void)
 	return FALSE;
 
 #if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
-        update_poshistory(openfile->filename, openfile->current->lineno, xplustabs()+1);
+    update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
 #endif
 
     /* Switch to the next file buffer. */

@@ -2495,7 +2495,7 @@ int main(int argc, char **argv)
 
 #ifndef DISABLE_WRAPPING
     /* Overwrite an rcfile "set nowrap" or --disable-wrapping-as-root
-       if a --fill option was given on the command line. */
+     * if a --fill option was given on the command line. */
     if (fill_used)
 	UNSET(NO_WRAP);
 #endif

@@ -2889,9 +2889,8 @@ int update_line(filestruct *fileptr, size_t index)
 
 #ifdef DEBUG
     if (ISSET(SOFTWRAP) && strlen(converted) >= COLS - 2)
-	    fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
+	fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
 #endif
-
 
     /* Paint the line. */
     edit_draw(fileptr, converted, line, page_start);
@@ -2907,7 +2906,7 @@ int update_line(filestruct *fileptr, size_t index)
 	for (index += COLS; index <= full_length && line < editwinrows; index += COLS) {
 	    line++;
 #ifdef DEBUG
-	    fprintf(stderr, "update_line(): Softwrap code, moving to %d index %lu\n", line, (unsigned long) index);
+	    fprintf(stderr, "update_line(): Softwrap code, moving to %d index %lu\n", line, (unsigned long)index);
 #endif
 	    blank_line(edit, line, 0, COLS);
 

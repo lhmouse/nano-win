@@ -72,8 +72,8 @@ bool parse_num(const char *str, ssize_t *val)
 
     assert(str != NULL);
 
-    /* Man page for strtol() says this is required, and
-       it looks like it is! */
+    /* The manual page for strtol() says this is required, and
+     * it looks like it is! */
     errno = 0;
 
     j = (ssize_t)strtol(str, &first_error, 10);
