@@ -210,7 +210,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "In write_lockfile(), write successful (wrote %d bytes)\n", wroteamt);
+    fprintf(stderr, "In write_lockfile(), write successful (wrote %lu bytes)\n", (unsigned long)wroteamt);
 #endif
 
     if (fclose(filestream) == EOF) {
@@ -3100,8 +3100,8 @@ void save_poshistory(void)
 
             for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
 		statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
-		sprintf(statusstr, "%s %d %d\n", posptr->filename, (int) posptr->lineno,
-			(int) posptr->xno);
+		sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
+			(long)posptr->xno);
 		if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))
 		    history_error(N_("Error writing %s: %s"), poshist,
 			strerror(errno));

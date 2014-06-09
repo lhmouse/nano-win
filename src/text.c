@@ -444,7 +444,7 @@ void do_undo(void)
 
     filestruct *f = fsfromline(u->mark_begin_lineno);
     if (!f) {
-	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
+	statusbar(_("Internal error: can't match line %ld.  Please save your work."), (long)u->mark_begin_lineno);
 	return;
     }
 #ifdef DEBUG
@@ -975,8 +975,8 @@ void add_undo(undo_type current_action)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %d, type = %d\n",
-			fs->current->data,  (unsigned long) fs->current_x, u->begin, current_action);
+    fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
+			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin, current_action);
     fprintf(stderr, "left add_undo...\n");
 #endif
     fs->last_action = current_action;
@@ -995,10 +995,10 @@ void update_undo(undo_type action)
 	return;
 
 #ifdef DEBUG
-        fprintf(stderr, "action = %d, fs->last_action = %d,  openfile->current->lineno = %lu",
-		action, fs->last_action, (unsigned long) openfile->current->lineno);
+        fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = %ld",
+		action, fs->last_action, (long)openfile->current->lineno);
 	if (fs->current_undo)
-	    fprintf(stderr, "fs->current_undo->lineno = %lu\n",  (unsigned long) fs->current_undo->lineno);
+	    fprintf(stderr, "fs->current_undo->lineno = %ld\n", (long)fs->current_undo->lineno);
 	else
 	    fprintf(stderr, "\n");
 #endif
@@ -1018,8 +1018,8 @@ void update_undo(undo_type action)
     switch (u->type) {
     case ADD: {
 #ifdef DEBUG
-        fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %d\n",
-			fs->current->data, (unsigned long) fs->current_x, u->begin);
+        fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
+			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin);
 #endif
 	char *char_buf = charalloc(mb_cur_max());
 	size_t char_buf_len = parse_mbchar(&fs->current->data[u->mark_begin_x], char_buf, NULL);
@@ -1050,7 +1050,7 @@ void update_undo(undo_type action)
 	    return;
 	}
 #ifdef DEBUG
-	fprintf(stderr, "current undo data now \"%s\"\nu->begin = %d\n", u->strdata, u->begin);
+	fprintf(stderr, "current undo data now \"%s\"\nu->begin = %lu\n", u->strdata, (unsigned long)u->begin);
 #endif
 	break;
     }
@@ -3035,7 +3035,7 @@ void do_linter(void)
     while ((bytesread = read(lint_fd[0], read_buff_ptr,
 	pipe_buff_size)) > 0) {
 #ifdef DEBUG
-	fprintf(stderr, "text.c:do_linter:%d bytes (%s)\n", bytesread, read_buff_ptr);
+	fprintf(stderr, "text.c:do_linter:%ld bytes (%s)\n", (long)bytesread, read_buff_ptr);
 #endif
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
@@ -3092,7 +3092,7 @@ void do_linter(void)
 			    }
 
 #ifdef DEBUG
-			    fprintf(stderr, "text.c:do_lint:Successful parse! %d:%d:%s\n", tmplineno, tmpcolno, message);
+			    fprintf(stderr, "text.c:do_lint:Successful parse! %ld:%ld:%s\n", (long)tmplineno, (long)tmpcolno, message);
 #endif
 			    /* Nice.  We have a lint message we can use. */
 			    parsesuccess++;

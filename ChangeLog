@@ -2,6 +2,8 @@
 	* src/*.c: Cosmetic tweaks of comments and whitespace.
 	* src/help.c, src/rcfile.c, src/winio.c: Elide a function call by
 	not comparing with an empty string but checking for the final \0.
+	* src/files.c, src/nano.c, src/text.c, src/winio.c: Type fixes in
+	debugging stuff -- line numbers are long, x positions unsigned long.
 
 2014-06-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Remove two superfluous false conditions.

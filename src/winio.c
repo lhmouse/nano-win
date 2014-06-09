@@ -2976,7 +2976,7 @@ void compute_maxrows(void)
 	maxrows += editwinrows - n;
 
 #ifdef DEBUG
-    fprintf(stderr, "compute_maxrows(): maxrows = %i\n", maxrows);
+    fprintf(stderr, "compute_maxrows(): maxrows = %d\n", maxrows);
 #endif
 }
 
@@ -3109,8 +3109,8 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	openfile->edittop->lineno || openfile->current->lineno >=
 	openfile->edittop->lineno + maxrows) {
 #ifdef DEBUG
-	fprintf(stderr, "edit_redraw(): line %d was offscreen, oldcurrent = %d edittop = %d",
-	    openfile->current->lineno, old_current->lineno, openfile->edittop->lineno);
+	fprintf(stderr, "edit_redraw(): line %ld was offscreen, oldcurrent = %ld edittop = %ld",
+		(long)openfile->current->lineno, (long)old_current->lineno, (long)openfile->edittop->lineno);
 #endif
 
 #ifndef NANO_TINY
@@ -3204,9 +3204,9 @@ void edit_refresh(void)
     if (openfile->current->lineno < openfile->edittop->lineno ||
 	openfile->current->lineno >= openfile->edittop->lineno +
 	maxrows) {
-
 #ifdef DEBUG
-    fprintf(stderr, "edit_refresh(): line = %d, edittop %d + maxrows %d\n", openfile->current->lineno, openfile->edittop->lineno, maxrows);
+	fprintf(stderr, "edit_refresh(): line = %ld, edittop %ld + maxrows %d\n",
+		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxrows);
 #endif
 
 	/* Put the top line of the edit window in range of the current
@@ -3267,7 +3267,7 @@ void edit_update(update_type location)
     }
     openfile->edittop = foo;
 #ifdef DEBUG
-    fprintf(stderr, "edit_udpate(), setting edittop to lineno %d\n", openfile->edittop->lineno);
+    fprintf(stderr, "edit_udpate(), setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
     compute_maxrows();
     edit_refresh_needed = TRUE;

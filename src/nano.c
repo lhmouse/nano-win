@@ -1758,7 +1758,7 @@ int do_mouse(void)
 	sameline = (mouse_y == openfile->current_y);
 
 #ifdef DEBUG
-	    fprintf(stderr, "mouse_y = %d, current_y = %d\n", mouse_y, openfile->current_y);
+	fprintf(stderr, "mouse_y = %d, current_y = %ld\n", mouse_y, (long)openfile->current_y);
 #endif
 
 	if (ISSET(SOFTWRAP)) {
@@ -1779,12 +1779,14 @@ int do_mouse(void)
 		openfile->current = openfile->current->prev;
 		openfile->current_x = actual_x(openfile->current->data, mouse_x + (mouse_y - openfile->current_y) * COLS);
 #ifdef DEBUG
-	    fprintf(stderr, "do_mouse(): i > mouse_y, mouse_x = %d, current_x to = %d\n", mouse_x, openfile->current_x);
+		fprintf(stderr, "do_mouse(): i > mouse_y, mouse_x = %d, current_x to = %lu\n",
+			mouse_x, (unsigned long)openfile->current_x);
 #endif
 	    } else {
 	        openfile->current_x = actual_x(openfile->current->data, mouse_x);
 #ifdef DEBUG
-	    fprintf(stderr, "do_mouse(): i <= mouse_y, mouse_x = %d, setting current_x to = %d\n", mouse_x, openfile->current_x);
+		fprintf(stderr, "do_mouse(): i <= mouse_y, mouse_x = %d, setting current_x to = %lu\n",
+			mouse_x, (unsigned long)openfile->current_x);
 #endif
 	    }
 
@@ -1859,7 +1861,7 @@ void precalc_multicolorinfo(void)
 		int startx = 0;
 		int nostart = 0;
 #ifdef DEBUG
-		fprintf(stderr, "working on lineno %lu... ", (unsigned long) fileptr->lineno);
+		fprintf(stderr, "working on lineno %ld... ", (long)fileptr->lineno);
 #endif
 
 		alloc_multidata_if_needed(fileptr);
@@ -1876,7 +1878,7 @@ void precalc_multicolorinfo(void)
 		     * encompassed, which should speed up rendering later. */
 		    startx += startmatch.rm_eo;
 #ifdef DEBUG
-		    fprintf(stderr, "start found at pos %d... ", startx);
+		    fprintf(stderr, "start found at pos %lu... ", (unsigned long)startx);
 #endif
 
 		    /* Look first on this line for an end. */
@@ -1893,7 +1895,7 @@ void precalc_multicolorinfo(void)
 		    /* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
 		    for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
 #ifdef DEBUG
-			fprintf(stderr, "\nadvancing to line %lu to find end... ", (unsigned long) endptr->lineno);
+			fprintf(stderr, "\nadvancing to line %ld to find end... ", (long)endptr->lineno);
 #endif
 			/* Check for keyboard input, again. */
 			if ((cur_check = time(NULL)) - last_check > 1) {
@@ -1919,24 +1921,24 @@ void precalc_multicolorinfo(void)
 		     * the lines in between and the end properly. */
 		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %lu as CENDAFTER\n", (unsigned long) fileptr->lineno);
+		    fprintf(stderr, "marking line %ld as CENDAFTER\n", (long)fileptr->lineno);
 #endif
 		    for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
 			alloc_multidata_if_needed(fileptr);
 			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
 #ifdef DEBUG
-			fprintf(stderr, "marking intermediary line %lu as CWHOLELINE\n", (unsigned long) fileptr->lineno);
+			fprintf(stderr, "marking intermediary line %ld as CWHOLELINE\n", (long)fileptr->lineno);
 #endif
 		    }
 		    alloc_multidata_if_needed(endptr);
 		    fileptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
 #ifdef DEBUG
-		    fprintf(stderr, "marking line %lu as CBEGINBEFORE\n", (unsigned long) fileptr->lineno);
+		    fprintf(stderr, "marking line %ld as CBEGINBEFORE\n", (long)fileptr->lineno);
 #endif
 		    /* Skip to the end point of the match. */
 		    startx = endmatch.rm_eo;
 #ifdef DEBUG
-		    fprintf(stderr, "jumping to line %lu pos %d to continue\n", (unsigned long) fileptr->lineno, startx);
+		    fprintf(stderr, "jumping to line %ld pos %lu to continue\n", (long)fileptr->lineno, (unsigned long)startx);
 #endif
 		}
 		if (nostart && startx == 0) {
