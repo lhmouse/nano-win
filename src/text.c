@@ -876,13 +876,16 @@ void add_undo(undo_type current_action)
     u->type = current_action;
     u->lineno = fs->current->lineno;
     u->begin = fs->current_x;
+#ifndef DISABLE_WRAPPING
     if (u->type == SPLIT_BEGIN) {
 	/* Some action, most likely an ADD, was performed that invoked
 	 * do_wrap().  Rearrange the undo order so that this previous
 	 * action is after the SPLIT_BEGIN undo. */
 	u->next = fs->undotop->next ;
 	fs->undotop->next = u;
-    } else {
+    } else
+#endif
+    {
 	u->next = fs->undotop;
 	fs->undotop = u;
 	fs->current_undo = u;
