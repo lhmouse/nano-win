@@ -2915,11 +2915,11 @@ int update_line(filestruct *fileptr, size_t index)
 	    mvwaddch(edit, line, COLS - 1, '$');
 #ifndef NANO_TINY
     } else {
-        int full_length = strlenpt(fileptr->data);
+	size_t full_length = strlenpt(fileptr->data);
 	for (index += COLS; index <= full_length && line < editwinrows; index += COLS) {
 	    line++;
 #ifdef DEBUG
-	    fprintf(stderr, "update_line(): Softwrap code, moving to %d index %lu\n", line, (unsigned long)index);
+	    fprintf(stderr, "update_line(): softwrap code, moving to %d index %lu\n", line, (unsigned long)index);
 #endif
 	    blank_line(edit, line, 0, COLS);
 
@@ -3286,7 +3286,7 @@ void edit_update(update_type location)
     }
     openfile->edittop = foo;
 #ifdef DEBUG
-    fprintf(stderr, "edit_update(), setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
+    fprintf(stderr, "edit_update(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
     compute_maxrows();
     edit_refresh_needed = TRUE;

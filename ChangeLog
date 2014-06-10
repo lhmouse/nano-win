@@ -1,3 +1,6 @@
+2014-06-10  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/winio.c: One more type fix and two tiny message tweaks.
+
 2014-06-09  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/*.c: Cosmetic tweaks of comments and whitespace.
 	* src/help.c, src/rcfile.c, src/winio.c: Elide a function call by
