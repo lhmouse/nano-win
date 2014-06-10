@@ -1642,7 +1642,7 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	 * output all the characters in the input buffer if it isn't
 	 * empty.  Note that it should be empty if we're in view
 	 * mode. */
-	 if (have_shortcut || get_key_buffer_len() == 0) {
+	if (have_shortcut || get_key_buffer_len() == 0) {
 #ifndef DISABLE_WRAPPING
 	    /* If we got a shortcut or toggle, and it's not the shortcut
 	     * for verbatim input, turn off prepending of wrapped text. */
@@ -1907,7 +1907,7 @@ void precalc_multicolorinfo(void)
 				goto precalc_cleanup;
 			}
 			if (regexec(tmpcolor->end, endptr->data, 1, &endmatch, 0) == 0)
-			   break;
+			    break;
 		    }
 
 		    if (endptr == NULL) {

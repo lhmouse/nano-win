@@ -460,7 +460,7 @@ void browser_init(const char *path, DIR *dir)
 
 	/* Don't show the "." entry. */
 	if (strcmp(nextdir->d_name, ".") == 0)
-	   continue;
+	    continue;
 
 	d_len = strlenpt(nextdir->d_name);
 	if (d_len > longest)
@@ -487,7 +487,7 @@ void browser_init(const char *path, DIR *dir)
     while ((nextdir = readdir(dir)) != NULL && i < filelist_len) {
 	/* Don't show the "." entry. */
 	if (strcmp(nextdir->d_name, ".") == 0)
-	   continue;
+	    continue;
 
 	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
 	sprintf(filelist[i], "%s%s", path, nextdir->d_name);

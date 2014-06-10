@@ -545,9 +545,9 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    /* Slang doesn't support KEY_SDC. */
 	    case KEY_SDC:
 		if (ISSET(REBIND_DELETE))
-		   retval = sc_seq_or(do_delete, *kbinput);
+		    retval = sc_seq_or(do_delete, *kbinput);
 		else
-		   retval = sc_seq_or(do_backspace, *kbinput);
+		    retval = sc_seq_or(do_backspace, *kbinput);
 		break;
 #endif
 #ifdef KEY_SIC
@@ -1743,7 +1743,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * wheel is equivalent to moving down three lines. */
 	    for (i = 0; i < 3; i++)
 		unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
-			 sc_seq_or(do_up_void, 0) : sc_seq_or(do_down_void, 0),
+			sc_seq_or(do_up_void, 0) : sc_seq_or(do_down_void, 0),
 			FALSE, FALSE);
 
 	    return 1;
@@ -3518,7 +3518,7 @@ void do_credits(void)
      * Small Letter O with Diaresis) if applicable. */
     credits[16] =
 #ifdef ENABLE_UTF8
-	 using_utf8() ? "Florian K\xC3\xB6nig" :
+	using_utf8() ? "Florian K\xC3\xB6nig" :
 #endif
 	"Florian K\xF6nig";
 

@@ -1842,7 +1842,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	if (ISSET(INSECURE_BACKUP))
 	    backup_cflags = O_WRONLY | O_CREAT | O_APPEND;
-        else
+	else
 	    backup_cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
 
 	backup_fd = open(backupname, backup_cflags,
@@ -1858,8 +1858,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
-        /* We shouldn't worry about chown()ing something if we're not
-	   root, since it's likely to fail! */
+	/* We shouldn't worry about chown()ing something if we're not
+	 * root, since it's likely to fail! */
 	if (geteuid() == NANO_ROOT_UID && fchown(backup_fd,
 		openfile->current_stat->st_uid, openfile->current_stat->st_gid) == -1
 		&& !ISSET(INSECURE_BACKUP)) {

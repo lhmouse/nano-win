@@ -1030,7 +1030,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 		 * move to an older search, which means that finished has
 		 * been set to TRUE.  Set it back to FALSE here, so that
 		 * we aren't kicked out of the statusbar prompt. */
-		 finished = FALSE;
+		finished = FALSE;
 	    }
 	} else if (s && s->scfunc == get_history_newer_void) {
 	    if (history_list != NULL) {
