@@ -1,6 +1,7 @@
 2014-06-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c, src/files.c, src/nano.c src/prompt.c, src/winio.c:
 	A few minimalistic whitespace adjustments.
+	* src/rcfile.c (check_bad_binding): Avoid a compiler warning.
 
 2014-06-10  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/winio.c: One more type fix and two tiny message tweaks.

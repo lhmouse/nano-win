@@ -383,7 +383,7 @@ void parse_syntax(char *ptr)
 int check_bad_binding(sc *s)
 {
 #define BADLISTLEN 1
-    int badtypes[BADLISTLEN] = {META};
+    function_type badtypes[BADLISTLEN] = {META};
     int badseqs[BADLISTLEN] = { 91 };
     int i;
 
