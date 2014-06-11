@@ -7,6 +7,7 @@
 	next cut.  These two changes together fix Savannah bug #42326.
 	* src/nano.c (do_input): Always accept mouse events, also when
 	just looking for Unjustify.  This fixes Savannah bug #42322.
+	* src/nano.c (do_input): Remove a superfluous switch statement.
 
 2014-06-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c, src/files.c, src/nano.c src/prompt.c, src/winio.c:

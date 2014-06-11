@@ -1667,54 +1667,48 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	}
 
 	if (have_shortcut) {
-	    switch (input) {
-		/* Handle the normal edit-window shortcuts. */
-		default:
-		    /* If the function associated with this shortcut is
-		     * cutting or copying text, indicate this. */
-		    if (s->scfunc == do_cut_text_void
+	    /* If the function associated with this shortcut is
+	     * cutting or copying text, remember this. */
+	    if (s->scfunc == do_cut_text_void
 #ifndef NANO_TINY
-			|| s->scfunc == do_copy_text || s->scfunc ==
-			do_cut_till_end
+		|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_end
 #endif
-			)
-			cut_copy = TRUE;
+		)
+		cut_copy = TRUE;
 
-		    if (s->scfunc != 0) {
-			const subnfunc *f = sctofunc((sc *) s);
-			if (ISSET(VIEW_MODE) && f && !f->viewok)
-			    print_view_warning();
-			else {
+	    if (s->scfunc != 0) {
+		const subnfunc *f = sctofunc((sc *) s);
+		if (ISSET(VIEW_MODE) && f && !f->viewok)
+		    print_view_warning();
+		else {
 #ifndef NANO_TINY
-			    if (s->scfunc == do_toggle_void)
-				do_toggle(s->toggle);
-			    else
+		    if (s->scfunc == do_toggle_void)
+			do_toggle(s->toggle);
+		    else
 #endif
-			    {
-				s->scfunc();
+		    {
+			/* Execute the function of the shortcut. */
+			s->scfunc();
 #ifndef DISABLE_COLOR
-				if (f && !f->viewok && openfile->syntax != NULL
-					&& openfile->syntax->nmultis > 0) {
-				    reset_multis(openfile->current, FALSE);
-				}
+			if (f && !f->viewok && openfile->syntax != NULL
+				&& openfile->syntax->nmultis > 0)
+			    reset_multis(openfile->current, FALSE);
 #endif
-				if (edit_refresh_needed) {
+			if (edit_refresh_needed) {
 #ifdef DEBUG
-				    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
+			    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
 #endif
-				    edit_refresh();
-				    edit_refresh_needed = FALSE;
-				}
-			    }
+			    edit_refresh();
+			    edit_refresh_needed = FALSE;
 			}
 		    }
-		    break;
+		}
 	    }
 	}
     }
 
     /* If we aren't cutting or copying text, blow away the text in the
-     * cutbuffer. */
+     * cutbuffer upon the next cutting action. */
     if (!cut_copy)
 	cutbuffer_reset();
 
