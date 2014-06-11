@@ -1718,6 +1718,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
                 const sc *s = first_sc_for(currmenu, f->scfunc);
 		unget_kbinput(s->seq, s->type == META, FALSE);
 	    }
+	    return 1;
 	} else
 	    /* Handle releases/clicks of the first mouse button that
 	     * aren't on the current shortcut list elsewhere. */

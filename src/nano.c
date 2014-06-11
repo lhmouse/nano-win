@@ -1595,7 +1595,7 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	    else {
 		*meta_key = FALSE;
 		*func_key = FALSE;
-		input = ERR;
+		return ERR;
 	    }
 	}
     }

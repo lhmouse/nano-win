@@ -1,3 +1,11 @@
+2014-06-11  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (get_mouseinput): Produce the correct return value for
+	when a mouse event reinserted something into the keyboard buffer.
+	* src/nano.c (do_input): Do not continue when there is a spurious
+	mouse event (a touch of the touchpad, for example) but get out.
+	Continuing would result in the cutbuffer being cleared upon the
+	next cut.  These two changes together fix Savannah bug #42326.
+
 2014-06-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c, src/files.c, src/nano.c src/prompt.c, src/winio.c:
 	A few minimalistic whitespace adjustments.
