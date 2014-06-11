@@ -8,6 +8,8 @@
 	* src/nano.c (do_input): Always accept mouse events, also when
 	just looking for Unjustify.  This fixes Savannah bug #42322.
 	* src/nano.c (do_input): Remove a superfluous switch statement.
+	* src/winio.c (get_mouseinput): Set the type of a reinserted key,
+	also when it is a function key.  This fixes Savannah bug #42092.
 
 2014-06-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c, src/files.c, src/nano.c src/prompt.c, src/winio.c:
