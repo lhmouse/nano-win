@@ -1587,11 +1587,15 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 
 #ifndef DISABLE_MOUSE
     if (*func_key && input == KEY_MOUSE) {
-	/* We received a mouse click -- if it was on a shortcut, read in
-	 * the produced shortcut character, otherwise get out. */
-	if (do_mouse() == 1)
+	/* We received a mouse click. */
+	int result = do_mouse();
+
+	if (result == 1)
+	    /* The click was on a shortcut -- read in the character
+	     * that it was converted into. */
 	    input = get_kbinput(edit, meta_key, func_key);
-	else
+	else if (result != 0)
+	    /* The click was invalid -- get out. */
 	    return ERR;
     }
 #endif

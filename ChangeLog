@@ -1,3 +1,7 @@
+2014-06-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (do_input): Repositioning the cursor with the mouse
+	(result == 0) should break a series of ^Ks.
+
 2014-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Produce the correct return value for
 	when a mouse event reinserted something into the keyboard buffer.
