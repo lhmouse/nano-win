@@ -6,10 +6,10 @@ Summary	: Pico editor clone with enhancements
 Name		: %{name}
 Version		: %{version}
 Release		: %{release}
-License		: GPL
+License		: GPLv3+
 Group		: Applications/Editors
 URL		: http://www.nano-editor.org/
-Source		: http://www.nano-editor.org/dist/v2.0/%{name}-%{version}.tar.gz
+Source		: http://www.nano-editor.org/dist/v2.3/%{name}-%{version}.tar.gz
 BuildRoot	: %{_tmppath}/%{name}-%{version}-root
 BuildRequires	: autoconf, automake, gettext-devel, ncurses-devel
 
@@ -25,8 +25,9 @@ Pico text editor while also offering a few enhancements.
 make
 
 %install
-rm -rf %{buildroot}
 make DESTDIR="%{buildroot}" install
+#ln -s nano %{buildroot}%{_bindir}/pico
+rm -f %{buildroot}%{_infodir}/dir
 
 %files
 %defattr(-,root,root)

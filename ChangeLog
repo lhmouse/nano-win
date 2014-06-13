@@ -10,6 +10,9 @@
 	Remove the --undo option, having the undo functions always enabled.
 	If wished, the user can unbind them.  This fixes Savannah bug #42456.
 	* doc/man/{nano.1,nanorc.5}, doc/texinfo/nano.texi: Update the docs.
+	* nano.spec.in: Remove useless info dir file from the build directory,
+	don't clean this directory first, it's unnecessary, add a suggestion
+	for a pico symlink, and update the license and the source URL.
 
 2014-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Produce the correct return value for
