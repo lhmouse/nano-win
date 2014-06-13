@@ -1577,8 +1577,8 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	/* The input buffer. */
     static size_t kbinput_len = 0;
 	/* The length of the input buffer. */
-    bool cut_copy = FALSE;
-	/* Are we cutting or copying text? */
+    bool preserve = FALSE;
+	/* Preserve the contents of the cutbuffer? */
     const sc *s;
     bool have_shortcut;
 
@@ -1678,7 +1678,7 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 		|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_end
 #endif
 		)
-		cut_copy = TRUE;
+		preserve = TRUE;
 
 	    if (s->scfunc != 0) {
 		const subnfunc *f = sctofunc((sc *) s);
@@ -1686,9 +1686,10 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 		    print_view_warning();
 		else {
 #ifndef NANO_TINY
-		    if (s->scfunc == do_toggle_void)
+		    if (s->scfunc == do_toggle_void) {
 			do_toggle(s->toggle);
-		    else
+			preserve = TRUE;
+		    } else
 #endif
 		    {
 			/* Execute the function of the shortcut. */
@@ -1711,9 +1712,9 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	}
     }
 
-    /* If we aren't cutting or copying text, blow away the text in the
-     * cutbuffer upon the next cutting action. */
-    if (!cut_copy)
+    /* If we aren't cutting or copying text, and the key wasn't a toggle,
+     * blow away the text in the cutbuffer upon the next cutting action. */
+    if (!preserve)
 	cutbuffer_reset();
 
     return input;

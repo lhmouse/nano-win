@@ -3,6 +3,7 @@
 	(result == 0) should break a series of ^Ks.
 	* src/nano.c (do_mouse): Clicking on the titlebar or the statusbar
 	should not break a series of ^Ks, thus result must not be zero.
+	* src/nano.c (do_input): A toggle should not break a series of ^Ks.
 
 2014-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Produce the correct return value for
