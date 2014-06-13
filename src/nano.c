@@ -1737,8 +1737,12 @@ int do_mouse(void)
     int mouse_x, mouse_y;
     int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
+    if (retval != 0)
+	/* The click is wrong or already handled. */
+	return retval;
+
     /* We can click on the edit window to move the cursor. */
-    if (retval == 0 && wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+    if (wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
 	bool sameline;
 	    /* Did they click on the line with the cursor?  If they
 	     * clicked on the cursor, we set the mark. */
@@ -1812,9 +1816,13 @@ int do_mouse(void)
 #endif
 
 	edit_redraw(current_save, pww_save);
+
+	/* The click influenced the cursor. */
+	return 0;
     }
 
-    return retval;
+    /* The click was elsewhere, ignore it. */
+    return 2;
 }
 #endif /* !DISABLE_MOUSE */
 
