@@ -1773,11 +1773,9 @@ const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
     fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ", *kbinput, *meta_key ? "TRUE" : "FALSE");
 #endif
 
-    /* Check for shortcuts. */
     for (s = sclist; s != NULL; s = s->next) {
-        if ((menu & s->menu)
-		&& ((s->type == META && *meta_key == TRUE && *kbinput == s->seq)
-		|| (s->type != META && *kbinput == s->seq))) {
+        if ((menu & s->menu) && *kbinput == s->seq
+		&& *meta_key == (s->type == META)) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
 			     s->keystr, *meta_key, menu, s->menu);
