@@ -7,9 +7,9 @@
 @c This file has the new style title page commands.
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
-@set EDITION 0.1
-@set VERSION 2.3.3
-@set UPDATED May 2014
+@set EDITION 0.2
+@set VERSION 2.3.5
+@set UPDATED June 2014
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.3.3
+@subtitle version 2.3.5
 
 @author Chris Allegretta
 @page
@@ -288,10 +288,6 @@ SPELL is not set, its own interactive spell checker that requires the
 Don't ask whether or not to save the current contents of the file when
 exiting, assume yes.  This is most useful when using @code{nano} as the
 composer of a mailer program.
-
-@item -u, --undo
-Enable the experimental generic-purpose undo/redo code.  The default undo
-and redo shortcuts are Meta-U and Meta-E, respectively.
 
 @item -v, --view
 Don't allow the contents of the file to be altered.  Note that this
@@ -746,9 +742,6 @@ Specify the color combination to use for the titlebar.
 Valid color names for foreground and background are:
 white, black, red, blue, green, yellow, magenta, and cyan.
 And either "fgcolor" or ",bgcolor" may be left out.
-
-@item set/unset undo
-Enable the experimental generic-purpose undo/redo code.
 
 @item set/unset view
 Disallow file modification.

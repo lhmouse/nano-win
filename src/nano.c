@@ -936,10 +936,6 @@ void usage(void)
 #endif
     print_opt("-t", "--tempfile",
 	N_("Auto save on exit, don't prompt"));
-#ifndef NANO_TINY
-    print_opt("-u", "--undo", N_("Allow generic undo [EXPERIMENTAL]"));
-#endif
-
     print_opt("-v", "--view", N_("View mode (read-only)"));
 #ifndef DISABLE_WRAPPING
     print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines"));
@@ -2201,11 +2197,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$",
+		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$")
+		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2365,11 +2361,6 @@ int main(int argc, char **argv)
 	    case 't':
 		SET(TEMP_FILE);
 		break;
-#ifndef NANO_TINY
-	    case 'u':
-		SET(UNDOABLE);
-		break;
-#endif
 	    case 'v':
 		SET(VIEW_MODE);
 		break;

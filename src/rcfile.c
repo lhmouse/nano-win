@@ -95,7 +95,6 @@ static const rcoption rcopts[] = {
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
     {"tabstospaces", TABS_TO_SPACES},
-    {"undo", UNDOABLE},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
     {"softwrap", SOFTWRAP},
@@ -1265,9 +1264,6 @@ void parse_rcfile(FILE *rcstream
 		else
 		    rcfile_error(N_("Cannot unset option \"%s\""),
 			rcopts[i].name);
-		/* If undo/redo was enabled, reinitialize the lists. */
-		if (strcasecmp(rcopts[i].name, "undo") == 0)
-		    shortcut_init();
 		break;
 	    }
 	}

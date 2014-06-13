@@ -854,9 +854,6 @@ void add_undo(undo_type current_action)
     openfilestruct *fs = openfile;
 	/* Last thing we cut to set up the undo for uncut. */
 
-    if (!ISSET(UNDOABLE))
-	return;
-
     /* Ugh, if we were called while cutting not-to-end, non-marked, and
      * on the same lineno, we need to abort here. */
     u = fs->current_undo;
@@ -995,9 +992,6 @@ void update_undo(undo_type action)
 {
     undo *u;
     openfilestruct *fs = openfile;
-
-    if (!ISSET(UNDOABLE))
-	return;
 
 #ifdef DEBUG
         fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = %ld",

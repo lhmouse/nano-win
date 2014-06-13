@@ -795,12 +795,10 @@ void shortcut_init(void)
     add_to_funcs(do_unindent, MMAIN,
 	N_("Unindent Text"), IFSCHELP(nano_unindent_msg), TRUE, NOVIEW);
 
-    if (ISSET(UNDOABLE)) {
-	add_to_funcs(do_undo, MMAIN,
-	    N_("Undo"), IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
-	add_to_funcs(do_redo, MMAIN,
-	    N_("Redo"), IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
-    }
+    add_to_funcs(do_undo, MMAIN,
+	N_("Undo"), IFSCHELP(nano_undo_msg), FALSE, NOVIEW);
+    add_to_funcs(do_redo, MMAIN,
+	N_("Redo"), IFSCHELP(nano_redo_msg), TRUE, NOVIEW);
 #endif /* !NANO_TINY */
 
     add_to_funcs(do_left, MMAIN,
@@ -1032,10 +1030,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-6", do_copy_text, 0, TRUE);
     add_to_sclist(MMAIN, "M-}", do_indent_void, 0, TRUE);
     add_to_sclist(MMAIN, "M-{", do_unindent, 0, TRUE);
-    if (ISSET(UNDOABLE)) {
-	add_to_sclist(MMAIN, "M-U", do_undo, 0, TRUE);
-	add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
-    }
+    add_to_sclist(MMAIN, "M-U", do_undo, 0, TRUE);
+    add_to_sclist(MMAIN, "M-E", do_redo, 0, TRUE);
 #endif
     add_to_sclist(MMOST, "^B", do_left, 0, TRUE);
     add_to_sclist(MMOST, "^F", do_right, 0, TRUE);

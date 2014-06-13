@@ -537,7 +537,6 @@ enum
     NO_NEWLINES,
     BOLD_TEXT,
     QUIET,
-    UNDOABLE,
     SOFTWRAP,
     POS_HISTORY,
     LOCKING,

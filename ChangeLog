@@ -6,6 +6,10 @@
 	* src/nano.c (do_input): A toggle should not break a series of ^Ks.
 	* src/winio.c (get_shortcut): Do not treat holding both Control and
 	Meta the same as holding only Control.
+	* src/global.c, src/rcfile.c, src/nano.h, src/nano.c, src/text.c:
+	Remove the --undo option, having the undo functions always enabled.
+	If wished, the user can unbind them.  This fixes Savannah bug #42456.
+	* doc/man/{nano.1,nanorc.5}, doc/texinfo/nano.texi: Update the docs.
 
 2014-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_mouseinput): Produce the correct return value for
