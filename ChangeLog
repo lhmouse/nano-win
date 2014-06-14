@@ -1,3 +1,7 @@
+2014-06-14  Mark Majeres  <mark@engine12.com>
+	* src/nano.h, src/text.c (undo_cut, update_undo): When undoing a
+	backwards cut, put the cursor back in front of it, where it was.
+
 2014-06-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_input): Repositioning the cursor with the mouse
 	(result == 0) should break a series of ^Ks.

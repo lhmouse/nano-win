@@ -396,7 +396,7 @@ void undo_cut(undo *u)
     free_filestruct(cutbuffer);
     cutbuffer = NULL;
 
-    if (u->xflags == UNcut_cutline)
+    if (u->xflags == UNcut_cutline || u->xflags == UNcut_marked_backwards)
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 }
 
@@ -1072,6 +1072,7 @@ void update_undo(undo_type action)
 		ssize_t line = u->lineno;
 		u->lineno = u->mark_begin_lineno;
 		u->mark_begin_lineno = line;
+		u->xflags = UNcut_marked_backwards;
 	    }
 	} else if (!ISSET(CUT_TO_END)) {
 	    /* Compute cutbottom for the uncut using our copy. */
