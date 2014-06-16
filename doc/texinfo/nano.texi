@@ -154,7 +154,7 @@ Enable multiple file buffers, if available.
 Enable vim-style file locking when editing files.
 
 @item -H, --historylog
-Log search and replace strings to ~/.nano_history, so they can be
+Log search and replace strings to ~/.nano/search_history, so they can be
 retrieved in later sessions, if nanorc support is available.
 
 @item -I, --ignorercfiles
@@ -521,7 +521,7 @@ toggles the -$ (@code{--softwrap}) command line option.
 
 The nanorc files contain the default settings for @code{nano}.  They
 should be in Unix format, not in DOS or Mac format.  During startup,
-@code{nano} will first read the system-wide settings, from /etc/nanorc,
+@code{nano} will first read the system-wide settings, from SYSCONFDIR/nanorc,
 and then the user-specific settings, from ~/.nanorc.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
@@ -606,7 +606,8 @@ in the two help lines at the bottom of the screen.
 See "set titlecolor" for more details.
 
 @item set/unset historylog
-Enable ~/.nano_history for saving and reading search/replace strings.
+Enable the use of ~/.nano/search_history for saving and reading
+search/replace strings.
 
 @item set keycolor fgcolor,bgcolor
 Specify the color combination to use for the shortcut key combos

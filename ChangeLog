@@ -8,6 +8,8 @@
 	* src/nano.c (do_mouse): Put a common statement outside of then/else.
 	* src/Makefile.am: Remove -I m4; it is needed only at the top level.
 	* Makefile.am: Trim the contents of EXTRA_DIST to what is required.
+	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Update
+	the docs for the changed location of nano's search history.
 
 2014-06-14  Mark Majeres  <mark@engine12.com>
 	* src/nano.h, src/text.c (undo_cut, update_undo): When undoing a
