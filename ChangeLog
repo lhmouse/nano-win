@@ -5,6 +5,7 @@
 	* src/nano.c (do_mouse, do_input): Don't bother returning zero when
 	the cursor moved, just reset the cutbuffer directly.  This avoids an
 	"Unknown Command" message on every cursor-positioning mouse click.
+	* src/nano.c (do_mouse): Put a common statement outside of then/else.
 
 2014-06-14  Mark Majeres  <mark@engine12.com>
 	* src/nano.h, src/text.c (undo_cut, update_undo): When undoing a

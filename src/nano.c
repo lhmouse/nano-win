@@ -1784,9 +1784,6 @@ int do_mouse(void)
 			mouse_x, (unsigned long)openfile->current_x);
 #endif
 	    }
-
-	    openfile->placewewant = xplustabs();
-
 	} else {
 	    /* Move to where the click occurred. */
 	    for (; openfile->current_y < mouse_y && openfile->current !=
@@ -1798,9 +1795,9 @@ int do_mouse(void)
 
 	    openfile->current_x = actual_x(openfile->current->data,
 		get_page_start(xplustabs()) + mouse_x);
-
-	    openfile->placewewant = xplustabs();
 	}
+
+	openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
 	/* Clicking where the cursor is toggles the mark, as does
