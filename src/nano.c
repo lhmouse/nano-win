@@ -1584,14 +1584,12 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 #ifndef DISABLE_MOUSE
     if (*func_key && input == KEY_MOUSE) {
 	/* We received a mouse click. */
-	int result = do_mouse();
-
-	if (result == 1)
+	if (do_mouse() == 1)
 	    /* The click was on a shortcut -- read in the character
 	     * that it was converted into. */
 	    input = get_kbinput(edit, meta_key, func_key);
-	else if (result != 0)
-	    /* The click was invalid -- get out. */
+	else
+	    /* The click was invalid or has been handled -- get out. */
 	    return ERR;
     }
 #endif
@@ -1810,15 +1808,15 @@ int do_mouse(void)
 	 * the line. */
 	if (sameline && openfile->current_x == current_x_save)
 	    do_mark();
+	else
 #endif
+	    /* The cursor moved; clean the cutbuffer on the next cut. */
+	    cutbuffer_reset();
 
 	edit_redraw(current_save, pww_save);
-
-	/* The click influenced the cursor. */
-	return 0;
     }
 
-    /* The click was elsewhere, ignore it. */
+    /* No more handling is needed. */
     return 2;
 }
 #endif /* !DISABLE_MOUSE */
