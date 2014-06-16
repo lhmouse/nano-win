@@ -148,18 +148,18 @@ Use bold text instead of reverse video text.
 Convert typed tabs to spaces.
 
 @item -F, --multibuffer
-Enable multiple file buffers, if available.
+Enable multiple file buffers (if support for them has been compiled in).
 
 @item -G, --locking
 Enable vim-style file locking when editing files.
 
 @item -H, --historylog
 Log search and replace strings to ~/.nano/search_history, so they can be
-retrieved in later sessions, if nanorc support is available.
+retrieved in later sessions (if nanorc support has been compiled in).
 
 @item -I, --ignorercfiles
-Don't look at SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
-available.
+Don't look at SYSCONFDIR/nanorc or ~/.nanorc
+(if nanorc support has been compiled in).
 
 @item -K, --rebindkeypad
 Interpret the numeric keypad keys so that they all work properly.  You
@@ -264,10 +264,10 @@ a chroot.
 
 @item -p, --preserve
 Preserve the ^Q (XON) and ^S (XOFF) sequences so data being sent to the
-editor can be can be stopped and started.
+editor can be stopped and started.
 
 @item -q, --quiet
-Do not report errors in the nanorc file and ask them to be acknowledged
+Do not report errors in the nanorc file nor ask them to be acknowledged
 by pressing Enter at startup.
 
 @item -r <number>, --fill=<number>
