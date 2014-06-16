@@ -1086,9 +1086,10 @@ void nano_disabled_msg(void)
 
 /* If the current file buffer has been modified, and the TEMP_FILE flag
  * isn't set, ask whether or not to save the file buffer.  If the
- * TEMP_FILE flag is set, save it unconditionally.  Then, if more than
- * one file buffer is open, close the current file buffer and switch to
- * the next one.  If only one file buffer is open, exit from nano. */
+ * TEMP_FILE flag is set and the current file has a name, save it
+ * unconditionally.  Then, if more than one file buffer is open, close
+ * the current file buffer and switch to the next one.  If only one file
+ * buffer is open, exit from nano. */
 void do_exit(void)
 {
     int i;
@@ -1097,13 +1098,31 @@ void do_exit(void)
      * save. */
     if (!openfile->modified)
 	i = 0;
-    /* If the TEMP_FILE flag is set, pretend the user chose to save. */
-    else if (ISSET(TEMP_FILE))
+    /* If the TEMP_FILE flag is set and the current file has a name,
+     * pretend the user chose to save. */
+    else if (openfile->filename[0] != '\0' && ISSET(TEMP_FILE))
 	i = 1;
     /* Otherwise, ask the user whether or not to save. */
-    else
+    else {
+	/* If the TEMP_FILE flag is set, and the current file doesn't
+	 * have a name, handle it the same way Pico does. */
+	if (ISSET(TEMP_FILE)) {
+	    curs_set(0);
+
+	    /* Warn that the current file has no name. */
+	    statusbar(_("No file name"));
+	    beep();
+
+	    /* Ensure that we see the warning. */
+	    doupdate();
+	    napms(2000);
+
+	    curs_set(1);
+	}
+
 	i = do_yesno_prompt(FALSE,
 		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
+    }
 
 #ifdef DEBUG
     dump_filestruct(openfile->fileage);

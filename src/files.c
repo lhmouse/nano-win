@@ -2208,7 +2208,8 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 /* Write the current file to disk.  If the mark is on, write the current
  * marked selection to disk.  If exiting is TRUE, write the file to disk
  * regardless of whether the mark is on, and without prompting if the
- * TEMP_FILE flag is set.  Return TRUE on success or FALSE on error. */
+ * TEMP_FILE flag is set and the current file has a name.  Return TRUE
+ * on success or FALSE on error. */
 bool do_writeout(bool exiting)
 {
     int i;

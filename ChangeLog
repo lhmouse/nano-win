@@ -1,3 +1,8 @@
+2014-06-16  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/nano.c (do_exit): Display the message "No file name" on the
+	statusbar for two seconds when --tempfile was given and the current
+	buffer has no name.  This fixes Savannah bug #41750.
+
 2014-06-16  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: For the sake of statically linked systems, make sure
 	the compiler also links against libz, which is used by libmagic.
