@@ -1,7 +1,5 @@
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\"
 
-ACLOCAL_AMFLAGS = -I m4
-
 bin_PROGRAMS = 	nano
 nano_SOURCES =	browser.c \
 		chars.c \
