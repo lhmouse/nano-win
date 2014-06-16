@@ -1,3 +1,8 @@
+2014-06-16  Benno Schulenberg  <bensberg@justemail.net>
+	* configure.ac: For the sake of statically linked systems, make sure
+	the compiler also links against libz, which is used by libmagic.
+	This fixes Savannah bug #38378, reported by Alan Hourihane.
+
 2014-06-14  Mark Majeres  <mark@engine12.com>
 	* src/nano.h, src/text.c (undo_cut, update_undo): When undoing a
 	backwards cut, put the cursor back in front of it, where it was.

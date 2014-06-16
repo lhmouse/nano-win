@@ -649,6 +649,8 @@ AC_MSG_WARN([*** Can't check for macro redefinability when cross-compiling]))
 AS_IF([test "x$enable_libmagic" != "xno"], [
   AC_CHECK_HEADERS_ONCE([magic.h])
   AC_CHECK_LIB(magic, magic_open)
+  AC_CHECK_HEADERS_ONCE([zlib.h])
+  AC_CHECK_LIB(z, inflate)
 ])
 
 # Check for groff html support.
