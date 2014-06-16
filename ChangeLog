@@ -7,6 +7,7 @@
 	"Unknown Command" message on every cursor-positioning mouse click.
 	* src/nano.c (do_mouse): Put a common statement outside of then/else.
 	* src/Makefile.am: Remove -I m4; it is needed only at the top level.
+	* Makefile.am: Trim the contents of EXTRA_DIST to what is required.
 
 2014-06-14  Mark Majeres  <mark@engine12.com>
 	* src/nano.h, src/text.c (undo_cut, update_undo): When undoing a
