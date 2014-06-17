@@ -558,6 +558,7 @@ void do_undo(void)
     renumber(f);
     openfile->current_undo = openfile->current_undo->next;
     openfile->last_action = OTHER;
+    openfile->placewewant = xplustabs();
     set_modified();
 }
 
@@ -611,7 +612,6 @@ void do_redo(void)
 	free(f->data);
 	f->data = data;
 	openfile->current_x = u->begin;
-	openfile->placewewant = xplustabs();
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case ENTER:
@@ -674,6 +674,7 @@ void do_redo(void)
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
+    openfile->placewewant = xplustabs();
     set_modified();
 }
 #endif /* !NANO_TINY */

@@ -1,3 +1,7 @@
+2014-06-17  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_undo, do_redo): After an undo or redo, update the
+	'placewewant' (the desired horizontal position of the cursor).
+
 2014-06-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, do_redo): Remove obsolete boolean variable.
 
