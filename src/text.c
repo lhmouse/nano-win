@@ -435,7 +435,6 @@ void redo_cut(undo *u)
 /* Undo the last thing(s) we did. */
 void do_undo(void)
 {
-    bool gotolinecolumn = FALSE;
     undo *u = openfile->current_undo;
     filestruct *t = 0;
     size_t len = 0;
@@ -554,10 +553,9 @@ void do_undo(void)
 	break;
     }
 
-    renumber(f);
-    if (gotolinecolumn)
-	do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Undid action (%s)"), undidmsg);
+
+    renumber(f);
     openfile->current_undo = openfile->current_undo->next;
     openfile->last_action = OTHER;
     set_modified();
@@ -566,7 +564,6 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-    bool gotolinecolumn = FALSE;
     undo *u = openfile->undotop;
     size_t len = 0;
     char *undidmsg, *data;
@@ -673,8 +670,6 @@ void do_redo(void)
 	break;
     }
 
-    if (gotolinecolumn)
-	do_gotolinecolumn(u->lineno, u->begin, FALSE, FALSE, FALSE, TRUE);
     statusbar(_("Redid action (%s)"), undidmsg);
 
     openfile->current_undo = u;

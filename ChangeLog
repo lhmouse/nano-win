@@ -1,3 +1,6 @@
+2014-06-17  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_undo, do_redo): Remove obsolete boolean variable.
+
 2014-06-16  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/nano.c (do_exit): Display the message "No file name" on the
 	statusbar for two seconds when --tempfile was given and the current
