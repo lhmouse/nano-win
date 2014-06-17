@@ -29,8 +29,8 @@ nanorc \- GNU nano's rcfile
 The \fInanorc\fP file contains the default settings for \fBnano\fP, a
 small and friendly editor.  The file should be in Unix format, not in
 DOS or Mac format.  During startup, \fBnano\fP will first read the
-system-wide settings, from \fBSYSCONFDIR/nanorc\fP, and then the
-user-specific settings, from \fB~/.nanorc\fP.
+system-wide settings, from \fB/etc/nanorc\fP (the exact path might be
+different), and then the user-specific settings, from \fB~/.nanorc\fP.
 
 .SH OPTIONS
 The configuration file accepts a series of \fBset\fP and \fBunset\fP
@@ -648,11 +648,11 @@ A special name meaning: apply to all menus where this function exists.
 
 .SH FILES
 .TP
-.B SYSCONFDIR/nanorc
-System-wide configuration file
+.B /etc/nanorc
+System-wide configuration file.
 .TP
 .B ~/.nanorc
-Per-user configuration file
+Per-user configuration file.
 .SH SEE ALSO
 .TP
 \fBnano\fP(1)

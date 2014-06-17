@@ -158,7 +158,7 @@ Log search and replace strings to ~/.nano/search_history, so they can be
 retrieved in later sessions (if nanorc support has been compiled in).
 
 @item -I, --ignorercfiles
-Don't look at SYSCONFDIR/nanorc or ~/.nanorc
+Don't look at the system's nanorc file nor at the user's ~/.nanorc
 (if nanorc support has been compiled in).
 
 @item -K, --rebindkeypad
@@ -521,8 +521,9 @@ toggles the -$ (@code{--softwrap}) command line option.
 
 The nanorc files contain the default settings for @code{nano}.  They
 should be in Unix format, not in DOS or Mac format.  During startup,
-@code{nano} will first read the system-wide settings, from SYSCONFDIR/nanorc,
-and then the user-specific settings, from ~/.nanorc.
+@code{nano} will first read the system-wide settings, from /etc/nanorc
+(the exact path might be different), and then the user-specific settings,
+from ~/.nanorc.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
 be used to configure @code{nano} on startup without using command-line

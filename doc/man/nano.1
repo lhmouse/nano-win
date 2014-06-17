@@ -78,7 +78,7 @@ Log search and replace strings to \fI~/.nano/search_history\fP, so they can be
 retrieved in later sessions (if \fInanorc\fP support has been compiled in).
 .TP
 .B \-I (\-\-ignorercfiles)
-Don't look at \fISYSCONFDIR/nanorc\fP or \fI~/.nanorc\fP
+Don't look at the system's \fBnanorc\fP nor at \fB~/.nanorc\fP
 (if \fInanorc\fP support has been compiled in).
 .TP
 .B \-K (\-\-rebindkeypad)
@@ -228,13 +228,14 @@ Ignored, for compatibility with Pico.
 
 .SH INITIALIZATION FILE
 \fBnano\fP will read initialization files in the following order:
-\fISYSCONFDIR/nanorc\fP, then \fI~/.nanorc\fP.  Please see
-\fBnanorc(5)\fP and the example file \fBnanorc.sample\fP, both of which
-should be provided with \fBnano\fP.
+the system's \fBnanorc\fP (if it exists), and then the user's
+\fB~/.nanorc\fP (if it exists).  Please see
+.BR nanorc (5)
+for more information on the possible contents of those files.
 
 .SH NOTES
 If no alternative spell checker command is specified on the command
-line or in one of the \fInanorc\fP files, \fBnano\fP will check the
+line nor in one of the \fInanorc\fP files, \fBnano\fP will check the
 \fBSPELL\fP environment variable for one.
 
 In some cases \fBnano\fP will try to dump the buffer into an emergency
