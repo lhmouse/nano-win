@@ -249,6 +249,7 @@ void color_update(void);
 
 /* All functions in cut.c. */
 void cutbuffer_reset(void);
+bool keeping_cutbuffer(void);
 void cut_line(void);
 #ifndef NANO_TINY
 void cut_marked(void);

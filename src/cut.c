@@ -37,6 +37,12 @@ void cutbuffer_reset(void)
     keep_cutbuffer = FALSE;
 }
 
+/* Return the status of cutbuffer preservation. */
+inline bool keeping_cutbuffer(void)
+{
+    return keep_cutbuffer;
+}
+
 /* If we aren't on the last line of the file, move all the text of the
  * current line, plus the newline at the end, into the cutbuffer.  If we
  * are, move all of the text of the current line into the cutbuffer.  In
@@ -245,10 +251,20 @@ void do_cut_text_void(void)
 
 #ifndef NANO_TINY
 /* Move text from the current filestruct into the cutbuffer, and copy it
- * back into the filestruct afterward. */
+ * back into the filestruct afterward.  If the mark is set or the cursor
+ * was moved, blow away previous contents of the cutbuffer. */
 void do_copy_text(void)
 {
+    static struct filestruct *next_contiguous_line = NULL;
+    bool mark_set = openfile->mark_set;
+
+    if (mark_set || openfile->current != next_contiguous_line)
+	cutbuffer_reset();
+
     do_cut_text(TRUE, FALSE, FALSE);
+
+    /* If the mark was set, blow away the cutbuffer on the next copy. */
+    next_contiguous_line = (mark_set ? NULL : openfile->current);
 }
 
 /* Cut from the current cursor position to the end of the file. */

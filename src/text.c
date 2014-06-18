@@ -854,7 +854,7 @@ void add_undo(undo_type current_action)
      * on the same lineno, we need to abort here. */
     u = fs->current_undo;
     if (u && u->mark_begin_lineno == fs->current->lineno &&
-	((current_action == CUT && u->type == CUT && !u->mark_set) ||
+	((current_action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer()) ||
 	(current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x)))
 	return;
 
@@ -941,6 +941,7 @@ void add_undo(undo_type current_action)
     case CUT_EOF:
 	u->to_end = TRUE;
     case CUT:
+	cutbuffer_reset();
 	u->mark_set = openfile->mark_set;
 	if (u->mark_set) {
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;

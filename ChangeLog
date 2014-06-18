@@ -1,3 +1,13 @@
+2014-06-18  Mark Majeres  <mark@engine12.com>
+	* src/text.c (add_undo): Don't start a new undo for CUT when the
+	cutbuffer is being preserved, because then the cuts are contiguous
+	and will form a single undo item.  And make sure the cutbuffer will
+	be cleared when a new undo item for CUT is created.
+	* src/cut.c (keeping_cutbuffer): New function, to access the status
+	of 'keep_cutbuffer' from the undo/redo code in src/text.c.
+	* src/cut.c (do_copy_text): Blow away the contents of the cutbuffer
+	if the mark is set or the cursor has moved between two copy commands.
+
 2014-06-17  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_undo, do_redo): After an undo or redo, update the
 	'placewewant' (the desired horizontal position of the cursor).
