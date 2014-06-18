@@ -344,8 +344,8 @@ typedef struct undo {
 	/* Copy of cutbottom. */
     bool mark_set;
 	/* Was the marker set when we cut? */
-    bool to_end;
-	/* Was this a cut to end? */
+    bool to_eof;
+	/* Was this a cut to the end-of-file? */
     ssize_t mark_begin_lineno;
 	/* copy copy copy */
     size_t mark_begin_x;

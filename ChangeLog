@@ -1,3 +1,7 @@
+2014-06-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c: Rename 'to_end' to 'to_eof', to lessen confusion
+	with CUT_TO_END (which is about cutting to end-of-line).
+
 2014-06-18  Mark Majeres  <mark@engine12.com>
 	* src/text.c (add_undo): Don't start a new undo for CUT when the
 	cutbuffer is being preserved, because then the cuts are contiguous
