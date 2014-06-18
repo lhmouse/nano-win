@@ -191,7 +191,7 @@ typedef enum {
 #ifndef DISABLE_WRAPPING
     SPLIT_BEGIN, SPLIT_END,
 #endif
-    UNSPLIT, PASTE, INSERT, ENTER, OTHER
+    JOIN, PASTE, INSERT, ENTER, OTHER
 } undo_type;
 
 typedef struct color_pair {

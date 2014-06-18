@@ -3,6 +3,7 @@
 	with CUT_TO_END (which is about cutting to end-of-line).
 	* src/text.c: Upon better thought, elide the unneeded 'to_eof'.
 	* src/text.c: And elide a totally unused 'strdata2'.
+	* src/text.c: Rename the undo type UNSPLIT to JOIN, for clarity.
 
 2014-06-18  Mark Majeres  <mark@engine12.com>
 	* src/text.c (add_undo): Don't start a new undo for CUT when the

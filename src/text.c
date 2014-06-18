@@ -492,7 +492,7 @@ void do_undo(void)
 	f = openfile->current;
 	break;
 #endif /* !DISABLE_WRAPPING */
-    case UNSPLIT:
+    case JOIN:
 	undidmsg = _("line join");
 	t = make_new_node(f);
 	t->data = mallocstrcpy(NULL, u->strdata);
@@ -631,7 +631,7 @@ void do_redo(void)
 	goto_line_posx(u->lineno, u->begin);
 	break;
 #endif /* !DISABLE_WRAPPING */
-    case UNSPLIT:
+    case JOIN:
 	undidmsg = _("line join");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	f->data = charealloc(f->data, len);
@@ -912,8 +912,8 @@ void add_undo(undo_type current_action)
 		u->mark_begin_x += char_buf_len;
 	    break;
 	}
-	/* Else purposely fall into unsplit code. */
-    case UNSPLIT:
+	/* Else purposely fall into the line-joining code. */
+    case JOIN:
 	if (fs->current->next) {
 	    if (u->type == BACK) {
 		u->lineno = fs->current->next->lineno;
@@ -922,11 +922,11 @@ void add_undo(undo_type current_action)
 	    data = mallocstrcpy(NULL, fs->current->next->data);
 	    u->strdata = data;
 	}
-	current_action = u->type = UNSPLIT;
+	current_action = u->type = JOIN;
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
-	current_action	= fs->undotop->type;
+	current_action = fs->undotop->type;
 	break;
     case SPLIT_END:
 	break;
@@ -1091,9 +1091,8 @@ void update_undo(undo_type action)
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
     case SPLIT_END:
-	break;
 #endif /* !DISABLE_WRAPPING */
-    case UNSPLIT:
+    case JOIN:
 	/* These cases are handled by the earlier check for a new line and action. */
     case OTHER:
 	break;
