@@ -184,7 +184,7 @@ typedef enum {
 
 typedef enum {
     CONTROL, META, FKEY, RAWINPUT
-}  function_type;
+}  key_type;
 
 typedef enum {
     ADD, DEL, BACK, CUT, CUT_EOF, REPLACE,
@@ -447,8 +447,8 @@ typedef struct rcoption {
 typedef struct sc {
     char *keystr;
 	/* The shortcut key for a function, ASCII version. */
-    function_type type;
-	/* What kind of function key it is, for convenience later. */
+    key_type type;
+	/* What kind of command key it is, for convenience later. */
     int seq;
 	/* The actual sequence to check on the type is determined. */
     int menu;

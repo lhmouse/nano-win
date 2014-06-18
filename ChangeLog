@@ -4,6 +4,7 @@
 	* src/text.c: Upon better thought, elide the unneeded 'to_eof'.
 	* src/text.c: And elide a totally unused 'strdata2'.
 	* src/text.c: Rename the undo type UNSPLIT to JOIN, for clarity.
+	* src/global.c, src/rcfile.c: Rename function_type to key_type.
 
 2014-06-18  Mark Majeres  <mark@engine12.com>
 	* src/text.c (add_undo): Don't start a new undo for CUT when the

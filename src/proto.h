@@ -801,7 +801,7 @@ const subnfunc *sctofunc(sc *s);
 const subnfunc *getfuncfromkey(WINDOW *win);
 void print_sclist(void);
 sc *strtosc(char *input);
-function_type strtokeytype(const char *str);
+key_type strtokeytype(const char *str);
 int strtomenu(char *input);
 void assign_keyinfo(sc *s);
 void xon_complaint(void);

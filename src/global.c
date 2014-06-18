@@ -278,8 +278,8 @@ void flip_execute_void(void)
 {
 }
 
-/* Set type of function based on the string. */
-function_type strtokeytype(const char *str)
+/* Set the type of command key based on the string. */
+key_type strtokeytype(const char *str)
 {
     if (str[0] == '^')
         return CONTROL;
