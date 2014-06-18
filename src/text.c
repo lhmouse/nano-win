@@ -1101,9 +1101,7 @@ void update_undo(undo_type action)
 #ifdef DEBUG
     fprintf(stderr, "Done in update_undo (type was %d)\n", action);
 #endif
-
-    }
-
+}
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_WRAPPING
@@ -1354,16 +1352,7 @@ ssize_t break_line(const char *line, ssize_t goal
     char_len = parse_mbchar(line, NULL, NULL);
     line += char_len;
 
-    while (*line != '\0' && (is_blank_mbchar(line)
-#ifndef DISABLE_HELP
-	|| (newln && *line == '\n')
-#endif
-	)) {
-#ifndef DISABLE_HELP
-	if (newln && *line == '\n')
-	    break;
-#endif
-
+    while (*line != '\0' && is_blank_mbchar(line)) {
 	char_len = parse_mbchar(line, NULL, NULL);
 
 	line += char_len;
