@@ -902,7 +902,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 #endif
 	const char *curranswer,
 	bool *meta_key, bool *func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
 	void (*refresh_func)(void), int menu
@@ -919,7 +919,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
 #endif
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     char *history = NULL;
 	/* The current history string. */
     char *magichistory = NULL;
@@ -932,7 +932,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 	/* The length of the original string that we're trying to
 	 * tab complete, if any. */
 #endif
-#endif /* !NANO_TINY */
+#endif /* !DISABLE_HISTORIES */
 
     answer = mallocstrcpy(answer, curranswer);
     curranswer_len = strlen(answer);
@@ -989,7 +989,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	    tabbed = FALSE;
 
 	if (s && s->scfunc == do_tab) {
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	    if (history_list != NULL) {
 		if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
 		    complete_len = strlen(answer);
@@ -1001,7 +1001,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 		    statusbar_x = strlen(answer);
 		}
 	    } else
-#endif /* !NANO_TINY */
+#endif
 	    if (allow_tabs)
 		answer = input_tab(answer, allow_files, &statusbar_x,
 				   &tabbed, refresh_func, list);
@@ -1009,7 +1009,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	    update_statusbar_line(answer, statusbar_x);
 	} else
 #endif /* !DISABLE_TABCOMP */
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	if (s && s->scfunc == get_history_older_void) {
 	    if (history_list != NULL) {
 		/* If we're scrolling up at the bottom of the history list
@@ -1059,7 +1059,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 		finished = FALSE;
 	    }
 	} else
-#endif /* !NANO_TINY */
+#endif /* !DISABLE_HISTORIES */
 	if (s && s->scfunc == do_help_void) {
 	    update_statusbar_line(answer, statusbar_x);
 
@@ -1076,7 +1076,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	if (finished)
 	    break;
 
-#if !defined(NANO_TINY) && !defined(DISABLE_TABCOMP)
+#if !defined(DISABLE_HISTORIES) && !defined(DISABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
 
@@ -1085,7 +1085,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
     }
 
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     /* Set the current position in the history list to the bottom,
      * and free magichistory if we need to. */
     if (history_list != NULL) {
@@ -1138,7 +1138,7 @@ int do_prompt(bool allow_tabs,
 #endif
 	int menu, const char *curranswer,
 	bool *meta_key, bool *func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
 	void (*refresh_func)(void), const char *msg, ...)
@@ -1170,7 +1170,7 @@ int do_prompt(bool allow_tabs,
 #endif
 	curranswer,
 	meta_key, func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	history_list,
 #endif
 	refresh_func, menu

@@ -114,7 +114,7 @@ extern bool edit_refresh_needed;
 extern const shortcut *currshortcut;
 extern int currmenu;
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 extern filestruct *search_history;
 extern filestruct *searchage;
 extern filestruct *searchbot;
@@ -334,7 +334,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	*lastwastab, void (*refresh_func)(void), bool *list);
 #endif
 const char *tail(const char *foo);
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef DISABLE_HISTORIES
 char *histfilename(void);
 void load_history(void);
 bool writehist(FILE *hist, filestruct *histhead);
@@ -522,7 +522,7 @@ const sc *get_prompt_string(int *value, bool allow_tabs,
 #endif
 	const char *curranswer,
 	bool *meta_key, bool *func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
 	void (*refresh_func)(void), int menu
@@ -536,7 +536,7 @@ int do_prompt(bool allow_tabs,
 #endif
 	int menu, const char *curranswer,
 	bool *meta_key, bool *func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
 	void (*refresh_func)(void), const char *msg, ...);
@@ -544,9 +544,11 @@ void do_prompt_abort(void);
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
+#if !defined(DISABLE_NANORC) || !defined(DISABLE_HISTORIES)
+char *parse_next_word(char *ptr);
+#endif
 #ifndef DISABLE_NANORC
 void rcfile_error(const char *msg, ...);
-char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
 #ifndef DISABLE_COLOR
 char *parse_next_regex(char *ptr);
@@ -565,7 +567,7 @@ void parse_rcfile(FILE *rcstream
 #endif
 	);
 void do_rcfile(void);
-#endif
+#endif /* !DISABLE_NANORC */
 
 /* All functions in search.c. */
 #ifdef HAVE_REGEX_H
@@ -609,9 +611,12 @@ void goto_line_posx(ssize_t line, size_t pos_x);
 #ifndef NANO_TINY
 bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);
-#ifndef DISABLE_NANORC
-bool history_has_changed(void);
+#ifndef DISABLE_TABCOMP
+char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif
+#endif
+#ifndef DISABLE_HISTORIES
+bool history_has_changed(void);
 void history_init(void);
 void history_reset(const filestruct *h);
 filestruct *find_history(const filestruct *h_start, const filestruct
@@ -621,9 +626,6 @@ char *get_history_older(filestruct **h);
 char *get_history_newer(filestruct **h);
 void get_history_older_void(void);
 void get_history_newer_void(void);
-#ifndef DISABLE_TABCOMP
-char *get_history_completion(filestruct **h, const char *s, size_t len);
-#endif
 #endif
 
 /* All functions in text.c. */

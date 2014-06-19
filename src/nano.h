@@ -348,8 +348,9 @@ typedef struct undo {
 	/* Another shadow variable. */
     struct undo *next;
 } undo;
+#endif /* !NANO_TINY */
 
-
+#ifndef DISABLE_HISTORIES
 typedef struct poshiststruct {
     char *filename;
 	/* The file. */
@@ -359,9 +360,7 @@ typedef struct poshiststruct {
 	/* x position in the file we left off on. */
     struct poshiststruct *next;
 } poshiststruct;
-
-#endif /* !NANO_TINY */
-
+#endif
 
 typedef struct openfilestruct {
     char *filename;

@@ -7,6 +7,8 @@
 	* configure.ac: Add a --disable-histories flag, to disable the code
 	for the histories of search/replace strings and cursor positions.
 	* doc/texinfo/nano.texi: Document the new configure flag.
+	* src/*: Transform many DISABLE_NANORC to the new DISABLE_HISTORIES.
+	This completes the fix for Savannah bug #42539.
 
 2014-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c: Rename 'to_end' to 'to_eof', to lessen confusion

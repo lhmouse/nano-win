@@ -2377,7 +2377,7 @@ bool do_int_spell_fix(const char *word)
 #endif
 		MSPELL, word,
 		&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 		NULL,
 #endif
 		edit_refresh, _("Edit a replacement")) == -1);

@@ -213,7 +213,7 @@ char *do_browser(char *path, DIR *dir)
 #endif
 			MGOTODIR, ans,
 			&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 			NULL,
 #endif
 			/* TRANSLATORS: This is a prompt. */
@@ -793,7 +793,7 @@ int filesearch_init(void)
 #endif
 	MWHEREISFILE, backupstring,
 	&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	&search_history,
 #endif
 	browser_refresh, "%s%s%s%s%s", _("Search"),
@@ -977,7 +977,7 @@ void do_filesearch(void)
     else
 	last_search = mallocstrcpy(last_search, answer);
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     /* If answer is not "", add this search string to the search history
      * list. */
     if (answer[0] != '\0')

@@ -32,7 +32,7 @@
 
 static bool search_last_line = FALSE;
 	/* Have we gone past the last line while searching? */
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef DISABLE_HISTORIES
 static bool history_changed = FALSE;
 	/* Have any of the history lists changed? */
 #endif
@@ -178,7 +178,7 @@ int search_init(bool replacing, bool use_answer)
 #endif
 	replacing ? MREPLACE : MWHEREIS, backupstring,
 	&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	&search_history,
 #endif
 	/* TRANSLATORS: This is the main search prompt. */
@@ -474,7 +474,7 @@ void do_search(void)
     else
 	last_search = mallocstrcpy(last_search, answer);
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     /* If answer is not "", add this search string to the search history
      * list. */
     if (answer[0] != '\0')
@@ -940,7 +940,7 @@ void do_replace(void)
     /* If answer is not "", add answer to the search history list and
      * copy answer into last_search. */
     if (answer[0] != '\0') {
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	update_history(&search_history, answer);
 #endif
 	last_search = mallocstrcpy(last_search, answer);
@@ -954,13 +954,13 @@ void do_replace(void)
 #endif
 	MREPLACEWITH, last_replace,
 	&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	&replace_history,
 #endif
 	/* TRANSLATORS: This is a prompt. */
 	edit_refresh, _("Replace with"));
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     /* Add this replace string to the replace history list.  i == 0
      * means that the string is not "". */
     if (i == 0)
@@ -1040,7 +1040,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 #endif
 		MGOTOLINE, use_answer ? ans : "",
 		&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 		NULL,
 #endif
 		/* TRANSLATORS: This is a prompt. */
@@ -1304,14 +1304,14 @@ void do_find_bracket(void)
     free(bracket_set);
     free(found_ch);
 }
+#endif /* !NANO_TINY */
 
-#ifndef DISABLE_NANORC
+#ifndef DISABLE_HISTORIES
 /* Indicate whether any of the history lists have changed. */
 bool history_has_changed(void)
 {
     return history_changed;
 }
-#endif
 
 /* Initialize the search and replace history lists. */
 void history_init(void)
@@ -1408,10 +1408,8 @@ void update_history(filestruct **h, const char *s)
     *hbot = (*hbot)->next;
     (*hbot)->data = mallocstrcpy(NULL, "");
 
-#ifndef DISABLE_NANORC
     /* Indicate that the history's been changed. */
     history_changed = TRUE;
-#endif
 
     /* Set the current position in the list to the bottom. */
     *h = *hbot;
@@ -1510,4 +1508,4 @@ char *get_history_completion(filestruct **h, const char *s, size_t len)
     return (char *)s;
 }
 #endif /* !DISABLE_TABCOMP */
-#endif /* !NANO_TINY */
+#endif /* !DISABLE_HISTORIES */

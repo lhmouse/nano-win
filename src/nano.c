@@ -612,7 +612,7 @@ void finish(void)
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef DISABLE_HISTORIES
     if (ISSET(HISTORYLOG))
 	save_history();
     if (ISSET(POS_HISTORY)) {
@@ -856,13 +856,13 @@ void usage(void)
 #ifndef DISABLE_MULTIBUFFER
     print_opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
 #endif
-#ifndef DISABLE_NANORC
 #ifndef NANO_TINY
     print_opt("-G", "--locking",
 	N_("Use (vim-style) lock files"));
+#endif
+#ifndef DISABLE_HISTORIES
     print_opt("-H", "--historylog",
 	N_("Log & read search/replace string history"));
-#endif
     print_opt("-I", "--ignorercfiles",
 	N_("Don't look at nanorc files"));
 #endif
@@ -875,7 +875,7 @@ void usage(void)
 	N_("Don't convert files from DOS/Mac format"));
 #endif
     print_opt("-O", "--morespace", N_("Use one more line for editing"));
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     print_opt("-P", "--poslog",
 	N_("Log & read location of cursor position"));
 #endif
@@ -906,8 +906,8 @@ void usage(void)
     print_opt("-c", "--const", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
-#ifndef NANO_TINY
     print_opt("-h", "--help", N_("Show this help text"));
+#ifndef NANO_TINY
     print_opt("-i", "--autoindent",
 	N_("Automatically indent new lines"));
     print_opt("-k", "--cut", N_("Cut from cursor to end of line"));
@@ -973,6 +973,9 @@ void version(void)
 #ifndef DISABLE_HELP
     printf(" --enable-help");
 #endif
+#ifndef DISABLE_HISTORIES
+    printf(" --enable-histories");
+#endif
 #ifndef DISABLE_JUSTIFY
     printf(" --enable-justify");
 #endif
@@ -1012,6 +1015,9 @@ void version(void)
 #endif
 #ifdef DISABLE_HELP
     printf(" --disable-help");
+#endif
+#ifdef DISABLE_HISTORIES
+    printf(" --disable-histories");
 #endif
 #ifdef DISABLE_JUSTIFY
     printf(" --disable-justify");
@@ -2250,15 +2256,17 @@ int main(int argc, char **argv)
 		SET(MULTIBUFFER);
 		break;
 #endif
-#ifndef DISABLE_NANORC
 #ifndef NANO_TINY
 	    case 'G':
 		SET(LOCKING);
 		break;
+#endif
+#ifndef DISABLE_HISTORIES
 	    case 'H':
 		SET(HISTORYLOG);
 		break;
 #endif
+#ifndef DISABLE_NANORC
 	    case 'I':
 		no_rcfiles = TRUE;
 		break;
@@ -2277,7 +2285,7 @@ int main(int argc, char **argv)
 	    case 'O':
 		SET(MORE_SPACE);
 		break;
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 	    case 'P':
 		SET(POS_HISTORY);
 		break;
@@ -2527,10 +2535,10 @@ int main(int argc, char **argv)
     if (ISSET(BOLD_TEXT))
 	hilite_attribute = A_BOLD;
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     /* Set up the search/replace history. */
     history_init();
-#ifndef DISABLE_NANORC
+    /* Verify that the home directory and ~/.nano subdir exist. */
     if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
 	get_homedir();
 	if (homedir == NULL || check_dotnano() == 0) {
@@ -2542,8 +2550,9 @@ int main(int argc, char **argv)
 	load_history();
     if (ISSET(POS_HISTORY))
 	load_poshistory();
-#endif /* !DISABLE_NANORC */
+#endif /* !DISABLE_HISTORIES */
 
+#ifndef NANO_TINY
     /* Set up the backup directory (unless we're using restricted mode,
      * in which case backups are disabled, since they would allow
      * reading from or writing to files not specified on the command
@@ -2551,7 +2560,7 @@ int main(int argc, char **argv)
      * that backup files will be saved there. */
     if (!ISSET(RESTRICTED))
 	init_backup_dir();
-#endif /* !NANO_TINY */
+#endif
 
 #ifndef DISABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
@@ -2725,7 +2734,7 @@ int main(int argc, char **argv)
 		    iline = 1;
 		    icol = 1;
 		}
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef DISABLE_HISTORIES
                   else {
 		    /* See if we have a POS history to use if we haven't overridden it. */
 		    ssize_t savedposline, savedposcol;
@@ -2772,7 +2781,7 @@ int main(int argc, char **argv)
     if (startline > 1 || startcol > 1)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
 		FALSE);
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef DISABLE_HISTORIES
     else {
 	/* See if we have a POS history to use if we haven't overridden it. */
 	ssize_t savedposline, savedposcol;

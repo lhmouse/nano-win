@@ -177,7 +177,7 @@ subnfunc *exitfunc;
 subnfunc *uncutfunc;
 	/* Pointer to the special Uncut/Unjustify item. */
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 filestruct *search_history = NULL;
 	/* The search string history list. */
 filestruct *searchage = NULL;
@@ -601,7 +601,7 @@ void shortcut_init(void)
     const char *nano_regexp_msg =
 	N_("Toggle the use of regular expressions");
 #endif
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     const char *nano_prev_history_msg =
 	N_("Recall the previous search/replace string");
     const char *nano_next_history_msg =
@@ -895,11 +895,10 @@ void shortcut_init(void)
     add_to_funcs(do_suspend_void, MMAIN,
 	N_("Suspend"), IFSCHELP(nano_suspend_msg), TRUE, VIEW);
 
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     add_to_funcs(get_history_older_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	N_("PrevHstory"), IFSCHELP(nano_prev_history_msg), FALSE, VIEW);
-
     add_to_funcs(get_history_newer_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	N_("NextHstory"), IFSCHELP(nano_next_history_msg), FALSE, VIEW);
@@ -1131,7 +1130,7 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MWHEREIS, "^T", do_gotolinecolumn_void, 0, FALSE);
     add_to_sclist(MGOTOLINE, "^T", gototext_void, 0, FALSE);
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^P", get_history_older_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Up", get_history_older_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^N", get_history_newer_void, 0, FALSE);

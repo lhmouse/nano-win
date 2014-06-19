@@ -477,7 +477,7 @@ bool close_buffer(void)
     if (openfile == openfile->next)
 	return FALSE;
 
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef DISABLE_HISTORIES
     update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
 #endif
 
@@ -1047,7 +1047,7 @@ void do_insertfile(
 #endif
 		MINSERTFILE, ans,
 		&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 		NULL,
 #endif
 		edit_refresh, msg,
@@ -1188,18 +1188,16 @@ void do_insertfile(
 	    }
 #endif
 
-#if !defined(DISABLE_MULTIBUFFER) && !defined(DISABLE_NANORC)
+#if !defined(DISABLE_MULTIBUFFER) && !defined(DISABLE_HISTORIES)
 	    if (ISSET(MULTIBUFFER)) {
 		/* Update the screen to account for the current
 		 * buffer. */
 		display_buffer();
 
-#ifndef NANO_TINY
 		ssize_t savedposline, savedposcol;
 		if (!execute && ISSET(POS_HISTORY)
 			&& check_poshistory(answer, &savedposline, &savedposcol))
 		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
-#endif
 	    } else
 #endif
 	    {
@@ -2275,7 +2273,7 @@ bool do_writeout(bool exiting)
 #endif
 		MWRITEFILE, ans,
 		&meta_key, &func_key,
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
 		NULL,
 #endif
 		edit_refresh, "%s%s%s", msg,
@@ -2895,8 +2893,8 @@ const char *tail(const char *foo)
     return tmp;
 }
 
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
-/* Return the constructed dorfile path, or NULL if we can't find the home
+#ifndef DISABLE_HISTORIES
+/* Return the constructed dirfile path, or NULL if we can't find the home
  * directory.  The string is dynamically allocated, and should be
  * freed. */
 char *construct_filename(const char *str)
@@ -3233,5 +3231,4 @@ void load_poshistory(void)
 	free(nanohist);
     }
 }
-
-#endif /* !NANO_TINY && !DISABLE_NANORC */
+#endif /* !DISABLE_HISTORIES */
