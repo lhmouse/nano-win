@@ -1332,13 +1332,16 @@ sc *strtosc(char *input)
 	s->scfunc = do_undo;
     else if (!strcasecmp(input, "redo"))
 	s->scfunc = do_redo;
+#ifndef DISABLE_HISTORIES
     else if (!strcasecmp(input, "prevhistory")) {
 	s->scfunc =  get_history_older_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "nexthistory")) {
 	s->scfunc =  get_history_newer_void;
 	s->execute = FALSE;
-    } else if (!strcasecmp(input, "nohelp")) {
+    }
+#endif
+    else if (!strcasecmp(input, "nohelp")) {
 	s->scfunc =  do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_HELP;
