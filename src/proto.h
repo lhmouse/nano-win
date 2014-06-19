@@ -454,7 +454,7 @@ void print_opt_full(const char *shortflag
 	, const char *desc);
 void usage(void);
 void version(void);
-int no_more_space(void);
+int more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
 void do_exit(void);
