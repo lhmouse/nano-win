@@ -1,6 +1,7 @@
 2014-06-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'
 	for consistency, and tweak the related comments.
+	* src/files.c: Update some comments to match the current status.
 
 2014-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c: Rename 'to_end' to 'to_eof', to lessen confusion

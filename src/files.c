@@ -2965,21 +2965,22 @@ int check_dotnano(void)
     return 1;
 }
 
-/* Load histories from ~/.nano_history. */
+/* Load the search and replace histories from ~/.nano/search_history. */
 void load_history(void)
 {
     char *nanohist = histfilename();
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
 
-
     if (stat(legacyhist, &hstat) != -1 && stat(nanohist, &hstat) == -1) {
 	if (rename(legacyhist, nanohist) == -1)
-	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\nto the preferred location (%s) but encountered an error: %s"),
-		legacyhist, nanohist, strerror(errno));
+	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\n"
+			     "to the preferred location (%s) but encountered an error: %s"),
+				legacyhist, nanohist, strerror(errno));
 	else
-	    history_error(N_("Detected a legacy nano history file (%s) which I moved\nto the preferred location (%s)\n(see the nano FAQ about this change)"),
-		legacyhist, nanohist);
+	    history_error(N_("Detected a legacy nano history file (%s) which I moved\n"
+			     "to the preferred location (%s)\n(see the nano FAQ about this change)"),
+				legacyhist, nanohist);
     }
 
     /* Assume do_rcfile() has reported a missing home directory. */
@@ -3046,7 +3047,7 @@ bool writehist(FILE *hist, filestruct *h)
     return TRUE;
 }
 
-/* Save histories to ~/.nano/search_history. */
+/* Save the search and replace histories to ~/.nano/search_history. */
 void save_history(void)
 {
     char *nanohist;
@@ -3081,7 +3082,7 @@ void save_history(void)
     }
 }
 
-/* Analogs for the POS history. */
+/* Save the recorded last file positions to ~/.nano/filepos_history. */
 void save_poshistory(void)
 {
     char *poshist;
@@ -3116,8 +3117,8 @@ void save_poshistory(void)
     }
 }
 
-/* Update the POS history, given a filename line and column.  If no
- * entry is found, add a new entry on the end. */
+/* Update the recorded last file positions, given a filename, a line
+ * and a column.  If no entry is found, add a new one at the end. */
 void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 {
    poshiststruct *posptr, *posprev = NULL;
@@ -3150,10 +3151,9 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     free(fullpath);
 }
 
-
-/* Check the POS history to see if file matches an existing entry.  If
- * so, return 1 and set line and column to the right values.  Otherwise,
- * return 0. */
+/* Check the recorded last file positions to see if the given file
+ * matches an existing entry.  If so, return 1 and set line and column
+ * to the retrieved values.  Otherwise, return 0. */
 int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
 {
     poshiststruct *posptr;
@@ -3174,7 +3174,7 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
     return 0;
 }
 
-/* Load histories from ~/.nano_history. */
+/* Load the recorded file positions from ~/.nano/filepos_history. */
 void load_poshistory(void)
 {
     char *nanohist = poshistfilename();
