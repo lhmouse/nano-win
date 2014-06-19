@@ -4,6 +4,9 @@
 	* src/files.c: Update some comments to match the current status.
 	* src/nano (finish, main): Allow -H/--historylog and -P/--poslog to
 	function also when -I/--ignorercfiles is given.
+	* configure.ac: Add a --disable-histories flag, to disable the code
+	for the histories of search/replace strings and cursor positions.
+	* doc/texinfo/nano.texi: Document the new configure flag.
 
 2014-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c: Rename 'to_end' to 'to_eof', to lessen confusion

@@ -1278,6 +1278,11 @@ Disable the help function.  Doing this makes the binary much smaller,
 but makes it difficult for new users to learn more than very basic
 things about using the editor.
 
+@item --disable-histories
+Disable the code for the handling of the history files: the search and
+replace strings that were used, and the cursor position at which each
+file was closed.
+
 @item --disable-justify
 Disable the justify and unjustify functions.
 

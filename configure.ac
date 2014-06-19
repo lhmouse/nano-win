@@ -98,6 +98,12 @@ if test "x$enable_help" = xno; then
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
 fi
 
+AC_ARG_ENABLE(histories,
+AS_HELP_STRING([--disable-histories], [Disable search and position histories]))
+if test "x$enable_histories" = xno; then
+    AC_DEFINE(DISABLE_HISTORIES, 1, [Define this to disable search and position histories.])
+fi
+
 AC_ARG_ENABLE(justify,
 AS_HELP_STRING([--disable-justify], [Disable justify/unjustify functions]))
 if test "x$enable_justify" = xno; then
@@ -185,6 +191,9 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_help" != xyes; then
 	AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
+    fi
+    if test "x$enable_histories" != xyes; then
+	AC_DEFINE(DISABLE_HISTORIES, 1, [Define this to disable search and position histories.])
     fi
     if test "x$enable_justify" != xyes; then
 	AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
