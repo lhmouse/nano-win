@@ -613,9 +613,9 @@ void finish(void)
     tcsetattr(0, TCSANOW, &oldterm);
 
 #if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
-    if (!no_rcfiles && ISSET(HISTORYLOG))
+    if (ISSET(HISTORYLOG))
 	save_history();
-    if (!no_rcfiles && ISSET(POS_HISTORY)) {
+    if (ISSET(POS_HISTORY)) {
 	update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
 	save_poshistory();
     }
@@ -2410,14 +2410,16 @@ int main(int argc, char **argv)
     if (*(tail(argv[0])) == 'r')
 	SET(RESTRICTED);
 
-    /* If we're using restricted mode, disable suspending, backups, and
-     * reading rcfiles, since they all would allow reading from or
-     * writing to files not specified on the command line. */
+    /* If we're using restricted mode, disable suspending, backups,
+     * rcfiles, and history files, since they all would allow reading
+     * from or writing to files not specified on the command line. */
     if (ISSET(RESTRICTED)) {
 	UNSET(SUSPEND);
 	UNSET(BACKUP_FILE);
 #ifndef DISABLE_NANORC
 	no_rcfiles = TRUE;
+	UNSET(HISTORYLOG);
+	UNSET(POS_HISTORY);
 #endif
     }
 
@@ -2529,18 +2531,17 @@ int main(int argc, char **argv)
     /* Set up the search/replace history. */
     history_init();
 #ifndef DISABLE_NANORC
-    if (!no_rcfiles) {
-	if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
-	    if (check_dotnano() == 0) {
-		UNSET(HISTORYLOG);
-		UNSET(POS_HISTORY);
-	    }
+    if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
+	get_homedir();
+	if (homedir == NULL || check_dotnano() == 0) {
+	    UNSET(HISTORYLOG);
+	    UNSET(POS_HISTORY);
 	}
-	if (ISSET(HISTORYLOG))
-	    load_history();
-	if (ISSET(POS_HISTORY))
-	    load_poshistory();
     }
+    if (ISSET(HISTORYLOG))
+	load_history();
+    if (ISSET(POS_HISTORY))
+	load_poshistory();
 #endif /* !DISABLE_NANORC */
 
     /* Set up the backup directory (unless we're using restricted mode,

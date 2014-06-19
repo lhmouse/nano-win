@@ -2,6 +2,8 @@
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'
 	for consistency, and tweak the related comments.
 	* src/files.c: Update some comments to match the current status.
+	* src/nano (finish, main): Allow -H/--historylog and -P/--poslog to
+	function also when -I/--ignorercfiles is given.
 
 2014-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c: Rename 'to_end' to 'to_eof', to lessen confusion
