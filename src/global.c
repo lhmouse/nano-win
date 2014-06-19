@@ -1683,7 +1683,7 @@ void thanks_for_all_the_fish(void)
 	free(bill);
     }
 #endif /* !DISABLE_COLOR */
-#ifndef NANO_TINY
+#ifndef DISABLE_HISTORIES
     /* Free the search and replace history lists. */
     if (searchage != NULL)
 	free_filestruct(searchage);
