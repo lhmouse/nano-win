@@ -154,18 +154,14 @@ syntaxtype *syntaxes = NULL;
 	/* The global list of color syntaxes. */
 char *syntaxstr = NULL;
 	/* The color syntax name specified on the command line. */
-
 #endif
 
 bool edit_refresh_needed = FALSE;
 	/* Did a command mangle enough of the buffer refresh that we
 	 * should repaint the screen? */
 
-const shortcut *currshortcut;
-	/* The current shortcut list we're using. */
 int currmenu;
 	/* The currently loaded menu. */
-
 sc *sclist = NULL;
 	/* Pointer to the start of the shortcuts list. */
 subnfunc *allfuncs = NULL;

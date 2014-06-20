@@ -30,7 +30,6 @@
 #ifndef NANO_TINY
 extern sigjmp_buf jump_buf;
 extern bool jump_buf_main;
-extern bool use_undo;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -63,7 +62,6 @@ extern char *matchbrackets;
 #if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 extern char *whitespace;
 extern int whitespace_len[2];
-extern undo_type last_action;
 #endif
 
 extern const char *exit_tag;
@@ -101,18 +99,18 @@ extern char *full_operating_dir;
 extern char *alt_speller;
 #endif
 
-extern sc *sclist;
-extern subnfunc *allfuncs;
-extern subnfunc *exitfunc;
-extern subnfunc *uncutfunc;
 #ifndef DISABLE_COLOR
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 #endif
 
 extern bool edit_refresh_needed;
-extern const shortcut *currshortcut;
+
 extern int currmenu;
+extern sc *sclist;
+extern subnfunc *allfuncs;
+extern subnfunc *exitfunc;
+extern subnfunc *uncutfunc;
 
 #ifndef DISABLE_HISTORIES
 extern filestruct *search_history;
@@ -122,7 +120,6 @@ extern filestruct *replace_history;
 extern filestruct *replaceage;
 extern filestruct *replacebot;
 extern poshiststruct *poshistory;
-void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
 #endif
 
 #ifdef HAVE_REGEX_H
@@ -342,6 +339,7 @@ void save_history(void);
 int check_dotnano(void);
 void load_poshistory(void);
 void save_poshistory(void);
+void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
 int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 #endif
 #ifndef DISABLE_COLOR
