@@ -1215,7 +1215,9 @@ bool do_wrap(filestruct *line)
 	/* If after_break doesn't end in a blank, make sure it ends in a
 	 * space. */
 	if (!is_blank_mbchar(end)) {
+#ifndef NANO_TINY
 	    add_undo(ADD);
+#endif
 	    line_len++;
 	    line->data = charealloc(line->data, line_len + 1);
 	    line->data[line_len - 1] = ' ';
@@ -1224,7 +1226,9 @@ bool do_wrap(filestruct *line)
 	    after_break_len++;
 	    openfile->totsize++;
 	    openfile->current_x++;
+#ifndef NANO_TINY
 	    update_undo(ADD);
+#endif
 	}
 
 	next_line = line->next->data;
