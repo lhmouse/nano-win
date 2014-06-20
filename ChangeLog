@@ -4,6 +4,7 @@
 	* src/files.c (check_dotnano): Wrap long lines and actually report
 	the name that is not a directory.
 	* src/*: Miscellaneous whitespace adjustments and comment tweaks.
+	* src/files.c: Fix compilation with --enable-tiny --enable-browser.
 
 2014-06-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'

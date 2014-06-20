@@ -1010,8 +1010,8 @@ void do_insertfile(
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
     bool edittop_inside = FALSE, meta_key = FALSE, func_key = FALSE;
-#ifndef NANO_TINY
     const sc *s;
+#ifndef NANO_TINY
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
@@ -1026,17 +1026,16 @@ void do_insertfile(
 		_("Command to execute in new buffer [from %s] ") :
 #endif
 		_("Command to execute [from %s] ");
-	} else {
-#endif
+	} else
+#endif /* NANO_TINY */
+	{
 	    msg =
 #ifndef DISABLE_MULTIBUFFER
 		ISSET(MULTIBUFFER) ?
 		_("File to insert into new buffer [from %s] ") :
 #endif
 		_("File to insert [from %s] ");
-#ifndef NANO_TINY
 	}
-#endif
 
 	i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
@@ -1073,24 +1072,21 @@ void do_insertfile(
 
 	    ans = mallocstrcpy(ans, answer);
 
-#ifndef NANO_TINY
 	    s = get_shortcut(currmenu, &i, &meta_key);
 
+#ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
 	    if (s && s->scfunc == new_buffer_void) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
 		continue;
-	    } else
+	    }
 #endif
 	    if (s && s->scfunc == flip_execute_void) {
 		execute = !execute;
 		continue;
 	    }
-#ifndef DISABLE_BROWSER
-	    else
-#endif
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
