@@ -155,11 +155,10 @@ Enable vim-style file locking when editing files.
 
 @item -H, --historylog
 Log search and replace strings to ~/.nano/search_history, so they can be
-retrieved in later sessions (if nanorc support has been compiled in).
+retrieved in later sessions.
 
 @item -I, --ignorercfiles
-Don't look at the system's nanorc file nor at the user's ~/.nanorc
-(if nanorc support has been compiled in).
+Don't look at the system's nanorc file nor at the user's ~/.nanorc.
 
 @item -K, --rebindkeypad
 Interpret the numeric keypad keys so that they all work properly.  You
@@ -176,8 +175,8 @@ Disable automatic conversion of files from DOS/Mac format.
 Use the blank line below the titlebar as extra editing space.
 
 @item -P, --poslog
-Log and later read back the location of the cursor and place it
-there again.
+Log for each file the last location of the cursor, and read it
+back upon reopening the file and place it there again.
 
 @item -Q <str>, --quotestr=<str>
 Set the quoting string for justifying.  The default value is
@@ -191,9 +190,10 @@ Note that @code{\t} above stands for a literal Tab character.
 
 @item -R, --restricted
 Restricted mode: don't read or write to any file not specified on the
-command line; don't read any nanorc files; don't allow suspending; don't
+command line; don't read any nanorc files nor history files; don't allow
+suspending nor spell checking; don't
 allow a file to be appended to, prepended to, or saved under a different
-name if it already has one; don't use backup files nor spell checking.
+name if it already has one; and don't use backup files.
 This restricted mode is also accessible by invoking @code{nano} with
 any name beginning with 'r' (e.g. "rnano").
 
@@ -216,9 +216,9 @@ Show the current version number and exit.
 Detect word boundaries more accurately by treating punctuation
 characters as parts of words.
 
-@item -Y <str>, --syntax=<str>
-Specify a specific syntax from the nanorc to use for highlighting, if
-available.  See @xref{Syntax Highlighting}, for more info.
+@item -Y <name>, --syntax=<name>
+Specify a specific syntax from the nanorc files to use for highlighting.
+See @xref{Syntax Highlighting}, for more info.
 
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
@@ -491,8 +491,8 @@ toggles the -N (@code{--noconvert}) command line option.
 toggles the -O (@code{--morespace}) command line option.
 
 @item Whitespace Display Toggle (Meta-P)
-toggles whitespace display mode if you have a "whitespace" option in
-your nanorc.  See @xref{Whitespace}, for more info.
+toggles whitespace-display mode.
+See @xref{Whitespace}, for more info.
 
 @item Tabs to Spaces Toggle (Meta-Q)
 toggles the -E (@code{--tabstospaces}) command line option.
@@ -1267,7 +1267,8 @@ The possible options to @code{./configure} are:
 Disable the mini file browser when reading or writing files.
 
 @item --disable-color
-Disable support for syntax coloring of files using the nanorc file.
+Disable support for the syntax coloring of files.  This also eliminates
+the -Y command-line option, which chooses a specific syntax.
 
 @item --disable-extra
 Disable extra features.  At the moment, this is just easter-egg-type
@@ -1297,13 +1298,16 @@ command-line option, which enables the mouse functionality.
 
 @item --disable-multibuffer
 Disable support for opening multiple files at a time and switching
-between them on the fly.
+between them on the fly.  This also eliminates the -F command-line
+option, which switches the use of multiple file buffers on.
 
 @item --disable-nanorc
 Disable support for reading the nanorc files at startup.  With such
 support, you can store custom settings in a system-wide and a per-user
 nanorc file rather than having to pass command-line options to get
 the desired behavior.  See @xref{Nanorc Files}, for more info.
+This also eliminates the -I command-line option, which inhibits the
+reading of these nanorcfiles.
 
 @item --disable-operatingdir
 Disable setting the operating directory.  This also eliminates the -o
@@ -1323,14 +1327,16 @@ command-line option, which enables long-line wrapping.
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
 internals of the editor, like the marking code and the cut-to-end-of-line
-code.  It also disables the function toggles.
+code.  It also disables the function toggles.  By using the enabling
+counterpart of the above options together with --enable-tiny, specific
+features can be switched back on.
 
 @item --enable-debug
 Enable support for runtime debug output.  This can get pretty messy, so
 chances are you only want this feature when you're working on the nano source.
 
 @item --disable-nls
-Disables Native Language support.  This will disable use of the
+Disables Native Language support.  This will disable the use of any
 available GNU @code{nano} translations.
 
 @item --disable-wrapping-as-root

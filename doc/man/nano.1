@@ -75,11 +75,10 @@ Enable vim-style file locking when editing files.
 .TP
 .B \-H (\-\-historylog)
 Log search and replace strings to \fI~/.nano/search_history\fP, so they can be
-retrieved in later sessions (if \fInanorc\fP support has been compiled in).
+retrieved in later sessions.
 .TP
 .B \-I (\-\-ignorercfiles)
-Don't look at the system's \fBnanorc\fP nor at \fB~/.nanorc\fP
-(if \fInanorc\fP support has been compiled in).
+Don't look at the system's \fBnanorc\fP nor at \fB~/.nanorc\fP.
 .TP
 .B \-K (\-\-rebindkeypad)
 Interpret the numeric keypad keys so that they all work properly.  You
@@ -107,10 +106,11 @@ Tab.
 .TP
 .B \-R (\-\-restricted)
 Restricted mode: don't read or write to any file not specified on the
-command line; don't read any \fInanorc\fP files; don't allow suspending;
+command line; don't read any \fInanorc\fP files nor history files;
+don't allow suspending nor spell checking;
 don't allow a file to be appended to, prepended to, or saved under a
-different name if it already has one; don't use backup files nor spell
-checking.  This restricted mode is also accessible by invoking \fBnano\fP
+different name if it already has one; and don't use backup files.
+This restricted mode is also accessible by invoking \fBnano\fP
 with any name beginning with 'r' (e.g. "rnano").
 .TP
 .B \-S (\-\-smooth)
@@ -132,9 +132,9 @@ Show the current version number and exit.
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 .TP
-.B \-Y \fIstr\fP (\-\-syntax=\fIstr\fP)
-Specify a specific syntax highlighting from the \fInanorc\fP to use, if
-available.
+.B \-Y \fIname\fP (\-\-syntax=\fIname\fP)
+Specify the name of the syntax highlighting to use from among the ones
+defined in the \fInanorc\fP files.
 .TP
 .B \-c (\-\-const)
 Constantly show the cursor position.  Note that this overrides \fB\-U\fP.
@@ -175,15 +175,15 @@ and will write to the pipe when the user saves the "file".  This way
 \fBgpg\fR without having to write sensitive data to disk first.
 .TP
 .B \-o \fIdir\fP (\-\-operatingdir=\fIdir\fP)
-Set operating directory.  Makes \fBnano\fP set up something similar to a
-chroot.
+Set the operating directory.  This makes \fBnano\fP set up something
+similar to a chroot.
 .TP
 .B \-p (\-\-preserve)
 Preserve the XON and XOFF sequences (^Q and ^S) so they will be caught
 by the terminal.
 .TP
 .B \-q (\-\-quiet)
-Do not report errors in the \fInanorc\fP file nor ask them to be
+Do not report errors in the \fInanorc\fP files nor ask them to be
 acknowledged by pressing Enter at startup.
 .TP
 .B \-r \fInumber\fP (\-\-fill=\fInumber\fP)
