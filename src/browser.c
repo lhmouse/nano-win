@@ -128,35 +128,35 @@ char *do_browser(char *path, DIR *dir)
 
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
-		    int mouse_x, mouse_y;
+	    int mouse_x, mouse_y;
 
-		    /* We can click on the edit window to select a
-		     * filename. */
-		    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == 0 &&
-			wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
-			/* longest is the width of each column.  There
-			 * are two spaces between each column. */
-			selected = (fileline / editwinrows) *
+	    /* We can click on the edit window to select a
+	     * filename. */
+	    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == 0 &&
+		wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+		/* longest is the width of each column.  There
+		 * are two spaces between each column. */
+		selected = (fileline / editwinrows) *
 				(editwinrows * width) + (mouse_y *
 				width) + (mouse_x / (longest + 2));
 
-			/* If they clicked beyond the end of a row,
-			 * select the filename at the end of that
-			 * row. */
-			if (mouse_x > width * (longest + 2))
-			    selected--;
+		/* If they clicked beyond the end of a row,
+		 * select the filename at the end of that
+		 * row. */
+		if (mouse_x > width * (longest + 2))
+		    selected--;
 
-			/* If we're off the screen, select the last
-			 * filename. */
-			if (selected > filelist_len - 1)
-			    selected = filelist_len - 1;
+		/* If we're off the screen, select the last
+		 * filename. */
+		if (selected > filelist_len - 1)
+		    selected = filelist_len - 1;
 
-			/* If we selected the same filename as last
-			 * time, put back the Enter key so that it's
-			 * read in. */
-			if (old_selected == selected)
-			    unget_kbinput(sc_seq_or(do_enter_void, 0), FALSE, FALSE);
-		    }
+		/* If we selected the same filename as last
+		 * time, put back the Enter key so that it's
+		 * read in. */
+		if (old_selected == selected)
+		    unget_kbinput(sc_seq_or(do_enter_void, 0), FALSE, FALSE);
+	    }
 	}
 #endif /* !DISABLE_MOUSE */
 
@@ -169,7 +169,7 @@ char *do_browser(char *path, DIR *dir)
             break;
 
 	if (f->scfunc == total_refresh) {
-		total_redraw();
+	    total_redraw();
 	} else if (f->scfunc == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
@@ -177,37 +177,33 @@ char *do_browser(char *path, DIR *dir)
 #else
 	    nano_disabled_msg();
 #endif
-	    /* Search for a filename. */
 	} else if (f->scfunc == do_search) {
-		curs_set(1);
-		do_filesearch();
-		curs_set(0);
-	    /* Search for another filename. */
+	    /* Search for a filename. */
+	    curs_set(1);
+	    do_filesearch();
+	    curs_set(0);
 	} else if (f->scfunc == do_research) {
-		do_fileresearch();
+	    /* Search for another filename. */
+	    do_fileresearch();
 	} else if (f->scfunc == do_page_up) {
-		if (selected >= (editwinrows + fileline % editwinrows) *
-			width)
-		    selected -= (editwinrows + fileline % editwinrows) *
-			width;
-		else
-		    selected = 0;
+	    if (selected >= (editwinrows + fileline % editwinrows) * width)
+		selected -= (editwinrows + fileline % editwinrows) * width;
+	    else
+		selected = 0;
 	} else if (f->scfunc == do_page_down) {
-		selected += (editwinrows - fileline % editwinrows) *
-			width;
-		if (selected > filelist_len - 1)
-		    selected = filelist_len - 1;
+	    selected += (editwinrows - fileline % editwinrows) * width;
+	    if (selected > filelist_len - 1)
+		selected = filelist_len - 1;
 	} else if (f->scfunc == do_first_file) {
-		if (meta_key)
-		    selected = 0;
+	    if (meta_key)
+		selected = 0;
 	} else if (f->scfunc == do_last_file) {
-		if (meta_key)
-		    selected = filelist_len - 1;
-	    /* Go to a specific directory. */
+	    if (meta_key)
+		selected = filelist_len - 1;
 	} else if (f->scfunc == goto_dir_void) {
-		curs_set(1);
-
-		i = do_prompt(TRUE,
+	    /* Go to a specific directory. */
+	    curs_set(1);
+	    i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
 			FALSE,
 #endif
@@ -219,144 +215,141 @@ char *do_browser(char *path, DIR *dir)
 			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
 
-		curs_set(0);
+	    curs_set(0);
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
-		currmenu = MBROWSER;
+	    currmenu = MBROWSER;
 #endif
-		bottombars(MBROWSER);
+	    bottombars(MBROWSER);
 
-		/* If the directory begins with a newline (i.e. an
-		 * encoded null), treat it as though it's blank. */
-		if (i < 0 || *answer == '\n') {
-		    /* We canceled.  Indicate that on the statusbar, and
-		     * blank out ans, since we're done with it. */
-		    statusbar(_("Cancelled"));
-		    ans = mallocstrcpy(ans, "");
-		    continue;
-		} else if (i != 0) {
-		    /* Put back the "Go to Directory" key and save
-		     * answer in ans, so that the file list is displayed
-		     * again, the prompt is displayed again, and what we
-		     * typed before at the prompt is displayed again. */
-		    unget_kbinput(sc_seq_or(do_gotolinecolumn_void, 0), FALSE, FALSE);
-		    ans = mallocstrcpy(ans, answer);
-		    continue;
-		}
-
-		/* We have a directory.  Blank out ans, since we're done
-		 * with it. */
+	    /* If the directory begins with a newline (i.e. an
+	     * encoded null), treat it as though it's blank. */
+	    if (i < 0 || *answer == '\n') {
+		/* We canceled.  Indicate that on the statusbar, and
+		* blank out ans, since we're done with it. */
+		statusbar(_("Cancelled"));
 		ans = mallocstrcpy(ans, "");
+		continue;
+	    } else if (i != 0) {
+		/* Put back the "Go to Directory" key and save
+		 * answer in ans, so that the file list is displayed
+		 * again, the prompt is displayed again, and what we
+		 * typed before at the prompt is displayed again. */
+		unget_kbinput(sc_seq_or(do_gotolinecolumn_void, 0), FALSE, FALSE);
+		ans = mallocstrcpy(ans, answer);
+		continue;
+	    }
 
-		/* Convert newlines to nulls, just before we go to the
-		 * directory. */
-		sunder(answer);
-		align(&answer);
+	    /* We have a directory.  Blank out ans, since we're done
+	     * with it. */
+	    ans = mallocstrcpy(ans, "");
 
-		new_path = real_dir_from_tilde(answer);
+	    /* Convert newlines to nulls, just before we go to the
+	     * directory. */
+	    sunder(answer);
+	    align(&answer);
 
-		if (new_path[0] != '/') {
-		    new_path = charealloc(new_path, strlen(path) +
-			strlen(answer) + 1);
-		    sprintf(new_path, "%s%s", path, answer);
-		}
+	    new_path = real_dir_from_tilde(answer);
+
+	    if (new_path[0] != '/') {
+		new_path = charealloc(new_path, strlen(path) +
+				strlen(answer) + 1);
+		sprintf(new_path, "%s%s", path, answer);
+	    }
 
 #ifndef DISABLE_OPERATINGDIR
-		if (check_operating_dir(new_path, FALSE)) {
-		    statusbar(
-			_("Can't go outside of %s in restricted mode"),
-			operating_dir);
-		    free(new_path);
-		    continue;
-		}
+	    if (check_operating_dir(new_path, FALSE)) {
+		statusbar(_("Can't go outside of %s in restricted mode"),
+				operating_dir);
+		free(new_path);
+		continue;
+	    }
 #endif
 
-		dir = opendir(new_path);
-		if (dir == NULL) {
-		    /* We can't open this directory for some reason.
-		     * Complain. */
-		    statusbar(_("Error reading %s: %s"), answer,
-			strerror(errno));
-		    beep();
-		    free(new_path);
-		    continue;
-		}
+	    dir = opendir(new_path);
+	    if (dir == NULL) {
+		/* We can't open this directory for some reason.
+		* Complain. */
+		statusbar(_("Error reading %s: %s"), answer,
+				strerror(errno));
+		beep();
+		free(new_path);
+		continue;
+	    }
 
-		/* Start over again with the new path value. */
-		free(path);
-		path = new_path;
-		goto change_browser_directory;
+	    /* Start over again with the new path value. */
+	    free(path);
+	    path = new_path;
+	    goto change_browser_directory;
 	} else if (f->scfunc == do_up_void) {
-		if (selected >= width)
-		    selected -= width;
+	    if (selected >= width)
+		selected -= width;
 	} else if (f->scfunc == do_left) {
-		if (selected > 0)
-		    selected--;
+	    if (selected > 0)
+		selected--;
 	} else if (f->scfunc == do_down_void) {
-		if (selected + width <= filelist_len - 1)
-		    selected += width;
+	    if (selected + width <= filelist_len - 1)
+		selected += width;
 	} else if (f->scfunc == do_right) {
-		if (selected < filelist_len - 1)
-		    selected++;
+	    if (selected < filelist_len - 1)
+		selected++;
 	} else if (f->scfunc == do_enter_void) {
-		/* We can't move up from "/". */
-		if (strcmp(filelist[selected], "/..") == 0) {
-		    statusbar(_("Can't move up a directory"));
-		    beep();
-		    continue;
-		}
+	    /* We can't move up from "/". */
+	    if (strcmp(filelist[selected], "/..") == 0) {
+		statusbar(_("Can't move up a directory"));
+		beep();
+		continue;
+	    }
 
 #ifndef DISABLE_OPERATINGDIR
-		/* Note: The selected file can be outside the operating
-		 * directory if it's ".." or if it's a symlink to a
-		 * directory outside the operating directory. */
-		if (check_operating_dir(filelist[selected], FALSE)) {
-		    statusbar(
-			_("Can't go outside of %s in restricted mode"),
-			operating_dir);
-		    beep();
-		    continue;
-		}
+	    /* Note: The selected file can be outside the operating
+	     * directory if it's ".." or if it's a symlink to a
+	     * directory outside the operating directory. */
+	    if (check_operating_dir(filelist[selected], FALSE)) {
+		statusbar(_("Can't go outside of %s in restricted mode"),
+				operating_dir);
+		beep();
+		continue;
+	    }
 #endif
 
-		if (stat(filelist[selected], &st) == -1) {
-		    /* We can't open this file for some reason.
-		     * Complain. */
-		    statusbar(_("Error reading %s: %s"),
-			filelist[selected], strerror(errno));
-		    beep();
-		    continue;
-		}
+	    if (stat(filelist[selected], &st) == -1) {
+		/* We can't open this file for some reason.
+		 * Complain. */
+		 statusbar(_("Error reading %s: %s"),
+				filelist[selected], strerror(errno));
+		 beep();
+		 continue;
+	    }
 
-		/* If we've successfully opened a file, we're done, so
-		 * get out. */
-		if (!S_ISDIR(st.st_mode)) {
-		    retval = mallocstrcpy(NULL, filelist[selected]);
-		    abort = TRUE;
-		    continue;
+	    /* If we've successfully opened a file, we're done, so
+	     * get out. */
+	    if (!S_ISDIR(st.st_mode)) {
+		retval = mallocstrcpy(NULL, filelist[selected]);
+		abort = TRUE;
+		continue;
 		/* If we've successfully opened a directory, and it's
 		 * "..", save the current directory in prev_dir, so that
-		 * we can select it later. */
-		} else if (strcmp(tail(filelist[selected]), "..") == 0)
-		    prev_dir = mallocstrcpy(NULL,
-			striponedir(filelist[selected]));
+		 * we can easily return to it by hitting Enter. */
+	    } else if (strcmp(tail(filelist[selected]), "..") == 0)
+		prev_dir = mallocstrcpy(NULL, striponedir(filelist[selected]));
 
-		dir = opendir(filelist[selected]);
-		if (dir == NULL) {
-		    /* We can't open this directory for some reason.
-		     * Complain. */
-		    statusbar(_("Error reading %s: %s"),
-			filelist[selected], strerror(errno));
-		    beep();
-		    continue;
-		}
+	    dir = opendir(filelist[selected]);
+	    if (dir == NULL) {
+		/* We can't open this directory for some reason.
+		 * Complain. */
+		statusbar(_("Error reading %s: %s"),
+				filelist[selected], strerror(errno));
+		beep();
+		continue;
+	    }
 
-		path = mallocstrcpy(path, filelist[selected]);
+	    path = mallocstrcpy(path, filelist[selected]);
 
-		/* Start over again with the new path value. */
-		goto change_browser_directory;
-	    /* Abort the file browser. */
+	    /* Start over again with the new path value. */
+	    goto change_browser_directory;
 	} else if (f->scfunc == do_exit) {
-		abort = TRUE;
+	    /* Abort the file browser. */
+	    abort = TRUE;
 	}
     }
     titlebar(NULL);

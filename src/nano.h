@@ -31,8 +31,8 @@
 #ifdef NEED_XOPEN_SOURCE_EXTENDED
 #ifndef _XOPEN_SOURCE_EXTENDED
 #define _XOPEN_SOURCE_EXTENDED 1
-#endif /* _XOPEN_SOURCE_EXTENDED */
-#endif /* NEED_XOPEN_SOURCE_EXTENDED */
+#endif
+#endif
 
 #ifdef __TANDEM
 /* Tandem NonStop Kernel support. */
@@ -440,7 +440,6 @@ typedef struct rcoption {
    long flag;
 	/* The flag associated with it, if any. */
 } rcoption;
-
 #endif
 
 typedef struct sc {
@@ -568,7 +567,7 @@ enum
 #ifndef NANO_TINY
 /* Extra bits for the undo function. */
 #define UNdel_del		(1<<0)
-#define UNdel_backspace	(1<<1)
+#define UNdel_backspace		(1<<1)
 #define UNcut_marked_backwards	(1<<2)
 #define UNcut_cutline		(1<<3)
 #endif /* !NANO_TINY */

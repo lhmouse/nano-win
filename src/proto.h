@@ -79,7 +79,8 @@ extern char *quoteerr;
 #else
 extern size_t quotelen;
 #endif
-#endif
+#endif /* !DISABLE_JUSTIFY */
+
 extern bool nodelay_mode;
 extern char *answer;
 

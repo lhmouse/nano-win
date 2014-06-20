@@ -3386,14 +3386,14 @@ void do_cursorpos_void(void)
 
 void enable_nodelay(void)
 {
-   nodelay_mode = TRUE;
-   nodelay(edit, TRUE);
+    nodelay_mode = TRUE;
+    nodelay(edit, TRUE);
 }
 
 void disable_nodelay(void)
 {
-   nodelay_mode = FALSE;
-   nodelay(edit, FALSE);
+    nodelay_mode = FALSE;
+    nodelay(edit, FALSE);
 }
 
 /* Highlight the current word being replaced or spell checked.  We

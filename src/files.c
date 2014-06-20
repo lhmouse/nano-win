@@ -1278,7 +1278,7 @@ void do_insertfile(
 void do_insertfile_void(void)
 {
     if (ISSET(RESTRICTED)) {
-        nano_disabled_msg();
+	nano_disabled_msg();
 	return;
     }
 
@@ -2410,8 +2410,10 @@ bool do_writeout(bool exiting)
 		/* Complain if the file exists, the name hasn't changed,
 		 * and the stat information we had before does not match
 		 * what we have now. */
-		else if (name_exists && openfile->current_stat && (openfile->current_stat->st_mtime < st.st_mtime ||
-                    openfile->current_stat->st_dev != st.st_dev || openfile->current_stat->st_ino != st.st_ino)) {
+		else if (name_exists && openfile->current_stat &&
+			(openfile->current_stat->st_mtime < st.st_mtime ||
+			openfile->current_stat->st_dev != st.st_dev ||
+			openfile->current_stat->st_ino != st.st_ino)) {
 		    i = do_yesno_prompt(FALSE,
 			_("File was modified since you opened it, continue saving ? "));
 		    if (i == 0 || i == -1)
@@ -2931,7 +2933,7 @@ char *poshistfilename(void)
 
 void history_error(const char *msg, ...)
 {
-   va_list ap;
+    va_list ap;
 
     va_start(ap, msg);
     vfprintf(stderr, _(msg), ap);
@@ -3103,7 +3105,7 @@ void save_poshistory(void)
 	     * history file. */
 	    chmod(poshist, S_IRUSR | S_IWUSR);
 
-            for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
+	    for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
 		statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
 		sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
 			(long)posptr->xno);
@@ -3122,18 +3124,18 @@ void save_poshistory(void)
  * and a column.  If no entry is found, add a new one at the end. */
 void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 {
-   poshiststruct *posptr, *posprev = NULL;
-   char *fullpath = get_full_path(filename);
+    poshiststruct *posptr, *posprev = NULL;
+    char *fullpath = get_full_path(filename);
 
     if (fullpath == NULL)
-        return;
+	return;
 
     for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
-        if (!strcmp(posptr->filename, fullpath)) {
+	if (!strcmp(posptr->filename, fullpath)) {
 	    posptr->lineno = lineno;
 	    posptr->xno = xpos;
-            return;
-        }
+	    return;
+	}
 	posprev = posptr;
     }
 
@@ -3197,15 +3199,15 @@ void load_poshistory(void)
 	    ssize_t read, lineno, xno;
 	    poshiststruct *posptr;
 
-	    /* See if we can find the file we're currently editing. */
+	    /* Read and parse each line, and put the data into the
+	     * positions history structure. */
 	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
 		if (read > 0 && line[read - 1] == '\n') {
 		    read--;
 		    line[read] = '\0';
 		}
-		if (read > 0) {
+		if (read > 0)
 		    unsunder(line, read);
-		}
 		lineptr = parse_next_word(line);
 		xptr = parse_next_word(lineptr);
 		lineno = atoi(lineptr);
@@ -3225,7 +3227,6 @@ void load_poshistory(void)
 		    posptr->next->xno = xno;
 		    posptr->next->next = NULL;
 		}
-
 	    }
 
 	    fclose(hist);
