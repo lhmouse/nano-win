@@ -7,6 +7,8 @@
 	* src/files.c: Fix compilation with --enable-tiny --enable-browser.
 	* doc/man/nano.1, doc/texinfo/nano.texi: History logging no longer
 	depends upon nanorc support, plus many other tweaks.
+	* src/global.c (strtosc): Fix compilation with --enable-tiny
+	--enable-histories --enable-nanorc.
 
 2014-06-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'

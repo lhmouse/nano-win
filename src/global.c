@@ -1325,19 +1325,20 @@ sc *strtosc(char *input)
 	s->scfunc = do_wordlinechar_count;
     else if (!strcasecmp(input, "undo"))
 	s->scfunc = do_undo;
-    else if (!strcasecmp(input, "redo")) {
+    else if (!strcasecmp(input, "redo"))
 	s->scfunc = do_redo;
 #endif
 #ifndef DISABLE_HISTORIES
-    } else if (!strcasecmp(input, "prevhistory")) {
+    else if (!strcasecmp(input, "prevhistory")) {
 	s->scfunc = get_history_older_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "nexthistory")) {
 	s->scfunc = get_history_newer_void;
 	s->execute = FALSE;
+    }
 #endif
 #ifndef NANO_TINY
-    } else if (!strcasecmp(input, "nohelp")) {
+    else if (!strcasecmp(input, "nohelp")) {
 	s->scfunc = do_toggle_void;
 	s->execute = FALSE;
 	s->toggle = NO_HELP;
