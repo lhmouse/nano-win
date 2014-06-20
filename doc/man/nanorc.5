@@ -53,7 +53,7 @@ The supported commands and arguments are:
 .TP 3
 .B set/unset allow_insecure_backup
 When backing up files, allow the backup to succeed even if its permissions
-can't be (re)set due to special OS considerations.  You should 
+can't be (re)set due to special OS considerations.  You should
 NOT enable this option unless you are sure you need it.
 .TP
 .B set/unset autoindent
@@ -219,7 +219,7 @@ Allow \fBnano\fP to be suspended.
 .TP
 .B set tabsize \fIn\fP
 Use a tab size of \fIn\fP columns.  The value of \fIn\fP must be greater
-than 0.  The default value is 8.  
+than 0.  The default value is 8.
 .TP
 .B set/unset tabstospaces
 Convert typed tabs to spaces.
@@ -272,11 +272,11 @@ be compared against the very first line of the file to be edited,
 to determine whether this syntax should be used for that file.
 .TP
 .BR magic " [""\fIregex\fR"" ...]
-For the currently defined syntax, add one or more regexes which 
+For the currently defined syntax, add one or more regexes which
 will be compared against the result of querying the \fBmagic\fP
 database about the file to be edited, to determine whether this
 syntax should be used for that file.  This
-functionality only works when \fBlibmagic\fP is installed on the 
+functionality only works when \fBlibmagic\fP is installed on the
 system and will be silently ignored otherwise.
 .TP
 .B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
@@ -322,25 +322,24 @@ Key bindings may be reassigned via the following commands:
 .TP
 .BI bind " key function menu"
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
-context of menu \fImenu\fP (or in all menus where the function exists
-by using \fBall\fP).
+context of menu \fImenu\fP (or in all menus by using \fBall\fP).
 .TP
 .BI unbind " key menu"
-Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all 
+Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all
 menus where it exists by using \fBall\fP).
 
 .TP
 The format of \fIkey\fP should be one of:
 .TP
-.B ^ 
+.B ^
 followed by an alpha character or the word "Space".
 Example: ^C
 .TP
-.B M- 
+.B M-
 followed by a printable character or the word "Space".
 Example: M-C
 .TP
-.B F 
+.B F
 followed by a numeric value from 1 to 16.
 Example: F10
 .TP
@@ -644,7 +643,9 @@ The 'search for a file' menu in the file browser.
 The 'go to directory' menu in the file browser.
 .TP
 .B all
-A special name meaning: apply to all menus where this function exists.
+A special name that encompasses all menus.  For rebinding keys, it really
+means all menus (which may have unobvious effects, so use it carefully);
+for unbinding keys, it just means all the menus where the key exists.
 
 .SH FILES
 .TP

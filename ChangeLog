@@ -13,6 +13,8 @@
 	* src/files.c (do_insertfile): Fix compilation with --enable-tiny
 	--enable-histories --enable-multibuffer.
 	* src/nano.c: Fix compilation with --enable-tiny --enable-mouse.
+	* doc/man/nanorc.5, doc/texinfo/nano.texi: Explain better what "all"
+	means when rebinding keys.  This is a fix for Savannah bug #42552.
 
 2014-06-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'

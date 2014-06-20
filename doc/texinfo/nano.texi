@@ -843,10 +843,10 @@ nanorc file:
 
 @item bind key function menu
 Rebinds @code{key} to @code{function} in the context of @code{menu}
-(or in all menus where the function exists by using @code{all}).
+(or in all menus by using @code{all}).
 
 @item unbind key menu
-Unbinds @code{key} from the specified @code{menu}
+Unbinds @code{key} from @code{menu}
 (or from all menus where it exists by using @code{all}).
 
 @end table
@@ -1171,7 +1171,9 @@ The 'search for a file' menu in the file browser.
 The 'go to directory' menu in the file browser.
 
 @item all
-A special name meaning: apply to all menus where this function exists.
+A special name that encompasses all menus.  For rebinding keys, it really
+means all menus (which may have unobvious effects, so use it carefully);
+for unbinding keys, it just means all the menus where the key exists.
 @end table
 
 
@@ -1282,7 +1284,9 @@ things about using the editor.
 @item --disable-histories
 Disable the code for the handling of the history files: the search and
 replace strings that were used, and the cursor position at which each
-file was closed.
+file was closed.  This also eliminates the -H and -P command-line
+options, which switch on the logging of search/replace strings and
+cursor positions.
 
 @item --disable-justify
 Disable the justify and unjustify functions.
