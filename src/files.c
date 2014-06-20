@@ -2952,12 +2952,15 @@ int check_dotnano(void)
 
     if (stat(nanodir, &dirstat) == -1) {
 	if (mkdir(nanodir, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
-	    history_error(N_("Unable to create directory %s: %s\nIt is required for saving/loading search history or cursor position\n"),
-		nanodir, strerror(errno));
+	    history_error(N_("Unable to create directory %s: %s\n"
+			     "It is required for saving/loading search history or cursor positions.\n"),
+				nanodir, strerror(errno));
 	    return 0;
 	}
     } else if (!S_ISDIR(dirstat.st_mode)) {
-	history_error(N_("Path %s is not a directory and needs to be.\nNano will be unable to load or save search or cursor position history\n"));
+	history_error(N_("Path %s is not a directory and needs to be.\n"
+			 "Nano will be unable to load or save search history or cursor positions.\n"),
+				nanodir);
 	return 0;
     }
     return 1;
