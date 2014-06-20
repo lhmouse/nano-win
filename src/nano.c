@@ -1786,8 +1786,6 @@ int do_mouse(void)
 		openfile->current_y = i;
 		i += strlenpt(openfile->current->data) / COLS;
 	    }
-#endif
-
 #ifdef DEBUG
 	    fprintf(stderr, "do_mouse(): moving to current_y = %ld, index i = %lu\n",
 			(long)openfile->current_y, (unsigned long)i);
@@ -1808,7 +1806,9 @@ int do_mouse(void)
 			mouse_x, (unsigned long)openfile->current_x);
 #endif
 	    }
-	} else {
+	} else
+#endif /* NANO_TINY */
+	{
 	    /* Move to where the click occurred. */
 	    for (; openfile->current_y < mouse_y && openfile->current !=
 		   openfile->filebot; openfile->current_y++)
