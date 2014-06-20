@@ -10,6 +10,8 @@
 	* src/global.c (strtosc): Fix compilation with --enable-tiny
 	--enable-histories --enable-nanorc.
 	* src/text.c: Fix compilation with --enable-tiny --enable-wrapping.
+	* src/files.c (do_insertfile): Fix compilation with --enable-tiny
+	--enable-histories --enable-multibuffer.
 
 2014-06-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'

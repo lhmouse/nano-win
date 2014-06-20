@@ -1191,8 +1191,11 @@ void do_insertfile(
 		display_buffer();
 
 		ssize_t savedposline, savedposcol;
-		if (!execute && ISSET(POS_HISTORY)
-			&& check_poshistory(answer, &savedposline, &savedposcol))
+		if (ISSET(POS_HISTORY) &&
+#ifndef NANO_TINY
+			!execute &&
+#endif
+			check_poshistory(answer, &savedposline, &savedposcol))
 		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
 	    } else
 #endif
