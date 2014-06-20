@@ -342,14 +342,24 @@ void save_poshistory(void);
 void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
 int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 #endif
+
+/* Some functions in global.c. */
+size_t length_of_list(int menu);
+key_type strtokeytype(const char *str);
+const sc *first_sc_for(int menu, void (*func)(void));
+int sc_seq_or(void (*func)(void), int defaultval);
+void assign_keyinfo(sc *s);
+void print_sclist(void);
+void shortcut_init(void);
 #ifndef DISABLE_COLOR
 void set_lint_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
-
-/* Some functions in global.c. */
-size_t length_of_list(int menu);
-void shortcut_init(void);
+const subnfunc *sctofunc(sc *s);
+const subnfunc *getfuncfromkey(WINDOW *win);
+const char *flagtostr(int flag);
+sc *strtosc(char *input);
+int strtomenu(char *input);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif
@@ -765,7 +775,6 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
 const sc *get_shortcut(int menu, int *kbinput, bool *meta_key);
-const sc *first_sc_for(int menu, void (*func)(void));
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);
@@ -796,27 +805,11 @@ void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
 void do_replace_highlight(bool highlight, const char *word);
-const char *flagtostr(int flag);
-const subnfunc *sctofunc(sc *s);
-const subnfunc *getfuncfromkey(WINDOW *win);
-void print_sclist(void);
-sc *strtosc(char *input);
-key_type strtokeytype(const char *str);
-int strtomenu(char *input);
-void assign_keyinfo(sc *s);
 void xon_complaint(void);
 void xoff_complaint(void);
-int sc_seq_or (void (*func)(void), int defaultval);
 void do_suspend_void(void);
-
-
 void enable_nodelay(void);
 void disable_nodelay(void);
-
-#ifdef HAVE_REGEX_H
-extern const char *regexp_msg;
-#endif
-
 #ifndef DISABLE_EXTRA
 void do_credits(void);
 #endif
