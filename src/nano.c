@@ -2102,10 +2102,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
     int optchr;
-    ssize_t startline = 1;
-	/* Line to try and start at. */
-    ssize_t startcol = 1;
-	/* Column to try and start at. */
+    ssize_t startline = 0, startcol = 0;
+	/* Target line and column when specified on the command line. */
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_used = FALSE;
 	/* Was the fill option used? */
@@ -2716,7 +2714,7 @@ int main(int argc, char **argv)
      * new buffers. */
     {
 	int i = optind + 1;
-	ssize_t iline = 1, icol = 1;
+	ssize_t iline = 0, icol = 0;
 
 	for (; i < argc; i++) {
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is
@@ -2728,7 +2726,7 @@ int main(int argc, char **argv)
 	    else {
 		open_buffer(argv[i], FALSE);
 
-		if (iline > 1 || icol > 1) {
+		if (iline > 0 || icol > 0) {
 		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE,
 			FALSE);
 		    iline = 1;
@@ -2778,7 +2776,7 @@ int main(int argc, char **argv)
 	    precalc_multicolorinfo();
 #endif
 
-    if (startline > 1 || startcol > 1)
+    if (startline > 0 || startcol > 0)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
 		FALSE);
 #ifndef DISABLE_HISTORIES

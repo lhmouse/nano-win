@@ -15,6 +15,8 @@
 	* src/nano.c: Fix compilation with --enable-tiny --enable-mouse.
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Explain better what "all"
 	means when rebinding keys.  This is a fix for Savannah bug #42552.
+	* src/nano.c (main): Make +1 and +,1 start on line one column one,
+	overriding a historical position.  This fixes Savannah bug #42538.
 
 2014-06-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (window_init): Rename 'no_more_space()' to 'more_space()'
