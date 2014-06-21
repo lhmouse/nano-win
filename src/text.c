@@ -396,7 +396,7 @@ void undo_cut(undo *u)
     free_filestruct(cutbuffer);
     cutbuffer = NULL;
 
-    if (u->xflags == UNcut_cutline || u->xflags == UNcut_marked_backwards)
+    if (u->xflags == UNcut_cutline || u->xflags == UNcut_marked_backwards || u->type == CUT_EOF)
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 }
 
@@ -937,6 +937,8 @@ void add_undo(undo_type current_action)
 	u->strdata = data;
 	break;
     case CUT_EOF:
+	cutbuffer_reset();
+	break;
     case CUT:
 	cutbuffer_reset();
 	u->mark_set = openfile->mark_set;
@@ -944,7 +946,7 @@ void add_undo(undo_type current_action)
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;
 	    u->mark_begin_x = openfile->mark_begin_x;
 	}
-	else if (!ISSET(CUT_TO_END) && u->type != CUT_EOF) {
+	else if (!ISSET(CUT_TO_END)) {
 	    /* The entire line is being cut regardless of the cursor position. */
 	    u->begin = 0;
 	    u->xflags = UNcut_cutline;
