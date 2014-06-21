@@ -1,6 +1,8 @@
 2014-06-21  Mark Majeres  <mark@engine12.com>
 	* src/text.c (undo_cut, add_undo): When undoing a cut-till-eof,
 	put the cursor back where the cut started, and not at the end.
+	* src/text.c (do_undo): When undoing a line break at the tail
+	of the file, make sure openfile->filebot is updated.
 
 2014-06-21  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/move.c, src/nano.c: Miscellaneous whitespace fixes, one

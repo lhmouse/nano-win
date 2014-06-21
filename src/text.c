@@ -518,6 +518,8 @@ void do_undo(void)
 	    filestruct *foo = f->next;
 	    f->data = charealloc(f->data, strlen(f->data) + strlen(&f->next->data[u->mark_begin_x]) + 1);
 	    strcat(f->data, &f->next->data[u->mark_begin_x]);
+	    if (foo == openfile->filebot)
+		openfile->filebot = f;
 	    unlink_node(foo);
 	    delete_node(foo);
 	}
