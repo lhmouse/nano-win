@@ -78,13 +78,15 @@ void do_page_up(void)
     for (i = editwinrows - 2; i - skipped > 0 && openfile->current !=
 	openfile->fileage; i--) {
 	openfile->current = openfile->current->prev;
+#ifndef NANO_TINY
 	if (ISSET(SOFTWRAP) && openfile->current) {
 	    skipped += strlenpt(openfile->current->data) / COLS;
 #ifdef DEBUG
-    fprintf(stderr, "do_page_up: i = %d, skipped = %d based on line %lu len %d\n",
-	i, skipped, (unsigned long) openfile->current->lineno, strlenpt(openfile->current->data));
+	    fprintf(stderr, "do_page_up: i = %d, skipped = %d based on line %ld len %lu\n",
+			i, skipped, (long)openfile->current->lineno, (unsigned long)strlenpt(openfile->current->data));
 #endif
 	}
+#endif
     }
 
     openfile->current_x = actual_x(openfile->current->data,
@@ -92,7 +94,7 @@ void do_page_up(void)
 
 #ifdef DEBUG
     fprintf(stderr, "do_page_up: openfile->current->lineno = %lu, skipped = %d\n",
-	(unsigned long) openfile->current->lineno, skipped);
+	(unsigned long)openfile->current->lineno, skipped);
 #endif
 
     /* Scroll the edit window up a page. */
@@ -128,7 +130,7 @@ void do_page_down(void)
 	openfile->filebot; i--) {
 	openfile->current = openfile->current->next;
 #ifdef DEBUG
-    fprintf(stderr, "do_page_down: moving to line %lu\n", (unsigned long) openfile->current->lineno);
+	fprintf(stderr, "do_page_down: moving to line %lu\n", (unsigned long)openfile->current->lineno);
 #endif
 
     }

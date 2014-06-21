@@ -1,3 +1,7 @@
+2014-06-21  David Lawrence Ramsey  <pooka109@gmail.com>
+	* src/move.c, src/nano.c: Miscellaneous whitespace fixes, one
+	type fix, and one more #ifdef NANO_TINY.
+
 2014-06-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/proto.h, src/global.c: Remove two obsolete variables and an
 	unneeded extern, and regroup some stuff.

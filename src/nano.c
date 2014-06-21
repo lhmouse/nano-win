@@ -2081,7 +2081,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     /* Well, we might also need a full refresh if we've changed the
      * line length to be a new multiple of COLS. */
     if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
-	if (strlenpt(openfile->current->data) / COLS  != orig_lenpt / COLS)
+	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
 	    edit_refresh_needed = TRUE;
 #endif
 
