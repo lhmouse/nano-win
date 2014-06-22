@@ -532,15 +532,10 @@ void browser_init(const char *path, DIR *dir)
 	width = longest;
 }
 
-/* Determine the shortcut key corresponding to the values of kbinput
- * (the key itself) and meta_key (whether the key is a meta sequence).
- * Also convert certain non-shortcut keys into their corresponding
- * shortcut keys. */
+/* Convert certain non-shortcut keys into their corresponding shortcut
+ * sequences, for compatibility with Pico. */
 void parse_browser_input(int *kbinput, bool *meta_key)
 {
-    get_shortcut(MBROWSER, kbinput, meta_key);
-
-    /* Pico compatibility. */
     if (!*meta_key) {
 	switch (*kbinput) {
 	    case ' ':

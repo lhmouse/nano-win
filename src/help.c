@@ -479,14 +479,10 @@ void help_init(void)
     assert(strlen(help_text) <= allocsize + 1);
 }
 
-/* Determine the shortcut key corresponding to the values of kbinput
- * (the key itself) and meta_key (whether the key is a meta sequence).
- * Also convert certain non-shortcut keys into their corresponding
- * shortcut keys. */
+/* Convert certain non-shortcut keys into their corresponding shortcut
+ * sequences. */
 void parse_help_input(int *kbinput, bool *meta_key)
 {
-    get_shortcut(MHELP, kbinput, meta_key);
-
     if (!*meta_key) {
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
