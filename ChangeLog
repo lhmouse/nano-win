@@ -3,6 +3,8 @@
 	Remove two pointless calls of get_shortcut(), and adjust the comments.
 	* src/nano.c (do_toggle): When toggling softwrap, only the edit window
 	needs to be refreshed, not the entire screen.
+	* src/browser.c (do_browser): Remove superfluous abortion variable,
+	and place two comments better.
 
 2014-06-22  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_redo): When redoing a line join at the tail

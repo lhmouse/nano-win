@@ -51,8 +51,6 @@ char *do_browser(char *path, DIR *dir)
     char *retval = NULL;
     int kbinput;
     bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
-    bool abort = FALSE;
-	/* Whether we should abort the file browser. */
     char *prev_dir = NULL;
 	/* The directory we were in, if any, before backing up via
 	 * browsing to "..". */
@@ -108,7 +106,7 @@ char *do_browser(char *path, DIR *dir)
 
     titlebar(path);
 
-    while (!abort) {
+    while (TRUE) {
 	struct stat st;
 	int i;
 	size_t fileline = selected / width;
@@ -321,16 +319,15 @@ char *do_browser(char *path, DIR *dir)
 		 continue;
 	    }
 
-	    /* If we've successfully opened a file, we're done, so
-	     * get out. */
 	    if (!S_ISDIR(st.st_mode)) {
+		/* We've successfully opened a file, we're done, so
+		 * get out. */
 		retval = mallocstrcpy(NULL, filelist[selected]);
-		abort = TRUE;
-		continue;
-		/* If we've successfully opened a directory, and it's
-		 * "..", save the current directory in prev_dir, so that
-		 * we can easily return to it by hitting Enter. */
+		break;
 	    } else if (strcmp(tail(filelist[selected]), "..") == 0)
+		/* We've successfully opened the parent directory,
+		 * save the current directory in prev_dir, so that
+		 * we can easily return to it by hitting Enter. */
 		prev_dir = mallocstrcpy(NULL, striponedir(filelist[selected]));
 
 	    dir = opendir(filelist[selected]);
@@ -348,8 +345,8 @@ char *do_browser(char *path, DIR *dir)
 	    /* Start over again with the new path value. */
 	    goto change_browser_directory;
 	} else if (f->scfunc == do_exit) {
-	    /* Abort the file browser. */
-	    abort = TRUE;
+	    /* Exit from the file browser. */
+	    break;
 	}
     }
     titlebar(NULL);
