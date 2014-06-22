@@ -5,6 +5,7 @@
 	needs to be refreshed, not the entire screen.
 	* src/browser.c (do_browser): Remove superfluous abortion variable,
 	and place two comments better.
+	* src/text.c (do_redo): Rename 'undidmsg' to 'redidmsg', to be apt.
 
 2014-06-22  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_redo): When redoing a line join at the tail

@@ -555,7 +555,7 @@ void do_redo(void)
 {
     undo *u = openfile->undotop;
     size_t len = 0;
-    char *undidmsg, *data;
+    char *redidmsg, *data;
 
     for (; u != NULL && u->next != openfile->current_undo; u = u->next)
 	;
@@ -580,7 +580,7 @@ void do_redo(void)
 
     switch (u->type) {
     case ADD:
-	undidmsg = _("text add");
+	redidmsg = _("text add");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
         data = charalloc(len);
 	strncpy(data, f->data, u->begin);
@@ -592,7 +592,7 @@ void do_redo(void)
 	break;
     case BACK:
     case DEL:
-	undidmsg = _("text delete");
+	redidmsg = _("text delete");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	data = charalloc(len);
         strncpy(data, f->data, u->begin);
@@ -603,13 +603,13 @@ void do_redo(void)
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case ENTER:
-	undidmsg = _("line break");
+	redidmsg = _("line break");
 	goto_line_posx(u->lineno, u->begin);
 	do_enter(TRUE);
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
-	undidmsg = _("line wrap");
+	redidmsg = _("line wrap");
 	goto_line_posx(u->lineno, u->begin);
 	openfile->current_undo = u;
 	openfile->last_action = OTHER;
@@ -620,7 +620,7 @@ void do_redo(void)
 	break;
 #endif /* !DISABLE_WRAPPING */
     case JOIN:
-	undidmsg = _("line join");
+	redidmsg = _("line join");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	f->data = charealloc(f->data, len);
 	strcat(f->data, u->strdata);
@@ -636,31 +636,31 @@ void do_redo(void)
 	break;
     case CUT_EOF:
     case CUT:
-	undidmsg = _("text cut");
+	redidmsg = _("text cut");
 	redo_cut(u);
 	break;
     case PASTE:
-	undidmsg = _("text uncut");
+	redidmsg = _("text uncut");
 	redo_paste(u);
 	break;
     case REPLACE:
-	undidmsg = _("text replace");
+	redidmsg = _("text replace");
 	data = u->strdata;
 	u->strdata = f->data;
 	f->data = data;
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case INSERT:
-	undidmsg = _("text insert");
+	redidmsg = _("text insert");
 	goto_line_posx(u->lineno, u->begin);
 	copy_from_filestruct(u->cutbuffer);
 	break;
     default:
-	undidmsg = _("Internal error: unknown type.  Please save your work.");
+	redidmsg = _("Internal error: unknown type.  Please save your work.");
 	break;
     }
 
-    statusbar(_("Redid action (%s)"), undidmsg);
+    statusbar(_("Redid action (%s)"), redidmsg);
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
