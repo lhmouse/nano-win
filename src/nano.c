@@ -1453,11 +1453,9 @@ void do_toggle(int flag)
 #endif
 #ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
-	    edit_refresh();
-	    break;
 #endif
 	case SOFTWRAP:
-	    total_refresh();
+	    edit_refresh();
 	    break;
     }
 

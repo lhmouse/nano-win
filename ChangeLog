@@ -1,6 +1,8 @@
 2014-06-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (parse_browser_input), src/help.c (parse_help_input):
 	Remove two pointless calls of get_shortcut(), and adjust the comments.
+	* src/nano.c (do_toggle): When toggling softwrap, only the edit window
+	needs to be refreshed, not the entire screen.
 
 2014-06-22  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_redo): When redoing a line join at the tail
