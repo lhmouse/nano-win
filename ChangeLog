@@ -1,6 +1,9 @@
 2014-06-22  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_redo): When redoing a line join at the tail
         of the file, make sure openfile->filebot is updated.
+	* src/text.c (undo_cut, redo_cut, do_undo, add_undo, update_undo):
+	Fix three leaks of the cutbuffer, shorten and regroup some stuff,
+	and remove an unneeded iteration of cutbottom.
 
 2014-06-21  Mark Majeres  <mark@engine12.com>
 	* src/text.c (undo_cut, add_undo): When undoing a cut-till-eof,

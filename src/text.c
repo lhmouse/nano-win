@@ -380,21 +380,13 @@ void undo_cut(undo *u)
     if (!u->cutbuffer)
 	return;
 
-    cutbuffer = copy_filestruct(u->cutbuffer);
-
-    /* Compute cutbottom for the uncut using our copy. */
-    for (cutbottom = cutbuffer; cutbottom->next != NULL; cutbottom = cutbottom->next)
-	;
-
     /* Get to where we need to uncut from. */
     if (u->xflags == UNcut_cutline)
 	goto_line_posx(u->mark_begin_lineno, 0);
     else
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 
-    copy_from_filestruct(cutbuffer);
-    free_filestruct(cutbuffer);
-    cutbuffer = NULL;
+    copy_from_filestruct(u->cutbuffer);
 
     if (u->xflags == UNcut_cutline || u->xflags == UNcut_marked_backwards || u->type == CUT_EOF)
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -414,18 +406,12 @@ void redo_cut(undo *u)
 	openfile->placewewant = xplustabs();
     }
 
-    openfile->mark_set = u->mark_set;
-    if (cutbuffer)
-	free(cutbuffer);
-    cutbuffer = NULL;
-
+    openfile->mark_set = ISSET(CUT_TO_END) ? u->mark_set : TRUE;
     openfile->mark_begin = fsfromline(u->mark_begin_lineno);
-
-    if (!ISSET(CUT_TO_END))
-	openfile->mark_set = TRUE;
-
     openfile->mark_begin_x = (u->xflags == UNcut_cutline) ? 0 : u->mark_begin_x;
+
     do_cut_text(FALSE, u->type == CUT_EOF, TRUE);
+
     openfile->mark_set = FALSE;
     openfile->mark_begin = NULL;
     openfile->mark_begin_x = 0;
@@ -439,7 +425,6 @@ void do_undo(void)
     filestruct *t = 0;
     size_t len = 0;
     char *undidmsg, *data;
-    filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
 
     if (!u) {
 	statusbar(_("Nothing in undo buffer!"));
@@ -527,6 +512,7 @@ void do_undo(void)
 	break;
     case INSERT:
 	undidmsg = _("text insert");
+	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
 	cutbuffer = NULL;
 	cutbottom = NULL;
 	/* When we updated mark_begin_lineno in update_undo, it was effectively
@@ -961,7 +947,7 @@ void add_undo(undo_type current_action)
 	    statusbar(_("Internal error: cannot set up uncut.  Please save your work."));
 	else {
 	    if (u->cutbuffer)
-		free(u->cutbuffer);
+		free_filestruct(u->cutbuffer);
 	    u->cutbuffer = copy_filestruct(cutbuffer);
 	    u->mark_begin_lineno = fs->current->lineno;
 	    u->mark_begin_x = fs->current_x;
@@ -1058,7 +1044,7 @@ void update_undo(undo_type action)
 	if (!cutbuffer)
 	    break;
 	if (u->cutbuffer)
-	    free(u->cutbuffer);
+	    free_filestruct(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
 	if (u->mark_set) {
 	    /* If the "marking" operation was from right-->left or
