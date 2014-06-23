@@ -9,6 +9,7 @@
 	functions 'tofiles','gotodir' and 'flipnewbuffer', and correct
 	the description of 'gototext' (not being about the file browser).
 	* doc/syntax/nanorc.nanorc: Show Ins and Del as valid rebindable keys.
+	* src/help.c (do_help): Normalize the indentation.
 
 2014-06-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (parse_browser_input), src/help.c (parse_help_input):

@@ -127,9 +127,9 @@ void do_help(void (*refresh_func)(void))
 
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
-		int mouse_x, mouse_y;
-		get_mouseinput(&mouse_x, &mouse_y, TRUE);
-		continue;    /* Redraw the screen. */
+	    int mouse_x, mouse_y;
+	    get_mouseinput(&mouse_x, &mouse_y, TRUE);
+	    continue;    /* Redraw the screen. */
 	}
 #endif
 
@@ -142,31 +142,31 @@ void do_help(void (*refresh_func)(void))
 	    continue;
 
 	if (f->scfunc == total_refresh) {
-		total_redraw();
+	    total_redraw();
 	} else if (f->scfunc == do_page_up) {
-		if (line > editwinrows - 2)
-		    line -= editwinrows - 2;
-		else
-		    line = 0;
+	    if (line > editwinrows - 2)
+		line -= editwinrows - 2;
+	    else
+		line = 0;
 	} else if (f->scfunc == do_page_down) {
-		if (line + (editwinrows - 1) < last_line)
-		    line += editwinrows - 2;
+	    if (line + (editwinrows - 1) < last_line)
+		line += editwinrows - 2;
 	} else if (f->scfunc == do_up_void) {
-		if (line > 0)
-		    line--;
+	    if (line > 0)
+		line--;
 	} else if (f->scfunc == do_down_void) {
-		if (line + (editwinrows - 1) < last_line)
-		    line++;
+	    if (line + (editwinrows - 1) < last_line)
+		line++;
 	} else if (f->scfunc == do_first_line) {
-		if (meta_key)
-		    line = 0;
+	    if (meta_key)
+		line = 0;
 	} else if (f->scfunc == do_last_line) {
-		if (meta_key) {
-		    if (line + (editwinrows - 1) < last_line)
-			line = last_line - (editwinrows - 1);
-		}
+	    if (meta_key) {
+		if (line + (editwinrows - 1) < last_line)
+		    line = last_line - (editwinrows - 1);
+	    }
 	} else if (f->scfunc == do_exit) {
-	    /* Abort the help browser. */
+	    /* Exit from the help browser. */
 	    break;
 	}
     }
