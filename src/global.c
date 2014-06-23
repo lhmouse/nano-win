@@ -1480,12 +1480,6 @@ sc *strtosc(char *input)
     } else if (!strcasecmp(input, "gototext")) {
 	s->scfunc = gototext_void;
 	s->execute = FALSE;
-#ifndef DISABLE_BROWSER
-    } else if (!strcasecmp(input, "browser") ||
-	       !strcasecmp(input, "tofiles")) {
-	s->scfunc = to_files_void;
-	s->execute = FALSE;
-#endif
     } else if (!strcasecmp(input, "dosformat")) {
 	s->scfunc = dos_format_void;
 	s->execute = FALSE;
@@ -1507,11 +1501,19 @@ sc *strtosc(char *input)
 	s->execute = FALSE;
 #endif
 #ifndef DISABLE_MULTIBUFFER
-    } else if (!strcasecmp(input, "newbuffer")) {
+    } else if (!strcasecmp(input, "flipnewbuffer") ||
+	       !strcasecmp(input, "newbuffer")) {
 	s->scfunc = new_buffer_void;
 	s->execute = FALSE;
 #endif
 #ifndef DISABLE_BROWSER
+    } else if (!strcasecmp(input, "tofiles") ||
+	       !strcasecmp(input, "browser")) {
+	s->scfunc = to_files_void;
+	s->execute = FALSE;
+    } else if (!strcasecmp(input, "gotodir")) {
+	s->scfunc = goto_dir_void;
+	s->execute = FALSE;
     } else if (!strcasecmp(input, "firstfile")) {
 	s->scfunc = do_first_file;
 	s->execute = FALSE;

@@ -364,7 +364,8 @@ Inserts a file into the current buffer (or into a new buffer when multibuffer
 is enabled).
 .TP
 .B whereis
-Searches for text in the current buffer.
+Searches for text in the current buffer -- or for filenames matching
+a string in the current list in the file browser.
 .TP
 .B searchagain
 Repeats the last search command.
@@ -461,6 +462,9 @@ Goes to the last line of the file.
 .B gotoline
 Goes to a specific line (and column if specified).
 .TP
+.B gototext
+Switches from targetting a line number to searching for text.
+.TP
 .B findbracket
 Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 (pairs) with the one under the cursor.
@@ -520,8 +524,16 @@ Toggles between searching for something and replacing something.
 .B flipexecute
 Toggles between inserting a file and executing a command.
 .TP
-.B gototext
-Searches for files matching a string in the file browser (reading or writing files).
+.B flipnewbuffer
+Toggles between inserting into the current buffer and into a new
+empty buffer.
+.TP
+.B tofiles
+Starts the file browser, allowing to select a file from a list.
+.TP
+.B gotodir
+Goes to a directory to be specified, allowing to browse anywhere
+in the filesystem.
 .TP
 .B dosformat
 When writing a file, switches to writing a DOS format (CR/LF).
