@@ -1080,6 +1080,8 @@ void do_insertfile(
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
+		else
+		    beep();
 		continue;
 	    }
 #endif

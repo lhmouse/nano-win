@@ -10,6 +10,8 @@
 	the description of 'gototext' (not being about the file browser).
 	* doc/syntax/nanorc.nanorc: Show Ins and Del as valid rebindable keys.
 	* src/help.c (do_help): Normalize the indentation.
+	* src/files.c (do_insertfile): Give audible feedback when flipping
+	the new buffer to off is not allowed in view mode.
 
 2014-06-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (parse_browser_input), src/help.c (parse_help_input):
