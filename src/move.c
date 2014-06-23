@@ -523,7 +523,7 @@ void do_up(
 	|| (ISSET(SOFTWRAP) && openfile->edittop->lineno == openfile->current->next->lineno) || scroll_only
 #endif
 	)
-	edit_scroll(UP_DIR,
+	edit_scroll(UPWARD,
 #ifndef NANO_TINY
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
 #endif
@@ -616,7 +616,7 @@ void do_down(
 	if (amount < 1 || scroll_only)
 	    amount = 1;
 #endif
-	edit_scroll(DOWN_DIR,
+	edit_scroll(DOWNWARD,
 #ifndef NANO_TINY
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? amount :
 #endif

@@ -1,3 +1,7 @@
+2014-06-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.h, src/move.c (do_up, do_down), src/winio.c (edit_scrol):
+	Rename UP_DIR and DOWN_DIR to UPWARD and DOWNWARD, for clarity.
+
 2014-06-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (parse_browser_input), src/help.c (parse_help_input):
 	Remove two pointless calls of get_shortcut(), and adjust the comments.
