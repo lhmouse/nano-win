@@ -249,7 +249,7 @@ int search_init(bool replacing, bool use_answer)
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
-	} else if (func == do_replace || func == no_replace_void) {
+	} else if (func == do_replace || func == flip_replace_void) {
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
 	} else if (func == do_gotolinecolumn_void) {

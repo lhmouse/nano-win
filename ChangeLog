@@ -1,6 +1,9 @@
 2014-06-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h, src/move.c (do_up, do_down), src/winio.c (edit_scrol):
 	Rename UP_DIR and DOWN_DIR to UPWARD and DOWNWARD, for clarity.
+	* src/proto.h, src/global.c, src/search.c: Rename 'no_replace_void()'
+	to 'flip_replace_void()', to show what it actually does.
+	* doc/man/nanorc.5, doc/texinfo/nano.texi: Update the docs for that.
 
 2014-06-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (parse_browser_input), src/help.c (parse_help_input):

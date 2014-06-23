@@ -267,7 +267,7 @@ void backup_file_void(void)
 void new_buffer_void(void)
 {
 }
-void no_replace_void(void)
+void flip_replace_void(void)
 {
 }
 void flip_execute_void(void)
@@ -741,10 +741,10 @@ void shortcut_init(void)
 	N_("Backwards"), IFSCHELP(nano_reverse_msg), FALSE, VIEW);
 #endif
 
-    add_to_funcs(do_replace, MWHEREIS,
+    add_to_funcs(flip_replace_void, MWHEREIS,
 	replace_tag, IFSCHELP(nano_replace_msg), FALSE, VIEW);
 
-    add_to_funcs(no_replace_void, MREPLACE,
+    add_to_funcs(flip_replace_void, MREPLACE,
 	N_("No Replace"), IFSCHELP(nano_whereis_msg), FALSE, VIEW);
 
 #ifndef DISABLE_JUSTIFY
@@ -1115,8 +1115,7 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE, "M-C", case_sens_void, 0, FALSE);
 #endif
     add_to_sclist(MWHEREIS|MREPLACE, "M-R", regexp_void, 0, FALSE);
-    add_to_sclist(MWHEREIS, "^R", do_replace, 0, FALSE);
-    add_to_sclist(MREPLACE, "^R", no_replace_void, 0, FALSE);
+    add_to_sclist(MWHEREIS|MREPLACE, "^R", flip_replace_void, 0, FALSE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", do_first_line, 0, TRUE);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^V", do_last_line, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
@@ -1474,8 +1473,9 @@ sc *strtosc(char *input)
 	s->scfunc = backwards_void;
 	s->execute = FALSE;
 #endif
-    } else if (!strcasecmp(input, "dontreplace")) {
-	s->scfunc = no_replace_void;
+    } else if (!strcasecmp(input, "flipreplace") ||
+	       !strcasecmp(input, "dontreplace")) {
+	s->scfunc = flip_replace_void;
 	s->execute = FALSE;
     } else if (!strcasecmp(input, "gototext")) {
 	s->scfunc = gototext_void;

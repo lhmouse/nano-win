@@ -1040,8 +1040,8 @@ Shows the previous history entry in the prompt menus (e.g. search).
 @item nexthistory
 Shows the next history entry in the prompt menus (e.g. search).
 
-@item dontreplace
-Switches back to searching instead of replacing.
+@item flipreplace
+Toggles between searching for something and replacing something.
 
 @item flipexecute
 Toggles between inserting a file and executing a command.

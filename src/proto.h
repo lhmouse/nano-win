@@ -831,7 +831,7 @@ void backup_file_void(void);
 void new_buffer_void(void);
 void backwards_void(void);
 void goto_dir_void(void);
-void no_replace_void(void);
+void flip_replace_void(void);
 void flip_execute_void(void);
 
 #endif /* !PROTO_H */
