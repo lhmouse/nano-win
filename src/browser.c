@@ -193,11 +193,9 @@ char *do_browser(char *path, DIR *dir)
 	    if (selected > filelist_len - 1)
 		selected = filelist_len - 1;
 	} else if (f->scfunc == do_first_file) {
-	    if (meta_key)
-		selected = 0;
+	    selected = 0;
 	} else if (f->scfunc == do_last_file) {
-	    if (meta_key)
-		selected = filelist_len - 1;
+	    selected = filelist_len - 1;
 	} else if (f->scfunc == goto_dir_void) {
 	    /* Go to a specific directory. */
 	    curs_set(1);
