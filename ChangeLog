@@ -2,6 +2,7 @@
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be
 	rebound to Ctrl keys -- checking meta_key is wrong, the function has
 	already been determined, that is all that matters.
+	* src/help.c (do_help): Same thing for 'firstline'/'lastline'.
 
 2014-06-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h, src/move.c (do_up, do_down), src/winio.c (edit_scrol):

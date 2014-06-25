@@ -158,13 +158,10 @@ void do_help(void (*refresh_func)(void))
 	    if (line + (editwinrows - 1) < last_line)
 		line++;
 	} else if (f->scfunc == do_first_line) {
-	    if (meta_key)
-		line = 0;
+	    line = 0;
 	} else if (f->scfunc == do_last_line) {
-	    if (meta_key) {
-		if (line + (editwinrows - 1) < last_line)
-		    line = last_line - (editwinrows - 1);
-	    }
+	    if (line + (editwinrows - 1) < last_line)
+		line = last_line - (editwinrows - 1);
 	} else if (f->scfunc == do_exit) {
 	    /* Exit from the help browser. */
 	    break;
