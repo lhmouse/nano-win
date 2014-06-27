@@ -31,7 +31,7 @@ rm -f %{buildroot}%{_infodir}/dir
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README THANKS TODO doc/faq.html doc/nanorc.sample
+%doc AUTHORS COPYING ChangeLog INSTALL NEWS README THANKS TODO doc/faq.html doc/nanorc.sample
 %{_bindir}/*
 %{_mandir}/man*/*
 %{_mandir}/fr/man*/*

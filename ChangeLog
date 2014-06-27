@@ -14,6 +14,8 @@
 	a default keybinding outside MMAIN, so is unlikely to have been used.
 	* src/prompt.c (do_statusbar_input): Normalize the indentation.
 	* src/winio.c: Normalize some whitespace.
+	* Makefile.am, nano.spec.in: Stop distributing the BUGS file.
+	* BUGS: Remove obsolete file; bugs are tracked on Savannah nowadays.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be
