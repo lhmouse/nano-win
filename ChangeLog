@@ -16,6 +16,7 @@
 	* src/winio.c: Normalize some whitespace.
 	* Makefile.am, nano.spec.in: Stop distributing the BUGS file.
 	* BUGS: Remove obsolete file; bugs are tracked on Savannah nowadays.
+	* configure.ac: Silence a useless warning about ignoring datarootdir.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be
