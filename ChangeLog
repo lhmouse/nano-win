@@ -2,6 +2,11 @@
 	* src/global.c (shortcut_init): Add default keybindings for Cut,
 	PrevWord and NextWord in the prompt input lines; the code for those
 	special operations already exists, just the shortcuts were missing.
+	* src/rcfile.c (parse_binding): When binding keys, only allow those
+	menus where the bound function is actually present.  This reduces
+	the meaning of 'all' to "all menus where the function exists".
+	* src/rcfile.c (is_universal): New function, returning TRUE for the
+	functions that are present in most menus but only listed in MMAIN.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be

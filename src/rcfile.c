@@ -397,6 +397,22 @@ int check_bad_binding(sc *s)
     return 0;
 }
 
+/* Check whether the given executable function is "universal" (meaning
+ * any horizontal movement or deletion) and thus is present in almost
+ * all menus. */
+bool is_universal(void (*func))
+{
+    if (func == do_left || func == do_right ||
+	func == do_home || func == do_end ||
+	func == do_prev_word_void || func == do_next_word_void ||
+	func == do_verbatim_input || func == do_cut_text_void ||
+	func == do_delete || func == do_backspace ||
+	func == do_tab || func == do_enter)
+	return TRUE;
+    else
+	return FALSE;
+}
+
 /* Bind or unbind a key combo, to or from a function. */
 void parse_binding(char *ptr, bool dobind)
 {
@@ -487,6 +503,26 @@ void parse_binding(char *ptr, bool dobind)
 #endif
 
     if (dobind) {
+	subnfunc *f;
+	int mask = 0;
+
+	/* Tally up the menus where the function exists. */
+	for (f = allfuncs; f != NULL; f = f->next)
+	    if (f->scfunc == newsc->scfunc)
+		mask = mask | f->menus;
+
+	/* Now limit the given menu to those where the function exists. */
+	if (is_universal(newsc->scfunc))
+	    menu = menu & MMOST;
+	else
+	    menu = menu & mask;
+
+	if (!menu) {
+	    rcfile_error(N_("Function '%s' does not exist in menu '%s'"), funcptr, menuptr);
+	    free(newsc);
+	    return;
+	}
+
 	newsc->keystr = keycopy;
 	newsc->menu = menu;
 	newsc->type = strtokeytype(newsc->keystr);
