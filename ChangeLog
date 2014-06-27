@@ -1,3 +1,8 @@
+2014-06-27  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (shortcut_init): Add default keybindings for Cut,
+	PrevWord and NextWord in the prompt input lines; the code for those
+	special operations already exists, just the shortcuts were missing.
+
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be
 	rebound to Ctrl keys -- checking meta_key is wrong, the function has

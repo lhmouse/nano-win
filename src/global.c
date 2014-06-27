@@ -981,8 +981,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^\\", do_replace, 0, TRUE);
     add_to_sclist(MMAIN, "M-R", do_replace, 0, TRUE);
     add_to_sclist(MMAIN, "F14", do_replace, 0, TRUE);
-    add_to_sclist(MMAIN, "^K", do_cut_text_void, 0, TRUE);
-    add_to_sclist(MMAIN, "F9", do_cut_text_void, 0, TRUE);
+    add_to_sclist(MMOST, "^K", do_cut_text_void, 0, TRUE);
+    add_to_sclist(MMOST, "F9", do_cut_text_void, 0, TRUE);
     add_to_sclist(MMAIN, "^U", do_uncut_text, 0, TRUE);
     add_to_sclist(MMAIN, "F10", do_uncut_text, 0, TRUE);
 #ifndef DISABLE_JUSTIFY
@@ -1032,8 +1032,8 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "Left", do_left, 0, TRUE);
     add_to_sclist(MMOST, "Right", do_right, 0, TRUE);
 #ifndef NANO_TINY
-    add_to_sclist(MMAIN, "^Space", do_next_word_void, 0, TRUE);
-    add_to_sclist(MMAIN, "M-Space", do_prev_word_void, 0, TRUE);
+    add_to_sclist(MMOST, "M-Space", do_prev_word_void, 0, TRUE);
+    add_to_sclist(MMOST, "^Space", do_next_word_void, 0, TRUE);
 #endif
     add_to_sclist(MMOST, "^A", do_home, 0, TRUE);
     add_to_sclist(MMOST, "Home", do_home, 0, TRUE);
