@@ -322,7 +322,8 @@ Key bindings may be reassigned via the following commands:
 .TP
 .BI bind " key function menu"
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
-context of menu \fImenu\fP (or in all menus by using \fBall\fP).
+context of menu \fImenu\fP (or in all menus where the function exists
+by using \fBall\fP).
 .TP
 .BI unbind " key menu"
 Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all
@@ -655,9 +656,9 @@ The 'search for a file' menu in the file browser.
 The 'go to directory' menu in the file browser.
 .TP
 .B all
-A special name that encompasses all menus.  For rebinding keys, it really
-means all menus (which may have unobvious effects, so use it carefully);
-for unbinding keys, it just means all the menus where the key exists.
+A special name that encompasses all menus.
+For \fBbind\fR it means all menus where the specified \fIfunction\fR exists;
+for \fBunbind\fR it means all menus where the specified \fIkey\fR exists.
 
 .SH FILES
 .TP

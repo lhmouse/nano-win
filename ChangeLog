@@ -7,6 +7,7 @@
 	the meaning of 'all' to "all menus where the function exists".
 	* src/rcfile.c (is_universal): New function, returning TRUE for the
 	functions that are present in most menus but only listed in MMAIN.
+	* doc/man/nanorc.5, doc/texinfo/nano.texi: Update the docs for this.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be
