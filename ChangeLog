@@ -8,6 +8,10 @@
 	* src/rcfile.c (is_universal): New function, returning TRUE for the
 	functions that are present in most menus but only listed in MMAIN.
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Update the docs for this.
+	* prompt.c (find_statusbar_bracket_match, do_statusbar_find_bracket):
+	Remove these functions and thus the ability to search for a matching
+	bracket in a prompt input line.  The find_bracket function never had
+	a default keybinding outside MMAIN, so is unlikely to have been used.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be
