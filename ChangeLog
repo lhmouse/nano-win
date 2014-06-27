@@ -12,6 +12,8 @@
 	Remove these functions and thus the ability to search for a matching
 	bracket in a prompt input line.  The find_bracket function never had
 	a default keybinding outside MMAIN, so is unlikely to have been used.
+	* src/prompt.c (do_statusbar_input): Normalize the indentation.
+	* src/winio.c: Normalize some whitespace.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Allow 'firstfile' and 'lastfile' to be

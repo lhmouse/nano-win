@@ -156,7 +156,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 		;
 	    else if (s->scfunc == total_refresh)
 		total_statusbar_refresh(refresh_func);
-            else if (s->scfunc == do_cut_text_void) {
+	    else if (s->scfunc == do_cut_text_void) {
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
 		 * prompt, disable Cut. */
@@ -167,39 +167,36 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 		do_statusbar_right();
 	    else if (s->scfunc == do_left)
 		do_statusbar_left();
-
 #ifndef NANO_TINY
 	    else if (s->scfunc == do_next_word_void)
 		do_statusbar_next_word(FALSE);
 	    else if (s->scfunc == do_prev_word_void)
-		    do_statusbar_prev_word(FALSE);
+		do_statusbar_prev_word(FALSE);
 #endif
 	    else if (s->scfunc == do_home)
-		    do_statusbar_home();
+		do_statusbar_home();
 	    else if (s->scfunc == do_end)
-		    do_statusbar_end();
+		do_statusbar_end();
 	    else if (s->scfunc == do_verbatim_input) {
-		    /* If we're using restricted mode, the filename
-		     * isn't blank, and we're at the "Write File"
-		     * prompt, disable verbatim input. */
-		    if (!ISSET(RESTRICTED) ||
-			openfile->filename[0] == '\0' ||
-			currmenu != MWRITEFILE) {
-			    bool got_enter;
-			    /* Whether we got the Enter key. */
+		/* If we're using restricted mode, the filename
+		 * isn't blank, and we're at the "Write File"
+		 * prompt, disable verbatim input. */
+		if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
+			openfile->filename[0] == '\0') {
+		    bool got_enter;
+		    /* Whether we got the Enter key. */
 
-			    do_statusbar_verbatim_input(&got_enter);
+		    do_statusbar_verbatim_input(&got_enter);
 
-			    /* If we got the Enter key, remove it from
-			     * the input buffer, set input to the key
-			     * value for Enter, and set finished to TRUE
-			     * to indicate that we're done. */
-			    if (got_enter) {
-				get_input(NULL, 1);
-				input = sc_seq_or(do_enter_void, 0);
-				*finished = TRUE;
-			    }
+		    /* If we got the Enter key, remove it from the input
+		     * buffer, set input to the key value for Enter, and
+		     * set finished to TRUE to indicate that we're done. */
+		    if (got_enter) {
+			get_input(NULL, 1);
+			input = sc_seq_or(do_enter_void, 0);
+			*finished = TRUE;
 		    }
+		}
 	    } else if (s->scfunc == do_delete) {
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
@@ -224,7 +221,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 		if (s->scfunc != 0 && s->execute == TRUE) {
 		    *ran_func = TRUE;
 		    if (f && (!ISSET(VIEW_MODE) || (f->viewok)))
-		        f->scfunc();
+			f->scfunc();
 		}
 		*finished = TRUE;
 	    }

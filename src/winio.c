@@ -124,7 +124,7 @@ void get_key_buffer(WINDOW *win)
     errcount = 0;
     if (nodelay_mode) {
 	if ((input = wgetch(win)) == ERR)
-           return;
+	    return;
     } else
 	while ((input = wgetch(win)) == ERR) {
 	    errcount++;
@@ -1696,14 +1696,14 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* Go through the list of functions to determine which
 	     * shortcut in the current menu we released/clicked on. */
 	    for (f = allfuncs; f != NULL; f = f->next) {
-	        if ((f->menus & currmenu) == 0)
+		if ((f->menus & currmenu) == 0)
 		    continue;
 #ifndef DISABLE_HELP
 		if (!f->help || strlen(f->help) == 0)
 		    continue;
 #endif
 		if (first_sc_for(currmenu, f->scfunc) == NULL)
-	            continue;
+		    continue;
 		/* Tick off an actually shown shortcut. */
 		j -= 1;
 		if (j == 0)
@@ -1715,7 +1715,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
-                const sc *s = first_sc_for(currmenu, f->scfunc);
+		const sc *s = first_sc_for(currmenu, f->scfunc);
 		unget_kbinput(s->seq, s->type == META, s->type == FKEY);
 	    }
 	    return 1;
@@ -1774,7 +1774,7 @@ const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
-        if ((menu & s->menu) && *kbinput == s->seq
+	if ((menu & s->menu) && *kbinput == s->seq
 		&& *meta_key == (s->type == META)) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
@@ -2250,12 +2250,12 @@ void set_modified(void)
 	    if (openfile->filename[0] == '\0')
 		return;
 	    else if (openfile->lock_filename == NULL) {
-                /* TRANSLATORS: Try to keep this at most 76 characters. */
-                statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
+		/* TRANSLATORS: Try to keep this at most 76 characters. */
+		statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
 	    } else {
 		write_lockfile(openfile->lock_filename,
-                               get_full_path(openfile->filename), TRUE);
-            }
+				get_full_path(openfile->filename), TRUE);
+	    }
 	}
 #endif
     }
@@ -2367,30 +2367,30 @@ void bottombars(int menu)
     for (f = allfuncs, i = 0; i < slen && f != NULL; f = f->next) {
 
 #ifdef DEBUG
-        fprintf(stderr, "Checking menu items....");
+	fprintf(stderr, "Checking menu items....");
 #endif
-        if ((f->menus & menu) == 0)
+	if ((f->menus & menu) == 0)
 	    continue;
 
-        if (!f->desc || strlen(f->desc) == 0)
+	if (!f->desc || strlen(f->desc) == 0)
 	    continue;
 
 #ifdef DEBUG
-        fprintf(stderr, "found one! f->menus = %x, desc = \"%s\"\n", f->menus, f->desc);
+	fprintf(stderr, "found one! f->menus = %x, desc = \"%s\"\n", f->menus, f->desc);
 #endif
-        s = first_sc_for(menu, f->scfunc);
-        if (s == NULL) {
+	s = first_sc_for(menu, f->scfunc);
+	if (s == NULL) {
 #ifdef DEBUG
 	    fprintf(stderr, "Whoops, guess not, no shortcut key found for func!\n");
 #endif
-            continue;
-        }
+	    continue;
+	}
 	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
 #ifdef DEBUG
-        fprintf(stderr, "Calling onekey with keystr \"%s\" and desc \"%s\"\n", s->keystr, f->desc);
+	fprintf(stderr, "Calling onekey with keystr \"%s\" and desc \"%s\"\n", s->keystr, f->desc);
 #endif
 	onekey(s->keystr, _(f->desc), colwidth + (COLS % colwidth));
-        i++;
+	i++;
     }
 
     wnoutrefresh(bottomwin);
