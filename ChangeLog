@@ -8,6 +8,7 @@
 	in menus with a prompt.  The only two exceptions are 'do_cancel' and
 	'do_gotolinecolumn_void'.  The first is handled specially, so do that
 	too for the second and then get to drop 140 parameters.
+	* src/global.c (strtosc): Move recognition of the toggles to the end.
 
 2014-06-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Add default keybindings for Cut,
