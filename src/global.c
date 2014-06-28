@@ -1253,9 +1253,9 @@ sc *strtosc(char *input)
 	s->scfunc = do_help_void;
     else
 #endif
-    if (!strcasecmp(input, "cancel")) {
+    if (!strcasecmp(input, "cancel"))
 	s->scfunc = do_cancel;
-    } else if (!strcasecmp(input, "exit"))
+    else if (!strcasecmp(input, "exit"))
 	s->scfunc = do_exit;
     else if (!strcasecmp(input, "writeout"))
 	s->scfunc = do_writeout_void;
@@ -1324,13 +1324,6 @@ sc *strtosc(char *input)
     else if (!strcasecmp(input, "redo"))
 	s->scfunc = do_redo;
 #endif
-#ifndef DISABLE_HISTORIES
-    else if (!strcasecmp(input, "prevhistory")) {
-	s->scfunc = get_history_older_void;
-    } else if (!strcasecmp(input, "nexthistory")) {
-	s->scfunc = get_history_newer_void;
-    }
-#endif
     else if (!strcasecmp(input, "left") ||
 	     !strcasecmp(input, "back"))
 	s->scfunc = do_left;
@@ -1377,97 +1370,103 @@ sc *strtosc(char *input)
 	s->scfunc = total_refresh;
     else if (!strcasecmp(input, "suspend"))
 	s->scfunc = do_suspend_void;
-    else if (!strcasecmp(input, "casesens")) {
+    else if (!strcasecmp(input, "casesens"))
 	s->scfunc = case_sens_void;
 #ifndef NANO_TINY
-    } else if (!strcasecmp(input, "regexp") ||
-	       !strcasecmp(input, "regex")) {
+    else if (!strcasecmp(input, "regexp") ||
+	     !strcasecmp(input, "regex"))
 	s->scfunc = regexp_void;
-    } else if (!strcasecmp(input, "backwards")) {
+    else if (!strcasecmp(input, "backwards"))
 	s->scfunc = backwards_void;
 #endif
-    } else if (!strcasecmp(input, "flipreplace") ||
-	       !strcasecmp(input, "dontreplace")) {
+    else if (!strcasecmp(input, "flipreplace") ||
+	     !strcasecmp(input, "dontreplace"))
 	s->scfunc = flip_replace_void;
-    } else if (!strcasecmp(input, "gototext")) {
+    else if (!strcasecmp(input, "gototext"))
 	s->scfunc = gototext_void;
-    } else if (!strcasecmp(input, "dosformat")) {
+#ifndef DISABLE_HISTORIES
+    else if (!strcasecmp(input, "prevhistory"))
+	s->scfunc = get_history_older_void;
+    else if (!strcasecmp(input, "nexthistory"))
+	s->scfunc = get_history_newer_void;
+#endif
+    else if (!strcasecmp(input, "dosformat"))
 	s->scfunc = dos_format_void;
-    } else if (!strcasecmp(input, "macformat")) {
+    else if (!strcasecmp(input, "macformat"))
 	s->scfunc = mac_format_void;
-    } else if (!strcasecmp(input, "append")) {
+    else if (!strcasecmp(input, "append"))
 	s->scfunc = append_void;
-    } else if (!strcasecmp(input, "prepend")) {
+    else if (!strcasecmp(input, "prepend"))
 	s->scfunc = prepend_void;
-    } else if (!strcasecmp(input, "backup")) {
+    else if (!strcasecmp(input, "backup"))
 	s->scfunc = backup_file_void;
 #ifndef ENABLE_TINY
-    } else if (!strcasecmp(input, "flipexecute")) {
+    else if (!strcasecmp(input, "flipexecute"))
 	s->scfunc = flip_execute_void;
 #endif
 #ifndef DISABLE_MULTIBUFFER
-    } else if (!strcasecmp(input, "flipnewbuffer") ||
-	       !strcasecmp(input, "newbuffer")) {
+    else if (!strcasecmp(input, "flipnewbuffer") ||
+	     !strcasecmp(input, "newbuffer"))
 	s->scfunc = new_buffer_void;
 #endif
 #ifndef DISABLE_BROWSER
-    } else if (!strcasecmp(input, "tofiles") ||
-	       !strcasecmp(input, "browser")) {
+    else if (!strcasecmp(input, "tofiles") ||
+	     !strcasecmp(input, "browser"))
 	s->scfunc = to_files_void;
-    } else if (!strcasecmp(input, "gotodir")) {
+    else if (!strcasecmp(input, "gotodir"))
 	s->scfunc = goto_dir_void;
-    } else if (!strcasecmp(input, "firstfile")) {
+    else if (!strcasecmp(input, "firstfile"))
 	s->scfunc = do_first_file;
-    } else if (!strcasecmp(input, "lastfile")) {
+    else if (!strcasecmp(input, "lastfile"))
 	s->scfunc = do_last_file;
 #endif
 #ifndef NANO_TINY
-    } else {
+    else {
 	s->scfunc = do_toggle_void;
-	if (!strcasecmp(input, "nohelp")) {
+	if (!strcasecmp(input, "nohelp"))
 	    s->toggle = NO_HELP;
-	} else if (!strcasecmp(input, "constupdate")) {
+	else if (!strcasecmp(input, "constupdate"))
 	    s->toggle = CONST_UPDATE;
-	} else if (!strcasecmp(input, "morespace")) {
+	else if (!strcasecmp(input, "morespace"))
 	    s->toggle = MORE_SPACE;
-	} else if (!strcasecmp(input, "smoothscroll")) {
+	else if (!strcasecmp(input, "smoothscroll"))
 	    s->toggle = SMOOTH_SCROLL;
-	} else if (!strcasecmp(input, "softwrap")) {
+	else if (!strcasecmp(input, "softwrap"))
 	    s->toggle = SOFTWRAP;
-	} else if (!strcasecmp(input, "whitespacedisplay")) {
+	else if (!strcasecmp(input, "whitespacedisplay"))
 	    s->toggle = WHITESPACE_DISPLAY;
 #ifndef DISABLE_COLOR
-	} else if (!strcasecmp(input, "nosyntax")) {
+	else if (!strcasecmp(input, "nosyntax"))
 	    s->toggle = NO_COLOR_SYNTAX;
 #endif
-	} else if (!strcasecmp(input, "smarthome")) {
+	else if (!strcasecmp(input, "smarthome"))
 	    s->toggle = SMART_HOME;
-	} else if (!strcasecmp(input, "autoindent")) {
+	else if (!strcasecmp(input, "autoindent"))
 	    s->toggle = AUTOINDENT;
-	} else if (!strcasecmp(input, "cuttoend")) {
+	else if (!strcasecmp(input, "cuttoend"))
 	    s->toggle = CUT_TO_END;
 #ifndef DISABLE_WRAPPING
-	} else if (!strcasecmp(input, "nowrap")) {
+	else if (!strcasecmp(input, "nowrap"))
 	    s->toggle = NO_WRAP;
 #endif
-	} else if (!strcasecmp(input, "tabstospaces")) {
+	else if (!strcasecmp(input, "tabstospaces"))
 	    s->toggle = TABS_TO_SPACES;
-	} else if (!strcasecmp(input, "backupfile")) {
+	else if (!strcasecmp(input, "backupfile"))
 	    s->toggle = BACKUP_FILE;
 #ifndef DISABLE_MULTIBUFFER
-	} else if (!strcasecmp(input, "multibuffer")) {
+	else if (!strcasecmp(input, "multibuffer"))
 	    s->toggle = MULTIBUFFER;
 #endif
 #ifndef DISABLE_MOUSE
-	} else if (!strcasecmp(input, "mouse")) {
+	else if (!strcasecmp(input, "mouse"))
 	    s->toggle = USE_MOUSE;
 #endif
-	} else if (!strcasecmp(input, "noconvert")) {
+	else if (!strcasecmp(input, "noconvert"))
 	    s->toggle = NO_CONVERT;
-	} else if (!strcasecmp(input, "suspendenable")) {
+	else if (!strcasecmp(input, "suspendenable"))
 	    s->toggle = SUSPEND;
 #endif /* !NANO_TINY */
-	} else {
+	else {
 	    free(s);
 	    return NULL;
 	}
