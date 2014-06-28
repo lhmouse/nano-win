@@ -1,3 +1,7 @@
+2014-06-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/prompt.c (do_statusbar_input): Remove the useless parameters
+	'have_shortcut and 'allow_funcs'; the latter is only ever TRUE.
+
 2014-06-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Add default keybindings for Cut,
 	PrevWord and NextWord in the prompt input lines; the code for those

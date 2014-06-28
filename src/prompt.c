@@ -44,16 +44,12 @@ static bool reset_statusbar_x = FALSE;
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.  Set meta_key to TRUE if the character is a
  * meta sequence, set func_key to TRUE if the character is a function
- * key, set have_shortcut to TRUE if the character is a shortcut
  * key, set ran_func to TRUE if we ran a function associated with a
  * shortcut key, and set finished to TRUE if we're done after running
- * or trying to run a function associated with a shortcut key.  If
- * allow_funcs is FALSE, don't actually run any functions associated
- * with shortcut keys.  refresh_func is the function we will call to
- * refresh the edit window. */
-int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
-	bool *ran_func, bool *finished, bool allow_funcs, void
-	(*refresh_func)(void))
+ * or trying to run a function associated with a shortcut key.
+ * refresh_func is the function we will call to refresh the edit window. */
+int do_statusbar_input(bool *meta_key, bool *func_key,
+	bool *ran_func, bool *finished, void (*refresh_func)(void))
 {
     int input;
 	/* The character we read in. */
@@ -62,9 +58,9 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
     static size_t kbinput_len = 0;
 	/* The length of the input buffer. */
     const sc *s;
+    bool have_shortcut = FALSE;
     const subnfunc *f;
 
-    *have_shortcut = FALSE;
     *ran_func = FALSE;
     *finished = FALSE;
 
@@ -72,17 +68,15 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
     input = get_kbinput(bottomwin, meta_key, func_key);
 
 #ifndef DISABLE_MOUSE
-    if (allow_funcs) {
-	/* If we got a mouse click and it was on a shortcut, read in the
-	 * shortcut character. */
-	if (*func_key && input == KEY_MOUSE) {
-	    if (do_statusbar_mouse() == 1)
-		input = get_kbinput(bottomwin, meta_key, func_key);
-	    else {
-		*meta_key = FALSE;
-		*func_key = FALSE;
-		input = ERR;
-	    }
+    /* If we got a mouse click and it was on a shortcut, read in the
+     * shortcut character. */
+    if (*func_key && input == KEY_MOUSE) {
+	if (do_statusbar_mouse() == 1)
+	    input = get_kbinput(bottomwin, meta_key, func_key);
+	else {
+	    *meta_key = FALSE;
+	    *func_key = FALSE;
+	    input = ERR;
 	}
     }
 #endif
@@ -92,11 +86,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
-    *have_shortcut = (s != NULL);
+    have_shortcut = (s != NULL);
 
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
-    if (!*have_shortcut) {
+    if (!have_shortcut) {
 	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
 	    beep();
 	    *meta_key = FALSE;
@@ -105,53 +99,48 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
 	}
     }
 
-    if (allow_funcs) {
-	/* If we got a character, and it isn't a shortcut or toggle,
-	 * it's a normal text character.  Display the warning if we're
-	 * in view mode, or add the character to the input buffer if
-	 * we're not. */
-	if (input != ERR && !*have_shortcut) {
-	    /* If we're using restricted mode, the filename isn't blank,
-	     * and we're at the "Write File" prompt, disable text
-	     * input. */
-	    if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
+    /* If we got a character, and it isn't a shortcut or toggle,
+     * it's a normal text character.  Display the warning if we're
+     * in view mode, or add the character to the input buffer if
+     * we're not. */
+    if (input != ERR && !have_shortcut) {
+	/* If we're using restricted mode, the filename isn't blank,
+	 * and we're at the "Write File" prompt, disable text input. */
+	if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
 		currmenu != MWRITEFILE) {
-		kbinput_len++;
-		kbinput = (int *)nrealloc(kbinput, kbinput_len *
-			sizeof(int));
-		kbinput[kbinput_len - 1] = input;
-	    }
+	    kbinput_len++;
+	    kbinput = (int *)nrealloc(kbinput, kbinput_len * sizeof(int));
+	    kbinput[kbinput_len - 1] = input;
+	}
+     }
+
+    /* If we got a shortcut, or if there aren't any other characters
+     * waiting after the one we read in, we need to display all the
+     * characters in the input buffer if it isn't empty. */
+    if (have_shortcut || get_key_buffer_len() == 0) {
+	if (kbinput != NULL) {
+	    /* Display all the characters in the input buffer at
+	     * once, filtering out control characters. */
+	    char *output = charalloc(kbinput_len + 1);
+	    size_t i;
+	    bool got_enter;
+		/* Whether we got the Enter key. */
+
+	    for (i = 0; i < kbinput_len; i++)
+		output[i] = (char)kbinput[i];
+	    output[i] = '\0';
+
+	    do_statusbar_output(output, kbinput_len, &got_enter, FALSE);
+
+	    free(output);
+
+	    /* Empty the input buffer. */
+	    kbinput_len = 0;
+	    free(kbinput);
+	    kbinput = NULL;
 	}
 
-	/* If we got a shortcut, or if there aren't any other characters
-	 * waiting after the one we read in, we need to display all the
-	 * characters in the input buffer if it isn't empty. */
-	if (*have_shortcut || get_key_buffer_len() == 0) {
-	    if (kbinput != NULL) {
-		/* Display all the characters in the input buffer at
-		 * once, filtering out control characters. */
-		char *output = charalloc(kbinput_len + 1);
-		size_t i;
-		bool got_enter;
-			/* Whether we got the Enter key. */
-
-		for (i = 0; i < kbinput_len; i++)
-		    output[i] = (char)kbinput[i];
-		output[i] = '\0';
-
-		do_statusbar_output(output, kbinput_len, &got_enter,
-			FALSE);
-
-		free(output);
-
-		/* Empty the input buffer. */
-		kbinput_len = 0;
-		free(kbinput);
-		kbinput = NULL;
-	    }
-	}
-
-	if (*have_shortcut) {
+	if (have_shortcut) {
 	    if (s->scfunc == do_tab || s->scfunc == do_enter_void)
 		;
 	    else if (s->scfunc == total_refresh)
@@ -748,7 +737,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 	)
 {
     int kbinput = ERR;
-    bool have_shortcut, ran_func, finished;
+    bool ran_func, finished;
     size_t curranswer_len;
     const sc *s;
 #ifndef DISABLE_TABCOMP
@@ -809,9 +798,9 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
      * allow writing to files not specified on the command line.  In
      * this case, disable all keys that would change the text if the
      * filename isn't blank and we're at the "Write File" prompt. */
-    while (1) {
-	kbinput = do_statusbar_input(meta_key, func_key, &have_shortcut,
-	    &ran_func, &finished, TRUE, refresh_func);
+    while (TRUE) {
+	kbinput = do_statusbar_input(meta_key, func_key,
+	    &ran_func, &finished, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
 	s = get_shortcut(currmenu, &kbinput, meta_key);

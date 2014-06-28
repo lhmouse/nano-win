@@ -494,9 +494,8 @@ int do_mouse(void);
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* All functions in prompt.c. */
-int do_statusbar_input(bool *meta_key, bool *func_key, bool *have_shortcut,
-	bool *ran_func, bool *finished, bool allow_funcs, void
-	(*refresh_func)(void));
+int do_statusbar_input(bool *meta_key, bool *func_key,
+	bool *ran_func, bool *finished, void (*refresh_func)(void));
 #ifndef DISABLE_MOUSE
 int do_statusbar_mouse(void);
 #endif
