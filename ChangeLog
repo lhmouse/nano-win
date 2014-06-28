@@ -1,6 +1,13 @@
 2014-06-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/prompt.c (do_statusbar_input): Remove the useless parameters
 	'have_shortcut and 'allow_funcs'; the latter is only ever TRUE.
+	* src/global.c (shortcut_init), src/prompt.c (do_statusbar_input):
+	Eradicate the execute flag -- it is only FALSE for functions that are
+	empty placeholders (so executing them will not do anything anyway) or
+	for functions ('total_refresh', 'do_suspend_void') that do not exist
+	in menus with a prompt.  The only two exceptions are 'do_cancel' and
+	'do_gotolinecolumn_void'.  The first is handled specially, so do that
+	too for the second and then get to drop 140 parameters.
 
 2014-06-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Add default keybindings for Cut,
