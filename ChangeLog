@@ -1309,7 +1309,7 @@ GNU nano 2.2.4 - 2010.04.15
 2010-03-21 Chris Allegretta <chrisa@asty.org>
 	* nano.c (page_stdin et al): Don't attempt to reset/reopen the terminal
 	  settings when reading stdin if it was aborted with SIGINT.  May fix
-	  Savannah bug #29114 reported by  Mike Frysinger.
+	  Savannah bug #29114 reported by Mike Frysinger.
 
 2010-03-21 Mike Frysinger <vapier@gentoo.org>
 	* doc/syntax/c.nanorc: Add additional support for #include_next and #pragma.
@@ -1505,8 +1505,7 @@ GNU nano 2.1.99pre1 - 2009.11.15
 	  writing the same file we originally opened.
 
 2009-11-13 Chris Allegretta <chrisa@asty.org>
-	* winio.c: Add new static maxsize to be able to easier calculation with
-	  softwrap.
+	* winio.c: Add new static maxsize for easier calculation with softwrap.
 	* nano.c (do_mouse): Fix mouse support not working with soft wrapping.
 	  Fixes Savannah bug #27549 reported by Hannes Schueller.
 
@@ -1562,11 +1561,11 @@ GNU nano 2.1.11 - 2009.09.14
 
 2009-08-29 Chris Allegretta <chrisa@asty.org>
 	* Fix more soft wrapping issues, particularly with scrolling,
-	  discovered by Hannes <mr_creosote@mutantwatch.de>.
+	  discovered by Hannes Schueller <mr_creosote@mutantwatch.de>.
 
 2009-08-19 Chris Allegretta <chrisa@asty.org>
 	* Fix issue with soft wrapping not displaying the last character of each line,
-	  fixed bug discovered by Hannes <mr_creosote@mutantwatch.de>.
+	  fixed bug discovered by Hannes Schueller <mr_creosote@mutantwatch.de>.
 
 2009-08-17 Mike Frysinger <vapier@gentoo.org>
 	* doc/syntax/(gentoo|sh|tcl).nanorc: Fix problems with empty regexes on POSIX.
@@ -1576,6 +1575,7 @@ GNU nano 2.1.11 - 2009.09.14
 	* Initial soft line wrapping implementation.  Command-line flags -$ or --softwrap.
 	* nano.c, text.c: Clean up some fprintf warnings in debug mode due to printing
 	  a size_t without using the zd specifier.
+
 2009-08-13 Chris Allegretta <chrisa@asty.org>
 	* New global flag implementation courtesy of Adam Wysocki <gophi@arcabit.pl>, allows
 	  previous undo flag to be implemented consistent with other flags.
@@ -1586,9 +1586,9 @@ GNU nano 2.1.10 - 2009.07.28
 	  Fixes crash on cutting last line discovered by Eitan Adler <eitanadlerlist@gmail.com>.
 
 2009-07-11 Chris Allegretta <chrisa@asty.org>
-	* nano-regress: Small tweaks
-	* Change undo code to off unless enabled via a command line option (-u/--undo).  Until this code
-	  stabilizes this is the only responsible way to treat it.
+	* nano-regress: Small tweaks.
+	* Change undo code to off unless enabled via a command line option (-u/--undo).
+	  Until this code stabilizes this is the only responsible way to treat it.
 
 2009-03-08 Chris Allegretta <chrisa@asty.org>
 	* TODO: Break out some targets for various features into 2.2
