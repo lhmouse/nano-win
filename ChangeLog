@@ -1,5 +1,9 @@
 2014-06-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Fix compilation with --enable-tiny --enable-nanorc.
+	* src/winio.c (parse_kbinput, get_escape_seq_kbinput): Make Ctrl-Left
+	and Ctrl-Right produce special codes, and map these codes to Prevword
+	and Nextword instead of reducing them to a plain Left and Right.  The
+	codes 539 and 554 were so chosen because some terminals produce these.
 
 2014-06-29  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_undo): Update the pointer to the bottom of the file

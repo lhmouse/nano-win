@@ -634,6 +634,16 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		retval = ERR;
 		break;
 #endif
+	    case CONTROL_LEFT:
+#ifndef NANO_TINY
+		retval = sc_seq_or(do_prev_word_void, 0);
+#endif
+		break;
+	    case CONTROL_RIGHT:
+#ifndef NANO_TINY
+		retval = sc_seq_or(do_next_word_void, 0);
+#endif
+		break;
 	}
 
 	/* If our result is an extended keypad value (i.e. a value
@@ -709,11 +719,15 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 				   * Terminal. */
 			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on
 				   * Terminal. */
+			    retval = get_escape_seq_abcd(seq[4]);
+			    break;
 			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on
 				   * Terminal. */
+			    retval = CONTROL_RIGHT;
+			    break;
 			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on
 				   * Terminal. */
-			    retval = get_escape_seq_abcd(seq[4]);
+			    retval = CONTROL_LEFT;
 			    break;
 		    }
 		}
@@ -806,9 +820,13 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			break;
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
-		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
-		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
 			retval = get_escape_seq_abcd(seq[1]);
+			break;
+		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
+			retval = CONTROL_RIGHT;
+			break;
+		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
+			retval = CONTROL_LEFT;
 			break;
 		    case 'j': /* Esc O j == '*' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
@@ -896,9 +914,13 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		switch (seq[1]) {
 		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
-		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
-		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
 			retval = get_escape_seq_abcd(seq[1]);
+			break;
+		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
+			retval = CONTROL_RIGHT;
+			break;
+		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
+			retval = CONTROL_LEFT;
 			break;
 		}
 		break;
@@ -968,11 +990,15 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 				   * xterm. */
 			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on
 				   * xterm. */
+			    retval = get_escape_seq_abcd(seq[4]);
+			    break;
 			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on
 				   * xterm. */
+			    retval = CONTROL_RIGHT;
+			    break;
 			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on
 				   * xterm. */
-			    retval = get_escape_seq_abcd(seq[4]);
+			    retval = CONTROL_LEFT;
 			    break;
 		    }
 		}

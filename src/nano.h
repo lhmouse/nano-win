@@ -563,6 +563,10 @@ enum
 #define NANO_CONTROL_7 31
 #define NANO_CONTROL_8 127
 
+/* Codes for "modified" Arrow keys.  Chosen like this because some
+ * terminals produce them, and they are beyond KEY_MAX of ncurses. */
+#define CONTROL_LEFT 539
+#define CONTROL_RIGHT 554
 
 #ifndef NANO_TINY
 /* Extra bits for the undo function. */
