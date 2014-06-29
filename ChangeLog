@@ -1,3 +1,7 @@
+2014-06-29  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_undo): Update the pointer to the bottom of the file
+	when undoing line deletions at file's end.
+
 2014-06-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/prompt.c (do_statusbar_input): Remove the useless parameters
 	'have_shortcut and 'allow_funcs'; the latter is only ever TRUE.

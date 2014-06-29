@@ -486,6 +486,8 @@ void do_undo(void)
 	free(f->data);
 	f->data = data;
 	splice_node(f, t, f->next);
+	if (f == openfile->filebot)
+	    openfile->filebot = t;
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case CUT_EOF:
