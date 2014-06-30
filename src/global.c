@@ -391,8 +391,10 @@ int sc_seq_or(void (*func)(void), int defaultval)
 {
     const sc *s = first_sc_for(currmenu, func);
 
-    if (s)
+    if (s) {
+	meta_key = (s->type == META);
         return s->seq;
+    }
     /* else */
     return defaultval;
 }

@@ -5,6 +5,9 @@
 	* src/color.c (color_update): Move some variables to a better place.
 	* src/*: Make 'meta_key' and 'func_key' into global variables, instead
 	of having them declared everywhere and passing them around endlessly.
+	* src/global.c (sc_seq_or): Now fix a bug introduced somewhere after
+	2.3.2 where binding a movement function to a Meta key would make the
+	corresponding Arrow key stop working (producing a character instead).
 
 2014-06-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Fix compilation with --enable-tiny --enable-nanorc.
