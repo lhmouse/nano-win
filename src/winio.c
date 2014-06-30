@@ -224,17 +224,17 @@ void unget_input(int *input, size_t input_len)
 }
 
 /* Put back the character stored in kbinput, putting it in byte range
- * beforehand.  If meta_key is TRUE, put back the Escape character after
- * putting back kbinput.  If func_key is TRUE, put back the function key
+ * beforehand.  If metakey is TRUE, put back the Escape character after
+ * putting back kbinput.  If funckey is TRUE, put back the function key
  * (a value outside byte range) without putting it in byte range. */
-void unget_kbinput(int kbinput, bool meta_key, bool func_key)
+void unget_kbinput(int kbinput, bool metakey, bool funckey)
 {
-    if (!func_key)
+    if (!funckey)
 	kbinput = (char)kbinput;
 
     unget_input(&kbinput, 1);
 
-    if (meta_key) {
+    if (metakey) {
 	kbinput = NANO_CONTROL_3;
 	unget_input(&kbinput, 1);
     }
@@ -298,20 +298,19 @@ int *get_input(WINDOW *win, size_t input_len)
 
 /* Read in a single character.  If it's ignored, swallow it and go on.
  * Otherwise, try to translate it from ASCII, meta key sequences, escape
- * sequences, and/or extended keypad values.  Set meta_key to TRUE when
- * we get a meta key sequence, and set func_key to TRUE when we get an
- * extended keypad value.  Supported extended keypad values consist of
+ * sequences, and/or extended keypad values.  Supported extended keypad
+ * values consist of
  * [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
  * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
  * the function keypad (F1-F16), and the numeric keypad with NumLock
  * off. */
-int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
+int get_kbinput(WINDOW *win)
 {
     int kbinput;
 
     /* Read in a character and interpret it.  Continue doing this until
      * we get a recognized value or sequence. */
-    while ((kbinput = parse_kbinput(win, meta_key, func_key)) == ERR)
+    while ((kbinput = parse_kbinput(win)) == ERR)
 	;
 
     /* If we read from the edit window, blank the statusbar if we need
@@ -326,13 +325,13 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
  * sequences into their corresponding key values.  Set meta_key to TRUE
  * when we get a meta key sequence, and set func_key to TRUE when we get
  * a function key. */
-int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
+int parse_kbinput(WINDOW *win)
 {
     static int escapes = 0, byte_digits = 0;
     int *kbinput, retval = ERR;
 
-    *meta_key = FALSE;
-    *func_key = FALSE;
+    meta_key = FALSE;
+    func_key = FALSE;
 
     /* Read in a character. */
     if (nodelay_mode) {
@@ -379,7 +378,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			 * meta key sequence mode.  Set meta_key to
 			 * TRUE, and save the lowercase version of the
 			 * non-escape character as the result. */
-			*meta_key = TRUE;
+			meta_key = TRUE;
 			retval = tolower(*kbinput);
 		    } else
 			/* One escape followed by a non-escape, and
@@ -469,7 +468,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			 * escape counter, set meta_key to TRUE, and
 			 * interpret the escape sequence. */
 			escapes = 0;
-			*meta_key = TRUE;
+			meta_key = TRUE;
 			retval = parse_escape_seq_kbinput(win,
 				*kbinput);
 		    }
@@ -649,11 +648,11 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	/* If our result is an extended keypad value (i.e. a value
 	 * outside of byte range), set func_key to TRUE. */
 	if (retval != ERR)
-	    *func_key = !is_byte(retval);
+	    func_key = !is_byte(retval);
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, *meta_key ? "TRUE" : "FALSE", *func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
+    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, meta_key ? "TRUE" : "FALSE", func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
 #endif
 
     free(kbinput);
@@ -1791,26 +1790,26 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
  * key itself) and meta_key (whether the key is a meta sequence).  The
  * returned shortcut will be the first in the list that corresponds to
  * the given sequence. */
-const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
+const sc *get_shortcut(int menu, int *kbinput)
 {
     sc *s;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ", *kbinput, *meta_key ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ", *kbinput, meta_key ? "TRUE" : "FALSE");
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
 	if ((menu & s->menu) && *kbinput == s->seq
-		&& *meta_key == (s->type == META)) {
+		&& meta_key == (s->type == META)) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
-			     s->keystr, *meta_key, menu, s->menu);
+			     s->keystr, meta_key, menu, s->menu);
 #endif
 	    return s;
 	}
     }
 #ifdef DEBUG
-    fprintf (stderr, "matched nothing, btw meta was %d\n", *meta_key);
+    fprintf (stderr, "matched nothing, btw meta was %d\n", meta_key);
 #endif
 
     return NULL;
@@ -1820,14 +1819,13 @@ const sc *get_shortcut(int menu, int *kbinput, bool *meta_key)
 const subnfunc *getfuncfromkey(WINDOW *win)
 {
     int kbinput;
-    bool func_key = FALSE, meta_key = FALSE;
     const sc *s;
 
-    kbinput = parse_kbinput(win, &meta_key, &func_key);
+    kbinput = parse_kbinput(win);
     if (kbinput == 0)
 	return NULL;
 
-    s = get_shortcut(currmenu, &kbinput, &meta_key);
+    s = get_shortcut(currmenu, &kbinput);
     if (!s)
 	return NULL;
 

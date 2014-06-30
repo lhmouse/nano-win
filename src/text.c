@@ -1874,7 +1874,6 @@ void do_justify(bool full_justify)
     bool modified_save = openfile->modified;
 
     int kbinput;
-    bool meta_key, func_key;
     const sc *s;
 
     /* Move to the beginning of the current line, so that justifying at
@@ -2193,8 +2192,8 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
-    kbinput = do_input(&meta_key, &func_key, FALSE);
-    s = get_shortcut(MMAIN, &kbinput, &meta_key);
+    kbinput = do_input(FALSE);
+    s = get_shortcut(MMAIN, &kbinput);
 
     if (s && s->scfunc == do_uncut_text) {
 	/* Splice the justify buffer back into the file, but only if we
@@ -2286,7 +2285,6 @@ bool do_int_spell_fix(const char *word)
     char *save_search, *save_replace;
     size_t match_len, current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
-    bool meta_key = FALSE, func_key = FALSE;
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 	/* Save where we are. */
@@ -2374,7 +2372,6 @@ bool do_int_spell_fix(const char *word)
 		TRUE,
 #endif
 		MSPELL, word,
-		&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
@@ -3117,7 +3114,6 @@ void do_linter(void)
     while (1) {
 	ssize_t tmpcol = 1;
 	int kbinput;
-	bool meta_key, func_key;
 
 	if (curlint->colno > 0)
 	    tmpcol = curlint->colno;
@@ -3172,8 +3168,8 @@ void do_linter(void)
 	    bottombars(MLINTER);
 	}
 
-        kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
-	s = get_shortcut(currmenu, &kbinput, &meta_key);
+	kbinput = get_kbinput(bottomwin);
+	s = get_shortcut(currmenu, &kbinput);
 	tmplint = curlint;
 
 	if (!s)

@@ -32,6 +32,9 @@ extern sigjmp_buf jump_buf;
 extern bool jump_buf_main;
 #endif
 
+extern bool meta_key;
+extern bool func_key;
+
 #ifndef DISABLE_WRAPJUSTIFY
 extern ssize_t fill;
 extern ssize_t wrap_at;
@@ -141,7 +144,7 @@ extern char *homedir;
 char *do_browser(char *path, DIR *dir);
 char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
-void parse_browser_input(int *kbinput, bool *meta_key);
+void parse_browser_input(int *kbinput);
 void browser_refresh(void);
 bool browser_select_filename(const char *needle);
 int filesearch_init(void);
@@ -369,7 +372,7 @@ void thanks_for_all_the_fish(void);
 #ifndef DISABLE_HELP
 void do_help(void (*refresh_func)(void));
 void help_init(void);
-void parse_help_input(int *kbinput, bool *meta_key);
+void parse_help_input(int *kbinput);
 size_t help_line_len(const char *ptr);
 #endif
 void do_help_void(void);
@@ -487,15 +490,15 @@ void enable_signals(void);
 void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
-int do_input(bool *meta_key, bool *func_key, bool allow_funcs);
+int do_input(bool allow_funcs);
 #ifndef DISABLE_MOUSE
 int do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* All functions in prompt.c. */
-int do_statusbar_input(bool *meta_key, bool *func_key,
-	bool *ran_func, bool *finished, void (*refresh_func)(void));
+int do_statusbar_input(bool *ran_func, bool *finished,
+	void (*refresh_func)(void));
 #ifndef DISABLE_MOUSE
 int do_statusbar_mouse(void);
 #endif
@@ -524,7 +527,6 @@ const sc *get_prompt_string(int *value, bool allow_tabs,
 	bool allow_files,
 #endif
 	const char *curranswer,
-	bool *meta_key, bool *func_key,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
@@ -538,7 +540,6 @@ int do_prompt(bool allow_tabs,
 	bool allow_files,
 #endif
 	int menu, const char *curranswer,
-	bool *meta_key, bool *func_key,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
@@ -750,10 +751,10 @@ void dump_filestruct_reverse(void);
 void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_input(int *input, size_t input_len);
-void unget_kbinput(int kbinput, bool meta_key, bool func_key);
+void unget_kbinput(int kbinput, bool metakey, bool funckey);
 int *get_input(WINDOW *win, size_t input_len);
-int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
-int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
+int get_kbinput(WINDOW *win);
+int parse_kbinput(WINDOW *win);
 int get_escape_seq_kbinput(const int *seq, size_t seq_len);
 int get_escape_seq_abcd(int kbinput);
 int parse_escape_seq_kbinput(WINDOW *win, int kbinput);
@@ -769,7 +770,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
-const sc *get_shortcut(int menu, int *kbinput, bool *meta_key);
+const sc *get_shortcut(int menu, int *kbinput);
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);

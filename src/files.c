@@ -1009,7 +1009,7 @@ void do_insertfile(
     filestruct *edittop_save = openfile->edittop;
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
-    bool edittop_inside = FALSE, meta_key = FALSE, func_key = FALSE;
+    bool edittop_inside = FALSE;
     const sc *s;
 #ifndef NANO_TINY
     bool right_side_up = FALSE, single_line = FALSE;
@@ -1045,7 +1045,6 @@ void do_insertfile(
 		execute ? MEXTCMD :
 #endif
 		MINSERTFILE, ans,
-		&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
@@ -1072,7 +1071,7 @@ void do_insertfile(
 
 	    ans = mallocstrcpy(ans, answer);
 
-	    s = get_shortcut(currmenu, &i, &meta_key);
+	    s = get_shortcut(currmenu, &i);
 
 #ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
@@ -2218,7 +2217,7 @@ bool do_writeout(bool exiting)
 #ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
-    bool retval = FALSE, meta_key = FALSE, func_key = FALSE;
+    bool retval = FALSE;
     const sc *s;
 
     currmenu = MWRITEFILE;
@@ -2273,7 +2272,6 @@ bool do_writeout(bool exiting)
 		TRUE,
 #endif
 		MWRITEFILE, ans,
-		&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
@@ -2293,7 +2291,7 @@ bool do_writeout(bool exiting)
 	    break;
 	} else {
 	    ans = mallocstrcpy(ans, answer);
-	    s = get_shortcut(currmenu, &i, &meta_key);
+	    s = get_shortcut(currmenu, &i);
 
 #ifndef DISABLE_BROWSER
 	    if (s && s->scfunc == to_files_void) {

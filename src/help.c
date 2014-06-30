@@ -37,7 +37,7 @@ static char *help_text = NULL;
 void do_help(void (*refresh_func)(void))
 {
     int kbinput = ERR;
-    bool meta_key, func_key, old_no_help = ISSET(NO_HELP);
+    bool old_no_help = ISSET(NO_HELP);
     size_t line = 0;
 	/* The line number in help_text of the first displayed help
 	 * line.  This variable is zero-based. */
@@ -123,7 +123,7 @@ void do_help(void (*refresh_func)(void))
 
 	old_line = line;
 
-	kbinput = get_kbinput(edit, &meta_key, &func_key);
+	kbinput = get_kbinput(edit);
 
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
@@ -133,8 +133,8 @@ void do_help(void (*refresh_func)(void))
 	}
 #endif
 
-	parse_help_input(&kbinput, &meta_key);
-	s = get_shortcut(MHELP, &kbinput, &meta_key);
+	parse_help_input(&kbinput);
+	s = get_shortcut(MHELP, &kbinput);
 	if (!s)
 	    continue;
 	f = sctofunc((sc *) s);
@@ -478,9 +478,9 @@ void help_init(void)
 
 /* Convert certain non-shortcut keys into their corresponding shortcut
  * sequences. */
-void parse_help_input(int *kbinput, bool *meta_key)
+void parse_help_input(int *kbinput)
 {
-    if (!*meta_key) {
+    if (!meta_key) {
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
 	    case ' ':

@@ -42,14 +42,13 @@ static bool reset_statusbar_x = FALSE;
 	 * prompt? */
 
 /* Read in a character, interpret it as a shortcut or toggle if
- * necessary, and return it.  Set meta_key to TRUE if the character is a
- * meta sequence, set func_key to TRUE if the character is a function
- * key, set ran_func to TRUE if we ran a function associated with a
+ * necessary, and return it.
+ * Set ran_func to TRUE if we ran a function associated with a
  * shortcut key, and set finished to TRUE if we're done after running
  * or trying to run a function associated with a shortcut key.
  * refresh_func is the function we will call to refresh the edit window. */
-int do_statusbar_input(bool *meta_key, bool *func_key,
-	bool *ran_func, bool *finished, void (*refresh_func)(void))
+int do_statusbar_input(bool *ran_func, bool *finished,
+	void (*refresh_func)(void))
 {
     int input;
 	/* The character we read in. */
@@ -65,24 +64,24 @@ int do_statusbar_input(bool *meta_key, bool *func_key,
     *finished = FALSE;
 
     /* Read in a character. */
-    input = get_kbinput(bottomwin, meta_key, func_key);
+    input = get_kbinput(bottomwin);
 
 #ifndef DISABLE_MOUSE
     /* If we got a mouse click and it was on a shortcut, read in the
      * shortcut character. */
-    if (*func_key && input == KEY_MOUSE) {
+    if (func_key && input == KEY_MOUSE) {
 	if (do_statusbar_mouse() == 1)
-	    input = get_kbinput(bottomwin, meta_key, func_key);
+	    input = get_kbinput(bottomwin);
 	else {
-	    *meta_key = FALSE;
-	    *func_key = FALSE;
+	    meta_key = FALSE;
+	    func_key = FALSE;
 	    input = ERR;
 	}
     }
 #endif
 
     /* Check for a shortcut in the current list. */
-    s = get_shortcut(currmenu, &input, meta_key);
+    s = get_shortcut(currmenu, &input);
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
@@ -91,10 +90,10 @@ int do_statusbar_input(bool *meta_key, bool *func_key,
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
     if (!have_shortcut) {
-	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
+	if (is_ascii_cntrl_char(input) || meta_key || func_key) {
 	    beep();
-	    *meta_key = FALSE;
-	    *func_key = FALSE;
+	    meta_key = FALSE;
+	    func_key = FALSE;
 	    input = ERR;
 	}
     }
@@ -727,7 +726,6 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 	bool allow_files,
 #endif
 	const char *curranswer,
-	bool *meta_key, bool *func_key,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
@@ -800,11 +798,10 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
      * this case, disable all keys that would change the text if the
      * filename isn't blank and we're at the "Write File" prompt. */
     while (TRUE) {
-	kbinput = do_statusbar_input(meta_key, func_key,
-	    &ran_func, &finished, refresh_func);
+	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
-	s = get_shortcut(currmenu, &kbinput, meta_key);
+	s = get_shortcut(currmenu, &kbinput);
 
 	if (s)
 	    if (s->scfunc == do_cancel || s->scfunc == do_enter_void)
@@ -963,7 +960,6 @@ int do_prompt(bool allow_tabs,
 	bool allow_files,
 #endif
 	int menu, const char *curranswer,
-	bool *meta_key, bool *func_key,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
@@ -995,7 +991,6 @@ int do_prompt(bool allow_tabs,
 	allow_files,
 #endif
 	curranswer,
-	meta_key, func_key,
 #ifndef DISABLE_HISTORIES
 	history_list,
 #endif
@@ -1119,14 +1114,13 @@ int do_yesno_prompt(bool all, const char *msg)
 
     do {
 	int kbinput;
-	bool meta_key, func_key;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
 
 	currmenu = MYESNO;
-	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
-	s = get_shortcut(currmenu, &kbinput, &meta_key);
+	kbinput = get_kbinput(bottomwin);
+	s = get_shortcut(currmenu, &kbinput);
 
 	if (s && s->scfunc == do_cancel)
 	    ok = -1;

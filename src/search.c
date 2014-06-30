@@ -138,7 +138,6 @@ int search_init(bool replacing, bool use_answer)
     int i = 0;
     char *buf;
     sc *s;
-    bool meta_key = FALSE, func_key = FALSE;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
@@ -177,7 +176,6 @@ int search_init(bool replacing, bool use_answer)
 	TRUE,
 #endif
 	replacing ? MREPLACE : MWHEREIS, backupstring,
-	&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 	&search_history,
 #endif
@@ -910,7 +908,6 @@ void do_replace(void)
 {
     filestruct *edittop_save, *begin;
     size_t begin_x, pww_save;
-    bool meta_key = FALSE, func_key = FALSE;
     ssize_t numreplaced;
     int i;
 
@@ -953,7 +950,6 @@ void do_replace(void)
 	TRUE,
 #endif
 	MREPLACEWITH, last_replace,
-	&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 	&replace_history,
 #endif
@@ -1027,7 +1023,6 @@ void goto_line_posx(ssize_t line, size_t pos_x)
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update)
 {
-    bool meta_key = FALSE, func_key = FALSE;
     const sc *s;
 
     if (interactive) {
@@ -1039,7 +1034,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		TRUE,
 #endif
 		MGOTOLINE, use_answer ? ans : "",
-		&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
@@ -1055,7 +1049,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    return;
 	}
 
-	s = get_shortcut(currmenu, &i, &meta_key);
+	s = get_shortcut(currmenu, &i);
 
 	if (s && s->scfunc == gototext_void) {
 	    /* Keep answer up on the statusbar. */

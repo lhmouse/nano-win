@@ -50,7 +50,7 @@ char *do_browser(char *path, DIR *dir)
 {
     char *retval = NULL;
     int kbinput;
-    bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
+    bool old_const_update = ISSET(CONST_UPDATE);
     char *prev_dir = NULL;
 	/* The directory we were in, if any, before backing up via
 	 * browsing to "..". */
@@ -122,7 +122,7 @@ char *do_browser(char *path, DIR *dir)
 
 	old_selected = selected;
 
-	kbinput = get_kbinput(edit, &meta_key, &func_key);
+	kbinput = get_kbinput(edit);
 
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
@@ -158,8 +158,8 @@ char *do_browser(char *path, DIR *dir)
 	}
 #endif /* !DISABLE_MOUSE */
 
-	parse_browser_input(&kbinput, &meta_key);
-	s = get_shortcut(MBROWSER, &kbinput, &meta_key);
+	parse_browser_input(&kbinput);
+	s = get_shortcut(MBROWSER, &kbinput);
         if (!s)
             continue;
         f = sctofunc((sc *) s);
@@ -204,7 +204,6 @@ char *do_browser(char *path, DIR *dir)
 			FALSE,
 #endif
 			MGOTODIR, ans,
-			&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 			NULL,
 #endif
@@ -529,9 +528,9 @@ void browser_init(const char *path, DIR *dir)
 
 /* Convert certain non-shortcut keys into their corresponding shortcut
  * sequences, for compatibility with Pico. */
-void parse_browser_input(int *kbinput, bool *meta_key)
+void parse_browser_input(int *kbinput)
 {
-    if (!*meta_key) {
+    if (!meta_key) {
 	switch (*kbinput) {
 	    case ' ':
 		*kbinput = KEY_NPAGE;
@@ -741,7 +740,6 @@ int filesearch_init(void)
 {
     int i = 0;
     char *buf;
-    bool meta_key, func_key;
     const sc *s;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
@@ -775,7 +773,6 @@ int filesearch_init(void)
 	TRUE,
 #endif
 	MWHEREISFILE, backupstring,
-	&meta_key, &func_key,
 #ifndef DISABLE_HISTORIES
 	&search_history,
 #endif
@@ -805,7 +802,7 @@ int filesearch_init(void)
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
-	s = get_shortcut(MBROWSER, &i, &meta_key);
+	s = get_shortcut(MBROWSER, &i);
 	if (i == -2 || i == 0) {
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or

@@ -3,6 +3,8 @@
 	with --ignorercfiles, do not try to find one, because that would lead
 	to the magic database being searched, which slows down startup a lot.
 	* src/color.c (color_update): Move some variables to a better place.
+	* src/*: Make 'meta_key' and 'func_key' into global variables, instead
+	of having them declared everywhere and passing them around endlessly.
 
 2014-06-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Fix compilation with --enable-tiny --enable-nanorc.

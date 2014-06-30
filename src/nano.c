@@ -1583,11 +1583,10 @@ void terminal_init(void)
 }
 
 /* Read in a character, interpret it as a shortcut or toggle if
- * necessary, and return it.  Set meta_key to TRUE if the character is a
- * meta sequence, set func_key to TRUE if the character is a function key.
+ * necessary, and return it.
  * If allow_funcs is FALSE, don't actually run any functions associated
  * with shortcut keys. */
-int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
+int do_input(bool allow_funcs)
 {
     int input;
 	/* The character we read in. */
@@ -1601,15 +1600,15 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
     bool have_shortcut;
 
     /* Read in a character. */
-    input = get_kbinput(edit, meta_key, func_key);
+    input = get_kbinput(edit);
 
 #ifndef DISABLE_MOUSE
-    if (*func_key && input == KEY_MOUSE) {
+    if (func_key && input == KEY_MOUSE) {
 	/* We received a mouse click. */
 	if (do_mouse() == 1)
 	    /* The click was on a shortcut -- read in the character
 	     * that it was converted into. */
-	    input = get_kbinput(edit, meta_key, func_key);
+	    input = get_kbinput(edit);
 	else
 	    /* The click was invalid or has been handled -- get out. */
 	    return ERR;
@@ -1617,7 +1616,7 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
 #endif
 
     /* Check for a shortcut in the main list. */
-    s = get_shortcut(MMAIN, &input, meta_key);
+    s = get_shortcut(MMAIN, &input);
 
     /* If we got a shortcut from the main list, or a "universal"
      * edit window shortcut, set have_shortcut to TRUE. */
@@ -1626,11 +1625,11 @@ int do_input(bool *meta_key, bool *func_key, bool allow_funcs)
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
     if (!have_shortcut) {
-	if (is_ascii_cntrl_char(input) || *meta_key || *func_key) {
+	if (is_ascii_cntrl_char(input) || meta_key || func_key) {
 	    statusbar(_("Unknown Command"));
 	    beep();
-	    *meta_key = FALSE;
-	    *func_key = FALSE;
+	    meta_key = FALSE;
+	    func_key = FALSE;
 	    input = ERR;
 	}
     }
@@ -2791,8 +2790,6 @@ int main(int argc, char **argv)
     display_buffer();
 
     while (TRUE) {
-	bool meta_key, func_key;
-
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 	wnoutrefresh(edit);
@@ -2821,7 +2818,7 @@ int main(int argc, char **argv)
         currmenu = MMAIN;
 
 	/* Read in and interpret characters. */
-	do_input(&meta_key, &func_key, TRUE);
+	do_input(TRUE);
     }
 
     /* We should never get here. */

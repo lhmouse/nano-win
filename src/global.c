@@ -38,6 +38,11 @@ bool jump_buf_main = FALSE;
 	 * SIGWINCH? */
 #endif
 
+bool meta_key;
+	/* Whether the current keystroke is a Meta key. */
+bool func_key;
+	/* Whether the current keystroke is an extended keypad value. */
+
 #ifndef DISABLE_WRAPJUSTIFY
 ssize_t fill = 0;
 	/* The column where we will wrap lines. */
