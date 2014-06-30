@@ -578,7 +578,7 @@ void shortcut_init(void)
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
-    const char *nano_cut_till_end_msg =
+    const char *nano_cut_till_eof_msg =
 	N_("Cut from the cursor position to the end of the file");
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -876,8 +876,8 @@ void shortcut_init(void)
 	NOVIEW);
 
 #ifndef NANO_TINY
-    add_to_funcs(do_cut_till_end, MMAIN,
-	N_("CutTillEnd"), IFSCHELP(nano_cut_till_end_msg), TRUE, NOVIEW);
+    add_to_funcs(do_cut_till_eof, MMAIN,
+	N_("CutTillEnd"), IFSCHELP(nano_cut_till_eof_msg), TRUE, NOVIEW);
 #endif
 
 #ifndef DISABLE_JUSTIFY
@@ -1069,7 +1069,7 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MMOST, "M-V", do_verbatim_input, 0);
 #ifndef NANO_TINY
-    add_to_sclist(MMAIN, "M-T", do_cut_till_end, 0);
+    add_to_sclist(MMAIN, "M-T", do_cut_till_eof, 0);
     add_to_sclist(MMAIN, "M-D", do_wordlinechar_count, 0);
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -1283,7 +1283,7 @@ sc *strtosc(char *input)
 	s->scfunc = do_uncut_text;
 #ifndef NANO_TINY
     else if (!strcasecmp(input, "cutrestoffile"))
-	s->scfunc = do_cut_till_end;
+	s->scfunc = do_cut_till_eof;
     else if (!strcasecmp(input, "copytext"))
 	s->scfunc = do_copy_text;
     else if (!strcasecmp(input, "mark"))

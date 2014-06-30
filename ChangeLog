@@ -1,3 +1,8 @@
+2014-06-30  Mark Majeres  <mark@engine12.com>
+	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to
+	'cut_till_eof', and 'do_cut_till_end' to 'do_cut_till_eof', to
+	reduce confusion with CUT_TO_END, which is about end-of-line.
+
 2014-06-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): When there are no syntaxes, for example
 	with --ignorercfiles, do not try to find one, because that would lead

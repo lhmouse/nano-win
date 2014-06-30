@@ -259,7 +259,7 @@ void cut_to_eof(void);
 #endif
 void do_cut_text(
 #ifndef NANO_TINY
-	bool copy_text, bool cut_till_end, bool undoing
+	bool copy_text, bool cut_till_eof, bool undoing
 #else
 	void
 #endif
@@ -267,7 +267,7 @@ void do_cut_text(
 void do_cut_text_void(void);
 #ifndef NANO_TINY
 void do_copy_text(void);
-void do_cut_till_end(void);
+void do_cut_till_eof(void);
 #endif
 void do_uncut_text(void);
 

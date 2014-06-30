@@ -120,11 +120,11 @@ void cut_to_eof(void)
 
 /* Move text from the current filestruct into the cutbuffer.  If
  * copy_text is TRUE, copy the text back into the filestruct afterward.
- * If cut_till_end is TRUE, move all text from the current cursor
+ * If cut_till_eof is TRUE, move all text from the current cursor
  * position to the end of the file into the cutbuffer. */
 void do_cut_text(
 #ifndef NANO_TINY
-	bool copy_text, bool cut_till_end, bool undoing
+	bool copy_text, bool cut_till_eof, bool undoing
 #else
 	void
 #endif
@@ -173,8 +173,8 @@ void do_cut_text(
     keep_cutbuffer = TRUE;
 
 #ifndef NANO_TINY
-    if (cut_till_end) {
-	/* If cut_till_end is TRUE, move all text up to the end of the
+    if (cut_till_eof) {
+	/* If cut_till_eof is TRUE, move all text up to the end of the
 	 * file into the cutbuffer. */
 	cut_to_eof();
     } else if (openfile->mark_set) {
@@ -215,7 +215,7 @@ void do_cut_text(
 	if (!old_no_newlines)
 	    UNSET(NO_NEWLINES);
     } else if (!undoing)
-	update_undo(cut_till_end ? CUT_EOF : CUT);
+	update_undo(cut_till_eof ? CUT_EOF : CUT);
 
     /* Leave the text in the cutbuffer, and mark the file as
      * modified. */
@@ -268,7 +268,7 @@ void do_copy_text(void)
 }
 
 /* Cut from the current cursor position to the end of the file. */
-void do_cut_till_end(void)
+void do_cut_till_eof(void)
 {
     add_undo(CUT_EOF);
     do_cut_text(FALSE, TRUE, FALSE);

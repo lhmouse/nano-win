@@ -1690,7 +1690,7 @@ int do_input(bool allow_funcs)
 	     * cutting or copying text, remember this. */
 	    if (s->scfunc == do_cut_text_void
 #ifndef NANO_TINY
-		|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_end
+		|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_eof
 #endif
 		)
 		preserve = TRUE;
