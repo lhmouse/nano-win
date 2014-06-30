@@ -155,13 +155,6 @@ void color_update(void)
     colortype *tmpcolor, *defcolor = NULL;
     regexlisttype *e;
 
-/* Var magicstring will stay NULL if we fail to get a magic result. */
-#ifdef HAVE_LIBMAGIC
-    const char *magicstring = NULL;
-    magic_t cookie = NULL;
-    struct stat fileinfo;
-#endif
-
     assert(openfile != NULL);
 
     openfile->syntax = NULL;
@@ -266,6 +259,9 @@ void color_update(void)
 #ifdef HAVE_LIBMAGIC
 	/* Check magic if we don't have an answer yet. */
 	if (openfile->colorstrings == NULL) {
+	    struct stat fileinfo;
+	    magic_t cookie = NULL;
+	    const char *magicstring = NULL;
 #ifdef DEBUG
 	    fprintf(stderr, "No result from headerline either, trying libmagic...\n");
 #endif
