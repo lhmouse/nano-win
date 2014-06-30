@@ -1,3 +1,8 @@
+2014-06-30  Benno Schulenberg  <bensberg@justemail.net>
+	* src/color.c (color_update): When there are no syntaxes, for example
+	with --ignorercfiles, do not try to find one, because that would lead
+	to the magic database being searched, which slows down startup a lot.
+
 2014-06-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Fix compilation with --enable-tiny --enable-nanorc.
 	* src/winio.c (parse_kbinput, get_escape_seq_kbinput): Make Ctrl-Left

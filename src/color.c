@@ -167,6 +167,10 @@ void color_update(void)
     openfile->syntax = NULL;
     openfile->colorstrings = NULL;
 
+    /* If the rcfiles were not read, or contained no syntaxes, get out. */
+    if (syntaxes == NULL)
+	return;
+
     /* If we specified a syntax override string, use it. */
     if (syntaxstr != NULL) {
 	/* If the syntax override is "none", it's the same as not having
