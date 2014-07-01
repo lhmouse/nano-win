@@ -1,3 +1,7 @@
+2014-07-01  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (do_browser), src/help.c (do_help): Make sure
+	to always set 'currmenu', so that we can rely on it.
+
 2014-06-30  Mark Majeres  <mark@engine12.com>
 	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to
 	'cut_till_eof', and 'do_cut_till_end' to 'do_cut_till_eof', to

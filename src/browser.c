@@ -63,9 +63,7 @@ char *do_browser(char *path, DIR *dir)
 
     curs_set(0);
     blank_statusbar();
-#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currmenu = MBROWSER;
-#endif
     bottombars(MBROWSER);
     wnoutrefresh(bottomwin);
 
@@ -211,9 +209,7 @@ char *do_browser(char *path, DIR *dir)
 			browser_refresh, _("Go To Directory"));
 
 	    curs_set(0);
-#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	    currmenu = MBROWSER;
-#endif
 	    bottombars(MBROWSER);
 
 	    /* If the directory begins with a newline (i.e. an

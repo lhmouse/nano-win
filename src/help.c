@@ -44,10 +44,8 @@ void do_help(void (*refresh_func)(void))
     size_t last_line = 0;
 	/* The line number in help_text of the last help line.  This
 	 * variable is zero-based. */
-#ifndef DISABLE_MOUSE
     int oldmenu = currmenu;
 	/* The menu we were called from. */
-#endif
     const char *ptr;
 	/* The current line of the help text. */
     size_t old_line = (size_t)-1;
@@ -64,11 +62,9 @@ void do_help(void (*refresh_func)(void))
 
     assert(help_text != NULL);
 
-#ifndef DISABLE_MOUSE
     /* Set currmenu to allow clicking on the help screen's shortcut
      * list, after help_init() is called. */
     currmenu = MHELP;
-#endif
 
     if (ISSET(NO_HELP)) {
 	/* Make sure that the help screen's shortcut list will actually
@@ -168,9 +164,7 @@ void do_help(void (*refresh_func)(void))
 	}
     }
 
-#ifndef DISABLE_MOUSE
     currmenu = oldmenu;
-#endif
 
     if (old_no_help) {
 	blank_bottombars();
