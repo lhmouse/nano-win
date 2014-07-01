@@ -3,6 +3,8 @@
 	to always set 'currmenu', so that we can rely on it.
 	* src/*.c (get_shortcut): Now that 'currmenu' is really global,
 	stop passing it around.
+	* src/help.c (help_init), src/winio.c (bottombars): There are
+	no tagless functions, so there is no need to check.
 
 2014-06-30  Mark Majeres  <mark@engine12.com>
 	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to

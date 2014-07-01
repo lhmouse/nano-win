@@ -2396,9 +2396,6 @@ void bottombars(int menu)
 	if ((f->menus & menu) == 0)
 	    continue;
 
-	if (!f->desc || strlen(f->desc) == 0)
-	    continue;
-
 #ifdef DEBUG
 	fprintf(stderr, "found one! f->menus = %x, desc = \"%s\"\n", f->menus, f->desc);
 #endif
