@@ -13,6 +13,8 @@
 	and case-sensitive searching in the file browser.
 	* src/browser.c (filesearch_init, do_filesearch): Now delete
 	these abilities again and all provisions for them.
+	* src/global.c (shortcut_init): Add two defines to make the
+	functions list clearer.
 
 2014-06-30  Mark Majeres  <mark@engine12.com>
 	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to

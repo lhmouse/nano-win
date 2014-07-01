@@ -576,9 +576,6 @@ enum
 #define UNcut_cutline		(1<<3)
 #endif /* !NANO_TINY */
 
-#define VIEW TRUE
-#define NOVIEW FALSE
-
 /* The maximum number of entries displayed in the main shortcut list. */
 #define MAIN_VISIBLE (((COLS + 40) / 20) * 2)
 
