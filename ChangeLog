@@ -5,6 +5,8 @@
 	stop passing it around.
 	* src/help.c (help_init), src/winio.c (bottombars): There are
 	no tagless functions, so there is no need to check.
+	* src/prompt.c (do_prompt, get_prompt_string): Don't pass the
+	menu, just set it earlier.
 
 2014-06-30  Mark Majeres  <mark@engine12.com>
 	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to

@@ -729,7 +729,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
-	void (*refresh_func)(void), int menu
+	void (*refresh_func)(void)
 #ifndef DISABLE_TABCOMP
 	, bool *list
 #endif
@@ -778,8 +778,6 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
 	statusbar_x = curranswer_len;
 	statusbar_pww = statusbar_xplustabs();
     }
-
-    currmenu = menu;
 
 #ifdef DEBUG
 fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
@@ -979,6 +977,7 @@ int do_prompt(bool allow_tabs,
 
     prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
+    currmenu = menu;
     bottombars(menu);
 
     va_start(ap, msg);
@@ -994,7 +993,7 @@ int do_prompt(bool allow_tabs,
 #ifndef DISABLE_HISTORIES
 	history_list,
 #endif
-	refresh_func, menu
+	refresh_func
 #ifndef DISABLE_TABCOMP
 	, &list
 #endif

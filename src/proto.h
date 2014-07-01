@@ -530,7 +530,7 @@ const sc *get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
-	void (*refresh_func)(void), int menu
+	void (*refresh_func)(void)
 #ifndef DISABLE_TABCOMP
 	, bool *list
 #endif
