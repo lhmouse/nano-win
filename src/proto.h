@@ -525,16 +525,13 @@ void total_statusbar_refresh(void (*refresh_func)(void));
 const sc *get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
+	bool *list,
 #endif
 	const char *curranswer,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
-	void (*refresh_func)(void)
-#ifndef DISABLE_TABCOMP
-	, bool *list
-#endif
-	);
+	void (*refresh_func)(void));
 int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,

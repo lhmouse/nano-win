@@ -7,6 +7,7 @@
 	no tagless functions, so there is no need to check.
 	* src/prompt.c (do_prompt, get_prompt_string): Don't pass the
 	menu, just set it earlier.
+	* src/prompt.c (get_prompt_string): Group the arguments better.
 
 2014-06-30  Mark Majeres  <mark@engine12.com>
 	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to

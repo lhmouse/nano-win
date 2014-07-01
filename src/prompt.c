@@ -724,16 +724,13 @@ void total_statusbar_refresh(void (*refresh_func)(void))
 const sc *get_prompt_string(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
+	bool *list,
 #endif
 	const char *curranswer,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
-	void (*refresh_func)(void)
-#ifndef DISABLE_TABCOMP
-	, bool *list
-#endif
-	)
+	void (*refresh_func)(void))
 {
     int kbinput = ERR;
     bool ran_func, finished;
@@ -988,16 +985,13 @@ int do_prompt(bool allow_tabs,
     s = get_prompt_string(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
 	allow_files,
+	&list,
 #endif
 	curranswer,
 #ifndef DISABLE_HISTORIES
 	history_list,
 #endif
-	refresh_func
-#ifndef DISABLE_TABCOMP
-	, &list
-#endif
-	);
+	refresh_func);
 
     free(prompt);
     prompt = NULL;
