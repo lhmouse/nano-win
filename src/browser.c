@@ -157,7 +157,7 @@ char *do_browser(char *path, DIR *dir)
 #endif /* !DISABLE_MOUSE */
 
 	parse_browser_input(&kbinput);
-	s = get_shortcut(MBROWSER, &kbinput);
+	s = get_shortcut(&kbinput);
         if (!s)
             continue;
         f = sctofunc((sc *) s);
@@ -798,7 +798,7 @@ int filesearch_init(void)
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
-	s = get_shortcut(MBROWSER, &i);
+	s = get_shortcut(&i);
 	if (i == -2 || i == 0) {
 #ifdef HAVE_REGEX_H
 		/* Use last_search if answer is an empty string, or

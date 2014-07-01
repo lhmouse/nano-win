@@ -130,7 +130,7 @@ void do_help(void (*refresh_func)(void))
 #endif
 
 	parse_help_input(&kbinput);
-	s = get_shortcut(MHELP, &kbinput);
+	s = get_shortcut(&kbinput);
 	if (!s)
 	    continue;
 	f = sctofunc((sc *) s);

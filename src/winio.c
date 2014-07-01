@@ -1790,7 +1790,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
  * key itself) and meta_key (whether the key is a meta sequence).  The
  * returned shortcut will be the first in the list that corresponds to
  * the given sequence. */
-const sc *get_shortcut(int menu, int *kbinput)
+const sc *get_shortcut(int *kbinput)
 {
     sc *s;
 
@@ -1799,11 +1799,11 @@ const sc *get_shortcut(int menu, int *kbinput)
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
-	if ((menu & s->menu) && *kbinput == s->seq
+	if ((currmenu & s->menu) && *kbinput == s->seq
 		&& meta_key == (s->type == META)) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
-			     s->keystr, meta_key, menu, s->menu);
+			     s->keystr, meta_key, currmenu, s->menu);
 #endif
 	    return s;
 	}
@@ -1825,7 +1825,7 @@ const subnfunc *getfuncfromkey(WINDOW *win)
     if (kbinput == 0)
 	return NULL;
 
-    s = get_shortcut(currmenu, &kbinput);
+    s = get_shortcut(&kbinput);
     if (!s)
 	return NULL;
 

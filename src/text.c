@@ -2188,12 +2188,13 @@ void do_justify(bool full_justify)
 
     /* Display the shortcut list with UnJustify. */
     uncutfunc->desc = unjust_tag;
+    currmenu = MMAIN;
     display_main_list();
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
     kbinput = do_input(FALSE);
-    s = get_shortcut(MMAIN, &kbinput);
+    s = get_shortcut(&kbinput);
 
     if (s && s->scfunc == do_uncut_text) {
 	/* Splice the justify buffer back into the file, but only if we
@@ -3169,7 +3170,7 @@ void do_linter(void)
 	}
 
 	kbinput = get_kbinput(bottomwin);
-	s = get_shortcut(currmenu, &kbinput);
+	s = get_shortcut(&kbinput);
 	tmplint = curlint;
 
 	if (!s)

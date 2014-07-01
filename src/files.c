@@ -1071,7 +1071,7 @@ void do_insertfile(
 
 	    ans = mallocstrcpy(ans, answer);
 
-	    s = get_shortcut(currmenu, &i);
+	    s = get_shortcut(&i);
 
 #ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
@@ -2291,7 +2291,7 @@ bool do_writeout(bool exiting)
 	    break;
 	} else {
 	    ans = mallocstrcpy(ans, answer);
-	    s = get_shortcut(currmenu, &i);
+	    s = get_shortcut(&i);
 
 #ifndef DISABLE_BROWSER
 	    if (s && s->scfunc == to_files_void) {

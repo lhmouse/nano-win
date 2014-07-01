@@ -1049,7 +1049,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    return;
 	}
 
-	s = get_shortcut(currmenu, &i);
+	s = get_shortcut(&i);
 
 	if (s && s->scfunc == gototext_void) {
 	    /* Keep answer up on the statusbar. */
