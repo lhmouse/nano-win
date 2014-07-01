@@ -934,15 +934,12 @@ void do_filesearch(void)
     int i;
     bool didfind;
 
-    i = filesearch_init();
+    do i = filesearch_init();
+	while (i == 1);
+
     if (i == -1)	/* Cancel, blank search string, or regcomp()
 			 * failed. */
 	filesearch_abort();
-#if !defined(NANO_TINY) || defined(HAVE_REGEX_H)
-    else if (i == 1)	/* Case Sensitive, Backwards, or Regexp search
-			 * toggle. */
-	do_filesearch();
-#endif
 
     if (i != 0)
 	return;
