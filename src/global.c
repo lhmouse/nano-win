@@ -733,17 +733,17 @@ void shortcut_init(void)
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(case_sens_void, MWHEREIS|MREPLACE|MWHEREISFILE,
+    add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
 	N_("Case Sens"), IFSCHELP(nano_case_msg), FALSE, VIEW);
 #endif
 
 #ifdef HAVE_REGEX_H
-    add_to_funcs(regexp_void, MWHEREIS|MREPLACE|MWHEREISFILE,
+    add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
 	N_("Regexp"), IFSCHELP(nano_regexp_msg), FALSE, VIEW);
 #endif
 
 #ifndef NANO_TINY
-    add_to_funcs(backwards_void, MWHEREIS|MREPLACE|MWHEREISFILE,
+    add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
 	N_("Backwards"), IFSCHELP(nano_reverse_msg), FALSE, VIEW);
 #endif
 
@@ -1117,10 +1117,10 @@ void shortcut_init(void)
     add_to_sclist(((MMOST & ~MMAIN & ~MBROWSER) | MYESNO), "^C", do_cancel, 0);
 
 #ifndef NANO_TINY
-    add_to_sclist(MWHEREIS|MREPLACE|MWHEREISFILE, "M-B", backwards_void, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MWHEREISFILE, "M-C", case_sens_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE, "M-B", backwards_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE, "M-C", case_sens_void, 0);
 #endif
-    add_to_sclist(MWHEREIS|MREPLACE|MWHEREISFILE, "M-R", regexp_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE, "M-R", regexp_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "^R", flip_replace_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", do_first_line, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^V", do_last_line, 0);

@@ -736,7 +736,6 @@ int filesearch_init(void)
 {
     int i = 0;
     char *buf;
-    const sc *s;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
@@ -772,19 +771,7 @@ int filesearch_init(void)
 #ifndef DISABLE_HISTORIES
 	&search_history,
 #endif
-	browser_refresh, "%s%s%s%s%s", _("Search"),
-#ifndef NANO_TINY
-	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
-#endif
-	"",
-#ifdef HAVE_REGEX_H
-	ISSET(USE_REGEXP) ? _(" [Regexp]") :
-#endif
-	"",
-#ifndef NANO_TINY
-	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
-#endif
-	"", buf);
+	browser_refresh, "%s%s", _("Search"), buf);
 
     /* Release buf now that we don't need it anymore. */
     free(buf);
@@ -797,36 +784,6 @@ int filesearch_init(void)
 	*answer == '\0')) {
 	statusbar(_("Cancelled"));
 	return -1;
-    } else {
-	s = get_shortcut(&i);
-	if (i == -2 || i == 0) {
-#ifdef HAVE_REGEX_H
-		/* Use last_search if answer is an empty string, or
-		 * answer if it isn't. */
-		if (ISSET(USE_REGEXP) && !regexp_init((i == -2) ?
-			last_search : answer))
-		    return -1;
-#endif
-	} else
-#ifndef NANO_TINY
-	if (s && s->scfunc == case_sens_void) {
-		TOGGLE(CASE_SENSITIVE);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
-	} else if (s && s->scfunc == backwards_void) {
-		TOGGLE(BACKWARDS_SEARCH);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
-	} else
-#endif
-#ifdef HAVE_REGEX_H
-	if (s && s->scfunc == regexp_void) {
-		TOGGLE(USE_REGEXP);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
-	} else
-#endif
-	    return -1;
     }
 
     return 0;
@@ -845,11 +802,6 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	/* The filename we display, minus the path. */
     const char *rev_start = filetail, *found = NULL;
 
-#ifndef NANO_TINY
-    if (ISSET(BACKWARDS_SEARCH))
-	rev_start += strlen(rev_start);
-#endif
-
     /* Look for needle in the current filename we're searching. */
     while (TRUE) {
 	found = strstrwrapper(filetail, needle, rev_start);
@@ -866,27 +818,14 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	    return FALSE;
 	}
 
-	/* Move to the previous or next filename in the list.  If we've
-	 * reached the start or end of the list, wrap around. */
-#ifndef NANO_TINY
-	if (ISSET(BACKWARDS_SEARCH)) {
-	    if (currselected > 0)
-		currselected--;
-	    else {
-		currselected = filelist_len - 1;
-		statusbar(_("Search Wrapped"));
-	    }
-	} else {
-#endif
-	    if (currselected < filelist_len - 1)
-		currselected++;
-	    else {
-		currselected = 0;
-		statusbar(_("Search Wrapped"));
-	    }
-#ifndef NANO_TINY
+	/* Move to the next filename in the list.  If we've reached the
+	 * end of the list, wrap around. */
+	if (currselected < filelist_len - 1)
+	    currselected++;
+	else {
+	    currselected = 0;
+	    statusbar(_("Search Wrapped"));
 	}
-#endif
 
 	/* We've reached the original starting file. */
 	if (currselected == begin)
@@ -895,10 +834,6 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	filetail = tail(filelist[currselected]);
 
 	rev_start = filetail;
-#ifndef NANO_TINY
-	if (ISSET(BACKWARDS_SEARCH))
-	    rev_start += strlen(rev_start);
-#endif
     }
 
     /* We've definitely found something. */
@@ -915,34 +850,28 @@ void findnextfile_wrap_reset(void)
 }
 
 /* Abort the current filename search.  Clean up by setting the current
- * shortcut list to the browser shortcut list, displaying it, and
- * decompiling the compiled regular expression we used in the last
- * search, if any. */
+ * shortcut list to the browser shortcut list, and displaying it. */
 void filesearch_abort(void)
 {
     currmenu = MBROWSER;
     bottombars(MBROWSER);
-#ifdef HAVE_REGEX_H
-    regexp_cleanup();
-#endif
 }
 
 /* Search for a filename. */
 void do_filesearch(void)
 {
     size_t begin = selected;
-    int i;
     bool didfind;
 
-    do i = filesearch_init();
-	while (i == 1);
+    UNSET(CASE_SENSITIVE);
+    UNSET(USE_REGEXP);
+    UNSET(BACKWARDS_SEARCH);
 
-    if (i == -1)	/* Cancel, blank search string, or regcomp()
-			 * failed. */
+    if (filesearch_init() != 0) {
+	/* Cancelled or a blank search string. */
 	filesearch_abort();
-
-    if (i != 0)
 	return;
+    }
 
     /* If answer is now "", copy last_search into answer. */
     if (*answer == '\0')
@@ -983,12 +912,6 @@ void do_fileresearch(void)
     search_init_globals();
 
     if (last_search[0] != '\0') {
-#ifdef HAVE_REGEX_H
-	/* Since answer is "", use last_search! */
-	if (ISSET(USE_REGEXP) && !regexp_init(last_search))
-	    return;
-#endif
-
 	findnextfile_wrap_reset();
 	didfind = findnextfile(FALSE, begin, answer);
 

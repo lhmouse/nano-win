@@ -8,9 +8,11 @@
 	* src/prompt.c (do_prompt, get_prompt_string): Don't pass the
 	menu, just set it earlier.
 	* src/prompt.c (get_prompt_string): Group the arguments better.
-	* src/global.c (shortcut_init), src/browser(do_filesearch): Show
-	that it is possible to have case-sensitive, regular-expressive,
-	and backwards searching in the file browser.
+	* src/global.c (shortcut_init), src/browser.c (do_filesearch):
+	Show that it is possible to have backwards, regular-expressive
+	and case-sensitive searching in the file browser.
+	* src/browser.c (filesearch_init, do_filesearch): Now delete
+	these abilities again and all provisions for them.
 
 2014-06-30  Mark Majeres  <mark@engine12.com>
 	* src/cut.c, src/global.c, src/nano.c: Rename 'cut_till_end' to
