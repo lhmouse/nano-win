@@ -1,8 +1,10 @@
 2014-07-02  Mark Majeres  <mark@engine12.com>
 	* src/text.c (undo_cut, redo_cut, update_undo): Handle the
-	cases of cutting-from-cursor-to-end-of-line properly.
+	cases of cutting-from-cursor-to-end-of-line correctly.
 	* src/nano.c (do_input): Don't preserve the cutbuffer when
 	CUT_TO_END is toggled -- it would intermix two cut types.
+	* src/text.c (redo_cut, do_undo, do_redo): Don't forget to
+	free the cutbuffer after use.
 
 2014-07-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/proto.h: Add a typedef for a pointer to a function.
