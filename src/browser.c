@@ -58,8 +58,8 @@ char *do_browser(char *path, DIR *dir)
 	/* The last answer the user typed at the statusbar prompt. */
     size_t old_selected;
 	/* The selected file we had before the current selected file. */
-    const sc *s;
-    const subnfunc *f;
+    functionptrtype func;
+	/* The function of the key the user typed in. */
 
     curs_set(0);
     blank_statusbar();
@@ -156,45 +156,39 @@ char *do_browser(char *path, DIR *dir)
 	}
 #endif /* !DISABLE_MOUSE */
 
-	parse_browser_input(&kbinput);
-	s = get_shortcut(&kbinput);
-        if (!s)
-            continue;
-        f = sctofunc((sc *) s);
-        if (!f)
-            break;
+	func = parse_browser_input(&kbinput);
 
-	if (f->scfunc == total_refresh) {
+	if (func == total_refresh) {
 	    total_redraw();
-	} else if (f->scfunc == do_help_void) {
+	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
 	    curs_set(0);
 #else
 	    nano_disabled_msg();
 #endif
-	} else if (f->scfunc == do_search) {
+	} else if (func == do_search) {
 	    /* Search for a filename. */
 	    curs_set(1);
 	    do_filesearch();
 	    curs_set(0);
-	} else if (f->scfunc == do_research) {
+	} else if (func == do_research) {
 	    /* Search for another filename. */
 	    do_fileresearch();
-	} else if (f->scfunc == do_page_up) {
+	} else if (func == do_page_up) {
 	    if (selected >= (editwinrows + fileline % editwinrows) * width)
 		selected -= (editwinrows + fileline % editwinrows) * width;
 	    else
 		selected = 0;
-	} else if (f->scfunc == do_page_down) {
+	} else if (func == do_page_down) {
 	    selected += (editwinrows - fileline % editwinrows) * width;
 	    if (selected > filelist_len - 1)
 		selected = filelist_len - 1;
-	} else if (f->scfunc == do_first_file) {
+	} else if (func == do_first_file) {
 	    selected = 0;
-	} else if (f->scfunc == do_last_file) {
+	} else if (func == do_last_file) {
 	    selected = filelist_len - 1;
-	} else if (f->scfunc == goto_dir_void) {
+	} else if (func == goto_dir_void) {
 	    /* Go to a specific directory. */
 	    curs_set(1);
 	    i = do_prompt(TRUE,
@@ -271,19 +265,19 @@ char *do_browser(char *path, DIR *dir)
 	    free(path);
 	    path = new_path;
 	    goto change_browser_directory;
-	} else if (f->scfunc == do_up_void) {
+	} else if (func == do_up_void) {
 	    if (selected >= width)
 		selected -= width;
-	} else if (f->scfunc == do_left) {
+	} else if (func == do_left) {
 	    if (selected > 0)
 		selected--;
-	} else if (f->scfunc == do_down_void) {
+	} else if (func == do_down_void) {
 	    if (selected + width <= filelist_len - 1)
 		selected += width;
-	} else if (f->scfunc == do_right) {
+	} else if (func == do_right) {
 	    if (selected < filelist_len - 1)
 		selected++;
-	} else if (f->scfunc == do_enter_void) {
+	} else if (func == do_enter_void) {
 	    /* We can't move up from "/". */
 	    if (strcmp(filelist[selected], "/..") == 0) {
 		statusbar(_("Can't move up a directory"));
@@ -337,7 +331,7 @@ char *do_browser(char *path, DIR *dir)
 
 	    /* Start over again with the new path value. */
 	    goto change_browser_directory;
-	} else if (f->scfunc == do_exit) {
+	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
 	    break;
 	}
@@ -522,41 +516,33 @@ void browser_init(const char *path, DIR *dir)
 	width = longest;
 }
 
-/* Convert certain non-shortcut keys into their corresponding shortcut
- * sequences, for compatibility with Pico. */
-void parse_browser_input(int *kbinput)
+/* Return the function that is bound to the given key, accepting certain
+ * plain characters too, for compatibility with Pico. */
+functionptrtype parse_browser_input(int *kbinput)
 {
     if (!meta_key) {
 	switch (*kbinput) {
 	    case ' ':
-		*kbinput = KEY_NPAGE;
-		break;
+		return do_page_down;
 	    case '-':
-		*kbinput = KEY_PPAGE;
-		break;
+		return do_page_up;
 	    case '?':
-#ifndef DISABLE_HELP
-		*kbinput = sc_seq_or(do_help_void, 0);
-#endif
-		break;
+		return do_help_void;
 	    case 'E':
 	    case 'e':
-		*kbinput = sc_seq_or(do_exit, 0);
-		break;
+		return do_exit;
 	    case 'G':
 	    case 'g':
-		*kbinput = sc_seq_or(goto_dir_void, 0);
-		break;
+		return goto_dir_void;
 	    case 'S':
 	    case 's':
-		*kbinput = sc_seq_or(do_enter_void, 0);
-		break;
+		return do_enter_void;
 	    case 'W':
 	    case 'w':
-		*kbinput = sc_seq_or(do_search, 0);
-		break;
+		return do_search;
 	}
     }
+    return func_from_key(kbinput);
 }
 
 /* Set width to the number of files that we can display per line, if

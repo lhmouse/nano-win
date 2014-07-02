@@ -146,7 +146,7 @@ typedef void (*functionptrtype)(void);
 char *do_browser(char *path, DIR *dir);
 char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
-void parse_browser_input(int *kbinput);
+functionptrtype parse_browser_input(int *kbinput);
 void browser_refresh(void);
 bool browser_select_filename(const char *needle);
 int filesearch_init(void);
@@ -375,7 +375,7 @@ void thanks_for_all_the_fish(void);
 #ifndef DISABLE_HELP
 void do_help(void (*refresh_func)(void));
 void help_init(void);
-void parse_help_input(int *kbinput);
+functionptrtype parse_help_input(int *kbinput);
 size_t help_line_len(const char *ptr);
 #endif
 void do_help_void(void);

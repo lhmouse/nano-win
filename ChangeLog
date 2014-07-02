@@ -3,6 +3,8 @@
 	* src/global.c (func_from_key): New wrapper.
 	* src/prompt.c (get_prompt_string, do_prompt): Use the new
 	wrapper to make the code a bit cleaner.
+	* src/help.c (do_help, parse_help_input): Use the wrapper.
+	* src/browser.c (do_browser, parse_browser_input): Likewise.
 
 2014-07-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser), src/help.c (do_help): Make sure

@@ -50,8 +50,8 @@ void do_help(void (*refresh_func)(void))
 	/* The current line of the help text. */
     size_t old_line = (size_t)-1;
 	/* The line we were on before the current line. */
-    const sc *s;
-    const subnfunc *f;
+    functionptrtype func;
+	/* The function of the key the user typed in. */
 
     curs_set(0);
     blank_edit();
@@ -129,36 +129,30 @@ void do_help(void (*refresh_func)(void))
 	}
 #endif
 
-	parse_help_input(&kbinput);
-	s = get_shortcut(&kbinput);
-	if (!s)
-	    continue;
-	f = sctofunc((sc *) s);
-	if (!f)
-	    continue;
+	func = parse_help_input(&kbinput);
 
-	if (f->scfunc == total_refresh) {
+	if (func == total_refresh) {
 	    total_redraw();
-	} else if (f->scfunc == do_page_up) {
+	} else if (func == do_page_up) {
 	    if (line > editwinrows - 2)
 		line -= editwinrows - 2;
 	    else
 		line = 0;
-	} else if (f->scfunc == do_page_down) {
+	} else if (func == do_page_down) {
 	    if (line + (editwinrows - 1) < last_line)
 		line += editwinrows - 2;
-	} else if (f->scfunc == do_up_void) {
+	} else if (func == do_up_void) {
 	    if (line > 0)
 		line--;
-	} else if (f->scfunc == do_down_void) {
+	} else if (func == do_down_void) {
 	    if (line + (editwinrows - 1) < last_line)
 		line++;
-	} else if (f->scfunc == do_first_line) {
+	} else if (func == do_first_line) {
 	    line = 0;
-	} else if (f->scfunc == do_last_line) {
+	} else if (func == do_last_line) {
 	    if (line + (editwinrows - 1) < last_line)
 		line = last_line - (editwinrows - 1);
-	} else if (f->scfunc == do_exit) {
+	} else if (func == do_exit) {
 	    /* Exit from the help browser. */
 	    break;
 	}
@@ -467,25 +461,22 @@ void help_init(void)
     assert(strlen(help_text) <= allocsize + 1);
 }
 
-/* Convert certain non-shortcut keys into their corresponding shortcut
- * sequences. */
-void parse_help_input(int *kbinput)
+/* Return the function that is bound to the given key, accepting certain
+ * plain characters too, for consistency with the file browser. */
+functionptrtype parse_help_input(int *kbinput)
 {
     if (!meta_key) {
 	switch (*kbinput) {
-	    /* For consistency with the file browser. */
 	    case ' ':
-		*kbinput = KEY_NPAGE;
-		break;
+		return do_page_down;
 	    case '-':
-		*kbinput = KEY_PPAGE;
-		break;
+		return do_page_up;
 	    case 'E':
 	    case 'e':
-		*kbinput = sc_seq_or(do_exit, 0);
-		break;
+		return do_exit;
 	}
     }
+    return func_from_key(kbinput);
 }
 
 /* Calculate the next line of help_text, starting at ptr. */
