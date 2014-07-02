@@ -1322,8 +1322,9 @@ Disable support for reading the nanorc files at startup.  With such
 support, you can store custom settings in a system-wide and a per-user
 nanorc file rather than having to pass command-line options to get
 the desired behavior.  See @xref{Nanorc Files}, for more info.
-This also eliminates the -I command-line option, which inhibits the
-reading of these nanorcfiles.
+Disabling this also eliminates the -I and -q command-line options;
+the first inhibits the reading of nanorcfiles, and the second
+suppresses warnings about errors in those files.
 
 @item --disable-operatingdir
 Disable setting the operating directory.  This also eliminates the -o

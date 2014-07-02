@@ -9,6 +9,8 @@
 	* src/search.c (findnextstr): Replace a call of old wrapper
 	'getfuncfromkey()' with	a call of new 'func_from_key()'.
 	* src/winio.c (getfuncfromkey): Delete now unneeded wrapper.
+	* src/nano.c (usage, main), doc/texinfo/nano.texi: Properly
+	exclude the --quiet option when --disable-nanorc was given.
 
 2014-07-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser), src/help.c (do_help): Make sure

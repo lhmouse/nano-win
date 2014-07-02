@@ -863,6 +863,8 @@ void usage(void)
 #ifndef DISABLE_HISTORIES
     print_opt("-H", "--historylog",
 	N_("Log & read search/replace string history"));
+#endif
+#ifndef DISABLE_NANORC
     print_opt("-I", "--ignorercfiles",
 	N_("Don't look at nanorc files"));
 #endif
@@ -924,8 +926,10 @@ void usage(void)
 #endif
     print_opt("-p", "--preserve",
 	N_("Preserve XON (^Q) and XOFF (^S) keys"));
+#ifndef DISABLE_NANORC
     print_opt("-q", "--quiet",
 	N_("Silently ignore startup issues like rc file errors"));
+#endif
 #ifndef DISABLE_WRAPJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
 	N_("Set hard-wrapping point at column #cols"));
@@ -2356,9 +2360,11 @@ int main(int argc, char **argv)
 	    case 'p':
 		SET(PRESERVE);
 		break;
+#ifndef DISABLE_NANORC
 	    case 'q':
 		SET(QUIET);
 		break;
+#endif
 #ifndef DISABLE_WRAPJUSTIFY
 	    case 'r':
 		if (!parse_num(optarg, &wrap_at)) {
