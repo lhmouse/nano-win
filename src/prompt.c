@@ -721,7 +721,7 @@ void total_statusbar_refresh(void (*refresh_func)(void))
 
 /* Get a string of input at the statusbar prompt.  This should only be
  * called from do_prompt(). */
-const sc *get_prompt_string(int *actual, bool allow_tabs,
+functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
 	bool *list,
@@ -735,7 +735,7 @@ const sc *get_prompt_string(int *actual, bool allow_tabs,
     int kbinput = ERR;
     bool ran_func, finished;
     size_t curranswer_len;
-    const sc *s;
+    functionptrtype func;
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
@@ -796,17 +796,16 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
-	s = get_shortcut(&kbinput);
+	func = func_from_key(&kbinput);
 
-	if (s)
-	    if (s->scfunc == do_cancel || s->scfunc == do_enter_void)
-		break;
+	if (func == do_cancel || func == do_enter_void)
+	    break;
 
 #ifndef DISABLE_TABCOMP
-	if (s && s->scfunc != do_tab)
+	if (func != do_tab)
 	    tabbed = FALSE;
 
-	if (s && s->scfunc == do_tab) {
+	if (func == do_tab) {
 #ifndef DISABLE_HISTORIES
 	    if (history_list != NULL) {
 		if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
@@ -828,7 +827,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	} else
 #endif /* !DISABLE_TABCOMP */
 #ifndef DISABLE_HISTORIES
-	if (s && s->scfunc == get_history_older_void) {
+	if (func == get_history_older_void) {
 	    if (history_list != NULL) {
 		/* If we're scrolling up at the bottom of the history list
 		 * and answer isn't blank, save answer in magichistory. */
@@ -850,7 +849,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 		 * we aren't kicked out of the statusbar prompt. */
 		finished = FALSE;
 	    }
-	} else if (s && s->scfunc == get_history_newer_void) {
+	} else if (func == get_history_newer_void) {
 	    if (history_list != NULL) {
 		/* Get the newer search from the history list and save it in
 		 * answer.  If there is no newer search, don't do anything. */
@@ -878,7 +877,7 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	    }
 	} else
 #endif /* !DISABLE_HISTORIES */
-	if (s && s->scfunc == do_help_void) {
+	if (func == do_help_void) {
 	    update_statusbar_line(answer, statusbar_x);
 
 	    /* This key has a shortcut-list entry when it's used to go to
@@ -919,9 +918,8 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
      * associated function, so reset statusbar_x and statusbar_pww.  If
      * we've finished putting in an answer, reset the statusbar cursor
      * position too. */
-    if (s) {
-	if (s->scfunc == do_cancel || s->scfunc == do_enter_void ||
-	ran_func) {
+    if (func) {
+	if (func == do_cancel || func == do_enter_void || ran_func) {
 	    statusbar_x = old_statusbar_x;
 	    statusbar_pww = old_pww;
 
@@ -935,7 +933,8 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
     }
 
     *actual = kbinput;
-    return s;
+
+    return func;
 }
 
 /* Ask a question on the statusbar.  The prompt will be stored in the
@@ -962,7 +961,7 @@ int do_prompt(bool allow_tabs,
 {
     va_list ap;
     int retval;
-    const sc *s;
+    functionptrtype func;
 #ifndef DISABLE_TABCOMP
     bool list = FALSE;
 #endif
@@ -982,7 +981,7 @@ int do_prompt(bool allow_tabs,
     va_end(ap);
     null_at(&prompt, actual_x(prompt, COLS - 4));
 
-    s = get_prompt_string(&retval, allow_tabs,
+    func = get_prompt_string(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
 	allow_files,
 	&list,
@@ -1003,9 +1002,9 @@ int do_prompt(bool allow_tabs,
 
     /* If we left the prompt via Cancel or Enter, set the return value
      * properly. */
-    if (s && s->scfunc == do_cancel)
+    if (func == do_cancel)
 	retval = -1;
-    else if (s && s->scfunc == do_enter_void)
+    else if (func == do_enter_void)
 	retval = (*answer == '\0') ? -2 : 0;
 
     blank_statusbar();

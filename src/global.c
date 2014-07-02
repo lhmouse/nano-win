@@ -405,6 +405,17 @@ int sc_seq_or(void (*func)(void), int defaultval)
     return defaultval;
 }
 
+/* Return a pointer to the function that is bound to the given key. */
+functionptrtype func_from_key(int *kbinput)
+{
+    const sc *s = get_shortcut(kbinput);
+
+    if (s)
+	return s->scfunc;
+    else
+	return NULL;
+}
+
 /* Assign the info to the shortcut struct.
  * Assumes keystr is already assigned, naturally. */
 void assign_keyinfo(sc *s)

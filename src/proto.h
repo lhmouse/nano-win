@@ -139,6 +139,8 @@ extern color_pair interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
 
+typedef void (*functionptrtype)(void);
+
 /* All functions in browser.c. */
 #ifndef DISABLE_BROWSER
 char *do_browser(char *path, DIR *dir);
@@ -352,6 +354,7 @@ size_t length_of_list(int menu);
 key_type strtokeytype(const char *str);
 const sc *first_sc_for(int menu, void (*func)(void));
 int sc_seq_or(void (*func)(void), int defaultval);
+functionptrtype func_from_key(int *kbinput);
 void assign_keyinfo(sc *s);
 void print_sclist(void);
 void shortcut_init(void);
@@ -522,7 +525,7 @@ void reset_statusbar_cursor(void);
 void update_statusbar_line(const char *curranswer, size_t index);
 bool need_statusbar_horizontal_update(size_t pww_save);
 void total_statusbar_refresh(void (*refresh_func)(void));
-const sc *get_prompt_string(int *value, bool allow_tabs,
+functionptrtype get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
 	bool *list,

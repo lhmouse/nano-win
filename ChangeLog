@@ -1,3 +1,9 @@
+2014-07-02  Benno Schulenberg  <bensberg@justemail.net>
+	* src/proto.h: Add a typedef for a pointer to a function.
+	* src/global.c (func_from_key): New wrapper.
+	* src/prompt.c (get_prompt_string, do_prompt): Use the new
+	wrapper to make the code a bit cleaner.
+
 2014-07-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser), src/help.c (do_help): Make sure
 	to always set 'currmenu', so that we can rely on it.
