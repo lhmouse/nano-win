@@ -5,6 +5,10 @@
 	wrapper to make the code a bit cleaner.
 	* src/help.c (do_help, parse_help_input): Use the wrapper.
 	* src/browser.c (do_browser, parse_browser_input): Likewise.
+	* src/search.c (search_init, do_gotolinecolumn): Likewise.
+	* src/search.c (findnextstr): Replace a call of old wrapper
+	'getfuncfromkey()' with	a call of new 'func_from_key()'.
+	* src/winio.c (getfuncfromkey): Delete now unneeded wrapper.
 
 2014-07-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser), src/help.c (do_help): Make sure

@@ -137,7 +137,6 @@ int search_init(bool replacing, bool use_answer)
 {
     int i = 0;
     char *buf;
-    sc *s;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
@@ -214,13 +213,7 @@ int search_init(bool replacing, bool use_answer)
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
-	void (*func)(void) = NULL;
-
-	for  (s = sclist; s != NULL; s = s->next)
-	    if ((s->menu & currmenu) && i == s->seq) {
-	        func = s->scfunc;
-		break;
-	    }
+	functionptrtype func = func_from_key(&i);
 
 	if (i == -2 || i == 0 ) {
 #ifdef HAVE_REGEX_H
@@ -284,7 +277,6 @@ bool findnextstr(
     ssize_t current_y_find = openfile->current_y;
     filestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
-    const subnfunc *f;
     time_t lastkbcheck = time(NULL);
 
     /* rev_start might end up 1 character before the start or after the
@@ -303,9 +295,11 @@ bool findnextstr(
     enable_nodelay();
     while (TRUE) {
 	if (time(NULL) - lastkbcheck > 1) {
+	    int input = parse_kbinput(edit);
+
 	    lastkbcheck = time(NULL);
-	    f = getfuncfromkey(edit);
-	    if (f && f->scfunc == do_cancel) {
+
+	    if (input && func_from_key(&input) == do_cancel) {
 		statusbar(_("Cancelled"));
 		return FALSE;
 	    }
@@ -1023,10 +1017,9 @@ void goto_line_posx(ssize_t line, size_t pos_x)
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update)
 {
-    const sc *s;
-
     if (interactive) {
 	char *ans = mallocstrcpy(NULL, answer);
+	functionptrtype func;
 
 	/* Ask for the line and column. */
 	int i = do_prompt(FALSE,
@@ -1049,9 +1042,9 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    return;
 	}
 
-	s = get_shortcut(&i);
+	func = func_from_key(&i);
 
-	if (s && s->scfunc == gototext_void) {
+	if (func == gototext_void) {
 	    /* Keep answer up on the statusbar. */
 	    search_init(TRUE, TRUE);
 

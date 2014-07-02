@@ -363,7 +363,6 @@ void set_lint_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
 const subnfunc *sctofunc(sc *s);
-const subnfunc *getfuncfromkey(WINDOW *win);
 const char *flagtostr(int flag);
 sc *strtosc(char *input);
 int strtomenu(char *input);
