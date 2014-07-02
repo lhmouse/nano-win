@@ -1707,7 +1707,8 @@ int do_input(bool allow_funcs)
 #ifndef NANO_TINY
 		    if (s->scfunc == do_toggle_void) {
 			do_toggle(s->toggle);
-			preserve = TRUE;
+			if (s->toggle != CUT_TO_END)
+			    preserve = TRUE;
 		    } else
 #endif
 		    {

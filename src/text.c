@@ -388,7 +388,7 @@ void undo_cut(undo *u)
 
     copy_from_filestruct(u->cutbuffer);
 
-    if (u->xflags == UNcut_cutline || u->xflags == UNcut_marked_backwards || u->type == CUT_EOF)
+    if (u->xflags != UNcut_marked_forward && u->type != PASTE)
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 }
 
@@ -406,11 +406,11 @@ void redo_cut(undo *u)
 	openfile->placewewant = xplustabs();
     }
 
-    openfile->mark_set = ISSET(CUT_TO_END) ? u->mark_set : TRUE;
+    openfile->mark_set = TRUE;
     openfile->mark_begin = fsfromline(u->mark_begin_lineno);
     openfile->mark_begin_x = (u->xflags == UNcut_cutline) ? 0 : u->mark_begin_x;
 
-    do_cut_text(FALSE, u->type == CUT_EOF, TRUE);
+    do_cut_text(FALSE, FALSE, TRUE);
 
     openfile->mark_set = FALSE;
     openfile->mark_begin = NULL;
@@ -1060,15 +1060,19 @@ void update_undo(undo_type action)
 		ssize_t line = u->lineno;
 		u->lineno = u->mark_begin_lineno;
 		u->mark_begin_lineno = line;
-		u->xflags = UNcut_marked_backwards;
-	    }
-	} else if (!ISSET(CUT_TO_END)) {
+	    } else
+		u->xflags = UNcut_marked_forward;
+	} else {
 	    /* Compute cutbottom for the uncut using our copy. */
 	    u->cutbottom = u->cutbuffer;
 	    while (u->cutbottom->next != NULL)
 		u->cutbottom = u->cutbottom->next;
-	    if (u->type != CUT_EOF)
-		u->lineno++;
+	    u->lineno = u->mark_begin_lineno + u->cutbottom->lineno - u->cutbuffer->lineno;
+	    if (ISSET(CUT_TO_END) || u->type == CUT_EOF) {
+		u->begin = strlen(u->cutbottom->data);
+		if(u->lineno == u->mark_begin_lineno)
+		u->begin += u->mark_begin_x;
+	    }
 	}
 	break;
     case REPLACE:
