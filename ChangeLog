@@ -1,3 +1,9 @@
+2014-07-02  Chris Allegretta <chrisa@asty.org>
+	* src/files.c (do_lockfile): Check whether the directory
+	  of the file we're trying to lock exists, and make the
+	  resulting error message more intuitive.  Fixes
+	  Savannah bug 42639 by bens.
+
 2014-07-02  Mark Majeres  <mark@engine12.com>
 	* src/text.c (undo_cut, redo_cut, update_undo): Handle the
 	cases of cutting-from-cursor-to-end-of-line correctly.

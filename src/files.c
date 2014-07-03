@@ -141,7 +141,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     mypid = getpid();
 
     if (gethostname(myhostname, 31) < 0) {
-       statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
+       statusbar(_("Couldn't determine hosttname for lock file: %s"), strerror(errno));
        return -1;
     }
 
@@ -247,6 +247,7 @@ int do_lockfile(const char *filename)
     size_t lockfilesize = strlen(filename) + strlen(locking_prefix)
 		+ strlen(locking_suffix) + 3;
     char *lockfilename = charalloc(lockfilesize);
+    char *lockfilecpy = NULL;
     char lockprog[12], lockuser[16];
     struct stat fileinfo;
     int lockfd, lockpid;
@@ -294,7 +295,16 @@ int do_lockfile(const char *filename)
             blank_statusbar();
             return -1;
         }
+    } else {
+	lockfilecpy = mallocstrcpy(NULL, lockfilename);
+	lockfilecpy = dirname(lockfilecpy);
+	if (stat(lockfilename, &fileinfo) == -1) {
+	    statusbar(_("Error writing lock file: Directory \'%s\' doesn't exist"),
+		lockfilecpy);
+	    return -1;
+	}
     }
+
 
     return write_lockfile(lockfilename, filename, FALSE);
 }
