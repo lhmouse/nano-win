@@ -2,7 +2,7 @@
 	* src/files.c (do_lockfile): Check whether the directory
 	  of the file we're trying to lock exists, and make the
 	  resulting error message more intuitive.  Fixes
-	  Savannah bug 42639 by bens.
+	  Savannah bug #42639 reported by Benno Schulenberg.
 
 2014-07-02  Mark Majeres  <mark@engine12.com>
 	* src/text.c (undo_cut, redo_cut, update_undo): Handle the
@@ -101,7 +101,8 @@
 	* src/prompt.c (do_statusbar_input): Normalize the indentation.
 	* src/winio.c: Normalize some whitespace.
 	* Makefile.am, nano.spec.in: Stop distributing the BUGS file.
-	* BUGS: Remove obsolete file; bugs are tracked on Savannah nowadays.
+	* BUGS: Remove obsolete file, as all the bugs in it have been fixed
+	long ago.  Nowadays bugs are tracked on Savannah.
 	* configure.ac: Silence a useless warning about ignoring datarootdir.
 
 2014-06-25  Benno Schulenberg  <bensberg@justemail.net>
@@ -136,7 +137,7 @@
 
 2014-06-22  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_redo): When redoing a line join at the tail
-        of the file, make sure openfile->filebot is updated.
+	of the file, make sure openfile->filebot is updated.
 	* src/text.c (undo_cut, redo_cut, do_undo, add_undo, update_undo):
 	Fix three leaks of the cutbuffer, shorten and regroup some stuff,
 	and remove an unneeded iteration of cutbottom.
@@ -1052,7 +1053,7 @@ GNU nano 2.3.3 - 2014.05.29
 	* doc/syntax/makefile.nanorc: Highlight trailing whitespace.
 
 2014-02-26  Benno Schulenberg  <bensberg@justemail.net>
-	* src/global.c (shortcut_init):  Put PageUp and PageDown
+	* src/global.c (shortcut_init): Put PageUp and PageDown
 	and also WhereIs and WhereIsNext together in the help lines
 	of the file browser, and WriteOut and Readfile in the help
 	lines of the main window -- related stuff in one column.
@@ -1312,6 +1313,7 @@ GNU nano 2.3.0 - 2011.02.26
 	  with failing to write the backup file compared to 'allow_insecure_backup'.
 	* winio.c (edit_redraw): Removed unused variable.
 
+GNU nano 2.2.6 - 2010.11.22
 2010-11-15 Chris Allegretta <chrisa@asty.org>
 	* Add a section to the FAQ about using nanorc on Win32 systems.
 
@@ -1691,7 +1693,7 @@ GNU nano 2.1.9 - 2009.02.16
 
 2009-02-14 Chris Allegretta <chrisa@asty.org>
 	* nano.c (precalc_multicolorinfo): Add debugging so we have a better clue if further
-	  issues arise.   Also start at the beginning of later lines when trying to match the
+	  issues arise.  Also start at the beginning of later lines when trying to match the
 	  end of a multi-line regex.  Fixes more overly aggressive highlighting found by
 	  Mike Frysinger.  Finally, advance to the match end for performance.
 
@@ -1705,7 +1707,7 @@ GNU nano 2.1.9 - 2009.02.16
 	  errors about the rcfile and asking user to press enter.  Also, nano should
 	  now only ask for one enter press when there is an error when not using -q.
 	  Based on discussion between Eitan Adler and Mike Frysinger.
-	* rcfile.c (parse_keybinding):  Significant cleanups and fixes for
+	* rcfile.c (parse_keybinding): Significant cleanups and fixes for
 	  detecting and reporting errors in key bindings code.
 
 2009-02-08 Chris Allegretta <chrisa@asty.org>
@@ -1722,7 +1724,7 @@ GNU nano 2.1.8 - 2009.02.07
 	  causes nano to segfault.
 
 2009-02-05 Chris Allegretta <chrisa@asty.org>
-	* More color syntax speedups:  Determine in reset_multis() whether we really need to call
+	* More color syntax speedups: Determine in reset_multis() whether we really need to call
 	  edit_refresh().  Additional global var edit_refresh_needed() to hopefully reduce
 	  repeated calls to the function.  New helper funcs reset_multis_before() and
 	  reset_multis_after().
@@ -1822,7 +1824,7 @@ GNU nano 2.1.5 - 2008.08.30
 	  treating ^G the same as ^M.
 
 2008-08-28 Chris Allegretta <chrisa@asty.org>
-	* configure.ac, rcfile.c:  Add support for an alternate rcfilename at configure time.  Maybe this
+	* configure.ac, rcfile.c: Add support for an alternate rcfilename at configure time.  Maybe this
 	  should become a command line option some day, but I don't see the need currently.  Start of
 	  fix for Savannah bug #24128: Add nanorc support to win32 platform.
 
@@ -1945,8 +1947,8 @@ GNU nano 2.1.1 - 2008.04.01
 	* winio.c: Fix shortcut labels not being translated.
 
 2008-03-17  Mike Frysinger <vapier@gentoo.org>
-	 * */.gitignore: Git ignore files for those running a local git
-	   against SVN.
+	* */.gitignore: Git ignore files for those running a local git
+	  against SVN.
 
 2008-03-16  Benno Schulenberg <bensberg@justemail.net>
 	* src/help.c, src/global: Fix help strings no longer being
