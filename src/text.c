@@ -433,7 +433,7 @@ void do_undo(void)
     undo *u = openfile->current_undo;
     filestruct *t = 0;
     size_t len = 0;
-    char *undidmsg, *data;
+    char *data, *undidmsg = NULL;
 
     if (!u) {
 	statusbar(_("Nothing in undo buffer!"));
@@ -476,7 +476,6 @@ void do_undo(void)
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_END:
-	undidmsg = _("line wrap");
 	goto_line_posx(u->lineno, u->begin);
 	openfile->current_undo = openfile->current_undo->next;
 	openfile->last_action = OTHER;
@@ -484,6 +483,8 @@ void do_undo(void)
 	    do_undo();
 	u = openfile->current_undo;
 	f = openfile->current;
+    case SPLIT_BEGIN:
+	undidmsg = _("text add");
 	break;
 #endif /* !DISABLE_WRAPPING */
     case JOIN:
@@ -554,7 +555,8 @@ void do_undo(void)
 	break;
     }
 
-    statusbar(_("Undid action (%s)"), undidmsg);
+    if (undidmsg)
+	statusbar(_("Undid action (%s)"), undidmsg);
 
     renumber(f);
     openfile->current_undo = openfile->current_undo->next;
@@ -568,7 +570,7 @@ void do_redo(void)
 {
     undo *u = openfile->undotop;
     size_t len = 0;
-    char *redidmsg, *data;
+    char *data, *redidmsg = NULL;
 
     for (; u != NULL && u->next != openfile->current_undo; u = u->next)
 	;
@@ -622,7 +624,6 @@ void do_redo(void)
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
-	redidmsg = _("line wrap");
 	goto_line_posx(u->lineno, u->begin);
 	openfile->current_undo = u;
 	openfile->last_action = OTHER;
@@ -630,6 +631,8 @@ void do_redo(void)
 	    do_redo();
 	u = openfile->current_undo;
 	goto_line_posx(u->lineno, u->begin);
+    case SPLIT_END:
+	redidmsg = _("text add");
 	break;
 #endif /* !DISABLE_WRAPPING */
     case JOIN:
@@ -675,7 +678,8 @@ void do_redo(void)
 	break;
     }
 
-    statusbar(_("Redid action (%s)"), redidmsg);
+    if (redidmsg)
+	statusbar(_("Redid action (%s)"), redidmsg);
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
