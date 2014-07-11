@@ -1,8 +1,14 @@
+2014-07-11  Chris Allegretta <chrisa@asty.org>
+	* src/files.c (do_lockfile, open_file): If locking fails,
+	allow the lock failure message to be preserved AND
+	preserve the filename passed on the cmdline.  Fixes
+	Savannah bug #42668.
+
 2014-07-02  Chris Allegretta <chrisa@asty.org>
 	* src/files.c (do_lockfile): Check whether the directory
-	  of the file we're trying to lock exists, and make the
-	  resulting error message more intuitive.  Fixes
-	  Savannah bug #42639 reported by Benno Schulenberg.
+	of the file we're trying to lock exists, and make the
+	resulting error message more intuitive.  Fixes
+	Savannah bug #42639 reported by Benno Schulenberg.
 
 2014-07-02  Mark Majeres  <mark@engine12.com>
 	* src/text.c (undo_cut, redo_cut, update_undo): Handle the

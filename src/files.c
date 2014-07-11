@@ -301,7 +301,7 @@ int do_lockfile(const char *filename)
 	if (stat(lockfiledir, &fileinfo) == -1) {
 	    statusbar(_("Error writing lock file: Directory \'%s\' doesn't exist"),
 		lockfiledir);
-	    return -1;
+	    return 0;
 	}
     }
 
@@ -891,7 +891,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 int open_file(const char *filename, bool newfie, FILE **f)
 {
     struct stat fileinfo, fileinfo2;
-    int fd;
+    int fd, quiet = 0;
     char *full_filename;
 
     assert(filename != NULL && f != NULL);
@@ -907,22 +907,28 @@ int open_file(const char *filename, bool newfie, FILE **f)
 
 
 #ifndef NANO_TINY
-    if (ISSET(LOCKING))
-        if (do_lockfile(full_filename) < 0)
-            return -1;
+    if (ISSET(LOCKING)) {
+	int lockstatus = do_lockfile(full_filename);
+        if (lockstatus < 0)
+	    return -1;
+	else if (lockstatus == 0)
+	    quiet = 1;
+    }
 #endif
 
     if (stat(full_filename, &fileinfo) == -1) {
 	/* Well, maybe we can open the file even if the OS says it's
 	 * not there. */
         if ((fd = open(filename, O_RDONLY)) != -1) {
-	    statusbar(_("Reading File"));
+	    if (!quiet)
+		statusbar(_("Reading File"));
 	    free(full_filename);
 	    return 0;
 	}
 
 	if (newfie) {
-	    statusbar(_("New File"));
+	    if (!quiet)
+		statusbar(_("New File"));
 	    return -2;
 	}
 	statusbar(_("\"%s\" not found"), filename);
