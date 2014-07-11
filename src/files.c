@@ -247,7 +247,7 @@ int do_lockfile(const char *filename)
     size_t lockfilesize = strlen(filename) + strlen(locking_prefix)
 		+ strlen(locking_suffix) + 3;
     char *lockfilename = charalloc(lockfilesize);
-    char *lockfilecpy = NULL;
+    char *lockfiledir = NULL;
     char lockprog[12], lockuser[16];
     struct stat fileinfo;
     int lockfd, lockpid;
@@ -296,11 +296,11 @@ int do_lockfile(const char *filename)
             return -1;
         }
     } else {
-	lockfilecpy = mallocstrcpy(NULL, lockfilename);
-	lockfilecpy = dirname(lockfilecpy);
-	if (stat(lockfilename, &fileinfo) == -1) {
+	lockfiledir = mallocstrcpy(NULL, lockfilename);
+	lockfiledir = dirname(lockfiledir);
+	if (stat(lockfiledir, &fileinfo) == -1) {
 	    statusbar(_("Error writing lock file: Directory \'%s\' doesn't exist"),
-		lockfilecpy);
+		lockfiledir);
 	    return -1;
 	}
     }
