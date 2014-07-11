@@ -1,3 +1,16 @@
+2014.07.11 - GNU nano 2.3.5 "lucky day" is released.  This release
+		contains many visible and under-the-hood fixes for
+		components such as file locking, more fixes to the
+		undo system, and you no longer have to explicitly ask
+		nano to have undo/redo support as it now defaults to
+		being enabled.  Other notable fixes include a better
+		handling of --tempfile mode, and better handling of
+		command line arguments when also attempting to specify
+		+<line number>.  As always, please file any bugs you
+		find at the Savannah page for nano, at
+		https://savannah.gnu.org/bugs/index.php?42639 and
+		thanks for using nano.
+
 2014.06.02 - GNU nano 2.3.4 won't leave you high, won't leave you dry. This
 		release contains only a small number of fixes, but in
 		particular allows nano to compile on non-UTF8 curses
