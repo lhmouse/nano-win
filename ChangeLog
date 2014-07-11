@@ -1,3 +1,6 @@
+2014-07-11  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_lockfile): Refix typo in error message.
+
 GNU nano 2.3.5 - 2014.07.11
 2014-07-11  Chris Allegretta <chrisa@asty.org>
 	* src/files.c (do_lockfile, open_file): If locking fails,

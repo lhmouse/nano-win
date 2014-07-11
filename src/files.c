@@ -141,7 +141,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     mypid = getpid();
 
     if (gethostname(myhostname, 31) < 0) {
-       statusbar(_("Couldn't determine hosttname for lock file: %s"), strerror(errno));
+       statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
        return -1;
     }
 
