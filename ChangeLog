@@ -1,3 +1,7 @@
+2014-07-12  Benno Schulenberg  <bensberg@justemail.net>
+	* configure.ac: The warning about datarootdir being ignored is
+	not merely a warning, it also activates a workaround.
+
 2014-07-11  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_undo, do_redo): Do not speak of "line wrap"
 	but instead of "text add" when undoing/redoing text additions

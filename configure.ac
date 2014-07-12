@@ -26,10 +26,6 @@ AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 
-dnl Silence a pointless warning from the gettext Makefile.
-
-AC_DEFUN([AC_DATAROOTDIR_CHECKED])
-
 dnl Make sure the ONCE macros are available.
 
 AC_PREREQ(2.61)
