@@ -1,3 +1,6 @@
+2014-07-13  David Lawrence Ramsey  <pooka109@gmail.com>
+	* ChangeLog: Typo fix
+
 2014-07-12  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: The warning about datarootdir being ignored is
 	not merely a warning, it also activates a workaround.
@@ -131,7 +134,7 @@ GNU nano 2.3.5 - 2014.07.11
 	* src/help.c (do_help): Same thing for 'firstline'/'lastline'.
 
 2014-06-23  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.h, src/move.c (do_up, do_down), src/winio.c (edit_scrol):
+	* src/nano.h, src/move.c (do_up, do_down), src/winio.c (edit_scroll):
 	Rename UP_DIR and DOWN_DIR to UPWARD and DOWNWARD, for clarity.
 	* src/proto.h, src/global.c, src/search.c: Rename 'no_replace_void()'
 	to 'flip_replace_void()', to show what it actually does.
