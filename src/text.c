@@ -455,8 +455,8 @@ void do_undo(void)
     case ADD:
 	undidmsg = _("text add");
 	len = strlen(f->data) - strlen(u->strdata) + 1;
-        data = charalloc(len);
-        strncpy(data, f->data, u->begin);
+	data = charalloc(len);
+	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
 	f->data = data;
@@ -503,7 +503,7 @@ void do_undo(void)
     case CUT_EOF:
     case CUT:
 	undidmsg = _("text cut");
-        undo_cut(u);
+	undo_cut(u);
 	f = fsfromline(u->lineno);
 	break;
     case PASTE:
@@ -599,7 +599,7 @@ void do_redo(void)
     case ADD:
 	redidmsg = _("text add");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
-        data = charalloc(len);
+	data = charalloc(len);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], u->strdata);
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
@@ -612,7 +612,7 @@ void do_redo(void)
 	redidmsg = _("text delete");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
 	data = charalloc(len);
-        strncpy(data, f->data, u->begin);
+	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
 	f->data = data;
@@ -1002,7 +1002,7 @@ void update_undo(undo_type action)
     openfilestruct *fs = openfile;
 
 #ifdef DEBUG
-        fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = %ld",
+fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = %ld",
 		action, fs->last_action, (long)openfile->current->lineno);
 	if (fs->current_undo)
 	    fprintf(stderr, "fs->current_undo->lineno = %ld\n", (long)fs->current_undo->lineno);
@@ -1015,7 +1015,7 @@ void update_undo(undo_type action)
     if (action != fs->last_action
 	|| (action != ENTER && action != CUT && action != INSERT
 	    && openfile->current->lineno != fs->current_undo->lineno)) {
-        add_undo(action);
+	add_undo(action);
 	return;
     }
 
@@ -1025,7 +1025,7 @@ void update_undo(undo_type action)
     switch (u->type) {
     case ADD: {
 #ifdef DEBUG
-        fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
+	fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
 			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin);
 #endif
 	char *char_buf = charalloc(mb_cur_max());
@@ -1335,10 +1335,10 @@ ssize_t break_line(const char *line, ssize_t goal
 
 #ifndef DISABLE_HELP
     if (newln && blank_loc <= 0) {
-       /* If no blank was found, or was found only as the first
-        * character, force a line break. */
-       cur_loc -= char_len;
-       return cur_loc;
+	/* If no blank was found, or was found only as the first
+	 * character, force a line break. */
+	cur_loc -= char_len;
+	return cur_loc;
     }
 #endif
 
@@ -2862,7 +2862,7 @@ void do_spell(void)
     const char *spell_msg;
 
     if (ISSET(RESTRICTED)) {
-        nano_disabled_msg();
+	nano_disabled_msg();
 	return;
     }
 
@@ -2943,13 +2943,12 @@ void do_linter(void)
     }
 
     if (ISSET(RESTRICTED)) {
-        nano_disabled_msg();
+	nano_disabled_msg();
 	return;
     }
 
     if (openfile->modified) {
-	int i = do_yesno_prompt(FALSE,
-                _("Save modified buffer before linting?"));
+	int i = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
 	if (i == -1) {
 	    statusbar(_("Cancelled"));
 	    lint_cleanup();
@@ -2995,13 +2994,13 @@ void do_linter(void)
 	/* Child continues (i.e. future spell process). */
 	close(lint_fd[0]);
 
-        /* Send spell's standard output/err to the pipe. */
-        if (dup2(lint_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-            exit(1);
-        if (dup2(lint_fd[1], STDERR_FILENO) != STDERR_FILENO)
-            exit(1);
+	/* Send spell's standard output/err to the pipe. */
+	if (dup2(lint_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    exit(1);
+	if (dup2(lint_fd[1], STDERR_FILENO) != STDERR_FILENO)
+	    exit(1);
 
-        close(lint_fd[1]);
+	close(lint_fd[1]);
 
 	/* Start the linter program; we are using $PATH. */
 	execvp(lintargs[0], lintargs);
@@ -3199,23 +3198,23 @@ void do_linter(void)
 
 	if (!s)
 	    continue;
-        else if (s->scfunc == do_cancel)
+	else if (s->scfunc == do_cancel)
 	    break;
-        else if (s->scfunc == do_help_void) {
+	else if (s->scfunc == do_help_void) {
 	    tmplint = NULL;
 	    do_help_void();
-        } else if (s->scfunc == do_page_down) {
+	} else if (s->scfunc == do_page_down) {
 	    if (curlint->next != NULL)
-	        curlint = curlint->next;
+		curlint = curlint->next;
 	    else {
-	        statusbar(_("At last message"));
+		statusbar(_("At last message"));
 		continue;
 	    }
 	} else if (s->scfunc == do_page_up) {
 	    if (curlint->prev != NULL)
 		curlint = curlint->prev;
 	    else {
-	        statusbar(_("At first message"));
+		statusbar(_("At first message"));
 		continue;
 	    }
 	}

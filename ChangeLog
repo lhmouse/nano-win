@@ -1,3 +1,6 @@
+2014-07-16  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c: Normalize the tabbing.
+
 2014-07-16  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_undo): Make sure renumbering starts far enough back
 	after undoing a cut or paste.  This fixes a segmentation fault when
