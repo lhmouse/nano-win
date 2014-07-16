@@ -1,5 +1,11 @@
+2014-07-16  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_undo): Make sure renumbering starts far enough back
+	after undoing a cut or paste.  This fixes a segmentation fault when
+	undoing a repeated cutting and pasting of the first line of a file.
+	* src/nano.c (move_to_filestruct, copy_from_filestruct): Fix two leaks.
+
 2014-07-13  David Lawrence Ramsey  <pooka109@gmail.com>
-	* ChangeLog: Typo fix
+	* ChangeLog: Typo fix.
 
 2014-07-12  Benno Schulenberg  <bensberg@justemail.net>
 	* configure.ac: The warning about datarootdir being ignored is
