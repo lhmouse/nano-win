@@ -29,7 +29,7 @@ nano \- Nano's ANOther editor, an enhanced free Pico clone
 
 .SH SYNOPSIS
 .B nano
-.RI [ options "] [[\+" line , column "]\ " file "]..."
+.RI [ options "] [[+" line , column "]\ " file "]..."
 .br
 
 .SH DESCRIPTION
@@ -41,7 +41,7 @@ replace" and "go to line and column number".
 
 .SH OPTIONS
 .TP
-.B \+\fIline\fP,\fIcolumn\fP
+.B +\fIline\fP,\fIcolumn\fP
 Places the cursor on line number \fIline\fP and at column number \fIcolumn\fP
 (at least one of which must be specified) on startup, instead of the
 default line 1, column 1.
@@ -220,8 +220,8 @@ Enable 'soft wrapping'.  This will make \fBnano\fP attempt to display the
 entire contents of any line, even if it is longer than the screen width, by
 continuing it over multiple screen lines.  Since
 \&'$' normally refers to a variable in the Unix shell, you should specify
-this option last when using other options (e.g. 'nano \-wS$') or pass it
-separately (e.g. 'nano \-wS \-$').
+this option last when using other options (e.g.\& 'nano \-wS$') or pass it
+separately (e.g.\& 'nano \-wS \-$').
 .TP
 .B \-a, \-b, \-e, \-f, \-g, \-j
 Ignored, for compatibility with Pico.
@@ -244,7 +244,7 @@ SIGTERM or runs out of memory.  It will write the buffer into a file
 named \fInano.save\fP if the buffer didn't have a name already, or will
 add a ".save" suffix to the current filename.  If an emergency file with
 that name already exists in the current directory, it will add ".save"
-plus a number (e.g. ".save.1") to the current filename in order to make
+plus a number (e.g.\& ".save.1") to the current filename in order to make
 it unique.  In multibuffer mode, \fBnano\fP will write all the open
 buffers to their respective emergency files.
 
