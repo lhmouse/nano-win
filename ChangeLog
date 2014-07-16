@@ -1,4 +1,11 @@
 2014-07-16  Jordi Mallach  <jordi@gnu.org>
+
+	* doc/syntax/debian.nanorc: Add https, tor and spacewalk to supported
+	APT methods.
+	* doc/syntax/debian.nanorc: Apply the syntax to apt/sources.list.d/
+	entries as well, as reported by Rodolphe Pelloux-Prayer.
+
+2014-07-16  Jordi Mallach  <jordi@gnu.org>
 	* doc/man/nano.1, doc/man/rnano.1: Add some escaping and formatting
 	fixes as suggested Bjarni Ingi Gislason <bjarniig@rhi.hi.is> in
 	Debian bugs #662842 and #726956.

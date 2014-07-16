@@ -1,14 +1,14 @@
 ## Here is an example for apt's sources.list.
 
-syntax "apt/sources.list" "sources\.list(\.old|~)?$"
+syntax "apt/sources.list" "sources\.list(\.old|~)?$" "apt/sources\.list\.d/.*\.list$"
 
 # Coloring the deb lines, working from tail to head.  First the
 # components -- well, everything, and thus also the components.
 color brightmagenta "^deb.*"
 # Distribution -- well, everything, except the components.
-color brightred "^deb(-src)? ((http|ftp|rsh|ssh|file|copy):/[^ ]+|cdrom:\[[-a-zA-Z0-9\._\(\) ]+\]/) [^ ]+"
+color brightred "^deb(-src)? ((http(s)?|ftp|rsh|ssh|file|copy|tor|spacewalk):/[^ ]+|cdrom:\[[-a-zA-Z0-9\._\(\) ]+\]/) [^ ]+"
 # URIs.
-color brightgreen "(http|ftp|rsh|ssh|file|copy):/[^ ]+"
+color brightgreen "(http(s)?|ftp|rsh|ssh|file|copy|tor|spacewalk):/[^ ]+"
 # CDroms.
 color brightgreen "cdrom:\[[-a-zA-Z0-9\._\(\) ]+\]/"
 # And finally the initial deb tag.
