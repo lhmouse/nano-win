@@ -1,11 +1,14 @@
 2014-07-16  Jordi Mallach  <jordi@gnu.org>
+	* doc/man/rnano.1: Additional printing formatting improvement from
+	Bjarni Ingi Gislason.
+
+2014-07-16  Jordi Mallach  <jordi@gnu.org>
 	* doc/man/fr/nano.1, doc/man/fr/rnano.1: Apply similar escaping fixes
 	to French manpages.
 	* doc/man/fr/nano.1, doc/man/fr/rnano.1, doc/man/fr/nanorc.5: Recode
 	as UTF-8.
 
 2014-07-16  Jordi Mallach  <jordi@gnu.org>
-
 	* doc/syntax/debian.nanorc: Add https, tor and spacewalk to supported
 	APT methods.
 	* doc/syntax/debian.nanorc: Apply the syntax to apt/sources.list.d/
