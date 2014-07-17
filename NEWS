@@ -1,3 +1,10 @@
+2014.07.17 - GNU nano 2.3.6 "Columbo" is released.  This release
+		contains a fix for installing internationalization
+		files.  Also included are scattered documentation
+		(in particular man page) fixes, and a few touch ups
+		to syntax highlighting definitions.  Oh, just one
+		more thing, thanks for using nano!
+
 2014.07.11 - GNU nano 2.3.5 "lucky day" is released.  This release
 		contains many visible and under-the-hood fixes for
 		components such as file locking, more fixes to the

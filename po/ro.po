@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-11 08:42-0400\n"
+"POT-Creation-Date: 2014-07-17 11:17-0400\n"
 "PO-Revision-Date: 2005-04-18 07:00-0500\n"
 "Last-Translator: Laurentiu Buzdugan <lbuz@rolix.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
@@ -23,8 +23,8 @@ msgid "Go To Directory"
 msgstr "Mergi la Director"
 
 #: src/browser.c:214 src/browser.c:771 src/files.c:1083 src/files.c:2305
-#: src/nano.c:1156 src/search.c:213 src/search.c:303 src/search.c:964
-#: src/search.c:1040 src/text.c:2948 src/text.c:3162
+#: src/nano.c:1160 src/search.c:213 src/search.c:303 src/search.c:964
+#: src/search.c:1040 src/text.c:2953 src/text.c:3167
 msgid "Cancelled"
 msgstr "Am renunþat"
 
@@ -81,7 +81,7 @@ msgstr ""
 
 #: src/files.c:144
 #, fuzzy, c-format
-msgid "Couldn't determine hosttname for lock file: %s"
+msgid "Couldn't determine hostname for lock file: %s"
 msgstr "Nu am putut crea fiºier temporar: %s"
 
 #: src/files.c:170 src/files.c:207 src/files.c:217
@@ -258,7 +258,7 @@ msgstr "Nu pot pre-adãugã sau adãuga la un symlink cu setarea --nofollow"
 msgid "Error writing backup file %s: %s"
 msgstr "Eroare la scrierea fiºierului temporar: %s"
 
-#: src/files.c:1827 src/nano.c:715
+#: src/files.c:1827 src/nano.c:719
 #, fuzzy
 msgid "Too many backup files?"
 msgstr "Fiºiere copie de siguranþã (backup)"
@@ -271,7 +271,7 @@ msgstr "Fiºiere copie de siguranþã (backup)"
 msgid "Error writing %s: %s"
 msgstr "Eroare scriind %s: %s"
 
-#: src/files.c:1976 src/text.c:2864 src/text.c:2876
+#: src/files.c:1976 src/text.c:2870 src/text.c:2882
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Eroare la scrierea fiºierului temporar: %s"
@@ -1391,12 +1391,12 @@ msgstr ""
 msgid "enable/disable"
 msgstr "activeazã/deactiveazã"
 
-#: src/nano.c:597
+#: src/nano.c:601
 #, fuzzy
 msgid "Key invalid in view mode"
 msgstr "Tastã ilegalã în modul VIZUALIZARE"
 
-#: src/nano.c:709
+#: src/nano.c:713
 #, c-format
 msgid ""
 "\n"
@@ -1405,7 +1405,7 @@ msgstr ""
 "\n"
 "Bufer scris în %s\n"
 
-#: src/nano.c:711
+#: src/nano.c:715
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -1414,7 +1414,7 @@ msgstr ""
 "\n"
 "Bufer scris în %s\n"
 
-#: src/nano.c:714
+#: src/nano.c:718
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -1423,293 +1423,293 @@ msgstr ""
 "\n"
 "Bufer scris în %s\n"
 
-#: src/nano.c:739
+#: src/nano.c:743
 msgid "Window size is too small for nano...\n"
 msgstr "Dimensiunea ferestrei prea micã pentru nano...\n"
 
-#: src/nano.c:832
+#: src/nano.c:836
 #, c-format
 msgid ""
 "Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n"
 "\n"
 msgstr ""
 
-#: src/nano.c:835
+#: src/nano.c:839
 #, fuzzy, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
 msgstr "Opþiune\t\tOpþiune lungã\t\tÎnþeles\n"
 
-#: src/nano.c:837
+#: src/nano.c:841
 #, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Opþiune\t\tÎnþeles\n"
 
-#: src/nano.c:840
+#: src/nano.c:844
 msgid "+LINE,COLUMN"
 msgstr ""
 
 #. TRANSLATORS: The next forty or so strings are option descriptions
 #. * for the --help output.  Try to keep them at most 40 characters.
-#: src/nano.c:843
+#: src/nano.c:847
 #, fuzzy
 msgid "Start at line LINE, column COLUMN"
 msgstr "Începe la linia cu numãrul LINIE"
 
-#: src/nano.c:845
+#: src/nano.c:849
 msgid "Enable smart home key"
 msgstr "Permite tasta acasã inteligentã"
 
-#: src/nano.c:846
+#: src/nano.c:850
 #, fuzzy
 msgid "Save backups of existing files"
 msgstr "Creazã copii de siguranþã (backup) la salvare"
 
-#: src/nano.c:847
+#: src/nano.c:851
 msgid "-C <dir>"
 msgstr ""
 
-#: src/nano.c:847
+#: src/nano.c:851
 #, fuzzy
 msgid "--backupdir=<dir>"
 msgstr "--backupdir=[dir]"
 
-#: src/nano.c:848
+#: src/nano.c:852
 #, fuzzy
 msgid "Directory for saving unique backup files"
 msgstr "Director pentru scrierea fiºierelor copie-de-siguranþã (backup)"
 
-#: src/nano.c:851
+#: src/nano.c:855
 msgid "Use bold instead of reverse video text"
 msgstr ""
 
-#: src/nano.c:854
+#: src/nano.c:858
 msgid "Convert typed tabs to spaces"
 msgstr ""
 
-#: src/nano.c:857
+#: src/nano.c:861
 msgid "Enable multiple file buffers"
 msgstr "Activeazã bufere fiºier multiple"
 
-#: src/nano.c:861
+#: src/nano.c:865
 msgid "Use (vim-style) lock files"
 msgstr ""
 
-#: src/nano.c:865
+#: src/nano.c:869
 msgid "Log & read search/replace string history"
 msgstr "Scrie în jurnal ºi citeºte istoria ºirurilor de cãutare/înlocuire"
 
-#: src/nano.c:869
+#: src/nano.c:873
 msgid "Don't look at nanorc files"
 msgstr "Nu te uita la fiºierele nanorc"
 
-#: src/nano.c:872
+#: src/nano.c:876
 #, fuzzy
 msgid "Fix numeric keypad key confusion problem"
 msgstr "Reparã confuzia cu tastele Backspace/Delete"
 
-#: src/nano.c:874
+#: src/nano.c:878
 msgid "Don't add newlines to the ends of files"
 msgstr ""
 
-#: src/nano.c:877
+#: src/nano.c:881
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Nu converti fiºierele din formatul DOS/Mac"
 
-#: src/nano.c:879
+#: src/nano.c:883
 #, fuzzy
 msgid "Use one more line for editing"
 msgstr "Foloseºte mai mult spaþiu pentru editare"
 
-#: src/nano.c:882
+#: src/nano.c:886
 #, fuzzy
 msgid "Log & read location of cursor position"
 msgstr "Marcheazã textul la poziþia curentã a cursorului"
 
-#: src/nano.c:885
+#: src/nano.c:889
 msgid "-Q <str>"
 msgstr ""
 
-#: src/nano.c:885
+#: src/nano.c:889
 #, fuzzy
 msgid "--quotestr=<str>"
 msgstr "--quotestr=[ºir]"
 
-#: src/nano.c:886
+#: src/nano.c:890
 #, fuzzy
 msgid "Quoting string"
 msgstr "ªir citate. implicit \"> \""
 
-#: src/nano.c:888
+#: src/nano.c:892
 msgid "Restricted mode"
 msgstr "Mod restricþionat"
 
-#: src/nano.c:891
+#: src/nano.c:895
 msgid "Scroll by line instead of half-screen"
 msgstr ""
 
-#: src/nano.c:893
+#: src/nano.c:897
 #, fuzzy
 msgid "-T <#cols>"
 msgstr "-T [#coloane]"
 
-#: src/nano.c:893
+#: src/nano.c:897
 #, fuzzy
 msgid "--tabsize=<#cols>"
 msgstr "--tabsize=[#coloane]"
 
-#: src/nano.c:894
+#: src/nano.c:898
 #, fuzzy
 msgid "Set width of a tab to #cols columns"
 msgstr "Seteazã lãþimea unui tab în coloane ca #coloane"
 
-#: src/nano.c:896
+#: src/nano.c:900
 msgid "Do quick statusbar blanking"
 msgstr ""
 
-#: src/nano.c:899
+#: src/nano.c:903
 msgid "Print version information and exit"
 msgstr "Afiºeazã informaþii despre versiune ºi terminã"
 
-#: src/nano.c:902
+#: src/nano.c:906
 msgid "Detect word boundaries more accurately"
 msgstr ""
 
-#: src/nano.c:905
+#: src/nano.c:909
 msgid "-Y <str>"
 msgstr ""
 
-#: src/nano.c:905
+#: src/nano.c:909
 #, fuzzy
 msgid "--syntax=<str>"
 msgstr "--syntax=[ºir]"
 
-#: src/nano.c:906
+#: src/nano.c:910
 #, fuzzy
 msgid "Syntax definition to use for coloring"
 msgstr "Definiþie sintaxã de folosit"
 
-#: src/nano.c:908
+#: src/nano.c:912
 msgid "Constantly show cursor position"
 msgstr "Aratã continuu poziþia cursorului"
 
-#: src/nano.c:910
+#: src/nano.c:914
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Reparã confuzia cu tastele Backspace/Delete"
 
-#: src/nano.c:911
+#: src/nano.c:915
 #, fuzzy
 msgid "Show this help text"
 msgstr "Aratã acest mesaj"
 
-#: src/nano.c:914
+#: src/nano.c:918
 msgid "Automatically indent new lines"
 msgstr "Indent-eazã automatic liniile noi"
 
-#: src/nano.c:915
+#: src/nano.c:919
 msgid "Cut from cursor to end of line"
 msgstr "Taie de la cursor la sfârºitul liniei"
 
-#: src/nano.c:918
+#: src/nano.c:922
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Nu urma link-urile simbolice, scrie peste"
 
-#: src/nano.c:920
+#: src/nano.c:924
 #, fuzzy
 msgid "Enable the use of the mouse"
 msgstr "Permite maus"
 
-#: src/nano.c:922
+#: src/nano.c:926
 msgid "Do not read the file (only write it)"
 msgstr ""
 
-#: src/nano.c:924
+#: src/nano.c:928
 msgid "-o <dir>"
 msgstr ""
 
-#: src/nano.c:924
+#: src/nano.c:928
 #, fuzzy
 msgid "--operatingdir=<dir>"
 msgstr "--operatingdir=[dir]"
 
-#: src/nano.c:925
+#: src/nano.c:929
 msgid "Set operating directory"
 msgstr "Seteazã directorul de operare"
 
-#: src/nano.c:928
+#: src/nano.c:932
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Conservã tastele XON (^Q) ºi XOFF (^S)"
 
-#: src/nano.c:931
+#: src/nano.c:935
 msgid "Silently ignore startup issues like rc file errors"
 msgstr ""
 
-#: src/nano.c:934
+#: src/nano.c:938
 #, fuzzy
 msgid "-r <#cols>"
 msgstr "-r [#coloane]"
 
-#: src/nano.c:934
+#: src/nano.c:938
 #, fuzzy
 msgid "--fill=<#cols>"
 msgstr "--fill=[#coloane]"
 
-#: src/nano.c:935
+#: src/nano.c:939
 msgid "Set hard-wrapping point at column #cols"
 msgstr ""
 
-#: src/nano.c:938
+#: src/nano.c:942
 #, fuzzy
 msgid "-s <prog>"
 msgstr "-s [prog]"
 
-#: src/nano.c:938
+#: src/nano.c:942
 #, fuzzy
 msgid "--speller=<prog>"
 msgstr "--speller=[prog]"
 
-#: src/nano.c:939
+#: src/nano.c:943
 msgid "Enable alternate speller"
 msgstr "Permite corector ortografic alternativ"
 
-#: src/nano.c:942
+#: src/nano.c:946
 msgid "Auto save on exit, don't prompt"
 msgstr "Salveazã automat la ieºire, nu întreba"
 
-#: src/nano.c:943
+#: src/nano.c:947
 #, fuzzy
 msgid "View mode (read-only)"
 msgstr "Mod vedere (numai citire)"
 
-#: src/nano.c:945
+#: src/nano.c:949
 #, fuzzy
 msgid "Don't hard-wrap long lines"
 msgstr "Nu sparge (wrap) liniile lungi"
 
-#: src/nano.c:947
+#: src/nano.c:951
 #, fuzzy
 msgid "Don't show the two help lines"
 msgstr "Nu arãta fereastra de ajutor"
 
-#: src/nano.c:948
+#: src/nano.c:952
 #, fuzzy
 msgid "Enable suspension"
 msgstr "Permite suspendarea"
 
-#: src/nano.c:950
+#: src/nano.c:954
 msgid "Enable soft line wrapping"
 msgstr ""
 
-#: src/nano.c:959
+#: src/nano.c:963
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano versiunea %s (compilat %s, %s)\n"
 
-#: src/nano.c:963
+#: src/nano.c:967
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 
-#: src/nano.c:964
+#: src/nano.c:968
 #, c-format
 msgid ""
 "\n"
@@ -1718,70 +1718,70 @@ msgstr ""
 "\n"
 " Opþiuni compilare:"
 
-#: src/nano.c:1093
+#: src/nano.c:1097
 msgid "Sorry, support for this function has been disabled"
 msgstr "Ne pare rãu, suportul pentru aceastã funcþie a fost deactivat"
 
-#: src/nano.c:1122
+#: src/nano.c:1126
 msgid "No file name"
 msgstr ""
 
-#: src/nano.c:1133
+#: src/nano.c:1137
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Salvez buferul modificat (RÃSPUNSUL \"Nu\" VA DISTRUGE SCHIMBÃRILE) ?"
 
-#: src/nano.c:1186
+#: src/nano.c:1190
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr ""
 
-#: src/nano.c:1211
+#: src/nano.c:1215
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr ""
 
-#: src/nano.c:1277
+#: src/nano.c:1281
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Am recepþionat SIGHUP sau SIGTERM\n"
 
-#: src/nano.c:1299
+#: src/nano.c:1303
 #, fuzzy, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Folosiþi \"fg\" pentru a vã întoarce la nano"
 
-#: src/nano.c:1479
+#: src/nano.c:1483
 msgid "enabled"
 msgstr "activat"
 
-#: src/nano.c:1479
+#: src/nano.c:1483
 msgid "disabled"
 msgstr "deactivat"
 
-#: src/nano.c:1633 src/winio.c:1283
+#: src/nano.c:1637 src/winio.c:1283
 #, fuzzy
 msgid "Unknown Command"
 msgstr "Indicator (flag) necunoscut %s"
 
-#: src/nano.c:1745
+#: src/nano.c:1749
 #, fuzzy
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignorat, murmur, murmur."
 
-#: src/nano.c:1750
+#: src/nano.c:1754
 #, fuzzy
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorat, murmur, murmur."
 
-#: src/nano.c:2308 src/rcfile.c:1293
+#: src/nano.c:2312 src/rcfile.c:1293
 #, fuzzy, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Dimensiune tab cerutã %s invalidã"
 
-#: src/nano.c:2372 src/rcfile.c:1218
+#: src/nano.c:2376 src/rcfile.c:1218
 #, fuzzy, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Dimensiune umplere cerutã %s invalidã"
 
-#: src/nano.c:2413
+#: src/nano.c:2417
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr ""
@@ -2113,187 +2113,182 @@ msgstr ""
 msgid "Internal error: can't match line %ld.  Please save your work."
 msgstr ""
 
-#: src/text.c:456 src/text.c:596
+#: src/text.c:456 src/text.c:487 src/text.c:600 src/text.c:637
 msgid "text add"
 msgstr ""
 
-#: src/text.c:467 src/text.c:608
+#: src/text.c:467 src/text.c:612
 #, fuzzy
 msgid "text delete"
 msgstr "Fiºier urmãtor"
 
-#: src/text.c:479 src/text.c:625
-#, fuzzy
-msgid "line wrap"
-msgstr "Trecere automatã (wrap) la linie nouã"
-
-#: src/text.c:490 src/text.c:636
+#: src/text.c:491 src/text.c:641
 msgid "line join"
 msgstr ""
 
-#: src/text.c:504 src/text.c:652
+#: src/text.c:505 src/text.c:657
 msgid "text cut"
 msgstr ""
 
-#: src/text.c:508 src/text.c:656
+#: src/text.c:510 src/text.c:661
 msgid "text uncut"
 msgstr ""
 
-#: src/text.c:512 src/text.c:619
+#: src/text.c:515 src/text.c:623
 msgid "line break"
 msgstr ""
 
-#: src/text.c:525 src/text.c:667
+#: src/text.c:528 src/text.c:672
 #, fuzzy
 msgid "text insert"
 msgstr "Linia urmãtoare"
 
-#: src/text.c:546 src/text.c:660
+#: src/text.c:549 src/text.c:665
 #, fuzzy
 msgid "text replace"
 msgstr " (de înlocuit)"
 
-#: src/text.c:553 src/text.c:674 src/text.c:977
+#: src/text.c:556 src/text.c:679 src/text.c:983
 msgid "Internal error: unknown type.  Please save your work."
 msgstr ""
 
-#: src/text.c:557
+#: src/text.c:561
 #, c-format
 msgid "Undid action (%s)"
 msgstr ""
 
-#: src/text.c:576
+#: src/text.c:580
 msgid "Nothing to re-do!"
 msgstr ""
 
-#: src/text.c:580
+#: src/text.c:584
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr ""
 
-#: src/text.c:586
+#: src/text.c:590
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
 
-#: src/text.c:678
+#: src/text.c:684
 #, c-format
 msgid "Redid action (%s)"
 msgstr ""
 
-#: src/text.c:779 src/text.c:2483 src/text.c:2962
+#: src/text.c:785 src/text.c:2489 src/text.c:2967
 msgid "Could not create pipe"
 msgstr "Nu am putut crea pipe"
 
-#: src/text.c:805 src/text.c:2571 src/text.c:2723 src/text.c:3013
+#: src/text.c:811 src/text.c:2577 src/text.c:2729 src/text.c:3018
 msgid "Could not fork"
 msgstr "Nu am putut fork"
 
-#: src/text.c:963
+#: src/text.c:969
 msgid "Internal error: cannot set up uncut.  Please save your work."
 msgstr ""
 
-#: src/text.c:1800
+#: src/text.c:1806
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "ªir greºit pentru ghilimele %s: %s"
 
-#: src/text.c:2200
+#: src/text.c:2206
 msgid "Can now UnJustify!"
 msgstr "Nu pot De-Alinia!"
 
-#: src/text.c:2397
+#: src/text.c:2403
 msgid "Edit a replacement"
 msgstr "Editeazã o înlocuire"
 
-#: src/text.c:2485
+#: src/text.c:2491
 msgid "Creating misspelled word list, please wait..."
 msgstr "Creez listã cuvinte ortografiate greºit, vã rog aºteptaþi..."
 
-#: src/text.c:2577 src/text.c:3021
+#: src/text.c:2583 src/text.c:3026
 msgid "Could not get size of pipe buffer"
 msgstr "Nu am putut obþine dimensiune bufer pentru pipe"
 
-#: src/text.c:2628
+#: src/text.c:2634
 msgid "Error invoking \"spell\""
 msgstr "Eroare invocare \"spell\""
 
-#: src/text.c:2631
+#: src/text.c:2637
 msgid "Error invoking \"sort -f\""
 msgstr "Eroare invocare \"sort -f\""
 
-#: src/text.c:2634
+#: src/text.c:2640
 msgid "Error invoking \"uniq\""
 msgstr "Eroare invocare \"uniq\""
 
-#: src/text.c:2691 src/text.c:2904
+#: src/text.c:2697 src/text.c:2910
 msgid "Finished checking spelling"
 msgstr "Am terminat verificarea ortografiei"
 
-#: src/text.c:2750
+#: src/text.c:2756
 #, fuzzy, c-format
 msgid "Error invoking \"%s\""
 msgstr "Eroare invocare \"spell\""
 
-#: src/text.c:2882
+#: src/text.c:2888
 #, fuzzy
 msgid "Invoking spell checker, please wait"
 msgstr "Invocã corectorul ortografic, dacã e disponibil"
 
-#: src/text.c:2899
+#: src/text.c:2905
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Verificarea ortografiei a eºuat: %s: %s"
 
-#: src/text.c:2901
+#: src/text.c:2907
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Verificarea ortografiei a eºuat: %s: %s"
 
-#: src/text.c:2935
+#: src/text.c:2941
 msgid "No linter defined for this type of file!"
 msgstr ""
 
-#: src/text.c:2946
+#: src/text.c:2951
 msgid "Save modified buffer before linting?"
 msgstr ""
 
-#: src/text.c:2968
+#: src/text.c:2973
 msgid "Invoking linter, please wait"
 msgstr ""
 
-#: src/text.c:3124
+#: src/text.c:3129
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr ""
 
-#: src/text.c:3157
+#: src/text.c:3162
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 
-#: src/text.c:3205
+#: src/text.c:3210
 #, fuzzy
 msgid "At last message"
 msgstr "Aratã acest mesaj"
 
-#: src/text.c:3212
+#: src/text.c:3217
 #, fuzzy
 msgid "At first message"
 msgstr "Aratã acest mesaj"
 
-#: src/text.c:3291
+#: src/text.c:3296
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr ""
 
-#: src/text.c:3292
+#: src/text.c:3297
 #, fuzzy
 msgid "In Selection:  "
 msgstr "Adaugã Selecþie la fiºier"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3306
+#: src/text.c:3311
 msgid "Verbatim Input"
 msgstr "Intrare identicã"
 
@@ -2413,6 +2408,9 @@ msgstr "Vã mulþumim cã folosiþi nano!"
 
 #~ msgid "Insert File"
 #~ msgstr "Insereazã fiºier"
+
+#~ msgid "Auto line wrap"
+#~ msgstr "Trecere automatã (wrap) la linie nouã"
 
 #~ msgid ""
 #~ "\n"
