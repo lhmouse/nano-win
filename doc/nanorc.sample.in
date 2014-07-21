@@ -165,10 +165,6 @@
 ## Save automatically on exit; don't prompt.
 # set tempfile
 
-## Enable the new (EXPERIMENTAL) generic undo code, not just for line
-## cuts.
-# set undo
-
 ## Disallow file modification.  Why would you want this in an rcfile? ;)
 # set view
 

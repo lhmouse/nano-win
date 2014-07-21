@@ -1,3 +1,6 @@
+2014-07-21  Jordi Mallach  <jordi@gnu.org>
+	* doc/nanorc.sample.in: Remove ‘undo’ section which is now obsolete.
+
 GNU nano 2.3.6 - 2014.07.17
 2014-07-16  Jordi Mallach  <jordi@gnu.org>
 	* doc/man/rnano.1: Additional printing formatting improvement from
