@@ -1,3 +1,6 @@
+2014-07-22  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/nanorc.nanorc: Remove 'undo' from the valid options.
+
 2014-07-21  Jordi Mallach  <jordi@gnu.org>
 	* doc/nanorc.sample.in: Remove ‘undo’ section which is now obsolete.
 
