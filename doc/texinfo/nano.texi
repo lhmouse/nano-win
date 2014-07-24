@@ -989,7 +989,7 @@ Goes to the last line of the file.
 Goes to a specific line (and column if specified).
 
 @item gototext
-Switches from targetting a line number to searching for text.
+Switches from targeting a line number to searching for text.
 
 @item findbracket
 Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
