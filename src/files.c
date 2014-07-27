@@ -1026,7 +1026,6 @@ void do_insertfile(
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
     bool edittop_inside = FALSE;
-    const sc *s;
 #ifndef NANO_TINY
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
@@ -1084,14 +1083,13 @@ void do_insertfile(
 	    break;
 	} else {
 	    size_t pww_save = openfile->placewewant;
+	    functionptrtype func = func_from_key(&i);
 
 	    ans = mallocstrcpy(ans, answer);
 
-	    s = get_shortcut(&i);
-
 #ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
-	    if (s && s->scfunc == new_buffer_void) {
+	    if (func == new_buffer_void) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
@@ -1100,14 +1098,14 @@ void do_insertfile(
 		continue;
 	    }
 #endif
-	    if (s && s->scfunc == flip_execute_void) {
+	    if (func == flip_execute_void) {
 		execute = !execute;
 		continue;
 	    }
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
-	    if (s && s->scfunc == to_files_void) {
+	    if (func == to_files_void) {
 		char *tmp = do_browse_from(answer);
 
 		if (tmp == NULL)
@@ -2234,7 +2232,6 @@ bool do_writeout(bool exiting)
     static bool did_credits = FALSE;
 #endif
     bool retval = FALSE;
-    const sc *s;
 
     currmenu = MWRITEFILE;
 
@@ -2306,11 +2303,12 @@ bool do_writeout(bool exiting)
 	    retval = FALSE;
 	    break;
 	} else {
+	    functionptrtype func = func_from_key(&i);
+
 	    ans = mallocstrcpy(ans, answer);
-	    s = get_shortcut(&i);
 
 #ifndef DISABLE_BROWSER
-	    if (s && s->scfunc == to_files_void) {
+	    if (func == to_files_void) {
 		char *tmp = do_browse_from(answer);
 
 		if (tmp == NULL)
@@ -2322,26 +2320,26 @@ bool do_writeout(bool exiting)
 	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_TINY
-	    if (s && s->scfunc == dos_format_void) {
+	    if (func == dos_format_void) {
 		openfile->fmt = (openfile->fmt == DOS_FILE) ? NIX_FILE :
 			DOS_FILE;
 		continue;
-	    } else if (s && s->scfunc == mac_format_void) {
+	    } else if (func == mac_format_void) {
 		openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE :
 			MAC_FILE;
 		continue;
-	    } else if (s && s->scfunc == backup_file_void) {
+	    } else if (func == backup_file_void) {
 		TOGGLE(BACKUP_FILE);
 		continue;
 	    } else
 #endif /* !NANO_TINY */
-	    if (s && s->scfunc == prepend_void) {
+	    if (func == prepend_void) {
 		append = (append == PREPEND) ? OVERWRITE : PREPEND;
 		continue;
-	    } else if (s && s->scfunc == append_void) {
+	    } else if (func == append_void) {
 		append = (append == APPEND) ? OVERWRITE : APPEND;
 		continue;
-	    } else if (s && s->scfunc == do_help_void) {
+	    } else if (func == do_help_void) {
 		continue;
 	    }
 
