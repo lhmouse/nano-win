@@ -343,37 +343,26 @@ const sc *first_sc_for(int menu, void (*func)(void))
     return NULL;
 }
 
-
-/* Add a string to the shortcut list.
- * Allows updates to existing entries in the list. */
+/* Add a key combo to the shortcut list. */
 void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggle)
 {
-    sc *s;
+    static sc *tailsc;
+    sc *s = (sc *)nmalloc(sizeof(sc));
 
-    if (sclist == NULL) {
-	sclist = (sc *)nmalloc(sizeof(sc));
-	s = sclist;
-        s->next = NULL;
-    } else {
-	for (s = sclist; s->next != NULL; s = s->next)
-            if (s->menu == menu && s->keystr == scstring)
-		break;
+    /* Start the list, or tack on the next item. */
+    if (sclist == NULL)
+	sclist = s;
+    else
+	tailsc->next = s;
+    tailsc = s;
+    s->next = NULL;
 
-        if (s->menu != menu || s->keystr != scstring) { /* i.e. this is not a replace... */
-#ifdef DEBUG
-            fprintf(stderr, "No match found...\n");
-#endif
-	    s->next = (sc *)nmalloc(sizeof(sc));
-	    s = s->next;
-            s->next = NULL;
-        }
-    }
-
-    s->type = strtokeytype(scstring);
+    /* Fill in the data. */
     s->menu = menu;
+    s->scfunc = func;
     s->toggle = toggle;
     s->keystr = (char *) scstring;
-    s->scfunc = func;
+    s->type = strtokeytype(scstring);
     assign_keyinfo(s);
 
 #ifdef DEBUG
