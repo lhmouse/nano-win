@@ -1045,7 +1045,6 @@ int do_yesno_prompt(bool all, const char *msg)
     const char *yesstr;		/* String of Yes characters accepted. */
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
-    const sc *s;
     int oldmenu = currmenu;
 
     assert(msg != NULL);
@@ -1106,15 +1105,16 @@ int do_yesno_prompt(bool all, const char *msg)
 
     do {
 	int kbinput;
+	functionptrtype func;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
-	s = get_shortcut(&kbinput);
+	func = func_from_key(&kbinput);
 
-	if (s && s->scfunc == do_cancel)
+	if (func == do_cancel)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
@@ -1146,7 +1146,7 @@ int do_yesno_prompt(bool all, const char *msg)
 		}
 	}
 #endif /* !DISABLE_MOUSE */
-	else if  (s && s->scfunc == total_refresh) {
+	else if (func == total_refresh) {
 	    total_redraw();
 	    continue;
 	} else {
