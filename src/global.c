@@ -312,23 +312,6 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 #endif
 }
 
-/* Return the first shortcut in the list of shortcuts that
- * matches the given func in the given menu. */
-const sc *first_sc_for(int menu, void (*func)(void))
-{
-    const sc *s;
-
-    for (s = sclist; s != NULL; s = s->next)
-	if ((s->menu & menu) && s->scfunc == func)
-	    return s;
-
-#ifdef DEBUG
-    fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long)func, menu);
-#endif
-    /* Otherwise... */
-    return NULL;
-}
-
 /* Add a key combo to the shortcut list. */
 void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggle)
 {
@@ -364,6 +347,23 @@ void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
     for (s = sclist; s != NULL; s = s->next)
 	if (s->scfunc == oldfunc)
 	    s->scfunc = newfunc;
+}
+
+/* Return the first shortcut in the list of shortcuts that
+ * matches the given func in the given menu. */
+const sc *first_sc_for(int menu, void (*func)(void))
+{
+    const sc *s;
+
+    for (s = sclist; s != NULL; s = s->next)
+	if ((s->menu & menu) && s->scfunc == func)
+	    return s;
+
+#ifdef DEBUG
+    fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long)func, menu);
+#endif
+    /* Otherwise... */
+    return NULL;
 }
 
 /* Return the given menu's first shortcut sequence, or the default value
