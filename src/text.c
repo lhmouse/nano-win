@@ -2934,7 +2934,6 @@ void do_linter(void)
     static char **lintargs = NULL;
     char *lintcopy;
     char *convendptr = NULL;
-    const sc *s;
     lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
     if (!openfile->syntax || !openfile->syntax->linter) {
@@ -3135,9 +3134,10 @@ void do_linter(void)
     bottombars(MLINTER);
     tmplint = NULL;
     curlint = lints;
-    while (1) {
+    while (TRUE) {
 	ssize_t tmpcol = 1;
 	int kbinput;
+	functionptrtype func;
 
 	if (curlint->colno > 0)
 	    tmpcol = curlint->colno;
@@ -3193,30 +3193,24 @@ void do_linter(void)
 	}
 
 	kbinput = get_kbinput(bottomwin);
-	s = get_shortcut(&kbinput);
+	func = func_from_key(&kbinput);
 	tmplint = curlint;
 
-	if (!s)
-	    continue;
-	else if (s->scfunc == do_cancel)
+	if (func == do_cancel)
 	    break;
-	else if (s->scfunc == do_help_void) {
+	else if (func == do_help_void) {
 	    tmplint = NULL;
 	    do_help_void();
-	} else if (s->scfunc == do_page_down) {
+	} else if (func == do_page_down) {
 	    if (curlint->next != NULL)
 		curlint = curlint->next;
-	    else {
+	    else
 		statusbar(_("At last message"));
-		continue;
-	    }
-	} else if (s->scfunc == do_page_up) {
+	} else if (func == do_page_up) {
 	    if (curlint->prev != NULL)
 		curlint = curlint->prev;
-	    else {
+	    else
 		statusbar(_("At first message"));
-		continue;
-	    }
 	}
     }
     blank_statusbar();

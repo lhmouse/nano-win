@@ -5,6 +5,7 @@
 	* src/global.c (first_sc_for): Move this too to a better place.
 	* src/prompt.c (do_yesno_prompt): Use the new and more direct
 	func_from_key() wrapper instead of get_shortcut().
+	* src/text.c (do_linter): Likewise.
 
 2014-07-24  Jordi Mallach  <jordi@gnu.org>
 	* doc/texinfo/nano.texi, doc/man/nanorc.5: Typo fix.
