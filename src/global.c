@@ -285,21 +285,7 @@ void flip_execute_void(void)
 {
 }
 
-/* Set the type of command key based on the string. */
-key_type strtokeytype(const char *str)
-{
-    if (str[0] == '^')
-        return CONTROL;
-    else if (str[0] == 'M')
-        return META;
-    else if (str[0] == 'F')
-        return FKEY;
-    else
-	return RAWINPUT;
-}
-
-/* Add a string to the function list struct.
- * Does not allow updates, not yet anyway. */
+/* Add a function to the function list. */
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
 {
@@ -403,6 +389,19 @@ functionptrtype func_from_key(int *kbinput)
 	return s->scfunc;
     else
 	return NULL;
+}
+
+/* Return the type of command key based on the given string. */
+key_type strtokeytype(const char *str)
+{
+    if (str[0] == '^')
+	return CONTROL;
+    else if (str[0] == 'M')
+	return META;
+    else if (str[0] == 'F')
+	return FKEY;
+    else
+	return RAWINPUT;
 }
 
 /* Assign the info to the shortcut struct.

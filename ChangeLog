@@ -1,6 +1,7 @@
 2014-07-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_sclist): Remove the now unused and unneeded
 	addition ability from this builder function of the shortcut list.
+	* src/global.c (strtokeytype): Move this to a better place.
 
 2014-07-24  Jordi Mallach  <jordi@gnu.org>
 	* doc/texinfo/nano.texi, doc/man/nanorc.5: Typo fix.
