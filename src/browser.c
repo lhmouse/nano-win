@@ -268,12 +268,12 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_up_void) {
 	    if (selected >= width)
 		selected -= width;
-	} else if (func == do_left) {
-	    if (selected > 0)
-		selected--;
 	} else if (func == do_down_void) {
 	    if (selected + width <= filelist_len - 1)
 		selected += width;
+	} else if (func == do_left) {
+	    if (selected > 0)
+		selected--;
 	} else if (func == do_right) {
 	    if (selected < filelist_len - 1)
 		selected++;
@@ -581,8 +581,7 @@ void browser_refresh(void)
 		/* The maximum length of the file information in
 		 * columns: seven for "--", "(dir)", or the file size,
 		 * and 12 for "(parent dir)". */
-	bool dots = (COLS >= 15 && filetaillen >= longest -
-		foomaxlen - 1);
+	bool dots = (COLS >= 15 && filetaillen >= longest - foomaxlen - 1);
 		/* Do we put an ellipsis before the filename?  Don't set
 		 * this to TRUE if we have fewer than 15 columns (i.e.
 		 * one column for padding, plus seven columns for a

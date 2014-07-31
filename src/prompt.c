@@ -151,15 +151,15 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
 			'\0' || currmenu != MWRITEFILE)
 		    do_statusbar_cut_text();
-	    } else if (s->scfunc == do_right)
-		do_statusbar_right();
-	    else if (s->scfunc == do_left)
+	    } else if (s->scfunc == do_left)
 		do_statusbar_left();
+	    else if (s->scfunc == do_right)
+		do_statusbar_right();
 #ifndef NANO_TINY
-	    else if (s->scfunc == do_next_word_void)
-		do_statusbar_next_word(FALSE);
 	    else if (s->scfunc == do_prev_word_void)
 		do_statusbar_prev_word(FALSE);
+	    else if (s->scfunc == do_next_word_void)
+		do_statusbar_next_word(FALSE);
 #endif
 	    else if (s->scfunc == do_home)
 		do_statusbar_home();
@@ -340,13 +340,12 @@ void do_statusbar_home(void)
 	    statusbar_x = 0;
 
 	statusbar_pww = statusbar_xplustabs();
-    } else {
+    } else
 #endif
+    {
 	statusbar_x = 0;
 	statusbar_pww = statusbar_xplustabs();
-#ifndef NANO_TINY
     }
-#endif
 
     if (need_statusbar_horizontal_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
@@ -431,14 +430,13 @@ void do_statusbar_cut_text(void)
 #ifndef NANO_TINY
     if (ISSET(CUT_TO_END))
 	null_at(&answer, statusbar_x);
-    else {
+    else
 #endif
+    {
 	null_at(&answer, 0);
 	statusbar_x = 0;
 	statusbar_pww = statusbar_xplustabs();
-#ifndef NANO_TINY
     }
-#endif
 
     update_statusbar_line(answer, statusbar_x);
 }
@@ -777,7 +775,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     }
 
 #ifdef DEBUG
-fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
+    fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
 #endif
 
     update_statusbar_line(answer, statusbar_x);
@@ -901,7 +899,6 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	wnoutrefresh(bottomwin);
     }
 
-
 #ifndef DISABLE_HISTORIES
     /* Set the current position in the history list to the bottom,
      * and free magichistory if we need to. */
@@ -912,7 +909,6 @@ fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answe
 	    free(magichistory);
     }
 #endif
-
 
     /* We've finished putting in an answer or run a normal shortcut's
      * associated function, so reset statusbar_x and statusbar_pww.  If
