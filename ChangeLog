@@ -1,3 +1,6 @@
+2014-07-31  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (do_insertfile): Adjust some indentation.
+
 2014-07-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_sclist): Remove the now unused and unneeded
 	addition ability from this builder function of the shortcut list.

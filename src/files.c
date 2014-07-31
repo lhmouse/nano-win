@@ -1129,18 +1129,18 @@ void do_insertfile(
 		continue;
 
 #ifndef NANO_TINY
-		/* Keep track of whether the mark begins inside the
-		 * partition and will need adjustment. */
-		if (openfile->mark_set) {
-		    filestruct *top, *bot;
-		    size_t top_x, bot_x;
+	    /* Keep track of whether the mark begins inside the
+	     * partition and will need adjustment. */
+	    if (openfile->mark_set) {
+		filestruct *top, *bot;
+		size_t top_x, bot_x;
 
-		    mark_order((const filestruct **)&top, &top_x,
+		mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x,
 			&right_side_up);
 
-		    single_line = (top == bot);
-		}
+		single_line = (top == bot);
+	    }
 #endif
 
 #ifndef DISABLE_MULTIBUFFER
