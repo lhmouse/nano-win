@@ -20,7 +20,7 @@
 .\"   Documentation License along with this program.  If not, see
 .\"   <http://www.gnu.org/licenses/>.
 .\"
-.TH NANO 1 "version 2.3.5" "June 2014"
+.TH NANO 1 "version 2.3.7" "August 2014"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -30,7 +30,6 @@ nano \- Nano's ANOther editor, an enhanced free Pico clone
 .SH SYNOPSIS
 .B nano
 .RI [ options "] [[+" line , column "]\ " file "]..."
-.br
 
 .SH DESCRIPTION
 \fBnano\fP is a small, free and friendly editor which aims to replace
@@ -46,65 +45,65 @@ Places the cursor on line number \fIline\fP and at column number \fIcolumn\fP
 (at least one of which must be specified) on startup, instead of the
 default line 1, column 1.
 .TP
-.B \-A (\-\-smarthome)
+.BR \-A , " \-\-smarthome"
 Make the Home key smarter.  When Home is pressed anywhere but at the
 very beginning of non-whitespace characters on a line, the cursor will
 jump to that beginning (either forwards or backwards).  If the cursor is
 already at that position, it will jump to the true beginning of the
 line.
 .TP
-.B \-B (\-\-backup)
+.BR \-B , " \-\-backup"
 When saving a file, back up the previous version of it to the current
 filename suffixed with a tilde (\fB~\fP).
 .TP
-.B \-C \fIdir\fP (\-\-backupdir=\fIdir\fP)
+.BR \-C\ \fIdirectory\fR , " \-\-backupdir=" \fIdirectory
 Set the directory where \fBnano\fP puts unique backup files, if file
 backups are enabled.
 .TP
-.B \-D (\-\-boldtext)
+.BR \-D , " \-\-boldtext"
 Use bold text instead of reverse video text.
 .TP
-.B \-E (\-\-tabstospaces)
+.BR \-E , " \-\-tabstospaces"
 Convert typed tabs to spaces.
 .TP
-.B \-F (\-\-multibuffer)
+.BR \-F , " \-\-multibuffer"
 Enable multiple file buffers (if support for them has been compiled in).
 .TP
-.B \-G (\-\-locking)
+.BR \-G , " \-\-locking"
 Enable vim-style file locking when editing files.
 .TP
-.B \-H (\-\-historylog)
+.BR \-H , " \-\-historylog"
 Log search and replace strings to \fI~/.nano/search_history\fP, so they can be
 retrieved in later sessions.
 .TP
-.B \-I (\-\-ignorercfiles)
+.BR \-I , " \-\-ignorercfiles"
 Don't look at the system's \fBnanorc\fP nor at \fB~/.nanorc\fP.
 .TP
-.B \-K (\-\-rebindkeypad)
+.BR \-K  , " \-\-rebindkeypad"
 Interpret the numeric keypad keys so that they all work properly.  You
 should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.
 .TP
-.B \-L (\-\-nonewlines)
+.BR \-L , " \-\-nonewlines"
 Don't add newlines to the ends of files.
 .TP
-.B \-N (\-\-noconvert)
+.BR \-N , " \-\-noconvert"
 Disable automatic conversion of files from DOS/Mac format.
 .TP
-.B \-O (\-\-morespace)
+.BR \-O , " \-\-morespace"
 Use the blank line below the titlebar as extra editing space.
 .TP
-.B \-P (\-\-poslog)
+.BR \-P , " \-\-poslog"
 Log and later read back the location of the cursor and place it there
 again.
 .TP
-.B \-Q \fIstr\fP (\-\-quotestr=\fIstr\fP)
+.BR "\-Q ""\fIcharacters\fB""" , " \-\-quotestr=""" \fIcharacters\fR """
 Set the quoting string for justifying.  The default is
-"\fI^([\ \\t]*[#:>\\|}])+\fP" if extended regular expression support is
-available, or "\fI>\ \fP" otherwise.  Note that \fI\\t\fP stands for a
+\fB"^([\ \\t]*[#:>\\|}])+"\fP if extended regular expression support is
+available, or \fB">\ "\fP otherwise.  Note that \fB\\t\fP stands for a
 Tab.
 .TP
-.B \-R (\-\-restricted)
+.BR \-R , " \-\-restricted"
 Restricted mode: don't read or write to any file not specified on the
 command line; don't read any \fInanorc\fP files nor history files;
 don't allow suspending nor spell checking;
@@ -113,80 +112,80 @@ different name if it already has one; and don't use backup files.
 This restricted mode is also accessible by invoking \fBnano\fP
 with any name beginning with 'r' (e.g. "rnano").
 .TP
-.B \-S (\-\-smooth)
+.BR \-S , " \-\-smooth"
 Enable smooth scrolling.  Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
 .TP
-.B \-T \fInumber\fP (\-\-tabsize=\fInumber\fP)
+.BR \-T\ \fInumber\fR , " \-\-tabsize=" \fInumber
 Set the size (width) of a tab to \fInumber\fP columns.  The value of
 \fInumber\fP must be greater than 0.  The default value is 8.
 .TP
-.B \-U (\-\-quickblank)
+.BR \-U , " \-\-quickblank"
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
 keystroke instead of 25.  Note that \fB\-c\fP overrides this.
 .TP
-.B \-V (\-\-version)
+.BR \-V , " \-\-version"
 Show the current version number and exit.
 .TP
-.B \-W (\-\-wordbounds)
+.BR \-W , " \-\-wordbounds"
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 .TP
-.B \-Y \fIname\fP (\-\-syntax=\fIname\fP)
+.BR \-Y\ \fIname\fR , " \-\-syntax=" \fIname
 Specify the name of the syntax highlighting to use from among the ones
 defined in the \fInanorc\fP files.
 .TP
-.B \-c (\-\-const)
+.BR \-c , " \-\-const"
 Constantly show the cursor position.  Note that this overrides \fB\-U\fP.
 .TP
-.B \-d (\-\-rebinddelete)
+.BR \-d , " \-\-rebinddelete"
 Interpret the Delete key differently so that both Backspace and Delete
 work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
 .TP
-.B \-h (\-\-help)
+.BR \-h , " \-\-help"
 Show a summary of the available command-line options and exit.
 .TP
-.B \-i (\-\-autoindent)
+.BR \-i , " \-\-autoindent"
 Indent new lines to the previous line's indentation.  Useful when
 editing source code.
 .TP
-.B \-k (\-\-cut)
+.BR \-k , " \-\-cut"
 Make the 'Cut Text' command (normally ^K) cut from the current cursor
 position to the end of the line, instead of cutting the entire line.
 .TP
-.B \-l (\-\-nofollow)
+.BR \-l , " \-\-nofollow"
 If the file being edited is a symbolic link, replace the link with
 a new file instead of following it.  Good for editing files in
 \fI/tmp\fP, perhaps?
 .TP
-.B \-m (\-\-mouse)
+.BR \-m , " \-\-mouse"
 Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
 System, and on the console when gpm is running.  Text can still be
 selected through dragging by holding down the Shift key.
 .TP
-.B \-n (\-\-noread)
+.BR \-n , " \-\-noread"
 Treat any name given on the command line as a new file.  This allows
 \fBnano\fR to write to named pipes: it will start with a blank buffer,
 and will write to the pipe when the user saves the "file".  This way
 \fBnano\fR can be used as an editor in combination with for instance
 \fBgpg\fR without having to write sensitive data to disk first.
 .TP
-.B \-o \fIdir\fP (\-\-operatingdir=\fIdir\fP)
+.BR \-o\ \fIdirectory\fR , " \-\-operatingdir=" \fIdirectory
 Set the operating directory.  This makes \fBnano\fP set up something
 similar to a chroot.
 .TP
-.B \-p (\-\-preserve)
+.BR \-p, " \-\-preserve"
 Preserve the XON and XOFF sequences (^Q and ^S) so they will be caught
 by the terminal.
 .TP
-.B \-q (\-\-quiet)
+.BR \-q , " \-\-quiet"
 Do not report errors in the \fInanorc\fP files nor ask them to be
 acknowledged by pressing Enter at startup.
 .TP
-.B \-r \fInumber\fP (\-\-fill=\fInumber\fP)
+.BR \-r\ \fInumber\fR , " \-\-fill=" \fInumber
 Hard-wrap lines at column \fInumber\fP.  If this value is 0 or less, wrapping
 will occur at the width of the screen less \fInumber\fP columns, allowing
 the wrap point to vary along with the width of the screen if the screen
@@ -194,28 +193,28 @@ is resized.  The default value is \-8.  This option conflicts with
 .B \-w
 -- the last one given takes effect.
 .TP
-.B \-s \fIprogram\fP (\-\-speller=\fIprogram\fP)
-Enable alternative spell checker command.
+.BR \-s\ \fIprogram\fR , " \-\-speller=" \fIprogram
+Use this alternative spell checker command.
 .TP
-.B \-t (\-\-tempfile)
-Always save changed buffer without prompting.  Same as Pico's \fB\-t\fP
+.BR \-t , " \-\-tempfile"
+Always save a changed buffer without prompting.  Same as Pico's \fB\-t\fP
 option.
 .TP
-.B \-v (\-\-view)
+.BR \-v , " \-\-view"
 View-file (read-only) mode.
 .TP
-.B \-w (\-\-nowrap)
+.BR \-w , " \-\-nowrap"
 Disable the hard-wrapping of long lines.  This option conflicts with
 .B \-r
 -- the last one given takes effect.
 .TP
-.B \-x (\-\-nohelp)
+.BR \-x , " \-\-nohelp"
 Don't show the two help lines at the bottom of the screen.
 .TP
-.B \-z (\-\-suspend)
+.BR \-z , " \-\-suspend"
 Enable the suspend ability.
 .TP
-.B \-$ (\-\-softwrap)
+.BR \-$ , " \-\-softwrap"
 Enable 'soft wrapping'.  This will make \fBnano\fP attempt to display the
 entire contents of any line, even if it is longer than the screen width, by
 continuing it over multiple screen lines.  Since
@@ -223,7 +222,7 @@ continuing it over multiple screen lines.  Since
 this option last when using other options (e.g.\& 'nano \-wS$') or pass it
 separately (e.g.\& 'nano \-wS \-$').
 .TP
-.B \-a, \-b, \-e, \-f, \-g, \-j
+.BR \-a , " \-b" , " \-e" , " \-f" , " \-g" , " \-j"
 Ignored, for compatibility with Pico.
 
 .SH INITIALIZATION FILE
@@ -267,7 +266,7 @@ http://www.nano-editor.org/
 \fI/usr/share/doc/nano/\fP (or equivalent on your system)
 
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al (see \fIAUTHORS\fP and
+Chris Allegretta <chrisa@asty.org>, et al (see the files \fIAUTHORS\fP and
 \fITHANKS\fP for details).  This manual page was originally written by
 Jordi Mallach <jordi@gnu.org>, for the Debian system (but may be used by
 others).
