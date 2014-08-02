@@ -7,9 +7,9 @@
 @c This file has the new style title page commands.
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
-@set EDITION 0.2
-@set VERSION 2.3.5
-@set UPDATED June 2014
+@set EDITION 0.3
+@set VERSION 2.3.7
+@set UPDATED August 2014
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.3.5
+@subtitle version 2.3.7
 
 @author Chris Allegretta
 @page
@@ -119,187 +119,226 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @node Command Line Options
 @section Command Line Options
 
-@code{nano} takes the following options from the command line:
+@command{nano} takes the following options from the command line:
 
-@table @code
-@item +<line>,<column>
-Start at line number <line> and column number <column> (at least one of
+@table @option
+@item +@var{line},@var{column}
+Start at line number @var{line} and column number @var{column} (at least one of
 which must be specified) instead of the default of line 1, column 1.
 
-@item -A, --smarthome
+@item -A
+@itemx --smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
 very beginning of non-whitespace characters on a line, the cursor will
 jump to that beginning (either forwards or backwards).  If the cursor is
 already at that position, it will jump to the true beginning of the
 line.
 
-@item -B, --backup
+@item -B
+@itemx --backup
 When saving a file, back up the previous version of it to the current
-filename suffixed with a ~.
+filename suffixed with a @samp{~}.
 
-@item -C <dir>, --backupdir=<dir>
-Set the directory where @code{nano} puts unique backup files if file
+@item -C @var{directory}
+@itemx --backupdir=@var{directory}
+Set the directory where @command{nano} puts unique backup files if file
 backups are enabled.
 
-@item -D, --boldtext
+@item -D
+@itemx --boldtext
 Use bold text instead of reverse video text.
 
-@item -E, --tabstospaces
+@item -E
+@itemx --tabstospaces
 Convert typed tabs to spaces.
 
-@item -F, --multibuffer
+@item -F
+@itemx --multibuffer
 Enable multiple file buffers (if support for them has been compiled in).
 
-@item -G, --locking
+@item -G
+@itemx --locking
 Enable vim-style file locking when editing files.
 
-@item -H, --historylog
-Log search and replace strings to ~/.nano/search_history, so they can be
-retrieved in later sessions.
+@item -H
+@itemx --historylog
+Log search and replace strings to @file{~/.nano/search_history},
+so they can be retrieved in later sessions.
 
-@item -I, --ignorercfiles
-Don't look at the system's nanorc file nor at the user's ~/.nanorc.
+@item -I
+@itemx --ignorercfiles
+Don't look at the system's nanorc file nor at the user's @file{~/.nanorc}.
 
-@item -K, --rebindkeypad
+@item -K
+@itemx --rebindkeypad
 Interpret the numeric keypad keys so that they all work properly.  You
 should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.
 
-@item -L, --nonewlines
+@item -L
+@itemx --nonewlines
 Don't add newlines to the ends of files.
 
-@item -N, --noconvert
+@item -N
+@itemx --noconvert
 Disable automatic conversion of files from DOS/Mac format.
 
-@item -O, --morespace
+@item -O
+@itemx --morespace
 Use the blank line below the titlebar as extra editing space.
 
-@item -P, --poslog
+@item -P
+@itemx --poslog
 Log for each file the last location of the cursor, and read it
 back upon reopening the file and place it there again.
 
-@item -Q <str>, --quotestr=<str>
+@item -Q "@var{characters}"
+@itemx --quotestr="@var{characters}"
 Set the quoting string for justifying.  The default value is
 
 @quotation
 @code{^([ \t]*[|>:@}#])+}
 @end quotation
 
-if extended regular expression support is available, or "> " otherwise.
+if extended regular expression support is available, or @code{> } otherwise.
 Note that @code{\t} above stands for a literal Tab character.
 
-@item -R, --restricted
+@item -R
+@itemx --restricted
 Restricted mode: don't read or write to any file not specified on the
 command line; don't read any nanorc files nor history files; don't allow
 suspending nor spell checking; don't
 allow a file to be appended to, prepended to, or saved under a different
 name if it already has one; and don't use backup files.
-This restricted mode is also accessible by invoking @code{nano} with
-any name beginning with 'r' (e.g. "rnano").
+This restricted mode is also accessible by invoking @command{nano} with
+any name beginning with @samp{r} (e.g. @command{rnano}).
 
-@item -S, --smooth
+@item -S
+@itemx --smooth
 Enable smooth scrolling.  Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
 
-@item -T <number>, --tabsize=<number>
-Set the displayed tab length to <number> columns.  The value of <number>
-must be greater than 0.  The default value is 8.
+@item -T @var{number}
+@itemx --tabsize=@var{number}
+Set the displayed tab length to @var{number} columns.  The value of
+@var{number} must be greater than 0.  The default value is @samp{8}.
 
-@item -U, --quickblank
+@item -U
+@itemx --quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
-keystroke instead of 25.  Note that -c overrides this.
+keystroke instead of 25.  Note that @option{-c} overrides this.
 
-@item -V, --version
+@item -V
+@itemx --version
 Show the current version number and exit.
 
-@item -W, --wordbounds
+@item -W
+@itemx --wordbounds
 Detect word boundaries more accurately by treating punctuation
 characters as parts of words.
 
-@item -Y <name>, --syntax=<name>
+@item -Y @var{name}
+@itemx --syntax=@var{name}
 Specify a specific syntax from the nanorc files to use for highlighting.
 See @xref{Syntax Highlighting}, for more info.
 
-@item -c, --const
+@item -c
+@itemx --const
 Constantly display the cursor position and line number on the statusbar.
-Note that this overrides -U.
+Note that this overrides @option{-U}.
 
-@item -d, --rebinddelete
+@item -d
+@itemx --rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete
 work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
 
-@item -h, --help
+@item -h
+@itemx --help
 Show a summary of command-line options and exit.
 
-@item -i, --autoindent
+@item -i
+@itemx --autoindent
 Automatically indent new lines to the same number of spaces and tabs as
 the previous line.
 
-@item -k, --cut
+@item -k
+@itemx --cut
 Make the 'Cut Text' command (normally ^K) cut from the current cursor
 position to the end of the line, instead of cutting the entire line.
 
-@item -l, --nofollow
+@item -l
+@itemx --nofollow
 When writing files, if the given file is a symbolic link, it is removed
 and a new file is created.
 
-@item -m, --mouse
+@item -m
+@itemx --mouse
 Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
 click), and execute shortcuts.  The mouse will work in the X Window
 System, and on the console when gpm is running.  Text can still be
 selected through dragging by holding down the Shift key.
 
-@item -n, --noread
+@item -n
+@itemx --noread
 Treat any name given on the command line as a new file.  This allows
-@code{nano} to write to named pipes: it will start with a blank buffer,
+@command{nano} to write to named pipes: it will start with a blank buffer,
 and will write to the pipe when the user saves the "file".  This way
-@code{nano} can be used as an editor in combination with for instance
-@code{gpg} without having to write sensitive data to disk first.
+@command{nano} can be used as an editor in combination with for instance
+@command{gpg} without having to write sensitive data to disk first.
 
-@item -o <dir>, --operatingdir=<dir>
-Set operating directory.  Makes @code{nano} set up something similar to
-a chroot.
+@item -o @var{directory}
+@itemx --operatingdir=@var{directory}
+Set the operating directory.  This makes @command{nano} set up something
+similar to a chroot.
 
-@item -p, --preserve
+@item -p
+@itemx --preserve
 Preserve the ^Q (XON) and ^S (XOFF) sequences so data being sent to the
 editor can be stopped and started.
 
-@item -q, --quiet
+@item -q
+@itemx --quiet
 Do not report errors in the nanorc file nor ask them to be acknowledged
 by pressing Enter at startup.
 
-@item -r <number>, --fill=<number>
-Hard-wrap lines at column <number> (by inserting a newline character).
+@item -r @var{number}
+@itemx --fill=@var{number}
+Hard-wrap lines at column @var{number} (by inserting a newline character).
 If the given value is 0 or less, wrapping will occur at the width of
 the screen minus the given amount, allowing the wrapping width to
 vary along with the width of the screen if and when it is resized.
-The default value is -8.  This option conflicts with -w -- the last
-one given takes effect.
+The default value is @samp{-8}.  This option conflicts with @option{-w}
+-- the last one given takes effect.
 
-@item -s <program>, --speller=<program>
-Invoke the given program as the spell checker.  By default, @code{nano}
-uses the command specified in the SPELL environment variable, or, if
-SPELL is not set, its own interactive spell checker that requires the
-@code{spell} program to be installed on your system.
+@item -s @var{program}
+@itemx --speller=@var{program}
+Invoke the given program as the spell checker.  By default, @command{nano}
+uses the command specified in the @env{SPELL} environment variable, or,
+if @env{SPELL} is not set, its own interactive spell checker that requires
+the @command{spell} program to be installed on your system.
 
-@item -t, --tempfile
+@item -t
+@itemx --tempfile
 Don't ask whether or not to save the current contents of the file when
-exiting, assume yes.  This is most useful when using @code{nano} as the
+exiting, assume yes.  This is most useful when using @command{nano} as the
 composer of a mailer program.
 
-@item -v, --view
+@item -v
+@itemx --view
 Don't allow the contents of the file to be altered.  Note that this
 option should NOT be used in place of correct file permissions to
 implement a read-only file.
 
-@item -w, --nowrap
+@item -w
+@itemx --nowrap
 Don't hard-wrap long lines at any length.  This option conflicts with
--r -- the last one given takes effect.
+@option{-r} -- the last one given takes effect.
 
 @anchor{Expert Mode}
-@item -x, --nohelp
+@item -x
+@itemx --nohelp
 Expert Mode: don't show the Shortcut Lists at the bottom of the screen.
 This affects the location of the statusbar as well, as in Expert Mode it
 is located at the very bottom of the editor.
@@ -307,19 +346,26 @@ is located at the very bottom of the editor.
 Note: When accessing the help system, Expert Mode is temporarily
 disabled to display the help-system navigation keys.
 
-@item -z, --suspend
-Enable the ability to suspend @code{nano} using the system's suspend
+@item -z
+@itemx --suspend
+Enable the ability to suspend @command{nano} using the system's suspend
 keystroke (usually ^Z).
 
-@item -$, --softwrap
-Enable 'soft wrapping'.  This will make @code{nano} attempt to display the
+@item -$
+@itemx --softwrap
+Enable 'soft wrapping'.  This will make @command{nano} attempt to display the
 entire contents of any line, even if it is longer than the screen width, by
 continuing it over multiple screen lines.  Since
-'$' normally refers to a variable in the Unix shell, you should specify
+@samp{$} normally refers to a variable in the Unix shell, you should specify
 this option last when using other options (e.g. @code{nano -wS$}) or pass it
 separately (e.g. @code{nano -wS -$}).
 
-@item -a, -b, -e, -f, -g, -j
+@item -a
+@itemx -b
+@itemx -e
+@itemx -f
+@itemx -g
+@itemx -j
 Ignored, for compatibility with Pico.
 @end table
 

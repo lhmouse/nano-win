@@ -1,3 +1,7 @@
+2014-08-02  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/texinfo/nano.texi: Standardize the formatting of command-line
+	options -- each one separately.  Also add some more markup.
+
 2014-08-01  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nano.1, doc/man/rnano.1: Separate short and long option
 	by a comma instead of putting the long one between parentheses.
