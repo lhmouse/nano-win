@@ -1,6 +1,7 @@
 2014-08-03  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nano.1, doc/man/rnano.1: Tweak the formatting a bit so that
 	po4a will create a nicer POT file.
+	* doc/man/nanorc.5: Improve some of the wordings and formatting.
 
 2014-08-02  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Standardize the formatting of command-line
