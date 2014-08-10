@@ -197,7 +197,7 @@ back upon reopening the file and place it there again.
 Set the quoting string for justifying.  The default value is
 
 @quotation
-@code{^([ \t]*[|>:@}#])+}
+"^([ \t]*[|>:@}#])+"
 @end quotation
 
 if extended regular expression support is available, or @code{> } otherwise.
@@ -578,8 +578,11 @@ and to rebind keys -- @xref{Syntax Highlighting}, and @xref{Rebinding Keys}.
 @code{nano} will read one command per line.
 
 Options in nanorc files take precedence over @code{nano}'s defaults, and
-command-line options override nanorc settings.  Options are also unset
-by default, except for those that take arguments.
+command-line options override nanorc settings.  Also, options that do not
+take an argument are unset by default.  So using the @code{unset} command
+is only needed when wanting to override a setting of the system's nanorc
+file in your own @file{~/.nanorc}.  Options that take an argument cannot
+be unset.
 
 Quotes inside string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
@@ -599,15 +602,15 @@ The supported settings in a nanorc file are:
 
 @table @code
 
-@item set/unset allow_insecure_backup
+@item set allow_insecure_backup
 When backing up files, allow the backup to succeed even if its
 permissions can't be (re)set due to special OS considerations.
 You should NOT enable this option unless you are sure you need it.
 
-@item set/unset autoindent
+@item set autoindent
 Use auto-indentation.
 
-@item set/unset backup
+@item set backup
 When saving a file, back up the previous version of it to the current
 filename suffixed with a tilde (@code{~}).
 
@@ -615,88 +618,88 @@ filename suffixed with a tilde (@code{~}).
 Set the directory where @code{nano} puts unique backup files, if file
 backups are enabled.
 
-@item set/unset backwards
+@item set backwards
 Do backwards searches by default.
 
-@item set/unset boldtext
+@item set boldtext
 Use bold instead of reverse video for the titlebar, statusbar, key combos,
 and selected text.  This can be overridden for the first three by setting
 the options "titlecolor", "statuscolor", and "keycolor".
 
-@item set brackets "string"
+@item set brackets "@var{string}"
 Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see "punct"), optionally followed by the specified
 closing brackets, can end sentences.  The default value is
 
 @quotation
-@code{""')>]@}"}
+""')>]@}"
 @end quotation
 
-@item set/unset casesensitive
+@item set casesensitive
 Do case-sensitive searches by default.
 
-@item set/unset const
+@item set const
 Constantly display the cursor position in the status bar.
 
-@item set/unset cut
+@item set cut
 Use cut-to-end-of-line by default, instead of cutting the whole line.
 
-@item set fill "n"
-Hard-wrap lines at column number "n".  If "n" is 0 or less, the maximum line
-length will be the screen width less "n" columns.  The default value is
--8.
+@item set fill @var{number}
+Hard-wrap lines at column number @var{number}.  If @var{number} is 0 or less,
+the maximum line length will be the screen width less @var{number} columns.
+The default value is -8.
 
-@item set functioncolor fgcolor,bgcolor
+@item set functioncolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the function descriptions
 in the two help lines at the bottom of the screen.
-See "set titlecolor" for more details.
+See @code{set titlecolor} for more details.
 
-@item set/unset historylog
-Enable the use of ~/.nano/search_history for saving and reading
+@item set historylog
+Enable the use of @file{~/.nano/search_history} for saving and reading
 search/replace strings.
 
-@item set keycolor fgcolor,bgcolor
+@item set keycolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the shortcut key combos
 in the two help lines at the bottom of the screen.
-See "set titlecolor" for more details.
+See @code{set titlecolor} for more details.
 
-@item set/unset locking
+@item set locking
 Enable vim-style lock-files for when editing files.
 
-@item set matchbrackets "string"
+@item set matchbrackets "@var{string}"
 Set the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
 The default value is
 
 @quotation
-@code{"(<[@{)>]@}"}
+"(<[@{)>]@}"
 @end quotation
 
-@item set/unset morespace
+@item set morespace
 Use the blank line below the titlebar as extra editing space.
 
-@item set/unset mouse
+@item set mouse
 Enable mouse support, so that mouse clicks can be used to place the
 cursor, set the mark (with a double click), or execute shortcuts.
 
-@item set/unset multibuffer
+@item set multibuffer
 Allow inserting files into their own buffers.
 
-@item set/unset noconvert
+@item set noconvert
 Don't convert files from DOS/Mac format.
 
-@item set/unset nofollow
+@item set nofollow
 Don't follow symlinks when writing files.
 
-@item set/unset nohelp
+@item set nohelp
 Don't display the help lists at the bottom of the screen.
 
-@item set/unset nonewlines
+@item set nonewlines
 Don't add newlines to the ends of files.
 
-@item set/unset nowrap
+@item set nowrap
 Don't hard-wrap text at all.
 
 @item set operatingdir "directory"
@@ -705,102 +708,102 @@ subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
 directory feature is turned off.
 
-@item set/unset poslog
+@item set poslog
 Save the cursor position of files between editing sessions.
 
-@item set/unset preserve
+@item set preserve
 Preserve the XON and XOFF keys (^Q and ^S).
 
-@item set punct "string"
+@item set punct "@var{string}"
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specified closing punctuation, optionally followed by closing brackets
-(see "brackets"), can end sentences.  The default value is @code{"!.?"}.
+(see "brackets"), can end sentences.  The default value is "!.?".
 
-@item set/unset quickblank
+@item set quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
 keystroke instead of 25.
 
-@item set/unset quiet
+@item set quiet
 When set, @code{nano} will not report errors in the nanorc file nor ask them
 to be acknowledged by pressing Enter at startup.  If this option is used, it
 should be placed at the top of the file to be fully effective.
 
-@item set quotestr "string"
+@item set quotestr "@var{string}"
 The email-quote string, used to justify email-quoted paragraphs.  This
 is an extended regular expression if your system supports them,
 otherwise a literal string.  The default value is
 
 @quotation
-@code{"^([ \\t]*[#:>\\|@}])+"}
+"^([ \\t]*[#:>\\|@}])+"
 @end quotation
 
 if you have extended regular expression support, and "> " otherwise.
 Note that '\\t' stands for a literal Tab character.
 
-@item set/unset rebinddelete
+@item set rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete
 work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
 
-@item set/unset rebindkeypad
+@item set rebindkeypad
 Interpret the numeric keypad keys so that they all work properly.  You
 should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.
 
-@item set/unset regexp
+@item set regexp
 Do extended regular expression searches by default.
 
-@item set/unset smarthome
+@item set smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
 very beginning of non-whitespace characters on a line, the cursor will
 jump to that beginning (either forwards or backwards).  If the cursor is
 already at that position, it will jump to the true beginning of the
 line.
 
-@item set/unset smooth
+@item set smooth
 Use smooth scrolling by default.
 
-@item set/unset softwrap
+@item set softwrap
 Enable soft line wrapping for easier viewing of very long lines.
 
 @item set speller "spellprog"
 Use spelling checker "spellprog" instead of the built-in one, which
 calls "spell".
 
-@item set statuscolor fgcolor,bgcolor
+@item set statuscolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the statusbar.
-See "set titlecolor" for more details.
+See @code{set titlecolor} for more details.
 
-@item set/unset suspend
+@item set suspend
 Allow @code{nano} to be suspended.
 
-@item set tabsize "n"
-Use a tab size of "n" columns.  The value of "n" must be greater than 0.
-The default value is 8.
+@item set tabsize @var{number}
+Use a tab size of @var{number} columns.  The value of @var{number} must be
+greater than 0.  The default value is 8.
 
-@item set/unset tabstospaces
+@item set tabstospaces
 Convert typed tabs to spaces.
 
-@item set/unset tempfile
+@item set tempfile
 Save automatically on exit, don't prompt.
 
-@item set titlecolor fgcolor,bgcolor
+@item set titlecolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the titlebar.
 Valid color names for foreground and background are:
 white, black, red, blue, green, yellow, magenta, and cyan.
-And either "fgcolor" or ",bgcolor" may be left out.
+And either @var{fgcolor} or @var{,bgcolor} may be left out.
 
-@item set/unset view
+@item set view
 Disallow file modification.
 
 @anchor{Whitespace}
-@item set whitespace "string"
+@item set whitespace "@var{string}"
 Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.  The default pair
 for a UTF-8 locale is "»·", and for other locales ">.".
 
-@item set/unset wordbounds
+@item set wordbounds
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 
