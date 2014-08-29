@@ -1883,6 +1883,10 @@ void do_justify(bool full_justify)
     bool filebot_inpar = FALSE;
 	/* Whether the text at filebot is part of the current
 	 * paragraph. */
+    int kbinput;
+	/* The first keystroke after a justification. */
+    functionptrtype func;
+	/* The function associated with that keystroke. */
 
     /* We save these variables to be restored if the user
      * unjustifies. */
@@ -1896,9 +1900,6 @@ void do_justify(bool full_justify)
     size_t mark_begin_x_save = openfile->mark_begin_x;
 #endif
     bool modified_save = openfile->modified;
-
-    int kbinput;
-    const sc *s;
 
     /* Move to the beginning of the current line, so that justifying at
      * the end of the last line of the file, if that line isn't blank,
@@ -2218,9 +2219,9 @@ void do_justify(bool full_justify)
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
     kbinput = do_input(FALSE);
-    s = get_shortcut(&kbinput);
+    func = func_from_key(&kbinput);
 
-    if (s && s->scfunc == do_uncut_text) {
+    if (func == do_uncut_text) {
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {

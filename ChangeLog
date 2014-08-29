@@ -1,3 +1,7 @@
+2014-08-29  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_justify): Replace the old get_shortcut() wrapper
+	with the new func_from_key().
+
 2014-08-10  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Improve some wordings and formatting.
 
