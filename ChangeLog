@@ -4,7 +4,7 @@
 2014-08-07  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/nanorc.nanorc: Remove a mistaken OR which causes a
 	'Bad regex, empty (sub)expression' error on some systems.  This
-	fixes Savannah bug #42929.
+	fixes Savannah bug #42929 reported by Misty De Meo.
 
 2014-08-03  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nano.1, doc/man/rnano.1: Tweak the formatting a bit so that
