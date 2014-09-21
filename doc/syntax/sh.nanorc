@@ -1,7 +1,7 @@
 ## Here is an example for Bourne shell scripts.
 
 syntax "sh" "\.sh$"
-header "^#!.*/(ba|k|pdk)?sh[-0-9_]*"
+header "^#!.*(ba|k|pdk)?sh[-0-9_]*"
 magic "(POSIX|Bourne.*) shell script text"
 
 icolor brightgreen "^[0-9A-Z_]+\(\)"

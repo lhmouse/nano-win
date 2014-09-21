@@ -1,3 +1,8 @@
+2014-09-21  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/{perl,python,ruby,sh}.nanorc: Recognize also header
+	lines of the form "#!/usr/bin/env thing" besides "#!/bin/thing".
+	This fixes Savannah bug #43270 reported by Kitty.
+
 2014-08-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_justify): Replace the old get_shortcut() wrapper
 	with the new func_from_key().
