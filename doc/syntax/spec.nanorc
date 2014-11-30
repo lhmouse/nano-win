@@ -24,8 +24,8 @@ color yellow start="%__" end="\ "
 color magenta start="%\{" end="\}"
 color yellow start="%\{__" end="\}"
 # Sections.
-color red "^%(build$|changelog|check$|clean$|description|files|install$|package|pre|prep$|preun|post|postun)"
-color red "^%(trigger|triggerin|triggerpostun|triggerun|verifyscript)"
+color red "^%(build$|changelog|check$|clean$|description|files|install$|package|pre|prep$|pretrans|preun)"
+color red "^%(post|posttrans|postun|trigger|triggerin|triggerpostun|triggerun|verifyscript)"
 # Conditionals and defines.
 color brightred "%(if|else|endif|define|global|undefine)"
 

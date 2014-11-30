@@ -1,3 +1,7 @@
+2014-11-30  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/spec.nanorc: Colorize %pretrans and %posttrans fully.
+	Original patch from Savannah patch #8573 by Daniel Vrátil.
+
 2014-09-21  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/{perl,python,ruby,sh}.nanorc: Recognize also header
 	lines of the form "#!/usr/bin/env thing" besides "#!/bin/thing".
