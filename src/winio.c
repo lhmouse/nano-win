@@ -3435,7 +3435,7 @@ void do_replace_highlight(bool highlight, const char *word)
 }
 
 #ifndef DISABLE_EXTRA
-#define CREDIT_LEN 57
+#define CREDIT_LEN 52
 #define XLCREDIT_LEN 8
 
 /* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
@@ -3462,11 +3462,6 @@ void do_credits(void)
 	"Benno Schulenberg",
 	"Ken Tyler",
 	"Sven Guckes",
-	NULL,				/* credits[16], handled below. */
-	"Pauli Virtanen",
-	"Daniele Medri",
-	"Clement Laforet",
-	"Tedi Heriyanto",
 	"Bill Soudan",
 	"Christian Weisgerber",
 	"Erik Andersen",
@@ -3515,15 +3510,6 @@ void do_credits(void)
 	N_("and anyone else we forgot..."),
 	N_("Thank you for using nano!")
     };
-
-    /* credits[16]: Make sure this name is displayed properly, since we
-     * can't dynamically assign it above, using Unicode 00F6 (Latin
-     * Small Letter O with Diaresis) if applicable. */
-    credits[16] =
-#ifdef ENABLE_UTF8
-	using_utf8() ? "Florian K\xC3\xB6nig" :
-#endif
-	"Florian K\xF6nig";
 
     if (!old_more_space || !old_no_help) {
 	SET(MORE_SPACE);

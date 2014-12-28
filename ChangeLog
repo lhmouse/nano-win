@@ -1,6 +1,9 @@
 2014-12-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_lockfile): Gettextize the "File being edited"
 	prompt, and improve its wording.
+	* src/winio.c (do_credits): Remove the names of past translators
+	from the Easter-egg scroll.
+	* THANKS: Add a missing	historical translator name.
 
 2014-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/spec.nanorc: Colorize %pretrans and %posttrans fully.
