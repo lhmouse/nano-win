@@ -3435,7 +3435,7 @@ void do_replace_highlight(bool highlight, const char *word)
 }
 
 #ifndef DISABLE_EXTRA
-#define CREDIT_LEN 52
+#define CREDIT_LEN 53
 #define XLCREDIT_LEN 8
 
 /* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
@@ -3458,6 +3458,7 @@ void do_credits(void)
 	"Rocco Corsi",
 	"David Lawrence Ramsey",
 	"David Benbennick",
+	"Mark Majeres",
 	"Mike Frysinger",
 	"Benno Schulenberg",
 	"Ken Tyler",

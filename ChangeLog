@@ -4,6 +4,8 @@
 	* src/winio.c (do_credits): Remove the names of past translators
 	from the Easter-egg scroll.
 	* THANKS: Add a missing	historical translator name.
+	* src/winio.c (do_credits): Add Mark to the scroll, for all his
+	undo work, colouring nano's interface, and other patches.
 
 2014-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/spec.nanorc: Colorize %pretrans and %posttrans fully.
