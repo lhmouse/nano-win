@@ -1,3 +1,7 @@
+2014-12-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (do_lockfile): Gettextize the "File being edited"
+	prompt, and improve its wording.
+
 2014-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/spec.nanorc: Colorize %pretrans and %posttrans fully.
 	Original patch from Savannah patch #8573 by Daniel Vrátil.
