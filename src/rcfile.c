@@ -328,6 +328,7 @@ void parse_syntax(char *ptr)
     endsyntax->next = NULL;
     endsyntax->nmultis = 0;
     endsyntax->linter = NULL;
+    endsyntax->formatter = NULL;
 
 #ifdef DEBUG
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
@@ -995,6 +996,31 @@ void parse_linter(char *ptr)
     else
 	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
 }
+
+void parse_formatter(char *ptr)
+{
+    assert(ptr != NULL);
+
+    if (syntaxes == NULL) {
+	rcfile_error(
+		N_("Cannot add formatter without a syntax command"));
+	return;
+    }
+
+    if (*ptr == '\0') {
+	rcfile_error(N_("Missing formatter command"));
+	return;
+    }
+
+    if (endsyntax->formatter != NULL)
+	free(endsyntax->formatter);
+
+    /* Let them unset the formatter by using "". */
+    if (!strcmp(ptr, "\"\""))
+	endsyntax->formatter = NULL;
+    else
+	endsyntax->formatter = mallocstrcpy(syntaxes->formatter, ptr);
+}
 #endif /* !DISABLE_COLOR */
 
 /* Check whether the user has unmapped every shortcut for a
@@ -1130,6 +1156,8 @@ void parse_rcfile(FILE *rcstream
 	    parse_colors(ptr, TRUE);
 	else if (strcasecmp(keyword, "linter") == 0)
 	    parse_linter(ptr);
+	else if (strcasecmp(keyword, "formatter") == 0)
+	    parse_formatter(ptr);
 #endif /* !DISABLE_COLOR */
 	else if (strcasecmp(keyword, "bind") == 0)
 	    parse_binding(ptr, TRUE);

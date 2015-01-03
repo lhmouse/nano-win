@@ -3323,8 +3323,9 @@ void total_refresh(void)
 void display_main_list(void)
 {
 #ifndef DISABLE_COLOR
-    if (openfile->syntax && openfile->syntax->linter)
-	set_lint_shortcuts();
+    if (openfile->syntax
+	  && (openfile->syntax->formatter || openfile->syntax->linter))
+	set_lint_or_format_shortcuts();
     else
 	set_spell_shortcuts();
 #endif

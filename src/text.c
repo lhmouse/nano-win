@@ -3225,6 +3225,160 @@ free_lints_and_return:
     }
     lint_cleanup();
 }
+
+/* Run a formatter for the given syntax.
+ * Expects the formatter to be non-interactive and
+ * operate on a file in-place, which we'll pass it
+ * on the command line.  Another mashuhp of the speller
+ * and alt_speller routines.
+ */
+void do_formatter(void)
+{
+    bool status;
+    FILE *temp_file;
+    char *temp = safe_tempfile(&temp_file);
+    int format_status;
+    size_t current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    ssize_t current_y_save = openfile->current_y;
+    ssize_t lineno_save = openfile->current->lineno;
+    pid_t pid_format;
+    char *ptr;
+    static int arglen = 3;
+    static char **formatargs = NULL;
+    char *finalstatus = NULL;
+
+   /* Check whether we're using syntax highlighting
+    * and formatter option it set
+    */
+    if (openfile->syntax == NULL || openfile->syntax->formatter == NULL) {
+	statusbar(_("Error: no linter defined"));
+	return;
+    }
+
+    if (ISSET(RESTRICTED)) {
+	nano_disabled_msg();
+	return;
+    }
+
+    if (temp == NULL) {
+	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	return;
+    }
+
+    /* we're not supporting partial formatting, oi vey */
+    openfile->mark_set = FALSE;
+    status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
+
+    if (!status) {
+	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	free(temp);
+	return;
+    }
+
+    if (openfile->totsize == 0) {
+	statusbar(_("Finished"));
+	return;
+    }
+
+    blank_bottombars();
+    statusbar(_("Invoking formatter, please wait"));
+    doupdate();
+
+    endwin();
+
+    /* Set up an argument list to pass execvp(). */
+    if (formatargs == NULL) {
+	formatargs = (char **)nmalloc(arglen * sizeof(char *));
+
+	formatargs[0] = strtok(openfile->syntax->formatter, " ");
+	while ((ptr = strtok(NULL, " ")) != NULL) {
+	    arglen++;
+	    formatargs = (char **)nrealloc(formatargs, arglen *
+		sizeof(char *));
+	    formatargs[arglen - 3] = ptr;
+	}
+	formatargs[arglen - 1] = NULL;
+    }
+    formatargs[arglen - 2] = temp;
+
+    /* Start a new process for the formatter. */
+    if ((pid_format = fork()) == 0) {
+	/* Start alternate format program; we are using $PATH. */
+	execvp(formatargs[0], formatargs);
+
+	/* Should not be reached, if alternate formatter is found!!! */
+	exit(1);
+    }
+
+    /* If we couldn't fork, get out. */
+    if (pid_format < 0) {
+	statusbar(_("Could not fork"));
+	return;
+    }
+
+#ifndef NANO_TINY
+    /* Don't handle a pending SIGWINCH until the alternate format checker
+     * is finished and we've loaded the format-checked file back in. */
+    allow_pending_sigwinch(FALSE);
+#endif
+
+    /* Wait for the formatter to finish. */
+    wait(&format_status);
+
+    /* Reenter curses mode. */
+    doupdate();
+
+    /* Restore the terminal to its previous state. */
+    terminal_init();
+
+    /* Turn the cursor back on for sure. */
+    curs_set(1);
+
+    /* The screen might have been resized.  If it has, reinitialize all
+     * the windows based on the new screen dimensions. */
+    window_init();
+
+    if (!WIFEXITED(format_status) ||
+		WEXITSTATUS(format_status) != 0) {
+	char *format_error;
+	char *invoke_error = _("Error invoking \"%s\"");
+
+	format_error =
+		charalloc(strlen(invoke_error) +
+		strlen(openfile->syntax->formatter) + 1);
+	sprintf(format_error, invoke_error, openfile->syntax->formatter);
+	finalstatus = format_error;
+    } else {
+
+	/* Replace the text of the current buffer with the format-checked
+ 	 * text. */
+	replace_buffer(temp);
+
+	/* Go back to the old position, and mark the file as modified. */
+	do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
+	set_modified();
+
+#ifndef NANO_TINY
+	/* Handle a pending SIGWINCH again. */
+	allow_pending_sigwinch(TRUE);
+#endif
+
+	finalstatus = _("Finished formatting");
+    }
+
+    unlink(temp);
+    free(temp);
+
+    currmenu = MMAIN;
+
+    /* If the spell-checker printed any error messages onscreen, make
+     * sure that they're cleared off. */
+    total_refresh();
+
+    statusbar(finalstatus);
+}
+
 #endif /* !DISABLE_COLOR */
 
 #ifndef NANO_TINY

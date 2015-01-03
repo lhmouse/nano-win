@@ -639,6 +639,7 @@ void shortcut_init(void)
     const char *nano_lint_msg = N_("Invoke the linter, if available");
     const char *nano_prevlint_msg = N_("Go to previous linter msg");
     const char *nano_nextlint_msg = N_("Go to next linter msg");
+    const char *nano_formatter_msg = N_("Invoke formatter, if available");
 #endif
 #endif /* !DISABLE_HELP */
 
@@ -735,6 +736,8 @@ void shortcut_init(void)
 #ifndef DISABLE_COLOR
     add_to_funcs(do_linter, MMAIN,
 	N_("To Linter"), IFSCHELP(nano_lint_msg), BLANKAFTER, NOVIEW);
+    add_to_funcs(do_formatter, MMAIN,
+	N_("Formatter"), IFSCHELP(nano_formatter_msg), TOGETHER, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -1007,6 +1010,8 @@ void shortcut_init(void)
 #ifndef DISABLE_COLOR
     add_to_sclist(MMAIN, "^T", do_linter, 0);
     add_to_sclist(MMAIN, "F12", do_linter, 0);
+    add_to_sclist(MMAIN, "^T", do_formatter, 0);
+    add_to_sclist(MMAIN, "F12", do_formatter, 0);
 #endif
 #endif
     add_to_sclist(MMAIN, "^C", do_cursorpos_void, 0);
@@ -1178,17 +1183,24 @@ void shortcut_init(void)
 }
 
 #ifndef DISABLE_COLOR
-void set_lint_shortcuts(void)
+void set_lint_or_format_shortcuts(void)
 {
 #ifndef DISABLE_SPELLER
-    replace_scs_for(do_spell, do_linter);
+    if (openfile->syntax->formatter) {
+	replace_scs_for(do_spell, do_formatter);
+	replace_scs_for(do_linter, do_formatter);
+    } else {
+	replace_scs_for(do_spell, do_linter);
+	replace_scs_for(do_formatter, do_linter);
+    }
 #endif
 }
 
 void set_spell_shortcuts(void)
 {
 #ifndef DISABLE_SPELLER
-    replace_scs_for(do_linter, do_spell);
+	replace_scs_for(do_formatter, do_spell);
+	replace_scs_for(do_linter, do_spell);
 #endif
 }
 #endif
@@ -1516,7 +1528,7 @@ int strtomenu(char *input)
 	return MHELP;
 #endif
 #ifndef DISABLE_SPELLER
-    else if (!strcasecmp(input, "spell"))
+    else if (!strcasecmp(input, "spell") || !strcasecmp(input, "formatter"))
 	return MSPELL;
 #endif
     else if (!strcasecmp(input, "linter"))

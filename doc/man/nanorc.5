@@ -270,6 +270,11 @@ For the currently defined syntax, use the given \fIprogram\fR
 to invoke the linter (this overrides the speller function when
 defined).
 .TP
+.BI formatter " program " \fR[ "arg " \fR...]
+For the currently defined syntax, use the given \fIprogram\fR
+to automatically re-format text, useful in certain programming
+languages (e.g. go)
+.TP
 .BR header " [""\fIregex\fR"" ...]
 For the currently defined syntax, add one or more regexes which will
 be compared against the very first line of the file to be edited,

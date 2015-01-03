@@ -40,3 +40,6 @@ color brightblue start="/\*" end="\*/"
 
 # Trailing whitespace.
 color ,green "[[:space:]]+$"
+
+# Set up the formatter since spelling is probably useless...
+formatter gofmt -w

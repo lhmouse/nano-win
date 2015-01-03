@@ -359,7 +359,7 @@ void assign_keyinfo(sc *s);
 void print_sclist(void);
 void shortcut_init(void);
 #ifndef DISABLE_COLOR
-void set_lint_shortcuts(void);
+void set_lint_or_format_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
 const subnfunc *sctofunc(sc *s);
@@ -688,6 +688,7 @@ void do_spell(void);
 #endif
 #ifndef DISABLE_COLOR
 void do_linter(void);
+void do_formatter(void);
 #endif
 #ifndef NANO_TINY
 void do_wordlinechar_count(void);
@@ -780,7 +781,7 @@ void check_statusblank(void);
 char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void titlebar(const char *path);
-void set_modified(void);
+extern void set_modified(void);
 void statusbar(const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, size_t len);

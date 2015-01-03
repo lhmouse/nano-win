@@ -251,6 +251,8 @@ typedef struct syntaxtype {
 	/* The colors used in this syntax. */
     char *linter;
 	/* The command to lint this type of file. */
+    char *formatter;
+        /* Use this formatter command (for programming lang mainly) */
     int nmultis;
 	/* How many multi-line strings this syntax has. */
     struct syntaxtype *next;
