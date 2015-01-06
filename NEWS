@@ -1,3 +1,14 @@
+2015.01.06 - GNU nano 2.3.99pre1 "Junior" is released.  As the first
+		2.4 release candidate there will be fewer new features
+		but many bugfixes going forward.  This release contains
+		new support for language reformatters like go's gofmt
+		command which takes the place of the spelling checker.
+		Fixes in this release include many syntax highlighting 
+		fixes and improvements, and documentation formatting updates.
+		As always please report bugs via the Savannah bug page for
+		nano (https://savannah.gnu.org/bugs/?group=nano), so we can
+		release a super awesome and bug-free 2.4.0 soon!
+
 2014.07.17 - GNU nano 2.3.6 "Columbo" is released.  This release
 		contains a fix for installing internationalization
 		files.  Also included are scattered documentation

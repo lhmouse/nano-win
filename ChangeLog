@@ -1,3 +1,4 @@
+GNU nano 2.3.99pre1 - 2015.01.06
 2015-01-03  Chris Allegretta <chrisa@asty.org>
 	* New formatter code to support syntaxes like
 	go which have tools to automatically lint and reformat the text for
