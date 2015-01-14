@@ -1,3 +1,8 @@
+2015-01-13  Chris Allegretta <chrisa@asty.org>
+	* src/files.c (open_buffer): Check here for locking and properly
+	handle choosing to not open a file when locked instead of in
+	open_file().  Fixes Savannah bug 42373 reported by Benno Schulenberg
+
 GNU nano 2.3.99pre1 - 2015.01.06
 2015-01-03  Chris Allegretta <chrisa@asty.org>
 	* New formatter code to support syntaxes like

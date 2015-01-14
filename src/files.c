@@ -337,8 +337,24 @@ void open_buffer(const char *filename, bool undoable)
 
     /* If we're loading into a new buffer, add a new entry to
      * openfile. */
-    if (new_buffer)
+    if (new_buffer) {
 	make_new_buffer();
+
+#ifndef NANO_TINY
+	if (ISSET(LOCKING) && filename[0] != '\0') {
+	    int lockstatus = do_lockfile(filename);
+	    if (lockstatus < 0) {
+		if (openfile->next) {
+		    close_buffer();
+		    statusbar(_("Cancelled"));
+		    return;
+		} else
+		    filename = "";
+	    }
+ 	}
+#endif
+    }
+
 
     /* If the filename isn't blank, and we are not in NOREAD_MODE,
      * open the file.  Otherwise, treat it as a new file. */
@@ -905,16 +921,6 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	|| (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
 
-
-#ifndef NANO_TINY
-    if (ISSET(LOCKING)) {
-	int lockstatus = do_lockfile(full_filename);
-        if (lockstatus < 0)
-	    return -1;
-	else if (lockstatus == 0)
-	    quiet = 1;
-    }
-#endif
 
     if (stat(full_filename, &fileinfo) == -1) {
 	/* Well, maybe we can open the file even if the OS says it's
