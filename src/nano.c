@@ -1152,7 +1152,7 @@ void do_exit(void)
 
 #ifndef DISABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
-	if (!close_buffer())
+	if (!close_buffer(FALSE))
 #endif
 	    finish();
     /* If the user canceled, we go on. */

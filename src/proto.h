@@ -283,15 +283,15 @@ void replace_buffer(const char *filename);
 #endif
 void display_buffer(void);
 #ifndef DISABLE_MULTIBUFFER
-void switch_to_prevnext_buffer(bool next);
+void switch_to_prevnext_buffer(bool next, bool quiet);
 void switch_to_prev_buffer_void(void);
 void switch_to_next_buffer_void(void);
-bool close_buffer(void);
+bool close_buffer(bool quiet);
 #endif
 filestruct *read_line(char *buf, filestruct *prevnode, bool
 	*first_line_ins, size_t buf_len);
 void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable);
-int open_file(const char *filename, bool newfie, FILE **f);
+int open_file(const char *filename, bool newfie, bool quiet, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
 void do_insertfile(
 #ifndef NANO_TINY

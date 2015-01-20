@@ -126,6 +126,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     pid_t mypid;
     uid_t myuid;
     struct passwd *mypwuid;
+    struct stat fileinfo;
     char *lockdata = charalloc(1024);
     char myhostname[32];
     ssize_t lockdatalen = 1024;
@@ -145,8 +146,10 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
        return -1;
     }
 
-    if (delete_lockfile(lockfilename) < 0)
-        return -1;
+    /* Check if the lock exists before we try to delete it...*/
+    if (stat(lockfilename, &fileinfo) != -1)
+	if (delete_lockfile(lockfilename) < 0)
+	    return -1;
 
     if (ISSET(INSECURE_BACKUP))
         cflags = O_WRONLY | O_CREAT | O_APPEND;
@@ -156,11 +159,13 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     fd = open(lockfilename, cflags,
 	    S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
-    /* Maybe we just don't have write access.  Don't stop us from
-     * opening the file at all, just don't set the lock_filename and
-     * return success. */
-    if (fd < 0 && errno == EACCES)
-        return 1;
+    /* Maybe we just don't have write access.  Print an error message
+       and continue. */
+    if (fd < 0) {
+        statusbar(_("Error writing lock file %s: %s"), lockfilename,
+		    strerror(errno));
+        return 0;
+    }
 
     /* Now we've got a safe file stream.  If the previous open() call
      * failed, this will return NULL. */
@@ -229,8 +234,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 int delete_lockfile(const char *lockfilename)
 {
     if (unlink(lockfilename) < 0 && errno != ENOENT) {
-        statusbar(_("Error deleting lock file %s: %s"), lockfilename,
-		    strerror(errno));
+	statusbar(_("Error deleting lock file %s: %s"), lockfilename,
+		  strerror(errno));
         return -1;
     }
     return 1;
@@ -314,6 +319,7 @@ int do_lockfile(const char *filename)
  * necessary, and then open and read the file, if applicable. */
 void open_buffer(const char *filename, bool undoable)
 {
+    bool quiet = FALSE;
     bool new_buffer = (openfile == NULL
 #ifndef DISABLE_MULTIBUFFER
 	 || ISSET(MULTIBUFFER)
@@ -344,12 +350,14 @@ void open_buffer(const char *filename, bool undoable)
 	if (ISSET(LOCKING) && filename[0] != '\0') {
 	    int lockstatus = do_lockfile(filename);
 	    if (lockstatus < 0) {
+#ifndef DISABLE_MULTIBUFFER
 		if (openfile->next) {
-		    close_buffer();
-		    statusbar(_("Cancelled"));
+		    close_buffer(TRUE);
 		    return;
-		} else
-		    filename = "";
+		}
+#endif
+	    } else if (lockstatus == 0) {
+		quiet = TRUE;
 	    }
  	}
 #endif
@@ -359,7 +367,7 @@ void open_buffer(const char *filename, bool undoable)
     /* If the filename isn't blank, and we are not in NOREAD_MODE,
      * open the file.  Otherwise, treat it as a new file. */
     rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
-		open_file(filename, new_buffer, &f) : -2;
+		open_file(filename, new_buffer, quiet, &f) : -2;
 
     /* If we have a file, and we're loading into a new buffer, update
      * the filename. */
@@ -411,7 +419,7 @@ void replace_buffer(const char *filename)
 
     /* If the filename isn't blank, open the file.  Otherwise, treat it
      * as a new file. */
-    rc = (filename[0] != '\0') ? open_file(filename, TRUE, &f) : -2;
+    rc = (filename[0] != '\0') ? open_file(filename, TRUE, FALSE, &f) : -2;
 
     /* Reinitialize the text of the current buffer. */
     free_filestruct(openfile->fileage);
@@ -447,14 +455,15 @@ void display_buffer(void)
 #ifndef DISABLE_MULTIBUFFER
 /* Switch to the next file buffer if next_buf is TRUE.  Otherwise,
  * switch to the previous file buffer. */
-void switch_to_prevnext_buffer(bool next_buf)
+void switch_to_prevnext_buffer(bool next_buf, bool quiet)
 {
     assert(openfile != NULL);
 
     /* If only one file buffer is open, indicate it on the statusbar and
      * get out. */
     if (openfile == openfile->next) {
-	statusbar(_("No more open file buffers"));
+	if (quiet == FALSE)
+	    statusbar(_("No more open file buffers"));
 	return;
     }
 
@@ -470,9 +479,10 @@ void switch_to_prevnext_buffer(bool next_buf)
     display_buffer();
 
     /* Indicate the switch on the statusbar. */
-    statusbar(_("Switched to %s"),
-	((openfile->filename[0] == '\0') ? _("New Buffer") :
-	openfile->filename));
+    if (quiet == FALSE)
+	statusbar(_("Switched to %s"),
+	    ((openfile->filename[0] == '\0') ? _("New Buffer") :
+	      openfile->filename));
 
 #ifdef DEBUG
     dump_filestruct(openfile->current);
@@ -483,19 +493,21 @@ void switch_to_prevnext_buffer(bool next_buf)
 /* Switch to the previous entry in the openfile filebuffer. */
 void switch_to_prev_buffer_void(void)
 {
-    switch_to_prevnext_buffer(FALSE);
+    switch_to_prevnext_buffer(FALSE, FALSE);
 }
 
 /* Switch to the next entry in the openfile filebuffer. */
 void switch_to_next_buffer_void(void)
 {
-    switch_to_prevnext_buffer(TRUE);
+    switch_to_prevnext_buffer(TRUE, FALSE);
 }
 
 /* Delete an entry from the openfile filebuffer, and switch to the one
  * after it.  Return TRUE on success, or FALSE if there are no more open
- * file buffers. */
-bool close_buffer(void)
+ * file buffers.
+ * quiet - should we print messages switching bufers
+ */
+bool close_buffer(bool quiet)
 {
     assert(openfile != NULL);
 
@@ -508,7 +520,7 @@ bool close_buffer(void)
 #endif
 
     /* Switch to the next file buffer. */
-    switch_to_next_buffer_void();
+     switch_to_prevnext_buffer(TRUE, quiet);
 
     /* Close the file buffer we had open before. */
     unlink_opennode(openfile->prev);
@@ -904,10 +916,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
  * Return -2 if we say "New File", -1 if the file isn't opened, and the
  * fd opened otherwise.  The file might still have an error while reading
  * with a 0 return value.  *f is set to the opened file. */
-int open_file(const char *filename, bool newfie, FILE **f)
+int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 {
     struct stat fileinfo, fileinfo2;
-    int fd, quiet = 0;
+    int fd;
     char *full_filename;
 
     assert(filename != NULL && f != NULL);
