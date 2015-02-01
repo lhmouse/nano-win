@@ -1,5 +1,7 @@
 2015-02-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (do_credits): Add a general entry for all translators.
+	* src/nano.c (version), src/winio.c (do_credits): Update the copyright
+	years to include 2015.
 
 2015-01-13  Chris Allegretta <chrisa@asty.org>
 	* src/files.c (open_buffer): Check here for locking and properly
