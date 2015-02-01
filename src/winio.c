@@ -3436,8 +3436,8 @@ void do_replace_highlight(bool highlight, const char *word)
 }
 
 #ifndef DISABLE_EXTRA
-#define CREDIT_LEN 53
-#define XLCREDIT_LEN 8
+#define CREDIT_LEN 54
+#define XLCREDIT_LEN 9
 
 /* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
  * are FALSE. */
@@ -3482,6 +3482,7 @@ void do_credits(void)
 	"Richard Kolb II",
 	NULL,				/* "The Free Software Foundation" */
 	"Linus Torvalds",
+	NULL,				/* "the many translators and the TP" */
 	NULL,				/* "For ncurses:" */
 	"Thomas Dickey",
 	"Pavel Curtis",
@@ -3508,6 +3509,7 @@ void do_credits(void)
 	N_("Brought to you by:"),
 	N_("Special thanks to:"),
 	N_("The Free Software Foundation"),
+	N_("the many translators and the TP"),
 	N_("For ncurses:"),
 	N_("and anyone else we forgot..."),
 	N_("Thank you for using nano!")
