@@ -6,6 +6,8 @@
 	* src/files.c (do_lockfile): Avoid printing a wrong PID on the status
 	bar due to treating serialized PID bytes as signed integers.  This
 	addresses https://bugzilla.redhat.com/1186384 reported by Don Swaner.
+	* src/files.c (write_lockfile): Do not trim the nano version number
+	-- snprintf() counts the trailing zero into the size limit.
 
 2015-02-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (do_credits): Add a general entry for all translators.
