@@ -1,6 +1,8 @@
 2015-02-01  Kamil Dudka  <kdudka@redhat.com>
 	* src/files.c (write_lockfile): Avoid writing uninitialized bytes to
 	the lock file -- a simple null_at() would not initialize the buffer.
+	* src/files.c (do_lockfile): Make sure that 'lockprog' and 'lockuser'
+	are terminated -- strncpy() does not guarantee that on its own.
 
 2015-02-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (do_credits): Add a general entry for all translators.

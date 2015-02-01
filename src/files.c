@@ -253,7 +253,7 @@ int do_lockfile(const char *filename)
 		+ strlen(locking_suffix) + 3;
     char *lockfilename = charalloc(lockfilesize);
     char *lockfiledir = NULL;
-    char lockprog[12], lockuser[16];
+    static char lockprog[11], lockuser[17];
     struct stat fileinfo;
     int lockfd, lockpid;
 
