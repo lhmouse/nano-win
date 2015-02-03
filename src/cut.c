@@ -219,10 +219,9 @@ void do_cut_text(
 
     /* Leave the text in the cutbuffer, and mark the file as
      * modified. */
-    if (!copy_text) {
-	set_modified();
-    }
+    if (!copy_text)
 #endif /* !NANO_TINY */
+	set_modified();
 
     /* Update the screen. */
     edit_refresh_needed = TRUE;

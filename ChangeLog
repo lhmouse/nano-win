@@ -1,3 +1,7 @@
+2015-02-03 Alex Henrie <alexhenrie24@gmail.com>
+	* src/cut.c (do_cut_text): Make sure to set modified even when
+	using --enable-tiny.
+
 2015-02-01  Kamil Dudka  <kdudka@redhat.com>
 	* src/files.c (write_lockfile): Avoid writing uninitialized bytes to
 	the lock file -- a simple null_at() would not initialize the buffer.
