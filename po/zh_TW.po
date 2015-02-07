@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.2pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-06 10:15-0500\n"
+"POT-Creation-Date: 2015-02-06 19:25-0500\n"
 "PO-Revision-Date: 2013-06-24 23:29+0800\n"
 "Last-Translator: Wei-Lun Chao <bluebat@member.fsf.org>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "跳至目錄"
 
-#: src/browser.c:214 src/browser.c:770 src/files.c:1082 src/files.c:2302
+#: src/browser.c:214 src/browser.c:770 src/files.c:1100 src/files.c:2320
 #: src/nano.c:1160 src/search.c:213 src/search.c:303 src/search.c:964
 #: src/search.c:1040 src/text.c:2953 src/text.c:3168
 msgid "Cancelled"
@@ -33,9 +33,9 @@ msgstr "已取消"
 msgid "Can't go outside of %s in restricted mode"
 msgstr "在限制模式中無法至 %s 外部"
 
-#: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:947
-#: src/files.c:956 src/files.c:1783 src/files.c:1910 src/files.c:1964
-#: src/files.c:1985 src/files.c:2108 src/files.c:3010 src/files.c:3206
+#: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:965
+#: src/files.c:974 src/files.c:1801 src/files.c:1928 src/files.c:1982
+#: src/files.c:2003 src/files.c:2126 src/files.c:3028 src/files.c:3224
 #: src/rcfile.c:586 src/rcfile.c:1422
 #, c-format
 msgid "Error reading %s: %s"
@@ -75,70 +75,70 @@ msgstr "這是惟一出現之處"
 msgid "No current search pattern"
 msgstr "沒有符合目前搜尋形式者"
 
-#: src/files.c:138
+#: src/files.c:139
 msgid "Couldn't determine my identity for lock file (getpwuid() failed)"
 msgstr "無法確認我的身分以用於鎖定檔案 (getpwuid() 失敗)"
 
-#: src/files.c:144
+#: src/files.c:145
 #, fuzzy, c-format
 msgid "Couldn't determine hostname for lock file: %s"
 msgstr "無法確認主機名稱以用於鎖定檔案：%s"
 
-#: src/files.c:170 src/files.c:207 src/files.c:217
+#: src/files.c:165 src/files.c:175 src/files.c:212 src/files.c:222
 #, c-format
 msgid "Error writing lock file %s: %s"
 msgstr "寫入鎖定檔案 %s 時發生錯誤：%s"
 
-#: src/files.c:232
+#: src/files.c:237
 #, c-format
 msgid "Error deleting lock file %s: %s"
 msgstr "刪除鎖定檔案 %s 時發生錯誤：%s"
 
-#: src/files.c:267
+#: src/files.c:272
 #, fuzzy, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "開啟鎖定檔案 %s 時發生錯誤：%s"
 
-#: src/files.c:277
+#: src/files.c:282
 #, fuzzy, c-format
 msgid "Error reading lock file %s: Not enough data read"
 msgstr "讀取鎖定檔案 %s 時發生錯誤：未讀取足夠的資料"
 
-#: src/files.c:291
+#: src/files.c:296
 #, c-format
 msgid "File is being edited (by %s, PID %d, user %s); continue?"
 msgstr ""
 
-#: src/files.c:302
+#: src/files.c:307
 #, fuzzy, c-format
 msgid "Error writing lock file: Directory '%s' doesn't exist"
 msgstr "寫入鎖定檔案 %s 時發生錯誤：%s"
 
-#: src/files.c:332
+#: src/files.c:338
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "無法插入 %s 外部的檔案"
 
-#: src/files.c:441
+#: src/files.c:466
 msgid "No more open file buffers"
 msgstr "無多餘檔案緩衝區可開啟"
 
-#: src/files.c:457
+#: src/files.c:483
 #, c-format
 msgid "Switched to %s"
 msgstr "切換至 %s"
 
-#: src/files.c:458 src/global.c:953 src/winio.c:2161
+#: src/files.c:484 src/global.c:953 src/winio.c:2161
 msgid "New Buffer"
 msgstr "新緩衝區"
 
-#: src/files.c:845
+#: src/files.c:873
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
 msgstr[0] "已讀取 %lu 列 (轉檔自 DOS 與 Mac 格式)"
 
-#: src/files.c:850
+#: src/files.c:878
 #, c-format
 msgid ""
 "Read %lu line (Converted from DOS and Mac format - Warning: No write "
@@ -148,13 +148,13 @@ msgid_plural ""
 "permission)"
 msgstr[0] "已讀取 %lu 列 (轉檔自 DOS 與 Mac 格式 - 警告：沒有寫入權限)"
 
-#: src/files.c:856
+#: src/files.c:884
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
 msgstr[0] "已讀取 %lu 列 (轉檔自 Mac 格式)"
 
-#: src/files.c:860
+#: src/files.c:888
 #, c-format
 msgid ""
 "Read %lu line (Converted from Mac format - Warning: No write permission)"
@@ -162,13 +162,13 @@ msgid_plural ""
 "Read %lu lines (Converted from Mac format - Warning: No write permission)"
 msgstr[0] "已讀取 %lu 列 (轉檔自 Mac 格式 - 警告：沒有寫入權限)"
 
-#: src/files.c:866
+#: src/files.c:894
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
 msgstr[0] "已讀取 %lu 列 (轉檔自 DOS 格式)"
 
-#: src/files.c:870
+#: src/files.c:898
 #, c-format
 msgid ""
 "Read %lu line (Converted from DOS format - Warning: No write permission)"
@@ -176,161 +176,161 @@ msgid_plural ""
 "Read %lu lines (Converted from DOS format - Warning: No write permission)"
 msgstr[0] "已讀取 %lu 列 (轉檔自 DOS 格式 - 警告：沒有寫入權限)"
 
-#: src/files.c:876
+#: src/files.c:904
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "已讀取 %lu 列"
 
-#: src/files.c:879
+#: src/files.c:907
 #, c-format
 msgid "Read %lu line ( Warning: No write permission)"
 msgid_plural "Read %lu lines (Warning: No write permission)"
 msgstr[0] "已讀取 %lu 列 (警告：沒有寫入權限)"
 
-#: src/files.c:924 src/files.c:961
+#: src/files.c:942 src/files.c:979
 msgid "Reading File"
 msgstr "正在讀取檔案"
 
-#: src/files.c:931
+#: src/files.c:949
 msgid "New File"
 msgstr "新檔案"
 
-#: src/files.c:934
+#: src/files.c:952
 #, c-format
 msgid "\"%s\" not found"
 msgstr "找不到 \"%s\""
 
-#: src/files.c:942 src/rcfile.c:579 src/rcfile.c:1372 src/rcfile.c:1413
+#: src/files.c:960 src/rcfile.c:579 src/rcfile.c:1372 src/rcfile.c:1413
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" 是一個目錄"
 
-#: src/files.c:943 src/rcfile.c:580 src/rcfile.c:1373 src/rcfile.c:1414
+#: src/files.c:961 src/rcfile.c:580 src/rcfile.c:1373 src/rcfile.c:1414
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" 是一個裝置檔案"
 
-#: src/files.c:1041
+#: src/files.c:1059
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "在新緩衝區中執行的命令 [從 %s] "
 
-#: src/files.c:1043
+#: src/files.c:1061
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "執行的命令 [從 %s] "
 
-#: src/files.c:1050
+#: src/files.c:1068
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "所要插入新緩衝區的檔案 [從 %s] "
 
-#: src/files.c:1052
+#: src/files.c:1070
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "所要插入的檔案 [從 %s] "
 
-#: src/files.c:1301
+#: src/files.c:1319
 msgid "Key invalid in non-multibuffer mode"
 msgstr "非多重緩衝區模式中此按鍵無效"
 
-#: src/files.c:1603
+#: src/files.c:1621
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
 msgstr "寫入備份檔案時失敗，要繼續儲存？(如果不確定就以 N 表示) "
 
-#: src/files.c:1727
+#: src/files.c:1745
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "無法寫入 %s 外部"
 
-#: src/files.c:1742
+#: src/files.c:1760
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "--nofollow 設定下，無法前引或附加至符號連結檔"
 
-#: src/files.c:1824 src/files.c:1849 src/files.c:1867 src/files.c:1880
-#: src/files.c:1891 src/files.c:1920
+#: src/files.c:1842 src/files.c:1867 src/files.c:1885 src/files.c:1898
+#: src/files.c:1909 src/files.c:1938
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "寫入暫存檔案 %s 時發生錯誤：%s"
 
-#: src/files.c:1825 src/nano.c:719
+#: src/files.c:1843 src/nano.c:719
 msgid "Too many backup files?"
 msgstr "太多備份檔案？"
 
-#: src/files.c:1940 src/files.c:1997 src/files.c:2016 src/files.c:2028
-#: src/files.c:2052 src/files.c:2070 src/files.c:2080 src/files.c:2116
-#: src/files.c:2121 src/files.c:3082 src/files.c:3091 src/files.c:3114
-#: src/files.c:3126
+#: src/files.c:1958 src/files.c:2015 src/files.c:2034 src/files.c:2046
+#: src/files.c:2070 src/files.c:2088 src/files.c:2098 src/files.c:2134
+#: src/files.c:2139 src/files.c:3100 src/files.c:3109 src/files.c:3132
+#: src/files.c:3144
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "寫入 %s 時發生錯誤: %s"
 
-#: src/files.c:1974 src/text.c:2871 src/text.c:2883 src/text.c:3265
+#: src/files.c:1992 src/text.c:2871 src/text.c:2883 src/text.c:3265
 #: src/text.c:3274
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "寫入暫存檔案 %s 時發生錯誤"
 
-#: src/files.c:2154
+#: src/files.c:2172
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "已寫入 %lu 列"
 
-#: src/files.c:2259
+#: src/files.c:2277
 msgid " [DOS Format]"
 msgstr " [DOS 格式]"
 
-#: src/files.c:2260
+#: src/files.c:2278
 msgid " [Mac Format]"
 msgstr " [Mac 格式]"
 
-#: src/files.c:2262
+#: src/files.c:2280
 msgid " [Backup]"
 msgstr " [備份]"
 
-#: src/files.c:2270
+#: src/files.c:2288
 msgid "Prepend Selection to File"
 msgstr "前引選擇部分於檔案"
 
-#: src/files.c:2271
+#: src/files.c:2289
 msgid "Append Selection to File"
 msgstr "附加選擇部分至檔案"
 
-#: src/files.c:2272
+#: src/files.c:2290
 msgid "Write Selection to File"
 msgstr "寫入選擇部分至檔案"
 
-#: src/files.c:2275
+#: src/files.c:2293
 msgid "File Name to Prepend to"
 msgstr "要前引於的檔案名稱"
 
-#: src/files.c:2276
+#: src/files.c:2294
 msgid "File Name to Append to"
 msgstr "要附加至的檔案名稱"
 
-#: src/files.c:2277
+#: src/files.c:2295
 msgid "File Name to Write"
 msgstr "要寫入的檔案名稱"
 
-#: src/files.c:2408
+#: src/files.c:2426
 msgid "File exists, OVERWRITE ? "
 msgstr "檔案已存在，要覆寫嗎？"
 
-#: src/files.c:2417
+#: src/files.c:2435
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "以不同的名稱存檔？"
 
-#: src/files.c:2431
+#: src/files.c:2449
 msgid "File was modified since you opened it, continue saving ? "
 msgstr "檔案從您開啟它後已被修改，要繼續儲存？"
 
-#: src/files.c:2863
+#: src/files.c:2881
 msgid "(more)"
 msgstr "(更多)"
 
-#: src/files.c:2955
+#: src/files.c:2973
 #, c-format
 msgid ""
 "\n"
@@ -339,7 +339,7 @@ msgstr ""
 "\n"
 "按下輸入鍵以繼續\n"
 
-#: src/files.c:2970
+#: src/files.c:2988
 #, fuzzy, c-format
 msgid ""
 "Unable to create directory %s: %s\n"
@@ -348,7 +348,7 @@ msgstr ""
 "無法建立目錄 %s：%s\n"
 "對於儲存/載入搜尋歷史或游標位置而言，它是必要的\n"
 
-#: src/files.c:2976
+#: src/files.c:2994
 #, fuzzy, c-format
 msgid ""
 "Path %s is not a directory and needs to be.\n"
@@ -357,7 +357,7 @@ msgstr ""
 "路徑 %s 並非卻必須是個目錄。\n"
 "Nano 將無法載入或儲存搜尋或游標位置歷史\n"
 
-#: src/files.c:2993
+#: src/files.c:3011
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
@@ -366,7 +366,7 @@ msgstr ""
 "偵測到舊的 nano 歷史檔案 (%s)，我已嘗試將它移動\n"
 "到偏好的位置 (%s) 但是遇到了錯誤：%s"
 
-#: src/files.c:2997
+#: src/files.c:3015
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I moved\n"
@@ -2268,35 +2268,39 @@ msgstr "警告：正在變更一個未鎖定的檔案，要檢查一下目錄權
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "列 %ld/%ld (%d%%), 行 %lu/%lu (%d%%), 字元 %lu/%lu (%d%%)"
 
-#: src/winio.c:3506
+#: src/winio.c:3507
 msgid "The nano text editor"
 msgstr "nano 文字編輯器"
 
-#: src/winio.c:3507
+#: src/winio.c:3508
 msgid "version"
 msgstr "版本"
 
-#: src/winio.c:3508
+#: src/winio.c:3509
 msgid "Brought to you by:"
 msgstr "來自於:"
 
-#: src/winio.c:3509
+#: src/winio.c:3510
 msgid "Special thanks to:"
 msgstr "特別感謝:"
 
-#: src/winio.c:3510
+#: src/winio.c:3511
 msgid "The Free Software Foundation"
 msgstr "自由軟體基金會"
 
-#: src/winio.c:3511
+#: src/winio.c:3512
+msgid "the many translators and the TP"
+msgstr ""
+
+#: src/winio.c:3513
 msgid "For ncurses:"
 msgstr "ncurses 部分:"
 
-#: src/winio.c:3512
+#: src/winio.c:3514
 msgid "and anyone else we forgot..."
 msgstr "以及其他我們不記得的人…"
 
-#: src/winio.c:3513
+#: src/winio.c:3515
 msgid "Thank you for using nano!"
 msgstr "謝謝您使用 nano﹗"
 

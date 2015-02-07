@@ -1,3 +1,10 @@
+2015.02.06 - GNU nano 2.3.99pre2 "Snowblind" is released.  This release
+		contains only fixes, including: a long-standing problem
+		with cutting in nano-tiny, several memory alignment
+		improvements, and issues with leftover file locks.  Please
+		keep reporting bugs so we can geta happy and healthy
+		2.4.0 soon.  Thanks for using nano!
+
 2015.01.06 - GNU nano 2.3.99pre1 "Junior" is released.  As the first
 		2.4 release candidate there will be fewer new features
 		but many bugfixes going forward.  This release contains
