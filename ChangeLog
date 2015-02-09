@@ -1,3 +1,7 @@
+2015-02-09  Chris Allegretta <chrisa@asty.org>
+	* nano.spec.in: Add dependency on texinfo, docdir files for
+	RPM file creation.
+
 GNU nano 2.3.99pre2 - 2015.02.06
 2015-02-03 Alex Henrie <alexhenrie24@gmail.com>
 	* src/cut.c (do_cut_text): Make sure to set modified even when
