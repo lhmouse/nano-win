@@ -1,6 +1,7 @@
 2015-02-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/file.c (do_lockfile): Also show the name of the affected file
 	when finding a lock file, for when many files are opened at once.
+	* src/file.c (do_lockfile): The user does the editing, not the editor.
 
 2015-02-09  Chris Allegretta <chrisa@asty.org>
 	* nano.spec.in: Add dependency on texinfo, docdir files for

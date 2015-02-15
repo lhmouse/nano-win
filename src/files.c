@@ -293,8 +293,9 @@ int do_lockfile(const char *filename)
         fprintf(stderr, "user which created this lock file should be %s\n",
                 lockuser);
 #endif
-        sprintf(promptstr, _("File %s is being edited (by %s, PID %d, user %s); continue?"),
-                              filename, lockprog, lockpid, lockuser);
+	/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
+	sprintf(promptstr, _("File %s is being edited (by %s with %s, PID %d); continue?"),
+			   filename, lockuser, lockprog, lockpid);
         ans = do_yesno_prompt(FALSE, promptstr);
         if (ans < 1) {
             blank_statusbar();
