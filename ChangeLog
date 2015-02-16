@@ -1,3 +1,6 @@
+2015-02-16  Mike Frysinger  <vapier@gentoo.org>
+	* .gitignore: Ignore the autotools 'compile' file.
+
 2015-02-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/file.c (do_lockfile): Also show the name of the affected file
 	when finding a lock file, for when many files are opened at once.
