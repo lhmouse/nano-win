@@ -3,8 +3,9 @@
 syntax "ruby" "\.rb$"
 header "^#!.*ruby[-0-9._]*"
 
-# Asciibetical list of reserved words.
-color yellow "\<(BEGIN|END|alias|and|begin|break|case|class|def|defined\?|do|else|elsif|end|ensure|false|for|if|in|module|next|nil|not|or|redo|rescue|retry|return|self|super|then|true|undef|unless|until|when|while|yield)\>"
+# Reserved words.
+color yellow "\<(BEGIN|END|alias|and|begin|break|case|class|def|defined\?|do|else|elsif|end|ensure|false|for|if|in|module)\>"
+color yellow "\<(next|nil|not|or|redo|rescue|retry|return|self|super|then|true|undef|unless|until|when|while|yield)\>"
 # Constants.
 color brightblue "(\$|@|@@)?\<[A-Z]+[0-9A-Z_a-z]*"
 # Ruby "symbols".

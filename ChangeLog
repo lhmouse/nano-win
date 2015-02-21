@@ -1,5 +1,7 @@
 2015-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* README: Fix the explanation of how to subscribe to a mailing list.
+	* doc/syntax/{java,lua,python,ruby}.nanorc: Wrap some overlong lines
+	and fix a typo ("stictfp") in the Java file.
 
 2015-02-18  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/sh.nanorc: Recognize also dash, openrc and runscript.
