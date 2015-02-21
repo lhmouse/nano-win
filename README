@@ -24,6 +24,7 @@ Overview
 How to compile and install nano
 
      Download the nano source code, then:
+
      tar zxvf nano-x.y.z.tar.gz
      cd nano-x.y.z
      ./configure
@@ -32,31 +33,30 @@ How to compile and install nano
 
      It's that simple.  Use --prefix with configure to override the
      default installation directory of /usr/local.
-     
-     If you configured with the "--enable-nanorc" option, after
-     installation you might copy the doc/nanorc.sample to your home
-     directory, rename it to ".nanorc", and then edit it according to
-     your taste.
+
+     If you haven't configured with the "--disable-nanorc" option, after
+     installation you may want to copy the doc/nanorc.sample to your
+     home directory, rename it to ".nanorc", and then edit it according
+     to your taste.
 
 Web Page
 
 	http://www.nano-editor.org/
 
-Mailing List and Bug Reports
+Mailing Lists and Bug Reports
 
 	Savannah hosts all the nano-related mailing-lists.
 
-	+ info-nano@gnu.org is a very low traffic list
-	  used to announce new nano versions or other important
-	  information about the project.
+	+ info-nano@gnu.org is a very low traffic list used to announce
+	  new nano versions or other important information about the
+	  project.
 	+ help-nano@gnu.org is for those seeking to get help without
-	  wanting to hear about the technical details of its
-	  development.
-	+ nano-devel@gnu.org is the list used by the people
-	  that make nano and a general development discussion list, with
-	  moderate traffic.
+	  wanting to hear about the technical details of its development.
+	+ nano-devel@gnu.org is the list used by the people that make
+	  nano and a general development discussion list, with moderate
+	  traffic.
 
-	To subscribe, send email to nano-<name>-request@gnu.org with a
+	To subscribe, send email to <name>-request@gnu.org with a
 	subject of "subscribe", where <name> is the list you want to
 	subscribe to.
 
@@ -68,5 +68,3 @@ Current Status
 	GNU nano has reached its fourth stable milestone, 2.2.x.
 	Development of new features continues in the 2.3.x branch, while
 	2.2.x versions are dedicated to bug-fixing and polishing.
-
-$Id$
