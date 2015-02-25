@@ -505,7 +505,7 @@ void parse_binding(char *ptr, bool dobind)
 	fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
 #endif
 
-    if (dobind) {
+    if (dobind && newsc->scfunc != do_toggle_void) {
 	subnfunc *f;
 	int mask = 0;
 
