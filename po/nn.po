@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-06 19:25-0500\n"
+"POT-Creation-Date: 2015-02-27 11:56-0500\n"
 "PO-Revision-Date: 2002-03-22 20:34+0100\n"
 "Last-Translator: Kjetil Torgrim Homme <kjetilho@linpro.no>\n"
 "Language-Team: Norwegian nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Gå til katalog"
 
-#: src/browser.c:214 src/browser.c:770 src/files.c:1100 src/files.c:2320
+#: src/browser.c:214 src/browser.c:770 src/files.c:1101 src/files.c:2321
 #: src/nano.c:1160 src/search.c:213 src/search.c:303 src/search.c:964
 #: src/search.c:1040 src/text.c:2953 src/text.c:3168
 msgid "Cancelled"
@@ -34,9 +34,9 @@ msgstr "Avbrote"
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Kan ikkje gå utanfor %s i avgrensa modus"
 
-#: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:965
-#: src/files.c:974 src/files.c:1801 src/files.c:1928 src/files.c:1982
-#: src/files.c:2003 src/files.c:2126 src/files.c:3028 src/files.c:3224
+#: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:966
+#: src/files.c:975 src/files.c:1802 src/files.c:1929 src/files.c:1983
+#: src/files.c:2004 src/files.c:2127 src/files.c:3029 src/files.c:3225
 #: src/rcfile.c:586 src/rcfile.c:1422
 #, c-format
 msgid "Error reading %s: %s"
@@ -105,43 +105,44 @@ msgstr "Feil i %s på linje %d: "
 msgid "Error reading lock file %s: Not enough data read"
 msgstr ""
 
-#: src/files.c:296
+#. TRANSLATORS: The second %s is the name of the user, the third that of the editor.
+#: src/files.c:297
 #, c-format
-msgid "File is being edited (by %s, PID %d, user %s); continue?"
+msgid "File %s is being edited (by %s with %s, PID %d); continue?"
 msgstr ""
 
-#: src/files.c:307
+#: src/files.c:308
 #, c-format
 msgid "Error writing lock file: Directory '%s' doesn't exist"
 msgstr ""
 
-#: src/files.c:338
+#: src/files.c:339
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Kan ikkje setja inn fil frå utanfor %s"
 
-#: src/files.c:466
+#: src/files.c:467
 #, fuzzy
 msgid "No more open file buffers"
 msgstr "Ingen fleire opne filer"
 
-#: src/files.c:483
+#: src/files.c:484
 #, c-format
 msgid "Switched to %s"
 msgstr "Bytta til %s"
 
-#: src/files.c:484 src/global.c:953 src/winio.c:2161
+#: src/files.c:485 src/global.c:953 src/winio.c:2161
 msgid "New Buffer"
 msgstr "Ny buffer"
 
-#: src/files.c:873
+#: src/files.c:874
 #, fuzzy, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
 msgstr[0] "Leste %d linjer (på Mac-format)"
 msgstr[1] "Leste %d linjer (på Mac-format)"
 
-#: src/files.c:878
+#: src/files.c:879
 #, fuzzy, c-format
 msgid ""
 "Read %lu line (Converted from DOS and Mac format - Warning: No write "
@@ -152,14 +153,14 @@ msgid_plural ""
 msgstr[0] "Leste %d linjer (på Mac-format)"
 msgstr[1] "Leste %d linjer (på Mac-format)"
 
-#: src/files.c:884
+#: src/files.c:885
 #, fuzzy, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
 msgstr[0] "Leste %d linjer (på Mac-format)"
 msgstr[1] "Leste %d linjer (på Mac-format)"
 
-#: src/files.c:888
+#: src/files.c:889
 #, fuzzy, c-format
 msgid ""
 "Read %lu line (Converted from Mac format - Warning: No write permission)"
@@ -168,14 +169,14 @@ msgid_plural ""
 msgstr[0] "Leste %d linjer (på Mac-format)"
 msgstr[1] "Leste %d linjer (på Mac-format)"
 
-#: src/files.c:894
+#: src/files.c:895
 #, fuzzy, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
 msgstr[0] "Leste %d linjer (på DOS-format)"
 msgstr[1] "Leste %d linjer (på DOS-format)"
 
-#: src/files.c:898
+#: src/files.c:899
 #, fuzzy, c-format
 msgid ""
 "Read %lu line (Converted from DOS format - Warning: No write permission)"
@@ -184,174 +185,174 @@ msgid_plural ""
 msgstr[0] "Leste %d linjer (på DOS-format)"
 msgstr[1] "Leste %d linjer (på DOS-format)"
 
-#: src/files.c:904
+#: src/files.c:905
 #, fuzzy, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "Leste %d linjer"
 msgstr[1] "Leste %d linjer"
 
-#: src/files.c:907
+#: src/files.c:908
 #, c-format
 msgid "Read %lu line ( Warning: No write permission)"
 msgid_plural "Read %lu lines (Warning: No write permission)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/files.c:942 src/files.c:979
+#: src/files.c:943 src/files.c:980
 msgid "Reading File"
 msgstr "Les fil"
 
-#: src/files.c:949
+#: src/files.c:950
 msgid "New File"
 msgstr "Ny fil"
 
-#: src/files.c:952
+#: src/files.c:953
 #, c-format
 msgid "\"%s\" not found"
 msgstr "«%s» ikkje funne"
 
-#: src/files.c:960 src/rcfile.c:579 src/rcfile.c:1372 src/rcfile.c:1413
+#: src/files.c:961 src/rcfile.c:579 src/rcfile.c:1372 src/rcfile.c:1413
 #, fuzzy, c-format
 msgid "\"%s\" is a directory"
 msgstr "Fila «%s» er ein katalog"
 
 # "enhet" = "device", kanskje, men det er litt forvirrande
-#: src/files.c:961 src/rcfile.c:580 src/rcfile.c:1373 src/rcfile.c:1414
+#: src/files.c:962 src/rcfile.c:580 src/rcfile.c:1373 src/rcfile.c:1414
 #, fuzzy, c-format
 msgid "\"%s\" is a device file"
 msgstr "Fila «%s» er ikkje ei vanleg fil"
 
-#: src/files.c:1059
+#: src/files.c:1060
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr ""
 
-#: src/files.c:1061
+#: src/files.c:1062
 #, fuzzy, c-format
 msgid "Command to execute [from %s] "
 msgstr "Fila som skal setjast inn [frå %s] "
 
-#: src/files.c:1068
+#: src/files.c:1069
 #, fuzzy, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Fila som skal setjast inn [frå %s] "
 
-#: src/files.c:1070
+#: src/files.c:1071
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Fila som skal setjast inn [frå %s] "
 
-#: src/files.c:1319
+#: src/files.c:1320
 #, fuzzy
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Tasten er ugyldig utan fleire buffer"
 
-#: src/files.c:1621
+#: src/files.c:1622
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
 msgstr ""
 
-#: src/files.c:1745
+#: src/files.c:1746
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan ikkje skriva utanfor %s"
 
-#: src/files.c:1760
+#: src/files.c:1761
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 
-#: src/files.c:1842 src/files.c:1867 src/files.c:1885 src/files.c:1898
-#: src/files.c:1909 src/files.c:1938
+#: src/files.c:1843 src/files.c:1868 src/files.c:1886 src/files.c:1899
+#: src/files.c:1910 src/files.c:1939
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr ""
 
-#: src/files.c:1843 src/nano.c:719
+#: src/files.c:1844 src/nano.c:719
 #, fuzzy
 msgid "Too many backup files?"
 msgstr ""
 "\n"
 "%s vart ikkje lagra (for mange sikringskopiar?)\n"
 
-#: src/files.c:1958 src/files.c:2015 src/files.c:2034 src/files.c:2046
-#: src/files.c:2070 src/files.c:2088 src/files.c:2098 src/files.c:2134
-#: src/files.c:2139 src/files.c:3100 src/files.c:3109 src/files.c:3132
-#: src/files.c:3144
+#: src/files.c:1959 src/files.c:2016 src/files.c:2035 src/files.c:2047
+#: src/files.c:2071 src/files.c:2089 src/files.c:2099 src/files.c:2135
+#: src/files.c:2140 src/files.c:3101 src/files.c:3110 src/files.c:3133
+#: src/files.c:3145
 #, c-format
 msgid "Error writing %s: %s"
 msgstr ""
 
-#: src/files.c:1992 src/text.c:2871 src/text.c:2883 src/text.c:3265
+#: src/files.c:1993 src/text.c:2871 src/text.c:2883 src/text.c:3265
 #: src/text.c:3274
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr ""
 
-#: src/files.c:2172
+#: src/files.c:2173
 #, fuzzy, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Skreiv %d linjer"
 msgstr[1] "Skreiv %d linjer"
 
-#: src/files.c:2277
+#: src/files.c:2278
 msgid " [DOS Format]"
 msgstr " [DOS-format]"
 
-#: src/files.c:2278
+#: src/files.c:2279
 msgid " [Mac Format]"
 msgstr " [Mac-format]"
 
-#: src/files.c:2280
+#: src/files.c:2281
 #, fuzzy
 msgid " [Backup]"
 msgstr " [Bakover]"
 
-#: src/files.c:2288
+#: src/files.c:2289
 #, fuzzy
 msgid "Prepend Selection to File"
 msgstr "Legg til valt område på slutten av fil"
 
-#: src/files.c:2289
+#: src/files.c:2290
 msgid "Append Selection to File"
 msgstr "Legg til valt område på slutten av fil"
 
-#: src/files.c:2290
+#: src/files.c:2291
 msgid "Write Selection to File"
 msgstr "Lagra valt område til fil"
 
-#: src/files.c:2293
+#: src/files.c:2294
 #, fuzzy
 msgid "File Name to Prepend to"
 msgstr "Namn på fil som skal leggjast til"
 
-#: src/files.c:2294
+#: src/files.c:2295
 #, fuzzy
 msgid "File Name to Append to"
 msgstr "Namn på fil som skal leggjast til"
 
-#: src/files.c:2295
+#: src/files.c:2296
 msgid "File Name to Write"
 msgstr "Namn på fila som skal lagrast"
 
-#: src/files.c:2426
+#: src/files.c:2427
 #, fuzzy
 msgid "File exists, OVERWRITE ? "
 msgstr "Fila eksisterer, SKRIV OVER?"
 
-#: src/files.c:2435
+#: src/files.c:2436
 msgid "Save file under DIFFERENT NAME ? "
 msgstr ""
 
-#: src/files.c:2449
+#: src/files.c:2450
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 
-#: src/files.c:2881
+#: src/files.c:2882
 msgid "(more)"
 msgstr "(meir)"
 
-#: src/files.c:2973
+#: src/files.c:2974
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -360,28 +361,28 @@ msgstr ""
 "\n"
 "Trykk Enter for å halda fram lastinga av nano\n"
 
-#: src/files.c:2988
+#: src/files.c:2989
 #, c-format
 msgid ""
 "Unable to create directory %s: %s\n"
 "It is required for saving/loading search history or cursor positions.\n"
 msgstr ""
 
-#: src/files.c:2994
+#: src/files.c:2995
 #, c-format
 msgid ""
 "Path %s is not a directory and needs to be.\n"
 "Nano will be unable to load or save search history or cursor positions.\n"
 msgstr ""
 
-#: src/files.c:3011
+#: src/files.c:3012
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
 "to the preferred location (%s) but encountered an error: %s"
 msgstr ""
 
-#: src/files.c:3015
+#: src/files.c:3016
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I moved\n"

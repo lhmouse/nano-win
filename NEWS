@@ -1,3 +1,13 @@
+2015.02.27 - GNU nano 2.3.99pre3 "Ashley" is released.  This is likely
+		to be the last release before the nexy major (2.4.0)
+		release.  Please test it out and send us any feedback
+		via the Savannah bug page for nano 
+		(https://savannah.gnu.org/bugs/?group=nano).  This
+		release includes fixes for rebinding toggles via 
+		nanorc, several memory alignment fixes, and documentation
+		and build updates.  As always thank you for using
+		nano - Share and Enjoy!
+
 2015.02.06 - GNU nano 2.3.99pre2 "Snowblind" is released.  This release
 		contains only fixes, including: a long-standing problem
 		with cutting in nano-tiny, several memory alignment
