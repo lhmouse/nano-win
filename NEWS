@@ -1,9 +1,9 @@
 2015.02.27 - GNU nano 2.3.99pre3 "Ashley" is released.  This is likely
-		to be the last release before the nexy major (2.4.0)
+		to be the last release before the next major (2.4.0)
 		release.  Please test it out and send us any feedback
-		via the Savannah bug page for nano 
+		via the Savannah bug page for nano
 		(https://savannah.gnu.org/bugs/?group=nano).  This
-		release includes fixes for rebinding toggles via 
+		release includes fixes for rebinding toggles via
 		nanorc, several memory alignment fixes, and documentation
 		and build updates.  As always thank you for using
 		nano - Share and Enjoy!
@@ -12,7 +12,7 @@
 		contains only fixes, including: a long-standing problem
 		with cutting in nano-tiny, several memory alignment
 		improvements, and issues with leftover file locks.  Please
-		keep reporting bugs so we can geta happy and healthy
+		keep reporting bugs so we can get a happy and healthy
 		2.4.0 soon.  Thanks for using nano!
 
 2015.01.06 - GNU nano 2.3.99pre1 "Junior" is released.  As the first
@@ -20,7 +20,7 @@
 		but many bugfixes going forward.  This release contains
 		new support for language reformatters like go's gofmt
 		command which takes the place of the spelling checker.
-		Fixes in this release include many syntax highlighting 
+		Fixes in this release include many syntax highlighting
 		fixes and improvements, and documentation formatting updates.
 		As always please report bugs via the Savannah bug page for
 		nano (https://savannah.gnu.org/bugs/?group=nano), so we can
@@ -354,7 +354,7 @@
 2008.03.18 - GNU nano 2.1.0 "under old mismanagement" is released.
 		This first release in the 2.1 development series
 		introduces rebinadble keys for most actions inside
-                the editor.  Please see the nanorc(5) page for
+		the editor.  Please see the nanorc(5) page for
 		more information on configuring key bindings.  Please
 		also report all keybinding bugs (crashes, missing
 		menu functions) using the Savannah bug tracker URL,
