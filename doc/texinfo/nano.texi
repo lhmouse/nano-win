@@ -812,7 +812,14 @@ characters as part of a word.
 @node Syntax Highlighting
 @section Syntax Highlighting
 
-Coloring the different syntactic elements of a file can be defined
+Coloring the different syntactic elements of a file
+is done via regular expressions (see the @code{color} command below).
+This is inherently imperfect, because regular expressions are not
+powerful enough to fully parse a file.  Nevertheless, regular
+expressions can do a lot and are easy to make, so they are a
+good fit for a small editor like @code{nano}.
+
+A separate syntax can be defined for each kind of file
 via the following commands in a nanorc file:
 
 @table @code

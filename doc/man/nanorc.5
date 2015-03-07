@@ -250,7 +250,14 @@ characters as parts of words.
 
 .SH SYNTAX HIGHLIGHTING
 Coloring the different syntactic elements of a file
-can be defined via the following commands:
+is done via regular expressions (see the \fBcolor\fR command below).
+This is inherently imperfect, because regular expressions are not
+powerful enough to fully parse a file.  Nevertheless, regular
+expressions can do a lot and are easy to make, so they are a
+good fit for a small editor like \fBnano\fR.
+.sp
+A separate syntax can be defined for each kind of file
+via the following commands:
 .TP
 .BR syntax " ""\fIstr\fR"" [""\fIfileregex\fR"" ...]"
 Defines a syntax named \fIstr\fP which can be activated via the

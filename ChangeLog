@@ -1,6 +1,11 @@
+2015-03-07  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/man/nanorc.5, doc/texinfo/nano.texi: Add a note about the
+	inherent imperfection of using regular expressions for syntax
+	highlighting, as suggested by Mike Frysinger in bug #30962.
+
 GNU nano 2.3.99pre2 - 2015.02.27
 2015-02-25  Chris Allegretta <chrisa@asty.org>
-	* src/rcfile.c (parse_binding): Add exception for do_toggle as
+	* src/rcfile.c (parse_binding): Add an exception for do_toggle() as
 	rebinding toggles broke with r5022.
 
 2015-02-21  Benno Schulenberg  <bensberg@justemail.net>
@@ -46,7 +51,7 @@ GNU nano 2.3.99pre2 - 2015.02.06
 2015-01-13  Chris Allegretta <chrisa@asty.org>
 	* src/files.c (open_buffer): Check here for locking and properly
 	handle choosing to not open a file when locked instead of in
-	open_file().  Fixes Savannah bug 42373 reported by Benno Schulenberg
+	open_file().  Fixes Savannah bug 42373 reported by Benno Schulenberg.
 
 GNU nano 2.3.99pre1 - 2015.01.06
 2015-01-03  Chris Allegretta <chrisa@asty.org>
