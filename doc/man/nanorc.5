@@ -279,15 +279,15 @@ defined).
 .TP
 .BI formatter " program " \fR[ "arg " \fR...]
 For the currently defined syntax, use the given \fIprogram\fR
-to automatically re-format text, useful in certain programming
-languages (e.g. go)
+to automatically reformat text.  Useful in certain programming
+languages (e.g. go).
 .TP
-.BR header " [""\fIregex\fR"" ...]
+.BR header " \fIregex\fR " ...
 For the currently defined syntax, add one or more regexes which will
 be compared against the very first line of the file to be edited,
 to determine whether this syntax should be used for that file.
 .TP
-.BR magic " [""\fIregex\fR"" ...]
+.BR magic " \fIregex\fR " ...
 For the currently defined syntax, add one or more regexes which
 will be compared against the result of querying the \fBmagic\fP
 database about the file to be edited, to determine whether this
