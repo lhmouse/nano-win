@@ -2,6 +2,7 @@
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Add a note about the
 	inherent imperfection of using regular expressions for syntax
 	highlighting, as suggested by Mike Frysinger in bug #30962.
+	* doc/man/nanorc.5: Improve the indentation of some lists.
 
 GNU nano 2.3.99pre2 - 2015.02.27
 2015-02-25  Chris Allegretta <chrisa@asty.org>

@@ -347,7 +347,8 @@ menus where it exists by using \fBall\fP).
 
 .TP
 The format of \fIkey\fP should be one of:
-.TP
+.RS 3
+.TP 3
 .B ^
 followed by an alpha character or the word "Space".
 Example: ^C
@@ -359,10 +360,11 @@ Example: M-C
 .B F
 followed by a numeric value from 1 to 16.
 Example: F10
+.RE
+
 .TP
-
 Valid \fIfunction\fP names to be bound include:
-
+.RS 3
 .TP 2
 .B help
 Invokes the help viewer.
@@ -675,6 +677,7 @@ The 'go to directory' menu in the file browser.
 A special name that encompasses all menus.
 For \fBbind\fR it means all menus where the specified \fIfunction\fR exists;
 for \fBunbind\fR it means all menus where the specified \fIkey\fR exists.
+.RE
 
 .SH FILES
 .TP
