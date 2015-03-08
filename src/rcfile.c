@@ -505,7 +505,7 @@ void parse_binding(char *ptr, bool dobind)
 	fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
 #endif
 
-    if (dobind && newsc->scfunc != do_toggle_void) {
+    if (dobind) {
 	subnfunc *f;
 	int mask = 0;
 
@@ -513,6 +513,10 @@ void parse_binding(char *ptr, bool dobind)
 	for (f = allfuncs; f != NULL; f = f->next)
 	    if (f->scfunc == newsc->scfunc)
 		mask = mask | f->menus;
+
+	/* Handle the special case of the toggles. */
+	if (newsc->scfunc == do_toggle_void)
+	    mask = MMAIN;
 
 	/* Now limit the given menu to those where the function exists. */
 	if (is_universal(newsc->scfunc))
