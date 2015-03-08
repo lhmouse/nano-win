@@ -4,6 +4,9 @@
 	* src/rcfile.c (parse_binding): Fix the rebinding of toggles.
 	* doc/man/{nano.1,rnano.1,nanorc.5}, doc/texinfo/nano.texi: Update
 	years and version numbers in the docs in anticipation of a release.
+	* src/nano.c (version): Drop compile time from version information
+	to enable a reproducible build.  Proposed by Jérémy Bobbio and Jordi
+	Mallach (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=774388).
 
 2015-03-07  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Add a note about the

@@ -960,8 +960,7 @@ void usage(void)
  * it was compiled with. */
 void version(void)
 {
-    printf(_(" GNU nano version %s (compiled %s, %s)\n"), VERSION,
-	__TIME__, __DATE__);
+    printf(_(" GNU nano, version %s\n"), VERSION);
     printf(" (C) 1999..2015 Free Software Foundation, Inc.\n");
     printf(
 	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
