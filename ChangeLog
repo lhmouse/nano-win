@@ -1,3 +1,7 @@
+2015-03-08  Benno Schulenberg  <bensberg@justemail.net>
+	* src/proto.h, src/nano.c: Fix compilation with --enable-tiny plus
+	--enable-nanorc.
+
 2015-03-07  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Add a note about the
 	inherent imperfection of using regular expressions for syntax

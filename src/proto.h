@@ -480,8 +480,8 @@ RETSIGTYPE do_continue(int signal);
 RETSIGTYPE handle_sigwinch(int signal);
 void allow_pending_sigwinch(bool allow);
 void do_toggle(int flag);
-void do_toggle_void(void);
 #endif
+void do_toggle_void(void);
 void disable_extended_io(void);
 #ifdef USE_SLANG
 void disable_signals(void);
