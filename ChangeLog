@@ -1,3 +1,8 @@
+2015-03-14  Mark Majeres  <mark@engine12.com>
+	* src/nano.c (renumber): Get out if there is nothing to renumber.
+	This prevents do_undo() from falling over when trying to renumber
+	emptiness.  This fixes Savannah bug #44488, reported by Dennis.
+
 2015-03-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/proto.h, src/nano.c: Fix compilation with --enable-tiny plus
 	--enable-nanorc.
