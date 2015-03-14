@@ -3229,7 +3229,7 @@ free_lints_and_return:
 /* Run a formatter for the given syntax.
  * Expects the formatter to be non-interactive and
  * operate on a file in-place, which we'll pass it
- * on the command line.  Another mashuhp of the speller
+ * on the command line.  Another mashup of the speller
  * and alt_speller routines.
  */
 void do_formatter(void)
@@ -3249,10 +3249,9 @@ void do_formatter(void)
     char *finalstatus = NULL;
 
    /* Check whether we're using syntax highlighting
-    * and formatter option it set
-    */
+    * and the formatter option is set. */
     if (openfile->syntax == NULL || openfile->syntax->formatter == NULL) {
-	statusbar(_("Error: no linter defined"));
+	statusbar(_("Error: no formatter defined"));
 	return;
     }
 
@@ -3266,7 +3265,7 @@ void do_formatter(void)
 	return;
     }
 
-    /* we're not supporting partial formatting, oi vey */
+    /* We're not supporting partial formatting, oi vey. */
     openfile->mark_set = FALSE;
     status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
@@ -3304,10 +3303,10 @@ void do_formatter(void)
 
     /* Start a new process for the formatter. */
     if ((pid_format = fork()) == 0) {
-	/* Start alternate format program; we are using $PATH. */
+	/* Start the formatting program; we are using $PATH. */
 	execvp(formatargs[0], formatargs);
 
-	/* Should not be reached, if alternate formatter is found!!! */
+	/* Should not be reached, if the formatter is found! */
 	exit(1);
     }
 
@@ -3350,9 +3349,7 @@ void do_formatter(void)
 	sprintf(format_error, invoke_error, openfile->syntax->formatter);
 	finalstatus = format_error;
     } else {
-
-	/* Replace the text of the current buffer with the format-checked
- 	 * text. */
+	/* Replace the text of the current buffer with the formatted text. */
 	replace_buffer(temp);
 
 	/* Go back to the old position, and mark the file as modified. */
@@ -3372,7 +3369,7 @@ void do_formatter(void)
 
     currmenu = MMAIN;
 
-    /* If the spell-checker printed any error messages onscreen, make
+    /* If the formatter printed any error messages onscreen, make
      * sure that they're cleared off. */
     total_refresh();
 
