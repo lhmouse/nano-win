@@ -1,3 +1,8 @@
+2015-03-17  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_alt_speller): Do not set the modified flag when
+	an external spell checker didn't make any changes.  This fixes
+	Savannah bug #44320, reported by Cody A. Taylor.
+
 2015-03-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_formatter): Fix a message plus a few comments.
 
