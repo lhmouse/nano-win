@@ -1180,20 +1180,20 @@ void finish_stdin_pager(void)
 
     /* Read whatever we did get from stdin. */
     f = fopen("/dev/stdin", "rb");
-       if (f == NULL)
-        nperror("fopen");
+    if (f == NULL)
+	nperror("fopen");
 
     read_file(f, 0, "stdin", TRUE, FALSE);
     ttystdin = open("/dev/tty", O_RDONLY);
     if (!ttystdin)
-        die(_("Couldn't reopen stdin from keyboard, sorry\n"));
+	die(_("Couldn't reopen stdin from keyboard, sorry\n"));
 
     dup2(ttystdin,0);
     close(ttystdin);
     if (!pager_input_aborted)
 	tcgetattr(0, &oldterm);
     if (!pager_sig_failed && sigaction(SIGINT, &pager_oldaction, NULL) == -1)
-        nperror("sigaction");
+	nperror("sigaction");
     terminal_init();
     doupdate();
 }
@@ -1201,7 +1201,6 @@ void finish_stdin_pager(void)
 /* Cancel reading from stdin like a pager. */
 RETSIGTYPE cancel_stdin_pager(int signal)
 {
-    /* Currently do nothing, just handle the intr silently. */
     pager_input_aborted = TRUE;
 }
 
@@ -1213,13 +1212,13 @@ void stdin_pager(void)
 	tcsetattr(0, TCSANOW, &oldterm);
     fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
 
-    /* Set things up so that Ctrl-C will cancel the new process. */
     /* Enable interpretation of the special control keys so that
      * we get SIGINT when Ctrl-C is pressed. */
 #ifndef NANO_TINY
     enable_signals();
 #endif
 
+    /* Set things up so that SIGINT will cancel the new process. */
     if (sigaction(SIGINT, NULL, &pager_newaction) == -1) {
 	pager_sig_failed = TRUE;
 	nperror("sigaction");
