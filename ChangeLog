@@ -4,6 +4,8 @@
 	one better.
 	* src/text.c (do_undo): Make a message equal to another one.  It
 	was mistakenly changed in r4950.  (This	is translation-neutral.)
+	* src/global.c (shortcut_init): Keep related items together in the
+	^G help screen.
 
 2015-03-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Do not set the modified flag when

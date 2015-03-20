@@ -735,9 +735,9 @@ void shortcut_init(void)
 
 #ifndef DISABLE_COLOR
     add_to_funcs(do_linter, MMAIN,
-	N_("To Linter"), IFSCHELP(nano_lint_msg), BLANKAFTER, NOVIEW);
+	N_("To Linter"), IFSCHELP(nano_lint_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_formatter, MMAIN,
-	N_("Formatter"), IFSCHELP(nano_formatter_msg), TOGETHER, NOVIEW);
+	N_("Formatter"), IFSCHELP(nano_formatter_msg), BLANKAFTER, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
