@@ -442,7 +442,7 @@ void do_undo(void)
 
     filestruct *f = fsfromline(u->mark_begin_lineno);
     if (!f) {
-	statusbar(_("Internal error: can't match line %ld.  Please save your work."), (long)u->mark_begin_lineno);
+	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
 	return;
     }
 #ifdef DEBUG
