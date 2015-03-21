@@ -1,3 +1,6 @@
+2015-03-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_alt_speller): Remove some leftovers.
+
 2015-03-21  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_alt_speller): Restore the positions of the mark
 	and the cursor in a better way: to the columns where they were.

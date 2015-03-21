@@ -2673,9 +2673,6 @@ const char *do_alt_speller(char *tempfile_name)
     bool old_mark_set = openfile->mark_set;
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
-    bool right_side_up = FALSE;
-	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
-	 * FALSE if (current, current_x) is. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
     ssize_t mb_lineno_save = 0;
@@ -2781,7 +2778,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * added when we're done correcting misspelled words; and
 	 * turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, &right_side_up);
+		(const filestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 	if (!ISSET(NO_NEWLINES))
 	    added_magicline = (openfile->filebot->data[0] != '\0');
@@ -2804,11 +2801,6 @@ const char *do_alt_speller(char *tempfile_name)
 	 * added a magicline, remove it now. */
 	if (!ISSET(NO_NEWLINES) && added_magicline)
 	    remove_magicline();
-
-	/* Put the beginning and the end of the mark at the beginning
-	 * and the end of the spell-checked text. */
-	if (openfile->fileage == openfile->filebot)
-	    bot_x += top_x;
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again.  Note that we've replaced the marked text originally
