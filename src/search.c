@@ -161,8 +161,7 @@ int search_init(bool replacing, bool use_answer)
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
 	buf = charalloc(strlen(disp) + 7);
-	/* We use (COLS / 3) here because we need to see more on the
-	 * line. */
+	/* We use (COLS / 3) here because we need to see more on the line. */
 	sprintf(buf, " [%s%s]", disp,
 		(strlenpt(last_search) > COLS / 3) ? "..." : "");
 	free(disp);
@@ -347,8 +346,8 @@ bool findnextstr(
 		break;
 	}
 
-	/* We've finished processing the file, so get out. */
 	if (search_last_line) {
+	    /* We've finished processing the file, so get out. */
 	    not_found_msg(needle);
 	    disable_nodelay();
 	    return FALSE;
@@ -367,9 +366,8 @@ bool findnextstr(
 	}
 #endif
 
-	/* We've reached the start or end of the buffer, so wrap
-	 * around. */
 	if (fileptr == NULL) {
+	    /* We've reached the start or end of the buffer, so wrap around. */
 #ifndef NANO_TINY
 	    if (ISSET(BACKWARDS_SEARCH)) {
 		fileptr = openfile->filebot;
@@ -384,8 +382,8 @@ bool findnextstr(
 	    statusbar(_("Search Wrapped"));
 	}
 
-	/* We've reached the original starting line. */
 	if (fileptr == begin)
+	    /* We've reached the original starting line. */
 	    search_last_line = TRUE;
 
 	rev_start = fileptr->data;
@@ -445,8 +443,7 @@ void do_search(void)
     i = search_init(FALSE, FALSE);
 
     if (i == -1)
-	/* Cancel, Go to Line, blank search string, or regcomp()
-	 * failed. */
+	/* Cancel, Go to Line, blank search string, or regcomp() failed. */
 	search_replace_abort();
     else if (i == -2)
 	/* Replace. */
@@ -740,12 +737,10 @@ ssize_t do_replace_loop(
 	 * beginning line already, and we're still on the beginning line
 	 * after the search, it means that we've wrapped around, so
 	 * we're done. */
-	if (bol_or_eol && begin_line && openfile->current ==
-		real_current)
+	if (bol_or_eol && begin_line && openfile->current == real_current)
 	    break;
 	/* Otherwise, set the begin_line flag if we've found a match on
-	 * the beginning line, reset the bol_or_eol flag, and
-	 * continue. */
+	 * the beginning line, reset the bol_or_eol flag, and continue. */
 	else {
 	    if (openfile->current == real_current)
 		begin_line = TRUE;
@@ -850,7 +845,7 @@ ssize_t do_replace_loop(
 #endif
 		openfile->current_x += match_len + length_change - 1;
 
-	    /* Cleanup. */
+	    /* Clean up. */
 	    openfile->totsize += mbstrlen(copy) -
 		mbstrlen(openfile->current->data);
 	    free(openfile->current->data);
@@ -913,8 +908,7 @@ void do_replace(void)
 
     i = search_init(TRUE, FALSE);
     if (i == -1) {
-	/* Cancel, Go to Line, blank search string, or regcomp()
-	 * failed. */
+	/* Cancel, Go to Line, blank search string, or regcomp() failed. */
 	search_replace_abort();
 	return;
     } else if (i == -2) {
@@ -951,8 +945,7 @@ void do_replace(void)
 	edit_refresh, _("Replace with"));
 
 #ifndef DISABLE_HISTORIES
-    /* Add this replace string to the replace history list.  i == 0
-     * means that the string is not "". */
+    /* If the replace string is not "", add it to the replace history list. */
     if (i == 0)
 	update_history(&replace_history, answer);
 #endif
@@ -1085,7 +1078,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     /* If allow_update is TRUE, update the screen. */
     if (allow_update) {
 	edit_refresh();
-
 	display_main_list();
     }
 }
@@ -1144,8 +1136,8 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 		mbrevstrpbrk(fileptr->data, bracket_set, rev_start) :
 		mbstrpbrk(rev_start, bracket_set));
 
-	/* We've found a potential match. */
 	if (found != NULL)
+	    /* We've found a potential match. */
 	    break;
 
 	if (reverse) {
@@ -1156,8 +1148,8 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	    current_y_find++;
 	}
 
-	/* We've reached the start or end of the buffer, so get out. */
 	if (fileptr == NULL)
+	    /* We've reached the start or end of the buffer, so get out. */
 	    return FALSE;
 
 	rev_start = fileptr->data;
