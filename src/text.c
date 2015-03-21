@@ -2661,7 +2661,6 @@ const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
     size_t current_x_save = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
     ssize_t current_y_save = openfile->current_y;
     ssize_t lineno_save = openfile->current->lineno;
     struct stat spellfileinfo;
@@ -2810,13 +2809,6 @@ const char *do_alt_speller(char *tempfile_name)
 	 * and the end of the spell-checked text. */
 	if (openfile->fileage == openfile->filebot)
 	    bot_x += top_x;
-	if (right_side_up) {
-	    openfile->mark_begin_x = top_x;
-	    current_x_save = bot_x;
-	} else {
-	    current_x_save = top_x;
-	    openfile->mark_begin_x = bot_x;
-	}
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again.  Note that we've replaced the marked text originally
@@ -2833,8 +2825,7 @@ const char *do_alt_speller(char *tempfile_name)
 	openfile->totsize = totsize_save;
 
 	/* Assign mark_begin to the line where the mark began before. */
-	do_gotopos(mb_lineno_save, openfile->mark_begin_x,
-		current_y_save, 0);
+	goto_line_posx(mb_lineno_save, openfile->mark_begin_x);
 	openfile->mark_begin = openfile->current;
 
 	/* Assign mark_begin_x to the location in mark_begin where the
@@ -2848,7 +2839,9 @@ const char *do_alt_speller(char *tempfile_name)
 #endif
 
     /* Go back to the old position. */
-    do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
+    goto_line_posx(lineno_save, current_x_save);
+    openfile->current_y = current_y_save;
+    edit_update(NONE);
 
     /* Stat the temporary file again, and mark the buffer as modified only
      * if this file was changed since it was written. */

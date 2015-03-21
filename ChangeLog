@@ -1,3 +1,8 @@
+2015-03-21  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_alt_speller): Restore the positions of the mark
+	and the cursor in a better way: to the columns where they were.
+	This fixes Savannah bug #44542, reported by Benno Schulenberg.
+
 2015-03-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (finish_stdin_pager, cancel_stdin_pager, stdin_pager):
 	Normalize the whitespace, remove an old comment, and place another
