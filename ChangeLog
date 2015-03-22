@@ -2,6 +2,10 @@
 	* src/chars.c (move_mbleft): Start looking for a multibyte char
 	not at the start of the string, but only as far back as such a
 	char can possibly be.  Change suggested by Mark Majeres.
+	*  src/search.c (findnextstr): Step backward or forward not simply
+	one byte but one character (possibly multibyte).  Fixes Savannah
+	bug #42175, reported by myself, and the finding of ghosts seen in
+	https://lists.gnu.org/archive/html/nano-devel/2015-03/msg00055.html.
 
 2015-03-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Remove some leftovers.

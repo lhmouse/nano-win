@@ -286,9 +286,9 @@ bool findnextstr(
     rev_start +=
 #ifndef NANO_TINY
 	ISSET(BACKWARDS_SEARCH) ?
-	openfile->current_x - 1 :
+	((openfile->current_x == 0) ? -1 : move_mbleft(fileptr->data, openfile->current_x)) :
 #endif
-	openfile->current_x + 1;
+	move_mbright(fileptr->data, openfile->current_x);
 
     /* Look for needle in the current line we're searching. */
     enable_nodelay();
