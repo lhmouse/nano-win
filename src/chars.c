@@ -484,12 +484,18 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
  * before the one at pos. */
 size_t move_mbleft(const char *buf, size_t pos)
 {
-    size_t before = 0, char_len = 0;
+    size_t before, char_len = 0;
 
     assert(buf != NULL && pos <= strlen(buf));
 
     /* There is no library function to move backward one multibyte
-     * character.  Here is the naive, O(pos) way to do it. */
+     * character.  So we just start groping for one at the farthest
+     * possible point. */
+    if (mb_cur_max() > pos)
+	before = 0;
+    else
+	before = pos - mb_cur_max();
+
     while (before < pos) {
 	char_len = parse_mbchar(buf + before, NULL, NULL);
 	before += char_len;
