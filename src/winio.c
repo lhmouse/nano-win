@@ -3160,10 +3160,11 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	}
 #endif /* !NANO_TINY */
 
-	/* Put edittop in range of current, get the difference in lines
-	 * between the original edittop and the current edittop, and
-	 * then restore the original edittop. */
-	edit_update(CENTER);
+	/* Make sure the current line is on the screen. */
+	if (ISSET(SMOOTH_SCROLL))
+	    edit_update(NONE);
+	else
+	    edit_update(CENTER);
 
 	/* Update old_current if we're not on the same page as
 	 * before. */
@@ -3229,8 +3230,7 @@ void edit_refresh(void)
 		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxrows);
 #endif
 
-	/* Put the top line of the edit window in range of the current
-	 * line. */
+	/* Make sure the current line is on the screen. */
 	edit_update(CENTER);
     }
 

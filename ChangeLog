@@ -6,6 +6,8 @@
 	one byte but one character (possibly multibyte).  Fixes Savannah
 	bug #42175, reported by myself, and the finding of ghosts seen in
 	https://lists.gnu.org/archive/html/nano-devel/2015-03/msg00055.html.
+	* src/winio.c (edit_redraw): Do not center the current line when
+	smooth scrolling is used.  This fixes Savannah bug #42654.
 
 2015-03-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Remove some leftovers.
