@@ -1,3 +1,7 @@
+2015-02-25  Chris Allegretta <chrisa@asty.org>
+	* src/text.c (do_alt_speller): timestamp can just be a __time_t.
+	Fixes compilation on win32.
+
 GNU nano 2.4.0  - 2015.03.22
 2015-03-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c (move_mbleft): Start looking for a multibyte char

@@ -2664,7 +2664,7 @@ const char *do_alt_speller(char *tempfile_name)
     ssize_t current_y_save = openfile->current_y;
     ssize_t lineno_save = openfile->current->lineno;
     struct stat spellfileinfo;
-    __time_t timestamp;
+    time_t timestamp;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
