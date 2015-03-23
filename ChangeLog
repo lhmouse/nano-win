@@ -5,9 +5,10 @@
 	the fix for Savannah bug #29393.
 	* src/text.c (do_alt_speller): Do not unset the mark before the
 	possible bailout because of a zero-sized region.
+	* NEWS: Option --noread allows writing, not reading, to named pipes.
 
 2015-03-22  Chris Allegretta <chrisa@asty.org>
-	* src/text.c (do_alt_speller): timestamp can just be a __time_t.
+	* src/text.c (do_alt_speller): timestamp can just be a time_t.
 	Fixes compilation on win32.
 
 GNU nano 2.4.0  - 2015.03.22

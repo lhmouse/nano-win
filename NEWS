@@ -1,6 +1,6 @@
 2015.03.22 - GNU nano 2.4.0 "lizf" is released.  This is the first
-		stable release in many years, and brinds together many
-		new features from the 2.3 series: including:
+		stable release in many years, and brings together many
+		new features from the 2.3 series, including:
 		a fully functional undo system (now enabled by default),
 		vim-compatible file locking, linter support, formatter
 		support, syntax highlighting flexibility, and many fixes
@@ -30,7 +30,7 @@
 2015.01.06 - GNU nano 2.3.99pre1 "Junior" is released.  As the first
 		2.4 release candidate there will be fewer new features
 		but many bugfixes going forward.  This release contains
-		new support for language reformatters like go's gofmt
+		new support for language reformatters like Go's gofmt
 		command which takes the place of the spelling checker.
 		Fixes in this release include many syntax highlighting
 		fixes and improvements, and documentation formatting updates.
@@ -70,7 +70,7 @@
 		substantial improvements to the undo/redo code, UTF-8
 		handling, the configure script, and display of shortcuts
 		on very wide terminals,  New features include the
-		ability to read named pipes (--noread), as well as
+		ability to write to named pipes (--noread), as well as
 		linter support (see the nanorc man page for details).  Also
 		included are much improved syntax highlighting code, and
 		configurations for JSON, texinfo, Go, and a default syntax
