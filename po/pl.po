@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-27 11:56-0500\n"
+"POT-Creation-Date: 2015-03-22 23:49-0400\n"
 "PO-Revision-Date: 2014-09-02 08:57+0300\n"
 "Last-Translator: Sergey Poznyakoff <gray@gnu.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -26,8 +26,8 @@ msgid "Go To Directory"
 msgstr "Przejd¼ do katalogu"
 
 #: src/browser.c:214 src/browser.c:770 src/files.c:1101 src/files.c:2321
-#: src/nano.c:1160 src/search.c:213 src/search.c:303 src/search.c:964
-#: src/search.c:1040 src/text.c:2953 src/text.c:3168
+#: src/nano.c:1159 src/search.c:212 src/search.c:302 src/search.c:957
+#: src/search.c:1033 src/text.c:2949 src/text.c:3164
 msgid "Cancelled"
 msgstr "Anulowano"
 
@@ -39,7 +39,7 @@ msgstr "W trybie ograniczonym nie mo¿na wyj¶æ poza %s"
 #: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:966
 #: src/files.c:975 src/files.c:1802 src/files.c:1929 src/files.c:1983
 #: src/files.c:2004 src/files.c:2127 src/files.c:3029 src/files.c:3225
-#: src/rcfile.c:586 src/rcfile.c:1422
+#: src/rcfile.c:590 src/rcfile.c:1426
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "B³±d odczytu %s: %s"
@@ -61,20 +61,20 @@ msgid "(parent dir)"
 msgstr "(kat nad)"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:759 src/search.c:182
+#: src/browser.c:759 src/search.c:181
 msgid "Search"
 msgstr "Szukaj"
 
-#: src/browser.c:812 src/search.c:384
+#: src/browser.c:812 src/search.c:382
 msgid "Search Wrapped"
 msgstr "Wyszukiwanie minê³o granicê pliku - kontynuowane od pocz±tku (koñca)"
 
-#: src/browser.c:885 src/browser.c:912 src/search.c:503 src/search.c:506
-#: src/search.c:563 src/search.c:566
+#: src/browser.c:885 src/browser.c:912 src/search.c:500 src/search.c:503
+#: src/search.c:560 src/search.c:563
 msgid "This is the only occurrence"
 msgstr "To jedyne wyst±pienie"
 
-#: src/browser.c:915 src/search.c:572
+#: src/browser.c:915 src/search.c:569
 msgid "No current search pattern"
 msgstr "Brak wzorca wyszukiwania"
 
@@ -239,12 +239,12 @@ msgstr "Nowy plik"
 msgid "\"%s\" not found"
 msgstr "Nie znaleziono \"%s\""
 
-#: src/files.c:961 src/rcfile.c:579 src/rcfile.c:1372 src/rcfile.c:1413
+#: src/files.c:961 src/rcfile.c:583 src/rcfile.c:1376 src/rcfile.c:1417
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" jest katalogiem"
 
-#: src/files.c:962 src/rcfile.c:580 src/rcfile.c:1373 src/rcfile.c:1414
+#: src/files.c:962 src/rcfile.c:584 src/rcfile.c:1377 src/rcfile.c:1418
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "\"%s\" jest plikiem urz±dzenia"
@@ -308,8 +308,8 @@ msgstr "Za wiele kopii zapasowych?"
 msgid "Error writing %s: %s"
 msgstr "B³±d zapisu %s: %s"
 
-#: src/files.c:1993 src/text.c:2871 src/text.c:2883 src/text.c:3265
-#: src/text.c:3274
+#: src/files.c:1993 src/text.c:2867 src/text.c:2879 src/text.c:3260
+#: src/text.c:3269
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "B³±d zapisu pliku tymczasowego: %s"
@@ -1670,16 +1670,16 @@ msgid "Enable soft line wrapping"
 msgstr "W³±cza miêkkie przewijanie linii"
 
 #: src/nano.c:963
-#, c-format
-msgid " GNU nano version %s (compiled %s, %s)\n"
+#, fuzzy, c-format
+msgid " GNU nano, version %s\n"
 msgstr " GNU nano wersja %s (skompilowana %s, %s)\n"
 
-#: src/nano.c:967
+#: src/nano.c:966
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " E-mail: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 
-#: src/nano.c:968
+#: src/nano.c:967
 #, c-format
 msgid ""
 "\n"
@@ -1688,69 +1688,69 @@ msgstr ""
 "\n"
 " Skompilowane opcje:"
 
-#: src/nano.c:1097
+#: src/nano.c:1096
 msgid "Sorry, support for this function has been disabled"
 msgstr "Przepraszamy, obs³uga tej funkcji zosta³a wy³±czona"
 
-#: src/nano.c:1126
+#: src/nano.c:1125
 msgid "No file name"
 msgstr "Brak nazwy pliku"
 
-#: src/nano.c:1137
+#: src/nano.c:1136
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Zapisaæ zmieniony bufor (ODPOWIED¬ \"Nie\" SPOWODUJE UTRATÊ ZMIAN) ? "
 
-#: src/nano.c:1190
+#: src/nano.c:1189
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr ""
 "Nie uda³o siê ponownie otworzyæ wej¶cie standardowe z klawiatury, "
 "przepraszamy\n"
 
-#: src/nano.c:1215
+#: src/nano.c:1213
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr "Odczyt z wej¶cia standardowego. Aby przerwaæ, naci¶nij ^C\n"
 
-#: src/nano.c:1281
+#: src/nano.c:1279
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Otrzymano SIGHUP lub SIGTERM\n"
 
-#: src/nano.c:1303
+#: src/nano.c:1301
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Aby powróciæ do nano, u¿yj \"fg\".\n"
 
-#: src/nano.c:1483
+#: src/nano.c:1481
 msgid "enabled"
 msgstr "w³±czony(e)"
 
-#: src/nano.c:1483
+#: src/nano.c:1481
 msgid "disabled"
 msgstr "wy³±czony(e)"
 
-#: src/nano.c:1637 src/winio.c:1283
+#: src/nano.c:1635 src/winio.c:1283
 msgid "Unknown Command"
 msgstr "Nieznane polecenie"
 
-#: src/nano.c:1749
+#: src/nano.c:1747
 msgid "XON ignored, mumble mumble"
 msgstr "Zignorowano XON, hmm, hmm."
 
-#: src/nano.c:1754
+#: src/nano.c:1752
 msgid "XOFF ignored, mumble mumble"
 msgstr "Zignorowano XOFF, hmm, hmm."
 
-#: src/nano.c:2312 src/rcfile.c:1321
+#: src/nano.c:2310 src/rcfile.c:1325
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "¯±dana wielko¶æ tabulacji \"%s\" nie jest poprawna"
 
-#: src/nano.c:2376 src/rcfile.c:1246
+#: src/nano.c:2374 src/rcfile.c:1250
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "¯±dana pozycja ³amania linii \"%s\" nie jest poprawna"
 
-#: src/nano.c:2417
+#: src/nano.c:2415
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Podaj '%s -h' aby uzyskaæ listê dostêpnych opcji.\n"
@@ -1792,8 +1792,8 @@ msgstr "B³±d w %s w linii %lu: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "Argument %s ma niedomkniêty \""
 
-#: src/rcfile.c:223 src/rcfile.c:275 src/rcfile.c:726 src/rcfile.c:787
-#: src/rcfile.c:876 src/rcfile.c:928
+#: src/rcfile.c:223 src/rcfile.c:275 src/rcfile.c:730 src/rcfile.c:791
+#: src/rcfile.c:880 src/rcfile.c:932
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Wyra¿enia regularne musz± zaczynaæ siê i koñczyæ znakiem \""
 
@@ -1845,22 +1845,22 @@ msgstr "Nie mo¿na odwzorowaæ nazwy \"%s\" na funkcje"
 msgid "Cannot map name \"%s\" to a menu"
 msgstr "Nie mo¿na odwzorowaæ nazwy \"%s\" na menu"
 
-#: src/rcfile.c:524
+#: src/rcfile.c:528
 #, c-format
 msgid "Function '%s' does not exist in menu '%s'"
 msgstr "Brak funkcji '%s' w menu '%s'"
 
-#: src/rcfile.c:539
+#: src/rcfile.c:543
 #, c-format
 msgid "Sorry, keystroke \"%s\" may not be rebound"
 msgstr "Przepraszam, przyci¶niêcie \"%s\" nie mo¿e byæ przypisane ponownie"
 
-#: src/rcfile.c:625
+#: src/rcfile.c:629
 #, c-format
 msgid "Error expanding %s: %s"
 msgstr "B³±d rozszerzenia %s: %s"
 
-#: src/rcfile.c:668
+#: src/rcfile.c:672
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1875,126 +1875,126 @@ msgstr ""
 "\"black\", z opcjonalnym przedrostkiem \"bright\"\n"
 "dla kolorów pierwszoplanowych."
 
-#: src/rcfile.c:690
+#: src/rcfile.c:694
 msgid "Cannot add a color command without a syntax command"
 msgstr "Nie mo¿na dodaæ polecenia koloru bez polecenia sk³adni"
 
-#: src/rcfile.c:695
+#: src/rcfile.c:699
 msgid "Missing color name"
 msgstr "Brak nazwy koloru"
 
-#: src/rcfile.c:705 src/rcfile.c:866
+#: src/rcfile.c:709 src/rcfile.c:870
 msgid "Missing regex string"
 msgstr "Brak wyra¿enia regularnego"
 
-#: src/rcfile.c:781
+#: src/rcfile.c:785
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\" wymaga odpowiadaj±cego mu \"end=\""
 
-#: src/rcfile.c:833
+#: src/rcfile.c:837
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Kolor t³a \"%s\" nie mo¿e byæ jaskrawy"
 
-#: src/rcfile.c:861
+#: src/rcfile.c:865
 msgid "Cannot add a header regex without a syntax command"
 msgstr "Nie mo¿na dodaæ regularnego wyra¿enia nag³ówka bez polecenia sk³adni"
 
-#: src/rcfile.c:917
+#: src/rcfile.c:921
 msgid "Cannot add a magic string regex without a syntax command"
 msgstr "Nie mo¿na dodaæ wyra¿enia regularnego bez polecenia sk³adni"
 
-#: src/rcfile.c:922
+#: src/rcfile.c:926
 msgid "Missing magic string name"
 msgstr "Brak nazwy ³añcucha magicznego"
 
-#: src/rcfile.c:981
+#: src/rcfile.c:985
 msgid "Cannot add a linter without a syntax command"
 msgstr "Nie mo¿na dodaæ analizatora sk³adni bez polecenia sk³adni"
 
-#: src/rcfile.c:986
+#: src/rcfile.c:990
 msgid "Missing linter command"
 msgstr "Brak nazwy analizatora sk³adni"
 
-#: src/rcfile.c:1006
+#: src/rcfile.c:1010
 #, fuzzy
 msgid "Cannot add formatter without a syntax command"
 msgstr "Nie mo¿na dodaæ analizatora sk³adni bez polecenia sk³adni"
 
-#: src/rcfile.c:1011
+#: src/rcfile.c:1015
 #, fuzzy
 msgid "Missing formatter command"
 msgstr "Brak nazwy analizatora sk³adni"
 
-#: src/rcfile.c:1041
+#: src/rcfile.c:1045
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
 msgstr ""
 "B³±d krytyczny: brak przypisanego klawisza dla funkcji \"%s\".  "
 "Zakoñczenie.\n"
 
-#: src/rcfile.c:1043
+#: src/rcfile.c:1047
 #, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr "Je¶li trzeba, uruchom nano z opcj± -I aby dopasowaæ ustawienia.\n"
 
-#: src/rcfile.c:1104
+#: src/rcfile.c:1108
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
 msgstr "Nie znaleziono sk³adni \"%s\" do rozszerzenia"
 
-#: src/rcfile.c:1120 src/rcfile.c:1129 src/rcfile.c:1139
+#: src/rcfile.c:1124 src/rcfile.c:1133 src/rcfile.c:1143
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Poliecenie \"%s\" nie jest dozwolone w pliku do³±czonym"
 
-#: src/rcfile.c:1145 src/rcfile.c:1346
+#: src/rcfile.c:1149 src/rcfile.c:1350
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Sk³adnia \"%s\" nie ma ustawieñ kolorów"
 
-#: src/rcfile.c:1167
+#: src/rcfile.c:1171
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Niezrozumia³e polecenie \"%s\""
 
-#: src/rcfile.c:1182
+#: src/rcfile.c:1186
 msgid "Missing option"
 msgstr "Brak opcji"
 
-#: src/rcfile.c:1204
+#: src/rcfile.c:1208
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Opcja \"%s\" wymaga argumentu"
 
-#: src/rcfile.c:1222
+#: src/rcfile.c:1226
 msgid "Option is not a valid multibyte string"
 msgstr "Opcja nie jest poprawnym ³añcuchem wielobajtowym"
 
-#: src/rcfile.c:1259 src/rcfile.c:1287 src/rcfile.c:1296
+#: src/rcfile.c:1263 src/rcfile.c:1291 src/rcfile.c:1300
 msgid "Non-blank characters required"
 msgstr "Wymagane s± nie-bia³e znaki"
 
-#: src/rcfile.c:1269
+#: src/rcfile.c:1273
 msgid "Two single-column characters required"
 msgstr "Wymagane s± dwa jednobajtowych znaki"
 
-#: src/rcfile.c:1335
+#: src/rcfile.c:1339
 #, c-format
 msgid "Cannot unset option \"%s\""
 msgstr "Nie mo¿na zresetowaæ opcji \"%s\""
 
-#: src/rcfile.c:1341
+#: src/rcfile.c:1345
 #, c-format
 msgid "Unknown option \"%s\""
 msgstr "Nieznana opcja \"%s\""
 
-#: src/rcfile.c:1400
+#: src/rcfile.c:1404
 msgid "I can't find my home directory!  Wah!"
 msgstr "Nie mogê znale¼æ swojego katalogu domowego!  Aj!"
 
-#: src/rcfile.c:1438
+#: src/rcfile.c:1442
 #, c-format
 msgid ""
 "\n"
@@ -2009,38 +2009,38 @@ msgid "\"%.*s%s\" not found"
 msgstr "Nie znaleziono \"%.*s%s\""
 
 #. TRANSLATORS: The next three strings are modifiers of the search prompt.
-#: src/search.c:185
+#: src/search.c:184
 msgid " [Case Sensitive]"
 msgstr " [Uwzgl.wielk.liter]"
 
-#: src/search.c:189
+#: src/search.c:188
 msgid " [Regexp]"
 msgstr " [Wyr.reg.]"
 
-#: src/search.c:193
+#: src/search.c:192
 msgid " [Backwards]"
 msgstr " [Wstecz]"
 
 #. TRANSLATORS: The next two strings are modifiers of the search prompt.
-#: src/search.c:198
+#: src/search.c:197
 msgid " (to replace) in selection"
 msgstr " (i zast±p) w zaznaczeniu"
 
-#: src/search.c:200
+#: src/search.c:199
 msgid " (to replace)"
 msgstr " (i zast±p)"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:774
+#: src/search.c:769
 msgid "Replace this instance?"
 msgstr "Czy zast±piæ to wyst±pienie?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:951
+#: src/search.c:945
 msgid "Replace with"
 msgstr "Zast±p przez"
 
-#: src/search.c:993
+#: src/search.c:986
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
@@ -2049,19 +2049,19 @@ msgstr[1] "Zast±piono %lu wyst±pienia"
 msgstr[2] "Zast±piono %lu wyst±pieñ"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:1034
+#: src/search.c:1027
 msgid "Enter line number, column number"
 msgstr "Wprowad¼ numer linii, numer kolumny"
 
-#: src/search.c:1061
+#: src/search.c:1054
 msgid "Invalid line or column number"
 msgstr "Niepoprawny numer linii lub kolumny"
 
-#: src/search.c:1215
+#: src/search.c:1207
 msgid "Not a bracket"
 msgstr "To nie nawias"
 
-#: src/search.c:1282
+#: src/search.c:1274
 msgid "No matching bracket"
 msgstr "Brak nawiasu do pary"
 
@@ -2077,11 +2077,11 @@ msgstr "Znacznik skasowany"
 msgid "Nothing in undo buffer!"
 msgstr "Nie ma nic w buforze odwo³ania"
 
-#: src/text.c:445
+#: src/text.c:445 src/text.c:590
 #, c-format
-msgid "Internal error: can't match line %ld.  Please save your work."
+msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
-"B³±d wewnêtrzny: nie mo¿na dopasowaæ linii %ld. Proszê zapisaæ swoj± pracê."
+"B³±d wewnêtrzny: nie mo¿na dopasowaæ linii %d. Proszê zapisaæ swoj± pracê."
 
 #: src/text.c:456 src/text.c:487 src/text.c:600 src/text.c:637
 msgid "text add"
@@ -2134,23 +2134,17 @@ msgstr ""
 "B³±d wewnêtrzny: ustawianie powtórzenia nie powiod³o siê. Proszê zapisaæ "
 "swoj± pracê."
 
-#: src/text.c:590
-#, c-format
-msgid "Internal error: can't match line %d.  Please save your work."
-msgstr ""
-"B³±d wewnêtrzny: nie mo¿na dopasowaæ linii %d. Proszê zapisaæ swoj± pracê."
-
 #: src/text.c:684
 #, c-format
 msgid "Redid action (%s)"
 msgstr "Powtórzono operacjê (%s)"
 
-#: src/text.c:785 src/text.c:2490 src/text.c:2967
+#: src/text.c:785 src/text.c:2490 src/text.c:2963
 msgid "Could not create pipe"
 msgstr "Nie mo¿na utworzyæ potoku"
 
-#: src/text.c:811 src/text.c:2578 src/text.c:2730 src/text.c:3018
-#: src/text.c:3316
+#: src/text.c:811 src/text.c:2578 src/text.c:2732 src/text.c:3014
+#: src/text.c:3311
 msgid "Could not fork"
 msgstr "Nie mo¿na rozwidliæ procesu"
 
@@ -2177,7 +2171,7 @@ msgstr "Edytuj zast±pienie"
 msgid "Creating misspelled word list, please wait..."
 msgstr "Tworzenie listy b³êdnie napisanych s³ów, proszê czekaæ..."
 
-#: src/text.c:2584 src/text.c:3026
+#: src/text.c:2584 src/text.c:3022
 msgid "Could not get size of pipe buffer"
 msgstr "Nie mo¿na uzyskaæ wielko¶ci bufora potoku"
 
@@ -2193,89 +2187,89 @@ msgstr "B³±d podczas wywo³ywania \"sort -f\""
 msgid "Error invoking \"uniq\""
 msgstr "B³±d podczas wywo³ywania \"uniq\""
 
-#: src/text.c:2698 src/text.c:2911
+#: src/text.c:2696 src/text.c:2907
 msgid "Finished checking spelling"
 msgstr "Zakoñczono sprawdzanie pisowni"
 
-#: src/text.c:2757 src/text.c:3345
+#: src/text.c:2759 src/text.c:3340
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "B³±d podczas wywo³ywania \"%s\""
 
-#: src/text.c:2889
+#: src/text.c:2885
 msgid "Invoking spell checker, please wait"
 msgstr "Wywo³anie sprawdzania pisowni, proszê zaczekaæ"
 
-#: src/text.c:2906
+#: src/text.c:2902
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Niepowodzenie sprawdzania pisowni: %s"
 
-#: src/text.c:2908
+#: src/text.c:2904
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Niepowodzenie sprawdzania pisowni: %s: %s"
 
-#: src/text.c:2941
+#: src/text.c:2937
 msgid "No linter defined for this type of file!"
 msgstr "Brak analizatora sk³adni dla tego typu pliku!"
 
-#: src/text.c:2951
+#: src/text.c:2947
 msgid "Save modified buffer before linting?"
 msgstr "Zapisaæ bufor przed sprawdzaniem sk³adni?"
 
-#: src/text.c:2973
+#: src/text.c:2969
 msgid "Invoking linter, please wait"
 msgstr "Sprawdzanie sk³adni, proszê zaczekaæ"
 
-#: src/text.c:3129
+#: src/text.c:3125
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Otrzymano 0 poprawnych linii od polecenia: %s"
 
-#: src/text.c:3163
+#: src/text.c:3159
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Ten komunikat dotyczy nie otworzonego pliku %s; otworzyæ go w nowym buforze?"
 
-#: src/text.c:3209
+#: src/text.c:3205
 msgid "At last message"
 msgstr "Ostatni komunikat"
 
-#: src/text.c:3214
+#: src/text.c:3210
 msgid "At first message"
 msgstr "Pierwszy komunikat"
 
-#: src/text.c:3255
-msgid "Error: no linter defined"
+#: src/text.c:3250
+msgid "Error: no formatter defined"
 msgstr ""
 
-#: src/text.c:3280
+#: src/text.c:3275
 msgid "Finished"
 msgstr ""
 
-#: src/text.c:3285
+#: src/text.c:3280
 #, fuzzy
 msgid "Invoking formatter, please wait"
 msgstr "Sprawdzanie sk³adni, proszê zaczekaæ"
 
-#: src/text.c:3367
+#: src/text.c:3360
 msgid "Finished formatting"
 msgstr ""
 
-#: src/text.c:3445
+#: src/text.c:3438
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sS³owa: %lu  Linii: %ld  Znaki: %lu"
 
-#: src/text.c:3446
+#: src/text.c:3439
 msgid "In Selection:  "
 msgstr "W zaznaczeniu:  "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3460
+#: src/text.c:3453
 msgid "Verbatim Input"
 msgstr "wprowadzanie dos³owne"
 
@@ -2352,6 +2346,11 @@ msgstr "oraz wszyscy pozostali, o których zapomnieli¶my..."
 #: src/winio.c:3515
 msgid "Thank you for using nano!"
 msgstr "Dziêkujemy za korzystanie z nano!"
+
+#~ msgid "Internal error: can't match line %ld.  Please save your work."
+#~ msgstr ""
+#~ "B³±d wewnêtrzny: nie mo¿na dopasowaæ linii %ld. Proszê zapisaæ swoj± "
+#~ "pracê."
 
 #~ msgid "line wrap"
 #~ msgstr "przewijanie linii"

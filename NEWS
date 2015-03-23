@@ -1,3 +1,15 @@
+2015.03.22 - GNU nano 2.4.0 "lizf" is released.  This is the first
+		stable release in many years, and brinds together many
+		new features from the 2.3 series: including:
+		a fully functional undo system (now enabled by default),
+		vim-compatible file locking, linter support, formatter
+		support, syntax highlighting flexibility, and many fixes
+		for issues reported since 2.2.  Many sincere thanks
+		to all of the bug reports, patches, well wishes and
+		contributions from everyone who has continued to
+		support us.  Thank you for using nano!
+
+
 2015.02.27 - GNU nano 2.3.99pre3 "Ashley" is released.  This is likely
 		to be the last release before the next major (2.4.0)
 		release.  Please test it out and send us any feedback
