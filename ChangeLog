@@ -1,3 +1,9 @@
+2015-03-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_alt_speller): Avoid the spell checker reporting
+	an error when the marked region is zero bytes long.  The message
+	is not needed -- it gets printed by the caller.  This generalizes
+	the fix for Savannah bug #29393.
+
 2015-03-22  Chris Allegretta <chrisa@asty.org>
 	* src/text.c (do_alt_speller): timestamp can just be a __time_t.
 	Fixes compilation on win32.
