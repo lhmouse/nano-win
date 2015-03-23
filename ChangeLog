@@ -1,4 +1,4 @@
-2015-02-25  Chris Allegretta <chrisa@asty.org>
+2015-03-22  Chris Allegretta <chrisa@asty.org>
 	* src/text.c (do_alt_speller): timestamp can just be a __time_t.
 	Fixes compilation on win32.
 
@@ -7,7 +7,7 @@ GNU nano 2.4.0  - 2015.03.22
 	* src/chars.c (move_mbleft): Start looking for a multibyte char
 	not at the start of the string, but only as far back as such a
 	char can possibly be.  Change suggested by Mark Majeres.
-	*  src/search.c (findnextstr): Step backward or forward not simply
+	* src/search.c (findnextstr): Step backward or forward not simply
 	one byte but one character (possibly multibyte).  Fixes Savannah
 	bug #42175, reported by myself, and the finding of ghosts seen in
 	https://lists.gnu.org/archive/html/nano-devel/2015-03/msg00055.html.
@@ -65,7 +65,7 @@ GNU nano 2.4.0  - 2015.03.22
 	those arguments are not optional.  Also add "formatter" to the
 	texinfo document, and slightly improve its punctuation.
 
-GNU nano 2.3.99pre2 - 2015.02.27
+GNU nano 2.3.99pre3 - 2015.02.27
 2015-02-25  Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_binding): Add an exception for do_toggle() as
 	rebinding toggles broke with r5022.  (Fixed in r5134.)
