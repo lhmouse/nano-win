@@ -8,6 +8,8 @@
 	formatter allows no interaction it needs no associated menu.
 	* src/text.c (do_formatter): Remove unneeded statement -- nothing
 	has changed the value of 'currmenu'.
+	* src/global.c (strtomenu), doc/man/nanorc.5: Allow rebinding the
+	linter when nano was configured with --disable-speller.
 
 2015-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Avoid the spell checker reporting
