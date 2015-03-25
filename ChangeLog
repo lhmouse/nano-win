@@ -4,6 +4,8 @@
 	not cause comment colouring.  (Inside single-qouted strings neither,
 	but then quotes in comments will be coloured like strings.)  This
 	solves https://bugs.launchpad.net/ubuntu/+source/nano/+bug/481363.
+	* src/global.c (strtomenu): Remove mistaken menu name -- as the
+	formatter allows no interaction it needs no associated menu.
 
 2015-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Avoid the spell checker reporting

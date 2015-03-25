@@ -1528,7 +1528,7 @@ int strtomenu(char *input)
 	return MHELP;
 #endif
 #ifndef DISABLE_SPELLER
-    else if (!strcasecmp(input, "spell") || !strcasecmp(input, "formatter"))
+    else if (!strcasecmp(input, "spell"))
 	return MSPELL;
 #endif
     else if (!strcasecmp(input, "linter"))
