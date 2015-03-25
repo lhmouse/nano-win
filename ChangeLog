@@ -1,5 +1,9 @@
 2015-03-25  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/debian.nanorc: Slightly widen and relax the header regex.
+	* doc/syntax/python.nanorc: Hashes inside triple-quoted strings should
+	not cause comment colouring.  (Inside single-qouted strings neither,
+	but then quotes in comments will be coloured like strings.)  This
+	solves https://bugs.launchpad.net/ubuntu/+source/nano/+bug/481363.
 
 2015-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Avoid the spell checker reporting

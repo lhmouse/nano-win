@@ -12,12 +12,12 @@ color brightcyan "\<(global|if|import|in|is|lambda|not|or|pass|print|raise|retur
 # Strings.
 color brightgreen "['][^']*[^\\][']" "[']{3}.*[^\\][']{3}"
 color brightgreen "["][^"]*[^\\]["]" "["]{3}.*[^\\]["]{3}"
+# Comments.
+color brightred "(^|[[:blank:]])#.*$"
 # Multiline strings.
 color brightgreen start="\"\"\"([^"),]|$)" end="(^|[^(])\"\"\""
 color brightgreen    start="'''([^'),]|$)" end="(^|[^(])'''"
 
-# Comments.
-color brightred "(^|[[:blank:]])#.*$"
 # Reminders.
 color ,yellow "(FIXME|TODO|XXX)"
 
