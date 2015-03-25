@@ -3364,8 +3364,6 @@ void do_formatter(void)
     unlink(temp);
     free(temp);
 
-    currmenu = MMAIN;
-
     /* If the formatter printed any error messages onscreen, make
      * sure that they're cleared off. */
     total_refresh();
