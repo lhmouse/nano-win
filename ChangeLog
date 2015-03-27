@@ -1,3 +1,7 @@
+2015-03-27  Mark Majeres  <mark@engine12.com>
+	* src/text.c (do_alt_speller): Adjust the end point of the marked
+	region for any change in length of the region's last line.
+
 2015-03-27  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/patch.nanorc: Recognize also Debian package diffs.
 	Fixes https://bugs.launchpad.net/ubuntu/+source/nano/+bug/1300565
