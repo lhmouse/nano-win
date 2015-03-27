@@ -784,8 +784,7 @@ ssize_t do_replace_loop(
 #ifdef HAVE_REGEX_H
 	/* Set the bol_or_eol flag if we're doing a bol and/or eol regex
 	 * replace ("^", "$", or "^$"). */
-	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
-		needle))
+	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp, needle))
 	    bol_or_eol = TRUE;
 #endif
 
@@ -801,8 +800,7 @@ ssize_t do_replace_loop(
 
 	    copy = replace_line(needle);
 
-	    length_change = strlen(copy) -
-		strlen(openfile->current->data);
+	    length_change = strlen(copy) - strlen(openfile->current->data);
 
 #ifndef NANO_TINY
 	    /* If the mark was on and (mark_begin, mark_begin_x) was the
@@ -826,10 +824,8 @@ ssize_t do_replace_loop(
 		/* Keep real_current_x in sync with the text changes. */
 		if (openfile->current == real_current &&
 			openfile->current_x <= *real_current_x) {
-		    if (*real_current_x <
-			openfile->current_x + match_len)
-			*real_current_x = openfile->current_x +
-				match_len;
+		    if (*real_current_x < openfile->current_x + match_len)
+			*real_current_x = openfile->current_x + match_len;
 		    *real_current_x += length_change;
 		}
 #ifndef NANO_TINY
@@ -852,9 +848,10 @@ ssize_t do_replace_loop(
 	    openfile->current->data = copy;
 
 #ifndef DISABLE_COLOR
-	reset_multis(openfile->current, TRUE);
+	    reset_multis(openfile->current, TRUE);
 #endif
-	edit_refresh();
+	    edit_refresh();
+
 	    if (!replaceall) {
 #ifndef DISABLE_COLOR
 		/* If color syntaxes are available and turned on, we

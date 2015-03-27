@@ -2,6 +2,7 @@
 	* doc/syntax/patch.nanorc: Recognize also Debian package diffs.
 	Fixes https://bugs.launchpad.net/ubuntu/+source/nano/+bug/1300565
 	requested by Rolf Leggewie.
+	* src/search.c (do_replace_loop): Adjust some whitespace and wrapping.
 
 2015-03-25  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/debian.nanorc: Slightly widen and relax the header regex.
