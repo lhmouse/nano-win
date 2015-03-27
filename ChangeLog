@@ -8,6 +8,8 @@
 	a Replace All with *lots* of occurrences.
 	* src/{color,global,nano,text,utils}.c:  Normalize some whitespace.
 	* src/global.c (strtosc): The linter is only available when colour is.
+	* src/global.c, src/text.c: Treat the formatter like a speller,	to fix
+	compilation with --disable-speller.  Fixes Savannah bug #44607.
 
 2015-03-25  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/debian.nanorc: Slightly widen and relax the header regex.

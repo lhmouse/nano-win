@@ -3223,6 +3223,7 @@ free_lints_and_return:
     lint_cleanup();
 }
 
+#ifndef DISABLE_SPELLER
 /* Run a formatter for the given syntax.
  * Expects the formatter to be non-interactive and
  * operate on a file in-place, which we'll pass it
@@ -3370,7 +3371,7 @@ void do_formatter(void)
 
     statusbar(finalstatus);
 }
-
+#endif /* !DISABLE_SPELLER */
 #endif /* !DISABLE_COLOR */
 
 #ifndef NANO_TINY

@@ -639,7 +639,9 @@ void shortcut_init(void)
     const char *nano_lint_msg = N_("Invoke the linter, if available");
     const char *nano_prevlint_msg = N_("Go to previous linter msg");
     const char *nano_nextlint_msg = N_("Go to next linter msg");
+#ifndef DISABLE_SPELLER
     const char *nano_formatter_msg = N_("Invoke formatter, if available");
+#endif
 #endif
 #endif /* !DISABLE_HELP */
 
@@ -736,8 +738,10 @@ void shortcut_init(void)
 #ifndef DISABLE_COLOR
     add_to_funcs(do_linter, MMAIN,
 	N_("To Linter"), IFSCHELP(nano_lint_msg), TOGETHER, NOVIEW);
+#ifndef DISABLE_SPELLER
     add_to_funcs(do_formatter, MMAIN,
 	N_("Formatter"), IFSCHELP(nano_formatter_msg), BLANKAFTER, NOVIEW);
+#endif
 #endif
 
 #ifndef NANO_TINY
@@ -1006,12 +1010,14 @@ void shortcut_init(void)
 #ifndef DISABLE_SPELLER
     add_to_sclist(MMAIN, "^T", do_spell, 0);
     add_to_sclist(MMAIN, "F12", do_spell, 0);
+#ifndef DISABLE_COLOR
+    add_to_sclist(MMAIN, "^T", do_formatter, 0);
+    add_to_sclist(MMAIN, "F12", do_formatter, 0);
+#endif
 #else
 #ifndef DISABLE_COLOR
     add_to_sclist(MMAIN, "^T", do_linter, 0);
     add_to_sclist(MMAIN, "F12", do_linter, 0);
-    add_to_sclist(MMAIN, "^T", do_formatter, 0);
-    add_to_sclist(MMAIN, "F12", do_formatter, 0);
 #endif
 #endif
     add_to_sclist(MMAIN, "^C", do_cursorpos_void, 0);
