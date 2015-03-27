@@ -748,9 +748,6 @@ ssize_t do_replace_loop(
 	}
 #endif
 
-	if (!replaceall)
-	    edit_refresh();
-
 	/* Indicate that we found the search string. */
 	if (numreplaced == -1)
 	    numreplaced = 0;
@@ -760,6 +757,8 @@ ssize_t do_replace_loop(
 	    char *exp_word = display_string(openfile->current->data,
 		xpt, strnlenpt(openfile->current->data,
 		openfile->current_x + match_len) - xpt, FALSE);
+
+	    edit_refresh();
 
 	    curs_set(0);
 
@@ -850,7 +849,6 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_COLOR
 	    reset_multis(openfile->current, TRUE);
 #endif
-	    edit_refresh();
 
 	    if (!replaceall) {
 #ifndef DISABLE_COLOR
@@ -877,7 +875,6 @@ ssize_t do_replace_loop(
 	unpartition_filestruct(&filepart);
 	openfile->edittop = edittop_save;
 	openfile->mark_set = TRUE;
-	edit_refresh();
     }
 #endif
 
