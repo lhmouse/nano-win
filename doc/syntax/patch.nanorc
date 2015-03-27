@@ -1,6 +1,6 @@
 ## Here is an example for patch files.
 
-syntax "patch" "\.(patch|diff)$"
+syntax "patch" "\.(patch|diff|debdiff)$"
 magic "diff output text"
 
 # Added lines.

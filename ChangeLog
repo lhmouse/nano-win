@@ -1,3 +1,8 @@
+2015-03-27  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/patch.nanorc: Recognize also Debian package diffs.
+	Fixes https://bugs.launchpad.net/ubuntu/+source/nano/+bug/1300565
+	requested by Rolf Leggewie.
+
 2015-03-25  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/debian.nanorc: Slightly widen and relax the header regex.
 	* doc/syntax/python.nanorc: Hashes inside triple-quoted strings should
