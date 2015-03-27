@@ -643,7 +643,7 @@ filestruct *fsfromline(ssize_t lineno)
 	for (; f->lineno != lineno && f != openfile->fileage; f = f->prev)
 	   ;
     else
-        for (; f->lineno != lineno && f->next != NULL; f = f->next)
+	for (; f->lineno != lineno && f->next != NULL; f = f->next)
 	    ;
 
     if (f->lineno != lineno)

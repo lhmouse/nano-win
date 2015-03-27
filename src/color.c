@@ -269,9 +269,9 @@ void color_update(void)
 		/* Open the magic database and get a diagnosis of the file. */
 		cookie = magic_open(MAGIC_SYMLINK |
 #ifdef DEBUG
-				       MAGIC_DEBUG | MAGIC_CHECK |
+				    MAGIC_DEBUG | MAGIC_CHECK |
 #endif
-				       MAGIC_ERROR);
+				    MAGIC_ERROR);
 		if (cookie == NULL || magic_load(cookie, NULL) < 0)
 		    statusbar(_("magic_load() failed: %s"), strerror(errno));
 		else {

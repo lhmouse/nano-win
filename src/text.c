@@ -2246,8 +2246,8 @@ void do_justify(bool full_justify)
 	     * replaced with the unjustified paragraph. */
 	    unpartition_filestruct(&filepart);
 
-	     /* Renumber starting with the beginning line of the old
-	      * partition. */
+	    /* Renumber, starting with the beginning line of the old
+	     * partition. */
 	    renumber(top_save);
 
 	    /* Restore the justify we just did (ungrateful user!). */

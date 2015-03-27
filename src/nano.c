@@ -719,9 +719,9 @@ void die_save_file(const char *die_filename
 		_("Too many backup files?"));
 
 #ifndef NANO_TINY
-    /* Try and chmod/chown the save file to the values of the original file, but
-       dont worry if it fails because we're supposed to be bailing as fast
-       as possible. */
+    /* Try and chmod/chown the save file to the values of the original file,
+     * but don't worry if it fails because we're supposed to be bailing as
+     * fast as possible. */
     if (die_stat) {
 	int shush;
 	shush = chmod(retval, die_stat->st_mode);
@@ -1145,8 +1145,8 @@ void do_exit(void)
     if (i == 0 || (i == 1 && do_writeout(TRUE))) {
 
 #ifndef NANO_TINY
-        if (ISSET(LOCKING) && openfile->lock_filename)
-            delete_lockfile(openfile->lock_filename);
+	if (ISSET(LOCKING) && openfile->lock_filename)
+	    delete_lockfile(openfile->lock_filename);
 #endif
 
 #ifndef DISABLE_MULTIBUFFER
@@ -1282,9 +1282,8 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
-
     if (ISSET(RESTRICTED)) {
-        nano_disabled_msg();
+	nano_disabled_msg();
 	return;
     }
 
@@ -1804,7 +1803,7 @@ int do_mouse(void)
 			mouse_x, (unsigned long)openfile->current_x);
 #endif
 	    } else {
-	        openfile->current_x = actual_x(openfile->current->data, mouse_x);
+		openfile->current_x = actual_x(openfile->current->data, mouse_x);
 #ifdef DEBUG
 		fprintf(stderr, "do_mouse(): i <= mouse_y, mouse_x = %d, setting current_x to = %lu\n",
 			mouse_x, (unsigned long)openfile->current_x);
@@ -2481,8 +2480,8 @@ int main(int argc, char **argv)
 	do_rcfile();
 
 #ifdef DEBUG
-        fprintf(stderr, "After rebinding keys...\n");
-        print_sclist();
+	fprintf(stderr, "After rebinding keys...\n");
+	print_sclist();
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
@@ -2739,7 +2738,7 @@ int main(int argc, char **argv)
 		    icol = 1;
 		}
 #ifndef DISABLE_HISTORIES
-                  else {
+		else {
 		    /* See if we have a POS history to use if we haven't overridden it. */
 		    ssize_t savedposline, savedposcol;
 		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
@@ -2824,7 +2823,7 @@ int main(int argc, char **argv)
 	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
-        currmenu = MMAIN;
+	currmenu = MMAIN;
 
 	/* Read in and interpret characters. */
 	do_input(TRUE);
