@@ -7,6 +7,7 @@
 	and remove two unneeded ones.  This greatly speeds up nano when doing
 	a Replace All with *lots* of occurrences.
 	* src/{color,global,nano,text,utils}.c:  Normalize some whitespace.
+	* src/global.c (strtosc): The linter is only available when colour is.
 
 2015-03-25  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/debian.nanorc: Slightly widen and relax the header regex.
@@ -18,7 +19,7 @@
 	formatter allows no interaction it needs no associated menu.
 	* src/text.c (do_formatter): Remove unneeded statement -- nothing
 	has changed the value of 'currmenu'.
-	* src/global.c (strtomenu), doc/man/nanorc.5: Allow rebinding the
+	* src/global.c (strtosc), doc/man/nanorc.5: Allow rebinding the
 	linter when nano was configured with --disable-speller.
 
 2015-03-23  Benno Schulenberg  <bensberg@justemail.net>

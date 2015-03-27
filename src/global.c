@@ -1311,8 +1311,10 @@ sc *strtosc(char *input)
 	     !strcasecmp(input, "speller"))
 	s->scfunc = do_spell;
 #endif
+#ifndef DISABLE_COLOR
     else if (!strcasecmp(input, "linter"))
 	s->scfunc = do_linter;
+#endif
     else if (!strcasecmp(input, "curpos") ||
 	     !strcasecmp(input, "cursorpos"))
 	s->scfunc = do_cursorpos_void;
