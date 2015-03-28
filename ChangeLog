@@ -7,6 +7,8 @@
 	* src/winio.c (edit_refresh): When pasting lines on the bottom line,
 	only scroll the required number of lines and not half a screen --
 	that is, when smooth scrolling is enabled.
+	* doc/syntax/changelog.nanorc: Also colour a series of changed files
+	that spans more than one line.
 
 2015-03-27  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_alt_speller): Adjust the end point of the marked
