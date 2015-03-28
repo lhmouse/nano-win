@@ -3161,10 +3161,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 #endif /* !NANO_TINY */
 
 	/* Make sure the current line is on the screen. */
-	if (ISSET(SMOOTH_SCROLL))
-	    edit_update(NONE);
-	else
-	    edit_update(CENTER);
+	edit_update((ISSET(SMOOTH_SCROLL) && !focusing) ? NONE : CENTER);
 
 	/* Update old_current if we're not on the same page as
 	 * before. */

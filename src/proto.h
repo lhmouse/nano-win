@@ -34,6 +34,7 @@ extern bool jump_buf_main;
 
 extern bool meta_key;
 extern bool func_key;
+extern bool focusing;
 
 #ifndef DISABLE_WRAPJUSTIFY
 extern ssize_t fill;

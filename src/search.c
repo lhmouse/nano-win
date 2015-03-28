@@ -106,6 +106,7 @@ void not_found_msg(const char *str)
 void search_replace_abort(void)
 {
     display_main_list();
+    focusing = FALSE;
 #ifndef NANO_TINY
     if (openfile->mark_set)
 	edit_refresh();
@@ -118,6 +119,7 @@ void search_replace_abort(void)
 /* Initialize the global search and replace strings. */
 void search_init_globals(void)
 {
+    focusing = TRUE;
     if (last_search == NULL)
 	last_search = mallocstrcpy(NULL, "");
     if (last_replace == NULL)

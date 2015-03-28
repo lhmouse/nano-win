@@ -1,3 +1,10 @@
+2015-03-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (search_init_globals, search_replace_abort),
+	src/winio.c (edit_redraw), src/proto.h, src/global.c: When finding
+	an off-screen string, put it on the center line of the screen and
+	not on the bottom or top line.  This restores the old behaviour
+	that was unintentionally changed in r5149 six days ago.
+
 2015-03-27  Mark Majeres  <mark@engine12.com>
 	* src/text.c (do_alt_speller): Adjust the end point of the marked
 	region for any change in length of the region's last line.

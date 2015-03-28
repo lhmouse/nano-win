@@ -42,6 +42,8 @@ bool meta_key;
 	/* Whether the current keystroke is a Meta key. */
 bool func_key;
 	/* Whether the current keystroke is an extended keypad value. */
+bool focusing = FALSE;
+	/* Whether an update of the edit window should center the cursor. */
 
 #ifndef DISABLE_WRAPJUSTIFY
 ssize_t fill = 0;
