@@ -903,10 +903,10 @@ void parse_header_exp(char *ptr)
     }
 }
 
+#ifdef HAVE_LIBMAGIC
 /* Parse the magic regexes that may influence the choice of syntax. */
 void parse_magic_exp(char *ptr)
 {
-#ifdef HAVE_LIBMAGIC
     regexlisttype *endmagic = NULL;
 
     assert(ptr != NULL);
@@ -966,8 +966,8 @@ void parse_magic_exp(char *ptr)
 	} else
 	    free(newmagic);
     }
-#endif /* HAVE_LIBMAGIC */
 }
+#endif /* HAVE_LIBMAGIC */
 
 /* Parse the linter requested for this syntax. */
 void parse_linter(char *ptr)
@@ -995,6 +995,7 @@ void parse_linter(char *ptr)
 	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
 }
 
+#ifndef DISABLE_SPELLER
 /* Parse the formatter requested for this syntax. */
 void parse_formatter(char *ptr)
 {
@@ -1020,6 +1021,7 @@ void parse_formatter(char *ptr)
     else
 	endsyntax->formatter = mallocstrcpy(syntaxes->formatter, ptr);
 }
+#endif /* !DISABLE_SPELLER */
 #endif /* !DISABLE_COLOR */
 
 /* Check whether the user has unmapped every shortcut for a
@@ -1146,7 +1148,11 @@ void parse_rcfile(FILE *rcstream
 	    parse_syntax(ptr);
 	}
 	else if (strcasecmp(keyword, "magic") == 0)
+#ifdef HAVE_LIBMAGIC
 	    parse_magic_exp(ptr);
+#else
+	    ;
+#endif
 	else if (strcasecmp(keyword, "header") == 0)
 	    parse_header_exp(ptr);
 	else if (strcasecmp(keyword, "color") == 0)
@@ -1156,7 +1162,11 @@ void parse_rcfile(FILE *rcstream
 	else if (strcasecmp(keyword, "linter") == 0)
 	    parse_linter(ptr);
 	else if (strcasecmp(keyword, "formatter") == 0)
+#ifndef DISABLE_SPELLER
 	    parse_formatter(ptr);
+#else
+	    ;
+#endif
 #endif /* !DISABLE_COLOR */
 	else if (strcasecmp(keyword, "bind") == 0)
 	    parse_binding(ptr, TRUE);

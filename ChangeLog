@@ -1,6 +1,8 @@
 2015-04-03  Benno Schulenberg  <bensberg@justemail.net>
-	* README: Update text to the fifth milestone: 2.4.x, plus tweaks.
+	* README: Update text to the fifth milestone, 2.4.x, plus tweaks.
 	* src/rcfile.c: Remove two superfluous (because nested) #ifndefs.
+	* src/rcfile.c (parse_rcfile): Ignore any magic when libmagic was
+	disabled, and ignore a formatter when spell checking was disabled.
 
 2015-03-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init_globals, search_replace_abort),
