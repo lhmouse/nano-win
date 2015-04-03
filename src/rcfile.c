@@ -601,11 +601,7 @@ static void _parse_include(char *file)
     fprintf(stderr, "Parsing file \"%s\"\n", file);
 #endif
 
-    parse_rcfile(rcstream
-#ifndef DISABLE_COLOR
-	, TRUE
-#endif
-	);
+    parse_rcfile(rcstream, TRUE);
 }
 
 void parse_include(char *ptr)
@@ -907,7 +903,6 @@ void parse_header_exp(char *ptr)
     }
 }
 
-#ifndef DISABLE_COLOR
 /* Parse the magic regexes that may influence the choice of syntax. */
 void parse_magic_exp(char *ptr)
 {
@@ -973,9 +968,8 @@ void parse_magic_exp(char *ptr)
     }
 #endif /* HAVE_LIBMAGIC */
 }
-#endif /* !DISABLE_COLOR */
 
-/* Parse the linter requested for this syntax.  Simple? */
+/* Parse the linter requested for this syntax. */
 void parse_linter(char *ptr)
 {
     assert(ptr != NULL);
@@ -1001,6 +995,7 @@ void parse_linter(char *ptr)
 	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
 }
 
+/* Parse the formatter requested for this syntax. */
 void parse_formatter(char *ptr)
 {
     assert(ptr != NULL);

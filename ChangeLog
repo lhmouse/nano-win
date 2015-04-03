@@ -1,5 +1,6 @@
 2015-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* README: Update text to the fifth milestone: 2.4.x, plus tweaks.
+	* src/rcfile.c: Remove two superfluous (because nested) #ifndefs.
 
 2015-03-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init_globals, search_replace_abort),
