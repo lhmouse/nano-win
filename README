@@ -6,20 +6,19 @@ Overview
      The nano project was started because of a few "problems" with the
      wonderfully easy-to-use and friendly Pico text editor.
 
-     First and foremost is its license: the Pine suite does not use the
-     GPL or a GPL-friendly license, and has unclear restrictions on
+     First and foremost was its license: the Pine suite does not use
+     the GPL or a GPL-friendly license, and has unclear restrictions on
      redistribution.  Because of this, Pine and Pico are not included
-     with many GNU/Linux distributions.  Also, other features (like go
-     to line number or search and replace) were unavailable until
-     recently or require a command line flag.  Yuck.
+     with many GNU/Linux distributions.  Also, other features (like
+     go-to-line-number or search-and-replace) were unavailable until
+     recently or require a command-line flag.  Yuck.
 
      nano aims to solve these problems by emulating the functionality of
      Pico as closely as possible while addressing the problems above and
-     perhaps providing other extra functionality.
+     providing other extra functionality.
 
-     The nano editor is now an official GNU package.  For more
-     information on GNU and the Free Software Foundation, please see
-     http://www.gnu.org/.
+     The nano editor is an official GNU package.  For more information on
+     GNU and the Free Software Foundation, please see http://www.gnu.org/.
 
 How to compile and install nano
 
@@ -65,6 +64,6 @@ Mailing Lists and Bug Reports
 
 Current Status
 
-	GNU nano has reached its fourth stable milestone, 2.2.x.
-	Development of new features continues in the 2.3.x branch, while
-	2.2.x versions are dedicated to bug-fixing and polishing.
+	GNU nano has reached its fifth stable milestone, 2.4.x.
+	Development of new features will continue in the 2.5.x branch,
+	while 2.4.x versions are dedicated to bug-fixing and polishing.

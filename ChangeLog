@@ -1,3 +1,6 @@
+2015-04-03  Benno Schulenberg  <bensberg@justemail.net>
+	* README: Update text to the fifth milestone: 2.4.x, plus tweaks.
+
 2015-03-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init_globals, search_replace_abort),
 	src/winio.c (edit_redraw), src/proto.h, src/global.c: When finding
@@ -22,7 +25,7 @@
 	* src/search.c (do_replace_loop): Place a call to edit_refresh better,
 	and remove two unneeded ones.  This greatly speeds up nano when doing
 	a Replace All with *lots* of occurrences.
-	* src/{color,global,nano,text,utils}.c:  Normalize some whitespace.
+	* src/{color,global,nano,text,utils}.c: Normalize some whitespace.
 	* src/global.c (strtosc): The linter is only available when colour is.
 	* src/global.c, src/text.c: Treat the formatter like a speller,	to fix
 	compilation with --disable-speller.  Fixes Savannah bug #44607.
@@ -51,7 +54,7 @@
 
 2015-03-22  Chris Allegretta <chrisa@asty.org>
 	* src/text.c (do_alt_speller): timestamp can just be a time_t.
-	Fixes compilation on win32.
+	Fixes compilation on win32 and macOS.
 
 GNU nano 2.4.0  - 2015.03.22
 2015-03-22  Benno Schulenberg  <bensberg@justemail.net>
@@ -164,7 +167,7 @@ GNU nano 2.3.99pre2 - 2015.02.06
 2015-01-13  Chris Allegretta <chrisa@asty.org>
 	* src/files.c (open_buffer): Check here for locking and properly
 	handle choosing to not open a file when locked instead of in
-	open_file().  Fixes Savannah bug 42373 reported by Benno Schulenberg.
+	open_file().  Fixes Savannah bug #42373 reported by Benno Schulenberg.
 
 GNU nano 2.3.99pre1 - 2015.01.06
 2015-01-03  Chris Allegretta <chrisa@asty.org>
