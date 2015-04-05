@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.3
-@set VERSION 2.4.0
-@set UPDATED March 2015
+@set VERSION 2.4.1
+@set UPDATED April 2015
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.4.0
+@subtitle version 2.4.1
 
 @author Chris Allegretta
 @page
@@ -64,7 +64,7 @@ editor.
 @menu
 * Introduction::
 * Editor Basics::
-* Online Help::
+* Built-in Help::
 * Feature Toggles::
 * Nanorc Files::
 * The File Browser::
@@ -77,10 +77,10 @@ editor.
 @chapter Introduction
 
 GNU @code{nano} is a small and friendly text editor.  Besides basic text
-editing, @code{nano} offers many extra features, like an interactive
-search-and-replace, go-to-line-and-column-number, auto-indentation,
-feature toggles, internationalization support, and filename tab
-completion.
+editing, @code{nano} offers many extra features, such as an interactive
+search-and-replace, undo/redo, syntax coloring, smooth scrolling,
+auto-indentation, go-to-line-and-column-number, feature toggles,
+file locking, backup files, and internationalization support.
 
 @menu
 * Overview::
@@ -98,23 +98,26 @@ as possible while offering a superset of Pico's functionality.  See
 The usual way to invoke @code{nano} is:
 
 @quotation
-@code{nano [OPTION]@dots{} [FILE]}
+@code{nano [FILE]}
 @end quotation
 
-But it is also possible to edit several files in a row.  Additionally,
-the cursor can be put on a desired line number by adding this number
-with a plus sign before any filename, and even in a desired column by
-adding it with a comma.  So the complete synopsis is:
+But it is also possible to specify one or more options, and to edit
+several files in a row.  Additionally, the cursor can be put on a
+specific line of a file by adding the line number
+with a plus sign before the filename, and even in a specific column by
+adding it with a comma.  So the complete command synopsis is:
 
 @quotation
-@code{nano [OPTION]@dots{} [[+LINE] FILE]@dots{}}
-
-@code{nano [OPTION]@dots{} [[+,COLUMN] FILE]@dots{}}
-
-@code{nano [OPTION]@dots{} [[+LINE,COLUMN] FILE]@dots{}}
+@code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+,COLUMN] FILE]@dots{}}
 @end quotation
 
-Email bug reports to @email{nano@@nano-editor.org}.
+But normallly you would set your preferred options in your
+@file{.nanorc} file.  And when the @code{poslog} option is set
+(making @code{nano} remember the cursor position), you will rarely
+need to specify a line number.
+
+Please email any bug reports to @email{nano@@nano-editor.org}.
+Or file them at @url{https://savannah.gnu.org/bugs/?group=nano}.
 
 @node Command Line Options
 @section Command Line Options
@@ -487,12 +490,12 @@ The mouse will work in the X Window System, and on the console when gpm
 is running.
 
 
-@node Online Help
-@chapter Online Help
+@node Built-in Help
+@chapter Built-in Help
 
-The online help system in @code{nano} is available by pressing ^G.
-It is fairly self-explanatory, documenting the various parts of the
-editor and available keystrokes.  Navigation is via the ^Y (Page Up)
+The built-in help system in @code{nano} is available by pressing ^G.
+It is fairly self-explanatory.  It documents the various parts of the
+editor and the available keystrokes.  Navigation is via the ^Y (Page Up)
 and ^V (Page Down) keys.  ^X exits the help system.
 
 

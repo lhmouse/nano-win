@@ -1,3 +1,7 @@
+2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/texinfo/nano.texi: Expand on nano's features, condense the
+	synopsis, and "online" means something else to most people.
+
 2015-04-03  Benno Schulenberg  <bensberg@justemail.net>
 	* README: Update text to the fifth milestone, 2.4.x, plus tweaks.
 	* src/rcfile.c: Remove two superfluous (because nested) #ifndefs.
