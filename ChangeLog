@@ -15,6 +15,7 @@
 	bottombars() set the global variable 'currmenu' -- the displayed
 	menu must necessarily be the active one.
 	* src/browser.c (filesearch_abort): Elide this function.
+	* THANKS: Add the names of recent translators, and sort the list.
 
 2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Expand on nano's features, condense the
