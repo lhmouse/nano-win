@@ -3,6 +3,8 @@
 	when nothing was sought yet (when historylog is set).
 	* src/browser.c (filesearch_init): Remove an unfitting comment
 	(there are no toggles here) and tweak some others.
+	* src/search.c (do_search, do_research): Use the same variable as
+	in the surrounding code, for consistency.
 
 2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Expand on nano's features, condense the

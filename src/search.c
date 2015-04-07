@@ -490,7 +490,7 @@ void do_search(void)
 	 * back at the same position if the string isn't found again, in
 	 * which case it's the only occurrence. */
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
-		last_search)) {
+		answer)) {
 	    didfind = findnextstr(
 #ifndef DISABLE_SPELLER
 		FALSE,
@@ -556,7 +556,7 @@ void do_research(void)
 			FALSE,
 #endif
 			TRUE, openfile->current, openfile->current_x,
-			answer, NULL);
+			last_search, NULL);
 		if (fileptr == openfile->current && fileptr_x ==
 			openfile->current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
