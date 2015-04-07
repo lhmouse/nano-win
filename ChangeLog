@@ -7,6 +7,8 @@
 	in the surrounding code, for consistency.
 	* src/browser.c (findnextfile_wrap_reset): Elide this function,
 	and rename 'search_last_file' to 'came_full_circle'.
+	* src/browser.c (filesearch_init, do_fileresearch): Avoid setting
+	'focusing' when searching only for filenames.
 
 2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Expand on nano's features, condense the

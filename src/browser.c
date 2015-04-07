@@ -724,7 +724,8 @@ int filesearch_init(void)
     if (backupstring == NULL)
 	backupstring = mallocstrcpy(NULL, "");
 
-    search_init_globals();
+    if (last_search == NULL)
+	last_search = mallocstrcpy(NULL, "");
 
     if (last_search[0] != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
@@ -877,7 +878,8 @@ void do_fileresearch(void)
     size_t begin = selected;
     bool didfind;
 
-    search_init_globals();
+    if (last_search == NULL)
+	last_search = mallocstrcpy(NULL, "");
 
     if (last_search[0] != '\0') {
 	came_full_circle = FALSE;
