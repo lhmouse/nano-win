@@ -151,7 +151,7 @@ functionptrtype parse_browser_input(int *kbinput);
 void browser_refresh(void);
 bool browser_select_filename(const char *needle);
 int filesearch_init(void);
-bool findnextfile(bool no_sameline, size_t begin, const char *needle);
+void findnextfile(const char *needle);
 void filesearch_abort(void);
 void do_filesearch(void);
 void do_fileresearch(void);

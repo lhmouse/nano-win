@@ -41,8 +41,6 @@ static int longest = 0;
 static size_t selected = 0;
 	/* The currently selected filename in the list.  This variable
 	 * is zero-based. */
-static bool came_full_circle = FALSE;
-	/* Have we reached the starting file again while searching? */
 
 /* Our main file browser function.  path is the tilde-expanded path we
  * start browsing from. */
@@ -765,33 +763,38 @@ int filesearch_init(void)
     return 0;
 }
 
-/* Look for needle.  If no_sameline is TRUE, skip over selected when
- * looking for needle.  begin is the location of the filename where we
- * first started searching.  The return value specifies whether we found
- * anything. */
-bool findnextfile(bool no_sameline, size_t begin, const char *needle)
+/* Look for the given needle in the list of files. */
+void findnextfile(const char *needle)
 {
     size_t currselected = selected;
-	/* The location in the current file list of the match we
-	 * find. */
+	/* The location in the file list of the filename we're looking at. */
+    bool came_full_circle = FALSE;
+	/* Have we reached the starting file again? */
     const char *filetail = tail(filelist[currselected]);
 	/* The filename we display, minus the path. */
     const char *rev_start = filetail, *found = NULL;
 
-    /* Look for needle in the current filename we're searching. */
+    /* Step through each filename in the list until a match is found or
+     * we've come back to the point where we started. */
     while (TRUE) {
 	found = strstrwrapper(filetail, needle, rev_start);
 
-	/* If we've found a potential match and we're not allowed to find
-	 * a match on the same filename we started on and this potential
-	 * match is that filename, continue searching. */
-	if (found != NULL && (!no_sameline || currselected != begin))
+	/* If we've found a match and it's not the same filename where
+	 * we started, then we're done. */
+	if (found != NULL && currselected != selected)
 	    break;
 
+	/* If we've found a match and we're back at the beginning, then
+	 * it's the only occurrence. */
+	if (found != NULL && came_full_circle) {
+	    statusbar(_("This is the only occurrence"));
+	    break;
+	}
+
 	if (came_full_circle) {
-	    /* We've finished processing the filenames, so get out. */
+	    /* We're back at the beginning and didn't find anything. */
 	    not_found_msg(needle);
-	    return FALSE;
+	    return;
 	}
 
 	/* Move to the next filename in the list.  If we've reached the
@@ -803,7 +806,7 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	    statusbar(_("Search Wrapped"));
 	}
 
-	if (currselected == begin)
+	if (currselected == selected)
 	    /* We've reached the original starting file. */
 	    came_full_circle = TRUE;
 
@@ -812,10 +815,8 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	rev_start = filetail;
     }
 
-    /* We've definitely found something. */
+    /* Select the one we've found. */
     selected = currselected;
-
-    return TRUE;
 }
 
 /* Abort the current filename search.  Clean up by setting the current
@@ -829,9 +830,6 @@ void filesearch_abort(void)
 /* Search for a filename. */
 void do_filesearch(void)
 {
-    size_t begin = selected;
-    bool didfind;
-
     UNSET(CASE_SENSITIVE);
     UNSET(USE_REGEXP);
     UNSET(BACKWARDS_SEARCH);
@@ -855,19 +853,7 @@ void do_filesearch(void)
 	update_history(&search_history, answer);
 #endif
 
-    came_full_circle = FALSE;
-    didfind = findnextfile(FALSE, begin, answer);
-
-    /* Check to see if there's only one occurrence of the string and
-     * we're on it now. */
-    if (selected == begin && didfind) {
-	/* Do the search again, skipping over the current line.  We
-	 * should only end up back at the same position if the string
-	 * isn't found again, in which case it's the only occurrence. */
-	didfind = findnextfile(TRUE, begin, answer);
-	if (selected == begin && !didfind)
-	    statusbar(_("This is the only occurrence"));
-    }
+    findnextfile(answer);
 
     filesearch_abort();
 }
@@ -875,29 +861,13 @@ void do_filesearch(void)
 /* Search for the last given filename again without prompting. */
 void do_fileresearch(void)
 {
-    size_t begin = selected;
-    bool didfind;
-
     if (last_search == NULL)
 	last_search = mallocstrcpy(NULL, "");
 
-    if (last_search[0] != '\0') {
-	came_full_circle = FALSE;
-	didfind = findnextfile(FALSE, begin, last_search);
-
-	/* Check to see if there's only one occurrence of the string and
-	 * we're on it now. */
-	if (selected == begin && didfind) {
-	    /* Do the search again, skipping over the current line.  We
-	     * should only end up back at the same position if the
-	     * string isn't found again, in which case it's the only
-	     * occurrence. */
-	    didfind = findnextfile(TRUE, begin, last_search);
-	    if (selected == begin && !didfind)
-		statusbar(_("This is the only occurrence"));
-	}
-    } else
-        statusbar(_("No current search pattern"));
+    if (last_search[0] == '\0')
+	statusbar(_("No current search pattern"));
+    else
+	findnextfile(last_search);
 
     filesearch_abort();
 }
