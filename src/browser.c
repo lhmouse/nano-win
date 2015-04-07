@@ -52,8 +52,7 @@ char *do_browser(char *path, DIR *dir)
     int kbinput;
     bool old_const_update = ISSET(CONST_UPDATE);
     char *prev_dir = NULL;
-	/* The directory we were in, if any, before backing up via
-	 * browsing to "..". */
+	/* The directory we were in before backing up to "..". */
     char *ans = NULL;
 	/* The last answer the user typed at the statusbar prompt. */
     size_t old_selected;
@@ -137,19 +136,16 @@ char *do_browser(char *path, DIR *dir)
 				width) + (mouse_x / (longest + 2));
 
 		/* If they clicked beyond the end of a row,
-		 * select the filename at the end of that
-		 * row. */
+		 * select the last filename in that row. */
 		if (mouse_x > width * (longest + 2))
 		    selected--;
 
-		/* If we're off the screen, select the last
-		 * filename. */
+		/* If we're off the screen, select the last filename. */
 		if (selected > filelist_len - 1)
 		    selected = filelist_len - 1;
 
-		/* If we selected the same filename as last
-		 * time, put back the Enter key so that it's
-		 * read in. */
+		/* If we selected the same filename as last time,
+		 * put back the Enter key so that it's read in. */
 		if (old_selected == selected)
 		    unget_kbinput(sc_seq_or(do_enter_void, 0), FALSE, FALSE);
 	    }
@@ -728,19 +724,13 @@ int filesearch_init(void)
     if (backupstring == NULL)
 	backupstring = mallocstrcpy(NULL, "");
 
-    /* We display the search prompt below.  If the user types a partial
-     * search string and then Replace or a toggle, we will return to
-     * do_search() or do_replace() and be called again.  In that case,
-     * we should put the same search string back up. */
-
     search_init_globals();
 
     if (last_search[0] != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
 	buf = charalloc(strlen(disp) + 7);
-	/* We use (COLS / 3) here because we need to see more on the
-	 * line. */
+	/* We use (COLS / 3) here because we need to see more on the line. */
 	sprintf(buf, " [%s%s]", disp,
 		(strlenpt(last_search) > COLS / 3) ? "..." : "");
 	free(disp);
@@ -791,14 +781,14 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
     while (TRUE) {
 	found = strstrwrapper(filetail, needle, rev_start);
 
-	/* We've found a potential match.  If we're not allowed to find
+	/* If we've found a potential match and we're not allowed to find
 	 * a match on the same filename we started on and this potential
-	 * match is on that line, continue searching. */
+	 * match is that filename, continue searching. */
 	if (found != NULL && (!no_sameline || currselected != begin))
 	    break;
 
-	/* We've finished processing the filenames, so get out. */
 	if (search_last_file) {
+	    /* We've finished processing the filenames, so get out. */
 	    not_found_msg(needle);
 	    return FALSE;
 	}
@@ -812,8 +802,8 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	    statusbar(_("Search Wrapped"));
 	}
 
-	/* We've reached the original starting file. */
 	if (currselected == begin)
+	    /* We've reached the original starting file. */
 	    search_last_file = TRUE;
 
 	filetail = tail(filelist[currselected]);
@@ -888,7 +878,7 @@ void do_filesearch(void)
     filesearch_abort();
 }
 
-/* Search for the last filename without prompting. */
+/* Search for the last given filename again without prompting. */
 void do_fileresearch(void)
 {
     size_t begin = selected;

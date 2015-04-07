@@ -1,6 +1,8 @@
 2015-04-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_fileresearch): Don't search for the empty string
 	when nothing was sought yet (when historylog is set).
+	* src/browser.c (filesearch_init): Remove an unfitting comment
+	(there are no toggles here) and tweak some others.
 
 2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Expand on nano's features, condense the
