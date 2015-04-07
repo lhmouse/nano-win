@@ -41,8 +41,8 @@ static int longest = 0;
 static size_t selected = 0;
 	/* The currently selected filename in the list.  This variable
 	 * is zero-based. */
-static bool search_last_file = FALSE;
-	/* Have we gone past the last file while searching? */
+static bool came_full_circle = FALSE;
+	/* Have we reached the starting file again while searching? */
 
 /* Our main file browser function.  path is the tilde-expanded path we
  * start browsing from. */
@@ -787,7 +787,7 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	if (found != NULL && (!no_sameline || currselected != begin))
 	    break;
 
-	if (search_last_file) {
+	if (came_full_circle) {
 	    /* We've finished processing the filenames, so get out. */
 	    not_found_msg(needle);
 	    return FALSE;
@@ -804,7 +804,7 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 
 	if (currselected == begin)
 	    /* We've reached the original starting file. */
-	    search_last_file = TRUE;
+	    came_full_circle = TRUE;
 
 	filetail = tail(filelist[currselected]);
 
@@ -815,13 +815,6 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
     selected = currselected;
 
     return TRUE;
-}
-
-/* Clear the flag indicating that a search reached the last file in the
- * list.  We need to do this just before a new search. */
-void findnextfile_wrap_reset(void)
-{
-    search_last_file = FALSE;
 }
 
 /* Abort the current filename search.  Clean up by setting the current
@@ -861,7 +854,7 @@ void do_filesearch(void)
 	update_history(&search_history, answer);
 #endif
 
-    findnextfile_wrap_reset();
+    came_full_circle = FALSE;
     didfind = findnextfile(FALSE, begin, answer);
 
     /* Check to see if there's only one occurrence of the string and
@@ -887,7 +880,7 @@ void do_fileresearch(void)
     search_init_globals();
 
     if (last_search[0] != '\0') {
-	findnextfile_wrap_reset();
+	came_full_circle = FALSE;
 	didfind = findnextfile(FALSE, begin, last_search);
 
 	/* Check to see if there's only one occurrence of the string and

@@ -5,6 +5,8 @@
 	(there are no toggles here) and tweak some others.
 	* src/search.c (do_search, do_research): Use the same variable as
 	in the surrounding code, for consistency.
+	* src/browser.c (findnextfile_wrap_reset): Elide this function,
+	and rename 'search_last_file' to 'came_full_circle'.
 
 2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Expand on nano's features, condense the
