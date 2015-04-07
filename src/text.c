@@ -2213,7 +2213,6 @@ void do_justify(bool full_justify)
 
     /* Display the shortcut list with UnJustify. */
     uncutfunc->desc = unjust_tag;
-    currmenu = MMAIN;
     display_main_list();
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
@@ -2914,7 +2913,6 @@ void do_spell(void)
 /* Cleanup things to do after leaving the linter. */
 void lint_cleanup(void)
 {
-    currmenu = MMAIN;
     display_main_list();
 }
 
@@ -3129,7 +3127,6 @@ void do_linter(void)
 	return;
     }
 
-    currmenu = MLINTER;
     bottombars(MLINTER);
     tmplint = NULL;
     curlint = lints;

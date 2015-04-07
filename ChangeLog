@@ -11,6 +11,9 @@
 	'focusing' when searching only for filenames.
 	* src/browser.c (findnextfile, do_filesearch, do_fileresearch):
 	Greatly simplify the searching for the next matching filename.
+	* src/{browser,files,help,prompt,text,winio}.c: Let the function
+	bottombars() set the global variable 'currmenu' -- the displayed
+	menu must necessarily be the active one.
 
 2015-04-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Expand on nano's features, condense the

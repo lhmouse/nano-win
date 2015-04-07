@@ -969,7 +969,6 @@ int do_prompt(bool allow_tabs,
 
     prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
-    currmenu = menu;
     bottombars(menu);
 
     va_start(ap, msg);

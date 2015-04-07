@@ -60,7 +60,6 @@ char *do_browser(char *path, DIR *dir)
 
     curs_set(0);
     blank_statusbar();
-    currmenu = MBROWSER;
     bottombars(MBROWSER);
     wnoutrefresh(bottomwin);
 
@@ -197,7 +196,6 @@ char *do_browser(char *path, DIR *dir)
 			browser_refresh, _("Go To Directory"));
 
 	    curs_set(0);
-	    currmenu = MBROWSER;
 	    bottombars(MBROWSER);
 
 	    /* If the directory begins with a newline (i.e. an
@@ -823,7 +821,6 @@ void findnextfile(const char *needle)
  * shortcut list to the browser shortcut list, and displaying it. */
 void filesearch_abort(void)
 {
-    currmenu = MBROWSER;
     bottombars(MBROWSER);
 }
 

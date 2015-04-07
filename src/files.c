@@ -1049,8 +1049,6 @@ void do_insertfile(
     bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
-    currmenu = MINSERTFILE;
-
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {
@@ -2251,8 +2249,6 @@ bool do_writeout(bool exiting)
     static bool did_credits = FALSE;
 #endif
     bool retval = FALSE;
-
-    currmenu = MWRITEFILE;
 
     if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
 	retval = write_file(openfile->filename, NULL, FALSE, OVERWRITE,
