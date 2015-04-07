@@ -898,7 +898,7 @@ void do_fileresearch(void)
 
     if (last_search[0] != '\0') {
 	findnextfile_wrap_reset();
-	didfind = findnextfile(FALSE, begin, answer);
+	didfind = findnextfile(FALSE, begin, last_search);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -907,7 +907,7 @@ void do_fileresearch(void)
 	     * should only end up back at the same position if the
 	     * string isn't found again, in which case it's the only
 	     * occurrence. */
-	    didfind = findnextfile(TRUE, begin, answer);
+	    didfind = findnextfile(TRUE, begin, last_search);
 	    if (selected == begin && !didfind)
 		statusbar(_("This is the only occurrence"));
 	}
