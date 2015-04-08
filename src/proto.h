@@ -149,7 +149,7 @@ char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
 functionptrtype parse_browser_input(int *kbinput);
 void browser_refresh(void);
-bool browser_select_filename(const char *needle);
+void browser_select_dirname(const char *needle);
 int filesearch_init(void);
 void findnextfile(const char *needle);
 void filesearch_abort(void);

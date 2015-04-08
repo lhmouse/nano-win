@@ -3,7 +3,8 @@
  *   browser.c                                                            *
  *                                                                        *
  *   Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,  *
- *   2010, 2011, 2013, 2014 Free Software Foundation, Inc.                *
+ *   2010, 2011, 2013, 2014, 2015 Free Software Foundation, Inc.          *
+ *                                                                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 3, or (at your option)  *
@@ -39,8 +40,7 @@ static int width = 0;
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
-	/* The currently selected filename in the list.  This variable
-	 * is zero-based. */
+	/* The currently selected filename in the list; zero-based. */
 
 /* Our main file browser function.  path is the tilde-expanded path we
  * start browsing from. */
@@ -88,7 +88,7 @@ char *do_browser(char *path, DIR *dir)
     /* If prev_dir isn't NULL, select the directory saved in it, and
      * then blow it away. */
     if (prev_dir != NULL) {
-	browser_select_filename(prev_dir);
+	browser_select_dirname(prev_dir);
 
 	free(prev_dir);
 	prev_dir = NULL;
@@ -683,26 +683,18 @@ void browser_refresh(void)
     wnoutrefresh(edit);
 }
 
-/* Look for needle.  If we find it, set selected to its location.  Note
- * that needle must be an exact match for a file in the list.  The
- * return value specifies whether we found anything. */
-bool browser_select_filename(const char *needle)
+/* Look for needle.  If we find it, set selected to its location.
+ * Note that needle must be an exact match for a file in the list. */
+void browser_select_dirname(const char *needle)
 {
-    size_t currselected;
-    bool found = FALSE;
+    size_t looking_at = 0;
 
-    for (currselected = 0; currselected < filelist_len;
-	currselected++) {
-	if (strcmp(filelist[currselected], needle) == 0) {
-	    found = TRUE;
+    for (; looking_at < filelist_len; looking_at++) {
+	if (strcmp(filelist[looking_at], needle) == 0) {
+	    selected = looking_at;
 	    break;
 	}
     }
-
-    if (found)
-	selected = currselected;
-
-    return found;
 }
 
 /* Set up the system variables for a filename search.  Return -1 if the
@@ -764,11 +756,11 @@ int filesearch_init(void)
 /* Look for the given needle in the list of files. */
 void findnextfile(const char *needle)
 {
-    size_t currselected = selected;
+    size_t looking_at = selected;
 	/* The location in the file list of the filename we're looking at. */
     bool came_full_circle = FALSE;
 	/* Have we reached the starting file again? */
-    const char *filetail = tail(filelist[currselected]);
+    const char *filetail = tail(filelist[looking_at]);
 	/* The filename we display, minus the path. */
     const char *rev_start = filetail, *found = NULL;
 
@@ -779,7 +771,7 @@ void findnextfile(const char *needle)
 
 	/* If we've found a match and it's not the same filename where
 	 * we started, then we're done. */
-	if (found != NULL && currselected != selected)
+	if (found != NULL && looking_at != selected)
 	    break;
 
 	/* If we've found a match and we're back at the beginning, then
@@ -797,24 +789,24 @@ void findnextfile(const char *needle)
 
 	/* Move to the next filename in the list.  If we've reached the
 	 * end of the list, wrap around. */
-	if (currselected < filelist_len - 1)
-	    currselected++;
+	if (looking_at < filelist_len - 1)
+	    looking_at++;
 	else {
-	    currselected = 0;
+	    looking_at = 0;
 	    statusbar(_("Search Wrapped"));
 	}
 
-	if (currselected == selected)
+	if (looking_at == selected)
 	    /* We've reached the original starting file. */
 	    came_full_circle = TRUE;
 
-	filetail = tail(filelist[currselected]);
+	filetail = tail(filelist[looking_at]);
 
 	rev_start = filetail;
     }
 
     /* Select the one we've found. */
-    selected = currselected;
+    selected = looking_at;
 }
 
 /* Search for a filename. */
