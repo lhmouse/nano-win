@@ -2,6 +2,7 @@
 	* src/browser.c (browser_select_dirname, findnextfile): Rename
 	'currselected' to 'looking_at', for more contrast with 'selected',
 	and rename browser_select_filename() to browser_select_dirname().
+	* src/text.c: Correct and adjust some comments.
 
 2015-04-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_fileresearch): Don't search for the empty string
