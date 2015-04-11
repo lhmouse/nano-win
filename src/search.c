@@ -692,25 +692,26 @@ ssize_t do_replace_loop(
 #endif
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
-    filestruct *edittop_save = openfile->edittop, *top, *bot;
+    filestruct *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
 
     if (old_mark_set) {
-	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, set edittop to the top of the
-	 * partition, turn the mark off, and refresh the screen. */
+	/* If the mark is on, frame the region, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	openfile->edittop = openfile->fileage;
 	openfile->mark_set = FALSE;
-#ifndef DISABLE_COLOR
-	reset_multis(openfile->current, TRUE);
-#endif
-	edit_refresh();
+
+	/* Start either at the top or the bottom of the marked region. */
+	if (!ISSET(BACKWARDS_SEARCH)) {
+	    openfile->current = top;
+	    openfile->current_x = (top_x == 0 ? 0 : top_x - 1);
+	} else {
+	    openfile->current = bot;
+	    openfile->current_x = bot_x;
+	}
     }
 #endif /* !NANO_TINY */
 
@@ -733,6 +734,18 @@ ssize_t do_replace_loop(
 #endif
 	, real_current, *real_current_x, needle, &match_len)) {
 	int i = 0;
+
+#ifndef NANO_TINY
+	if (old_mark_set) {
+	    /* When we've found an occurrence outside of the marked region,
+	     * stop the fanfare. */
+	    if (openfile->current->lineno > bot->lineno ||
+		openfile->current->lineno < top->lineno ||
+		(openfile->current == bot && openfile->current_x > bot_x) ||
+		(openfile->current == top && openfile->current_x < top_x))
+		break;
+	}
+#endif
 
 #ifdef HAVE_REGEX_H
 	/* If the bol_or_eol flag is set, we've found a match on the
@@ -794,7 +807,7 @@ ssize_t do_replace_loop(
 	    size_t length_change;
 
 #ifndef NANO_TINY
-	    update_undo(REPLACE);
+	    add_undo(REPLACE);
 #endif
 	    if (i == 2)
 		replaceall = TRUE;
@@ -815,6 +828,7 @@ ssize_t do_replace_loop(
 			openfile->mark_begin_x = openfile->current_x;
 		    else
 			openfile->mark_begin_x += length_change;
+		    bot_x = openfile->mark_begin_x;
 		}
 	    }
 
@@ -828,6 +842,7 @@ ssize_t do_replace_loop(
 		    if (*real_current_x < openfile->current_x + match_len)
 			*real_current_x = openfile->current_x + match_len;
 		    *real_current_x += length_change;
+		    bot_x = *real_current_x;
 		}
 #ifndef NANO_TINY
 	    }
@@ -849,7 +864,10 @@ ssize_t do_replace_loop(
 	    openfile->current->data = copy;
 
 #ifndef DISABLE_COLOR
-	    reset_multis(openfile->current, TRUE);
+	    /* Reset the precalculated multiline-regex hints only when
+	     * the first replacement has been made. */
+	    if (numreplaced == 0)
+		reset_multis(openfile->current, TRUE);
 #endif
 
 	    if (!replaceall) {
@@ -869,15 +887,12 @@ ssize_t do_replace_loop(
 	}
     }
 
+    if (numreplaced == -1)
+	not_found_msg(needle);
+
 #ifndef NANO_TINY
-    if (old_mark_set) {
-	/* If the mark was on, unpartition the filestruct so that it
-	 * contains all the text again, set edittop back to what it was
-	 * before, turn the mark back on, and refresh the screen. */
-	unpartition_filestruct(&filepart);
-	openfile->edittop = edittop_save;
+    if (old_mark_set)
 	openfile->mark_set = TRUE;
-    }
 #endif
 
     /* If the NO_NEWLINES flag isn't set, and text has been added to the

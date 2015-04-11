@@ -1,3 +1,11 @@
+2015-04-11  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop): Do not split off the marked region
+	into a separate partition, but do the replacings in the current one,
+	taking good care to stay within the boundaries of the region.  This
+	fixes an undo bug where the first part of a line would disappear if
+	the region started in the middle of a line.  Bug was reported here:
+	https://lists.gnu.org/archive/html/nano-devel/2015-03/msg00077.html.
+
 2015-04-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_select_dirname, findnextfile): Rename
 	'currselected' to 'looking_at', for more contrast with 'selected',
