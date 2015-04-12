@@ -1027,12 +1027,12 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^_", do_gotolinecolumn_void, 0);
     add_to_sclist(MMAIN, "M-G", do_gotolinecolumn_void, 0);
     add_to_sclist(MMAIN, "F13", do_gotolinecolumn_void, 0);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "^Y", do_page_up, 0);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "F7", do_page_up, 0);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "PgUp", do_page_up, 0);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "^V", do_page_down, 0);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "F8", do_page_down, 0);
-    add_to_sclist(MMAIN|MBROWSER|MHELP|MWHEREISFILE|MLINTER, "PgDn", do_page_down, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^Y", do_page_up, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", do_page_up, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgUp", do_page_up, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^V", do_page_down, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", do_page_down, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgDn", do_page_down, 0);
     add_to_sclist(MMAIN|MHELP, "M-\\", do_first_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-|", do_first_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-/", do_last_line, 0);
@@ -1157,11 +1157,13 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-\\", do_first_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", do_first_file, 0);
+    add_to_sclist(MWHEREISFILE, "^Y", do_first_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", do_last_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", do_last_file, 0);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "^_", goto_dir_void, 0);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-G", goto_dir_void, 0);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "F13", goto_dir_void, 0);
+    add_to_sclist(MWHEREISFILE, "^V", do_last_file, 0);
+    add_to_sclist(MBROWSER, "^_", goto_dir_void, 0);
+    add_to_sclist(MBROWSER, "M-G", goto_dir_void, 0);
+    add_to_sclist(MBROWSER, "F13", goto_dir_void, 0);
 #endif
     add_to_sclist(MWRITEFILE, "M-D", dos_format_void, 0);
     add_to_sclist(MWRITEFILE, "M-M", mac_format_void, 0);

@@ -2,6 +2,9 @@
 	* src/browser.c (filesearch_init): Stop M-\ and M-/ in WhereisFile
 	menu (reached via ^R ^T ^W) from doing also an unrequested search
 	after having performed their function.  Fixes Savannah bug #44790.
+	* src/global.c (shortcut_init): Rebind ^Y and ^V in the WhereisFile
+	menu from the pointless page_up() and page_down() to the effective
+	first_file() and last_file().  Also unbind some other useless keys.
 
 2015-04-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Do not split off the marked region
