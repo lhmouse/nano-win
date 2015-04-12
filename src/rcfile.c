@@ -992,7 +992,7 @@ void parse_linter(char *ptr)
     if (!strcmp(ptr, "\"\""))
 	endsyntax->linter = NULL;
     else
-	endsyntax->linter = mallocstrcpy(syntaxes->linter, ptr);
+	endsyntax->linter = mallocstrcpy(NULL, ptr);
 }
 
 #ifndef DISABLE_SPELLER
@@ -1019,7 +1019,7 @@ void parse_formatter(char *ptr)
     if (!strcmp(ptr, "\"\""))
 	endsyntax->formatter = NULL;
     else
-	endsyntax->formatter = mallocstrcpy(syntaxes->formatter, ptr);
+	endsyntax->formatter = mallocstrcpy(NULL, ptr);
 }
 #endif /* !DISABLE_SPELLER */
 #endif /* !DISABLE_COLOR */
