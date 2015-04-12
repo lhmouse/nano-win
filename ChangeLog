@@ -1,3 +1,8 @@
+2015-04-12  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (filesearch_init): Stop M-\ and M-/ in WhereisFile
+	menu (reached via ^R ^T ^W) from doing also an unrequested search
+	after having performed their function.  Fixes Savannah bug #44790.
+
 2015-04-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Do not split off the marked region
 	into a separate partition, but do the replacings in the current one,

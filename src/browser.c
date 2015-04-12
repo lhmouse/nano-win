@@ -703,7 +703,7 @@ void browser_select_dirname(const char *needle)
  * program. */
 int filesearch_init(void)
 {
-    int i = 0;
+    int input;
     char *buf;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
@@ -727,7 +727,7 @@ int filesearch_init(void)
 	buf = mallocstrcpy(NULL, "");
 
     /* This is now one simple call.  It just does a lot. */
-    i = do_prompt(FALSE,
+    input = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
@@ -743,14 +743,16 @@ int filesearch_init(void)
     free(backupstring);
     backupstring = NULL;
 
-    /* Cancel any search, or just return with no previous search. */
-    if (i == -1 || (i < 0 && *last_search == '\0') || (i == 0 &&
-	*answer == '\0')) {
-	statusbar(_("Cancelled"));
-	return -1;
-    }
+    /* If only Enter was pressed but we have a previous string, it's okay. */
+    if (input == -2 && *last_search != '\0')
+	return 0;
 
-    return 0;
+    /* Otherwise negative inputs are a bailout. */
+    if (input < 0)
+	statusbar(_("Cancelled"));
+
+    /* Zero is good; positive values mean some function was run. */
+    return input;
 }
 
 /* Look for the given needle in the list of files. */
@@ -817,7 +819,7 @@ void do_filesearch(void)
     UNSET(BACKWARDS_SEARCH);
 
     if (filesearch_init() != 0) {
-	/* Cancelled or a blank search string. */
+	/* Cancelled, or a blank search string, or done something. */
 	bottombars(MBROWSER);
 	return;
     }
