@@ -697,20 +697,14 @@ void browser_select_dirname(const char *needle)
     }
 }
 
-/* Set up the system variables for a filename search.  Return -1 if the
- * search should be canceled (due to Cancel, a blank search string, or a
- * failed regcomp()), return 0 on success, and return 1 on rerun calling
- * program. */
+/* Set up the system variables for a filename search.  Return -1 or -2 if
+ * the search should be canceled (due to Cancel or a blank search string),
+ * return 0 when we have a string, and return a positive value when some
+ * function was run. */
 int filesearch_init(void)
 {
     int input;
     char *buf;
-    static char *backupstring = NULL;
-	/* The search string we'll be using. */
-
-    /* If backupstring doesn't exist, initialize it to "". */
-    if (backupstring == NULL)
-	backupstring = mallocstrcpy(NULL, "");
 
     if (last_search == NULL)
 	last_search = mallocstrcpy(NULL, "");
@@ -731,7 +725,7 @@ int filesearch_init(void)
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
-	MWHEREISFILE, backupstring,
+	MWHEREISFILE, NULL,
 #ifndef DISABLE_HISTORIES
 	&search_history,
 #endif
@@ -739,9 +733,6 @@ int filesearch_init(void)
 
     /* Release buf now that we don't need it anymore. */
     free(buf);
-
-    free(backupstring);
-    backupstring = NULL;
 
     /* If only Enter was pressed but we have a previous string, it's okay. */
     if (input == -2 && *last_search != '\0')
@@ -751,7 +742,6 @@ int filesearch_init(void)
     if (input < 0)
 	statusbar(_("Cancelled"));
 
-    /* Zero is good; positive values mean some function was run. */
     return input;
 }
 

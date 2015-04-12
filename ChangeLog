@@ -5,6 +5,8 @@
 	* src/global.c (shortcut_init): Rebind ^Y and ^V in the WhereisFile
 	menu from the pointless page_up() and page_down() to the effective
 	first_file() and last_file().  Also unbind some other useless keys.
+	* src/browser.c (filesearch_init): Remove an unused variable, and
+	adjust the introductory comment for the recently tweaked logic.
 
 2015-04-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Do not split off the marked region
