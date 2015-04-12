@@ -17,6 +17,7 @@
 	fixes an undo bug where the first part of a line would disappear if
 	the region started in the middle of a line.  Bug was reported here:
 	https://lists.gnu.org/archive/html/nano-devel/2015-03/msg00077.html.
+	Original idea and patch were by Mark Majeres.
 
 2015-04-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_select_dirname, findnextfile): Rename
