@@ -1,3 +1,7 @@
+2015-04-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop): Fix compilation with --enable-tiny.
+	* README: Mention also the Savannah page for reporting bugs.
+
 2015-04-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (filesearch_init): Stop M-\ and M-/ in WhereisFile
 	menu (reached via ^R ^T ^W) from doing also an unrequested search

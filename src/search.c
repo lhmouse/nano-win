@@ -842,11 +842,11 @@ ssize_t do_replace_loop(
 		    if (*real_current_x < openfile->current_x + match_len)
 			*real_current_x = openfile->current_x + match_len;
 		    *real_current_x += length_change;
+#ifndef NANO_TINY
 		    bot_x = *real_current_x;
 		}
-#ifndef NANO_TINY
-	    }
 #endif
+	    }
 
 	    /* Set the cursor at the last character of the replacement
 	     * text, so searching will resume after the replacement
