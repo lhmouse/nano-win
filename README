@@ -59,9 +59,12 @@ Mailing Lists and Bug Reports
 	subject of "subscribe", where <name> is the list you want to
 	subscribe to.
 
-	For general bug reports, send a description of the problem to
-	nano@nano-editor.org or to the development list, or file it on
-	the Savannah page (https://savannah.gnu.org/bugs/?group=nano).
+	For general bug reports, please file a description of the problem
+	on the Savannah bug tracker page for nano
+	(https://savannah.gnu.org/bugs/?group=nano).  The issue may have
+	already been reported, and we are better able to track the state
+	of the issue and whom to notify when fixed, the more the bug
+	tracker is used.
 
 Current Status
 
