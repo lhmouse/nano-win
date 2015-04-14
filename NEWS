@@ -1,3 +1,13 @@
+2015.04.14 - GNU nano 2.4.1 "Glitch Gremlin" is released.  This release
+		includes several fixes for issues with the file browser
+		menu, linter and formatter functions, spell checker,
+		undo/redo with some specific marked-cutting situations,
+		and some small improvements to the color syntax
+		highlighting definitions. There are also various
+		documentation and code comment updates included, and
+		finally, fixes for compilation on non-GNU/Linux systems
+		and certain configure combinations.  Toasters!
+
 2015.03.22 - GNU nano 2.4.0 "lizf" is released.  This is the first
 		stable release in many years, and brings together many
 		new features from the 2.3 series, including:

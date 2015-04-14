@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.99pre3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-22 23:49-0400\n"
+"POT-Creation-Date: 2015-04-14 14:02-0400\n"
 "PO-Revision-Date: 2015-03-07 21:10+0200\n"
 "Last-Translator: Jorma Karvonen <karvonen.jorma@gmail.com>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
@@ -21,60 +21,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:203
+#: src/browser.c:196
 msgid "Go To Directory"
 msgstr "Siirry hakemistoon"
 
-#: src/browser.c:214 src/browser.c:770 src/files.c:1101 src/files.c:2321
-#: src/nano.c:1159 src/search.c:212 src/search.c:302 src/search.c:957
-#: src/search.c:1033 src/text.c:2949 src/text.c:3164
+#: src/browser.c:206 src/browser.c:743 src/files.c:1099 src/files.c:2317
+#: src/nano.c:1159 src/search.c:214 src/search.c:304 src/search.c:968
+#: src/search.c:1044 src/text.c:2948 src/text.c:3164
 msgid "Cancelled"
 msgstr "Peruttu"
 
-#: src/browser.c:246 src/browser.c:293
+#: src/browser.c:238 src/browser.c:285
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Hakemistosta %s pois siirtyminen rajoitetussa tilassa epäonnistui"
 
-#: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:966
-#: src/files.c:975 src/files.c:1802 src/files.c:1929 src/files.c:1983
-#: src/files.c:2004 src/files.c:2127 src/files.c:3029 src/files.c:3225
-#: src/rcfile.c:590 src/rcfile.c:1426
+#: src/browser.c:249 src/browser.c:295 src/browser.c:316 src/files.c:966
+#: src/files.c:975 src/files.c:1800 src/files.c:1927 src/files.c:1981
+#: src/files.c:2002 src/files.c:2125 src/files.c:3025 src/files.c:3221
+#: src/rcfile.c:590 src/rcfile.c:1431
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Virhe luettaessa kohdetta %s: %s"
 
-#: src/browser.c:283
+#: src/browser.c:275
 msgid "Can't move up a directory"
 msgstr "Ylähakemistoon siirtyminen epäonnistui"
 
 #. TRANSLATORS: Try to keep this at most 7
 #. * characters.
-#: src/browser.c:626 src/browser.c:635
+#: src/browser.c:618 src/browser.c:627
 msgid "(dir)"
 msgstr "(hakem.)"
 
 #. TRANSLATORS: Try to keep this at most 12
 #. * characters.
-#: src/browser.c:632
+#: src/browser.c:624
 msgid "(parent dir)"
 msgstr "(ylähakem.)"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:759 src/search.c:181
+#: src/browser.c:732 src/search.c:183
 msgid "Search"
 msgstr "Etsi"
 
-#: src/browser.c:812 src/search.c:382
-msgid "Search Wrapped"
-msgstr "Etsintä jatkuu"
-
-#: src/browser.c:885 src/browser.c:912 src/search.c:500 src/search.c:503
-#: src/search.c:560 src/search.c:563
+#: src/browser.c:772 src/search.c:502 src/search.c:505 src/search.c:562
+#: src/search.c:565
 msgid "This is the only occurrence"
 msgstr "Tämä on ainoa esiintymä"
 
-#: src/browser.c:915 src/search.c:569
+#: src/browser.c:788 src/search.c:384
+msgid "Search Wrapped"
+msgstr "Etsintä jatkuu"
+
+#: src/browser.c:842 src/search.c:571
 msgid "No current search pattern"
 msgstr "Ei nykyistä etsintämallia"
 
@@ -136,7 +136,7 @@ msgstr "Ei enää avoimia tiedostopuskureita"
 msgid "Switched to %s"
 msgstr "Vaihdoin tiedostoon %s"
 
-#: src/files.c:485 src/global.c:953 src/winio.c:2161
+#: src/files.c:485 src/global.c:959 src/winio.c:2161
 msgid "New Buffer"
 msgstr "Uusi teksti"
 
@@ -223,151 +223,151 @@ msgstr "Uusi tiedosto"
 msgid "\"%s\" not found"
 msgstr "Ei löytynyt: ”%s”"
 
-#: src/files.c:961 src/rcfile.c:583 src/rcfile.c:1376 src/rcfile.c:1417
+#: src/files.c:961 src/rcfile.c:583 src/rcfile.c:1381 src/rcfile.c:1422
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "”%s” on hakemisto"
 
-#: src/files.c:962 src/rcfile.c:584 src/rcfile.c:1377 src/rcfile.c:1418
+#: src/files.c:962 src/rcfile.c:584 src/rcfile.c:1382 src/rcfile.c:1423
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "”%s” on laitetiedosto"
 
-#: src/files.c:1060
+#: src/files.c:1058
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "Uudessa puskurissa suoritettava komento [kohteesta %s] "
 
-#: src/files.c:1062
+#: src/files.c:1060
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "Suoritettava komento [kohteesta %s] "
 
 #  Toisaalla on "Tiedoston lisääminen hakemiston %s ulkopuolelta epäonnistui",
 #  joten täälläkin on "hakemistosta" eikä "hakemistossa".
-#: src/files.c:1069
+#: src/files.c:1067
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Uuteen puskuriin lisättävä tiedosto [hakemistosta %s] "
 
-#: src/files.c:1071
+#: src/files.c:1069
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Lisättävä tiedosto [hakemistosta %s] "
 
 #  "Virheellinen näppäin yksipuskuritilassa"?
 #  "Komento toimii vain monen puskurin tilassa"?
-#: src/files.c:1320
+#: src/files.c:1318
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Virheellinen näppäin yhden puskurin tilassa"
 
-#: src/files.c:1622
+#: src/files.c:1620
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
 msgstr ""
 "Varmuuskopiotiedoston kirjoittaminen epäonnistui, jatketaanko tallentamista? "
 "(Sanoi N jos olet epävarma) "
 
-#: src/files.c:1746
+#: src/files.c:1744
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Hakemiston %s ulkopuolelle kirjoittaminen epäonnistui"
 
 #  "Prepend" ei ole englanti, oikea sana on "prefix"
 #  "Prepend" is not an English word, use "prefix"
-#: src/files.c:1761
+#: src/files.c:1759
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "Symboliseen linkkiin ei voi liittää etuliitettä eikä jälkiliikettä "
 "parametrillä ”--nofollow set”"
 
-#: src/files.c:1843 src/files.c:1868 src/files.c:1886 src/files.c:1899
-#: src/files.c:1910 src/files.c:1939
+#: src/files.c:1841 src/files.c:1866 src/files.c:1884 src/files.c:1897
+#: src/files.c:1908 src/files.c:1937
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Virhe kirjoitettaessa varmuuskopiotiedostoon %s: %s"
 
-#: src/files.c:1844 src/nano.c:719
+#: src/files.c:1842 src/nano.c:719
 msgid "Too many backup files?"
 msgstr "Liian monta varmuuskopiotiedostoa?"
 
-#: src/files.c:1959 src/files.c:2016 src/files.c:2035 src/files.c:2047
-#: src/files.c:2071 src/files.c:2089 src/files.c:2099 src/files.c:2135
-#: src/files.c:2140 src/files.c:3101 src/files.c:3110 src/files.c:3133
-#: src/files.c:3145
+#: src/files.c:1957 src/files.c:2014 src/files.c:2033 src/files.c:2045
+#: src/files.c:2069 src/files.c:2087 src/files.c:2097 src/files.c:2133
+#: src/files.c:2138 src/files.c:3097 src/files.c:3106 src/files.c:3129
+#: src/files.c:3141
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Virhe kirjoitettaessa %s: %s"
 
-#: src/files.c:1993 src/text.c:2867 src/text.c:2879 src/text.c:3260
-#: src/text.c:3269
+#: src/files.c:1991 src/text.c:2867 src/text.c:2879 src/text.c:3258
+#: src/text.c:3267
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Virhe kirjoitettaessa tilapäiseen tiedostoon: %s"
 
-#: src/files.c:2173
+#: src/files.c:2171
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "Kirjoitettu %lu rivi"
 msgstr[1] "Kirjoitettu %lu riviä"
 
-#: src/files.c:2278
+#: src/files.c:2274
 msgid " [DOS Format]"
 msgstr " [DOS-muoto]"
 
-#: src/files.c:2279
+#: src/files.c:2275
 msgid " [Mac Format]"
 msgstr " [Mac-muoto]"
 
-#: src/files.c:2281
+#: src/files.c:2277
 msgid " [Backup]"
 msgstr " [Varmuuskopio]"
 
 #  "Prepend" is not an English word, use "prefix"
-#: src/files.c:2289
+#: src/files.c:2285
 msgid "Prepend Selection to File"
 msgstr "Lisää valinta tiedoston alkuun"
 
-#: src/files.c:2290
+#: src/files.c:2286
 msgid "Append Selection to File"
 msgstr "Lisää valinta tiedoston loppuun"
 
-#: src/files.c:2291
+#: src/files.c:2287
 msgid "Write Selection to File"
 msgstr "Kirjoita valinta tiedostoon"
 
 #  "Alkuun lisättävä tiedosto" olisi väärinpäin.
-#: src/files.c:2294
+#: src/files.c:2290
 msgid "File Name to Prepend to"
 msgstr "Minkä tiedoston alkuun"
 
-#: src/files.c:2295
+#: src/files.c:2291
 msgid "File Name to Append to"
 msgstr "Minkä tiedoston loppuun"
 
-#: src/files.c:2296
+#: src/files.c:2292
 msgid "File Name to Write"
 msgstr "Kirjoitettava tiedosto"
 
-#: src/files.c:2427
+#: src/files.c:2423
 msgid "File exists, OVERWRITE ? "
 msgstr "Tiedosto olemassa, korvataanko ? "
 
-#: src/files.c:2436
+#: src/files.c:2432
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Tallennetaanko tiedosto eri nimellä ? "
 
-#: src/files.c:2450
+#: src/files.c:2446
 msgid "File was modified since you opened it, continue saving ? "
 msgstr ""
 "Tiedostoa on muokattu sen jälkeen kun avasit sen, jatketaanko "
 "tallentamista ? "
 
-#: src/files.c:2882
+#: src/files.c:2878
 msgid "(more)"
 msgstr "(jatkuu)"
 
-#: src/files.c:2974
+#: src/files.c:2970
 #, c-format
 msgid ""
 "\n"
@@ -376,7 +376,7 @@ msgstr ""
 "\n"
 "Paina return-painiketta jatkaaksesi Nanon käynnistämistä\n"
 
-#: src/files.c:2989
+#: src/files.c:2985
 #, c-format
 msgid ""
 "Unable to create directory %s: %s\n"
@@ -386,7 +386,7 @@ msgstr ""
 "Sitä vaaditaan kohdistinkoordinaatin tai etsintähistorian tallentamiseksi/"
 "lataamiseksi.\n"
 
-#: src/files.c:2995
+#: src/files.c:2991
 #, c-format
 msgid ""
 "Path %s is not a directory and needs to be.\n"
@@ -396,7 +396,7 @@ msgstr ""
 "Nano ei kykene lataamaan tai tallentamaan etsintää tai "
 "kohdistinkoordinaatteja.\n"
 
-#: src/files.c:3012
+#: src/files.c:3008
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
@@ -405,7 +405,7 @@ msgstr ""
 "Havaittu perinteinen nano-historiatiedosto (%s), jota yritettiin siirtää\n"
 "parempana pidettyyn sijaintipaikkaan (%s), mutta kohdattiin virhe: %s"
 
-#: src/files.c:3016
+#: src/files.c:3012
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I moved\n"
@@ -417,691 +417,691 @@ msgstr ""
 "(katso nano FAQ tästä muutoksesta)"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:477
+#: src/global.c:479
 msgid "Exit"
 msgstr "Lopeta"
 
-#: src/global.c:478
+#: src/global.c:480
 msgid "Close"
 msgstr "Sulje"
 
-#: src/global.c:479
+#: src/global.c:481
 msgid "Uncut Text"
 msgstr "Liitä"
 
 #  80 sarakkeen näytöllä mahtuu 10 merkkiä, mieluummin 9.
-#: src/global.c:481
+#: src/global.c:483
 msgid "Unjustify"
 msgstr "Epätasaa"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/global.c:485
+#: src/global.c:487
 msgid "WhereIs Next"
 msgstr "EtsiSeuraava"
 
 #. TRANSLATORS: Try to keep the next eight strings at most 10 characters.
-#: src/global.c:492
+#: src/global.c:494
 msgid "Where Is"
 msgstr "Etsi"
 
-#: src/global.c:493
+#: src/global.c:495
 msgid "Replace"
 msgstr "Korvaa"
 
 #  Tämä on "Etsi"-valikossa.
 #  80 sarakkeen näytöllä mahtuu 13 merkkiä, mieluummin 12.
 #  Huomaa myös "Go To Line Help Text".
-#: src/global.c:494
+#: src/global.c:496
 msgid "Go To Line"
 msgstr "Rivinumero"
 
-#: src/global.c:495
+#: src/global.c:497
 msgid "Prev Line"
 msgstr "Ed. rivi"
 
-#: src/global.c:496
+#: src/global.c:498
 msgid "Next Line"
 msgstr "Seuraava rivi"
 
-#: src/global.c:497
+#: src/global.c:499
 msgid "Read File"
 msgstr "Lue tied."
 
-#: src/global.c:499
+#: src/global.c:501
 msgid "FullJstify"
 msgstr "KokoTasaus"
 
 #  "Päivitä"?
-#: src/global.c:501
+#: src/global.c:503
 msgid "Refresh"
 msgstr "Piirrä uudelleen"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:507
+#: src/global.c:509
 msgid "Justify the current paragraph"
 msgstr "Tasaa nykyinen kappale"
 
-#: src/global.c:509
+#: src/global.c:511
 msgid "Cancel the current function"
 msgstr "Peru nykyinen toiminto"
 
-#: src/global.c:510
+#: src/global.c:512
 msgid "Display this help text"
 msgstr "Näytä tämä ohjeteksti"
 
-#: src/global.c:513
+#: src/global.c:515
 msgid "Close the current file buffer / Exit from nano"
 msgstr "Sulje nykyinen tiedostopuskuri / Poistu Nanosta"
 
-#: src/global.c:515
+#: src/global.c:517
 msgid "Exit from nano"
 msgstr "Poistu Nanosta"
 
-#: src/global.c:519
+#: src/global.c:521
 msgid "Write the current file to disk"
 msgstr "Kirjoita nykyinen tiedosto levylle"
 
-#: src/global.c:521
+#: src/global.c:523
 msgid "Insert another file into the current one"
 msgstr "Lisää toinen tiedosto nykyiseen tiedostoon"
 
-#: src/global.c:523
+#: src/global.c:525
 msgid "Search for a string or a regular expression"
 msgstr "Etsi merkkijonoa tai säännöllistä lauseketta"
 
-#: src/global.c:526
+#: src/global.c:528
 msgid "Search for a string"
 msgstr "Etsi merkkijonoa"
 
-#: src/global.c:528
+#: src/global.c:530
 msgid "Go one screenful up"
 msgstr "Siirry ruutu ylöspäin"
 
-#: src/global.c:529
+#: src/global.c:531
 msgid "Go one screenful down"
 msgstr "Siirry ruutu alaspäin"
 
-#: src/global.c:531
+#: src/global.c:533
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Leikkaa nykyinen rivi leiketilaan"
 
-#: src/global.c:533
+#: src/global.c:535
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Liitä rivi leiketilasta nykyiselle riville"
 
-#: src/global.c:534
+#: src/global.c:536
 msgid "Display the position of the cursor"
 msgstr "Näytä kohdistimen sijainti"
 
-#: src/global.c:536
+#: src/global.c:538
 msgid "Invoke the spell checker, if available"
 msgstr "Käynnistä oikoluin (jos saatavilla)"
 
-#: src/global.c:538
+#: src/global.c:540
 msgid "Replace a string or a regular expression"
 msgstr "Korvaa merkkijono tai säännöllinen lauseke"
 
-#: src/global.c:539
+#: src/global.c:541
 msgid "Go to line and column number"
 msgstr "Siirry riville ja sarakkeelle numero"
 
-#: src/global.c:541
+#: src/global.c:543
 msgid "Mark text starting from the cursor position"
 msgstr "Merkitse teksti alkaen kohdistimen kohdalta"
 
-#: src/global.c:542
+#: src/global.c:544
 msgid "Repeat the last search"
 msgstr "Toista viimeisin etsintä"
 
-#: src/global.c:544
+#: src/global.c:546
 msgid "Copy the current line and store it in the cutbuffer"
 msgstr "Leikkaa nykyinen rivi leiketilaan"
 
-#: src/global.c:545
+#: src/global.c:547
 msgid "Indent the current line"
 msgstr "Sisennä nykyinen rivi"
 
-#: src/global.c:546
+#: src/global.c:548
 msgid "Unindent the current line"
 msgstr "Poista nykyisen rivin sisennys"
 
-#: src/global.c:547
+#: src/global.c:549
 msgid "Undo the last operation"
 msgstr "Peru viimeisin toiminto"
 
-#: src/global.c:548
+#: src/global.c:550
 msgid "Redo the last undone operation"
 msgstr "Tee uudelleen viimeisen toiminnon peruminen"
 
-#: src/global.c:550
+#: src/global.c:552
 msgid "Go forward one character"
 msgstr "Siirry yksi merkki eteenpäin"
 
-#: src/global.c:551
+#: src/global.c:553
 msgid "Go back one character"
 msgstr "Siirry yksi merkki taaksepäin"
 
-#: src/global.c:553
+#: src/global.c:555
 msgid "Go forward one word"
 msgstr "Siirry yksi sana eteenpäin"
 
-#: src/global.c:554
+#: src/global.c:556
 msgid "Go back one word"
 msgstr "Siirry yksi sana taaksepäin"
 
-#: src/global.c:556
+#: src/global.c:558
 msgid "Go to previous line"
 msgstr "Siirry edelliselle riville"
 
-#: src/global.c:557
+#: src/global.c:559
 msgid "Go to next line"
 msgstr "Siirry seuraavalle riville"
 
-#: src/global.c:558
+#: src/global.c:560
 msgid "Go to beginning of current line"
 msgstr "Siirry nykyisen rivin alkuun"
 
-#: src/global.c:559
+#: src/global.c:561
 msgid "Go to end of current line"
 msgstr "Siirry nykyisen rivin loppuun"
 
-#: src/global.c:562
+#: src/global.c:564
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr "Siirry kappaleen alkuun; sitten seuraavan kappaleen"
 
-#: src/global.c:564
+#: src/global.c:566
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr "Siirry vain kappaleen loppuun; sitten seuraavan kappaleen"
 
-#: src/global.c:566
+#: src/global.c:568
 msgid "Go to the first line of the file"
 msgstr "Siirry tiedoston ensimmäiselle riville"
 
-#: src/global.c:567
+#: src/global.c:569
 msgid "Go to the last line of the file"
 msgstr "Siirry tiedoston viimeiselle riville"
 
-#: src/global.c:569
+#: src/global.c:571
 msgid "Go to the matching bracket"
 msgstr "Siirry vastaavalle sulkeelle"
 
-#: src/global.c:571
+#: src/global.c:573
 msgid "Scroll up one line without scrolling the cursor"
 msgstr "Siirry rivi ylöspäin liikuttamatta kohdistinta"
 
-#: src/global.c:573
+#: src/global.c:575
 msgid "Scroll down one line without scrolling the cursor"
 msgstr "Siirry rivi alaspäin liikuttamatta kohdistinta"
 
-#: src/global.c:576
+#: src/global.c:578
 msgid "Switch to the previous file buffer"
 msgstr "Vaihda edelliseen tiedostopuskuriin"
 
-#: src/global.c:577
+#: src/global.c:579
 msgid "Switch to the next file buffer"
 msgstr "Vaihda seuraavaan tiedostopuskuriin"
 
-#: src/global.c:579
+#: src/global.c:581
 msgid "Insert the next keystroke verbatim"
 msgstr "Lisää seuraava näppäily kirjaimellisesti"
 
-#: src/global.c:580
+#: src/global.c:582
 msgid "Insert a tab at the cursor position"
 msgstr "Lisää sarkain kohdistimen kohdalle"
 
-#: src/global.c:581
+#: src/global.c:583
 msgid "Insert a newline at the cursor position"
 msgstr "Lisää rivinvaihto kohdistimen kohdalle"
 
-#: src/global.c:582
+#: src/global.c:584
 msgid "Delete the character under the cursor"
 msgstr "Poista kohdistimen kohdalla oleva merkki"
 
 #  "Poista merkki kohdistimen vasemmalta puolelta"?
-#: src/global.c:584
+#: src/global.c:586
 msgid "Delete the character to the left of the cursor"
 msgstr "Poista kohdistimesta vasemmalle oleva merkki"
 
-#: src/global.c:587
+#: src/global.c:589
 msgid "Cut from the cursor position to the end of the file"
 msgstr "Liitä teksti kohdistimesta tiedoston loppuun"
 
-#: src/global.c:590
+#: src/global.c:592
 msgid "Justify the entire file"
 msgstr "Tasaa nykyinen tiedosto"
 
-#: src/global.c:594
+#: src/global.c:596
 msgid "Count the number of words, lines, and characters"
 msgstr "Laske sanojen, rivien ja merkkien määrä"
 
-#: src/global.c:597
+#: src/global.c:599
 msgid "Refresh (redraw) the current screen"
 msgstr "Piirrä ruutu uudestaan"
 
-#: src/global.c:599
+#: src/global.c:601
 msgid "Suspend the editor (if suspend is enabled)"
 msgstr "Keskeytä editori (jos keskeytys on aktivoitu)"
 
-#: src/global.c:602
+#: src/global.c:604
 msgid "Toggle the case sensitivity of the search"
 msgstr "Vaihda merkkikoko etsinnässä"
 
-#: src/global.c:604
+#: src/global.c:606
 msgid "Reverse the direction of the search"
 msgstr "Vaihda etsinnän suunta"
 
-#: src/global.c:608
+#: src/global.c:610
 msgid "Toggle the use of regular expressions"
 msgstr "Vaihda säännöllisten lausekkeiden käyttö"
 
-#: src/global.c:612
+#: src/global.c:614
 msgid "Recall the previous search/replace string"
 msgstr "Kutsu takaisin edellinen haettu/korvattu merkkijono"
 
-#: src/global.c:614
+#: src/global.c:616
 msgid "Recall the next search/replace string"
 msgstr "Kutsu takaisin seuraava haettu/korvattu merkkijono"
 
-#: src/global.c:617
+#: src/global.c:619
 msgid "Go to file browser"
 msgstr "Siirry tiedostoselaimeen"
 
-#: src/global.c:620
+#: src/global.c:622
 msgid "Toggle the use of DOS format"
 msgstr "Vaihda DOS-muodon käyttö"
 
-#: src/global.c:621
+#: src/global.c:623
 msgid "Toggle the use of Mac format"
 msgstr "Vaihda Mac-muodon käyttö"
 
-#: src/global.c:622
+#: src/global.c:624
 msgid "Toggle appending"
 msgstr "Vaihda liittäminen loppuun"
 
 #  "Prepend" is not an English word, use "prefix"
-#: src/global.c:623
+#: src/global.c:625
 msgid "Toggle prepending"
 msgstr "Vaihda liittäminen alkuun"
 
-#: src/global.c:624
+#: src/global.c:626
 msgid "Toggle backing up of the original file"
 msgstr "Vaihda alkuperäisen tiedoston varmuuskopiointi"
 
-#: src/global.c:625
+#: src/global.c:627
 msgid "Execute external command"
 msgstr "Suorita ulkoinen komento"
 
-#: src/global.c:628
+#: src/global.c:630
 msgid "Toggle the use of a new buffer"
 msgstr "Vaihda uuden puskurin käyttö"
 
-#: src/global.c:631
+#: src/global.c:633
 msgid "Exit from the file browser"
 msgstr "Poistu tiedostoselaimesta"
 
-#: src/global.c:632
+#: src/global.c:634
 msgid "Go to the first file in the list"
 msgstr "Siirry luettelon ensimmäiseen tiedostoon"
 
-#: src/global.c:633
+#: src/global.c:635
 msgid "Go to the last file in the list"
 msgstr "Siirry luettelon viimeiseen tiedostoon"
 
-#: src/global.c:634
+#: src/global.c:636
 msgid "Go to the previous file in the list"
 msgstr "Siirry luettelon edelliseen tiedostoon"
 
-#: src/global.c:635
+#: src/global.c:637
 msgid "Go to the next file in the list"
 msgstr "Siirry luettelon seuraavaan tiedostoon"
 
-#: src/global.c:636
+#: src/global.c:638
 msgid "Go to directory"
 msgstr "Siirry hakemistoon"
 
-#: src/global.c:639
+#: src/global.c:641
 msgid "Invoke the linter, if available"
 msgstr "Käynnistä esikatselu (jos saatavilla)"
 
-#: src/global.c:640
+#: src/global.c:642
 msgid "Go to previous linter msg"
 msgstr "Siirry edelliseen esikatseluun"
 
-#: src/global.c:641
+#: src/global.c:643
 msgid "Go to next linter msg"
 msgstr "Siirry seuraavaan esikatseluun"
 
-#: src/global.c:642
+#: src/global.c:645
 msgid "Invoke formatter, if available"
 msgstr "Käynnistä muotoilija (jos saatavilla)"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
-#: src/global.c:662
+#: src/global.c:666
 msgid "Get Help"
 msgstr "Ohjeita"
 
-#: src/global.c:665 src/prompt.c:1084
+#: src/global.c:669 src/prompt.c:1083
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/global.c:678
+#: src/global.c:682
 msgid "Write Out"
 msgstr "Kirjoita"
 
-#: src/global.c:704
+#: src/global.c:708
 msgid "Go To Dir"
 msgstr "Siirry hakemistoon"
 
-#: src/global.c:719
+#: src/global.c:723
 msgid "Cut Text"
 msgstr "Leikkaa"
 
-#: src/global.c:728
+#: src/global.c:732
 msgid "Justify"
 msgstr "Tasaa"
 
-#: src/global.c:733
+#: src/global.c:737
 msgid "To Spell"
 msgstr "Oikolue"
 
 #  Tämä on "Etsi"-valikossa.
 #  80 sarakkeen näytöllä mahtuu 13 merkkiä, mieluummin 12.
 #  Huomaa myös "Go To Line Help Text".
-#: src/global.c:738
+#: src/global.c:742
 msgid "To Linter"
 msgstr "Esikatseluun"
 
-#: src/global.c:740
+#: src/global.c:745
 msgid "Formatter"
 msgstr "Muotoilija"
 
-#: src/global.c:745
+#: src/global.c:751
 msgid "Case Sens"
 msgstr "Kirj. koko"
 
 #  "Äiti, mikä on säännöke?" "Kai se joku pikku sääntö on."
-#: src/global.c:750
+#: src/global.c:756
 msgid "Regexp"
 msgstr "Säännöke"
 
-#: src/global.c:755
+#: src/global.c:761
 msgid "Backwards"
 msgstr "Taaksepäin"
 
-#: src/global.c:762
+#: src/global.c:768
 msgid "No Replace"
 msgstr "Älä korvaa"
 
-#: src/global.c:770
+#: src/global.c:776
 msgid "Cur Pos"
 msgstr "Sijainti"
 
-#: src/global.c:780
+#: src/global.c:786
 msgid "Prev Page"
 msgstr "Ed. sivu"
 
-#: src/global.c:782
+#: src/global.c:788
 msgid "Next Page"
 msgstr "Seur. sivu"
 
-#: src/global.c:785
+#: src/global.c:791
 msgid "First Line"
 msgstr "Ensim. rivi"
 
-#: src/global.c:787
+#: src/global.c:793
 msgid "Last Line"
 msgstr "Viim. rivi"
 
 #  versiossa 1.1.99pre2 hakee merkkejä "([{<>}])"
-#: src/global.c:794
+#: src/global.c:800
 msgid "To Bracket"
 msgstr "Sulkeeseen"
 
-#: src/global.c:797
+#: src/global.c:803
 msgid "Mark Text"
 msgstr "Merkitse tekstiä"
 
-#: src/global.c:800
+#: src/global.c:806
 msgid "Copy Text"
 msgstr "Kopioi"
 
-#: src/global.c:803
+#: src/global.c:809
 msgid "Indent Text"
 msgstr "Sisennä"
 
-#: src/global.c:805
+#: src/global.c:811
 msgid "Unindent Text"
 msgstr "Poista sisennys"
 
-#: src/global.c:808
+#: src/global.c:814
 msgid "Undo"
 msgstr "Peru"
 
-#: src/global.c:810
+#: src/global.c:816
 msgid "Redo"
 msgstr "Tee uudelleen"
 
-#: src/global.c:814 src/global.c:820
+#: src/global.c:820 src/global.c:826
 msgid "Back"
 msgstr "Takaisin"
 
-#: src/global.c:816 src/global.c:822
+#: src/global.c:822 src/global.c:828
 msgid "Forward"
 msgstr "Eteenpäin"
 
-#: src/global.c:827
+#: src/global.c:833
 msgid "Prev Word"
 msgstr "Edellinen sana"
 
-#: src/global.c:829
+#: src/global.c:835
 msgid "Next Word"
 msgstr "Seuraava sana"
 
-#: src/global.c:833
+#: src/global.c:839
 msgid "Home"
 msgstr "Koti"
 
-#: src/global.c:835
+#: src/global.c:841
 msgid "End"
 msgstr "Loppu"
 
 #  "Par" on "paragraph" ?
-#: src/global.c:844
+#: src/global.c:850
 msgid "Beg of Par"
 msgstr "Kappalealku"
 
-#: src/global.c:846
+#: src/global.c:852
 msgid "End of Par"
 msgstr "Kappaleloppu"
 
-#: src/global.c:851
+#: src/global.c:857
 msgid "Scroll Up"
 msgstr "Vieritä ylös"
 
-#: src/global.c:853
+#: src/global.c:859
 msgid "Scroll Down"
 msgstr "Vieritä alas"
 
-#: src/global.c:858
+#: src/global.c:864
 msgid "Prev File"
 msgstr "Edellinen tiedosto"
 
-#: src/global.c:860
+#: src/global.c:866
 msgid "Next File"
 msgstr "Seuraava tiedosto"
 
-#: src/global.c:869
+#: src/global.c:875
 msgid "Verbatim"
 msgstr "Merkintarkka"
 
-#: src/global.c:872
+#: src/global.c:878
 msgid "Tab"
 msgstr "Sarkain"
 
-#: src/global.c:874
+#: src/global.c:880
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:876
+#: src/global.c:882
 msgid "Delete"
 msgstr "Poista"
 
-#: src/global.c:878
+#: src/global.c:884
 msgid "Backspace"
 msgstr "Askelpalautin"
 
-#: src/global.c:888
+#: src/global.c:894
 msgid "CutTillEnd"
 msgstr "LeikLoppuun"
 
-#: src/global.c:898
+#: src/global.c:904
 msgid "Word Count"
 msgstr "Sanaluku"
 
 #  Perään tulee "käytössä" tai "ei käytössä".
-#: src/global.c:905
+#: src/global.c:911
 msgid "Suspend"
 msgstr "Keskeytysnäppäin"
 
 #  Tämä on Etsi-valikossa.
 #  80 sarakkeen näytöllä mahtuu 11 merkkiä.
-#: src/global.c:910
+#: src/global.c:916
 msgid "PrevHstory"
 msgstr "EdHistoria"
 
 #  Tämä on Etsi-valikossa.
 #  80 sarakkeen näytöllä mahtuu 11 merkkiä.
-#: src/global.c:913
+#: src/global.c:919
 msgid "NextHstory"
 msgstr "SeurHistor."
 
 #  Tämä on "Etsi"-valikossa.
 #  80 sarakkeen näytöllä mahtuu 13 merkkiä, mieluummin 12.
 #  Huomaa myös "Go To Line Help Text".
-#: src/global.c:917
+#: src/global.c:923
 msgid "Go To Text"
 msgstr "Tekstiin"
 
-#: src/global.c:928
+#: src/global.c:934
 msgid "DOS Format"
 msgstr "DOS-muoto"
 
-#: src/global.c:931
+#: src/global.c:937
 msgid "Mac Format"
 msgstr "Mac-muoto"
 
-#: src/global.c:934
+#: src/global.c:940
 msgid "Append"
 msgstr "Lisää loppuun"
 
 #  "Prepend" is not an English word, use "prefix"
-#: src/global.c:936
+#: src/global.c:942
 msgid "Prepend"
 msgstr "Lisää alkuun"
 
-#: src/global.c:939
+#: src/global.c:945
 msgid "Backup File"
 msgstr "Varmuuskopio"
 
-#: src/global.c:946
+#: src/global.c:952
 msgid "Execute Command"
 msgstr "Suorita komento"
 
 #  Tämä on Kirjoita tiedosto- ja Lisää tiedosto -valikoissa.
 #  80 sarakkeen näytöllä mahtuu 17 merkkiä, mieluummin 16.
-#: src/global.c:961
+#: src/global.c:967
 msgid "To Files"
 msgstr "Tiedostoselain"
 
-#: src/global.c:964
+#: src/global.c:970
 msgid "First File"
 msgstr "Ensim. tiedosto"
 
-#: src/global.c:966
+#: src/global.c:972
 msgid "Last File"
 msgstr "Viim. tiedosto"
 
-#: src/global.c:977
+#: src/global.c:983
 msgid "Prev Lint Msg"
 msgstr "Ed. esikatselu"
 
-#: src/global.c:979
+#: src/global.c:985
 msgid "Next Lint Msg"
 msgstr "Seur. esikats."
 
 #. TRANSLATORS: The next seventeen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1227
+#: src/global.c:1237
 msgid "Help mode"
 msgstr "Ohjetila"
 
-#: src/global.c:1229
+#: src/global.c:1239
 msgid "Constant cursor position display"
 msgstr "Näytä kohdistimen sijainti aina"
 
-#: src/global.c:1231
+#: src/global.c:1241
 msgid "Use of one more line for editing"
 msgstr "Käytä lisäriviä muokkaukseen"
 
-#: src/global.c:1233
+#: src/global.c:1243
 msgid "Smooth scrolling"
 msgstr "Pehmeä vieritys"
 
-#: src/global.c:1235
+#: src/global.c:1245
 msgid "Soft wrapping of overlong lines"
 msgstr "Pitkien rivien pehmeä rivitys"
 
-#: src/global.c:1237
+#: src/global.c:1247
 msgid "Whitespace display"
 msgstr "Tyhjemerkkien näyttö"
 
-#: src/global.c:1239
+#: src/global.c:1249
 msgid "Color syntax highlighting"
 msgstr "Värillinen rakenteen merkintä"
 
-#: src/global.c:1241
+#: src/global.c:1251
 msgid "Smart home key"
 msgstr "Älykäs kotiavain"
 
-#: src/global.c:1243
+#: src/global.c:1253
 msgid "Auto indent"
 msgstr "Automaattinen sisennys"
 
-#: src/global.c:1245
+#: src/global.c:1255
 msgid "Cut to end"
 msgstr "Leikkaa loppuun saakka"
 
-#: src/global.c:1247
+#: src/global.c:1257
 msgid "Hard wrapping of overlong lines"
 msgstr "Pitkien rivien kova rivitys"
 
-#: src/global.c:1249
+#: src/global.c:1259
 msgid "Conversion of typed tabs to spaces"
 msgstr "Kirjoitettujen sarkainmerkkien muunnos välilyönneiksi"
 
-#: src/global.c:1251
+#: src/global.c:1261
 msgid "Backup files"
 msgstr "Varmuuskopiotiedostot"
 
-#: src/global.c:1253
+#: src/global.c:1263
 msgid "Multiple file buffers"
 msgstr "Useat puskurit"
 
-#: src/global.c:1255
+#: src/global.c:1265
 msgid "Mouse support"
 msgstr "Hiirituki"
 
-#: src/global.c:1257
+#: src/global.c:1267
 msgid "No conversion from DOS/Mac format"
 msgstr "Ei muunnosta DOS/Mac-muodosta"
 
 # Perään tulee "käytössä" tai "ei käytössä".
-#: src/global.c:1259
+#: src/global.c:1269
 msgid "Suspension"
 msgstr "Keskeytysnäppäin"
 
-#: src/help.c:205
+#: src/help.c:200
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -1122,7 +1122,7 @@ msgstr ""
 "vain enteriä antamatta mitään uutta tekstiä, Nano hakee edellistä "
 "hakutekstiä uudestaan.  "
 
-#: src/help.c:214
+#: src/help.c:209
 msgid ""
 "If you have selected text with the mark and then search to replace, only "
 "matches in the selected text will be replaced.\n"
@@ -1136,7 +1136,7 @@ msgstr ""
 " Seuraavat toimintonäppäimet ovat käytettävissä Etsintä-tilassa:\n"
 "\n"
 
-#: src/help.c:220
+#: src/help.c:215
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -1155,7 +1155,7 @@ msgstr ""
 " Seuraavat funktionäppäimet ovat käytössä Etsi rivinumero -tilassa:\n"
 "\n"
 
-#: src/help.c:229
+#: src/help.c:224
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1179,7 +1179,7 @@ msgstr ""
 "puskuriin. (Tiedostopuskureita voit vaihtaa näppäinkomennoilla Meta-< ja "
 "Meta->).  "
 
-#: src/help.c:238
+#: src/help.c:233
 msgid ""
 "If you need another blank buffer, do not enter any filename, or type in a "
 "nonexistent filename at the prompt and press Enter.\n"
@@ -1194,7 +1194,7 @@ msgstr ""
 " Seuraavat toimintonäppäimet ovat käytössä Lisää tiedosto -tilassa:\n"
 "\n"
 
-#: src/help.c:244
+#: src/help.c:239
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -1222,7 +1222,7 @@ msgstr ""
 " Seuraavat funktionäppäimet ovat käytössä Kirjoita tiedosto -tilassa:\n"
 "\n"
 
-#: src/help.c:258
+#: src/help.c:253
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -1248,7 +1248,7 @@ msgstr ""
 " Seuraavat funktionäppäimet ovat käytössä tiedostoselaimessa:\n"
 "\n"
 
-#: src/help.c:271
+#: src/help.c:266
 msgid ""
 "Browser Search Command Help Text\n"
 "\n"
@@ -1271,7 +1271,7 @@ msgstr ""
 "hakutekstiä uudestaan.\n"
 "\n"
 
-#: src/help.c:280
+#: src/help.c:275
 msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
@@ -1279,7 +1279,7 @@ msgstr ""
 " Seuraavat funktionäppäimet ovat käytössä selaimen Etsi-tilassa:\n"
 "\n"
 
-#: src/help.c:284
+#: src/help.c:279
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
@@ -1303,7 +1303,7 @@ msgstr ""
 "tilassa:\n"
 "\n"
 
-#: src/help.c:297
+#: src/help.c:292
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -1327,7 +1327,7 @@ msgstr ""
 " Seuraavat funktionäppäimet ovat käytössä Oikolue-tilassa:\n"
 "\n"
 
-#: src/help.c:312
+#: src/help.c:307
 msgid ""
 "Execute Command Help Text\n"
 "\n"
@@ -1347,7 +1347,7 @@ msgstr ""
 " Seuraavat funktionäppäimet ovat käytössä Suorita komento -tilassa:\n"
 "\n"
 
-#: src/help.c:325
+#: src/help.c:320
 msgid ""
 "Main nano help text\n"
 "\n"
@@ -1367,7 +1367,7 @@ msgstr ""
 "muokattava tiedosto. Tilarivi on kolmas rivi alhaalta lukien ja näyttää "
 "tärkeät viestit."
 
-#: src/help.c:335
+#: src/help.c:330
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
@@ -1385,7 +1385,7 @@ msgstr ""
 "merkitään Meta (M-) -symbolillla ja voidaan kirjoittaa joko Esc, Alt, tai "
 "Meta -näppäimellä riippuen näppäimistösi asetuksista.  "
 
-#: src/help.c:344
+#: src/help.c:339
 msgid ""
 "Also, pressing Esc twice and then typing a three-digit decimal number from "
 "000 to 255 will enter the character with the corresponding value.  The "
@@ -1399,7 +1399,7 @@ msgstr ""
 "pääikkunassa. Vaihtoehtoiset näppäimet näytetään sulkeissa:\n"
 "\n"
 
-#: src/help.c:376 src/help.c:448
+#: src/help.c:371 src/help.c:443
 msgid "enable/disable"
 msgstr "päälle/pois"
 
@@ -1732,44 +1732,44 @@ msgstr "Luetaan vakiosyötteestä, ^C lopettaa toiminnon\n"
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Vastaanotettiin SIGHUP tai SIGTERM\n"
 
-#: src/nano.c:1301
+#: src/nano.c:1300
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Palaa Nanoon komennolla ”fg”.\n"
 
-#: src/nano.c:1481
+#: src/nano.c:1480
 msgid "enabled"
 msgstr "käytössä"
 
-#: src/nano.c:1481
+#: src/nano.c:1480
 msgid "disabled"
 msgstr "ei käytössä"
 
-#: src/nano.c:1635 src/winio.c:1283
+#: src/nano.c:1634 src/winio.c:1283
 msgid "Unknown Command"
 msgstr "Tuntematon komento"
 
-#: src/nano.c:1747
+#: src/nano.c:1746
 msgid "XON ignored, mumble mumble"
 msgstr "XON:ia ei käytetä, mutinaa"
 
-#: src/nano.c:1752
+#: src/nano.c:1751
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF:ia ei käytetä, mutinaa"
 
 #  puuttuu tai liian iso tai liian pieni
-#: src/nano.c:2310 src/rcfile.c:1325
+#: src/nano.c:2309 src/rcfile.c:1330
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Haluttu sarkaimen koko ”%s” ei kelpaa"
 
 #  puuttuu tai liian iso tai liian pieni
-#: src/nano.c:2374 src/rcfile.c:1250
+#: src/nano.c:2373 src/rcfile.c:1255
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Haluttu täydennyspituus ”%s” ei kelpaa"
 
-#: src/nano.c:2415
+#: src/nano.c:2414
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Hae käytettävissä olevat valitsimet kirjoittamalla ’%s -h’.\n"
@@ -1777,27 +1777,27 @@ msgstr "Hae käytettävissä olevat valitsimet kirjoittamalla ’%s -h’.\n"
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
 #. * For example, in French: "OoYy" for "Oui".
-#: src/prompt.c:1055
+#: src/prompt.c:1054
 msgid "Yy"
 msgstr "KkYy"
 
-#: src/prompt.c:1056
+#: src/prompt.c:1055
 msgid "Nn"
 msgstr "EeNn"
 
-#: src/prompt.c:1057
+#: src/prompt.c:1056
 msgid "Aa"
 msgstr "aA"
 
-#: src/prompt.c:1071
+#: src/prompt.c:1070
 msgid "Yes"
 msgstr "Kyllä"
 
-#: src/prompt.c:1076
+#: src/prompt.c:1075
 msgid "All"
 msgstr "Kaikki"
 
-#: src/prompt.c:1081
+#: src/prompt.c:1080
 msgid "No"
 msgstr "Ei"
 
@@ -1811,8 +1811,8 @@ msgstr "Virhe tiedostossa %s rivillä %lu: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "parametri ’%s’ sisältää parittoman ”-merkin"
 
-#: src/rcfile.c:223 src/rcfile.c:275 src/rcfile.c:730 src/rcfile.c:791
-#: src/rcfile.c:880 src/rcfile.c:932
+#: src/rcfile.c:223 src/rcfile.c:275 src/rcfile.c:726 src/rcfile.c:787
+#: src/rcfile.c:876 src/rcfile.c:927
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Säännöllisten lausekkeiden on alettava ja loputtava ”-merkillä"
 
@@ -1876,12 +1876,12 @@ msgstr "Funktiota ’%s’ ei ole valikossa ’%s’"
 msgid "Sorry, keystroke \"%s\" may not be rebound"
 msgstr "Valitettavasti näppäinmerkkijonossa ”%s” on väärä sidonta"
 
-#: src/rcfile.c:629
+#: src/rcfile.c:625
 #, c-format
 msgid "Error expanding %s: %s"
 msgstr "Virhe laajennettaessa kohdetta %s: %s"
 
-#: src/rcfile.c:672
+#: src/rcfile.c:668
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1896,63 +1896,63 @@ msgstr ""
 "”black”, ja alussa voi olla ”bright”\n"
 "edustaväreinä."
 
-#: src/rcfile.c:694
+#: src/rcfile.c:690
 msgid "Cannot add a color command without a syntax command"
 msgstr "En voi lisätä värikomentoa ilman syntaksikomentoa"
 
-#: src/rcfile.c:699
+#: src/rcfile.c:695
 msgid "Missing color name"
 msgstr "Puuttuva värin nimi"
 
-#: src/rcfile.c:709 src/rcfile.c:870
+#: src/rcfile.c:705 src/rcfile.c:866
 msgid "Missing regex string"
 msgstr "Puuttuva säännöllinen lausekemerkkijono"
 
-#: src/rcfile.c:785
+#: src/rcfile.c:781
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "”start=” vaatii vastaavan ”end=”:n"
 
-#: src/rcfile.c:837
+#: src/rcfile.c:833
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "Taustaväri ”%s” ei voi olla ”bright”"
 
-#: src/rcfile.c:865
+#: src/rcfile.c:861
 msgid "Cannot add a header regex without a syntax command"
 msgstr "En voi lisätä säännöllistä otsakelauseketta ilman syntaksikomentoa"
 
-#: src/rcfile.c:921
+#: src/rcfile.c:916
 msgid "Cannot add a magic string regex without a syntax command"
 msgstr ""
 "En voi lisätä maagista säännöllistä otsakelauseketta ilman syntaksikomentoa"
 
-#: src/rcfile.c:926
+#: src/rcfile.c:921
 msgid "Missing magic string name"
 msgstr "Puuttuva maaginen säännöllinen lausekemerkkijono"
 
-#: src/rcfile.c:985
+#: src/rcfile.c:979
 msgid "Cannot add a linter without a syntax command"
 msgstr "En voi lisätä esikatselua ilman syntaksikomentoa"
 
-#: src/rcfile.c:990
+#: src/rcfile.c:984
 msgid "Missing linter command"
 msgstr "Puuttuva esikatselukomento"
 
-#: src/rcfile.c:1010
+#: src/rcfile.c:1006
 msgid "Cannot add formatter without a syntax command"
 msgstr "En voi lisätä muotoilijaa ilman syntaksikomentoa"
 
-#: src/rcfile.c:1015
+#: src/rcfile.c:1011
 msgid "Missing formatter command"
 msgstr "Puuttuva muotoilijakomento"
 
-#: src/rcfile.c:1045
+#: src/rcfile.c:1042
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
 msgstr ""
 "Vakava virhe: funktioon ”%s” ei ole kartoitettu näppäimiä. Poistutaan.\n"
 
-#: src/rcfile.c:1047
+#: src/rcfile.c:1044
 #, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
@@ -1960,62 +1960,62 @@ msgstr ""
 "Tarvittaessa käytä Nano-ohjelmaa ”-I”-valitsimella, jos nanorc-asetuksia "
 "täytyy säätää.\n"
 
-#: src/rcfile.c:1108
+#: src/rcfile.c:1105
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
 msgstr "Laajennettavan syntaksin ”%s” löytäminen epäonnistui"
 
-#: src/rcfile.c:1124 src/rcfile.c:1133 src/rcfile.c:1143
+#: src/rcfile.c:1121 src/rcfile.c:1130 src/rcfile.c:1140
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Komentoa ”%s” ei sallita sisällytetyssä tiedostossa"
 
-#: src/rcfile.c:1149 src/rcfile.c:1350
+#: src/rcfile.c:1146 src/rcfile.c:1355
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Syntaksissa ”%s” ei ole värikomentoja"
 
-#: src/rcfile.c:1171
+#: src/rcfile.c:1176
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Komentoa ”%s” ei ymmärretty"
 
-#: src/rcfile.c:1186
+#: src/rcfile.c:1191
 msgid "Missing option"
 msgstr "Puuttuva valitsin"
 
-#: src/rcfile.c:1208
+#: src/rcfile.c:1213
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Valitsin ”%s” vaatii argumentin"
 
-#: src/rcfile.c:1226
+#: src/rcfile.c:1231
 msgid "Option is not a valid multibyte string"
 msgstr "Valitsin ei ole monitavuinen merkkijono"
 
-#: src/rcfile.c:1263 src/rcfile.c:1291 src/rcfile.c:1300
+#: src/rcfile.c:1268 src/rcfile.c:1296 src/rcfile.c:1305
 msgid "Non-blank characters required"
 msgstr "Ei-tyhjemerkkejä vaadittu"
 
-#: src/rcfile.c:1273
+#: src/rcfile.c:1278
 msgid "Two single-column characters required"
 msgstr "Kaksi yksisarakkeista merkkiä vaadittu"
 
-#: src/rcfile.c:1339
+#: src/rcfile.c:1344
 #, c-format
 msgid "Cannot unset option \"%s\""
 msgstr "En voi poistaa valitsinta ”%s”"
 
-#: src/rcfile.c:1345
+#: src/rcfile.c:1350
 #, c-format
 msgid "Unknown option \"%s\""
 msgstr "Tuntematon valitsin ”%s”"
 
-#: src/rcfile.c:1404
+#: src/rcfile.c:1409
 msgid "I can't find my home directory!  Wah!"
 msgstr "Kotihakemistoa ei löydy! Vää!"
 
-#: src/rcfile.c:1442
+#: src/rcfile.c:1447
 #, c-format
 msgid ""
 "\n"
@@ -2030,39 +2030,39 @@ msgid "\"%.*s%s\" not found"
 msgstr "”%.*s%s” ei löytynyt"
 
 #. TRANSLATORS: The next three strings are modifiers of the search prompt.
-#: src/search.c:184
+#: src/search.c:186
 msgid " [Case Sensitive]"
 msgstr " [Kirj. koko]"
 
-#: src/search.c:188
+#: src/search.c:190
 msgid " [Regexp]"
 msgstr " [Säännöke]"
 
-#: src/search.c:192
+#: src/search.c:194
 msgid " [Backwards]"
 msgstr " [Taaksepäin]"
 
 #. TRANSLATORS: The next two strings are modifiers of the search prompt.
-#: src/search.c:197
+#: src/search.c:199
 msgid " (to replace) in selection"
 msgstr " (korvattava) valinnassa"
 
-#: src/search.c:199
+#: src/search.c:201
 msgid " (to replace)"
 msgstr " (korvattava)"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:769
+#: src/search.c:783
 msgid "Replace this instance?"
 msgstr "Korvataanko tämä kohta?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:945
+#: src/search.c:956
 msgid "Replace with"
 msgstr "Korvaa merkkijonolla"
 
 # Pitäisiköhän olla passiivi?
-#: src/search.c:986
+#: src/search.c:997
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
@@ -2070,20 +2070,20 @@ msgstr[0] "Korvattu %lu kohta"
 msgstr[1] "Korvattu %lu kohtaa"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:1027
+#: src/search.c:1038
 msgid "Enter line number, column number"
 msgstr "Kirjoita rivin numero, sarakkeen numero"
 
-#: src/search.c:1054
+#: src/search.c:1065
 msgid "Invalid line or column number"
 msgstr "Virheellinen rivi- tai sarakenumero"
 
 #  versiossa 1.1.99pre2 hakee merkkejä "([{<>}])"
-#: src/search.c:1207
+#: src/search.c:1218
 msgid "Not a bracket"
 msgstr "Ei ole suljemerkki"
 
-#: src/search.c:1274
+#: src/search.c:1285
 msgid "No matching bracket"
 msgstr "Ei vastaavaa suljetta"
 
@@ -2158,12 +2158,12 @@ msgstr "Sisäinen virhe: komennon redo asettaminen epäonnistui. Tallenna työsi
 msgid "Redid action (%s)"
 msgstr "Toiminto tehtiin uudelleen (%s)"
 
-#: src/text.c:785 src/text.c:2490 src/text.c:2963
+#: src/text.c:785 src/text.c:2489 src/text.c:2962
 msgid "Could not create pipe"
 msgstr "Putken luominen epäonnistui"
 
-#: src/text.c:811 src/text.c:2578 src/text.c:2732 src/text.c:3014
-#: src/text.c:3311
+#: src/text.c:811 src/text.c:2576 src/text.c:2732 src/text.c:3013
+#: src/text.c:3309
 msgid "Could not fork"
 msgstr "Lapsiprosessi epäonnistui"
 
@@ -2181,35 +2181,31 @@ msgstr "Lainausmerkintä %s ei kelpaa: %s"
 msgid "Can now UnJustify!"
 msgstr "Tasaamisen voi perua nyt."
 
-#: src/text.c:2404
+#: src/text.c:2403
 msgid "Edit a replacement"
 msgstr "Muokkaa korvausta"
 
-#: src/text.c:2492
+#: src/text.c:2491
 msgid "Creating misspelled word list, please wait..."
 msgstr "Luodaan väärin kirjoitettujen sanojen lista, ole hyvä ja odota..."
 
-#: src/text.c:2584 src/text.c:3022
+#: src/text.c:2582 src/text.c:3021
 msgid "Could not get size of pipe buffer"
 msgstr "Putken puskurin kokoa ei saatu selville"
 
-#: src/text.c:2635
+#: src/text.c:2633
 msgid "Error invoking \"spell\""
 msgstr "Virhe komennon ”spell” aikana"
 
-#: src/text.c:2638
+#: src/text.c:2636
 msgid "Error invoking \"sort -f\""
 msgstr "Virhe komennon ”sort -f” aikana"
 
-#: src/text.c:2641
+#: src/text.c:2639
 msgid "Error invoking \"uniq\""
 msgstr "Virhe komennon ”uniq” aikana"
 
-#: src/text.c:2696 src/text.c:2907
-msgid "Finished checking spelling"
-msgstr "Oikoluku on valmis"
-
-#: src/text.c:2759 src/text.c:3340
+#: src/text.c:2759 src/text.c:3338
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "Virhe kutsuttaessa kohdetta ”%s”"
@@ -2228,19 +2224,23 @@ msgstr "Oikoluku epäonnistui: %s"
 msgid "Spell checking failed: %s: %s"
 msgstr "Oikoluku epäonnistui: %s: %s"
 
-#: src/text.c:2937
+#: src/text.c:2907
+msgid "Finished checking spelling"
+msgstr "Oikoluku on valmis"
+
+#: src/text.c:2936
 msgid "No linter defined for this type of file!"
 msgstr "Esikatselua ei ole määritelty tämäntyyppiselle tiedostolle"
 
-#: src/text.c:2947
+#: src/text.c:2946
 msgid "Save modified buffer before linting?"
 msgstr "Tallennetaanko muokattu puskuri ennen esikatselua?"
 
-#: src/text.c:2969
+#: src/text.c:2968
 msgid "Invoking linter, please wait"
 msgstr "Kutsutaan esikastelua, odota vähän"
 
-#: src/text.c:3125
+#: src/text.c:3126
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Saatiin 0 jäsenneltäviltä riveiltä komennosta: %s"
@@ -2260,35 +2260,35 @@ msgstr "Viimeisessä viestissä"
 msgid "At first message"
 msgstr "Ensimmäisessä viestissä"
 
-#: src/text.c:3250
+#: src/text.c:3248
 #, fuzzy
 msgid "Error: no formatter defined"
 msgstr "Virhe: esikatselua ei ole määritelty"
 
-#: src/text.c:3275
+#: src/text.c:3273
 msgid "Finished"
 msgstr "Valmis"
 
-#: src/text.c:3280
+#: src/text.c:3278
 msgid "Invoking formatter, please wait"
 msgstr "Kutsutaan muotoilijaa, odota vähän"
 
-#: src/text.c:3360
+#: src/text.c:3358
 msgid "Finished formatting"
 msgstr "Lopetettiin muotoilu"
 
-#: src/text.c:3438
+#: src/text.c:3434
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sSanoja: %lu  riviä: %ld  merkkiä: %lu"
 
-#: src/text.c:3439
+#: src/text.c:3435
 msgid "In Selection:  "
 msgstr "Valinnassa:    "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3453
+#: src/text.c:3449
 msgid "Verbatim Input"
 msgstr "Merkintarkka syöte"
 

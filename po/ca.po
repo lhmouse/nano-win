@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.99pre4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-22 23:49-0400\n"
+"POT-Creation-Date: 2015-04-14 14:02-0400\n"
 "PO-Revision-Date: 2015-03-19 09:50+0100\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -19,60 +19,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:203
+#: src/browser.c:196
 msgid "Go To Directory"
 msgstr "Vés a un directori"
 
-#: src/browser.c:214 src/browser.c:770 src/files.c:1101 src/files.c:2321
-#: src/nano.c:1159 src/search.c:212 src/search.c:302 src/search.c:957
-#: src/search.c:1033 src/text.c:2949 src/text.c:3164
+#: src/browser.c:206 src/browser.c:743 src/files.c:1099 src/files.c:2317
+#: src/nano.c:1159 src/search.c:214 src/search.c:304 src/search.c:968
+#: src/search.c:1044 src/text.c:2948 src/text.c:3164
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
-#: src/browser.c:246 src/browser.c:293
+#: src/browser.c:238 src/browser.c:285
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "No es pot anar fora de %s en mode restringit"
 
-#: src/browser.c:257 src/browser.c:303 src/browser.c:324 src/files.c:966
-#: src/files.c:975 src/files.c:1802 src/files.c:1929 src/files.c:1983
-#: src/files.c:2004 src/files.c:2127 src/files.c:3029 src/files.c:3225
-#: src/rcfile.c:590 src/rcfile.c:1426
+#: src/browser.c:249 src/browser.c:295 src/browser.c:316 src/files.c:966
+#: src/files.c:975 src/files.c:1800 src/files.c:1927 src/files.c:1981
+#: src/files.c:2002 src/files.c:2125 src/files.c:3025 src/files.c:3221
+#: src/rcfile.c:590 src/rcfile.c:1431
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "S'ha produït un error en llegir %s: %s"
 
-#: src/browser.c:283
+#: src/browser.c:275
 msgid "Can't move up a directory"
 msgstr "No es pot ascendir de directori"
 
 #. TRANSLATORS: Try to keep this at most 7
 #. * characters.
-#: src/browser.c:626 src/browser.c:635
+#: src/browser.c:618 src/browser.c:627
 msgid "(dir)"
 msgstr "(dir)"
 
 #. TRANSLATORS: Try to keep this at most 12
 #. * characters.
-#: src/browser.c:632
+#: src/browser.c:624
 msgid "(parent dir)"
 msgstr "(directori pare)"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:759 src/search.c:181
+#: src/browser.c:732 src/search.c:183
 msgid "Search"
 msgstr "Cerca"
 
-#: src/browser.c:812 src/search.c:382
-msgid "Search Wrapped"
-msgstr "Recerca recomençada"
-
-#: src/browser.c:885 src/browser.c:912 src/search.c:500 src/search.c:503
-#: src/search.c:560 src/search.c:563
+#: src/browser.c:772 src/search.c:502 src/search.c:505 src/search.c:562
+#: src/search.c:565
 msgid "This is the only occurrence"
 msgstr "Aquesta és la única coincidència"
 
-#: src/browser.c:915 src/search.c:569
+#: src/browser.c:788 src/search.c:384
+msgid "Search Wrapped"
+msgstr "Recerca recomençada"
+
+#: src/browser.c:842 src/search.c:571
 msgid "No current search pattern"
 msgstr "No hi ha cap patró de recerca actual"
 
@@ -137,7 +137,7 @@ msgstr "No hi ha més búfers de fitxer oberts"
 msgid "Switched to %s"
 msgstr "S'ha canviat a %s"
 
-#: src/files.c:485 src/global.c:953 src/winio.c:2161
+#: src/files.c:485 src/global.c:959 src/winio.c:2161
 msgid "New Buffer"
 msgstr "Nou búfer"
 
@@ -230,140 +230,140 @@ msgstr "Nou fitxer"
 msgid "\"%s\" not found"
 msgstr "«%s» no trobat"
 
-#: src/files.c:961 src/rcfile.c:583 src/rcfile.c:1376 src/rcfile.c:1417
+#: src/files.c:961 src/rcfile.c:583 src/rcfile.c:1381 src/rcfile.c:1422
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "«%s» és un directori"
 
-#: src/files.c:962 src/rcfile.c:584 src/rcfile.c:1377 src/rcfile.c:1418
+#: src/files.c:962 src/rcfile.c:584 src/rcfile.c:1382 src/rcfile.c:1423
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "«%s» és un fitxer de dispositiu"
 
-#: src/files.c:1060
+#: src/files.c:1058
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "Fitxer a executar a un nou búfer [des de %s] "
 
-#: src/files.c:1062
+#: src/files.c:1060
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "Ordre a executar [des de %s] "
 
-#: src/files.c:1069
+#: src/files.c:1067
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Fitxer a inserir a un nou búfer [des de %s] "
 
-#: src/files.c:1071
+#: src/files.c:1069
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Fitxer a inserir [des de %s] "
 
-#: src/files.c:1320
+#: src/files.c:1318
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Tecla il·legal en mode no-multibuffer"
 
-#: src/files.c:1622
+#: src/files.c:1620
 msgid "Failed to write backup file, continue saving? (Say N if unsure) "
 msgstr ""
 "No s'ha pogut escriure la còpia de seguretat, voleu continuar desant (Digueu "
 "N si no n'esteu segur)"
 
-#: src/files.c:1746
+#: src/files.c:1744
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "No es pot escriure fora de %s"
 
-#: src/files.c:1761
+#: src/files.c:1759
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr ""
 "No es pot avantposar o afegir a un enllaç simbòlic amb --nofollow establert"
 
-#: src/files.c:1843 src/files.c:1868 src/files.c:1886 src/files.c:1899
-#: src/files.c:1910 src/files.c:1939
+#: src/files.c:1841 src/files.c:1866 src/files.c:1884 src/files.c:1897
+#: src/files.c:1908 src/files.c:1937
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "S'ha produït un error en escriure la còpia de seguretat %s: %s"
 
-#: src/files.c:1844 src/nano.c:719
+#: src/files.c:1842 src/nano.c:719
 msgid "Too many backup files?"
 msgstr "Massa fitxers de còpia de seguretat?"
 
-#: src/files.c:1959 src/files.c:2016 src/files.c:2035 src/files.c:2047
-#: src/files.c:2071 src/files.c:2089 src/files.c:2099 src/files.c:2135
-#: src/files.c:2140 src/files.c:3101 src/files.c:3110 src/files.c:3133
-#: src/files.c:3145
+#: src/files.c:1957 src/files.c:2014 src/files.c:2033 src/files.c:2045
+#: src/files.c:2069 src/files.c:2087 src/files.c:2097 src/files.c:2133
+#: src/files.c:2138 src/files.c:3097 src/files.c:3106 src/files.c:3129
+#: src/files.c:3141
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "S'ha produït un error en escriure %s: %s"
 
-#: src/files.c:1993 src/text.c:2867 src/text.c:2879 src/text.c:3260
-#: src/text.c:3269
+#: src/files.c:1991 src/text.c:2867 src/text.c:2879 src/text.c:3258
+#: src/text.c:3267
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "S'ha produït un error en escriure un fitxer temporal: %s"
 
-#: src/files.c:2173
+#: src/files.c:2171
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "S'ha escrit %lu línia"
 msgstr[1] "S'han escrit %lu línies"
 
-#: src/files.c:2278
+#: src/files.c:2274
 msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
-#: src/files.c:2279
+#: src/files.c:2275
 msgid " [Mac Format]"
 msgstr " [Format Mac]"
 
-#: src/files.c:2281
+#: src/files.c:2277
 msgid " [Backup]"
 msgstr " [Còpia de seguretat]"
 
-#: src/files.c:2289
+#: src/files.c:2285
 msgid "Prepend Selection to File"
 msgstr "Avantposa sel·lecció a un fitxer"
 
-#: src/files.c:2290
+#: src/files.c:2286
 msgid "Append Selection to File"
 msgstr "Afegeix la sel·lecció a un fitxer"
 
-#: src/files.c:2291
+#: src/files.c:2287
 msgid "Write Selection to File"
 msgstr "Escriu la sel·lecció a un fitxer"
 
-#: src/files.c:2294
+#: src/files.c:2290
 msgid "File Name to Prepend to"
 msgstr "Nom del fitxer en el qual avantposar"
 
-#: src/files.c:2295
+#: src/files.c:2291
 msgid "File Name to Append to"
 msgstr "Nom del fitxer en el qual afegir"
 
-#: src/files.c:2296
+#: src/files.c:2292
 msgid "File Name to Write"
 msgstr "Nom del fitxer a escriure"
 
-#: src/files.c:2427
+#: src/files.c:2423
 msgid "File exists, OVERWRITE ? "
 msgstr "El fitxer existeix, el voleu SOBREESCRIURE? "
 
-#: src/files.c:2436
+#: src/files.c:2432
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Voleu desar el fitxer sota un NOM DIFERENT? "
 
-#: src/files.c:2450
+#: src/files.c:2446
 msgid "File was modified since you opened it, continue saving ? "
 msgstr "S'ha modificat el fitxer des de que l'heu obert, voleu desar-lo?"
 
-#: src/files.c:2882
+#: src/files.c:2878
 msgid "(more)"
 msgstr "(més)"
 
-#: src/files.c:2974
+#: src/files.c:2970
 #, c-format
 msgid ""
 "\n"
@@ -372,7 +372,7 @@ msgstr ""
 "\n"
 "Premeu Intro per a continuar\n"
 
-#: src/files.c:2989
+#: src/files.c:2985
 #, c-format
 msgid ""
 "Unable to create directory %s: %s\n"
@@ -381,7 +381,7 @@ msgstr ""
 "No s'ha pogut crear el directori %s: %s\n"
 "És requerit per desar/carregar l'historial de cerca o posició del cursor.\n"
 
-#: src/files.c:2995
+#: src/files.c:2991
 #, c-format
 msgid ""
 "Path %s is not a directory and needs to be.\n"
@@ -391,7 +391,7 @@ msgstr ""
 "Nano no podrà carregar o desar l'historial de cerca o la posició del "
 "cursor.\n"
 
-#: src/files.c:3012
+#: src/files.c:3008
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
@@ -400,7 +400,7 @@ msgstr ""
 "S'ha detectat un fitxer d'historial antic (%s) que s'ha intentat moure\n"
 "al lloc aconsellat (%s), però s'ha produït un error: %s"
 
-#: src/files.c:3016
+#: src/files.c:3012
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I moved\n"
@@ -412,669 +412,669 @@ msgstr ""
 "(Vegeu les PMF del nano per a obtenir més informació sobre aquest canvi)"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:477
+#: src/global.c:479
 msgid "Exit"
 msgstr "Surt"
 
-#: src/global.c:478
+#: src/global.c:480
 msgid "Close"
 msgstr "Tanca"
 
-#: src/global.c:479
+#: src/global.c:481
 msgid "Uncut Text"
 msgstr "Destalla el text"
 
-#: src/global.c:481
+#: src/global.c:483
 msgid "Unjustify"
 msgstr "Desjustifica"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/global.c:485
+#: src/global.c:487
 msgid "WhereIs Next"
 msgstr "On és la següent"
 
 #. TRANSLATORS: Try to keep the next eight strings at most 10 characters.
-#: src/global.c:492
+#: src/global.c:494
 msgid "Where Is"
 msgstr "Cerca"
 
-#: src/global.c:493
+#: src/global.c:495
 msgid "Replace"
 msgstr "Reemplaça"
 
-#: src/global.c:494
+#: src/global.c:496
 msgid "Go To Line"
 msgstr "Vés a línia"
 
-#: src/global.c:495
+#: src/global.c:497
 msgid "Prev Line"
 msgstr "Ant Línia"
 
-#: src/global.c:496
+#: src/global.c:498
 msgid "Next Line"
 msgstr "Seg Línia"
 
-#: src/global.c:497
+#: src/global.c:499
 msgid "Read File"
 msgstr "Llegeix"
 
-#: src/global.c:499
+#: src/global.c:501
 msgid "FullJstify"
 msgstr "JustCompl"
 
-#: src/global.c:501
+#: src/global.c:503
 msgid "Refresh"
 msgstr "Refresca"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:507
+#: src/global.c:509
 msgid "Justify the current paragraph"
 msgstr "Justifica el paràgraf actual"
 
-#: src/global.c:509
+#: src/global.c:511
 msgid "Cancel the current function"
 msgstr "Cancel·la la funció actual"
 
-#: src/global.c:510
+#: src/global.c:512
 msgid "Display this help text"
 msgstr "Mostra aquest text d'ajuda"
 
-#: src/global.c:513
+#: src/global.c:515
 msgid "Close the current file buffer / Exit from nano"
 msgstr "Tanca el búfer de fitxer actual / Surt del nano"
 
-#: src/global.c:515
+#: src/global.c:517
 msgid "Exit from nano"
 msgstr "Surt del nano"
 
-#: src/global.c:519
+#: src/global.c:521
 msgid "Write the current file to disk"
 msgstr "Escriu el fitxer actual al disc"
 
-#: src/global.c:521
+#: src/global.c:523
 msgid "Insert another file into the current one"
 msgstr "Insereix un altre fitxer dins de l'actual"
 
-#: src/global.c:523
+#: src/global.c:525
 msgid "Search for a string or a regular expression"
 msgstr "Cerca una cadena o expressió regular"
 
-#: src/global.c:526
+#: src/global.c:528
 msgid "Search for a string"
 msgstr "Cerca una cadena"
 
-#: src/global.c:528
+#: src/global.c:530
 msgid "Go one screenful up"
 msgstr "Vés a la pantalla anterior"
 
-#: src/global.c:529
+#: src/global.c:531
 msgid "Go one screenful down"
 msgstr "Vés a la pantalla següent"
 
-#: src/global.c:531
+#: src/global.c:533
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Retalla la línia actual i desa-la al cutbuffer"
 
-#: src/global.c:533
+#: src/global.c:535
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Enganxa el cutbuffer a la línia actual"
 
-#: src/global.c:534
+#: src/global.c:536
 msgid "Display the position of the cursor"
 msgstr "Mostra la posició del cursor"
 
-#: src/global.c:536
+#: src/global.c:538
 msgid "Invoke the spell checker, if available"
 msgstr "Invoca el corrector ortogràfic, si està disponible"
 
-#: src/global.c:538
+#: src/global.c:540
 msgid "Replace a string or a regular expression"
 msgstr "Reemplaça una cadena o una expressió regular"
 
-#: src/global.c:539
+#: src/global.c:541
 msgid "Go to line and column number"
 msgstr "Vés a un número de línia i columna"
 
-#: src/global.c:541
+#: src/global.c:543
 msgid "Mark text starting from the cursor position"
 msgstr "Marca text començant des de la posició del cursor"
 
-#: src/global.c:542
+#: src/global.c:544
 msgid "Repeat the last search"
 msgstr "Repeteix l'última recerca"
 
-#: src/global.c:544
+#: src/global.c:546
 msgid "Copy the current line and store it in the cutbuffer"
 msgstr "Copia la línia actual i emmagatzema-la al cutbuffer"
 
-#: src/global.c:545
+#: src/global.c:547
 msgid "Indent the current line"
 msgstr "Ajusta el fitxer actual"
 
-#: src/global.c:546
+#: src/global.c:548
 msgid "Unindent the current line"
 msgstr "Desajusta el fitxer actual"
 
-#: src/global.c:547
+#: src/global.c:549
 msgid "Undo the last operation"
 msgstr "Desfés l'última operació"
 
-#: src/global.c:548
+#: src/global.c:550
 msgid "Redo the last undone operation"
 msgstr "Refés l'última operació"
 
-#: src/global.c:550
+#: src/global.c:552
 msgid "Go forward one character"
 msgstr "Vés endavant un caràcter"
 
-#: src/global.c:551
+#: src/global.c:553
 msgid "Go back one character"
 msgstr "Vés enrere un caràcter"
 
-#: src/global.c:553
+#: src/global.c:555
 msgid "Go forward one word"
 msgstr "Vés endavant una paraula"
 
-#: src/global.c:554
+#: src/global.c:556
 msgid "Go back one word"
 msgstr "Vés enrere una paraula"
 
-#: src/global.c:556
+#: src/global.c:558
 msgid "Go to previous line"
 msgstr "Vés a la línia anterior"
 
-#: src/global.c:557
+#: src/global.c:559
 msgid "Go to next line"
 msgstr "Vés a la línia següent"
 
-#: src/global.c:558
+#: src/global.c:560
 msgid "Go to beginning of current line"
 msgstr "Vés al principi de la línia actual"
 
-#: src/global.c:559
+#: src/global.c:561
 msgid "Go to end of current line"
 msgstr "Vés al final de la línia actual"
 
-#: src/global.c:562
+#: src/global.c:564
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr ""
 "Vés al principi del paràgraf actual; posteriorment del paràgraf anterior"
 
-#: src/global.c:564
+#: src/global.c:566
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr "Vés al final del paràgraf actual; posteriorment del paràgraf següent"
 
-#: src/global.c:566
+#: src/global.c:568
 msgid "Go to the first line of the file"
 msgstr "Vés a la primera línia del fitxer"
 
-#: src/global.c:567
+#: src/global.c:569
 msgid "Go to the last line of the file"
 msgstr "Vés a l'última línia del fitxer"
 
-#: src/global.c:569
+#: src/global.c:571
 msgid "Go to the matching bracket"
 msgstr "Vés a la clau corresponent"
 
-#: src/global.c:571
+#: src/global.c:573
 msgid "Scroll up one line without scrolling the cursor"
 msgstr "Desplaça amunt una línia sense desplaçar el cursor"
 
-#: src/global.c:573
+#: src/global.c:575
 msgid "Scroll down one line without scrolling the cursor"
 msgstr "Desplaça avall una línia sense desplaçar el cursor"
 
-#: src/global.c:576
+#: src/global.c:578
 msgid "Switch to the previous file buffer"
 msgstr "Canvia a l'anterior búfer de fitxer"
 
-#: src/global.c:577
+#: src/global.c:579
 msgid "Switch to the next file buffer"
 msgstr "Canvia al següent búfer de fitxer"
 
 # Verbatim -> textualment segons un diccionari online.
 # S'accepten altres propostes. jm
-#: src/global.c:579
+#: src/global.c:581
 msgid "Insert the next keystroke verbatim"
 msgstr "Insereix la següent premuda de tecla textualment"
 
-#: src/global.c:580
+#: src/global.c:582
 msgid "Insert a tab at the cursor position"
 msgstr "Insereix una tabulació a la posició del cursor"
 
-#: src/global.c:581
+#: src/global.c:583
 msgid "Insert a newline at the cursor position"
 msgstr "Insereix una línia nova a la posició del cursor"
 
-#: src/global.c:582
+#: src/global.c:584
 msgid "Delete the character under the cursor"
 msgstr "Suprimeix el caràcter sota el cursor"
 
-#: src/global.c:584
+#: src/global.c:586
 msgid "Delete the character to the left of the cursor"
 msgstr "Suprimeix el caràcter a l'esquerra del cursor"
 
-#: src/global.c:587
+#: src/global.c:589
 msgid "Cut from the cursor position to the end of the file"
 msgstr "Retalla des de la posició del cursor al final del fitxer"
 
-#: src/global.c:590
+#: src/global.c:592
 msgid "Justify the entire file"
 msgstr "Justifica el fitxer sencer"
 
-#: src/global.c:594
+#: src/global.c:596
 msgid "Count the number of words, lines, and characters"
 msgstr "Compta el nombre de paraules, línies i caràcters"
 
-#: src/global.c:597
+#: src/global.c:599
 msgid "Refresh (redraw) the current screen"
 msgstr "Redibuixa la pantalla actual"
 
-#: src/global.c:599
+#: src/global.c:601
 msgid "Suspend the editor (if suspend is enabled)"
 msgstr "Suspèn l'editor (si la suspensió és habilitada)"
 
-#: src/global.c:602
+#: src/global.c:604
 msgid "Toggle the case sensitivity of the search"
 msgstr "Commuta la sensibilitat a majúscules de la cerca"
 
-#: src/global.c:604
+#: src/global.c:606
 msgid "Reverse the direction of the search"
 msgstr "Inverteix la direcció de la cerca"
 
-#: src/global.c:608
+#: src/global.c:610
 msgid "Toggle the use of regular expressions"
 msgstr "Commuta l'ús d'expressions regulars"
 
-#: src/global.c:612
+#: src/global.c:614
 msgid "Recall the previous search/replace string"
 msgstr "Recupera la cadena de cerca/reemplaça anterior"
 
-#: src/global.c:614
+#: src/global.c:616
 msgid "Recall the next search/replace string"
 msgstr "Recupera la cadena de cerca/reemplaça següent"
 
-#: src/global.c:617
+#: src/global.c:619
 msgid "Go to file browser"
 msgstr "Vés al navegador de fitxers"
 
-#: src/global.c:620
+#: src/global.c:622
 msgid "Toggle the use of DOS format"
 msgstr "Commuta l'ús del format DOS"
 
-#: src/global.c:621
+#: src/global.c:623
 msgid "Toggle the use of Mac format"
 msgstr "Commuta l'ús del format Mac"
 
-#: src/global.c:622
+#: src/global.c:624
 msgid "Toggle appending"
 msgstr "Commuta l'afegiment"
 
-#: src/global.c:623
+#: src/global.c:625
 msgid "Toggle prepending"
 msgstr "Commuta l'avantposat"
 
-#: src/global.c:624
+#: src/global.c:626
 msgid "Toggle backing up of the original file"
 msgstr "Commuta la creació d'una còpia de seguretat del fitxer original"
 
-#: src/global.c:625
+#: src/global.c:627
 msgid "Execute external command"
 msgstr "Executa una ordre externa"
 
-#: src/global.c:628
+#: src/global.c:630
 msgid "Toggle the use of a new buffer"
 msgstr "Commuta l'ús d'un búfer nou"
 
-#: src/global.c:631
+#: src/global.c:633
 msgid "Exit from the file browser"
 msgstr "Surt del navegador de fitxers"
 
-#: src/global.c:632
+#: src/global.c:634
 msgid "Go to the first file in the list"
 msgstr "Vés al primer fitxer de la llista"
 
-#: src/global.c:633
+#: src/global.c:635
 msgid "Go to the last file in the list"
 msgstr "Vés a l'últim fitxer de la llista"
 
-#: src/global.c:634
+#: src/global.c:636
 msgid "Go to the previous file in the list"
 msgstr "Vés al fitxer previ de la llista"
 
-#: src/global.c:635
+#: src/global.c:637
 msgid "Go to the next file in the list"
 msgstr "Vés al fitxer següent de la llista"
 
-#: src/global.c:636
+#: src/global.c:638
 msgid "Go to directory"
 msgstr "Vés al directori"
 
-#: src/global.c:639
+#: src/global.c:641
 msgid "Invoke the linter, if available"
 msgstr "Invoca l'analitzador sintàctic, si està disponible"
 
-#: src/global.c:640
+#: src/global.c:642
 msgid "Go to previous linter msg"
 msgstr "Vés al missatge anterior de l'analitzador"
 
-#: src/global.c:641
+#: src/global.c:643
 msgid "Go to next linter msg"
 msgstr "Vés al missatge següent de l'analitzador"
 
-#: src/global.c:642
+#: src/global.c:645
 msgid "Invoke formatter, if available"
 msgstr "Invoca el formatador, si està disponible"
 
 #. TRANSLATORS: Try to keep the following strings at most 10 characters.
-#: src/global.c:662
+#: src/global.c:666
 msgid "Get Help"
 msgstr "Ajuda"
 
-#: src/global.c:665 src/prompt.c:1084
+#: src/global.c:669 src/prompt.c:1083
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/global.c:678
+#: src/global.c:682
 msgid "Write Out"
 msgstr "Desa"
 
-#: src/global.c:704
+#: src/global.c:708
 msgid "Go To Dir"
 msgstr "Vés a directori"
 
-#: src/global.c:719
+#: src/global.c:723
 msgid "Cut Text"
 msgstr "Retalla"
 
-#: src/global.c:728
+#: src/global.c:732
 msgid "Justify"
 msgstr "Justifica"
 
-#: src/global.c:733
+#: src/global.c:737
 msgid "To Spell"
 msgstr "Ortografia"
 
-#: src/global.c:738
+#: src/global.c:742
 msgid "To Linter"
 msgstr "Analitzador"
 
-#: src/global.c:740
+#: src/global.c:745
 msgid "Formatter"
 msgstr "Formatador"
 
-#: src/global.c:745
+#: src/global.c:751
 msgid "Case Sens"
 msgstr "Maj/Min"
 
-#: src/global.c:750
+#: src/global.c:756
 msgid "Regexp"
 msgstr "Expreg"
 
-#: src/global.c:755
+#: src/global.c:761
 msgid "Backwards"
 msgstr "Cap Enrere"
 
-#: src/global.c:762
+#: src/global.c:768
 msgid "No Replace"
 msgstr "No reemplaces"
 
-#: src/global.c:770
+#: src/global.c:776
 msgid "Cur Pos"
 msgstr "Pos Act"
 
-#: src/global.c:780
+#: src/global.c:786
 msgid "Prev Page"
 msgstr "Pàg Ant"
 
-#: src/global.c:782
+#: src/global.c:788
 msgid "Next Page"
 msgstr "Pàg Seg"
 
-#: src/global.c:785
+#: src/global.c:791
 msgid "First Line"
 msgstr "Primera línia"
 
-#: src/global.c:787
+#: src/global.c:793
 msgid "Last Line"
 msgstr "Última línia"
 
-#: src/global.c:794
+#: src/global.c:800
 msgid "To Bracket"
 msgstr "Vés a la clau"
 
-#: src/global.c:797
+#: src/global.c:803
 msgid "Mark Text"
 msgstr "Marca text"
 
-#: src/global.c:800
+#: src/global.c:806
 msgid "Copy Text"
 msgstr "Copia text"
 
-#: src/global.c:803
+#: src/global.c:809
 msgid "Indent Text"
 msgstr "Sagna text"
 
-#: src/global.c:805
+#: src/global.c:811
 msgid "Unindent Text"
 msgstr "Desagna text"
 
-#: src/global.c:808
+#: src/global.c:814
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/global.c:810
+#: src/global.c:816
 msgid "Redo"
 msgstr "Refés"
 
-#: src/global.c:814 src/global.c:820
+#: src/global.c:820 src/global.c:826
 msgid "Back"
 msgstr "Enrere"
 
-#: src/global.c:816 src/global.c:822
+#: src/global.c:822 src/global.c:828
 msgid "Forward"
 msgstr "Endavant"
 
-#: src/global.c:827
+#: src/global.c:833
 msgid "Prev Word"
 msgstr "Paraula anterior"
 
-#: src/global.c:829
+#: src/global.c:835
 msgid "Next Word"
 msgstr "Paraula següent"
 
-#: src/global.c:833
+#: src/global.c:839
 msgid "Home"
 msgstr "Inici"
 
-#: src/global.c:835
+#: src/global.c:841
 msgid "End"
 msgstr "Fi"
 
-#: src/global.c:844
+#: src/global.c:850
 msgid "Beg of Par"
 msgstr "Princ de par"
 
-#: src/global.c:846
+#: src/global.c:852
 msgid "End of Par"
 msgstr "Final de par"
 
-#: src/global.c:851
+#: src/global.c:857
 msgid "Scroll Up"
 msgstr "Desplaça amunt"
 
-#: src/global.c:853
+#: src/global.c:859
 msgid "Scroll Down"
 msgstr "Desplaça avall"
 
-#: src/global.c:858
+#: src/global.c:864
 msgid "Prev File"
 msgstr "Fitxer anterior"
 
-#: src/global.c:860
+#: src/global.c:866
 msgid "Next File"
 msgstr "Fitxer següent"
 
-#: src/global.c:869
+#: src/global.c:875
 msgid "Verbatim"
 msgstr "Textual"
 
-#: src/global.c:872
+#: src/global.c:878
 msgid "Tab"
 msgstr "Tab"
 
-#: src/global.c:874
+#: src/global.c:880
 msgid "Enter"
 msgstr "Retorn"
 
-#: src/global.c:876
+#: src/global.c:882
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: src/global.c:878
+#: src/global.c:884
 msgid "Backspace"
 msgstr "Retrocés"
 
-#: src/global.c:888
+#: src/global.c:894
 msgid "CutTillEnd"
 msgstr "RetallaFinsFinal"
 
-#: src/global.c:898
+#: src/global.c:904
 msgid "Word Count"
 msgstr "Compte de paraules"
 
-#: src/global.c:905
+#: src/global.c:911
 msgid "Suspend"
 msgstr "Suspèn"
 
-#: src/global.c:910
+#: src/global.c:916
 msgid "PrevHstory"
 msgstr "HistPrèv"
 
-#: src/global.c:913
+#: src/global.c:919
 msgid "NextHstory"
 msgstr "HistSeg"
 
-#: src/global.c:917
+#: src/global.c:923
 msgid "Go To Text"
 msgstr "Vés al text"
 
-#: src/global.c:928
+#: src/global.c:934
 msgid "DOS Format"
 msgstr "Format DOS"
 
-#: src/global.c:931
+#: src/global.c:937
 msgid "Mac Format"
 msgstr "Format Mac"
 
-#: src/global.c:934
+#: src/global.c:940
 msgid "Append"
 msgstr "Afegeix"
 
-#: src/global.c:936
+#: src/global.c:942
 msgid "Prepend"
 msgstr "Avantposa"
 
-#: src/global.c:939
+#: src/global.c:945
 msgid "Backup File"
 msgstr "Fes còpia de seguretat"
 
-#: src/global.c:946
+#: src/global.c:952
 msgid "Execute Command"
 msgstr "Executa una ordre"
 
-#: src/global.c:961
+#: src/global.c:967
 msgid "To Files"
 msgstr "A fitxers"
 
-#: src/global.c:964
+#: src/global.c:970
 msgid "First File"
 msgstr "Primer fitxer"
 
-#: src/global.c:966
+#: src/global.c:972
 msgid "Last File"
 msgstr "Últim fitxer"
 
-#: src/global.c:977
+#: src/global.c:983
 msgid "Prev Lint Msg"
 msgstr "Miss lint ant"
 
-#: src/global.c:979
+#: src/global.c:985
 msgid "Next Lint Msg"
 msgstr "Miss lint seg"
 
 #. TRANSLATORS: The next seventeen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1227
+#: src/global.c:1237
 msgid "Help mode"
 msgstr "Mode ajuda"
 
-#: src/global.c:1229
+#: src/global.c:1239
 msgid "Constant cursor position display"
 msgstr "Visualització constant de la posició del cursor"
 
-#: src/global.c:1231
+#: src/global.c:1241
 msgid "Use of one more line for editing"
 msgstr "Utilitza una línia més per a editar"
 
-#: src/global.c:1233
+#: src/global.c:1243
 msgid "Smooth scrolling"
 msgstr "Desplaçament suau"
 
-#: src/global.c:1235
+#: src/global.c:1245
 msgid "Soft wrapping of overlong lines"
 msgstr "Ajusta suaument les línies llargues"
 
-#: src/global.c:1237
+#: src/global.c:1247
 msgid "Whitespace display"
 msgstr "Mostra l'espai en blanc"
 
-#: src/global.c:1239
+#: src/global.c:1249
 msgid "Color syntax highlighting"
 msgstr "Resaltat de sintaxi en color"
 
-#: src/global.c:1241
+#: src/global.c:1251
 msgid "Smart home key"
 msgstr "Tecla «Inici» intel·ligent"
 
-#: src/global.c:1243
+#: src/global.c:1253
 msgid "Auto indent"
 msgstr "Sagna automàticament"
 
-#: src/global.c:1245
+#: src/global.c:1255
 msgid "Cut to end"
 msgstr "Retalla fins al final"
 
-#: src/global.c:1247
+#: src/global.c:1257
 msgid "Hard wrapping of overlong lines"
 msgstr "Ajusta completament les línies llargues"
 
-#: src/global.c:1249
+#: src/global.c:1259
 msgid "Conversion of typed tabs to spaces"
 msgstr "Conversió de les tabulacions introduïdes a espais"
 
-#: src/global.c:1251
+#: src/global.c:1261
 msgid "Backup files"
 msgstr "Fitxers de còpia de seguretat"
 
-#: src/global.c:1253
+#: src/global.c:1263
 msgid "Multiple file buffers"
 msgstr "Múltiples búfers de fitxers"
 
-#: src/global.c:1255
+#: src/global.c:1265
 msgid "Mouse support"
 msgstr "Suport per a ratolí"
 
-#: src/global.c:1257
+#: src/global.c:1267
 msgid "No conversion from DOS/Mac format"
 msgstr "Sense conversió des del format DOS/Mac"
 
-#: src/global.c:1259
+#: src/global.c:1269
 msgid "Suspension"
 msgstr "Suspensió"
 
-#: src/help.c:205
+#: src/help.c:200
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -1097,7 +1097,7 @@ msgstr ""
 "l'indicatiu de recerca. Prémer Retorn sense introduir cap text durà a terme "
 "l'anterior recerca. "
 
-#: src/help.c:214
+#: src/help.c:209
 msgid ""
 "If you have selected text with the mark and then search to replace, only "
 "matches in the selected text will be replaced.\n"
@@ -1111,7 +1111,7 @@ msgstr ""
 " Les següents tecles de funció estan disponibles en el mode Cerca:\n"
 "\n"
 
-#: src/help.c:220
+#: src/help.c:215
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -1131,7 +1131,7 @@ msgstr ""
 " Les següents tecles de funció estan disponibles en el mode anar a línia:\n"
 "\n"
 
-#: src/help.c:229
+#: src/help.c:224
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1153,7 +1153,7 @@ msgstr ""
 "F o amb un fitxer nanorc, la inserció d'un fitxer farà que es carregue en un "
 "búfer diferent (feu servir Meta-< i > per a canviar de búfers de fitxer). "
 
-#: src/help.c:238
+#: src/help.c:233
 msgid ""
 "If you need another blank buffer, do not enter any filename, or type in a "
 "nonexistent filename at the prompt and press Enter.\n"
@@ -1168,7 +1168,7 @@ msgstr ""
 "fitxer:\n"
 "\n"
 
-#: src/help.c:244
+#: src/help.c:239
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -1196,7 +1196,7 @@ msgstr ""
 " Les següents tecles de funció estan disponibles en el mode desa el fitxer:\n"
 "\n"
 
-#: src/help.c:258
+#: src/help.c:253
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -1222,7 +1222,7 @@ msgstr ""
 "fitxers:\n"
 "\n"
 
-#: src/help.c:271
+#: src/help.c:266
 msgid ""
 "Browser Search Command Help Text\n"
 "\n"
@@ -1247,7 +1247,7 @@ msgstr ""
 "l'anterior recerca.\n"
 "\n"
 
-#: src/help.c:280
+#: src/help.c:275
 msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
@@ -1256,7 +1256,7 @@ msgstr ""
 "navegador:\n"
 "\n"
 
-#: src/help.c:284
+#: src/help.c:279
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
@@ -1279,7 +1279,7 @@ msgstr ""
 "«anar a un directori»:\n"
 "\n"
 
-#: src/help.c:297
+#: src/help.c:292
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -1304,7 +1304,7 @@ msgstr ""
 "d'ortografia:\n"
 "\n"
 
-#: src/help.c:312
+#: src/help.c:307
 msgid ""
 "Execute Command Help Text\n"
 "\n"
@@ -1324,7 +1324,7 @@ msgstr ""
 " Les següents tecles de funció estan disponibles al mode Executa una ordre:\n"
 "\n"
 
-#: src/help.c:325
+#: src/help.c:320
 msgid ""
 "Main nano help text\n"
 "\n"
@@ -1345,7 +1345,7 @@ msgstr ""
 "inferior i mostra missatges importants. Les últimes dues línies mostren les "
 "dreceres més utilitzades a l'editor."
 
-#: src/help.c:335
+#: src/help.c:330
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
@@ -1364,7 +1364,7 @@ msgstr ""
 "s'hi pot accedir mitjançant les tecles Esc, Alt o Meta, tot depenent de la "
 "configuració del vostre teclat. "
 
-#: src/help.c:344
+#: src/help.c:339
 msgid ""
 "Also, pressing Esc twice and then typing a three-digit decimal number from "
 "000 to 255 will enter the character with the corresponding value.  The "
@@ -1378,7 +1378,7 @@ msgstr ""
 "alternatives estan representades entre parèntesi:\n"
 "\n"
 
-#: src/help.c:376 src/help.c:448
+#: src/help.c:371 src/help.c:443
 msgid "enable/disable"
 msgstr "habilita/inhabilita"
 
@@ -1708,42 +1708,42 @@ msgstr "S'està llegint des de l'entrada estàndard, ^C per a avortar-ho\n"
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "S'ha rebut SIGHUP o SIGTERM\n"
 
-#: src/nano.c:1301
+#: src/nano.c:1300
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Empreu «fg» per a tornar al nano.\n"
 
-#: src/nano.c:1481
+#: src/nano.c:1480
 msgid "enabled"
 msgstr "habilitat"
 
-#: src/nano.c:1481
+#: src/nano.c:1480
 msgid "disabled"
 msgstr "inhabilitat"
 
-#: src/nano.c:1635 src/winio.c:1283
+#: src/nano.c:1634 src/winio.c:1283
 msgid "Unknown Command"
 msgstr "L'ordre és desconeguda"
 
-#: src/nano.c:1747
+#: src/nano.c:1746
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignorat, blah, blah"
 
-#: src/nano.c:1752
+#: src/nano.c:1751
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorat, blah, blah"
 
-#: src/nano.c:2310 src/rcfile.c:1325
+#: src/nano.c:2309 src/rcfile.c:1330
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "La mida de tabulador demanada «%s» és invàlida"
 
-#: src/nano.c:2374 src/rcfile.c:1250
+#: src/nano.c:2373 src/rcfile.c:1255
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "La mida de plenat demanada «%s» és invàlida"
 
-#: src/nano.c:2415
+#: src/nano.c:2414
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Introduïu «%s -h» per obtenir una llista de les opcions disponibles.\n"
@@ -1751,27 +1751,27 @@ msgstr "Introduïu «%s -h» per obtenir una llista de les opcions disponibles.\
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
 #. * For example, in French: "OoYy" for "Oui".
-#: src/prompt.c:1055
+#: src/prompt.c:1054
 msgid "Yy"
 msgstr "SsYy"
 
-#: src/prompt.c:1056
+#: src/prompt.c:1055
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:1057
+#: src/prompt.c:1056
 msgid "Aa"
 msgstr "TtAa"
 
-#: src/prompt.c:1071
+#: src/prompt.c:1070
 msgid "Yes"
 msgstr "Sí"
 
-#: src/prompt.c:1076
+#: src/prompt.c:1075
 msgid "All"
 msgstr "Totes"
 
-#: src/prompt.c:1081
+#: src/prompt.c:1080
 msgid "No"
 msgstr "No"
 
@@ -1785,8 +1785,8 @@ msgstr "Error en %s en la línia %lu: "
 msgid "Argument '%s' has an unterminated \""
 msgstr "L'argument «%s» té una «\"» no terminada"
 
-#: src/rcfile.c:223 src/rcfile.c:275 src/rcfile.c:730 src/rcfile.c:791
-#: src/rcfile.c:880 src/rcfile.c:932
+#: src/rcfile.c:223 src/rcfile.c:275 src/rcfile.c:726 src/rcfile.c:787
+#: src/rcfile.c:876 src/rcfile.c:927
 msgid "Regex strings must begin and end with a \" character"
 msgstr ""
 "Les cadenes d'expressió regular han de començar i acabar amb un caràcter \""
@@ -1850,12 +1850,12 @@ msgstr "La funció «%s» no existeix al menú «%s»"
 msgid "Sorry, keystroke \"%s\" may not be rebound"
 msgstr "La combinació «%s» no es pot reassignar"
 
-#: src/rcfile.c:629
+#: src/rcfile.c:625
 #, c-format
 msgid "Error expanding %s: %s"
 msgstr "S'ha produït un error en expandir %s: %s"
 
-#: src/rcfile.c:672
+#: src/rcfile.c:668
 #, c-format
 msgid ""
 "Color \"%s\" not understood.\n"
@@ -1870,64 +1870,64 @@ msgstr ""
 "«black», amb el prefix opcional «bright»\n"
 "per als colors de primer pla."
 
-#: src/rcfile.c:694
+#: src/rcfile.c:690
 msgid "Cannot add a color command without a syntax command"
 msgstr "No es pot afegir una ordre de color sense una ordre de sintaxi"
 
-#: src/rcfile.c:699
+#: src/rcfile.c:695
 msgid "Missing color name"
 msgstr "Manca el nom del color"
 
-#: src/rcfile.c:709 src/rcfile.c:870
+#: src/rcfile.c:705 src/rcfile.c:866
 msgid "Missing regex string"
 msgstr "Manca la cadena d'expreg"
 
-#: src/rcfile.c:785
+#: src/rcfile.c:781
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "«start=» requereix el seu «end=» corresponent"
 
-#: src/rcfile.c:837
+#: src/rcfile.c:833
 #, c-format
 msgid "Background color \"%s\" cannot be bright"
 msgstr "El color de fons «%s» no pot ser brillant"
 
-#: src/rcfile.c:865
+#: src/rcfile.c:861
 msgid "Cannot add a header regex without a syntax command"
 msgstr "No es pot afegir una expreg de capçalera sense una ordre de sintaxi"
 
-#: src/rcfile.c:921
+#: src/rcfile.c:916
 msgid "Cannot add a magic string regex without a syntax command"
 msgstr ""
 "No es pot afegir una expreg de cadena de «magic» sense una ordre de sintaxi"
 
-#: src/rcfile.c:926
+#: src/rcfile.c:921
 msgid "Missing magic string name"
 msgstr "Manca el nom de cadena de «magic»"
 
-#: src/rcfile.c:985
+#: src/rcfile.c:979
 msgid "Cannot add a linter without a syntax command"
 msgstr "No es pot afegir un analitzador sense una ordre de sintaxi"
 
-#: src/rcfile.c:990
+#: src/rcfile.c:984
 msgid "Missing linter command"
 msgstr "Manca l'ordre de l'analitzador"
 
-#: src/rcfile.c:1010
+#: src/rcfile.c:1006
 msgid "Cannot add formatter without a syntax command"
 msgstr "No es pot afegir un formatador sense una ordre de sintaxi"
 
-#: src/rcfile.c:1015
+#: src/rcfile.c:1011
 msgid "Missing formatter command"
 msgstr "Manca l'ordre del formatador"
 
-#: src/rcfile.c:1045
+#: src/rcfile.c:1042
 #, c-format
 msgid "Fatal error: no keys mapped for function \"%s\".  Exiting.\n"
 msgstr ""
 "Error fatal: no hi ha lletres asignades per a la funció «%s». S'està "
 "sortint.\n"
 
-#: src/rcfile.c:1047
+#: src/rcfile.c:1044
 #, c-format
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
@@ -1935,62 +1935,62 @@ msgstr ""
 "Si és necessari, empreu el nano amb l'opció -I  per a ajustar les vostres "
 "preferències.\n"
 
-#: src/rcfile.c:1108
+#: src/rcfile.c:1105
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
 msgstr "No s'ha trobat la sintaxi «%s» a estendre"
 
-#: src/rcfile.c:1124 src/rcfile.c:1133 src/rcfile.c:1143
+#: src/rcfile.c:1121 src/rcfile.c:1130 src/rcfile.c:1140
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "L'ordre «%s» no es pot utilitzar a un fitxer inclós"
 
-#: src/rcfile.c:1149 src/rcfile.c:1350
+#: src/rcfile.c:1146 src/rcfile.c:1355
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "La sintaxi «%s» no té ordres de colors"
 
-#: src/rcfile.c:1171
+#: src/rcfile.c:1176
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "No es pot entendre l'ordre «%s»"
 
-#: src/rcfile.c:1186
+#: src/rcfile.c:1191
 msgid "Missing option"
 msgstr "Manca l'opció"
 
-#: src/rcfile.c:1208
+#: src/rcfile.c:1213
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "L'opció «%s» requereix un argument"
 
-#: src/rcfile.c:1226
+#: src/rcfile.c:1231
 msgid "Option is not a valid multibyte string"
 msgstr "L'opció no és una cadena d'octets múltiples vàlida"
 
-#: src/rcfile.c:1263 src/rcfile.c:1291 src/rcfile.c:1300
+#: src/rcfile.c:1268 src/rcfile.c:1296 src/rcfile.c:1305
 msgid "Non-blank characters required"
 msgstr "Es requereixen caràcters que no siguen d'espaiat"
 
-#: src/rcfile.c:1273
+#: src/rcfile.c:1278
 msgid "Two single-column characters required"
 msgstr "Es necessiten dos caràcters d'una columna"
 
-#: src/rcfile.c:1339
+#: src/rcfile.c:1344
 #, c-format
 msgid "Cannot unset option \"%s\""
 msgstr "No es pot desestablir l'opció «%s»"
 
-#: src/rcfile.c:1345
+#: src/rcfile.c:1350
 #, c-format
 msgid "Unknown option \"%s\""
 msgstr "L'opció «%s» és desconeguda"
 
-#: src/rcfile.c:1404
+#: src/rcfile.c:1409
 msgid "I can't find my home directory!  Wah!"
 msgstr "No s'ha pogut trobar el directori d'usuari! Ai!"
 
-#: src/rcfile.c:1442
+#: src/rcfile.c:1447
 #, c-format
 msgid ""
 "\n"
@@ -2005,38 +2005,38 @@ msgid "\"%.*s%s\" not found"
 msgstr "«%.*s%s» no trobat"
 
 #. TRANSLATORS: The next three strings are modifiers of the search prompt.
-#: src/search.c:184
+#: src/search.c:186
 msgid " [Case Sensitive]"
 msgstr " [Maj/Min]"
 
-#: src/search.c:188
+#: src/search.c:190
 msgid " [Regexp]"
 msgstr " [ExpReg]"
 
-#: src/search.c:192
+#: src/search.c:194
 msgid " [Backwards]"
 msgstr " [Cap Enrere]"
 
 #. TRANSLATORS: The next two strings are modifiers of the search prompt.
-#: src/search.c:197
+#: src/search.c:199
 msgid " (to replace) in selection"
 msgstr " (a reemplaçar) dins de la selecció"
 
-#: src/search.c:199
+#: src/search.c:201
 msgid " (to replace)"
 msgstr " (a reemplaçar)"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:769
+#: src/search.c:783
 msgid "Replace this instance?"
 msgstr "Voleu reemplaçar aquesta instància?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:945
+#: src/search.c:956
 msgid "Replace with"
 msgstr "Reemplaça amb"
 
-#: src/search.c:986
+#: src/search.c:997
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
@@ -2044,19 +2044,19 @@ msgstr[0] "S'ha reemplaçat %lu coincidència"
 msgstr[1] "S'han reemplaçat %lu coincidències"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:1027
+#: src/search.c:1038
 msgid "Enter line number, column number"
 msgstr "Introduïu el número de línia, número de columna"
 
-#: src/search.c:1054
+#: src/search.c:1065
 msgid "Invalid line or column number"
 msgstr "El número de línia o columna és invàlid"
 
-#: src/search.c:1207
+#: src/search.c:1218
 msgid "Not a bracket"
 msgstr "No és una clau"
 
-#: src/search.c:1274
+#: src/search.c:1285
 msgid "No matching bracket"
 msgstr "No hi ha clau corresponent"
 
@@ -2133,12 +2133,12 @@ msgstr "Error intern: no es pot configurar el desfer. Deseu el vostre treball."
 msgid "Redid action (%s)"
 msgstr "S'ha refet l'acció (%s)"
 
-#: src/text.c:785 src/text.c:2490 src/text.c:2963
+#: src/text.c:785 src/text.c:2489 src/text.c:2962
 msgid "Could not create pipe"
 msgstr "No s'ha pogut crear un conducte"
 
-#: src/text.c:811 src/text.c:2578 src/text.c:2732 src/text.c:3014
-#: src/text.c:3311
+#: src/text.c:811 src/text.c:2576 src/text.c:2732 src/text.c:3013
+#: src/text.c:3309
 msgid "Could not fork"
 msgstr "No s'ha pogut iniciar un altre procés"
 
@@ -2156,35 +2156,31 @@ msgstr "El marcador de cita %s és erroni: %s"
 msgid "Can now UnJustify!"
 msgstr "Ara podeu desjustificar!"
 
-#: src/text.c:2404
+#: src/text.c:2403
 msgid "Edit a replacement"
 msgstr "Edita un reemplaçament"
 
-#: src/text.c:2492
+#: src/text.c:2491
 msgid "Creating misspelled word list, please wait..."
 msgstr "S'està creant una llista de paraules incorrectes, espereu..."
 
-#: src/text.c:2584 src/text.c:3022
+#: src/text.c:2582 src/text.c:3021
 msgid "Could not get size of pipe buffer"
 msgstr "No s'ha pogut obtindre la mida de la memòria intermèdia del conducte"
 
-#: src/text.c:2635
+#: src/text.c:2633
 msgid "Error invoking \"spell\""
 msgstr "S'ha produït un error en iniciar «spell»"
 
-#: src/text.c:2638
+#: src/text.c:2636
 msgid "Error invoking \"sort -f\""
 msgstr "S'ha produït un error en iniciar «sort -f»"
 
-#: src/text.c:2641
+#: src/text.c:2639
 msgid "Error invoking \"uniq\""
 msgstr "S'ha produït un error en iniciar «uniq»"
 
-#: src/text.c:2696 src/text.c:2907
-msgid "Finished checking spelling"
-msgstr "Revisió d'ortografia finalitzada"
-
-#: src/text.c:2759 src/text.c:3340
+#: src/text.c:2759 src/text.c:3338
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "S'ha produït un error en iniciar executar «%s»"
@@ -2203,19 +2199,23 @@ msgstr "La comprovació d'ortografia ha fallat: %s"
 msgid "Spell checking failed: %s: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s: %s"
 
-#: src/text.c:2937
+#: src/text.c:2907
+msgid "Finished checking spelling"
+msgstr "Revisió d'ortografia finalitzada"
+
+#: src/text.c:2936
 msgid "No linter defined for this type of file!"
 msgstr "No hi ha cap analitzador definit per a aquest tipus de fitxer!"
 
-#: src/text.c:2947
+#: src/text.c:2946
 msgid "Save modified buffer before linting?"
 msgstr "Voleu desar el búfer abans d'analitzar-ho?"
 
-#: src/text.c:2969
+#: src/text.c:2968
 msgid "Invoking linter, please wait"
 msgstr "S'esta invocant l'analitzador, espereu"
 
-#: src/text.c:3125
+#: src/text.c:3126
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "S'han rebut 0 línies analitzables de l'ordre: %s"
@@ -2234,34 +2234,34 @@ msgstr "A l'últim missatge"
 msgid "At first message"
 msgstr "Al primer missatge"
 
-#: src/text.c:3250
+#: src/text.c:3248
 msgid "Error: no formatter defined"
 msgstr "Error: no s'ha definit un formatador"
 
-#: src/text.c:3275
+#: src/text.c:3273
 msgid "Finished"
 msgstr "Finalitzat"
 
-#: src/text.c:3280
+#: src/text.c:3278
 msgid "Invoking formatter, please wait"
 msgstr "S'esta invocant el formatador, espereu"
 
-#: src/text.c:3360
+#: src/text.c:3358
 msgid "Finished formatting"
 msgstr "Ha finalitzat el format"
 
-#: src/text.c:3438
+#: src/text.c:3434
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sParaules: %lu  Línies: %ld  Caràcters: %lu"
 
-#: src/text.c:3439
+#: src/text.c:3435
 msgid "In Selection:  "
 msgstr "A la selecció:  "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3453
+#: src/text.c:3449
 msgid "Verbatim Input"
 msgstr "Entrada textual"
 
