@@ -2,6 +2,11 @@
 	* src/text.c (do_alt_speller, do_linter, do_formatter): Distinguish
 	a failure to launch the linter from receiving zero parsable lines;
 	add a new function to glue together the invocation-error string.
+	* src/global.c (shortcut_init): In the Help Viewer and File Browswer,
+	bind the unbound Home and End keys to goto_top and goto_bottom, to
+	mimic the behaviour of these keys in file viewers and web browsers.
+	Also show ^Y and ^V in the WhereisFile menu instead of M-\ and M-/,
+	for similarity with the WhereIs menu.
 
 GNU nano 2.4.1 - 2015.04.14
 2015-04-13  Benno Schulenberg  <bensberg@justemail.net>

@@ -1059,10 +1059,10 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "M-Space", do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", do_next_word_void, 0);
 #endif
-    add_to_sclist(MMOST, "^A", do_home, 0);
-    add_to_sclist(MMOST, "Home", do_home, 0);
-    add_to_sclist(MMOST, "^E", do_end, 0);
-    add_to_sclist(MMOST, "End", do_end, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "^A", do_home, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "Home", do_home, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "^E", do_end, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "End", do_end, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0);
@@ -1155,12 +1155,14 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Down", get_history_newer_void, 0);
 #endif
 #ifndef DISABLE_BROWSER
+    add_to_sclist(MWHEREISFILE, "^Y", do_first_file, 0);
+    add_to_sclist(MWHEREISFILE, "^V", do_last_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-\\", do_first_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", do_first_file, 0);
-    add_to_sclist(MWHEREISFILE, "^Y", do_first_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", do_last_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", do_last_file, 0);
-    add_to_sclist(MWHEREISFILE, "^V", do_last_file, 0);
+    add_to_sclist(MBROWSER, "Home", do_first_file, 0);
+    add_to_sclist(MBROWSER, "End", do_last_file, 0);
     add_to_sclist(MBROWSER, "^_", goto_dir_void, 0);
     add_to_sclist(MBROWSER, "M-G", goto_dir_void, 0);
     add_to_sclist(MBROWSER, "F13", goto_dir_void, 0);
@@ -1178,6 +1180,8 @@ void shortcut_init(void)
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0);
 #ifndef DISABLE_HELP
     add_to_sclist(MHELP, "^G", do_exit, 0);
+    add_to_sclist(MHELP, "Home", do_first_line, 0);
+    add_to_sclist(MHELP, "End", do_last_line, 0);
 #endif
     add_to_sclist(MMOST, "^I", do_tab, 0);
     add_to_sclist(MMOST, "^M", do_enter_void, 0);
