@@ -7,6 +7,8 @@
 	mimic the behaviour of these keys in file viewers and web browsers.
 	Also show ^Y and ^V in the WhereisFile menu instead of M-\ and M-/,
 	for similarity with the WhereIs menu.
+	* src/global.c (shortcut_init): Arrange the movement keys in the File
+	Browser in the order of ascending stride, as in the Help Viewer.
 
 GNU nano 2.4.1 - 2015.04.14
 2015-04-13  Benno Schulenberg  <bensberg@justemail.net>

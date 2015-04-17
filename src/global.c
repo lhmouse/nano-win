@@ -490,12 +490,14 @@ const char *whereis_next_tag = N_("WhereIs Next");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    /* TRANSLATORS: Try to keep the next eight strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep the next ten strings at most 10 characters. */
     const char *whereis_tag = N_("Where Is");
     const char *replace_tag = N_("Replace");
     const char *gotoline_tag = N_("Go To Line");
     const char *prev_line_tag = N_("Prev Line");
     const char *next_line_tag = N_("Next Line");
+    const char *prev_page_tag = N_("Prev Page");
+    const char *next_page_tag = N_("Next Page");
     const char *read_file_tag = N_("Read File");
 #ifndef DISABLE_JUSTIFY
     const char *fulljustify_tag = N_("FullJstify");
@@ -782,10 +784,10 @@ void shortcut_init(void)
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
 
-    add_to_funcs(do_page_up, MMAIN|MHELP|MBROWSER,
-	N_("Prev Page"), IFSCHELP(nano_prevpage_msg), TOGETHER, VIEW);
-    add_to_funcs(do_page_down, MMAIN|MHELP|MBROWSER,
-	N_("Next Page"), IFSCHELP(nano_nextpage_msg), TOGETHER, VIEW);
+    add_to_funcs(do_page_up, MMAIN|MHELP,
+	prev_page_tag, IFSCHELP(nano_prevpage_msg), TOGETHER, VIEW);
+    add_to_funcs(do_page_down, MMAIN|MHELP,
+	next_page_tag, IFSCHELP(nano_nextpage_msg), TOGETHER, VIEW);
 
     add_to_funcs(do_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	N_("First Line"), IFSCHELP(nano_firstline_msg), TOGETHER, VIEW);
@@ -966,10 +968,15 @@ void shortcut_init(void)
 	add_to_funcs(to_files_void, MWRITEFILE|MINSERTFILE,
 	    N_("To Files"), IFSCHELP(nano_tofiles_msg), TOGETHER, VIEW);
 
+    add_to_funcs(do_page_up, MBROWSER,
+	prev_page_tag, IFSCHELP(nano_prevpage_msg), TOGETHER, VIEW);
+    add_to_funcs(do_page_down, MBROWSER,
+	next_page_tag, IFSCHELP(nano_nextpage_msg), TOGETHER, VIEW);
+
     add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
 	N_("First File"), IFSCHELP(nano_firstfile_msg), TOGETHER, VIEW);
     add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
-	N_("Last File"), IFSCHELP(nano_lastfile_msg), TOGETHER, VIEW);
+	N_("Last File"), IFSCHELP(nano_lastfile_msg), BLANKAFTER, VIEW);
 #endif
 
 #if !defined(NANO_TINY) && !defined(DISABLE_BROWSER)
