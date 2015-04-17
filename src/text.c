@@ -63,6 +63,18 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
+#if !defined(DISABLE_COLOR) || !defined(DISABLE_SPELLER)
+/* Return an error message containing the given name. */
+char *invocation_error(const char *name)
+{
+    char *message, *invoke_error = _("Error invoking \"%s\"");
+
+    message = charalloc(strlen(invoke_error) + strlen(name) + 1);
+    sprintf(message, invoke_error, name);
+    return message;
+}
+#endif /* !DISABLE_COLOR || !DISABLE_SPELLER */
+
 /* Delete the character under the cursor. */
 void do_deletion(undo_type action)
 {
@@ -2753,21 +2765,12 @@ const char *do_alt_speller(char *tempfile_name)
      * the windows based on the new screen dimensions. */
     window_init();
 
-    if (!WIFEXITED(alt_spell_status) ||
-		WEXITSTATUS(alt_spell_status) != 0) {
-	char *alt_spell_error;
-	char *invoke_error = _("Error invoking \"%s\"");
-
+    if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
 #ifndef NANO_TINY
 	/* Turn the mark back on if it was on before. */
 	openfile->mark_set = old_mark_set;
 #endif
-
-	alt_spell_error =
-		charalloc(strlen(invoke_error) +
-		strlen(alt_speller) + 1);
-	sprintf(alt_spell_error, invoke_error, alt_speller);
-	return alt_spell_error;
+	return invocation_error(alt_speller);
     }
 
 #ifndef NANO_TINY
@@ -2991,17 +2994,17 @@ void do_linter(void)
 
 	/* Send the linter's standard output + err to the pipe. */
 	if (dup2(lint_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-	    exit(1);
+	    exit(9);
 	if (dup2(lint_fd[1], STDERR_FILENO) != STDERR_FILENO)
-	    exit(1);
+	    exit(9);
 
 	close(lint_fd[1]);
 
 	/* Start the linter program; we are using $PATH. */
 	execvp(lintargs[0], lintargs);
 
-	/* This should not be reached if linter is found. */
-	exit(1);
+	/* This is only reached when the linter is not found. */
+	exit(9);
     }
 
     /* Parent continues here. */
@@ -3115,10 +3118,14 @@ void do_linter(void)
 	read_buff_ptr++;
     }
 
-    /* Process the end of the linting process.
-     * XXX: The return value should be checked.
-     * Will make an invocation-error routine. */
+    /* Process the end of the linting process. */
     waitpid(pid_lint, &lint_status, 0);
+
+    if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
+	statusbar(invocation_error(openfile->syntax->linter));
+	lint_cleanup();
+	return;
+    }
 
     free(read_buff);
 
@@ -3332,17 +3339,9 @@ void do_formatter(void)
      * the windows based on the new screen dimensions. */
     window_init();
 
-    if (!WIFEXITED(format_status) ||
-		WEXITSTATUS(format_status) != 0) {
-	char *format_error;
-	char *invoke_error = _("Error invoking \"%s\"");
-
-	format_error =
-		charalloc(strlen(invoke_error) +
-		strlen(openfile->syntax->formatter) + 1);
-	sprintf(format_error, invoke_error, openfile->syntax->formatter);
-	finalstatus = format_error;
-    } else {
+    if (!WIFEXITED(format_status) || WEXITSTATUS(format_status) != 0)
+	finalstatus = invocation_error(openfile->syntax->formatter);
+    else {
 	/* Replace the text of the current buffer with the formatted text. */
 	replace_buffer(temp);
 

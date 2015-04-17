@@ -1,3 +1,8 @@
+2015-04-17  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_alt_speller, do_linter, do_formatter): Distinguish
+	a failure to launch the linter from receiving zero parsable lines;
+	add a new function to glue together the invocation-error string.
+
 2015-04-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Fix compilation with --enable-tiny.
 	* README: Mention also the Savannah page for reporting bugs.
