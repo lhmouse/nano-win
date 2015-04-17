@@ -3,6 +3,7 @@
 	a failure to launch the linter from receiving zero parsable lines;
 	add a new function to glue together the invocation-error string.
 
+GNU nano 2.4.1 - 2015.04.14
 2015-04-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Fix compilation with --enable-tiny.
 	* README: Mention also the Savannah page for reporting bugs.
@@ -119,7 +120,7 @@
 	* src/text.c (do_alt_speller): timestamp can just be a time_t.
 	Fixes compilation on win32 and macOS.
 
-GNU nano 2.4.0  - 2015.03.22
+GNU nano 2.4.0 - 2015.03.22
 2015-03-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c (move_mbleft): Start looking for a multibyte char
 	not at the start of the string, but only as far back as such a
