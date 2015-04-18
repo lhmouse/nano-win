@@ -1,6 +1,14 @@
 2015-04-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c, src/nano.c, doc/man/nanorc.5, doc/texinfo/nano.texi:
 	Make the descriptions of the multibuffer feature more accurate.
+	* src/winio.c (display_string): Make sure an invalid starting byte
+	of a multibyte sequence is properly terminated, so that it doesn't
+	pick up lingering bytes of any previous content.  This prevents the
+	displaying of ghosts -- characters that aren't really there -- when a
+	file contains valid ánd invalid UTF-8 sequences.  For an example see:
+	https://lists.gnu.org/archive/html/nano-devel/2015-04/msg00052.html.
+	Also make two comments more accurate: an invalid multibyte sequence
+	will never be categorized as a control character or anything else.
 
 2015-04-18  Mark Oteiza  <mvoteiza@udel.edu>
 	* doc/syntax/{python,ruby,sh,tex}.nanorc: Add a linter definition.
