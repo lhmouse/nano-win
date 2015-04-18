@@ -6,10 +6,12 @@ pkgdata_DATA =	asm.nanorc \
 		css.nanorc \
 		debian.nanorc \
 		default.nanorc \
+		elisp.nanorc \
 		fortran.nanorc \
 		gentoo.nanorc \
 		go.nanorc \
 		groff.nanorc \
+		guile.nanorc \
 		html.nanorc \
 		java.nanorc \
 		javascript.nanorc \
