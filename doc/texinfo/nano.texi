@@ -157,7 +157,7 @@ Convert typed tabs to spaces.
 
 @item -F
 @itemx --multibuffer
-Enable multiple file buffers (if support for them has been compiled in).
+Read a file into a new buffer by default.
 
 @item -G
 @itemx --locking
@@ -688,7 +688,7 @@ Enable mouse support, so that mouse clicks can be used to place the
 cursor, set the mark (with a double click), or execute shortcuts.
 
 @item set multibuffer
-Allow inserting files into their own buffers.
+When reading in a file with ^R, insert it into a new buffer by default.
 
 @item set noconvert
 Don't convert files from DOS/Mac format.
@@ -949,8 +949,8 @@ Exits from the program (or from the help viewer or the file browser).
 Writes the current buffer to disk.
 
 @item insert
-Inserts a file into the current buffer (or into a new buffer when multibuffer
-is enabled).
+Inserts a file into the current buffer (at the current cursor position),
+or into a new buffer when option @code{multibuffer} is set.
 
 @item whereis
 Searches for text in the current buffer -- or for filenames matching
@@ -1059,10 +1059,10 @@ Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 (pairs) with the one under the cursor.
 
 @item prevbuf
-Switches to editing/viewing the previous buffer when using multibuffer mode.
+Switches to editing/viewing the previous buffer when multiple buffers are open.
 
 @item nextbuf
-Switches to editing/viewing the next buffer when using multibuffer mode.
+Switches to editing/viewing the next buffer when multiple buffers are open.
 
 @item verbatim
 Inserts the next character verbatim into the file.
@@ -1186,7 +1186,8 @@ Toggles whether typed tabs will be converted to spaces.
 Toggles whether a backup will be made of the file to be edited.
 
 @item multibuffer
-Toggles the use of multiple file buffers (if available).
+Toggles whether a file is inserted into the current buffer
+or read into a new buffer.
 
 @item mouse
 Toggles mouse support.
@@ -1378,7 +1379,7 @@ command-line option, which enables the mouse functionality.
 @item --disable-multibuffer
 Disable support for opening multiple files at a time and switching
 between them on the fly.  This also eliminates the -F command-line
-option, which switches the use of multiple file buffers on.
+option, which causes a file to be read into a separate buffer by default.
 
 @item --disable-nanorc
 Disable support for reading the nanorc files at startup.  With such

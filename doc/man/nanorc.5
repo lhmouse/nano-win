@@ -132,7 +132,7 @@ System, and on the console when gpm is running.  Text can still be
 selected through dragging by holding down the Shift key.
 .TP
 .B set multibuffer
-Allow inserting files into their own buffers.
+When reading in a file with ^R, insert it into a new buffer by default.
 .TP
 .B set noconvert
 Don't convert files from DOS/Mac format.
@@ -379,8 +379,8 @@ Exits from the program (or from the help viewer or the file browser).
 Writes the current buffer to disk.
 .TP
 .B insert
-Inserts a file into the current buffer (or into a new buffer when multibuffer
-is enabled).
+Inserts a file into the current buffer (at the current cursor position),
+or into a new buffer when option \fBmultibuffer\fR is set.
 .TP
 .B whereis
 Searches for text in the current buffer -- or for filenames matching
@@ -492,10 +492,10 @@ Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 (pairs) with the one under the cursor.
 .TP
 .B prevbuf
-Switches to editing/viewing the previous buffer when using multibuffer mode.
+Switches to editing/viewing the previous buffer when multiple buffers are open.
 .TP
 .B nextbuf
-Switches to editing/viewing the next buffer when using multibuffer mode.
+Switches to editing/viewing the next buffer when multiple buffers are open.
 .TP
 .B verbatim
 Inserts the next character verbatim into the file.
@@ -619,7 +619,8 @@ Toggles whether typed tabs will be converted to spaces.
 Toggles whether a backup will be made of the file to be edited.
 .TP
 .B multibuffer
-Toggles the use of multiple file buffers (if support for them has been compiled in).
+Toggles whether a file is inserted into the current buffer
+or read into a new buffer.
 .TP
 .B mouse
 Toggles mouse support.

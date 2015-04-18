@@ -858,7 +858,8 @@ void usage(void)
 	N_("Convert typed tabs to spaces"));
 #endif
 #ifndef DISABLE_MULTIBUFFER
-    print_opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
+    print_opt("-F", "--multibuffer",
+	N_("Read a file into a new buffer by default"));
 #endif
 #ifndef NANO_TINY
     print_opt("-G", "--locking",

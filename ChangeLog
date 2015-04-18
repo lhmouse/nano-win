@@ -1,3 +1,7 @@
+2015-04-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c, src/nano.c, doc/man/nanorc.5, doc/texinfo/nano.texi:
+	Make the descriptions of the multibuffer feature more accurate.
+
 2015-04-18  Mark Oteiza  <mvoteiza@udel.edu>
 	* doc/syntax/{python,ruby,sh,tex}.nanorc: Add a linter definition.
 	* doc/syntax/elisp.nanorc: New file; syntax highlighting for Elisp.
