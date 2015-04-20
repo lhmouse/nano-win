@@ -471,7 +471,7 @@ void do_home(void)
     }
 #endif
 
-    if (need_horizontal_update(pww_save))
+    if (need_screen_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -483,7 +483,7 @@ void do_end(void)
     openfile->current_x = strlen(openfile->current->data);
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_update(pww_save))
+    if (need_screen_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -534,7 +534,7 @@ void do_up(
      * needs to be redrawn if we're not on the first page, and the
      * latter needs to be drawn unconditionally. */
     if (openfile->current_y > 0) {
-	if (need_vertical_update(0))
+	if (need_screen_update(0))
 	    update_line(openfile->current->next, 0);
 	update_line(openfile->current, openfile->current_x);
     }
@@ -632,7 +632,7 @@ void do_down(
 	|| ISSET(SOFTWRAP)
 #endif
 	) {
-	if (need_vertical_update(0))
+	if (need_screen_update(0))
 	    update_line(openfile->current->prev, 0);
 	update_line(openfile->current, openfile->current_x);
     }
@@ -671,7 +671,7 @@ void do_left(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_update(pww_save))
+    if (need_screen_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -692,6 +692,6 @@ void do_right(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_update(pww_save))
+    if (need_screen_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
 }

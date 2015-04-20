@@ -1,3 +1,7 @@
+2015-04-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (need_horizontal_update, need_vertical_update): Fuse
+	two identical functions into one: need_screen_update().
+
 2015-04-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c, src/nano.c, doc/man/nanorc.5, doc/texinfo/nano.texi:
 	Make the descriptions of the multibuffer feature more accurate.

@@ -789,8 +789,7 @@ void reset_cursor(void);
 void edit_draw(filestruct *fileptr, const char *converted, int
 	line, size_t start);
 int update_line(filestruct *fileptr, size_t index);
-bool need_horizontal_update(size_t pww_save);
-bool need_vertical_update(size_t pww_save);
+bool need_screen_update(size_t pww_save);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
 void edit_redraw(filestruct *old_current, size_t pww_save);
 void edit_refresh(void);
