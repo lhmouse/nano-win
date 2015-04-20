@@ -3,6 +3,9 @@
 	two identical functions into one: need_screen_update().
 	* src/prompt.c (need_statusbar_horizontal_update): Rename function
 	to need_statusbar_update() as there is no vertical counterpart.
+	* src/search.c (do_search, do_research): Delete redundant reprises
+	of a regex search: finding an occurrence only at the very starting
+	point of the search necessarily means it is the only occurrence.
 
 2015-04-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c, src/nano.c, doc/man/nanorc.5, doc/texinfo/nano.texi:

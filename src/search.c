@@ -479,33 +479,11 @@ void do_search(void)
 #endif
 	FALSE, openfile->current, openfile->current_x, answer, NULL);
 
-    /* Check to see if there's only one occurrence of the string and
-     * we're on it now. */
+    /* If we found something, and we're back at the exact same spot where
+     * we started searching, then this is the only occurrence. */
     if (fileptr == openfile->current && fileptr_x ==
 	openfile->current_x && didfind) {
-#ifdef HAVE_REGEX_H
-	/* Do the search again, skipping over the current line, if we're
-	 * doing a bol and/or eol regex search ("^", "$", or "^$"), so
-	 * that we find one only once per line.  We should only end up
-	 * back at the same position if the string isn't found again, in
-	 * which case it's the only occurrence. */
-	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
-		answer)) {
-	    didfind = findnextstr(
-#ifndef DISABLE_SPELLER
-		FALSE,
-#endif
-		TRUE, openfile->current,
-		openfile->current_x, answer, NULL);
-	    if (fileptr == openfile->current && fileptr_x ==
-		openfile->current_x && !didfind)
-		statusbar(_("This is the only occurrence"));
-	} else {
-#endif
 	    statusbar(_("This is the only occurrence"));
-#ifdef HAVE_REGEX_H
-	}
-#endif
     }
 
     openfile->placewewant = xplustabs();
@@ -539,33 +517,11 @@ void do_research(void)
 		FALSE, openfile->current, openfile->current_x,
 		last_search, NULL);
 
-	/* Check to see if there's only one occurrence of the string and
-	 * we're on it now. */
+	/* If we found something, and we're back at the exact same spot
+	 * where we started searching, then this is the only occurrence. */
 	if (fileptr == openfile->current && fileptr_x ==
 		openfile->current_x && didfind) {
-#ifdef HAVE_REGEX_H
-	    /* Do the search again, skipping over the current line, if
-	     * we're doing a bol and/or eol regex search ("^", "$", or
-	     * "^$"), so that we find one only once per line.  We should
-	     * only end up back at the same position if the string isn't
-	     * found again, in which case it's the only occurrence. */
-	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
-		last_search)) {
-		didfind = findnextstr(
-#ifndef DISABLE_SPELLER
-			FALSE,
-#endif
-			TRUE, openfile->current, openfile->current_x,
-			last_search, NULL);
-		if (fileptr == openfile->current && fileptr_x ==
-			openfile->current_x && !didfind)
-		    statusbar(_("This is the only occurrence"));
-	    } else {
-#endif /* HAVE_REGEX_H */
 		statusbar(_("This is the only occurrence"));
-#ifdef HAVE_REGEX_H
-	    }
-#endif
 	}
     } else
 	statusbar(_("No current search pattern"));
