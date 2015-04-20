@@ -245,7 +245,7 @@ int do_statusbar_mouse(void)
 			statusbar_xplustabs()) + mouse_x - start_col);
 	    statusbar_pww = statusbar_xplustabs();
 
-	    if (need_statusbar_horizontal_update(pww_save))
+	    if (need_statusbar_update(pww_save))
 		update_statusbar_line(answer, statusbar_x);
 	}
     }
@@ -347,7 +347,7 @@ void do_statusbar_home(void)
 	statusbar_pww = statusbar_xplustabs();
     }
 
-    if (need_statusbar_horizontal_update(pww_save))
+    if (need_statusbar_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
 }
 
@@ -359,7 +359,7 @@ void do_statusbar_end(void)
     statusbar_x = strlen(answer);
     statusbar_pww = statusbar_xplustabs();
 
-    if (need_statusbar_horizontal_update(pww_save))
+    if (need_statusbar_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
 }
 
@@ -372,7 +372,7 @@ void do_statusbar_left(void)
 	statusbar_x = move_mbleft(answer, statusbar_x);
 	statusbar_pww = statusbar_xplustabs();
 
-	if (need_statusbar_horizontal_update(pww_save))
+	if (need_statusbar_update(pww_save))
 	    update_statusbar_line(answer, statusbar_x);
     }
 }
@@ -386,7 +386,7 @@ void do_statusbar_right(void)
 	statusbar_x = move_mbright(answer, statusbar_x);
 	statusbar_pww = statusbar_xplustabs();
 
-	if (need_statusbar_horizontal_update(pww_save))
+	if (need_statusbar_update(pww_save))
 	    update_statusbar_line(answer, statusbar_x);
     }
 }
@@ -500,7 +500,7 @@ bool do_statusbar_next_word(bool allow_punct)
 
     statusbar_pww = statusbar_xplustabs();
 
-    if (need_statusbar_horizontal_update(pww_save))
+    if (need_statusbar_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
 
     /* Return whether we started on a word. */
@@ -595,7 +595,7 @@ bool do_statusbar_prev_word(bool allow_punct)
 
     statusbar_pww = statusbar_xplustabs();
 
-    if (need_statusbar_horizontal_update(pww_save))
+    if (need_statusbar_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
 
     /* Return whether we started on a word. */
@@ -698,10 +698,10 @@ void update_statusbar_line(const char *curranswer, size_t index)
     wnoutrefresh(bottomwin);
 }
 
-/* Return TRUE if we need an update after moving horizontally, and FALSE
- * otherwise.  We need one if pww_save and statusbar_pww are on
+/* Return TRUE if we need an update after moving the cursor, and FALSE
+ * otherwise.  We need an update if pww_save and statusbar_pww are on
  * different pages. */
-bool need_statusbar_horizontal_update(size_t pww_save)
+bool need_statusbar_update(size_t pww_save)
 {
     size_t start_col = strlenpt(prompt) + 2;
 
