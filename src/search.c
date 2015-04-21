@@ -120,10 +120,6 @@ void search_replace_abort(void)
 void search_init_globals(void)
 {
     focusing = TRUE;
-    if (last_search == NULL)
-	last_search = mallocstrcpy(NULL, "");
-    if (last_replace == NULL)
-	last_replace = mallocstrcpy(NULL, "");
 }
 
 /* Set up the system variables for a search or replace.  If use_answer

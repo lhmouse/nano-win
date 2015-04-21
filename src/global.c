@@ -1602,10 +1602,8 @@ void thanks_for_all_the_fish(void)
     if (full_operating_dir != NULL)
 	free(full_operating_dir);
 #endif
-    if (last_search != NULL)
-	free(last_search);
-    if (last_replace != NULL)
-	free(last_replace);
+    free(last_search);
+    free(last_replace);
 #ifndef DISABLE_SPELLER
     if (alt_speller != NULL)
 	free(alt_speller);

@@ -2648,6 +2648,10 @@ int main(int argc, char **argv)
 #endif /* !DISABLE_NANORC */
 #endif /* !NANO_TINY */
 
+    /* Initialize the search and replace strings. */
+    last_search = mallocstrcpy(NULL, "");
+    last_replace = mallocstrcpy(NULL, "");
+
     /* If tabsize wasn't specified, set its default value. */
     if (tabsize == -1)
 	tabsize = WIDTH_OF_TAB;

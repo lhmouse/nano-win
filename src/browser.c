@@ -706,9 +706,6 @@ int filesearch_init(void)
     int input;
     char *buf;
 
-    if (last_search == NULL)
-	last_search = mallocstrcpy(NULL, "");
-
     if (last_search[0] != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
@@ -844,9 +841,6 @@ void do_filesearch(void)
 /* Search for the last given filename again without prompting. */
 void do_fileresearch(void)
 {
-    if (last_search == NULL)
-	last_search = mallocstrcpy(NULL, "");
-
     if (last_search[0] == '\0')
 	statusbar(_("No current search pattern"));
     else
