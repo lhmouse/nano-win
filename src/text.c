@@ -2327,13 +2327,8 @@ bool do_int_spell_fix(const char *word)
 	/* Save where we are. */
     bool canceled = FALSE;
 	/* The return value. */
-    bool case_sens_set = ISSET(CASE_SENSITIVE);
-#ifndef NANO_TINY
-    bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
-#endif
-#ifdef HAVE_REGEX_H
-    bool regexp_set = ISSET(USE_REGEXP);
-#endif
+    unsigned stash[sizeof(flags) / sizeof(flags[0])];
+	/* A storage place for the current flag settings. */
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
     bool added_magicline = FALSE;
@@ -2344,6 +2339,9 @@ bool do_int_spell_fix(const char *word)
     filestruct *top, *bot;
     size_t top_x, bot_x;
 #endif
+
+    /* Save the settings of the global flags. */
+    memcpy(stash, flags, sizeof(flags));
 
     /* Make sure spell-check is case sensitive. */
     SET(CASE_SENSITIVE);
@@ -2466,20 +2464,8 @@ bool do_int_spell_fix(const char *word)
     openfile->current_x = current_x_save;
     openfile->placewewant = pww_save;
 
-    /* Restore case sensitivity setting. */
-    if (!case_sens_set)
-	UNSET(CASE_SENSITIVE);
-
-#ifndef NANO_TINY
-    /* Restore search/replace direction. */
-    if (backwards_search_set)
-	SET(BACKWARDS_SEARCH);
-#endif
-#ifdef HAVE_REGEX_H
-    /* Restore regular expression usage setting. */
-    if (regexp_set)
-	SET(USE_REGEXP);
-#endif
+    /* Restore the settings of the global flags. */
+    memcpy(flags, stash, sizeof(flags));
 
     return !canceled;
 }
