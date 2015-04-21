@@ -579,7 +579,6 @@ void regexp_cleanup(void);
 #endif
 void not_found_msg(const char *str);
 void search_replace_abort(void);
-void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
 bool findnextstr(
 #ifndef DISABLE_SPELLER

@@ -7,6 +7,7 @@
 	in the same short and quick way as above.
 	* src/nano.c (main): Initialize the search and replace strings in
 	a central place, to get rid of a bunch of ifs.
+	* src/search.c (search_init_globals): Elide this tiny function.
 
 2015-04-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (need_horizontal_update, need_vertical_update): Fuse

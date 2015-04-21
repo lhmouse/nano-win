@@ -2356,13 +2356,14 @@ bool do_int_spell_fix(const char *word)
 #endif
 
     /* Save the current search/replace strings. */
-    search_init_globals();
     save_search = last_search;
     save_replace = last_replace;
 
     /* Set the search/replace strings to the misspelled word. */
     last_search = mallocstrcpy(NULL, word);
     last_replace = mallocstrcpy(NULL, word);
+
+    focusing = TRUE;
 
 #ifndef NANO_TINY
     if (old_mark_set) {
