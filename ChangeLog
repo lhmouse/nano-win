@@ -1,3 +1,9 @@
+2015-04-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (findnextfile): Save the settings of the global
+	case-sens, direction, and regexp flags, and restore them on exit.
+	And do this not in do_filesearch() but in findnextfile(), so that
+	it will also work for do_fileresearch().
+
 2015-04-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (need_horizontal_update, need_vertical_update): Fuse
 	two identical functions into one: need_screen_update().

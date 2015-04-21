@@ -755,6 +755,16 @@ void findnextfile(const char *needle)
     const char *filetail = tail(filelist[looking_at]);
 	/* The filename we display, minus the path. */
     const char *rev_start = filetail, *found = NULL;
+    unsigned stash[sizeof(flags) / sizeof(flags[0])];
+	/* A storage place for the current flag settings. */
+
+    /* Save the settings of all flags. */
+    memcpy(stash, flags, sizeof(flags));
+
+    /* Search forward, case insensitive and without regexes. */
+    UNSET(BACKWARDS_SEARCH);
+    UNSET(CASE_SENSITIVE);
+    UNSET(USE_REGEXP);
 
     /* Step through each filename in the list until a match is found or
      * we've come back to the point where we started. */
@@ -797,6 +807,9 @@ void findnextfile(const char *needle)
 	rev_start = filetail;
     }
 
+    /* Restore the settings of all flags. */
+    memcpy(flags, stash, sizeof(flags));
+
     /* Select the one we've found. */
     selected = looking_at;
 }
@@ -804,10 +817,6 @@ void findnextfile(const char *needle)
 /* Search for a filename. */
 void do_filesearch(void)
 {
-    UNSET(CASE_SENSITIVE);
-    UNSET(USE_REGEXP);
-    UNSET(BACKWARDS_SEARCH);
-
     if (filesearch_init() != 0) {
 	/* Cancelled, or a blank search string, or done something. */
 	bottombars(MBROWSER);
