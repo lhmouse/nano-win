@@ -632,10 +632,6 @@ ssize_t do_replace_loop(
     ssize_t numreplaced = -1;
     size_t match_len;
     bool replaceall = FALSE;
-#ifdef HAVE_REGEX_H
-    /* The starting-line match and bol/eol regex flags. */
-    bool begin_line = FALSE, bol_or_eol = FALSE;
-#endif
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
     filestruct *top, *bot;
@@ -669,16 +665,7 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	whole_word,
 #endif
-#ifdef HAVE_REGEX_H
-	/* We should find a bol and/or eol regex only once per line.  If
-	 * the bol_or_eol flag is set, it means that the last search
-	 * found one on the beginning line, so we should skip over the
-	 * beginning line when doing this search. */
-	bol_or_eol
-#else
-	FALSE
-#endif
-	, real_current, *real_current_x, needle, &match_len)) {
+	FALSE, real_current, *real_current_x, needle, &match_len)) {
 	int i = 0;
 
 #ifndef NANO_TINY
@@ -690,22 +677,6 @@ ssize_t do_replace_loop(
 		(openfile->current == bot && openfile->current_x > bot_x) ||
 		(openfile->current == top && openfile->current_x < top_x))
 		break;
-	}
-#endif
-
-#ifdef HAVE_REGEX_H
-	/* If the bol_or_eol flag is set, we've found a match on the
-	 * beginning line already, and we're still on the beginning line
-	 * after the search, it means that we've wrapped around, so
-	 * we're done. */
-	if (bol_or_eol && begin_line && openfile->current == real_current)
-	    break;
-	/* Otherwise, set the begin_line flag if we've found a match on
-	 * the beginning line, reset the bol_or_eol flag, and continue. */
-	else {
-	    if (openfile->current == real_current)
-		begin_line = TRUE;
-	    bol_or_eol = FALSE;
 	}
 #endif
 
@@ -740,13 +711,6 @@ ssize_t do_replace_loop(
 		break;
 	    }
 	}
-
-#ifdef HAVE_REGEX_H
-	/* Set the bol_or_eol flag if we're doing a bol and/or eol regex
-	 * replace ("^", "$", or "^$"). */
-	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp, needle))
-	    bol_or_eol = TRUE;
-#endif
 
 	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
 	    char *copy;

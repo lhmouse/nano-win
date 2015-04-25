@@ -250,15 +250,6 @@ ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
 #endif /* !DISABLE_NANORC */
 
 #ifdef HAVE_REGEX_H
-/* Do the compiled regex in preg and the regex in string match the
- * beginning or end of a line? */
-bool regexp_bol_or_eol(const regex_t *preg, const char *string)
-{
-    return (regexec(preg, string, 0, NULL, 0) == 0 &&
-	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
-	REG_NOMATCH);
-}
-
 /* Fix the regex if we're on platforms which require an adjustment
  * from GNU-style to BSD-style word boundaries. */
 const char *fixbounds(const char *r)
@@ -290,12 +281,11 @@ const char *fixbounds(const char *r)
     fprintf(stderr, "fixbounds(): Ending string = \"%s\"\n", r3);
 #endif
     return (const char *) r3;
-#endif
+#endif /* !GNU_WORDBOUNDS */
 
     return r;
 }
-
-#endif
+#endif /* HAVE_REGEX_H */
 
 #ifndef DISABLE_SPELLER
 /* Is the word starting at position pos in buf a whole word? */
