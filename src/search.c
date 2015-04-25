@@ -249,8 +249,7 @@ int search_init(bool replacing, bool use_answer)
     return 0;
 }
 
-/* Look for needle, starting at (current, current_x).  If no_sameline is
- * TRUE, skip over begin when looking for needle.  begin is the line
+/* Look for needle, starting at (current, current_x).  begin is the line
  * where we first started searching, at column begin_x.  The return
  * value specifies whether we found anything.  If we did, set needle_len
  * to the length of the string we found if it isn't NULL. */
@@ -258,8 +257,8 @@ bool findnextstr(
 #ifndef DISABLE_SPELLER
 	bool whole_word,
 #endif
-	bool no_sameline, const filestruct *begin, size_t begin_x, const
-	char *needle, size_t *needle_len)
+	const filestruct *begin, size_t begin_x,
+	const char *needle, size_t *needle_len)
 {
     size_t found_len;
 	/* The length of the match we find. */
@@ -324,17 +323,11 @@ bool findnextstr(
 			fileptr->data, word);
 		free(word);
 	    }
-#endif
 
 	    /* If we're searching for whole words and this potential
-	     * match isn't a whole word, or if we're not allowed to find
-	     * a match on the same line we started on and this potential
-	     * match is on that line, continue searching. */
-	    if (
-#ifndef DISABLE_SPELLER
-		(!whole_word || found_whole) &&
+	     * match isn't a whole word, continue searching. */
+	    if (!whole_word || found_whole)
 #endif
-		(!no_sameline || fileptr != openfile->current))
 		break;
 	}
 
@@ -467,7 +460,7 @@ void do_search(void)
 #ifndef DISABLE_SPELLER
 	FALSE,
 #endif
-	FALSE, openfile->current, openfile->current_x, answer, NULL);
+	openfile->current, openfile->current_x, answer, NULL);
 
     /* If we found something, and we're back at the exact same spot where
      * we started searching, then this is the only occurrence. */
@@ -504,8 +497,7 @@ void do_research(void)
 #ifndef DISABLE_SPELLER
 		FALSE,
 #endif
-		FALSE, openfile->current, openfile->current_x,
-		last_search, NULL);
+		openfile->current, openfile->current_x, last_search, NULL);
 
 	/* If we found something, and we're back at the exact same spot
 	 * where we started searching, then this is the only occurrence. */
@@ -665,7 +657,7 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	whole_word,
 #endif
-	FALSE, real_current, *real_current_x, needle, &match_len)) {
+	real_current, *real_current_x, needle, &match_len)) {
 	int i = 0;
 
 #ifndef NANO_TINY

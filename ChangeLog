@@ -1,6 +1,7 @@
 2015-04-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Remove the unintended special
 	case for replacing multiple occurrences of a literal ^ or $.
+	* src/search.c (findnextstr): Delete an always-FALSE parameter.
 
 2015-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (findnextfile): Save the settings of the global

@@ -584,8 +584,8 @@ bool findnextstr(
 #ifndef DISABLE_SPELLER
 	bool whole_word,
 #endif
-	bool no_sameline, const filestruct *begin, size_t begin_x, const
-	char *needle, size_t *needle_len);
+	const filestruct *begin, size_t begin_x,
+	const char *needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
