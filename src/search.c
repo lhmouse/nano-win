@@ -255,7 +255,7 @@ int search_init(bool replacing, bool use_answer)
  * to the length of the string we found if it isn't NULL. */
 bool findnextstr(
 #ifndef DISABLE_SPELLER
-	bool whole_word,
+	bool whole_word_only,
 #endif
 	const filestruct *begin, size_t begin_x,
 	const char *needle, size_t *needle_len)
@@ -315,7 +315,7 @@ bool findnextstr(
 #ifndef DISABLE_SPELLER
 	    /* If we're searching for whole words, see if this potential
 	     * match is a whole word. */
-	    if (whole_word) {
+	    if (whole_word_only) {
 		char *word = mallocstrncpy(NULL, found, found_len + 1);
 		word[found_len] = '\0';
 
@@ -326,7 +326,7 @@ bool findnextstr(
 
 	    /* If we're searching for whole words and this potential
 	     * match isn't a whole word, continue searching. */
-	    if (!whole_word || found_whole)
+	    if (!whole_word_only || found_whole)
 #endif
 		break;
 	}
@@ -616,7 +616,7 @@ char *replace_line(const char *needle)
  * canceled isn't NULL, set it to TRUE if we canceled. */
 ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
-	bool whole_word,
+	bool whole_word_only,
 #endif
 	bool *canceled, const filestruct *real_current, size_t
 	*real_current_x, const char *needle)
@@ -655,7 +655,7 @@ ssize_t do_replace_loop(
     findnextstr_wrap_reset();
     while (findnextstr(
 #ifndef DISABLE_SPELLER
-	whole_word,
+	whole_word_only,
 #endif
 	real_current, *real_current_x, needle, &match_len)) {
 	int i = 0;

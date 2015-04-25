@@ -2,6 +2,8 @@
 	* src/search.c (do_replace_loop): Remove the unintended special
 	case for replacing multiple occurrences of a literal ^ or $.
 	* src/search.c (findnextstr): Delete an always-FALSE parameter.
+	* src/search.c (findnextstr): Rename the parameter 'whole_word'
+	to 'whole_word_only', for clarity.
 
 2015-04-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (findnextfile): Save the settings of the global
