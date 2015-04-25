@@ -1,6 +1,7 @@
 2015-04-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Remove the unintended special
-	case for replacing multiple occurrences of a literal ^ or $.
+	case for replacing multiple occurrences of a literal ^ or $; see
+	https://lists.gnu.org/archive/html/nano-devel/2015-04/msg00065.html.
 	* src/search.c (findnextstr): Delete an always-FALSE parameter.
 	* src/search.c (findnextstr): Rename the parameter 'whole_word'
 	to 'whole_word_only', for clarity.
