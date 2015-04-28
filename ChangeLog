@@ -1,3 +1,8 @@
+2015-04-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/color.c (color_update): Match the file regex of a syntax against
+	the absolute, canonical path instead of against the path the user gave.
+	This fixes Savannah bug #44288, reported by Mike Frysinger.
+
 2015-04-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Remove the unintended special
 	case for replacing multiple occurrences of a literal ^ or $; see

@@ -3,7 +3,7 @@
  *   color.c                                                              *
  *                                                                        *
  *   Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,  *
- *   2010, 2011, 2013, 2014 Free Software Foundation, Inc.                *
+ *   2010, 2011, 2013, 2014, 2015 Free Software Foundation, Inc.          *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 3, or (at your option)  *
@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
@@ -187,6 +188,21 @@ void color_update(void)
      * there was no syntax by that name, get the syntax based on the
      * file extension, then try the headerline, and then try magic. */
     if (openfile->colorstrings == NULL) {
+	char *currentdir = getcwd(NULL, PATH_MAX + 1);
+	char *joinednames = charalloc(PATH_MAX + 1);
+	char *fullname = NULL;
+
+	if (currentdir != NULL) {
+	    /* Concatenate the current working directory with the
+	     * specified filename, and canonicalize the result. */
+	    sprintf(joinednames, "%s/%s", currentdir, openfile->filename);
+	    fullname = realpath(joinednames, NULL);
+	    free(currentdir);
+	}
+
+	if (fullname == NULL)
+	    fullname = mallocstrcpy(fullname, openfile->filename);
+
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
 
@@ -211,7 +227,7 @@ void color_update(void)
 		}
 
 		/* Set colorstrings if we match the extension regex. */
-		if (regexec(e->ext, openfile->filename, 0, NULL, 0) == 0) {
+		if (regexec(e->ext, fullname, 0, NULL, 0) == 0) {
 		    openfile->syntax = tmpsyntax;
 		    openfile->colorstrings = tmpsyntax->color;
 		    break;
@@ -223,6 +239,9 @@ void color_update(void)
 		    nfreeregex(&e->ext);
 	    }
 	}
+
+	free(joinednames);
+	free(fullname);
 
 	/* Check the headerline if the extension didn't match anything. */
 	if (openfile->colorstrings == NULL) {
