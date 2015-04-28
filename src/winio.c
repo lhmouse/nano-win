@@ -692,20 +692,16 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 				   * Terminal. */
 			    retval = get_escape_seq_abcd(seq[4]);
 			    break;
-			case 'P': /* Esc O 1 ; 2 P == F13 on
-				   * Terminal. */
+			case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
 			    retval = KEY_F(13);
 			    break;
-			case 'Q': /* Esc O 1 ; 2 Q == F14 on
-				   * Terminal. */
+			case 'Q': /* Esc O 1 ; 2 Q == F14 on Terminal. */
 			    retval = KEY_F(14);
 			    break;
-			case 'R': /* Esc O 1 ; 2 R == F15 on
-				   * Terminal. */
+			case 'R': /* Esc O 1 ; 2 R == F15 on Terminal. */
 			    retval = KEY_F(15);
 			    break;
-			case 'S': /* Esc O 1 ; 2 S == F16 on
-				   * Terminal. */
+			case 'S': /* Esc O 1 ; 2 S == F16 on Terminal. */
 			    retval = KEY_F(16);
 			    break;
 		    }
@@ -714,18 +710,14 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 	    case '5':
 		if (seq_len >= 5) {
 		    switch (seq[4]) {
-			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on
-				   * Terminal. */
-			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on
-				   * Terminal. */
+			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
+			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
 			    retval = get_escape_seq_abcd(seq[4]);
 			    break;
-			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on
-				   * Terminal. */
+			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
 			    retval = CONTROL_RIGHT;
 			    break;
-			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on
-				   * Terminal. */
+			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
 			    retval = CONTROL_LEFT;
 			    break;
 		    }
@@ -740,32 +732,25 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case '2':
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
-				case 'P': /* Esc O 2 P == F13 on
-					   * xterm. */
+				case 'P': /* Esc O 2 P == F13 on xterm. */
 				    retval = KEY_F(13);
 				    break;
-				case 'Q': /* Esc O 2 Q == F14 on
-					   * xterm. */
+				case 'Q': /* Esc O 2 Q == F14 on xterm. */
 				    retval = KEY_F(14);
 				    break;
-				case 'R': /* Esc O 2 R == F15 on
-					   * xterm. */
+				case 'R': /* Esc O 2 R == F15 on xterm. */
 				    retval = KEY_F(15);
 				    break;
-				case 'S': /* Esc O 2 S == F16 on
-					   * xterm. */
+				case 'S': /* Esc O 2 S == F16 on xterm. */
 				    retval = KEY_F(16);
 				    break;
 			    }
 			}
 			break;
 		    case 'A': /* Esc O A == Up on VT100/VT320/xterm. */
-		    case 'B': /* Esc O B == Down on
-			       * VT100/VT320/xterm. */
-		    case 'C': /* Esc O C == Right on
-			       * VT100/VT320/xterm. */
-		    case 'D': /* Esc O D == Left on
-			       * VT100/VT320/xterm. */
+		    case 'B': /* Esc O B == Down on VT100/VT320/xterm. */
+		    case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
+		    case 'D': /* Esc O D == Left on VT100/VT320/xterm. */
 			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
@@ -928,20 +913,16 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case '1':
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
-				case '1': /* Esc [ 1 1 ~ == F1 on rxvt/
-					   * Eterm. */
+				case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
 				    retval = KEY_F(1);
 				    break;
-				case '2': /* Esc [ 1 2 ~ == F2 on rxvt/
-					   * Eterm. */
+				case '2': /* Esc [ 1 2 ~ == F2 on rxvt/Eterm. */
 				    retval = KEY_F(2);
 				    break;
-				case '3': /* Esc [ 1 3 ~ == F3 on rxvt/
-					   * Eterm. */
+				case '3': /* Esc [ 1 3 ~ == F3 on rxvt/Eterm. */
 				    retval = KEY_F(3);
 				    break;
-				case '4': /* Esc [ 1 4 ~ == F4 on rxvt/
-					   * Eterm. */
+				case '4': /* Esc [ 1 4 ~ == F4 on rxvt/Eterm. */
 				    retval = KEY_F(4);
 				    break;
 				case '5': /* Esc [ 1 5 ~ == F5 on xterm/
@@ -969,14 +950,10 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 	    case '2':
 		if (seq_len >= 5) {
 		    switch (seq[4]) {
-			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on
-				   * xterm. */
-			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on
-				   * xterm. */
-			case 'C': /* Esc [ 1 ; 2 C == Shift-Right on
-				   * xterm. */
-			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on
-				   * xterm. */
+			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on xterm. */
+			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
+			case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
+			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
 			    retval = get_escape_seq_abcd(seq[4]);
 			    break;
 		    }
@@ -985,18 +962,14 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 	    case '5':
 		if (seq_len >= 5) {
 		    switch (seq[4]) {
-			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on
-				   * xterm. */
-			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on
-				   * xterm. */
+			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
+			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
 			    retval = get_escape_seq_abcd(seq[4]);
 			    break;
-			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on
-				   * xterm. */
+			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on xterm. */
 			    retval = CONTROL_RIGHT;
 			    break;
-			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on
-				   * xterm. */
+			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
 			    retval = CONTROL_LEFT;
 			    break;
 		    }
@@ -1015,49 +988,40 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case '2':
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
-				case '0': /* Esc [ 2 0 ~ == F9 on
-					   * VT220/VT320/Linux console/
-					   * xterm/rxvt/Eterm. */
+				case '0': /* Esc [ 2 0 ~ == F9 on VT220/VT320/
+					   * Linux console/xterm/rxvt/Eterm. */
 				    retval = KEY_F(9);
 				    break;
-				case '1': /* Esc [ 2 1 ~ == F10 on
-					   * VT220/VT320/Linux console/
-					   * xterm/rxvt/Eterm. */
+				case '1': /* Esc [ 2 1 ~ == F10 on VT220/VT320/
+					   * Linux console/xterm/rxvt/Eterm. */
 				    retval = KEY_F(10);
 				    break;
-				case '3': /* Esc [ 2 3 ~ == F11 on
-					   * VT220/VT320/Linux console/
-					   * xterm/rxvt/Eterm. */
+				case '3': /* Esc [ 2 3 ~ == F11 on VT220/VT320/
+					   * Linux console/xterm/rxvt/Eterm. */
 				    retval = KEY_F(11);
 				    break;
-				case '4': /* Esc [ 2 4 ~ == F12 on
-					   * VT220/VT320/Linux console/
-					   * xterm/rxvt/Eterm. */
+				case '4': /* Esc [ 2 4 ~ == F12 on VT220/VT320/
+					   * Linux console/xterm/rxvt/Eterm. */
 				    retval = KEY_F(12);
 				    break;
-				case '5': /* Esc [ 2 5 ~ == F13 on
-					   * VT220/VT320/Linux console/
-					   * rxvt/Eterm. */
+				case '5': /* Esc [ 2 5 ~ == F13 on VT220/VT320/
+					   * Linux console/rxvt/Eterm. */
 				    retval = KEY_F(13);
 				    break;
-				case '6': /* Esc [ 2 6 ~ == F14 on
-					   * VT220/VT320/Linux console/
-					   * rxvt/Eterm. */
+				case '6': /* Esc [ 2 6 ~ == F14 on VT220/VT320/
+					   * Linux console/rxvt/Eterm. */
 				    retval = KEY_F(14);
 				    break;
-				case '8': /* Esc [ 2 8 ~ == F15 on
-					   * VT220/VT320/Linux console/
-					   * rxvt/Eterm. */
+				case '8': /* Esc [ 2 8 ~ == F15 on VT220/VT320/
+					   * Linux console/rxvt/Eterm. */
 				    retval = KEY_F(15);
 				    break;
-				case '9': /* Esc [ 2 9 ~ == F16 on
-					   * VT220/VT320/Linux console/
-					   * rxvt/Eterm. */
+				case '9': /* Esc [ 2 9 ~ == F16 on VT220/VT320/
+					   * Linux console/rxvt/Eterm. */
 				    retval = KEY_F(16);
 				    break;
-				default: /* Esc [ 2 ~ == Insert on
-					  * VT220/VT320/Linux console/
-					  * xterm/Terminal. */
+				default: /* Esc [ 2 ~ == Insert on VT220/VT320/
+					  * Linux console/xterm/Terminal. */
 				    retval = sc_seq_or(do_insertfile_void, 0);
 				    break;
 			    }
@@ -1112,24 +1076,20 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			       * Terminal. */
 			retval = KEY_B2;
 			break;
-		    case 'F': /* Esc [ F == End on FreeBSD
-			       * console/Eterm. */
+		    case 'F': /* Esc [ F == End on FreeBSD console/Eterm. */
 			retval = sc_seq_or(do_end, 0);
 			break;
-		    case 'G': /* Esc [ G == PageDown on FreeBSD
-			       * console. */
+		    case 'G': /* Esc [ G == PageDown on FreeBSD console. */
 			retval = sc_seq_or(do_page_down, 0);
 			break;
 		    case 'H': /* Esc [ H == Home on ANSI/VT220/FreeBSD
 			       * console/Mach console/Eterm. */
 			retval = sc_seq_or(do_home, 0);
 			break;
-		    case 'I': /* Esc [ I == PageUp on FreeBSD
-			       * console. */
+		    case 'I': /* Esc [ I == PageUp on FreeBSD console. */
 			retval = sc_seq_or(do_page_up, 0);
 			break;
-		    case 'L': /* Esc [ L == Insert on ANSI/FreeBSD
-			       * console. */
+		    case 'L': /* Esc [ L == Insert on ANSI/FreeBSD console. */
 			retval = sc_seq_or(do_insertfile_void, 0);
 			break;
 		    case 'M': /* Esc [ M == F1 on FreeBSD console. */
@@ -1141,20 +1101,16 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'O':
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
-				case 'P': /* Esc [ O P == F1 on
-					   * xterm. */
+				case 'P': /* Esc [ O P == F1 on xterm. */
 				    retval = KEY_F(1);
 				    break;
-				case 'Q': /* Esc [ O Q == F2 on
-					   * xterm. */
+				case 'Q': /* Esc [ O Q == F2 on xterm. */
 				    retval = KEY_F(2);
 				    break;
-				case 'R': /* Esc [ O R == F3 on
-					   * xterm. */
+				case 'R': /* Esc [ O R == F3 on xterm. */
 				    retval = KEY_F(3);
 				    break;
-				case 'S': /* Esc [ O S == F4 on
-					   * xterm. */
+				case 'S': /* Esc [ O S == F4 on xterm. */
 				    retval = KEY_F(4);
 				    break;
 			    }
@@ -1197,8 +1153,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			break;
 		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
-		    case 'c': /* Esc [ c == Shift-Right on rxvt/
-			       * Eterm. */
+		    case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 			retval = get_escape_seq_abcd(seq[1]);
 			break;

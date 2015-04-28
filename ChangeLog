@@ -3,6 +3,7 @@
 	the absolute, canonical path instead of against the path the user gave.
 	This fixes Savannah bug #44288, reported by Mike Frysinger.
 	* doc/syntax/po.nanorc: Improve the colouring of message tags.
+	* src/winio.c (get_escape_seq_kbinput): Unwrap a bunch of comments.
 
 2015-04-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Remove the unintended special
