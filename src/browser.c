@@ -543,14 +543,10 @@ void browser_refresh(void)
 {
     static int uimax_digits = -1;
     size_t i;
-    int col = 0;
-	/* The maximum number of columns that the filenames will take
-	 * up. */
-    int line = 0;
-	/* The maximum number of lines that the filenames will take
-	 * up. */
+    int line = 0, col = 0;
+	/* The current line and column while the list is getting displayed. */
     char *foo;
-	/* The file information that we'll display. */
+	/* The additional information that we'll display about a file. */
 
     if (uimax_digits == -1)
 	uimax_digits = digits(UINT_MAX);
@@ -585,15 +581,13 @@ void browser_refresh(void)
 		 * "(dir)", or the file size, plus three columns for the
 		 * ellipsis. */
 
-	/* Start highlighting the currently selected file or
-	 * directory. */
+	/* Start highlighting the currently selected file or directory. */
 	if (i == selected)
 	    wattron(edit, hilite_attribute);
 
 	blank_line(edit, line, col, longest);
 
-	/* If dots is TRUE, we will display something like
-	 * "...ename". */
+	/* If dots is TRUE, we will display something like "...ename". */
 	if (dots)
 	    mvwaddstr(edit, line, col, "...");
 	mvwaddstr(edit, line, dots ? col + 3 : col, disp);
@@ -613,14 +607,12 @@ void browser_refresh(void)
 	    /* If the file is a symlink that points to a directory,
 	     * display it as a directory. */
 	    else
-		/* TRANSLATORS: Try to keep this at most 7
-		 * characters. */
+		/* TRANSLATORS: Try to keep this at most 7 characters. */
 		foo = mallocstrcpy(NULL, _("(dir)"));
 	} else if (S_ISDIR(st.st_mode)) {
 	    /* If the file is a directory, display it as such. */
 	    if (strcmp(filetail, "..") == 0) {
-		/* TRANSLATORS: Try to keep this at most 12
-		 * characters. */
+		/* TRANSLATORS: Try to keep this at most 12 characters. */
 		foo = mallocstrcpy(NULL, _("(parent dir)"));
 		foomaxlen = 12;
 	    } else
@@ -660,8 +652,7 @@ void browser_refresh(void)
 
 	mvwaddstr(edit, line, col - foolen, foo);
 
-	/* Finish highlighting the currently selected file or
-	 * directory. */
+	/* Finish highlighting the currently selected file or directory. */
 	if (i == selected)
 	    wattroff(edit, hilite_attribute);
 

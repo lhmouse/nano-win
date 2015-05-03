@@ -1,6 +1,7 @@
 2015-05-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_refresh): Display an ellipsis only when the
 	filename is longer than the available space, not when it still fits.
+	* src/browser.c, src/nano.c: Adjust a few comments and line wrappings.
 
 2015-04-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): Match the file regex of a syntax against
