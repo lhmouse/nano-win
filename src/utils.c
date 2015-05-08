@@ -30,21 +30,6 @@
 #include <ctype.h>
 #include <errno.h>
 
-/* Return the number of decimal digits in n. */
-int digits(size_t n)
-{
-    int i;
-
-    if (n == 0)
-	i = 1;
-    else {
-	for (i = 0; n != 0; n /= 10, i++)
-	    ;
-    }
-
-    return i;
-}
-
 /* Return the user's home directory.  We use $HOME, and if that fails,
  * we fall back on the home directory of the effective user ID. */
 void get_homedir(void)

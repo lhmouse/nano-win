@@ -991,20 +991,17 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
  * extension exists, we return "". */
 char *get_next_filename(const char *name, const char *suffix)
 {
-    static int ulmax_digits = -1;
     unsigned long i = 0;
     char *buf;
-    size_t namelen, suffixlen;
+    size_t wholenamelen;
 
     assert(name != NULL && suffix != NULL);
 
-    if (ulmax_digits == -1)
-	ulmax_digits = digits(ULONG_MAX);
+    wholenamelen = strlen(name) + strlen(suffix);
 
-    namelen = strlen(name);
-    suffixlen = strlen(suffix);
-
-    buf = charalloc(namelen + suffixlen + ulmax_digits + 2);
+    /* Reserve space for: the name plus the suffix plus a dot plus
+     * possibly five digits plus a null byte. */
+    buf = charalloc(wholenamelen + 7);
     sprintf(buf, "%s%s", name, suffix);
 
     while (TRUE) {
@@ -1012,11 +1009,12 @@ char *get_next_filename(const char *name, const char *suffix)
 
 	if (stat(buf, &fs) == -1)
 	    return buf;
-	if (i == ULONG_MAX)
+
+	/* Limit the number of backup files to a hundred thousand. */
+	if (++i == 100000)
 	    break;
 
-	i++;
-	sprintf(buf + namelen + suffixlen, ".%lu", i);
+	sprintf(buf + wholenamelen, ".%lu", i);
     }
 
     /* We get here only if there is no possible save file.  Blank out

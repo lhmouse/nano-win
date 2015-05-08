@@ -695,7 +695,6 @@ void do_wordlinechar_count(void);
 void do_verbatim_input(void);
 
 /* All functions in utils.c. */
-int digits(size_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
