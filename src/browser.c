@@ -541,15 +541,11 @@ functionptrtype parse_browser_input(int *kbinput)
  * necessary, and display the list of files. */
 void browser_refresh(void)
 {
-    static int uimax_digits = -1;
     size_t i;
     int line = 0, col = 0;
 	/* The current line and column while the list is getting displayed. */
     char *foo;
 	/* The additional information that we'll display about a file. */
-
-    if (uimax_digits == -1)
-	uimax_digits = digits(UINT_MAX);
 
     blank_edit();
 
@@ -621,26 +617,29 @@ void browser_refresh(void)
 	    unsigned long result = st.st_size;
 	    char modifier;
 
-	    foo = charalloc(uimax_digits + 4);
+	    foo = charalloc(foomaxlen + 1);
 
-	    /* Bytes. */
 	    if (st.st_size < (1 << 10))
-		modifier = ' ';
-	    /* Kilobytes. */
+		modifier = ' ';  /* bytes */
 	    else if (st.st_size < (1 << 20)) {
 		result >>= 10;
-		modifier = 'K';
-	    /* Megabytes. */
+		modifier = 'K';  /* kilobytes */
 	    } else if (st.st_size < (1 << 30)) {
 		result >>= 20;
-		modifier = 'M';
-	    /* Gigabytes. */
+		modifier = 'M';  /* megabytes */
 	    } else {
 		result >>= 30;
-		modifier = 'G';
+		modifier = 'G';  /* gigabytes */
 	    }
 
-	    sprintf(foo, "%4lu %cB", result, modifier);
+	    /* If less than a terabyte, or if numbers can't even go
+	     * that high, show the size, otherwise show "(huge)". */
+	    if (st.st_size < (1 << 40) || (1 << 40) == 0)
+		sprintf(foo, "%4lu %cB", result, modifier);
+	    else
+		/* TRANSLATORS: Try to keep this at most 7 characters.
+		 * If necessary, you can leave out the parentheses. */
+		foo = mallocstrcpy(foo, _("(huge)"));
 	}
 
 	/* Make sure foo takes up no more than foomaxlen columns. */
