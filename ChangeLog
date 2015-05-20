@@ -1,3 +1,7 @@
+2015-05-20  Devrim Gündüz  <devrim@gunduz.org>
+	* doc/syntax/postgresql.nanorc: New file -- syntax highlighting for
+	PostgreSQL, first posted as Savannah patch #8601.  Trimmed by Benno.
+
 2015-05-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_refresh): Take the distant possibility of
 	terabyte files into account, and in the bargain get rid of the need
