@@ -28,6 +28,7 @@ pkgdata_DATA =	asm.nanorc \
 		perl.nanorc \
 		php.nanorc \
 		po.nanorc \
+		postgresql.nanorc \
 		pov.nanorc \
 		python.nanorc \
 		ruby.nanorc \
