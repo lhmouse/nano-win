@@ -1,3 +1,7 @@
+2015-05-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/help.c (do_help), src/prompt.c (do_yesno_prompt): Normalize
+	the whitespace after the recent changes in logic.
+
 2015-05-28  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/nano.c (handle_sigwinch, regenerate_screen), src/global.c,
 	src/prompt.c (do_statusbar_input, get_prompt_string, do_yesno_prompt),

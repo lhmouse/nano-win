@@ -75,16 +75,17 @@ void do_help(void (*refresh_func)(void))
     while (TRUE) {
 	size_t i;
 
-    /* Get the last line of the help text. */
-    ptr = help_text;
+	/* Get the last line of the help text. */
+	ptr = help_text;
 
-    for (last_line = 0; *ptr != '\0'; last_line++) {
-	ptr += help_line_len(ptr);
-	if (*ptr == '\n')
-	    ptr++;
-    }
-    if (last_line > 0)
-	last_line--;
+	for (last_line = 0; *ptr != '\0'; last_line++) {
+	    ptr += help_line_len(ptr);
+	    if (*ptr == '\n')
+		ptr++;
+	}
+
+	if (last_line > 0)
+	    last_line--;
 
 	/* Display the help text if we don't have a key, or if the help
 	 * text has moved. */

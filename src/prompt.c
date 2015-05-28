@@ -1075,48 +1075,48 @@ int do_yesno_prompt(bool all, const char *msg)
 	int mouse_x, mouse_y;
 #endif
 
-    if (!ISSET(NO_HELP)) {
-	char shortstr[3];
+	if (!ISSET(NO_HELP)) {
+	    char shortstr[3];
 		/* Temp string for Yes, No, All. */
 
-	if (COLS < 32)
-	    width = COLS / 2;
+	    if (COLS < 32)
+		width = COLS / 2;
 
-	/* Clear the shortcut list from the bottom of the screen. */
-	blank_bottombars();
+	    /* Clear the shortcut list from the bottom of the screen. */
+	    blank_bottombars();
 
-	sprintf(shortstr, " %c", yesstr[0]);
-	wmove(bottomwin, 1, 0);
-	onekey(shortstr, _("Yes"), width);
+	    /* Now show the ones for "Yes", "No", "Cancel" and maybe "All". */
+	    sprintf(shortstr, " %c", yesstr[0]);
+	    wmove(bottomwin, 1, 0);
+	    onekey(shortstr, _("Yes"), width);
 
-	if (all) {
-	    wmove(bottomwin, 1, width);
-	    shortstr[1] = allstr[0];
-	    onekey(shortstr, _("All"), width);
+	    if (all) {
+		wmove(bottomwin, 1, width);
+		shortstr[1] = allstr[0];
+		onekey(shortstr, _("All"), width);
+	    }
+
+	    wmove(bottomwin, 2, 0);
+	    shortstr[1] = nostr[0];
+	    onekey(shortstr, _("No"), width);
+
+	    wmove(bottomwin, 2, 16);
+	    onekey("^C", _("Cancel"), width);
 	}
 
-	wmove(bottomwin, 2, 0);
-	shortstr[1] = nostr[0];
-	onekey(shortstr, _("No"), width);
+	if (interface_color_pair[TITLE_BAR].bright)
+	    wattron(bottomwin, A_BOLD);
+	wattron(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
 
-	wmove(bottomwin, 2, 16);
-	onekey("^C", _("Cancel"), width);
-    }
+	blank_statusbar();
+	mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
-    if (interface_color_pair[TITLE_BAR].bright)
-	wattron(bottomwin, A_BOLD);
-    wattron(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+	wattroff(bottomwin, A_BOLD);
+	wattroff(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
 
-    blank_statusbar();
-    mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
-
-    wattroff(bottomwin, A_BOLD);
-    wattroff(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
-
-    /* Refresh the edit window and the statusbar before getting
-     * input. */
-    wnoutrefresh(edit);
-    wnoutrefresh(bottomwin);
+	/* Refresh edit window and statusbar before getting input. */
+	wnoutrefresh(edit);
+	wnoutrefresh(bottomwin);
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
