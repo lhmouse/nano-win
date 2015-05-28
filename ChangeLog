@@ -1,6 +1,8 @@
 2015-05-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (do_help), src/prompt.c (do_yesno_prompt): Normalize
 	the whitespace after the recent changes in logic.
+	* src/prompt.c (do_yesno_prompt): Use 'width' instead of hardcoded
+	16.  Also always first set the string and then position the cursor.
 
 2015-05-28  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/nano.c (handle_sigwinch, regenerate_screen), src/global.c,

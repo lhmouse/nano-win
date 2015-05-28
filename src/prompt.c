@@ -1077,7 +1077,7 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	if (!ISSET(NO_HELP)) {
 	    char shortstr[3];
-		/* Temp string for Yes, No, All. */
+		/* Temporary string for (translated) " Y", " N" and " A". */
 
 	    if (COLS < 32)
 		width = COLS / 2;
@@ -1091,16 +1091,16 @@ int do_yesno_prompt(bool all, const char *msg)
 	    onekey(shortstr, _("Yes"), width);
 
 	    if (all) {
-		wmove(bottomwin, 1, width);
 		shortstr[1] = allstr[0];
+		wmove(bottomwin, 1, width);
 		onekey(shortstr, _("All"), width);
 	    }
 
-	    wmove(bottomwin, 2, 0);
 	    shortstr[1] = nostr[0];
+	    wmove(bottomwin, 2, 0);
 	    onekey(shortstr, _("No"), width);
 
-	    wmove(bottomwin, 2, 16);
+	    wmove(bottomwin, 2, width);
 	    onekey("^C", _("Cancel"), width);
 	}
 
