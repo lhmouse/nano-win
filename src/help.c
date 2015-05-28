@@ -72,19 +72,19 @@ void do_help(void (*refresh_func)(void))
     bottombars(MHELP);
     wnoutrefresh(bottomwin);
 
+    while (TRUE) {
+	size_t i;
+
     /* Get the last line of the help text. */
     ptr = help_text;
 
-    for (; *ptr != '\0'; last_line++) {
+    for (last_line = 0; *ptr != '\0'; last_line++) {
 	ptr += help_line_len(ptr);
 	if (*ptr == '\n')
 	    ptr++;
     }
     if (last_line > 0)
 	last_line--;
-
-    while (TRUE) {
-	size_t i;
 
 	/* Display the help text if we don't have a key, or if the help
 	 * text has moved. */
@@ -116,6 +116,14 @@ void do_help(void (*refresh_func)(void))
 	old_line = line;
 
 	kbinput = get_kbinput(edit);
+
+#ifndef NANO_TINY
+	if (kbinput == KEY_WINCH) {
+	    kbinput = ERR;
+	    curs_set(0);
+	    continue;
+	}
+#endif
 
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {

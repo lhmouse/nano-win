@@ -41,6 +41,8 @@ static bool disable_cursorpos = FALSE;
 	/* Should we temporarily disable constant cursor position
 	 * display? */
 
+static sig_atomic_t sigwinch_counter_save = 0;
+
 /* Control character compatibility:
  *
  * - NANO_BACKSPACE_KEY is Ctrl-H, which is Backspace under ASCII, ANSI,
@@ -112,10 +114,6 @@ void get_key_buffer(WINDOW *win)
     if (key_buffer != NULL)
 	return;
 
-#ifndef NANO_TINY
-    allow_pending_sigwinch(TRUE);
-#endif
-
     /* Just before reading in the first character, display any pending
      * screen updates. */
     doupdate();
@@ -125,8 +123,17 @@ void get_key_buffer(WINDOW *win)
     if (nodelay_mode) {
 	if ((input = wgetch(win)) == ERR)
 	    return;
-    } else
+    } else {
 	while ((input = wgetch(win)) == ERR) {
+#ifndef NANO_TINY
+	    /* Did we get SIGWINCH since we were last here? */
+	    if (sigwinch_counter != sigwinch_counter_save) {
+		sigwinch_counter_save = sigwinch_counter;
+		regenerate_screen();
+		input = KEY_WINCH;
+		break;
+	    } else
+#endif
 	    errcount++;
 
 	    /* If we've failed to get a character MAX_BUF_SIZE times in a
@@ -137,10 +144,7 @@ void get_key_buffer(WINDOW *win)
 	    if (errcount == MAX_BUF_SIZE)
 		handle_hupterm(0);
 	}
-
-#ifndef NANO_TINY
-    allow_pending_sigwinch(FALSE);
-#endif
+    }
 
     /* Increment the length of the keystroke buffer, and save the value
      * of the keystroke at the end of it. */
@@ -148,14 +152,17 @@ void get_key_buffer(WINDOW *win)
     key_buffer = (int *)nmalloc(sizeof(int));
     key_buffer[0] = input;
 
+#ifndef NANO_TINY
+    /* If we got SIGWINCH, get out immediately since the win argument is
+     * no longer valid. */
+    if (input == KEY_WINCH)
+	return;
+#endif
+
     /* Read in the remaining characters using non-blocking input. */
     nodelay(win, TRUE);
 
     while (TRUE) {
-#ifndef NANO_TINY
-	allow_pending_sigwinch(TRUE);
-#endif
-
 	input = wgetch(win);
 
 	/* If there aren't any more characters, stop reading. */
@@ -168,10 +175,6 @@ void get_key_buffer(WINDOW *win)
 	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
 		sizeof(int));
 	key_buffer[key_buffer_len - 1] = input;
-
-#ifndef NANO_TINY
-	allow_pending_sigwinch(FALSE);
-#endif
     }
 
     /* Switch back to waiting mode for input. */
@@ -191,11 +194,6 @@ size_t get_key_buffer_len(void)
 /* Add the keystrokes in input to the keystroke buffer. */
 void unget_input(int *input, size_t input_len)
 {
-#ifndef NANO_TINY
-    allow_pending_sigwinch(TRUE);
-    allow_pending_sigwinch(FALSE);
-#endif
-
     /* If input is empty, get out. */
     if (input_len == 0)
 	return;
@@ -248,11 +246,6 @@ void unget_kbinput(int kbinput, bool metakey, bool funckey)
 int *get_input(WINDOW *win, size_t input_len)
 {
     int *input;
-
-#ifndef NANO_TINY
-    allow_pending_sigwinch(TRUE);
-    allow_pending_sigwinch(FALSE);
-#endif
 
     if (key_buffer_len == 0) {
 	if (win != NULL) {
@@ -643,6 +636,11 @@ int parse_kbinput(WINDOW *win)
 		retval = sc_seq_or(do_next_word_void, 0);
 #endif
 		break;
+#ifndef NANO_TINY
+	    case KEY_WINCH:
+		retval = KEY_WINCH;
+		break;
+#endif
 	}
 
 	/* If our result is an extended keypad value (i.e. a value

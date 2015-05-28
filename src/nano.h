@@ -117,7 +117,7 @@
 #include <regex.h>
 #endif
 #ifndef NANO_TINY
-#include <setjmp.h>
+#include <signal.h>
 #endif
 #include <assert.h>
 
@@ -571,6 +571,9 @@ enum
 #define CONTROL_RIGHT 554
 
 #ifndef NANO_TINY
+/* An imaginary key for when we get a SIGWINCH (window resize). */
+#define KEY_WINCH -2
+
 /* Extra bits for the undo function. */
 #define UNdel_del		(1<<0)
 #define UNdel_backspace		(1<<1)

@@ -41,6 +41,8 @@ static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
 	/* The currently selected filename in the list; zero-based. */
+static char *path_save = NULL;
+	/* A copy of the current path. */
 
 /* Our main file browser function.  path is the tilde-expanded path we
  * start browsing from. */
@@ -74,6 +76,9 @@ char *do_browser(char *path, DIR *dir)
     kbinput = ERR;
 
     path = mallocstrassn(path, get_full_path(path));
+
+    /* Save the current path in order to be used later. */
+    path_save = path;
 
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
@@ -118,6 +123,14 @@ char *do_browser(char *path, DIR *dir)
 
 	kbinput = get_kbinput(edit);
 
+#ifndef NANO_TINY
+	if (kbinput == KEY_WINCH) {
+	    kbinput = ERR;
+	    curs_set(0);
+	    continue;
+	}
+#endif
+
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
 	    int mouse_x, mouse_y;
@@ -156,6 +169,8 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
+	    /* Perhaps the window dimensions have changed. */
+	    browser_refresh();
 	    curs_set(0);
 #else
 	    nano_disabled_msg();
@@ -547,6 +562,11 @@ void browser_refresh(void)
     char *foo;
 	/* The additional information that we'll display about a file. */
 
+    /* Perhaps window dimensions have changed; reinitialize the browser. */
+    browser_init(path_save, opendir(path_save));
+    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
+
+    titlebar(path_save);
     blank_edit();
 
     wmove(edit, 0, 0);

@@ -30,12 +30,8 @@
 
 /* Global variables. */
 #ifndef NANO_TINY
-sigjmp_buf jump_buf;
-	/* Used to return to either main() or the unjustify routine in
-	 * do_justify() after a SIGWINCH. */
-bool jump_buf_main = FALSE;
-	/* Have we set jump_buf so that we return to main() after a
-	 * SIGWINCH? */
+volatile sig_atomic_t sigwinch_counter = 0;
+	/* Is incremented by the handler whenever a SIGWINCH occurs. */
 #endif
 
 bool meta_key;

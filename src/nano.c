@@ -25,7 +25,6 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <signal.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
@@ -1245,7 +1244,6 @@ void signal_init(void)
     /* Trap SIGWINCH because we want to handle window resizes. */
     act.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &act, NULL);
-    allow_pending_sigwinch(FALSE);
 #endif
 
     /* Trap normal suspend (^Z) so we can handle it ourselves. */
@@ -1344,6 +1342,13 @@ RETSIGTYPE do_continue(int signal)
 /* Handler for SIGWINCH (window size change). */
 RETSIGTYPE handle_sigwinch(int signal)
 {
+    /* Let the input routine know that a SIGWINCH has occurred. */
+    sigwinch_counter++;
+}
+
+/* Reinitialize and redraw the screen completely. */
+void regenerate_screen(void)
+{
     const char *tty = ttyname(0);
     int fd, result = 0;
     struct winsize win;
@@ -1366,10 +1371,6 @@ RETSIGTYPE handle_sigwinch(int signal)
     COLS = win.ws_col;
     LINES = win.ws_row;
 #endif
-
-    /* If we've partitioned the filestruct, unpartition it now. */
-    if (filepart != NULL)
-	unpartition_filestruct(&filepart);
 
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what
@@ -1397,14 +1398,7 @@ RETSIGTYPE handle_sigwinch(int signal)
     window_init();
 
     /* Redraw the contents of the windows that need it. */
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
-    currmenu = MMAIN;
     total_refresh();
-
-    /* Jump back to either main() or the unjustify routine in
-     * do_justify(). */
-    siglongjmp(jump_buf, 1);
 }
 
 /* If allow is TRUE, block any SIGWINCH signals that we get, so that we
@@ -1598,6 +1592,11 @@ int do_input(bool allow_funcs)
 
     /* Read in a character. */
     input = get_kbinput(edit);
+
+#ifndef NANO_TINY
+    if (input == KEY_WINCH)
+	return KEY_WINCH;
+#endif
 
 #ifndef DISABLE_MOUSE
     if (func_key && input == KEY_MOUSE) {
@@ -2797,17 +2796,6 @@ int main(int argc, char **argv)
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 	wnoutrefresh(edit);
-
-#ifndef NANO_TINY
-	if (!jump_buf_main) {
-	    /* If we haven't already, we're going to set jump_buf so
-	     * that we return here after a SIGWINCH.  Indicate this. */
-	    jump_buf_main = TRUE;
-
-	    /* Return here after a SIGWINCH. */
-	    sigsetjmp(jump_buf, 1);
-	}
-#endif
 
 	/* Just in case we were at the statusbar prompt, make sure the
 	 * statusbar cursor position is reset. */

@@ -66,6 +66,11 @@ int do_statusbar_input(bool *ran_func, bool *finished,
     /* Read in a character. */
     input = get_kbinput(bottomwin);
 
+#ifndef NANO_TINY
+    if (input == KEY_WINCH)
+	return KEY_WINCH;
+#endif
+
 #ifndef DISABLE_MOUSE
     /* If we got a mouse click and it was on a shortcut, read in the
      * shortcut character. */
@@ -794,6 +799,14 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
+#ifndef NANO_TINY
+    if (kbinput == KEY_WINCH) {
+	refresh_func();
+	update_statusbar_line(answer, statusbar_x);
+	continue;
+    }
+#endif
+
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel || func == do_enter_void)
@@ -1055,6 +1068,13 @@ int do_yesno_prompt(bool all, const char *msg)
     nostr = _("Nn");
     allstr = _("Aa");
 
+    do {
+	int kbinput;
+	functionptrtype func;
+#ifndef DISABLE_MOUSE
+	int mouse_x, mouse_y;
+#endif
+
     if (!ISSET(NO_HELP)) {
 	char shortstr[3];
 		/* Temp string for Yes, No, All. */
@@ -1098,15 +1118,14 @@ int do_yesno_prompt(bool all, const char *msg)
     wnoutrefresh(edit);
     wnoutrefresh(bottomwin);
 
-    do {
-	int kbinput;
-	functionptrtype func;
-#ifndef DISABLE_MOUSE
-	int mouse_x, mouse_y;
-#endif
-
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
+
+#ifndef NANO_TINY
+	if (kbinput == KEY_WINCH)
+	    continue;
+#endif
+
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel)

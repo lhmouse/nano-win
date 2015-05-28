@@ -28,8 +28,7 @@
 
 /* All external variables.  See global.c for their descriptions. */
 #ifndef NANO_TINY
-extern sigjmp_buf jump_buf;
-extern bool jump_buf_main;
+extern volatile sig_atomic_t sigwinch_counter;
 #endif
 
 extern bool meta_key;
@@ -478,6 +477,7 @@ RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_continue(int signal);
 #ifndef NANO_TINY
 RETSIGTYPE handle_sigwinch(int signal);
+void regenerate_screen(void);
 void allow_pending_sigwinch(bool allow);
 void do_toggle(int flag);
 #endif

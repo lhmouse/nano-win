@@ -1,3 +1,15 @@
+2015-05-28  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
+	* src/nano.c (handle_sigwinch, regenerate_screen), src/global.c,
+	src/prompt.c (do_statusbar_input, get_prompt_string, do_yesno_prompt),
+	src/browser.c (do_browser, browser_refresh), src/help.c (do_help),
+	src/winio.c (get_key_buffer, unget_input, get_input, parse_kbinput),
+	src/text.c (do_justify, do_linter), src/nano.h, src/proto.h:
+	Handle a SIGWINCH (signalling a change in window size) not when it
+	happens but only when checking for input.  Report the SIGWINCH via
+	a special key value to the calling routine, to allow not only the
+	main editor but also the help viewer and the file browser to adapt
+	their display to the new size.  (Patch edited by Benno.)
+
 2015-05-20  Devrim Gündüz  <devrim@gunduz.org>
 	* doc/syntax/postgresql.nanorc: New file -- syntax highlighting for
 	PostgreSQL, first posted as Savannah patch #8601.  Trimmed by Benno.

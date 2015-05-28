@@ -1922,10 +1922,6 @@ void do_justify(bool full_justify)
     if (full_justify)
 	openfile->current = openfile->fileage;
 
-#ifndef NANO_TINY
-    allow_pending_sigwinch(FALSE);
-#endif
-
     while (TRUE) {
 	size_t i;
 	    /* Generic loop variable. */
@@ -2207,17 +2203,6 @@ void do_justify(bool full_justify)
 
     edit_refresh();
 
-#ifndef NANO_TINY
-    /* We're going to set jump_buf so that we return here after a
-     * SIGWINCH instead of to main().  Indicate this. */
-    jump_buf_main = FALSE;
-
-    /* Return here after a SIGWINCH. */
-    sigsetjmp(jump_buf, 1);
-#endif
-
-    statusbar(_("Can now UnJustify!"));
-
     /* If constant cursor position display is on, make sure the current
      * cursor position will be properly displayed on the statusbar. */
     if (ISSET(CONST_UPDATE))
@@ -2229,7 +2214,15 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
-    kbinput = do_input(FALSE);
+#ifndef NANO_TINY
+    do {
+#endif
+	statusbar(_("Can now UnJustify!"));
+	kbinput = do_input(FALSE);
+#ifndef NANO_TINY
+    } while (kbinput == KEY_WINCH);
+#endif
+
     func = func_from_key(&kbinput);
 
     if (func == do_uncut_text) {
@@ -2295,10 +2288,6 @@ void do_justify(bool full_justify)
     /* Display the shortcut list with UnCut. */
     uncutfunc->desc = uncut_tag;
     display_main_list();
-
-#ifndef NANO_TINY
-    allow_pending_sigwinch(TRUE);
-#endif
 }
 
 /* Justify the current paragraph. */
@@ -3183,6 +3172,12 @@ void do_linter(void)
 	}
 
 	kbinput = get_kbinput(bottomwin);
+
+#ifndef NANO_TINY
+	if (kbinput == KEY_WINCH)
+	    continue;
+#endif
+
 	func = func_from_key(&kbinput);
 	tmplint = curlint;
 
