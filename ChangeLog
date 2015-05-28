@@ -3,6 +3,7 @@
 	the whitespace after the recent changes in logic.
 	* src/prompt.c (do_yesno_prompt): Use 'width' instead of hardcoded
 	16.  Also always first set the string and then position the cursor.
+	* TODO: Mark window resizes and better file-type detection as done.
 
 2015-05-28  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/nano.c (handle_sigwinch, regenerate_screen), src/global.c,
@@ -26,7 +27,7 @@
 	to calculate the number of digits in UINT_MAX.
 	* src/files.c (get_next_filename): Limit the number of backup files
 	to one hundred thousand -- which should be far more than enough --
-	before finding a unused filename takes an annoying amount of time.
+	before finding an unused filename takes an annoying amount of time.
 	* src/utils.c (digits): Delete this now unneeded function.
 
 2015-05-03  Benno Schulenberg  <bensberg@justemail.net>
