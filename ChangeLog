@@ -5,7 +5,7 @@
 	16.  Also always first set the string and then position the cursor.
 	* TODO: Mark window resizes and better file-type detection as done.
 	* doc/syntax/debian.nanorc: Allow a CD name to contain any character.
-	This addresses Debian bug #688892 reported by Dani Moller.
+	This addresses Debian bug #688892 reported by Dani Möller Montull.
 
 2015-05-28  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/nano.c (handle_sigwinch, regenerate_screen), src/global.c,
