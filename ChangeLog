@@ -1,3 +1,7 @@
+2015-05-31  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
+	* src/prompt.c (get_statusbar_page_start): Prevent a floating-point
+	exception when the available length for an answer becomes zero.
+
 2015-05-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (do_help), src/prompt.c (do_yesno_prompt): Normalize
 	the whitespace after the recent changes in logic.
