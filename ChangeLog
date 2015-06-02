@@ -4,6 +4,10 @@
 	* doc/syntax/debian.nanorc: Colour also an optional option.
 	This addresses Debian bug #664456 reported by Shawn Landden.
 	Also shorten the name of the syntax to "sources.list".
+	* doc/syntax/python.nanorc: Require again that the triple quote	that
+	starts a docstring is followed by some character -- it is better to
+	*not* colour some strings than far too often colour far too much.
+	This addresses Debian bug #785508 reported by Alexandre Detiste.
 
 2015-05-31  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/prompt.c (get_statusbar_page_start): Prevent a floating-point

@@ -16,8 +16,8 @@ color brightgreen "["][^"]*[^\\]["]" "["]{3}.*[^\\]["]{3}"
 # Comments.
 color brightred "(^|[[:blank:]])#.*$"
 # Multiline strings.
-color brightgreen start="\"\"\"([^"),]|$)" end="(^|[^(])\"\"\""
-color brightgreen    start="'''([^'),]|$)" end="(^|[^(])'''"
+color brightgreen start="\"\"\"[^"),]" end="(^|[^(])\"\"\""
+color brightgreen    start="'''[^'),]" end="(^|[^(])'''"
 
 # Reminders.
 color ,yellow "(FIXME|TODO|XXX)"
