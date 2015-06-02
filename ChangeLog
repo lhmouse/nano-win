@@ -1,6 +1,9 @@
 2015-06-02  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Tweak some wordings, and
 	add some missing formatting to the Info document, and fix an mdash.
+	* doc/syntax/debian.nanorc: Colour also an optional option.
+	This addresses Debian bug #664456 reported by Shawn Landden.
+	Also shorten the name of the syntax to "sources.list".
 
 2015-05-31  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/prompt.c (get_statusbar_page_start): Prevent a floating-point
