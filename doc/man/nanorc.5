@@ -20,7 +20,7 @@
 .\"   Documentation License along with this program.  If not, see
 .\"   <http://www.gnu.org/licenses/>.
 .\"
-.TH NANORC 5 "version 2.4.0" "March 2015"
+.TH NANORC 5 "version 2.4.2" "June 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -264,31 +264,30 @@ Defines a syntax named \fIstr\fP which can be activated via the
 .BR \-Y / \-\-syntax
 command-line option, or will be automatically activated if
 the current filename matches the extended regular expression
-\fIfileregex\fP.  All following \fBcolor\fP and \fBicolor\fP statements
-will apply to this \fIstr\fP syntax until a new syntax is defined.
+\fIfileregex\fP.  All subsequent \fBcolor\fR, \fBicolor\fR,
+\fBheader\fR and other such statements will apply to this
+\fIstr\fP syntax until a new \fBsyntax\fR command is encountered.
 
 The \fBnone\fP syntax is reserved; specifying it on the command line is
 the same as not having a syntax at all.  The \fBdefault\fP syntax is
 special: it takes no \fIfileregex\fP, and applies to files that don't
-match any other syntax's \fIfileregex\fP.
+match any syntax's \fIfileregex\fP.
 .TP
 .BI linter " program " \fR[ "arg " \fR...]
-For the currently defined syntax, use the given \fIprogram\fR
-to invoke the linter (this overrides the speller function when
-defined).
+Use the given \fIprogram\fR to run a syntax check on the current file
+(this overrides the speller function when defined).
 .TP
 .BI formatter " program " \fR[ "arg " \fR...]
-For the currently defined syntax, use the given \fIprogram\fR
-to automatically reformat text.  Useful in certain programming
-languages (e.g. go).
+Use the given \fIprogram\fR to automatically reformat text.
+Useful in certain programming languages (e.g. Go).
 .TP
 .BR header " \fIregex\fR " ...
-For the currently defined syntax, add one or more regexes which will
+Add one or more regexes which will
 be compared against the very first line of the file to be edited,
 to determine whether this syntax should be used for that file.
 .TP
 .BR magic " \fIregex\fR " ...
-For the currently defined syntax, add one or more regexes which
+Add one or more regexes which
 will be compared against the result of querying the \fBmagic\fP
 database about the file to be edited, to determine whether this
 syntax should be used for that file.  This
@@ -296,7 +295,7 @@ functionality only works when \fBlibmagic\fP is installed on the
 system and will be silently ignored otherwise.
 .TP
 .B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
-For the currently defined syntax, display all expressions matching
+Display all pieces of text that match
 the extended regular expression \fIregex\fP with foreground color
 \fIfgcolor\fP and background color \fIbgcolor\fP, at least one of which
 must be specified.  Valid colors for foreground and background
@@ -307,32 +306,32 @@ foreground.  If your terminal supports transparency, not specifying a
 background.
 .TP
 .B icolor \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
-Same as above, except that the expression matching is case insensitive.
+Same as above, except that the text matching is case insensitive.
 .TP
 .BR color " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIsr\fR"" " end= """\fIer\fR""
-Display expressions which start with the extended regular expression
-\fIsr\fP and end with the extended regular expression \fIer\fP with
+Display all pieces of text whose start matches extended regular expression
+\fIsr\fP and whose end matches extended regular expression \fIer\fP with
 foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
-at least one of which must be specified.  This allows syntax
-highlighting to span multiple lines.  Note that all subsequent instances
-of \fIsr\fP after an initial \fIsr\fP is found will be highlighted until
-the first instance of \fIer\fP.
+at least one of which must be specified.  This means that, after an
+initial instance of \fIsr\fP, all text will be highlighted until the
+first instance of \fIer\fP.  This allows syntax highlighting to span
+multiple lines.
 .TP
 .BR icolor " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIsr\fR"" " end= """\fIer\fR""
-Same as above, except that the expression matching is case insensitive.
+Same as above, except that the text matching is case insensitive.
 .TP
 .BR include " ""\fIsyntaxfile\fR"""
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
-\fIsyntaxfile\fP can only contain the above commands, from \fBsyntax\fP
+\fIsyntaxfile\fP may contain only the above commands, from \fBsyntax\fP
 to \fBicolor\fP.
 .TP
 .BI extendsyntax " str directive " \fR[ "arg " \fR...]
 Extend the syntax previously defined as \fIstr\fP to include
-new information.  This allows you to add a new \fIcolor\fP, \fIicolor\fP,
-\fImagic\fP, \fIheader\fP, or \fIlinter\fP directive to an already
-defined syntax -- useful when you want to add to definitions from the
-system-installed syntax definitions (which are normally not writable).
-
+new information.  This allows you to add a new \fBcolor\fP, \fBicolor\fP,
+\fBheader\fP, \fBmagic\fP, \fBlinter\fP, or \fBformatter\fP directive
+to an already defined syntax -- useful when you want to
+slightly improve a syntax defined in one of the system-installed
+files (which are normally not writable)
 .SH REBINDING KEYS
 Key bindings may be reassigned via the following commands:
 .TP

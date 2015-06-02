@@ -1,3 +1,7 @@
+2015-06-02  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/man/nanorc.5, doc/texinfo/nano.texi: Tweak some wordings, and
+	add some missing formatting to the Info document, and fix an mdash.
+
 2015-05-31  Mahyar Abbaspour  <mahyar.abaspour@gmail.com>
 	* src/prompt.c (get_statusbar_page_start): Prevent a floating-point
 	exception when the available length for an answer becomes zero.

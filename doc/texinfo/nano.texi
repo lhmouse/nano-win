@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.3
-@set VERSION 2.4.1
-@set UPDATED April 2015
+@set VERSION 2.4.2
+@set UPDATED June 2015
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.4.1
+@subtitle version 2.4.2
 
 @author Chris Allegretta
 @page
@@ -828,39 +828,40 @@ via the following commands in a nanorc file:
 @table @code
 
 @item syntax "str" ["fileregex" @dots{}]
-Defines a syntax named "str" which can be activated via the -Y/--syntax
+Defines a syntax named "str" which can be activated via the @code{-Y/--syntax}
 command-line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
-following "color" and "icolor" statements will apply to this "str"
-syntax until a new syntax is defined.
+subsequent @code{color}, @code{icolor}, @code{header} and other such
+statements will apply to this "str" syntax until a new @code{syntax}
+command is encountered.
 
 The "none" syntax is reserved; specifying it on the command line is the
 same as not having a syntax at all.  The "default" syntax is special: it
-takes no "fileregex", and applies to files that don't match any other
+takes no "fileregex", and applies to files that don't match any
 syntax's "fileregex".
 
 @item linter program [arg @dots{}]
-For the currently defined syntax, use the given program to invoke the
-linter (this overrides the speller function when defined).
+Use the given program to do a syntax check on the current file
+(this overrides the speller function when defined).
 
 @item formatter program [arg @dots{}]
-For the currently defined syntax, use the given program to automatically
-reformat text.  Useful in certain programming languages (e.g. go).
+Use the given program to automatically reformat text.
+Useful in certain programming languages (e.g. Go).
 
 @item header "regex" @dots{}
-For the currently defined syntax, add one or more regexes which will
+Add one or more regexes which will
 be compared against the very first line of the file to be edited,
 to determine whether this syntax should be used for that file.
 
 @item magic "regex" @dots{}
-For the currently defined syntax, add one or more regexes which will be
+Add one or more regexes which will be
 compared against the result of querying the magic database about the file
 to be edited, to determine whether this syntax should be used for that
 file.  This functionality only works when libmagic is installed on the
 system and will be silently ignored otherwise.
 
 @item color fgcolor,bgcolor "regex" @dots{}
-For the currently defined syntax, display all expressions matching the
+Display all pieces of text that match the
 extended regular expression "regex" with foreground color "fgcolor" and
 background color "bgcolor", at least one of which must be specified.
 Valid colors for foreground and background are: white, black, red,
@@ -870,29 +871,30 @@ terminal supports transparency, not specifying a "bgcolor" tells @code{nano}
 to attempt to use a transparent background.
 
 @item icolor fgcolor,bgcolor "regex" @dots{}
-Same as above, except that the expression matching is case insensitive.
+Same as above, except that the text matching is case insensitive.
 
 @item color fgcolor,bgcolor start="sr" end="er"
-Display expressions which start with the extended regular expression
-"sr" and end with the extended regular expression "er" with foreground
+Display all pieces of text whose start matches extended regular expression
+"sr" and whose end matches extended regular expression "er" with foreground
 color "fgcolor" and background color "bgcolor", at least one of which
-must be specified.  This allows syntax highlighting to span multiple
-lines.  Note that all subsequent instances of "sr" after an initial "sr"
-is found will be highlighted until the first instance of "er".
+must be specified.  This means that, after an initial instance of "sr",
+all text will be highlighted until the first instance of "er".
+This allows syntax highlighting to span multiple lines.
 
 @item icolor fgcolor,bgcolor start="sr" end="er"
-Same as above, except that the expression matching is case insensitive.
+Same as above, except that the text matching is case insensitive.
 
 @item include "syntaxfile"
 Read in self-contained color syntaxes from "syntaxfile".  Note that
-"syntaxfile" can only contain the above commands, from "syntax" to
-"icolor".
+"syntaxfile" may contain only the above commands, from @code{syntax}
+to @code{icolor}.
 
 @item extendsyntax str directive [arg @dots{}]
 Extend the syntax previously defined as str to include new information.
-Allows you to add a new color, icolor, magic, header, or linter directive
-to an already defined syntax.  Useful when you want to add to definitions
-from the system-installed syntax definitions (which are normally not writable).
+This allows you to add a new @code{color}, @code{icolor}, @code{header},
+@code{magic}, @code{linter}, or @code{formatter} directive to an already
+defined syntax --- useful when you want to slightly improve a syntax defined
+in one of the system-installed files (which are normally not writable).
 
 @end table
 
