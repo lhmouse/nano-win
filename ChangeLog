@@ -1,5 +1,7 @@
 2015-06-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Fix compilation with --enable-tiny.
+	* nano.spec.in: Add the post-install and pre-uninstall rules for the
+	Info document, plus some tweaks.  (Patch was tested by Kamil Dudka.)
 
 2015-06-02  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi: Tweak some wordings, and
