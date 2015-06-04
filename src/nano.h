@@ -116,9 +116,7 @@
 #ifdef HAVE_REGEX_H
 #include <regex.h>
 #endif
-#ifndef NANO_TINY
 #include <signal.h>
-#endif
 #include <assert.h>
 
 /* If no vsnprintf(), use the version from glib 2.x. */
