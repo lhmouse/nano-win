@@ -1,6 +1,8 @@
 2015-06-07  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Show the node with the command-line options
 	in the main menu, to make it easy to find.
+	* doc/texinfo/nano.texi: Improve some formatting, hyphenation, wording
+	and dashes.  And remove some confusing, historical things.
 
 2015-06-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Fix compilation with --enable-tiny.
