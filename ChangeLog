@@ -6,6 +6,8 @@
 	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Clarify the
 	meaning of --backupdir: it doesn't just specify a directory for saving
 	backup files, it mainly causes uniquely numbered backups to be made.
+	* doc/man/nano.1: Add a section on the non-obvious functioning of the
+	cutbuffer and the mark.
 
 2015-06-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Fix compilation with --enable-tiny.
