@@ -1,11 +1,9 @@
 \input texinfo  @c -*-texinfo-*-
 @c %**start of header
 @setfilename nano.info
-@settitle nano Command Manual
+@settitle nano
 @c %**end of header
 
-@c This file has the new style title page commands.
-@c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.3
 @set VERSION 2.4.2
@@ -63,6 +61,8 @@ editor.
 
 @menu
 * Introduction::
+* Invoking::
+* Command-line Options::
 * Editor Basics::
 * Built-in Help::
 * Feature Toggles::
@@ -82,18 +82,13 @@ search-and-replace, undo/redo, syntax coloring, smooth scrolling,
 auto-indentation, go-to-line-and-column-number, feature toggles,
 file locking, backup files, and internationalization support.
 
-@menu
-* Overview::
-* Command Line Options::
-@end menu
-
-@node Overview
-@section Overview
-
-The original goal for @code{nano} was a complete bug-for-bug compatible
-emulation of Pico, but @code{nano}'s current goal is to be as compatible
+The original goal for @code{nano} was to be a complete bug-for-bug
+emulation of Pico.  But currently the goal is to be as compatible
 as possible while offering a superset of Pico's functionality.  See
 @xref{Pico Compatibility}, for more info.
+
+@node Invoking
+@chapter Invoking
 
 The usual way to invoke @code{nano} is:
 
@@ -119,8 +114,8 @@ need to specify a line number.
 Please email any bug reports to @email{nano@@nano-editor.org}.
 Or file them at @url{https://savannah.gnu.org/bugs/?group=nano}.
 
-@node Command Line Options
-@section Command Line Options
+@node Command-line Options
+@chapter Command-line Options
 
 @command{nano} takes the following options from the command line:
 

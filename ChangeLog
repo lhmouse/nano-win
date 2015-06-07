@@ -1,3 +1,7 @@
+2015-06-07  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/texinfo/nano.texi: Show the node with the command-line options
+	in the main menu, to make it easy to find.
+
 2015-06-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Fix compilation with --enable-tiny.
 	* nano.spec.in: Add the post-install and pre-uninstall rules for the
