@@ -134,13 +134,14 @@ line.
 
 @item -B
 @itemx --backup
-When saving a file, back up the previous version of it to the current
-filename suffixed with a @samp{~}.
+When saving a file, back up the previous version of it, using the current
+filename suffixed with a tilde (@samp{~}).
 
 @item -C @var{directory}
 @itemx --backupdir=@var{directory}
-Set the directory where @command{nano} puts unique backup files if file
-backups are enabled.
+Make and keep not just one backup file, but make and keep a uniquely
+numbered one every time a file is saved --- when backups are enabled.
+The uniquely numbered files are stored in the specified directory.
 
 @item -D
 @itemx --boldtext
@@ -610,12 +611,14 @@ You should NOT enable this option unless you are sure you need it.
 Use auto-indentation.
 
 @item set backup
-When saving a file, back up the previous version of it to the current
+When saving a file, back up the previous version of it, using the current
 filename suffixed with a tilde (@code{~}).
 
 @item set backupdir "directory"
-Set the directory where @code{nano} puts unique backup files, if file
-backups are enabled.
+Make and keep not just one backup file, but make and keep a uniquely
+numbered one every time a file is saved --- when backups are enabled
+with @code{set backup} or @code{--backup} or @code{-B}.
+The uniquely numbered files are stored in the specified directory.
 
 @item set backwards
 Do backwards searches by default.

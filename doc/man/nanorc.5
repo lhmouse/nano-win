@@ -64,11 +64,14 @@ NOT enable this option unless you are sure you need it.
 Use auto-indentation.
 .TP
 .B set backup
-Create backup files by adding a tilde (\fB~\fP) to each file's name.
+When saving a file, create a backup file by adding a tilde (\fB~\fP) to
+the file's name.
 .TP
 .B set backupdir "\fIdirectory\fP"
-Set the directory where \fBnano\fP puts unique backup files, if file
-backups are enabled.
+Make and keep not just one backup file, but make and keep a uniquely
+numbered one every time a file is saved --- when backups are enabled
+with \fBset backup\fR or \fB\-\-backup\fR or \fB\-B\fR.
+The uniquely numbered files are stored in the specified \fIdirectory\fR.
 .TP
 .B set backwards
 Do backwards searches by default.
@@ -615,7 +618,7 @@ Toggles whether long lines will be hard-wrapped to the next line.
 Toggles whether typed tabs will be converted to spaces.
 .TP
 .B backupfile
-Toggles whether a backup will be made of the file to be edited.
+Toggles whether a backup will be made of the file being edited.
 .TP
 .B multibuffer
 Toggles whether a file is inserted into the current buffer

@@ -53,12 +53,13 @@ already at that position, it will jump to the true beginning of the
 line.
 .TP
 .BR \-B ", " \-\-backup
-When saving a file, back up the previous version of it to the current
+When saving a file, back up the previous version of it, using the current
 filename suffixed with a tilde (\fB~\fP).
 .TP
 .BR \-C\ \fIdirectory\fR ", " \-\-backupdir= \fIdirectory
-Set the directory where \fBnano\fP puts unique backup files, if file
-backups are enabled.
+Make and keep not just one backup file, but make and keep a uniquely
+numbered one every time a file is saved -- when backups are enabled.
+The uniquely numbered files are stored in the specified \fIdirectory\fR.
 .TP
 .BR \-D ", " \-\-boldtext
 Use bold text instead of reverse video text.

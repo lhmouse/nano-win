@@ -3,6 +3,9 @@
 	in the main menu, to make it easy to find.
 	* doc/texinfo/nano.texi: Improve some formatting, hyphenation, wording
 	and dashes.  And remove some confusing, historical things.
+	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Clarify the
+	meaning of --backupdir: it doesn't just specify a directory for saving
+	backup files, it mainly causes uniquely numbered backups to be made.
 
 2015-06-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Fix compilation with --enable-tiny.
