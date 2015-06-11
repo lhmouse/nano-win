@@ -181,7 +181,13 @@ void get_key_buffer(WINDOW *win)
     nodelay(win, FALSE);
 
 #ifdef DEBUG
-    fprintf(stderr, "get_key_buffer(): key_buffer_len = %lu\n", (unsigned long)key_buffer_len);
+    {
+	size_t i;
+	fprintf(stderr, "get_key_buffer(): the series of codes:");
+	for (i = 0; i < key_buffer_len; i++)
+	    fprintf(stderr, " %3x", key_buffer[i]);
+	fprintf(stderr, "\n");
+    }
 #endif
 }
 
