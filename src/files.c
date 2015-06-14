@@ -830,10 +830,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    /* Move fileptr back one line and blow away the old fileptr,
 	     * since its text has been saved. */
 	    fileptr = fileptr->prev;
-	    if (fileptr != NULL) {
-		if (fileptr->next != NULL)
-		    free(fileptr->next);
-	    }
+	    if (fileptr != NULL)
+		free(fileptr->next);
 	}
 
 	/* Attach the line at current after the line at fileptr. */
@@ -1454,8 +1452,7 @@ char *get_full_path(const char *origpath)
     }
 
     /* Free d_there_file, since we're done using it. */
-    if (d_there_file != NULL)
-	free(d_there_file);
+    free(d_there_file);
 
     return d_there;
 }
@@ -2177,8 +2174,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
   cleanup_and_exit:
     free(realname);
-    if (tempname != NULL)
-	free(tempname);
+    free(tempname);
 
     return retval;
 }
@@ -2401,10 +2397,8 @@ bool do_writeout(bool exiting)
 		 * string's real length. */
 		unsunder(answer, answer_len);
 
-		if (full_filename != NULL)
-		    free(full_filename);
-		if (full_answer != NULL)
-		    free(full_answer);
+		free(full_filename);
+		free(full_answer);
 
 		if (do_warning) {
 		    /* If we're using restricted mode, we aren't allowed

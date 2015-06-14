@@ -405,8 +405,7 @@ char *do_browse_from(const char *inpath)
 
     /* If we can't open the path, get out. */
     if (dir == NULL) {
-	if (path != NULL)
-	    free(path);
+	free(path);
 	beep();
 	return NULL;
     }

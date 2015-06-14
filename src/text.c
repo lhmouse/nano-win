@@ -885,8 +885,7 @@ void add_undo(undo_type current_action)
     while (fs->undotop != NULL && fs->undotop != fs->current_undo) {
 	undo *u2 = fs->undotop;
 	fs->undotop = fs->undotop->next;
-	if (u2->strdata != NULL)
-	    free(u2->strdata);
+	free(u2->strdata);
 	if (u2->cutbuffer)
 	    free_filestruct(u2->cutbuffer);
 	free(u2);

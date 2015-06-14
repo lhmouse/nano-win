@@ -7,6 +7,7 @@
 	* src/winio.c (edit_draw): When the whole line has been coloured,
 	don't bother looking for any more starts.  This prevents some lines
 	from being erroneously marked as CENDAFTER instead of CWHOLELINE.
+	* src/*.c: Don't check for non-NULL before freeing; it's unneeded.
 
 2015-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_key_buffer): Add some debugging code to make it

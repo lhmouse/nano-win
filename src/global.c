@@ -1580,32 +1580,25 @@ void thanks_for_all_the_fish(void)
     delwin(bottomwin);
 
 #ifndef DISABLE_JUSTIFY
-    if (quotestr != NULL)
-	free(quotestr);
+    free(quotestr);
 #ifdef HAVE_REGEX_H
     regfree(&quotereg);
-    if (quoteerr != NULL)
-	free(quoteerr);
+    free(quoteerr);
 #endif
 #endif
 #ifndef NANO_TINY
-    if (backup_dir != NULL)
-	free(backup_dir);
+    free(backup_dir);
 #endif
 #ifndef DISABLE_OPERATINGDIR
-    if (operating_dir != NULL)
-	free(operating_dir);
-    if (full_operating_dir != NULL)
-	free(full_operating_dir);
+    free(operating_dir);
+    free(full_operating_dir);
 #endif
+    free(answer);
     free(last_search);
     free(last_replace);
 #ifndef DISABLE_SPELLER
-    if (alt_speller != NULL)
-	free(alt_speller);
+    free(alt_speller);
 #endif
-    if (answer != NULL)
-	free(answer);
     if (cutbuffer != NULL)
 	free_filestruct(cutbuffer);
 #ifndef DISABLE_JUSTIFY
@@ -1616,8 +1609,7 @@ void thanks_for_all_the_fish(void)
     if (openfile != NULL)
 	free_openfilestruct(openfile);
 #ifndef DISABLE_COLOR
-    if (syntaxstr != NULL)
-	free(syntaxstr);
+    free(syntaxstr);
     while (syntaxes != NULL) {
 	syntaxtype *bill = syntaxes;
 
@@ -1692,8 +1684,7 @@ void thanks_for_all_the_fish(void)
 	free(s);
     }
 #ifndef DISABLE_NANORC
-    if (homedir != NULL)
-	free(homedir);
+    free(homedir);
 #endif
 }
 

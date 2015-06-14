@@ -387,8 +387,7 @@ void help_init(void)
 
     /* help_text has been freed and set to NULL unless the user resized
      * while in the help screen. */
-    if (help_text != NULL)
-	free(help_text);
+    free(help_text);
 
     /* Allocate space for the help text. */
     help_text = charalloc(allocsize + 1);

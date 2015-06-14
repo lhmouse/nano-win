@@ -123,14 +123,10 @@ void delete_node(filestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->data != NULL);
 
-    if (fileptr->data != NULL)
-	free(fileptr->data);
-
+    free(fileptr->data);
 #ifndef DISABLE_COLOR
-    if (fileptr->multidata)
-	free(fileptr->multidata);
+    free(fileptr->multidata);
 #endif
-
     free(fileptr);
 }
 
@@ -572,10 +568,8 @@ void delete_opennode(openfilestruct *fileptr)
     free(fileptr->filename);
     free_filestruct(fileptr->fileage);
 #ifndef NANO_TINY
-    if (fileptr->current_stat != NULL)
-	free(fileptr->current_stat);
+    free(fileptr->current_stat);
 #endif
-
     free(fileptr);
 }
 

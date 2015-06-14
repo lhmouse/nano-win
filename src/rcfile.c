@@ -985,8 +985,7 @@ void parse_linter(char *ptr)
 	return;
     }
 
-    if (endsyntax->linter != NULL)
-	free(endsyntax->linter);
+    free(endsyntax->linter);
 
     /* Let them unset the linter by using "". */
     if (!strcmp(ptr, "\"\""))
@@ -1012,8 +1011,7 @@ void parse_formatter(char *ptr)
 	return;
     }
 
-    if (endsyntax->formatter != NULL)
-	free(endsyntax->formatter);
+    free(endsyntax->formatter);
 
     /* Let them unset the formatter by using "". */
     if (!strcmp(ptr, "\"\""))

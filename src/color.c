@@ -70,10 +70,8 @@ void set_colorpairs(void)
 		interface_color_pair[i].pairnum = A_NORMAL;
 	}
 
-	if (specified_color_combo[i] != NULL) {
-	    free(specified_color_combo[i]);
-	    specified_color_combo[i] = NULL;
-	}
+	free(specified_color_combo[i]);
+	specified_color_combo[i] = NULL;
     }
 
     for (; this_syntax != NULL; this_syntax = this_syntax->next) {
