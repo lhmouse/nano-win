@@ -2600,6 +2600,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    start_line = start_line->prev;
 		}
 
+		/* If the found start has been qualified as an end earlier,
+		 * believe it and skip to the next step. */
+		if (start_line != NULL &&
+			start_line->multidata[tmpcolor->id] == CBEGINBEFORE)
+		    goto step_two;
+
 		/* Skip over a zero-length regex match. */
 		if (startmatch.rm_so == startmatch.rm_eo)
 		    startmatch.rm_eo++;
