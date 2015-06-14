@@ -4,6 +4,9 @@
 	* src/winio.c (edit_draw): Start and end regexes can be very similar;
 	so if a found start has been qualified as an end earlier, believe it
 	and skip to the next step.  This helps with Python's docstrings.
+	* src/winio.c (edit_draw): When the whole line has been coloured,
+	don't bother looking for any more starts.  This prevents some lines
+	from being erroneously marked as CENDAFTER instead of CWHOLELINE.
 
 2015-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_key_buffer): Add some debugging code to make it

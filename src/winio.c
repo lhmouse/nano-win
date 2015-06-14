@@ -2492,7 +2492,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;
 		/* Starting column for mvwaddnstr.  Zero-based. */
-	    int paintlen;
+	    int paintlen = 0;
 		/* Number of chars to paint on this line.  There are
 		 * COLS characters on a whole line. */
 	    size_t index;
@@ -2673,6 +2673,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 #endif
 		    }
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
+		    /* If the whole line has been painted, don't bother
+		     * looking for any more starts. */
+		    if (paintlen < 0)
+			goto end_of_loop;
   step_two:
 		    /* Second step, we look for starts on this line. */
 		    start_col = 0;
