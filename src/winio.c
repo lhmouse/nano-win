@@ -2654,11 +2654,17 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    if (end_line != fileptr) {
 			paintlen = -1;
 			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+#ifdef DEBUG
+    fprintf(stderr, "  Marking for id %i  line %i as CWHOLELINE\n", tmpcolor->id, line);
+#endif
 		    } else {
 			paintlen = actual_x(converted,
 				strnlenpt(fileptr->data,
 				endmatch.rm_eo) - start);
 			fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+#ifdef DEBUG
+    fprintf(stderr, "  Marking for id %i  line %i as CBEGINBEFORE\n", tmpcolor->id, line);
+#endif
 		    }
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
   step_two:
@@ -2705,9 +2711,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 				mvwaddnstr(edit, line, x_start,
 					converted + index, paintlen);
-				if (paintlen > 0)
+				if (paintlen > 0) {
 				    fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
-
+#ifdef DEBUG
+    fprintf(stderr, "  Marking for id %i  line %i as CSTARTENDHERE\n", tmpcolor->id, line);
+#endif
+				}
 			    }
 			} else {
 			    /* There is no end on this line.  But we
@@ -2728,6 +2737,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 				/* We painted to the end of the line, so
 				 * don't bother checking any more
 				 * starts. */
+#ifdef DEBUG
+    fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", tmpcolor->id, line);
+#endif
 				fileptr->multidata[tmpcolor->id] = CENDAFTER;
 				break;
 			    }
