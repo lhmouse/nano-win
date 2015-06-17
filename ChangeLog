@@ -1,3 +1,12 @@
+2015-06-17  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_undo, add_undo): When undoing a Backspace at the tail
+	of the file and nonewlines is not set, then don't add another newline
+	but just reposition the cursor.  Also, when doing a Delete at the tail
+	of the file, don't add a superfluous undo structure.  This prevents
+	the appearance of an extra newline when undoing the Backspace/Delete.
+	Patch partially by Mark Majeres.  The problem was first reported in
+	https://lists.gnu.org/archive/html/nano-devel/2015-06/msg00003.html.
+
 2015-06-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Add some debugging code to track which
 	multidata codes (for multiline regexes) get assigned to which lines.
