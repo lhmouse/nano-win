@@ -880,8 +880,8 @@ void add_undo(undo_type current_action)
     /* When doing contiguous adds or contiguous cuts -- which means: with
      * no cursor movement in between -- don't add a new undo item. */
     if (u && u->mark_begin_lineno == fs->current->lineno &&
-	((current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x)) ||
-	(current_action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer()))
+	((current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x) ||
+	(current_action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
 	return;
     /* When trying to delete the final newline, don't add an undo for it. */
     if (current_action == DEL && openfile->current->next == openfile->filebot &&
