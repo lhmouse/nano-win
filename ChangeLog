@@ -6,6 +6,7 @@
 	the appearance of an extra newline when undoing the Backspace/Delete.
 	Patch partially by Mark Majeres.  The problem was first reported in
 	https://lists.gnu.org/archive/html/nano-devel/2015-06/msg00003.html.
+	* src/text.c (do_undo): Adjust whitespace after the previous change.
 
 2015-06-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Add some debugging code to track which

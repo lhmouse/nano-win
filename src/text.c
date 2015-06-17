@@ -503,17 +503,17 @@ void do_undo(void)
 	undidmsg = _("line join");
 	/* When the join was done by a Backspace at the tail of the file,
 	 * don't actually add another line; just position the cursor. */
-	if (f->next != openfile->filebot || u->xflags != UNdel_backspace ||
-		ISSET(NO_NEWLINES)) {
-	t = make_new_node(f);
-	t->data = mallocstrcpy(NULL, u->strdata);
-	data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);
-	data[u->mark_begin_x] = '\0';
-	free(f->data);
-	f->data = data;
-	splice_node(f, t, f->next);
-	if (f == openfile->filebot)
-	    openfile->filebot = t;
+	if (f->next != openfile->filebot || ISSET(NO_NEWLINES) ||
+		u->xflags != UNdel_backspace) {
+	    t = make_new_node(f);
+	    t->data = mallocstrcpy(NULL, u->strdata);
+	    data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);
+	    data[u->mark_begin_x] = '\0';
+	    free(f->data);
+	    f->data = data;
+	    splice_node(f, t, f->next);
+	    if (f == openfile->filebot)
+		openfile->filebot = t;
 	}
 	goto_line_posx(u->lineno, u->begin);
 	break;
