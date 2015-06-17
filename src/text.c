@@ -871,7 +871,7 @@ bool execute_command(const char *command)
 }
 
 /* Add a new undo struct to the top of the current pile. */
-void add_undo(undo_type current_action)
+void add_undo(undo_type action)
 {
     openfilestruct *fs = openfile;
     undo *u = fs->current_undo;
@@ -880,11 +880,11 @@ void add_undo(undo_type current_action)
     /* When doing contiguous adds or contiguous cuts -- which means: with
      * no cursor movement in between -- don't add a new undo item. */
     if (u && u->mark_begin_lineno == fs->current->lineno &&
-	((current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x) ||
-	(current_action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
+	((action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x) ||
+	(action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
 	return;
     /* When trying to delete the final newline, don't add an undo for it. */
-    if (current_action == DEL && openfile->current->next == openfile->filebot &&
+    if (action == DEL && openfile->current->next == openfile->filebot &&
 		openfile->current->data[openfile->current_x] == '\0' &&
 		openfile->current_x != 0 && !ISSET(NO_NEWLINES))
 	return;
@@ -901,7 +901,7 @@ void add_undo(undo_type current_action)
 
     /* Allocate and initialize a new undo type. */
     u = (undo *) nmalloc(sizeof(undo));
-    u->type = current_action;
+    u->type = action;
     u->lineno = fs->current->lineno;
     u->begin = fs->current_x;
 #ifndef DISABLE_WRAPPING
@@ -952,11 +952,11 @@ void add_undo(undo_type current_action)
 	    }
 	    u->strdata = mallocstrcpy(NULL, fs->current->next->data);
 	}
-	current_action = u->type = JOIN;
+	action = u->type = JOIN;
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
-	current_action = fs->undotop->type;
+	action = fs->undotop->type;
 	break;
     case SPLIT_END:
 	break;
@@ -1004,10 +1004,10 @@ void add_undo(undo_type current_action)
 
 #ifdef DEBUG
     fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
-			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin, current_action);
+			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin, action);
     fprintf(stderr, "left add_undo...\n");
 #endif
-    fs->last_action = current_action;
+    fs->last_action = action;
 }
 
 /* Update an undo item, or determine whether a new one is really needed

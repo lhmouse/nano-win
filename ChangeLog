@@ -9,6 +9,8 @@
 	* src/text.c (do_undo): Adjust whitespace after the previous change.
 	* src/text.c (add_undo): Elide an unneeded variable and correct two
 	comments.  And try to put the more frequent condition first.
+	* src/text.c (add_undo): Rename the parameter 'current_action' to
+	'action', to match the other functions.
 
 2015-06-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Add some debugging code to track which
