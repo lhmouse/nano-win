@@ -873,17 +873,15 @@ bool execute_command(const char *command)
 /* Add a new undo struct to the top of the current pile. */
 void add_undo(undo_type current_action)
 {
-    undo *u;
-    char *data;
     openfilestruct *fs = openfile;
-	/* Last thing we cut to set up the undo for uncut. */
+    undo *u = fs->current_undo;
+	/* The thing we did previously. */
 
-    /* Ugh, if we were called while cutting not-to-end, non-marked, and
-     * on the same lineno, we need to abort here. */
-    u = fs->current_undo;
+    /* When doing contiguous adds or contiguous cuts -- which means: with
+     * no cursor movement in between -- don't add a new undo item. */
     if (u && u->mark_begin_lineno == fs->current->lineno &&
-	((current_action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer()) ||
-	(current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x)))
+	((current_action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x)) ||
+	(current_action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer()))
 	return;
     /* When trying to delete the final newline, don't add an undo for it. */
     if (current_action == DEL && openfile->current->next == openfile->filebot &&
@@ -952,8 +950,7 @@ void add_undo(undo_type current_action)
 		u->lineno = fs->current->next->lineno;
 		u->begin = 0;
 	    }
-	    data = mallocstrcpy(NULL, fs->current->next->data);
-	    u->strdata = data;
+	    u->strdata = mallocstrcpy(NULL, fs->current->next->data);
 	}
 	current_action = u->type = JOIN;
 	break;
@@ -967,8 +964,7 @@ void add_undo(undo_type current_action)
     case INSERT:
 	break;
     case REPLACE:
-	data = mallocstrcpy(NULL, fs->current->data);
-	u->strdata = data;
+	u->strdata = mallocstrcpy(NULL, fs->current->data);
 	break;
     case CUT_EOF:
 	cutbuffer_reset();
