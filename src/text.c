@@ -458,8 +458,8 @@ void do_undo(void)
 	return;
     }
 #ifdef DEBUG
-    fprintf(stderr, "data we're about to undo = \"%s\"\n", f->data);
-    fprintf(stderr, "Undo running for type %d\n", u->type);
+    fprintf(stderr, "  >> Undoing a type %d...\n", u->type);
+    fprintf(stderr, "  >> Data we're about to undo = \"%s\"\n", f->data);
 #endif
 
     openfile->current_x = u->begin;
@@ -899,6 +899,10 @@ void add_undo(undo_type action)
 	free(u2);
     }
 
+#ifdef DEBUG
+    fprintf(stderr, "  >> Adding an undo...\n");
+#endif
+
     /* Allocate and initialize a new undo type. */
     u = (undo *) nmalloc(sizeof(undo));
     u->type = action;
@@ -1003,9 +1007,8 @@ void add_undo(undo_type action)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
-			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin, action);
-    fprintf(stderr, "left add_undo...\n");
+    fprintf(stderr, "  >> fs->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
+		fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin, action);
 #endif
     fs->last_action = action;
 }
@@ -1020,10 +1023,10 @@ void update_undo(undo_type action)
     openfilestruct *fs = openfile;
 
 #ifdef DEBUG
-fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = %ld",
+fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->current->lineno = %ld",
 		action, fs->last_action, (long)openfile->current->lineno);
 	if (fs->current_undo)
-	    fprintf(stderr, "fs->current_undo->lineno = %ld\n", (long)fs->current_undo->lineno);
+	    fprintf(stderr, ", fs->current_undo->lineno = %ld\n", (long)fs->current_undo->lineno);
 	else
 	    fprintf(stderr, "\n");
 #endif
@@ -1043,14 +1046,14 @@ fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = 
     switch (u->type) {
     case ADD: {
 #ifdef DEBUG
-	fprintf(stderr, "fs->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
+	fprintf(stderr, "  >> fs->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
 			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin);
 #endif
 	char *char_buf = charalloc(mb_cur_max());
 	size_t char_buf_len = parse_mbchar(&fs->current->data[u->mark_begin_x], char_buf, NULL);
 	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_buf_len);
 #ifdef DEBUG
-	fprintf(stderr, "current undo data now \"%s\"\n", u->strdata);
+	fprintf(stderr, " >> current undo data is \"%s\"\n", u->strdata);
 #endif
 	u->mark_begin_lineno = fs->current->lineno;
 	u->mark_begin_x = fs->current_x;
@@ -1075,7 +1078,7 @@ fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = 
 	    return;
 	}
 #ifdef DEBUG
-	fprintf(stderr, "current undo data now \"%s\"\nu->begin = %lu\n", u->strdata, (unsigned long)u->begin);
+	fprintf(stderr, "  >> current undo data is \"%s\"\nu->begin = %lu\n", u->strdata, (unsigned long)u->begin);
 #endif
 	break;
     }
@@ -1135,7 +1138,7 @@ fprintf(stderr, "action = %d, fs->last_action = %d, openfile->current->lineno = 
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "Done in update_undo (type was %d)\n", action);
+    fprintf(stderr, "  >> Done in update_undo (type was %d)\n", action);
 #endif
 }
 #endif /* !NANO_TINY */
