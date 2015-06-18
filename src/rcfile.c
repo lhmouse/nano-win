@@ -42,16 +42,16 @@ static const rcoption rcopts[] = {
 #ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
 #endif
-#ifndef NANO_TINY
-    {"locking", LOCKING},
+#ifndef DISABLE_HISTORIES
+    {"historylog", HISTORYLOG},
 #endif
+    {"morespace", MORE_SPACE},
 #ifndef DISABLE_MOUSE
     {"mouse", USE_MOUSE},
 #endif
 #ifndef DISABLE_MULTIBUFFER
     {"multibuffer", MULTIBUFFER},
 #endif
-    {"morespace", MORE_SPACE},
     {"nofollow", NOFOLLOW_SYMLINKS},
     {"nohelp", NO_HELP},
     {"nonewlines", NO_NEWLINES},
@@ -60,6 +60,9 @@ static const rcoption rcopts[] = {
 #endif
 #ifndef DISABLE_OPERATINGDIR
     {"operatingdir", 0},
+#endif
+#ifndef DISABLE_HISTORIES
+    {"poslog", POS_HISTORY},
 #endif
     {"preserve", PRESERVE},
 #ifndef DISABLE_JUSTIFY
@@ -79,19 +82,18 @@ static const rcoption rcopts[] = {
     {"tempfile", TEMP_FILE},
     {"view", VIEW_MODE},
 #ifndef NANO_TINY
+    {"allow_insecure_backup", INSECURE_BACKUP},
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
-    {"allow_insecure_backup", INSECURE_BACKUP},
     {"backupdir", 0},
     {"backwards", BACKWARDS_SEARCH},
     {"casesensitive", CASE_SENSITIVE},
     {"cut", CUT_TO_END},
-    {"historylog", HISTORYLOG},
+    {"locking", LOCKING},
     {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},
-    {"poslog", POS_HISTORY},
-    {"quiet", QUIET},
     {"quickblank", QUICK_BLANK},
+    {"quiet", QUIET},
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
     {"tabstospaces", TABS_TO_SPACES},
