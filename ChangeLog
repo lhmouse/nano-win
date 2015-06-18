@@ -1,6 +1,7 @@
 2015-06-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Allow a tiny nano's ~/.nanorc to enable search and
 	position histories.  Also sort the options more strictly.
+	* src/nano.h: Delete two unused things, and add two comments.
 
 2015-06-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, add_undo): When undoing a Backspace at the tail
