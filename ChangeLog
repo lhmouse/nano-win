@@ -3,7 +3,8 @@
 	this run of nano, take the most recent item from the search history.
 	This makes M-W work also right after startup, like <n> in vim/less.
 	* src/utils.c (get_homedir): Keep homedir NULL when no home directory
-	could be determined, so that nano will show a message about it.
+	could be determined, so that nano will show a message about it.  This
+	is a fix for Savannah bug #45343.
 	* doc/syntax/nanorc.nanorc: Colour key-binding lines affirmatively
 	only when the specified menu name is an existing one.
 	* doc/syntax/changelog.nanorc: Stop the changed-files colour from
