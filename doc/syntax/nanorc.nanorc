@@ -9,10 +9,10 @@ icolor brightred "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|lint
 icolor brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(allow_insecure_backup|autoindent|backup|backwards|boldtext|casesensitive|const|cut|fill|historylog|locking|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|poslog|preserve|quickblank|quiet|rebinddelete|rebindkeypad|regexp|smarthome|smooth|softwrap|suspend|tabsize|tabstospaces|tempfile|view|wordbounds)\>"
 icolor yellow "^[[:space:]]*set[[:space:]]+(functioncolor|keycolor|statuscolor|titlecolor)[[:space:]]+(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 icolor brightgreen "^[[:space:]]*set[[:space:]]+(backupdir|brackets|functioncolor|keycolor|matchbrackets|operatingdir|punct|quotestr|speller|statuscolor|titlecolor|whitespace)[[:space:]]+"
-icolor brightgreen "^[[:space:]]*bind[[:space:]]+((\^|M-)([[:alpha:]]|space|[]]|[0-9_=+{}|;:'\",./<>\?-])|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+[[:alpha:]]+[[:space:]]+[[:alpha:]]+[[:space:]]*$"
-icolor brightgreen "^[[:space:]]*unbind[[:space:]]+((\^|M-)([[:alpha:]]|space|[]]|[0-9_=+{}|;:'\",./<>\?-])|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+[[:alpha:]]+[[:space:]]*$"
+icolor brightgreen "^[[:space:]]*bind[[:space:]]+((\^|M-)([[:alpha:]]|space|[]]|[0-9_=+{}|;:'\",./<>\?-])|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+[[:alpha:]]+[[:space:]]+(all|main|search|replace(2|with)?|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)+[[:space:]]*$"
+icolor brightgreen "^[[:space:]]*unbind[[:space:]]+((\^|M-)([[:alpha:]]|space|[]]|[0-9_=+{}|;:'\",./<>\?-])|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+(all|main|search|replace(2|with)?|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)+[[:space:]]*$"
 icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]+(i?color|header|magic|linter|formatter)[[:space:]]+.*$"
-icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|linter|extendsyntax)\>"
+icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|linter|formatter|extendsyntax)\>"
 
 # Colors
 icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
