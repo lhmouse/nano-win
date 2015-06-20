@@ -123,11 +123,6 @@ void do_deletion(undo_type action)
 #ifndef NANO_TINY
 	add_undo(action);
 #endif
-
-	if (!ISSET(NO_NEWLINES) && foo == openfile->filebot)
-	    /* Don't delete the magic line. */
-	    return;
-
 	/* If we're deleting at the end of a line, we need to call
 	 * edit_refresh(). */
 	if (openfile->current->data[openfile->current_x] == '\0')
@@ -150,6 +145,13 @@ void do_deletion(undo_type action)
 	delete_node(foo);
 	renumber(openfile->current);
 	openfile->totsize--;
+
+	/* If the NO_NEWLINES flag isn't set, and text has been added to
+	 * the magicline as a result of deleting at the end of the line
+	 * before filebot, add a new magicline. */
+	if (!ISSET(NO_NEWLINES) && openfile->current ==
+		openfile->filebot && openfile->current->data[0] != '\0')
+	    new_magicline();
     } else
 	return;
 
