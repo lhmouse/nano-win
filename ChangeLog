@@ -8,6 +8,8 @@
 	only when the specified menu name is an existing one.
 	* doc/syntax/changelog.nanorc: Stop the changed-files colour from
 	spilling beyond a blank line.  Also highlight releases.
+	* src/text.c (do_deletion): Instead of deleting and then re-adding
+	the magic line, simply don't delete it.
 
 2015-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Allow a tiny nano's ~/.nanorc to enable search and
