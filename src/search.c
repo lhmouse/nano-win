@@ -485,6 +485,13 @@ void do_research(void)
 
     focusing = TRUE;
 
+#ifndef DISABLE_HISTORIES
+    /* If nothing was searched for yet during this run of nano, but
+     * there is a search history, take the most recent item. */
+    if (last_search[0] == '\0' && searchbot->prev != NULL)
+	last_search = mallocstrcpy(last_search, searchbot->prev->data);
+#endif
+
     if (last_search[0] != '\0') {
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */

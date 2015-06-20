@@ -1,4 +1,9 @@
-2015-06-17  Benno Schulenberg  <bensberg@justemail.net>
+2015-06-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_research): If nothing was searched for yet during
+	this run of nano, take the most recent item from the search history.
+	This makes M-W work also right after startup, like <n> in vim/less.
+
+2015-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Allow a tiny nano's ~/.nanorc to enable search and
 	position histories.  Also sort the options more strictly.
 	* src/nano.h: Delete two unused things, and add two comments.
