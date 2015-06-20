@@ -6,6 +6,8 @@
 	could be determined, so that nano will show a message about it.
 	* doc/syntax/nanorc.nanorc: Colour key-binding lines affirmatively
 	only when the specified menu name is an existing one.
+	* doc/syntax/changelog.nanorc: Stop the changed-files colour from
+	spilling beyond a blank line.  Also highlight releases.
 
 2015-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Allow a tiny nano's ~/.nanorc to enable search and
