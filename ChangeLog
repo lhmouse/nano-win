@@ -2,6 +2,8 @@
 	* src/search.c (do_research): If nothing was searched for yet during
 	this run of nano, take the most recent item from the search history.
 	This makes M-W work also right after startup, like <n> in vim/less.
+	* src/utils.c (get_homedir): Keep homedir NULL when no home directory
+	could be determined, so that nano will show a message about it.
 
 2015-06-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c: Allow a tiny nano's ~/.nanorc to enable search and

@@ -43,7 +43,11 @@ void get_homedir(void)
 	    if (userage != NULL)
 		homenv = userage->pw_dir;
 	}
-	homedir = mallocstrcpy(NULL, homenv);
+
+	/* Only set homedir if some home directory could be determined,
+	 * otherwise keep homedir NULL. */
+	if (homenv != NULL && strcmp(homenv, "") != 0)
+	    homedir = mallocstrcpy(NULL, homenv);
     }
 }
 
