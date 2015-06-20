@@ -96,10 +96,10 @@ static const rcoption rcopts[] = {
     {"quiet", QUIET},
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
+    {"softwrap", SOFTWRAP},
     {"tabstospaces", TABS_TO_SPACES},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
-    {"softwrap", SOFTWRAP},
 #endif
 #ifndef DISABLE_COLOR
     {"titlecolor", 0},

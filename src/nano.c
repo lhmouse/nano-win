@@ -2103,7 +2103,6 @@ int main(int argc, char **argv)
 #endif
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
-	{"help", 0, NULL, 'h'},
 	{"boldtext", 0, NULL, 'D'},
 #ifndef DISABLE_MULTIBUFFER
 	{"multibuffer", 0, NULL, 'F'},
@@ -2125,6 +2124,7 @@ int main(int argc, char **argv)
 #endif
 	{"const", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
+	{"help", 0, NULL, 'h'},
 	{"nofollow", 0, NULL, 'l'},
 #ifndef DISABLE_MOUSE
 	{"mouse", 0, NULL, 'm'},
@@ -2159,7 +2159,6 @@ int main(int argc, char **argv)
 	{"poslog", 0, NULL, 'P'},
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
-	{"undo", 0, NULL, 'u'},
 	{"wordbounds", 0, NULL, 'W'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
