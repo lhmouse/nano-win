@@ -1,3 +1,9 @@
+2015-06-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (edit_draw): Verify that there exists multidata for the
+	found starting line before trying to use it.  When a file is inserted
+	(^R), it will not have any precalculated multidata associated with it.
+	This fixes Savannah bug #45377 reported by Cody A. Taylor.
+
 2015-06-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_research): If nothing was searched for yet during
 	this run of nano, take the most recent item from the search history.
