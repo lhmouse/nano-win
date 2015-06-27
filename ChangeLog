@@ -6,6 +6,7 @@
 	a temporary file as parameter, so forget the case of an empty filename.
 	Also, don't bother putting the pointer at the top of the buffer, as the
 	first action after this function is to restore the cursor position.
+	* src/files.c: Normalize the whitespace and some comments.
 
 2015-06-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Verify that there exists multidata for the
