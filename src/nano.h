@@ -569,10 +569,10 @@ enum
 /* An imaginary key for when we get a SIGWINCH (window resize). */
 #define KEY_WINCH -2
 
-/* Some extra bits for the undo function. */
-#define SKIP_FINAL_BACKSPACE	(1<<1)
-#define UNcut_marked_forward	(1<<2)
-#define UNcut_cutline		(1<<3)
+/* Some extra flags for the undo function. */
+#define WAS_FINAL_BACKSPACE	(1<<1)
+#define WAS_MARKED_FORWARD	(1<<2)
+#define WAS_WHOLE_LINE		(1<<3)
 #endif /* !NANO_TINY */
 
 /* The maximum number of entries displayed in the main shortcut list. */

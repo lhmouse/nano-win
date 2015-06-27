@@ -1,6 +1,7 @@
 2015-06-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, add_undo): Skip undoing a backspace *only* when
 	it really tried to delete the final, magic newline.
+	* src/nano.h, src/text.c: Rename three flags for clarity.
 
 2015-06-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Verify that there exists multidata for the
