@@ -2,6 +2,10 @@
 	* src/text.c (do_undo, add_undo): Skip undoing a backspace *only* when
 	it really tried to delete the final, magic newline.
 	* src/nano.h, src/text.c: Rename three flags for clarity.
+	* src/files.c (replace_buffer): This function is only ever called with
+	a temporary file as parameter, so forget the case of an empty filename.
+	Also, don't bother putting the pointer at the top of the buffer, as the
+	first action after this function is to restore the cursor position.
 
 2015-06-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Verify that there exists multidata for the
