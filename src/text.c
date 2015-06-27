@@ -503,8 +503,7 @@ void do_undo(void)
 	undidmsg = _("line join");
 	/* When the join was done by a Backspace at the tail of the file,
 	 * don't actually add another line; just position the cursor. */
-	if (f->next != openfile->filebot || ISSET(NO_NEWLINES) ||
-		u->xflags != UNdel_backspace) {
+	if (ISSET(NO_NEWLINES) || u->xflags != SKIP_FINAL_BACKSPACE) {
 	    t = make_new_node(f);
 	    t->data = mallocstrcpy(NULL, u->strdata);
 	    data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);
@@ -936,7 +935,10 @@ void add_undo(undo_type action)
     case ADD:
 	break;
     case BACK:
-	u->xflags = UNdel_backspace;
+	/* If the next line is the magic line, don't ever undo this
+	 * backspace, as it won't actually have deleted anything. */
+	if (fs->current->next == fs->filebot && fs->current->data[0] != '\0')
+	    u->xflags = SKIP_FINAL_BACKSPACE;
     case DEL:
 	if (u->begin != strlen(fs->current->data)) {
 	    char *char_buf = charalloc(mb_cur_max() + 1);
