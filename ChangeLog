@@ -8,6 +8,9 @@
 	first action after this function is to restore the cursor position.
 	* src/files.c: Normalize whitespace and comments.
 	* src/nano.h: Remove obsolete execute flag from the shortcut struct.
+	* src/global.c (shortcut_init): Remove a duplicate binding of ^T, to
+	prevent it being shown twice in the ^G help text.  It will be rebound
+	dynamically when for the current syntax another function is available.
 
 2015-06-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Verify that there exists multidata for the

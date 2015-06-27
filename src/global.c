@@ -1015,10 +1015,6 @@ void shortcut_init(void)
 #ifndef DISABLE_SPELLER
     add_to_sclist(MMAIN, "^T", do_spell, 0);
     add_to_sclist(MMAIN, "F12", do_spell, 0);
-#ifndef DISABLE_COLOR
-    add_to_sclist(MMAIN, "^T", do_formatter, 0);
-    add_to_sclist(MMAIN, "F12", do_formatter, 0);
-#endif
 #else
 #ifndef DISABLE_COLOR
     add_to_sclist(MMAIN, "^T", do_linter, 0);
