@@ -452,9 +452,6 @@ typedef struct sc {
 	/* The function we're going to run. */
     int toggle;
 	/* If a toggle, what we're toggling. */
-    bool execute;
-	/* Whether to execute the function in question or just return
-	 * so the sequence can be caught by the calling code. */
     struct sc *next;
 	/* Next in the list. */
 } sc;
