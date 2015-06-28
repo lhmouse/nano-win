@@ -1,11 +1,20 @@
 ## Here is an example for XML files.
 
-syntax "xml" "\.([jrs]html?|sgml?|xml|xslt?)$"
+syntax "xml" "\.([jrsx]html?|jnlp|mml|pom|rng|sgml?|svg|w[as]dl|wsdd|xjb|xml|xs(d|lt?)|xul)$"
 magic "(XML|SGML) (sub)?document text"
 
+# The entire content of the tag:
 color green  start="<" end=">"
-color cyan   "<[^> ]+"
-color cyan   ">"
+
+# The start and the end of the tag:
+color cyan   "<[^> ]+" ">"
+
+# The strings inside the tag:
+color magenta "\"[^"]*\""
+
+# Comments:
 color yellow start="<!DOCTYPE" end="[/]?>"
 color yellow start="<!--" end="-->"
+
+# Escapes:
 color red    "&[^;]*;"
