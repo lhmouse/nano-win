@@ -123,10 +123,6 @@ void do_deletion(undo_type action)
 #ifndef NANO_TINY
 	add_undo(action);
 #endif
-	/* If we're deleting at the end of a line, we need to call
-	 * edit_refresh(). */
-	if (openfile->current->data[openfile->current_x] == '\0')
-	    edit_refresh_needed = TRUE;
 
 	openfile->current->data = charealloc(openfile->current->data,
 		strlen(openfile->current->data) + strlen(foo->data) + 1);
@@ -145,6 +141,9 @@ void do_deletion(undo_type action)
 	delete_node(foo);
 	renumber(openfile->current);
 	openfile->totsize--;
+
+	/* Two lines were joined, so we need to refresh the screen. */
+	edit_refresh_needed = TRUE;
 
 	/* If the NO_NEWLINES flag isn't set, and text has been added to
 	 * the magicline as a result of deleting at the end of the line

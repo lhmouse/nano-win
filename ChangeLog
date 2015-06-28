@@ -2,6 +2,8 @@
 	* src/browser.c (browser_refresh): Limit the selected file to the
 	available ones in the list -- after a refresh the number may have
 	decreased.  This fixes Savannah bug #45424.
+	* src/text.c (do_deletion): There is no need to check again for the
+	line ending -- it was done already in the encompassing 'if'.
 
 2015-06-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, add_undo): Skip undoing a backspace *only* when
