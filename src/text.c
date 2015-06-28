@@ -73,7 +73,7 @@ char *invocation_error(const char *name)
     sprintf(message, invoke_error, name);
     return message;
 }
-#endif /* !DISABLE_COLOR || !DISABLE_SPELLER */
+#endif
 
 /* Delete the character under the cursor. */
 void do_deletion(undo_type action)
@@ -82,7 +82,8 @@ void do_deletion(undo_type action)
     size_t orig_lenpt = 0;
 #endif
 
-    assert(openfile->current != NULL && openfile->current->data != NULL && openfile->current_x <= strlen(openfile->current->data));
+    assert(openfile->current != NULL && openfile->current->data != NULL &&
+		openfile->current_x <= strlen(openfile->current->data));
 
     openfile->placewewant = xplustabs();
 
@@ -109,9 +110,8 @@ void do_deletion(undo_type action)
 	null_at(&openfile->current->data, openfile->current_x +
 		line_len - char_buf_len);
 #ifndef NANO_TINY
-	if (openfile->mark_set && openfile->mark_begin ==
-		openfile->current && openfile->current_x <
-		openfile->mark_begin_x)
+	if (openfile->mark_set && openfile->mark_begin == openfile->current &&
+		openfile->current_x < openfile->mark_begin_x)
 	    openfile->mark_begin_x -= char_buf_len;
 #endif
 	openfile->totsize--;
@@ -128,8 +128,8 @@ void do_deletion(undo_type action)
 		strlen(openfile->current->data) + strlen(foo->data) + 1);
 	strcat(openfile->current->data, foo->data);
 #ifndef NANO_TINY
-	if (openfile->mark_set && openfile->mark_begin ==
-		openfile->current->next) {
+	if (openfile->mark_set &&
+		openfile->mark_begin == openfile->current->next) {
 	    openfile->mark_begin = openfile->current;
 	    openfile->mark_begin_x += openfile->current_x;
 	}
@@ -148,8 +148,8 @@ void do_deletion(undo_type action)
 	/* If the NO_NEWLINES flag isn't set, and text has been added to
 	 * the magicline as a result of deleting at the end of the line
 	 * before filebot, add a new magicline. */
-	if (!ISSET(NO_NEWLINES) && openfile->current ==
-		openfile->filebot && openfile->current->data[0] != '\0')
+	if (!ISSET(NO_NEWLINES) && openfile->current ==	openfile->filebot &&
+		openfile->current->data[0] != '\0')
 	    new_magicline();
     } else
 	return;
@@ -166,6 +166,7 @@ void do_deletion(undo_type action)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Delete the character under the cursor. */
 void do_delete(void)
 {
     do_deletion(DEL);
@@ -175,8 +176,7 @@ void do_delete(void)
  * character, and then delete the character under the cursor. */
 void do_backspace(void)
 {
-    if (openfile->current != openfile->fileage ||
-	openfile->current_x > 0) {
+    if (openfile->current != openfile->fileage || openfile->current_x > 0) {
 	do_left();
 	do_deletion(BACK);
     }
@@ -204,12 +204,9 @@ void do_tab(void)
 	do_output(output, output_len, TRUE);
 
 	free(output);
-    } else {
+    } else
 #endif
 	do_output((char *) "\t", 1, TRUE);
-#ifndef NANO_TINY
-    }
-#endif
 }
 
 #ifndef NANO_TINY
@@ -288,8 +285,7 @@ void do_indent(ssize_t cols)
 	if (!unindent) {
 	    /* If we're indenting, add the characters in line_indent to
 	     * the beginning of the non-whitespace text of this line. */
-	    f->data = charealloc(f->data, line_len +
-		line_indent_len + 1);
+	    f->data = charealloc(f->data, line_len + line_indent_len + 1);
 	    charmove(&f->data[indent_len + line_indent_len],
 		&f->data[indent_len], line_len - indent_len + 1);
 	    strncpy(f->data + indent_len, line_indent, line_indent_len);
@@ -297,11 +293,10 @@ void do_indent(ssize_t cols)
 
 	    /* Keep track of the change in the current line. */
 	    if (openfile->mark_set && f == openfile->mark_begin &&
-		openfile->mark_begin_x >= indent_len)
+			openfile->mark_begin_x >= indent_len)
 		openfile->mark_begin_x += line_indent_len;
 
-	    if (f == openfile->current && openfile->current_x >=
-		indent_len)
+	    if (f == openfile->current && openfile->current_x >= indent_len)
 		openfile->current_x += line_indent_len;
 
 	    /* If the NO_NEWLINES flag isn't set, and this is the
@@ -310,12 +305,10 @@ void do_indent(ssize_t cols)
 		new_magicline();
 	} else {
 	    size_t indent_col = strnlenpt(f->data, indent_len);
-		/* The length in columns of the indentation on this
-		 * line. */
+		/* The length in columns of the indentation on this line. */
 
 	    if (cols <= indent_col) {
-		size_t indent_new = actual_x(f->data, indent_col -
-			cols);
+		size_t indent_new = actual_x(f->data, indent_col - cols);
 			/* The length of the indentation remaining on
 			 * this line after we unindent. */
 		size_t indent_shift = indent_len - indent_new;
@@ -339,17 +332,16 @@ void do_indent(ssize_t cols)
 			openfile->mark_begin_x -= indent_shift;
 		}
 
-		if (f == openfile->current && openfile->current_x >
-			indent_new) {
+		if (f == openfile->current &&
+			openfile->current_x > indent_new) {
 		    if (openfile->current_x <= indent_len)
 			openfile->current_x = indent_new;
 		    else
 			openfile->current_x -= indent_shift;
 		}
 
-		/* We've unindented, so set indent_changed to TRUE. */
-		if (!indent_changed)
-		    indent_changed = TRUE;
+		/* We've unindented, so the indentation changed. */
+		indent_changed = TRUE;
 	    }
 	}
     }
@@ -497,7 +489,7 @@ void do_undo(void)
     case SPLIT_BEGIN:
 	undidmsg = _("text add");
 	break;
-#endif /* !DISABLE_WRAPPING */
+#endif
     case JOIN:
 	undidmsg = _("line join");
 	/* When the join was done by a Backspace at the tail of the file,
@@ -651,7 +643,7 @@ void do_redo(void)
     case SPLIT_END:
 	redidmsg = _("text add");
 	break;
-#endif /* !DISABLE_WRAPPING */
+#endif
     case JOIN:
 	redidmsg = _("line join");
 	len = strlen(f->data) + strlen(u->strdata) + 1;
@@ -739,9 +731,8 @@ void do_enter(bool undoing)
 #endif
     null_at(&openfile->current->data, openfile->current_x);
 #ifndef NANO_TINY
-    if (openfile->mark_set && openfile->current ==
-	openfile->mark_begin && openfile->current_x <
-	openfile->mark_begin_x) {
+    if (openfile->mark_set && openfile->current == openfile->mark_begin &&
+		openfile->current_x < openfile->mark_begin_x) {
 	openfile->mark_begin = newnode;
 	openfile->mark_begin_x += extra - openfile->current_x;
     }
@@ -750,8 +741,7 @@ void do_enter(bool undoing)
 
     if (openfile->current == openfile->filebot)
 	openfile->filebot = newnode;
-    splice_node(openfile->current, newnode,
-	openfile->current->next);
+    splice_node(openfile->current, newnode, openfile->current->next);
 
     renumber(openfile->current);
     openfile->current = newnode;
@@ -965,7 +955,7 @@ void add_undo(undo_type action)
 	break;
     case SPLIT_END:
 	break;
-#endif /* !DISABLE_WRAPPING */
+#endif
     case INSERT:
 	break;
     case REPLACE:
@@ -1112,8 +1102,8 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 	    u->lineno = u->mark_begin_lineno + u->cutbottom->lineno - u->cutbuffer->lineno;
 	    if (ISSET(CUT_TO_END) || u->type == CUT_EOF) {
 		u->begin = strlen(u->cutbottom->data);
-		if(u->lineno == u->mark_begin_lineno)
-		u->begin += u->mark_begin_x;
+		if (u->lineno == u->mark_begin_lineno)
+		    u->begin += u->mark_begin_x;
 	    }
 	}
 	break;
@@ -1131,7 +1121,7 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
     case SPLIT_END:
-#endif /* !DISABLE_WRAPPING */
+#endif
     case JOIN:
 	/* These cases are handled by the earlier check for a new line and action. */
     case OTHER:
@@ -2449,7 +2439,7 @@ bool do_int_spell_fix(const char *word)
 	unpartition_filestruct(&filepart);
 	openfile->mark_set = TRUE;
     }
-#endif
+#endif /* !NANO_TINY */
 
     /* Restore the search/replace strings. */
     free(last_search);
@@ -2816,7 +2806,7 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Turn the mark back on. */
 	openfile->mark_set = TRUE;
     }
-#endif
+#endif /* !NANO_TINY */
 
     /* Go back to the old position. */
     goto_line_posx(lineno_save, current_x_save);
@@ -2902,7 +2892,6 @@ void lint_cleanup(void)
 {
     display_main_list();
 }
-
 
 /* Run linter.  Based on alt-speller code.  Return NULL for normal
  * termination, and the error string otherwise. */
@@ -3210,7 +3199,7 @@ void do_linter(void)
     }
     blank_statusbar();
 #ifndef NANO_TINY
-free_lints_and_return:
+  free_lints_and_return:
 #endif
     for (tmplint = lints; tmplint != NULL; tmplint = tmplint->next) {
 	free(tmplint->msg);
