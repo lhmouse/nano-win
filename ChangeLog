@@ -1,3 +1,8 @@
+2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (browser_refresh): Limit the selected file to the
+	available ones in the list -- after a refresh the number may have
+	decreased.  This fixes Savannah bug #45424.
+
 2015-06-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, add_undo): Skip undoing a backspace *only* when
 	it really tried to delete the final, magic newline.

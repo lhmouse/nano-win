@@ -565,6 +565,10 @@ void browser_refresh(void)
     browser_init(path_save, opendir(path_save));
     qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
+    /* Make sure the selected file is within range. */
+    if (selected >= filelist_len)
+	selected = filelist_len - 1;
+
     titlebar(path_save);
     blank_edit();
 
