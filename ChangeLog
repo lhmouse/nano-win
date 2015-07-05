@@ -1,3 +1,4 @@
+GNU nano 2.4.2 - 2015.07.05
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_refresh): Limit the selected file to the
 	available ones in the list -- after a refresh the number may have

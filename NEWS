@@ -1,3 +1,11 @@
+2015.07.05 - GNU nano 2.4.1 "Portorož" is released.  This release
+		includes several fixes, including the ability to resize
+		when in modes other than the main editing window,
+		proper displaying of invalid UTF-8 bytes, new syntax
+		definitions for Elisp, Guile, and PostgreSQL, and
+		better display of shortcuts in the help menu and file
+		browser.  Thanks for your patience and using nano!
+
 2015.04.14 - GNU nano 2.4.1 "Glitch Gremlin" is released.  This release
 		includes several fixes for issues with the file browser
 		menu, linter and formatter functions, spell checker,
