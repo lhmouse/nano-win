@@ -314,6 +314,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggle)
 {
     static sc *tailsc;
+    static int counter = 0;
     sc *s = (sc *)nmalloc(sizeof(sc));
 
     /* Start the list, or tack on the next item. */
@@ -328,6 +329,8 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
     s->menu = menu;
     s->scfunc = func;
     s->toggle = toggle;
+    if (toggle)
+	s->ordinal = ++counter;
     s->keystr = (char *) scstring;
     s->type = strtokeytype(scstring);
     assign_keyinfo(s);
