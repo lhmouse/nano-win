@@ -120,6 +120,11 @@ void do_deletion(undo_type action)
 
 	assert(openfile->current_x == strlen(openfile->current->data));
 
+	/* When nonewlines isn't set, don't delete the final, magic newline. */
+	if (!ISSET(NO_NEWLINES) && action == DEL && foo == openfile->filebot &&
+		openfile->current_x != 0)
+	    return;
+
 #ifndef NANO_TINY
 	add_undo(action);
 #endif
@@ -875,11 +880,6 @@ void add_undo(undo_type action)
     if (u && u->mark_begin_lineno == fs->current->lineno &&
 	((action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x) ||
 	(action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
-	return;
-    /* When trying to delete the final newline, don't add an undo for it. */
-    if (action == DEL && openfile->current->next == openfile->filebot &&
-		openfile->current->data[openfile->current_x] == '\0' &&
-		openfile->current_x != 0 && !ISSET(NO_NEWLINES))
 	return;
 
     /* Blow away the old undo stack if we are starting from the middle. */

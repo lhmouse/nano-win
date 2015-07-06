@@ -1,9 +1,11 @@
-2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
+2015-07-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_sclist), src/help.c (help_init), src/nano.h,
 	src/rcfile.c (parse_binding): When defining the toggles, give each
 	of them a sequence number, so that, when they are rebound, they can
 	still be listed in the original order in the help text.
 	* src/text.c (do_undo): Make it clearer what WAS_FINAL_BACKSPACE does.
+	* src/text.c (add_undo, do_deletion): Move the check for a Delete at
+	the end-of-file to a less frequently travelled path.
 
 GNU nano 2.4.2 - 2015.07.05
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
