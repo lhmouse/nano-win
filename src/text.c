@@ -121,9 +121,14 @@ void do_deletion(undo_type action)
 	assert(openfile->current_x == strlen(openfile->current->data));
 
 	/* When nonewlines isn't set, don't delete the final, magic newline. */
-	if (!ISSET(NO_NEWLINES) && action == DEL && foo == openfile->filebot &&
-		openfile->current_x != 0)
+	if (!ISSET(NO_NEWLINES) && foo == openfile->filebot &&
+		openfile->current_x != 0) {
+#ifndef NANO_TINY
+	    if (action == BACK)
+		add_undo(BACK);
+#endif
 	    return;
+	}
 
 #ifndef NANO_TINY
 	add_undo(action);
@@ -149,13 +154,6 @@ void do_deletion(undo_type action)
 
 	/* Two lines were joined, so we need to refresh the screen. */
 	edit_refresh_needed = TRUE;
-
-	/* If the NO_NEWLINES flag isn't set, and text has been added to
-	 * the magicline as a result of deleting at the end of the line
-	 * before filebot, add a new magicline. */
-	if (!ISSET(NO_NEWLINES) && openfile->current ==	openfile->filebot &&
-		openfile->current->data[0] != '\0')
-	    new_magicline();
     } else
 	return;
 
