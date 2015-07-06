@@ -502,17 +502,15 @@ void do_undo(void)
 	    goto_line_posx(openfile->filebot->lineno, 0);
 	    break;
 	}
-	{/*FIXME: unindent*/
-	    t = make_new_node(f);
-	    t->data = mallocstrcpy(NULL, u->strdata);
-	    data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);
-	    data[u->mark_begin_x] = '\0';
-	    free(f->data);
-	    f->data = data;
-	    splice_node(f, t, f->next);
-	    if (f == openfile->filebot)
-		openfile->filebot = t;
-	}
+	t = make_new_node(f);
+	t->data = mallocstrcpy(NULL, u->strdata);
+	data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);
+	data[u->mark_begin_x] = '\0';
+	free(f->data);
+	f->data = data;
+	splice_node(f, t, f->next);
+	if (f == openfile->filebot)
+	    openfile->filebot = t;
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case CUT_EOF:

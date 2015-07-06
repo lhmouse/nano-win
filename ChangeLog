@@ -8,6 +8,8 @@
 	the end-of-file to a less frequently travelled path.
 	* src/text.c (do_deletion): If a Backspace happens at the end-of-file,
 	don't remove and then re-add the magic line; just add an undo item.
+	* src/help.c (help_init), src/text.c (do_undo): Adjust whitespace and
+	bracing after the previous changes.
 
 GNU nano 2.4.2 - 2015.07.05
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
