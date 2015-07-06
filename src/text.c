@@ -493,8 +493,13 @@ void do_undo(void)
     case JOIN:
 	undidmsg = _("line join");
 	/* When the join was done by a Backspace at the tail of the file,
-	 * don't actually add another line; just position the cursor. */
-	if (ISSET(NO_NEWLINES) || u->xflags != WAS_FINAL_BACKSPACE) {
+	 * and the nonewlines flag isn't set, do not re-add a newline that
+	 * wasn't actually deleted; just position the cursor. */
+	if (u->xflags == WAS_FINAL_BACKSPACE  && !ISSET(NO_NEWLINES)) {
+	    goto_line_posx(openfile->filebot->lineno, 0);
+	    break;
+	}
+	{/*FIXME: unindent*/
 	    t = make_new_node(f);
 	    t->data = mallocstrcpy(NULL, u->strdata);
 	    data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);

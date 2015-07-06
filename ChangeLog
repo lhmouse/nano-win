@@ -3,6 +3,7 @@
 	src/rcfile.c (parse_binding): When defining the toggles, give each
 	of them a sequence number, so that, when they are rebound, they can
 	still be listed in the original order in the help text.
+	* src/text.c (do_undo): Make it clearer what WAS_FINAL_BACKSPACE does.
 
 GNU nano 2.4.2 - 2015.07.05
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
