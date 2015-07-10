@@ -71,15 +71,15 @@ void initialize_buffer(void)
     openfile->modified = FALSE;
 #ifndef NANO_TINY
     openfile->mark_set = FALSE;
-
     openfile->mark_begin = NULL;
     openfile->mark_begin_x = 0;
 
     openfile->fmt = NIX_FILE;
 
-    openfile->current_stat = NULL;
     openfile->undotop = NULL;
     openfile->current_undo = NULL;
+
+    openfile->current_stat = NULL;
     openfile->lock_filename = NULL;
 #endif
 #ifndef DISABLE_COLOR
@@ -339,8 +339,8 @@ void open_buffer(const char *filename, bool undoable)
     }
 #endif
 
-    /* If we're loading into a new buffer, add a new entry to
-     * openfile. */
+    /* If we're going to load into a new buffer, first create the new
+     * buffer and lock the corresponding file. */
     if (new_buffer) {
 	make_new_buffer();
 
@@ -541,8 +541,8 @@ int is_file_writable(const char *filename)
     /* Get the specified file's full path. */
     full_filename = get_full_path(filename);
 
-    /* Okay, if we can't stat the path due to a component's
-     *permissions, just try the relative one. */
+    /* Okay, if we can't stat the absolute path due to some component's
+     * permissions, just try the relative one. */
     if (full_filename == NULL ||
 		(stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
@@ -568,8 +568,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
-    /* Convert nulls to newlines.  buf_len is the string's real
-     * length. */
+    /* Convert nulls to newlines.  buf_len is the string's real length. */
     unsunder(buf, buf_len);
 
     assert(openfile->fileage != NULL && strlen(buf) == buf_len);
@@ -584,7 +583,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 #endif
 
 #ifndef DISABLE_COLOR
-	fileptr->multidata = NULL;
+    fileptr->multidata = NULL;
 #endif
 
     if (*first_line_ins) {
@@ -684,8 +683,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    /* Read in the line properly. */
 	    fileptr = read_line(buf, fileptr, &first_line_ins, len);
 
-	    /* Reset the line length in preparation for the next
-	     * line. */
+	    /* Reset the line length in preparation for the next line. */
 	    len = 0;
 
 	    num_lines++;
@@ -826,8 +824,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    openfile->current->prev = fileptr;
 	}
 
-	/* Renumber starting with the last line of the file we
-	 * inserted. */
+	/* Renumber, starting with the last line of the file we inserted. */
 	renumber(openfile->current);
     }
 
@@ -1148,8 +1145,7 @@ void do_insertfile(
 		/* If we're not inserting into a new buffer, partition
 		 * the filestruct so that it contains no text and hence
 		 * looks like a new buffer, and keep track of whether
-		 * the top of the edit window is inside the
-		 * partition. */
+		 * the top of the edit window is inside the partition. */
 		filepart = partition_filestruct(openfile->current,
 			openfile->current_x, openfile->current,
 			openfile->current_x);
@@ -1184,24 +1180,20 @@ void do_insertfile(
 		    openfile->placewewant = 0;
 		}
 #endif
-	    } else {
+	    } else
 #endif /* !NANO_TINY */
+	    {
 		/* Make sure the path to the file specified in answer is
 		 * tilde-expanded. */
-		answer = mallocstrassn(answer,
-			real_dir_from_tilde(answer));
+		answer = mallocstrassn(answer, real_dir_from_tilde(answer));
 
-		/* Save the file specified in answer in the current
-		 * buffer. */
+		/* Save the file specified in answer in the current buffer. */
 		open_buffer(answer, TRUE);
-#ifndef NANO_TINY
 	    }
-#endif
 
 #if !defined(DISABLE_MULTIBUFFER) && !defined(DISABLE_HISTORIES)
 	    if (ISSET(MULTIBUFFER)) {
-		/* Update the screen to account for the current
-		 * buffer. */
+		/* Update the screen to account for the current buffer. */
 		display_buffer();
 
 		ssize_t savedposline, savedposcol;
@@ -1212,7 +1204,7 @@ void do_insertfile(
 			check_poshistory(answer, &savedposline, &savedposcol))
 		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
 	    } else
-#endif
+#endif /* !DISABLE_MULTIBUFFER && !DISABLE_HISTORIES */
 	    {
 		filestruct *top_save = openfile->fileage;
 
@@ -2062,8 +2054,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		lineswritten--;
 	} else {
 #ifndef NANO_TINY
-	    if (openfile->fmt == DOS_FILE || openfile->fmt ==
-		MAC_FILE) {
+	    if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
 		if (putc('\r', f) == EOF) {
 		    statusbar(_("Error writing %s: %s"), realname,
 			strerror(errno));
@@ -2072,7 +2063,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		}
 	    }
 
-	    if (openfile->fmt != MAC_FILE) {
+	    if (openfile->fmt != MAC_FILE)
 #endif
 		if (putc('\n', f) == EOF) {
 		    statusbar(_("Error writing %s: %s"), realname,
@@ -2080,9 +2071,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		    fclose(f);
 		    goto cleanup_and_exit;
 		}
-#ifndef NANO_TINY
-	    }
-#endif
 	}
 
 	fileptr = fileptr->next;
@@ -2250,9 +2238,8 @@ bool do_writeout(bool exiting)
 #ifndef NANO_TINY
 	const char *formatstr, *backupstr;
 
-	formatstr = (openfile->fmt == DOS_FILE) ?
-		_(" [DOS Format]") : (openfile->fmt == MAC_FILE) ?
-		_(" [Mac Format]") : "";
+	formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
+		    (openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
 
 	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
@@ -2261,15 +2248,14 @@ bool do_writeout(bool exiting)
 	 * it allows reading from or writing to files not specified on
 	 * the command line. */
 	if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
-	    msg = (append == PREPEND) ?
-		_("Prepend Selection to File") : (append == APPEND) ?
-		_("Append Selection to File") :
-		_("Write Selection to File");
+	    msg = (append == PREPEND) ? _("Prepend Selection to File") :
+		  (append == APPEND) ? _("Append Selection to File") :
+		  _("Write Selection to File");
 	else
 #endif /* !NANO_TINY */
 	    msg = (append == PREPEND) ? _("File Name to Prepend to") :
-		(append == APPEND) ? _("File Name to Append to") :
-		_("File Name to Write");
+		  (append == APPEND) ? _("File Name to Append to") :
+		  _("File Name to Write");
 
 	/* If we're using restricted mode, the filename isn't blank,
 	 * and we're at the "Write File" prompt, disable tab
@@ -2429,8 +2415,7 @@ bool do_writeout(bool exiting)
 
 	    }
 
-	    /* Convert newlines to nulls, just before we save the
-	     * file. */
+	    /* Convert newlines to nulls, just before we save the file. */
 	    sunder(answer);
 	    align(&answer);
 

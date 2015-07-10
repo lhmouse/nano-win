@@ -3333,11 +3333,9 @@ void do_cursorpos(bool constant)
 
     /* Display the current cursor position on the statusbar, and set
      * disable_cursorpos to FALSE. */
-    linepct = 100 * openfile->current->lineno /
-	openfile->filebot->lineno;
+    linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
     colpct = 100 * cur_xpt / cur_lenpt;
-    charpct = (openfile->totsize == 0) ? 0 : 100 * i /
-	openfile->totsize;
+    charpct = (openfile->totsize == 0) ? 0 : 100 * i / openfile->totsize;
 
     statusbar(
 	_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),

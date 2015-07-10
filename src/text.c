@@ -1045,7 +1045,7 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 	size_t char_buf_len = parse_mbchar(&fs->current->data[u->mark_begin_x], char_buf, NULL);
 	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_buf_len);
 #ifdef DEBUG
-	fprintf(stderr, " >> current undo data is \"%s\"\n", u->strdata);
+	fprintf(stderr, "  >> current undo data is \"%s\"\n", u->strdata);
 #endif
 	u->mark_begin_lineno = fs->current->lineno;
 	u->mark_begin_x = fs->current_x;
