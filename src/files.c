@@ -224,7 +224,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	return -1;
     }
 
-    openfile->lock_filename = lockfilename;
+    openfile->lock_filename = (char *) lockfilename;
 
     return 1;
 }

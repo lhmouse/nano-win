@@ -569,6 +569,7 @@ void delete_opennode(openfilestruct *fileptr)
     free_filestruct(fileptr->fileage);
 #ifndef NANO_TINY
     free(fileptr->current_stat);
+    free(fileptr->lock_filename);
 #endif
     free(fileptr);
 }
