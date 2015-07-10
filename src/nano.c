@@ -1413,7 +1413,6 @@ void allow_pending_sigwinch(bool allow)
 void do_toggle(int flag)
 {
     bool enabled;
-    const char *desc;
 
     TOGGLE(flag);
 
@@ -1457,8 +1456,7 @@ void do_toggle(int flag)
 	)
 	enabled = !enabled;
 
-    desc = (char *) _(flagtostr(flag));
-    statusbar("%s %s", desc, enabled ? _("enabled") : _("disabled"));
+    statusbar("%s %s", _(flagtostr(flag)), enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */
 
