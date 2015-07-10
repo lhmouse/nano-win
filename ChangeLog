@@ -1,5 +1,7 @@
 2015-07-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (delete_opennode): Plug a small memory leak.
+	* src/files.c (do_lockfile): Rename a variable; it does not contain
+	the size of the file but the size of the name.
 
 2015-07-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_sclist), src/help.c (help_init), src/nano.h,

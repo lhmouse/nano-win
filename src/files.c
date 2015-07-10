@@ -249,15 +249,15 @@ int do_lockfile(const char *filename)
 {
     char *lockdir = dirname((char *) mallocstrcpy(NULL, filename));
     char *lockbase = basename((char *) mallocstrcpy(NULL, filename));
-    size_t lockfilesize = strlen(filename) + strlen(locking_prefix)
+    size_t locknamesize = strlen(filename) + strlen(locking_prefix)
 		+ strlen(locking_suffix) + 3;
-    char *lockfilename = charalloc(lockfilesize);
+    char *lockfilename = charalloc(locknamesize);
     char *lockfiledir = NULL;
     static char lockprog[11], lockuser[17];
     struct stat fileinfo;
     int lockfd, lockpid;
 
-    snprintf(lockfilename, lockfilesize, "%s/%s%s%s", lockdir,
+    snprintf(lockfilename, locknamesize, "%s/%s%s%s", lockdir,
 		locking_prefix, lockbase, locking_suffix);
 #ifdef DEBUG
     fprintf(stderr, "lock file name is %s\n", lockfilename);
