@@ -590,18 +590,18 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 	/* Special case: we're inserting into the first line. */
 	fileptr->prev = NULL;
 	fileptr->next = openfile->fileage;
-	fileptr->lineno = 1;
-	    *first_line_ins = FALSE;
-	/* Make sure that our edit window stays on the first line. */
-	    openfile->edittop = fileptr;
 	openfile->fileage = fileptr;
+	fileptr->lineno = 1;
+	/* Make sure that our edit window stays on the first line. */
+	openfile->edittop = fileptr;
+	*first_line_ins = FALSE;
     } else {
 	assert(prevnode != NULL);
 
+	prevnode->next = fileptr;
 	fileptr->prev = prevnode;
 	fileptr->next = NULL;
 	fileptr->lineno = prevnode->lineno + 1;
-	prevnode->next = fileptr;
     }
 
     return fileptr;
