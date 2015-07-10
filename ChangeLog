@@ -5,6 +5,7 @@
 	* src/nano.c (do_toggle): Elide an unneeded variable.
 	* src/files.c: Unwrap some lines and rewrap some others in a more
 	congenial manner; tweak some comments and whitespace and braces.
+	* src/files.c (read_line): Remove two lines of dead code.
 
 2015-07-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_sclist), src/help.c (help_init), src/nano.h,

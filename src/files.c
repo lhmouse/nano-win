@@ -587,19 +587,13 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 #endif
 
     if (*first_line_ins) {
-	/* Special case: We're inserting with the cursor on the first
-	 * line. */
+	/* Special case: we're inserting into the first line. */
 	fileptr->prev = NULL;
 	fileptr->next = openfile->fileage;
 	fileptr->lineno = 1;
-	if (*first_line_ins) {
 	    *first_line_ins = FALSE;
-	    /* If we're inserting into the first line of the file, then
-	     * we want to make sure that our edit buffer stays on the
-	     * first line and that fileage stays up to date. */
+	/* Make sure that our edit window stays on the first line. */
 	    openfile->edittop = fileptr;
-	} else
-	    openfile->filebot = fileptr;
 	openfile->fileage = fileptr;
     } else {
 	assert(prevnode != NULL);
