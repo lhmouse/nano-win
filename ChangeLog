@@ -3,6 +3,7 @@
 	'added_magicline', as it will always be FALSE and thus does nothing.
 	* src/text.c (do_alt_speller): Rename the variable 'totsize_save' to
 	'size_of_surrounding', to better describe what it contains.
+	* src/files.c (read_file): Remove a stray space from a message.
 
 2015-07-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (delete_opennode): Plug a small memory leak.
