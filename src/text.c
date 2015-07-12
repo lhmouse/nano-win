@@ -2656,9 +2656,8 @@ const char *do_alt_speller(char *tempfile_name)
 	 * the alternate spell command.  The line that mark_begin points
 	 * to will be freed, so we save the line number and restore it
 	 * afterwards. */
-    size_t totsize_save = openfile->totsize;
-	/* Our saved value of totsize, used when we spell-check a marked
-	 * selection. */
+    size_t size_of_surrounding;
+	/* The size of the text outside of a marked region. */
 #endif
 
     /* Get the timestamp and the size of the temporary file. */
@@ -2749,9 +2748,8 @@ const char *do_alt_speller(char *tempfile_name)
 		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 
-	/* Get the number of characters in the marked text, and subtract
-	 * it from the saved value of totsize. */
-	totsize_save -= get_totsize(top, bot);
+	/* Compute the size of the text outside of the marked region. */
+	size_of_surrounding = openfile->totsize - get_totsize(top, bot);
     }
 #endif
 
@@ -2775,13 +2773,11 @@ const char *do_alt_speller(char *tempfile_name)
 	 * temp file. */
 	unpartition_filestruct(&filepart);
 
-	/* Renumber starting with the beginning line of the old
-	 * partition.  Also add the number of characters in the
-	 * spell-checked marked text to the saved value of totsize, and
-	 * then make that saved value the actual value. */
+	/* Renumber, starting with the beginning line of the old partition. */
 	renumber(top_save);
-	totsize_save += openfile->totsize;
-	openfile->totsize = totsize_save;
+
+	/* Add back the size of the text surrounding the marked region. */
+	openfile->totsize += size_of_surrounding;
 
 	/* Assign mark_begin to the line where the mark began before. */
 	openfile->mark_begin = fsfromline(mb_lineno_save);
