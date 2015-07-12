@@ -2321,8 +2321,6 @@ bool do_int_spell_fix(const char *word)
 	/* A storage place for the current flag settings. */
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
@@ -2365,8 +2363,6 @@ bool do_int_spell_fix(const char *word)
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	if (!ISSET(NO_NEWLINES))
-	    added_magicline = (openfile->filebot->data[0] != '\0');
 	openfile->mark_set = FALSE;
     }
 #endif
@@ -2418,11 +2414,6 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_TINY
     if (old_mark_set) {
-	/* If the mark was on, the NO_NEWLINES flag isn't set, and we
-	 * added a magicline, remove it now. */
-	if (!ISSET(NO_NEWLINES) && added_magicline)
-	    remove_magicline();
-
 	/* Put the beginning and the end of the mark at the beginning
 	 * and the end of the spell-checked text. */
 	if (openfile->fileage == openfile->filebot)
@@ -2657,8 +2648,6 @@ const char *do_alt_speller(char *tempfile_name)
     static char **spellargs = NULL;
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
@@ -2759,8 +2748,6 @@ const char *do_alt_speller(char *tempfile_name)
 	mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	if (!ISSET(NO_NEWLINES))
-	    added_magicline = (openfile->filebot->data[0] != '\0');
 
 	/* Get the number of characters in the marked text, and subtract
 	 * it from the saved value of totsize. */
@@ -2781,11 +2768,6 @@ const char *do_alt_speller(char *tempfile_name)
 	    current_x_save = strlen(openfile->filebot->data);
 	else
 	    openfile->mark_begin_x = strlen(openfile->filebot->data);
-
-	/* If the mark was on, the NO_NEWLINES flag isn't set, and we
-	 * added a magicline, remove it now. */
-	if (!ISSET(NO_NEWLINES) && added_magicline)
-	    remove_magicline();
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again.  Note that we've replaced the marked text originally

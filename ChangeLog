@@ -1,3 +1,7 @@
+2015-07-12  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_int_spell_fix, do_alt_speller): Remove the variable
+	'added_magicline', as it will always be FALSE and thus does nothing.
+
 2015-07-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (delete_opennode): Plug a small memory leak.
 	* src/files.c (do_lockfile): Rename a variable; it does not contain
