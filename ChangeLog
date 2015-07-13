@@ -1,3 +1,7 @@
+2015-07-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_int_spell_fix, do_alt_speller): Remove an unneeded
+	condition; 'added_magicline' can only be true when NO_NEWLINES isn't.
+
 2015-07-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_alt_speller): Rename the variable 'totsize_save'
 	to 'size_of_surrounding', to better describe what it contains.

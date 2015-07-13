@@ -2418,9 +2418,8 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_TINY
     if (old_mark_set) {
-	/* If the mark was on, the NO_NEWLINES flag isn't set, and we
-	 * added a magicline, remove it now. */
-	if (!ISSET(NO_NEWLINES) && added_magicline)
+	/* If a magicline was added, remove it again. */
+	if (added_magicline)
 	    remove_magicline();
 
 	/* Put the beginning and the end of the mark at the beginning
@@ -2753,8 +2752,7 @@ const char *do_alt_speller(char *tempfile_name)
 	/* If the mark is on, partition the filestruct so that it
 	 * contains only the marked text; if the NO_NEWLINES flag isn't
 	 * set, keep track of whether the text will have a magicline
-	 * added when we're done correcting misspelled words; and
-	 * turn the mark off. */
+	 * added when we're done correcting misspelled words. */
 	mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
@@ -2780,9 +2778,8 @@ const char *do_alt_speller(char *tempfile_name)
 	else
 	    openfile->mark_begin_x = strlen(openfile->filebot->data);
 
-	/* If the mark was on, the NO_NEWLINES flag isn't set, and we
-	 * added a magicline, remove it now. */
-	if (!ISSET(NO_NEWLINES) && added_magicline)
+	/* If a magicline was added, remove it again. */
+	if (added_magicline)
 	    remove_magicline();
 
 	/* Unpartition the filestruct so that it contains all the text
