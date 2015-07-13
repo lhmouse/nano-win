@@ -420,6 +420,9 @@ void replace_buffer(const char *filename)
     /* If opening the file succeeded, read it in. */
     if (descriptor > 0)
 	read_file(f, descriptor, filename, FALSE, TRUE);
+
+    /* Put current at a place that is certain to exist. */
+    openfile->current = openfile->fileage;
 }
 #endif /* !DISABLE_SPELLER */
 
