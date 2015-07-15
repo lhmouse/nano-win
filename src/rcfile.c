@@ -38,7 +38,8 @@ static const rcoption rcopts[] = {
 #ifndef DISABLE_JUSTIFY
     {"brackets", 0},
 #endif
-    {"const", CONST_UPDATE},
+    {"const", CONST_UPDATE},  /* deprecated form, remove in 2018 */
+    {"constantshow", CONST_UPDATE},
 #ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
 #endif

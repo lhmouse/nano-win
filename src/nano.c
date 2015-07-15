@@ -897,7 +897,7 @@ void usage(void)
     print_opt(_("-Y <str>"), _("--syntax=<str>"),
 	N_("Syntax definition to use for coloring"));
 #endif
-    print_opt("-c", "--const", N_("Constantly show cursor position"));
+    print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
     print_opt("-h", "--help", N_("Show this help text"));
@@ -2121,7 +2121,7 @@ int main(int argc, char **argv)
 #ifndef DISABLE_COLOR
 	{"syntax", 1, NULL, 'Y'},
 #endif
-	{"const", 0, NULL, 'c'},
+	{"constantshow", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
 	{"help", 0, NULL, 'h'},
 	{"nofollow", 0, NULL, 'l'},

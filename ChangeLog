@@ -1,3 +1,8 @@
+2015-07-15  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c, src/rcfile.c, doc/nanorc.sample.in, doc/man/nano.1,
+	doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc:
+	Unabbreviate the long option --const to --constantshow.
+
 2015-07-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_int_spell_fix, do_alt_speller): Remove an unneeded
 	condition; 'added_magicline' can only be true when NO_NEWLINES isn't.

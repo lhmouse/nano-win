@@ -242,7 +242,7 @@ Specify a specific syntax from the nanorc files to use for highlighting.
 See @xref{Syntax Highlighting}, for more info.
 
 @item -c
-@itemx --const
+@itemx --constantshow
 Constantly display the cursor position and line number on the statusbar.
 Note that this overrides @option{-U}.
 
@@ -641,7 +641,7 @@ closing brackets, can end sentences.  The default value is
 @item set casesensitive
 Do case-sensitive searches by default.
 
-@item set const
+@item set constantshow
 Constantly display the cursor position in the status bar.
 
 @item set cut

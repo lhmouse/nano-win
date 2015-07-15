@@ -45,8 +45,8 @@
 # set casesensitive
 
 ## Constantly display the cursor position in the statusbar.  Note that
-## this overrides "quickblank".
-# set const
+## this overrides "quickblank".  (The old form, 'const', is deprecated.)
+# set constantshow
 
 ## Use cut-to-end-of-line by default.
 # set cut
