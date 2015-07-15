@@ -874,7 +874,7 @@ void usage(void)
 #endif
     print_opt("-O", "--morespace", N_("Use one more line for editing"));
 #ifndef DISABLE_HISTORIES
-    print_opt("-P", "--poslog", N_("Log & read location of cursor position"));
+    print_opt("-P", "--positionlog", N_("Log & read location of cursor position"));
 #endif
 #ifndef DISABLE_JUSTIFY
     print_opt(_("-Q <str>"), _("--quotestr=<str>"), N_("Quoting string"));
@@ -2155,7 +2155,8 @@ int main(int argc, char **argv)
 	{"locking", 0, NULL, 'G'},
 	{"historylog", 0, NULL, 'H'},
 	{"noconvert", 0, NULL, 'N'},
-	{"poslog", 0, NULL, 'P'},
+	{"poslog", 0, NULL, 'P'},  /* deprecated form, remove in 2018 */
+	{"positionlog", 0, NULL, 'P'},
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
 	{"wordbounds", 0, NULL, 'W'},

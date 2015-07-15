@@ -45,8 +45,9 @@
 # set casesensitive
 
 ## Constantly display the cursor position in the statusbar.  Note that
-## this overrides "quickblank".  (The old form, 'const', is deprecated.)
+## this overrides "quickblank".
 # set constantshow
+## (The old form, 'const', is deprecated.)
 
 ## Use cut-to-end-of-line by default.
 # set cut
@@ -104,7 +105,8 @@
 # set operatingdir ""
 
 ## Remember the cursor position in each file for the next editing session.
-# set poslog
+# set positionlog
+## (The old form, 'poslog', is deprecated.)
 
 ## Preserve the XON and XOFF keys (^Q and ^S).
 # set preserve

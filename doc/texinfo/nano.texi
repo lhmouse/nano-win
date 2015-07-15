@@ -109,9 +109,9 @@ adding it with a comma.  So the complete command synopsis is:
 @end quotation
 
 But normallly you would set your preferred options in your
-@file{.nanorc} file.  And when the @code{poslog} option is set
-(making @code{nano} remember the cursor position), you will rarely
-need to specify a line number.
+@file{.nanorc} file.  And when the @code{positionlog} option is set
+(making @code{nano} remember the cursor position when you close a file),
+you will rarely need to specify a line number.
 
 @node Command-line Options
 @chapter Command-line Options
@@ -187,7 +187,7 @@ Disable automatic conversion of files from DOS/Mac format.
 Use the blank line below the titlebar as extra editing space.
 
 @item -P
-@itemx --poslog
+@itemx --positionlog
 Log for each file the last location of the cursor, and read it
 back upon reopening the file and place it there again.
 
@@ -710,7 +710,7 @@ subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
 directory feature is turned off.
 
-@item set poslog
+@item set positionlog
 Save the cursor position of files between editing sessions.
 
 @item set preserve

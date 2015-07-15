@@ -63,7 +63,8 @@ static const rcoption rcopts[] = {
     {"operatingdir", 0},
 #endif
 #ifndef DISABLE_HISTORIES
-    {"poslog", POS_HISTORY},
+    {"poslog", POS_HISTORY},  /* deprecated form, remove in 2018 */
+    {"positionlog", POS_HISTORY},
 #endif
     {"preserve", PRESERVE},
 #ifndef DISABLE_JUSTIFY
