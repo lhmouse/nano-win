@@ -127,7 +127,7 @@
 		in your .nanorc.  Also included are some fixes for
 		compilation with g++, and better handling of issues
 		writing the backup file, which should reduce the need
-		for the 'set allow_insecure_backup" nanorc option.
+		for the "set allow_insecure_backup" nanorc option.
 		Don't stop, get it get it, don't stop, get it get it.
 
 2010.11.22 - GNU nano 2.2.6 "Pimp my BBS" wants you to go to
