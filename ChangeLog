@@ -3,6 +3,10 @@
 	doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc:
 	Unabbreviate the long option --const to --constantshow, and --poslog
 	to --positionlog, to be more understandable.
+	* src/nano.h, src/global.c (add_to_sclist), src/help.c (help_init),
+	src/rcfile.c (parse_binding), src/winio.c (get_shortcut): Rename
+	the 'menu' item in the sc (shortcut) struct to 'menus', as it can
+	refer to more than one menu.
 
 2015-07-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_int_spell_fix, do_alt_speller): Remove an unneeded

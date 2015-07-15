@@ -446,8 +446,8 @@ typedef struct sc {
 	/* What kind of command key it is, for convenience later. */
     int seq;
 	/* The actual sequence to check on the type is determined. */
-    int menu;
-	/* What list this applies to. */
+    int menus;
+	/* Which menus this applies to. */
     void (*scfunc)(void);
 	/* The function we're going to run. */
     int toggle;

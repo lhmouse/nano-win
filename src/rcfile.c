@@ -535,7 +535,7 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	newsc->keystr = keycopy;
-	newsc->menu = menu;
+	newsc->menus = menu;
 	newsc->type = strtokeytype(newsc->keystr);
 	assign_keyinfo(newsc);
 #ifdef DEBUG
@@ -552,11 +552,11 @@ void parse_binding(char *ptr, bool dobind)
 
     /* Now find and delete any existing same shortcut in the menu(s). */
     for (s = sclist; s != NULL; s = s->next) {
-	if (((s->menu & menu)) && !strcmp(s->keystr, keycopy)) {
+	if ((s->menus & menu) && !strcmp(s->keystr, keycopy)) {
 #ifdef DEBUG
-	    fprintf(stderr, "deleting entry from menu %x\n", s->menu);
+	    fprintf(stderr, "deleting entry from among menus %x\n", s->menus);
 #endif
-	    s->menu &= ~menu;
+	    s->menus &= ~menu;
 	}
     }
 

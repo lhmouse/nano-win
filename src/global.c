@@ -311,7 +311,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 }
 
 /* Add a key combo to the shortcut list. */
-void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggle)
+void add_to_sclist(int menus, const char *scstring, void (*func)(void), int toggle)
 {
     static sc *tailsc;
     static int counter = 0;
@@ -326,7 +326,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
     s->next = NULL;
 
     /* Fill in the data. */
-    s->menu = menu;
+    s->menus = menus;
     s->scfunc = func;
     s->toggle = toggle;
     if (toggle)
@@ -336,7 +336,7 @@ void add_to_sclist(int menu, const char *scstring, void (*func)(void), int toggl
     assign_keyinfo(s);
 
 #ifdef DEBUG
-    fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menu %x\n", s->seq, scstring, (int)s->menu);
+    fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menus %x\n", s->seq, scstring, s->menus);
 #endif
 }
 
@@ -357,7 +357,7 @@ const sc *first_sc_for(int menu, void (*func)(void))
     const sc *s;
 
     for (s = sclist; s != NULL; s = s->next)
-	if ((s->menu & menu) && s->scfunc == func)
+	if ((s->menus & menu) && s->scfunc == func)
 	    return s;
 
 #ifdef DEBUG

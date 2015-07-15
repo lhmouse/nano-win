@@ -1758,11 +1758,11 @@ const sc *get_shortcut(int *kbinput)
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
-	if ((currmenu & s->menu) && *kbinput == s->seq
+	if ((s->menus & currmenu) && *kbinput == s->seq
 		&& meta_key == (s->type == META)) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
-			     s->keystr, meta_key, currmenu, s->menu);
+			     s->keystr, meta_key, currmenu, s->menus);
 #endif
 	    return s;
 	}

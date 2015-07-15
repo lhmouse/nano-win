@@ -413,7 +413,7 @@ void help_init(void)
 	    if (s->type == RAWINPUT)
 		continue;
 
-	    if ((s->menu & currmenu) == 0)
+	    if ((s->menus & currmenu) == 0)
 		continue;
 
 	    if (s->scfunc == f->scfunc) {
@@ -456,7 +456,7 @@ void help_init(void)
 	    counter++;
 	    for (s = sclist; s != NULL; s = s->next)
 		if (s->toggle && s->ordinal == counter) {
-		    ptr += sprintf(ptr, "%s\t\t%s %s\n", (s->menu == MMAIN ? s->keystr : ""),
+		    ptr += sprintf(ptr, "%s\t\t%s %s\n", (s->menus == MMAIN ? s->keystr : ""),
 				 _(flagtostr(s->toggle)), _("enable/disable"));
 		    if (s->toggle == NO_COLOR_SYNTAX || s->toggle == TABS_TO_SPACES)
 			ptr += sprintf(ptr, "\n");
