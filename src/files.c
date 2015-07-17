@@ -339,6 +339,21 @@ void open_buffer(const char *filename, bool undoable)
     }
 #endif
 
+    /* When the specified filename is not empty, and the thing exists,
+     * verify that it is a normal file. */
+    if (strcmp(filename, "") != 0) {
+	struct stat fileinfo;
+
+	if (stat(filename, &fileinfo) == 0 && !S_ISREG(fileinfo.st_mode)) {
+	    if (S_ISDIR(fileinfo.st_mode))
+		statusbar(_("\"%s\" is a directory"), filename);
+	    else
+		statusbar(_("\"%s\" is not a normal file"), filename);
+	    beep();
+	    return;
+	}
+    }
+
     /* If we're going to load into a new buffer, first create the new
      * buffer and lock the corresponding file. */
     if (new_buffer) {
