@@ -3023,8 +3023,6 @@ void load_history(void)
 
 	    fclose(hist);
 	    free(line);
-	    if (search_history->prev != NULL)
-		last_search = mallocstrcpy(NULL, search_history->prev->data);
 	}
 	free(nanohist);
 	free(legacyhist);

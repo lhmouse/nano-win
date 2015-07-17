@@ -4,6 +4,10 @@
 	a directory is specified.  This fixes Savannah bug #45383 reported
 	by Mike Frysinger, and also Savannah bug #27839 (which is an echo
 	from Debian bug #551717 reported by Paul Wise).
+	* src/files.c (load_history): Remove an earlier attempt to make M-W
+	work at startup.  It no longer worked because the assigned value gets
+	overwritten by a later initialization of 'last_search' to the empty
+	string.  Found through the use of valgrind.
 
 2015-07-17  Mike Frysinger  <vapier@gentoo.org>
 	* src/browser.c (browser_refresh): Use the proper type (off_t) for
