@@ -24,6 +24,7 @@
 
 #include "proto.h"
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -637,7 +638,7 @@ void browser_refresh(void)
 	    } else
 		foo = mallocstrcpy(NULL, _("(dir)"));
 	} else {
-	    unsigned long result = st.st_size;
+	    off_t result = st.st_size;
 	    char modifier;
 
 	    foo = charalloc(foomaxlen + 1);
@@ -655,10 +656,10 @@ void browser_refresh(void)
 		modifier = 'G';  /* gigabytes */
 	    }
 
-	    /* If less than a terabyte, or if numbers can't even go
-	     * that high, show the size, otherwise show "(huge)". */
-	    if (st.st_size < (1 << 40) || (1 << 40) == 0)
-		sprintf(foo, "%4lu %cB", result, modifier);
+	    /* Show the size if less than a terabyte,
+	     * otherwise show "(huge)". */
+	    if (result < (1 << 10))
+		sprintf(foo, "%4ju %cB", (intmax_t)result, modifier);
 	    else
 		/* TRANSLATORS: Try to keep this at most 7 characters.
 		 * If necessary, you can leave out the parentheses. */

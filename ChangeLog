@@ -1,3 +1,7 @@
+2015-07-17  Mike Frysinger  <vapier@gentoo.org>
+	* src/browser.c (browser_refresh): Use the proper type (off_t) for
+	the size of a file, and avoid warnings about too large bit shifts.
+
 2015-07-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c, src/rcfile.c, doc/nanorc.sample.in, doc/man/nano.1,
 	doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc:
