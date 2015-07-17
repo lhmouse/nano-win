@@ -2666,7 +2666,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * the alternate spell command.  The line that mark_begin points
 	 * to will be freed, so we save the line number and restore it
 	 * afterwards. */
-    size_t size_of_surrounding;
+    size_t size_of_surrounding = 0;
 	/* The size of the text outside of a marked region. */
 #endif
 

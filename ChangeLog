@@ -8,6 +8,8 @@
 	work at startup.  It no longer worked because the assigned value gets
 	overwritten by a later initialization of 'last_search' to the empty
 	string.  Found through the use of valgrind.
+	* src/text.c (do_alt_speller): Avoid an unfounded warning about a
+	possibly uninitialized variable.
 
 2015-07-17  Mike Frysinger  <vapier@gentoo.org>
 	* src/browser.c (browser_refresh): Use the proper type (off_t) for
