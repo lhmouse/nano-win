@@ -2603,7 +2603,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		/* If the found start has been qualified as an end earlier,
 		 * believe it and skip to the next step. */
 		if (start_line != NULL && start_line->multidata != NULL &&
-			start_line->multidata[tmpcolor->id] == CBEGINBEFORE)
+			(start_line->multidata[tmpcolor->id] == CBEGINBEFORE ||
+			start_line->multidata[tmpcolor->id] == CSTARTENDHERE))
 		    goto step_two;
 
 		/* Skip over a zero-length regex match. */
@@ -2678,8 +2679,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    if (paintlen < 0)
 			goto end_of_loop;
   step_two:
-		    /* Second step, we look for starts on this line. */
-		    start_col = 0;
+		    /* Second step: look for starts on this line, but start
+		     * looking only after an end match, if there is one. */
+		    start_col = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
 		    while (start_col < endpos) {
 			if (regexec(tmpcolor->start, fileptr->data +
@@ -2728,6 +2730,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 #endif
 				}
 			    }
+			    start_col = endmatch.rm_eo;
 			} else {
 			    /* There is no end on this line.  But we
 			     * haven't yet looked for one on later
@@ -2753,8 +2756,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 				fileptr->multidata[tmpcolor->id] = CENDAFTER;
 				break;
 			    }
+			    start_col = startmatch.rm_so + 1;
 			}
-			start_col = startmatch.rm_so + 1;
 		    }
 		}
 	    }
