@@ -4,6 +4,7 @@
 	last start.  This fixes bug #45525 and bug #41313 on Savannah.
 	* src/nano.c, src/text.c, src/winio.c: Adjust some comments.
 	* doc/faq.html: Fix a few typos and make some updates for 2.4.*.
+	* ChangeLog: Make the release markers stand out more.
 
 2015-07-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (open_buffer): Verify that a named and existing file
@@ -57,7 +58,8 @@
 	* src/global.c (add_to_sclist), src/help.c (help_init), src/nano.h,
 	src/rcfile.c (parse_binding): When defining the toggles, give each
 	of them a sequence number, so that, when they are rebound, they can
-	still be listed in the original order in the help text.
+	still be listed in the original order in the help text.  This fixes
+	Savannah bug #45417.
 	* src/text.c (do_undo): Make it clearer what WAS_FINAL_BACKSPACE does.
 	* src/text.c (add_undo, do_deletion): Move the check for a Delete at
 	the end-of-file to a less frequently travelled path.
@@ -67,6 +69,7 @@
 	bracing after the previous changes.
 
 GNU nano 2.4.2 - 2015.07.05
+
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_refresh): Limit the selected file to the
 	available ones in the list -- after a refresh the number may have
@@ -285,6 +288,7 @@ GNU nano 2.4.2 - 2015.07.05
 	Browser in the order of ascending stride, as in the Help Viewer.
 
 GNU nano 2.4.1 - 2015.04.14
+
 2015-04-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Fix compilation with --enable-tiny.
 	* README: Mention also the Savannah page for reporting bugs.
@@ -402,6 +406,7 @@ GNU nano 2.4.1 - 2015.04.14
 	Fixes compilation on win32 and macOS.
 
 GNU nano 2.4.0 - 2015.03.22
+
 2015-03-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c (move_mbleft): Start looking for a multibyte char
 	not at the start of the string, but only as far back as such a
@@ -465,6 +470,7 @@ GNU nano 2.4.0 - 2015.03.22
 	texinfo document, and slightly improve its punctuation.
 
 GNU nano 2.3.99pre3 - 2015.02.27
+
 2015-02-25  Chris Allegretta <chrisa@asty.org>
 	* src/rcfile.c (parse_binding): Add an exception for do_toggle() as
 	rebinding toggles broke with r5022.  (Fixed in r5134.)
@@ -489,6 +495,7 @@ GNU nano 2.3.99pre3 - 2015.02.27
 	RPM file creation.
 
 GNU nano 2.3.99pre2 - 2015.02.06
+
 2015-02-03  Alex Henrie  <alexhenrie24@gmail.com>
 	* src/cut.c (do_cut_text): Make sure to set modified even when
 	using --enable-tiny.
@@ -515,6 +522,7 @@ GNU nano 2.3.99pre2 - 2015.02.06
 	open_file().  Fixes Savannah bug #42373 reported by Benno Schulenberg.
 
 GNU nano 2.3.99pre1 - 2015.01.06
+
 2015-01-03  Chris Allegretta <chrisa@asty.org>
 	* New formatter code to support syntaxes like
 	go which have tools to automatically lint and reformat the text for
@@ -590,6 +598,7 @@ GNU nano 2.3.99pre1 - 2015.01.06
 	* doc/nanorc.sample.in: Remove ‘undo’ section which is now obsolete.
 
 GNU nano 2.3.6 - 2014.07.17
+
 2014-07-16  Jordi Mallach  <jordi@gnu.org>
 	* doc/man/rnano.1: Additional printing formatting improvement from
 	Bjarni Ingi Gislason.
@@ -636,6 +645,7 @@ GNU nano 2.3.6 - 2014.07.17
 	* src/files.c (write_lockfile): Refix typo in error message.
 
 GNU nano 2.3.5 - 2014.07.11
+
 2014-07-11  Chris Allegretta <chrisa@asty.org>
 	* src/files.c (do_lockfile, open_file): If locking fails,
 	allow the lock failure message to be preserved AND
@@ -966,6 +976,7 @@ GNU nano 2.3.5 - 2014.07.11
 	necessary.
 
 GNU nano 2.3.4 - 2014.06.02
+
 2014-06-02  Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/default.nanorc: Can't do trailing spaces in the
 	  default syntax or it will hilight the spaces as you type them
@@ -981,6 +992,7 @@ GNU nano 2.3.4 - 2014.06.02
 	* nano-regress: Added --disable-utf8 to regression check.
 
 GNU nano 2.3.3 - 2014.05.29
+
 2014-05-28  Chris Allegretta <chrisa@asty.org>
 	* doc/syntax/mutt.nanorc: Include Benno's awesome signature
 	  matcher, modified slightly to also work for quoted sigs.
@@ -1834,6 +1846,7 @@ GNU nano 2.3.3 - 2014.05.29
 	  Partly fixes an issue reported by Benno Schulenberg.
 
 GNU nano 2.3.2 - 2013.03.23
+
 2013-03-17 Chris Allegretta <chrisa@asty.org>
 	* Revert r4547 as we should have a new release and the overlap code is not yet
 	  ready for public consumption.
@@ -1890,6 +1903,7 @@ GNU nano 2.3.2 - 2013.03.23
 	  be, and maybe we'll even start checking for it in autoconf!
 
 GNU nano 2.3.1 - 2011.05.10
+
 2011-05-10 Chris Allegretta <chrisa@asty.org>
 	* text.c (do_enter): Only increment totsize by the auto-indented amount, since the previous
 	  line's size was already counted.  Fixes bug reported by Robert Spanjaard.
@@ -1917,6 +1931,7 @@ GNU nano 2.3.1 - 2011.05.10
 	  Fixed extra messages going to stderr, reported by Mike Frysinger.
 
 GNU nano 2.3.0 - 2011.02.26
+
 2011-02-26 Chris Allegretta <chrisa@asty.org>
 	* Change RAW in function_type enum to RAWINPUT, to fix compilation on AIX,
 	  reported by Richard G Daniel <skunk@iskunk.org>.
@@ -1958,6 +1973,7 @@ GNU nano 2.3.0 - 2011.02.26
 	* winio.c (edit_redraw): Removed unused variable.
 
 GNU nano 2.2.6 - 2010.11.22
+
 2010-11-15 Chris Allegretta <chrisa@asty.org>
 	* Add a section to the FAQ about using nanorc on Win32 systems.
 
@@ -1967,6 +1983,7 @@ GNU nano 2.2.6 - 2010.11.22
 	  mode.  Fixes Savannah bug #31625 reported by Charlie Somerville.
 
 GNU nano 2.2.5 - 2010.08.05
+
 2010-08-04 Lauri Kasanen <curaga@operamail.comcuraga@operamail.com>
 	* doc/syntax/mgp.nanorc: New Magicpoint syntax highlighting definition.
 
@@ -1985,6 +2002,7 @@ GNU nano 2.2.5 - 2010.08.05
 	  #29514: [nano 2.2.2] backup should ignore chown errors.
 
 GNU nano 2.2.4 - 2010.04.15
+
 2010-04-07 Chris Allegretta <chrisa@asty.org>
 	* doc/man/nano.1,nanorc.5: Remove the backup file warnings now
 	  that a sufficient security fix exists for the backup file code.
@@ -2043,11 +2061,13 @@ GNU nano 2.2.4 - 2010.04.15
 	  bug #28984.
 
 GNU nano 2.2.3 - 2010.02.11
+
 2010-01-28 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_page_up, do_page_down): Fix for smooth mode not preserving cursor
 	  position.  Part one of fix for Savannah bug #21178 by Mike Frysinger.
 
 GNU nano 2.2.2 - 2010.01.17
+
 2010-01-17 Chris Allegretta <chrisa@asty.org>
 	* nano.c (main), prompt.c (do_statusbar_input): Handle problems with an unmapped
 	  function due to key rebinding, fixes crashes on FreeBSD reported by Eitan
@@ -2098,6 +2118,7 @@ GNU nano 2.2.2 - 2010.01.17
 	  Savannah bug #28299 reported by Mike Frysinger.
 
 GNU nano 2.2.1 - 2009.12.12
+
 2009-12-12 Chris Allegretta <chrisa@asty.org>
 	* text.c (do_delete), nano.c (do_output): Add check for length of current line
 	  before and after adding/deleting text, and do full refresh if it is now
@@ -2150,6 +2171,7 @@ GNU nano 2.2.1 - 2009.12.12
 	  file, man pages, UPGRADE file, and update copyright notice for the current year.
 
 GNU nano 2.2.0 - 2009.11.30
+
 2009-11-29 Chris Allegretta <chrisa@asty.org>
 	* prompt.c (get_prompt_string): Universally handle help key when it is disabled.
 	  Fixes Savannah bug #28117 by David Lawrence Ramsey <pooka109@gmail.com>.
@@ -2194,13 +2216,14 @@ GNU nano 2.2.0 - 2009.11.30
 	* doc/syntax/gentoo.nanorc: Tweak comment highlighting.
 
 GNU nano 2.1.99pre2 - 2009.11.21
+
 2009-11-21 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c: Add unbinding keyword, fixes Savannah bug #22852 reported by frankd.
 	* prompt.c (update_statusbar_line): Set statusbar_pww when updating the line.
 	  Fixes Savannah bug #24957 reported by Mike Frysinger.
 
 2009-11-19 Chris Allegretta <chrisa@asty.org>
-	* nano.c (die_save_file) Try and match the permissions of the file we were
+	* nano.c (die_save_file): Try and match the permissions of the file we were
 	  editing but only make a minimal effort to do so. Fixes Savannah bug #27273
 	  reported by Mike Frysinger.
 
@@ -2213,6 +2236,7 @@ GNU nano 2.1.99pre2 - 2009.11.21
 	  is enabled.  Fixes Savannah bug #28024 by Mike Frysinger.
 
 GNU nano 2.1.99pre1 - 2009.11.15
+
 2009-11-14 Chris Allegretta <chrisa@asty.org>
 	* move.c (do_first_line, do_last_line): Just set edit_refresh_needed
 	  rather than get messy.
@@ -2258,6 +2282,7 @@ GNU nano 2.1.99pre1 - 2009.11.15
 	* winio.c: Clean up some unused variables from the soft wrapping code.
 
 GNU nano 2.1.11 - 2009.09.14
+
 2009-09-12 Chris Allegretta <chrisa@asty.org>
 	* winio.c (edit_update): properly update edittop when using soft wrapping.
 	  Fixes lack of centering for searching for off-screen answers, found by
@@ -2296,6 +2321,7 @@ GNU nano 2.1.11 - 2009.09.14
 	  previous undo flag to be implemented consistent with other flags.
 
 GNU nano 2.1.10 - 2009.07.28
+
 2009-07-27 Chris Allegretta <chrisa@asty.org>
 	* text.c (undo_cut, redo_cut): Don't actually try and undo/redo an empty cut, i.e. the magicline.
 	  Fixes crash on cutting last line discovered by Eitan Adler <eitanadlerlist@gmail.com>.
@@ -2324,6 +2350,7 @@ GNU nano 2.1.10 - 2009.07.28
 	* doc/man/fr/Makefile.am: Add groff check fix to fr files.
 
 GNU nano 2.1.9 - 2009.02.16
+
 2009-02-16 Chris Allegretta <chrisa@asty.org>
 	* Add new argument to reset_multis for force redraws without attempting to
 	  guess whether we need to, for functions that we don't have good info about
@@ -2362,6 +2389,7 @@ GNU nano 2.1.9 - 2009.02.16
 	  with syntax highlighting in new buffers, initially reported by Mike Frysinger.
 
 GNU nano 2.1.8 - 2009.02.07
+
 2009-02-06 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c (parse_include): Abort on being unable to open an included rcfile.
 	  Fixes Savannah bug #25490, nanorc: "include"ing a file which doesn't exist
@@ -2407,6 +2435,7 @@ GNU nano 2.1.8 - 2009.02.07
 	  reported by Eitan Adler <eitanadlerlist@gmail.com>.
 
 GNU nano 2.1.7 - 2008.11.10
+
 2008-10-20 Chris Allegretta <chrisa@asty.org>
 	* files.c (do_writeout): Add check for file modification when saving
 	  the file so the user can at least know they may be blowing away changes.
@@ -2426,6 +2455,7 @@ GNU nano 2.1.7 - 2008.11.10
 	  next uncut, fixes Savannah bug #24183.
 
 GNU nano 2.1.6 - 2008.10.03
+
 2008-10-03 Pascal Gentil <pascal.gentil@univ-rennes1.fr>
 	* fortran.nanorc: Sample Fortran syntax highlighting file.
 
@@ -2457,6 +2487,7 @@ GNU nano 2.1.6 - 2008.10.03
 	  we can't generate ^C without it.
 
 GNU nano 2.1.5 - 2008.08.30
+
 2008-08-29 Chris Allegretta <chrisa@asty.org>
 	* configure.ac, color.c, rcfile.c, utils.c: 1st attempt at supporting systems
 	  which don't support GNU-style word boundaries.  New function fixbounds() to
@@ -2488,6 +2519,7 @@ GNU nano 2.1.5 - 2008.08.30
 	  space on partition - nano claims successful write - file is empty.
 
 GNU nano 2.1.4 - 2008.08.09
+
 2008-08-08 Chris Allegretta <chrisa@asty.org>
 	* files.c (write_file): Do not go on and attempt to write the main file if writing
 	  the backup file failed, related to Savannah bug #24000.
@@ -2501,11 +2533,12 @@ GNU nano 2.1.4 - 2008.08.09
 	  a struct which may be NULL.
 
 GNU nano 2.1.3 - 2008.08.04
+
 2008-07-23 Chris Allegretta <chrisa@asty.org>
 	* configure.ac: Add ncursesw dir to include path if lib is detected.
 
 2008-07-11 Mike Frysinger <vapier@gentoo.org>
-	* doc/nanorc.sample.in: Include the updates files in the default sample nanorc.
+	* doc/nanorc.sample.in: Include the updated files in the default sample nanorc.
 
 2008-07-11 Fabian Groffen <grobian@gentoo.org>
 	* nano.c: Don't include langinfo.h if not using ENABLE_UTF8
@@ -2523,8 +2556,8 @@ GNU nano 2.1.3 - 2008.08.04
 	* global.c: Fix for not having a search history when --disable-justify is used
 	  (Savannah bug #23733).
 
-
 GNU nano 2.1.2 - 2008.06.24
+
 2008-06-24 Chris Allegretta <chrisa@asty.org>
 	* rcfile.c: Added function check_bad_binding() to look for sequences which
 	  shouldn't be bound, per Savannah bug #22674.
@@ -2550,6 +2583,7 @@ GNU nano 2.1.2 - 2008.06.24
 	  by Andreas Amann <andreas.amann@tyndall.ie>.
 
 GNU nano 2.1.1 - 2008.04.01
+
 2008-05-31 Chris Allegretta <chrisa@asty.org>
 	* Added the following contributed files, by owner:
 	  Donnie Berkholz <dberkholz@gentoo.org>
@@ -2557,7 +2591,7 @@ GNU nano 2.1.1 - 2008.04.01
 	  Simon Rupf <simon.rupf@int-ag.ch>
 	    * Sample css.nanorc
 	  Josef 'Jupp' Schugt <jupp@rubyforge.org>
-	    * sample ruby.nanorc
+	    * Sample ruby.nanorc
 
 2008-03-31 Chris Allegretta <chrisa@asty.org>
 	* global.c: Fix for issues compiling with --enable-tiny and
