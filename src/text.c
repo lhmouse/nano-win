@@ -2357,16 +2357,16 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_TINY
     if (old_mark_set) {
-	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text; if the NO_NEWLINES flag isn't
-	 * set, keep track of whether the text will have a magicline
-	 * added when we're done correcting misspelled words; and
-	 * turn the mark off. */
+	/* Trim the filestruct so that it contains only the marked text. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
+
+	/* Foresay whether spell correction will add a magicline. */
 	if (!ISSET(NO_NEWLINES))
 	    added_magicline = (openfile->filebot->data[0] != '\0');
+
+	/* Turn the mark off. */
 	openfile->mark_set = FALSE;
     }
 #endif
@@ -2749,13 +2749,13 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_TINY
     if (old_mark_set) {
-	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text; if the NO_NEWLINES flag isn't
-	 * set, keep track of whether the text will have a magicline
-	 * added when we're done correcting misspelled words. */
+	/* Trim the filestruct so that it contains only the marked text. */
 	mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
+
+	/* Foresay whether a magicline will be added when the
+	 * spell-checked text is read back in. */
 	if (!ISSET(NO_NEWLINES))
 	    added_magicline = (openfile->filebot->data[0] != '\0');
 
@@ -3357,9 +3357,9 @@ void do_wordlinechar_count(void)
     filestruct *top, *bot;
     size_t top_x, bot_x;
 
+    /* If the mark is on, partition the filestruct so that it
+     * contains only the marked text, and turn the mark off. */
     if (old_mark_set) {
-	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
@@ -3384,8 +3384,7 @@ void do_wordlinechar_count(void)
     /* Get the total line and character counts, as "wc -l"  and "wc -c"
      * do, but get the latter in multibyte characters. */
     if (old_mark_set) {
-	nlines = openfile->filebot->lineno -
-		openfile->fileage->lineno + 1;
+	nlines = openfile->filebot->lineno - openfile->fileage->lineno + 1;
 	chars = get_totsize(openfile->fileage, openfile->filebot);
 
 	/* Unpartition the filestruct so that it contains all the text
@@ -3402,8 +3401,7 @@ void do_wordlinechar_count(void)
     openfile->current_x = current_x_save;
     openfile->placewewant = pww_save;
 
-    /* Display the total word, line, and character counts on the
-     * statusbar. */
+    /* Display the total word, line, and character counts on the statusbar. */
     statusbar(_("%sWords: %lu  Lines: %ld  Chars: %lu"), old_mark_set ?
 	_("In Selection:  ") : "", (unsigned long)words, (long)nlines,
 	(unsigned long)chars);

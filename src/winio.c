@@ -2611,7 +2611,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		if (startmatch.rm_so == startmatch.rm_eo)
 		    startmatch.rm_eo++;
 		else {
-		    /* No start found, so skip to the next step. */
+		    /* If no start was found, skip to the next step. */
 		    if (start_line == NULL)
 			goto step_two;
 		    /* Now start_line is the first line before fileptr
@@ -2646,7 +2646,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			end_line->data, 1, &endmatch, 0) == REG_NOMATCH)
 			end_line = end_line->next;
 
-		    /* No end found, or it is too early. */
+		    /* If no end was found, or it is too early, next step. */
 		    if (end_line == NULL || (end_line == fileptr &&
 			endmatch.rm_eo <= startpos))
 			goto step_two;
@@ -2747,13 +2747,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 				mvwaddnstr(edit, line, x_start,
 					converted + index, -1);
-				/* We painted to the end of the line, so
-				 * don't bother checking any more
-				 * starts. */
+				fileptr->multidata[tmpcolor->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", tmpcolor->id, line);
 #endif
-				fileptr->multidata[tmpcolor->id] = CENDAFTER;
+				/* We painted to the end of the line, so
+				 * don't bother checking any more starts. */
 				break;
 			    }
 			    start_col = startmatch.rm_so + 1;
