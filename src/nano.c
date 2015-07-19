@@ -2710,27 +2710,26 @@ int main(int argc, char **argv)
 	ssize_t iline = 0, icol = 0;
 
 	for (; i < argc; i++) {
-	    /* If there's a +LINE or +LINE,COLUMN flag here, it is
-	     * followed by at least one other argument, the filename it
-	     * applies to. */
+	    /* If there's a +LINE or +LINE,COLUMN flag here, it is followed
+	     * by at least one other argument: the filename it applies to. */
 	    if (i < argc - 1 && argv[i][0] == '+')
 		parse_line_column(&argv[i][1], &iline, &icol);
 	    else {
 		open_buffer(argv[i], FALSE);
 
+		/* If a position was given on the command line, go there. */
 		if (iline > 0 || icol > 0) {
-		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE,
-			FALSE);
+		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE, FALSE);
 		    iline = 0;
 		    icol = 0;
 		}
 #ifndef DISABLE_HISTORIES
 		else {
-		    /* See if we have a POS history to use if we haven't overridden it. */
 		    ssize_t savedposline, savedposcol;
+		    /* If edited before, restore the last cursor position. */
 		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
-			do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE,
-			FALSE);
+			do_gotolinecolumn(savedposline, savedposcol, FALSE,
+						FALSE, FALSE, FALSE);
 		}
 #endif
 	    }
@@ -2738,16 +2737,13 @@ int main(int argc, char **argv)
     }
 #endif /* !DISABLE_MULTIBUFFER */
 
-    /* Read the first file on the command line into either the current
-     * buffer or a new buffer, depending on whether multibuffer mode is
-     * enabled. */
+    /* Now read the first file on the command line into a new buffer. */
     if (optind < argc)
 	open_buffer(argv[optind], FALSE);
 
-    /* We didn't open any files if all the command line arguments were
-     * invalid files like directories or if there were no command line
-     * arguments given.  In this case, we have to load a blank buffer.
-     * Also, we unset view mode to allow editing. */
+    /* If all the command-line arguments were invalid files like directories,
+     * or if there were no filenames given, we didn't open any file.  In this
+     * case, load a blank buffer.  Also, unset view mode to allow editing. */
     if (openfile == NULL) {
 	open_buffer("", FALSE);
 	UNSET(VIEW_MODE);
@@ -2768,13 +2764,13 @@ int main(int argc, char **argv)
 	    precalc_multicolorinfo();
 #endif
 
+    /* If a starting position was given on the command line, go there. */
     if (startline > 0 || startcol > 0)
-	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
-		FALSE);
+	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE, FALSE);
 #ifndef DISABLE_HISTORIES
     else {
-	/* See if we have a POS history to use if we haven't overridden it. */
 	ssize_t savedposline, savedposcol;
+	/* If the file was edited before, restore the last cursor position. */
 	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
 	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
     }
