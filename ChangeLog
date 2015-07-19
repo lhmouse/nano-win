@@ -2302,7 +2302,7 @@ GNU nano 2.1.11 - 2009.09.14
 2009-09-02 Chris Allegretta <chrisa@asty.org>
 	* Attempt to check file writability and emit a warning on the status bar
 	  if nano doesn't think the file can be written to.  Feature originally
-	  requested by Damien Jolders <madamien@skullsquad.com> et al.
+	  requested by Damien Joldersma <damien@skullsquad.com> et al.
 
 2009-08-29 Chris Allegretta <chrisa@asty.org>
 	* Fix more soft wrapping issues, particularly with scrolling,
