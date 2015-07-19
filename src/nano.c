@@ -2713,8 +2713,7 @@ int main(int argc, char **argv)
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is
 	     * followed by at least one other argument, the filename it
 	     * applies to. */
-	    if (i < argc - 1 && argv[i][0] == '+' && iline == 1 &&
-		icol == 1)
+	    if (i < argc - 1 && argv[i][0] == '+')
 		parse_line_column(&argv[i][1], &iline, &icol);
 	    else {
 		open_buffer(argv[i], FALSE);
@@ -2722,8 +2721,8 @@ int main(int argc, char **argv)
 		if (iline > 0 || icol > 0) {
 		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE,
 			FALSE);
-		    iline = 1;
-		    icol = 1;
+		    iline = 0;
+		    icol = 0;
 		}
 #ifndef DISABLE_HISTORIES
 		else {

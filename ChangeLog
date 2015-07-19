@@ -1,3 +1,7 @@
+2015-07-19  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (main): Accept again a +LINE argument for each file
+	given on the command line.  This fixes Savannah bug #45576.
+
 2015-07-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): When looking for multiline-regex matches,
 	look for a new start only after an end, instead of right after the
