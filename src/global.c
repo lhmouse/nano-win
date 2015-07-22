@@ -1613,6 +1613,8 @@ void thanks_for_all_the_fish(void)
 	syntaxtype *bill = syntaxes;
 
 	free(syntaxes->desc);
+	free(syntaxes->linter);
+	free(syntaxes->formatter);
 	while (syntaxes->extensions != NULL) {
 	    regexlisttype *bob = syntaxes->extensions;
 	    syntaxes->extensions = bob->next;

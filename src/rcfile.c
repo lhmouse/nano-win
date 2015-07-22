@@ -571,7 +571,8 @@ void parse_binding(char *ptr, bool dobind)
 	/* Add the new shortcut at the start of the list. */
 	newsc->next = sclist;
 	sclist = newsc;
-    }
+    } else
+	free(keycopy);
 }
 
 

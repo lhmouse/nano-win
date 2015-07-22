@@ -2952,6 +2952,7 @@ void history_error(const char *msg, ...)
  * successfully created, and return 0 otherwise. */
 int check_dotnano(void)
 {
+    int ret = 1;
     struct stat dirstat;
     char *nanodir = construct_filename("/.nano");
 
@@ -2960,15 +2961,17 @@ int check_dotnano(void)
 	    history_error(N_("Unable to create directory %s: %s\n"
 			     "It is required for saving/loading search history or cursor positions.\n"),
 				nanodir, strerror(errno));
-	    return 0;
+	    ret = 0;
 	}
     } else if (!S_ISDIR(dirstat.st_mode)) {
 	history_error(N_("Path %s is not a directory and needs to be.\n"
 			 "Nano will be unable to load or save search history or cursor positions.\n"),
 				nanodir);
-	return 0;
+	ret = 0;
     }
-    return 1;
+
+    free(nanodir);
+    return ret;
 }
 
 /* Load the search and replace histories from ~/.nano/search_history. */
