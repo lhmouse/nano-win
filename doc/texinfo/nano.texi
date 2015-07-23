@@ -6,8 +6,8 @@
 
 @smallbook
 @set EDITION 0.3
-@set VERSION 2.4.2
-@set UPDATED June 2015
+@set VERSION 2.4.3
+@set UPDATED July 2015
 
 @dircategory Editors
 @direntry
@@ -21,7 +21,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.4.2
+@subtitle version 2.4.3
 
 @author Chris Allegretta
 @page
@@ -190,6 +190,7 @@ Use the blank line below the titlebar as extra editing space.
 @itemx --positionlog
 Log for each file the last location of the cursor, and read it
 back upon reopening the file and place it there again.
+(The old form of this option, @code{--poslog}, is deprecated.)
 
 @item -Q "@var{characters}"
 @itemx --quotestr="@var{characters}"
@@ -643,6 +644,7 @@ Do case-sensitive searches by default.
 
 @item set constantshow
 Constantly display the cursor position in the status bar.
+(The old form of this option, @code{set const}, is deprecated.)
 
 @item set cut
 Use cut-to-end-of-line by default, instead of cutting the whole line.
@@ -712,6 +714,7 @@ directory feature is turned off.
 
 @item set positionlog
 Save the cursor position of files between editing sessions.
+(The old form of this option, @code{set poslog}, is deprecated.)
 
 @item set preserve
 Preserve the XON and XOFF keys (^Q and ^S).

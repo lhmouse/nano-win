@@ -20,7 +20,7 @@
 .\"   Documentation License along with this program.  If not, see
 .\"   <http://www.gnu.org/licenses/>.
 .\"
-.TH NANORC 5 "version 2.4.2" "June 2015"
+.TH NANORC 5 "version 2.4.3" "July 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -92,6 +92,7 @@ Do case-sensitive searches by default.
 .TP
 .B set constantshow
 Constantly display the cursor position in the status bar.
+(The old form of this option, '\fBset const\fR', is deprecated.)
 .TP
 .B set cut
 Use cut-to-end-of-line by default, instead of cutting the whole line.
@@ -160,6 +161,7 @@ directory feature is turned off.
 .TP
 .B set positionlog
 Save the cursor position of files between editing sessions.
+(The old form of this option, '\fBset poslog\fR', is deprecated.)
 .TP
 .B set preserve
 Preserve the XON and XOFF keys (^Q and ^S).
