@@ -135,18 +135,20 @@
 <h2><a name="3.6"></a>3.6. How can I make the executable smaller? This is too bloated!</h2>
 <blockquote><p>Actually, there are several parts of the editor that can be disabled. You can pass arguments to the <b>configure</b> script that disable certain features. Here's a brief list:</p>
   <pre>
-  <b>--disable-browser</b>       Disable built-in file browser
+  <b>--disable-browser</b>       Disable the built-in file browser
   <b>--disable-color</b>         Disable color and syntax highlighting
-  <b>--disable-extra</b>         Disable extra features, currently only an easter egg
+  <b>--disable-extra</b>         Disable extra features (currently only an easter egg)
   <b>--disable-help</b>          Disable help functions
+  <b>--disable-histories</b>     Disable the saving of search strings and cursor positions
   <b>--disable-justify</b>       Disable justify/unjustify functions
-  <b>--disable-mouse</b>         Disable mouse support (and -m flag)
+  <b>--disable-libmagic</b>      Disable the use of libmagic for determining a file's syntax
+  <b>--disable-mouse</b>         Disable mouse support
   <b>--disable-multibuffer</b>   Disable having multiple file buffers open
   <b>--disable-nanorc</b>        Disable the use of .nanorc files
-  <b>--disable-operatingdir</b>  Disable setting of operating directory
+  <b>--disable-operatingdir</b>  Disable the setting of an operating directory
   <b>--disable-speller</b>       Disable spell checker functions
   <b>--disable-tabcomp</b>       Disable tab completion functions
-  <b>--disable-wrapping</b>      Disable all wrapping of text (and -w flag)</pre>
+  <b>--disable-wrapping</b>      Disable all hard-wrapping of text</pre>
   <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the marker code that you use with Control-^ to select text). Also, if you know you aren't going to be using other languages you can use <b>--disable-nls</b> to disable internationalization and save a few K to a few dozen K depending on if you have locale support on your system. And finally there's always good old <b>strip</b> to strip all debugging code and code that exists in libraries on your system.</p>
   <p>With <b>--disable-wrapping-as-root</b> you can disable any hard-wrapping by default when the user is root, useful to prevent accidentally changing long lines in system configuration files.</p>
 </blockquote>
@@ -182,7 +184,7 @@
 <h2><a name="4.5"></a>4.5. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
 <blockquote><p>It depends on the terminal type you're using. On some terminals, such as the FreeBSD console, xterm, konsole, and gnome-terminal, Shift-F1 to Shift-F4 will generate F13 to F16. On other terminals, such as the Linux console, rxvt, and Eterm, Shift-F3 to Shift-F6 will generate F13 to F16.</p></blockquote>
 <h2><a name="4.6"></a>4.6. nano crashes when I type &lt;insert keystroke here&gt;!</h2>
-<blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or in the <a href="https://savannah.gnu.org/bugs/?group=nano">bug database</a> on Savannah.</p></blockquote>
+<blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or in the <a href="https://savannah.gnu.org/bugs/?group=nano">bug tracker</a> on Savannah.</p></blockquote>
 <h2><a name="4.7"></a>4.7. nano crashes when I resize my window. How can I fix that?</h2>
 <blockquote><p>Older versions of nano had this problem, please upgrade to a newer version (at least 0.9.9, but 2.4.2 is recommended).</p></blockquote>
 <h2><a name="4.8"></a>4.8. [version 1.3.12 and later] I'm using glibc 2.2.3, and nano crashes when I use color support or do regular expression searches. How can I fix that?</h2>
