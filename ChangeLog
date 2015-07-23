@@ -2,6 +2,8 @@
 	* doc/man/{nano.1,nanorc.5}, doc/texinfo/nano.texi: Add deprecation
 	notices for the options 'set const', 'set poslog' and '--poslog'.
 	Suggested by Eitan Adler.
+	* src/chars.c (mbstrcasestr, mbrevstrcasestr): When searching, find
+	only valid UTF-8 byte sequences.  This fixes Savannah bug #45579.
 
 2015-07-22  Mike Frysinger  <vapier@gentoo.org>
 	* src/files.c (check_dotnano), src/global.c (thanks_for_all_the_fish),

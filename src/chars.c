@@ -636,7 +636,8 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 
 	for (; *haystack != '\0' && haystack_len >= needle_len;
 		haystack += move_mbright(haystack, 0), haystack_len--) {
-	    if (mbstrncasecmp(haystack, needle, needle_len) == 0)
+	    if (mbstrncasecmp(haystack, needle, needle_len) == 0 &&
+			mblen(haystack, MB_CUR_MAX) > 0)
 		return (char *)haystack;
 	}
 
@@ -729,8 +730,9 @@ char *mbrevstrcasestr(const char *haystack, const char *needle, const
 	rev_start_len = mbstrlen(rev_start);
 
 	while (!begin_line) {
-	    if (rev_start_len >= needle_len && mbstrncasecmp(rev_start,
-		needle, needle_len) == 0)
+	    if (rev_start_len >= needle_len &&
+			mbstrncasecmp(rev_start, needle, needle_len) == 0 &&
+			mblen(rev_start, MB_CUR_MAX) > 0)
 		return (char *)rev_start;
 
 	    if (rev_start == haystack)
