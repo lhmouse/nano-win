@@ -601,6 +601,7 @@ void shortcut_init(void)
     const char *nano_suspend_msg =
 	N_("Suspend the editor (if suspend is enabled)");
 #ifndef NANO_TINY
+    const char *nano_savefile_msg = N_("Save file without prompting");
     const char *nano_case_msg =
 	N_("Toggle the case sensitivity of the search");
     const char *nano_reverse_msg =
@@ -910,6 +911,11 @@ void shortcut_init(void)
 
     add_to_funcs(do_suspend_void, MMAIN,
 	N_("Suspend"), IFSCHELP(nano_suspend_msg), BLANKAFTER, VIEW);
+
+#ifndef NANO_TINY
+    add_to_funcs(do_savefile, MMAIN,
+	N_("Save"), IFSCHELP(nano_savefile_msg), BLANKAFTER, NOVIEW);
+#endif
 
 #ifndef DISABLE_HISTORIES
     add_to_funcs(get_history_older_void,
@@ -1299,6 +1305,10 @@ sc *strtosc(char *input)
 	s->scfunc = do_exit;
     else if (!strcasecmp(input, "writeout"))
 	s->scfunc = do_writeout_void;
+#ifndef NANO_TINY
+    else if (!strcasecmp(input, "savefile"))
+	s->scfunc = do_savefile;
+#endif
     else if (!strcasecmp(input, "insert"))
 	s->scfunc = do_insertfile_void;
     else if (!strcasecmp(input, "whereis"))

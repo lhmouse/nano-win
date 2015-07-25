@@ -1,3 +1,9 @@
+2015-07-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (shortcut_init, strtosc), src/files.c (savefile),
+	doc/man/nanorc.5, doc/texinfo/nano.texi: Add a new bindable function,
+	'savefile', which writes a file to disk without first asking for its
+	name.  This implements Savannah patch #8208 submitted by Seiya Nuta.
+
 2015-07-23  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/{nano.1,nanorc.5}, doc/texinfo/nano.texi: Add deprecation
 	notices for the options 'set const', 'set poslog' and '--poslog'.

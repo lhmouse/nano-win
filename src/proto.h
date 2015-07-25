@@ -321,6 +321,9 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 #endif
 bool do_writeout(bool exiting);
 void do_writeout_void(void);
+#ifndef NANO_TINY
+void do_savefile(void);
+#endif
 char *real_dir_from_tilde(const char *buf);
 #if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);

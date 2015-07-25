@@ -2459,6 +2459,17 @@ void do_writeout_void(void)
     display_main_list();
 }
 
+#ifndef NANO_TINY
+/* If it has a name, write the current file to disk without prompting. */
+void do_savefile(void)
+{
+    if (openfile->filename[0] != '\0')
+	write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE);
+    else
+	do_writeout_void();
+}
+#endif
+
 /* Return a malloc()ed string containing the actual directory, used to
  * convert ~user/ and ~/ notation. */
 char *real_dir_from_tilde(const char *buf)
