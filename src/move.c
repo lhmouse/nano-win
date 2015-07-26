@@ -52,9 +52,8 @@ void do_page_up(void)
 {
     int i, skipped = 0;
 
-    /* If there's less than a page of text left on the screen, put the
-     * cursor at the beginning of the first line of the file, and then
-     * update the edit window. */
+    /* If the cursor is less than a page away from the top of the file,
+     * put it at the beginning of the first line. */
     if (openfile->current->lineno == 1 || (
 #ifndef NANO_TINY
 	!ISSET(SOFTWRAP) &&
@@ -106,9 +105,8 @@ void do_page_down(void)
 {
     int i;
 
-    /* If there's less than a page of text left on the screen, put the
-     * cursor at the beginning of the last line of the file, and then
-     * update the edit window. */
+    /* If the cursor is less than a page away from the bottom of the file,
+     * put it at the end of the last line. */
     if (openfile->current->lineno + maxrows - 2 >=
 	openfile->filebot->lineno) {
 	do_last_line();

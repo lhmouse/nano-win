@@ -547,12 +547,11 @@ void do_research(void)
 #endif /* !NANO_TINY */
 
 #ifdef HAVE_REGEX_H
+/* Calculate the size of the replacement line, taking possible
+ * subexpressions \1 to \9 into account.  Return the replacement
+ * text in the passed string only when create is TRUE. */
 int replace_regexp(char *string, bool create)
 {
-    /* We have a split personality here.  If create is FALSE, just
-     * calculate the size of the replacement line (necessary because of
-     * subexpressions \1 to \9 in the replaced text). */
-
     const char *c = last_replace;
     size_t search_match_count = regmatches[0].rm_eo -
 	regmatches[0].rm_so;
@@ -596,12 +595,13 @@ int replace_regexp(char *string, bool create)
 }
 #endif /* HAVE_REGEX_H */
 
+/* Return a copy of the current line with one needle replaced. */
 char *replace_line(const char *needle)
 {
     char *copy;
     size_t new_line_size, search_match_count;
 
-    /* Calculate the size of the new line. */
+    /* First calculate the size of the new line. */
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
@@ -618,10 +618,10 @@ char *replace_line(const char *needle)
     /* Create the buffer. */
     copy = charalloc(new_line_size);
 
-    /* The head of the original line. */
+    /* Copy the head of the original line. */
     strncpy(copy, openfile->current->data, openfile->current_x);
 
-    /* The replacement text. */
+    /* Add the replacement text. */
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP))
 	replace_regexp(copy + openfile->current_x, TRUE);
@@ -629,9 +629,9 @@ char *replace_line(const char *needle)
 #endif
 	strcpy(copy + openfile->current_x, answer);
 
-    /* The tail of the original line. */
     assert(openfile->current_x + search_match_count <= strlen(openfile->current->data));
 
+    /* Copy the tail of the original line. */
     strcat(copy, openfile->current->data + openfile->current_x +
 	search_match_count);
 
@@ -797,9 +797,8 @@ ssize_t do_replace_loop(
 #endif
 		openfile->current_x += match_len + length_change - 1;
 
-	    /* Clean up. */
-	    openfile->totsize += mbstrlen(copy) -
-		mbstrlen(openfile->current->data);
+	    /* Update the file size, and put the changed line into place. */
+	    openfile->totsize += mbstrlen(copy) - mbstrlen(openfile->current->data);
 	    free(openfile->current->data);
 	    openfile->current->data = copy;
 
