@@ -591,6 +591,10 @@ bool findnextstr(
 	const char *needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
+#ifndef NANO_TINY
+void do_findprevious(void);
+void do_findnext(void);
+#endif
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 void do_research(void);
 #endif

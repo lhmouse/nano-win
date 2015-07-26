@@ -602,6 +602,8 @@ void shortcut_init(void)
 	N_("Suspend the editor (if suspend is enabled)");
 #ifndef NANO_TINY
     const char *nano_savefile_msg = N_("Save file without prompting");
+    const char *nano_findprev_msg = N_("Search next occurrence backward");
+    const char *nano_findnext_msg = N_("Search next occurrence forward");
     const char *nano_case_msg =
 	N_("Toggle the case sensitivity of the search");
     const char *nano_reverse_msg =
@@ -915,6 +917,11 @@ void shortcut_init(void)
 #ifndef NANO_TINY
     add_to_funcs(do_savefile, MMAIN,
 	N_("Save"), IFSCHELP(nano_savefile_msg), BLANKAFTER, NOVIEW);
+
+    add_to_funcs(do_findprevious, MMAIN,
+	N_("Previous"), IFSCHELP(nano_findprev_msg), TOGETHER, VIEW);
+    add_to_funcs(do_findnext, MMAIN,
+	N_("Next"), IFSCHELP(nano_findnext_msg), BLANKAFTER, VIEW);
 #endif
 
 #ifndef DISABLE_HISTORIES
@@ -1317,6 +1324,10 @@ sc *strtosc(char *input)
     else if (!strcasecmp(input, "searchagain") ||
 	     !strcasecmp(input, "research"))
 	s->scfunc = do_research;
+    else if (!strcasecmp(input, "findprevious"))
+	s->scfunc = do_findprevious;
+    else if (!strcasecmp(input, "findnext"))
+	s->scfunc = do_findnext;
 #endif
     else if (!strcasecmp(input, "replace"))
 	s->scfunc = do_replace;

@@ -474,6 +474,31 @@ void do_search(void)
     search_replace_abort();
 }
 
+#ifndef NANO_TINY
+/* Search in the backward direction for the next occurrence. */
+void do_findprevious(void)
+{
+    if ISSET(BACKWARDS_SEARCH)
+	do_research();
+    else {
+	SET(BACKWARDS_SEARCH);
+	do_research();
+	UNSET(BACKWARDS_SEARCH);
+    }
+}
+
+/* Search in the forward direction for the next occurrence. */
+void do_findnext(void)
+{
+    if ISSET(BACKWARDS_SEARCH) {
+	UNSET(BACKWARDS_SEARCH);
+	do_research();
+	SET(BACKWARDS_SEARCH);
+    } else
+	do_research();
+}
+#endif
+
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 /* Search for the last string without prompting. */
 void do_research(void)

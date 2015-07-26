@@ -394,7 +394,13 @@ Searches for text in the current buffer -- or for filenames matching
 a string in the current list in the file browser.
 .TP
 .B searchagain
-Repeats the last search command.
+Repeats the last search command without prompting.
+.TP
+.B findprevious
+As \fBsearchagain\fR, but always in the backward direction.
+.TP
+.B findnext
+As \fBsearchagain\fR, but always in the forward direction.
 .TP
 .B replace
 Interactively replaces text within the current buffer.
