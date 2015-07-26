@@ -757,6 +757,12 @@ ssize_t do_replace_loop(
 #endif
 	    }
 
+#ifdef HAVE_REGEX_H
+	    /* Don't find the same zero-length match again. */
+	    if (match_len == 0)
+		match_len++;
+#endif
+
 	    /* Set the cursor at the last character of the replacement
 	     * text, so searching will resume after the replacement
 	     * text.  Note that current_x might be set to (size_t)-1
