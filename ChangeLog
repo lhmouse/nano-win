@@ -7,6 +7,8 @@
 	the last search command in a fixed direction without prompting.
 	* src/global.c (shortcut_init): Tweak a string.
 	* src/search.c, src/move.c: Improve a few of the comments.
+	* src/search.c (replace_regexp, replace_line): Rename two variables,
+	and make the calculation of the new line size more symmetrical.
 
 2015-07-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init, strtosc), src/files.c (savefile),

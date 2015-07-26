@@ -547,16 +547,13 @@ void do_research(void)
 #endif /* !NANO_TINY */
 
 #ifdef HAVE_REGEX_H
-/* Calculate the size of the replacement line, taking possible
+/* Calculate the size of the replacement text, taking possible
  * subexpressions \1 to \9 into account.  Return the replacement
  * text in the passed string only when create is TRUE. */
 int replace_regexp(char *string, bool create)
 {
     const char *c = last_replace;
-    size_t search_match_count = regmatches[0].rm_eo -
-	regmatches[0].rm_so;
-    size_t new_line_size = strlen(openfile->current->data) + 1 -
-	search_match_count;
+    size_t replacement_size = 0;
 
     /* Iterate through the replacement text to handle subexpression
      * replacement using \1, \2, \3, etc. */
@@ -568,7 +565,7 @@ int replace_regexp(char *string, bool create)
 	    if (create)
 		*string++ = *c;
 	    c++;
-	    new_line_size++;
+	    replacement_size++;
 	} else {
 	    size_t i = regmatches[num].rm_eo - regmatches[num].rm_so;
 
@@ -576,7 +573,7 @@ int replace_regexp(char *string, bool create)
 	    c += 2;
 
 	    /* But add the length of the subexpression to new_size. */
-	    new_line_size += i;
+	    replacement_size += i;
 
 	    /* And if create is TRUE, append the result of the
 	     * subexpression match to the new line. */
@@ -591,7 +588,7 @@ int replace_regexp(char *string, bool create)
     if (create)
 	*string = '\0';
 
-    return new_line_size;
+    return replacement_size;
 }
 #endif /* HAVE_REGEX_H */
 
@@ -599,18 +596,18 @@ int replace_regexp(char *string, bool create)
 char *replace_line(const char *needle)
 {
     char *copy;
-    size_t new_line_size, search_match_count;
+    size_t match_len;
+    size_t new_line_size = strlen(openfile->current->data) + 1;
 
-    /* First calculate the size of the new line. */
+    /* First adjust the size of the new line for the change. */
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
-	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
-	new_line_size = replace_regexp(NULL, FALSE);
+	match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
+	new_line_size += replace_regexp(NULL, FALSE) - match_len;
     } else {
 #endif
-	search_match_count = strlen(needle);
-	new_line_size = strlen(openfile->current->data) -
-		search_match_count + strlen(answer) + 1;
+	match_len = strlen(needle);
+	new_line_size += strlen(answer) - match_len;
 #ifdef HAVE_REGEX_H
     }
 #endif
@@ -629,11 +626,10 @@ char *replace_line(const char *needle)
 #endif
 	strcpy(copy + openfile->current_x, answer);
 
-    assert(openfile->current_x + search_match_count <= strlen(openfile->current->data));
+    assert(openfile->current_x + match_len <= strlen(openfile->current->data));
 
     /* Copy the tail of the original line. */
-    strcat(copy, openfile->current->data + openfile->current_x +
-	search_match_count);
+    strcat(copy, openfile->current->data + openfile->current_x + match_len);
 
     return copy;
 }
