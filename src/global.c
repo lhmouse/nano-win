@@ -599,7 +599,7 @@ void shortcut_init(void)
     const char *nano_refresh_msg =
 	N_("Refresh (redraw) the current screen");
     const char *nano_suspend_msg =
-	N_("Suspend the editor (if suspend is enabled)");
+	N_("Suspend the editor (if suspension is enabled)");
 #ifndef NANO_TINY
     const char *nano_savefile_msg = N_("Save file without prompting");
     const char *nano_findprev_msg = N_("Search next occurrence backward");

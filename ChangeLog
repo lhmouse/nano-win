@@ -5,6 +5,7 @@
 	do_findprevious), doc/man/nanorc.5, doc/texinfo/nano.texi: Add two
 	new bindable functions, 'findnext' and 'findprevious', which repeat
 	the last search command in a fixed direction without prompting.
+	* src/global.c (shortcut_init): Tweak a string.
 
 2015-07-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init, strtosc), src/files.c (savefile),
@@ -18,7 +19,8 @@
 	Suggested by Eitan Adler.
 	* doc/faq.html: Mention --disable-histories and --disable-libmagic.
 	* src/chars.c (mbstrcasestr, mbrevstrcasestr): When searching, find
-	only valid UTF-8 byte sequences.  This fixes Savannah bug #45579.
+	only valid UTF-8 byte sequences.  This fixes Savannah bug #45579,
+	first reported in 2009 by Mike Frysinger.
 
 2015-07-22  Mike Frysinger  <vapier@gentoo.org>
 	* src/files.c (check_dotnano), src/global.c (thanks_for_all_the_fish),
