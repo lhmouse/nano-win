@@ -3292,8 +3292,8 @@ void do_formatter(void)
     }
 
 #ifndef NANO_TINY
-    /* Don't handle a pending SIGWINCH until the alternate format checker
-     * is finished and we've loaded the format-checked file back in. */
+    /* Don't handle any SIGWINCHes until the formatter has finished and
+     * we've loaded the reformatted file back in. */
     allow_pending_sigwinch(FALSE);
 #endif
 
@@ -3323,16 +3323,16 @@ void do_formatter(void)
 	do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
 	set_modified();
 
-#ifndef NANO_TINY
-	/* Handle a pending SIGWINCH again. */
-	allow_pending_sigwinch(TRUE);
-#endif
-
 	finalstatus = _("Finished formatting");
     }
 
     unlink(temp);
     free(temp);
+
+#ifndef NANO_TINY
+    /* Handle SIGWINCHes again. */
+    allow_pending_sigwinch(TRUE);
+#endif
 
     /* If the formatter printed any error messages onscreen, make
      * sure that they're cleared off. */

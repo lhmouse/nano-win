@@ -1,3 +1,8 @@
+2015-07-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_formatter), src/nano.c (allow_pending_sigwinch):
+	Reenable SIGWINCH-es also when invoking the formatter fails, and
+	correct some comments.
+
 2015-07-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): When doing regex replacements, find
 	each zero-length match only once.  This fixes Savannah bug #45626.

@@ -1396,12 +1396,13 @@ void regenerate_screen(void)
     total_refresh();
 }
 
-/* If allow is TRUE, block any SIGWINCH signals that we get, so that we
- * can deal with them later.  If allow is FALSE, unblock any SIGWINCH
+/* If allow is FALSE, block any SIGWINCH signals that we get, so that
+ * we can deal with them later.  If allow is TRUE, unblock any SIGWINCH
  * signals that we have, so that we can deal with them now. */
 void allow_pending_sigwinch(bool allow)
 {
     sigset_t winch;
+
     sigemptyset(&winch);
     sigaddset(&winch, SIGWINCH);
     sigprocmask(allow ? SIG_UNBLOCK : SIG_BLOCK, &winch, NULL);
