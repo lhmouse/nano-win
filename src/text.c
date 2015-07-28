@@ -2908,11 +2908,6 @@ void do_linter(void)
 	return;
     }
 
-    if (ISSET(RESTRICTED)) {
-	nano_disabled_msg();
-	return;
-    }
-
     if (openfile->modified) {
 	int i = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
 	if (i == -1) {
@@ -3222,18 +3217,6 @@ void do_formatter(void)
     static int arglen = 3;
     static char **formatargs = NULL;
     char *finalstatus = NULL;
-
-   /* Check whether we're using syntax highlighting
-    * and the formatter option is set. */
-    if (openfile->syntax == NULL || openfile->syntax->formatter == NULL) {
-	statusbar(_("Error: no formatter defined"));
-	return;
-    }
-
-    if (ISSET(RESTRICTED)) {
-	nano_disabled_msg();
-	return;
-    }
 
     if (temp == NULL) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));

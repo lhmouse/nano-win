@@ -2,6 +2,11 @@
 	* src/text.c (do_formatter), src/nano.c (allow_pending_sigwinch):
 	Reenable SIGWINCH-es also when invoking the formatter fails, and
 	correct some comments.
+	* src/text.c (do_linter, do_formatter): In restricted mode, no nanorc
+	files are read, so no linter or formatter will be defined, so these
+	routines will never be called.  Also, the formatter will only ever
+	be called when a syntax applies to the current file and this syntax
+	defines a formatter, so there is no need to check this again.
 
 2015-07-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): When doing regex replacements, find
