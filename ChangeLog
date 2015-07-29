@@ -4,6 +4,8 @@
 	say that this function is disabled than that no linter was defined.
 	* src/nano.c (usage): When asking for --help in restricted mode, don't
 	show options that don't have any effect.
+	* src/nano.c (do_toggle): Make the four toggles that don't have any
+	effect in restricted mode say that they're disabled.
 
 2015-07-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_formatter), src/nano.c (allow_pending_sigwinch):

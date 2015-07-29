@@ -1426,6 +1426,12 @@ void do_toggle(int flag)
 {
     bool enabled;
 
+    if (ISSET(RESTRICTED) && (flag == SUSPEND || flag == MULTIBUFFER ||
+			flag == BACKUP_FILE || flag == NO_COLOR_SYNTAX)) {
+	nano_disabled_msg();
+	return;
+    }
+
     TOGGLE(flag);
 
     switch (flag) {
