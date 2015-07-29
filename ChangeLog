@@ -2,6 +2,8 @@
 	* src/text.c (do_linter): When the linter is called in restricted mode
 	(possible when nano was built with --disable-speller), it is better to
 	say that this function is disabled than that no linter was defined.
+	* src/nano.c (usage): When asking for --help in restricted mode, don't
+	show options that don't have any effect.
 
 2015-07-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_formatter), src/nano.c (allow_pending_sigwinch):
