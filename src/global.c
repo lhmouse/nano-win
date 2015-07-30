@@ -692,19 +692,19 @@ void shortcut_init(void)
      * keep the help items nicely paired also in restricted mode.  */
     if (TRUE) {
 #endif
-    add_to_funcs(do_insertfile_void, MMAIN,
-	read_file_tag, IFSCHELP(nano_insert_msg), BLANKAFTER,
+	add_to_funcs(do_insertfile_void, MMAIN,
+		read_file_tag, IFSCHELP(nano_insert_msg), BLANKAFTER,
 		/* We allow inserting files in view mode if multibuffer mode
 		 * is switched on, so that we can view multiple files. */
 #ifndef DISABLE_MULTIBUFFER
-	VIEW);
+		VIEW);
 #else
-	NOVIEW);
+		NOVIEW);
 #endif
     } else {
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_justify_void, MMAIN,
-	N_("Justify"), IFSCHELP(nano_justify_msg), BLANKAFTER, NOVIEW);
+	add_to_funcs(do_justify_void, MMAIN,
+		N_("Justify"), IFSCHELP(nano_justify_msg), BLANKAFTER, NOVIEW);
 #endif
     }
 
@@ -741,26 +741,25 @@ void shortcut_init(void)
     /* Remember the entry for Uncut, to be able to replace it with Unjustify. */
     uncutfunc = tailfunc;
 
-if (!ISSET(RESTRICTED)) {
+    if (!ISSET(RESTRICTED)) {
 #ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_justify_void, MMAIN,
-	N_("Justify"), IFSCHELP(nano_justify_msg), TOGETHER, NOVIEW);
+	add_to_funcs(do_justify_void, MMAIN,
+		N_("Justify"), IFSCHELP(nano_justify_msg), TOGETHER, NOVIEW);
 #endif
 
 #ifndef DISABLE_SPELLER
-    add_to_funcs(do_spell, MMAIN,
-	N_("To Spell"), IFSCHELP(nano_spell_msg), TOGETHER, NOVIEW);
+	add_to_funcs(do_spell, MMAIN,
+		N_("To Spell"), IFSCHELP(nano_spell_msg), TOGETHER, NOVIEW);
 #endif
-
 #ifndef DISABLE_COLOR
-    add_to_funcs(do_linter, MMAIN,
-	N_("To Linter"), IFSCHELP(nano_lint_msg), TOGETHER, NOVIEW);
+	add_to_funcs(do_linter, MMAIN,
+		N_("To Linter"), IFSCHELP(nano_lint_msg), TOGETHER, NOVIEW);
 #ifndef DISABLE_SPELLER
-    add_to_funcs(do_formatter, MMAIN,
-	N_("Formatter"), IFSCHELP(nano_formatter_msg), BLANKAFTER, NOVIEW);
+	add_to_funcs(do_formatter, MMAIN,
+		N_("Formatter"), IFSCHELP(nano_formatter_msg), BLANKAFTER, NOVIEW);
 #endif
 #endif
-}
+    }
 
 #ifndef NANO_TINY
     add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,

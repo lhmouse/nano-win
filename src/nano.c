@@ -843,9 +843,9 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-A", "--smarthome", N_("Enable smart home key"));
     if (!ISSET(RESTRICTED)) {
-    print_opt("-B", "--backup", N_("Save backups of existing files"));
-    print_opt(_("-C <dir>"), _("--backupdir=<dir>"),
-	N_("Directory for saving unique backup files"));
+	print_opt("-B", "--backup", N_("Save backups of existing files"));
+	print_opt(_("-C <dir>"), _("--backupdir=<dir>"),
+		N_("Directory for saving unique backup files"));
     }
 #endif
     print_opt("-D", "--boldtext", N_("Use bold instead of reverse video text"));
@@ -854,20 +854,20 @@ void usage(void)
 #endif
 #ifndef DISABLE_MULTIBUFFER
     if (!ISSET(RESTRICTED))
-    print_opt("-F", "--multibuffer",
-	N_("Read a file into a new buffer by default"));
+	print_opt("-F", "--multibuffer",
+		N_("Read a file into a new buffer by default"));
 #endif
 #ifndef NANO_TINY
     print_opt("-G", "--locking", N_("Use (vim-style) lock files"));
 #endif
 #ifndef DISABLE_HISTORIES
     if (!ISSET(RESTRICTED))
-    print_opt("-H", "--historylog",
-	N_("Log & read search/replace string history"));
+	print_opt("-H", "--historylog",
+		N_("Log & read search/replace string history"));
 #endif
 #ifndef DISABLE_NANORC
     if (!ISSET(RESTRICTED))
-    print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
+	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
     print_opt("-K", "--rebindkeypad",
 	N_("Fix numeric keypad key confusion problem"));
@@ -880,13 +880,14 @@ void usage(void)
     print_opt("-O", "--morespace", N_("Use one more line for editing"));
 #ifndef DISABLE_HISTORIES
     if (!ISSET(RESTRICTED))
-    print_opt("-P", "--positionlog", N_("Log & read location of cursor position"));
+	print_opt("-P", "--positionlog",
+		N_("Log & read location of cursor position"));
 #endif
 #ifndef DISABLE_JUSTIFY
     print_opt(_("-Q <str>"), _("--quotestr=<str>"), N_("Quoting string"));
 #endif
     if (!ISSET(RESTRICTED))
-    print_opt("-R", "--restricted", N_("Restricted mode"));
+	print_opt("-R", "--restricted", N_("Restricted mode"));
 #ifndef NANO_TINY
     print_opt("-S", "--smooth", N_("Scroll by line instead of half-screen"));
 #endif
@@ -902,8 +903,8 @@ void usage(void)
 #endif
 #ifndef DISABLE_COLOR
     if (!ISSET(RESTRICTED))
-    print_opt(_("-Y <str>"), _("--syntax=<str>"),
-	N_("Syntax definition to use for coloring"));
+	print_opt(_("-Y <str>"), _("--syntax=<str>"),
+		N_("Syntax definition to use for coloring"));
 #endif
     print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
@@ -925,8 +926,8 @@ void usage(void)
     print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_NANORC
     if (!ISSET(RESTRICTED))
-    print_opt("-q", "--quiet",
-	N_("Silently ignore startup issues like rc file errors"));
+	print_opt("-q", "--quiet",
+		N_("Silently ignore startup issues like rc file errors"));
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
@@ -934,8 +935,8 @@ void usage(void)
 #endif
 #ifndef DISABLE_SPELLER
     if (!ISSET(RESTRICTED))
-    print_opt(_("-s <prog>"), _("--speller=<prog>"),
-	N_("Enable alternate speller"));
+	print_opt(_("-s <prog>"), _("--speller=<prog>"),
+		N_("Enable alternate speller"));
 #endif
     print_opt("-t", "--tempfile", N_("Auto save on exit, don't prompt"));
     print_opt("-v", "--view", N_("View mode (read-only)"));
@@ -944,7 +945,7 @@ void usage(void)
 #endif
     print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
     if (!ISSET(RESTRICTED))
-    print_opt("-z", "--suspend", N_("Enable suspension"));
+	print_opt("-z", "--suspend", N_("Enable suspension"));
 #ifndef NANO_TINY
     print_opt("-$", "--softwrap", N_("Enable soft line wrapping"));
 #endif
