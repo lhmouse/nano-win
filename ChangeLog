@@ -7,6 +7,9 @@
 	of the way of invocation) and help texts being unavailable (which
 	is a compile-time decision).
 	* src/global.c (shortcut_init): Change "Justify" to a tag and regroup.
+	* src/nano.c (do_suspend_void, do_suspend): Provide feedback when
+	suspension is not enabled; and it cannot be enabled in restricted
+	mode any longer, so there is no need to check for that any more.
 
 2015-07-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): When the linter is called in restricted mode

@@ -1288,11 +1288,6 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
-    if (ISSET(RESTRICTED)) {
-	show_restricted_warning();
-	return;
-    }
-
 #ifndef DISABLE_MOUSE
     /* Turn mouse support off. */
     disable_mouse_support();
@@ -1324,6 +1319,10 @@ void do_suspend_void(void)
 {
     if (ISSET(SUSPEND))
 	do_suspend(0);
+    else {
+	statusbar(_("Suspension is not enabled"));
+	beep();
+    }
 }
 
 /* Handler for SIGCONT (continue after suspend). */
