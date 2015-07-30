@@ -474,22 +474,19 @@ void print_sclist(void)
 }
 #endif
 
-/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
+/* These four tags are used elsewhere too, so they are global. */
+/* TRANSLATORS: Try to keep the next fifteen strings at most 10 characters. */
 const char *exit_tag = N_("Exit");
 const char *close_tag = N_("Close");
 const char *uncut_tag = N_("Uncut Text");
 #ifndef DISABLE_JUSITIFY
 const char *unjust_tag = N_("Unjustify");
 #endif
-#ifndef NANO_TINY
-/* TRANSLATORS: Try to keep this at most 12 characters. */
-const char *whereis_next_tag = N_("WhereIs Next");
-#endif
 
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    /* TRANSLATORS: Try to keep the next ten strings at most 10 characters. */
+    const char *read_file_tag = N_("Read File");
     const char *whereis_tag = N_("Where Is");
     const char *replace_tag = N_("Replace");
     const char *gotoline_tag = N_("Go To Line");
@@ -497,11 +494,15 @@ void shortcut_init(void)
     const char *next_line_tag = N_("Next Line");
     const char *prev_page_tag = N_("Prev Page");
     const char *next_page_tag = N_("Next Page");
-    const char *read_file_tag = N_("Read File");
 #ifndef DISABLE_JUSTIFY
+    const char *justify_tag = N_("Justify");
     const char *fulljustify_tag = N_("FullJstify");
 #endif
     const char *refresh_tag = N_("Refresh");
+#ifndef NANO_TINY
+    /* TRANSLATORS: Try to keep this string at most 12 characters. */
+    const char *whereis_next_tag = N_("WhereIs Next");
+#endif
 
 #ifndef DISABLE_HELP
 #ifndef DISABLE_JUSTIFY
@@ -704,7 +705,7 @@ void shortcut_init(void)
     } else {
 #ifndef DISABLE_JUSTIFY
 	add_to_funcs(do_justify_void, MMAIN,
-		N_("Justify"), IFSCHELP(nano_justify_msg), BLANKAFTER, NOVIEW);
+		justify_tag, IFSCHELP(nano_justify_msg), BLANKAFTER, NOVIEW);
 #endif
     }
 
@@ -744,7 +745,7 @@ void shortcut_init(void)
     if (!ISSET(RESTRICTED)) {
 #ifndef DISABLE_JUSTIFY
 	add_to_funcs(do_justify_void, MMAIN,
-		N_("Justify"), IFSCHELP(nano_justify_msg), TOGETHER, NOVIEW);
+		justify_tag, IFSCHELP(nano_justify_msg), TOGETHER, NOVIEW);
 #endif
 
 #ifndef DISABLE_SPELLER
