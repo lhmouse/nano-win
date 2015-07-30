@@ -685,18 +685,28 @@ void shortcut_init(void)
     add_to_funcs(do_writeout_void, MMAIN,
 	N_("Write Out"), IFSCHELP(nano_writeout_msg), TOGETHER, NOVIEW);
 
-    /* We allow inserting files in view mode if multibuffers are
-     * available, so that we can view multiple files.  If we're using
-     * restricted mode, inserting files is disabled, since it allows
-     * reading from or writing to files not specified on the command
-     * line. */
+#ifndef DISABLE_JUSTIFY
+    if (!ISSET(RESTRICTED)) {
+#else
+    /* If we can't replace Insert with Justify, show Insert anyway, to
+     * keep the help items nicely paired also in restricted mode.  */
+    if (TRUE) {
+#endif
     add_to_funcs(do_insertfile_void, MMAIN,
 	read_file_tag, IFSCHELP(nano_insert_msg), BLANKAFTER,
+		/* We allow inserting files in view mode if multibuffer mode
+		 * is switched on, so that we can view multiple files. */
 #ifndef DISABLE_MULTIBUFFER
 	VIEW);
 #else
 	NOVIEW);
 #endif
+    } else {
+#ifndef DISABLE_JUSTIFY
+    add_to_funcs(do_justify_void, MMAIN,
+	N_("Justify"), IFSCHELP(nano_justify_msg), BLANKAFTER, NOVIEW);
+#endif
+    }
 
     add_to_funcs(do_search, MMAIN,
 	whereis_tag, IFSCHELP(nano_whereis_msg), TOGETHER, VIEW);
@@ -731,6 +741,7 @@ void shortcut_init(void)
     /* Remember the entry for Uncut, to be able to replace it with Unjustify. */
     uncutfunc = tailfunc;
 
+if (!ISSET(RESTRICTED)) {
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_justify_void, MMAIN,
 	N_("Justify"), IFSCHELP(nano_justify_msg), TOGETHER, NOVIEW);
@@ -749,6 +760,7 @@ void shortcut_init(void)
 	N_("Formatter"), IFSCHELP(nano_formatter_msg), BLANKAFTER, NOVIEW);
 #endif
 #endif
+}
 
 #ifndef NANO_TINY
     add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
