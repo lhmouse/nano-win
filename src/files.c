@@ -1295,7 +1295,7 @@ void do_insertfile(
 void do_insertfile_void(void)
 {
     if (ISSET(RESTRICTED)) {
-	nano_disabled_msg();
+	show_restricted_warning();
 	return;
     }
 

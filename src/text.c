@@ -2831,7 +2831,7 @@ void do_spell(void)
     const char *spell_msg;
 
     if (ISSET(RESTRICTED)) {
-	nano_disabled_msg();
+	show_restricted_warning();
 	return;
     }
 
@@ -2904,8 +2904,8 @@ void do_linter(void)
     lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
     if (ISSET(RESTRICTED)) {
-        nano_disabled_msg();
-        return;
+	show_restricted_warning();
+	return;
     }
 
     if (!openfile->syntax || !openfile->syntax->linter) {

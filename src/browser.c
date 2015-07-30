@@ -174,7 +174,7 @@ char *do_browser(char *path, DIR *dir)
 	    browser_refresh();
 	    curs_set(0);
 #else
-	    nano_disabled_msg();
+	    say_there_is_no_help();
 #endif
 	} else if (func == do_search) {
 	    /* Search for a filename. */

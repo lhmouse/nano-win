@@ -593,8 +593,23 @@ void free_openfilestruct(openfilestruct *src)
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
 {
-    statusbar(_("Key invalid in view mode"));
+    statusbar(_("Key is invalid in view mode"));
 }
+
+/* Indicate that something is disabled in restricted mode. */
+void show_restricted_warning(void)
+{
+    statusbar(_("This function is disabled in restricted mode"));
+    beep();
+}
+
+#ifdef DISABLE_HELP
+/* Indicate that help texts are unavailable. */
+void say_there_is_no_help(void)
+{
+    statusbar(_("Help is unavailable"));
+}
+#endif
 
 /* Make nano exit gracefully. */
 void finish(void)
@@ -1086,12 +1101,6 @@ int no_help(void)
     return ISSET(NO_HELP) ? 2 : 0;
 }
 
-/* Indicate a disabled function on the statusbar. */
-void nano_disabled_msg(void)
-{
-    statusbar(_("Sorry, support for this function has been disabled"));
-}
-
 /* If the current file buffer has been modified, and the TEMP_FILE flag
  * isn't set, ask whether or not to save the file buffer.  If the
  * TEMP_FILE flag is set and the current file has a name, save it
@@ -1280,7 +1289,7 @@ RETSIGTYPE handle_hupterm(int signal)
 RETSIGTYPE do_suspend(int signal)
 {
     if (ISSET(RESTRICTED)) {
-	nano_disabled_msg();
+	show_restricted_warning();
 	return;
     }
 
@@ -1429,7 +1438,7 @@ void do_toggle(int flag)
 
     if (ISSET(RESTRICTED) && (flag == SUSPEND || flag == MULTIBUFFER ||
 			flag == BACKUP_FILE || flag == NO_COLOR_SYNTAX)) {
-	nano_disabled_msg();
+	show_restricted_warning();
 	return;
     }
 

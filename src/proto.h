@@ -450,6 +450,10 @@ void delete_opennode(openfilestruct *fileptr);
 void free_openfilestruct(openfilestruct *src);
 #endif
 void print_view_warning(void);
+void show_restricted_warning(void);
+#ifdef DISABLE_HELP
+void say_there_is_no_help(void);
+#endif
 void finish(void);
 void die(const char *msg, ...);
 void die_save_file(const char *die_filename
@@ -472,7 +476,6 @@ void usage(void);
 void version(void);
 int more_space(void);
 int no_help(void);
-void nano_disabled_msg(void);
 void do_exit(void);
 void signal_init(void);
 RETSIGTYPE handle_hupterm(int signal);

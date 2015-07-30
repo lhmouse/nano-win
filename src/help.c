@@ -533,7 +533,7 @@ void do_help_void(void)
 	do_help(&edit_refresh);
 #else
     if (currmenu == MMAIN)
-	nano_disabled_msg();
+	say_there_is_no_help();
     else
 	beep();
 #endif /* !DISABLE_HELP */
