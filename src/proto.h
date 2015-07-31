@@ -646,6 +646,10 @@ void do_mark(void);
 #endif
 void do_delete(void);
 void do_backspace(void);
+#ifndef NANO_TINY
+void do_cut_prev_word(void);
+void do_cut_next_word(void);
+#endif
 void do_tab(void);
 #ifndef NANO_TINY
 void do_indent(ssize_t cols);

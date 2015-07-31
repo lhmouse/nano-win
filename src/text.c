@@ -185,6 +185,47 @@ void do_backspace(void)
     }
 }
 
+#ifndef NANO_TINY
+/* Delete text from the cursor until the first start of a word to
+ * the right, or to the left when backward is true. */
+void do_cutword(bool backward)
+{
+    /* Remember the current cursor position. */
+    filestruct *is_current = openfile->current;
+    size_t is_current_x = openfile->current_x;
+
+    /* Move the cursor to a word start, to the left or to the right. */
+    if (backward)
+	do_prev_word(ISSET(WORD_BOUNDS), FALSE);
+    else
+	do_next_word(ISSET(WORD_BOUNDS), FALSE);
+
+    /* Set the mark at the start of that word. */
+    openfile->mark_begin = openfile->current;
+    openfile->mark_begin_x = openfile->current_x;
+    openfile->mark_set = TRUE;
+
+    /* Put the cursor back where it was, so an undo will put it there too. */
+    openfile->current = is_current;
+    openfile->current_x = is_current_x;
+
+    /* Now kill the marked region and a word is gone. */
+    do_cut_text_void();
+}
+
+/* Delete a word leftward. */
+void do_cut_prev_word(void)
+{
+   do_cutword(TRUE);
+}
+
+/* Delete a word rightward. */
+void do_cut_next_word(void)
+{
+   do_cutword(FALSE);
+}
+#endif /* !NANO_TINY */
+
 /* Insert a tab.  If the TABS_TO_SPACES flag is set, insert the number
  * of spaces that a tab would normally take up. */
 void do_tab(void)

@@ -587,6 +587,10 @@ void shortcut_init(void)
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
+    const char *nano_cut_word_left_msg =
+	N_("Cut backward from cursor to word start");
+    const char *nano_cut_word_right_msg =
+	N_("Cut forward from cursor to next word start");
     const char *nano_cut_till_eof_msg =
 	N_("Cut from the cursor position to the end of the file");
 #endif
@@ -893,7 +897,8 @@ void shortcut_init(void)
     add_to_funcs(do_tab, MMAIN,
 	N_("Tab"), IFSCHELP(nano_tab_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_enter_void, MMAIN,
-	N_("Enter"), IFSCHELP(nano_enter_msg), TOGETHER, NOVIEW);
+	N_("Enter"), IFSCHELP(nano_enter_msg), BLANKAFTER, NOVIEW);
+
     add_to_funcs(do_delete, MMAIN,
 	N_("Delete"), IFSCHELP(nano_delete_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_backspace, MMAIN,
@@ -906,6 +911,10 @@ void shortcut_init(void)
 	NOVIEW);
 
 #ifndef NANO_TINY
+    add_to_funcs(do_cut_prev_word, MMAIN,
+	N_("Cut Left"), IFSCHELP(nano_cut_word_left_msg), TOGETHER, NOVIEW);
+    add_to_funcs(do_cut_next_word, MMAIN,
+	N_("Cut Right"), IFSCHELP(nano_cut_word_right_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_cut_till_eof, MMAIN,
 	N_("CutTillEnd"), IFSCHELP(nano_cut_till_eof_msg), BLANKAFTER, NOVIEW);
 #endif
@@ -1392,6 +1401,10 @@ sc *strtosc(char *input)
 	s->scfunc = do_prev_word_void;
     else if (!strcasecmp(input, "nextword"))
 	s->scfunc = do_next_word_void;
+    else if (!strcasecmp(input, "cutwordleft"))
+	s->scfunc = do_cut_prev_word;
+    else if (!strcasecmp(input, "cutwordright"))
+	s->scfunc = do_cut_next_word;
     else if (!strcasecmp(input, "findbracket"))
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))
