@@ -410,9 +410,6 @@ void help_init(void)
 	/* Let's simply show the first two shortcuts from the list. */
 	for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
 
-	    if (s->type == RAWINPUT)
-		continue;
-
 	    if ((s->menus & currmenu) == 0)
 		continue;
 
