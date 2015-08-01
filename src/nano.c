@@ -1919,7 +1919,7 @@ void precalc_multicolorinfo(void)
 		    if (regexec(tmpcolor->end, &fileptr->data[startx], 1, &endmatch,
 				(startx == 0) ? 0 : REG_NOTBOL) == 0) {
 			startx += endmatch.rm_eo;
-			fileptr->multidata[tmpcolor->id] |= CSTARTENDHERE;
+			fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
 #ifdef DEBUG
 			fprintf(stderr, "end found on this line\n");
 #endif
@@ -1953,7 +1953,7 @@ void precalc_multicolorinfo(void)
 #endif
 		    /* We found it, we found it, la la la la la.  Mark all
 		     * the lines in between and the end properly. */
-		    fileptr->multidata[tmpcolor->id] |= CENDAFTER;
+		    fileptr->multidata[tmpcolor->id] = CENDAFTER;
 #ifdef DEBUG
 		    fprintf(stderr, "marking line %ld as CENDAFTER\n", (long)fileptr->lineno);
 #endif
@@ -1965,7 +1965,7 @@ void precalc_multicolorinfo(void)
 #endif
 		    }
 		    alloc_multidata_if_needed(endptr);
-		    fileptr->multidata[tmpcolor->id] |= CBEGINBEFORE;
+		    fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
 #ifdef DEBUG
 		    fprintf(stderr, "marking line %ld as CBEGINBEFORE\n", (long)fileptr->lineno);
 #endif

@@ -1,3 +1,7 @@
+2015-08-01  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (precalc_multicolorinfo): Set each multiline-color
+	value instead of OR-ing it.  This fixes Savannah bug #45640.
+
 2015-07-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_cutword, do_cut_prev_word, do_cut_next_word),
 	src/global.c (shortcut_init, strtosc), doc/texinfo/nano.texi,
