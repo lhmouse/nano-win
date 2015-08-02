@@ -1,3 +1,7 @@
+2015-08-02  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (initialize_buffer): Initialize also openfile->syntax.
+	This addresses Debian bug #787914 reported by Paul Wise.
+
 2015-08-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (precalc_multicolorinfo): Set each multiline-color
 	value instead of OR-ing it.  This fixes Savannah bug #45640.

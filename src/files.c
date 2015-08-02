@@ -83,6 +83,7 @@ void initialize_buffer(void)
     openfile->lock_filename = NULL;
 #endif
 #ifndef DISABLE_COLOR
+    openfile->syntax = NULL;
     openfile->colorstrings = NULL;
 #endif
 }
