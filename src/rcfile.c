@@ -564,7 +564,7 @@ void parse_binding(char *ptr, bool dobind)
 	/* If this is a toggle, copy its sequence number. */
 	if (newsc->scfunc == do_toggle_void) {
 	    for (s = sclist; s != NULL; s = s->next)
-		if (newsc->toggle == s->toggle)
+		if (s->scfunc == do_toggle_void && s->toggle == newsc->toggle)
 		    newsc->ordinal = s->ordinal;
 	} else
 	    newsc->ordinal = 0;
