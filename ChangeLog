@@ -1,6 +1,7 @@
 2015-08-03  Benno Schulenberg  <bensberg@justemail.net>
-	* src/rcfile.c (parse_binding): Check value of shortcut->toggle
+	* src/rcfile.c (parse_binding): Check the value of shortcut->toggle
 	only if it actually is a toggle.  Found with valgrind.
+	* src/files.c (write_lockfile): Plug a leak.  Found with valgrind.
 
 2015-08-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (initialize_buffer): Initialize also openfile->syntax.

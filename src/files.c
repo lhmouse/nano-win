@@ -138,19 +138,19 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     myuid = geteuid();
     if ((mypwuid = getpwuid(myuid)) == NULL) {
 	statusbar(_("Couldn't determine my identity for lock file (getpwuid() failed)"));
-	return -1;
+	goto free_and_fail;
     }
     mypid = getpid();
 
     if (gethostname(myhostname, 31) < 0) {
 	statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
-	return -1;
+	goto free_and_fail;
     }
 
     /* Check if the lock exists before we try to delete it...*/
     if (stat(lockfilename, &fileinfo) != -1)
 	if (delete_lockfile(lockfilename) < 0)
-	    return -1;
+	    goto free_and_fail;
 
     if (ISSET(INSECURE_BACKUP))
 	cflags = O_WRONLY | O_CREAT | O_APPEND;
@@ -165,6 +165,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (fd < 0) {
 	statusbar(_("Error writing lock file %s: %s"), lockfilename,
 		    strerror(errno));
+	free(lockdata);
 	return 0;
     }
 
@@ -175,7 +176,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (fd < 0 || filestream == NULL) {
 	statusbar(_("Error writing lock file %s: %s"), lockfilename,
 		    strerror(errno));
-	return -1;
+	goto free_and_fail;
     }
 
     /* Okay, so at the moment we're following this state for how to
@@ -212,7 +213,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (wroteamt < lockdatalen) {
 	statusbar(_("Error writing lock file %s: %s"),
 		lockfilename, ferror(filestream));
-	return -1;
+	goto free_and_fail;
     }
 
 #ifdef DEBUG
@@ -222,12 +223,17 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (fclose(filestream) == EOF) {
 	statusbar(_("Error writing lock file %s: %s"),
 		lockfilename, strerror(errno));
-	return -1;
+	goto free_and_fail;
     }
 
     openfile->lock_filename = (char *) lockfilename;
 
+    free(lockdata);
     return 1;
+
+  free_and_fail:
+    free(lockdata);
+    return -1;
 }
 
 /* Less exciting, delete the lockfile.  Return -1 if unsuccessful and
