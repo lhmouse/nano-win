@@ -908,6 +908,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    statusbar(P_("Read %lu line (Warning: No write permission)",
 		"Read %lu lines (Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
+
+    if (ISSET(MAKE_IT_UNIX))
+	openfile->fmt = NIX_FILE;
 }
 
 /* Open the file (and decide if it exists).  If newfie is TRUE, display

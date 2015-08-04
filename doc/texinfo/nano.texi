@@ -325,6 +325,12 @@ Don't ask whether or not to save the current contents of the file when
 exiting, assume yes.  This is most useful when using @command{nano} as the
 composer of a mailer program.
 
+@item -u
+@item --unix
+Save a file by default in Unix format.  This overrides nano's
++default behavior of saving a file in the format that it had.
+(This option has no effect when you also use @code{--noconvert}.)
+
 @item -v
 @itemx --view
 Don't allow the contents of the file to be altered.  Note that this
@@ -798,6 +804,11 @@ Specify the color combination to use for the titlebar.
 Valid color names for foreground and background are:
 white, black, red, blue, green, yellow, magenta, and cyan.
 And either @var{fgcolor} or @var{,bgcolor} may be left out.
+
+@item set unix
+Save a file by default in Unix format.  This overrides nano's
+default behavior of saving a file in the format that it had.
+(This option has no effect when you also use @code{set noconvert}.)
 
 @item set view
 Disallow file modification.

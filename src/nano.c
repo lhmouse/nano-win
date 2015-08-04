@@ -2168,6 +2168,7 @@ int main(int argc, char **argv)
 	{"speller", 1, NULL, 's'},
 #endif
 	{"tempfile", 0, NULL, 't'},
+	{"unix", 0, NULL, 'u'},
 	{"view", 0, NULL, 'v'},
 #ifndef DISABLE_WRAPPING
 	{"nowrap", 0, NULL, 'w'},
@@ -2228,11 +2229,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tvwxz$",
+		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tvwxz$")
+		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2395,6 +2396,9 @@ int main(int argc, char **argv)
 #endif
 	    case 't':
 		SET(TEMP_FILE);
+		break;
+	    case 'u':
+		SET(MAKE_IT_UNIX);
 		break;
 	    case 'v':
 		SET(VIEW_MODE);

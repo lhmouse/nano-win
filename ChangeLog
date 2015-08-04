@@ -1,3 +1,8 @@
+2015-08-04  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (main), src/files.c (read_file), src/rcfile.c,
+	doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Add
+	the option --unix, to save a file by default in Unix format.
+
 2015-08-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_binding): Check the value of shortcut->toggle
 	only if it actually is a toggle.  Found with valgrind.

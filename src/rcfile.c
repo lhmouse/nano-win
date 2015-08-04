@@ -82,6 +82,7 @@ static const rcoption rcopts[] = {
     {"suspend", SUSPEND},
     {"tabsize", 0},
     {"tempfile", TEMP_FILE},
+    {"unix", MAKE_IT_UNIX},
     {"view", VIEW_MODE},
 #ifndef NANO_TINY
     {"allow_insecure_backup", INSECURE_BACKUP},
