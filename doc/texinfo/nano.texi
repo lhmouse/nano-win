@@ -7,7 +7,7 @@
 @smallbook
 @set EDITION 0.3
 @set VERSION 2.4.3
-@set UPDATED July 2015
+@set UPDATED August 2015
 
 @dircategory Editors
 @direntry
@@ -914,7 +914,7 @@ in one of the system-installed files (which are normally not writable).
 @node Rebinding Keys
 @section Rebinding Keys
 
-Key bindings may be reassigned via the following two commands in a
+Key bindings can be changed via the following two commands in a
 nanorc file:
 
 @table @code
@@ -1048,11 +1048,11 @@ Scrolls up one line of text from the current position.
 @item scrolldown
 Scrolls down one line of text from the current position.
 
-@item nextword
-Moves the cursor to the beginning of the next word.
-
 @item prevword
 Moves the cursor to the beginning of the previous word.
+
+@item nextword
+Moves the cursor to the beginning of the next word.
 
 @item home
 Moves the cursor to the beginning of the current line.

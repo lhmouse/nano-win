@@ -20,7 +20,7 @@
 .\"   Documentation License along with this program.  If not, see
 .\"   <http://www.gnu.org/licenses/>.
 .\"
-.TH NANORC 5 "version 2.4.3" "July 2015"
+.TH NANORC 5 "version 2.4.3" "August 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -343,7 +343,7 @@ to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
 files (which are normally not writable)
 .SH REBINDING KEYS
-Key bindings may be reassigned via the following commands:
+Key bindings can be changed via the following two commands:
 .TP
 .BI bind " key function menu"
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
@@ -372,7 +372,7 @@ Example: F10
 .RE
 
 .TP
-Valid \fIfunction\fP names to be bound include:
+Valid \fIfunction\fP names to be bound are:
 .RS 3
 .TP 2
 .B help
@@ -475,11 +475,11 @@ Scrolls up one line of text from the current position.
 .B scrolldown
 Scrolls down one line of text from the current position.
 .TP
-.B nextword
-Moves the cursor to the beginning of the next word.
-.TP
 .B prevword
 Moves the cursor to the beginning of the previous word.
+.TP
+.B nextword
+Moves the cursor to the beginning of the next word.
 .TP
 .B home
 Moves the cursor to the beginning of the current line.

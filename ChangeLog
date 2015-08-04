@@ -2,7 +2,8 @@
 	* src/nano.c (main), src/files.c (read_file), src/rcfile.c,
 	doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Add
 	the option --unix, to save a file by default in Unix format.
-	* doc/nanorc.sample.in: Advertise the new bindable functions.
+	* doc/nanorc.sample.in: Advertise the five new bindable functions.
+	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Tweaks.
 
 2015-08-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_binding): Check the value of shortcut->toggle
