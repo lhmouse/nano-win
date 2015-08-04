@@ -237,13 +237,15 @@
 
 
 ## Key bindings.
-## See nanorc(5) for more details on this.
+## See nanorc(5) (section REBINDING KEYS) for more details on this.
 ##
-## Here are a few samples to get you going.
-##
-# bind M-W nowrap main
-# bind M-A casesens search
-# bind ^S research main
+## The following five functions are not bound to any key by default.
+## You may wish to choose different keys than the ones suggested here.
+# bind ^S savefile main
+# bind M-Q findprevious main
+# bind M-W findnext main
+# bind M-B cutwordleft main
+# bind M-N cutwordright main
 
-## Set this if your backspace key sends Del most of the time.
+## Set this if your Backspace key sends Del most of the time.
 # bind Del backspace all
