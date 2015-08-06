@@ -2,6 +2,9 @@
 	* src/nano.c (main): For --enable-debug builds, let malloc() help
 	to find initialization failures and uses-after-free.  Suggested by
 	Mike Frysinger.
+	* doc/texinfo/nano.texi: Improve the formatting, using @t to mark
+	double-quoted literal strings, @: to mark periods that do not end
+	sentences, and @. to mark a finishing period after a capital.
 
 2015-08-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main), src/files.c (read_file), src/rcfile.c,

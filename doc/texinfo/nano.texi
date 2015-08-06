@@ -135,7 +135,7 @@ line.
 @item -B
 @itemx --backup
 When saving a file, back up the previous version of it, using the current
-filename suffixed with a tilde (@samp{~}).
+filename suffixed with a tilde (@code{~}).
 
 @item -C @var{directory}
 @itemx --backupdir=@var{directory}
@@ -195,13 +195,9 @@ back upon reopening the file and place it there again.
 @item -Q "@var{characters}"
 @itemx --quotestr="@var{characters}"
 Set the quoting string for justifying.  The default value is
-
-@quotation
-"^([ \t]*[|>:@}#])+"
-@end quotation
-
-if extended regular expression support is available, or @code{> } otherwise.
-Note that @code{\t} above stands for a literal Tab character.
+@t{"^([ \t]*[|>:@}#])+"} if extended regular expression support
+is available, and @t{"> "} otherwise.
+Note that @code{\t} stands for a literal Tab character.
 
 @item -R
 @itemx --restricted
@@ -211,7 +207,7 @@ suspending nor spell checking; don't
 allow a file to be appended to, prepended to, or saved under a different
 name if it already has one; and don't use backup files.
 This restricted mode is also accessible by invoking @command{nano} with
-any name beginning with @samp{r} (e.g. @command{rnano}).
+any name beginning with @code{r} (e.g.@: @command{rnano}).
 
 @item -S
 @itemx --smooth
@@ -221,12 +217,13 @@ usual chunk-by-chunk behavior.
 @item -T @var{number}
 @itemx --tabsize=@var{number}
 Set the displayed tab length to @var{number} columns.  The value of
-@var{number} must be greater than 0.  The default value is @samp{8}.
+@var{number} must be greater than 0.  The default value is @t{8}.
 
 @item -U
 @itemx --quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
-keystroke instead of 25.  Note that @option{-c} overrides this.
+keystroke instead of 25.  Note that option @option{-c}
+(@option{--constantshow}) overrides this.
 
 @item -V
 @itemx --version
@@ -245,7 +242,7 @@ See @xref{Syntax Highlighting}, for more info.
 @item -c
 @itemx --constantshow
 Constantly display the cursor position and line number on the statusbar.
-Note that this overrides @option{-U}.
+Note that this overrides option @option{-U} (@option{--quickblank}).
 
 @item -d
 @itemx --rebinddelete
@@ -309,8 +306,8 @@ Hard-wrap lines at column @var{number} (by inserting a newline character).
 If the given value is 0 or less, wrapping will occur at the width of
 the screen minus the given amount, allowing the wrapping width to
 vary along with the width of the screen if and when it is resized.
-The default value is @samp{-8}.  This option conflicts with @option{-w}
--- the last one given takes effect.
+The default value is @t{-8}.  This option conflicts with @option{-w}
+(@option{--nowrap}); the last one given takes effect.
 
 @item -s @var{program}
 @itemx --speller=@var{program}
@@ -328,7 +325,7 @@ composer of a mailer program.
 @item -u
 @item --unix
 Save a file by default in Unix format.  This overrides nano's
-+default behavior of saving a file in the format that it had.
+default behavior of saving a file in the format that it had.
 (This option has no effect when you also use @code{--noconvert}.)
 
 @item -v
@@ -340,7 +337,7 @@ implement a read-only file.
 @item -w
 @itemx --nowrap
 Don't hard-wrap long lines at any length.  This option conflicts with
-@option{-r} --- the last one given takes effect.
+@option{-r} (@option{--fill}); the last one given takes effect.
 
 @anchor{Expert Mode}
 @item -x
@@ -362,9 +359,9 @@ keystroke (usually ^Z).
 Enable 'soft wrapping'.  This will make @command{nano} attempt to display the
 entire contents of any line, even if it is longer than the screen width, by
 continuing it over multiple screen lines.  Since
-@samp{$} normally refers to a variable in the Unix shell, you should specify
-this option last when using other options (e.g. @code{nano -wS$}) or pass it
-separately (e.g. @code{nano -wS -$}).
+@code{$} normally refers to a variable in the Unix shell, you should specify
+this option last when using other options (e.g.@: @code{nano -wS$}) or pass it
+separately (e.g.@: @code{nano -wS -$}).
 
 @item -a
 @itemx -b
@@ -497,7 +494,7 @@ is running.
 @node Built-in Help
 @chapter Built-in Help
 
-The built-in help system in @code{nano} is available by pressing ^G.
+The built-in help system in @code{nano} is available by pressing ^G@.
 It is fairly self-explanatory.  It documents the various parts of the
 editor and the available keystrokes.  Navigation is via the ^Y (Page Up)
 and ^V (Page Down) keys.  ^X exits the help system.
@@ -514,57 +511,57 @@ The following global toggles are available:
 @table @code
 
 @item Backup Files Toggle (Meta-B)
-toggles the -B (@code{--backup}) command-line option.
+toggles the @code{-B} (@code{--backup}) command-line option.
 
 @item Constant Cursor Position Display Toggle (Meta-C)
-toggles the -c (@code{--const}) command-line option.
+toggles the @code{-c} (@code{--constantshow}) command-line option.
 
 @item Multiple File Buffers Toggle (Meta-F)
-toggles the -F (@code{--multibuffer}) command-line option.
+toggles the @code{-F} (@code{--multibuffer}) command-line option.
 
 @item Smart Home Key Toggle (Meta-H)
-toggles the -A (@code{--smarthome}) command-line option.
+toggles the @code{-A} (@code{--smarthome}) command-line option.
 
 @item Auto Indent Toggle (Meta-I)
-toggles the -i (@code{--autoindent}) command-line option.
+toggles the @code{-i} (@code{--autoindent}) command-line option.
 
 @item Cut To End Toggle (Meta-K)
-toggles the -k (@code{--cut}) command-line option.
+toggles the @code{-k} (@code{--cut}) command-line option.
 
 @item Long Line Wrapping Toggle (Meta-L)
-toggles the -w (@code{--nowrap}) command-line option.
+toggles the @code{-w} (@code{--nowrap}) command-line option.
 
 @item Mouse Support Toggle (Meta-M)
-toggles the -m (@code{--mouse}) command-line option.
+toggles the @code{-m} (@code{--mouse}) command-line option.
 
 @item No Conversion From DOS/Mac Format Toggle (Meta-N)
-toggles the -N (@code{--noconvert}) command-line option.
+toggles the @code{-N} (@code{--noconvert}) command-line option.
 
 @item More Space For Editing Toggle (Meta-O)
-toggles the -O (@code{--morespace}) command-line option.
+toggles the @code{-O} (@code{--morespace}) command-line option.
 
 @item Whitespace Display Toggle (Meta-P)
 toggles the whitespace-display mode.
 See @xref{Whitespace}, for more info.
 
 @item Tabs to Spaces Toggle (Meta-Q)
-toggles the -E (@code{--tabstospaces}) command-line option.
+toggles the @code{-E} (@code{--tabstospaces}) command-line option.
 
 @item Smooth Scrolling Toggle (Meta-S)
-toggles the -S (@code{--smooth}) command-line option.
+toggles the @code{-S} (@code{--smooth}) command-line option.
 
 @item Expert/No Help Toggle (Meta-X)
-toggles the -x (@code{--nohelp}) command-line option.
+toggles the @code{-x} (@code{--nohelp}) command-line option.
 
 @item Color Syntax Highlighting Toggle (Meta-Y)
 toggles color syntax highlighting if you have color syntaxes in your
 nanorc.  See @xref{Syntax Highlighting}, for more info.
 
-@item Suspend Toggle (Meta-Z)
-toggles the -z (@code{--suspend}) command-line option.
+@item Suspension Toggle (Meta-Z)
+toggles the @code{-z} (@code{--suspend}) command-line option.
 
 @item Soft Wrapping Toggle (Meta-$)
-toggles the -$ (@code{--softwrap}) command-line option.
+toggles the @code{-$} (@code{--softwrap}) command-line option.
 
 @end table
 
@@ -576,7 +573,7 @@ The nanorc files contain the default settings for @code{nano}.  They
 should be in Unix format, not in DOS or Mac format.  During startup,
 @code{nano} will first read the system-wide settings, from /etc/nanorc
 (the exact path might be different), and then the user-specific settings,
-from ~/.nanorc.
+from @file{~/.nanorc}.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
 be used to configure @code{nano} on startup without using command-line
@@ -593,7 +590,7 @@ be unset.
 
 Quotes inside string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
-end.  For example, for the "brackets" option, @code{""')>]@}"} will match
+end.  For example, for the @code{brackets} option, @t{""')>]@}"} will match
 @code{"}, @code{'}, @code{)}, @code{>}, @code{]}, and @code{@}}.
 
 @menu
@@ -633,17 +630,14 @@ Do backwards searches by default.
 @item set boldtext
 Use bold instead of reverse video for the titlebar, statusbar, key combos,
 and selected text.  This can be overridden for the first three by setting
-the options "titlecolor", "statuscolor", and "keycolor".
+the options @code{titlecolor}, @code{statuscolor}, and @code{keycolor}.
 
 @item set brackets "@var{string}"
 Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
-punctuation (see "punct"), optionally followed by the specified
+punctuation (see @code{set punct}), optionally followed by the specified
 closing brackets, can end sentences.  The default value is
-
-@quotation
-""')>]@}"
-@end quotation
+@t{"')>]@}"}.
 
 @item set casesensitive
 Do case-sensitive searches by default.
@@ -658,7 +652,7 @@ Use cut-to-end-of-line by default, instead of cutting the whole line.
 @item set fill @var{number}
 Hard-wrap lines at column number @var{number}.  If @var{number} is 0 or less,
 the maximum line length will be the screen width less @var{number} columns.
-The default value is -8.
+The default value is @t{-8}.
 
 @item set functioncolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the function descriptions
@@ -681,11 +675,7 @@ Enable vim-style lock-files for when editing files.
 Set the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
-The default value is
-
-@quotation
-"(<[@{)>]@}"
-@end quotation
+The default value is @t{"(<[@{)>]@}"}.
 
 @item set morespace
 Use the blank line below the titlebar as extra editing space.
@@ -729,7 +719,8 @@ Preserve the XON and XOFF keys (^Q and ^S).
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specified closing punctuation, optionally followed by closing brackets
-(see "brackets"), can end sentences.  The default value is "!.?".
+(see @code{set brackets}), can end sentences.
+The default value is @t{"!.?"}.
 
 @item set quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -744,13 +735,9 @@ should be placed at the top of the file to be fully effective.
 The email-quote string, used to justify email-quoted paragraphs.  This
 is an extended regular expression if your system supports them,
 otherwise a literal string.  The default value is
-
-@quotation
-"^([ \\t]*[#:>\\|@}])+"
-@end quotation
-
-if you have extended regular expression support, and "> " otherwise.
-Note that '\\t' stands for a literal Tab character.
+@t{"^([ \\t]*[#:>\\|@}])+"} if you have extended regular expression
+support, and @t{"> "} otherwise.
+Note that @code{\t} stands for a literal Tab character.
 
 @item set rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete
@@ -791,7 +778,7 @@ Allow @code{nano} to be suspended.
 
 @item set tabsize @var{number}
 Use a tab size of @var{number} columns.  The value of @var{number} must be
-greater than 0.  The default value is 8.
+greater than 0.  The default value is @t{8}.
 
 @item set tabstospaces
 Convert typed tabs to spaces.
@@ -817,7 +804,7 @@ Disallow file modification.
 @item set whitespace "@var{string}"
 Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.  The default pair
-for a UTF-8 locale is "»·", and for other locales ">.".
+for a UTF-8 locale is @t{"»·"}, and for other locales @t{">."}.
 
 @item set wordbounds
 Detect word boundaries more accurately by treating punctuation
@@ -859,7 +846,7 @@ Use the given program to do a syntax check on the current file
 
 @item formatter program [arg @dots{}]
 Use the given program to automatically reformat text.
-Useful in certain programming languages (e.g. Go).
+Useful in certain programming languages (e.g.@: Go).
 
 @item header "regex" @dots{}
 Add one or more regexes which will
@@ -1132,10 +1119,10 @@ Toggles whether searching/replacing is based on literal strings or regular expre
 Toggles whether searching/replacing goes forward or backward.
 
 @item prevhistory
-Shows the previous history entry in the prompt menus (e.g. search).
+Shows the previous history entry in the prompt menus (e.g.@: search).
 
 @item nexthistory
-Shows the next history entry in the prompt menus (e.g. search).
+Shows the next history entry in the prompt menus (e.g.@: search).
 
 @item flipreplace
 Toggles between searching for something and replacing something.
