@@ -1999,10 +1999,13 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    char *nctrl_buf_mb = charalloc(mb_cur_max());
 	    int nctrl_buf_mb_len, i;
 
+#ifdef ENABLE_UTF8
 	    /* Make sure an invalid sequence-starter byte is properly
 	     * terminated, so that it doesn't pick up lingering bytes
 	     * of any previous content. */
-	    null_at(&buf_mb, buf_mb_len);
+	    if (using_utf8() && buf_mb_len == 1)
+		buf_mb[1] = '\0';
+#endif
 
 	    nctrl_buf_mb = mbrep(buf_mb, nctrl_buf_mb,
 		&nctrl_buf_mb_len);

@@ -1,3 +1,8 @@
+2015-08-08  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (display_string): For some reason the reallocation done
+	by null_at() messes things up.  So put in the null byte "manually".
+	This is a fix -- or workaround -- for Savannah bug #45718.
+
 2015-08-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): For --enable-debug builds, let malloc() help
 	to find initialization failures and uses-after-free.  Suggested by
