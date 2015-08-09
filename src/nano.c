@@ -954,6 +954,9 @@ void usage(void)
 		N_("Enable alternate speller"));
 #endif
     print_opt("-t", "--tempfile", N_("Auto save on exit, don't prompt"));
+#ifndef NANO_TINY
+    print_opt("-u", "--unix", N_("Save a file by default in Unix format"));
+#endif
     print_opt("-v", "--view", N_("View mode (read-only)"));
 #ifndef DISABLE_WRAPPING
     print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines"));
@@ -2166,7 +2169,6 @@ int main(int argc, char **argv)
 	{"speller", 1, NULL, 's'},
 #endif
 	{"tempfile", 0, NULL, 't'},
-	{"unix", 0, NULL, 'u'},
 	{"view", 0, NULL, 'v'},
 #ifndef DISABLE_WRAPPING
 	{"nowrap", 0, NULL, 'w'},
@@ -2188,6 +2190,7 @@ int main(int argc, char **argv)
 	{"wordbounds", 0, NULL, 'W'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
+	{"unix", 0, NULL, 'u'},
 	{"softwrap", 0, NULL, '$'},
 #endif
 	{NULL, 0, NULL, 0}
@@ -2401,9 +2404,11 @@ int main(int argc, char **argv)
 	    case 't':
 		SET(TEMP_FILE);
 		break;
+#ifndef NANO_TINY
 	    case 'u':
 		SET(MAKE_IT_UNIX);
 		break;
+#endif
 	    case 'v':
 		SET(VIEW_MODE);
 		break;

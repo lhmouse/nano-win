@@ -3,6 +3,9 @@
 	src/winio.c (display_string, statusbar): Allow toggling the display
 	of whitespace also when support for nanorc files was not built in,
 	because the default values are quite usable.
+	* src/files.c (read_file), src/rcfile.c, src/nano.c (main, usage):
+	Fix compilation with --enable-tiny; file formats are not available
+	then, so option --unix has no place; also add its description.
 
 2015-08-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (display_string): For some reason the reallocation done

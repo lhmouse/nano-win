@@ -82,7 +82,6 @@ static const rcoption rcopts[] = {
     {"suspend", SUSPEND},
     {"tabsize", 0},
     {"tempfile", TEMP_FILE},
-    {"unix", MAKE_IT_UNIX},
     {"view", VIEW_MODE},
 #ifndef NANO_TINY
     {"allow_insecure_backup", INSECURE_BACKUP},
@@ -101,6 +100,7 @@ static const rcoption rcopts[] = {
     {"smooth", SMOOTH_SCROLL},
     {"softwrap", SOFTWRAP},
     {"tabstospaces", TABS_TO_SPACES},
+    {"unix", MAKE_IT_UNIX},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
 #endif
