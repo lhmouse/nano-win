@@ -62,7 +62,7 @@ extern openfilestruct *openfile;
 extern char *matchbrackets;
 #endif
 
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
+#ifndef NANO_TINY
 extern char *whitespace;
 extern int whitespace_len[2];
 #endif

@@ -197,11 +197,9 @@ void help_init(void)
     int scsfound = 0;
 
 #ifndef NANO_TINY
-#ifndef DISABLE_NANORC
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 
     UNSET(WHITESPACE_DISPLAY);
-#endif
 #endif
 
     /* First, set up the initial help text for the current function. */
@@ -462,10 +460,8 @@ void help_init(void)
 	}
     }
 
-#ifndef DISABLE_NANORC
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
-#endif
 #endif /* !NANO_TINY */
 
     /* If all went well, we didn't overwrite the allocated space for

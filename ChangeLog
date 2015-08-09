@@ -1,3 +1,9 @@
+2015-08-09  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c, src/help.c (help_init), src/nano.c (do_toggle, main),
+	src/winio.c (display_string, statusbar): Allow toggling the display
+	of whitespace also when support for nanorc files was not built in,
+	because the default values are quite usable.
+
 2015-08-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (display_string): For some reason the reallocation done
 	by null_at() messes things up.  So put in the null byte "manually".

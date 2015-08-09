@@ -89,14 +89,10 @@ openfilestruct *openfile = NULL;
 char *matchbrackets = NULL;
 	/* The opening and closing brackets that can be found by bracket
 	 * searches. */
-#endif
-
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
 char *whitespace = NULL;
-	/* The characters used when displaying the first characters of
-	 * tabs and spaces. */
+	/* The characters used when visibly showing tabs and spaces. */
 int whitespace_len[2];
-	/* The length of these characters. */
+	/* The length in bytes of these characters. */
 #endif
 
 #ifndef DISABLE_JUSTIFY

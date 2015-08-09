@@ -1457,12 +1457,10 @@ void do_toggle(int flag)
 	case SUSPEND:
 	    signal_init();
 	    break;
-#ifndef DISABLE_NANORC
 	case WHITESPACE_DISPLAY:
 	    titlebar(NULL);
 	    edit_refresh();
 	    break;
-#endif
 #ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
 #endif
@@ -2646,7 +2644,6 @@ int main(int argc, char **argv)
     if (matchbrackets == NULL)
 	matchbrackets = mallocstrcpy(NULL, "(<[{)>]}");
 
-#ifndef DISABLE_NANORC
     /* If whitespace wasn't specified, set its default value.  If we're
      * using UTF-8, it's Unicode 00BB (Right-Pointing Double Angle
      * Quotation Mark) and Unicode 00B7 (Middle Dot).  Otherwise, it's
@@ -2665,7 +2662,6 @@ int main(int argc, char **argv)
 	    whitespace_len[1] = 1;
 	}
     }
-#endif /* !DISABLE_NANORC */
 #endif /* !NANO_TINY */
 
     /* Initialize the search and replace strings. */
