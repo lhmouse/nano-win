@@ -7,6 +7,7 @@
 	Fix compilation with --enable-tiny; file formats are not available
 	then, so option --unix has no place; also add its description.
 	* src/nano.c (finish): Remove an unneeded and mistaken condition.
+	* src/nano.c (say_there_is_no_help): Make it sound more definitive.
 
 2015-08-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (display_string): For some reason the reallocation done

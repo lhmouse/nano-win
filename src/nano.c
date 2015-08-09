@@ -607,7 +607,7 @@ void show_restricted_warning(void)
 /* Indicate that help texts are unavailable. */
 void say_there_is_no_help(void)
 {
-    statusbar(_("Help is unavailable"));
+    statusbar(_("Help is not available"));
 }
 #endif
 
