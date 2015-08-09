@@ -614,12 +614,10 @@ void say_there_is_no_help(void)
 /* Make nano exit gracefully. */
 void finish(void)
 {
-    /* Blank the statusbar (and shortcut list, if applicable), and move
-     * the cursor to the last line of the screen. */
-    if (!ISSET(NO_HELP))
-	blank_bottombars();
-    else
-	blank_statusbar();
+    /* Blank the statusbar and (if applicable) the shortcut list,
+     * and move the cursor to the last line of the screen. */
+    blank_statusbar();
+    blank_bottombars();
     wrefresh(bottomwin);
     endwin();
 
