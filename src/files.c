@@ -1719,7 +1719,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     FILE *f = NULL;
 	/* The actual file, realname, we are writing to. */
     char *tempname = NULL;
-	/* The temp file name we write to on prepend. */
+	/* The name of the temporary file we write to on prepend. */
 
     assert(name != NULL);
 
@@ -2122,11 +2122,13 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
-	if (copy_file(f_source, f) == -1 || unlink(tempname) == -1) {
+	if (copy_file(f_source, f) == -1) {
 	    statusbar(_("Error writing %s: %s"), realname,
 		strerror(errno));
 	    goto cleanup_and_exit;
 	}
+
+	unlink(tempname);
     } else if (fclose(f) != 0) {
 	    statusbar(_("Error writing %s: %s"), realname,
 		strerror(errno));

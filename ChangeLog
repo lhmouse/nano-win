@@ -1,6 +1,8 @@
 2015-08-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Avoid calling copy_file() with a null
 	pointer.  Found with cppcheck.
+	* src/files.c (write_file): A failure to delete the temporary file
+	does not mean that it wasn't copied properly.
 
 2015-08-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c, src/help.c (help_init), src/nano.c (do_toggle, main),
