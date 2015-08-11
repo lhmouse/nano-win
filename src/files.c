@@ -2007,7 +2007,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    }
 	}
 
-	if (copy_file(f_source, f) != 0) {
+	if (f_source == NULL || copy_file(f_source, f) != 0) {
 	    statusbar(_("Error writing %s: %s"), tempname,
 		strerror(errno));
 	    unlink(tempname);
