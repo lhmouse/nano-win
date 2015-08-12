@@ -1,3 +1,7 @@
+2015-08-12  Benno Schulenberg  <bensberg@justemail.net>
+	* src/chars.c: UTF-8 is a stateless encoding, so there is no need to
+	reset any state.
+
 2015-08-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Avoid calling copy_file() with a null
 	pointer.  Found with cppcheck.

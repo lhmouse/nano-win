@@ -91,16 +91,6 @@ bool is_byte(int c)
     return ((unsigned int)c == (unsigned char)c);
 }
 
-void mbtowc_reset(void)
-{
-    IGNORE_CALL_RESULT(mbtowc(NULL, NULL, 0));
-}
-
-void wctomb_reset(void)
-{
-    IGNORE_CALL_RESULT(wctomb(NULL, 0));
-}
-
 /* This function is equivalent to isalnum() for multibyte characters. */
 bool is_alnum_mbchar(const char *c)
 {
@@ -110,10 +100,8 @@ bool is_alnum_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0)
 	    wc = bad_wchar;
-	}
 
 	return iswalnum(wc);
     } else
@@ -130,10 +118,8 @@ bool is_blank_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0)
 	    wc = bad_wchar;
-	}
 
 	return iswblank(wc);
     } else
@@ -177,10 +163,8 @@ bool is_cntrl_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0)
 	    wc = bad_wchar;
-	}
 
 	return is_cntrl_wchar(wc);
     } else
@@ -197,10 +181,8 @@ bool is_punct_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0)
 	    wc = bad_wchar;
-	}
 
 	return iswpunct(wc);
     } else
@@ -264,16 +246,13 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
 	    *crep_len = bad_mbchar_len;
 	    strncpy(crep, bad_mbchar, *crep_len);
 	} else {
 	    *crep_len = wctomb(crep, control_wrep(wc));
 
-	    if (*crep_len < 0) {
-		wctomb_reset();
+	    if (*crep_len < 0)
 		*crep_len = 0;
-	    }
 	}
     } else {
 #endif
@@ -299,16 +278,13 @@ char *mbrep(const char *c, char *crep, int *crep_len)
 
 	/* Reject invalid Unicode characters. */
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0 || !is_valid_unicode(wc)) {
-	    mbtowc_reset();
 	    *crep_len = bad_mbchar_len;
 	    strncpy(crep, bad_mbchar, *crep_len);
 	} else {
 	    *crep_len = wctomb(crep, wc);
 
-	    if (*crep_len < 0) {
-		wctomb_reset();
+	    if (*crep_len < 0)
 		*crep_len = 0;
-	    }
 	}
     } else {
 #endif
@@ -331,17 +307,13 @@ int mbwidth(const char *c)
 	wchar_t wc;
 	int width;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0)
 	    wc = bad_wchar;
-	}
 
 	width = wcwidth(wc);
 
-	if (width == -1) {
-	    wc = bad_wchar;
-	    width = wcwidth(wc);
-	}
+	if (width == -1)
+	    width = wcwidth(bad_wchar);
 
 	return width;
     } else
@@ -376,10 +348,8 @@ char *make_mbchar(long chr, int *chr_mb_len)
 	*chr_mb_len = wctomb(chr_mb, (wchar_t)chr);
 
 	/* Reject invalid Unicode characters. */
-	if (*chr_mb_len < 0 || !is_valid_unicode((wchar_t)chr)) {
-	    wctomb_reset();
+	if (*chr_mb_len < 0 || !is_valid_unicode((wchar_t)chr))
 	    *chr_mb_len = 0;
-	}
     } else {
 #endif
 	*chr_mb_len = 1;
@@ -568,7 +538,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL);
 
 	    if (mbtowc(&ws1, s1_mb, s1_mb_len) < 0) {
-		mbtowc_reset();
 		ws1 = (unsigned char)*s1_mb;
 		bad_s1_mb = TRUE;
 	    }
@@ -576,7 +545,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL);
 
 	    if (mbtowc(&ws2, s2_mb, s2_mb_len) < 0) {
-		mbtowc_reset();
 		ws2 = (unsigned char)*s2_mb;
 		bad_s2_mb = TRUE;
 	    }
@@ -805,7 +773,6 @@ char *mbstrchr(const char *s, const char *c)
 	wchar_t ws, wc;
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
 	    wc = (unsigned char)*c;
 	    bad_c_mb = TRUE;
 	}
@@ -814,7 +781,6 @@ char *mbstrchr(const char *s, const char *c)
 	    int s_mb_len = parse_mbchar(s, s_mb, NULL);
 
 	    if (mbtowc(&ws, s_mb, s_mb_len) < 0) {
-		mbtowc_reset();
 		ws = (unsigned char)*s;
 		bad_s_mb = TRUE;
 	    }
