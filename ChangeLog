@@ -1,3 +1,7 @@
+2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_find_bracket): Remove mistaken comparison between
+	pointer and literal character.  Found with cppcheck.
+
 2015-08-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c: UTF-8 is a stateless encoding, so there is no need to
 	reset any state.
