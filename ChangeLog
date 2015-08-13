@@ -1,6 +1,9 @@
 2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_find_bracket): Remove mistaken comparison between
 	pointer and literal character.  Found with cppcheck.
+	* src/browser.c (browser_init): Speed up the finding of the longest
+	filename: don't limit the value to that of COLS all the time, as this
+	is done later anyway, and don't bother skipping the dot entry.
 
 2015-08-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c: UTF-8 is a stateless encoding, so there is no need to

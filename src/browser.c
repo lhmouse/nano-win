@@ -436,28 +436,29 @@ void browser_init(const char *path, DIR *dir)
 
     assert(path != NULL && path[strlen(path) - 1] == '/' && dir != NULL);
 
-    /* Set longest to zero, just before we initialize it. */
     longest = 0;
 
+    /* Find the length of the longest filename in the current folder. */
     while ((nextdir = readdir(dir)) != NULL) {
-	size_t d_len;
+	size_t name_len = strlenpt(nextdir->d_name);
 
-	/* Don't show the "." entry. */
-	if (strcmp(nextdir->d_name, ".") == 0)
-	    continue;
-
-	d_len = strlenpt(nextdir->d_name);
-	if (d_len > longest)
-	    longest = (d_len > COLS) ? COLS : d_len;
+	if (name_len > longest)
+	    longest = name_len;
 
 	i++;
     }
 
-    rewinddir(dir);
-
-    /* Put 10 columns' worth of blank space between columns of filenames
+    /* Put 10 characters' worth of blank space between columns of filenames
      * in the list whenever possible, as Pico does. */
     longest += 10;
+
+    /* Make sure longest is between 15 and COLS. */
+    if (longest < 15)
+	longest = 15;
+    if (longest > COLS)
+	longest = COLS;
+
+    rewinddir(dir);
 
     if (filelist != NULL)
 	free_chararray(filelist, filelist_len);
@@ -485,12 +486,6 @@ void browser_init(const char *path, DIR *dir)
     filelist_len = i;
 
     closedir(dir);
-
-    /* Make sure longest is between 15 and COLS. */
-    if (longest < 15)
-	longest = 15;
-    if (longest > COLS)
-	longest = COLS;
 
     /* Set width to zero, just before we initialize it. */
     width = 0;
