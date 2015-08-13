@@ -4,6 +4,9 @@
 	* src/browser.c (browser_init): Speed up the finding of the longest
 	filename: don't limit the value to that of COLS all the time, as this
 	is done later anyway, and don't bother skipping the dot entry.
+	* src/global.c (shortcut_init): In restricted mode, allow changing
+	the file format, but actually disable Appending, Prepending, making
+	Backups, and opening the File Browser.
 
 2015-08-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c: UTF-8 is a stateless encoding, so there is no need to

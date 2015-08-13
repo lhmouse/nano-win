@@ -954,19 +954,16 @@ void shortcut_init(void)
 	N_("Go To Text"), IFSCHELP(nano_whereis_msg), BLANKAFTER, VIEW);
 
 #ifndef NANO_TINY
-    /* If we're using restricted mode, the DOS format, Mac format,
-     * append, prepend, and backup toggles are disabled.  The first and
-     * second are useless since inserting files is disabled, the third
-     * and fourth are disabled because they allow writing to files not
-     * specified on the command line, and the fifth is useless since
-     * backups are disabled. */
+     add_to_funcs(dos_format_void, MWRITEFILE,
+	N_("DOS Format"), IFSCHELP(nano_dos_msg), TOGETHER, NOVIEW);
+     add_to_funcs(mac_format_void, MWRITEFILE,
+	N_("Mac Format"), IFSCHELP(nano_mac_msg), TOGETHER, NOVIEW);
+
+    /* If we're using restricted mode, the Append, Prepend, and Backup toggles
+     * are disabled.  The first and second are not useful as they only allow
+     * reduplicating the current file, and the third is not allowed as it
+     * would write to a file not specified on the command line. */
     if (!ISSET(RESTRICTED)) {
-	add_to_funcs(dos_format_void, MWRITEFILE,
-	    N_("DOS Format"), IFSCHELP(nano_dos_msg), TOGETHER, NOVIEW);
-
-	add_to_funcs(mac_format_void, MWRITEFILE,
-	    N_("Mac Format"), IFSCHELP(nano_mac_msg), TOGETHER, NOVIEW);
-
 	add_to_funcs(append_void, MWRITEFILE,
 	    N_("Append"), IFSCHELP(nano_append_msg), TOGETHER, NOVIEW);
 	add_to_funcs(prepend_void, MWRITEFILE,
@@ -1201,14 +1198,17 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MWRITEFILE, "M-D", dos_format_void, 0);
     add_to_sclist(MWRITEFILE, "M-M", mac_format_void, 0);
-    add_to_sclist(MWRITEFILE, "M-A", append_void, 0);
-    add_to_sclist(MWRITEFILE, "M-P", prepend_void, 0);
-    add_to_sclist(MWRITEFILE, "M-B", backup_file_void, 0);
+    if (!ISSET(RESTRICTED)) {
+	/* Don't allow Appending, Prepending, nor Backups in restricted mode. */
+	add_to_sclist(MWRITEFILE, "M-A", append_void, 0);
+	add_to_sclist(MWRITEFILE, "M-P", prepend_void, 0);
+	add_to_sclist(MWRITEFILE, "M-B", backup_file_void, 0);
 #ifndef DISABLE_BROWSER
-    add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0);
+	add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", to_files_void, 0);
 #endif
-    add_to_sclist(MINSERTFILE|MEXTCMD, "^X", flip_execute_void, 0);
-    add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0);
+	add_to_sclist(MINSERTFILE|MEXTCMD, "^X", flip_execute_void, 0);
+	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0);
+    }
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0);
 #ifndef DISABLE_HELP
     add_to_sclist(MHELP, "^G", do_exit, 0);
