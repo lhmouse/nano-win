@@ -36,9 +36,8 @@ static char *end_of_intro = NULL;
 	/* The point in the help text where the introductory paragraphs end
 	 * and the shortcut descriptions begin. */
 
-/* Our main help browser function.  refresh_func is the function we will
- * call to refresh the edit window. */
-void do_help(void (*refresh_func)(void))
+/* Our main help-viewer function. */
+void do_help(void)
 {
     int kbinput = ERR;
     bool old_no_help = ISSET(NO_HELP);
@@ -176,7 +175,13 @@ void do_help(void (*refresh_func)(void))
 	bottombars(oldmenu);
 
     curs_set(1);
-    refresh_func();
+
+#ifndef DISABLE_BROWSER
+    if (oldmenu == MBROWSER || oldmenu == MWHEREISFILE || oldmenu == MGOTODIR)
+	browser_refresh();
+    else
+#endif
+	edit_refresh();
 
     /* The help_init() at the beginning allocated help_text.  Since
      * help_text has now been written to the screen, we don't need it
@@ -522,17 +527,11 @@ size_t help_line_len(const char *ptr)
 
 #endif /* !DISABLE_HELP */
 
-/* Start the help browser. */
+/* Start the help viewer. */
 void do_help_void(void)
 {
 #ifndef DISABLE_HELP
-    /* Start the help browser, with the correct refresher for afterwards. */
-#ifndef DISABLE_BROWSER
-    if (currmenu == MBROWSER || currmenu == MWHEREISFILE || currmenu == MGOTODIR)
-	do_help(&browser_refresh);
-    else
-#endif
-	do_help(&edit_refresh);
+    do_help();
 #else
     if (currmenu == MMAIN)
 	say_there_is_no_help();

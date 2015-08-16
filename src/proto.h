@@ -374,7 +374,7 @@ void thanks_for_all_the_fish(void);
 
 /* All functions in help.c. */
 #ifndef DISABLE_HELP
-void do_help(void (*refresh_func)(void));
+void do_help(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);
 size_t help_line_len(const char *ptr);

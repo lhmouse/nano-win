@@ -3,6 +3,8 @@
 	in the help screens: wrap them at 74 columns if the screen is wider.
 	* src/help.c (help_init): Reduce the scope of a variable.
 	* src/help.c: Adjust some comments and whitespace.
+	* src/help.c (do_help, do_help_void): Don't bother passing a function
+	when it's used only once.
 
 2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_find_bracket): Remove mistaken comparison between
