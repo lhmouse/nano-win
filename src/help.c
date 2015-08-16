@@ -79,9 +79,9 @@ void do_help(void (*refresh_func)(void))
     while (TRUE) {
 	size_t i;
 
-	/* Get the last line of the help text. */
 	ptr = help_text;
 
+	/* Find the line number of the last line of the help text. */
 	for (last_line = 0; *ptr != '\0'; last_line++) {
 	    ptr += help_line_len(ptr);
 	    if (*ptr == '\n')
@@ -91,21 +91,20 @@ void do_help(void (*refresh_func)(void))
 	if (last_line > 0)
 	    last_line--;
 
-	/* Display the help text if we don't have a key, or if the help
-	 * text has moved. */
-	if (kbinput == ERR || line != old_line) {
+	/* Redisplay if the text was scrolled or an invalid key was pressed. */
+	if (line != old_line || kbinput == ERR) {
 	    blank_edit();
 
 	    ptr = help_text;
 
-	    /* Calculate where in the text we should be, based on the
-	     * page. */
+	    /* Advance in the text to the first line to be displayed. */
 	    for (i = 0; i < line; i++) {
 		ptr += help_line_len(ptr);
 		if (*ptr == '\n')
 		    ptr++;
 	    }
 
+	    /* Now display as many lines as the window will hold. */
 	    for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
 		size_t j = help_line_len(ptr);
 
@@ -126,7 +125,7 @@ void do_help(void (*refresh_func)(void))
 	if (kbinput == KEY_WINCH) {
 	    kbinput = ERR;
 	    curs_set(0);
-	    continue;
+	    continue;    /* Redraw the screen. */
 	}
 #endif
 
@@ -162,7 +161,7 @@ void do_help(void (*refresh_func)(void))
 	    if (line + (editwinrows - 1) < last_line)
 		line = last_line - (editwinrows - 1);
 	} else if (func == do_exit) {
-	    /* Exit from the help browser. */
+	    /* Exit from the help viewer. */
 	    break;
 	}
     }
@@ -190,11 +189,11 @@ void do_help(void (*refresh_func)(void))
  * help_text should be NULL initially. */
 void help_init(void)
 {
-    size_t allocsize = 0;	/* Space needed for help_text. */
-    const char *htx[3];		/* Untranslated help message.  We break
-				 * it up into three chunks in case the
-				 * full string is too long for the
-				 * compiler to handle. */
+    size_t allocsize = 0;
+	/* Space needed for help_text. */
+    const char *htx[3];
+	/* Untranslated help introduction.  We break it up into three chunks
+	 * in case the full string is too long for the compiler to handle. */
     char *ptr;
     const subnfunc *f;
     const sc *s;
@@ -369,9 +368,9 @@ void help_init(void)
     /* Calculate the length of the shortcut help text.  Each entry has
      * one or two keys, which fill 16 columns, plus translated text,
      * plus one or two \n's. */
-	for (f = allfuncs; f != NULL; f = f->next)
-	    if (f->menus & currmenu)
-		allocsize += (16 * mb_cur_max()) + strlen(f->help) + 2;
+    for (f = allfuncs; f != NULL; f = f->next)
+	if (f->menus & currmenu)
+	    allocsize += (16 * mb_cur_max()) + strlen(f->help) + 2;
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
@@ -494,7 +493,7 @@ functionptrtype parse_help_input(int *kbinput)
     return func_from_key(kbinput);
 }
 
-/* Calculate the next line of help_text, starting at ptr. */
+/* Calculate the displayable length of the help-text line starting at ptr. */
 size_t help_line_len(const char *ptr)
 {
     int help_cols = (COLS > 24) ? COLS - 1 : 24;
