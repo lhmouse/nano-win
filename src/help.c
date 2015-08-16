@@ -32,6 +32,10 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
+static char *end_of_intro = NULL;
+	/* The point in the help text where the introductory paragraphs end
+	 * and the shortcut descriptions begin. */
+
 /* Our main help browser function.  refresh_func is the function we will
  * call to refresh the edit window. */
 void do_help(void (*refresh_func)(void))
@@ -399,6 +403,9 @@ void help_init(void)
 
     ptr = help_text + strlen(help_text);
 
+    /* Remember this end-of-introduction, start-of-shortcuts. */
+    end_of_intro = ptr;
+
     /* Now add our shortcut info. */
     for (f = allfuncs; f != NULL; f = f->next) {
 
@@ -491,9 +498,12 @@ functionptrtype parse_help_input(int *kbinput)
 size_t help_line_len(const char *ptr)
 {
     int help_cols = (COLS > 24) ? COLS - 1 : 24;
+	/* The target width for wrapping long lines. */
 
-    /* Try to break the line at (COLS - 1) columns if we have more than
-     * 24 columns, and at 24 columns otherwise. */
+    /* Avoid overwide paragraphs in the introductory text. */
+    if (ptr < end_of_intro && COLS > 74)
+	help_cols = 74;
+
     ssize_t wrap_loc = break_line(ptr, help_cols, TRUE);
     size_t retval = (wrap_loc < 0) ? 0 : wrap_loc;
     size_t retval_save = retval;
