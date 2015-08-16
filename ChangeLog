@@ -15,6 +15,9 @@
 	when they will be intialized right away.
 	* src/files.c (make_new_buffer): Don't bother with a separate function
 	when it's used only once, right there.
+	* src/help.c (help_init): Since the new SIGWINCH handling, a resizing
+	of the window will no longer break out of the help viewer, so there is
+	no need any more for an extra freeing of the help text.
 
 2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_find_bracket): Remove mistaken comparison between

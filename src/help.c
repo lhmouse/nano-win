@@ -183,15 +183,12 @@ void do_help(void)
 #endif
 	edit_refresh();
 
-    /* The help_init() at the beginning allocated help_text.  Since
-     * help_text has now been written to the screen, we don't need it
-     * anymore. */
+    /* We're exiting from the help screen. */
     free(help_text);
-    help_text = NULL;
 }
 
-/* This function allocates help_text, and stores the help string in it.
- * help_text should be NULL initially. */
+/* Allocate space for the help text for the current menu, and concatenate
+ * the different pieces of text into it. */
 void help_init(void)
 {
     size_t allocsize = 0;
@@ -390,10 +387,6 @@ void help_init(void)
     }
 #endif
 
-    /* help_text has been freed and set to NULL unless the user resized
-     * while in the help screen. */
-    free(help_text);
-
     /* Allocate space for the help text. */
     help_text = charalloc(allocsize + 1);
 
@@ -475,8 +468,7 @@ void help_init(void)
 	SET(WHITESPACE_DISPLAY);
 #endif /* !NANO_TINY */
 
-    /* If all went well, we didn't overwrite the allocated space for
-     * help_text. */
+    /* If all went well, we didn't overwrite the allocated space. */
     assert(strlen(help_text) <= allocsize + 1);
 }
 
