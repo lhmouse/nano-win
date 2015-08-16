@@ -1,6 +1,7 @@
 2015-08-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (help_init, help_line_len): Avoid wide paragraphs of text
 	in the help screens: wrap them at 74 columns if the screen is wider.
+	* src/help.c (help_init): Reduce the scope of a variable.
 
 2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_find_bracket): Remove mistaken comparison between

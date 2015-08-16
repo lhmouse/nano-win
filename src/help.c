@@ -198,7 +198,6 @@ void help_init(void)
     char *ptr;
     const subnfunc *f;
     const sc *s;
-    int scsfound = 0;
 
 #ifndef NANO_TINY
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
@@ -408,12 +407,13 @@ void help_init(void)
 
     /* Now add our shortcut info. */
     for (f = allfuncs; f != NULL; f = f->next) {
+	int scsfound = 0;
 
 	if ((f->menus & currmenu) == 0)
 	    continue;
 
 	/* Let's simply show the first two shortcuts from the list. */
-	for (s = sclist, scsfound = 0; s != NULL; s = s->next) {
+	for (s = sclist; s != NULL; s = s->next) {
 
 	    if ((s->menus & currmenu) == 0)
 		continue;
