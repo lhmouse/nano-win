@@ -51,15 +51,7 @@ void make_new_buffer(void)
 	exitfunc->desc = close_tag;
     }
 
-    /* Initialize the new buffer. */
-    initialize_buffer();
-}
-
-/* Initialize the current entry of the openfile openfilestruct. */
-void initialize_buffer(void)
-{
-    assert(openfile != NULL);
-
+    /* Start initializing the new buffer. */
     openfile->filename = mallocstrcpy(NULL, "");
 
     initialize_buffer_text();

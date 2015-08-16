@@ -517,16 +517,7 @@ void copy_from_filestruct(filestruct *somebuffer)
 /* Create a new openfilestruct node. */
 openfilestruct *make_new_opennode(void)
 {
-    openfilestruct *newnode =
-	(openfilestruct *)nmalloc(sizeof(openfilestruct));
-
-    newnode->filename = NULL;
-    newnode->fileage = NULL;
-    newnode->filebot = NULL;
-    newnode->edittop = NULL;
-    newnode->current = NULL;
-
-    return newnode;
+    return (openfilestruct *)nmalloc(sizeof(openfilestruct));
 }
 
 /* Splice a node into an existing openfilestruct. */
