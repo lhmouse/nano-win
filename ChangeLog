@@ -9,6 +9,8 @@
 	so for determining the length of the current line, don't start at that
 	location but at the beginning.  This fixes Savannah bug #45770.
 	* src/help.c (help_line_len): Rename and reorder most of it.
+	* src/nano.c (make_new_opennode), src/files.c (initialize_buffer):
+	Remove some duplication in the initialization of a new openfile node.
 
 2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_find_bracket): Remove mistaken comparison between

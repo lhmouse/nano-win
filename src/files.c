@@ -78,6 +78,7 @@ void initialize_buffer(void)
 
     openfile->undotop = NULL;
     openfile->current_undo = NULL;
+    openfile->last_action = OTHER;
 
     openfile->current_stat = NULL;
     openfile->lock_filename = NULL;
