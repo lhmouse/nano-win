@@ -8,6 +8,7 @@
 	* src/help.c (help_line_len): The wrap location can be beyond the EOL,
 	so for determining the length of the current line, don't start at that
 	location but at the beginning.  This fixes Savannah bug #45770.
+	* src/help.c (help_line_len): Rename and reorder most of it.
 
 2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_find_bracket): Remove mistaken comparison between

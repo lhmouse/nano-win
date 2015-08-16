@@ -501,30 +501,30 @@ functionptrtype parse_help_input(int *kbinput)
 /* Calculate the displayable length of the help-text line starting at ptr. */
 size_t help_line_len(const char *ptr)
 {
-    int help_cols = (COLS > 24) ? COLS - 1 : 24;
+    size_t wrapping_point = (COLS > 24) ? COLS - 1 : 24;
 	/* The target width for wrapping long lines. */
+    ssize_t wrap_location;
+	/* Actual position where the line can be wrapped. */
+    size_t length = 0;
+	/* Full length of the line, until the first newline. */
 
     /* Avoid overwide paragraphs in the introductory text. */
     if (ptr < end_of_intro && COLS > 74)
-	help_cols = 74;
+	wrapping_point = 74;
 
-    ssize_t wrap_loc = break_line(ptr, help_cols, TRUE);
-    size_t retval = (wrap_loc < 0) ? 0 : wrap_loc;
-    size_t retval_save = retval;
-
-    retval = 0;
+    wrap_location = break_line(ptr, wrapping_point, TRUE);
 
     /* Get the length of the entire line up to a null or a newline. */
-    while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
-	retval += move_mbright(ptr + retval, 0);
+    while (*(ptr + length) != '\0' && *(ptr + length) != '\n')
+	length = move_mbright(ptr, length);
 
-    /* If the entire line doesn't go more than one column beyond where
-     * we tried to break it, we should display it as-is.  Otherwise, we
-     * should display it only up to the break. */
-    if (strnlenpt(ptr, retval) > help_cols + 1)
-	retval = retval_save;
-
-    return retval;
+    /* If the entire line will just fit the screen, don't wrap it. */
+    if (strnlenpt(ptr, length) <= wrapping_point + 1)
+	return length;
+    else if (wrap_location > 0)
+	return wrap_location;
+    else
+	return 0;
 }
 
 #endif /* !DISABLE_HELP */
