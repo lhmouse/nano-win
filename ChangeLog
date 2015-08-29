@@ -1,3 +1,6 @@
+2015-08-29  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/autoconf.nanor: New file; syntax colouring for Autoconf.
+
 2015-08-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (help_init, help_line_len): Avoid wide paragraphs of text
 	in the help screens: wrap them at 74 columns if the screen is wider.
@@ -12,7 +15,7 @@
 	* src/nano.c (make_new_opennode), src/files.c (initialize_buffer):
 	Remove some duplication in the initialization of a new openfile node.
 	* src/nano.c (make_new_opennode): Don't bother setting things to NULL
-	when they will be intialized right away.
+	when they will be initialized right away.
 	* src/files.c (make_new_buffer): Don't bother with a separate function
 	when it's used only once, right there.
 	* src/help.c (help_init): Since the new SIGWINCH handling, a resizing
