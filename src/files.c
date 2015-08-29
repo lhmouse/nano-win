@@ -686,7 +686,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	     * line otherwise), and file conversion isn't disabled,
 	     * handle it! */
 	    if (!ISSET(NO_CONVERT) && (num_lines == 0 || format != 0) &&
-		i > 0 && buf[i - 1] == '\r') {
+			i > 0 && buf[i - 1] == '\r') {
 		if (format == 0 || format == 2)
 		    format++;
 	    }
@@ -808,11 +808,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 
 	    /* Tack the text at fileptr onto the beginning of the text
 	     * at current. */
-	    openfile->current->data =
-		charealloc(openfile->current->data, len +
-		current_len + 1);
-	    charmove(openfile->current->data + len,
-		openfile->current->data, current_len + 1);
+	    openfile->current->data = charealloc(openfile->current->data,
+						len + current_len + 1);
+	    charmove(openfile->current->data + len, openfile->current->data,
+			current_len + 1);
 	    strncpy(openfile->current->data, fileptr->data, len);
 
 	    /* Don't destroy fileage, edittop, or filebot! */
@@ -840,8 +839,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	renumber(openfile->current);
     }
 
-    openfile->totsize += get_totsize(openfile->fileage,
-	openfile->filebot);
+    openfile->totsize += get_totsize(openfile->fileage, openfile->filebot);
 
     /* If the NO_NEWLINES flag isn't set, and text has been added to
      * the magicline (i.e. a file that doesn't end in a newline has been
@@ -928,10 +926,9 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 
     /* Okay, if we can't stat the path due to a component's
      * permissions, just try the relative one. */
-    if (full_filename == NULL
-	|| (stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
+    if (full_filename == NULL || (stat(full_filename, &fileinfo) == -1 &&
+		stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(NULL, filename);
-
 
     if (stat(full_filename, &fileinfo) == -1) {
 	/* Well, maybe we can open the file even if the OS says it's
@@ -952,7 +949,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	beep();
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
-	S_ISBLK(fileinfo.st_mode)) {
+		S_ISBLK(fileinfo.st_mode)) {
 	/* Don't open directories, character files, or block files.
 	 * Sorry, /dev/sndstat! */
 	statusbar(S_ISDIR(fileinfo.st_mode) ?
@@ -961,8 +958,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	beep();
 	return -1;
     } else if ((fd = open(full_filename, O_RDONLY)) == -1) {
-	statusbar(_("Error reading %s: %s"), filename,
-		strerror(errno));
+	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
 	beep();
 	return -1;
     } else {
@@ -970,8 +966,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	*f = fdopen(fd, "rb");
 
 	if (*f == NULL) {
-	    statusbar(_("Error reading %s: %s"), filename,
-		strerror(errno));
+	    statusbar(_("Error reading %s: %s"), filename, strerror(errno));
 	    beep();
 	    close(fd);
 	} else
@@ -1132,8 +1127,7 @@ void do_insertfile(
 	    }
 #endif
 
-	    /* If we don't have a file yet, go back to the statusbar
-	     * prompt. */
+	    /* If we don't have a file yet, go back to the statusbar prompt. */
 	    if (i != 0
 #ifndef DISABLE_MULTIBUFFER
 		&& (i != -2 || !ISSET(MULTIBUFFER))
@@ -1166,8 +1160,7 @@ void do_insertfile(
 		filepart = partition_filestruct(openfile->current,
 			openfile->current_x, openfile->current,
 			openfile->current_x);
-		edittop_inside =
-			(openfile->edittop == openfile->fileage);
+		edittop_inside = (openfile->edittop == openfile->fileage);
 #ifndef DISABLE_MULTIBUFFER
 	    }
 #endif
@@ -1242,8 +1235,7 @@ void do_insertfile(
 		    if (openfile->mark_set) {
 			openfile->mark_begin = openfile->current;
 			if (!right_side_up)
-			    openfile->mark_begin_x +=
-				openfile->current_x;
+			    openfile->mark_begin_x += openfile->current_x;
 		    }
 #endif
 		    openfile->current_x += current_x_save;
@@ -1255,8 +1247,7 @@ void do_insertfile(
 			    openfile->mark_begin = openfile->current;
 			    openfile->mark_begin_x -= current_x_save;
 			} else
-			    openfile->mark_begin_x -=
-				openfile->current_x;
+			    openfile->mark_begin_x -= openfile->current_x;
 		    }
 		}
 #endif
@@ -1366,8 +1357,7 @@ char *get_full_path(const char *origpath)
     /* If stat()ing d_there fails, assume that d_there refers to a new
      * file that hasn't been saved to disk yet.  Set path_only to TRUE
      * if d_there refers to a directory, and FALSE otherwise. */
-    path_only = (stat(d_there, &fileinfo) != -1 &&
-	S_ISDIR(fileinfo.st_mode));
+    path_only = (stat(d_there, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
     /* If path_only is TRUE, make sure d_there ends in a slash. */
     if (path_only) {
@@ -1453,7 +1443,7 @@ char *get_full_path(const char *origpath)
 }
 
 /* Return the full version of path, as returned by get_full_path().  On
- * error, if path doesn't reference a directory, or if the directory
+ * error, or if path doesn't reference a directory, or if the directory
  * isn't writable, return NULL. */
 char *check_writable_directory(const char *path)
 {
@@ -1463,10 +1453,9 @@ char *check_writable_directory(const char *path)
     if (full_path == NULL)
 	return NULL;
 
-    /* If we can't write to path or path isn't a directory, return
-     * NULL. */
+    /* If we can't write to path or path isn't a directory, return NULL. */
     if (access(full_path, W_OK) != 0 ||
-	full_path[strlen(full_path) - 1] != '/') {
+		full_path[strlen(full_path) - 1] != '/') {
 	free(full_path);
 	return NULL;
     }
@@ -1768,9 +1757,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * aren't appending, prepending, or writing a selection, we backup
      * only if the file has not been modified by someone else since nano
      * opened it. */
-    if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append !=
-	OVERWRITE || openfile->mark_set) || (openfile->current_stat &&
-	openfile->current_stat->st_mtime == st.st_mtime))) {
+    if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append != OVERWRITE ||
+		openfile->mark_set) || (openfile->current_stat &&
+		openfile->current_stat->st_mtime == st.st_mtime))) {
 	int backup_fd;
 	FILE *backup_file;
 	char *backupname;
@@ -1901,7 +1890,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    fclose(backup_file);
 	    /* If we can't write to the backup, DONT go on, since
 	     * whatever caused the backup file to fail (e.g. disk
-	     * full may well cause the real file write to fail, which
+	     * full) may well cause the real file write to fail, which
 	     * means we could lose both the backup and the original! */
 	    goto cleanup_and_exit;
 	}
@@ -1943,7 +1932,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * doing prepend or append.  So we delete the link first, and just
      * overwrite. */
     if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode) &&
-	unlink(realname) == -1) {
+		unlink(realname) == -1) {
 	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	goto cleanup_and_exit;
     }
@@ -2141,8 +2130,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	    /* If color syntaxes are available and turned on, we need to
 	     * call edit_refresh(). */
-	    if (openfile->colorstrings != NULL &&
-		!ISSET(NO_COLOR_SYNTAX))
+	    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
 		edit_refresh();
 #endif
 	}
@@ -2199,7 +2187,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
      * end of the file.  Otherwise, add a magicline and treat it as the
      * end of the file. */
     if (!ISSET(NO_NEWLINES) &&
-	(added_magicline = (openfile->filebot->data[0] != '\0')))
+		(added_magicline = (openfile->filebot->data[0] != '\0')))
 	new_magicline();
 
     retval = write_file(name, f_open, tmp, append, TRUE);
@@ -2355,7 +2343,7 @@ bool do_writeout(bool exiting)
 	     * this is the first time we've done this, show an Easter
 	     * egg.  Display the credits. */
 	    if (!did_credits && exiting && !ISSET(TEMP_FILE) &&
-		strcasecmp(answer, "zzy") == 0) {
+			strcasecmp(answer, "zzy") == 0) {
 		do_credits();
 		did_credits = TRUE;
 		retval = FALSE;
@@ -2569,8 +2557,7 @@ bool is_dir(const char *buf)
 
     dirptr = real_dir_from_tilde(buf);
 
-    retval = (stat(dirptr, &fileinfo) != -1 &&
-	S_ISDIR(fileinfo.st_mode));
+    retval = (stat(dirptr, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
     free(dirptr);
 
@@ -2686,8 +2673,8 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 #endif
 	/* See if this matches. */
 	if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
-		(*filename == '.' || (strcmp(nextdir->d_name, ".") !=
-		0 && strcmp(nextdir->d_name, "..") != 0))) {
+		(*filename == '.' || (strcmp(nextdir->d_name, ".") != 0 &&
+		strcmp(nextdir->d_name, "..") != 0))) {
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
@@ -2735,7 +2722,8 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
     size_t num_matches = 0, buf_len;
     char **matches = NULL;
 
-    assert(buf != NULL && place != NULL && *place <= strlen(buf) && lastwastab != NULL && refresh_func != NULL && list != NULL);
+    assert(buf != NULL && place != NULL && *place <= strlen(buf) &&
+		lastwastab != NULL && refresh_func != NULL && list != NULL);
 
     *list = FALSE;
 
@@ -3079,7 +3067,7 @@ void save_history(void)
 
     /* Don't save unchanged or empty histories. */
     if (!history_has_changed() || (searchbot->lineno == 1 &&
-	replacebot->lineno == 1))
+		replacebot->lineno == 1))
 	return;
 
     nanohist = histfilename();
@@ -3095,8 +3083,7 @@ void save_history(void)
 	     * history file. */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 
-	    if (!writehist(hist, searchage) || !writehist(hist,
-		replaceage))
+	    if (!writehist(hist, searchage) || !writehist(hist, replaceage))
 		history_error(N_("Error writing %s: %s"), nanohist,
 			strerror(errno));
 

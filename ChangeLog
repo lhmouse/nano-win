@@ -1,5 +1,6 @@
 2015-08-29  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/autoconf.nanor: New file; syntax colouring for Autoconf.
+	* src/files.c: Rewrap some lines and tweak two comments.
 
 2015-08-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (help_init, help_line_len): Avoid wide paragraphs of text
