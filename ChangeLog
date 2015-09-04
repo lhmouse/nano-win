@@ -1,3 +1,7 @@
+2015-09-04  Benno Schulenberg  <bensberg@justemail.net>
+	* src/chars.c: Reverting r5354 from August 12.  This fixes Savannah
+	bug #45874.  Apparently there is /some/ state somewhere after all.
+
 2015-08-29  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/autoconf.nanor: New file; syntax colouring for Autoconf.
 	* src/files.c: Rewrap some lines and tweak two comments.
