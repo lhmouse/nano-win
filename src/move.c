@@ -312,15 +312,14 @@ void do_next_word_void(void)
 
 /* Move to the previous word in the file.  If allow_punct is TRUE, treat
  * punctuation as part of a word.  If allow_update is TRUE, update the
- * screen afterwards.  Return TRUE if we started on a word, and FALSE
- * otherwise. */
-bool do_prev_word(bool allow_punct, bool allow_update)
+ * screen afterwards. */
+void do_prev_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
-    bool begin_line = FALSE, started_on_word = FALSE;
+    bool begin_line = FALSE;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
@@ -336,10 +335,6 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 	 * line. */
 	if (!is_word_mbchar(char_mb, allow_punct))
 	    break;
-
-	/* If we haven't found it, then we've started on a word, so set
-	 * started_on_word to TRUE. */
-	started_on_word = TRUE;
 
 	if (openfile->current_x == 0)
 	    begin_line = TRUE;
@@ -428,9 +423,6 @@ bool do_prev_word(bool allow_punct, bool allow_update)
     /* If allow_update is TRUE, update the screen. */
     if (allow_update)
 	edit_redraw(current_save, pww_save);
-
-    /* Return whether we started on a word. */
-    return started_on_word;
 }
 
 /* Move to the previous word in the file, treating punctuation as part

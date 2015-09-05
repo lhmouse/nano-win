@@ -3,6 +3,7 @@
 	only when it contains a multicolumn character, to spare all regular
 	text this significant slowdown.  This fixes Savannah bug #45684
 	reported by Wyatt Ward.
+	* src/move.c (do_prev_word): Drop a return value that is never used.
 
 2015-09-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c: Reverting r5354 from August 12.  This fixes Savannah

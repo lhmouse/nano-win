@@ -394,7 +394,7 @@ void do_para_end_void(void);
 #ifndef NANO_TINY
 bool do_next_word(bool allow_punct, bool allow_update);
 void do_next_word_void(void);
-bool do_prev_word(bool allow_punct, bool allow_update);
+void do_prev_word(bool allow_punct, bool allow_update);
 void do_prev_word_void(void);
 #endif
 void do_home(void);
