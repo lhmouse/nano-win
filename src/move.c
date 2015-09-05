@@ -317,107 +317,41 @@ void do_prev_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
-    char *char_mb;
-    int char_mb_len;
-    bool begin_line = FALSE;
+    bool seen_a_word = FALSE, step_forward = FALSE;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    char_mb = charalloc(mb_cur_max());
+    /* Move backward until we pass over the start of a word. */
+    while (TRUE) {
+	/* If at the head of a line, move to the end of the preceding one. */
+	if (openfile->current_x == 0) {
+	    if (openfile->current->prev == NULL)
+		break;
+	    openfile->current = openfile->current->prev;
+	    openfile->current_x = strlen(openfile->current->data);
+	}
 
-    /* Move backward until we find the character before the first letter
-     * of the current word. */
-    while (!begin_line) {
-	char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL);
-
-	/* If we've found it, stop moving backward through the current
-	 * line. */
-	if (!is_word_mbchar(char_mb, allow_punct))
-	    break;
-
-	if (openfile->current_x == 0)
-	    begin_line = TRUE;
-	else
-	    openfile->current_x = move_mbleft(openfile->current->data,
-		openfile->current_x);
-    }
-
-    /* Move backward until we find the last letter of the previous
-     * word. */
-    if (openfile->current_x == 0)
-	begin_line = TRUE;
-    else
+	/* Step back one character. */
 	openfile->current_x = move_mbleft(openfile->current->data,
-		openfile->current_x);
+						openfile->current_x);
 
-    for (; openfile->current != NULL;
-	openfile->current = openfile->current->prev) {
-	while (!begin_line) {
-	    char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL);
-
-	    /* If we've found it, stop moving backward through the
-	     * current line. */
-	    if (is_word_mbchar(char_mb, allow_punct))
-		break;
-
+	if (is_word_mbchar(openfile->current->data + openfile->current_x,
+				allow_punct)) {
+	    seen_a_word = TRUE;
+	    /* If at the head of a line now, this surely is a word start. */
 	    if (openfile->current_x == 0)
-		begin_line = TRUE;
-	    else
-		openfile->current_x =
-			move_mbleft(openfile->current->data,
-			openfile->current_x);
-	}
-
-	/* If we've found it, stop moving backward to the ends of
-	 * previous lines. */
-	if (!begin_line)
+		break;
+	} else if (seen_a_word) {
+	    /* This is space now: we've overshot the start of the word. */
+	    step_forward = TRUE;
 	    break;
-
-	if (openfile->current != openfile->fileage) {
-	    begin_line = FALSE;
-	    openfile->current_x = strlen(openfile->current->prev->data);
 	}
     }
 
-    /* If we haven't found it, move to the beginning of the file. */
-    if (openfile->current == NULL)
-	openfile->current = openfile->fileage;
-    /* If we've found it, move backward until we find the character
-     * before the first letter of the previous word. */
-    else if (!begin_line) {
-	if (openfile->current_x == 0)
-	    begin_line = TRUE;
-	else
-	    openfile->current_x = move_mbleft(openfile->current->data,
-		openfile->current_x);
-
-	while (!begin_line) {
-	    char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL);
-
-	    /* If we've found it, stop moving backward through the
-	     * current line. */
-	    if (!is_word_mbchar(char_mb, allow_punct))
-		break;
-
-	    if (openfile->current_x == 0)
-		begin_line = TRUE;
-	    else
-		openfile->current_x =
-			move_mbleft(openfile->current->data,
-			openfile->current_x);
-	}
-
-	/* If we've found it, move forward to the first letter of the
-	 * previous word. */
-	if (!begin_line)
-	    openfile->current_x += char_mb_len;
-    }
-
-    free(char_mb);
-
+    if (step_forward)
+	/* Move one character forward again to sit on the start of the word. */
+	openfile->current_x = move_mbright(openfile->current->data,
+						openfile->current_x);
     openfile->placewewant = xplustabs();
 
     /* If allow_update is TRUE, update the screen. */

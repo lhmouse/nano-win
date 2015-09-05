@@ -4,6 +4,10 @@
 	text this significant slowdown.  This fixes Savannah bug #45684
 	reported by Wyatt Ward.
 	* src/move.c (do_prev_word): Drop a return value that is never used.
+	* src/move.c (do_prev_word): When in the middle of a word, jump to
+	its beginning instead of to the beginning of the preceding word.
+	Nano now matches the behaviour of Pico and of most other editors.
+	This fixes Savannah bug #45413.
 
 2015-09-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c: Reverting r5354 from August 12.  This fixes Savannah
