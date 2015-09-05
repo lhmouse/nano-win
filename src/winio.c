@@ -40,6 +40,8 @@ static int statusblank = 0;
 static bool disable_cursorpos = FALSE;
 	/* Should we temporarily disable constant cursor position
 	 * display? */
+static bool seen_wide = FALSE;
+	/* Whether we've seen a multicolumn character in the current line. */
 
 static sig_atomic_t sigwinch_counter_save = 0;
 
@@ -1896,6 +1898,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     converted = charalloc(alloc_len);
 
     index = 0;
+    seen_wide = FALSE;
 
     if (buf[start_index] != '\0' && buf[start_index] != '\t' &&
 	(column < start_col || (dollars && column > 0))) {
@@ -1938,6 +1941,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     while (buf[start_index] != '\0') {
 	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
+
+	if (mbwidth(buf + start_index) > 1)
+	    seen_wide = TRUE;
 
 	/* Make sure there's enough room for the next character, whether
 	 * it's a multibyte control character, a non-control multibyte
@@ -2472,7 +2478,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     /* Tell ncurses to really redraw the line without trying to optimize
      * for what it thinks is already there, because it gets it wrong in
      * the case of a wide character in column zero.  See bug #31743. */
-    wredrawln(edit, line, 1);
+    if (seen_wide)
+	wredrawln(edit, line, 1);
 #endif
 
 #ifndef DISABLE_COLOR

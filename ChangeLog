@@ -1,3 +1,9 @@
+2015-09-05  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (display_string, edit_draw): Force a redraw of a line
+	only when it contains a multicolumn character, to spare all regular
+	text this significant slowdown.  This fixes Savannah bug #45684
+	reported by Wyatt Ward.
+
 2015-09-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/chars.c: Reverting r5354 from August 12.  This fixes Savannah
 	bug #45874.  Apparently there is /some/ state somewhere after all.
