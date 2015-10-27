@@ -478,11 +478,11 @@ void do_down(
 	topline = openfile->edittop;
 	/* Reduce the amount when there are overlong lines at the top. */
 	for (enough = 1; enough < amount; enough++) {
-	    if (amount <= strlenpt(topline->data) / COLS) {
+	    amount -= strlenpt(topline->data) / COLS;
+	    if (amount <= 0) {
 		amount = enough;
 		break;
 	    }
-	    amount -= strlenpt(topline->data) / COLS;
 	    topline = topline->next;
 	}
     }

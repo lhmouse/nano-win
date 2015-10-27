@@ -1,6 +1,8 @@
 2015-10-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/move.c (do_next_word): Rewrite this function to use the same
 	logic as do_prev_word(), reducing its number of lines to half.
+	* src/move.c (do_down): Don't calculate the line length twice.  And
+	in the bargain avoid a warning about comparison of signed/unsigned.
 
 2015-09-05  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (display_string, edit_draw): Force a redraw of a line
