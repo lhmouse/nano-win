@@ -1,3 +1,8 @@
+2015-10-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_redo): For an INSERT, 'u->mark_begin_lineno' is not
+	an actual line number, so spoof it.  It can be spoofed, because 'f'
+	is not used for the INSERT case.  This fixes Savannah bug #45524.
+
 2015-10-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/move.c (do_next_word): Rewrite this function to use the same
 	logic as do_prev_word(), reducing its number of lines to half.

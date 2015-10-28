@@ -639,7 +639,7 @@ void do_redo(void)
 	return;
     }
 
-    filestruct *f = fsfromline(u->mark_begin_lineno);
+    filestruct *f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
     if (!f) {
 	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
 	return;
