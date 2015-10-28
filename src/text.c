@@ -624,18 +624,16 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-    undo *u = openfile->undotop;
     size_t len = 0;
     char *data, *redidmsg = NULL;
+    undo *u = openfile->undotop;
 
-    for (; u != NULL && u->next != openfile->current_undo; u = u->next)
-	;
-    if (!u) {
+    /* Get the previous undo item. */
+    while (u->next != openfile->current_undo && u != NULL)
+	u = u->next;
+
+    if (u == NULL) {
 	statusbar(_("Nothing to re-do!"));
-	return;
-    }
-    if (u->next != openfile->current_undo) {
-	statusbar(_("Internal error: cannot set up redo.  Please save your work."));
 	return;
     }
 
