@@ -629,7 +629,7 @@ void do_redo(void)
     undo *u = openfile->undotop;
 
     /* Get the previous undo item. */
-    while (u->next != openfile->current_undo && u != NULL)
+    while (u != NULL && u->next != openfile->current_undo)
 	u = u->next;
 
     if (u == NULL) {
