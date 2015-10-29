@@ -4,6 +4,8 @@
 	typing text is broken by an undo+redo.  Fixes Savannah bug #46323.
 	* src/text.c (do_redo): Check for "nothing to redo" earlier, so we
 	can restore the possible warning about an internal error.
+	* src/text.c (add_undo): Remove an 'if' that will never be true,
+	and remove some assignments that have already been done.
 
 2015-10-29  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/files.c (do_writeout), src/nano.c (no_current_file_name_warning,

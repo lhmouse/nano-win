@@ -1026,12 +1026,8 @@ void add_undo(undo_type action)
 	if (!cutbuffer)
 	    statusbar(_("Internal error: cannot set up uncut.  Please save your work."));
 	else {
-	    if (u->cutbuffer)
-		free_filestruct(u->cutbuffer);
 	    u->cutbuffer = copy_filestruct(cutbuffer);
-	    u->mark_begin_lineno = fs->current->lineno;
-	    u->mark_begin_x = fs->current_x;
-	    u->lineno = fs->current->lineno + cutbottom->lineno - cutbuffer->lineno;
+	    u->lineno += cutbottom->lineno - cutbuffer->lineno;
 	    u->mark_set = TRUE;
 	}
 	break;
