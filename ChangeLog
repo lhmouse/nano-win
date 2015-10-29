@@ -11,7 +11,8 @@
 	* src/files.c (do_writeout), src/nano.c (no_current_file_name_warning,
 	do_exit): When option -t is given, make ^O work the same way as under
 	Pico, writing out the file without prompting.  And make it work even
-	better than Pico when the current file doesn't have a name yet.
+	better than Pico when the current file doesn't have a name yet.  This
+	fixes Savannah bug #45415.
 
 2015-10-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo): For an INSERT, 'u->mark_begin_lineno' is not
