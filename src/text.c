@@ -628,12 +628,17 @@ void do_redo(void)
     char *data, *redidmsg = NULL;
     undo *u = openfile->undotop;
 
+    if (u == NULL || u == openfile->current_undo) {
+	statusbar(_("Nothing to re-do!"));
+	return;
+    }
+
     /* Get the previous undo item. */
     while (u != NULL && u->next != openfile->current_undo)
 	u = u->next;
 
-    if (u == NULL) {
-	statusbar(_("Nothing to re-do!"));
+    if (u->next != openfile->current_undo) {
+	statusbar(_("Internal error: cannot set up redo.  Please save your work."));
 	return;
     }
 
