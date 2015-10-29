@@ -1,3 +1,8 @@
+2015-10-29  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (add_undo): Only skip adding an undo when the current
+	action equals the last action.  This condition is needed for when
+	typing text is broken by an undo+redo.  Fixes Savannah bug #46323.
+
 2015-10-29  David Lawrence Ramsey  <pooka109@gmail.com>
 	* src/files.c (do_writeout), src/nano.c (no_current_file_name_warning,
 	do_exit): When option -t is given, make ^O work the same way as under
