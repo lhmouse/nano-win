@@ -1088,6 +1088,24 @@ int no_help(void)
     return ISSET(NO_HELP) ? 2 : 0;
 }
 
+/* Indicate that the current file has no name, in a way that gets the
+ * user's attention.  This is used when trying to save a file with no
+ * name with the TEMP_FILE flag set, just before the filename prompt. */
+void no_current_file_name_warning(void)
+{
+    curs_set(0);
+
+    /* Warn that the current file has no name. */
+    statusbar(_("No file name"));
+    beep();
+
+    /* Ensure that we see the warning. */
+    doupdate();
+    napms(1800);
+
+    curs_set(1);
+}
+
 /* If the current file buffer has been modified, and the TEMP_FILE flag
  * isn't set, ask whether or not to save the file buffer.  If the
  * TEMP_FILE flag is set and the current file has a name, save it
@@ -1109,20 +1127,9 @@ void do_exit(void)
     /* Otherwise, ask the user whether or not to save. */
     else {
 	/* If the TEMP_FILE flag is set, and the current file doesn't
-	 * have a name, handle it the same way Pico does. */
-	if (ISSET(TEMP_FILE)) {
-	    curs_set(0);
-
-	    /* Warn that the current file has no name. */
-	    statusbar(_("No file name"));
-	    beep();
-
-	    /* Ensure that we see the warning. */
-	    doupdate();
-	    napms(2000);
-
-	    curs_set(1);
-	}
+	 * have a name, warn the user before prompting for a name. */
+	if (ISSET(TEMP_FILE))
+	    no_current_file_name_warning();
 
 	i = do_yesno_prompt(FALSE,
 		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));

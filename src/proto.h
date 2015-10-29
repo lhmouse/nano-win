@@ -475,6 +475,7 @@ void usage(void);
 void version(void);
 int more_space(void);
 int no_help(void);
+void no_current_file_name_warning(void);
 void do_exit(void);
 void signal_init(void);
 RETSIGTYPE handle_hupterm(int signal);
