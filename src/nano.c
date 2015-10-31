@@ -458,7 +458,7 @@ void copy_from_filestruct(filestruct *somebuffer)
     openfile->current_x = strlen(openfile->filebot->data);
     if (openfile->fileage == openfile->filebot) {
 #ifndef NANO_TINY
-	if (openfile->mark_set) {
+	if (openfile->mark_set && single_line) {
 	    openfile->mark_begin = openfile->current;
 	    if (!right_side_up)
 		openfile->mark_begin_x += openfile->current_x;
@@ -476,9 +476,8 @@ void copy_from_filestruct(filestruct *somebuffer)
 	} else {
 	    if (single_line) {
 		openfile->mark_begin = openfile->current;
-		openfile->mark_begin_x -= current_x_save;
-	    } else
-		openfile->mark_begin_x -= openfile->current_x;
+		openfile->mark_begin_x += openfile->current_x - current_x_save;
+	    }
 	}
     }
 #endif

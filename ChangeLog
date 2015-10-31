@@ -1,3 +1,9 @@
+2015-10-31  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (copy_from_filestruct): When pasting while the mark is
+	on, the mark's pointer needs to be refreshed only when it is on the
+	same line as the cursor, and the mark's x coordinate only when the
+	mark is located after the cursor.  This fixes Savannah bug #46347.
+
 2015-10-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (add_undo): Only skip adding an undo when the current
 	action equals the last action.  This condition is needed for when
