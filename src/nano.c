@@ -451,11 +451,12 @@ void copy_from_filestruct(filestruct *somebuffer)
     while (openfile->filebot->next != NULL)
 	openfile->filebot = openfile->filebot->next;
 
-    /* Restore the current line and cursor position.  If the mark begins
-     * inside the partition, adjust the mark coordinates to compensate
-     * for the change in the current line. */
+    /* Put the cursor at the end of the pasted text. */
     openfile->current = openfile->filebot;
     openfile->current_x = strlen(openfile->filebot->data);
+
+    /* Refresh the mark's pointer, and compensate the mark's
+     * x coordinate for the change in the current line. */
     if (openfile->fileage == openfile->filebot) {
 #ifndef NANO_TINY
 	if (openfile->mark_set && single_line) {
@@ -464,20 +465,17 @@ void copy_from_filestruct(filestruct *somebuffer)
 		openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
+	/* When the pasted stuff contains no newline, adjust the cursor's
+	 * x coordinate for the text that is before the pasted stuff. */
 	openfile->current_x += current_x_save;
     }
 #ifndef NANO_TINY
-    else if (openfile->mark_set) {
-	if (right_side_up) {
-	    if (single_line)
-		/* Get the new data, stuff was inserted on the mark line. */
-		openfile->mark_begin = openfile->fileage;
-		/* The x is okay, it did not move. */
-	} else {
-	    if (single_line) {
-		openfile->mark_begin = openfile->current;
-		openfile->mark_begin_x += openfile->current_x - current_x_save;
-	    }
+    else if (openfile->mark_set && single_line) {
+	if (right_side_up)
+	    openfile->mark_begin = openfile->fileage;
+	else {
+	    openfile->mark_begin = openfile->current;
+	    openfile->mark_begin_x += openfile->current_x - current_x_save;
 	}
     }
 #endif
