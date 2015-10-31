@@ -5,6 +5,7 @@
 	mark is located after the cursor.  This fixes Savannah bug #46347.
 	* src/nano.c (copy_from_filestruct): Improve comments and combine
 	two conditions.
+	* ChangeLog: Correct the description of an old change.
 
 2015-10-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (add_undo): Only skip adding an undo when the current
@@ -2033,8 +2034,10 @@ GNU nano 2.3.3 - 2014.05.29
 	* src/winio.c (set_modified): Check for a filename before trying to lock.
 
 2014-01-24  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (copy_from_filestruct): Check explicitly for mark being set when
-	  trying to partition, as we shouldn't be messing with the x address, etc.
+	* src/nano.c (copy_from_filestruct): Refresh the mark's pointer when
+	  stuff was pasted into the line where the mark is.  This applies
+	  Savannah patch #8180 and fixes the segfault reported on the list:
+	  https://lists.gnu.org/archive/html/nano-devel/2012-07/msg00000.html.
 
 2014-01-01 Chris Allegretta <chrisa@asty.org>
 	* doc/texinfo/nano.texi: Change '@sp4' since makeinfo 5.1 hates the
