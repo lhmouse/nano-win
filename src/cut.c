@@ -124,7 +124,7 @@ void cut_to_eof(void)
  * position to the end of the file into the cutbuffer. */
 void do_cut_text(
 #ifndef NANO_TINY
-	bool copy_text, bool cut_till_eof, bool undoing
+	bool copy_text, bool cut_till_eof
 #else
 	void
 #endif
@@ -214,8 +214,7 @@ void do_cut_text(
 	 * disturbing the text. */
 	if (!old_no_newlines)
 	    UNSET(NO_NEWLINES);
-    } else if (!undoing)
-	update_undo(cut_till_eof ? CUT_EOF : CUT);
+    }
 
     /* Leave the text in the cutbuffer, and mark the file as
      * modified. */
@@ -240,12 +239,11 @@ void do_cut_text_void(void)
 {
 #ifndef NANO_TINY
     add_undo(CUT);
+    do_cut_text(FALSE, FALSE);
+    update_undo(CUT);
+#else
+    do_cut_text();
 #endif
-    do_cut_text(
-#ifndef NANO_TINY
-	FALSE, FALSE, FALSE
-#endif
-	);
 }
 
 #ifndef NANO_TINY
@@ -260,7 +258,7 @@ void do_copy_text(void)
     if (mark_set || openfile->current != next_contiguous_line)
 	cutbuffer_reset();
 
-    do_cut_text(TRUE, FALSE, FALSE);
+    do_cut_text(TRUE, FALSE);
 
     /* If the mark was set, blow away the cutbuffer on the next copy. */
     next_contiguous_line = (mark_set ? NULL : openfile->current);
@@ -270,7 +268,8 @@ void do_copy_text(void)
 void do_cut_till_eof(void)
 {
     add_undo(CUT_EOF);
-    do_cut_text(FALSE, TRUE, FALSE);
+    do_cut_text(FALSE, TRUE);
+    update_undo(CUT_EOF);
 }
 #endif /* !NANO_TINY */
 

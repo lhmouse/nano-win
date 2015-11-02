@@ -260,7 +260,7 @@ void cut_to_eof(void);
 #endif
 void do_cut_text(
 #ifndef NANO_TINY
-	bool copy_text, bool cut_till_eof, bool undoing
+	bool copy_text, bool cut_till_eof
 #else
 	void
 #endif

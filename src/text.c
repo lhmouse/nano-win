@@ -461,7 +461,7 @@ void redo_cut(undo *u)
     openfile->mark_begin = fsfromline(u->mark_begin_lineno);
     openfile->mark_begin_x = (u->xflags == WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
 
-    do_cut_text(FALSE, FALSE, TRUE);
+    do_cut_text(FALSE, FALSE);
 
     openfile->mark_set = FALSE;
     openfile->mark_begin = NULL;
