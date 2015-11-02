@@ -1,5 +1,6 @@
 2015-11-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Delete an unused type definition.
+	* src/nano.h: Improve several comments.
 
 2015-10-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (copy_from_filestruct): When pasting while the mark is

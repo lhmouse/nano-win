@@ -365,42 +365,42 @@ typedef struct poshiststruct {
 
 typedef struct openfilestruct {
     char *filename;
-	/* The current file's name. */
+	/* The file's name. */
     filestruct *fileage;
-	/* The current file's first line. */
+	/* The file's first line. */
     filestruct *filebot;
-	/* The current file's last line. */
+	/* The file's last line. */
     filestruct *edittop;
-	/* The current top of the edit window. */
+	/* The current top of the edit window for this file. */
     filestruct *current;
-	/* The current file's current line. */
+	/* The current line for this file. */
     size_t totsize;
-	/* The current file's total number of characters. */
+	/* The file's total number of characters. */
     size_t current_x;
-	/* The current file's x-coordinate position. */
+	/* The file's x-coordinate position. */
     size_t placewewant;
-	/* The current file's x position we would like. */
+	/* The file's x position we would like. */
     ssize_t current_y;
-	/* The current file's y-coordinate position. */
+	/* The file's y-coordinate position. */
     bool modified;
-	/* Whether the current file has been modified. */
+	/* Whether the file has been modified. */
 #ifndef NANO_TINY
     bool mark_set;
-	/* Whether the mark is on in the current file. */
+	/* Whether the mark is on in this file. */
     filestruct *mark_begin;
-	/* The current file's beginning marked line, if any. */
+	/* The file's line where the mark is, if any. */
     size_t mark_begin_x;
-	/* The current file's beginning marked line's x-coordinate
-	 * position, if any. */
+	/* The file's mark's x-coordinate position, if any. */
     file_format fmt;
-	/* The current file's format. */
+	/* The file's format. */
     struct stat *current_stat;
-	/* The current file's stat. */
+	/* The file's current stat information. */
     undo *undotop;
-	/* Top of the undo list. */
+	/* The top of the undo list. */
     undo *current_undo;
 	/* The current (i.e. next) level of undo. */
     undo_type last_action;
+	/* The type of the last action the user performed. */
     char *lock_filename;
 	/* The path of the lockfile, if we created one. */
 #endif
@@ -408,12 +408,12 @@ typedef struct openfilestruct {
     syntaxtype *syntax;
 	/* The  syntax struct for this file, if any. */
     colortype *colorstrings;
-	/* The current file's associated colors. */
+	/* The file's associated colors. */
 #endif
     struct openfilestruct *next;
-	/* Next node. */
+	/* The next open file, if any. */
     struct openfilestruct *prev;
-	/* Previous node. */
+	/* The preceding open file, if any. */
 } openfilestruct;
 
 #ifndef DISABLE_NANORC
@@ -431,7 +431,7 @@ typedef struct sc {
     key_type type;
 	/* What kind of command key it is, for convenience later. */
     int seq;
-	/* The actual sequence to check on the type is determined. */
+	/* The actual sequence to check once the type is determined. */
     int menus;
 	/* Which menus this applies to. */
     void (*scfunc)(void);
@@ -447,22 +447,22 @@ typedef struct sc {
 
 typedef struct subnfunc {
     void (*scfunc)(void);
-	/* What function this is. */
+	/* The actual function to call. */
     int menus;
 	/* In what menus this function applies. */
     const char *desc;
-	/* The function's description, e.g. "Page Up". */
+	/* The function's short description, for example "Where Is". */
 #ifndef DISABLE_HELP
     const char *help;
-	/* The help file entry text for this function. */
+	/* The help-screen text for this function. */
     bool blank_after;
-	/* Whether there should be a blank line after the help entry
-	 * text for this function. */
+	/* Whether there should be a blank line after the help text
+	 * for this function. */
 #endif
     bool viewok;
 	/* Is this function allowed when in view mode? */
     long toggle;
-	/* If this is a toggle, if nonzero what toggle to set. */
+	/* If this is a toggle, which toggle to affect. */
     struct subnfunc *next;
 	/* Next item in the list. */
 } subnfunc;
@@ -538,7 +538,8 @@ enum
 #define MYESNO			(1<<13)
 #define MLINTER			(1<<14)
 /* This is an abbreviation for all menus except Help and YesNo. */
-#define MMOST	(MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
+#define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
+		MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
