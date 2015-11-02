@@ -1190,12 +1190,6 @@ bool do_wrap(filestruct *line)
 	/* The length of the line we wrap. */
     ssize_t wrap_loc;
 	/* The index of line->data where we wrap. */
-#ifndef NANO_TINY
-    const char *indent_string = NULL;
-	/* Indentation to prepend to the new line. */
-    size_t indent_len = 0;
-	/* The length of indent_string. */
-#endif
     const char *after_break;
 	/* The text after the wrap point. */
     size_t after_break_len;
@@ -1245,14 +1239,8 @@ bool do_wrap(filestruct *line)
 #ifndef NANO_TINY
     /* If autoindent is turned on, and we're on the character just after
      * the indentation, we don't wrap. */
-    if (ISSET(AUTOINDENT)) {
-	/* Get the indentation of this line. */
-	indent_string = line->data;
-	indent_len = indent_length(indent_string);
-
-	if (wrap_loc == indent_len)
-	    return FALSE;
-    }
+    if (ISSET(AUTOINDENT) && wrap_loc == indent_length(line->data))
+	return FALSE;
 
     add_undo(SPLIT_BEGIN);
 #endif

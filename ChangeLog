@@ -1,6 +1,7 @@
 2015-11-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Delete an unused type definition.
 	* src/nano.h: Improve several comments.
+	* src_text.c(do_wrap): Elide two variables.
 
 2015-10-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (copy_from_filestruct): When pasting while the mark is
