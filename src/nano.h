@@ -416,24 +416,6 @@ typedef struct openfilestruct {
 	/* Previous node. */
 } openfilestruct;
 
-typedef struct shortcut {
-    const char *desc;
-	/* The function's description, e.g. "Page Up". */
-#ifndef DISABLE_HELP
-    const char *help;
-	/* The help file entry text for this function. */
-    bool blank_after;
-	/* Whether there should be a blank line after the help entry
-	 * text for this function. */
-#endif
-    bool viewok;
-	/* Is this function allowed when in view mode? */
-    void (*func)(void);
-	/* The function to call when we get this key. */
-    struct shortcut *next;
-	/* Next shortcut. */
-} shortcut;
-
 #ifndef DISABLE_NANORC
 typedef struct rcoption {
    const char *name;
