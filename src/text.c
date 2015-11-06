@@ -673,7 +673,6 @@ void do_redo(void)
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
 	f->data = data;
-	openfile->current_x = u->begin;
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case ENTER:

@@ -7,6 +7,7 @@
 	(And even if some didn't, they would still be valid functions.)
 	* src/cut.c (cut_line): There is no need to set 'openfile->mark_begin'
 	just like that; it will be set when 'openfile->mark_set' becomes TRUE.
+	* src/text.c (do_redo): Delete a redundant assignment.
 
 2015-11-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Delete an unused type definition.
