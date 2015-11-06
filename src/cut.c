@@ -50,11 +50,6 @@ inline bool keeping_cutbuffer(void)
  * current line. */
 void cut_line(void)
 {
-#ifndef NANO_TINY
-    if (!openfile->mark_begin)
-	openfile->mark_begin = openfile->current;
-#endif
-
     if (openfile->current != openfile->filebot)
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
 		openfile->current->next, 0);
