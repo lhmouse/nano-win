@@ -217,11 +217,7 @@ size_t length_of_list(int menu)
     size_t i = 0;
 
     for (f = allfuncs; f != NULL; f = f->next)
-	if ((f->menus & menu) != 0
-#ifndef DISABLE_HELP
-	    && strlen(f->help) > 0
-#endif
-	                          ) {
+	if ((f->menus & menu) != 0) {
 	    i++;
 	}
     return i;

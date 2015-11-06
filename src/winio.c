@@ -1684,10 +1684,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    for (f = allfuncs; f != NULL; f = f->next) {
 		if ((f->menus & currmenu) == 0)
 		    continue;
-#ifndef DISABLE_HELP
-		if (!f->help || strlen(f->help) == 0)
-		    continue;
-#endif
 		if (first_sc_for(currmenu, f->scfunc) == NULL)
 		    continue;
 		/* Tick off an actually shown shortcut. */

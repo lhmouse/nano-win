@@ -2,6 +2,9 @@
 	* src/files.c (write_lockfile): Don't bail out when the hostname is
 	overlong, but instead truncate it properly and continue.  This fixes
 	Ubuntu bug #1509081 reported by Sam Reed.
+	* src/global.c (length_of_list), src/winio.c(get_mouseinput): Don't
+	check whether a function has a help line, since all of them have.
+	(And even if some didn't, they would still be valid functions.)
 
 2015-11-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h: Delete an unused type definition.
