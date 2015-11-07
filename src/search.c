@@ -747,14 +747,12 @@ ssize_t do_replace_loop(
 	    length_change = strlen(copy) - strlen(openfile->current->data);
 
 #ifndef NANO_TINY
-	    /* If the mark was on and (mark_begin, mark_begin_x) was the
-	     * top of it, don't change mark_begin_x. */
-	    if (!old_mark_set || !right_side_up) {
-		/* Keep mark_begin_x in sync with the text changes. */
+	    /* If the mark was on and it was located after the cursor,
+	     * then adjust its x position for any text length changes. */
+	    if (old_mark_set && !right_side_up) {
 		if (openfile->current == openfile->mark_begin &&
 			openfile->mark_begin_x > openfile->current_x) {
-		    if (openfile->mark_begin_x < openfile->current_x +
-			match_len)
+		    if (openfile->mark_begin_x < openfile->current_x + match_len)
 			openfile->mark_begin_x = openfile->current_x;
 		    else
 			openfile->mark_begin_x += length_change;
@@ -762,11 +760,10 @@ ssize_t do_replace_loop(
 		}
 	    }
 
-	    /* If the mark was on and (current, current_x) was the top
-	     * of it, don't change real_current_x. */
+	    /* If the mark was not on or it was before the cursor, then
+	     * adjust the cursor's x position for any text length changes. */
 	    if (!old_mark_set || right_side_up) {
 #endif
-		/* Keep real_current_x in sync with the text changes. */
 		if (openfile->current == real_current &&
 			openfile->current_x <= *real_current_x) {
 		    if (*real_current_x < openfile->current_x + match_len)

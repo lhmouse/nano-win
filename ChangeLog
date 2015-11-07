@@ -1,3 +1,8 @@
+2015-11-07  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop): Correct the logic for adjusting the
+	x position of the mark -- it happened to work because 'mark_begin' is
+	NULL when 'old_mark_set' is FALSE.  Also improve the comments.
+
 2015-11-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_lockfile): Don't bail out when the hostname is
 	overlong, but instead truncate it properly and continue.  This fixes
