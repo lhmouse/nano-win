@@ -1206,6 +1206,11 @@ void shortcut_init(void)
 	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", new_buffer_void, 0);
     }
     add_to_sclist(MHELP|MBROWSER, "^C", do_exit, 0);
+    /* Allow exiting from the file browser and the help viewer with
+     * the same key as they were entered. */
+#ifndef DISABLE_BROWSER
+    add_to_sclist(MBROWSER, "^T", do_exit, 0);
+#endif
 #ifndef DISABLE_HELP
     add_to_sclist(MHELP, "^G", do_exit, 0);
     add_to_sclist(MHELP, "Home", do_first_line, 0);
