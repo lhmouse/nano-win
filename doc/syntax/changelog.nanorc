@@ -12,7 +12,7 @@ color yellow "<[^>]*@[^>]*>"
 # Command-line options.
 color cyan "[[:space:]]-[a-zA-Z\$]" "--[8a-z-]+"
 # Bug and patch numbers.
-color cyan "bug #[0-9]{5,6}" "patch #[0-9]{4,5}"
+color cyan "bug #[0-9]{5,9}" "patch #[0-9]{4,9}"
 # Probable constants, for variety.
 color brightred "\<[A-Z_][0-9A-Z_]+\>"
 # Key sequences.
