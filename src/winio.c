@@ -2613,7 +2613,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    goto step_two;
 
 		/* Skip over a zero-length regex match. */
-		if (startmatch.rm_so == startmatch.rm_eo)
+		if (start_line != NULL && startmatch.rm_so == startmatch.rm_eo)
 		    startmatch.rm_eo++;
 		else {
 		    /* If no start was found, skip to the next step. */
