@@ -251,8 +251,8 @@ int delete_lockfile(const char *lockfilename)
  * complain to the user. */
 int do_lockfile(const char *filename)
 {
-    char *lockdir = dirname((char *) mallocstrcpy(NULL, filename));
-    char *lockbase = basename((char *) mallocstrcpy(NULL, filename));
+    char *namecopy1 = (char *) mallocstrcpy(NULL, filename);
+    char *namecopy2 = (char *) mallocstrcpy(NULL, filename);
     size_t locknamesize = strlen(filename) + strlen(locking_prefix)
 		+ strlen(locking_suffix) + 3;
     char *lockfilename = charalloc(locknamesize);
@@ -261,8 +261,10 @@ int do_lockfile(const char *filename)
     struct stat fileinfo;
     int lockfd, lockpid;
 
-    snprintf(lockfilename, locknamesize, "%s/%s%s%s", lockdir,
-		locking_prefix, lockbase, locking_suffix);
+    snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy1),
+		locking_prefix, basename(namecopy2), locking_suffix);
+    free(namecopy1);
+    free(namecopy2);
 #ifdef DEBUG
     fprintf(stderr, "lock file name is %s\n", lockfilename);
 #endif
@@ -309,8 +311,10 @@ int do_lockfile(const char *filename)
 	if (stat(lockfiledir, &fileinfo) == -1) {
 	    statusbar(_("Error writing lock file: Directory \'%s\' doesn't exist"),
 		lockfiledir);
+	    free(lockfiledir);
 	    return 0;
 	}
+	free(lockfiledir);
     }
 
     return write_lockfile(lockfilename, filename, FALSE);
@@ -3155,6 +3159,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	if (!strcmp(posptr->filename, fullpath)) {
 	    posptr->lineno = lineno;
 	    posptr->xno = xpos;
+	    free(fullpath);
 	    return;
 	}
 	posprev = posptr;
