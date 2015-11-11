@@ -756,7 +756,7 @@ void do_redo(void)
 #endif /* !NANO_TINY */
 
 /* Someone hits Enter *gasp!* */
-void do_enter(bool undoing)
+void do_enter()
 {
     filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
@@ -764,9 +764,6 @@ void do_enter(bool undoing)
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_TINY
-    if (!undoing)
-	add_undo(ENTER);
-
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
     if (ISSET(AUTOINDENT)) {
 	/* If we are breaking the line in the indentation, the new
@@ -809,18 +806,13 @@ void do_enter(bool undoing)
 
     openfile->placewewant = xplustabs();
 
-#ifndef NANO_TINY
-    if (!undoing)
-	update_undo(ENTER);
-#endif
-
     edit_refresh_needed = TRUE;
 }
 
 /* Need this again... */
 void do_enter_void(void)
 {
-    do_enter(FALSE);
+    do_enter();
 }
 
 #ifndef NANO_TINY
@@ -1314,7 +1306,7 @@ bool do_wrap(filestruct *line)
 
     /* Go to the wrap location and split the line there. */
     openfile->current_x = wrap_loc;
-    do_enter(FALSE);
+    do_enter();
 
     if (old_x < wrap_loc) {
 	openfile->current_x = old_x;

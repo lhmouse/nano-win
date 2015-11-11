@@ -3,6 +3,7 @@
 	undo data, instead of running do_enter() again, because the latter
 	will behave differently depending on the setting of autoindent.
 	This addresses Debian bug #793053 reported by Clancy.
+	* src/text.c (do_enter): Chop the now unused parameter 'undoing'.
 
 2015-11-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Skip a zero-length match only when there

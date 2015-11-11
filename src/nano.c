@@ -2010,7 +2010,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		output[i] = '\n';
 	    /* Newline to Enter, if needed. */
 	    else if (output[i] == '\n') {
-		do_enter(FALSE);
+		do_enter();
 		i++;
 		continue;
 	    }
