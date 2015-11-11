@@ -158,7 +158,7 @@ char *do_browser(char *path, DIR *dir)
 		/* If we selected the same filename as last time,
 		 * put back the Enter key so that it's read in. */
 		if (old_selected == selected)
-		    unget_kbinput(sc_seq_or(do_enter_void, 0), FALSE, FALSE);
+		    unget_kbinput(sc_seq_or(do_enter, 0), FALSE, FALSE);
 	    }
 	}
 #endif /* !DISABLE_MOUSE */
@@ -285,7 +285,7 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_right) {
 	    if (selected < filelist_len - 1)
 		selected++;
-	} else if (func == do_enter_void) {
+	} else if (func == do_enter) {
 	    /* We can't move up from "/". */
 	    if (strcmp(filelist[selected], "/..") == 0) {
 		statusbar(_("Can't move up a directory"));
@@ -538,7 +538,7 @@ functionptrtype parse_browser_input(int *kbinput)
 		return goto_dir_void;
 	    case 'S':
 	    case 's':
-		return do_enter_void;
+		return do_enter;
 	    case 'W':
 	    case 'w':
 		return do_search;

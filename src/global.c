@@ -888,7 +888,7 @@ void shortcut_init(void)
 
     add_to_funcs(do_tab, MMAIN,
 	N_("Tab"), IFSCHELP(nano_tab_msg), TOGETHER, NOVIEW);
-    add_to_funcs(do_enter_void, MMAIN,
+    add_to_funcs(do_enter, MMAIN,
 	N_("Enter"), IFSCHELP(nano_enter_msg), BLANKAFTER, NOVIEW);
 
     add_to_funcs(do_delete, MMAIN,
@@ -1217,8 +1217,8 @@ void shortcut_init(void)
     add_to_sclist(MHELP, "End", do_last_line, 0);
 #endif
     add_to_sclist(MMOST, "^I", do_tab, 0);
-    add_to_sclist(MMOST, "^M", do_enter_void, 0);
-    add_to_sclist(MMOST, "Enter", do_enter_void, 0);
+    add_to_sclist(MMOST, "^M", do_enter, 0);
+    add_to_sclist(MMOST, "Enter", do_enter, 0);
     add_to_sclist(MMOST, "^D", do_delete, 0);
     add_to_sclist(MMOST, "Del", do_delete, 0);
     add_to_sclist(MMOST, "^H", do_backspace, 0);
@@ -1448,7 +1448,7 @@ sc *strtosc(char *input)
     else if (!strcasecmp(input, "tab"))
 	s->scfunc = do_tab;
     else if (!strcasecmp(input, "enter"))
-	s->scfunc = do_enter_void;
+	s->scfunc = do_enter;
     else if (!strcasecmp(input, "delete"))
 	s->scfunc = do_delete;
     else if (!strcasecmp(input, "backspace"))

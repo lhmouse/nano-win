@@ -815,12 +815,6 @@ void do_enter()
     edit_refresh_needed = TRUE;
 }
 
-/* Need this again... */
-void do_enter_void(void)
-{
-    do_enter();
-}
-
 #ifndef NANO_TINY
 /* Send a SIGKILL (unconditional kill) to the forked process in
  * execute_command(). */

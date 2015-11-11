@@ -565,7 +565,7 @@ int parse_kbinput(WINDOW *win)
 		retval = sc_seq_or(do_page_up, *kbinput);
 		break;
 	    case KEY_ENTER:
-		retval = sc_seq_or(do_enter_void, *kbinput);
+		retval = sc_seq_or(do_enter, *kbinput);
 		break;
 	    case KEY_B2:	/* Center (5) on numeric keypad with
 				 * NumLock off. */

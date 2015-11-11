@@ -659,7 +659,6 @@ void do_undo(void);
 void do_redo(void);
 #endif
 void do_enter(void);
-void do_enter_void(void);
 #ifndef NANO_TINY
 RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
