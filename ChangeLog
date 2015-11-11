@@ -1,3 +1,9 @@
+2015-11-11  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_redo, update_undo):  Redo an Enter from the stored
+	undo data, instead of running do_enter() again, because the latter
+	will behave differently depending on the setting of autoindent.
+	This addresses Debian bug #793053 reported by Clancy.
+
 2015-11-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Skip a zero-length match only when there
 	/is/ a match.  Found with valgrind.  This fixes Savannah bug #41908.
