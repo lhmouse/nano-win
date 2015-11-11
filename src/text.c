@@ -764,6 +764,8 @@ void do_enter()
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_TINY
+    add_undo(ENTER);
+
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
     if (ISSET(AUTOINDENT)) {
 	/* If we are breaking the line in the indentation, the new
@@ -805,6 +807,10 @@ void do_enter()
     set_modified();
 
     openfile->placewewant = xplustabs();
+
+#ifndef NANO_TINY
+    update_undo(ENTER);
+#endif
 
     edit_refresh_needed = TRUE;
 }
