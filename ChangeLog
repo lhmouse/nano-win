@@ -1,5 +1,9 @@
+2015-11-12  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_undo, update_undo): Store the correct end position of
+	an inserted file, and use it when undoing.  Fixes Savannah bug #46414.
+
 2015-11-11  Benno Schulenberg  <bensberg@justemail.net>
-	* src/text.c (do_redo, update_undo):  Redo an Enter from the stored
+	* src/text.c (do_redo, update_undo): Redo an Enter from the stored
 	undo data, instead of running do_enter() again, because the latter
 	will behave differently depending on the setting of autoindent.
 	This addresses Debian bug #793053 reported by Clancy.

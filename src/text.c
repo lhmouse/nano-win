@@ -587,7 +587,7 @@ void do_undo(void)
 	 * how many lines were inserted due to being partitioned before read_file
 	 * was called.  So we add its value here. */
 	openfile->mark_begin = fsfromline(u->lineno + u->mark_begin_lineno - 1);
-	openfile->mark_begin_x = 0;
+	openfile->mark_begin_x = u->mark_begin_x;
 	openfile->mark_set = TRUE;
 	goto_line_posx(u->lineno, u->begin);
 	cut_marked();
@@ -1154,7 +1154,14 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 	u->lineno = openfile->current->lineno;
 	break;
     case INSERT:
+	/* Store the number of lines of the insertion plus one. */
 	u->mark_begin_lineno = openfile->current->lineno;
+	/* When the insertion contains no newline, store the adjusted
+	 * x position; otherwise, store the length of the last line. */
+	if (openfile->fileage == openfile->filebot)
+	    u->mark_begin_x = openfile->current_x;
+	else
+	    u->mark_begin_x = strlen(openfile->filebot->data);
 	break;
     case ENTER:
 	u->strdata = mallocstrcpy(NULL, fs->current->data);
