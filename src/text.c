@@ -911,21 +911,20 @@ bool execute_command(const char *command)
 /* Add a new undo struct to the top of the current pile. */
 void add_undo(undo_type action)
 {
-    openfilestruct *fs = openfile;
-    undo *u = fs->current_undo;
+    undo *u = openfile->current_undo;
 	/* The thing we did previously. */
 
     /* When doing contiguous adds or contiguous cuts -- which means: with
      * no cursor movement in between -- don't add a new undo item. */
-    if (u && u->mark_begin_lineno == fs->current->lineno && action == fs->last_action &&
-	((action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x) ||
+    if (u && u->mark_begin_lineno == openfile->current->lineno && action == openfile->last_action &&
+	((action == ADD && u->type == ADD && u->mark_begin_x == openfile->current_x) ||
 	(action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
 	return;
 
     /* Blow away the old undo stack if we are starting from the middle. */
-    while (fs->undotop != NULL && fs->undotop != fs->current_undo) {
-	undo *u2 = fs->undotop;
-	fs->undotop = fs->undotop->next;
+    while (openfile->undotop != NULL && openfile->undotop != u) {
+	undo *u2 = openfile->undotop;
+	openfile->undotop = openfile->undotop->next;
 	free(u2->strdata);
 	if (u2->cutbuffer)
 	    free_filestruct(u2->cutbuffer);
@@ -939,28 +938,28 @@ void add_undo(undo_type action)
     /* Allocate and initialize a new undo type. */
     u = (undo *) nmalloc(sizeof(undo));
     u->type = action;
-    u->lineno = fs->current->lineno;
-    u->begin = fs->current_x;
+    u->lineno = openfile->current->lineno;
+    u->begin = openfile->current_x;
 #ifndef DISABLE_WRAPPING
     if (u->type == SPLIT_BEGIN) {
 	/* Some action, most likely an ADD, was performed that invoked
 	 * do_wrap().  Rearrange the undo order so that this previous
 	 * action is after the SPLIT_BEGIN undo. */
-	u->next = fs->undotop->next ;
-	fs->undotop->next = u;
+	u->next = openfile->undotop->next;
+	openfile->undotop->next = u;
     } else
 #endif
     {
-	u->next = fs->undotop;
-	fs->undotop = u;
-	fs->current_undo = u;
+	u->next = openfile->undotop;
+	openfile->undotop = u;
+	openfile->current_undo = u;
     }
     u->strdata = NULL;
     u->cutbuffer = NULL;
     u->cutbottom = NULL;
     u->mark_set = FALSE;
-    u->mark_begin_lineno = fs->current->lineno;
-    u->mark_begin_x = fs->current_x;
+    u->mark_begin_lineno = openfile->current->lineno;
+    u->mark_begin_x = openfile->current_x;
     u->xflags = 0;
 
     switch (u->type) {
@@ -971,12 +970,12 @@ void add_undo(undo_type action)
     case BACK:
 	/* If the next line is the magic line, don't ever undo this
 	 * backspace, as it won't actually have deleted anything. */
-	if (fs->current->next == fs->filebot && fs->current->data[0] != '\0')
+	if (openfile->current->next == openfile->filebot && openfile->current->data[0] != '\0')
 	    u->xflags = WAS_FINAL_BACKSPACE;
     case DEL:
-	if (u->begin != strlen(fs->current->data)) {
+	if (u->begin != strlen(openfile->current->data)) {
 	    char *char_buf = charalloc(mb_cur_max() + 1);
-	    int char_buf_len = parse_mbchar(&fs->current->data[u->begin], char_buf, NULL);
+	    int char_buf_len = parse_mbchar(&openfile->current->data[u->begin], char_buf, NULL);
 	    null_at(&char_buf, char_buf_len);
 	    u->strdata = char_buf;
 	    if (u->type == BACK)
@@ -985,18 +984,18 @@ void add_undo(undo_type action)
 	}
 	/* Else purposely fall into the line-joining code. */
     case JOIN:
-	if (fs->current->next) {
+	if (openfile->current->next) {
 	    if (u->type == BACK) {
-		u->lineno = fs->current->next->lineno;
+		u->lineno = openfile->current->next->lineno;
 		u->begin = 0;
 	    }
-	    u->strdata = mallocstrcpy(NULL, fs->current->next->data);
+	    u->strdata = mallocstrcpy(NULL, openfile->current->next->data);
 	}
 	action = u->type = JOIN;
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
-	action = fs->undotop->type;
+	action = openfile->undotop->type;
 	break;
     case SPLIT_END:
 	break;
@@ -1004,7 +1003,7 @@ void add_undo(undo_type action)
     case INSERT:
 	break;
     case REPLACE:
-	u->strdata = mallocstrcpy(NULL, fs->current->data);
+	u->strdata = mallocstrcpy(NULL, openfile->current->data);
 	break;
     case CUT_EOF:
 	cutbuffer_reset();
@@ -1039,10 +1038,10 @@ void add_undo(undo_type action)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "  >> fs->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
-		fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin, action);
+    fprintf(stderr, "  >> openfile->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
+		openfile->current->data, (unsigned long)openfile->current_x, (unsigned long)u->begin, action);
 #endif
-    fs->last_action = action;
+    openfile->last_action = action;
 }
 
 /* Update an undo item, or determine whether a new one is really needed
@@ -1052,57 +1051,56 @@ void add_undo(undo_type action)
 void update_undo(undo_type action)
 {
     undo *u;
-    openfilestruct *fs = openfile;
 
 #ifdef DEBUG
-fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->current->lineno = %ld",
-		action, fs->last_action, (long)openfile->current->lineno);
-	if (fs->current_undo)
-	    fprintf(stderr, ", fs->current_undo->lineno = %ld\n", (long)fs->current_undo->lineno);
+fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openfile->current->lineno = %ld",
+		action, openfile->last_action, (long)openfile->current->lineno);
+	if (openfile->current_undo)
+	    fprintf(stderr, ", openfile->current_undo->lineno = %ld\n", (long)openfile->current_undo->lineno);
 	else
 	    fprintf(stderr, "\n");
 #endif
 
     /* Change to an add if we're not using the same undo struct
      * that we should be using. */
-    if (action != fs->last_action
+    if (action != openfile->last_action
 	|| (action != ENTER && action != CUT && action != INSERT
-	    && openfile->current->lineno != fs->current_undo->lineno)) {
+	    && openfile->current->lineno != openfile->current_undo->lineno)) {
 	add_undo(action);
 	return;
     }
 
-    assert(fs->undotop != NULL);
-    u = fs->undotop;
+    assert(openfile->undotop != NULL);
+    u = openfile->undotop;
 
     switch (u->type) {
     case ADD: {
 #ifdef DEBUG
-	fprintf(stderr, "  >> fs->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
-			fs->current->data, (unsigned long)fs->current_x, (unsigned long)u->begin);
+	fprintf(stderr, "  >> openfile->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
+			openfile->current->data, (unsigned long)openfile->current_x, (unsigned long)u->begin);
 #endif
 	char *char_buf = charalloc(mb_cur_max());
-	size_t char_buf_len = parse_mbchar(&fs->current->data[u->mark_begin_x], char_buf, NULL);
+	size_t char_buf_len = parse_mbchar(&openfile->current->data[u->mark_begin_x], char_buf, NULL);
 	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_buf_len);
 #ifdef DEBUG
 	fprintf(stderr, "  >> current undo data is \"%s\"\n", u->strdata);
 #endif
-	u->mark_begin_lineno = fs->current->lineno;
-	u->mark_begin_x = fs->current_x;
+	u->mark_begin_lineno = openfile->current->lineno;
+	u->mark_begin_x = openfile->current_x;
 	break;
     }
     case BACK:
     case DEL: {
 	char *char_buf = charalloc(mb_cur_max());
-	size_t char_buf_len = parse_mbchar(&fs->current->data[fs->current_x], char_buf, NULL);
-	if (fs->current_x == u->begin) {
+	size_t char_buf_len = parse_mbchar(&openfile->current->data[openfile->current_x], char_buf, NULL);
+	if (openfile->current_x == u->begin) {
 	    /* They're deleting. */
 	    u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_buf_len);
-	    u->mark_begin_x = fs->current_x;
-	} else if (fs->current_x == u->begin - char_buf_len) {
+	    u->mark_begin_x = openfile->current_x;
+	} else if (openfile->current_x == u->begin - char_buf_len) {
 	    /* They're backspacing. */
 	    u->strdata = addstrings(char_buf, char_buf_len, u->strdata, strlen(u->strdata));
-	    u->begin = fs->current_x;
+	    u->begin = openfile->current_x;
 	} else {
 	    /* They deleted something else on the line. */
 	    free(char_buf);
@@ -1150,7 +1148,7 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 	break;
     case REPLACE:
     case PASTE:
-	u->begin = fs->current_x;
+	u->begin = openfile->current_x;
 	u->lineno = openfile->current->lineno;
 	break;
     case INSERT:
@@ -1164,8 +1162,8 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 	    u->mark_begin_x = strlen(openfile->filebot->data);
 	break;
     case ENTER:
-	u->strdata = mallocstrcpy(NULL, fs->current->data);
-	u->mark_begin_x = fs->current_x;
+	u->strdata = mallocstrcpy(NULL, openfile->current->data);
+	u->mark_begin_x = openfile->current_x;
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:

@@ -1,6 +1,8 @@
 2015-11-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, update_undo): Store the correct end position of
 	an inserted file, and use it when undoing.  Fixes Savannah bug #46414.
+	* src/text.c (add_undo, update_undo): Delete an unneeded alias -- it
+	wasn't being used consistently anyway.
 
 2015-11-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo, update_undo): Redo an Enter from the stored
