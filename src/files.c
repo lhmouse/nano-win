@@ -339,6 +339,21 @@ void open_buffer(const char *filename, bool undoable)
     }
 #endif
 
+    /* When the specified filename is not empty, and the thing exists,
+     * verify that it is a normal file. */
+    if (strcmp(filename, "") != 0) {
+	struct stat fileinfo;
+
+	if (stat(filename, &fileinfo) == 0 && !S_ISREG(fileinfo.st_mode)) {
+	    if (S_ISDIR(fileinfo.st_mode))
+		statusbar(_("\"%s\" is a directory"), filename);
+	    else
+	 	statusbar(_("\"%s\" is not a normal file"), filename);
+	    beep();
+	    return;
+	}
+    }
+
     /* If we're loading into a new buffer, add a new entry to
      * openfile. */
     if (new_buffer) {
@@ -420,6 +435,9 @@ void replace_buffer(const char *filename)
     /* If opening the file succeeded, read it in. */
     if (descriptor > 0)
 	read_file(f, descriptor, filename, FALSE, TRUE);
+
+    /* Put current at a place that is certain to exist. */
+    openfile->current = openfile->fileage;
 }
 #endif /* !DISABLE_SPELLER */
 

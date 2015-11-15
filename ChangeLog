@@ -1,5 +1,22 @@
+2015-07-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (edit_draw): When looking for multiline-regex matches,
+	look for a new start only after an end, instead of right after the
+	last start.  This fixes bug #45525 and bug #41313 on Savannah.
+
+2015-07-17  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (open_buffer): Verify that a named and existing file
+	is a normal file, to avoid opening an empty buffer when the name of
+	a directory is specified.  This fixes Savannah bug #45383 reported
+	by Mike Frysinger, and also Savannah bug #27839 (which is an echo
+	from Debian bug #551717 reported by Paul Wise).
+
+
+2015-07-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (replace_buffer): Prevent a segfault when spellchecking
+	a marked region and nonewlines isn't set.
+
 2015-07-10  Benno Schulenberg  <bensberg@justemail.net>
-       * src/nano.c (delete_opennode): Plug a small memory leak.
+	* src/nano.c (delete_opennode): Plug a small memory leak.
 
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (add_to_sclist), src/help.c (help_init), src/nano.h,
