@@ -1,3 +1,7 @@
+2015-08-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_find_bracket): Remove mistaken comparison between
+	pointer and literal character.  Found with cppcheck.
+
 2015-08-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Avoid calling copy_file() with a null
 	pointer.  Found with cppcheck.

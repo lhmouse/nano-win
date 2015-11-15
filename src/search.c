@@ -1129,7 +1129,7 @@ void do_find_bracket(void)
 
     ch = openfile->current->data + openfile->current_x;
 
-    if (ch == '\0' || (ch = mbstrchr(matchbrackets, ch)) == NULL) {
+    if ((ch = mbstrchr(matchbrackets, ch)) == NULL) {
 	statusbar(_("Not a bracket"));
 	return;
     }
