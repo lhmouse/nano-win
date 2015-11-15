@@ -1,3 +1,9 @@
+2015-09-05  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (display_string, edit_draw): Force a redraw of a line
+	only when it contains a multicolumn character, to spare all regular
+	text this significant slowdown.  This fixes Savannah bug #45684
+	reported by Wyatt Ward.
+
 2015-08-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (help_line_len): The wrap location can be beyond the EOL,
 	so for determining the length of the current line, don't start at that
