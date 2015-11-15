@@ -1,3 +1,8 @@
+2015-11-06  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_lockfile): Don't bail out when the hostname is
+	overlong, but instead truncate it properly and continue.  This fixes
+	Ubuntu bug #1509081 reported by Sam Reed.
+
 2015-10-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (copy_from_filestruct): When pasting while the mark is
 	on, the mark's pointer needs to be refreshed only when it is on the

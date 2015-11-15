@@ -143,8 +143,12 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     mypid = getpid();
 
     if (gethostname(myhostname, 31) < 0) {
-	statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
-	goto free_and_fail;
+	if (errno == ENAMETOOLONG)
+	    myhostname[31] = '\0';
+	else {
+	    statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
+	    goto free_and_fail;
+	}
     }
 
     /* Check if the lock exists before we try to delete it...*/
