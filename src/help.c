@@ -507,6 +507,8 @@ size_t help_line_len(const char *ptr)
     size_t retval = (wrap_loc < 0) ? 0 : wrap_loc;
     size_t retval_save = retval;
 
+    retval = 0;
+
     /* Get the length of the entire line up to a null or a newline. */
     while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
 	retval += move_mbright(ptr + retval, 0);
