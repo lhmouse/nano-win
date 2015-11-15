@@ -397,7 +397,7 @@ typedef struct openfilestruct {
     undo *current_undo;
 	/* The current (i.e. next) level of undo. */
     undo_type last_action;
-    const char *lock_filename;
+    char *lock_filename;
 	/* The path of the lockfile, if we created one. */
 #endif
 #ifndef DISABLE_COLOR
