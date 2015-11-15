@@ -444,14 +444,28 @@ void help_init(void)
 
 #ifndef NANO_TINY
     /* And the toggles... */
-    if (currmenu == MMAIN)
+    if (currmenu == MMAIN) {
+	int maximum = 0, counter = 0;
+
+	/* First see how many toggles there are. */
 	for (s = sclist; s != NULL; s = s->next) {
-	    if (s->scfunc == do_toggle_void)
+	   maximum = (s->toggle && s->ordinal > maximum) ? s->ordinal : maximum;
+	}
+
+	/* Now show them in the original order. */
+	while (counter < maximum) {
+	    counter++;
+	    for (s = sclist; s != NULL; s = s->next) {
+		if (s->toggle && s->ordinal == counter) {
 		ptr += sprintf(ptr, "%s\t\t%s %s\n", (s->menu == MMAIN ? s->keystr : ""),
 				 _(flagtostr(s->toggle)), _("enable/disable"));
 	    if (s->toggle == NO_COLOR_SYNTAX || s->toggle == TABS_TO_SPACES)
 		ptr += sprintf(ptr, "\n");
+		    break;
 	}
+	    }
+	}
+    }
 
 #ifndef DISABLE_NANORC
     if (old_whitespace)

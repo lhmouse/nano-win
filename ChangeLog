@@ -1,3 +1,9 @@
+2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (add_to_sclist), src/help.c (help_init), src/nano.h,
+	src/rcfile.c (parse_binding): When defining the toggles, give each
+	of them a sequence number, so that, when they are rebound, they can
+	still be listed in the original order in the help text.
+
 GNU nano 2.4.2 - 2015.07.05
 2015-06-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (browser_refresh): Limit the selected file to the
