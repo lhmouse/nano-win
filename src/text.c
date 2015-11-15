@@ -2909,6 +2909,11 @@ void do_linter(void)
     char *convendptr = NULL;
     lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
+    if (ISSET(RESTRICTED)) {
+        nano_disabled_msg();
+        return;
+    }
+
     if (!openfile->syntax || !openfile->syntax->linter) {
 	statusbar(_("No linter defined for this type of file!"));
 	return;

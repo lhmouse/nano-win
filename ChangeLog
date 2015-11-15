@@ -1,3 +1,8 @@
+2015-07-29  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_linter): When the linter is called in restricted mode
+	(possible when nano was built with --disable-speller), it is better to
+	say that this function is disabled than that no linter was defined.
+
 2015-07-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): When doing regex replacements, find
 	 each zero-length match only once.  This fixes Savannah bug #45626.
