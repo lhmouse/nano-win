@@ -1,3 +1,7 @@
+2015-11-10  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (edit_draw): Skip a zero-length match only when there
+	/is/ a match.  Found with valgrind.  This fixes Savannah bug #41908.
+
 2015-11-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_lockfile): Don't bail out when the hostname is
 	overlong, but instead truncate it properly and continue.  This fixes
