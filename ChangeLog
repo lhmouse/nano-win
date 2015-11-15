@@ -1,3 +1,7 @@
+2015-08-11  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_file): Avoid calling copy_file() with a null
+	pointer.  Found with cppcheck.
+
 2015-08-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (display_string): For some reason the reallocation done
 	by null_at() messes things up.  So put in the null byte "manually".
