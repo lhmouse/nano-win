@@ -628,8 +628,17 @@ void do_redo(void)
 	break;
     case ENTER:
 	redidmsg = _("line break");
-	goto_line_posx(u->lineno, u->begin);
-	do_enter(TRUE);
+	filestruct *shoveline = make_new_node(f);
+	shoveline->data = mallocstrcpy(NULL, u->strdata);
+	data = mallocstrncpy(NULL, f->data, u->begin + 1);
+	data[u->begin] = '\0';
+	free(f->data);
+	f->data = data;
+	splice_node(f, shoveline, f->next);
+	if (f == openfile->filebot)
+	    openfile->filebot = shoveline;
+	renumber(shoveline);
+	goto_line_posx(u->lineno + 1, u->mark_begin_x);
 	break;
 #ifndef DISABLE_WRAPPING
     case SPLIT_BEGIN:
@@ -1116,6 +1125,7 @@ fprintf(stderr, "  >> Updating... action = %d, fs->last_action = %d, openfile->c
 	u->mark_begin_lineno = openfile->current->lineno;
 	break;
     case ENTER:
+	u->strdata = mallocstrcpy(NULL, fs->current->data);
 	u->mark_begin_x = fs->current_x;
 	break;
 #ifndef DISABLE_WRAPPING
