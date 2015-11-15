@@ -1,7 +1,16 @@
+2015-07-26  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop): When doing regex replacements, find
+	 each zero-length match only once.  This fixes Savannah bug #45626.
+
+2015-07-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/chars.c (mbstrcasestr, mbrevstrcasestr): When searching, find
+	only valid UTF-8 byte sequences.  This fixes Savannah bug #45579.
+
 2015-07-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): When looking for multiline-regex matches,
 	look for a new start only after an end, instead of right after the
 	last start.  This fixes bug #45525 and bug #41313 on Savannah.
+	* doc/faq.html: Fix a few typos and make some updates for 2.4.*.
 
 2015-07-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (open_buffer): Verify that a named and existing file
