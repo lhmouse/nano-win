@@ -867,7 +867,7 @@ void add_undo(undo_type action)
 
     /* When doing contiguous adds or contiguous cuts -- which means: with
      * no cursor movement in between -- don't add a new undo item. */
-    if (u && u->mark_begin_lineno == fs->current->lineno &&
+    if (u && u->mark_begin_lineno == fs->current->lineno && action == fs->last_action &&
 	((action == ADD && u->type == ADD && u->mark_begin_x == fs->current_x) ||
 	(action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
 	return;

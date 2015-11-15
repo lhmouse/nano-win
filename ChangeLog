@@ -1,3 +1,8 @@
+2015-10-29  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (add_undo): Only skip adding an undo when the current
+	action equals the last action.  This condition is needed for when
+	typing text is broken by an undo+redo.  Fixes Savannah bug #46323.
+
 2015-09-05  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (display_string, edit_draw): Force a redraw of a line
 	only when it contains a multicolumn character, to spare all regular
