@@ -1,3 +1,4 @@
+GNU nano 2.4.3 - 2015.11.18
 2015-11-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo, update_undo):  Redo an Enter from the stored
 	undo data, instead of running do_enter() again, because the latter
@@ -88,7 +89,6 @@
 	a directory is specified.  This fixes Savannah bug #45383 reported
 	by Mike Frysinger, and also Savannah bug #27839 (which is an echo
 	from Debian bug #551717 reported by Paul Wise).
-
 
 2015-07-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (replace_buffer): Prevent a segfault when spellchecking
