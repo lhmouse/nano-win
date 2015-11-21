@@ -2109,7 +2109,9 @@ int main(int argc, char **argv)
 	/* Target line and column when specified on the command line. */
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_used = FALSE;
-	/* Was the fill option used? */
+	/* Was the fill option used on the command line? */
+    bool forced_wrapping = FALSE;
+	/* Should long lines be automatically hard wrapped? */
 #endif
 #ifndef DISABLE_MULTIBUFFER
     bool old_multibuffer;
@@ -2382,6 +2384,7 @@ int main(int argc, char **argv)
 		    exit(1);
 		}
 		fill_used = TRUE;
+		forced_wrapping = TRUE;
 		break;
 #endif
 #ifndef DISABLE_SPELLER
@@ -2405,7 +2408,7 @@ int main(int argc, char **argv)
 		SET(NO_WRAP);
 		/* If both --fill and --nowrap are given on the
 		 * command line, the last given option wins. */
-		fill_used = FALSE;
+		forced_wrapping = FALSE;
 		break;
 #endif
 	    case 'x':
@@ -2539,9 +2542,9 @@ int main(int argc, char **argv)
 #endif /* !DISABLE_NANORC */
 
 #ifndef DISABLE_WRAPPING
-    /* Override an rcfile "set nowrap" or --disable-wrapping-as-root
-     * if a --fill option was given on the command line. */
-    if (fill_used)
+    /* Override a "set nowrap" in an rcfile (or a --disable-wrapping-as-root)
+     * if --fill was given on the command line and not undone by --nowrap. */
+    if (forced_wrapping)
 	UNSET(NO_WRAP);
 #endif
 

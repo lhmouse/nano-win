@@ -1,3 +1,8 @@
+2015-11-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (main): Let the value of a --fill option on the
+	command	line override the value of a "set fill" in an rcfile.
+	This fixes Savannah bug #46492.
+
 2015-11-21  David Lawrence Ramsey  <pooka109@gmail.com>
 	* ChangeLog, NEWS: Fix a typo and adjust some spacing.
 
