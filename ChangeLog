@@ -2,9 +2,12 @@
 	* src/nano.c (main): Let the value of a --fill option on the
 	command	line override the value of a "set fill" in an rcfile.
 	This fixes Savannah bug #46492.
+	* ChangeLog, NEWS: Add the release marker and copy the news item.
 
 2015-11-21  David Lawrence Ramsey  <pooka109@gmail.com>
 	* ChangeLog, NEWS: Fix a typo and adjust some spacing.
+
+GNU nano 2.4.3 - 2015.11.18
 
 2015-11-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, update_undo): Store the correct end position of

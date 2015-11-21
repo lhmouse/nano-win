@@ -1,3 +1,13 @@
+2015.11.18 - GNU nano 2.4.3 "Apocalypse" is now available for your
+		downloading pleasure.  This release includes a myriad
+		of fixes including several memory leaks, issues with
+		color syntax higlighting, search/replace, file
+		insertion and help menu bugs.  Many thanks to
+		Benno Schulenberg for tireless efforts on the vast
+		majority of fixes for some time now.  As always please
+		report bugs via the Savannah page, and remember to
+		Share and Enjoy.
+
 2015.07.05 - GNU nano 2.4.2 "Portorož" is released.  This release
 		includes several fixes, including the ability to resize
 		when in modes other than the main editing window,
