@@ -11,7 +11,7 @@
 		menu, linter and formatter functions, spell checker,
 		undo/redo with some specific marked-cutting situations,
 		and some small improvements to the color syntax
-		highlighting definitions. There are also various
+		highlighting definitions.  There are also various
 		documentation and code comment updates included, and
 		finally, fixes for compilation on non-GNU/Linux systems
 		and certain configure combinations.  Toasters!
@@ -76,12 +76,12 @@
 		https://savannah.gnu.org/bugs/index.php?42639 and
 		thanks for using nano.
 
-2014.06.02 - GNU nano 2.3.4 won't leave you high, won't leave you dry. This
+2014.06.02 - GNU nano 2.3.4 won't leave you high, won't leave you dry.  This
 		release contains only a small number of fixes, but in
 		particular allows nano to compile on non-UTF8 curses
 		implementations (i.e. libncursesw).  Other small fixes to
 		the undo implementation and the default syntax config are
-		also included. As always, Share and Enjoy!
+		also included.  As always, Share and Enjoy!
 
 2014.05.28 - GNU nano 2.3.3 is in its right place.  This release contains
 		many many improvements to the core system, including
@@ -92,7 +92,7 @@
 		linter support (see the nanorc man page for details).  Also
 		included are much improved syntax highlighting code, and
 		configurations for JSON, texinfo, Go, and a default syntax
-		for catch all highlighting. Finally, nano now has the
+		for catch all highlighting.  Finally, nano now has the
 		ability to set the color of the title bar, status bar, and
 		shortcut keys (e.g. "^X") and their descriptions.  Again
 		see the nanorc page for details.  There's much more, too
@@ -173,7 +173,7 @@
 		This release contains a fix for only one bug, but a
 		rather irritating one: when paging up/down with smooth
 		scrolling, the cursor position was not being preserved
-		due to a bug in 2.2.2. With such a targeted fix
+		due to a bug in 2.2.2.  With such a targeted fix
 		like this what could POSSIBLY go WRONG?  Hahaha.
 		Enjoy and if you find new bugs, as always please
 		use Savannah's bug tracker.
@@ -214,7 +214,7 @@
 		the help keys and replace menu text), more 'final'
 		fixes for soft wrapping, and several typo and documentation
 		updates including nanorc tweaks and a new syntax
-		highlighting file for makefiles. Also included is a long
+		highlighting file for makefiles.  Also included is a long
 		standing fix for random crashing when using nanorc on
 		FreeBSD, and nano will no longer clear the screen on
 		suspend to maintain compatibility with other *nix editors.
@@ -253,7 +253,7 @@
 2009.09.14 - GNU nano 2.1.11 is on very thin ice, very thin ice, very thin
 		ice.  This release includes two new features: first, nano
 		will check whether the current file is writable when it
-		is opened, and warn if it is not on the status bar. Secondly,
+		is opened, and warn if it is not on the status bar.  Secondly,
 		a new soft-wrapping (AKA full line display) option is
 		available, which will attempt to fully display the contents
 		of lines longer than the width of the screen without the

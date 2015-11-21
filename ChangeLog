@@ -1,3 +1,6 @@
+2015-11-21  David Lawrence Ramsey  <pooka109@gmail.com>
+	* ChangeLog, NEWS: Fix a typo and adjust some spacing.
+
 2015-11-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_undo, update_undo): Store the correct end position of
 	an inserted file, and use it when undoing.  Fixes Savannah bug #46414.
@@ -99,7 +102,7 @@
 	bug #45874.  Apparently there is /some/ state somewhere after all.
 
 2015-08-29  Benno Schulenberg  <bensberg@justemail.net>
-	* doc/syntax/autoconf.nanor: New file; syntax colouring for Autoconf.
+	* doc/syntax/autoconf.nanorc: New file; syntax colouring for Autoconf.
 	* src/files.c: Rewrap some lines and tweak two comments.
 
 2015-08-16  Benno Schulenberg  <bensberg@justemail.net>
