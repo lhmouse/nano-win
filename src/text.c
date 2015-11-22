@@ -1022,13 +1022,9 @@ void add_undo(undo_type action)
 	}
 	break;
     case PASTE:
-	if (!cutbuffer)
-	    statusbar(_("Internal error: cannot set up uncut.  Please save your work."));
-	else {
-	    u->cutbuffer = copy_filestruct(cutbuffer);
-	    u->lineno += cutbottom->lineno - cutbuffer->lineno;
-	    u->mark_set = TRUE;
-	}
+	u->cutbuffer = copy_filestruct(cutbuffer);
+	u->lineno += cutbottom->lineno - cutbuffer->lineno;
+	u->mark_set = TRUE;
 	break;
     case ENTER:
 	break;

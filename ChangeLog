@@ -1,3 +1,7 @@
+2015-11-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (add_undo): Delete a condition that will never occur --
+	this function is only ever called with PASTE when cutbuffer != NULL.
+
 2015-11-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): Let the value of a --fill option on the
 	command	line override the value of a "set fill" in an rcfile.
