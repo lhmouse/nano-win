@@ -478,8 +478,7 @@ void redo_cut(undo *u)
 void do_undo(void)
 {
     undo *u = openfile->current_undo;
-    filestruct *t = 0;
-    size_t len = 0;
+    filestruct *t = NULL;
     char *data, *undidmsg = NULL;
 
     if (!u) {
@@ -502,8 +501,7 @@ void do_undo(void)
     switch (u->type) {
     case ADD:
 	undidmsg = _("text add");
-	len = strlen(f->data) - strlen(u->strdata) + 1;
-	data = charalloc(len);
+	data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
@@ -513,8 +511,7 @@ void do_undo(void)
     case BACK:
     case DEL:
 	undidmsg = _("text delete");
-	len = strlen(f->data) + strlen(u->strdata) + 1;
-	data = charalloc(len);
+	data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], u->strdata);
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
@@ -625,7 +622,6 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-    size_t len = 0;
     char *data, *redidmsg = NULL;
     undo *u = openfile->undotop;
 
@@ -657,8 +653,7 @@ void do_redo(void)
     switch (u->type) {
     case ADD:
 	redidmsg = _("text add");
-	len = strlen(f->data) + strlen(u->strdata) + 1;
-	data = charalloc(len);
+	data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], u->strdata);
 	strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
@@ -669,8 +664,7 @@ void do_redo(void)
     case BACK:
     case DEL:
 	redidmsg = _("text delete");
-	len = strlen(f->data) + strlen(u->strdata) + 1;
-	data = charalloc(len);
+	data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
 	free(f->data);
@@ -706,8 +700,7 @@ void do_redo(void)
 #endif
     case JOIN:
 	redidmsg = _("line join");
-	len = strlen(f->data) + strlen(u->strdata) + 1;
-	f->data = charealloc(f->data, len);
+	f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcat(f->data, u->strdata);
 	if (f->next != NULL) {
 	    filestruct *tmp = f->next;

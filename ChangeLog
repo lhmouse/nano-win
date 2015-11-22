@@ -2,6 +2,7 @@
 	* src/text.c (add_undo): Delete a condition that will never occur --
 	this function is only ever called with PASTE when cutbuffer != NULL.
 	* src/text.c: Rewrap, rewrite, rename, and reorder some things.
+	* src/text.c (do_undo, do_redo): Elide an unneeded variable.
 
 2015-11-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): Let the value of a --fill option on the
