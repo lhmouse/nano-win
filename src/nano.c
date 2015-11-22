@@ -384,7 +384,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	openfile->mark_begin = openfile->current;
 	openfile->mark_begin_x = openfile->current_x;
     } else if (same_line)
-	/* Update the content of this partially cut line. */
+	/* Update the pointer to this partially cut line. */
 	openfile->mark_begin = openfile->current;
 #endif
 

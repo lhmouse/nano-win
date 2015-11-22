@@ -489,7 +489,8 @@ void do_undo(void)
 
     filestruct *f = fsfromline(u->mark_begin_lineno);
     if (!f) {
-	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
+	statusbar(_("Internal error: can't match line %d.  "
+			"Please save your work."), u->mark_begin_lineno);
 	return;
     }
 #ifdef DEBUG
@@ -583,9 +584,9 @@ void do_undo(void)
 	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
 	cutbuffer = NULL;
 	cutbottom = NULL;
-	/* When we updated mark_begin_lineno in update_undo, it was effectively
-	 * how many lines were inserted due to being partitioned before read_file
-	 * was called.  So we add its value here. */
+	/* Instead of a line number, u->mark_begin_lineno contains the number
+	 * of lines of the inserted segment, because the file was partitioned
+	 * when update_undo() was called; so, calculate the end-line number. */
 	openfile->mark_begin = fsfromline(u->lineno + u->mark_begin_lineno - 1);
 	openfile->mark_begin_x = u->mark_begin_x;
 	openfile->mark_set = TRUE;
@@ -644,7 +645,8 @@ void do_redo(void)
 
     filestruct *f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
     if (!f) {
-	statusbar(_("Internal error: can't match line %d.  Please save your work."), u->mark_begin_lineno);
+	statusbar(_("Internal error: can't match line %d.  "
+			"Please save your work."), u->mark_begin_lineno);
 	return;
     }
 #ifdef DEBUG
@@ -796,12 +798,12 @@ void do_enter()
 #endif
     openfile->current_x = extra;
 
-    if (openfile->current == openfile->filebot)
-	openfile->filebot = newnode;
     splice_node(openfile->current, newnode, openfile->current->next);
 
-    renumber(openfile->current);
+    if (openfile->current == openfile->filebot)
+	openfile->filebot = newnode;
     openfile->current = newnode;
+    renumber(newnode);
 
     openfile->totsize++;
     set_modified();
@@ -921,14 +923,14 @@ void add_undo(undo_type action)
 	(action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
 	return;
 
-    /* Blow away the old undo stack if we are starting from the middle. */
+    /* Blow away newer undo items if we add somewhere in the middle. */
     while (openfile->undotop != NULL && openfile->undotop != u) {
-	undo *u2 = openfile->undotop;
+	undo *dropit = openfile->undotop;
 	openfile->undotop = openfile->undotop->next;
-	free(u2->strdata);
-	if (u2->cutbuffer)
-	    free_filestruct(u2->cutbuffer);
-	free(u2);
+	free(dropit->strdata);
+	if (dropit->cutbuffer)
+	    free_filestruct(dropit->cutbuffer);
+	free(dropit);
     }
 
 #ifdef DEBUG
@@ -938,8 +940,6 @@ void add_undo(undo_type action)
     /* Allocate and initialize a new undo type. */
     u = (undo *) nmalloc(sizeof(undo));
     u->type = action;
-    u->lineno = openfile->current->lineno;
-    u->begin = openfile->current_x;
 #ifndef DISABLE_WRAPPING
     if (u->type == SPLIT_BEGIN) {
 	/* Some action, most likely an ADD, was performed that invoked
@@ -957,9 +957,11 @@ void add_undo(undo_type action)
     u->strdata = NULL;
     u->cutbuffer = NULL;
     u->cutbottom = NULL;
-    u->mark_set = FALSE;
+    u->lineno = openfile->current->lineno;
+    u->begin = openfile->current_x;
     u->mark_begin_lineno = openfile->current->lineno;
     u->mark_begin_x = openfile->current_x;
+    u->mark_set = FALSE;
     u->xflags = 0;
 
     switch (u->type) {
@@ -1014,8 +1016,7 @@ void add_undo(undo_type action)
 	if (u->mark_set) {
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;
 	    u->mark_begin_x = openfile->mark_begin_x;
-	}
-	else if (!ISSET(CUT_TO_END)) {
+	} else if (!ISSET(CUT_TO_END)) {
 	    /* The entire line is being cut regardless of the cursor position. */
 	    u->begin = 0;
 	    u->xflags = WAS_WHOLE_LINE;
@@ -1059,9 +1060,9 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 
     /* Change to an add if we're not using the same undo struct
      * that we should be using. */
-    if (action != openfile->last_action
-	|| (action != ENTER && action != CUT && action != INSERT
-	    && openfile->current->lineno != openfile->current_undo->lineno)) {
+    if (action != openfile->last_action ||
+		(action != ENTER && action != CUT && action != INSERT &&
+		openfile->current->lineno != openfile->current_undo->lineno)) {
 	add_undo(action);
 	return;
     }
@@ -1148,7 +1149,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	u->lineno = openfile->current->lineno;
 	break;
     case INSERT:
-	/* Store the number of lines of the insertion plus one. */
+	/* Store the number of lines (plus one) of the insertion. */
 	u->mark_begin_lineno = openfile->current->lineno;
 	/* When the insertion contains no newline, store the adjusted
 	 * x position; otherwise, store the length of the last line. */
@@ -2824,10 +2825,8 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Add back the size of the text surrounding the marked region. */
 	openfile->totsize += size_of_surrounding;
 
-	/* Assign mark_begin to the line where the mark began before. */
+	/* Restore the position of the mark, and turn it back on. */
 	openfile->mark_begin = fsfromline(mb_lineno_save);
-
-	/* Turn the mark back on. */
 	openfile->mark_set = TRUE;
     }
 #endif /* !NANO_TINY */
