@@ -148,7 +148,6 @@ void do_deletion(undo_type action)
 	    openfile->filebot = openfile->current;
 
 	unlink_node(foo);
-	delete_node(foo);
 	renumber(openfile->current);
 	openfile->totsize--;
 
@@ -572,7 +571,6 @@ void do_undo(void)
 	    if (foo == openfile->filebot)
 		openfile->filebot = f;
 	    unlink_node(foo);
-	    delete_node(foo);
 	}
 	goto_line_posx(u->lineno, u->begin);
 	break;
@@ -707,7 +705,6 @@ void do_redo(void)
 	    if (tmp == openfile->filebot)
 		openfile->filebot = f;
 	    unlink_node(tmp);
-	    delete_node(tmp);
 	}
 	renumber(f);
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -2099,7 +2096,6 @@ void do_justify(bool full_justify)
 #endif
 
 	    unlink_node(next_line);
-	    delete_node(next_line);
 
 	    /* If we've removed the next line, we need to go through
 	     * this line again. */

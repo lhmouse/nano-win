@@ -429,7 +429,7 @@ filestruct *make_new_node(filestruct *prevnode);
 filestruct *copy_node(const filestruct *src);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct
 	*end);
-void unlink_node(const filestruct *fileptr);
+void unlink_node(filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);

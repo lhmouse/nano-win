@@ -1307,7 +1307,6 @@ void update_history(filestruct **h, const char *s)
 	foo = p;
 	bar = p->next;
 	unlink_node(foo);
-	delete_node(foo);
 	renumber(bar);
     }
 
@@ -1319,7 +1318,6 @@ void update_history(filestruct **h, const char *s)
 
 	*hage = (*hage)->next;
 	unlink_node(foo);
-	delete_node(foo);
 	renumber(*hage);
     }
 

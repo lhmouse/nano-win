@@ -107,8 +107,8 @@ void splice_node(filestruct *begin, filestruct *newnode, filestruct
 	end->prev = newnode;
 }
 
-/* Unlink a node from the rest of the filestruct. */
-void unlink_node(const filestruct *fileptr)
+/* Unlink a node from the rest of the filestruct and delete it. */
+void unlink_node(filestruct *fileptr)
 {
     assert(fileptr != NULL);
 
@@ -116,6 +116,8 @@ void unlink_node(const filestruct *fileptr)
 	fileptr->prev->next = fileptr->next;
     if (fileptr->next != NULL)
 	fileptr->next->prev = fileptr->prev;
+
+    delete_node(fileptr);
 }
 
 /* Delete a node from the filestruct. */
