@@ -41,6 +41,11 @@ bool func_key;
 bool focusing = FALSE;
 	/* Whether an update of the edit window should center the cursor. */
 
+#ifndef NANO_TINY
+int controlleft = CONTROL_LEFT;
+int controlright = CONTROL_RIGHT;
+#endif
+
 #ifndef DISABLE_WRAPJUSTIFY
 ssize_t fill = 0;
 	/* The column where we will wrap lines. */

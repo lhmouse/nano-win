@@ -548,10 +548,9 @@ enum
 #define NANO_CONTROL_7 31
 #define NANO_CONTROL_8 127
 
-/* Codes for "modified" Arrow keys.  Chosen like this because some
- * terminals produce them, and they are beyond KEY_MAX of ncurses. */
-#define CONTROL_LEFT 539
-#define CONTROL_RIGHT 554
+/* Codes for "modified" Arrow keys, beyond KEY_MAX of ncurses. */
+#define CONTROL_LEFT 0x401
+#define CONTROL_RIGHT 0x402
 
 #ifndef NANO_TINY
 /* An imaginary key for when we get a SIGWINCH (window resize). */

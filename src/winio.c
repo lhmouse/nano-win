@@ -634,22 +634,19 @@ int parse_kbinput(WINDOW *win)
 		retval = ERR;
 		break;
 #endif
-	    case CONTROL_LEFT:
-#ifndef NANO_TINY
-		retval = sc_seq_or(do_prev_word_void, 0);
-#endif
-		break;
-	    case CONTROL_RIGHT:
-#ifndef NANO_TINY
-		retval = sc_seq_or(do_next_word_void, 0);
-#endif
-		break;
 #ifndef NANO_TINY
 	    case KEY_WINCH:
 		retval = KEY_WINCH;
 		break;
 #endif
 	}
+
+#ifndef NANO_TINY
+	if (retval == controlleft)
+	    retval = sc_seq_or(do_prev_word_void, 0);
+	else if (retval == controlright)
+	    retval = sc_seq_or(do_next_word_void, 0);
+#endif
 
 	/* If our result is an extended keypad value (i.e. a value
 	 * outside of byte range), set func_key to TRUE. */

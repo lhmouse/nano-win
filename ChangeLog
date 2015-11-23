@@ -1,3 +1,8 @@
+2015-11-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (main), src/winio.c (parse_kbinput): Make Ctrl+Left and
+	Ctrl+Right work on more terminals by asking ncurses for the keycodes.
+	This addresses Debian bug #800681 reported by Arturo Borrero González.
+
 2015-11-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (add_undo): Delete a condition that will never occur --
 	this function is only ever called with PASTE when cutbuffer != NULL.

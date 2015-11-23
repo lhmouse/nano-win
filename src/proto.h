@@ -35,6 +35,11 @@ extern bool meta_key;
 extern bool func_key;
 extern bool focusing;
 
+#ifndef NANO_TINY
+extern int controlleft;
+extern int controlright;
+#endif
+
 #ifndef DISABLE_WRAPJUSTIFY
 extern ssize_t fill;
 extern ssize_t wrap_at;
