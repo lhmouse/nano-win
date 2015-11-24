@@ -546,7 +546,7 @@ void do_undo(void)
 	data[u->mark_begin_x] = '\0';
 	free(f->data);
 	f->data = data;
-	splice_node(f, t, f->next);
+	splice_node(f, t);
 	if (f == openfile->filebot)
 	    openfile->filebot = t;
 	goto_line_posx(u->lineno, u->begin);
@@ -677,7 +677,7 @@ void do_redo(void)
 	data[u->begin] = '\0';
 	free(f->data);
 	f->data = data;
-	splice_node(f, shoveline, f->next);
+	splice_node(f, shoveline);
 	if (f == openfile->filebot)
 	    openfile->filebot = shoveline;
 	renumber(shoveline);
@@ -788,7 +788,7 @@ void do_enter()
 #endif
     openfile->current_x = extra;
 
-    splice_node(openfile->current, newnode, openfile->current->next);
+    splice_node(openfile->current, newnode);
 
     if (openfile->current == openfile->filebot)
 	openfile->filebot = newnode;
@@ -2139,9 +2139,7 @@ void do_justify(bool full_justify)
 	    /* Make a new line, and copy the text after where we're
 	     * going to break this line to the beginning of the new
 	     * line. */
-	    splice_node(openfile->current,
-		make_new_node(openfile->current),
-		openfile->current->next);
+	    splice_node(openfile->current, make_new_node(openfile->current));
 
 	    /* If this paragraph is non-quoted, and autoindent isn't
 	     * turned on, set the indentation length to zero so that the

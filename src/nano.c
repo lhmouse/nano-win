@@ -95,16 +95,15 @@ filestruct *copy_node(const filestruct *src)
 }
 
 /* Splice a node into an existing filestruct. */
-void splice_node(filestruct *begin, filestruct *newnode, filestruct
-	*end)
+void splice_node(filestruct *begin, filestruct *newnode)
 {
     assert(newnode != NULL && begin != NULL);
 
-    newnode->next = end;
+    newnode->next = begin->next;
     newnode->prev = begin;
+    if (begin->next != NULL)
+	begin->next->prev = newnode;
     begin->next = newnode;
-    if (end != NULL)
-	end->prev = newnode;
 }
 
 /* Unlink a node from the rest of the filestruct and delete it. */

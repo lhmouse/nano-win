@@ -432,8 +432,7 @@ void do_right(void);
 /* All functions in nano.c. */
 filestruct *make_new_node(filestruct *prevnode);
 filestruct *copy_node(const filestruct *src);
-void splice_node(filestruct *begin, filestruct *newnode, filestruct
-	*end);
+void splice_node(filestruct *begin, filestruct *newnode);
 void unlink_node(filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);

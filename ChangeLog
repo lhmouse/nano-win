@@ -3,6 +3,8 @@
 	.mk as Makefiles.  Suggested by Emmanuel Bourg in Debian bug #804845.
 	* src/color.c (color_update): Tell the user when a syntax name given
 	on the command line does not exist.  This fixes Savannah bug #46503.
+	* src/nano.c (splice_node): Inserting a new node into a linked list
+	requires just two parameters: the insertion point and the new node.
 
 2015-11-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main), src/winio.c (parse_kbinput): Make Ctrl+Left and
