@@ -1,6 +1,6 @@
 ## Here is an example for Makefiles.
 
-syntax "makefile" "Makefile[^/]*$"
+syntax "makefile" "Makefile[^/]*$" "\.(make|mk)$"
 
 color red "[:=]"
 color magenta "\<(if|ifeq|else|endif)\>"

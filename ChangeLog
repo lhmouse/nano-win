@@ -1,3 +1,7 @@
+2015-11-24  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/makefile.nanorc: Also recognize the extensions .make and
+	.mk as Makefiles.  Suggested by Emmanuel Bourg in Debian bug #804845.
+
 2015-11-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main), src/winio.c (parse_kbinput): Make Ctrl+Left and
 	Ctrl+Right work on more terminals by asking ncurses for the keycodes.
