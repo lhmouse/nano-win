@@ -5,6 +5,7 @@
 	on the command line does not exist.  This fixes Savannah bug #46503.
 	* src/nano.c (splice_node): Inserting a new node into a linked list
 	requires just two parameters: the insertion point and the new node.
+	* src/nano.c (splice_node): Rename a variable for clarity.
 
 2015-11-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main), src/winio.c (parse_kbinput): Make Ctrl+Left and
