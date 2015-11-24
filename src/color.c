@@ -180,6 +180,9 @@ void color_update(void)
 	    if (openfile->colorstrings != NULL)
 		break;
 	}
+
+	if (openfile->colorstrings == NULL)
+	    statusbar(_("Unknown syntax name: %s"), syntaxstr);
     }
 
     /* If we didn't specify a syntax override string, or if we did and
