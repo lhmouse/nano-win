@@ -5,6 +5,8 @@
 	every keystroke in a burst, but just once.
 	* src/text.c (do_undo): Warn about a condition that should never
 	occur, instead of silently continuing.
+	* src/text.c (do_undo): Elide an unneeded variable, and don't skip
+	the end of this function when things went wrong.
 
 2015-11-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/makefile.nanorc: Also recognize the extensions .make and
