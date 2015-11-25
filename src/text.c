@@ -564,14 +564,17 @@ void do_undo(void)
 	break;
     case ENTER:
 	undidmsg = _("line break");
-	if (f->next) {
-	    filestruct *foo = f->next;
-	    f->data = charealloc(f->data, strlen(f->data) + strlen(&f->next->data[u->mark_begin_x]) + 1);
-	    strcat(f->data, &f->next->data[u->mark_begin_x]);
-	    if (foo == openfile->filebot)
-		openfile->filebot = f;
-	    unlink_node(foo);
+	filestruct *snipit = f->next;
+	if (snipit == NULL) {
+	    statusbar(_("Internal error: line is missing.  Please save your work."));
+	    return;
 	}
+	f->data = charealloc(f->data, strlen(f->data) +
+				strlen(&f->next->data[u->mark_begin_x]) + 1);
+	strcat(f->data, &f->next->data[u->mark_begin_x]);
+	if (openfile->filebot == snipit)
+	    openfile->filebot = f;
+	unlink_node(snipit);
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case INSERT:
