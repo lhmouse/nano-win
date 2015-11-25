@@ -605,7 +605,7 @@ void do_undo(void)
 	f->data = data;
 	break;
     default:
-	undidmsg = _("Internal error: unknown type.  Please save your work.");
+	statusbar(_("Internal error: unknown type.  Please save your work."));
 	break;
     }
 
@@ -735,7 +735,7 @@ void do_redo(void)
 	u->cutbuffer = NULL;
 	break;
     default:
-	redidmsg = _("Internal error: unknown type.  Please save your work.");
+	statusbar(_("Internal error: unknown type.  Please save your work."));
 	break;
     }
 
@@ -1021,7 +1021,7 @@ void add_undo(undo_type action)
 	break;
     case ENTER:
 	break;
-    case OTHER:
+    default:
 	statusbar(_("Internal error: unknown type.  Please save your work."));
 	break;
     }
@@ -1160,7 +1160,9 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 #endif
     case JOIN:
 	/* These cases are handled by the earlier check for a new line and action. */
-    case OTHER:
+	break;
+    default:
+	statusbar(_("Internal error: unknown type.  Please save your work."));
 	break;
     }
 

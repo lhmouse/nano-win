@@ -7,6 +7,8 @@
 	occur, instead of silently continuing.
 	* src/text.c (do_undo): Elide an unneeded variable, and don't skip
 	the end of this function when things went wrong.
+	* src/text.c (do_undo, do_redo, add_undo, update_undo): Handle more
+	possible internal errors, and do it correctly.
 
 2015-11-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/makefile.nanorc: Also recognize the extensions .make and
