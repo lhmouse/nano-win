@@ -1,3 +1,9 @@
+2015-11-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (do_output): Refreshing the whole edit window (instead
+	of just the current line) is not needed for any kind of syntax, but
+	only when there are multiline regexes.  And check for this not on
+	every keystroke in a burst, but just once.
+
 2015-11-24  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/makefile.nanorc: Also recognize the extensions .make and
 	.mk as Makefiles.  Suggested by Emmanuel Bourg in Debian bug #804845.
