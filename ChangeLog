@@ -1,6 +1,8 @@
 2015-11-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo): Not just the undoing, also the redoing of a
 	Backspace at EOF is a special case.  This fixes Savannah bug #46532.
+	* src/text.c (do_redo): Warn about an impossible condition, instead
+	of blithely continuing.  And elide an unneeded variable.
 
 2015-11-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (do_output): Refreshing the whole edit window (instead

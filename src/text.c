@@ -699,6 +699,10 @@ void do_redo(void)
 	break;
 #endif
     case JOIN:
+	if (f->next == NULL) {
+	    statusbar(_("Internal error: line is missing.  Please save your work."));
+	    break;
+	}
 	redidmsg = _("line join");
 	/* When the join was done by a Backspace at the tail of the file,
 	 * and the nonewlines flag isn't set, do not join anything, as
@@ -709,12 +713,9 @@ void do_redo(void)
 	}
 	f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcat(f->data, u->strdata);
-	if (f->next != NULL) {
-	    filestruct *tmp = f->next;
-	    if (tmp == openfile->filebot)
-		openfile->filebot = f;
-	    unlink_node(tmp);
-	}
+	if (f->next == openfile->filebot)
+	    openfile->filebot = f;
+	unlink_node(f->next);
 	renumber(f);
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 	break;
