@@ -700,6 +700,13 @@ void do_redo(void)
 #endif
     case JOIN:
 	redidmsg = _("line join");
+	/* When the join was done by a Backspace at the tail of the file,
+	 * and the nonewlines flag isn't set, do not join anything, as
+	 * nothing was actually deleted; just position the cursor. */
+	if (u->xflags == WAS_FINAL_BACKSPACE && !ISSET(NO_NEWLINES)) {
+	    goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+	    break;
+	}
 	f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcat(f->data, u->strdata);
 	if (f->next != NULL) {
