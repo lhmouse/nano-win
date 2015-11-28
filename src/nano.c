@@ -2189,12 +2189,6 @@ int main(int argc, char **argv)
     };
 #endif
 
-#ifdef DEBUG
-    /* Help to find failed-to-initialize and use-after-free problems. */
-    mallopt(M_CHECK_ACTION, 3);
-    mallopt(M_PERTURB, 0x4c);
-#endif
-
 #ifdef ENABLE_UTF8
     {
 	/* If the locale set exists and uses UTF-8, we should use

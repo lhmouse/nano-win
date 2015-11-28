@@ -1,3 +1,8 @@
+2015-11-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (main): Allow the user full control over the values of
+	MALLOC_CHECK_ and MALLOC_PERTURB_; nano shouldn't override these.
+	This reverts r5344 from August 6.
+
 2015-11-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo): Not just the undoing, also the redoing of a
 	Backspace at EOF is a special case.  This fixes Savannah bug #46532.
@@ -213,7 +218,7 @@ GNU nano 2.4.3 - 2015.11.18
 2015-08-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): For --enable-debug builds, let malloc() help
 	to find initialization failures and uses-after-free.  Suggested by
-	Mike Frysinger.
+	Mike Frysinger.  [Reverted in r5446 on November 28.]
 	* doc/texinfo/nano.texi: Improve the formatting, using @t to mark
 	double-quoted literal strings, @: to mark periods that do not end
 	sentences, and @. to mark a finishing period after a capital.
