@@ -2,6 +2,9 @@
 	* src/nano.c (main): Allow the user full control over the values of
 	MALLOC_CHECK_ and MALLOC_PERTURB_; nano shouldn't override these.
 	This reverts r5344 from August 6.
+	* src/nano.c (alloc_multidata_if_needed): When allocating a new
+	multidata array, initialize the array.  Problem was betrayed by
+	using MALLOC_PERTURB_, and was located with valgrind.
 
 2015-11-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo): Not just the undoing, also the redoing of a

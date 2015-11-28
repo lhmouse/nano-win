@@ -1849,8 +1849,14 @@ int do_mouse(void)
 #ifndef DISABLE_COLOR
 void alloc_multidata_if_needed(filestruct *fileptr)
 {
-    if (!fileptr->multidata)
+    int i;
+
+    if (fileptr->multidata == NULL) {
 	fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
+
+	for (i = 0; i < openfile->syntax->nmultis; i++)
+	    fileptr->multidata[i] = -1;
+    }
 }
 
 /* Precalculate the multi-line start and end regex info so we can
