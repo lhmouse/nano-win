@@ -442,11 +442,8 @@ void reset_multis(filestruct *fileptr, bool force)
 	    continue;
 
 	alloc_multidata_if_needed(fileptr);
-	if (force == TRUE) {
-	    reset_multis_for_id(fileptr, tmpcolor->id);
-	    continue;
-	}
 
+    if (force == FALSE) {
 	/* Figure out where the first begin and end are to determine if
 	 * things changed drastically for the precalculated multi values. */
 	nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
@@ -458,10 +455,15 @@ void reset_multis(filestruct *fileptr, bool force)
 	    if (nobegin && noend)
 		continue;
 	}  else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE && !noend
-	  && (nobegin || endmatch.rm_eo > startmatch.rm_eo)) {
-	    reset_multis_after(fileptr, tmpcolor->id);
+			&& nobegin)
 	    continue;
-	}
+	else if (fileptr->multidata[tmpcolor->id] == CSTARTENDHERE &&
+			!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
+	    continue;
+	else if (fileptr->multidata[tmpcolor->id] == CENDAFTER &&
+			!nobegin && noend)
+	    continue;
+    }
 
 	/* If we got here, assume the worst. */
 	reset_multis_for_id(fileptr, tmpcolor->id);
