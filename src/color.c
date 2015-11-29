@@ -457,7 +457,7 @@ void reset_multis(filestruct *fileptr, bool force)
 	} else if (fileptr->multidata[tmpcolor->id] == CNONE) {
 	    if (nobegin && noend)
 		continue;
-	}  else if (fileptr->multidata[tmpcolor->id] & CBEGINBEFORE && !noend
+	}  else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE && !noend
 	  && (nobegin || endmatch.rm_eo > startmatch.rm_eo)) {
 	    reset_multis_after(fileptr, tmpcolor->id);
 	    continue;
