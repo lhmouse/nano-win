@@ -6,6 +6,7 @@
 	* src/winio.c (edit_draw): When an end is found but nothing is painted
 	(because the coloured part is horizontally scrolled off), nevertheless
 	set the multidata to CBEGINBEFORE.  This fixes Savannah bug #46545.
+	* src/winio.c (edit_draw): Use the main cache-allocation routine.
 
 2015-11-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): Allow the user full control over the values of
