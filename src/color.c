@@ -423,9 +423,9 @@ void reset_multis_for_id(filestruct *fileptr, int num)
     fileptr->multidata[num] = -1;
 }
 
-/* Reset multi-line strings around a filestruct ptr, trying to be smart
- * about stopping.  Bool force means: reset everything regardless, useful
- * when we don't know how much screen state has changed. */
+/* Reset multi-line strings around the filestruct fileptr, trying to be
+ * smart about stopping.  Bool force means: reset everything regardless,
+ * useful when we don't know how much screen state has changed. */
 void reset_multis(filestruct *fileptr, bool force)
 {
     int nobegin, noend;
@@ -436,36 +436,32 @@ void reset_multis(filestruct *fileptr, bool force)
 	return;
 
     for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
-
 	/* If it's not a multi-line regex, amscray. */
 	if (tmpcolor->end == NULL)
 	    continue;
 
 	alloc_multidata_if_needed(fileptr);
 
-    if (force == FALSE) {
-	/* Figure out where the first begin and end are to determine if
-	 * things changed drastically for the precalculated multi values. */
-	nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
-	noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
-	if (fileptr->multidata[tmpcolor->id] == CWHOLELINE) {
-	    if (nobegin && noend)
+	if (force == FALSE) {
+	    /* Check whether the multidata still matches the current situation. */
+	    nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
+	    noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
+	    if ((fileptr->multidata[tmpcolor->id] == CWHOLELINE ||
+			fileptr->multidata[tmpcolor->id] == CNONE) &&
+			nobegin && noend)
 		continue;
-	} else if (fileptr->multidata[tmpcolor->id] == CNONE) {
-	    if (nobegin && noend)
-		continue;
-	}  else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE && !noend
-			&& nobegin)
-	    continue;
-	else if (fileptr->multidata[tmpcolor->id] == CSTARTENDHERE &&
+	    else if (fileptr->multidata[tmpcolor->id] == CSTARTENDHERE &&
 			!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
-	    continue;
-	else if (fileptr->multidata[tmpcolor->id] == CENDAFTER &&
+		continue;
+	    else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE &&
+			nobegin && !noend)
+		continue;
+	    else if (fileptr->multidata[tmpcolor->id] == CENDAFTER &&
 			!nobegin && noend)
-	    continue;
-    }
+		continue;
+	}
 
-	/* If we got here, assume the worst. */
+	/* If we got here, things have changed. */
 	reset_multis_for_id(fileptr, tmpcolor->id);
     }
 }

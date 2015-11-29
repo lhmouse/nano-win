@@ -2,6 +2,7 @@
 	* src/color.c (reset_multis): Evaluate correctly whether to reset
 	the multidata cache.  This fixes Savannah bug #46543.
 	* src/color.c (reset_multis): Reset the multidata a bit less often.
+	* src/color.c (reset_multis): Adjust whitespace and comments.
 
 2015-11-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): Allow the user full control over the values of
