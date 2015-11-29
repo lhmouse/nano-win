@@ -2585,6 +2585,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    goto end_of_loop;
 		} else if (md == CBEGINBEFORE) {
 		    regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
+		    /* If the coloured part is scrolled off, skip it. */
+		    if (endmatch.rm_eo <= startpos)
+			goto end_of_loop;
 		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
 			endmatch.rm_eo) - start);
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
@@ -2649,9 +2652,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			end_line = end_line->next;
 
 		    /* If no end was found, or it is too early, next step. */
-		    if (end_line == NULL || (end_line == fileptr &&
-			endmatch.rm_eo <= startpos))
+		    if (end_line == NULL)
 			goto step_two;
+		    if (end_line == fileptr && endmatch.rm_eo <= startpos) {
+			fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+			goto step_two;
+		    }
 
 		    /* Now paint the start of fileptr.  If the start of
 		     * fileptr is on a different line from the end,

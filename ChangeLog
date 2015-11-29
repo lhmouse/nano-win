@@ -3,6 +3,9 @@
 	the multidata cache.  This fixes Savannah bug #46543.
 	* src/color.c (reset_multis): Reset the multidata a bit less often.
 	* src/color.c (reset_multis): Adjust whitespace and comments.
+	* src/winio.c (edit_draw): When an end is found but nothing is painted
+	(because the coloured part is horizontally scrolled off), nevertheless
+	set the multidata to CBEGINBEFORE.  This fixes Savannah bug #46545.
 
 2015-11-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): Allow the user full control over the values of
