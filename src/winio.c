@@ -2550,32 +2550,21 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    }
 		    k = startmatch.rm_eo;
 		}
-	    } else {
-		/* This is a multi-line regex.  There are two steps.
-		 * First, we have to see if the beginning of the line is
-		 * colored by a start on an earlier line, and an end on
-		 * this line or later.
-		 *
-		 * We find the first line before fileptr matching the
-		 * start.  If every match on that line is followed by an
-		 * end, then go to step two.  Otherwise, find the next
-		 * line after start_line matching the end.  If that line
-		 * is not before fileptr, then paint the beginning of
-		 * this line. */
+	    } else {	/* This is a multiline expression. */
 		const filestruct *start_line = fileptr->prev;
-		    /* The first line before fileptr matching start. */
+		    /* The first line before fileptr that matches 'start'. */
 		regoff_t start_col;
-		    /* Where it starts in that line. */
+		    /* Where the match starts in that line. */
 		const filestruct *end_line;
-		short md = fileptr->multidata[tmpcolor->id];
+		    /* The line that matches 'end'. */
 
-		/* First see if the multidata was maybe calculated earlier. */
-		if (md == CNONE)
+		/* First see if the multidata was maybe already calculated. */
+		if (fileptr->multidata[tmpcolor->id] == CNONE)
 		    goto end_of_loop;
-		else if (md == CWHOLELINE) {
+		else if (fileptr->multidata[tmpcolor->id] == CWHOLELINE) {
 		    mvwaddnstr(edit, line, 0, converted, -1);
 		    goto end_of_loop;
-		} else if (md == CBEGINBEFORE) {
+		} else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE) {
 		    regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
 		    /* If the coloured part is scrolled off, skip it. */
 		    if (endmatch.rm_eo <= startpos)
@@ -2584,22 +2573,30 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			endmatch.rm_eo) - start);
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
 		    goto end_of_loop;
-		} if (md == -1)
+		} if (fileptr->multidata[tmpcolor->id] == -1)
 		    /* Assume this until proven otherwise below. */
 		    fileptr->multidata[tmpcolor->id] = CNONE;
 
+		/* There is no precalculated multidata, so find it out now.
+		 * First check if the beginning of the line is colored by a
+		 * start on an earlier line, and an end on this line or later.
+		 *
+		 * So: find the first line before fileptr matching the start.
+		 * If every match on that line is followed by an end, then go
+		 * to step two.  Otherwise, find a line after start_line that
+		 * matches the end.  If that line is not before fileptr, then
+		 * paint the beginning of this line. */
+
 		while (start_line != NULL && regexec(tmpcolor->start,
-			start_line->data, 1, &startmatch, 0) ==
-			REG_NOMATCH) {
-		    /* If there is an end on this line, there is no need
-		     * to look for starts on earlier lines. */
-		    if (regexec(tmpcolor->end, start_line->data, 0,
-			NULL, 0) == 0)
+			start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
+		    /* There is no start; but if there is an end on this line,
+		     * there is no need to look for starts on earlier lines. */
+		    if (regexec(tmpcolor->end, start_line->data, 0, NULL, 0) == 0)
 			goto step_two;
 		    start_line = start_line->prev;
 		}
 
-		/* If the found start has been qualified as an end earlier,
+		/* If a found start has been qualified as an end earlier,
 		 * believe it and skip to the next step. */
 		if (start_line != NULL && start_line->multidata != NULL &&
 			(start_line->multidata[tmpcolor->id] == CBEGINBEFORE ||

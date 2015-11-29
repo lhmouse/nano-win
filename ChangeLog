@@ -9,6 +9,7 @@
 	* src/winio.c (edit_draw): Use the main cache-allocation routine.
 	* src/winio.c (edit_draw): Delete two redundant conditions, and move
 	the least frequent case to the end.
+	* src/winio.c (edit_draw): Elide a variable, tweak some comments.
 
 2015-11-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main): Allow the user full control over the values of
