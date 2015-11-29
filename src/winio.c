@@ -2550,7 +2550,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    }
 		    k = startmatch.rm_eo;
 		}
-	    } else if (fileptr->multidata != NULL && fileptr->multidata[tmpcolor->id] != CNONE) {
+	    } else {
 		/* This is a multi-line regex.  There are two steps.
 		 * First, we have to see if the beginning of the line is
 		 * colored by a start on an earlier line, and an end on
@@ -2569,10 +2569,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		const filestruct *end_line;
 		short md = fileptr->multidata[tmpcolor->id];
 
-		if (md == -1)
-		    /* Assume this until we know otherwise. */
-		    fileptr->multidata[tmpcolor->id] = CNONE;
-		else if (md == CNONE)
+		/* First see if the multidata was maybe calculated earlier. */
+		if (md == CNONE)
 		    goto end_of_loop;
 		else if (md == CWHOLELINE) {
 		    mvwaddnstr(edit, line, 0, converted, -1);
@@ -2586,7 +2584,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			endmatch.rm_eo) - start);
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
 		    goto end_of_loop;
-		}
+		} if (md == -1)
+		    /* Assume this until proven otherwise below. */
+		    fileptr->multidata[tmpcolor->id] = CNONE;
 
 		while (start_line != NULL && regexec(tmpcolor->start,
 			start_line->data, 1, &startmatch, 0) ==
