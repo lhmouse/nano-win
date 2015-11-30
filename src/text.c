@@ -611,6 +611,7 @@ void do_undo(void)
     openfile->current_undo = openfile->current_undo->next;
     openfile->last_action = OTHER;
     openfile->placewewant = xplustabs();
+    openfile->totsize = u->wassize;
     set_modified();
 }
 
@@ -748,6 +749,7 @@ void do_redo(void)
     openfile->current_undo = u;
     openfile->last_action = OTHER;
     openfile->placewewant = xplustabs();
+    openfile->totsize = u->newsize;
     set_modified();
 }
 #endif /* !NANO_TINY */
@@ -957,12 +959,14 @@ void add_undo(undo_type action)
     u->mark_begin_lineno = openfile->current->lineno;
     u->mark_begin_x = openfile->current_x;
     u->mark_set = FALSE;
+    u->wassize = openfile->totsize;
     u->xflags = 0;
 
     switch (u->type) {
     /* We need to start copying data into the undo buffer
      * or we won't be able to restore it later. */
     case ADD:
+	u->wassize--;
 	break;
     case BACK:
 	/* If the next line is the magic line, don't ever undo this
@@ -1064,6 +1068,8 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 
     assert(openfile->undotop != NULL);
     u = openfile->undotop;
+
+    u->newsize = openfile->totsize;
 
     switch (u->type) {
     case ADD: {

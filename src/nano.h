@@ -329,6 +329,10 @@ typedef struct undo {
 	/* Where did this action begin or end. */
     char *strdata;
 	/* String type data we will use for copying the affected line back. */
+    size_t wassize;
+	/* The file size before the action. */
+    size_t newsize;
+	/* The file size after the action. */
     int xflags;
 	/* Some flag data we need. */
 
