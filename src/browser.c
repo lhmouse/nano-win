@@ -460,8 +460,7 @@ void browser_init(const char *path, DIR *dir)
 
     rewinddir(dir);
 
-    if (filelist != NULL)
-	free_chararray(filelist, filelist_len);
+    free_chararray(filelist, filelist_len);
 
     filelist_len = i;
 

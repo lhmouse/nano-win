@@ -6,6 +6,8 @@
 	* src/text.c (add_undo, update_undo, do_undo, do_redo), src/nano.h:
 	Store and retrieve the correct file size before and after an action.
 	This fixes Savannah bug #45523.
+	* src/files.c (free_chararray): Allow the parameter to be NULL.
+	This fixes Savannah bug #46420.
 
 2015-11-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (reset_multis): Evaluate correctly whether to reset

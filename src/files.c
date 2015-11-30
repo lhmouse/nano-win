@@ -2553,7 +2553,8 @@ int diralphasort(const void *va, const void *vb)
  * elements. */
 void free_chararray(char **array, size_t len)
 {
-    assert(array != NULL);
+    if (array == NULL)
+	return;
 
     for (; len > 0; len--)
 	free(array[len - 1]);
