@@ -451,11 +451,6 @@ void redo_cut(undo *u)
 
     goto_line_posx(u->lineno, u->begin);
 
-    if (ISSET(NO_NEWLINES) && openfile->current->lineno != u->lineno) {
-	openfile->current_x = strlen(openfile->current->data);
-	openfile->placewewant = xplustabs();
-    }
-
     openfile->mark_set = TRUE;
     openfile->mark_begin = fsfromline(u->mark_begin_lineno);
     openfile->mark_begin_x = (u->xflags == WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
@@ -1140,7 +1135,9 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 		u->begin = strlen(u->cutbottom->data);
 		if (u->lineno == u->mark_begin_lineno)
 		    u->begin += u->mark_begin_x;
-	    }
+	    } else if (openfile->current == openfile->filebot &&
+			ISSET(NO_NEWLINES))
+		u->begin = strlen(u->cutbottom->data);
 	}
 	break;
     case REPLACE:
