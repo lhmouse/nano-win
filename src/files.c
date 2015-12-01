@@ -1042,8 +1042,8 @@ void do_insertfile(
 	/* The last answer the user typed at the statusbar prompt. */
     filestruct *edittop_save = openfile->edittop;
     ssize_t was_current_lineno = openfile->current->lineno;
-    size_t current_x_save = openfile->current_x;
-    ssize_t current_y_save = openfile->current_y;
+    size_t was_current_x = openfile->current_x;
+    ssize_t was_current_y = openfile->current_y;
     bool edittop_inside = FALSE;
 #ifndef NANO_TINY
     bool right_side_up = FALSE, single_line = FALSE;
@@ -1247,14 +1247,14 @@ void do_insertfile(
 			    openfile->mark_begin_x += openfile->current_x;
 		    }
 #endif
-		    openfile->current_x += current_x_save;
+		    openfile->current_x += was_current_x;
 		}
 #ifndef NANO_TINY
 		else if (openfile->mark_set) {
 		    if (!right_side_up) {
 			if (single_line) {
 			    openfile->mark_begin = openfile->current;
-			    openfile->mark_begin_x -= current_x_save;
+			    openfile->mark_begin_x -= was_current_x;
 			} else
 			    openfile->mark_begin_x -= openfile->current_x;
 		    }
@@ -1263,7 +1263,7 @@ void do_insertfile(
 
 		/* Update the current y-coordinate to account for the
 		 * number of lines inserted. */
-		openfile->current_y += current_y_save;
+		openfile->current_y += was_current_y;
 
 		/* Unpartition the filestruct so that it contains all
 		 * the text again.  Note that we've replaced the
@@ -1283,7 +1283,7 @@ void do_insertfile(
 
 		/* Mark the file as modified if it changed. */
 		if (openfile->current->lineno != was_current_lineno ||
-			openfile->current_x != current_x_save)
+			openfile->current_x != was_current_x)
 		    set_modified();
 
 		/* Update the screen. */

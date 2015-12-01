@@ -1,6 +1,7 @@
 2015-12-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_insertfile): Mark the buffer as mofified only when
 	actually something was inserted.  This fixes Savannah bug #45409.
+	* src/files.c (do_insertfile): Rename two variables for clarity.
 
 2015-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (redo_cut, update_undo): When cutting reaches the EOF,
