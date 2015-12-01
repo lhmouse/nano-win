@@ -2596,20 +2596,21 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    start_line = start_line->prev;
 		}
 
+		/* If no start was found, skip to the next step. */
+		if (start_line == NULL)
+		    goto step_two;
+
 		/* If a found start has been qualified as an end earlier,
 		 * believe it and skip to the next step. */
-		if (start_line != NULL && start_line->multidata != NULL &&
+		if (start_line->multidata != NULL &&
 			(start_line->multidata[tmpcolor->id] == CBEGINBEFORE ||
 			start_line->multidata[tmpcolor->id] == CSTARTENDHERE))
 		    goto step_two;
 
 		/* Skip over a zero-length regex match. */
-		if (start_line != NULL && startmatch.rm_so == startmatch.rm_eo)
+		if (startmatch.rm_so == startmatch.rm_eo)
 		    startmatch.rm_eo++;
 		else {
-		    /* If no start was found, skip to the next step. */
-		    if (start_line == NULL)
-			goto step_two;
 		    /* Now start_line is the first line before fileptr
 		     * containing a start match.  Is there a start on
 		     * this line not followed by an end on this line? */
