@@ -2611,153 +2611,145 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		if (startmatch.rm_so == startmatch.rm_eo)
 		    goto tail_of_loop;
 
-		{
-		    /* Now start_line is the first line before fileptr
-		     * containing a start match.  Is there a start on
-		     * this line not followed by an end on this line? */
-		    start_col = 0;
-		    while (TRUE) {
-			start_col += startmatch.rm_so;
-			startmatch.rm_eo -= startmatch.rm_so;
-			if (regexec(tmpcolor->end, start_line->data +
+		/* Now start_line is the first line before fileptr containing
+		 * a start match.  Is there a start on that line not followed
+		 * by an end on that line? */
+		start_col = 0;
+		while (TRUE) {
+		    start_col += startmatch.rm_so;
+		    startmatch.rm_eo -= startmatch.rm_so;
+		    if (regexec(tmpcolor->end, start_line->data +
 				start_col + startmatch.rm_eo, 0, NULL,
 				(start_col + startmatch.rm_eo == 0) ?
 				0 : REG_NOTBOL) == REG_NOMATCH)
-			    /* No end found after this start. */
-			    break;
-			start_col++;
-			if (regexec(tmpcolor->start, start_line->data +
+			/* No end found after this start. */
+			break;
+		    start_col++;
+		    if (regexec(tmpcolor->start, start_line->data +
 				start_col, 1, &startmatch,
 				REG_NOTBOL) == REG_NOMATCH)
-			    /* No later start on this line. */
-			    goto step_two;
-		    }
-		    /* Indeed, there is a start not followed on this
-		     * line by an end. */
+			/* No later start on this line. */
+			goto step_two;
+		}
+		/* Indeed, there is a start without an end on that line. */
 
-		    /* We have already checked that there is no end
-		     * before fileptr and after the start.  Is there an
-		     * end after the start at all?  We don't paint
-		     * unterminated starts. */
-		    end_line = fileptr;
-		    while (end_line != NULL && regexec(tmpcolor->end,
+		/* We've already checked that there is no end before fileptr
+		 * and after the start.  But is there an end after the start
+		 * at all?  We don't paint unterminated starts. */
+		end_line = fileptr;
+		while (end_line != NULL && regexec(tmpcolor->end,
 			end_line->data, 1, &endmatch, 0) == REG_NOMATCH)
-			end_line = end_line->next;
+		    end_line = end_line->next;
 
-		    /* If no end was found, or it is too early, next step. */
-		    if (end_line == NULL)
-			goto step_two;
-		    if (end_line == fileptr && endmatch.rm_eo <= startpos) {
-			fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
-			goto step_two;
-		    }
+		/* If no end was found, or it is too early, next step. */
+		if (end_line == NULL)
+		    goto step_two;
+		if (end_line == fileptr && endmatch.rm_eo <= startpos) {
+		    fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+		    goto step_two;
+		}
 
-		    /* Now paint the start of fileptr.  If the start of
-		     * fileptr is on a different line from the end,
-		     * paintlen is -1, meaning that everything on the
-		     * line gets painted.  Otherwise, paintlen is the
-		     * expanded location of the end of the match minus
-		     * the expanded location of the beginning of the
-		     * page. */
-		    if (end_line != fileptr) {
-			paintlen = -1;
-			fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+		/* Now paint the start of fileptr.  If the start of fileptr
+		 * is on a different line from the end, paintlen is -1, which
+		 * means that everything on the line gets painted.  Otherwise,
+		 * paintlen is the expanded location of the end of the match
+		 * minus the expanded location of the beginning of the page. */
+		if (end_line != fileptr) {
+		    paintlen = -1;
+		    fileptr->multidata[tmpcolor->id] = CWHOLELINE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CWHOLELINE\n", tmpcolor->id, line);
 #endif
-		    } else {
-			paintlen = actual_x(converted,
-				strnlenpt(fileptr->data,
-				endmatch.rm_eo) - start);
-			fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+		} else {
+		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
+						endmatch.rm_eo) - start);
+		    fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CBEGINBEFORE\n", tmpcolor->id, line);
 #endif
-		    }
-		    mvwaddnstr(edit, line, 0, converted, paintlen);
-		    /* If the whole line has been painted, don't bother
-		     * looking for any more starts. */
-		    if (paintlen < 0)
-			goto tail_of_loop;
+		}
+		mvwaddnstr(edit, line, 0, converted, paintlen);
+		/* If the whole line has been painted, don't bother looking
+		 * for any more starts. */
+		if (paintlen < 0)
+		    goto tail_of_loop;
   step_two:
-		    /* Second step: look for starts on this line, but start
-		     * looking only after an end match, if there is one. */
-		    start_col = (paintlen == 0) ? 0 : endmatch.rm_eo;
+		/* Second step: look for starts on this line, but start
+		 * looking only after an end match, if there is one. */
+		start_col = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-		    while (start_col < endpos) {
-			if (regexec(tmpcolor->start, fileptr->data +
-				start_col, 1, &startmatch, (start_col ==
-				0) ? 0 : REG_NOTBOL) == REG_NOMATCH ||
+		while (start_col < endpos) {
+		    if (regexec(tmpcolor->start, fileptr->data + start_col,
+				1, &startmatch, (start_col == 0) ?
+				0 : REG_NOTBOL) == REG_NOMATCH ||
 				start_col + startmatch.rm_so >= endpos)
-			    /* No more starts on this line. */
-			    break;
-			/* Translate the match to be relative to the
-			 * beginning of the line. */
-			startmatch.rm_so += start_col;
-			startmatch.rm_eo += start_col;
+			/* No more starts on this line. */
+			break;
 
-			x_start = (startmatch.rm_so <= startpos) ? 0 :
-				strnlenpt(fileptr->data,
+		    /* Translate the match to be relative to the
+		     * beginning of the line. */
+		    startmatch.rm_so += start_col;
+		    startmatch.rm_eo += start_col;
+
+		    x_start = (startmatch.rm_so <= startpos) ?
+				0 : strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
 
-			index = actual_x(converted, x_start);
+		    index = actual_x(converted, x_start);
 
-			if (regexec(tmpcolor->end, fileptr->data +
+		    if (regexec(tmpcolor->end, fileptr->data +
 				startmatch.rm_eo, 1, &endmatch,
-				(startmatch.rm_eo == 0) ? 0 :
-				REG_NOTBOL) == 0) {
-			    /* Translate the end match to be relative to
-			     * the beginning of the line. */
-			    endmatch.rm_so += startmatch.rm_eo;
-			    endmatch.rm_eo += startmatch.rm_eo;
-			    /* There is an end on this line.  But does
-			     * it appear on this page, and is the match
-			     * more than zero characters long? */
-			    if (endmatch.rm_eo > startpos &&
+				(startmatch.rm_eo == 0) ?
+				0 : REG_NOTBOL) == 0) {
+			/* Translate the end match to be relative to
+			 * the beginning of the line. */
+			endmatch.rm_so += startmatch.rm_eo;
+			endmatch.rm_eo += startmatch.rm_eo;
+			/* There is an end on this line.  But does
+			 * it appear on this page, and is the match
+			 * more than zero characters long? */
+			if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
-				paintlen = actual_x(converted + index,
+			    paintlen = actual_x(converted + index,
 					strnlenpt(fileptr->data,
-					endmatch.rm_eo) - start -
-					x_start);
+					endmatch.rm_eo) - start - x_start);
 
-				assert(0 <= x_start && x_start < COLS);
+			    assert(0 <= x_start && x_start < COLS);
 
-				mvwaddnstr(edit, line, x_start,
+			    mvwaddnstr(edit, line, x_start,
 					converted + index, paintlen);
-				if (paintlen > 0) {
-				    fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
+			    if (paintlen > 0) {
+				fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CSTARTENDHERE\n", tmpcolor->id, line);
 #endif
-				}
 			    }
-			    start_col = endmatch.rm_eo;
-			} else {
-			    /* There is no end on this line.  But we
-			     * haven't yet looked for one on later
-			     * lines. */
-			    end_line = fileptr->next;
+			}
+			start_col = endmatch.rm_eo;
+		    } else {
+			/* There is no end on this line.  But we haven't yet
+			 * looked for one on later lines. */
+			end_line = fileptr->next;
 
-			    while (end_line != NULL &&
+			while (end_line != NULL &&
 				regexec(tmpcolor->end, end_line->data,
 				0, NULL, 0) == REG_NOMATCH)
-				end_line = end_line->next;
+			    end_line = end_line->next;
 
-			    if (end_line != NULL) {
-				assert(0 <= x_start && x_start < COLS);
+			if (end_line != NULL) {
+			    assert(0 <= x_start && x_start < COLS);
 
-				mvwaddnstr(edit, line, x_start,
+			    mvwaddnstr(edit, line, x_start,
 					converted + index, -1);
-				fileptr->multidata[tmpcolor->id] = CENDAFTER;
+			    fileptr->multidata[tmpcolor->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", tmpcolor->id, line);
 #endif
-				/* We painted to the end of the line, so
-				 * don't bother checking any more starts. */
-				break;
-			    }
-			    start_col = startmatch.rm_so + 1;
+			    /* We painted to the end of the line, so
+			     * don't bother checking any more starts. */
+			    break;
 			}
+			start_col = startmatch.rm_so + 1;
 		    }
 		}
 	    }
