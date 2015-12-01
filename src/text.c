@@ -446,8 +446,7 @@ void redo_cut(undo *u)
 	return;
 
     filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
-    cutbuffer = NULL;
-    cutbottom = NULL;
+    cutbuffer = cutbottom = NULL;
 
     goto_line_posx(u->lineno, u->begin);
 
@@ -459,8 +458,6 @@ void redo_cut(undo *u)
 
     openfile->mark_set = FALSE;
     openfile->mark_begin = NULL;
-    openfile->mark_begin_x = 0;
-    edit_refresh_needed = TRUE;
 
     if (cutbuffer != NULL)
 	free_filestruct(cutbuffer);
