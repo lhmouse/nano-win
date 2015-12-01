@@ -4,6 +4,7 @@
 	* src/files.c (do_insertfile): Rename two variables for clarity.
 	* src/text.c (redo_cut): Delete two redundant assignments.
 	* src/winio.c (edit_draw): Move a check to a better place.
+	* src/winio.c (edit_draw): Rename a label and elide an 'else'.
 
 2015-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (redo_cut, update_undo): When cutting reaches the EOF,

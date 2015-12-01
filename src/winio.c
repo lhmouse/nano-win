@@ -2560,19 +2560,19 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 		/* First see if the multidata was maybe already calculated. */
 		if (fileptr->multidata[tmpcolor->id] == CNONE)
-		    goto end_of_loop;
+		    goto tail_of_loop;
 		else if (fileptr->multidata[tmpcolor->id] == CWHOLELINE) {
 		    mvwaddnstr(edit, line, 0, converted, -1);
-		    goto end_of_loop;
+		    goto tail_of_loop;
 		} else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE) {
 		    regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
 		    /* If the coloured part is scrolled off, skip it. */
 		    if (endmatch.rm_eo <= startpos)
-			goto end_of_loop;
+			goto tail_of_loop;
 		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
 			endmatch.rm_eo) - start);
 		    mvwaddnstr(edit, line, 0, converted, paintlen);
-		    goto end_of_loop;
+		    goto tail_of_loop;
 		} if (fileptr->multidata[tmpcolor->id] == -1)
 		    /* Assume this until proven otherwise below. */
 		    fileptr->multidata[tmpcolor->id] = CNONE;
@@ -2609,8 +2609,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 		/* Skip over a zero-length regex match. */
 		if (startmatch.rm_so == startmatch.rm_eo)
-		    startmatch.rm_eo++;
-		else {
+		    goto tail_of_loop;
+
+		{
 		    /* Now start_line is the first line before fileptr
 		     * containing a start match.  Is there a start on
 		     * this line not followed by an end on this line? */
@@ -2677,7 +2678,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    /* If the whole line has been painted, don't bother
 		     * looking for any more starts. */
 		    if (paintlen < 0)
-			goto end_of_loop;
+			goto tail_of_loop;
   step_two:
 		    /* Second step: look for starts on this line, but start
 		     * looking only after an end match, if there is one. */
@@ -2760,7 +2761,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    }
 		}
 	    }
-  end_of_loop:
+  tail_of_loop:
 	    wattroff(edit, A_BOLD);
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	}
