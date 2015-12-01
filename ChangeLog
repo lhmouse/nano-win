@@ -1,3 +1,7 @@
+2015-12-01  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (do_insertfile): Mark the buffer as mofified only when
+	actually something was inserted.  This fixes Savannah bug #45409.
+
 2015-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (redo_cut, update_undo): When cutting reaches the EOF,
 	and NONEWLINES is set, there is no next line at which to put the

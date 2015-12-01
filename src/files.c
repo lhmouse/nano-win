@@ -1041,6 +1041,7 @@ void do_insertfile(
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed at the statusbar prompt. */
     filestruct *edittop_save = openfile->edittop;
+    ssize_t was_current_lineno = openfile->current->lineno;
     size_t current_x_save = openfile->current_x;
     ssize_t current_y_save = openfile->current_y;
     bool edittop_inside = FALSE;
@@ -1280,8 +1281,10 @@ void do_insertfile(
 		/* Restore the old place we want. */
 		openfile->placewewant = pww_save;
 
-		/* Mark the file as modified. */
-		set_modified();
+		/* Mark the file as modified if it changed. */
+		if (openfile->current->lineno != was_current_lineno ||
+			openfile->current_x != current_x_save)
+		    set_modified();
 
 		/* Update the screen. */
 		edit_refresh();
