@@ -6,6 +6,8 @@
 	* src/winio.c (edit_draw): Move a check to a better place.
 	* src/winio.c (edit_draw): Rename a label and elide an 'else'.
 	* src/winio.c (edit_draw): Unindent after previous change.
+	* src/color.c (reset_multis_before, reset_multis_after): Delete four
+	superfluous checks.
 
 2015-11-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (redo_cut, update_undo): When cutting reaches the EOF,
