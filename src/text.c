@@ -2256,7 +2256,7 @@ void do_justify(bool full_justify)
 
     func = func_from_key(&kbinput);
 
-    if (func == do_uncut_text) {
+    if (func == do_uncut_text || func == do_undo) {
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
@@ -2307,7 +2307,8 @@ void do_justify(bool full_justify)
 	    edit_refresh_needed = TRUE;
 	}
     } else {
-	unget_kbinput(kbinput, meta_key, func_key);
+	if (func != do_undo)
+	    unget_kbinput(kbinput, meta_key, func_key);
 
 	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);
