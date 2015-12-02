@@ -1,5 +1,7 @@
 2015-12-02  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/python.nanorc: Don't colour triple quotes by themselves.
+	* doc/syntax/python.nanorc: Treat backslashed quotes properly, and
+	don't colour triple-quoted strings in two manners.
 
 2015-12-02  Arturo Borrero Gonzalez  <arturo.borrero.glez@gmail.com>
 	* doc/syntax/nftables.nanorc: New file; syntax colouring for nftables.
