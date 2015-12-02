@@ -1,3 +1,7 @@
+2015-12-02  Arturo Borrero Gonzalez  <arturo.borrero.glez@gmail.com>
+	* doc/syntax/nftables.nanorc: New file; syntax colouring for nftables.
+	This addresses Debian bug #805288.
+
 2015-12-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_insertfile): Mark the buffer as mofified only when
 	actually something was inserted.  This fixes Savannah bug #45409.
