@@ -1,3 +1,6 @@
+2015-12-02  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/python.nanorc: Don't colour triple quotes by themselves.
+
 2015-12-02  Arturo Borrero Gonzalez  <arturo.borrero.glez@gmail.com>
 	* doc/syntax/nftables.nanorc: New file; syntax colouring for nftables.
 	This addresses Debian bug #805288.
