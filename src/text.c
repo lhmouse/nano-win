@@ -2307,8 +2307,7 @@ void do_justify(bool full_justify)
 	    edit_refresh_needed = TRUE;
 	}
     } else {
-	if (func != do_undo)
-	    unget_kbinput(kbinput, meta_key, func_key);
+	unget_kbinput(kbinput, meta_key, func_key);
 
 	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);
