@@ -4,6 +4,9 @@
 	* src/text.c (do_justify): Discard the entire undo stack, to prevent
 	nano from dying (or making mistakes) when trying to undo edits after
 	a justification.  This works around Savannah bug #45531.
+	* src/text.c (do_indent): Also here discard the entire undo stack, to
+	prevent nano from making mistakes when trying to undo edits after an
+	indentation change.  This works around Savannah bug #46591.
 
 2015-12-02  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/python.nanorc: Don't colour triple quotes by themselves.

@@ -394,6 +394,11 @@ void do_indent(ssize_t cols)
 	free(line_indent);
 
     if (indent_changed) {
+	/* Throw away the undo stack, to prevent making mistakes when
+	 * the user tries to undo something in the reindented text. */
+	discard_until(NULL);
+	openfile->current_undo = NULL;
+
 	/* Mark the file as modified. */
 	set_modified();
 
