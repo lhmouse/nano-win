@@ -912,7 +912,7 @@ void discard_until(undo *thisone)
     while (dropit != NULL && dropit != thisone) {
 	openfile->undotop = dropit->next;
 	free(dropit->strdata);
-	if (dropit->cutbuffer)
+	if (dropit->cutbuffer != NULL)
 	    free_filestruct(dropit->cutbuffer);
 	free(dropit);
 	dropit = openfile->undotop;
@@ -2315,7 +2315,13 @@ void do_justify(bool full_justify)
 	    edit_refresh_needed = TRUE;
 	}
     } else {
+	/* Put the keystroke back into the queue. */
 	unget_kbinput(kbinput, meta_key, func_key);
+
+	/* Throw away the entire undo stack, to prevent a crash when
+	 * the user tries to undo something in the justified text. */
+	discard_until(NULL);
+	openfile->current_undo = NULL;
 
 	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);
