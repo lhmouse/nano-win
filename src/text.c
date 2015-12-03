@@ -904,6 +904,21 @@ bool execute_command(const char *command)
     return TRUE;
 }
 
+/* Discard undo items that are newer than thisone, or all if NULL. */
+void discard_until(undo *thisone)
+{
+    undo *dropit = openfile->undotop;
+
+    while (dropit != NULL && dropit != thisone) {
+	openfile->undotop = dropit->next;
+	free(dropit->strdata);
+	if (dropit->cutbuffer)
+	    free_filestruct(dropit->cutbuffer);
+	free(dropit);
+	dropit = openfile->undotop;
+    }
+}
+
 /* Add a new undo struct to the top of the current pile. */
 void add_undo(undo_type action)
 {
@@ -918,14 +933,7 @@ void add_undo(undo_type action)
 	return;
 
     /* Blow away newer undo items if we add somewhere in the middle. */
-    while (openfile->undotop != NULL && openfile->undotop != u) {
-	undo *dropit = openfile->undotop;
-	openfile->undotop = openfile->undotop->next;
-	free(dropit->strdata);
-	if (dropit->cutbuffer)
-	    free_filestruct(dropit->cutbuffer);
-	free(dropit);
-    }
+    discard_until(u);
 
 #ifdef DEBUG
     fprintf(stderr, "  >> Adding an undo...\n");
