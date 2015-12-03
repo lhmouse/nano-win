@@ -7,6 +7,8 @@
 	* src/text.c (do_indent): Also here discard the entire undo stack, to
 	prevent nano from making mistakes when trying to undo edits after an
 	indentation change.  This works around Savannah bug #46591.
+	* doc/man/nano.1, doc/texinfo/nano.texi: Add a note about undo not
+	working after a justification or reindentation.
 
 2015-12-02  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/python.nanorc: Don't colour triple quotes by themselves.

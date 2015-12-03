@@ -275,7 +275,13 @@ it unique.  In multibuffer mode, \fBnano\fP will write all the open
 buffers to their respective emergency files.
 
 .SH BUGS
-Please report any bugs that you encounter via
+Justifications (\fB^J\fR) and reindentations (\fBM-{\fR and \fBM-}\fR)
+are not yet covered by the general undo system.  So after a justification
+that is not immediately undone, or after any reindentation, earlier edits
+cannot be undone any more.  The workaround is, of course, to exit without
+saving.
+.sp
+Please report any other bugs that you encounter via
 https://savannah.gnu.org/bugs/?group=nano.
 
 .SH HOMEPAGE

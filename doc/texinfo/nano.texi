@@ -386,6 +386,7 @@ Ignored, for compatibility with Pico.
 * The Statusbar::
 * Shortcut Lists::
 * Using the Mouse::
+* Limitation::
 @end menu
 
 @node Entering Text
@@ -489,6 +490,15 @@ Shift key during those actions.
 
 The mouse will work in the X Window System, and on the console when gpm
 is running.
+
+@node Limitation
+@section Limitation
+
+Justifications (@code{^J}) and reindentations (@code{M-@{} and @code{M-@}})
+are not yet covered by the general undo system.  So after a justification
+that is not immediately undone, or after any reindentation, earlier edits
+cannot be undone any more.  The workaround is, of course, to exit without
+saving.
 
 
 @node Built-in Help
