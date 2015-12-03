@@ -5,7 +5,7 @@
 	* src/text.c (do_justify): Accept not just the Uncut keystroke but
 	also the Undo keystroke for undoing a justification.
 
-2015-12-02  Arturo Borrero Gonzalez  <arturo.borrero.glez@gmail.com>
+2015-12-02  Arturo Borrero González  <arturo.borrero.glez@gmail.com>
 	* doc/syntax/nftables.nanorc: New file; syntax colouring for nftables.
 	This addresses Debian bug #805288.
 
