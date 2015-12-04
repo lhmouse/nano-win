@@ -1,4 +1,7 @@
 2015-12-03  Benno Schulenberg  <bensberg@justemail.net>
+	* src/proto.h: Avoid a compilation warning.
+
+2015-12-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (discard_until): Move the trimming of the undo stack
 	into a separate function, so it can be used elsewhere.
 	* src/text.c (do_justify): Discard the entire undo stack, to prevent
