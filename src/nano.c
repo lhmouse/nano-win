@@ -2009,8 +2009,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
     while (i < output_len) {
-	/* If allow_cntrls is TRUE, convert nulls and newlines
-	 * properly. */
+	/* If allow_cntrls is TRUE, convert nulls and newlines properly. */
 	if (allow_cntrls) {
 	    /* Null to newline, if needed. */
 	    if (output[i] == '\0')
@@ -2028,28 +2027,24 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 	i += char_buf_len;
 
-	/* If allow_cntrls is FALSE, filter out an ASCII control
-	 * character. */
-	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -
-		char_buf_len)))
+	/* If allow_cntrls is FALSE, filter out an ASCII control character. */
+	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -	char_buf_len)))
 	    continue;
 
 	/* If the NO_NEWLINES flag isn't set, when a character is
 	 * added to the magicline, it means we need a new magicline. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot ==
-		openfile->current)
+	if (!ISSET(NO_NEWLINES) && openfile->filebot == openfile->current)
 	    new_magicline();
 
 	/* More dangerousness fun =) */
 	openfile->current->data = charealloc(openfile->current->data,
-		current_len + (char_buf_len * 2));
+					current_len + (char_buf_len * 2));
 
 	assert(openfile->current_x <= current_len);
 
-	charmove(openfile->current->data + openfile->current_x +
-		char_buf_len, openfile->current->data +
-		openfile->current_x, current_len - openfile->current_x +
-		char_buf_len);
+	charmove(openfile->current->data + openfile->current_x + char_buf_len,
+			openfile->current->data + openfile->current_x,
+			current_len - openfile->current_x + char_buf_len);
 	strncpy(openfile->current->data + openfile->current_x, char_buf,
 		char_buf_len);
 	current_len += char_buf_len;
@@ -2060,9 +2055,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	add_undo(ADD);
 
 	/* Note that current_x has not yet been incremented. */
-	if (openfile->mark_set && openfile->current ==
-		openfile->mark_begin && openfile->current_x <
-		openfile->mark_begin_x)
+	if (openfile->mark_set && openfile->current == openfile->mark_begin &&
+		openfile->current_x < openfile->mark_begin_x)
 	    openfile->mark_begin_x += char_buf_len;
 #endif
 

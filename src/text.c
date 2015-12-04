@@ -533,7 +533,7 @@ void do_undo(void)
 	/* When the join was done by a Backspace at the tail of the file,
 	 * and the nonewlines flag isn't set, do not re-add a newline that
 	 * wasn't actually deleted; just position the cursor. */
-	if (u->xflags == WAS_FINAL_BACKSPACE  && !ISSET(NO_NEWLINES)) {
+	if (u->xflags == WAS_FINAL_BACKSPACE && !ISSET(NO_NEWLINES)) {
 	    goto_line_posx(openfile->filebot->lineno, 0);
 	    break;
 	}
@@ -644,8 +644,8 @@ void do_redo(void)
 	return;
     }
 #ifdef DEBUG
-    fprintf(stderr, "data we're about to redo = \"%s\"\n", f->data);
-    fprintf(stderr, "Redo running for type %d\n", u->type);
+    fprintf(stderr, "  >> Redo running for type %d\n", u->type);
+    fprintf(stderr, "  >> Data we're about to redo = \"%s\"\n", f->data);
 #endif
 
     switch (u->type) {
@@ -1142,11 +1142,12 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	    } else
 		u->xflags = WAS_MARKED_FORWARD;
 	} else {
-	    /* Compute cutbottom for the uncut using our copy. */
+	    /* Compute the end of the cut for the undo, using our copy. */
 	    u->cutbottom = u->cutbuffer;
 	    while (u->cutbottom->next != NULL)
 		u->cutbottom = u->cutbottom->next;
-	    u->lineno = u->mark_begin_lineno + u->cutbottom->lineno - u->cutbuffer->lineno;
+	    u->lineno = u->mark_begin_lineno + u->cutbottom->lineno -
+					u->cutbuffer->lineno;
 	    if (ISSET(CUT_TO_END) || u->type == CUT_EOF) {
 		u->begin = strlen(u->cutbottom->data);
 		if (u->lineno == u->mark_begin_lineno)

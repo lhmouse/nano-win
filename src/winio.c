@@ -2298,8 +2298,8 @@ void statusbar(const char *msg, ...)
 	26;
 }
 
-/* Display the shortcut list in s on the last two rows of the bottom
- * portion of the window. */
+/* Display the shortcut list corresponding to menu on the last two rows
+ * of the bottom portion of the window. */
 void bottombars(int menu)
 {
     size_t i, colwidth, slen;

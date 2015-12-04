@@ -1174,8 +1174,7 @@ void do_insertfile(
 	    }
 #endif
 
-	    /* Convert newlines to nulls, just before we insert the file
-	     * or execute the command. */
+	    /* Convert newlines to nulls in the given filename. */
 	    sunder(answer);
 	    align(&answer);
 
@@ -1235,9 +1234,9 @@ void do_insertfile(
 
 		/* Update the current x-coordinate to account for the
 		 * number of characters inserted on the current line.
-		 * If the mark begins inside the partition, adjust the
-		 * mark coordinates to compensate for the change in the
-		 * current line. */
+		 * If the mark was positioned after the cursor and on the
+		 * same line, adjust the mark's coordinates to compensate
+		 * for the change in this line. */
 		openfile->current_x = strlen(openfile->filebot->data);
 		if (openfile->fileage == openfile->filebot) {
 #ifndef NANO_TINY
@@ -2759,8 +2758,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 
     /* Match against files relative to the current working directory. */
     if (matches == NULL)
-	matches = cwd_tab_completion(buf, allow_files, &num_matches,
-		*place);
+	matches = cwd_tab_completion(buf, allow_files, &num_matches, *place);
 
     buf_len = strlen(buf);
 

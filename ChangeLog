@@ -1,7 +1,8 @@
-2015-12-03  Benno Schulenberg  <bensberg@justemail.net>
+2015-12-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/proto.h: Avoid a compilation warning.
 	* src/color.c (reset_multis_for_id, reset_multis_before/after):
 	Fuse these three functions into a single one.
+	* src/*.c: Rewrap some lines and tweak some comments.
 
 2015-12-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (discard_until): Move the trimming of the undo stack
