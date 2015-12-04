@@ -365,54 +365,44 @@ void color_update(void)
     }
 }
 
-/* Reset the multicolor info cache for records for any lines which need
- * to be recalculated. */
-void reset_multis_after(filestruct *fileptr, int mindex)
+/* Reset the multiline coloring cache for one specific regex (given by
+ * index) for lines that need reevaluation. */
+void reset_multis_for_id(filestruct *fileptr, int index)
 {
-    filestruct *oof;
-    for (oof = fileptr->next; oof != NULL; oof = oof->next) {
-	alloc_multidata_if_needed(oof);
-	if (oof->multidata[mindex] != CNONE)
-	    oof->multidata[mindex] = -1;
-	else
-	    break;
-    }
-    for (; oof != NULL; oof = oof->next) {
-	alloc_multidata_if_needed(oof);
-	if (oof->multidata[mindex] == CNONE)
-	    oof->multidata[mindex] = -1;
-	else
-	    break;
-    }
-    edit_refresh_needed = TRUE;
-}
+    filestruct *row;
 
-void reset_multis_before(filestruct *fileptr, int mindex)
-{
-    filestruct *oof;
-    for (oof = fileptr->prev; oof != NULL; oof = oof->prev) {
-	alloc_multidata_if_needed(oof);
-	if (oof->multidata[mindex] != CNONE)
-	    oof->multidata[mindex] = -1;
-	else
+    /* Reset the cache of earlier lines, as far back as needed. */
+    for (row = fileptr->prev; row != NULL; row = row->prev) {
+	alloc_multidata_if_needed(row);
+	if (row->multidata[index] == CNONE)
 	    break;
+	row->multidata[index] = -1;
     }
-    for (; oof != NULL; oof = oof->prev) {
-	alloc_multidata_if_needed(oof);
-	if (oof->multidata[mindex] == CNONE)
-	    oof->multidata[mindex] = -1;
-	else
+    for (; row != NULL; row = row->prev) {
+	alloc_multidata_if_needed(row);
+	if (row->multidata[index] != CNONE)
 	    break;
+	row->multidata[index] = -1;
     }
-    edit_refresh_needed = TRUE;
-}
 
-/* Reset one multiline regex info. */
-void reset_multis_for_id(filestruct *fileptr, int num)
-{
-    reset_multis_before(fileptr, num);
-    reset_multis_after(fileptr, num);
-    fileptr->multidata[num] = -1;
+    /* Reset the cache of the current line. */
+    fileptr->multidata[index] = -1;
+
+    /* Reset the cache of later lines, as far ahead as needed. */
+    for (row = fileptr->next; row != NULL; row = row->next) {
+	alloc_multidata_if_needed(row);
+	if (row->multidata[index] == CNONE)
+	    break;
+	row->multidata[index] = -1;
+    }
+    for (; row != NULL; row = row->next) {
+	alloc_multidata_if_needed(row);
+	if (row->multidata[index] != CNONE)
+	    break;
+	row->multidata[index] = -1;
+    }
+
+    edit_refresh_needed = TRUE;
 }
 
 /* Reset multi-line strings around the filestruct fileptr, trying to be
