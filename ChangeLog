@@ -2,6 +2,7 @@
 	* src/text.c: Fix compilation with --enable-tiny --enable-justify.
 	* doc/man/{nano.1,rnano.1,nanorc.5}, doc/texinfo/nano.texi:
 	Update date and version number to match the upcoming release.
+	* src/files.c, src/winio.c: Avoid two compilation warnings.
 
 2015-12-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/proto.h: Avoid a compilation warning.

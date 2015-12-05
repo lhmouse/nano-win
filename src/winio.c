@@ -43,7 +43,9 @@ static bool disable_cursorpos = FALSE;
 static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */
 
+#ifndef NANO_TINY
 static sig_atomic_t sigwinch_counter_save = 0;
+#endif
 
 /* Control character compatibility:
  *

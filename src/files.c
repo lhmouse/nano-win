@@ -1100,8 +1100,9 @@ void do_insertfile(
 	    break;
 	} else {
 	    size_t pww_save = openfile->placewewant;
+#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 	    functionptrtype func = func_from_key(&i);
-
+#endif
 	    ans = mallocstrcpy(ans, answer);
 
 #ifndef NANO_TINY
