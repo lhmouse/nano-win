@@ -2270,7 +2270,11 @@ void do_justify(bool full_justify)
 
     func = func_from_key(&kbinput);
 
-    if (func == do_uncut_text || func == do_undo) {
+    if (func == do_uncut_text
+#ifndef NANO_TINY
+		 || func == do_undo
+#endif
+		) {
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
@@ -2324,11 +2328,12 @@ void do_justify(bool full_justify)
 	/* Put the keystroke back into the queue. */
 	unget_kbinput(kbinput, meta_key, func_key);
 
+#ifndef NANO_TINY
 	/* Throw away the entire undo stack, to prevent a crash when
 	 * the user tries to undo something in the justified text. */
 	discard_until(NULL);
 	openfile->current_undo = NULL;
-
+#endif
 	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);
 	jusbuffer = NULL;
