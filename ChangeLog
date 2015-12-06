@@ -1,3 +1,5 @@
+GNU nano 2.5.0 - 2015.12.05
+
 2015-12-05  Chris Allegretta <chrisa@asty.org>
 	* src/nano.c (main) : key_defined() is an ncurses-ism.  Add
 	better checks for this.

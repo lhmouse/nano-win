@@ -1,3 +1,14 @@
+2015.12.05 - GNU nano 2.5.0 "Karma", the the first release of the 2.5
+		series, is now available. Please note that as of this release,
+		there will no longer be separate stable and unstable
+                branches. The development team will prioritize bug fixes as
+		needed, and make new releases in proportion to the
+		severity of the bugs which are fixed.
+			This release includes many of the fixes now in
+		2.4.3, as well as color synax highlighting improvements,
+		undo fixes, and many more improvements!  Thank you for
+		using nano!
+
 2015.11.18 - GNU nano 2.4.3 "Apocalypse" is now available for your
 		downloading pleasure.  This release includes a myriad
 		of fixes including several memory leaks, issues with
