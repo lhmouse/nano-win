@@ -1,3 +1,7 @@
+2015-12-05  Chris Allegretta <chrisa@asty.org>
+	* src/nano.c (main) : key_defined() is an ncurses-ism.  Add
+	better checks for this.
+
 2015-12-05  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c: Fix compilation with --enable-tiny --enable-justify.
 	* doc/man/{nano.1,rnano.1,nanorc.5}, doc/texinfo/nano.texi:

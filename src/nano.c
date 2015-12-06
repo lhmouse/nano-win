@@ -2706,7 +2706,7 @@ int main(int argc, char **argv)
     interface_color_pair[FUNCTION_TAG].bright = FALSE;
 #endif
 
-#if !defined(NANO_TINY) && !defined(USE_SLANG)
+#if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
     /* Ask ncurses for the key codes for Control+Left and Control+Right. */
     if ((int)tigetstr("kLFT5") > 0)
 	controlleft = key_defined(tigetstr("kLFT5"));
