@@ -2738,20 +2738,21 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 				0, NULL, 0) == REG_NOMATCH)
 			    end_line = end_line->next;
 
-			if (end_line != NULL) {
-			    assert(0 <= x_start && x_start < COLS);
+			/* If there is no end, we're done on this line. */
+			if (end_line == NULL)
+			    break;
 
-			    mvwaddnstr(edit, line, x_start,
-					converted + index, -1);
-			    fileptr->multidata[tmpcolor->id] = CENDAFTER;
+			assert(0 <= x_start && x_start < COLS);
+
+			/* Paint the rest of the line. */
+			mvwaddnstr(edit, line, x_start, converted + index, -1);
+			fileptr->multidata[tmpcolor->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", tmpcolor->id, line);
 #endif
-			    /* We painted to the end of the line, so
-			     * don't bother checking any more starts. */
-			    break;
-			}
-			start_col = startmatch.rm_so + 1;
+			/* We've painted to the end of the line, so don't
+			 * bother checking for any more starts. */
+			break;
 		    }
 		}
 	    }
