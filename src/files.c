@@ -2236,7 +2236,7 @@ bool do_writeout(bool exiting)
 #endif
     bool retval = FALSE;
 
-    if (openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
+    if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
 	retval = write_file(openfile->filename, NULL, FALSE, OVERWRITE,
 		FALSE);
 
@@ -2274,14 +2274,6 @@ bool do_writeout(bool exiting)
 	    msg = (append == PREPEND) ? _("File Name to Prepend to") :
 		  (append == APPEND) ? _("File Name to Append to") :
 		  _("File Name to Write");
-
-	/* If we're not exiting, and the TEMP_FILE flag is set, and
-	 * the current file doesn't have a name, warn the user before
-	 * prompting for a name.  If we are exiting, we've already
-	 * warned the user just before the "Save modified buffer"
-	 * prompt, so we don't need to do it again. */
-	if (!exiting && openfile->filename[0] == '\0' && ISSET(TEMP_FILE))
-	    no_current_file_name_warning();
 
 	/* If we're using restricted mode, the filename isn't blank,
 	 * and we're at the "Write File" prompt, disable tab

@@ -1,5 +1,9 @@
 2015-12-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Quit the loop when there is no end match.
+	* src/files.c (do_writeout): When --tempfile is given, make ^O not
+	write out the file rightaway, as otherwise there is no way to discard
+	the edits.  This undoes the core part of r5378 of September 29.  See
+	https://lists.gnu.org/archive/html/help-nano/2015-11/msg00005.html.
 
 GNU nano 2.5.0 - 2015.12.05
 
@@ -206,7 +210,7 @@ GNU nano 2.4.3 - 2015.11.18
 	do_exit): When option -t is given, make ^O work the same way as under
 	Pico, writing out the file without prompting.  And make it work even
 	better than Pico when the current file doesn't have a name yet.  This
-	fixes Savannah bug #45415.
+	fixes Savannah bug #45415.  [Reverted in r5489 on December 7.]
 
 2015-10-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_redo): For an INSERT, 'u->mark_begin_lineno' is not
