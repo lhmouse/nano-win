@@ -460,10 +460,12 @@ void do_down(
 #endif
 
     /* If we're at the bottom of the file, get out. */
-    if (openfile->current == openfile->filebot || !openfile->current->next)
+    if (openfile->current == openfile->filebot)
 	return;
 
-    assert(ISSET(SOFTWRAP) || openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
+    assert(ISSET(SOFTWRAP) || openfile->current_y ==
+		openfile->current->lineno - openfile->edittop->lineno);
+    assert(openfile->current->next != NULL);
 
     /* Move the current line of the edit window down. */
     openfile->current = openfile->current->next;

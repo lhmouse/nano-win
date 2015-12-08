@@ -936,8 +936,8 @@ void do_replace(void)
 /* Go to the specified line and x position. */
 void goto_line_posx(ssize_t line, size_t pos_x)
 {
-    for (openfile->current = openfile->fileage; openfile->current != openfile->filebot &&
-					openfile->current->next != NULL && line > 1; line--)
+    for (openfile->current = openfile->fileage; line > 1 &&
+		openfile->current != openfile->filebot; line--)
 	openfile->current = openfile->current->next;
 
     openfile->current_x = pos_x;
