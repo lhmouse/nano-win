@@ -3,6 +3,7 @@
 	'filebot', instead of doing it in four different places each.
 	* src/search.c (goto_line_posx), src/move (do_down): It should not
 	be necessary to doubly check for being at the end of file.
+	* src/text.c (do_justify): Rewrap and reorder a few lines.
 
 2015-12-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Quit the loop when there is no end match.

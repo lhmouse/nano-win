@@ -137,6 +137,7 @@ void do_deletion(undo_type action)
 	openfile->current->data = charealloc(openfile->current->data,
 		strlen(openfile->current->data) + strlen(foo->data) + 1);
 	strcat(openfile->current->data, foo->data);
+
 #ifndef NANO_TINY
 	if (openfile->mark_set &&
 		openfile->mark_begin == openfile->current->next) {
@@ -144,7 +145,6 @@ void do_deletion(undo_type action)
 	    openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
-
 	unlink_node(foo);
 	renumber(openfile->current);
 	openfile->totsize--;
@@ -2063,12 +2063,10 @@ void do_justify(bool full_justify)
 	for (i = 0; i < par_len - 1; i++) {
 	    filestruct *next_line = openfile->current->next;
 	    size_t line_len = strlen(openfile->current->data);
-	    size_t next_line_len =
-		strlen(openfile->current->next->data);
+	    size_t next_line_len = strlen(openfile->current->next->data);
 
 	    indent_len = quote_len +
-		indent_length(openfile->current->next->data +
-		quote_len);
+		indent_length(openfile->current->next->data + quote_len);
 
 	    next_line_len -= indent_len;
 	    openfile->totsize -= indent_len;
@@ -2076,35 +2074,30 @@ void do_justify(bool full_justify)
 	    /* We're just about to tack the next line onto this one.  If
 	     * this line isn't empty, make sure it ends in a space. */
 	    if (line_len > 0 &&
-		openfile->current->data[line_len - 1] != ' ') {
+			openfile->current->data[line_len - 1] != ' ') {
 		line_len++;
 		openfile->current->data =
-			charealloc(openfile->current->data,
-			line_len + 1);
+			charealloc(openfile->current->data, line_len + 1);
 		openfile->current->data[line_len - 1] = ' ';
 		openfile->current->data[line_len] = '\0';
 		openfile->totsize++;
 	    }
 
-	    openfile->current->data =
-		charealloc(openfile->current->data, line_len +
-		next_line_len + 1);
-	    strcat(openfile->current->data, next_line->data +
-		indent_len);
-
-	    /* Don't destroy edittop! */
-	    if (next_line == openfile->edittop)
-		openfile->edittop = openfile->current;
+	    openfile->current->data = charealloc(openfile->current->data,
+			line_len + next_line_len + 1);
+	    strcat(openfile->current->data, next_line->data + indent_len);
 
 #ifndef NANO_TINY
-	    /* Adjust the mark coordinates to compensate for the change
-	     * in the next line. */
-	    if (openfile->mark_set && openfile->mark_begin ==
-		next_line) {
+	    /* If needed, adjust the coordinates of the mark. */
+	    if (openfile->mark_set &&
+			openfile->mark_begin == next_line) {
 		openfile->mark_begin = openfile->current;
 		openfile->mark_begin_x += line_len - indent_len;
 	    }
 #endif
+	    /* Don't destroy edittop! */
+	    if (next_line == openfile->edittop)
+		openfile->edittop = openfile->current;
 
 	    unlink_node(next_line);
 
@@ -2122,8 +2115,7 @@ void do_justify(bool full_justify)
 	justify_format(openfile->current, quote_len +
 		indent_length(openfile->current->data + quote_len));
 
-	while (par_len > 0 && strlenpt(openfile->current->data) >
-		fill) {
+	while (par_len > 0 && strlenpt(openfile->current->data) > fill) {
 	    size_t line_len = strlen(openfile->current->data);
 
 	    indent_len = strlen(indent_string);
@@ -2147,9 +2139,6 @@ void do_justify(bool full_justify)
 
 	    assert(break_pos <= line_len);
 
-	    /* Insert a new line after the current one. */
-	    splice_node(openfile->current, make_new_node(openfile->current));
-
 	    /* If this paragraph is non-quoted, and autoindent isn't
 	     * turned on, set the indentation length to zero so that the
 	     * indentation is treated as part of the line. */
@@ -2159,6 +2148,9 @@ void do_justify(bool full_justify)
 #endif
 		)
 		indent_len = 0;
+
+	    /* Insert a new line after the current one. */
+	    splice_node(openfile->current, make_new_node(openfile->current));
 
 	    /* Copy the text after where we're going to break the
 	     * current line to the next line. */
@@ -2175,9 +2167,9 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	    /* Adjust the mark coordinates to compensate for the change
 	     * in the current line. */
-	    if (openfile->mark_set && openfile->mark_begin ==
-		openfile->current && openfile->mark_begin_x >
-		break_pos) {
+	    if (openfile->mark_set &&
+			openfile->mark_begin == openfile->current &&
+			openfile->mark_begin_x > break_pos) {
 		openfile->mark_begin = openfile->current->next;
 		openfile->mark_begin_x -= break_pos - indent_len;
 	    }
