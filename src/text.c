@@ -144,8 +144,6 @@ void do_deletion(undo_type action)
 	    openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
-	if (openfile->filebot == foo)
-	    openfile->filebot = openfile->current;
 
 	unlink_node(foo);
 	renumber(openfile->current);
@@ -566,8 +564,6 @@ void do_undo(void)
 	f->data = charealloc(f->data, strlen(f->data) +
 				strlen(&f->next->data[u->mark_begin_x]) + 1);
 	strcat(f->data, &f->next->data[u->mark_begin_x]);
-	if (openfile->filebot == f->next)
-	    openfile->filebot = f;
 	unlink_node(f->next);
 	goto_line_posx(u->lineno, u->begin);
 	break;
@@ -707,8 +703,6 @@ void do_redo(void)
 	}
 	f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 	strcat(f->data, u->strdata);
-	if (f->next == openfile->filebot)
-	    openfile->filebot = f;
 	unlink_node(f->next);
 	renumber(f);
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -2098,11 +2092,9 @@ void do_justify(bool full_justify)
 	    strcat(openfile->current->data, next_line->data +
 		indent_len);
 
-	    /* Don't destroy edittop or filebot! */
+	    /* Don't destroy edittop! */
 	    if (next_line == openfile->edittop)
 		openfile->edittop = openfile->current;
-	    if (next_line == openfile->filebot)
-		openfile->filebot = openfile->current;
 
 #ifndef NANO_TINY
 	    /* Adjust the mark coordinates to compensate for the change

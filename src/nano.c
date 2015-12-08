@@ -110,7 +110,7 @@ void splice_node(filestruct *afterthis, filestruct *newnode)
 	openfile->filebot = newnode;
 }
 
-/* Unlink a node from the rest of the filestruct and delete it. */
+/* Disconnect a node from a linked list of filestructs and delete it. */
 void unlink_node(filestruct *fileptr)
 {
     assert(fileptr != NULL);
@@ -120,10 +120,14 @@ void unlink_node(filestruct *fileptr)
     if (fileptr->next != NULL)
 	fileptr->next->prev = fileptr->prev;
 
+    /* Update filebot when removing a node at the end of file. */
+    if (openfile && openfile->filebot == fileptr)
+	openfile->filebot = fileptr->prev;
+
     delete_node(fileptr);
 }
 
-/* Delete a node from the filestruct. */
+/* Free the data structures in the given node. */
 void delete_node(filestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->data != NULL);
