@@ -104,6 +104,10 @@ void splice_node(filestruct *afterthis, filestruct *newnode)
     if (afterthis->next != NULL)
 	afterthis->next->prev = newnode;
     afterthis->next = newnode;
+
+    /* Update filebot when inserting a node at the end of file. */
+    if (openfile && openfile->filebot == afterthis)
+	openfile->filebot = newnode;
 }
 
 /* Unlink a node from the rest of the filestruct and delete it. */

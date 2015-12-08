@@ -544,8 +544,6 @@ void do_undo(void)
 	free(f->data);
 	f->data = data;
 	splice_node(f, t);
-	if (f == openfile->filebot)
-	    openfile->filebot = t;
 	goto_line_posx(u->lineno, u->begin);
 	break;
     case CUT_EOF:
@@ -678,8 +676,6 @@ void do_redo(void)
 	free(f->data);
 	f->data = data;
 	splice_node(f, shoveline);
-	if (f == openfile->filebot)
-	    openfile->filebot = shoveline;
 	renumber(shoveline);
 	goto_line_posx(u->lineno + 1, u->mark_begin_x);
 	break;
@@ -798,9 +794,6 @@ void do_enter()
     openfile->current_x = extra;
 
     splice_node(openfile->current, newnode);
-
-    if (openfile->current == openfile->filebot)
-	openfile->filebot = newnode;
     openfile->current = newnode;
     renumber(newnode);
 
@@ -2162,9 +2155,7 @@ void do_justify(bool full_justify)
 
 	    assert(break_pos <= line_len);
 
-	    /* Make a new line, and copy the text after where we're
-	     * going to break this line to the beginning of the new
-	     * line. */
+	    /* Insert a new line after the current one. */
 	    splice_node(openfile->current, make_new_node(openfile->current));
 
 	    /* If this paragraph is non-quoted, and autoindent isn't
@@ -2202,11 +2193,6 @@ void do_justify(bool full_justify)
 
 	    /* Break the current line. */
 	    null_at(&openfile->current->data, break_pos);
-
-	    /* If the current line is the last line of the file, move
-	     * the last line of the file down to the next line. */
-	    if (openfile->filebot == openfile->current)
-		openfile->filebot = openfile->filebot->next;
 
 	    /* Go to the next line. */
 	    par_len--;

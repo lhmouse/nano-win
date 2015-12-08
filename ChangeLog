@@ -1,3 +1,7 @@
+2015-12-08  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (splice_node): Make this function update 'filebot',
+	instead of doing it in four different places.
+
 2015-12-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (edit_draw): Quit the loop when there is no end match.
 	* src/files.c (do_writeout): When --tempfile is given, make ^O not
