@@ -1,4 +1,5 @@
 pkgdata_DATA =	asm.nanorc \
+		autoconf.nanorc \
 		awk.nanorc \
 		changelog.nanorc \
 		cmake.nanorc \
@@ -21,6 +22,7 @@ pkgdata_DATA =	asm.nanorc \
 		man.nanorc \
 		mgp.nanorc \
 		mutt.nanorc \
+		nftables.nanorc \
 		nanorc.nanorc \
 		objc.nanorc \
 		ocaml.nanorc \

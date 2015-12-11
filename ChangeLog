@@ -1,3 +1,7 @@
+2015-12-11  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/Makefile.am: Add missing autoconf and nftables syntaxes.
+	* ChangeLog: Correct a bug number, plus a few other tweaks.
+
 2015-12-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (splice_node, unlink_node): Let these functions update
 	'filebot', instead of doing it in four different places each.
@@ -1305,7 +1309,7 @@ GNU nano 2.3.5 - 2014.07.11
 	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Update
 	the docs for the changed location of nano's search history.
 	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Change
-	some wordings, triggered by Savannah bug #52539.
+	some wordings, triggered by Savannah bug #42539.
 
 2014-06-14  Mark Majeres  <mark@engine12.com>
 	* src/nano.h, src/text.c (undo_cut, update_undo): When undoing a
@@ -2116,7 +2120,7 @@ GNU nano 2.3.3 - 2014.05.29
 2014-02-27  Benno Schulenberg  <bensberg@justemail.net>
 	* src/help.c (parse_help_input): Make 'Space' again an alias
 	for PageDown and 'Minus' for PageUp -- they were mistakenly
-	swapped during code conversion in revision 4223.
+	swapped during code conversion in r4223.
 
 2014-02-26  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/sh.nanorc: Highlight more shell builtins and
@@ -2277,7 +2281,7 @@ GNU nano 2.3.2 - 2013.03.23
 	  as that puts us into a wacky state.  Fixes crash on justify by Joshua Rogers.
 	* configure.ac: Added --with-wordbounds option to let cross compilers force
 	  whether their target system support GNU-style word boundaries or not.
-	  Originally reported by dave festing.
+	  Originally reported by Dave Festing.
 	* doc/man/nanorc.5: Fix typo in softwrap description, reported by
 	  cbart387@Savannah.
 
@@ -2384,14 +2388,14 @@ GNU nano 2.3.0 - 2011.02.26
 	  New nanorc entry "magic" to enable this functionality, nanorc file and man page updates.
 
 2011-02-06 Chris Allegretta <chrisa@asty.org>
-	* src/*: Retire iso_me_harder_funcmap based on suggestion by <bernd.spaeth@gmx.net>
+	* src/*: Retire iso_me_harder_funcmap based on suggestion by <bernd.spaeth@gmx.net>.
 	  This does add 20KB to nano's executable size but it gets rid of a lot of indirection
-	  that makes people stomach turn.  There are several new stub functions and need of more
-	  tidying as a result of this.
+	  that makes people's stomach turn.  There are several new stub functions and a need of
+	  more tidying as a result of this.
 	* files.c (write_file): Fix problems with writing the backup file (albeit interactively)
 	  with new function prompt_failed_backupwrite(), allows more secure handling of problems
 	  with failing to write the backup file compared to 'allow_insecure_backup'.
-	* winio.c (edit_redraw): Removed unused variable.
+	* winio.c (edit_redraw): Remove unused variable.
 
 GNU nano 2.2.6 - 2010.11.22
 
