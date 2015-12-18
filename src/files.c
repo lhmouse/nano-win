@@ -585,12 +585,9 @@ int is_file_writable(const char *filename)
     return ans;
 }
 
-/* We make a new line of text from buf.  buf is length buf_len.  If
- * first_line_ins is TRUE, then we put the new line at the top of the
- * file.  Otherwise, we assume prevnode is the last line of the file,
- * and put our line after prevnode. */
-filestruct *read_line(char *buf, filestruct *prevnode, bool
-	*first_line_ins, size_t buf_len)
+/* Make a new line of text from the given buf, which is of length buf_len.
+ * Then attach this line after prevnode. */
+filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
@@ -612,20 +609,17 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
     fileptr->multidata = NULL;
 #endif
 
-    if (*first_line_ins) {
+    fileptr->prev = prevnode;
+
+    if (prevnode == NULL) {
 	/* Special case: we're inserting into the first line. */
-	fileptr->prev = NULL;
 	fileptr->next = openfile->fileage;
 	openfile->fileage = fileptr;
 	fileptr->lineno = 1;
 	/* Make sure that our edit window stays on the first line. */
 	openfile->edittop = fileptr;
-	*first_line_ins = FALSE;
     } else {
-	assert(prevnode != NULL);
-
 	prevnode->next = fileptr;
-	fileptr->prev = prevnode;
 	fileptr->next = NULL;
 	fileptr->lineno = prevnode->lineno + 1;
     }
@@ -652,10 +646,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	/* The current input character. */
     char *buf;
 	/* The buffer where we store chunks of the file. */
-    filestruct *fileptr = openfile->current;
-	/* The current line of the file. */
-    bool first_line_ins = FALSE;
-	/* Whether we're inserting with the cursor on the first line. */
+    filestruct *fileptr = openfile->current->prev;
+	/* The line after which to start inserting. */
     int input_int;
 	/* The current value we read from the file, whether an input
 	 * character or EOF. */
@@ -675,11 +667,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     if (undoable)
 	add_undo(INSERT);
 #endif
-
-    if (openfile->current == openfile->fileage)
-	first_line_ins = TRUE;
-    else
-	fileptr = openfile->current->prev;
 
     /* Read the entire file into the filestruct. */
     while ((input_int = getc(f)) != EOF) {
@@ -701,7 +688,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 #endif
 
 	    /* Read in the line properly. */
-	    fileptr = read_line(buf, fileptr, &first_line_ins, len);
+	    fileptr = read_line(buf, len, fileptr);
 
 	    /* Reset the line length in preparation for the next line. */
 	    len = 0;
@@ -722,7 +709,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 		format += 2;
 
 	    /* Read in the line properly. */
-	    fileptr = read_line(buf, fileptr, &first_line_ins, len);
+	    fileptr = read_line(buf, len, fileptr);
 
 	    /* Reset the line length in preparation for the next line.
 	     * Since we've already read in the next character, reset it
@@ -788,7 +775,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 #endif
 
 	/* Read in the last line properly. */
-	fileptr = read_line(buf, fileptr, &first_line_ins, len);
+	fileptr = read_line(buf, len, fileptr);
 	num_lines++;
     }
 

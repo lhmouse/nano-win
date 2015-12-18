@@ -1,6 +1,8 @@
 2015-12-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_init): Use less #ifdefs, and adjust indentation.
 	* src/color.c (set_colorpairs): Improve comments and rename vars.
+	* src/files.c (read_line): Chop a superfluous bool -- 'prevnode' being
+	NULL is enough indication that the first line is being read.
 
 2015-12-11  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add missing autoconf and nftables syntaxes.
