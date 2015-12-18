@@ -1,3 +1,6 @@
+2015-12-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/color.c (color_init): Use less #ifdefs.
+
 2015-12-11  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add missing autoconf and nftables syntaxes.
 	* ChangeLog: Correct a bug number, plus a few other tweaks.

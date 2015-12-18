@@ -101,39 +101,38 @@ void set_colorpairs(void)
 /* Initialize the color information. */
 void color_init(void)
 {
+    colortype *tmpcolor = openfile->colorstrings;
+    bool using_defaults = FALSE;
+    short foreground, background;
+
     assert(openfile != NULL);
 
-    if (has_colors()) {
-	const colortype *tmpcolor;
+    /* If the terminal is not capable of colors, forget it. */
+    if (!has_colors())
+	return;
+
 #ifdef HAVE_USE_DEFAULT_COLORS
-	/* Use the default colors, if available. */
-	bool defok = (use_default_colors() != ERR);
+    /* Allow using the default colors, if available. */
+    using_defaults = (use_default_colors() != ERR);
 #endif
 
-	for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
+	for (; tmpcolor != NULL;
 		tmpcolor = tmpcolor->next) {
-	    short foreground = tmpcolor->fg, background = tmpcolor->bg;
-	    if (foreground == -1) {
-#ifdef HAVE_USE_DEFAULT_COLORS
-		if (!defok)
-#endif
-		    foreground = COLOR_WHITE;
-	    }
+	    foreground = tmpcolor->fg;
+	    background = tmpcolor->bg;
 
-	    if (background == -1) {
-#ifdef HAVE_USE_DEFAULT_COLORS
-		if (!defok)
-#endif
+	    if (foreground == -1 && !using_defaults)
+		    foreground = COLOR_WHITE;
+
+	    if (background == -1 && !using_defaults)
 		    background = COLOR_BLACK;
-	    }
 
 	    init_pair(tmpcolor->pairnum, foreground, background);
 
 #ifdef DEBUG
-	    fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n", tmpcolor->fg, tmpcolor->bg);
+	fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n", foreground, background);
 #endif
 	}
-    }
 }
 
 /* Clean up a regex we previously compiled. */
