@@ -34,31 +34,34 @@
 
 #ifndef DISABLE_COLOR
 
-/* For each syntax list entry, go through the list of colors and assign
- * the color pairs. */
+/* Initialize the colors for nano's interface, and assign pair numbers
+ * for the colors in each syntax. */
 void set_colorpairs(void)
 {
     const syntaxtype *this_syntax = syntaxes;
-    bool defok = FALSE;
-    short fg, bg;
+    bool using_defaults = FALSE;
+    short foreground, background;
     size_t i;
 
+    /* Tell ncurses to enable colors. */
     start_color();
 
 #ifdef HAVE_USE_DEFAULT_COLORS
-    /* Use the default colors, if available. */
-    defok = (use_default_colors() != ERR);
+    /* Allow using the default colors, if available. */
+    using_defaults = (use_default_colors() != ERR);
 #endif
 
+    /* Initialize the color pairs for nano's interface elements. */
     for (i = 0; i < NUMBER_OF_ELEMENTS; i++) {
 	bool bright = FALSE;
 
-	if (parse_color_names(specified_color_combo[i], &fg, &bg, &bright)) {
-	    if (fg == -1 && !defok)
-		fg = COLOR_WHITE;
-	    if (bg == -1 && !defok)
-		bg = COLOR_BLACK;
-	    init_pair(i + 1, fg, bg);
+	if (parse_color_names(specified_color_combo[i],
+			&foreground, &background, &bright)) {
+	    if (foreground == -1 && !using_defaults)
+		foreground = COLOR_WHITE;
+	    if (background == -1 && !using_defaults)
+		background = COLOR_BLACK;
+	    init_pair(i + 1, foreground, background);
 	    interface_color_pair[i].bright = bright;
 	    interface_color_pair[i].pairnum = COLOR_PAIR(i + 1);
 	}
@@ -74,6 +77,8 @@ void set_colorpairs(void)
 	specified_color_combo[i] = NULL;
     }
 
+    /* For each syntax, go through its list of colors and assign each
+     * its pair number, giving identical color pairs the same number. */
     for (; this_syntax != NULL; this_syntax = this_syntax->next) {
 	colortype *this_color = this_syntax->color;
 	int clr_pair = NUMBER_OF_ELEMENTS + 1;
@@ -81,12 +86,11 @@ void set_colorpairs(void)
 	for (; this_color != NULL; this_color = this_color->next) {
 	    const colortype *beforenow = this_syntax->color;
 
-	    for (; beforenow != this_color &&
-		(beforenow->fg != this_color->fg ||
-		beforenow->bg != this_color->bg ||
-		beforenow->bright != this_color->bright);
-		beforenow = beforenow->next)
-		;
+	    while (beforenow != this_color &&
+			(beforenow->fg != this_color->fg ||
+			beforenow->bg != this_color->bg ||
+			beforenow->bright != this_color->bright))
+		beforenow = beforenow->next;
 
 	    if (beforenow != this_color)
 		this_color->pairnum = beforenow->pairnum;
