@@ -3,6 +3,7 @@
 	* src/color.c (set_colorpairs): Improve comments and rename vars.
 	* src/files.c (read_line): Chop a superfluous bool -- 'prevnode' being
 	NULL is enough indication that the first line is being read.
+	* src/files.c (switch_to_prevnext_buffer): Tweak comment and var name.
 
 2015-12-11  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/syntax/Makefile.am: Add missing autoconf and nftables syntaxes.

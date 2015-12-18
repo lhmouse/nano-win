@@ -466,23 +466,21 @@ void display_buffer(void)
 }
 
 #ifndef DISABLE_MULTIBUFFER
-/* Switch to the next file buffer if next_buf is TRUE.  Otherwise,
- * switch to the previous file buffer. */
-void switch_to_prevnext_buffer(bool next_buf, bool quiet)
+/* Switch to a neighbouring file buffer; to the next if to_next is TRUE;
+ * otherwise, to the previous one. */
+void switch_to_prevnext_buffer(bool to_next, bool quiet)
 {
     assert(openfile != NULL);
 
-    /* If only one file buffer is open, indicate it on the statusbar and
-     * get out. */
+    /* If only one file buffer is open, say so and get out. */
     if (openfile == openfile->next) {
-	if (quiet == FALSE)
+	if (!quiet)
 	    statusbar(_("No more open file buffers"));
 	return;
     }
 
-    /* Switch to the next or previous file buffer, depending on the
-     * value of next_buf. */
-    openfile = next_buf ? openfile->next : openfile->prev;
+    /* Switch to the next or previous file buffer. */
+    openfile = to_next ? openfile->next : openfile->prev;
 
 #ifdef DEBUG
     fprintf(stderr, "filename is %s\n", openfile->filename);
@@ -492,7 +490,7 @@ void switch_to_prevnext_buffer(bool next_buf, bool quiet)
     display_buffer();
 
     /* Indicate the switch on the statusbar. */
-    if (quiet == FALSE)
+    if (!quiet)
 	statusbar(_("Switched to %s"),
 		((openfile->filename[0] == '\0') ?
 		_("New Buffer") : openfile->filename));
