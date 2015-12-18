@@ -116,23 +116,22 @@ void color_init(void)
     using_defaults = (use_default_colors() != ERR);
 #endif
 
-	for (; tmpcolor != NULL;
-		tmpcolor = tmpcolor->next) {
-	    foreground = tmpcolor->fg;
-	    background = tmpcolor->bg;
+    /* For each coloring expression, initialize the color pair. */
+    for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+	foreground = tmpcolor->fg;
+	background = tmpcolor->bg;
 
-	    if (foreground == -1 && !using_defaults)
-		    foreground = COLOR_WHITE;
+	if (foreground == -1 && !using_defaults)
+	    foreground = COLOR_WHITE;
 
-	    if (background == -1 && !using_defaults)
-		    background = COLOR_BLACK;
+	if (background == -1 && !using_defaults)
+	    background = COLOR_BLACK;
 
-	    init_pair(tmpcolor->pairnum, foreground, background);
-
+	init_pair(tmpcolor->pairnum, foreground, background);
 #ifdef DEBUG
 	fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n", foreground, background);
 #endif
-	}
+    }
 }
 
 /* Clean up a regex we previously compiled. */
