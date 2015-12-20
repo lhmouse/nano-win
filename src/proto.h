@@ -506,6 +506,7 @@ int do_input(bool allow_funcs);
 int do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
+void precalc_multicolorinfo(void);
 
 /* All functions in prompt.c. */
 int do_statusbar_input(bool *ran_func, bool *finished,

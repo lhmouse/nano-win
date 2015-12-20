@@ -456,9 +456,14 @@ void display_buffer(void)
     titlebar(NULL);
 
 #ifndef DISABLE_COLOR
-    /* Make sure we're using the buffer's associated colors, if
-     * applicable. */
+    /* Make sure we're using the buffer's associated colors. */
     color_init();
+
+    /* If there are multiline coloring regexes, and there is no
+     * multiline cache data yet, precalculate it now. */
+    if (openfile->syntax && openfile->syntax->nmultis > 0 &&
+		openfile->fileage->multidata == NULL)
+	precalc_multicolorinfo();
 #endif
 
     /* Update the edit window. */

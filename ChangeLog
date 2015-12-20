@@ -1,3 +1,8 @@
+2015-12-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (display_buffer), src/nano.c (main): Precalculate the
+	multiline-regex cache data for each buffer, not just for the first.
+	This fixes Savannah bug #46511.
+
 2015-12-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_init): Use less #ifdefs, and adjust indentation.
 	* src/color.c (set_colorpairs): Improve comments and rename vars.

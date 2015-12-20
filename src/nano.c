@@ -2799,12 +2799,6 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: top and bottom win\n");
 #endif
 
-#ifndef DISABLE_COLOR
-    if (openfile->syntax)
-	if (openfile->syntax->nmultis > 0)
-	    precalc_multicolorinfo();
-#endif
-
     /* If a starting position was given on the command line, go there. */
     if (startline > 0 || startcol > 0)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE, FALSE);
