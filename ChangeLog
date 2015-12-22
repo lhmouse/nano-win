@@ -22,7 +22,7 @@
 2015-12-08  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (splice_node, unlink_node): Let these functions update
 	'filebot', instead of doing it in four different places each.
-	* src/search.c (goto_line_posx), src/move (do_down): It should not
+	* src/search.c (goto_line_posx), src/move.c (do_down): It should not
 	be necessary to doubly check for being at the end of file.
 	* src/text.c (do_justify): Rewrap and reorder a few lines.
 
@@ -36,8 +36,8 @@
 GNU nano 2.5.0 - 2015.12.05
 
 2015-12-05  Chris Allegretta <chrisa@asty.org>
-	* src/nano.c (main) : key_defined() is an ncurses-ism.  Add
-	better checks for this.
+	* src/nano.c (main): key_defined() is an ncurses-ism.  Add better
+	checks for this.
 
 2015-12-05  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c: Fix compilation with --enable-tiny --enable-justify.
