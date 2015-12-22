@@ -4,6 +4,7 @@
 	the checking for an impatient user into a separate routine.
 	* src/proto.h, src/winio.c (parse_escape_sequence, convert_sequence,
 	arrow_from_abcd): Better names for these three functions.
+	* src/winio.c (convert_sequence): Use return instead of a variable.
 
 2015-12-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (display_buffer), src/nano.c (main): Precalculate the

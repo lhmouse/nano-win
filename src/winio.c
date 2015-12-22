@@ -187,7 +187,7 @@ void get_key_buffer(WINDOW *win)
 #ifdef DEBUG
     {
 	size_t i;
-	fprintf(stderr, "get_key_buffer(): the series of codes:");
+	fprintf(stderr, "\nget_key_buffer(): the sequence of hex codes:");
 	for (i = 0; i < key_buffer_len; i++)
 	    fprintf(stderr, " %3x", key_buffer[i]);
 	fprintf(stderr, "\n");
@@ -669,8 +669,6 @@ int parse_kbinput(WINDOW *win)
  * Assume that Escape has already been read in. */
 int convert_sequence(const int *seq, size_t seq_len)
 {
-    int retval = ERR;
-
     if (seq_len > 1) {
 	switch (seq[0]) {
 	    case 'O':
@@ -692,20 +690,15 @@ int convert_sequence(const int *seq, size_t seq_len)
 				   * Terminal. */
 			case 'D': /* Esc O 1 ; 2 D == Shift-Left on
 				   * Terminal. */
-			    retval = arrow_from_abcd(seq[4]);
-			    break;
+			    return arrow_from_abcd(seq[4]);
 			case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
-			    retval = KEY_F(13);
-			    break;
+			    return KEY_F(13);
 			case 'Q': /* Esc O 1 ; 2 Q == F14 on Terminal. */
-			    retval = KEY_F(14);
-			    break;
+			    return KEY_F(14);
 			case 'R': /* Esc O 1 ; 2 R == F15 on Terminal. */
-			    retval = KEY_F(15);
-			    break;
+			    return KEY_F(15);
 			case 'S': /* Esc O 1 ; 2 S == F16 on Terminal. */
-			    retval = KEY_F(16);
-			    break;
+			    return KEY_F(16);
 		    }
 		}
 		break;
@@ -714,14 +707,11 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    switch (seq[4]) {
 			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
 			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
-			    retval = arrow_from_abcd(seq[4]);
-			    break;
+			    return arrow_from_abcd(seq[4]);
 			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
-			    retval = CONTROL_RIGHT;
-			    break;
+			    return CONTROL_RIGHT;
 			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
-			    retval = CONTROL_LEFT;
-			    break;
+			    return CONTROL_LEFT;
 		    }
 		}
 		break;
@@ -735,17 +725,13 @@ int convert_sequence(const int *seq, size_t seq_len)
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
 				case 'P': /* Esc O 2 P == F13 on xterm. */
-				    retval = KEY_F(13);
-				    break;
+				    return KEY_F(13);
 				case 'Q': /* Esc O 2 Q == F14 on xterm. */
-				    retval = KEY_F(14);
-				    break;
+				    return KEY_F(14);
 				case 'R': /* Esc O 2 R == F15 on xterm. */
-				    retval = KEY_F(15);
-				    break;
+				    return KEY_F(15);
 				case 'S': /* Esc O 2 S == F16 on xterm. */
-				    retval = KEY_F(16);
-				    break;
+				    return KEY_F(16);
 			    }
 			}
 			break;
@@ -753,161 +739,124 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'B': /* Esc O B == Down on VT100/VT320/xterm. */
 		    case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
 		    case 'D': /* Esc O D == Left on VT100/VT320/xterm. */
-			retval = arrow_from_abcd(seq[1]);
-			break;
+			return arrow_from_abcd(seq[1]);
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
 			       * with NumLock off on xterm. */
-			retval = KEY_B2;
-			break;
+			return KEY_B2;
 		    case 'F': /* Esc O F == End on xterm/Terminal. */
-			retval = sc_seq_or(do_end, 0);
-			break;
+			return sc_seq_or(do_end, 0);
 		    case 'H': /* Esc O H == Home on xterm/Terminal. */
-			retval = sc_seq_or(do_home, 0);
-			break;
+			return sc_seq_or(do_home, 0);
 		    case 'M': /* Esc O M == Enter on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm. */
-			retval = sc_seq_or(do_home, 0);
-			break;
+			return sc_seq_or(do_home, 0);
 		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach
 			       * console. */
-			retval = KEY_F(1);
-			break;
+			return KEY_F(1);
 		    case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Mach
 			       * console. */
-			retval = KEY_F(2);
-			break;
+			return KEY_F(2);
 		    case 'R': /* Esc O R == F3 on VT100/VT220/VT320/Mach
 			       * console. */
-			retval = KEY_F(3);
-			break;
+			return KEY_F(3);
 		    case 'S': /* Esc O S == F4 on VT100/VT220/VT320/Mach
 			       * console. */
-			retval = KEY_F(4);
-			break;
+			return KEY_F(4);
 		    case 'T': /* Esc O T == F5 on Mach console. */
-			retval = KEY_F(5);
-			break;
+			return KEY_F(5);
 		    case 'U': /* Esc O U == F6 on Mach console. */
-			retval = KEY_F(6);
-			break;
+			return KEY_F(6);
 		    case 'V': /* Esc O V == F7 on Mach console. */
-			retval = KEY_F(7);
-			break;
+			return KEY_F(7);
 		    case 'W': /* Esc O W == F8 on Mach console. */
-			retval = KEY_F(8);
-			break;
+			return KEY_F(8);
 		    case 'X': /* Esc O X == F9 on Mach console. */
-			retval = KEY_F(9);
-			break;
+			return KEY_F(9);
 		    case 'Y': /* Esc O Y == F10 on Mach console. */
-			retval = KEY_F(10);
-			break;
+			return KEY_F(10);
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
-			retval = arrow_from_abcd(seq[1]);
-			break;
+			return arrow_from_abcd(seq[1]);
 		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
-			retval = CONTROL_RIGHT;
-			break;
+			return CONTROL_RIGHT;
 		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
-			retval = CONTROL_LEFT;
-			break;
+			return CONTROL_LEFT;
 		    case 'j': /* Esc O j == '*' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm/Terminal. */
-			retval = '*';
-			break;
+			return '*';
 		    case 'k': /* Esc O k == '+' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm/Terminal. */
-			retval = '+';
-			break;
+			return '+';
 		    case 'l': /* Esc O l == ',' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm/Terminal. */
-			retval = ',';
-			break;
+			return ',';
 		    case 'm': /* Esc O m == '-' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm/Terminal. */
-			retval = '-';
-			break;
+			return '-';
 		    case 'n': /* Esc O n == Delete (.) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * xterm/rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_delete, 0);
-			break;
+			return sc_seq_or(do_delete, 0);
 		    case 'o': /* Esc O o == '/' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm/Terminal. */
-			retval = '/';
-			break;
+			return '/';
 		    case 'p': /* Esc O p == Insert (0) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_insertfile_void, 0);
-			break;
+			return sc_seq_or(do_insertfile_void, 0);
 		    case 'q': /* Esc O q == End (1) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_end, 0);
-			break;
+			return sc_seq_or(do_end, 0);
 		    case 'r': /* Esc O r == Down (2) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_down_void, 0);
-			break;
+			return sc_seq_or(do_down_void, 0);
 		    case 's': /* Esc O s == PageDown (3) on numeric
 			       * keypad with NumLock off on VT100/VT220/
 			       * VT320/rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_page_down, 0);
-			break;
+			return sc_seq_or(do_page_down, 0);
 		    case 't': /* Esc O t == Left (4) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_left, 0);
-			break;
+			return sc_seq_or(do_left, 0);
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm. */
-			retval = KEY_B2;
-			break;
+			return KEY_B2;
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_right, 0);
-			break;
+			return sc_seq_or(do_right, 0);
 		    case 'w': /* Esc O w == Home (7) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_home, 0);
-			break;
+			return sc_seq_or(do_home, 0);
 		    case 'x': /* Esc O x == Up (8) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_up_void, 0);
-			break;
+			return sc_seq_or(do_up_void, 0);
 		    case 'y': /* Esc O y == PageUp (9) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
 			       * rxvt/Eterm/Terminal. */
-			retval = sc_seq_or(do_page_up, 0);
-			break;
+			return sc_seq_or(do_page_up, 0);
 		}
 		break;
 	    case 'o':
 		switch (seq[1]) {
 		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
-			retval = arrow_from_abcd(seq[1]);
-			break;
+			return arrow_from_abcd(seq[1]);
 		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
-			retval = CONTROL_RIGHT;
-			break;
+			return CONTROL_RIGHT;
 		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
-			retval = CONTROL_LEFT;
-			break;
+			return CONTROL_LEFT;
 		}
 		break;
 	    case '[':
@@ -916,36 +865,28 @@ int convert_sequence(const int *seq, size_t seq_len)
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
 				case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
-				    retval = KEY_F(1);
-				    break;
+				    return KEY_F(1);
 				case '2': /* Esc [ 1 2 ~ == F2 on rxvt/Eterm. */
-				    retval = KEY_F(2);
-				    break;
+				    return KEY_F(2);
 				case '3': /* Esc [ 1 3 ~ == F3 on rxvt/Eterm. */
-				    retval = KEY_F(3);
-				    break;
+				    return KEY_F(3);
 				case '4': /* Esc [ 1 4 ~ == F4 on rxvt/Eterm. */
-				    retval = KEY_F(4);
-				    break;
+				    return KEY_F(4);
 				case '5': /* Esc [ 1 5 ~ == F5 on xterm/
 					   * rxvt/Eterm. */
-				    retval = KEY_F(5);
-				    break;
+				    return KEY_F(5);
 				case '7': /* Esc [ 1 7 ~ == F6 on
 					   * VT220/VT320/Linux console/
 					   * xterm/rxvt/Eterm. */
-				    retval = KEY_F(6);
-				    break;
+				    return KEY_F(6);
 				case '8': /* Esc [ 1 8 ~ == F7 on
 					   * VT220/VT320/Linux console/
 					   * xterm/rxvt/Eterm. */
-				    retval = KEY_F(7);
-				    break;
+				    return KEY_F(7);
 				case '9': /* Esc [ 1 9 ~ == F8 on
 					   * VT220/VT320/Linux console/
 					   * xterm/rxvt/Eterm. */
-				    retval = KEY_F(8);
-				    break;
+				    return KEY_F(8);
 				case ';':
     if (seq_len >= 4) {
 	switch (seq[3]) {
@@ -956,8 +897,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
 			case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
 			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
-			    retval = arrow_from_abcd(seq[4]);
-			    break;
+			    return arrow_from_abcd(seq[4]);
 		    }
 		}
 		break;
@@ -966,14 +906,11 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
 			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
-			    retval = arrow_from_abcd(seq[4]);
-			    break;
+			    return arrow_from_abcd(seq[4]);
 			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on xterm. */
-			    retval = CONTROL_RIGHT;
-			    break;
+			    return CONTROL_RIGHT;
 			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
-			    retval = CONTROL_LEFT;
-			    break;
+			    return CONTROL_LEFT;
 		    }
 		}
 		break;
@@ -982,8 +919,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 				    break;
 				default: /* Esc [ 1 ~ == Home on
 					  * VT320/Linux console. */
-				    retval = sc_seq_or(do_home, 0);
-				    break;
+				    return sc_seq_or(do_home, 0);
 			    }
 			}
 			break;
@@ -992,73 +928,56 @@ int convert_sequence(const int *seq, size_t seq_len)
 			    switch (seq[2]) {
 				case '0': /* Esc [ 2 0 ~ == F9 on VT220/VT320/
 					   * Linux console/xterm/rxvt/Eterm. */
-				    retval = KEY_F(9);
-				    break;
+				    return KEY_F(9);
 				case '1': /* Esc [ 2 1 ~ == F10 on VT220/VT320/
 					   * Linux console/xterm/rxvt/Eterm. */
-				    retval = KEY_F(10);
-				    break;
+				    return KEY_F(10);
 				case '3': /* Esc [ 2 3 ~ == F11 on VT220/VT320/
 					   * Linux console/xterm/rxvt/Eterm. */
-				    retval = KEY_F(11);
-				    break;
+				    return KEY_F(11);
 				case '4': /* Esc [ 2 4 ~ == F12 on VT220/VT320/
 					   * Linux console/xterm/rxvt/Eterm. */
-				    retval = KEY_F(12);
-				    break;
+				    return KEY_F(12);
 				case '5': /* Esc [ 2 5 ~ == F13 on VT220/VT320/
 					   * Linux console/rxvt/Eterm. */
-				    retval = KEY_F(13);
-				    break;
+				    return KEY_F(13);
 				case '6': /* Esc [ 2 6 ~ == F14 on VT220/VT320/
 					   * Linux console/rxvt/Eterm. */
-				    retval = KEY_F(14);
-				    break;
+				    return KEY_F(14);
 				case '8': /* Esc [ 2 8 ~ == F15 on VT220/VT320/
 					   * Linux console/rxvt/Eterm. */
-				    retval = KEY_F(15);
-				    break;
+				    return KEY_F(15);
 				case '9': /* Esc [ 2 9 ~ == F16 on VT220/VT320/
 					   * Linux console/rxvt/Eterm. */
-				    retval = KEY_F(16);
-				    break;
+				    return KEY_F(16);
 				default: /* Esc [ 2 ~ == Insert on VT220/VT320/
 					  * Linux console/xterm/Terminal. */
-				    retval = sc_seq_or(do_insertfile_void, 0);
-				    break;
+				    return sc_seq_or(do_insertfile_void, 0);
 			    }
 			}
 			break;
 		    case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 			       * Linux console/xterm/Terminal. */
-			retval = sc_seq_or(do_delete, 0);
-			break;
+			return sc_seq_or(do_delete, 0);
 		    case '4': /* Esc [ 4 ~ == End on VT220/VT320/Linux
 			       * console/xterm. */
-			retval = sc_seq_or(do_end, 0);
-			break;
+			return sc_seq_or(do_end, 0);
 		    case '5': /* Esc [ 5 ~ == PageUp on VT220/VT320/
 			       * Linux console/xterm/Terminal;
 			       * Esc [ 5 ^ == PageUp on Eterm. */
-			retval = sc_seq_or(do_page_up, 0);
-			break;
+			return sc_seq_or(do_page_up, 0);
 		    case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
 			       * Linux console/xterm/Terminal;
 			       * Esc [ 6 ^ == PageDown on Eterm. */
-			retval = sc_seq_or(do_page_down, 0);
-			break;
+			return sc_seq_or(do_page_down, 0);
 		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
-			retval = sc_seq_or(do_home, 0);
-			break;
+			return sc_seq_or(do_home, 0);
 		    case '8': /* Esc [ 8 ~ == End on rxvt. */
-			retval = sc_seq_or(do_end, 0);
-			break;
+			return sc_seq_or(do_end, 0);
 		    case '9': /* Esc [ 9 == Delete on Mach console. */
-			retval = sc_seq_or(do_delete, 0);
-			break;
+			return sc_seq_or(do_delete, 0);
 		    case '@': /* Esc [ @ == Insert on Mach console. */
-			retval = sc_seq_or(do_insertfile_void, 0);
-			break;
+			return sc_seq_or(do_insertfile_void, 0);
 		    case 'A': /* Esc [ A == Up on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm/Terminal. */
@@ -1071,117 +990,87 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm/Terminal. */
-			retval = arrow_from_abcd(seq[1]);
-			break;
+			return arrow_from_abcd(seq[1]);
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
 			       * with NumLock off on FreeBSD console/
 			       * Terminal. */
-			retval = KEY_B2;
-			break;
+			return KEY_B2;
 		    case 'F': /* Esc [ F == End on FreeBSD console/Eterm. */
-			retval = sc_seq_or(do_end, 0);
-			break;
+			return sc_seq_or(do_end, 0);
 		    case 'G': /* Esc [ G == PageDown on FreeBSD console. */
-			retval = sc_seq_or(do_page_down, 0);
-			break;
+			return sc_seq_or(do_page_down, 0);
 		    case 'H': /* Esc [ H == Home on ANSI/VT220/FreeBSD
 			       * console/Mach console/Eterm. */
-			retval = sc_seq_or(do_home, 0);
-			break;
+			return sc_seq_or(do_home, 0);
 		    case 'I': /* Esc [ I == PageUp on FreeBSD console. */
-			retval = sc_seq_or(do_page_up, 0);
-			break;
+			return sc_seq_or(do_page_up, 0);
 		    case 'L': /* Esc [ L == Insert on ANSI/FreeBSD console. */
-			retval = sc_seq_or(do_insertfile_void, 0);
-			break;
+			return sc_seq_or(do_insertfile_void, 0);
 		    case 'M': /* Esc [ M == F1 on FreeBSD console. */
-			retval = KEY_F(1);
-			break;
+			return KEY_F(1);
 		    case 'N': /* Esc [ N == F2 on FreeBSD console. */
-			retval = KEY_F(2);
-			break;
+			return KEY_F(2);
 		    case 'O':
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
 				case 'P': /* Esc [ O P == F1 on xterm. */
-				    retval = KEY_F(1);
-				    break;
+				    return KEY_F(1);
 				case 'Q': /* Esc [ O Q == F2 on xterm. */
-				    retval = KEY_F(2);
-				    break;
+				    return KEY_F(2);
 				case 'R': /* Esc [ O R == F3 on xterm. */
-				    retval = KEY_F(3);
-				    break;
+				    return KEY_F(3);
 				case 'S': /* Esc [ O S == F4 on xterm. */
-				    retval = KEY_F(4);
-				    break;
+				    return KEY_F(4);
 			    }
 			} else
 			    /* Esc [ O == F3 on FreeBSD console. */
-			    retval = KEY_F(3);
+			    return KEY_F(3);
 			break;
 		    case 'P': /* Esc [ P == F4 on FreeBSD console. */
-			retval = KEY_F(4);
-			break;
+			return KEY_F(4);
 		    case 'Q': /* Esc [ Q == F5 on FreeBSD console. */
-			retval = KEY_F(5);
-			break;
+			return KEY_F(5);
 		    case 'R': /* Esc [ R == F6 on FreeBSD console. */
-			retval = KEY_F(6);
-			break;
+			return KEY_F(6);
 		    case 'S': /* Esc [ S == F7 on FreeBSD console. */
-			retval = KEY_F(7);
-			break;
+			return KEY_F(7);
 		    case 'T': /* Esc [ T == F8 on FreeBSD console. */
-			retval = KEY_F(8);
-			break;
+			return KEY_F(8);
 		    case 'U': /* Esc [ U == PageDown on Mach console. */
-			retval = sc_seq_or(do_page_down, 0);
-			break;
+			return sc_seq_or(do_page_down, 0);
 		    case 'V': /* Esc [ V == PageUp on Mach console. */
-			retval = sc_seq_or(do_page_up, 0);
-			break;
+			return sc_seq_or(do_page_up, 0);
 		    case 'W': /* Esc [ W == F11 on FreeBSD console. */
-			retval = KEY_F(11);
-			break;
+			return KEY_F(11);
 		    case 'X': /* Esc [ X == F12 on FreeBSD console. */
-			retval = KEY_F(12);
-			break;
+			return KEY_F(12);
 		    case 'Y': /* Esc [ Y == End on Mach console. */
-			retval = sc_seq_or(do_end, 0);
-			break;
+			return sc_seq_or(do_end, 0);
 		    case 'Z': /* Esc [ Z == F14 on FreeBSD console. */
-			retval = KEY_F(14);
-			break;
+			return KEY_F(14);
 		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 		    case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
-			retval = arrow_from_abcd(seq[1]);
-			break;
+			return arrow_from_abcd(seq[1]);
 		    case '[':
 			if (seq_len >= 3) {
 			    switch (seq[2]) {
 				case 'A': /* Esc [ [ A == F1 on Linux
 					   * console. */
-				    retval = KEY_F(1);
-				    break;
+				    return KEY_F(1);
 				case 'B': /* Esc [ [ B == F2 on Linux
 					   * console. */
-				    retval = KEY_F(2);
-				    break;
+				    return KEY_F(2);
 				case 'C': /* Esc [ [ C == F3 on Linux
 					   * console. */
-				    retval = KEY_F(3);
-				    break;
+				    return KEY_F(3);
 				case 'D': /* Esc [ [ D == F4 on Linux
 					   * console. */
-				    retval = KEY_F(4);
-				    break;
+				    return KEY_F(4);
 				case 'E': /* Esc [ [ E == F5 on Linux
 					   * console. */
-				    retval = KEY_F(5);
-				    break;
+				    return KEY_F(5);
 			    }
 			}
 			break;
@@ -1190,11 +1079,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 	}
     }
 
-#ifdef DEBUG
-    fprintf(stderr, "convert_sequence(): retval = %d\n", retval);
-#endif
-
-    return retval;
+    return ERR;
 }
 
 /* Return the equivalent arrow key value for the case-insensitive
