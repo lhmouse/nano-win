@@ -388,8 +388,7 @@ int parse_kbinput(WINDOW *win)
 			 * there are other keystrokes waiting: escape
 			 * sequence mode.  Interpret the escape
 			 * sequence. */
-			retval = parse_escape_seq_kbinput(win,
-				*kbinput);
+			retval = parse_escape_sequence(win, *kbinput);
 		    break;
 		case 2:
 		    if (get_key_buffer_len() == 0) {
@@ -472,8 +471,7 @@ int parse_kbinput(WINDOW *win)
 			 * interpret the escape sequence. */
 			escapes = 0;
 			meta_key = TRUE;
-			retval = parse_escape_seq_kbinput(win,
-				*kbinput);
+			retval = parse_escape_sequence(win, *kbinput);
 		    }
 		    break;
 		case 3:
@@ -492,8 +490,7 @@ int parse_kbinput(WINDOW *win)
 			 * Interpret the escape sequence, and interpret
 			 * the result as a control sequence. */
 			retval = get_control_kbinput(
-				parse_escape_seq_kbinput(win,
-				*kbinput));
+				parse_escape_sequence(win, *kbinput));
 		    break;
 	    }
     }
@@ -670,7 +667,7 @@ int parse_kbinput(WINDOW *win)
  * keypad values, into their corresponding key values.  These sequences
  * are generated when the keypad doesn't support the needed keys.
  * Assume that Escape has already been read in. */
-int get_escape_seq_kbinput(const int *seq, size_t seq_len)
+int convert_sequence(const int *seq, size_t seq_len)
 {
     int retval = ERR;
 
@@ -695,7 +692,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 				   * Terminal. */
 			case 'D': /* Esc O 1 ; 2 D == Shift-Left on
 				   * Terminal. */
-			    retval = get_escape_seq_abcd(seq[4]);
+			    retval = arrow_from_abcd(seq[4]);
 			    break;
 			case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
 			    retval = KEY_F(13);
@@ -717,7 +714,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    switch (seq[4]) {
 			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
 			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
-			    retval = get_escape_seq_abcd(seq[4]);
+			    retval = arrow_from_abcd(seq[4]);
 			    break;
 			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
 			    retval = CONTROL_RIGHT;
@@ -756,7 +753,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'B': /* Esc O B == Down on VT100/VT320/xterm. */
 		    case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
 		    case 'D': /* Esc O D == Left on VT100/VT320/xterm. */
-			retval = get_escape_seq_abcd(seq[1]);
+			retval = arrow_from_abcd(seq[1]);
 			break;
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
 			       * with NumLock off on xterm. */
@@ -809,7 +806,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			break;
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
-			retval = get_escape_seq_abcd(seq[1]);
+			retval = arrow_from_abcd(seq[1]);
 			break;
 		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
 			retval = CONTROL_RIGHT;
@@ -903,7 +900,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		switch (seq[1]) {
 		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
-			retval = get_escape_seq_abcd(seq[1]);
+			retval = arrow_from_abcd(seq[1]);
 			break;
 		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
 			retval = CONTROL_RIGHT;
@@ -959,7 +956,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
 			case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
 			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
-			    retval = get_escape_seq_abcd(seq[4]);
+			    retval = arrow_from_abcd(seq[4]);
 			    break;
 		    }
 		}
@@ -969,7 +966,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
 			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
-			    retval = get_escape_seq_abcd(seq[4]);
+			    retval = arrow_from_abcd(seq[4]);
 			    break;
 			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on xterm. */
 			    retval = CONTROL_RIGHT;
@@ -1074,7 +1071,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm/Terminal. */
-			retval = get_escape_seq_abcd(seq[1]);
+			retval = arrow_from_abcd(seq[1]);
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
 			       * with NumLock off on FreeBSD console/
@@ -1160,7 +1157,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 		    case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
-			retval = get_escape_seq_abcd(seq[1]);
+			retval = arrow_from_abcd(seq[1]);
 			break;
 		    case '[':
 			if (seq_len >= 3) {
@@ -1194,7 +1191,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d\n", retval);
+    fprintf(stderr, "convert_sequence(): retval = %d\n", retval);
 #endif
 
     return retval;
@@ -1203,7 +1200,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len)
 /* Return the equivalent arrow key value for the case-insensitive
  * letters A (up), B (down), C (right), and D (left).  These are common
  * to many escape sequences. */
-int get_escape_seq_abcd(int kbinput)
+int arrow_from_abcd(int kbinput)
 {
     switch (tolower(kbinput)) {
 	case 'a':
@@ -1222,7 +1219,7 @@ int get_escape_seq_abcd(int kbinput)
 /* Interpret the escape sequence in the keystroke buffer, the first
  * character of which is kbinput.  Assume that the keystroke buffer
  * isn't empty, and that the initial escape has already been read in. */
-int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
+int parse_escape_sequence(WINDOW *win, int kbinput)
 {
     int retval, *seq;
     size_t seq_len;
@@ -1233,11 +1230,11 @@ int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
     unget_input(&kbinput, 1);
     seq_len = get_key_buffer_len();
     seq = get_input(NULL, seq_len);
-    retval = get_escape_seq_kbinput(seq, seq_len);
+    retval = convert_sequence(seq, seq_len);
 
     free(seq);
 
-    /* If we got an unrecognized escape sequence, throw it out. */
+    /* If we got an unrecognized escape sequence, notify the user. */
     if (retval == ERR) {
 	if (win == edit) {
 	    statusbar(_("Unknown Command"));
@@ -1246,7 +1243,8 @@ int parse_escape_seq_kbinput(WINDOW *win, int kbinput)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, seq_len = %lu, retval = %d\n", kbinput, (unsigned long)seq_len, retval);
+    fprintf(stderr, "parse_escape_sequence(): kbinput = %d, seq_len = %lu, retval = %d\n",
+		kbinput, (unsigned long)seq_len, retval);
 #endif
 
     return retval;

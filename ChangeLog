@@ -2,6 +2,8 @@
 	* src/color.c (precalc_multicolorinfo, alloc_multidata_if_needed):
 	Move these two functions to the file where they belong.  And make
 	the checking for an impatient user into a separate routine.
+	* src/proto.h, src/winio.c (parse_escape_sequence, convert_sequence,
+	arrow_from_abcd): Better names for these three functions.
 
 2015-12-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (display_buffer), src/nano.c (main): Precalculate the

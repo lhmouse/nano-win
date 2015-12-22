@@ -762,7 +762,7 @@ void dump_filestruct(const filestruct *inptr);
 void dump_filestruct_reverse(void);
 #endif
 
-/* All functions in winio.c. */
+/* Most functions in winio.c. */
 void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_input(int *input, size_t input_len);
@@ -770,9 +770,8 @@ void unget_kbinput(int kbinput, bool metakey, bool funckey);
 int *get_input(WINDOW *win, size_t input_len);
 int get_kbinput(WINDOW *win);
 int parse_kbinput(WINDOW *win);
-int get_escape_seq_kbinput(const int *seq, size_t seq_len);
-int get_escape_seq_abcd(int kbinput);
-int parse_escape_seq_kbinput(WINDOW *win, int kbinput);
+int arrow_from_abcd(int kbinput);
+int parse_escape_sequence(WINDOW *win, int kbinput);
 int get_byte_kbinput(int kbinput);
 #ifdef ENABLE_UTF8
 long add_unicode_digit(int kbinput, long factor, long *uni);
