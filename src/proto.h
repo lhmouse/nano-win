@@ -252,6 +252,9 @@ bool is_valid_mbstring(const char *s);
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
+void reset_multis(filestruct *fileptr, bool force);
+void alloc_multidata_if_needed(filestruct *fileptr);
+void precalc_multicolorinfo(void);
 #endif
 
 /* All functions in cut.c. */
@@ -506,7 +509,6 @@ int do_input(bool allow_funcs);
 int do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
-void precalc_multicolorinfo(void);
 
 /* All functions in prompt.c. */
 int do_statusbar_input(bool *ran_func, bool *finished,
@@ -571,8 +573,6 @@ void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
-void reset_multis(filestruct *fileptr, bool force);
-void alloc_multidata_if_needed(filestruct *fileptr);
 #endif
 void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR

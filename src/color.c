@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <time.h>
 #include <unistd.h>
 
 #ifdef HAVE_MAGIC_H
@@ -448,6 +449,149 @@ void reset_multis(filestruct *fileptr, bool force)
 	/* If we got here, things have changed. */
 	reset_multis_for_id(fileptr, tmpcolor->id);
     }
+}
+
+/* Allocate (for one line) the cache space for multiline color regexes. */
+void alloc_multidata_if_needed(filestruct *fileptr)
+{
+    int i;
+
+    if (fileptr->multidata == NULL) {
+	fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
+
+	for (i = 0; i < openfile->syntax->nmultis; i++)
+	    fileptr->multidata[i] = -1;
+    }
+}
+
+/* Poll the keyboard every second to see if the user starts typing. */
+bool key_was_pressed(void)
+{
+    static time_t last_time = 0;
+
+    if (time(NULL) != last_time) {
+	last_time = time(NULL);
+	return (wgetch(edit) != ERR);
+    } else
+	return FALSE;
+}
+
+/* Precalculate the multi-line start and end regex info so we can
+ * speed up rendering (with any hope at all...). */
+void precalc_multicolorinfo(void)
+{
+    const colortype *tmpcolor = openfile->colorstrings;
+    regmatch_t startmatch, endmatch;
+    filestruct *fileptr, *endptr;
+
+    if (openfile->colorstrings == NULL || ISSET(NO_COLOR_SYNTAX))
+	return;
+
+#ifdef DEBUG
+    fprintf(stderr, "Entering precalculation of multiline color info\n");
+#endif
+    /* Let us get keypresses to see if the user is trying to start
+     * editing.  Later we may want to throw up a statusbar message
+     * before starting this if it takes too long to do this routine.
+     * For now silently abort if they hit a key. */
+    nodelay(edit, TRUE);
+
+    for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+	/* If this is not a multi-line regex, skip it. */
+	if (tmpcolor->end == NULL)
+	    continue;
+#ifdef DEBUG
+	fprintf(stderr, "Starting work on color id %d\n", tmpcolor->id);
+#endif
+
+	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
+	    int startx = 0, nostart = 0;
+
+	    if (key_was_pressed())
+		goto precalc_cleanup;
+#ifdef DEBUG
+	    fprintf(stderr, "working on lineno %ld... ", (long)fileptr->lineno);
+#endif
+	    alloc_multidata_if_needed(fileptr);
+
+	    while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx],
+			1, &startmatch, (startx == 0) ? 0 : REG_NOTBOL)) == 0) {
+		/* Look for an end, and start marking how many lines are
+		 * encompassed, which should speed up rendering later. */
+		startx += startmatch.rm_eo;
+#ifdef DEBUG
+		fprintf(stderr, "start found at pos %lu... ", (unsigned long)startx);
+#endif
+		/* Look first on this line for an end. */
+		if (regexec(tmpcolor->end, &fileptr->data[startx], 1,
+			&endmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
+		    startx += endmatch.rm_eo;
+		    fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
+#ifdef DEBUG
+		    fprintf(stderr, "end found on this line\n");
+#endif
+		    continue;
+		}
+
+		/* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
+		for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
+#ifdef DEBUG
+		    fprintf(stderr, "\nadvancing to line %ld to find end... ", (long)endptr->lineno);
+#endif
+		    /* Check for interrupting keyboard input again. */
+		    if (key_was_pressed())
+			goto precalc_cleanup;
+
+		    if (regexec(tmpcolor->end, endptr->data, 1, &endmatch, 0) == 0)
+			break;
+		}
+
+		if (endptr == NULL) {
+#ifdef DEBUG
+		    fprintf(stderr, "no end found, breaking out\n");
+#endif
+		    break;
+		}
+#ifdef DEBUG
+		fprintf(stderr, "end found\n");
+#endif
+		/* We found it, we found it, la la la la la.  Mark all
+		 * the lines in between and the end properly. */
+		fileptr->multidata[tmpcolor->id] = CENDAFTER;
+#ifdef DEBUG
+		fprintf(stderr, "marking line %ld as CENDAFTER\n", (long)fileptr->lineno);
+#endif
+		for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
+		    alloc_multidata_if_needed(fileptr);
+		    fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+#ifdef DEBUG
+		    fprintf(stderr, "marking intermediary line %ld as CWHOLELINE\n", (long)fileptr->lineno);
+#endif
+		}
+
+		alloc_multidata_if_needed(endptr);
+		fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+#ifdef DEBUG
+		fprintf(stderr, "marking line %ld as CBEGINBEFORE\n", (long)fileptr->lineno);
+#endif
+		/* Skip to the end point of the match. */
+		startx = endmatch.rm_eo;
+#ifdef DEBUG
+		fprintf(stderr, "jumping to line %ld pos %lu to continue\n", (long)fileptr->lineno, (unsigned long)startx);
+#endif
+	    }
+
+	    if (nostart && startx == 0) {
+#ifdef DEBUG
+		fprintf(stderr, "no match\n");
+#endif
+		fileptr->multidata[tmpcolor->id] = CNONE;
+		continue;
+	    }
+	}
+    }
+precalc_cleanup:
+    nodelay(edit, FALSE);
 }
 
 #endif /* !DISABLE_COLOR */

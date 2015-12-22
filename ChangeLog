@@ -1,3 +1,8 @@
+2015-12-22 Benno Schulenberg  <bensberg@justemail.net>
+	* src/color.c (precalc_multicolorinfo, alloc_multidata_if_needed):
+	Move these two functions to the file where they belong.  And make
+	the checking for an impatient user into a separate routine.
+
 2015-12-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (display_buffer), src/nano.c (main): Precalculate the
 	multiline-regex cache data for each buffer, not just for the first.
