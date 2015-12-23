@@ -2297,9 +2297,8 @@ int do_writeout(bool exiting)
 		if (i == 0) {
 		    free(ans);
 		    return 2;	/* Yes, discard the buffer. */
-		}
-		if (i < 0)
-		   continue;	/* The discard was cancelled. */
+		} else
+		    continue;	/* Go back to the filename prompt. */
 	    }
 
 	    ans = mallocstrcpy(ans, answer);

@@ -7,6 +7,9 @@
 	* doc/man/nanorc.5: Improve ordering of bindable functions.
 	* src/files.c (read_file): Don't open an extra blank buffer when
 	an empty file is read.  Bug was exposed by r5498, December 18.
+	* src/files.c (do_writeout): When the user decides to save the
+	buffer after all, go back to the filename prompt because the
+	buffer may not have a name yet.  This fixes Savannah bug #46752.
 
 2015-12-23  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/autoconf.nanorc: Handle .m4 files too, add the "elif"
