@@ -1,3 +1,7 @@
+2015-12-23  Mike Frysinger  <vapier@gentoo.org>
+	* doc/syntax/autoconf.nanorc: Handle .m4 files too, add the "elif"
+	keyword, handle dnl comments better, and mark trailing whitespace.
+
 2015-12-23  Christian Weisgerber  <naddy@mips.inka.de>
 	* configure.ac: AC_CHECK_HEADERS_ONCE() is very special and cannot be
 	conditionalized.  Use plain AC_CHECK_HEADERS() instead, to not check

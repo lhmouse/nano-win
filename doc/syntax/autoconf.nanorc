@@ -1,9 +1,9 @@
 ## Here is an example for Autoconf.
 
-syntax "autoconf" "\.ac$"
+syntax "autoconf" "\.(ac|m4)$"
 
 # Keywords:
-color yellow "\<(if|test|then|else|fi|for|in|do|done)\>"
+color yellow "\<(if|test|then|elif|else|fi|for|in|do|done)\>"
 color yellow "(=|!=|&&|\|\|)"
 
 # Macros:
@@ -25,4 +25,7 @@ color black "^\*\*\*.*"
 color magenta "\[|\]|\(|\)"
 
 # Comments:
-color blue "^[[:blank:]]*#.*"  "^dnl.*"
+color blue "^[[:blank:]]*#.*"  "\<dnl.*"
+
+# Trailing whitespace:
+color ,green "[[:space:]]+$"
