@@ -6,7 +6,7 @@
 
 @smallbook
 @set EDITION 0.3
-@set VERSION 2.5.0
+@set VERSION 2.5.1
 @set UPDATED December 2015
 
 @dircategory Editors
@@ -21,7 +21,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.5.0
+@subtitle version 2.5.1
 
 @author Chris Allegretta
 @page
@@ -1158,6 +1158,11 @@ When writing a file, 'prepends' (writes at the beginning) instead of overwriting
 
 @item backup
 When writing a file, creates a backup of the current file.
+
+@item discardbuffer
+When about to write a file, discard the current buffer without saving.
+(This function is bound by default only when option @option{--tempfile}
+is in effect.)
 
 @item tofiles
 Starts the file browser, allowing to select a file from a list.

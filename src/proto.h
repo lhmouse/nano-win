@@ -325,7 +325,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	append_type append);
 #endif
-bool do_writeout(bool exiting);
+int do_writeout(bool exiting);
 void do_writeout_void(void);
 #ifndef NANO_TINY
 void do_savefile(void);
@@ -483,6 +483,7 @@ int more_space(void);
 int no_help(void);
 void no_current_file_name_warning(void);
 void do_exit(void);
+void close_and_go(void);
 void signal_init(void);
 RETSIGTYPE handle_hupterm(int signal);
 RETSIGTYPE do_suspend(int signal);
@@ -836,6 +837,7 @@ void mac_format_void(void);
 void append_void(void);
 void prepend_void(void);
 void backup_file_void(void);
+void discard_buffer(void);
 void new_buffer_void(void);
 void backwards_void(void);
 void goto_dir_void(void);

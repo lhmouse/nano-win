@@ -1,3 +1,10 @@
+2015-12-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (do_writeout, do_writeout_void), src/global.c
+	(shortcut_init, strtosc), src/nano.c (do_exit, close_and_go),
+	doc/man/nanorc.5, doc/texinfo/nano.texi: In the writeout menu,
+	offer ^Q to close and discard the buffer without saving it.  By
+	default, the key is bound only when --tempfile is in effect.
+
 2015-12-23  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/autoconf.nanorc: Handle .m4 files too, add the "elif"
 	keyword, handle dnl comments better, and mark trailing whitespace.

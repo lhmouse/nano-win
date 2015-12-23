@@ -20,7 +20,7 @@
 .\"   Documentation License along with this program.  If not, see
 .\"   <http://www.gnu.org/licenses/>.
 .\"
-.TH NANORC 5 "version 2.5.0" "December 2015"
+.TH NANORC 5 "version 2.5.1" "December 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -595,6 +595,11 @@ When writing a file, 'prepends' (writes at the beginning) instead of overwriting
 .TP
 .B backup
 When writing a file, creates a backup of the current file.
+.TP
+.B discardbuffer
+When about to write a file, discard the current buffer without saving.
+(This function is bound by default only when option \fB\-\-tempfile\fR
+is in effect.)
 .TP
 .B firstfile
 Goes to the first file when using the file browser (reading or writing files).

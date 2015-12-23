@@ -1146,23 +1146,27 @@ void do_exit(void)
 
     /* If the user chose not to save, or if the user chose to save and
      * the save succeeded, we're ready to exit. */
-    if (i == 0 || (i == 1 && do_writeout(TRUE))) {
-
-#ifndef NANO_TINY
-	if (ISSET(LOCKING) && openfile->lock_filename)
-	    delete_lockfile(openfile->lock_filename);
-#endif
-
-#ifndef DISABLE_MULTIBUFFER
-	/* Exit only if there are no more open file buffers. */
-	if (!close_buffer(FALSE))
-#endif
-	    finish();
-    /* If the user canceled, we go on. */
-    } else if (i != 1)
+    if (i == 0 || (i == 1 && do_writeout(TRUE)))
+	close_and_go();
+    else if (i != 1)
 	statusbar(_("Cancelled"));
 
     display_main_list();
+}
+
+/* Close the current buffer, and terminate nano if it was the last. */
+void close_and_go(void)
+{
+#ifndef NANO_TINY
+    /* If there is a lockfile, remove it. */
+    if (ISSET(LOCKING) && openfile->lock_filename)
+	delete_lockfile(openfile->lock_filename);
+#endif
+#ifndef DISABLE_MULTIBUFFER
+    /* If there are no more open file buffers, jump off a cliff. */
+    if (!close_buffer(FALSE))
+#endif
+	finish();
 }
 
 /* Another placeholder for function mapping. */

@@ -2211,11 +2211,11 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 #endif /* !NANO_TINY */
 
 /* Write the current file to disk.  If the mark is on, write the current
- * marked selection to disk.  If exiting is TRUE, write the file to disk
- * regardless of whether the mark is on, and without prompting if the
- * TEMP_FILE flag is set and the current file has a name.  Return TRUE
- * on success or FALSE on error. */
-bool do_writeout(bool exiting)
+ * marked selection to disk.  If exiting is TRUE, write the entire file
+ * to disk regardless of whether the mark is on, and without prompting if
+ * the TEMP_FILE flag is set and the current file has a name.  Return 0
+ * on error, 1 on success, and 2 when the buffer is to be discarded. */
+int do_writeout(bool exiting)
 {
     int i;
     append_type append = OVERWRITE;
@@ -2224,15 +2224,13 @@ bool do_writeout(bool exiting)
 #ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
-    bool retval = FALSE;
+    bool result = FALSE;
 
     if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
-	retval = write_file(openfile->filename, NULL, FALSE, OVERWRITE,
-		FALSE);
+	result = write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE);
 
-	/* Write succeeded. */
-	if (retval)
-	    return retval;
+	if (result)
+	    return 1;	/* The write succeeded. */
     }
 
     ans = mallocstrcpy(NULL,
@@ -2289,10 +2287,25 @@ bool do_writeout(bool exiting)
 	 * encoded null), treat it as though it's blank. */
 	if (i < 0 || *answer == '\n') {
 	    statusbar(_("Cancelled"));
-	    retval = FALSE;
 	    break;
 	} else {
 	    functionptrtype func = func_from_key(&i);
+
+	    /* Upon request, abandon the buffer, if user is sure. */
+	    if (func == discard_buffer) {
+		if (openfile->modified)
+		    i = do_yesno_prompt(FALSE,
+				_("Save modified buffer anyway ? "));
+		else
+		    i = 0;
+
+		if (i == 0) {
+		    free(ans);
+		    return 2;	/* Yes, discard the buffer. */
+		}
+		if (i < 0)
+		   continue;	/* The discard was cancelled. */
+	    }
 
 	    ans = mallocstrcpy(ans, answer);
 
@@ -2347,7 +2360,6 @@ bool do_writeout(bool exiting)
 			strcasecmp(answer, "zzy") == 0) {
 		do_credits();
 		did_credits = TRUE;
-		retval = FALSE;
 		break;
 	    }
 #endif
@@ -2431,7 +2443,7 @@ bool do_writeout(bool exiting)
 	     * a separate file.  If we're using restricted mode, this
 	     * function is disabled, since it allows reading from or
 	     * writing to files not specified on the command line. */
-	    retval =
+	    result =
 #ifndef NANO_TINY
 		(!ISSET(RESTRICTED) && !exiting && openfile->mark_set) ?
 		write_marked_file(answer, NULL, FALSE, append) :
@@ -2444,14 +2456,16 @@ bool do_writeout(bool exiting)
 
     free(ans);
 
-    return retval;
+    return result ? 1 : 0;
 }
 
-/* Write the current file to disk.  If the mark is on, write the current
- * marked selection to disk. */
+/* Write the current buffer to disk, or discard it. */
 void do_writeout_void(void)
 {
-    do_writeout(FALSE);
+    /* If the user chose to discard the buffer, close it. */
+    if (do_writeout(FALSE) == 2)
+	close_and_go();
+
     display_main_list();
 }
 

@@ -270,6 +270,9 @@ void prepend_void(void)
 void backup_file_void(void)
 {
 }
+void discard_buffer(void)
+{
+}
 void new_buffer_void(void)
 {
 }
@@ -632,6 +635,7 @@ void shortcut_init(void)
     const char *nano_backup_msg = N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
+    const char *nano_discard_buffer_msg = N_("Close buffer without saving it");
 #ifndef DISABLE_MULTIBUFFER
     const char *nano_multibuffer_msg = N_("Toggle the use of a new buffer");
 #endif
@@ -1006,6 +1010,9 @@ void shortcut_init(void)
 	N_("Last File"), IFSCHELP(nano_lastfile_msg), BLANKAFTER, VIEW);
 #endif
 
+    add_to_funcs(discard_buffer, MWRITEFILE,
+	N_("Discard buffer"), IFSCHELP(nano_discard_buffer_msg), BLANKAFTER, NOVIEW);
+
 #if !defined(NANO_TINY) && !defined(DISABLE_BROWSER)
     add_to_funcs(do_research, MBROWSER,
 	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
@@ -1197,6 +1204,8 @@ void shortcut_init(void)
     add_to_sclist(MBROWSER, "M-G", goto_dir_void, 0);
     add_to_sclist(MBROWSER, "F13", goto_dir_void, 0);
 #endif
+    if (ISSET(TEMP_FILE))
+	add_to_sclist(MWRITEFILE, "^Q", discard_buffer, 0);
     add_to_sclist(MWRITEFILE, "M-D", dos_format_void, 0);
     add_to_sclist(MWRITEFILE, "M-M", mac_format_void, 0);
     if (!ISSET(RESTRICTED)) {
@@ -1333,6 +1342,8 @@ sc *strtosc(char *input)
 	s->scfunc = do_cancel;
     else if (!strcasecmp(input, "exit"))
 	s->scfunc = do_exit;
+    else if (!strcasecmp(input, "discardbuffer"))
+	s->scfunc = discard_buffer;
     else if (!strcasecmp(input, "writeout"))
 	s->scfunc = do_writeout_void;
 #ifndef NANO_TINY
