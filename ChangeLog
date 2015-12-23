@@ -4,6 +4,9 @@
 	* src/files.c (save_history, save_poshistory): Don't make the user
 	hit Enter when there's an error saving history state at exit; it is
 	pointless and annoying.  Just notify the user and move on.
+	* src/nano.c (main): On most 64-bit systems, casting a pointer to
+	an integer can cause valid pointers to be truncated and rejected.
+	Rework the code to test for the two invalid values directly.
 
 2015-12-23  Christian Weisgerber  <naddy@mips.inka.de>
 	* configure.ac: AC_CHECK_HEADERS_ONCE() is very special and cannot be

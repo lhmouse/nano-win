@@ -2574,11 +2574,14 @@ int main(int argc, char **argv)
 #endif
 
 #if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
+    const char *keyvalue;
     /* Ask ncurses for the key codes for Control+Left and Control+Right. */
-    if ((int)tigetstr("kLFT5") > 0)
-	controlleft = key_defined(tigetstr("kLFT5"));
-    if ((int)tigetstr("kRIT5") > 0)
-	controlright = key_defined(tigetstr("kRIT5"));
+    keyvalue = tigetstr("kLFT5");
+    if (keyvalue != 0 && keyvalue != (char *)-1)
+	controlleft = key_defined(keyvalue);
+    keyvalue = tigetstr("kRIT5");
+    if (keyvalue != 0 && keyvalue != (char *)-1)
+	controlright = key_defined(keyvalue);
 #endif
 
 #ifdef DEBUG
