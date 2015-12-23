@@ -1,4 +1,9 @@
-2015-12-22 Benno Schulenberg  <bensberg@justemail.net>
+2015-12-23  Christian Weisgerber  <naddy@mips.inka.de>
+	* configure.ac: AC_CHECK_HEADERS_ONCE() is very special and cannot be
+	conditionalized.  Use plain AC_CHECK_HEADERS() instead, to not check
+	for magic.h and zlib.h when configuring with --disable-libmagic.
+
+2015-12-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (precalc_multicolorinfo, alloc_multidata_if_needed):
 	Move these two functions to the file where they belong.  And make
 	the checking for an impatient user into a separate routine.
