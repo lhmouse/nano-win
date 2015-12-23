@@ -784,11 +784,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 
     free(buf);
 
-    /* If we didn't get a file and we don't already have one, open a
-     * blank buffer. */
-    if (fileptr == NULL)
-	open_buffer("", FALSE);
-
     /* Attach the file we got to the filestruct.  If we got a file of
      * zero bytes, don't do anything. */
     if (num_lines > 0) {
