@@ -4,6 +4,7 @@
 	doc/man/nanorc.5, doc/texinfo/nano.texi: In the writeout menu,
 	offer ^Q to close and discard the buffer without saving it.  By
 	default, the key is bound only when --tempfile is in effect.
+	* doc/man/nanorc.5: Improve ordering of bindable functions.
 
 2015-12-23  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/autoconf.nanorc: Handle .m4 files too, add the "elif"
