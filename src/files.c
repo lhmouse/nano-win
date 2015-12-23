@@ -3077,15 +3077,15 @@ void save_history(void)
 	FILE *hist = fopen(nanohist, "wb");
 
 	if (hist == NULL)
-	    history_error(N_("Error writing %s: %s"), nanohist,
-		strerror(errno));
+	    fprintf(stderr, _("Error writing %s: %s\n"), nanohist,
+			strerror(errno));
 	else {
 	    /* Make sure no one else can read from or write to the
 	     * history file. */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 
 	    if (!writehist(hist, searchage) || !writehist(hist, replaceage))
-		history_error(N_("Error writing %s: %s"), nanohist,
+		fprintf(stderr, _("Error writing %s: %s\n"), nanohist,
 			strerror(errno));
 
 	    fclose(hist);
@@ -3108,8 +3108,8 @@ void save_poshistory(void)
 	FILE *hist = fopen(poshist, "wb");
 
 	if (hist == NULL)
-	    history_error(N_("Error writing %s: %s"), poshist,
-		strerror(errno));
+	    fprintf(stderr, _("Error writing %s: %s\n"), poshist,
+			strerror(errno));
 	else {
 	    /* Make sure no one else can read from or write to the
 	     * history file. */
@@ -3120,8 +3120,8 @@ void save_poshistory(void)
 		sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
 			(long)posptr->xno);
 		if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))
-		    history_error(N_("Error writing %s: %s"), poshist,
-			strerror(errno));
+		    fprintf(stderr, _("Error writing %s: %s\n"), poshist,
+				strerror(errno));
 		free(statusstr);
 	    }
 	    fclose(hist);
