@@ -1,3 +1,7 @@
+2015-12-29  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/syntax/{c,objc,asm}.nanorc: Disable the regex for multiline
+	strings as it colours some things wrong and is a glutton on time.
+
 2015-12-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_writeout, do_writeout_void), src/global.c
 	(shortcut_init, strtosc), src/nano.c (do_exit, close_and_go),

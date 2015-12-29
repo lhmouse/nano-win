@@ -25,8 +25,9 @@ color white "\[[^][:space:]]*\]"
 color brightblack "'([^'\]|(\\["'abfnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
 color brightblack "<[^= 	]*>" ""(\\.|[^"])*""
 color brightblue "@"(\\.|[^"])*""
-# Multiline strings.  This regex is VERY resource intensive!
-## color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+# Multiline strings.  This regex is VERY resource intensive,
+# and sometimes colours things that shouldn't be coloured.
+###color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 
 # Preprocessor commands.
 color brightblue "^[[:space:]]*#[[:space:]]*(define|include|import|(un|ifn?)def|endif|el(if|se)|if|warning|error)"

@@ -19,8 +19,9 @@ color cyan "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidd
 # Strings.  In general you will want your strings and comments to come last,
 # because highlighting rules are applied in the order they are read in.
 color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
-# Multiline strings.  This regex is VERY resource intensive!
-color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+# Multiline strings.  This regex is VERY resource intensive,
+# and sometimes colours things that shouldn't be coloured.
+###color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 
 # Comments.
 color brightblue "//.*"

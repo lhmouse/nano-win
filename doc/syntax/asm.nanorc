@@ -12,8 +12,9 @@ color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|
 
 # Strings.
 color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
-# Multiline strings (note: VERY resource intensive).
-color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+# Multiline strings.  This regex is VERY resource intensive,
+# and sometimes colours things that shouldn't be coloured.
+###color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 
 # Comments.
 color brightblue "//.*"
