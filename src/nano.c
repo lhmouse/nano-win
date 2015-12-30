@@ -2622,7 +2622,9 @@ int main(int argc, char **argv)
 	    if (i < argc - 1 && argv[i][0] == '+')
 		parse_line_column(&argv[i][1], &iline, &icol);
 	    else {
-		open_buffer(argv[i], FALSE);
+		/* If opening fails, don't try to position the cursor. */
+		if (!open_buffer(argv[i], FALSE))
+		    continue;
 
 		/* If a position was given on the command line, go there. */
 		if (iline > 0 || icol > 0) {

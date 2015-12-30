@@ -283,7 +283,7 @@ void do_uncut_text(void);
 /* All functions in files.c. */
 void make_new_buffer(void);
 void initialize_buffer_text(void);
-void open_buffer(const char *filename, bool undoable);
+bool open_buffer(const char *filename, bool undoable);
 #ifndef DISABLE_SPELLER
 void replace_buffer(const char *filename);
 #endif

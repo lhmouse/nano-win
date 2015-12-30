@@ -323,7 +323,7 @@ int do_lockfile(const char *filename)
 
 /* If it's not "", filename is a file to open.  We make a new buffer, if
  * necessary, and then open and read the file, if applicable. */
-void open_buffer(const char *filename, bool undoable)
+bool open_buffer(const char *filename, bool undoable)
 {
     bool quiet = FALSE;
     bool new_buffer = (openfile == NULL
@@ -343,7 +343,7 @@ void open_buffer(const char *filename, bool undoable)
     if (check_operating_dir(filename, FALSE)) {
 	statusbar(_("Can't insert file from outside of %s"),
 		operating_dir);
-	return;
+	return FALSE;
     }
 #endif
 
@@ -358,7 +358,7 @@ void open_buffer(const char *filename, bool undoable)
 	    else
 		statusbar(_("\"%s\" is not a normal file"), filename);
 	    beep();
-	    return;
+	    return FALSE;
 	}
     }
 
@@ -374,7 +374,7 @@ void open_buffer(const char *filename, bool undoable)
 #ifndef DISABLE_MULTIBUFFER
 		if (openfile->next) {
 		    close_buffer(TRUE);
-		    return;
+		    return FALSE;
 		}
 #endif
 	    } else if (lockstatus == 0) {
@@ -421,6 +421,7 @@ void open_buffer(const char *filename, bool undoable)
     if (new_buffer)
 	color_update();
 #endif
+    return TRUE;
 }
 
 #ifndef DISABLE_SPELLER
