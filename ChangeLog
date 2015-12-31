@@ -2,6 +2,8 @@
 	* src/text.c (do_formatter): Restore the cursor position differently.
 	* src/search.c (do_gotopos): Delete this now unused function.
 	* src/search.c (do_gotolinecolumn): Chop an always FALSE parameter.
+	* src/search.c (do_gotolinecolumn): Chop a duplicate parameter --
+	'allow_update' always has the same value as 'interactive'.
 
 2015-12-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (main), src/files.c (open_buffer): Don't try to position

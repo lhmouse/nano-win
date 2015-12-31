@@ -3180,7 +3180,7 @@ void do_linter(void)
 		}
 	    }
 #endif /* !NANO_TINY */
-	    do_gotolinecolumn(curlint->lineno, tmpcol, FALSE, FALSE, FALSE);
+	    do_gotolinecolumn(curlint->lineno, tmpcol, FALSE, FALSE);
 	    titlebar(NULL);
 	    edit_refresh();
 	    statusbar(curlint->msg);
