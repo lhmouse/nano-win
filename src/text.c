@@ -3330,8 +3330,12 @@ void do_formatter(void)
 	/* Replace the text of the current buffer with the formatted text. */
 	replace_buffer(temp);
 
-	/* Go back to the old position, and mark the file as modified. */
-	do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
+	/* Restore the cursor position, and mark the file as modified. */
+	goto_line_posx(lineno_save, current_x_save);
+	openfile->current_y = current_y_save;
+	openfile->placewewant = pww_save;
+	edit_update(NONE);
+
 	set_modified();
 
 	finalstatus = _("Finished formatting");
