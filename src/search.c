@@ -236,8 +236,7 @@ int search_init(bool replacing, bool use_answer)
 		return -2;	/* Call the opposite search function. */
 	} else if (func == do_gotolinecolumn_void) {
 		do_gotolinecolumn(openfile->current->lineno,
-			openfile->placewewant + 1, TRUE, TRUE, FALSE,
-			TRUE);
+			openfile->placewewant + 1, TRUE, TRUE, TRUE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
 		return 3;
@@ -947,11 +946,10 @@ void goto_line_posx(ssize_t line, size_t pos_x)
 }
 
 /* Go to the specified line and column, or ask for them if interactive
- * is TRUE.  Save the x-coordinate and y-coordinate if save_pos is TRUE.
- * Update the screen afterwards if allow_update is TRUE.  Note that both
- * the line and column numbers should be one-based. */
+ * is TRUE.  Update the screen afterwards if allow_update is TRUE.
+ * Note that both the line and column number should be one-based. */
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
-	bool interactive, bool save_pos, bool allow_update)
+	bool interactive, bool allow_update)
 {
     if (interactive) {
 	char *ans = mallocstrcpy(NULL, answer);
@@ -1013,10 +1011,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->current_x = actual_x(openfile->current->data, column - 1);
     openfile->placewewant = column - 1;
 
-    /* Put the top line of the edit window in range of the current line.
-     * If save_pos is TRUE, don't change the cursor position when doing
-     * it. */
-    edit_update(save_pos ? NONE : CENTER);
+    /* Put the top line of the edit window in range of the current line. */
+    edit_update(CENTER);
 
     /* If allow_update is TRUE, update the screen. */
     if (allow_update) {
@@ -1029,7 +1025,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 void do_gotolinecolumn_void(void)
 {
     do_gotolinecolumn(openfile->current->lineno,
-	openfile->placewewant + 1, FALSE, TRUE, FALSE, TRUE);
+	openfile->placewewant + 1, FALSE, TRUE, TRUE);
 }
 
 #ifndef NANO_TINY

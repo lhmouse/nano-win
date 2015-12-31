@@ -2628,7 +2628,7 @@ int main(int argc, char **argv)
 
 		/* If a position was given on the command line, go there. */
 		if (iline > 0 || icol > 0) {
-		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE, FALSE);
+		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE);
 		    iline = 0;
 		    icol = 0;
 		}
@@ -2637,7 +2637,7 @@ int main(int argc, char **argv)
 		    ssize_t savedposline, savedposcol;
 		    /* If edited before, restore the last cursor position. */
 		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
-			do_gotolinecolumn(savedposline, savedposcol, FALSE,
+			do_gotolinecolumn(savedposline, savedposcol,
 						FALSE, FALSE, FALSE);
 		}
 #endif
@@ -2669,13 +2669,13 @@ int main(int argc, char **argv)
 
     /* If a starting position was given on the command line, go there. */
     if (startline > 0 || startcol > 0)
-	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE, FALSE);
+	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE);
 #ifndef DISABLE_HISTORIES
     else {
 	ssize_t savedposline, savedposcol;
 	/* If the file was edited before, restore the last cursor position. */
 	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
-	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
+	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE);
     }
 #endif
 

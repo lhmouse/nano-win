@@ -1207,7 +1207,7 @@ void do_insertfile(
 			!execute &&
 #endif
 			check_poshistory(answer, &savedposline, &savedposcol))
-		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE, FALSE);
+		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE, FALSE);
 	    } else
 #endif /* !DISABLE_MULTIBUFFER && !DISABLE_HISTORIES */
 	    {

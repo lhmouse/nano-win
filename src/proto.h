@@ -619,7 +619,7 @@ ssize_t do_replace_loop(
 void do_replace(void);
 void goto_line_posx(ssize_t line, size_t pos_x);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
-	bool interactive, bool save_pos, bool allow_update);
+	bool interactive, bool allow_update);
 void do_gotolinecolumn_void(void);
 #ifndef NANO_TINY
 bool find_bracket_match(bool reverse, const char *bracket_set);
