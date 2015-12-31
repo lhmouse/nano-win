@@ -617,14 +617,10 @@ ssize_t do_replace_loop(
 	bool *canceled, const filestruct *real_current, size_t
 	*real_current_x, const char *needle);
 void do_replace(void);
+void goto_line_posx(ssize_t line, size_t pos_x);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update);
 void do_gotolinecolumn_void(void);
-#ifndef DISABLE_SPELLER
-void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
-	pos_pww);
-#endif
-void goto_line_posx(ssize_t line, size_t pos_x);
 #ifndef NANO_TINY
 bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);

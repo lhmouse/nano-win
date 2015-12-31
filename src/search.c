@@ -1032,24 +1032,6 @@ void do_gotolinecolumn_void(void)
 	openfile->placewewant + 1, FALSE, TRUE, FALSE, TRUE);
 }
 
-#ifndef DISABLE_SPELLER
-/* Go to the line with the number specified in pos_line, the
- * x-coordinate specified in pos_x, the y-coordinate specified in pos_y,
- * and the place we want specified in pos_pww. */
-void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
-	pos_pww)
-{
-    /* Since do_gotolinecolumn() resets the x-coordinate but not the
-     * y-coordinate, set the coordinates up this way. */
-    openfile->current_y = pos_y;
-    do_gotolinecolumn(pos_line, pos_x + 1, FALSE, FALSE, TRUE, TRUE);
-
-    /* Set the rest of the coordinates up. */
-    openfile->placewewant = pos_pww;
-    update_line(openfile->current, pos_x);
-}
-#endif
-
 #ifndef NANO_TINY
 /* Search for a match to one of the two characters in bracket_set.  If
  * reverse is TRUE, search backwards for the leftmost bracket.
