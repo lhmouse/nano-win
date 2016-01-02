@@ -2850,13 +2850,15 @@ void do_spell(void)
 {
     bool status;
     FILE *temp_file;
-    char *temp = safe_tempfile(&temp_file);
+    char *temp;
     const char *spell_msg;
 
     if (ISSET(RESTRICTED)) {
 	show_restricted_warning();
 	return;
     }
+
+    temp = safe_tempfile(&temp_file);
 
     if (temp == NULL) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
@@ -3234,7 +3236,7 @@ void do_formatter(void)
 {
     bool status;
     FILE *temp_file;
-    char *temp = safe_tempfile(&temp_file);
+    char *temp;
     int format_status;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
@@ -3245,6 +3247,13 @@ void do_formatter(void)
     static int arglen = 3;
     static char **formatargs = NULL;
     char *finalstatus = NULL;
+
+    if (openfile->totsize == 0) {
+	statusbar(_("Finished"));
+	return;
+    }
+
+    temp = safe_tempfile(&temp_file);
 
     if (temp == NULL) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
@@ -3258,11 +3267,6 @@ void do_formatter(void)
     if (!status) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
 	free(temp);
-	return;
-    }
-
-    if (openfile->totsize == 0) {
-	statusbar(_("Finished"));
 	return;
     }
 
@@ -3299,6 +3303,8 @@ void do_formatter(void)
     /* If we couldn't fork, get out. */
     if (pid_format < 0) {
 	statusbar(_("Could not fork"));
+	unlink(temp);
+	free(temp);
 	return;
     }
 
