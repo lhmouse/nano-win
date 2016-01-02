@@ -2760,10 +2760,6 @@ const char *do_alt_speller(char *tempfile_name)
     /* Turn the cursor back on for sure. */
     curs_set(1);
 
-    /* The screen might have been resized.  If it has, reinitialize all
-     * the windows based on the new screen dimensions. */
-    window_init();
-
     if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
 #ifndef NANO_TINY
 	/* Turn the mark back on if it was on before. */
@@ -3325,10 +3321,6 @@ void do_formatter(void)
 
     /* Turn the cursor back on for sure. */
     curs_set(1);
-
-    /* The screen might have been resized.  If it has, reinitialize all
-     * the windows based on the new screen dimensions. */
-    window_init();
 
     if (!WIFEXITED(format_status) || WEXITSTATUS(format_status) != 0)
 	finalstatus = invocation_error(openfile->syntax->formatter);
