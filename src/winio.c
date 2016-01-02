@@ -3425,11 +3425,11 @@ void do_credits(void)
     if (kbinput != ERR)
 	ungetch(kbinput);
 
-    if (!old_more_space || !old_no_help) {
+    if (!old_more_space)
 	UNSET(MORE_SPACE);
+    if (!old_no_help)
 	UNSET(NO_HELP);
-	window_init();
-    }
+    window_init();
 
     curs_set(1);
     nodelay(edit, FALSE);

@@ -2,6 +2,8 @@
 	* src/text.c (do_spell, do_formatter): Plug three tiny memory leaks.
 	* src/text.c (do_alt_speller, do_formatter): There is no need here to
 	reinitialize the windows; it will be done when polling the keybuffer.
+	* src/winio.c (do_credits): Correctly restore the settings of NO_HELP
+	and MORE_SPACE.
 
 2015-12-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_formatter): Restore the cursor position differently.
