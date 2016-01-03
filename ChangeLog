@@ -7,6 +7,7 @@
 	instead of doing it always.
 	* src/color.c (reset_multis): Abort when having no multiline regexes.
 	* src/nano.c (do_input): A functionless shortcut should be impossible.
+	* src/nano.c (do_input): Adjust indentation.
 
 2016-01-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell, do_formatter): Plug three tiny memory leaks.

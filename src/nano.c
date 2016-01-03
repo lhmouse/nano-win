@@ -1664,7 +1664,6 @@ int do_input(bool allow_funcs)
 		kbinput = (int *)nrealloc(kbinput, kbinput_len *
 			sizeof(int));
 		kbinput[kbinput_len - 1] = input;
-
 	    }
 	}
 
@@ -1703,6 +1702,7 @@ int do_input(bool allow_funcs)
 	}
 
 	if (have_shortcut) {
+	    const subnfunc *f = sctofunc((sc *)s);
 	    /* If the function associated with this shortcut is
 	     * cutting or copying text, remember this. */
 	    if (s->scfunc == do_cut_text_void
@@ -1716,34 +1716,31 @@ int do_input(bool allow_funcs)
 		statusbar("Internal error: shortcut without function!");
 		return ERR;
 	    }
-	    {
-		const subnfunc *f = sctofunc((sc *) s);
-		if (ISSET(VIEW_MODE) && f && !f->viewok)
-		    print_view_warning();
-		else {
+	    if (ISSET(VIEW_MODE) && f && !f->viewok)
+		print_view_warning();
+	    else {
 #ifndef NANO_TINY
-		    if (s->scfunc == do_toggle_void) {
-			do_toggle(s->toggle);
-			if (s->toggle != CUT_TO_END)
-			    preserve = TRUE;
-		    } else
+		if (s->scfunc == do_toggle_void) {
+		    do_toggle(s->toggle);
+		    if (s->toggle != CUT_TO_END)
+			preserve = TRUE;
+		} else
 #endif
-		    {
-			/* Execute the function of the shortcut. */
-			s->scfunc();
+		{
+		    /* Execute the function of the shortcut. */
+		    s->scfunc();
 #ifndef DISABLE_COLOR
-			if (f && !f->viewok)
-			    reset_multis(openfile->current, FALSE);
+		    if (f && !f->viewok)
+			reset_multis(openfile->current, FALSE);
 #endif
-			if (edit_refresh_needed) {
+		    if (edit_refresh_needed) {
 #ifdef DEBUG
-			    fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
+			fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
 #endif
-			    edit_refresh();
-			    edit_refresh_needed = FALSE;
-			} else if (s->scfunc == do_delete || s->scfunc == do_backspace)
-			    update_line(openfile->current, openfile->current_x);
-		    }
+			edit_refresh();
+			edit_refresh_needed = FALSE;
+		    } else if (s->scfunc == do_delete || s->scfunc == do_backspace)
+			update_line(openfile->current, openfile->current_x);
 		}
 	    }
 	}
