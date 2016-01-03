@@ -1728,8 +1728,7 @@ int do_input(bool allow_funcs)
 			/* Execute the function of the shortcut. */
 			s->scfunc();
 #ifndef DISABLE_COLOR
-			if (f && !f->viewok && openfile->syntax != NULL
-				&& openfile->syntax->nmultis > 0)
+			if (f && !f->viewok)
 			    reset_multis(openfile->current, FALSE);
 #endif
 			if (edit_refresh_needed) {

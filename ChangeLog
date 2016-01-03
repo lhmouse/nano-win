@@ -5,6 +5,7 @@
 	* src/nano.c (do_output): Let reset_multis() figure out whether after
 	an addition a full refresh is needed (for multiline-regexes' sake),
 	instead of doing it always.
+	* src/color.c (reset_multis): Abort when having no multiline regexes.
 
 2016-01-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell, do_formatter): Plug three tiny memory leaks.

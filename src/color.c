@@ -417,7 +417,8 @@ void reset_multis(filestruct *fileptr, bool force)
     regmatch_t startmatch, endmatch;
     const colortype *tmpcolor = openfile->colorstrings;
 
-    if (!openfile->syntax)
+    /* If there is no syntax or no multiline regex, there is nothing to do. */
+    if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
 	return;
 
     for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
