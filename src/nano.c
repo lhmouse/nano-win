@@ -1712,7 +1712,11 @@ int do_input(bool allow_funcs)
 		)
 		preserve = TRUE;
 
-	    if (s->scfunc != 0) {
+	    if (s->scfunc == NULL) {
+		statusbar("Internal error: shortcut without function!");
+		return ERR;
+	    }
+	    {
 		const subnfunc *f = sctofunc((sc *) s);
 		if (ISSET(VIEW_MODE) && f && !f->viewok)
 		    print_view_warning();
