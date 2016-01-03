@@ -161,9 +161,6 @@ void do_deletion(undo_type action)
 #endif
 
     set_modified();
-
-    if (edit_refresh_needed == FALSE)
-	update_line(openfile->current, openfile->current_x);
 }
 
 /* Delete the character under the cursor. */

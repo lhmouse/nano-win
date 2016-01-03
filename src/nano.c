@@ -1738,7 +1738,8 @@ int do_input(bool allow_funcs)
 #endif
 			    edit_refresh();
 			    edit_refresh_needed = FALSE;
-			}
+			} else if (s->scfunc == do_delete || s->scfunc == do_backspace)
+			    update_line(openfile->current, openfile->current_x);
 		    }
 		}
 	    }

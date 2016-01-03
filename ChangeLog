@@ -1,3 +1,8 @@
+2016-01-03  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_deletion), src/nano.c (do_input): Let reset_multis()
+	figure out whether after a deletion a full refresh is needed, before
+	doing a redraw of the current line.  This fixes Savannah bug #46794.
+
 2016-01-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell, do_formatter): Plug three tiny memory leaks.
 	* src/text.c (do_alt_speller, do_formatter): There is no need here to
