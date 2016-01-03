@@ -2,6 +2,9 @@
 	* src/text.c (do_deletion), src/nano.c (do_input): Let reset_multis()
 	figure out whether after a deletion a full refresh is needed, before
 	doing a redraw of the current line.  This fixes Savannah bug #46794.
+	* src/nano.c (do_output): Let reset_multis() figure out whether after
+	an addition a full refresh is needed (for multiline-regexes' sake),
+	instead of doing it always.
 
 2016-01-02  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_spell, do_formatter): Plug three tiny memory leaks.

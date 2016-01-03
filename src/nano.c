@@ -1946,14 +1946,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
     }
 
-#ifndef DISABLE_COLOR
-    /* If syntax highlighting is turned on and there are multiline regexes,
-     * the edit window will need to be refreshed. */
-    if (!ISSET(NO_COLOR_SYNTAX) && openfile->syntax &&
-		openfile->syntax->nmultis > 0)
-	edit_refresh_needed = TRUE;
-#endif
-
 #ifndef NANO_TINY
     /* Well, we might also need a full refresh if we've changed the
      * line length to be a new multiple of COLS. */
@@ -1969,6 +1961,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #ifndef DISABLE_COLOR
     reset_multis(openfile->current, FALSE);
 #endif
+
     if (edit_refresh_needed == TRUE) {
 	edit_refresh();
 	edit_refresh_needed = FALSE;
