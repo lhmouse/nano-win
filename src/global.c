@@ -1225,6 +1225,7 @@ void shortcut_init(void)
     add_to_sclist(MHELP, "End", do_last_line, 0);
 #endif
     add_to_sclist(MMOST, "^I", do_tab, 0);
+    add_to_sclist(MMOST, "Tab", do_tab, 0);
     add_to_sclist(MMOST, "^M", do_enter, 0);
     add_to_sclist(MMOST, "Enter", do_enter, 0);
     add_to_sclist(MMOST, "^D", do_delete, 0);
