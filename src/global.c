@@ -441,6 +441,8 @@ void assign_keyinfo(sc *s)
 	    s->seq = KEY_DC;
 	else if (!strcasecmp(s->keystr, "Bsp"))
 	    s->seq = KEY_BACKSPACE;
+	else if (!strcasecmp(s->keystr, "Tab"))
+	    s->seq = 9;
 	else if (!strcasecmp(s->keystr, "Enter"))
 	    s->seq = KEY_ENTER;
 	else if (!strcasecmp(s->keystr, "PgUp"))
