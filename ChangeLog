@@ -3,6 +3,7 @@
 	only once, so there is no longer any need to free existing ones.
 	* src/global.c (sctofunc): Rewrite the loop, and constify the input.
 	* src/text.c (do_linter): Condense the exit code.
+	* src/nano.c (allow_sigwinch): Improve its name and its comments.
 
 2016-01-04  Mike Frysinger  <vapier@gentoo.org>
 	* src/global.c (strtosc, strtomenu): Constify the input parameter.

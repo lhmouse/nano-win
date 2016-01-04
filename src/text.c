@@ -2740,9 +2740,8 @@ const char *do_alt_speller(char *tempfile_name)
 	return _("Could not fork");
 
 #ifndef NANO_TINY
-    /* Don't handle a pending SIGWINCH until the alternate spell checker
-     * is finished and we've loaded the spell-checked file back in. */
-    allow_pending_sigwinch(FALSE);
+    /* Block SIGWINCHes so the spell checker doesn't get any. */
+    allow_sigwinch(FALSE);
 #endif
 
     /* Wait for the alternate spell checker to finish. */
@@ -2830,8 +2829,8 @@ const char *do_alt_speller(char *tempfile_name)
 	set_modified();
 
 #ifndef NANO_TINY
-    /* Handle a pending SIGWINCH again. */
-    allow_pending_sigwinch(TRUE);
+    /* Unblock SIGWINCHes again. */
+    allow_sigwinch(TRUE);
 #endif
 
     return NULL;
@@ -3289,9 +3288,8 @@ void do_formatter(void)
     }
 
 #ifndef NANO_TINY
-    /* Don't handle any SIGWINCHes until the formatter has finished and
-     * we've loaded the reformatted file back in. */
-    allow_pending_sigwinch(FALSE);
+    /* Block SIGWINCHes so the formatter doesn't get any. */
+    allow_sigwinch(FALSE);
 #endif
 
     /* Wait for the formatter to finish. */
@@ -3327,8 +3325,8 @@ void do_formatter(void)
     free(temp);
 
 #ifndef NANO_TINY
-    /* Handle SIGWINCHes again. */
-    allow_pending_sigwinch(TRUE);
+    /* Unblock SIGWINCHes again. */
+    allow_sigwinch(TRUE);
 #endif
 
     /* If the formatter printed any error messages onscreen, make
