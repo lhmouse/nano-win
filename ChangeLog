@@ -2,6 +2,7 @@
 	* src/global.c (shortcut_init): Nowadays the functions are defined
 	only once, so there is no longer any need to free existing ones.
 	* src/global.c (sctofunc): Rewrite the loop, and constify the input.
+	* src/text.c (do_linter): Condense the exit code.
 
 2016-01-04  Mike Frysinger  <vapier@gentoo.org>
 	* src/global.c (strtosc, strtomenu): Constify the input parameter.

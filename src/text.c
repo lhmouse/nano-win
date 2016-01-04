@@ -2899,13 +2899,7 @@ void do_spell(void)
 #endif /* !DISABLE_SPELLER */
 
 #ifndef DISABLE_COLOR
-/* Cleanup things to do after leaving the linter. */
-void lint_cleanup(void)
-{
-    display_main_list();
-}
-
-/* Run linter.  Based on alt-speller code.  Return NULL for normal
+/* Run a linting program on the current buffer.  Return NULL for normal
  * termination, and the error string otherwise. */
 void do_linter(void)
 {
@@ -2935,13 +2929,10 @@ void do_linter(void)
 	int i = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
 	if (i == -1) {
 	    statusbar(_("Cancelled"));
-	    lint_cleanup();
-	    return;
+	    goto exit_from_lint;
 	} else if (i == 1) {
-	    if (do_writeout(FALSE) != TRUE) {
-		lint_cleanup();
-		return;
-	    }
+	    if (do_writeout(FALSE) != TRUE)
+		goto exit_from_lint;
 	}
     }
 
@@ -2949,8 +2940,7 @@ void do_linter(void)
     /* Create pipe up front. */
     if (pipe(lint_fd) == -1) {
 	statusbar(_("Could not create pipe"));
-	lint_cleanup();
-	return;
+	goto exit_from_lint;
     }
 
     blank_bottombars();
@@ -3000,16 +2990,14 @@ void do_linter(void)
     if (pid_lint < 0) {
 	close(lint_fd[0]);
 	statusbar(_("Could not fork"));
-	lint_cleanup();
-	return;
+	goto exit_from_lint;
     }
 
     /* Get the system pipe buffer size. */
     if ((pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(lint_fd[0]);
 	statusbar(_("Could not get size of pipe buffer"));
-	lint_cleanup();
-	return;
+	goto exit_from_lint;
     }
 
     /* Read in the returned syntax errors. */
@@ -3109,16 +3097,14 @@ void do_linter(void)
 
     if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
 	statusbar(invocation_error(openfile->syntax->linter));
-	lint_cleanup();
-	return;
+	goto exit_from_lint;
     }
 
     free(read_buff);
 
     if (parsesuccess == 0) {
 	statusbar(_("Got 0 parsable lines from command: %s"), openfile->syntax->linter);
-	lint_cleanup();
-	return;
+	goto exit_from_lint;
     }
 
     bottombars(MLINTER);
@@ -3218,7 +3204,8 @@ void do_linter(void)
 	free(tmplint->filename);
 	free(tmplint);
     }
-    lint_cleanup();
+  exit_from_lint:
+    display_main_list();
 }
 
 #ifndef DISABLE_SPELLER
