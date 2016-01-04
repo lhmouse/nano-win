@@ -372,8 +372,8 @@ void set_spell_shortcuts(void);
 #endif
 const subnfunc *sctofunc(sc *s);
 const char *flagtostr(int flag);
-sc *strtosc(char *input);
-int strtomenu(char *input);
+sc *strtosc(const char *input);
+int strtomenu(const char *input);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif

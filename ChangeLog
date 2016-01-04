@@ -1,3 +1,6 @@
+2016-01-04  Mike Frysinger  <vapier@gentoo.org>
+	* src/global.c (strtosc, strtomenu): Constify the input parameter.
+
 2016-01-03  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_deletion), src/nano.c (do_input): Let reset_multis()
 	figure out whether after a deletion a full refresh is needed, before

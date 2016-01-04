@@ -1327,7 +1327,7 @@ const char *flagtostr(int flag)
 #ifndef DISABLE_NANORC
 /* Interpret a function string given in the rc file, and return a
  * shortcut struct with the corresponding function filled in. */
-sc *strtosc(char *input)
+sc *strtosc(const char *input)
 {
     sc *s;
 
@@ -1580,7 +1580,7 @@ sc *strtosc(char *input)
 }
 
 /* Interpret a menu name and return the corresponding menu flag. */
-int strtomenu(char *input)
+int strtomenu(const char *input)
 {
     if (!strcasecmp(input, "all"))
 	return (MMOST|MHELP|MYESNO);
