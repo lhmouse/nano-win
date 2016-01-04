@@ -663,12 +663,6 @@ void shortcut_init(void)
 #define IFSCHELP(help) ""
 #endif
 
-    while (allfuncs != NULL) {
-	subnfunc *f = allfuncs;
-	allfuncs = allfuncs->next;
-	free(f);
-    }
-
     /* Start populating the different menus with functions. */
 
     add_to_funcs(do_help_void, MMOST,

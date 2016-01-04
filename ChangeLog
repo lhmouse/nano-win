@@ -1,3 +1,7 @@
+2016-01-04  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c (shortcut_init): Nowadays the functions are defined
+	only once, so there is no longer any need to free existing ones.
+
 2016-01-04  Mike Frysinger  <vapier@gentoo.org>
 	* src/global.c (strtosc, strtomenu): Constify the input parameter.
 
