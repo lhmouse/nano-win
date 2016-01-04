@@ -3150,7 +3150,7 @@ void do_linter(void)
 			    while (curlint != NULL && !strcmp(curlint->filename, dontwantfile))
 				curlint = curlint->next;
 			    if (curlint == NULL) {
-				statusbar("No more errors in un-opened filed, cancelling");
+				statusbar(_("No more errors in unopened files, cancelling"));
 				break;
 			    } else
 				goto new_lint_loop;
