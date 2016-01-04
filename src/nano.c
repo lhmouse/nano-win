@@ -1702,7 +1702,7 @@ int do_input(bool allow_funcs)
 	}
 
 	if (have_shortcut) {
-	    const subnfunc *f = sctofunc((sc *)s);
+	    const subnfunc *f = sctofunc(s);
 	    /* If the function associated with this shortcut is
 	     * cutting or copying text, remember this. */
 	    if (s->scfunc == do_cut_text_void

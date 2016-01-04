@@ -1260,12 +1260,12 @@ void set_spell_shortcuts(void)
 }
 #endif
 
-const subnfunc *sctofunc(sc *s)
+const subnfunc *sctofunc(const sc *s)
 {
-    subnfunc *f;
+    subnfunc *f = allfuncs;
 
-    for (f = allfuncs; f != NULL && s->scfunc != f->scfunc; f = f->next)
-	;
+    while (f != NULL && f->scfunc != s->scfunc)
+	f = f->next;
 
     return f;
 }

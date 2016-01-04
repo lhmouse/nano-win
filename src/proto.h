@@ -370,7 +370,7 @@ void shortcut_init(void);
 void set_lint_or_format_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
-const subnfunc *sctofunc(sc *s);
+const subnfunc *sctofunc(const sc *s);
 const char *flagtostr(int flag);
 sc *strtosc(const char *input);
 int strtomenu(const char *input);

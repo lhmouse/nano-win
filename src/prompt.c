@@ -210,7 +210,7 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		 * functions and setting finished to TRUE to indicate
 		 * that we're done after running or trying to run their
 		 * associated functions. */
-		f = sctofunc((sc *) s);
+		f = sctofunc(s);
 		if (s->scfunc != NULL) {
 		    *ran_func = TRUE;
 		    if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
