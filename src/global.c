@@ -441,8 +441,11 @@ void assign_keyinfo(sc *s)
 	    s->seq = KEY_DC;
 	else if (!strcasecmp(s->keystr, "Bsp"))
 	    s->seq = KEY_BACKSPACE;
+	/* The Tab and Enter keys don't actually produce special codes
+	 * but the exact integer values of ^I and ^M.  Rebinding the
+	 * latter therefore also rebinds Tab and Enter. */
 	else if (!strcasecmp(s->keystr, "Tab"))
-	    s->seq = 9;
+	    s->seq = NANO_CONTROL_I;
 	else if (!strcasecmp(s->keystr, "Enter"))
 	    s->seq = KEY_ENTER;
 	else if (!strcasecmp(s->keystr, "PgUp"))

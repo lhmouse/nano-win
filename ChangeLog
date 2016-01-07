@@ -1,6 +1,7 @@
 2016-01-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (assign_keyinfo): Delete two unneeded #ifdefs: if
 	they /could/ be false, the H and E keys would stop working.
+	* src/global.c (assign_keyinfo): Add a comment and use a symbol.
 
 2016-01-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (shortcut_init): Nowadays the functions are defined
