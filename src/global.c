@@ -449,14 +449,10 @@ void assign_keyinfo(sc *s)
 	    s->seq = KEY_PPAGE;
 	else if (!strcasecmp(s->keystr, "PgDn"))
 	    s->seq = KEY_NPAGE;
-#ifdef KEY_HOME
 	else if (!strcasecmp(s->keystr, "Home"))
 	    s->seq = KEY_HOME;
-#endif
-#ifdef KEY_END
 	else if (!strcasecmp(s->keystr, "End"))
 	    s->seq = KEY_END;
-#endif
     }
 }
 
