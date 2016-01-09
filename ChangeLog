@@ -4,6 +4,7 @@
 	This fixes Savannah bug #26977 reported by Tigrmesh.
 	* src/winio.c (update_line): For softwrap, don't go beyond the number
 	of available rows in the edit window.  This fixes Savannah bug #42188.
+	* ChangeLog: Snip inconsistent blank lines.
 
 2016-01-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (assign_keyinfo): Delete two unneeded #ifdefs: if
@@ -3168,7 +3169,7 @@ GNU nano 2.1.1 - 2008.04.01
 	* src/global.c, doc/man/nanorc.5: Fix typos and poorly worded
 	  lines in the source and man pages.
 
-2008-03-04  Chris Allegretta <chrisa@asty.org
+2008-03-04  Chris Allegretta <chrisa@asty.org>
 	* everything: New shortcut backend.  New structs subnfunc
 	for menu functions and toggles and sc for shortcut keys, old
 	'shortcut' and 'toggles' structs are gone.  The current implementation
@@ -3176,18 +3177,15 @@ GNU nano 2.1.1 - 2008.04.01
 	Updated nanorc.5 with some mostly complete documentation on configuring.
 
 2007-12-20  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* AUTHORS, doc/faq.html: Update maintenance information.
 	* NEWS: Resync with NEWS from the 2.0 branch.
 
 2007-12-18  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* nano.c (print_opt_full): Use strlenpt() instead of strlen(),
 	so that tabs are placed properly when displaying translated
 	strings in UTF-8, as found by Jean-Philippe Guérard.
 
 2007-12-17  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* configure.ac, doc/texinfo/nano.texi, nano.c (terminal_init):
 	Change slang curses emulation support to turn off the same
 	options as --enable-tiny, as it's hopelessly broken otherwise.
@@ -3200,23 +3198,19 @@ GNU nano 2.1.1 - 2008.04.01
 	* NEWS: Resync with NEWS from the 2.0 branch.
 
 2007-12-10  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* nano.c (main): Exit if initscr() fails.
 
 2007-12-09  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* faq.html: Add minor punctuation and wording fixes, and update
 	various sections to account for Alpine.
 
 2007-12-08  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* prompt.c (do_statusbar_mouse, reset_statusbar_cursor,
 	update_statusbar_line, need_statusbar_horizontal_update): Fix
 	minor display and cursor placement problems when scrolling
 	between pages at the statusbar prompt.
 
 2007-12-07  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* winio.c (get_mouseinput): Fix longstanding problem where mouse
 	clicks on the statusbar prompt text wouldn't be recognized
 	unless the NO_HELP flag was turned off.
@@ -3225,7 +3219,6 @@ GNU nano 2.1.1 - 2008.04.01
 	Free Software Foundation.
 
 2007-12-04  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* nano.c (main), prompt.c (get_prompt_string), winio.c
 	(do_replace_highlight): Per OKATA Akio's patch, with minor
 	tweaks by me, add wnoutrefresh() calls after
@@ -3236,35 +3229,29 @@ GNU nano 2.1.1 - 2008.04.01
 	click interval.
 
 2007-11-29  Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>
-
 	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Fix copyright notices.
 	The copyrights are disclaimed on these translations, but the
 	copyrights of the untranslated works also apply.
 
 2007-11-28  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/man/fr/nanorc.5: Remove trailing whitespace.
 
 2007-11-17  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (read_file): Improve autodetection of DOS and Mac
 	format files to not trigger on carriage returns in the middle of
 	files, as found by Kjell Braden.
 
 2007-11-06  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/man/rnano.1, doc/man/fr/rnano.1: Update copyright notices,
 	as Jordi Mallach's copyrights have now been assigned to the Free
 	Software Foundation.
 
 2007-11-05  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* search.c (do_gotolinecolumn): Use a clearer error message if
 	we enter an invalid line or column number, per Mike Melanson's
 	suggestion.
 
 2007-10-11  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/man/nano.1, doc/man/fr/nano.1, doc/texinfo/nano.texi,
 	src/*.c, src/*.h: Update copyright notices, as Chris
 	Allegretta's copyrights have now been assigned to the Free
@@ -3281,32 +3268,26 @@ GNU nano 2.1.1 - 2008.04.01
 	uncompleted part of the match).
 
 2007-10-05  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* src/*.c, src/*.h: Update copyright notices, as my copyrights
 	have now been assigned to the Free Software Foundation.
 
 2007-09-16  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* winio.c (edit_scroll): Fix problem where the screen wouldn't
 	be updated properly if you paged up with the first line of the
 	file onscreen and the mark on.
 
 2007-08-26  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/faq.html: Update links to the Free Translation Project.
 
 2007-08-23  Jean-Philippe Guérard <jean-philippe.guerard@tigreraye.org>
-
 	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Add translation of new
 	licensing terms.
 
 2007-08-23  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/man/fr/*.1, doc/man/fr/nanorc.5: Delete translation of
 	old licensing terms, until it can be updated.
 
 2007-08-22  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* COPYING.DOC: Add a copy of the GNU FDL version 1.2.
 	* Makefile.am: Add COPYING.DOC to EXTRA_DIST.
 	* doc/man/*.1, doc/man/nanorc.5, doc/man/fr/*.1,
@@ -3315,21 +3296,18 @@ GNU nano 2.1.1 - 2008.04.01
 	Invariant Sections, Front-Cover Texts, or Back-Cover Texts.
 
 2007-08-21  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/man/rnano.1, doc/man/fr/rnano.1: Add missing copyright
 	notice from nano-tiny.1, which rnano.1 is based on.
 	* doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	Make all copyright notices consistent.
 
 2007-08-16  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (do_insertfile): Properly handle more cases of
 	inserting a file with the mark on.
 	* nano.c (copy_from_file): Properly handle more cases of
 	uncutting text with the mark on.
 
 2007-08-15  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* Makefile.am: Remove erroneous backslash after
 	ChangeLog.pre-2.1 in EXTRA_DIST, so that "make dist" works
 	again.
@@ -3339,13 +3317,11 @@ GNU nano 2.1.1 - 2008.04.01
 	positioned after uncutting multiple lines with the mark on.
 
 2007-08-11  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* COPYING: Add a copy of the GNU GPL version 3.
 	* configure.ac, *.c, *.h: Relicense to the GNU GPL version 3 or
 	later.
 
 2007-08-10  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (username_tab_completion, cwd_tab_completion,
 	input_tab): Update copyright notice to account for
 	modifications.
@@ -3354,7 +3330,6 @@ GNU nano 2.1.1 - 2008.04.01
 	account for modifications.
 
 2007-08-07  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* nano.c (copy_from_file): Fix potential segfault, found by Paul
 	Goins, after uncutting one line of text with the mark on by
 	properly preserving the beginning of the mark.
@@ -3362,31 +3337,25 @@ GNU nano 2.1.1 - 2008.04.01
 	positioned after uncutting one line of text with the mark on.
 
 2007-08-01  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* nano.c (version): Display copyright notices.
 
 2007-07-31  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* configure.ac: Update copyright notice to account for
 	modifications.
 
 2007-07-29  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* doc/faq.html: Update RPM links for nano 2.0.x.
 
 2007-07-11  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (copy_file): Assert that inn and out don't both point
 	to the same file.
 
 2007-07-10  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
 	mbrevstrcasestr): Simplify and rewrite to use the strncasecmp()
 	equivalents.
 
 2007-07-09  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
 	mbrevstrcasestr): Fix typo that broke the check for needle's
 	being blank.
@@ -3399,28 +3368,23 @@ GNU nano 2.1.1 - 2008.04.01
 	openfile->totsize's being miscalculated.
 
 2007-07-06  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
 	mbrevstrcasestr): Return char* instead of const char*.
 
 2007-07-02  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* chars.c (nstrcasestr, mbstrcasestr, revstrstr, revstrcasestr,
 	mbrevstrcasestr): For efficiency, return haystack/rev_start
 	immediately if needle is blank.
 
 2007-07-01  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* chars.c (nstrncasecmp, mbstrncasecmp): For efficiency, return
 	zero immediately if s1 and s2 point to the same string.
 
 2007-06-30  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* prompt.c (do_yesno_prompt): Remove redundant check for
 	NO_HELP's being FALSE.
 
 2007-06-28  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c
 	(do_statusbar_mouse, do_yesno_prompt): Further simplify
 	processing of mouse events by consolidating if clauses.
@@ -3429,19 +3393,16 @@ GNU nano 2.1.1 - 2008.04.01
 	clause.
 
 2007-05-29  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* winio.c (do_mouseinput): Deal with clicks of the first mouse
 	button again.  Oddly, ncurses built without --enable-ext-mouse
 	needs this, but ncurses built with --enable-ext-mouse doesn't.
 
 2007-05-25  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* configure.ac, nano.c (main): Replace the current hackish check
 	for a UTF-8 locale with a proper call to nl_langinfo().
 	* winio.c (get_key_buffer): Fix inaccurate comments.
 
 2007-05-22  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c
 	(do_statusbar_mouse, do_yesno_prompt), winio.c (do_mouseinput):
 	Simplify processing of mouse events.  Instead of calling
@@ -3451,7 +3412,6 @@ GNU nano 2.1.1 - 2008.04.01
 	which does both.
 
 2007-05-20  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* browser.c (do_browser), nano.c (do_mouse), prompt.c
 	(do_statusbar_mouse, do_yesno_prompt), winio.c (do_mouseinput):
 	Fix processing of mouse events so that those we don't handle are
@@ -3462,7 +3422,6 @@ GNU nano 2.1.1 - 2008.04.01
 	move the cursor if we're in the edit window or on the statusbar.
 
 2007-05-15  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* winio.c (do_mouseinput): Add mouse wheel support, per Helmut
 	Jarausch's suggestion.  Now, if mouse support is enabled, and
 	nano is using a version of ncurses compiled with the
@@ -3470,34 +3429,28 @@ GNU nano 2.1.1 - 2008.04.01
 	will move the cursor three lines up or down.
 
 2007-04-23  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* TODO: Add entries for fixing limitations with pasting text and
 	handling bad/incomplete UTF-8 sequences.
 
 2007-04-22  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* text.c (backup_lines): Avoid a segfault when the mark begins
 	and ends on the line after the last line of the paragraph.
 
 2007-04-21  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (do_writeout): If we're in restricted mode, we're not
 	allowed to write selections to files, so don't display the
 	"Write Selection to File" prompt.
 	* files.c (do_writeout): Simplify.
 
 2007-04-19  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (tail): Remove unneeded if statement.
 
 2007-04-18  John M. Gabriele  <jmg3000@gmail.com>
-
 	* doc/faq.html: Add a new section 4.14 (with minor tweaks by
 	David Lawrence Ramsey) to explain how autoindent affects pasted
 	text.
 
 2007-04-18  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (open_file): Open files using their full paths
 	whenever possible, so that ~user/file.txt and "~user/file.txt"
 	are treated the same way if ~user is a user's home directory.
@@ -3519,7 +3472,6 @@ GNU nano 2.1.1 - 2008.04.01
 	* winio.c (get_escape_seq_kbinput): Add missing comments.
 
 2007-04-17  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (real_dir_from_tilde): Fix long-standing problem,
 	found by Justin Fletcher, where directory names that began with
 	"~", but that weren't users' home directories, could be
@@ -3529,13 +3481,11 @@ GNU nano 2.1.1 - 2008.04.01
 	less than zero, as it's a size_t and hence unsigned.
 
 2007-04-16  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* files.c (real_dir_from_tilde): Fix segfault, found by Justin
 	Fletcher, when dealing with directory names that begin with "~",
 	but that aren't users' home directories.
 
 2007-04-11  Mike Frysinger  <vapier@gentoo.org>
-
 	* doc/syntax/asm.nanorc, doc/syntax/c.nanorc,
 	doc/syntax/sh.nanorc: Copy the regex that highlights trailing
 	whitespace (with minor tweaks by David Lawrence Ramsey) from
@@ -3543,13 +3493,11 @@ GNU nano 2.1.1 - 2008.04.01
 	them.
 
 2007-04-04  David Lawrence Ramsey  <pooka109@gmail.com>
-
 	* AUTHORS, faq.html: Update email address.
 	* winio.c (get_escape_seq_kbinput): Add escape sequences for
 	Terminal.
 
 2007-02-01  Benno Schulenberg  <bensberg@justemail.net>
-
 	* global.c (shortcut_init): Reword the movement shortcut
 	descriptions so that they use "Go to" instead of "Move to",
 	since not all of them move the cursor in the same way.
@@ -3560,7 +3508,6 @@ GNU nano 2.1.1 - 2008.04.01
 	associated toggle description.
 
 2007-01-29  David Lawrence Ramsey  <pooka109@cox.net>
-
 	* ChangeLog: Rework the 2.1 branch's changelog to be more
 	readable, per Jordi Mallach's suggestion.
 	* ChangeLog.pre-2.1: Move the 2.0 branch's changelog here, per
