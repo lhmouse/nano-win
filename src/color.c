@@ -527,6 +527,10 @@ void precalc_multicolorinfo(void)
 		if (regexec(tmpcolor->end, &fileptr->data[startx], 1,
 			&endmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
 		    startx += endmatch.rm_eo;
+		    /* Step ahead when both start and end are mere anchors. */
+		    if (startmatch.rm_so == startmatch.rm_eo &&
+				endmatch.rm_so == endmatch.rm_eo)
+			startx += 1;
 		    fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
 #ifdef DEBUG
 		    fprintf(stderr, "end found on this line\n");

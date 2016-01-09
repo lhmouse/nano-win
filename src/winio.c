@@ -2611,6 +2611,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			    }
 			}
 			start_col = endmatch.rm_eo;
+			/* Skip over a zero-length match. */
+			if (endmatch.rm_so == endmatch.rm_eo)
+			    start_col += 1;
 		    } else {
 			/* There is no end on this line.  But we haven't yet
 			 * looked for one on later lines. */
