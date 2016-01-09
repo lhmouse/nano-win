@@ -2789,7 +2789,7 @@ int update_line(filestruct *fileptr, size_t index)
 #ifndef NANO_TINY
     } else {
 	size_t full_length = strlenpt(fileptr->data);
-	for (index += COLS; index <= full_length && line < editwinrows; index += COLS) {
+	for (index += COLS; index <= full_length && line < editwinrows - 1; index += COLS) {
 	    line++;
 #ifdef DEBUG
 	    fprintf(stderr, "update_line(): softwrap code, moving to %d index %lu\n", line, (unsigned long)index);

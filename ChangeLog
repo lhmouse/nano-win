@@ -2,6 +2,8 @@
 	* src/color.c (precalc_multicolorinfo), src/winio.c (edit_draw):
 	Make sure to keep advancing also when matches are zero-length.
 	This fixes Savannah bug #26977 reported by Tigrmesh.
+	* src/winio.c (update_line): For softwrap, don't go beyond the number
+	of available rows in the edit window.  This fixes Savannah bug #42188.
 
 2016-01-07  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c (assign_keyinfo): Delete two unneeded #ifdefs: if
