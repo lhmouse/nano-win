@@ -1,3 +1,12 @@
+2016.01.10 - GNU nano 2.5.1 "Salzburg" is released.  It includes fixes
+		for a syntax-highlighting bug and a positionlog bug, it
+		disables a time-eating multiline regex in the C syntax,
+		and it adds an escape hatch to the WriteOut menu when
+		--tempfile is used: the discardbuffer command, ^Q.  It
+		also has translation updates for fifteen languages, and
+		a small fix in the softwrap code.  So... you are heartily
+		invited to upgrade.  Enjoy!
+
 2015.12.05 - GNU nano 2.5.0 "Karma", the first release of the 2.5 series,
 		is now available. Please note that as of this release,
 		there will no longer be separate stable and unstable

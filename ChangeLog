@@ -1,3 +1,6 @@
+2016-01-10  Benno Schulenberg  <bensberg@justemail.net>
+	* NEWS: Add item for upcoming 2.5.1.
+
 2016-01-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (precalc_multicolorinfo), src/winio.c (edit_draw):
 	Make sure to keep advancing also when matches are zero-length.
