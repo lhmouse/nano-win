@@ -1,5 +1,7 @@
 2016-01-10  Benno Schulenberg  <bensberg@justemail.net>
 	* NEWS: Add item for upcoming 2.5.1.
+	* src/nano.c (version), src/winio.c (do_credits), doc/man/rnano.1,
+	doc/man/nano.1, doc/man/nanorc.5: Adjust dates and version number.
 
 2016-01-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (precalc_multicolorinfo), src/winio.c (edit_draw):

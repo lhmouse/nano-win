@@ -964,7 +964,7 @@ void usage(void)
 void version(void)
 {
     printf(_(" GNU nano, version %s\n"), VERSION);
-    printf(" (C) 1999..2015 Free Software Foundation, Inc.\n");
+    printf(" (C) 1999..2016 Free Software Foundation, Inc.\n");
     printf(
 	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
     printf(_("\n Compiled options:"));

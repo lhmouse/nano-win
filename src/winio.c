@@ -3342,7 +3342,7 @@ void do_credits(void)
 	"",
 	"",
 	"",
-	"(C) 1999 - 2015",
+	"(C) 1999 - 2016",
 	"Free Software Foundation, Inc.",
 	"",
 	"",
