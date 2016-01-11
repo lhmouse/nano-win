@@ -1,3 +1,5 @@
+GNU nano 2.5.0 - 2016.01.11
+
 2016-01-10  Benno Schulenberg  <bensberg@justemail.net>
 	* NEWS: Add item for upcoming 2.5.1.
 	* src/nano.c (version), src/winio.c (do_credits), doc/man/rnano.1,

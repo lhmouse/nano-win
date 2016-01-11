@@ -1,4 +1,4 @@
-2016.01.10 - GNU nano 2.5.1 "Salzburg" is released.  It includes fixes
+2016.01.11 - GNU nano 2.5.1 "Salzburg" is released.  It includes fixes
 		for a syntax-highlighting bug and a positionlog bug, it
 		disables a time-eating multiline regex in the C syntax,
 		and it adds an escape hatch to the WriteOut menu when
