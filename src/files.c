@@ -3217,7 +3217,7 @@ void load_poshistory(void)
 	    char *line = NULL, *lineptr, *xptr;
 	    size_t buf_len = 0;
 	    ssize_t read;
-	    poshiststruct *posptr, *newrecord;
+	    poshiststruct *record_ptr = NULL, *newrecord;
 
 	    /* Read and parse each line, and store the extracted data. */
 	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
@@ -3240,11 +3240,10 @@ void load_poshistory(void)
 		/* Add the record to the list. */
 		if (position_history == NULL)
 		    position_history = newrecord;
-		else {
-		    for (posptr = position_history; posptr->next != NULL;)
-			posptr = posptr->next;
-		    posptr->next = newrecord;
-		}
+		else
+		    record_ptr->next = newrecord;
+
+		record_ptr = newrecord;
 	    }
 	    fclose(hist);
 	    free(line);
