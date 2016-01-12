@@ -3200,17 +3200,17 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
 /* Load the recorded file positions from ~/.nano/filepos_history. */
 void load_poshistory(void)
 {
-    char *nanohist = poshistfilename();
+    char *poshist = poshistfilename();
 
     /* Assume do_rcfile() has reported a missing home directory. */
-    if (nanohist != NULL) {
-	FILE *hist = fopen(nanohist, "rb");
+    if (poshist != NULL) {
+	FILE *hist = fopen(poshist, "rb");
 
 	if (hist == NULL) {
 	    if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(POS_HISTORY);
-		history_error(N_("Error reading %s: %s"), nanohist,
+		history_error(N_("Error reading %s: %s"), poshist,
 			strerror(errno));
 	    }
 	} else {
@@ -3252,7 +3252,7 @@ void load_poshistory(void)
 	    fclose(hist);
 	    free(line);
 	}
-	free(nanohist);
+	free(poshist);
     }
 }
 #endif /* !DISABLE_HISTORIES */

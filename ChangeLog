@@ -1,5 +1,6 @@
 2016-01-12  Benno Schulenberg  <bensberg@justemail.net>
 	* NEWS: Fix some typos and whitespace, and normalize the dates.
+	* src/files.c (load_poshistory): Rename a variable.
 
 GNU nano 2.5.1 - 2016.01.11
 
