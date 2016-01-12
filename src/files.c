@@ -3220,13 +3220,11 @@ void load_poshistory(void)
 	    poshiststruct *record_ptr = NULL, *newrecord;
 
 	    /* Read and parse each line, and store the extracted data. */
-	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
-		if (read > 0 && line[read - 1] == '\n') {
-		    read--;
-		    line[read] = '\0';
-		}
-		if (read > 0)
-		    unsunder(line, read);
+	    while ((read = getline(&line, &buf_len, hist)) > 2) {
+		if (line[read - 1] == '\n')
+		    line[--read] = '\0';
+		unsunder(line, read);
+
 		lineptr = parse_next_word(line);
 		xptr = parse_next_word(lineptr);
 
