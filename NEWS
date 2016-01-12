@@ -8,9 +8,9 @@
 		invited to upgrade.  Enjoy!
 
 2015.12.05 - GNU nano 2.5.0 "Karma", the first release of the 2.5 series,
-		is now available. Please note that as of this release,
+		is now available.  Please note that as of this release,
 		there will no longer be separate stable and unstable
-		branches. The development team will prioritize bug fixes
+		branches.  The development team will prioritize bug fixes
 		as needed, and make new releases in proportion to the
 		severity of the bugs which are fixed.
 			This release includes all of the fixes now in
@@ -229,7 +229,7 @@
 		issues with compiler warnings and configure options, and
 		documentation updates, including the nano texinfo manual,
 		nano and nanorc man pages, and UPGRADE file, and some
-		missing syntax highliting entries for the sample nanorc.
+		missing syntax highlighting entries for the sample nanorc.
 		And no release would be complete without the latest round
 		of 'final' soft wrapping fixes!  Finally, nano will no
 		longer print a warning when attempting to insert the
@@ -259,7 +259,7 @@
 		Friday discount.  Included are some (hopefully
 		final) fixes for issues with last page display
 		caused by the soft wrapping code, and a fix for
-		a long standing issue with hittig the home key when
+		a long standing issue with hitting the Home key when
 		going through the search history.  On the features
 		front, nano will now attempt to retain the proper
 		ownership and permissions when trying to create a
@@ -340,7 +340,7 @@
 		modifications when saving a file, some code and
 		documentation cleanups, and more bug fixes for
 		the new undo code (but we continue to welcome your bug
-		reports via the Savananh bug page at
+		reports via the Savannah bug page at
 		http://savannah.gnu.org/bugs/?func=additem&group=nano.
 		Come get some.
 
@@ -377,8 +377,8 @@
 		files when using backup mode has changed as well: if writing
 		the backup file fails, nano will not attempt to write the
 		current file.  This should help folks who enjoy "extreme
-		text editing" i.e. editing files on file systems which
-		are likely to run out of space; see Savannah bug 24000.
+		text editing", i.e. editing files on file systems which
+		are likely to run out of space; see Savannah bug #24000.
 		Have fun with it!
 
 2008.08.04 - GNU nano 2.1.3 "least stable version ever" is released.  This
@@ -413,7 +413,7 @@
 
 2008.03.18 - GNU nano 2.1.0 "under old mismanagement" is released.
 		This first release in the 2.1 development series
-		introduces rebinadble keys for most actions inside
+		introduces rebindable keys for most actions inside
 		the editor.  Please see the nanorc(5) page for
 		more information on configuring key bindings.  Please
 		also report all keybinding bugs (crashes, missing
@@ -707,7 +707,7 @@
 		features in this release, including a restricted mode
 		that provides better security than just setting an
 		operating directory, the ability to justify the entire
-		file at once, support for a "smart" home key that can
+		file at once, support for a "smart" Home key that can
 		leap from the beginning of text on a line to the true
 		beginning of the line (or the reverse) in one stroke,
 		support for specifying an alternative spell checker in
@@ -856,7 +856,7 @@
 			Please send all new feedback on this release
 		direct to the development list (nano-devel@gnu.org).
 
-10/24/2002 - GNU nano 1.1.12 "Make Jordi happy" is released.  This
+2002.10.24 - GNU nano 1.1.12 "Make Jordi happy" is released.  This
 		release demonstrates that nano is starting to freeze for
 		version 1.2.  New features include a Meta-Y toggle for
 		syntax highlighting, pluralized i18n, and a handler for
@@ -869,7 +869,7 @@
 		(currently up in the air) search history behavior, the
 		next version of nano should be 1.1.99pre1.  Have fun!
 
-10/01/2002 - GNU nano 1.1.11 "Oddball" is released.  This release
+2002.10.01 - GNU nano 1.1.11 "Oddball" is released.  This release
 		features a new version of gettext, a new and improved
 		syntax highlighting engine, and some updates for the
 		nanorc.sample file.  The toggles for case sensitivity
@@ -886,7 +886,7 @@
 		word and next word, nanorc parser and line wrapping
 		code.  Have fun!
 
-07/25/2002 - At long last!  GNU nano 1.1.10 "What didn't we break?" is
+2002.07.25 - At long last!  GNU nano 1.1.10 "What didn't we break?" is
 		released.  This version of GNU nano features version
 		0.11.2 of gettext, building with automake 1.6, some new
 		code for displaying control characters, browser
@@ -900,7 +900,7 @@
 		updated, and the --quotestr and --regexp really work
 		now ;-)  Enjoy :)
 
-05/12/2002 - GNU nano 1.1.9 is released, happy Mother's Day!  This
+2002.05.12 - GNU nano 1.1.9 is released, happy Mother's Day!  This
 		release includes many new features, including a prepend
 		mode (^O,M-P), a new "syntax" command in the .nanorc to
 		allow multiple syntax highlighting types, and a new -Y,
@@ -915,7 +915,7 @@
 		been fixed.  A lot of new stuff for everyone's favorite
 		text editor ;)  Have fun!
 
-03/30/2002 - GNU nano 1.1.8 is released.  New features include an
+2002.03.30 - GNU nano 1.1.8 is released.  New features include an
 		"Insert Output of External Command", ^R^X, and a .spec
 		file is now included in the distribution.  There are
 		cleanups in the usage code, fixes for regex parsing, the
@@ -925,9 +925,9 @@
 		Also, the "show position" code now shows the starting
 		column as 1 instead of 0.  Have fun!
 
-03/05/2002 - GNU nano 1.1.7 "lets change everything and see what breaks"
+2002.03.05 - GNU nano 1.1.7 "lets change everything and see what breaks"
 		is released.  New features include new flags
-		-N,--noconvert to stop any file format conversion and
+		-N, --noconvert to stop any file format conversion and
 		-Q, --quotestr for the new quoted text justification, a
 		new tempnam() implementation to avoid silly warnings,
 		DOS and Mac file options in the Write File dialog,
@@ -944,7 +944,7 @@
 		conditions, variable width for shortcuts, and the usual
 		ton of translation updates.
 
-01/25/2002 - GNU nano 1.1.6 is released.  Lots of new features in this
+2002.01.25 - GNU nano 1.1.6 is released.  Lots of new features in this
 		release.  New Meta-keys were added as alternates for
 		control sequences: Meta-A for the marker key (^^), and
 		Meta-G for the 'goto dir' key in the file browser (^_).
@@ -961,21 +961,21 @@
 		There are also oodles of translation updates.  Have fun
 		with it.
 
-01/05/2002 - GNU nano 1.1.5 is out.  The main new feature in this
+2002.01.05 - GNU nano 1.1.5 is out.  The main new feature in this
 		release is the changed behavior of the keypad.  Nano now
 		does the Right Thing and used keypad() by default.  If
 		you wish to use the keypad arrow keys in certain
 		terminals, you may use the -K or --keypad flag to use
 		the old behavior.  Users of other OSes should see better
-		handling of their non-keypad keys in this release. Other
-		changes include more Hurd fixes, fixes parsing the
-		.nanorc, display fixes for the color syntax
+		handling of their non-keypad keys in this release.
+		Other changes include more Hurd fixes, fixes parsing
+		the .nanorc, display fixes for the color syntax
 		highlighting, gettext stabilization and many translation
 		updates.  This is almost like a stable release, much
 		like in the 0.9.x series when every other release was
 		the most stable one :)  Have fun!
 
-12/11/2001 - GNU nano 1.1.4 is released.  This release contains
+2001.12.11 - GNU nano 1.1.4 is released.  This release contains
 		rudimentary color syntax support (but it's still
 		broken), compatibility fixes for the Hurd and FreeBSD,
 		spell checker and wrapping fixes, and more.  It seems
@@ -984,7 +984,7 @@
 		so it's time to show the world all the changes since
 		1.1.3 ;)  Have fun with it!
 
-10/26/2001 - GNU nano 1.1.3 is released.  As far as new features go,
+2001.10.26 - GNU nano 1.1.3 is released.  As far as new features go,
 		the help system is now available for all functions in
 		the editor.  Also, nano will also now print a message on
 		the status bar when it automatically converts a file
@@ -1007,7 +1007,7 @@
 		wait for version 1.0.6 which should be available early
 		next week.  Enjoy!
 
-10/03/2001 - GNU nano 1.1.2 is out there.  Many new features in this
+2001.10.03 - GNU nano 1.1.2 is out there.  Many new features in this
 		release, including support for auto-converting from DOS
 		and Mac formatted files, as well as toggles for writing
 		out files in these formats.  Pico's -o flag has been
@@ -1021,7 +1021,7 @@
 		also the usual helping of bugfixes, translation updates
 		and, surely a bug or two.  You better get ready!
 
-07/28/2001 - GNU nano 1.1.1 is released.  Our second 1.1 unstable
+2001.07.28 - GNU nano 1.1.1 is released.  Our second 1.1 unstable
 		release features many bugfixes from the initial release,
 		in particular fixes for the multibuffer code, and
 		various compiler macro fixes.  The shortcut lists for
@@ -1033,7 +1033,7 @@
 		configure script to work on platforms regardless of
 		their gettext version.
 
-07/15/2001 - GNU nano 1.1.0 is released.  This is the first release
+2001.07.15 - GNU nano 1.1.0 is released.  This is the first release
 		in the 1.1.x unstable series of GNU nano.  It
 		incorporates all changes up to the 1.0.3 release, and
 		also includes many many new features, including
@@ -1045,7 +1045,7 @@
 		introduce lots of bugs ;-)  Have fun with it, but be
 		careful, unstable means unstable.
 
-07/01/2001 - GNU nano 1.0.3 is the "mutt" release.  This release
+2001.07.01 - GNU nano 1.0.3 is the "mutt" release.  This release
 		features oodles of bug fixes with cutting text,
 		especially with the -k (cut to end) option.  There is
 		also a new suspend handler which should make nano play
@@ -1056,7 +1056,7 @@
 		function for more speed and less memory usage.  Two new
 		translations are included, Ukrainian and Russian.
 
-05/12/2001 - GNU nano 1.0.2 is the "just the bugfixes ma'am" release.
+2001.05.12 - GNU nano 1.0.2 is the "just the bugfixes ma'am" release.
 		The most noticeable fixes are for display errors using
 		page up/down with the marker code, and view mode (-v)
 		not stopping the replace function.  Other fixes include
@@ -1066,7 +1066,7 @@
 		a new Galician translation (provided by Jacobo Tarrío).
 		Have fun with it!
 
-04/06/2001 - GNU nano 1.0.1 is out there.  The only new feature is a
+2001.04.06 - GNU nano 1.0.1 is out there.  The only new feature is a
 		configure option for those who want to disable all word
 		wrapping from nano, --disable-wrapping.  Bug fixes this
 		release include some bugs with autoconf and i18n, and
@@ -1075,7 +1075,7 @@
 		and nano now sorts files case insensitively like Pilot.
 		Have fun with it.
 
-03/22/2001 - GNU Nano 1.0 is released!  The autoindent wrapping bug
+2001.03.22 - GNU Nano 1.0 is released!  The autoindent wrapping bug
 		has been fixed, as well as strange bug when using Pico
 		mode and regex search.  There have also been some minor
 		spelling and documentation updates.  As stated on the
@@ -1085,7 +1085,7 @@
 		this first stable release of nano, and as always,
 		feedback is welcome! nano@nano-editor.org.
 
-02/19/2001 - Nano 0.9.99pre3 brings a lot of changes!  The most
+2001.02.19 - Nano 0.9.99pre3 brings a lot of changes!  The most
 		important being that nano is now officially a GNU
 		program.  Some changes have been made for GNU
 		compatibility (like the default list of shortcuts, "^G
@@ -1098,7 +1098,7 @@
 		ncurses libraries have also been fixed.  All in all, a
 		lot to see.
 
-01/31/2001 - Nano 0.9.99pre2 is released.  Not surprisingly, all that is
+2001.01.31 - Nano 0.9.99pre2 is released.  Not surprisingly, all that is
 		new is bugfixes, bugfixes, bugfixes.  There were a few
 		cleanups in unneeded global variables and duplicate
 		functions, but most is just fixing.  Specifically, there
@@ -1110,7 +1110,7 @@
 		an initial write error).  Slowly but surely, on toward
 		1.0 we travel.
 
-01/17/2001 - Nano 0.9.99pre1 is released.  This is the first pre-1.0
+2001.01.17 - Nano 0.9.99pre1 is released.  This is the first pre-1.0
 		release of nano, and is also the first release since the
 		code freeze for nano 1.0.  Don't expect (or request) any
 		new features between now and nano 1.0, only bugfixes,
@@ -1121,7 +1121,7 @@
 		autoconf fixes, and support for the KDE konsole keypad
 		layout.  Have fun.
 
-01/07/2001 - Nano 0.9.25 is the "Just one more feature I swear!"
+2001.01.07 - Nano 0.9.25 is the "Just one more feature I swear!"
 		release.  It includes one new feature that Pico has had
 		forever, a built-in file browser.  Since not everyone
 		may want this option, there is a --disable-browser
@@ -1130,7 +1130,7 @@
 		for crashes when tab completion in certain instances.
 		Have fun and Happy New Year!
 
-12/18/2000 - Nano 0.9.24 is released.  This version contains the last of
+2000.12.18 - Nano 0.9.24 is released.  This version contains the last of
 		the security fixes for writing files, as well as for a
 		nasty segfault when nano is unable to open a file for
 		reading, among other fixes.  Nano also now cowardly
@@ -1141,7 +1141,7 @@
 		Pico compatibility.  Upgrading to this version is highly
 		recommended.
 
-12/08/2000 - Nano 0.9.23 is the "race conditions bite" release.  The
+2000.12.08 - Nano 0.9.23 is the "race conditions bite" release.  The
 		main reason for this release is the less-than-optimal
 		fix for the security issue in nano with following
 		symbolic links.  Hopefully this will fix the problem
@@ -1151,7 +1151,7 @@
 		function was renamed to --disable-speller to be in line
 		with nano and Pico's "speller" term.
 
-12/02/2000 - Nano 0.9.22 is released, with many more changes and
+2000.12.02 - Nano 0.9.22 is released, with many more changes and
 		additions than imaginable.  The most important change is
 		a fix for unsafe handling of symbolic links which could
 		lead to symlink attacks if nano were to exit because of
@@ -1166,13 +1166,13 @@
 		surprises).  All in all, a whole lot of changes in a
 		little over a week.
 
-11/23/2000 - Happy Thanksgiving!  Nano 0.9.21 is our "last version was
+2000.11.23 - Happy Thanksgiving!  Nano 0.9.21 is our "last version was
 		a big turkey" release.  It fixes several bugs introduced
 		by the previous version, as well as a few long- standing
 		display bugs.  All 0.9.20 users are strongly encouraged
 		to upgrade to this release.
 
-11/18/2000 - Nano 0.9.20 is finally out the door.  Probably the biggest
+2000.11.18 - Nano 0.9.20 is finally out the door.  Probably the biggest
 		change is the brand new way nano displays previous
 		search and replace strings (they are now editable!)
 		This is a break from Pico's (inconsistent) interface, so
@@ -1190,7 +1190,7 @@
 		something, don't like something, or just want to order a
 		pizza, let us know!
 
-10/02/2000 - Nano 0.9.19 is the "Chris is getting married in less than
+2000.10.02 - Nano 0.9.19 is the "Chris is getting married in less than
 		a week and needs a distraction" release.  There are only
 		a few actual code changes, mainly portability and
 		compiler warning fixes.  Nano now also supports
@@ -1199,35 +1199,35 @@
 		nano site has changed (again) as well, check out
 		www.nano-editor.org for all the latest nano schtuff.
 
-09/18/2000 - Nano 0.9.18 is unleashed.  It has some new keyboard
+2000.09.18 - Nano 0.9.18 is unleashed.  It has some new keyboard
 		handling code, Cygwin support out of the box, and a more
 		portable handler for the NOHELP toggle.  There is also a
 		fix for a somewhat serious bug whereby trying to insert
 		a directory instead of a normal file would destroy the
 		contents of the editor.  A must-see.  Four stars.
 
-09/04/2000 - Nano 0.9.17, the Labor Day release, is released after a
+2000.09.04 - Nano 0.9.17, the Labor Day release, is released after a
 		quiet spell (almost an entire month since last release!)
 		New features include better (not yet perfect) binary
 		display support and toggle support for most of the
 		program flags (M-c, M-i, M-z, M-x, M-p, M-w, M-m, M-k
 		and M-e for -c, -i, -x, -p, -w, -k, and -R).
 
-08/09/2000 - Nano 0.9.16, after some struggling, is released.  This
+2000.08.09 - Nano 0.9.16, after some struggling, is released.  This
 		release should fix a few of the holes that 0.9.15 dug.
 		The "cutting text on the first line" bug is fixed, as is
 		the "cutting text on the last line" bug.  Nice symmetry
 		there huh?  Also the --tabsize argument should now work
 		as well as by using -T.
 
-08/03/2000 - Nano 0.9.15 is the "I can't think of a release description"
+2000.08.03 - Nano 0.9.15 is the "I can't think of a release description"
 		release.  There are the usual gala of display bugfixes,
 		a fix for the nasty bug in -k mode that could create
 		a loop in the file being edited, and some other code
 		cleanup.  Also, the -T option should now work regardless
 		of the curses library used.  Yay.
 
-07/27/2000 - Nano 0.9.14 is officially the "13 is so unlucky it should
+2000.07.27 - Nano 0.9.14 is officially the "13 is so unlucky it should
 		be skipped as a version number" release.  One typo
 		caused unending problems (calling nano with either -t or
 		-k caused both flags to be used).  The -k code is also
@@ -1238,15 +1238,15 @@
 		for the next release.  Until then, have fun with this
 		version.
 
-07/23/2000 - Nano 0.9.13 has a few new bits and bobs, most notably the
+2000.07.23 - Nano 0.9.13 has a few new bits and bobs, most notably the
 		-k option from Pico (cut to end of line).  The majority
 		of changes in this release are bugfixes, however,
 		including the usual display fixes and fixes for writing
-		to symbolic links and un-writable files.  Barring any
+		to symbolic links and unwritable files.  Barring any
 		other major changes, this should be the feature set for
 		nano 1.0, whenever it might be released =-)
 
-07/07/2000 - Nano 0.9.12 (The "lucky day" release) is bursting with new
+2000.07.07 - Nano 0.9.12 (The "lucky day" release) is bursting with new
 		features, bug fixes, and yummy fruit flavor.  For
 		changes, the alternate replace keystroke ^W^T is now
 		^W^R to be compatible with later versions of Pico.  ^W^T
@@ -1257,7 +1257,7 @@
 		flag.  And, of course, there are the usual helping of
 		display and other bug fixes to top it all off.
 
-06/20/2000 - Nano 0.9.11 presents drastic rewrites of the most buggy
+2000.06.20 - Nano 0.9.11 presents drastic rewrites of the most buggy
 		routines in the program, specifically the wrapping code
 		and almost all of the display routines.  There are many
 		improvements and bugfixes to the display subsystem in
@@ -1271,7 +1271,7 @@
 		translation department is an Indonesian translation
 		(id).
 
-06/06/2000 - Nano 0.9.10 is primarily a bugfix for the loss of SIGINT
+2000.06.06 - Nano 0.9.10 is primarily a bugfix for the loss of SIGINT
 		when using "run and terminate" flags (for example,
 		--help).  There are also some minor documentation
 		updates.  This version of nano is the most stable in
@@ -1279,12 +1279,12 @@
 		awhile.  Users are encouraged to upgrade to this
 		version.
 
-05/31/2000 - Nano 0.9.9 introduces much better working i18n support,
+2000.05.31 - Nano 0.9.9 introduces much better working i18n support,
 		more portability, and a ton of bugfixes.  While nano is
 		not likely anywhere near 1.0 in terms of code quality,
 		it gets a quantum leap closer with this release.
 
-05/18/2000 - Nano 0.9.8 (the 'what broke now?' release) should fix
+2000.05.18 - Nano 0.9.8 (the 'what broke now?' release) should fix
 		the resize crash people have been experiencing.  It also
 		offers a new input method that should allow nano to do
 		things the right way (like ^S, ^Q, custom suspend keys)
@@ -1292,21 +1292,21 @@
 		are also the obligatory display fixes and speedups.
 		Have fun with it.
 
-05/14/2000 - Nano 0.9.7 (the Mother's Day release) continues in the long
+2000.05.14 - Nano 0.9.7 (the Mother's Day release) continues in the long
 		line of display fixes, and also fixes the broken symlink
 		behavior (i.e. symlinks weren't being followed by
 		default).  Hopefully all major bugs can be worked out
 		soon and we can have a 1.0 release before the end of the
 		year, but who knows.
 
-05/08/2000 - Nano 0.9.6 cleans up a lot of the display bugs that 0.9.5
+2000.05.08 - Nano 0.9.6 cleans up a lot of the display bugs that 0.9.5
 		uncovered.  There are improvements (and some remaining
 		segfaults) in the wrapping code, and even more display
 		optimizations.  I would still say 0.9.4 or 0.9.2 are the
 		most stable versions of nano to date, but this one may
 		not be too bad =-)
 
-05/01/2000 - Nano 0.9.5 attempts to speed up the display of text
+2000.05.01 - Nano 0.9.5 attempts to speed up the display of text
 		to be at least somewhat reasonable.  Much code profiling
 		has been done to reduce the ridiculous number of
 		redundant display updates.  This will probably expose a
@@ -1316,12 +1316,12 @@
 		recently, so use that if you're not particularly
 		concerned with being on the bleeding edge.
 
-04/25/2000 - Nano 0.9.4 fixes some problems in 0.9.3 with the last
+2000.04.25 - Nano 0.9.4 fixes some problems in 0.9.3 with the last
 		line code and related segfaults.  It also now has much
 		better handling for 8-bit characters.  The --enable-tiny
 		code also produces a smaller executable.
 
-04/19/2000 - Nano 0.9.3 is officially the "Micro$oft" release.  It
+2000.04.19 - Nano 0.9.3 is officially the "Micro$oft" release.  It
 		underscores the recent problem of bugfixes introducing
 		more bugs than they fix.  The most important change to
 		this version of nano is the removal of the "magic line".
@@ -1339,12 +1339,12 @@
 		marker and mouse code), and --with-slang to use the
 		slang libraries instead of ncurses.
 
-04/15/2000 - Nano 0.9.2 just fixes the serious segfault problem if
+2000.04.15 - Nano 0.9.2 just fixes the serious segfault problem if
 		nano is invoked any way other than using the absolute
 		path.  The bug was in the new code for checking whether
 		nano is invoked as 'pico'.
 
-04/14/2000 - 0.9.1 has some more Pico compatibility built-in.  The
+2000.04.14 - 0.9.1 has some more Pico compatibility built-in.  The
 		option to switch to/from Search and Search/Replace (^T)
 		is now available, and nano now displays the more
 		Pico-like shortcut list when invoked as 'pico' (i.e. if
@@ -1358,13 +1358,13 @@
 		"recursive replace" bug, and more bugfixes in the
 		wrapping code.
 
-04/07/2000 - Nano 0.9.0 has some updates, new language support and
+2000.04.07 - Nano 0.9.0 has some updates, new language support and
 		a much better refresh setup (It's still not great,
 		but...)  There should also be more stability editing
 		long lines, as there was a stupid mistake in the
 		update_line call.  Silly me =)
 
-03/22/2000 - Nano 0.8.9 is basically just a bugfix release of 0.8.8
+2000.03.22 - Nano 0.8.9 is basically just a bugfix release of 0.8.8
 		to reflect the current stagnant status of the project.
 		Most things work, the rest doesn't doesn't work because
 		(a) I can't fix it or I would have already done so, and
@@ -1374,7 +1374,7 @@
 		nano pages on SourceForge.  Here's hoping SF will get us
 		some more visibility, translators and patches.
 
-03/12/2000 - After a hiatus, I have finally moved (not unpacked though)
+2000.03.12 - After a hiatus, I have finally moved (not unpacked though)
 		to my new home into Albany.  Thus I should now have more
 		time to work on nano.  Nano 0.8.8, the "dear god what
 		broke this time?" release, incorporates patches for both
@@ -1391,25 +1391,25 @@
 		file as the maintainer of the .po file, and from then on
 		it is yours to take care of and keep up to date.
 
-03/01/2000 - Well, to continue my trend of going back on my previous
+2000.03.01 - Well, to continue my trend of going back on my previous
 		release's comments, nano 0.8.7 is released.  The
 		crashing behavior was still occurring, and this most
 		recent fix also fixes some other wrapping problems, so
 		here you go.  There may be another release soon, there
 		may not be, is that vague enough? =)
 
-02/25/2000 - More minor bugfixes in 0.8.6, the bizarre behavior at the
+2000.02.25 - More minor bugfixes in 0.8.6, the bizarre behavior at the
 		end of a page has ceased, thankfully.  I'm also moving
 		next weekend, so don't be shocked if you don't see a new
 		version of nano next week  =-)
 
-02/11/2000 - Okay, here we go again.  Aside from a few minor fixes and
+2000.02.11 - Okay, here we go again.  Aside from a few minor fixes and
 		some under-the-hood changes, you won't notice much
 		different in this version of nano.  I haven't gotten
 		much feedback on the help feature, is it simply amazing
 		or does no one care?  Write and let me know! =)
 
-02/08/2000 - Nano 0.8.3 marks the first time in a long time that there
+2000.02.08 - Nano 0.8.3 marks the first time in a long time that there
 		has been more than three days since the last release.
 		New features include an initial help mode (YAY!),
 		hopefully much more support for i18n out of the box, and
@@ -1418,7 +1418,7 @@
 		distribution site, http://www.asty.org/nano and email
 		address nano@asty.org for bugs, etc.
 
-02/02/2000 - Okay, I hate to go back on what I said in the last release,
+2000.02.02 - Okay, I hate to go back on what I said in the last release,
 		but I may be changing jobs very soon.  I will release
 		version 0.8.2 as is (no i18n, no help menu (yet).  I
 		expect things to settle down by the end of next week,
@@ -1426,7 +1426,7 @@
 		menu; look for these new features in version 0.8.5 to
 		0.9.0.
 
-01/28/2000 - Nano 0.8.1 marks our first official step toward
+2000.01.28 - Nano 0.8.1 marks our first official step toward
 		internationalization (i18n) and the help system (^G).  I
 		will be merging in Jordi's patches for initial i18n in
 		the next version, and will implement the help system
@@ -1434,7 +1434,7 @@
 		don't hesitate to send bug reports, as long as you're
 		sure the fault lies with nano =-).
 
-01/25/2000 - Nano 0.8.0 is officially the 'let's try and be at least a
+2000.01.25 - Nano 0.8.0 is officially the 'let's try and be at least a
 		little portable, mmmmkay?' release.  There are many
 		portability checks and fixes; many thanks to Andy Kahn
 		for his patches.  I removed the broken do_spell behavior
@@ -1442,7 +1442,7 @@
 		'ispell' until I write a better method to handle the
 		output of the normal 'spell' command.
 
-01/24/2000 - Nano 0.7.9 features many new features.  Among them are a
+2000.01.24 - Nano 0.7.9 features many new features.  Among them are a
 		new autoindent feature (-i, --autoindent), tempfile flag
 		like Pico's -t flag (-t, --tempfile), and preliminary
 		spelling program support.  The spelling function tries
@@ -1450,7 +1450,7 @@
 		can specify another spelling program with -s or
 		--speller.
 
-01/17/00 - Nano 0.7.7 is officially the 'way too much stuff changed this
+2000.01.17 - Nano 0.7.7 is officially the 'way too much stuff changed this
 		release' release.  It's the busy time at work for me, so
 		please don't get offended if your patch doesn't get
 		included in the next immediate version of nano.  I'm
@@ -1462,16 +1462,14 @@
 		new -x and -c flags (see nano -h for help), long command
 		line flag support, and the usual array of bugfixes.
 
-01/15/00 - Nano 0.7.6 is officially the 'lightning' release.  It now
+2000.01.15 - Nano 0.7.6 is officially the 'lightning' release.  It now
 		loads large files much faster than previous versions,
 		and is even much faster than Pico or vi in some rather
 		rudimentary tests.  Many thanks to Adam Rogoyski for the
 		read_byte patch!
 
-01/09/00 - As of this version (0.7.4), TIP has officially been renamed
+2000.01.09 - As of this version (0.7.4), TIP has officially been renamed
 		to nano.  The new homepage is at
 		http://faculty.plattsburgh.edu/astyanax/nano.  Please
 		update your bookmarks, tell your friends, and all that
 		jazz.
-
-$Id$
