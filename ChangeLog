@@ -6,6 +6,7 @@
 	load_poshistory): Differentiate variable name from function names.
 	* src/files.c (load_poshistory): Remove a senseless iteration.
 	* src/files.c (load_poshistory): Condense the reading of a line.
+	* src/files.c (load_poshistory): Reduce the indentation.
 
 GNU nano 2.5.1 - 2016.01.11
 

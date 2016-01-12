@@ -3201,52 +3201,53 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
 void load_poshistory(void)
 {
     char *poshist = poshistfilename();
+    FILE *hist;
 
-    /* Assume do_rcfile() has reported a missing home directory. */
-    if (poshist != NULL) {
-	FILE *hist = fopen(poshist, "rb");
+    /* If the home directory is missing, do_rcfile() will have reported it. */
+    if (poshist == NULL)
+	return;
 
-	if (hist == NULL) {
-	    if (errno != ENOENT) {
-		/* Don't save history when we quit. */
-		UNSET(POS_HISTORY);
-		history_error(N_("Error reading %s: %s"), poshist,
-			strerror(errno));
-	    }
-	} else {
-	    char *line = NULL, *lineptr, *xptr;
-	    size_t buf_len = 0;
-	    ssize_t read;
-	    poshiststruct *record_ptr = NULL, *newrecord;
+    hist = fopen(poshist, "rb");
 
-	    /* Read and parse each line, and store the extracted data. */
-	    while ((read = getline(&line, &buf_len, hist)) > 2) {
-		if (line[read - 1] == '\n')
-		    line[--read] = '\0';
-		unsunder(line, read);
-
-		lineptr = parse_next_word(line);
-		xptr = parse_next_word(lineptr);
-
-		/* Create a new position record. */
-		newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-		newrecord->filename = mallocstrcpy(NULL, line);
-		newrecord->lineno = atoi(lineptr);
-		newrecord->xno = atoi(xptr);
-		newrecord->next = NULL;
-
-		/* Add the record to the list. */
-		if (position_history == NULL)
-		    position_history = newrecord;
-		else
-		    record_ptr->next = newrecord;
-
-		record_ptr = newrecord;
-	    }
-	    fclose(hist);
-	    free(line);
+    if (hist == NULL) {
+	if (errno != ENOENT) {
+	/* When reading failed, don't save history when we quit. */
+	    UNSET(POS_HISTORY);
+	    history_error(N_("Error reading %s: %s"), poshist, strerror(errno));
 	}
-	free(poshist);
+    } else {
+	char *line = NULL, *lineptr, *xptr;
+	size_t buf_len = 0;
+	ssize_t read;
+	poshiststruct *record_ptr = NULL, *newrecord;
+
+	/* Read and parse each line, and store the extracted data. */
+	while ((read = getline(&line, &buf_len, hist)) > 2) {
+	    if (line[read - 1] == '\n')
+		line[--read] = '\0';
+	    unsunder(line, read);
+
+	    lineptr = parse_next_word(line);
+	    xptr = parse_next_word(lineptr);
+
+	    /* Create a new position record. */
+	    newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
+	    newrecord->filename = mallocstrcpy(NULL, line);
+	    newrecord->lineno = atoi(lineptr);
+	    newrecord->xno = atoi(xptr);
+	    newrecord->next = NULL;
+
+	    /* Add the record to the list. */
+	    if (position_history == NULL)
+		position_history = newrecord;
+	    else
+		record_ptr->next = newrecord;
+
+	    record_ptr = newrecord;
+	}
+	fclose(hist);
+	free(line);
     }
+    free(poshist);
 }
 #endif /* !DISABLE_HISTORIES */
