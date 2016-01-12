@@ -128,7 +128,7 @@ extern filestruct *searchbot;
 extern filestruct *replace_history;
 extern filestruct *replaceage;
 extern filestruct *replacebot;
-extern poshiststruct *poshistory;
+extern poshiststruct *position_history;
 #endif
 
 #ifdef HAVE_REGEX_H

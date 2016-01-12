@@ -190,7 +190,7 @@ filestruct *replaceage = NULL;
 	/* The top of the replace string history list. */
 filestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
-poshiststruct *poshistory;
+poshiststruct *position_history = NULL;
 	/* The cursor position history list. */
 #endif
 

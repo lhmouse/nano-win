@@ -2,6 +2,8 @@
 	* NEWS: Fix some typos and whitespace, and normalize the dates.
 	* src/files.c (load_poshistory): Rename a variable.
 	* src/files.c (load_poshistory): Remove some code duplication.
+	* src/files.c (save_poshistory, update_poshistory, check_poshistory,
+	load_poshistory): Differentiate variable name from function names.
 
 GNU nano 2.5.1 - 2016.01.11
 

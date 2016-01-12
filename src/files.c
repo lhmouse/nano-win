@@ -3124,7 +3124,7 @@ void save_poshistory(void)
 	     * history file. */
 	    chmod(poshist, S_IRUSR | S_IWUSR);
 
-	    for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
+	    for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
 		statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
 		sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
 			(long)posptr->xno);
@@ -3149,7 +3149,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     if (fullpath == NULL)
 	return;
 
-    for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
+    for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
 	if (!strcmp(posptr->filename, fullpath)) {
 	    posptr->lineno = lineno;
 	    posptr->xno = xpos;
@@ -3166,8 +3166,8 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     posptr->xno = xpos;
     posptr->next = NULL;
 
-    if (!poshistory)
-	poshistory = posptr;
+    if (position_history == NULL)
+	position_history = posptr;
     else
 	posprev->next = posptr;
 
@@ -3185,7 +3185,7 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
     if (fullpath == NULL)
 	return 0;
 
-    for (posptr = poshistory; posptr != NULL; posptr = posptr->next) {
+    for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
 	if (!strcmp(posptr->filename, fullpath)) {
 	    *line = posptr->lineno;
 	    *column = posptr->xno;
@@ -3238,10 +3238,10 @@ void load_poshistory(void)
 		newrecord->next = NULL;
 
 		/* Add the record to the list. */
-		if (poshistory == NULL)
-		    poshistory = newrecord;
+		if (position_history == NULL)
+		    position_history = newrecord;
 		else {
-		    for (posptr = poshistory; posptr->next != NULL;)
+		    for (posptr = position_history; posptr->next != NULL;)
 			posptr = posptr->next;
 		    posptr->next = newrecord;
 		}
