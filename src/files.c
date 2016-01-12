@@ -3216,11 +3216,10 @@ void load_poshistory(void)
 	} else {
 	    char *line = NULL, *lineptr, *xptr;
 	    size_t buf_len = 0;
-	    ssize_t read, lineno, xno;
-	    poshiststruct *posptr;
+	    ssize_t read;
+	    poshiststruct *posptr, *newrecord;
 
-	    /* Read and parse each line, and put the data into the
-	     * positions history structure. */
+	    /* Read and parse each line, and store the extracted data. */
 	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
 		if (read > 0 && line[read - 1] == '\n') {
 		    read--;
@@ -3230,25 +3229,23 @@ void load_poshistory(void)
 		    unsunder(line, read);
 		lineptr = parse_next_word(line);
 		xptr = parse_next_word(lineptr);
-		lineno = atoi(lineptr);
-		xno = atoi(xptr);
-		if (poshistory == NULL) {
-		    poshistory = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-		    poshistory->filename = mallocstrcpy(NULL, line);
-		    poshistory->lineno = lineno;
-		    poshistory->xno = xno;
-		    poshistory->next = NULL;
-		} else {
-		    for (posptr = poshistory; posptr->next != NULL; posptr = posptr->next)
-			;
-		    posptr->next = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-		    posptr->next->filename = mallocstrcpy(NULL, line);
-		    posptr->next->lineno = lineno;
-		    posptr->next->xno = xno;
-		    posptr->next->next = NULL;
+
+		/* Create a new position record. */
+		newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
+		newrecord->filename = mallocstrcpy(NULL, line);
+		newrecord->lineno = atoi(lineptr);
+		newrecord->xno = atoi(xptr);
+		newrecord->next = NULL;
+
+		/* Add the record to the list. */
+		if (poshistory == NULL)
+		    poshistory = newrecord;
+		else {
+		    for (posptr = poshistory; posptr->next != NULL;)
+			posptr = posptr->next;
+		    posptr->next = newrecord;
 		}
 	    }
-
 	    fclose(hist);
 	    free(line);
 	}
