@@ -3107,36 +3107,33 @@ void save_history(void)
 /* Save the recorded last file positions to ~/.nano/filepos_history. */
 void save_poshistory(void)
 {
-    char *poshist;
+    char *poshist = poshistfilename();
     char *statusstr = NULL;
     poshiststruct *posptr;
+    FILE *hist;
 
-    poshist = poshistfilename();
+    if (poshist == NULL)
+	return;
 
-    if (poshist != NULL) {
-	FILE *hist = fopen(poshist, "wb");
+    hist = fopen(poshist, "wb");
 
-	if (hist == NULL)
-	    fprintf(stderr, _("Error writing %s: %s\n"), poshist,
-			strerror(errno));
-	else {
-	    /* Make sure no one else can read from or write to the
-	     * history file. */
-	    chmod(poshist, S_IRUSR | S_IWUSR);
+    if (hist == NULL)
+	fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
+    else {
+	/* Don't allow others to read or write the history file. */
+	chmod(poshist, S_IRUSR | S_IWUSR);
 
-	    for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-		statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
-		sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
+	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
+	    statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
+	    sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
 			(long)posptr->xno);
-		if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))
-		    fprintf(stderr, _("Error writing %s: %s\n"), poshist,
-				strerror(errno));
-		free(statusstr);
-	    }
-	    fclose(hist);
+	    if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))
+		fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
+	    free(statusstr);
 	}
-	free(poshist);
+	fclose(hist);
     }
+    free(poshist);
 }
 
 /* Update the recorded last file positions, given a filename, a line
