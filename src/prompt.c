@@ -955,8 +955,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
  *
  * The allow_tabs parameter indicates whether we should allow tabs to be
  * interpreted.  The allow_files parameter indicates whether we should
- * allow all files (as opposed to just directories) to be tab
- * completed. */
+ * allow all files (as opposed to just directories) to be tab completed. */
 int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,

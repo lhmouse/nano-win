@@ -1004,8 +1004,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    column = openfile->placewewant + 1;
     }
 
-    for (openfile->current = openfile->fileage;
-	openfile->current != openfile->filebot && line > 1; line--)
+    for (openfile->current = openfile->fileage; line > 1 &&
+		openfile->current != openfile->filebot; line--)
 	openfile->current = openfile->current->next;
 
     openfile->current_x = actual_x(openfile->current->data, column - 1);

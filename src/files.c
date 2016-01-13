@@ -2259,9 +2259,8 @@ int do_writeout(bool exiting)
 		  (append == APPEND) ? _("File Name to Append to") :
 		  _("File Name to Write");
 
-	/* If we're using restricted mode, the filename isn't blank,
-	 * and we're at the "Write File" prompt, disable tab
-	 * completion. */
+	/* If we're using restricted mode, and the filename isn't blank,
+	 * disable tab completion. */
 	i = do_prompt(!ISSET(RESTRICTED) ||
 		openfile->filename[0] == '\0',
 #ifndef DISABLE_TABCOMP
@@ -3208,7 +3207,7 @@ void load_poshistory(void)
 
     if (hist == NULL) {
 	if (errno != ENOENT) {
-	/* When reading failed, don't save history when we quit. */
+	    /* When reading failed, don't save history when we quit. */
 	    UNSET(POS_HISTORY);
 	    history_error(N_("Error reading %s: %s"), poshist, strerror(errno));
 	}

@@ -1,5 +1,6 @@
 2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (save_poshistory): Reduce the indentation.
+	* src/*.c: Adjust a few comments and rewrap some lines.
 
 2016-01-12  Benno Schulenberg  <bensberg@justemail.net>
 	* NEWS: Fix some typos and whitespace, and normalize the dates.

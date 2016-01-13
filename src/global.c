@@ -1260,7 +1260,7 @@ void set_spell_shortcuts(void)
 	replace_scs_for(do_linter, do_spell);
 #endif
 }
-#endif
+#endif /* !DISABLE_COLOR */
 
 const subnfunc *sctofunc(const sc *s)
 {
