@@ -6,6 +6,7 @@
 	some wrappings and whitespace.
 	* src/proto.h: Delete two duplicate declarations.
 	* src/rcfile.c (check_bad_binding): Elide this unneeded function.
+	* src/rcfile.c (parse_binding): Show key only when it was rebound.
 
 2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (save_poshistory): Reduce the indentation.

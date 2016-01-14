@@ -525,10 +525,6 @@ void parse_binding(char *ptr, bool dobind)
 	newsc->menus = menu;
 	newsc->type = strtokeytype(newsc->keystr);
 	assign_keyinfo(newsc);
-#ifdef DEBUG
-	fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
-	fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
-#endif
 
 	/* Do not allow rebinding the equivalent of the Escape key. */
 	if (newsc->type == META && newsc->seq == 91) {
@@ -536,6 +532,10 @@ void parse_binding(char *ptr, bool dobind)
 	    free(newsc);
 	    goto free_copy;
 	}
+#ifdef DEBUG
+	fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
+	fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
+#endif
     }
 
     /* Now find and delete any existing same shortcut in the menu(s). */
