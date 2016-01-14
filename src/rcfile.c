@@ -389,20 +389,6 @@ void parse_syntax(char *ptr)
 }
 #endif /* !DISABLE_COLOR */
 
-int check_bad_binding(sc *s)
-{
-#define BADLISTLEN 1
-    key_type badtypes[BADLISTLEN] = {META};
-    int badseqs[BADLISTLEN] = { 91 };
-    int i;
-
-    for (i = 0; i < BADLISTLEN; i++)
-	if (s->type == badtypes[i] && s->seq == badseqs[i])
-	    return 1;
-
-    return 0;
-}
-
 /* Check whether the given executable function is "universal" (meaning
  * any horizontal movement or deletion) and thus is present in almost
  * all menus. */
@@ -544,7 +530,8 @@ void parse_binding(char *ptr, bool dobind)
 	fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
 #endif
 
-	if (check_bad_binding(newsc)) {
+	/* Do not allow rebinding the equivalent of the Escape key. */
+	if (newsc->type == META && newsc->seq == 91) {
 	    rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
 	    free(newsc);
 	    goto free_copy;
