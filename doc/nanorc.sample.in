@@ -57,7 +57,7 @@
 ## width less this number.
 # set fill -8
 
-## Enable ~/.nano_history for saving and reading search/replace strings.
+## Remember the used search/replace strings for the next session.
 # set historylog
 
 ## Enable vim-style lock-files.  This is just to let a vim user know you

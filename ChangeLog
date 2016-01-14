@@ -1,3 +1,7 @@
+2016-01-14  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/nanorc.sample.in: Remove reference to an obsolete file.
+	Reported by Mike Frysinger.
+
 2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (save_poshistory): Reduce the indentation.
 	* src/*.c: Adjust a few comments and rewrap some lines.
