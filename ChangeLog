@@ -2,6 +2,8 @@
 	* doc/nanorc.sample.in: Remove a reference to an obsolete file.
 	Reported by Mike Frysinger.
 	* src/winio.c (edit_redraw): Delete an 'if' that is always FALSE.
+	* src/winio.c (edit_redraw): Elide an unneeded variable and adjust
+	some wrappings and whitespace.
 
 2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (save_poshistory): Reduce the indentation.

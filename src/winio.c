@@ -2977,10 +2977,9 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
     /* If either old_current or current is offscreen, scroll the edit
      * window until it's onscreen and get out. */
     if (old_current->lineno < openfile->edittop->lineno ||
-	old_current->lineno >= openfile->edittop->lineno +
-	maxrows || openfile->current->lineno <
-	openfile->edittop->lineno || openfile->current->lineno >=
-	openfile->edittop->lineno + maxrows) {
+		old_current->lineno >= openfile->edittop->lineno + maxrows ||
+		openfile->current->lineno < openfile->edittop->lineno ||
+		openfile->current->lineno >= openfile->edittop->lineno + maxrows) {
 #ifdef DEBUG
 	fprintf(stderr, "edit_redraw(): line %ld was offscreen, oldcurrent = %ld edittop = %ld",
 		(long)openfile->current->lineno, (long)old_current->lineno, (long)openfile->edittop->lineno);
@@ -2992,20 +2991,19 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	 * whether we've scrolled up or down) of the edit window. */
 	if (openfile->mark_set) {
 	    ssize_t old_lineno;
-	    filestruct *old_edittop = openfile->edittop;
 
-		old_lineno = (old_edittop->lineno + maxrows <=
-			openfile->filebot->lineno) ?
-			old_edittop->lineno + editwinrows :
-			openfile->filebot->lineno;
+	    if (openfile->edittop->lineno + maxrows <= openfile->filebot->lineno)
+		old_lineno = openfile->edittop->lineno + editwinrows;
+	    else
+		old_lineno = openfile->filebot->lineno;
 
 	    foo = old_current;
 
 	    while (foo->lineno != old_lineno) {
 		update_line(foo, 0);
 
-		foo = (foo->lineno > old_lineno) ? foo->prev :
-			foo->next;
+		foo = (foo->lineno > old_lineno) ?
+			foo->prev : foo->next;
 	    }
 	}
 #endif /* !NANO_TINY */
