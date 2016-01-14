@@ -822,8 +822,6 @@ void do_credits(void);
 
 /* May as well throw these here, since they are just placeholders. */
 void do_cancel(void);
-void do_page_up(void);
-void do_page_down(void);
 void case_sens_void(void);
 void regexp_void(void);
 void gototext_void(void);

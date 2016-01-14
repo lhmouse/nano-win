@@ -4,6 +4,7 @@
 	* src/winio.c (edit_redraw): Delete an 'if' that is always FALSE.
 	* src/winio.c (edit_redraw): Elide an unneeded variable and adjust
 	some wrappings and whitespace.
+	* src/proto.h: Delete two duplicate declarations.
 
 2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (save_poshistory): Reduce the indentation.
