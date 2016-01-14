@@ -2994,9 +2994,6 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 	    ssize_t old_lineno;
 	    filestruct *old_edittop = openfile->edittop;
 
-	    if (old_edittop->lineno < openfile->edittop->lineno)
-		old_lineno = old_edittop->lineno;
-	    else
 		old_lineno = (old_edittop->lineno + maxrows <=
 			openfile->filebot->lineno) ?
 			old_edittop->lineno + editwinrows :

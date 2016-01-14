@@ -1,6 +1,7 @@
 2016-01-14  Benno Schulenberg  <bensberg@justemail.net>
-	* doc/nanorc.sample.in: Remove reference to an obsolete file.
+	* doc/nanorc.sample.in: Remove a reference to an obsolete file.
 	Reported by Mike Frysinger.
+	* src/winio.c (edit_redraw): Delete an 'if' that is always FALSE.
 
 2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (save_poshistory): Reduce the indentation.
@@ -71,7 +72,7 @@ GNU nano 2.5.1 - 2016.01.11
 2015-12-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_formatter): Restore the cursor position differently.
 	* src/search.c (do_gotopos): Delete this now unused function.
-	* src/search.c (do_gotolinecolumn): Chop an always FALSE parameter.
+	* src/search.c (do_gotolinecolumn): Chop an always-FALSE parameter.
 	* src/search.c (do_gotolinecolumn): Chop a duplicate parameter --
 	'allow_update' always has the same value as 'interactive'.
 
