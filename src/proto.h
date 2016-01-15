@@ -748,7 +748,7 @@ void new_magicline(void);
 void remove_magicline(void);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
-void discard_until(undo *thisone);
+void discard_until(const undo *thisitem, openfilestruct *thefile);
 void add_undo(undo_type action);
 void update_undo(undo_type action);
 #endif

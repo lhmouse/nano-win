@@ -3,6 +3,9 @@
 	* src/files.c (set_modified): Move this function to its habitat.
 	* src/files.c (open_file): Return the fantastic file descriptor
 	when opening a non-existent file for reading succeeds.
+	* src/nano.c (delete_opennode), src/text.c (discard_until):
+	Free the items on the undo stack when a buffer is closed.
+	This fixes Savannah bug #46904 reported by Mike Frysinger.
 
 2016-01-15  Mike Frysinger  <vapier@gentoo.org>
 	* src/files.c (open_file): Free the full filename in all cases.

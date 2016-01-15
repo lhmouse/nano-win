@@ -391,7 +391,7 @@ void do_indent(ssize_t cols)
     if (indent_changed) {
 	/* Throw away the undo stack, to prevent making mistakes when
 	 * the user tries to undo something in the reindented text. */
-	discard_until(NULL);
+	discard_until(NULL, openfile);
 	openfile->current_undo = NULL;
 
 	/* Mark the file as modified. */
@@ -893,18 +893,18 @@ bool execute_command(const char *command)
     return TRUE;
 }
 
-/* Discard undo items that are newer than thisone, or all if NULL. */
-void discard_until(undo *thisone)
+/* Discard undo items that are newer than the given one, or all if NULL. */
+void discard_until(const undo *thisitem, openfilestruct *thefile)
 {
-    undo *dropit = openfile->undotop;
+    undo *dropit = thefile->undotop;
 
-    while (dropit != NULL && dropit != thisone) {
-	openfile->undotop = dropit->next;
+    while (dropit != NULL && dropit != thisitem) {
+	thefile->undotop = dropit->next;
 	free(dropit->strdata);
 	if (dropit->cutbuffer != NULL)
 	    free_filestruct(dropit->cutbuffer);
 	free(dropit);
-	dropit = openfile->undotop;
+	dropit = thefile->undotop;
     }
 }
 
@@ -922,7 +922,7 @@ void add_undo(undo_type action)
 	return;
 
     /* Blow away newer undo items if we add somewhere in the middle. */
-    discard_until(u);
+    discard_until(u, openfile);
 
 #ifdef DEBUG
     fprintf(stderr, "  >> Adding an undo...\n");
@@ -2298,7 +2298,7 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	/* Throw away the entire undo stack, to prevent a crash when
 	 * the user tries to undo something in the justified text. */
-	discard_until(NULL);
+	discard_until(NULL, openfile);
 	openfile->current_undo = NULL;
 #endif
 	/* Blow away the text in the justify buffer. */
