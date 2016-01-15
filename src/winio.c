@@ -2108,8 +2108,9 @@ void set_modified(void)
 		/* TRANSLATORS: Try to keep this at most 76 characters. */
 		statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
 	    } else {
-		write_lockfile(openfile->lock_filename,
-				get_full_path(openfile->filename), TRUE);
+		char *fullname = get_full_path(openfile->filename);
+		write_lockfile(openfile->lock_filename, fullname, TRUE);
+		free(fullname);
 	    }
 	}
 #endif
