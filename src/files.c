@@ -933,7 +933,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	if ((fd = open(filename, O_RDONLY)) != -1) {
 	    if (!quiet)
 		statusbar(_("Reading File"));
-	    return 0;
+	    return fd;
 	}
 
 	if (newfie) {

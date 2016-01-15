@@ -1,5 +1,7 @@
 2016-01-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (set_modified): Plug another memory leak.
+	* src/files.c (open_file): Return the fantastic file descriptor
+	when opening a non-existent file for reading succeeds.
 
 2016-01-15  Mike Frysinger  <vapier@gentoo.org>
 	* src/files.c (open_file): Free the full filename in all cases.
