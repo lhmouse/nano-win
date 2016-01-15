@@ -1,3 +1,6 @@
+2016-01-15  Mike Frysinger  <vapier@gentoo.org>
+	* src/files.c (open_file): Free the full filename in all cases.
+
 2016-01-14  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/nanorc.sample.in: Remove a reference to an obsolete file.
 	Reported by Mike Frysinger.

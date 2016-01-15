@@ -922,15 +922,17 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
      * permissions, just try the relative one. */
     if (full_filename == NULL || (stat(full_filename, &fileinfo) == -1 &&
 		stat(filename, &fileinfo2) != -1))
-	full_filename = mallocstrcpy(NULL, filename);
+	full_filename = mallocstrcpy(full_filename, filename);
 
     if (stat(full_filename, &fileinfo) == -1) {
+	/* All cases below return. */
+	free(full_filename);
+
 	/* Well, maybe we can open the file even if the OS says it's
 	 * not there. */
 	if ((fd = open(filename, O_RDONLY)) != -1) {
 	    if (!quiet)
 		statusbar(_("Reading File"));
-	    free(full_filename);
 	    return 0;
 	}
 
@@ -944,6 +946,8 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
 		S_ISBLK(fileinfo.st_mode)) {
+	free(full_filename);
+
 	/* Don't open directories, character files, or block files.
 	 * Sorry, /dev/sndstat! */
 	statusbar(S_ISDIR(fileinfo.st_mode) ?
@@ -952,6 +956,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	beep();
 	return -1;
     } else if ((fd = open(full_filename, O_RDONLY)) == -1) {
+	free(full_filename);
 	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
 	beep();
 	return -1;
