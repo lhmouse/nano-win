@@ -2093,30 +2093,6 @@ void titlebar(const char *path)
     wnoutrefresh(edit);
 }
 
-/* Mark the current file as modified if it isn't already, and then
- * update the titlebar to display the file's new status. */
-void set_modified(void)
-{
-    if (!openfile->modified) {
-	openfile->modified = TRUE;
-	titlebar(NULL);
-#ifndef NANO_TINY
-	if (ISSET(LOCKING)) {
-	    if (openfile->filename[0] == '\0')
-		return;
-	    else if (openfile->lock_filename == NULL) {
-		/* TRANSLATORS: Try to keep this at most 76 characters. */
-		statusbar(_("Warning: Modifying a file which is not locked, check directory permission?"));
-	    } else {
-		char *fullname = get_full_path(openfile->filename);
-		write_lockfile(openfile->lock_filename, fullname, TRUE);
-		free(fullname);
-	    }
-	}
-#endif
-    }
-}
-
 /* Display a message on the statusbar, and set disable_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */

@@ -101,6 +101,32 @@ void initialize_buffer_text(void)
     openfile->totsize = 0;
 }
 
+/* Mark the current file as modified if it isn't already, and then
+ * update the titlebar to display the file's new status. */
+void set_modified(void)
+{
+    if (openfile->modified)
+	return;
+
+    openfile->modified = TRUE;
+    titlebar(NULL);
+
+#ifndef NANO_TINY
+    if (!ISSET(LOCKING) || openfile->filename[0] == '\0')
+	return;
+
+    if (openfile->lock_filename == NULL) {
+	/* TRANSLATORS: Try to keep this at most 76 characters. */
+	statusbar(_("Warning: Modifying a file which is not locked,"
+			" check directory permission?"));
+    } else {
+	char *fullname = get_full_path(openfile->filename);
+	write_lockfile(openfile->lock_filename, fullname, TRUE);
+	free(fullname);
+    }
+#endif
+}
+
 #ifndef NANO_TINY
 /* Actually write the lockfile.  This function will ALWAYS annihilate
  * any previous version of the file.  We'll borrow INSECURE_BACKUP here
