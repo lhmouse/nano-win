@@ -480,7 +480,7 @@ void print_sclist(void)
 const char *exit_tag = N_("Exit");
 const char *close_tag = N_("Close");
 const char *uncut_tag = N_("Uncut Text");
-#ifndef DISABLE_JUSITIFY
+#ifndef DISABLE_JUSTIFY
 const char *unjust_tag = N_("Unjustify");
 #endif
 
