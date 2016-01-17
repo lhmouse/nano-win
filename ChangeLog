@@ -1,5 +1,6 @@
 2016-01-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c: Fix typo in #ifndef symbol.  Reported by Frank.
+	* doc/syntax/nanorc.nanorc: Remove '+' as only one menu is allowed.
 
 2016-01-17  Mike Frysinger  <vapier@gentoo.org>
 	* doc/syntax/nanorc.nanorc: Allow inline comments with key bindings.
