@@ -3245,7 +3245,7 @@ void load_poshistory(void)
     } else {
 	char *line = NULL, *lineptr, *xptr;
 	size_t buf_len = 0;
-	ssize_t read;
+	ssize_t read, count = 0;
 	poshiststruct *record_ptr = NULL, *newrecord;
 
 	/* Read and parse each line, and store the extracted data. */
@@ -3271,6 +3271,10 @@ void load_poshistory(void)
 		record_ptr->next = newrecord;
 
 	    record_ptr = newrecord;
+
+	    /* Impose a limit, so the file will not grow indefinitely. */
+	    if (++count > 200)
+		position_history = position_history->next;
 	}
 	fclose(hist);
 	free(line);
