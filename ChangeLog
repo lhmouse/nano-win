@@ -5,6 +5,7 @@
 2016-01-20  Rishabh Dave  <rishabhddave@gmail.com>
 	* src/files.c (verify_path, open_buffer): When opening a new buffer,
 	verify that the containing directory of the given filename exists.
+	This fixes Savannah bug #44950.
 	* src/files.c (do_lockfile): Remove the existence check on the
 	directory, as this is now covered by verify_path().
 
