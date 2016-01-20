@@ -1,3 +1,9 @@
+2016-01-20  Rishabh Dave  <rishabhddave@gmail.com>
+	* src/files.c (verify_path, open_buffer): When opening a new buffer,
+	verify that the containing directory of the given filename exists.
+	* src/files.c (do_lockfile): Remove the existence check on the
+	directory, as this is now covered by verify_path().
+
 2016-01-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/global.c: Fix typo in #ifndef symbol.  Reported by Frank.
 	* doc/syntax/nanorc.nanorc: Remove '+' as only one menu is allowed.

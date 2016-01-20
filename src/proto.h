@@ -34,6 +34,7 @@ extern volatile sig_atomic_t sigwinch_counter;
 extern bool meta_key;
 extern bool func_key;
 extern bool focusing;
+extern bool valid_path;
 
 #ifndef NANO_TINY
 extern int controlleft;
@@ -281,6 +282,7 @@ void do_cut_till_eof(void);
 void do_uncut_text(void);
 
 /* All functions in files.c. */
+void verify_path(const char *filename);
 void make_new_buffer(void);
 void initialize_buffer_text(void);
 bool open_buffer(const char *filename, bool undoable);

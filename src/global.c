@@ -40,6 +40,8 @@ bool func_key;
 	/* Whether the current keystroke is an extended keypad value. */
 bool focusing = FALSE;
 	/* Whether an update of the edit window should center the cursor. */
+bool valid_path;
+	/* Whether the containing directory of a specified file exists. */
 
 #ifndef NANO_TINY
 int controlleft = CONTROL_LEFT;

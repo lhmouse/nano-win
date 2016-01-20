@@ -33,6 +33,29 @@
 #include <pwd.h>
 #include <libgen.h>
 
+/* Determine whether the containing directory of the given filename exists.
+ * Pass the result back in the global variable valid_path. */
+void verify_path(const char *filename)
+{
+    char *parentdir;
+    struct stat parentinfo;
+
+    if (strrchr(filename, '/') == NULL)
+	parentdir = mallocstrcpy(NULL, ".");
+    else
+	parentdir = dirname(mallocstrcpy(NULL, filename));
+
+    if (stat(parentdir, &parentinfo) != -1 && S_ISDIR(parentinfo.st_mode))
+	valid_path = TRUE;
+    else {
+	statusbar(_("Directory '%s' does not exist"), parentdir);
+	valid_path = FALSE;
+	beep();
+    }
+
+    free(parentdir);
+}
+
 /* Add an entry to the openfile openfilestruct.  This should only be
  * called from open_buffer(). */
 void make_new_buffer(void)
@@ -112,7 +135,7 @@ void set_modified(void)
     titlebar(NULL);
 
 #ifndef NANO_TINY
-    if (!ISSET(LOCKING) || openfile->filename[0] == '\0')
+    if (!ISSET(LOCKING) || openfile->filename[0] == '\0' || !valid_path)
 	return;
 
     if (openfile->lock_filename == NULL) {
@@ -282,7 +305,6 @@ int do_lockfile(const char *filename)
     size_t locknamesize = strlen(filename) + strlen(locking_prefix)
 		+ strlen(locking_suffix) + 3;
     char *lockfilename = charalloc(locknamesize);
-    char *lockfiledir = NULL;
     static char lockprog[11], lockuser[17];
     struct stat fileinfo;
     int lockfd, lockpid;
@@ -331,18 +353,7 @@ int do_lockfile(const char *filename)
 	    blank_statusbar();
 	    return -1;
 	}
-    } else {
-	lockfiledir = mallocstrcpy(NULL, lockfilename);
-	lockfiledir = dirname(lockfiledir);
-	if (stat(lockfiledir, &fileinfo) == -1) {
-	    statusbar(_("Error writing lock file: Directory \'%s\' doesn't exist"),
-		lockfiledir);
-	    free(lockfiledir);
-	    return 0;
-	}
-	free(lockfiledir);
     }
-
     return write_lockfile(lockfilename, filename, FALSE);
 }
 #endif /* !NANO_TINY */
@@ -393,6 +404,9 @@ bool open_buffer(const char *filename, bool undoable)
     if (new_buffer) {
 	make_new_buffer();
 
+	verify_path(filename);
+
+	if (valid_path) {
 #ifndef NANO_TINY
 	if (ISSET(LOCKING) && filename[0] != '\0') {
 	    int lockstatus = do_lockfile(filename);
@@ -408,6 +422,7 @@ bool open_buffer(const char *filename, bool undoable)
 	    }
 	}
 #endif
+	}
     }
 
     /* If the filename isn't blank, and we are not in NOREAD_MODE,
@@ -963,7 +978,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	}
 
 	if (newfie) {
-	    if (!quiet)
+	    if (!quiet && valid_path)
 		statusbar(_("New File"));
 	    return -2;
 	}
