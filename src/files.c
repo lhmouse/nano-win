@@ -400,29 +400,28 @@ bool open_buffer(const char *filename, bool undoable)
     }
 
     /* If we're going to load into a new buffer, first create the new
-     * buffer and lock the corresponding file. */
+     * buffer and (if possible) lock the corresponding file. */
     if (new_buffer) {
 	make_new_buffer();
 
 	verify_path(filename);
 
-	if (valid_path) {
 #ifndef NANO_TINY
-	if (ISSET(LOCKING) && filename[0] != '\0') {
-	    int lockstatus = do_lockfile(filename);
-	    if (lockstatus < 0) {
+	if (valid_path) {
+	    if (ISSET(LOCKING) && filename[0] != '\0') {
+		int lockstatus = do_lockfile(filename);
+		if (lockstatus < 0) {
 #ifndef DISABLE_MULTIBUFFER
-		if (openfile->next) {
-		    close_buffer(TRUE);
-		    return FALSE;
-		}
+		    if (openfile->next) {
+			close_buffer(TRUE);
+			return FALSE;
+		    }
 #endif
-	    } else if (lockstatus == 0) {
-		quiet = TRUE;
+		} else if (lockstatus == 0)
+		    quiet = TRUE;
 	    }
 	}
-#endif
-	}
+#endif /* !NANO_TINY */
     }
 
     /* If the filename isn't blank, and we are not in NOREAD_MODE,
