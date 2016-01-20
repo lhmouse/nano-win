@@ -1,5 +1,6 @@
 2016-01-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (open_buffer): Readjust the indentation and a comment.
+	* src/files.c (has_valid_path): Get rid of a global variable.
 
 2016-01-20  Rishabh Dave  <rishabhddave@gmail.com>
 	* src/files.c (verify_path, open_buffer): When opening a new buffer,

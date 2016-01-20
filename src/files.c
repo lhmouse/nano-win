@@ -33,27 +33,26 @@
 #include <pwd.h>
 #include <libgen.h>
 
-/* Determine whether the containing directory of the given filename exists.
- * Pass the result back in the global variable valid_path. */
-void verify_path(const char *filename)
+/* Verify that the containing directory of the given filename exists. */
+bool has_valid_path(const char *filename)
 {
     char *parentdir;
     struct stat parentinfo;
+    bool validity = TRUE;
 
     if (strrchr(filename, '/') == NULL)
 	parentdir = mallocstrcpy(NULL, ".");
     else
 	parentdir = dirname(mallocstrcpy(NULL, filename));
 
-    if (stat(parentdir, &parentinfo) != -1 && S_ISDIR(parentinfo.st_mode))
-	valid_path = TRUE;
-    else {
+    if (stat(parentdir, &parentinfo) == -1 || !S_ISDIR(parentinfo.st_mode)) {
 	statusbar(_("Directory '%s' does not exist"), parentdir);
-	valid_path = FALSE;
+	validity = FALSE;
 	beep();
     }
 
     free(parentdir);
+    return validity;
 }
 
 /* Add an entry to the openfile openfilestruct.  This should only be
@@ -135,7 +134,7 @@ void set_modified(void)
     titlebar(NULL);
 
 #ifndef NANO_TINY
-    if (!ISSET(LOCKING) || openfile->filename[0] == '\0' || !valid_path)
+    if (!ISSET(LOCKING) || openfile->filename[0] == '\0')
 	return;
 
     if (openfile->lock_filename == NULL) {
@@ -404,10 +403,10 @@ bool open_buffer(const char *filename, bool undoable)
     if (new_buffer) {
 	make_new_buffer();
 
-	verify_path(filename);
-
+	if (!has_valid_path(filename))
+	    quiet = TRUE;
 #ifndef NANO_TINY
-	if (valid_path) {
+	else {
 	    if (ISSET(LOCKING) && filename[0] != '\0') {
 		int lockstatus = do_lockfile(filename);
 		if (lockstatus < 0) {
@@ -977,7 +976,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	}
 
 	if (newfie) {
-	    if (!quiet && valid_path)
+	    if (!quiet)
 		statusbar(_("New File"));
 	    return -2;
 	}

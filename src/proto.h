@@ -34,7 +34,6 @@ extern volatile sig_atomic_t sigwinch_counter;
 extern bool meta_key;
 extern bool func_key;
 extern bool focusing;
-extern bool valid_path;
 
 #ifndef NANO_TINY
 extern int controlleft;
