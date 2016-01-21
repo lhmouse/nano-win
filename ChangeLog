@@ -1,3 +1,8 @@
+2016-01-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/prompt.c (get_prompt_string): Preserve the cursor position on
+	the statusbar when just toggling a setting or making an excursion to
+	the file browser.  This fixes Savannah bug #46945.
+
 2016-01-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (open_buffer): Readjust the indentation and a comment.
 	* src/files.c (has_valid_path): Get rid of a global variable.

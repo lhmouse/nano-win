@@ -922,22 +922,11 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     }
 #endif
 
-    /* We've finished putting in an answer or run a normal shortcut's
-     * associated function, so reset statusbar_x and statusbar_pww.  If
-     * we've finished putting in an answer, reset the statusbar cursor
-     * position too. */
-    if (func) {
-	if (func == do_cancel || func == do_enter || ran_func) {
-	    statusbar_x = old_statusbar_x;
-	    statusbar_pww = old_pww;
-
-	    if (!ran_func)
-		reset_statusbar_x = TRUE;
-    /* Otherwise, we're still putting in an answer or a shortcut with
-     * an associated function, so leave the statusbar cursor position
-     * alone. */
-	} else
-	    reset_statusbar_x = FALSE;
+    /* If we're done with this prompt, restore the cursor position
+     * to what it was at the /previous/ prompt, in case there was. */
+    if (func == do_cancel || func == do_enter) {
+	statusbar_x = old_statusbar_x;
+	statusbar_pww = old_pww;
     }
 
     *actual = kbinput;
