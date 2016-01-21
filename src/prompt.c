@@ -734,7 +734,6 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 {
     int kbinput = ERR;
     bool ran_func, finished;
-    size_t curranswer_len;
     functionptrtype func;
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
@@ -756,10 +755,9 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #endif /* !DISABLE_HISTORIES */
 
     answer = mallocstrcpy(answer, curranswer);
-    curranswer_len = strlen(answer);
 
-    if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len) {
-	statusbar_x = curranswer_len;
+    if (statusbar_x > strlen(answer)) {
+	statusbar_x = strlen(answer);
 	statusbar_pww = statusbar_xplustabs();
     }
 
