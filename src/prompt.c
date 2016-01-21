@@ -37,9 +37,6 @@ static size_t old_statusbar_x = (size_t)-1;
 	/* The old cursor position in answer, if any. */
 static size_t old_pww = (size_t)-1;
 	/* The old place we want in answer, if any. */
-static bool reset_statusbar_x = FALSE;
-	/* Should we reset the cursor position at the statusbar
-	 * prompt? */
 
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.
@@ -761,19 +758,6 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     answer = mallocstrcpy(answer, curranswer);
     curranswer_len = strlen(answer);
 
-    /* If reset_statusbar_x is TRUE, restore statusbar_x and
-     * statusbar_pww to what they were before this prompt.  Then, if
-     * statusbar_x is uninitialized or past the end of curranswer, put
-     * statusbar_x at the end of the string and update statusbar_pww
-     * based on it.  We do these things so that the cursor position
-     * stays at the right place if a prompt-changing toggle is pressed,
-     * or if this prompt was started from another prompt and we cancel
-     * out of it. */
-    if (reset_statusbar_x) {
-	statusbar_x = old_statusbar_x;
-	statusbar_pww = old_pww;
-    }
-
     if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len) {
 	statusbar_x = curranswer_len;
 	statusbar_pww = statusbar_xplustabs();
@@ -1017,17 +1001,6 @@ int do_prompt(bool allow_tabs,
 #endif
 
     return retval;
-}
-
-/* This function forces a reset of the statusbar cursor position.  It
- * should be called when we get out of all statusbar prompts. */
-void do_prompt_abort(void)
-{
-    /* Uninitialize the old cursor position in answer. */
-    old_statusbar_x = (size_t)-1;
-    old_pww = (size_t)-1;
-
-    reset_statusbar_x = TRUE;
 }
 
 /* Ask a simple Yes/No (and optionally All) question, specified in msg,

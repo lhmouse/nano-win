@@ -2683,10 +2683,6 @@ int main(int argc, char **argv)
 	reset_cursor();
 	wnoutrefresh(edit);
 
-	/* Just in case we were at the statusbar prompt, make sure the
-	 * statusbar cursor position is reset. */
-	do_prompt_abort();
-
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor
 	 * position on the statusbar. */

@@ -2,6 +2,9 @@
 	* src/prompt.c (get_prompt_string): Preserve the cursor position on
 	the statusbar when just toggling a setting or making an excursion to
 	the file browser.  This fixes Savannah bug #46945.
+	* src/prompt.c (do_prompt_abort): Remove this unneeded function, as
+	nothing can break out of do_prompt(), not a SIGWINCH either.
+	* src/prompt.c (get_prompt_string): Delete code that is dead now.
 
 2016-01-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (open_buffer): Readjust the indentation and a comment.
