@@ -6,6 +6,7 @@
 	nothing can break out of do_prompt(), not a SIGWINCH either.
 	* src/prompt.c (get_prompt_string): Delete code that is dead now.
 	* src/prompt.c (get_prompt_string): Elide an unneeded variable.
+	* src/browser.c (do_browser): Delete unneeded blanking of a variable.
 
 2016-01-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (open_buffer): Readjust the indentation and a comment.
