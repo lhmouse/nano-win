@@ -632,42 +632,42 @@ int is_file_writable(const char *filename)
  * Then attach this line after prevnode. */
 filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
 {
-    filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
+    filestruct *freshline = (filestruct *)nmalloc(sizeof(filestruct));
 
     /* Convert nulls to newlines.  buf_len is the string's real length. */
     unsunder(buf, buf_len);
 
     assert(openfile->fileage != NULL && strlen(buf) == buf_len);
 
-    fileptr->data = mallocstrcpy(NULL, buf);
+    freshline->data = mallocstrcpy(NULL, buf);
 
 #ifndef NANO_TINY
     /* If it's a DOS file ("\r\n"), and file conversion isn't disabled,
-     * strip the '\r' part from fileptr->data. */
+     * strip the '\r' part from the data. */
     if (!ISSET(NO_CONVERT) && buf_len > 0 && buf[buf_len - 1] == '\r')
-	fileptr->data[buf_len - 1] = '\0';
+	freshline->data[buf_len - 1] = '\0';
 #endif
 
 #ifndef DISABLE_COLOR
-    fileptr->multidata = NULL;
+    freshline->multidata = NULL;
 #endif
 
-    fileptr->prev = prevnode;
+    freshline->prev = prevnode;
 
     if (prevnode == NULL) {
 	/* Special case: we're inserting into the first line. */
-	fileptr->next = openfile->fileage;
-	openfile->fileage = fileptr;
-	fileptr->lineno = 1;
+	freshline->next = openfile->fileage;
+	openfile->fileage = freshline;
+	freshline->lineno = 1;
 	/* Make sure that our edit window stays on the first line. */
-	openfile->edittop = fileptr;
+	openfile->edittop = freshline;
     } else {
-	prevnode->next = fileptr;
-	fileptr->next = NULL;
-	fileptr->lineno = prevnode->lineno + 1;
+	prevnode->next = freshline;
+	freshline->next = NULL;
+	freshline->lineno = prevnode->lineno + 1;
     }
 
-    return fileptr;
+    return freshline;
 }
 
 /* Read an open file into the current buffer.  f should be set to the

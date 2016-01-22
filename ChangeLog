@@ -3,6 +3,7 @@
 	some sudos don't filter it out of the environment (which can lead to
 	a root-owned .nano/ directory in the invoking user's home directory).
 	It fixes https://bugs.launchpad.net/ubuntu/+source/nano/+bug/1471459.
+	* src/files.c (read_line): Rename a variable for clarity and contrast.
 
 2016-01-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/prompt.c (get_prompt_string): Preserve the cursor position on
