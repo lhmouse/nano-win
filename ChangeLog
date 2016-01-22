@@ -1,3 +1,9 @@
+2016-01-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/utils.c (get_homedir): Don't use $HOME when we're root, because
+	some sudos don't filter it out of the environment (which can lead to
+	a root-owned .nano/ directory in the invoking user's home directory).
+	It fixes https://bugs.launchpad.net/ubuntu/+source/nano/+bug/1471459.
+
 2016-01-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/prompt.c (get_prompt_string): Preserve the cursor position on
 	the statusbar when just toggling a setting or making an excursion to

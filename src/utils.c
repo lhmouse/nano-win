@@ -37,7 +37,9 @@ void get_homedir(void)
     if (homedir == NULL) {
 	const char *homenv = getenv("HOME");
 
-	if (homenv == NULL) {
+	/* When HOME isn't set, or when we're root, get the home directory
+	 * from the password file instead. */
+	if (homenv == NULL || geteuid() == 0) {
 	    const struct passwd *userage = getpwuid(geteuid());
 
 	    if (userage != NULL)
