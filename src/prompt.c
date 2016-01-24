@@ -144,9 +144,10 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 	if (have_shortcut) {
 	    if (s->scfunc == do_tab || s->scfunc == do_enter)
 		;
-	    else if (s->scfunc == total_refresh)
-		total_statusbar_refresh(refresh_func);
-	    else if (s->scfunc == do_cut_text_void) {
+	    else if (s->scfunc == total_refresh) {
+		total_redraw();
+		refresh_func();
+	    } else if (s->scfunc == do_cut_text_void) {
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
 		 * prompt, disable Cut. */
@@ -657,14 +658,6 @@ void update_the_bar(void)
     if (get_statusbar_page_start(start_col, start_col + statusbar_pww) !=
 		get_statusbar_page_start(start_col, start_col + was_pww))
 	update_statusbar_line(answer, statusbar_x);
-}
-
-/* Unconditionally redraw the entire screen, and then refresh it using
- * refresh_func(). */
-void total_statusbar_refresh(void (*refresh_func)(void))
-{
-    total_redraw();
-    refresh_func();
 }
 
 /* Get a string of input at the statusbar prompt.  This should only be

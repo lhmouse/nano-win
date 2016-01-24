@@ -8,6 +8,7 @@
 	* src/prompt.c (do_prompt): Remove a superfluous free.
 	* src/prompt.c (update_the_bar): Bundle some statements.
 	* src/prompt.c (need_statusbar_update): Elide this function.
+	* src/prompt.c (total_statusbar_refresh): Elide this function too.
 
 2016-01-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/utils.c (get_homedir): Don't use $HOME when we're root, because
