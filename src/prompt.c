@@ -926,10 +926,6 @@ int do_prompt(bool allow_tabs,
     bool list = FALSE;
 #endif
 
-    /* prompt has been freed and set to NULL unless the user resized
-     * while at the statusbar prompt. */
-    free(prompt);
-
     prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
     bottombars(menu);
