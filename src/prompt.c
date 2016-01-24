@@ -240,15 +240,10 @@ int do_statusbar_mouse(void)
 
 	/* Move to where the click occurred. */
 	if (mouse_x >= start_col && mouse_y == 0) {
-	    size_t pww_save = statusbar_pww;
-
 	    statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
 			statusbar_xplustabs()) + mouse_x - start_col);
-	    statusbar_pww = statusbar_xplustabs();
-
-	    if (need_statusbar_update(pww_save))
-		update_statusbar_line(answer, statusbar_x);
+	    update_the_bar();
 	}
     }
 
@@ -329,8 +324,6 @@ void do_statusbar_output(char *output, size_t output_len, bool
  * are. */
 void do_statusbar_home(void)
 {
-    size_t pww_save = statusbar_pww;
-
 #ifndef NANO_TINY
     if (ISSET(SMART_HOME)) {
 	size_t statusbar_x_save = statusbar_x;
@@ -340,42 +333,26 @@ void do_statusbar_home(void)
 	if (statusbar_x == statusbar_x_save ||
 		statusbar_x == strlen(answer))
 	    statusbar_x = 0;
-
-	statusbar_pww = statusbar_xplustabs();
     } else
 #endif
-    {
 	statusbar_x = 0;
-	statusbar_pww = statusbar_xplustabs();
-    }
 
-    if (need_statusbar_update(pww_save))
-	update_statusbar_line(answer, statusbar_x);
+    update_the_bar();
 }
 
 /* Move to the end of the prompt text. */
 void do_statusbar_end(void)
 {
-    size_t pww_save = statusbar_pww;
-
     statusbar_x = strlen(answer);
-    statusbar_pww = statusbar_xplustabs();
-
-    if (need_statusbar_update(pww_save))
-	update_statusbar_line(answer, statusbar_x);
+    update_the_bar();
 }
 
 /* Move left one character. */
 void do_statusbar_left(void)
 {
     if (statusbar_x > 0) {
-	size_t pww_save = statusbar_pww;
-
 	statusbar_x = move_mbleft(answer, statusbar_x);
-	statusbar_pww = statusbar_xplustabs();
-
-	if (need_statusbar_update(pww_save))
-	    update_statusbar_line(answer, statusbar_x);
+	update_the_bar();
     }
 }
 
@@ -383,13 +360,8 @@ void do_statusbar_left(void)
 void do_statusbar_right(void)
 {
     if (statusbar_x < strlen(answer)) {
-	size_t pww_save = statusbar_pww;
-
 	statusbar_x = move_mbright(answer, statusbar_x);
-	statusbar_pww = statusbar_xplustabs();
-
-	if (need_statusbar_update(pww_save))
-	    update_statusbar_line(answer, statusbar_x);
+	update_the_bar();
     }
 }
 
@@ -447,7 +419,6 @@ void do_statusbar_cut_text(void)
 /* Move to the next word in the prompt text. */
 void do_statusbar_next_word(void)
 {
-    size_t pww_save = statusbar_pww;
     char *char_mb;
     int char_mb_len;
     bool end_line = FALSE;
@@ -494,16 +465,12 @@ void do_statusbar_next_word(void)
 
     free(char_mb);
 
-    statusbar_pww = statusbar_xplustabs();
-
-    if (need_statusbar_update(pww_save))
-	update_statusbar_line(answer, statusbar_x);
+    update_the_bar();
 }
 
 /* Move to the previous word in the prompt text. */
 void do_statusbar_prev_word(void)
 {
-    size_t pww_save = statusbar_pww;
     char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE;
@@ -580,10 +547,7 @@ void do_statusbar_prev_word(void)
 
     free(char_mb);
 
-    statusbar_pww = statusbar_xplustabs();
-
-    if (need_statusbar_update(pww_save))
-	update_statusbar_line(answer, statusbar_x);
+    update_the_bar();
 }
 #endif /* !NANO_TINY */
 
@@ -691,6 +655,17 @@ bool need_statusbar_update(size_t pww_save)
 
     return get_statusbar_page_start(start_col, start_col + pww_save) !=
 	get_statusbar_page_start(start_col, start_col + statusbar_pww);
+}
+
+/* Update the statusbar line /if/ the placewewant changes page. */
+void update_the_bar(void)
+{
+    size_t was_pww = statusbar_pww;
+
+    statusbar_pww = statusbar_xplustabs();
+
+    if (need_statusbar_update(was_pww))
+	update_statusbar_line(answer, statusbar_x);
 }
 
 /* Unconditionally redraw the entire screen, and then refresh it using
