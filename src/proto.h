@@ -528,8 +528,8 @@ void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
 #ifndef NANO_TINY
-bool do_statusbar_next_word(bool allow_punct);
-bool do_statusbar_prev_word(bool allow_punct);
+void do_statusbar_next_word(void);
+void do_statusbar_prev_word(void);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
 size_t statusbar_xplustabs(void);

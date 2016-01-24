@@ -159,9 +159,9 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		do_statusbar_right();
 #ifndef NANO_TINY
 	    else if (s->scfunc == do_prev_word_void)
-		do_statusbar_prev_word(FALSE);
+		do_statusbar_prev_word();
 	    else if (s->scfunc == do_next_word_void)
-		do_statusbar_next_word(FALSE);
+		do_statusbar_next_word();
 #endif
 	    else if (s->scfunc == do_home)
 		do_statusbar_home();
@@ -444,15 +444,13 @@ void do_statusbar_cut_text(void)
 }
 
 #ifndef NANO_TINY
-/* Move to the next word in the prompt text.  If allow_punct is TRUE,
- * treat punctuation as part of a word.  Return TRUE if we started on a
- * word, and FALSE otherwise. */
-bool do_statusbar_next_word(bool allow_punct)
+/* Move to the next word in the prompt text. */
+void do_statusbar_next_word(void)
 {
     size_t pww_save = statusbar_pww;
     char *char_mb;
     int char_mb_len;
-    bool end_line = FALSE, started_on_word = FALSE;
+    bool end_line = FALSE;
 
     assert(answer != NULL);
 
@@ -465,12 +463,8 @@ bool do_statusbar_next_word(bool allow_punct)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb, allow_punct))
+	if (!is_word_mbchar(char_mb, FALSE))
 	    break;
-
-	/* If we haven't found it, then we've started on a word, so set
-	 * started_on_word to TRUE. */
-	started_on_word = TRUE;
 
 	if (answer[statusbar_x] == '\0')
 	    end_line = TRUE;
@@ -489,7 +483,7 @@ bool do_statusbar_next_word(bool allow_punct)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (is_word_mbchar(char_mb, allow_punct))
+	if (is_word_mbchar(char_mb, FALSE))
 	    break;
 
 	if (answer[statusbar_x] == '\0')
@@ -504,20 +498,15 @@ bool do_statusbar_next_word(bool allow_punct)
 
     if (need_statusbar_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
-
-    /* Return whether we started on a word. */
-    return started_on_word;
 }
 
-/* Move to the previous word in the prompt text.  If allow_punct is
- * TRUE, treat punctuation as part of a word.  Return TRUE if we started
- * on a word, and FALSE otherwise. */
-bool do_statusbar_prev_word(bool allow_punct)
+/* Move to the previous word in the prompt text. */
+void do_statusbar_prev_word(void)
 {
     size_t pww_save = statusbar_pww;
     char *char_mb;
     int char_mb_len;
-    bool begin_line = FALSE, started_on_word = FALSE;
+    bool begin_line = FALSE;
 
     assert(answer != NULL);
 
@@ -530,12 +519,8 @@ bool do_statusbar_prev_word(bool allow_punct)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb, allow_punct))
+	if (!is_word_mbchar(char_mb, FALSE))
 	    break;
-
-	/* If we haven't found it, then we've started on a word, so set
-	 * started_on_word to TRUE. */
-	started_on_word = TRUE;
 
 	if (statusbar_x == 0)
 	    begin_line = TRUE;
@@ -555,7 +540,7 @@ bool do_statusbar_prev_word(bool allow_punct)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (is_word_mbchar(char_mb, allow_punct))
+	if (is_word_mbchar(char_mb, FALSE))
 	    break;
 
 	if (statusbar_x == 0)
@@ -578,7 +563,7 @@ bool do_statusbar_prev_word(bool allow_punct)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (!is_word_mbchar(char_mb, allow_punct))
+	    if (!is_word_mbchar(char_mb, FALSE))
 		break;
 
 	    if (statusbar_x == 0)
@@ -599,9 +584,6 @@ bool do_statusbar_prev_word(bool allow_punct)
 
     if (need_statusbar_update(pww_save))
 	update_statusbar_line(answer, statusbar_x);
-
-    /* Return whether we started on a word. */
-    return started_on_word;
 }
 #endif /* !NANO_TINY */
 

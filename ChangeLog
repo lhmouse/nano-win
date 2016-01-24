@@ -3,6 +3,8 @@
 	of the list, so that it won't be dropped any time soon.  The problem
 	was pointed out by David Niklas.
 	* src/winio.c (edit_redraw): Condense by removing a triplication.
+	* src/prompt.c (do_statusbar_prev_word, do_statusbar_next_word):
+	Chop an always-FALSE parameter and delete an unused return value.
 
 2016-01-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/utils.c (get_homedir): Don't use $HOME when we're root, because
