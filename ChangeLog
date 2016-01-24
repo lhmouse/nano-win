@@ -2,6 +2,7 @@
 	* src/files.c (update_poshistory): Move an updated item to the end
 	of the list, so that it won't be dropped any time soon.  The problem
 	was pointed out by David Niklas.
+	* src/winio.c (edit_redraw): Condense by removing a triplication.
 
 2016-01-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/utils.c (get_homedir): Don't use $HOME when we're root, because

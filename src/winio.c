@@ -2948,90 +2948,30 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
  * updated.  Use this if we've moved without changing any text. */
 void edit_redraw(filestruct *old_current, size_t pww_save)
 {
-    filestruct *foo = NULL;
-    bool do_redraw = need_screen_update(0) || need_screen_update(pww_save);
-
-    /* If either old_current or current is offscreen, scroll the edit
-     * window until it's onscreen and get out. */
-    if (old_current->lineno < openfile->edittop->lineno ||
-		old_current->lineno >= openfile->edittop->lineno + maxrows ||
-		openfile->current->lineno < openfile->edittop->lineno ||
-		openfile->current->lineno >= openfile->edittop->lineno + maxrows) {
-#ifdef DEBUG
-	fprintf(stderr, "edit_redraw(): line %ld was offscreen, oldcurrent = %ld edittop = %ld",
-		(long)openfile->current->lineno, (long)old_current->lineno, (long)openfile->edittop->lineno);
-#endif
-
-#ifndef NANO_TINY
-	/* If the mark is on, update all the lines between old_current
-	 * and either the old first line or old last line (depending on
-	 * whether we've scrolled up or down) of the edit window. */
-	if (openfile->mark_set) {
-	    ssize_t old_lineno;
-
-	    if (openfile->edittop->lineno + maxrows <= openfile->filebot->lineno)
-		old_lineno = openfile->edittop->lineno + editwinrows;
-	    else
-		old_lineno = openfile->filebot->lineno;
-
-	    foo = old_current;
-
-	    while (foo->lineno != old_lineno) {
-		update_line(foo, 0);
-
-		foo = (foo->lineno > old_lineno) ?
-			foo->prev : foo->next;
-	    }
-	}
-#endif /* !NANO_TINY */
-
-	/* Make sure the current line is on the screen. */
+    /* If the current line is offscreen, scroll until it's onscreen. */
+    if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
+		openfile->current->lineno < openfile->edittop->lineno)
 	edit_update((ISSET(SMOOTH_SCROLL) && !focusing) ? NONE : CENTER);
 
-	/* Update old_current if we're not on the same page as
-	 * before. */
-	if (do_redraw)
-	    update_line(old_current, 0);
-
 #ifndef NANO_TINY
-	/* If the mark is on, update all the lines between the old first
-	 * line or old last line of the edit window (depending on
-	 * whether we've scrolled up or down) and current. */
-	if (openfile->mark_set) {
-	    while (foo->lineno != openfile->current->lineno) {
-		update_line(foo, 0);
+    /* If the mark is on, update all lines between old_current and current. */
+    if (openfile->mark_set) {
+	filestruct *foo = old_current;
 
-		foo = (foo->lineno > openfile->current->lineno) ?
-			foo->prev : foo->next;
-	    }
-	}
-#endif /* !NANO_TINY */
-
-	return;
-    }
-
-    /* Update old_current and current if we're not on the same page as
-     * before.  If the mark is on, update all the lines between
-     * old_current and current too. */
-    foo = old_current;
-
-    while (foo != openfile->current) {
-	if (do_redraw)
+	while (foo != openfile->current) {
 	    update_line(foo, 0);
 
-#ifndef NANO_TINY
-	if (!openfile->mark_set)
-#endif
-	    break;
-
-#ifndef NANO_TINY
-	foo = (foo->lineno > openfile->current->lineno) ? foo->prev :
-		foo->next;
-#endif
+	    foo = (foo->lineno > openfile->current->lineno) ?
+			foo->prev : foo->next;
+	}
     }
+#endif /* !NANO_TINY */
 
-    if (do_redraw)
+    /* Update old_current and current if we've changed page. */
+    if (need_screen_update(0) || need_screen_update(pww_save)) {
+	update_line(old_current, 0);
 	update_line(openfile->current, openfile->current_x);
+    }
 }
 
 /* Refresh the screen without changing the position of lines.  Use this
