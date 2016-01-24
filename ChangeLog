@@ -1,3 +1,8 @@
+2016-01-24  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Move an updated item to the end
+	of the list, so that it won't be dropped any time soon.  The problem
+	was pointed out by David Niklas.
+
 2016-01-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/utils.c (get_homedir): Don't use $HOME when we're root, because
 	some sudos don't filter it out of the environment (which can lead to

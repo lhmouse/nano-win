@@ -3183,33 +3183,41 @@ void save_poshistory(void)
  * and a column.  If no entry is found, add a new one at the end. */
 void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 {
-    poshiststruct *posptr, *posprev = NULL;
+    poshiststruct *posptr, *theone, *posprev = NULL;
     char *fullpath = get_full_path(filename);
 
     if (fullpath == NULL)
 	return;
 
+    /* Look for a matching filename in the list. */
     for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-	if (!strcmp(posptr->filename, fullpath)) {
-	    posptr->lineno = lineno;
-	    posptr->xno = xpos;
-	    free(fullpath);
-	    return;
-	}
+	if (!strcmp(posptr->filename, fullpath))
+	    break;
 	posprev = posptr;
     }
 
-    /* Didn't find it, make a new node yo! */
-    posptr = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-    posptr->filename = mallocstrcpy(NULL, fullpath);
-    posptr->lineno = lineno;
-    posptr->xno = xpos;
-    posptr->next = NULL;
+    theone = posptr;
 
-    if (position_history == NULL)
-	position_history = posptr;
-    else
-	posprev->next = posptr;
+    /* If we didn't find it, make a new node; otherwise, if we're
+     * not at the end, move the matching one to the end. */
+    if (theone == NULL) {
+	theone = (poshiststruct *)nmalloc(sizeof(poshiststruct));
+	theone->filename = mallocstrcpy(NULL, fullpath);
+	if (position_history == NULL)
+	    position_history = theone;
+	else
+	    posprev->next = theone;
+    } else if (posptr->next != NULL) {
+	posprev->next = posptr->next;
+	while (posptr->next != NULL)
+	    posptr = posptr->next;
+	posptr->next = theone;
+    }
+
+    /* Store the last cursor position. */
+    theone->lineno = lineno;
+    theone->xno = xpos;
+    theone->next = NULL;
 
     free(fullpath);
 }
