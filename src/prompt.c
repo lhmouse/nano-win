@@ -646,25 +646,16 @@ void update_statusbar_line(const char *curranswer, size_t index)
     wnoutrefresh(bottomwin);
 }
 
-/* Return TRUE if we need an update after moving the cursor, and FALSE
- * otherwise.  We need an update if pww_save and statusbar_pww are on
- * different pages. */
-bool need_statusbar_update(size_t pww_save)
-{
-    size_t start_col = strlenpt(prompt) + 2;
-
-    return get_statusbar_page_start(start_col, start_col + pww_save) !=
-	get_statusbar_page_start(start_col, start_col + statusbar_pww);
-}
-
 /* Update the statusbar line /if/ the placewewant changes page. */
 void update_the_bar(void)
 {
+    size_t start_col = strlenpt(prompt) + 2;
     size_t was_pww = statusbar_pww;
 
     statusbar_pww = statusbar_xplustabs();
 
-    if (need_statusbar_update(was_pww))
+    if (get_statusbar_page_start(start_col, start_col + statusbar_pww) !=
+		get_statusbar_page_start(start_col, start_col + was_pww))
 	update_statusbar_line(answer, statusbar_x);
 }
 
