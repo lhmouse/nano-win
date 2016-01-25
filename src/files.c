@@ -3208,7 +3208,10 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	else
 	    posprev->next = theone;
     } else if (posptr->next != NULL) {
-	posprev->next = posptr->next;
+	if (posprev == NULL)
+	    position_history = posptr->next;
+	else
+	    posprev->next = posptr->next;
 	while (posptr->next != NULL)
 	    posptr = posptr->next;
 	posptr->next = theone;

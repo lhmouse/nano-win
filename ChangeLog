@@ -1,3 +1,7 @@
+2016-01-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Handle an update of the first
+	element correctly.
+
 2016-01-24  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Move an updated item to the end
 	of the list, so that it won't be dropped any time soon.  The problem
