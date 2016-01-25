@@ -1,6 +1,8 @@
 2016-01-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Handle an update of the first
 	element correctly.
+	* doc/texinfo/nano.texi: Document the --enable-altrcname option.
+	The lack of this was pointed out by Frank.
 
 2016-01-24  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Move an updated item to the end

@@ -1459,6 +1459,10 @@ Disable support for reading and writing Unicode files.  Normally the
 configure script auto-detects whether to enable UTF-8 support or not.
 You can use this or the previous option to override that detection.
 
+@item --enable-altrcname=@var{name}
+Use the file with the given @var{name} (in the user's home directory)
+as nano's settings file, instead of the default @code{.nanorc}.
+
 @item --with-slang
 Compile @code{nano} against Slang instead of against ncurses or other
 curses libraries.
