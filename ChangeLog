@@ -3,6 +3,8 @@
 	element correctly.
 	* doc/texinfo/nano.texi: Document the --enable-altrcname option.
 	The lack of this was pointed out by Frank.
+	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Mention
+	that the position history is limited to the 200 most recent files.
 
 2016-01-24  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Move an updated item to the end

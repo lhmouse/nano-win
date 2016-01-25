@@ -188,8 +188,8 @@ Use the blank line below the titlebar as extra editing space.
 
 @item -P
 @itemx --positionlog
-Log for each file the last location of the cursor, and read it
-back upon reopening the file and place it there again.
+For the 200 most recent files, log the last position of the cursor,
+and place it at that position again upon reopening such a file.
 (The old form of this option, @code{--poslog}, is deprecated.)
 
 @item -Q "@var{characters}"
@@ -720,6 +720,7 @@ directory feature is turned off.
 
 @item set positionlog
 Save the cursor position of files between editing sessions.
+The cursor position is remembered for the 200 most-recently edited files.
 (The old form of this option, @code{set poslog}, is deprecated.)
 
 @item set preserve
