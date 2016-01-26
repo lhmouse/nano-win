@@ -420,51 +420,21 @@ void do_statusbar_cut_text(void)
 /* Move to the next word in the prompt text. */
 void do_statusbar_next_word(void)
 {
-    char *char_mb;
-    int char_mb_len;
-    bool end_line = FALSE;
+    bool seen_space = !is_word_mbchar(answer + statusbar_x, FALSE);
 
     assert(answer != NULL);
 
-    char_mb = charalloc(mb_cur_max());
+    /* Move forward until we reach the start of a word. */
+    while (answer[statusbar_x] != '\0') {
+	statusbar_x = move_mbright(answer, statusbar_x);
 
-    /* Move forward until we find the character after the last letter of
-     * the current word. */
-    while (!end_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
-
-	/* If we've found it, stop moving forward through the current
-	 * line. */
-	if (!is_word_mbchar(char_mb, FALSE))
+	/* If this is not a word character, then it's a separator; else
+	 * if we've already seen a separator, then it's a word start. */
+	if (!is_word_mbchar(answer + statusbar_x, FALSE))
+	    seen_space = TRUE;
+	else if (seen_space)
 	    break;
-
-	if (answer[statusbar_x] == '\0')
-	    end_line = TRUE;
-	else
-	    statusbar_x += char_mb_len;
     }
-
-    /* Move forward until we find the first letter of the next word. */
-    if (answer[statusbar_x] == '\0')
-	end_line = TRUE;
-    else
-	statusbar_x += char_mb_len;
-
-    while (!end_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
-
-	/* If we've found it, stop moving forward through the current
-	 * line. */
-	if (is_word_mbchar(char_mb, FALSE))
-	    break;
-
-	if (answer[statusbar_x] == '\0')
-	    end_line = TRUE;
-	else
-	    statusbar_x += char_mb_len;
-    }
-
-    free(char_mb);
 
     update_the_bar();
 }

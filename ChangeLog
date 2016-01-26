@@ -5,6 +5,7 @@
 	* src/prompt.c (do_statusbar_prev_word): When in the middle of a
 	word, jump to the start of the current word, not to the start of
 	the preceding one.  This fixes Savannah bug #46970.
+	* src/prompt.c (do_statusbar_next_word): Use simpler algorithm.
 
 2016-01-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Handle an update of the first
