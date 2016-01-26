@@ -472,81 +472,26 @@ void do_statusbar_next_word(void)
 /* Move to the previous word in the prompt text. */
 void do_statusbar_prev_word(void)
 {
-    char *char_mb;
-    int char_mb_len;
-    bool begin_line = FALSE;
+    bool seen_a_word = FALSE, step_forward = FALSE;
 
     assert(answer != NULL);
 
-    char_mb = charalloc(mb_cur_max());
-
-    /* Move backward until we find the character before the first letter
-     * of the current word. */
-    while (!begin_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
-
-	/* If we've found it, stop moving backward through the current
-	 * line. */
-	if (!is_word_mbchar(char_mb, FALSE))
-	    break;
-
-	if (statusbar_x == 0)
-	    begin_line = TRUE;
-	else
-	    statusbar_x = move_mbleft(answer, statusbar_x);
-    }
-
-    /* Move backward until we find the last letter of the previous
-     * word. */
-    if (statusbar_x == 0)
-	begin_line = TRUE;
-    else
+    /* Move backward until we pass over the start of a word. */
+    while (statusbar_x != 0) {
 	statusbar_x = move_mbleft(answer, statusbar_x);
 
-    while (!begin_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
-
-	/* If we've found it, stop moving backward through the current
-	 * line. */
-	if (is_word_mbchar(char_mb, FALSE))
+	if (is_word_mbchar(answer + statusbar_x, FALSE))
+	    seen_a_word = TRUE;
+	else if (seen_a_word) {
+	    /* This is space now: we've overshot the start of the word. */
+	    step_forward = TRUE;
 	    break;
-
-	if (statusbar_x == 0)
-	    begin_line = TRUE;
-	else
-	    statusbar_x = move_mbleft(answer, statusbar_x);
-    }
-
-    /* If we've found it, move backward until we find the character
-     * before the first letter of the previous word. */
-    if (!begin_line) {
-	if (statusbar_x == 0)
-	    begin_line = TRUE;
-	else
-	    statusbar_x = move_mbleft(answer, statusbar_x);
-
-	while (!begin_line) {
-	    char_mb_len = parse_mbchar(answer + statusbar_x, char_mb,
-		NULL);
-
-	    /* If we've found it, stop moving backward through the
-	     * current line. */
-	    if (!is_word_mbchar(char_mb, FALSE))
-		break;
-
-	    if (statusbar_x == 0)
-		begin_line = TRUE;
-	    else
-		statusbar_x = move_mbleft(answer, statusbar_x);
 	}
-
-	/* If we've found it, move forward to the first letter of the
-	 * previous word. */
-	if (!begin_line)
-	    statusbar_x += char_mb_len;
     }
 
-    free(char_mb);
+    if (step_forward)
+	/* Move one character forward again to sit on the start of the word. */
+	statusbar_x = move_mbright(answer, statusbar_x);
 
     update_the_bar();
 }
