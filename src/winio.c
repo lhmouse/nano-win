@@ -2800,8 +2800,7 @@ bool need_screen_update(size_t pww_save)
 #ifndef NANO_TINY
 	openfile->mark_set ||
 #endif
-	get_page_start(pww_save) !=
-	get_page_start(openfile->placewewant);
+	get_page_start(pww_save) != get_page_start(openfile->placewewant);
 }
 
 /* When edittop changes, try and figure out how many lines

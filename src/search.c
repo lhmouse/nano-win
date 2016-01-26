@@ -463,10 +463,9 @@ void do_search(void)
 
     /* If we found something, and we're back at the exact same spot where
      * we started searching, then this is the only occurrence. */
-    if (fileptr == openfile->current && fileptr_x ==
-	openfile->current_x && didfind) {
-	    statusbar(_("This is the only occurrence"));
-    }
+    if (didfind && fileptr == openfile->current &&
+		fileptr_x == openfile->current_x)
+	statusbar(_("This is the only occurrence"));
 
     openfile->placewewant = xplustabs();
     edit_redraw(fileptr, pww_save);
@@ -516,7 +515,9 @@ void do_research(void)
 	last_search = mallocstrcpy(last_search, searchbot->prev->data);
 #endif
 
-    if (last_search[0] != '\0') {
+    if (last_search[0] == '\0')
+	statusbar(_("No current search pattern"));
+    else {
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */
 	if (ISSET(USE_REGEXP) && !regexp_init(last_search))
@@ -532,12 +533,10 @@ void do_research(void)
 
 	/* If we found something, and we're back at the exact same spot
 	 * where we started searching, then this is the only occurrence. */
-	if (fileptr == openfile->current && fileptr_x ==
-		openfile->current_x && didfind) {
-		statusbar(_("This is the only occurrence"));
-	}
-    } else
-	statusbar(_("No current search pattern"));
+	if (didfind && fileptr == openfile->current &&
+		fileptr_x == openfile->current_x && didfind)
+	    statusbar(_("This is the only occurrence"));
+    }
 
     openfile->placewewant = xplustabs();
     edit_redraw(fileptr, pww_save);
@@ -805,8 +804,7 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_COLOR
 		/* If color syntaxes are available and turned on, we
 		 * need to call edit_refresh(). */
-		if (openfile->colorstrings != NULL &&
-			!ISSET(NO_COLOR_SYNTAX))
+		if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
 		    edit_refresh();
 		else
 #endif

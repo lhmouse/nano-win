@@ -151,8 +151,8 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
 		 * prompt, disable Cut. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currmenu != MWRITEFILE)
+		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
+			currmenu != MWRITEFILE)
 		    do_statusbar_cut_text();
 	    } else if (s->scfunc == do_left)
 		do_statusbar_left();
@@ -192,15 +192,15 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
 		 * prompt, disable Delete. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currmenu != MWRITEFILE)
+		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
+			currmenu != MWRITEFILE)
 		    do_statusbar_delete();
 	    } else if (s->scfunc == do_backspace) {
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
 		 * prompt, disable Backspace. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currmenu != MWRITEFILE)
+		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
+			currmenu != MWRITEFILE)
 		    do_statusbar_backspace();
 	    } else {
 		/* Handle any other shortcut in the current menu, setting
@@ -660,8 +660,7 @@ void update_the_bar(void)
 	update_statusbar_line(answer, statusbar_x);
 }
 
-/* Get a string of input at the statusbar prompt.  This should only be
- * called from do_prompt(). */
+/* Get a string of input at the statusbar prompt. */
 functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
@@ -723,13 +722,12 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	assert(statusbar_x <= strlen(answer));
 
 #ifndef NANO_TINY
-    if (kbinput == KEY_WINCH) {
-	refresh_func();
-	update_statusbar_line(answer, statusbar_x);
-	continue;
-    }
+	if (kbinput == KEY_WINCH) {
+	    refresh_func();
+	    update_statusbar_line(answer, statusbar_x);
+	    continue;
+	}
 #endif
-
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel || func == do_enter)
@@ -796,10 +794,10 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 		 * history list, answer is blank, and magichistory is set,
 		 * save magichistory in answer. */
 		if ((*history_list)->next == NULL &&
-		    *answer == '\0' && magichistory != NULL) {
-			answer = mallocstrcpy(answer, magichistory);
-			statusbar_x = strlen(answer);
-		    }
+			*answer == '\0' && magichistory != NULL) {
+		    answer = mallocstrcpy(answer, magichistory);
+		    statusbar_x = strlen(answer);
+		}
 
 		update_statusbar_line(answer, statusbar_x);
 
@@ -830,7 +828,6 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #if !defined(DISABLE_HISTORIES) && !defined(DISABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
-
 	reset_statusbar_cursor();
 	wnoutrefresh(bottomwin);
     }
