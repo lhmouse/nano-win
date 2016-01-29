@@ -1,6 +1,9 @@
 2016-01-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_insertfile): Do display the buffer when configured
 	with only --disable-histories.  This fixes Savannah bug #47011.
+	* src/nano.c (main): For second or later files on the command line,
+	only check the position history when option 'positionlog' is set.
+	This fixes a bug that was unconsciously reported by Mike Frysinger.
 
 2016-01-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Do not add directories to the

@@ -2628,7 +2628,7 @@ int main(int argc, char **argv)
 		    icol = 0;
 		}
 #ifndef DISABLE_HISTORIES
-		else {
+		else if (ISSET(POS_HISTORY)) {
 		    ssize_t savedposline, savedposcol;
 		    /* If edited before, restore the last cursor position. */
 		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
