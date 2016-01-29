@@ -1240,20 +1240,23 @@ void do_insertfile(
 		open_buffer(answer, TRUE);
 	    }
 
-#if !defined(DISABLE_MULTIBUFFER) && !defined(DISABLE_HISTORIES)
+#ifndef DISABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER)) {
 		/* Update the screen to account for the current buffer. */
 		display_buffer();
 
-		ssize_t savedposline, savedposcol;
-		if (ISSET(POS_HISTORY) &&
+#ifndef DISABLE_HISTORIES
+		if (ISSET(POS_HISTORY)) {
+		    ssize_t priorline, priorcol;
 #ifndef NANO_TINY
-			!execute &&
+		    if (!execute)
 #endif
-			check_poshistory(answer, &savedposline, &savedposcol))
-		    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE);
+		    if (check_poshistory(answer, &priorline, &priorcol))
+			do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
+		}
+#endif /* !DISABLE_HISTORIES */
 	    } else
-#endif /* !DISABLE_MULTIBUFFER && !DISABLE_HISTORIES */
+#endif /* !DISABLE_MULTIBUFFER */
 	    {
 		filestruct *top_save = openfile->fileage;
 
