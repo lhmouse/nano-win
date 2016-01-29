@@ -4,6 +4,7 @@
 	* src/nano.c (main): Check position history only when 'positionlog'
 	is set.  This fixes a bug unconsciously reported by Mike Frysinger.
 	* src/files.c (do_lockfile): Plug a couple of memory leaks.
+	* src/files.c (update_poshistory): Plug another memory leak.
 
 2016-01-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Do not add directories to the

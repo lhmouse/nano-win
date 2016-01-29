@@ -3205,8 +3205,10 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     poshiststruct *posptr, *theone, *posprev = NULL;
     char *fullpath = get_full_path(filename);
 
-    if (fullpath == NULL || fullpath[strlen(fullpath) - 1] == '/')
+    if (fullpath == NULL || fullpath[strlen(fullpath) - 1] == '/') {
+	free(fullpath);
 	return;
+    }
 
     /* Look for a matching filename in the list. */
     for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
