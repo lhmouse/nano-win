@@ -306,7 +306,7 @@ int do_lockfile(const char *filename)
     char *lockfilename = charalloc(locknamesize);
     static char lockprog[11], lockuser[17];
     struct stat fileinfo;
-    int lockfd, lockpid;
+    int lockfd, lockpid, retval = -1;
 
     snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy1),
 		locking_prefix, basename(namecopy2), locking_suffix);
@@ -318,14 +318,16 @@ int do_lockfile(const char *filename)
     if (stat(lockfilename, &fileinfo) != -1) {
 	ssize_t readtot = 0;
 	ssize_t readamt = 0;
-	char *lockbuf = charalloc(8192);
-	char *promptstr = charalloc(128);
+	char *lockbuf, *promptstr;
 	int ans;
+
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 	    statusbar(_("Error opening lock file %s: %s"),
 			lockfilename, strerror(errno));
-	    return -1;
+	    goto free_the_name;
 	}
+
+	lockbuf = charalloc(8192);
 	do {
 	    readamt = read(lockfd, &lockbuf[readtot], BUFSIZ);
 	    readtot += readamt;
@@ -334,26 +336,40 @@ int do_lockfile(const char *filename)
 	if (readtot < 48) {
 	    statusbar(_("Error reading lock file %s: Not enough data read"),
 			lockfilename);
-	    return -1;
+	    free(lockbuf);
+	    goto free_the_name;
 	}
+
 	strncpy(lockprog, &lockbuf[2], 10);
 	lockpid = (unsigned char)lockbuf[25] * 256 + (unsigned char)lockbuf[24];
 	strncpy(lockuser, &lockbuf[28], 16);
+	free(lockbuf);
+
 #ifdef DEBUG
 	fprintf(stderr, "lockpid = %d\n", lockpid);
 	fprintf(stderr, "program name which created this lock file should be %s\n", lockprog);
 	fprintf(stderr, "user which created this lock file should be %s\n", lockuser);
 #endif
+	promptstr = charalloc(128);
 	/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
 	sprintf(promptstr, _("File %s is being edited (by %s with %s, PID %d); continue?"),
 			filename, lockuser, lockprog, lockpid);
 	ans = do_yesno_prompt(FALSE, promptstr);
+	free(promptstr);
+
 	if (ans < 1) {
 	    blank_statusbar();
-	    return -1;
+	    goto free_the_name;
 	}
     }
-    return write_lockfile(lockfilename, filename, FALSE);
+
+    retval = write_lockfile(lockfilename, filename, FALSE);
+
+  free_the_name:
+    if (retval < 1)
+	free(lockfilename);
+
+    return retval;
 }
 #endif /* !NANO_TINY */
 
