@@ -2666,7 +2666,7 @@ int main(int argc, char **argv)
     if (startline > 0 || startcol > 0)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE);
 #ifndef DISABLE_HISTORIES
-    else {
+    else if (ISSET(POS_HISTORY)) {
 	ssize_t savedposline, savedposcol;
 	/* If the file was edited before, restore the last cursor position. */
 	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
