@@ -5,6 +5,8 @@
 	is set.  This fixes a bug unconsciously reported by Mike Frysinger.
 	* src/files.c (do_lockfile): Plug a couple of memory leaks.
 	* src/files.c (update_poshistory): Plug another memory leak.
+	* src/files.c (close_buffer): Update position history only when
+	the option 'positionlog' is set.
 
 2016-01-26  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (update_poshistory): Do not add directories to the

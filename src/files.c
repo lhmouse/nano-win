@@ -588,7 +588,9 @@ bool close_buffer(bool quiet)
 	return FALSE;
 
 #ifndef DISABLE_HISTORIES
-    update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
+    if (ISSET(POS_HISTORY))
+	update_poshistory(openfile->filename,
+			openfile->current->lineno, xplustabs() + 1);
 #endif
 
     /* Switch to the next file buffer. */
