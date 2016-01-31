@@ -319,25 +319,10 @@ void do_statusbar_output(char *output, size_t output_len, bool
     update_statusbar_line(answer, statusbar_x);
 }
 
-/* Move to the beginning of the prompt text.  If the SMART_HOME flag is
- * set, move to the first non-whitespace character of the prompt text if
- * we're not already there, or to the beginning of the prompt text if we
- * are. */
+/* Move to the beginning of the prompt text. */
 void do_statusbar_home(void)
 {
-#ifndef NANO_TINY
-    if (ISSET(SMART_HOME)) {
-	size_t statusbar_x_save = statusbar_x;
-
-	statusbar_x = indent_length(answer);
-
-	if (statusbar_x == statusbar_x_save ||
-		statusbar_x == strlen(answer))
-	    statusbar_x = 0;
-    } else
-#endif
-	statusbar_x = 0;
-
+    statusbar_x = 0;
     update_the_bar();
 }
 
