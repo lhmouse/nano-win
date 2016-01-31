@@ -16,7 +16,7 @@ color cyan "bug #[0-9]{5,9}" "patch #[0-9]{4,9}"
 # Probable constants, for variety.
 color brightred "\<[A-Z_][0-9A-Z_]+\>"
 # Key sequences.
-color brightblue "\^[A-Z]" "\<M-." "\<F1?[0-9]" "(\^|M-)Space"
+color brightblue "\^[A-Z^\]" "\<M-." "\<F1?[0-9]" "(\^|M-)Space"
 
 # Changed files.
 color magenta start="^(	| {8})\* " end="(:( |$)|^$)"
