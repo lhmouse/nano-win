@@ -1,3 +1,7 @@
+2016-01-31  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (has_valid_path): Be more specific in how a given path
+	is invalid.  The change was improved by Rishabh Dave.
+
 2016-01-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_insertfile): Do display the buffer when configured
 	with only --disable-histories.  This fixes Savannah bug #47011.

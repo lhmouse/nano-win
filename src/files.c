@@ -38,20 +38,32 @@ bool has_valid_path(const char *filename)
 {
     char *parentdir;
     struct stat parentinfo;
-    bool validity = TRUE;
+    bool validity = FALSE;
 
     if (strrchr(filename, '/') == NULL)
 	parentdir = mallocstrcpy(NULL, ".");
     else
 	parentdir = dirname(mallocstrcpy(NULL, filename));
 
-    if (stat(parentdir, &parentinfo) == -1 || !S_ISDIR(parentinfo.st_mode)) {
-	statusbar(_("Directory '%s' does not exist"), parentdir);
-	validity = FALSE;
-	beep();
+    if (stat(parentdir, &parentinfo) == -1) {
+	if (errno == ENOENT)
+	    statusbar(_("Directory '%s' does not exist"), parentdir);
+	else
+	    statusbar(_("Path '%s': %s"), parentdir, strerror(errno));
+    } else if (!S_ISDIR(parentinfo.st_mode)) {
+	statusbar(_("Path '%s' is not a directory"), parentdir);
+    } else {
+	if (access(parentdir, X_OK) == -1)
+	    statusbar(_("Path '%s' is not accessible"), parentdir);
+	else
+	    validity = TRUE;
     }
 
     free(parentdir);
+
+    if (!validity)
+	beep();
+
     return validity;
 }
 

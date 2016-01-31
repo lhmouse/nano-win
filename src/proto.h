@@ -280,8 +280,7 @@ void do_cut_till_eof(void);
 #endif
 void do_uncut_text(void);
 
-/* All functions in files.c. */
-void verify_path(const char *filename);
+/* Most functions in files.c. */
 void make_new_buffer(void);
 void initialize_buffer_text(void);
 bool open_buffer(const char *filename, bool undoable);
