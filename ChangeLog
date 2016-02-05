@@ -3,6 +3,8 @@
 	sequences and of the screen layout, mention how to enter Unicode,
 	and mention that regular expressions are line oriented.
 	* src/global.c (shortcut_init): Put four strings in standard order.
+	* src/text.c (do_undo), src/global.c (shortcut_init): Guide the
+	translators a little bit.
 
 2016-01-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (has_valid_path): Be more specific in how a given path

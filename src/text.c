@@ -491,6 +491,8 @@ void do_undo(void)
     openfile->current_x = u->begin;
     switch (u->type) {
     case ADD:
+	/* TRANSLATORS: Eight of the next nine strings describe actions
+	 * that are undone or redone.  It are all nouns, not verbs. */
 	undidmsg = _("text add");
 	data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);

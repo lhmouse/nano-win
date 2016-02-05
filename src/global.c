@@ -908,6 +908,7 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
     add_to_funcs(do_cut_prev_word, MMAIN,
+	/* TRANSLATORS: The next two strings refer to cutting words. */
 	N_("Cut Left"), IFSCHELP(nano_cut_word_left_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_cut_next_word, MMAIN,
 	N_("Cut Right"), IFSCHELP(nano_cut_word_right_msg), TOGETHER, NOVIEW);
@@ -1014,8 +1015,8 @@ void shortcut_init(void)
 #endif
 
 #ifndef DISABLE_COLOR
-    /* TRANSLATORS: Try to keep the next two strings at most 20 characters. */
     add_to_funcs(do_page_up, MLINTER,
+	/* TRANSLATORS: Try to keep the next two strings at most 20 characters. */
 	N_("Prev Lint Msg"), IFSCHELP(nano_prevlint_msg), TOGETHER, VIEW);
     add_to_funcs(do_page_down, MLINTER,
 	N_("Next Lint Msg"), IFSCHELP(nano_nextlint_msg), TOGETHER, VIEW);
