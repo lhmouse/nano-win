@@ -1,3 +1,8 @@
+2016-02-05  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/texinfo/nano.texi: Condense the descriptions of command-key
+	sequences and of the screen layout, mention how to enter Unicode,
+	and mention that regular expressions are line oriented.
+
 2016-01-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (has_valid_path): Be more specific in how a given path
 	is invalid.  The change was improved by Rishabh Dave.
