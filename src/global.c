@@ -552,11 +552,11 @@ void shortcut_init(void)
     const char *nano_undo_msg = N_("Undo the last operation");
     const char *nano_redo_msg = N_("Redo the last undone operation");
 #endif
-    const char *nano_forward_msg = N_("Go forward one character");
     const char *nano_back_msg = N_("Go back one character");
+    const char *nano_forward_msg = N_("Go forward one character");
 #ifndef NANO_TINY
-    const char *nano_nextword_msg = N_("Go forward one word");
     const char *nano_prevword_msg = N_("Go back one word");
+    const char *nano_nextword_msg = N_("Go forward one word");
 #endif
     const char *nano_prevline_msg = N_("Go to previous line");
     const char *nano_nextline_msg = N_("Go to next line");
