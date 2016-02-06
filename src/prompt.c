@@ -244,7 +244,7 @@ int do_statusbar_mouse(void)
 	    statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
 			statusbar_xplustabs()) + mouse_x - start_col);
-	    update_the_bar();
+	    update_bar_if_needed();
 	}
     }
 
@@ -323,14 +323,14 @@ void do_statusbar_output(char *output, size_t output_len, bool
 void do_statusbar_home(void)
 {
     statusbar_x = 0;
-    update_the_bar();
+    update_bar_if_needed();
 }
 
 /* Move to the end of the prompt text. */
 void do_statusbar_end(void)
 {
     statusbar_x = strlen(answer);
-    update_the_bar();
+    update_bar_if_needed();
 }
 
 /* Move left one character. */
@@ -338,7 +338,7 @@ void do_statusbar_left(void)
 {
     if (statusbar_x > 0) {
 	statusbar_x = move_mbleft(answer, statusbar_x);
-	update_the_bar();
+	update_bar_if_needed();
     }
 }
 
@@ -347,7 +347,7 @@ void do_statusbar_right(void)
 {
     if (statusbar_x < strlen(answer)) {
 	statusbar_x = move_mbright(answer, statusbar_x);
-	update_the_bar();
+	update_bar_if_needed();
     }
 }
 
@@ -421,7 +421,7 @@ void do_statusbar_next_word(void)
 	    break;
     }
 
-    update_the_bar();
+    update_bar_if_needed();
 }
 
 /* Move to the previous word in the prompt text. */
@@ -448,7 +448,7 @@ void do_statusbar_prev_word(void)
 	/* Move one character forward again to sit on the start of the word. */
 	statusbar_x = move_mbright(answer, statusbar_x);
 
-    update_the_bar();
+    update_bar_if_needed();
 }
 #endif /* !NANO_TINY */
 
@@ -545,7 +545,7 @@ void update_the_statusbar(void)
 }
 
 /* Update the statusbar line /if/ the placewewant changes page. */
-void update_the_bar(void)
+void update_bar_if_needed(void)
 {
     size_t start_col = strlenpt(prompt) + 2;
     size_t was_pww = statusbar_pww;

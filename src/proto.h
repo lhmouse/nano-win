@@ -535,7 +535,7 @@ size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reset_statusbar_cursor(void);
 void update_the_statusbar(void);
-void update_the_bar(void);
+void update_bar_if_needed(void);
 void total_statusbar_refresh(void (*refresh_func)(void));
 functionptrtype get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
