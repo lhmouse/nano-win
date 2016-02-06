@@ -266,11 +266,6 @@ the previous line.
 Make the 'Cut Text' command (normally ^K) cut from the current cursor
 position to the end of the line, instead of cutting the entire line.
 
-@item -l
-@itemx --nofollow
-When writing files, if the given file is a symbolic link, it is removed
-and a new file is created.
-
 @item -m
 @itemx --mouse
 Enable mouse support, if available for your system.  When enabled, mouse
@@ -719,9 +714,6 @@ When reading in a file with ^R, insert it into a new buffer by default.
 
 @item set noconvert
 Don't convert files from DOS/Mac format.
-
-@item set nofollow
-Don't follow symlinks when writing files.
 
 @item set nohelp
 Don't display the help lists at the bottom of the screen.

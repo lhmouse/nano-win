@@ -1,3 +1,7 @@
+2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_file): Remove the --nofollow option that hasn't
+	been working for a dozen years.
+
 2016-02-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Condense the descriptions of command-key
 	sequences and of the screen layout, mention how to enter Unicode,

@@ -53,7 +53,6 @@ static const rcoption rcopts[] = {
 #ifndef DISABLE_MULTIBUFFER
     {"multibuffer", MULTIBUFFER},
 #endif
-    {"nofollow", NOFOLLOW_SYMLINKS},
     {"nohelp", NO_HELP},
     {"nonewlines", NO_NEWLINES},
 #ifndef DISABLE_WRAPPING

@@ -920,7 +920,6 @@ void usage(void)
     print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
     print_opt("-k", "--cut", N_("Cut from cursor to end of line"));
 #endif
-    print_opt("-l", "--nofollow", N_("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
     print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
@@ -2010,7 +2009,6 @@ int main(int argc, char **argv)
 	{"constantshow", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
 	{"help", 0, NULL, 'h'},
-	{"nofollow", 0, NULL, 'l'},
 #ifndef DISABLE_MOUSE
 	{"mouse", 0, NULL, 'm'},
 #endif
@@ -2214,9 +2212,6 @@ int main(int argc, char **argv)
 		SET(CUT_TO_END);
 		break;
 #endif
-	    case 'l':
-		SET(NOFOLLOW_SYMLINKS);
-		break;
 #ifndef DISABLE_MOUSE
 	    case 'm':
 		SET(USE_MOUSE);

@@ -1805,14 +1805,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     if (tmp && anyexists && f_open == NULL)
 	goto cleanup_and_exit;
 
-    /* If NOFOLLOW_SYMLINKS is set, it doesn't make sense to prepend or
-     * append to a symlink.  Here we warn about the contradiction. */
-    if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode)) {
-	statusbar(
-		_("Cannot prepend or append to a symlink with --nofollow set"));
-	goto cleanup_and_exit;
-    }
-
 #ifndef NANO_TINY
     /* Check whether the file (at the end of the symlink) exists. */
     realexists = (stat(realname, &st) != -1);
@@ -2001,15 +1993,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
     skip_backup:
 #endif /* !NANO_TINY */
-
-    /* If NOFOLLOW_SYMLINKS is set and the file is a link, we aren't
-     * doing prepend or append.  So we delete the link first, and just
-     * overwrite. */
-    if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode) &&
-		unlink(realname) == -1) {
-	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
-	goto cleanup_and_exit;
-    }
 
     if (f_open == NULL) {
 	original_umask = umask(0);
