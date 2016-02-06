@@ -2755,9 +2755,6 @@ const char *do_alt_speller(char *tempfile_name)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
-
     if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
 #ifndef NANO_TINY
 	/* Turn the mark back on if it was on before. */
@@ -3299,9 +3296,6 @@ void do_formatter(void)
 
     /* Restore the terminal to its previous state. */
     terminal_init();
-
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
 
     if (!WIFEXITED(format_status) || WEXITSTATUS(format_status) != 0)
 	finalstatus = invocation_error(openfile->syntax->formatter);

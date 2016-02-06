@@ -1346,9 +1346,6 @@ RETSIGTYPE do_continue(int signal)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
-
     /* Redraw the contents of the windows that need it. */
     blank_statusbar();
     wnoutrefresh(bottomwin);
@@ -1406,9 +1403,6 @@ void regenerate_screen(void)
 
     /* Restore the terminal to its previous state. */
     terminal_init();
-
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
 
     /* Do the equivalent of what both mutt and Minimum Profit do:
      * Reinitialize all the windows based on the new screen
@@ -1609,6 +1603,9 @@ int do_input(bool allow_funcs)
 	/* Preserve the contents of the cutbuffer? */
     const sc *s;
     bool have_shortcut;
+
+    /* Turn the cursor on when waiting for input. */
+    curs_set(1);
 
     /* Read in a character. */
     input = get_kbinput(edit);
@@ -2533,9 +2530,6 @@ int main(int argc, char **argv)
 
     /* Set up the terminal state. */
     terminal_init();
-
-    /* Turn the cursor on for sure. */
-    curs_set(1);
 
 #ifdef DEBUG
     fprintf(stderr, "Main: set up windows\n");

@@ -2117,6 +2117,9 @@ void statusbar(const char *msg, ...)
 	return;
     }
 
+    /* Turn the cursor off while fiddling in the statusbar. */
+    curs_set(0);
+
     blank_statusbar();
 
     bar = charalloc(mb_cur_max() * (COLS - 3));
