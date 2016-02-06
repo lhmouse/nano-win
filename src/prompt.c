@@ -355,7 +355,7 @@ void do_statusbar_right(void)
 void do_statusbar_backspace(void)
 {
     if (statusbar_x > 0) {
-	do_statusbar_left();
+	statusbar_x = move_mbleft(answer, statusbar_x);
 	do_statusbar_delete();
     }
 }
