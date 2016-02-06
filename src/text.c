@@ -2874,7 +2874,6 @@ void do_spell(void)
 
     blank_bottombars();
     statusbar(_("Invoking spell checker, please wait"));
-    doupdate();
 
     spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
 	do_int_speller(temp);
@@ -2946,7 +2945,6 @@ void do_linter(void)
 
     blank_bottombars();
     statusbar(_("Invoking linter, please wait"));
-    doupdate();
 
     /* Set up an argument list to pass to execvp(). */
     if (lintargs == NULL) {
@@ -3253,7 +3251,6 @@ void do_formatter(void)
 
     blank_bottombars();
     statusbar(_("Invoking formatter, please wait"));
-    doupdate();
 
     endwin();
 

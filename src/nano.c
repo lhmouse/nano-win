@@ -1106,7 +1106,6 @@ void no_current_file_name_warning(void)
     beep();
 
     /* Ensure that we see the warning. */
-    doupdate();
     napms(1800);
 
     curs_set(1);

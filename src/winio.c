@@ -2149,6 +2149,9 @@ void statusbar(const char *msg, ...)
 
     disable_cursorpos = TRUE;
 
+    /* Push the message to the screen straightaway. */
+    doupdate();
+
     /* If we're doing quick statusbar blanking, and constant cursor
      * position display is off, blank the statusbar after only one
      * keystroke.  Otherwise, blank it after twenty-six keystrokes, as

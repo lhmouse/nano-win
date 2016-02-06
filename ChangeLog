@@ -1,6 +1,8 @@
 2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Remove the --nofollow option that hasn't
 	been working for a dozen years.
+	* src/winio.c (statusbar): Update the screen immediately whenever a
+	message has been posted on the status bar.
 
 2016-02-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Condense the descriptions of command-key
