@@ -231,8 +231,7 @@ int do_statusbar_mouse(void)
     int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
     /* We can click on the statusbar window text to move the cursor. */
-    if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
-	FALSE)) {
+    if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
 	size_t start_col;
 
 	assert(prompt != NULL);
@@ -303,9 +302,8 @@ void do_statusbar_output(char *output, size_t output_len, bool
 
 	assert(statusbar_x <= answer_len);
 
-	charmove(answer + statusbar_x + char_buf_len,
-		answer + statusbar_x, answer_len - statusbar_x +
-		char_buf_len);
+	charmove(answer + statusbar_x + char_buf_len, answer + statusbar_x,
+			answer_len - statusbar_x + char_buf_len);
 	strncpy(answer + statusbar_x, char_buf, char_buf_len);
 	answer_len += char_buf_len;
 
@@ -366,15 +364,13 @@ void do_statusbar_delete(void)
     statusbar_pww = statusbar_xplustabs();
 
     if (answer[statusbar_x] != '\0') {
-	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL,
-		NULL);
+	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL, NULL);
 	size_t line_len = strlen(answer + statusbar_x);
 
 	assert(statusbar_x < strlen(answer));
 
-	charmove(answer + statusbar_x, answer + statusbar_x +
-		char_buf_len, strlen(answer) - statusbar_x -
-		char_buf_len + 1);
+	charmove(answer + statusbar_x, answer + statusbar_x + char_buf_len,
+			strlen(answer) - statusbar_x - char_buf_len + 1);
 
 	null_at(&answer, statusbar_x + line_len - char_buf_len);
 
@@ -478,7 +474,6 @@ void do_statusbar_verbatim_input(bool *got_enter)
     free(output);
 }
 
-
 /* Return the placewewant associated with statusbar_x, i.e. the
  * zero-based column position of the cursor.  The value will be no
  * smaller than statusbar_x. */
@@ -539,6 +534,7 @@ void update_the_statusbar(void)
 
     wattroff(bottomwin, A_BOLD);
     wattroff(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+
     statusbar_pww = statusbar_xplustabs();
     reset_statusbar_cursor();
     wnoutrefresh(bottomwin);
@@ -604,8 +600,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 
     update_the_statusbar();
 
-    /* Refresh the edit window and the statusbar before getting
-     * input. */
+    /* Refresh edit window and statusbar before getting input. */
     wnoutrefresh(edit);
     wnoutrefresh(bottomwin);
 
@@ -730,11 +725,9 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     }
 
 #ifndef DISABLE_HISTORIES
-    /* Set the current position in the history list to the bottom,
-     * and free magichistory if we need to. */
+    /* Set the current position in the history list to the bottom. */
     if (history_list != NULL) {
 	history_reset(*history_list);
-
 	free(magichistory);
     }
 #endif

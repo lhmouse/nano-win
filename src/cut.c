@@ -66,7 +66,7 @@ void cut_marked(void)
     size_t top_x, bot_x;
 
     mark_order((const filestruct **)&top, &top_x,
-	(const filestruct **)&bot, &bot_x, NULL);
+		(const filestruct **)&bot, &bot_x, NULL);
 
     move_to_filestruct(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
     openfile->placewewant = xplustabs();
@@ -105,9 +105,9 @@ void cut_to_eol(void)
  * file into the cutbuffer. */
 void cut_to_eof(void)
 {
-    move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
-	openfile->current_x, openfile->filebot,
-	strlen(openfile->filebot->data));
+    move_to_filestruct(&cutbuffer, &cutbottom,
+		openfile->current, openfile->current_x,
+		openfile->filebot, strlen(openfile->filebot->data));
 }
 #endif /* !NANO_TINY */
 
@@ -125,8 +125,7 @@ void do_cut_text(
 {
 #ifndef NANO_TINY
     filestruct *cb_save = NULL;
-	/* The current end of the cutbuffer, before we add text to
-	 * it. */
+	/* The current end of the cutbuffer, before we add text to it. */
     size_t cb_save_len = 0;
 	/* The length of the string at the current end of the cutbuffer,
 	 * before we add text to it. */
@@ -160,24 +159,20 @@ void do_cut_text(
     }
 #endif
 
-    /* Set keep_cutbuffer to TRUE, so that the text we're going to move
-     * into the cutbuffer will be added to the text already in the
-     * cutbuffer instead of replacing it. */
+    /* Ensure that the text we're going to move into the cutbuffer will
+     * be added to the text already there, instead of replacing it. */
     keep_cutbuffer = TRUE;
 
 #ifndef NANO_TINY
     if (cut_till_eof) {
-	/* If cut_till_eof is TRUE, move all text up to the end of the
-	 * file into the cutbuffer. */
+	/* Move all text up to the end of the file into the cutbuffer. */
 	cut_to_eof();
     } else if (openfile->mark_set) {
-	/* If the mark is on, move the marked text to the cutbuffer, and
-	 * turn the mark off. */
+	/* Move the marked text to the cutbuffer, and turn the mark off. */
 	cut_marked();
 	openfile->mark_set = FALSE;
     } else if (ISSET(CUT_TO_END))
-	/* If the CUT_TO_END flag is set, move all text up to the end of
-	 * the line into the cutbuffer. */
+	/* Move all text up to the end of the line into the cutbuffer. */
 	cut_to_eol();
     else
 #endif
@@ -207,15 +202,10 @@ void do_cut_text(
 	 * disturbing the text. */
 	if (!old_no_newlines)
 	    UNSET(NO_NEWLINES);
-    }
-
-    /* Leave the text in the cutbuffer, and mark the file as
-     * modified. */
-    if (!copy_text)
+    } else
 #endif /* !NANO_TINY */
 	set_modified();
 
-    /* Update the screen. */
     edit_refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
@@ -294,7 +284,6 @@ void do_uncut_text(void)
     /* Mark the file as modified. */
     set_modified();
 
-    /* Update the screen. */
     edit_refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR

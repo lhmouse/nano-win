@@ -1523,7 +1523,6 @@ char *check_writable_directory(const char *path)
 {
     char *full_path = get_full_path(path);
 
-    /* If get_full_path() fails, return NULL. */
     if (full_path == NULL)
 	return NULL;
 
@@ -1534,7 +1533,6 @@ char *check_writable_directory(const char *path)
 	return NULL;
     }
 
-    /* Otherwise, return the full path. */
     return full_path;
 }
 
