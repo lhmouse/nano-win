@@ -316,7 +316,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
 
     statusbar_pww = statusbar_xplustabs();
 
-    update_statusbar_line(answer, statusbar_x);
+    update_the_statusbar();
 }
 
 /* Move to the beginning of the prompt text. */
@@ -378,7 +378,7 @@ void do_statusbar_delete(void)
 
 	null_at(&answer, statusbar_x + line_len - char_buf_len);
 
-	update_statusbar_line(answer, statusbar_x);
+	update_the_statusbar();
     }
 }
 
@@ -398,7 +398,7 @@ void do_statusbar_cut_text(void)
 	statusbar_pww = statusbar_xplustabs();
     }
 
-    update_statusbar_line(answer, statusbar_x);
+    update_the_statusbar();
 }
 
 #ifndef NANO_TINY
@@ -511,18 +511,16 @@ void reset_statusbar_cursor(void)
 	get_statusbar_page_start(start_col, start_col + xpt));
 }
 
-/* Repaint the statusbar when getting a character in
- * get_prompt_string().  The statusbar text line will be displayed
- * starting with curranswer[index]. */
-void update_statusbar_line(const char *curranswer, size_t index)
+/* Repaint the statusbar. */
+void update_the_statusbar(void)
 {
-    size_t start_col, page_start;
+    size_t start_col, index, page_start;
     char *expanded;
 
-    assert(prompt != NULL && index <= strlen(curranswer));
+    assert(prompt != NULL && statusbar_x <= strlen(answer));
 
     start_col = strlenpt(prompt) + 2;
-    index = strnlenpt(curranswer, index);
+    index = strnlenpt(answer, statusbar_x);
     page_start = get_statusbar_page_start(start_col, start_col + index);
 
     if (interface_color_pair[TITLE_BAR].bright)
@@ -535,8 +533,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
     waddch(bottomwin, ':');
     waddch(bottomwin, (page_start == 0) ? ' ' : '$');
 
-    expanded = display_string(curranswer, page_start, COLS - start_col -
-	1, FALSE);
+    expanded = display_string(answer, page_start, COLS - start_col - 1, FALSE);
     waddstr(bottomwin, expanded);
     free(expanded);
 
@@ -557,7 +554,7 @@ void update_the_bar(void)
 
     if (get_statusbar_page_start(start_col, start_col + statusbar_pww) !=
 		get_statusbar_page_start(start_col, start_col + was_pww))
-	update_statusbar_line(answer, statusbar_x);
+	update_the_statusbar();
 }
 
 /* Get a string of input at the statusbar prompt. */
@@ -605,7 +602,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
 #endif
 
-    update_statusbar_line(answer, statusbar_x);
+    update_the_statusbar();
 
     /* Refresh the edit window and the statusbar before getting
      * input. */
@@ -624,7 +621,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
 	    refresh_func();
-	    update_statusbar_line(answer, statusbar_x);
+	    update_the_statusbar();
 	    continue;
 	}
 #endif
@@ -655,7 +652,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 		answer = input_tab(answer, allow_files, &statusbar_x,
 				   &tabbed, refresh_func, list);
 
-	    update_statusbar_line(answer, statusbar_x);
+	    update_the_statusbar();
 	} else
 #endif /* !DISABLE_TABCOMP */
 #ifndef DISABLE_HISTORIES
@@ -673,7 +670,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 		    statusbar_x = strlen(answer);
 		}
 
-		update_statusbar_line(answer, statusbar_x);
+		update_the_statusbar();
 
 		/* This key has a shortcut-list entry when it's used to
 		 * move to an older search, which means that finished has
@@ -699,7 +696,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 		    statusbar_x = strlen(answer);
 		}
 
-		update_statusbar_line(answer, statusbar_x);
+		update_the_statusbar();
 
 		/* This key has a shortcut-list entry when it's used to
 		 * move to a newer search, which means that finished has
@@ -710,7 +707,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	} else
 #endif /* !DISABLE_HISTORIES */
 	if (func == do_help_void) {
-	    update_statusbar_line(answer, statusbar_x);
+	    update_the_statusbar();
 
 	    /* This key has a shortcut-list entry when it's used to go to
 	     * the help browser or display a message indicating that help

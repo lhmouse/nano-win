@@ -5,6 +5,8 @@
 	message has been posted on the status bar.
 	* src/winio.c (statusbar), src/nano.c (do_input): Turn the cursor off
 	when writing in the status bar, and on when waiting for	input.
+	* src/prompt.c (update_the_statusbar): Chop two parameters that are
+	always the same, and that are global variables anyway.
 
 2016-02-05  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Condense the descriptions of command-key
