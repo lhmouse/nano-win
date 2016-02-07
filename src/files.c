@@ -1765,7 +1765,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* The status fields filled in by stat(). */
     char *realname;
 	/* name after tilde expansion. */
-    FILE *f = NULL;
+    FILE *f = f_open;
 	/* The actual file, realname, we are writing to. */
     char *tempname = NULL;
 	/* The name of the temporary file we write to on prepend. */
@@ -1774,9 +1774,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
     if (*name == '\0')
 	return -1;
-
-    if (f_open != NULL)
-	f = f_open;
 
     if (!tmp)
 	titlebar(NULL);

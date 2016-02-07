@@ -3,6 +3,7 @@
 	when they have the default cursor position (line 1, column 1).
 	* src/files.c (write_file): Avoid a pointless lstat() when not writing
 	to a temp file, and in the bargain elide two variables.
+	* src/files.c (write_file): Elide an unneeded 'if'.
 
 2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Remove the --nofollow option that hasn't
