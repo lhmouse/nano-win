@@ -6,6 +6,7 @@
 	* src/files.c (write_file): Elide an unneeded 'if'.
 	* doc/syntax/c.nanorc: Use a character class instead of a literal tab
 	and space.  The change was inspired by David Niklas.
+	* src/prompt.c (do_yesno_prompt): Normalize the indentation.
 
 2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Remove the --nofollow option that hasn't

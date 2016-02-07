@@ -913,46 +913,37 @@ int do_yesno_prompt(bool all, const char *msg)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
-		/* We can click on the Yes/No/All shortcut list to
-		 * select an answer. */
-		if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
-			wmouse_trafo(bottomwin, &mouse_y, &mouse_x,
-			FALSE) && mouse_x < (width * 2) &&
-			mouse_y > 0) {
-		    int x = mouse_x / width;
-			/* Calculate the x-coordinate relative to the
-			 * two columns of the Yes/No/All shortcuts in
-			 * bottomwin. */
-		    int y = mouse_y - 1;
-			/* Calculate the y-coordinate relative to the
-			 * beginning of the Yes/No/All shortcuts in
-			 * bottomwin, i.e. with the sizes of topwin,
-			 * edit, and the first line of bottomwin
-			 * subtracted out. */
+	    /* We can click on the Yes/No/All shortcuts to select an answer. */
+	    if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
+			wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE) &&
+			mouse_x < (width * 2) && mouse_y > 0) {
+		int x = mouse_x / width;
+			/* The x-coordinate among the Yes/No/All shortcuts. */
+		int y = mouse_y - 1;
+			/* The y-coordinate among the Yes/No/All shortcuts. */
 
-		    assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
+		assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
 
-		    /* x == 0 means they clicked Yes or No.  y == 0
-		     * means Yes or All. */
-		    ok = -2 * x * y + x - y + 1;
+		/* x == 0 means they clicked Yes or No.
+		 * y == 0 means Yes or All. */
+		ok = -2 * x * y + x - y + 1;
 
-		    if (ok == 2 && !all)
-			ok = -2;
-		}
+		if (ok == 2 && !all)
+		    ok = -2;
+	    }
 	}
 #endif /* !DISABLE_MOUSE */
 	else if (func == total_refresh) {
 	    total_redraw();
 	    continue;
 	} else {
-		/* Look for the kbinput in the Yes, No and (optionally)
-		 * All strings. */
-		if (strchr(yesstr, kbinput) != NULL)
-		    ok = 1;
-		else if (strchr(nostr, kbinput) != NULL)
-		    ok = 0;
-		else if (all && strchr(allstr, kbinput) != NULL)
-		    ok = 2;
+	    /* Look for the kbinput in the Yes, No (and All) strings. */
+	    if (strchr(yesstr, kbinput) != NULL)
+		ok = 1;
+	    else if (strchr(nostr, kbinput) != NULL)
+		ok = 0;
+	    else if (all && strchr(allstr, kbinput) != NULL)
+		ok = 2;
 	}
     } while (ok == -2);
 
