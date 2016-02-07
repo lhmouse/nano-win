@@ -3212,6 +3212,20 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	posprev = posptr;
     }
 
+    /* Don't record files that have the default cursor position. */
+    if (lineno == 1 && xpos == 1) {
+	if (posptr != NULL) {
+	    if (posprev == NULL)
+		position_history = posptr->next;
+	    else
+		posprev->next = posptr->next;
+	    free(posptr->filename);
+	    free(posptr);
+	}
+	free(fullpath);
+	return;
+    }
+
     theone = posptr;
 
     /* If we didn't find it, make a new node; otherwise, if we're

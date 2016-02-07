@@ -1,3 +1,7 @@
+2016-02-07  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Don't put files in the history list
+	when they have the default cursor position (line 1, column 1).
+
 2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Remove the --nofollow option that hasn't
 	been working for a dozen years.
