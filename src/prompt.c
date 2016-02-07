@@ -830,7 +830,7 @@ int do_prompt(bool allow_tabs,
  * TRUE when passed in), and -1 for Cancel. */
 int do_yesno_prompt(bool all, const char *msg)
 {
-    int ok = -2, width = 16;
+    int response = -2, width = 16;
     const char *yesstr;		/* String of Yes characters accepted. */
     const char *nostr;		/* Same for No. */
     const char *allstr;		/* And All, surprise! */
@@ -910,7 +910,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel)
-	    ok = -1;
+	    response = -1;
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
 	    /* We can click on the Yes/No/All shortcuts to select an answer. */
@@ -926,10 +926,10 @@ int do_yesno_prompt(bool all, const char *msg)
 
 		/* x == 0 means they clicked Yes or No.
 		 * y == 0 means Yes or All. */
-		ok = -2 * x * y + x - y + 1;
+		response = -2 * x * y + x - y + 1;
 
-		if (ok == 2 && !all)
-		    ok = -2;
+		if (response == 2 && !all)
+		    response = -2;
 	    }
 	}
 #endif /* !DISABLE_MOUSE */
@@ -939,14 +939,14 @@ int do_yesno_prompt(bool all, const char *msg)
 	} else {
 	    /* Look for the kbinput in the Yes, No (and All) strings. */
 	    if (strchr(yesstr, kbinput) != NULL)
-		ok = 1;
+		response = 1;
 	    else if (strchr(nostr, kbinput) != NULL)
-		ok = 0;
+		response = 0;
 	    else if (all && strchr(allstr, kbinput) != NULL)
-		ok = 2;
+		response = 2;
 	}
-    } while (ok == -2);
+    } while (response == -2);
 
     currmenu = oldmenu;
-    return ok;
+    return response;
 }
