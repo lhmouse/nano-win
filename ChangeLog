@@ -4,6 +4,8 @@
 	* src/files.c (write_file): Avoid a pointless lstat() when not writing
 	to a temp file, and in the bargain elide two variables.
 	* src/files.c (write_file): Elide an unneeded 'if'.
+	* doc/syntax/c.nanorc: Use a character class instead of a literal tab
+	and space.  The change was inspired by David Niklas.
 
 2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (write_file): Remove the --nofollow option that hasn't
