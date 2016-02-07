@@ -1760,14 +1760,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* The result of stat().  TRUE if the file exists, FALSE
 	 * otherwise.  If name is a link that points nowhere, realexists
 	 * is FALSE. */
+#endif
     struct stat st;
 	/* The status fields filled in by stat(). */
-#endif
-    bool anyexists;
-	/* The result of lstat().  The same as realexists, unless name
-	 * is a link. */
-    struct stat lst;
-	/* The status fields filled in by lstat(). */
     char *realname;
 	/* name after tilde expansion. */
     FILE *f = NULL;
@@ -1797,10 +1792,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     }
 #endif
 
-    anyexists = (lstat(realname, &lst) != -1);
-
     /* If the temp file exists and isn't already open, give up. */
-    if (tmp && anyexists && f_open == NULL)
+    if (tmp && (lstat(realname, &st) != -1) && f_open == NULL)
 	goto cleanup_and_exit;
 
 #ifndef NANO_TINY
