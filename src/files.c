@@ -383,6 +383,20 @@ int do_lockfile(const char *filename)
 
     return retval;
 }
+
+/* Perform a stat call on the given filename, allocating a stat struct
+ * if necessary.  On success, *pstat points to the stat's result.  On
+ * failure, *pstat is freed and made NULL. */
+void stat_with_alloc(const char *filename, struct stat **pstat)
+{
+    if (*pstat == NULL)
+	*pstat = (struct stat *)nmalloc(sizeof(struct stat));
+
+    if (stat(filename, *pstat) != 0) {
+	free(*pstat);
+	*pstat = NULL;
+    }
+}
 #endif /* !NANO_TINY */
 
 /* If it's not "", filename is a file to open.  We make a new buffer, if
@@ -466,11 +480,8 @@ bool open_buffer(const char *filename, bool undoable)
     if (rc > 0) {
 	read_file(f, rc, filename, undoable, new_buffer);
 #ifndef NANO_TINY
-	if (openfile->current_stat == NULL) {
-	    openfile->current_stat =
-		(struct stat *)nmalloc(sizeof(struct stat));
-	    stat(filename, openfile->current_stat);
-	}
+	if (openfile->current_stat == NULL)
+	    stat_with_alloc(filename, &openfile->current_stat);
 #endif
     }
 
@@ -1801,10 +1812,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * specified it interactively), stat and save the value now,
      * or else we will chase null pointers when we do modtime checks,
      * preserve file times, and so on, during backup. */
-    if (openfile->current_stat == NULL && !tmp && realexists) {
-	openfile->current_stat = (struct stat *)nmalloc(sizeof(struct stat));
-	stat(realname, openfile->current_stat);
-    }
+    if (openfile->current_stat == NULL && !tmp && realexists)
+	stat_with_alloc(realname, &openfile->current_stat);
 
     /* We backup only if the backup toggle is set, the file isn't
      * temporary, and the file already exists.  Furthermore, if we
@@ -2181,12 +2190,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 #ifndef NANO_TINY
-	/* Update current_stat to reference the file as it is now. */
-	if (openfile->current_stat == NULL)
-	    openfile->current_stat =
-		(struct stat *)nmalloc(sizeof(struct stat));
 	if (!openfile->mark_set)
-	    stat(realname, openfile->current_stat);
+	    /* Get or update the stat info to reflect the current state. */
+	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
 
 	statusbar(P_("Wrote %lu line", "Wrote %lu lines",
