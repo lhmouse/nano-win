@@ -3323,8 +3323,14 @@ void load_poshistory(void)
 	    record_ptr = newrecord;
 
 	    /* Impose a limit, so the file will not grow indefinitely. */
-	    if (++count > 200)
+	    if (++count > 200) {
+		poshiststruct *drop_record = position_history;
+
 		position_history = position_history->next;
+
+		free(drop_record->filename);
+		free(drop_record);
+	    }
 	}
 	fclose(hist);
 	free(line);

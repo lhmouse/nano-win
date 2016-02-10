@@ -9,6 +9,7 @@
 	* AUTHORS, THANKS: Remove SVN Id tags and a duplication.
 	* src/winio.c (get_kbinput), src/nano.c (main): Switch the cursor on
 	in the right place: in the central input routine.
+	* src/files.c (load_poshistory): Free any records that are dropped.
 
 2016-02-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (stat_with_alloc, open_buffer, write_file): Check the
