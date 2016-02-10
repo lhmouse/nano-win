@@ -1504,10 +1504,10 @@ char *get_full_path(const char *origpath)
 	     * where we were before.  We don't check for a chdir()
 	     * error, since we can do nothing if we get one. */
 	    IGNORE_CALL_RESULT(chdir(d_here));
-
-	    /* Free d_here, since we're done using it. */
-	    free(d_here);
 	}
+
+	/* Free d_here, since we're done using it. */
+	free(d_here);
     }
 
     /* At this point, if path_only is FALSE and d_there isn't NULL,
