@@ -6,6 +6,7 @@
 	* src/rcfile.c (parse_binding): Allow only control sequences in the
 	proper range to be rebound.  This fixes Savannah bug #47025.
 	* THANKS: Add a Spanish, a Catalan, and a Croat translator.
+	* AUTHORS, THANKS: Remove SVN Id tags and a duplication.
 
 2016-02-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (stat_with_alloc, open_buffer, write_file): Check the

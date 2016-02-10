@@ -85,13 +85,9 @@ Thijs Kinkhorst <thijs@kinkhorst.com>		rnano.1 manpage
 Jim Knoble <jmknoble@pobox.com>			Pico compat for browser
 Ryan Krebs <fluffy@highwire.stanford.edu>	Many bug fixes and testing
 Roy Lanek <lanek@ranahminang.net>		Advice and advocacy
-Mark Majeres  <mark@engine12.com>		Working undo/redo code
 Chuck Mead <csm@MoonGroup.com>			Feedback and RPM stuff
 Mike Melanson <melanson@pcisys.net>		Bugs
 Neil Parks <nparks@acsmail.com>			Bug reports and fixes
 Jeremy Robichaud <robicj@yahoo.com>		Beta tester
 Bill Soudan <wes0472@rit.edu>			Regex code, etc
 Ken Tyler <kent@werple.net.au>			Search fixes and more
-
-
-$Id$
