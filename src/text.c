@@ -908,6 +908,9 @@ void discard_until(const undo *thisitem, openfilestruct *thefile)
 	free(dropit);
 	dropit = thefile->undotop;
     }
+
+    /* Prevent a chain of editing actions from continuing. */
+    thefile->last_action = OTHER;
 }
 
 /* Add a new undo struct to the top of the current pile. */

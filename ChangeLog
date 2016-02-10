@@ -1,3 +1,7 @@
+2016-02-10  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (discard_until): Prevent a chain of editing actions from
+	continuing after a discard.  This fixes Savannah bug #47104.
+
 2016-02-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (stat_with_alloc, open_buffer, write_file): Check the
 	result of a stat() to avoid referencing unitialized data.  Original
