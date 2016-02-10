@@ -3,6 +3,8 @@
 	continuing after a discard.  This fixes Savannah bug #47104.
 	* src/files.c (get_full_path): Plug a sneaky memory leak.  This fixes
 	Savannah bug #47003 reported and solved by Mike Frysinger.
+	* src/rcfile.c (parse_binding): Allow only control sequences in the
+	proper range to be rebound.  This fixes Savannah bug #47025.
 
 2016-02-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (stat_with_alloc, open_buffer, write_file): Check the
