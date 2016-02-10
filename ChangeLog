@@ -7,6 +7,8 @@
 	proper range to be rebound.  This fixes Savannah bug #47025.
 	* THANKS: Add a Spanish, a Catalan, and a Croat translator.
 	* AUTHORS, THANKS: Remove SVN Id tags and a duplication.
+	* src/winio.c (get_kbinput), src/nano.c (main): Switch the cursor on
+	in the right place: in the central input routine.
 
 2016-02-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (stat_with_alloc, open_buffer, write_file): Check the

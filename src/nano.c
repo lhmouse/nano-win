@@ -1604,9 +1604,6 @@ int do_input(bool allow_funcs)
     const sc *s;
     bool have_shortcut;
 
-    /* Turn the cursor on when waiting for input. */
-    curs_set(1);
-
     /* Read in a character. */
     input = get_kbinput(edit);
 
