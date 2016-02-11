@@ -3198,7 +3198,9 @@ void do_linter(void)
 #ifndef NANO_TINY
   free_lints_and_return:
 #endif
-    for (tmplint = lints; tmplint != NULL; tmplint = tmplint->next) {
+    for (curlint = lints; curlint != NULL;) {
+	tmplint = curlint;
+	curlint = curlint->next;
 	free(tmplint->msg);
 	free(tmplint->filename);
 	free(tmplint);
