@@ -1,6 +1,9 @@
 2016-02-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): Go to the next item in the list before
 	freeing the current one.  This fixes Savannah bug #46796.
+	* src/text.c (do_formatter): Don't leave curses mode, as that would
+	hide any error messages upon reentry.  And if there are any messages,
+	allow the user a little time to read them.
 
 2016-02-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (discard_until): Prevent a chain of editing actions from

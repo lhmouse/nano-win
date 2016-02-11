@@ -3254,8 +3254,6 @@ void do_formatter(void)
     blank_bottombars();
     statusbar(_("Invoking formatter, please wait"));
 
-    endwin();
-
     /* Set up an argument list to pass to execvp(). */
     if (formatargs == NULL) {
 	formatargs = (char **)nmalloc(arglen * sizeof(char *));
@@ -3296,12 +3294,6 @@ void do_formatter(void)
     /* Wait for the formatter to finish. */
     wait(&format_status);
 
-    /* Reenter curses mode. */
-    doupdate();
-
-    /* Restore the terminal to its previous state. */
-    terminal_init();
-
     if (!WIFEXITED(format_status) || WEXITSTATUS(format_status) != 0)
 	finalstatus = invocation_error(openfile->syntax->formatter);
     else {
@@ -3327,11 +3319,15 @@ void do_formatter(void)
     allow_sigwinch(TRUE);
 #endif
 
+    statusbar(finalstatus);
+
+    /* If there were error messages, allow the user some time to read them. */
+    if (WIFEXITED(format_status) && WEXITSTATUS(format_status) == 2)
+	sleep(4);
+
     /* If the formatter printed any error messages onscreen, make
      * sure that they're cleared off. */
     total_refresh();
-
-    statusbar(finalstatus);
 }
 #endif /* !DISABLE_SPELLER */
 #endif /* !DISABLE_COLOR */
