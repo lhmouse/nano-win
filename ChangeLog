@@ -4,6 +4,8 @@
 	* src/text.c (do_formatter): Don't leave curses mode, as that would
 	hide any error messages upon reentry.  And if there are any messages,
 	allow the user a little time to read them.
+	* src/text.c (do_linter, do_formatter): Condense some declarations,
+	rewrap some lines, and improve a few comments.
 
 2016-02-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (discard_until): Prevent a chain of editing actions from

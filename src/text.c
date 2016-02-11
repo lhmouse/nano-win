@@ -2906,13 +2906,11 @@ void do_linter(void)
     char *read_buff, *read_buff_ptr, *read_buff_word, *ptr;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
     size_t parsesuccess = 0;
-    int lint_fd[2];
+    int lint_status, lint_fd[2];
     pid_t pid_lint;
-    int lint_status;
     static int arglen = 3;
     static char **lintargs = NULL;
-    char *lintcopy;
-    char *convendptr = NULL;
+    char *lintcopy, *convendptr = NULL;
     lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
     if (ISSET(RESTRICTED)) {
@@ -2927,17 +2925,16 @@ void do_linter(void)
 
     if (openfile->modified) {
 	int i = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
+
 	if (i == -1) {
 	    statusbar(_("Cancelled"));
 	    goto exit_from_lint;
-	} else if (i == 1) {
-	    if (do_writeout(FALSE) != TRUE)
-		goto exit_from_lint;
-	}
+	} else if (i == 1 && (do_writeout(FALSE) != TRUE))
+	    goto exit_from_lint;
     }
 
     lintcopy = mallocstrcpy(NULL, openfile->syntax->linter);
-    /* Create pipe up front. */
+    /* Create a pipe up front. */
     if (pipe(lint_fd) == -1) {
 	statusbar(_("Could not create pipe"));
 	goto exit_from_lint;
@@ -2953,18 +2950,17 @@ void do_linter(void)
 	lintargs[0] = strtok(lintcopy, " ");
 	while ((ptr = strtok(NULL, " ")) != NULL) {
 	    arglen++;
-	    lintargs = (char **)nrealloc(lintargs, arglen *
-		sizeof(char *));
+	    lintargs = (char **)nrealloc(lintargs, arglen * sizeof(char *));
 	    lintargs[arglen - 3] = ptr;
 	}
 	lintargs[arglen - 1] = NULL;
     }
     lintargs[arglen - 2] = openfile->filename;
 
-    /* A new process to run the linter in. */
+    /* Start a new process to run the linter in. */
     if ((pid_lint = fork()) == 0) {
 
-	/* Child continues (i.e. future linting process). */
+	/* Child continues here (i.e. the future linting process). */
 	close(lint_fd[0]);
 
 	/* Send the linter's standard output + err to the pipe. */
@@ -2985,7 +2981,7 @@ void do_linter(void)
     /* Parent continues here. */
     close(lint_fd[1]);
 
-    /* The child process was not forked successfully. */
+    /* If the child process was not forked successfully... */
     if (pid_lint < 0) {
 	close(lint_fd[0]);
 	statusbar(_("Could not fork"));
@@ -3011,8 +3007,7 @@ void do_linter(void)
 #endif
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
-	read_buff = read_buff_ptr = charealloc(read_buff,
-		read_buff_size);
+	read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
 	read_buff_ptr += read_buff_read;
     }
 
@@ -3023,7 +3018,7 @@ void do_linter(void)
 		fprintf(stderr, "text.c:do_lint:Raw output: %s\n", read_buff);
 #endif
 
-    /* Process the output. */
+    /* Process the linter output. */
     read_buff_word = read_buff_ptr = read_buff;
 
     while (*read_buff_ptr != '\0') {
@@ -3109,6 +3104,7 @@ void do_linter(void)
     bottombars(MLINTER);
     tmplint = NULL;
     curlint = lints;
+
     while (TRUE) {
 	ssize_t tmpcol = 1;
 	int kbinput;
@@ -3121,7 +3117,7 @@ void do_linter(void)
 #ifndef NANO_TINY
 	    struct stat lintfileinfo;
 
-	    new_lint_loop:
+	  new_lint_loop:
 	    if (stat(curlint->filename, &lintfileinfo) != -1) {
 		if (openfile->current_stat->st_ino != lintfileinfo.st_ino) {
 		    openfilestruct *tmpof = openfile;
@@ -3173,7 +3169,6 @@ void do_linter(void)
 	if (kbinput == KEY_WINCH)
 	    continue;
 #endif
-
 	func = func_from_key(&kbinput);
 	tmplint = curlint;
 
@@ -3194,7 +3189,9 @@ void do_linter(void)
 		statusbar(_("At first message"));
 	}
     }
+
     blank_statusbar();
+
 #ifndef NANO_TINY
   free_lints_and_return:
 #endif
@@ -3205,6 +3202,7 @@ void do_linter(void)
 	free(tmplint->filename);
 	free(tmplint);
     }
+
   exit_from_lint:
     display_main_list();
 }
@@ -3217,17 +3215,15 @@ void do_formatter(void)
 {
     bool status;
     FILE *temp_file;
-    char *temp;
     int format_status;
+    ssize_t lineno_save = openfile->current->lineno;
+    ssize_t current_y_save = openfile->current_y;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
-    ssize_t current_y_save = openfile->current_y;
-    ssize_t lineno_save = openfile->current->lineno;
     pid_t pid_format;
-    char *ptr;
     static int arglen = 3;
     static char **formatargs = NULL;
-    char *finalstatus = NULL;
+    char *temp, *ptr, *finalstatus = NULL;
 
     if (openfile->totsize == 0) {
 	statusbar(_("Finished"));
@@ -3261,8 +3257,7 @@ void do_formatter(void)
 	formatargs[0] = strtok(openfile->syntax->formatter, " ");
 	while ((ptr = strtok(NULL, " ")) != NULL) {
 	    arglen++;
-	    formatargs = (char **)nrealloc(formatargs, arglen *
-		sizeof(char *));
+	    formatargs = (char **)nrealloc(formatargs, arglen *	sizeof(char *));
 	    formatargs[arglen - 3] = ptr;
 	}
 	formatargs[arglen - 1] = NULL;
@@ -3325,8 +3320,7 @@ void do_formatter(void)
     if (WIFEXITED(format_status) && WEXITSTATUS(format_status) == 2)
 	sleep(4);
 
-    /* If the formatter printed any error messages onscreen, make
-     * sure that they're cleared off. */
+    /* If there were any messages, clear them off. */
     total_refresh();
 }
 #endif /* !DISABLE_SPELLER */
