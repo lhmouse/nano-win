@@ -6,6 +6,7 @@
 	allow the user a little time to read them.
 	* src/text.c (do_linter, do_formatter): Condense some declarations,
 	rewrap some lines, and improve a few comments.
+	* doc/syntax/go.nanorc: Make the formatter command more visible.
 
 2016-02-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (discard_until): Prevent a chain of editing actions from
