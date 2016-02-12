@@ -1,3 +1,5 @@
+GNU nano 2.5.2 - 2016.02.12
+
 2016-02-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_linter): Go to the next item in the list before
 	freeing the current one.  This fixes Savannah bug #46796.
