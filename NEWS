@@ -1,7 +1,7 @@
 2016.02.12 - GNU nano 2.5.2 is carrying too many dogs.  This release includes
 		several fixes for various memory leaks, position history
 		size growth, and a long standing issue with using
-		nano under sudo creading root-owned files.  There are also
+		nano under sudo creating root-owned files.  There are also
 		the usual bevy of documentation and other miscellaneous
 		fixes and touch ups.  Upgrade today while supplies last,
 		operators are standing by!
