@@ -3177,7 +3177,9 @@ void save_poshistory(void)
 	chmod(poshist, S_IRUSR | S_IWUSR);
 
 	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-	    statusstr = charalloc(strlen(posptr->filename) + 2 * sizeof(ssize_t) + 4);
+	    /* Assume 20 decimal positions each for line and column number,
+	     * plus two spaces, plus the line feed, plus the null byte. */
+	    statusstr = charalloc(strlen(posptr->filename) + 44);
 	    sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
 			(long)posptr->xno);
 	    if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))

@@ -2,6 +2,8 @@
 	* src/browser.c (do_browser, browser_refresh): Rebuild the file list
 	only when necessary, not for each and every cursor movement.  This
 	fixes Savannah bug #47133.
+	* src/files.c (save_poshistory): Allocate enough space for printing
+	out the line and column numbers.  This fixes Savannah bug #47135.
 
 GNU nano 2.5.2 - 2016.02.12
 
