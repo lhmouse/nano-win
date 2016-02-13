@@ -1099,8 +1099,6 @@ int no_help(void)
  * name with the TEMP_FILE flag set, just before the filename prompt. */
 void no_current_file_name_warning(void)
 {
-    curs_set(0);
-
     /* Warn that the current file has no name. */
     statusbar(_("No file name"));
     beep();
@@ -2675,6 +2673,9 @@ int main(int argc, char **argv)
 	    do_cursorpos(TRUE);
 
 	currmenu = MMAIN;
+
+	/* Turn the cursor on when waiting for input. */
+	curs_set(1);
 
 	/* Read in and interpret characters. */
 	do_input(TRUE);

@@ -710,6 +710,7 @@ ssize_t do_replace_loop(
 
 	    edit_refresh();
 
+	    /* Don't show cursor, to not distract from highlighted match. */
 	    curs_set(0);
 
 	    do_replace_highlight(TRUE, exp_word);
@@ -720,8 +721,6 @@ ssize_t do_replace_loop(
 	    do_replace_highlight(FALSE, exp_word);
 
 	    free(exp_word);
-
-	    curs_set(1);
 
 	    if (i == -1) {	/* We canceled the replace. */
 		if (canceled != NULL)

@@ -4,6 +4,9 @@
 	fixes Savannah bug #47133.
 	* src/files.c (save_poshistory): Allocate enough space for printing
 	out the line and column numbers.  This fixes Savannah bug #47135.
+	* src/*.c: Switch the cursor on and off at the appropriate moments,
+	so that it no longer shows in the help screen nor in the file list.
+	This fixes Savannah bug #47126.
 
 GNU nano 2.5.2 - 2016.02.12
 

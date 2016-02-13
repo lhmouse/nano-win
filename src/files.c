@@ -2907,7 +2907,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	    blank_edit();
 	    wmove(edit, 0, 0);
 
-	    /* Disable el cursor. */
+	    /* Don't show a cursor in the list of completions. */
 	    curs_set(0);
 
 	    for (match = 0; match < num_matches; match++) {
@@ -2945,9 +2945,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
      * matches on it. */
     if (!*list)
 	refresh_func();
-
-    /* Enable el cursor. */
-    curs_set(1);
 
     return buf;
 }

@@ -3130,8 +3130,11 @@ void do_linter(void)
 			char *msg = charalloc(1024 + strlen(curlint->filename));
 			int i;
 
-			sprintf(msg, _("This message is for unopened file %s, open it in a new buffer?"),
+			sprintf(msg, _("This message is for unopened file %s,"
+					" open it in a new buffer?"),
 				curlint->filename);
+			/* Show a cursor after the question. */
+			curs_set(1);
 			i = do_yesno_prompt(FALSE, msg);
 			free(msg);
 			if (i == -1) {
@@ -3162,6 +3165,9 @@ void do_linter(void)
 	    statusbar(curlint->msg);
 	    bottombars(MLINTER);
 	}
+
+	/* Show the cursor to indicate the affected line. */
+	curs_set(1);
 
 	kbinput = get_kbinput(bottomwin);
 

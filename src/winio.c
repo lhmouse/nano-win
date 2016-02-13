@@ -311,9 +311,6 @@ int get_kbinput(WINDOW *win)
 {
     int kbinput;
 
-    /* Turn the cursor on when waiting for input. */
-    curs_set(1);
-
     /* Read in a character and interpret it.  Continue doing this until
      * we get a recognized value or sequence. */
     while ((kbinput = parse_kbinput(win)) == ERR)
@@ -3354,7 +3351,6 @@ void do_credits(void)
 	UNSET(NO_HELP);
     window_init();
 
-    curs_set(1);
     nodelay(edit, FALSE);
 
     total_refresh();

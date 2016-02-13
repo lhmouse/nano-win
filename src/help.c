@@ -56,6 +56,7 @@ void do_help(void)
     functionptrtype func;
 	/* The function of the key the user typed in. */
 
+    /* Don't show a cursor in the help screen. */
     curs_set(0);
     blank_edit();
     blank_statusbar();
@@ -123,7 +124,6 @@ void do_help(void)
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
 	    kbinput = ERR;
-	    curs_set(0);
 	    continue;    /* Redraw the screen. */
 	}
 #endif
@@ -173,8 +173,6 @@ void do_help(void)
 	window_init();
     } else
 	bottombars(oldmenu);
-
-    curs_set(1);
 
 #ifndef DISABLE_BROWSER
     if (oldmenu == MBROWSER || oldmenu == MWHEREISFILE || oldmenu == MGOTODIR)

@@ -61,6 +61,7 @@ char *do_browser(char *path, DIR *dir)
     functionptrtype func;
 	/* The function of the key the user typed in. */
 
+    /* Don't show a cursor in the file list. */
     curs_set(0);
     blank_statusbar();
     bottombars(MBROWSER);
@@ -114,6 +115,9 @@ char *do_browser(char *path, DIR *dir)
 	char *new_path;
 		/* The path we switch to at the "Go to Directory"
 		 * prompt. */
+
+	/* Make sure that the cursor is off. */
+	curs_set(0);
 
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
@@ -180,15 +184,12 @@ char *do_browser(char *path, DIR *dir)
 	    do_help_void();
 	    /* The window dimensions might have changed, so act as if. */
 	    kbinput = KEY_WINCH;
-	    curs_set(0);
 #else
 	    say_there_is_no_help();
 #endif
 	} else if (func == do_search) {
 	    /* Search for a filename. */
-	    curs_set(1);
 	    do_filesearch();
-	    curs_set(0);
 	} else if (func == do_research) {
 	    /* Search for another filename. */
 	    do_fileresearch();
@@ -207,7 +208,6 @@ char *do_browser(char *path, DIR *dir)
 	    selected = filelist_len - 1;
 	} else if (func == goto_dir_void) {
 	    /* Go to a specific directory. */
-	    curs_set(1);
 	    i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
 			FALSE,
@@ -219,7 +219,6 @@ char *do_browser(char *path, DIR *dir)
 			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
 
-	    curs_set(0);
 	    bottombars(MBROWSER);
 
 	    /* If the directory begins with a newline (i.e. an
@@ -346,7 +345,6 @@ char *do_browser(char *path, DIR *dir)
     }
     titlebar(NULL);
     edit_refresh();
-    curs_set(1);
     if (old_const_update)
 	SET(CONST_UPDATE);
 

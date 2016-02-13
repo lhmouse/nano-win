@@ -610,6 +610,9 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
      * this case, disable all keys that would change the text if the
      * filename isn't blank and we're at the "Write File" prompt. */
     while (TRUE) {
+	/* Ensure the cursor is on when waiting for input. */
+	curs_set(1);
+
 	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
 	assert(statusbar_x <= strlen(answer));
 
