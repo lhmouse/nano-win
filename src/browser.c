@@ -115,9 +115,20 @@ char *do_browser(char *path, DIR *dir)
 		/* The path we switch to at the "Go to Directory"
 		 * prompt. */
 
-	/* Display the file list if we don't have a key, or if the
-	 * selected file has changed, and set width in the process. */
-	if (kbinput == ERR || old_selected != selected)
+#ifndef NANO_TINY
+	if (kbinput == KEY_WINCH) {
+	    /* Rebuild the file list and sort it. */
+	    browser_init(path_save, opendir(path_save));
+	    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
+
+	    /* Make sure the selected file is within range. */
+	    if (selected >= filelist_len)
+		selected = filelist_len - 1;
+	}
+#endif
+	/* Display (or redisplay) the file list if we don't have a key yet,
+	 * or the list has changed, or the selected file has changed. */
+	if (kbinput == ERR || kbinput == KEY_WINCH || old_selected != selected)
 	    browser_refresh();
 
 	old_selected = selected;
@@ -125,11 +136,8 @@ char *do_browser(char *path, DIR *dir)
 	kbinput = get_kbinput(edit);
 
 #ifndef NANO_TINY
-	if (kbinput == KEY_WINCH) {
-	    kbinput = ERR;
-	    curs_set(0);
+	if (kbinput == KEY_WINCH)
 	    continue;
-	}
 #endif
 
 #ifndef DISABLE_MOUSE
@@ -170,8 +178,8 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
-	    /* Perhaps the window dimensions have changed. */
-	    browser_refresh();
+	    /* The window dimensions might have changed, so act as if. */
+	    kbinput = KEY_WINCH;
 	    curs_set(0);
 #else
 	    say_there_is_no_help();
@@ -547,14 +555,6 @@ void browser_refresh(void)
 	/* The current line and column while the list is getting displayed. */
     char *foo;
 	/* The additional information that we'll display about a file. */
-
-    /* Perhaps window dimensions have changed; reinitialize the browser. */
-    browser_init(path_save, opendir(path_save));
-    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
-
-    /* Make sure the selected file is within range. */
-    if (selected >= filelist_len)
-	selected = filelist_len - 1;
 
     titlebar(path_save);
     blank_edit();

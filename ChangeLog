@@ -1,3 +1,8 @@
+2016-02-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (do_browser, browser_refresh): Rebuild the file list
+	only when necessary, not for each and every cursor movement.  This
+	fixes Savannah bug #47133.
+
 GNU nano 2.5.2 - 2016.02.12
 
 2016-02-11  Benno Schulenberg  <bensberg@justemail.net>
