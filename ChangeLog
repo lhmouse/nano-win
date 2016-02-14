@@ -6,6 +6,8 @@
 	the internal spell fixer.
 	* src/prompt.c (do_statusbar_input, do_statusbar_verbatim_input,
 	do_statusbar_output): Do the copying from input to output just once.
+	* src/prompt.c (do_statusbar_output): Rename and condense some stuff,
+	and correct the main comment: filtering means allow_cntrls==FALSE.
 
 2016-02-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser, browser_refresh): Rebuild the file list

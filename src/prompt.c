@@ -120,11 +120,9 @@ int do_statusbar_input(bool *ran_func, bool *finished,
      * characters in the input buffer if it isn't empty. */
     if (have_shortcut || get_key_buffer_len() == 0) {
 	if (kbinput != NULL) {
-	    bool dummy;
-
 	    /* Display all the characters in the input buffer at
 	     * once, filtering out control characters. */
-	    do_statusbar_output(kbinput, kbinput_len, &dummy, FALSE);
+	    do_statusbar_output(kbinput, kbinput_len, TRUE, NULL);
 
 	    /* Empty the input buffer. */
 	    kbinput_len = 0;
@@ -165,8 +163,8 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		 * prompt, disable verbatim input. */
 		if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 			openfile->filename[0] == '\0') {
-		    bool got_enter;
-		    /* Whether we got the Enter key. */
+		    bool got_enter = FALSE;
+			/* Whether we got the Enter key. */
 
 		    do_statusbar_verbatim_input(&got_enter);
 
@@ -242,44 +240,37 @@ int do_statusbar_mouse(void)
 }
 #endif
 
-/* The user typed output_len multibyte characters.  Add them to the
- * statusbar prompt, setting got_enter to TRUE if we get a newline, and
- * filtering out all ASCII control characters if allow_cntrls is
- * TRUE. */
-void do_statusbar_output(int *the_input, size_t output_len, bool
-	*got_enter, bool allow_cntrls)
+/* The user typed input_len multibyte characters.  Add them to the
+ * statusbar prompt, setting got_enter to TRUE if we get a newline,
+ * and filtering out ASCII control characters if filtering is TRUE. */
+void do_statusbar_output(int *the_input, size_t input_len,
+	bool filtering, bool *got_enter)
 {
     size_t answer_len, i;
-    char *output = charalloc(output_len + 1);
+    char *output = charalloc(input_len + 1);
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
 
     assert(answer != NULL);
 
     /* Copy the typed stuff so it can be treated. */
-    for (i = 0; i < output_len; i++)
+    for (i = 0; i < input_len; i++)
 	output[i] = (char)the_input[i];
     output[i] = '\0';
 
     answer_len = strlen(answer);
-    *got_enter = FALSE;
     i = 0;
 
-    while (i < output_len) {
-	/* If allow_cntrls is TRUE, convert nulls and newlines
-	 * properly. */
-	if (allow_cntrls) {
-	    /* Null to newline, if needed. */
+    while (i < input_len) {
+	/* When not filtering, convert nulls and stop at a newline. */
+	if (!filtering) {
 	    if (output[i] == '\0')
 		output[i] = '\n';
-	    /* Newline to Enter, if needed. */
 	    else if (output[i] == '\n') {
-		/* Set got_enter to TRUE to indicate that we got the
-		 * Enter key, put back the rest of the characters in
-		 * output so that they can be parsed and output again,
-		 * and get out. */
+		/* Put back the rest of the characters for reparsing,
+		 * indicate that we got the Enter key and get out. */
+		unparse_kbinput(output + i, input_len - i);
 		*got_enter = TRUE;
-		unparse_kbinput(output + i, output_len - i);
 		return;
 	    }
 	}
@@ -289,10 +280,8 @@ void do_statusbar_output(int *the_input, size_t output_len, bool
 
 	i += char_buf_len;
 
-	/* If allow_cntrls is FALSE, filter out an ASCII control
-	 * character. */
-	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -
-		char_buf_len)))
+	/* When filtering, skip any ASCII control character. */
+	if (filtering && is_ascii_cntrl_char(*(output + i - char_buf_len)))
 	    continue;
 
 	/* More dangerousness fun. =) */
@@ -454,14 +443,12 @@ void do_statusbar_verbatim_input(bool *got_enter)
     int *kbinput;
     size_t kbinput_len;
 
-    *got_enter = FALSE;
-
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
     /* Display all the verbatim characters at once, not filtering out
      * control characters. */
-    do_statusbar_output(kbinput, kbinput_len, got_enter, TRUE);
+    do_statusbar_output(kbinput, kbinput_len, FALSE, got_enter);
 }
 
 /* Return the placewewant associated with statusbar_x, i.e. the
