@@ -68,6 +68,5 @@ Mailing Lists and Bug Reports
 
 Current Status
 
-	GNU nano has reached its fifth stable milestone, 2.4.x.
-	Development of new features will continue in the 2.5.x branch,
-	while 2.4.x versions are dedicated to bug-fixing and polishing.
+	GNU nano has reached its sixth milestone, 2.5.x.  This is now a
+	"rolling" release: bug fixing and development go hand in hand.

@@ -8,6 +8,8 @@
 	do_statusbar_output): Do the copying from input to output just once.
 	* src/prompt.c (do_statusbar_output): Rename and condense some stuff,
 	and correct the main comment: filtering means allow_cntrls==FALSE.
+	* README, TODO, doc/man/{nano.1,rnano.1,nanorc.5}: Say that 2.5.x
+	is a "rolling" release, lock files are done, and prepare for 2.5.3.
 
 2016-02-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser, browser_refresh): Rebuild the file list

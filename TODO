@@ -2,8 +2,6 @@ TODO file (? means the feature may be implemented, but not definitely)
 ------------------------------------------------------------------------
 
 For the future (no targeted version, catch-all)
-- Compatibility with vi/emacs status files so we can let other editors 
-  know we're in a file?
 - FriBidi support?
 - Port to DJGPP?
 - Make matching bracket searches sophisticated enough to skip over
@@ -42,6 +40,8 @@ For version 2.4:
   wherever we were before we resized, as Pico does. [DONE]
 - Allow even better file-type detection than we have currently, e.g.
   through libmagic. [DONE]
+- Compatibility with vim status files to let other editors know we're
+  in a file. [DONE]
 
 For version 2.2:
 - Rebindable keys? [DONE]
