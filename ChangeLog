@@ -4,6 +4,8 @@
 	them centered when found offscreen.  This fixes Savannah bug #47127.
 	* src/text.c (do_int_spell_fix): Restore the above behavior also for
 	the internal spell fixer.
+	* src/prompt.c (do_statusbar_input, do_statusbar_verbatim_input,
+	do_statusbar_output): Do the copying from input to output just once.
 
 2016-02-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser, browser_refresh): Rebuild the file list

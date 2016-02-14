@@ -517,7 +517,7 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 #ifndef DISABLE_MOUSE
 int do_statusbar_mouse(void);
 #endif
-void do_statusbar_output(char *output, size_t output_len, bool
+void do_statusbar_output(int *the_input, size_t output_len, bool
 	*got_enter, bool allow_cntrls);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
