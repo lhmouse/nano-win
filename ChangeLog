@@ -2,6 +2,8 @@
 	* src/search.c (do_replace_loop): Make iterating through replacement
 	matches behave again like iterating through search matches: showing
 	them centered when found offscreen.  This fixes Savannah bug #47127.
+	* src/text.c (do_int_spell_fix): Restore the above behavior also for
+	the internal spell fixer.
 
 2016-02-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser, browser_refresh): Rebuild the file list

@@ -2414,6 +2414,7 @@ bool do_int_spell_fix(const char *word)
 		xpt, strnlenpt(openfile->current->data,
 		openfile->current_x + match_len) - xpt, FALSE);
 
+	    edit_redraw(openfile->current, openfile->placewewant);
 	    edit_refresh();
 
 	    do_replace_highlight(TRUE, exp_word);
