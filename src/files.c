@@ -871,6 +871,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	/* If the file we got doesn't end in a newline, tack its last
 	 * line onto the beginning of the line at current. */
 	if (len > 0) {
+	    filestruct *dropline = fileptr;
 	    size_t current_len = strlen(openfile->current->data);
 
 	    /* Adjust the current x-coordinate to compensate for the
@@ -896,11 +897,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    if (fileptr == openfile->filebot)
 		openfile->filebot = openfile->current;
 
-	    /* Move fileptr back one line and blow away the old fileptr,
-	     * since its text has been saved. */
+	    /* Step back one line, and blow away the unterminated line,
+	     * since its text has been copied into current. */
 	    fileptr = fileptr->prev;
-	    if (fileptr != NULL)
-		free(fileptr->next);
+	    delete_node(dropline);
 	}
 
 	/* Attach the line at current after the line at fileptr. */
