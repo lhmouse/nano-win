@@ -2,6 +2,8 @@
 	* src/files.c (read_file): Free not just the struct but also the
 	data it contains, and also when it is the first and only line.
 	This fixes Savannah bug #47153 reported by Mike Frysinger.
+	* src/files.c (get_full_path): Avoid losing a buffer when getcwd()
+	fails. 	This fixes Savannah bug #47129 reported by Mike Frysinger.
 
 2016-02-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop): Make iterating through replacement
