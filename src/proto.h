@@ -164,7 +164,7 @@ void do_last_file(void);
 char *striponedir(const char *path);
 #endif
 
-/* All functions in chars.c. */
+/* Most functions in chars.c. */
 #ifdef ENABLE_UTF8
 void utf8_init(void);
 bool using_utf8(void);
@@ -189,7 +189,7 @@ bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_rep(char c);
 #ifdef ENABLE_UTF8
-wchar_t control_wrep(wchar_t c);
+wchar_t control_wrep(wchar_t wc);
 #endif
 char *control_mbrep(const char *c, char *crep, int *crep_len);
 char *mbrep(const char *c, char *crep, int *crep_len);
@@ -247,7 +247,7 @@ bool is_valid_unicode(wchar_t wc);
 bool is_valid_mbstring(const char *s);
 #endif
 
-/* All functions in color.c. */
+/* Most functions in color.c. */
 #ifndef DISABLE_COLOR
 void set_colorpairs(void);
 void color_init(void);
@@ -359,10 +359,10 @@ int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
 
 /* Some functions in global.c. */
 size_t length_of_list(int menu);
-key_type strtokeytype(const char *str);
 const sc *first_sc_for(int menu, void (*func)(void));
 int sc_seq_or(void (*func)(void), int defaultval);
 functionptrtype func_from_key(int *kbinput);
+key_type strtokeytype(const char *str);
 void assign_keyinfo(sc *s);
 void print_sclist(void);
 void shortcut_init(void);
@@ -536,7 +536,6 @@ size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reset_statusbar_cursor(void);
 void update_the_statusbar(void);
 void update_bar_if_needed(void);
-void total_statusbar_refresh(void (*refresh_func)(void));
 functionptrtype get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
@@ -556,7 +555,6 @@ int do_prompt(bool allow_tabs,
 	filestruct **history_list,
 #endif
 	void (*refresh_func)(void), const char *msg, ...);
-void do_prompt_abort(void);
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
