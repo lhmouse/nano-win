@@ -128,10 +128,6 @@ void initialize_buffer_text(void)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
 
-#ifndef DISABLE_COLOR
-    openfile->fileage->multidata = NULL;
-#endif
-
     openfile->totsize = 0;
 }
 

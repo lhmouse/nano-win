@@ -1,3 +1,6 @@
+2016-02-16  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (initialize_buffer_text): Delete redundant assignment.
+
 2016-02-15  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (read_file): Free not just the struct but also the
 	data it contains, and also when it is the first and only line.
