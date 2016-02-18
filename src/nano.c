@@ -163,10 +163,11 @@ filestruct *copy_filestruct(const filestruct *src)
     return head;
 }
 
-/* Free a filestruct. */
+/* Free a whole linked list of filestructs. */
 void free_filestruct(filestruct *src)
 {
-    assert(src != NULL);
+    if (src == NULL)
+	return;
 
     while (src->next != NULL) {
 	src = src->next;
@@ -364,8 +365,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	    *file_bot = openfile->filebot;
 	}
 
-	openfile->fileage->next = NULL;
-	free_filestruct(openfile->fileage);
+	delete_node(openfile->fileage);
 
 	/* Renumber starting with the line after the original
 	 * file_bot. */

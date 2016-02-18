@@ -459,8 +459,7 @@ void redo_cut(undo *u)
     openfile->mark_set = FALSE;
     openfile->mark_begin = NULL;
 
-    if (cutbuffer != NULL)
-	free_filestruct(cutbuffer);
+    free_filestruct(cutbuffer);
     cutbuffer = oldcutbuffer;
     cutbottom = oldcutbottom;
 }
@@ -579,8 +578,7 @@ void do_undo(void)
 	openfile->mark_set = TRUE;
 	goto_line_posx(u->lineno, u->begin);
 	cut_marked();
-	if (u->cutbuffer != NULL)
-	    free_filestruct(u->cutbuffer);
+	free_filestruct(u->cutbuffer);
 	u->cutbuffer = cutbuffer;
 	u->cutbottom = cutbottom;
 	cutbuffer = oldcutbuffer;
@@ -903,8 +901,7 @@ void discard_until(const undo *thisitem, openfilestruct *thefile)
     while (dropit != NULL && dropit != thisitem) {
 	thefile->undotop = dropit->next;
 	free(dropit->strdata);
-	if (dropit->cutbuffer != NULL)
-	    free_filestruct(dropit->cutbuffer);
+	free_filestruct(dropit->cutbuffer);
 	free(dropit);
 	dropit = thefile->undotop;
     }
@@ -1113,8 +1110,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
     case CUT:
 	if (!cutbuffer)
 	    break;
-	if (u->cutbuffer)
-	    free_filestruct(u->cutbuffer);
+	free_filestruct(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
 	if (u->mark_set) {
 	    /* If the "marking" operation was from right-->left or

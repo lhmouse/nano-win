@@ -134,9 +134,8 @@ void do_cut_text(
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    /* If keep_cutbuffer is FALSE and the cutbuffer isn't empty, blow
-     * away the text in the cutbuffer. */
-    if (!keep_cutbuffer && cutbuffer != NULL) {
+    /* Empty the cutbuffer when a chain of cuts is broken. */
+    if (!keep_cutbuffer) {
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 #ifdef DEBUG
