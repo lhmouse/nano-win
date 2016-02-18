@@ -190,8 +190,6 @@ int search_init(bool replacing, bool use_answer)
 #endif
 	_(" (to replace)") : "", buf);
 
-    fflush(stderr);
-
     /* Release buf now that we don't need it anymore. */
     free(buf);
 

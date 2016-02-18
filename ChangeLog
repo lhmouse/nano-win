@@ -2,6 +2,7 @@
 	* src/search.c (do_replace_loop), src/text.c (do_int_spell_fix),
 	src/winio.c (edit_refresh): Fix Savannah bug #47127 the proper way.
 	* src/nano.c (free_filestruct): Allow the parameter to be NULL.
+	* src/search.c (search_init): Delete a debugging leftover.
 
 2016-02-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (initialize_buffer_text): Delete redundant assignment.
