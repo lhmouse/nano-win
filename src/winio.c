@@ -2998,7 +2998,7 @@ void edit_refresh(void)
 #endif
 
 	/* Make sure the current line is on the screen. */
-	edit_update(ISSET(SMOOTH_SCROLL) ? NONE : CENTER);
+	edit_update((ISSET(SMOOTH_SCROLL) && !focusing) ? NONE : CENTER);
     }
 
     foo = openfile->edittop;

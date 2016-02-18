@@ -708,10 +708,7 @@ ssize_t do_replace_loop(
 		xpt, strnlenpt(openfile->current->data,
 		openfile->current_x + match_len) - xpt, FALSE);
 
-	    /* If the match is offscreen, center it; otherwise, let it be. */
-	    edit_redraw(openfile->current, openfile->placewewant);
-
-	    /* Now refresh the entire edit window, in case it scrolled. */
+	    /* Refresh the edit window, scrolling it if necessary. */
 	    edit_refresh();
 
 	    /* Don't show cursor, to not distract from highlighted match. */

@@ -1,3 +1,7 @@
+2016-02-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop), src/text.c (do_int_spell_fix),
+	src/winio.c (edit_refresh): Fix Savannah bug #47127 the proper way.
+
 2016-02-16  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (initialize_buffer_text): Delete redundant assignment.
 
