@@ -4,6 +4,8 @@
 	This fixes Savannah bug #47124 reported by Mike Frysinger.
 	* src/files.c (input_tab): Parse a character in the correct
 	buffer.  This fixes Savannah bug #47199.
+	* src/prompt.c (do_statusbar_output): Reduce an allocation to what
+	is actually needed.  This undoes the papering-over of above bug.
 
 2016-02-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop), src/text.c (do_int_spell_fix),

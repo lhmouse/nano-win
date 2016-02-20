@@ -285,7 +285,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	    continue;
 
 	/* More dangerousness fun. =) */
-	answer = charealloc(answer, answer_len + (char_buf_len * 2));
+	answer = charealloc(answer, answer_len + char_buf_len + 1);
 
 	assert(statusbar_x <= answer_len);
 
