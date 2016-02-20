@@ -1351,7 +1351,7 @@ void get_history_older_void(void)
  * looking at only the first len characters of s, and return that
  * string.  If there isn't one, or if len is 0, don't move h and return
  * s. */
-char *get_history_completion(filestruct **h, const char *s, size_t len)
+char *get_history_completion(filestruct **h, char *s, size_t len)
 {
     assert(s != NULL);
 
@@ -1380,7 +1380,7 @@ char *get_history_completion(filestruct **h, const char *s, size_t len)
 
 	if (p != NULL) {
 	    *h = p;
-	    return (*h)->data;
+	    return mallocstrcpy(s, (*h)->data);
 	}
 
 	/* Search the history list from the top to the current position
@@ -1392,7 +1392,7 @@ char *get_history_completion(filestruct **h, const char *s, size_t len)
 
 	if (p != NULL) {
 	    *h = p;
-	    return (*h)->data;
+	    return mallocstrcpy(s, (*h)->data);
 	}
     }
 

@@ -623,7 +623,7 @@ void do_gotolinecolumn_void(void);
 bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);
 #ifndef DISABLE_TABCOMP
-char *get_history_completion(filestruct **h, const char *s, size_t len);
+char *get_history_completion(filestruct **h, char *s, size_t len);
 #endif
 #endif
 #ifndef DISABLE_HISTORIES

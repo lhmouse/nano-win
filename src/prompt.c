@@ -616,9 +616,8 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 		    complete_len = strlen(answer);
 
 		if (complete_len > 0) {
-		    answer = mallocstrcpy(answer,
-				get_history_completion(history_list,
-					answer, complete_len));
+		    answer = get_history_completion(history_list,
+					answer, complete_len);
 		    statusbar_x = strlen(answer);
 		}
 	    } else

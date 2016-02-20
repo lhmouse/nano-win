@@ -1,3 +1,8 @@
+2016-02-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (get_history_completion): Avoid leaking memory
+	when tabbing on a string that does not occur in the history.
+	This fixes Savannah bug #47124 reported by Mike Frysinger.
+
 2016-02-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop), src/text.c (do_int_spell_fix),
 	src/winio.c (edit_refresh): Fix Savannah bug #47127 the proper way.
