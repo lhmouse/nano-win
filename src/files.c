@@ -2830,7 +2830,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	    if (match < num_matches || matches[0][common_len] == '\0')
 		break;
 
-	    common_len += parse_mbchar(buf + common_len, NULL, NULL);
+	    common_len += parse_mbchar(matches[0] + common_len, NULL, NULL);
 	}
 
 	free(match1_mb);

@@ -2,6 +2,8 @@
 	* src/search.c (get_history_completion): Avoid leaking memory
 	when tabbing on a string that does not occur in the history.
 	This fixes Savannah bug #47124 reported by Mike Frysinger.
+	* src/files.c (input_tab): Parse a character in the correct
+	buffer.  This fixes Savannah bug #47199.
 
 2016-02-18  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop), src/text.c (do_int_spell_fix),
