@@ -1654,11 +1654,9 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_SPELLER
     free(alt_speller);
 #endif
-    if (cutbuffer != NULL)
-	free_filestruct(cutbuffer);
+    free_filestruct(cutbuffer);
 #ifndef DISABLE_JUSTIFY
-    if (jusbuffer != NULL)
-	free_filestruct(jusbuffer);
+    free_filestruct(jusbuffer);
 #endif
     /* Free the memory associated with each open file buffer. */
     if (openfile != NULL)
@@ -1724,17 +1722,16 @@ void thanks_for_all_the_fish(void)
 #endif /* !DISABLE_COLOR */
 #ifndef DISABLE_HISTORIES
     /* Free the search and replace history lists. */
-    if (searchage != NULL)
-	free_filestruct(searchage);
-    if (replaceage != NULL)
-	free_filestruct(replaceage);
+    free_filestruct(searchage);
+    free_filestruct(replaceage);
 #endif
-    /* Free the functions and shortcuts lists. */
+    /* Free the list of functions. */
     while (allfuncs != NULL) {
 	subnfunc *f = allfuncs;
 	allfuncs = allfuncs->next;
 	free(f);
     }
+    /* Free the list of shortcuts. */
     while (sclist != NULL) {
 	sc *s = sclist;
 	sclist = sclist->next;
