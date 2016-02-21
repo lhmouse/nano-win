@@ -2855,20 +2855,18 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	if (num_matches > 1 && (common_len != *place || !*lastwastab))
 	    beep();
 
-	/* If there is more of a match to display on the statusbar, show
-	 * it.  We reset lastwastab to FALSE: it requires pressing Tab
-	 * twice in succession with no statusbar changes to see a match
-	 * list. */
+	/* If the matches have something in common, show that part. */
 	if (common_len != *place) {
-	    *lastwastab = FALSE;
 	    buf = charealloc(buf, common_len + buf_len - *place + 1);
 	    charmove(buf + common_len, buf + *place, buf_len -
 		*place + 1);
 	    strncpy(buf, mzero, common_len);
 	    *place = common_len;
-	} else if (!*lastwastab || num_matches < 2)
+	}
+
+	if (!*lastwastab)
 	    *lastwastab = TRUE;
-	else {
+	else if (num_matches > 1) {
 	    int longest_name = 0, ncols, editline = 0;
 
 	    /* Now we show a list of the available choices. */
