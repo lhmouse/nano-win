@@ -451,9 +451,6 @@ void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	openfilestruct *end);
 void unlink_opennode(openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
-#ifdef DEBUG
-void free_openfilestruct(openfilestruct *src);
-#endif
 void print_view_warning(void);
 void show_restricted_warning(void);
 #ifdef DISABLE_HELP

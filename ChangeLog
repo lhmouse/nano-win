@@ -1,3 +1,6 @@
+2016-02-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (free_openfilestruct): Elide this function.
+
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all
 	matches have in common, don't require a third Tab to show the list.

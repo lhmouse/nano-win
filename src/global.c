@@ -1659,8 +1659,11 @@ void thanks_for_all_the_fish(void)
     free_filestruct(jusbuffer);
 #endif
     /* Free the memory associated with each open file buffer. */
-    if (openfile != NULL)
-	free_openfilestruct(openfile);
+    while (openfile != openfile->next) {
+	openfile = openfile->next;
+	delete_opennode(openfile->prev);
+    }
+    delete_opennode(openfile);
 #ifndef DISABLE_COLOR
     free(syntaxstr);
     while (syntaxes != NULL) {

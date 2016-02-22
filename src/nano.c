@@ -551,7 +551,7 @@ void unlink_opennode(openfilestruct *fileptr)
     delete_opennode(fileptr);
 }
 
-/* Delete a node from the openfilestruct. */
+/* Free all the memory in the given open-file node. */
 void delete_opennode(openfilestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->filename != NULL && fileptr->fileage != NULL);
@@ -566,22 +566,6 @@ void delete_opennode(openfilestruct *fileptr)
 #endif
     free(fileptr);
 }
-
-#ifdef DEBUG
-/* Deallocate all memory associated with this and later files, including
- * the lines of text. */
-void free_openfilestruct(openfilestruct *src)
-{
-    assert(src != NULL);
-
-    while (src != src->next) {
-	src = src->next;
-	delete_opennode(src->prev);
-    }
-
-    delete_opennode(src);
-}
-#endif
 
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
