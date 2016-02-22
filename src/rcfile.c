@@ -90,6 +90,7 @@ static const rcoption rcopts[] = {
     {"backwards", BACKWARDS_SEARCH},
     {"casesensitive", CASE_SENSITIVE},
     {"cut", CUT_TO_END},
+    {"kill_spaces_on_wrap", KILL_TRAILING_SPACES},
     {"locking", LOCKING},
     {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},

@@ -517,7 +517,8 @@ enum
     POS_HISTORY,
     LOCKING,
     NOREAD_MODE,
-    MAKE_IT_UNIX
+    MAKE_IT_UNIX,
+    KILL_TRAILING_SPACES
 };
 
 /* Flags for the menus in which a given function should be present. */

@@ -1277,7 +1277,7 @@ bool do_wrap(filestruct *line)
 
 	/* If after_break doesn't end in a blank, make sure it ends in a
 	 * space. */
-	if (!is_blank_mbchar(end)) {
+	if (!is_blank_mbchar(end) && !ISSET(KILL_TRAILING_SPACES)) {
 #ifndef NANO_TINY
 	    add_undo(ADD);
 #endif
@@ -2174,7 +2174,10 @@ void do_justify(bool full_justify)
 #endif
 
 	    /* Break the current line. */
-	    null_at(&openfile->current->data, break_pos);
+            if (ISSET(KILL_TRAILING_SPACES))
+		null_at(&openfile->current->data, break_pos - 1);
+	    else
+		null_at(&openfile->current->data, break_pos);
 
 	    /* Go to the next line. */
 	    par_len--;
