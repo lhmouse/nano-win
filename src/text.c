@@ -3106,12 +3106,8 @@ void do_linter(void)
     curlint = lints;
 
     while (TRUE) {
-	ssize_t tmpcol = 1;
 	int kbinput;
 	functionptrtype func;
-
-	if (curlint->colno > 0)
-	    tmpcol = curlint->colno;
 
 	if (tmplint != curlint) {
 #ifndef NANO_TINY
@@ -3159,7 +3155,7 @@ void do_linter(void)
 		}
 	    }
 #endif /* !NANO_TINY */
-	    do_gotolinecolumn(curlint->lineno, tmpcol, FALSE, FALSE);
+	    do_gotolinecolumn(curlint->lineno, curlint->colno, FALSE, FALSE);
 	    titlebar(NULL);
 	    edit_refresh();
 	    statusbar(curlint->msg);

@@ -17,6 +17,9 @@
 	* src/text.c (do_justify), src/winio.c (parse_escape_sequence):
 	Show the cursor after a justification and after an unrecognized
 	escape sequence, and in the edit window when linting.
+	* src/text.c (do_linter): Use the correct column number, also when
+	messages are skipped.  And don't mind zero or negative numbers.
+	This is a partial fix for Savannah bug #47131.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all
