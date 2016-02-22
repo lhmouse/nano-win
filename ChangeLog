@@ -12,6 +12,8 @@
 	* src/prompt.c (do_statusbar_output): Don't move too many bytes.
 	This fixes Savannah bug #47219 (uncovered by r5655).
 	* src/prompt.c (do_statusbar_output): Elide a variable.
+	* src/prompt.c (do_statusbar_delete): There is no need for nulling:
+	the charmove() already copies the terminating null byte.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all

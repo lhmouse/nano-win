@@ -349,14 +349,12 @@ void do_statusbar_delete(void)
 
     if (answer[statusbar_x] != '\0') {
 	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL, NULL);
-	size_t line_len = strlen(answer + statusbar_x);
 
 	assert(statusbar_x < strlen(answer));
 
 	charmove(answer + statusbar_x, answer + statusbar_x + char_buf_len,
 			strlen(answer) - statusbar_x - char_buf_len + 1);
-
-	null_at(&answer, statusbar_x + line_len - char_buf_len);
+	align(&answer);
 
 	update_the_statusbar();
     }
