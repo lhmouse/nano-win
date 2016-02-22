@@ -1123,6 +1123,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
     if (retval == ERR) {
 	if (win == edit) {
 	    statusbar(_("Unknown Command"));
+	    curs_set(1);
 	    beep();
 	}
     }

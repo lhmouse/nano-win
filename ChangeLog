@@ -14,6 +14,9 @@
 	* src/prompt.c (do_statusbar_output): Elide a variable.
 	* src/prompt.c (do_statusbar_delete): There is no need for nulling:
 	the charmove() already copies the terminating null byte.
+	* src/text.c (do_justify), src/winio.c (parse_escape_sequence):
+	Show the cursor after a justification and after an unrecognized
+	escape sequence.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all
