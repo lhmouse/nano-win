@@ -1,6 +1,7 @@
 2016-02-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (free_openfilestruct): Elide this function.
 	* scr/global.c (thanks_for_all_the_fish, free_list_item): Condense.
+	* src/winio.c (edit_scroll): The amount to scroll is never zero.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all

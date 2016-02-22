@@ -2848,9 +2848,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     filestruct *foo;
     bool do_redraw = need_screen_update(0);
 
-    /* Don't bother scrolling less than one line. */
-    if (nlines < 1)
-	return;
+    assert(nlines > 0);
 
     /* Part 1: nlines is the number of lines we're going to scroll the
      * text of the edit window. */
