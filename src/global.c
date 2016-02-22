@@ -1623,6 +1623,17 @@ int strtomenu(const char *input)
 
 
 #ifdef DEBUG
+#ifndef DISABLE_COLOR
+void free_list_item(regexlisttype *dropit)
+{
+    free(dropit->ext_regex);
+    if (dropit->ext != NULL)
+	regfree(dropit->ext);
+    free(dropit->ext);
+    free(dropit);
+}
+#endif
+
 /* This function is used to gracefully return all the memory we've used.
  * It should be called just before calling exit().  Practically, the
  * only effect is to cause a segmentation fault if the various data
@@ -1672,47 +1683,32 @@ void thanks_for_all_the_fish(void)
 	free(syntaxes->desc);
 	free(syntaxes->linter);
 	free(syntaxes->formatter);
+
 	while (syntaxes->extensions != NULL) {
 	    regexlisttype *bob = syntaxes->extensions;
 	    syntaxes->extensions = bob->next;
-	    free(bob->ext_regex);
-	    if (bob->ext != NULL) {
-		regfree(bob->ext);
-		free(bob->ext);
-	    }
-	    free(bob);
+	    free_list_item(bob);
 	}
 	while (syntaxes->headers != NULL) {
 	    regexlisttype *bob = syntaxes->headers;
 	    syntaxes->headers = bob->next;
-	    free(bob->ext_regex);
-	    if (bob->ext != NULL) {
-		regfree(bob->ext);
-		free(bob->ext);
-	    }
-	    free(bob);
+	    free_list_item(bob);
 	}
 	while (syntaxes->magics != NULL) {
 	    regexlisttype *bob = syntaxes->magics;
 	    syntaxes->magics = bob->next;
-	    free(bob->ext_regex);
-	    if (bob->ext != NULL) {
-		regfree(bob->ext);
-		free(bob->ext);
-	    }
-	    free(bob);
+	    free_list_item(bob);
 	}
+
 	while (syntaxes->color != NULL) {
 	    colortype *bob = syntaxes->color;
-
 	    syntaxes->color = bob->next;
 	    free(bob->start_regex);
 	    if (bob->start != NULL) {
 		regfree(bob->start);
 		free(bob->start);
 	    }
-	    if (bob->end_regex != NULL)
-		free(bob->end_regex);
+	    free(bob->end_regex);
 	    if (bob->end != NULL) {
 		regfree(bob->end);
 		free(bob->end);
@@ -1744,5 +1740,4 @@ void thanks_for_all_the_fish(void)
     free(homedir);
 #endif
 }
-
 #endif /* DEBUG */
