@@ -6,6 +6,7 @@
 	src/move.c (do_prev_word, do_next_word): Sort these in standard way.
 	* src/prompt.c (do_statusbar_output): Don't move too many bytes.
 	This fixes Savannah bug #47219 (uncovered by r5655).
+	* src/prompt.c (do_statusbar_output): Elide a variable.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all

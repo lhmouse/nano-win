@@ -246,10 +246,9 @@ int do_statusbar_mouse(void)
 void do_statusbar_output(int *the_input, size_t input_len,
 	bool filtering, bool *got_enter)
 {
-    size_t answer_len, i;
     char *output = charalloc(input_len + 1);
     char *char_buf = charalloc(mb_cur_max());
-    int char_buf_len;
+    int i, char_buf_len;
 
     assert(answer != NULL);
 
@@ -258,7 +257,6 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	output[i] = (char)the_input[i];
     output[i] = '\0';
 
-    answer_len = strlen(answer);
     i = 0;
 
     while (i < input_len) {
@@ -284,15 +282,13 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	if (filtering && is_ascii_cntrl_char(*(output + i - char_buf_len)))
 	    continue;
 
-	/* More dangerousness fun. =) */
-	answer = charealloc(answer, answer_len + char_buf_len + 1);
+	assert(statusbar_x <= strlen(answer));
 
-	assert(statusbar_x <= answer_len);
-
+	/* Insert the typed character into the existing answer string. */
+	answer = charealloc(answer, strlen(answer) + char_buf_len + 1);
 	charmove(answer + statusbar_x + char_buf_len, answer + statusbar_x,
-			answer_len - statusbar_x + 1);
+				strlen(answer) - statusbar_x + 1);
 	strncpy(answer + statusbar_x, char_buf, char_buf_len);
-	answer_len += char_buf_len;
 
 	statusbar_x += char_buf_len;
     }
