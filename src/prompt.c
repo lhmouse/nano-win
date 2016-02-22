@@ -290,7 +290,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	assert(statusbar_x <= answer_len);
 
 	charmove(answer + statusbar_x + char_buf_len, answer + statusbar_x,
-			answer_len - statusbar_x + char_buf_len);
+			answer_len - statusbar_x + 1);
 	strncpy(answer + statusbar_x, char_buf, char_buf_len);
 	answer_len += char_buf_len;
 

@@ -4,6 +4,8 @@
 	* src/winio.c (edit_scroll): The amount to scroll is never zero.
 	* src/prompt.c (do_statusbar_prev_word, do_statusbar_next_word),
 	src/move.c (do_prev_word, do_next_word): Sort these in standard way.
+	* src/prompt.c (do_statusbar_output): Don't move too many bytes.
+	This fixes Savannah bug #47219 (uncovered by r5655).
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all
