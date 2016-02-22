@@ -1,6 +1,6 @@
 2016-02-22  Chris Allegretta <chrisa@asty.org>
 	* Add ability to kill the trailing spaces when justifying
-	code.  New nanorc option kill_spaces_on_wrap, we'll see
+	code.  New nanorc option kill_spaces_on_justify, we'll see
 	whether this warrants a command line flahg or not.
 
 2016-02-22  Benno Schulenberg  <bensberg@justemail.net>
