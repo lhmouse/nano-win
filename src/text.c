@@ -3167,6 +3167,7 @@ void do_linter(void)
 	}
 
 	/* Show the cursor to indicate the affected line. */
+	reset_cursor();
 	curs_set(1);
 
 	kbinput = get_kbinput(bottomwin);

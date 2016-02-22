@@ -16,7 +16,7 @@
 	the charmove() already copies the terminating null byte.
 	* src/text.c (do_justify), src/winio.c (parse_escape_sequence):
 	Show the cursor after a justification and after an unrecognized
-	escape sequence.
+	escape sequence, and in the edit window when linting.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all
