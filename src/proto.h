@@ -399,10 +399,10 @@ void do_para_end(bool allow_update);
 void do_para_end_void(void);
 #endif
 #ifndef NANO_TINY
-bool do_next_word(bool allow_punct, bool allow_update);
-void do_next_word_void(void);
 void do_prev_word(bool allow_punct, bool allow_update);
 void do_prev_word_void(void);
+bool do_next_word(bool allow_punct, bool allow_update);
+void do_next_word_void(void);
 #endif
 void do_home(void);
 void do_end(void);
@@ -524,8 +524,8 @@ void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
 #ifndef NANO_TINY
-void do_statusbar_next_word(void);
 void do_statusbar_prev_word(void);
+void do_statusbar_next_word(void);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
 size_t statusbar_xplustabs(void);

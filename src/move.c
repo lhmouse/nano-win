@@ -215,63 +215,6 @@ void do_para_end_void(void)
 #endif /* !DISABLE_JUSTIFY */
 
 #ifndef NANO_TINY
-/* Move to the next word in the file.  If allow_punct is TRUE, treat
- * punctuation as part of a word.  If allow_update is TRUE, update the
- * screen afterwards.  Return TRUE if we started on a word, and FALSE
- * otherwise. */
-bool do_next_word(bool allow_punct, bool allow_update)
-{
-    size_t pww_save = openfile->placewewant;
-    filestruct *current_save = openfile->current;
-    bool started_on_word = is_word_mbchar(openfile->current->data +
-				openfile->current_x, allow_punct);
-    bool seen_space = !started_on_word;
-
-    assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    /* Move forward until we reach the start of a word. */
-    while (TRUE) {
-	/* If at the end of a line, move to the beginning of the next one. */
-	if (openfile->current->data[openfile->current_x] == '\0') {
-	    /* If at the end of the file, stop. */
-	    if (openfile->current->next == NULL)
-		break;
-	    openfile->current = openfile->current->next;
-	    openfile->current_x = 0;
-	    seen_space = TRUE;
-	} else {
-	    /* Step forward one character. */
-	    openfile->current_x = move_mbright(openfile->current->data,
-						openfile->current_x);
-	}
-
-	/* If this is not a word character, then it's a separator; else
-	 * if we've already seen a separator, then it's a word start. */
-	if (!is_word_mbchar(openfile->current->data + openfile->current_x,
-				allow_punct))
-	    seen_space = TRUE;
-	else if (seen_space)
-	    break;
-    }
-
-    openfile->placewewant = xplustabs();
-
-    /* If allow_update is TRUE, update the screen. */
-    if (allow_update)
-	edit_redraw(current_save, pww_save);
-
-    /* Return whether we started on a word. */
-    return started_on_word;
-}
-
-/* Move to the next word in the file, treating punctuation as part of a
- * word if the WORD_BOUNDS flag is set, and update the screen
- * afterwards. */
-void do_next_word_void(void)
-{
-    do_next_word(ISSET(WORD_BOUNDS), TRUE);
-}
-
 /* Move to the previous word in the file.  If allow_punct is TRUE, treat
  * punctuation as part of a word.  If allow_update is TRUE, update the
  * screen afterwards. */
@@ -321,12 +264,67 @@ void do_prev_word(bool allow_punct, bool allow_update)
 	edit_redraw(current_save, pww_save);
 }
 
-/* Move to the previous word in the file, treating punctuation as part
- * of a word if the WORD_BOUNDS flag is set, and update the screen
- * afterwards. */
+/* Move to the previous word in the file, treating punctuation as part of a
+ * word if the WORD_BOUNDS flag is set, and update the screen afterwards. */
 void do_prev_word_void(void)
 {
     do_prev_word(ISSET(WORD_BOUNDS), TRUE);
+}
+
+/* Move to the next word in the file.  If allow_punct is TRUE, treat
+ * punctuation as part of a word.  If allow_update is TRUE, update the
+ * screen afterwards.  Return TRUE if we started on a word, and FALSE
+ * otherwise. */
+bool do_next_word(bool allow_punct, bool allow_update)
+{
+    size_t pww_save = openfile->placewewant;
+    filestruct *current_save = openfile->current;
+    bool started_on_word = is_word_mbchar(openfile->current->data +
+				openfile->current_x, allow_punct);
+    bool seen_space = !started_on_word;
+
+    assert(openfile->current != NULL && openfile->current->data != NULL);
+
+    /* Move forward until we reach the start of a word. */
+    while (TRUE) {
+	/* If at the end of a line, move to the beginning of the next one. */
+	if (openfile->current->data[openfile->current_x] == '\0') {
+	    /* If at the end of the file, stop. */
+	    if (openfile->current->next == NULL)
+		break;
+	    openfile->current = openfile->current->next;
+	    openfile->current_x = 0;
+	    seen_space = TRUE;
+	} else {
+	    /* Step forward one character. */
+	    openfile->current_x = move_mbright(openfile->current->data,
+						openfile->current_x);
+	}
+
+	/* If this is not a word character, then it's a separator; else
+	 * if we've already seen a separator, then it's a word start. */
+	if (!is_word_mbchar(openfile->current->data + openfile->current_x,
+				allow_punct))
+	    seen_space = TRUE;
+	else if (seen_space)
+	    break;
+    }
+
+    openfile->placewewant = xplustabs();
+
+    /* If allow_update is TRUE, update the screen. */
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
+
+    /* Return whether we started on a word. */
+    return started_on_word;
+}
+
+/* Move to the next word in the file, treating punctuation as part of a word
+ * if the WORD_BOUNDS flag is set, and update the screen afterwards. */
+void do_next_word_void(void)
+{
+    do_next_word(ISSET(WORD_BOUNDS), TRUE);
 }
 #endif /* !NANO_TINY */
 

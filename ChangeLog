@@ -2,6 +2,8 @@
 	* src/nano.c (free_openfilestruct): Elide this function.
 	* scr/global.c (thanks_for_all_the_fish, free_list_item): Condense.
 	* src/winio.c (edit_scroll): The amount to scroll is never zero.
+	* src/prompt.c (do_statusbar_prev_word, do_statusbar_next_word),
+	src/move.c (do_prev_word, do_next_word): Sort these in standard way.
 
 2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (input_tab): If the first Tab added the part that all
