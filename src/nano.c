@@ -2625,10 +2625,6 @@ int main(int argc, char **argv)
 	UNSET(MULTIBUFFER);
 #endif
 
-#ifdef DEBUG
-    fprintf(stderr, "Main: top and bottom win\n");
-#endif
-
     /* If a starting position was given on the command line, go there. */
     if (startline > 0 || startcol > 0)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE);
@@ -2639,6 +2635,10 @@ int main(int argc, char **argv)
 	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
 	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE);
     }
+#endif
+
+#ifdef DEBUG
+    fprintf(stderr, "Main: bottom win, top win and edit win\n");
 #endif
 
     display_main_list();

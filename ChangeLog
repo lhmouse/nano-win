@@ -5,6 +5,7 @@
 	backwardly marked region.  This fixes Savannah bug #46980.
 	* src/text.c (do_undo, do_redo): Center the cursor when the
 	thing being undone or redone is currently off the screen.
+	* src/{files,nano,winio}.c: Rewrap and reshuffle some lines.
 
 2016-02-22  Chris Allegretta <chrisa@asty.org>
 	* Add ability to kill the trailing spaces when justifying

@@ -2550,8 +2550,8 @@ char *real_dir_from_tilde(const char *buf)
 
 	    do {
 		userdata = getpwent();
-	    } while (userdata != NULL && strcmp(userdata->pw_name,
-		tilde_dir + 1) != 0);
+	    } while (userdata != NULL &&
+			strcmp(userdata->pw_name, tilde_dir + 1) != 0);
 	    endpwent();
 	    if (userdata != NULL)
 		tilde_dir = mallocstrcpy(tilde_dir, userdata->pw_dir);
@@ -2599,6 +2599,7 @@ void free_chararray(char **array, size_t len)
 
     for (; len > 0; len--)
 	free(array[len - 1]);
+
     free(array);
 }
 #endif
@@ -2665,9 +2666,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 #endif
 
 	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
-		sizeof(char *));
-	    matches[*num_matches] =
-		charalloc(strlen(userdata->pw_name) + 2);
+					sizeof(char *));
+	    matches[*num_matches] = charalloc(strlen(userdata->pw_name) + 2);
 	    sprintf(matches[*num_matches], "~%s", userdata->pw_name);
 	    ++(*num_matches);
 	}
@@ -2693,8 +2693,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
     *num_matches = 0;
     null_at(&dirname, buf_len);
 
-    /* Okie, if there's a / in the buffer, strip out the directory
-     * part. */
+    /* Okie, if there's a / in the buffer, strip out the directory part. */
     filename = strrchr(dirname, '/');
     if (filename != NULL) {
 	char *tmpdirname = filename + 1;
@@ -2736,8 +2735,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
-	    char *tmp = charalloc(strlen(dirname) +
-		strlen(nextdir->d_name) + 1);
+	    char *tmp = charalloc(strlen(dirname) + strlen(nextdir->d_name) + 1);
 	    sprintf(tmp, "%s%s", dirname, nextdir->d_name);
 
 #ifndef DISABLE_OPERATINGDIR
@@ -2758,7 +2756,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 		continue;
 
 	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
-		sizeof(char *));
+					sizeof(char *));
 	    matches[*num_matches] = mallocstrcpy(NULL, nextdir->d_name);
 	    ++(*num_matches);
 	}
@@ -2791,8 +2789,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	const char *bob = strchr(buf, '/');
 
 	if (bob == NULL || bob >= buf + *place)
-	    matches = username_tab_completion(buf, &num_matches,
-		*place);
+	    matches = username_tab_completion(buf, &num_matches, *place);
     }
 
     /* Match against files relative to the current working directory. */
@@ -2807,8 +2804,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	size_t match, common_len = 0;
 	char *mzero;
 	const char *lastslash = revstrstr(buf, "/", buf + *place);
-	size_t lastslash_len = (lastslash == NULL) ? 0 :
-		lastslash - buf + 1;
+	size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
 	char *match1_mb = charalloc(mb_cur_max() + 1);
 	char *match2_mb = charalloc(mb_cur_max() + 1);
 	int match1_mb_len, match2_mb_len;
@@ -2858,8 +2854,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	/* If the matches have something in common, show that part. */
 	if (common_len != *place) {
 	    buf = charealloc(buf, common_len + buf_len - *place + 1);
-	    charmove(buf + common_len, buf + *place, buf_len -
-		*place + 1);
+	    charmove(buf + common_len, buf + *place, buf_len - *place + 1);
 	    strncpy(buf, mzero, common_len);
 	    *place = common_len;
 	}
@@ -2915,8 +2910,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 		    break;
 		}
 
-		disp = display_string(matches[match], 0, longest_name,
-			FALSE);
+		disp = display_string(matches[match], 0, longest_name, FALSE);
 		waddstr(edit, disp);
 		free(disp);
 
@@ -2958,8 +2952,7 @@ const char *tail(const char *foo)
 
 #ifndef DISABLE_HISTORIES
 /* Return the constructed dirfile path, or NULL if we can't find the home
- * directory.  The string is dynamically allocated, and should be
- * freed. */
+ * directory.  The string is dynamically allocated, and should be freed. */
 char *construct_filename(const char *str)
 {
     char *newstr = NULL;

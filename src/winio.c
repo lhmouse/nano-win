@@ -2145,11 +2145,11 @@ void statusbar(const char *msg, ...)
     waddstr(bottomwin, " ]");
     wattroff(bottomwin, A_BOLD);
     wattroff(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
+
     wnoutrefresh(bottomwin);
+   /* Leave the cursor in the edit window, not in the statusbar. */
     reset_cursor();
     wnoutrefresh(edit);
-	/* Leave the cursor at its position in the edit window, not in
-	 * the statusbar. */
 
     disable_cursorpos = TRUE;
 
@@ -2955,7 +2955,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
     /* If the current line is offscreen, scroll until it's onscreen. */
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
 		openfile->current->lineno < openfile->edittop->lineno)
-	edit_update((ISSET(SMOOTH_SCROLL) && !focusing) ? NONE : CENTER);
+	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTER : NONE);
 
 #ifndef NANO_TINY
     /* If the mark is on, update all lines between old_current and current. */
@@ -2997,7 +2997,7 @@ void edit_refresh(void)
 #endif
 
 	/* Make sure the current line is on the screen. */
-	edit_update((ISSET(SMOOTH_SCROLL) && !focusing) ? NONE : CENTER);
+	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTER : NONE);
     }
 
     foo = openfile->edittop;
