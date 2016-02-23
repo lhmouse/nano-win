@@ -1,6 +1,8 @@
 2016-02-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/prompt.c (do_statusbar_output, do_statusbar_delete):
 	Rename a variable, for contrast and correctness.
+	* src/cut.c (do_copy_text): Don't move the cursor when copying a
+	backwardly marked region.  This fixes Savannah bug #46980.
 
 2016-02-22  Chris Allegretta <chrisa@asty.org>
 	* Add ability to kill the trailing spaces when justifying

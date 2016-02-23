@@ -237,6 +237,11 @@ void do_copy_text(void)
     static struct filestruct *next_contiguous_line = NULL;
     bool mark_set = openfile->mark_set;
 
+    /* Remember the current view port and cursor position. */
+    ssize_t is_edittop_lineno = openfile->edittop->lineno;
+    ssize_t is_current_lineno = openfile->current->lineno;
+    size_t is_current_x = openfile->current_x;
+
     if (mark_set || openfile->current != next_contiguous_line)
 	cutbuffer_reset();
 
@@ -244,6 +249,13 @@ void do_copy_text(void)
 
     /* If the mark was set, blow away the cutbuffer on the next copy. */
     next_contiguous_line = (mark_set ? NULL : openfile->current);
+
+    if (mark_set) {
+	/* Restore the view port and cursor position. */
+	openfile->edittop = fsfromline(is_edittop_lineno);
+	openfile->current = fsfromline(is_current_lineno);
+	openfile->current_x = is_current_x;
+    }
 }
 
 /* Cut from the current cursor position to the end of the file. */
