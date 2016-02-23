@@ -606,6 +606,7 @@ void do_undo(void)
     openfile->placewewant = xplustabs();
     openfile->totsize = u->wassize;
     set_modified();
+    focusing = TRUE;
 }
 
 /* Redo the last thing(s) we undid. */
@@ -740,6 +741,7 @@ void do_redo(void)
     openfile->placewewant = xplustabs();
     openfile->totsize = u->newsize;
     set_modified();
+    focusing = TRUE;
 }
 #endif /* !NANO_TINY */
 

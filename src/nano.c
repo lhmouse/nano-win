@@ -2657,6 +2657,7 @@ int main(int argc, char **argv)
 	    do_cursorpos(TRUE);
 
 	currmenu = MMAIN;
+	focusing = FALSE;
 
 	/* Turn the cursor on when waiting for input. */
 	curs_set(1);

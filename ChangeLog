@@ -3,6 +3,8 @@
 	Rename a variable, for contrast and correctness.
 	* src/cut.c (do_copy_text): Don't move the cursor when copying a
 	backwardly marked region.  This fixes Savannah bug #46980.
+	* src/text.c (do_undo, do_redo): Center the cursor when the
+	thing being undone or redone is currently off the screen.
 
 2016-02-22  Chris Allegretta <chrisa@asty.org>
 	* Add ability to kill the trailing spaces when justifying
