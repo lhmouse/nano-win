@@ -1,3 +1,7 @@
+2016-02-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/prompt.c (do_statusbar_output, do_statusbar_delete):
+	Rename a variable, for contrast and correctness.
+
 2016-02-22  Chris Allegretta <chrisa@asty.org>
 	* Add ability to kill the trailing spaces when justifying
 	code.  New nanorc option kill_spaces_on_justify, we'll see

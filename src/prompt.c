@@ -248,7 +248,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 {
     char *output = charalloc(input_len + 1);
     char *char_buf = charalloc(mb_cur_max());
-    int i, char_buf_len;
+    int i, char_len;
 
     assert(answer != NULL);
 
@@ -274,23 +274,23 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	}
 
 	/* Interpret the next multibyte character. */
-	char_buf_len = parse_mbchar(output + i, char_buf, NULL);
+	char_len = parse_mbchar(output + i, char_buf, NULL);
 
-	i += char_buf_len;
+	i += char_len;
 
 	/* When filtering, skip any ASCII control character. */
-	if (filtering && is_ascii_cntrl_char(*(output + i - char_buf_len)))
+	if (filtering && is_ascii_cntrl_char(*(output + i - char_len)))
 	    continue;
 
 	assert(statusbar_x <= strlen(answer));
 
 	/* Insert the typed character into the existing answer string. */
-	answer = charealloc(answer, strlen(answer) + char_buf_len + 1);
-	charmove(answer + statusbar_x + char_buf_len, answer + statusbar_x,
+	answer = charealloc(answer, strlen(answer) + char_len + 1);
+	charmove(answer + statusbar_x + char_len, answer + statusbar_x,
 				strlen(answer) - statusbar_x + 1);
-	strncpy(answer + statusbar_x, char_buf, char_buf_len);
+	strncpy(answer + statusbar_x, char_buf, char_len);
 
-	statusbar_x += char_buf_len;
+	statusbar_x += char_len;
     }
 
     free(char_buf);
@@ -348,12 +348,12 @@ void do_statusbar_delete(void)
     statusbar_pww = statusbar_xplustabs();
 
     if (answer[statusbar_x] != '\0') {
-	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL, NULL);
+	int char_len = parse_mbchar(answer + statusbar_x, NULL, NULL);
 
 	assert(statusbar_x < strlen(answer));
 
-	charmove(answer + statusbar_x, answer + statusbar_x + char_buf_len,
-			strlen(answer) - statusbar_x - char_buf_len + 1);
+	charmove(answer + statusbar_x, answer + statusbar_x + char_len,
+			strlen(answer) - statusbar_x - char_len + 1);
 	align(&answer);
 
 	update_the_statusbar();
