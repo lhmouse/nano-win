@@ -2176,10 +2176,13 @@ void do_justify(bool full_justify)
 #endif
 
 	    /* Break the current line. */
-            if (ISSET(KILL_TRAILING_SPACES))
-		null_at(&openfile->current->data, break_pos - 1);
-	    else
-		null_at(&openfile->current->data, break_pos);
+            if (ISSET(KILL_TRAILING_SPACES)) {
+                while (break_pos > 0 &&
+                       is_blank_mbchar(&openfile->current->data[break_pos-1])) {
+		    break_pos--;
+		}
+	    }
+	    null_at(&openfile->current->data, break_pos);
 
 	    /* Go to the next line. */
 	    par_len--;

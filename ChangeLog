@@ -10,7 +10,8 @@
 2016-02-22  Chris Allegretta  <chrisa@asty.org>
 	* Add the ability to kill the trailing spaces when justifying text,
 	by adding a new nanorc option 'kill_spaces_on_justify' -- we'll see
-	whether this warrants a command-line flag or not.
+	whether this warrants a command-line flag or not.  Now with slightly
+	better logic for multi-spaced lines.
 
 2016-02-22  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.c (free_openfilestruct): Elide this function.
