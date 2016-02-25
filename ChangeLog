@@ -1,3 +1,5 @@
+GNU nano 2.5.3 - 2016.02.25
+
 2016-02-25  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Plug a memory leak by not copying
 	a string twice.  This fixes Savannah bug #47206.

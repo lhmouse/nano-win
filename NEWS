@@ -1,3 +1,13 @@
+2016.02.25 - GNU nano 2.5.3 "Alphys" is released.  This release
+		contains fixes for bugs like: stray cursor positioning
+		errors, many many memory leaks including file reading, 
+		using the file browser, searching for multi-byte characters,
+		history completion, and many other places.
+			New features include the ability to trim whitespace
+		from the ends of lines when justifying text, see nanorc(5)
+		option justifytrim for deets. As always thank you for your
+		continued support of nano, and keep sparing.
+
 2016.02.12 - GNU nano 2.5.2 is carrying too many dogs.  This release includes
 		several fixes for various memory leaks, position history
 		size growth, and a long standing issue with using
