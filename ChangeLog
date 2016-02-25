@@ -1,3 +1,7 @@
+2016-02-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (do_browser): Plug a memory leak by not copying
+	a string twice.  This fixes Savannah bug #47206.
+
 2016-02-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/prompt.c (do_statusbar_output, do_statusbar_delete):
 	Rename a variable, for contrast and correctness.

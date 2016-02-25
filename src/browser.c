@@ -322,7 +322,7 @@ char *do_browser(char *path, DIR *dir)
 		/* We've successfully opened the parent directory,
 		 * save the current directory in prev_dir, so that
 		 * we can easily return to it by hitting Enter. */
-		prev_dir = mallocstrcpy(NULL, striponedir(filelist[selected]));
+		prev_dir = striponedir(filelist[selected]);
 
 	    dir = opendir(filelist[selected]);
 	    if (dir == NULL) {
@@ -330,6 +330,8 @@ char *do_browser(char *path, DIR *dir)
 		 * Complain. */
 		statusbar(_("Error reading %s: %s"),
 				filelist[selected], strerror(errno));
+		free(prev_dir);
+		prev_dir = NULL;
 		beep();
 		continue;
 	    }
