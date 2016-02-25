@@ -525,20 +525,6 @@ openfilestruct *make_new_opennode(void)
     return (openfilestruct *)nmalloc(sizeof(openfilestruct));
 }
 
-/* Splice a node into an existing openfilestruct. */
-void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
-	openfilestruct *end)
-{
-    assert(newnode != NULL && begin != NULL);
-
-    newnode->next = end;
-    newnode->prev = begin;
-    begin->next = newnode;
-
-    if (end != NULL)
-	end->prev = newnode;
-}
-
 /* Unlink a node from the rest of the openfilestruct, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)
 {

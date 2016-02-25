@@ -71,17 +71,25 @@ bool has_valid_path(const char *filename)
  * called from open_buffer(). */
 void make_new_buffer(void)
 {
-    /* If there are no entries in openfile, make the first one and
-     * move to it. */
     if (openfile == NULL) {
 	openfile = make_new_opennode();
-	splice_opennode(openfile, openfile, openfile);
-    /* Otherwise, make a new entry for openfile, splice it in after
-     * the current entry, and move to it. */
+
+	/* Make the first open file the only element in a circular list. */
+	openfile->prev = openfile;
+	openfile->next = openfile;
     } else {
-	splice_opennode(openfile, make_new_opennode(), openfile->next);
-	openfile = openfile->next;
-	/* More than one file open, show Close in help lines. */
+	openfilestruct *newnode = make_new_opennode();
+
+	/* Add the new open file after the current one in the list. */
+	newnode->prev = openfile;
+	newnode->next = openfile->next;
+	openfile->next->prev = newnode;
+	openfile->next = newnode;
+
+	/* Make the new file the current one. */
+	openfile = newnode;
+
+	/* There is more than one file open: show Close in help lines. */
 	exitfunc->desc = close_tag;
     }
 
