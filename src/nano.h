@@ -518,7 +518,7 @@ enum
     LOCKING,
     NOREAD_MODE,
     MAKE_IT_UNIX,
-    KILL_TRAILING_SPACES
+    JUSTIFY_TRIM
 };
 
 /* Flags for the menus in which a given function should be present. */

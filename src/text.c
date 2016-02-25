@@ -1279,7 +1279,7 @@ bool do_wrap(filestruct *line)
 
 	/* If after_break doesn't end in a blank, make sure it ends in a
 	 * space. */
-	if (!is_blank_mbchar(end) && !ISSET(KILL_TRAILING_SPACES)) {
+	if (!is_blank_mbchar(end) && !ISSET(JUSTIFY_TRIM)) {
 #ifndef NANO_TINY
 	    add_undo(ADD);
 #endif
@@ -2176,7 +2176,7 @@ void do_justify(bool full_justify)
 #endif
 
 	    /* Break the current line. */
-            if (ISSET(KILL_TRAILING_SPACES)) {
+            if (ISSET(JUSTIFY_TRIM)) {
                 while (break_pos > 0 &&
                        is_blank_mbchar(&openfile->current->data[break_pos-1])) {
 		    break_pos--;

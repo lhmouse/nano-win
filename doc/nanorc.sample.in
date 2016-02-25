@@ -60,6 +60,9 @@
 ## Remember the used search/replace strings for the next session.
 # set historylog
 
+## Have the justify command kill whitespace at the end of lines
+# set justifytrim
+
 ## Enable vim-style lock-files.  This is just to let a vim user know you
 ## are editing a file [s]he is trying to edit and vice versa. There are
 ## no plans to implement vim-style undo state in these files.
