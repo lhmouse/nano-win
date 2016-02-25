@@ -318,23 +318,21 @@ char *do_browser(char *path, DIR *dir)
 		 * get out. */
 		retval = mallocstrcpy(NULL, filelist[selected]);
 		break;
-	    } else if (strcmp(tail(filelist[selected]), "..") == 0)
-		/* We've successfully opened the parent directory,
-		 * save the current directory in prev_dir, so that
-		 * we can easily return to it by hitting Enter. */
-		prev_dir = striponedir(filelist[selected]);
+	    }
 
 	    dir = opendir(filelist[selected]);
+
 	    if (dir == NULL) {
-		/* We can't open this directory for some reason.
-		 * Complain. */
 		statusbar(_("Error reading %s: %s"),
 				filelist[selected], strerror(errno));
-		free(prev_dir);
-		prev_dir = NULL;
 		beep();
 		continue;
 	    }
+
+	    /* If we moved up one level, remember where we came from, so
+	     * this directory can be highlighted and easily reentered. */
+	    if (strcmp(tail(filelist[selected]), "..") == 0)
+		prev_dir = striponedir(filelist[selected]);
 
 	    path = mallocstrcpy(path, filelist[selected]);
 
