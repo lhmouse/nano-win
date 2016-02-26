@@ -229,8 +229,8 @@ typedef struct colortype {
 } colortype;
 
 typedef struct regexlisttype {
-    char *ext_regex;
-	/* The regexstrings for the things that match this syntax. */
+    char *full_regex;
+	/* A regex string to match things that imply a certain syntax. */
     regex_t *ext;
 	/* The compiled regexes. */
     struct regexlisttype *next;

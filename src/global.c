@@ -1626,7 +1626,7 @@ int strtomenu(const char *input)
 #ifndef DISABLE_COLOR
 void free_list_item(regexlisttype *dropit)
 {
-    free(dropit->ext_regex);
+    free(dropit->full_regex);
     if (dropit->ext != NULL)
 	regfree(dropit->ext);
     free(dropit->ext);

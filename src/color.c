@@ -151,7 +151,7 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 
 	if (not_compiled) {
 	    item->ext = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(item->ext, fixbounds(item->ext_regex), REG_EXTENDED);
+	    regcomp(item->ext, fixbounds(item->full_regex), REG_EXTENDED);
 	}
 
 	if (regexec(item->ext, shibboleth, 0, NULL, 0) == 0)
