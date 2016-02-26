@@ -177,7 +177,7 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 /* Update the color information based on the current filename. */
 void color_update(void)
 {
-    syntaxtype *tmpsyntax;
+    syntaxtype *sint;
     colortype *tmpcolor;
 
     assert(openfile != NULL);
@@ -196,11 +196,10 @@ void color_update(void)
 	if (strcmp(syntaxstr, "none") == 0)
 	    return;
 
-	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-		tmpsyntax = tmpsyntax->next) {
-	    if (strcmp(tmpsyntax->desc, syntaxstr) == 0) {
-		openfile->syntax = tmpsyntax;
-		openfile->colorstrings = tmpsyntax->color;
+	for (sint = syntaxes; sint != NULL; sint = sint->next) {
+	    if (strcmp(sint->desc, syntaxstr) == 0) {
+		openfile->syntax = sint;
+		openfile->colorstrings = sint->color;
 	    }
 
 	    if (openfile->colorstrings != NULL)
@@ -230,12 +229,10 @@ void color_update(void)
 	if (fullname == NULL)
 	    fullname = mallocstrcpy(fullname, openfile->filename);
 
-	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-			tmpsyntax = tmpsyntax->next) {
-
-	    if (found_in_list(tmpsyntax->extensions, fullname)) {
-		openfile->syntax = tmpsyntax;
-		openfile->colorstrings = tmpsyntax->color;
+	for (sint = syntaxes; sint != NULL; sint = sint->next) {
+	    if (found_in_list(sint->extensions, fullname)) {
+		openfile->syntax = sint;
+		openfile->colorstrings = sint->color;
 	    }
 	}
 
@@ -247,12 +244,10 @@ void color_update(void)
 #ifdef DEBUG
 	    fprintf(stderr, "No result from file extension, trying headerline...\n");
 #endif
-	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-			tmpsyntax = tmpsyntax->next) {
-
-		if (found_in_list(tmpsyntax->headers, openfile->fileage->data)) {
-		    openfile->syntax = tmpsyntax;
-		    openfile->colorstrings = tmpsyntax->color;
+	    for (sint = syntaxes; sint != NULL; sint = sint->next) {
+		if (found_in_list(sint->headers, openfile->fileage->data)) {
+		    openfile->syntax = sint;
+		    openfile->colorstrings = sint->color;
 		}
 	    }
 	}
@@ -289,11 +284,10 @@ void color_update(void)
 
 	    /* Now try and find a syntax that matches the magicstring. */
 	    if (magicstring != NULL) {
-		for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-				tmpsyntax = tmpsyntax->next) {
-		    if (found_in_list(tmpsyntax->magics, magicstring)) {
-			openfile->syntax = tmpsyntax;
-			openfile->colorstrings = tmpsyntax->color;
+		for (sint = syntaxes; sint != NULL; sint = sint->next) {
+		    if (found_in_list(sint->magics, magicstring)) {
+			openfile->syntax = sint;
+			openfile->colorstrings = sint->color;
 			break;
 		    }
 		}
@@ -307,11 +301,10 @@ void color_update(void)
 
     /* If we didn't find any syntax yet, see if there is a default one. */
     if (openfile->colorstrings == NULL) {
-	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-			tmpsyntax = tmpsyntax->next) {
-	    if (strcmp(tmpsyntax->desc, "default") == 0) {
-		openfile->syntax = tmpsyntax;
-		openfile->colorstrings = tmpsyntax->color;
+	for (sint = syntaxes; sint != NULL; sint = sint->next) {
+	    if (strcmp(sint->desc, "default") == 0) {
+		openfile->syntax = sint;
+		openfile->colorstrings = sint->color;
 		break;
 	    }
 	}
