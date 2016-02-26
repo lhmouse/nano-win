@@ -147,20 +147,20 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
     bool not_compiled;
 
     for (item = head; item != NULL; item = item->next) {
-        not_compiled = (item->ext == NULL);
+        not_compiled = (item->rgx == NULL);
 
 	if (not_compiled) {
-	    item->ext = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(item->ext, fixbounds(item->full_regex), REG_EXTENDED);
+	    item->rgx = (regex_t *)nmalloc(sizeof(regex_t));
+	    regcomp(item->rgx, fixbounds(item->full_regex), REG_EXTENDED);
 	}
 
-	if (regexec(item->ext, shibboleth, 0, NULL, 0) == 0)
+	if (regexec(item->rgx, shibboleth, 0, NULL, 0) == 0)
 	    return TRUE;
 
 	if (not_compiled) {
-	    regfree(item->ext);
-	    free(item->ext);
-	    item->ext = NULL;
+	    regfree(item->rgx);
+	    free(item->rgx);
+	    item->rgx = NULL;
 	}
     }
 

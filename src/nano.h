@@ -231,10 +231,10 @@ typedef struct colortype {
 typedef struct regexlisttype {
     char *full_regex;
 	/* A regex string to match things that imply a certain syntax. */
-    regex_t *ext;
-	/* The compiled regexes. */
+    regex_t *rgx;
+	/* The compiled regex. */
     struct regexlisttype *next;
-	/* Next set of regexes. */
+	/* The next regex. */
 } regexlisttype;
 
 typedef struct syntaxtype {

@@ -375,7 +375,7 @@ void parse_syntax(char *ptr)
 	/* Save the extension regex if it's valid. */
 	if (nregcomp(fileregptr, REG_NOSUB)) {
 	    newext->full_regex = mallocstrcpy(NULL, fileregptr);
-	    newext->ext = NULL;
+	    newext->rgx = NULL;
 
 	    if (endext == NULL)
 		endsyntax->extensions = newext;
@@ -896,7 +896,7 @@ void parse_header_exp(char *ptr)
 	/* Save the regex string if it's valid. */
 	if (nregcomp(regexstring, 0)) {
 	    newheader->full_regex = mallocstrcpy(NULL, regexstring);
-	    newheader->ext = NULL;
+	    newheader->rgx = NULL;
 
 	    if (endheader == NULL)
 		endsyntax->headers = newheader;
@@ -961,7 +961,7 @@ void parse_magic_exp(char *ptr)
 	/* Save the regex string if it's valid. */
 	if (nregcomp(regexstring, REG_NOSUB)) {
 	    newmagic->full_regex = mallocstrcpy(NULL, regexstring);
-	    newmagic->ext = NULL;
+	    newmagic->rgx = NULL;
 
 	    if (endmagic == NULL)
 		endsyntax->magics = newmagic;

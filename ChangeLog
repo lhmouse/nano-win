@@ -9,6 +9,8 @@
 	* src/color.c (color_update): Rename a variable for conciseness.
 	* src/color.c (nfreeregex): Elide this function, now used just once.
 	* src/nano.h: Rename a struct element for aptness and contrast.
+	* src/nano.h: Rename another element, because it refers not just
+	to file extensions, but also to header lines and magic strings.
 
 GNU nano 2.5.3 - 2016.02.25
 
