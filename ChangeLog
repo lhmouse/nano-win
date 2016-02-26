@@ -1,3 +1,8 @@
+2016-02-26  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc,
+	doc/nanorc.sample.in: Correct the description of 'justifytrim', add
+	it to the Info document, sort it, and tweak a wording.
+
 GNU nano 2.5.3 - 2016.02.25
 
 2016-02-25  Benno Schulenberg  <bensberg@justemail.net>

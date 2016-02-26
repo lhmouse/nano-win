@@ -688,6 +688,9 @@ See @code{set titlecolor} for more details.
 Enable the use of @file{~/.nano/search_history} for saving and reading
 search/replace strings.
 
+@item set justifytrim
+When justifying text, trailing whitespace will automatically be removed.
+
 @item set keycolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the shortcut key combos
 in the two help lines at the bottom of the screen.
