@@ -149,12 +149,36 @@ void nfreeregex(regex_t **r)
     *r = NULL;
 }
 
+/* Try to match the given shibboleth string with one of the regexes in
+ * the list starting at head.  Return TRUE upon success. */
+bool found_in_list(regexlisttype *head, const char *shibboleth)
+{
+    regexlisttype *item;
+    bool not_compiled;
+
+    for (item = head; item != NULL; item = item->next) {
+        not_compiled = (item->ext == NULL);
+
+	if (not_compiled) {
+	    item->ext = (regex_t *)nmalloc(sizeof(regex_t));
+	    regcomp(item->ext, fixbounds(item->ext_regex), REG_EXTENDED);
+	}
+
+	if (regexec(item->ext, shibboleth, 0, NULL, 0) == 0)
+	    return TRUE;
+
+	if (not_compiled)
+	    nfreeregex(&item->ext);
+    }
+
+    return FALSE;
+}
+
 /* Update the color information based on the current filename. */
 void color_update(void)
 {
     syntaxtype *tmpsyntax;
     colortype *tmpcolor;
-    regexlisttype *e;
 
     assert(openfile != NULL);
 
@@ -209,22 +233,9 @@ void color_update(void)
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 			tmpsyntax = tmpsyntax->next) {
 
-	    for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
-		bool not_compiled = (e->ext == NULL);
-
-		if (not_compiled) {
-		    e->ext = (regex_t *)nmalloc(sizeof(regex_t));
-		    regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
-		}
-
-		if (regexec(e->ext, fullname, 0, NULL, 0) == 0) {
-		    openfile->syntax = tmpsyntax;
-		    openfile->colorstrings = tmpsyntax->color;
-		    break;
-		}
-
-		if (not_compiled)
-		    nfreeregex(&e->ext);
+	    if (found_in_list(tmpsyntax->extensions, fullname)) {
+		openfile->syntax = tmpsyntax;
+		openfile->colorstrings = tmpsyntax->color;
 	    }
 	}
 
@@ -239,22 +250,9 @@ void color_update(void)
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 			tmpsyntax = tmpsyntax->next) {
 
-		for (e = tmpsyntax->headers; e != NULL; e = e->next) {
-		    bool not_compiled = (e->ext == NULL);
-
-		    if (not_compiled) {
-			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
-		    }
-
-		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0) {
-			openfile->syntax = tmpsyntax;
-			openfile->colorstrings = tmpsyntax->color;
-			break;
-		    }
-
-		    if (not_compiled)
-			nfreeregex(&e->ext);
+		if (found_in_list(tmpsyntax->headers, openfile->fileage->data)) {
+		    openfile->syntax = tmpsyntax;
+		    openfile->colorstrings = tmpsyntax->color;
 		}
 	    }
 	}
@@ -290,30 +288,17 @@ void color_update(void)
 	    }
 
 	    /* Now try and find a syntax that matches the magicstring. */
-	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-			tmpsyntax = tmpsyntax->next) {
-
-		for (e = tmpsyntax->magics; e != NULL; e = e->next) {
-		    bool not_compiled = (e->ext == NULL);
-
-		    if (not_compiled) {
-			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
-		    }
-
-		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
+	    if (magicstring != NULL) {
+		for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+				tmpsyntax = tmpsyntax->next) {
+		    if (found_in_list(tmpsyntax->magics, magicstring)) {
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
 			break;
 		    }
-
-		    if (not_compiled)
-			nfreeregex(&e->ext);
 		}
-
-		if (openfile->syntax != NULL)
-		    break;
 	    }
+
 	    if (stat(openfile->filename, &fileinfo) == 0)
 		magic_close(cookie);
 	}
