@@ -207,28 +207,22 @@ void color_update(void)
 	    fullname = mallocstrcpy(fullname, openfile->filename);
 
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-		tmpsyntax = tmpsyntax->next) {
+			tmpsyntax = tmpsyntax->next) {
 
 	    for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
 		bool not_compiled = (e->ext == NULL);
 
-		/* e->ext_regex has already been checked for validity
-		 * elsewhere.  Compile its specified regex if we haven't
-		 * already. */
 		if (not_compiled) {
 		    e->ext = (regex_t *)nmalloc(sizeof(regex_t));
 		    regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		}
 
-		/* Set colorstrings if we match the extension regex. */
 		if (regexec(e->ext, fullname, 0, NULL, 0) == 0) {
 		    openfile->syntax = tmpsyntax;
 		    openfile->colorstrings = tmpsyntax->color;
 		    break;
 		}
 
-		/* Decompile e->ext_regex's specified regex if we aren't
-		 * going to use it. */
 		if (not_compiled)
 		    nfreeregex(&e->ext);
 	    }
@@ -243,7 +237,7 @@ void color_update(void)
 	    fprintf(stderr, "No result from file extension, trying headerline...\n");
 #endif
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-		tmpsyntax = tmpsyntax->next) {
+			tmpsyntax = tmpsyntax->next) {
 
 		for (e = tmpsyntax->headers; e != NULL; e = e->next) {
 		    bool not_compiled = (e->ext == NULL);
@@ -252,11 +246,7 @@ void color_update(void)
 			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
 			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		    }
-#ifdef DEBUG
-		    fprintf(stderr, "Comparing header regex \"%s\" to fileage \"%s\"...\n",
-				    e->ext_regex, openfile->fileage->data);
-#endif
-		    /* Set colorstrings if we match the header-line regex. */
+
 		    if (regexec(e->ext, openfile->fileage->data, 0, NULL, 0) == 0) {
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
@@ -301,7 +291,7 @@ void color_update(void)
 
 	    /* Now try and find a syntax that matches the magicstring. */
 	    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-		tmpsyntax = tmpsyntax->next) {
+			tmpsyntax = tmpsyntax->next) {
 
 		for (e = tmpsyntax->magics; e != NULL; e = e->next) {
 		    bool not_compiled = (e->ext == NULL);
@@ -310,10 +300,7 @@ void color_update(void)
 			e->ext = (regex_t *)nmalloc(sizeof(regex_t));
 			regcomp(e->ext, fixbounds(e->ext_regex), REG_EXTENDED);
 		    }
-#ifdef DEBUG
-		    fprintf(stderr, "Matching regex \"%s\" against \"%s\"\n", e->ext_regex, magicstring);
-#endif
-		    /* Set colorstrings if we match the magic-string regex. */
+
 		    if (magicstring && regexec(e->ext, magicstring, 0, NULL, 0) == 0) {
 			openfile->syntax = tmpsyntax;
 			openfile->colorstrings = tmpsyntax->color;
@@ -323,6 +310,7 @@ void color_update(void)
 		    if (not_compiled)
 			nfreeregex(&e->ext);
 		}
+
 		if (openfile->syntax != NULL)
 		    break;
 	    }
