@@ -139,16 +139,6 @@ void color_init(void)
     }
 }
 
-/* Clean up a regex we previously compiled. */
-void nfreeregex(regex_t **r)
-{
-    assert(r != NULL);
-
-    regfree(*r);
-    free(*r);
-    *r = NULL;
-}
-
 /* Try to match the given shibboleth string with one of the regexes in
  * the list starting at head.  Return TRUE upon success. */
 bool found_in_list(regexlisttype *head, const char *shibboleth)
@@ -167,8 +157,11 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 	if (regexec(item->ext, shibboleth, 0, NULL, 0) == 0)
 	    return TRUE;
 
-	if (not_compiled)
-	    nfreeregex(&item->ext);
+	if (not_compiled) {
+	    regfree(item->ext);
+	    free(item->ext);
+	    item->ext = NULL;
+	}
     }
 
     return FALSE;
