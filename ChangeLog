@@ -24,8 +24,8 @@ GNU nano 2.5.3 - 2016.02.25
 
 2016-02-22  Chris Allegretta  <chrisa@asty.org>
 	* Add the ability to kill the trailing spaces when justifying text,
-	by adding a new nanorc option 'justifytrim' -- we'll see
-	whether this warrants a command-line flag or not.  Now with slightly
+	by adding a new nanorc option 'justifytrim' -- we'll see whether
+	this warrants a command-line flag or not.  Now with slightly
 	better logic for multi-spaced lines.
 
 2016-02-22  Benno Schulenberg  <bensberg@justemail.net>
