@@ -2,6 +2,8 @@
 	* doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc,
 	doc/nanorc.sample.in: Correct the description of 'justifytrim', add
 	it to the Info document, sort it, and tweak a wording.
+	* src/color.c (color_update): Look for a default syntax only when
+	all else failed -- forego the small, complicating optimization.
 
 GNU nano 2.5.3 - 2016.02.25
 

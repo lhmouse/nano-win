@@ -153,8 +153,7 @@ void nfreeregex(regex_t **r)
 void color_update(void)
 {
     syntaxtype *tmpsyntax;
-    syntaxtype *defsyntax = NULL;
-    colortype *tmpcolor, *defcolor = NULL;
+    colortype *tmpcolor;
     regexlisttype *e;
 
     assert(openfile != NULL);
@@ -209,15 +208,6 @@ void color_update(void)
 
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-
-	    /* If this is the default syntax, it has no associated
-	     * extensions, which we've checked for elsewhere.  Skip over
-	     * it here, but keep track of its color regexes. */
-	    if (strcmp(tmpsyntax->desc, "default") == 0) {
-		defsyntax = tmpsyntax;
-		defcolor = tmpsyntax->color;
-		continue;
-	    }
 
 	    for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
 		bool not_compiled = (e->ext == NULL);
@@ -342,11 +332,16 @@ void color_update(void)
 #endif /* HAVE_LIBMAGIC */
     }
 
-    /* If we didn't find any syntax yet, and we do have a default one,
-     * use it. */
-    if (openfile->colorstrings == NULL && defcolor != NULL) {
-	openfile->syntax = defsyntax;
-	openfile->colorstrings = defcolor;
+    /* If we didn't find any syntax yet, see if there is a default one. */
+    if (openfile->colorstrings == NULL) {
+	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+			tmpsyntax = tmpsyntax->next) {
+	    if (strcmp(tmpsyntax->desc, "default") == 0) {
+		openfile->syntax = tmpsyntax;
+		openfile->colorstrings = tmpsyntax->color;
+		break;
+	    }
+	}
     }
 
     for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
