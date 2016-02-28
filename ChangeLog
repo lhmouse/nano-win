@@ -7,6 +7,7 @@
 	* src/rcfile.c (grab_and_store): Rename a variable and densify.
 	* src/rcfile.c (grab_and_store): Do not drop regexes that were
 	gathered earlier.  This fixes Savannah bug #47285.
+	* src/rcfile.c (grab_and_store): Rearrange things in my style.
 
 2016-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc,

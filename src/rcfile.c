@@ -879,7 +879,7 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
     while (lastthing != NULL && lastthing->next != NULL)
 	lastthing = lastthing->next;
 
-    /* Now load the regexes into their part of the struct. */
+    /* Now gather any valid regexes and add them to the linked list. */
     while (*ptr != '\0') {
 	const char *regexstring;
 	regexlisttype *newthing;
@@ -895,22 +895,22 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 	if (ptr == NULL)
 	    return;
 
+	/* If the regex string is malformed, skip it. */
+	if (nregcomp(regexstring, REG_NOSUB) != 0)
+	    continue;
+
+	/* Copy the regex into a struct, and hook this in at the end. */
 	newthing = (regexlisttype *)nmalloc(sizeof(regexlisttype));
+	newthing->full_regex = mallocstrcpy(NULL, regexstring);
+	newthing->rgx = NULL;
+	newthing->next = NULL;
 
-	/* Save the regex string if it's valid. */
-	if (nregcomp(regexstring, REG_NOSUB)) {
-	    newthing->full_regex = mallocstrcpy(NULL, regexstring);
-	    newthing->rgx = NULL;
+	if (lastthing == NULL)
+	    *storage = newthing;
+	else
+	    lastthing->next = newthing;
 
-	    if (lastthing == NULL)
-		*storage = newthing;
-	    else
-		lastthing->next = newthing;
-
-	    lastthing = newthing;
-	    lastthing->next = NULL;
-	} else
-	    free(newthing);
+	lastthing = newthing;
     }
 }
 
