@@ -4,6 +4,7 @@
 	* src/rcfile.c (parse_header_exp, parse_magic_exp, grab_and_store):
 	Use the now correct parsing of header regexes also for parsing magic
 	regexes.  This fixes Savannah bug #47292 and saves 50 lines of code.
+	* src/rcfile.c (grab_and_store): Rename a variable and densify.
 
 2016-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc,

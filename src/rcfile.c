@@ -876,7 +876,7 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
     /* Now load the regexes into their part of the struct. */
     while (*ptr != '\0') {
 	const char *regexstring;
-	regexlisttype *newheader;
+	regexlisttype *newthing;
 
 	if (*ptr != '"') {
 	    rcfile_error(
@@ -884,28 +884,27 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 	    return;
 	}
 
-	ptr++;
-
-	regexstring = ptr;
+	regexstring = ++ptr;
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
-	    break;
+	    return;
 
-	newheader = (regexlisttype *)nmalloc(sizeof(regexlisttype));
+	newthing = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 
 	/* Save the regex string if it's valid. */
 	if (nregcomp(regexstring, REG_NOSUB)) {
-	    newheader->full_regex = mallocstrcpy(NULL, regexstring);
-	    newheader->rgx = NULL;
+	    newthing->full_regex = mallocstrcpy(NULL, regexstring);
+	    newthing->rgx = NULL;
 
 	    if (lastthing == NULL)
-		*storage = newheader;
+		*storage = newthing;
 	    else
-		lastthing->next = newheader;
-	    lastthing = newheader;
+		lastthing->next = newthing;
+
+	    lastthing = newthing;
 	    lastthing->next = NULL;
 	} else
-	    free(newheader);
+	    free(newthing);
     }
 }
 
