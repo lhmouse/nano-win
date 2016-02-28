@@ -860,7 +860,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
  * by ptr, and store them quoteless in the passed storage place. */
 void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 {
-    regexlisttype *lastthing = NULL;
+    regexlisttype *lastthing;
 
     if (syntaxes == NULL) {
 	rcfile_error(
@@ -872,6 +872,12 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 	rcfile_error(N_("Missing regex string after '%s' command"), kind);
 	return;
     }
+
+    lastthing = *storage;
+
+    /* If there was an earlier command, go to the last of those regexes. */
+    while (lastthing != NULL && lastthing->next != NULL)
+	lastthing = lastthing->next;
 
     /* Now load the regexes into their part of the struct. */
     while (*ptr != '\0') {
