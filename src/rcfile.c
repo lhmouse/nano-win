@@ -880,8 +880,7 @@ void parse_header_exp(char *ptr)
 	if (*ptr != '"') {
 	    rcfile_error(
 		N_("Regex strings must begin and end with a \" character"));
-	    ptr = parse_next_regex(ptr);
-	    continue;
+	    return;
 	}
 
 	ptr++;

@@ -1,3 +1,7 @@
+2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/rcfile.c (parse_header_exp): Don't continue when something is
+	wrong -- skip the rest of the line.  This fixes Savannah bug #47289.
+
 2016-02-26  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/man/nanorc.5, doc/texinfo/nano.texi, doc/syntax/nanorc.nanorc,
 	doc/nanorc.sample.in: Correct the description of 'justifytrim', add
