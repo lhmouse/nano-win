@@ -120,6 +120,9 @@ static size_t lineno = 0;
 static char *nanorc = NULL;
 	/* The path to the rcfile we're parsing. */
 #ifndef DISABLE_COLOR
+static bool opensyntax = FALSE;
+	/* Whether we're allowed to add to the last syntax.  When a file ends,
+	 * or when a new syntax command is seen, this bool becomes FALSE. */
 static syntaxtype *endsyntax = NULL;
 	/* The end of the list of syntaxes. */
 static colortype *endcolor = NULL;
@@ -268,6 +271,8 @@ void parse_syntax(char *ptr)
     regexlisttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
+    opensyntax = FALSE;
+
     assert(ptr != NULL);
 
     if (*ptr == '\0') {
@@ -334,6 +339,8 @@ void parse_syntax(char *ptr)
     endsyntax->nmultis = 0;
     endsyntax->linter = NULL;
     endsyntax->formatter = NULL;
+
+    opensyntax = TRUE;
 
 #ifdef DEBUG
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
@@ -691,7 +698,7 @@ void parse_colors(char *ptr, bool icase)
 
     assert(ptr != NULL);
 
-    if (syntaxes == NULL) {
+    if (!opensyntax) {
 	rcfile_error(
 		N_("Cannot add a color command without a syntax command"));
 	return;
@@ -862,7 +869,7 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 {
     regexlisttype *lastthing;
 
-    if (syntaxes == NULL) {
+    if (!opensyntax) {
 	rcfile_error(
 		N_("A '%s' command requires a preceding 'syntax' command"), kind);
 	return;
@@ -933,7 +940,7 @@ void parse_linter(char *ptr)
 {
     assert(ptr != NULL);
 
-    if (syntaxes == NULL) {
+    if (!opensyntax) {
 	rcfile_error(
 		N_("Cannot add a linter without a syntax command"));
 	return;
@@ -959,7 +966,7 @@ void parse_formatter(char *ptr)
 {
     assert(ptr != NULL);
 
-    if (syntaxes == NULL) {
+    if (!opensyntax) {
 	rcfile_error(
 		N_("Cannot add formatter without a syntax command"));
 	return;
@@ -1062,6 +1069,7 @@ void parse_rcfile(FILE *rcstream
 		rcfile_error(N_("Could not find syntax \"%s\" to extend"), syntaxname);
 		continue;
 	    } else {
+		opensyntax = TRUE;
 		end_syn_save = endsyntax;
 		endsyntax = ts;
 		keyword = ptr;
@@ -1312,6 +1320,8 @@ void parse_rcfile(FILE *rcstream
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
 		endsyntax->desc);
 #endif
+
+    opensyntax = FALSE;
 
     free(buf);
     fclose(rcstream);
