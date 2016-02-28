@@ -855,24 +855,25 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
     return TRUE;
 }
 
-/* Parse the header-line regexes that may influence the choice of syntax. */
-void parse_header_exp(char *ptr)
-{
-    regexlisttype *endheader = NULL;
 
-    assert(ptr != NULL);
+/* Read regex strings enclosed in double quotes from the line pointed at
+ * by ptr, and store them quoteless in the passed storage place. */
+void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
+{
+    regexlisttype *lastthing = NULL;
 
     if (syntaxes == NULL) {
 	rcfile_error(
-		N_("Cannot add a header regex without a syntax command"));
+		N_("A '%s' command requires a preceding 'syntax' command"), kind);
 	return;
     }
 
     if (*ptr == '\0') {
-	rcfile_error(N_("Missing regex string"));
+	rcfile_error(N_("Missing regex string after '%s' command"), kind);
 	return;
     }
 
+    /* Now load the regexes into their part of the struct. */
     while (*ptr != '\0') {
 	const char *regexstring;
 	regexlisttype *newheader;
@@ -893,84 +894,32 @@ void parse_header_exp(char *ptr)
 	newheader = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 
 	/* Save the regex string if it's valid. */
-	if (nregcomp(regexstring, 0)) {
+	if (nregcomp(regexstring, REG_NOSUB)) {
 	    newheader->full_regex = mallocstrcpy(NULL, regexstring);
 	    newheader->rgx = NULL;
 
-	    if (endheader == NULL)
-		endsyntax->headers = newheader;
+	    if (lastthing == NULL)
+		*storage = newheader;
 	    else
-		endheader->next = newheader;
-	    endheader = newheader;
-	    endheader->next = NULL;
+		lastthing->next = newheader;
+	    lastthing = newheader;
+	    lastthing->next = NULL;
 	} else
 	    free(newheader);
     }
+}
+
+/* Parse the header-line regexes that may influence the choice of syntax. */
+void parse_header_exp(char *ptr)
+{
+    grab_and_store(ptr, "header", &endsyntax->headers);
 }
 
 #ifdef HAVE_LIBMAGIC
 /* Parse the magic regexes that may influence the choice of syntax. */
 void parse_magic_exp(char *ptr)
 {
-    regexlisttype *endmagic = NULL;
-
-    assert(ptr != NULL);
-
-    if (syntaxes == NULL) {
-	rcfile_error(
-		N_("Cannot add a magic string regex without a syntax command"));
-	return;
-    }
-
-    if (*ptr == '\0') {
-	rcfile_error(N_("Missing magic string name"));
-	return;
-    }
-
-    if (*ptr != '"') {
-	rcfile_error(
-		N_("Regex strings must begin and end with a \" character"));
-	return;
-    }
-
-#ifdef DEBUG
-    fprintf(stderr, "Starting a magic type: \"%s\"\n", ptr);
-#endif
-
-    /* Now load the magic regexes into their part of the struct. */
-    while (*ptr != '\0') {
-	const char *regexstring;
-	regexlisttype *newmagic;
-
-	while (*ptr != '"' && *ptr != '\0')
-	    ptr++;
-
-	if (*ptr == '\0')
-	    return;
-
-	ptr++;
-
-	regexstring = ptr;
-	ptr = parse_next_regex(ptr);
-	if (ptr == NULL)
-	    break;
-
-	newmagic = (regexlisttype *)nmalloc(sizeof(regexlisttype));
-
-	/* Save the regex string if it's valid. */
-	if (nregcomp(regexstring, REG_NOSUB)) {
-	    newmagic->full_regex = mallocstrcpy(NULL, regexstring);
-	    newmagic->rgx = NULL;
-
-	    if (endmagic == NULL)
-		endsyntax->magics = newmagic;
-	    else
-		endmagic->next = newmagic;
-	    endmagic = newmagic;
-	    endmagic->next = NULL;
-	} else
-	    free(newmagic);
-    }
+    grab_and_store(ptr, "magic", &endsyntax->magics);
 }
 #endif /* HAVE_LIBMAGIC */
 
