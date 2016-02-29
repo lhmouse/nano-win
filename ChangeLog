@@ -4,6 +4,7 @@
 	syntax, and thus prevent it from being extended.
 	* src/nano.h, src/rcfile.c: Arrange some things more orderly.
 	* src/rcfile.c (parse_rcfile): Close an extended syntax again.
+	* src/rcfile.c (parse_rcfile): Rename a variable.
 
 2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_header_exp): Don't continue when something is

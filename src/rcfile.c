@@ -1053,22 +1053,24 @@ void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
 	/* Handle extending first... */
 	if (strcasecmp(keyword, "extendsyntax") == 0) {
+	    syntaxtype *sint;
 	    char *syntaxname = ptr;
-	    syntaxtype *ts = NULL;
 
 	    ptr = parse_next_word(ptr);
-	    for (ts = syntaxes; ts != NULL; ts = ts->next)
-		if (!strcmp(ts->name, syntaxname))
+
+	    for (sint = syntaxes; sint != NULL; sint = sint->next)
+		if (!strcmp(sint->name, syntaxname))
 		    break;
 
-	    if (ts == NULL) {
-		rcfile_error(N_("Could not find syntax \"%s\" to extend"), syntaxname);
+	    if (sint == NULL) {
+		rcfile_error(N_("Could not find syntax \"%s\" to extend"),
+				syntaxname);
 		opensyntax = FALSE;
 		continue;
 	    } else {
-		opensyntax = TRUE;
 		end_syn_save = endsyntax;
-		endsyntax = ts;
+		endsyntax = sint;
+		opensyntax = TRUE;
 		keyword = ptr;
 		ptr = parse_next_word(ptr);
 	    }
