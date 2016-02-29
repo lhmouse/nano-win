@@ -899,7 +899,7 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 	    return;
 
 	/* If the regex string is malformed, skip it. */
-	if (nregcomp(regexstring, REG_NOSUB) != 0)
+	if (!nregcomp(regexstring, REG_NOSUB))
 	    continue;
 
 	/* Copy the regex into a struct, and hook this in at the end. */
