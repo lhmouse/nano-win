@@ -6,6 +6,9 @@
 	* src/rcfile.c (parse_rcfile): Close an extended syntax again.
 	* src/rcfile.c (parse_rcfile): Rename a variable.
 	* src/rcfile.c (grab_and_store): Fix breakage of r5695.
+	* src/color.c (color_update): Do not dereference symlinks, so that
+	the syntax will be derived from the name given on the command line,
+	not from that of the target file.  This fixes Savannah bug #47307.
 
 2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_header_exp): Don't continue when something is

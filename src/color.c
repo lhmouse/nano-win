@@ -215,7 +215,7 @@ void color_update(void)
 	    /* Concatenate the current working directory with the
 	     * specified filename, and canonicalize the result. */
 	    sprintf(joinednames, "%s/%s", currentdir, openfile->filename);
-	    fullname = realpath(joinednames, NULL);
+	    fullname = get_full_path(joinednames);
 	    free(currentdir);
 	}
 
