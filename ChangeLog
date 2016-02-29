@@ -1,4 +1,7 @@
 2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.h, src/rcfile.c, src/color.c: Rename a struct member.
+
+2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_header_exp): Don't continue when something is
 	wrong -- skip the rest of the line.  This fixes Savannah bug #47289.
 	* src/rcfile.c (parse_header_exp, parse_magic_exp, grab_and_store):

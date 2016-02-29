@@ -238,7 +238,7 @@ typedef struct regexlisttype {
 } regexlisttype;
 
 typedef struct syntaxtype {
-    char *desc;
+    char *name;
 	/* The name of this syntax. */
     regexlisttype *extensions;
 	/* The list of extensions that this syntax applies to. */

@@ -1680,7 +1680,7 @@ void thanks_for_all_the_fish(void)
     while (syntaxes != NULL) {
 	syntaxtype *bill = syntaxes;
 
-	free(syntaxes->desc);
+	free(syntaxes->name);
 	free(syntaxes->linter);
 	free(syntaxes->formatter);
 

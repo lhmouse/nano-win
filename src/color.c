@@ -190,7 +190,7 @@ void color_update(void)
 	    return;
 
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
-	    if (strcmp(sint->desc, syntaxstr) == 0) {
+	    if (strcmp(sint->name, syntaxstr) == 0) {
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
 	    }
@@ -295,7 +295,7 @@ void color_update(void)
     /* If we didn't find any syntax yet, see if there is a default one. */
     if (openfile->colorstrings == NULL) {
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
-	    if (strcmp(sint->desc, "default") == 0) {
+	    if (strcmp(sint->name, "default") == 0) {
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
 		break;

@@ -299,7 +299,7 @@ void parse_syntax(char *ptr)
     prev_syntax = NULL;
     for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	tmpsyntax = tmpsyntax->next) {
-	if (strcmp(nameptr, tmpsyntax->desc) == 0) {
+	if (strcmp(nameptr, tmpsyntax->name) == 0) {
 	    syntaxtype *old_syntax = tmpsyntax;
 
 	    if (endsyntax == tmpsyntax)
@@ -311,7 +311,7 @@ void parse_syntax(char *ptr)
 	    else
 		syntaxes = tmpsyntax;
 
-	    free(old_syntax->desc);
+	    free(old_syntax->name);
 	    free(old_syntax);
 	    break;
 	}
@@ -329,7 +329,7 @@ void parse_syntax(char *ptr)
 #endif
     }
 
-    endsyntax->desc = mallocstrcpy(NULL, nameptr);
+    endsyntax->name = mallocstrcpy(NULL, nameptr);
     endsyntax->color = NULL;
     endcolor = NULL;
     endsyntax->extensions = NULL;
@@ -348,13 +348,13 @@ void parse_syntax(char *ptr)
 
     /* The "none" syntax is the same as not having a syntax at all, so
      * we can't assign any extensions or colors to it. */
-    if (strcmp(endsyntax->desc, "none") == 0) {
+    if (strcmp(endsyntax->name, "none") == 0) {
 	rcfile_error(N_("The \"none\" syntax is reserved"));
 	return;
     }
 
     /* The default syntax should have no associated extensions. */
-    if (strcmp(endsyntax->desc, "default") == 0 && *ptr != '\0') {
+    if (strcmp(endsyntax->name, "default") == 0 && *ptr != '\0') {
 	rcfile_error(
 		N_("The \"default\" syntax must take no extensions"));
 	return;
@@ -1062,7 +1062,7 @@ void parse_rcfile(FILE *rcstream
 
 	    ptr = parse_next_word(ptr);
 	    for (ts = syntaxes; ts != NULL; ts = ts->next)
-		if (!strcmp(ts->desc, syntaxname))
+		if (!strcmp(ts->name, syntaxname))
 		    break;
 
 	    if (ts == NULL) {
@@ -1109,7 +1109,7 @@ void parse_rcfile(FILE *rcstream
 	} else if (strcasecmp(keyword, "syntax") == 0) {
 	    if (endsyntax != NULL && endcolor == NULL)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
-			endsyntax->desc);
+			endsyntax->name);
 	    parse_syntax(ptr);
 	}
 	else if (strcasecmp(keyword, "magic") == 0)
@@ -1318,7 +1318,7 @@ void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
     if (endsyntax != NULL && endcolor == NULL)
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
-		endsyntax->desc);
+		endsyntax->name);
 #endif
 
     opensyntax = FALSE;
