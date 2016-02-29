@@ -246,14 +246,14 @@ typedef struct syntaxtype {
 	/* The list of headerlines that this syntax applies to. */
     regexlisttype *magics;
 	/* The list of libmagic results that this syntax applies to. */
-    colortype *color;
-	/* The colors used in this syntax. */
     char *linter;
-	/* The command to lint this type of file. */
+	/* The command with which to lint this type of file. */
     char *formatter;
-        /* Use this formatter command (for programming lang mainly) */
+        /* The formatting command (for programming languages mainly). */
+    colortype *color;
+	/* The colors and their regexes used in this syntax. */
     int nmultis;
-	/* How many multi-line strings this syntax has. */
+	/* How many multiline regex strings this syntax has. */
     struct syntaxtype *next;
 	/* Next syntax. */
 } syntaxtype;

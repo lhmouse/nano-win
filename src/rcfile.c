@@ -333,15 +333,15 @@ void parse_syntax(char *ptr)
     }
 
     endsyntax->name = mallocstrcpy(NULL, nameptr);
-    endsyntax->color = NULL;
-    endcolor = NULL;
     endsyntax->extensions = NULL;
     endsyntax->headers = NULL;
     endsyntax->magics = NULL;
-    endsyntax->next = NULL;
-    endsyntax->nmultis = 0;
     endsyntax->linter = NULL;
     endsyntax->formatter = NULL;
+    endsyntax->color = NULL;
+    endcolor = NULL;
+    endsyntax->nmultis = 0;
+    endsyntax->next = NULL;
 
     opensyntax = TRUE;
 
