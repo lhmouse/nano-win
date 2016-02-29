@@ -1063,6 +1063,7 @@ void parse_rcfile(FILE *rcstream
 
 	    if (ts == NULL) {
 		rcfile_error(N_("Could not find syntax \"%s\" to extend"), syntaxname);
+		opensyntax = FALSE;
 		continue;
 	    } else {
 		opensyntax = TRUE;
@@ -1142,6 +1143,7 @@ void parse_rcfile(FILE *rcstream
 	if (end_syn_save != NULL) {
 	    endsyntax = end_syn_save;
 	    end_syn_save = NULL;
+	    opensyntax = FALSE;
 	}
 #endif
 

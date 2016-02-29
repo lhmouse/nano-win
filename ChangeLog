@@ -1,7 +1,9 @@
-2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
+2016-02-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h, src/rcfile.c, src/color.c: Rename a struct member.
-	* src/rcfile.c (parse_rcfile): Don't allocate struct for none syntax.
+	* src/rcfile.c (parse_rcfile): Don't allocate a struct for the "none"
+	syntax, and thus prevent it from being extended.
 	* src/nano.h, src/rcfile.c: Arrange some things more orderly.
+	* src/rcfile.c (parse_rcfile): Close an extended syntax again.
 
 2016-02-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_header_exp): Don't continue when something is
