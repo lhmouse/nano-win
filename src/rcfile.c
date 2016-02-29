@@ -286,13 +286,16 @@ void parse_syntax(char *ptr)
 	return;
     }
 
-    ptr++;
-
-    nameptr = ptr;
+    nameptr = ++ptr;
     ptr = parse_next_regex(ptr);
-
     if (ptr == NULL)
 	return;
+
+    /* Redefining the "none" syntax is not allowed. */
+    if (strcmp(nameptr, "none") == 0) {
+	rcfile_error(N_("The \"none\" syntax is reserved"));
+	return;
+    }
 
     /* Search for a duplicate syntax name.  If we find one, free it, so
      * that we always use the last syntax with a given name. */
@@ -345,13 +348,6 @@ void parse_syntax(char *ptr)
 #ifdef DEBUG
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
 #endif
-
-    /* The "none" syntax is the same as not having a syntax at all, so
-     * we can't assign any extensions or colors to it. */
-    if (strcmp(endsyntax->name, "none") == 0) {
-	rcfile_error(N_("The \"none\" syntax is reserved"));
-	return;
-    }
 
     /* The default syntax should have no associated extensions. */
     if (strcmp(endsyntax->name, "default") == 0 && *ptr != '\0') {
