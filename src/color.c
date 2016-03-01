@@ -194,9 +194,6 @@ void color_update(void)
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
 	    }
-
-	    if (openfile->colorstrings != NULL)
-		break;
 	}
 
 	if (openfile->colorstrings == NULL)
@@ -298,7 +295,6 @@ void color_update(void)
 	    if (strcmp(sint->name, "default") == 0) {
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
-		break;
 	    }
 	}
     }

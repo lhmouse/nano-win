@@ -267,7 +267,6 @@ bool nregcomp(const char *regex, int eflags)
 void parse_syntax(char *ptr)
 {
     const char *fileregptr = NULL, *nameptr = NULL;
-    syntaxtype *tmpsyntax, *prev_syntax;
     regexlisttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
@@ -295,30 +294,6 @@ void parse_syntax(char *ptr)
     if (strcmp(nameptr, "none") == 0) {
 	rcfile_error(N_("The \"none\" syntax is reserved"));
 	return;
-    }
-
-    /* Search for a duplicate syntax name.  If we find one, free it, so
-     * that we always use the last syntax with a given name. */
-    prev_syntax = NULL;
-    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-	tmpsyntax = tmpsyntax->next) {
-	if (strcmp(nameptr, tmpsyntax->name) == 0) {
-	    syntaxtype *old_syntax = tmpsyntax;
-
-	    if (endsyntax == tmpsyntax)
-		endsyntax = prev_syntax;
-
-	    tmpsyntax = tmpsyntax->next;
-	    if (prev_syntax != NULL)
-		prev_syntax->next = tmpsyntax;
-	    else
-		syntaxes = tmpsyntax;
-
-	    free(old_syntax->name);
-	    free(old_syntax);
-	    break;
-	}
-	prev_syntax = tmpsyntax;
     }
 
     if (syntaxes == NULL) {

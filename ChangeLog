@@ -1,3 +1,9 @@
+2016-03-01  Benno Schulenberg  <bensberg@justemail.net>
+	* src/rcfile.c (parse_syntax), src/color.c (color_update): Don't
+	bother discarding a duplicate syntax (it's too rare, saves little
+	memory, and freeing it properly	would cost even more code), just
+	select the last-defined one.  This addresses Savannah bug #47303.
+
 2016-02-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h, src/rcfile.c, src/color.c: Rename a struct member.
 	* src/rcfile.c (parse_rcfile): Don't allocate a struct for the "none"
