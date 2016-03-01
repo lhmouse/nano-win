@@ -3,6 +3,7 @@
 	bother discarding a duplicate syntax (it's too rare, saves little
 	memory, and freeing it properly	would cost even more code), just
 	select the last-defined one.  This addresses Savannah bug #47303.
+	* src/color.c (color_update): Allow to select an empty syntax.
 
 2016-02-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h, src/rcfile.c, src/color.c: Rename a struct member.

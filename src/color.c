@@ -196,14 +196,14 @@ void color_update(void)
 	    }
 	}
 
-	if (openfile->colorstrings == NULL)
+	if (openfile->syntax == NULL)
 	    statusbar(_("Unknown syntax name: %s"), syntaxstr);
     }
 
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
      * file extension, then try the headerline, and then try magic. */
-    if (openfile->colorstrings == NULL) {
+    if (openfile->syntax == NULL) {
 	char *currentdir = getcwd(NULL, PATH_MAX + 1);
 	char *joinednames = charalloc(PATH_MAX + 1);
 	char *fullname = NULL;
@@ -230,7 +230,7 @@ void color_update(void)
 	free(fullname);
 
 	/* Check the headerline if the extension didn't match anything. */
-	if (openfile->colorstrings == NULL) {
+	if (openfile->syntax == NULL) {
 #ifdef DEBUG
 	    fprintf(stderr, "No result from file extension, trying headerline...\n");
 #endif
@@ -244,7 +244,7 @@ void color_update(void)
 
 #ifdef HAVE_LIBMAGIC
 	/* Check magic if we don't have an answer yet. */
-	if (openfile->colorstrings == NULL) {
+	if (openfile->syntax == NULL) {
 	    struct stat fileinfo;
 	    magic_t cookie = NULL;
 	    const char *magicstring = NULL;
@@ -278,7 +278,6 @@ void color_update(void)
 		    if (found_in_list(sint->magics, magicstring)) {
 			openfile->syntax = sint;
 			openfile->colorstrings = sint->color;
-			break;
 		    }
 		}
 	    }
@@ -290,7 +289,7 @@ void color_update(void)
     }
 
     /* If we didn't find any syntax yet, see if there is a default one. */
-    if (openfile->colorstrings == NULL) {
+    if (openfile->syntax == NULL) {
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
 	    if (strcmp(sint->name, "default") == 0) {
 		openfile->syntax = sint;
