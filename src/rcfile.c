@@ -711,18 +711,16 @@ void parse_colors(char *ptr, bool icase)
 	    continue;
 	}
 
-	ptr++;
-
-	fgstr = ptr;
+	fgstr = ++ptr;
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
 	    break;
 
-	newcolor = (colortype *)nmalloc(sizeof(colortype));
-
 	/* Save the starting regex string if it's valid, and set up the
 	 * color information. */
 	if (nregcomp(fgstr, icase ? REG_ICASE : 0)) {
+	    newcolor = (colortype *)nmalloc(sizeof(colortype));
+
 	    newcolor->fg = fg;
 	    newcolor->bg = bg;
 	    newcolor->bright = bright;
@@ -747,16 +745,14 @@ void parse_colors(char *ptr, bool icase)
 #endif
 		/* Need to recompute endcolor now so we can extend
 		 * colors to syntaxes. */
-		for (endcolor = endsyntax->color; endcolor->next != NULL; endcolor = endcolor->next)
-		    ;
+		for (endcolor = endsyntax->color; endcolor->next != NULL;)
+		    endcolor = endcolor->next;
 		endcolor->next = newcolor;
 	    }
 
 	    endcolor = newcolor;
-	} else {
-	    free(newcolor);
+	} else
 	    cancelled = TRUE;
-	}
 
 	if (expectend) {
 	    if (ptr == NULL || strncasecmp(ptr, "end=", 4) != 0) {
@@ -771,9 +767,7 @@ void parse_colors(char *ptr, bool icase)
 		continue;
 	    }
 
-	    ptr++;
-
-	    fgstr = ptr;
+	    fgstr = ++ptr;
 	    ptr = parse_next_regex(ptr);
 	    if (ptr == NULL)
 		break;
@@ -783,9 +777,9 @@ void parse_colors(char *ptr, bool icase)
 	    if (cancelled)
 		continue;
 
-	    /* Save the ending regex string if it's valid. */
-	    newcolor->end_regex = (nregcomp(fgstr, icase ? REG_ICASE :
-		0)) ? mallocstrcpy(NULL, fgstr) : NULL;
+	    /* If it's valid, save the ending regex string. */
+	    if (nregcomp(fgstr, icase ? REG_ICASE : 0))
+		newcolor->end_regex = mallocstrcpy(NULL, fgstr);
 
 	    /* Lame way to skip another static counter. */
 	    newcolor->id = endsyntax->nmultis;

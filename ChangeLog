@@ -5,6 +5,8 @@
 	* src/nano.h: Delete a now-unused struct member.
 	* src/global.c (free_list_item): Elide this now too tiny function.
 	* scr/global.c (thanks_for_all_the_fish): Rename three variables.
+	* src/rcfile.c (parse_colors): Tweak a few things.
+	* src/color.c (color_update): Rename a variable.
 
 2016-03-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_syntax), src/color.c (color_update): Don't

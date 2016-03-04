@@ -164,7 +164,7 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 void color_update(void)
 {
     syntaxtype *sint;
-    colortype *tmpcolor;
+    colortype *ink;
 
     assert(openfile != NULL);
 
@@ -291,21 +291,19 @@ void color_update(void)
 	}
     }
 
-    for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
-	tmpcolor = tmpcolor->next) {
-	/* tmpcolor->start_regex and tmpcolor->end_regex have already
-	 * been checked for validity elsewhere.  Compile their specified
-	 * regexes if we haven't already. */
-	if (tmpcolor->start == NULL) {
-	    tmpcolor->start = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(tmpcolor->start, fixbounds(tmpcolor->start_regex),
-		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));
+    /* If a syntax was found, compile its specified regexes, which have
+     * already been checked for validity when they were read in. */
+    for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
+	if (ink->start == NULL) {
+	    ink->start = (regex_t *)nmalloc(sizeof(regex_t));
+	    regcomp(ink->start, fixbounds(ink->start_regex),
+			REG_EXTENDED | (ink->icase ? REG_ICASE : 0));
 	}
 
-	if (tmpcolor->end_regex != NULL && tmpcolor->end == NULL) {
-	    tmpcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(tmpcolor->end, fixbounds(tmpcolor->end_regex),
-		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));
+	if (ink->end_regex != NULL && ink->end == NULL) {
+	    ink->end = (regex_t *)nmalloc(sizeof(regex_t));
+	    regcomp(ink->end, fixbounds(ink->end_regex),
+			REG_EXTENDED | (ink->icase ? REG_ICASE : 0));
 	}
     }
 }
