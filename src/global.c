@@ -1623,14 +1623,6 @@ int strtomenu(const char *input)
 
 
 #ifdef DEBUG
-#ifndef DISABLE_COLOR
-void free_list_item(regexlisttype *dropit)
-{
-    free(dropit->full_regex);
-    free(dropit);
-}
-#endif
-
 /* This function is used to gracefully return all the memory we've used.
  * It should be called just before calling exit().  Practically, the
  * only effect is to cause a segmentation fault if the various data
@@ -1684,17 +1676,20 @@ void thanks_for_all_the_fish(void)
 	while (syntaxes->extensions != NULL) {
 	    regexlisttype *bob = syntaxes->extensions;
 	    syntaxes->extensions = bob->next;
-	    free_list_item(bob);
+	    free(bob->full_regex);
+	    free(bob);
 	}
 	while (syntaxes->headers != NULL) {
 	    regexlisttype *bob = syntaxes->headers;
 	    syntaxes->headers = bob->next;
-	    free_list_item(bob);
+	    free(bob->full_regex);
+	    free(bob);
 	}
 	while (syntaxes->magics != NULL) {
 	    regexlisttype *bob = syntaxes->magics;
 	    syntaxes->magics = bob->next;
-	    free_list_item(bob);
+	    free(bob->full_regex);
+	    free(bob);
 	}
 
 	while (syntaxes->color != NULL) {
