@@ -1627,9 +1627,6 @@ int strtomenu(const char *input)
 void free_list_item(regexlisttype *dropit)
 {
     free(dropit->full_regex);
-    if (dropit->rgx != NULL)
-	regfree(dropit->rgx);
-    free(dropit->rgx);
     free(dropit);
 }
 #endif

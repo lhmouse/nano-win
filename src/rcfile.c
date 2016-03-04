@@ -353,7 +353,6 @@ void parse_syntax(char *ptr)
 	/* Save the extension regex if it's valid. */
 	if (nregcomp(fileregptr, REG_NOSUB)) {
 	    newext->full_regex = mallocstrcpy(NULL, fileregptr);
-	    newext->rgx = NULL;
 
 	    if (endext == NULL)
 		endsyntax->extensions = newext;
@@ -880,7 +879,6 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 	/* Copy the regex into a struct, and hook this in at the end. */
 	newthing = (regexlisttype *)nmalloc(sizeof(regexlisttype));
 	newthing->full_regex = mallocstrcpy(NULL, regexstring);
-	newthing->rgx = NULL;
 	newthing->next = NULL;
 
 	if (lastthing == NULL)
