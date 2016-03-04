@@ -1667,48 +1667,49 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_COLOR
     free(syntaxstr);
     while (syntaxes != NULL) {
-	syntaxtype *bill = syntaxes;
-
-	free(syntaxes->name);
-	free(syntaxes->linter);
-	free(syntaxes->formatter);
-
-	while (syntaxes->extensions != NULL) {
-	    regexlisttype *bob = syntaxes->extensions;
-	    syntaxes->extensions = bob->next;
-	    free(bob->full_regex);
-	    free(bob);
-	}
-	while (syntaxes->headers != NULL) {
-	    regexlisttype *bob = syntaxes->headers;
-	    syntaxes->headers = bob->next;
-	    free(bob->full_regex);
-	    free(bob);
-	}
-	while (syntaxes->magics != NULL) {
-	    regexlisttype *bob = syntaxes->magics;
-	    syntaxes->magics = bob->next;
-	    free(bob->full_regex);
-	    free(bob);
-	}
-
-	while (syntaxes->color != NULL) {
-	    colortype *bob = syntaxes->color;
-	    syntaxes->color = bob->next;
-	    free(bob->start_regex);
-	    if (bob->start != NULL) {
-		regfree(bob->start);
-		free(bob->start);
-	    }
-	    free(bob->end_regex);
-	    if (bob->end != NULL) {
-		regfree(bob->end);
-		free(bob->end);
-	    }
-	    free(bob);
-	}
+	syntaxtype *sint = syntaxes;
 	syntaxes = syntaxes->next;
-	free(bill);
+
+	free(sint->name);
+	free(sint->linter);
+	free(sint->formatter);
+
+	while (sint->extensions != NULL) {
+	    regexlisttype *item = sint->extensions;
+	    sint->extensions = sint->extensions->next;
+	    free(item->full_regex);
+	    free(item);
+	}
+	while (sint->headers != NULL) {
+	    regexlisttype *item = sint->headers;
+	    sint->headers = sint->headers->next;
+	    free(item->full_regex);
+	    free(item);
+	}
+	while (sint->magics != NULL) {
+	    regexlisttype *item = sint->magics;
+	    sint->magics = sint->magics->next;
+	    free(item->full_regex);
+	    free(item);
+	}
+
+	while (sint->color != NULL) {
+	    colortype *ink = sint->color;
+	    sint->color = sint->color->next;
+	    free(ink->start_regex);
+	    if (ink->start != NULL) {
+		regfree(ink->start);
+		free(ink->start);
+	    }
+	    free(ink->end_regex);
+	    if (ink->end != NULL) {
+		regfree(ink->end);
+		free(ink->end);
+	    }
+	    free(ink);
+	}
+
+	free(sint);
     }
 #endif /* !DISABLE_COLOR */
 #ifndef DISABLE_HISTORIES
