@@ -144,24 +144,17 @@ void color_init(void)
 bool found_in_list(regexlisttype *head, const char *shibboleth)
 {
     regexlisttype *item;
-    bool not_compiled;
+    regex_t rgx;
 
     for (item = head; item != NULL; item = item->next) {
-        not_compiled = (item->rgx == NULL);
+	regcomp(&rgx, fixbounds(item->full_regex), REG_EXTENDED);
 
-	if (not_compiled) {
-	    item->rgx = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(item->rgx, fixbounds(item->full_regex), REG_EXTENDED);
-	}
-
-	if (regexec(item->rgx, shibboleth, 0, NULL, 0) == 0)
+	if (regexec(&rgx, shibboleth, 0, NULL, 0) == 0) {
+	    regfree(&rgx);
 	    return TRUE;
-
-	if (not_compiled) {
-	    regfree(item->rgx);
-	    free(item->rgx);
-	    item->rgx = NULL;
 	}
+
+	regfree(&rgx);
     }
 
     return FALSE;

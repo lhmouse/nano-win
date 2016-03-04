@@ -1,3 +1,8 @@
+2016-03-04  Benno Schulenberg  <bensberg@justemail.net>
+	* src/color.c (found_in_list): Don't bother keeping the compiled
+	regular expression when it matched -- drop this tiny optimization
+	for when opening multiple files.  Instead stop calling malloc().
+
 2016-03-01  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_syntax), src/color.c (color_update): Don't
 	bother discarding a duplicate syntax (it's too rare, saves little
