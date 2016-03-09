@@ -1,3 +1,7 @@
+2016-03-09  Benno Schulenberg  <bensberg@justemail.net>
+	* src/rcfile.c (parse_syntax): Produce an adequate error message
+	when the syntax name is unquoted.  This fixes Savannah bug #47324.
+
 2016-03-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (found_in_list): Don't bother keeping the compiled
 	regular expression when it matched -- drop this tiny optimization

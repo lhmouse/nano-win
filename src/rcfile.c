@@ -266,7 +266,7 @@ bool nregcomp(const char *regex, int eflags)
  * global list of color syntaxes. */
 void parse_syntax(char *ptr)
 {
-    const char *fileregptr = NULL, *nameptr = NULL;
+    char *fileregptr, *nameptr;
     regexlisttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
@@ -274,21 +274,24 @@ void parse_syntax(char *ptr)
 
     assert(ptr != NULL);
 
-    if (*ptr == '\0') {
+    /* Check that the syntax name is not empty. */
+    if (*ptr == '\0' || (*ptr == '"' &&
+			(*(ptr + 1) == '\0' || *(ptr + 1) == '"'))) {
 	rcfile_error(N_("Missing syntax name"));
 	return;
     }
 
-    if (*ptr != '"') {
-	rcfile_error(
-		N_("Regex strings must begin and end with a \" character"));
+    nameptr = ++ptr;
+    ptr = parse_next_word(ptr);
+
+    /* Check that the name starts and ends with a double quote. */
+    if (*(nameptr - 1) != '\x22' || nameptr[strlen(nameptr) - 1] != '\x22') {
+	rcfile_error(N_("A syntax name must be quoted"));
 	return;
     }
 
-    nameptr = ++ptr;
-    ptr = parse_next_regex(ptr);
-    if (ptr == NULL)
-	return;
+    /* Strip the end quote. */
+    nameptr[strlen(nameptr) - 1] = '\0';
 
     /* Redefining the "none" syntax is not allowed. */
     if (strcmp(nameptr, "none") == 0) {
