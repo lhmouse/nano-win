@@ -1,6 +1,8 @@
 2016-03-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_syntax): Produce an adequate error message
 	when the syntax name is unquoted.  This fixes Savannah bug #47324.
+	* src/rcfile.c (parse_syntax): Use the grab_and_store() function
+	also for gathering up extension regexes.
 
 2016-03-04  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (found_in_list): Don't bother keeping the compiled

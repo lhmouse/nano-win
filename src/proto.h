@@ -567,6 +567,7 @@ void parse_include(char *ptr);
 short color_to_short(const char *colorname, bool *bright);
 void parse_colors(char *ptr, bool icase);
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
+void grab_and_store(char *ptr, const char *kind, regexlisttype **storage);
 #endif
 void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR

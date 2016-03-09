@@ -266,9 +266,8 @@ bool nregcomp(const char *regex, int eflags)
  * global list of color syntaxes. */
 void parse_syntax(char *ptr)
 {
-    char *fileregptr, *nameptr;
-    regexlisttype *endext = NULL;
-	/* The end of the extensions list for this syntax. */
+    char *nameptr;
+	/* A pointer to what should be the name of the syntax. */
 
     opensyntax = FALSE;
 
@@ -334,38 +333,9 @@ void parse_syntax(char *ptr)
 	return;
     }
 
-    /* Now load the extension regexes into their part of the struct. */
-    while (*ptr != '\0') {
-	regexlisttype *newext;
-
-	while (*ptr != '"' && *ptr != '\0')
-	    ptr++;
-
-	if (*ptr == '\0')
-	    return;
-
-	ptr++;
-
-	fileregptr = ptr;
-	ptr = parse_next_regex(ptr);
-	if (ptr == NULL)
-	    break;
-
-	newext = (regexlisttype *)nmalloc(sizeof(regexlisttype));
-
-	/* Save the extension regex if it's valid. */
-	if (nregcomp(fileregptr, REG_NOSUB)) {
-	    newext->full_regex = mallocstrcpy(NULL, fileregptr);
-
-	    if (endext == NULL)
-		endsyntax->extensions = newext;
-	    else
-		endext->next = newext;
-	    endext = newext;
-	    endext->next = NULL;
-	} else
-	    free(newext);
-    }
+    /* If there seem to be extension regexes, pick them up. */
+    if (*ptr != '\0')
+	grab_and_store(ptr, "extension", &endsyntax->extensions);
 }
 #endif /* !DISABLE_COLOR */
 
@@ -828,7 +798,6 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 
     return TRUE;
 }
-
 
 /* Read regex strings enclosed in double quotes from the line pointed at
  * by ptr, and store them quoteless in the passed storage place. */
