@@ -3,6 +3,8 @@
 	commands for the default syntax.  This fixes Savannah bug #47323.
 	* src/rcfile.c (pick_up_name): Fold the parsing of a linter and
 	formatter command into a single routine.
+	* src/rcfile.c (parse_header_exp, parse_magic_exp, grab_and_store):
+	Elide the first two functions, and reshuffle parameters in the last.
 
 2016-03-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_syntax): Produce an adequate error message

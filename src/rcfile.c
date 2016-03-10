@@ -335,7 +335,7 @@ void parse_syntax(char *ptr)
 
     /* If there seem to be extension regexes, pick them up. */
     if (*ptr != '\0')
-	grab_and_store(ptr, "extension", &endsyntax->extensions);
+	grab_and_store("extension", ptr, &endsyntax->extensions);
 }
 #endif /* !DISABLE_COLOR */
 
@@ -801,7 +801,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 
 /* Read regex strings enclosed in double quotes from the line pointed at
  * by ptr, and store them quoteless in the passed storage place. */
-void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
+void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 {
     regexlisttype *lastthing;
 
@@ -862,20 +862,6 @@ void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 	lastthing = newthing;
     }
 }
-
-/* Parse the header-line regexes that may influence the choice of syntax. */
-void parse_header_exp(char *ptr)
-{
-    grab_and_store(ptr, "header", &endsyntax->headers);
-}
-
-#ifdef HAVE_LIBMAGIC
-/* Parse the magic regexes that may influence the choice of syntax. */
-void parse_magic_exp(char *ptr)
-{
-    grab_and_store(ptr, "magic", &endsyntax->magics);
-}
-#endif /* HAVE_LIBMAGIC */
 
 /* Parse and store the name given after a linter/formatter command. */
 void pick_up_name(const char *kind, char *ptr, char **storage)
@@ -1032,12 +1018,12 @@ void parse_rcfile(FILE *rcstream
 	}
 	else if (strcasecmp(keyword, "magic") == 0)
 #ifdef HAVE_LIBMAGIC
-	    parse_magic_exp(ptr);
+	    grab_and_store("magic", ptr, &endsyntax->magics);
 #else
 	    ;
 #endif
 	else if (strcasecmp(keyword, "header") == 0)
-	    parse_header_exp(ptr);
+	    grab_and_store("header", ptr, &endsyntax->headers);
 	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)
