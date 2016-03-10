@@ -329,7 +329,7 @@ void parse_syntax(char *ptr)
     /* The default syntax should have no associated extensions. */
     if (strcmp(endsyntax->name, "default") == 0 && *ptr != '\0') {
 	rcfile_error(
-		N_("The \"default\" syntax must take no extensions"));
+		N_("The \"default\" syntax does not accept extensions"));
 	return;
     }
 
@@ -804,6 +804,13 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 void grab_and_store(char *ptr, const char *kind, regexlisttype **storage)
 {
     regexlisttype *lastthing;
+
+    /* The default syntax doesn't take any file matching stuff. */
+    if (strcmp(endsyntax->name, "default") == 0 && *ptr != '\0') {
+	rcfile_error(
+		N_("The \"default\" syntax does not accept '%s' regexes"), kind);
+	return;
+    }
 
     if (!opensyntax) {
 	rcfile_error(
