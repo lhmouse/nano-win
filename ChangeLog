@@ -5,6 +5,10 @@
 	formatter command into a single routine.
 	* src/rcfile.c (parse_header_exp, parse_magic_exp, grab_and_store):
 	Elide the first two functions, and reshuffle parameters in the last.
+	* src/rcfile.c (parse_syntax, parse_rcfile), src/color.c
+	(color_update): Turn the linked list of syntaxes upside-down, so that
+	the last-defined one comes first, so that searching can stop at the
+	first match instead of always having to run through the entire list.
 
 2016-03-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_syntax): Produce an adequate error message

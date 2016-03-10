@@ -186,6 +186,7 @@ void color_update(void)
 	    if (strcmp(sint->name, syntaxstr) == 0) {
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
+		break;
 	    }
 	}
 
@@ -216,6 +217,7 @@ void color_update(void)
 	    if (found_in_list(sint->extensions, fullname)) {
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
+		break;
 	    }
 	}
 
@@ -231,6 +233,7 @@ void color_update(void)
 		if (found_in_list(sint->headers, openfile->fileage->data)) {
 		    openfile->syntax = sint;
 		    openfile->colorstrings = sint->color;
+		    break;
 		}
 	    }
 	}
@@ -271,6 +274,7 @@ void color_update(void)
 		    if (found_in_list(sint->magics, magicstring)) {
 			openfile->syntax = sint;
 			openfile->colorstrings = sint->color;
+			break;
 		    }
 		}
 	    }
@@ -287,6 +291,7 @@ void color_update(void)
 	    if (strcmp(sint->name, "default") == 0) {
 		openfile->syntax = sint;
 		openfile->colorstrings = sint->color;
+		break;
 	    }
 	}
     }

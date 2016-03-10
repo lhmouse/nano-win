@@ -124,7 +124,7 @@ static bool opensyntax = FALSE;
 	/* Whether we're allowed to add to the last syntax.  When a file ends,
 	 * or when a new syntax command is seen, this bool becomes FALSE. */
 static syntaxtype *endsyntax = NULL;
-	/* The end of the list of syntaxes. */
+	/* The syntax that is currently being parsed. */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
@@ -298,17 +298,8 @@ void parse_syntax(char *ptr)
 	return;
     }
 
-    if (syntaxes == NULL) {
-	syntaxes = (syntaxtype *)nmalloc(sizeof(syntaxtype));
-	endsyntax = syntaxes;
-    } else {
-	endsyntax->next = (syntaxtype *)nmalloc(sizeof(syntaxtype));
-	endsyntax = endsyntax->next;
-#ifdef DEBUG
-	fprintf(stderr, "Adding new syntax after first one\n");
-#endif
-    }
-
+    /* Initialize a new syntax struct. */
+    endsyntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
     endsyntax->name = mallocstrcpy(NULL, nameptr);
     endsyntax->extensions = NULL;
     endsyntax->headers = NULL;
@@ -318,7 +309,10 @@ void parse_syntax(char *ptr)
     endsyntax->color = NULL;
     endcolor = NULL;
     endsyntax->nmultis = 0;
-    endsyntax->next = NULL;
+
+    /* Hook the new syntax in at the top of the list. */
+    endsyntax->next = syntaxes;
+    syntaxes = endsyntax;
 
     opensyntax = TRUE;
 
@@ -928,9 +922,6 @@ void parse_rcfile(FILE *rcstream
     char *buf = NULL;
     ssize_t len;
     size_t n = 0;
-#ifndef DISABLE_COLOR
-    syntaxtype *end_syn_save = NULL;
-#endif
 
     while ((len = getline(&buf, &n, rcstream)) > 0) {
 	char *ptr, *keyword, *option;
@@ -973,7 +964,6 @@ void parse_rcfile(FILE *rcstream
 		opensyntax = FALSE;
 		continue;
 	    } else {
-		end_syn_save = endsyntax;
 		endsyntax = sint;
 		opensyntax = TRUE;
 		keyword = ptr;
@@ -1047,9 +1037,8 @@ void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
 	/* If we temporarily reset endsyntax to allow extending,
 	 * restore the value here. */
-	if (end_syn_save != NULL) {
-	    endsyntax = end_syn_save;
-	    end_syn_save = NULL;
+	if (endsyntax != syntaxes) {
+	    endsyntax = syntaxes;
 	    opensyntax = FALSE;
 	}
 #endif
