@@ -123,7 +123,7 @@ static char *nanorc = NULL;
 static bool opensyntax = FALSE;
 	/* Whether we're allowed to add to the last syntax.  When a file ends,
 	 * or when a new syntax command is seen, this bool becomes FALSE. */
-static syntaxtype *endsyntax = NULL;
+static syntaxtype *live_syntax;
 	/* The syntax that is currently being parsed. */
 static colortype *endcolor = NULL;
 	/* The end of the color list for the current syntax. */
@@ -299,20 +299,20 @@ void parse_syntax(char *ptr)
     }
 
     /* Initialize a new syntax struct. */
-    endsyntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
-    endsyntax->name = mallocstrcpy(NULL, nameptr);
-    endsyntax->extensions = NULL;
-    endsyntax->headers = NULL;
-    endsyntax->magics = NULL;
-    endsyntax->linter = NULL;
-    endsyntax->formatter = NULL;
-    endsyntax->color = NULL;
+    live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
+    live_syntax->name = mallocstrcpy(NULL, nameptr);
+    live_syntax->extensions = NULL;
+    live_syntax->headers = NULL;
+    live_syntax->magics = NULL;
+    live_syntax->linter = NULL;
+    live_syntax->formatter = NULL;
+    live_syntax->color = NULL;
     endcolor = NULL;
-    endsyntax->nmultis = 0;
+    live_syntax->nmultis = 0;
 
     /* Hook the new syntax in at the top of the list. */
-    endsyntax->next = syntaxes;
-    syntaxes = endsyntax;
+    live_syntax->next = syntaxes;
+    syntaxes = live_syntax;
 
     opensyntax = TRUE;
 
@@ -321,7 +321,7 @@ void parse_syntax(char *ptr)
 #endif
 
     /* The default syntax should have no associated extensions. */
-    if (strcmp(endsyntax->name, "default") == 0 && *ptr != '\0') {
+    if (strcmp(live_syntax->name, "default") == 0 && *ptr != '\0') {
 	rcfile_error(
 		N_("The \"default\" syntax does not accept extensions"));
 	return;
@@ -329,7 +329,7 @@ void parse_syntax(char *ptr)
 
     /* If there seem to be extension regexes, pick them up. */
     if (*ptr != '\0')
-	grab_and_store("extension", ptr, &endsyntax->extensions);
+	grab_and_store("extension", ptr, &live_syntax->extensions);
 }
 #endif /* !DISABLE_COLOR */
 
@@ -702,7 +702,7 @@ void parse_colors(char *ptr, bool icase)
 	    newcolor->next = NULL;
 
 	    if (endcolor == NULL) {
-		endsyntax->color = newcolor;
+		live_syntax->color = newcolor;
 #ifdef DEBUG
 		fprintf(stderr, "Starting a new colorstring for fg %hd, bg %hd\n", fg, bg);
 #endif
@@ -712,7 +712,7 @@ void parse_colors(char *ptr, bool icase)
 #endif
 		/* Need to recompute endcolor now so we can extend
 		 * colors to syntaxes. */
-		for (endcolor = endsyntax->color; endcolor->next != NULL;)
+		for (endcolor = live_syntax->color; endcolor->next != NULL;)
 		    endcolor = endcolor->next;
 		endcolor->next = newcolor;
 	    }
@@ -749,8 +749,8 @@ void parse_colors(char *ptr, bool icase)
 		newcolor->end_regex = mallocstrcpy(NULL, fgstr);
 
 	    /* Lame way to skip another static counter. */
-	    newcolor->id = endsyntax->nmultis;
-	    endsyntax->nmultis++;
+	    newcolor->id = live_syntax->nmultis;
+	    live_syntax->nmultis++;
 	}
     }
 }
@@ -800,7 +800,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
     regexlisttype *lastthing;
 
     /* The default syntax doesn't take any file matching stuff. */
-    if (strcmp(endsyntax->name, "default") == 0 && *ptr != '\0') {
+    if (strcmp(live_syntax->name, "default") == 0 && *ptr != '\0') {
 	rcfile_error(
 		N_("The \"default\" syntax does not accept '%s' regexes"), kind);
 	return;
@@ -964,7 +964,7 @@ void parse_rcfile(FILE *rcstream
 		opensyntax = FALSE;
 		continue;
 	    } else {
-		endsyntax = sint;
+		live_syntax = sint;
 		opensyntax = TRUE;
 		keyword = ptr;
 		ptr = parse_next_word(ptr);
@@ -1001,28 +1001,28 @@ void parse_rcfile(FILE *rcstream
 	    else
 		parse_include(ptr);
 	} else if (strcasecmp(keyword, "syntax") == 0) {
-	    if (endsyntax != NULL && endcolor == NULL)
+	    if (opensyntax && endcolor == NULL)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
-			endsyntax->name);
+				live_syntax->name);
 	    parse_syntax(ptr);
 	}
 	else if (strcasecmp(keyword, "magic") == 0)
 #ifdef HAVE_LIBMAGIC
-	    grab_and_store("magic", ptr, &endsyntax->magics);
+	    grab_and_store("magic", ptr, &live_syntax->magics);
 #else
 	    ;
 #endif
 	else if (strcasecmp(keyword, "header") == 0)
-	    grab_and_store("header", ptr, &endsyntax->headers);
+	    grab_and_store("header", ptr, &live_syntax->headers);
 	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)
 	    parse_colors(ptr, TRUE);
 	else if (strcasecmp(keyword, "linter") == 0)
-	    pick_up_name("linter", ptr, &endsyntax->linter);
+	    pick_up_name("linter", ptr, &live_syntax->linter);
 	else if (strcasecmp(keyword, "formatter") == 0)
 #ifndef DISABLE_SPELLER
-	    pick_up_name("formatter", ptr, &endsyntax->formatter);
+	    pick_up_name("formatter", ptr, &live_syntax->formatter);
 #else
 	    ;
 #endif
@@ -1035,12 +1035,9 @@ void parse_rcfile(FILE *rcstream
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
 #ifndef DISABLE_COLOR
-	/* If we temporarily reset endsyntax to allow extending,
-	 * restore the value here. */
-	if (endsyntax != syntaxes) {
-	    endsyntax = syntaxes;
+	/* If a syntax was extended, it stops at the end of the command. */
+	if (live_syntax != syntaxes)
 	    opensyntax = FALSE;
-	}
 #endif
 
 	if (set == 0)
@@ -1210,9 +1207,9 @@ void parse_rcfile(FILE *rcstream
     }
 
 #ifndef DISABLE_COLOR
-    if (endsyntax != NULL && endcolor == NULL)
+    if (opensyntax && endcolor == NULL)
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
-		endsyntax->name);
+			live_syntax->name);
 #endif
 
     opensyntax = FALSE;
