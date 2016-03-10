@@ -1,6 +1,8 @@
 2016-03-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (grab_and_store): Do not accept 'header" and 'magic'
 	commands for the default syntax.  This fixes Savannah bug #47323.
+	* src/rcfile.c (pick_up_name): Fold the parsing of a linter and
+	formatter command into a single routine.
 
 2016-03-09  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (parse_syntax): Produce an adequate error message

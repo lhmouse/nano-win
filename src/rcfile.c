@@ -877,57 +877,30 @@ void parse_magic_exp(char *ptr)
 }
 #endif /* HAVE_LIBMAGIC */
 
-/* Parse the linter requested for this syntax. */
-void parse_linter(char *ptr)
+/* Parse and store the name given after a linter/formatter command. */
+void pick_up_name(const char *kind, char *ptr, char **storage)
 {
     assert(ptr != NULL);
 
     if (!opensyntax) {
 	rcfile_error(
-		N_("Cannot add a linter without a syntax command"));
+		N_("A '%s' command requires a preceding 'syntax' command"), kind);
 	return;
     }
 
     if (*ptr == '\0') {
-	rcfile_error(N_("Missing linter command"));
+	rcfile_error(N_("Missing command after '%s'"), kind);
 	return;
     }
 
-    free(endsyntax->linter);
+    free(*storage);
 
-    /* Let them unset the linter by using "". */
+    /* Allow unsetting the command by using an empty string. */
     if (!strcmp(ptr, "\"\""))
-	endsyntax->linter = NULL;
+	*storage = NULL;
     else
-	endsyntax->linter = mallocstrcpy(NULL, ptr);
+	*storage = mallocstrcpy(NULL, ptr);
 }
-
-#ifndef DISABLE_SPELLER
-/* Parse the formatter requested for this syntax. */
-void parse_formatter(char *ptr)
-{
-    assert(ptr != NULL);
-
-    if (!opensyntax) {
-	rcfile_error(
-		N_("Cannot add formatter without a syntax command"));
-	return;
-    }
-
-    if (*ptr == '\0') {
-	rcfile_error(N_("Missing formatter command"));
-	return;
-    }
-
-    free(endsyntax->formatter);
-
-    /* Let them unset the formatter by using "". */
-    if (!strcmp(ptr, "\"\""))
-	endsyntax->formatter = NULL;
-    else
-	endsyntax->formatter = mallocstrcpy(NULL, ptr);
-}
-#endif /* !DISABLE_SPELLER */
 #endif /* !DISABLE_COLOR */
 
 /* Check whether the user has unmapped every shortcut for a
@@ -1070,10 +1043,10 @@ void parse_rcfile(FILE *rcstream
 	else if (strcasecmp(keyword, "icolor") == 0)
 	    parse_colors(ptr, TRUE);
 	else if (strcasecmp(keyword, "linter") == 0)
-	    parse_linter(ptr);
+	    pick_up_name("linter", ptr, &endsyntax->linter);
 	else if (strcasecmp(keyword, "formatter") == 0)
 #ifndef DISABLE_SPELLER
-	    parse_formatter(ptr);
+	    pick_up_name("formatter", ptr, &endsyntax->formatter);
 #else
 	    ;
 #endif
