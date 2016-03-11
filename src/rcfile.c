@@ -1206,9 +1206,9 @@ void parse_rcfile(FILE *rcstream
     if (opensyntax && endcolor == NULL)
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
 			live_syntax->name);
-#endif
 
     opensyntax = FALSE;
+#endif
 
     free(buf);
     fclose(rcstream);

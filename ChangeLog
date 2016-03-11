@@ -5,6 +5,8 @@
 	* src/rcfile.c (color_to_short): Elide a variable.
 	* src/rcfile.c (grab_and_store): First check that there is an
 	open syntax before checking that it is named "default".
+	* src/rcfile.c (parse_rcfile): Fix compilation when configured with
+	--enable-tiny plus --enable-nanorc.
 
 2016-03-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (grab_and_store): Do not accept 'header" and 'magic'
