@@ -797,16 +797,16 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 {
     regexlisttype *lastthing;
 
+    if (!opensyntax) {
+	rcfile_error(
+		N_("A '%s' command requires a preceding 'syntax' command"), kind);
+	return;
+    }
+
     /* The default syntax doesn't take any file matching stuff. */
     if (strcmp(live_syntax->name, "default") == 0 && *ptr != '\0') {
 	rcfile_error(
 		N_("The \"default\" syntax does not accept '%s' regexes"), kind);
-	return;
-    }
-
-    if (!opensyntax) {
-	rcfile_error(
-		N_("A '%s' command requires a preceding 'syntax' command"), kind);
 	return;
     }
 
