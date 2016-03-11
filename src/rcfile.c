@@ -213,15 +213,16 @@ char *parse_argument(char *ptr)
 }
 
 #ifndef DISABLE_COLOR
-/* Parse the next regex string from the line at ptr, and return it. */
+/* Pass over the current regex string in the line starting at ptr,
+ * null-terminate it, and return a pointer to the /next/ word. */
 char *parse_next_regex(char *ptr)
 {
     assert(ptr != NULL);
 
-    /* Continue until the end of the line, or a " followed by a space, a
-     * blank character, or \0. */
-    while ((*ptr != '"' || (!isblank(*(ptr + 1)) &&
-	*(ptr + 1) != '\0')) && *ptr != '\0')
+    /* Continue until the end of line, or until a " followed by a
+     * blank character or the end of line. */
+    while (*ptr != '\0' && (*ptr != '"' ||
+		(*(ptr + 1) != '\0' && !isblank(*(ptr + 1)))))
 	ptr++;
 
     assert(*ptr == '"' || *ptr == '\0');
@@ -242,7 +243,7 @@ char *parse_next_regex(char *ptr)
 }
 
 /* Compile the regular expression regex to see if it's valid.  Return
- * TRUE if it is, or FALSE otherwise. */
+ * TRUE if it is, and FALSE otherwise. */
 bool nregcomp(const char *regex, int eflags)
 {
     regex_t preg;
@@ -262,8 +263,8 @@ bool nregcomp(const char *regex, int eflags)
     return (rc == 0);
 }
 
-/* Parse the next syntax string from the line at ptr, and add it to the
- * global list of color syntaxes. */
+/* Parse the next syntax name and its possible extension regexes from the
+ * line at ptr, and add it to the global linked list of color syntaxes. */
 void parse_syntax(char *ptr)
 {
     char *nameptr;
@@ -912,7 +913,7 @@ static void check_vitals_mapped(void)
 
 /* Parse the rcfile, once it has been opened successfully at rcstream,
  * and close it afterwards.  If syntax_only is TRUE, only allow the file
- * to contain color syntax commands: syntax, color, and icolor. */
+ * to contain color syntax commands. */
 void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
 	, bool syntax_only
@@ -963,12 +964,13 @@ void parse_rcfile(FILE *rcstream
 				syntaxname);
 		opensyntax = FALSE;
 		continue;
-	    } else {
-		live_syntax = sint;
-		opensyntax = TRUE;
-		keyword = ptr;
-		ptr = parse_next_word(ptr);
 	    }
+
+	    live_syntax = sint;
+	    opensyntax = TRUE;
+
+	    keyword = ptr;
+	    ptr = parse_next_word(ptr);
 	}
 #endif
 
@@ -976,18 +978,16 @@ void parse_rcfile(FILE *rcstream
 	if (strcasecmp(keyword, "set") == 0) {
 #ifndef DISABLE_COLOR
 	    if (syntax_only)
-		rcfile_error(
-			N_("Command \"%s\" not allowed in included file"),
-			keyword);
+		rcfile_error(N_("Command \"%s\" not allowed in included file"),
+				keyword);
 	    else
 #endif
 		set = 1;
 	} else if (strcasecmp(keyword, "unset") == 0) {
 #ifndef DISABLE_COLOR
 	    if (syntax_only)
-		rcfile_error(
-			N_("Command \"%s\" not allowed in included file"),
-			keyword);
+		rcfile_error(N_("Command \"%s\" not allowed in included file"),
+				keyword);
 	    else
 #endif
 		set = -1;
@@ -995,9 +995,8 @@ void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
 	else if (strcasecmp(keyword, "include") == 0) {
 	    if (syntax_only)
-		rcfile_error(
-			N_("Command \"%s\" not allowed in included file"),
-			keyword);
+		rcfile_error(N_("Command \"%s\" not allowed in included file"),
+				keyword);
 	    else
 		parse_include(ptr);
 	} else if (strcasecmp(keyword, "syntax") == 0) {
@@ -1006,14 +1005,14 @@ void parse_rcfile(FILE *rcstream
 				live_syntax->name);
 	    parse_syntax(ptr);
 	}
+	else if (strcasecmp(keyword, "header") == 0)
+	    grab_and_store("header", ptr, &live_syntax->headers);
 	else if (strcasecmp(keyword, "magic") == 0)
 #ifdef HAVE_LIBMAGIC
 	    grab_and_store("magic", ptr, &live_syntax->magics);
 #else
 	    ;
 #endif
-	else if (strcasecmp(keyword, "header") == 0)
-	    grab_and_store("header", ptr, &live_syntax->headers);
 	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
 	else if (strcasecmp(keyword, "icolor") == 0)
@@ -1275,7 +1274,7 @@ void do_rcfile(void)
 	/* Don't open directories, character files, or block files. */
 	if (stat(nanorc, &rcinfo) != -1) {
 	    if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
-		S_ISBLK(rcinfo.st_mode))
+			S_ISBLK(rcinfo.st_mode))
 		rcfile_error(S_ISDIR(rcinfo.st_mode) ?
 			_("\"%s\" is a directory") :
 			_("\"%s\" is a device file"), nanorc);
@@ -1287,7 +1286,7 @@ void do_rcfile(void)
 	    /* Don't complain about the file's not existing. */
 	    if (errno != ENOENT)
 		rcfile_error(N_("Error reading %s: %s"), nanorc,
-			strerror(errno));
+				strerror(errno));
 	} else
 	    parse_rcfile(rcstream
 #ifndef DISABLE_COLOR
@@ -1301,8 +1300,7 @@ void do_rcfile(void)
 
     if (errors && !ISSET(QUIET)) {
 	errors = FALSE;
-	fprintf(stderr,
-		_("\nPress Enter to continue starting nano.\n"));
+	fprintf(stderr, _("\nPress Enter to continue starting nano.\n"));
 	while (getchar() != '\n')
 	    ;
     }
