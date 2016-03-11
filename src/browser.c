@@ -128,11 +128,13 @@ char *do_browser(char *path, DIR *dir)
 	    /* Make sure the selected file is within range. */
 	    if (selected >= filelist_len)
 		selected = filelist_len - 1;
+
+	    kbinput = ERR;
 	}
 #endif
 	/* Display (or redisplay) the file list if we don't have a key yet,
 	 * or the list has changed, or the selected file has changed. */
-	if (kbinput == ERR || kbinput == KEY_WINCH || old_selected != selected)
+	if (kbinput == ERR || old_selected != selected)
 	    browser_refresh();
 
 	old_selected = selected;
