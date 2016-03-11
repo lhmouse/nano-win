@@ -590,8 +590,6 @@ void parse_include(char *ptr)
  * and set bright to TRUE if that color is bright. */
 short color_to_short(const char *colorname, bool *bright)
 {
-    short mcolor = -1;
-
     assert(colorname != NULL && bright != NULL);
 
     if (strncasecmp(colorname, "bright", 6) == 0) {
@@ -600,29 +598,28 @@ short color_to_short(const char *colorname, bool *bright)
     }
 
     if (strcasecmp(colorname, "green") == 0)
-	mcolor = COLOR_GREEN;
+	return COLOR_GREEN;
     else if (strcasecmp(colorname, "red") == 0)
-	mcolor = COLOR_RED;
+	return COLOR_RED;
     else if (strcasecmp(colorname, "blue") == 0)
-	mcolor = COLOR_BLUE;
+	return COLOR_BLUE;
     else if (strcasecmp(colorname, "white") == 0)
-	mcolor = COLOR_WHITE;
+	return COLOR_WHITE;
     else if (strcasecmp(colorname, "yellow") == 0)
-	mcolor = COLOR_YELLOW;
+	return COLOR_YELLOW;
     else if (strcasecmp(colorname, "cyan") == 0)
-	mcolor = COLOR_CYAN;
+	return COLOR_CYAN;
     else if (strcasecmp(colorname, "magenta") == 0)
-	mcolor = COLOR_MAGENTA;
+	return COLOR_MAGENTA;
     else if (strcasecmp(colorname, "black") == 0)
-	mcolor = COLOR_BLACK;
-    else
-	rcfile_error(N_("Color \"%s\" not understood.\n"
+	return COLOR_BLACK;
+
+    rcfile_error(N_("Color \"%s\" not understood.\n"
 		"Valid colors are \"green\", \"red\", \"blue\",\n"
 		"\"white\", \"yellow\", \"cyan\", \"magenta\" and\n"
 		"\"black\", with the optional prefix \"bright\"\n"
 		"for foreground colors."), colorname);
-
-    return mcolor;
+    return -1;
 }
 
 /* Parse the color string in the line at ptr, and add it to the current

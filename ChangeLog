@@ -2,6 +2,7 @@
 	* src/browser.c (do_browser): Fix compilation when configured with
 	--enable-tiny plus --enable-browser.
 	* src/rcfile.c: Tweak some comments and reshuffle some lines.
+	* src/rcfile.c (color_to_short): Elide a variable.
 
 2016-03-10  Benno Schulenberg  <bensberg@justemail.net>
 	* src/rcfile.c (grab_and_store): Do not accept 'header" and 'magic'
