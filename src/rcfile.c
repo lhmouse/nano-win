@@ -514,10 +514,9 @@ void parse_binding(char *ptr, bool dobind)
     free(keycopy);
 }
 
-
 #ifndef DISABLE_COLOR
-/* Read and parse additional syntax files. */
-static void _parse_include(char *file)
+/* Read and parse one included syntax file. */
+static void parse_one_include(char *file)
 {
     struct stat rcinfo;
     FILE *rcstream;
@@ -555,7 +554,8 @@ static void _parse_include(char *file)
     parse_rcfile(rcstream, TRUE);
 }
 
-void parse_include(char *ptr)
+/* Expand globs in the passed name, and parse the resultant files. */
+void parse_includes(char *ptr)
 {
     char *option, *nanorc_save = nanorc, *expanded;
     size_t lineno_save = lineno, i;
@@ -571,16 +571,15 @@ void parse_include(char *ptr)
 
     if (glob(expanded, GLOB_ERR|GLOB_NOSORT, NULL, &files) == 0) {
 	for (i = 0; i < files.gl_pathc; ++i)
-	    _parse_include(files.gl_pathv[i]);
-    } else {
+	    parse_one_include(files.gl_pathv[i]);
+    } else
 	rcfile_error(_("Error expanding %s: %s"), option,
 		strerror(errno));
-    }
 
     globfree(&files);
     free(expanded);
 
-    /* We're done with the new syntax file.  Restore the original
+    /* We're done with the included file(s).  Restore the original
      * filename and line number position. */
     nanorc = nanorc_save;
     lineno = lineno_save;
@@ -995,7 +994,7 @@ void parse_rcfile(FILE *rcstream
 		rcfile_error(N_("Command \"%s\" not allowed in included file"),
 				keyword);
 	    else
-		parse_include(ptr);
+		parse_includes(ptr);
 	} else if (strcasecmp(keyword, "syntax") == 0) {
 	    if (opensyntax && endcolor == NULL)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),

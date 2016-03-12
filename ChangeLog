@@ -1,6 +1,8 @@
 2016-03-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): Set the syntax and regex pointers
 	just once, in a single place.  And unnest two 'if's.
+	* src/rcfile.c (parse_one_include, parse_includes): New names for
+	these functions, to be more distinguishable.
 
 2016-03-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Fix compilation when configured with
