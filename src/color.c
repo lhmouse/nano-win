@@ -163,13 +163,10 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 /* Update the color information based on the current filename. */
 void color_update(void)
 {
-    syntaxtype *sint;
+    syntaxtype *sint = NULL;
     colortype *ink;
 
     assert(openfile != NULL);
-
-    openfile->syntax = NULL;
-    openfile->colorstrings = NULL;
 
     /* If the rcfiles were not read, or contained no syntaxes, get out. */
     if (syntaxes == NULL)
@@ -183,21 +180,18 @@ void color_update(void)
 	    return;
 
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
-	    if (strcmp(sint->name, syntaxstr) == 0) {
-		openfile->syntax = sint;
-		openfile->colorstrings = sint->color;
+	    if (strcmp(sint->name, syntaxstr) == 0)
 		break;
-	    }
 	}
 
-	if (openfile->syntax == NULL)
+	if (sint == NULL)
 	    statusbar(_("Unknown syntax name: %s"), syntaxstr);
     }
 
     /* If we didn't specify a syntax override string, or if we did and
      * there was no syntax by that name, get the syntax based on the
      * file extension, then try the headerline, and then try magic. */
-    if (openfile->syntax == NULL) {
+    if (sint == NULL) {
 	char *currentdir = getcwd(NULL, PATH_MAX + 1);
 	char *joinednames = charalloc(PATH_MAX + 1);
 	char *fullname = NULL;
@@ -214,33 +208,27 @@ void color_update(void)
 	    fullname = mallocstrcpy(fullname, openfile->filename);
 
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
-	    if (found_in_list(sint->extensions, fullname)) {
-		openfile->syntax = sint;
-		openfile->colorstrings = sint->color;
+	    if (found_in_list(sint->extensions, fullname))
 		break;
-	    }
 	}
 
 	free(joinednames);
 	free(fullname);
 
 	/* Check the headerline if the extension didn't match anything. */
-	if (openfile->syntax == NULL) {
+	if (sint == NULL) {
 #ifdef DEBUG
 	    fprintf(stderr, "No result from file extension, trying headerline...\n");
 #endif
 	    for (sint = syntaxes; sint != NULL; sint = sint->next) {
-		if (found_in_list(sint->headers, openfile->fileage->data)) {
-		    openfile->syntax = sint;
-		    openfile->colorstrings = sint->color;
+		if (found_in_list(sint->headers, openfile->fileage->data))
 		    break;
-		}
 	    }
 	}
 
 #ifdef HAVE_LIBMAGIC
 	/* Check magic if we don't have an answer yet. */
-	if (openfile->syntax == NULL) {
+	if (sint == NULL) {
 	    struct stat fileinfo;
 	    magic_t cookie = NULL;
 	    const char *magicstring = NULL;
@@ -271,11 +259,8 @@ void color_update(void)
 	    /* Now try and find a syntax that matches the magicstring. */
 	    if (magicstring != NULL) {
 		for (sint = syntaxes; sint != NULL; sint = sint->next) {
-		    if (found_in_list(sint->magics, magicstring)) {
-			openfile->syntax = sint;
-			openfile->colorstrings = sint->color;
+		    if (found_in_list(sint->magics, magicstring))
 			break;
-		    }
 		}
 	    }
 
@@ -286,19 +271,19 @@ void color_update(void)
     }
 
     /* If we didn't find any syntax yet, see if there is a default one. */
-    if (openfile->syntax == NULL) {
+    if (sint == NULL) {
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
-	    if (strcmp(sint->name, "default") == 0) {
-		openfile->syntax = sint;
-		openfile->colorstrings = sint->color;
+	    if (strcmp(sint->name, "default") == 0)
 		break;
-	    }
 	}
     }
 
+    openfile->syntax = sint;
+    openfile->colorstrings = (sint == NULL ? NULL : sint->color);
+
     /* If a syntax was found, compile its specified regexes, which have
      * already been checked for validity when they were read in. */
-    for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
+    for (ink = sint->color; ink != NULL; ink = ink->next) {
 	if (ink->start == NULL) {
 	    ink->start = (regex_t *)nmalloc(sizeof(regex_t));
 	    regcomp(ink->start, fixbounds(ink->start_regex),
