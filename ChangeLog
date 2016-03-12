@@ -13,7 +13,7 @@
 	--enable-tiny plus --enable-nanorc.
 
 2016-03-10  Benno Schulenberg  <bensberg@justemail.net>
-	* src/rcfile.c (grab_and_store): Do not accept 'header" and 'magic'
+	* src/rcfile.c (grab_and_store): Do not accept 'header' and 'magic'
 	commands for the default syntax.  This fixes Savannah bug #47323.
 	* src/rcfile.c (pick_up_name): Fold the parsing of a linter and
 	formatter command into a single routine.
@@ -50,8 +50,8 @@
 
 2016-02-29  Benno Schulenberg  <bensberg@justemail.net>
 	* src/nano.h, src/rcfile.c, src/color.c: Rename a struct member.
-	* src/rcfile.c (parse_rcfile): Don't allocate a struct for the "none"
-	syntax, and thus prevent it from being extended.
+	* src/rcfile.c (parse_rcfile): Don't allocate a struct for the
+	"none" syntax (and thus prevent it from being extended).
 	* src/nano.h, src/rcfile.c: Arrange some things more orderly.
 	* src/rcfile.c (parse_rcfile): Close an extended syntax again.
 	* src/rcfile.c (parse_rcfile): Rename a variable.
