@@ -160,7 +160,7 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
     return FALSE;
 }
 
-/* Update the color information based on the current filename. */
+/* Update the color information based on the current filename and content. */
 void color_update(void)
 {
     syntaxtype *sint = NULL;
@@ -172,10 +172,9 @@ void color_update(void)
     if (syntaxes == NULL)
 	return;
 
-    /* If we specified a syntax override string, use it. */
+    /* If we specified a syntax-override string, use it. */
     if (syntaxstr != NULL) {
-	/* If the syntax override is "none", it's the same as not having
-	 * a syntax at all, so get out. */
+	/* An override of "none" is like having no syntax at all. */
 	if (strcmp(syntaxstr, "none") == 0)
 	    return;
 
@@ -188,9 +187,8 @@ void color_update(void)
 	    statusbar(_("Unknown syntax name: %s"), syntaxstr);
     }
 
-    /* If we didn't specify a syntax override string, or if we did and
-     * there was no syntax by that name, get the syntax based on the
-     * file extension, then try the headerline, and then try magic. */
+    /* If no syntax-override string was specified, or it didn't match,
+     * try finding a syntax based on the filename (extension). */
     if (sint == NULL) {
 	char *currentdir = getcwd(NULL, PATH_MAX + 1);
 	char *joinednames = charalloc(PATH_MAX + 1);
@@ -214,63 +212,62 @@ void color_update(void)
 
 	free(joinednames);
 	free(fullname);
+    }
 
-	/* Check the headerline if the extension didn't match anything. */
-	if (sint == NULL) {
+    /* If the filename didn't match anything, try the first line. */
+    if (sint == NULL) {
 #ifdef DEBUG
-	    fprintf(stderr, "No result from file extension, trying headerline...\n");
+	fprintf(stderr, "No result from file extension, trying headerline...\n");
 #endif
-	    for (sint = syntaxes; sint != NULL; sint = sint->next) {
-		if (found_in_list(sint->headers, openfile->fileage->data))
-		    break;
-	    }
+	for (sint = syntaxes; sint != NULL; sint = sint->next) {
+	    if (found_in_list(sint->headers, openfile->fileage->data))
+		break;
 	}
+    }
 
 #ifdef HAVE_LIBMAGIC
-	/* Check magic if we don't have an answer yet. */
-	if (sint == NULL) {
-	    struct stat fileinfo;
-	    magic_t cookie = NULL;
-	    const char *magicstring = NULL;
+    /* If we still don't have an answer, try using magic. */
+    if (sint == NULL) {
+	struct stat fileinfo;
+	magic_t cookie = NULL;
+	const char *magicstring = NULL;
 #ifdef DEBUG
-	    fprintf(stderr, "No result from headerline either, trying libmagic...\n");
+	fprintf(stderr, "No result from headerline either, trying libmagic...\n");
 #endif
-	    if (stat(openfile->filename, &fileinfo) == 0) {
-		/* Open the magic database and get a diagnosis of the file. */
-		cookie = magic_open(MAGIC_SYMLINK |
+	if (stat(openfile->filename, &fileinfo) == 0) {
+	    /* Open the magic database and get a diagnosis of the file. */
+	    cookie = magic_open(MAGIC_SYMLINK |
 #ifdef DEBUG
 				    MAGIC_DEBUG | MAGIC_CHECK |
 #endif
 				    MAGIC_ERROR);
-		if (cookie == NULL || magic_load(cookie, NULL) < 0)
-		    statusbar(_("magic_load() failed: %s"), strerror(errno));
-		else {
-		    magicstring = magic_file(cookie, openfile->filename);
-		    if (magicstring == NULL) {
-			statusbar(_("magic_file(%s) failed: %s"),
-					openfile->filename, magic_error(cookie));
-		    }
+	    if (cookie == NULL || magic_load(cookie, NULL) < 0)
+		statusbar(_("magic_load() failed: %s"), strerror(errno));
+	    else {
+		magicstring = magic_file(cookie, openfile->filename);
+		if (magicstring == NULL)
+		    statusbar(_("magic_file(%s) failed: %s"),
+				openfile->filename, magic_error(cookie));
 #ifdef DEBUG
-		    fprintf(stderr, "Returned magic string is: %s\n", magicstring);
+		fprintf(stderr, "Returned magic string is: %s\n", magicstring);
 #endif
-		}
 	    }
-
-	    /* Now try and find a syntax that matches the magicstring. */
-	    if (magicstring != NULL) {
-		for (sint = syntaxes; sint != NULL; sint = sint->next) {
-		    if (found_in_list(sint->magics, magicstring))
-			break;
-		}
-	    }
-
-	    if (stat(openfile->filename, &fileinfo) == 0)
-		magic_close(cookie);
 	}
-#endif /* HAVE_LIBMAGIC */
-    }
 
-    /* If we didn't find any syntax yet, see if there is a default one. */
+	/* Now try and find a syntax that matches the magic string. */
+	if (magicstring != NULL) {
+	    for (sint = syntaxes; sint != NULL; sint = sint->next) {
+	        if (found_in_list(sint->magics, magicstring))
+		    break;
+	    }
+	}
+
+	if (stat(openfile->filename, &fileinfo) == 0)
+	    magic_close(cookie);
+    }
+#endif /* HAVE_LIBMAGIC */
+
+    /* If nothing at all matched, see if there is a default syntax. */
     if (sint == NULL) {
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
 	    if (strcmp(sint->name, "default") == 0)
@@ -281,8 +278,8 @@ void color_update(void)
     openfile->syntax = sint;
     openfile->colorstrings = (sint == NULL ? NULL : sint->color);
 
-    /* If a syntax was found, compile its specified regexes, which have
-     * already been checked for validity when they were read in. */
+    /* If a syntax was found, compile its specified regexes (which have
+     * already been checked for validity when they were read in). */
     for (ink = sint->color; ink != NULL; ink = ink->next) {
 	if (ink->start == NULL) {
 	    ink->start = (regex_t *)nmalloc(sizeof(regex_t));
