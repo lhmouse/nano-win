@@ -5,6 +5,8 @@
 	these functions, to be more distinguishable.
 	* src/rcfile.c (parse_colors): Reduce the indentation.
 	* src/rcfile.c (parse_colors): Rename a variable.
+	* src/rcfile.c (parse_colors, parse_rcfile): Refind the tail of
+	the colors list only when extending, not for every added color.
 
 2016-03-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Fix compilation when configured with

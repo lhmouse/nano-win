@@ -705,13 +705,8 @@ void parse_colors(char *ptr, bool icase)
 #endif
 	    if (endcolor == NULL)
 		live_syntax->color = newcolor;
-	    else {
-		/* Need to recompute endcolor now so we can extend
-		 * colors to syntaxes. */
-		for (endcolor = live_syntax->color; endcolor->next != NULL;)
-		    endcolor = endcolor->next;
+	    else
 		endcolor->next = newcolor;
-	    }
 
 	    endcolor = newcolor;
 	}
@@ -962,6 +957,12 @@ void parse_rcfile(FILE *rcstream
 
 	    live_syntax = sint;
 	    opensyntax = TRUE;
+
+	    /* Refind the tail of the color list for this syntax. */
+	    endcolor = sint->color;
+	    if (endcolor != NULL)
+		while (endcolor->next != NULL)
+		    endcolor = endcolor->next;
 
 	    keyword = ptr;
 	    ptr = parse_next_word(ptr);
