@@ -658,10 +658,10 @@ void parse_colors(char *ptr, bool icase)
     while (ptr != NULL && *ptr != '\0') {
 	colortype *newcolor;
 	    /* The container for a color plus its regexes. */
-	bool cancelled = FALSE;
-	    /* The start expression was bad. */
+	bool goodstart;
+	    /* Whether the start expression was valid. */
 	bool expectend = FALSE;
-	    /* Do we expect an end= line? */
+	    /* Whether to expect an end= line. */
 
 	if (strncasecmp(ptr, "start=", 6) == 0) {
 	    ptr += 6;
@@ -680,9 +680,11 @@ void parse_colors(char *ptr, bool icase)
 	if (ptr == NULL)
 	    break;
 
-	/* Save the starting regex string if it's valid, and set up the
-	 * color information. */
-	if (nregcomp(fgstr, icase ? REG_ICASE : 0)) {
+	goodstart = nregcomp(fgstr, icase ? REG_ICASE : 0);
+
+	/* If the starting regex is valid, initialize a new color struct,
+	 * and hook it in at the tail of the linked list. */
+	if (goodstart) {
 	    newcolor = (colortype *)nmalloc(sizeof(colortype));
 
 	    newcolor->fg = fg;
@@ -698,15 +700,12 @@ void parse_colors(char *ptr, bool icase)
 
 	    newcolor->next = NULL;
 
-	    if (endcolor == NULL) {
+#ifdef DEBUG
+	    fprintf(stderr, "Adding an entry for fg %hd, bg %hd\n", fg, bg);
+#endif
+	    if (endcolor == NULL)
 		live_syntax->color = newcolor;
-#ifdef DEBUG
-		fprintf(stderr, "Starting a new colorstring for fg %hd, bg %hd\n", fg, bg);
-#endif
-	    } else {
-#ifdef DEBUG
-		fprintf(stderr, "Adding new entry for fg %hd, bg %hd\n", fg, bg);
-#endif
+	    else {
 		/* Need to recompute endcolor now so we can extend
 		 * colors to syntaxes. */
 		for (endcolor = live_syntax->color; endcolor->next != NULL;)
@@ -715,8 +714,7 @@ void parse_colors(char *ptr, bool icase)
 	    }
 
 	    endcolor = newcolor;
-	} else
-	    cancelled = TRUE;
+	}
 
 	if (!expectend)
 	    continue;
@@ -739,7 +737,7 @@ void parse_colors(char *ptr, bool icase)
 
 	/* If the start regex was invalid, skip past the end regex
 	 * to stay in sync. */
-	if (cancelled)
+	if (!goodstart)
 	    continue;
 
 	/* If it's valid, save the ending regex string. */
