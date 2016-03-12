@@ -3,6 +3,7 @@
 	just once, in a single place.  And unnest two 'if's.
 	* src/rcfile.c (parse_one_include, parse_includes): New names for
 	these functions, to be more distinguishable.
+	* src/rcfile.c (parse_colors): Reduce the indentation.
 
 2016-03-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (do_browser): Fix compilation when configured with

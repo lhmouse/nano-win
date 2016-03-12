@@ -718,37 +718,37 @@ void parse_colors(char *ptr, bool icase)
 	} else
 	    cancelled = TRUE;
 
-	if (expectend) {
-	    if (ptr == NULL || strncasecmp(ptr, "end=", 4) != 0) {
-		rcfile_error(
-			N_("\"start=\" requires a corresponding \"end=\""));
-		return;
-	    }
-	    ptr += 4;
-	    if (*ptr != '"') {
-		rcfile_error(
-			N_("Regex strings must begin and end with a \" character"));
-		continue;
-	    }
+	if (!expectend)
+	    continue;
 
-	    fgstr = ++ptr;
-	    ptr = parse_next_regex(ptr);
-	    if (ptr == NULL)
-		break;
-
-	    /* If the start regex was invalid, skip past the end regex
-	     * to stay in sync. */
-	    if (cancelled)
-		continue;
-
-	    /* If it's valid, save the ending regex string. */
-	    if (nregcomp(fgstr, icase ? REG_ICASE : 0))
-		newcolor->end_regex = mallocstrcpy(NULL, fgstr);
-
-	    /* Lame way to skip another static counter. */
-	    newcolor->id = live_syntax->nmultis;
-	    live_syntax->nmultis++;
+	if (ptr == NULL || strncasecmp(ptr, "end=", 4) != 0) {
+	    rcfile_error(N_("\"start=\" requires a corresponding \"end=\""));
+	    return;
 	}
+
+	ptr += 4;
+	if (*ptr != '"') {
+	    rcfile_error(N_("Regex strings must begin and end with a \" character"));
+	    continue;
+	}
+
+	fgstr = ++ptr;
+	ptr = parse_next_regex(ptr);
+	if (ptr == NULL)
+	     break;
+
+	/* If the start regex was invalid, skip past the end regex
+	 * to stay in sync. */
+	if (cancelled)
+	    continue;
+
+	/* If it's valid, save the ending regex string. */
+	if (nregcomp(fgstr, icase ? REG_ICASE : 0))
+	    newcolor->end_regex = mallocstrcpy(NULL, fgstr);
+
+	/* Lame way to skip another static counter. */
+	newcolor->id = live_syntax->nmultis;
+	live_syntax->nmultis++;
     }
 }
 
