@@ -209,11 +209,11 @@ typedef struct colortype {
 	/* This syntax's background color. */
     bool bright;
 	/* Is this color A_BOLD? */
-    bool icase;
-	/* Is this regex string case insensitive? */
     int pairnum;
 	/* The color pair number used for this foreground color and
 	 * background color. */
+    int rex_flags;
+	/* The regex compilation flags (with or without REG_ICASE). */
     char *start_regex;
 	/* The start (or all) of the regex string. */
     regex_t *start;

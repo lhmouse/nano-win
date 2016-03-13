@@ -244,11 +244,11 @@ char *parse_next_regex(char *ptr)
 
 /* Compile the regular expression regex to see if it's valid.  Return
  * TRUE if it is, and FALSE otherwise. */
-bool nregcomp(const char *regex, int eflags)
+bool nregcomp(const char *regex, int compile_flags)
 {
     regex_t preg;
     const char *r = fixbounds(regex);
-    int rc = regcomp(&preg, r, REG_EXTENDED | eflags);
+    int rc = regcomp(&preg, r, compile_flags);
 
     if (rc != 0) {
 	size_t len = regerror(rc, &preg, NULL, 0);
@@ -622,9 +622,9 @@ short color_to_short(const char *colorname, bool *bright)
 }
 
 /* Parse the color string in the line at ptr, and add it to the current
- * file's associated colors.  If icase is TRUE, treat the color string
- * as case insensitive. */
-void parse_colors(char *ptr, bool icase)
+ * file's associated colors.  rex_flags are the regex compilation flags
+ * to use, excluding or including REG_ICASE for case (in)sensitivity. */
+void parse_colors(char *ptr, int rex_flags)
 {
     short fg, bg;
     bool bright = FALSE;
@@ -680,7 +680,7 @@ void parse_colors(char *ptr, bool icase)
 	if (ptr == NULL)
 	    break;
 
-	goodstart = nregcomp(fgstr, icase ? REG_ICASE : 0);
+	goodstart = nregcomp(fgstr, rex_flags);
 
 	/* If the starting regex is valid, initialize a new color struct,
 	 * and hook it in at the tail of the linked list. */
@@ -690,7 +690,7 @@ void parse_colors(char *ptr, bool icase)
 	    newcolor->fg = fg;
 	    newcolor->bg = bg;
 	    newcolor->bright = bright;
-	    newcolor->icase = icase;
+	    newcolor->rex_flags = rex_flags;
 
 	    newcolor->start_regex = mallocstrcpy(NULL, fgstr);
 	    newcolor->start = NULL;
@@ -736,7 +736,7 @@ void parse_colors(char *ptr, bool icase)
 	    continue;
 
 	/* If it's valid, save the ending regex string. */
-	if (nregcomp(fgstr, icase ? REG_ICASE : 0))
+	if (nregcomp(fgstr, rex_flags))
 	    newcolor->end_regex = mallocstrcpy(NULL, fgstr);
 
 	/* Lame way to skip another static counter. */
@@ -830,7 +830,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 	    return;
 
 	/* If the regex string is malformed, skip it. */
-	if (!nregcomp(regexstring, REG_NOSUB))
+	if (!nregcomp(regexstring, REG_EXTENDED | REG_NOSUB))
 	    continue;
 
 	/* Copy the regex into a struct, and hook this in at the end. */
@@ -1009,9 +1009,9 @@ void parse_rcfile(FILE *rcstream
 	    ;
 #endif
 	else if (strcasecmp(keyword, "color") == 0)
-	    parse_colors(ptr, FALSE);
+	    parse_colors(ptr, REG_EXTENDED);
 	else if (strcasecmp(keyword, "icolor") == 0)
-	    parse_colors(ptr, TRUE);
+	    parse_colors(ptr, REG_EXTENDED | REG_ICASE);
 	else if (strcasecmp(keyword, "linter") == 0)
 	    pick_up_name("linter", ptr, &live_syntax->linter);
 	else if (strcasecmp(keyword, "formatter") == 0)

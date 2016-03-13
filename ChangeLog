@@ -2,6 +2,8 @@
 	* src/search.c (regexp_init): Allow using the word boundary markers
 	\< and \> in search strings on non-GNU systems.  This is a partial
 	fix for Savannah bug #47325 reported by Thomas Rosenau.
+	* src/rcfile.c (parse_rcfile, parse_colors, nregcomp): Combine the
+	regular-expression flags at compile time instead of at run time.
 
 2016-03-13  Thomas Rosenau  <thomasr@fantasymail.de>  (tiny change)
 	* autogen.sh, README.SVN: Mention SVN instead of CVS.

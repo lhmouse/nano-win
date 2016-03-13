@@ -283,14 +283,12 @@ void color_update(void)
     for (ink = sint->color; ink != NULL; ink = ink->next) {
 	if (ink->start == NULL) {
 	    ink->start = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(ink->start, fixbounds(ink->start_regex),
-			REG_EXTENDED | (ink->icase ? REG_ICASE : 0));
+	    regcomp(ink->start, fixbounds(ink->start_regex), ink->rex_flags);
 	}
 
 	if (ink->end_regex != NULL && ink->end == NULL) {
 	    ink->end = (regex_t *)nmalloc(sizeof(regex_t));
-	    regcomp(ink->end, fixbounds(ink->end_regex),
-			REG_EXTENDED | (ink->icase ? REG_ICASE : 0));
+	    regcomp(ink->end, fixbounds(ink->end_regex), ink->rex_flags);
 	}
     }
 }
