@@ -1,4 +1,4 @@
-INSTRUCTIONS TO COMPILE AND INSTALL NANO CVS VERSIONS
+INSTRUCTIONS TO COMPILE AND INSTALL NANO SVN VERSIONS
 =====================================================
 
 GNU nano is available from SVN, but building this needs a bit more care
@@ -8,7 +8,7 @@ than the official stable and unstable tarballs.
 Prerequisites
 -------------
 
-To successfully compile GNU nano from CVS, you'll need the following
+To successfully compile GNU nano from SVN, you'll need the following
 packages:
 
 - autoconf (version >= 2.54)

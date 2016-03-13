@@ -1,3 +1,6 @@
+2016-03-13  Thomas Rosenau  <thomasr@fantasymail.de>  (tiny change)
+	* autogen.sh, README.SVN: Mention SVN instead of CVS.
+
 2016-03-12  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): Set the syntax and regex pointers
 	just once, in a single place.  And unnest two 'if's.
