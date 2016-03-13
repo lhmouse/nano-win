@@ -4,6 +4,7 @@
 	fix for Savannah bug #47325 reported by Thomas Rosenau.
 	* src/rcfile.c (parse_rcfile, parse_colors, nregcomp): Combine the
 	regular-expression flags at compile time instead of at run time.
+	* src/rcfile.c (parse_syntax, parse_colors): Rename a variable.
 
 2016-03-13  Thomas Rosenau  <thomasr@fantasymail.de>  (tiny change)
 	* autogen.sh, README.SVN: Mention SVN instead of CVS.

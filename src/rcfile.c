@@ -125,7 +125,7 @@ static bool opensyntax = FALSE;
 	 * or when a new syntax command is seen, this bool becomes FALSE. */
 static syntaxtype *live_syntax;
 	/* The syntax that is currently being parsed. */
-static colortype *endcolor = NULL;
+static colortype *lastcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
 
@@ -308,7 +308,7 @@ void parse_syntax(char *ptr)
     live_syntax->linter = NULL;
     live_syntax->formatter = NULL;
     live_syntax->color = NULL;
-    endcolor = NULL;
+    lastcolor = NULL;
     live_syntax->nmultis = 0;
 
     /* Hook the new syntax in at the top of the list. */
@@ -703,12 +703,12 @@ void parse_colors(char *ptr, int rex_flags)
 #ifdef DEBUG
 	    fprintf(stderr, "Adding an entry for fg %hd, bg %hd\n", fg, bg);
 #endif
-	    if (endcolor == NULL)
+	    if (lastcolor == NULL)
 		live_syntax->color = newcolor;
 	    else
-		endcolor->next = newcolor;
+		lastcolor->next = newcolor;
 
-	    endcolor = newcolor;
+	    lastcolor = newcolor;
 	}
 
 	if (!expectend)
@@ -959,10 +959,10 @@ void parse_rcfile(FILE *rcstream
 	    opensyntax = TRUE;
 
 	    /* Refind the tail of the color list for this syntax. */
-	    endcolor = sint->color;
-	    if (endcolor != NULL)
-		while (endcolor->next != NULL)
-		    endcolor = endcolor->next;
+	    lastcolor = sint->color;
+	    if (lastcolor != NULL)
+		while (lastcolor->next != NULL)
+		    lastcolor = lastcolor->next;
 
 	    keyword = ptr;
 	    ptr = parse_next_word(ptr);
@@ -995,7 +995,7 @@ void parse_rcfile(FILE *rcstream
 	    else
 		parse_includes(ptr);
 	} else if (strcasecmp(keyword, "syntax") == 0) {
-	    if (opensyntax && endcolor == NULL)
+	    if (opensyntax && lastcolor == NULL)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 				live_syntax->name);
 	    parse_syntax(ptr);
@@ -1201,7 +1201,7 @@ void parse_rcfile(FILE *rcstream
     }
 
 #ifndef DISABLE_COLOR
-    if (opensyntax && endcolor == NULL)
+    if (opensyntax && lastcolor == NULL)
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
 			live_syntax->name);
 
