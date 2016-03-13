@@ -48,7 +48,7 @@ bool regexp_init(const char *regexp)
 
     assert(!regexp_compiled);
 
-    rc = regcomp(&search_regexp, regexp, REG_EXTENDED
+    rc = regcomp(&search_regexp, fixbounds(regexp), REG_EXTENDED
 #ifndef NANO_TINY
 	| (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE)
 #endif

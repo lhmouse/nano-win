@@ -1,3 +1,8 @@
+2016-03-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (regexp_init): Allow using the word boundary markers
+	\< and \> in search strings on non-GNU systems.  This is a partial
+	fix for Savannah bug #47325 reported by Thomas Rosenau.
+
 2016-03-13  Thomas Rosenau  <thomasr@fantasymail.de>  (tiny change)
 	* autogen.sh, README.SVN: Mention SVN instead of CVS.
 
