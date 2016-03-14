@@ -1,5 +1,6 @@
 2016-03-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): Don't dereference a possible NULL.
+	* src/rcfile.c (parse_colors): Make error message equal to others.
 
 2016-03-13  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (regexp_init): Allow using the word boundary markers

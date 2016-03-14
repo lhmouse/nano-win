@@ -634,7 +634,8 @@ void parse_colors(char *ptr, int rex_flags)
 
     if (!opensyntax) {
 	rcfile_error(
-		N_("Cannot add a color command without a syntax command"));
+		N_("A '%s' command requires a preceding 'syntax' command"),
+		"color");
 	return;
     }
 
