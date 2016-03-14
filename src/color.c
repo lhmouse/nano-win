@@ -280,7 +280,7 @@ void color_update(void)
 
     /* If a syntax was found, compile its specified regexes (which have
      * already been checked for validity when they were read in). */
-    for (ink = sint->color; ink != NULL; ink = ink->next) {
+    for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 	if (ink->start == NULL) {
 	    ink->start = (regex_t *)nmalloc(sizeof(regex_t));
 	    regcomp(ink->start, fixbounds(ink->start_regex), ink->rex_flags);
