@@ -340,13 +340,12 @@ bool findnextstr(
 	if (ISSET(BACKWARDS_SEARCH)) {
 	    fileptr = fileptr->prev;
 	    current_y_find--;
-	} else {
+	} else
 #endif
+	{
 	    fileptr = fileptr->next;
 	    current_y_find++;
-#ifndef NANO_TINY
 	}
-#endif
 
 	if (fileptr == NULL) {
 	    /* We've reached the start or end of the buffer, so wrap around. */
@@ -354,13 +353,12 @@ bool findnextstr(
 	    if (ISSET(BACKWARDS_SEARCH)) {
 		fileptr = openfile->filebot;
 		current_y_find = editwinrows - 1;
-	    } else {
+	    } else
 #endif
+	    {
 		fileptr = openfile->fileage;
 		current_y_find = 0;
-#ifndef NANO_TINY
 	    }
-#endif
 	    statusbar(_("Search Wrapped"));
 	}
 
@@ -490,7 +488,7 @@ void do_findnext(void)
     } else
 	do_research();
 }
-#endif
+#endif /* !NANO_TINY */
 
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 /* Search for the last string without prompting. */
