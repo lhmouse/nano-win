@@ -94,7 +94,7 @@ void not_found_msg(const char *str)
     numchars = actual_x(disp, mbstrnlen(disp, COLS / 2));
 
     statusbar(_("\"%.*s%s\" not found"), numchars, disp,
-	(disp[numchars] == '\0') ? "" : "...");
+		(disp[numchars] == '\0') ? "" : "...");
 
     free(disp);
 }
@@ -197,8 +197,8 @@ int search_init(bool replacing, bool use_answer)
     backupstring = NULL;
 
     /* Cancel any search, or just return with no previous search. */
-    if (i == -1 || (i < 0 && *last_search == '\0') || (!replacing &&
-	i == 0 && *answer == '\0')) {
+    if (i == -1 || (i < 0 && *last_search == '\0') ||
+		(!replacing && i == 0 && *answer == '\0')) {
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
@@ -206,41 +206,39 @@ int search_init(bool replacing, bool use_answer)
 
 	if (i == -2 || i == 0 ) {
 #ifdef HAVE_REGEX_H
-		/* Use last_search if answer is an empty string, or
-		 * answer if it isn't. */
-		if (ISSET(USE_REGEXP) && !regexp_init((i == -2) ?
+	    /* Use last_search if answer is an empty string, or
+	     * answer if it isn't. */
+	    if (ISSET(USE_REGEXP) && !regexp_init((i == -2) ?
 			last_search : answer))
-		    return -1;
+		return -1;
 #endif
-		;
+	    ;
 #ifndef NANO_TINY
 	} else if (func == case_sens_void) {
-		TOGGLE(CASE_SENSITIVE);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
+	    TOGGLE(CASE_SENSITIVE);
+	    backupstring = mallocstrcpy(backupstring, answer);
+	    return 1;
 	} else if (func == backwards_void) {
-		TOGGLE(BACKWARDS_SEARCH);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
+	    TOGGLE(BACKWARDS_SEARCH);
+	    backupstring = mallocstrcpy(backupstring, answer);
+	    return 1;
 #endif
 #ifdef HAVE_REGEX_H
 	} else if (func == regexp_void) {
-		TOGGLE(USE_REGEXP);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
+	    TOGGLE(USE_REGEXP);
+	    backupstring = mallocstrcpy(backupstring, answer);
+	    return 1;
 #endif
 	} else if (func == do_replace || func == flip_replace_void) {
-		backupstring = mallocstrcpy(backupstring, answer);
-		return -2;	/* Call the opposite search function. */
+	    backupstring = mallocstrcpy(backupstring, answer);
+	    return -2;	/* Call the opposite search function. */
 	} else if (func == do_gotolinecolumn_void) {
-		do_gotolinecolumn(openfile->current->lineno,
+	    do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE);
-				/* Put answer up on the statusbar and
-				 * fall through. */
-		return 3;
-	} else {
-		return -1;
-	}
+	    /* Put answer up on the statusbar and fall through. */
+	    return 3;
+	} else
+	    return -1;
     }
 
     return 0;
@@ -379,12 +377,11 @@ bool findnextstr(
     /* Ensure we haven't wrapped around again! */
     if (search_last_line &&
 #ifndef NANO_TINY
-	((!ISSET(BACKWARDS_SEARCH) && current_x_find > begin_x) ||
-	(ISSET(BACKWARDS_SEARCH) && current_x_find < begin_x))
+		((!ISSET(BACKWARDS_SEARCH) && current_x_find > begin_x) ||
+		(ISSET(BACKWARDS_SEARCH) && current_x_find < begin_x))) {
 #else
-	current_x_find > begin_x
+		current_x_find > begin_x) {
 #endif
-	) {
 	not_found_msg(needle);
 	disable_nodelay();
 	return FALSE;
@@ -554,8 +551,7 @@ int replace_regexp(char *string, bool create)
     while (*c != '\0') {
 	int num = (*(c + 1) - '0');
 
-	if (*c != '\\' || num < 1 || num > 9 || num >
-		search_regexp.re_nsub) {
+	if (*c != '\\' || num < 1 || num > 9 || num > search_regexp.re_nsub) {
 	    if (create)
 		*string++ = *c;
 	    c++;
@@ -657,7 +653,7 @@ ssize_t do_replace_loop(
     if (old_mark_set) {
 	/* If the mark is on, frame the region, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
-	    (const filestruct **)&bot, &bot_x, &right_side_up);
+		(const filestruct **)&bot, &bot_x, &right_side_up);
 	openfile->mark_set = FALSE;
 
 	/* Start either at the top or the bottom of the marked region. */
@@ -687,9 +683,9 @@ ssize_t do_replace_loop(
 	    /* When we've found an occurrence outside of the marked region,
 	     * stop the fanfare. */
 	    if (openfile->current->lineno > bot->lineno ||
-		openfile->current->lineno < top->lineno ||
-		(openfile->current == bot && openfile->current_x > bot_x) ||
-		(openfile->current == top && openfile->current_x < top_x))
+			openfile->current->lineno < top->lineno ||
+			(openfile->current == bot && openfile->current_x > bot_x) ||
+			(openfile->current == top && openfile->current_x < top_x))
 		break;
 	}
 #endif
@@ -701,8 +697,8 @@ ssize_t do_replace_loop(
 	if (!replaceall) {
 	    size_t xpt = xplustabs();
 	    char *exp_word = display_string(openfile->current->data,
-		xpt, strnlenpt(openfile->current->data,
-		openfile->current_x + match_len) - xpt, FALSE);
+			xpt, strnlenpt(openfile->current->data,
+			openfile->current_x + match_len) - xpt, FALSE);
 
 	    /* Refresh the edit window, scrolling it if necessary. */
 	    edit_refresh();
@@ -902,9 +898,9 @@ void do_replace(void)
 
     numreplaced = do_replace_loop(
 #ifndef DISABLE_SPELLER
-	FALSE,
+		FALSE,
 #endif
-	NULL, begin, &begin_x, last_search);
+		NULL, begin, &begin_x, last_search);
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;
@@ -979,8 +975,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	/* Do a bounds check.  Display a warning on an out-of-bounds
 	 * line or column number only if we hit Enter at the statusbar
 	 * prompt. */
-	if (!parse_line_column(answer, &line, &column) || line < 1 ||
-		column < 1) {
+	if (!parse_line_column(answer, &line, &column) ||
+			line < 1 || column < 1) {
 	    if (i == 0)
 		statusbar(_("Invalid line or column number"));
 	    display_main_list();
@@ -1036,7 +1032,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
      * it below in that case, and rev_start will be properly set when
      * the search continues on the previous or next line. */
     rev_start = reverse ? fileptr->data + (openfile->current_x - 1) :
-	fileptr->data + (openfile->current_x + 1);
+			fileptr->data + (openfile->current_x + 1);
 
     /* Look for either of the two characters in bracket_set.  rev_start
      * can be 1 character before the start or after the end of the line.
@@ -1133,8 +1129,7 @@ void do_find_bracket(void)
     mbmatchhalf = mbstrlen(matchbrackets) / 2;
 
     for (i = 0; i < mbmatchhalf; i++)
-	matchhalf += parse_mbchar(matchbrackets + matchhalf, NULL,
-		NULL);
+	matchhalf += parse_mbchar(matchbrackets + matchhalf, NULL, NULL);
 
     reverse = ((ch - matchbrackets) >= matchhalf);
 
@@ -1147,7 +1142,7 @@ void do_find_bracket(void)
     while (mbmatchhalf > 0) {
 	if (reverse)
 	    wanted_ch = matchbrackets + move_mbleft(matchbrackets,
-		wanted_ch - matchbrackets);
+				wanted_ch - matchbrackets);
 	else
 	    wanted_ch += move_mbright(wanted_ch, 0);
 
@@ -1170,7 +1165,7 @@ void do_find_bracket(void)
 	    /* If we found an identical bracket, increment count.  If we
 	     * found a complementary bracket, decrement it. */
 	    parse_mbchar(openfile->current->data + openfile->current_x,
-		found_ch, NULL);
+			found_ch, NULL);
 	    count += (strncmp(found_ch, ch, ch_len) == 0) ? 1 : -1;
 
 	    /* If count is zero, we've found a matching bracket.  Update

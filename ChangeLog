@@ -3,6 +3,7 @@
 	a Re-search, to enable cancelling.  This fixes Savannah bug #47159.
 	* src/search.c (do_replace): Remove two redundant returns.
 	* src/search.c (findnextstr): Prune two #ifdefs.
+	* src/search.c: Adjust some indentation.
 
 2016-03-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): Don't dereference a possible NULL.
