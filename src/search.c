@@ -522,6 +522,9 @@ void do_research(void)
 	    return;
 #endif
 
+	/* Use the search-menu key bindings, to allow cancelling. */
+	currmenu = MWHEREIS;
+
 	findnextstr_wrap_reset();
 	didfind = findnextstr(
 #ifndef DISABLE_SPELLER
