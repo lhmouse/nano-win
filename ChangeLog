@@ -1,6 +1,7 @@
 2016-03-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_research): Use the Search key bindings also during
 	a Re-search, to enable cancelling.  This fixes Savannah bug #47159.
+	* src/search.c (do_replace): Remove two redundant returns.
 
 2016-03-14  Benno Schulenberg  <bensberg@justemail.net>
 	* src/color.c (color_update): Don't dereference a possible NULL.
