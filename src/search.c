@@ -132,10 +132,6 @@ int search_init(bool replacing, bool use_answer)
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
 
-    /* If backupstring doesn't exist, initialize it to "". */
-    if (backupstring == NULL)
-	backupstring = mallocstrcpy(NULL, "");
-
     /* If use_answer is TRUE, set backupstring to answer and get out. */
     if (use_answer) {
 	backupstring = mallocstrcpy(backupstring, answer);
@@ -845,13 +841,11 @@ void do_replace(void)
     if (i != 0)
 	return;
 
-    last_replace = mallocstrcpy(last_replace, "");
-
     i = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
 	TRUE,
 #endif
-	MREPLACEWITH, last_replace,
+	MREPLACEWITH, NULL,
 #ifndef DISABLE_HISTORIES
 	&replace_history,
 #endif

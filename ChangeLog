@@ -1,6 +1,8 @@
 2016-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init): Always remember the last typed string,
 	also when it's an invalid regex.  This fixes Savannah bug #47440.
+	* src/search.c (search_init, do_replace): Don't bother setting the
+	current answer to the empty string, as do_prompt() can handle a NULL.
 
 2016-03-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_research): Use the Search key bindings also during
