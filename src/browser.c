@@ -54,8 +54,6 @@ char *do_browser(char *path, DIR *dir)
     bool old_const_update = ISSET(CONST_UPDATE);
     char *prev_dir = NULL;
 	/* The directory we were in before backing up to "..". */
-    char *ans = NULL;
-	/* The last answer the user typed at the statusbar prompt. */
     size_t old_selected;
 	/* The selected file we had before the current selected file. */
     functionptrtype func;
@@ -68,8 +66,6 @@ char *do_browser(char *path, DIR *dir)
     wnoutrefresh(bottomwin);
 
     UNSET(CONST_UPDATE);
-
-    ans = mallocstrcpy(NULL, "");
 
   change_browser_directory:
 	/* We go here after we select a new directory. */
@@ -214,7 +210,7 @@ char *do_browser(char *path, DIR *dir)
 #ifndef DISABLE_TABCOMP
 			FALSE,
 #endif
-			MGOTODIR, ans,
+			MGOTODIR, NULL,
 #ifndef DISABLE_HISTORIES
 			NULL,
 #endif
@@ -343,7 +339,6 @@ char *do_browser(char *path, DIR *dir)
 	SET(CONST_UPDATE);
 
     free(path);
-    free(ans);
 
     free_chararray(filelist, filelist_len);
     filelist = NULL;
