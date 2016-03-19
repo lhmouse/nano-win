@@ -206,10 +206,14 @@ int search_init(bool replacing, bool use_answer)
 
 	if (i == -2 || i == 0 ) {
 #ifdef HAVE_REGEX_H
-	    /* Use last_search if answer is an empty string, or
-	     * answer if it isn't. */
-	    if (ISSET(USE_REGEXP) && !regexp_init((i == -2) ?
-			last_search : answer))
+	    /* If an answer was given, remember it. */
+	    if (*answer != '\0') {
+		last_search = mallocstrcpy(last_search, answer);
+#ifndef DISABLE_HISTORIES
+		update_history(&search_history, answer);
+#endif
+	    }
+	    if (ISSET(USE_REGEXP) && !regexp_init(last_search))
 		return -1;
 #endif
 	    ;
@@ -431,18 +435,9 @@ void do_search(void)
     if (i != 0)
 	return;
 
-    /* If answer is now "", copy last_search into answer. */
+    /* If answer is empty, use what was last searched for. */
     if (*answer == '\0')
 	answer = mallocstrcpy(answer, last_search);
-    else
-	last_search = mallocstrcpy(last_search, answer);
-
-#ifndef DISABLE_HISTORIES
-    /* If answer is not "", add this search string to the search history
-     * list. */
-    if (answer[0] != '\0')
-	update_history(&search_history, answer);
-#endif
 
     findnextstr_wrap_reset();
     didfind = findnextstr(
@@ -849,15 +844,6 @@ void do_replace(void)
 
     if (i != 0)
 	return;
-
-    /* If answer is not "", add answer to the search history list and
-     * copy answer into last_search. */
-    if (answer[0] != '\0') {
-#ifndef DISABLE_HISTORIES
-	update_history(&search_history, answer);
-#endif
-	last_search = mallocstrcpy(last_search, answer);
-    }
 
     last_replace = mallocstrcpy(last_replace, "");
 

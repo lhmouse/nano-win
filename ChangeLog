@@ -1,3 +1,7 @@
+2016-03-19  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (search_init): Always remember the last typed string,
+	also when it's an invalid regex.  This fixes Savannah bug #47440.
+
 2016-03-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_research): Use the Search key bindings also during
 	a Re-search, to enable cancelling.  This fixes Savannah bug #47159.
