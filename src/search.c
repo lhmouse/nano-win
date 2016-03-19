@@ -192,9 +192,9 @@ int search_init(bool replacing, bool use_answer)
     free(backupstring);
     backupstring = NULL;
 
-    /* Cancel any search, or just return with no previous search. */
-    if (i == -1 || (i < 0 && *last_search == '\0') ||
-		(!replacing && i == 0 && *answer == '\0')) {
+    /* If the search was cancelled, or we have a blank answer and
+     * nothing was searched for yet during this session, get out. */
+    if (i == -1 || (i == -2 && *last_search == '\0')) {
 	statusbar(_("Cancelled"));
 	return -1;
     } else {
