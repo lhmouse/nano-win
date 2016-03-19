@@ -918,7 +918,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive)
 {
     if (interactive) {
-	char *ans = mallocstrcpy(NULL, answer);
 	functionptrtype func;
 
 	/* Ask for the line and column. */
@@ -926,14 +925,12 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 #ifndef DISABLE_TABCOMP
 		TRUE,
 #endif
-		MGOTOLINE, use_answer ? ans : "",
+		MGOTOLINE, use_answer ? answer : NULL,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
 		/* TRANSLATORS: This is a prompt. */
 		edit_refresh, _("Enter line number, column number"));
-
-	free(ans);
 
 	/* Cancel, or Enter with blank string. */
 	if (i < 0) {
