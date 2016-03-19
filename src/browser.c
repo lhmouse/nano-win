@@ -228,14 +228,6 @@ char *do_browser(char *path, DIR *dir)
 	    if (i < 0 || *answer == '\n') {
 		statusbar(_("Cancelled"));
 		continue;
-	    } else if (i != 0) {
-		/* Put back the "Go to Directory" key and save
-		 * answer in ans, so that the file list is displayed
-		 * again, the prompt is displayed again, and what we
-		 * typed before at the prompt is displayed again. */
-		unget_kbinput(sc_seq_or(do_gotolinecolumn_void, 0), FALSE, FALSE);
-		ans = mallocstrcpy(ans, answer);
-		continue;
 	    }
 
 	    /* Convert newlines to nulls in the directory name. */
