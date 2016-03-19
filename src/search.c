@@ -131,6 +131,7 @@ int search_init(bool replacing, bool use_answer)
     char *buf;
     static char *backupstring = NULL;
 	/* The search string we'll be using. */
+    functionptrtype func;
 
     /* If use_answer is TRUE, set backupstring to answer and get out. */
     if (use_answer) {
@@ -197,51 +198,53 @@ int search_init(bool replacing, bool use_answer)
     if (i == -1 || (i == -2 && *last_search == '\0')) {
 	statusbar(_("Cancelled"));
 	return -1;
-    } else {
-	functionptrtype func = func_from_key(&i);
-
-	if (i == -2 || i == 0 ) {
-#ifdef HAVE_REGEX_H
-	    /* If an answer was given, remember it. */
-	    if (*answer != '\0') {
-		last_search = mallocstrcpy(last_search, answer);
-#ifndef DISABLE_HISTORIES
-		update_history(&search_history, answer);
-#endif
-	    }
-	    if (ISSET(USE_REGEXP) && !regexp_init(last_search))
-		return -1;
-#endif
-	    ;
-#ifndef NANO_TINY
-	} else if (func == case_sens_void) {
-	    TOGGLE(CASE_SENSITIVE);
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return 1;
-	} else if (func == backwards_void) {
-	    TOGGLE(BACKWARDS_SEARCH);
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return 1;
-#endif
-#ifdef HAVE_REGEX_H
-	} else if (func == regexp_void) {
-	    TOGGLE(USE_REGEXP);
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return 1;
-#endif
-	} else if (func == do_replace || func == flip_replace_void) {
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return -2;	/* Call the opposite search function. */
-	} else if (func == do_gotolinecolumn_void) {
-	    do_gotolinecolumn(openfile->current->lineno,
-			openfile->placewewant + 1, TRUE, TRUE);
-	    /* Put answer up on the statusbar and fall through. */
-	    return 3;
-	} else
-	    return -1;
     }
 
-    return 0;
+    /* If Enter was pressed, see what we got. */
+    if (i == 0 || i == -2) {
+	/* If an answer was given, remember it. */
+	if (*answer != '\0') {
+	    last_search = mallocstrcpy(last_search, answer);
+#ifndef DISABLE_HISTORIES
+	    update_history(&search_history, answer);
+#endif
+	}
+#ifdef HAVE_REGEX_H
+	if (ISSET(USE_REGEXP) && !regexp_init(last_search))
+	    return -1;
+	else
+#endif
+	    return 0;	/* We have a valid string or regex. */
+    }
+
+    func = func_from_key(&i);
+
+#ifndef NANO_TINY
+    if (func == case_sens_void) {
+	TOGGLE(CASE_SENSITIVE);
+	backupstring = mallocstrcpy(backupstring, answer);
+	return 1;
+    } else if (func == backwards_void) {
+	TOGGLE(BACKWARDS_SEARCH);
+	backupstring = mallocstrcpy(backupstring, answer);
+	return 1;
+#endif
+#ifdef HAVE_REGEX_H
+    } else if (func == regexp_void) {
+	TOGGLE(USE_REGEXP);
+	backupstring = mallocstrcpy(backupstring, answer);
+	return 1;
+#endif
+    } else if (func == do_replace || func == flip_replace_void) {
+	backupstring = mallocstrcpy(backupstring, answer);
+	return -2;	/* Call the opposite search function. */
+    } else if (func == do_gotolinecolumn_void) {
+	do_gotolinecolumn(openfile->current->lineno,
+			openfile->placewewant + 1, TRUE, TRUE);
+	return 3;
+    }
+
+    return -1;
 }
 
 /* Look for needle, starting at (current, current_x).  begin is the line
