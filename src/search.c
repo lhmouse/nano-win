@@ -861,12 +861,10 @@ void do_replace(void)
 	update_history(&replace_history, answer);
 #endif
 
-    if (i != 0 && i != -2) {
-	if (i == -1) {		/* Cancel. */
-	    if (last_replace[0] != '\0')
-		answer = mallocstrcpy(answer, last_replace);
+    /* When cancelled, or when a function was run, get out. */
+    if (i == -1 || i > 0) {
+	if (i == -1)
 	    statusbar(_("Cancelled"));
-	}
 	search_replace_abort();
 	return;
     }

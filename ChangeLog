@@ -8,6 +8,7 @@
 	* src/search.c (do_gotolinecolumn): Delete another unneeded variable.
 	* src/search.c (search_init): Snip an always-FALSE condition.
 	* src/search.c (search_init): Reshuffle stuff to reduce indentation.
+	* src/search.c (do_replace): Snip a useless setting of answer.
 
 2016-03-17  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_research): Use the Search key bindings also during
