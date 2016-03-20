@@ -597,6 +597,7 @@ void do_findnext(void);
 #endif
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 void do_research(void);
+void go_looking(void);
 #endif
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, bool create);

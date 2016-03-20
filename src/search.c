@@ -411,16 +411,10 @@ void findnextstr_wrap_reset(void)
     search_last_line = FALSE;
 }
 
-/* Search for a string. */
+/* Ask what to search for and then go looking for it. */
 void do_search(void)
 {
-    filestruct *fileptr = openfile->current;
-    size_t fileptr_x = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
-    int i;
-    bool didfind;
-
-    i = search_init(FALSE, FALSE);
+    int i = search_init(FALSE, FALSE);
 
     if (i == -1)	/* Cancelled, or some other exit reason. */
 	search_replace_abort();
@@ -431,25 +425,8 @@ void do_search(void)
 	do_search();
 #endif
 
-    if (i != 0)
-	return;
-
-    findnextstr_wrap_reset();
-    didfind = findnextstr(
-#ifndef DISABLE_SPELLER
-	FALSE,
-#endif
-	openfile->current, openfile->current_x, last_search, NULL);
-
-    /* If we found something, and we're back at the exact same spot where
-     * we started searching, then this is the only occurrence. */
-    if (didfind && fileptr == openfile->current &&
-		fileptr_x == openfile->current_x)
-	statusbar(_("This is the only occurrence"));
-
-    openfile->placewewant = xplustabs();
-    edit_redraw(fileptr, pww_save);
-    search_replace_abort();
+    if (i == 0)
+	go_looking();
 }
 
 #ifndef NANO_TINY
@@ -481,11 +458,6 @@ void do_findnext(void)
 /* Search for the last string without prompting. */
 void do_research(void)
 {
-    filestruct *fileptr = openfile->current;
-    size_t fileptr_x = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
-    bool didfind;
-
     focusing = TRUE;
 
 #ifndef DISABLE_HISTORIES
@@ -508,6 +480,19 @@ void do_research(void)
     /* Use the search-menu key bindings, to allow cancelling. */
     currmenu = MWHEREIS;
 
+    go_looking();
+}
+#endif /* !NANO_TINY */
+
+/* Search for the global string 'last_search'.  Inform the user when
+ * the string occurs only once. */
+void go_looking(void)
+{
+    filestruct *was_current = openfile->current;
+    size_t was_current_x = openfile->current_x;
+    size_t was_pww = openfile->placewewant;
+    bool didfind;
+
     findnextstr_wrap_reset();
     didfind = findnextstr(
 #ifndef DISABLE_SPELLER
@@ -517,15 +502,14 @@ void do_research(void)
 
     /* If we found something, and we're back at the exact same spot
      * where we started searching, then this is the only occurrence. */
-    if (didfind && fileptr == openfile->current &&
-		fileptr_x == openfile->current_x)
+    if (didfind && openfile->current == was_current &&
+		openfile->current_x == was_current_x)
 	statusbar(_("This is the only occurrence"));
 
     openfile->placewewant = xplustabs();
-    edit_redraw(fileptr, pww_save);
+    edit_redraw(was_current, was_pww);
     search_replace_abort();
 }
-#endif /* !NANO_TINY */
 
 #ifdef HAVE_REGEX_H
 /* Calculate the size of the replacement text, taking possible
