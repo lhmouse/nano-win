@@ -2276,6 +2276,8 @@ int do_writeout(bool exiting)
 #ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
+    bool maychange = FALSE;
+	/* Whether it's okay to save the file under a different name. */
     bool result = FALSE;
 
     if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
@@ -2452,19 +2454,29 @@ int do_writeout(bool exiting)
 		    if (ISSET(RESTRICTED))
 			continue;
 
-		    if (name_exists) {
-			i = do_yesno_prompt(FALSE,
-				_("File exists; OVERWRITE? "));
-			if (i == 0 || i == -1)
-			    continue;
-		    } else
+		    if (!maychange) {
 #ifndef NANO_TINY
-		    if (exiting || !openfile->mark_set)
+			if (exiting || !openfile->mark_set)
 #endif
-		    {
-			i = do_yesno_prompt(FALSE,
-				_("Save file under DIFFERENT NAME? "));
-			if (i == 0 || i == -1)
+			{
+			    i = do_yesno_prompt(FALSE,
+					_("Save file under DIFFERENT NAME? "));
+			    if (i < 1)
+				continue;
+			    maychange = TRUE;
+			}
+		    }
+
+		    if (name_exists) {
+			char *question = _("File \"%s\" exists; OVERWRITE? ");
+			char *message = charalloc(strlen(question) +
+						strlen(answer) + 1);
+			sprintf(message, question, answer);
+
+			i = do_yesno_prompt(FALSE, message);
+			free(message);
+
+			if (i < 1)
 			    continue;
 		    }
 		}
