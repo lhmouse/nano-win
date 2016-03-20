@@ -1207,7 +1207,7 @@ filestruct *find_history(const filestruct *h_start, const filestruct
 {
     const filestruct *p;
 
-    for (p = h_start; p != h_end->next && p != NULL; p = p->next) {
+    for (p = h_start; p != h_end->prev && p != NULL; p = p->prev) {
 	if (strncmp(s, p->data, len) == 0)
 	    return (filestruct *)p;
     }
@@ -1234,7 +1234,7 @@ void update_history(filestruct **h, const char *s)
     assert(hage != NULL && hbot != NULL);
 
     /* If this string is already in the history, delete it. */
-    p = find_history(*hage, *hbot, s, strlen(s));
+    p = find_history(*hbot, *hage, s, strlen(s));
 
     if (p != NULL) {
 	filestruct *foo, *bar;
@@ -1337,25 +1337,24 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 
 	assert(hage != NULL && hbot != NULL);
 
-	/* Search the history list from the current position to the
-	 * bottom for a match of len characters.  Skip over an exact
-	 * match. */
-	p = find_history((*h)->next, hbot, s, len);
+	/* Search the history list from the current position to the top
+	 * for a match of len characters.  Skip over an exact match. */
+	p = find_history((*h)->prev, hage, s, len);
 
 	while (p != NULL && strcmp(p->data, s) == 0)
-	    p = find_history(p->next, hbot, s, len);
+	    p = find_history(p->prev, hage, s, len);
 
 	if (p != NULL) {
 	    *h = p;
 	    return mallocstrcpy(s, (*h)->data);
 	}
 
-	/* Search the history list from the top to the current position
+	/* Search the history list from the bottom to the current position
 	 * for a match of len characters.  Skip over an exact match. */
-	p = find_history(hage, *h, s, len);
+	p = find_history(hbot, *h, s, len);
 
 	while (p != NULL && strcmp(p->data, s) == 0)
-	    p = find_history(p->next, *h, s, len);
+	    p = find_history(p->prev, *h, s, len);
 
 	if (p != NULL) {
 	    *h = p;

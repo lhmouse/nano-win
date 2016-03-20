@@ -4,6 +4,8 @@
 	a semicolon instead of a comma between phrases.
 	* src/text.c (do_cutword): Don't put cut words into the cutbuffer --
 	that is: treat the deletion of words like pressing Backspace/Delete.
+	* src/search.c (get_history_completion, find_history): Cycle through
+	the items from newest to oldest.  This fixes Savannah bug #47205.
 
 2016-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init): Always remember the last typed string,
