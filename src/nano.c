@@ -1105,7 +1105,8 @@ void do_exit(void)
 	    no_current_file_name_warning();
 
 	i = do_yesno_prompt(FALSE,
-		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
+		_("Save modified buffer?  (Answering \"No\" will"
+		  " DISCARD changes.) "));
     }
 
 #ifdef DEBUG

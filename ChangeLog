@@ -1,3 +1,8 @@
+2016-03-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (do_writeout), src/nano.c (do_exit): Normalize the
+	punctuation in some prompts: no space before a question mark, and
+	a semicolon instead of a comma between phrases.
+
 2016-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init): Always remember the last typed string,
 	also when it's an invalid regex.  This fixes Savannah bug #47440.

@@ -2346,7 +2346,7 @@ int do_writeout(bool exiting)
 	    if (func == discard_buffer) {
 		if (openfile->modified)
 		    i = do_yesno_prompt(FALSE,
-				_("Save modified buffer anyway ? "));
+				_("Save modified buffer anyway? "));
 		else
 		    i = 0;
 
@@ -2454,7 +2454,7 @@ int do_writeout(bool exiting)
 
 		    if (name_exists) {
 			i = do_yesno_prompt(FALSE,
-				_("File exists, OVERWRITE ? "));
+				_("File exists; OVERWRITE? "));
 			if (i == 0 || i == -1)
 			    continue;
 		    } else
@@ -2463,7 +2463,7 @@ int do_writeout(bool exiting)
 #endif
 		    {
 			i = do_yesno_prompt(FALSE,
-				_("Save file under DIFFERENT NAME ? "));
+				_("Save file under DIFFERENT NAME? "));
 			if (i == 0 || i == -1)
 			    continue;
 		    }
@@ -2477,12 +2477,12 @@ int do_writeout(bool exiting)
 			openfile->current_stat->st_dev != st.st_dev ||
 			openfile->current_stat->st_ino != st.st_ino)) {
 		    i = do_yesno_prompt(FALSE,
-			_("File was modified since you opened it, continue saving ? "));
+				_("File was modified since you opened it;"
+				  " continue saving? "));
 		    if (i == 0 || i == -1)
 			continue;
 		}
 #endif
-
 	    }
 
 	    /* Convert newlines to nulls, just before we save the file. */
