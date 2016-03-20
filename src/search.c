@@ -499,31 +499,31 @@ void do_research(void)
 	last_search = mallocstrcpy(last_search, searchbot->prev->data);
 #endif
 
-    if (last_search[0] == '\0')
+    if (last_search[0] == '\0') {
 	statusbar(_("No current search pattern"));
-    else {
+	return;
+    }
+
 #ifdef HAVE_REGEX_H
-	/* Since answer is "", use last_search! */
-	if (ISSET(USE_REGEXP) && !regexp_init(last_search))
-	    return;
+    if (ISSET(USE_REGEXP) && !regexp_init(last_search))
+	return;
 #endif
 
-	/* Use the search-menu key bindings, to allow cancelling. */
-	currmenu = MWHEREIS;
+    /* Use the search-menu key bindings, to allow cancelling. */
+    currmenu = MWHEREIS;
 
-	findnextstr_wrap_reset();
-	didfind = findnextstr(
+    findnextstr_wrap_reset();
+    didfind = findnextstr(
 #ifndef DISABLE_SPELLER
 		FALSE,
 #endif
 		openfile->current, openfile->current_x, last_search, NULL);
 
-	/* If we found something, and we're back at the exact same spot
-	 * where we started searching, then this is the only occurrence. */
-	if (didfind && fileptr == openfile->current &&
-		fileptr_x == openfile->current_x && didfind)
-	    statusbar(_("This is the only occurrence"));
-    }
+    /* If we found something, and we're back at the exact same spot
+     * where we started searching, then this is the only occurrence. */
+    if (didfind && fileptr == openfile->current &&
+		fileptr_x == openfile->current_x)
+	statusbar(_("This is the only occurrence"));
 
     openfile->placewewant = xplustabs();
     edit_redraw(fileptr, pww_save);
