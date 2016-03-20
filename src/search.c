@@ -434,16 +434,12 @@ void do_search(void)
     if (i != 0)
 	return;
 
-    /* If answer is empty, use what was last searched for. */
-    if (*answer == '\0')
-	answer = mallocstrcpy(answer, last_search);
-
     findnextstr_wrap_reset();
     didfind = findnextstr(
 #ifndef DISABLE_SPELLER
 	FALSE,
 #endif
-	openfile->current, openfile->current_x, answer, NULL);
+	openfile->current, openfile->current_x, last_search, NULL);
 
     /* If we found something, and we're back at the exact same spot where
      * we started searching, then this is the only occurrence. */

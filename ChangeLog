@@ -9,6 +9,8 @@
 	* src/files.c (do_writeout): When the name of the file was changed,
 	always ask whether this is okay.  This fixes Savannah bug #46894.
 	* src/search.c (do_research): Use 'return' instead of 'else'.
+	* src/search.c (do_search): Don't bother setting 'answer'; just	use
+	'last_search', which has been set to 'answer' in search_init().
 
 2016-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init): Always remember the last typed string,
