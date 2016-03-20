@@ -2,6 +2,8 @@
 	* src/files.c (do_writeout), src/nano.c (do_exit): Normalize the
 	punctuation in some prompts: no space before a question mark, and
 	a semicolon instead of a comma between phrases.
+	* src/text.c (do_cutword): Don't put cut words into the cutbuffer --
+	that is: treat the deletion of words like pressing Backspace/Delete.
 
 2016-03-19  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (search_init): Always remember the last typed string,

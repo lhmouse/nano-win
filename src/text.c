@@ -188,6 +188,12 @@ void do_cutword(bool backward)
     filestruct *is_current = openfile->current;
     size_t is_current_x = openfile->current_x;
 
+    /* Remember where the cutbuffer is and then make it seem blank. */
+    filestruct *is_cutbuffer = cutbuffer;
+    filestruct *is_cutbottom = cutbottom;
+    cutbuffer = NULL;
+    cutbottom = NULL;
+
     /* Move the cursor to a word start, to the left or to the right. */
     if (backward)
 	do_prev_word(ISSET(WORD_BOUNDS), FALSE);
@@ -205,6 +211,11 @@ void do_cutword(bool backward)
 
     /* Now kill the marked region and a word is gone. */
     do_cut_text_void();
+
+    /* Discard the cut word and restore the cutbuffer. */
+    free_filestruct(cutbuffer);
+    cutbuffer = is_cutbuffer;
+    cutbottom = is_cutbottom;
 }
 
 /* Delete a word leftward. */
