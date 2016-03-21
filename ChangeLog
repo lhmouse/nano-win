@@ -1,3 +1,6 @@
+2016-03-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (findnextfile): Trim a duplicate variable.
+
 2016-03-20  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_writeout), src/nano.c (do_exit): Normalize the
 	punctuation in some prompts: no space before a question mark, and

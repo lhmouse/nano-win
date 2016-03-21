@@ -738,7 +738,6 @@ void findnextfile(const char *needle)
 	/* Have we reached the starting file again? */
     const char *filetail = tail(filelist[looking_at]);
 	/* The filename we display, minus the path. */
-    const char *rev_start = filetail, *found = NULL;
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
 	/* A storage place for the current flag settings. */
 
@@ -753,7 +752,7 @@ void findnextfile(const char *needle)
     /* Step through each filename in the list until a match is found or
      * we've come back to the point where we started. */
     while (TRUE) {
-	found = strstrwrapper(filetail, needle, rev_start);
+	const char *found = strstrwrapper(filetail, needle, filetail);
 
 	/* If we've found a match and it's not the same filename where
 	 * we started, then we're done. */
@@ -787,8 +786,6 @@ void findnextfile(const char *needle)
 	    came_full_circle = TRUE;
 
 	filetail = tail(filelist[looking_at]);
-
-	rev_start = filetail;
     }
 
     /* Restore the settings of all flags. */
