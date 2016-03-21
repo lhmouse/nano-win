@@ -540,7 +540,7 @@ void browser_refresh(void)
     size_t i;
     int line = 0, col = 0;
 	/* The current line and column while the list is getting displayed. */
-    char *foo;
+    char *info;
 	/* The additional information that we'll display about a file. */
 
     titlebar(path_save);
@@ -552,23 +552,23 @@ void browser_refresh(void)
 
     for (; i < filelist_len && line < editwinrows; i++) {
 	struct stat st;
-	const char *filetail = tail(filelist[i]);
+	const char *thename = tail(filelist[i]);
 		/* The filename we display, minus the path. */
-	size_t filetaillen = strlenpt(filetail);
+	size_t namelen = strlenpt(thename);
 		/* The length of the filename in columns. */
-	size_t foolen;
+	size_t infolen;
 		/* The length of the file information in columns. */
-	int foomaxlen = 7;
+	int infomaxlen = 7;
 		/* The maximum length of the file information in
 		 * columns: seven for "--", "(dir)", or the file size,
 		 * and 12 for "(parent dir)". */
-	bool dots = (COLS >= 15 && filetaillen >= longest - foomaxlen);
+	bool dots = (COLS >= 15 && namelen >= longest - infomaxlen);
 		/* Do we put an ellipsis before the filename?  Don't set
 		 * this to TRUE if we have fewer than 15 columns (i.e.
 		 * one column for padding, plus seven columns for a
 		 * filename other than ".."). */
-	char *disp = display_string(filetail, dots ? filetaillen -
-		longest + foomaxlen + 4 : 0, longest, FALSE);
+	char *disp = display_string(thename, dots ? namelen -
+		longest + infomaxlen + 4 : 0, longest, FALSE);
 		/* If we put an ellipsis before the filename, reserve
 		 * one column for padding, plus seven columns for "--",
 		 * "(dir)", or the file size, plus three columns for the
@@ -596,25 +596,25 @@ void browser_refresh(void)
 	     * the file browser is open), or it's a symlink that doesn't
 	     * point to a directory, display "--". */
 	    if (stat(filelist[i], &st) == -1 || !S_ISDIR(st.st_mode))
-		foo = mallocstrcpy(NULL, "--");
+		info = mallocstrcpy(NULL, "--");
 	    /* If the file is a symlink that points to a directory,
 	     * display it as a directory. */
 	    else
 		/* TRANSLATORS: Try to keep this at most 7 characters. */
-		foo = mallocstrcpy(NULL, _("(dir)"));
+		info = mallocstrcpy(NULL, _("(dir)"));
 	} else if (S_ISDIR(st.st_mode)) {
 	    /* If the file is a directory, display it as such. */
-	    if (strcmp(filetail, "..") == 0) {
+	    if (strcmp(thename, "..") == 0) {
 		/* TRANSLATORS: Try to keep this at most 12 characters. */
-		foo = mallocstrcpy(NULL, _("(parent dir)"));
-		foomaxlen = 12;
+		info = mallocstrcpy(NULL, _("(parent dir)"));
+		infomaxlen = 12;
 	    } else
-		foo = mallocstrcpy(NULL, _("(dir)"));
+		info = mallocstrcpy(NULL, _("(dir)"));
 	} else {
 	    off_t result = st.st_size;
 	    char modifier;
 
-	    foo = charalloc(foomaxlen + 1);
+	    info = charalloc(infomaxlen + 1);
 
 	    if (st.st_size < (1 << 10))
 		modifier = ' ';  /* bytes */
@@ -632,27 +632,27 @@ void browser_refresh(void)
 	    /* Show the size if less than a terabyte,
 	     * otherwise show "(huge)". */
 	    if (result < (1 << 10))
-		sprintf(foo, "%4ju %cB", (intmax_t)result, modifier);
+		sprintf(info, "%4ju %cB", (intmax_t)result, modifier);
 	    else
 		/* TRANSLATORS: Try to keep this at most 7 characters.
 		 * If necessary, you can leave out the parentheses. */
-		foo = mallocstrcpy(foo, _("(huge)"));
+		info = mallocstrcpy(info, _("(huge)"));
 	}
 
-	/* Make sure foo takes up no more than foomaxlen columns. */
-	foolen = strlenpt(foo);
-	if (foolen > foomaxlen) {
-	    null_at(&foo, actual_x(foo, foomaxlen));
-	    foolen = foomaxlen;
+	/* Make sure info takes up no more than infomaxlen columns. */
+	infolen = strlenpt(info);
+	if (infolen > infomaxlen) {
+	    null_at(&info, actual_x(info, infomaxlen));
+	    infolen = infomaxlen;
 	}
 
-	mvwaddstr(edit, line, col - foolen, foo);
+	mvwaddstr(edit, line, col - infolen, info);
 
 	/* Finish highlighting the currently selected file or directory. */
 	if (i == selected)
 	    wattroff(edit, hilite_attribute);
 
-	free(foo);
+	free(info);
 
 	/* Add some space between the columns. */
 	col += 2;
@@ -736,7 +736,7 @@ void findnextfile(const char *needle)
 	/* The location in the file list of the filename we're looking at. */
     bool came_full_circle = FALSE;
 	/* Have we reached the starting file again? */
-    const char *filetail = tail(filelist[looking_at]);
+    const char *thename = tail(filelist[looking_at]);
 	/* The filename we display, minus the path. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
 	/* A storage place for the current flag settings. */
@@ -752,7 +752,7 @@ void findnextfile(const char *needle)
     /* Step through each filename in the list until a match is found or
      * we've come back to the point where we started. */
     while (TRUE) {
-	const char *found = strstrwrapper(filetail, needle, filetail);
+	const char *found = strstrwrapper(thename, needle, thename);
 
 	/* If we've found a match and it's not the same filename where
 	 * we started, then we're done. */
@@ -785,7 +785,7 @@ void findnextfile(const char *needle)
 	    /* We've reached the original starting file. */
 	    came_full_circle = TRUE;
 
-	filetail = tail(filelist[looking_at]);
+	thename = tail(filelist[looking_at]);
     }
 
     /* Restore the settings of all flags. */
