@@ -2424,7 +2424,7 @@ int main(int argc, char **argv)
 #endif
 		);
 #ifdef HAVE_REGEX_H
-    quoterc = regcomp(&quotereg, quotestr, REG_EXTENDED);
+    quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
 
     if (quoterc == 0) {
 	/* We no longer need quotestr, just quotereg. */

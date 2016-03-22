@@ -1,3 +1,8 @@
+2016-03-22  Thomas Rosenau  <thomasr@fantasymail.de>
+	* configure.ac, src/*.c: Check for the existence of the REG_ENHANCED
+	regex flag, and use it when it's available (on OS X systems).  This
+	completes the fix for Savannah bug #47325.
+
 2016-03-21  Benno Schulenberg  <bensberg@justemail.net>
 	* src/browser.c (findnextfile): Trim a duplicate variable.
 	* src/browser.c (browser_refresh, findnextfile): Rename four vars.

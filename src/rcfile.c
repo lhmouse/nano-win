@@ -831,7 +831,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 	    return;
 
 	/* If the regex string is malformed, skip it. */
-	if (!nregcomp(regexstring, REG_EXTENDED | REG_NOSUB))
+	if (!nregcomp(regexstring, NANO_REG_EXTENDED | REG_NOSUB))
 	    continue;
 
 	/* Copy the regex into a struct, and hook this in at the end. */
@@ -1010,9 +1010,9 @@ void parse_rcfile(FILE *rcstream
 	    ;
 #endif
 	else if (strcasecmp(keyword, "color") == 0)
-	    parse_colors(ptr, REG_EXTENDED);
+	    parse_colors(ptr, NANO_REG_EXTENDED);
 	else if (strcasecmp(keyword, "icolor") == 0)
-	    parse_colors(ptr, REG_EXTENDED | REG_ICASE);
+	    parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
 	else if (strcasecmp(keyword, "linter") == 0)
 	    pick_up_name("linter", ptr, &live_syntax->linter);
 	else if (strcasecmp(keyword, "formatter") == 0)
