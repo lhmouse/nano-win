@@ -2274,15 +2274,7 @@ void onekey(const char *keystroke, const char *desc, size_t len)
  * in the edit window at (current_y, current_x). */
 void reset_cursor(void)
 {
-    size_t xpt;
-    /* If we haven't opened any files yet, put the cursor in the top
-     * left corner of the edit window and get out. */
-    if (openfile == NULL) {
-	wmove(edit, 0, 0);
-	return;
-    }
-
-    xpt = xplustabs();
+    size_t xpt = xplustabs();
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
@@ -2292,7 +2284,7 @@ void reset_cursor(void)
 	for (tmp = openfile->edittop; tmp && tmp != openfile->current; tmp = tmp->next)
 	    openfile->current_y += (strlenpt(tmp->data) / COLS) + 1;
 
-	openfile->current_y += xplustabs() / COLS;
+	openfile->current_y += xpt / COLS;
 	if (openfile->current_y < editwinrows)
 	    wmove(edit, openfile->current_y, xpt % COLS);
     } else
