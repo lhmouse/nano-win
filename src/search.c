@@ -281,7 +281,8 @@ bool findnextstr(
 
     /* Start searching through the lines, looking for the needle. */
     while (TRUE) {
-	if (time(NULL) - lastkbcheck > 1) {
+	/* Glance at the keyboard once every second. */
+	if (time(NULL) - lastkbcheck > 0) {
 	    int input = parse_kbinput(edit);
 
 	    lastkbcheck = time(NULL);
