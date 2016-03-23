@@ -1,3 +1,8 @@
+2016-03-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (findnextstr): Prevent the internal spell checker from
+	finding the first occurrence twice.  And delete the piece of dead code
+	that was meant to do this.  This fixes Savannah bug #47188.
+
 2016-03-22  Thomas Rosenau  <thomasr@fantasymail.de>
 	* configure.ac, src/*.c: Check for the existence of the REG_ENHANCED
 	regex flag, and use it when it's available (on OS X systems).  This

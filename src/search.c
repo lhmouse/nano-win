@@ -300,6 +300,13 @@ bool findnextstr(
 #ifndef DISABLE_SPELLER
 	    bool found_whole = FALSE;
 		/* Is this potential match a whole word? */
+
+	    /* When we're spell-checking, don't search in the starting line
+	     * again -- there is no need: we started at x = 0. */
+	    if (whole_word_only && search_last_line) {
+		disable_nodelay();
+		return FALSE;
+	    }
 #endif
 
 	    /* Set found_len to the length of the potential match. */
@@ -377,20 +384,8 @@ bool findnextstr(
     /* We found an instance. */
     current_x_find = found - fileptr->data;
 
-    /* Ensure we haven't wrapped around again! */
-    if (search_last_line &&
-#ifndef NANO_TINY
-		((!ISSET(BACKWARDS_SEARCH) && current_x_find > begin_x) ||
-		(ISSET(BACKWARDS_SEARCH) && current_x_find < begin_x))) {
-#else
-		current_x_find > begin_x) {
-#endif
-	not_found_msg(needle);
-	disable_nodelay();
-	return FALSE;
-    }
-
     disable_nodelay();
+
     /* We've definitely found something. */
     openfile->current = fileptr;
     openfile->current_x = current_x_find;
