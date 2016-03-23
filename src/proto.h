@@ -788,7 +788,7 @@ void titlebar(const char *path);
 extern void set_modified(void);
 void statusbar(const char *msg, ...);
 void bottombars(int menu);
-void onekey(const char *keystroke, const char *desc, size_t len);
+void onekey(const char *keystroke, const char *desc, int length);
 void reset_cursor(void);
 void edit_draw(filestruct *fileptr, const char *converted, int
 	line, size_t start);

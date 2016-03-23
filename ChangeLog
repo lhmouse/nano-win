@@ -7,6 +7,7 @@
 	* src/winio.c (reset_cursor): Remove a pointless condition, and make
 	use of an existing intermediary variable.
 	* src/winio.c (reset_cursor): Tidy up and rename a variable.
+	* src/winio.c (onekey): Elide an unneeded 'if' and unneeded variable.
 
 2016-03-22  Thomas Rosenau  <thomasr@fantasymail.de>
 	* configure.ac, src/*.c: Check for the existence of the REG_ENHANCED

@@ -2238,33 +2238,28 @@ void bottombars(int menu)
 
 /* Write a shortcut key to the help area at the bottom of the window.
  * keystroke is e.g. "^G" and desc is e.g. "Get Help".  We are careful
- * to write at most len characters, even if len is very small and
+ * to write at most length characters, even if length is very small and
  * keystroke and desc are long.  Note that waddnstr(,,(size_t)-1) adds
  * the whole string!  We do not bother padding the entry with blanks. */
-void onekey(const char *keystroke, const char *desc, size_t len)
+void onekey(const char *keystroke, const char *desc, int length)
 {
-    size_t keystroke_len = strlenpt(keystroke) + 1;
-
     assert(keystroke != NULL && desc != NULL);
 
     if (interface_color_pair[KEY_COMBO].bright)
 	wattron(bottomwin, A_BOLD);
     wattron(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
-    waddnstr(bottomwin, keystroke, actual_x(keystroke, len));
+    waddnstr(bottomwin, keystroke, actual_x(keystroke, length));
     wattroff(bottomwin, A_BOLD);
     wattroff(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
 
-    if (len > keystroke_len)
-	len -= keystroke_len;
-    else
-	len = 0;
+    length -= strlenpt(keystroke) + 1;
 
-    if (len > 0) {
+    if (length > 0) {
 	waddch(bottomwin, ' ');
 	if (interface_color_pair[FUNCTION_TAG].bright)
 	    wattron(bottomwin, A_BOLD);
 	wattron(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
-	waddnstr(bottomwin, desc, actual_x(desc, len));
+	waddnstr(bottomwin, desc, actual_x(desc, length));
 	wattroff(bottomwin, A_BOLD);
 	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
     }
