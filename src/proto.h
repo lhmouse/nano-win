@@ -588,7 +588,7 @@ bool findnextstr(
 	bool whole_word_only,
 #endif
 	const filestruct *begin, size_t begin_x,
-	const char *needle, size_t *needle_len);
+	const char *needle, size_t *match_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
 #ifndef NANO_TINY

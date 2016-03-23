@@ -2,6 +2,7 @@
 	* src/search.c (findnextstr): Prevent the internal spell checker from
 	finding the first occurrence twice.  And delete the piece of dead code
 	that was meant to do this.  This fixes Savannah bug #47188.
+	* src/search.c (findnextstr): Clean up and rename a variable.
 
 2016-03-22  Thomas Rosenau  <thomasr@fantasymail.de>
 	* configure.ac, src/*.c: Check for the existence of the REG_ENHANCED

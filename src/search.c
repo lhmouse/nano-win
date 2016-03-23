@@ -249,19 +249,17 @@ int search_init(bool replacing, bool use_answer)
 
 /* Look for needle, starting at (current, current_x).  begin is the line
  * where we first started searching, at column begin_x.  The return
- * value specifies whether we found anything.  If we did, set needle_len
+ * value specifies whether we found anything.  If we did, set match_len
  * to the length of the string we found if it isn't NULL. */
 bool findnextstr(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
 	const filestruct *begin, size_t begin_x,
-	const char *needle, size_t *needle_len)
+	const char *needle, size_t *match_len)
 {
     size_t found_len;
 	/* The length of the match we find. */
-    size_t current_x_find = 0;
-	/* The location in the current line of the match we find. */
     ssize_t current_y_find = openfile->current_y;
     filestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
@@ -279,8 +277,9 @@ bool findnextstr(
 #endif
 	move_mbright(fileptr->data, openfile->current_x);
 
-    /* Look for needle in the current line we're searching. */
     enable_nodelay();
+
+    /* Start searching through the lines, looking for the needle. */
     while (TRUE) {
 	if (time(NULL) - lastkbcheck > 1) {
 	    int input = parse_kbinput(edit);
@@ -293,9 +292,9 @@ bool findnextstr(
 	    }
 	}
 
+	/* Search for the needle in the current line. */
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
-	/* We've found a potential match. */
 	if (found != NULL) {
 #ifndef DISABLE_SPELLER
 	    bool found_whole = FALSE;
@@ -308,8 +307,7 @@ bool findnextstr(
 		return FALSE;
 	    }
 #endif
-
-	    /* Set found_len to the length of the potential match. */
+	    /* Remember the length of the potential match. */
 	    found_len =
 #ifdef HAVE_REGEX_H
 		ISSET(USE_REGEXP) ?
@@ -318,14 +316,13 @@ bool findnextstr(
 		strlen(needle);
 
 #ifndef DISABLE_SPELLER
-	    /* If we're searching for whole words, see if this potential
-	     * match is a whole word. */
+	    /* If we're searching for whole words, see if it is. */
 	    if (whole_word_only) {
 		char *word = mallocstrncpy(NULL, found, found_len + 1);
 		word[found_len] = '\0';
 
 		found_whole = is_whole_word(found - fileptr->data,
-			fileptr->data, word);
+					fileptr->data, word);
 		free(word);
 	    }
 
@@ -336,8 +333,8 @@ bool findnextstr(
 		break;
 	}
 
+	/* If we're back at the beginning, then there is no needle. */
 	if (search_last_line) {
-	    /* We've finished processing the file, so get out. */
 	    not_found_msg(needle);
 	    disable_nodelay();
 	    return FALSE;
@@ -355,8 +352,8 @@ bool findnextstr(
 	    current_y_find++;
 	}
 
+	/* If we've reached the start or end of the buffer, wrap around. */
 	if (fileptr == NULL) {
-	    /* We've reached the start or end of the buffer, so wrap around. */
 #ifndef NANO_TINY
 	    if (ISSET(BACKWARDS_SEARCH)) {
 		fileptr = openfile->filebot;
@@ -370,10 +367,11 @@ bool findnextstr(
 	    statusbar(_("Search Wrapped"));
 	}
 
+	/* If we've reached the original starting line, take note. */
 	if (fileptr == begin)
-	    /* We've reached the original starting line. */
 	    search_last_line = TRUE;
 
+	/* Set the starting x to the start or end of the line. */
 	rev_start = fileptr->data;
 #ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH))
@@ -381,20 +379,17 @@ bool findnextstr(
 #endif
     }
 
-    /* We found an instance. */
-    current_x_find = found - fileptr->data;
-
     disable_nodelay();
 
-    /* We've definitely found something. */
+    /* Set the current position to point at what we found. */
     openfile->current = fileptr;
-    openfile->current_x = current_x_find;
+    openfile->current_x = found - fileptr->data;
     openfile->placewewant = xplustabs();
     openfile->current_y = current_y_find;
 
-    /* needle_len holds the length of needle. */
-    if (needle_len != NULL)
-	*needle_len = found_len;
+    /* When requested, pass back the length of the match. */
+    if (match_len != NULL)
+	*match_len = found_len;
 
     return TRUE;
 }
