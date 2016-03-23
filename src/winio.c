@@ -2270,28 +2270,30 @@ void onekey(const char *keystroke, const char *desc, size_t len)
     }
 }
 
-/* Reset current_y, based on the position of current, and put the cursor
- * in the edit window at (current_y, current_x). */
+/* Redetermine current_y from the position of current relative to edittop,
+ * and put the cursor in the edit window at (current_y, current_x). */
 void reset_cursor(void)
 {
     size_t xpt = xplustabs();
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	filestruct *tmp;
+	filestruct *line = openfile->edittop;
 	openfile->current_y = 0;
 
-	for (tmp = openfile->edittop; tmp && tmp != openfile->current; tmp = tmp->next)
-	    openfile->current_y += (strlenpt(tmp->data) / COLS) + 1;
-
+	while (line != NULL && line != openfile->current) {
+	    openfile->current_y += strlenpt(line->data) / COLS + 1;
+	    line = line->next;
+	}
 	openfile->current_y += xpt / COLS;
+
 	if (openfile->current_y < editwinrows)
 	    wmove(edit, openfile->current_y, xpt % COLS);
     } else
 #endif
     {
 	openfile->current_y = openfile->current->lineno -
-	    openfile->edittop->lineno;
+				openfile->edittop->lineno;
 
 	if (openfile->current_y < editwinrows)
 	    wmove(edit, openfile->current_y, xpt - get_page_start(xpt));
