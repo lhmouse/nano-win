@@ -260,6 +260,8 @@ bool findnextstr(
 {
     size_t found_len;
 	/* The length of the match we find. */
+    int feedback = 0;
+	/* When bigger than zero, show and wipe the "Searching..." message. */
     ssize_t current_y_find = openfile->current_y;
     filestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
@@ -291,6 +293,9 @@ bool findnextstr(
 		statusbar(_("Cancelled"));
 		return FALSE;
 	    }
+
+	    if (++feedback > 0)
+		statusbar(_("Searching..."));
 	}
 
 	/* Search for the needle in the current line. */
@@ -366,6 +371,8 @@ bool findnextstr(
 		current_y_find = 0;
 	    }
 	    statusbar(_("Search Wrapped"));
+	    /* Delay the "Searching..." message for at least two seconds. */
+	    feedback = -2;
 	}
 
 	/* If we've reached the original starting line, take note. */
@@ -391,6 +398,9 @@ bool findnextstr(
     /* When requested, pass back the length of the match. */
     if (match_len != NULL)
 	*match_len = found_len;
+
+    if (feedback > 0)
+	blank_statusbar();
 
     return TRUE;
 }

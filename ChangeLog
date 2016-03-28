@@ -2,6 +2,8 @@
 	* src/winio.c (statusbar): Don't bother putting back the cursor in
 	the edit window, as it is off anyway, and will be placed back in the
 	main loop.  This prevents a segfault when trying to open a directory.
+	* src/search.c (findnextstr): Provide feedback when searching takes
+	longer than roughly half a second (on average).
 
 2016-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (findnextstr): Prevent the internal spell checker from
