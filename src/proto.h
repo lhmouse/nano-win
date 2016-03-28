@@ -46,7 +46,6 @@ extern ssize_t wrap_at;
 #endif
 
 extern char *last_search;
-extern char *last_replace;
 
 extern unsigned flags[4];
 extern WINDOW *topwin;

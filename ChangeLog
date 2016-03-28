@@ -4,6 +4,7 @@
 	main loop.  This prevents a segfault when trying to open a directory.
 	* src/search.c (findnextstr): Provide feedback when searching takes
 	longer than roughly half a second (on average).
+	* src/*.c: Remove the 'last_replace' variable that is never used.
 
 2016-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (findnextstr): Prevent the internal spell checker from

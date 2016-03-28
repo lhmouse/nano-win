@@ -518,7 +518,7 @@ void go_looking(void)
  * text in the passed string only when create is TRUE. */
 int replace_regexp(char *string, bool create)
 {
-    const char *c = last_replace;
+    const char *c = answer;
     size_t replacement_size = 0;
 
     /* Iterate through the replacement text to handle subexpression
@@ -849,8 +849,6 @@ void do_replace(void)
 	search_replace_abort();
 	return;
     }
-
-    last_replace = mallocstrcpy(last_replace, answer);
 
     /* Save where we are. */
     edittop_save = openfile->edittop;

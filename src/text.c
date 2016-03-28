@@ -2352,7 +2352,7 @@ void do_full_justify(void)
  * return FALSE if the user cancels. */
 bool do_int_spell_fix(const char *word)
 {
-    char *save_search, *save_replace;
+    char *save_search;
     size_t match_len, current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     filestruct *edittop_save = openfile->edittop;
@@ -2388,13 +2388,9 @@ bool do_int_spell_fix(const char *word)
     UNSET(USE_REGEXP);
 #endif
 
-    /* Save the current search/replace strings. */
+    /* Save the current search string, then set it to the misspelled word. */
     save_search = last_search;
-    save_replace = last_replace;
-
-    /* Set the search/replace strings to the misspelled word. */
     last_search = mallocstrcpy(NULL, word);
-    last_replace = mallocstrcpy(NULL, word);
 
     focusing = TRUE;
 
@@ -2484,11 +2480,9 @@ bool do_int_spell_fix(const char *word)
     }
 #endif /* !NANO_TINY */
 
-    /* Restore the search/replace strings. */
+    /* Restore the string that was last searched for. */
     free(last_search);
     last_search = save_search;
-    free(last_replace);
-    last_replace = save_replace;
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;

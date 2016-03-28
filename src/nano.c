@@ -2479,9 +2479,8 @@ int main(int argc, char **argv)
     }
 #endif /* !NANO_TINY */
 
-    /* Initialize the search and replace strings. */
+    /* Initialize the search string. */
     last_search = mallocstrcpy(NULL, "");
-    last_replace = mallocstrcpy(NULL, "");
 
     /* If tabsize wasn't specified, set its default value. */
     if (tabsize == -1)

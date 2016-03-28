@@ -57,8 +57,6 @@ ssize_t wrap_at = -CHARS_FROM_EOL;
 
 char *last_search = NULL;
 	/* The last string we searched for. */
-char *last_replace = NULL;
-	/* The last replacement string we searched for. */
 
 unsigned flags[4] = {0, 0, 0, 0};
 	/* Our flag containing the states of all global options. */
@@ -1650,7 +1648,6 @@ void thanks_for_all_the_fish(void)
 #endif
     free(answer);
     free(last_search);
-    free(last_replace);
 #ifndef DISABLE_SPELLER
     free(alt_speller);
 #endif
