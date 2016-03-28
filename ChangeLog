@@ -1,3 +1,8 @@
+2016-03-28  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (statusbar): Don't bother putting back the cursor in
+	the edit window, as it is off anyway, and will be placed back in the
+	main loop.  This prevents a segfault when trying to open a directory.
+
 2016-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (findnextstr): Prevent the internal spell checker from
 	finding the first occurrence twice.  And delete the piece of dead code

@@ -2147,9 +2147,6 @@ void statusbar(const char *msg, ...)
     wattroff(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
 
     wnoutrefresh(bottomwin);
-   /* Leave the cursor in the edit window, not in the statusbar. */
-    reset_cursor();
-    wnoutrefresh(edit);
 
     disable_cursorpos = TRUE;
 
