@@ -633,11 +633,6 @@ int parse_kbinput(WINDOW *win)
 		retval = ERR;
 		break;
 #endif
-#ifndef NANO_TINY
-	    case KEY_WINCH:
-		retval = KEY_WINCH;
-		break;
-#endif
 	}
 
 #ifndef NANO_TINY

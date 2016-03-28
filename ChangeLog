@@ -5,6 +5,7 @@
 	* src/search.c (findnextstr): Provide feedback when searching takes
 	longer than roughly half a second (on average).
 	* src/*.c: Remove the 'last_replace' variable that is never used.
+	* src/winio.c (parse_kbinput): Delete a no-op.
 
 2016-03-23  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (findnextstr): Prevent the internal spell checker from
