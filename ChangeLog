@@ -1,3 +1,7 @@
+2016-03-29  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (main): Place the cursor in the edit window also when
+	--constantshow is in effect.
+
 2016-03-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (statusbar): Don't bother putting back the cursor in
 	the edit window, as it is off anyway, and will be placed back in the

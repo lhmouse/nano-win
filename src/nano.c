@@ -2632,9 +2632,8 @@ int main(int argc, char **argv)
     display_buffer();
 
     while (TRUE) {
-	/* Make sure the cursor is in the edit window. */
-	reset_cursor();
-	wnoutrefresh(edit);
+	currmenu = MMAIN;
+	focusing = FALSE;
 
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor
@@ -2642,11 +2641,10 @@ int main(int argc, char **argv)
 	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
-	currmenu = MMAIN;
-	focusing = FALSE;
-
-	/* Turn the cursor on when waiting for input. */
+	/* Place the cursor in the edit window and make it visible. */
+	reset_cursor();
 	curs_set(1);
+	wnoutrefresh(edit);
 
 	/* Read in and interpret characters. */
 	do_input(TRUE);
