@@ -240,7 +240,9 @@ char *do_browser(char *path, DIR *dir)
 
 #ifndef DISABLE_OPERATINGDIR
 	    if (check_operating_dir(new_path, FALSE)) {
-		statusbar(_("Can't go outside of %s in restricted mode"),
+		/* TRANSLATORS: This refers to the option --operatingdir,
+		 * not to --restricted. */
+		statusbar(_("Can't go outside of %s in confined mode"),
 				operating_dir);
 		free(new_path);
 		continue;
@@ -287,7 +289,7 @@ char *do_browser(char *path, DIR *dir)
 	     * directory if it's ".." or if it's a symlink to a
 	     * directory outside the operating directory. */
 	    if (check_operating_dir(filelist[selected], FALSE)) {
-		statusbar(_("Can't go outside of %s in restricted mode"),
+		statusbar(_("Can't go outside of %s in confined mode"),
 				operating_dir);
 		beep();
 		continue;
