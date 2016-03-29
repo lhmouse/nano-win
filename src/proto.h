@@ -606,8 +606,8 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
-	bool *canceled, const filestruct *real_current, size_t
-	*real_current_x, const char *needle);
+	const filestruct *real_current, size_t *real_current_x,
+	const char *needle);
 void do_replace(void);
 void goto_line_posx(ssize_t line, size_t pos_x);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,

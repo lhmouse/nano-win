@@ -2448,7 +2448,7 @@ bool do_int_spell_fix(const char *word)
 
 	    if (!canceled && strcmp(word, answer) != 0) {
 		openfile->current_x--;
-		do_replace_loop(TRUE, NULL, openfile->current,
+		do_replace_loop(TRUE, openfile->current,
 			&openfile->current_x, word);
 	    }
 

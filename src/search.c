@@ -611,8 +611,8 @@ ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
-	bool *canceled, const filestruct *real_current, size_t
-	*real_current_x, const char *needle)
+	const filestruct *real_current, size_t *real_current_x,
+	const char *needle)
 {
     ssize_t numreplaced = -1;
     size_t match_len;
@@ -641,9 +641,6 @@ ssize_t do_replace_loop(
 	}
     }
 #endif /* !NANO_TINY */
-
-    if (canceled != NULL)
-	*canceled = FALSE;
 
     findnextstr_wrap_reset();
     while (findnextstr(
@@ -690,11 +687,8 @@ ssize_t do_replace_loop(
 
 	    free(exp_word);
 
-	    if (i == -1) {	/* We canceled the replace. */
-		if (canceled != NULL)
-		    *canceled = TRUE;
+	    if (i == -1)  /* The replacing was cancelled. */
 		break;
-	    }
 	}
 
 	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
@@ -860,7 +854,7 @@ void do_replace(void)
 #ifndef DISABLE_SPELLER
 		FALSE,
 #endif
-		NULL, begin, &begin_x, last_search);
+		begin, &begin_x, last_search);
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;

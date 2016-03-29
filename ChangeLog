@@ -8,6 +8,7 @@
 	* src/chars.c (is_valid_unicode): Speed up Unicode validation.
 	* src/text.c (do_int_spell_fix): Allow to stop replacing a word
 	without aborting the entire spell-fixing session.
+	* src/search.c (do_replace_loop): Chop a now-unused parameter.
 
 2016-03-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (statusbar): Don't bother putting back the cursor in
