@@ -2250,6 +2250,7 @@ void do_justify(bool full_justify)
     do {
 #endif
 	statusbar(_("Can now UnJustify!"));
+	reset_cursor();
 	curs_set(1);
 	kbinput = do_input(FALSE);
 #ifndef NANO_TINY
@@ -3414,6 +3415,8 @@ void do_verbatim_input(void)
     /* TRANSLATORS: This is displayed when the next keystroke will be
      * inserted verbatim. */
     statusbar(_("Verbatim Input"));
+    reset_cursor();
+    curs_set(1);
 
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);

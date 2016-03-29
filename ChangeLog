@@ -1,6 +1,9 @@
 2016-03-29  Benno Schulenberg  <bensberg@justemail.net>
-	* src/nano.c (main): Place the cursor in the edit window also when
-	--constantshow is in effect.
+	* src/nano.c (main), src/text.c (do_justify, do_verbatim_input),
+	src/winio.c (parse_escape_sequence): Place the cursor in the edit
+	window also when --constantshow is in effect, after a ^J Justify or
+	an invalid escape sequence, and when entering a verbatim keystroke.
+	Leave the cursor off during Unicode input, for extra feedback.
 
 2016-03-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (statusbar): Don't bother putting back the cursor in
