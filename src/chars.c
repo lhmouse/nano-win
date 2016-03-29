@@ -955,9 +955,10 @@ bool has_blank_mbchars(const char *s)
 /* Return TRUE if wc is valid Unicode, and FALSE otherwise. */
 bool is_valid_unicode(wchar_t wc)
 {
-    return ((0 <= wc && wc <= 0x10FFFF) && (wc <= 0xD7FF || 0xE000 <=
-	wc) && (wc <= 0xFDCF || 0xFDF0 <= wc) && ((wc & 0xFFFF) <=
-	0xFFFD));
+    return ((0 <= wc && wc <= 0xD7FF) ||
+		 (0xE000 <= wc && wc <= 0xFDCF) ||
+		 (0xFDF0 <= wc && wc <= 0xFFFD) ||
+		 (0xFFFF < wc && wc <= 0x10FFFF && (wc & 0xFFFF) <= 0xFFFD));
 }
 #endif
 
