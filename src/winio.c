@@ -3149,7 +3149,7 @@ void disable_nodelay(void)
 
 /* Highlight the current word being replaced or spell checked.  We
  * expect word to have tabs and control characters expanded. */
-void do_replace_highlight(bool highlight, const char *word)
+void spotlight(bool active, const char *word)
 {
     size_t y = xplustabs(), word_len = strlenpt(word);
 
@@ -3165,7 +3165,7 @@ void do_replace_highlight(bool highlight, const char *word)
     reset_cursor();
     wnoutrefresh(edit);
 
-    if (highlight)
+    if (active)
 	wattron(edit, hilite_attribute);
 
     /* This is so we can show zero-length matches. */
@@ -3177,7 +3177,7 @@ void do_replace_highlight(bool highlight, const char *word)
     if (word_len > y)
 	waddch(edit, '$');
 
-    if (highlight)
+    if (active)
 	wattroff(edit, hilite_attribute);
 }
 

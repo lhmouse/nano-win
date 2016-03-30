@@ -2429,7 +2429,7 @@ bool do_int_spell_fix(const char *word)
 
 	    edit_refresh();
 
-	    do_replace_highlight(TRUE, exp_word);
+	    spotlight(TRUE, exp_word);
 
 	    /* Allow all instances of the word to be corrected. */
 	    canceled = (do_prompt(FALSE,
@@ -2442,7 +2442,7 @@ bool do_int_spell_fix(const char *word)
 #endif
 		edit_refresh, _("Edit a replacement")) == -1);
 
-	    do_replace_highlight(FALSE, exp_word);
+	    spotlight(FALSE, exp_word);
 
 	    free(exp_word);
 

@@ -802,7 +802,7 @@ void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
-void do_replace_highlight(bool highlight, const char *word);
+void spotlight(bool active, const char *word);
 void xon_complaint(void);
 void xoff_complaint(void);
 void do_suspend_void(void);

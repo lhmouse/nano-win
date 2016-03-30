@@ -686,12 +686,12 @@ ssize_t do_replace_loop(
 	    /* Don't show cursor, to not distract from highlighted match. */
 	    curs_set(0);
 
-	    do_replace_highlight(TRUE, exp_word);
+	    spotlight(TRUE, exp_word);
 
 	    /* TRANSLATORS: This is a prompt. */
 	    i = do_yesno_prompt(TRUE, _("Replace this instance?"));
 
-	    do_replace_highlight(FALSE, exp_word);
+	    spotlight(FALSE, exp_word);
 
 	    free(exp_word);
 
