@@ -3151,16 +3151,15 @@ void disable_nodelay(void)
  * expect word to have tabs and control characters expanded. */
 void spotlight(bool active, const char *word)
 {
-    size_t y = xplustabs(), word_len = strlenpt(word);
+    size_t word_len = strlenpt(word), room;
 
-    y = get_page_start(y) + COLS - y;
-	/* Now y is the number of columns that we can display on this
-	 * line. */
+   /* Compute the number of columns that are available for the word. */
+    room = COLS + get_page_start(xplustabs()) - xplustabs();
 
-    assert(y > 0);
+    assert(room > 0);
 
-    if (word_len > y)
-	y--;
+    if (word_len > room)
+	room--;
 
     reset_cursor();
     wnoutrefresh(edit);
@@ -3172,9 +3171,9 @@ void spotlight(bool active, const char *word)
     if (word_len == 0)
 	waddch(edit, ' ');
     else
-	waddnstr(edit, word, actual_x(word, y));
+	waddnstr(edit, word, actual_x(word, room));
 
-    if (word_len > y)
+    if (word_len > room)
 	waddch(edit, '$');
 
     if (active)
