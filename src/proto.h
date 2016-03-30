@@ -341,7 +341,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	*num_matches, size_t buf_len);
 char *input_tab(char *buf, bool allow_files, size_t *place, bool
-	*lastwastab, void (*refresh_func)(void), bool *list);
+	*lastwastab, void (*refresh_func)(void), bool *listed);
 #endif
 const char *tail(const char *foo);
 #ifndef DISABLE_HISTORIES
@@ -532,8 +532,7 @@ void update_the_statusbar(void);
 void update_bar_if_needed(void);
 functionptrtype get_prompt_string(int *value, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
-	bool allow_files,
-	bool *list,
+	bool allow_files, bool *listed,
 #endif
 	const char *curranswer,
 #ifndef DISABLE_HISTORIES
