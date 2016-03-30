@@ -2509,8 +2509,7 @@ const char *do_int_speller(const char *tempfile_name)
     int spell_status, sort_status, uniq_status;
 
     /* Create all three pipes up front. */
-    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 ||
-	pipe(uniq_fd) == -1)
+    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1)
 	return _("Could not create pipe");
 
     statusbar(_("Creating misspelled word list, please wait..."));
@@ -2612,12 +2611,10 @@ const char *do_int_speller(const char *tempfile_name)
     read_buff_size = pipe_buff_size + 1;
     read_buff = read_buff_ptr = charalloc(read_buff_size);
 
-    while ((bytesread = read(uniq_fd[0], read_buff_ptr,
-	pipe_buff_size)) > 0) {
+    while ((bytesread = read(uniq_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
-	read_buff = read_buff_ptr = charealloc(read_buff,
-		read_buff_size);
+	read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
 	read_buff_ptr += read_buff_read;
     }
 
@@ -2663,7 +2660,7 @@ const char *do_int_speller(const char *tempfile_name)
     if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
 	return _("Error invoking \"uniq\"");
 
-    /* Otherwise... */
+    /* When all went okay. */
     return NULL;
 
   close_pipes_and_exit:
@@ -3011,8 +3008,7 @@ void do_linter(void)
     read_buff_size = pipe_buff_size + 1;
     read_buff = read_buff_ptr = charalloc(read_buff_size);
 
-    while ((bytesread = read(lint_fd[0], read_buff_ptr,
-	pipe_buff_size)) > 0) {
+    while ((bytesread = read(lint_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 #ifdef DEBUG
 	fprintf(stderr, "text.c:do_linter:%ld bytes (%s)\n", (long)bytesread, read_buff_ptr);
 #endif
