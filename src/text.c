@@ -2419,7 +2419,7 @@ bool do_int_spell_fix(const char *word)
 
     /* Find the first whole occurrence of word. */
     findnextstr_wrap_reset();
-    while (findnextstr(TRUE, openfile->fileage, 0, word, &match_len)) {
+    while (findnextstr(TRUE, openfile->fileage, 0, word, &match_len) == 1) {
 	if (is_whole_word(openfile->current_x, openfile->current->data,
 		word)) {
 	    size_t xpt = xplustabs();

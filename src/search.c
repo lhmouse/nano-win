@@ -248,10 +248,10 @@ int search_init(bool replacing, bool use_answer)
 }
 
 /* Look for needle, starting at (current, current_x).  begin is the line
- * where we first started searching, at column begin_x.  The return
- * value specifies whether we found anything.  If we did, set match_len
- * to the length of the string we found if it isn't NULL. */
-bool findnextstr(
+ * where we first started searching, at column begin_x.  Return 1 when we
+ * found something, 0 when nothing, and -2 on cancel.  When match_len is
+ * not NULL, set it to the length of the found string, if any. */
+int findnextstr(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
 #endif
@@ -291,7 +291,7 @@ bool findnextstr(
 
 	    if (input && func_from_key(&input) == do_cancel) {
 		statusbar(_("Cancelled"));
-		return FALSE;
+		return -2;
 	    }
 
 	    if (++feedback > 0)
@@ -310,7 +310,7 @@ bool findnextstr(
 	     * again -- there is no need: we started at x = 0. */
 	    if (whole_word_only && search_last_line) {
 		disable_nodelay();
-		return FALSE;
+		return 0;
 	    }
 #endif
 	    /* Remember the length of the potential match. */
@@ -343,7 +343,7 @@ bool findnextstr(
 	if (search_last_line) {
 	    not_found_msg(needle);
 	    disable_nodelay();
-	    return FALSE;
+	    return 0;
 	}
 
 	/* Move to the previous or next line in the file. */
@@ -402,7 +402,7 @@ bool findnextstr(
     if (feedback > 0)
 	blank_statusbar();
 
-    return TRUE;
+    return 1;
 }
 
 /* Clear the flag indicating that a search reached the last line of the
@@ -492,7 +492,7 @@ void go_looking(void)
     filestruct *was_current = openfile->current;
     size_t was_current_x = openfile->current_x;
     size_t was_pww = openfile->placewewant;
-    bool didfind;
+    int didfind;
 
     findnextstr_wrap_reset();
     didfind = findnextstr(
@@ -503,7 +503,7 @@ void go_looking(void)
 
     /* If we found something, and we're back at the exact same spot
      * where we started searching, then this is the only occurrence. */
-    if (didfind && openfile->current == was_current &&
+    if (didfind == 1 && openfile->current == was_current &&
 		openfile->current_x == was_current_x)
 	statusbar(_("This is the only occurrence"));
 
@@ -643,12 +643,20 @@ ssize_t do_replace_loop(
 #endif /* !NANO_TINY */
 
     findnextstr_wrap_reset();
-    while (findnextstr(
-#ifndef DISABLE_SPELLER
-	whole_word_only,
-#endif
-	real_current, *real_current_x, needle, &match_len)) {
+    while (TRUE) {
 	int i = 0;
+	int result = findnextstr(
+#ifndef DISABLE_SPELLER
+			whole_word_only,
+#endif
+			real_current, *real_current_x, needle, &match_len);
+
+	/* If nothing more was found, or the user aborted, stop looping. */
+	if (result < 1) {
+	    if (result < 0)
+		numreplaced = -2;  /* It's a Cancel instead of Not found. */
+	    break;
+	}
 
 #ifndef NANO_TINY
 	if (old_mark_set) {
