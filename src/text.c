@@ -2359,8 +2359,8 @@ bool do_int_spell_fix(const char *word)
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 	/* Save where we are. */
-    bool canceled = FALSE;
-	/* The inverse of this function's return value. */
+    bool proceed = TRUE;
+	/* The return value of this function. */
     bool result;
 	/* The return value of searching for a misspelled word. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
@@ -2432,31 +2432,31 @@ bool do_int_spell_fix(const char *word)
 			strnlenpt(openfile->current->data,
 			openfile->current_x + match_len) - xplustabs(), FALSE);
 
-	    edit_refresh();
+	edit_refresh();
 
-	    spotlight(TRUE, exp_word);
+	spotlight(TRUE, exp_word);
 
 	/* Let the user supply a correctly spelled alternative. */
-	    canceled = (do_prompt(FALSE,
+	proceed = (do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-		TRUE,
+				TRUE,
 #endif
-		MSPELL, word,
+				MSPELL, word,
 #ifndef DISABLE_HISTORIES
-		NULL,
+				NULL,
 #endif
-		edit_refresh, _("Edit a replacement")) == -1);
+				edit_refresh, _("Edit a replacement")) != -1);
 
-	    spotlight(FALSE, exp_word);
+	spotlight(FALSE, exp_word);
 
-	    free(exp_word);
+	free(exp_word);
 
 	/* If a replacement was given, go through all occurrences. */
-	    if (!canceled && strcmp(word, answer) != 0) {
-		openfile->current_x--;
-		do_replace_loop(TRUE, openfile->current,
-			&openfile->current_x, word);
-	    }
+	if (proceed && strcmp(word, answer) != 0) {
+	    openfile->current_x--;
+	    do_replace_loop(TRUE, openfile->current,
+				&openfile->current_x, word);
+	}
     }
 
 #ifndef NANO_TINY
@@ -2497,7 +2497,7 @@ bool do_int_spell_fix(const char *word)
     /* Restore the settings of the global flags. */
     memcpy(flags, stash, sizeof(flags));
 
-    return !canceled;
+    return proceed;
 }
 
 /* Internal (integrated) spell checking using the spell program,
