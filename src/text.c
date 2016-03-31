@@ -2353,14 +2353,16 @@ void do_full_justify(void)
  * return FALSE if the user cancels. */
 bool do_int_spell_fix(const char *word)
 {
-    char *save_search;
+    char *save_search, *exp_word;
     size_t match_len, current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 	/* Save where we are. */
     bool canceled = FALSE;
-	/* The return value. */
+	/* The inverse of this function's return value. */
+    bool result;
+	/* The return value of searching for a misspelled word. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
 	/* A storage place for the current flag settings. */
 #ifndef NANO_TINY
@@ -2417,21 +2419,24 @@ bool do_int_spell_fix(const char *word)
     openfile->current_x = (size_t)-1;
     openfile->placewewant = 0;
 
-    /* Find the first whole occurrence of word. */
     findnextstr_wrap_reset();
-    while (findnextstr(TRUE, openfile->fileage, 0, word, &match_len) == 1) {
-	if (is_whole_word(openfile->current_x, openfile->current->data,
-		word)) {
-	    size_t xpt = xplustabs();
-	    char *exp_word = display_string(openfile->current->data,
-		xpt, strnlenpt(openfile->current->data,
-		openfile->current_x + match_len) - xpt, FALSE);
+
+    /* Find the first whole occurrence of word. */
+    result = findnextstr(TRUE, openfile->fileage, 0, word, &match_len);
+
+    /* The word must exist; if not, something is wrong. */
+    if (result == 0)
+	statusbar("Internal error: speller listed unfindable word");
+    else if (result == 1) {
+	exp_word = display_string(openfile->current->data, xplustabs(),
+			strnlenpt(openfile->current->data,
+			openfile->current_x + match_len) - xplustabs(), FALSE);
 
 	    edit_refresh();
 
 	    spotlight(TRUE, exp_word);
 
-	    /* Allow all instances of the word to be corrected. */
+	/* Let the user supply a correctly spelled alternative. */
 	    canceled = (do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
 		TRUE,
@@ -2446,14 +2451,12 @@ bool do_int_spell_fix(const char *word)
 
 	    free(exp_word);
 
+	/* If a replacement was given, go through all occurrences. */
 	    if (!canceled && strcmp(word, answer) != 0) {
 		openfile->current_x--;
 		do_replace_loop(TRUE, openfile->current,
 			&openfile->current_x, word);
 	    }
-
-	    break;
-	}
     }
 
 #ifndef NANO_TINY

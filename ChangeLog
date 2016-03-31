@@ -1,3 +1,7 @@
+2016-03-31  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_int_spell_fix): Replace a fake 'while' and delete
+	a redundant 'if' -- we searched for whole words only, so it will be.
+
 2016-03-30  Benno Schulenberg  <bensberg@justemail.net>
 	* src/search.c (do_replace_loop, go_looking, findnextstr): Report
 	"Cancelled" instead of "Not found" when the user aborts a replace
