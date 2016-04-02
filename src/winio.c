@@ -330,6 +330,7 @@ int get_kbinput(WINDOW *win)
 int parse_kbinput(WINDOW *win)
 {
     static int escapes = 0, byte_digits = 0;
+    static bool double_esc = FALSE;
     int *kbinput, retval = ERR;
 
     meta_key = FALSE;
@@ -390,7 +391,30 @@ int parse_kbinput(WINDOW *win)
 			retval = parse_escape_sequence(win, *kbinput);
 		    break;
 		case 2:
-		    if (get_key_buffer_len() == 0) {
+		    if (double_esc) {
+			/* An "ESC ESC [ X" sequence from Option+arrow. */
+			switch (*kbinput) {
+			    case 'A':
+				retval = KEY_HOME;
+				break;
+			    case 'B':
+				retval = KEY_END;
+				break;
+#ifndef NANO_TINY
+			    case 'C':
+				retval = controlright;
+				break;
+			    case 'D':
+				retval = controlleft;
+				break;
+#endif
+			    default:
+				retval = ERR;
+				break;
+			}
+			double_esc = FALSE;
+			escapes = 0;
+		    } else if (get_key_buffer_len() == 0) {
 			if (('0' <= *kbinput && *kbinput <= '2' &&
 				byte_digits == 0) || ('0' <= *kbinput &&
 				*kbinput <= '9' && byte_digits > 0)) {
@@ -462,6 +486,9 @@ int parse_kbinput(WINDOW *win)
 				retval = *kbinput;
 			    }
 			}
+		    } else if (*kbinput=='[') {
+			/* This is an iTerm2 sequence: ^[ ^[ [ X. */
+			double_esc = TRUE;
 		    } else {
 			/* Two escapes followed by a non-escape, and
 			 * there are other keystrokes waiting: combined
