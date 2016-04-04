@@ -36,14 +36,10 @@
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
 {
-    char *parentdir;
+    char *namecopy = mallocstrcpy(NULL, filename);
+    char *parentdir = dirname(namecopy);
     struct stat parentinfo;
     bool validity = FALSE;
-
-    if (strrchr(filename, '/') == NULL)
-	parentdir = mallocstrcpy(NULL, ".");
-    else
-	parentdir = dirname(mallocstrcpy(NULL, filename));
 
     if (stat(parentdir, &parentinfo) == -1) {
 	if (errno == ENOENT)
@@ -59,7 +55,7 @@ bool has_valid_path(const char *filename)
 	    validity = TRUE;
     }
 
-    free(parentdir);
+    free(namecopy);
 
     if (!validity)
 	beep();
