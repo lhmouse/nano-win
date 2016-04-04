@@ -2354,7 +2354,7 @@ void do_full_justify(void)
 bool do_int_spell_fix(const char *word)
 {
     char *save_search, *exp_word;
-    size_t match_len, current_x_save = openfile->current_x;
+    size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
@@ -2422,15 +2422,14 @@ bool do_int_spell_fix(const char *word)
     findnextstr_wrap_reset();
 
     /* Find the first whole occurrence of word. */
-    result = findnextstr(TRUE, openfile->fileage, 0, word, &match_len);
+    result = findnextstr(TRUE, openfile->fileage, 0, word, NULL);
 
     /* The word must exist; if not, something is wrong. */
     if (result == 0)
 	statusbar("Internal error: speller listed unfindable word");
     else if (result == 1) {
 	exp_word = display_string(openfile->current->data, xplustabs(),
-			strnlenpt(openfile->current->data,
-			openfile->current_x + match_len) - xplustabs(), FALSE);
+					strlenpt(word), FALSE);
 
 	edit_refresh();
 
