@@ -2359,7 +2359,7 @@ bool do_int_spell_fix(const char *word)
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 	/* Save where we are. */
-    bool proceed = TRUE;
+    bool proceed = FALSE;
 	/* The return value of this function. */
     bool result;
 	/* The return value of searching for a misspelled word. */
