@@ -1,14 +1,14 @@
-INSTRUCTIONS TO COMPILE AND INSTALL NANO SVN VERSIONS
+INSTRUCTIONS TO COMPILE AND INSTALL NANO GIT VERSIONS
 =====================================================
 
-GNU nano is available from SVN, but building this needs a bit more care
-than the official stable and unstable tarballs.
+The latest version of GNU nano is available via git, but building this needs a
+bit more care than the official stable and unstable tarballs.
 
 
 Prerequisites
 -------------
 
-To successfully compile GNU nano from SVN, you'll need the following
+To successfully compile GNU nano from the git repo, you'll need the following
 packages:
 
 - autoconf (version >= 2.54)
@@ -33,11 +33,7 @@ To obtain the current nano development code (called 'trunk'), use the
 following command.  It will create a copy of the files in a subdirectory
 of your current working directory called 'nano':
 
-    $ svn co svn://svn.savannah.gnu.org/nano/trunk/nano
-
-If you want to download the stable SVN branch instead, use:
-
-    $ svn co svn://svn.savannah.gnu.org/nano/branches/nano_2_2_branch/nano
+    $ git clone git://git.savannah.gnu.org/nano.git nano
 
 
 Generate the configure script
@@ -82,5 +78,5 @@ you'll need to run that "make install" command with root privileges.
 Problems?
 ---------
 
-Please submit any bugs in the SVN branch using the Savannah project's
+Please submit any bugs in the git repository using the Savannah project's
 bug tracker (https://savannah.gnu.org/bugs/?group=nano).
