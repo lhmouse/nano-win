@@ -228,14 +228,16 @@ int search_init(bool replacing, bool use_answer)
 	TOGGLE(BACKWARDS_SEARCH);
 	backupstring = mallocstrcpy(backupstring, answer);
 	return 1;
+    } else
 #endif
 #ifdef HAVE_REGEX_H
-    } else if (func == regexp_void) {
+    if (func == regexp_void) {
 	TOGGLE(USE_REGEXP);
 	backupstring = mallocstrcpy(backupstring, answer);
 	return 1;
+    } else
 #endif
-    } else if (func == do_replace || func == flip_replace_void) {
+    if (func == do_replace || func == flip_replace_void) {
 	backupstring = mallocstrcpy(backupstring, answer);
 	return -2;	/* Call the opposite search function. */
     } else if (func == do_gotolinecolumn_void) {
