@@ -149,7 +149,7 @@ void set_modified(void)
 	return;
 
     if (openfile->lock_filename == NULL) {
-	/* TRANSLATORS: Try to keep this at most 76 characters. */
+	/* TRANSLATORS: Keep the next two messages at most 76 characters. */
 	statusbar(_("Warning: Modifying a file which is not locked,"
 			" check directory permission?"));
     } else {
@@ -934,13 +934,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 
     if (format == 3) {
 	if (writable)
-	    statusbar(
-		P_("Read %lu line (Converted from DOS and Mac format)",
+	    statusbar(P_("Read %lu line (Converted from DOS and Mac format)",
 		"Read %lu lines (Converted from DOS and Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 	else
-	    statusbar(
-		P_("Read %lu line (Converted from DOS and Mac format - NO write permission)",
+	    /* TRANSLATORS: Keep the next handful of messages at most 76 characters long. */
+	    statusbar(P_("Read %lu line (Converted from DOS and Mac format - NO write permission)",
 		"Read %lu lines (Converted from DOS and Mac format - NO write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 2) {
