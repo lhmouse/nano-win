@@ -1,6 +1,9 @@
 *~
 *.bak
 *.o
+*.orig
+*.patch
+*.swp
 .deps
 .libs
 Makefile
