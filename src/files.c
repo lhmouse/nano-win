@@ -940,8 +940,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 		(unsigned long)num_lines), (unsigned long)num_lines);
 	else
 	    statusbar(
-		P_("Read %lu line (Converted from DOS and Mac format - Warning: No write permission)",
-		"Read %lu lines (Converted from DOS and Mac format - Warning: No write permission)",
+		P_("Read %lu line (Converted from DOS and Mac format - NO write permission)",
+		"Read %lu lines (Converted from DOS and Mac format - NO write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 2) {
 	openfile->fmt = MAC_FILE;
