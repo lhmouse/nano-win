@@ -17,8 +17,6 @@
 # along with GNU nano; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301,
 # USA.
-#
-# $Id$
 
 AC_INIT([GNU nano], [2.5.3-svn], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])

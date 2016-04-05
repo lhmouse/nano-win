@@ -97,5 +97,3 @@ For version 1.0:
 - Now do username completion [DONE].
 - Unjustify command (^U after ^J) [DONE =-].
 - Username completion (~user) [DONE =-].
-
-$Id$

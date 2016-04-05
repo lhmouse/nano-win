@@ -1,4 +1,3 @@
-## $Id$
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
 SUBDIRS = doc m4 po src

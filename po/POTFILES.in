@@ -1,4 +1,3 @@
-# $Id$
 # List of source files containing translatable strings.
 
 src/browser.c
