@@ -1,6 +1,7 @@
 # List of source files containing translatable strings.
 
 src/browser.c
+src/color.c
 src/files.c
 src/global.c
 src/help.c
