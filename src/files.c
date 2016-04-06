@@ -310,8 +310,8 @@ int delete_lockfile(const char *lockfilename)
  * complain to the user. */
 int do_lockfile(const char *filename)
 {
-    char *namecopy1 = (char *) mallocstrcpy(NULL, filename);
-    char *namecopy2 = (char *) mallocstrcpy(NULL, filename);
+    char *namecopy = (char *) mallocstrcpy(NULL, filename);
+    char *secondcopy = (char *) mallocstrcpy(NULL, filename);
     size_t locknamesize = strlen(filename) + strlen(locking_prefix)
 		+ strlen(locking_suffix) + 3;
     char *lockfilename = charalloc(locknamesize);
@@ -319,18 +319,17 @@ int do_lockfile(const char *filename)
     struct stat fileinfo;
     int lockfd, lockpid, retval = -1;
 
-    snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy1),
-		locking_prefix, basename(namecopy2), locking_suffix);
-    free(namecopy1);
-    free(namecopy2);
+    snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
+		locking_prefix, basename(secondcopy), locking_suffix);
+    free(secondcopy);
 #ifdef DEBUG
     fprintf(stderr, "lock file name is %s\n", lockfilename);
 #endif
     if (stat(lockfilename, &fileinfo) != -1) {
 	ssize_t readtot = 0;
 	ssize_t readamt = 0;
-	char *lockbuf, *promptstr;
-	int ans;
+	char *lockbuf, *question, *promptstr;
+	int room, ans;
 
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 	    statusbar(_("Error opening lock file %s: %s"),
@@ -361,10 +360,19 @@ int do_lockfile(const char *filename)
 	fprintf(stderr, "program name which created this lock file should be %s\n", lockprog);
 	fprintf(stderr, "user which created this lock file should be %s\n", lockuser);
 #endif
-	promptstr = charalloc(128);
 	/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
-	sprintf(promptstr, _("File %s is being edited (by %s with %s, PID %d); continue?"),
-			filename, lockuser, lockprog, lockpid);
+	question = _("File %s is being edited (by %s with %s, PID %d); continue?");
+	room = COLS - strlenpt(question) - strlenpt(lockuser) - strlenpt(lockprog) + 3;
+	if (room < 4)
+	    namecopy = mallocstrcpy(namecopy, "_");
+	else if (room < strlenpt(filename))
+	    sprintf(namecopy, "...%s", display_string(filename,
+				strlenpt(filename) - room + 3, room, FALSE));
+
+	/* Allow extra space for username (14), program name (8), PID (3),
+	 * and terminating \0 (1), minus the %s (2) for the file name. */
+	promptstr = charalloc(strlen(question) + 24 + strlen(namecopy));
+	sprintf(promptstr, question, namecopy, lockuser, lockprog, lockpid);
 	ans = do_yesno_prompt(FALSE, promptstr);
 	free(promptstr);
 
@@ -377,6 +385,7 @@ int do_lockfile(const char *filename)
     retval = write_lockfile(lockfilename, filename, FALSE);
 
   free_the_name:
+    free(namecopy);
     if (retval < 1)
 	free(lockfilename);
 
