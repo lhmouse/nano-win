@@ -96,7 +96,7 @@ void do_page_up(void)
 #endif
 
     /* Scroll the edit window up a page. */
-    edit_update(NONE);
+    edit_update(STATIONARY);
 }
 
 /* Move down one page. */
@@ -136,7 +136,7 @@ void do_page_down(void)
 	openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    edit_update(NONE);
+    edit_update(STATIONARY);
 }
 
 #ifndef DISABLE_JUSTIFY

@@ -176,7 +176,7 @@ typedef enum {
 } scroll_dir;
 
 typedef enum {
-    CENTER, NONE
+    CENTERING, FLOWING, STATIONARY
 } update_type;
 
 typedef enum {

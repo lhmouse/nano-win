@@ -2963,7 +2963,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
     /* If the current line is offscreen, scroll until it's onscreen. */
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
 		openfile->current->lineno < openfile->edittop->lineno)
-	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTER : NONE);
+	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
 
 #ifndef NANO_TINY
     /* If the mark is on, update all lines between old_current and current. */
@@ -3005,7 +3005,7 @@ void edit_refresh(void)
 #endif
 
 	/* Make sure the current line is on the screen. */
-	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTER : NONE);
+	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
 
     foo = openfile->edittop;
@@ -3027,26 +3027,33 @@ void edit_refresh(void)
     wnoutrefresh(edit);
 }
 
-/* Move edittop to put it in range of current, keeping current in the
- * same place.  location determines how we move it: if it's CENTER, we
- * center current, and if it's NONE, we put current current_y lines
- * below edittop. */
-void edit_update(update_type location)
+/* Move edittop so that current is on the screen.  manner says how it
+ * should be moved: CENTERING means that current should end up in the
+ * middle of the screen, STATIONARY means that it should stay at the
+ * same vertical position, and FLOWING means that it should scroll no
+ * more than needed to bring current into view. */
+void edit_update(update_type manner)
 {
     filestruct *foo = openfile->current;
     int goal;
 
-    /* If location is CENTER, we move edittop up (editwinrows / 2)
-     * lines.  This puts current at the center of the screen.  If
-     * location is NONE, we move edittop up current_y lines if current_y
-     * is in range of the screen, 0 lines if current_y is less than 0,
-     * or (editwinrows - 1) lines if current_y is greater than
-     * (editwinrows - 1).  This puts current at the same place on the
-     * screen as before, or at the top or bottom of the screen if
-     * edittop is beyond either. */
-    if (location == CENTER)
+    /* If manner is CENTERING, move edittop half the number of window
+     * lines back from current.  If manner is STATIONARY, move edittop
+     * back current_y lines if current_y is in range of the screen,
+     * 0 lines if current_y is below zero, or (editwinrows - 1) lines
+     * if current_y is too big.  This puts current at the same place
+     * on the screen as before, or at the top or bottom if current_y is
+     * beyond either.  If manner is FLOWING, move edittop back 0 lines
+     * or (editwinrows - 1) lines, depending or where current has moved.
+     * This puts the cursor on the first or the last line. */
+    if (manner == CENTERING)
 	goal = editwinrows / 2;
-    else {
+    else if (manner == FLOWING) {
+	if (openfile->current->lineno < openfile->edittop->lineno)
+	    goal = 0;
+	else
+	    goal = editwinrows - 1;
+    } else {
 	goal = openfile->current_y;
 
 	/* Limit goal to (editwinrows - 1) lines maximum. */

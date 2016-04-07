@@ -958,7 +958,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->placewewant = column - 1;
 
     /* Put the top line of the edit window in range of the current line. */
-    edit_update(CENTER);
+    edit_update(CENTERING);
 
     /* When in interactive mode, update the screen. */
     if (interactive) {
