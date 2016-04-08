@@ -263,7 +263,6 @@ int findnextstr(
 	/* The length of the match we find. */
     int feedback = 0;
 	/* When bigger than zero, show and wipe the "Searching..." message. */
-    ssize_t current_y_find = openfile->current_y;
     filestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
     time_t lastkbcheck = time(NULL);
@@ -349,28 +348,20 @@ int findnextstr(
 
 	/* Move to the previous or next line in the file. */
 #ifndef NANO_TINY
-	if (ISSET(BACKWARDS_SEARCH)) {
+	if (ISSET(BACKWARDS_SEARCH))
 	    fileptr = fileptr->prev;
-	    current_y_find--;
-	} else
+	else
 #endif
-	{
 	    fileptr = fileptr->next;
-	    current_y_find++;
-	}
 
 	/* If we've reached the start or end of the buffer, wrap around. */
 	if (fileptr == NULL) {
 #ifndef NANO_TINY
-	    if (ISSET(BACKWARDS_SEARCH)) {
+	    if (ISSET(BACKWARDS_SEARCH))
 		fileptr = openfile->filebot;
-		current_y_find = editwinrows - 1;
-	    } else
+	    else
 #endif
-	    {
 		fileptr = openfile->fileage;
-		current_y_find = 0;
-	    }
 	    statusbar(_("Search Wrapped"));
 	    /* Delay the "Searching..." message for at least two seconds. */
 	    feedback = -2;
@@ -394,7 +385,7 @@ int findnextstr(
     openfile->current = fileptr;
     openfile->current_x = found - fileptr->data;
     openfile->placewewant = xplustabs();
-    openfile->current_y = current_y_find;
+    openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     /* When requested, pass back the length of the match. */
     if (match_len != NULL)
@@ -983,7 +974,6 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 {
     filestruct *fileptr = openfile->current;
     const char *rev_start = NULL, *found = NULL;
-    ssize_t current_y_find = openfile->current_y;
 
     assert(mbstrlen(bracket_set) == 2);
 
@@ -1007,13 +997,10 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	    /* We've found a potential match. */
 	    break;
 
-	if (reverse) {
+	if (reverse)
 	    fileptr = fileptr->prev;
-	    current_y_find--;
-	} else {
+	else
 	    fileptr = fileptr->next;
-	    current_y_find++;
-	}
 
 	if (fileptr == NULL)
 	    /* We've reached the start or end of the buffer, so get out. */
@@ -1028,7 +1015,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
     openfile->current = fileptr;
     openfile->current_x = found - fileptr->data;
     openfile->placewewant = xplustabs();
-    openfile->current_y = current_y_find;
+    openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     return TRUE;
 }
