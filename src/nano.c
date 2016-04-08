@@ -933,7 +933,11 @@ void usage(void)
  * it was compiled with. */
 void version(void)
 {
+#ifdef REVISION
+    printf(" GNU nano from git, commit %s (after %s)\n", REVISION, VERSION);
+#else
     printf(_(" GNU nano, version %s\n"), VERSION);
+#endif
     printf(" (C) 1999..2016 Free Software Foundation, Inc.\n");
     printf(
 	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));

@@ -581,4 +581,10 @@ enum
 /* The maximum number of bytes buffered at one time. */
 #define MAX_BUF_SIZE 128
 
+#ifdef REVISION
+#define BRANDING PACKAGE_VERSION"-git  "REVISION
+#else
+#define BRANDING PACKAGE_STRING
+#endif
+
 #endif /* !NANO_H */

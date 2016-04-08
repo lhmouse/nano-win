@@ -1952,9 +1952,8 @@ void titlebar(const char *path)
 {
     int space = COLS;
 	/* The space we have available for display. */
-    size_t verlen = strlenpt(PACKAGE_STRING) + 1;
-	/* The length of the version message in columns, plus one for
-	 * padding. */
+    size_t verlen = strlenpt(BRANDING);
+	/* The length of the version message in columns. */
     const char *prefix;
 	/* "DIR:", "File:", or "New Buffer".  Goes before filename. */
     size_t prefixlen;
@@ -1996,8 +1995,7 @@ void titlebar(const char *path)
     if (space >= 4) {
 	/* Add a space after the version message, and account for both
 	 * it and the two spaces before it. */
-	mvwaddnstr(topwin, 0, 2, PACKAGE_STRING,
-		actual_x(PACKAGE_STRING, verlen));
+	mvwaddnstr(topwin, 0, 2, BRANDING, actual_x(BRANDING, verlen));
 	verlen += 3;
 
 	/* Account for the full length of the version message. */
