@@ -482,7 +482,6 @@ void go_looking(void)
 {
     filestruct *was_current = openfile->current;
     size_t was_current_x = openfile->current_x;
-    size_t was_pww = openfile->placewewant;
     int didfind;
 
     findnextstr_wrap_reset();
@@ -498,8 +497,7 @@ void go_looking(void)
 		openfile->current_x == was_current_x)
 	statusbar(_("This is the only occurrence"));
 
-    openfile->placewewant = xplustabs();
-    edit_redraw(was_current, was_pww);
+    edit_redraw(was_current);
     search_replace_abort();
 }
 
@@ -1113,9 +1111,7 @@ void do_find_bracket(void)
 	    /* If count is zero, we've found a matching bracket.  Update
 	     * the screen and get out. */
 	    if (count == 0) {
-		size_t pww_save = openfile->placewewant;
-		openfile->placewewant = xplustabs();
-		edit_redraw(current_save, pww_save);
+		edit_redraw(current_save);
 		break;
 	    }
 	} else {

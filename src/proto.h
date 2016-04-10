@@ -792,7 +792,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 int update_line(filestruct *fileptr, size_t index);
 bool need_screen_update(size_t pww_save);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
-void edit_redraw(filestruct *old_current, size_t pww_save);
+void edit_redraw(filestruct *old_current);
 void edit_refresh(void);
 void edit_update(update_type location);
 void total_redraw(void);

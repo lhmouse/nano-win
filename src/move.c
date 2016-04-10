@@ -146,7 +146,6 @@ void do_page_down(void)
 void do_para_begin(bool allow_update)
 {
     filestruct *current_save = openfile->current;
-    const size_t pww_save = openfile->placewewant;
 
     if (openfile->current != openfile->fileage) {
 	do {
@@ -156,10 +155,9 @@ void do_para_begin(bool allow_update)
     }
 
     openfile->current_x = 0;
-    openfile->placewewant = 0;
 
     if (allow_update)
-	edit_redraw(current_save, pww_save);
+	edit_redraw(current_save);
 }
 
 /* Move up to the beginning of the last beginning-of-paragraph line
@@ -178,7 +176,6 @@ void do_para_begin_void(void)
 void do_para_end(bool allow_update)
 {
     filestruct *const current_save = openfile->current;
-    const size_t pww_save = openfile->placewewant;
 
     while (openfile->current != openfile->filebot &&
 	!inpar(openfile->current))
@@ -194,14 +191,11 @@ void do_para_end(bool allow_update)
     if (openfile->current != openfile->filebot) {
 	openfile->current = openfile->current->next;
 	openfile->current_x = 0;
-	openfile->placewewant = 0;
-    } else {
+    } else
 	openfile->current_x = strlen(openfile->current->data);
-	openfile->placewewant = xplustabs();
-    }
 
     if (allow_update)
-	edit_redraw(current_save, pww_save);
+	edit_redraw(current_save);
 }
 
 /* Move down to the beginning of the last line of the current paragraph.
@@ -219,7 +213,6 @@ void do_para_end_void(void)
  * screen afterwards. */
 void do_prev_word(bool allow_punct, bool allow_update)
 {
-    size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
     bool seen_a_word = FALSE, step_forward = FALSE;
 
@@ -256,11 +249,10 @@ void do_prev_word(bool allow_punct, bool allow_update)
 	/* Move one character forward again to sit on the start of the word. */
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
-    openfile->placewewant = xplustabs();
 
     /* If allow_update is TRUE, update the screen. */
     if (allow_update)
-	edit_redraw(current_save, pww_save);
+	edit_redraw(current_save);
 }
 
 /* Move to the previous word in the file, treating punctuation as part of a
@@ -276,7 +268,6 @@ void do_prev_word_void(void)
  * otherwise. */
 bool do_next_word(bool allow_punct, bool allow_update)
 {
-    size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
     bool started_on_word = is_word_mbchar(openfile->current->data +
 				openfile->current_x, allow_punct);
@@ -309,11 +300,9 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	    break;
     }
 
-    openfile->placewewant = xplustabs();
-
     /* If allow_update is TRUE, update the screen. */
     if (allow_update)
-	edit_redraw(current_save, pww_save);
+	edit_redraw(current_save);
 
     /* Return whether we started on a word. */
     return started_on_word;

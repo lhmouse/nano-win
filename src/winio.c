@@ -2958,8 +2958,12 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
-void edit_redraw(filestruct *old_current, size_t pww_save)
+void edit_redraw(filestruct *old_current)
 {
+    size_t was_pww = openfile->placewewant;
+
+    openfile->placewewant = xplustabs();
+
     /* If the current line is offscreen, scroll until it's onscreen. */
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
 		openfile->current->lineno < openfile->edittop->lineno)
@@ -2980,7 +2984,7 @@ void edit_redraw(filestruct *old_current, size_t pww_save)
 #endif /* !NANO_TINY */
 
     /* Update old_current and current if we've changed page. */
-    if (need_screen_update(0) || need_screen_update(pww_save)) {
+    if (need_screen_update(0) || need_screen_update(was_pww)) {
 	update_line(old_current, 0);
 	update_line(openfile->current, openfile->current_x);
     }

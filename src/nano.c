@@ -1746,7 +1746,6 @@ int do_mouse(void)
 #ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
 #endif
-	size_t pww_save = openfile->placewewant;
 
 	sameline = (mouse_y == openfile->current_y);
 
@@ -1798,8 +1797,6 @@ int do_mouse(void)
 		get_page_start(xplustabs()) + mouse_x);
 	}
 
-	openfile->placewewant = xplustabs();
-
 #ifndef NANO_TINY
 	/* Clicking where the cursor is toggles the mark, as does
 	 * clicking beyond the line length with the cursor at the end of
@@ -1811,7 +1808,7 @@ int do_mouse(void)
 	    /* The cursor moved; clean the cutbuffer on the next cut. */
 	    cutbuffer_reset();
 
-	edit_redraw(current_save, pww_save);
+	edit_redraw(current_save);
     }
 
     /* No more handling is needed. */

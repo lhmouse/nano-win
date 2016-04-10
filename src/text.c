@@ -1950,7 +1950,6 @@ void do_justify(bool full_justify)
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
     size_t current_x_save = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
     size_t totsize_save = openfile->totsize;
 #ifndef NANO_TINY
     filestruct *mark_begin_save = openfile->mark_begin;
@@ -2295,7 +2294,6 @@ void do_justify(bool full_justify)
 	    openfile->edittop = edittop_save;
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
-	    openfile->placewewant = pww_save;
 	    openfile->totsize = totsize_save;
 #ifndef NANO_TINY
 	    if (openfile->mark_set) {
@@ -2315,6 +2313,9 @@ void do_justify(bool full_justify)
     } else {
 	/* Put the keystroke back into the queue. */
 	unget_kbinput(kbinput, meta_key, func_key);
+
+	/* Set the desired screen column (always zero, except at EOF). */
+	openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
 	/* Throw away the entire undo stack, to prevent a crash when
