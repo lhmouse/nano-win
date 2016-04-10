@@ -1011,7 +1011,6 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
     /* We've definitely found something. */
     openfile->current = fileptr;
     openfile->current_x = found - fileptr->data;
-    openfile->placewewant = xplustabs();
     openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     return TRUE;
@@ -1022,7 +1021,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 void do_find_bracket(void)
 {
     filestruct *current_save;
-    size_t current_x_save, pww_save;
+    size_t current_x_save;
     const char *ch;
 	/* The location in matchbrackets of the bracket at the current
 	 * cursor position. */
@@ -1062,7 +1061,6 @@ void do_find_bracket(void)
     /* Save where we are. */
     current_save = openfile->current;
     current_x_save = openfile->current_x;
-    pww_save = openfile->placewewant;
 
     /* If we're on an opening bracket, which must be in the first half
      * of matchbrackets, we want to search forwards for a closing
@@ -1115,6 +1113,8 @@ void do_find_bracket(void)
 	    /* If count is zero, we've found a matching bracket.  Update
 	     * the screen and get out. */
 	    if (count == 0) {
+		size_t pww_save = openfile->placewewant;
+		openfile->placewewant = xplustabs();
 		edit_redraw(current_save, pww_save);
 		break;
 	    }
@@ -1124,7 +1124,6 @@ void do_find_bracket(void)
 	    statusbar(_("No matching bracket"));
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
-	    openfile->placewewant = pww_save;
 	    break;
 	}
     }
