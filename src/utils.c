@@ -451,14 +451,12 @@ size_t get_page_start(size_t column)
 }
 
 /* Return the placewewant associated with current_x, i.e. the zero-based
- * column position of the cursor.  The value will be no smaller than
- * current_x. */
+ * column position of the cursor. */
 size_t xplustabs(void)
 {
-    if (openfile->current)
-	return strnlenpt(openfile->current->data, openfile->current_x);
-    else
-	return 0;
+    assert(openfile->current != NULL);
+
+    return strnlenpt(openfile->current->data, openfile->current_x);
 }
 
 /* Return the index in s of the character displayed at the given column,
