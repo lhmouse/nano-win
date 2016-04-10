@@ -2354,7 +2354,6 @@ bool do_int_spell_fix(const char *word)
 {
     char *save_search, *exp_word;
     size_t current_x_save = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 	/* Save where we are. */
@@ -2416,7 +2415,6 @@ bool do_int_spell_fix(const char *word)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
     openfile->current_x = (size_t)-1;
-    openfile->placewewant = 0;
 
     findnextstr_wrap_reset();
 
@@ -2490,7 +2488,6 @@ bool do_int_spell_fix(const char *word)
     openfile->edittop = edittop_save;
     openfile->current = current_save;
     openfile->current_x = current_x_save;
-    openfile->placewewant = pww_save;
 
     /* Restore the settings of the global flags. */
     memcpy(flags, stash, sizeof(flags));

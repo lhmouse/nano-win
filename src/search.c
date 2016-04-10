@@ -384,7 +384,6 @@ int findnextstr(
     /* Set the current position to point at what we found. */
     openfile->current = fileptr;
     openfile->current_x = found - fileptr->data;
-    openfile->placewewant = xplustabs();
     openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     /* When requested, pass back the length of the match. */
@@ -797,7 +796,7 @@ ssize_t do_replace_loop(
 void do_replace(void)
 {
     filestruct *edittop_save, *begin;
-    size_t begin_x, pww_save;
+    size_t begin_x;
     ssize_t numreplaced;
     int i;
 
@@ -848,7 +847,6 @@ void do_replace(void)
     edittop_save = openfile->edittop;
     begin = openfile->current;
     begin_x = openfile->current_x;
-    pww_save = openfile->placewewant;
 
     numreplaced = do_replace_loop(
 #ifndef DISABLE_SPELLER
@@ -860,7 +858,6 @@ void do_replace(void)
     openfile->edittop = edittop_save;
     openfile->current = begin;
     openfile->current_x = begin_x;
-    openfile->placewewant = pww_save;
 
     edit_refresh();
 
