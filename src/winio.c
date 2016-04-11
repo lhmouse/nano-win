@@ -2983,11 +2983,17 @@ void edit_redraw(filestruct *old_current)
     }
 #endif /* !NANO_TINY */
 
-    /* Update old_current and current if we've changed page. */
-    if (need_screen_update(0) || need_screen_update(was_pww)) {
+    /* Update old_current only if it differs from current, and if not
+     * already done above, and if it was horizontally scrolled. */
+    if (old_current != openfile->current && !openfile->mark_set &&
+			get_page_start(was_pww) > 0)
 	update_line(old_current, 0);
+
+    /* Update current if we've changed page, or if it differs from
+     * old_current and needs to be horizontally scrolled. */
+    if (need_screen_update(was_pww) || (old_current != openfile->current &&
+			get_page_start(openfile->placewewant) > 0))
 	update_line(openfile->current, openfile->current_x);
-    }
 }
 
 /* Refresh the screen without changing the position of lines.  Use this
