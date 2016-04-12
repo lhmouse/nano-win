@@ -401,13 +401,11 @@ void do_up(
 #endif
 		editwinrows / 2 + 1);
 
-    /* If we're below the first line of the edit window, update the
-     * line we were on before and the line we're on now.  The former
-     * needs to be redrawn if we're not on the first page, and the
-     * latter needs to be drawn unconditionally. */
-    if (openfile->current_y > 0) {
-	if (need_screen_update(0))
-	    update_line(openfile->current->next, 0);
+    /* If we're not on the first line of the edit window, and the target
+     * column is beyond the screen or the mark is on, redraw the prior
+     * and current lines. */
+    if (openfile->current_y > 0 && need_screen_update(0)) {
+	update_line(openfile->current->next, 0);
 	update_line(openfile->current, openfile->current_x);
     }
 }
@@ -498,17 +496,12 @@ void do_down(
 	if (ISSET(SOFTWRAP))
 	    edit_refresh_needed = TRUE;
     }
-    /* If we're above the last line of the edit window, update the line
-     * we were on before and the line we're on now.  The former needs to
-     * be redrawn if we're not on the first page, and the latter needs
-     * to be drawn unconditionally. */
-    if (openfile->current_y < editwinrows - 1
-#ifndef NANO_TINY
-	|| ISSET(SOFTWRAP)
-#endif
-	) {
-	if (need_screen_update(0))
-	    update_line(openfile->current->prev, 0);
+
+    /* If we're not on the last line of the edit window, and the target
+     * column is beyond the screen or the mark is on, redraw the prior
+     * and current lines. */
+    if (openfile->current_y < editwinrows - 1 && need_screen_update(0)) {
+	update_line(openfile->current->prev, 0);
 	update_line(openfile->current, openfile->current_x);
     }
 }
