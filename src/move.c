@@ -44,6 +44,7 @@ void do_last_line(void)
     openfile->current_y = editwinrows - 1;
 
     refresh_needed = TRUE;
+    focusing = FALSE;
 }
 
 /* Move up one page. */
@@ -253,8 +254,10 @@ void do_prev_word(bool allow_punct, bool allow_update)
 						openfile->current_x);
 
     /* If allow_update is TRUE, update the screen. */
-    if (allow_update)
+    if (allow_update) {
+	focusing = FALSE;
 	edit_redraw(current_save);
+    }
 }
 
 /* Move to the previous word in the file, treating punctuation as part of a
@@ -303,8 +306,10 @@ bool do_next_word(bool allow_punct, bool allow_update)
     }
 
     /* If allow_update is TRUE, update the screen. */
-    if (allow_update)
+    if (allow_update) {
+	focusing = FALSE;
 	edit_redraw(current_save);
+    }
 
     /* Return whether we started on a word. */
     return started_on_word;

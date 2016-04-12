@@ -616,7 +616,6 @@ void do_undo(void)
     openfile->placewewant = xplustabs();
     openfile->totsize = u->wassize;
     set_modified();
-    focusing = TRUE;
 }
 
 /* Redo the last thing(s) we undid. */
@@ -751,7 +750,6 @@ void do_redo(void)
     openfile->placewewant = xplustabs();
     openfile->totsize = u->newsize;
     set_modified();
-    focusing = TRUE;
 }
 #endif /* !NANO_TINY */
 
@@ -2393,8 +2391,6 @@ bool do_int_spell_fix(const char *word)
     /* Save the current search string, then set it to the misspelled word. */
     save_search = last_search;
     last_search = mallocstrcpy(NULL, word);
-
-    focusing = TRUE;
 
 #ifndef NANO_TINY
     if (old_mark_set) {

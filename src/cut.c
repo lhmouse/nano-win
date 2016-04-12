@@ -269,6 +269,8 @@ void do_cut_till_eof(void)
 /* Copy text from the cutbuffer into the current filestruct. */
 void do_uncut_text(void)
 {
+    int was_lineno = openfile->current->lineno;
+
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
     /* If the cutbuffer is empty, get out. */
@@ -286,6 +288,9 @@ void do_uncut_text(void)
 #ifndef NANO_TINY
     update_undo(PASTE);
 #endif
+
+    if (openfile->current->lineno - was_lineno < editwinrows)
+	focusing = FALSE;
 
     /* Set the current place we want to where the text from the
      * cutbuffer ends. */

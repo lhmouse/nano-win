@@ -2652,7 +2652,7 @@ int main(int argc, char **argv)
 
     while (TRUE) {
 	currmenu = MMAIN;
-	focusing = FALSE;
+	focusing = TRUE;
 
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor

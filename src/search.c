@@ -105,7 +105,6 @@ void not_found_msg(const char *str)
 void search_replace_abort(void)
 {
     display_main_list();
-    focusing = FALSE;
 #ifndef NANO_TINY
     if (openfile->mark_set)
 	edit_refresh();
@@ -142,8 +141,6 @@ int search_init(bool replacing, bool use_answer)
      * search string and then Replace or a toggle, we will return to
      * do_search() or do_replace() and be called again.  In that case,
      * we should put the same search string back up. */
-
-    focusing = TRUE;
 
     if (last_search[0] != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
@@ -453,8 +450,6 @@ void do_findnext(void)
 /* Search for the last string without prompting. */
 void do_research(void)
 {
-    focusing = TRUE;
-
 #ifndef DISABLE_HISTORIES
     /* If nothing was searched for yet during this run of nano, but
      * there is a search history, take the most recent item. */
@@ -1120,6 +1115,7 @@ void do_find_bracket(void)
 	    /* If count is zero, we've found a matching bracket.  Update
 	     * the screen and get out. */
 	    if (count == 0) {
+		focusing = FALSE;
 		edit_redraw(current_save);
 		break;
 	    }

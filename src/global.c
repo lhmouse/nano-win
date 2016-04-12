@@ -37,7 +37,7 @@ bool meta_key;
 	/* Whether the current keystroke is a Meta key. */
 bool func_key;
 	/* Whether the current keystroke is an extended keypad value. */
-bool focusing = FALSE;
+bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
 
 #ifndef NANO_TINY
