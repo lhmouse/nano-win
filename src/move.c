@@ -493,8 +493,11 @@ void do_down(
 		(ISSET(SMOOTH_SCROLL) || scroll_only) ? amount :
 #endif
 		editwinrows / 2 + 1);
-	if (ISSET(SOFTWRAP))
+
+	if (ISSET(SOFTWRAP)) {
 	    edit_refresh_needed = TRUE;
+	    return;
+	}
     }
 
     /* If we're not on the last line of the edit window, and the target
