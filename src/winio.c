@@ -2853,7 +2853,6 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
     ssize_t i;
     filestruct *foo;
-    bool do_redraw = need_screen_update(0);
 
     assert(nlines > 0);
 
@@ -2880,7 +2879,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
 	    i -= len;
 	    if (len > 0)
-		do_redraw = TRUE;
+		edit_refresh_needed = TRUE;
 	}
 #endif
     }
@@ -2888,14 +2887,14 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     /* Limit nlines to the number of lines we could scroll. */
     nlines -= i;
 
-    /* Don't bother scrolling zero lines or more than the number of
-     * lines in the edit window minus one; in both cases, get out, and
-     * call edit_refresh() beforehand if we need to. */
-    if (nlines == 0 || do_redraw || nlines >= editwinrows) {
-	if (do_redraw || nlines >= editwinrows)
-	    edit_refresh_needed = TRUE;
+    /* Don't bother scrolling zero lines, nor more than the window can hold. */
+    if (nlines == 0)
 	return;
-    }
+    if (nlines >= editwinrows)
+	edit_refresh_needed = TRUE;
+
+    if (edit_refresh_needed == TRUE)
+	return;
 
     /* Scroll the text of the edit window up or down nlines lines,
      * depending on the value of direction. */
@@ -2943,7 +2942,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     for (i = nlines; i > 0 && foo != NULL; i--) {
 	if ((i == nlines && direction == DOWNWARD) || (i == 1 &&
 		direction == UPWARD)) {
-	    if (do_redraw)
+	    if (need_screen_update(0))
 		update_line(foo, (foo == openfile->current) ?
 			openfile->current_x : 0);
 	} else
