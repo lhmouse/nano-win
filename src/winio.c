@@ -1980,27 +1980,18 @@ void titlebar(const char *path)
 
     blank_titlebar();
 
-    /* space has to be at least 4: two spaces before the version message,
-     * at least one character of the version message, and one space
-     * after the version message. */
-    if (space < 4)
-	space = 0;
-    else {
-	/* Limit verlen to 1/3 the length of the screen in columns,
-	 * minus three columns for spaces. */
-	if (verlen > (COLS / 3) - 3)
-	    verlen = (COLS / 3) - 3;
-    }
+    /* Limit the length of the version message to a third of the width of
+     * the screen, minus three columns for spaces. */
+    if (verlen > (COLS / 3) - 3)
+	verlen = (COLS / 3) - 3;
 
-    if (space >= 4) {
-	/* Add a space after the version message, and account for both
-	 * it and the two spaces before it. */
-	mvwaddnstr(topwin, 0, 2, BRANDING, actual_x(BRANDING, verlen));
-	verlen += 3;
+    /* Leave two spaces before the version message, and account also
+     * for the space after it. */
+     mvwaddnstr(topwin, 0, 2, BRANDING, actual_x(BRANDING, verlen));
+     verlen += 3;
 
-	/* Account for the full length of the version message. */
-	space -= verlen;
-    }
+    /* Account for the full length of the version message. */
+    space -= verlen;
 
 #ifndef DISABLE_BROWSER
     /* Don't display the state if we're in the file browser. */

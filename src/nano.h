@@ -563,7 +563,7 @@ enum
 #define MAIN_VISIBLE (((COLS + 40) / 20) * 2)
 
 /* The minimum editor window columns and rows required for nano to work
- * correctly. */
+ * correctly.  Don't make these smaller than 4 and 1. */
 #define MIN_EDITOR_COLS 4
 #define MIN_EDITOR_ROWS 1
 
