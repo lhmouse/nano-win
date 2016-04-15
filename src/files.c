@@ -1409,6 +1409,8 @@ void do_insertfile_void(void)
  * able to go there. */
 char *get_full_path(const char *origpath)
 {
+    int attempts = 0;
+	/* How often we've tried climing back up the tree. */
     struct stat fileinfo;
     char *d_here, *d_there, *d_there_file = NULL;
     const char *last_slash;
@@ -1422,11 +1424,10 @@ char *get_full_path(const char *origpath)
      * current directory. */
     d_here = getcwd(NULL, PATH_MAX + 1);
 
-    while (d_here == NULL) {
-	if (chdir("..") == -1)
-	    break;
-
+    while (d_here == NULL && attempts < 20) {
+	IGNORE_CALL_RESULT(chdir(".."));
 	d_here = getcwd(NULL, PATH_MAX + 1);
+	attempts++;
     }
 
     /* If we succeeded, canonicalize it in d_here. */
