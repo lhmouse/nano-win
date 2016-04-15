@@ -1412,7 +1412,7 @@ char *get_full_path(const char *origpath)
     int attempts = 0;
 	/* How often we've tried climing back up the tree. */
     struct stat fileinfo;
-    char *d_here, *d_there, *d_there_file = NULL;
+    char *currentdir, *d_here, *d_there, *d_there_file = NULL;
     const char *last_slash;
     bool path_only;
 
@@ -1422,7 +1422,8 @@ char *get_full_path(const char *origpath)
     /* Get the current directory.  If it doesn't exist, back up and try
      * again until we get a directory that does, and use that as the
      * current directory. */
-    d_here = getcwd(NULL, PATH_MAX + 1);
+    currentdir = charalloc(PATH_MAX + 1);
+    d_here = getcwd(currentdir, PATH_MAX + 1);
 
     while (d_here == NULL && attempts < 20) {
 	IGNORE_CALL_RESULT(chdir(".."));
@@ -1441,8 +1442,10 @@ char *get_full_path(const char *origpath)
 	    strcat(d_here, "/");
 	}
     /* Otherwise, set d_here to "". */
-    } else
+    } else {
 	d_here = mallocstrcpy(NULL, "");
+	free(currentdir);
+    }
 
     d_there = real_dir_from_tilde(origpath);
 
@@ -1488,7 +1491,8 @@ char *get_full_path(const char *origpath)
 	    free(d_there);
 
 	    /* Get the full path. */
-	    d_there = getcwd(NULL, PATH_MAX + 1);
+	    currentdir = charalloc(PATH_MAX + 1);
+	    d_there = getcwd(currentdir, PATH_MAX + 1);
 
 	    /* If we succeeded, canonicalize it in d_there. */
 	    if (d_there != NULL) {
@@ -1500,11 +1504,11 @@ char *get_full_path(const char *origpath)
 		    d_there = charealloc(d_there, strlen(d_there) + 2);
 		    strcat(d_there, "/");
 		}
-	    } else
-		/* Otherwise, set path_only to TRUE, so that we clean up
-		 * correctly, free all allocated memory, and return
-		 * NULL. */
+	    /* Otherwise, make sure that we return NULL. */
+	    } else {
 		path_only = TRUE;
+		free(currentdir);
+	    }
 
 	    /* Finally, go back to the path specified in d_here,
 	     * where we were before.  We don't check for a chdir()
