@@ -451,16 +451,12 @@ void do_down(
 		openfile->current->lineno - openfile->edittop->lineno);
     assert(openfile->current->next != NULL);
 
-    /* Move the current line of the edit window down. */
-    openfile->current = openfile->current->next;
-    openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
-
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	/* Compute the amount to scroll. */
-	amount = (strlenpt(openfile->current->data) / COLS + openfile->current_y + 2
-		 + strlenpt(openfile->current->prev->data) / COLS - editwinrows);
+	/* Compute the number of lines to scroll. */
+	amount = strlenpt(openfile->current->data) / COLS - xplustabs() / COLS +
+			strlenpt(openfile->current->next->data) / COLS +
+			openfile->current_y - editwinrows + 2;
 	topline = openfile->edittop;
 	/* Reduce the amount when there are overlong lines at the top. */
 	for (enough = 1; enough < amount; enough++) {
@@ -473,6 +469,11 @@ void do_down(
 	}
     }
 #endif
+
+    /* Move to the next line in the file. */
+    openfile->current = openfile->current->next;
+    openfile->current_x = actual_x(openfile->current->data,
+					openfile->placewewant);
 
     /* If scroll_only is FALSE and if we're on the last line of the
      * edit window, scroll the edit window down one line if we're in
