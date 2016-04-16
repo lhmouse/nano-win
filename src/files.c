@@ -2833,28 +2833,27 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	char *mzero;
 	const char *lastslash = revstrstr(buf, "/", buf + *place);
 	size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
-	char *match1_mb = charalloc(mb_cur_max() + 1);
-	char *match2_mb = charalloc(mb_cur_max() + 1);
+	char *match1_mb = charalloc(mb_cur_max());
+	char *match2_mb = charalloc(mb_cur_max());
 	int match1_mb_len, match2_mb_len;
 
+	/* Get the number of characters that all matches have in common. */
 	while (TRUE) {
-	    for (match = 1; match < num_matches; match++) {
-		/* Get the number of single-byte characters that all the
-		 * matches have in common. */
-		match1_mb_len = parse_mbchar(matches[0] + common_len,
+	    match1_mb_len = parse_mbchar(matches[0] + common_len,
 			match1_mb, NULL);
+
+	    for (match = 1; match < num_matches; match++) {
 		match2_mb_len = parse_mbchar(matches[match] +
 			common_len, match2_mb, NULL);
-		match1_mb[match1_mb_len] = '\0';
-		match2_mb[match2_mb_len] = '\0';
-		if (strcmp(match1_mb, match2_mb) != 0)
+		if (match1_mb_len != match2_mb_len ||
+			strncmp(match1_mb, match2_mb, match2_mb_len) != 0)
 		    break;
 	    }
 
 	    if (match < num_matches || matches[0][common_len] == '\0')
 		break;
 
-	    common_len += parse_mbchar(matches[0] + common_len, NULL, NULL);
+	    common_len += match1_mb_len;
 	}
 
 	free(match1_mb);
