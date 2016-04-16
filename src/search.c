@@ -976,20 +976,24 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
      * end of the line.  This won't be a problem because we'll skip over
      * it below in that case, and rev_start will be properly set when
      * the search continues on the previous or next line. */
-    rev_start = reverse ? fileptr->data + (openfile->current_x - 1) :
-			fileptr->data + (openfile->current_x + 1);
+    if (reverse)
+	rev_start = fileptr->data + (openfile->current_x - 1);
+    else
+	rev_start = fileptr->data + (openfile->current_x + 1);
 
     /* Look for either of the two characters in bracket_set.  rev_start
      * can be 1 character before the start or after the end of the line.
      * In either case, just act as though no match is found. */
     while (TRUE) {
-	found = ((rev_start > fileptr->data && *(rev_start - 1) ==
-		'\0') || rev_start < fileptr->data) ? NULL : (reverse ?
-		mbrevstrpbrk(fileptr->data, bracket_set, rev_start) :
-		mbstrpbrk(rev_start, bracket_set));
+	if ((rev_start > fileptr->data && *(rev_start - 1) == '\0') ||
+			rev_start < fileptr->data)
+	    found = NULL;
+	else if (reverse)
+	    found = mbrevstrpbrk(fileptr->data, bracket_set, rev_start);
+	else
+	    found = mbstrpbrk(rev_start, bracket_set);
 
-	if (found != NULL)
-	    /* We've found a potential match. */
+	if (found)
 	    break;
 
 	if (reverse)
@@ -997,8 +1001,8 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	else
 	    fileptr = fileptr->next;
 
+	/* If we've reached the start or end of the buffer, get out. */
 	if (fileptr == NULL)
-	    /* We've reached the start or end of the buffer, so get out. */
 	    return FALSE;
 
 	rev_start = fileptr->data;
@@ -1006,7 +1010,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	    rev_start += strlen(fileptr->data);
     }
 
-    /* We've definitely found something. */
+    /* Set the current position to the found matching bracket. */
     openfile->current = fileptr;
     openfile->current_x = found - fileptr->data;
     openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
