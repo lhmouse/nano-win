@@ -337,13 +337,13 @@ int parse_kbinput(WINDOW *win)
     func_key = FALSE;
 
     /* Read in a character. */
-    if (nodelay_mode) {
+    kbinput = get_input(win, 1);
+
+    if (kbinput == NULL && nodelay_mode)
+	return 0;
+
+    while (kbinput == NULL)
 	kbinput = get_input(win, 1);
-	if (kbinput == 0)
-	    return 0;
-    } else
-	while ((kbinput = get_input(win, 1)) == NULL)
-	    ;
 
     switch (*kbinput) {
 	case ERR:
