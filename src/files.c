@@ -2833,31 +2833,30 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
 	char *mzero;
 	const char *lastslash = revstrstr(buf, "/", buf + *place);
 	size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
-	char *match1_mb = charalloc(mb_cur_max());
-	char *match2_mb = charalloc(mb_cur_max());
-	int match1_mb_len, match2_mb_len;
+	char *match1 = charalloc(mb_cur_max());
+	char *match2 = charalloc(mb_cur_max());
+	int match1_len, match2_len;
 
 	/* Get the number of characters that all matches have in common. */
 	while (TRUE) {
-	    match1_mb_len = parse_mbchar(matches[0] + common_len,
-			match1_mb, NULL);
+	    match1_len = parse_mbchar(matches[0] + common_len, match1, NULL);
 
 	    for (match = 1; match < num_matches; match++) {
-		match2_mb_len = parse_mbchar(matches[match] +
-			common_len, match2_mb, NULL);
-		if (match1_mb_len != match2_mb_len ||
-			strncmp(match1_mb, match2_mb, match2_mb_len) != 0)
+		match2_len = parse_mbchar(matches[match] + common_len,
+						match2, NULL);
+		if (match1_len != match2_len ||
+				strncmp(match1, match2, match2_len) != 0)
 		    break;
 	    }
 
 	    if (match < num_matches || matches[0][common_len] == '\0')
 		break;
 
-	    common_len += match1_mb_len;
+	    common_len += match1_len;
 	}
 
-	free(match1_mb);
-	free(match2_mb);
+	free(match1);
+	free(match2);
 
 	mzero = charalloc(lastslash_len + common_len + 1);
 
