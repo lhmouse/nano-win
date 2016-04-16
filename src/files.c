@@ -708,8 +708,6 @@ filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
 	freshline->next = openfile->fileage;
 	openfile->fileage = freshline;
 	freshline->lineno = 1;
-	/* Make sure that our edit window stays on the first line. */
-	openfile->edittop = freshline;
     } else {
 	prevnode->next = freshline;
 	freshline->next = NULL;
@@ -897,22 +895,18 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 			current_len + 1);
 	    strncpy(openfile->current->data, fileptr->data, len);
 
-	    /* Don't destroy fileage, edittop, or filebot! */
-	    if (fileptr == openfile->fileage)
-		openfile->fileage = openfile->current;
-	    if (fileptr == openfile->edittop)
-		openfile->edittop = openfile->current;
-	    if (fileptr == openfile->filebot)
-		openfile->filebot = openfile->current;
-
 	    /* Step back one line, and blow away the unterminated line,
 	     * since its text has been copied into current. */
 	    fileptr = fileptr->prev;
 	    delete_node(dropline);
 	}
 
-	/* Attach the line at current after the line at fileptr. */
-	if (fileptr != NULL) {
+	if (fileptr == NULL)
+	    /* After inserting a single unterminated line at the top,
+	     * readjust the top-of-file pointer. */
+	    openfile->fileage = openfile->current;
+	else {
+	    /* Attach the line at current after the line at fileptr. */
 	    fileptr->next = openfile->current;
 	    openfile->current->prev = fileptr;
 	}
