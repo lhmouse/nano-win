@@ -3032,8 +3032,7 @@ void edit_refresh(void)
  * more than needed to bring current into view. */
 void edit_update(update_type manner)
 {
-    filestruct *foo = openfile->current;
-    int goal;
+    int goal = 0;
 
     /* If manner is CENTERING, move edittop half the number of window
      * lines back from current.  If manner is STATIONARY, move edittop
@@ -3047,9 +3046,7 @@ void edit_update(update_type manner)
     if (manner == CENTERING)
 	goal = editwinrows / 2;
     else if (manner == FLOWING) {
-	if (openfile->current->lineno < openfile->edittop->lineno)
-	    goal = 0;
-	else
+	if (openfile->current->lineno >= openfile->edittop->lineno)
 	    goal = editwinrows - 1;
     } else {
 	goal = openfile->current_y;
@@ -3059,14 +3056,16 @@ void edit_update(update_type manner)
 	    goal = editwinrows - 1;
     }
 
-    for (; goal > 0 && foo->prev != NULL; goal--) {
-	foo = foo->prev;
+    openfile->edittop = openfile->current;
+
+    while (goal > 0 && openfile->edittop->prev != NULL) {
+	openfile->edittop = openfile->edittop->prev;
+	goal --;
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && foo)
-	    goal -= strlenpt(foo->data) / COLS;
+	if (ISSET(SOFTWRAP))
+	    goal -= strlenpt(openfile->edittop->data) / COLS;
 #endif
     }
-    openfile->edittop = foo;
 #ifdef DEBUG
     fprintf(stderr, "edit_update(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
