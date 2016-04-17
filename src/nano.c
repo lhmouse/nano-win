@@ -2641,6 +2641,9 @@ int main(int argc, char **argv)
 	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
+	/* Forget any earlier statusbar x position. */
+	reinit_statusbar_x();
+
 	/* Place the cursor in the edit window and make it visible. */
 	reset_cursor();
 	curs_set(1);

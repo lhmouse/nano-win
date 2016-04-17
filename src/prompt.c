@@ -32,10 +32,6 @@ static size_t statusbar_x = (size_t)-1;
 	/* The cursor position in answer. */
 static size_t statusbar_pww = (size_t)-1;
 	/* The place we want in answer. */
-static size_t old_statusbar_x = (size_t)-1;
-	/* The old cursor position in answer, if any. */
-static size_t old_pww = (size_t)-1;
-	/* The old place we want in answer, if any. */
 
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.
@@ -466,6 +462,13 @@ size_t get_statusbar_page_start(size_t start_col, size_t column)
 		start_col - 1);
 }
 
+/* Reinitialize the cursor position in the status bar prompt. */
+void reinit_statusbar_x(void)
+{
+    statusbar_x = (size_t)-1;
+    statusbar_pww = (size_t)-1;
+}
+
 /* Put the cursor in the statusbar prompt at statusbar_x. */
 void reset_statusbar_cursor(void)
 {
@@ -703,13 +706,6 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     }
 #endif
 
-    /* If we're done with this prompt, restore the cursor position
-     * to what it was at the /previous/ prompt, in case there was. */
-    if (func == do_cancel || func == do_enter) {
-	statusbar_x = old_statusbar_x;
-	statusbar_pww = old_pww;
-    }
-
     *actual = kbinput;
 
     return func;
@@ -742,6 +738,9 @@ int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
     bool listed = FALSE;
 #endif
+    /* Save a possible current statusbar x position. */
+    size_t was_statusbar_x = statusbar_x;
+    size_t was_pww = statusbar_pww;
 
     prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
@@ -765,10 +764,12 @@ int do_prompt(bool allow_tabs,
     free(prompt);
     prompt = NULL;
 
-    /* We're done with the prompt, so save the statusbar cursor
-     * position. */
-    old_statusbar_x = statusbar_x;
-    old_pww = statusbar_pww;
+    /* If we're done with this prompt, restore the x position to what
+     * it was at a possible previous prompt. */
+    if (func == do_cancel || func == do_enter) {
+	statusbar_x = was_statusbar_x;
+	statusbar_pww = was_pww;
+    }
 
     /* If we left the prompt via Cancel or Enter, set the return value
      * properly. */

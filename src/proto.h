@@ -526,6 +526,7 @@ void do_statusbar_next_word(void);
 void do_statusbar_verbatim_input(bool *got_enter);
 size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
+void reinit_statusbar_x(void);
 void reset_statusbar_cursor(void);
 void update_the_statusbar(void);
 void update_bar_if_needed(void);
