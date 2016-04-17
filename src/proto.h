@@ -339,8 +339,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	size_t buf_len);
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	*num_matches, size_t buf_len);
-char *input_tab(char *buf, bool allow_files, size_t *place, bool
-	*lastwastab, void (*refresh_func)(void), bool *listed);
+char *input_tab(char *buf, bool allow_files, size_t *place,
+	bool *lastwastab, bool *listed);
 #endif
 const char *tail(const char *foo);
 #ifndef DISABLE_HISTORIES

@@ -619,7 +619,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #endif
 	    if (allow_tabs)
 		answer = input_tab(answer, allow_files, &statusbar_x,
-				   &tabbed, refresh_func, listed);
+				   &tabbed, listed);
 
 	    update_the_statusbar();
 	} else
@@ -786,9 +786,8 @@ int do_prompt(bool allow_tabs,
 #endif
 
 #ifndef DISABLE_TABCOMP
-    /* If we've done tab completion, there might be a list of filename
-     * matches on the edit window at this point.  Make sure that they're
-     * cleared off. */
+    /* If we've done tab completion, and a list of filename matches
+     * was printed in the edit window, clear them off. */
     if (listed)
 	refresh_func();
 #endif

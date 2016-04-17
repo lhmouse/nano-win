@@ -2770,14 +2770,14 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 /* Do tab completion.  place refers to how much the statusbar cursor
  * position should be advanced.  refresh_func is the function we will
  * call to refresh the edit window. */
-char *input_tab(char *buf, bool allow_files, size_t *place, bool
-	*lastwastab, void (*refresh_func)(void), bool *listed)
+char *input_tab(char *buf, bool allow_files, size_t *place,
+	bool *lastwastab, bool *listed)
 {
     size_t num_matches = 0, buf_len;
     char **matches = NULL;
 
     assert(buf != NULL && place != NULL && *place <= strlen(buf) &&
-		lastwastab != NULL && refresh_func != NULL && listed != NULL);
+		lastwastab != NULL && listed != NULL);
 
     *listed = FALSE;
 
@@ -2922,11 +2922,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
     }
 
     free_chararray(matches, num_matches);
-
-    /* Only refresh the edit window if we don't have a list of filename
-     * matches on it. */
-    if (!*listed)
-	refresh_func();
 
     return buf;
 }
