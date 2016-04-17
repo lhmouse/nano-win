@@ -768,27 +768,25 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	     * the first line if we think it's a *nix file, or on any
 	     * line otherwise), and file conversion isn't disabled,
 	     * handle it! */
-	    if (!ISSET(NO_CONVERT) && (num_lines == 0 || format != 0) &&
+	    if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
 			len > 0 && buf[len - 1] == '\r') {
 		if (format == 0 || format == 2)
 		    format++;
 	    }
 #endif
-
 	    /* Read in the line properly. */
 	    fileptr = read_line(buf, len, fileptr);
-
-	    /* Reset the line length in preparation for the next line. */
-	    len = 0;
-
 	    num_lines++;
+
+	    /* Reset buffer and length in preparation for the next line. */
 	    buf[0] = '\0';
+	    len = 0;
 #ifndef NANO_TINY
 	/* If it's a Mac file ('\r' without '\n' on the first line if we
 	 * think it's a *nix file, or on any line otherwise), and file
 	 * conversion isn't disabled, handle it! */
-	} else if (!ISSET(NO_CONVERT) && (num_lines == 0 ||
-		format != 0) && len > 0 && buf[len - 1] == '\r') {
+	} else if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
+			len > 0 && buf[len - 1] == '\r') {
 	    /* If we currently think the file is a *nix file, set format
 	     * to Mac.  If we currently think the file is a DOS file,
 	     * set format to both DOS and Mac. */
@@ -797,26 +795,21 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 
 	    /* Read in the line properly. */
 	    fileptr = read_line(buf, len, fileptr);
-
-	    /* Reset the line length in preparation for the next line.
-	     * Since we've already read in the next character, reset it
-	     * to 1 instead of 0. */
-	    len = 1;
-
 	    num_lines++;
+
+	    /* Store the character after the \r as the first character
+	     * of the next line. */
 	    buf[0] = input;
 	    buf[1] = '\0';
+	    len = 1;
 #endif
 	} else {
-	    /* Calculate the total length of the line.  It might have
-	     * nulls in it, so we can't just use strlen() here. */
+	    /* Keep track of the total length of the line.  It might have
+	     * nulls in it, so we can't just use strlen() later. */
 	    len++;
 
-	    /* Now we allocate a bigger buffer MAX_BUF_SIZE characters
-	     * at a time.  If we allocate a lot of space for one line,
-	     * we may indeed have to use a buffer this big later on, so
-	     * we don't decrease it at all.  We do free it at the end,
-	     * though. */
+	    /* If needed, increase the buffer size, MAX_BUF_SIZE characters at
+	     * a time.  Don't bother decreasing it; it is freed at the end. */
 	    if (len >= bufx) {
 		bufx += MAX_BUF_SIZE;
 		buf = charealloc(buf, bufx);
@@ -843,11 +836,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	 * this file is '\r', set format to Mac if we currently think
 	 * the file is a *nix file, or to both DOS and Mac if we
 	 * currently think the file is a DOS file. */
-	if (!ISSET(NO_CONVERT) && buf[len - 1] == '\r' &&
-		(format == 0 || format == 1))
+	if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT) && format < 2)
 	    format += 2;
 #endif
-
 	/* Read in the last line properly. */
 	fileptr = read_line(buf, len, fileptr);
 	num_lines++;
