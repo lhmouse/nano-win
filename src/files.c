@@ -689,14 +689,13 @@ filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
 
     assert(openfile->fileage != NULL && strlen(buf) == buf_len);
 
-    freshline->data = mallocstrcpy(NULL, buf);
-
 #ifndef NANO_TINY
-    /* If it's a DOS file ("\r\n"), and file conversion isn't disabled,
-     * strip the '\r' part from the data. */
-    if (!ISSET(NO_CONVERT) && buf_len > 0 && buf[buf_len - 1] == '\r')
-	freshline->data[buf_len - 1] = '\0';
+    /* If file conversion isn't disabled, strip a '\r' from the line. */
+    if (buf_len > 0 && buf[buf_len - 1] == '\r' && !ISSET(NO_CONVERT))
+	buf[buf_len - 1] = '\0';
 #endif
+
+    freshline->data = mallocstrcpy(NULL, buf);
 
 #ifndef DISABLE_COLOR
     freshline->multidata = NULL;
@@ -803,18 +802,19 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    len = 1;
 #endif
 	} else {
+	    /* Store the character. */
+	    buf[len] = input;
+
 	    /* Keep track of the total length of the line.  It might have
 	     * nulls in it, so we can't just use strlen() later. */
 	    len++;
 
 	    /* If needed, increase the buffer size, MAX_BUF_SIZE characters at
 	     * a time.  Don't bother decreasing it; it is freed at the end. */
-	    if (len >= bufx) {
+	    if (len == bufx) {
 		bufx += MAX_BUF_SIZE;
 		buf = charealloc(buf, bufx);
 	    }
-
-	    buf[len - 1] = input;
 	}
     }
 
