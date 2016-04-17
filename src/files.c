@@ -610,9 +610,7 @@ void switch_to_next_buffer_void(void)
 
 /* Delete an entry from the openfile filebuffer, and switch to the one
  * after it.  Return TRUE on success, or FALSE if there are no more open
- * file buffers.
- * quiet - should we print messages switching bufers
- */
+ * buffers.  quiet means not to print messages when switching buffers. */
 bool close_buffer(bool quiet)
 {
     assert(openfile != NULL);
@@ -1677,7 +1675,7 @@ void init_backup_dir(void)
     /* If get_full_path() failed or the backup directory is
      * inaccessible, unset backup_dir. */
     if (full_backup_dir == NULL ||
-	full_backup_dir[strlen(full_backup_dir) - 1] != '/') {
+		full_backup_dir[strlen(full_backup_dir) - 1] != '/') {
 	free(full_backup_dir);
 	free(backup_dir);
 	backup_dir = NULL;
@@ -1854,14 +1852,13 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		}
 	    }
 
-	    backupname = charalloc(strlen(backup_dir) +
-		strlen(backuptemp) + 1);
+	    backupname = charalloc(strlen(backup_dir) + strlen(backuptemp) + 1);
 	    sprintf(backupname, "%s%s", backup_dir, backuptemp);
 	    free(backuptemp);
 	    backuptemp = get_next_filename(backupname, "~");
 	    if (*backuptemp == '\0') {
 		statusbar(_("Error writing backup file %s: %s"), backupname,
-		    _("Too many backup files?"));
+			_("Too many backup files?"));
 		free(backuptemp);
 		free(backupname);
 		/* If we can't write to the backup, DON'T go on, since
@@ -1917,7 +1914,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
-		strerror(errno));
+			strerror(errno));
 	    free(backupname);
 	    fclose(backup_file);
 	    goto cleanup_and_exit;
@@ -1928,7 +1925,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
 	    statusbar(_("Error writing backup file %s: %s"), backupname,
-		strerror(errno));
+			strerror(errno));
 	    free(backupname);
 	    fclose(backup_file);
 	    /* If we can't write to the backup, DONT go on, since
@@ -2001,8 +1998,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	tempname = safe_tempfile(&f);
 
 	if (tempname == NULL) {
-	    statusbar(_("Error writing temp file: %s"),
-		strerror(errno));
+	    statusbar(_("Error writing temp file: %s"), strerror(errno));
 	    goto cleanup_and_exit;
 	}
 
@@ -2013,7 +2009,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		f_source = fdopen(fd_source, "rb");
 		if (f_source == NULL) {
 		    statusbar(_("Error reading %s: %s"), realname,
-			strerror(errno));
+				strerror(errno));
 		    beep();
 		    close(fd_source);
 		    fclose(f);
@@ -2024,8 +2020,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (f_source == NULL || copy_file(f_source, f) != 0) {
-	    statusbar(_("Error writing %s: %s"), tempname,
-		strerror(errno));
+	    statusbar(_("Error writing %s: %s"), tempname, strerror(errno));
 	    unlink(tempname);
 	    goto cleanup_and_exit;
 	}
@@ -2043,10 +2038,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	/* If we couldn't open the file, give up. */
 	if (fd == -1) {
-	    statusbar(_("Error writing %s: %s"), realname,
-		strerror(errno));
-
-	    /* tempname has been set only if we're prepending. */
+	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	    if (tempname != NULL)
 		unlink(tempname);
 	    goto cleanup_and_exit;
@@ -2055,8 +2047,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	f = fdopen(fd, (append == APPEND) ? "ab" : "wb");
 
 	if (f == NULL) {
-	    statusbar(_("Error writing %s: %s"), realname,
-		strerror(errno));
+	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	    close(fd);
 	    goto cleanup_and_exit;
 	}
@@ -2079,8 +2070,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	unsunder(fileptr->data, data_len);
 
 	if (size < data_len) {
-	    statusbar(_("Error writing %s: %s"), realname,
-		strerror(errno));
+	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
@@ -2097,7 +2087,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
 		if (putc('\r', f) == EOF) {
 		    statusbar(_("Error writing %s: %s"), realname,
-			strerror(errno));
+				strerror(errno));
 		    fclose(f);
 		    goto cleanup_and_exit;
 		}
@@ -2107,7 +2097,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 #endif
 		if (putc('\n', f) == EOF) {
 		    statusbar(_("Error writing %s: %s"), realname,
-			strerror(errno));
+				strerror(errno));
 		    fclose(f);
 		    goto cleanup_and_exit;
 		}
@@ -2131,24 +2121,21 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (f_source == NULL) {
-	    statusbar(_("Error reading %s: %s"), tempname,
-		strerror(errno));
+	    statusbar(_("Error reading %s: %s"), tempname, strerror(errno));
 	    beep();
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
 
 	if (copy_file(f_source, f) == -1) {
-	    statusbar(_("Error writing %s: %s"), realname,
-		strerror(errno));
+	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	    goto cleanup_and_exit;
 	}
 
 	unlink(tempname);
     } else if (fclose(f) != 0) {
-	    statusbar(_("Error writing %s: %s"), realname,
-		strerror(errno));
-	    goto cleanup_and_exit;
+	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	goto cleanup_and_exit;
     }
 
     if (!tmp && append == OVERWRITE) {
@@ -2210,7 +2197,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
     /* Partition the filestruct so that it contains only the marked
      * text. */
     mark_order((const filestruct **)&top, &top_x,
-	(const filestruct **)&bot, &bot_x, NULL);
+		(const filestruct **)&bot, &bot_x, NULL);
     filepart = partition_filestruct(top, top_x, bot, bot_x);
 
     /* Handle the magicline if the NO_NEWLINES flag isn't set.  If the
@@ -2406,14 +2393,14 @@ int do_writeout(bool exiting)
 
 		full_answer = get_full_path(answer);
 		full_filename = get_full_path(openfile->filename);
-		name_exists = (stat((full_answer == NULL) ? answer :
-			full_answer, &st) != -1);
+		name_exists = (stat((full_answer == NULL) ?
+				answer : full_answer, &st) != -1);
 		if (openfile->filename[0] == '\0')
 		    do_warning = name_exists;
 		else
 		    do_warning = (strcmp((full_answer == NULL) ?
-			answer : full_answer, (full_filename == NULL) ?
-			openfile->filename : full_filename) != 0);
+				answer : full_answer, (full_filename == NULL) ?
+				openfile->filename : full_filename) != 0);
 
 		/* Convert nulls to newlines.  answer_len is the
 		 * string's real length. */
@@ -2885,8 +2872,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	     * only one space after the last column. */
 	    ncols = (COLS + 1) / (longest_name + 2);
 
-	    /* Blank the edit window, and print the matches out
-	     * there. */
+	    /* Blank the edit window, and print the matches out there. */
 	    blank_edit();
 	    wmove(edit, 0, 0);
 
@@ -2896,11 +2882,9 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	    for (match = 0; match < num_matches; match++) {
 		char *disp;
 
-		wmove(edit, editline, (longest_name + 2) *
-			(match % ncols));
+		wmove(edit, editline, (longest_name + 2) * (match % ncols));
 
-		if (match % ncols == 0 &&
-			editline == editwinrows - 1 &&
+		if (match % ncols == 0 && editline == editwinrows - 1 &&
 			num_matches - match > ncols) {
 		    waddstr(edit, _("(more)"));
 		    break;
