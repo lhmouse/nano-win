@@ -728,8 +728,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	/* The number of lines in the file. */
     size_t len = 0;
 	/* The length of the current line of the file. */
-    size_t i = 0;
-	/* The position in the current line of the file. */
     size_t bufx = MAX_BUF_SIZE;
 	/* The size of each chunk of the file that we read. */
     char input = '\0';
@@ -771,7 +769,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	     * line otherwise), and file conversion isn't disabled,
 	     * handle it! */
 	    if (!ISSET(NO_CONVERT) && (num_lines == 0 || format != 0) &&
-			i > 0 && buf[i - 1] == '\r') {
+			len > 0 && buf[len - 1] == '\r') {
 		if (format == 0 || format == 2)
 		    format++;
 	    }
@@ -785,13 +783,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 
 	    num_lines++;
 	    buf[0] = '\0';
-	    i = 0;
 #ifndef NANO_TINY
 	/* If it's a Mac file ('\r' without '\n' on the first line if we
 	 * think it's a *nix file, or on any line otherwise), and file
 	 * conversion isn't disabled, handle it! */
 	} else if (!ISSET(NO_CONVERT) && (num_lines == 0 ||
-		format != 0) && i > 0 && buf[i - 1] == '\r') {
+		format != 0) && len > 0 && buf[len - 1] == '\r') {
 	    /* If we currently think the file is a *nix file, set format
 	     * to Mac.  If we currently think the file is a DOS file,
 	     * set format to both DOS and Mac. */
@@ -809,7 +806,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    num_lines++;
 	    buf[0] = input;
 	    buf[1] = '\0';
-	    i = 1;
 #endif
 	} else {
 	    /* Calculate the total length of the line.  It might have
@@ -821,14 +817,13 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	     * we may indeed have to use a buffer this big later on, so
 	     * we don't decrease it at all.  We do free it at the end,
 	     * though. */
-	    if (i >= bufx - 1) {
+	    if (len >= bufx) {
 		bufx += MAX_BUF_SIZE;
 		buf = charealloc(buf, bufx);
 	    }
 
-	    buf[i] = input;
-	    buf[i + 1] = '\0';
-	    i++;
+	    buf[len - 1] = input;
+	    buf[len] = '\0';
 	}
     }
 
