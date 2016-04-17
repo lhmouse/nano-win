@@ -511,8 +511,8 @@ bool open_buffer(const char *filename, bool undoable)
 }
 
 #ifndef DISABLE_SPELLER
-/* Blow away the text of the current buffer, and then open and read
- * the specified file into its place. */
+/* Open the specified file, and if that succeeds, blow away the text of
+ * the current buffer and read the file contents into its place. */
 void replace_buffer(const char *filename)
 {
     FILE *f;
@@ -521,15 +521,18 @@ void replace_buffer(const char *filename)
     assert(filename != NULL && filename[0] != '\0');
 
     /* Open the file quietly. */
-    descriptor = open_file(filename, TRUE, FALSE, &f);
+    descriptor = open_file(filename, FALSE, TRUE, &f);
+
+    /* If opening failed, forget it. */
+    if (descriptor < 0)
+	return;
 
     /* Reinitialize the text of the current buffer. */
     free_filestruct(openfile->fileage);
     initialize_buffer_text();
 
-    /* If opening the file succeeded, read it in. */
-    if (descriptor > 0)
-	read_file(f, descriptor, filename, FALSE, TRUE);
+    /* Insert the processed file into its place. */
+    read_file(f, descriptor, filename, FALSE, TRUE);
 
     /* Put current at a place that is certain to exist. */
     openfile->current = openfile->fileage;
