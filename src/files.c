@@ -841,17 +841,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	writable = is_file_writable(filename);
     }
 
-#ifndef NANO_TINY
-    /* If file conversion isn't disabled and the last character in this
-     * file is '\r', read it in properly as a Mac format line. */
-    if (len == 0 && !ISSET(NO_CONVERT) && input == '\r') {
-	len = 1;
-
-	buf[0] = input;
-	buf[1] = '\0';
-    }
-#endif
-
     /* Did we not get a newline and still have stuff to do? */
     if (len > 0) {
 #ifndef NANO_TINY
@@ -874,9 +863,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     /* Attach the file we got to the filestruct.  If we got a file of
      * zero bytes, don't do anything. */
     if (num_lines > 0) {
-	/* If the file we got doesn't end in a newline, tack its last
-	 * line onto the beginning of the line at current. */
-	if (len > 0) {
+	/* If the file we got doesn't end in a newline (nor in a Mac return),
+	 * tack its last line onto the beginning of the line at current. */
+	if (len > 0 && (input != '\r' || ISSET(NO_CONVERT))) {
 	    filestruct *dropline = fileptr;
 	    size_t current_len = strlen(openfile->current->data);
 
