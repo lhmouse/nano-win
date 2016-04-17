@@ -995,7 +995,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 		statusbar(_("New File"));
 	    return -2;
 	}
-	statusbar(_("\"%s\" not found"), filename);
+	statusbar(_("File \"%s\" not found"), filename);
 	beep();
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
