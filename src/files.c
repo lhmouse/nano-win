@@ -685,6 +685,7 @@ filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
 
     /* Convert nulls to newlines.  buf_len is the string's real length. */
     unsunder(buf, buf_len);
+    buf[buf_len] = '\0';
 
     assert(openfile->fileage != NULL && strlen(buf) == buf_len);
 
@@ -778,8 +779,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    fileptr = read_line(buf, len, fileptr);
 	    num_lines++;
 
-	    /* Reset buffer and length in preparation for the next line. */
-	    buf[0] = '\0';
+	    /* Reset the length in preparation for the next line. */
 	    len = 0;
 #ifndef NANO_TINY
 	/* If it's a Mac file ('\r' without '\n' on the first line if we
@@ -800,7 +800,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    /* Store the character after the \r as the first character
 	     * of the next line. */
 	    buf[0] = input;
-	    buf[1] = '\0';
 	    len = 1;
 #endif
 	} else {
@@ -816,7 +815,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	    }
 
 	    buf[len - 1] = input;
-	    buf[len] = '\0';
 	}
     }
 
