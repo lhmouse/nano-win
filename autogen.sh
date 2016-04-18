@@ -1,4 +1,4 @@
 #!/bin/sh
-# Generate configure & friends for SVN users.
+# Generate configure & friends for GIT users.
 
 autoreconf -f -i -s

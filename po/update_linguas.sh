@@ -1,21 +1,16 @@
 #!/bin/sh
+cd "$(dirname "$0")" || exit
 echo "Updating translations via TP" && \
 rsync -Lrtvz  translationproject.org::tp/latest/nano/ .
-#
-NEWSTUFF=`svn status | grep "^\? .*.po$" | awk '{ print $NF }'`
-if [ "x$NEWSTUFF" != "x" ]; then
-    echo "Adding new languaes to SVN"
-    svn add $NEWSTUFF
-fi
-#
+git add -v *.po
 echo "Updating LINGUAS for all translations"
 FILE=LINGUAS
-echo "# List of available languages." >$FILE
-/bin/ls *.po | tr '\n' ' ' | sed 's/\.po//g' >>$FILE
-echo >> $FILE
-#
-if [ "x$NEWSTUFF" != "x" ]; then
-    echo -n "New langs found, re-running configure and make at top level (silently)..."
+echo "# List of available languages." >"${FILE}"
+echo $(printf '%s\n' *.po | LC_ALL=C sort | sed 's/\.po//g') >>"${FILE}"
+git add -v "${FILE}"
+NEWSTUFF=$(git status --porcelain *.po)
+if [ -n "${NEWSTUFF}" ]; then
+    printf "New langs found, re-running configure and make at top level (silently)..."
     (cd .. && ./configure  && make) >/dev/null
     echo "done"
 fi
