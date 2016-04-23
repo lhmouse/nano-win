@@ -342,7 +342,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 char *input_tab(char *buf, bool allow_files, size_t *place,
 	bool *lastwastab, bool *listed);
 #endif
-const char *tail(const char *foo);
+const char *tail(const char *path);
 #ifndef DISABLE_HISTORIES
 char *histfilename(void);
 void load_history(void);

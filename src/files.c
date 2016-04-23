@@ -2927,18 +2927,15 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 }
 #endif /* !DISABLE_TABCOMP */
 
-/* Only print the last part of a path.  Isn't there a shell command for
- * this? */
-const char *tail(const char *foo)
+/* Return the filename part of the given path. */
+const char *tail(const char *path)
 {
-    const char *tmp = strrchr(foo, '/');
+    const char *slash = strrchr(path, '/');
 
-    if (tmp == NULL)
-	tmp = foo;
+    if (slash == NULL)
+	return path;
     else
-	tmp++;
-
-    return tmp;
+	return ++slash;
 }
 
 #ifndef DISABLE_HISTORIES
