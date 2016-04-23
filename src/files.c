@@ -418,6 +418,8 @@ bool open_buffer(const char *filename, bool undoable)
 #endif
 	);
 	/* Whether we load into this buffer or a new one. */
+    char *realname;
+	/* The filename after tilde expansion. */
     FILE *f;
     int rc;
 	/* rc == -2 means that we have a new file.  -1 means that the
@@ -433,17 +435,20 @@ bool open_buffer(const char *filename, bool undoable)
     }
 #endif
 
+    realname = real_dir_from_tilde(filename);
+
     /* When the specified filename is not empty, and the thing exists,
      * verify that it is a normal file. */
     if (strcmp(filename, "") != 0) {
 	struct stat fileinfo;
 
-	if (stat(filename, &fileinfo) == 0 && !S_ISREG(fileinfo.st_mode)) {
+	if (stat(realname, &fileinfo) == 0 && !S_ISREG(fileinfo.st_mode)) {
 	    if (S_ISDIR(fileinfo.st_mode))
-		statusbar(_("\"%s\" is a directory"), filename);
+		statusbar(_("\"%s\" is a directory"), realname);
 	    else
-		statusbar(_("\"%s\" is not a normal file"), filename);
+		statusbar(_("\"%s\" is not a normal file"), realname);
 	    beep();
+	    free(realname);
 	    return FALSE;
 	}
     }
@@ -453,16 +458,17 @@ bool open_buffer(const char *filename, bool undoable)
     if (new_buffer) {
 	make_new_buffer();
 
-	if (!has_valid_path(filename))
+	if (!has_valid_path(realname))
 	    quiet = TRUE;
 #ifndef NANO_TINY
 	else {
 	    if (ISSET(LOCKING) && filename[0] != '\0') {
-		int lockstatus = do_lockfile(filename);
+		int lockstatus = do_lockfile(realname);
 		if (lockstatus < 0) {
 #ifndef DISABLE_MULTIBUFFER
 		    if (openfile->next) {
 			close_buffer(TRUE);
+			free(realname);
 			return FALSE;
 		    }
 #endif
@@ -476,20 +482,20 @@ bool open_buffer(const char *filename, bool undoable)
     /* If the filename isn't blank, and we are not in NOREAD_MODE,
      * open the file.  Otherwise, treat it as a new file. */
     rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
-		open_file(filename, new_buffer, quiet, &f) : -2;
+		open_file(realname, new_buffer, quiet, &f) : -2;
 
     /* If we have a file, and we're loading into a new buffer, update
      * the filename. */
     if (rc != -1 && new_buffer)
-	openfile->filename = mallocstrcpy(openfile->filename, filename);
+	openfile->filename = mallocstrcpy(openfile->filename, realname);
 
     /* If we have a non-new file, read it in.  Then, if the buffer has
      * no stat, update the stat, if applicable. */
     if (rc > 0) {
-	read_file(f, rc, filename, undoable, new_buffer);
+	read_file(f, rc, realname, undoable, new_buffer);
 #ifndef NANO_TINY
 	if (openfile->current_stat == NULL)
-	    stat_with_alloc(filename, &openfile->current_stat);
+	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
     }
 
@@ -507,6 +513,7 @@ bool open_buffer(const char *filename, bool undoable)
     if (new_buffer)
 	color_update();
 #endif
+    free(realname);
     return TRUE;
 }
 
