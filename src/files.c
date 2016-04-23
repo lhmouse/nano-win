@@ -2667,27 +2667,25 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	*num_matches, size_t buf_len)
 {
-    char *dirname = mallocstrcpy(NULL, buf), *filename;
+    char *dirname = mallocstrcpy(NULL, buf);
+    char *slash, *filename;
     size_t filenamelen;
     char **matches = NULL;
     DIR *dir;
     const struct dirent *nextdir;
 
-    assert(dirname != NULL && num_matches != NULL);
-
     *num_matches = 0;
     null_at(&dirname, buf_len);
 
-    /* Okie, if there's a / in the buffer, strip out the directory part. */
-    filename = strrchr(dirname, '/');
-    if (filename != NULL) {
-	char *tmpdirname = filename + 1;
+    /* If there's a / in the name, strip out the directory part. */
+    slash = strrchr(dirname, '/');
+    if (slash != NULL) {
+	char *wasdirname = dirname;
 
-	filename = mallocstrcpy(NULL, tmpdirname);
-	*tmpdirname = '\0';
-	tmpdirname = dirname;
+	filename = mallocstrcpy(NULL, slash + 1);
+	*slash = '\0';
 	dirname = real_dir_from_tilde(dirname);
-	free(tmpdirname);
+	free(wasdirname);
     } else {
 	filename = dirname;
 	dirname = mallocstrcpy(NULL, "./");
