@@ -32,6 +32,8 @@
 #include <pwd.h>
 #include <libgen.h>
 
+#define LOCKBUFSIZE 8192
+
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
 {
@@ -337,11 +339,11 @@ int do_lockfile(const char *filename)
 	    goto free_the_name;
 	}
 
-	lockbuf = charalloc(8192);
+	lockbuf = charalloc(LOCKBUFSIZE);
 	do {
-	    readamt = read(lockfd, &lockbuf[readtot], BUFSIZ);
+	    readamt = read(lockfd, &lockbuf[readtot], LOCKBUFSIZE - readtot);
 	    readtot += readamt;
-	} while (readtot < 8192 && readamt > 0);
+	} while (readamt > 0 && readtot < LOCKBUFSIZE);
 
 	if (readtot < 48) {
 	    statusbar(_("Error reading lock file %s: Not enough data read"),
