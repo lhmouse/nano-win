@@ -47,14 +47,12 @@ bool has_valid_path(const char *filename)
 	    statusbar(_("Directory '%s' does not exist"), parentdir);
 	else
 	    statusbar(_("Path '%s': %s"), parentdir, strerror(errno));
-    } else if (!S_ISDIR(parentinfo.st_mode)) {
+    } else if (!S_ISDIR(parentinfo.st_mode))
 	statusbar(_("Path '%s' is not a directory"), parentdir);
-    } else {
-	if (access(parentdir, X_OK) == -1)
-	    statusbar(_("Path '%s' is not accessible"), parentdir);
-	else
-	    validity = TRUE;
-    }
+    else if (access(parentdir, X_OK) == -1)
+	statusbar(_("Path '%s' is not accessible"), parentdir);
+    else
+	validity = TRUE;
 
     free(namecopy);
 
@@ -64,14 +62,13 @@ bool has_valid_path(const char *filename)
     return validity;
 }
 
-/* Add an entry to the openfile openfilestruct.  This should only be
- * called from open_buffer(). */
+/* Add an entry to the circular list of openfile structs. */
 void make_new_buffer(void)
 {
     if (openfile == NULL) {
 	openfile = make_new_opennode();
 
-	/* Make the first open file the only element in a circular list. */
+	/* Make the first open file the only element in the list. */
 	openfile->prev = openfile;
 	openfile->next = openfile;
     } else {
@@ -120,8 +117,7 @@ void make_new_buffer(void)
 #endif
 }
 
-/* Initialize the text of the current entry of the openfile
- * openfilestruct. */
+/* Initialize the text of the current openfile struct. */
 void initialize_buffer_text(void)
 {
     assert(openfile != NULL);
@@ -1216,8 +1212,9 @@ void do_insertfile(
 #endif
 
 #ifndef DISABLE_MULTIBUFFER
-	    if (!ISSET(MULTIBUFFER)) {
+	    if (!ISSET(MULTIBUFFER))
 #endif
+	    {
 		/* If we're not inserting into a new buffer, partition
 		 * the filestruct so that it contains no text and hence
 		 * looks like a new buffer, and keep track of whether
@@ -1226,9 +1223,7 @@ void do_insertfile(
 			openfile->current_x, openfile->current,
 			openfile->current_x);
 		edittop_inside = (openfile->edittop == openfile->fileage);
-#ifndef DISABLE_MULTIBUFFER
 	    }
-#endif
 
 	    /* Convert newlines to nulls in the given filename. */
 	    sunder(answer);
@@ -1387,7 +1382,7 @@ void do_insertfile_void(void)
 char *get_full_path(const char *origpath)
 {
     int attempts = 0;
-	/* How often we've tried climing back up the tree. */
+	/* How often we've tried climbing back up the tree. */
     struct stat fileinfo;
     char *currentdir, *d_here, *d_there, *d_there_file = NULL;
     const char *last_slash;
@@ -1762,7 +1757,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     struct stat st;
 	/* The status fields filled in by stat(). */
     char *realname;
-	/* name after tilde expansion. */
+	/* The filename after tilde expansion. */
     FILE *f = f_open;
 	/* The actual file, realname, we are writing to. */
     char *tempname = NULL;
@@ -2153,8 +2148,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		realname);
 #ifndef DISABLE_COLOR
 	    /* We might have changed the filename, so update the colors
-	     * to account for it, and then make sure we're using
-	     * them. */
+	     * to account for it, and then make sure we're using them. */
 	    color_update();
 	    color_init();
 
@@ -2475,12 +2469,12 @@ int do_writeout(bool exiting)
 	     * a separate file.  If we're using restricted mode, this
 	     * function is disabled, since it allows reading from or
 	     * writing to files not specified on the command line. */
-	    result =
 #ifndef NANO_TINY
-		(!ISSET(RESTRICTED) && !exiting && openfile->mark_set) ?
-		write_marked_file(answer, NULL, FALSE, append) :
+	    if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
+		result = write_marked_file(answer, NULL, FALSE, append);
+	    else
 #endif
-		write_file(answer, NULL, FALSE, append, FALSE);
+		result = write_file(answer, NULL, FALSE, append, FALSE);
 
 	    break;
 	}
@@ -2773,9 +2767,9 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
     /* If the word starts with `~' and there is no slash in the word,
      * then try completing this word as a username. */
     if (*place > 0 && *buf == '~') {
-	const char *bob = strchr(buf, '/');
+	const char *slash = strchr(buf, '/');
 
-	if (bob == NULL || bob >= buf + *place)
+	if (slash == NULL || slash >= buf + *place)
 	    matches = username_tab_completion(buf, &num_matches, *place);
     }
 
@@ -2849,38 +2843,31 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	else if (num_matches > 1) {
 	    int longest_name = 0, ncols, editline = 0;
 
-	    /* Now we show a list of the available choices. */
-	    assert(num_matches > 1);
-
-	    /* Sort the list. */
+	    /* Sort the list of available choices. */
 	    qsort(matches, num_matches, sizeof(char *), diralphasort);
 
+	    /* Find the length of the longest among the choices. */
 	    for (match = 0; match < num_matches; match++) {
-		common_len = strnlenpt(matches[match], COLS - 1);
+		size_t namelen = strnlenpt(matches[match], COLS - 1);
 
-		if (common_len > COLS - 1) {
-		    longest_name = COLS - 1;
-		    break;
-		}
-
-		if (common_len > longest_name)
-		    longest_name = common_len;
+		if (namelen > longest_name)
+		    longest_name = namelen;
 	    }
 
-	    assert(longest_name <= COLS - 1);
+	    if (longest_name > COLS - 1)
+		longest_name = COLS - 1;
 
 	    /* Each column will be (longest_name + 2) columns wide, i.e.
 	     * two spaces between columns, except that there will be
 	     * only one space after the last column. */
 	    ncols = (COLS + 1) / (longest_name + 2);
 
-	    /* Blank the edit window, and print the matches out there. */
+	    /* Blank the edit window and hide the cursor. */
 	    blank_edit();
+	    curs_set(0);
 	    wmove(edit, 0, 0);
 
-	    /* Don't show a cursor in the list of completions. */
-	    curs_set(0);
-
+	    /* Now print the list of matches out there. */
 	    for (match = 0; match < num_matches; match++) {
 		char *disp;
 
