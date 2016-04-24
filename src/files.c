@@ -2195,7 +2195,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 {
     bool retval;
     bool old_modified = openfile->modified;
-	/* write_file() unsets the modified flag. */
+	/* Save the status, because write_file() unsets the modified flag. */
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
@@ -2203,29 +2203,25 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 
     assert(openfile->mark_set);
 
-    /* Partition the filestruct so that it contains only the marked
-     * text. */
+    /* Partition the filestruct so that it contains only the marked text. */
     mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, NULL);
     filepart = partition_filestruct(top, top_x, bot, bot_x);
 
-    /* Handle the magicline if the NO_NEWLINES flag isn't set.  If the
-     * line at filebot is blank, treat it as the magicline and hence the
-     * end of the file.  Otherwise, add a magicline and treat it as the
-     * end of the file. */
-    if (!ISSET(NO_NEWLINES) &&
-		(added_magicline = (openfile->filebot->data[0] != '\0')))
+    /* If we are doing magicline, and the last line of the partition
+     * isn't blank, then add a newline at the end of the buffer. */
+    if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
 	new_magicline();
+	added_magicline = TRUE;
+    }
 
     retval = write_file(name, f_open, tmp, append, TRUE);
 
-    /* If the NO_NEWLINES flag isn't set, and we added a magicline,
-     * remove it now. */
-    if (!ISSET(NO_NEWLINES) && added_magicline)
+    /* If we added a magicline, remove it now. */
+    if (added_magicline)
 	remove_magicline();
 
-    /* Unpartition the filestruct so that it contains all the text
-     * again. */
+    /* Unpartition the filestruct so that it contains all the text again. */
     unpartition_filestruct(&filepart);
 
     if (old_modified)
