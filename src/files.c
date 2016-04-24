@@ -2848,7 +2848,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 	    /* Find the length of the longest among the choices. */
 	    for (match = 0; match < num_matches; match++) {
-		size_t namelen = strnlenpt(matches[match], COLS - 1);
+		size_t namelen = strlenpt(matches[match]);
 
 		if (namelen > longest_name)
 		    longest_name = namelen;
