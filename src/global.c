@@ -40,6 +40,8 @@ bool console;
 
 bool meta_key;
 	/* Whether the current keystroke is a Meta key. */
+bool shift_held;
+	/* Whether Shift was being held together with a movement key. */
 bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
 
@@ -48,6 +50,8 @@ message_type lastmessage = HUSH;
 
 #ifndef NANO_TINY
 int controlleft, controlright, controlup, controldown;
+int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
+int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY

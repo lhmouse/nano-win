@@ -100,6 +100,7 @@ void make_new_buffer(void)
     openfile->mark_set = FALSE;
     openfile->mark_begin = NULL;
     openfile->mark_begin_x = 0;
+    openfile->kind_of_mark = SOFTMARK;
 
     openfile->fmt = NIX_FILE;
 

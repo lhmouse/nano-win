@@ -180,6 +180,10 @@ typedef enum {
 } kind_of_writing_type;
 
 typedef enum {
+    SOFTMARK, HARDMARK
+} mark_type;
+
+typedef enum {
     UPWARD, DOWNWARD
 } scroll_dir;
 
@@ -402,6 +406,8 @@ typedef struct openfilestruct {
 	/* The file's line where the mark is, if any. */
     size_t mark_begin_x;
 	/* The file's mark's x-coordinate position, if any. */
+    mark_type kind_of_mark;
+	/* Whether this is a soft or a hard mark. */
     file_format fmt;
 	/* The file's format. */
     undo *undotop;
@@ -560,6 +566,16 @@ enum
 #define CONTROL_RIGHT 0x402
 #define CONTROL_UP 0x403
 #define CONTROL_DOWN 0x404
+#define SHIFT_CONTROL_LEFT 0x405
+#define SHIFT_CONTROL_RIGHT 0x406
+#define SHIFT_CONTROL_UP 0x407
+#define SHIFT_CONTROL_DOWN 0x408
+#define SHIFT_ALT_LEFT 0x409
+#define SHIFT_ALT_RIGHT 0x40a
+#define SHIFT_ALT_UP 0x40b
+#define SHIFT_ALT_DOWN 0x40c
+#define SHIFT_PAGEUP 0x40d
+#define SHIFT_PAGEDOWN 0x40e
 
 #ifndef NANO_TINY
 /* An imaginary key for when we get a SIGWINCH (window resize). */

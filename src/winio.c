@@ -336,6 +336,7 @@ int parse_kbinput(WINDOW *win)
     int *kbinput, keycode, retval = ERR;
 
     meta_key = FALSE;
+    shift_held = FALSE;
 
     /* Read in a character. */
     kbinput = get_input(win, 1);
@@ -504,24 +505,64 @@ int parse_kbinput(WINDOW *win)
 	return sc_seq_or(do_prev_block, 0);
     else if (retval == controldown)
 	return sc_seq_or(do_next_block, 0);
+    else if (retval == shiftcontrolleft) {
+	shift_held = TRUE;
+	return sc_seq_or(do_prev_word_void, 0);
+    } else if (retval == shiftcontrolright) {
+	shift_held = TRUE;
+	return sc_seq_or(do_next_word_void, 0);
+    } else if (retval == shiftcontrolup) {
+	shift_held = TRUE;
+	return sc_seq_or(do_prev_block, 0);
+    } else if (retval == shiftcontroldown) {
+	shift_held = TRUE;
+	return sc_seq_or(do_next_block, 0);
+    } else if (retval == shiftaltleft) {
+	shift_held = TRUE;
+	return sc_seq_or(do_home, 0);
+    } else if (retval == shiftaltright) {
+	shift_held = TRUE;
+	return sc_seq_or(do_end, 0);
+    } else if (retval == shiftaltup) {
+	shift_held = TRUE;
+	return sc_seq_or(do_page_up, 0);
+    } else if (retval == shiftaltdown) {
+	shift_held = TRUE;
+	return sc_seq_or(do_page_down, 0);
+    }
 #endif
 
 #if defined(__linux__) && !defined(NANO_TINY)
     /* When not running under X, check for the bare arrow keys whether
-     * the Ctrl key is being held together with them. */
-    if (console && (retval == KEY_UP || retval == KEY_DOWN ||
-			retval == KEY_LEFT || retval == KEY_RIGHT)) {
-	unsigned char modifiers = 6;
+     * Shift/Ctrl/Alt are being held together with them. */
+    unsigned char modifiers = 6;
 
-	if (ioctl(0, TIOCLINUX, &modifiers) >= 0 && (modifiers & 0x04)) {
+    if (console && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
+	if (modifiers & 0x01)
+	    shift_held =TRUE;
+
+	/* Is Ctrl being held? */
+	if (modifiers & 0x04) {
 	    if (retval == KEY_UP)
 		return sc_seq_or(do_prev_block, 0);
 	    else if (retval == KEY_DOWN)
 		return sc_seq_or(do_next_block, 0);
 	    else if (retval == KEY_LEFT)
 		return sc_seq_or(do_prev_word_void, 0);
-	    else
+	    else if (retval == KEY_RIGHT)
 		return sc_seq_or(do_next_word_void, 0);
+	}
+
+	/* Are both Shift and Alt being held? */
+	if ((modifiers & 0x09) == 0x09) {
+	    if (retval == KEY_UP)
+		return sc_seq_or(do_page_up, 0);
+	    else if (retval == KEY_DOWN)
+		return sc_seq_or(do_page_down, 0);
+	    else if (retval == KEY_LEFT)
+		return sc_seq_or(do_home, 0);
+	    else if (retval == KEY_RIGHT)
+		return sc_seq_or(do_end, 0);
 	}
     }
 #endif /* __linux__ && !NANO_TINY */
@@ -530,37 +571,53 @@ int parse_kbinput(WINDOW *win)
 #ifdef KEY_SLEFT
 	/* Slang doesn't support KEY_SLEFT. */
 	case KEY_SLEFT:
+	    shift_held = TRUE;
 	    return sc_seq_or(do_left, keycode);
 #endif
 #ifdef KEY_SRIGHT
 	/* Slang doesn't support KEY_SRIGHT. */
 	case KEY_SRIGHT:
+	    shift_held = TRUE;
 	    return sc_seq_or(do_right, keycode);
 #endif
 #ifdef KEY_SUP
 	/* ncurses and Slang don't support KEY_SUP. */
 	case KEY_SUP:
-	    return sc_seq_or(do_up_void, keycode);
 #endif
+	case KEY_SR:	/* Scroll backward, on Xfce4-terminal. */
+	    shift_held = TRUE;
+	    return sc_seq_or(do_up_void, keycode);
 #ifdef KEY_SDOWN
 	/* ncurses and Slang don't support KEY_SDOWN. */
 	case KEY_SDOWN:
-	    return sc_seq_or(do_down_void, keycode);
 #endif
+	case KEY_SF:	/* Scroll forward, on Xfce4-terminal. */
+	    shift_held = TRUE;
+	    return sc_seq_or(do_down_void, keycode);
 #ifdef KEY_SHOME
 	/* HP-UX 10-11 and Slang don't support KEY_SHOME. */
 	case KEY_SHOME:
+	    shift_held = TRUE;
 #endif
 	case KEY_A1:	/* Home (7) on keypad with NumLock off. */
 	    return sc_seq_or(do_home, keycode);
 #ifdef KEY_SEND
 	/* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	case KEY_SEND:
+	    shift_held = TRUE;
 #endif
 	case KEY_C1:	/* End (1) on keypad with NumLock off. */
 	    return sc_seq_or(do_end, keycode);
+#ifndef NANO_TINY
+	case SHIFT_PAGEUP:		/* Fake key, from Shift+Alt+Up. */
+	    shift_held = TRUE;
+#endif
 	case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
 	    return sc_seq_or(do_page_up, keycode);
+#ifndef NANO_TINY
+	case SHIFT_PAGEDOWN:	/* Fake key, from Shift+Alt+Down. */
+	    shift_held = TRUE;
+#endif
 	case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
 	    return sc_seq_or(do_page_down, keycode);
 #ifdef KEY_SDC
@@ -646,6 +703,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'B': /* Esc O 1 ; 2 B == Shift-Down on Terminal. */
 		    case 'C': /* Esc O 1 ; 2 C == Shift-Right on Terminal. */
 		    case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
+			shift_held = TRUE;
 			return arrow_from_abcd(seq[4]);
 		    case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
 			return KEY_F(13);
@@ -851,9 +909,26 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
 		    case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
 		    case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
+			shift_held = TRUE;
 			return arrow_from_abcd(seq[4]);
 		}
 		break;
+#ifndef NANO_TINY
+	    case '4':
+		/* When the arrow keys are held together with Shift+Meta,
+		 * act as if they are Home/End/PgUp/PgDown with Shift. */
+		switch (seq[4]) {
+		    case 'A': /* Esc [ 1 ; 4 A == Shift-Alt-Up on xterm. */
+			return SHIFT_PAGEUP;
+		    case 'B': /* Esc [ 1 ; 4 B == Shift-Alt-Down on xterm. */
+			return SHIFT_PAGEDOWN;
+		    case 'C': /* Esc [ 1 ; 4 C == Shift-Alt-Right on xterm. */
+			return KEY_SEND;
+		    case 'D': /* Esc [ 1 ; 4 D == Shift-Alt-Left on xterm. */
+			return KEY_SHOME;
+		}
+		break;
+#endif
 	    case '5':
 		switch (seq[4]) {
 		    case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
@@ -866,6 +941,20 @@ int convert_sequence(const int *seq, size_t seq_len)
 			return CONTROL_LEFT;
 		}
 		break;
+#ifndef NANO_TINY
+	    case '6':
+		switch (seq[4]) {
+		    case 'A': /* Esc [ 1 ; 6 A == Shift-Ctrl-Up on xterm. */
+			return shiftcontrolup;
+		    case 'B': /* Esc [ 1 ; 6 B == Shift-Ctrl-Down on xterm. */
+			return shiftcontroldown;
+		    case 'C': /* Esc [ 1 ; 6 C == Shift-Ctrl-Right on xterm. */
+			return shiftcontrolright;
+		    case 'D': /* Esc [ 1 ; 6 D == Shift-Ctrl-Left on xterm. */
+			return shiftcontrolleft;
+		}
+		break;
+#endif
 	}
 
 			} else if (seq_len > 2 && seq[2] == '~')
@@ -1001,6 +1090,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 		    case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
+			shift_held = TRUE;
 			return arrow_from_abcd(seq[1]);
 		    case '[':
 			if (seq_len > 2 ) {

@@ -49,16 +49,18 @@ static filestruct *jusbottom = NULL;
 void do_mark(void)
 {
     openfile->mark_set = !openfile->mark_set;
+
     if (openfile->mark_set) {
 	statusbar(_("Mark Set"));
 	openfile->mark_begin = openfile->current;
 	openfile->mark_begin_x = openfile->current_x;
+	openfile->kind_of_mark = HARDMARK;
     } else {
 	statusbar(_("Mark Unset"));
 	openfile->mark_begin = NULL;
 	openfile->mark_begin_x = 0;
-	edit_refresh();
     }
+    edit_refresh();
 }
 #endif /* !NANO_TINY */
 

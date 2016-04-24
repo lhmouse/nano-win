@@ -35,6 +35,8 @@ extern bool console;
 #endif
 
 extern bool meta_key;
+extern bool shift_held;
+
 extern bool focusing;
 
 extern message_type lastmessage;
@@ -44,6 +46,14 @@ extern int controlleft;
 extern int controlright;
 extern int controlup;
 extern int controldown;
+extern int shiftcontrolleft;
+extern int shiftcontrolright;
+extern int shiftcontrolup;
+extern int shiftcontroldown;
+extern int shiftaltleft;
+extern int shiftaltright;
+extern int shiftaltup;
+extern int shiftaltdown;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY

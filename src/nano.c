@@ -1689,8 +1689,26 @@ int do_input(bool allow_funcs)
 		} else
 #endif
 		{
+#ifndef NANO_TINY
+		    /* If Shifted movement occurs, set the mark. */
+		    if (shift_held && !openfile->mark_set) {
+			openfile->mark_set = TRUE;
+			openfile->mark_begin = openfile->current;
+			openfile->mark_begin_x = openfile->current_x;
+			openfile->kind_of_mark = SOFTMARK;
+		    }
+#endif
 		    /* Execute the function of the shortcut. */
 		    s->scfunc();
+#ifndef NANO_TINY
+		    /* If Shiftless movement occurred, discard a soft mark. */
+		    if (openfile->mark_set && !shift_held &&
+				openfile->kind_of_mark == SOFTMARK) {
+			openfile->mark_set = FALSE;
+			openfile->mark_begin = NULL;
+			refresh_needed = TRUE;
+		    }
+#endif
 #ifndef DISABLE_COLOR
 		    if (f && !f->viewok)
 			reset_multis(openfile->current, FALSE);
@@ -2539,6 +2557,16 @@ int main(int argc, char **argv)
     controlright = get_keycode("kRIT5", CONTROL_RIGHT);
     controlup = get_keycode("kUP5", CONTROL_UP);
     controldown = get_keycode("kDN5", CONTROL_DOWN);
+    /* Ask for the codes for Shift+Control+Left/Right/Up/Down. */
+    shiftcontrolleft = get_keycode("kLFT6", SHIFT_CONTROL_LEFT);
+    shiftcontrolright = get_keycode("kRIT6", SHIFT_CONTROL_RIGHT);
+    shiftcontrolup = get_keycode("kUP6", SHIFT_CONTROL_UP);
+    shiftcontroldown = get_keycode("kDN6", SHIFT_CONTROL_DOWN);
+    /* Ask for the codes for Shift+Alt+Left/Right/Up/Down. */
+    shiftaltleft = get_keycode("kLFT4", SHIFT_ALT_LEFT);
+    shiftaltright = get_keycode("kRIT4", SHIFT_ALT_RIGHT);
+    shiftaltup = get_keycode("kUP4", SHIFT_ALT_UP);
+    shiftaltdown = get_keycode("kDN4", SHIFT_ALT_DOWN);
 #endif
 
 #ifndef USE_SLANG
