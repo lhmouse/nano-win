@@ -484,38 +484,37 @@ size_t actual_x(const char *s, size_t column)
     return i;
 }
 
-/* A strnlen() with tabs and multicolumn characters factored in, similar
- * to xplustabs().  How many columns wide are the first maxlen characters
- * of s? */
-size_t strnlenpt(const char *s, size_t maxlen)
+/* A strnlen() with tabs and multicolumn characters factored in:
+ * how many columns wide are the first maxlen bytes of text? */
+size_t strnlenpt(const char *text, size_t maxlen)
 {
-    size_t len = 0;
-	/* The screen display width to s[i]. */
+    size_t width = 0;
+	/* The screen display width to text[maxlen]. */
 
     if (maxlen == 0)
 	return 0;
 
-    assert(s != NULL);
+    assert(text != NULL);
 
-    while (*s != '\0') {
-	int s_len = parse_mbchar(s, NULL, &len);
+    while (*text != '\0') {
+	int charlen = parse_mbchar(text, NULL, &width);
 
-	s += s_len;
+	text += charlen;
 
-	if (maxlen <= s_len)
+	if (maxlen <= charlen)
 	    break;
 
-	maxlen -= s_len;
+	maxlen -= charlen;
     }
 
-    return len;
+    return width;
 }
 
-/* A strlen() with tabs and multicolumn characters factored in, similar
- * to xplustabs().  How many columns wide is s? */
-size_t strlenpt(const char *s)
+/* A strlen() with tabs and multicolumn characters factored in:
+ * how many columns wide is text? */
+size_t strlenpt(const char *text)
 {
-    return strnlenpt(s, (size_t)-1);
+    return strnlenpt(text, (size_t)-1);
 }
 
 /* Append a new magicline to filebot. */
