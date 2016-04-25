@@ -204,7 +204,7 @@ void do_cut_text(
 #endif /* !NANO_TINY */
 	set_modified();
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
     reset_multis(openfile->current, FALSE);
@@ -294,7 +294,7 @@ void do_uncut_text(void)
     /* Mark the file as modified. */
     set_modified();
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
     reset_multis(openfile->current, FALSE);

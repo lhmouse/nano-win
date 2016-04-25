@@ -329,7 +329,7 @@ void reset_multis_for_id(filestruct *fileptr, int index)
 	row->multidata[index] = -1;
     }
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 /* Reset multi-line strings around the filestruct fileptr, trying to be

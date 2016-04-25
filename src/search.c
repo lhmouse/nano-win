@@ -242,7 +242,7 @@ int search_init(bool replacing, bool use_answer)
     } else if (func == do_gotolinecolumn_void) {
 	do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE);
-	edit_refresh_needed = TRUE;
+	refresh_needed = TRUE;
 	return 3;
     }
 
@@ -878,7 +878,7 @@ void goto_line_posx(ssize_t line, size_t pos_x)
     openfile->current_x = pos_x;
     openfile->placewewant = xplustabs();
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 /* Go to the specified line and column, or ask for them if interactive

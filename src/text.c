@@ -149,14 +149,14 @@ void do_deletion(undo_type action)
 	openfile->totsize--;
 
 	/* Two lines were joined, so we need to refresh the screen. */
-	edit_refresh_needed = TRUE;
+	refresh_needed = TRUE;
     } else
 	return;
 
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
+    if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
-	    edit_refresh_needed = TRUE;
+	    refresh_needed = TRUE;
 #endif
 
     set_modified();
@@ -408,7 +408,7 @@ void do_indent(ssize_t cols)
 	set_modified();
 
 	/* Update the screen. */
-	edit_refresh_needed = TRUE;
+	refresh_needed = TRUE;
     }
 }
 
@@ -809,7 +809,7 @@ void do_enter()
     update_undo(ENTER);
 #endif
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 #ifndef NANO_TINY
@@ -2009,7 +2009,7 @@ void do_justify(bool full_justify)
 		last_par_line = openfile->filebot;
 		break;
 	    } else {
-		edit_refresh_needed = TRUE;
+		refresh_needed = TRUE;
 		return;
 	    }
 	}
@@ -2308,7 +2308,7 @@ void do_justify(bool full_justify)
 
 	    if (!openfile->modified)
 		titlebar(NULL);
-	    edit_refresh_needed = TRUE;
+	    refresh_needed = TRUE;
 	}
     } else {
 	/* Put the keystroke back into the queue. */
@@ -2643,7 +2643,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     free(read_buff);
     search_replace_abort();
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 
     /* Process the end of the three processes. */
     waitpid(pid_spell, &spell_status, 0);

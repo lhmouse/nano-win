@@ -2870,7 +2870,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
 	    i -= len;
 	    if (len > 0)
-		edit_refresh_needed = TRUE;
+		refresh_needed = TRUE;
 	}
 #endif
     }
@@ -2882,9 +2882,9 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     if (nlines == 0)
 	return;
     if (nlines >= editwinrows)
-	edit_refresh_needed = TRUE;
+	refresh_needed = TRUE;
 
-    if (edit_refresh_needed == TRUE)
+    if (refresh_needed == TRUE)
 	return;
 
     /* Scroll the text of the edit window up or down nlines lines,
@@ -2956,7 +2956,7 @@ void edit_redraw(filestruct *old_current)
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
 		openfile->current->lineno < openfile->edittop->lineno) {
 	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
-	edit_refresh_needed = TRUE;
+	refresh_needed = TRUE;
     }
 
 #ifndef NANO_TINY

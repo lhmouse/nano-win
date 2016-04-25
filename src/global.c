@@ -157,9 +157,9 @@ char *syntaxstr = NULL;
 	/* The color syntax name specified on the command line. */
 #endif
 
-bool edit_refresh_needed = FALSE;
-	/* Did a command mangle enough of the buffer refresh that we
-	 * should repaint the screen? */
+bool refresh_needed = FALSE;
+	/* Did a command mangle enough of the buffer that we should
+	 * repaint the screen? */
 
 int currmenu;
 	/* The currently loaded menu. */

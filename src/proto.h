@@ -111,7 +111,7 @@ extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 #endif
 
-extern bool edit_refresh_needed;
+extern bool refresh_needed;
 
 extern int currmenu;
 extern sc *sclist;

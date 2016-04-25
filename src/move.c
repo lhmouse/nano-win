@@ -32,7 +32,7 @@ void do_first_line(void)
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 /* Move to the last line of the file. */
@@ -43,7 +43,7 @@ void do_last_line(void)
     openfile->placewewant = xplustabs();
     openfile->current_y = editwinrows - 1;
 
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 /* Move up one page. */
@@ -97,7 +97,7 @@ void do_page_up(void)
 
     /* Scroll the edit window up a page. */
     edit_update(STATIONARY);
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 /* Move down one page. */
@@ -138,7 +138,7 @@ void do_page_down(void)
 
     /* Scroll the edit window down a page. */
     edit_update(STATIONARY);
-    edit_refresh_needed = TRUE;
+    refresh_needed = TRUE;
 }
 
 #ifndef DISABLE_JUSTIFY
@@ -498,7 +498,7 @@ void do_down(
 		editwinrows / 2 + 1);
 
 	if (ISSET(SOFTWRAP)) {
-	    edit_refresh_needed = TRUE;
+	    refresh_needed = TRUE;
 	    return;
 	}
     }

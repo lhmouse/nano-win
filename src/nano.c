@@ -405,7 +405,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * it in range of current. */
     if (edittop_inside) {
 	edit_update(STATIONARY);
-	edit_refresh_needed = TRUE;
+	refresh_needed = TRUE;
     }
 
     /* Renumber starting with the beginning line of the old
@@ -1702,12 +1702,12 @@ int do_input(bool allow_funcs)
 		    if (f && !f->viewok)
 			reset_multis(openfile->current, FALSE);
 #endif
-		    if (edit_refresh_needed) {
+		    if (refresh_needed) {
 #ifdef DEBUG
-			fprintf(stderr, "running edit_refresh() as edit_refresh_needed is true\n");
+			fprintf(stderr, "running edit_refresh() as refresh_needed is true\n");
 #endif
 			edit_refresh();
-			edit_refresh_needed = FALSE;
+			refresh_needed = FALSE;
 		    } else if (s->scfunc == do_delete || s->scfunc == do_backspace)
 			update_line(openfile->current, openfile->current_x);
 		}
@@ -1908,16 +1908,16 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	/* If we're wrapping text, we need to call edit_refresh(). */
 	if (!ISSET(NO_WRAP))
 	    if (do_wrap(openfile->current))
-		edit_refresh_needed = TRUE;
+		refresh_needed = TRUE;
 #endif
     }
 
 #ifndef NANO_TINY
     /* Well, we might also need a full refresh if we've changed the
      * line length to be a new multiple of COLS. */
-    if (ISSET(SOFTWRAP) && edit_refresh_needed == FALSE)
+    if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
-	    edit_refresh_needed = TRUE;
+	    refresh_needed = TRUE;
 #endif
 
     free(char_buf);
@@ -1928,9 +1928,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     reset_multis(openfile->current, FALSE);
 #endif
 
-    if (edit_refresh_needed == TRUE) {
+    if (refresh_needed == TRUE) {
 	edit_refresh();
-	edit_refresh_needed = FALSE;
+	refresh_needed = FALSE;
     } else
 	update_line(openfile->current, openfile->current_x);
 }
