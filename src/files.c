@@ -2888,6 +2888,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	    }
 
 	    wnoutrefresh(edit);
+	    edit_refresh_needed = TRUE;
 	    listed = TRUE;
 	}
 
