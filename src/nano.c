@@ -403,8 +403,10 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
     /* If the top of the edit window was inside the old partition, put
      * it in range of current. */
-    if (edittop_inside)
+    if (edittop_inside) {
 	edit_update(STATIONARY);
+	edit_refresh_needed = TRUE;
+    }
 
     /* Renumber starting with the beginning line of the old
      * partition. */

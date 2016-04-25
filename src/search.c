@@ -242,6 +242,7 @@ int search_init(bool replacing, bool use_answer)
     } else if (func == do_gotolinecolumn_void) {
 	do_gotolinecolumn(openfile->current->lineno,
 			openfile->placewewant + 1, TRUE, TRUE);
+	edit_refresh_needed = TRUE;
 	return 3;
     }
 

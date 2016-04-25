@@ -97,6 +97,7 @@ void do_page_up(void)
 
     /* Scroll the edit window up a page. */
     edit_update(STATIONARY);
+    edit_refresh_needed = TRUE;
 }
 
 /* Move down one page. */
@@ -137,6 +138,7 @@ void do_page_down(void)
 
     /* Scroll the edit window down a page. */
     edit_update(STATIONARY);
+    edit_refresh_needed = TRUE;
 }
 
 #ifndef DISABLE_JUSTIFY

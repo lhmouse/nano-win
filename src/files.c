@@ -1262,9 +1262,6 @@ void do_insertfile(
 
 #ifndef DISABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER)) {
-		/* Update the screen to account for the current buffer. */
-		display_buffer();
-
 #ifndef DISABLE_HISTORIES
 		if (ISSET(POS_HISTORY)) {
 		    ssize_t priorline, priorcol;
@@ -1275,6 +1272,8 @@ void do_insertfile(
 			do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
 		}
 #endif /* !DISABLE_HISTORIES */
+		/* Update the screen to account for the current buffer. */
+		display_buffer();
 	    } else
 #endif /* !DISABLE_MULTIBUFFER */
 	    {

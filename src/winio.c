@@ -2954,8 +2954,10 @@ void edit_redraw(filestruct *old_current)
 
     /* If the current line is offscreen, scroll until it's onscreen. */
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
-		openfile->current->lineno < openfile->edittop->lineno)
+		openfile->current->lineno < openfile->edittop->lineno) {
 	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
+	edit_refresh_needed = TRUE;
+    }
 
 #ifndef NANO_TINY
     /* If the mark is on, update all lines between old_current and current. */
@@ -3070,7 +3072,6 @@ void edit_update(update_type manner)
     fprintf(stderr, "edit_update(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
     compute_maxrows();
-    edit_refresh_needed = TRUE;
 }
 
 /* Unconditionally redraw the entire screen. */
