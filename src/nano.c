@@ -1167,6 +1167,8 @@ void finish_stdin_pager(void)
 	nperror("fopen");
 
     read_file(f, 0, "stdin", TRUE, FALSE);
+    openfile->edittop = openfile->fileage;
+
     ttystdin = open("/dev/tty", O_RDONLY);
     if (!ttystdin)
 	die(_("Couldn't reopen stdin from keyboard, sorry\n"));
