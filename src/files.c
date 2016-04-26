@@ -2675,12 +2675,13 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
     *num_matches = 0;
     null_at(&dirname, buf_len);
 
-    /* If there's a / in the name, strip out the directory part. */
+    /* If there's a / in the name, split out filename and directory parts. */
     slash = strrchr(dirname, '/');
     if (slash != NULL) {
 	char *wasdirname = dirname;
 
-	filename = mallocstrcpy(NULL, slash + 1);
+	filename = mallocstrcpy(NULL, ++slash);
+	/* Cut off the filename part after the slash. */
 	*slash = '\0';
 	dirname = real_dir_from_tilde(dirname);
 	free(wasdirname);
