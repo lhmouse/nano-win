@@ -2755,14 +2755,15 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
  * position should be advanced.  refresh_func is the function we will
  * call to refresh the edit window. */
 char *input_tab(char *buf, bool allow_files, size_t *place,
-	bool *lastwastab, void (*refresh_func)(void))
+	bool *lastwastab, void (*refresh_func)(void), bool *listed)
 {
     size_t num_matches = 0, buf_len;
     char **matches = NULL;
-    bool listed = FALSE;
 
     assert(buf != NULL && place != NULL && *place <= strlen(buf) &&
-		lastwastab != NULL && refresh_func != NULL);
+		lastwastab != NULL && refresh_func != NULL && listed != NULL);
+
+    *listed = FALSE;
 
     /* If the word starts with `~' and there is no slash in the word,
      * then try completing this word as a username. */
@@ -2888,8 +2889,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	    }
 
 	    wnoutrefresh(edit);
-	    refresh_needed = TRUE;
-	    listed = TRUE;
+	    *listed = TRUE;
 	}
 
 	free(mzero);
@@ -2897,8 +2897,9 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
     free_chararray(matches, num_matches);
 
-    /* Refresh the edit window just in case a previous tab showed a list. */
-    if (!listed)
+    /* When we didn't list any matches now, refresh the edit window, just
+     * in case a previous tab showed a list, so we know where we are. */
+    if (!*listed)
 	refresh_func();
 
     return buf;

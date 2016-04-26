@@ -529,7 +529,7 @@ void update_bar_if_needed(void)
 /* Get a string of input at the statusbar prompt. */
 functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
-	bool allow_files,
+	bool allow_files, bool *listed,
 #endif
 	const char *curranswer,
 #ifndef DISABLE_HISTORIES
@@ -619,7 +619,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #endif
 	    if (allow_tabs)
 		answer = input_tab(answer, allow_files, &statusbar_x,
-				   &tabbed, refresh_func);
+				   &tabbed, refresh_func, listed);
 
 	    update_the_statusbar();
 	} else
@@ -735,7 +735,9 @@ int do_prompt(bool allow_tabs,
     va_list ap;
     int retval;
     functionptrtype func;
-
+#ifndef DISABLE_TABCOMP
+    bool listed = FALSE;
+#endif
     /* Save a possible current statusbar x position. */
     size_t was_statusbar_x = statusbar_x;
     size_t was_pww = statusbar_pww;
@@ -751,7 +753,7 @@ int do_prompt(bool allow_tabs,
 
     func = get_prompt_string(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
-			allow_files,
+			allow_files, &listed,
 #endif
 	curranswer,
 #ifndef DISABLE_HISTORIES
@@ -781,6 +783,13 @@ int do_prompt(bool allow_tabs,
 
 #ifdef DEBUG
     fprintf(stderr, "answer = \"%s\"\n", answer);
+#endif
+
+#ifndef DISABLE_TABCOMP
+    /* If we've done tab completion, there might still be a list of
+     * filename matches on the edit window.  Clear them off. */
+    if (listed)
+	refresh_func();
 #endif
 
     return retval;
