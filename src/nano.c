@@ -1563,6 +1563,22 @@ void terminal_init(void)
 #endif
 }
 
+/* Say that an unbound key was struck, and if possible which one. */
+void unbound_key(int code)
+{
+    if (func_key)
+	statusbar(_("Unbound key"));
+    else if (meta_key) {
+	if (0x60 < code && code < 0x7B)
+	    code -= 0x20;
+	statusbar(_("Unbound key: M-%c"), code);
+    } else if (code < 0x20)
+	statusbar(_("Unbound key: ^%c"), code + 0x40);
+    else
+	statusbar(_("Unbound key: %c"), code);
+    beep();
+}
+
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.
  * If allow_funcs is FALSE, don't actually run any functions associated
@@ -1612,8 +1628,7 @@ int do_input(bool allow_funcs)
      * function key, and it's not a shortcut or toggle, throw it out. */
     if (!have_shortcut) {
 	if (is_ascii_cntrl_char(input) || meta_key || func_key) {
-	    statusbar(_("Unknown Command"));
-	    beep();
+	    unbound_key(input);
 	    meta_key = FALSE;
 	    func_key = FALSE;
 	    input = ERR;

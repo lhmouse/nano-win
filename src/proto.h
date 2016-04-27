@@ -498,6 +498,7 @@ void enable_signals(void);
 void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
+void unbound_key(int code);
 int do_input(bool allow_funcs);
 #ifndef DISABLE_MOUSE
 int do_mouse(void);

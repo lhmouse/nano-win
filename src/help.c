@@ -161,7 +161,8 @@ void do_help(void)
 	} else if (func == do_exit) {
 	    /* Exit from the help viewer. */
 	    break;
-	}
+	} else
+	    unbound_key(kbinput);
     }
 
     if (old_no_help) {

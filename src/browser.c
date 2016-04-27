@@ -332,7 +332,8 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
 	    break;
-	}
+	} else
+	    unbound_key(kbinput);
     }
     titlebar(NULL);
     edit_refresh();
