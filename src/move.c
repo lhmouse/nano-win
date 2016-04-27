@@ -562,7 +562,15 @@ void do_scroll_down(void)
 										))
 		edit_scroll(FORWARD);
 }
-#endif
+
+/* Scroll the line with the cursor to the center of the screen. */
+void do_center(void)
+{
+	adjust_viewport(CENTERING);
+	draw_all_subwindows();
+	full_refresh();
+}
+#endif /* !NANO_TINY || ENABLE_HELP */
 
 /* Move left one character. */
 void do_left(void)

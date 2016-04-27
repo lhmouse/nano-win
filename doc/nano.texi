@@ -1370,6 +1370,9 @@ while keeping the cursor in the same text position, if possible.
 Scrolls the viewport down one row (meaning that the text slides up)
 while keeping the cursor in the same text position, if possible.
 
+@item center
+Scrolls the line with the cursor to the middle of the screen.
+
 @item prevword
 Moves the cursor to the beginning of the previous word.
 

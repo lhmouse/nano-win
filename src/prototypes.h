@@ -386,6 +386,7 @@ void do_down(void);
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 void do_scroll_up(void);
 void do_scroll_down(void);
+void do_center(void);
 #endif
 void do_left(void);
 void do_right(void);
