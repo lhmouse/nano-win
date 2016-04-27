@@ -967,34 +967,9 @@ void parse_rcfile(FILE *rcstream
 	    keyword = ptr;
 	    ptr = parse_next_word(ptr);
 	}
-#endif
 
 	/* Try to parse the keyword. */
-	if (strcasecmp(keyword, "set") == 0) {
-#ifndef DISABLE_COLOR
-	    if (syntax_only)
-		rcfile_error(N_("Command \"%s\" not allowed in included file"),
-				keyword);
-	    else
-#endif
-		set = 1;
-	} else if (strcasecmp(keyword, "unset") == 0) {
-#ifndef DISABLE_COLOR
-	    if (syntax_only)
-		rcfile_error(N_("Command \"%s\" not allowed in included file"),
-				keyword);
-	    else
-#endif
-		set = -1;
-	}
-#ifndef DISABLE_COLOR
-	else if (strcasecmp(keyword, "include") == 0) {
-	    if (syntax_only)
-		rcfile_error(N_("Command \"%s\" not allowed in included file"),
-				keyword);
-	    else
-		parse_includes(ptr);
-	} else if (strcasecmp(keyword, "syntax") == 0) {
+	if (strcasecmp(keyword, "syntax") == 0) {
 	    if (opensyntax && lastcolor == NULL)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 				live_syntax->name);
@@ -1020,7 +995,17 @@ void parse_rcfile(FILE *rcstream
 #else
 	    ;
 #endif
+	else if (syntax_only)
+	    rcfile_error(N_("Command \"%s\" not allowed in included file"),
+					keyword);
+	else if (strcasecmp(keyword, "include") == 0)
+	    parse_includes(ptr);
+	else
 #endif /* !DISABLE_COLOR */
+	if (strcasecmp(keyword, "set") == 0)
+	    set = 1;
+	else if (strcasecmp(keyword, "unset") == 0)
+	    set = -1;
 	else if (strcasecmp(keyword, "bind") == 0)
 	    parse_binding(ptr, TRUE);
 	else if (strcasecmp(keyword, "unbind") == 0)
