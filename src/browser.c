@@ -770,7 +770,7 @@ void findnextfile(const char *needle)
 	if (came_full_circle) {
 	    /* We're back at the beginning and didn't find anything. */
 	    not_found_msg(needle);
-	    return;
+	    break;
 	}
 
 	/* Move to the next filename in the list.  If we've reached the
