@@ -1915,27 +1915,18 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
  * of path on the titlebar. */
 void titlebar(const char *path)
 {
-    int space = COLS;
-	/* The space we have available for display. */
-    size_t verlen = strlenpt(BRANDING);
-	/* The length of the version message in columns. */
-    const char *prefix;
-	/* "DIR:", "File:", or "New Buffer".  Goes before filename. */
-    size_t prefixlen;
-	/* The length of the prefix in columns, plus one for padding. */
-    const char *state;
-	/* "Modified", "View", or "".  Shows the state of this
-	 * buffer. */
-    size_t statelen = 0;
-	/* The length of the state in columns, or the length of
-	 * "Modified" if the state is blank and we're not in the file
-	 * browser. */
-    char *exppath = NULL;
-	/* The filename, expanded for display. */
-    bool newfie = FALSE;
-	/* Do we say "New Buffer"? */
-    bool dots = FALSE;
-	/* Do we put an ellipsis before the path? */
+    size_t verlen, prefixlen, pathlen, statelen;
+	/* The width of the different titlebar elements, in columns. */
+    size_t pluglen = 0;
+	/* The width that "Modified" would take up. */
+    size_t offset = 0;
+	/* The position at which the center part of the titlebar starts. */
+    const char *prefix = "";
+	/* What is shown before the path -- "File:", "DIR:", or "". */
+    const char *state = "";
+	/* The state of the current buffer -- "Modified", "View", or "". */
+    char *fragment;
+	/* The tail part of the pathname when dottified. */
 
     assert(path != NULL || openfile->filename != NULL);
 
@@ -1945,122 +1936,88 @@ void titlebar(const char *path)
 
     blank_titlebar();
 
-    /* Limit the length of the version message to a third of the width of
-     * the screen, minus three columns for spaces. */
-    if (verlen > (COLS / 3) - 3)
-	verlen = (COLS / 3) - 3;
+    /* Do as Pico: if there is not enough width available for all items,
+     * first sacrifice the version string, then eat up the side spaces,
+     * then sacrifice the prefix, and only then start dottifying. */
 
-    /* Leave two spaces before the version message, and account also
-     * for the space after it. */
-     mvwaddnstr(topwin, 0, 2, BRANDING, actual_x(BRANDING, verlen));
-     verlen += 3;
-
-    /* Account for the full length of the version message. */
-    space -= verlen;
-
+    /* Figure out the path, prefix and state strings. */
 #ifndef DISABLE_BROWSER
-    /* Don't display the state if we're in the file browser. */
-    if (path != NULL)
-	state = "";
-    else
-#endif
-	state = openfile->modified ? _("Modified") : ISSET(VIEW_MODE) ?
-		_("View") : "";
-
-    statelen = strlenpt((*state == '\0' && path == NULL) ?
-	_("Modified") : state);
-
-    /* If possible, add a space before state. */
-    if (space > 0 && statelen < space)
-	statelen++;
-    else
-	goto the_end;
-
-#ifndef DISABLE_BROWSER
-    /* path should be a directory if we're in the file browser. */
     if (path != NULL)
 	prefix = _("DIR:");
     else
 #endif
-    if (openfile->filename[0] == '\0') {
-	prefix = _("New Buffer");
-	newfie = TRUE;
-    } else
-	prefix = _("File:");
-
-    prefixlen = strnlenpt(prefix, space - statelen) + 1;
-
-    /* If newfie is FALSE, add a space after prefix. */
-    if (!newfie && prefixlen + statelen < space)
-	prefixlen++;
-
-    /* If we're not in the file browser, set path to the current
-     * filename. */
-    if (path == NULL)
-	path = openfile->filename;
-
-    /* Account for the full lengths of the prefix and the state. */
-    if (space >= prefixlen + statelen)
-	space -= prefixlen + statelen;
-    else
-	space = 0;
-	/* space is now the room we have for the filename. */
-
-    if (!newfie) {
-	size_t lenpt = strlenpt(path), start_col;
-
-	/* Don't set dots to TRUE if we have fewer than eight columns
-	 * (i.e. one column for padding, plus seven columns for a
-	 * filename). */
-	dots = (space >= 8 && lenpt >= space);
-
-	if (dots) {
-	    start_col = lenpt - space + 3;
-	    space -= 3;
-	} else
-	    start_col = 0;
-
-	exppath = display_string(path, start_col, space, FALSE);
-    }
-
-    /* If dots is TRUE, we will display something like "File:
-     * ...ename". */
-    if (dots) {
-	mvwaddnstr(topwin, 0, verlen - 1, prefix, actual_x(prefix,
-		prefixlen));
-	if (space <= -3 || newfie)
-	    goto the_end;
-	waddch(topwin, ' ');
-	waddnstr(topwin, "...", space + 3);
-	if (space <= 0)
-	    goto the_end;
-	waddstr(topwin, exppath);
-    } else {
-	size_t exppathlen = newfie ? 0 : strlenpt(exppath);
-	    /* The length of the expanded filename. */
-
-	/* There is room for the whole filename, so we center it. */
-	mvwaddnstr(topwin, 0, verlen + ((space - exppathlen) / 3),
-		prefix, actual_x(prefix, prefixlen));
-	if (!newfie) {
-	    waddch(topwin, ' ');
-	    waddstr(topwin, exppath);
-	}
-    }
-
-  the_end:
-    free(exppath);
-
-    if (state[0] != '\0') {
-	if (statelen >= COLS - 1)
-	    mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
+    {
+	if (openfile->filename[0] == '\0')
+	    path = _("New Buffer");
 	else {
-	    assert(COLS - statelen - 1 >= 0);
+	    path = openfile->filename;
+	    prefix = _("File:");
+	}
 
-	    mvwaddnstr(topwin, 0, COLS - statelen - 1, state,
-		actual_x(state, statelen));
+	if (openfile->modified)
+	    state = _("Modified");
+	else if (ISSET(VIEW_MODE))
+	    state = _("View");
+
+	pluglen = strlenpt(_("Modified")) + 1;
+    }
+
+    /* Determine the widths of the four elements, including their padding. */
+    verlen = strlenpt(BRANDING) + 3;
+    prefixlen = strlenpt(prefix);
+    if (prefixlen > 0)
+	prefixlen++;
+    pathlen= strlenpt(path);
+    statelen = strlenpt(state) + 2;
+    if (statelen > 2) {
+	pathlen++;
+	pluglen = 0;
+    }
+
+    /* Only print the version message when there is room for it. */
+    if (verlen + prefixlen + pathlen + pluglen + statelen <= COLS)
+	mvwaddstr(topwin, 0, 2, BRANDING);
+    else {
+	verlen = 2;
+	/* If things don't fit yet, give up the placeholder. */
+	if (verlen + prefixlen + pathlen + pluglen + statelen > COLS)
+	    pluglen = 0;
+	/* If things still don't fit, give up the side spaces. */
+	if (verlen + prefixlen + pathlen + pluglen + statelen > COLS) {
+	    verlen = 0;
+	    statelen -= 2;
 	}
     }
+
+    /* If we have side spaces left, center the path name. */
+    if (verlen > 0)
+	offset = verlen + (COLS - (verlen + pluglen + statelen) -
+					(prefixlen + pathlen)) / 2;
+
+    /* Only print the prefix when there is room for it. */
+    if (verlen + prefixlen + pathlen + pluglen + statelen <= COLS) {
+	mvwaddstr(topwin, 0, offset, prefix);
+	if (prefixlen > 0)
+	    waddstr(topwin, " ");
+    } else
+	wmove(topwin, 0, offset);
+
+    /* Print the full path if there's room; otherwise, dottify it. */
+    if (pathlen + pluglen + statelen <= COLS)
+	waddstr(topwin, path);
+    else if (5 + statelen <= COLS) {
+	waddstr(topwin, "...");
+	fragment = display_string(path, 3 + pathlen - COLS + statelen,
+					COLS - statelen, FALSE);
+	waddstr(topwin, fragment);
+	free(fragment);
+    }
+
+    /* Right-align the state if there's room; otherwise, trim it. */
+    if (statelen > 0 && statelen <= COLS)
+	mvwaddstr(topwin, 0, COLS - statelen, state);
+    else if (statelen > 0)
+	mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
 
     wattroff(topwin, A_BOLD);
     wattroff(topwin, interface_color_pair[TITLE_BAR].pairnum);
