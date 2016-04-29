@@ -735,10 +735,8 @@ void findnextfile(const char *needle)
 {
     size_t looking_at = selected;
 	/* The location in the file list of the filename we're looking at. */
-    bool came_full_circle = FALSE;
-	/* Have we reached the starting file again? */
-    const char *thename = tail(filelist[looking_at]);
-	/* The filename we display, minus the path. */
+    const char *thename;
+	/* The plain filename, without the path. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
 	/* A storage place for the current flag settings. */
 
@@ -753,28 +751,7 @@ void findnextfile(const char *needle)
     /* Step through each filename in the list until a match is found or
      * we've come back to the point where we started. */
     while (TRUE) {
-	const char *found = strstrwrapper(thename, needle, thename);
-
-	/* If we've found a match and it's not the same filename where
-	 * we started, then we're done. */
-	if (found != NULL && looking_at != selected)
-	    break;
-
-	/* If we've found a match and we're back at the beginning, then
-	 * it's the only occurrence. */
-	if (found != NULL && came_full_circle) {
-	    statusbar(_("This is the only occurrence"));
-	    break;
-	}
-
-	if (came_full_circle) {
-	    /* We're back at the beginning and didn't find anything. */
-	    not_found_msg(needle);
-	    break;
-	}
-
-	/* Move to the next filename in the list.  If we've reached the
-	 * end of the list, wrap around. */
+	/* Move to the next filename in the list, or back to the first. */
 	if (looking_at < filelist_len - 1)
 	    looking_at++;
 	else {
@@ -782,11 +759,22 @@ void findnextfile(const char *needle)
 	    statusbar(_("Search Wrapped"));
 	}
 
-	if (looking_at == selected)
-	    /* We've reached the original starting file. */
-	    came_full_circle = TRUE;
-
+	/* Get the bare filename, without the path. */
 	thename = tail(filelist[looking_at]);
+
+	/* If the needle matches, we're done.  And if we're back at the file
+	 * where we started, it is the only occurrence. */
+	if (strstrwrapper(thename, needle, thename)) {
+	     if (looking_at == selected)
+		statusbar(_("This is the only occurrence"));
+	     break;
+	}
+
+	/* If we're back at the beginning and didn't find any match... */
+	if (looking_at == selected) {
+	    not_found_msg(needle);
+	    break;
+	}
     }
 
     /* Restore the settings of all flags. */
