@@ -624,7 +624,7 @@ filestruct *fsfromline(ssize_t lineno)
 	    f = f->next;
 
     if (f->lineno != lineno) {
-	statusbar(_("Internal error: can't match line %d.  "
+	statusline(ALERT, _("Internal error: can't match line %d.  "
 			"Please save your work."), lineno);
 	return NULL;
     }

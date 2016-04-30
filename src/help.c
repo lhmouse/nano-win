@@ -118,6 +118,8 @@ void do_help(void)
 
 	old_line = line;
 
+	alerted = FALSE;
+
 	kbinput = get_kbinput(edit);
 
 #ifndef NANO_TINY

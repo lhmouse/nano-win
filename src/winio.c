@@ -1108,13 +1108,13 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	if (win == edit) {
 	    /* TRANSLATORS: This refers to a sequence of escape codes
 	     * (from the keyboard) that nano does not know about. */
-	    statusbar(_("Unknown sequence"));
+	    statusline(ALERT, _("Unknown sequence"));
 	    suppress_cursorpos = FALSE;
+	    alerted = FALSE;
 	    if (currmenu == MMAIN) {
 		reset_cursor();
 		curs_set(1);
 	    }
-	    beep();
 	}
     }
 
@@ -2035,10 +2035,16 @@ void titlebar(const char *path)
     wnoutrefresh(edit);
 }
 
+/* Display a normal message on the statusbar, quietly. */
+void statusbar(const char *msg)
+{
+    statusline(HUSH, msg);
+}
+
 /* Display a message on the statusbar, and set suppress_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */
-void statusbar(const char *msg, ...)
+void statusline(bool sound, const char *msg, ...)
 {
     va_list ap;
     char *bar, *foo;
@@ -2057,6 +2063,19 @@ void statusbar(const char *msg, ...)
 	vfprintf(stderr, msg, ap);
 	va_end(ap);
 	return;
+    }
+
+    /* If there already was an important message, ignore a normal one and
+     * delay another important one, to allow the earlier one to be noticed. */
+    if (alerted) {
+	if (sound == HUSH)
+	    return;
+	napms(1200);
+    }
+
+    if (sound == ALERT) {
+	beep();
+	alerted = TRUE;
     }
 
     /* Turn the cursor off while fiddling in the statusbar. */
@@ -3076,7 +3095,7 @@ void do_cursorpos(bool constant)
     colpct = 100 * cur_xpt / cur_lenpt;
     charpct = (openfile->totsize == 0) ? 0 : 100 * i / openfile->totsize;
 
-    statusbar(
+    statusline(HUSH,
 	_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
 	(long)openfile->current->lineno,
 	(long)openfile->filebot->lineno, linepct,

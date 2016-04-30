@@ -58,7 +58,7 @@ bool regexp_init(const char *regexp)
 	char *str = charalloc(len);
 
 	regerror(rc, &search_regexp, str, len);
-	statusbar(_("Bad regex \"%s\": %s"), regexp, str);
+	statusline(ALERT, _("Bad regex \"%s\": %s"), regexp, str);
 	free(str);
 
 	return FALSE;
@@ -92,7 +92,7 @@ void not_found_msg(const char *str)
     disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
     numchars = actual_x(disp, mbstrnlen(disp, COLS / 2));
 
-    statusbar(_("\"%.*s%s\" not found"), numchars, disp,
+    statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
 		(disp[numchars] == '\0') ? "" : "...");
 
     free(disp);
@@ -872,7 +872,7 @@ void do_replace(void)
     edit_refresh();
 
     if (numreplaced >= 0)
-	statusbar(P_("Replaced %lu occurrence",
+	statusline(HUSH, P_("Replaced %lu occurrence",
 		"Replaced %lu occurrences", (unsigned long)numreplaced),
 		(unsigned long)numreplaced);
 

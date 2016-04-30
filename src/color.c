@@ -183,7 +183,7 @@ void color_update(void)
 	}
 
 	if (sint == NULL)
-	    statusbar(_("Unknown syntax name: %s"), syntaxstr);
+	    statusline(ALERT, _("Unknown syntax name: %s"), syntaxstr);
     }
 
     /* If no syntax-override string was specified, or it didn't match,
@@ -241,11 +241,11 @@ void color_update(void)
 #endif
 				    MAGIC_ERROR);
 	    if (cookie == NULL || magic_load(cookie, NULL) < 0)
-		statusbar(_("magic_load() failed: %s"), strerror(errno));
+		statusline(ALERT, _("magic_load() failed: %s"), strerror(errno));
 	    else {
 		magicstring = magic_file(cookie, openfile->filename);
 		if (magicstring == NULL)
-		    statusbar(_("magic_file(%s) failed: %s"),
+		    statusline(ALERT, _("magic_file(%s) failed: %s"),
 				openfile->filename, magic_error(cookie));
 #ifdef DEBUG
 		fprintf(stderr, "Returned magic string is: %s\n", magicstring);

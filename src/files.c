@@ -44,20 +44,17 @@ bool has_valid_path(const char *filename)
 
     if (stat(parentdir, &parentinfo) == -1) {
 	if (errno == ENOENT)
-	    statusbar(_("Directory '%s' does not exist"), parentdir);
+	    statusline(ALERT, _("Directory '%s' does not exist"), parentdir);
 	else
-	    statusbar(_("Path '%s': %s"), parentdir, strerror(errno));
+	    statusline(ALERT, _("Path '%s': %s"), parentdir, strerror(errno));
     } else if (!S_ISDIR(parentinfo.st_mode))
-	statusbar(_("Path '%s' is not a directory"), parentdir);
+	statusline(ALERT, _("Path '%s' is not a directory"), parentdir);
     else if (access(parentdir, X_OK) == -1)
-	statusbar(_("Path '%s' is not accessible"), parentdir);
+	statusline(ALERT, _("Path '%s' is not accessible"), parentdir);
     else
 	validity = TRUE;
 
     free(namecopy);
-
-    if (!validity)
-	beep();
 
     return validity;
 }
@@ -196,7 +193,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	if (errno == ENAMETOOLONG)
 	    myhostname[31] = '\0';
 	else {
-	    statusbar(_("Couldn't determine hostname for lock file: %s"), strerror(errno));
+	    statusline(HUSH, _("Couldn't determine hostname for lock file: %s"),
+			strerror(errno));
 	    goto free_and_fail;
 	}
     }
@@ -217,8 +215,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     /* Maybe we just don't have write access.  Print an error message
      * and continue. */
     if (fd < 0) {
-	statusbar(_("Error writing lock file %s: %s"), lockfilename,
-		    strerror(errno));
+	statusline(HUSH, _("Error writing lock file %s: %s"),
+			lockfilename, strerror(errno));
 	free(lockdata);
 	return 0;
     }
@@ -228,7 +226,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     filestream = fdopen(fd, "wb");
 
     if (fd < 0 || filestream == NULL) {
-	statusbar(_("Error writing lock file %s: %s"), lockfilename,
+	statusline(HUSH, _("Error writing lock file %s: %s"), lockfilename,
 		    strerror(errno));
 	goto free_and_fail;
     }
@@ -265,7 +263,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
     wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
     if (wroteamt < lockdatalen) {
-	statusbar(_("Error writing lock file %s: %s"),
+	statusline(HUSH, _("Error writing lock file %s: %s"),
 		lockfilename, ferror(filestream));
 	goto free_and_fail;
     }
@@ -275,7 +273,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 #endif
 
     if (fclose(filestream) == EOF) {
-	statusbar(_("Error writing lock file %s: %s"),
+	statusline(HUSH, _("Error writing lock file %s: %s"),
 		lockfilename, strerror(errno));
 	goto free_and_fail;
     }
@@ -295,7 +293,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 int delete_lockfile(const char *lockfilename)
 {
     if (unlink(lockfilename) < 0 && errno != ENOENT) {
-	statusbar(_("Error deleting lock file %s: %s"), lockfilename,
+	statusline(HUSH, _("Error deleting lock file %s: %s"), lockfilename,
 		  strerror(errno));
 	return -1;
     }
@@ -330,7 +328,7 @@ int do_lockfile(const char *filename)
 	int room, ans;
 
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
-	    statusbar(_("Error opening lock file %s: %s"),
+	    statusline(HUSH, _("Error opening lock file %s: %s"),
 			lockfilename, strerror(errno));
 	    goto free_the_name;
 	}
@@ -342,8 +340,8 @@ int do_lockfile(const char *filename)
 	} while (readamt > 0 && readtot < LOCKBUFSIZE);
 
 	if (readtot < 48) {
-	    statusbar(_("Error reading lock file %s: Not enough data read"),
-			lockfilename);
+	    statusline(HUSH, _("Error reading lock file %s: "
+			"Not enough data read"), lockfilename);
 	    free(lockbuf);
 	    goto free_the_name;
 	}
@@ -427,8 +425,8 @@ bool open_buffer(const char *filename, bool undoable)
 
 #ifndef DISABLE_OPERATINGDIR
     if (check_operating_dir(filename, FALSE)) {
-	statusbar(_("Can't insert file from outside of %s"),
-		operating_dir);
+	statusline(ALERT, _("Can't insert file from outside of %s"),
+			operating_dir);
 	return FALSE;
     }
 #endif
@@ -442,10 +440,9 @@ bool open_buffer(const char *filename, bool undoable)
 
 	if (stat(realname, &fileinfo) == 0 && !S_ISREG(fileinfo.st_mode)) {
 	    if (S_ISDIR(fileinfo.st_mode))
-		statusbar(_("\"%s\" is a directory"), realname);
+		statusline(ALERT, _("\"%s\" is a directory"), realname);
 	    else
-		statusbar(_("\"%s\" is not a normal file"), realname);
-	    beep();
+		statusline(ALERT, _("\"%s\" is not a normal file"), realname);
 	    free(realname);
 	    return FALSE;
 	}
@@ -591,7 +588,7 @@ void switch_to_prevnext_buffer(bool to_next, bool quiet)
 
     /* Indicate the switch on the statusbar. */
     if (!quiet)
-	statusbar(_("Switched to %s"),
+	statusline(HUSH, _("Switched to %s"),
 		((openfile->filename[0] == '\0') ?
 		_("New Buffer") : openfile->filename));
 
@@ -916,41 +913,48 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 
     if (format == 3) {
 	if (writable)
-	    statusbar(P_("Read %lu line (Converted from DOS and Mac format)",
+	    statusline(HUSH,
+		P_("Read %lu line (Converted from DOS and Mac format)",
 		"Read %lu lines (Converted from DOS and Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 	else
 	    /* TRANSLATORS: Keep the next handful of messages at most 76 characters long. */
-	    statusbar(P_("Read %lu line (Converted from DOS and Mac format - NO write permission)",
+	    statusline(ALERT,
+		P_("Read %lu line (Converted from DOS and Mac format - NO write permission)",
 		"Read %lu lines (Converted from DOS and Mac format - NO write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 2) {
 	openfile->fmt = MAC_FILE;
 	if (writable)
-	    statusbar(P_("Read %lu line (Converted from Mac format)",
+	    statusline(HUSH,
+		P_("Read %lu line (Converted from Mac format)",
 		"Read %lu lines (Converted from Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 	else
-	    statusbar(P_("Read %lu line (Converted from Mac format - Warning: No write permission)",
+	    statusline(ALERT,
+		P_("Read %lu line (Converted from Mac format - Warning: No write permission)",
 		"Read %lu lines (Converted from Mac format - Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 1) {
 	openfile->fmt = DOS_FILE;
 	if (writable)
-	    statusbar(P_("Read %lu line (Converted from DOS format)",
+	    statusline(HUSH,
+		P_("Read %lu line (Converted from DOS format)",
 		"Read %lu lines (Converted from DOS format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 	else
-	    statusbar(P_("Read %lu line (Converted from DOS format - Warning: No write permission)",
+	    statusline(ALERT,
+		P_("Read %lu line (Converted from DOS format - Warning: No write permission)",
 		"Read %lu lines (Converted from DOS format - Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
     } else
 #endif
 	if (writable)
-	    statusbar(P_("Read %lu line", "Read %lu lines",
+	    statusline(HUSH, P_("Read %lu line", "Read %lu lines",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 	else
-	    statusbar(P_("Read %lu line (Warning: No write permission)",
+	    statusline(ALERT,
+		P_("Read %lu line (Warning: No write permission)",
 		"Read %lu lines (Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 
@@ -1004,8 +1008,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 		statusbar(_("New File"));
 	    return -2;
 	}
-	statusbar(_("File \"%s\" not found"), filename);
-	beep();
+	statusline(ALERT, _("File \"%s\" not found"), filename);
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
 		S_ISBLK(fileinfo.st_mode)) {
@@ -1013,23 +1016,20 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 
 	/* Don't open directories, character files, or block files.
 	 * Sorry, /dev/sndstat! */
-	statusbar(S_ISDIR(fileinfo.st_mode) ?
+	statusline(ALERT, S_ISDIR(fileinfo.st_mode) ?
 		_("\"%s\" is a directory") :
 		_("\"%s\" is a device file"), filename);
-	beep();
 	return -1;
     } else if ((fd = open(full_filename, O_RDONLY)) == -1) {
 	free(full_filename);
-	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
-	beep();
+	statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 	return -1;
     } else {
 	/* The file is A-OK.  Open it. */
 	*f = fdopen(fd, "rb");
 
 	if (*f == NULL) {
-	    statusbar(_("Error reading %s: %s"), filename, strerror(errno));
-	    beep();
+	    statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 	    close(fd);
 	} else
 	    statusbar(_("Reading File"));
@@ -1781,7 +1781,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
     if (!tmp && check_operating_dir(realname, FALSE)) {
-	statusbar(_("Can't write outside of %s"), operating_dir);
+	statusline(ALERT, _("Can't write outside of %s"), operating_dir);
 	goto cleanup_and_exit;
     }
 #endif
@@ -1825,9 +1825,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    f = fopen(realname, "rb");
 
 	    if (f == NULL) {
-		statusbar(_("Error reading %s: %s"), realname,
+		statusline(ALERT, _("Error reading %s: %s"), realname,
 			strerror(errno));
-		beep();
 		/* If we can't read from the original file, go on, since
 		 * only saving the original file is better than saving
 		 * nothing. */
@@ -1865,8 +1864,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    free(backuptemp);
 	    backuptemp = get_next_filename(backupname, "~");
 	    if (*backuptemp == '\0') {
-		statusbar(_("Error writing backup file %s: %s"), backupname,
-			_("Too many backup files?"));
+		statusline(HUSH, _("Error writing backup file %s: %s"),
+			backupname, _("Too many backup files?"));
 		free(backuptemp);
 		free(backupname);
 		/* If we can't write to the backup, DON'T go on, since
@@ -1890,8 +1889,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
-	    statusbar(_("Error writing backup file %s: %s"), backupname,
-			strerror(errno));
+	    statusline(HUSH, _("Error writing backup file %s: %s"),
+			backupname, strerror(errno));
 	    free(backupname);
 	    goto cleanup_and_exit;
 	}
@@ -1908,8 +1907,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	backup_file = fdopen(backup_fd, "wb");
 
 	if (backup_fd < 0 || backup_file == NULL) {
-	    statusbar(_("Error writing backup file %s: %s"), backupname,
-			strerror(errno));
+	    statusline(HUSH, _("Error writing backup file %s: %s"),
+			backupname, strerror(errno));
 	    free(backupname);
 	    goto cleanup_and_exit;
 	}
@@ -1921,8 +1920,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		&& !ISSET(INSECURE_BACKUP)) {
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
-	    statusbar(_("Error writing backup file %s: %s"), backupname,
-			strerror(errno));
+	    statusline(HUSH, _("Error writing backup file %s: %s"),
+			backupname, strerror(errno));
 	    free(backupname);
 	    fclose(backup_file);
 	    goto cleanup_and_exit;
@@ -1932,8 +1931,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 		&& !ISSET(INSECURE_BACKUP)) {
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
-	    statusbar(_("Error writing backup file %s: %s"), backupname,
-			strerror(errno));
+	    statusline(HUSH, _("Error writing backup file %s: %s"),
+			backupname, strerror(errno));
 	    free(backupname);
 	    fclose(backup_file);
 	    /* If we can't write to the backup, DONT go on, since
@@ -1951,9 +1950,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	copy_status = copy_file(f, backup_file);
 
 	if (copy_status != 0) {
-	    statusbar(_("Error reading %s: %s"), realname,
+	    statusline(ALERT, _("Error reading %s: %s"), realname,
 			strerror(errno));
-	    beep();
 	    goto cleanup_and_exit;
 	}
 
@@ -1961,8 +1959,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	if (utime(backupname, &filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
-	    statusbar(_("Error writing backup file %s: %s"), backupname,
-			strerror(errno));
+	    statusline(HUSH, _("Error writing backup file %s: %s"),
+			backupname, strerror(errno));
 	    /* If we can't write to the backup, DON'T go on, since
 	     * whatever caused the backup file to fail (e.g. disk full
 	     * may well cause the real file write to fail, which means
@@ -1996,9 +1994,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    f = fopen(realname, "rb");
 
 	    if (f == NULL) {
-		statusbar(_("Error reading %s: %s"), realname,
+		statusline(ALERT, _("Error reading %s: %s"), realname,
 			strerror(errno));
-		beep();
 		goto cleanup_and_exit;
 	    }
 	}
@@ -2006,7 +2003,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	tempname = safe_tempfile(&f);
 
 	if (tempname == NULL) {
-	    statusbar(_("Error writing temp file: %s"), strerror(errno));
+	    statusline(HUSH, _("Error writing temp file: %s"),
+			strerror(errno));
 	    goto cleanup_and_exit;
 	}
 
@@ -2016,9 +2014,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (fd_source != -1) {
 		f_source = fdopen(fd_source, "rb");
 		if (f_source == NULL) {
-		    statusbar(_("Error reading %s: %s"), realname,
+		    statusline(ALERT, _("Error reading %s: %s"), realname,
 				strerror(errno));
-		    beep();
 		    close(fd_source);
 		    fclose(f);
 		    unlink(tempname);
@@ -2028,7 +2025,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (f_source == NULL || copy_file(f_source, f) != 0) {
-	    statusbar(_("Error writing %s: %s"), tempname, strerror(errno));
+	    statusline(HUSH, _("Error writing %s: %s"), tempname,
+			strerror(errno));
 	    unlink(tempname);
 	    goto cleanup_and_exit;
 	}
@@ -2046,7 +2044,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	/* If we couldn't open the file, give up. */
 	if (fd == -1) {
-	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	    statusline(HUSH, _("Error writing %s: %s"), realname,
+			strerror(errno));
 	    if (tempname != NULL)
 		unlink(tempname);
 	    goto cleanup_and_exit;
@@ -2055,7 +2054,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	f = fdopen(fd, (append == APPEND) ? "ab" : "wb");
 
 	if (f == NULL) {
-	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	    statusline(HUSH, _("Error writing %s: %s"), realname,
+			strerror(errno));
 	    close(fd);
 	    goto cleanup_and_exit;
 	}
@@ -2078,7 +2078,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	unsunder(fileptr->data, data_len);
 
 	if (size < data_len) {
-	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	    statusline(HUSH, _("Error writing %s: %s"), realname,
+			strerror(errno));
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
@@ -2094,7 +2095,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 #ifndef NANO_TINY
 	    if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
 		if (putc('\r', f) == EOF) {
-		    statusbar(_("Error writing %s: %s"), realname,
+		    statusline(HUSH, _("Error writing %s: %s"), realname,
 				strerror(errno));
 		    fclose(f);
 		    goto cleanup_and_exit;
@@ -2104,7 +2105,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (openfile->fmt != MAC_FILE)
 #endif
 		if (putc('\n', f) == EOF) {
-		    statusbar(_("Error writing %s: %s"), realname,
+		    statusline(HUSH, _("Error writing %s: %s"), realname,
 				strerror(errno));
 		    fclose(f);
 		    goto cleanup_and_exit;
@@ -2129,20 +2130,22 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (f_source == NULL) {
-	    statusbar(_("Error reading %s: %s"), tempname, strerror(errno));
-	    beep();
+	    statusline(ALERT, _("Error reading %s: %s"), tempname,
+			strerror(errno));
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
 
 	if (copy_file(f_source, f) == -1) {
-	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	    statusline(HUSH, _("Error writing %s: %s"), realname,
+			strerror(errno));
 	    goto cleanup_and_exit;
 	}
 
 	unlink(tempname);
     } else if (fclose(f) != 0) {
-	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	statusline(HUSH, _("Error writing %s: %s"), realname,
+			strerror(errno));
 	goto cleanup_and_exit;
     }
 
@@ -2169,9 +2172,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
 
-	statusbar(P_("Wrote %lu line", "Wrote %lu lines",
-		(unsigned long)lineswritten),
-		(unsigned long)lineswritten);
+	statusline(HUSH, P_("Wrote %lu line", "Wrote %lu lines",
+		(unsigned long)lineswritten), (unsigned long)lineswritten);
 	openfile->modified = FALSE;
 	titlebar(NULL);
     }

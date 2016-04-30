@@ -1453,7 +1453,8 @@ void do_toggle(int flag)
 	)
 	enabled = !enabled;
 
-    statusbar("%s %s", _(flagtostr(flag)), enabled ? _("enabled") : _("disabled"));
+    statusline(HUSH, "%s %s", _(flagtostr(flag)),
+		enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */
 
@@ -1567,16 +1568,15 @@ void terminal_init(void)
 void unbound_key(int code)
 {
     if (func_key)
-	statusbar(_("Unbound key"));
+	statusline(ALERT, _("Unbound key"));
     else if (meta_key) {
 	if (0x60 < code && code < 0x7B)
 	    code -= 0x20;
-	statusbar(_("Unbound key: M-%c"), code);
+	statusline(ALERT, _("Unbound key: M-%c"), code);
     } else if (code < 0x20)
-	statusbar(_("Unbound key: ^%c"), code + 0x40);
+	statusline(ALERT, _("Unbound key: ^%c"), code + 0x40);
     else
-	statusbar(_("Unbound key: %c"), code);
-    beep();
+	statusline(ALERT, _("Unbound key: %c"), code);
 }
 
 /* Read in a character, interpret it as a shortcut or toggle if
@@ -2657,6 +2657,7 @@ int main(int argc, char **argv)
     while (TRUE) {
 	currmenu = MMAIN;
 	focusing = TRUE;
+	alerted = FALSE;
 
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor

@@ -33,6 +33,7 @@ extern volatile sig_atomic_t sigwinch_counter;
 extern bool meta_key;
 extern bool func_key;
 extern bool focusing;
+extern bool alerted;
 
 #ifndef NANO_TINY
 extern int controlleft;
@@ -786,7 +787,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void titlebar(const char *path);
 extern void set_modified(void);
-void statusbar(const char *msg, ...);
+void statusbar(const char *msg);
+void statusline(bool sound, const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, int length);
 void reset_cursor(void);

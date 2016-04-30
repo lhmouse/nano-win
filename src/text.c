@@ -563,7 +563,8 @@ void do_undo(void)
 	break;
     case ENTER:
 	if (f->next == NULL) {
-	    statusbar(_("Internal error: line is missing.  Please save your work."));
+	    statusline(ALERT, _("Internal error: line is missing.  "
+				"Please save your work."));
 	    break;
 	}
 	undidmsg = _("line break");
@@ -601,12 +602,13 @@ void do_undo(void)
 	f->data = data;
 	break;
     default:
-	statusbar(_("Internal error: unknown type.  Please save your work."));
+	statusline(ALERT, _("Internal error: unknown type.  "
+				"Please save your work."));
 	break;
     }
 
     if (undidmsg)
-	statusbar(_("Undid action (%s)"), undidmsg);
+	statusline(HUSH, _("Undid action (%s)"), undidmsg);
 
     renumber(f);
     openfile->current_undo = openfile->current_undo->next;
@@ -633,7 +635,8 @@ void do_redo(void)
 	u = u->next;
 
     if (u->next != openfile->current_undo) {
-	statusbar(_("Internal error: cannot set up redo.  Please save your work."));
+	statusline(ALERT, _("Internal error: cannot set up redo.  "
+				"Please save your work."));
 	return;
     }
 
@@ -694,7 +697,8 @@ void do_redo(void)
 #endif
     case JOIN:
 	if (f->next == NULL) {
-	    statusbar(_("Internal error: line is missing.  Please save your work."));
+	    statusline(ALERT, _("Internal error: line is missing.  "
+				"Please save your work."));
 	    break;
 	}
 	redidmsg = _("line join");
@@ -735,12 +739,13 @@ void do_redo(void)
 	u->cutbuffer = NULL;
 	break;
     default:
-	statusbar(_("Internal error: unknown type.  Please save your work."));
+	statusline(ALERT, _("Internal error: unknown type.  "
+				"Please save your work."));
 	break;
     }
 
     if (redidmsg)
-	statusbar(_("Redid action (%s)"), redidmsg);
+	statusline(HUSH, _("Redid action (%s)"), redidmsg);
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
@@ -1032,7 +1037,8 @@ void add_undo(undo_type action)
     case ENTER:
 	break;
     default:
-	statusbar(_("Internal error: unknown type.  Please save your work."));
+	statusline(ALERT, _("Internal error: unknown type.  "
+				"Please save your work."));
 	break;
     }
 
@@ -1176,7 +1182,8 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	/* These cases are handled by the earlier check for a new line and action. */
 	break;
     default:
-	statusbar(_("Internal error: unknown type.  Please save your work."));
+	statusline(ALERT, _("Internal error: unknown type.  "
+				"Please save your work."));
 	break;
     }
 
@@ -1855,7 +1862,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
 #ifdef HAVE_REGEX_H
     if (quoterc != 0) {
-	statusbar(_("Bad quote string %s: %s"), quotestr, quoteerr);
+	statusline(ALERT, _("Bad quote string %s: %s"), quotestr, quoteerr);
 	return FALSE;
     }
 #endif
@@ -2416,7 +2423,8 @@ bool do_int_spell_fix(const char *word)
 
     /* The word must exist; if not, something is wrong. */
     if (result == 0)
-	statusbar("Internal error: speller listed unfindable word");
+	statusline(ALERT, "Internal error: "
+				"speller listed unfindable word: %s", word);
     else if (result == 1) {
 	exp_word = display_string(openfile->current->data, xplustabs(),
 					strlenpt(word), FALSE);
@@ -2855,7 +2863,7 @@ void do_spell(void)
     temp = safe_tempfile(&temp_file);
 
     if (temp == NULL) {
-	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	statusline(HUSH, _("Error writing temp file: %s"), strerror(errno));
 	return;
     }
 
@@ -2867,7 +2875,7 @@ void do_spell(void)
 	status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (!status) {
-	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	statusline(HUSH, _("Error writing temp file: %s"), strerror(errno));
 	free(temp);
 	return;
     }
@@ -2889,9 +2897,9 @@ void do_spell(void)
     if (spell_msg != NULL) {
 	if (errno == 0)
 	    /* Don't display an error message of "Success". */
-	    statusbar(_("Spell checking failed: %s"), spell_msg);
+	    statusline(ALERT, _("Spell checking failed: %s"), spell_msg);
 	else
-	    statusbar(_("Spell checking failed: %s: %s"), spell_msg,
+	    statusline(ALERT, _("Spell checking failed: %s: %s"), spell_msg,
 						strerror(errno));
     } else
 	statusbar(_("Finished checking spelling"));
@@ -3096,7 +3104,8 @@ void do_linter(void)
     free(read_buff);
 
     if (parsesuccess == 0) {
-	statusbar(_("Got 0 parsable lines from command: %s"), openfile->syntax->linter);
+	statusline(HUSH, _("Got 0 parsable lines from command: %s"),
+			openfile->syntax->linter);
 	goto exit_from_lint;
     }
 
@@ -3235,7 +3244,7 @@ void do_formatter(void)
     temp = safe_tempfile(&temp_file);
 
     if (temp == NULL) {
-	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 	return;
     }
 
@@ -3244,7 +3253,7 @@ void do_formatter(void)
     status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (!status) {
-	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 	free(temp);
 	return;
     }
@@ -3387,9 +3396,9 @@ void do_wordlinechar_count(void)
     openfile->placewewant = pww_save;
 
     /* Display the total word, line, and character counts on the statusbar. */
-    statusbar(_("%sWords: %lu  Lines: %ld  Chars: %lu"), old_mark_set ?
-	_("In Selection:  ") : "", (unsigned long)words, (long)nlines,
-	(unsigned long)chars);
+    statusline(HUSH, _("%sWords: %lu  Lines: %ld  Chars: %lu"), old_mark_set ?
+		_("In Selection:  ") : "", (unsigned long)words, (long)nlines,
+		(unsigned long)chars);
 }
 #endif /* !NANO_TINY */
 

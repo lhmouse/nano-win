@@ -107,6 +107,7 @@ char *do_browser(char *path, DIR *dir)
 
 	/* Make sure that the cursor is off. */
 	curs_set(0);
+	alerted = FALSE;
 
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
@@ -118,8 +119,7 @@ char *do_browser(char *path, DIR *dir)
 	    if (dir != NULL)
 		goto read_directory_contents;
 
-	    statusbar(_("Error reading %s: %s"), path, strerror(errno));
-	    beep();
+	    statusline(ALERT, _("Error reading %s: %s"), path, strerror(errno));
 	    kbinput = ERR;
 	}
 #endif
@@ -243,8 +243,8 @@ char *do_browser(char *path, DIR *dir)
 	    if (check_operating_dir(new_path, FALSE)) {
 		/* TRANSLATORS: This refers to the option --operatingdir,
 		 * not to --restricted. */
-		statusbar(_("Can't go outside of %s in confined mode"),
-				operating_dir);
+		statusline(ALERT, _("Can't go outside of %s "
+				"in confined mode"), operating_dir);
 		free(new_path);
 		continue;
 	    }
@@ -253,9 +253,8 @@ char *do_browser(char *path, DIR *dir)
 	    dir = opendir(new_path);
 	    if (dir == NULL) {
 		/* We can't open this directory for some reason. */
-		statusbar(_("Error reading %s: %s"), answer,
+		statusline(ALERT, _("Error reading %s: %s"), answer,
 				strerror(errno));
-		beep();
 		free(new_path);
 		continue;
 	    }
@@ -285,8 +284,7 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_enter) {
 	    /* We can't move up from "/". */
 	    if (strcmp(filelist[selected], "/..") == 0) {
-		statusbar(_("Can't move up a directory"));
-		beep();
+		statusline(ALERT, _("Can't move up a directory"));
 		continue;
 	    }
 
@@ -295,9 +293,8 @@ char *do_browser(char *path, DIR *dir)
 	     * directory if it's ".." or if it's a symlink to a
 	     * directory outside the operating directory. */
 	    if (check_operating_dir(filelist[selected], FALSE)) {
-		statusbar(_("Can't go outside of %s in confined mode"),
-				operating_dir);
-		beep();
+		statusline(ALERT, _("Can't go outside of %s "
+				"in confined mode"), operating_dir);
 		continue;
 	    }
 #endif
@@ -305,9 +302,8 @@ char *do_browser(char *path, DIR *dir)
 	    if (stat(filelist[selected], &st) == -1) {
 		/* We can't open this file for some reason.
 		 * Complain. */
-		 statusbar(_("Error reading %s: %s"),
+		 statusline(ALERT, _("Error reading %s: %s"),
 				filelist[selected], strerror(errno));
-		 beep();
 		 continue;
 	    }
 
@@ -321,9 +317,8 @@ char *do_browser(char *path, DIR *dir)
 	    dir = opendir(filelist[selected]);
 
 	    if (dir == NULL) {
-		statusbar(_("Error reading %s: %s"),
+		statusline(ALERT, _("Error reading %s: %s"),
 				filelist[selected], strerror(errno));
-		beep();
 		continue;
 	    }
 

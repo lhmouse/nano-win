@@ -39,6 +39,8 @@ bool func_key;
 	/* Whether the current keystroke is an extended keypad value. */
 bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
+bool alerted = FALSE;
+	/* Whether the next important message should wait a bit. */
 
 #ifndef NANO_TINY
 int controlleft = CONTROL_LEFT;
