@@ -41,8 +41,6 @@ static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
 	/* The currently selected filename in the list; zero-based. */
-static char *path_save = NULL;
-	/* A copy of the current path. */
 
 /* Our main file browser function.  path is the tilde-expanded path we
  * start browsing from. */
@@ -75,7 +73,7 @@ char *do_browser(char *path, DIR *dir)
     path = mallocstrassn(path, get_full_path(path));
 
     /* Save the current path in order to be used later. */
-    path_save = path;
+    present_path = mallocstrcpy(present_path, path);
 
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
@@ -117,7 +115,7 @@ char *do_browser(char *path, DIR *dir)
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
 	    /* Rebuild the file list and sort it. */
-	    browser_init(path_save, opendir(path_save));
+	    browser_init(present_path, opendir(present_path));
 	    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
 	    /* Make sure the selected file is within range. */
@@ -545,7 +543,7 @@ void browser_refresh(void)
     char *info;
 	/* The additional information that we'll display about a file. */
 
-    titlebar(path_save);
+    titlebar(present_path);
     blank_edit();
 
     wmove(edit, 0, 0);

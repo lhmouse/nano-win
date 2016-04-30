@@ -57,6 +57,9 @@ ssize_t wrap_at = -CHARS_FROM_EOL;
 char *last_search = NULL;
 	/* The last string we searched for. */
 
+char *present_path = NULL;
+	/* The current browser directory when trying to do tab completion. */
+
 unsigned flags[4] = {0, 0, 0, 0};
 	/* Our flag containing the states of all global options. */
 WINDOW *topwin;
@@ -1647,6 +1650,7 @@ void thanks_for_all_the_fish(void)
 #endif
     free(answer);
     free(last_search);
+    free(present_path);
 #ifndef DISABLE_SPELLER
     free(alt_speller);
 #endif

@@ -1120,6 +1120,8 @@ void do_insertfile(
 		_("File to insert [from %s] ");
 	}
 
+	present_path = mallocstrcpy(present_path, "./");
+
 	i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
 		TRUE,
@@ -2280,6 +2282,8 @@ int do_writeout(bool exiting)
 		  (append == APPEND) ? _("File Name to Append to") :
 		  _("File Name to Write");
 
+	present_path = mallocstrcpy(present_path, "./");
+
 	/* If we're using restricted mode, and the filename isn't blank,
 	 * disable tab completion. */
 	i = do_prompt(!ISSET(RESTRICTED) ||
@@ -2684,10 +2688,16 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	/* Cut off the filename part after the slash. */
 	*slash = '\0';
 	dirname = real_dir_from_tilde(dirname);
+	/* A non-absolute path is relative to the current browser directory. */
+	if (dirname[0] != '/') {
+	    dirname = charealloc(dirname, strlen(present_path) +
+						strlen(wasdirname) + 1);
+	    sprintf(dirname, "%s%s", present_path, wasdirname);
+	}
 	free(wasdirname);
     } else {
 	filename = dirname;
-	dirname = mallocstrcpy(NULL, "./");
+	dirname = mallocstrcpy(NULL, present_path);
     }
 
     assert(dirname[strlen(dirname) - 1] == '/');
@@ -2784,7 +2794,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	beep();
     else {
 	size_t match, common_len = 0;
-	char *mzero;
+	char *mzero, *glued;
 	const char *lastslash = revstrstr(buf, "/", buf + *place);
 	size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
 	char *match1 = charalloc(mb_cur_max());
@@ -2820,9 +2830,13 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	common_len += lastslash_len;
 	mzero[common_len] = '\0';
 
+	/* Cover also the case of the user specifying a relative path. */
+	glued = charalloc(strlen(present_path) + strlen(mzero) + 1);
+	sprintf(glued, "%s%s", present_path, mzero);
+
 	assert(common_len >= *place);
 
-	if (num_matches == 1 && is_dir(mzero)) {
+	if (num_matches == 1 && (is_dir(mzero) || is_dir(glued))) {
 	    mzero[common_len++] = '/';
 
 	    assert(common_len > *place);
@@ -2892,6 +2906,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	    *listed = TRUE;
 	}
 
+	free(glued);
 	free(mzero);
     }
 
