@@ -29,8 +29,8 @@
 #include <errno.h>
 #include <time.h>
 
-static bool search_last_line = FALSE;
-	/* Have we gone past the last line while searching? */
+static bool came_full_circle = FALSE;
+	/* Have we reached the starting line again while searching? */
 #ifndef DISABLE_HISTORIES
 static bool history_changed = FALSE;
 	/* Have any of the history lists changed? */
@@ -311,7 +311,7 @@ int findnextstr(
 
 	    /* When we're spell-checking, don't search in the starting line
 	     * again -- there is no need: we started at x = 0. */
-	    if (whole_word_only && search_last_line) {
+	    if (whole_word_only && came_full_circle) {
 		disable_nodelay();
 		return 0;
 	    }
@@ -343,7 +343,7 @@ int findnextstr(
 	}
 
 	/* If we're back at the beginning, then there is no needle. */
-	if (search_last_line) {
+	if (came_full_circle) {
 	    not_found_msg(needle);
 	    disable_nodelay();
 	    return 0;
@@ -372,7 +372,7 @@ int findnextstr(
 
 	/* If we've reached the original starting line, take note. */
 	if (fileptr == begin)
-	    search_last_line = TRUE;
+	    came_full_circle = TRUE;
 
 	/* Set the starting x to the start or end of the line. */
 	rev_start = fileptr->data;
@@ -385,7 +385,7 @@ int findnextstr(
     found_x = found - fileptr->data;
 
     /* Ensure that the found occurrence is not beyond the starting x. */
-    if (search_last_line &&
+    if (came_full_circle &&
 #ifndef NANO_TINY
 		((!ISSET(BACKWARDS_SEARCH) && found_x > begin_x) ||
 		(ISSET(BACKWARDS_SEARCH) && found_x < begin_x))
@@ -418,9 +418,9 @@ int findnextstr(
 
 /* Clear the flag indicating that a search reached the last line of the
  * file.  We need to do this just before a new search. */
-void findnextstr_wrap_reset(void)
+void reset_full_circle_flag(void)
 {
-    search_last_line = FALSE;
+    came_full_circle = FALSE;
 }
 
 /* Ask what to search for and then go looking for it. */
@@ -504,7 +504,8 @@ void go_looking(void)
     size_t was_current_x = openfile->current_x;
     int didfind;
 
-    findnextstr_wrap_reset();
+    reset_full_circle_flag();
+
     didfind = findnextstr(
 #ifndef DISABLE_SPELLER
 		FALSE,
@@ -651,7 +652,8 @@ ssize_t do_replace_loop(
     }
 #endif /* !NANO_TINY */
 
-    findnextstr_wrap_reset();
+    reset_full_circle_flag();
+
     while (TRUE) {
 	int i = 0;
 	int result = findnextstr(

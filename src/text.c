@@ -2417,7 +2417,7 @@ bool do_int_spell_fix(const char *word)
     openfile->current = openfile->fileage;
     openfile->current_x = (size_t)-1;
 
-    findnextstr_wrap_reset();
+    reset_full_circle_flag();
 
     /* Find the first whole occurrence of word. */
     result = findnextstr(TRUE, openfile->fileage, 0, word, NULL);
