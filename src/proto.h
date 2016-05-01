@@ -590,7 +590,6 @@ int findnextstr(
 #endif
 	const filestruct *begin, size_t begin_x,
 	const char *needle, size_t *match_len);
-void reset_full_circle_flag(void);
 void do_search(void);
 #ifndef NANO_TINY
 void do_findprevious(void);

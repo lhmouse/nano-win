@@ -336,7 +336,7 @@ int findnextstr(
 	}
 
 	/* If we're back at the beginning, then there is no needle. */
-	if (came_full_circle) {
+	if (came_full_circle && begin != NULL) {
 	    not_found_msg(needle);
 	    disable_nodelay();
 	    return 0;
@@ -399,7 +399,6 @@ int findnextstr(
 	return 0;
     }
 
-
     disable_nodelay();
 
     /* Set the current position to point at what we found. */
@@ -415,13 +414,6 @@ int findnextstr(
 	blank_statusbar();
 
     return 1;
-}
-
-/* Clear the flag indicating that a search reached the last line of the
- * file.  We need to do this just before a new search. */
-void reset_full_circle_flag(void)
-{
-    came_full_circle = FALSE;
 }
 
 /* Ask what to search for and then go looking for it. */
@@ -505,7 +497,7 @@ void go_looking(void)
     size_t was_current_x = openfile->current_x;
     int didfind;
 
-    reset_full_circle_flag();
+    came_full_circle = FALSE;
 
     didfind = findnextstr(
 #ifndef DISABLE_SPELLER
@@ -653,7 +645,7 @@ ssize_t do_replace_loop(
     }
 #endif /* !NANO_TINY */
 
-    reset_full_circle_flag();
+    came_full_circle = FALSE;
 
     while (TRUE) {
 	int i = 0;
