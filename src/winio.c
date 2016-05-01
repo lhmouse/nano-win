@@ -1143,7 +1143,9 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
     /* If we got an unrecognized escape sequence, notify the user. */
     if (retval == ERR) {
 	if (win == edit) {
-	    statusbar(_("Unknown Command"));
+	    /* TRANSLATORS: This refers to a sequence of escape codes
+	     * (from the keyboard) that nano does not know about. */
+	    statusbar(_("Unknown sequence"));
 	    reset_cursor();
 	    curs_set(1);
 	    beep();
