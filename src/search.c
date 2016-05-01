@@ -308,13 +308,6 @@ int findnextstr(
 #ifndef DISABLE_SPELLER
 	    bool found_whole = FALSE;
 		/* Is this potential match a whole word? */
-
-	    /* When we're spell-checking, don't search in the starting line
-	     * again -- there is no need: we started at x = 0. */
-	    if (whole_word_only && came_full_circle) {
-		disable_nodelay();
-		return 0;
-	    }
 #endif
 	    /* Remember the length of the potential match. */
 	    found_len =
@@ -359,12 +352,20 @@ int findnextstr(
 
 	/* If we've reached the start or end of the buffer, wrap around. */
 	if (fileptr == NULL) {
+#ifndef DISABLE_SPELLER
+	    /* When we're spell-checking, end-of-buffer means we're done. */
+	    if (whole_word_only) {
+		disable_nodelay();
+		return 0;
+	    }
+#endif
 #ifndef NANO_TINY
 	    if (ISSET(BACKWARDS_SEARCH))
 		fileptr = openfile->filebot;
 	    else
 #endif
 		fileptr = openfile->fileage;
+
 	    statusbar(_("Search Wrapped"));
 	    /* Delay the "Searching..." message for at least two seconds. */
 	    feedback = -2;
