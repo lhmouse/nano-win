@@ -266,6 +266,8 @@ int findnextstr(
 	/* When bigger than zero, show and wipe the "Searching..." message. */
     filestruct *fileptr = openfile->current;
     const char *rev_start = fileptr->data, *found = NULL;
+    size_t found_x;
+	/* The x coordinate of a found occurrence. */
     time_t lastkbcheck = time(NULL);
 
     /* rev_start might end up 1 character before the start or after the
@@ -380,11 +382,28 @@ int findnextstr(
 #endif
     }
 
+    found_x = found - fileptr->data;
+
+    /* Ensure that the found occurrence is not beyond the starting x. */
+    if (search_last_line &&
+#ifndef NANO_TINY
+		((!ISSET(BACKWARDS_SEARCH) && found_x > begin_x) ||
+		(ISSET(BACKWARDS_SEARCH) && found_x < begin_x))
+#else
+		found_x > begin_x
+#endif
+		) {
+	not_found_msg(needle);
+	disable_nodelay();
+	return 0;
+    }
+
+
     disable_nodelay();
 
     /* Set the current position to point at what we found. */
     openfile->current = fileptr;
-    openfile->current_x = found - fileptr->data;
+    openfile->current_x = found_x;
     openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     /* When requested, pass back the length of the match. */
