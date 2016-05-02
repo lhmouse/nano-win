@@ -721,7 +721,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 const char *fixbounds(const char *r);
 #endif
 #ifndef DISABLE_SPELLER
-bool is_whole_word(size_t pos, const char *buf, const char *word);
+bool is_separate_word(size_t position, size_t length, const char *buf);
 #endif
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);

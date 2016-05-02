@@ -278,27 +278,29 @@ const char *fixbounds(const char *r)
 #endif /* HAVE_REGEX_H */
 
 #ifndef DISABLE_SPELLER
-/* Is the word starting at position pos in buf a whole word? */
-bool is_whole_word(size_t pos, const char *buf, const char *word)
+/* Is the word starting at the given position in buf and of the given length
+ * a separate word?  That is: is it not part of a longer word?*/
+bool is_separate_word(size_t position, size_t length, const char *buf)
 {
-    char *p = charalloc(mb_cur_max()), *r = charalloc(mb_cur_max());
-    size_t word_end = pos + strlen(word);
+    char *before = charalloc(mb_cur_max()), *after = charalloc(mb_cur_max());
+    size_t word_end = position + length;
     bool retval;
 
-    assert(buf != NULL && pos <= strlen(buf) && word != NULL);
+    assert(buf != NULL && position < strlen(buf) && position + length <= strlen(buf));
 
-    parse_mbchar(buf + move_mbleft(buf, pos), p, NULL);
-    parse_mbchar(buf + word_end, r, NULL);
+    /* Get the characters before and after the word, if any. */
+    parse_mbchar(buf + move_mbleft(buf, position), before, NULL);
+    parse_mbchar(buf + word_end, after, NULL);
 
     /* If we're at the beginning of the line or the character before the
      * word isn't a non-punctuation "word" character, and if we're at
      * the end of the line or the character after the word isn't a
      * non-punctuation "word" character, we have a whole word. */
-    retval = (pos == 0 || !is_word_mbchar(p, FALSE)) &&
-	(word_end == strlen(buf) || !is_word_mbchar(r, FALSE));
+    retval = (position == 0 || !is_word_mbchar(before, FALSE)) &&
+		(word_end == strlen(buf) || !is_word_mbchar(after, FALSE));
 
-    free(p);
-    free(r);
+    free(before);
+    free(after);
 
     return retval;
 }

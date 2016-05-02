@@ -305,10 +305,6 @@ int findnextstr(
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
 	if (found != NULL) {
-#ifndef DISABLE_SPELLER
-	    bool found_whole = FALSE;
-		/* Is this potential match a whole word? */
-#endif
 	    /* Remember the length of the potential match. */
 	    found_len =
 #ifdef HAVE_REGEX_H
@@ -318,19 +314,13 @@ int findnextstr(
 		strlen(needle);
 
 #ifndef DISABLE_SPELLER
-	    /* If we're searching for whole words, see if it is. */
+	    /* When we're spell checking, a match is only a true match when
+	     * it is a separate word. */
 	    if (whole_word_only) {
-		char *word = mallocstrncpy(NULL, found, found_len + 1);
-		word[found_len] = '\0';
-
-		found_whole = is_whole_word(found - fileptr->data,
-					fileptr->data, word);
-		free(word);
-	    }
-
-	    /* If we're searching for whole words and this potential
-	     * match isn't a whole word, continue searching. */
-	    if (!whole_word_only || found_whole)
+		if (is_separate_word(found - fileptr->data, found_len,
+					fileptr->data))
+		    break;
+	    } else
 #endif
 		break;
 	}
