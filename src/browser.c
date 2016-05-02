@@ -174,6 +174,8 @@ char *do_browser(char *path, DIR *dir)
 
 	if (func == total_refresh) {
 	    total_redraw();
+	    /* Simulate a window resize. */
+	    kbinput = KEY_WINCH;
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();

@@ -527,8 +527,8 @@ void shortcut_init(void)
     const char *nano_whereis_msg =
 	N_("Search for a string or a regular expression");
 #ifndef DISABLE_BROWSER
-    const char *nano_browser_whereis_msg =
-	N_("Search for a string");
+    const char *nano_browser_whereis_msg = N_("Search for a string");
+    const char *nano_browser_refresh_msg = N_("Refresh the file list");
 #endif
     const char *nano_prevpage_msg = N_("Go one screenful up");
     const char *nano_nextpage_msg = N_("Go one screenful down");
@@ -1013,6 +1013,10 @@ void shortcut_init(void)
     add_to_funcs(do_research, MBROWSER,
 	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
 #endif
+#ifndef DISABLE_BROWSER
+    add_to_funcs(total_refresh, MBROWSER,
+	refresh_tag, IFSCHELP(nano_browser_refresh_msg), BLANKAFTER, VIEW);
+#endif
 
 #ifndef DISABLE_COLOR
     add_to_funcs(do_page_up, MLINTER,
@@ -1199,6 +1203,7 @@ void shortcut_init(void)
     add_to_sclist(MBROWSER, "^_", goto_dir_void, 0);
     add_to_sclist(MBROWSER, "M-G", goto_dir_void, 0);
     add_to_sclist(MBROWSER, "F13", goto_dir_void, 0);
+    add_to_sclist(MBROWSER, "^L", total_refresh, 0);
 #endif
     if (ISSET(TEMP_FILE))
 	add_to_sclist(MWRITEFILE, "^Q", discard_buffer, 0);
