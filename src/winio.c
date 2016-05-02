@@ -250,21 +250,16 @@ void unget_kbinput(int kbinput, bool metakey, bool funckey)
 /* Try to read input_len characters from the keystroke buffer.  If the
  * keystroke buffer is empty and win isn't NULL, try to read in more
  * characters from win and add them to the keystroke buffer before doing
- * anything else.  If the keystroke buffer is empty and win is NULL,
- * return NULL. */
+ * anything else.  If the keystroke buffer is (still) empty, return NULL. */
 int *get_input(WINDOW *win, size_t input_len)
 {
     int *input;
 
-    if (key_buffer_len == 0) {
-	if (win != NULL) {
-	    get_key_buffer(win);
+    if (key_buffer_len == 0 && win != NULL)
+	get_key_buffer(win);
 
-	    if (key_buffer_len == 0)
-		return NULL;
-	} else
-	    return NULL;
-    }
+    if (key_buffer_len == 0)
+	return NULL;
 
     /* If input_len is greater than the length of the keystroke buffer,
      * only read the number of characters in the keystroke buffer. */
