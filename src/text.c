@@ -2449,8 +2449,7 @@ bool do_int_spell_fix(const char *word)
 	/* If a replacement was given, go through all occurrences. */
 	if (proceed && strcmp(word, answer) != 0) {
 	    openfile->current_x--;
-	    do_replace_loop(TRUE, openfile->current,
-				&openfile->current_x, word);
+	    do_replace_loop(TRUE, current_save, &current_x_save, word);
 	}
     }
 
