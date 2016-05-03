@@ -649,7 +649,7 @@ void parse_colors(char *ptr, int rex_flags)
 	return;
 
     if (*ptr == '\0') {
-	rcfile_error(N_("Missing regex string"));
+	rcfile_error(N_("Missing regex string after '%s' command"), "color");
 	return;
     }
 
