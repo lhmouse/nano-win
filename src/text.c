@@ -2364,8 +2364,6 @@ bool do_int_spell_fix(const char *word)
 	/* A storage place for the current flag settings. */
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
@@ -2393,25 +2391,27 @@ bool do_int_spell_fix(const char *word)
     last_search = mallocstrcpy(NULL, word);
 
 #ifndef NANO_TINY
+    /* If the mark is on, start at the beginning of the marked region. */
     if (old_mark_set) {
-	/* Trim the filestruct so that it contains only the marked text. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
-
-	/* Foresay whether spell correction will add a magicline. */
-	if (!ISSET(NO_NEWLINES))
-	    added_magicline = (openfile->filebot->data[0] != '\0');
-
-	/* Turn the mark off. */
+	/* If the region is marked normally, swap the end points, so that
+	 * (current, current_x) (where searching starts) is at the top. */
+	if (right_side_up) {
+	    openfile->current = top;
+	    openfile->current_x = (size_t)(top_x - 1);
+	    openfile->mark_begin = bot;
+	    openfile->mark_begin_x = bot_x;
+	}
 	openfile->mark_set = FALSE;
-    }
+    } else
 #endif
-
-    /* Start from the top of the file. */
-    openfile->edittop = openfile->fileage;
-    openfile->current = openfile->fileage;
-    openfile->current_x = (size_t)-1;
+    /* Otherwise, start from the top of the file. */
+    {
+	openfile->edittop = openfile->fileage;
+	openfile->current = openfile->fileage;
+	openfile->current_x = (size_t)-1;
+    }
 
     /* Find the first whole occurrence of word. */
     result = findnextstr(TRUE, NULL, 0, word, NULL);
@@ -2445,43 +2445,41 @@ bool do_int_spell_fix(const char *word)
 	/* If a replacement was given, go through all occurrences. */
 	if (proceed && strcmp(word, answer) != 0) {
 	    openfile->current_x--;
+#ifndef NANO_TINY
+	    /* Replacements should happen only in the marked region. */
+	    openfile->mark_set = old_mark_set;
+#endif
 	    do_replace_loop(TRUE, current_save, &current_x_save, word);
 	}
     }
 
 #ifndef NANO_TINY
     if (old_mark_set) {
-	/* If a magicline was added, remove it again. */
-	if (added_magicline)
-	    remove_magicline();
-
-	/* Put the beginning and the end of the mark at the beginning
-	 * and the end of the spell-checked text. */
-	if (openfile->fileage == openfile->filebot)
-	    bot_x += top_x;
+	/* Restore the (compensated) end points of the marked region. */
 	if (right_side_up) {
+	    openfile->current = openfile->mark_begin;
+	    openfile->current_x = openfile->mark_begin_x;
+	    openfile->mark_begin = top;
 	    openfile->mark_begin_x = top_x;
-	    current_x_save = bot_x;
 	} else {
-	    current_x_save = top_x;
-	    openfile->mark_begin_x = bot_x;
+	    openfile->current = top;
+	    openfile->current_x = top_x;
 	}
-
-	/* Unpartition the filestruct so that it contains all the text
-	 * again, and turn the mark back on. */
-	unpartition_filestruct(&filepart);
 	openfile->mark_set = TRUE;
+    } else
+#endif
+    {
+	/* Restore the (compensated) cursor position. */
+	openfile->current = current_save;
+	openfile->current_x = current_x_save;
     }
-#endif /* !NANO_TINY */
 
     /* Restore the string that was last searched for. */
     free(last_search);
     last_search = save_search;
 
-    /* Restore where we were. */
+    /* Restore the viewport to where it was. */
     openfile->edittop = edittop_save;
-    openfile->current = current_save;
-    openfile->current_x = current_x_save;
 
     /* Restore the settings of the global flags. */
     memcpy(flags, stash, sizeof(flags));

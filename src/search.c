@@ -281,6 +281,9 @@ int findnextstr(
 
     enable_nodelay();
 
+    if (begin == NULL)
+	came_full_circle = FALSE;
+
     /* Start searching through the lines, looking for the needle. */
     while (TRUE) {
 	/* Glance at the keyboard once every second. */
@@ -323,7 +326,7 @@ int findnextstr(
 	}
 
 	/* If we're back at the beginning, then there is no needle. */
-	if (came_full_circle && begin != NULL) {
+	if (came_full_circle) {
 	    not_found_msg(needle);
 	    disable_nodelay();
 	    return 0;
