@@ -36,7 +36,7 @@ static size_t key_buffer_len = 0;
 static int statusblank = 0;
 	/* The number of keystrokes left after we call statusbar(),
 	 * before we actually blank the statusbar. */
-static bool disable_cursorpos = FALSE;
+static bool suppress_cursorpos = FALSE;
 	/* Should we temporarily disable constant cursor position
 	 * display? */
 static bool seen_wide = FALSE;
@@ -2079,7 +2079,7 @@ void titlebar(const char *path)
     wnoutrefresh(edit);
 }
 
-/* Display a message on the statusbar, and set disable_cursorpos to
+/* Display a message on the statusbar, and set suppress_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */
 void statusbar(const char *msg, ...)
@@ -2133,7 +2133,7 @@ void statusbar(const char *msg, ...)
 
     wnoutrefresh(bottomwin);
 
-    disable_cursorpos = TRUE;
+    suppress_cursorpos = TRUE;
 
     /* Push the message to the screen straightaway. */
     doupdate();
@@ -3085,11 +3085,8 @@ void display_main_list(void)
 }
 
 /* If constant is TRUE, we display the current cursor position only if
- * disable_cursorpos is FALSE.  Otherwise, we display it
- * unconditionally and set disable_cursorpos to FALSE.  If constant is
- * TRUE and disable_cursorpos is TRUE, we also set disable_cursorpos to
- * FALSE, so that we leave the current statusbar alone this time, and
- * display the current cursor position next time. */
+ * suppress_cursorpos is FALSE.  If constant is FALSE, we display the
+ * position always.  In any case we reset suppress_cursorpos to FALSE. */
 void do_cursorpos(bool constant)
 {
     filestruct *f;
@@ -3100,6 +3097,7 @@ void do_cursorpos(bool constant)
 
     assert(openfile->fileage != NULL && openfile->current != NULL);
 
+    /* Determine the size of the file up to the cursor. */
     f = openfile->current->next;
     c = openfile->current->data[openfile->current_x];
 
@@ -3111,13 +3109,14 @@ void do_cursorpos(bool constant)
     openfile->current->data[openfile->current_x] = c;
     openfile->current->next = f;
 
-    if (constant && disable_cursorpos) {
-	disable_cursorpos = FALSE;
-	return;
+    /* If the position needs to be suppressed, don't suppress it next time. */
+    if (suppress_cursorpos) {
+	suppress_cursorpos = FALSE;
+	if (constant)
+	    return;
     }
 
-    /* Display the current cursor position on the statusbar, and set
-     * disable_cursorpos to FALSE. */
+    /* Display the current cursor position on the statusbar. */
     linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
     colpct = 100 * cur_xpt / cur_lenpt;
     charpct = (openfile->totsize == 0) ? 0 : 100 * i / openfile->totsize;
@@ -3128,8 +3127,6 @@ void do_cursorpos(bool constant)
 	(long)openfile->filebot->lineno, linepct,
 	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
 	(unsigned long)i, (unsigned long)openfile->totsize, charpct);
-
-    disable_cursorpos = FALSE;
 }
 
 /* Unconditionally display the current cursor position. */
