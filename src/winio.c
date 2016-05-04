@@ -363,26 +363,20 @@ int parse_kbinput(WINDOW *win)
 	default:
 	    switch (escapes) {
 		case 0:
-		    /* One non-escape: normal input mode.  Save the
-		     * non-escape character as the result. */
+		    /* One non-escape: normal input mode. */
 		    retval = *kbinput;
 		    break;
 		case 1:
 		    /* Reset the escape counter. */
 		    escapes = 0;
 		    if (get_key_buffer_len() == 0 || key_buffer[0] == 0x1b) {
-			/* One escape followed by a non-escape, and
-			 * there aren't any other keystrokes waiting:
-			 * meta key sequence mode.  Set meta_key to
-			 * TRUE, and save the lowercase version of the
-			 * non-escape character as the result. */
+			/* One escape followed by a single non-escape:
+			 * meta key sequence mode. */
 			meta_key = TRUE;
 			retval = tolower(*kbinput);
 		    } else
-			/* One escape followed by a non-escape, and
-			 * there are other keystrokes waiting: escape
-			 * sequence mode.  Interpret the escape
-			 * sequence. */
+			/* One escape followed by a non-escape, and there
+			 * are more codes waiting: escape sequence mode. */
 			retval = parse_escape_sequence(win, *kbinput);
 		    break;
 		case 2:
@@ -413,31 +407,25 @@ int parse_kbinput(WINDOW *win)
 			if (('0' <= *kbinput && *kbinput <= '2' &&
 				byte_digits == 0) || ('0' <= *kbinput &&
 				*kbinput <= '9' && byte_digits > 0)) {
-			    /* Two escapes followed by one or more
-			     * decimal digits, and there aren't any
-			     * other keystrokes waiting: byte sequence
-			     * mode.  If the byte sequence's range is
-			     * limited to 2XX (the first digit is in the
-			     * '0' to '2' range and it's the first
-			     * digit, or it's in the '0' to '9' range
-			     * and it's not the first digit), increment
-			     * the byte sequence counter and interpret
-			     * the digit.  If the byte sequence's range
-			     * is not limited to 2XX, fall through. */
+			    /* Two escapes followed by one or more decimal
+			     * digits, and there aren't any other codes
+			     * waiting: byte sequence mode.  If the range
+			     * of the byte sequence is limited to 2XX (the
+			     * first digit is between '0' and '2' and the
+			     * others between '0' and '9', interpret it. */
 			    int byte;
 
 			    byte_digits++;
 			    byte = get_byte_kbinput(*kbinput);
 
+			    /* If we've read in a complete byte sequence,
+			     * reset the escape counter and the byte sequence
+			     * counter, and put the obtained byte value back
+			     * into the key buffer. */
 			    if (byte != ERR) {
 				char *byte_mb;
 				int byte_mb_len, *seq, i;
 
-				/* If we've read in a complete byte
-				 * sequence, reset the escape counter
-				 * and the byte sequence counter, and
-				 * put back the corresponding byte
-				 * value. */
 				escapes = 0;
 				byte_digits = 0;
 
@@ -462,21 +450,15 @@ int parse_kbinput(WINDOW *win)
 			    escapes = 0;
 			    if (byte_digits == 0)
 				/* Two escapes followed by a non-decimal
-				 * digit or a decimal digit that would
-				 * create a byte sequence greater than
-				 * 2XX, we're not in the middle of a
-				 * byte sequence, and there aren't any
-				 * other keystrokes waiting: control
-				 * character sequence mode.  Interpret
-				 * the control sequence and save the
-				 * corresponding control character as
-				 * the result. */
+				 * digit (or a decimal digit that would
+				 * create a byte sequence greater than 2XX)
+				 * and there aren't any other codes waiting:
+				 * control character sequence mode. */
 				retval = get_control_kbinput(*kbinput);
 			    else {
-				/* If we're in the middle of a byte
-				 * sequence, reset the byte sequence
-				 * counter and save the character we got
-				 * as the result. */
+				/* An invalid digit in the middle of a byte
+				 * sequence: reset the byte sequence counter
+				 * and save the code we got as the result. */
 				byte_digits = 0;
 				retval = *kbinput;
 			    }
@@ -485,11 +467,9 @@ int parse_kbinput(WINDOW *win)
 			/* This is an iTerm2 sequence: ^[ ^[ [ X. */
 			double_esc = TRUE;
 		    } else {
-			/* Two escapes followed by a non-escape, and
-			 * there are other keystrokes waiting: combined
-			 * meta and escape sequence mode.  Reset the
-			 * escape counter, set meta_key to TRUE, and
-			 * interpret the escape sequence. */
+			/* Two escapes followed by a non-escape, and there
+			 * are more codes waiting: combined meta and escape
+			 * sequence mode. */
 			escapes = 0;
 			meta_key = TRUE;
 			retval = parse_escape_sequence(win, *kbinput);
@@ -499,17 +479,14 @@ int parse_kbinput(WINDOW *win)
 		    /* Reset the escape counter. */
 		    escapes = 0;
 		    if (get_key_buffer_len() == 0)
-			/* Three escapes followed by a non-escape, and
-			 * there aren't any other keystrokes waiting:
-			 * normal input mode.  Save the non-escape
-			 * character as the result. */
+			/* Three escapes followed by a non-escape, and no
+			 * other codes are waiting: normal input mode. */
 			retval = *kbinput;
 		    else
-			/* Three escapes followed by a non-escape, and
-			 * there are other keystrokes waiting: combined
-			 * control character and escape sequence mode.
-			 * Interpret the escape sequence, and interpret
-			 * the result as a control sequence. */
+			/* Three escapes followed by a non-escape, and more
+			 * codes are waiting: combined control character and
+			 * escape sequence mode.  First interpret the escape
+			 * sequence, then the result as a control sequence. */
 			retval = get_control_kbinput(
 				parse_escape_sequence(win, *kbinput));
 		    break;
