@@ -370,7 +370,7 @@ int parse_kbinput(WINDOW *win)
 		case 1:
 		    /* Reset the escape counter. */
 		    escapes = 0;
-		    if (get_key_buffer_len() == 0) {
+		    if (get_key_buffer_len() == 0 || key_buffer[0] == 0x1b) {
 			/* One escape followed by a non-escape, and
 			 * there aren't any other keystrokes waiting:
 			 * meta key sequence mode.  Set meta_key to
