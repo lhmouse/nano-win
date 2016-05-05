@@ -671,7 +671,7 @@ void shortcut_init(void)
 	N_("Get Help"), IFSCHELP(nano_help_msg), TOGETHER, VIEW);
 
     add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
-	N_("Cancel"), IFSCHELP(nano_cancel_msg), TOGETHER, VIEW);
+	N_("Cancel"), IFSCHELP(nano_cancel_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(do_exit, MMAIN,
 	exit_tag, IFSCHELP(nano_exit_msg), TOGETHER, VIEW);
@@ -971,7 +971,7 @@ void shortcut_init(void)
 	    N_("Prepend"), IFSCHELP(nano_prepend_msg), TOGETHER, NOVIEW);
 
 	add_to_funcs(backup_file_void, MWRITEFILE,
-	    N_("Backup File"), IFSCHELP(nano_backup_msg), TOGETHER, NOVIEW);
+	    N_("Backup File"), IFSCHELP(nano_backup_msg), BLANKAFTER, NOVIEW);
     }
 
     /* If we're using restricted mode, file insertion is disabled, and
