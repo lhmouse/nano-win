@@ -17,11 +17,9 @@ For the future (no targeted version, catch-all)
   file type we have open.
 - Allow setting marks (saved positions, not to be confused with the mark
   set via Ctrl-^) at various lines and/or columns in the buffer, and
-  allow movement between them with a single keystroke? (We're running
+  allow movement between them with a single keystroke?  (We're running
   out of keystrokes, though.)
 - Allow searching for and replacing newlines.
-- Fix handling of bad/incomplete UTF-8 sequences to display one Unicode
-  FFFD (Replacement Character) per sequence instead of one per byte.
 
 For version 2.6:
 - New regression framework built on expect.
@@ -46,10 +44,10 @@ For version 2.4:
 For version 2.2:
 - Rebindable keys? [DONE]
 - Undo/Redo keys (M-U and M-E)? [DONE]
-- Fix problems with color syntaxes' highlighting lines too aggressively [DONE]
-- Allow nano to work like a pager (read from stdin) [DONE]
+- Fix problems with color syntaxes highlighting lines too aggressively. [DONE]
+- Allow nano to work like a pager (reading from stdin). [DONE]
 - Allow color syntaxes to be selected based on more than just filename
-  extension, [DONE]
+  extension. [DONE]
 - Allow soft wrapping as well as hard wrapping? [DONE]
 
 For version 2.0:
@@ -66,34 +64,29 @@ For version 2.0:
 - Fix resetstatuspos global which we shouldn't have. [DONE]
 
 For version 1.2:
-- Single line scroll up/down? [DONE]
-- Color syntax highlighting? (certainly seems like there's a demand for
+- Single-line scroll up/down? [DONE]
+- Color syntax highlighting? (Certainly seems like there's a demand for
   it.) [DONE]
 - .nanorc [DONE]
 - Backup making (filename~)? [DONE]
-- Search (etc.) string history [DONE]
-- Implement Pico's -j and -g flags, as they are pretty easy to do.
-  [DONE]
-- Make mouse support work with clicking on the shortcuts (-m).  Must
-  make global variable pointing to current shortcut list to determine
-  what keystroke to ungetch(). [DONE].
-- Implement -o (chroot of sorts) [DONE]
+- Search/replace string history. [DONE]
+- Implement Pico's -j and -g flags, as they are pretty easy to do. [DONE]
+- Make mouse support work with clicking on the shortcuts (-m). [DONE]
+- Implement -o (chroot of sorts). [DONE]
 - Allow -r to take a negative argument, meaning right margin instead of
   left (allows resizing that way), formerly -W arg. [DONE]
 
 For version 1.0:
-- Implement Spelling [DONE]
-- Implement Help [DONE]
+- Implement Spelling. [DONE]
+- Implement Help. [DONE]
 - Internationalization [In progress, translators welcome!]
 - Allow nano to be resized in X. [DONE]
-- On page up/down, put the cursor on the first line (like Pico), not the
-  center line [DONE]
-- Rewrite edit_refresh, if at all possible [DONE]
-- Implement justify function [DONE]
-- Cut to end of line [DONE]
-- Built-in speller command [needed for version 1.0] [DONE]
-- Better statusbar interaction (scrolling, tab completion for filename)
-  [needed for version 1.0] [DONE]
-- Now do username completion [DONE].
-- Unjustify command (^U after ^J) [DONE =-].
-- Username completion (~user) [DONE =-].
+- On PageUp/Down, put the cursor on the first line (like Pico), not the
+  center line. [DONE]
+- Rewrite edit_refresh, if at all possible. [DONE]
+- Implement justify function. [DONE]
+- Cut to end of line. [DONE]
+- Built-in speller command. [DONE]
+- Better statusbar interaction (scrolling, tab completion). [DONE]
+- Unjustify command (^U after ^J). [DONE]
+- Username completion (~user). [DONE]
