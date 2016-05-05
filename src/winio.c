@@ -346,19 +346,10 @@ int parse_kbinput(WINDOW *win)
 	case NANO_CONTROL_3:
 	    /* Increment the escape counter. */
 	    escapes++;
-	    switch (escapes) {
-		case 1:
-		    /* One escape: wait for more input. */
-		case 2:
-		    /* Two escapes: wait for more input. */
-		case 3:
-		    /* Three escapes: wait for more input. */
-		    break;
-		default:
-		    /* More than three escapes: limit the escape counter
-		     * to no more than two, and wait for more input. */
-		    escapes %= 3;
-	    }
+	    /* If there are four consecutive escapes, discard three of them. */
+	    if (escapes > 3)
+		escapes = 1;
+	    /* Wait for more input. */
 	    break;
 	default:
 	    switch (escapes) {
