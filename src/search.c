@@ -292,10 +292,14 @@ int findnextstr(
 
 	    lastkbcheck = time(NULL);
 
-	    if (input && func_from_key(&input) == do_cancel) {
-		statusbar(_("Cancelled"));
-		disable_nodelay();
-		return -2;
+	    /* Consume all waiting keystrokes until a Cancel. */
+	    while (input) {
+		if (func_from_key(&input) == do_cancel) {
+		    statusbar(_("Cancelled"));
+		    disable_nodelay();
+		    return -2;
+		}
+		input = parse_kbinput(NULL);
 	    }
 
 	    if (++feedback > 0)
