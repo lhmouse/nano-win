@@ -180,8 +180,9 @@ void get_key_buffer(WINDOW *win)
 	key_buffer[key_buffer_len - 1] = input;
     }
 
-    /* Switch back to waiting mode for input. */
-    nodelay(win, FALSE);
+    /* Restore waiting mode if it was on. */
+    if (!nodelay_mode)
+	nodelay(win, FALSE);
 
 #ifdef DEBUG
     {

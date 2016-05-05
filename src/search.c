@@ -294,6 +294,7 @@ int findnextstr(
 
 	    if (input && func_from_key(&input) == do_cancel) {
 		statusbar(_("Cancelled"));
+		disable_nodelay();
 		return -2;
 	    }
 
