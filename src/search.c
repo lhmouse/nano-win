@@ -955,13 +955,22 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->current_x = actual_x(openfile->current->data, column - 1);
     openfile->placewewant = column - 1;
 
-    /* Put the top line of the edit window in range of the current line. */
-    edit_update(CENTERING);
-
-    /* When in interactive mode, update the screen. */
+    /* When the position was manually given, center the target line. */
     if (interactive) {
+	edit_update(CENTERING);
 	edit_refresh();
 	display_main_list();
+    } else {
+	/* If the target line is close to the tail of the file, put the last
+	 * line of the file on the bottom line of the screen; otherwise, just
+	 * center the target line. */
+	if (openfile->filebot->lineno - openfile->current->lineno <
+							editwinrows / 2) {
+	    openfile->current_y = editwinrows - openfile->filebot->lineno +
+					openfile->current->lineno - 1;
+	    edit_update(STATIONARY);
+	} else
+	    edit_update(CENTERING);
     }
 }
 
