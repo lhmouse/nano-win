@@ -347,19 +347,14 @@ int parse_kbinput(WINDOW *win)
     while (kbinput == NULL)
 	kbinput = get_input(win, 1);
 
-    switch (*kbinput) {
-	case ERR:
-	    break;
-	case NANO_CONTROL_3:
+    if (*kbinput == NANO_CONTROL_3) {
 	    /* Increment the escape counter. */
 	    escapes++;
 	    /* If there are four consecutive escapes, discard three of them. */
 	    if (escapes > 3)
 		escapes = 1;
 	    solitary = (escapes == 1 && get_key_buffer_len() == 0);
-	    /* Wait for more input. */
-	    break;
-	default:
+    } else if (*kbinput != ERR) {
 	    switch (escapes) {
 		case 0:
 		    /* One non-escape: normal input mode. */
