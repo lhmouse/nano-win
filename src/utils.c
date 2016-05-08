@@ -611,20 +611,21 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
     return totsize;
 }
 
-/* Get back a pointer given a line number in the current openfilestruct. */
+/* Given a line number, return a pointer to the corresponding struct. */
 filestruct *fsfromline(ssize_t lineno)
 {
     filestruct *f = openfile->current;
 
     if (lineno <= openfile->current->lineno)
-	for (; f->lineno != lineno && f != openfile->fileage; f = f->prev)
-	   ;
+	while (f->lineno != lineno && f->prev != NULL)
+	    f = f->prev;
     else
-	for (; f->lineno != lineno && f->next != NULL; f = f->next)
-	    ;
+	while (f->lineno != lineno && f->next != NULL)
+	    f = f->next;
 
     if (f->lineno != lineno)
-	f = NULL;
+	return NULL;
+
     return f;
 }
 
