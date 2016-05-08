@@ -3139,8 +3139,6 @@ void do_spell(void)
     unlink(temp);
     free(temp);
 
-    currmenu = MMAIN;
-
     /* If the spell-checker printed any error messages onscreen, make
      * sure that they're cleared off. */
     total_refresh();
@@ -3187,16 +3185,16 @@ void do_linter(void)
 
 	if (i == -1) {
 	    statusbar(_("Cancelled"));
-	    goto exit_from_lint;
+	    return;
 	} else if (i == 1 && (do_writeout(FALSE) != TRUE))
-	    goto exit_from_lint;
+	    return;
     }
 
     lintcopy = mallocstrcpy(NULL, openfile->syntax->linter);
     /* Create a pipe up front. */
     if (pipe(lint_fd) == -1) {
 	statusbar(_("Could not create pipe"));
-	goto exit_from_lint;
+	return;
     }
 
     blank_bottombars();
@@ -3244,14 +3242,14 @@ void do_linter(void)
     if (pid_lint < 0) {
 	close(lint_fd[0]);
 	statusbar(_("Could not fork"));
-	goto exit_from_lint;
+	return;
     }
 
     /* Get the system pipe buffer size. */
     if ((pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(lint_fd[0]);
 	statusbar(_("Could not get size of pipe buffer"));
-	goto exit_from_lint;
+	return;
     }
 
     /* Read in the returned syntax errors. */
@@ -3349,7 +3347,7 @@ void do_linter(void)
 
     if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
 	statusbar(invocation_error(openfile->syntax->linter));
-	goto exit_from_lint;
+	return;
     }
 
     free(read_buff);
@@ -3357,7 +3355,7 @@ void do_linter(void)
     if (parsesuccess == 0) {
 	statusline(HUSH, _("Got 0 parsable lines from command: %s"),
 			openfile->syntax->linter);
-	goto exit_from_lint;
+	return;
     }
 
     bottombars(MLINTER);
@@ -3464,9 +3462,6 @@ void do_linter(void)
 	free(tmplint->filename);
 	free(tmplint);
     }
-
-  exit_from_lint:
-    display_main_list();
 }
 
 #ifndef DISABLE_SPELLER

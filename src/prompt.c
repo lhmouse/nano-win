@@ -917,6 +917,8 @@ int do_yesno_prompt(bool all, const char *msg)
 	}
     } while (response == -2);
 
-    currmenu = oldmenu;
+    /* Restore the previously active menu. */
+    bottombars(oldmenu);
+
     return response;
 }

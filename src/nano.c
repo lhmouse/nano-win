@@ -1112,8 +1112,6 @@ void do_exit(void)
 	close_and_go();
     else if (i != 1)
 	statusbar(_("Cancelled"));
-
-    display_main_list();
 }
 
 /* Close the current buffer, and terminate nano if it was the last. */
@@ -2635,12 +2633,12 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: bottom win, top win and edit win\n");
 #endif
 
-    display_main_list();
-
     display_buffer();
 
     while (TRUE) {
-	currmenu = MMAIN;
+	if (currmenu != MMAIN)
+	    display_main_list();
+
 	focusing = TRUE;
 	lastmessage = HUSH;
 

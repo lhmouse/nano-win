@@ -131,6 +131,8 @@ char *do_browser(char *path)
 	curs_set(0);
 	lastmessage = HUSH;
 
+	bottombars(MBROWSER);
+
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
 	    /* Remember the selected file, to be able to reselect it. */
@@ -245,9 +247,6 @@ char *do_browser(char *path)
 #endif
 			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
-
-	    bottombars(MBROWSER);
-
 	    /* If the directory begins with a newline (i.e. an
 	     * encoded null), treat it as though it's blank. */
 	    if (i < 0 || *answer == '\n') {
@@ -782,11 +781,9 @@ void findnextfile(const char *needle)
 /* Search for a filename. */
 void do_filesearch(void)
 {
-    if (filesearch_init() != 0) {
-	/* Cancelled, or a blank search string, or done something. */
-	bottombars(MBROWSER);
+    /* If the user cancelled or jumped to first or last file, don't search. */
+    if (filesearch_init() != 0)
 	return;
-    }
 
     /* If answer is now "", copy last_search into answer. */
     if (*answer == '\0')
@@ -801,8 +798,6 @@ void do_filesearch(void)
 #endif
 
     findnextfile(answer);
-
-    bottombars(MBROWSER);
 }
 
 /* Search again for the last given filename, without prompting. */

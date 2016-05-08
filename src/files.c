@@ -590,7 +590,6 @@ void switch_to_prevnext_buffer(bool to_next)
 #ifdef DEBUG
     dump_filestruct(openfile->current);
 #endif
-    display_main_list();
 }
 
 /* Switch to the previous entry in the openfile filebuffer. */
@@ -1342,8 +1341,6 @@ void do_insertfile_void(void)
 		FALSE
 #endif
 		);
-
-    display_main_list();
 }
 
 /* When passed "[relative path]" or "[relative path][filename]" in
@@ -2474,8 +2471,6 @@ void do_writeout_void(void)
     /* If the user chose to discard the buffer, close it. */
     if (do_writeout(FALSE) == 2)
 	close_and_go();
-
-    display_main_list();
 }
 
 #ifndef NANO_TINY

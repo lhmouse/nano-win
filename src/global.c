@@ -167,8 +167,8 @@ bool refresh_needed = FALSE;
 	/* Did a command mangle enough of the buffer that we should
 	 * repaint the screen? */
 
-int currmenu;
-	/* The currently loaded menu. */
+int currmenu = MMOST;
+	/* The currently active menu, initialized to a dummy value. */
 sc *sclist = NULL;
 	/* Pointer to the start of the shortcuts list. */
 subnfunc *allfuncs = NULL;

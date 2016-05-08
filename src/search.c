@@ -104,7 +104,6 @@ void not_found_msg(const char *str)
  * search, if any. */
 void search_replace_abort(void)
 {
-    display_main_list();
 #ifndef NANO_TINY
     if (openfile->mark_set)
 	edit_refresh();
@@ -916,7 +915,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	/* Cancel, or Enter with blank string. */
 	if (i < 0) {
 	    statusbar(_("Cancelled"));
-	    display_main_list();
 	    return;
 	}
 
@@ -937,7 +935,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 			line < 1 || column < 1) {
 	    if (i == 0)
 		statusbar(_("Invalid line or column number"));
-	    display_main_list();
 	    return;
 	}
     } else {
@@ -959,7 +956,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     if (interactive) {
 	edit_update(CENTERING);
 	edit_refresh();
-	display_main_list();
     } else {
 	/* If the target line is close to the tail of the file, put the last
 	 * line of the file on the bottom line of the screen; otherwise, just
