@@ -2861,12 +2861,12 @@ void do_spell(void)
 	return;
     }
 
-    status =
 #ifndef NANO_TINY
-	openfile->mark_set ? write_marked_file(temp, temp_file, TRUE,
-	OVERWRITE) :
+    if (openfile->mark_set)
+	status = write_marked_file(temp, temp_file, TRUE, OVERWRITE);
+    else
 #endif
-	write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
+	status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (!status) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
@@ -2878,7 +2878,7 @@ void do_spell(void)
     statusbar(_("Invoking spell checker, please wait"));
 
     spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
-	do_int_speller(temp);
+					do_int_speller(temp);
     unlink(temp);
     free(temp);
 
@@ -2894,7 +2894,7 @@ void do_spell(void)
 	    statusbar(_("Spell checking failed: %s"), spell_msg);
 	else
 	    statusbar(_("Spell checking failed: %s: %s"), spell_msg,
-		strerror(errno));
+						strerror(errno));
     } else
 	statusbar(_("Finished checking spelling"));
 }
