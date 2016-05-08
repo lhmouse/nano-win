@@ -478,7 +478,7 @@ void redo_cut(undo *u)
 void do_undo(void)
 {
     undo *u = openfile->current_undo;
-    filestruct *t = NULL;
+    filestruct *f, *t = NULL;
     char *data, *undidmsg = NULL;
 
     if (!u) {
@@ -486,12 +486,10 @@ void do_undo(void)
 	return;
     }
 
-    filestruct *f = fsfromline(u->mark_begin_lineno);
-    if (!f) {
-	statusbar(_("Internal error: can't match line %d.  "
-			"Please save your work."), u->mark_begin_lineno);
+    f = fsfromline(u->mark_begin_lineno);
+    if (!f)
 	return;
-    }
+
 #ifdef DEBUG
     fprintf(stderr, "  >> Undoing a type %d...\n", u->type);
     fprintf(stderr, "  >> Data we're about to undo = \"%s\"\n", f->data);
@@ -621,6 +619,7 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
+    filestruct *f;
     char *data, *redidmsg = NULL;
     undo *u = openfile->undotop;
 
@@ -638,12 +637,10 @@ void do_redo(void)
 	return;
     }
 
-    filestruct *f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
-    if (!f) {
-	statusbar(_("Internal error: can't match line %d.  "
-			"Please save your work."), u->mark_begin_lineno);
+    f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
+    if (!f)
 	return;
-    }
+
 #ifdef DEBUG
     fprintf(stderr, "  >> Redo running for type %d\n", u->type);
     fprintf(stderr, "  >> Data we're about to redo = \"%s\"\n", f->data);
