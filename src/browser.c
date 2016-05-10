@@ -49,10 +49,11 @@ char *do_browser(char *path, DIR *dir)
     char *retval = NULL;
     int kbinput;
     bool old_const_update = ISSET(CONST_UPDATE);
-    char *prev_dir = NULL;
-	/* The directory we were in before backing up to "..". */
+    char *present_name = NULL;
+	/* The name of the currently selected file, or of the directory we
+	 * were in before backing up to "..". */
     size_t old_selected;
-	/* The selected file we had before the current selected file. */
+	/* The number of the selected file before the current selected file. */
     functionptrtype func;
 	/* The function of the key the user typed in. */
 
@@ -64,7 +65,7 @@ char *do_browser(char *path, DIR *dir)
 
     UNSET(CONST_UPDATE);
 
-  change_browser_directory:
+  read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
 
     /* Start with no key pressed. */
@@ -85,13 +86,12 @@ char *do_browser(char *path, DIR *dir)
     /* Sort the file list. */
     qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
-    /* If prev_dir isn't NULL, select the directory saved in it, and
-     * then blow it away. */
-    if (prev_dir != NULL) {
-	browser_select_dirname(prev_dir);
+    /* If given, reselect the present_name and then discard it. */
+    if (present_name != NULL) {
+	browser_select_dirname(present_name);
 
-	free(prev_dir);
-	prev_dir = NULL;
+	free(present_name);
+	present_name = NULL;
     /* Otherwise, select the first file or directory in the list. */
     } else
 	selected = 0;
@@ -114,14 +114,16 @@ char *do_browser(char *path, DIR *dir)
 
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {
-	    /* Rebuild the file list and sort it. */
-	    browser_init(present_path, opendir(present_path));
-	    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
+	    /* Remember the selected file, to be able to reselect it. */
+	    present_name = strdup(filelist[selected]);
 
-	    /* Make sure the selected file is within range. */
-	    if (selected >= filelist_len)
-		selected = filelist_len - 1;
+	    /* Reopen the current directory. */
+	    dir = opendir(path);
+	    if (dir != NULL)
+		goto read_directory_contents;
 
+	    statusbar(_("Error reading %s: %s"), path, strerror(errno));
+	    beep();
 	    kbinput = ERR;
 	}
 #endif
@@ -174,18 +176,8 @@ char *do_browser(char *path, DIR *dir)
 
 	if (func == total_refresh) {
 	    total_redraw();
-
-	    /* Remember the selected file, to be able to reselect it. */
-	    prev_dir = strdup(filelist[selected]);
-
-	    /* Reopen the current directory. */
-	    dir = opendir(path);
-	    if (dir == NULL) {
-		statusbar(_("Error reading %s: %s"), path, strerror(errno));
-		beep();
-		continue;
-	    }
-	    goto change_browser_directory;
+	    /* Simulate a window resize to force a directory reread. */
+	    kbinput = KEY_WINCH;
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
@@ -272,7 +264,7 @@ char *do_browser(char *path, DIR *dir)
 	    /* Start over again with the new path value. */
 	    free(path);
 	    path = new_path;
-	    goto change_browser_directory;
+	    goto read_directory_contents;
 	} else if (func == do_up_void) {
 	    if (selected >= width)
 		selected -= width;
@@ -333,12 +325,12 @@ char *do_browser(char *path, DIR *dir)
 	    /* If we moved up one level, remember where we came from, so
 	     * this directory can be highlighted and easily reentered. */
 	    if (strcmp(tail(filelist[selected]), "..") == 0)
-		prev_dir = striponedir(filelist[selected]);
+		present_name = striponedir(filelist[selected]);
 
 	    path = mallocstrcpy(path, filelist[selected]);
 
 	    /* Start over again with the new path value. */
-	    goto change_browser_directory;
+	    goto read_directory_contents;
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
 	    break;
@@ -697,8 +689,13 @@ void browser_select_dirname(const char *needle)
 
     /* If the sought name isn't found, move the highlight so that the
      * changed selection will be noticed. */
-    if (looking_at == filelist_len)
+    if (looking_at == filelist_len) {
 	--selected;
+
+	/* Make sure we stay within the available range. */
+	if (selected >= filelist_len)
+	    selected = filelist_len - 1;
+    }
 }
 
 /* Set up the system variables for a filename search.  Return -1 or -2 if
