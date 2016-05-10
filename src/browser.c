@@ -65,7 +65,7 @@ char *do_browser(char *path, DIR *dir)
     UNSET(CONST_UPDATE);
 
   change_browser_directory:
-	/* We go here after we select a new directory. */
+	/* We come here when we refresh or select a new directory. */
 
     /* Start with no key pressed. */
     kbinput = ERR;
@@ -174,8 +174,18 @@ char *do_browser(char *path, DIR *dir)
 
 	if (func == total_refresh) {
 	    total_redraw();
-	    /* Simulate a window resize. */
-	    kbinput = KEY_WINCH;
+
+	    /* Remember the selected file, to be able to reselect it. */
+	    prev_dir = strdup(filelist[selected]);
+
+	    /* Reopen the current directory. */
+	    dir = opendir(path);
+	    if (dir == NULL) {
+		statusbar(_("Error reading %s: %s"), path, strerror(errno));
+		beep();
+		continue;
+	    }
+	    goto change_browser_directory;
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
@@ -684,6 +694,11 @@ void browser_select_dirname(const char *needle)
 	    break;
 	}
     }
+
+    /* If the sought name isn't found, move the highlight so that the
+     * changed selection will be noticed. */
+    if (looking_at == filelist_len)
+	--selected;
 }
 
 /* Set up the system variables for a filename search.  Return -1 or -2 if
