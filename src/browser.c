@@ -416,14 +416,6 @@ void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
     size_t i = 0, path_len = strlen(path);
-    int col = 0;
-	/* The maximum number of columns that the filenames will take
-	 * up. */
-    int line = 0;
-	/* The maximum number of lines that the filenames will take
-	 * up. */
-    int filesperline = 0;
-	/* The number of files that we can display per line. */
 
     assert(path != NULL && path[strlen(path) - 1] == '/' && dir != NULL);
 
@@ -477,35 +469,10 @@ void browser_init(const char *path, DIR *dir)
 
     closedir(dir);
 
-    /* Set width to zero, just before we initialize it. */
-    width = 0;
-
-    for (i = 0; i < filelist_len && line < editwinrows; i++) {
-	/* Calculate the number of columns one filename will take up. */
-	col += longest;
-	filesperline++;
-
-	/* Add some space between the columns. */
-	col += 2;
-
-	/* If the next entry isn't going to fit on the current line,
-	 * move to the next line. */
-	if (col > COLS - longest) {
-	    line++;
-	    col = 0;
-
-	    /* If width isn't initialized yet, and we've taken up more
-	     * than one line, it means that width is equal to
-	     * filesperline. */
-	    if (width == 0)
-		width = filesperline;
-	}
-    }
-
-    /* If width isn't initialized yet, and we've taken up only one line,
-     * it means that width is equal to longest. */
-    if (width == 0)
-	width = longest;
+    /* Calculate how many files fit on a line -- feigning room for two
+     * spaces beyond the right edge, and adding two spaces of padding
+     * between columns. */
+    width = (COLS + 2) / (longest + 2);
 }
 
 /* Return the function that is bound to the given key, accepting certain
