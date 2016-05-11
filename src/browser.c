@@ -187,14 +187,20 @@ char *do_browser(char *path, DIR *dir)
 	    /* Search for another filename. */
 	    do_fileresearch();
 	} else if (func == do_page_up) {
-	    if (selected >= (editwinrows + fileline % editwinrows) * width)
-		selected -= (editwinrows + fileline % editwinrows) * width;
-	    else
+	    if (selected < width)
 		selected = 0;
+	    else if (selected < editwinrows * width)
+		selected = selected % width;
+	    else
+		selected -= editwinrows * width;
 	} else if (func == do_page_down) {
-	    selected += (editwinrows - fileline % editwinrows) * width;
-	    if (selected > filelist_len - 1)
+	    if (selected + width >= filelist_len - 1)
 		selected = filelist_len - 1;
+	    else if (selected + editwinrows * width >= filelist_len)
+		selected = (selected + editwinrows * width - filelist_len) %
+				width +	filelist_len - width;
+	    else
+		selected += editwinrows * width;
 	} else if (func == do_first_file) {
 	    selected = 0;
 	} else if (func == do_last_file) {
