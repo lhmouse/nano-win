@@ -141,27 +141,25 @@ char *do_browser(char *path, DIR *dir)
 	if (kbinput == KEY_MOUSE) {
 	    int mouse_x, mouse_y;
 
-	    /* We can click on the edit window to select a
-	     * filename. */
+	    /* We can click on the edit window to select a filename. */
 	    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == 0 &&
-		wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+			wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
 		/* longest is the width of each column.  There
 		 * are two spaces between each column. */
-		selected = (fileline / editwinrows) *
-				(editwinrows * width) + (mouse_y *
-				width) + (mouse_x / (longest + 2));
+		selected = (fileline / editwinrows) * (editwinrows * width) +
+				(mouse_y * width) + (mouse_x / (longest + 2));
 
 		/* If they clicked beyond the end of a row,
 		 * select the last filename in that row. */
 		if (mouse_x > width * (longest + 2))
 		    selected--;
 
-		/* If we're off the screen, select the last filename. */
+		/* If we're beyond the list, select the last filename. */
 		if (selected > filelist_len - 1)
 		    selected = filelist_len - 1;
 
-		/* If we selected the same filename as last time,
-		 * put back the Enter key so that it's read in. */
+		/* If we selected the same filename as last time, fake a
+		 * press of the Enter key so that the file is read in. */
 		if (old_selected == selected)
 		    unget_kbinput(sc_seq_or(do_enter, 0), FALSE, FALSE);
 	    }
@@ -202,7 +200,7 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_last_file) {
 	    selected = filelist_len - 1;
 	} else if (func == goto_dir_void) {
-	    /* Go to a specific directory. */
+	    /* Ask for the directory to go to. */
 	    i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
 			FALSE,
@@ -248,8 +246,7 @@ char *do_browser(char *path, DIR *dir)
 
 	    dir = opendir(new_path);
 	    if (dir == NULL) {
-		/* We can't open this directory for some reason.
-		* Complain. */
+		/* We can't open this directory for some reason. */
 		statusbar(_("Error reading %s: %s"), answer,
 				strerror(errno));
 		beep();
