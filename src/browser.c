@@ -61,7 +61,6 @@ char *do_browser(char *path, DIR *dir)
     curs_set(0);
     blank_statusbar();
     bottombars(MBROWSER);
-    wnoutrefresh(bottomwin);
 
     UNSET(CONST_UPDATE);
 
