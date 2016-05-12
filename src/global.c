@@ -529,6 +529,8 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     const char *nano_browser_whereis_msg = N_("Search for a string");
     const char *nano_browser_refresh_msg = N_("Refresh the file list");
+    const char *nano_browser_lefthand_msg = N_("Go to lefthand column");
+    const char *nano_browser_righthand_msg = N_("Go to righthand column");
 #endif
     const char *nano_prevpage_msg = N_("Go one screenful up");
     const char *nano_nextpage_msg = N_("Go one screenful down");
@@ -1021,6 +1023,11 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     add_to_funcs(total_refresh, MBROWSER,
 	refresh_tag, IFSCHELP(nano_browser_refresh_msg), BLANKAFTER, VIEW);
+
+    add_to_funcs(do_prev_word_void, MBROWSER,
+	N_("Left Column"), IFSCHELP(nano_browser_lefthand_msg), TOGETHER, VIEW);
+    add_to_funcs(do_next_word_void, MBROWSER,
+	N_("Right Column"), IFSCHELP(nano_browser_righthand_msg), BLANKAFTER, VIEW);
 #endif
 
 #ifndef DISABLE_COLOR

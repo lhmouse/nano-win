@@ -264,6 +264,12 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_down_void) {
 	    if (selected + width <= filelist_len - 1)
 		selected += width;
+	} else if (func == do_prev_word_void) {
+	    selected -= (selected % width);
+	} else if (func == do_next_word_void) {
+	    selected += width - 1 - (selected % width);
+	    if (selected >= filelist_len)
+		selected = filelist_len - 1;
 	} else if (func == do_left) {
 	    if (selected > 0)
 		selected--;
