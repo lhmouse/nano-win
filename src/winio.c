@@ -3059,10 +3059,9 @@ void do_cursorpos(bool constant)
     openfile->current->next = f;
 
     /* If the position needs to be suppressed, don't suppress it next time. */
-    if (suppress_cursorpos) {
+    if (suppress_cursorpos && constant) {
 	suppress_cursorpos = FALSE;
-	if (constant)
-	    return;
+	return;
     }
 
     /* Display the current cursor position on the statusbar. */
@@ -3076,6 +3075,9 @@ void do_cursorpos(bool constant)
 	(long)openfile->filebot->lineno, linepct,
 	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
 	(unsigned long)i, (unsigned long)openfile->totsize, charpct);
+
+    /* Displaying the cursor position should not suppress it next time. */
+    suppress_cursorpos = FALSE;
 }
 
 /* Unconditionally display the current cursor position. */
