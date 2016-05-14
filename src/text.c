@@ -2399,7 +2399,8 @@ bool do_int_spell_fix(const char *word)
 	    openfile->current_x = (size_t)(top_x - 1);
 	    openfile->mark_begin = bot;
 	    openfile->mark_begin_x = bot_x;
-	}
+	} else
+	    openfile->current_x = (size_t)(openfile->current_x - 1);
 	openfile->mark_set = FALSE;
     } else
 #endif
