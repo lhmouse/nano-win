@@ -1110,8 +1110,11 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	    /* TRANSLATORS: This refers to a sequence of escape codes
 	     * (from the keyboard) that nano does not know about. */
 	    statusbar(_("Unknown sequence"));
-	    reset_cursor();
-	    curs_set(1);
+	    suppress_cursorpos = FALSE;
+	    if (currmenu == MMAIN) {
+		reset_cursor();
+		curs_set(1);
+	    }
 	    beep();
 	}
     }
