@@ -791,7 +791,7 @@ void shortcut_init(void)
     add_to_funcs(do_cursorpos_void, MMAIN,
 	N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg), TOGETHER, VIEW);
 
-#if !defined(NANO_TINY) || defined(DISABLE_COLOR)
+#if defined(DISABLE_COLOR) || !defined(DISABLE_JUSTIFY)
     /* Conditionally placing this one here or further on, to keep the
      * help items nicely paired in most conditions. */
     add_to_funcs(do_gotolinecolumn_void, MMAIN|MWHEREIS,
@@ -882,8 +882,8 @@ void shortcut_init(void)
 	N_("Next File"), IFSCHELP(nano_nextfile_msg), BLANKAFTER, VIEW);
 #endif
 
-#if defined(NANO_TINY) && !defined(DISABLE_COLOR)
-    add_to_funcs(do_gotolinecolumn_void, MMAIN|MWHEREIS,
+#if !defined(DISABLE_COLOR) && defined(DISABLE_JUSTIFY)
+    add_to_funcs(do_gotolinecolumn_void, MMAIN,
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
 
@@ -948,7 +948,12 @@ void shortcut_init(void)
 	N_("PrevHstory"), IFSCHELP(nano_prev_history_msg), TOGETHER, VIEW);
     add_to_funcs(get_history_newer_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
-	N_("NextHstory"), IFSCHELP(nano_next_history_msg), TOGETHER, VIEW);
+	N_("NextHstory"), IFSCHELP(nano_next_history_msg), BLANKAFTER, VIEW);
+#endif
+
+#if !defined(DISABLE_COLOR) && defined(DISABLE_JUSTIFY)
+    add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
 
     add_to_funcs(gototext_void, MGOTOLINE,
