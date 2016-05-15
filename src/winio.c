@@ -2090,15 +2090,15 @@ void statusbar(const char *msg, ...)
     /* Push the message to the screen straightaway. */
     doupdate();
 
-    /* If we're doing quick statusbar blanking, and constant cursor
-     * position display is off, blank the statusbar after only one
+    /* If we're doing quick statusbar blanking, blank it after just one
      * keystroke.  Otherwise, blank it after twenty-six keystrokes, as
      * Pico does. */
-    statusblank =
 #ifndef NANO_TINY
-	ISSET(QUICK_BLANK) && !ISSET(CONST_UPDATE) ? 1 :
+    if (ISSET(QUICK_BLANK))
+	statusblank = 1;
+    else
 #endif
-	26;
+	statusblank = 26;
 }
 
 /* Display the shortcut list corresponding to menu on the last two rows
