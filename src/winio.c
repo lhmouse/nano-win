@@ -34,8 +34,7 @@ static int *key_buffer = NULL;
 static size_t key_buffer_len = 0;
 	/* The length of the keystroke buffer. */
 static int statusblank = 0;
-	/* The number of keystrokes left after we call statusbar(),
-	 * before we actually blank the statusbar. */
+	/* The number of keystrokes left before we blank the statusbar. */
 static bool suppress_cursorpos = FALSE;
 	/* Should we temporarily disable constant cursor position
 	 * display? */
@@ -1704,7 +1703,7 @@ void check_statusblank(void)
     if (statusblank > 0) {
 	statusblank--;
 
-	if (statusblank == 0 && !ISSET(CONST_UPDATE)) {
+	if (statusblank == 0 && (currmenu != MMAIN || !ISSET(CONST_UPDATE))) {
 	    blank_statusbar();
 	    wnoutrefresh(bottomwin);
 	    reset_cursor();

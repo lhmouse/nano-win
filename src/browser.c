@@ -48,7 +48,6 @@ char *do_browser(char *path, DIR *dir)
 {
     char *retval = NULL;
     int kbinput;
-    bool old_const_update = ISSET(CONST_UPDATE);
     char *present_name = NULL;
 	/* The name of the currently selected file, or of the directory we
 	 * were in before backing up to "..". */
@@ -61,8 +60,6 @@ char *do_browser(char *path, DIR *dir)
     curs_set(0);
     blank_statusbar();
     bottombars(MBROWSER);
-
-    UNSET(CONST_UPDATE);
 
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
@@ -336,10 +333,9 @@ char *do_browser(char *path, DIR *dir)
 	} else
 	    unbound_key(kbinput);
     }
+
     titlebar(NULL);
     edit_refresh();
-    if (old_const_update)
-	SET(CONST_UPDATE);
 
     free(path);
 
