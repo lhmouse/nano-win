@@ -1958,8 +1958,10 @@ int main(int argc, char **argv)
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_used = FALSE;
 	/* Was the fill option used on the command line? */
+#ifndef DISABLE_WRAPPING
     bool forced_wrapping = FALSE;
 	/* Should long lines be automatically hard wrapped? */
+#endif
 #endif
 #ifndef DISABLE_MULTIBUFFER
     bool old_multibuffer;
@@ -2222,7 +2224,9 @@ int main(int argc, char **argv)
 		    exit(1);
 		}
 		fill_used = TRUE;
+#ifndef DISABLE_WRAPPING
 		forced_wrapping = TRUE;
+#endif
 		break;
 #endif
 #ifndef DISABLE_SPELLER
