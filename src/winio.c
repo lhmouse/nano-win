@@ -1697,18 +1697,23 @@ void blank_bottombars(void)
 
 /* Check if the number of keystrokes needed to blank the statusbar has
  * been pressed.  If so, blank the statusbar, unless constant cursor
- * position display is on. */
+ * position display is on and we are in the editing screen. */
 void check_statusblank(void)
 {
-    if (statusblank > 0) {
-	statusblank--;
+    if (statusblank == 0)
+	return;
 
-	if (statusblank == 0 && (currmenu != MMAIN || !ISSET(CONST_UPDATE))) {
-	    blank_statusbar();
-	    wnoutrefresh(bottomwin);
-	    reset_cursor();
-	    wnoutrefresh(edit);
-	}
+    statusblank--;
+
+    /* When editing and 'constantshow' is active, skip the blanking. */
+    if (currmenu == MMAIN && ISSET(CONST_UPDATE))
+	return;
+
+    if (statusblank == 0) {
+	blank_statusbar();
+	wnoutrefresh(bottomwin);
+	reset_cursor();
+	wnoutrefresh(edit);
     }
 }
 
