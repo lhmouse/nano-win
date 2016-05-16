@@ -248,7 +248,7 @@ char *do_browser(char *path, DIR *dir)
 		/* TRANSLATORS: This refers to the option --operatingdir,
 		 * not to --restricted. */
 		statusline(ALERT, _("Can't go outside of %s "
-				"in confined mode"), operating_dir);
+				"in confined mode"), full_operating_dir);
 		free(new_path);
 		continue;
 	    }
@@ -300,7 +300,7 @@ char *do_browser(char *path, DIR *dir)
 	     * directory outside the operating directory. */
 	    if (check_operating_dir(filelist[selected], FALSE)) {
 		statusline(ALERT, _("Can't go outside of %s "
-				"in confined mode"), operating_dir);
+				"in confined mode"), full_operating_dir);
 		continue;
 	    }
 #endif

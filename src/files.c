@@ -428,7 +428,7 @@ bool open_buffer(const char *filename, bool undoable)
 #ifndef DISABLE_OPERATINGDIR
     if (check_operating_dir(filename, FALSE)) {
 	statusline(ALERT, _("Can't insert file from outside of %s"),
-			operating_dir);
+				full_operating_dir);
 	return FALSE;
     }
 #endif
@@ -1777,7 +1777,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
     if (!tmp && check_operating_dir(realname, FALSE)) {
-	statusline(ALERT, _("Can't write outside of %s"), operating_dir);
+	statusline(ALERT, _("Can't write outside of %s"), full_operating_dir);
 	goto cleanup_and_exit;
     }
 #endif
