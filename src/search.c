@@ -324,6 +324,11 @@ int findnextstr(
 		if (is_separate_word(found - fileptr->data, found_len,
 					fileptr->data))
 		    break;
+		else {
+		    /* Maybe there is a whole word in the rest of the line. */
+		    rev_start = found + 1;
+		    continue;
+		}
 	    } else
 #endif
 		break;
