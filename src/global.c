@@ -778,10 +778,10 @@ void shortcut_init(void)
 #endif
 
     add_to_funcs(flip_replace_void, MWHEREIS,
-	replace_tag, IFSCHELP(nano_replace_msg), TOGETHER, VIEW);
+	replace_tag, IFSCHELP(nano_replace_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(flip_replace_void, MREPLACE,
-	N_("No Replace"), IFSCHELP(nano_whereis_msg), TOGETHER, VIEW);
+	N_("No Replace"), IFSCHELP(nano_whereis_msg), BLANKAFTER, VIEW);
 
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_full_justify, MWHEREIS,
