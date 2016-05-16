@@ -1591,6 +1591,7 @@ void init_operating_dir(void)
     /* If get_full_path() failed or the operating directory is
      * inaccessible, unset operating_dir. */
     if (full_operating_dir == NULL || chdir(full_operating_dir) == -1) {
+	statusline(ALERT, _("Not a valid directory: %s"), operating_dir);
 	free(full_operating_dir);
 	full_operating_dir = NULL;
 	free(operating_dir);

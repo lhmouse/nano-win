@@ -2422,12 +2422,6 @@ int main(int argc, char **argv)
 	init_backup_dir();
 #endif
 
-#ifndef DISABLE_OPERATINGDIR
-    /* Set up the operating directory.  This entails chdir()ing there,
-     * so that file reads and writes will be based there. */
-    init_operating_dir();
-#endif
-
 #ifndef DISABLE_JUSTIFY
     /* If punct wasn't specified, set its default value. */
     if (punct == NULL)
@@ -2557,6 +2551,12 @@ int main(int argc, char **argv)
     keyvalue = tigetstr("kRIT5");
     if (keyvalue != 0 && keyvalue != (char *)-1)
 	controlright = key_defined(keyvalue);
+#endif
+
+#ifndef DISABLE_OPERATINGDIR
+    /* Set up the operating directory.  This entails chdir()ing there,
+     * so that file reads and writes will be based there. */
+    init_operating_dir();
 #endif
 
 #ifdef DEBUG
