@@ -1025,11 +1025,12 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     add_to_funcs(total_refresh, MBROWSER,
 	refresh_tag, IFSCHELP(nano_browser_refresh_msg), BLANKAFTER, VIEW);
-
+#ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MBROWSER,
 	N_("Left Column"), IFSCHELP(nano_browser_lefthand_msg), TOGETHER, VIEW);
     add_to_funcs(do_next_word_void, MBROWSER,
 	N_("Right Column"), IFSCHELP(nano_browser_righthand_msg), BLANKAFTER, VIEW);
+#endif
 #endif
 
 #ifndef DISABLE_COLOR

@@ -171,12 +171,16 @@ char *do_browser(char *path, DIR *dir)
 	if (func == total_refresh) {
 	    total_redraw();
 	    /* Simulate a window resize to force a directory reread. */
+#ifndef NANO_TINY
 	    kbinput = KEY_WINCH;
+#endif
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
 	    /* The window dimensions might have changed, so act as if. */
+#ifndef NANO_TINY
 	    kbinput = KEY_WINCH;
+#endif
 #else
 	    say_there_is_no_help();
 #endif
@@ -269,12 +273,14 @@ char *do_browser(char *path, DIR *dir)
 	} else if (func == do_down_void) {
 	    if (selected + width <= filelist_len - 1)
 		selected += width;
+#ifndef NANO_TINY
 	} else if (func == do_prev_word_void) {
 	    selected -= (selected % width);
 	} else if (func == do_next_word_void) {
 	    selected += width - 1 - (selected % width);
 	    if (selected >= filelist_len)
 		selected = filelist_len - 1;
+#endif
 	} else if (func == do_left) {
 	    if (selected > 0)
 		selected--;
