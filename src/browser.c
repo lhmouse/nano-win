@@ -163,6 +163,8 @@ char *do_browser(char *path, DIR *dir)
 		if (old_selected == selected)
 		    unget_kbinput(sc_seq_or(do_enter, 0), FALSE, FALSE);
 	    }
+
+	    continue;
 	}
 #endif /* !DISABLE_MOUSE */
 
