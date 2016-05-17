@@ -145,7 +145,7 @@ void set_modified(void)
 
     if (openfile->lock_filename == NULL) {
 	/* TRANSLATORS: Keep the next two messages at most 76 characters. */
-	statusbar(_("Warning: Modifying a file which is not locked,"
+	statusline(ALERT, _("Warning: Modifying a file which is not locked,"
 			" check directory permission?"));
     } else {
 	char *fullname = get_full_path(openfile->filename);
@@ -184,7 +184,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
      * old state. */
     myuid = geteuid();
     if ((mypwuid = getpwuid(myuid)) == NULL) {
-	statusbar(_("Couldn't determine my identity for lock file (getpwuid() failed)"));
+	statusline(ALERT, _("Couldn't determine my identity for lock file "
+				"(getpwuid() failed)"));
 	goto free_and_fail;
     }
     mypid = getpid();
@@ -193,7 +194,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	if (errno == ENAMETOOLONG)
 	    myhostname[31] = '\0';
 	else {
-	    statusline(HUSH, _("Couldn't determine hostname for lock file: %s"),
+	    statusline(ALERT, _("Couldn't determine hostname for lock file: %s"),
 			strerror(errno));
 	    goto free_and_fail;
 	}
@@ -215,7 +216,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     /* Maybe we just don't have write access.  Print an error message
      * and continue. */
     if (fd < 0) {
-	statusline(HUSH, _("Error writing lock file %s: %s"),
+	statusline(ALERT, _("Error writing lock file %s: %s"),
 			lockfilename, strerror(errno));
 	free(lockdata);
 	return 0;
@@ -226,8 +227,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     filestream = fdopen(fd, "wb");
 
     if (fd < 0 || filestream == NULL) {
-	statusline(HUSH, _("Error writing lock file %s: %s"), lockfilename,
-		    strerror(errno));
+	statusline(ALERT, _("Error writing lock file %s: %s"), lockfilename,
+			strerror(errno));
 	goto free_and_fail;
     }
 
@@ -263,7 +264,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
     wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
     if (wroteamt < lockdatalen) {
-	statusline(HUSH, _("Error writing lock file %s: %s"),
+	statusline(ALERT, _("Error writing lock file %s: %s"),
 		lockfilename, ferror(filestream));
 	goto free_and_fail;
     }
@@ -273,7 +274,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 #endif
 
     if (fclose(filestream) == EOF) {
-	statusline(HUSH, _("Error writing lock file %s: %s"),
+	statusline(ALERT, _("Error writing lock file %s: %s"),
 		lockfilename, strerror(errno));
 	goto free_and_fail;
     }
@@ -293,7 +294,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 int delete_lockfile(const char *lockfilename)
 {
     if (unlink(lockfilename) < 0 && errno != ENOENT) {
-	statusline(HUSH, _("Error deleting lock file %s: %s"), lockfilename,
+	statusline(ALERT, _("Error deleting lock file %s: %s"), lockfilename,
 		  strerror(errno));
 	return -1;
     }
@@ -328,7 +329,7 @@ int do_lockfile(const char *filename)
 	int room, ans;
 
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
-	    statusline(HUSH, _("Error opening lock file %s: %s"),
+	    statusline(ALERT, _("Error opening lock file %s: %s"),
 			lockfilename, strerror(errno));
 	    goto free_the_name;
 	}
@@ -340,7 +341,7 @@ int do_lockfile(const char *filename)
 	} while (readamt > 0 && readtot < LOCKBUFSIZE);
 
 	if (readtot < 48) {
-	    statusline(HUSH, _("Error reading lock file %s: "
+	    statusline(ALERT, _("Error reading lock file %s: "
 			"Not enough data read"), lockfilename);
 	    free(lockbuf);
 	    goto free_the_name;
