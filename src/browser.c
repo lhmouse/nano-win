@@ -99,8 +99,6 @@ char *do_browser(char *path, DIR *dir)
     while (TRUE) {
 	struct stat st;
 	int i;
-	size_t fileline = selected / width;
-		/* The line number the selected file is on. */
 	char *new_path;
 		/* The path we switch to at the "Go to Directory"
 		 * prompt. */
@@ -146,7 +144,7 @@ char *do_browser(char *path, DIR *dir)
 			wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
 		/* longest is the width of each column.  There
 		 * are two spaces between each column. */
-		selected = (fileline / editwinrows) * (editwinrows * width) +
+		selected = selected - selected % (editwinrows * width) +
 				(mouse_y * width) + (mouse_x / (longest + 2));
 
 		/* If they clicked beyond the end of a row,
@@ -526,7 +524,7 @@ void browser_refresh(void)
 
     wmove(edit, 0, 0);
 
-    i = width * editwinrows * ((selected / width) / editwinrows);
+    i = selected - selected % (editwinrows * width);
 
     for (; i < filelist_len && line < editwinrows; i++) {
 	struct stat st;
