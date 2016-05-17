@@ -744,9 +744,9 @@ void findnextfile(const char *needle)
 	/* If the needle matches, we're done.  And if we're back at the file
 	 * where we started, it is the only occurrence. */
 	if (strstrwrapper(thename, needle, thename)) {
-	     if (looking_at == selected)
+	    if (looking_at == selected)
 		statusbar(_("This is the only occurrence"));
-	     break;
+	    break;
 	}
 
 	/* If we're back at the beginning and didn't find any match... */

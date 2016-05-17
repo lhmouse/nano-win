@@ -256,7 +256,7 @@ void color_update(void)
 	/* Now try and find a syntax that matches the magic string. */
 	if (magicstring != NULL) {
 	    for (sint = syntaxes; sint != NULL; sint = sint->next) {
-	        if (found_in_list(sint->magics, magicstring))
+		if (found_in_list(sint->magics, magicstring))
 		    break;
 	    }
 	}

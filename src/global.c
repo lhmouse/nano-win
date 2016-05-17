@@ -964,9 +964,9 @@ void shortcut_init(void)
 	N_("Go To Text"), IFSCHELP(nano_whereis_msg), BLANKAFTER, VIEW);
 
 #ifndef NANO_TINY
-     add_to_funcs(dos_format_void, MWRITEFILE,
+    add_to_funcs(dos_format_void, MWRITEFILE,
 	N_("DOS Format"), IFSCHELP(nano_dos_msg), TOGETHER, NOVIEW);
-     add_to_funcs(mac_format_void, MWRITEFILE,
+    add_to_funcs(mac_format_void, MWRITEFILE,
 	N_("Mac Format"), IFSCHELP(nano_mac_msg), TOGETHER, NOVIEW);
 
     /* If we're using restricted mode, the Append, Prepend, and Backup toggles

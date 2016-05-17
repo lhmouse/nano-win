@@ -728,7 +728,7 @@ void parse_colors(char *ptr, int rex_flags)
 	fgstr = ++ptr;
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
-	     break;
+	    break;
 
 	/* If the start regex was invalid, skip past the end regex
 	 * to stay in sync. */
@@ -889,10 +889,10 @@ static void check_vitals_mapped(void)
 		const sc *s = first_sc_for(inmenus[v], f->scfunc);
 		if (!s) {
 		    fprintf(stderr, _("Fatal error: no keys mapped for function "
-				     "\"%s\".  Exiting.\n"), f->desc);
+					"\"%s\".  Exiting.\n"), f->desc);
 		    fprintf(stderr, _("If needed, use nano with the -I option "
-				     "to adjust your nanorc settings.\n"));
-		     exit(1);
+					"to adjust your nanorc settings.\n"));
+		    exit(1);
 		}
 		break;
 	    }
@@ -1046,9 +1046,9 @@ void parse_rcfile(FILE *rcstream
 #endif
 	/* First handle unsetting. */
 	if (set == -1) {
-	     if (rcopts[i].flag != 0)
+	    if (rcopts[i].flag != 0)
 		UNSET(rcopts[i].flag);
-	     else
+	    else
 		rcfile_error(N_("Cannot unset option \"%s\""), rcopts[i].name);
 	    continue;
 	}

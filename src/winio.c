@@ -1306,7 +1306,7 @@ int get_control_kbinput(int kbinput)
 {
     int retval;
 
-     /* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
+    /* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
     if (kbinput == ' ' || kbinput == '2')
 	retval = NANO_CONTROL_SPACE;
     /* Ctrl-/ (Ctrl-7, Ctrl-_) */
@@ -1633,7 +1633,7 @@ const sc *get_shortcut(int *kbinput)
 		&& meta_key == (s->type == META)) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
-			     s->keystr, meta_key, currmenu, s->menus);
+				s->keystr, meta_key, currmenu, s->menus);
 #endif
 	    return s;
 	}
