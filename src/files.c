@@ -407,7 +407,6 @@ void stat_with_alloc(const char *filename, struct stat **pstat)
  * necessary, and then open and read the file, if applicable. */
 bool open_buffer(const char *filename, bool undoable)
 {
-    bool quiet = FALSE;
     bool new_buffer = (openfile == NULL
 #ifndef DISABLE_MULTIBUFFER
 	 || ISSET(MULTIBUFFER)
@@ -453,31 +452,27 @@ bool open_buffer(const char *filename, bool undoable)
     if (new_buffer) {
 	make_new_buffer();
 
-	if (!has_valid_path(realname))
-	    quiet = TRUE;
+	if (has_valid_path(realname)) {
 #ifndef NANO_TINY
-	else {
 	    if (ISSET(LOCKING) && filename[0] != '\0') {
-		int lockstatus = do_lockfile(realname);
-		if (lockstatus < 0) {
+		if (do_lockfile(realname) < 0) {
 #ifndef DISABLE_MULTIBUFFER
 		    if (openfile->next) {
-			close_buffer(TRUE);
+			close_buffer();
 			free(realname);
 			return FALSE;
 		    }
 #endif
-		} else if (lockstatus == 0)
-		    quiet = TRUE;
+		}
 	    }
-	}
 #endif /* !NANO_TINY */
+	}
     }
 
     /* If the filename isn't blank, and we are not in NOREAD_MODE,
      * open the file.  Otherwise, treat it as a new file. */
     rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
-		open_file(realname, new_buffer, quiet, &f) : -2;
+		open_file(realname, new_buffer, FALSE, &f) : -2;
 
     /* If we have a file, and we're loading into a new buffer, update
      * the filename. */
@@ -565,14 +560,13 @@ void display_buffer(void)
 #ifndef DISABLE_MULTIBUFFER
 /* Switch to a neighbouring file buffer; to the next if to_next is TRUE;
  * otherwise, to the previous one. */
-void switch_to_prevnext_buffer(bool to_next, bool quiet)
+void switch_to_prevnext_buffer(bool to_next)
 {
     assert(openfile != NULL);
 
     /* If only one file buffer is open, say so and get out. */
     if (openfile == openfile->next) {
-	if (!quiet)
-	    statusbar(_("No more open file buffers"));
+	statusbar(_("No more open file buffers"));
 	return;
     }
 
@@ -587,8 +581,7 @@ void switch_to_prevnext_buffer(bool to_next, bool quiet)
     display_buffer();
 
     /* Indicate the switch on the statusbar. */
-    if (!quiet)
-	statusline(HUSH, _("Switched to %s"),
+    statusline(HUSH, _("Switched to %s"),
 		((openfile->filename[0] == '\0') ?
 		_("New Buffer") : openfile->filename));
 
@@ -601,19 +594,19 @@ void switch_to_prevnext_buffer(bool to_next, bool quiet)
 /* Switch to the previous entry in the openfile filebuffer. */
 void switch_to_prev_buffer_void(void)
 {
-    switch_to_prevnext_buffer(FALSE, FALSE);
+    switch_to_prevnext_buffer(FALSE);
 }
 
 /* Switch to the next entry in the openfile filebuffer. */
 void switch_to_next_buffer_void(void)
 {
-    switch_to_prevnext_buffer(TRUE, FALSE);
+    switch_to_prevnext_buffer(TRUE);
 }
 
-/* Delete an entry from the openfile filebuffer, and switch to the one
- * after it.  Return TRUE on success, or FALSE if there are no more open
- * buffers.  quiet means not to print messages when switching buffers. */
-bool close_buffer(bool quiet)
+/* Delete an entry from the circular list of open files, and switch to the
+ * one after it.  Return TRUE on success, and FALSE if there are no other
+ * open buffers. */
+bool close_buffer(void)
 {
     assert(openfile != NULL);
 
@@ -628,7 +621,7 @@ bool close_buffer(bool quiet)
 #endif
 
     /* Switch to the next file buffer. */
-    switch_to_prevnext_buffer(TRUE, quiet);
+    switch_to_prevnext_buffer(TRUE);
 
     /* Close the file buffer we had open before. */
     unlink_opennode(openfile->prev);

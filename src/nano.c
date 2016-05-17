@@ -1138,7 +1138,7 @@ void close_and_go(void)
 #endif
 #ifndef DISABLE_MULTIBUFFER
     /* If there are no more open file buffers, jump off a cliff. */
-    if (!close_buffer(FALSE))
+    if (!close_buffer())
 #endif
 	finish();
 }

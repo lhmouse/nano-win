@@ -290,10 +290,9 @@ void replace_buffer(const char *filename);
 #endif
 void display_buffer(void);
 #ifndef DISABLE_MULTIBUFFER
-void switch_to_prevnext_buffer(bool next, bool quiet);
 void switch_to_prev_buffer_void(void);
 void switch_to_next_buffer_void(void);
-bool close_buffer(bool quiet);
+bool close_buffer(void);
 #endif
 filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode);
 void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable);
