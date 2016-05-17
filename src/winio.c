@@ -110,7 +110,7 @@ static sig_atomic_t sigwinch_counter_save = 0;
 void get_key_buffer(WINDOW *win)
 {
     int input;
-    size_t errcount;
+    size_t errcount = 0;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
@@ -121,31 +121,29 @@ void get_key_buffer(WINDOW *win)
     doupdate();
 
     /* Read in the first character using whatever mode we're in. */
-    errcount = 0;
-    if (nodelay_mode) {
-	if ((input = wgetch(win)) == ERR)
-	    return;
-    } else {
-	while ((input = wgetch(win)) == ERR) {
-#ifndef NANO_TINY
-	    /* Did we get SIGWINCH since we were last here? */
-	    if (sigwinch_counter != sigwinch_counter_save) {
-		sigwinch_counter_save = sigwinch_counter;
-		regenerate_screen();
-		input = KEY_WINCH;
-		break;
-	    } else
-#endif
-	    errcount++;
+    input = wgetch(win);
 
-	    /* If we've failed to get a character MAX_BUF_SIZE times in a
-	     * row, assume that the input source we were using is gone and
-	     * die gracefully.  We could check if errno is set to EIO
-	     * ("Input/output error") and die gracefully in that case, but
-	     * it's not always set properly.  Argh. */
-	    if (errcount == MAX_BUF_SIZE)
-		handle_hupterm(0);
+    if (input == ERR && nodelay_mode)
+	return;
+
+    while (input == ERR) {
+	/* If we've failed to get a character MAX_BUF_SIZE times in a row,
+	 * assume our input source is gone and die gracefully.  We could
+	 * check if errno is set to EIO ("Input/output error") and die in
+	 * that case, but it's not always set properly.  Argh. */
+	if (++errcount == MAX_BUF_SIZE)
+	    handle_hupterm(0);
+
+#ifndef NANO_TINY
+	/* Did we get a SIGWINCH since we were last here? */
+	if (sigwinch_counter != sigwinch_counter_save) {
+	    sigwinch_counter_save = sigwinch_counter;
+	    regenerate_screen();
+	    input = KEY_WINCH;
+	    break;
 	}
+#endif
+	input = wgetch(win);
     }
 
     /* Increment the length of the keystroke buffer, and save the value
