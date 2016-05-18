@@ -2458,7 +2458,7 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_loop(TRUE, current_save, &current_x_save, word);
 
 	    /* TRANSLATORS: Shown after fixing misspellings in one word. */
-	    statusbar("Next word...");
+	    statusbar(_("Next word..."));
 	    napms(400);
 	}
     }
