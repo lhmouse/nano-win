@@ -456,14 +456,13 @@ bool open_buffer(const char *filename, bool undoable)
 	if (has_valid_path(realname)) {
 #ifndef NANO_TINY
 	    if (ISSET(LOCKING) && filename[0] != '\0') {
+		/* When not overriding an existing lock, discard the buffer. */
 		if (do_lockfile(realname) < 0) {
 #ifndef DISABLE_MULTIBUFFER
-		    if (openfile->next) {
-			close_buffer();
-			free(realname);
-			return FALSE;
-		    }
+		    close_buffer();
 #endif
+		    free(realname);
+		    return FALSE;
 		}
 	    }
 #endif /* !NANO_TINY */
