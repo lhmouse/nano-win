@@ -42,7 +42,18 @@ static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */
 
 #ifndef NANO_TINY
-static sig_atomic_t sigwinch_counter_save = 0;
+static sig_atomic_t last_sigwinch_counter = 0;
+
+/* Did we receive a SIGWINCH since we were last called? */
+bool the_window_resized(void)
+{
+    if (sigwinch_counter == last_sigwinch_counter)
+	return FALSE;
+
+    last_sigwinch_counter = sigwinch_counter;
+    regenerate_screen();
+    return TRUE;
+}
 #endif
 
 /* Control character compatibility:
@@ -123,6 +134,11 @@ void get_key_buffer(WINDOW *win)
     /* Read in the first character using whatever mode we're in. */
     input = wgetch(win);
 
+#ifndef NANO_TINY
+    if (the_window_resized())
+	input = KEY_WINCH;
+#endif
+
     if (input == ERR && nodelay_mode)
 	return;
 
@@ -135,10 +151,7 @@ void get_key_buffer(WINDOW *win)
 	    handle_hupterm(0);
 
 #ifndef NANO_TINY
-	/* Did we get a SIGWINCH since we were last here? */
-	if (sigwinch_counter != sigwinch_counter_save) {
-	    sigwinch_counter_save = sigwinch_counter;
-	    regenerate_screen();
+	if (the_window_resized()) {
 	    input = KEY_WINCH;
 	    break;
 	}
