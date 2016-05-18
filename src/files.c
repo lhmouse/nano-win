@@ -325,7 +325,7 @@ int do_lockfile(const char *filename)
     if (stat(lockfilename, &fileinfo) != -1) {
 	ssize_t readtot = 0;
 	ssize_t readamt = 0;
-	char *lockbuf, *question, *promptstr;
+	char *lockbuf, *question, *postedname, *promptstr;
 	int room, ans;
 
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
@@ -361,15 +361,23 @@ int do_lockfile(const char *filename)
 	question = _("File %s is being edited (by %s with %s, PID %d); continue?");
 	room = COLS - strlenpt(question) - strlenpt(lockuser) - strlenpt(lockprog) + 3;
 	if (room < 4)
-	    namecopy = mallocstrcpy(namecopy, "_");
-	else if (room < strlenpt(filename))
-	    sprintf(namecopy, "...%s", display_string(filename,
-				strlenpt(filename) - room + 3, room, FALSE));
+	    postedname = mallocstrcpy(NULL, "_");
+	else if (room < strlenpt(filename)) {
+	    char *fragment = display_string(filename,
+				strlenpt(filename) - room + 3, room, FALSE);
+	    postedname = charalloc(strlen(fragment) + 4);
+	    strcpy(postedname, "...");
+	    strcat(postedname, fragment);
+	    free(fragment);
+	} else
+	    postedname = mallocstrcpy(NULL, filename);
 
 	/* Allow extra space for username (14), program name (8), PID (3),
 	 * and terminating \0 (1), minus the %s (2) for the file name. */
-	promptstr = charalloc(strlen(question) + 24 + strlen(namecopy));
-	sprintf(promptstr, question, namecopy, lockuser, lockprog, lockpid);
+	promptstr = charalloc(strlen(question) + 24 + strlen(postedname));
+	sprintf(promptstr, question, postedname, lockuser, lockprog, lockpid);
+	free(postedname);
+
 	ans = do_yesno_prompt(FALSE, promptstr);
 	free(promptstr);
 
