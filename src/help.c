@@ -118,7 +118,7 @@ void do_help(void)
 
 	old_line = line;
 
-	alerted = FALSE;
+	lastmessage = HUSH;
 
 	kbinput = get_kbinput(edit);
 

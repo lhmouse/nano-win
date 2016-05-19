@@ -105,7 +105,7 @@ char *do_browser(char *path, DIR *dir)
 
 	/* Make sure that the cursor is off. */
 	curs_set(0);
-	alerted = FALSE;
+	lastmessage = HUSH;
 
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH) {

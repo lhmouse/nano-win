@@ -39,8 +39,9 @@ bool func_key;
 	/* Whether the current keystroke is an extended keypad value. */
 bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
-bool alerted = FALSE;
-	/* Whether the next important message should wait a bit. */
+
+message_type lastmessage = HUSH;
+	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
 #ifndef NANO_TINY
 int controlleft = CONTROL_LEFT;

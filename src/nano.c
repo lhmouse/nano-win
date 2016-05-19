@@ -2657,7 +2657,7 @@ int main(int argc, char **argv)
     while (TRUE) {
 	currmenu = MMAIN;
 	focusing = TRUE;
-	alerted = FALSE;
+	lastmessage = HUSH;
 
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor

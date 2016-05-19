@@ -56,10 +56,6 @@
 /* Suppress warnings for __attribute__((warn_unused_result)). */
 #define IGNORE_CALL_RESULT(call) do { if (call) {} } while(0)
 
-/* Whether to beep when showing a statusbar message. */
-#define ALERT  TRUE
-#define HUSH  FALSE
-
 /* Macros for flags, indexing each bit in a small array. */
 #define FLAGS(flag) flags[((flag) / (sizeof(unsigned) * 8))]
 #define FLAGMASK(flag) (1 << ((flag) % (sizeof(unsigned) * 8)))
@@ -170,6 +166,10 @@
 typedef enum {
     NIX_FILE, DOS_FILE, MAC_FILE
 } file_format;
+
+typedef enum {
+    HUSH, MILD, ALERT
+} message_type;
 
 typedef enum {
     OVERWRITE, APPEND, PREPEND

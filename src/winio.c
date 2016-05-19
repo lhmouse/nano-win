@@ -1121,7 +1121,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	     * (from the keyboard) that nano does not know about. */
 	    statusline(ALERT, _("Unknown sequence"));
 	    suppress_cursorpos = FALSE;
-	    alerted = FALSE;
+	    lastmessage = HUSH;
 	    if (currmenu == MMAIN) {
 		reset_cursor();
 		curs_set(1);
@@ -2055,7 +2055,7 @@ void statusbar(const char *msg)
 /* Display a message on the statusbar, and set suppress_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */
-void statusline(bool sound, const char *msg, ...)
+void statusline(message_type importance, const char *msg, ...)
 {
     va_list ap;
     char *bar, *foo;
@@ -2076,18 +2076,19 @@ void statusline(bool sound, const char *msg, ...)
 	return;
     }
 
-    /* If there already was an important message, ignore a normal one and
-     * delay another important one, to allow the earlier one to be noticed. */
-    if (alerted) {
-	if (sound == HUSH)
-	    return;
-	napms(1200);
-    }
+    /* If there already was an alert message, ignore lesser ones. */
+    if ((lastmessage == ALERT && importance != ALERT) ||
+		(lastmessage == MILD && importance == HUSH))
+	return;
 
-    if (sound == ALERT) {
+    /* Delay another alert message, to allow an earlier one to be noticed. */
+    if (lastmessage == ALERT)
+	napms(1200);
+
+    if (importance == ALERT)
 	beep();
-	alerted = TRUE;
-    }
+
+    lastmessage = importance;
 
     /* Turn the cursor off while fiddling in the statusbar. */
     curs_set(0);
