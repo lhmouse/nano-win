@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "proto.h"
+#include "revision.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -918,7 +919,7 @@ void usage(void)
 void version(void)
 {
 #ifdef REVISION
-    printf(" nano from git, commit %s (after %s)\n", REVISION, VERSION);
+    printf(" nano from git, %s\n", REVISION);
 #else
     printf(_(" nano, version %s\n"), VERSION);
 #endif

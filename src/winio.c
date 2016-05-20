@@ -21,12 +21,19 @@
  **************************************************************************/
 
 #include "proto.h"
+#include "revision.h"
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+
+#ifdef REVISION
+#define BRANDING REVISION
+#else
+#define BRANDING PACKAGE_STRING
+#endif
 
 static int *key_buffer = NULL;
 	/* The keystroke buffer, containing all the keystrokes we
