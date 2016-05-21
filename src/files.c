@@ -1801,9 +1801,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
      * aren't appending, prepending, or writing a selection, we backup
      * only if the file has not been modified by someone else since nano
      * opened it. */
-    if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append != OVERWRITE ||
-		openfile->mark_set) || (openfile->current_stat &&
-		openfile->current_stat->st_mtime == st.st_mtime))) {
+    if (ISSET(BACKUP_FILE) && !tmp && realexists && openfile->current_stat &&
+		(append != OVERWRITE || openfile->mark_set ||
+		openfile->current_stat->st_mtime == st.st_mtime)) {
 	int backup_fd;
 	FILE *backup_file;
 	char *backupname;
