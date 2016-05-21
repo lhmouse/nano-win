@@ -224,7 +224,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
      * failed, this will return NULL. */
     filestream = fdopen(fd, "wb");
 
-    if (fd < 0 || filestream == NULL) {
+    if (filestream == NULL) {
 	statusline(MILD, _("Error writing lock file %s: %s"), lockfilename,
 			strerror(errno));
 	goto free_the_data;
