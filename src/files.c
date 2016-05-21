@@ -179,15 +179,15 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     ssize_t lockdatalen = 1024;
     ssize_t wroteamt;
 
-    /* Run things which might fail first before we try and blow away the
-     * old state. */
+    mypid = getpid();
     myuid = geteuid();
+
+    /* First run things that might fail before blowing away the old state. */
     if ((mypwuid = getpwuid(myuid)) == NULL) {
 	statusline(MILD, _("Couldn't determine my identity for lock file "
 				"(getpwuid() failed)"));
 	goto free_the_data;
     }
-    mypid = getpid();
 
     if (gethostname(myhostname, 31) < 0) {
 	if (errno == ENAMETOOLONG)
@@ -199,7 +199,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	}
     }
 
-    /* Check if the lock exists before we try to delete it...*/
+    /* If the lockfile exists, try to delete it. */
     if (stat(lockfilename, &fileinfo) != -1)
 	if (delete_lockfile(lockfilename) < 0)
 	    goto free_the_data;
@@ -209,19 +209,16 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     else
 	cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
 
+    /* Try to create the lockfile. */
     fd = open(lockfilename, cflags,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-
-    /* Maybe we just don't have write access.  Print an error message
-     * and continue. */
     if (fd < 0) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
 			lockfilename, strerror(errno));
 	goto free_the_data;
     }
 
-    /* Now we've got a safe file stream.  If the previous open() call
-     * failed, this will return NULL. */
+    /* Try to associate a stream with the now open lockfile. */
     filestream = fdopen(fd, "wb");
 
     if (filestream == NULL) {
@@ -230,8 +227,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	goto free_the_data;
     }
 
-    /* Okay, so at the moment we're following this state for how to
-     * store the lock data:
+    /* This is the lock data we will store:
      *
      * byte 0        - 0x62
      * byte 1        - 0x30
