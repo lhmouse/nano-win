@@ -165,8 +165,7 @@ void set_modified(void)
  *     origfilename: name of the file the lock is for
  *     modified: whether to set the modified bit in the file
  *
- * Returns: 1 on success, 0 on failure (but continue loading), -1 on
- * failure and abort. */
+ * Returns 1 on success, and 0 on failure (but continue anyway). */
 int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
 {
     int cflags, fd;
@@ -186,7 +185,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if ((mypwuid = getpwuid(myuid)) == NULL) {
 	statusline(MILD, _("Couldn't determine my identity for lock file "
 				"(getpwuid() failed)"));
-	goto free_and_fail;
+	goto free_the_data;
     }
     mypid = getpid();
 
@@ -196,14 +195,14 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	else {
 	    statusline(MILD, _("Couldn't determine hostname for lock file: %s"),
 			strerror(errno));
-	    goto free_and_fail;
+	    goto free_the_data;
 	}
     }
 
     /* Check if the lock exists before we try to delete it...*/
     if (stat(lockfilename, &fileinfo) != -1)
 	if (delete_lockfile(lockfilename) < 0)
-	    goto free_and_fail;
+	    goto free_the_data;
 
     if (ISSET(INSECURE_BACKUP))
 	cflags = O_WRONLY | O_CREAT | O_APPEND;
@@ -218,8 +217,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (fd < 0) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
 			lockfilename, strerror(errno));
-	free(lockdata);
-	return 0;
+	goto free_the_data;
     }
 
     /* Now we've got a safe file stream.  If the previous open() call
@@ -229,7 +227,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (fd < 0 || filestream == NULL) {
 	statusline(MILD, _("Error writing lock file %s: %s"), lockfilename,
 			strerror(errno));
-	goto free_and_fail;
+	goto free_the_data;
     }
 
     /* Okay, so at the moment we're following this state for how to
@@ -266,7 +264,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (wroteamt < lockdatalen) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
 		lockfilename, ferror(filestream));
-	goto free_and_fail;
+	goto free_the_data;
     }
 
 #ifdef DEBUG
@@ -276,7 +274,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     if (fclose(filestream) == EOF) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
 		lockfilename, strerror(errno));
-	goto free_and_fail;
+	goto free_the_data;
     }
 
     openfile->lock_filename = (char *) lockfilename;
@@ -284,9 +282,9 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     free(lockdata);
     return 1;
 
-  free_and_fail:
+  free_the_data:
     free(lockdata);
-    return -1;
+    return 0;
 }
 
 /* Less exciting, delete the lockfile.  Return -1 if unsuccessful and
