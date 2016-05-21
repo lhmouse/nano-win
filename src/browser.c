@@ -385,7 +385,12 @@ char *do_browse_from(const char *inpath)
 	    path = charalloc(PATH_MAX + 1);
 	    path = getcwd(path, PATH_MAX + 1);
 
-	    if (path != NULL)
+	    if (path == NULL) {
+		statusline(MILD, "The working directory has disappeared");
+		beep();
+		napms(1200);
+		return NULL;
+	   } else
 		align(&path);
 	}
     }
