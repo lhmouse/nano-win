@@ -380,12 +380,13 @@ char *do_browse_from(const char *inpath)
 	path = mallocstrassn(path, striponedir(path));
 
 	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
-	    free(path);
+	    char * currentdir = charalloc(PATH_MAX + 1);
 
-	    path = charalloc(PATH_MAX + 1);
-	    path = getcwd(path, PATH_MAX + 1);
+	    free(path);
+	    path = getcwd(currentdir, PATH_MAX + 1);
 
 	    if (path == NULL) {
+		free(currentdir);
 		statusline(MILD, "The working directory has disappeared");
 		beep();
 		napms(1200);
