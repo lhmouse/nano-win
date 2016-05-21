@@ -1398,7 +1398,7 @@ char *get_full_path(const char *origpath)
 
     while (d_here == NULL && attempts < 20) {
 	IGNORE_CALL_RESULT(chdir(".."));
-	d_here = getcwd(NULL, PATH_MAX + 1);
+	d_here = getcwd(currentdir, PATH_MAX + 1);
 	attempts++;
     }
 
