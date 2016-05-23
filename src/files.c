@@ -2243,11 +2243,10 @@ int do_writeout(bool exiting)
 	/* Whether it's okay to save the file under a different name. */
     bool result = FALSE;
 
-    if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
-	result = write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE);
-
-	if (result)
-	    return 1;	/* The write succeeded. */
+    if (exiting && ISSET(TEMP_FILE) && openfile->filename[0] != '\0') {
+	if (write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE))
+	    return 1;
+	/* If writing the file failed, go on to prompt for a new name. */
     }
 
     given = mallocstrcpy(NULL,
