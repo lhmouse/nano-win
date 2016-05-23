@@ -746,7 +746,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     assert(openfile->fileage != NULL && openfile->current != NULL);
 
     buf = charalloc(bufx);
-    buf[0] = '\0';
 
 #ifndef NANO_TINY
     if (undoable)
