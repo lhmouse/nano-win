@@ -1172,19 +1172,17 @@ void do_insertfile(
 
 #ifndef DISABLE_BROWSER
 	    if (func == to_files_void) {
-		char *tmp = do_browse_from(answer);
+		char *chosen = do_browse_from(answer);
 
-		if (tmp == NULL)
+		if (chosen == NULL)
 		    continue;
 
 		/* We have a file now.  Indicate this. */
 		free(answer);
-		answer = tmp;
-
+		answer = chosen;
 		i = 0;
 	    }
 #endif
-
 	    /* If we don't have a file yet, go back to the statusbar prompt. */
 	    if (i != 0
 #ifndef DISABLE_MULTIBUFFER
@@ -2328,14 +2326,14 @@ int do_writeout(bool exiting)
 
 #ifndef DISABLE_BROWSER
 	    if (func == to_files_void) {
-		char *tmp = do_browse_from(answer);
+		char *chosen = do_browse_from(answer);
 
-		if (tmp == NULL)
+		if (chosen == NULL)
 		    continue;
 
 		/* We have a file now.  Indicate this. */
 		free(answer);
-		answer = tmp;
+		answer = chosen;
 	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_TINY
