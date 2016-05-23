@@ -1085,7 +1085,7 @@ void do_insertfile(
 {
     int i;
     const char *msg;
-    char *ans = mallocstrcpy(NULL, "");
+    char *given = mallocstrcpy(NULL, "");
 	/* The last answer the user typed at the statusbar prompt. */
     filestruct *edittop_save = openfile->edittop;
     ssize_t was_current_lineno = openfile->current->lineno;
@@ -1125,7 +1125,7 @@ void do_insertfile(
 #ifndef NANO_TINY
 		execute ? MEXTCMD :
 #endif
-		MINSERTFILE, ans,
+		MINSERTFILE, given,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
@@ -1152,7 +1152,7 @@ void do_insertfile(
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 	    functionptrtype func = func_from_key(&i);
 #endif
-	    ans = mallocstrcpy(ans, answer);
+	    given = mallocstrcpy(given, answer);
 
 #ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
@@ -1341,7 +1341,8 @@ void do_insertfile(
 	    break;
 	}
     }
-    free(ans);
+
+    free(given);
 }
 
 /* Insert a file into a new buffer or the current buffer, depending on
@@ -2233,8 +2234,8 @@ int do_writeout(bool exiting)
 {
     int i;
     append_type append = OVERWRITE;
-    char *ans;
-	/* The last answer the user typed at the statusbar prompt. */
+    char *given;
+	/* The filename we offer, or what the user typed so far. */
 #ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
@@ -2249,7 +2250,7 @@ int do_writeout(bool exiting)
 	    return 1;	/* The write succeeded. */
     }
 
-    ans = mallocstrcpy(NULL,
+    given = mallocstrcpy(NULL,
 #ifndef NANO_TINY
 	(!exiting && openfile->mark_set) ? "" :
 #endif
@@ -2288,7 +2289,7 @@ int do_writeout(bool exiting)
 #ifndef DISABLE_TABCOMP
 		TRUE,
 #endif
-		MWRITEFILE, ans,
+		MWRITEFILE, given,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif
@@ -2317,13 +2318,13 @@ int do_writeout(bool exiting)
 		    i = 0;
 
 		if (i == 0) {
-		    free(ans);
+		    free(given);
 		    return 2;	/* Yes, discard the buffer. */
 		} else
 		    continue;	/* Go back to the filename prompt. */
 	    }
 
-	    ans = mallocstrcpy(ans, answer);
+	    given = mallocstrcpy(given, answer);
 
 #ifndef DISABLE_BROWSER
 	    if (func == to_files_void) {
@@ -2480,7 +2481,7 @@ int do_writeout(bool exiting)
 	}
     }
 
-    free(ans);
+    free(given);
 
     return result ? 1 : 0;
 }
