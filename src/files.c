@@ -51,6 +51,8 @@ bool has_valid_path(const char *filename)
 	statusline(ALERT, _("Path '%s' is not a directory"), parentdir);
     else if (access(parentdir, X_OK) == -1)
 	statusline(ALERT, _("Path '%s' is not accessible"), parentdir);
+    else if (ISSET(LOCKING) && access(parentdir, W_OK) == -1)
+	statusline(MILD, _("Directory '%s' is not writable"), parentdir);
     else
 	validity = TRUE;
 
