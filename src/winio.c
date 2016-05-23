@@ -36,8 +36,7 @@ static size_t key_buffer_len = 0;
 static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
 static bool suppress_cursorpos = FALSE;
-	/* Should we temporarily disable constant cursor position
-	 * display? */
+	/* Should we skip constant position display for one keystroke? */
 static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */
 
@@ -2118,12 +2117,11 @@ void statusline(message_type importance, const char *msg, ...)
     wattroff(bottomwin, A_BOLD);
     wattroff(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
 
+    /* Push the message to the screen straightaway. */
     wnoutrefresh(bottomwin);
+    doupdate();
 
     suppress_cursorpos = TRUE;
-
-    /* Push the message to the screen straightaway. */
-    doupdate();
 
     /* If we're doing quick statusbar blanking, blank it after just one
      * keystroke.  Otherwise, blank it after twenty-six keystrokes, as

@@ -2232,15 +2232,15 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 int do_writeout(bool exiting)
 {
     int i;
+    bool result = FALSE;
     append_type append = OVERWRITE;
     char *given;
 	/* The filename we offer, or what the user typed so far. */
+    bool maychange = FALSE;
+	/* Whether it's okay to save the file under a different name. */
 #ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
-    bool maychange = FALSE;
-	/* Whether it's okay to save the file under a different name. */
-    bool result = FALSE;
 
     if (exiting && ISSET(TEMP_FILE) && openfile->filename[0] != '\0') {
 	if (write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE))

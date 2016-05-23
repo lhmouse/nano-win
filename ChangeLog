@@ -1173,7 +1173,7 @@ GNU nano 2.4.2 - 2015.07.05
 
 2015-06-11  Benno Schulenberg  <bensberg@justemail.net>
 	* src/winio.c (get_key_buffer): Add some debugging code to make it
-	easy to see what codes a key stroke produces.
+	easy to see what codes a keystroke produces.
 
 2015-06-07  Benno Schulenberg  <bensberg@justemail.net>
 	* doc/texinfo/nano.texi: Show the node with the command-line options
