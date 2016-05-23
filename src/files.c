@@ -283,8 +283,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     return 0;
 }
 
-/* Less exciting, delete the lockfile.  Return -1 if unsuccessful and
- * complain on the statusbar, 1 otherwise. */
+/* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
 int delete_lockfile(const char *lockfilename)
 {
     if (unlink(lockfilename) < 0 && errno != ENOENT) {
@@ -297,8 +296,7 @@ int delete_lockfile(const char *lockfilename)
 
 /* Deal with lockfiles.  Return -1 on refusing to override the lockfile,
  * and 1 on successfully creating it; 0 means we were not successful in
- * creating the lockfile but we should continue to load the file and
- * complain to the user. */
+ * creating the lockfile but we should continue to load the file. */
 int do_lockfile(const char *filename)
 {
     char *namecopy = (char *) mallocstrcpy(NULL, filename);
@@ -406,8 +404,9 @@ void stat_with_alloc(const char *filename, struct stat **pstat)
 }
 #endif /* !NANO_TINY */
 
-/* If it's not "", filename is a file to open.  We make a new buffer, if
- * necessary, and then open and read the file, if applicable. */
+/* This does one of three things.  If the filename is "", just create a new
+ * empty buffer.  Otherwise, read the given file into the existing buffer,
+ * or into a new buffer when MULTIBUFFER is set or there is no buffer yet. */
 bool open_buffer(const char *filename, bool undoable)
 {
     bool new_buffer = (openfile == NULL
@@ -435,8 +434,8 @@ bool open_buffer(const char *filename, bool undoable)
 
     realname = real_dir_from_tilde(filename);
 
-    /* When the specified filename is not empty, and the thing exists,
-     * verify that it is a normal file. */
+    /* When the specified filename is not empty, and the corresponding
+     * file exists, verify that it is a normal file. */
     if (strcmp(filename, "") != 0) {
 	struct stat fileinfo;
 
@@ -636,11 +635,10 @@ bool close_buffer(void)
 }
 #endif /* !DISABLE_MULTIBUFFER */
 
-/* A bit of a copy and paste from open_file(), is_file_writable() just
- * checks whether the file is appendable as a quick permissions check,
- * and we tend to err on the side of permissiveness (reporting TRUE when
- * it might be wrong) to not fluster users editing on odd filesystems by
- * printing incorrect warnings. */
+/* Do a quick permissions check by verifying whether the file is appendable.
+ * Err on the side of permissiveness (reporting TRUE when it might be wrong)
+ * to not fluster users editing on odd filesystems by printing incorrect
+ * warnings. */
 int is_file_writable(const char *filename)
 {
     struct stat fileinfo, fileinfo2;
@@ -1009,8 +1007,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 		S_ISBLK(fileinfo.st_mode)) {
 	free(full_filename);
 
-	/* Don't open directories, character files, or block files.
-	 * Sorry, /dev/sndstat! */
+	/* Don't open directories, character files, or block files. */
 	statusline(ALERT, S_ISDIR(fileinfo.st_mode) ?
 		_("\"%s\" is a directory") :
 		_("\"%s\" is a device file"), filename);
