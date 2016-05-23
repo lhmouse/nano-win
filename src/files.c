@@ -318,7 +318,7 @@ int do_lockfile(const char *filename)
 	ssize_t readtot = 0;
 	ssize_t readamt = 0;
 	char *lockbuf, *question, *postedname, *promptstr;
-	int room, ans;
+	int room, response;
 
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 	    statusline(MILD, _("Error opening lock file %s: %s"),
@@ -370,10 +370,10 @@ int do_lockfile(const char *filename)
 	sprintf(promptstr, question, postedname, lockuser, lockprog, lockpid);
 	free(postedname);
 
-	ans = do_yesno_prompt(FALSE, promptstr);
+	response = do_yesno_prompt(FALSE, promptstr);
 	free(promptstr);
 
-	if (ans < 1) {
+	if (response < 1) {
 	    blank_statusbar();
 	    goto free_the_name;
 	}
@@ -645,7 +645,7 @@ int is_file_writable(const char *filename)
     int fd;
     FILE *f;
     char *full_filename;
-    bool ans = TRUE;
+    bool result = TRUE;
 
     if (ISSET(VIEW_MODE))
 	return TRUE;
@@ -664,13 +664,14 @@ int is_file_writable(const char *filename)
     if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
 		S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1 ||
 		(f = fdopen(fd, "a")) == NULL)
-	ans = FALSE;
+	result = FALSE;
     else
 	fclose(f);
-    close(fd);
 
+    close(fd);
     free(full_filename);
-    return ans;
+
+    return result;
 }
 
 /* Make a new line of text from the given buf, which is of length buf_len.
