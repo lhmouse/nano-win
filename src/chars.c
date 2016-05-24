@@ -542,7 +542,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *mbchar1, *mbchar2;
 	wchar_t wc1, wc2;
 
 	if (s1 == s2)
@@ -550,34 +549,25 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	assert(s1 != NULL && s2 != NULL);
 
-	mbchar1 = charalloc(MB_CUR_MAX);
-	mbchar2 = charalloc(MB_CUR_MAX);
-
 	for (; *s1 != '\0' && *s2 != '\0' && n > 0;
 		s1 += move_mbright(s1, 0), s2 += move_mbright(s2, 0), n--) {
 	    bool bad1 = FALSE, bad2 = FALSE;
 
-	    int len1 = parse_mbchar(s1, mbchar1, NULL);
-	    int len2 = parse_mbchar(s2, mbchar2, NULL);
-
-	    if (mbtowc(&wc1, mbchar1, len1) < 0) {
+	    if (mbtowc(&wc1, s1, MB_CUR_MAX) < 0) {
 		mbtowc_reset();
-		wc1 = (unsigned char)*mbchar1;
+		wc1 = (unsigned char)*s1;
 		bad1 = TRUE;
 	    }
 
-	    if (mbtowc(&wc2, mbchar2, len2) < 0) {
+	    if (mbtowc(&wc2, s2, MB_CUR_MAX) < 0) {
 		mbtowc_reset();
-		wc2 = (unsigned char)*mbchar2;
+		wc2 = (unsigned char)*s2;
 		bad2 = TRUE;
 	    }
 
 	    if (bad1 != bad2 || towlower(wc1) != towlower(wc2))
 		break;
 	}
-
-	free(mbchar1);
-	free(mbchar2);
 
 	return (n > 0) ? towlower(wc1) - towlower(wc2) : 0;
     } else
