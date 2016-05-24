@@ -1651,16 +1651,17 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp)
  * messed up and I'm blanket allowing insecure file writing operations'. */
 int prompt_failed_backupwrite(const char *filename)
 {
-    static int i;
+    static int response;
     static char *prevfile = NULL; /* What was the last file we were
 				   * passed so we don't keep asking
 				   * this?  Though maybe we should... */
     if (prevfile == NULL || strcmp(filename, prevfile)) {
-	i = do_yesno_prompt(FALSE,
-		_("Failed to write backup file, continue saving? (Say N if unsure) "));
+	response = do_yesno_prompt(FALSE, _("Failed to write backup file; "
+			"continue saving? (Say N if unsure.) "));
 	prevfile = mallocstrcpy(prevfile, filename);
     }
-    return i;
+
+    return response;
 }
 
 void init_backup_dir(void)
