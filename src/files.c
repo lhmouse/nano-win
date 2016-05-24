@@ -2422,9 +2422,8 @@ int do_writeout(bool exiting)
 			if (exiting || !openfile->mark_set)
 #endif
 			{
-			    i = do_yesno_prompt(FALSE,
-					_("Save file under DIFFERENT NAME? "));
-			    if (i < 1)
+			    if (do_yesno_prompt(FALSE, _("Save file under "
+					"DIFFERENT NAME? ")) < 1)
 				continue;
 			    maychange = TRUE;
 			}
@@ -2451,10 +2450,9 @@ int do_writeout(bool exiting)
 			(openfile->current_stat->st_mtime < st.st_mtime ||
 			openfile->current_stat->st_dev != st.st_dev ||
 			openfile->current_stat->st_ino != st.st_ino)) {
-		    i = do_yesno_prompt(FALSE,
-				_("File was modified since you opened it;"
-				  " continue saving? "));
-		    if (i == 0 || i == -1)
+
+		    if (do_yesno_prompt(FALSE, _("File was modified since "
+				"you opened it; continue saving? ")) < 1)
 			continue;
 		}
 #endif
