@@ -55,17 +55,17 @@ bool using_utf8(void)
 }
 #endif /* ENABLE_UTF8 */
 
-/* Concatenate two allocated strings. */
+/* Concatenate two allocated strings, and free the second. */
 char *addstrings(char* str1, size_t len1, char* str2, size_t len2)
 {
     str1 = charealloc(str1, len1 + len2 + 1);
     str1[len1] = '\0';
+
     strncat(&str1[len1], str2, len2);
     free(str2);
 
     return str1;
 }
-
 
 #ifndef HAVE_ISBLANK
 /* This function is equivalent to isblank(). */
@@ -83,8 +83,7 @@ bool niswblank(wchar_t wc)
 }
 #endif
 
-/* Return TRUE if the value of c is in byte range, and FALSE
- * otherwise. */
+/* Return TRUE if the value of c is in byte range, and FALSE otherwise. */
 bool is_byte(int c)
 {
     return ((unsigned int)c == (unsigned char)c);
@@ -274,13 +273,12 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 		*crep_len = 0;
 	    }
 	}
-    } else {
+    } else
 #endif
+    {
 	*crep_len = 1;
 	*crep = control_rep(*c);
-#ifdef ENABLE_UTF8
     }
-#endif
 
     return crep;
 }
@@ -309,13 +307,12 @@ char *mbrep(const char *c, char *crep, int *crep_len)
 		*crep_len = 0;
 	    }
 	}
-    } else {
+    } else
 #endif
+    {
 	*crep_len = 1;
 	*crep = *c;
-#ifdef ENABLE_UTF8
     }
-#endif
 
     return crep;
 }
@@ -379,13 +376,12 @@ char *make_mbchar(long chr, int *chr_mb_len)
 	    wctomb_reset();
 	    *chr_mb_len = 0;
 	}
-    } else {
+    } else
 #endif
+    {
 	*chr_mb_len = 1;
 	chr_mb = mallocstrncpy(NULL, (char *)&chr, 1);
-#ifdef ENABLE_UTF8
     }
-#endif
 
     return chr_mb;
 }
@@ -448,8 +444,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	    } else
 		*col += mbwidth(buf);
 	}
-    } else {
+    } else
 #endif
+    {
 	/* Get the number of bytes in the byte character. */
 	buf_mb_len = 1;
 
@@ -472,9 +469,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	    else
 		(*col)++;
 	}
-#ifdef ENABLE_UTF8
     }
-#endif
 
     return buf_mb_len;
 }
@@ -542,8 +537,7 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
 }
 #endif
 
-/* This function is equivalent to strncasecmp() for multibyte
- * strings. */
+/* This function is equivalent to strncasecmp() for multibyte strings. */
 int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef ENABLE_UTF8
@@ -706,8 +700,7 @@ char *revstrcasestr(const char *haystack, const char *needle, const char
 }
 
 /* This function is equivalent to strcasestr() for multibyte strings,
- * except in that it scans the string in reverse, starting at
- * rev_start. */
+ * except in that it scans the string in reverse, starting at rev_start. */
 char *mbrevstrcasestr(const char *haystack, const char *needle, const
 	char *rev_start)
 {
@@ -875,8 +868,7 @@ char *revstrpbrk(const char *s, const char *accept, const char
 }
 
 /* This function is equivalent to strpbrk() for multibyte strings,
- * except in that it scans the string in reverse, starting at
- * rev_start. */
+ * except in that it scans the string in reverse, starting at rev_start. */
 char *mbrevstrpbrk(const char *s, const char *accept, const char
 	*rev_start)
 {
