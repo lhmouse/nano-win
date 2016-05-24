@@ -542,47 +542,44 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char *s1_mb, *s2_mb;
-	wchar_t ws1, ws2;
+	char *mbchar1, *mbchar2;
+	wchar_t wc1, wc2;
 
 	if (s1 == s2)
 	    return 0;
 
 	assert(s1 != NULL && s2 != NULL);
 
-	s1_mb = charalloc(MB_CUR_MAX);
-	s2_mb = charalloc(MB_CUR_MAX);
+	mbchar1 = charalloc(MB_CUR_MAX);
+	mbchar2 = charalloc(MB_CUR_MAX);
 
-	for (; *s1 != '\0' && *s2 != '\0' && n > 0; s1 +=
-		move_mbright(s1, 0), s2 += move_mbright(s2, 0), n--) {
+	for (; *s1 != '\0' && *s2 != '\0' && n > 0;
+		s1 += move_mbright(s1, 0), s2 += move_mbright(s2, 0), n--) {
 	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
-	    int s1_mb_len, s2_mb_len;
 
-	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL);
+	    int len1 = parse_mbchar(s1, mbchar1, NULL);
+	    int len2 = parse_mbchar(s2, mbchar2, NULL);
 
-	    if (mbtowc(&ws1, s1_mb, s1_mb_len) < 0) {
+	    if (mbtowc(&wc1, mbchar1, len1) < 0) {
 		mbtowc_reset();
-		ws1 = (unsigned char)*s1_mb;
+		wc1 = (unsigned char)*mbchar1;
 		bad_s1_mb = TRUE;
 	    }
 
-	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL);
-
-	    if (mbtowc(&ws2, s2_mb, s2_mb_len) < 0) {
+	    if (mbtowc(&wc2, mbchar2, len2) < 0) {
 		mbtowc_reset();
-		ws2 = (unsigned char)*s2_mb;
+		wc2 = (unsigned char)*mbchar2;
 		bad_s2_mb = TRUE;
 	    }
 
-	    if (bad_s1_mb != bad_s2_mb || towlower(ws1) !=
-		towlower(ws2))
+	    if (bad_s1_mb != bad_s2_mb || towlower(wc1) != towlower(wc2))
 		break;
 	}
 
-	free(s1_mb);
-	free(s2_mb);
+	free(mbchar1);
+	free(mbchar2);
 
-	return (n > 0) ? towlower(ws1) - towlower(ws2) : 0;
+	return (n > 0) ? towlower(wc1) - towlower(wc2) : 0;
     } else
 #endif
 	return strncasecmp(s1, s2, n);
