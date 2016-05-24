@@ -555,7 +555,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	for (; *s1 != '\0' && *s2 != '\0' && n > 0;
 		s1 += move_mbright(s1, 0), s2 += move_mbright(s2, 0), n--) {
-	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
+	    bool bad1 = FALSE, bad2 = FALSE;
 
 	    int len1 = parse_mbchar(s1, mbchar1, NULL);
 	    int len2 = parse_mbchar(s2, mbchar2, NULL);
@@ -563,16 +563,16 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    if (mbtowc(&wc1, mbchar1, len1) < 0) {
 		mbtowc_reset();
 		wc1 = (unsigned char)*mbchar1;
-		bad_s1_mb = TRUE;
+		bad1 = TRUE;
 	    }
 
 	    if (mbtowc(&wc2, mbchar2, len2) < 0) {
 		mbtowc_reset();
 		wc2 = (unsigned char)*mbchar2;
-		bad_s2_mb = TRUE;
+		bad2 = TRUE;
 	    }
 
-	    if (bad_s1_mb != bad_s2_mb || towlower(wc1) != towlower(wc2))
+	    if (bad1 != bad2 || towlower(wc1) != towlower(wc2))
 		break;
 	}
 
