@@ -2250,7 +2250,7 @@ int do_writeout(bool exiting)
 
     given = mallocstrcpy(NULL,
 #ifndef NANO_TINY
-	(!exiting && openfile->mark_set) ? "" :
+	(openfile->mark_set && !exiting) ? "" :
 #endif
 	openfile->filename);
 
@@ -2268,7 +2268,7 @@ int do_writeout(bool exiting)
 	 * Selection to File" prompt.  This function is disabled, since
 	 * it allows reading from or writing to files not specified on
 	 * the command line. */
-	if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
+	if (openfile->mark_set && !exiting && !ISSET(RESTRICTED))
 	    msg = (append == PREPEND) ? _("Prepend Selection to File") :
 		  (append == APPEND) ? _("Append Selection to File") :
 		  _("Write Selection to File");
@@ -2469,7 +2469,7 @@ int do_writeout(bool exiting)
 	     * function is disabled, since it allows reading from or
 	     * writing to files not specified on the command line. */
 #ifndef NANO_TINY
-	    if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
+	    if (openfile->mark_set && !exiting && !ISSET(RESTRICTED))
 		result = write_marked_file(answer, NULL, FALSE, append);
 	    else
 #endif
