@@ -83,14 +83,9 @@ char *do_browser(char *path)
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
     /* Get the file list, and set longest and width in the process. */
-    browser_init(path, dir);
+    read_the_list(path, dir);
 
     closedir(dir);
-
-    assert(filelist != NULL);
-
-    /* Sort the file list. */
-    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
     /* If given, reselect the present_name and then discard it. */
     if (present_name != NULL) {
@@ -419,10 +414,8 @@ char *do_browse_from(const char *inpath)
  * set filelist_len to the number of files in that list, set longest to
  * the width in columns of the longest filename in that list (between 15
  * and COLS), and set width to the number of files that we can display
- * per line.  longest needs to be at least 15 columns in order to
- * display ".. (parent dir)", as Pico does.  Assume path exists and is a
- * directory. */
-void browser_init(const char *path, DIR *dir)
+ * per line.  And sort the list too. */
+void read_the_list(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
     size_t i = 0, path_len = strlen(path);
@@ -445,9 +438,10 @@ void browser_init(const char *path, DIR *dir)
      * in the list whenever possible, as Pico does. */
     longest += 10;
 
-    /* Make sure longest is between 15 and COLS. */
+    /* If needed, make room for ".. (parent dir)". */
     if (longest < 15)
 	longest = 15;
+    /* Make sure we're not wider than the window. */
     if (longest > COLS)
 	longest = COLS;
 
@@ -476,6 +470,11 @@ void browser_init(const char *path, DIR *dir)
      * first time we scanned and the second.  i is the actual length of
      * filelist, so record it. */
     filelist_len = i;
+
+    assert(filelist != NULL);
+
+    /* Sort the list of names. */
+    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
     /* Calculate how many files fit on a line -- feigning room for two
      * spaces beyond the right edge, and adding two spaces of padding
