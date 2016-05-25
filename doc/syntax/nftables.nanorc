@@ -2,6 +2,7 @@
 
 syntax "nftables" "\.(nft|nftables)$"
 header "^#!.*(nft|nftables)"
+comment "#"
 
 # Objects and operations
 color green "\<(chain|hook|policy|priority|ruleset|set|table|type|v?map)\>"

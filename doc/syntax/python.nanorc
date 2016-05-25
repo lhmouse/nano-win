@@ -3,6 +3,7 @@
 syntax "python" "\.py$"
 header "^#!.*python[-0-9._]*"
 linter pyflakes
+comment "#"
 
 # Function definitions.
 icolor brightblue "def [0-9A-Z_]+"

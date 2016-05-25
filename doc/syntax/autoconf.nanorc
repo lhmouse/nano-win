@@ -1,6 +1,7 @@
 ## Here is an example for Autoconf.
 
 syntax "autoconf" "\.(ac|m4)$"
+comment "#"
 
 # Keywords:
 color yellow "\<(if|test|then|elif|else|fi|for|in|do|done)\>"

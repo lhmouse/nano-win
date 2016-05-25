@@ -2,6 +2,7 @@
 
 syntax "man" "\.[1-9]x?$"
 magic "troff or preprocessor input text"
+comment ".\""
 
 color green "\.(SH|SS|TH) .*$"
 color brightgreen "\.(SH|SS|TH) " "\.([HIT]P)"

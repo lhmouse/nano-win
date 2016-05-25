@@ -1,6 +1,7 @@
 ## Syntax highlighting for RPM spec files.
 
 syntax "spec" "\.(spec$|spec\.*)"
+comment "#"
 
 # Main tags.
 color brightblue "((Icon|ExclusiveOs|ExcludeOs)[[:space:]]*:)"

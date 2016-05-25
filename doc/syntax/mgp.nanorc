@@ -2,6 +2,7 @@
 
 syntax "mgp" "\.mgp$"
 header "^%include.*"
+comment "#"
 
 icolor green "^%[a-z].*$"
 color cyan "(^|[[:space:]])#.*$"

@@ -2,6 +2,7 @@
 ## for files that do not match any other syntax.
 
 syntax "default"
+comment "#"
 
 # Spaces in front of tabs.
 color ,red " +	+"

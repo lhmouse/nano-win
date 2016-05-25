@@ -996,6 +996,9 @@ void version(void)
 #ifdef DISABLE_COLOR
     printf(" --disable-color");
 #endif
+#ifndef ENABLE_COMMENT
+    printf(" --disable-comment");
+#endif
 #ifdef DISABLE_EXTRA
     printf(" --disable-extra");
 #endif

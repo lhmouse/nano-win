@@ -2,6 +2,8 @@
 
 syntax "patch" "\.(patch|diff|debdiff)$"
 magic "diff output text"
+# There is no official support for comments in patch files.
+comment ""
 
 # Added lines.
 color brightgreen "^\+.*"

@@ -653,6 +653,9 @@ void do_unindent(void);
 void do_undo(void);
 void do_redo(void);
 #endif
+#ifndef DISABLE_COMMENT
+void do_comment(void);
+#endif
 void do_enter(void);
 #ifndef NANO_TINY
 RETSIGTYPE cancel_command(int signal);
@@ -745,6 +748,11 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 void discard_until(const undo *thisitem, openfilestruct *thefile);
 void add_undo(undo_type action);
 void update_undo(undo_type action);
+#ifndef DISABLE_COMMENT
+void add_comment_undo(undo_type action, const char *comment_seq, size_t undo_x);
+void update_comment_undo(ssize_t lineno);
+bool comment_line(undo_type action, filestruct *f, const char *comment_seq);
+#endif
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
 filestruct *fsfromline(ssize_t lineno);

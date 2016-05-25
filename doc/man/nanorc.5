@@ -302,6 +302,16 @@ syntax should be used for that file.  This
 functionality only works when \fBlibmagic\fP is installed on the
 system and will be silently ignored otherwise.
 .TP
+.BI comment " string"
+Use the given string for commenting and uncommenting lines.  A vertical bar or
+pipe character (|) designates bracket-style comments; for example, "/*|*/" for
+CSS files.  The characters before the pipe are prepended to the line and the
+characters after the pipe are appended at the end of the line.  If no pipe
+character is present, the entire string is prepended; for example, "#" for
+Python files.  If empty double quotes are specified, the comment/uncomment
+function is disabled; for example, "" for JSON.  Double quotes or backslashes
+may be escaped with a backslash; for example, ".\\"" for man page source.
+.TP
 .B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
 Display all pieces of text that match
 the extended regular expression \fIregex\fP with foreground color
@@ -336,7 +346,7 @@ to \fBicolor\fP.
 .BI extendsyntax " str directive " \fR[ "arg " \fR...]
 Extend the syntax previously defined as \fIstr\fP to include
 new information.  This allows you to add a new \fBcolor\fP, \fBicolor\fP,
-\fBheader\fP, \fBmagic\fP, \fBlinter\fP, or \fBformatter\fP directive
+\fBheader\fP, \fBmagic\fP, \fBcomment\fP, \fBlinter\fP, or \fBformatter\fP directive
 to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
 files (which are normally not writable)
@@ -454,6 +464,10 @@ Indents (shifts to the right) the currently marked text.
 .TP
 .B unindent
 Unindents (shifts to the left) the currently marked text.
+.TP
+.B comment
+Comments or uncomments the current line or marked lines, using the comment
+style specified in the active syntax.
 .TP
 .B left
 Goes left one position (in the editor or browser).

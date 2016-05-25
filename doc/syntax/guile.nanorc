@@ -3,6 +3,7 @@
 syntax "guile" "\.scm$"
 header "^#!.*guile"
 magic "guile"
+comment ";"
 
 # Basic scheme functions
 color green "\<(do|if|lambda|let(rec)?|map|unless|when)\>"

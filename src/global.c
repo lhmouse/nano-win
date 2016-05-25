@@ -554,6 +554,9 @@ void shortcut_init(void)
 	N_("Copy the current line and store it in the cutbuffer");
     const char *nano_indent_msg = N_("Indent the current line");
     const char *nano_unindent_msg = N_("Unindent the current line");
+#ifdef ENABLE_COMMENT
+    const char *nano_comment_msg = N_("Comment/uncomment the current line or marked lines");
+#endif
     const char *nano_undo_msg = N_("Undo the last operation");
     const char *nano_redo_msg = N_("Redo the last undone operation");
 #endif
@@ -937,6 +940,10 @@ void shortcut_init(void)
     add_to_funcs(do_suspend_void, MMAIN,
 	N_("Suspend"), IFSCHELP(nano_suspend_msg), BLANKAFTER, VIEW);
 
+#ifdef ENABLE_COMMENT
+    add_to_funcs(do_comment, MMAIN,
+	N_("Comment Lines"), IFSCHELP(nano_comment_msg), BLANKAFTER, NOVIEW);
+#endif
 #ifndef NANO_TINY
     add_to_funcs(do_savefile, MMAIN,
 	N_("Save"), IFSCHELP(nano_savefile_msg), BLANKAFTER, NOVIEW);
@@ -1103,6 +1110,9 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-{", do_unindent, 0);
     add_to_sclist(MMAIN, "M-U", do_undo, 0);
     add_to_sclist(MMAIN, "M-E", do_redo, 0);
+#endif
+#ifdef ENABLE_COMMENT
+    add_to_sclist(MMAIN, "M-3", do_comment, 0);
 #endif
     add_to_sclist(MMOST, "^B", do_left, 0);
     add_to_sclist(MMOST, "Left", do_left, 0);
@@ -1418,6 +1428,10 @@ sc *strtosc(const char *input)
 	s->scfunc = do_para_begin_void;
     else if (!strcasecmp(input, "endpara"))
 	s->scfunc = do_para_end_void;
+#endif
+#ifdef ENABLE_COMMENT
+    else if (!strcasecmp(input, "comment"))
+	s->scfunc = do_comment;
 #endif
 #ifndef NANO_TINY
     else if (!strcasecmp(input, "indent"))

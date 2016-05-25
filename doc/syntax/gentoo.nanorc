@@ -1,6 +1,7 @@
 ## Here is an example for Gentoo ebuilds/eclasses.
 
 syntax "ebuild" "\.e(build|class)$"
+comment "#"
 
 ## All the standard portage functions
 color brightgreen "(^|\<default_)src_(unpack|prepare|configure|compile|install|test)\>"

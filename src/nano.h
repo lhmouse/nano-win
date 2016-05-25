@@ -192,6 +192,9 @@ typedef enum {
 #ifndef DISABLE_WRAPPING
     SPLIT_BEGIN, SPLIT_END,
 #endif
+#ifndef DISABLE_COMMENT
+    COMMENT, UNCOMMENT, PREFLIGHT,
+#endif
     JOIN, PASTE, INSERT, ENTER, OTHER
 } undo_type;
 
@@ -251,6 +254,8 @@ typedef struct syntaxtype {
 	/* The command with which to lint this type of file. */
     char *formatter;
         /* The formatting command (for programming languages mainly). */
+    char *comment;
+	/* The line comment prefix (and postfix) for this type of file. */
     colortype *color;
 	/* The colors and their regexes used in this syntax. */
     int nmultis;
@@ -322,6 +327,14 @@ typedef struct partition {
 } partition;
 
 #ifndef NANO_TINY
+typedef struct undo_group {
+    ssize_t top_line;
+	/* First line of group. */
+    ssize_t bottom_line;
+	/* Last line of group. */
+    struct undo_group *next;
+} undo_group;
+
 typedef struct undo {
     ssize_t lineno;
     undo_type type;
@@ -336,6 +349,8 @@ typedef struct undo {
 	/* The file size after the action. */
     int xflags;
 	/* Some flag data we need. */
+    undo_group *grouping;
+	/* Undo info specific to groups of lines. */
 
     /* Cut-specific stuff we need. */
     filestruct *cutbuffer;

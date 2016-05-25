@@ -3,6 +3,7 @@
 syntax "texinfo" "\.texi$"
 header "^\\input texinfo"
 magic "Texinfo source text"
+comment "@c "
 
 # Command arguments, trailing and enclosed.
 color cyan "^@[a-z]+[[:space:]]+.*$"

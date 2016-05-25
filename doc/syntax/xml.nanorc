@@ -2,6 +2,7 @@
 
 syntax "xml" "\.([jrsx]html?|jnlp|mml|pom|rng|sgml?|svg|w[as]dl|wsdd|xjb|xml|xs(d|lt?)|xul)$"
 magic "(XML|SGML) (sub)?document text"
+comment "<!--|-->"
 
 # The entire content of the tag:
 color green  start="<" end=">"

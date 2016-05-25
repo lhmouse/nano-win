@@ -1,6 +1,7 @@
 ## Here is an example for Emacs Lisp.
 
 syntax "elisp" "\.el$"
+comment ";"
 
 # Basic functions/macros
 color brightcyan "\<(if|when|unless|cond|and|or|lambda|let|progn|while|dolist|dotimes)\>"

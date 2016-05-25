@@ -2,6 +2,7 @@
 
 syntax "c" "\.(c(c|pp|xx|\+\+)?|C)$" "\.(h(h|pp|xx)?|H)$" "\.ii?$"
 magic "(ASCII|UTF-8 Unicode) C(\+\+)? program text"
+comment "//"
 
 color brightred "\<[A-Z_][0-9A-Z_]+\>"
 color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|auto|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"

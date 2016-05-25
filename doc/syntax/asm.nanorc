@@ -2,6 +2,7 @@
 
 syntax "asm" "\.(S|s|asm)$"
 magic "[Aa]ssembl(y|er)"
+comment "//"
 
 color red "\<[A-Z_]{2,}\>"
 color brightgreen "\.(data|subsection|text)"

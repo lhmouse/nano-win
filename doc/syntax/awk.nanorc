@@ -2,6 +2,7 @@
 
 syntax "awk" "\.awk$"
 magic "awk.*script text"
+comment "#"
 
 # Records.
 icolor brightred "\$[0-9A-Z_!@#$*?-]+"

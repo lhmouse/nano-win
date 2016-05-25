@@ -425,7 +425,194 @@ void do_unindent(void)
 {
     do_indent(-tabsize);
 }
+#endif /* !NANO_TINY */
 
+#ifdef ENABLE_COMMENT
+/* Test whether the string is empty or consists of only blanks. */
+bool white_string(const char *s)
+{
+    while (*s != '\0' && (is_blank_mbchar(s) || *s == '\r'))
+	s += move_mbright(s, 0);
+
+    return !*s;
+}
+
+/* Comment or uncomment the current line or the marked lines. */
+void do_comment()
+{
+    const char *comment_seq = "#";
+    undo_type action = UNCOMMENT;
+    filestruct *top, *bot, *f;
+    size_t top_x, bot_x, was_x;
+    bool empty, all_empty = TRUE;
+
+    bool file_changed = FALSE;
+	/* Whether any comment has been added or deleted. */
+
+    assert(openfile->current != NULL && openfile->current->data != NULL);
+
+#ifndef DISABLE_COLOR
+    if (openfile->syntax && openfile->syntax->comment)
+	comment_seq = openfile->syntax->comment;
+
+    /* Does the syntax not allow comments? */
+    if (strlen(comment_seq) == 0) {
+	statusbar(_("Commenting is not supported for this file type"));
+	return;
+    }
+#endif
+
+    /* Determine which lines to work on. */
+    if (openfile->mark_set)
+	mark_order((const filestruct **) &top, &top_x,
+			(const filestruct **) &bot, &bot_x, NULL);
+    else {
+	top = openfile->current;
+	bot = top;
+    }
+
+    /* Remember the cursor x position to be restored when undoing. */
+    was_x = openfile->current_x;
+
+    /* Figure out whether to comment or uncomment the selected line or lines. */
+    for (f = top; f != bot->next; f = f->next) {
+	empty = white_string(f->data);
+
+	/* If this line is not blank and not commented, we comment all. */
+	if (!empty && !comment_line(PREFLIGHT, f, comment_seq)) {
+	    action = COMMENT;
+	    break;
+	}
+	all_empty = all_empty && empty;
+    }
+
+    /* If all selected lines are blank, we comment them. */
+    action = all_empty ? COMMENT : action;
+
+    /* Process the selected line or lines. */
+    for (f = top; f != bot->next; f = f->next) {
+	if (comment_line(action, f, comment_seq)) {
+	    if (!file_changed) {
+		/* Start building undo data on the first modified line. */
+		add_comment_undo(action, comment_seq, was_x);
+		file_changed = TRUE;
+	    }
+	    /* Add undo data for each modified line. */
+	    update_comment_undo(f->lineno);
+	}
+    }
+
+    if (file_changed) {
+	set_modified();
+	refresh_needed = TRUE;
+    } else
+	statusbar(_("Cannot comment past end of file"));
+}
+
+/* Test whether the given line can be uncommented, or add or remove a comment,
+ * depending on action.  Return TRUE if the line is uncommentable, or when
+ * anything was added or removed; FALSE otherwise. */
+bool comment_line(undo_type action, filestruct *f, const char *comment_seq)
+{
+    size_t comment_seq_len = strlen(comment_seq);
+    const char *post_seq = strchr(comment_seq, '|');
+	/* The postfix, if this is a bracketing type comment sequence. */
+    size_t pre_len = post_seq ? post_seq++ - comment_seq : comment_seq_len;
+	/* Length of prefix. */
+    size_t post_len = post_seq ? comment_seq_len - pre_len - 1 : 0;
+	/* Length of postfix. */
+    size_t line_len = strlen(f->data);
+
+    if (!ISSET(NO_NEWLINES) && f == openfile->filebot)
+	return FALSE;
+
+    if (action == COMMENT) {
+	/* Make room for the comment sequence(s), move the text right and
+	 * copy them in. */
+	f->data = charealloc(f->data, line_len + pre_len + post_len + 1);
+	charmove(&f->data[pre_len], f->data, line_len);
+	charmove(f->data, comment_seq, pre_len);
+	if (post_len)
+	    charmove(&f->data[pre_len + line_len], post_seq, post_len);
+	f->data[pre_len + line_len + post_len] = '\0';
+
+	openfile->totsize += pre_len + post_len;
+
+	/* If needed, adjust the position of the mark and of the cursor. */
+	if (openfile->mark_set && f == openfile->mark_begin)
+	    openfile->mark_begin_x += pre_len;
+	if (f == openfile->current) {
+	    openfile->current_x += pre_len;
+	    openfile->placewewant = xplustabs();
+	}
+
+	return TRUE;
+    }
+
+    /* If the line is commented, report it as uncommentable, or uncomment it. */
+    if (strncmp(f->data, comment_seq, pre_len) == 0 && (post_len == 0 ||
+		strcmp(&f->data[line_len - post_len], post_seq) == 0)) {
+
+	if (action == PREFLIGHT)
+	    return TRUE;
+
+	/* Erase the comment prefix by moving the non-comment part. */
+	charmove(f->data, &f->data[pre_len], line_len - pre_len);
+	/* Truncate the postfix if there was one. */
+	f->data[line_len - pre_len - post_len] = '\0';
+
+	openfile->totsize -= pre_len + post_len;
+
+	/* If needed, adjust the position of the mark and then the cursor. */
+	if (openfile->mark_set && f == openfile->mark_begin) {
+	    if (openfile->mark_begin_x < pre_len)
+		openfile->mark_begin_x = 0;
+	    else
+		openfile->mark_begin_x -= pre_len;
+	}
+	if (f == openfile->current) {
+	    if (openfile->current_x < pre_len)
+		openfile->current_x = 0;
+	    else
+		openfile->current_x -= pre_len;
+	    openfile->placewewant = xplustabs();
+	}
+
+	return TRUE;
+    }
+
+    return FALSE;
+}
+
+/* Perform an undo or redo for a comment or uncomment action. */
+void handle_comment_action(undo *u, bool undoing, bool add_comment)
+{
+    undo_group *group = u->grouping;
+
+    /* When redoing, reposition the cursor and let the commenter adjust it. */
+    if (!undoing)
+	goto_line_posx(u->lineno, u->begin);
+
+    while (group) {
+	filestruct *f = fsfromline(group->top_line);
+
+	while (f && f->lineno <= group->bottom_line) {
+	    comment_line(undoing ^ add_comment ?
+				COMMENT : UNCOMMENT, f, u->strdata);
+	    f = f->next;
+	}
+	group = group->next;
+    }
+
+    /* When undoing, reposition the cursor to the recorded location. */
+    if (undoing)
+	goto_line_posx(u->lineno, u->begin);
+
+    refresh_needed = TRUE;
+}
+#endif /* ENABLE_COMMENT */
+
+#ifndef NANO_TINY
 #define redo_paste undo_cut
 #define undo_paste redo_cut
 
@@ -574,6 +761,16 @@ void do_undo(void)
 	unlink_node(f->next);
 	goto_line_posx(u->lineno, u->begin);
 	break;
+#ifdef ENABLE_COMMENT
+    case COMMENT:
+	handle_comment_action(u, TRUE, TRUE);
+	undidmsg = _("comment");
+	break;
+    case UNCOMMENT:
+	handle_comment_action(u, TRUE, FALSE);
+	undidmsg = _("uncomment");
+	break;
+#endif
     case INSERT:
 	undidmsg = _("text insert");
 	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
@@ -738,6 +935,16 @@ void do_redo(void)
 	free_filestruct(u->cutbuffer);
 	u->cutbuffer = NULL;
 	break;
+#ifdef ENABLE_COMMENT
+    case COMMENT:
+	handle_comment_action(u, FALSE, TRUE);
+	redidmsg = _("comment");
+	break;
+    case UNCOMMENT:
+	handle_comment_action(u, FALSE, FALSE);
+	redidmsg = _("uncomment");
+	break;
+#endif
     default:
 	statusline(ALERT, _("Internal error: unknown type.  "
 				"Please save your work."));
@@ -909,11 +1116,20 @@ bool execute_command(const char *command)
 void discard_until(const undo *thisitem, openfilestruct *thefile)
 {
     undo *dropit = thefile->undotop;
+    undo_group *group;
 
     while (dropit != NULL && dropit != thisitem) {
 	thefile->undotop = dropit->next;
 	free(dropit->strdata);
 	free_filestruct(dropit->cutbuffer);
+#ifdef ENABLE_COMMENT
+	group = dropit->grouping;
+	while (group != NULL) {
+	    undo_group *next = group->next;
+	    free(group);
+	    group = next;
+	}
+#endif
 	free(dropit);
 	dropit = thefile->undotop;
     }
@@ -969,6 +1185,7 @@ void add_undo(undo_type action)
     u->mark_set = FALSE;
     u->wassize = openfile->totsize;
     u->xflags = 0;
+    u->grouping = NULL;
 
     switch (u->type) {
     /* We need to start copying data into the undo buffer
@@ -1036,6 +1253,11 @@ void add_undo(undo_type action)
 	break;
     case ENTER:
 	break;
+#ifdef ENABLE_COMMENT
+    case COMMENT:
+    case UNCOMMENT:
+	break;
+#endif
     default:
 	statusline(ALERT, _("Internal error: unknown type.  "
 				"Please save your work."));
@@ -1048,6 +1270,42 @@ void add_undo(undo_type action)
 #endif
     openfile->last_action = action;
 }
+
+#ifdef ENABLE_COMMENT
+/* Add a comment undo item.  This should be called once for each use
+ * of the comment/uncomment feature that modifies the document. */
+void add_comment_undo(undo_type action, const char *comment_seq, size_t was_x)
+{
+    add_undo(action);
+
+    /* Store the comment sequence used for the operation, because it could
+     * change when the file name changes; we need to know what it was. */
+    openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
+
+    /* Remember the position of the cursor before the change was made. */
+    openfile->current_undo->begin = was_x;
+}
+
+/* Update a comment undo item.  This should be called once for each line
+ * affected by the comment/uncomment feature. */
+void update_comment_undo(ssize_t lineno)
+{
+    undo *u = openfile->current_undo;
+
+    /* If there already is a group and the current line is contiguous with it,
+     * extend the group; otherwise, create a new group. */
+    if (u->grouping && u->grouping->bottom_line + 1 == lineno)
+	u->grouping->bottom_line++;
+    else {
+	undo_group *born = (undo_group *)nmalloc(sizeof(undo_group));
+
+	born->next = u->grouping;
+	u->grouping = born;
+	born->top_line = lineno;
+	born->bottom_line = lineno;
+    }
+}
+#endif /* ENABLE_COMMENT */
 
 /* Update an undo item, or determine whether a new one is really needed
  * and bounce the data to add_undo instead.  The latter functionality

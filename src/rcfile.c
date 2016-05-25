@@ -306,6 +306,7 @@ void parse_syntax(char *ptr)
     live_syntax->magics = NULL;
     live_syntax->linter = NULL;
     live_syntax->formatter = NULL;
+    live_syntax->comment = NULL;
     live_syntax->color = NULL;
     lastcolor = NULL;
     live_syntax->nmultis = 0;
@@ -868,6 +869,24 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
     /* Allow unsetting the command by using an empty string. */
     if (!strcmp(ptr, "\"\""))
 	*storage = NULL;
+    else if (*ptr == '"') {
+	*storage = mallocstrcpy(NULL, ++ptr);
+	char* q = *storage;
+	char* p = *storage;
+	/* Snip out the backslashes of escaped characters. */
+	while (*p != '"') {
+	    if (*p == '\0') {
+		rcfile_error(N_("Argument of '%s' lacks closing \""), kind);
+		free(*storage);
+		*storage = NULL;
+		return;
+	    } else if (*p == '\\' && *(p + 1) != '\0') {
+		p++;
+	    }
+	    *q++ = *p++;
+	}
+	*q = '\0';
+    }
     else
 	*storage = mallocstrcpy(NULL, ptr);
 }
@@ -980,6 +999,12 @@ void parse_rcfile(FILE *rcstream
 	else if (strcasecmp(keyword, "magic") == 0)
 #ifdef HAVE_LIBMAGIC
 	    grab_and_store("magic", ptr, &live_syntax->magics);
+#else
+	    ;
+#endif
+	else if (strcasecmp(keyword, "comment") == 0)
+#ifdef ENABLE_COMMENT
+	    pick_up_name("comment", ptr, &live_syntax->comment);
 #else
 	    ;
 #endif

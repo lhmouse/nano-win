@@ -84,6 +84,22 @@ else
     fi
 fi
 
+AC_ARG_ENABLE(comment,
+AS_HELP_STRING([--disable-comment], [Disable comment/uncomment functions]))
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_comment" = xyes; then
+	AC_MSG_ERROR([--enable-comment cannot work with --enable-tiny])
+    else
+	# Disabling nanorc silently disables comment support.
+	enable_comment=no
+    fi
+fi
+if test "x$disable_comment" != xyes; then
+    if test "x$enable_comment" != xno; then
+	AC_DEFINE(ENABLE_COMMENT, 1, [Define this to disable the comment/uncomment functionality.])
+    fi
+fi
+
 AC_ARG_ENABLE(extra,
 AS_HELP_STRING([--disable-extra], [Disable extra features, currently only easter eggs]))
 if test "x$enable_extra" = xno; then
