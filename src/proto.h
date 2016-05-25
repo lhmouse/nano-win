@@ -150,7 +150,7 @@ typedef void (*functionptrtype)(void);
 
 /* All functions in browser.c. */
 #ifndef DISABLE_BROWSER
-char *do_browser(char *path, DIR *dir);
+char *do_browser(char *path);
 char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
 functionptrtype parse_browser_input(int *kbinput);

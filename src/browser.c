@@ -44,7 +44,7 @@ static size_t selected = 0;
 
 /* Our main file browser function.  path is the tilde-expanded path we
  * start browsing from. */
-char *do_browser(char *path, DIR *dir)
+char *do_browser(char *path)
 {
     char *retval = NULL;
     int kbinput;
@@ -55,6 +55,14 @@ char *do_browser(char *path, DIR *dir)
 	/* The number of the selected file before the current selected file. */
     functionptrtype func;
 	/* The function of the key the user typed in. */
+    DIR *dir = opendir(path);
+
+    /* If we can't open the given directory, forget it. */
+    if (dir == NULL) {
+	beep();
+	free(path);
+	return NULL;
+    }
 
     /* Don't show a cursor in the file list. */
     curs_set(0);
@@ -76,6 +84,8 @@ char *do_browser(char *path, DIR *dir)
 
     /* Get the file list, and set longest and width in the process. */
     browser_init(path, dir);
+
+    closedir(dir);
 
     assert(filelist != NULL);
 
@@ -364,7 +374,6 @@ char *do_browse_from(const char *inpath)
     struct stat st;
     char *path;
 	/* This holds the tilde-expanded version of inpath. */
-    DIR *dir = NULL;
 
     assert(inpath != NULL);
 
@@ -403,17 +412,7 @@ char *do_browse_from(const char *inpath)
 	path = mallocstrcpy(path, operating_dir);
 #endif
 
-    if (path != NULL)
-	dir = opendir(path);
-
-    /* If we can't open the path, get out. */
-    if (dir == NULL) {
-	free(path);
-	beep();
-	return NULL;
-    }
-
-    return do_browser(path, dir);
+    return do_browser(path);
 }
 
 /* Set filelist to the list of files contained in the directory path,
@@ -477,8 +476,6 @@ void browser_init(const char *path, DIR *dir)
      * first time we scanned and the second.  i is the actual length of
      * filelist, so record it. */
     filelist_len = i;
-
-    closedir(dir);
 
     /* Calculate how many files fit on a line -- feigning room for two
      * spaces beyond the right edge, and adding two spaces of padding
