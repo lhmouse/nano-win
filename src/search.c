@@ -142,7 +142,7 @@ int search_init(bool replacing, bool use_answer)
      * do_search() or do_replace() and be called again.  In that case,
      * we should put the same search string back up. */
 
-    if (last_search[0] != '\0') {
+    if (*last_search != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
 	buf = charalloc(strlen(disp) + 7);
@@ -465,11 +465,11 @@ void do_research(void)
 #ifndef DISABLE_HISTORIES
     /* If nothing was searched for yet during this run of nano, but
      * there is a search history, take the most recent item. */
-    if (last_search[0] == '\0' && searchbot->prev != NULL)
+    if (*last_search == '\0' && searchbot->prev != NULL)
 	last_search = mallocstrcpy(last_search, searchbot->prev->data);
 #endif
 
-    if (last_search[0] == '\0') {
+    if (*last_search == '\0') {
 	statusbar(_("No current search pattern"));
 	return;
     }

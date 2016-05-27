@@ -629,7 +629,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	    if (history_list != NULL) {
 		/* If we're scrolling up at the bottom of the history list
 		 * and answer isn't blank, save answer in magichistory. */
-		if ((*history_list)->next == NULL && answer[0] != '\0')
+		if ((*history_list)->next == NULL && *answer != '\0')
 		    magichistory = mallocstrcpy(magichistory, answer);
 
 		/* Get the older search from the history list and save it in

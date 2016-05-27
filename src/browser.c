@@ -681,7 +681,7 @@ int filesearch_init(void)
     int input;
     char *buf;
 
-    if (last_search[0] != '\0') {
+    if (*last_search != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
 	buf = charalloc(strlen(disp) + 7);
@@ -787,9 +787,8 @@ void do_filesearch(void)
 	last_search = mallocstrcpy(last_search, answer);
 
 #ifndef DISABLE_HISTORIES
-    /* If answer is not "", add this search string to the search history
-     * list. */
-    if (answer[0] != '\0')
+    /* If answer is not empty, add the string to the search history list. */
+    if (*answer != '\0')
 	update_history(&search_history, answer);
 #endif
 
@@ -798,10 +797,10 @@ void do_filesearch(void)
     bottombars(MBROWSER);
 }
 
-/* Search for the last given filename again without prompting. */
+/* Search again for the last given filename, without prompting. */
 void do_fileresearch(void)
 {
-    if (last_search[0] == '\0')
+    if (*last_search == '\0')
 	statusbar(_("No current search pattern"));
     else
 	findnextfile(last_search);
