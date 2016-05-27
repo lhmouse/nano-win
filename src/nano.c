@@ -696,11 +696,9 @@ void die_save_file(const char *die_filename
      * but don't worry if it fails because we're supposed to be bailing as
      * fast as possible. */
     if (die_stat) {
-	int shush;
-	shush = chmod(targetname, die_stat->st_mode);
-	shush = chown(targetname, die_stat->st_uid, die_stat->st_gid);
-	if (shush)
-	    ;
+	IGNORE_CALL_RESULT(chmod(targetname, die_stat->st_mode));
+	IGNORE_CALL_RESULT(chown(targetname, die_stat->st_uid,
+						die_stat->st_gid));
     }
 #endif
 
