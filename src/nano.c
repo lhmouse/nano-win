@@ -655,7 +655,7 @@ void die(const char *msg, ...)
     exit(1);
 }
 
-/* Save the current file under the name spacified in die_filename, which
+/* Save the current file under the name specified in die_filename, which
  * is modified to be unique if necessary. */
 void die_save_file(const char *die_filename
 #ifndef NANO_TINY
@@ -663,7 +663,7 @@ void die_save_file(const char *die_filename
 #endif
 	)
 {
-    char *retval;
+    char *targetname;
     bool failed = TRUE;
 
     /* If we're using restricted mode, don't write any emergency backup
@@ -677,14 +677,15 @@ void die_save_file(const char *die_filename
     if (*die_filename == '\0')
 	die_filename = "nano";
 
-    retval = get_next_filename(die_filename, ".save");
-    if (retval[0] != '\0')
-	failed = !write_file(retval, NULL, TRUE, OVERWRITE, TRUE);
+    targetname = get_next_filename(die_filename, ".save");
+
+    if (*targetname != '\0')
+	failed = !write_file(targetname, NULL, TRUE, OVERWRITE, TRUE);
 
     if (!failed)
-	fprintf(stderr, _("\nBuffer written to %s\n"), retval);
-    else if (retval[0] != '\0')
-	fprintf(stderr, _("\nBuffer not written to %s: %s\n"), retval,
+	fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
+    else if (*targetname != '\0')
+	fprintf(stderr, _("\nBuffer not written to %s: %s\n"), targetname,
 		strerror(errno));
     else
 	fprintf(stderr, _("\nBuffer not written: %s\n"),
@@ -696,14 +697,14 @@ void die_save_file(const char *die_filename
      * fast as possible. */
     if (die_stat) {
 	int shush;
-	shush = chmod(retval, die_stat->st_mode);
-	shush = chown(retval, die_stat->st_uid, die_stat->st_gid);
+	shush = chmod(targetname, die_stat->st_mode);
+	shush = chown(targetname, die_stat->st_uid, die_stat->st_gid);
 	if (shush)
 	    ;
     }
 #endif
 
-    free(retval);
+    free(targetname);
 }
 
 /* Initialize the three window portions nano uses. */
