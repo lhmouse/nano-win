@@ -89,7 +89,7 @@ void do_page_up(void)
     }
 
     openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
+					openfile->placewewant);
 
 #ifdef DEBUG
     fprintf(stderr, "do_page_up: openfile->current->lineno = %lu, skipped = %d\n",
@@ -108,8 +108,7 @@ void do_page_down(void)
 
     /* If the cursor is less than a page away from the bottom of the file,
      * put it at the end of the last line. */
-    if (openfile->current->lineno + maxrows - 2 >=
-	openfile->filebot->lineno) {
+    if (openfile->current->lineno + maxrows - 2 >= openfile->filebot->lineno) {
 	do_last_line();
 	return;
     }
@@ -135,7 +134,7 @@ void do_page_down(void)
     }
 
     openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
+					openfile->placewewant);
 
     /* Scroll the edit window down a page. */
     edit_update(STATIONARY);
@@ -181,12 +180,12 @@ void do_para_end(bool allow_update)
     filestruct *const current_save = openfile->current;
 
     while (openfile->current != openfile->filebot &&
-	!inpar(openfile->current))
+		!inpar(openfile->current))
 	openfile->current = openfile->current->next;
 
     while (openfile->current != openfile->filebot &&
-	inpar(openfile->current->next) &&
-	!begpar(openfile->current->next)) {
+		inpar(openfile->current->next) &&
+		!begpar(openfile->current->next)) {
 	openfile->current = openfile->current->next;
 	openfile->current_y++;
     }
@@ -340,15 +339,11 @@ void do_home(void)
 	if (openfile->current_x == current_x_save ||
 		openfile->current->data[openfile->current_x] == '\0')
 	    openfile->current_x = 0;
-
-	openfile->placewewant = xplustabs();
-    } else {
+    } else
 #endif
 	openfile->current_x = 0;
-	openfile->placewewant = 0;
-#ifndef NANO_TINY
-    }
-#endif
+
+    openfile->placewewant = xplustabs();
 
     if (need_screen_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
@@ -390,7 +385,7 @@ void do_up(
     /* Move the current line of the edit window up. */
     openfile->current = openfile->current->prev;
     openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
+					openfile->placewewant);
 
     /* If scroll_only is FALSE and if we're on the first line of the
      * edit window, scroll the edit window up one line if we're in
@@ -542,7 +537,7 @@ void do_left(void)
 
     if (openfile->current_x > 0)
 	openfile->current_x = move_mbleft(openfile->current->data,
-		openfile->current_x);
+						openfile->current_x);
     else if (openfile->current != openfile->fileage) {
 	do_up_void();
 	openfile->current_x = strlen(openfile->current->data);
@@ -563,7 +558,7 @@ void do_right(void)
 
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
-		openfile->current_x);
+						openfile->current_x);
     else if (openfile->current != openfile->filebot) {
 	do_down_void();
 	openfile->current_x = 0;
