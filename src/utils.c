@@ -461,29 +461,28 @@ size_t xplustabs(void)
     return strnlenpt(openfile->current->data, openfile->current_x);
 }
 
-/* Return the index in s of the character displayed at the given column,
- * i.e. the largest value such that strnlenpt(s, actual_x(s, column)) <=
- * column. */
-size_t actual_x(const char *s, size_t column)
+/* Return the index in text of the character that (when displayed) will
+ * not overshoot the given column. */
+size_t actual_x(const char *text, size_t column)
 {
-    size_t i = 0;
-	/* The position in s, returned. */
-    size_t len = 0;
-	/* The screen display width to s[i]. */
+    size_t index = 0;
+	/* The index in text, returned. */
+    size_t width = 0;
+	/* The screen display width to text[index], in columns. */
 
-    assert(s != NULL);
+    assert(text != NULL);
 
-    while (*s != '\0') {
-	int s_len = parse_mbchar(s, NULL, &len);
+    while (*text != '\0') {
+	int charlen = parse_mbchar(text, NULL, &width);
 
-	if (len > column)
+	if (width > column)
 	    break;
 
-	i += s_len;
-	s += s_len;
+	index += charlen;
+	text += charlen;
     }
 
-    return i;
+    return index;
 }
 
 /* A strnlen() with tabs and multicolumn characters factored in:
@@ -501,12 +500,11 @@ size_t strnlenpt(const char *text, size_t maxlen)
     while (*text != '\0') {
 	int charlen = parse_mbchar(text, NULL, &width);
 
-	text += charlen;
-
 	if (maxlen <= charlen)
 	    break;
 
 	maxlen -= charlen;
+	text += charlen;
     }
 
     return width;
