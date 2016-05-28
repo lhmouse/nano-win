@@ -434,7 +434,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 		(*col)++;
 
 		ctrl_buf_mb = control_mbrep(buf, ctrl_buf_mb,
-			&ctrl_buf_mb_len);
+						&ctrl_buf_mb_len);
 
 		*col += mbwidth(ctrl_buf_mb);
 
@@ -459,10 +459,8 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	     * current value of col. */
 	    if (*buf == '\t')
 		*col += tabsize - *col % tabsize;
-	    /* If we have a control character, it's two columns wide:
-	     * one column for the "^" that will be displayed in front of
-	     * it, and one column for its visible equivalent as returned
-	     * by control_mbrep(). */
+	    /* If we have a control character, it's two columns wide: one
+	     * column for the "^", and one for the visible character. */
 	    else if (is_cntrl_char((unsigned char)*buf))
 		*col += 2;
 	    /* If we have a normal character, it's one column wide. */

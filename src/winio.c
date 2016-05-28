@@ -1796,7 +1796,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		int ctrl_buf_mb_len, i;
 
 		ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
-			&ctrl_buf_mb_len);
+						&ctrl_buf_mb_len);
 
 		for (i = 0; i < ctrl_buf_mb_len; i++)
 		    converted[index++] = ctrl_buf_mb[i];
@@ -1861,8 +1861,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    converted[index++] = '^';
 	    start_col++;
 
-	    ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
-		&ctrl_buf_mb_len);
+	    ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb, &ctrl_buf_mb_len);
 
 	    for (i = 0; i < ctrl_buf_mb_len; i++)
 		converted[index++] = ctrl_buf_mb[i];
@@ -1896,9 +1895,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    if (using_utf8() && buf_mb_len == 1)
 		buf_mb[1] = '\0';
 #endif
-
-	    nctrl_buf_mb = mbrep(buf_mb, nctrl_buf_mb,
-		&nctrl_buf_mb_len);
+	    nctrl_buf_mb = mbrep(buf_mb, nctrl_buf_mb, &nctrl_buf_mb_len);
 
 	    for (i = 0; i < nctrl_buf_mb_len; i++)
 		converted[index++] = nctrl_buf_mb[i];
