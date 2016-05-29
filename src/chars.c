@@ -401,15 +401,14 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	/* Get the number of bytes in the multibyte character. */
 	buf_mb_len = mblen(buf, MB_CUR_MAX);
 
-	/* If buf contains an invalid multibyte character, only
-	 * interpret buf's first byte. */
+	/* When the multibyte sequence is invalid, only take the first byte. */
 	if (buf_mb_len < 0) {
 	    IGNORE_CALL_RESULT(mblen(NULL, 0));
 	    buf_mb_len = 1;
 	} else if (buf_mb_len == 0)
 	    buf_mb_len++;
 
-	/* Save the multibyte character in chr. */
+	/* When requested, store the multibyte character in chr. */
 	if (chr != NULL) {
 	    int i;
 
@@ -417,7 +416,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 		chr[i] = buf[i];
 	}
 
-	/* Save the column width of the wide character in col. */
+	/* When requested, store the width of the wide character in col. */
 	if (col != NULL) {
 	    /* If we have a tab, get its width in columns using the
 	     * current value of col. */
@@ -435,13 +434,14 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
     } else
 #endif
     {
-	/* Get the number of bytes in the byte character. */
+	/* A byte character is one byte long. */
 	buf_mb_len = 1;
 
-	/* Save the byte character in chr. */
+	/* When requested, store the byte character in chr. */
 	if (chr != NULL)
 	    *chr = *buf;
 
+	/* When requested, store the width of the wide character in col. */
 	if (col != NULL) {
 	    /* If we have a tab, get its width in columns using the
 	     * current value of col. */
