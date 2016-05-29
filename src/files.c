@@ -904,51 +904,29 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     if (undoable)
 	update_undo(INSERT);
 
-    if (format == 3) {
-	if (writable)
+    if (!writable)
+	statusline(ALERT, "File '%s' is unwritable", filename);
+    else if (format == 3) {
 	    statusline(HUSH,
+	    /* TRANSLATORS: Keep the next four messages at most 76 characters. */
 		P_("Read %lu line (Converted from DOS and Mac format)",
 		"Read %lu lines (Converted from DOS and Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-	else
-	    /* TRANSLATORS: Keep the next handful of messages at most 76 characters long. */
-	    statusline(ALERT,
-		P_("Read %lu line (Converted from DOS and Mac format - NO write permission)",
-		"Read %lu lines (Converted from DOS and Mac format - NO write permission)",
-		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 2) {
 	openfile->fmt = MAC_FILE;
-	if (writable)
 	    statusline(HUSH,
 		P_("Read %lu line (Converted from Mac format)",
 		"Read %lu lines (Converted from Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-	else
-	    statusline(ALERT,
-		P_("Read %lu line (Converted from Mac format - Warning: No write permission)",
-		"Read %lu lines (Converted from Mac format - Warning: No write permission)",
-		(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 1) {
 	openfile->fmt = DOS_FILE;
-	if (writable)
 	    statusline(HUSH,
 		P_("Read %lu line (Converted from DOS format)",
 		"Read %lu lines (Converted from DOS format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-	else
-	    statusline(ALERT,
-		P_("Read %lu line (Converted from DOS format - Warning: No write permission)",
-		"Read %lu lines (Converted from DOS format - Warning: No write permission)",
-		(unsigned long)num_lines), (unsigned long)num_lines);
     } else
-#endif
-	if (writable)
+#endif /* !NANO_TINY */
 	    statusline(HUSH, P_("Read %lu line", "Read %lu lines",
-		(unsigned long)num_lines), (unsigned long)num_lines);
-	else
-	    statusline(ALERT,
-		P_("Read %lu line (Warning: No write permission)",
-		"Read %lu lines (Warning: No write permission)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
 
     if (num_lines < editwinrows)
