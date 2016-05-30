@@ -1837,8 +1837,20 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    converted = charealloc(converted, alloc_len);
 	}
 
+	if (*buf_mb == ' ') {
+	    /* Show a space as a visible character, or as a space. */
+#ifndef NANO_TINY
+	    if (ISSET(WHITESPACE_DISPLAY)) {
+		int i = whitespace_len[0];
+
+		while (i < whitespace_len[0] + whitespace_len[1])
+		    converted[index++] = whitespace[i++];
+	    } else
+#endif
+		converted[index++] = ' ';
+	    start_col++;
 	/* If buf contains a tab character, interpret it. */
-	if (*buf_mb == '\t') {
+	} else if (*buf_mb == '\t') {
 #ifndef NANO_TINY
 	    if (ISSET(WHITESPACE_DISPLAY)) {
 		int i;
@@ -1869,19 +1881,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    start_col += mbwidth(ctrl_buf_mb);
 
 	    free(ctrl_buf_mb);
-	/* If buf contains a space character, interpret it. */
-	} else if (*buf_mb == ' ') {
-#ifndef NANO_TINY
-	    if (ISSET(WHITESPACE_DISPLAY)) {
-		int i;
-
-		for (i = whitespace_len[0]; i < whitespace_len[0] +
-			whitespace_len[1]; i++)
-		    converted[index++] = whitespace[i];
-	    } else
-#endif
-		converted[index++] = ' ';
-	    start_col++;
 	/* If buf contains a non-control character, interpret it.  If buf
 	 * contains an invalid multibyte sequence, display it as such. */
 	} else {
