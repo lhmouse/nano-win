@@ -1792,18 +1792,17 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	if (is_cntrl_mbchar(buf_mb)) {
 	    if (column < start_col) {
-		char *ctrl_buf_mb = charalloc(mb_cur_max());
-		int ctrl_buf_mb_len, i;
+		char *character = charalloc(mb_cur_max());
+		int charlen, i;
 
-		ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
-						&ctrl_buf_mb_len);
+		character = control_mbrep(buf_mb, character, &charlen);
 
-		for (i = 0; i < ctrl_buf_mb_len; i++)
-		    converted[index++] = ctrl_buf_mb[i];
+		for (i = 0; i < charlen; i++)
+		    converted[index++] = character[i];
 
-		start_col += mbwidth(ctrl_buf_mb);
+		start_col += mbwidth(character);
 
-		free(ctrl_buf_mb);
+		free(character);
 
 		start_index += buf_mb_len;
 	    }
@@ -1868,25 +1867,25 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    }
 	/* If buf contains a control character, interpret it. */
 	} else if (is_cntrl_mbchar(buf_mb)) {
-	    char *ctrl_buf_mb = charalloc(mb_cur_max());
-	    int ctrl_buf_mb_len, i;
+	    char *character = charalloc(mb_cur_max());
+	    int charlen, i;
 
 	    converted[index++] = '^';
 	    start_col++;
 
-	    ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb, &ctrl_buf_mb_len);
+	    character = control_mbrep(buf_mb, character, &charlen);
 
-	    for (i = 0; i < ctrl_buf_mb_len; i++)
-		converted[index++] = ctrl_buf_mb[i];
+	    for (i = 0; i < charlen; i++)
+		converted[index++] = character[i];
 
-	    start_col += mbwidth(ctrl_buf_mb);
+	    start_col += mbwidth(character);
 
-	    free(ctrl_buf_mb);
+	    free(character);
 	/* If buf contains a non-control character, interpret it.  If buf
 	 * contains an invalid multibyte sequence, display it as such. */
 	} else {
-	    char *nctrl_buf_mb = charalloc(mb_cur_max());
-	    int nctrl_buf_mb_len, i;
+	    char *character = charalloc(mb_cur_max());
+	    int charlen, i;
 
 #ifdef ENABLE_UTF8
 	    /* Make sure an invalid sequence-starter byte is properly
@@ -1895,14 +1894,14 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    if (using_utf8() && buf_mb_len == 1)
 		buf_mb[1] = '\0';
 #endif
-	    nctrl_buf_mb = mbrep(buf_mb, nctrl_buf_mb, &nctrl_buf_mb_len);
+	    character = mbrep(buf_mb, character, &charlen);
 
-	    for (i = 0; i < nctrl_buf_mb_len; i++)
-		converted[index++] = nctrl_buf_mb[i];
+	    for (i = 0; i < charlen; i++)
+		converted[index++] = character[i];
 
-	    start_col += mbwidth(nctrl_buf_mb);
+	    start_col += mbwidth(character);
 
-	    free(nctrl_buf_mb);
+	    free(character);
 	}
 
 	start_index += buf_mb_len;
