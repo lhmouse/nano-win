@@ -219,7 +219,7 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
  * is (c + 64).  We return that character. */
-char control_rep(char c)
+char control_rep(const signed char c)
 {
     assert(is_cntrl_char(c));
 
@@ -228,6 +228,10 @@ char control_rep(char c)
 	return '@';
     else if (c == NANO_CONTROL_8)
 	return '?';
+    else if (c == -97)
+	return '=';
+    else if (c < 0)
+	return c + 224;
     else
 	return c + 64;
 }
@@ -250,17 +254,18 @@ wchar_t control_wrep(wchar_t wc)
 #endif
 
 /* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is (c + 64).  We return that multibyte character. */
+ * where ch is (c + 64).  We return that single-byte character. */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	wchar_t wc;
-
-	IGNORE_CALL_RESULT(mbtowc(&wc, c, MB_CUR_MAX));
-	*crep_len = wctomb(crep, control_wrep(wc));
+	if (0 <= c[0] && c[0] <= 127)
+	    *crep = control_rep(c[0]);
+	else
+	    *crep = control_rep(c[1]);
+	*crep_len = 1;
     } else
 #endif
     {
