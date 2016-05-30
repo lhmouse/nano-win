@@ -446,7 +446,7 @@ void help_init(void)
 
 	/* First see how many toggles there are. */
 	for (s = sclist; s != NULL; s = s->next)
-	   maximum = (s->toggle && s->ordinal > maximum) ? s->ordinal : maximum;
+	    maximum = (s->toggle && s->ordinal > maximum) ? s->ordinal : maximum;
 
 	/* Now show them in the original order. */
 	while (counter < maximum) {
@@ -454,7 +454,7 @@ void help_init(void)
 	    for (s = sclist; s != NULL; s = s->next)
 		if (s->toggle && s->ordinal == counter) {
 		    ptr += sprintf(ptr, "%s\t\t%s %s\n", (s->menus == MMAIN ? s->keystr : ""),
-				 _(flagtostr(s->toggle)), _("enable/disable"));
+				_(flagtostr(s->toggle)), _("enable/disable"));
 		    if (s->toggle == NO_COLOR_SYNTAX || s->toggle == TABS_TO_SPACES)
 			ptr += sprintf(ptr, "\n");
 		    break;

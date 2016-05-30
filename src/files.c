@@ -288,7 +288,7 @@ int delete_lockfile(const char *lockfilename)
 {
     if (unlink(lockfilename) < 0 && errno != ENOENT) {
 	statusline(MILD, _("Error deleting lock file %s: %s"), lockfilename,
-		  strerror(errno));
+			strerror(errno));
 	return -1;
     }
     return 1;
@@ -411,7 +411,7 @@ bool open_buffer(const char *filename, bool undoable)
 {
     bool new_buffer = (openfile == NULL
 #ifndef DISABLE_MULTIBUFFER
-	 || ISSET(MULTIBUFFER)
+			|| ISSET(MULTIBUFFER)
 #endif
 	);
 	/* Whether we load into this buffer or a new one. */
@@ -2261,7 +2261,7 @@ int do_writeout(bool exiting)
 	const char *formatstr, *backupstr;
 
 	formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
-		    (openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
+			(openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
 
 	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
@@ -2271,13 +2271,13 @@ int do_writeout(bool exiting)
 	 * the command line. */
 	if (openfile->mark_set && !exiting && !ISSET(RESTRICTED))
 	    msg = (append == PREPEND) ? _("Prepend Selection to File") :
-		  (append == APPEND) ? _("Append Selection to File") :
-		  _("Write Selection to File");
+			(append == APPEND) ? _("Append Selection to File") :
+			_("Write Selection to File");
 	else
 #endif /* !NANO_TINY */
 	    msg = (append == PREPEND) ? _("File Name to Prepend to") :
-		  (append == APPEND) ? _("File Name to Append to") :
-		  _("File Name to Write");
+			(append == APPEND) ? _("File Name to Append to") :
+			_("File Name to Write");
 
 	present_path = mallocstrcpy(present_path, "./");
 
@@ -2987,13 +2987,15 @@ int check_dotnano(void)
     if (stat(nanodir, &dirstat) == -1) {
 	if (mkdir(nanodir, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
 	    history_error(N_("Unable to create directory %s: %s\n"
-			     "It is required for saving/loading search history or cursor positions.\n"),
+				"It is required for saving/loading "
+				"search history or cursor positions.\n"),
 				nanodir, strerror(errno));
 	    ret = 0;
 	}
     } else if (!S_ISDIR(dirstat.st_mode)) {
 	history_error(N_("Path %s is not a directory and needs to be.\n"
-			 "Nano will be unable to load or save search history or cursor positions.\n"),
+				"Nano will be unable to load or save "
+				"search history or cursor positions.\n"),
 				nanodir);
 	ret = 0;
     }

@@ -3059,8 +3059,8 @@ void total_refresh(void)
 void display_main_list(void)
 {
 #ifndef DISABLE_COLOR
-    if (openfile->syntax
-	  && (openfile->syntax->formatter || openfile->syntax->linter))
+    if (openfile->syntax &&
+		(openfile->syntax->formatter || openfile->syntax->linter))
 	set_lint_or_format_shortcuts();
     else
 	set_spell_shortcuts();
@@ -3140,7 +3140,7 @@ void spotlight(bool active, const char *word)
 {
     size_t word_len = strlenpt(word), room;
 
-   /* Compute the number of columns that are available for the word. */
+    /* Compute the number of columns that are available for the word. */
     room = COLS + get_page_start(xplustabs()) - xplustabs();
 
     assert(room > 0);

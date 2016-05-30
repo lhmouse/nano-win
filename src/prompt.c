@@ -619,7 +619,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 #endif
 	    if (allow_tabs)
 		answer = input_tab(answer, allow_files, &statusbar_x,
-				   &tabbed, refresh_func, listed);
+					&tabbed, refresh_func, listed);
 
 	    update_the_statusbar();
 	} else

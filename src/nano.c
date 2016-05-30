@@ -530,7 +530,7 @@ openfilestruct *make_new_opennode(void)
 void unlink_opennode(openfilestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->prev != NULL && fileptr->next != NULL &&
-		 fileptr != fileptr->prev && fileptr != fileptr->next);
+		fileptr != fileptr->prev && fileptr != fileptr->next);
 
     fileptr->prev->next = fileptr->next;
     fileptr->next->prev = fileptr->prev;
@@ -1111,9 +1111,8 @@ void do_exit(void)
 	if (ISSET(TEMP_FILE))
 	    no_current_file_name_warning();
 
-	i = do_yesno_prompt(FALSE,
-		_("Save modified buffer?  (Answering \"No\" will"
-		  " DISCARD changes.) "));
+	i = do_yesno_prompt(FALSE, _("Save modified buffer?  "
+			"(Answering \"No\" will DISCARD changes.) "));
     }
 
 #ifdef DEBUG
@@ -1782,8 +1781,8 @@ int do_mouse(void)
 	if (ISSET(SOFTWRAP)) {
 	    size_t i = 0;
 	    for (openfile->current = openfile->edittop;
-		 openfile->current->next && i < mouse_y;
-		 openfile->current = openfile->current->next, i++) {
+			openfile->current->next && i < mouse_y;
+			openfile->current = openfile->current->next, i++) {
 		openfile->current_y = i;
 		i += strlenpt(openfile->current->data) / COLS;
 	    }
@@ -1812,10 +1811,10 @@ int do_mouse(void)
 	{
 	    /* Move to where the click occurred. */
 	    for (; openfile->current_y < mouse_y && openfile->current !=
-		   openfile->filebot; openfile->current_y++)
+			openfile->filebot; openfile->current_y++)
 		openfile->current = openfile->current->next;
 	    for (; openfile->current_y > mouse_y && openfile->current !=
-		   openfile->fileage; openfile->current_y--)
+			openfile->fileage; openfile->current_y--)
 		openfile->current = openfile->current->prev;
 
 	    openfile->current_x = actual_x(openfile->current->data,

@@ -220,13 +220,13 @@ void do_cutword(bool backward)
 /* Delete a word leftward. */
 void do_cut_prev_word(void)
 {
-   do_cutword(TRUE);
+    do_cutword(TRUE);
 }
 
 /* Delete a word rightward. */
 void do_cut_next_word(void)
 {
-   do_cutword(FALSE);
+    do_cutword(FALSE);
 }
 #endif /* !NANO_TINY */
 
@@ -2519,7 +2519,7 @@ void do_justify(bool full_justify)
 
     if (func == do_uncut_text
 #ifndef NANO_TINY
-		 || func == do_undo
+			|| func == do_undo
 #endif
 		) {
 	/* Splice the justify buffer back into the file, but only if we
@@ -3049,15 +3049,14 @@ const char *do_alt_speller(char *tempfile_name)
     }
 #endif
 
-    /* Replace the text of the current buffer with the spell-checked
-     * text. */
+    /* Replace the text of the current buffer with the spell-checked text. */
     replace_buffer(tempfile_name);
 
 #ifndef NANO_TINY
     if (old_mark_set) {
 	filestruct *top_save = openfile->fileage;
 	/* Adjust the end point of the marked region for any change in
-	   length of the region's last line. */
+	 * length of the region's last line. */
 	if (right_side_up)
 	    current_x_save = strlen(openfile->filebot->data);
 	else

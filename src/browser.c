@@ -311,16 +311,14 @@ char *do_browser(char *path)
 #endif
 
 	    if (stat(filelist[selected], &st) == -1) {
-		/* We can't open this file for some reason.
-		 * Complain. */
-		 statusline(ALERT, _("Error reading %s: %s"),
+		/* We can't open this file for some reason.  Complain. */
+		statusline(ALERT, _("Error reading %s: %s"),
 				filelist[selected], strerror(errno));
-		 continue;
+		continue;
 	    }
 
 	    if (!S_ISDIR(st.st_mode)) {
-		/* We've successfully opened a file, we're done, so
-		 * get out. */
+		/* We've successfully opened a file, so we're done. */
 		retval = mallocstrcpy(NULL, filelist[selected]);
 		break;
 	    }
@@ -395,7 +393,7 @@ char *do_browse_from(const char *inpath)
 		beep();
 		napms(1200);
 		return NULL;
-	   } else
+	    } else
 		align(&path);
 	}
     }

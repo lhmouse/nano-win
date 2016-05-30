@@ -434,9 +434,9 @@ typedef struct openfilestruct {
 
 #ifndef DISABLE_NANORC
 typedef struct rcoption {
-   const char *name;
+    const char *name;
 	/* The name of the rcfile option. */
-   long flag;
+    long flag;
 	/* The flag associated with it, if any. */
 } rcoption;
 #endif
