@@ -1849,18 +1849,19 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
 		converted[index++] = ' ';
 	    start_col++;
-	/* If buf contains a tab character, interpret it. */
 	} else if (*buf_mb == '\t') {
+	    /* Show a tab as a visible character, or as as a space. */
 #ifndef NANO_TINY
 	    if (ISSET(WHITESPACE_DISPLAY)) {
-		int i;
+		int i = 0;
 
-		for (i = 0; i < whitespace_len[0]; i++)
-		    converted[index++] = whitespace[i];
+		while (i < whitespace_len[0])
+		    converted[index++] = whitespace[i++];
 	    } else
 #endif
 		converted[index++] = ' ';
 	    start_col++;
+	    /* Fill the tab up with the required number of spaces. */
 	    while (start_col % tabsize != 0) {
 		converted[index++] = ' ';
 		start_col++;
