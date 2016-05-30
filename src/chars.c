@@ -250,9 +250,7 @@ wchar_t control_wrep(wchar_t wc)
 #endif
 
 /* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is (c + 64).  We return that multibyte character.  If crep
- * is an invalid multibyte sequence, it will be replaced with Unicode
- * 0xFFFD (Replacement Character). */
+ * where ch is (c + 64).  We return that multibyte character. */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);
@@ -261,18 +259,8 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
-	    *crep_len = bad_mbchar_len;
-	    strncpy(crep, bad_mbchar, *crep_len);
-	} else {
-	    *crep_len = wctomb(crep, control_wrep(wc));
-
-	    if (*crep_len < 0) {
-		wctomb_reset();
-		*crep_len = 0;
-	    }
-	}
+	IGNORE_CALL_RESULT(mbtowc(&wc, c, MB_CUR_MAX));
+	*crep_len = wctomb(crep, control_wrep(wc));
     } else
 #endif
     {
