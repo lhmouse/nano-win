@@ -749,7 +749,8 @@ void discard_until(const undo *thisitem, openfilestruct *thefile);
 void add_undo(undo_type action);
 void update_undo(undo_type action);
 #ifndef DISABLE_COMMENT
-void add_comment_undo(undo_type action, const char *comment_seq, size_t undo_x);
+void add_comment_undo(undo_type action, const char *comment_seq, size_t was_x,
+	size_t was_size);
 void update_comment_undo(ssize_t lineno);
 bool comment_line(undo_type action, filestruct *f, const char *comment_seq);
 #endif

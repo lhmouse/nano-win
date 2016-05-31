@@ -443,7 +443,7 @@ void do_comment()
     const char *comment_seq = "#";
     undo_type action = UNCOMMENT;
     filestruct *top, *bot, *f;
-    size_t top_x, bot_x, was_x;
+    size_t top_x, bot_x, was_x, was_size;
     bool empty, all_empty = TRUE;
 
     bool file_changed = FALSE;
@@ -471,8 +471,9 @@ void do_comment()
 	bot = top;
     }
 
-    /* Remember the cursor x position to be restored when undoing. */
+    /* Remember cursor position and file size, to be restored when undoing. */
     was_x = openfile->current_x;
+    was_size = openfile->totsize;
 
     /* Figure out whether to comment or uncomment the selected line or lines. */
     for (f = top; f != bot->next; f = f->next) {
@@ -494,7 +495,7 @@ void do_comment()
 	if (comment_line(action, f, comment_seq)) {
 	    if (!file_changed) {
 		/* Start building undo data on the first modified line. */
-		add_comment_undo(action, comment_seq, was_x);
+		add_comment_undo(action, comment_seq, was_x, was_size);
 		file_changed = TRUE;
 	    }
 	    /* Add undo data for each modified line. */
@@ -1274,7 +1275,8 @@ void add_undo(undo_type action)
 #ifdef ENABLE_COMMENT
 /* Add a comment undo item.  This should be called once for each use
  * of the comment/uncomment feature that modifies the document. */
-void add_comment_undo(undo_type action, const char *comment_seq, size_t was_x)
+void add_comment_undo(undo_type action, const char *comment_seq, size_t was_x,
+	size_t was_size)
 {
     add_undo(action);
 
@@ -1282,8 +1284,9 @@ void add_comment_undo(undo_type action, const char *comment_seq, size_t was_x)
      * change when the file name changes; we need to know what it was. */
     openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
 
-    /* Remember the position of the cursor before the change was made. */
+    /* Store cursor position and file size from before the change. */
     openfile->current_undo->begin = was_x;
+    openfile->current_undo->wassize= was_size;
 }
 
 /* Update a comment undo item.  This should be called once for each line
@@ -1304,6 +1307,9 @@ void update_comment_undo(ssize_t lineno)
 	born->top_line = lineno;
 	born->bottom_line = lineno;
     }
+
+    /* Store the file size after the change, to be used when redoing. */
+    u->newsize = openfile->totsize;
 }
 #endif /* ENABLE_COMMENT */
 
