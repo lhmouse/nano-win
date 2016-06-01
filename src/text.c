@@ -454,11 +454,8 @@ void do_comment()
     const char *comment_seq = "#";
     undo_type action = UNCOMMENT;
     filestruct *top, *bot, *f;
-    size_t top_x, bot_x, was_x, was_size;
+    size_t top_x, bot_x;
     bool empty, all_empty = TRUE;
-
-    bool file_changed = FALSE;
-	/* Whether any comment has been added or deleted. */
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
@@ -482,9 +479,11 @@ void do_comment()
 	bot = top;
     }
 
-    /* Remember cursor position and file size, to be restored when undoing. */
-    was_x = openfile->current_x;
-    was_size = openfile->totsize;
+    /* If only the magic line is selected, don't do anything. */
+    if (top == bot && bot == openfile->filebot && !ISSET(NO_NEWLINES)) {
+	statusbar(_("Cannot comment past end of file"));
+	return;
+    }
 
     /* Figure out whether to comment or uncomment the selected line or lines. */
     for (f = top; f != bot->next; f = f->next) {
@@ -501,24 +500,21 @@ void do_comment()
     /* If all selected lines are blank, we comment them. */
     action = all_empty ? COMMENT : action;
 
+    add_undo(action);
+
+    /* Store the comment sequence used for the operation, because it could
+     * change when the file name changes; we need to know what it was. */
+    openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
+
     /* Process the selected line or lines. */
     for (f = top; f != bot->next; f = f->next) {
-	if (comment_line(action, f, comment_seq)) {
-	    if (!file_changed) {
-		/* Start building undo data on the first modified line. */
-		add_comment_undo(action, comment_seq, was_x, was_size);
-		file_changed = TRUE;
-	    }
-	    /* Add undo data for each modified line. */
+	/* Comment/uncomment a line, and add undo data when line changed. */
+	if (comment_line(action, f, comment_seq))
 	    update_comment_undo(f->lineno);
-	}
     }
 
-    if (file_changed) {
-	set_modified();
-	refresh_needed = TRUE;
-    } else
-	statusbar(_("Cannot comment past end of file"));
+    set_modified();
+    refresh_needed = TRUE;
 }
 
 /* Test whether the given line can be uncommented, or add or remove a comment,
@@ -1284,22 +1280,6 @@ void add_undo(undo_type action)
 }
 
 #ifdef ENABLE_COMMENT
-/* Add a comment undo item.  This should be called once for each use
- * of the comment/uncomment feature that modifies the document. */
-void add_comment_undo(undo_type action, const char *comment_seq, size_t was_x,
-	size_t was_size)
-{
-    add_undo(action);
-
-    /* Store the comment sequence used for the operation, because it could
-     * change when the file name changes; we need to know what it was. */
-    openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
-
-    /* Store cursor position and file size from before the change. */
-    openfile->current_undo->begin = was_x;
-    openfile->current_undo->wassize= was_size;
-}
-
 /* Update a comment undo item.  This should be called once for each line
  * affected by the comment/uncomment feature. */
 void update_comment_undo(ssize_t lineno)
