@@ -483,14 +483,14 @@ size_t move_mbright(const char *buf, size_t pos)
 /* This function is equivalent to strcasecmp(). */
 int nstrcasecmp(const char *s1, const char *s2)
 {
-    return strncasecmp(s1, s2, (size_t)-1);
+    return strncasecmp(s1, s2, HIGHEST_POSITIVE);
 }
 #endif
 
 /* This function is equivalent to strcasecmp() for multibyte strings. */
 int mbstrcasecmp(const char *s1, const char *s2)
 {
-    return mbstrncasecmp(s1, s2, (size_t)-1);
+    return mbstrncasecmp(s1, s2, HIGHEST_POSITIVE);
 }
 
 #ifndef HAVE_STRNCASECMP
