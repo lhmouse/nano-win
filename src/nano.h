@@ -600,6 +600,9 @@ enum
 /* The maximum number of bytes buffered at one time. */
 #define MAX_BUF_SIZE 128
 
+/* The largest size_t number that doesn't have the high bit set. */
+#define HIGHEST_POSITIVE ((~(size_t)0) >> 1)
+
 #ifdef REVISION
 #define BRANDING PACKAGE_VERSION"-git  "REVISION
 #else

@@ -1221,7 +1221,7 @@ void update_history(filestruct **h, const char *s)
     assert(hage != NULL && hbot != NULL);
 
     /* See if this string is already in the history. */
-    thesame = find_history(*hbot, *hage, s, strlen(s));
+    thesame = find_history(*hbot, *hage, s, HIGHEST_POSITIVE);
 
     /* If an identical string was found, delete that item. */
     if (thesame != NULL) {
