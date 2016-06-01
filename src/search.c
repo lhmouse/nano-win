@@ -1206,7 +1206,7 @@ filestruct *find_history(const filestruct *h_start, const filestruct
  * list. */
 void update_history(filestruct **h, const char *s)
 {
-    filestruct **hage = NULL, **hbot = NULL, *p;
+    filestruct **hage = NULL, **hbot = NULL, *thesame;
 
     assert(h != NULL && s != NULL);
 
@@ -1220,22 +1220,19 @@ void update_history(filestruct **h, const char *s)
 
     assert(hage != NULL && hbot != NULL);
 
-    /* If this string is already in the history, delete it. */
-    p = find_history(*hbot, *hage, s, strlen(s));
+    /* See if this string is already in the history. */
+    thesame = find_history(*hbot, *hage, s, strlen(s));
 
-    if (p != NULL) {
-	filestruct *foo, *bar;
+    /* If an identical string was found, delete that item. */
+    if (thesame != NULL) {
+	filestruct *after = thesame->next;
 
-	/* If the string is at the beginning, move the beginning down to
-	 * the next string. */
-	if (p == *hage)
-	    *hage = (*hage)->next;
+	/* If the string is at the head of the list, move the head. */
+	if (thesame == *hage)
+	    *hage = after;
 
-	/* Delete the string. */
-	foo = p;
-	bar = p->next;
-	unlink_node(foo);
-	renumber(bar);
+	unlink_node(thesame);
+	renumber(after);
     }
 
     /* If the history is full, delete the beginning entry to make room
