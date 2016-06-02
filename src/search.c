@@ -1202,8 +1202,8 @@ filestruct *find_history(const filestruct *h_start, const filestruct
     return NULL;
 }
 
-/* Update a history list.  h should be the current position in the
- * list. */
+/* Update a history list (the one in which h is the current position)
+ * with a fresh string s.  That is: add s, or move it to the end. */
 void update_history(filestruct **h, const char *s)
 {
     filestruct **hage = NULL, **hbot = NULL, *thesame;
@@ -1220,7 +1220,7 @@ void update_history(filestruct **h, const char *s)
 
     assert(hage != NULL && hbot != NULL);
 
-    /* See if this string is already in the history. */
+    /* See if the string is already in the history. */
     thesame = find_history(*hbot, *hage, s, HIGHEST_POSITIVE);
 
     /* If an identical string was found, delete that item. */
@@ -1235,9 +1235,8 @@ void update_history(filestruct **h, const char *s)
 	renumber(after);
     }
 
-    /* If the history is full, delete the beginning entry to make room
-     * for the new entry at the end.  We assume that MAX_SEARCH_HISTORY
-     * is greater than zero. */
+    /* If the history is full, delete the oldest item (the one at the
+     * head of the list), to make room for a new item at the end. */
     if ((*hbot)->lineno == MAX_SEARCH_HISTORY + 1) {
 	filestruct *foo = *hage;
 
@@ -1246,13 +1245,13 @@ void update_history(filestruct **h, const char *s)
 	renumber(*hage);
     }
 
-    /* Add the new entry to the end. */
+    /* Store the fresh string in the last item, then create a new item. */
     (*hbot)->data = mallocstrcpy((*hbot)->data, s);
     splice_node(*hbot, make_new_node(*hbot));
     *hbot = (*hbot)->next;
     (*hbot)->data = mallocstrcpy(NULL, "");
 
-    /* Indicate that the history's been changed. */
+    /* Indicate that the history needs to be saved on exit. */
     history_changed = TRUE;
 
     /* Set the current position in the list to the bottom. */
