@@ -46,7 +46,7 @@ static size_t selected = 0;
  * start browsing from. */
 char *do_browser(char *path)
 {
-    char *retval = NULL;
+    char *retval = NULL, *newpath = NULL;
     int kbinput;
     char *present_name = NULL;
 	/* The name of the currently selected file, or of the directory we
@@ -75,17 +75,33 @@ char *do_browser(char *path)
     /* Start with no key pressed. */
     kbinput = ERR;
 
-    path = mallocstrassn(path, get_full_path(path));
+    path = mallocstrassn(path, get_full_path(newpath ? newpath : path));
 
-    /* Save the current path in order to be used later. */
-    present_path = mallocstrcpy(present_path, path);
+    if (path != NULL && newpath != NULL)
+	dir = opendir(path);
+
+    if (path == NULL || dir == NULL) {
+	statusline(ALERT, "Cannot open directory: %s", strerror(errno));
+	/* If we don't have a file list yet, there is nothing to show. */
+	if (filelist == NULL) {
+	    napms(1200);
+	    lastmessage = HUSH;
+	    free(path);
+	    free(present_name);
+	    return NULL;
+	}
+	path = mallocstrcpy(path, present_path);
+	present_name = mallocstrcpy(present_name, filelist[selected]);
+    }
 
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
-    /* Get the file list, and set longest and width in the process. */
-    read_the_list(path, dir);
-
-    closedir(dir);
+    if (dir != NULL) {
+	/* Get the file list, and set longest and width in the process. */
+	read_the_list(path, dir);
+	closedir(dir);
+	dir = NULL;
+    }
 
     /* If given, reselect the present_name and then discard it. */
     if (present_name != NULL) {
@@ -98,6 +114,9 @@ char *do_browser(char *path)
 	selected = 0;
 
     old_selected = (size_t)-1;
+
+    newpath = NULL;
+    present_path = mallocstrcpy(present_path, path);
 
     titlebar(path);
 
@@ -323,22 +342,13 @@ char *do_browser(char *path)
 		break;
 	    }
 
-	    dir = opendir(filelist[selected]);
-
-	    if (dir == NULL) {
-		statusline(ALERT, _("Error reading %s: %s"),
-				filelist[selected], strerror(errno));
-		continue;
-	    }
-
-	    /* If we moved up one level, remember where we came from, so
+	    /* If we are moving up one level, remember where we came from, so
 	     * this directory can be highlighted and easily reentered. */
 	    if (strcmp(tail(filelist[selected]), "..") == 0)
 		present_name = striponedir(filelist[selected]);
 
-	    path = mallocstrcpy(path, filelist[selected]);
-
-	    /* Start over again with the new path value. */
+	    /* Try opening and reading the selected directory. */
+	    newpath = filelist[selected];
 	    goto read_directory_contents;
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
