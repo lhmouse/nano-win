@@ -1784,7 +1784,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	 * the left of the screen. */
 	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
 
-	if (is_cntrl_mbchar(buf_mb)) {
+	if (is_cntrl_mbchar(buf + start_index)) {
 	    if (column < start_col) {
 		converted[index++] = control_mbrep(buf_mb);
 		start_col++;
@@ -1850,7 +1850,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		start_col++;
 	    }
 	/* If buf contains a control character, represent it. */
-	} else if (is_cntrl_mbchar(buf_mb)) {
+	} else if (is_cntrl_mbchar(buf + start_index)) {
 	    converted[index++] = '^';
 	    converted[index++] = control_mbrep(buf_mb);
 	    start_col += 2;
