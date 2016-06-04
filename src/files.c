@@ -252,7 +252,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     snprintf(&lockdata[2], 11, "nano %s", VERSION);
     strncpy(&lockdata[28], mypwuid->pw_name, 16);
     strncpy(&lockdata[68], myhostname, 31);
-    strncpy(&lockdata[108], origfilename, 768);
+    if (origfilename != NULL)
+	strncpy(&lockdata[108], origfilename, 768);
     if (modified == TRUE)
 	lockdata[1007] = 0x55;
 
