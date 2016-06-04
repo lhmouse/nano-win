@@ -137,6 +137,9 @@ void do_deletion(undo_type action)
 		strlen(openfile->current->data) + strlen(foo->data) + 1);
 	strcat(openfile->current->data, foo->data);
 
+	/* Adjust the file size, and remember it for a possible redo. */
+	openfile->current_undo->newsize = --(openfile->totsize);
+
 #ifndef NANO_TINY
 	if (openfile->mark_set &&
 		openfile->mark_begin == openfile->current->next) {
@@ -146,7 +149,6 @@ void do_deletion(undo_type action)
 #endif
 	unlink_node(foo);
 	renumber(openfile->current);
-	openfile->totsize--;
 
 	/* Two lines were joined, so we need to refresh the screen. */
 	refresh_needed = TRUE;
