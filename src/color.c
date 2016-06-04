@@ -189,11 +189,14 @@ void color_update(void)
     /* If no syntax-override string was specified, or it didn't match,
      * try finding a syntax based on the filename (extension). */
     if (sint == NULL) {
-	char *currentdir = getcwd(NULL, PATH_MAX + 1);
+	char *reserved = charalloc(PATH_MAX + 1);
+	char *currentdir = getcwd(reserved, PATH_MAX + 1);
 	char *joinednames = charalloc(PATH_MAX + 1);
 	char *fullname = NULL;
 
-	if (currentdir != NULL) {
+	if (currentdir == NULL)
+	    free(reserved);
+	else {
 	    /* Concatenate the current working directory with the
 	     * specified filename, and canonicalize the result. */
 	    sprintf(joinednames, "%s/%s", currentdir, openfile->filename);
