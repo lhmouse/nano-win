@@ -35,10 +35,6 @@
 
 static bool use_utf8 = FALSE;
 	/* Whether we've enabled UTF-8 support. */
-static const wchar_t bad_wchar = 0xFFFD;
-	/* If we get an invalid multibyte sequence, we treat it as
-	 * Unicode FFFD (Replacement Character), unless we're searching
-	 * for a match to it. */
 static const char *const bad_mbchar = "\xEF\xBF\xBD";
 static const int bad_mbchar_len = 3;
 
@@ -110,7 +106,7 @@ bool is_alnum_mbchar(const char *c)
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc_reset();
-	    wc = bad_wchar;
+	    return 0;
 	}
 
 	return iswalnum(wc);
@@ -130,7 +126,7 @@ bool is_blank_mbchar(const char *c)
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc_reset();
-	    wc = bad_wchar;
+	    return 0;
 	}
 
 	return iswblank(wc);
@@ -180,7 +176,7 @@ bool is_punct_mbchar(const char *c)
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc_reset();
-	    wc = bad_wchar;
+	    return 0;
 	}
 
 	return iswpunct(wc);
