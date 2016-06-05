@@ -280,15 +280,13 @@ int mbwidth(const char *c)
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc_reset();
-	    wc = bad_wchar;
+	    return 1;
 	}
 
 	width = wcwidth(wc);
 
-	if (width == -1) {
-	    wc = bad_wchar;
-	    width = wcwidth(wc);
-	}
+	if (width == -1)
+	    return 1;
 
 	return width;
     } else
