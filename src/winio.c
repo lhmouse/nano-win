@@ -1739,8 +1739,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* The string we return. */
     size_t index;
 	/* Current position in converted. */
-    char *buf_mb;
-    int buf_mb_len;
 
     /* If dollars is TRUE, make room for the "$" at the end of the
      * line. */
@@ -1749,8 +1747,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     if (len == 0)
 	return mallocstrcpy(NULL, "");
-
-    buf_mb = charalloc(mb_cur_max());
 
     start_index = actual_x(buf, start_col);
     column = strnlenpt(buf, start_index);
@@ -1762,22 +1758,21 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     index = 0;
     seen_wide = FALSE;
+    buf += start_index;
 
-    if (buf[start_index] != '\0' && buf[start_index] != '\t' &&
+    if (*buf != '\0' && *buf != '\t' &&
 	(column < start_col || (dollars && column > 0))) {
-	/* We don't display all of buf[start_index] since it starts to
+	/* We don't display the complete first character as it starts to
 	 * the left of the screen. */
-	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
-
-	if (is_cntrl_mbchar(buf + start_index)) {
+	if (is_cntrl_mbchar(buf)) {
 	    if (column < start_col) {
-		converted[index++] = control_mbrep(buf_mb);
+		converted[index++] = control_mbrep(buf);
 		start_col++;
-		start_index += buf_mb_len;
+		buf += parse_mbchar(buf, NULL, NULL);
 	    }
 	}
 #ifdef ENABLE_UTF8
-	else if (using_utf8() && mbwidth(buf_mb) == 2) {
+	else if (using_utf8() && mbwidth(buf) == 2) {
 	    if (column >= start_col) {
 		converted[index++] = ' ';
 		start_col++;
@@ -1786,18 +1781,16 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    converted[index++] = ' ';
 	    start_col++;
 
-	    start_index += buf_mb_len;
+	    buf += parse_mbchar(buf, NULL, NULL);
 	}
 #endif
     }
 
-    while (buf[start_index] != '\0') {
-	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
-
-	if (mbwidth(buf + start_index) > 1)
+    while (*buf != '\0') {
+	if (mbwidth(buf) > 1)
 	    seen_wide = TRUE;
 
-	if (*buf_mb == ' ') {
+	if (*buf == ' ') {
 	    /* Show a space as a visible character, or as a space. */
 #ifndef NANO_TINY
 	    if (ISSET(WHITESPACE_DISPLAY)) {
@@ -1809,7 +1802,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
 		converted[index++] = ' ';
 	    start_col++;
-	} else if (*buf_mb == '\t') {
+	} else if (*buf == '\t') {
 	    /* Show a tab as a visible character, or as as a space. */
 #ifndef NANO_TINY
 	    if (ISSET(WHITESPACE_DISPLAY)) {
@@ -1827,17 +1820,16 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		start_col++;
 	    }
 	/* If buf contains a control character, represent it. */
-	} else if (is_cntrl_mbchar(buf + start_index)) {
+	} else if (is_cntrl_mbchar(buf)) {
 	    converted[index++] = '^';
-	    converted[index++] = control_mbrep(buf_mb);
+	    converted[index++] = control_mbrep(buf);
 	    start_col += 2;
 	/* If buf contains a non-control character, interpret it.  If buf
 	 * contains an invalid multibyte sequence, display it as such. */
 	} else {
 	    char *character = charalloc(mb_cur_max());
 	    int charlen, i;
-
-	    character = mbrep(buf + start_index, character, &charlen);
+	    character = mbrep(buf, character, &charlen);
 
 	    for (i = 0; i < charlen; i++)
 		converted[index++] = character[i];
@@ -1847,10 +1839,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    free(character);
 	}
 
-	start_index += buf_mb_len;
+	buf += parse_mbchar(buf, NULL, NULL);
     }
-
-    free(buf_mb);
 
     /* Null-terminate converted. */
     converted[index] = '\0';
