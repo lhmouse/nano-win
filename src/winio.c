@@ -1787,9 +1787,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     while (*buf != '\0') {
-	if (mbwidth(buf) > 1)
-	    seen_wide = TRUE;
-
 	if (*buf == ' ') {
 	    /* Show a space as a visible character, or as a space. */
 #ifndef NANO_TINY
@@ -1837,6 +1834,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    start_col += mbwidth(character);
 
 	    free(character);
+
+	    if (mbwidth(buf) > 1)
+		seen_wide = TRUE;
 	}
 
 	buf += parse_mbchar(buf, NULL, NULL);
