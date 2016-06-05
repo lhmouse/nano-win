@@ -1837,14 +1837,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    char *character = charalloc(mb_cur_max());
 	    int charlen, i;
 
-#ifdef ENABLE_UTF8
-	    /* Make sure an invalid sequence-starter byte is properly
-	     * terminated, so that it doesn't pick up lingering bytes
-	     * of any previous content. */
-	    if (using_utf8() && buf_mb_len == 1)
-		buf_mb[1] = '\0';
-#endif
-	    character = mbrep(buf_mb, character, &charlen);
+	    character = mbrep(buf + start_index, character, &charlen);
 
 	    for (i = 0; i < charlen; i++)
 		converted[index++] = character[i];
