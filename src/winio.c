@@ -1735,8 +1735,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* Index in buf of the first character shown. */
     size_t column;
 	/* Screen column that start_index corresponds to. */
-    size_t alloc_len;
-	/* The length of memory allocated for converted. */
     char *converted;
 	/* The string we return. */
     size_t index;
@@ -1759,21 +1757,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     assert(column <= start_col);
 
-    /* Make sure there's enough room for the initial character, whether
-     * it's a multibyte control character, a non-control multibyte
-     * character, a tab character, or a null terminator.  Rationale:
-     *
-     * multibyte control character followed by a null terminator:
-     *     1 byte ('^') + mb_cur_max() bytes + 1 byte ('\0')
-     * multibyte non-control character followed by a null terminator:
-     *     mb_cur_max() bytes + 1 byte ('\0')
-     * tab character followed by a null terminator:
-     *     mb_cur_max() bytes + (tabsize - 1) bytes + 1 byte ('\0')
-     *
-     * Since tabsize has a minimum value of 1, it can substitute for 1
-     * byte above. */
-    alloc_len = (mb_cur_max() + tabsize + 1) * MAX_BUF_SIZE;
-    converted = charalloc(alloc_len);
+    /* Allocate enough space to hold the entire converted buffer. */
+    converted = charalloc(strlen(buf) * (mb_cur_max() + tabsize) + 1);
 
     index = 0;
     seen_wide = FALSE;
@@ -1811,14 +1796,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	if (mbwidth(buf + start_index) > 1)
 	    seen_wide = TRUE;
-
-	/* Make sure there's enough room for the next character, whether
-	 * it's a multibyte control character, a non-control multibyte
-	 * character, a tab character, or a null terminator. */
-	if (index + mb_cur_max() + tabsize + 1 >= alloc_len - 1) {
-	    alloc_len += (mb_cur_max() + tabsize + 1) * MAX_BUF_SIZE;
-	    converted = charealloc(converted, alloc_len);
-	}
 
 	if (*buf_mb == ' ') {
 	    /* Show a space as a visible character, or as a space. */
@@ -1881,8 +1858,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     free(buf_mb);
-
-    assert(alloc_len >= index + 1);
 
     /* Null-terminate converted. */
     converted[index] = '\0';
