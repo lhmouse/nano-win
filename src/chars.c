@@ -230,8 +230,9 @@ char control_mbrep(const char *c)
 
 /* Assess how many bytes the given (multibyte) character occupies.  Return -1
  * if the byte sequence is invalid, and return the number of bytes minus 8
- * when the byte sequence encodes an invalid codepoint. */
-int length_of_char(const char *c)
+ * when it encodes an invalid codepoint.  Also, in the second parameter,
+ * return the number of columns that the character occupies. */
+int length_of_char(const char *c, int *width)
 {
     assert(c != NULL);
 
@@ -249,8 +250,13 @@ int length_of_char(const char *c)
 	/* If the codepoint is invalid... */
 	if (!is_valid_unicode(wc))
 	    return charlen - 8;
-	else
+	else {
+	    *width = wcwidth(wc);
+	    /* If the codepoint is unassigned, assume a width of one. */
+	    if (*width < 0)
+		*width = 1;
 	    return charlen;
+	}
     } else
 #endif
 	return 1;

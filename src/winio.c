@@ -1780,7 +1780,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     while (*buf != '\0') {
-	int charlength;
+	int charlength, charwidth = 1;
 
 	if (*buf == ' ') {
 	    /* Show a space as a visible character, or as a space. */
@@ -1817,7 +1817,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    continue;
 	}
 
-	charlength = length_of_char(buf);
+	charlength = length_of_char(buf, &charwidth);
 
 	/* If buf contains a control character, represent it. */
 	if (is_cntrl_mbchar(buf)) {
@@ -1830,13 +1830,11 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	/* If buf contains a valid non-control character, simply copy it. */
 	if (charlength > 0) {
-	    int width = mbwidth(buf);
-
 	    for (; charlength > 0; charlength--)
 		converted[index++] = *(buf++);
 
-	    start_col += width;
-	    if (width > 1)
+	    start_col += charwidth;
+	    if (charwidth > 1)
 		seen_wide = TRUE;
 
 	    continue;
