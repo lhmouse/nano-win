@@ -137,10 +137,13 @@ void do_deletion(undo_type action)
 		strlen(openfile->current->data) + strlen(foo->data) + 1);
 	strcat(openfile->current->data, foo->data);
 
-	/* Adjust the file size, and remember it for a possible redo. */
-	openfile->current_undo->newsize = --(openfile->totsize);
+	/* Adjust the file size. */
+	openfile->totsize--;
 
 #ifndef NANO_TINY
+	/* Remember the new file size for a possible redo. */
+	openfile->current_undo->newsize = openfile->totsize;
+
 	if (openfile->mark_set &&
 		openfile->mark_begin == openfile->current->next) {
 	    openfile->mark_begin = openfile->current;
