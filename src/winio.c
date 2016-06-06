@@ -1780,6 +1780,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     while (*buf != '\0') {
+	int charlength;
+
 	if (*buf == ' ') {
 	    /* Show a space as a visible character, or as a space. */
 #ifndef NANO_TINY
@@ -1792,6 +1794,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
 		converted[index++] = ' ';
 	    start_col++;
+	    buf++;
+	    continue;
 	} else if (*buf == '\t') {
 	    /* Show a tab as a visible character, or as as a space. */
 #ifndef NANO_TINY
@@ -1809,30 +1813,46 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		converted[index++] = ' ';
 		start_col++;
 	    }
+	    buf++;
+	    continue;
+	}
+
+	charlength = length_of_char(buf);
+
 	/* If buf contains a control character, represent it. */
-	} else if (is_cntrl_mbchar(buf)) {
+	if (is_cntrl_mbchar(buf)) {
 	    converted[index++] = '^';
 	    converted[index++] = control_mbrep(buf);
 	    start_col += 2;
-	/* If buf contains a non-control character, interpret it.  If buf
-	 * contains an invalid multibyte sequence, display it as such. */
-	} else {
-	    char *character = charalloc(mb_cur_max());
-	    int charlen, i;
-	    character = mbrep(buf, character, &charlen);
-
-	    for (i = 0; i < charlen; i++)
-		converted[index++] = character[i];
-
-	    start_col += mbwidth(character);
-
-	    free(character);
-
-	    if (mbwidth(buf) > 1)
-		seen_wide = TRUE;
+	    buf += charlength;
+	    continue;
 	}
 
-	buf += parse_mbchar(buf, NULL, NULL);
+	/* If buf contains a valid non-control character, simply copy it. */
+	if (charlength > 0) {
+	    int width = mbwidth(buf);
+
+	    for (; charlength > 0; charlength--)
+		converted[index++] = *(buf++);
+
+	    start_col += width;
+	    if (width > 1)
+		seen_wide = TRUE;
+
+	    continue;
+	}
+
+	/* Represent an invalid sequence with the Replacement Character. */
+	converted[index++] = '\xEF';
+	converted[index++] = '\xBF';
+	converted[index++] = '\xBD';
+
+	start_col += 1;
+	buf++;
+
+	/* For invalid codepoints, skip extra bytes. */
+	if (charlength < -1)
+	   buf += charlength + 7;
     }
 
     /* Null-terminate converted. */

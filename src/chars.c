@@ -35,8 +35,6 @@
 
 static bool use_utf8 = FALSE;
 	/* Whether we've enabled UTF-8 support. */
-static const char *const bad_mbchar = "\xEF\xBF\xBD";
-static const int bad_mbchar_len = 3;
 
 /* Enable UTF-8 support. */
 void utf8_init(void)
@@ -230,38 +228,32 @@ char control_mbrep(const char *c)
 	return control_rep(*c);
 }
 
-/* c is a multibyte non-control character.  We return that multibyte
- * character.  If crep is an invalid multibyte sequence, it will be
- * replaced with Unicode 0xFFFD (Replacement Character). */
-char *mbrep(const char *c, char *crep, int *crep_len)
+/* Assess how many bytes the given (multibyte) character occupies.  Return -1
+ * if the byte sequence is invalid, and return the number of bytes minus 8
+ * when the byte sequence encodes an invalid codepoint. */
+int length_of_char(const char *c)
 {
-    assert(c != NULL && crep != NULL && crep_len != NULL);
+    assert(c != NULL);
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
+	int charlen = mbtowc(&wc, c, MB_CUR_MAX);
 
-	/* Reject invalid Unicode characters. */
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0 || !is_valid_unicode(wc)) {
+	/* If the sequence is invalid... */
+	if (charlen < 0) {
 	    mbtowc_reset();
-	    *crep_len = bad_mbchar_len;
-	    strncpy(crep, bad_mbchar, *crep_len);
-	} else {
-	    *crep_len = wctomb(crep, wc);
-
-	    if (*crep_len < 0) {
-		wctomb_reset();
-		*crep_len = 0;
-	    }
+	    return -1;
 	}
+
+	/* If the codepoint is invalid... */
+	if (!is_valid_unicode(wc))
+	    return charlen - 8;
+	else
+	    return charlen;
     } else
 #endif
-    {
-	*crep_len = 1;
-	*crep = *c;
-    }
-
-    return crep;
+	return 1;
 }
 
 /* This function is equivalent to wcwidth() for multibyte characters. */

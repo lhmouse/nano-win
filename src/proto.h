@@ -188,7 +188,7 @@ bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_rep(const signed char c);
 char control_mbrep(const char *c);
-char *mbrep(const char *c, char *crep, int *crep_len);
+int length_of_char(const char *c);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(long chr, int *chr_mb_len);
