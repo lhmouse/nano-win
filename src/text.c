@@ -87,10 +87,11 @@ void do_deletion(undo_type action)
     openfile->placewewant = xplustabs();
 
     if (openfile->current->data[openfile->current_x] != '\0') {
+	/* We're in the middle of a line: delete the current character. */
 	int char_buf_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, NULL, NULL);
+					openfile->current_x, NULL, NULL);
 	size_t line_len = strlen(openfile->current->data +
-		openfile->current_x);
+					openfile->current_x);
 
 	assert(openfile->current_x < strlen(openfile->current->data));
 
@@ -101,27 +102,31 @@ void do_deletion(undo_type action)
 	    orig_lenpt = strlenpt(openfile->current->data);
 #endif
 
-	/* Let's get dangerous. */
+	/* Move the remainder of the line "in", over the current character. */
 	charmove(&openfile->current->data[openfile->current_x],
-		&openfile->current->data[openfile->current_x +
-		char_buf_len], line_len - char_buf_len + 1);
-
+		&openfile->current->data[openfile->current_x + char_buf_len],
+		line_len - char_buf_len + 1);
 	null_at(&openfile->current->data, openfile->current_x +
 		line_len - char_buf_len);
+
 #ifndef NANO_TINY
+	/* Adjust the mark if it is after the cursor on the current line. */
 	if (openfile->mark_set && openfile->mark_begin == openfile->current &&
-		openfile->current_x < openfile->mark_begin_x)
+				openfile->mark_begin_x > openfile->current_x)
 	    openfile->mark_begin_x -= char_buf_len;
 #endif
+	/* Adjust the file size. */
 	openfile->totsize--;
     } else if (openfile->current != openfile->filebot) {
-	filestruct *foo = openfile->current->next;
+	/* We're at the end of a line and not at the end of the file: join
+	 * this line with the next. */
+	filestruct *joining = openfile->current->next;
 
 	assert(openfile->current_x == strlen(openfile->current->data));
 
-	/* When nonewlines isn't set, don't delete the final, magic newline. */
-	if (!ISSET(NO_NEWLINES) && foo == openfile->filebot &&
-		openfile->current_x != 0) {
+	/* If there is a magic line, and we're before it: don't eat it. */
+	if (joining == openfile->filebot && openfile->current_x != 0 &&
+		!ISSET(NO_NEWLINES)) {
 #ifndef NANO_TINY
 	    if (action == BACK)
 		add_undo(BACK);
@@ -132,10 +137,10 @@ void do_deletion(undo_type action)
 #ifndef NANO_TINY
 	add_undo(action);
 #endif
-
+	/* Add the contents of the next line to those of the current one. */
 	openfile->current->data = charealloc(openfile->current->data,
-		strlen(openfile->current->data) + strlen(foo->data) + 1);
-	strcat(openfile->current->data, foo->data);
+		strlen(openfile->current->data) + strlen(joining->data) + 1);
+	strcat(openfile->current->data, joining->data);
 
 	/* Adjust the file size. */
 	openfile->totsize--;
@@ -144,18 +149,19 @@ void do_deletion(undo_type action)
 	/* Remember the new file size for a possible redo. */
 	openfile->current_undo->newsize = openfile->totsize;
 
-	if (openfile->mark_set &&
-		openfile->mark_begin == openfile->current->next) {
+	/* Adjust the mark if it was on the line that was "eaten". */
+	if (openfile->mark_set && openfile->mark_begin == joining) {
 	    openfile->mark_begin = openfile->current;
 	    openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
-	unlink_node(foo);
+	unlink_node(joining);
 	renumber(openfile->current);
 
 	/* Two lines were joined, so we need to refresh the screen. */
 	refresh_needed = TRUE;
     } else
+	/* We're at the end-of-file: nothing to do. */
 	return;
 
 #ifndef NANO_TINY
