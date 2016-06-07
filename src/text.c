@@ -661,9 +661,6 @@ void redo_cut(undo *u)
 
     do_cut_text(FALSE, FALSE);
 
-    openfile->mark_set = FALSE;
-    openfile->mark_begin = NULL;
-
     free_filestruct(cutbuffer);
     cutbuffer = oldcutbuffer;
     cutbottom = oldcutbottom;
