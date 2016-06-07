@@ -1257,7 +1257,6 @@ void add_undo(undo_type action)
     case PASTE:
 	u->cutbuffer = copy_filestruct(cutbuffer);
 	u->lineno += cutbottom->lineno - cutbuffer->lineno;
-	u->mark_set = TRUE;
 	break;
     case ENTER:
 	break;
