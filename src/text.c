@@ -818,6 +818,7 @@ void do_undo(void)
     renumber(f);
     openfile->current_undo = openfile->current_undo->next;
     openfile->last_action = OTHER;
+    openfile->mark_set = FALSE;
     openfile->placewewant = xplustabs();
     openfile->totsize = u->wassize;
     set_modified();
@@ -964,6 +965,7 @@ void do_redo(void)
 
     openfile->current_undo = u;
     openfile->last_action = OTHER;
+    openfile->mark_set = FALSE;
     openfile->placewewant = xplustabs();
     openfile->totsize = u->newsize;
     set_modified();
