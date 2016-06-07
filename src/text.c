@@ -1156,7 +1156,7 @@ void add_undo(undo_type action)
      * no cursor movement in between -- don't add a new undo item. */
     if (u && u->mark_begin_lineno == openfile->current->lineno && action == openfile->last_action &&
 	((action == ADD && u->type == ADD && u->mark_begin_x == openfile->current_x) ||
-	(action == CUT && u->type == CUT && !u->mark_set && keeping_cutbuffer())))
+	(action == CUT && u->type == CUT && u->xflags < MARK_WAS_SET && keeping_cutbuffer())))
 	return;
 
     /* Blow away newer undo items if we add somewhere in the middle. */
@@ -1190,7 +1190,6 @@ void add_undo(undo_type action)
     u->begin = openfile->current_x;
     u->mark_begin_lineno = openfile->current->lineno;
     u->mark_begin_x = openfile->current_x;
-    u->mark_set = FALSE;
     u->wassize = openfile->totsize;
     u->xflags = 0;
     u->grouping = NULL;
@@ -1244,10 +1243,10 @@ void add_undo(undo_type action)
 	break;
     case CUT:
 	cutbuffer_reset();
-	u->mark_set = openfile->mark_set;
-	if (u->mark_set) {
+	if (openfile->mark_set) {
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;
 	    u->mark_begin_x = openfile->mark_begin_x;
+	    u->xflags = MARK_WAS_SET;
 	} else if (!ISSET(CUT_TO_END)) {
 	    /* The entire line is being cut regardless of the cursor position. */
 	    u->begin = 0;
@@ -1379,7 +1378,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	    break;
 	free_filestruct(u->cutbuffer);
 	u->cutbuffer = copy_filestruct(cutbuffer);
-	if (u->mark_set) {
+	if (u->xflags == MARK_WAS_SET) {
 	    /* If the "marking" operation was from right-->left or
 	     * bottom-->top, then swap the mark points. */
 	    if ((u->lineno == u->mark_begin_lineno && u->begin < u->mark_begin_x)
