@@ -2122,26 +2122,30 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
     }
 
     if (!tmp && append == OVERWRITE) {
-	if (!nonamechange) {
-	    filestruct *line;
-
-	    openfile->filename = mallocstrcpy(openfile->filename,
-		realname);
+	/* If we must set the filename, and it changed, adjust things. */
+	if (!nonamechange && strcmp(openfile->filename, realname) != 0) {
 #ifndef DISABLE_COLOR
-	    /* Discard all the now (possibly) obsolete multidata. */
-	    for (line = openfile->fileage; line != NULL; line = line->next) {
-		free(line->multidata);
-		line->multidata = NULL;
-	    }
+	    char *syntaxname = openfile->syntax ? openfile->syntax->name : "";
+	    filestruct *line = openfile->fileage;
+#endif
+	    openfile->filename = mallocstrcpy(openfile->filename, realname);
 
-	    /* We might have changed the filename, so update the colors
-	     * to account for it, and then make sure we're using them. */
+#ifndef DISABLE_COLOR
+	    /* See if the applicable syntax has changed. */
 	    color_update();
 	    color_init();
-	    precalc_multicolorinfo();
 
-	    /* If color syntaxes are available and turned on, we need to
-	     * call edit_refresh(). */
+	    /* If the syntax changed, discard and recompute the multidata. */
+	    if (openfile->syntax &&
+			strcmp(syntaxname, openfile->syntax->name) != 0) {
+		for (; line != NULL; line = line->next) {
+		    free(line->multidata);
+		    line->multidata = NULL;
+		}
+		precalc_multicolorinfo();
+	    }
+
+	    /* If color syntaxes are available and turned on, refresh. */
 	    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
 		edit_refresh();
 #endif
