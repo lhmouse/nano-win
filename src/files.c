@@ -2123,13 +2123,22 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
     if (!tmp && append == OVERWRITE) {
 	if (!nonamechange) {
+	    filestruct *line;
+
 	    openfile->filename = mallocstrcpy(openfile->filename,
 		realname);
 #ifndef DISABLE_COLOR
+	    /* Discard all the now (possibly) obsolete multidata. */
+	    for (line = openfile->fileage; line != NULL; line = line->next) {
+		free(line->multidata);
+		line->multidata = NULL;
+	    }
+
 	    /* We might have changed the filename, so update the colors
 	     * to account for it, and then make sure we're using them. */
 	    color_update();
 	    color_init();
+	    precalc_multicolorinfo();
 
 	    /* If color syntaxes are available and turned on, we need to
 	     * call edit_refresh(). */
