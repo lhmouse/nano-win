@@ -2037,6 +2037,9 @@ int main(int argc, char **argv)
     };
 #endif
 
+    /* Back up the terminal settings so that they can be restored. */
+    tcgetattr(0, &oldterm);
+
 #ifdef ENABLE_UTF8
     {
 	/* If the locale set exists and uses UTF-8, we should use
@@ -2423,6 +2426,12 @@ int main(int argc, char **argv)
 	init_backup_dir();
 #endif
 
+#ifndef DISABLE_OPERATINGDIR
+    /* Set up the operating directory.  This entails chdir()ing there,
+     * so that file reads and writes will be based there. */
+    init_operating_dir();
+#endif
+
 #ifndef DISABLE_JUSTIFY
     /* If punct wasn't specified, set its default value. */
     if (punct == NULL)
@@ -2504,9 +2513,6 @@ int main(int argc, char **argv)
     if (tabsize == -1)
 	tabsize = WIDTH_OF_TAB;
 
-    /* Back up the old terminal settings so that they can be restored. */
-    tcgetattr(0, &oldterm);
-
     /* Initialize curses mode.  If this fails, get out. */
     if (initscr() == NULL)
 	exit(1);
@@ -2552,12 +2558,6 @@ int main(int argc, char **argv)
     keyvalue = tigetstr("kRIT5");
     if (keyvalue != 0 && keyvalue != (char *)-1)
 	controlright = key_defined(keyvalue);
-#endif
-
-#ifndef DISABLE_OPERATINGDIR
-    /* Set up the operating directory.  This entails chdir()ing there,
-     * so that file reads and writes will be based there. */
-    init_operating_dir();
 #endif
 
 #ifdef DEBUG
