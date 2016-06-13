@@ -935,9 +935,9 @@ void usage(void)
 void version(void)
 {
 #ifdef REVISION
-    printf(" GNU nano from git, commit %s (after %s)\n", REVISION, VERSION);
+    printf(" nano from git, commit %s (after %s)\n", REVISION, VERSION);
 #else
-    printf(_(" GNU nano, version %s\n"), VERSION);
+    printf(_(" nano, version %s\n"), VERSION);
 #endif
     printf(" (C) 1999..2016 Free Software Foundation, Inc.\n");
     printf(

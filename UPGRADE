@@ -1,5 +1,5 @@
-GNU nano upgrading information
-==============================
+nano upgrading information
+==========================
 
 Visible changes since 2.0
 -------------------------
@@ -108,4 +108,4 @@ Visible changes since 1.0
   - Creation of backup files (-B).
   - Search/replace history (-H).
 
-See the GNU nano manual for detailed information on each feature.
+See the nano manual for detailed information on each feature.
