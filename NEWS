@@ -1,3 +1,16 @@
+2016.06.17 - nano 2.6.0 "Rubicon" fixes more than fifty little bugs -- and
+		some of them not so little.  It improves moving about in
+		the file browser, corrects failings of the internal spell
+		checker, adds a new feature (comment/uncomment lines, with
+		default binding M-3), makes some error messages clearer,
+		shows more of a file when positionlog is used and the cursor
+		is near the end, displays all error messages at startup if
+		there are multiple ones, does not misinterpret keystrokes
+		when typing very fast, is less eager to trim the filename
+		on narrow terminals, speeds up case-insensitive searches,
+		and allows to abort re-searches.  Among bunches of other
+		things.  It is worth the trouble to upgrade.
+
 2016.02.25 - GNU nano 2.5.3 "Alphys" is released.  This release
 		contains fixes for bugs like: stray cursor positioning
 		errors, many many memory leaks including file reading,
