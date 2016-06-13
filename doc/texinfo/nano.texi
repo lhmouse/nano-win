@@ -5,9 +5,9 @@
 @c %**end of header
 
 @smallbook
-@set EDITION 0.3
-@set VERSION 2.5.2
-@set UPDATED February 2016
+@set EDITION 0.4
+@set VERSION 2.6.0
+@set UPDATED June 2016
 
 @dircategory Editors
 @direntry
@@ -21,13 +21,12 @@
 @titlepage
 @title @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.5.2
+@subtitle version 2.6.0
 
 @author Chris Allegretta
 @page
 
-This manual documents @code{nano}, a small and friendly text
-editor.
+This manual documents @code{nano}, a small and friendly text editor.
 
 This manual is part of the @code{nano} distribution.@*
 @sp 4
