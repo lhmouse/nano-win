@@ -246,23 +246,20 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
  * at (filebot, strlen(filebot->data)) again. */
 void unpartition_filestruct(partition **p)
 {
-    char *tmp;
-
     assert(p != NULL && openfile->fileage != NULL && openfile->filebot != NULL);
 
     /* Reattach the line above the top of the partition, and restore the
      * text before top_x from top_data.  Free top_data when we're done
      * with it. */
-    tmp = mallocstrcpy(NULL, openfile->fileage->data);
     openfile->fileage->prev = (*p)->top_prev;
     if (openfile->fileage->prev != NULL)
 	openfile->fileage->prev->next = openfile->fileage;
     openfile->fileage->data = charealloc(openfile->fileage->data,
 		strlen((*p)->top_data) + strlen(openfile->fileage->data) + 1);
-    strcpy(openfile->fileage->data, (*p)->top_data);
+    charmove(openfile->fileage->data + strlen((*p)->top_data),
+		openfile->fileage->data, strlen(openfile->fileage->data) + 1);
+    strncpy(openfile->fileage->data, (*p)->top_data, strlen((*p)->top_data));
     free((*p)->top_data);
-    strcat(openfile->fileage->data, tmp);
-    free(tmp);
 
     /* Reattach the line below the bottom of the partition, and restore
      * the text after bot_x from bot_data.  Free bot_data when we're
