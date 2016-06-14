@@ -751,7 +751,7 @@ void do_undo(void)
     case PASTE:
 	undidmsg = _("text uncut");
 	undo_paste(u);
-	f = fsfromline(u->lineno);
+	f = fsfromline(u->mark_begin_lineno);
 	break;
     case ENTER:
 	if (f->next == NULL) {
