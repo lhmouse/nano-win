@@ -628,7 +628,7 @@ ssize_t do_replace_loop(
     if (old_mark_set) {
 	/* If the mark is on, frame the region, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, &right_side_up);
+			(const filestruct **)&bot, &bot_x, &right_side_up);
 	openfile->mark_set = FALSE;
 
 	/* Start either at the top or the bottom of the marked region. */

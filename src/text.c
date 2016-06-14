@@ -306,7 +306,7 @@ void do_indent(ssize_t cols)
     /* If the mark is on, use all lines covered by the mark. */
     if (openfile->mark_set)
 	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, NULL);
+			(const filestruct **)&bot, &bot_x, NULL);
     /* Otherwise, use the current line. */
     else {
 	top = openfile->current;
@@ -472,8 +472,8 @@ void do_comment()
 
     /* Determine which lines to work on. */
     if (openfile->mark_set)
-	mark_order((const filestruct **) &top, &top_x,
-			(const filestruct **) &bot, &bot_x, NULL);
+	mark_order((const filestruct **)&top, &top_x,
+			(const filestruct **)&bot, &bot_x, NULL);
     else {
 	top = openfile->current;
 	bot = top;
@@ -2037,7 +2037,7 @@ void backup_lines(filestruct *first_line, size_t par_len)
      * current and filebot if filebot is the last line in the
      * paragraph. */
     assert(par_len > 0 && openfile->current->lineno + par_len <=
-	openfile->filebot->lineno + 1);
+				openfile->filebot->lineno + 1);
 
     /* Move bot down par_len lines to the line after the last line of
      * the paragraph, if there is one. */
@@ -2047,7 +2047,7 @@ void backup_lines(filestruct *first_line, size_t par_len)
     /* Move the paragraph from the current buffer's filestruct to the
      * justify buffer. */
     move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot,
-	(i == 1 && bot == openfile->filebot) ? strlen(bot->data) : 0);
+		(i == 1 && bot == openfile->filebot) ? strlen(bot->data) : 0);
 
     /* Copy the paragraph back to the current buffer's filestruct from
      * the justify buffer. */
@@ -2524,8 +2524,8 @@ void do_justify(bool full_justify)
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
 	    filepart = partition_filestruct(first_par_line, 0,
-		last_par_line, filebot_inpar ?
-		strlen(last_par_line->data) : 0);
+				last_par_line, filebot_inpar ?
+				strlen(last_par_line->data) : 0);
 
 	    /* Remove the text of the justified paragraph, and
 	     * replace it with the text in the justify buffer. */
@@ -2650,7 +2650,7 @@ bool do_int_spell_fix(const char *word)
     /* If the mark is on, start at the beginning of the marked region. */
     if (old_mark_set) {
 	mark_order((const filestruct **)&top, &top_x,
-	    (const filestruct **)&bot, &bot_x, &right_side_up);
+			(const filestruct **)&bot, &bot_x, &right_side_up);
 	/* If the region is marked normally, swap the end points, so that
 	 * (current, current_x) (where searching starts) is at the top. */
 	if (right_side_up) {
@@ -3030,7 +3030,7 @@ const char *do_alt_speller(char *tempfile_name)
     if (old_mark_set) {
 	/* Trim the filestruct so that it contains only the marked text. */
 	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, &right_side_up);
+			(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 
 	/* Foresay whether a magicline will be added when the
@@ -3606,7 +3606,7 @@ void do_wordlinechar_count(void)
      * contains only the marked text, and turn the mark off. */
     if (old_mark_set) {
 	mark_order((const filestruct **)&top, &top_x,
-	    (const filestruct **)&bot, &bot_x, NULL);
+			(const filestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 	openfile->mark_set = FALSE;
     }

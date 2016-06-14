@@ -218,17 +218,15 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     } else
 	p->filebot = NULL;
 
-    /* Save the line above the top of the partition, detach the top of
-     * the partition from it, and save the text before top_x in
-     * top_data. */
+    /* Remember which line is above the top of the partition, detach the
+     * top of the partition from it, and save the text before top_x. */
     p->top_prev = top->prev;
     top->prev = NULL;
     p->top_data = mallocstrncpy(NULL, top->data, top_x + 1);
     p->top_data[top_x] = '\0';
 
-    /* Save the line below the bottom of the partition, detach the
-     * bottom of the partition from it, and save the text after bot_x in
-     * bot_data. */
+    /* Remember which line is below the bottom of the partition, detach the
+     * bottom of the partition from it, and save the text after bot_x. */
     p->bot_next = bot->next;
     bot->next = NULL;
     p->bot_data = mallocstrcpy(NULL, bot->data + bot_x);
@@ -237,8 +235,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     null_at(&bot->data, bot_x);
 
     /* Remove all text before top_x at the top of the partition. */
-    charmove(top->data, top->data + top_x, strlen(top->data) -
-	top_x + 1);
+    charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
     align(&top->data);
 
     /* Return the partition. */
@@ -261,7 +258,7 @@ void unpartition_filestruct(partition **p)
     if (openfile->fileage->prev != NULL)
 	openfile->fileage->prev->next = openfile->fileage;
     openfile->fileage->data = charealloc(openfile->fileage->data,
-	strlen((*p)->top_data) + strlen(openfile->fileage->data) + 1);
+		strlen((*p)->top_data) + strlen(openfile->fileage->data) + 1);
     strcpy(openfile->fileage->data, (*p)->top_data);
     free((*p)->top_data);
     strcat(openfile->fileage->data, tmp);
@@ -274,7 +271,7 @@ void unpartition_filestruct(partition **p)
     if (openfile->filebot->next != NULL)
 	openfile->filebot->next->prev = openfile->filebot;
     openfile->filebot->data = charealloc(openfile->filebot->data,
-	strlen(openfile->filebot->data) + strlen((*p)->bot_data) + 1);
+		strlen(openfile->filebot->data) + strlen((*p)->bot_data) + 1);
     strcat(openfile->filebot->data, (*p)->bot_data);
     free((*p)->bot_data);
 
@@ -315,9 +312,8 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * the edit window is inside the partition, and keep track of
      * whether the mark begins inside the partition. */
     filepart = partition_filestruct(top, top_x, bot, bot_x);
-    edittop_inside = (openfile->edittop->lineno >=
-	openfile->fileage->lineno && openfile->edittop->lineno <=
-	openfile->filebot->lineno);
+    edittop_inside = (openfile->edittop->lineno >= openfile->fileage->lineno &&
+			openfile->edittop->lineno <= openfile->filebot->lineno);
 #ifndef NANO_TINY
     if (openfile->mark_set) {
 	mark_inside = (openfile->mark_begin->lineno >=
@@ -332,8 +328,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     }
 #endif
 
-    /* Get the number of characters in the text, and subtract it from
-     * totsize. */
+    /* Subtract the number of characters in the text from the file size. */
     openfile->totsize -= get_totsize(top, bot);
 
     if (*file_top == NULL) {
@@ -343,7 +338,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	*file_top = openfile->fileage;
 	*file_bot = openfile->filebot;
 
-	/* Renumber starting with file_top. */
+	/* Renumber, starting with file_top. */
 	renumber(*file_top);
     } else {
 	filestruct *file_bot_save = *file_bot;
@@ -366,13 +361,11 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
 	delete_node(openfile->fileage);
 
-	/* Renumber starting with the line after the original
-	 * file_bot. */
+	/* Renumber, starting with the line after the original file_bot. */
 	renumber(file_bot_save->next);
     }
 
-    /* Since the text has now been saved, remove it from the
-     * filestruct. */
+    /* Since the text has now been saved, remove it from the filestruct. */
     openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
@@ -408,12 +401,10 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	refresh_needed = TRUE;
     }
 
-    /* Renumber starting with the beginning line of the old
-     * partition. */
+    /* Renumber, starting with the beginning line of the old partition. */
     renumber(top_save);
 
-    /* If the NO_NEWLINES flag isn't set, and the text doesn't end with
-     * a magicline, add a new magicline. */
+    /* If the text doesn't end with a magicline, and it should, add one. */
     if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 	new_magicline();
 }
@@ -439,17 +430,16 @@ void copy_from_filestruct(filestruct *somebuffer)
 	size_t top_x, bot_x;
 
 	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, &right_side_up);
+			(const filestruct **)&bot, &bot_x, &right_side_up);
 
 	single_line = (top == bot);
     }
 #endif
 
-    /* Partition the filestruct so that it contains no text, and keep
-     * track of whether the top of the edit window is inside the
-     * partition. */
-    filepart = partition_filestruct(openfile->current,
-	openfile->current_x, openfile->current, openfile->current_x);
+    /* Partition the filestruct so that it contains no text, and remember
+     * whether the top of the edit window is at the start of the buffer. */
+    filepart = partition_filestruct(openfile->current, openfile->current_x,
+				openfile->current, openfile->current_x);
     edittop_inside = (openfile->edittop == openfile->fileage);
 
     /* Put the top and bottom of the current filestruct at the top and
@@ -489,10 +479,8 @@ void copy_from_filestruct(filestruct *somebuffer)
     }
 #endif
 
-    /* Get the number of characters in the copied text, and add it to
-     * totsize. */
-    openfile->totsize += get_totsize(openfile->fileage,
-	openfile->filebot);
+    /* Add the number of characters in the copied text to the file size. */
+    openfile->totsize += get_totsize(openfile->fileage, openfile->filebot);
 
     /* Update the current y-coordinate to account for the number of
      * lines the copied text has, less one since the first line will be
@@ -510,12 +498,10 @@ void copy_from_filestruct(filestruct *somebuffer)
      * again, plus the copied text. */
     unpartition_filestruct(&filepart);
 
-    /* Renumber starting with the beginning line of the old
-     * partition. */
+    /* Renumber, starting with the beginning line of the old partition. */
     renumber(top_save);
 
-    /* If the NO_NEWLINES flag isn't set, and the text doesn't end with
-     * a magicline, add a new magicline. */
+    /* If the text doesn't end with a magicline, and it should, add one. */
     if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 	new_magicline();
 }
@@ -1864,12 +1850,11 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
     while (i < output_len) {
-	/* If allow_cntrls is TRUE, convert nulls and newlines properly. */
+	/* If control codes are allowed, encode a null as a newline, and
+	 * let a newline character create a whole new line. */
 	if (allow_cntrls) {
-	    /* Null to newline, if needed. */
 	    if (output[i] == '\0')
 		output[i] = '\n';
-	    /* Newline to Enter, if needed. */
 	    else if (output[i] == '\n') {
 		do_enter();
 		i++;
@@ -1877,31 +1862,29 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    }
 	}
 
-	/* Interpret the next multibyte character. */
+	/* Get the next multibyte character. */
 	char_buf_len = parse_mbchar(output + i, char_buf, NULL);
 
 	i += char_buf_len;
 
-	/* If allow_cntrls is FALSE, filter out an ASCII control character. */
+	/* If controls are not allowed, ignore an ASCII control character. */
 	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -	char_buf_len)))
 	    continue;
 
-	/* If the NO_NEWLINES flag isn't set, when a character is
-	 * added to the magicline, it means we need a new magicline. */
+	/* If we're adding to the magicline, create a new magicline. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot == openfile->current)
 	    new_magicline();
 
-	/* More dangerousness fun =) */
-	openfile->current->data = charealloc(openfile->current->data,
-					current_len + char_buf_len + 1);
-
 	assert(openfile->current_x <= current_len);
 
+	/* Make room for the new character and copy it into the line. */
+	openfile->current->data = charealloc(openfile->current->data,
+					current_len + char_buf_len + 1);
 	charmove(openfile->current->data + openfile->current_x + char_buf_len,
 			openfile->current->data + openfile->current_x,
 			current_len - openfile->current_x + 1);
 	strncpy(openfile->current->data + openfile->current_x, char_buf,
-		char_buf_len);
+			char_buf_len);
 	current_len += char_buf_len;
 	openfile->totsize++;
 	set_modified();

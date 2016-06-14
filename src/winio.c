@@ -2586,21 +2586,19 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 #endif /* !DISABLE_COLOR */
 
 #ifndef NANO_TINY
-    /* If the mark is on, we need to display it. */
-    if (openfile->mark_set && (fileptr->lineno <=
-	openfile->mark_begin->lineno || fileptr->lineno <=
-	openfile->current->lineno) && (fileptr->lineno >=
-	openfile->mark_begin->lineno || fileptr->lineno >=
-	openfile->current->lineno)) {
-	/* fileptr is at least partially selected. */
-	const filestruct *top;
-	    /* Either current or mark_begin, whichever is first. */
-	size_t top_x;
-	    /* current_x or mark_begin_x, corresponding to top. */
-	const filestruct *bot;
-	size_t bot_x;
+    /* If the mark is on, and fileptr is at least partially selected, we
+     * need to paint it. */
+    if (openfile->mark_set &&
+		(fileptr->lineno <= openfile->mark_begin->lineno ||
+		fileptr->lineno <= openfile->current->lineno) &&
+		(fileptr->lineno >= openfile->mark_begin->lineno ||
+		fileptr->lineno >= openfile->current->lineno)) {
+	const filestruct *top, *bot;
+	    /* The lines where the marked region begins and ends. */
+	size_t top_x, bot_x;
+	    /* The x positions where the marked region begins and ends. */
 	int x_start;
-	    /* Starting column for mvwaddnstr().  Zero-based. */
+	    /* The starting column for mvwaddnstr().  Zero-based. */
 	int paintlen;
 	    /* Number of characters to paint on this line.  There are
 	     * COLS characters on a whole line. */
@@ -2614,7 +2612,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	if (bot->lineno > fileptr->lineno || bot_x > endpos)
 	    bot_x = endpos;
 
-	/* The selected bit of fileptr is on this page. */
+	/* Only paint if the marked bit of fileptr is on this page. */
 	if (top_x < endpos && bot_x > startpos) {
 	    assert(startpos <= top_x);
 
@@ -2630,8 +2628,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    if (bot_x >= endpos)
 		paintlen = -1;
 	    else
-		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start +
-			start);
+		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start + start);
 
 	    /* If x_start is before the beginning of the page, shift
 	     * paintlen x_start characters to compensate, and put
@@ -2649,8 +2646,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, hilite_attribute);
-	    mvwaddnstr(edit, line, x_start, converted + index,
-		paintlen);
+	    mvwaddnstr(edit, line, x_start, converted + index, paintlen);
 	    wattroff(edit, hilite_attribute);
 	}
     }

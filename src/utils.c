@@ -539,8 +539,9 @@ void new_magicline(void)
 void remove_magicline(void)
 {
     if (openfile->filebot->data[0] == '\0' &&
-	openfile->filebot != openfile->fileage) {
-	assert(openfile->filebot != openfile->edittop && openfile->filebot != openfile->current);
+		openfile->filebot != openfile->fileage) {
+	assert(openfile->filebot != openfile->edittop &&
+		openfile->filebot != openfile->current);
 
 	openfile->filebot = openfile->filebot->prev;
 	free_filestruct(openfile->filebot->next);
@@ -560,8 +561,8 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
     assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
 
     if ((openfile->current->lineno == openfile->mark_begin->lineno &&
-	openfile->current_x > openfile->mark_begin_x) ||
-	openfile->current->lineno > openfile->mark_begin->lineno) {
+		openfile->current_x > openfile->mark_begin_x) ||
+		openfile->current->lineno > openfile->mark_begin->lineno) {
 	*top = openfile->mark_begin;
 	*top_x = openfile->mark_begin_x;
 	*bot = openfile->current;
