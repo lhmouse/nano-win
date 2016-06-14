@@ -1719,13 +1719,13 @@ void check_statusblank(void)
 
 /* Convert buf into a string that can be displayed on screen.  The
  * caller wants to display buf starting with column start_col, and
- * extending for at most len columns.  start_col is zero-based.  len is
- * one-based, so len == 0 means you get "" returned.  The returned
+ * extending for at most span columns.  start_col is zero-based.  span
+ * is one-based, so span == 0 means you get "" returned.  The returned
  * string is dynamically allocated, and should be freed.  If dollars is
  * TRUE, the caller might put "$" at the beginning or end of the line if
  * it's too long. */
-char *display_string(const char *buf, size_t start_col, size_t len, bool
-	dollars)
+char *display_string(const char *buf, size_t start_col, size_t span,
+	bool dollars)
 {
     size_t start_index;
 	/* Index in buf of the first character shown. */
@@ -1738,10 +1738,10 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     /* If dollars is TRUE, make room for the "$" at the end of the
      * line. */
-    if (dollars && len > 0 && strlenpt(buf) > start_col + len)
-	len--;
+    if (dollars && span > 0 && strlenpt(buf) > start_col + span)
+	span--;
 
-    if (len == 0)
+    if (span == 0)
 	return mallocstrcpy(NULL, "");
 
     start_index = actual_x(buf, start_col);
@@ -1859,8 +1859,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     /* Null-terminate converted. */
     converted[index] = '\0';
 
-    /* Make sure converted takes up no more than len columns. */
-    index = actual_x(converted, len);
+    /* Make sure converted takes up no more than span columns. */
+    index = actual_x(converted, span);
     null_at(&converted, index);
 
     return converted;
