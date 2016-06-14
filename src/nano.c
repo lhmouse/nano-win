@@ -1892,13 +1892,13 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 	/* More dangerousness fun =) */
 	openfile->current->data = charealloc(openfile->current->data,
-					current_len + (char_buf_len * 2));
+					current_len + char_buf_len + 1);
 
 	assert(openfile->current_x <= current_len);
 
 	charmove(openfile->current->data + openfile->current_x + char_buf_len,
 			openfile->current->data + openfile->current_x,
-			current_len - openfile->current_x + char_buf_len);
+			current_len - openfile->current_x + 1);
 	strncpy(openfile->current->data + openfile->current_x, char_buf,
 		char_buf_len);
 	current_len += char_buf_len;
