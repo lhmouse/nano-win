@@ -437,14 +437,14 @@ void copy_from_filestruct(filestruct *somebuffer)
 #endif
 
     /* Partition the filestruct so that it contains no text, and remember
-     * whether the top of the edit window is at the start of the buffer. */
+     * whether the current line is at the top of the edit window. */
     filepart = partition_filestruct(openfile->current, openfile->current_x,
 				openfile->current, openfile->current_x);
     edittop_inside = (openfile->edittop == openfile->fileage);
+    free_filestruct(openfile->fileage);
 
     /* Put the top and bottom of the current filestruct at the top and
      * bottom of a copy of the passed buffer. */
-    free_filestruct(openfile->fileage);
     openfile->fileage = copy_filestruct(somebuffer);
     openfile->filebot = openfile->fileage;
     while (openfile->filebot->next != NULL)
@@ -487,12 +487,12 @@ void copy_from_filestruct(filestruct *somebuffer)
      * tacked onto the current line. */
     openfile->current_y += openfile->filebot->lineno - 1;
 
-    top_save = openfile->fileage;
-
-    /* If the top of the edit window is inside the partition, set it to
-     * where the copied text now starts. */
+    /* If we pasted onto the first line of the edit window, the corresponding
+     * struct has been freed, so... point at the start of the copied text. */
     if (edittop_inside)
 	openfile->edittop = openfile->fileage;
+
+    top_save = openfile->fileage;
 
     /* Unpartition the filestruct so that it contains all the text
      * again, plus the copied text. */
