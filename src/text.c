@@ -2487,11 +2487,6 @@ void do_justify(bool full_justify)
 
     edit_refresh();
 
-    /* If constant cursor position display is on, make sure the current
-     * cursor position will be properly displayed on the statusbar. */
-    if (ISSET(CONST_UPDATE))
-	do_cursorpos(TRUE);
-
     /* Display the shortcut list with UnJustify. */
     uncutfunc->desc = unjust_tag;
     display_main_list();
@@ -2508,6 +2503,11 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
     } while (kbinput == KEY_WINCH);
 #endif
+
+    /* If needed, unset the cursor-position suppression flag, so the cursor
+     * position /will/ be displayed upon a return to the main loop. */
+    if (ISSET(CONST_UPDATE))
+	do_cursorpos(TRUE);
 
     func = func_from_key(&kbinput);
 
