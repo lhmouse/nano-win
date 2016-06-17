@@ -144,7 +144,7 @@ void set_modified(void)
 	return;
 
     if (openfile->lock_filename == NULL) {
-	/* TRANSLATORS: Keep the next two messages at most 76 characters. */
+	/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
 	statusline(ALERT, _("Warning: Modifying a file which is not locked,"
 			" check directory permission?"));
     } else {

@@ -1547,10 +1547,10 @@ GNU nano 2.3.99pre2 - 2015.02.06
 GNU nano 2.3.99pre1 - 2015.01.06
 
 2015-01-03  Chris Allegretta  <chrisa@asty.org>
-	* New formatter code to support syntaxes like
-	go which have tools to automatically lint and reformat the text for
-	you (gofmt), which is lovely.  rcfile option formatter, function
-	text.c:do_formatter() and some other calls.
+	* New formatter code to support syntaxes like Go that have tools to
+	automatically lint and reformat the text (gofmt), which is lovely.
+	Added rcfile option formatter, a function do_formatter() in text.c
+	and some other calls.
 
 2014-12-28  Benno Schulenberg  <bensberg@justemail.net>
 	* src/files.c (do_lockfile): Gettextize the "File being edited"
@@ -2854,7 +2854,7 @@ GNU nano 2.3.3 - 2014.05.29
 
 2013-06-13  David Lawrence Ramsey <pooka109@gmail.com>
 	* src/global.c (first_sc_for): Try to more consistently display keystrokes,
-	  useful when the user has re-binded a bunch of them.
+	  useful when the user has rebound a bunch of them.
 
 2013-06-13 Kamil Dudka <kdudka@redhat.com>
 	* doc/man/nano.1: Actually document the -P (--poslog) option.

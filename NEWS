@@ -11,6 +11,7 @@
 		and allows to abort re-searches.  Among bunches of other
 		things.  It is worth the trouble to upgrade.
 
+
 2016.02.25 - GNU nano 2.5.3 "Alphys" is released.  This release
 		contains fixes for bugs like: stray cursor positioning
 		errors, many many memory leaks including file reading,
@@ -26,7 +27,7 @@
 		size growth, and a long standing issue with using
 		nano under sudo creating root-owned files.  There are also
 		the usual bevy of documentation and other miscellaneous
-		fixes and touch ups.  Upgrade today while supplies last,
+		fixes and touchups.  Upgrade today while supplies last,
 		operators are standing by!
 
 2016.01.11 - GNU nano 2.5.1 "Salzburg" is released.  It includes fixes
@@ -121,7 +122,7 @@
 2014.07.17 - GNU nano 2.3.6 "Columbo" is released.  This release
 		contains a fix for installing internationalization
 		files.  Also included are scattered documentation
-		(in particular man page) fixes, and a few touch ups
+		(in particular man page) fixes, and a few touchups
 		to syntax highlighting definitions.  Oh, just one
 		more thing, thanks for using nano!
 
