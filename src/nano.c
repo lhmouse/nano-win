@@ -925,7 +925,7 @@ void version(void)
     printf(" (C) 1999..2016 Free Software Foundation, Inc.\n");
     printf(_(" (C) 2014..%s the contributors to nano\n"), "2016");
     printf(
-	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
+	_(" Email: nano@nano-editor.org	Web: https://nano-editor.org/"));
     printf(_("\n Compiled options:"));
 
 #ifdef NANO_TINY

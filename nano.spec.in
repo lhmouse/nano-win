@@ -9,8 +9,8 @@ Summary		: a user-friendly editor, a Pico clone with enhancements
 
 License		: GPLv3+
 Group		: Applications/Editors
-URL		: http://www.nano-editor.org/
-Source		: http://www.nano-editor.org/dist/v2.4/%{name}-%{version}.tar.gz
+URL		: https://nano-editor.org/
+Source		: https://nano-editor.org/dist/v2.4/%{name}-%{version}.tar.gz
 
 BuildRoot	: %{_tmppath}/%{name}-%{version}-root
 BuildRequires	: autoconf, automake, gettext-devel, ncurses-devel, texinfo

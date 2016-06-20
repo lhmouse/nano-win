@@ -3224,7 +3224,7 @@ void do_credits(void)
 	"",
 	"",
 	"",
-	"http://www.nano-editor.org/"
+	"https://nano-editor.org/"
     };
 
     const char *xlcredits[XLCREDIT_LEN] = {
