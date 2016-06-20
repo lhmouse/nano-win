@@ -932,11 +932,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	if (i > 0)
 	    return;
 
-	/* Do a bounds check.  Display a warning on an out-of-bounds
-	 * line or column number only if we hit Enter at the statusbar
-	 * prompt. */
-	if (!parse_line_column(answer, &line, &column) ||
-			line < 1 || column < 1) {
+	/* Try to extract one or two numbers from the user's response. */
+	if (!parse_line_column(answer, &line, &column)) {
 	    statusbar(_("Invalid line or column number"));
 	    return;
 	}
@@ -948,10 +945,24 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    column = openfile->placewewant + 1;
     }
 
+    /* Take a negative line number to mean: from the end of the file. */
+    if (line < 0)
+	line = openfile->filebot->lineno + line + 1;
+    if (line < 1)
+	line = 1;
+
+    /* Iterate to the requested line. */
     for (openfile->current = openfile->fileage; line > 1 &&
 		openfile->current != openfile->filebot; line--)
 	openfile->current = openfile->current->next;
 
+    /* Take a negative column number to mean: from the end of the line. */
+    if (column < 0)
+	column = strlenpt(openfile->current->data) + column + 2;
+    if (column < 1)
+	column = 1;
+
+    /* Set the x position that corresponds to the requested column. */
     openfile->current_x = actual_x(openfile->current->data, column - 1);
     openfile->placewewant = column - 1;
 
