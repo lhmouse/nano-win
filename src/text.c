@@ -3419,8 +3419,9 @@ void do_linter(void)
 	    bottombars(MLINTER);
 	}
 
-	/* Show the cursor to indicate the affected line. */
+	/* Place and show the cursor to indicate the affected line. */
 	reset_cursor();
+	wnoutrefresh(edit);
 	curs_set(1);
 
 	kbinput = get_kbinput(bottomwin);
