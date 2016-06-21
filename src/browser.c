@@ -115,6 +115,7 @@ char *do_browser(char *path)
 
     old_selected = (size_t)-1;
 
+    free(newpath);
     newpath = NULL;
     present_path = mallocstrcpy(present_path, path);
 
@@ -123,9 +124,6 @@ char *do_browser(char *path)
     while (TRUE) {
 	struct stat st;
 	int i;
-	char *new_path;
-		/* The path we switch to at the "Go to Directory"
-		 * prompt. */
 
 	/* Make sure that the cursor is off. */
 	curs_set(0);
@@ -258,37 +256,32 @@ char *do_browser(char *path)
 	    sunder(answer);
 	    align(&answer);
 
-	    new_path = real_dir_from_tilde(answer);
+	    newpath = real_dir_from_tilde(answer);
 
-	    if (new_path[0] != '/') {
-		new_path = charealloc(new_path, strlen(path) +
+	    if (newpath[0] != '/') {
+		newpath = charealloc(newpath, strlen(path) +
 				strlen(answer) + 1);
-		sprintf(new_path, "%s%s", path, answer);
+		sprintf(newpath, "%s%s", path, answer);
 	    }
 
 #ifndef DISABLE_OPERATINGDIR
-	    if (check_operating_dir(new_path, FALSE)) {
+	    if (check_operating_dir(newpath, FALSE)) {
 		/* TRANSLATORS: This refers to the confining effect of the
 		 * option --operatingdir, not of --restricted. */
 		statusline(ALERT, _("Can't go outside of %s"),
 				full_operating_dir);
-		free(new_path);
+		free(newpath);
+		newpath = NULL;
 		continue;
 	    }
 #endif
+	    /* In case the specified directory cannot be entered, select it
+	     * (if it is in the current list) so it will be highlighted. */
+	    for (i = 0; i < filelist_len; i++)
+		if (strcmp(filelist[i], newpath) == 0)
+		    selected = i;
 
-	    dir = opendir(new_path);
-	    if (dir == NULL) {
-		/* We can't open this directory for some reason. */
-		statusline(ALERT, _("Error reading %s: %s"), answer,
-				strerror(errno));
-		free(new_path);
-		continue;
-	    }
-
-	    /* Start over again with the new path value. */
-	    free(path);
-	    path = new_path;
+	    /* Try opening and reading the specified directory. */
 	    goto read_directory_contents;
 	} else if (func == do_up_void) {
 	    if (selected >= width)
@@ -347,7 +340,7 @@ char *do_browser(char *path)
 		present_name = striponedir(filelist[selected]);
 
 	    /* Try opening and reading the selected directory. */
-	    newpath = filelist[selected];
+	    newpath = strdup(filelist[selected]);
 	    goto read_directory_contents;
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
