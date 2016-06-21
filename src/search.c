@@ -912,7 +912,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		/* TRANSLATORS: This is a prompt. */
 		edit_refresh, _("Enter line number, column number"));
 
-	/* Cancel, or Enter with blank string. */
+	/* If the user cancelled or gave a blank answer, get out. */
 	if (i < 0) {
 	    statusbar(_("Cancelled"));
 	    return;
@@ -921,20 +921,21 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	func = func_from_key(&i);
 
 	if (func == gototext_void) {
-	    /* Keep answer up on the statusbar. */
+	    /* Retain what the user typed so far and switch to searching. */
 	    search_init(TRUE, TRUE);
-
 	    do_search();
-	    return;
 	}
+
+	/* If a function was executed, we're done here. */
+	if (i > 0)
+	    return;
 
 	/* Do a bounds check.  Display a warning on an out-of-bounds
 	 * line or column number only if we hit Enter at the statusbar
 	 * prompt. */
 	if (!parse_line_column(answer, &line, &column) ||
 			line < 1 || column < 1) {
-	    if (i == 0)
-		statusbar(_("Invalid line or column number"));
+	    statusbar(_("Invalid line or column number"));
 	    return;
 	}
     } else {
