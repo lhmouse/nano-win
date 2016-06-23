@@ -34,6 +34,7 @@ pkgdata_DATA =	asm.nanorc \
 		pov.nanorc \
 		python.nanorc \
 		ruby.nanorc \
+		rust.nanorc \
 		sh.nanorc \
 		spec.nanorc \
 		tcl.nanorc \
