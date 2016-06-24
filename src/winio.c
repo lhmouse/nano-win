@@ -303,35 +303,29 @@ int *get_input(WINDOW *win, size_t input_len)
     return input;
 }
 
-/* Read in a single character.  If it's ignored, swallow it and go on.
- * Otherwise, try to translate it from ASCII, meta key sequences, escape
- * sequences, and/or extended keypad values.  Supported extended keypad
- * values consist of
- * [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
- * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
- * the function keypad (F1-F16), and the numeric keypad with NumLock
- * off. */
+/* Read in a single keystroke, ignoring any that are invalid. */
 int get_kbinput(WINDOW *win)
 {
     int kbinput;
 
-    /* Read in a character and interpret it.  Continue doing this until
-     * we get a recognized value or sequence. */
+    /* Extract one keystroke from the input stream. */
     while ((kbinput = parse_kbinput(win)) == ERR)
 	;
 
-    /* If we read from the edit window, blank the statusbar if we need
-     * to. */
+    /* If we read from the edit window, blank the statusbar if needed. */
     if (win == edit)
 	check_statusblank();
 
     return kbinput;
 }
 
-/* Translate ASCII characters, extended keypad values, and escape
- * sequences into their corresponding key values.  Set meta_key to TRUE
- * when we get a meta key sequence, and set func_key to TRUE when we get
- * a function key. */
+/* Extract a single keystroke from the input stream.  Translate escape
+ * sequences and extended keypad codes into their corresponding values.
+ * Set meta_key to TRUE when we get a meta key sequence, and set func_key
+ * to TRUE when we get a function key.  Supported extended keypad values
+ * are: [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
+ * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
+ * the function keys (F1-F16), and the numeric keypad with NumLock off. */
 int parse_kbinput(WINDOW *win)
 {
     static int escapes = 0, byte_digits = 0;

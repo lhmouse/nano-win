@@ -1562,24 +1562,23 @@ void unbound_key(int code)
 	statusline(ALERT, _("Unbound key: %c"), code);
 }
 
-/* Read in a character, interpret it as a shortcut or toggle if
- * necessary, and return it.
- * If allow_funcs is FALSE, don't actually run any functions associated
- * with shortcut keys. */
+/* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
+ * otherwise, insert it into the edit buffer.  If allow_funcs is FALSE, don't
+ * do anything with the keystroke -- just return it. */
 int do_input(bool allow_funcs)
 {
     int input;
-	/* The character we read in. */
-    static int *kbinput = NULL;
-	/* The input buffer. */
-    static size_t kbinput_len = 0;
+	/* The keystroke we read in: a character or a shortcut. */
+    static int *puddle = NULL;
+	/* The input buffer for actual characters. */
+    static size_t depth = 0;
 	/* The length of the input buffer. */
     bool preserve = FALSE;
-	/* Preserve the contents of the cutbuffer? */
+	/* Whether to preserve the contents of the cutbuffer. */
     const sc *s;
     bool have_shortcut;
 
-    /* Read in a character. */
+    /* Read in a keystroke. */
     input = get_kbinput(edit);
 
 #ifndef NANO_TINY
@@ -1619,26 +1618,23 @@ int do_input(bool allow_funcs)
     }
 
     if (allow_funcs) {
-	/* If we got a character, and it isn't a shortcut or toggle,
-	 * it's a normal text character.  Display the warning if we're
-	 * in view mode, or add the character to the input buffer if
-	 * we're not. */
+	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
+	 * character: add the character to the input buffer -- or display a
+	 * warning when we're in view mode. */
 	if (input != ERR && !have_shortcut) {
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else {
-		kbinput_len++;
-		kbinput = (int *)nrealloc(kbinput, kbinput_len *
-			sizeof(int));
-		kbinput[kbinput_len - 1] = input;
+		depth++;
+		puddle = (int *)nrealloc(puddle, depth * sizeof(int));
+		puddle[depth - 1] = input;
 	    }
 	}
 
 	/* If we got a shortcut or toggle, or if there aren't any other
-	 * characters waiting after the one we read in, we need to
-	 * output all the characters in the input buffer if it isn't
-	 * empty.  Note that it should be empty if we're in view
-	 * mode. */
+	 * characters waiting after the one we read in, we need to output
+	 * all available characters in the input puddle.  Note that this
+	 * puddle will be empty if we're in view mode. */
 	if (have_shortcut || get_key_buffer_len() == 0) {
 #ifndef DISABLE_WRAPPING
 	    /* If we got a shortcut or toggle, and it's not the shortcut
@@ -1647,24 +1643,24 @@ int do_input(bool allow_funcs)
 		wrap_reset();
 #endif
 
-	    if (kbinput != NULL) {
+	    if (puddle != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
-		char *output = charalloc(kbinput_len + 1);
+		char *output = charalloc(depth + 1);
 		size_t i;
 
-		for (i = 0; i < kbinput_len; i++)
-		    output[i] = (char)kbinput[i];
+		for (i = 0; i < depth; i++)
+		    output[i] = (char)puddle[i];
 		output[i] = '\0';
 
-		do_output(output, kbinput_len, FALSE);
+		do_output(output, depth, FALSE);
 
 		free(output);
 
 		/* Empty the input buffer. */
-		kbinput_len = 0;
-		free(kbinput);
-		kbinput = NULL;
+		free(puddle);
+		puddle = NULL;
+		depth = 0;
 	    }
 	}
 
@@ -2653,7 +2649,7 @@ int main(int argc, char **argv)
 	curs_set(1);
 	wnoutrefresh(edit);
 
-	/* Read in and interpret characters. */
+	/* Read in and interpret keystrokes. */
 	do_input(TRUE);
     }
 
