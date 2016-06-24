@@ -247,25 +247,18 @@ void do_tab(void)
 {
 #ifndef NANO_TINY
     if (ISSET(TABS_TO_SPACES)) {
-	char *output;
-	size_t output_len = 0, new_pww = xplustabs();
+	char *spaces = charalloc(tabsize + 1);
+	size_t length = tabsize - (xplustabs() % tabsize);
 
-	do {
-	    new_pww++;
-	    output_len++;
-	} while (new_pww % tabsize != 0);
+	charset(spaces, ' ', length);
+	spaces[length] = '\0';
 
-	output = charalloc(output_len + 1);
+	do_output(spaces, length, TRUE);
 
-	charset(output, ' ', output_len);
-	output[output_len] = '\0';
-
-	do_output(output, output_len, TRUE);
-
-	free(output);
+	free(spaces);
     } else
 #endif
-	do_output((char *) "\t", 1, TRUE);
+	do_output((char *)"\t", 1, TRUE);
 }
 
 #ifndef NANO_TINY
