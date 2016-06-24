@@ -1284,12 +1284,6 @@ long get_unicode_kbinput(int kbinput)
 	    if (retval == ERR)
 		retval = uni;
 	    break;
-	default:
-	    /* If there are more than six digits, return this character
-	     * as the result.  (Maybe we should produce an error
-	     * instead?) */
-	    retval = kbinput;
-	    break;
     }
 
     /* If we have a result, reset the Unicode digit counter and the
