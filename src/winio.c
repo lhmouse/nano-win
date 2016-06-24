@@ -1209,21 +1209,18 @@ int get_byte_kbinput(int kbinput)
 
 #ifdef ENABLE_UTF8
 /* If the character in kbinput is a valid hexadecimal digit, multiply it
- * by factor and add the result to uni. */
+ * by factor and add the result to uni, and return ERR to signify okay. */
 long add_unicode_digit(int kbinput, long factor, long *uni)
 {
-    long retval = ERR;
-
     if ('0' <= kbinput && kbinput <= '9')
 	*uni += (kbinput - '0') * factor;
     else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
 	*uni += (tolower(kbinput) - 'a' + 10) * factor;
     else
-	/* If this character isn't a valid hexadecimal value, save it as
-	 * the result. */
-	retval = kbinput;
+	/* The character isn't hexadecimal; give it as the result. */
+	return (long)kbinput;
 
-    return retval;
+    return ERR;
 }
 
 /* Translate a Unicode sequence: turn a six-digit hexadecimal number
