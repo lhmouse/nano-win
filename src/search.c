@@ -301,6 +301,8 @@ int findnextstr(
 	    }
 
 	    if (++feedback > 0)
+		/* TRANSLATORS: This is shown when searching takes
+		 * more than half a second. */
 		statusbar(_("Searching..."));
 	}
 
