@@ -564,6 +564,8 @@ enum
 /* Codes for "modified" Arrow keys, beyond KEY_MAX of ncurses. */
 #define CONTROL_LEFT 0x401
 #define CONTROL_RIGHT 0x402
+#define CONTROL_UP 0x403
+#define CONTROL_DOWN 0x404
 
 #ifndef NANO_TINY
 /* An imaginary key for when we get a SIGWINCH (window resize). */

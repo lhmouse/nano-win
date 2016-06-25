@@ -1102,6 +1102,13 @@ Moves the cursor to the beginning of the current paragraph.
 @item endpara
 Moves the cursor to the end of the current paragraph.
 
+@item prevblock
+Moves the cursor to the beginning of the current or preceding block of text.
+(Blocks are separated by one or more blank lines.)
+
+@item nextblock
+Moves the cursor to the beginning of the next block of text.
+
 @item prevpage
 Goes up one screenful.
 

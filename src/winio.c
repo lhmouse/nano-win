@@ -635,6 +635,10 @@ int parse_kbinput(WINDOW *win)
 	    retval = sc_seq_or(do_prev_word_void, 0);
 	else if (retval == controlright)
 	    retval = sc_seq_or(do_next_word_void, 0);
+	else if (retval == controlup)
+	    retval = sc_seq_or(do_prev_block, 0);
+	else if (retval == controldown)
+	    retval = sc_seq_or(do_next_block, 0);
 #endif
 
 	/* If our result is an extended keypad value (i.e. a value
@@ -696,8 +700,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 		if (seq_len >= 5) {
 		    switch (seq[4]) {
 			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
+			    return CONTROL_UP;
 			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
-			    return arrow_from_abcd(seq[4]);
+			    return CONTROL_DOWN;
 			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
 			    return CONTROL_RIGHT;
 			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
@@ -766,8 +771,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'Y': /* Esc O Y == F10 on Mach console. */
 			return KEY_F(10);
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
+			return CONTROL_UP;
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
-			return arrow_from_abcd(seq[1]);
+			return CONTROL_DOWN;
 		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
 			return CONTROL_RIGHT;
 		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
@@ -841,8 +847,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 	    case 'o':
 		switch (seq[1]) {
 		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
+			return CONTROL_UP;
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
-			return arrow_from_abcd(seq[1]);
+			return CONTROL_DOWN;
 		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
 			return CONTROL_RIGHT;
 		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
@@ -895,8 +902,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 		if (seq_len >= 5) {
 		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
+			    return CONTROL_UP;
 			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
-			    return arrow_from_abcd(seq[4]);
+			    return CONTROL_DOWN;
 			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on xterm. */
 			    return CONTROL_RIGHT;
 			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */

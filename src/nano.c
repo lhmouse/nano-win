@@ -2527,13 +2527,19 @@ int main(int argc, char **argv)
 
 #if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
     const char *keyvalue;
-    /* Ask ncurses for the key codes for Control+Left and Control+Right. */
+    /* Ask ncurses for the key codes for Control+Left/Right/Up/Down. */
     keyvalue = tigetstr("kLFT5");
     if (keyvalue != 0 && keyvalue != (char *)-1)
 	controlleft = key_defined(keyvalue);
     keyvalue = tigetstr("kRIT5");
     if (keyvalue != 0 && keyvalue != (char *)-1)
 	controlright = key_defined(keyvalue);
+    keyvalue = tigetstr("kUP5");
+    if (keyvalue != 0 && keyvalue != (char *)-1)
+	controlup = key_defined(keyvalue);
+    keyvalue = tigetstr("kDN5");
+    if (keyvalue != 0 && keyvalue != (char *)-1)
+	controldown = key_defined(keyvalue);
 #endif
 
 #ifndef USE_SLANG

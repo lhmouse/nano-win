@@ -39,6 +39,8 @@ extern message_type lastmessage;
 #ifndef NANO_TINY
 extern int controlleft;
 extern int controlright;
+extern int controlup;
+extern int controldown;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -397,6 +399,8 @@ void do_para_end(bool allow_update);
 void do_para_end_void(void);
 #endif
 #ifndef NANO_TINY
+void do_prev_block(void);
+void do_next_block(void);
 void do_prev_word(bool allow_punct, bool allow_update);
 void do_prev_word_void(void);
 bool do_next_word(bool allow_punct, bool allow_update);
@@ -647,6 +651,7 @@ void do_tab(void);
 void do_indent(ssize_t cols);
 void do_indent_void(void);
 void do_unindent(void);
+bool white_string(const char *s);
 void do_undo(void);
 void do_redo(void);
 #endif

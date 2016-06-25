@@ -46,6 +46,8 @@ message_type lastmessage = HUSH;
 #ifndef NANO_TINY
 int controlleft = CONTROL_LEFT;
 int controlright = CONTROL_RIGHT;
+int controlup = CONTROL_UP;
+int controldown = CONTROL_DOWN;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -573,6 +575,10 @@ void shortcut_init(void)
     const char *nano_nextline_msg = N_("Go to next line");
     const char *nano_home_msg = N_("Go to beginning of current line");
     const char *nano_end_msg = N_("Go to end of current line");
+#ifndef NANO_TINY
+    const char *nano_prevblock_msg = N_("Go to previous block of text");
+    const char *nano_nextblock_msg = N_("Go to next block of text");
+#endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
 	N_("Go to beginning of paragraph; then of previous paragraph");
@@ -872,6 +878,13 @@ void shortcut_init(void)
     add_to_funcs(do_down_void, MMAIN|MBROWSER,
 	next_line_tag, IFSCHELP(nano_nextline_msg), BLANKAFTER, VIEW);
 
+#ifndef NANO_TINY
+    add_to_funcs(do_prev_block, MMAIN,
+	N_("Prev Block"), IFSCHELP(nano_prevblock_msg), TOGETHER, VIEW);
+    add_to_funcs(do_next_block, MMAIN,
+	N_("Next Block"), IFSCHELP(nano_nextblock_msg), TOGETHER, VIEW);
+#endif
+
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_para_begin_void, MMAIN|MWHEREIS,
 	N_("Beg of Par"), IFSCHELP(nano_parabegin_msg), TOGETHER, VIEW);
@@ -1133,6 +1146,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", do_down_void, 0);
+#ifndef NANO_TINY
+    add_to_sclist(MMAIN, "M-7", do_prev_block, 0);
+    add_to_sclist(MMAIN, "M-8", do_next_block, 0);
+#endif
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MMAIN, "M-(", do_para_begin_void, 0);
     add_to_sclist(MMAIN, "M-9", do_para_begin_void, 0);
@@ -1453,6 +1470,10 @@ sc *strtosc(const char *input)
 	s->scfunc = do_cut_prev_word;
     else if (!strcasecmp(input, "cutwordright"))
 	s->scfunc = do_cut_next_word;
+    else if (!strcasecmp(input, "prevblock"))
+	s->scfunc = do_prev_block;
+    else if (!strcasecmp(input, "nextblock"))
+	s->scfunc = do_next_block;
     else if (!strcasecmp(input, "findbracket"))
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))

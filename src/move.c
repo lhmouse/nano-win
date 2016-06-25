@@ -210,6 +210,48 @@ void do_para_end_void(void)
 #endif /* !DISABLE_JUSTIFY */
 
 #ifndef NANO_TINY
+/* Move to the preceding block of text in the file. */
+void do_prev_block(void)
+{
+    filestruct *was_current = openfile->current;
+    bool is_text = FALSE, seen_text = FALSE;
+
+    /* Skip backward until first blank line after some nonblank line(s). */
+    while (openfile->current->prev != NULL && (!seen_text || is_text)) {
+	openfile->current = openfile->current->prev;
+	is_text = !white_string(openfile->current->data);
+	seen_text = seen_text || is_text;
+    }
+
+    /* Step forward one line again if this one is blank. */
+    if (openfile->current->next != NULL &&
+		white_string(openfile->current->data))
+	openfile->current = openfile->current->next;
+
+    openfile->current_x = 0;
+    edit_redraw(was_current);
+    do_home();
+}
+
+/* Move to the next block of text in the file. */
+void do_next_block(void)
+{
+    filestruct *was_current = openfile->current;
+    bool is_white = white_string(openfile->current->data);
+    bool seen_white = is_white;
+
+    /* Skip forward until first nonblank line after some blank line(s). */
+    while (openfile->current->next != NULL && (!seen_white || is_white)) {
+	openfile->current = openfile->current->next;
+	is_white = white_string(openfile->current->data);
+	seen_white = seen_white || is_white;
+    }
+
+    openfile->current_x = 0;
+    edit_redraw(was_current);
+    do_home();
+}
+
 /* Move to the previous word in the file.  If allow_punct is TRUE, treat
  * punctuation as part of a word.  If allow_update is TRUE, update the
  * screen afterwards. */
