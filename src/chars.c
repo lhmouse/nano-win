@@ -813,11 +813,14 @@ char *revstrpbrk(const char *s, const char *accept, const char
 {
     assert(s != NULL && accept != NULL && rev_start != NULL);
 
-    for (; rev_start >= s; rev_start--) {
-	const char *q = (*rev_start == '\0') ? NULL : strchr(accept,
-		*rev_start);
+    if (*rev_start == '\0') {
+	if (rev_start == s)
+	   return NULL;
+	rev_start--;
+    }
 
-	if (q != NULL)
+    for (; rev_start >= s; rev_start--) {
+	if (strchr(accept, *rev_start) != NULL)
 	    return (char *)rev_start;
     }
 
@@ -833,11 +836,14 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	while (TRUE) {
-	    const char *q = (*rev_start == '\0') ?
-				NULL : mbstrchr(accept, rev_start);
+	if (*rev_start == '\0') {
+	    if (rev_start == s)
+		return NULL;
+	    rev_start = s + move_mbleft(s, rev_start - s);
+	}
 
-	    if (q != NULL)
+	while (TRUE) {
+	    if (mbstrchr(accept, rev_start) != NULL)
 		return (char *)rev_start;
 
 	    /* If we've reached the head of the string, we found nothing. */
