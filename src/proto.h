@@ -216,10 +216,8 @@ char *mbstrchr(const char *s, const char *c);
 #endif
 #ifndef NANO_TINY
 char *mbstrpbrk(const char *s, const char *accept);
-char *revstrpbrk(const char *s, const char *accept, const char
-	*rev_start);
-char *mbrevstrpbrk(const char *s, const char *accept, const char
-	*rev_start);
+char *revstrpbrk(const char *head, const char *accept, const char *index);
+char *mbrevstrpbrk(const char *head, const char *accept, const char *index);
 #endif
 #if !defined(DISABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
 bool has_blank_mbchars(const char *s);

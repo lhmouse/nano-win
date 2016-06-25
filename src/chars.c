@@ -647,51 +647,50 @@ char *mbstrpbrk(const char *s, const char *accept)
 	return (char *) strpbrk(s, accept);
 }
 
-/* This function is equivalent to strpbrk(), except in that it scans the
- * string in reverse, starting at rev_start. */
-char *revstrpbrk(const char *s, const char *accept, const char
-	*rev_start)
+/* Locate the first occurrence in the string that starts at head
+ * of any of the characters in the string accept, starting from
+ * the given index and searching backwards. */
+char *revstrpbrk(const char *head, const char *accept, const char *index)
 {
-    if (*rev_start == '\0') {
-	if (rev_start == s)
+    if (*index == '\0') {
+	if (index == head)
 	   return NULL;
-	rev_start--;
+	index--;
     }
 
-    for (; rev_start >= s; rev_start--) {
-	if (strchr(accept, *rev_start) != NULL)
-	    return (char *)rev_start;
+    while (index >= head) {
+	if (strchr(accept, *index) != NULL)
+	    return (char *)index;
+	index--;
     }
 
     return NULL;
 }
 
-/* This function is equivalent to strpbrk() for multibyte strings,
- * except in that it scans the string in reverse, starting at rev_start. */
-char *mbrevstrpbrk(const char *s, const char *accept, const char
-	*rev_start)
+/* The same as the preceding function but then for multibyte strings. */
+char *mbrevstrpbrk(const char *head, const char *accept, const char *index)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	if (*rev_start == '\0') {
-	    if (rev_start == s)
+	if (*index == '\0') {
+	    if (index == head)
 		return NULL;
-	    rev_start = s + move_mbleft(s, rev_start - s);
+	    index = head + move_mbleft(head, index - head);
 	}
 
 	while (TRUE) {
-	    if (mbstrchr(accept, rev_start) != NULL)
-		return (char *)rev_start;
+	    if (mbstrchr(accept, index) != NULL)
+		return (char *)index;
 
 	    /* If we've reached the head of the string, we found nothing. */
-	    if (rev_start == s)
+	    if (index == head)
 		return NULL;
 
-	    rev_start = s + move_mbleft(s, rev_start - s);
+	    index = head + move_mbleft(head, index - head);
 	}
     } else
 #endif
-	return revstrpbrk(s, accept, rev_start);
+	return revstrpbrk(head, accept, index);
 }
 #endif /* !NANO_TINY */
 
