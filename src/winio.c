@@ -2365,7 +2365,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    } else {	/* Second case: varnish is a multiline expression. */
 		const filestruct *start_line = fileptr->prev;
 		    /* The first line before fileptr that matches 'start'. */
-		regoff_t start_col;
+		size_t start_col;
 		    /* Where the match starts in that line. */
 		const filestruct *end_line;
 		    /* The line that matches 'end'. */
@@ -2437,9 +2437,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			/* No end found after this start. */
 			break;
 		    start_col++;
-		    if (regexec(varnish->start, start_line->data +
-				start_col, 1, &startmatch,
-				REG_NOTBOL) == REG_NOMATCH)
+		    if (regexec(varnish->start, start_line->data + start_col,
+				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
 		}
