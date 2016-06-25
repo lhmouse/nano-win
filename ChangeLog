@@ -2966,7 +2966,7 @@ GNU nano 2.3.0 - 2011.02.26
 	  by Eitan Adler <lists@eitanadler.com>.
 
 2011-02-23 Kamil Dudka <kdudka@redhat.com>
-	* doc/man/nanorc.5: Fix small typo.
+	* doc/man/nanorc.5: Fix small typo.  Report and original patch by John Bradshaw.
 
 2011-02-22 Chris Allegretta <chrisa@asty.org>
 	* color.c (nfreeregex): Fix that we were trying to set the pointer passed by value
