@@ -667,7 +667,6 @@ char *mbrevstrcasestr(const char *haystack, const char *needle, const
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	bool begin_line = FALSE;
 	size_t rev_start_len, needle_len;
 
 	assert(haystack != NULL && needle != NULL && rev_start != NULL);
@@ -682,22 +681,19 @@ char *mbrevstrcasestr(const char *haystack, const char *needle, const
 
 	rev_start_len = mbstrlen(rev_start);
 
-	while (!begin_line) {
+	while (TRUE) {
 	    if (rev_start_len >= needle_len &&
 			mbstrncasecmp(rev_start, needle, needle_len) == 0 &&
 			mblen(rev_start, MB_CUR_MAX) > 0)
 		return (char *)rev_start;
 
+	    /* If we've reached the head of the haystack, we found nothing. */
 	    if (rev_start == haystack)
-		begin_line = TRUE;
-	    else {
-		rev_start = haystack + move_mbleft(haystack, rev_start -
-			haystack);
-		rev_start_len++;
-	    }
-	}
+		return NULL;
 
-	return NULL;
+	    rev_start = haystack + move_mbleft(haystack, rev_start - haystack);
+	    rev_start_len++;
+	}
     } else
 #endif
 	return revstrcasestr(haystack, needle, rev_start);
@@ -837,22 +833,19 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	bool begin_line = FALSE;
-
-	while (!begin_line) {
-	    const char *q = (*rev_start == '\0') ? NULL :
-		mbstrchr(accept, rev_start);
+	while (TRUE) {
+	    const char *q = (*rev_start == '\0') ?
+				NULL : mbstrchr(accept, rev_start);
 
 	    if (q != NULL)
 		return (char *)rev_start;
 
+	    /* If we've reached the head of the string, we found nothing. */
 	    if (rev_start == s)
-		begin_line = TRUE;
-	    else
-		rev_start = s + move_mbleft(s, rev_start - s);
-	}
+		return NULL;
 
-	return NULL;
+	    rev_start = s + move_mbleft(s, rev_start - s);
+	}
     } else
 #endif
 	return revstrpbrk(s, accept, rev_start);
