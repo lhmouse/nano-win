@@ -1569,7 +1569,7 @@ int do_input(bool allow_funcs)
 {
     int input;
 	/* The keystroke we read in: a character or a shortcut. */
-    static int *puddle = NULL;
+    static char *puddle = NULL;
 	/* The input buffer for actual characters. */
     static size_t depth = 0;
 	/* The length of the input buffer. */
@@ -1625,9 +1625,9 @@ int do_input(bool allow_funcs)
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else {
-		depth++;
-		puddle = (int *)nrealloc(puddle, depth * sizeof(int));
-		puddle[depth - 1] = input;
+		/* Store the byte, and leave room for a terminating zero. */
+		puddle = charealloc(puddle, depth + 2);
+		puddle[depth++] = (char)input;
 	    }
 	}
 
@@ -1644,18 +1644,10 @@ int do_input(bool allow_funcs)
 #endif
 
 	    if (puddle != NULL) {
-		/* Display all the characters in the input buffer at
-		 * once, filtering out control characters. */
-		char *output = charalloc(depth + 1);
-		size_t i;
-
-		for (i = 0; i < depth; i++)
-		    output[i] = (char)puddle[i];
-		output[i] = '\0';
-
-		do_output(output, depth, FALSE);
-
-		free(output);
+		/* Insert all bytes in the input buffer into the edit buffer
+		 * at once, filtering out any low control codes. */
+		puddle[depth] = '\0';
+		do_output(puddle, depth, FALSE);
 
 		/* Empty the input buffer. */
 		free(puddle);
