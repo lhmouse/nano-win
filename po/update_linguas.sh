@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Execute this is the po/ subdir.
+# Let this be executed in the po/ subdir.
 cd "$(dirname "$0")" || exit
 
 echo "Updating translations via TP"
@@ -15,10 +15,5 @@ if [ -n "${NEWSTUFF}" ]; then
     echo $(printf '%s\n' *.po | LC_ALL=C sort | sed 's/\.po//g') >>LINGUAS
 fi
 
-echo "Remerging and recompiling the PO files..."
-make
-
-#echo "Staging the files"
-#git add -v nano.pot
-#git add -v *.po
-#git add -v LINGUAS
+echo "Regenerating POT file and remerging and recompiling PO files..."
+make update-po
