@@ -1121,7 +1121,7 @@ Switches to editing/viewing the previous buffer when multiple buffers are open.
 Switches to editing/viewing the next buffer when multiple buffers are open.
 
 @item verbatim
-Inserts the next character verbatim into the file.
+Inserts the next keystroke verbatim into the file.
 
 @item tab
 Inserts a tab at the current cursor location.
