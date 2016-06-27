@@ -1,6 +1,9 @@
 Improvements in nano
 ====================
 
+Since 2.6.0:
+  - The ability to use negative numbers at the Go To Line prompt.
+
 Noteworthy changes since 2.2
 ----------------------------
   - The ability to comment/uncomment lines with a single keystroke (M-3).

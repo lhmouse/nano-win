@@ -1,3 +1,10 @@
+2016.06.27 - nano 2.6.1 "Stampede" is chiefly a translation update, but also
+		adds one little feature (the ability to use negative numbers
+		with Go To Line: -1 meaning the first line from the bottom),
+		includes syntax highlighting for Rust, and fixes three tiny
+		bugs (but in such far corners of the editor that they aren't
+		even worth mentioning).
+
 2016.06.17 - nano 2.6.0 "Rubicon" fixes more than fifty little bugs -- and
 		some of them not so little.  It improves moving about in
 		the file browser, corrects failings of the internal spell
