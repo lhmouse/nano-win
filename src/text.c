@@ -3107,7 +3107,7 @@ void do_spell(void)
     temp = safe_tempfile(&temp_file);
 
     if (temp == NULL) {
-	statusline(HUSH, _("Error writing temp file: %s"), strerror(errno));
+	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 	return;
     }
 
@@ -3119,7 +3119,7 @@ void do_spell(void)
 	status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (!status) {
-	statusline(HUSH, _("Error writing temp file: %s"), strerror(errno));
+	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 	free(temp);
 	return;
     }

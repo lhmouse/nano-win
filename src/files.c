@@ -1965,7 +1965,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	tempname = safe_tempfile(&f);
 
 	if (tempname == NULL) {
-	    statusline(HUSH, _("Error writing temp file: %s"),
+	    statusline(ALERT, _("Error writing temp file: %s"),
 			strerror(errno));
 	    goto cleanup_and_exit;
 	}
@@ -1987,7 +1987,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (f_source == NULL || copy_file(f_source, f) != 0) {
-	    statusline(HUSH, _("Error writing %s: %s"), tempname,
+	    statusline(ALERT, _("Error writing temp file: %s"),
 			strerror(errno));
 	    unlink(tempname);
 	    goto cleanup_and_exit;
@@ -2006,7 +2006,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 
 	/* If we couldn't open the file, give up. */
 	if (fd == -1) {
-	    statusline(HUSH, _("Error writing %s: %s"), realname,
+	    statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	    if (tempname != NULL)
 		unlink(tempname);
@@ -2016,7 +2016,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	f = fdopen(fd, (append == APPEND) ? "ab" : "wb");
 
 	if (f == NULL) {
-	    statusline(HUSH, _("Error writing %s: %s"), realname,
+	    statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	    close(fd);
 	    goto cleanup_and_exit;
@@ -2040,7 +2040,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	unsunder(fileptr->data, data_len);
 
 	if (size < data_len) {
-	    statusline(HUSH, _("Error writing %s: %s"), realname,
+	    statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	    fclose(f);
 	    goto cleanup_and_exit;
@@ -2057,7 +2057,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 #ifndef NANO_TINY
 	    if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
 		if (putc('\r', f) == EOF) {
-		    statusline(HUSH, _("Error writing %s: %s"), realname,
+		    statusline(ALERT, _("Error writing %s: %s"), realname,
 				strerror(errno));
 		    fclose(f);
 		    goto cleanup_and_exit;
@@ -2067,7 +2067,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (openfile->fmt != MAC_FILE)
 #endif
 		if (putc('\n', f) == EOF) {
-		    statusline(HUSH, _("Error writing %s: %s"), realname,
+		    statusline(ALERT, _("Error writing %s: %s"), realname,
 				strerror(errno));
 		    fclose(f);
 		    goto cleanup_and_exit;
@@ -2099,14 +2099,14 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	if (copy_file(f_source, f) == -1) {
-	    statusline(HUSH, _("Error writing %s: %s"), realname,
+	    statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	    goto cleanup_and_exit;
 	}
 
 	unlink(tempname);
     } else if (fclose(f) != 0) {
-	statusline(HUSH, _("Error writing %s: %s"), realname,
+	statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	goto cleanup_and_exit;
     }
