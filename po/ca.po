@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.5.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 15:41+0200\n"
+"POT-Creation-Date: 2016-06-27 11:05+0200\n"
 "PO-Revision-Date: 2016-02-12 12:07+0100\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
-#: src/browser.c:144 src/browser.c:284 src/browser.c:334 src/files.c:996
-#: src/files.c:1003 src/files.c:1794 src/files.c:1919 src/files.c:1963
-#: src/files.c:1983 src/files.c:2099 src/files.c:3019 src/files.c:3242
-#: src/rcfile.c:540 src/rcfile.c:1280
+#: src/browser.c:144 src/browser.c:326 src/files.c:995 src/files.c:1002
+#: src/files.c:1790 src/files.c:1915 src/files.c:1959 src/files.c:1979
+#: src/files.c:2095 src/files.c:3013 src/files.c:3236 src/rcfile.c:540
+#: src/rcfile.c:1280
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "S'ha produït un error en llegir %s: %s"
@@ -31,53 +31,53 @@ msgstr "S'ha produït un error en llegir %s: %s"
 msgid "Go To Directory"
 msgstr "Vés a un directori"
 
-#: src/browser.c:254 src/browser.c:723 src/files.c:1126 src/files.c:2292
-#: src/nano.c:1128 src/search.c:195 src/search.c:297 src/search.c:851
-#: src/search.c:918 src/text.c:3189 src/text.c:3396
+#: src/browser.c:251 src/browser.c:715 src/files.c:1125 src/files.c:2288
+#: src/nano.c:1111 src/search.c:194 src/search.c:296 src/search.c:852
+#: src/search.c:919 src/text.c:3180 src/text.c:3387
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
-#. TRANSLATORS: This refers to the option --operatingdir,
-#. * not to --restricted.
-#: src/browser.c:274 src/browser.c:326
+#. TRANSLATORS: This refers to the confining effect of the
+#. * option --operatingdir, not of --restricted.
+#: src/browser.c:271 src/browser.c:318
 #, fuzzy, c-format
-msgid "Can't go outside of %s in confined mode"
-msgstr "No es pot anar fora de %s en mode restringit"
+msgid "Can't go outside of %s"
+msgstr "No es pot escriure fora de %s"
 
-#: src/browser.c:317
+#: src/browser.c:309
 msgid "Can't move up a directory"
 msgstr "No es pot ascendir de directori"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
-#: src/browser.c:590 src/browser.c:598
+#: src/browser.c:582 src/browser.c:590
 msgid "(dir)"
 msgstr "(dir)"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/browser.c:595
+#: src/browser.c:587
 msgid "(parent dir)"
 msgstr "(directori pare)"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #. * If necessary, you can leave out the parentheses.
-#: src/browser.c:625
+#: src/browser.c:617
 msgid "(huge)"
 msgstr "(enorme)"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:712 src/search.c:166
+#: src/browser.c:704 src/search.c:165
 msgid "Search"
 msgstr "Cerca"
 
-#: src/browser.c:754 src/search.c:368
+#: src/browser.c:746 src/search.c:369
 msgid "Search Wrapped"
 msgstr "Recerca recomençada"
 
-#: src/browser.c:764 src/search.c:509
+#: src/browser.c:756 src/search.c:510
 msgid "This is the only occurrence"
 msgstr "Aquesta és la única coincidència"
 
-#: src/browser.c:812 src/search.c:473
+#: src/browser.c:800 src/search.c:474
 msgid "No current search pattern"
 msgstr "No hi ha cap patró de recerca actual"
 
@@ -168,7 +168,7 @@ msgstr "El fitxer %s s'està editant (per %s amb %s, PID %d); voleu continuar?"
 msgid "Can't insert file from outside of %s"
 msgstr "No es poden inserir fitxers des de fora de %s"
 
-#: src/files.c:445 src/files.c:991 src/rcfile.c:533 src/rcfile.c:1230
+#: src/files.c:445 src/files.c:990 src/rcfile.c:533 src/rcfile.c:1230
 #: src/rcfile.c:1271
 #, c-format
 msgid "\"%s\" is a directory"
@@ -188,183 +188,183 @@ msgstr "No hi ha més búfers de fitxer oberts"
 msgid "Switched to %s"
 msgstr "S'ha canviat a %s"
 
-#: src/files.c:588 src/global.c:1005 src/winio.c:1965
+#: src/files.c:588 src/global.c:1005 src/winio.c:1950
 msgid "New Buffer"
 msgstr "Nou búfer"
 
 #. TRANSLATORS: Keep the next four messages at most 76 characters.
-#: src/files.c:913
+#: src/files.c:912
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
 msgstr[0] "%lu línia llegida (convertida des del format DOS i Mac)"
 msgstr[1] "%lu línies llegides (convertides des del format DOS i Mac)"
 
-#: src/files.c:919
+#: src/files.c:918
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
 msgstr[0] "%lu línia llegida (convertida des del format Mac)"
 msgstr[1] "%lu línies llegides (convertides des del format Mac)"
 
-#: src/files.c:925
+#: src/files.c:924
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
 msgstr[0] "%lu línia llegida (convertida des del format DOS)"
 msgstr[1] "%lu línies llegides (convertides des del format DOS)"
 
-#: src/files.c:930
+#: src/files.c:929
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "%lu línia llegida"
 msgstr[1] "%lu línies llegides"
 
-#: src/files.c:974 src/files.c:1006
+#: src/files.c:973 src/files.c:1005
 msgid "Reading File"
 msgstr "S'està llegint el fitxer"
 
-#: src/files.c:980
+#: src/files.c:979
 msgid "New File"
 msgstr "Nou fitxer"
 
-#: src/files.c:983
+#: src/files.c:982
 #, fuzzy, c-format
 msgid "File \"%s\" not found"
 msgstr "«%s» no trobat"
 
-#: src/files.c:992 src/rcfile.c:534 src/rcfile.c:1231 src/rcfile.c:1272
+#: src/files.c:991 src/rcfile.c:534 src/rcfile.c:1231 src/rcfile.c:1272
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "«%s» és un fitxer de dispositiu"
 
-#: src/files.c:1083
+#: src/files.c:1082
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "Fitxer a executar a un nou búfer [des de %s] "
 
-#: src/files.c:1085
+#: src/files.c:1084
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "Ordre a executar [des de %s] "
 
-#: src/files.c:1092
+#: src/files.c:1091
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Fitxer a inserir a un nou búfer [des de %s] "
 
-#: src/files.c:1094
+#: src/files.c:1093
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Fitxer a inserir [des de %s] "
 
-#: src/files.c:1338
+#: src/files.c:1336
 msgid "Key invalid in non-multibuffer mode"
 msgstr "Tecla il·legal en mode no-multibuffer"
 
-#: src/files.c:1632
+#: src/files.c:1628
 #, fuzzy
 msgid "Failed to write backup file; continue saving? (Say N if unsure.) "
 msgstr ""
 "No s'ha pogut escriure la còpia de seguretat, voleu continuar desant (Digueu "
 "N si no n'esteu segur)"
 
-#: src/files.c:1750
+#: src/files.c:1746
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "No es pot escriure fora de %s"
 
-#: src/files.c:1833 src/files.c:1858 src/files.c:1876 src/files.c:1889
-#: src/files.c:1900 src/files.c:1928
+#: src/files.c:1829 src/files.c:1854 src/files.c:1872 src/files.c:1885
+#: src/files.c:1896 src/files.c:1924
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "S'ha produït un error en escriure la còpia de seguretat %s: %s"
 
-#: src/files.c:1834 src/nano.c:692
+#: src/files.c:1830 src/nano.c:675
 msgid "Too many backup files?"
 msgstr "Massa fitxers de còpia de seguretat?"
 
-#: src/files.c:1972 src/text.c:3117 src/text.c:3129 src/text.c:3498
-#: src/text.c:3507
+#: src/files.c:1968 src/text.c:3110 src/text.c:3122 src/text.c:3487
+#: src/text.c:3496
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "S'ha produït un error en escriure un fitxer temporal: %s"
 
-#: src/files.c:1994 src/files.c:2013 src/files.c:2023 src/files.c:2047
-#: src/files.c:2064 src/files.c:2074 src/files.c:2106 src/files.c:2113
+#: src/files.c:1990 src/files.c:2009 src/files.c:2019 src/files.c:2043
+#: src/files.c:2060 src/files.c:2070 src/files.c:2102 src/files.c:2109
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "S'ha produït un error en escriure %s: %s"
 
-#: src/files.c:2154
+#: src/files.c:2150
 #, c-format
 msgid "Wrote %lu line"
 msgid_plural "Wrote %lu lines"
 msgstr[0] "S'ha escrit %lu línia"
 msgstr[1] "S'han escrit %lu línies"
 
-#: src/files.c:2249
+#: src/files.c:2245
 msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
-#: src/files.c:2250
+#: src/files.c:2246
 msgid " [Mac Format]"
 msgstr " [Format Mac]"
 
-#: src/files.c:2252
+#: src/files.c:2248
 msgid " [Backup]"
 msgstr " [Còpia de seguretat]"
 
-#: src/files.c:2259
+#: src/files.c:2255
 msgid "Prepend Selection to File"
 msgstr "Avantposa sel·lecció a un fitxer"
 
-#: src/files.c:2260
+#: src/files.c:2256
 msgid "Append Selection to File"
 msgstr "Afegeix la sel·lecció a un fitxer"
 
-#: src/files.c:2261
+#: src/files.c:2257
 msgid "Write Selection to File"
 msgstr "Escriu la sel·lecció a un fitxer"
 
-#: src/files.c:2264
+#: src/files.c:2260
 msgid "File Name to Prepend to"
 msgstr "Nom del fitxer en el qual avantposar"
 
-#: src/files.c:2265
+#: src/files.c:2261
 msgid "File Name to Append to"
 msgstr "Nom del fitxer en el qual afegir"
 
-#: src/files.c:2266
+#: src/files.c:2262
 msgid "File Name to Write"
 msgstr "Nom del fitxer a escriure"
 
-#: src/files.c:2301
+#: src/files.c:2297
 #, fuzzy
 msgid "Save modified buffer anyway? "
 msgstr "Voleu desar el búfer de totes formes?"
 
-#: src/files.c:2412
+#: src/files.c:2408
 #, fuzzy
 msgid "Save file under DIFFERENT NAME? "
 msgstr "Voleu desar el fitxer sota un NOM DIFERENT? "
 
-#: src/files.c:2420
+#: src/files.c:2416
 #, fuzzy, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "El fitxer existeix, el voleu SOBREESCRIURE? "
 
-#: src/files.c:2441
+#: src/files.c:2437
 #, fuzzy
 msgid "File was modified since you opened it; continue saving? "
 msgstr "S'ha modificat el fitxer des de que l'heu obert, voleu desar-lo?"
 
-#: src/files.c:2874
+#: src/files.c:2868
 msgid "(more)"
 msgstr "(més)"
 
-#: src/files.c:2959
+#: src/files.c:2953
 #, c-format
 msgid ""
 "\n"
@@ -373,7 +373,7 @@ msgstr ""
 "\n"
 "Premeu Intro per a continuar\n"
 
-#: src/files.c:2975
+#: src/files.c:2969
 #, c-format
 msgid ""
 "Unable to create directory %s: %s\n"
@@ -382,7 +382,7 @@ msgstr ""
 "No s'ha pogut crear el directori %s: %s\n"
 "És requerit per desar/carregar l'historial de cerca o posició del cursor.\n"
 
-#: src/files.c:2982
+#: src/files.c:2976
 #, c-format
 msgid ""
 "Path %s is not a directory and needs to be.\n"
@@ -392,7 +392,7 @@ msgstr ""
 "Nano no podrà carregar o desar l'historial de cerca o la posició del "
 "cursor.\n"
 
-#: src/files.c:3002
+#: src/files.c:2996
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I tried to move\n"
@@ -401,7 +401,7 @@ msgstr ""
 "S'ha detectat un fitxer d'historial antic (%s) que s'ha intentat moure\n"
 "al lloc aconsellat (%s), però s'ha produït un error: %s"
 
-#: src/files.c:3006
+#: src/files.c:3000
 #, c-format
 msgid ""
 "Detected a legacy nano history file (%s) which I moved\n"
@@ -412,7 +412,7 @@ msgstr ""
 "al lloc aconsellat (%s)\n"
 "(Vegeu les PMF del nano per a obtenir més informació sobre aquest canvi)"
 
-#: src/files.c:3089 src/files.c:3097 src/files.c:3121 src/files.c:3133
+#: src/files.c:3083 src/files.c:3091 src/files.c:3115 src/files.c:3127
 #, c-format
 msgid "Error writing %s: %s\n"
 msgstr "S'ha produït un error en escriure %s: %s\n"
@@ -1468,19 +1468,19 @@ msgstr ""
 msgid "enable/disable"
 msgstr "habilita/inhabilita"
 
-#: src/nano.c:560
+#: src/nano.c:543
 msgid "Key is invalid in view mode"
 msgstr "La tecla és invàlida al mode visualització"
 
-#: src/nano.c:566
+#: src/nano.c:549
 msgid "This function is disabled in restricted mode"
 msgstr "Aquesta funció està inhabilitada en mode restringit"
 
-#: src/nano.c:574
+#: src/nano.c:557
 msgid "Help is not available"
 msgstr "L'ajuda no és disponible"
 
-#: src/nano.c:686
+#: src/nano.c:669
 #, c-format
 msgid ""
 "\n"
@@ -1489,7 +1489,7 @@ msgstr ""
 "\n"
 "S'ha escrit el búfer en %s\n"
 
-#: src/nano.c:688
+#: src/nano.c:671
 #, c-format
 msgid ""
 "\n"
@@ -1498,7 +1498,7 @@ msgstr ""
 "\n"
 "No s'ha escrit el búfer a %s: %s\n"
 
-#: src/nano.c:691
+#: src/nano.c:674
 #, c-format
 msgid ""
 "\n"
@@ -1507,273 +1507,273 @@ msgstr ""
 "\n"
 "No s'ha escrit el búfer: %s\n"
 
-#: src/nano.c:714
+#: src/nano.c:697
 msgid "Window size is too small for nano...\n"
 msgstr "La mida del terminal és massa petita per al nano...\n"
 
-#: src/nano.c:807
+#: src/nano.c:790
 #, c-format
 msgid ""
 "Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n"
 "\n"
 msgstr "Forma d'ús: nano [OPCIONS] [[+LÍNIA,COLUMNA] FITXER]...\n"
 
-#: src/nano.c:810
+#: src/nano.c:793
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
 msgstr "Opció\t\tOpció llarga GNU\tSignificat\n"
 
-#: src/nano.c:812
+#: src/nano.c:795
 #, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Opció\t\tSignificat\n"
 
-#: src/nano.c:815
+#: src/nano.c:798
 msgid "+LINE,COLUMN"
 msgstr "+LÍNIA,COLUMNA"
 
 #. TRANSLATORS: The next forty or so strings are option descriptions
 #. * for the --help output.  Try to keep them at most 40 characters.
-#: src/nano.c:818
+#: src/nano.c:801
 msgid "Start at line LINE, column COLUMN"
 msgstr "Comença en la línia número LÍNIA, columna COLUMNA"
 
-#: src/nano.c:820
+#: src/nano.c:803
 msgid "Enable smart home key"
 msgstr "Habilita la tecla «inici» intel·ligent"
 
-#: src/nano.c:822
+#: src/nano.c:805
 msgid "Save backups of existing files"
 msgstr "Fes còpies de seguretat dels fitxers existents"
 
-#: src/nano.c:823
+#: src/nano.c:806
 msgid "-C <dir>"
 msgstr "-C <dir>"
 
-#: src/nano.c:823
+#: src/nano.c:806
 msgid "--backupdir=<dir>"
 msgstr "--backupdir=<dir>"
 
-#: src/nano.c:824
+#: src/nano.c:807
 msgid "Directory for saving unique backup files"
 msgstr "Directori on desar els fitxers de còpia de seguretat únics"
 
-#: src/nano.c:827
+#: src/nano.c:810
 msgid "Use bold instead of reverse video text"
 msgstr "Utilitza negreta en comptes de text amb els colors invertits"
 
-#: src/nano.c:829
+#: src/nano.c:812
 msgid "Convert typed tabs to spaces"
 msgstr "Converteix les tabulacions introduïdes a espais"
 
-#: src/nano.c:834
+#: src/nano.c:817
 msgid "Read a file into a new buffer by default"
 msgstr "Llegeix un fitxer en un búfer nou per defecte"
 
-#: src/nano.c:837
+#: src/nano.c:820
 msgid "Use (vim-style) lock files"
 msgstr "Empra fitxers de blocatge (a l'estil del Vim)"
 
-#: src/nano.c:842
+#: src/nano.c:825
 msgid "Log & read search/replace string history"
 msgstr "Registra i llegeix la història de cerca/reemplaça"
 
-#: src/nano.c:846
+#: src/nano.c:829
 msgid "Don't look at nanorc files"
 msgstr "No faces servir els fitxers nanorc"
 
-#: src/nano.c:849
+#: src/nano.c:832
 msgid "Fix numeric keypad key confusion problem"
 msgstr "Arregla el problema de confusió del teclat numèric"
 
-#: src/nano.c:851
+#: src/nano.c:834
 msgid "Don't add newlines to the ends of files"
 msgstr "No afegeixes retorns de carro al final dels fitxers"
 
-#: src/nano.c:854
+#: src/nano.c:837
 msgid "Don't convert files from DOS/Mac format"
 msgstr "No converteixes des del format DOS/Mac"
 
-#: src/nano.c:856
+#: src/nano.c:839
 msgid "Use one more line for editing"
 msgstr "Utilitza una línia més per a editar"
 
-#: src/nano.c:860
+#: src/nano.c:843
 msgid "Log & read location of cursor position"
 msgstr "Emmagatzema i llegeix la posició del cursor"
 
-#: src/nano.c:863
+#: src/nano.c:846
 msgid "-Q <str>"
 msgstr "-Q <str>"
 
-#: src/nano.c:863
+#: src/nano.c:846
 msgid "--quotestr=<str>"
 msgstr "--quotestr=<cad>"
 
-#: src/nano.c:863
+#: src/nano.c:846
 msgid "Quoting string"
 msgstr "Marcador de cita"
 
-#: src/nano.c:866
+#: src/nano.c:849
 msgid "Restricted mode"
 msgstr "Mode restringit"
 
-#: src/nano.c:868
+#: src/nano.c:851
 msgid "Scroll by line instead of half-screen"
 msgstr "Desplaça't per línies en lloc de mitges pantalles"
 
-#: src/nano.c:870
+#: src/nano.c:853
 msgid "-T <#cols>"
 msgstr "-T <#cols>"
 
-#: src/nano.c:870
+#: src/nano.c:853
 msgid "--tabsize=<#cols>"
 msgstr "--tabsize=<#cols>"
 
-#: src/nano.c:871
+#: src/nano.c:854
 msgid "Set width of a tab to #cols columns"
 msgstr "Estableix l'amplada de tab a #cols columnes"
 
-#: src/nano.c:873
+#: src/nano.c:856
 msgid "Do quick statusbar blanking"
 msgstr "Neteja la barra d'estat ràpidament"
 
-#: src/nano.c:875
+#: src/nano.c:858
 msgid "Print version information and exit"
 msgstr "Imprimeix informació sobre la versió i surt"
 
-#: src/nano.c:878
+#: src/nano.c:861
 msgid "Detect word boundaries more accurately"
 msgstr "Detecta els límits entre paraules amb més detall"
 
-#: src/nano.c:882
+#: src/nano.c:865
 msgid "-Y <str>"
 msgstr "-Y <cad>"
 
-#: src/nano.c:882
+#: src/nano.c:865
 msgid "--syntax=<str>"
 msgstr "--syntax=<cad>"
 
-#: src/nano.c:883
+#: src/nano.c:866
 msgid "Syntax definition to use for coloring"
 msgstr "Definició de sintaxi a utilitzar per a colorejar"
 
-#: src/nano.c:885
+#: src/nano.c:868
 msgid "Constantly show cursor position"
 msgstr "Mostra contínuament la posició del cursor"
 
-#: src/nano.c:887
+#: src/nano.c:870
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Arregla el problema de confusió entre Esborra/Suprimeix"
 
-#: src/nano.c:888
+#: src/nano.c:871
 msgid "Show this help text and exit"
 msgstr "Mostra aquest text d'ajuda i surt"
 
-#: src/nano.c:890
+#: src/nano.c:873
 msgid "Automatically indent new lines"
 msgstr "Sagna automàticament noves línies"
 
-#: src/nano.c:891
+#: src/nano.c:874
 msgid "Cut from cursor to end of line"
 msgstr "Retalla des del cursor al final de línia"
 
-#: src/nano.c:894
+#: src/nano.c:877
 msgid "Enable the use of the mouse"
 msgstr "Habilita l'ús del ratolí"
 
-#: src/nano.c:896
+#: src/nano.c:879
 msgid "Do not read the file (only write it)"
 msgstr "No llegeixes el fitxer (només escriu sobre ell)"
 
-#: src/nano.c:898
+#: src/nano.c:881
 msgid "-o <dir>"
 msgstr "-o <dir>"
 
-#: src/nano.c:898
+#: src/nano.c:881
 msgid "--operatingdir=<dir>"
 msgstr "--operatingdir=<dir>"
 
-#: src/nano.c:899
+#: src/nano.c:882
 msgid "Set operating directory"
 msgstr "Estableix directori d'operació"
 
-#: src/nano.c:901
+#: src/nano.c:884
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Preserva les tecles XON (^Q) i XOFF (^S)"
 
-#: src/nano.c:905
+#: src/nano.c:888
 msgid "Silently ignore startup issues like rc file errors"
 msgstr "Omet silenciosament problemes d'inici com errors al fitxer rc"
 
-#: src/nano.c:908
+#: src/nano.c:891
 msgid "-r <#cols>"
 msgstr "-r <#cols>"
 
-#: src/nano.c:908
+#: src/nano.c:891
 msgid "--fill=<#cols>"
 msgstr "--fill=<#cols>"
 
-#: src/nano.c:909
+#: src/nano.c:892
 msgid "Set hard-wrapping point at column #cols"
 msgstr "Estableix el punt d'ajustament a la columna #cols"
 
-#: src/nano.c:913
+#: src/nano.c:896
 msgid "-s <prog>"
 msgstr "-s <prog>"
 
-#: src/nano.c:913
+#: src/nano.c:896
 msgid "--speller=<prog>"
 msgstr "--speller=<prog>"
 
-#: src/nano.c:914
+#: src/nano.c:897
 msgid "Enable alternate speller"
 msgstr "Habilita un corrector alternatiu"
 
-#: src/nano.c:916
+#: src/nano.c:899
 msgid "Auto save on exit, don't prompt"
 msgstr "Desa automàticament en sortir, no preguntes"
 
-#: src/nano.c:918
+#: src/nano.c:901
 msgid "Save a file by default in Unix format"
 msgstr "Desa un fitxer per defecte en format Unix"
 
-#: src/nano.c:920
+#: src/nano.c:903
 msgid "View mode (read-only)"
 msgstr "Mode de visualització (només lectura)"
 
-#: src/nano.c:922
+#: src/nano.c:905
 msgid "Don't hard-wrap long lines"
 msgstr "No ajustes les línies llargues"
 
-#: src/nano.c:924
+#: src/nano.c:907
 msgid "Don't show the two help lines"
 msgstr "No mostres les dues línies d'ajuda"
 
-#: src/nano.c:926
+#: src/nano.c:909
 msgid "Enable suspension"
 msgstr "Habilita la suspensió"
 
-#: src/nano.c:928
+#: src/nano.c:911
 msgid "Enable soft line wrapping"
 msgstr "Habilita l'ajustament suau de línies"
 
-#: src/nano.c:940
+#: src/nano.c:923
 #, fuzzy, c-format
 msgid " nano, version %s\n"
 msgstr " GNU nano, versió %s\n"
 
-#: src/nano.c:943
+#: src/nano.c:926
 #, c-format
 msgid " (C) 2014..%s the contributors to nano\n"
 msgstr ""
 
-#: src/nano.c:945
-#, c-format
-msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
+#: src/nano.c:928
+#, fuzzy, c-format
+msgid " Email: nano@nano-editor.org\tWeb: https://nano-editor.org/"
 msgstr " Correu-e: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 
-#: src/nano.c:946
+#: src/nano.c:929
 #, c-format
 msgid ""
 "\n"
@@ -1782,82 +1782,82 @@ msgstr ""
 "\n"
 " Opcions compilades:"
 
-#: src/nano.c:1081
+#: src/nano.c:1064
 msgid "No file name"
 msgstr "Cap nom de fitxer"
 
-#: src/nano.c:1115
+#: src/nano.c:1098
 msgid "Save modified buffer?  (Answering \"No\" will DISCARD changes.) "
 msgstr ""
 
-#: src/nano.c:1178
+#: src/nano.c:1159
 msgid "Couldn't reopen stdin from keyboard, sorry\n"
 msgstr "No s'ha pogut tornar a obrir l'entrada estàndard des del teclat\n"
 
-#: src/nano.c:1202
+#: src/nano.c:1183
 #, c-format
 msgid "Reading from stdin, ^C to abort\n"
 msgstr "S'està llegint des de l'entrada estàndard, ^C per a avortar-ho\n"
 
-#: src/nano.c:1266
+#: src/nano.c:1247
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "S'ha rebut SIGHUP o SIGTERM\n"
 
-#: src/nano.c:1282
+#: src/nano.c:1263
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Empreu «fg» per a tornar al nano.\n"
 
-#: src/nano.c:1304
+#: src/nano.c:1285
 msgid "Suspension is not enabled"
 msgstr "La suspensió no està habilitada"
 
-#: src/nano.c:1459
+#: src/nano.c:1440
 msgid "enabled"
 msgstr "habilitat"
 
-#: src/nano.c:1459
+#: src/nano.c:1440
 msgid "disabled"
 msgstr "inhabilitat"
 
-#: src/nano.c:1573
+#: src/nano.c:1554
 msgid "Unbound key"
 msgstr ""
 
-#: src/nano.c:1577
+#: src/nano.c:1558
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr ""
 
-#: src/nano.c:1579
+#: src/nano.c:1560
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr ""
 
-#: src/nano.c:1581
+#: src/nano.c:1562
 #, c-format
 msgid "Unbound key: %c"
 msgstr ""
 
-#: src/nano.c:1745
+#: src/nano.c:1722
 msgid "XON ignored, mumble mumble"
 msgstr "XON ignorat, blah, blah"
 
-#: src/nano.c:1750
+#: src/nano.c:1727
 msgid "XOFF ignored, mumble mumble"
 msgstr "XOFF ignorat, blah, blah"
 
-#: src/nano.c:2166 src/rcfile.c:1187
+#: src/nano.c:2140 src/rcfile.c:1187
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "La mida de tabulador demanada «%s» és invàlida"
 
-#: src/nano.c:2227 src/rcfile.c:1128
+#: src/nano.c:2201 src/rcfile.c:1128
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "La mida de plenat demanada «%s» és invàlida"
 
-#: src/nano.c:2276
+#: src/nano.c:2250
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Introduïu «%s -h» per obtenir una llista de les opcions disponibles.\n"
@@ -2116,43 +2116,45 @@ msgid "\"%.*s%s\" not found"
 msgstr "«%.*s%s» no trobat"
 
 #. TRANSLATORS: The next three strings are modifiers of the search prompt.
-#: src/search.c:169
+#: src/search.c:168
 msgid " [Case Sensitive]"
 msgstr " [Maj/Min]"
 
-#: src/search.c:173
+#: src/search.c:172
 msgid " [Regexp]"
 msgstr " [ExpReg]"
 
-#: src/search.c:177
+#: src/search.c:176
 msgid " [Backwards]"
 msgstr " [Cap Enrere]"
 
 #. TRANSLATORS: The next two strings are modifiers of the search prompt.
-#: src/search.c:182
+#: src/search.c:181
 msgid " (to replace) in selection"
 msgstr " (a reemplaçar) dins de la selecció"
 
-#: src/search.c:184
+#: src/search.c:183
 msgid " (to replace)"
 msgstr " (a reemplaçar)"
 
-#: src/search.c:305
+#. TRANSLATORS: This is shown when searching takes
+#. * more than half a second.
+#: src/search.c:306
 #, fuzzy
 msgid "Searching..."
 msgstr "Cerca"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:693
+#: src/search.c:694
 msgid "Replace this instance?"
 msgstr "Voleu reemplaçar aquesta instància?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:840
+#: src/search.c:841
 msgid "Replace with"
 msgstr "Reemplaça amb"
 
-#: src/search.c:875
+#: src/search.c:876
 #, c-format
 msgid "Replaced %lu occurrence"
 msgid_plural "Replaced %lu occurrences"
@@ -2160,19 +2162,19 @@ msgstr[0] "S'ha reemplaçat %lu coincidència"
 msgstr[1] "S'han reemplaçat %lu coincidències"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:914
+#: src/search.c:915
 msgid "Enter line number, column number"
 msgstr "Introduïu el número de línia, número de columna"
 
-#: src/search.c:939
+#: src/search.c:937
 msgid "Invalid line or column number"
 msgstr "El número de línia o columna és invàlid"
 
-#: src/search.c:1080
+#: src/search.c:1090
 msgid "Not a bracket"
 msgstr "No és una clau"
 
-#: src/search.c:1146
+#: src/search.c:1156
 msgid "No matching bracket"
 msgstr "No hi ha clau corresponent"
 
@@ -2189,211 +2191,211 @@ msgstr "Marca esborrada"
 msgid "Error invoking \"%s\""
 msgstr "S'ha produït un error en iniciar executar «%s»"
 
-#: src/text.c:468
+#: src/text.c:461
 msgid "Commenting is not supported for this file type"
 msgstr ""
 
-#: src/text.c:484
+#: src/text.c:477
 msgid "Cannot comment past end of file"
 msgstr ""
 
-#: src/text.c:677
+#: src/text.c:670
 msgid "Nothing in undo buffer!"
 msgstr "No hi ha res al búfer de desfer."
 
 #. TRANSLATORS: Eight of the next nine strings describe actions
 #. * that are undone or redone.  It are all nouns, not verbs.
-#: src/text.c:695 src/text.c:724 src/text.c:857 src/text.c:898
+#: src/text.c:688 src/text.c:717 src/text.c:850 src/text.c:891
 msgid "text add"
 msgstr "afegiment de text"
 
-#: src/text.c:705 src/text.c:868
+#: src/text.c:698 src/text.c:861
 msgid "text delete"
 msgstr "supressió de text"
 
-#: src/text.c:728 src/text.c:907
+#: src/text.c:721 src/text.c:900
 msgid "line join"
 msgstr "unió de línia"
 
-#: src/text.c:747 src/text.c:923
+#: src/text.c:740 src/text.c:916
 msgid "text cut"
 msgstr "tall de text"
 
-#: src/text.c:752 src/text.c:927
+#: src/text.c:745 src/text.c:920
 msgid "text uncut"
 msgstr "enganxada de text"
 
-#: src/text.c:758 src/text.c:903
+#: src/text.c:751 src/text.c:896
 msgid "Internal error: line is missing.  Please save your work."
 msgstr "Error intern: manca la línia. Deseu el vostre treball."
 
-#: src/text.c:762 src/text.c:877
+#: src/text.c:755 src/text.c:870
 msgid "line break"
 msgstr "trencat de línia"
 
-#: src/text.c:772 src/text.c:947
+#: src/text.c:765 src/text.c:940
 msgid "comment"
 msgstr ""
 
-#: src/text.c:776 src/text.c:951
+#: src/text.c:769 src/text.c:944
 msgid "uncomment"
 msgstr ""
 
-#: src/text.c:780 src/text.c:938
+#: src/text.c:773 src/text.c:931
 msgid "text insert"
 msgstr "inserció de text"
 
-#: src/text.c:800 src/text.c:931
+#: src/text.c:793 src/text.c:924
 msgid "text replace"
 msgstr "reemplaçament de text"
 
-#: src/text.c:807 src/text.c:955 src/text.c:1267 src/text.c:1437
+#: src/text.c:800 src/text.c:948 src/text.c:1260 src/text.c:1430
 msgid "Internal error: unknown type.  Please save your work."
 msgstr "Error intern: tipus desconegut. Deseu el vostre treball."
 
-#: src/text.c:813
+#: src/text.c:806
 #, c-format
 msgid "Undid action (%s)"
 msgstr "S'ha desfet l'acció (%s)"
 
-#: src/text.c:832
+#: src/text.c:825
 msgid "Nothing to re-do!"
 msgstr "No hi ha res a refer."
 
-#: src/text.c:841
+#: src/text.c:834
 msgid "Internal error: cannot set up redo.  Please save your work."
 msgstr "Error intern: no es pot configurar el desfer. Deseu el vostre treball."
 
-#: src/text.c:961
+#: src/text.c:954
 #, c-format
 msgid "Redid action (%s)"
 msgstr "S'ha refet l'acció (%s)"
 
-#: src/text.c:1051 src/text.c:2765 src/text.c:3198
+#: src/text.c:1044 src/text.c:2758 src/text.c:3189
 msgid "Could not create pipe"
 msgstr "No s'ha pogut crear un conducte"
 
-#: src/text.c:1077 src/text.c:2852 src/text.c:3005 src/text.c:3246
-#: src/text.c:3540
+#: src/text.c:1070 src/text.c:2845 src/text.c:2998 src/text.c:3237
+#: src/text.c:3529
 msgid "Could not fork"
 msgstr "No s'ha pogut iniciar un altre procés"
 
-#: src/text.c:2117
+#: src/text.c:2110
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "El marcador de cita %s és erroni: %s"
 
-#: src/text.c:2499
+#: src/text.c:2492
 msgid "Can now UnJustify!"
 msgstr "Ara podeu desjustificar!"
 
-#: src/text.c:2697
+#: src/text.c:2690
 msgid "Edit a replacement"
 msgstr "Edita un reemplaçament"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2713
+#: src/text.c:2706
 #, fuzzy
 msgid "Next word..."
 msgstr "Paraula següent"
 
-#: src/text.c:2767
+#: src/text.c:2760
 msgid "Creating misspelled word list, please wait..."
 msgstr "S'està creant una llista de paraules incorrectes, espereu..."
 
-#: src/text.c:2858 src/text.c:3253
+#: src/text.c:2851 src/text.c:3244
 msgid "Could not get size of pipe buffer"
 msgstr "No s'ha pogut obtindre la mida de la memòria intermèdia del conducte"
 
-#: src/text.c:2907
+#: src/text.c:2900
 msgid "Error invoking \"spell\""
 msgstr "S'ha produït un error en iniciar «spell»"
 
-#: src/text.c:2910
+#: src/text.c:2903
 msgid "Error invoking \"sort -f\""
 msgstr "S'ha produït un error en iniciar «sort -f»"
 
-#: src/text.c:2913
+#: src/text.c:2906
 msgid "Error invoking \"uniq\""
 msgstr "S'ha produït un error en iniciar «uniq»"
 
-#: src/text.c:3135
+#: src/text.c:3128
 msgid "Invoking spell checker, please wait"
 msgstr "S'està invocant el corrector ortogràfic, espereu"
 
-#: src/text.c:3151
+#: src/text.c:3142
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s"
 
-#: src/text.c:3153
+#: src/text.c:3144
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s: %s"
 
-#: src/text.c:3156
+#: src/text.c:3147
 msgid "Finished checking spelling"
 msgstr "Revisió d'ortografia finalitzada"
 
-#: src/text.c:3181
+#: src/text.c:3172
 msgid "No linter defined for this type of file!"
 msgstr "No hi ha cap analitzador definit per a aquest tipus de fitxer!"
 
-#: src/text.c:3186
+#: src/text.c:3177
 msgid "Save modified buffer before linting?"
 msgstr "Voleu desar el búfer abans d'analitzar-ho?"
 
-#: src/text.c:3203
+#: src/text.c:3194
 msgid "Invoking linter, please wait"
 msgstr "S'esta invocant l'analitzador, espereu"
 
-#: src/text.c:3358
+#: src/text.c:3349
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "S'han rebut 0 línies analitzables de l'ordre: %s"
 
-#: src/text.c:3388
+#: src/text.c:3379
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Aquest missatge és pel fitxer no obert %s, voleu obrir-lo en un nou búfer?"
 
-#: src/text.c:3407
+#: src/text.c:3398
 msgid "No more errors in unopened files, cancelling"
 msgstr "No hi ha més errades en fitxers no oberts, s'està cancel·lant"
 
-#: src/text.c:3446
+#: src/text.c:3438
 msgid "At last message"
 msgstr "A l'últim missatge"
 
-#: src/text.c:3451
+#: src/text.c:3443
 msgid "At first message"
 msgstr "Al primer missatge"
 
-#: src/text.c:3491
+#: src/text.c:3480
 msgid "Finished"
 msgstr "Finalitzat"
 
-#: src/text.c:3513
+#: src/text.c:3502
 msgid "Invoking formatter, please wait"
 msgstr "S'esta invocant el formatador, espereu"
 
-#: src/text.c:3568
+#: src/text.c:3557
 msgid "Finished formatting"
 msgstr "Ha finalitzat el format"
 
-#: src/text.c:3650
+#: src/text.c:3639
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sParaules: %lu  Línies: %ld  Caràcters: %lu"
 
-#: src/text.c:3651
+#: src/text.c:3640
 msgid "In Selection:  "
 msgstr "A la selecció:  "
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/text.c:3665
+#: src/text.c:3654
 msgid "Verbatim Input"
 msgstr "Entrada textual"
 
@@ -2401,7 +2403,7 @@ msgstr "Entrada textual"
 msgid "nano is out of memory!"
 msgstr "nano s'ha quedat sense memòria!"
 
-#: src/utils.c:625
+#: src/utils.c:626
 #, c-format
 msgid "Internal error: can't match line %d.  Please save your work."
 msgstr ""
@@ -2410,72 +2412,75 @@ msgstr ""
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not know about.
-#: src/winio.c:1121
+#: src/winio.c:1115
 msgid "Unknown sequence"
 msgstr ""
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1427
+#: src/winio.c:1412
 msgid "Unicode Input"
 msgstr "Entrada d'Unicode"
 
-#: src/winio.c:1960
+#: src/winio.c:1945
 msgid "DIR:"
 msgstr "DIR:"
 
-#: src/winio.c:1968
+#: src/winio.c:1953
 msgid "File:"
 msgstr "Fitxer:"
 
-#: src/winio.c:1972 src/winio.c:1976
+#: src/winio.c:1957 src/winio.c:1961
 msgid "Modified"
 msgstr "Modificat"
 
-#: src/winio.c:1974
+#: src/winio.c:1959
 msgid "View"
 msgstr "Visualitza"
 
-#: src/winio.c:3105
+#: src/winio.c:3085
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "línia %ld/%ld (%d%%), col %lu/%lu (%d%%), car %lu/%lu (%d%%)"
 
-#: src/winio.c:3235
+#: src/winio.c:3215
 msgid "The nano text editor"
 msgstr "L'editor de text GNU nano"
 
-#: src/winio.c:3236
+#: src/winio.c:3216
 msgid "version"
 msgstr "versió"
 
-#: src/winio.c:3237
+#: src/winio.c:3217
 msgid "Brought to you by:"
 msgstr "Per cortesia de:"
 
-#: src/winio.c:3238
+#: src/winio.c:3218
 msgid "Special thanks to:"
 msgstr "Agraïments especials per a:"
 
-#: src/winio.c:3239
+#: src/winio.c:3219
 msgid "The Free Software Foundation"
 msgstr "La Fundació per al Software Lliure (FSF)"
 
-#: src/winio.c:3240
+#: src/winio.c:3220
 msgid "the many translators and the TP"
 msgstr "els molts traductors i el TP"
 
-#: src/winio.c:3241
+#: src/winio.c:3221
 msgid "For ncurses:"
 msgstr "Per ncurses:"
 
-#: src/winio.c:3242
+#: src/winio.c:3222
 msgid "and anyone else we forgot..."
 msgstr "i per qualsevol dels qui ens hem oblidat esmentar..."
 
-#: src/winio.c:3243
+#: src/winio.c:3223
 msgid "Thank you for using nano!"
 msgstr "Gràcies per fer servir nano!"
+
+#~ msgid "Can't go outside of %s in restricted mode"
+#~ msgstr "No es pot anar fora de %s en mode restringit"
 
 #~ msgid ""
 #~ "Read %lu line (Converted from DOS and Mac format - Warning: No write "
