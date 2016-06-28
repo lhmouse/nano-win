@@ -129,17 +129,13 @@ char *do_browser(char *path)
 	bottombars(MBROWSER);
 
 #ifndef NANO_TINY
+	/* If the window resized, also refresh the file list. */
 	if (kbinput == KEY_WINCH) {
 	    /* Remember the selected file, to be able to reselect it. */
 	    present_name = strdup(filelist[selected]);
-
-	    /* Reopen the current directory. */
-	    dir = opendir(path);
-	    if (dir != NULL)
-		goto read_directory_contents;
-
-	    statusline(ALERT, _("Error reading %s: %s"), path, strerror(errno));
-	    kbinput = ERR;
+	    /* Reread the contents of the current directory. */
+	    newpath = strdup(present_path);
+	    goto read_directory_contents;
 	}
 #endif
 	/* Display (or redisplay) the file list if we don't have a key yet,
@@ -191,15 +187,15 @@ char *do_browser(char *path)
 
 	if (func == total_refresh) {
 	    total_redraw();
-	    /* Simulate a window resize to force a directory reread. */
 #ifndef NANO_TINY
+	    /* Simulate a window resize to force a directory reread. */
 	    kbinput = KEY_WINCH;
 #endif
 	} else if (func == do_help_void) {
 #ifndef DISABLE_HELP
 	    do_help_void();
-	    /* The window dimensions might have changed, so act as if. */
 #ifndef NANO_TINY
+	    /* The window dimensions might have changed, so act as if. */
 	    kbinput = KEY_WINCH;
 #endif
 #else
