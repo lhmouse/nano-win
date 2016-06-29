@@ -1786,18 +1786,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	if (is_cntrl_mbchar(buf_mb)) {
 	    if (column < start_col) {
-		char *character = charalloc(mb_cur_max());
-		int charlen, i;
-
-		character = control_mbrep(buf_mb, character, &charlen);
-
-		for (i = 0; i < charlen; i++)
-		    converted[index++] = character[i];
-
-		start_col += mbwidth(character);
-
-		free(character);
-
+		converted[index++] = control_mbrep(buf_mb);
+		start_col++;
 		start_index += buf_mb_len;
 	    }
 	}
@@ -1859,22 +1849,11 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		converted[index++] = ' ';
 		start_col++;
 	    }
-	/* If buf contains a control character, interpret it. */
+	/* If buf contains a control character, represent it. */
 	} else if (is_cntrl_mbchar(buf_mb)) {
-	    char *character = charalloc(mb_cur_max());
-	    int charlen, i;
-
 	    converted[index++] = '^';
-	    start_col++;
-
-	    character = control_mbrep(buf_mb, character, &charlen);
-
-	    for (i = 0; i < charlen; i++)
-		converted[index++] = character[i];
-
-	    start_col += mbwidth(character);
-
-	    free(character);
+	    converted[index++] = control_mbrep(buf_mb);
+	    start_col += 2;
 	/* If buf contains a non-control character, interpret it.  If buf
 	 * contains an invalid multibyte sequence, display it as such. */
 	} else {

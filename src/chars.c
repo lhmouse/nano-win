@@ -253,27 +253,20 @@ wchar_t control_wrep(wchar_t wc)
 }
 #endif
 
-/* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is (c + 64).  We return that single-byte character. */
-char *control_mbrep(const char *c, char *crep, int *crep_len)
+/* Return the visible representation of multibyte control character c. */
+char control_mbrep(const char *c)
 {
-    assert(c != NULL && crep != NULL && crep_len != NULL);
+    assert(c != NULL);
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	if (0 <= c[0] && c[0] <= 127)
-	    *crep = control_rep(c[0]);
+	    return control_rep(c[0]);
 	else
-	    *crep = control_rep(c[1]);
-	*crep_len = 1;
+	    return control_rep(c[1]);
     } else
 #endif
-    {
-	*crep_len = 1;
-	*crep = control_rep(*c);
-    }
-
-    return crep;
+	return control_rep(*c);
 }
 
 /* c is a multibyte non-control character.  We return that multibyte
