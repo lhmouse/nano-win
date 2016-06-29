@@ -190,9 +190,6 @@ bool is_cntrl_mbchar(const char *c);
 bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_rep(const signed char c);
-#ifdef ENABLE_UTF8
-wchar_t control_wrep(wchar_t wc);
-#endif
 char control_mbrep(const char *c);
 char *mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);

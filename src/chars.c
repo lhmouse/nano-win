@@ -217,13 +217,12 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 	FALSE);
 }
 
-/* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
- * is (c + 64).  We return that character. */
+/* Return the visible representation of control character c. */
 char control_rep(const signed char c)
 {
     assert(is_cntrl_char(c));
 
-    /* Treat newlines embedded in a line as encoded nulls. */
+    /* An embedded newline is an encoded null. */
     if (c == '\n')
 	return '@';
     else if (c == NANO_CONTROL_8)
@@ -235,23 +234,6 @@ char control_rep(const signed char c)
     else
 	return c + 64;
 }
-
-#ifdef ENABLE_UTF8
-/* c is a wide control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is (c + 64).  We return that wide character. */
-wchar_t control_wrep(wchar_t wc)
-{
-    assert(is_cntrl_wchar(wc));
-
-    /* Treat newlines embedded in a line as encoded nulls. */
-    if (wc == '\n')
-	return '@';
-    else if (wc == NANO_CONTROL_8)
-	return '?';
-    else
-	return wc + 64;
-}
-#endif
 
 /* Return the visible representation of multibyte control character c. */
 char control_mbrep(const char *c)
