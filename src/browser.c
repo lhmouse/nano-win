@@ -72,9 +72,6 @@ char *do_browser(char *path)
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
 
-    /* Start with no key pressed. */
-    kbinput = ERR;
-
     path = mallocstrassn(path, get_full_path(newpath ? newpath : path));
 
     if (path != NULL && newpath != NULL)
@@ -128,29 +125,14 @@ char *do_browser(char *path)
 
 	bottombars(MBROWSER);
 
-#ifndef NANO_TINY
-	/* If the window resized, also refresh the file list. */
-	if (kbinput == KEY_WINCH) {
-	    /* Remember the selected file, to be able to reselect it. */
-	    present_name = strdup(filelist[selected]);
-	    /* Reread the contents of the current directory. */
-	    newpath = strdup(present_path);
-	    goto read_directory_contents;
-	}
-#endif
-	/* Display (or redisplay) the file list if we don't have a key yet,
-	 * or the list has changed, or the selected file has changed. */
-	if (kbinput == ERR || old_selected != selected)
+	/* Display (or redisplay) the file list if the list itself or
+	 * the selected file has changed. */
+	if (old_selected != selected)
 	    browser_refresh();
 
 	old_selected = selected;
 
 	kbinput = get_kbinput(edit);
-
-#ifndef NANO_TINY
-	if (kbinput == KEY_WINCH)
-	    continue;
-#endif
 
 #ifndef DISABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
@@ -340,8 +322,23 @@ char *do_browser(char *path)
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
 	    break;
+#ifndef NANO_TINY
+	} else if (kbinput == KEY_WINCH) {
+	    ;
+#endif
 	} else
 	    unbound_key(kbinput);
+
+#ifndef NANO_TINY
+	/* If the window resized, refresh the file list. */
+	if (kbinput == KEY_WINCH) {
+	    /* Remember the selected file, to be able to reselect it. */
+	    present_name = strdup(filelist[selected]);
+	    /* Reread the contents of the current directory. */
+	    newpath = strdup(present_path);
+	    goto read_directory_contents;
+	}
+#endif
     }
 
     titlebar(NULL);
