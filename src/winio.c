@@ -141,8 +141,10 @@ void get_key_buffer(WINDOW *win)
     input = wgetch(win);
 
 #ifndef NANO_TINY
-    if (the_window_resized())
+    if (the_window_resized()) {
+	ungetch(input);
 	input = KEY_WINCH;
+    }
 #endif
 
     if (input == ERR && nodelay_mode)
