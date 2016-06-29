@@ -183,9 +183,6 @@ bool is_alnum_mbchar(const char *c);
 bool is_blank_mbchar(const char *c);
 bool is_ascii_cntrl_char(int c);
 bool is_cntrl_char(int c);
-#ifdef ENABLE_UTF8
-bool is_cntrl_wchar(wchar_t wc);
-#endif
 bool is_cntrl_mbchar(const char *c);
 bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);

@@ -150,19 +150,8 @@ bool is_ascii_cntrl_char(int c)
  * handles high-bit control characters. */
 bool is_cntrl_char(int c)
 {
-    return (-128 <= c && c < -96) || (0 <= c && c < 32) ||
-	(127 <= c && c < 160);
+    return ((c & 0x60) == 0 || c == 127);
 }
-
-#ifdef ENABLE_UTF8
-/* This function is equivalent to iscntrl() for wide characters, except
- * in that it also handles wide control characters with their high bits
- * set. */
-bool is_cntrl_wchar(wchar_t wc)
-{
-    return (0 <= wc && wc < 32) || (127 <= wc && wc < 160);
-}
-#endif
 
 /* This function is equivalent to iscntrl() for multibyte characters,
  * except in that it also handles multibyte control characters with
@@ -173,14 +162,8 @@ bool is_cntrl_mbchar(const char *c)
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	wchar_t wc;
-
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
-	    mbtowc_reset();
-	    wc = bad_wchar;
-	}
-
-	return is_cntrl_wchar(wc);
+	return ((c[0] & 0xE0) == 0 || c[0] == 127 ||
+		((signed char)c[0] == -62 && (signed char)c[1] < -96));
     } else
 #endif
 	return is_cntrl_char((unsigned char)*c);
