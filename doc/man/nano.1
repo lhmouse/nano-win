@@ -148,8 +148,13 @@ keystroke instead of 25.  Note that \fB\-c\fP overrides this.
 Show the current version number and exit.
 .TP
 .BR \-W ", " \-\-wordbounds
-Detect word boundaries more accurately by treating punctuation
+Detect word boundaries differently by treating punctuation
 characters as part of a word.
+.TP
+.BR "\-X ""\fIcharacters\fB""" ", " "\-\-wordchars=""" \fIcharacters """
+Specify which other characters (besides the normal alphanumeric ones)
+should be considered as part of a word.  This overrides option
+\fB\-W\fR (\fB\-\-wordbounds\fR).
 .TP
 .BR \-Y\ \fIname\fR ", " \-\-syntax= \fIname
 Specify the name of the syntax highlighting to use from among the ones

@@ -231,8 +231,14 @@ Show the current version number and exit.
 
 @item -W
 @itemx --wordbounds
-Detect word boundaries more accurately by treating punctuation
+Detect word boundaries differently by treating punctuation
 characters as parts of words.
+
+@item -X "@var{characters}"
+@itemx --wordchars="@var{characters}"
+Specify which other characters (besides the normal alphanumeric ones)
+should be considered as parts of words.  This overrides option
+@option{-W} (@option{--wordbounds}).
 
 @item -Y @var{name}
 @itemx --syntax=@var{name}
@@ -831,8 +837,13 @@ spaces.  They must be single-column characters.  The default pair
 for a UTF-8 locale is @t{"»·"}, and for other locales @t{">."}.
 
 @item set wordbounds
-Detect word boundaries more accurately by treating punctuation
+Detect word boundaries differently by treating punctuation
 characters as part of a word.
+
+@item set wordchars "@var{string}"
+Specify which other characters (besides the normal alphanumeric ones)
+should be considered as parts of words.  This overrides the option
+@code{wordbounds}.
 
 @end table
 

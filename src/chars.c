@@ -183,15 +183,26 @@ bool is_punct_mbchar(const char *c)
 	return ispunct((unsigned char)*c);
 }
 
-/* Return TRUE for a multibyte character found in a word (currently only
- * an alphanumeric or punctuation character, and only the latter if
- * allow_punct is TRUE) and FALSE otherwise. */
+/* Return TRUE when the given multibyte character c is a word-forming
+ * character (that is: alphanumeric, or specified in wordchars, or
+ * punctuation when allow_punct is TRUE), and FALSE otherwise. */
 bool is_word_mbchar(const char *c, bool allow_punct)
 {
     assert(c != NULL);
 
-    return is_alnum_mbchar(c) || (allow_punct ? is_punct_mbchar(c) :
-	FALSE);
+    if (is_alnum_mbchar(c))
+	return TRUE;
+
+    if (word_chars != NULL && *word_chars != '\0') {
+	char *symbol = charalloc(MB_CUR_MAX + 1);
+	int symlen = parse_mbchar(c, symbol, NULL);
+
+	symbol[symlen] = '\0';
+
+	return (strstr(word_chars, symbol) != NULL);
+    }
+
+    return (allow_punct && is_punct_mbchar(c));
 }
 
 /* Return the visible representation of control character c. */

@@ -91,7 +91,10 @@ extern size_t quotelen;
 #endif
 #endif /* !DISABLE_JUSTIFY */
 
+extern char *word_chars;
+
 extern bool nodelay_mode;
+
 extern char *answer;
 
 extern ssize_t tabsize;

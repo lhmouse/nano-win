@@ -253,8 +253,13 @@ Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.
 .TP
 .B set wordbounds
-Detect word boundaries more accurately by treating punctuation
+Detect word boundaries differently by treating punctuation
 characters as parts of words.
+.TP
+.B set wordchars \fIstring\fP
+Specify which other characters (besides the normal alphanumeric ones)
+should be considered as parts of words.  This overrides the option
+\fBwordbounds\fR.
 
 .SH SYNTAX HIGHLIGHTING
 Coloring the different syntactic elements of a file

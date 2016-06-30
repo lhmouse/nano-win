@@ -102,6 +102,7 @@ static const rcoption rcopts[] = {
     {"unix", MAKE_IT_UNIX},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},
+    {"wordchars", 0},
 #endif
 #ifndef DISABLE_COLOR
     {"titlecolor", 0},
@@ -1176,6 +1177,9 @@ void parse_rcfile(FILE *rcstream
 #ifndef NANO_TINY
 	if (strcasecmp(rcopts[i].name, "backupdir") == 0)
 	    backup_dir = option;
+	else
+	if (strcasecmp(rcopts[i].name, "wordchars") == 0)
+	    word_chars = option;
 	else
 #endif
 #ifndef DISABLE_SPELLER

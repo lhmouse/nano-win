@@ -860,6 +860,8 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-W", "--wordbounds",
 	N_("Detect word boundaries more accurately"));
+    print_opt("-X", "--wordchars",
+	N_("Which other characters are word parts"));
 #endif
 #ifndef DISABLE_COLOR
     if (!ISSET(RESTRICTED))
@@ -1995,6 +1997,7 @@ int main(int argc, char **argv)
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
 	{"wordbounds", 0, NULL, 'W'},
+	{"wordchars", 1, NULL, 'X'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
 	{"unix", 0, NULL, 'u'},
@@ -2040,11 +2043,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$",
+		"ABC:DEFGHIKLNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWY:abcdefghijklmno:pqr:s:tuvwxz$")
+		"ABC:DEFGHIKLNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2145,6 +2148,9 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
 	    case 'W':
 		SET(WORD_BOUNDS);
+		break;
+	    case 'X':
+		word_chars = mallocstrcpy(word_chars, optarg);
 		break;
 #endif
 #ifndef DISABLE_COLOR
@@ -2279,6 +2285,7 @@ int main(int argc, char **argv)
 #endif
 #ifndef NANO_TINY
 	char *backup_dir_cpy = backup_dir;
+	char *word_chars_cpy = word_chars;
 #endif
 #ifndef DISABLE_JUSTIFY
 	char *quotestr_cpy = quotestr;
@@ -2297,6 +2304,7 @@ int main(int argc, char **argv)
 #endif
 #ifndef NANO_TINY
 	backup_dir = NULL;
+	word_chars = NULL;
 #endif
 #ifndef DISABLE_JUSTIFY
 	quotestr = NULL;
@@ -2326,6 +2334,10 @@ int main(int argc, char **argv)
 	if (backup_dir_cpy != NULL) {
 	    free(backup_dir);
 	    backup_dir = backup_dir_cpy;
+	}
+	if (word_chars_cpy != NULL) {
+	    free(word_chars);
+	    word_chars = word_chars_cpy;
 	}
 #endif
 #ifndef DISABLE_JUSTIFY

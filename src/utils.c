@@ -294,8 +294,8 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
      * word isn't a non-punctuation "word" character, and if we're at
      * the end of the line or the character after the word isn't a
      * non-punctuation "word" character, we have a whole word. */
-    retval = (position == 0 || !is_word_mbchar(before, FALSE)) &&
-		(word_end == strlen(buf) || !is_word_mbchar(after, FALSE));
+    retval = (position == 0 || !is_alnum_mbchar(before)) &&
+		(word_end == strlen(buf) || !is_alnum_mbchar(after));
 
     free(before);
     free(after);

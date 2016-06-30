@@ -124,6 +124,9 @@ size_t quotelen;
 #endif
 #endif
 
+char *word_chars = NULL;
+	/* Nonalphanumeric characters that also form words. */
+
 bool nodelay_mode = FALSE;
 	/* Are we checking for a cancel wile doing something? */
 
@@ -1669,6 +1672,7 @@ void thanks_for_all_the_fish(void)
     delwin(edit);
     delwin(bottomwin);
 
+    free(word_chars);
 #ifndef DISABLE_JUSTIFY
     free(quotestr);
 #ifdef HAVE_REGEX_H
