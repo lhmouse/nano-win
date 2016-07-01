@@ -256,7 +256,7 @@ char control_mbrep(const char *c)
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	if (0 <= c[0] && c[0] <= 127)
+	if ((unsigned char)c[0] < 128)
 	    return control_rep(c[0]);
 	else
 	    return control_rep(c[1]);
