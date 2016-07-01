@@ -271,6 +271,10 @@ char *do_browser(char *path)
 		continue;
 	    }
 #endif
+	    /* Snip a trailing slash, so the name can be compared. */
+	    if (strlen(newpath) > 1 && newpath[strlen(newpath) - 1] == '/')
+		newpath[strlen(newpath) - 1] = '\0';
+
 	    /* In case the specified directory cannot be entered, select it
 	     * (if it is in the current list) so it will be highlighted. */
 	    for (i = 0; i < filelist_len; i++)
