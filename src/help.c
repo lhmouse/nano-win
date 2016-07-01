@@ -141,6 +141,12 @@ void do_help(void)
 
 	if (func == total_refresh) {
 	    total_redraw();
+	} else if (func == do_up_void) {
+	    if (line > 0)
+		line--;
+	} else if (func == do_down_void) {
+	    if (line + (editwinrows - 1) < last_line)
+		line++;
 	} else if (func == do_page_up) {
 	    if (line > editwinrows - 2)
 		line -= editwinrows - 2;
@@ -149,12 +155,6 @@ void do_help(void)
 	} else if (func == do_page_down) {
 	    if (line + (editwinrows - 1) < last_line)
 		line += editwinrows - 2;
-	} else if (func == do_up_void) {
-	    if (line > 0)
-		line--;
-	} else if (func == do_down_void) {
-	    if (line + (editwinrows - 1) < last_line)
-		line++;
 	} else if (func == do_first_line) {
 	    line = 0;
 	} else if (func == do_last_line) {

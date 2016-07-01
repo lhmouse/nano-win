@@ -211,6 +211,26 @@ char *do_browser(char *path)
 	} else if (func == do_research) {
 	    /* Search for another filename. */
 	    do_fileresearch();
+	} else if (func == do_left) {
+	    if (selected > 0)
+		selected--;
+	} else if (func == do_right) {
+	    if (selected < filelist_len - 1)
+		selected++;
+#ifndef NANO_TINY
+	} else if (func == do_prev_word_void) {
+	    selected -= (selected % width);
+	} else if (func == do_next_word_void) {
+	    selected += width - 1 - (selected % width);
+	    if (selected >= filelist_len)
+		selected = filelist_len - 1;
+#endif
+	} else if (func == do_up_void) {
+	    if (selected >= width)
+		selected -= width;
+	} else if (func == do_down_void) {
+	    if (selected + width <= filelist_len - 1)
+		selected += width;
 	} else if (func == do_page_up) {
 	    if (selected < width)
 		selected = 0;
@@ -281,26 +301,6 @@ char *do_browser(char *path)
 
 	    /* Try opening and reading the specified directory. */
 	    goto read_directory_contents;
-	} else if (func == do_up_void) {
-	    if (selected >= width)
-		selected -= width;
-	} else if (func == do_down_void) {
-	    if (selected + width <= filelist_len - 1)
-		selected += width;
-#ifndef NANO_TINY
-	} else if (func == do_prev_word_void) {
-	    selected -= (selected % width);
-	} else if (func == do_next_word_void) {
-	    selected += width - 1 - (selected % width);
-	    if (selected >= filelist_len)
-		selected = filelist_len - 1;
-#endif
-	} else if (func == do_left) {
-	    if (selected > 0)
-		selected--;
-	} else if (func == do_right) {
-	    if (selected < filelist_len - 1)
-		selected++;
 	} else if (func == do_enter) {
 	    struct stat st;
 
