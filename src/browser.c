@@ -122,9 +122,6 @@ char *do_browser(char *path)
     titlebar(path);
 
     while (TRUE) {
-	struct stat st;
-	int i;
-
 	/* Make sure that the cursor is off. */
 	curs_set(0);
 	lastmessage = HUSH;
@@ -235,7 +232,7 @@ char *do_browser(char *path)
 	    selected = filelist_len - 1;
 	} else if (func == goto_dir_void) {
 	    /* Ask for the directory to go to. */
-	    i = do_prompt(TRUE,
+	    int i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
 			FALSE,
 #endif
@@ -245,6 +242,7 @@ char *do_browser(char *path)
 #endif
 			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
+
 	    /* If the directory begins with a newline (i.e. an
 	     * encoded null), treat it as though it's blank. */
 	    if (i < 0 || *answer == '\n') {
@@ -304,6 +302,8 @@ char *do_browser(char *path)
 	    if (selected < filelist_len - 1)
 		selected++;
 	} else if (func == do_enter) {
+	    struct stat st;
+
 	    /* We can't move up from "/". */
 	    if (strcmp(filelist[selected], "/..") == 0) {
 		statusline(ALERT, _("Can't move up a directory"));
