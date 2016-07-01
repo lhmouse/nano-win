@@ -304,7 +304,7 @@ char *do_browser(char *path)
 	} else if (func == do_enter) {
 	    struct stat st;
 
-	    /* We can't move up from "/". */
+	    /* It isn't possible to move up from the root directory. */
 	    if (strcmp(filelist[selected], "/..") == 0) {
 		statusline(ALERT, _("Can't move up a directory"));
 		continue;
@@ -320,16 +320,15 @@ char *do_browser(char *path)
 		continue;
 	    }
 #endif
-
+	    /* If for some reason the file is inaccessible, complain. */
 	    if (stat(filelist[selected], &st) == -1) {
-		/* We can't open this file for some reason.  Complain. */
 		statusline(ALERT, _("Error reading %s: %s"),
 				filelist[selected], strerror(errno));
 		continue;
 	    }
 
+	    /* If it isn't a directory, a file was selected -- we're done. */
 	    if (!S_ISDIR(st.st_mode)) {
-		/* We've successfully opened a file, so we're done. */
 		retval = mallocstrcpy(NULL, filelist[selected]);
 		break;
 	    }
