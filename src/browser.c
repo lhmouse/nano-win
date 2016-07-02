@@ -46,7 +46,7 @@ static size_t selected = 0;
  * start browsing from. */
 char *do_browser(char *path)
 {
-    char *retval = NULL, *newpath = NULL;
+    char *retval = NULL, *newpath = path;
     int kbinput;
     char *present_name = NULL;
 	/* The name of the currently selected file, or of the directory we
@@ -55,19 +55,13 @@ char *do_browser(char *path)
 	/* The number of the selected file before the current selected file. */
     functionptrtype func;
 	/* The function of the key the user typed in. */
-    DIR *dir = opendir(path);
-
-    /* If we can't open the given directory, forget it. */
-    if (dir == NULL) {
-	beep();
-	free(path);
-	return NULL;
-    }
+    DIR *dir;
+	/* The directory whose contents we are showing. */
 
     /* Don't show a cursor in the file list. */
     curs_set(0);
     blank_statusbar();
-    bottombars(MBROWSER);
+    path = NULL;
 
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
