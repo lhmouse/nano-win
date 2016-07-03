@@ -271,8 +271,8 @@ char *do_browser(char *path)
 		continue;
 	    }
 #endif
-	    /* Snip a trailing slash, so the name can be compared. */
-	    if (strlen(newpath) > 1 && newpath[strlen(newpath) - 1] == '/')
+	    /* Snip any trailing slashes, so the name can be compared. */
+	    while (strlen(newpath) > 1 && newpath[strlen(newpath) - 1] == '/')
 		newpath[strlen(newpath) - 1] = '\0';
 
 	    /* In case the specified directory cannot be entered, select it
