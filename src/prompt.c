@@ -158,15 +158,15 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		 * prompt, disable verbatim input. */
 		if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 			openfile->filename[0] == '\0') {
-		    bool got_enter = FALSE;
-			/* Whether we got the Enter key. */
+		    bool got_newline = FALSE;
+			/* Whether we got a verbatim ^J. */
 
-		    do_statusbar_verbatim_input(&got_enter);
+		    do_statusbar_verbatim_input(&got_newline);
 
-		    /* If we got the Enter key, remove it from the input
+		    /* If we got a verbatim ^J, remove it from the input
 		     * buffer, set input to the key value for Enter, and
 		     * set finished to TRUE to indicate that we're done. */
-		    if (got_enter) {
+		    if (got_newline) {
 			get_input(NULL, 1);
 			input = sc_seq_or(do_enter, 0);
 			*finished = TRUE;
@@ -236,10 +236,10 @@ int do_statusbar_mouse(void)
 #endif
 
 /* The user typed input_len multibyte characters.  Add them to the
- * statusbar prompt, setting got_enter to TRUE if we get a newline,
+ * statusbar prompt, setting got_newline to TRUE if we got a verbatim ^J,
  * and filtering out ASCII control characters if filtering is TRUE. */
 void do_statusbar_output(int *the_input, size_t input_len,
-	bool filtering, bool *got_enter)
+	bool filtering, bool *got_newline)
 {
     char *output = charalloc(input_len + 1);
     char *char_buf = charalloc(mb_cur_max());
@@ -261,9 +261,9 @@ void do_statusbar_output(int *the_input, size_t input_len,
 		output[i] = '\n';
 	    else if (output[i] == '\n') {
 		/* Put back the rest of the characters for reparsing,
-		 * indicate that we got the Enter key and get out. */
+		 * indicate that we got a ^J and get out. */
 		unparse_kbinput(output + i, input_len - i);
-		*got_enter = TRUE;
+		*got_newline = TRUE;
 		return;
 	    }
 	}
@@ -425,9 +425,9 @@ void do_statusbar_prev_word(void)
 }
 #endif /* !NANO_TINY */
 
-/* Get verbatim input.  Set got_enter to TRUE if we got the Enter key as
+/* Get verbatim input, setting got_newline to TRUE if we get a ^J as
  * part of the verbatim input. */
-void do_statusbar_verbatim_input(bool *got_enter)
+void do_statusbar_verbatim_input(bool *got_newline)
 {
     int *kbinput;
     size_t kbinput_len;
@@ -437,7 +437,7 @@ void do_statusbar_verbatim_input(bool *got_enter)
 
     /* Display all the verbatim characters at once, not filtering out
      * control characters. */
-    do_statusbar_output(kbinput, kbinput_len, FALSE, got_enter);
+    do_statusbar_output(kbinput, kbinput_len, FALSE, got_newline);
 }
 
 /* Return the placewewant associated with statusbar_x, i.e. the

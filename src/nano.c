@@ -1833,8 +1833,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
     while (i < output_len) {
-	/* If control codes are allowed, encode a null as a newline, and
-	 * let a newline character create a whole new line. */
+	/* If control codes are allowed, encode a verbatim null as a newline,
+	 * and let a verbatim ^J create a whole new line. */
 	if (allow_cntrls) {
 	    if (output[i] == '\0')
 		output[i] = '\n';
