@@ -401,10 +401,15 @@ void alloc_multidata_if_needed(filestruct *fileptr)
 bool key_was_pressed(void)
 {
     static time_t last_time = 0;
+    int onebyte;
 
     if (time(NULL) != last_time) {
 	last_time = time(NULL);
-	return (wgetch(edit) != ERR);
+	onebyte = wgetch(edit);
+	if (onebyte == ERR)
+	    return FALSE;
+	ungetch(onebyte);
+	return TRUE;
     } else
 	return FALSE;
 }
