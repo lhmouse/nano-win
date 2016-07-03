@@ -376,6 +376,11 @@ void reset_multis(filestruct *fileptr, bool force)
 
 	/* If we got here, things have changed. */
 	reset_multis_for_id(fileptr, tmpcolor->id);
+
+	/* If start and end are the same, push the resets further. */
+	if (force == FALSE && !nobegin && !noend &&
+				startmatch.rm_so == endmatch.rm_so)
+	    reset_multis_for_id(fileptr, tmpcolor->id);
     }
 }
 
