@@ -105,7 +105,7 @@ void set_colorpairs(void)
 /* Initialize the color information. */
 void color_init(void)
 {
-    colortype *tmpcolor = openfile->colorstrings;
+    const colortype *ink;
     bool using_defaults = FALSE;
     short foreground, background;
 
@@ -121,9 +121,9 @@ void color_init(void)
 #endif
 
     /* For each coloring expression, initialize the color pair. */
-    for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
-	foreground = tmpcolor->fg;
-	background = tmpcolor->bg;
+    for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
+	foreground = ink->fg;
+	background = ink->bg;
 
 	if (foreground == -1 && !using_defaults)
 	    foreground = COLOR_WHITE;
@@ -131,7 +131,7 @@ void color_init(void)
 	if (background == -1 && !using_defaults)
 	    background = COLOR_BLACK;
 
-	init_pair(tmpcolor->pairnum, foreground, background);
+	init_pair(ink->pairnum, foreground, background);
 #ifdef DEBUG
 	fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n", foreground, background);
 #endif
@@ -340,47 +340,47 @@ void reset_multis_for_id(filestruct *fileptr, int index)
  * useful when we don't know how much screen state has changed. */
 void reset_multis(filestruct *fileptr, bool force)
 {
+    const colortype *ink;
     int nobegin, noend;
     regmatch_t startmatch, endmatch;
-    const colortype *tmpcolor = openfile->colorstrings;
 
     /* If there is no syntax or no multiline regex, there is nothing to do. */
     if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
 	return;
 
-    for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+    for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 	/* If it's not a multi-line regex, amscray. */
-	if (tmpcolor->end == NULL)
+	if (ink->end == NULL)
 	    continue;
 
 	alloc_multidata_if_needed(fileptr);
 
 	if (force == FALSE) {
 	    /* Check whether the multidata still matches the current situation. */
-	    nobegin = regexec(tmpcolor->start, fileptr->data, 1, &startmatch, 0);
-	    noend = regexec(tmpcolor->end, fileptr->data, 1, &endmatch, 0);
-	    if ((fileptr->multidata[tmpcolor->id] == CWHOLELINE ||
-			fileptr->multidata[tmpcolor->id] == CNONE) &&
+	    nobegin = regexec(ink->start, fileptr->data, 1, &startmatch, 0);
+	    noend = regexec(ink->end, fileptr->data, 1, &endmatch, 0);
+	    if ((fileptr->multidata[ink->id] == CWHOLELINE ||
+			fileptr->multidata[ink->id] == CNONE) &&
 			nobegin && noend)
 		continue;
-	    else if (fileptr->multidata[tmpcolor->id] == CSTARTENDHERE &&
+	    else if (fileptr->multidata[ink->id] == CSTARTENDHERE &&
 			!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
 		continue;
-	    else if (fileptr->multidata[tmpcolor->id] == CBEGINBEFORE &&
+	    else if (fileptr->multidata[ink->id] == CBEGINBEFORE &&
 			nobegin && !noend)
 		continue;
-	    else if (fileptr->multidata[tmpcolor->id] == CENDAFTER &&
+	    else if (fileptr->multidata[ink->id] == CENDAFTER &&
 			!nobegin && noend)
 		continue;
 	}
 
 	/* If we got here, things have changed. */
-	reset_multis_for_id(fileptr, tmpcolor->id);
+	reset_multis_for_id(fileptr, ink->id);
 
 	/* If start and end are the same, push the resets further. */
 	if (force == FALSE && !nobegin && !noend &&
 				startmatch.rm_so == endmatch.rm_so)
-	    reset_multis_for_id(fileptr, tmpcolor->id);
+	    reset_multis_for_id(fileptr, ink->id);
     }
 }
 
@@ -418,7 +418,7 @@ bool key_was_pressed(void)
  * speed up rendering (with any hope at all...). */
 void precalc_multicolorinfo(void)
 {
-    const colortype *tmpcolor = openfile->colorstrings;
+    const colortype *ink;
     regmatch_t startmatch, endmatch;
     filestruct *fileptr, *endptr;
 
@@ -434,12 +434,12 @@ void precalc_multicolorinfo(void)
      * For now silently abort if they hit a key. */
     nodelay(edit, TRUE);
 
-    for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+    for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 	/* If this is not a multi-line regex, skip it. */
-	if (tmpcolor->end == NULL)
+	if (ink->end == NULL)
 	    continue;
 #ifdef DEBUG
-	fprintf(stderr, "Starting work on color id %d\n", tmpcolor->id);
+	fprintf(stderr, "Starting work on color id %d\n", ink->id);
 #endif
 
 	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
@@ -452,8 +452,8 @@ void precalc_multicolorinfo(void)
 #endif
 	    alloc_multidata_if_needed(fileptr);
 
-	    while ((nostart = regexec(tmpcolor->start, &fileptr->data[startx],
-			1, &startmatch, (startx == 0) ? 0 : REG_NOTBOL)) == 0) {
+	    while ((nostart = regexec(ink->start, &fileptr->data[startx], 1,
+			&startmatch, (startx == 0) ? 0 : REG_NOTBOL)) == 0) {
 		/* Look for an end, and start marking how many lines are
 		 * encompassed, which should speed up rendering later. */
 		startx += startmatch.rm_eo;
@@ -461,14 +461,14 @@ void precalc_multicolorinfo(void)
 		fprintf(stderr, "start found at pos %lu... ", (unsigned long)startx);
 #endif
 		/* Look first on this line for an end. */
-		if (regexec(tmpcolor->end, &fileptr->data[startx], 1,
+		if (regexec(ink->end, &fileptr->data[startx], 1,
 			&endmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
 		    startx += endmatch.rm_eo;
 		    /* Step ahead when both start and end are mere anchors. */
 		    if (startmatch.rm_so == startmatch.rm_eo &&
 				endmatch.rm_so == endmatch.rm_eo)
 			startx += 1;
-		    fileptr->multidata[tmpcolor->id] = CSTARTENDHERE;
+		    fileptr->multidata[ink->id] = CSTARTENDHERE;
 #ifdef DEBUG
 		    fprintf(stderr, "end found on this line\n");
 #endif
@@ -484,7 +484,7 @@ void precalc_multicolorinfo(void)
 		    if (key_was_pressed())
 			goto precalc_cleanup;
 
-		    if (regexec(tmpcolor->end, endptr->data, 1, &endmatch, 0) == 0)
+		    if (regexec(ink->end, endptr->data, 1, &endmatch, 0) == 0)
 			break;
 		}
 
@@ -499,20 +499,20 @@ void precalc_multicolorinfo(void)
 #endif
 		/* We found it, we found it, la la la la la.  Mark all
 		 * the lines in between and the end properly. */
-		fileptr->multidata[tmpcolor->id] = CENDAFTER;
+		fileptr->multidata[ink->id] = CENDAFTER;
 #ifdef DEBUG
 		fprintf(stderr, "marking line %ld as CENDAFTER\n", (long)fileptr->lineno);
 #endif
 		for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
 		    alloc_multidata_if_needed(fileptr);
-		    fileptr->multidata[tmpcolor->id] = CWHOLELINE;
+		    fileptr->multidata[ink->id] = CWHOLELINE;
 #ifdef DEBUG
 		    fprintf(stderr, "marking intermediary line %ld as CWHOLELINE\n", (long)fileptr->lineno);
 #endif
 		}
 
 		alloc_multidata_if_needed(endptr);
-		fileptr->multidata[tmpcolor->id] = CBEGINBEFORE;
+		fileptr->multidata[ink->id] = CBEGINBEFORE;
 #ifdef DEBUG
 		fprintf(stderr, "marking line %ld as CBEGINBEFORE\n", (long)fileptr->lineno);
 #endif
@@ -527,7 +527,7 @@ void precalc_multicolorinfo(void)
 #ifdef DEBUG
 		fprintf(stderr, "no match\n");
 #endif
-		fileptr->multidata[tmpcolor->id] = CNONE;
+		fileptr->multidata[ink->id] = CNONE;
 		continue;
 	    }
 	}
