@@ -77,9 +77,8 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
-/* Read two ssize_t's, separated by a comma, from str, and store them in
- * *line and *column (if they're not both NULL).  Return FALSE on error,
- * or TRUE otherwise. */
+/* Read two numbers, separated by a comma, from str, and store them in
+ * *line and *column.  Return FALSE on error, and TRUE otherwise. */
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 {
     bool retval = TRUE;
@@ -89,12 +88,11 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 
     comma = strchr(str, ',');
 
-    if (comma != NULL && column != NULL) {
+    if (comma != NULL) {
 	if (!parse_num(comma + 1, column))
-	    retval = FALSE;
+	    return FALSE;
     }
 
-    if (line != NULL) {
 	if (comma != NULL) {
 	    char *str_line = mallocstrncpy(NULL, str, comma - str + 1);
 	    str_line[comma - str] = '\0';
@@ -103,9 +101,8 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 		retval = FALSE;
 
 	    free(str_line);
-	} else if (!parse_num(str, line))
-	    retval = FALSE;
-    }
+	} else
+	    return parse_num(str, line);
 
     return retval;
 }
