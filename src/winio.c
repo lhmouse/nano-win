@@ -373,7 +373,8 @@ int parse_kbinput(WINDOW *win)
 		case 1:
 		    /* Reset the escape counter. */
 		    escapes = 0;
-		    if (get_key_buffer_len() == 0 || key_buffer[0] == 0x1b) {
+		    if ((*kbinput != 'O' && *kbinput != 'o' && *kbinput != '[') ||
+				get_key_buffer_len() == 0 || *key_buffer == 0x1B) {
 			/* One escape followed by a single non-escape:
 			 * meta key sequence mode. */
 			meta_key = TRUE;
