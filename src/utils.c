@@ -81,28 +81,24 @@ bool parse_num(const char *str, ssize_t *val)
  * *line and *column.  Return FALSE on error, and TRUE otherwise. */
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 {
-    bool retval = TRUE;
-    const char *comma;
+    bool retval;
+    char *firstpart;
+    const char *comma = strchr(str, ',');
 
-    assert(str != NULL);
+    if (comma == NULL)
+	return parse_num(str, line);
 
-    comma = strchr(str, ',');
+    if (!parse_num(comma + 1, column))
+	return FALSE;
 
-    if (comma != NULL) {
-	if (!parse_num(comma + 1, column))
-	    return FALSE;
-    }
+    if (comma == str)
+	return TRUE;
 
-	if (comma != NULL) {
-	    char *str_line = mallocstrncpy(NULL, str, comma - str + 1);
-	    str_line[comma - str] = '\0';
+    firstpart = strdup(str);
+    firstpart[comma - str] = '\0';
 
-	    if (str_line[0] != '\0' && !parse_num(str_line, line))
-		retval = FALSE;
-
-	    free(str_line);
-	} else
-	    return parse_num(str, line);
+    retval = parse_num(firstpart, line);
+    free(firstpart);
 
     return retval;
 }
