@@ -535,6 +535,7 @@ int parse_kbinput(WINDOW *win)
 	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
 	    case KEY_SHOME:
 #endif
+	    case KEY_HOME:
 	    case KEY_A1:	/* Home (7) on numeric keypad with
 				 * NumLock off. */
 		retval = sc_seq_or(do_home, *kbinput);
@@ -557,10 +558,12 @@ int parse_kbinput(WINDOW *win)
 		retval = sc_seq_or(do_insertfile_void, *kbinput);
 		break;
 #endif
+	    case KEY_NPAGE:
 	    case KEY_C3:	/* PageDown (4) on numeric keypad with
 				 * NumLock off. */
 		retval = sc_seq_or(do_page_down, *kbinput);
 		break;
+	    case KEY_PPAGE:
 	    case KEY_A3:	/* PageUp (9) on numeric keypad with
 				 * NumLock off. */
 		retval = sc_seq_or(do_page_up, *kbinput);
@@ -578,6 +581,7 @@ int parse_kbinput(WINDOW *win)
 	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	    case KEY_SEND:
 #endif
+	    case KEY_END:
 		retval = sc_seq_or(do_end, *kbinput);
 		break;
 #ifdef KEY_BEG
