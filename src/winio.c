@@ -552,7 +552,7 @@ int parse_kbinput(WINDOW *win)
 		retval = sc_seq_or(do_page_up, *kbinput);
 		break;
 	    case KEY_NPAGE:
-	    case KEY_C3:	/* PageDown (4) on keypad with NumLock off. */
+	    case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
 		retval = sc_seq_or(do_page_down, *kbinput);
 		break;
 
@@ -562,19 +562,16 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_BACKSPACE:
 		retval = sc_seq_or(do_backspace, *kbinput);
 		break;
-	    case NANO_CONTROL_8:
-		retval = ISSET(REBIND_DELETE) ? sc_seq_or(do_delete, 0) :
-			sc_seq_or(do_backspace, 0);
-		break;
 #ifdef KEY_SDC
 	    /* Slang doesn't support KEY_SDC. */
 	    case KEY_SDC:
+#endif
+	    case NANO_CONTROL_8:
 		if (ISSET(REBIND_DELETE))
 		    retval = sc_seq_or(do_delete, *kbinput);
 		else
 		    retval = sc_seq_or(do_backspace, *kbinput);
 		break;
-#endif
 #ifdef KEY_SIC
 	    /* Slang doesn't support KEY_SIC. */
 	    case KEY_SIC:
