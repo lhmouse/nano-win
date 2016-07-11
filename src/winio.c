@@ -406,9 +406,6 @@ int parse_kbinput(WINDOW *win)
 				retval = controlleft;
 				break;
 #endif
-			    default:
-				retval = ERR;
-				break;
 			}
 			double_esc = FALSE;
 			escapes = 0;
@@ -472,7 +469,8 @@ int parse_kbinput(WINDOW *win)
 				retval = *kbinput;
 			    }
 			}
-		    } else if (*kbinput=='[') {
+		    } else if (*kbinput == '[' && key_buffer_len > 0 &&
+				'A' <= *key_buffer && *key_buffer <= 'D') {
 			/* This is an iTerm2 sequence: ^[ ^[ [ X. */
 			double_esc = TRUE;
 		    } else {
