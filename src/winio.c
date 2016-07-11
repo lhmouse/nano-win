@@ -504,33 +504,26 @@ int parse_kbinput(WINDOW *win)
 #ifdef KEY_SLEFT
 	/* Slang doesn't support KEY_SLEFT. */
 	case KEY_SLEFT:
-#endif
-	case KEY_LEFT:
 	    return sc_seq_or(do_left, keycode);
+#endif
 #ifdef KEY_SRIGHT
 	/* Slang doesn't support KEY_SRIGHT. */
 	case KEY_SRIGHT:
-#endif
-	case KEY_RIGHT:
 	    return sc_seq_or(do_right, keycode);
+#endif
 #ifdef KEY_SUP
 	/* ncurses and Slang don't support KEY_SUP. */
 	case KEY_SUP:
-#endif
-	case KEY_UP:
 	    return sc_seq_or(do_up_void, keycode);
+#endif
 #ifdef KEY_SDOWN
 	/* ncurses and Slang don't support KEY_SDOWN. */
 	case KEY_SDOWN:
-#endif
-	case KEY_DOWN:
 	    return sc_seq_or(do_down_void, keycode);
+#endif
 #ifdef KEY_SHOME
 	/* HP-UX 10-11 and Slang don't support KEY_SHOME. */
 	case KEY_SHOME:
-#endif
-#ifdef KEY_HOME
-	case KEY_HOME:
 #endif
 	case KEY_A1:	/* Home (7) on keypad with NumLock off. */
 	    return sc_seq_or(do_home, keycode);
@@ -538,22 +531,12 @@ int parse_kbinput(WINDOW *win)
 	/* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	case KEY_SEND:
 #endif
-#ifdef KEY_END
-	case KEY_END:
-#endif
 	case KEY_C1:	/* End (1) on keypad with NumLock off. */
 	    return sc_seq_or(do_end, keycode);
-	case KEY_PPAGE:
 	case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
 	    return sc_seq_or(do_page_up, keycode);
-	case KEY_NPAGE:
 	case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
 	    return sc_seq_or(do_page_down, keycode);
-
-	case KEY_ENTER:
-	    return sc_seq_or(do_enter, keycode);
-	case KEY_BACKSPACE:
-	    return sc_seq_or(do_backspace, keycode);
 #ifdef KEY_SDC
 	/* Slang doesn't support KEY_SDC. */
 	case KEY_SDC:
