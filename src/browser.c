@@ -315,7 +315,7 @@ char *do_browser(char *path)
 		present_name = striponedir(filelist[selected]);
 
 	    /* Try opening and reading the selected directory. */
-	    newpath = strdup(filelist[selected]);
+	    newpath = mallocstrcpy(NULL, filelist[selected]);
 	    goto read_directory_contents;
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
@@ -331,9 +331,9 @@ char *do_browser(char *path)
 	/* If the window resized, refresh the file list. */
 	if (kbinput == KEY_WINCH) {
 	    /* Remember the selected file, to be able to reselect it. */
-	    present_name = strdup(filelist[selected]);
+	    present_name = mallocstrcpy(NULL, filelist[selected]);
 	    /* Reread the contents of the current directory. */
-	    newpath = strdup(present_path);
+	    newpath = mallocstrcpy(NULL, present_path);
 	    goto read_directory_contents;
 	}
 #endif

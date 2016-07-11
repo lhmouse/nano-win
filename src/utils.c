@@ -99,7 +99,7 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
     if (comma == str)
 	return TRUE;
 
-    firstpart = strdup(str);
+    firstpart = mallocstrcpy(NULL, str);
     firstpart[comma - str] = '\0';
 
     retval = parse_num(firstpart, line);
