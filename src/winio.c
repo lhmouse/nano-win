@@ -40,6 +40,8 @@ static int *key_buffer = NULL;
 	 * haven't handled yet at a given point. */
 static size_t key_buffer_len = 0;
 	/* The length of the keystroke buffer. */
+static bool solitary = FALSE;
+	/* Whether an Esc arrived by itself -- not as leader of a sequence. */
 static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
 static bool suppress_cursorpos = FALSE;
@@ -362,6 +364,7 @@ int parse_kbinput(WINDOW *win)
 	    /* If there are four consecutive escapes, discard three of them. */
 	    if (escapes > 3)
 		escapes = 1;
+	    solitary = (escapes == 1 && get_key_buffer_len() == 0);
 	    /* Wait for more input. */
 	    break;
 	default:
@@ -377,7 +380,8 @@ int parse_kbinput(WINDOW *win)
 				get_key_buffer_len() == 0 || *key_buffer == 0x1B) {
 			/* One escape followed by a single non-escape:
 			 * meta key sequence mode. */
-			meta_key = TRUE;
+			if (!solitary || (*kbinput >= 0x20 && *kbinput < 0x7F))
+			    meta_key = TRUE;
 			retval = tolower(*kbinput);
 		    } else
 			/* One escape followed by a non-escape, and there

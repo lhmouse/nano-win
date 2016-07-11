@@ -2523,6 +2523,11 @@ int main(int argc, char **argv)
 	controlright = key_defined(keyvalue);
 #endif
 
+#ifndef USE_SLANG
+    /* Tell ncurses to pass the Esc key quickly. */
+    set_escdelay(50);
+#endif
+
 #ifdef DEBUG
     fprintf(stderr, "Main: open file\n");
 #endif
