@@ -1868,8 +1868,6 @@ void titlebar(const char *path)
 
     assert(path != NULL || openfile->filename != NULL);
 
-    if (interface_color_pair[TITLE_BAR].bright)
-	wattron(topwin, A_BOLD);
     wattron(topwin, interface_color_pair[TITLE_BAR].pairnum);
 
     blank_titlebar();
@@ -1957,7 +1955,6 @@ void titlebar(const char *path)
     else if (statelen > 0)
 	mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
 
-    wattroff(topwin, A_BOLD);
     wattroff(topwin, interface_color_pair[TITLE_BAR].pairnum);
 
     wnoutrefresh(topwin);
@@ -2027,14 +2024,11 @@ void statusline(message_type importance, const char *msg, ...)
     start_x = (COLS - strlenpt(foo) - 4) / 2;
 
     wmove(bottomwin, 0, start_x);
-    if (interface_color_pair[STATUS_BAR].bright)
-	wattron(bottomwin, A_BOLD);
     wattron(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     free(foo);
     waddstr(bottomwin, " ]");
-    wattroff(bottomwin, A_BOLD);
     wattroff(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
 
     /* Push the message to the screen straightaway. */
@@ -2132,22 +2126,16 @@ void onekey(const char *keystroke, const char *desc, int length)
 {
     assert(keystroke != NULL && desc != NULL);
 
-    if (interface_color_pair[KEY_COMBO].bright)
-	wattron(bottomwin, A_BOLD);
     wattron(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, length));
-    wattroff(bottomwin, A_BOLD);
     wattroff(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
 
     length -= strlenpt(keystroke) + 1;
 
     if (length > 0) {
 	waddch(bottomwin, ' ');
-	if (interface_color_pair[FUNCTION_TAG].bright)
-	    wattron(bottomwin, A_BOLD);
 	wattron(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
 	waddnstr(bottomwin, desc, actual_x(desc, length));
-	wattroff(bottomwin, A_BOLD);
 	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
     }
 }

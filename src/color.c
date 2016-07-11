@@ -62,8 +62,9 @@ void set_colorpairs(void)
 	    if (background == -1 && !using_defaults)
 		background = COLOR_BLACK;
 	    init_pair(i + 1, foreground, background);
-	    interface_color_pair[i].bright = bright;
-	    interface_color_pair[i].pairnum = COLOR_PAIR(i + 1);
+	    interface_color_pair[i].bright = FALSE;
+	    interface_color_pair[i].pairnum =
+			COLOR_PAIR(i + 1) | (bright ? A_BOLD : A_NORMAL);
 	}
 	else {
 	    interface_color_pair[i].bright = FALSE;
