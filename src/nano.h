@@ -203,8 +203,6 @@ typedef struct color_pair {
     int pairnum;
 	/* The color pair number used for this foreground color and
 	 * background color. */
-    bool bright;
-	/* Is this color A_BOLD? */
 } color_pair;
 
 #ifndef DISABLE_COLOR
