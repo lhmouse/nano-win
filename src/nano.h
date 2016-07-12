@@ -92,6 +92,10 @@
 #include <curses.h>
 #endif /* CURSES_H */
 
+#if defined(NCURSES_VERSION_MAJOR) && (NCURSES_VERSION_MAJOR < 6)
+#define USING_OLD_NCURSES yes
+#endif
+
 #ifdef ENABLE_NLS
 /* Native language support. */
 #ifdef HAVE_LIBINTL_H

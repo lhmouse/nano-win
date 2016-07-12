@@ -46,8 +46,10 @@ static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
 static bool suppress_cursorpos = FALSE;
 	/* Should we skip constant position display for one keystroke? */
+#ifdef USING_OLD_NCURSES
 static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */
+#endif
 
 #ifndef NANO_TINY
 static sig_atomic_t last_sigwinch_counter = 0;
@@ -1761,7 +1763,9 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     converted = charalloc(strlen(buf) * (mb_cur_max() + tabsize) + 1);
 
     index = 0;
+#ifdef USING_OLD_NCURSES
     seen_wide = FALSE;
+#endif
     buf += start_index;
 
     if (*buf != '\0' && *buf != '\t' &&
@@ -1845,9 +1849,10 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 		converted[index++] = *(buf++);
 
 	    start_col += charwidth;
+#ifdef USING_OLD_NCURSES
 	    if (charwidth > 1)
 		seen_wide = TRUE;
-
+#endif
 	    continue;
 	}
 
@@ -2229,7 +2234,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
      * marking highlight on just the pieces that need it. */
     mvwaddstr(edit, line, 0, converted);
 
-#ifndef USE_SLANG
+#ifdef USING_OLD_NCURSES
     /* Tell ncurses to really redraw the line without trying to optimize
      * for what it thinks is already there, because it gets it wrong in
      * the case of a wide character in column zero.  See bug #31743. */
