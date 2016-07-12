@@ -62,14 +62,14 @@ void set_colorpairs(void)
 	    if (background == -1 && !using_defaults)
 		background = COLOR_BLACK;
 	    init_pair(i + 1, foreground, background);
-	    interface_color_pair[i].pairnum =
+	    interface_color_pair[i] =
 			COLOR_PAIR(i + 1) | (bright ? A_BOLD : A_NORMAL);
 	}
 	else {
 	    if (i != FUNCTION_TAG)
-		interface_color_pair[i].pairnum = hilite_attribute;
+		interface_color_pair[i] = hilite_attribute;
 	    else
-		interface_color_pair[i].pairnum = A_NORMAL;
+		interface_color_pair[i] = A_NORMAL;
 	}
 
 	free(specified_color_combo[i]);

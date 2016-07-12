@@ -2506,10 +2506,10 @@ int main(int argc, char **argv)
 #ifndef DISABLE_COLOR
     set_colorpairs();
 #else
-    interface_color_pair[TITLE_BAR].pairnum = hilite_attribute;
-    interface_color_pair[STATUS_BAR].pairnum = hilite_attribute;
-    interface_color_pair[KEY_COMBO].pairnum = hilite_attribute;
-    interface_color_pair[FUNCTION_TAG].pairnum = A_NORMAL;
+    interface_color_pair[TITLE_BAR] = hilite_attribute;
+    interface_color_pair[STATUS_BAR] = hilite_attribute;
+    interface_color_pair[KEY_COMBO] = hilite_attribute;
+    interface_color_pair[FUNCTION_TAG] = A_NORMAL;
 #endif
 
 #if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)

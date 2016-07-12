@@ -199,12 +199,6 @@ typedef enum {
 } undo_type;
 
 /* Structure types. */
-typedef struct color_pair {
-    int pairnum;
-	/* The color pair number used for this foreground color and
-	 * background color. */
-} color_pair;
-
 #ifndef DISABLE_COLOR
 typedef struct colortype {
     short fg;

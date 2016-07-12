@@ -142,7 +142,7 @@ extern int hilite_attribute;
 #ifndef DISABLE_COLOR
 extern char* specified_color_combo[NUMBER_OF_ELEMENTS];
 #endif
-extern color_pair interface_color_pair[NUMBER_OF_ELEMENTS];
+extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
 

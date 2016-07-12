@@ -491,7 +491,7 @@ void update_the_statusbar(void)
     index = strnlenpt(answer, statusbar_x);
     page_start = get_statusbar_page_start(start_col, start_col + index);
 
-    wattron(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+    wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 
     blank_statusbar();
 
@@ -503,7 +503,7 @@ void update_the_statusbar(void)
     waddstr(bottomwin, expanded);
     free(expanded);
 
-    wattroff(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+    wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
     statusbar_pww = statusbar_xplustabs();
     reset_statusbar_cursor();
@@ -852,12 +852,12 @@ int do_yesno_prompt(bool all, const char *msg)
 	    onekey("^C", _("Cancel"), width);
 	}
 
-	wattron(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 
 	blank_statusbar();
 	mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
-	wattroff(bottomwin, interface_color_pair[TITLE_BAR].pairnum);
+	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
 	/* Refresh edit window and statusbar before getting input. */
 	wnoutrefresh(edit);

@@ -1868,7 +1868,7 @@ void titlebar(const char *path)
 
     assert(path != NULL || openfile->filename != NULL);
 
-    wattron(topwin, interface_color_pair[TITLE_BAR].pairnum);
+    wattron(topwin, interface_color_pair[TITLE_BAR]);
 
     blank_titlebar();
 
@@ -1955,7 +1955,7 @@ void titlebar(const char *path)
     else if (statelen > 0)
 	mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
 
-    wattroff(topwin, interface_color_pair[TITLE_BAR].pairnum);
+    wattroff(topwin, interface_color_pair[TITLE_BAR]);
 
     wnoutrefresh(topwin);
     reset_cursor();
@@ -2024,12 +2024,12 @@ void statusline(message_type importance, const char *msg, ...)
     start_x = (COLS - strlenpt(foo) - 4) / 2;
 
     wmove(bottomwin, 0, start_x);
-    wattron(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
+    wattron(bottomwin, interface_color_pair[STATUS_BAR]);
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     free(foo);
     waddstr(bottomwin, " ]");
-    wattroff(bottomwin, interface_color_pair[STATUS_BAR].pairnum);
+    wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
 
     /* Push the message to the screen straightaway. */
     wnoutrefresh(bottomwin);
@@ -2126,17 +2126,17 @@ void onekey(const char *keystroke, const char *desc, int length)
 {
     assert(keystroke != NULL && desc != NULL);
 
-    wattron(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
+    wattron(bottomwin, interface_color_pair[KEY_COMBO]);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, length));
-    wattroff(bottomwin, interface_color_pair[KEY_COMBO].pairnum);
+    wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
 
     length -= strlenpt(keystroke) + 1;
 
     if (length > 0) {
 	waddch(bottomwin, ' ');
-	wattron(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
+	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
 	waddnstr(bottomwin, desc, actual_x(desc, length));
-	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG].pairnum);
+	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
     }
 }
 

@@ -212,7 +212,7 @@ int hilite_attribute = A_REVERSE;
 char* specified_color_combo[] = {};
 	/* The color combinations as specified in the rcfile. */
 #endif
-color_pair interface_color_pair[] = {};
+int interface_color_pair[] = {};
 	/* The processed color pairs for the interface elements. */
 
 char *homedir = NULL;
