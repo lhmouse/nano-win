@@ -369,6 +369,9 @@ int parse_kbinput(WINDOW *win)
 	keycode, escapes, byte_digits);
 #endif
 
+    if (keycode == ERR)
+	return ERR;
+
     if (keycode == NANO_CONTROL_3) {
 	    /* Increment the escape counter. */
 	    escapes++;
@@ -376,7 +379,9 @@ int parse_kbinput(WINDOW *win)
 	    if (escapes > 3)
 		escapes = 1;
 	    solitary = (escapes == 1 && get_key_buffer_len() == 0);
-    } else if (keycode != ERR) {
+	    return ERR;
+    }
+
 	    switch (escapes) {
 		case 0:
 		    /* One non-escape: normal input mode. */
@@ -507,38 +512,35 @@ int parse_kbinput(WINDOW *win)
 				parse_escape_sequence(win, keycode));
 		    break;
 	    }
-    }
 
-    if (retval != ERR) {
+    if (retval == ERR)
+	return ERR;
+
 	switch (retval) {
 #ifdef KEY_SLEFT
 	    /* Slang doesn't support KEY_SLEFT. */
 	    case KEY_SLEFT:
 #endif
 	    case KEY_LEFT:
-		retval = sc_seq_or(do_left, keycode);
-		break;
+		return sc_seq_or(do_left, keycode);
 #ifdef KEY_SRIGHT
 	    /* Slang doesn't support KEY_SRIGHT. */
 	    case KEY_SRIGHT:
 #endif
 	    case KEY_RIGHT:
-		retval = sc_seq_or(do_right, keycode);
-		break;
+		return sc_seq_or(do_right, keycode);
 #ifdef KEY_SUP
 	    /* ncurses and Slang don't support KEY_SUP. */
 	    case KEY_SUP:
 #endif
 	    case KEY_UP:
-		retval = sc_seq_or(do_up_void, keycode);
-		break;
+		return sc_seq_or(do_up_void, keycode);
 #ifdef KEY_SDOWN
 	    /* ncurses and Slang don't support KEY_SDOWN. */
 	    case KEY_SDOWN:
 #endif
 	    case KEY_DOWN:
-		retval = sc_seq_or(do_down_void, keycode);
-		break;
+		return sc_seq_or(do_down_void, keycode);
 #ifdef KEY_SHOME
 	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
 	    case KEY_SHOME:
@@ -547,8 +549,7 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_HOME:
 #endif
 	    case KEY_A1:	/* Home (7) on keypad with NumLock off. */
-		retval = sc_seq_or(do_home, keycode);
-		break;
+		return sc_seq_or(do_home, keycode);
 #ifdef KEY_SEND
 	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	    case KEY_SEND:
@@ -557,38 +558,31 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_END:
 #endif
 	    case KEY_C1:	/* End (1) on keypad with NumLock off. */
-		retval = sc_seq_or(do_end, keycode);
-		break;
+		return sc_seq_or(do_end, keycode);
 	    case KEY_PPAGE:
 	    case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
-		retval = sc_seq_or(do_page_up, keycode);
-		break;
+		return sc_seq_or(do_page_up, keycode);
 	    case KEY_NPAGE:
 	    case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
-		retval = sc_seq_or(do_page_down, keycode);
-		break;
+		return sc_seq_or(do_page_down, keycode);
 
 	    case KEY_ENTER:
-		retval = sc_seq_or(do_enter, keycode);
-		break;
+		return sc_seq_or(do_enter, keycode);
 	    case KEY_BACKSPACE:
-		retval = sc_seq_or(do_backspace, keycode);
-		break;
+		return sc_seq_or(do_backspace, keycode);
 #ifdef KEY_SDC
 	    /* Slang doesn't support KEY_SDC. */
 	    case KEY_SDC:
 #endif
 	    case NANO_CONTROL_8:
 		if (ISSET(REBIND_DELETE))
-		    retval = sc_seq_or(do_delete, keycode);
+		    return sc_seq_or(do_delete, keycode);
 		else
-		    retval = sc_seq_or(do_backspace, keycode);
-		break;
+		    return sc_seq_or(do_backspace, keycode);
 #ifdef KEY_SIC
 	    /* Slang doesn't support KEY_SIC. */
 	    case KEY_SIC:
-		retval = sc_seq_or(do_insertfile_void, keycode);
-		break;
+		return sc_seq_or(do_insertfile_void, keycode);
 #endif
 #ifdef KEY_SBEG
 	    /* Slang doesn't support KEY_SBEG. */
@@ -599,8 +593,7 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_BEG:
 #endif
 	    case KEY_B2:	/* Center (5) on keypad with NumLock off. */
-		retval = ERR;
-		break;
+		return ERR;
 #ifdef KEY_CANCEL
 #ifdef KEY_SCANCEL
 	    /* Slang doesn't support KEY_SCANCEL. */
@@ -608,8 +601,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	    /* Slang doesn't support KEY_CANCEL. */
 	    case KEY_CANCEL:
-		retval = first_sc_for(currmenu, do_cancel)->keycode;
-		break;
+		return first_sc_for(currmenu, do_cancel)->keycode;
 #endif
 #ifdef KEY_SUSPEND
 #ifdef KEY_SSUSPEND
@@ -618,8 +610,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	    /* Slang doesn't support KEY_SUSPEND. */
 	    case KEY_SUSPEND:
-		retval = sc_seq_or(do_suspend_void, 0);
-		break;
+		return sc_seq_or(do_suspend_void, 0);
 #endif
 #ifdef PDCURSES
 	    case KEY_SHIFT_L:
@@ -628,8 +619,7 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_CONTROL_R:
 	    case KEY_ALT_L:
 	    case KEY_ALT_R:
-		retval = ERR;
-		break;
+		return ERR;
 #endif
 #if !defined(NANO_TINY) && defined(KEY_RESIZE)
 	    /* Since we don't change the default SIGWINCH handler when
@@ -637,13 +627,10 @@ int parse_kbinput(WINDOW *win)
 	     * Also, Slang and SunOS 5.7-5.9 don't support
 	     * KEY_RESIZE. */
 	    case KEY_RESIZE:
-		retval = ERR;
-		break;
+		return ERR;
 #endif
 	}
-    }
 
-    /* Return the result. */
     return retval;
 }
 
