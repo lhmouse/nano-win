@@ -382,252 +382,250 @@ int parse_kbinput(WINDOW *win)
 	    return ERR;
     }
 
-	    switch (escapes) {
-		case 0:
-		    /* One non-escape: normal input mode. */
-		    retval = keycode;
-		    break;
-		case 1:
-		    /* Reset the escape counter. */
-		    escapes = 0;
-		    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
-				get_key_buffer_len() == 0 || *key_buffer == 0x1B) {
-			/* One escape followed by a single non-escape:
-			 * meta key sequence mode. */
-			if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
-			    meta_key = TRUE;
-			retval = tolower(keycode);
-		    } else
-			/* One escape followed by a non-escape, and there
-			 * are more codes waiting: escape sequence mode. */
-			retval = parse_escape_sequence(win, keycode);
-		    break;
-		case 2:
-		    if (double_esc) {
-			/* An "ESC ESC [ X" sequence from Option+arrow. */
-			switch (keycode) {
-			    case 'A':
-				retval = KEY_HOME;
-				break;
-			    case 'B':
-				retval = KEY_END;
-				break;
+    switch (escapes) {
+	case 0:
+	    /* One non-escape: normal input mode. */
+	    retval = keycode;
+	    break;
+	case 1:
+	    /* Reset the escape counter. */
+	    escapes = 0;
+	    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
+			get_key_buffer_len() == 0 || *key_buffer == 0x1B) {
+		/* One escape followed by a single non-escape:
+		 * meta key sequence mode. */
+		if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
+		    meta_key = TRUE;
+		retval = tolower(keycode);
+	    } else
+		/* One escape followed by a non-escape, and there
+		 * are more codes waiting: escape sequence mode. */
+		retval = parse_escape_sequence(win, keycode);
+	    break;
+	case 2:
+	    if (double_esc) {
+		/* An "ESC ESC [ X" sequence from Option+arrow. */
+		switch (keycode) {
+		    case 'A':
+			retval = KEY_HOME;
+			break;
+		    case 'B':
+			retval = KEY_END;
+			break;
 #ifndef NANO_TINY
-			    case 'C':
-				retval = controlright;
-				break;
-			    case 'D':
-				retval = controlleft;
-				break;
+		    case 'C':
+			retval = controlright;
+			break;
+		    case 'D':
+			retval = controlleft;
+			break;
 #endif
-			}
-			double_esc = FALSE;
+		}
+		double_esc = FALSE;
+		escapes = 0;
+	    } else if (get_key_buffer_len() == 0) {
+		if (('0' <= keycode && keycode <= '2' &&
+			byte_digits == 0) || ('0' <= keycode &&
+			keycode <= '9' && byte_digits > 0)) {
+		    /* Two escapes followed by one or more decimal
+		     * digits, and there aren't any other codes
+		     * waiting: byte sequence mode.  If the range
+		     * of the byte sequence is limited to 2XX (the
+		     * first digit is between '0' and '2' and the
+		     * others between '0' and '9', interpret it. */
+		    int byte;
+
+		    byte_digits++;
+		    byte = get_byte_kbinput(keycode);
+
+		    /* If we've read in a complete byte sequence,
+		     * reset the escape counter and the byte sequence
+		     * counter, and put the obtained byte value back
+		     * into the key buffer. */
+		    if (byte != ERR) {
+			char *byte_mb;
+			int byte_mb_len, *seq, i;
+
 			escapes = 0;
-		    } else if (get_key_buffer_len() == 0) {
-			if (('0' <= keycode && keycode <= '2' &&
-				byte_digits == 0) || ('0' <= keycode &&
-				keycode <= '9' && byte_digits > 0)) {
-			    /* Two escapes followed by one or more decimal
-			     * digits, and there aren't any other codes
-			     * waiting: byte sequence mode.  If the range
-			     * of the byte sequence is limited to 2XX (the
-			     * first digit is between '0' and '2' and the
-			     * others between '0' and '9', interpret it. */
-			    int byte;
+			byte_digits = 0;
 
-			    byte_digits++;
-			    byte = get_byte_kbinput(keycode);
+			/* Put back the multibyte equivalent of
+			 * the byte value. */
+			byte_mb = make_mbchar((long)byte,
+				&byte_mb_len);
 
-			    /* If we've read in a complete byte sequence,
-			     * reset the escape counter and the byte sequence
-			     * counter, and put the obtained byte value back
-			     * into the key buffer. */
-			    if (byte != ERR) {
-				char *byte_mb;
-				int byte_mb_len, *seq, i;
+			seq = (int *)nmalloc(byte_mb_len *
+				sizeof(int));
 
-				escapes = 0;
-				byte_digits = 0;
+			for (i = 0; i < byte_mb_len; i++)
+			    seq[i] = (unsigned char)byte_mb[i];
 
-				/* Put back the multibyte equivalent of
-				 * the byte value. */
-				byte_mb = make_mbchar((long)byte,
-					&byte_mb_len);
+			unget_input(seq, byte_mb_len);
 
-				seq = (int *)nmalloc(byte_mb_len *
-					sizeof(int));
-
-				for (i = 0; i < byte_mb_len; i++)
-				    seq[i] = (unsigned char)byte_mb[i];
-
-				unget_input(seq, byte_mb_len);
-
-				free(byte_mb);
-				free(seq);
-			    }
-			} else {
-			    /* Reset the escape counter. */
-			    escapes = 0;
-			    if (byte_digits == 0)
-				/* Two escapes followed by a non-decimal
-				 * digit (or a decimal digit that would
-				 * create a byte sequence greater than 2XX)
-				 * and there aren't any other codes waiting:
-				 * control character sequence mode. */
-				retval = get_control_kbinput(keycode);
-			    else {
-				/* An invalid digit in the middle of a byte
-				 * sequence: reset the byte sequence counter
-				 * and save the code we got as the result. */
-				byte_digits = 0;
-				retval = keycode;
-			    }
-			}
-		    } else if (keycode == '[' && key_buffer_len > 0 &&
-				'A' <= *key_buffer && *key_buffer <= 'D') {
-			/* This is an iTerm2 sequence: ^[ ^[ [ X. */
-			double_esc = TRUE;
-		    } else {
-			/* Two escapes followed by a non-escape, and there
-			 * are more codes waiting: combined meta and escape
-			 * sequence mode. */
-			escapes = 0;
-			meta_key = TRUE;
-			retval = parse_escape_sequence(win, keycode);
+			free(byte_mb);
+			free(seq);
 		    }
-		    break;
-		case 3:
+		} else {
 		    /* Reset the escape counter. */
 		    escapes = 0;
-		    if (get_key_buffer_len() == 0)
-			/* Three escapes followed by a non-escape, and no
-			 * other codes are waiting: normal input mode. */
+		    if (byte_digits == 0)
+			/* Two escapes followed by a non-decimal
+			 * digit (or a decimal digit that would
+			 * create a byte sequence greater than 2XX)
+			 * and there aren't any other codes waiting:
+			 * control character sequence mode. */
+			retval = get_control_kbinput(keycode);
+		    else {
+			/* An invalid digit in the middle of a byte
+			 * sequence: reset the byte sequence counter
+			 * and save the code we got as the result. */
+			byte_digits = 0;
 			retval = keycode;
-		    else
-			/* Three escapes followed by a non-escape, and more
-			 * codes are waiting: combined control character and
-			 * escape sequence mode.  First interpret the escape
-			 * sequence, then the result as a control sequence. */
-			retval = get_control_kbinput(
-				parse_escape_sequence(win, keycode));
-		    break;
+		    }
+		}
+	    } else if (keycode == '[' && key_buffer_len > 0 &&
+			'A' <= *key_buffer && *key_buffer <= 'D') {
+		/* This is an iTerm2 sequence: ^[ ^[ [ X. */
+		double_esc = TRUE;
+	    } else {
+		/* Two escapes followed by a non-escape, and there are more
+		 * codes waiting: combined meta and escape sequence mode. */
+		escapes = 0;
+		meta_key = TRUE;
+		retval = parse_escape_sequence(win, keycode);
 	    }
+	    break;
+	case 3:
+	    /* Reset the escape counter. */
+	    escapes = 0;
+	    if (get_key_buffer_len() == 0)
+		/* Three escapes followed by a non-escape, and no
+		 * other codes are waiting: normal input mode. */
+		retval = keycode;
+	    else
+		/* Three escapes followed by a non-escape, and more
+		 * codes are waiting: combined control character and
+		 * escape sequence mode.  First interpret the escape
+		 * sequence, then the result as a control sequence. */
+		retval = get_control_kbinput(
+			parse_escape_sequence(win, keycode));
+	    break;
+    }
 
     if (retval == ERR)
 	return ERR;
 
-	switch (retval) {
+    switch (retval) {
 #ifdef KEY_SLEFT
-	    /* Slang doesn't support KEY_SLEFT. */
-	    case KEY_SLEFT:
+	/* Slang doesn't support KEY_SLEFT. */
+	case KEY_SLEFT:
 #endif
-	    case KEY_LEFT:
-		return sc_seq_or(do_left, keycode);
+	case KEY_LEFT:
+	    return sc_seq_or(do_left, keycode);
 #ifdef KEY_SRIGHT
-	    /* Slang doesn't support KEY_SRIGHT. */
-	    case KEY_SRIGHT:
+	/* Slang doesn't support KEY_SRIGHT. */
+	case KEY_SRIGHT:
 #endif
-	    case KEY_RIGHT:
-		return sc_seq_or(do_right, keycode);
+	case KEY_RIGHT:
+	    return sc_seq_or(do_right, keycode);
 #ifdef KEY_SUP
-	    /* ncurses and Slang don't support KEY_SUP. */
-	    case KEY_SUP:
+	/* ncurses and Slang don't support KEY_SUP. */
+	case KEY_SUP:
 #endif
-	    case KEY_UP:
-		return sc_seq_or(do_up_void, keycode);
+	case KEY_UP:
+	    return sc_seq_or(do_up_void, keycode);
 #ifdef KEY_SDOWN
-	    /* ncurses and Slang don't support KEY_SDOWN. */
-	    case KEY_SDOWN:
+	/* ncurses and Slang don't support KEY_SDOWN. */
+	case KEY_SDOWN:
 #endif
-	    case KEY_DOWN:
-		return sc_seq_or(do_down_void, keycode);
+	case KEY_DOWN:
+	    return sc_seq_or(do_down_void, keycode);
 #ifdef KEY_SHOME
-	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
-	    case KEY_SHOME:
+	/* HP-UX 10-11 and Slang don't support KEY_SHOME. */
+	case KEY_SHOME:
 #endif
 #ifdef KEY_HOME
-	    case KEY_HOME:
+	case KEY_HOME:
 #endif
-	    case KEY_A1:	/* Home (7) on keypad with NumLock off. */
-		return sc_seq_or(do_home, keycode);
+	case KEY_A1:	/* Home (7) on keypad with NumLock off. */
+	    return sc_seq_or(do_home, keycode);
 #ifdef KEY_SEND
-	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
-	    case KEY_SEND:
+	/* HP-UX 10-11 and Slang don't support KEY_SEND. */
+	case KEY_SEND:
 #endif
 #ifdef KEY_END
-	    case KEY_END:
+	case KEY_END:
 #endif
-	    case KEY_C1:	/* End (1) on keypad with NumLock off. */
-		return sc_seq_or(do_end, keycode);
-	    case KEY_PPAGE:
-	    case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
-		return sc_seq_or(do_page_up, keycode);
-	    case KEY_NPAGE:
-	    case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
-		return sc_seq_or(do_page_down, keycode);
+	case KEY_C1:	/* End (1) on keypad with NumLock off. */
+	    return sc_seq_or(do_end, keycode);
+	case KEY_PPAGE:
+	case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
+	    return sc_seq_or(do_page_up, keycode);
+	case KEY_NPAGE:
+	case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
+	    return sc_seq_or(do_page_down, keycode);
 
-	    case KEY_ENTER:
-		return sc_seq_or(do_enter, keycode);
-	    case KEY_BACKSPACE:
-		return sc_seq_or(do_backspace, keycode);
+	case KEY_ENTER:
+	    return sc_seq_or(do_enter, keycode);
+	case KEY_BACKSPACE:
+	    return sc_seq_or(do_backspace, keycode);
 #ifdef KEY_SDC
-	    /* Slang doesn't support KEY_SDC. */
-	    case KEY_SDC:
+	/* Slang doesn't support KEY_SDC. */
+	case KEY_SDC:
 #endif
-	    case NANO_CONTROL_8:
-		if (ISSET(REBIND_DELETE))
-		    return sc_seq_or(do_delete, keycode);
-		else
-		    return sc_seq_or(do_backspace, keycode);
+	case NANO_CONTROL_8:
+	    if (ISSET(REBIND_DELETE))
+		return sc_seq_or(do_delete, keycode);
+	    else
+		return sc_seq_or(do_backspace, keycode);
 #ifdef KEY_SIC
-	    /* Slang doesn't support KEY_SIC. */
-	    case KEY_SIC:
-		return sc_seq_or(do_insertfile_void, keycode);
+	/* Slang doesn't support KEY_SIC. */
+	case KEY_SIC:
+	    return sc_seq_or(do_insertfile_void, keycode);
 #endif
 #ifdef KEY_SBEG
-	    /* Slang doesn't support KEY_SBEG. */
-	    case KEY_SBEG:
+	/* Slang doesn't support KEY_SBEG. */
+	case KEY_SBEG:
 #endif
 #ifdef KEY_BEG
-	    /* Slang doesn't support KEY_BEG. */
-	    case KEY_BEG:
+	/* Slang doesn't support KEY_BEG. */
+	case KEY_BEG:
 #endif
-	    case KEY_B2:	/* Center (5) on keypad with NumLock off. */
-		return ERR;
+	case KEY_B2:	/* Center (5) on keypad with NumLock off. */
+	    return ERR;
 #ifdef KEY_CANCEL
 #ifdef KEY_SCANCEL
-	    /* Slang doesn't support KEY_SCANCEL. */
-	    case KEY_SCANCEL:
+	/* Slang doesn't support KEY_SCANCEL. */
+	case KEY_SCANCEL:
 #endif
-	    /* Slang doesn't support KEY_CANCEL. */
-	    case KEY_CANCEL:
-		return first_sc_for(currmenu, do_cancel)->keycode;
+	/* Slang doesn't support KEY_CANCEL. */
+	case KEY_CANCEL:
+	    return first_sc_for(currmenu, do_cancel)->keycode;
 #endif
 #ifdef KEY_SUSPEND
 #ifdef KEY_SSUSPEND
-	    /* Slang doesn't support KEY_SSUSPEND. */
-	    case KEY_SSUSPEND:
+	/* Slang doesn't support KEY_SSUSPEND. */
+	case KEY_SSUSPEND:
 #endif
-	    /* Slang doesn't support KEY_SUSPEND. */
-	    case KEY_SUSPEND:
-		return sc_seq_or(do_suspend_void, 0);
+	/* Slang doesn't support KEY_SUSPEND. */
+	case KEY_SUSPEND:
+	    return sc_seq_or(do_suspend_void, 0);
 #endif
 #ifdef PDCURSES
-	    case KEY_SHIFT_L:
-	    case KEY_SHIFT_R:
-	    case KEY_CONTROL_L:
-	    case KEY_CONTROL_R:
-	    case KEY_ALT_L:
-	    case KEY_ALT_R:
-		return ERR;
+	case KEY_SHIFT_L:
+	case KEY_SHIFT_R:
+	case KEY_CONTROL_L:
+	case KEY_CONTROL_R:
+	case KEY_ALT_L:
+	case KEY_ALT_R:
+	    return ERR;
 #endif
 #if !defined(NANO_TINY) && defined(KEY_RESIZE)
-	    /* Since we don't change the default SIGWINCH handler when
-	     * NANO_TINY is defined, KEY_RESIZE is never generated.
-	     * Also, Slang and SunOS 5.7-5.9 don't support
-	     * KEY_RESIZE. */
-	    case KEY_RESIZE:
-		return ERR;
+	/* Since we don't change the default SIGWINCH handler when
+	 * NANO_TINY is defined, KEY_RESIZE is never generated.
+	 * Also, Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
+	case KEY_RESIZE:
+	    return ERR;
 #endif
 	}
 
