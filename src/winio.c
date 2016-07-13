@@ -333,7 +333,7 @@ int parse_kbinput(WINDOW *win)
 {
     static int escapes = 0, byte_digits = 0;
     static bool double_esc = FALSE;
-    int *kbinput, retval = ERR;
+    int *kbinput, keycode, retval = ERR;
 
     meta_key = FALSE;
     func_key = FALSE;
@@ -347,38 +347,41 @@ int parse_kbinput(WINDOW *win)
     while (kbinput == NULL)
 	kbinput = get_input(win, 1);
 
-    if (*kbinput == NANO_CONTROL_3) {
+    keycode = *kbinput;
+    free(kbinput);
+
+    if (keycode == NANO_CONTROL_3) {
 	    /* Increment the escape counter. */
 	    escapes++;
 	    /* If there are four consecutive escapes, discard three of them. */
 	    if (escapes > 3)
 		escapes = 1;
 	    solitary = (escapes == 1 && get_key_buffer_len() == 0);
-    } else if (*kbinput != ERR) {
+    } else if (keycode != ERR) {
 	    switch (escapes) {
 		case 0:
 		    /* One non-escape: normal input mode. */
-		    retval = *kbinput;
+		    retval = keycode;
 		    break;
 		case 1:
 		    /* Reset the escape counter. */
 		    escapes = 0;
-		    if ((*kbinput != 'O' && *kbinput != 'o' && *kbinput != '[') ||
+		    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
 				get_key_buffer_len() == 0 || *key_buffer == 0x1B) {
 			/* One escape followed by a single non-escape:
 			 * meta key sequence mode. */
-			if (!solitary || (*kbinput >= 0x20 && *kbinput < 0x7F))
+			if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
 			    meta_key = TRUE;
-			retval = tolower(*kbinput);
+			retval = tolower(keycode);
 		    } else
 			/* One escape followed by a non-escape, and there
 			 * are more codes waiting: escape sequence mode. */
-			retval = parse_escape_sequence(win, *kbinput);
+			retval = parse_escape_sequence(win, keycode);
 		    break;
 		case 2:
 		    if (double_esc) {
 			/* An "ESC ESC [ X" sequence from Option+arrow. */
-			switch (*kbinput) {
+			switch (keycode) {
 			    case 'A':
 				retval = KEY_HOME;
 				break;
@@ -397,9 +400,9 @@ int parse_kbinput(WINDOW *win)
 			double_esc = FALSE;
 			escapes = 0;
 		    } else if (get_key_buffer_len() == 0) {
-			if (('0' <= *kbinput && *kbinput <= '2' &&
-				byte_digits == 0) || ('0' <= *kbinput &&
-				*kbinput <= '9' && byte_digits > 0)) {
+			if (('0' <= keycode && keycode <= '2' &&
+				byte_digits == 0) || ('0' <= keycode &&
+				keycode <= '9' && byte_digits > 0)) {
 			    /* Two escapes followed by one or more decimal
 			     * digits, and there aren't any other codes
 			     * waiting: byte sequence mode.  If the range
@@ -409,7 +412,7 @@ int parse_kbinput(WINDOW *win)
 			    int byte;
 
 			    byte_digits++;
-			    byte = get_byte_kbinput(*kbinput);
+			    byte = get_byte_kbinput(keycode);
 
 			    /* If we've read in a complete byte sequence,
 			     * reset the escape counter and the byte sequence
@@ -447,16 +450,16 @@ int parse_kbinput(WINDOW *win)
 				 * create a byte sequence greater than 2XX)
 				 * and there aren't any other codes waiting:
 				 * control character sequence mode. */
-				retval = get_control_kbinput(*kbinput);
+				retval = get_control_kbinput(keycode);
 			    else {
 				/* An invalid digit in the middle of a byte
 				 * sequence: reset the byte sequence counter
 				 * and save the code we got as the result. */
 				byte_digits = 0;
-				retval = *kbinput;
+				retval = keycode;
 			    }
 			}
-		    } else if (*kbinput == '[' && key_buffer_len > 0 &&
+		    } else if (keycode == '[' && key_buffer_len > 0 &&
 				'A' <= *key_buffer && *key_buffer <= 'D') {
 			/* This is an iTerm2 sequence: ^[ ^[ [ X. */
 			double_esc = TRUE;
@@ -466,7 +469,7 @@ int parse_kbinput(WINDOW *win)
 			 * sequence mode. */
 			escapes = 0;
 			meta_key = TRUE;
-			retval = parse_escape_sequence(win, *kbinput);
+			retval = parse_escape_sequence(win, keycode);
 		    }
 		    break;
 		case 3:
@@ -475,14 +478,14 @@ int parse_kbinput(WINDOW *win)
 		    if (get_key_buffer_len() == 0)
 			/* Three escapes followed by a non-escape, and no
 			 * other codes are waiting: normal input mode. */
-			retval = *kbinput;
+			retval = keycode;
 		    else
 			/* Three escapes followed by a non-escape, and more
 			 * codes are waiting: combined control character and
 			 * escape sequence mode.  First interpret the escape
 			 * sequence, then the result as a control sequence. */
 			retval = get_control_kbinput(
-				parse_escape_sequence(win, *kbinput));
+				parse_escape_sequence(win, keycode));
 		    break;
 	    }
     }
@@ -494,28 +497,28 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_SLEFT:
 #endif
 	    case KEY_LEFT:
-		retval = sc_seq_or(do_left, *kbinput);
+		retval = sc_seq_or(do_left, keycode);
 		break;
 #ifdef KEY_SRIGHT
 	    /* Slang doesn't support KEY_SRIGHT. */
 	    case KEY_SRIGHT:
 #endif
 	    case KEY_RIGHT:
-		retval = sc_seq_or(do_right, *kbinput);
+		retval = sc_seq_or(do_right, keycode);
 		break;
 #ifdef KEY_SUP
 	    /* ncurses and Slang don't support KEY_SUP. */
 	    case KEY_SUP:
 #endif
 	    case KEY_UP:
-		retval = sc_seq_or(do_up_void, *kbinput);
+		retval = sc_seq_or(do_up_void, keycode);
 		break;
 #ifdef KEY_SDOWN
 	    /* ncurses and Slang don't support KEY_SDOWN. */
 	    case KEY_SDOWN:
 #endif
 	    case KEY_DOWN:
-		retval = sc_seq_or(do_down_void, *kbinput);
+		retval = sc_seq_or(do_down_void, keycode);
 		break;
 #ifdef KEY_SHOME
 	    /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
@@ -525,7 +528,7 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_HOME:
 #endif
 	    case KEY_A1:	/* Home (7) on keypad with NumLock off. */
-		retval = sc_seq_or(do_home, *kbinput);
+		retval = sc_seq_or(do_home, keycode);
 		break;
 #ifdef KEY_SEND
 	    /* HP-UX 10-11 and Slang don't support KEY_SEND. */
@@ -535,22 +538,22 @@ int parse_kbinput(WINDOW *win)
 	    case KEY_END:
 #endif
 	    case KEY_C1:	/* End (1) on keypad with NumLock off. */
-		retval = sc_seq_or(do_end, *kbinput);
+		retval = sc_seq_or(do_end, keycode);
 		break;
 	    case KEY_PPAGE:
 	    case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
-		retval = sc_seq_or(do_page_up, *kbinput);
+		retval = sc_seq_or(do_page_up, keycode);
 		break;
 	    case KEY_NPAGE:
 	    case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
-		retval = sc_seq_or(do_page_down, *kbinput);
+		retval = sc_seq_or(do_page_down, keycode);
 		break;
 
 	    case KEY_ENTER:
-		retval = sc_seq_or(do_enter, *kbinput);
+		retval = sc_seq_or(do_enter, keycode);
 		break;
 	    case KEY_BACKSPACE:
-		retval = sc_seq_or(do_backspace, *kbinput);
+		retval = sc_seq_or(do_backspace, keycode);
 		break;
 #ifdef KEY_SDC
 	    /* Slang doesn't support KEY_SDC. */
@@ -558,14 +561,14 @@ int parse_kbinput(WINDOW *win)
 #endif
 	    case NANO_CONTROL_8:
 		if (ISSET(REBIND_DELETE))
-		    retval = sc_seq_or(do_delete, *kbinput);
+		    retval = sc_seq_or(do_delete, keycode);
 		else
-		    retval = sc_seq_or(do_backspace, *kbinput);
+		    retval = sc_seq_or(do_backspace, keycode);
 		break;
 #ifdef KEY_SIC
 	    /* Slang doesn't support KEY_SIC. */
 	    case KEY_SIC:
-		retval = sc_seq_or(do_insertfile_void, *kbinput);
+		retval = sc_seq_or(do_insertfile_void, keycode);
 		break;
 #endif
 #ifdef KEY_SBEG
@@ -638,10 +641,8 @@ int parse_kbinput(WINDOW *win)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, meta_key ? "TRUE" : "FALSE", func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
+    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", keycode, meta_key ? "TRUE" : "FALSE", func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
 #endif
-
-    free(kbinput);
 
     /* Return the result. */
     return retval;
