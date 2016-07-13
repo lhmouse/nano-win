@@ -315,6 +315,22 @@ int get_kbinput(WINDOW *win)
     while ((kbinput = parse_kbinput(win)) == ERR)
 	;
 
+#ifdef DEBUG
+    fprintf(stderr, "after parsing:  kbinput = %d, meta_key = %s\n",
+	kbinput, meta_key ? "TRUE" : "FALSE");
+#endif
+
+#ifndef NANO_TINY
+    if (kbinput == controlleft)
+	kbinput = sc_seq_or(do_prev_word_void, 0);
+    else if (kbinput == controlright)
+	kbinput = sc_seq_or(do_next_word_void, 0);
+    else if (kbinput == controlup)
+	kbinput = sc_seq_or(do_prev_block, 0);
+    else if (kbinput == controldown)
+	kbinput = sc_seq_or(do_next_block, 0);
+#endif
+
     /* If we read from the edit window, blank the statusbar if needed. */
     if (win == edit)
 	check_statusblank();
@@ -347,6 +363,11 @@ int parse_kbinput(WINDOW *win)
 
     keycode = *kbinput;
     free(kbinput);
+
+#ifdef DEBUG
+    fprintf(stderr, "before parsing:  keycode = %d, escapes = %d, byte_digits = %d\n",
+	keycode, escapes, byte_digits);
+#endif
 
     if (keycode == NANO_CONTROL_3) {
 	    /* Increment the escape counter. */
@@ -620,23 +641,7 @@ int parse_kbinput(WINDOW *win)
 		break;
 #endif
 	}
-
-#ifndef NANO_TINY
-	if (retval == controlleft)
-	    retval = sc_seq_or(do_prev_word_void, 0);
-	else if (retval == controlright)
-	    retval = sc_seq_or(do_next_word_void, 0);
-	else if (retval == controlup)
-	    retval = sc_seq_or(do_prev_block, 0);
-	else if (retval == controldown)
-	    retval = sc_seq_or(do_next_block, 0);
-#endif
     }
-
-#ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, escapes = %d, byte_digits = %d, retval = %d\n",
-			keycode, meta_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
-#endif
 
     /* Return the result. */
     return retval;
