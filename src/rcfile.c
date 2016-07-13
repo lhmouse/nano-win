@@ -1067,7 +1067,8 @@ void parse_rcfile(FILE *rcstream
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, "parse_rcfile(): option name = \"%s\"\n", rcopts[i].name);
+	fprintf(stderr, "    Option name = \"%s\"\n", rcopts[i].name);
+	fprintf(stderr, "    Flag = %ld\n", rcopts[i].flag);
 #endif
 	/* First handle unsetting. */
 	if (set == -1) {
@@ -1098,7 +1099,7 @@ void parse_rcfile(FILE *rcstream
 
 	option = mallocstrcpy(NULL, option);
 #ifdef DEBUG
-	fprintf(stderr, "option argument = \"%s\"\n", option);
+	fprintf(stderr, "    Option argument = \"%s\"\n", option);
 #endif
 	/* Make sure the option argument is a valid multibyte string. */
 	if (!is_valid_mbstring(option)) {
@@ -1191,10 +1192,6 @@ void parse_rcfile(FILE *rcstream
 		free(option);
 	} else
 	    assert(FALSE);
-
-#ifdef DEBUG
-	fprintf(stderr, "flag = %ld\n", rcopts[i].flag);
-#endif
     }
 
 #ifndef DISABLE_COLOR
