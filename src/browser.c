@@ -46,7 +46,7 @@ static size_t selected = 0;
  * start browsing from. */
 char *do_browser(char *path)
 {
-    char *retval = NULL, *newpath = path;
+    char *retval = NULL;
     int kbinput;
     char *present_name = NULL;
 	/* The name of the currently selected file, or of the directory we
@@ -61,14 +61,13 @@ char *do_browser(char *path)
     /* Don't show a cursor in the file list. */
     curs_set(0);
     blank_statusbar();
-    path = NULL;
 
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
 
-    path = mallocstrassn(path, get_full_path(newpath ? newpath : path));
+    path = mallocstrassn(path, get_full_path(path));
 
-    if (path != NULL && newpath != NULL)
+    if (path != NULL)
 	dir = opendir(path);
 
     if (path == NULL || dir == NULL) {
@@ -106,8 +105,6 @@ char *do_browser(char *path)
 
     old_selected = (size_t)-1;
 
-    free(newpath);
-    newpath = NULL;
     present_path = mallocstrcpy(present_path, path);
 
     titlebar(path);
@@ -246,33 +243,33 @@ char *do_browser(char *path)
 	    sunder(answer);
 	    align(&answer);
 
-	    newpath = real_dir_from_tilde(answer);
+	    path = mallocstrassn(path, real_dir_from_tilde(answer));
 
-	    if (newpath[0] != '/') {
-		newpath = charealloc(newpath, strlen(path) +
-				strlen(answer) + 1);
-		sprintf(newpath, "%s%s", path, answer);
+	    /* If the given path is relative, join it with the current path. */
+	    if (*path != '/') {
+		path = charealloc(path, strlen(present_path) +
+						strlen(answer) + 1);
+		sprintf(path, "%s%s", present_path, answer);
 	    }
 
 #ifndef DISABLE_OPERATINGDIR
-	    if (check_operating_dir(newpath, FALSE)) {
+	    if (check_operating_dir(path, FALSE)) {
 		/* TRANSLATORS: This refers to the confining effect of the
 		 * option --operatingdir, not of --restricted. */
 		statusline(ALERT, _("Can't go outside of %s"),
 				full_operating_dir);
-		free(newpath);
-		newpath = NULL;
+		path = mallocstrcpy(path, present_path);
 		continue;
 	    }
 #endif
 	    /* Snip any trailing slashes, so the name can be compared. */
-	    while (strlen(newpath) > 1 && newpath[strlen(newpath) - 1] == '/')
-		newpath[strlen(newpath) - 1] = '\0';
+	    while (strlen(path) > 1 && path[strlen(path) - 1] == '/')
+		path[strlen(path) - 1] = '\0';
 
 	    /* In case the specified directory cannot be entered, select it
 	     * (if it is in the current list) so it will be highlighted. */
 	    for (i = 0; i < filelist_len; i++)
-		if (strcmp(filelist[i], newpath) == 0)
+		if (strcmp(filelist[i], path) == 0)
 		    selected = i;
 
 	    /* Try opening and reading the specified directory. */
@@ -315,7 +312,7 @@ char *do_browser(char *path)
 		present_name = striponedir(filelist[selected]);
 
 	    /* Try opening and reading the selected directory. */
-	    newpath = mallocstrcpy(NULL, filelist[selected]);
+	    path = mallocstrcpy(path, filelist[selected]);
 	    goto read_directory_contents;
 	} else if (func == do_exit) {
 	    /* Exit from the file browser. */
@@ -333,7 +330,6 @@ char *do_browser(char *path)
 	    /* Remember the selected file, to be able to reselect it. */
 	    present_name = mallocstrcpy(NULL, filelist[selected]);
 	    /* Reread the contents of the current directory. */
-	    newpath = mallocstrcpy(NULL, present_path);
 	    goto read_directory_contents;
 	}
 #endif
