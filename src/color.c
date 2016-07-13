@@ -396,23 +396,6 @@ void alloc_multidata_if_needed(filestruct *fileptr)
     }
 }
 
-/* Poll the keyboard every second to see if the user starts typing. */
-bool key_was_pressed(void)
-{
-    static time_t last_time = 0;
-    int onebyte;
-
-    if (time(NULL) != last_time) {
-	last_time = time(NULL);
-	onebyte = wgetch(edit);
-	if (onebyte == ERR)
-	    return FALSE;
-	ungetch(onebyte);
-	return TRUE;
-    } else
-	return FALSE;
-}
-
 /* Precalculate the multi-line start and end regex info so we can
  * speed up rendering (with any hope at all...). */
 void precalc_multicolorinfo(void)
@@ -427,11 +410,6 @@ void precalc_multicolorinfo(void)
 #ifdef DEBUG
     fprintf(stderr, "Entering precalculation of multiline color info\n");
 #endif
-    /* Let us get keypresses to see if the user is trying to start
-     * editing.  Later we may want to throw up a statusbar message
-     * before starting this if it takes too long to do this routine.
-     * For now silently abort if they hit a key. */
-    nodelay(edit, TRUE);
 
     for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 	/* If this is not a multi-line regex, skip it. */
@@ -443,9 +421,6 @@ void precalc_multicolorinfo(void)
 
 	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 	    int startx = 0, nostart = 0;
-
-	    if (key_was_pressed())
-		goto precalc_cleanup;
 #ifdef DEBUG
 	    fprintf(stderr, "working on lineno %ld... ", (long)fileptr->lineno);
 #endif
@@ -479,10 +454,6 @@ void precalc_multicolorinfo(void)
 #ifdef DEBUG
 		    fprintf(stderr, "\nadvancing to line %ld to find end... ", (long)endptr->lineno);
 #endif
-		    /* Check for interrupting keyboard input again. */
-		    if (key_was_pressed())
-			goto precalc_cleanup;
-
 		    if (regexec(ink->end, endptr->data, 1, &endmatch, 0) == 0)
 			break;
 		}
@@ -531,8 +502,6 @@ void precalc_multicolorinfo(void)
 	    }
 	}
     }
-precalc_cleanup:
-    nodelay(edit, FALSE);
 }
 
 #endif /* !DISABLE_COLOR */
