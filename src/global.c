@@ -35,8 +35,6 @@ volatile sig_atomic_t sigwinch_counter = 0;
 
 bool meta_key;
 	/* Whether the current keystroke is a Meta key. */
-bool func_key;
-	/* Whether the current keystroke is an extended keypad value. */
 bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
 

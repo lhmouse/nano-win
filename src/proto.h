@@ -31,7 +31,6 @@ extern volatile sig_atomic_t sigwinch_counter;
 #endif
 
 extern bool meta_key;
-extern bool func_key;
 extern bool focusing;
 
 extern message_type lastmessage;

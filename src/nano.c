@@ -1539,7 +1539,7 @@ void terminal_init(void)
 /* Say that an unbound key was struck, and if possible which one. */
 void unbound_key(int code)
 {
-    if (func_key)
+    if (!is_byte(code))
 	statusline(ALERT, _("Unbound key"));
     else if (meta_key) {
 	if (code == '[')
@@ -1577,7 +1577,7 @@ int do_input(bool allow_funcs)
 #endif
 
 #ifndef DISABLE_MOUSE
-    if (func_key && input == KEY_MOUSE) {
+    if (input == KEY_MOUSE) {
 	/* We received a mouse click. */
 	if (do_mouse() == 1)
 	    /* The click was on a shortcut -- read in the character
@@ -1599,10 +1599,9 @@ int do_input(bool allow_funcs)
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
     if (!have_shortcut) {
-	if (is_ascii_cntrl_char(input) || meta_key || func_key) {
+	if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 	    unbound_key(input);
 	    meta_key = FALSE;
-	    func_key = FALSE;
 	    input = ERR;
 	}
     }

@@ -66,12 +66,11 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 #ifndef DISABLE_MOUSE
     /* If we got a mouse click and it was on a shortcut, read in the
      * shortcut character. */
-    if (func_key && input == KEY_MOUSE) {
+    if (input == KEY_MOUSE) {
 	if (do_statusbar_mouse() == 1)
 	    input = get_kbinput(bottomwin);
 	else {
 	    meta_key = FALSE;
-	    func_key = FALSE;
 	    input = ERR;
 	}
     }
@@ -87,10 +86,9 @@ int do_statusbar_input(bool *ran_func, bool *finished,
     /* If we got a non-high-bit control key, a meta key sequence, or a
      * function key, and it's not a shortcut or toggle, throw it out. */
     if (!have_shortcut) {
-	if (is_ascii_cntrl_char(input) || meta_key || func_key) {
+	if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 	    beep();
 	    meta_key = FALSE;
-	    func_key = FALSE;
 	    input = ERR;
 	}
     }

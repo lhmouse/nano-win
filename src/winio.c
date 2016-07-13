@@ -324,8 +324,7 @@ int get_kbinput(WINDOW *win)
 
 /* Extract a single keystroke from the input stream.  Translate escape
  * sequences and extended keypad codes into their corresponding values.
- * Set meta_key to TRUE when we get a meta key sequence, and set func_key
- * to TRUE when we get a function key.  Supported extended keypad values
+ * Set meta_key to TRUE when appropriate.  Supported extended keypad values
  * are: [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
  * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
  * the function keys (F1-F16), and the numeric keypad with NumLock off. */
@@ -336,7 +335,6 @@ int parse_kbinput(WINDOW *win)
     int *kbinput, keycode, retval = ERR;
 
     meta_key = FALSE;
-    func_key = FALSE;
 
     /* Read in a character. */
     kbinput = get_input(win, 1);
@@ -633,15 +631,11 @@ int parse_kbinput(WINDOW *win)
 	else if (retval == controldown)
 	    retval = sc_seq_or(do_next_block, 0);
 #endif
-
-	/* If our result is an extended keypad value (i.e. a value
-	 * outside of byte range), set func_key to TRUE. */
-	if (retval != ERR)
-	    func_key = !is_byte(retval);
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, func_key = %s, escapes = %d, byte_digits = %d, retval = %d\n", keycode, meta_key ? "TRUE" : "FALSE", func_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
+    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %s, escapes = %d, byte_digits = %d, retval = %d\n",
+			keycode, meta_key ? "TRUE" : "FALSE", escapes, byte_digits, retval);
 #endif
 
     /* Return the result. */
