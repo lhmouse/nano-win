@@ -427,10 +427,8 @@ char *mallocstrcpy(char *dest, const char *src)
     return mallocstrncpy(dest, src, (src == NULL) ? 1 : strlen(src) + 1);
 }
 
-/* Free the malloc()ed string at dest and return the malloc()ed string
- * at src.  Should be used as: "answer = mallocstrassn(answer,
- * real_dir_from_tilde(answer));". */
-char *mallocstrassn(char *dest, char *src)
+/* Free the string at dest and return the string at src. */
+char *free_and_assign(char *dest, char *src)
 {
     free(dest);
     return src;

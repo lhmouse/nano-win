@@ -1226,7 +1226,7 @@ void do_insertfile(
 	    {
 		/* Make sure the path to the file specified in answer is
 		 * tilde-expanded. */
-		answer = mallocstrassn(answer, real_dir_from_tilde(answer));
+		answer = free_and_assign(answer, real_dir_from_tilde(answer));
 
 		/* Save the file specified in answer in the current buffer. */
 		open_buffer(answer, TRUE);

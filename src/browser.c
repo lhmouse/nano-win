@@ -65,7 +65,7 @@ char *do_browser(char *path)
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
 
-    path = mallocstrassn(path, get_full_path(path));
+    path = free_and_assign(path, get_full_path(path));
 
     if (path != NULL)
 	dir = opendir(path);
@@ -243,7 +243,7 @@ char *do_browser(char *path)
 	    sunder(answer);
 	    align(&answer);
 
-	    path = mallocstrassn(path, real_dir_from_tilde(answer));
+	    path = free_and_assign(path, real_dir_from_tilde(answer));
 
 	    /* If the given path is relative, join it with the current path. */
 	    if (*path != '/') {
@@ -367,7 +367,7 @@ char *do_browse_from(const char *inpath)
      * at all.  If so, we'll just pass the current directory to
      * do_browser(). */
     if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
-	path = mallocstrassn(path, striponedir(path));
+	path = free_and_assign(path, striponedir(path));
 
 	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 	    char * currentdir = charalloc(PATH_MAX + 1);
