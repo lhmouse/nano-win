@@ -1555,9 +1555,10 @@ void unbound_key(int code)
     if (func_key)
 	statusline(ALERT, _("Unbound key"));
     else if (meta_key) {
-	if (0x60 < code && code < 0x7B)
-	    code -= 0x20;
-	statusline(ALERT, _("Unbound key: M-%c"), code);
+	if (code == '[')
+	    statusline(ALERT, _("Unbindable key: M-["));
+	else
+	    statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
     } else if (code < 0x20)
 	statusline(ALERT, _("Unbound key: ^%c"), code + 0x40);
     else
