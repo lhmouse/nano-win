@@ -367,7 +367,7 @@ int parse_kbinput(WINDOW *win)
 	    /* If there are four consecutive escapes, discard three of them. */
 	    if (escapes > 3)
 		escapes = 1;
-	    solitary = (escapes == 1 && get_key_buffer_len() == 0);
+	    solitary = (escapes == 1 && key_buffer_len == 0);
 	    return ERR;
     }
 
@@ -380,7 +380,7 @@ int parse_kbinput(WINDOW *win)
 	    /* Reset the escape counter. */
 	    escapes = 0;
 	    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
-			get_key_buffer_len() == 0 || *key_buffer == 0x1B) {
+			key_buffer_len == 0 || *key_buffer == 0x1B) {
 		/* One escape followed by a single non-escape:
 		 * meta key sequence mode. */
 		if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
@@ -412,7 +412,7 @@ int parse_kbinput(WINDOW *win)
 		}
 		double_esc = FALSE;
 		escapes = 0;
-	    } else if (get_key_buffer_len() == 0) {
+	    } else if (key_buffer_len == 0) {
 		if (('0' <= keycode && keycode <= '2' &&
 			byte_digits == 0) || ('0' <= keycode &&
 			keycode <= '9' && byte_digits > 0)) {
@@ -487,7 +487,7 @@ int parse_kbinput(WINDOW *win)
 	case 3:
 	    /* Reset the escape counter. */
 	    escapes = 0;
-	    if (get_key_buffer_len() == 0)
+	    if (key_buffer_len == 0)
 		/* Three escapes followed by a non-escape, and no
 		 * other codes are waiting: normal input mode. */
 		retval = keycode;
@@ -1067,7 +1067,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
      * sequence, translate the sequence into its corresponding key
      * value, and save that as the result. */
     unget_input(&kbinput, 1);
-    seq_len = get_key_buffer_len();
+    seq_len = key_buffer_len;
     seq = get_input(NULL, seq_len);
     retval = convert_sequence(seq, seq_len);
 
@@ -1413,7 +1413,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
     /* Get the complete sequence, and save the characters in it as the
      * result. */
-    *kbinput_len = get_key_buffer_len();
+    *kbinput_len = key_buffer_len;
     retval = get_input(NULL, *kbinput_len);
 
     return retval;
