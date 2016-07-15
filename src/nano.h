@@ -173,7 +173,7 @@ typedef enum {
 
 typedef enum {
     OVERWRITE, APPEND, PREPEND
-} append_type;
+} kind_of_writing_type;
 
 typedef enum {
     UPWARD, DOWNWARD
