@@ -1698,8 +1698,8 @@ int copy_file(FILE *inn, FILE *out)
  * method is APPEND, it means we are appending instead of overwriting.
  * If method is PREPEND, it means we are prepending instead of
  * overwriting.  If nonamechange is TRUE, we don't change the current
- * filename.  nonamechange is ignored if tmp is FALSE, we're appending,
- * or we're prepending.
+ * filename.  nonamechange is irrelevant when appending or prepending,
+ * or when writing a temporary file.
  *
  * Return TRUE on success or FALSE on error. */
 bool write_file(const char *name, FILE *f_open, bool tmp,
@@ -2111,7 +2111,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	goto cleanup_and_exit;
     }
 
-    if (!tmp && method == OVERWRITE) {
+    if (method == OVERWRITE && !tmp) {
 	/* If we must set the filename, and it changed, adjust things. */
 	if (!nonamechange && strcmp(openfile->filename, realname) != 0) {
 #ifndef DISABLE_COLOR
