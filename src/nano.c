@@ -1601,7 +1601,6 @@ int do_input(bool allow_funcs)
     if (!have_shortcut) {
 	if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 	    unbound_key(input);
-	    meta_key = FALSE;
 	    input = ERR;
 	}
     }

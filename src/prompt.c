@@ -69,10 +69,8 @@ int do_statusbar_input(bool *ran_func, bool *finished,
     if (input == KEY_MOUSE) {
 	if (do_statusbar_mouse() == 1)
 	    input = get_kbinput(bottomwin);
-	else {
-	    meta_key = FALSE;
+	else
 	    input = ERR;
-	}
     }
 #endif
 
@@ -88,7 +86,6 @@ int do_statusbar_input(bool *ran_func, bool *finished,
     if (!have_shortcut) {
 	if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 	    beep();
-	    meta_key = FALSE;
 	    input = ERR;
 	}
     }
