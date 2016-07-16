@@ -36,3 +36,4 @@ core
 
 /nano.spec
 /src/nano
+/src/revision.h
