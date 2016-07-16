@@ -1375,8 +1375,12 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
      * keypad back on if necessary now that we're done. */
     if (ISSET(PRESERVE))
 	enable_flow_control();
-    if (!ISSET(REBIND_KEYPAD))
-	keypad(win, TRUE);
+    /* Use the global window pointers, because a resize may have freed
+     * the data that the win parameter points to. */
+    if (!ISSET(REBIND_KEYPAD)) {
+	keypad(edit, TRUE);
+	keypad(bottomwin, TRUE);
+    }
 
     return retval;
 }
@@ -1392,6 +1396,13 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL)
 	;
+
+    /* When the window was resized, abort and return nothing. */
+    if (*kbinput == KEY_WINCH) {
+	*kbinput_len = 0;
+	free(kbinput);
+	return NULL;
+    }
 
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
