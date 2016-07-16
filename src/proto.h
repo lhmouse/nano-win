@@ -776,7 +776,7 @@ long get_unicode_kbinput(WINDOW *win, int kbinput);
 int get_control_kbinput(int kbinput);
 void unparse_kbinput(char *output, size_t output_len);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
-int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
+int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif

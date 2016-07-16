@@ -1311,13 +1311,13 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     return retval;
 }
 
-/* Read in a stream of all available characters, and return the length
- * of the string in kbinput_len.  Translate the first few characters of
- * the input into the corresponding multibyte value if possible.  After
- * that, leave the input as-is. */
-int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
+/* Read in one control character (or an iTerm double Escape), or convert a
+ * series of six digits into a Unicode codepoint.  Return in count either 1
+ * (for a control character or the first byte of a multibyte sequence), or 2
+ * (for an iTerm double Escape). */
+int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-    int *kbinput, *retval;
+    int *kbinput;
 
     /* Read in the first code. */
     while ((kbinput = get_input(win, 1)) == NULL)
@@ -1326,8 +1326,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 #ifndef NANO_TINY
     /* When the window was resized, abort and return nothing. */
     if (*kbinput == KEY_WINCH) {
-	*kbinput_len = 0;
 	free(kbinput);
+	*count = 0;
 	return NULL;
     }
 #endif
@@ -1369,18 +1369,19 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	}
     } else
 #endif /* ENABLE_UTF8 */
-
 	/* Put back the first code. */
 	unget_input(kbinput, 1);
 
     free(kbinput);
 
-    /* Get the complete sequence, and save the characters in it as the
-     * result. */
-    *kbinput_len = key_buffer_len;
-    retval = get_input(NULL, *kbinput_len);
+    *count = 1;
 
-    return retval;
+    /* If this is an iTerm double escape, take both Escapes. */
+    if (key_buffer_len > 3 && *key_buffer == ESC_CODE &&
+		key_buffer[1] == ESC_CODE && key_buffer[2] == '[')
+	*count = 2;
+
+    return get_input(NULL, *count);
 }
 
 #ifndef DISABLE_MOUSE
