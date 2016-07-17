@@ -97,6 +97,9 @@ void set_colorpairs(void)
 		this_color->pairnum = clr_pair;
 		clr_pair++;
 	    }
+
+	    this_color->attributes = COLOR_PAIR(this_color->pairnum) |
+				(this_color->bright ? A_BOLD : A_NORMAL);
 	}
     }
 }

@@ -210,6 +210,8 @@ typedef struct colortype {
     int pairnum;
 	/* The color pair number used for this foreground color and
 	 * background color. */
+    int attributes;
+	/* Pair number and brightness composed into ready-to-use attributes. */
     int rex_flags;
 	/* The regex compilation flags (with or without REG_ICASE). */
     char *start_regex;

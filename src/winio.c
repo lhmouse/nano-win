@@ -2265,9 +2265,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    regmatch_t endmatch;
 		/* Match position for end_regex. */
 
-	    if (varnish->bright)
-		wattron(edit, A_BOLD);
-	    wattron(edit, COLOR_PAIR(varnish->pairnum));
+	    wattron(edit, varnish->attributes);
 	    /* Two notes about regexec().  A return value of zero means
 	     * that there is a match.  Also, rm_eo is the first
 	     * non-matching character after the match. */
@@ -2524,8 +2522,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		}
 	    }
   tail_of_loop:
-	    wattroff(edit, A_BOLD);
-	    wattroff(edit, COLOR_PAIR(varnish->pairnum));
+	    wattroff(edit, varnish->attributes);
 	}
     }
 #endif /* !DISABLE_COLOR */
