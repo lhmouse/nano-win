@@ -1417,6 +1417,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 		statusbar(_("Unicode Input"));
 
 	    while (uni == ERR) {
+		free(kbinput);
 		while ((kbinput = get_input(win, 1)) == NULL)
 		    ;
 		uni = get_unicode_kbinput(*kbinput);
