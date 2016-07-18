@@ -1637,21 +1637,22 @@ const sc *get_shortcut(int *kbinput)
     sc *s;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ", *kbinput, meta_key ? "TRUE" : "FALSE");
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ",
+				*kbinput, meta_key ? "TRUE" : "FALSE");
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
 	if ((s->menus & currmenu) && *kbinput == s->seq
 		&& meta_key == (s->type == META)) {
 #ifdef DEBUG
-	    fprintf (stderr, "matched seq \"%s\", and btw meta was %d (menu is %x from %x)\n",
-				s->keystr, meta_key, currmenu, s->menus);
+	    fprintf (stderr, "matched seq '%s'  (menu is %x from %x)\n",
+				s->keystr, currmenu, s->menus);
 #endif
 	    return s;
 	}
     }
 #ifdef DEBUG
-    fprintf (stderr, "matched nothing, btw meta was %d\n", meta_key);
+    fprintf (stderr, "matched nothing\n");
 #endif
 
     return NULL;
