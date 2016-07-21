@@ -190,6 +190,9 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 {
     assert(c != NULL);
 
+    if (*c == '\0')
+	return FALSE;
+
     if (is_alnum_mbchar(c))
 	return TRUE;
 
