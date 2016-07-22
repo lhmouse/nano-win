@@ -66,18 +66,13 @@ bool the_window_resized(void)
 
 /* Control character compatibility:
  *
- * - NANO_BACKSPACE_KEY is Ctrl-H, which is Backspace under ASCII, ANSI,
- *   VT100, and VT220.
- * - NANO_TAB_KEY is Ctrl-I, which is Tab under ASCII, ANSI, VT100,
- *   VT220, and VT320.
- * - NANO_ENTER_KEY is Ctrl-M, which is Enter under ASCII, ANSI, VT100,
- *   VT220, and VT320.
- * - NANO_XON_KEY is Ctrl-Q, which is XON under ASCII, ANSI, VT100,
- *   VT220, and VT320.
- * - NANO_XOFF_KEY is Ctrl-S, which is XOFF under ASCII, ANSI, VT100,
- *   VT220, and VT320.
- * - NANO_CONTROL_8 is Ctrl-8 (Ctrl-?), which is Delete under ASCII,
- *   ANSI, VT100, and VT220, and which is Backspace under VT320.
+ * - Ctrl-H is Backspace under ASCII, ANSI, VT100, and VT220.
+ * - Ctrl-I is Tab under ASCII, ANSI, VT100, VT220, and VT320.
+ * - Ctrl-M is Enter under ASCII, ANSI, VT100, VT220, and VT320.
+ * - Ctrl-Q is XON under ASCII, ANSI, VT100, VT220, and VT320.
+ * - Ctrl-S is XOFF under ASCII, ANSI, VT100, VT220, and VT320.
+ * - Ctrl-8 (Ctrl-?, NANO_CONTROL_8) is Delete under ASCII, ANSI,
+ *          VT100, and VT220, but is Backspace under VT320.
  *
  * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By
  * default, xterm assumes it's running on a VT320 and generates Ctrl-8
@@ -94,8 +89,8 @@ bool the_window_resized(void)
  *
  * We support escape sequences for ANSI, VT100, VT220, VT320, the Linux
  * console, the FreeBSD console, the Mach console, xterm, rxvt, Eterm,
- * and Terminal.  Among these, there are several conflicts and
- * omissions, outlined as follows:
+ * and Terminal, and some for iTerm2.  Among these, there are several
+ * conflicts and omissions, outlined as follows:
  *
  * - Tab on ANSI == PageUp on FreeBSD console; the former is omitted.
  *   (Ctrl-I is also Tab on ANSI, which we already support.)
