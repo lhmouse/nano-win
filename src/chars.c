@@ -197,12 +197,15 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 	return TRUE;
 
     if (word_chars != NULL && *word_chars != '\0') {
+	bool wordforming;
 	char *symbol = charalloc(MB_CUR_MAX + 1);
 	int symlen = parse_mbchar(c, symbol, NULL);
 
 	symbol[symlen] = '\0';
+	wordforming = (strstr(word_chars, symbol) != NULL);
+	free(symbol);
 
-	return (strstr(word_chars, symbol) != NULL);
+	return wordforming;
     }
 
     return (allow_punct && is_punct_mbchar(c));
