@@ -343,7 +343,7 @@ void reset_multis_for_id(filestruct *fileptr, int index)
 void reset_multis(filestruct *fileptr, bool force)
 {
     const colortype *ink;
-    int nobegin, noend;
+    int nobegin = 0, noend = 0;
     regmatch_t startmatch, endmatch;
 
     /* If there is no syntax or no multiline regex, there is nothing to do. */

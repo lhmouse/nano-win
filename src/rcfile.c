@@ -658,7 +658,7 @@ void parse_colors(char *ptr, int rex_flags)
     /* Now for the fun part.  Start adding regexes to individual strings
      * in the colorstrings array, woo! */
     while (ptr != NULL && *ptr != '\0') {
-	colortype *newcolor;
+	colortype *newcolor = NULL;
 	    /* The container for a color plus its regexes. */
 	bool goodstart;
 	    /* Whether the start expression was valid. */
