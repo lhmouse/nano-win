@@ -58,7 +58,7 @@
 
 /* Macros for flags, indexing each bit in a small array. */
 #define FLAGS(flag) flags[((flag) / (sizeof(unsigned) * 8))]
-#define FLAGMASK(flag) (1 << ((flag) % (sizeof(unsigned) * 8)))
+#define FLAGMASK(flag) ((unsigned)1 << ((flag) % (sizeof(unsigned) * 8)))
 #define SET(flag) FLAGS(flag) |= FLAGMASK(flag)
 #define UNSET(flag) FLAGS(flag) &= ~FLAGMASK(flag)
 #define ISSET(flag) ((FLAGS(flag) & FLAGMASK(flag)) != 0)
