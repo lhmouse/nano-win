@@ -248,15 +248,10 @@ void unget_input(int *input, size_t input_len)
     memcpy(key_buffer, input, input_len * sizeof(int));
 }
 
-/* Put back the character stored in kbinput, putting it in byte range
- * beforehand.  If metakey is TRUE, put back the Escape character after
- * putting back kbinput.  If funckey is TRUE, put back the function key
- * (a value outside byte range) without putting it in byte range. */
-void unget_kbinput(int kbinput, bool metakey, bool funckey)
+/* Put the character given in kbinput back into the input stream.  If it
+ * is a Meta key, also insert an Escape character in front of it. */
+void unget_kbinput(int kbinput, bool metakey)
 {
-    if (!funckey)
-	kbinput = (char)kbinput;
-
     unget_input(&kbinput, 1);
 
     if (metakey) {
@@ -1563,7 +1558,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
 		const sc *s = first_sc_for(currmenu, f->scfunc);
-		unget_kbinput(s->seq, s->type == META, s->type == DIRECT);
+		unget_kbinput(s->seq, s->type == META);
 	    }
 	    return 1;
 	} else
@@ -1591,7 +1586,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	     * wheel is equivalent to moving down three lines. */
 	    for (i = 0; i < 3; i++)
 		unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
-				KEY_PPAGE : KEY_NPAGE, FALSE, FALSE);
+				KEY_PPAGE : KEY_NPAGE, FALSE);
 
 	    return 1;
 	} else

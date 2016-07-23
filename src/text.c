@@ -2559,7 +2559,7 @@ void do_justify(bool full_justify)
 	}
     } else {
 	/* Put the keystroke back into the queue. */
-	unget_kbinput(kbinput, meta_key, func_key);
+	unget_kbinput(kbinput, meta_key);
 
 	/* Set the desired screen column (always zero, except at EOF). */
 	openfile->placewewant = xplustabs();

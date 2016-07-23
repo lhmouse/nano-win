@@ -149,7 +149,7 @@ char *do_browser(char *path)
 		/* If we selected the same filename as last time, fake a
 		 * press of the Enter key so that the file is read in. */
 		if (old_selected == selected)
-		    unget_kbinput(sc_seq_or(do_enter, 0), FALSE, FALSE);
+		    unget_kbinput(sc_seq_or(do_enter, 0), FALSE);
 	    }
 
 	    continue;

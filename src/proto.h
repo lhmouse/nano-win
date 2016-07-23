@@ -763,7 +763,7 @@ void dump_filestruct_reverse(void);
 void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_input(int *input, size_t input_len);
-void unget_kbinput(int kbinput, bool metakey, bool funckey);
+void unget_kbinput(int kbinput, bool metakey);
 int *get_input(WINDOW *win, size_t input_len);
 int get_kbinput(WINDOW *win);
 int parse_kbinput(WINDOW *win);
