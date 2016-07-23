@@ -188,7 +188,7 @@ typedef enum {
 } update_type;
 
 typedef enum {
-    CONTROL, META, FKEY, RAWINPUT
+    DIRECT, META
 }  key_type;
 
 typedef enum {

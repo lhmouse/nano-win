@@ -340,7 +340,6 @@ void add_to_sclist(int menus, const char *scstring, void (*func)(void), int togg
     if (toggle)
 	s->ordinal = ++counter;
     s->keystr = (char *) scstring;
-    s->type = strtokeytype(scstring);
     assign_keyinfo(s);
 
 #ifdef DEBUG
@@ -400,41 +399,31 @@ functionptrtype func_from_key(int *kbinput)
 	return NULL;
 }
 
-/* Return the type of command key based on the given string. */
-key_type strtokeytype(const char *str)
-{
-    if (str[0] == '^')
-	return CONTROL;
-    else if (str[0] == 'M')
-	return META;
-    else if (str[0] == 'F')
-	return FKEY;
-    else
-	return RAWINPUT;
-}
-
 /* Assign the info to the shortcut struct.
  * Assumes keystr is already assigned, naturally. */
 void assign_keyinfo(sc *s)
 {
-    if (s->type == CONTROL) {
+    s->type = DIRECT;
+
+    if (s->keystr[0] == '^') {
 	assert(strlen(s->keystr) > 1);
 	s->seq = s->keystr[1] - 64;
-    } else if (s->type == META) {
+    } else if (s->keystr[0] == 'M') {
 	assert(strlen(s->keystr) > 2);
+	s->type = META;
 	s->seq = tolower((int) s->keystr[2]);
-    } else if (s->type == FKEY) {
+    } else if (s->keystr[0] == 'F') {
 	assert(strlen(s->keystr) > 1);
 	s->seq = KEY_F0 + atoi(&s->keystr[1]);
     } else /* RAWINPUT */
 	s->seq = (int) s->keystr[0];
 
     /* Override some keys which don't bind as easily as we'd like. */
-    if (s->type == CONTROL && (!strcasecmp(&s->keystr[1], "space")))
+    if (strcasecmp(s->keystr, "^Space") == 0)
 	s->seq = 0;
-    else if (s->type == META && (!strcasecmp(&s->keystr[2], "space")))
+    else if (strcasecmp(s->keystr, "M-Space") == 0)
 	s->seq = (int) ' ';
-    else if (s->type == RAWINPUT) {
+    else {
 	if (!strcasecmp(s->keystr, "Up"))
 	    s->seq = KEY_UP;
 	else if (!strcasecmp(s->keystr, "Down"))

@@ -472,7 +472,6 @@ void parse_binding(char *ptr, bool dobind)
 
 	newsc->keystr = keycopy;
 	newsc->menus = menu;
-	newsc->type = strtokeytype(newsc->keystr);
 	assign_keyinfo(newsc);
 
 	/* Do not allow rebinding the equivalent of the Escape key. */

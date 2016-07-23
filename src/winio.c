@@ -1563,7 +1563,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
 		const sc *s = first_sc_for(currmenu, f->scfunc);
-		unget_kbinput(s->seq, s->type == META, s->type == FKEY);
+		unget_kbinput(s->seq, s->type == META, s->type == DIRECT);
 	    }
 	    return 1;
 	} else
