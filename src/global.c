@@ -339,8 +339,7 @@ void add_to_sclist(int menus, const char *scstring, void (*func)(void), int togg
     s->toggle = toggle;
     if (toggle)
 	s->ordinal = ++counter;
-    s->keystr = (char *) scstring;
-    assign_keyinfo(s);
+    assign_keyinfo(s, scstring);
 
 #ifdef DEBUG
     fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menus %x\n", s->seq, scstring, s->menus);
@@ -381,7 +380,7 @@ int sc_seq_or(void (*func)(void), int defaultval)
     const sc *s = first_sc_for(currmenu, func);
 
     if (s) {
-	meta_key = (s->type == META);
+	meta_key = s->meta;
 	return s->seq;
     }
     /* else */
@@ -399,18 +398,17 @@ functionptrtype func_from_key(int *kbinput)
 	return NULL;
 }
 
-/* Assign the info to the shortcut struct.
- * Assumes keystr is already assigned, naturally. */
-void assign_keyinfo(sc *s)
+/* Set the string and its corresponding keycode for the given shortcut s. */
+void assign_keyinfo(sc *s, const char *keystring)
 {
-    s->type = DIRECT;
+    s->keystr = (char *)keystring;
+    s->meta = (keystring[0] == 'M');
 
     if (s->keystr[0] == '^') {
 	assert(strlen(s->keystr) > 1);
 	s->seq = s->keystr[1] - 64;
-    } else if (s->keystr[0] == 'M') {
+    } else if (s->meta) {
 	assert(strlen(s->keystr) > 2);
-	s->type = META;
 	s->seq = tolower((int) s->keystr[2]);
     } else if (s->keystr[0] == 'F') {
 	assert(strlen(s->keystr) > 1);

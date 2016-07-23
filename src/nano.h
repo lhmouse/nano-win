@@ -188,10 +188,6 @@ typedef enum {
 } update_type;
 
 typedef enum {
-    DIRECT, META
-}  key_type;
-
-typedef enum {
     ADD, DEL, BACK, CUT, CUT_EOF, REPLACE,
 #ifndef DISABLE_WRAPPING
     SPLIT_BEGIN, SPLIT_END,
@@ -441,8 +437,8 @@ typedef struct rcoption {
 typedef struct sc {
     char *keystr;
 	/* The shortcut key for a function, ASCII version. */
-    key_type type;
-	/* What kind of command key it is, for convenience later. */
+    bool meta;
+	/* Whether this is a Meta keystroke. */
     int seq;
 	/* The actual sequence to check once the type is determined. */
     int menus;

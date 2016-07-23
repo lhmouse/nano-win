@@ -1558,7 +1558,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
 		const sc *s = first_sc_for(currmenu, f->scfunc);
-		unget_kbinput(s->seq, s->type == META);
+		unget_kbinput(s->seq, s->meta);
 	    }
 	    return 1;
 	} else
@@ -1616,8 +1616,8 @@ const sc *get_shortcut(int *kbinput)
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
-	if ((s->menus & currmenu) && *kbinput == s->seq
-		&& meta_key == (s->type == META)) {
+	if ((s->menus & currmenu) && *kbinput == s->seq &&
+					meta_key == s->meta) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq '%s'  (menu is %x from %x)\n",
 				s->keystr, currmenu, s->menus);
