@@ -1230,7 +1230,7 @@ long add_unicode_digit(int kbinput, long factor, long *uni)
 /* Translate a Unicode sequence: turn a six-digit hexadecimal number
  * (from 000000 to 10FFFF, case-insensitive) into its corresponding
  * multibyte value. */
-long get_unicode_kbinput(int kbinput)
+long get_unicode_kbinput(WINDOW *win, int kbinput)
 {
     static int uni_digits = 0;
     static long uni = 0;
@@ -1290,11 +1290,23 @@ long get_unicode_kbinput(int kbinput)
 	    break;
     }
 
-    /* If we have a result, reset the Unicode digit counter and the
+    /* If we have a full result, reset the Unicode digit counter and the
      * Unicode sequence holder. */
     if (retval != ERR) {
 	uni_digits = 0;
 	uni = 0;
+    }
+    /* Show feedback only when editing, not when at a prompt. */
+    else if (win == edit) {
+	char partial[7] = "......";
+
+	/* Construct the partial result, right-padding it with dots. */
+	snprintf(partial, uni_digits + 1, "%06lX", uni);
+	partial[uni_digits] = '.';
+
+	/* TRANSLATORS: This is shown while a six-digit hexadecimal
+	 * Unicode character code (%s) is being typed in. */
+	statusline(HUSH, _("Unicode Input: %s"), partial);
     }
 
 #ifdef DEBUG
@@ -1413,7 +1425,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     if (using_utf8()) {
 	/* Check whether the first keystroke is a valid hexadecimal
 	 * digit. */
-	long uni = get_unicode_kbinput(*kbinput);
+	long uni = get_unicode_kbinput(win, *kbinput);
 
 	/* If the first keystroke isn't a valid hexadecimal digit, put
 	 * back the first keystroke. */
@@ -1427,16 +1439,11 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	    char *uni_mb;
 	    int uni_mb_len, *seq, i;
 
-	    if (win == edit)
-		/* TRANSLATORS: This is displayed during the input of a
-		 * six-digit hexadecimal Unicode character code. */
-		statusbar(_("Unicode Input"));
-
 	    while (uni == ERR) {
 		free(kbinput);
 		while ((kbinput = get_input(win, 1)) == NULL)
 		    ;
-		uni = get_unicode_kbinput(*kbinput);
+		uni = get_unicode_kbinput(win, *kbinput);
 	    }
 
 	    /* Put back the multibyte equivalent of the Unicode

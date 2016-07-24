@@ -775,7 +775,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput);
 int get_byte_kbinput(int kbinput);
 #ifdef ENABLE_UTF8
 long add_unicode_digit(int kbinput, long factor, long *uni);
-long get_unicode_kbinput(int kbinput);
+long get_unicode_kbinput(WINDOW *win, int kbinput);
 #endif
 int get_control_kbinput(int kbinput);
 void unparse_kbinput(char *output, size_t output_len);
