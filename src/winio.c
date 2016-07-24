@@ -1290,12 +1290,9 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
 	    break;
     }
 
-    /* If we have a full result, reset the Unicode digit counter and the
-     * Unicode sequence holder. */
-    if (retval != ERR) {
+    /* If we have a full result, reset the Unicode digit counter. */
+    if (retval != ERR)
 	uni_digits = 0;
-	uni = 0;
-    }
     /* Show feedback only when editing, not when at a prompt. */
     else if (win == edit) {
 	char partial[7] = "......";
