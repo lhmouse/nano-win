@@ -1290,11 +1290,8 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
 	    break;
     }
 
-    /* If we have a full result, reset the Unicode digit counter. */
-    if (retval != ERR)
-	uni_digits = 0;
     /* Show feedback only when editing, not when at a prompt. */
-    else if (win == edit) {
+    if (retval == ERR && win == edit) {
 	char partial[7] = "......";
 
 	/* Construct the partial result, right-padding it with dots. */
@@ -1307,8 +1304,13 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %ld, retval = %ld\n", kbinput, uni_digits, uni, retval);
+    fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %ld, retval = %ld\n",
+						kbinput, uni_digits, uni, retval);
 #endif
+
+    /* If we have an end result, reset the Unicode digit counter. */
+    if (retval != ERR)
+	uni_digits = 0;
 
     return retval;
 }
