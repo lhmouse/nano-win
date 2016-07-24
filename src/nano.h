@@ -436,11 +436,11 @@ typedef struct rcoption {
 
 typedef struct sc {
     char *keystr;
-	/* The shortcut key for a function, ASCII version. */
+	/* The string that describes a keystroke, like "^C" or "M-R". */
     bool meta;
 	/* Whether this is a Meta keystroke. */
-    int seq;
-	/* The actual sequence to check once the type is determined. */
+    int keycode;
+	/* The integer that, together with meta, identifies the keystroke. */
     int menus;
 	/* Which menus this applies to. */
     void (*scfunc)(void);

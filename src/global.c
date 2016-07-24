@@ -342,7 +342,7 @@ void add_to_sclist(int menus, const char *scstring, void (*func)(void), int togg
     assign_keyinfo(s, scstring);
 
 #ifdef DEBUG
-    fprintf(stderr, "Setting sequence to %d for shortcut \"%s\" in menus %x\n", s->seq, scstring, s->menus);
+    fprintf(stderr, "Setting keycode to %d for shortcut \"%s\" in menus %x\n", s->keycode, scstring, s->menus);
 #endif
 }
 
@@ -381,7 +381,7 @@ int sc_seq_or(void (*func)(void), int defaultval)
 
     if (s) {
 	meta_key = s->meta;
-	return s->seq;
+	return s->keycode;
     }
     /* else */
     return defaultval;
@@ -406,51 +406,51 @@ void assign_keyinfo(sc *s, const char *keystring)
 
     if (s->keystr[0] == '^') {
 	assert(strlen(s->keystr) > 1);
-	s->seq = s->keystr[1] - 64;
+	s->keycode = s->keystr[1] - 64;
     } else if (s->meta) {
 	assert(strlen(s->keystr) > 2);
-	s->seq = tolower((int) s->keystr[2]);
+	s->keycode = tolower((int) s->keystr[2]);
     } else if (s->keystr[0] == 'F') {
 	assert(strlen(s->keystr) > 1);
-	s->seq = KEY_F0 + atoi(&s->keystr[1]);
+	s->keycode = KEY_F0 + atoi(&s->keystr[1]);
     } else /* RAWINPUT */
-	s->seq = (int) s->keystr[0];
+	s->keycode = (int) s->keystr[0];
 
     /* Override some keys which don't bind as easily as we'd like. */
     if (strcasecmp(s->keystr, "^Space") == 0)
-	s->seq = 0;
+	s->keycode = 0;
     else if (strcasecmp(s->keystr, "M-Space") == 0)
-	s->seq = (int) ' ';
+	s->keycode = (int) ' ';
     else {
 	if (!strcasecmp(s->keystr, "Up"))
-	    s->seq = KEY_UP;
+	    s->keycode = KEY_UP;
 	else if (!strcasecmp(s->keystr, "Down"))
-	    s->seq = KEY_DOWN;
+	    s->keycode = KEY_DOWN;
 	else if (!strcasecmp(s->keystr, "Left"))
-	    s->seq = KEY_LEFT;
+	    s->keycode = KEY_LEFT;
 	else if (!strcasecmp(s->keystr, "Right"))
-	    s->seq = KEY_RIGHT;
+	    s->keycode = KEY_RIGHT;
 	else if (!strcasecmp(s->keystr, "Ins"))
-	    s->seq = KEY_IC;
+	    s->keycode = KEY_IC;
 	else if (!strcasecmp(s->keystr, "Del"))
-	    s->seq = KEY_DC;
+	    s->keycode = KEY_DC;
 	else if (!strcasecmp(s->keystr, "Bsp"))
-	    s->seq = KEY_BACKSPACE;
+	    s->keycode = KEY_BACKSPACE;
 	/* The Tab and Enter keys don't actually produce special codes
 	 * but the exact integer values of ^I and ^M.  Rebinding the
 	 * latter therefore also rebinds Tab and Enter. */
 	else if (!strcasecmp(s->keystr, "Tab"))
-	    s->seq = NANO_CONTROL_I;
+	    s->keycode = NANO_CONTROL_I;
 	else if (!strcasecmp(s->keystr, "Enter"))
-	    s->seq = KEY_ENTER;
+	    s->keycode = KEY_ENTER;
 	else if (!strcasecmp(s->keystr, "PgUp"))
-	    s->seq = KEY_PPAGE;
+	    s->keycode = KEY_PPAGE;
 	else if (!strcasecmp(s->keystr, "PgDn"))
-	    s->seq = KEY_NPAGE;
+	    s->keycode = KEY_NPAGE;
 	else if (!strcasecmp(s->keystr, "Home"))
-	    s->seq = KEY_HOME;
+	    s->keycode = KEY_HOME;
 	else if (!strcasecmp(s->keystr, "End"))
-	    s->seq = KEY_END;
+	    s->keycode = KEY_END;
     }
 }
 

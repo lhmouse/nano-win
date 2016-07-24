@@ -474,14 +474,14 @@ void parse_binding(char *ptr, bool dobind)
 	assign_keyinfo(newsc, keycopy);
 
 	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
-	if (newsc->meta && newsc->seq == 91) {
+	if (newsc->meta && newsc->keycode == 91) {
 	    rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
 	    free(newsc);
 	    goto free_copy;
 	}
 #ifdef DEBUG
 	fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
-	fprintf(stderr, "s->seq = \"%d\"\n", newsc->seq);
+	fprintf(stderr, "s->keycode = \"%d\"\n", newsc->keycode);
 #endif
     }
 

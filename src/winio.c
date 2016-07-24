@@ -591,7 +591,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	    /* Slang doesn't support KEY_CANCEL. */
 	    case KEY_CANCEL:
-		retval = first_sc_for(currmenu, do_cancel)->seq;
+		retval = first_sc_for(currmenu, do_cancel)->keycode;
 		break;
 #endif
 #ifdef KEY_SUSPEND
@@ -1558,7 +1558,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
 		const sc *s = first_sc_for(currmenu, f->scfunc);
-		unget_kbinput(s->seq, s->meta);
+		unget_kbinput(s->keycode, s->meta);
 	    }
 	    return 1;
 	} else
@@ -1616,7 +1616,7 @@ const sc *get_shortcut(int *kbinput)
 #endif
 
     for (s = sclist; s != NULL; s = s->next) {
-	if ((s->menus & currmenu) && *kbinput == s->seq &&
+	if ((s->menus & currmenu) && *kbinput == s->keycode &&
 					meta_key == s->meta) {
 #ifdef DEBUG
 	    fprintf (stderr, "matched seq '%s'  (menu is %x from %x)\n",
