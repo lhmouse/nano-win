@@ -1241,50 +1241,36 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
 
     switch (uni_digits) {
 	case 1:
-	    /* First digit: This must be zero or one.  Put it in the
-	     * 0x100000's position of the Unicode sequence holder. */
-	    if ('0' <= kbinput && kbinput <= '1')
+	    /* The first digit must be zero or one.  Put it in the
+	     * 0x100000's position of the Unicode sequence holder.
+	     * Otherwise, return the character itself as the result. */
+	    if (kbinput == '0' || kbinput == '1')
 		uni = (kbinput - '0') * 0x100000;
 	    else
-		/* This isn't the first digit of a Unicode sequence.
-		 * Return this character as the result. */
 		retval = kbinput;
 	    break;
 	case 2:
-	    /* Second digit: This must be zero if the first was one, and
-	     * may be any hexadecimal value if the first was zero.  Put
-	     * it in the 0x10000's position of the Unicode sequence
-	     * holder. */
-	    if (uni == 0 || '0' == kbinput)
+	    /* The second digit must be zero if the first was one, but
+	     * may be any hexadecimal value if the first was zero. */
+	    if (kbinput == '0' || uni == 0)
 		retval = add_unicode_digit(kbinput, 0x10000, &uni);
 	    else
-		/* This isn't the second digit of a Unicode sequence.
-		 * Return this character as the result. */
 		retval = kbinput;
 	    break;
 	case 3:
-	    /* Third digit: This may be any hexadecimal value.  Put it
-	     * in the 0x1000's position of the Unicode sequence
-	     * holder. */
+	    /* Later digits may be any hexadecimal value. */
 	    retval = add_unicode_digit(kbinput, 0x1000, &uni);
 	    break;
 	case 4:
-	    /* Fourth digit: This may be any hexadecimal value.  Put it
-	     * in the 0x100's position of the Unicode sequence
-	     * holder. */
 	    retval = add_unicode_digit(kbinput, 0x100, &uni);
 	    break;
 	case 5:
-	    /* Fifth digit: This may be any hexadecimal value.  Put it
-	     * in the 0x10's position of the Unicode sequence holder. */
 	    retval = add_unicode_digit(kbinput, 0x10, &uni);
 	    break;
 	case 6:
-	    /* Sixth digit: This may be any hexadecimal value.  Put it
-	     * in the 0x1's position of the Unicode sequence holder. */
 	    retval = add_unicode_digit(kbinput, 0x1, &uni);
-	    /* If this character is a valid hexadecimal value, then the
-	     * Unicode sequence is complete. */
+	    /* If also the sixth digit was a valid hexadecimal value, then
+	     * the Unicode sequence is complete, so return it. */
 	    if (retval == ERR)
 		retval = uni;
 	    break;
