@@ -1399,12 +1399,14 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     while ((kbinput = get_input(win, 1)) == NULL)
 	;
 
+#ifndef NANO_TINY
     /* When the window was resized, abort and return nothing. */
     if (*kbinput == KEY_WINCH) {
 	*kbinput_len = 0;
 	free(kbinput);
 	return NULL;
     }
+#endif
 
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
