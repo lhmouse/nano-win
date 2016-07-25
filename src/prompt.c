@@ -145,36 +145,34 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		do_statusbar_home();
 	    else if (s->scfunc == do_end)
 		do_statusbar_end();
+	    /* When in restricted mode at the "Write File" prompt and the
+	     * filename isn't blank, disallow any input and deletion. */
 	    else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
 				openfile->filename[0] != '\0' &&
 				(s->scfunc == do_verbatim_input ||
 				s->scfunc == do_cut_text_void ||
 				s->scfunc == do_delete ||
 				s->scfunc == do_backspace))
-		/* When in restricted mode and at the "Write File" prompt
-		 * and the filename isn't blank, disallow verbatim input
-		 * and disallow all forms of deletion. */
 		;
 	    else if (s->scfunc == do_verbatim_input) {
-		    bool got_newline = FALSE;
+		bool got_newline = FALSE;
 			/* Whether we got a verbatim ^J. */
 
-		    do_statusbar_verbatim_input(&got_newline);
+		do_statusbar_verbatim_input(&got_newline);
 
-		    /* If we got a verbatim ^J, remove it from the input
-		     * buffer, set input to the key value for Enter, and
-		     * set finished to TRUE to indicate that we're done. */
-		    if (got_newline) {
-			get_input(NULL, 1);
-			input = sc_seq_or(do_enter, 0);
-			*finished = TRUE;
-		    }
+		/* If we got a verbatim ^J, remove it from the input buffer,
+		 * fake a press of Enter, and indicate that we're done. */
+		if (got_newline) {
+		    get_input(NULL, 1);
+		    input = sc_seq_or(do_enter, 0);
+		    *finished = TRUE;
+		}
 	    } else if (s->scfunc == do_cut_text_void) {
-		    do_statusbar_cut_text();
+		do_statusbar_cut_text();
 	    } else if (s->scfunc == do_delete) {
-		    do_statusbar_delete();
+		do_statusbar_delete();
 	    } else if (s->scfunc == do_backspace) {
-		    do_statusbar_backspace();
+		do_statusbar_backspace();
 	    } else {
 		/* Handle any other shortcut in the current menu, setting
 		 * ran_func to TRUE if we try to run their associated
