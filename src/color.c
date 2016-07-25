@@ -80,7 +80,7 @@ void set_colorpairs(void)
      * its pair number, giving identical color pairs the same number. */
     for (sint = syntaxes; sint != NULL; sint = sint->next) {
 	colortype *ink;
-	int clr_pair = NUMBER_OF_ELEMENTS + 1;
+	int new_number = NUMBER_OF_ELEMENTS + 1;
 
 	for (ink = sint->color; ink != NULL; ink = ink->next) {
 	    const colortype *beforenow = sint->color;
@@ -92,10 +92,8 @@ void set_colorpairs(void)
 
 	    if (beforenow != ink)
 		ink->pairnum = beforenow->pairnum;
-	    else {
-		ink->pairnum = clr_pair;
-		clr_pair++;
-	    }
+	    else
+		ink->pairnum = new_number++;
 
 	    ink->attributes = COLOR_PAIR(ink->pairnum) |
 				(ink->bright ? A_BOLD : A_NORMAL);
