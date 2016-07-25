@@ -404,19 +404,16 @@ void assign_keyinfo(sc *s, const char *keystring)
     s->keystr = (char *)keystring;
     s->meta = (keystring[0] == 'M');
 
-    if (s->keystr[0] == '^') {
-	assert(strlen(s->keystr) > 1);
-	s->keycode = s->keystr[1] - 64;
-    } else if (s->meta) {
-	assert(strlen(s->keystr) > 2);
-	s->keycode = tolower((int) s->keystr[2]);
-    } else if (s->keystr[0] == 'F') {
-	assert(strlen(s->keystr) > 1);
-	s->keycode = KEY_F0 + atoi(&s->keystr[1]);
-    } else /* RAWINPUT */
-	s->keycode = (int) s->keystr[0];
+    assert(strlen(keystring) > 1 && (!s->meta || strlen(keystring) > 2));
 
-    /* Override some keys which don't bind as easily as we'd like. */
+    if (keystring[0] == '^')
+	s->keycode = s->keystr[1] - 64;
+    else if (s->meta)
+	s->keycode = tolower((int) s->keystr[2]);
+    else if (keystring[0] == 'F')
+	s->keycode = KEY_F0 + atoi(&s->keystr[1]);
+
+    /* Catch the strings that don't bind as easily as we'd like. */
     if (strcasecmp(s->keystr, "^Space") == 0)
 	s->keycode = 0;
     else if (strcasecmp(s->keystr, "M-Space") == 0)
