@@ -131,13 +131,6 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 	    else if (s->scfunc == total_refresh) {
 		total_redraw();
 		refresh_func();
-	    } else if (s->scfunc == do_cut_text_void) {
-		/* If we're using restricted mode, the filename
-		 * isn't blank, and we're at the "Write File"
-		 * prompt, disable Cut. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
-			currmenu != MWRITEFILE)
-		    do_statusbar_cut_text();
 	    } else if (s->scfunc == do_left)
 		do_statusbar_left();
 	    else if (s->scfunc == do_right)
@@ -172,6 +165,13 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 			*finished = TRUE;
 		    }
 		}
+	    } else if (s->scfunc == do_cut_text_void) {
+		/* If we're using restricted mode, the filename
+		 * isn't blank, and we're at the "Write File"
+		 * prompt, disable Cut. */
+		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
+			currmenu != MWRITEFILE)
+		    do_statusbar_cut_text();
 	    } else if (s->scfunc == do_delete) {
 		/* If we're using restricted mode, the filename
 		 * isn't blank, and we're at the "Write File"
