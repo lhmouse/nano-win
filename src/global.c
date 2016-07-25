@@ -418,37 +418,35 @@ void assign_keyinfo(sc *s, const char *keystring)
 	s->keycode = 0;
     else if (strcasecmp(s->keystr, "M-Space") == 0)
 	s->keycode = (int) ' ';
-    else {
-	if (!strcasecmp(s->keystr, "Up"))
-	    s->keycode = KEY_UP;
-	else if (!strcasecmp(s->keystr, "Down"))
-	    s->keycode = KEY_DOWN;
-	else if (!strcasecmp(s->keystr, "Left"))
-	    s->keycode = KEY_LEFT;
-	else if (!strcasecmp(s->keystr, "Right"))
-	    s->keycode = KEY_RIGHT;
-	else if (!strcasecmp(s->keystr, "Ins"))
-	    s->keycode = KEY_IC;
-	else if (!strcasecmp(s->keystr, "Del"))
-	    s->keycode = KEY_DC;
-	else if (!strcasecmp(s->keystr, "Bsp"))
-	    s->keycode = KEY_BACKSPACE;
-	/* The Tab and Enter keys don't actually produce special codes
-	 * but the exact integer values of ^I and ^M.  Rebinding the
-	 * latter therefore also rebinds Tab and Enter. */
-	else if (!strcasecmp(s->keystr, "Tab"))
-	    s->keycode = NANO_CONTROL_I;
-	else if (!strcasecmp(s->keystr, "Enter"))
-	    s->keycode = KEY_ENTER;
-	else if (!strcasecmp(s->keystr, "PgUp"))
-	    s->keycode = KEY_PPAGE;
-	else if (!strcasecmp(s->keystr, "PgDn"))
-	    s->keycode = KEY_NPAGE;
-	else if (!strcasecmp(s->keystr, "Home"))
-	    s->keycode = KEY_HOME;
-	else if (!strcasecmp(s->keystr, "End"))
-	    s->keycode = KEY_END;
-    }
+    else if (!strcasecmp(s->keystr, "Up"))
+	s->keycode = KEY_UP;
+    else if (!strcasecmp(s->keystr, "Down"))
+	s->keycode = KEY_DOWN;
+    else if (!strcasecmp(s->keystr, "Left"))
+	s->keycode = KEY_LEFT;
+    else if (!strcasecmp(s->keystr, "Right"))
+	s->keycode = KEY_RIGHT;
+    else if (!strcasecmp(s->keystr, "Ins"))
+	s->keycode = KEY_IC;
+    else if (!strcasecmp(s->keystr, "Del"))
+	s->keycode = KEY_DC;
+    else if (!strcasecmp(s->keystr, "Bsp"))
+	s->keycode = KEY_BACKSPACE;
+    /* The Tab and Enter keys don't actually produce special codes
+     * but the exact integer values of ^I and ^M.  Rebinding the
+     * latter therefore also rebinds Tab and Enter. */
+    else if (!strcasecmp(s->keystr, "Tab"))
+	s->keycode = NANO_CONTROL_I;
+    else if (!strcasecmp(s->keystr, "Enter"))
+	s->keycode = KEY_ENTER;
+    else if (!strcasecmp(s->keystr, "PgUp"))
+	s->keycode = KEY_PPAGE;
+    else if (!strcasecmp(s->keystr, "PgDn"))
+	s->keycode = KEY_NPAGE;
+    else if (!strcasecmp(s->keystr, "Home"))
+	s->keycode = KEY_HOME;
+    else if (!strcasecmp(s->keystr, "End"))
+	s->keycode = KEY_END;
 }
 
 #ifdef DEBUG
