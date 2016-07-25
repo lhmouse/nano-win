@@ -145,12 +145,17 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		do_statusbar_home();
 	    else if (s->scfunc == do_end)
 		do_statusbar_end();
+	    else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
+				openfile->filename[0] != '\0' &&
+				(s->scfunc == do_verbatim_input ||
+				s->scfunc == do_cut_text_void ||
+				s->scfunc == do_delete ||
+				s->scfunc == do_backspace))
+		/* When in restricted mode and at the "Write File" prompt
+		 * and the filename isn't blank, disallow verbatim input
+		 * and disallow all forms of deletion. */
+		;
 	    else if (s->scfunc == do_verbatim_input) {
-		/* If we're using restricted mode, the filename
-		 * isn't blank, and we're at the "Write File"
-		 * prompt, disable verbatim input. */
-		if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
-			openfile->filename[0] == '\0') {
 		    bool got_newline = FALSE;
 			/* Whether we got a verbatim ^J. */
 
@@ -164,27 +169,11 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 			input = sc_seq_or(do_enter, 0);
 			*finished = TRUE;
 		    }
-		}
 	    } else if (s->scfunc == do_cut_text_void) {
-		/* If we're using restricted mode, the filename
-		 * isn't blank, and we're at the "Write File"
-		 * prompt, disable Cut. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
-			currmenu != MWRITEFILE)
 		    do_statusbar_cut_text();
 	    } else if (s->scfunc == do_delete) {
-		/* If we're using restricted mode, the filename
-		 * isn't blank, and we're at the "Write File"
-		 * prompt, disable Delete. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
-			currmenu != MWRITEFILE)
 		    do_statusbar_delete();
 	    } else if (s->scfunc == do_backspace) {
-		/* If we're using restricted mode, the filename
-		 * isn't blank, and we're at the "Write File"
-		 * prompt, disable Backspace. */
-		if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
-			currmenu != MWRITEFILE)
 		    do_statusbar_backspace();
 	    } else {
 		/* Handle any other shortcut in the current menu, setting
