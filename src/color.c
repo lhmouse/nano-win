@@ -38,7 +38,7 @@
  * for the colors in each syntax. */
 void set_colorpairs(void)
 {
-    const syntaxtype *this_syntax = syntaxes;
+    const syntaxtype *sint;
     bool using_defaults = FALSE;
     short foreground, background;
     size_t i;
@@ -78,28 +78,27 @@ void set_colorpairs(void)
 
     /* For each syntax, go through its list of colors and assign each
      * its pair number, giving identical color pairs the same number. */
-    for (; this_syntax != NULL; this_syntax = this_syntax->next) {
-	colortype *this_color = this_syntax->color;
+    for (sint = syntaxes; sint != NULL; sint = sint->next) {
+	colortype *ink;
 	int clr_pair = NUMBER_OF_ELEMENTS + 1;
 
-	for (; this_color != NULL; this_color = this_color->next) {
-	    const colortype *beforenow = this_syntax->color;
+	for (ink = sint->color; ink != NULL; ink = ink->next) {
+	    const colortype *beforenow = sint->color;
 
-	    while (beforenow != this_color &&
-			(beforenow->fg != this_color->fg ||
-			beforenow->bg != this_color->bg ||
-			beforenow->bright != this_color->bright))
+	    while (beforenow != ink && (beforenow->fg != ink->fg ||
+					beforenow->bg != ink->bg ||
+					beforenow->bright != ink->bright))
 		beforenow = beforenow->next;
 
-	    if (beforenow != this_color)
-		this_color->pairnum = beforenow->pairnum;
+	    if (beforenow != ink)
+		ink->pairnum = beforenow->pairnum;
 	    else {
-		this_color->pairnum = clr_pair;
+		ink->pairnum = clr_pair;
 		clr_pair++;
 	    }
 
-	    this_color->attributes = COLOR_PAIR(this_color->pairnum) |
-				(this_color->bright ? A_BOLD : A_NORMAL);
+	    ink->attributes = COLOR_PAIR(ink->pairnum) |
+				(ink->bright ? A_BOLD : A_NORMAL);
 	}
     }
 }
