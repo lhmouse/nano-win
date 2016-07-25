@@ -403,13 +403,7 @@ void do_end(void)
 
 /* If scroll_only is FALSE, move up one line.  If scroll_only is TRUE,
  * scroll up one line without scrolling the cursor. */
-void do_up(
-#ifndef NANO_TINY
-	bool scroll_only
-#else
-	void
-#endif
-	)
+void do_up(bool scroll_only)
 {
     /* If we're at the top of the file, or if scroll_only is TRUE and
      * the top of the file is onscreen, get out. */
@@ -455,30 +449,12 @@ void do_up(
 /* Move up one line. */
 void do_up_void(void)
 {
-    do_up(
-#ifndef NANO_TINY
-	FALSE
-#endif
-	);
+    do_up(FALSE);
 }
-
-#ifndef NANO_TINY
-/* Scroll up one line without scrolling the cursor. */
-void do_scroll_up(void)
-{
-    do_up(TRUE);
-}
-#endif
 
 /* If scroll_only is FALSE, move down one line.  If scroll_only is TRUE,
  * scroll down one line without scrolling the cursor. */
-void do_down(
-#ifndef NANO_TINY
-	bool scroll_only
-#else
-	void
-#endif
-	)
+void do_down(bool scroll_only)
 {
 #ifndef NANO_TINY
     int amount = 0, enough;
@@ -555,14 +531,16 @@ void do_down(
 /* Move down one line. */
 void do_down_void(void)
 {
-    do_down(
-#ifndef NANO_TINY
-	FALSE
-#endif
-	);
+    do_down(FALSE);
 }
 
 #ifndef NANO_TINY
+/* Scroll up one line without scrolling the cursor. */
+void do_scroll_up(void)
+{
+    do_up(TRUE);
+}
+
 /* Scroll down one line without scrolling the cursor. */
 void do_scroll_down(void)
 {
