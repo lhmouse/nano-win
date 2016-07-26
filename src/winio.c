@@ -2604,14 +2604,14 @@ int update_line(filestruct *fileptr, size_t index)
 
 /* Return TRUE if we need an update after moving the cursor, and
  * FALSE otherwise.  We need an update if the mark is on, or if
- * pww_save and placewewant are on different pages. */
-bool need_screen_update(size_t pww_save)
+ * old_column and new_column are on different pages. */
+bool need_screen_update(const size_t old_column, const size_t new_column)
 {
     return
 #ifndef NANO_TINY
 	openfile->mark_set ||
 #endif
-	get_page_start(pww_save) != get_page_start(openfile->placewewant);
+	get_page_start(old_column) != get_page_start(new_column);
 }
 
 /* When edittop changes, try and figure out how many lines
@@ -2740,7 +2740,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     for (i = nlines; i > 0 && foo != NULL; i--) {
 	if ((i == nlines && direction == DOWNWARD) || (i == 1 &&
 		direction == UPWARD)) {
-	    if (need_screen_update(0))
+	    if (need_screen_update(openfile->placewewant, 0))
 		update_line(foo, (foo == openfile->current) ?
 			openfile->current_x : 0);
 	} else
@@ -2786,7 +2786,8 @@ void edit_redraw(filestruct *old_current)
 
     /* Update current if we've changed page, or if it differs from
      * old_current and needs to be horizontally scrolled. */
-    if (need_screen_update(was_pww) || (old_current != openfile->current &&
+    if (need_screen_update(was_pww, openfile->placewewant) ||
+			(old_current != openfile->current &&
 			get_page_start(openfile->placewewant) > 0))
 	update_line(openfile->current, openfile->current_x);
 }
