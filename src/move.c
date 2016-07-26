@@ -385,7 +385,7 @@ void do_home(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_screen_update(was_column, openfile->placewewant))
+    if (need_horizontal_scroll(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -397,7 +397,7 @@ void do_end(void)
     openfile->current_x = strlen(openfile->current->data);
     openfile->placewewant = xplustabs();
 
-    if (need_screen_update(was_column, openfile->placewewant))
+    if (need_horizontal_scroll(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -439,12 +439,11 @@ void do_up(bool scroll_only)
 #endif
 		editwinrows / 2 + 1);
 
-    /* If we're not on the first line of the edit window, and the target
-     * column is beyond the screen or the mark is on, redraw the prior
-     * and current lines. */
-    if (need_screen_update(was_column, 0))
+    /* Redraw the prior line if it was horizontally scrolled. */
+    if (need_horizontal_scroll(was_column, 0))
 	update_line(openfile->current->next, 0);
-    if (need_screen_update(0, xplustabs()))
+    /* Redraw the current line if it needs to be horizontally scrolled. */
+    if (need_horizontal_scroll(0, xplustabs()))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -522,12 +521,11 @@ void do_down(bool scroll_only)
 	}
     }
 
-    /* If we're not on the last line of the edit window, and the target
-     * column is beyond the screen or the mark is on, redraw the prior
-     * and current lines. */
-    if (need_screen_update(was_column, 0))
+    /* Redraw the prior line if it was horizontally scrolled. */
+    if (need_horizontal_scroll(was_column, 0))
 	update_line(openfile->current->prev, 0);
-    if (need_screen_update(0, xplustabs()))
+    /* Redraw the current line if it needs to be horizontally scrolled. */
+    if (need_horizontal_scroll(0, xplustabs()))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -566,7 +564,7 @@ void do_left(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_screen_update(was_column, openfile->placewewant))
+    if (need_horizontal_scroll(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -583,7 +581,7 @@ void do_right(void)
     else if (openfile->current != openfile->filebot) {
 	openfile->current_x = 0;
 	openfile->placewewant = 0;
-	if (need_screen_update(was_column, 0))
+	if (need_horizontal_scroll(was_column, 0))
 	    update_line(openfile->current, 0);
 	do_down_void();
 	return;
@@ -591,6 +589,6 @@ void do_right(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_screen_update(was_column, openfile->placewewant))
+    if (need_horizontal_scroll(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
