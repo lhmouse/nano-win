@@ -439,12 +439,15 @@ void do_up(bool scroll_only)
 #endif
 		editwinrows / 2 + 1);
 
-    /* Redraw the prior line if it was horizontally scrolled. */
-    if (need_horizontal_scroll(was_column, 0))
-	update_line(openfile->current->next, 0);
-    /* Redraw the current line if it needs to be horizontally scrolled. */
-    if (need_horizontal_scroll(0, xplustabs()))
-	update_line(openfile->current, openfile->current_x);
+    /* If the lines weren't already redrawn, see if they need to be. */
+    if (openfile->current_y > 0) {
+	/* Redraw the prior line if it was horizontally scrolled. */
+	if (need_horizontal_scroll(was_column, 0))
+	    update_line(openfile->current->next, 0);
+	/* Redraw the current line if it needs to be horizontally scrolled. */
+	if (need_horizontal_scroll(0, xplustabs()))
+	    update_line(openfile->current, openfile->current_x);
+    }
 }
 
 /* Move up one line. */
@@ -521,12 +524,15 @@ void do_down(bool scroll_only)
 	}
     }
 
-    /* Redraw the prior line if it was horizontally scrolled. */
-    if (need_horizontal_scroll(was_column, 0))
-	update_line(openfile->current->prev, 0);
-    /* Redraw the current line if it needs to be horizontally scrolled. */
-    if (need_horizontal_scroll(0, xplustabs()))
-	update_line(openfile->current, openfile->current_x);
+    /* If the lines weren't already redrawn, see if they need to be. */
+    if (openfile->current_y < editwinrows - 1) {
+	/* Redraw the prior line if it was horizontally scrolled. */
+	if (need_horizontal_scroll(was_column, 0))
+	    update_line(openfile->current->prev, 0);
+	/* Redraw the current line if it needs to be horizontally scrolled. */
+	if (need_horizontal_scroll(0, xplustabs()))
+	    update_line(openfile->current, openfile->current_x);
+    }
 }
 
 /* Move down one line. */
