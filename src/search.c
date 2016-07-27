@@ -745,8 +745,8 @@ ssize_t do_replace_loop(
 	    }
 
 #ifdef HAVE_REGEX_H
-	    /* Don't find the same zero-length match again. */
-	    if (match_len == 0)
+	    /* Don't find the same zero-length or BOL match again. */
+	    if (match_len == 0 || (*needle == '^' && ISSET(USE_REGEXP)))
 		match_len++;
 #endif
 
