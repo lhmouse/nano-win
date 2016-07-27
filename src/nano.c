@@ -689,11 +689,14 @@ void die_save_file(const char *die_filename
     free(targetname);
 }
 
+#define TOP_ROWS    (ISSET(MORE_SPACE) ? 1 : 2)
+#define BOTTOM_ROWS    (ISSET(NO_HELP) ? 1 : 3)
+
 /* Initialize the three window portions nano uses. */
 void window_init(void)
 {
     /* If the screen height is too small, get out. */
-    editwinrows = LINES - 5 + more_space() + no_help();
+    editwinrows = LINES - TOP_ROWS - BOTTOM_ROWS;
     if (COLS < MIN_EDITOR_COLS || editwinrows < MIN_EDITOR_ROWS)
 	die(_("Window size is too small for nano...\n"));
 
@@ -714,10 +717,9 @@ void window_init(void)
 	delwin(bottomwin);
 
     /* Set up the windows. */
-    topwin = newwin(2 - more_space(), COLS, 0, 0);
-    edit = newwin(editwinrows, COLS, 2 - more_space(), 0);
-    bottomwin = newwin(3 - no_help(), COLS, editwinrows + (2 -
-	more_space()), 0);
+    topwin = newwin(TOP_ROWS, COLS, 0, 0);
+    edit = newwin(editwinrows, COLS, TOP_ROWS, 0);
+    bottomwin = newwin(BOTTOM_ROWS, COLS, TOP_ROWS + editwinrows, 0);
 
     /* Turn the keypad on for the windows, if necessary. */
     if (!ISSET(REBIND_KEYPAD)) {
@@ -1041,21 +1043,6 @@ void version(void)
     printf(" --with-slang");
 #endif
     printf("\n");
-}
-
-/* Return 1 if the MORE_SPACE flag is set, and 0 otherwise.  This is
- * used to calculate the sizes and Y coordinates of the subwindows. */
-int more_space(void)
-{
-    return ISSET(MORE_SPACE) ? 1 : 0;
-}
-
-/* Return 2 if the NO_HELP flag is set, and 0 otherwise.  This is used
- * to calculate the sizes and Y coordinates of the subwindows, because
- * having NO_HELP adds two lines to the edit window. */
-int no_help(void)
-{
-    return ISSET(NO_HELP) ? 2 : 0;
 }
 
 /* Indicate that the current file has no name, in a way that gets the

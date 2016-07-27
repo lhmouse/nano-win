@@ -476,8 +476,6 @@ void print_opt_full(const char *shortflag
 	, const char *desc);
 void usage(void);
 void version(void);
-int more_space(void);
-int no_help(void);
 void no_current_file_name_warning(void);
 void do_exit(void);
 void close_and_go(void);
