@@ -600,14 +600,12 @@ char *replace_line(const char *needle)
     return copy;
 }
 
-/* Step through each replace word and prompt user before replacing.
- * Parameters real_current and real_current_x are needed in order to
+/* Step through each occurrence of the search string and prompt the user
+ * before replacing it.  We seek for needle, and replace it with answer.
+ * The parameters real_current and real_current_x are needed in order to
  * allow the cursor position to be updated when a word before the cursor
- * is replaced by a shorter word.
- *
- * needle is the string to seek.  We replace it with answer.  Return -1
- * if needle isn't found, else the number of replacements performed.  If
- * canceled isn't NULL, set it to TRUE if we canceled. */
+ * is replaced by a shorter word.  Return -1 if needle isn't found, -2 if
+ * the seeking is aborted, else the number of replacements performed. */
 ssize_t do_replace_loop(
 #ifndef DISABLE_SPELLER
 	bool whole_word_only,
@@ -626,8 +624,8 @@ ssize_t do_replace_loop(
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
 
+    /* If the mark is on, frame the region, and turn the mark off. */
     if (old_mark_set) {
-	/* If the mark is on, frame the region, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, &right_side_up);
 	openfile->mark_set = FALSE;
@@ -749,11 +747,9 @@ ssize_t do_replace_loop(
 	    if (match_len == 0 || (*needle == '^' && ISSET(USE_REGEXP)))
 		match_len++;
 #endif
-
 	    /* Set the cursor at the last character of the replacement
-	     * text, so searching will resume after the replacement
-	     * text.  Note that current_x might be set to (size_t)-1
-	     * here. */
+	     * text, so that searching will continue /after/ it.  Note
+	     * that current_x might be set to (size_t)-1 here. */
 #ifndef NANO_TINY
 	    if (!ISSET(BACKWARDS_SEARCH))
 #endif
