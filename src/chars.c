@@ -514,28 +514,37 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	while (*s1 != '\0' && *s2 != '\0' && n > 0) {
 	    bool bad1 = FALSE, bad2 = FALSE;
+	    int difference;
 
 	    if (mbtowc(&wc1, s1, MB_CUR_MAX) < 0) {
 		mbtowc_reset();
-		wc1 = (unsigned char)*s1;
 		bad1 = TRUE;
 	    }
 
 	    if (mbtowc(&wc2, s2, MB_CUR_MAX) < 0) {
 		mbtowc_reset();
-		wc2 = (unsigned char)*s2;
 		bad2 = TRUE;
 	    }
 
-	    if (bad1 != bad2 || towlower(wc1) != towlower(wc2))
-		break;
+	    if (bad1 || bad2) {
+		if (*s1 != *s2)
+		    return (unsigned char)*s1 - (unsigned char)*s2;
+
+		s1++; s2++; n--;
+		continue;
+	    }
+
+	    difference = towlower(wc1) - towlower(wc2);
+
+	    if (difference != 0)
+		return difference;
 
 	    s1 += move_mbright(s1, 0);
 	    s2 += move_mbright(s2, 0);
 	    n--;
 	}
 
-	return (n > 0) ? towlower(wc1) - towlower(wc2) : 0;
+	return (n > 0) ? ((unsigned char)*s1 - (unsigned char)*s2) : 0;
     } else
 #endif
 	return strncasecmp(s1, s2, n);
