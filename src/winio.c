@@ -1673,14 +1673,6 @@ void blank_titlebar(void)
     blank_line(topwin, 0, 0, COLS);
 }
 
-/* If the MORE_SPACE flag isn't set, blank the second line of the top
- * portion of the window. */
-void blank_topbar(void)
-{
-    if (!ISSET(MORE_SPACE))
-	blank_line(topwin, 1, 0, COLS);
-}
-
 /* Blank all the lines of the middle portion of the window, i.e. the
  * edit window. */
 void blank_edit(void)
@@ -3193,10 +3185,8 @@ void do_credits(void)
     nodelay(edit, TRUE);
 
     blank_titlebar();
-    blank_topbar();
     blank_edit();
     blank_statusbar();
-    blank_bottombars();
 
     wrefresh(topwin);
     wrefresh(edit);

@@ -785,7 +785,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 const sc *get_shortcut(int *kbinput);
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
-void blank_topbar(void);
 void blank_edit(void);
 void blank_statusbar(void);
 void blank_bottombars(void);
