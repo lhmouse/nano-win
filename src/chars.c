@@ -512,8 +512,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	assert(s1 != NULL && s2 != NULL);
 
-	for (; *s1 != '\0' && *s2 != '\0' && n > 0;
-		s1 += move_mbright(s1, 0), s2 += move_mbright(s2, 0), n--) {
+	while (*s1 != '\0' && *s2 != '\0' && n > 0) {
 	    bool bad1 = FALSE, bad2 = FALSE;
 
 	    if (mbtowc(&wc1, s1, MB_CUR_MAX) < 0) {
@@ -530,6 +529,10 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	    if (bad1 != bad2 || towlower(wc1) != towlower(wc2))
 		break;
+
+	    s1 += move_mbright(s1, 0);
+	    s2 += move_mbright(s2, 0);
+	    n--;
 	}
 
 	return (n > 0) ? towlower(wc1) - towlower(wc2) : 0;
