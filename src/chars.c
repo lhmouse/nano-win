@@ -510,9 +510,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
     if (use_utf8) {
 	wchar_t wc1, wc2;
 
-	if (s1 == s2)
-	    return 0;
-
 	assert(s1 != NULL && s2 != NULL);
 
 	for (; *s1 != '\0' && *s2 != '\0' && n > 0;
