@@ -668,13 +668,10 @@ int convert_sequence(const int *seq, size_t seq_len)
 	    case 'O':
 		switch (seq[1]) {
 		    case '1':
-			if (seq_len >= 3) {
-			    switch (seq[2]) {
-				case ';':
-    if (seq_len >= 4) {
+			if (seq_len > 4  && seq[2] == ';') {
+
 	switch (seq[3]) {
 	    case '2':
-		if (seq_len >= 5) {
 		    switch (seq[4]) {
 			case 'A': /* Esc O 1 ; 2 A == Shift-Up on
 				   * Terminal. */
@@ -694,10 +691,8 @@ int convert_sequence(const int *seq, size_t seq_len)
 			case 'S': /* Esc O 1 ; 2 S == F16 on Terminal. */
 			    return KEY_F(16);
 		    }
-		}
 		break;
 	    case '5':
-		if (seq_len >= 5) {
 		    switch (seq[4]) {
 			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
 			    return CONTROL_UP;
@@ -708,12 +703,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
 			    return CONTROL_LEFT;
 		    }
-		}
 		break;
 	}
-    }
-				    break;
-			    }
+
 			}
 			break;
 		    case '2':
