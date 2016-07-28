@@ -230,7 +230,6 @@ void do_prev_block(void)
 
     openfile->current_x = 0;
     edit_redraw(was_current);
-    do_home();
 }
 
 /* Move to the next block of text in the file. */
@@ -249,7 +248,6 @@ void do_next_block(void)
 
     openfile->current_x = 0;
     edit_redraw(was_current);
-    do_home();
 }
 
 /* Move to the previous word in the file.  If allow_punct is TRUE, treat
