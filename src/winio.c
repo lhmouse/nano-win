@@ -859,7 +859,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 	    case '[':
 		switch (seq[1]) {
 		    case '1':
-			if (seq_len >= 3) {
+			if (seq_len > 3 && seq[3] == '~') {
 			    switch (seq[2]) {
 				case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
 				    return KEY_F(1);
@@ -884,11 +884,11 @@ int convert_sequence(const int *seq, size_t seq_len)
 					   * VT220/VT320/Linux console/
 					   * xterm/rxvt/Eterm. */
 				    return KEY_F(8);
-				case ';':
-    if (seq_len >= 4) {
+			    }
+			} else if (seq_len > 4 && seq[2] == ';') {
+
 	switch (seq[3]) {
 	    case '2':
-		if (seq_len >= 5) {
 		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on xterm. */
 			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
@@ -896,10 +896,8 @@ int convert_sequence(const int *seq, size_t seq_len)
 			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
 			    return arrow_from_abcd(seq[4]);
 		    }
-		}
 		break;
 	    case '5':
-		if (seq_len >= 5) {
 		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
 			    return CONTROL_UP;
@@ -910,19 +908,15 @@ int convert_sequence(const int *seq, size_t seq_len)
 			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
 			    return CONTROL_LEFT;
 		    }
-		}
 		break;
 	}
-    }
-				    break;
-				default: /* Esc [ 1 ~ == Home on
-					  * VT320/Linux console. */
-				    return KEY_HOME;
-			    }
-			}
+
+			} else if (seq_len > 2 && seq[2] == '~')
+			    /* Esc [ 1 ~ == Home on VT320/Linux console. */
+			    return KEY_HOME;
 			break;
 		    case '2':
-			if (seq_len >= 3) {
+			if (seq_len > 3 && seq[3] == '~') {
 			    switch (seq[2]) {
 				case '0': /* Esc [ 2 0 ~ == F9 on VT220/VT320/
 					   * Linux console/xterm/rxvt/Eterm. */
@@ -948,11 +942,11 @@ int convert_sequence(const int *seq, size_t seq_len)
 				case '9': /* Esc [ 2 9 ~ == F16 on VT220/VT320/
 					   * Linux console/rxvt/Eterm. */
 				    return KEY_F(16);
-				default: /* Esc [ 2 ~ == Insert on VT220/VT320/
-					  * Linux console/xterm/Terminal. */
-				    return KEY_IC;
 			    }
-			}
+			} else if (seq_len > 2 && seq[2] == '~')
+			    /* Esc [ 2 ~ == Insert on VT220/VT320/
+			     * Linux console/xterm/Terminal. */
+			    return KEY_IC;
 			break;
 		    case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 			       * Linux console/xterm/Terminal. */
@@ -1009,7 +1003,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'N': /* Esc [ N == F2 on FreeBSD console. */
 			return KEY_F(2);
 		    case 'O':
-			if (seq_len >= 3) {
+			if (seq_len > 2) {
 			    switch (seq[2]) {
 				case 'P': /* Esc [ O P == F1 on xterm. */
 				    return KEY_F(1);
@@ -1052,7 +1046,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 			return arrow_from_abcd(seq[1]);
 		    case '[':
-			if (seq_len >= 3) {
+			if (seq_len > 2 ) {
 			    switch (seq[2]) {
 				case 'A': /* Esc [ [ A == F1 on Linux
 					   * console. */
