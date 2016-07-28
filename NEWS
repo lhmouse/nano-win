@@ -1,3 +1,16 @@
+2016.07.28 - nano 2.6.2 "Le vent nous portera" adds two new features: the
+		keystrokes Ctrl+Up and Ctrl+Down for jumping between blocks
+		of text, and the option 'wordchars' for specifying which
+		characters (beside alphanumeric ones) should be considered
+		word-forming.  Further, it provides feedback during Unicode
+		input (M-V followed by a six-digit hexadecimal number which
+		must start with 0 or 10), avoids a crash when resizing the
+		window during Verbatim input, doesn't drop a keystroke after
+		having been suspended, and replaces the	beginning-of-line
+		anchor (^) just once per line.  There are also several tiny
+		improvements in screen rendering and key handling.  Come get
+		your hair tousled!
+
 2016.06.27 - nano 2.6.1 "Stampede" is chiefly a translation update, but also
 		adds one little feature (the ability to use negative numbers
 		with Go To Line: -1 meaning the first line from the bottom),
