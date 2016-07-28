@@ -35,7 +35,7 @@
 2016.02.25 - GNU nano 2.5.3 "Alphys" is released.  This release
 		contains fixes for bugs like: stray cursor positioning
 		errors, many many memory leaks including file reading,
-		using the file browser, searching for multi-byte characters,
+		using the file browser, searching for multibyte characters,
 		history completion, and many other places.
 			New features include the ability to trim whitespace
 		from the ends of lines when justifying text, see nanorc(5)
@@ -161,7 +161,7 @@
 
 2014.06.02 - GNU nano 2.3.4 won't leave you high, won't leave you dry.  This
 		release contains only a small number of fixes, but in
-		particular allows nano to compile on non-UTF8 curses
+		particular allows nano to compile on non-UTF-8 curses
 		implementations (i.e. libncursesw).  Other small fixes to
 		the undo implementation and the default syntax config are
 		also included.  As always, Share and Enjoy!
@@ -197,7 +197,7 @@
 		release includes some fixes for the new libmagic code, as
 		well as a fix for improper character counts when using
 		auto-indent.  Also included are new syntax highlighting
-		definitions for RPM spec and lua files.  Thanks for
+		definitions for RPM spec and Lua files.  Thanks for
 		using nano and keep circulating the tapes.
 
 2011.02.26 - GNU nano 2.3.0 "Septic surprise" is released.  This first
@@ -477,7 +477,7 @@
 		thanks for sticking with us!
 
 
-2007.12.20- GNU nano 2.0.7 keeps its balance.  This release fixes
+2007.12.20 - GNU nano 2.0.7 keeps its balance.  This release fixes
 		several bugs, among others: a segfault and several
 		cursor positioning problems when uncutting text or
 		inserting files into the current buffer; a problem where
@@ -499,12 +499,12 @@
 		under the GNU GPL version 3 or later and the GNU FDL
 		version 1.2 or later.  Have fun.
 
-2007.04.26- GNU nano 2.0.6 "that was quick" is released.  This release
+2007.04.26 - GNU nano 2.0.6 "that was quick" is released.  This release
 		fixes a potential segfault after justifying text marked
 		from the bottom up.  It also adds one more minor
 		documentation update.  Enjoy.
 
-2007.04.22- GNU nano 2.0.5 braces for impact.  Among other things, this
+2007.04.22 - GNU nano 2.0.5 braces for impact.  Among other things, this
 		release fixes various problems (including a segfault)
 		when trying to open or save a file in a directory
 		beginning with "~" that isn't a home directory; fixes a
@@ -612,7 +612,7 @@
 		properly at all times; lines of text containing tabs are
 		now wrapped at the right place; double-column characters
 		are now properly displayed when past the right edge of
-		the screen; invalid multi-line color regexes are now
+		the screen; invalid multiline color regexes are now
 		ignored; and so on.  Enjoy.
 
 2006.03.30 - GNU nano 1.3.11 awakens from its fever dream.  This release
@@ -950,7 +950,7 @@
 		0.11.2 of gettext, building with automake 1.6, some new
 		code for displaying control characters, browser
 		improvements, a new backup file option (-B, --backup), a
-		new option to ignore rc files (-I,--ignorercfiles),
+		new option to ignore rc files (-I, --ignorercfiles),
 		compatibility with -pedantic, handling null characters
 		before EOF, a slightly sportier nanorc.sample and more.
 			Fixes are included for justification,
@@ -1179,7 +1179,7 @@
 		nasty segfault when trying to insert one's home
 		directory (~), some checks for the NumLock key making
 		the keypad go awry, window size sanity checks, many
-		autoconf fixes, and support for the KDE konsole keypad
+		autoconf fixes, and support for the KDE Konsole keypad
 		layout.  Have fun.
 
 2001.01.07 - Nano 0.9.25 is the "Just one more feature I swear!"
