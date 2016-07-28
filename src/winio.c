@@ -745,7 +745,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'M': /* Esc O M == Enter on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt/Eterm. */
-			return sc_seq_or(do_home, 0);
+			return sc_seq_or(do_enter, 0);
 		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach
 			       * console. */
 			return KEY_F(1);
