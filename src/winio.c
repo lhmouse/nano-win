@@ -672,37 +672,33 @@ int convert_sequence(const int *seq, size_t seq_len)
 
 	switch (seq[3]) {
 	    case '2':
-		    switch (seq[4]) {
-			case 'A': /* Esc O 1 ; 2 A == Shift-Up on
-				   * Terminal. */
-			case 'B': /* Esc O 1 ; 2 B == Shift-Down on
-				   * Terminal. */
-			case 'C': /* Esc O 1 ; 2 C == Shift-Right on
-				   * Terminal. */
-			case 'D': /* Esc O 1 ; 2 D == Shift-Left on
-				   * Terminal. */
-			    return arrow_from_abcd(seq[4]);
-			case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
-			    return KEY_F(13);
-			case 'Q': /* Esc O 1 ; 2 Q == F14 on Terminal. */
-			    return KEY_F(14);
-			case 'R': /* Esc O 1 ; 2 R == F15 on Terminal. */
-			    return KEY_F(15);
-			case 'S': /* Esc O 1 ; 2 S == F16 on Terminal. */
-			    return KEY_F(16);
-		    }
+		switch (seq[4]) {
+		    case 'A': /* Esc O 1 ; 2 A == Shift-Up on Terminal. */
+		    case 'B': /* Esc O 1 ; 2 B == Shift-Down on Terminal. */
+		    case 'C': /* Esc O 1 ; 2 C == Shift-Right on Terminal. */
+		    case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
+			return arrow_from_abcd(seq[4]);
+		    case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
+			return KEY_F(13);
+		    case 'Q': /* Esc O 1 ; 2 Q == F14 on Terminal. */
+			return KEY_F(14);
+		    case 'R': /* Esc O 1 ; 2 R == F15 on Terminal. */
+			return KEY_F(15);
+		    case 'S': /* Esc O 1 ; 2 S == F16 on Terminal. */
+			return KEY_F(16);
+		}
 		break;
 	    case '5':
-		    switch (seq[4]) {
-			case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
-			    return CONTROL_UP;
-			case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
-			    return CONTROL_DOWN;
-			case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
-			    return CONTROL_RIGHT;
-			case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
-			    return CONTROL_LEFT;
-		    }
+		switch (seq[4]) {
+		    case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
+			return CONTROL_UP;
+		    case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
+			return CONTROL_DOWN;
+		    case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
+			return CONTROL_RIGHT;
+		    case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
+			return CONTROL_LEFT;
+		}
 		break;
 	}
 
@@ -881,25 +877,25 @@ int convert_sequence(const int *seq, size_t seq_len)
 
 	switch (seq[3]) {
 	    case '2':
-		    switch (seq[4]) {
-			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on xterm. */
-			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
-			case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
-			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
-			    return arrow_from_abcd(seq[4]);
-		    }
+		switch (seq[4]) {
+		    case 'A': /* Esc [ 1 ; 2 A == Shift-Up on xterm. */
+		    case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
+		    case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
+		    case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
+			return arrow_from_abcd(seq[4]);
+		}
 		break;
 	    case '5':
-		    switch (seq[4]) {
-			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
-			    return CONTROL_UP;
-			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
-			    return CONTROL_DOWN;
-			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on xterm. */
-			    return CONTROL_RIGHT;
-			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
-			    return CONTROL_LEFT;
-		    }
+		switch (seq[4]) {
+		    case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
+			return CONTROL_UP;
+		    case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
+			return CONTROL_DOWN;
+		    case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on xterm. */
+			return CONTROL_RIGHT;
+		    case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
+			return CONTROL_LEFT;
+		}
 		break;
 	}
 
