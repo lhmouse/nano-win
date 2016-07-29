@@ -23,6 +23,8 @@
 #include "proto.h"
 #include "revision.h"
 
+#include <sys/ioctl.h>
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -501,6 +503,24 @@ int parse_kbinput(WINDOW *win)
     else if (retval == controldown)
 	return sc_seq_or(do_next_block, 0);
 #endif
+
+    /* When not running under X, check for the bare arrow keys whether
+     * the Ctrl key is being held together with them. */
+    if (console && (retval == KEY_UP || retval == KEY_DOWN ||
+			retval == KEY_LEFT || retval == KEY_RIGHT)) {
+	unsigned char modifiers = 6;
+
+	if (ioctl(0, TIOCLINUX, &modifiers) >= 0 && (modifiers & 0x04)) {
+	    if (retval == KEY_UP)
+		return sc_seq_or(do_prev_block, 0);
+	    else if (retval == KEY_DOWN)
+		return sc_seq_or(do_next_block, 0);
+	    else if (retval == KEY_LEFT)
+		return sc_seq_or(do_prev_word_void, 0);
+	    else
+		return sc_seq_or(do_next_word_void, 0);
+	}
+    }
 
     switch (retval) {
 #ifdef KEY_SLEFT

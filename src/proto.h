@@ -30,6 +30,7 @@
 extern volatile sig_atomic_t sigwinch_counter;
 #endif
 
+extern bool console;
 extern bool meta_key;
 extern bool focusing;
 
