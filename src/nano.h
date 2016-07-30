@@ -435,7 +435,7 @@ typedef struct rcoption {
 #endif
 
 typedef struct sc {
-    char *keystr;
+    const char *keystr;
 	/* The string that describes a keystroke, like "^C" or "M-R". */
     bool meta;
 	/* Whether this is a Meta keystroke. */
