@@ -320,17 +320,6 @@ int get_kbinput(WINDOW *win)
 	kbinput, meta_key ? "TRUE" : "FALSE");
 #endif
 
-#ifndef NANO_TINY
-    if (kbinput == controlleft)
-	kbinput = sc_seq_or(do_prev_word_void, 0);
-    else if (kbinput == controlright)
-	kbinput = sc_seq_or(do_next_word_void, 0);
-    else if (kbinput == controlup)
-	kbinput = sc_seq_or(do_prev_block, 0);
-    else if (kbinput == controldown)
-	kbinput = sc_seq_or(do_next_block, 0);
-#endif
-
     /* If we read from the edit window, blank the statusbar if needed. */
     if (win == edit)
 	check_statusblank();
@@ -514,6 +503,17 @@ int parse_kbinput(WINDOW *win)
 
     if (retval == ERR)
 	return ERR;
+
+#ifndef NANO_TINY
+    if (retval == controlleft)
+	return sc_seq_or(do_prev_word_void, 0);
+    else if (retval == controlright)
+	return sc_seq_or(do_next_word_void, 0);
+    else if (retval == controlup)
+	return sc_seq_or(do_prev_block, 0);
+    else if (retval == controldown)
+	return sc_seq_or(do_next_block, 0);
+#endif
 
     switch (retval) {
 #ifdef KEY_SLEFT
