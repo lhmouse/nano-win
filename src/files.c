@@ -232,8 +232,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
      * byte 0        - 0x62
      * byte 1        - 0x30
      * bytes 2-12    - program name which created the lock
-     * bytes 24,25   - little endian store of creator program's PID
-     *                 (b24 = 256^0 column, b25 = 256^1 column)
+     * bytes 24-27   - PID (little endian) of creator process
      * bytes 28-44   - username of who created the lock
      * bytes 68-100  - hostname of where the lock was created
      * bytes 108-876 - filename the lock is for
@@ -248,7 +247,9 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     lockdata[0] = 0x62;
     lockdata[1] = 0x30;
     lockdata[24] = mypid % 256;
-    lockdata[25] = mypid / 256;
+    lockdata[25] = (mypid / 256) % 256;
+    lockdata[26] = (mypid / (256 * 256)) % 256;
+    lockdata[27] = mypid / (256 * 256 * 256);
     snprintf(&lockdata[2], 11, "nano %s", VERSION);
     strncpy(&lockdata[28], mypwuid->pw_name, 16);
     strncpy(&lockdata[68], myhostname, 31);
@@ -318,7 +319,7 @@ int do_lockfile(const char *filename)
     if (stat(lockfilename, &fileinfo) != -1) {
 	ssize_t readtot = 0;
 	ssize_t readamt = 0;
-	char *lockbuf, *question, *postedname, *promptstr;
+	char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 	int room, response;
 
 	if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
@@ -341,9 +342,13 @@ int do_lockfile(const char *filename)
 	}
 
 	strncpy(lockprog, &lockbuf[2], 10);
-	lockpid = (unsigned char)lockbuf[25] * 256 + (unsigned char)lockbuf[24];
+	lockpid = (((unsigned char)lockbuf[27] * 256 + (unsigned char)lockbuf[26]) * 256 +
+			(unsigned char)lockbuf[25]) * 256 + (unsigned char)lockbuf[24];
 	strncpy(lockuser, &lockbuf[28], 16);
 	free(lockbuf);
+
+	pidstring = charalloc(11);
+	sprintf (pidstring, "%u", (unsigned int)lockpid);
 
 #ifdef DEBUG
 	fprintf(stderr, "lockpid = %d\n", lockpid);
@@ -351,8 +356,9 @@ int do_lockfile(const char *filename)
 	fprintf(stderr, "user which created this lock file should be %s\n", lockuser);
 #endif
 	/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
-	question = _("File %s is being edited (by %s with %s, PID %d); continue?");
-	room = COLS - strlenpt(question) - strlenpt(lockuser) - strlenpt(lockprog) + 3;
+	question = _("File %s is being edited (by %s with %s, PID %s); continue?");
+	room = COLS - strlenpt(question) + 7 - strlenpt(lockuser) -
+				strlenpt(lockprog) - strlenpt(pidstring);
 	if (room < 4)
 	    postedname = mallocstrcpy(NULL, "_");
 	else if (room < strlenpt(filename)) {
@@ -365,11 +371,12 @@ int do_lockfile(const char *filename)
 	} else
 	    postedname = mallocstrcpy(NULL, filename);
 
-	/* Allow extra space for username (14), program name (8), PID (3),
+	/* Allow extra space for username (14), program name (8), PID (8),
 	 * and terminating \0 (1), minus the %s (2) for the file name. */
-	promptstr = charalloc(strlen(question) + 24 + strlen(postedname));
-	sprintf(promptstr, question, postedname, lockuser, lockprog, lockpid);
+	promptstr = charalloc(strlen(question) + 29 + strlen(postedname));
+	sprintf(promptstr, question, postedname, lockuser, lockprog, pidstring);
 	free(postedname);
+	free(pidstring);
 
 	response = do_yesno_prompt(FALSE, promptstr);
 	free(promptstr);
