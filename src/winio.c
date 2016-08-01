@@ -73,8 +73,8 @@ bool the_window_resized(void)
  * - Ctrl-M is Enter under ASCII, ANSI, VT100, VT220, and VT320.
  * - Ctrl-Q is XON under ASCII, ANSI, VT100, VT220, and VT320.
  * - Ctrl-S is XOFF under ASCII, ANSI, VT100, VT220, and VT320.
- * - Ctrl-8 (Ctrl-?, NANO_CONTROL_8) is Delete under ASCII, ANSI,
- *          VT100, and VT220, but is Backspace under VT320.
+ * - Ctrl-8 (Ctrl-?) is Delete under ASCII, ANSI, VT100, and VT220,
+ *          but is Backspace under VT320.
  *
  * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By
  * default, xterm assumes it's running on a VT320 and generates Ctrl-8
@@ -255,7 +255,7 @@ void unget_kbinput(int kbinput, bool metakey)
     unget_input(&kbinput, 1);
 
     if (metakey) {
-	kbinput = NANO_CONTROL_3;
+	kbinput = ESC_CODE;
 	unget_input(&kbinput, 1);
     }
 }
@@ -361,7 +361,7 @@ int parse_kbinput(WINDOW *win)
     if (keycode == ERR)
 	return ERR;
 
-    if (keycode == NANO_CONTROL_3) {
+    if (keycode == ESC_CODE) {
 	    /* Increment the escape counter. */
 	    escapes++;
 	    /* If there are four consecutive escapes, discard three of them. */
@@ -380,7 +380,7 @@ int parse_kbinput(WINDOW *win)
 	    /* Reset the escape counter. */
 	    escapes = 0;
 	    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
-			key_buffer_len == 0 || *key_buffer == 0x1B) {
+			key_buffer_len == 0 || *key_buffer == ESC_CODE) {
 		/* One escape followed by a single non-escape:
 		 * meta key sequence mode. */
 		if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
@@ -573,7 +573,7 @@ int parse_kbinput(WINDOW *win)
 	/* Slang doesn't support KEY_SDC. */
 	case KEY_SDC:
 #endif
-	case NANO_CONTROL_8:
+	case DEL_CODE:
 	    if (ISSET(REBIND_DELETE))
 		return sc_seq_or(do_delete, keycode);
 	    else
@@ -1266,16 +1266,16 @@ int get_control_kbinput(int kbinput)
 
     /* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
     if (kbinput == ' ' || kbinput == '2')
-	retval = NANO_CONTROL_SPACE;
+	retval = 0;
     /* Ctrl-/ (Ctrl-7, Ctrl-_) */
     else if (kbinput == '/')
-	retval = NANO_CONTROL_7;
+	retval = 31;
     /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-/, Ctrl-_) */
     else if ('3' <= kbinput && kbinput <= '7')
 	retval = kbinput - 24;
     /* Ctrl-8 (Ctrl-?) */
     else if (kbinput == '8' || kbinput == '?')
-	retval = NANO_CONTROL_8;
+	retval = DEL_CODE;
     /* Ctrl-@ (Ctrl-Space, Ctrl-2, Ctrl-`) to Ctrl-_ (Ctrl-/, Ctrl-7) */
     else if ('@' <= kbinput && kbinput <= '_')
 	retval = kbinput - '@';

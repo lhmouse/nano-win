@@ -550,12 +550,10 @@ enum
 #define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
 		MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MSPELL|MLINTER)
 
-/* Control key sequences.  Changing these would be very, very bad. */
-#define NANO_CONTROL_SPACE 0
-#define NANO_CONTROL_I 9
-#define NANO_CONTROL_3 27
-#define NANO_CONTROL_7 31
-#define NANO_CONTROL_8 127
+/* Basic control codes. */
+#define TAB_CODE  0x09
+#define ESC_CODE  0x1B
+#define DEL_CODE  0x7F
 
 /* Codes for "modified" Arrow keys, beyond KEY_MAX of ncurses. */
 #define CONTROL_LEFT 0x401

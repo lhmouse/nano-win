@@ -219,7 +219,7 @@ char control_rep(const signed char c)
     /* An embedded newline is an encoded null. */
     if (c == '\n')
 	return '@';
-    else if (c == NANO_CONTROL_8)
+    else if (c == DEL_CODE)
 	return '?';
     else if (c == -97)
 	return '=';

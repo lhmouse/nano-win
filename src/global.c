@@ -433,7 +433,7 @@ void assign_keyinfo(sc *s, const char *keystring)
      * but the exact integer values of ^I and ^M.  Rebinding the
      * latter therefore also rebinds Tab and Enter. */
     else if (!strcasecmp(keystring, "Tab"))
-	s->keycode = NANO_CONTROL_I;
+	s->keycode = TAB_CODE;
     else if (!strcasecmp(keystring, "Enter"))
 	s->keycode = KEY_ENTER;
     else if (!strcasecmp(keystring, "PgUp"))

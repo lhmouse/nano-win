@@ -586,7 +586,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	if (func == do_tab) {
 #ifndef DISABLE_HISTORIES
 	    if (history_list != NULL) {
-		if (last_kbinput != sc_seq_or(do_tab, NANO_CONTROL_I))
+		if (last_kbinput != sc_seq_or(do_tab, TAB_CODE))
 		    complete_len = strlen(answer);
 
 		if (complete_len > 0) {
