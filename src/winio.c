@@ -260,9 +260,9 @@ void unget_kbinput(int kbinput, bool metakey)
     }
 }
 
-/* Try to read input_len characters from the keystroke buffer.  If the
+/* Try to read input_len codes from the keystroke buffer.  If the
  * keystroke buffer is empty and win isn't NULL, try to read in more
- * characters from win and add them to the keystroke buffer before doing
+ * codes from win and add them to the keystroke buffer before doing
  * anything else.  If the keystroke buffer is (still) empty, return NULL. */
 int *get_input(WINDOW *win, size_t input_len)
 {
@@ -274,29 +274,21 @@ int *get_input(WINDOW *win, size_t input_len)
     if (key_buffer_len == 0)
 	return NULL;
 
-    /* If input_len is greater than the length of the keystroke buffer,
-     * only read the number of characters in the keystroke buffer. */
+    /* Limit the request to the number of available codes in the buffer. */
     if (input_len > key_buffer_len)
 	input_len = key_buffer_len;
 
-    /* Subtract input_len from the length of the keystroke buffer, and
-     * allocate input so that it has enough room for input_len
-     * keystrokes. */
-    key_buffer_len -= input_len;
+    /* Copy input_len codes from the head of the keystroke buffer. */
     input = (int *)nmalloc(input_len * sizeof(int));
-
-    /* Copy input_len keystrokes from the beginning of the keystroke
-     * buffer into input. */
     memcpy(input, key_buffer, input_len * sizeof(int));
+    key_buffer_len -= input_len;
 
-    /* If the keystroke buffer is empty, mark it as such. */
+    /* If the keystroke buffer is now empty, mark it as such. */
     if (key_buffer_len == 0) {
 	free(key_buffer);
 	key_buffer = NULL;
-    /* If the keystroke buffer isn't empty, move its beginning forward
-     * far enough so that the keystrokes in input are no longer at its
-     * beginning. */
     } else {
+	/* Trim from the buffer the codes that were copied. */
 	memmove(key_buffer, key_buffer + input_len, key_buffer_len *
 		sizeof(int));
 	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
@@ -362,13 +354,13 @@ int parse_kbinput(WINDOW *win)
 	return ERR;
 
     if (keycode == ESC_CODE) {
-	    /* Increment the escape counter. */
-	    escapes++;
-	    /* If there are four consecutive escapes, discard three of them. */
-	    if (escapes > 3)
-		escapes = 1;
-	    solitary = (escapes == 1 && key_buffer_len == 0);
-	    return ERR;
+	/* Increment the escape counter, but trim an overabundance. */
+	escapes++;
+	if (escapes > 3)
+	    escapes = 1;
+	/* Take note when an Esc arrived by itself. */
+	solitary = (escapes == 1 && key_buffer_len == 0);
+	return ERR;
     }
 
     switch (escapes) {
@@ -377,8 +369,6 @@ int parse_kbinput(WINDOW *win)
 	    retval = keycode;
 	    break;
 	case 1:
-	    /* Reset the escape counter. */
-	    escapes = 0;
 	    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
 			key_buffer_len == 0 || *key_buffer == ESC_CODE) {
 		/* One escape followed by a single non-escape:
@@ -390,6 +380,7 @@ int parse_kbinput(WINDOW *win)
 		/* One escape followed by a non-escape, and there
 		 * are more codes waiting: escape sequence mode. */
 		retval = parse_escape_sequence(win, keycode);
+	    escapes = 0;
 	    break;
 	case 2:
 	    if (double_esc) {
@@ -427,36 +418,30 @@ int parse_kbinput(WINDOW *win)
 		    byte_digits++;
 		    byte = get_byte_kbinput(keycode);
 
-		    /* If we've read in a complete byte sequence,
-		     * reset the escape counter and the byte sequence
-		     * counter, and put the obtained byte value back
-		     * into the key buffer. */
+		    /* If the decimal byte value is complete, convert it and
+		     * put the obtained byte(s) back into the input buffer. */
 		    if (byte != ERR) {
 			char *byte_mb;
 			int byte_mb_len, *seq, i;
 
-			escapes = 0;
-			byte_digits = 0;
+			/* Convert the decimal code to one or two bytes. */
+			byte_mb = make_mbchar((long)byte, &byte_mb_len);
 
-			/* Put back the multibyte equivalent of
-			 * the byte value. */
-			byte_mb = make_mbchar((long)byte,
-				&byte_mb_len);
-
-			seq = (int *)nmalloc(byte_mb_len *
-				sizeof(int));
+			seq = (int *)nmalloc(byte_mb_len * sizeof(int));
 
 			for (i = 0; i < byte_mb_len; i++)
 			    seq[i] = (unsigned char)byte_mb[i];
 
+			/* Insert the byte(s) into the input buffer. */
 			unget_input(seq, byte_mb_len);
 
 			free(byte_mb);
 			free(seq);
+
+			byte_digits = 0;
+			escapes = 0;
 		    }
 		} else {
-		    /* Reset the escape counter. */
-		    escapes = 0;
 		    if (byte_digits == 0)
 			/* Two escapes followed by a non-decimal
 			 * digit (or a decimal digit that would
@@ -471,6 +456,7 @@ int parse_kbinput(WINDOW *win)
 			byte_digits = 0;
 			retval = keycode;
 		    }
+		    escapes = 0;
 		}
 	    } else if (keycode == '[' && key_buffer_len > 0 &&
 			'A' <= *key_buffer && *key_buffer <= 'D') {
@@ -479,14 +465,12 @@ int parse_kbinput(WINDOW *win)
 	    } else {
 		/* Two escapes followed by a non-escape, and there are more
 		 * codes waiting: combined meta and escape sequence mode. */
-		escapes = 0;
-		meta_key = TRUE;
 		retval = parse_escape_sequence(win, keycode);
+		meta_key = TRUE;
+		escapes = 0;
 	    }
 	    break;
 	case 3:
-	    /* Reset the escape counter. */
-	    escapes = 0;
 	    if (key_buffer_len == 0)
 		/* Three escapes followed by a non-escape, and no
 		 * other codes are waiting: normal input mode. */
@@ -498,6 +482,7 @@ int parse_kbinput(WINDOW *win)
 		 * sequence, then the result as a control sequence. */
 		retval = get_control_kbinput(
 			parse_escape_sequence(win, keycode));
+	    escapes = 0;
 	    break;
     }
 
@@ -627,7 +612,7 @@ int parse_kbinput(WINDOW *win)
 	case KEY_RESIZE:
 	    return ERR;
 #endif
-	}
+    }
 
     return retval;
 }
@@ -1351,7 +1336,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
     int *kbinput, *retval;
 
-    /* Read in the first keystroke. */
+    /* Read in the first code. */
     while ((kbinput = get_input(win, 1)) == NULL)
 	;
 
@@ -1366,18 +1351,14 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
-	/* Check whether the first keystroke is a valid hexadecimal
-	 * digit. */
+	/* Check whether the first code is a valid starter digit: 0 or 1. */
 	long uni = get_unicode_kbinput(win, *kbinput);
 
-	/* If the first keystroke isn't a valid hexadecimal digit, put
-	 * back the first keystroke. */
+	/* If the first code isn't the digit 0 nor 1, put it back. */
 	if (uni != ERR)
 	    unget_input(kbinput, 1);
-
-	/* Otherwise, read in keystrokes until we have a complete
-	 * Unicode sequence, and put back the corresponding Unicode
-	 * value. */
+	/* Otherwise, continue reading in digits until we have a complete
+	 * Unicode value, and put back the corresponding byte(s). */
 	else {
 	    char *uni_mb;
 	    int uni_mb_len, *seq, i;
@@ -1389,8 +1370,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 		uni = get_unicode_kbinput(win, *kbinput);
 	    }
 
-	    /* Put back the multibyte equivalent of the Unicode
-	     * value. */
+	    /* Convert the Unicode value to a multibyte sequence. */
 	    uni_mb = make_mbchar(uni, &uni_mb_len);
 
 	    seq = (int *)nmalloc(uni_mb_len * sizeof(int));
@@ -1398,6 +1378,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	    for (i = 0; i < uni_mb_len; i++)
 		seq[i] = (unsigned char)uni_mb[i];
 
+	    /* Insert the multibyte sequence into the input buffer. */
 	    unget_input(seq, uni_mb_len);
 
 	    free(seq);
@@ -1406,7 +1387,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     } else
 #endif /* ENABLE_UTF8 */
 
-	/* Put back the first keystroke. */
+	/* Put back the first code. */
 	unget_input(kbinput, 1);
 
     free(kbinput);
