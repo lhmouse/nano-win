@@ -393,6 +393,8 @@ typedef struct openfilestruct {
 	/* The file's y-coordinate position. */
     bool modified;
 	/* Whether the file has been modified. */
+    struct stat *current_stat;
+	/* The file's current stat information. */
 #ifndef NANO_TINY
     bool mark_set;
 	/* Whether the mark is on in this file. */
@@ -402,8 +404,6 @@ typedef struct openfilestruct {
 	/* The file's mark's x-coordinate position, if any. */
     file_format fmt;
 	/* The file's format. */
-    struct stat *current_stat;
-	/* The file's current stat information. */
     undo *undotop;
 	/* The top of the undo list. */
     undo *current_undo;

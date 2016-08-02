@@ -442,11 +442,7 @@ void say_there_is_no_help(void);
 #endif
 void finish(void);
 void die(const char *msg, ...);
-void die_save_file(const char *die_filename
-#ifndef NANO_TINY
-	, struct stat *die_stat
-#endif
-	);
+void die_save_file(const char *die_filename, struct stat *die_stat);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void disable_mouse_support(void);

@@ -609,53 +609,40 @@ void die(const char *msg, ...)
 	delete_lockfile(openfile->lock_filename);
 #endif
 
-    /* Save the current file buffer if it's been modified. */
+    /* If the current file buffer was modified, save it. */
     if (openfile && openfile->modified) {
-	/* If we've partitioned the filestruct, unpartition it now. */
+	/* If the filestruct is partitioned, unpartition it first. */
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
 
-	die_save_file(openfile->filename
-#ifndef NANO_TINY
-		, openfile->current_stat
-#endif
-		);
+	die_save_file(openfile->filename, openfile->current_stat);
     }
 
 #ifndef DISABLE_MULTIBUFFER
     /* Save all of the other modified file buffers, if any. */
     if (openfile != NULL) {
-	openfilestruct *tmp = openfile;
+	openfilestruct *firstone = openfile;
 
-	while (tmp != openfile->next) {
+	while (openfile->next != firstone) {
 	    openfile = openfile->next;
 
 #ifndef NANO_TINY
 	    if (ISSET(LOCKING) && openfile->lock_filename)
 		delete_lockfile(openfile->lock_filename);
 #endif
-	    /* Save the current file buffer if it's been modified. */
 	    if (openfile->modified)
-		die_save_file(openfile->filename
-#ifndef NANO_TINY
-			, openfile->current_stat
-#endif
-			);
+		die_save_file(openfile->filename, openfile->current_stat);
 	}
     }
 #endif
 
-    /* Get out. */
+    /* Abandon the building. */
     exit(1);
 }
 
 /* Save the current file under the name specified in die_filename, which
  * is modified to be unique if necessary. */
-void die_save_file(const char *die_filename
-#ifndef NANO_TINY
-	, struct stat *die_stat
-#endif
-	)
+void die_save_file(const char *die_filename, struct stat *die_stat)
 {
     char *targetname;
     bool failed = TRUE;
