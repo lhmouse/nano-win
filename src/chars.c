@@ -93,6 +93,26 @@ void wctomb_reset(void)
     IGNORE_CALL_RESULT(wctomb(NULL, 0));
 }
 
+/* This function is equivalent to isalpha() for multibyte characters. */
+bool is_alpha_mbchar(const char *c)
+{
+    assert(c != NULL);
+
+#ifdef ENABLE_UTF8
+    if (use_utf8) {
+	wchar_t wc;
+
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	    mbtowc_reset();
+	    return 0;
+	}
+
+	return iswalpha(wc);
+    } else
+#endif
+	return isalpha((unsigned char)*c);
+}
+
 /* This function is equivalent to isalnum() for multibyte characters. */
 bool is_alnum_mbchar(const char *c)
 {

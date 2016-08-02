@@ -183,6 +183,7 @@ bool nisblank(int c);
 bool niswblank(wchar_t wc);
 #endif
 bool is_byte(int c);
+bool is_alpha_mbchar(const char *c);
 bool is_alnum_mbchar(const char *c);
 bool is_blank_mbchar(const char *c);
 bool is_ascii_cntrl_char(int c);
