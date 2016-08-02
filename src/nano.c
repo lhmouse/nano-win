@@ -603,6 +603,12 @@ void die(const char *msg, ...)
     vfprintf(stderr, msg, ap);
     va_end(ap);
 
+#ifndef NANO_TINY
+    /* If the current buffer has a lockfile, remove it. */
+    if (ISSET(LOCKING) && openfile->lock_filename)
+	delete_lockfile(openfile->lock_filename);
+#endif
+
     /* Save the current file buffer if it's been modified. */
     if (openfile && openfile->modified) {
 	/* If we've partitioned the filestruct, unpartition it now. */
@@ -624,6 +630,10 @@ void die(const char *msg, ...)
 	while (tmp != openfile->next) {
 	    openfile = openfile->next;
 
+#ifndef NANO_TINY
+	    if (ISSET(LOCKING) && openfile->lock_filename)
+		delete_lockfile(openfile->lock_filename);
+#endif
 	    /* Save the current file buffer if it's been modified. */
 	    if (openfile->modified)
 		die_save_file(openfile->filename
