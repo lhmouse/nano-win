@@ -2666,14 +2666,15 @@ bool do_int_spell_fix(const char *word)
     /* Find the first whole occurrence of word. */
     result = findnextstr(TRUE, NULL, 0, word, NULL);
 
-    /* The word must exist; if not, something is wrong. */
-    if (result == 0)
-	statusline(ALERT, "Internal error: "
-				"speller listed unfindable word: %s", word);
-    else if (result == 1) {
+    /* If the word isn't found, alert the user; if it is, allow correction. */
+    if (result == 0) {
+	statusline(ALERT, _("Unfindable word: %s"), word);
+	lastmessage = HUSH;
+	proceed = TRUE;
+	napms(2800);
+    } else if (result == 1) {
 	exp_word = display_string(openfile->current->data, xplustabs(),
 					strlenpt(word), FALSE);
-
 	edit_refresh();
 
 	spotlight(TRUE, exp_word);
