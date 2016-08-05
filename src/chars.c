@@ -553,20 +553,20 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 /* This function is equivalent to strcasestr(). */
 char *nstrcasestr(const char *haystack, const char *needle)
 {
-    size_t haystack_len, needle_len;
+    size_t needle_len;
 
     assert(haystack != NULL && needle != NULL);
 
     if (*needle == '\0')
 	return (char *)haystack;
 
-    haystack_len = strlen(haystack);
     needle_len = strlen(needle);
 
-    for (; *haystack != '\0' && haystack_len >= needle_len; haystack++,
-	haystack_len--) {
+    while (*haystack != '\0') {
 	if (strncasecmp(haystack, needle, needle_len) == 0)
 	    return (char *)haystack;
+
+	haystack++;
     }
 
     return NULL;
@@ -578,20 +578,20 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	size_t haystack_len, needle_len;
+	size_t needle_len;
 
 	assert(haystack != NULL && needle != NULL);
 
 	if (*needle == '\0')
 	    return (char *)haystack;
 
-	haystack_len = mbstrlen(haystack);
 	needle_len = mbstrlen(needle);
 
-	for (; *haystack != '\0' && haystack_len >= needle_len;
-		haystack += move_mbright(haystack, 0), haystack_len--) {
+	while (*haystack != '\0') {
 	    if (mbstrncasecmp(haystack, needle, needle_len) == 0)
 		return (char *)haystack;
+
+	    haystack += move_mbright(haystack, 0);
 	}
 
 	return NULL;
