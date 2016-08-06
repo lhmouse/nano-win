@@ -1359,6 +1359,7 @@ sc *strtosc(const char *input)
     sc *s;
 
     s = (sc *)nmalloc(sizeof(sc));
+    s->toggle = 0;
 
 #ifndef DISABLE_HELP
     if (!strcasecmp(input, "help"))
