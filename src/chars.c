@@ -530,6 +530,9 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 		if (*s1 != *s2)
 		    return (unsigned char)*s1 - (unsigned char)*s2;
 
+		if (bad1 != bad2)
+		    return (bad1 ? 1 : -1);
+
 		s1++; s2++; n--;
 		continue;
 	    }
