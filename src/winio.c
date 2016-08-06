@@ -369,7 +369,9 @@ int parse_kbinput(WINDOW *win)
 	    retval = keycode;
 	    break;
 	case 1:
-	    if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
+	    if (keycode >= 0x80)
+		retval = keycode;
+	    else if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
 			key_buffer_len == 0 || *key_buffer == ESC_CODE) {
 		/* One escape followed by a single non-escape:
 		 * meta key sequence mode. */
