@@ -494,6 +494,9 @@ void go_looking(void)
     filestruct *was_current = openfile->current;
     size_t was_current_x = openfile->current_x;
     int didfind;
+#ifdef DEBUG
+    clock_t start = clock();
+#endif
 
     came_full_circle = FALSE;
 
@@ -508,6 +511,10 @@ void go_looking(void)
     if (didfind == 1 && openfile->current == was_current &&
 		openfile->current_x == was_current_x)
 	statusbar(_("This is the only occurrence"));
+
+#ifdef DEBUG
+    statusline(HUSH, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
+#endif
 
     edit_redraw(was_current);
     search_replace_abort();
