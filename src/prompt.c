@@ -90,15 +90,13 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 	}
     }
 
-    /* If we got a character, and it isn't a shortcut or toggle,
-     * it's a normal text character.  Display the warning if we're
-     * in view mode, or add the character to the input buffer if
-     * we're not. */
+    /* If the keystroke isn't a shortcut nor a toggle, it's a normal text
+     * character: add the it to the input buffer, when allowed. */
     if (input != ERR && !have_shortcut) {
-	/* If we're using restricted mode, the filename isn't blank,
-	 * and we're at the "Write File" prompt, disable text input. */
-	if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
-		currmenu != MWRITEFILE) {
+	/* Only accept input when not in restricted mode, or when not at
+	 * the "Write File" prompt, or when there is no filename yet. */
+	if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
+			openfile->filename[0] == '\0') {
 	    kbinput_len++;
 	    kbinput = (int *)nrealloc(kbinput, kbinput_len * sizeof(int));
 	    kbinput[kbinput_len - 1] = input;
