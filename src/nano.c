@@ -859,7 +859,7 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-W", "--wordbounds",
 	N_("Detect word boundaries more accurately"));
-    print_opt("-X", "--wordchars",
+    print_opt(_("-X <str>"), _("--wordchars=<str>"),
 	N_("Which other characters are word parts"));
 #endif
 #ifndef DISABLE_COLOR
