@@ -2,6 +2,7 @@ Improvements in nano
 ====================
 
 Since 2.6.0:
+  - Ctrl+Arrow should now work also on a Linux virtual console.
   - Ctrl+Up and Ctrl+Down jump to previous or next block of text.
   - Feedback during Unicode Input (M-V followed by six digits).
   - The option 'wordchars' for specifying extra word characters.

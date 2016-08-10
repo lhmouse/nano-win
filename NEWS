@@ -1,3 +1,12 @@
+2016.08.10 - nano 2.6.3 "Marika" makes the Ctrl+Arrow keys work also on
+		a Linux virtual console, takes as verbatim only the very
+		first keystroke after M-V, removes any lock files that it
+		holds when dying, doesn't abort when a word contains digits
+		(when using the default speller), fixes a small sorting bug
+		in the file browser, makes searching case-insensitively in
+		a UTF-8 locale a little faster, and doesn't enter invalid
+		bytes when holding down both Alt keys.  Santé!
+
 2016.07.28 - nano 2.6.2 "Le vent nous portera" adds two new features: the
 		keystrokes Ctrl+Up and Ctrl+Down for jumping between blocks
 		of text, and the option 'wordchars' for specifying which
