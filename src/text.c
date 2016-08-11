@@ -2927,6 +2927,7 @@ const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
     size_t current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
     ssize_t current_y_save = openfile->current_y;
     ssize_t lineno_save = openfile->current->lineno;
     struct stat spellfileinfo;
@@ -3075,6 +3076,7 @@ const char *do_alt_speller(char *tempfile_name)
     /* Go back to the old position. */
     goto_line_posx(lineno_save, current_x_save);
     openfile->current_y = current_y_save;
+    openfile->placewewant = pww_save;
     edit_update(STATIONARY);
 
     /* Stat the temporary file again, and mark the buffer as modified only
