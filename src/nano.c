@@ -2482,9 +2482,10 @@ int main(int argc, char **argv)
     /* Set up the terminal state. */
     terminal_init();
 
+#if defined(__linux__) && !defined(NANO_TINY)
     /* Check whether we're running on a Linux console. */
     console = (getenv("DISPLAY") == NULL);
-
+#endif
 #ifdef DEBUG
     fprintf(stderr, "Main: set up windows\n");
 #endif

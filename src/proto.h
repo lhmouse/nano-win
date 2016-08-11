@@ -30,7 +30,10 @@
 extern volatile sig_atomic_t sigwinch_counter;
 #endif
 
+#if defined(__linux__) && !defined(NANO_TINY)
 extern bool console;
+#endif
+
 extern bool meta_key;
 extern bool focusing;
 

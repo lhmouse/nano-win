@@ -33,8 +33,11 @@ volatile sig_atomic_t sigwinch_counter = 0;
 	/* Is incremented by the handler whenever a SIGWINCH occurs. */
 #endif
 
+#if defined(__linux__) && !defined(NANO_TINY)
 bool console;
 	/* Whether we're running on a Linux VC (TRUE) or under X (FALSE). */
+#endif
+
 bool meta_key;
 	/* Whether the current keystroke is a Meta key. */
 bool focusing = TRUE;

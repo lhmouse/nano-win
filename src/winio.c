@@ -23,7 +23,9 @@
 #include "proto.h"
 #include "revision.h"
 
+#if defined(__linux__) && !defined(NANO_TINY)
 #include <sys/ioctl.h>
+#endif
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -504,6 +506,7 @@ int parse_kbinput(WINDOW *win)
 	return sc_seq_or(do_next_block, 0);
 #endif
 
+#if defined(__linux__) && !defined(NANO_TINY)
     /* When not running under X, check for the bare arrow keys whether
      * the Ctrl key is being held together with them. */
     if (console && (retval == KEY_UP || retval == KEY_DOWN ||
@@ -521,6 +524,7 @@ int parse_kbinput(WINDOW *win)
 		return sc_seq_or(do_next_word_void, 0);
 	}
     }
+#endif /* __linux__ && !NANO_TINY */
 
     switch (retval) {
 #ifdef KEY_SLEFT
