@@ -374,6 +374,22 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 		wchar_t wc1, wc2;
 
 		while (*s1 != '\0' && *s2 != '\0' && n > 0) {
+			if ((signed char)*s1 >= 0 && (signed char)*s2 >= 0) {
+				if ('A' <= (*s1 & 0x5F) && (*s1 & 0x5F) <= 'Z') {
+					if ('A' <= (*s2 & 0x5F) && (*s2 & 0x5F) <= 'Z') {
+						if ((*s1 & 0x5F) != (*s2 & 0x5F))
+							return ((*s1 & 0x5F) - (*s2 & 0x5F));
+					} else
+						return ((*s1 | 0x20) - *s2);
+				} else if ('A' <= (*s2 & 0x5F) && (*s2 & 0x5F) <= 'Z')
+					return (*s1 - (*s2 | 0x20));
+				else if (*s1 != *s2)
+					return (*s1 - *s2);
+
+				s1++; s2++; n--;
+				continue;
+			}
+
 			bool bad1 = (mbtowc(&wc1, s1, MAXCHARLEN) < 0);
 			bool bad2 = (mbtowc(&wc2, s2, MAXCHARLEN) < 0);
 
