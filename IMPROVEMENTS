@@ -1,5 +1,5 @@
-Improvements in nano
-====================
+Improvements in GNU nano
+========================
 
 Since 2.6.0:
   - Ctrl+Arrow should now work also on a Linux virtual console.
