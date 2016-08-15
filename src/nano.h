@@ -576,11 +576,6 @@ enum
 /* The maximum number of entries displayed in the main shortcut list. */
 #define MAIN_VISIBLE (((COLS + 40) / 20) * 2)
 
-/* The minimum editor window columns and rows required for nano to work
- * correctly.  Don't make these smaller than 4 and 1. */
-#define MIN_EDITOR_COLS 4
-#define MIN_EDITOR_ROWS 1
-
 /* The default number of characters from the end of the line where
  * wrapping occurs. */
 #define CHARS_FROM_EOL 8

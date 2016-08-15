@@ -2048,11 +2048,12 @@ void bottombars(int menu)
 	    slen = MAIN_VISIBLE;
     }
 
-    /* There will be this many characters per column, except for the
-     * last two, which will be longer by (COLS % colwidth) columns so as
-     * to not waste space.  We need at least three columns to display
-     * anything properly. */
+    /* Compute the width of each keyname-plus-explanation pair. */
     colwidth = COLS / ((slen / 2) + (slen % 2));
+
+    /* If there is no room, don't print anything. */
+    if (colwidth == 0)
+	return;
 
     blank_bottombars();
 

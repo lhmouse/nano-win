@@ -692,9 +692,11 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
 /* Initialize the three window portions nano uses. */
 void window_init(void)
 {
-    /* If the screen height is too small, get out. */
+    /* Compute how many lines the edit subwindow will have. */
     editwinrows = LINES - TOP_ROWS - BOTTOM_ROWS;
-    if (COLS < MIN_EDITOR_COLS || editwinrows < MIN_EDITOR_ROWS)
+
+    /* If there is no room to show anything, give up. */
+    if (editwinrows <= 0)
 	die(_("Window size is too small for nano...\n"));
 
 #ifndef DISABLE_WRAPJUSTIFY
