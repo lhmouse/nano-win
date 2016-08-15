@@ -1639,7 +1639,7 @@ void blank_statusbar(void)
  * portion of the window. */
 void blank_bottombars(void)
 {
-    if (!ISSET(NO_HELP)) {
+    if (!ISSET(NO_HELP) && LINES > 4) {
 	blank_line(bottomwin, 1, 0, COLS);
 	blank_line(bottomwin, 2, 0, COLS);
     }
@@ -1665,6 +1665,10 @@ void check_statusblank(void)
 	reset_cursor();
 	wnoutrefresh(edit);
     }
+
+    /* If the subwindows overlap, make sure to show the edit window now. */
+    if (LINES == 1)
+	edit_refresh();
 }
 
 /* Convert buf into a string that can be displayed on screen.  The
@@ -1839,6 +1843,10 @@ void titlebar(const char *path)
 	/* The state of the current buffer -- "Modified", "View", or "". */
     char *fragment;
 	/* The tail part of the pathname when dottified. */
+
+    /* If the screen is too small, there is no titlebar. */
+    if (topwin == NULL)
+	return;
 
     assert(path != NULL || openfile->filename != NULL);
 
@@ -2033,7 +2041,7 @@ void bottombars(int menu)
     /* Set the global variable to the given menu. */
     currmenu = menu;
 
-    if (ISSET(NO_HELP))
+    if (ISSET(NO_HELP) || LINES < 5)
 	return;
 
     if (menu == MMAIN) {

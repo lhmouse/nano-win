@@ -686,28 +686,37 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
     free(targetname);
 }
 
-#define TOP_ROWS    (ISSET(MORE_SPACE) ? 1 : 2)
-#define BOTTOM_ROWS    (ISSET(NO_HELP) ? 1 : 3)
-
 /* Initialize the three window portions nano uses. */
 void window_init(void)
 {
     /* First delete existing windows, in case of resizing. */
     delwin(topwin);
+    topwin = NULL;
     delwin(edit);
     delwin(bottomwin);
 
-    /* Compute how many lines the edit subwindow will have. */
-    editwinrows = LINES - TOP_ROWS - BOTTOM_ROWS;
+    /* If the terminal is very flat, don't set up a titlebar. */
+    if (LINES < 3) {
+	editwinrows = 1;
+	/* Set up two subwindows.  If the terminal is just one line,
+	 * edit window and statusbar window will cover each other. */
+	edit = newwin(1, COLS, 0, 0);
+	bottomwin = newwin(1, COLS, LINES - 1, 0);
+    } else {
+	int toprows = (ISSET(MORE_SPACE) ? 1 : (LINES < 6) ? 1 : 2);
+	int bottomrows = (ISSET(NO_HELP) ? 1 : (LINES < 5) ? 1 : 3);
 
-    /* If there is no room to show anything, give up. */
-    if (editwinrows <= 0)
-	die(_("Window size is too small for nano...\n"));
+	editwinrows = LINES - toprows - bottomrows;
 
-    /* Set up the windows. */
-    topwin = newwin(TOP_ROWS, COLS, 0, 0);
-    edit = newwin(editwinrows, COLS, TOP_ROWS, 0);
-    bottomwin = newwin(BOTTOM_ROWS, COLS, TOP_ROWS + editwinrows, 0);
+	/* Set up the normal three subwindows. */
+	topwin = newwin(toprows, COLS, 0, 0);
+	edit = newwin(editwinrows, COLS, toprows, 0);
+	bottomwin = newwin(bottomrows, COLS, toprows + editwinrows, 0);
+    }
+
+    /* In case the terminal shrunk, make sure the status line is clear. */
+    blank_statusbar();
+    wnoutrefresh(bottomwin);
 
     /* Turn the keypad on for the windows, if necessary. */
     if (!ISSET(REBIND_KEYPAD)) {
