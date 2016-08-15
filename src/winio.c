@@ -1958,6 +1958,7 @@ void statusline(message_type importance, const char *msg, ...)
     va_list ap;
     char *bar, *foo;
     size_t start_x;
+    bool bracketed;
 #ifndef NANO_TINY
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 
@@ -1993,24 +1994,27 @@ void statusline(message_type importance, const char *msg, ...)
 
     blank_statusbar();
 
-    bar = charalloc(mb_cur_max() * (COLS - 3));
-    vsnprintf(bar, mb_cur_max() * (COLS - 3), msg, ap);
+    bar = charalloc(mb_cur_max() * (COLS + 1));
+    vsnprintf(bar, mb_cur_max() * (COLS + 1), msg, ap);
     va_end(ap);
-    foo = display_string(bar, 0, COLS - 4, FALSE);
+    foo = display_string(bar, 0, COLS, FALSE);
     free(bar);
 
 #ifndef NANO_TINY
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
 #endif
-    start_x = (COLS - strlenpt(foo) - 4) / 2;
+    start_x = (COLS - strlenpt(foo)) / 2;
+    bracketed = (start_x > 1);
 
-    wmove(bottomwin, 0, start_x);
+    wmove(bottomwin, 0, (bracketed ? start_x - 2 : start_x));
     wattron(bottomwin, interface_color_pair[STATUS_BAR]);
-    waddstr(bottomwin, "[ ");
+    if (bracketed)
+	waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     free(foo);
-    waddstr(bottomwin, " ]");
+    if (bracketed)
+	waddstr(bottomwin, " ]");
     wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
 
     /* Push the message to the screen straightaway. */
