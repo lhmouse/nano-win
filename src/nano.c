@@ -692,28 +692,17 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
 /* Initialize the three window portions nano uses. */
 void window_init(void)
 {
+    /* First delete existing windows, in case of resizing. */
+    delwin(topwin);
+    delwin(edit);
+    delwin(bottomwin);
+
     /* Compute how many lines the edit subwindow will have. */
     editwinrows = LINES - TOP_ROWS - BOTTOM_ROWS;
 
     /* If there is no room to show anything, give up. */
     if (editwinrows <= 0)
 	die(_("Window size is too small for nano...\n"));
-
-#ifndef DISABLE_WRAPJUSTIFY
-    /* Set up fill, based on the screen width. */
-    fill = wrap_at;
-    if (fill <= 0)
-	fill += COLS;
-    if (fill < 0)
-	fill = 0;
-#endif
-
-    if (topwin != NULL)
-	delwin(topwin);
-    if (edit != NULL)
-	delwin(edit);
-    if (bottomwin != NULL)
-	delwin(bottomwin);
 
     /* Set up the windows. */
     topwin = newwin(TOP_ROWS, COLS, 0, 0);
@@ -726,6 +715,15 @@ void window_init(void)
 	keypad(edit, TRUE);
 	keypad(bottomwin, TRUE);
     }
+
+#ifndef DISABLE_WRAPJUSTIFY
+    /* Set up the wrapping point, accounting for screen width when negative. */
+    fill = wrap_at;
+    if (fill <= 0)
+	fill += COLS;
+    if (fill < 0)
+	fill = 0;
+#endif
 }
 
 #ifndef DISABLE_MOUSE
