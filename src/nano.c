@@ -605,7 +605,7 @@ void die(const char *msg, ...)
 
 #ifndef NANO_TINY
     /* If the current buffer has a lockfile, remove it. */
-    if (ISSET(LOCKING) && openfile->lock_filename)
+    if (openfile && ISSET(LOCKING) && openfile->lock_filename)
 	delete_lockfile(openfile->lock_filename);
 #endif
 
