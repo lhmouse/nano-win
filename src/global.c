@@ -47,10 +47,7 @@ message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
 #ifndef NANO_TINY
-int controlleft = CONTROL_LEFT;
-int controlright = CONTROL_RIGHT;
-int controlup = CONTROL_UP;
-int controldown = CONTROL_DOWN;
+int controlleft, controlright, controlup, controldown;
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY

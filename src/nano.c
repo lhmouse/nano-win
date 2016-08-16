@@ -1535,6 +1535,19 @@ void terminal_init(void)
 #endif
 }
 
+#if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
+/* Ask ncurses for a keycode, or assign a default one. */
+int get_keycode(const char *keyname, const int standard)
+{
+    const char *keyvalue = tigetstr(keyname);
+
+    if (keyvalue == 0 || keyvalue == (char *)-1)
+	return standard;
+    else
+	return key_defined(keyvalue);
+}
+#endif
+
 /* Say that an unbound key was struck, and if possible which one. */
 void unbound_key(int code)
 {
@@ -2514,20 +2527,11 @@ int main(int argc, char **argv)
 #endif
 
 #if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
-    const char *keyvalue;
     /* Ask ncurses for the key codes for Control+Left/Right/Up/Down. */
-    keyvalue = tigetstr("kLFT5");
-    if (keyvalue != 0 && keyvalue != (char *)-1)
-	controlleft = key_defined(keyvalue);
-    keyvalue = tigetstr("kRIT5");
-    if (keyvalue != 0 && keyvalue != (char *)-1)
-	controlright = key_defined(keyvalue);
-    keyvalue = tigetstr("kUP5");
-    if (keyvalue != 0 && keyvalue != (char *)-1)
-	controlup = key_defined(keyvalue);
-    keyvalue = tigetstr("kDN5");
-    if (keyvalue != 0 && keyvalue != (char *)-1)
-	controldown = key_defined(keyvalue);
+    controlleft = get_keycode("kLFT5", CONTROL_LEFT);
+    controlright = get_keycode("kRIT5", CONTROL_RIGHT);
+    controlup = get_keycode("kUP5", CONTROL_UP);
+    controldown = get_keycode("kDN5", CONTROL_DOWN);
 #endif
 
 #ifndef USE_SLANG
