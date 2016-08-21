@@ -50,7 +50,7 @@ void do_last_line(void)
 /* Move up one page. */
 void do_page_up(void)
 {
-    int i, skipped = 0;
+    int i, mustmove, skipped = 0;
 
     /* If the cursor is less than a page away from the top of the file,
      * put it at the beginning of the first line. */
@@ -73,8 +73,9 @@ void do_page_up(void)
 	openfile->placewewant = openfile->current_y = 0;
     }
 
-    for (i = editwinrows - 2; i - skipped > 0 && openfile->current !=
-	openfile->fileage; i--) {
+    mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
+
+    for (i = mustmove; i - skipped > 0 && openfile->current != openfile->fileage; i--) {
 	openfile->current = openfile->current->prev;
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP) && openfile->current) {
@@ -103,7 +104,7 @@ void do_page_up(void)
 /* Move down one page. */
 void do_page_down(void)
 {
-    int i;
+    int i, mustmove;
 
     /* If the cursor is less than a page away from the bottom of the file,
      * put it at the end of the last line. */
@@ -122,8 +123,9 @@ void do_page_down(void)
 	openfile->placewewant = openfile->current_y = 0;
     }
 
-    for (i = maxrows - 2; i > 0 && openfile->current !=
-	openfile->filebot; i--) {
+    mustmove = (maxrows < 3) ? 1 : maxrows - 2;
+
+    for (i = mustmove; i > 0 && openfile->current != openfile->filebot; i--) {
 	openfile->current = openfile->current->next;
 #ifdef DEBUG
 	fprintf(stderr, "do_page_down: moving to line %lu\n", (unsigned long)openfile->current->lineno);
