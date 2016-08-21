@@ -56,9 +56,9 @@ void do_page_up(void)
      * put it at the beginning of the first line. */
     if (openfile->current->lineno == 1 || (
 #ifndef NANO_TINY
-	!ISSET(SOFTWRAP) &&
+		!ISSET(SOFTWRAP) &&
 #endif
-	openfile->current->lineno <= editwinrows - 2)) {
+		openfile->current->lineno <= editwinrows - 2)) {
 	do_first_line();
 	return;
     }
@@ -66,13 +66,12 @@ void do_page_up(void)
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
 #ifndef NANO_TINY
-    if (!ISSET(SMOOTH_SCROLL)) {
+    if (!ISSET(SMOOTH_SCROLL))
 #endif
+    {
 	openfile->current = openfile->edittop;
 	openfile->placewewant = openfile->current_y = 0;
-#ifndef NANO_TINY
     }
-#endif
 
     for (i = editwinrows - 2; i - skipped > 0 && openfile->current !=
 	openfile->fileage; i--) {
@@ -93,7 +92,7 @@ void do_page_up(void)
 
 #ifdef DEBUG
     fprintf(stderr, "do_page_up: openfile->current->lineno = %lu, skipped = %d\n",
-	(unsigned long)openfile->current->lineno, skipped);
+			(unsigned long)openfile->current->lineno, skipped);
 #endif
 
     /* Scroll the edit window up a page. */
@@ -116,13 +115,12 @@ void do_page_down(void)
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
 #ifndef NANO_TINY
-    if (!ISSET(SMOOTH_SCROLL)) {
+    if (!ISSET(SMOOTH_SCROLL))
 #endif
+    {
 	openfile->current = openfile->edittop;
 	openfile->placewewant = openfile->current_y = 0;
-#ifndef NANO_TINY
     }
-#endif
 
     for (i = maxrows - 2; i > 0 && openfile->current !=
 	openfile->filebot; i--) {
