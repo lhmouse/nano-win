@@ -3267,15 +3267,39 @@ void do_linter(void)
 			    SET(MULTIBUFFER);
 			    open_buffer(curlint->filename, FALSE);
 			} else {
-			    char *dontwantfile = curlint->filename;
+			    char *dontwantfile = mallocstrcpy(NULL, curlint->filename);
+			    lintstruct *restlint = NULL;
 
-			    while (curlint != NULL && !strcmp(curlint->filename, dontwantfile))
-				curlint = curlint->next;
-			    if (curlint == NULL) {
+			    while (curlint != NULL) {
+				if (strcmp(curlint->filename, dontwantfile) == 0) {
+				    if (curlint == lints)
+					lints = curlint->next;
+				    else
+					curlint->prev->next = curlint->next;
+				    if (curlint->next != NULL)
+					curlint->next->prev = curlint->prev;
+				    tmplint = curlint;
+				    curlint = curlint->next;
+				    free(tmplint->msg);
+				    free(tmplint->filename);
+				    free(tmplint);
+				} else {
+				    if (restlint == NULL)
+					restlint = curlint;
+				    curlint = curlint->next;
+				}
+			    }
+
+			    if (restlint == NULL) {
 				statusbar(_("No more errors in unopened files, cancelling"));
+				napms(2400);
 				break;
-			    } else
+			    } else {
+				curlint = restlint;
 				goto new_lint_loop;
+			    }
+
+			    free(dontwantfile);
 			}
 		    } else
 			openfile = tmpof;
