@@ -33,10 +33,9 @@ static size_t statusbar_x = HIGHEST_POSITIVE;
 static size_t statusbar_pww = HIGHEST_POSITIVE;
 	/* The place we want in answer. */
 
-/* Read in a character, interpret it as a shortcut or toggle if
- * necessary, and return it.
- * Set ran_func to TRUE if we ran a function associated with a
- * shortcut key, and set finished to TRUE if we're done after running
+/* Read in a keystroke, interpret it if it is a shortcut or toggle, and
+ * return it.  Set ran_func to TRUE if we ran a function associated with
+ * a shortcut key, and set finished to TRUE if we're done after running
  * or trying to run a function associated with a shortcut key.
  * refresh_func is the function we will call to refresh the edit window. */
 int do_statusbar_input(bool *ran_func, bool *finished,
@@ -103,84 +102,82 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 	}
      }
 
-    /* If we got a shortcut, or if there aren't any other characters
-     * waiting after the one we read in, we need to display all the
-     * characters in the input buffer if it isn't empty. */
+    /* If we got a shortcut, or if there aren't any other keystrokes waiting
+     * after the one we read in, we need to insert all the characters in the
+     * input buffer (if not empty) into the answer. */
     if ((have_shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
-	    /* Display all the characters in the input buffer at
-	     * once, filtering out control characters. */
-	    do_statusbar_output(kbinput, kbinput_len, TRUE, NULL);
+	/* Inject all characters in the input buffer at once, filtering out
+	 * control characters. */
+	do_statusbar_output(kbinput, kbinput_len, TRUE, NULL);
 
-	    /* Empty the input buffer. */
-	    kbinput_len = 0;
-	    free(kbinput);
-	    kbinput = NULL;
+	/* Empty the input buffer. */
+	kbinput_len = 0;
+	free(kbinput);
+	kbinput = NULL;
     }
 
-
     if (have_shortcut) {
-	    if (s->scfunc == do_tab || s->scfunc == do_enter)
-		;
-	    else if (s->scfunc == total_refresh) {
-		total_redraw();
-		refresh_func();
-	    } else if (s->scfunc == do_left)
-		do_statusbar_left();
-	    else if (s->scfunc == do_right)
-		do_statusbar_right();
+	if (s->scfunc == do_tab || s->scfunc == do_enter)
+	    ;
+	else if (s->scfunc == total_refresh) {
+	    total_redraw();
+	    refresh_func();
+	} else if (s->scfunc == do_left)
+	    do_statusbar_left();
+	else if (s->scfunc == do_right)
+	    do_statusbar_right();
 #ifndef NANO_TINY
-	    else if (s->scfunc == do_prev_word_void)
-		do_statusbar_prev_word();
-	    else if (s->scfunc == do_next_word_void)
-		do_statusbar_next_word();
+	else if (s->scfunc == do_prev_word_void)
+	    do_statusbar_prev_word();
+	else if (s->scfunc == do_next_word_void)
+	    do_statusbar_next_word();
 #endif
-	    else if (s->scfunc == do_home)
-		do_statusbar_home();
-	    else if (s->scfunc == do_end)
-		do_statusbar_end();
-	    /* When in restricted mode at the "Write File" prompt and the
-	     * filename isn't blank, disallow any input and deletion. */
-	    else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
+	else if (s->scfunc == do_home)
+	    do_statusbar_home();
+	else if (s->scfunc == do_end)
+	    do_statusbar_end();
+	/* When in restricted mode at the "Write File" prompt and the
+	 * filename isn't blank, disallow any input and deletion. */
+	else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
 				openfile->filename[0] != '\0' &&
 				(s->scfunc == do_verbatim_input ||
 				s->scfunc == do_cut_text_void ||
 				s->scfunc == do_delete ||
 				s->scfunc == do_backspace))
-		;
-	    else if (s->scfunc == do_verbatim_input) {
-		bool got_newline = FALSE;
-			/* Whether we got a verbatim ^J. */
+	    ;
+	else if (s->scfunc == do_verbatim_input) {
+	    bool got_newline = FALSE;
+		/* Whether we got a verbatim ^J. */
 
-		do_statusbar_verbatim_input(&got_newline);
+	    do_statusbar_verbatim_input(&got_newline);
 
-		/* If we got a verbatim ^J, remove it from the input buffer,
-		 * fake a press of Enter, and indicate that we're done. */
-		if (got_newline) {
-		    get_input(NULL, 1);
-		    input = sc_seq_or(do_enter, 0);
-		    *finished = TRUE;
-		}
-	    } else if (s->scfunc == do_cut_text_void) {
-		do_statusbar_cut_text();
-	    } else if (s->scfunc == do_delete) {
-		do_statusbar_delete();
-	    } else if (s->scfunc == do_backspace) {
-		do_statusbar_backspace();
-	    } else {
-		/* Handle any other shortcut in the current menu, setting
-		 * ran_func to TRUE if we try to run their associated
-		 * functions and setting finished to TRUE to indicate
-		 * that we're done after running or trying to run their
-		 * associated functions. */
-		f = sctofunc(s);
-		if (s->scfunc != NULL) {
-		    *ran_func = TRUE;
-		    if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
-				f->scfunc != do_gotolinecolumn_void)
-			f->scfunc();
-		}
+	    /* If we got a verbatim ^J, remove it from the input buffer,
+	     * fake a press of Enter, and indicate that we're done. */
+	    if (got_newline) {
+		get_input(NULL, 1);
+		input = sc_seq_or(do_enter, 0);
 		*finished = TRUE;
 	    }
+	} else if (s->scfunc == do_cut_text_void)
+	    do_statusbar_cut_text();
+	else if (s->scfunc == do_delete)
+	    do_statusbar_delete();
+	else if (s->scfunc == do_backspace)
+	    do_statusbar_backspace();
+	else {
+	    /* Handle any other shortcut in the current menu, setting
+	     * ran_func to TRUE if we try to run their associated functions,
+	     * and setting finished to TRUE to indicatethat we're done after
+	     * running or trying to run their associated functions. */
+	    f = sctofunc(s);
+	    if (s->scfunc != NULL) {
+		*ran_func = TRUE;
+		if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
+				f->scfunc != do_gotolinecolumn_void)
+		    f->scfunc();
+	    }
+	    *finished = TRUE;
+	}
     }
 
     return input;
