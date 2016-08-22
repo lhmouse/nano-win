@@ -724,14 +724,14 @@ int do_prompt(bool allow_tabs,
     size_t was_statusbar_x = statusbar_x;
     size_t was_pww = statusbar_pww;
 
-    prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
+    prompt = charalloc((COLS * mb_cur_max()) + 1);
 
     bottombars(menu);
 
     va_start(ap, msg);
-    vsnprintf(prompt, (COLS - 4) * mb_cur_max(), msg, ap);
+    vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
     va_end(ap);
-    null_at(&prompt, actual_x(prompt, COLS - 4));
+    null_at(&prompt, actual_x(prompt, (COLS < 4) ? 0 : COLS - 4));
 
     func = get_prompt_string(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
