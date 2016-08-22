@@ -1956,7 +1956,7 @@ void statusbar(const char *msg)
 void statusline(message_type importance, const char *msg, ...)
 {
     va_list ap;
-    char *bar, *foo;
+    char *compound, *message;
     size_t start_x;
     bool bracketed;
 #ifndef NANO_TINY
@@ -1994,25 +1994,22 @@ void statusline(message_type importance, const char *msg, ...)
 
     blank_statusbar();
 
-    bar = charalloc(mb_cur_max() * (COLS + 1));
-    vsnprintf(bar, mb_cur_max() * (COLS + 1), msg, ap);
+    /* Construct the message out of all the arguments. */
+    compound = charalloc(mb_cur_max() * (COLS + 1));
+    vsnprintf(compound, mb_cur_max() * (COLS + 1), msg, ap);
     va_end(ap);
-    foo = display_string(bar, 0, COLS, FALSE);
-    free(bar);
+    message = display_string(compound, 0, COLS, FALSE);
+    free(compound);
 
-#ifndef NANO_TINY
-    if (old_whitespace)
-	SET(WHITESPACE_DISPLAY);
-#endif
-    start_x = (COLS - strlenpt(foo)) / 2;
+    start_x = (COLS - strlenpt(message)) / 2;
     bracketed = (start_x > 1);
 
     wmove(bottomwin, 0, (bracketed ? start_x - 2 : start_x));
     wattron(bottomwin, interface_color_pair[STATUS_BAR]);
     if (bracketed)
 	waddstr(bottomwin, "[ ");
-    waddstr(bottomwin, foo);
-    free(foo);
+    waddstr(bottomwin, message);
+    free(message);
     if (bracketed)
 	waddstr(bottomwin, " ]");
     wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
@@ -2023,10 +2020,12 @@ void statusline(message_type importance, const char *msg, ...)
 
     suppress_cursorpos = TRUE;
 
-    /* If we're doing quick statusbar blanking, blank it after just one
-     * keystroke.  Otherwise, blank it after twenty-six keystrokes, as
-     * Pico does. */
 #ifndef NANO_TINY
+    if (old_whitespace)
+	SET(WHITESPACE_DISPLAY);
+
+    /* If doing quick blanking, blank the statusbar after just one keystroke.
+     * Otherwise, blank it after twenty-six keystrokes, as Pico does. */
     if (ISSET(QUICK_BLANK))
 	statusblank = 1;
     else
