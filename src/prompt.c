@@ -28,9 +28,9 @@
 
 static char *prompt = NULL;
 	/* The prompt string used for statusbar questions. */
-static size_t statusbar_x = (size_t)-1;
+static size_t statusbar_x = HIGHEST_POSITIVE;
 	/* The cursor position in answer. */
-static size_t statusbar_pww = (size_t)-1;
+static size_t statusbar_pww = HIGHEST_POSITIVE;
 	/* The place we want in answer. */
 
 /* Read in a character, interpret it as a shortcut or toggle if
@@ -106,8 +106,7 @@ int do_statusbar_input(bool *ran_func, bool *finished,
     /* If we got a shortcut, or if there aren't any other characters
      * waiting after the one we read in, we need to display all the
      * characters in the input buffer if it isn't empty. */
-    if (have_shortcut || get_key_buffer_len() == 0) {
-	if (kbinput != NULL) {
+    if ((have_shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
 	    /* Display all the characters in the input buffer at
 	     * once, filtering out control characters. */
 	    do_statusbar_output(kbinput, kbinput_len, TRUE, NULL);
@@ -116,9 +115,10 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 	    kbinput_len = 0;
 	    free(kbinput);
 	    kbinput = NULL;
-	}
+    }
 
-	if (have_shortcut) {
+
+    if (have_shortcut) {
 	    if (s->scfunc == do_tab || s->scfunc == do_enter)
 		;
 	    else if (s->scfunc == total_refresh) {
@@ -181,7 +181,6 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 		}
 		*finished = TRUE;
 	    }
-	}
     }
 
     return input;
@@ -445,8 +444,8 @@ size_t get_statusbar_page_start(size_t start_col, size_t column)
 /* Reinitialize the cursor position in the status bar prompt. */
 void reinit_statusbar_x(void)
 {
-    statusbar_x = (size_t)-1;
-    statusbar_pww = (size_t)-1;
+    statusbar_x = HIGHEST_POSITIVE;
+    statusbar_pww = HIGHEST_POSITIVE;
 }
 
 /* Put the cursor in the statusbar prompt at statusbar_x. */
@@ -559,13 +558,8 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     wnoutrefresh(edit);
     wnoutrefresh(bottomwin);
 
-    /* If we're using restricted mode, we aren't allowed to change the
-     * name of the current file once it has one, because that would
-     * allow writing to files not specified on the command line.  In
-     * this case, disable all keys that would change the text if the
-     * filename isn't blank and we're at the "Write File" prompt. */
     while (TRUE) {
-	/* Ensure the cursor is on when waiting for input. */
+	/* Ensure the cursor is shown when waiting for input. */
 	curs_set(1);
 
 	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
@@ -724,10 +718,9 @@ int do_prompt(bool allow_tabs,
     size_t was_statusbar_x = statusbar_x;
     size_t was_pww = statusbar_pww;
 
-    prompt = charalloc((COLS * mb_cur_max()) + 1);
-
     bottombars(menu);
 
+    prompt = charalloc((COLS * mb_cur_max()) + 1);
     va_start(ap, msg);
     vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
     va_end(ap);
@@ -737,11 +730,11 @@ int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 			allow_files, &listed,
 #endif
-	curranswer,
+			curranswer,
 #ifndef DISABLE_HISTORIES
-	history_list,
+			history_list,
 #endif
-	refresh_func);
+			refresh_func);
 
     free(prompt);
     prompt = NULL;
