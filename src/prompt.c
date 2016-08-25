@@ -455,8 +455,15 @@ void reset_statusbar_cursor(void)
     size_t start_col = strlenpt(prompt) + 2;
     size_t xpt = statusbar_xplustabs();
 
+    /* Work around a cursor-misplacement bug in VTEs. */
+    wmove(bottomwin, 0, 0);
+    wnoutrefresh(bottomwin);
+    doupdate();
+
     wmove(bottomwin, 0, start_col + xpt -
 	get_statusbar_page_start(start_col, start_col + xpt));
+
+    wnoutrefresh(bottomwin);
 }
 
 /* Repaint the statusbar. */
@@ -487,7 +494,6 @@ void update_the_statusbar(void)
 
     statusbar_pww = statusbar_xplustabs();
     reset_statusbar_cursor();
-    wnoutrefresh(bottomwin);
 }
 
 /* Update the statusbar line /if/ the placewewant changes page. */
@@ -672,7 +678,6 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	last_kbinput = kbinput;
 #endif
 	reset_statusbar_cursor();
-	wnoutrefresh(bottomwin);
     }
 
 #ifndef DISABLE_HISTORIES
