@@ -563,10 +563,12 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
 	assert(statusbar_x <= strlen(answer));
 
 #ifndef NANO_TINY
+	/* If the window size changed, go reformat the prompt string. */
 	if (kbinput == KEY_WINCH) {
 	    refresh_func();
-	    update_the_statusbar();
-	    continue;
+	    *actual = KEY_WINCH;
+	    free(magichistory);
+	    return NULL;
 	}
 #endif
 	func = func_from_key(&kbinput);
@@ -706,7 +708,7 @@ int do_prompt(bool allow_tabs,
 	void (*refresh_func)(void), const char *msg, ...)
 {
     va_list ap;
-    int retval;
+    int retval = KEY_WINCH;
     functionptrtype func;
 #ifndef DISABLE_TABCOMP
     bool listed = FALSE;
@@ -717,6 +719,7 @@ int do_prompt(bool allow_tabs,
 
     bottombars(menu);
 
+    while (retval == KEY_WINCH) {
     prompt = charalloc((COLS * mb_cur_max()) + 1);
     va_start(ap, msg);
     vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
@@ -735,6 +738,7 @@ int do_prompt(bool allow_tabs,
 
     free(prompt);
     prompt = NULL;
+    }
 
     /* If we're done with this prompt, restore the x position to what
      * it was at a possible previous prompt. */
