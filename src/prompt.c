@@ -506,7 +506,7 @@ void update_bar_if_needed(void)
 }
 
 /* Get a string of input at the statusbar prompt. */
-functionptrtype get_prompt_string(int *actual, bool allow_tabs,
+functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files, bool *listed,
 #endif
@@ -546,7 +546,7 @@ functionptrtype get_prompt_string(int *actual, bool allow_tabs,
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_prompt_string: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
+    fprintf(stderr, "acquire_an_answer: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
 #endif
 
     update_the_statusbar();
@@ -720,13 +720,13 @@ int do_prompt(bool allow_tabs,
     bottombars(menu);
 
     while (retval == KEY_WINCH) {
-    prompt = charalloc((COLS * mb_cur_max()) + 1);
-    va_start(ap, msg);
-    vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
-    va_end(ap);
-    null_at(&prompt, actual_x(prompt, (COLS < 4) ? 0 : COLS - 4));
+	prompt = charalloc((COLS * mb_cur_max()) + 1);
+	va_start(ap, msg);
+	vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
+	va_end(ap);
+	null_at(&prompt, actual_x(prompt, (COLS < 4) ? 0 : COLS - 4));
 
-    func = get_prompt_string(&retval, allow_tabs,
+	func = acquire_an_answer(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
 			allow_files, &listed,
 #endif
@@ -736,8 +736,8 @@ int do_prompt(bool allow_tabs,
 #endif
 			refresh_func);
 
-    free(prompt);
-    prompt = NULL;
+	free(prompt);
+	prompt = NULL;
     }
 
     /* If we're done with this prompt, restore the x position to what

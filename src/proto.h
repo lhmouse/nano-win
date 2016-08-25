@@ -518,15 +518,6 @@ void reinit_statusbar_x(void);
 void reset_statusbar_cursor(void);
 void update_the_statusbar(void);
 void update_bar_if_needed(void);
-functionptrtype get_prompt_string(int *value, bool allow_tabs,
-#ifndef DISABLE_TABCOMP
-	bool allow_files, bool *listed,
-#endif
-	const char *curranswer,
-#ifndef DISABLE_HISTORIES
-	filestruct **history_list,
-#endif
-	void (*refresh_func)(void));
 int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,
