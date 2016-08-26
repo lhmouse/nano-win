@@ -155,32 +155,32 @@ int search_init(bool replacing, bool use_answer)
     /* This is now one simple call.  It just does a lot. */
     i = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-	TRUE,
+		TRUE,
 #endif
-	replacing ? MREPLACE : MWHEREIS, backupstring,
+		replacing ? MREPLACE : MWHEREIS, backupstring,
 #ifndef DISABLE_HISTORIES
-	&search_history,
+		&search_history,
 #endif
-	/* TRANSLATORS: This is the main search prompt. */
-	edit_refresh, "%s%s%s%s%s%s", _("Search"),
+		/* TRANSLATORS: This is the main search prompt. */
+		edit_refresh, "%s%s%s%s%s%s", _("Search"),
 #ifndef NANO_TINY
-	/* TRANSLATORS: The next three strings are modifiers of the search prompt. */
-	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
+		/* TRANSLATORS: The next three modify the search prompt. */
+		ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
 #endif
-	"",
+		"",
 #ifdef HAVE_REGEX_H
-	ISSET(USE_REGEXP) ? _(" [Regexp]") :
+		ISSET(USE_REGEXP) ? _(" [Regexp]") :
 #endif
-	"",
+		"",
 #ifndef NANO_TINY
-	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
+		ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
 #endif
-	"", replacing ?
+		"", replacing ?
 #ifndef NANO_TINY
-	/* TRANSLATORS: The next two strings are modifiers of the search prompt. */
-	openfile->mark_set ? _(" (to replace) in selection") :
+		/* TRANSLATORS: The next two modify the search prompt. */
+		openfile->mark_set ? _(" (to replace) in selection") :
 #endif
-	_(" (to replace)") : "", buf);
+		_(" (to replace)") : "", buf);
 
     /* Release buf now that we don't need it anymore. */
     free(buf);
@@ -834,14 +834,14 @@ void do_replace(void)
 
     i = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-	TRUE,
+		TRUE,
 #endif
-	MREPLACEWITH, NULL,
+		MREPLACEWITH, NULL,
 #ifndef DISABLE_HISTORIES
-	&replace_history,
+		&replace_history,
 #endif
-	/* TRANSLATORS: This is a prompt. */
-	edit_refresh, _("Replace with"));
+		/* TRANSLATORS: This is a prompt. */
+		edit_refresh, _("Replace with"));
 
 #ifndef DISABLE_HISTORIES
     /* If the replace string is not "", add it to the replace history list. */

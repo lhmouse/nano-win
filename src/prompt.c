@@ -546,7 +546,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "acquire_an_answer: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
+    fprintf(stderr, "acquiring: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
 #endif
 
     update_the_statusbar();
@@ -709,7 +709,7 @@ int do_prompt(bool allow_tabs,
 {
     va_list ap;
     int retval = KEY_WINCH;
-    functionptrtype func;
+    functionptrtype func = NULL;
 #ifndef DISABLE_TABCOMP
     bool listed = FALSE;
 #endif

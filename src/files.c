@@ -1085,21 +1085,21 @@ void do_insertfile(
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {
-	    msg =
 #ifndef DISABLE_MULTIBUFFER
-		ISSET(MULTIBUFFER) ?
-		_("Command to execute in new buffer [from %s] ") :
+	    if (ISSET(MULTIBUFFER))
+		msg = _("Command to execute in new buffer [from %s] ");
+	    else
 #endif
-		_("Command to execute [from %s] ");
+		msg = _("Command to execute [from %s] ");
 	} else
 #endif /* NANO_TINY */
 	{
-	    msg =
 #ifndef DISABLE_MULTIBUFFER
-		ISSET(MULTIBUFFER) ?
-		_("File to insert into new buffer [from %s] ") :
+	    if (ISSET(MULTIBUFFER))
+		msg = _("File to insert into new buffer [from %s] ");
+	    else
 #endif
-		_("File to insert [from %s] ");
+		msg = _("File to insert [from %s] ");
 	}
 
 	present_path = mallocstrcpy(present_path, "./");
@@ -1117,8 +1117,8 @@ void do_insertfile(
 #endif
 		edit_refresh, msg,
 #ifndef DISABLE_OPERATINGDIR
-		operating_dir != NULL && strcmp(operating_dir,
-		".") != 0 ? operating_dir :
+		operating_dir != NULL && strcmp(operating_dir, ".") != 0 ?
+		operating_dir :
 #endif
 		"./");
 

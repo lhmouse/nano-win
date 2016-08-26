@@ -681,13 +681,13 @@ int filesearch_init(void)
     /* This is now one simple call.  It just does a lot. */
     input = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-	TRUE,
+		TRUE,
 #endif
-	MWHEREISFILE, NULL,
+		MWHEREISFILE, NULL,
 #ifndef DISABLE_HISTORIES
-	&search_history,
+		&search_history,
 #endif
-	browser_refresh, "%s%s", _("Search"), buf);
+		browser_refresh, "%s%s", _("Search"), buf);
 
     /* Release buf now that we don't need it anymore. */
     free(buf);
