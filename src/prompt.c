@@ -424,17 +424,16 @@ size_t statusbar_xplustabs(void)
     return strnlenpt(answer, statusbar_x);
 }
 
-/* nano scrolls horizontally within a line in chunks.  This function
- * returns the column number of the first character displayed in the
- * statusbar prompt when the cursor is at the given column with the
- * prompt ending at start_col.  Note that (0 <= column -
- * get_statusbar_page_start(column) < COLS). */
-size_t get_statusbar_page_start(size_t start_col, size_t column)
+/* Return the column number of the first character of the answer that is
+ * displayed in the statusbar when the cursor is at the given column,
+ * with the available room for the answer starting at base.  Note that
+ * (0 <= column - get_statusbar_page_start(column) < COLS). */
+size_t get_statusbar_page_start(size_t base, size_t column)
 {
-    if (column == start_col || column < COLS - 1)
+    if (column == base || column < COLS - 1)
 	return 0;
-    else if (COLS > start_col + 2)
-	return column - start_col - 1 - (column - start_col - 1) % (COLS - start_col - 2);
+    else if (COLS > base + 2)
+	return column - base - 1 - (column - base - 1) % (COLS - base - 2);
     else
 	return column - 2;
 }
@@ -458,7 +457,7 @@ void reset_statusbar_cursor(void)
     doupdate();
 
     wmove(bottomwin, 0, start_col + xpt -
-	get_statusbar_page_start(start_col, start_col + xpt));
+			get_statusbar_page_start(start_col, start_col + xpt));
 
     wnoutrefresh(bottomwin);
 }
@@ -466,15 +465,14 @@ void reset_statusbar_cursor(void)
 /* Repaint the statusbar. */
 void update_the_statusbar(void)
 {
-    size_t start_col, index, page_start, page_end;
+    size_t base, the_page, end_page;
     char *expanded;
 
     assert(prompt != NULL && statusbar_x <= strlen(answer));
 
-    start_col = strlenpt(prompt) + 2;
-    index = strnlenpt(answer, statusbar_x);
-    page_start = get_statusbar_page_start(start_col, start_col + index);
-    page_end = get_statusbar_page_start(start_col, start_col + strlenpt(answer) - 1);
+    base = strlenpt(prompt) + 2;
+    the_page = get_statusbar_page_start(base, base + strnlenpt(answer, statusbar_x));
+    end_page = get_statusbar_page_start(base, base + strlenpt(answer) - 1);
 
     wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 
@@ -482,13 +480,13 @@ void update_the_statusbar(void)
 
     mvwaddnstr(bottomwin, 0, 0, prompt, actual_x(prompt, COLS - 2));
     waddch(bottomwin, ':');
-    waddch(bottomwin, (page_start == 0) ? ' ' : '$');
+    waddch(bottomwin, (the_page == 0) ? ' ' : '$');
 
-    expanded = display_string(answer, page_start, COLS - start_col - 1, FALSE);
+    expanded = display_string(answer, the_page, COLS - base - 1, FALSE);
     waddstr(bottomwin, expanded);
     free(expanded);
 
-    waddch(bottomwin, (page_start >= page_end) ? ' ' : '$');
+    waddch(bottomwin, (the_page >= end_page) ? ' ' : '$');
 
     wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
