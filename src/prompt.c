@@ -466,7 +466,7 @@ void reset_statusbar_cursor(void)
 /* Repaint the statusbar. */
 void update_the_statusbar(void)
 {
-    size_t start_col, index, page_start;
+    size_t start_col, index, page_start, page_end;
     char *expanded;
 
     assert(prompt != NULL && statusbar_x <= strlen(answer));
@@ -474,6 +474,7 @@ void update_the_statusbar(void)
     start_col = strlenpt(prompt) + 2;
     index = strnlenpt(answer, statusbar_x);
     page_start = get_statusbar_page_start(start_col, start_col + index);
+    page_end = get_statusbar_page_start(start_col, start_col + strlenpt(answer) - 1);
 
     wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 
@@ -486,6 +487,8 @@ void update_the_statusbar(void)
     expanded = display_string(answer, page_start, COLS - start_col - 1, FALSE);
     waddstr(bottomwin, expanded);
     free(expanded);
+
+    waddch(bottomwin, (page_start >= page_end) ? ' ' : '$');
 
     wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
