@@ -431,11 +431,12 @@ size_t statusbar_xplustabs(void)
  * get_statusbar_page_start(column) < COLS). */
 size_t get_statusbar_page_start(size_t start_col, size_t column)
 {
-    if (column == start_col || column < COLS - 1 || COLS == start_col + 1)
+    if (column == start_col || column < COLS - 1)
 	return 0;
+    else if (COLS > start_col + 2)
+	return column - start_col - 1 - (column - start_col - 1) % (COLS - start_col - 2);
     else
-	return column - start_col - (column - start_col) % (COLS -
-		start_col - 1);
+	return column - 2;
 }
 
 /* Reinitialize the cursor position in the status bar prompt. */
@@ -724,7 +725,8 @@ int do_prompt(bool allow_tabs,
 	va_start(ap, msg);
 	vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
 	va_end(ap);
-	null_at(&prompt, actual_x(prompt, (COLS < 4) ? 0 : COLS - 4));
+	/* Reserve five columns for colon plus dollars plus answer, ":$aa$". */
+	null_at(&prompt, actual_x(prompt, (COLS < 5) ? 0 : COLS - 5));
 
 	func = acquire_an_answer(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
