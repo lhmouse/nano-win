@@ -1457,9 +1457,8 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		 * two, in the shortcut list in bottomwin. */
 	    int j;
 		/* The calculated index number of the clicked item. */
-	    size_t currslen;
-		/* The number of shortcuts in the current shortcut
-		 * list. */
+	    size_t number;
+		/* The number of available shortcuts in the current menu. */
 
 	    /* Translate the mouse event coordinates so that they're
 	     * relative to bottomwin. */
@@ -1477,31 +1476,31 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    }
 
 	    /* Determine how many shortcuts are being shown. */
-	    currslen = length_of_list(currmenu);
+	    number = length_of_list(currmenu);
 
-	    if (currslen > MAIN_VISIBLE)
-		currslen = MAIN_VISIBLE;
+	    if (number > MAIN_VISIBLE)
+		number = MAIN_VISIBLE;
 
 	    /* Calculate the width of all of the shortcuts in the list
 	     * except for the last two, which are longer by (COLS % i)
 	     * columns so as to not waste space. */
-	    if (currslen < 2)
+	    if (number < 2)
 		i = COLS / (MAIN_VISIBLE / 2);
 	    else
-		i = COLS / ((currslen / 2) + (currslen % 2));
+		i = COLS / ((number / 2) + (number % 2));
 
 	    /* Calculate the one-based index in the shortcut list. */
 	    j = (*mouse_x / i) * 2 + *mouse_y;
 
 	    /* Adjust the index if we hit the last two wider ones. */
-	    if ((j > currslen) && (*mouse_x % i < COLS % i))
+	    if ((j > number) && (*mouse_x % i < COLS % i))
 		j -= 2;
 #ifdef DEBUG
 	    fprintf(stderr, "Calculated %i as index in shortcut list, currmenu = %x.\n", j, currmenu);
 #endif
 	    /* Ignore releases/clicks of the first mouse button beyond
 	     * the last shortcut. */
-	    if (j > currslen)
+	    if (j > number)
 		return 2;
 
 	    /* Go through the list of functions to determine which
@@ -2031,7 +2030,7 @@ void statusline(message_type importance, const char *msg, ...)
  * of the bottom portion of the window. */
 void bottombars(int menu)
 {
-    size_t i, colwidth, slen;
+    size_t number, itemwidth, i;
     subnfunc *f;
     const sc *s;
 
@@ -2042,26 +2041,25 @@ void bottombars(int menu)
 	return;
 
     /* Determine how many shortcuts there are to show. */
-    slen = length_of_list(menu);
+    number = length_of_list(menu);
 
-    if (slen > MAIN_VISIBLE)
-	slen = MAIN_VISIBLE;
+    if (number > MAIN_VISIBLE)
+	number = MAIN_VISIBLE;
 
     /* Compute the width of each keyname-plus-explanation pair. */
-    colwidth = COLS / ((slen / 2) + (slen % 2));
+    itemwidth = COLS / ((number / 2) + (number % 2));
 
     /* If there is no room, don't print anything. */
-    if (colwidth == 0)
+    if (itemwidth == 0)
 	return;
 
     blank_bottombars();
 
 #ifdef DEBUG
-    fprintf(stderr, "In bottombars, and slen == \"%d\"\n", (int) slen);
+    fprintf(stderr, "In bottombars, number of items == \"%d\"\n", (int) number);
 #endif
 
-    for (f = allfuncs, i = 0; i < slen && f != NULL; f = f->next) {
-
+    for (f = allfuncs, i = 0; i < number && f != NULL; f = f->next) {
 #ifdef DEBUG
 	fprintf(stderr, "Checking menu items....");
 #endif
@@ -2078,11 +2076,12 @@ void bottombars(int menu)
 #endif
 	    continue;
 	}
-	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
+
+	wmove(bottomwin, 1 + i % 2, (i / 2) * itemwidth);
 #ifdef DEBUG
 	fprintf(stderr, "Calling onekey with keystr \"%s\" and desc \"%s\"\n", s->keystr, f->desc);
 #endif
-	onekey(s->keystr, _(f->desc), colwidth + (COLS % colwidth));
+	onekey(s->keystr, _(f->desc), itemwidth + (COLS % itemwidth));
 	i++;
     }
 
