@@ -480,13 +480,13 @@ void update_the_statusbar(void)
 
     mvwaddnstr(bottomwin, 0, 0, prompt, actual_x(prompt, COLS - 2));
     waddch(bottomwin, ':');
-    waddch(bottomwin, (the_page == 0) ? ' ' : '$');
+    waddch(bottomwin, (the_page == 0) ? ' ' : '<');
 
     expanded = display_string(answer, the_page, COLS - base - 1, FALSE);
     waddstr(bottomwin, expanded);
     free(expanded);
 
-    waddch(bottomwin, (the_page >= end_page) ? ' ' : '$');
+    waddch(bottomwin, (the_page >= end_page) ? ' ' : '>');
 
     wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
@@ -726,7 +726,7 @@ int do_prompt(bool allow_tabs,
 	va_start(ap, msg);
 	vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
 	va_end(ap);
-	/* Reserve five columns for colon plus dollars plus answer, ":$aa$". */
+	/* Reserve five columns for colon plus angles plus answer, ":<aa>". */
 	null_at(&prompt, actual_x(prompt, (COLS < 5) ? 0 : COLS - 5));
 
 	func = acquire_an_answer(&retval, allow_tabs,
