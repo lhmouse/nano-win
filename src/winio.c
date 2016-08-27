@@ -1476,17 +1476,11 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		return 0;
 	    }
 
-	    /* Get the shortcut lists' length. */
-	    if (currmenu == MMAIN)
-		currslen = MAIN_VISIBLE;
-	    else {
-		currslen = length_of_list(currmenu);
+	    /* Determine how many shortcuts are being shown. */
+	    currslen = length_of_list(currmenu);
 
-		/* We don't show any more shortcuts than the main list
-		 * does. */
-		if (currslen > MAIN_VISIBLE)
-		    currslen = MAIN_VISIBLE;
-	    }
+	    if (currslen > MAIN_VISIBLE)
+		currslen = MAIN_VISIBLE;
 
 	    /* Calculate the width of all of the shortcuts in the list
 	     * except for the last two, which are longer by (COLS % i)
@@ -2047,17 +2041,11 @@ void bottombars(int menu)
     if (ISSET(NO_HELP) || LINES < 5)
 	return;
 
-    if (menu == MMAIN) {
+    /* Determine how many shortcuts there are to show. */
+    slen = length_of_list(menu);
+
+    if (slen > MAIN_VISIBLE)
 	slen = MAIN_VISIBLE;
-
-	assert(slen <= length_of_list(menu));
-    } else {
-	slen = length_of_list(menu);
-
-	/* Don't show any more shortcuts than the main list does. */
-	if (slen > MAIN_VISIBLE)
-	    slen = MAIN_VISIBLE;
-    }
 
     /* Compute the width of each keyname-plus-explanation pair. */
     colwidth = COLS / ((slen / 2) + (slen % 2));
