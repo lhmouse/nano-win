@@ -69,7 +69,7 @@ int do_statusbar_input(bool *ran_func, bool *finished,
 	if (do_statusbar_mouse() == 1)
 	    input = get_kbinput(bottomwin);
 	else
-	    input = ERR;
+	    return ERR;
     }
 #endif
 
