@@ -512,7 +512,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files, bool *listed,
 #endif
-	const char *curranswer,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
 #endif
@@ -539,8 +538,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	 * tab complete, if any. */
 #endif
 #endif /* !DISABLE_HISTORIES */
-
-    answer = mallocstrcpy(answer, curranswer);
 
     if (statusbar_x > strlen(answer)) {
 	statusbar_x = strlen(answer);
@@ -721,6 +718,8 @@ int do_prompt(bool allow_tabs,
 
     bottombars(menu);
 
+    answer = mallocstrcpy(answer, curranswer);
+
     while (retval == KEY_WINCH) {
 	prompt = charalloc((COLS * mb_cur_max()) + 1);
 	va_start(ap, msg);
@@ -733,7 +732,6 @@ int do_prompt(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 			allow_files, &listed,
 #endif
-			curranswer,
 #ifndef DISABLE_HISTORIES
 			history_list,
 #endif
