@@ -1627,103 +1627,103 @@ int do_input(bool allow_funcs)
     if (!allow_funcs)
 	return input;
 
-	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
-	 * character: add the character to the input buffer -- or display a
-	 * warning when we're in view mode. */
-	if (input != ERR && !have_shortcut) {
-	    if (ISSET(VIEW_MODE))
-		print_view_warning();
-	    else {
-		/* Store the byte, and leave room for a terminating zero. */
-		puddle = charealloc(puddle, depth + 2);
-		puddle[depth++] = (char)input;
-	    }
+    /* If the keystroke isn't a shortcut nor a toggle, it's a normal text
+     * character: add the character to the input buffer -- or display a
+     * warning when we're in view mode. */
+     if (input != ERR && !have_shortcut) {
+	if (ISSET(VIEW_MODE))
+	    print_view_warning();
+	else {
+	    /* Store the byte, and leave room for a terminating zero. */
+	    puddle = charealloc(puddle, depth + 2);
+	    puddle[depth++] = (char)input;
 	}
+    }
 
-	/* If we got a shortcut or toggle, or if there aren't any other
-	 * characters waiting after the one we read in, we need to output
-	 * all available characters in the input puddle.  Note that this
-	 * puddle will be empty if we're in view mode. */
-	if (have_shortcut || get_key_buffer_len() == 0) {
+    /* If we got a shortcut or toggle, or if there aren't any other
+     * characters waiting after the one we read in, we need to output
+     * all available characters in the input puddle.  Note that this
+     * puddle will be empty if we're in view mode. */
+    if (have_shortcut || get_key_buffer_len() == 0) {
 #ifndef DISABLE_WRAPPING
-	    /* If we got a shortcut or toggle, and it's not the shortcut
-	     * for verbatim input, turn off prepending of wrapped text. */
-	    if (have_shortcut && s->scfunc != do_verbatim_input)
-		wrap_reset();
+	/* If we got a shortcut or toggle, and it's not the shortcut
+	 * for verbatim input, turn off prepending of wrapped text. */
+	if (have_shortcut && s->scfunc != do_verbatim_input)
+	    wrap_reset();
 #endif
 
-	    if (puddle != NULL) {
-		/* Insert all bytes in the input buffer into the edit buffer
-		 * at once, filtering out any low control codes. */
-		puddle[depth] = '\0';
-		do_output(puddle, depth, FALSE);
+	if (puddle != NULL) {
+	    /* Insert all bytes in the input buffer into the edit buffer
+	     * at once, filtering out any low control codes. */
+	    puddle[depth] = '\0';
+	    do_output(puddle, depth, FALSE);
 
-		/* Empty the input buffer. */
-		free(puddle);
-		puddle = NULL;
-		depth = 0;
-	    }
+	    /* Empty the input buffer. */
+	    free(puddle);
+	    puddle = NULL;
+	    depth = 0;
+	}
+    }
+
+    if (have_shortcut) {
+	const subnfunc *f = sctofunc(s);
+
+	if (ISSET(VIEW_MODE) && f && !f->viewok) {
+	    print_view_warning();
+	    return ERR;
 	}
 
-	if (have_shortcut) {
-	    const subnfunc *f = sctofunc(s);
-
-	    if (ISSET(VIEW_MODE) && f && !f->viewok) {
-		print_view_warning();
-		return ERR;
-	    }
-
-	    /* If the function associated with this shortcut is
-	     * cutting or copying text, remember this. */
-	    if (s->scfunc == do_cut_text_void
+	/* If the function associated with this shortcut is
+	 * cutting or copying text, remember this. */
+	if (s->scfunc == do_cut_text_void
 #ifndef NANO_TINY
 		|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_eof
 #endif
 		)
-		preserve = TRUE;
+	    preserve = TRUE;
 
 #ifndef NANO_TINY
-		if (s->scfunc == do_toggle_void) {
-		    do_toggle(s->toggle);
-		    if (s->toggle != CUT_TO_END)
-			preserve = TRUE;
-		} else
+	if (s->scfunc == do_toggle_void) {
+	    do_toggle(s->toggle);
+	    if (s->toggle != CUT_TO_END)
+		preserve = TRUE;
+	} else
 #endif
-		{
+	{
 #ifndef NANO_TINY
-		    /* If Shifted movement occurs, set the mark. */
-		    if (shift_held && !openfile->mark_set) {
-			openfile->mark_set = TRUE;
-			openfile->mark_begin = openfile->current;
-			openfile->mark_begin_x = openfile->current_x;
-			openfile->kind_of_mark = SOFTMARK;
-		    }
+	    /* If Shifted movement occurs, set the mark. */
+	    if (shift_held && !openfile->mark_set) {
+		openfile->mark_set = TRUE;
+		openfile->mark_begin = openfile->current;
+		openfile->mark_begin_x = openfile->current_x;
+		openfile->kind_of_mark = SOFTMARK;
+	    }
 #endif
-		    /* Execute the function of the shortcut. */
-		    s->scfunc();
+	    /* Execute the function of the shortcut. */
+	    s->scfunc();
 #ifndef NANO_TINY
-		    /* If Shiftless movement occurred, discard a soft mark. */
-		    if (openfile->mark_set && !shift_held &&
+	    /* If Shiftless movement occurred, discard a soft mark. */
+	    if (openfile->mark_set && !shift_held &&
 				openfile->kind_of_mark == SOFTMARK) {
-			openfile->mark_set = FALSE;
-			openfile->mark_begin = NULL;
-			refresh_needed = TRUE;
-		    }
+		openfile->mark_set = FALSE;
+		openfile->mark_begin = NULL;
+		refresh_needed = TRUE;
+	    }
 #endif
 #ifndef DISABLE_COLOR
-		    if (f && !f->viewok)
-			reset_multis(openfile->current, FALSE);
+	    if (f && !f->viewok)
+		reset_multis(openfile->current, FALSE);
 #endif
-		    if (refresh_needed) {
+	    if (refresh_needed) {
 #ifdef DEBUG
-			fprintf(stderr, "running edit_refresh() as refresh_needed is true\n");
+		fprintf(stderr, "running edit_refresh() as refresh_needed is true\n");
 #endif
-			edit_refresh();
-			refresh_needed = FALSE;
-		    } else if (s->scfunc == do_delete || s->scfunc == do_backspace)
-			update_line(openfile->current, openfile->current_x);
-		}
+		edit_refresh();
+		refresh_needed = FALSE;
+	    } else if (s->scfunc == do_delete || s->scfunc == do_backspace)
+		update_line(openfile->current, openfile->current_x);
 	}
+    }
 
     /* If we aren't cutting or copying text, and the key wasn't a toggle,
      * blow away the text in the cutbuffer upon the next cutting action. */
