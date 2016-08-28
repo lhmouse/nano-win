@@ -30,8 +30,6 @@ static char *prompt = NULL;
 	/* The prompt string used for statusbar questions. */
 static size_t statusbar_x = HIGHEST_POSITIVE;
 	/* The cursor position in answer. */
-static size_t statusbar_pww = HIGHEST_POSITIVE;
-	/* The place we want in answer. */
 
 /* Read in a keystroke, interpret it if it is a shortcut or toggle, and
  * return it.  Set ran_func to TRUE if we ran a function associated with
@@ -203,7 +201,7 @@ int do_statusbar_mouse(void)
 	    statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
 			statusbar_xplustabs()) + mouse_x - start_col);
-	    update_bar_if_needed();
+	    update_the_statusbar();
 	}
     }
 
@@ -267,8 +265,6 @@ void do_statusbar_output(int *the_input, size_t input_len,
     free(char_buf);
     free(output);
 
-    statusbar_pww = statusbar_xplustabs();
-
     update_the_statusbar();
 }
 
@@ -276,14 +272,14 @@ void do_statusbar_output(int *the_input, size_t input_len,
 void do_statusbar_home(void)
 {
     statusbar_x = 0;
-    update_bar_if_needed();
+    update_the_statusbar();
 }
 
 /* Move to the end of the prompt text. */
 void do_statusbar_end(void)
 {
     statusbar_x = strlen(answer);
-    update_bar_if_needed();
+    update_the_statusbar();
 }
 
 /* Move left one character. */
@@ -291,7 +287,7 @@ void do_statusbar_left(void)
 {
     if (statusbar_x > 0) {
 	statusbar_x = move_mbleft(answer, statusbar_x);
-	update_bar_if_needed();
+	update_the_statusbar();
     }
 }
 
@@ -300,7 +296,7 @@ void do_statusbar_right(void)
 {
     if (statusbar_x < strlen(answer)) {
 	statusbar_x = move_mbright(answer, statusbar_x);
-	update_bar_if_needed();
+	update_the_statusbar();
     }
 }
 
@@ -316,8 +312,6 @@ void do_statusbar_backspace(void)
 /* Delete one character. */
 void do_statusbar_delete(void)
 {
-    statusbar_pww = statusbar_xplustabs();
-
     if (answer[statusbar_x] != '\0') {
 	int char_len = parse_mbchar(answer + statusbar_x, NULL, NULL);
 
@@ -344,7 +338,6 @@ void do_statusbar_cut_text(void)
     {
 	null_at(&answer, 0);
 	statusbar_x = 0;
-	statusbar_pww = statusbar_xplustabs();
     }
 
     update_the_statusbar();
@@ -370,7 +363,7 @@ void do_statusbar_next_word(void)
 	    break;
     }
 
-    update_bar_if_needed();
+    update_the_statusbar();
 }
 
 /* Move to the previous word in the prompt text. */
@@ -397,7 +390,7 @@ void do_statusbar_prev_word(void)
 	/* Move one character forward again to sit on the start of the word. */
 	statusbar_x = move_mbright(answer, statusbar_x);
 
-    update_bar_if_needed();
+    update_the_statusbar();
 }
 #endif /* !NANO_TINY */
 
@@ -416,9 +409,7 @@ void do_statusbar_verbatim_input(bool *got_newline)
     do_statusbar_output(kbinput, kbinput_len, FALSE, got_newline);
 }
 
-/* Return the placewewant associated with statusbar_x, i.e. the
- * zero-based column position of the cursor.  The value will be no
- * smaller than statusbar_x. */
+/* Return the zero-based column position of the cursor in the answer. */
 size_t statusbar_xplustabs(void)
 {
     return strnlenpt(answer, statusbar_x);
@@ -442,7 +433,6 @@ size_t get_statusbar_page_start(size_t base, size_t column)
 void reinit_statusbar_x(void)
 {
     statusbar_x = HIGHEST_POSITIVE;
-    statusbar_pww = HIGHEST_POSITIVE;
 }
 
 /* Put the cursor in the statusbar prompt at statusbar_x. */
@@ -490,21 +480,7 @@ void update_the_statusbar(void)
 
     wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
-    statusbar_pww = statusbar_xplustabs();
     reset_statusbar_cursor();
-}
-
-/* Update the statusbar line /if/ the placewewant changes page. */
-void update_bar_if_needed(void)
-{
-    size_t start_col = strlenpt(prompt) + 2;
-    size_t was_pww = statusbar_pww;
-
-    statusbar_pww = statusbar_xplustabs();
-
-    if (get_statusbar_page_start(start_col, start_col + statusbar_pww) !=
-		get_statusbar_page_start(start_col, start_col + was_pww))
-	update_the_statusbar();
 }
 
 /* Get a string of input at the statusbar prompt. */
@@ -539,10 +515,8 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 #endif
 #endif /* !DISABLE_HISTORIES */
 
-    if (statusbar_x > strlen(answer)) {
+    if (statusbar_x > strlen(answer))
 	statusbar_x = strlen(answer);
-	statusbar_pww = statusbar_xplustabs();
-    }
 
 #ifdef DEBUG
     fprintf(stderr, "acquiring: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
@@ -714,7 +688,6 @@ int do_prompt(bool allow_tabs,
 #endif
     /* Save a possible current statusbar x position. */
     size_t was_statusbar_x = statusbar_x;
-    size_t was_pww = statusbar_pww;
 
     bottombars(menu);
 
@@ -743,10 +716,8 @@ int do_prompt(bool allow_tabs,
 
     /* If we're done with this prompt, restore the x position to what
      * it was at a possible previous prompt. */
-    if (func == do_cancel || func == do_enter) {
+    if (func == do_cancel || func == do_enter)
 	statusbar_x = was_statusbar_x;
-	statusbar_pww = was_pww;
-    }
 
     /* If we left the prompt via Cancel or Enter, set the return value
      * properly. */
