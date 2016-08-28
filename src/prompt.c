@@ -547,8 +547,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	    if (allow_tabs)
 		answer = input_tab(answer, allow_files, &statusbar_x,
 					&tabbed, refresh_func, listed);
-
-	    update_the_statusbar();
 	} else
 #endif /* !DISABLE_TABCOMP */
 #ifndef DISABLE_HISTORIES
@@ -565,8 +563,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		    answer = mallocstrcpy(answer, history);
 		    statusbar_x = strlen(answer);
 		}
-
-		update_the_statusbar();
 
 		/* This key has a shortcut-list entry when it's used to
 		 * move to an older search, which means that finished has
@@ -592,8 +588,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		    statusbar_x = strlen(answer);
 		}
 
-		update_the_statusbar();
-
 		/* This key has a shortcut-list entry when it's used to
 		 * move to a newer search, which means that finished has
 		 * been set to TRUE.  Set it back to FALSE here, so that
@@ -603,8 +597,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	} else
 #endif /* !DISABLE_HISTORIES */
 	if (func == do_help_void) {
-	    update_the_statusbar();
-
 	    /* This key has a shortcut-list entry when it's used to go to
 	     * the help browser or display a message indicating that help
 	     * is disabled, which means that finished has been set to TRUE.
@@ -618,10 +610,11 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	if (finished)
 	    break;
 
+	update_the_statusbar();
+
 #if !defined(DISABLE_HISTORIES) && !defined(DISABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
-	reset_statusbar_cursor();
     }
 
 #ifndef DISABLE_HISTORIES
