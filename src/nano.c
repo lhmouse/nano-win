@@ -1624,7 +1624,9 @@ int do_input(bool allow_funcs)
 	}
     }
 
-    if (allow_funcs) {
+    if (!allow_funcs)
+	return input;
+
 	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
 	 * character: add the character to the input buffer -- or display a
 	 * warning when we're in view mode. */
@@ -1665,6 +1667,12 @@ int do_input(bool allow_funcs)
 
 	if (have_shortcut) {
 	    const subnfunc *f = sctofunc(s);
+
+	    if (ISSET(VIEW_MODE) && f && !f->viewok) {
+		print_view_warning();
+		return ERR;
+	    }
+
 	    /* If the function associated with this shortcut is
 	     * cutting or copying text, remember this. */
 	    if (s->scfunc == do_cut_text_void
@@ -1674,13 +1682,6 @@ int do_input(bool allow_funcs)
 		)
 		preserve = TRUE;
 
-	    if (s->scfunc == NULL) {
-		statusbar("Internal error: shortcut without function!");
-		return ERR;
-	    }
-	    if (ISSET(VIEW_MODE) && f && !f->viewok)
-		print_view_warning();
-	    else {
 #ifndef NANO_TINY
 		if (s->scfunc == do_toggle_void) {
 		    do_toggle(s->toggle);
@@ -1722,9 +1723,7 @@ int do_input(bool allow_funcs)
 		    } else if (s->scfunc == do_delete || s->scfunc == do_backspace)
 			update_line(openfile->current, openfile->current_x);
 		}
-	    }
 	}
-    }
 
     /* If we aren't cutting or copying text, and the key wasn't a toggle,
      * blow away the text in the cutbuffer upon the next cutting action. */
@@ -2526,6 +2525,7 @@ int main(int argc, char **argv)
     /* Check whether we're running on a Linux console. */
     console = (getenv("DISPLAY") == NULL);
 #endif
+
 #ifdef DEBUG
     fprintf(stderr, "Main: set up windows\n");
 #endif
@@ -2586,6 +2586,7 @@ int main(int argc, char **argv)
 	optind++;
     }
 
+    /* If one of the arguments is a dash, read text from standard input. */
     if (optind < argc && !strcmp(argv[optind], "-")) {
 	stdin_pager();
 	set_modified();
@@ -2662,7 +2663,7 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "Main: bottom win, top win and edit win\n");
+    fprintf(stderr, "Main: show buffer contents, and enter main loop\n");
 #endif
 
     display_buffer();
