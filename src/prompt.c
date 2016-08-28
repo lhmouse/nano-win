@@ -468,7 +468,7 @@ void update_the_statusbar(void)
 
     blank_statusbar();
 
-    mvwaddnstr(bottomwin, 0, 0, prompt, actual_x(prompt, COLS - 2));
+    mvwaddstr(bottomwin, 0, 0, prompt);
     waddch(bottomwin, ':');
     waddch(bottomwin, (the_page == 0) ? ' ' : '<');
 
