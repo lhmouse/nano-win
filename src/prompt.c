@@ -192,8 +192,6 @@ int do_statusbar_mouse(void)
     if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
 	size_t start_col;
 
-	assert(prompt != NULL);
-
 	start_col = strlenpt(prompt) + 2;
 
 	/* Move to where the click occurred. */
@@ -218,8 +216,6 @@ void do_statusbar_output(int *the_input, size_t input_len,
     char *output = charalloc(input_len + 1);
     char *char_buf = charalloc(mb_cur_max());
     int i, char_len;
-
-    assert(answer != NULL);
 
     /* Copy the typed stuff so it can be treated. */
     for (i = 0; i < input_len; i++)
@@ -251,8 +247,6 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	if (filtering && is_ascii_cntrl_char(*(output + i - char_len)))
 	    continue;
 
-	assert(statusbar_x <= strlen(answer));
-
 	/* Insert the typed character into the existing answer string. */
 	answer = charealloc(answer, strlen(answer) + char_len + 1);
 	charmove(answer + statusbar_x + char_len, answer + statusbar_x,
@@ -268,14 +262,14 @@ void do_statusbar_output(int *the_input, size_t input_len,
     update_the_statusbar();
 }
 
-/* Move to the beginning of the prompt text. */
+/* Move to the beginning of the answer. */
 void do_statusbar_home(void)
 {
     statusbar_x = 0;
     update_the_statusbar();
 }
 
-/* Move to the end of the prompt text. */
+/* Move to the end of the answer. */
 void do_statusbar_end(void)
 {
     statusbar_x = strlen(answer);
@@ -294,7 +288,7 @@ void do_statusbar_left(void)
 /* Move right one character. */
 void do_statusbar_right(void)
 {
-    if (statusbar_x < strlen(answer)) {
+    if (answer[statusbar_x] != '\0') {
 	statusbar_x = move_mbright(answer, statusbar_x);
 	update_the_statusbar();
     }
@@ -315,8 +309,6 @@ void do_statusbar_delete(void)
     if (answer[statusbar_x] != '\0') {
 	int char_len = parse_mbchar(answer + statusbar_x, NULL, NULL);
 
-	assert(statusbar_x < strlen(answer));
-
 	charmove(answer + statusbar_x, answer + statusbar_x + char_len,
 			strlen(answer) - statusbar_x - char_len + 1);
 	align(&answer);
@@ -325,31 +317,22 @@ void do_statusbar_delete(void)
     }
 }
 
-/* Move text from the prompt into oblivion. */
+/* Zap some or all text from the answer. */
 void do_statusbar_cut_text(void)
 {
-    assert(answer != NULL);
-
-#ifndef NANO_TINY
-    if (ISSET(CUT_TO_END))
-	null_at(&answer, statusbar_x);
-    else
-#endif
-    {
-	null_at(&answer, 0);
+    if (!ISSET(CUT_TO_END))
 	statusbar_x = 0;
-    }
+
+    null_at(&answer, statusbar_x);
 
     update_the_statusbar();
 }
 
 #ifndef NANO_TINY
-/* Move to the next word in the prompt text. */
+/* Move to the next word in the answer. */
 void do_statusbar_next_word(void)
 {
     bool seen_space = !is_word_mbchar(answer + statusbar_x, FALSE);
-
-    assert(answer != NULL);
 
     /* Move forward until we reach the start of a word. */
     while (answer[statusbar_x] != '\0') {
@@ -366,12 +349,10 @@ void do_statusbar_next_word(void)
     update_the_statusbar();
 }
 
-/* Move to the previous word in the prompt text. */
+/* Move to the previous word in the answer. */
 void do_statusbar_prev_word(void)
 {
     bool seen_a_word = FALSE, step_forward = FALSE;
-
-    assert(answer != NULL);
 
     /* Move backward until we pass over the start of a word. */
     while (statusbar_x != 0) {
@@ -429,13 +410,13 @@ size_t get_statusbar_page_start(size_t base, size_t column)
 	return column - 2;
 }
 
-/* Reinitialize the cursor position in the status bar prompt. */
+/* Reinitialize the cursor position in the answer. */
 void reinit_statusbar_x(void)
 {
     statusbar_x = HIGHEST_POSITIVE;
 }
 
-/* Put the cursor in the statusbar prompt at statusbar_x. */
+/* Put the cursor in the answer at statusbar_x. */
 void reset_statusbar_cursor(void)
 {
     size_t start_col = strlenpt(prompt) + 2;
@@ -457,8 +438,6 @@ void update_the_statusbar(void)
 {
     size_t base, the_page, end_page;
     char *expanded;
-
-    assert(prompt != NULL && statusbar_x <= strlen(answer));
 
     base = strlenpt(prompt) + 2;
     the_page = get_statusbar_page_start(base, base + strnlenpt(answer, statusbar_x));
@@ -533,7 +512,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	curs_set(1);
 
 	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
-	assert(statusbar_x <= strlen(answer));
 
 #ifndef NANO_TINY
 	/* If the window size changed, go reformat the prompt string. */
