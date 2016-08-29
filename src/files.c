@@ -1,24 +1,22 @@
 /**************************************************************************
- *   files.c                                                              *
+ *   files.c  --  This file is part of GNU nano.                          *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,  *
  *   2008, 2009, 2010, 2011, 2013, 2014 Free Software Foundation, Inc.    *
  *   Copyright (C) 2015, 2016 Benno Schulenberg                           *
  *                                                                        *
- *   This program is free software; you can redistribute it and/or modify *
- *   it under the terms of the GNU General Public License as published by *
- *   the Free Software Foundation; either version 3, or (at your option)  *
- *   any later version.                                                   *
+ *   GNU nano is free software: you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published    *
+ *   by the Free Software Foundation, either version 3 of the License,    *
+ *   or (at your option) any later version.                               *
  *                                                                        *
- *   This program is distributed in the hope that it will be useful, but  *
- *   WITHOUT ANY WARRANTY; without even the implied warranty of           *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU    *
- *   General Public License for more details.                             *
+ *   GNU nano is distributed in the hope that it will be useful,          *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty          *
+ *   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.              *
+ *   See the GNU General Public License for more details.                 *
  *                                                                        *
  *   You should have received a copy of the GNU General Public License    *
- *   along with this program; if not, write to the Free Software          *
- *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA            *
- *   02110-1301, USA.                                                     *
+ *   along with this program.  If not, see http://www.gnu.org/licenses/.  *
  *                                                                        *
  **************************************************************************/
 
@@ -839,7 +837,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     if (len > 0) {
 #ifndef NANO_TINY
 	/* If file conversion isn't disabled and the last character in
-	 * this file is '\r', set format to Mac if we currently think
+	 * This file is '\r', set format to Mac if we currently think
 	 * the file is a *nix file, or to both DOS and Mac if we
 	 * currently think the file is a DOS file. */
 	if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT) && format < 2)
