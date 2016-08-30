@@ -305,11 +305,15 @@ int *get_input(WINDOW *win, size_t input_len)
 /* Read in a single keystroke, ignoring any that are invalid. */
 int get_kbinput(WINDOW *win)
 {
-    int kbinput;
+    int kbinput = ERR;
 
     /* Extract one keystroke from the input stream. */
-    while ((kbinput = parse_kbinput(win)) == ERR)
-	;
+#ifdef KEY_RESIZE
+    while (kbinput == ERR || kbinput == KEY_RESIZE)
+#else
+    while (kbinput == ERR)
+#endif
+	kbinput = parse_kbinput(win);
 
 #ifdef DEBUG
     fprintf(stderr, "after parsing:  kbinput = %d, meta_key = %s\n",
