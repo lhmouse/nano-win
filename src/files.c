@@ -337,6 +337,8 @@ int do_lockfile(const char *filename)
 	    readtot += readamt;
 	} while (readamt > 0 && readtot < LOCKBUFSIZE);
 
+	close(lockfd);
+
 	if (readtot < 48) {
 	    statusline(MILD, _("Error reading lock file %s: "
 			"Not enough data read"), lockfilename);
