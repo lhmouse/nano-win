@@ -652,7 +652,7 @@ int do_prompt(bool allow_tabs,
 	void (*refresh_func)(void), const char *msg, ...)
 {
     va_list ap;
-    int retval = KEY_WINCH;
+    int retval;
     functionptrtype func = NULL;
 #ifndef DISABLE_TABCOMP
     bool listed = FALSE;
@@ -664,15 +664,17 @@ int do_prompt(bool allow_tabs,
 
     answer = mallocstrcpy(answer, curranswer);
 
-    while (retval == KEY_WINCH) {
-	prompt = charalloc((COLS * mb_cur_max()) + 1);
-	va_start(ap, msg);
-	vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
-	va_end(ap);
-	/* Reserve five columns for colon plus angles plus answer, ":<aa>". */
-	null_at(&prompt, actual_x(prompt, (COLS < 5) ? 0 : COLS - 5));
+#ifndef NANO_TINY
+  redo_theprompt:
+#endif
+    prompt = charalloc((COLS * mb_cur_max()) + 1);
+    va_start(ap, msg);
+    vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
+    va_end(ap);
+    /* Reserve five columns for colon plus angles plus answer, ":<aa>". */
+    null_at(&prompt, actual_x(prompt, (COLS < 5) ? 0 : COLS - 5));
 
-	func = acquire_an_answer(&retval, allow_tabs,
+    func = acquire_an_answer(&retval, allow_tabs,
 #ifndef DISABLE_TABCOMP
 			allow_files, &listed,
 #endif
@@ -681,9 +683,13 @@ int do_prompt(bool allow_tabs,
 #endif
 			refresh_func);
 
-	free(prompt);
-	prompt = NULL;
-    }
+    free(prompt);
+    prompt = NULL;
+
+#ifndef NANO_TINY
+    if (retval == KEY_WINCH)
+	goto redo_theprompt;
+#endif
 
     /* If we're done with this prompt, restore the x position to what
      * it was at a possible previous prompt. */
