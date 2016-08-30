@@ -518,10 +518,13 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	if (kbinput == KEY_WINCH) {
 	    refresh_func();
 	    *actual = KEY_WINCH;
+#ifndef DISABLE_HISTORIES
 	    free(magichistory);
+#endif
 	    return NULL;
 	}
-#endif
+#endif /* !NANO_TINY */
+
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel || func == do_enter)
