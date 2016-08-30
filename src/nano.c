@@ -1638,6 +1638,12 @@ int do_input(bool allow_funcs)
 	    puddle = charealloc(puddle, depth + 2);
 	    puddle[depth++] = (char)input;
 	}
+#ifndef NANO_TINY
+	if (openfile->mark_set && openfile->kind_of_mark == SOFTMARK) {
+	    openfile->mark_set = FALSE;
+	    refresh_needed = TRUE;
+	}
+#endif
     }
 
     /* If we got a shortcut or toggle, or if there aren't any other
