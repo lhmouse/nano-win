@@ -576,6 +576,8 @@ enum
 #define SHIFT_ALT_DOWN 0x40c
 #define SHIFT_PAGEUP 0x40d
 #define SHIFT_PAGEDOWN 0x40e
+#define SHIFT_HOME 0x40f
+#define SHIFT_END 0x410
 
 #ifndef NANO_TINY
 /* An imaginary key for when we get a SIGWINCH (window resize). */

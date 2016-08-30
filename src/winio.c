@@ -584,6 +584,7 @@ int parse_kbinput(WINDOW *win)
 	    shift_held = TRUE;
 	    return sc_seq_or(do_right, keycode);
 #endif
+#ifdef KEY_SR
 #ifdef KEY_SUP
 	/* ncurses and Slang don't support KEY_SUP. */
 	case KEY_SUP:
@@ -591,6 +592,8 @@ int parse_kbinput(WINDOW *win)
 	case KEY_SR:	/* Scroll backward, on Xfce4-terminal. */
 	    shift_held = TRUE;
 	    return sc_seq_or(do_up_void, keycode);
+#endif
+#ifdef KEY_SF
 #ifdef KEY_SDOWN
 	/* ncurses and Slang don't support KEY_SDOWN. */
 	case KEY_SDOWN:
@@ -598,18 +601,21 @@ int parse_kbinput(WINDOW *win)
 	case KEY_SF:	/* Scroll forward, on Xfce4-terminal. */
 	    shift_held = TRUE;
 	    return sc_seq_or(do_down_void, keycode);
+#endif
 #ifdef KEY_SHOME
 	/* HP-UX 10-11 and Slang don't support KEY_SHOME. */
 	case KEY_SHOME:
-	    shift_held = TRUE;
 #endif
+	case SHIFT_HOME:
+	    shift_held = TRUE;
 	case KEY_A1:	/* Home (7) on keypad with NumLock off. */
 	    return sc_seq_or(do_home, keycode);
 #ifdef KEY_SEND
 	/* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	case KEY_SEND:
-	    shift_held = TRUE;
 #endif
+	case SHIFT_END:
+	    shift_held = TRUE;
 	case KEY_C1:	/* End (1) on keypad with NumLock off. */
 	    return sc_seq_or(do_end, keycode);
 #ifndef NANO_TINY
@@ -927,9 +933,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 		    case 'B': /* Esc [ 1 ; 4 B == Shift-Alt-Down on xterm. */
 			return SHIFT_PAGEDOWN;
 		    case 'C': /* Esc [ 1 ; 4 C == Shift-Alt-Right on xterm. */
-			return KEY_SEND;
+			return SHIFT_END;
 		    case 'D': /* Esc [ 1 ; 4 D == Shift-Alt-Left on xterm. */
-			return KEY_SHOME;
+			return SHIFT_HOME;
 		}
 		break;
 #endif
