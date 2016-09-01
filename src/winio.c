@@ -576,13 +576,13 @@ int parse_kbinput(WINDOW *win)
 	/* Slang doesn't support KEY_SLEFT. */
 	case KEY_SLEFT:
 	    shift_held = TRUE;
-	    return sc_seq_or(do_left, keycode);
+	    return KEY_LEFT;
 #endif
 #ifdef KEY_SRIGHT
 	/* Slang doesn't support KEY_SRIGHT. */
 	case KEY_SRIGHT:
 	    shift_held = TRUE;
-	    return sc_seq_or(do_right, keycode);
+	    return KEY_RIGHT;
 #endif
 #ifdef KEY_SR
 #ifdef KEY_SUP
@@ -591,7 +591,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	case KEY_SR:	/* Scroll backward, on Xfce4-terminal. */
 	    shift_held = TRUE;
-	    return sc_seq_or(do_up_void, keycode);
+	    return KEY_UP;
 #endif
 #ifdef KEY_SF
 #ifdef KEY_SDOWN
@@ -600,7 +600,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	case KEY_SF:	/* Scroll forward, on Xfce4-terminal. */
 	    shift_held = TRUE;
-	    return sc_seq_or(do_down_void, keycode);
+	    return KEY_DOWN;
 #endif
 #ifdef KEY_SHOME
 	/* HP-UX 10-11 and Slang don't support KEY_SHOME. */
@@ -609,7 +609,7 @@ int parse_kbinput(WINDOW *win)
 	case SHIFT_HOME:
 	    shift_held = TRUE;
 	case KEY_A1:	/* Home (7) on keypad with NumLock off. */
-	    return sc_seq_or(do_home, keycode);
+	    return KEY_HOME;
 #ifdef KEY_SEND
 	/* HP-UX 10-11 and Slang don't support KEY_SEND. */
 	case KEY_SEND:
@@ -617,19 +617,19 @@ int parse_kbinput(WINDOW *win)
 	case SHIFT_END:
 	    shift_held = TRUE;
 	case KEY_C1:	/* End (1) on keypad with NumLock off. */
-	    return sc_seq_or(do_end, keycode);
+	    return KEY_END;
 #ifndef NANO_TINY
 	case SHIFT_PAGEUP:		/* Fake key, from Shift+Alt+Up. */
 	    shift_held = TRUE;
 #endif
 	case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
-	    return sc_seq_or(do_page_up, keycode);
+	    return KEY_PPAGE;
 #ifndef NANO_TINY
 	case SHIFT_PAGEDOWN:	/* Fake key, from Shift+Alt+Down. */
 	    shift_held = TRUE;
 #endif
 	case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
-	    return sc_seq_or(do_page_down, keycode);
+	    return KEY_NPAGE;
 #ifdef KEY_SDC
 	/* Slang doesn't support KEY_SDC. */
 	case KEY_SDC:
@@ -638,7 +638,7 @@ int parse_kbinput(WINDOW *win)
 	    if (ISSET(REBIND_DELETE))
 		return sc_seq_or(do_delete, keycode);
 	    else
-		return sc_seq_or(do_backspace, keycode);
+		return KEY_BACKSPACE;
 #ifdef KEY_SIC
 	/* Slang doesn't support KEY_SIC. */
 	case KEY_SIC:
