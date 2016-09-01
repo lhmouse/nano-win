@@ -451,11 +451,13 @@ typedef struct sc {
 	/* Which menus this applies to. */
     void (*scfunc)(void);
 	/* The function we're going to run. */
+#ifndef NANO_TINY
     int toggle;
 	/* If a toggle, what we're toggling. */
     int ordinal;
 	/* The how-manieth toggle this is, in order to be able to
 	 * keep them in sequence. */
+#endif
     struct sc *next;
 	/* Next in the list. */
 } sc;

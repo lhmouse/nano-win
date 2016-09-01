@@ -326,7 +326,9 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 void add_to_sclist(int menus, const char *scstring, void (*func)(void), int toggle)
 {
     static sc *tailsc;
+#ifndef NANO_TINY
     static int counter = 0;
+#endif
     sc *s = (sc *)nmalloc(sizeof(sc));
 
     /* Start the list, or tack on the next item. */
@@ -340,9 +342,11 @@ void add_to_sclist(int menus, const char *scstring, void (*func)(void), int togg
     /* Fill in the data. */
     s->menus = menus;
     s->scfunc = func;
+#ifndef NANO_TINY
     s->toggle = toggle;
     if (toggle)
 	s->ordinal = ++counter;
+#endif
     assign_keyinfo(s, scstring);
 
 #ifdef DEBUG
@@ -1362,10 +1366,11 @@ const char *flagtostr(int flag)
  * shortcut struct with the corresponding function filled in. */
 sc *strtosc(const char *input)
 {
-    sc *s;
+    sc *s = nmalloc(sizeof(sc));
 
-    s = (sc *)nmalloc(sizeof(sc));
+#ifndef NANO_TINY
     s->toggle = 0;
+#endif
 
 #ifndef DISABLE_HELP
     if (!strcasecmp(input, "help"))

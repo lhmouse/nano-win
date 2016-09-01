@@ -1434,13 +1434,13 @@ void do_toggle(int flag)
     statusline(HUSH, "%s %s", _(flagtostr(flag)),
 		enabled ? _("enabled") : _("disabled"));
 }
-#endif /* !NANO_TINY */
 
 /* Bleh. */
 void do_toggle_void(void)
 {
     ;
 }
+#endif /* !NANO_TINY */
 
 /* Disable extended input and output processing in our terminal
  * settings. */

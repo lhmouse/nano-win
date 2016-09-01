@@ -482,13 +482,7 @@ RETSIGTYPE handle_sigwinch(int signal);
 void regenerate_screen(void);
 void allow_sigwinch(bool allow);
 void do_toggle(int flag);
-#endif
 void do_toggle_void(void);
-void disable_extended_io(void);
-#ifdef USE_SLANG
-void disable_signals(void);
-#endif
-#ifndef NANO_TINY
 void enable_signals(void);
 #endif
 void disable_flow_control(void);

@@ -455,9 +455,11 @@ void parse_binding(char *ptr, bool dobind)
 	    if (f->scfunc == newsc->scfunc)
 		mask = mask | f->menus;
 
+#ifndef NANO_TINY
 	/* Handle the special case of the toggles. */
 	if (newsc->scfunc == do_toggle_void)
 	    mask = MMAIN;
+#endif
 
 	/* Now limit the given menu to those where the function exists. */
 	if (is_universal(newsc->scfunc))
@@ -497,6 +499,7 @@ void parse_binding(char *ptr, bool dobind)
     }
 
     if (dobind) {
+#ifndef NANO_TINY
 	/* If this is a toggle, copy its sequence number. */
 	if (newsc->scfunc == do_toggle_void) {
 	    for (s = sclist; s != NULL; s = s->next)
@@ -504,6 +507,7 @@ void parse_binding(char *ptr, bool dobind)
 		    newsc->ordinal = s->ordinal;
 	} else
 	    newsc->ordinal = 0;
+#endif
 	/* Add the new shortcut at the start of the list. */
 	newsc->next = sclist;
 	sclist = newsc;
