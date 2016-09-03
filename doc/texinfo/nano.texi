@@ -1008,6 +1008,7 @@ a string in the current list in the file browser
 
 @item searchagain
 Repeats the last search command without prompting.
+(The form 'research' is deprecated.)
 
 @item findprevious
 As @code{searchagain}, but always in the backward direction.
@@ -1042,6 +1043,7 @@ Cuts all text from the cursor position till the end of the buffer.
 
 @item curpos
 Shows the current cursor position: the line, column, and character positions.
+(The form 'cursorpos' is deprecated.)
 
 @item wordcount
 Counts the number of words, lines and characters in the current buffer.
@@ -1171,6 +1173,7 @@ Toggles case sensitivity in searching (search/replace menus only).
 
 @item regexp
 Toggles whether searching/replacing is based on literal strings or regular expressions.
+(The form 'regex' is deprecated.)
 
 @item backwards
 Toggles whether searching/replacing goes forward or backward.
@@ -1183,6 +1186,7 @@ Shows the next history entry in the prompt menus (e.g.@: search).
 
 @item flipreplace
 Toggles between searching for something and replacing something.
+(The form 'dontreplace' is deprecated.)
 
 @item flipexecute
 Toggles between inserting a file and executing a command.
@@ -1190,6 +1194,7 @@ Toggles between inserting a file and executing a command.
 @item flipnewbuffer
 Toggles between inserting into the current buffer and into a new
 empty buffer.
+(The form 'newbuffer' is deprecated.)
 
 @item dosformat
 When writing a file, switches to writing a DOS format (CR/LF).
@@ -1294,6 +1299,7 @@ The 'search to replace' menu.
 
 @item replacewith
 The 'replace with' menu, which comes up after 'search to replace'.
+(The form 'replace2' is deprecated.)
 
 @item gotoline
 The 'goto line (and column)' menu.

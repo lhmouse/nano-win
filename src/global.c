@@ -1397,7 +1397,7 @@ sc *strtosc(const char *input)
 	s->scfunc = do_search;
 #ifndef NANO_TINY
     else if (!strcasecmp(input, "searchagain") ||
-	     !strcasecmp(input, "research"))
+	     !strcasecmp(input, "research"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = do_research;
     else if (!strcasecmp(input, "findprevious"))
 	s->scfunc = do_findprevious;
@@ -1428,7 +1428,7 @@ sc *strtosc(const char *input)
 	s->scfunc = do_linter;
 #endif
     else if (!strcasecmp(input, "curpos") ||
-	     !strcasecmp(input, "cursorpos"))
+	     !strcasecmp(input, "cursorpos"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = do_cursorpos_void;
     else if (!strcasecmp(input, "gotoline"))
 	s->scfunc = do_gotolinecolumn_void;
@@ -1527,14 +1527,14 @@ sc *strtosc(const char *input)
 	s->scfunc = case_sens_void;
 #endif
     else if (!strcasecmp(input, "regexp") ||
-	     !strcasecmp(input, "regex"))
+	     !strcasecmp(input, "regex"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = regexp_void;
 #ifndef NANO_TINY
     else if (!strcasecmp(input, "backwards"))
 	s->scfunc = backwards_void;
 #endif
     else if (!strcasecmp(input, "flipreplace") ||
-	     !strcasecmp(input, "dontreplace"))
+	     !strcasecmp(input, "dontreplace"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = flip_replace_void;
     else if (!strcasecmp(input, "gototext"))
 	s->scfunc = gototext_void;
@@ -1560,7 +1560,7 @@ sc *strtosc(const char *input)
 #endif
 #ifndef DISABLE_MULTIBUFFER
     else if (!strcasecmp(input, "flipnewbuffer") ||
-	     !strcasecmp(input, "newbuffer"))
+	     !strcasecmp(input, "newbuffer"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = new_buffer_void;
 #endif
 #ifndef DISABLE_BROWSER
@@ -1640,7 +1640,7 @@ int strtomenu(const char *input)
 	return MWHEREIS;
     else if (!strcasecmp(input, "replace"))
 	return MREPLACE;
-    else if (!strcasecmp(input, "replace2") ||
+    else if (!strcasecmp(input, "replace2") ||  /* Deprecated.  Remove in 2018. */
 	     !strcasecmp(input, "replacewith"))
 	return MREPLACEWITH;
     else if (!strcasecmp(input, "gotoline"))
