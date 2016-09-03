@@ -2940,8 +2940,8 @@ char *histfilename(void)
     return construct_filename("/.nano/search_history");
 }
 
-/* Construct the legacy history filename.
- * (Deprecate in 2.5, delete later.) */
+/* Construct the legacy history filename. */
+/* (To be removed in 2018.) */
 char *legacyhistfilename(void)
 {
     return construct_filename("/.nano_history");
@@ -3001,6 +3001,8 @@ void load_history(void)
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
 
+    /* If there is an old history file, migrate it. */
+    /* (To be removed in 2018.) */
     if (stat(legacyhist, &hstat) != -1 && stat(nanohist, &hstat) == -1) {
 	if (rename(legacyhist, nanohist) == -1)
 	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\n"

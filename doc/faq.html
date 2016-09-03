@@ -214,10 +214,9 @@
 <h2><a name="4.14"></a>4.14. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</h2>
 <blockquote><p>You have the autoindent feature turned on. Hit Meta-I to turn it off, paste your text, and then hit Meta-I again to turn it back on.</p></blockquote>
 <h2><a name="4.15"></a>4.15. On startup I get a message that says "Detected a legacy nano history file".  Now older nano versions can't find my search history!</h2>
-<blockquote><p>In nano 2.3.0, cursor-position history was introduced, and both history files now reside under a .nano directory in your home.  nano was trying to move this file into the new location so it could continue to use it.  This means that if you try and use an earlier version of nano, it will be unable to see your current search history.  To fix this, run the following commands:<br>
-  <p><b>mv ~/.nano/search_history ~/.nano_history</b><br>
-  <b>ln -sf ~/.nano_history ~/.nano/search_history</b></p>
-</p></blockquote>
+<blockquote><p>In nano 2.3.0, cursor-position history was introduced, and both history files now reside in a .nano subdirectory in your home directory.  A newer nano will move an existing search-history file to this new location so it can continue to be used.  This means that if you then try and use an earlier version of nano, it will be unable to see your current search history.  To fix this, run the following command:<br>
+  <p><b>ln -sf ~/.nano/search_history ~/.nano_history</b></p>
+</p><p>The "migration service" (moving the search-history file to its new location) will be deleted from nano in early 2018.</p></blockquote>
 <hr width="100%">
 <h1><a name="5"></a>5. Internationalization</h1>
 <h2><a name="5.1"></a>5.1. There's no translation for my language!</h2>
