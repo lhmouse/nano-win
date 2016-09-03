@@ -767,16 +767,25 @@ void shortcut_init(void)
 #endif
     }
 
+    add_to_funcs(do_cursorpos_void, MMAIN,
+	N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg), TOGETHER, VIEW);
+
+#if (!defined(DISABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
+	defined(DISABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
+    /* Conditionally placing this one here or further on, to keep the
+     * help items nicely paired in most conditions. */
+    add_to_funcs(do_gotolinecolumn_void, MMAIN,
+	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
+#endif
+
 #ifndef NANO_TINY
     add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
 	N_("Case Sens"), IFSCHELP(nano_case_msg), TOGETHER, VIEW);
 #endif
-
 #ifdef HAVE_REGEX_H
     add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
 	N_("Regexp"), IFSCHELP(nano_regexp_msg), TOGETHER, VIEW);
 #endif
-
 #ifndef NANO_TINY
     add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
 	N_("Backwards"), IFSCHELP(nano_reverse_msg), TOGETHER, VIEW);
@@ -791,20 +800,7 @@ void shortcut_init(void)
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_full_justify, MWHEREIS,
 	fulljustify_tag, IFSCHELP(nano_fulljustify_msg), TOGETHER, NOVIEW);
-#endif
 
-    add_to_funcs(do_cursorpos_void, MMAIN,
-	N_("Cur Pos"), IFSCHELP(nano_cursorpos_msg), TOGETHER, VIEW);
-
-#if (!defined(DISABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	defined(DISABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
-    /* Conditionally placing this one here or further on, to keep the
-     * help items nicely paired in most conditions. */
-    add_to_funcs(do_gotolinecolumn_void, MMAIN,
-	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
-#endif
-
-#ifndef DISABLE_JUSTIFY
     add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
