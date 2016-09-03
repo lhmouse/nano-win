@@ -1520,12 +1520,14 @@ sc *strtosc(const char *input)
 	s->scfunc = total_refresh;
     else if (!strcasecmp(input, "suspend"))
 	s->scfunc = do_suspend_void;
+#ifndef NANO_TINY
     else if (!strcasecmp(input, "casesens"))
 	s->scfunc = case_sens_void;
-#ifndef NANO_TINY
+#endif
     else if (!strcasecmp(input, "regexp") ||
 	     !strcasecmp(input, "regex"))
 	s->scfunc = regexp_void;
+#ifndef NANO_TINY
     else if (!strcasecmp(input, "backwards"))
 	s->scfunc = backwards_void;
 #endif
