@@ -59,7 +59,6 @@ char *do_browser(char *path)
 
     /* Don't show a cursor in the file list. */
     curs_set(0);
-    blank_statusbar();
 
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
