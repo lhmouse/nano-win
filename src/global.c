@@ -1,5 +1,5 @@
 /**************************************************************************
- *   global.c  --  This file is part of GNU nano.                          *
+ *   global.c  --  This file is part of GNU nano.                         *
  *                                                                        *
  *   Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,  *
  *   2008, 2009, 2010, 2011, 2013, 2014 Free Software Foundation, Inc.    *
@@ -89,13 +89,13 @@ int maxrows = 0;
 filestruct *cutbuffer = NULL;
 	/* The buffer where we store cut text. */
 filestruct *cutbottom = NULL;
+	/* The last line in the cutbuffer. */
 #ifndef DISABLE_JUSTIFY
 filestruct *jusbuffer = NULL;
 	/* The buffer where we store unjustified text. */
 #endif
 partition *filepart = NULL;
-	/* The partition where we store a portion of the current
-	 * file. */
+	/* The "partition" where we store a portion of the current file. */
 openfilestruct *openfile = NULL;
 	/* The list of all open file buffers. */
 
@@ -128,7 +128,7 @@ char *quoteerr = NULL;
 size_t quotelen;
 	/* The length of the quoting string in bytes. */
 #endif
-#endif
+#endif /* !DISABLE_JUSTIFY */
 
 char *word_chars = NULL;
 	/* Nonalphanumeric characters that also form words. */
@@ -140,8 +140,7 @@ char *answer = NULL;
 	/* The answer string used by the statusbar prompt. */
 
 ssize_t tabsize = -1;
-	/* The width of a tab in spaces.  The default value is set in
-	 * main(). */
+	/* The width of a tab in spaces.  The default is set in main(). */
 
 #ifndef NANO_TINY
 char *backup_dir = NULL;
@@ -179,15 +178,15 @@ bool refresh_needed = FALSE;
 int currmenu = MMOST;
 	/* The currently active menu, initialized to a dummy value. */
 sc *sclist = NULL;
-	/* Pointer to the start of the shortcuts list. */
+	/* The start of the shortcuts list. */
 subnfunc *allfuncs = NULL;
-	/* Pointer to the start of the functions list. */
+	/* The start of the functions list. */
 subnfunc *tailfunc;
-	/* Pointer to the last function in the list. */
+	/* The last function in the list. */
 subnfunc *exitfunc;
-	/* Pointer to the special Exit/Close item. */
+	/* A pointer to the special Exit/Close item. */
 subnfunc *uncutfunc;
-	/* Pointer to the special Uncut/Unjustify item. */
+	/* A pointer to the special Uncut/Unjustify item. */
 
 #ifndef DISABLE_HISTORIES
 filestruct *search_history = NULL;
@@ -206,7 +205,6 @@ poshiststruct *position_history = NULL;
 	/* The cursor position history list. */
 #endif
 
-/* Regular expressions. */
 #ifdef HAVE_REGEX_H
 regex_t search_regexp;
 	/* The compiled regular expression to use in searches. */
@@ -216,7 +214,7 @@ regmatch_t regmatches[10];
 #endif
 
 int hilite_attribute = A_REVERSE;
-	/* The curses attribute we use for reverse video. */
+	/* The curses attribute we use to highlight something. */
 #ifndef DISABLE_COLOR
 char* specified_color_combo[] = {};
 	/* The color combinations as specified in the rcfile. */
@@ -226,6 +224,7 @@ int interface_color_pair[] = {};
 
 char *homedir = NULL;
 	/* The user's home directory, from $HOME or /etc/passwd. */
+
 
 /* Return the number of entries in the shortcut list for a given menu. */
 size_t length_of_list(int menu)
@@ -1572,8 +1571,8 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "lastfile"))
 	s->scfunc = do_last_file;
 #endif
-#ifndef NANO_TINY
     else {
+#ifndef NANO_TINY
 	s->scfunc = do_toggle_void;
 	if (!strcasecmp(input, "nohelp"))
 	    s->toggle = NO_HELP;
@@ -1617,14 +1616,13 @@ sc *strtosc(const char *input)
 	    s->toggle = NO_CONVERT;
 	else if (!strcasecmp(input, "suspendenable"))
 	    s->toggle = SUSPEND;
+	else
 #endif /* !NANO_TINY */
-	else {
+	{
 	    free(s);
 	    return NULL;
 	}
-#ifndef NANO_TINY
     }
-#endif
     return s;
 }
 

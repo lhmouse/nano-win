@@ -1178,9 +1178,9 @@ void stdin_pager(void)
 	tcsetattr(0, TCSANOW, &oldterm);
     fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
 
+#ifndef NANO_TINY
     /* Enable interpretation of the special control keys so that
      * we get SIGINT when Ctrl-C is pressed. */
-#ifndef NANO_TINY
     enable_signals();
 #endif
 
@@ -1300,7 +1300,7 @@ RETSIGTYPE do_continue(int signal)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
-    /* Redraw the contents of the windows that need it. */
+    /* Wipe statusbar; redraw titlebar and edit window (and help lines). */
     blank_statusbar();
     wnoutrefresh(bottomwin);
     total_refresh();
