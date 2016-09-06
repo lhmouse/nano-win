@@ -308,11 +308,7 @@ int get_kbinput(WINDOW *win)
     int kbinput = ERR;
 
     /* Extract one keystroke from the input stream. */
-#ifdef KEY_RESIZE
-    while (kbinput == ERR || kbinput == KEY_RESIZE)
-#else
     while (kbinput == ERR)
-#endif
 	kbinput = parse_kbinput(win);
 
 #ifdef DEBUG
@@ -681,10 +677,8 @@ int parse_kbinput(WINDOW *win)
 	case KEY_ALT_R:
 	    return ERR;
 #endif
-#if !defined(NANO_TINY) && defined(KEY_RESIZE)
-	/* Since we don't change the default SIGWINCH handler when
-	 * NANO_TINY is defined, KEY_RESIZE is never generated.
-	 * Also, Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
+#ifdef KEY_RESIZE
+	/* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 	case KEY_RESIZE:
 	    return ERR;
 #endif
