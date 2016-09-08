@@ -33,7 +33,7 @@ volatile sig_atomic_t sigwinch_counter = 0;
 	/* Is incremented by the handler whenever a SIGWINCH occurs. */
 #endif
 
-#if defined(__linux__) && !defined(NANO_TINY)
+#ifdef __linux__
 bool console;
 	/* Whether we're running on a Linux VC (TRUE) or under X (FALSE). */
 #endif
@@ -48,8 +48,8 @@ bool focusing = TRUE;
 message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
-#ifndef NANO_TINY
 int controlleft, controlright, controlup, controldown;
+#ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
@@ -496,10 +496,8 @@ void shortcut_init(void)
     const char *fulljustify_tag = N_("FullJstify");
 #endif
     const char *refresh_tag = N_("Refresh");
-#ifndef NANO_TINY
     /* TRANSLATORS: Try to keep this string at most 12 characters. */
     const char *whereis_next_tag = N_("WhereIs Next");
-#endif
 
 #ifndef DISABLE_HELP
 #ifndef DISABLE_JUSTIFY
@@ -555,18 +553,14 @@ void shortcut_init(void)
 #endif
     const char *nano_back_msg = N_("Go back one character");
     const char *nano_forward_msg = N_("Go forward one character");
-#ifndef NANO_TINY
     const char *nano_prevword_msg = N_("Go back one word");
     const char *nano_nextword_msg = N_("Go forward one word");
-#endif
     const char *nano_prevline_msg = N_("Go to previous line");
     const char *nano_nextline_msg = N_("Go to next line");
     const char *nano_home_msg = N_("Go to beginning of current line");
     const char *nano_end_msg = N_("Go to end of current line");
-#ifndef NANO_TINY
     const char *nano_prevblock_msg = N_("Go to previous block of text");
     const char *nano_nextblock_msg = N_("Go to next block of text");
-#endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
 	N_("Go to beginning of paragraph; then of previous paragraph");
@@ -778,18 +772,14 @@ void shortcut_init(void)
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
 
-#ifndef NANO_TINY
     add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
 	N_("Case Sens"), IFSCHELP(nano_case_msg), TOGETHER, VIEW);
-#endif
 #ifdef HAVE_REGEX_H
     add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
 	N_("Regexp"), IFSCHELP(nano_regexp_msg), TOGETHER, VIEW);
 #endif
-#ifndef NANO_TINY
     add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
 	N_("Backwards"), IFSCHELP(nano_reverse_msg), TOGETHER, VIEW);
-#endif
 
     add_to_funcs(flip_replace_void, MWHEREIS,
 	replace_tag, IFSCHELP(nano_replace_msg), BLANKAFTER, VIEW);
@@ -815,10 +805,10 @@ void shortcut_init(void)
     add_to_funcs(do_last_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
 
-#ifndef NANO_TINY
     add_to_funcs(do_research, MMAIN,
 	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
 
+#ifndef NANO_TINY
     add_to_funcs(do_find_bracket, MMAIN,
 	N_("To Bracket"), IFSCHELP(nano_bracket_msg), TOGETHER, VIEW);
 
@@ -851,12 +841,10 @@ void shortcut_init(void)
 	N_("Forward"), IFSCHELP(nano_forwardfile_msg), TOGETHER, VIEW);
 #endif
 
-#ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MMAIN,
 	N_("Prev Word"), IFSCHELP(nano_prevword_msg), TOGETHER, VIEW);
     add_to_funcs(do_next_word_void, MMAIN,
 	N_("Next Word"), IFSCHELP(nano_nextword_msg), TOGETHER, VIEW);
-#endif
 
     add_to_funcs(do_home, MMAIN,
 	N_("Home"), IFSCHELP(nano_home_msg), TOGETHER, VIEW);
@@ -868,12 +856,10 @@ void shortcut_init(void)
     add_to_funcs(do_down_void, MMAIN|MBROWSER,
 	next_line_tag, IFSCHELP(nano_nextline_msg), BLANKAFTER, VIEW);
 
-#ifndef NANO_TINY
     add_to_funcs(do_prev_block, MMAIN,
 	N_("Prev Block"), IFSCHELP(nano_prevblock_msg), TOGETHER, VIEW);
     add_to_funcs(do_next_block, MMAIN,
 	N_("Next Block"), IFSCHELP(nano_nextblock_msg), TOGETHER, VIEW);
-#endif
 
 #ifndef DISABLE_JUSTIFY
     add_to_funcs(do_para_begin_void, MMAIN|MWHEREIS,
@@ -1104,9 +1090,9 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP, "M-|", do_first_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-/", do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-?", do_last_line, 0);
-#ifndef NANO_TINY
     add_to_sclist(MMAIN|MBROWSER, "M-W", do_research, 0);
     add_to_sclist(MMAIN|MBROWSER, "F16", do_research, 0);
+#ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-]", do_find_bracket, 0);
     add_to_sclist(MMAIN, "^^", do_mark, 0);
     add_to_sclist(MMAIN, "M-A", do_mark, 0);
@@ -1125,10 +1111,8 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "Left", do_left, 0);
     add_to_sclist(MMOST, "^F", do_right, 0);
     add_to_sclist(MMOST, "Right", do_right, 0);
-#ifndef NANO_TINY
     add_to_sclist(MMOST, "M-Space", do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", do_next_word_void, 0);
-#endif
     add_to_sclist((MMOST & ~MBROWSER), "^A", do_home, 0);
     add_to_sclist((MMOST & ~MBROWSER), "Home", do_home, 0);
     add_to_sclist((MMOST & ~MBROWSER), "^E", do_end, 0);
@@ -1137,10 +1121,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", do_down_void, 0);
-#ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-7", do_prev_block, 0);
     add_to_sclist(MMAIN, "M-8", do_next_block, 0);
-#endif
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MMAIN, "M-(", do_para_begin_void, 0);
     add_to_sclist(MMAIN, "M-9", do_para_begin_void, 0);
@@ -1208,11 +1190,9 @@ void shortcut_init(void)
 
     add_to_sclist(((MMOST & ~MMAIN & ~MBROWSER) | MYESNO), "^C", do_cancel, 0);
 
-#ifndef NANO_TINY
-    add_to_sclist(MWHEREIS|MREPLACE, "M-B", backwards_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "M-C", case_sens_void, 0);
-#endif
     add_to_sclist(MWHEREIS|MREPLACE, "M-R", regexp_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE, "M-B", backwards_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "^R", flip_replace_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", do_first_line, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^V", do_last_line, 0);
@@ -1395,10 +1375,10 @@ sc *strtosc(const char *input)
 	s->scfunc = do_insertfile_void;
     else if (!strcasecmp(input, "whereis"))
 	s->scfunc = do_search;
-#ifndef NANO_TINY
     else if (!strcasecmp(input, "searchagain") ||
 	     !strcasecmp(input, "research"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = do_research;
+#ifndef NANO_TINY
     else if (!strcasecmp(input, "findprevious"))
 	s->scfunc = do_findprevious;
     else if (!strcasecmp(input, "findnext"))
@@ -1522,17 +1502,13 @@ sc *strtosc(const char *input)
 	s->scfunc = total_refresh;
     else if (!strcasecmp(input, "suspend"))
 	s->scfunc = do_suspend_void;
-#ifndef NANO_TINY
     else if (!strcasecmp(input, "casesens"))
 	s->scfunc = case_sens_void;
-#endif
     else if (!strcasecmp(input, "regexp") ||
 	     !strcasecmp(input, "regex"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = regexp_void;
-#ifndef NANO_TINY
     else if (!strcasecmp(input, "backwards"))
 	s->scfunc = backwards_void;
-#endif
     else if (!strcasecmp(input, "flipreplace") ||
 	     !strcasecmp(input, "dontreplace"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = flip_replace_void;

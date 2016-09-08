@@ -435,7 +435,6 @@ void do_unindent(void)
 }
 #endif /* !NANO_TINY */
 
-#ifdef ENABLE_COMMENT
 /* Test whether the string is empty or consists of only blanks. */
 bool white_string(const char *s)
 {
@@ -445,6 +444,7 @@ bool white_string(const char *s)
     return !*s;
 }
 
+#ifdef ENABLE_COMMENT
 /* Comment or uncomment the current line or the marked lines. */
 void do_comment()
 {
@@ -2630,10 +2630,9 @@ bool do_int_spell_fix(const char *word)
     /* Make sure spell-check is case sensitive. */
     SET(CASE_SENSITIVE);
 
-#ifndef NANO_TINY
     /* Make sure spell-check goes forward only. */
     UNSET(BACKWARDS_SEARCH);
-#endif
+
 #ifdef HAVE_REGEX_H
     /* Make sure spell-check doesn't use regular expressions. */
     UNSET(USE_REGEXP);

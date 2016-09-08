@@ -1542,7 +1542,7 @@ void terminal_init(void)
 #endif
 }
 
-#if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
+#ifdef HAVE_KEY_DEFINED
 /* Ask ncurses for a keycode, or assign a default one. */
 int get_keycode(const char *keyname, const int standard)
 {
@@ -2527,7 +2527,7 @@ int main(int argc, char **argv)
     /* Set up the terminal state. */
     terminal_init();
 
-#if defined(__linux__) && !defined(NANO_TINY)
+#ifdef __linux__
     /* Check whether we're running on a Linux console. */
     console = (getenv("DISPLAY") == NULL);
 #endif
@@ -2557,12 +2557,14 @@ int main(int argc, char **argv)
     interface_color_pair[FUNCTION_TAG] = A_NORMAL;
 #endif
 
-#if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
+#ifdef HAVE_KEY_DEFINED
     /* Ask ncurses for the key codes for Control+Left/Right/Up/Down. */
     controlleft = get_keycode("kLFT5", CONTROL_LEFT);
     controlright = get_keycode("kRIT5", CONTROL_RIGHT);
     controlup = get_keycode("kUP5", CONTROL_UP);
     controldown = get_keycode("kDN5", CONTROL_DOWN);
+#endif
+#if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
     /* Ask for the codes for Shift+Control+Left/Right/Up/Down. */
     shiftcontrolleft = get_keycode("kLFT6", SHIFT_CONTROL_LEFT);
     shiftcontrolright = get_keycode("kRIT6", SHIFT_CONTROL_RIGHT);

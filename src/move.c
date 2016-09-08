@@ -209,7 +209,6 @@ void do_para_end_void(void)
 }
 #endif /* !DISABLE_JUSTIFY */
 
-#ifndef NANO_TINY
 /* Move to the preceding block of text in the file. */
 void do_prev_block(void)
 {
@@ -360,7 +359,6 @@ void do_next_word_void(void)
 {
     do_next_word(ISSET(WORD_BOUNDS), TRUE);
 }
-#endif /* !NANO_TINY */
 
 /* Move to the beginning of the current line.  If the SMART_HOME flag is
  * set, move to the first non-whitespace character of the current line

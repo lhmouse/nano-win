@@ -321,10 +321,9 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
-#ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH)) {
-	    if (regexec(&search_regexp, haystack, 1, regmatches,
-		0) == 0 && haystack + regmatches[0].rm_so <= start) {
+	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0 &&
+			haystack + regmatches[0].rm_so <= start) {
 		const char *retval = haystack + regmatches[0].rm_so;
 
 		/* Search forward until there are no more matches. */
@@ -338,10 +337,8 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		regexec(&search_regexp, retval, 10, regmatches, 0);
 		return retval;
 	    }
-	} else
-#endif /* !NANO_TINY */
-	if (regexec(&search_regexp, start, 10, regmatches,
-		(start > haystack) ? REG_NOTBOL : 0) == 0) {
+	} else if (regexec(&search_regexp, start, 10, regmatches,
+			(start > haystack) ? REG_NOTBOL : 0) == 0) {
 	    const char *retval = start + regmatches[0].rm_so;
 
 	    regexec(&search_regexp, retval, 10, regmatches, 0);
@@ -350,20 +347,14 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	return NULL;
     }
 #endif /* HAVE_REGEX_H */
-#if !defined(NANO_TINY) || !defined(DISABLE_SPELLER)
     if (ISSET(CASE_SENSITIVE)) {
-#ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH))
 	    return revstrstr(haystack, needle, start);
 	else
-#endif
 	    return strstr(start, needle);
-    }
-#endif /* !DISABLE_SPELLER || !NANO_TINY */
-#ifndef NANO_TINY
-    else if (ISSET(BACKWARDS_SEARCH))
+    } else if (ISSET(BACKWARDS_SEARCH))
 	return mbrevstrcasestr(haystack, needle, start);
-#endif
+
     return mbstrcasestr(start, needle);
 }
 

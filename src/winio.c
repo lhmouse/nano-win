@@ -23,7 +23,7 @@
 #include "proto.h"
 #include "revision.h"
 
-#if defined(__linux__) && !defined(NANO_TINY)
+#ifdef __linux__
 #include <sys/ioctl.h>
 #endif
 
@@ -399,14 +399,12 @@ int parse_kbinput(WINDOW *win)
 		    case 'B':
 			retval = KEY_END;
 			break;
-#ifndef NANO_TINY
 		    case 'C':
 			retval = controlright;
 			break;
 		    case 'D':
 			retval = controlleft;
 			break;
-#endif
 		}
 		double_esc = FALSE;
 		escapes = 0;
@@ -496,7 +494,6 @@ int parse_kbinput(WINDOW *win)
     if (retval == ERR)
 	return ERR;
 
-#ifndef NANO_TINY
     if (retval == controlleft)
 	return sc_seq_or(do_prev_word_void, 0);
     else if (retval == controlright)
@@ -505,6 +502,7 @@ int parse_kbinput(WINDOW *win)
 	return sc_seq_or(do_prev_block, 0);
     else if (retval == controldown)
 	return sc_seq_or(do_next_block, 0);
+#ifndef NANO_TINY
     else if (retval == shiftcontrolleft) {
 	shift_held = TRUE;
 	return sc_seq_or(do_prev_word_void, 0);
@@ -532,15 +530,12 @@ int parse_kbinput(WINDOW *win)
     }
 #endif
 
-#if defined(__linux__) && !defined(NANO_TINY)
+#ifdef __linux__
     /* When not running under X, check for the bare arrow keys whether
      * Shift/Ctrl/Alt are being held together with them. */
     unsigned char modifiers = 6;
 
     if (console && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
-	if (modifiers & 0x01)
-	    shift_held =TRUE;
-
 	/* Is Ctrl being held? */
 	if (modifiers & 0x04) {
 	    if (retval == KEY_UP)
@@ -553,6 +548,11 @@ int parse_kbinput(WINDOW *win)
 		return sc_seq_or(do_next_word_void, 0);
 	}
 
+#ifndef NANO_TINY
+	/* Is Shift being held? */
+	if (modifiers & 0x01)
+	    shift_held =TRUE;
+
 	/* Are both Shift and Alt being held? */
 	if ((modifiers & 0x09) == 0x09) {
 	    if (retval == KEY_UP)
@@ -564,8 +564,9 @@ int parse_kbinput(WINDOW *win)
 	    else if (retval == KEY_RIGHT)
 		return sc_seq_or(do_end, 0);
 	}
+#endif
     }
-#endif /* __linux__ && !NANO_TINY */
+#endif /* __linux__ */
 
     switch (retval) {
 #ifdef KEY_SLEFT

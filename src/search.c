@@ -47,11 +47,8 @@ bool regexp_init(const char *regexp)
 
     assert(!regexp_compiled);
 
-    rc = regcomp(&search_regexp, fixbounds(regexp), NANO_REG_EXTENDED
-#ifndef NANO_TINY
-	| (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE)
-#endif
-	);
+    rc = regcomp(&search_regexp, fixbounds(regexp),
+		NANO_REG_EXTENDED | (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE));
 
     if (rc != 0) {
 	size_t len = regerror(rc, &search_regexp, NULL, 0);
@@ -163,19 +160,13 @@ int search_init(bool replacing, bool use_answer)
 #endif
 		/* TRANSLATORS: This is the main search prompt. */
 		edit_refresh, "%s%s%s%s%s%s", _("Search"),
-#ifndef NANO_TINY
 		/* TRANSLATORS: The next three modify the search prompt. */
-		ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
-#endif
-		"",
+		ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
 #ifdef HAVE_REGEX_H
 		ISSET(USE_REGEXP) ? _(" [Regexp]") :
 #endif
 		"",
-#ifndef NANO_TINY
-		ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
-#endif
-		"", replacing ?
+		ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "", replacing ?
 #ifndef NANO_TINY
 		/* TRANSLATORS: The next two modify the search prompt. */
 		openfile->mark_set ? _(" (to replace) in selection") :
@@ -214,7 +205,6 @@ int search_init(bool replacing, bool use_answer)
 
     func = func_from_key(&i);
 
-#ifndef NANO_TINY
     if (func == case_sens_void) {
 	TOGGLE(CASE_SENSITIVE);
 	backupstring = mallocstrcpy(backupstring, answer);
@@ -224,7 +214,6 @@ int search_init(bool replacing, bool use_answer)
 	backupstring = mallocstrcpy(backupstring, answer);
 	return 1;
     } else
-#endif
 #ifdef HAVE_REGEX_H
     if (func == regexp_void) {
 	TOGGLE(USE_REGEXP);
@@ -270,12 +259,13 @@ int findnextstr(
      * will return immediately and say that no match was found, and
      * rev_start will be properly set when the search continues on the
      * previous or next line. */
-    rev_start +=
-#ifndef NANO_TINY
-	ISSET(BACKWARDS_SEARCH) ?
-	((openfile->current_x == 0) ? -1 : move_mbleft(fileptr->data, openfile->current_x)) :
-#endif
-	move_mbright(fileptr->data, openfile->current_x);
+    if (ISSET(BACKWARDS_SEARCH)) {
+	if (openfile->current_x == 0)
+	    rev_start += -1;
+	else
+	    rev_start += move_mbleft(fileptr->data, openfile->current_x);
+    } else
+	rev_start += move_mbright(fileptr->data, openfile->current_x);
 
     enable_nodelay();
 
@@ -343,11 +333,9 @@ int findnextstr(
 	}
 
 	/* Move to the previous or next line in the file. */
-#ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH))
 	    fileptr = fileptr->prev;
 	else
-#endif
 	    fileptr = fileptr->next;
 
 	/* If we've reached the start or end of the buffer, wrap around. */
@@ -359,11 +347,9 @@ int findnextstr(
 		return 0;
 	    }
 #endif
-#ifndef NANO_TINY
 	    if (ISSET(BACKWARDS_SEARCH))
 		fileptr = openfile->filebot;
 	    else
-#endif
 		fileptr = openfile->fileage;
 
 	    statusbar(_("Search Wrapped"));
@@ -377,23 +363,15 @@ int findnextstr(
 
 	/* Set the starting x to the start or end of the line. */
 	rev_start = fileptr->data;
-#ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH))
 	    rev_start += strlen(fileptr->data);
-#endif
     }
 
     found_x = found - fileptr->data;
 
     /* Ensure that the found occurrence is not beyond the starting x. */
-    if (came_full_circle &&
-#ifndef NANO_TINY
-		((!ISSET(BACKWARDS_SEARCH) && found_x > begin_x) ||
-		(ISSET(BACKWARDS_SEARCH) && found_x < begin_x))
-#else
-		found_x > begin_x
-#endif
-		) {
+    if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && found_x > begin_x) ||
+			(ISSET(BACKWARDS_SEARCH) && found_x < begin_x))) {
 	not_found_msg(needle);
 	disable_nodelay();
 	return 0;
@@ -425,10 +403,8 @@ void do_search(void)
 	search_replace_abort();
     else if (i == -2)	/* Do a replace instead. */
 	do_replace();
-#if !defined(NANO_TINY) || defined(HAVE_REGEX_H)
     else if (i == 1)	/* Toggled something. */
 	do_search();
-#endif
 
     if (i == 0)
 	go_looking();
@@ -459,7 +435,6 @@ void do_findnext(void)
 }
 #endif /* !NANO_TINY */
 
-#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 /* Search for the last string without prompting. */
 void do_research(void)
 {
@@ -485,7 +460,6 @@ void do_research(void)
 
     go_looking();
 }
-#endif /* !NANO_TINY */
 
 /* Search for the global string 'last_search'.  Inform the user when
  * the string occurs only once. */
@@ -757,9 +731,7 @@ ssize_t do_replace_loop(
 	    /* Set the cursor at the last character of the replacement
 	     * text, so that searching will continue /after/ it.  Note
 	     * that current_x might be set to (size_t)-1 here. */
-#ifndef NANO_TINY
 	    if (!ISSET(BACKWARDS_SEARCH))
-#endif
 		openfile->current_x += match_len + length_change - 1;
 
 	    /* Update the file size, and put the changed line into place. */
