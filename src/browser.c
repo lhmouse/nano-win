@@ -631,8 +631,6 @@ void browser_refresh(void)
 	    line++;
 	    col = 0;
 	}
-
-	wmove(edit, line, col);
     }
 
     /* If requested, put the cursor on the selected item and switch it on. */
