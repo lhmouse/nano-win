@@ -264,7 +264,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
     if (wroteamt < lockdatalen) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
-		lockfilename, ferror(filestream));
+			lockfilename, ferror(filestream));
 	goto free_the_data;
     }
 
@@ -274,7 +274,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
     if (fclose(filestream) == EOF) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
-		lockfilename, strerror(errno));
+			lockfilename, strerror(errno));
 	goto free_the_data;
     }
 
@@ -919,27 +919,24 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     if (!writable)
 	statusline(ALERT, "File '%s' is unwritable", filename);
     else if (format == 3) {
-	    statusline(HUSH,
-	    /* TRANSLATORS: Keep the next four messages at most 76 characters. */
-		P_("Read %lu line (Converted from DOS and Mac format)",
-		"Read %lu lines (Converted from DOS and Mac format)",
-		(unsigned long)num_lines), (unsigned long)num_lines);
+	/* TRANSLATORS: Keep the next four messages at most 78 characters. */
+	statusline(HUSH, P_("Read %lu line (Converted from DOS and Mac format)",
+			"Read %lu lines (Converted from DOS and Mac format)",
+			(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 2) {
 	openfile->fmt = MAC_FILE;
-	    statusline(HUSH,
-		P_("Read %lu line (Converted from Mac format)",
-		"Read %lu lines (Converted from Mac format)",
-		(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %lu line (Converted from Mac format)",
+			"Read %lu lines (Converted from Mac format)",
+			(unsigned long)num_lines), (unsigned long)num_lines);
     } else if (format == 1) {
 	openfile->fmt = DOS_FILE;
-	    statusline(HUSH,
-		P_("Read %lu line (Converted from DOS format)",
-		"Read %lu lines (Converted from DOS format)",
-		(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %lu line (Converted from DOS format)",
+			"Read %lu lines (Converted from DOS format)",
+			(unsigned long)num_lines), (unsigned long)num_lines);
     } else
 #endif /* !NANO_TINY */
-	    statusline(HUSH, P_("Read %lu line", "Read %lu lines",
-		(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %lu line", "Read %lu lines",
+			(unsigned long)num_lines), (unsigned long)num_lines);
 
     if (num_lines < editwinrows)
 	focusing = FALSE;
@@ -971,7 +968,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
     /* Okay, if we can't stat the path due to a component's
      * permissions, just try the relative one. */
     if (full_filename == NULL || (stat(full_filename, &fileinfo) == -1 &&
-		stat(filename, &fileinfo2) != -1))
+					stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(full_filename, filename);
 
     if (stat(full_filename, &fileinfo) == -1) {
