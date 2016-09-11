@@ -912,11 +912,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
      * file we inserted. */
     openfile->placewewant = xplustabs();
 
-#ifndef NANO_TINY
-    if (undoable)
-	update_undo(INSERT);
-#endif
-
     if (!writable)
 	statusline(ALERT, "File '%s' is unwritable", filename);
 #ifndef NANO_TINY
@@ -936,7 +931,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 			"Read %lu lines (Converted from DOS format)",
 			(unsigned long)num_lines), (unsigned long)num_lines);
     }
-#endif /* !NANO_TINY */
+#endif
     else
 	statusline(HUSH, P_("Read %lu line", "Read %lu lines",
 			(unsigned long)num_lines), (unsigned long)num_lines);
@@ -945,6 +940,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	focusing = FALSE;
 
 #ifndef NANO_TINY
+    if (undoable)
+	update_undo(INSERT);
+
     if (ISSET(MAKE_IT_UNIX))
 	openfile->fmt = NIX_FILE;
 #endif
