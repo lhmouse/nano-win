@@ -502,6 +502,8 @@ void browser_refresh(void)
     size_t i;
     int line = 0, col = 0;
 	/* The current line and column while the list is getting displayed. */
+    int the_line = 0, the_column = 0;
+	/* The line and column of the selected item. */
     char *info;
 	/* The additional information that we'll display about a file. */
 
@@ -536,9 +538,13 @@ void browser_refresh(void)
 		 * "(dir)", or the file size, plus three columns for the
 		 * ellipsis. */
 
-	/* Start highlighting the currently selected file or directory. */
-	if (i == selected)
+	/* If this is the selected item, start its highlighting, and
+	 * remember its location to be able to place the cursor on it. */
+	if (i == selected) {
 	    wattron(edit, hilite_attribute);
+	    the_line = line;
+	    the_column = col;
+	}
 
 	blank_line(edit, line, col, longest);
 
@@ -610,7 +616,7 @@ void browser_refresh(void)
 
 	mvwaddstr(edit, line, col - infolen, info);
 
-	/* Finish highlighting the currently selected file or directory. */
+	/* If this is the selected item, finish its highlighting. */
 	if (i == selected)
 	    wattroff(edit, hilite_attribute);
 
@@ -627,6 +633,12 @@ void browser_refresh(void)
 	}
 
 	wmove(edit, line, col);
+    }
+
+    /* If requested, put the cursor on the selected item and switch it on. */
+    if (ISSET(SHOW_CURSOR)) {
+	wmove(edit, the_line, the_column);
+	curs_set(1);
     }
 
     wnoutrefresh(edit);

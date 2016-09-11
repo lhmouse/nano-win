@@ -96,6 +96,7 @@ static const rcoption rcopts[] = {
     {"noconvert", NO_CONVERT},
     {"quickblank", QUICK_BLANK},
     {"quiet", QUIET},
+    {"showcursor", SHOW_CURSOR},
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
     {"softwrap", SOFTWRAP},
