@@ -915,9 +915,11 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 #ifndef NANO_TINY
     if (undoable)
 	update_undo(INSERT);
+#endif
 
     if (!writable)
 	statusline(ALERT, "File '%s' is unwritable", filename);
+#ifndef NANO_TINY
     else if (format == 3) {
 	/* TRANSLATORS: Keep the next four messages at most 78 characters. */
 	statusline(HUSH, P_("Read %lu line (Converted from DOS and Mac format)",
@@ -933,8 +935,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	statusline(HUSH, P_("Read %lu line (Converted from DOS format)",
 			"Read %lu lines (Converted from DOS format)",
 			(unsigned long)num_lines), (unsigned long)num_lines);
-    } else
+    }
 #endif /* !NANO_TINY */
+    else
 	statusline(HUSH, P_("Read %lu line", "Read %lu lines",
 			(unsigned long)num_lines), (unsigned long)num_lines);
 
