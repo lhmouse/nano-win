@@ -805,10 +805,10 @@ void shortcut_init(void)
     add_to_funcs(do_last_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
 
+#ifndef NANO_TINY
     add_to_funcs(do_research, MMAIN,
 	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
 
-#ifndef NANO_TINY
     add_to_funcs(do_find_bracket, MMAIN,
 	N_("To Bracket"), IFSCHELP(nano_bracket_msg), TOGETHER, VIEW);
 
@@ -886,6 +886,12 @@ void shortcut_init(void)
 	!defined(DISABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
+#endif
+
+#ifdef NANO_TINY
+    /* Place this one here only in the tiny version; otherwise further up. */
+    add_to_funcs(do_research, MMAIN,
+	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
 #endif
 
     add_to_funcs(do_verbatim_input, MMAIN,
