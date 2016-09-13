@@ -501,26 +501,23 @@ void do_down(bool scroll_only)
      * smooth scrolling mode, or down half a page if we're not.  If
      * scroll_only is TRUE, scroll the edit window down one line
      * unconditionally. */
-    if (openfile->current_y == editwinrows - 1
 #ifndef NANO_TINY
-	|| amount > 0 || scroll_only
-#endif
-	) {
-#ifndef NANO_TINY
+    if (openfile->current_y == editwinrows - 1 || amount > 0 || scroll_only) {
 	if (amount < 1 || scroll_only)
 	    amount = 1;
-#endif
-	edit_scroll(DOWNWARD,
-#ifndef NANO_TINY
-		(ISSET(SMOOTH_SCROLL) || scroll_only) ? amount :
-#endif
-		editwinrows / 2 + 1);
+
+	edit_scroll(DOWNWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
+				amount : editwinrows / 2 + 1);
 
 	if (ISSET(SOFTWRAP)) {
 	    refresh_needed = TRUE;
 	    return;
 	}
-    }
+#else
+    if (openfile->current_y == editwinrows - 1)
+	edit_scroll(DOWNWARD, editwinrows / 2 + 1);
+#endif
+   }
 
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y < editwinrows - 1) {
