@@ -2873,6 +2873,10 @@ void edit_redraw(filestruct *old_current)
 
     /* If the current line is offscreen, scroll until it's onscreen. */
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
+#ifndef NANO_TINY
+		(openfile->current->lineno == openfile->edittop->lineno + maxrows - 1 &&
+		ISSET(SOFTWRAP) && strlenpt(openfile->current->data) >= COLS) ||
+#endif
 		openfile->current->lineno < openfile->edittop->lineno) {
 	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
 	refresh_needed = TRUE;
