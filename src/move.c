@@ -482,11 +482,12 @@ void do_down(bool scroll_only)
 	/* Reduce the amount when there are overlong lines at the top. */
 	for (enough = 1; enough < amount; enough++) {
 	    amount -= strlenpt(topline->data) / COLS;
-	    if (amount <= 0) {
+	    if (amount > 0)
+		topline = topline->next;
+	    if (amount < enough) {
 		amount = enough;
 		break;
 	    }
-	    topline = topline->next;
 	}
     }
 #endif
