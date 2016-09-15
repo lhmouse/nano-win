@@ -2970,8 +2970,13 @@ void edit_update(update_type manner)
     if (manner == CENTERING)
 	goal = editwinrows / 2;
     else if (manner == FLOWING) {
-	if (openfile->current->lineno >= openfile->edittop->lineno)
+	if (openfile->current->lineno >= openfile->edittop->lineno) {
 	    goal = editwinrows - 1;
+#ifndef NANO_TINY
+	    if (ISSET(SOFTWRAP))
+		goal -= strlenpt(openfile->current->data) / COLS ;
+#endif
+	}
     } else {
 	goal = openfile->current_y;
 
@@ -2986,8 +2991,11 @@ void edit_update(update_type manner)
 	openfile->edittop = openfile->edittop->prev;
 	goal --;
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP))
+	if (ISSET(SOFTWRAP)) {
 	    goal -= strlenpt(openfile->edittop->data) / COLS;
+	    if (goal < 0)
+		openfile->edittop = openfile->edittop->next;
+	}
 #endif
     }
 #ifdef DEBUG
