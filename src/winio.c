@@ -495,38 +495,38 @@ int parse_kbinput(WINDOW *win)
 	return ERR;
 
     if (retval == controlleft)
-	return sc_seq_or(do_prev_word_void, 0);
+	return sc_seq_or(do_prev_word_void, controlleft);
     else if (retval == controlright)
-	return sc_seq_or(do_next_word_void, 0);
+	return sc_seq_or(do_next_word_void, controlright);
     else if (retval == controlup)
-	return sc_seq_or(do_prev_block, 0);
+	return sc_seq_or(do_prev_block, controlup);
     else if (retval == controldown)
-	return sc_seq_or(do_next_block, 0);
+	return sc_seq_or(do_next_block, controldown);
 #ifndef NANO_TINY
     else if (retval == shiftcontrolleft) {
 	shift_held = TRUE;
-	return sc_seq_or(do_prev_word_void, 0);
+	return sc_seq_or(do_prev_word_void, shiftcontrolleft);
     } else if (retval == shiftcontrolright) {
 	shift_held = TRUE;
-	return sc_seq_or(do_next_word_void, 0);
+	return sc_seq_or(do_next_word_void, shiftcontrolright);
     } else if (retval == shiftcontrolup) {
 	shift_held = TRUE;
-	return sc_seq_or(do_prev_block, 0);
+	return sc_seq_or(do_prev_block, shiftcontrolup);
     } else if (retval == shiftcontroldown) {
 	shift_held = TRUE;
-	return sc_seq_or(do_next_block, 0);
+	return sc_seq_or(do_next_block, shiftcontroldown);
     } else if (retval == shiftaltleft) {
 	shift_held = TRUE;
-	return sc_seq_or(do_home, 0);
+	return sc_seq_or(do_home, shiftaltleft);
     } else if (retval == shiftaltright) {
 	shift_held = TRUE;
-	return sc_seq_or(do_end, 0);
+	return sc_seq_or(do_end, shiftaltright);
     } else if (retval == shiftaltup) {
 	shift_held = TRUE;
-	return sc_seq_or(do_page_up, 0);
+	return sc_seq_or(do_page_up, shiftaltup);
     } else if (retval == shiftaltdown) {
 	shift_held = TRUE;
-	return sc_seq_or(do_page_down, 0);
+	return sc_seq_or(do_page_down, shiftaltdown);
     }
 #endif
 
@@ -539,13 +539,13 @@ int parse_kbinput(WINDOW *win)
 	/* Is Ctrl being held? */
 	if (modifiers & 0x04) {
 	    if (retval == KEY_UP)
-		return sc_seq_or(do_prev_block, 0);
+		return sc_seq_or(do_prev_block, controlup);
 	    else if (retval == KEY_DOWN)
-		return sc_seq_or(do_next_block, 0);
+		return sc_seq_or(do_next_block, controldown);
 	    else if (retval == KEY_LEFT)
-		return sc_seq_or(do_prev_word_void, 0);
+		return sc_seq_or(do_prev_word_void, controlleft);
 	    else if (retval == KEY_RIGHT)
-		return sc_seq_or(do_next_word_void, 0);
+		return sc_seq_or(do_next_word_void, controlright);
 	}
 
 #ifndef NANO_TINY
@@ -556,13 +556,13 @@ int parse_kbinput(WINDOW *win)
 	/* Are both Shift and Alt being held? */
 	if ((modifiers & 0x09) == 0x09) {
 	    if (retval == KEY_UP)
-		return sc_seq_or(do_page_up, 0);
+		return sc_seq_or(do_page_up, shiftaltup);
 	    else if (retval == KEY_DOWN)
-		return sc_seq_or(do_page_down, 0);
+		return sc_seq_or(do_page_down, shiftaltdown);
 	    else if (retval == KEY_LEFT)
-		return sc_seq_or(do_home, 0);
+		return sc_seq_or(do_home, shiftaltleft);
 	    else if (retval == KEY_RIGHT)
-		return sc_seq_or(do_end, 0);
+		return sc_seq_or(do_end, shiftaltright);
 	}
 #endif
     }
@@ -633,13 +633,13 @@ int parse_kbinput(WINDOW *win)
 #endif
 	case DEL_CODE:
 	    if (ISSET(REBIND_DELETE))
-		return sc_seq_or(do_delete, keycode);
+		return sc_seq_or(do_delete, KEY_DC);
 	    else
 		return KEY_BACKSPACE;
 #ifdef KEY_SIC
 	/* Slang doesn't support KEY_SIC. */
 	case KEY_SIC:
-	    return sc_seq_or(do_insertfile_void, keycode);
+	    return sc_seq_or(do_insertfile_void, KEY_IC);
 #endif
 #ifdef KEY_SBEG
 	/* Slang doesn't support KEY_SBEG. */
@@ -667,7 +667,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	/* Slang doesn't support KEY_SUSPEND. */
 	case KEY_SUSPEND:
-	    return sc_seq_or(do_suspend_void, 0);
+	    return sc_seq_or(do_suspend_void, KEY_SUSPEND);
 #endif
 #ifdef PDCURSES
 	case KEY_SHIFT_L:
