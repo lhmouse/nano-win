@@ -580,17 +580,14 @@ void do_right(void)
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
-    else if (openfile->current != openfile->filebot) {
+    else if (openfile->current != openfile->filebot)
 	openfile->current_x = 0;
-	openfile->placewewant = 0;
-	if (need_horizontal_scroll(was_column, 0))
-	    update_line(openfile->current, 0);
-	do_down_void();
-	return;
-    }
 
     openfile->placewewant = xplustabs();
 
     if (need_horizontal_scroll(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
+
+    if (openfile->current_x == 0)
+	do_down_void();
 }
