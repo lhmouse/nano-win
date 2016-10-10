@@ -942,7 +942,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->placewewant = column - 1;
 
     /* When the position was manually given, center the target line. */
-    if (interactive) {
+    if (interactive || ISSET(SOFTWRAP)) {
 	edit_update(CENTERING);
 	edit_refresh();
     } else {
