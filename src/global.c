@@ -410,9 +410,18 @@ void assign_keyinfo(sc *s, const char *keystring)
     assert(strlen(keystring) > 1 && (!s->meta || strlen(keystring) > 2));
 
     if (keystring[0] == '^') {
-	s->keycode = keystring[1] - 64;
 	if (strcasecmp(keystring, "^Space") == 0)
 	    s->keycode = 0;
+	else if (strcasecmp(keystring, "^Left") == 0)
+	    s->keycode = CONTROL_LEFT;
+	else if (strcasecmp(keystring, "^Right") == 0)
+	    s->keycode = CONTROL_RIGHT;
+	else if (strcasecmp(keystring, "^Up") == 0)
+	    s->keycode = CONTROL_UP;
+	else if (strcasecmp(keystring, "^Down") == 0)
+	    s->keycode = CONTROL_DOWN;
+	else
+	    s->keycode = keystring[1] - 64;
     } else if (s->meta) {
 	s->keycode = tolower((int)keystring[2]);
 	if (strcasecmp(keystring, "M-Space") == 0)
@@ -1113,6 +1122,8 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "Left", do_left, 0);
     add_to_sclist(MMOST, "^F", do_right, 0);
     add_to_sclist(MMOST, "Right", do_right, 0);
+    add_to_sclist(MMOST, "^Left", do_prev_word_void, 0);
+    add_to_sclist(MMOST, "^Right", do_next_word_void, 0);
     add_to_sclist(MMOST, "M-Space", do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", do_next_word_void, 0);
     add_to_sclist((MMOST & ~MBROWSER), "^A", do_home, 0);
@@ -1123,6 +1134,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", do_down_void, 0);
+    add_to_sclist(MMAIN, "^Up", do_prev_block, 0);
+    add_to_sclist(MMAIN, "^Down", do_next_block, 0);
     add_to_sclist(MMAIN, "M-7", do_prev_block, 0);
     add_to_sclist(MMAIN, "M-8", do_next_block, 0);
 #ifndef DISABLE_JUSTIFY

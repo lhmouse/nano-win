@@ -495,13 +495,13 @@ int parse_kbinput(WINDOW *win)
 	return ERR;
 
     if (retval == controlleft)
-	return sc_seq_or(do_prev_word_void, controlleft);
+	return CONTROL_LEFT;
     else if (retval == controlright)
-	return sc_seq_or(do_next_word_void, controlright);
+	return CONTROL_RIGHT;
     else if (retval == controlup)
-	return sc_seq_or(do_prev_block, controlup);
+	return CONTROL_UP;
     else if (retval == controldown)
-	return sc_seq_or(do_next_block, controldown);
+	return CONTROL_DOWN;
 #ifndef NANO_TINY
     else if (retval == shiftcontrolleft) {
 	shift_held = TRUE;
