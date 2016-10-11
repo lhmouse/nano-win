@@ -400,7 +400,8 @@ void parse_binding(char *ptr, bool dobind)
 	rcfile_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
 	goto free_copy;
     } else if ((keycopy[0] == 'M' && keycopy[1] != '-') ||
-		(keycopy[0] == '^' && ((keycopy[1] < 64 || keycopy[1] > 127) ||
+		(keycopy[0] == '^' && ((keycopy[1] < 'A' || keycopy[1] > 'z') ||
+		keycopy[1] == '[' || keycopy[1] == '`' ||
 		(strlen(keycopy) > 2 && strcmp(keycopy, "^Space") != 0))) ||
 		(strlen(keycopy) > 3 && strcmp(keycopy, "^Space") != 0 &&
 		strcmp(keycopy, "M-Space") != 0)) {
