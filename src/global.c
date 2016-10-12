@@ -412,13 +412,17 @@ void assign_keyinfo(sc *s, const char *keystring)
     if (keystring[0] == '^') {
 	if (strcasecmp(keystring, "^Space") == 0)
 	    s->keycode = 0;
-	else if (strcasecmp(keystring, "^Left") == 0)
+	else if (strcasecmp(keystring, "^Left") == 0 ||
+		strcasecmp(keystring, "^^\xE2\x86\x90") == 0)
 	    s->keycode = CONTROL_LEFT;
-	else if (strcasecmp(keystring, "^Right") == 0)
+	else if (strcasecmp(keystring, "^Right") == 0 ||
+		strcasecmp(keystring, "^^\xE2\x86\x92") == 0)
 	    s->keycode = CONTROL_RIGHT;
-	else if (strcasecmp(keystring, "^Up") == 0)
+	else if (strcasecmp(keystring, "^Up") == 0 ||
+		strcasecmp(keystring, "^^\xE2\x86\x91") == 0)
 	    s->keycode = CONTROL_UP;
-	else if (strcasecmp(keystring, "^Down") == 0)
+	else if (strcasecmp(keystring, "^Down") == 0 ||
+		strcasecmp(keystring, "^^\xE2\x86\x93") == 0)
 	    s->keycode = CONTROL_DOWN;
 	else
 	    s->keycode = keystring[1] - 64;
@@ -1122,8 +1126,13 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "Left", do_left, 0);
     add_to_sclist(MMOST, "^F", do_right, 0);
     add_to_sclist(MMOST, "Right", do_right, 0);
-    add_to_sclist(MMOST, "^Left", do_prev_word_void, 0);
-    add_to_sclist(MMOST, "^Right", do_next_word_void, 0);
+    if (using_utf8()) {
+	add_to_sclist(MMAIN, "^\xE2\x86\x90", do_prev_word_void, 0);
+	add_to_sclist(MMAIN, "^\xE2\x86\x92", do_next_word_void, 0);
+    } else {
+	add_to_sclist(MMOST, "^Left", do_prev_word_void, 0);
+	add_to_sclist(MMOST, "^Right", do_next_word_void, 0);
+    }
     add_to_sclist(MMOST, "M-Space", do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", do_next_word_void, 0);
     add_to_sclist((MMOST & ~MBROWSER), "^A", do_home, 0);
@@ -1134,8 +1143,13 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", do_down_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", do_down_void, 0);
-    add_to_sclist(MMAIN, "^Up", do_prev_block, 0);
-    add_to_sclist(MMAIN, "^Down", do_next_block, 0);
+    if (using_utf8()) {
+	add_to_sclist(MMAIN, "^\xE2\x86\x91", do_prev_block, 0);
+	add_to_sclist(MMAIN, "^\xE2\x86\x93", do_next_block, 0);
+    } else {
+	add_to_sclist(MMAIN, "^Up", do_prev_block, 0);
+	add_to_sclist(MMAIN, "^Down", do_next_block, 0);
+    }
     add_to_sclist(MMAIN, "M-7", do_prev_block, 0);
     add_to_sclist(MMAIN, "M-8", do_next_block, 0);
 #ifndef DISABLE_JUSTIFY
