@@ -28,7 +28,7 @@
 /* Move to the first line of the file. */
 void do_first_line(void)
 {
-    openfile->current = openfile->edittop = openfile->fileage;
+    openfile->current = openfile->fileage;
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
@@ -41,6 +41,8 @@ void do_last_line(void)
     openfile->current = openfile->filebot;
     openfile->current_x = strlen(openfile->filebot->data);
     openfile->placewewant = xplustabs();
+
+    /* Set the last line of the screen as the target for the cursor. */
     openfile->current_y = editwinrows - 1;
 
     refresh_needed = TRUE;
@@ -177,7 +179,7 @@ void do_para_begin_void(void)
  * paragraph or isn't in a paragraph. */
 void do_para_end(bool allow_update)
 {
-    filestruct *const current_save = openfile->current;
+    filestruct *current_save = openfile->current;
 
     while (openfile->current != openfile->filebot &&
 		!inpar(openfile->current))
