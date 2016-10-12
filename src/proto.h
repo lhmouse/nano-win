@@ -73,9 +73,6 @@ extern int maxrows;
 
 extern filestruct *cutbuffer;
 extern filestruct *cutbottom;
-#ifndef DISABLE_JUSTIFY
-extern filestruct *jusbuffer;
-#endif
 extern partition *filepart;
 extern openfilestruct *openfile;
 

@@ -90,10 +90,6 @@ filestruct *cutbuffer = NULL;
 	/* The buffer where we store cut text. */
 filestruct *cutbottom = NULL;
 	/* The last line in the cutbuffer. */
-#ifndef DISABLE_JUSTIFY
-filestruct *jusbuffer = NULL;
-	/* The buffer where we store unjustified text. */
-#endif
 partition *filepart = NULL;
 	/* The "partition" where we store a portion of the current file. */
 openfilestruct *openfile = NULL;
@@ -1691,9 +1687,6 @@ void thanks_for_all_the_fish(void)
     free(alt_speller);
 #endif
     free_filestruct(cutbuffer);
-#ifndef DISABLE_JUSTIFY
-    free_filestruct(jusbuffer);
-#endif
     /* Free the memory associated with each open file buffer. */
     while (openfile != openfile->next) {
 	openfile = openfile->next;

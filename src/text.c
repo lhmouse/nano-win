@@ -42,8 +42,10 @@ static bool prepend_wrap = FALSE;
 	/* Should we prepend wrapped text to the next line? */
 #endif
 #ifndef DISABLE_JUSTIFY
+static filestruct *jusbuffer = NULL;
+	/* The buffer where we store unjustified text. */
 static filestruct *jusbottom = NULL;
-	/* Pointer to the end of the justify buffer. */
+	/* A pointer to the end of the buffer with unjustified text. */
 #endif
 
 #ifndef NANO_TINY
@@ -2513,8 +2515,8 @@ void do_justify(bool full_justify)
 			|| func == do_undo
 #endif
 		) {
-	/* Splice the justify buffer back into the file, but only if we
-	 * actually justified something. */
+	/* If we actually justified something, then splice the preserved
+	 * unjustified text back into the file, */
 	if (first_par_line != NULL) {
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
@@ -2522,24 +2524,19 @@ void do_justify(bool full_justify)
 				last_par_line, filebot_inpar ?
 				strlen(last_par_line->data) : 0);
 
-	    /* Remove the text of the justified paragraph, and
-	     * replace it with the text in the justify buffer. */
+	    /* Throw away the justified paragraph, and replace it with
+	     * the preserved unjustified text. */
 	    free_filestruct(openfile->fileage);
 	    openfile->fileage = jusbuffer;
 	    openfile->filebot = jusbottom;
 
-	    /* Unpartition the filestruct so that it contains all the
-	     * text again.  Note that the justified paragraph has been
-	     * replaced with the unjustified paragraph. */
+	    /* Unpartition the filestruct, to contain the entire text again. */
 	    unpartition_filestruct(&filepart);
 
 	    /* Renumber, from the beginning of the unjustified part. */
 	    renumber(jusbuffer);
 
-	    /* Mark the justify buffer as empty, as it's been swallowed. */
-	    jusbuffer = NULL;
-
-	    /* Restore the justify we just did (ungrateful user!). */
+	    /* Restore the old position, the size, and the mark. */
 	    openfile->edittop = edittop_save;
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
@@ -2569,10 +2566,12 @@ void do_justify(bool full_justify)
 	discard_until(NULL, openfile);
 	openfile->current_undo = NULL;
 #endif
-	/* Blow away the text in the justify buffer. */
+	/* Blow away the unjustified text. */
 	free_filestruct(jusbuffer);
-	jusbuffer = NULL;
     }
+
+    /* Mark the buffer for unjustified text as empty. */
+    jusbuffer = NULL;
 
     blank_statusbar();
 
