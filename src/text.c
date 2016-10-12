@@ -2516,8 +2516,6 @@ void do_justify(bool full_justify)
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
-	    filestruct *top_save;
-
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
 	    filepart = partition_filestruct(first_par_line, 0,
@@ -2530,16 +2528,16 @@ void do_justify(bool full_justify)
 	    openfile->fileage = jusbuffer;
 	    openfile->filebot = jusbottom;
 
-	    top_save = openfile->fileage;
-
 	    /* Unpartition the filestruct so that it contains all the
 	     * text again.  Note that the justified paragraph has been
 	     * replaced with the unjustified paragraph. */
 	    unpartition_filestruct(&filepart);
 
-	    /* Renumber, starting with the beginning line of the old
-	     * partition. */
-	    renumber(top_save);
+	    /* Renumber, from the beginning of the unjustified part. */
+	    renumber(jusbuffer);
+
+	    /* Mark the justify buffer as empty, as it's been swallowed. */
+	    jusbuffer = NULL;
 
 	    /* Restore the justify we just did (ungrateful user!). */
 	    openfile->edittop = edittop_save;
@@ -2553,12 +2551,9 @@ void do_justify(bool full_justify)
 	    }
 #endif
 	    openfile->modified = modified_save;
-
-	    /* Clear the justify buffer. */
-	    jusbuffer = NULL;
-
 	    if (!openfile->modified)
 		titlebar(NULL);
+
 	    refresh_needed = TRUE;
 	}
     } else {
