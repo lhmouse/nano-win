@@ -2180,7 +2180,11 @@ void bottombars(int menu)
 	i++;
     }
 
+    /* Defeat a VTE bug by moving the cursor and forcing a screen update. */
+    wmove(bottomwin, 0, 0);
     wnoutrefresh(bottomwin);
+    doupdate();
+
     reset_cursor();
     wnoutrefresh(edit);
 }
