@@ -149,7 +149,7 @@ void do_page_down(void)
  * afterwards. */
 void do_para_begin(bool allow_update)
 {
-    filestruct *current_save = openfile->current;
+    filestruct *was_current = openfile->current;
 
     if (openfile->current != openfile->fileage) {
 	do {
@@ -161,7 +161,7 @@ void do_para_begin(bool allow_update)
     openfile->current_x = 0;
 
     if (allow_update)
-	edit_redraw(current_save);
+	edit_redraw(was_current);
 }
 
 /* Move up to the beginning of the last beginning-of-paragraph line
@@ -179,7 +179,7 @@ void do_para_begin_void(void)
  * paragraph or isn't in a paragraph. */
 void do_para_end(bool allow_update)
 {
-    filestruct *current_save = openfile->current;
+    filestruct *was_current = openfile->current;
 
     while (openfile->current != openfile->filebot &&
 		!inpar(openfile->current))
@@ -199,7 +199,7 @@ void do_para_end(bool allow_update)
 	openfile->current_x = strlen(openfile->current->data);
 
     if (allow_update)
-	edit_redraw(current_save);
+	edit_redraw(was_current);
 }
 
 /* Move down to the beginning of the last line of the current paragraph.
@@ -256,7 +256,7 @@ void do_next_block(void)
  * screen afterwards. */
 void do_prev_word(bool allow_punct, bool allow_update)
 {
-    filestruct *current_save = openfile->current;
+    filestruct *was_current = openfile->current;
     bool seen_a_word = FALSE, step_forward = FALSE;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
@@ -296,7 +296,7 @@ void do_prev_word(bool allow_punct, bool allow_update)
     /* If allow_update is TRUE, update the screen. */
     if (allow_update) {
 	focusing = FALSE;
-	edit_redraw(current_save);
+	edit_redraw(was_current);
     }
 }
 
@@ -313,7 +313,7 @@ void do_prev_word_void(void)
  * otherwise. */
 bool do_next_word(bool allow_punct, bool allow_update)
 {
-    filestruct *current_save = openfile->current;
+    filestruct *was_current = openfile->current;
     bool started_on_word = is_word_mbchar(openfile->current->data +
 				openfile->current_x, allow_punct);
     bool seen_space = !started_on_word;
@@ -348,7 +348,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
     /* If allow_update is TRUE, update the screen. */
     if (allow_update) {
 	focusing = FALSE;
-	edit_redraw(current_save);
+	edit_redraw(was_current);
     }
 
     /* Return whether we started on a word. */
