@@ -368,7 +368,7 @@ size_t length_of_list(int menu);
 const sc *first_sc_for(int menu, void (*func)(void));
 int sc_seq_or(void (*func)(void), int defaultval);
 functionptrtype func_from_key(int *kbinput);
-void assign_keyinfo(sc *s, const char *keystring);
+void assign_keyinfo(sc *s, const char *keystring, const int keycode);
 void print_sclist(void);
 void shortcut_init(void);
 #ifndef DISABLE_COLOR

@@ -478,7 +478,7 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	newsc->menus = menu;
-	assign_keyinfo(newsc, keycopy);
+	assign_keyinfo(newsc, keycopy, 0);
 
 	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
 	if (newsc->meta && newsc->keycode == 91) {
