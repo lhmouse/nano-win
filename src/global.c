@@ -413,16 +413,16 @@ void assign_keyinfo(sc *s, const char *keystring)
 	if (strcasecmp(keystring, "^Space") == 0)
 	    s->keycode = 0;
 	else if (strcasecmp(keystring, "^Left") == 0 ||
-		strcasecmp(keystring, "^^\xE2\x86\x90") == 0)
+		strcasecmp(keystring, "^\xE2\x86\x90") == 0)
 	    s->keycode = CONTROL_LEFT;
 	else if (strcasecmp(keystring, "^Right") == 0 ||
-		strcasecmp(keystring, "^^\xE2\x86\x92") == 0)
+		strcasecmp(keystring, "^\xE2\x86\x92") == 0)
 	    s->keycode = CONTROL_RIGHT;
 	else if (strcasecmp(keystring, "^Up") == 0 ||
-		strcasecmp(keystring, "^^\xE2\x86\x91") == 0)
+		strcasecmp(keystring, "^\xE2\x86\x91") == 0)
 	    s->keycode = CONTROL_UP;
 	else if (strcasecmp(keystring, "^Down") == 0 ||
-		strcasecmp(keystring, "^^\xE2\x86\x93") == 0)
+		strcasecmp(keystring, "^\xE2\x86\x93") == 0)
 	    s->keycode = CONTROL_DOWN;
 	else
 	    s->keycode = keystring[1] - 64;
@@ -1127,8 +1127,8 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "^F", do_right, 0);
     add_to_sclist(MMOST, "Right", do_right, 0);
     if (using_utf8()) {
-	add_to_sclist(MMAIN, "^\xE2\x86\x90", do_prev_word_void, 0);
-	add_to_sclist(MMAIN, "^\xE2\x86\x92", do_next_word_void, 0);
+	add_to_sclist(MMOST, "^\xE2\x86\x90", do_prev_word_void, 0);
+	add_to_sclist(MMOST, "^\xE2\x86\x92", do_next_word_void, 0);
     } else {
 	add_to_sclist(MMOST, "^Left", do_prev_word_void, 0);
 	add_to_sclist(MMOST, "^Right", do_next_word_void, 0);
