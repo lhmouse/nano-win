@@ -17,3 +17,7 @@ fi
 
 echo "Regenerating POT file and remerging and recompiling PO files..."
 make update-po
+
+# If needed, fix a problem in the Makefile template.
+grep -q '^datarootdir' Makefile.in.in || \
+	sed -i 's/^\(datadir.*\)/datarootdir = @datarootdir@\n\1/' Makefile.in.in
