@@ -516,11 +516,11 @@ void do_down(bool scroll_only)
 	    refresh_needed = TRUE;
 	    return;
 	}
+    }
 #else
     if (openfile->current_y == editwinrows - 1)
 	edit_scroll(DOWNWARD, editwinrows / 2 + 1);
 #endif
-   }
 
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y < editwinrows - 1) {
