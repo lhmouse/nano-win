@@ -582,8 +582,13 @@ void do_right(void)
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
-    else if (openfile->current != openfile->filebot)
+    else if (openfile->current != openfile->filebot) {
 	openfile->current_x = 0;
+#ifndef NANO_TINY
+	if (ISSET(SOFTWRAP))
+	    openfile->current_y -= strlenpt(openfile->current->data) / COLS;
+#endif
+    }
 
     openfile->placewewant = xplustabs();
 
