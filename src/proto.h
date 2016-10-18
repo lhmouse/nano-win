@@ -409,6 +409,7 @@ void do_prev_word(bool allow_punct, bool allow_update);
 void do_prev_word_void(void);
 bool do_next_word(bool allow_punct, bool allow_update);
 void do_next_word_void(void);
+void ensure_line_is_visible(void);
 void do_home(void);
 void do_end(void);
 void do_up(bool scroll_only);

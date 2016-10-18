@@ -1926,6 +1926,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     }
 
 #ifndef NANO_TINY
+    ensure_line_is_visible();
+
     /* Well, we might also need a full refresh if we've changed the
      * line length to be a new multiple of COLS. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)

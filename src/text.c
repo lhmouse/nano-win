@@ -171,6 +171,8 @@ void do_deletion(undo_type action)
 	return;
 
 #ifndef NANO_TINY
+    ensure_line_is_visible();
+
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
 	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
 	    refresh_needed = TRUE;

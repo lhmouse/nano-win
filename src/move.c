@@ -362,6 +362,19 @@ void do_next_word_void(void)
     do_next_word(ISSET(WORD_BOUNDS), TRUE);
 }
 
+/* Make sure that the current line, when it is partially scrolled off the
+ * screen in softwrap mode, is scrolled fully into view. */
+void ensure_line_is_visible(void)
+{
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP) && strlenpt(openfile->current->data) / COLS +
+				openfile->current_y >= editwinrows) {
+	edit_update(ISSET(SMOOTH_SCROLL) ? FLOWING : CENTERING);
+	refresh_needed = TRUE;
+    }
+#endif
+}
+
 /* Move to the beginning of the current line.  If the SMART_HOME flag is
  * set, move to the first non-whitespace character of the current line
  * if we aren't already there, or to the beginning of the current line
@@ -399,6 +412,8 @@ void do_end(void)
 
     if (need_horizontal_scroll(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
+
+    ensure_line_is_visible();
 }
 
 /* If scroll_only is FALSE, move up one line.  If scroll_only is TRUE,
@@ -597,4 +612,6 @@ void do_right(void)
 
     if (openfile->current_x == 0)
 	do_down_void();
+    else
+	ensure_line_is_visible();
 }
