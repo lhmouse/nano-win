@@ -45,6 +45,17 @@ bool shift_held;
 bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
 
+int margin = 0;
+	/* The amount of space reserved at the left for line numbers. */
+int editwincols = -1;
+	/* The number of usable columns in the edit window: COLS - margin. */
+#ifdef ENABLE_LINENUMBERS
+int last_drawn_line = 0;
+        /* The line number of the last drawn line. */
+int last_line_y;
+        /* The y coordinate of the last drawn line. */
+#endif
+
 message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
@@ -1154,6 +1165,9 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, MORE_SPACE);
     add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SMOOTH_SCROLL);
     add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);
+#ifdef ENABLE_LINENUMBERS
+    add_to_sclist(MMAIN, "M-#", 0, do_toggle_void, LINE_NUMBERS);
+#endif
     add_to_sclist(MMAIN, "M-P", 0, do_toggle_void, WHITESPACE_DISPLAY);
 #ifndef DISABLE_COLOR
     add_to_sclist(MMAIN, "M-Y", 0, do_toggle_void, NO_COLOR_SYNTAX);
@@ -1332,6 +1346,8 @@ const char *flagtostr(int flag)
 	    return N_("No conversion from DOS/Mac format");
 	case SUSPEND:
 	    return N_("Suspension");
+	case LINE_NUMBERS:
+	    return N_("Line numbering");
 	default:
 	    return "?????";
     }

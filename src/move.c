@@ -367,7 +367,7 @@ void do_next_word_void(void)
 void ensure_line_is_visible(void)
 {
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP) && strlenpt(openfile->current->data) / COLS +
+    if (ISSET(SOFTWRAP) && strlenpt(openfile->current->data) / editwincols +
 				openfile->current_y >= editwinrows) {
 	edit_update(ISSET(SMOOTH_SCROLL) ? FLOWING : CENTERING);
 	refresh_needed = TRUE;
@@ -492,13 +492,14 @@ void do_down(bool scroll_only)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	/* Compute the number of lines to scroll. */
-	amount = strlenpt(openfile->current->data) / COLS - xplustabs() / COLS +
-			strlenpt(openfile->current->next->data) / COLS +
+	amount = strlenpt(openfile->current->data) / editwincols -
+			xplustabs() / editwincols +
+			strlenpt(openfile->current->next->data) / editwincols +
 			openfile->current_y - editwinrows + 2;
 	topline = openfile->edittop;
 	/* Reduce the amount when there are overlong lines at the top. */
 	for (enough = 1; enough < amount; enough++) {
-	    amount -= strlenpt(topline->data) / COLS;
+	    amount -= strlenpt(topline->data) / editwincols;
 	    if (amount > 0)
 		topline = topline->next;
 	    if (amount < enough) {

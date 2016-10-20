@@ -1534,7 +1534,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	return -1;
 
     /* Save the screen coordinates where the mouse event took place. */
-    *mouse_x = mevent.x;
+    *mouse_x = mevent.x - margin;
     *mouse_y = mevent.y;
 
     in_bottomwin = wenclose(bottomwin, *mouse_y, *mouse_x);
@@ -1564,7 +1564,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    if (*mouse_y == 0) {
 		/* Restore the untranslated mouse event coordinates, so
 		 * that they're relative to the entire screen again. */
-		*mouse_x = mevent.x;
+		*mouse_x = mevent.x - margin;
 		*mouse_y = mevent.y;
 
 		return 0;
@@ -2224,13 +2224,13 @@ void reset_cursor(void)
 	openfile->current_y = 0;
 
 	while (line != NULL && line != openfile->current) {
-	    openfile->current_y += strlenpt(line->data) / COLS + 1;
+	    openfile->current_y += strlenpt(line->data) / editwincols + 1;
 	    line = line->next;
 	}
-	openfile->current_y += xpt / COLS;
+	openfile->current_y += xpt / editwincols;
 
 	if (openfile->current_y < editwinrows)
-	    wmove(edit, openfile->current_y, xpt % COLS);
+	    wmove(edit, openfile->current_y, xpt % editwincols + margin);
     } else
 #endif
     {
@@ -2238,7 +2238,7 @@ void reset_cursor(void)
 				openfile->edittop->lineno;
 
 	if (openfile->current_y < editwinrows)
-	    wmove(edit, openfile->current_y, xpt - get_page_start(xpt));
+	    wmove(edit, openfile->current_y, xpt - get_page_start(xpt) + margin);
     }
 }
 
@@ -2257,7 +2257,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     size_t startpos = actual_x(fileptr->data, start);
 	/* The position in fileptr->data of the leftmost character
 	 * that displays at least partially on the window. */
-    size_t endpos = actual_x(fileptr->data, start + COLS - 1) + 1;
+    size_t endpos = actual_x(fileptr->data, start + editwincols - 1) + 1;
 	/* The position in fileptr->data of the first character that is
 	 * completely off the window to the right.
 	 *
@@ -2266,11 +2266,33 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 #endif
 
     assert(openfile != NULL && fileptr != NULL && converted != NULL);
-    assert(strlenpt(converted) <= COLS);
+    assert(strlenpt(converted) <= editwincols);
+
+#ifdef ENABLE_LINENUMBERS
+    if (ISSET(LINE_NUMBERS)) {
+	/* If the line numbers now require more room, schedule a refresh. */
+	if (digits(openfile->filebot->lineno) + 1 != margin) {
+	    margin = digits(openfile->filebot->lineno) + 1;
+	    editwincols = COLS - margin;
+	    refresh_needed = TRUE;
+	}
+
+	/* Show the line number only for the non-softwrapped parts. */
+	wattron(edit, hilite_attribute);
+	if (last_drawn_line != fileptr->lineno || last_line_y >= line)
+	    mvwprintw(edit, line, 0, "%*i", margin - 1, fileptr->lineno);
+	else
+	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
+	wattroff(edit, hilite_attribute);
+    } else {
+	margin = 0;
+	editwincols = COLS;
+    }
+#endif
 
     /* First simply paint the line -- then we'll add colors or the
      * marking highlight on just the pieces that need it. */
-    mvwaddstr(edit, line, 0, converted);
+    mvwaddstr(edit, line, margin, converted);
 
 #ifdef USING_OLD_NCURSES
     /* Tell ncurses to really redraw the line without trying to optimize
@@ -2348,7 +2370,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 			assert(0 <= x_start && 0 <= paintlen);
 
-			mvwaddnstr(edit, line, x_start, converted +
+			mvwaddnstr(edit, line, x_start + margin, converted +
 				index, paintlen);
 		    }
 		    k = startmatch.rm_eo;
@@ -2365,7 +2387,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		if (fileptr->multidata[varnish->id] == CNONE)
 		    goto tail_of_loop;
 		else if (fileptr->multidata[varnish->id] == CWHOLELINE) {
-		    mvwaddnstr(edit, line, 0, converted, -1);
+		    mvwaddnstr(edit, line, margin, converted, -1);
 		    goto tail_of_loop;
 		} else if (fileptr->multidata[varnish->id] == CBEGINBEFORE) {
 		    regexec(varnish->end, fileptr->data, 1, &endmatch, 0);
@@ -2374,7 +2396,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			goto tail_of_loop;
 		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
 			endmatch.rm_eo) - start);
-		    mvwaddnstr(edit, line, 0, converted, paintlen);
+		    mvwaddnstr(edit, line, margin, converted, paintlen);
 		    goto tail_of_loop;
 		} if (fileptr->multidata[varnish->id] == -1)
 		    /* Assume this until proven otherwise below. */
@@ -2470,7 +2492,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     fprintf(stderr, "  Marking for id %i  line %i as CBEGINBEFORE\n", varnish->id, line);
 #endif
 		}
-		mvwaddnstr(edit, line, 0, converted, paintlen);
+		mvwaddnstr(edit, line, margin, converted, paintlen);
 		/* If the whole line has been painted, don't bother looking
 		 * for any more starts. */
 		if (paintlen < 0)
@@ -2516,9 +2538,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 					strnlenpt(fileptr->data,
 					endmatch.rm_eo) - start - x_start);
 
-			    assert(0 <= x_start && x_start < COLS);
+			    assert(0 <= x_start && x_start < editwincols);
 
-			    mvwaddnstr(edit, line, x_start,
+			    mvwaddnstr(edit, line, x_start + margin,
 					converted + index, paintlen);
 			    if (paintlen > 0) {
 				fileptr->multidata[varnish->id] = CSTARTENDHERE;
@@ -2545,10 +2567,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			if (end_line == NULL)
 			    break;
 
-			assert(0 <= x_start && x_start < COLS);
+			assert(0 <= x_start && x_start < editwincols);
 
 			/* Paint the rest of the line. */
-			mvwaddnstr(edit, line, x_start, converted + index, -1);
+			mvwaddnstr(edit, line, x_start + margin, converted + index, -1);
 			fileptr->multidata[varnish->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", varnish->id, line);
@@ -2626,11 +2648,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, hilite_attribute);
-	    mvwaddnstr(edit, line, x_start, converted + index, paintlen);
+	    mvwaddnstr(edit, line, x_start + margin, converted + index, paintlen);
 	    wattroff(edit, hilite_attribute);
 	}
     }
 #endif /* !NANO_TINY */
+#ifdef ENABLE_LINENUMBERS
+    last_drawn_line = fileptr->lineno;
+    last_line_y = line;
+#endif
 }
 
 /* Just update one line in the edit buffer.  This is basically a wrapper
@@ -2654,7 +2680,7 @@ int update_line(filestruct *fileptr, size_t index)
 	filestruct *tmp;
 
 	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next)
-	    line += (strlenpt(tmp->data) / COLS) + 1;
+	    line += (strlenpt(tmp->data) / editwincols) + 1;
     } else
 #endif
 	line = fileptr->lineno - openfile->edittop->lineno;
@@ -2678,11 +2704,11 @@ int update_line(filestruct *fileptr, size_t index)
     /* Expand the line, replacing tabs with spaces, and control
      * characters with their displayed forms. */
 #ifdef NANO_TINY
-    converted = display_string(fileptr->data, page_start, COLS, TRUE);
+    converted = display_string(fileptr->data, page_start, editwincols, TRUE);
 #else
-    converted = display_string(fileptr->data, page_start, COLS, !ISSET(SOFTWRAP));
+    converted = display_string(fileptr->data, page_start, editwincols, !ISSET(SOFTWRAP));
 #ifdef DEBUG
-    if (ISSET(SOFTWRAP) && strlen(converted) >= COLS - 2)
+    if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
 	fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
 #endif
 #endif /* !NANO_TINY */
@@ -2695,13 +2721,13 @@ int update_line(filestruct *fileptr, size_t index)
     if (!ISSET(SOFTWRAP)) {
 #endif
 	if (page_start > 0)
-	    mvwaddch(edit, line, 0, '$');
-	if (strlenpt(fileptr->data) > page_start + COLS)
+	    mvwaddch(edit, line, margin, '$');
+	if (strlenpt(fileptr->data) > page_start + editwincols)
 	    mvwaddch(edit, line, COLS - 1, '$');
 #ifndef NANO_TINY
     } else {
 	size_t full_length = strlenpt(fileptr->data);
-	for (index += COLS; index <= full_length && line < editwinrows - 1; index += COLS) {
+	for (index += editwincols; index <= full_length && line < editwinrows - 1; index += editwincols) {
 	    line++;
 #ifdef DEBUG
 	    fprintf(stderr, "update_line(): softwrap code, moving to %d index %lu\n", line, (unsigned long)index);
@@ -2710,9 +2736,9 @@ int update_line(filestruct *fileptr, size_t index)
 
 	    /* Expand the line, replacing tabs with spaces, and control
 	     * characters with their displayed forms. */
-	    converted = display_string(fileptr->data, index, COLS, !ISSET(SOFTWRAP));
+	    converted = display_string(fileptr->data, index, editwincols, !ISSET(SOFTWRAP));
 #ifdef DEBUG
-	    if (ISSET(SOFTWRAP) && strlen(converted) >= COLS - 2)
+	    if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
 		fprintf(stderr, "update_line(): converted(2) line = %s\n", converted);
 #endif
 
@@ -2753,7 +2779,7 @@ void compute_maxrows(void)
     maxrows = 0;
     for (n = 0; n < editwinrows && foo; n++) {
 	maxrows++;
-	n += strlenpt(foo->data) / COLS;
+	n += strlenpt(foo->data) / editwincols;
 	foo = foo->next;
     }
 
@@ -2798,7 +2824,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 #ifndef NANO_TINY
 	/* Don't over-scroll on long lines. */
 	if (ISSET(SOFTWRAP) && direction == UPWARD) {
-	    ssize_t len = strlenpt(openfile->edittop->data) / COLS;
+	    ssize_t len = strlenpt(openfile->edittop->data) / editwincols;
 	    i -= len;
 	    if (len > 0)
 		refresh_needed = TRUE;
@@ -2879,7 +2905,7 @@ void edit_redraw(filestruct *old_current)
     if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
 #ifndef NANO_TINY
 		(openfile->current->lineno == openfile->edittop->lineno + maxrows - 1 &&
-		ISSET(SOFTWRAP) && strlenpt(openfile->current->data) >= COLS) ||
+		ISSET(SOFTWRAP) && strlenpt(openfile->current->data) >= editwincols) ||
 #endif
 		openfile->current->lineno < openfile->edittop->lineno) {
 	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
@@ -2978,7 +3004,7 @@ void edit_update(update_type manner)
 	    goal = editwinrows - 1;
 #ifndef NANO_TINY
 	    if (ISSET(SOFTWRAP))
-		goal -= strlenpt(openfile->current->data) / COLS ;
+		goal -= strlenpt(openfile->current->data) / editwincols;
 #endif
 	}
     } else {
@@ -2996,7 +3022,7 @@ void edit_update(update_type manner)
 	goal --;
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-	    goal -= strlenpt(openfile->edittop->data) / COLS;
+	    goal -= strlenpt(openfile->edittop->data) / editwincols;
 	    if (goal < 0)
 		openfile->edittop = openfile->edittop->next;
 	}
@@ -3118,7 +3144,7 @@ void spotlight(bool active, const char *word)
     size_t word_len = strlenpt(word), room;
 
     /* Compute the number of columns that are available for the word. */
-    room = COLS + get_page_start(xplustabs()) - xplustabs();
+    room = editwincols + get_page_start(xplustabs()) - xplustabs();
 
     assert(room > 0);
 

@@ -125,6 +125,19 @@ fi
 AC_ARG_ENABLE(libmagic,
 AS_HELP_STRING([--disable-libmagic], [Disable detection of file types via libmagic]))
 
+AC_ARG_ENABLE(linenumbers,
+AS_HELP_STRING([--disable-linenumbers], [Disable line numbering]))
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_linenumbers" != xyes; then
+	enable_linenumbers=no
+    fi
+fi
+if test "x$disable_linenumbers" != xyes; then
+    if test "x$enable_linenumbers" != xno; then
+	AC_DEFINE(ENABLE_LINENUMBERS, 1, [Define this to enable line numbering.])
+    fi
+fi
+
 AC_ARG_ENABLE(mouse,
 AS_HELP_STRING([--disable-mouse], [Disable mouse support (and -m flag)]))
 if test "x$enable_mouse" = xno; then

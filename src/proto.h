@@ -38,6 +38,13 @@ extern bool shift_held;
 
 extern bool focusing;
 
+extern int margin;
+extern int editwincols;
+#ifdef ENABLE_LINENUMBERS
+extern int last_drawn_line;
+extern int last_line_y;
+#endif
+
 extern message_type lastmessage;
 
 extern int controlleft;
@@ -675,6 +682,7 @@ void do_verbatim_input(void);
 
 /* All functions in utils.c. */
 void get_homedir(void);
+int digits(int n);
 bool parse_num(const char *str, ssize_t *val);
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
 void align(char **str);

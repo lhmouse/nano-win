@@ -35,6 +35,9 @@
 
 static const rcoption rcopts[] = {
     {"boldtext", BOLD_TEXT},
+#ifdef ENABLE_LINENUMBERS
+    {"linenumbers", LINE_NUMBERS},
+#endif
 #ifndef DISABLE_JUSTIFY
     {"brackets", 0},
 #endif

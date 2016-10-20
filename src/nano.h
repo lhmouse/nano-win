@@ -536,7 +536,8 @@ enum
     NOREAD_MODE,
     MAKE_IT_UNIX,
     JUSTIFY_TRIM,
-    SHOW_CURSOR
+    SHOW_CURSOR,
+    LINE_NUMBERS
 };
 
 /* Flags for the menus in which a given function should be present. */

@@ -884,6 +884,9 @@ void usage(void)
     print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
     print_opt("-k", "--cut", N_("Cut from cursor to end of line"));
 #endif
+#ifdef ENABLE_LINENUMBERS
+    print_opt("-l", "--linenumbers", N_("Show line numbers in front of the text"));
+#endif
 #ifndef DISABLE_MOUSE
     print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
@@ -962,6 +965,9 @@ void version(void)
 #ifdef HAVE_LIBMAGIC
     printf(" --enable-libmagic");
 #endif
+#ifdef ENABLE_LINENUMBERS
+    printf(" --enable-linenumbers");
+#endif
 #ifndef DISABLE_MOUSE
     printf(" --enable-mouse");
 #endif
@@ -1007,6 +1013,9 @@ void version(void)
 #endif
 #ifndef HAVE_LIBMAGIC
     printf(" --disable-libmagic");
+#endif
+#ifndef ENABLE_LINENUMBERS
+    printf(" --disable-linenumbers");
 #endif
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
@@ -1340,6 +1349,7 @@ void regenerate_screen(void)
     COLS = win.ws_col;
     LINES = win.ws_row;
 #endif
+    editwincols = COLS - margin;
 
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what
@@ -1413,6 +1423,9 @@ void do_toggle(int flag)
 	    break;
 #ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
+#endif
+#ifdef ENABLE_LINENUMBERS
+	case LINE_NUMBERS:
 #endif
 	case SOFTWRAP:
 	    edit_refresh();
@@ -1992,6 +2005,9 @@ int main(int argc, char **argv)
 	{"constantshow", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
 	{"help", 0, NULL, 'h'},
+#ifdef ENABLE_LINENUMBERS
+	{"linenumbers", 0, NULL, 'l'},
+#endif
 #ifndef DISABLE_MOUSE
 	{"mouse", 0, NULL, 'm'},
 #endif
@@ -2271,6 +2287,11 @@ int main(int argc, char **argv)
 		SET(SOFTWRAP);
 		break;
 #endif
+#ifdef ENABLE_LINENUMBERS
+	    case 'l':
+		SET(LINE_NUMBERS);
+		break;
+#endif
 	    case 'h':
 		usage();
 		exit(0);
@@ -2541,6 +2562,8 @@ int main(int argc, char **argv)
     /* Initialize all the windows based on the current screen
      * dimensions. */
     window_init();
+
+    editwincols = COLS - margin;
 
     /* Set up the signal handlers. */
     signal_init();

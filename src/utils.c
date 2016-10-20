@@ -52,6 +52,39 @@ void get_homedir(void)
     }
 }
 
+#ifdef ENABLE_LINENUMBERS
+/* Return the number of digits that the given integer n takes up. */
+int digits(int n)
+{
+    if (n < 100000) {
+        if (n < 1000) {
+            if (n < 100)
+                return 2;
+            else
+                return 3;
+        } else {
+            if (n < 10000)
+                return 4;
+            else
+                return 5;
+        }
+    } else {
+        if (n < 10000000) {
+            if (n < 1000000)
+                return 6;
+            else
+                return 7;
+        }
+        else {
+            if (n < 100000000)
+                return 8;
+            else
+                return 9;
+        }
+    }
+}
+#endif
+
 /* Read a ssize_t from str, and store it in *val (if val is not NULL).
  * On error, we return FALSE and don't change *val.  Otherwise, we
  * return TRUE. */
@@ -430,12 +463,12 @@ char *free_and_assign(char *dest, char *src)
  * get_page_start(column) < COLS). */
 size_t get_page_start(size_t column)
 {
-    if (column == 0 || column < COLS - 1)
+    if (column == 0 || column < editwincols - 1)
 	return 0;
-    else if (COLS > 8)
-	return column - 7 - (column - 7) % (COLS - 8);
+    else if (editwincols > 8)
+	return column - 7 - (column - 7) % (editwincols - 8);
     else
-	return column - (COLS - 2);
+	return column - (editwincols - 2);
 }
 
 /* Return the placewewant associated with current_x, i.e. the zero-based
