@@ -111,6 +111,7 @@ static const rcoption rcopts[] = {
 #endif
 #ifndef DISABLE_COLOR
     {"titlecolor", 0},
+    {"numbercolor", 0},
     {"statuscolor", 0},
     {"keycolor", 0},
     {"functioncolor", 0},
@@ -1121,6 +1122,8 @@ void parse_rcfile(FILE *rcstream
 #ifndef DISABLE_COLOR
 	if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
 	    specified_color_combo[TITLE_BAR] = option;
+	else if (strcasecmp(rcopts[i].name, "numbercolor") == 0)
+	    specified_color_combo[LINE_NUMBER] = option;
 	else if (strcasecmp(rcopts[i].name, "statuscolor") == 0)
 	    specified_color_combo[STATUS_BAR] = option;
 	else if (strcasecmp(rcopts[i].name, "keycolor") == 0)

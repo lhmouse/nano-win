@@ -2278,12 +2278,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	}
 
 	/* Show the line number only for the non-softwrapped parts. */
-	wattron(edit, hilite_attribute);
+	wattron(edit, interface_color_pair[LINE_NUMBER]);
 	if (last_drawn_line != fileptr->lineno || last_line_y >= line)
 	    mvwprintw(edit, line, 0, "%*i", margin - 1, fileptr->lineno);
 	else
 	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
-	wattroff(edit, hilite_attribute);
+	wattroff(edit, interface_color_pair[LINE_NUMBER]);
     } else {
 	margin = 0;
 	editwincols = COLS;

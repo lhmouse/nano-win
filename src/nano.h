@@ -488,6 +488,7 @@ typedef struct subnfunc {
 enum
 {
     TITLE_BAR = 0,
+    LINE_NUMBER,
     STATUS_BAR,
     KEY_COMBO,
     FUNCTION_TAG,

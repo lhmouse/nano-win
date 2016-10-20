@@ -731,6 +731,10 @@ Don't add newlines to the ends of files.
 @item set nowrap
 Don't hard-wrap text at all.
 
+@item set numbercolor @var{fgcolor},@var{bgcolor}
+Specify the color combination to use for line numbers.
+See @code{set titlecolor} for more details.
+
 @item set operatingdir "directory"
 @code{nano} will only read and write files inside "directory" and its
 subdirectories.  Also, the current directory is changed to here, so
