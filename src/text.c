@@ -3076,7 +3076,7 @@ const char *do_alt_speller(char *tempfile_name)
     goto_line_posx(lineno_save, current_x_save);
     openfile->current_y = current_y_save;
     openfile->placewewant = pww_save;
-    edit_update(STATIONARY);
+    adjust_viewport(STATIONARY);
 
     /* Stat the temporary file again, and mark the buffer as modified only
      * if this file was changed since it was written. */
@@ -3552,7 +3552,7 @@ void do_formatter(void)
 	goto_line_posx(lineno_save, current_x_save);
 	openfile->current_y = current_y_save;
 	openfile->placewewant = pww_save;
-	edit_update(STATIONARY);
+	adjust_viewport(STATIONARY);
 
 	set_modified();
 

@@ -781,7 +781,7 @@ bool need_horizontal_scroll(const size_t old_column, const size_t new_column);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
 void edit_redraw(filestruct *old_current);
 void edit_refresh(void);
-void edit_update(update_type location);
+void adjust_viewport(update_type location);
 void total_redraw(void);
 void total_refresh(void);
 void display_main_list(void);

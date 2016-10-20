@@ -943,8 +943,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
     /* When the position was manually given, center the target line. */
     if (interactive || ISSET(SOFTWRAP)) {
-	edit_update(CENTERING);
-	edit_refresh();
+	adjust_viewport(CENTERING);
+	refresh_needed = TRUE;
     } else {
 	/* If the target line is close to the tail of the file, put the last
 	 * line of the file on the bottom line of the screen; otherwise, just
@@ -953,9 +953,9 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 							editwinrows / 2) {
 	    openfile->current_y = editwinrows - openfile->filebot->lineno +
 					openfile->current->lineno - 1;
-	    edit_update(STATIONARY);
+	    adjust_viewport(STATIONARY);
 	} else
-	    edit_update(CENTERING);
+	    adjust_viewport(CENTERING);
     }
 }
 

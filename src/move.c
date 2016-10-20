@@ -99,7 +99,7 @@ void do_page_up(void)
 #endif
 
     /* Scroll the edit window up a page. */
-    edit_update(STATIONARY);
+    adjust_viewport(STATIONARY);
     refresh_needed = TRUE;
 }
 
@@ -139,7 +139,7 @@ void do_page_down(void)
 					openfile->placewewant);
 
     /* Scroll the edit window down a page. */
-    edit_update(STATIONARY);
+    adjust_viewport(STATIONARY);
     refresh_needed = TRUE;
 }
 
@@ -369,7 +369,7 @@ void ensure_line_is_visible(void)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP) && strlenpt(openfile->current->data) / editwincols +
 				openfile->current_y >= editwinrows) {
-	edit_update(ISSET(SMOOTH_SCROLL) ? FLOWING : CENTERING);
+	adjust_viewport(ISSET(SMOOTH_SCROLL) ? FLOWING : CENTERING);
 	refresh_needed = TRUE;
     }
 #endif

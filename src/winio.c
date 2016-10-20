@@ -2899,7 +2899,7 @@ void edit_redraw(filestruct *old_current)
 		ISSET(SOFTWRAP) && strlenpt(openfile->current->data) >= editwincols) ||
 #endif
 		openfile->current->lineno < openfile->edittop->lineno) {
-	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
+	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
 	refresh_needed = TRUE;
     }
 
@@ -2948,7 +2948,7 @@ void edit_refresh(void)
 #endif
 
 	/* Make sure the current line is on the screen. */
-	edit_update((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
+	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
 
     foo = openfile->edittop;
@@ -2978,7 +2978,7 @@ void edit_refresh(void)
  * middle of the screen, STATIONARY means that it should stay at the
  * same vertical position, and FLOWING means that it should scroll no
  * more than needed to bring current into view. */
-void edit_update(update_type manner)
+void adjust_viewport(update_type manner)
 {
     int goal = 0;
 
@@ -3023,7 +3023,7 @@ void edit_update(update_type manner)
 #endif
     }
 #ifdef DEBUG
-    fprintf(stderr, "edit_update(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
+    fprintf(stderr, "adjust_viewport(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
     compute_maxrows();
 }
