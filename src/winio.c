@@ -2901,6 +2901,7 @@ void edit_redraw(filestruct *old_current)
 		openfile->current->lineno < openfile->edittop->lineno) {
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
 	refresh_needed = TRUE;
+	return;
     }
 
 #ifndef NANO_TINY
