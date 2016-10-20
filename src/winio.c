@@ -2940,15 +2940,13 @@ void edit_refresh(void)
     /* Figure out what maxrows should really be. */
     compute_maxrows();
 
+    /* If the current line is out of view, get it back on screen. */
     if (openfile->current->lineno < openfile->edittop->lineno ||
-	openfile->current->lineno >= openfile->edittop->lineno +
-	maxrows) {
+		openfile->current->lineno >= openfile->edittop->lineno + maxrows) {
 #ifdef DEBUG
 	fprintf(stderr, "edit_refresh(): line = %ld, edittop %ld + maxrows %d\n",
 		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxrows);
 #endif
-
-	/* Make sure the current line is on the screen. */
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
 
@@ -2960,7 +2958,7 @@ void edit_refresh(void)
 
     for (nlines = 0; nlines < editwinrows && foo != NULL; nlines++) {
 	nlines += update_line(foo, (foo == openfile->current) ?
-		openfile->current_x : 0);
+					openfile->current_x : 0);
 	foo = foo->next;
     }
 
@@ -3014,7 +3012,7 @@ void adjust_viewport(update_type manner)
 
     while (goal > 0 && openfile->edittop->prev != NULL) {
 	openfile->edittop = openfile->edittop->prev;
-	goal --;
+	goal--;
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
 	    goal -= strlenpt(openfile->edittop->data) / editwincols;
