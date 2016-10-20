@@ -2269,10 +2269,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     assert(strlenpt(converted) <= editwincols);
 
 #ifdef ENABLE_LINENUMBERS
-    if (ISSET(LINE_NUMBERS)) {
+    int needed_margin = digits(openfile->filebot->lineno) + 1;
+
+    if (ISSET(LINE_NUMBERS) && needed_margin < COLS - 3) {
 	/* If the line numbers now require more room, schedule a refresh. */
-	if (digits(openfile->filebot->lineno) + 1 != margin) {
-	    margin = digits(openfile->filebot->lineno) + 1;
+	if (needed_margin != margin) {
+	    margin = needed_margin;
 	    editwincols = COLS - margin;
 	    refresh_needed = TRUE;
 	}
