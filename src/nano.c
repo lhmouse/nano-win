@@ -1892,8 +1892,11 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    continue;
 
 	/* If we're adding to the magicline, create a new magicline. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot == openfile->current)
+	if (!ISSET(NO_NEWLINES) && openfile->filebot == openfile->current) {
 	    new_magicline();
+	    if (margin > 0)
+		refresh_needed = TRUE;
+	}
 
 	assert(openfile->current_x <= current_len);
 
