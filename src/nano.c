@@ -2554,8 +2554,6 @@ int main(int argc, char **argv)
      * dimensions. */
     window_init();
 
-    editwincols = COLS - margin;
-
     /* Set up the signal handlers. */
     signal_init();
 
@@ -2694,6 +2692,22 @@ int main(int argc, char **argv)
     display_buffer();
 
     while (TRUE) {
+#ifdef ENABLE_LINENUMBERS
+	int needed_margin = digits(openfile->filebot->lineno) + 1;
+
+	/* Only enable line numbers when there is enough room for them. */
+	if (ISSET(LINE_NUMBERS) && needed_margin < COLS - 3) {
+	    if (needed_margin != margin) {
+		margin = needed_margin;
+		editwincols = COLS - margin;
+		/* The margin has changed -- schedule a full refresh. */
+		refresh_needed = TRUE;
+	    }
+	} else {
+	    margin = 0;
+	    editwincols = COLS;
+	}
+#endif
 	if (currmenu != MMAIN)
 	    display_main_list();
 
