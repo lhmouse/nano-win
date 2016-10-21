@@ -1428,7 +1428,7 @@ void do_toggle(int flag)
 	case LINE_NUMBERS:
 #endif
 	case SOFTWRAP:
-	    edit_refresh();
+	    refresh_needed = TRUE;
 	    break;
     }
 
@@ -1733,13 +1733,7 @@ int do_input(bool allow_funcs)
 	    if (f && !f->viewok)
 		reset_multis(openfile->current, FALSE);
 #endif
-	    if (refresh_needed) {
-#ifdef DEBUG
-		fprintf(stderr, "running edit_refresh() as refresh_needed is true\n");
-#endif
-		edit_refresh();
-		refresh_needed = FALSE;
-	    } else if (s->scfunc == do_delete || s->scfunc == do_backspace)
+	    if (!refresh_needed && (s->scfunc == do_delete || s->scfunc == do_backspace))
 		update_line(openfile->current, openfile->current_x);
 	}
     }
@@ -1956,10 +1950,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     reset_multis(openfile->current, FALSE);
 #endif
 
-    if (refresh_needed == TRUE) {
-	edit_refresh();
-	refresh_needed = FALSE;
-    } else
+    if (!refresh_needed)
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -2718,10 +2709,14 @@ int main(int argc, char **argv)
 	/* Forget any earlier statusbar x position. */
 	reinit_statusbar_x();
 
-	/* Place the cursor in the edit window and make it visible. */
-	reset_cursor();
-	curs_set(1);
-	wnoutrefresh(edit);
+	/* Refresh either the entire edit window or just the cursor. */
+	if (refresh_needed)
+	    edit_refresh();
+	else {
+	    reset_cursor();
+	    curs_set(1);
+	    wnoutrefresh(edit);
+	}
 
 	/* Read in and interpret keystrokes. */
 	do_input(TRUE);
