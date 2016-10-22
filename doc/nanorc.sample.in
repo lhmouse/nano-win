@@ -63,6 +63,9 @@
 ## Make the justify command kill whitespace at the end of lines.
 # set justifytrim
 
+## Display line numbers to the left of the text.
+# set linenumbers
+
 ## Enable vim-style lock-files.  This is just to let a vim user know you
 ## are editing a file [s]he is trying to edit and vice versa. There are
 ## no plans to implement vim-style undo state in these files.
@@ -193,8 +196,9 @@
 
 
 ## Paint the interface elements of nano.
-## This is an example; by default there are no colors.
+## These are examples; by default there are no colors.
 # set titlecolor brightwhite,blue
+# set numbercolor cyan
 # set statuscolor brightwhite,green
 # set keycolor green
 # set functioncolor yellow
