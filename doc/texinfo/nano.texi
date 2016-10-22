@@ -270,6 +270,10 @@ the previous line.
 Make the 'Cut Text' command (normally ^K) cut from the current cursor
 position to the end of the line, instead of cutting the entire line.
 
+@item -l
+@itemx --linenumbers
+Display line numbers to the left of the text area.
+
 @item -m
 @itemx --mouse
 Enable mouse support, if available for your system.  When enabled, mouse
@@ -592,6 +596,9 @@ toggles the @code{-z} (@code{--suspend}) command-line option.
 @item Soft Wrapping Toggle (Meta-$)
 toggles the @code{-$} (@code{--softwrap}) command-line option.
 
+@item Line Numbers Toggle (Meta-#)
+toggles the @code{-l} (@code{--linenumbers}) command-line option.
+
 @end table
 
 
@@ -699,6 +706,9 @@ When justifying text, trailing whitespace will automatically be removed.
 Specify the color combination to use for the shortcut key combos
 in the two help lines at the bottom of the screen.
 See @code{set titlecolor} for more details.
+
+@item set linenumbers
+Display line numbers to the left of the text area.
 
 @item set locking
 Enable vim-style lock-files for when editing files.
