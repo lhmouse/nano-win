@@ -323,8 +323,8 @@ the @command{spell} program to be installed on your system.
 
 @item -t
 @itemx --tempfile
-Don't ask whether or not to save the current contents of the file when
-exiting, assume yes.  This is most useful when using @command{nano} as the
+Don't ask whether to save a modified buffer when exiting with ^X, but
+assume yes.  This option is useful when @command{nano} is used as the
 composer of a mailer program.
 
 @item -u
