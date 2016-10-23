@@ -311,13 +311,6 @@ filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode);
 void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable);
 int open_file(const char *filename, bool newfie, bool quiet, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
-void do_insertfile(
-#ifndef NANO_TINY
-	bool execute
-#else
-	void
-#endif
-	);
 void do_insertfile_void(void);
 char *get_full_path(const char *origpath);
 char *check_writable_directory(const char *path);

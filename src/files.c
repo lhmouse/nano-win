@@ -1058,18 +1058,12 @@ char *get_next_filename(const char *name, const char *suffix)
     return buf;
 }
 
-/* Insert a file into a new buffer if the MULTIBUFFER flag is set, or
- * into the current buffer if it isn't.  If execute is TRUE, insert the
- * output of an executed command instead of a file. */
-void do_insertfile(
-#ifndef NANO_TINY
-	bool execute
-#else
-	void
-#endif
-	)
+/* Insert a file into the current buffer, or into a new buffer when
+ * the MULTIBUFFER flag is set. */
+void do_insertfile(void)
 {
     int i;
+    bool execute = FALSE;
     const char *msg;
     char *given = mallocstrcpy(NULL, "");
 	/* The last answer the user typed at the statusbar prompt. */
@@ -1345,11 +1339,7 @@ void do_insertfile_void(void)
 	statusbar(_("Key invalid in non-multibuffer mode"));
     else
 #endif
-	do_insertfile(
-#ifndef NANO_TINY
-		FALSE
-#endif
-		);
+	do_insertfile();
 }
 
 /* When passed "[relative path]" or "[relative path][filename]" in
