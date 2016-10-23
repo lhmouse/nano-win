@@ -797,13 +797,11 @@ void print_opt_full(const char *shortflag
 void usage(void)
 {
     printf(_("Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n\n"));
-    printf(
 #ifdef HAVE_GETOPT_LONG
-	_("Option\t\tGNU long option\t\tMeaning\n")
+    printf(_("Option\t\tGNU long option\t\tMeaning\n"));
 #else
-	_("Option\t\tMeaning\n")
+    printf(_("Option\t\tMeaning\n"));
 #endif
-	);
     print_opt(_("+LINE,COLUMN"), "",
 	/* TRANSLATORS: The next forty or so strings are option descriptions
 	 * for the --help output.  Try to keep them at most 40 characters. */
