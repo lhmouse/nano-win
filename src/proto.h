@@ -561,12 +561,8 @@ void regexp_cleanup(void);
 void not_found_msg(const char *str);
 void search_replace_abort(void);
 int search_init(bool replacing, bool use_answer);
-int findnextstr(
-#ifndef DISABLE_SPELLER
-	bool whole_word_only,
-#endif
-	const filestruct *begin, size_t begin_x,
-	const char *needle, size_t *match_len);
+int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
+	const filestruct *begin, size_t begin_x);
 void do_search(void);
 #ifndef NANO_TINY
 void do_findprevious(void);
@@ -578,12 +574,8 @@ void go_looking(void);
 int replace_regexp(char *string, bool create);
 #endif
 char *replace_line(const char *needle);
-ssize_t do_replace_loop(
-#ifndef DISABLE_SPELLER
-	bool whole_word_only,
-#endif
-	const filestruct *real_current, size_t *real_current_x,
-	const char *needle);
+ssize_t do_replace_loop(const char *needle, bool whole_word_only,
+	const filestruct *real_current, size_t *real_current_x);
 void do_replace(void);
 void goto_line_posx(ssize_t line, size_t pos_x);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,

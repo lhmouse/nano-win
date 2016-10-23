@@ -2663,7 +2663,7 @@ bool do_int_spell_fix(const char *word)
     }
 
     /* Find the first whole occurrence of word. */
-    result = findnextstr(TRUE, NULL, 0, word, NULL);
+    result = findnextstr(word, TRUE, NULL, NULL, 0);
 
     /* If the word isn't found, alert the user; if it is, allow correction. */
     if (result == 0) {
@@ -2700,7 +2700,7 @@ bool do_int_spell_fix(const char *word)
 	    /* Replacements should happen only in the marked region. */
 	    openfile->mark_set = old_mark_set;
 #endif
-	    do_replace_loop(TRUE, current_save, &current_x_save, word);
+	    do_replace_loop(word, TRUE, current_save, &current_x_save);
 
 	    /* TRANSLATORS: Shown after fixing misspellings in one word. */
 	    statusbar(_("Next word..."));

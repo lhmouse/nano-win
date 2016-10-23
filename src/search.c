@@ -237,12 +237,8 @@ int search_init(bool replacing, bool use_answer)
  * where we first started searching, at column begin_x.  Return 1 when we
  * found something, 0 when nothing, and -2 on cancel.  When match_len is
  * not NULL, set it to the length of the found string, if any. */
-int findnextstr(
-#ifndef DISABLE_SPELLER
-	bool whole_word_only,
-#endif
-	const filestruct *begin, size_t begin_x,
-	const char *needle, size_t *match_len)
+int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
+	const filestruct *begin, size_t begin_x)
 {
     size_t found_len;
 	/* The length of the match we find. */
@@ -474,11 +470,8 @@ void go_looking(void)
 
     came_full_circle = FALSE;
 
-    didfind = findnextstr(
-#ifndef DISABLE_SPELLER
-		FALSE,
-#endif
-		openfile->current, openfile->current_x, last_search, NULL);
+    didfind = findnextstr(last_search, FALSE, NULL,
+				openfile->current, openfile->current_x);
 
     /* If we found something, and we're back at the exact same spot
      * where we started searching, then this is the only occurrence. */
@@ -587,12 +580,8 @@ char *replace_line(const char *needle)
  * allow the cursor position to be updated when a word before the cursor
  * is replaced by a shorter word.  Return -1 if needle isn't found, -2 if
  * the seeking is aborted, else the number of replacements performed. */
-ssize_t do_replace_loop(
-#ifndef DISABLE_SPELLER
-	bool whole_word_only,
-#endif
-	const filestruct *real_current, size_t *real_current_x,
-	const char *needle)
+ssize_t do_replace_loop(const char *needle, bool whole_word_only,
+	const filestruct *real_current, size_t *real_current_x)
 {
     ssize_t numreplaced = -1;
     size_t match_len;
@@ -626,11 +615,8 @@ ssize_t do_replace_loop(
 
     while (TRUE) {
 	int i = 0;
-	int result = findnextstr(
-#ifndef DISABLE_SPELLER
-			whole_word_only,
-#endif
-			real_current, *real_current_x, needle, &match_len);
+	int result = findnextstr(needle, whole_word_only, &match_len,
+					real_current, *real_current_x);
 
 	/* If nothing more was found, or the user aborted, stop looping. */
 	if (result < 1) {
@@ -834,11 +820,7 @@ void do_replace(void)
     begin = openfile->current;
     begin_x = openfile->current_x;
 
-    numreplaced = do_replace_loop(
-#ifndef DISABLE_SPELLER
-		FALSE,
-#endif
-		begin, &begin_x, last_search);
+    numreplaced = do_replace_loop(last_search, FALSE, begin, &begin_x);
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;
