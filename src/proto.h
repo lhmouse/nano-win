@@ -280,13 +280,7 @@ void cut_marked(void);
 void cut_to_eol(void);
 void cut_to_eof(void);
 #endif
-void do_cut_text(
-#ifndef NANO_TINY
-	bool copy_text, bool cut_till_eof
-#else
-	void
-#endif
-	);
+void do_cut_text(bool copy_text, bool cut_till_eof);
 void do_cut_text_void(void);
 #ifndef NANO_TINY
 void do_copy_text(void);
