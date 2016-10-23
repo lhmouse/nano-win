@@ -171,6 +171,10 @@ Interpret the Delete key differently so that both Backspace and Delete
 work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
 .TP
+.BR \-g ", " \-\-showcursor
+Make the cursor visible in the file browser, putting it on the
+highlighted item.  Useful for braille users.
+.TP
 .BR \-h ", " \-\-help
 Show a summary of the available command-line options and exit.
 .TP
@@ -250,7 +254,7 @@ continuing it over multiple screen lines.  Since
 this option last when using other options (e.g.\& 'nano \-wS$') or pass it
 separately (e.g.\& 'nano \-wS \-$').
 .TP
-.BR \-a ", " \-b ", " \-e ", " \-f ", " \-g ", " \-j
+.BR \-a ", " \-b ", " \-e ", " \-f ", " \-j
 Ignored, for compatibility with Pico.
 
 .SH TOGGLES

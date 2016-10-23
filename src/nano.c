@@ -1998,6 +1998,9 @@ int main(int argc, char **argv)
 #endif
 	{"constantshow", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
+#ifndef DISABLE_BROWSER
+	{"showcursor", 0, NULL, 'g'},
+#endif
 	{"help", 0, NULL, 'h'},
 #ifdef ENABLE_LINENUMBERS
 	{"linenumbers", 0, NULL, 'l'},
@@ -2095,7 +2098,6 @@ int main(int argc, char **argv)
 	    case 'b':
 	    case 'e':
 	    case 'f':
-	    case 'g':
 	    case 'j':
 		/* Pico compatibility flags. */
 		break;
@@ -2203,6 +2205,9 @@ int main(int argc, char **argv)
 		break;
 	    case 'd':
 		SET(REBIND_DELETE);
+		break;
+	    case 'g':
+		SET(SHOW_CURSOR);
 		break;
 #ifndef NANO_TINY
 	    case 'i':
