@@ -443,16 +443,9 @@ void do_up(bool scroll_only)
      * smooth scrolling mode, or up half a page if we're not.  If
      * scroll_only is TRUE, scroll the edit window up one line
      * unconditionally. */
-    if (openfile->current_y == 0
-#ifndef NANO_TINY
-	|| (ISSET(SOFTWRAP) && openfile->edittop->lineno == openfile->current->next->lineno) || scroll_only
-#endif
-	)
-	edit_scroll(UPWARD,
-#ifndef NANO_TINY
-		(ISSET(SMOOTH_SCROLL) || scroll_only) ? 1 :
-#endif
-		editwinrows / 2 + 1);
+    if (openfile->current_y == 0 || scroll_only)
+	edit_scroll(UPWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
+				1 : editwinrows / 2 + 1);
 
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y > 0) {
