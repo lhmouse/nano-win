@@ -2706,11 +2706,13 @@ int main(int argc, char **argv)
 		/* The margin has changed -- schedule a full refresh. */
 		refresh_needed = TRUE;
 	    }
-	} else {
+	} else
+#endif
+	{
 	    margin = 0;
 	    editwincols = COLS;
 	}
-#endif
+
 	if (currmenu != MMAIN)
 	    display_main_list();
 
