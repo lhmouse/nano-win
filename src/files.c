@@ -1063,17 +1063,11 @@ char *get_next_filename(const char *name, const char *suffix)
 void do_insertfile(void)
 {
     int i;
-    bool execute = FALSE;
     const char *msg;
     char *given = mallocstrcpy(NULL, "");
 	/* The last answer the user typed at the statusbar prompt. */
-    filestruct *edittop_save = openfile->edittop;
-    ssize_t was_current_lineno = openfile->current->lineno;
-    size_t was_current_x = openfile->current_x;
-    ssize_t was_current_y = openfile->current_y;
-    bool edittop_inside = FALSE;
 #ifndef NANO_TINY
-    bool right_side_up = FALSE, single_line = FALSE;
+    bool execute = FALSE, right_side_up = FALSE, single_line = FALSE;
 #endif
 
     while (TRUE) {
@@ -1120,14 +1114,15 @@ void do_insertfile(void)
 	 * blank, open a new buffer instead of canceling.  If the
 	 * filename or command begins with a newline (i.e. an encoded
 	 * null), treat it as though it's blank. */
-	if (i == -1 || ((i == -2 || *answer == '\n')
-#ifndef DISABLE_MULTIBUFFER
-		&& !ISSET(MULTIBUFFER)
-#endif
-		)) {
+	if (i == -1 || (!ISSET(MULTIBUFFER) && (i == -2 || *answer == '\n'))) {
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
+	    filestruct *edittop_save = openfile->edittop;
+	    ssize_t was_current_lineno = openfile->current->lineno;
+	    size_t was_current_x = openfile->current_x;
+	    ssize_t was_current_y = openfile->current_y;
+	    bool current_was_at_top = FALSE;
 	    size_t pww_save = openfile->placewewant;
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 	    functionptrtype func = func_from_key(&i);
@@ -1137,7 +1132,7 @@ void do_insertfile(void)
 #ifndef NANO_TINY
 #ifndef DISABLE_MULTIBUFFER
 	    if (func == new_buffer_void) {
-		/* Don't allow toggling if we're in view mode. */
+		/* Don't allow toggling when in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
 		else
@@ -1155,21 +1150,17 @@ void do_insertfile(void)
 	    if (func == to_files_void) {
 		char *chosen = do_browse_from(answer);
 
+		/* If no file was chosen, go back to the prompt. */
 		if (chosen == NULL)
 		    continue;
 
-		/* We have a file now.  Indicate this. */
 		free(answer);
 		answer = chosen;
 		i = 0;
 	    }
 #endif
-	    /* If we don't have a file yet, go back to the statusbar prompt. */
-	    if (i != 0
-#ifndef DISABLE_MULTIBUFFER
-		&& (i != -2 || !ISSET(MULTIBUFFER))
-#endif
-		)
+	    /* If we don't have a file yet, go back to the prompt. */
+	    if (i != 0 && (!ISSET(MULTIBUFFER) || i != -2))
 		continue;
 
 #ifndef NANO_TINY
@@ -1185,19 +1176,14 @@ void do_insertfile(void)
 		single_line = (top == bot);
 	    }
 #endif
-
-#ifndef DISABLE_MULTIBUFFER
-	    if (!ISSET(MULTIBUFFER))
-#endif
-	    {
-		/* If we're not inserting into a new buffer, partition
-		 * the filestruct so that it contains no text and hence
-		 * looks like a new buffer, and keep track of whether
-		 * the top of the edit window is inside the partition. */
+	    /* When not inserting into a new buffer, partition the filestruct
+	     * so that it contains no text and hence looks like a new buffer,
+	     * and remember whether the current line is the first on screen. */
+	    if (!ISSET(MULTIBUFFER)) {
 		filepart = partition_filestruct(openfile->current,
 			openfile->current_x, openfile->current,
 			openfile->current_x);
-		edittop_inside = (openfile->edittop == openfile->fileage);
+		current_was_at_top = (openfile->edittop == openfile->fileage);
 	    }
 
 	    /* Convert newlines to nulls in the given filename. */
@@ -1207,18 +1193,16 @@ void do_insertfile(void)
 #ifndef NANO_TINY
 	    if (execute) {
 #ifndef DISABLE_MULTIBUFFER
+		/* When in multibuffer mode, first open a blank buffer. */
 		if (ISSET(MULTIBUFFER))
-		    /* Open a blank buffer. */
 		    open_buffer("", FALSE);
 #endif
-
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
 
 #ifndef DISABLE_MULTIBUFFER
+		/* If this is a new buffer, put the cursor at the top. */
 		if (ISSET(MULTIBUFFER)) {
-		    /* Move back to the beginning of the first line of
-		     * the buffer. */
 		    openfile->current = openfile->fileage;
 		    openfile->current_x = 0;
 		    openfile->placewewant = 0;
@@ -1247,17 +1231,16 @@ void do_insertfile(void)
 			do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
 		}
 #endif /* !DISABLE_HISTORIES */
-		/* Update the screen to account for the current buffer. */
+		/* Update stuff to account for the current buffer. */
 		display_buffer();
 	    } else
 #endif /* !DISABLE_MULTIBUFFER */
 	    {
 		filestruct *top_save = openfile->fileage;
 
-		/* If we were at the top of the edit window before, set
-		 * the saved value of edittop to the new top of the edit
-		 * window. */
-		if (edittop_inside)
+		/* If we were at the top of the edit window before, change the
+		 * saved value of edittop to the start of inserted stuff. */
+		if (current_was_at_top)
 		    edittop_save = openfile->fileage;
 
 		/* Update the current x-coordinate to account for the
@@ -1287,7 +1270,6 @@ void do_insertfile(void)
 		    }
 		}
 #endif
-
 		/* Update the current y-coordinate to account for the
 		 * number of lines inserted. */
 		openfile->current_y += was_current_y;
@@ -1313,8 +1295,7 @@ void do_insertfile(void)
 			openfile->current_x != was_current_x)
 		    set_modified();
 
-		/* Update the screen. */
-		edit_refresh();
+		refresh_needed = TRUE;
 	    }
 
 	    break;
