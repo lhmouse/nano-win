@@ -1206,6 +1206,8 @@ void do_insertfile(void)
 		    openfile->current = openfile->fileage;
 		    openfile->current_x = 0;
 		    openfile->placewewant = 0;
+
+		    set_modified();
 		}
 #endif
 	    } else
