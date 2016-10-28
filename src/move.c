@@ -438,12 +438,10 @@ void do_up(bool scroll_only)
     openfile->current_x = actual_x(openfile->current->data,
 					openfile->placewewant);
 
-    /* If scroll_only is FALSE and if we're on the first line of the
-     * edit window, scroll the edit window up one line if we're in
-     * smooth scrolling mode, or up half a page if we're not.  If
-     * scroll_only is TRUE, scroll the edit window up one line
-     * unconditionally. */
-    if (openfile->current_y == 0 || scroll_only)
+    /* When the cursor was on the first line of the edit window (or when just
+     * scrolling without moving the cursor), scroll the edit window up -- one
+     * line if we're in smooth scrolling mode, and half a page otherwise. */
+    if (openfile->current->next == openfile->edittop || scroll_only)
 	edit_scroll(UPWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
 				1 : editwinrows / 2 + 1);
 
