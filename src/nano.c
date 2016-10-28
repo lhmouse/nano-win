@@ -2560,6 +2560,8 @@ int main(int argc, char **argv)
      * dimensions. */
     window_init();
 
+    editwincols = COLS;
+
     /* Set up the signal handlers. */
     signal_init();
 
