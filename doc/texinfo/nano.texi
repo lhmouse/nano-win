@@ -6,8 +6,8 @@
 
 @smallbook
 @set EDITION 0.4
-@set VERSION 2.7.0
-@set UPDATED September 2016
+@set VERSION 2.7.1
+@set UPDATED October 2016
 
 @dircategory Editors
 @direntry
@@ -21,7 +21,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 2.7.0
+@subtitle version 2.7.1
 
 @author Chris Allegretta
 @page
