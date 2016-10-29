@@ -841,7 +841,8 @@ Save automatically on exit, don't prompt.
 @item set titlecolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the titlebar.
 Valid color names for foreground and background are:
-white, black, red, blue, green, yellow, magenta, and cyan.
+white, black, blue, green, red, cyan, yellow, and magenta.
+The name of the foreground color may be prefixed with 'bright'.
 And either @var{fgcolor} or @var{,bgcolor} may be left out.
 
 @item set unix
