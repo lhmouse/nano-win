@@ -1103,10 +1103,13 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "Left", KEY_LEFT, do_left, 0);
     add_to_sclist(MMOST, "^F", 0, do_right, 0);
     add_to_sclist(MMOST, "Right", KEY_RIGHT, do_right, 0);
+#ifdef ENABLE_UTF8
     if (using_utf8()) {
 	add_to_sclist(MMOST, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
 	add_to_sclist(MMOST, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
-    } else {
+    } else
+#endif
+    {
 	add_to_sclist(MMOST, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
 	add_to_sclist(MMOST, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
     }
@@ -1120,10 +1123,13 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down_void, 0);
+#ifdef ENABLE_UTF8
     if (using_utf8()) {
 	add_to_sclist(MMAIN, "^\xE2\x86\x91", CONTROL_UP, do_prev_block, 0);
 	add_to_sclist(MMAIN, "^\xE2\x86\x93", CONTROL_DOWN, do_next_block, 0);
-    } else {
+    } else
+#endif
+    {
 	add_to_sclist(MMAIN, "^Up", CONTROL_UP, do_prev_block, 0);
 	add_to_sclist(MMAIN, "^Down", CONTROL_DOWN, do_next_block, 0);
     }
