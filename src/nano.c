@@ -2721,6 +2721,14 @@ int main(int argc, char **argv)
 	if (currmenu != MMAIN)
 	    display_main_list();
 
+	/* Refresh either just the cursor or the entire edit window. */
+	if (!refresh_needed) {
+	    reset_cursor();
+	    curs_set(1);
+	    wnoutrefresh(edit);
+	} else
+	    edit_refresh();
+
 	focusing = TRUE;
 	lastmessage = HUSH;
 
@@ -2732,15 +2740,6 @@ int main(int argc, char **argv)
 
 	/* Forget any earlier statusbar x position. */
 	reinit_statusbar_x();
-
-	/* Refresh either the entire edit window or just the cursor. */
-	if (refresh_needed)
-	    edit_refresh();
-	else {
-	    reset_cursor();
-	    curs_set(1);
-	    wnoutrefresh(edit);
-	}
 
 	/* Read in and interpret keystrokes. */
 	do_input(TRUE);
