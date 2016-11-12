@@ -1936,10 +1936,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #ifndef NANO_TINY
     ensure_line_is_visible();
 
-    /* Well, we might also need a full refresh if we've changed the
-     * line length to be a new multiple of COLS. */
+    /* If the number of screen rows that a softwrapped line occupies
+     * has changed, we need a full refresh. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
+	if (strlenpt(openfile->current->data) / editwincols != orig_lenpt / editwincols)
 	    refresh_needed = TRUE;
 #endif
 

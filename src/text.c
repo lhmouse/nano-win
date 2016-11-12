@@ -173,8 +173,10 @@ void do_deletion(undo_type action)
 #ifndef NANO_TINY
     ensure_line_is_visible();
 
+    /* If the number of screen rows that a softwrapped line occupies
+     * has changed, we need a full refresh. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if (strlenpt(openfile->current->data) / COLS != orig_lenpt / COLS)
+	if (strlenpt(openfile->current->data) / editwincols != orig_lenpt / editwincols)
 	    refresh_needed = TRUE;
 #endif
 
