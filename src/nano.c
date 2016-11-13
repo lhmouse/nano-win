@@ -2721,6 +2721,13 @@ int main(int argc, char **argv)
 	if (currmenu != MMAIN)
 	    display_main_list();
 
+	lastmessage = HUSH;
+
+	/* Update the displayed current cursor position only when there
+	 * are no keys waiting in the input buffer. */
+	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
+	    do_cursorpos(TRUE);
+
 	/* Refresh either just the cursor or the entire edit window. */
 	if (!refresh_needed) {
 	    reset_cursor();
@@ -2730,13 +2737,6 @@ int main(int argc, char **argv)
 	    edit_refresh();
 
 	focusing = TRUE;
-	lastmessage = HUSH;
-
-	/* If constant cursor position display is on, and there are no
-	 * keys waiting in the input buffer, display the current cursor
-	 * position on the statusbar. */
-	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
-	    do_cursorpos(TRUE);
 
 	/* Forget any earlier statusbar x position. */
 	reinit_statusbar_x();
