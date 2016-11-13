@@ -1143,8 +1143,10 @@ void parse_rcfile(FILE *rcstream
 		rcfile_error(N_("Requested fill size \"%s\" is invalid"),
 				option);
 		wrap_at = -CHARS_FROM_EOL;
-	    } else
+	    } else {
+		UNSET(NO_WRAP);
 		free(option);
+	    }
 	} else
 #endif
 #ifndef NANO_TINY
