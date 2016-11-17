@@ -1553,18 +1553,18 @@ void terminal_init(void)
 #endif
 }
 
-#ifdef HAVE_KEY_DEFINED
 /* Ask ncurses for a keycode, or assign a default one. */
 int get_keycode(const char *keyname, const int standard)
 {
+#ifdef HAVE_KEY_DEFINED
     const char *keyvalue = tigetstr(keyname);
 
-    if (keyvalue == 0 || keyvalue == (char *)-1)
-	return standard;
-    else
+    if (keyvalue != 0 && keyvalue != (char *)-1)
 	return key_defined(keyvalue);
-}
+    else
 #endif
+	return standard;
+}
 
 /* Say that an unbound key was struck, and if possible which one. */
 void unbound_key(int code)
@@ -2580,14 +2580,12 @@ int main(int argc, char **argv)
     interface_color_pair[FUNCTION_TAG] = A_NORMAL;
 #endif
 
-#ifdef HAVE_KEY_DEFINED
     /* Ask ncurses for the key codes for Control+Left/Right/Up/Down. */
     controlleft = get_keycode("kLFT5", CONTROL_LEFT);
     controlright = get_keycode("kRIT5", CONTROL_RIGHT);
     controlup = get_keycode("kUP5", CONTROL_UP);
     controldown = get_keycode("kDN5", CONTROL_DOWN);
-#endif
-#if !defined(NANO_TINY) && defined(HAVE_KEY_DEFINED)
+#ifndef NANO_TINY
     /* Ask for the codes for Shift+Control+Left/Right/Up/Down. */
     shiftcontrolleft = get_keycode("kLFT6", SHIFT_CONTROL_LEFT);
     shiftcontrolright = get_keycode("kRIT6", SHIFT_CONTROL_RIGHT);
