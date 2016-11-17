@@ -2081,6 +2081,10 @@ int main(int argc, char **argv)
 	SET(NO_WRAP);
 #endif
 
+    /* If the executable's name starts with 'r', activate restricted mode. */
+    if (*(tail(argv[0])) == 'r')
+	SET(RESTRICTED);
+
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
@@ -2297,11 +2301,6 @@ int main(int argc, char **argv)
 		exit(1);
 	}
     }
-
-    /* If the executable filename starts with 'r', enable restricted
-     * mode. */
-    if (*(tail(argv[0])) == 'r')
-	SET(RESTRICTED);
 
     /* If we're using restricted mode, disable suspending, backups,
      * rcfiles, and history files, since they all would allow reading
