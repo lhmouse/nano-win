@@ -391,7 +391,8 @@ int parse_kbinput(WINDOW *win)
 	    break;
 	case 2:
 	    if (double_esc) {
-		/* An "ESC ESC [ X" sequence from Option+arrow. */
+		/* An "ESC ESC [ X" sequence from Option+arrow, or
+		 * an "ESC ESC [ x" sequence from Shift+Alt+arrow. */
 		switch (keycode) {
 		    case 'A':
 			retval = KEY_HOME;
@@ -404,6 +405,18 @@ int parse_kbinput(WINDOW *win)
 			break;
 		    case 'D':
 			retval = controlleft;
+			break;
+		    case 'a':
+			retval = shiftaltup;
+			break;
+		    case 'b':
+			retval = shiftaltdown;
+			break;
+		    case 'c':
+			retval = shiftaltright;
+			break;
+		    case 'd':
+			retval = shiftaltleft;
 			break;
 		}
 		double_esc = FALSE;
@@ -464,8 +477,9 @@ int parse_kbinput(WINDOW *win)
 		    escapes = 0;
 		}
 	    } else if (keycode == '[' && key_buffer_len > 0 &&
-			'A' <= *key_buffer && *key_buffer <= 'D') {
-		/* This is an iTerm2 sequence: ^[ ^[ [ X. */
+			(('A' <= *key_buffer && *key_buffer <= 'D') ||
+			('a' <= *key_buffer && *key_buffer <= 'd'))) {
+		/* An iTerm2/Eterm/rxvt sequence: ^[ ^[ [ X. */
 		double_esc = TRUE;
 	    } else {
 		/* Two escapes followed by a non-escape, and there are more
@@ -1432,10 +1446,10 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     return retval;
 }
 
-/* Read in one control character (or an iTerm double Escape), or convert a
- * series of six digits into a Unicode codepoint.  Return in count either 1
- * (for a control character or the first byte of a multibyte sequence), or 2
- * (for an iTerm double Escape). */
+/* Read in one control character (or an iTerm/Eterm/rxvt double Escape),
+ * or convert a series of six digits into a Unicode codepoint.  Return
+ * in count either 1 (for a control character or the first byte of a
+ * multibyte sequence), or 2 (for an iTerm/Eterm/rxvt double Escape). */
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 {
     int *kbinput;
@@ -1497,7 +1511,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
     *count = 1;
 
-    /* If this is an iTerm double escape, take both Escapes. */
+    /* If this is an iTerm/Eterm/rxvt double escape, take both Escapes. */
     if (key_buffer_len > 3 && *key_buffer == ESC_CODE &&
 		key_buffer[1] == ESC_CODE && key_buffer[2] == '[')
 	*count = 2;
