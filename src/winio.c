@@ -401,10 +401,10 @@ int parse_kbinput(WINDOW *win)
 			retval = KEY_END;
 			break;
 		    case 'C':
-			retval = controlright;
+			retval = CONTROL_RIGHT;
 			break;
 		    case 'D':
-			retval = controlleft;
+			retval = CONTROL_LEFT;
 			break;
 		    case 'a':
 			retval = shiftaltup;
