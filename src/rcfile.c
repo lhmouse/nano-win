@@ -533,28 +533,23 @@ static void parse_one_include(char *file)
     struct stat rcinfo;
     FILE *rcstream;
 
-    /* Can't get the specified file's full path because it may screw up
-     * our cwd depending on the parent directories' permissions (see
-     * Savannah bug #25297). */
-
     /* Don't open directories, character files, or block files. */
-    if (stat(file, &rcinfo) != -1) {
-	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
-		S_ISBLK(rcinfo.st_mode)) {
-	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
-		_("\"%s\" is a directory") :
-		_("\"%s\" is a device file"), file);
-	}
+    if (stat(file, &rcinfo) != -1 && (S_ISDIR(rcinfo.st_mode) ||
+		S_ISCHR(rcinfo.st_mode) || S_ISBLK(rcinfo.st_mode))) {
+	rcfile_error(S_ISDIR(rcinfo.st_mode) ?
+			_("\"%s\" is a directory") :
+			_("\"%s\" is a device file"), file);
     }
 
-    /* Open the new syntax file. */
-    if ((rcstream = fopen(file, "rb")) == NULL) {
-	rcfile_error(_("Error reading %s: %s"), file,
-		strerror(errno));
+    /* Open the included syntax file. */
+    rcstream = fopen(file, "rb");
+
+    if (rcstream == NULL) {
+	rcfile_error(_("Error reading %s: %s"), file, strerror(errno));
 	return;
     }
 
-    /* Use the name and line number position of the new syntax file
+    /* Use the name and line number position of the included syntax file
      * while parsing it, so we can know where any errors in it are. */
     nanorc = file;
     lineno = 0;
@@ -585,8 +580,7 @@ void parse_includes(char *ptr)
 	for (i = 0; i < files.gl_pathc; ++i)
 	    parse_one_include(files.gl_pathv[i]);
     } else
-	rcfile_error(_("Error expanding %s: %s"), option,
-		strerror(errno));
+	rcfile_error(_("Error expanding %s: %s"), option, strerror(errno));
 
     globfree(&files);
     free(expanded);

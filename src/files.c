@@ -947,13 +947,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 #endif
 }
 
-/* Open the file (and decide if it exists).  If newfie is TRUE, display
- * "New File" if the file is missing.  Otherwise, say "[filename] not
- * found".
- *
+/* Open the file with the given name.  If the file does not exist, display
+ * "New File" if newfie is TRUE, and say "File not found" otherwise.
  * Return -2 if we say "New File", -1 if the file isn't opened, and the
- * fd opened otherwise.  The file might still have an error while reading
- * with a 0 return value.  *f is set to the opened file. */
+ * obtained fd otherwise.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 {
     struct stat fileinfo, fileinfo2;
@@ -972,31 +969,35 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	full_filename = mallocstrcpy(full_filename, filename);
 
     if (stat(full_filename, &fileinfo) == -1) {
-	/* All cases below return. */
-	free(full_filename);
-
 	if (newfie) {
 	    if (!quiet)
 		statusbar(_("New File"));
+	    free(full_filename);
 	    return -2;
 	}
-	statusline(ALERT, _("File \"%s\" not found"), filename);
-	return -1;
-    } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
-		S_ISBLK(fileinfo.st_mode)) {
-	free(full_filename);
 
-	/* Don't open directories, character files, or block files. */
-	statusline(ALERT, S_ISDIR(fileinfo.st_mode) ?
-		_("\"%s\" is a directory") :
-		_("\"%s\" is a device file"), filename);
-	return -1;
-    } else if ((fd = open(full_filename, O_RDONLY)) == -1) {
+	statusline(ALERT, _("File \"%s\" not found"), filename);
 	free(full_filename);
-	statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 	return -1;
-    } else {
-	/* The file is A-OK.  Open it. */
+    }
+
+    /* Don't open directories, character files, or block files. */
+    if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
+				S_ISBLK(fileinfo.st_mode)) {
+	statusline(ALERT, S_ISDIR(fileinfo.st_mode) ?
+			_("\"%s\" is a directory") :
+			_("\"%s\" is a device file"), filename);
+	free(full_filename);
+	return -1;
+    }
+
+    /* Try opening the file. */
+    fd = open(full_filename, O_RDONLY);
+
+    if (fd == -1)
+	statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
+    else {
+	/* The file is A-OK.  Associate a stream with it. */
 	*f = fdopen(fd, "rb");
 
 	if (*f == NULL) {
