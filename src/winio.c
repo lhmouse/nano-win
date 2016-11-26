@@ -1027,10 +1027,20 @@ int convert_sequence(const int *seq, size_t seq_len)
 			       * Linux console/xterm/Terminal;
 			       * Esc [ 6 ^ == PageDown on Eterm. */
 			return KEY_NPAGE;
-		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
-			return KEY_HOME;
-		    case '8': /* Esc [ 8 ~ == End on rxvt. */
-			return KEY_END;
+		    case '7': /* Esc [ 7 ~ == Home on Eterm/rxvt,
+			       * Esc [ 7 $ == Shift-Home on Eterm/rxvt. */
+			if (seq_len > 2 && seq[2] == '~')
+			    return KEY_HOME;
+			else if (seq_len > 2 && seq[2] == '$')
+			    return SHIFT_HOME;
+			break;
+		    case '8': /* Esc [ 8 ~ == End on Eterm/rxvt.
+			       * Esc [ 8 $ == Shift-End on Eterm/rxvt. */
+			if (seq_len > 2 && seq[2] == '~')
+			    return KEY_END;
+			else if (seq_len > 2 && seq[2] == '$')
+			    return SHIFT_END;
+			break;
 		    case '9': /* Esc [ 9 == Delete on Mach console. */
 			return KEY_DC;
 		    case '@': /* Esc [ @ == Insert on Mach console. */
