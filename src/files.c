@@ -975,14 +975,6 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	/* All cases below return. */
 	free(full_filename);
 
-	/* Well, maybe we can open the file even if the OS says it's
-	 * not there. */
-	if ((fd = open(filename, O_RDONLY)) != -1) {
-	    if (!quiet)
-		statusbar(_("Reading File"));
-	    return fd;
-	}
-
 	if (newfie) {
 	    if (!quiet)
 		statusbar(_("New File"));
