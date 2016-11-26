@@ -1015,18 +1015,26 @@ int convert_sequence(const int *seq, size_t seq_len)
 			break;
 		    case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 			       * Linux console/xterm/Terminal. */
-			return KEY_DC;
+			if (seq_len > 2 && seq[2] == '~')
+			    return KEY_DC;
+			break;
 		    case '4': /* Esc [ 4 ~ == End on VT220/VT320/Linux
 			       * console/xterm. */
-			return KEY_END;
+			if (seq_len > 2 && seq[2] == '~')
+			    return KEY_END;
+			break;
 		    case '5': /* Esc [ 5 ~ == PageUp on VT220/VT320/
 			       * Linux console/xterm/Terminal;
 			       * Esc [ 5 ^ == PageUp on Eterm. */
-			return KEY_PPAGE;
+			if (seq_len > 2 && (seq[2] == '~' || seq[2] == '^'))
+			    return KEY_PPAGE;
+			break;
 		    case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
 			       * Linux console/xterm/Terminal;
 			       * Esc [ 6 ^ == PageDown on Eterm. */
-			return KEY_NPAGE;
+			if (seq_len > 2 && (seq[2] == '~' || seq[2] == '^'))
+			    return KEY_NPAGE;
+			break;
 		    case '7': /* Esc [ 7 ~ == Home on Eterm/rxvt,
 			       * Esc [ 7 $ == Shift-Home on Eterm/rxvt. */
 			if (seq_len > 2 && seq[2] == '~')
