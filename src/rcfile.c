@@ -539,6 +539,7 @@ static void parse_one_include(char *file)
 	rcfile_error(S_ISDIR(rcinfo.st_mode) ?
 			_("\"%s\" is a directory") :
 			_("\"%s\" is a device file"), file);
+	return;
     }
 
     /* Open the included syntax file. */
