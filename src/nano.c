@@ -1058,21 +1058,6 @@ void version(void)
     printf("\n");
 }
 
-/* Indicate that the current file has no name, in a way that gets the
- * user's attention.  This is used when trying to save a file with no
- * name with the TEMP_FILE flag set, just before the filename prompt. */
-void no_current_file_name_warning(void)
-{
-    /* Warn that the current file has no name. */
-    statusbar(_("No file name"));
-    beep();
-
-    /* Ensure that we see the warning. */
-    napms(1800);
-
-    curs_set(1);
-}
-
 /* If the current file buffer has been modified, and the TEMP_FILE flag
  * isn't set, ask whether or not to save the file buffer.  If the
  * TEMP_FILE flag is set and the current file has a name, save it
@@ -1096,7 +1081,7 @@ void do_exit(void)
 	/* If the TEMP_FILE flag is set, and the current file doesn't
 	 * have a name, warn the user before prompting for a name. */
 	if (ISSET(TEMP_FILE))
-	    no_current_file_name_warning();
+	    warn_and_shortly_pause(_("No file name"));
 
 	i = do_yesno_prompt(FALSE, _("Save modified buffer?  "
 			"(Answering \"No\" will DISCARD changes.) "));

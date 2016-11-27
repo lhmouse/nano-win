@@ -456,7 +456,6 @@ void print_opt_full(const char *shortflag
 	, const char *desc);
 void usage(void);
 void version(void);
-void no_current_file_name_warning(void);
 void do_exit(void);
 void close_and_go(void);
 void signal_init(void);
@@ -739,6 +738,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 void titlebar(const char *path);
 extern void set_modified(void);
 void statusbar(const char *msg);
+void warn_and_shortly_pause(const char *msg);
 void statusline(message_type importance, const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, int length);

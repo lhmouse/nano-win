@@ -2070,6 +2070,17 @@ void statusbar(const char *msg)
     statusline(HUSH, msg);
 }
 
+/* Warn the user on the statusbar and pause for a moment, so that the
+ * message can be noticed and read. */
+void warn_and_shortly_pause(const char *msg)
+{
+    statusbar(msg);
+    beep();
+    napms(1800);
+
+    curs_set(1);
+}
+
 /* Display a message on the statusbar, and set suppress_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */

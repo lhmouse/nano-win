@@ -2370,8 +2370,11 @@ int do_writeout(bool exiting)
 		     * of the current file if it has one, because that
 		     * would allow reading from or writing to files not
 		     * specified on the command line. */
-		    if (ISSET(RESTRICTED))
+		    if (ISSET(RESTRICTED)) {
+			warn_and_shortly_pause(_("File exists -- "
+					"cannot overwrite"));
 			continue;
+		    }
 
 		    if (!maychange) {
 #ifndef NANO_TINY
