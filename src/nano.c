@@ -2360,7 +2360,7 @@ int main(int argc, char **argv)
 	alt_speller = NULL;
 #endif
 
-	do_rcfile();
+	do_rcfiles();
 
 #ifdef DEBUG
 	fprintf(stderr, "After rebinding keys...\n");

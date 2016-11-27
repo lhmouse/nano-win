@@ -1232,25 +1232,36 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
     return;
 }
 
-/* First read the system-wide rcfile, then the user's rcfile. */
-void do_rcfile(void)
+/* Read and interpret one of the two nanorc files. */
+void parse_one_nanorc(void)
 {
     FILE *rcstream;
 
-    nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
-
-    /* Warn about directories, character files, or block files. */
+    /* Don't try to open directories nor devices. */
     if (!is_good_file(nanorc))
-	;
+	return;
 
 #ifdef DEBUG
-    fprintf(stderr, "Parsing file \"%s\"\n", nanorc);
+    fprintf(stderr, "Going to parse file \"%s\"\n", nanorc);
 #endif
 
-    /* Try to open the system-wide nanorc. */
     rcstream = fopen(nanorc, "rb");
+
+    /* If opening the file succeeded, parse it.  Otherwise, only
+     * complain if the file actually exists. */
     if (rcstream != NULL)
 	parse_rcfile(rcstream, FALSE);
+    else if (errno != ENOENT)
+	rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
+}
+
+/* First read the system-wide rcfile, then the user's rcfile. */
+void do_rcfiles(void)
+{
+    nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
+
+    /* Process the system-wide nanorc. */
+    parse_one_nanorc();
 
     /* When configured with --disable-wrapping-as-root, turn wrapping off
      * for root, so that only root's .nanorc or --fill can turn it on. */
@@ -1267,25 +1278,13 @@ void do_rcfile(void)
 	nanorc = charealloc(nanorc, strlen(homedir) + strlen(RCFILE_NAME) + 2);
 	sprintf(nanorc, "%s/%s", homedir, RCFILE_NAME);
 
-	/* Warn about directories, character files, or block files. */
-	if (!is_good_file(nanorc))
-	    ;
-
-	/* Try to open the current user's nanorc. */
-	rcstream = fopen(nanorc, "rb");
-	if (rcstream == NULL) {
-	    /* Don't complain about the file's not existing. */
-	    if (errno != ENOENT)
-		rcfile_error(N_("Error reading %s: %s"), nanorc,
-				strerror(errno));
-	} else
-	    parse_rcfile(rcstream, FALSE);
+	/* Process the current user's nanorc. */
+	parse_one_nanorc();
     }
 
     check_vitals_mapped();
 
     free(nanorc);
-    nanorc = NULL;
 
     if (errors && !ISSET(QUIET)) {
 	errors = FALSE;
