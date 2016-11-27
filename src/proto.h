@@ -522,21 +522,11 @@ int do_yesno_prompt(bool all, const char *msg);
 char *parse_next_word(char *ptr);
 #endif
 #ifndef DISABLE_NANORC
-void rcfile_error(const char *msg, ...);
-char *parse_argument(char *ptr);
 #ifndef DISABLE_COLOR
-char *parse_next_regex(char *ptr);
-void parse_syntax(char *ptr);
-void parse_includes(char *ptr);
-short color_to_short(const char *colorname, bool *bright);
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
 #endif
-void parse_rcfile(FILE *rcstream
-#ifndef DISABLE_COLOR
-	, bool syntax_only
-#endif
-	);
+void parse_rcfile(FILE *rcstream, bool syntax_only);
 void do_rcfile(void);
 #endif /* !DISABLE_NANORC */
 

@@ -33,6 +33,10 @@
 
 #ifndef DISABLE_NANORC
 
+#ifndef RCFILE_NAME
+#define RCFILE_NAME ".nanorc"
+#endif
+
 static const rcoption rcopts[] = {
     {"boldtext", BOLD_TEXT},
 #ifdef ENABLE_LINENUMBERS
@@ -899,8 +903,8 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 }
 #endif /* !DISABLE_COLOR */
 
-/* Check whether the user has unmapped every shortcut for a
- * sequence we consider 'vital', like the exit function. */
+/* Verify that the user has not unmapped every shortcut for a
+ * function that we consider 'vital' (such as "Exit"). */
 static void check_vitals_mapped(void)
 {
     subnfunc *f;
@@ -927,13 +931,9 @@ static void check_vitals_mapped(void)
 }
 
 /* Parse the rcfile, once it has been opened successfully at rcstream,
- * and close it afterwards.  If syntax_only is TRUE, only allow the file
- * to contain color syntax commands. */
-void parse_rcfile(FILE *rcstream
-#ifndef DISABLE_COLOR
-	, bool syntax_only
-#endif
-	)
+ * and close it afterwards.  If syntax_only is TRUE, allow the file to
+ * to contain only color syntax commands. */
+void parse_rcfile(FILE *rcstream, bool syntax_only)
 {
     char *buf = NULL;
     ssize_t len;
@@ -1224,8 +1224,7 @@ void parse_rcfile(FILE *rcstream
     return;
 }
 
-/* The main rcfile function.  It tries to open the system-wide rcfile,
- * followed by the current user's rcfile. */
+/* First read the system-wide rcfile, then the user's rcfile. */
 void do_rcfile(void)
 {
     struct stat rcinfo;
@@ -1249,16 +1248,11 @@ void do_rcfile(void)
     /* Try to open the system-wide nanorc. */
     rcstream = fopen(nanorc, "rb");
     if (rcstream != NULL)
-	parse_rcfile(rcstream
-#ifndef DISABLE_COLOR
-		, FALSE
-#endif
-		);
+	parse_rcfile(rcstream, FALSE);
 
+    /* When configured with --disable-wrapping-as-root, turn wrapping off
+     * for root, so that only root's .nanorc or --fill can turn it on. */
 #ifdef DISABLE_ROOTWRAPPING
-    /* We've already read SYSCONFDIR/nanorc, if it's there.  If we're
-     * root, and --disable-wrapping-as-root is used, turn wrapping off
-     * now. */
     if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
@@ -1268,9 +1262,6 @@ void do_rcfile(void)
     if (homedir == NULL)
 	rcfile_error(N_("I can't find my home directory!  Wah!"));
     else {
-#ifndef RCFILE_NAME
-#define RCFILE_NAME ".nanorc"
-#endif
 	nanorc = charealloc(nanorc, strlen(homedir) + strlen(RCFILE_NAME) + 2);
 	sprintf(nanorc, "%s/%s", homedir, RCFILE_NAME);
 
@@ -1291,11 +1282,7 @@ void do_rcfile(void)
 		rcfile_error(N_("Error reading %s: %s"), nanorc,
 				strerror(errno));
 	} else
-	    parse_rcfile(rcstream
-#ifndef DISABLE_COLOR
-		, FALSE
-#endif
-		);
+	    parse_rcfile(rcstream, FALSE);
     }
 
     free(nanorc);
