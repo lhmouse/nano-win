@@ -530,21 +530,30 @@ void parse_binding(char *ptr, bool dobind)
     free(keycopy);
 }
 
+/* Verify that the given file is not a folder nor a device. */
+bool is_good_file(char *file)
+{
+    struct stat rcinfo;
+
+    /* If the thing exists, it may not be a directory nor a device. */
+    if (stat(file, &rcinfo) != -1 && (S_ISDIR(rcinfo.st_mode) ||
+		S_ISCHR(rcinfo.st_mode) || S_ISBLK(rcinfo.st_mode))) {
+	rcfile_error(S_ISDIR(rcinfo.st_mode) ? _("\"%s\" is a directory") :
+					_("\"%s\" is a device file"), file);
+	return FALSE;
+    } else
+	return TRUE;
+}
+
 #ifndef DISABLE_COLOR
 /* Read and parse one included syntax file. */
 static void parse_one_include(char *file)
 {
-    struct stat rcinfo;
     FILE *rcstream;
 
     /* Don't open directories, character files, or block files. */
-    if (stat(file, &rcinfo) != -1 && (S_ISDIR(rcinfo.st_mode) ||
-		S_ISCHR(rcinfo.st_mode) || S_ISBLK(rcinfo.st_mode))) {
-	rcfile_error(S_ISDIR(rcinfo.st_mode) ?
-			_("\"%s\" is a directory") :
-			_("\"%s\" is a device file"), file);
+    if (!is_good_file(file))
 	return;
-    }
 
     /* Open the included syntax file. */
     rcstream = fopen(file, "rb");
@@ -1226,19 +1235,13 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 /* First read the system-wide rcfile, then the user's rcfile. */
 void do_rcfile(void)
 {
-    struct stat rcinfo;
     FILE *rcstream;
 
     nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 
-    /* Don't open directories, character files, or block files. */
-    if (stat(nanorc, &rcinfo) != -1) {
-	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
-		S_ISBLK(rcinfo.st_mode))
-	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
-		_("\"%s\" is a directory") :
-		_("\"%s\" is a device file"), nanorc);
-    }
+    /* Warn about directories, character files, or block files. */
+    if (!is_good_file(nanorc))
+	;
 
 #ifdef DEBUG
     fprintf(stderr, "Parsing file \"%s\"\n", nanorc);
@@ -1264,14 +1267,9 @@ void do_rcfile(void)
 	nanorc = charealloc(nanorc, strlen(homedir) + strlen(RCFILE_NAME) + 2);
 	sprintf(nanorc, "%s/%s", homedir, RCFILE_NAME);
 
-	/* Don't open directories, character files, or block files. */
-	if (stat(nanorc, &rcinfo) != -1) {
-	    if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
-			S_ISBLK(rcinfo.st_mode))
-		rcfile_error(S_ISDIR(rcinfo.st_mode) ?
-			_("\"%s\" is a directory") :
-			_("\"%s\" is a device file"), nanorc);
-	}
+	/* Warn about directories, character files, or block files. */
+	if (!is_good_file(nanorc))
+	    ;
 
 	/* Try to open the current user's nanorc. */
 	rcstream = fopen(nanorc, "rb");
