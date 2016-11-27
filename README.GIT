@@ -23,9 +23,9 @@ packages:
 - make        (any version)
 
 If you want UTF-8 support, you will also need libncursesw5-dev installed
-(version >= 5.7, or something equivalent if you use --with-slang).
-If your system doesn't have 'vsnprintf' (which the configure script will
-check for), you will also need glib-2.x installed.
+(version >= 5.7), or libslang2-dev (version >= 2.0) if you use --with-slang.
+If your system doesn't have 'snprintf' or 'vsnprintf' (which the configure
+script will check for), you will also need glib-2.x installed.
 
 These should all be available in your distro's package manager or software
 center, or otherwise on any GNU mirror.
