@@ -1220,7 +1220,6 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
     fclose(rcstream);
     lineno = 0;
 
-    check_vitals_mapped();
     return;
 }
 
@@ -1284,6 +1283,8 @@ void do_rcfile(void)
 	} else
 	    parse_rcfile(rcstream, FALSE);
     }
+
+    check_vitals_mapped();
 
     free(nanorc);
     nanorc = NULL;
