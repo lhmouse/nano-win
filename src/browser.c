@@ -69,7 +69,7 @@ char *do_browser(char *path)
 	dir = opendir(path);
 
     if (path == NULL || dir == NULL) {
-	statusline(ALERT, "Cannot open directory: %s", strerror(errno));
+	statusline(ALERT, _("Cannot open directory: %s"), strerror(errno));
 	/* If we don't have a file list yet, there is nothing to show. */
 	if (filelist == NULL) {
 	    napms(1200);
@@ -375,7 +375,7 @@ char *do_browse_from(const char *inpath)
 
 	    if (path == NULL) {
 		free(currentdir);
-		statusline(MILD, "The working directory has disappeared");
+		statusline(MILD, _("The working directory has disappeared"));
 		beep();
 		napms(1200);
 		return NULL;

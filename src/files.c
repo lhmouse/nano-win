@@ -912,7 +912,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     openfile->placewewant = xplustabs();
 
     if (!writable)
-	statusline(ALERT, "File '%s' is unwritable", filename);
+	statusline(ALERT, _("File '%s' is unwritable"), filename);
 #ifndef NANO_TINY
     else if (format == 3) {
 	/* TRANSLATORS: Keep the next four messages at most 78 characters. */
