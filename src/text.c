@@ -1984,12 +1984,9 @@ bool begpar(const filestruct *const foo)
 
     /* Case 2) or 5) or 4). */
     if (foo->prev->data[quote_len + temp_id_len] == '\0' ||
-	(quote_len == 0 && indent_len > 0
-#ifndef NANO_TINY
-	&& !ISSET(AUTOINDENT)
-#endif
-	) || !indents_match(foo->prev->data + quote_len, temp_id_len,
-	foo->data + quote_len, indent_len))
+		(quote_len == 0 && indent_len > 0 && !ISSET(AUTOINDENT)) ||
+		!indents_match(foo->prev->data + quote_len, temp_id_len,
+				foo->data + quote_len, indent_len))
 	return TRUE;
 
     return FALSE;
@@ -2408,11 +2405,7 @@ void do_justify(bool full_justify)
 	    /* If this paragraph is non-quoted, and autoindent isn't
 	     * turned on, set the indentation length to zero so that the
 	     * indentation is treated as part of the line. */
-	    if (quote_len == 0
-#ifndef NANO_TINY
-		&& !ISSET(AUTOINDENT)
-#endif
-		)
+	    if (quote_len == 0 && !ISSET(AUTOINDENT))
 		indent_len = 0;
 
 	    /* Insert a new line after the current one. */
