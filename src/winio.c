@@ -406,6 +406,7 @@ int parse_kbinput(WINDOW *win)
 		    case 'D':
 			retval = CONTROL_LEFT;
 			break;
+#ifndef NANO_TINY
 		    case 'a':
 			retval = shiftaltup;
 			break;
@@ -418,6 +419,7 @@ int parse_kbinput(WINDOW *win)
 		    case 'd':
 			retval = shiftaltleft;
 			break;
+#endif
 		}
 		double_esc = FALSE;
 		escapes = 0;
