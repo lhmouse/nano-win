@@ -794,9 +794,6 @@ int do_yesno_prompt(bool all, const char *msg)
 	wnoutrefresh(edit);
 	wnoutrefresh(bottomwin);
 
-	/* Ensure that the cursor is visible when waiting for input. */
-	curs_set(1);
-
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
 

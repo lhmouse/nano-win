@@ -2079,6 +2079,9 @@ void warn_and_shortly_pause(const char *msg)
     statusbar(msg);
     beep();
     napms(1800);
+
+    /* Switch the cursor back on after displaying the message. */
+    curs_set(1);
 }
 
 /* Display a message on the statusbar, and set suppress_cursorpos to
