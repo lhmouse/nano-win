@@ -729,23 +729,17 @@ int do_prompt(bool allow_tabs,
 int do_yesno_prompt(bool all, const char *msg)
 {
     int response = -2, width = 16;
-    const char *yesstr;		/* String of Yes characters accepted. */
-    const char *nostr;		/* Same for No. */
-    const char *allstr;		/* And All, surprise! */
     int oldmenu = currmenu;
-
-    assert(msg != NULL);
-
-    /* yesstr, nostr, and allstr are strings of any length.  Each string
-     * consists of all single-byte characters accepted as valid
-     * characters for that value.  The first value will be the one
-     * displayed in the shortcuts. */
     /* TRANSLATORS: For the next three strings, if possible, specify
      * the single-byte shortcuts for both your language and English.
-     * For example, in French: "OoYy" for "Oui". */
-    yesstr = _("Yy");
-    nostr = _("Nn");
-    allstr = _("Aa");
+     * For example, in French: "OoYy", for both "Oui" and "Yes". */
+    const char *yesstr = _("Yy");
+    const char *nostr = _("Nn");
+    const char *allstr = _("Aa");
+
+    /* The above three variables consist of all the single-byte characters
+     * that are accepted for the corresponding answer.  Of each variable,
+     * the first character is displayed in the help lines. */
 
     do {
 	int kbinput;
