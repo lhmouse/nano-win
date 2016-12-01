@@ -632,12 +632,18 @@ int parse_kbinput(WINDOW *win)
 	case KEY_C1:	/* End (1) on keypad with NumLock off. */
 	    return KEY_END;
 #ifndef NANO_TINY
-	case SHIFT_PAGEUP:		/* Fake key, from Shift+Alt+Up. */
+#ifdef KEY_SPREVIOUS
+	case KEY_SPREVIOUS:
+#endif
+	case SHIFT_PAGEUP:	/* Fake key, from Shift+Alt+Up. */
 	    shift_held = TRUE;
 #endif
 	case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
 	    return KEY_PPAGE;
 #ifndef NANO_TINY
+#ifdef KEY_SNEXT
+	case KEY_SNEXT:
+#endif
 	case SHIFT_PAGEDOWN:	/* Fake key, from Shift+Alt+Down. */
 	    shift_held = TRUE;
 #endif
