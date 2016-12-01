@@ -783,15 +783,12 @@ int do_yesno_prompt(bool all, const char *msg)
 	    onekey("^C", _("Cancel"), width);
 	}
 
+	/* Color the statusbar over its full width and display the question. */
 	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
-
 	blank_statusbar();
 	mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
-
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
-	/* Refresh edit window and statusbar before getting input. */
-	wnoutrefresh(edit);
 	wnoutrefresh(bottomwin);
 
 	currmenu = MYESNO;

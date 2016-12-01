@@ -3191,7 +3191,6 @@ void spotlight(bool active, const char *word)
 	room--;
 
     reset_cursor();
-    wnoutrefresh(edit);
 
     if (active)
 	wattron(edit, hilite_attribute);
@@ -3207,6 +3206,8 @@ void spotlight(bool active, const char *word)
 
     if (active)
 	wattroff(edit, hilite_attribute);
+
+    wnoutrefresh(edit);
 }
 
 #ifndef DISABLE_EXTRA
