@@ -729,7 +729,6 @@ int do_prompt(bool allow_tabs,
 int do_yesno_prompt(bool all, const char *msg)
 {
     int response = -2, width = 16;
-    int oldmenu = currmenu;
     /* TRANSLATORS: For the next three strings, if possible, specify
      * the single-byte shortcuts for both your language and English.
      * For example, in French: "OoYy", for both "Oui" and "Yes". */
@@ -832,9 +831,6 @@ int do_yesno_prompt(bool all, const char *msg)
 		response = 2;
 	}
     } while (response == -2);
-
-    /* Restore the previously active menu. */
-    bottombars(oldmenu);
 
     return response;
 }
