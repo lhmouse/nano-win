@@ -1911,10 +1911,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
 #ifndef DISABLE_WRAPPING
-	/* If we're wrapping text, we need to call edit_refresh(). */
-	if (!ISSET(NO_WRAP))
-	    if (do_wrap(openfile->current))
-		refresh_needed = TRUE;
+	/* If text gets wrapped, the edit window needs a refresh. */
+	if (!ISSET(NO_WRAP) && do_wrap(openfile->current))
+	    refresh_needed = TRUE;
 #endif
     }
 

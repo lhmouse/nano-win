@@ -2996,7 +2996,7 @@ void edit_refresh(void)
     if (openfile->current->lineno < openfile->edittop->lineno ||
 		openfile->current->lineno >= openfile->edittop->lineno + maxrows) {
 #ifdef DEBUG
-	fprintf(stderr, "edit_refresh(): line = %ld, edittop %ld + maxrows %d\n",
+	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and maxrows = %d\n",
 		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxrows);
 #endif
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
@@ -3005,7 +3005,7 @@ void edit_refresh(void)
     foo = openfile->edittop;
 
 #ifdef DEBUG
-    fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)openfile->edittop->lineno);
+    fprintf(stderr, "edit-refresh: now edittop = %ld\n", (long)openfile->edittop->lineno);
 #endif
 
     for (nlines = 0; nlines < editwinrows && foo != NULL; nlines++) {

@@ -2461,9 +2461,8 @@ void do_justify(bool full_justify)
 	} else
 	    openfile->current_x = strlen(openfile->current->data);
 
-	/* Renumber the lines of the now-justified current paragraph,
-	 * since both find_paragraph() and edit_refresh() need the line
-	 * numbers to be right. */
+	/* Renumber the now-justified paragraph, since both refreshing the
+	 * edit window and finding a paragraph need correct line numbers. */
 	renumber(curr_first_par_line);
 
 	/* We've just finished justifying the paragraph.  If we're not
