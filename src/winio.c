@@ -3018,7 +3018,6 @@ void edit_refresh(void)
 	blank_line(edit, nlines, 0, COLS);
 
     reset_cursor();
-    curs_set(1);
     wnoutrefresh(edit);
 
     refresh_needed = FALSE;

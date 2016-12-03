@@ -2707,13 +2707,15 @@ int main(int argc, char **argv)
 	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
-	/* Refresh either just the cursor or the entire edit window. */
+	/* Refresh just the cursor position or the entire edit window. */
 	if (!refresh_needed) {
 	    reset_cursor();
-	    curs_set(1);
 	    wnoutrefresh(edit);
 	} else
 	    edit_refresh();
+
+	/* Make sure the cursor is visible. */
+	curs_set(1);
 
 	focusing = TRUE;
 
