@@ -422,12 +422,8 @@ void stat_with_alloc(const char *filename, struct stat **pstat)
  * or into a new buffer when MULTIBUFFER is set or there is no buffer yet. */
 bool open_buffer(const char *filename, bool undoable)
 {
-    bool new_buffer = (openfile == NULL
-#ifndef DISABLE_MULTIBUFFER
-			|| ISSET(MULTIBUFFER)
-#endif
-	);
-	/* Whether we load into this buffer or a new one. */
+    bool new_buffer = (openfile == NULL || ISSET(MULTIBUFFER));
+	/* Whether we load into the current buffer or a new one. */
     char *realname;
 	/* The filename after tilde expansion. */
     FILE *f;

@@ -1415,14 +1415,7 @@ void do_toggle(int flag)
 
     enabled = ISSET(flag);
 
-    if (flag == NO_HELP
-#ifndef DISABLE_WRAPPING
-	|| flag == NO_WRAP
-#endif
-#ifndef DISABLE_COLOR
-	|| flag == NO_COLOR_SYNTAX
-#endif
-	)
+    if (flag == NO_HELP || flag == NO_WRAP || flag == NO_COLOR_SYNTAX)
 	enabled = !enabled;
 
     statusline(HUSH, "%s %s", _(flagtostr(flag)),
