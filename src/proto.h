@@ -480,9 +480,7 @@ int do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
-/* All functions in prompt.c. */
-int do_statusbar_input(bool *ran_func, bool *finished,
-	void (*refresh_func)(void));
+/* Most functions in prompt.c. */
 #ifndef DISABLE_MOUSE
 int do_statusbar_mouse(void);
 #endif

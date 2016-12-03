@@ -34,10 +34,8 @@ static size_t statusbar_x = HIGHEST_POSITIVE;
 /* Read in a keystroke, interpret it if it is a shortcut or toggle, and
  * return it.  Set ran_func to TRUE if we ran a function associated with
  * a shortcut key, and set finished to TRUE if we're done after running
- * or trying to run a function associated with a shortcut key.
- * refresh_func is the function we will call to refresh the edit window. */
-int do_statusbar_input(bool *ran_func, bool *finished,
-	void (*refresh_func)(void))
+ * or trying to run a function associated with a shortcut key. */
+int do_statusbar_input(bool *ran_func, bool *finished)
 {
     int input;
 	/* The character we read in. */
@@ -117,10 +115,7 @@ int do_statusbar_input(bool *ran_func, bool *finished,
     if (have_shortcut) {
 	if (s->scfunc == do_tab || s->scfunc == do_enter)
 	    ;
-	else if (s->scfunc == total_refresh) {
-	    total_redraw();
-	    refresh_func();
-	} else if (s->scfunc == do_left)
+	else if (s->scfunc == do_left)
 	    do_statusbar_left();
 	else if (s->scfunc == do_right)
 	    do_statusbar_right();
@@ -511,7 +506,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	/* Ensure the cursor is shown when waiting for input. */
 	curs_set(1);
 
-	kbinput = do_statusbar_input(&ran_func, &finished, refresh_func);
+	kbinput = do_statusbar_input(&ran_func, &finished);
 
 #ifndef NANO_TINY
 	/* If the window size changed, go reformat the prompt string. */
@@ -818,10 +813,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	    }
 	}
 #endif /* !DISABLE_MOUSE */
-	else if (func == total_refresh) {
-	    total_redraw();
-	    continue;
-	} else {
+	else {
 	    /* Look for the kbinput in the Yes, No (and All) strings. */
 	    if (strchr(yesstr, kbinput) != NULL)
 		response = 1;
