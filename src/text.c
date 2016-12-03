@@ -63,8 +63,8 @@ void do_mark(void)
 	statusbar(_("Mark Unset"));
 	openfile->mark_begin = NULL;
 	openfile->mark_begin_x = 0;
+	refresh_needed = TRUE;
     }
-    edit_refresh();
 }
 #endif /* !NANO_TINY */
 

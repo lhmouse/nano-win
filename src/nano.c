@@ -1401,9 +1401,7 @@ void do_toggle(int flag)
 	    signal_init();
 	    break;
 	case WHITESPACE_DISPLAY:
-	    titlebar(NULL);
-	    edit_refresh();
-	    break;
+	    titlebar(NULL);	/* Fall through. */
 #ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
 #endif

@@ -103,7 +103,7 @@ void search_replace_abort(void)
 {
 #ifndef NANO_TINY
     if (openfile->mark_set)
-	edit_refresh();
+	refresh_needed = TRUE;
 #endif
 #ifdef HAVE_REGEX_H
     regexp_cleanup();
@@ -826,8 +826,7 @@ void do_replace(void)
     openfile->edittop = edittop_save;
     openfile->current = begin;
     openfile->current_x = begin_x;
-
-    edit_refresh();
+    refresh_needed = TRUE;
 
     if (numreplaced >= 0)
 	statusline(HUSH, P_("Replaced %lu occurrence",
