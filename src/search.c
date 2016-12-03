@@ -774,7 +774,6 @@ void do_replace(void)
 
     if (ISSET(VIEW_MODE)) {
 	print_view_warning();
-	search_replace_abort();
 	return;
     }
 
