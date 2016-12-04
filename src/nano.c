@@ -1289,12 +1289,8 @@ RETSIGTYPE do_continue(int signal)
      * and restore the terminal to its previous state in the process. */
     regenerate_screen();
 #else
-    /* Restore the terminal to its previous state. */
+    /* Restore the state of the terminal and redraw the whole screen. */
     terminal_init();
-
-    /* Wipe statusbar; redraw titlebar and edit window (and help lines). */
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
     total_refresh();
 #endif
 }
