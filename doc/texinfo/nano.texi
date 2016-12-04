@@ -1504,8 +1504,8 @@ command-line option, which allows specifying an alternate spell checker.
 Disable the tab completion code when reading or writing files.
 
 @item --disable-wrapping
-Disable hard-wrapping of overlong lines.  This also eliminates the @code{-w}
-command-line option, which enables long-line wrapping.
+Disable all hard-wrapping of overlong lines.  This also eliminates the
+@code{-w} command-line option, which switches long-line wrapping off.
 
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
