@@ -3375,8 +3375,6 @@ void do_linter(void)
 			sprintf(msg, _("This message is for unopened file %s,"
 					" open it in a new buffer?"),
 				curlint->filename);
-			/* Show a cursor after the question. */
-			curs_set(1);
 			i = do_yesno_prompt(FALSE, msg);
 			free(msg);
 			if (i == -1) {

@@ -779,6 +779,10 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	wnoutrefresh(bottomwin);
 
+	/* When not replacing, show the cursor. */
+	if (!all)
+	    curs_set(1);
+
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
 
