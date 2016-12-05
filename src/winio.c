@@ -1972,6 +1972,8 @@ void titlebar(const char *path)
 	/* The width that "Modified" would take up. */
     size_t offset = 0;
 	/* The position at which the center part of the titlebar starts. */
+    const char *branding = BRANDING;
+	/* What is shown in the top left corner. */
     const char *prefix = "";
 	/* What is shown before the path -- "File:", "DIR:", or "". */
     const char *state = "";
@@ -1996,7 +1998,7 @@ void titlebar(const char *path)
 
     /* Figure out the path, prefix and state strings. */
     if (inhelp)
-	state = _("Help");
+	branding = "";
 #ifndef DISABLE_BROWSER
     else if (path != NULL)
 	prefix = _("DIR:");
@@ -2018,7 +2020,7 @@ void titlebar(const char *path)
     }
 
     /* Determine the widths of the four elements, including their padding. */
-    verlen = strlenpt(BRANDING) + 3;
+    verlen = strlenpt(branding) + 3;
     prefixlen = strlenpt(prefix);
     if (prefixlen > 0)
 	prefixlen++;
@@ -2031,7 +2033,7 @@ void titlebar(const char *path)
 
     /* Only print the version message when there is room for it. */
     if (verlen + prefixlen + pathlen + pluglen + statelen <= COLS)
-	mvwaddstr(topwin, 0, 2, BRANDING);
+	mvwaddstr(topwin, 0, 2, branding);
     else {
 	verlen = 2;
 	/* If things don't fit yet, give up the placeholder. */
