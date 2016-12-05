@@ -786,11 +786,16 @@ void shortcut_init(void)
 	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
 
 #ifndef NANO_TINY
+    add_to_funcs(do_find_bracket, MMAIN,
+	N_("To Bracket"), IFSCHELP(nano_bracket_msg), BLANKAFTER, VIEW);
+
     add_to_funcs(do_research, MMAIN,
 	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
 
-    add_to_funcs(do_find_bracket, MMAIN,
-	N_("To Bracket"), IFSCHELP(nano_bracket_msg), TOGETHER, VIEW);
+    add_to_funcs(do_findprevious, MMAIN,
+	N_("Previous"), IFSCHELP(nano_findprev_msg), TOGETHER, VIEW);
+    add_to_funcs(do_findnext, MMAIN,
+	N_("Next"), IFSCHELP(nano_findnext_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(do_mark, MMAIN,
 	N_("Mark Text"), IFSCHELP(nano_mark_msg), TOGETHER, VIEW);
@@ -930,11 +935,6 @@ void shortcut_init(void)
 #ifndef NANO_TINY
     add_to_funcs(do_savefile, MMAIN,
 	N_("Save"), IFSCHELP(nano_savefile_msg), BLANKAFTER, NOVIEW);
-
-    add_to_funcs(do_findprevious, MMAIN,
-	N_("Previous"), IFSCHELP(nano_findprev_msg), TOGETHER, VIEW);
-    add_to_funcs(do_findnext, MMAIN,
-	N_("Next"), IFSCHELP(nano_findnext_msg), BLANKAFTER, VIEW);
 #endif
 
 #ifndef DISABLE_HISTORIES
