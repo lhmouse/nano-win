@@ -1456,6 +1456,10 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "comment"))
 	s->scfunc = do_comment;
 #endif
+#ifdef ENABLE_WORDCOMPLETION
+    else if (!strcasecmp(input, "complete"))
+	s->scfunc = complete_a_word;
+#endif
 #ifndef NANO_TINY
     else if (!strcasecmp(input, "indent"))
 	s->scfunc = do_indent_void;

@@ -1091,6 +1091,10 @@ Unindents (shifts to the left) the currently marked text.
 Comments or uncomments the current line or marked lines, using the comment
 style specified in the active syntax.
 
+@item complete
+Completes the fragment before the cursor to a full word found elsewhere
+in the current buffer.
+
 @item left
 Goes left one position (in the editor or browser).
 
