@@ -3850,6 +3850,7 @@ void complete_a_word(void)
 	statusline(ALERT, _("No further matches"));
 	refresh_needed = TRUE;
     } else
+	/* TRANSLATORS: Shown when there are zero possible completions. */
 	statusline(ALERT, _("No matches"));
 
     free(shard);

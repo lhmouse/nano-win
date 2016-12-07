@@ -2221,6 +2221,7 @@ int do_writeout(bool exiting)
 	 * it allows reading from or writing to files not specified on
 	 * the command line. */
 	if (openfile->mark_set && !exiting && !ISSET(RESTRICTED))
+	    /* TRANSLATORS: The next six strings are prompts. */
 	    msg = (method == PREPEND) ? _("Prepend Selection to File") :
 			(method == APPEND) ? _("Append Selection to File") :
 			_("Write Selection to File");
@@ -2359,13 +2360,11 @@ int do_writeout(bool exiting)
 		free(full_answer);
 
 		if (do_warning) {
-		    /* If we're using restricted mode, we aren't allowed
-		     * to overwrite an existing file with the current
-		     * file.  We also aren't allowed to change the name
-		     * of the current file if it has one, because that
-		     * would allow reading from or writing to files not
-		     * specified on the command line. */
+		    /* When in restricted mode, we aren't allowed to overwrite
+		     * an existing file with the current buffer, nor to change
+		     * the name of the current file if it already has one. */
 		    if (ISSET(RESTRICTED)) {
+			/* TRANSLATORS: Restricted mode forbids overwriting. */
 			warn_and_shortly_pause(_("File exists -- "
 					"cannot overwrite"));
 			continue;
