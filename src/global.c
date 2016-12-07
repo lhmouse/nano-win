@@ -534,9 +534,6 @@ void shortcut_init(void)
 	N_("Copy the current line and store it in the cutbuffer");
     const char *nano_indent_msg = N_("Indent the current line");
     const char *nano_unindent_msg = N_("Unindent the current line");
-#ifdef ENABLE_COMMENT
-    const char *nano_comment_msg = N_("Comment/uncomment the current line or marked lines");
-#endif
     const char *nano_undo_msg = N_("Undo the last operation");
     const char *nano_redo_msg = N_("Redo the last undone operation");
 #endif
@@ -596,6 +593,10 @@ void shortcut_init(void)
 	N_("Suspend the editor (if suspension is enabled)");
 #ifdef ENABLE_WORDCOMPLETION
     const char *nano_completion_msg = N_("Try and complete the current word");
+#endif
+#ifdef ENABLE_COMMENT
+    const char *nano_comment_msg =
+	N_("Comment/uncomment the current line or marked lines");
 #endif
 #ifndef NANO_TINY
     const char *nano_savefile_msg = N_("Save file without prompting");

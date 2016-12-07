@@ -88,13 +88,12 @@ if test "x$enable_tiny" = xyes; then
     if test "x$enable_comment" = xyes; then
 	AC_MSG_ERROR([--enable-comment cannot work with --enable-tiny])
     else
-	# Disabling nanorc silently disables comment support.
 	enable_comment=no
     fi
 fi
 if test "x$disable_comment" != xyes; then
     if test "x$enable_comment" != xno; then
-	AC_DEFINE(ENABLE_COMMENT, 1, [Define this to disable the comment/uncomment functionality.])
+	AC_DEFINE(ENABLE_COMMENT, 1, [Define this to enable the comment/uncomment function.])
     fi
 fi
 
@@ -173,7 +172,7 @@ fi
 AC_ARG_ENABLE(tabcomp,
 AS_HELP_STRING([--disable-tabcomp], [Disable tab completion functions]))
 if test "x$enable_tabcomp" = xno; then
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for filenames and search strings.])
 fi
 
 AC_ARG_ENABLE(wordcomp,

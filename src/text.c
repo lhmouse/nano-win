@@ -1212,12 +1212,14 @@ void add_undo(undo_type action)
     case BACK:
 	/* If the next line is the magic line, don't ever undo this
 	 * backspace, as it won't actually have deleted anything. */
-	if (openfile->current->next == openfile->filebot && openfile->current->data[0] != '\0')
+	if (openfile->current->next == openfile->filebot &&
+			openfile->current->data[0] != '\0')
 	    u->xflags = WAS_FINAL_BACKSPACE;
     case DEL:
 	if (u->begin != strlen(openfile->current->data)) {
 	    char *char_buf = charalloc(mb_cur_max() + 1);
-	    int char_buf_len = parse_mbchar(&openfile->current->data[u->begin], char_buf, NULL);
+	    int char_buf_len = parse_mbchar(&openfile->current->data[u->begin],
+						char_buf, NULL);
 	    null_at(&char_buf, char_buf_len);
 	    u->strdata = char_buf;
 	    if (u->type == BACK)
@@ -2288,8 +2290,7 @@ void do_justify(bool full_justify)
 	if (first_par_line == NULL) {
 	    backup_lines(openfile->current, full_justify ?
 		openfile->filebot->lineno - openfile->current->lineno +
-		((openfile->filebot->data[0] != '\0') ? 1 : 0) :
-		par_len);
+		((openfile->filebot->data[0] != '\0') ? 1 : 0) : par_len);
 	    first_par_line = openfile->current;
 	}
 
@@ -2343,8 +2344,7 @@ void do_justify(bool full_justify)
 
 	    /* We're just about to tack the next line onto this one.  If
 	     * this line isn't empty, make sure it ends in a space. */
-	    if (line_len > 0 &&
-			openfile->current->data[line_len - 1] != ' ') {
+	    if (line_len > 0 && openfile->current->data[line_len - 1] != ' ') {
 		line_len++;
 		openfile->current->data =
 			charealloc(openfile->current->data, line_len + 1);
@@ -2359,8 +2359,7 @@ void do_justify(bool full_justify)
 
 #ifndef NANO_TINY
 	    /* If needed, adjust the coordinates of the mark. */
-	    if (openfile->mark_set &&
-			openfile->mark_begin == next_line) {
+	    if (openfile->mark_set && openfile->mark_begin == next_line) {
 		openfile->mark_begin = openfile->current;
 		openfile->mark_begin_x += line_len - indent_len;
 	    }

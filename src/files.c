@@ -2234,8 +2234,7 @@ int do_writeout(bool exiting)
 
 	/* If we're using restricted mode, and the filename isn't blank,
 	 * disable tab completion. */
-	i = do_prompt(!ISSET(RESTRICTED) ||
-		openfile->filename[0] == '\0',
+	i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
 #ifndef DISABLE_TABCOMP
 		TRUE,
 #endif
@@ -2997,10 +2996,8 @@ void load_history(void)
 	    ssize_t read;
 
 	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
-		if (read > 0 && line[read - 1] == '\n') {
-		    read--;
-		    line[read] = '\0';
-		}
+		if (read > 0 && line[read - 1] == '\n')
+		    line[--read] = '\0';
 		if (read > 0) {
 		    unsunder(line, read);
 		    update_history(history, line);
