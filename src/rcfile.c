@@ -1119,7 +1119,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #endif
 	/* Make sure the option argument is a valid multibyte string. */
 	if (!is_valid_mbstring(option)) {
-	    rcfile_error(N_("Option is not a valid multibyte string"));
+	    rcfile_error(N_("Argument is not a valid multibyte string"));
 	    continue;
 	}
 
