@@ -47,6 +47,10 @@ extern int last_line_y;
 
 extern message_type lastmessage;
 
+#ifndef NANO_TINY
+extern filestruct *pletion_line;
+#endif
+
 extern int controlleft;
 extern int controlright;
 extern int controlup;
@@ -645,6 +649,7 @@ void do_formatter(void);
 void do_wordlinechar_count(void);
 #endif
 void do_verbatim_input(void);
+void complete_a_word(void);
 
 /* All functions in utils.c. */
 void get_homedir(void);

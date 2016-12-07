@@ -59,6 +59,11 @@ int last_line_y;
 message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
+#ifndef NANO_TINY
+filestruct *pletion_line = NULL;
+	/* The line where the last completion was found, if any. */
+#endif
+
 int controlleft, controlright, controlup, controldown;
 #ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
@@ -536,6 +541,7 @@ void shortcut_init(void)
 #endif
     const char *nano_undo_msg = N_("Undo the last operation");
     const char *nano_redo_msg = N_("Redo the last undone operation");
+    const char *nano_completion_msg = N_("Try and complete the current word");
 #endif
     const char *nano_back_msg = N_("Go back one character");
     const char *nano_forward_msg = N_("Go forward one character");
@@ -813,6 +819,9 @@ void shortcut_init(void)
 	N_("Undo"), IFSCHELP(nano_undo_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_redo, MMAIN,
 	N_("Redo"), IFSCHELP(nano_redo_msg), BLANKAFTER, NOVIEW);
+
+    add_to_funcs(complete_a_word, MMAIN,
+	N_("Complete"), IFSCHELP(nano_completion_msg), BLANKAFTER, NOVIEW);
 #endif /* !NANO_TINY */
 
     add_to_funcs(do_left, MMAIN,
@@ -1095,6 +1104,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
     add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
     add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
+    add_to_sclist(MMAIN, "^]", 0, complete_a_word, 0);
 #endif
 #ifdef ENABLE_COMMENT
     add_to_sclist(MMAIN, "M-3", 0, do_comment, 0);

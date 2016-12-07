@@ -49,6 +49,13 @@ static filestruct *jusbottom = NULL;
 #endif
 
 #ifndef NANO_TINY
+static int pletion_x = 0;
+	/* The x position in pletion_line of the last found completion. */
+static completion_word *list_of_completions;
+	/* A linked list of the completions that have been attepmted. */
+#endif
+
+#ifndef NANO_TINY
 /* Toggle the mark. */
 void do_mark(void)
 {
@@ -812,7 +819,7 @@ void do_undo(void)
 	break;
     }
 
-    if (undidmsg)
+    if (undidmsg && !pletion_line)
 	statusline(HUSH, _("Undid action (%s)"), undidmsg);
 
     renumber(f);
@@ -3676,3 +3683,175 @@ void do_verbatim_input(void)
 
     free(output);
 }
+
+#ifndef NANO_TINY
+/* Copy the found completion candidate. */
+char *copy_completion(char *check_line, int start)
+{
+    char *word;
+    int position = start, len_of_word = 0, index = 0;
+
+    /* Find the length of the word by travelling to its end. */
+    while (is_word_mbchar(&check_line[position], FALSE)) {
+	int next = move_mbright(check_line, position);
+	len_of_word += next - position;
+	position = next;
+    }
+
+    word = (char *)nmalloc((len_of_word + 1) * sizeof(char));
+
+    /* Simply copy the word. */
+    while (index < len_of_word)
+	word[index++] = check_line[start++];
+
+    word[index] = '\0';
+    return word;
+}
+
+/* Look at the fragment the user has typed, then search the current buffer for
+ * the first word that starts with this fragment, and tentatively complete the
+ * fragment.  If the user types 'Complete' again, search and paste the next
+ * possible completion. */
+void complete_a_word(void)
+{
+    char *shard, *completion = NULL;
+    int start_of_shard, shard_length = 0;
+    int i = 0, j = 0;
+    completion_word *some_word;
+    bool was_set_wrapping = !ISSET(NO_WRAP);
+
+    /* If this is a fresh completion attempt... */
+    if (pletion_line == NULL) {
+	/* Clear the list of words of a previous completion run. */
+	while (list_of_completions != NULL) {
+	    completion_word *dropit = list_of_completions;
+	    list_of_completions = list_of_completions->next;
+	    free(dropit->word);
+	    free(dropit);
+	}
+
+	/* Prevent a completion from being merged with typed text. */
+	openfile->last_action = OTHER;
+
+	/* Initialize the starting point for searching. */
+	pletion_line = openfile->fileage;
+	pletion_x = 0;
+
+	/* Wipe the "No further matches" message. */
+	blank_statusbar();
+	wnoutrefresh(bottomwin);
+    } else {
+	/* Remove the attempted completion from the buffer. */
+	do_undo();
+    }
+
+    /* Find the start of the fragment that the user typed. */
+    start_of_shard = openfile->current_x;
+    while (start_of_shard > 0) {
+	int step_left = move_mbleft(openfile->current->data, start_of_shard);
+
+	if (!is_word_mbchar(&openfile->current->data[step_left], FALSE))
+	    break;
+	start_of_shard = step_left;
+    }
+
+    /* If there is no word fragment before the cursor, do nothing. */
+    if (start_of_shard == openfile->current_x) {
+	pletion_line = NULL;
+	return;
+    }
+
+    shard = (char *)nmalloc((openfile->current_x - start_of_shard + 1) * sizeof(char));
+
+    /* Copy the fragment that has to be searched for. */
+    while (start_of_shard < openfile->current_x)
+	shard[shard_length++] = openfile->current->data[start_of_shard++];
+    shard[shard_length] = '\0';
+
+    /* Run through all of the lines in the buffer, looking for shard. */
+    while (pletion_line != NULL) {
+	int threshold = strlen(pletion_line->data) - shard_length - 1;
+		/* The point where we can stop searching for shard. */
+
+	/* Traverse the whole line, looking for shard. */
+	for (i = pletion_x; i < threshold; i++) {
+	    /* If the first byte doesn't match, run on. */
+	    if (pletion_line->data[i] != shard[0])
+		continue;
+
+	    /* Compare the rest of the bytes in shard. */
+	    for (j = 1; j < shard_length; j++)
+		if (pletion_line->data[i + j] != shard[j])
+		    break;
+
+	    /* If not all of the bytes matched, continue searching. */
+	    if (j < shard_length)
+		continue;
+
+	    /* If the found match is not /longer/ than shard, skip it. */
+	    if (!is_word_mbchar(&pletion_line->data[i + j], FALSE))
+		continue;
+
+	    /* If the match is not a separate word, skip it. */
+	    if (i > 0 && is_word_mbchar(&pletion_line->data[
+				move_mbleft(pletion_line->data, i)], FALSE))
+		continue;
+
+	    /* If this match is the shard itself, ignore it. */
+	    if (pletion_line == openfile->current &&
+			i == openfile->current_x - shard_length)
+		continue;
+
+	    completion = copy_completion(pletion_line->data, i);
+
+	    /* Look among earlier attempted completions for a duplicate. */
+	    some_word = list_of_completions;
+	    while (some_word && strcmp(some_word->word, completion) != 0)
+		some_word = some_word->next;
+
+	    /* If we've already tried this word, skip it. */
+	    if (some_word != NULL) {
+		free(completion);
+		continue;
+	    }
+
+	    /* Add the found word to the list of completions. */
+	    some_word = (completion_word *)nmalloc(sizeof(completion_word));
+	    some_word->word = completion;
+	    some_word->next = list_of_completions;
+	    list_of_completions = some_word;
+
+	    /* Temporarily disable wrapping so only one undo item is added. */
+	    SET(NO_WRAP);
+
+	    /* Inject the completion into the buffer. */
+	    do_output(&completion[shard_length],
+			strlen(completion) - shard_length, FALSE);
+
+	    /* If needed, reenable wrapping and wrap the current line. */
+	    if (was_set_wrapping) {
+		UNSET(NO_WRAP);
+		do_wrap(openfile->current);
+	    }
+
+	    /* Set the position for a possible next search attempt. */
+	    pletion_x = ++i;
+
+	    free(shard);
+	    return;
+	}
+
+	pletion_line = pletion_line->next;
+	pletion_x = 0;
+    }
+
+    /* The search has reached the end of the file. */
+    if (list_of_completions != NULL) {
+	statusline(ALERT, _("No further matches"));
+	refresh_needed = TRUE;
+    } else
+	statusline(ALERT, _("No matches"));
+
+    free(shard);
+}
+#endif
