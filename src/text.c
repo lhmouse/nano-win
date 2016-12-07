@@ -6,6 +6,7 @@
  *   Copyright (C) 2014, 2015 Mark Majeres                                *
  *   Copyright (C) 2016 Mike Scalora                                      *
  *   Copyright (C) 2015, 2016 Benno Schulenberg                           *
+ *   Copyright (C) 2016 Sumedh Pendurkar                                  *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published    *
