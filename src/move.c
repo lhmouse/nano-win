@@ -81,7 +81,7 @@ void do_page_up(void)
 	openfile->current = openfile->current->prev;
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP) && openfile->current) {
-	    skipped += strlenpt(openfile->current->data) / COLS;
+	    skipped += strlenpt(openfile->current->data) / editwincols;
 #ifdef DEBUG
 	    fprintf(stderr, "do_page_up: i = %d, skipped = %d based on line %ld len %lu\n",
 			i, skipped, (long)openfile->current->lineno, (unsigned long)strlenpt(openfile->current->data));
@@ -593,7 +593,7 @@ void do_right(void)
 	openfile->current_x = 0;
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP))
-	    openfile->current_y -= strlenpt(openfile->current->data) / COLS;
+	    openfile->current_y -= strlenpt(openfile->current->data) / editwincols;
 #endif
     }
 
