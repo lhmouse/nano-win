@@ -48,7 +48,7 @@ static filestruct *jusbottom = NULL;
 	/* A pointer to the end of the buffer with unjustified text. */
 #endif
 
-#ifndef NANO_TINY
+#ifdef ENABLE_WORDCOMPLETION
 static int pletion_x = 0;
 	/* The x position in pletion_line of the last found completion. */
 static completion_word *list_of_completions;
@@ -3684,7 +3684,7 @@ void do_verbatim_input(void)
     free(output);
 }
 
-#ifndef NANO_TINY
+#ifdef ENABLE_WORDCOMPLETION
 /* Copy the found completion candidate. */
 char *copy_completion(char *check_line, int start)
 {
@@ -3854,4 +3854,4 @@ void complete_a_word(void)
 
     free(shard);
 }
-#endif
+#endif /* ENABLE_WORDCOMPLETION */

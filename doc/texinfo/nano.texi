@@ -1501,18 +1501,21 @@ Disable use of the spell checker.  This also eliminates the @code{-s}
 command-line option, which allows specifying an alternate spell checker.
 
 @item --disable-tabcomp
-Disable the tab completion code when reading or writing files.
+Disable tab completion (when nano asks for a filename or a search string).
+
+@item --disable-wordcomp
+Disable word completion.
 
 @item --disable-wrapping
 Disable all hard-wrapping of overlong lines.  This also eliminates the
 @code{-w} command-line option, which switches long-line wrapping off.
 
 @item --enable-tiny
-This option disables all the above.  It also disables some of the larger
-internals of the editor, like the marking code and the cut-to-end-of-line
-code.  It also disables the function toggles.  By using the enabling
+This option implies all of the above.  It also disables some other
+internals of the editor, like the marking code, the cut-to-end-of-line
+code, and the function toggles.  By using the enabling
 counterpart of the above options together with @code{--enable-tiny},
-specific features can be switched back on.
+specific features can be switched back on --- but a few cannot.
 
 @item --enable-debug
 Enable support for runtime debug output.  This can get pretty messy, so

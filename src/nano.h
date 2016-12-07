@@ -484,7 +484,7 @@ typedef struct subnfunc {
 	/* Next item in the list. */
 } subnfunc;
 
-#ifndef NANO_TINY
+#ifdef ENABLE_WORDCOMPLETION
 typedef struct completion_word {
     char *word;
     struct completion_word *next;

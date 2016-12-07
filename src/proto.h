@@ -47,9 +47,7 @@ extern int last_line_y;
 
 extern message_type lastmessage;
 
-#ifndef NANO_TINY
 extern filestruct *pletion_line;
-#endif
 
 extern int controlleft;
 extern int controlright;

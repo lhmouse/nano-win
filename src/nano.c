@@ -1654,7 +1654,9 @@ int do_input(bool allow_funcs)
 	}
     }
 
-    if (have_shortcut) {
+    if (!have_shortcut)
+	pletion_line = NULL;
+    else {
 	const subnfunc *f = sctofunc(s);
 
 	if (ISSET(VIEW_MODE) && f && !f->viewok) {
@@ -1671,10 +1673,11 @@ int do_input(bool allow_funcs)
 		)
 	    preserve = TRUE;
 
-#ifndef NANO_TINY
+#ifdef ENABLE_WORDCOMPLETION
 	if (s->scfunc != complete_a_word)
 	    pletion_line = NULL;
-
+#endif
+#ifndef NANO_TINY
 	if (s->scfunc == do_toggle_void) {
 	    do_toggle(s->toggle);
 	    if (s->toggle != CUT_TO_END)
@@ -1710,10 +1713,6 @@ int do_input(bool allow_funcs)
 		update_line(openfile->current, openfile->current_x);
 	}
     }
-#ifndef NANO_TINY
-    else
-	pletion_line = NULL;
-#endif
 
     /* If we aren't cutting or copying text, and the key wasn't a toggle,
      * blow away the text in the cutbuffer upon the next cutting action. */

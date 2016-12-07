@@ -176,6 +176,21 @@ if test "x$enable_tabcomp" = xno; then
     AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
 fi
 
+AC_ARG_ENABLE(wordcomp,
+AS_HELP_STRING([--disable-wordcomp], [Disable the word completion function]))
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_wordcomp" = xyes; then
+	AC_MSG_ERROR([--enable-wordcomp cannot work with --enable-tiny])
+    else
+	enable_wordcomp=no
+    fi
+fi
+if test "x$disable_wordcomp" != xyes; then
+    if test "x$enable_wordcomp" != xno; then
+	AC_DEFINE(ENABLE_WORDCOMPLETION, 1, [Define this to enable the word completion function.])
+    fi
+fi
+
 AC_ARG_ENABLE(wrapping,
 AS_HELP_STRING([--disable-wrapping], [Disable all wrapping of text (and -w flag)]))
 if test "x$enable_wrapping" = xno; then
