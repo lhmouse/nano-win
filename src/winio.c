@@ -2804,31 +2804,31 @@ bool need_horizontal_scroll(const size_t old_column, const size_t new_column)
 	return (get_page_start(old_column) != get_page_start(new_column));
 }
 
-/* When edittop changes, try and figure out how many lines
- * we really have to work with (i.e. set maxrows). */
+/* When edittop changes, try and figure out how many lines we really
+ * have to work with, accounting for softwrap mode. */
 void compute_maxrows(void)
 {
-    int n;
-    filestruct *foo = openfile->edittop;
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	int n;
+	filestruct *foo = openfile->edittop;
 
-    if (!ISSET(SOFTWRAP)) {
-	maxrows = editwinrows;
-	return;
-    }
+	maxrows = 0;
+	for (n = 0; n < editwinrows && foo; n++) {
+	    maxrows++;
+	    n += strlenpt(foo->data) / editwincols;
+	    foo = foo->next;
+	}
 
-    maxrows = 0;
-    for (n = 0; n < editwinrows && foo; n++) {
-	maxrows++;
-	n += strlenpt(foo->data) / editwincols;
-	foo = foo->next;
-    }
-
-    if (n < editwinrows)
-	maxrows += editwinrows - n;
+	if (n < editwinrows)
+	    maxrows += editwinrows - n;
 
 #ifdef DEBUG
-    fprintf(stderr, "compute_maxrows(): maxrows = %d\n", maxrows);
+	fprintf(stderr, "compute_maxrows(): maxrows = %d\n", maxrows);
 #endif
+    } else
+#endif /* !NANO_TINY */
+	maxrows = editwinrows;
 }
 
 /* Scroll the edit window in the given direction and the given number
