@@ -179,8 +179,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
     struct stat fileinfo;
     char *lockdata = charalloc(1024);
     char myhostname[32];
-    ssize_t lockdatalen = 1024;
-    ssize_t wroteamt;
+    size_t lockdatalen = 1024;
+    size_t wroteamt;
 
     mypid = getpid();
     myuid = geteuid();
@@ -320,8 +320,8 @@ int do_lockfile(const char *filename)
     fprintf(stderr, "lock file name is %s\n", lockfilename);
 #endif
     if (stat(lockfilename, &fileinfo) != -1) {
-	ssize_t readtot = 0;
-	ssize_t readamt = 0;
+	size_t readtot = 0;
+	size_t readamt = 0;
 	char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 	int room, response;
 
