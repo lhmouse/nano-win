@@ -2322,10 +2322,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
      * the text -- but only for the parts that are not softwrapped. */
     if (margin > 0) {
 	wattron(edit, interface_color_pair[LINE_NUMBER]);
-	if (last_drawn_line != fileptr->lineno || last_line_y >= line)
-	    mvwprintw(edit, line, 0, "%*ld", margin - 1, (long)fileptr->lineno);
-	else
+#ifndef NANO_TINY
+	if (ISSET(SOFTWRAP) && (startpos / editwincols > 0))
 	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
+	else
+#endif
+	    mvwprintw(edit, line, 0, "%*ld", margin - 1, (long)fileptr->lineno);
 	wattroff(edit, interface_color_pair[LINE_NUMBER]);
     }
 #endif
@@ -2693,10 +2695,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	}
     }
 #endif /* !NANO_TINY */
-#ifdef ENABLE_LINENUMBERS
-    last_drawn_line = fileptr->lineno;
-    last_line_y = line;
-#endif
 }
 
 /* Just update one line in the edit buffer.  This is basically a wrapper

@@ -40,10 +40,6 @@ extern bool focusing;
 
 extern int margin;
 extern int editwincols;
-#ifdef ENABLE_LINENUMBERS
-extern int last_drawn_line;
-extern int last_line_y;
-#endif
 
 extern message_type lastmessage;
 

@@ -49,12 +49,6 @@ int margin = 0;
 	/* The amount of space reserved at the left for line numbers. */
 int editwincols = -1;
 	/* The number of usable columns in the edit window: COLS - margin. */
-#ifdef ENABLE_LINENUMBERS
-int last_drawn_line = 0;
-        /* The line number of the last drawn line. */
-int last_line_y;
-        /* The y coordinate of the last drawn line. */
-#endif
 
 message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
