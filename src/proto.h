@@ -651,7 +651,9 @@ void complete_a_word(void);
 
 /* All functions in utils.c. */
 void get_homedir(void);
-int digits(int n);
+#ifdef ENABLE_LINENUMBERS
+int digits(ssize_t n);
+#endif
 bool parse_num(const char *str, ssize_t *val);
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
 void align(char **str);

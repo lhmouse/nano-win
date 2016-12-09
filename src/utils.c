@@ -54,7 +54,7 @@ void get_homedir(void)
 
 #ifdef ENABLE_LINENUMBERS
 /* Return the number of digits that the given integer n takes up. */
-int digits(int n)
+int digits(ssize_t n)
 {
     if (n < 100000) {
         if (n < 1000) {

@@ -2323,7 +2323,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     if (margin > 0) {
 	wattron(edit, interface_color_pair[LINE_NUMBER]);
 	if (last_drawn_line != fileptr->lineno || last_line_y >= line)
-	    mvwprintw(edit, line, 0, "%*i", margin - 1, fileptr->lineno);
+	    mvwprintw(edit, line, 0, "%*ld", margin - 1, (long)fileptr->lineno);
 	else
 	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
 	wattroff(edit, interface_color_pair[LINE_NUMBER]);
