@@ -2810,21 +2810,22 @@ void compute_maxrows(void)
 {
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	int n;
-	filestruct *foo = openfile->edittop;
+	int screenrow;
+	filestruct *line = openfile->edittop;
 
 	maxrows = 0;
-	for (n = 0; n < editwinrows && foo; n++) {
+
+	for (screenrow = 0; screenrow < editwinrows && line != NULL; screenrow++) {
+	    screenrow += strlenpt(line->data) / editwincols;
+	    line = line->next;
 	    maxrows++;
-	    n += strlenpt(foo->data) / editwincols;
-	    foo = foo->next;
 	}
 
-	if (n < editwinrows)
-	    maxrows += editwinrows - n;
+	if (screenrow < editwinrows)
+	    maxrows += editwinrows - screenrow;
 
 #ifdef DEBUG
-	fprintf(stderr, "compute_maxrows(): maxrows = %d\n", maxrows);
+	fprintf(stderr, "recomputed: maxrows = %d\n", maxrows);
 #endif
     } else
 #endif /* !NANO_TINY */
