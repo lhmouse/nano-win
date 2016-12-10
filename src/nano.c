@@ -1769,26 +1769,13 @@ int do_mouse(void)
 		openfile->current_y = i;
 		i += strlenpt(openfile->current->data) / editwincols;
 	    }
-#ifdef DEBUG
-	    fprintf(stderr, "do_mouse(): moving to current_y = %ld, index i = %lu\n",
-			(long)openfile->current_y, (unsigned long)i);
-	    fprintf(stderr, "            openfile->current->data = \"%s\"\n", openfile->current->data);
-#endif
 
 	    if (i > mouse_y) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = actual_x(openfile->current->data,
 			mouse_x + (mouse_y - openfile->current_y) * editwincols);
-#ifdef DEBUG
-		fprintf(stderr, "do_mouse(): i > mouse_y, mouse_x = %d, current_x to = %lu\n",
-			mouse_x, (unsigned long)openfile->current_x);
-#endif
 	    } else {
 		openfile->current_x = actual_x(openfile->current->data, mouse_x);
-#ifdef DEBUG
-		fprintf(stderr, "do_mouse(): i <= mouse_y, mouse_x = %d, setting current_x to = %lu\n",
-			mouse_x, (unsigned long)openfile->current_x);
-#endif
 	    }
 	} else
 #endif /* NANO_TINY */
