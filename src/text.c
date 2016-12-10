@@ -3044,16 +3044,17 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_TINY
     if (old_mark_set) {
 	filestruct *top_save = openfile->fileage;
+
+	/* If a magicline was added, remove it again. */
+	if (added_magicline)
+	    remove_magicline();
+
 	/* Adjust the end point of the marked region for any change in
 	 * length of the region's last line. */
 	if (right_side_up)
 	    current_x_save = strlen(openfile->filebot->data);
 	else
 	    openfile->mark_begin_x = strlen(openfile->filebot->data);
-
-	/* If a magicline was added, remove it again. */
-	if (added_magicline)
-	    remove_magicline();
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again.  Note that we've replaced the marked text originally
