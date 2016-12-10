@@ -1763,20 +1763,21 @@ int do_mouse(void)
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
 	    size_t i = 0;
-	    for (openfile->current = openfile->edittop;
-			openfile->current->next && i < mouse_y;
-			openfile->current = openfile->current->next, i++) {
+
+	    openfile->current = openfile->edittop;
+
+	    while (openfile->current->next != NULL && i < mouse_y) {
 		openfile->current_y = i;
-		i += strlenpt(openfile->current->data) / editwincols;
+		i += strlenpt(openfile->current->data) / editwincols + 1;
+		openfile->current = openfile->current->next;
 	    }
 
 	    if (i > mouse_y) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = actual_x(openfile->current->data,
 			mouse_x + (mouse_y - openfile->current_y) * editwincols);
-	    } else {
+	    } else
 		openfile->current_x = actual_x(openfile->current->data, mouse_x);
-	    }
 	} else
 #endif /* NANO_TINY */
 	{
