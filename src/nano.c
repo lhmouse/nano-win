@@ -1767,7 +1767,7 @@ int do_mouse(void)
 			openfile->current->next && i < mouse_y;
 			openfile->current = openfile->current->next, i++) {
 		openfile->current_y = i;
-		i += strlenpt(openfile->current->data) / COLS;
+		i += strlenpt(openfile->current->data) / editwincols;
 	    }
 #ifdef DEBUG
 	    fprintf(stderr, "do_mouse(): moving to current_y = %ld, index i = %lu\n",
@@ -1777,7 +1777,8 @@ int do_mouse(void)
 
 	    if (i > mouse_y) {
 		openfile->current = openfile->current->prev;
-		openfile->current_x = actual_x(openfile->current->data, mouse_x + (mouse_y - openfile->current_y) * COLS);
+		openfile->current_x = actual_x(openfile->current->data,
+			mouse_x + (mouse_y - openfile->current_y) * editwincols);
 #ifdef DEBUG
 		fprintf(stderr, "do_mouse(): i > mouse_y, mouse_x = %d, current_x to = %lu\n",
 			mouse_x, (unsigned long)openfile->current_x);
