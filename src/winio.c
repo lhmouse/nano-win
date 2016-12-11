@@ -3117,7 +3117,6 @@ void display_main_list(void)
  * position always.  In any case we reset suppress_cursorpos to FALSE. */
 void do_cursorpos(bool constant)
 {
-    filestruct *f;
     char c;
     size_t i, cur_xpt = xplustabs() + 1;
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
@@ -3126,16 +3125,16 @@ void do_cursorpos(bool constant)
     assert(openfile->fileage != NULL && openfile->current != NULL);
 
     /* Determine the size of the file up to the cursor. */
-    f = openfile->current->next;
     c = openfile->current->data[openfile->current_x];
-
-    openfile->current->next = NULL;
     openfile->current->data[openfile->current_x] = '\0';
 
     i = get_totsize(openfile->fileage, openfile->current);
 
     openfile->current->data[openfile->current_x] = c;
-    openfile->current->next = f;
+
+    /* When not at EOF, subtract 1 for an overcounted newline. */
+    if (openfile->current != openfile->filebot)
+	i--;
 
     /* If the position needs to be suppressed, don't suppress it next time. */
     if (suppress_cursorpos && constant) {
