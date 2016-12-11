@@ -599,32 +599,20 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 }
 #endif /* !NANO_TINY */
 
-/* Calculate the number of characters between begin and end, and return
- * it. */
+/* Count the number of characters from begin to end, and return it. */
 size_t get_totsize(const filestruct *begin, const filestruct *end)
 {
+    const filestruct *line;
     size_t totsize = 0;
-    const filestruct *f;
 
-    /* Go through the lines from begin to end->prev, if we can. */
-    for (f = begin; f != end && f != NULL; f = f->next) {
-	/* Count the number of characters on this line. */
-	totsize += mbstrlen(f->data);
+    /* Sum the number of characters (plus a newline) in each line. */
+    for (line = begin; line != end->next; line = line->next)
+	totsize += mbstrlen(line->data) + 1;
 
-	/* Count the newline if we have one. */
-	if (f->next != NULL)
-	    totsize++;
-    }
-
-    /* Go through the line at end, if we can. */
-    if (f != NULL) {
-	/* Count the number of characters on this line. */
-	totsize += mbstrlen(f->data);
-
-	/* Count the newline if we have one. */
-	if (f->next != NULL)
-	    totsize++;
-    }
+    /* The last line of a file doesn't have a newline -- otherwise it
+     * wouldn't be the last line -- so subtract 1 when at EOF. */
+    if (line == NULL)
+	totsize--;
 
     return totsize;
 }
