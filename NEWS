@@ -1,3 +1,16 @@
+2016.12.12 - GNU nano 2.7.2 "Shemesh! Shemesh!" brings another feature:
+		the ability to complete with one keystroke (^] by default)
+		a fragment of a word to a full word existing elsewhere in
+		the current buffer.  Besides, this release fixes two bugs
+		related to using line numbers in softwrap mode, allows to
+		use the PageUp and PageDown keys together with Shift on
+		VTE-based terminals, stops the help lines from flickering
+		during interactive replacing, makes a "set fill" override
+		an earlier "set nowrap", properly restores the selected
+		region after an external spell check, and improves a few
+		other tidbits.  If you should find any more bugs, please
+		run 'man nano | grep bugs' and report them there.
+
 2016.10.29 - GNU nano 2.7.1 "Leuven" adds an often-asked-for feature: the
 		ability to display line numbers beside the text.  This can
 		be activated with -l or --linenumbers on the command line,
