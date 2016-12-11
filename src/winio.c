@@ -3117,24 +3117,24 @@ void display_main_list(void)
  * position always.  In any case we reset suppress_cursorpos to FALSE. */
 void do_cursorpos(bool constant)
 {
-    char c;
-    size_t i, cur_xpt = xplustabs() + 1;
+    char saved_byte;
+    size_t sum, cur_xpt = xplustabs() + 1;
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
 
     assert(openfile->fileage != NULL && openfile->current != NULL);
 
     /* Determine the size of the file up to the cursor. */
-    c = openfile->current->data[openfile->current_x];
+    saved_byte = openfile->current->data[openfile->current_x];
     openfile->current->data[openfile->current_x] = '\0';
 
-    i = get_totsize(openfile->fileage, openfile->current);
+    sum = get_totsize(openfile->fileage, openfile->current);
 
-    openfile->current->data[openfile->current_x] = c;
+    openfile->current->data[openfile->current_x] = saved_byte;
 
     /* When not at EOF, subtract 1 for an overcounted newline. */
     if (openfile->current != openfile->filebot)
-	i--;
+	sum--;
 
     /* If the position needs to be suppressed, don't suppress it next time. */
     if (suppress_cursorpos && constant) {
@@ -3145,14 +3145,14 @@ void do_cursorpos(bool constant)
     /* Display the current cursor position on the statusbar. */
     linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
     colpct = 100 * cur_xpt / cur_lenpt;
-    charpct = (openfile->totsize == 0) ? 0 : 100 * i / openfile->totsize;
+    charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;
 
     statusline(HUSH,
 	_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
 	(long)openfile->current->lineno,
 	(long)openfile->filebot->lineno, linepct,
 	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
-	(unsigned long)i, (unsigned long)openfile->totsize, charpct);
+	(unsigned long)sum, (unsigned long)openfile->totsize, charpct);
 
     /* Displaying the cursor position should not suppress it next time. */
     suppress_cursorpos = FALSE;
