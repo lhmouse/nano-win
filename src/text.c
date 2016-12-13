@@ -980,7 +980,7 @@ void do_redo(void)
 }
 #endif /* !NANO_TINY */
 
-/* Someone hits Enter *gasp!* */
+/* Break the current line at the cursor position. */
 void do_enter()
 {
     filestruct *newnode = make_new_node(openfile->current);
@@ -991,44 +991,47 @@ void do_enter()
 #ifndef NANO_TINY
     add_undo(ENTER);
 
-    /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
     if (ISSET(AUTOINDENT)) {
-	/* If we are breaking the line in the indentation, the new
-	 * indentation should have only current_x characters, and
-	 * current_x should not change. */
 	extra = indent_length(openfile->current->data);
+
+	/* If we are breaking the line in the indentation, limit the new
+	 * indentation to the current x position. */
 	if (extra > openfile->current_x)
 	    extra = openfile->current_x;
     }
 #endif
     newnode->data = charalloc(strlen(openfile->current->data +
-	openfile->current_x) + extra + 1);
+					openfile->current_x) + extra + 1);
     strcpy(&newnode->data[extra], openfile->current->data +
-	openfile->current_x);
+					openfile->current_x);
 #ifndef NANO_TINY
     if (ISSET(AUTOINDENT)) {
+	/* Copy the whitespace from the current line to the new one. */
 	strncpy(newnode->data, openfile->current->data, extra);
 	openfile->totsize += extra;
     }
 #endif
+
     null_at(&openfile->current->data, openfile->current_x);
+
 #ifndef NANO_TINY
+    /* Adjust the mark if it was on the current line after the cursor. */
     if (openfile->mark_set && openfile->current == openfile->mark_begin &&
 		openfile->current_x < openfile->mark_begin_x) {
 	openfile->mark_begin = newnode;
 	openfile->mark_begin_x += extra - openfile->current_x;
     }
 #endif
-    openfile->current_x = extra;
 
     splice_node(openfile->current, newnode);
-    openfile->current = newnode;
     renumber(newnode);
+
+    openfile->current = newnode;
+    openfile->current_x = extra;
+    openfile->placewewant = xplustabs();
 
     openfile->totsize++;
     set_modified();
-
-    openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
     update_undo(ENTER);
