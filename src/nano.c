@@ -1289,7 +1289,7 @@ RETSIGTYPE do_continue(int signal)
 RETSIGTYPE handle_sigwinch(int signal)
 {
     /* Let the input routine know that a SIGWINCH has occurred. */
-    sigwinch_counter++;
+    the_window_resized = TRUE;
 }
 
 /* Reinitialize and redraw the screen completely. */
@@ -1298,6 +1298,9 @@ void regenerate_screen(void)
     const char *tty = ttyname(0);
     int fd, result = 0;
     struct winsize win;
+
+    /* Reset the trigger. */
+    the_window_resized = FALSE;
 
     if (tty == NULL)
 	return;

@@ -29,8 +29,8 @@
 
 /* Global variables. */
 #ifndef NANO_TINY
-volatile sig_atomic_t sigwinch_counter = 0;
-	/* Is incremented by the handler whenever a SIGWINCH occurs. */
+volatile sig_atomic_t the_window_resized = FALSE;
+	/* Set to TRUE by the handler whenever a SIGWINCH occurs. */
 #endif
 
 #ifdef __linux__

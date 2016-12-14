@@ -55,21 +55,6 @@ static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */
 #endif
 
-#ifndef NANO_TINY
-static sig_atomic_t last_sigwinch_counter = 0;
-
-/* Did we receive a SIGWINCH since we were last called? */
-bool the_window_resized(void)
-{
-    if (sigwinch_counter == last_sigwinch_counter)
-	return FALSE;
-
-    last_sigwinch_counter = sigwinch_counter;
-    regenerate_screen();
-    return TRUE;
-}
-#endif
-
 /* Control character compatibility:
  *
  * - Ctrl-H is Backspace under ASCII, ANSI, VT100, and VT220.
@@ -144,8 +129,9 @@ void get_key_buffer(WINDOW *win)
     input = wgetch(win);
 
 #ifndef NANO_TINY
-    if (the_window_resized()) {
+    if (the_window_resized) {
 	ungetch(input);
+	regenerate_screen();
 	input = KEY_WINCH;
     }
 #endif
@@ -162,7 +148,8 @@ void get_key_buffer(WINDOW *win)
 	    handle_hupterm(0);
 
 #ifndef NANO_TINY
-	if (the_window_resized()) {
+	if (the_window_resized) {
+	    regenerate_screen();
 	    input = KEY_WINCH;
 	    break;
 	}

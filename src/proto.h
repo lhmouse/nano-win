@@ -26,7 +26,7 @@
 
 /* All external variables.  See global.c for their descriptions. */
 #ifndef NANO_TINY
-extern volatile sig_atomic_t sigwinch_counter;
+extern volatile sig_atomic_t the_window_resized;
 #endif
 
 #ifdef __linux__
