@@ -88,11 +88,6 @@ void mbtowc_reset(void)
     IGNORE_CALL_RESULT(mbtowc(NULL, NULL, 0));
 }
 
-void wctomb_reset(void)
-{
-    IGNORE_CALL_RESULT(wctomb(NULL, 0));
-}
-
 /* This function is equivalent to isalpha() for multibyte characters. */
 bool is_alpha_mbchar(const char *c)
 {
@@ -353,7 +348,7 @@ char *make_mbchar(long chr, int *chr_mb_len)
 
 	/* Reject invalid Unicode characters. */
 	if (*chr_mb_len < 0 || !is_valid_unicode((wchar_t)chr)) {
-	    wctomb_reset();
+	    IGNORE_CALL_RESULT(wctomb(NULL, 0));
 	    *chr_mb_len = 0;
 	}
     } else
