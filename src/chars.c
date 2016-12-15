@@ -372,27 +372,27 @@ char *make_mbchar(long chr, int *chr_mb_len)
  * we expect col to have the current display width. */
 int parse_mbchar(const char *buf, char *chr, size_t *col)
 {
-    int buf_mb_len;
+    int length;
 
     assert(buf != NULL);
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	/* Get the number of bytes in the multibyte character. */
-	buf_mb_len = mblen(buf, MB_CUR_MAX);
+	length = mblen(buf, MB_CUR_MAX);
 
 	/* When the multibyte sequence is invalid, only take the first byte. */
-	if (buf_mb_len < 0) {
+	if (length < 0) {
 	    IGNORE_CALL_RESULT(mblen(NULL, 0));
-	    buf_mb_len = 1;
-	} else if (buf_mb_len == 0)
-	    buf_mb_len++;
+	    length = 1;
+	} else if (length == 0)
+	    length = 1;
 
 	/* When requested, store the multibyte character in chr. */
 	if (chr != NULL) {
 	    int i;
 
-	    for (i = 0; i < buf_mb_len; i++)
+	    for (i = 0; i < length; i++)
 		chr[i] = buf[i];
 	}
 
@@ -415,7 +415,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 #endif
     {
 	/* A byte character is one byte long. */
-	buf_mb_len = 1;
+	length = 1;
 
 	/* When requested, store the byte character in chr. */
 	if (chr != NULL)
@@ -437,7 +437,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	}
     }
 
-    return buf_mb_len;
+    return length;
 }
 
 /* Return the index in buf of the beginning of the multibyte character
