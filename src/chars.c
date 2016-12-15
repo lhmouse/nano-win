@@ -382,11 +382,10 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	length = mblen(buf, MB_CUR_MAX);
 
 	/* When the multibyte sequence is invalid, only take the first byte. */
-	if (length < 0) {
+	if (length <= 0) {
 	    IGNORE_CALL_RESULT(mblen(NULL, 0));
 	    length = 1;
-	} else if (length == 0)
-	    length = 1;
+	}
 
 	/* When requested, store the multibyte character in chr. */
 	if (chr != NULL) {
