@@ -320,21 +320,21 @@ int mbwidth(const char *c)
 	return 1;
 }
 
-/* Return the maximum width in bytes of a multibyte character. */
+/* Return the maximum length (in bytes) of a character. */
 int mb_cur_max(void)
 {
-    return
 #ifdef ENABLE_UTF8
-	use_utf8 ? MB_CUR_MAX :
+    if (use_utf8)
+	return MB_CUR_MAX;
+    else
 #endif
-	1;
+	return 1;
 }
 
-/* Convert the Unicode value in chr to a multibyte character with the
- * same wide character value as chr, if possible.  If the conversion
- * succeeds, return the (dynamically allocated) multibyte character and
- * its length.  Otherwise, return an undefined (dynamically allocated)
- * multibyte character and a length of zero. */
+/* Convert the Unicode value in chr to a multibyte character, if possible.
+ * If the conversion succeeds, return the (dynamically allocated) multibyte
+ * character and its length.  Otherwise, return an undefined (dynamically
+ * allocated) multibyte character and a length of zero. */
 char *make_mbchar(long chr, int *chr_mb_len)
 {
     char *chr_mb;
@@ -363,8 +363,7 @@ char *make_mbchar(long chr, int *chr_mb_len)
 
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
- * col isn't NULL, store the new display width in it.  If *buf is '\t',
- * we expect col to have the current display width. */
+ * col isn't NULL, add the character's width (in columns) to it. */
 int parse_mbchar(const char *buf, char *chr, size_t *col)
 {
     int length;
@@ -390,9 +389,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 		chr[i] = buf[i];
 	}
 
-	/* When requested, store the width of the wide character in col. */
+	/* When requested, add the width of the character to col. */
 	if (col != NULL) {
-	    /* If we have a tab, get its width in columns using the
+	    /* If we have a tab, compute its width in columns based on the
 	     * current value of col. */
 	    if (*buf == '\t')
 		*col += tabsize - *col % tabsize;
@@ -400,8 +399,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	     * column for the "^", and one for the visible character. */
 	    else if (is_cntrl_mbchar(buf)) {
 		*col += 2;
-	    /* If we have a normal character, get its width in columns
-	     * normally. */
+	    /* If we have a normal character, get its width normally. */
 	    } else
 		*col += mbwidth(buf);
 	}
@@ -415,9 +413,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	if (chr != NULL)
 	    *chr = *buf;
 
-	/* When requested, store the width of the wide character in col. */
+	/* When requested, add the width of the character to col. */
 	if (col != NULL) {
-	    /* If we have a tab, get its width in columns using the
+	    /* If we have a tab, compute its width in columns using the
 	     * current value of col. */
 	    if (*buf == '\t')
 		*col += tabsize - *col % tabsize;
@@ -908,10 +906,11 @@ bool is_valid_mbstring(const char *s)
 {
     assert(s != NULL);
 
-    return
 #ifdef ENABLE_UTF8
-	use_utf8 ? (mbstowcs(NULL, s, 0) != (size_t)-1) :
+    if (use_utf8)
+	return (mbstowcs(NULL, s, 0) != (size_t)-1);
+    else
 #endif
-	TRUE;
+	return TRUE;
 }
 #endif /* !DISABLE_NANORC */
