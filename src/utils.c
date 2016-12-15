@@ -617,6 +617,7 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
     return totsize;
 }
 
+#ifndef NANO_TINY
 /* Given a line number, return a pointer to the corresponding struct. */
 filestruct *fsfromline(ssize_t lineno)
 {
@@ -637,6 +638,7 @@ filestruct *fsfromline(ssize_t lineno)
 
     return f;
 }
+#endif
 
 #ifdef DEBUG
 /* Dump the filestruct inptr to stderr. */

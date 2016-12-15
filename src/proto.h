@@ -697,7 +697,9 @@ bool comment_line(undo_type action, filestruct *f, const char *comment_seq);
 #endif
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
+#ifndef NANO_TINY
 filestruct *fsfromline(ssize_t lineno);
+#endif
 #ifdef DEBUG
 void dump_filestruct(const filestruct *inptr);
 void dump_filestruct_reverse(void);
