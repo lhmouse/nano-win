@@ -1033,6 +1033,9 @@ void version(void)
 #ifdef DISABLE_TABCOMP
     printf(" --disable-tabcomp");
 #endif
+#ifndef ENABLE_WORDCOMPLETION
+    printf(" --disable-wordcomp");
+#endif
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
