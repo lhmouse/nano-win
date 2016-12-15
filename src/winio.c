@@ -2323,7 +2323,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     if (margin > 0) {
 	wattron(edit, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && (startpos / editwincols > 0))
+	if (ISSET(SOFTWRAP) && startpos >= editwincols)
 	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
 	else
 #endif
