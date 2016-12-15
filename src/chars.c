@@ -208,15 +208,11 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 	return TRUE;
 
     if (word_chars != NULL && *word_chars != '\0') {
-	bool wordforming;
-	char *symbol = charalloc(MB_CUR_MAX + 1);
+	char symbol[mb_cur_max() + 1];
 	int symlen = parse_mbchar(c, symbol, NULL);
 
 	symbol[symlen] = '\0';
-	wordforming = (strstr(word_chars, symbol) != NULL);
-	free(symbol);
-
-	return wordforming;
+	return (strstr(word_chars, symbol) != NULL);
     }
 
     return (allow_punct && is_punct_mbchar(c));
@@ -708,7 +704,7 @@ char *mbstrchr(const char *s, const char *c)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	bool bad_s_mb = FALSE, bad_c_mb = FALSE;
-	char *s_mb = charalloc(MB_CUR_MAX);
+	char symbol[MB_CUR_MAX];
 	const char *q = s;
 	wchar_t ws, wc;
 
@@ -719,9 +715,9 @@ char *mbstrchr(const char *s, const char *c)
 	}
 
 	while (*s != '\0') {
-	    int s_mb_len = parse_mbchar(s, s_mb, NULL);
+	    int sym_len = parse_mbchar(s, symbol, NULL);
 
-	    if (mbtowc(&ws, s_mb, s_mb_len) < 0) {
+	    if (mbtowc(&ws, symbol, sym_len) < 0) {
 		mbtowc_reset();
 		ws = (unsigned char)*s;
 		bad_s_mb = TRUE;
@@ -730,11 +726,9 @@ char *mbstrchr(const char *s, const char *c)
 	    if (bad_s_mb == bad_c_mb && ws == wc)
 		break;
 
-	    s += s_mb_len;
-	    q += s_mb_len;
+	    s += sym_len;
+	    q += sym_len;
 	}
-
-	free(s_mb);
 
 	if (*s == '\0')
 	    q = NULL;
@@ -834,21 +828,16 @@ bool has_blank_mbchars(const char *s)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	bool retval = FALSE;
-	char *chr_mb = charalloc(MB_CUR_MAX);
+	char symbol[MB_CUR_MAX];
 
 	for (; *s != '\0'; s += move_mbright(s, 0)) {
-	    parse_mbchar(s, chr_mb, NULL);
+	    parse_mbchar(s, symbol, NULL);
 
-	    if (is_blank_mbchar(chr_mb)) {
-		retval = TRUE;
-		break;
-	    }
+	    if (is_blank_mbchar(symbol))
+		return TRUE;
 	}
 
-	free(chr_mb);
-
-	return retval;
+	return FALSE;
     } else
 #endif
 	return has_blank_chars(s);
