@@ -78,8 +78,6 @@ filestruct *copy_node(const filestruct *src)
 {
     filestruct *dst;
 
-    assert(src != NULL);
-
     dst = (filestruct *)nmalloc(sizeof(filestruct));
 
     dst->data = mallocstrcpy(NULL, src->data);
@@ -96,8 +94,6 @@ filestruct *copy_node(const filestruct *src)
 /* Splice a new node into an existing linked list of filestructs. */
 void splice_node(filestruct *afterthis, filestruct *newnode)
 {
-    assert(afterthis != NULL && newnode != NULL);
-
     newnode->next = afterthis->next;
     newnode->prev = afterthis;
     if (afterthis->next != NULL)
@@ -112,8 +108,6 @@ void splice_node(filestruct *afterthis, filestruct *newnode)
 /* Disconnect a node from a linked list of filestructs and delete it. */
 void unlink_node(filestruct *fileptr)
 {
-    assert(fileptr != NULL);
-
     if (fileptr->prev != NULL)
 	fileptr->prev->next = fileptr->next;
     if (fileptr->next != NULL)
@@ -129,8 +123,6 @@ void unlink_node(filestruct *fileptr)
 /* Free the data structures in the given node. */
 void delete_node(filestruct *fileptr)
 {
-    assert(fileptr != NULL && fileptr->data != NULL);
-
     free(fileptr->data);
 #ifndef DISABLE_COLOR
     free(fileptr->multidata);
@@ -142,8 +134,6 @@ void delete_node(filestruct *fileptr)
 filestruct *copy_filestruct(const filestruct *src)
 {
     filestruct *head, *copy;
-
-    assert(src != NULL);
 
     copy = copy_node(src);
     copy->prev = NULL;
@@ -513,8 +503,7 @@ openfilestruct *make_new_opennode(void)
 /* Unlink a node from the rest of the openfilestruct, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)
 {
-    assert(fileptr != NULL && fileptr->prev != NULL && fileptr->next != NULL &&
-		fileptr != fileptr->prev && fileptr != fileptr->next);
+    assert(fileptr != fileptr->prev && fileptr != fileptr->next);
 
     fileptr->prev->next = fileptr->next;
     fileptr->next->prev = fileptr->prev;
@@ -525,8 +514,6 @@ void unlink_opennode(openfilestruct *fileptr)
 /* Free all the memory in the given open-file node. */
 void delete_opennode(openfilestruct *fileptr)
 {
-    assert(fileptr != NULL && fileptr->filename != NULL && fileptr->fileage != NULL);
-
     free(fileptr->filename);
     free_filestruct(fileptr->fileage);
 #ifndef NANO_TINY
@@ -1827,8 +1814,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
-
-    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     current_len = strlen(openfile->current->data);
 

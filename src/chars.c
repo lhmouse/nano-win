@@ -167,8 +167,6 @@ bool is_cntrl_char(int c)
  * their high bits set. */
 bool is_cntrl_mbchar(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	return ((c[0] & 0xE0) == 0 || c[0] == 127 ||
@@ -203,8 +201,6 @@ bool is_punct_mbchar(const char *c)
  * punctuation when allow_punct is TRUE), and FALSE otherwise. */
 bool is_word_mbchar(const char *c, bool allow_punct)
 {
-    assert(c != NULL);
-
     if (*c == '\0')
 	return FALSE;
 
@@ -229,8 +225,6 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 /* Return the visible representation of control character c. */
 char control_rep(const signed char c)
 {
-    assert(is_cntrl_char(c));
-
     /* An embedded newline is an encoded null. */
     if (c == '\n')
 	return '@';
@@ -247,8 +241,6 @@ char control_rep(const signed char c)
 /* Return the visible representation of multibyte control character c. */
 char control_mbrep(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	if ((unsigned char)c[0] < 128)
@@ -338,8 +330,6 @@ int mb_cur_max(void)
 char *make_mbchar(long chr, int *chr_mb_len)
 {
     char *chr_mb;
-
-    assert(chr_mb_len != NULL);
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
@@ -484,8 +474,6 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
     if (s1 == s2)
 	return 0;
 
-    assert(s1 != NULL && s2 != NULL);
-
     for (; *s1 != '\0' && *s2 != '\0' && n > 0; s1++, s2++, n--) {
 	if (tolower(*s1) != tolower(*s2))
 	    break;
@@ -501,8 +489,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc1, wc2;
-
-	assert(s1 != NULL && s2 != NULL);
 
 	while (*s1 != '\0' && *s2 != '\0' && n > 0) {
 	    bool bad1 = FALSE, bad2 = FALSE;
@@ -547,8 +533,6 @@ char *nstrcasestr(const char *haystack, const char *needle)
 {
     size_t needle_len;
 
-    assert(haystack != NULL && needle != NULL);
-
     if (*needle == '\0')
 	return (char *)haystack;
 
@@ -571,8 +555,6 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	size_t needle_len;
-
-	assert(haystack != NULL && needle != NULL);
 
 	if (*needle == '\0')
 	    return (char *)haystack;
@@ -599,8 +581,6 @@ char *revstrstr(const char *haystack, const char *needle, const char
 {
     size_t rev_start_len, needle_len;
 
-    assert(haystack != NULL && needle != NULL && rev_start != NULL);
-
     if (*needle == '\0')
 	return (char *)rev_start;
 
@@ -626,8 +606,6 @@ char *revstrcasestr(const char *haystack, const char *needle, const char
 	*rev_start)
 {
     size_t rev_start_len, needle_len;
-
-    assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
     if (*needle == '\0')
 	return (char *)rev_start;
@@ -656,8 +634,6 @@ char *mbrevstrcasestr(const char *haystack, const char *needle, const
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	size_t rev_start_len, needle_len;
-
-	assert(haystack != NULL && needle != NULL && rev_start != NULL);
 
 	if (*needle == '\0')
 	    return (char *)rev_start;
@@ -698,8 +674,6 @@ size_t nstrnlen(const char *s, size_t maxlen)
 {
     size_t n = 0;
 
-    assert(s != NULL);
-
     for (; *s != '\0' && maxlen > 0; s++, maxlen--, n++)
 	;
 
@@ -710,8 +684,6 @@ size_t nstrnlen(const char *s, size_t maxlen)
 /* This function is equivalent to strnlen() for multibyte strings. */
 size_t mbstrnlen(const char *s, size_t maxlen)
 {
-    assert(s != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	size_t n = 0;
@@ -777,8 +749,6 @@ char *mbstrchr(const char *s, const char *c)
 /* This function is equivalent to strpbrk() for multibyte strings. */
 char *mbstrpbrk(const char *s, const char *accept)
 {
-    assert(s != NULL && accept != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	for (; *s != '\0'; s += move_mbright(s, 0)) {
@@ -849,8 +819,6 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
  * and FALSE otherwise. */
 bool has_blank_chars(const char *s)
 {
-    assert(s != NULL);
-
     for (; *s != '\0'; s++) {
 	if (isblank(*s))
 	    return TRUE;
@@ -863,8 +831,6 @@ bool has_blank_chars(const char *s)
  * multibyte characters, and FALSE otherwise. */
 bool has_blank_mbchars(const char *s)
 {
-    assert(s != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	bool retval = FALSE;
@@ -904,8 +870,6 @@ bool is_valid_unicode(wchar_t wc)
  * is, and FALSE otherwise. */
 bool is_valid_mbstring(const char *s)
 {
-    assert(s != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8)
 	return (mbstowcs(NULL, s, 0) != (size_t)-1);

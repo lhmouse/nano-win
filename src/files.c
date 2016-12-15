@@ -750,8 +750,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
 #endif
 
-    assert(openfile->fileage != NULL && openfile->current != NULL);
-
     buf = charalloc(bufx);
 
 #ifndef NANO_TINY
@@ -1700,8 +1698,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
     char *tempname = NULL;
 	/* The name of the temporary file we write to on prepend. */
 
-    assert(name != NULL);
-
     if (*name == '\0')
 	return -1;
 
@@ -1994,10 +1990,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	}
     }
 
-    /* There might not be a magicline.  There won't be when writing out
-     * a selection. */
-    assert(openfile->fileage != NULL && openfile->filebot != NULL);
-
     while (fileptr != NULL) {
 	size_t data_len = strlen(fileptr->data), size;
 
@@ -2144,8 +2136,6 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
-
-    assert(openfile->mark_set);
 
     /* Partition the filestruct so that it contains only the marked text. */
     mark_order((const filestruct **)&top, &top_x,
@@ -2460,8 +2450,6 @@ char *real_dir_from_tilde(const char *buf)
 {
     char *retval;
 
-    assert(buf != NULL);
-
     if (*buf == '~') {
 	size_t i = 1;
 	char *tilde_dir;
@@ -2543,8 +2531,6 @@ bool is_dir(const char *buf)
     char *dirptr;
     struct stat fileinfo;
     bool retval;
-
-    assert(buf != NULL);
 
     dirptr = real_dir_from_tilde(buf);
 

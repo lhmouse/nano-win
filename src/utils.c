@@ -153,8 +153,6 @@ void align(char **str)
 /* Null a string at a certain index and align it. */
 void null_at(char **data, size_t index)
 {
-    assert(data != NULL);
-
     *data = charealloc(*data, index + 1);
     (*data)[index] = '\0';
 }
@@ -163,8 +161,6 @@ void null_at(char **data, size_t index)
  * normally have newlines in it, so encode its nulls as newlines. */
 void unsunder(char *str, size_t true_len)
 {
-    assert(str != NULL);
-
     for (; true_len > 0; true_len--, str++) {
 	if (*str == '\0')
 	    *str = '\n';
@@ -175,8 +171,6 @@ void unsunder(char *str, size_t true_len)
  * normally have newlines in it, so decode its newlines as nulls. */
 void sunder(char *str)
 {
-    assert(str != NULL);
-
     for (; *str != '\0'; str++) {
 	if (*str == '\n')
 	    *str = '\0';
@@ -475,8 +469,6 @@ size_t get_page_start(size_t column)
  * column position of the cursor. */
 size_t xplustabs(void)
 {
-    assert(openfile->current != NULL);
-
     return strnlenpt(openfile->current->data, openfile->current_x);
 }
 
@@ -488,8 +480,6 @@ size_t actual_x(const char *text, size_t column)
 	/* The index in text, returned. */
     size_t width = 0;
 	/* The screen display width to text[index], in columns. */
-
-    assert(text != NULL);
 
     while (*text != '\0') {
 	int charlen = parse_mbchar(text, NULL, &width);
@@ -513,8 +503,6 @@ size_t strnlenpt(const char *text, size_t maxlen)
 
     if (maxlen == 0)
 	return 0;
-
-    assert(text != NULL);
 
     while (*text != '\0') {
 	int charlen = parse_mbchar(text, NULL, &width);
