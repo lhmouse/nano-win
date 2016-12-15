@@ -588,18 +588,25 @@ void do_tab(void);
 void do_indent(ssize_t cols);
 void do_indent_void(void);
 void do_unindent(void);
-void do_undo(void);
-void do_redo(void);
 #endif
 bool white_string(const char *s);
 #ifdef ENABLE_COMMENT
 void do_comment(void);
+bool comment_line(undo_type action, filestruct *f, const char *comment_seq);
 #endif
+void do_undo(void);
+void do_redo(void);
 void do_enter(void);
 #ifndef NANO_TINY
 RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
+void discard_until(const undo *thisitem, openfilestruct *thefile);
+void add_undo(undo_type action);
+#ifndef DISABLE_COMMENT
+void update_comment_undo(ssize_t lineno);
 #endif
+void update_undo(undo_type action);
+#endif /* !NANO_TINY */
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
 bool do_wrap(filestruct *line);
@@ -688,13 +695,6 @@ void new_magicline(void);
 void remove_magicline(void);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
-void discard_until(const undo *thisitem, openfilestruct *thefile);
-void add_undo(undo_type action);
-void update_undo(undo_type action);
-#ifndef DISABLE_COMMENT
-void update_comment_undo(ssize_t lineno);
-bool comment_line(undo_type action, filestruct *f, const char *comment_seq);
-#endif
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
 #ifndef NANO_TINY

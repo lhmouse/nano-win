@@ -597,27 +597,7 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	    *right_side_up = FALSE;
     }
 }
-#endif /* !NANO_TINY */
 
-/* Count the number of characters from begin to end, and return it. */
-size_t get_totsize(const filestruct *begin, const filestruct *end)
-{
-    const filestruct *line;
-    size_t totsize = 0;
-
-    /* Sum the number of characters (plus a newline) in each line. */
-    for (line = begin; line != end->next; line = line->next)
-	totsize += mbstrlen(line->data) + 1;
-
-    /* The last line of a file doesn't have a newline -- otherwise it
-     * wouldn't be the last line -- so subtract 1 when at EOF. */
-    if (line == NULL)
-	totsize--;
-
-    return totsize;
-}
-
-#ifndef NANO_TINY
 /* Given a line number, return a pointer to the corresponding struct. */
 filestruct *fsfromline(ssize_t lineno)
 {
@@ -638,7 +618,25 @@ filestruct *fsfromline(ssize_t lineno)
 
     return f;
 }
-#endif
+#endif /* !NANO_TINY */
+
+/* Count the number of characters from begin to end, and return it. */
+size_t get_totsize(const filestruct *begin, const filestruct *end)
+{
+    const filestruct *line;
+    size_t totsize = 0;
+
+    /* Sum the number of characters (plus a newline) in each line. */
+    for (line = begin; line != end->next; line = line->next)
+	totsize += mbstrlen(line->data) + 1;
+
+    /* The last line of a file doesn't have a newline -- otherwise it
+     * wouldn't be the last line -- so subtract 1 when at EOF. */
+    if (line == NULL)
+	totsize--;
+
+    return totsize;
+}
 
 #ifdef DEBUG
 /* Dump the filestruct inptr to stderr. */

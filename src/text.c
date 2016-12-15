@@ -981,7 +981,7 @@ void do_redo(void)
 #endif /* !NANO_TINY */
 
 /* Break the current line at the cursor position. */
-void do_enter()
+void do_enter(void)
 {
     filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
