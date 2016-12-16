@@ -227,7 +227,6 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 
     /* Remove all text before top_x at the top of the partition. */
     charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
-    snuggly_fit(&top->data);
 
     /* Return the partition. */
     return p;

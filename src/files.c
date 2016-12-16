@@ -1348,8 +1348,7 @@ char *get_full_path(const char *origpath)
 	if (strcmp(d_here, "/") != 0) {
 	    d_here = charealloc(d_here, strlen(d_here) + 2);
 	    strcat(d_here, "/");
-	} else
-	    snuggly_fit(&d_here);
+	}
     /* Otherwise, set d_here to "". */
     } else {
 	d_here = mallocstrcpy(NULL, "");
@@ -1410,8 +1409,7 @@ char *get_full_path(const char *origpath)
 		if (strcmp(d_there, "/") != 0) {
 		    d_there = charealloc(d_there, strlen(d_there) + 2);
 		    strcat(d_there, "/");
-		} else
-		    snuggly_fit(&d_there);
+		}
 	    /* Otherwise, make sure that we return NULL. */
 	    } else {
 		path_only = TRUE;
@@ -1528,6 +1526,8 @@ void init_operating_dir(void)
     /* If the operating directory is inaccessible, fail. */
     if (full_operating_dir == NULL || chdir(full_operating_dir) == -1)
 	die("Invalid operating directory\n");
+
+    snuggly_fit(full_operating_dir);
 }
 
 /* Check to see if we're inside the operating directory.  Return FALSE
@@ -1618,6 +1618,7 @@ void init_backup_dir(void)
     } else {
 	free(backup_dir);
 	backup_dir = full_backup_dir;
+	snuggly_fit(backup_dir);
     }
 }
 #endif /* !NANO_TINY */

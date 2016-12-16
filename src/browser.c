@@ -378,8 +378,7 @@ char *do_browse_from(const char *inpath)
 		beep();
 		napms(1200);
 		return NULL;
-	    } else
-		snuggly_fit(&path);
+	    }
 	}
     }
 
