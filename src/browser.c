@@ -239,7 +239,6 @@ char *do_browser(char *path)
 
 	    /* Convert newlines to nulls in the directory name. */
 	    sunder(answer);
-	    align(&answer);
 
 	    path = free_and_assign(path, real_dir_from_tilde(answer));
 

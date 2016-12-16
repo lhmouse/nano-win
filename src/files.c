@@ -1175,7 +1175,6 @@ void do_insertfile(void)
 
 	    /* Convert newlines to nulls in the given filename. */
 	    sunder(answer);
-	    align(&answer);
 
 #ifndef NANO_TINY
 	    if (execute) {
@@ -2403,7 +2402,6 @@ int do_writeout(bool exiting)
 
 	    /* Convert newlines to nulls, just before we save the file. */
 	    sunder(answer);
-	    align(&answer);
 
 	    /* Here's where we allow the selected text to be written to
 	     * a separate file.  If we're using restricted mode, this

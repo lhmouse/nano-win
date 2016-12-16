@@ -306,7 +306,6 @@ void do_statusbar_delete(void)
 
 	charmove(answer + statusbar_x, answer + statusbar_x + char_len,
 			strlen(answer) - statusbar_x - char_len + 1);
-	align(&answer);
 
 	update_the_statusbar();
     }
