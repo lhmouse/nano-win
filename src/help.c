@@ -175,27 +175,13 @@ void do_help(void)
 
     display_the_help_text(FALSE);
     curs_set(0);
+    edit_refresh();
 
     while (TRUE) {
-	edit_refresh();
-
 	lastmessage = HUSH;
 	focusing = TRUE;
 
 	kbinput = get_kbinput(edit);
-
-#ifndef NANO_TINY
-	if (kbinput == KEY_WINCH)
-	    continue;
-#endif
-
-#ifndef DISABLE_MOUSE
-	if (kbinput == KEY_MOUSE) {
-	    int mouse_x, mouse_y;
-	    get_mouseinput(&mouse_x, &mouse_y, TRUE);
-	    continue;    /* Redraw the screen. */
-	}
-#endif
 
 	func = parse_help_input(&kbinput);
 
@@ -224,12 +210,23 @@ void do_help(void)
 	    do_research();
 	    currmenu = MHELP;
 	    curs_set(1);
+#ifndef NANO_TINY
+	} else if (kbinput == KEY_WINCH) {
+	    ; /* Nothing to do. */
+#endif
+#ifndef DISABLE_MOUSE
+	} else if (kbinput == KEY_MOUSE) {
+	    int dummy_x, dummy_y;
+	    get_mouseinput(&dummy_x, &dummy_y, TRUE);
+#endif
 	} else if (func == do_exit) {
 	    /* Exit from the help viewer. */
 	    close_buffer();
 	    break;
 	} else
 	    unbound_key(kbinput);
+
+	edit_refresh();
 
 	location = 0;
 	line = openfile->fileage;
