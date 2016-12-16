@@ -1343,14 +1343,13 @@ char *get_full_path(const char *origpath)
 
     /* If we succeeded, canonicalize it in d_here. */
     if (d_here != NULL) {
-	align(&d_here);
-
 	/* If the current directory isn't "/", tack a slash onto the end
 	 * of it. */
 	if (strcmp(d_here, "/") != 0) {
 	    d_here = charealloc(d_here, strlen(d_here) + 2);
 	    strcat(d_here, "/");
-	}
+	} else
+	    snuggly_fit(&d_here);
     /* Otherwise, set d_here to "". */
     } else {
 	d_here = mallocstrcpy(NULL, "");
@@ -1406,14 +1405,13 @@ char *get_full_path(const char *origpath)
 
 	    /* If we succeeded, canonicalize it in d_there. */
 	    if (d_there != NULL) {
-		align(&d_there);
-
 		/* If the current directory isn't "/", tack a slash onto
 		 * the end of it. */
 		if (strcmp(d_there, "/") != 0) {
 		    d_there = charealloc(d_there, strlen(d_there) + 2);
 		    strcat(d_there, "/");
-		}
+		} else
+		    snuggly_fit(&d_there);
 	    /* Otherwise, make sure that we return NULL. */
 	    } else {
 		path_only = TRUE;

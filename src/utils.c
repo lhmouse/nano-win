@@ -141,8 +141,8 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
     return retval;
 }
 
-/* Fix the memory allocation for a string. */
-void align(char **str)
+/* Reduce the memory allocation of a string to what is needed. */
+void snuggly_fit(char **str)
 {
     assert(str != NULL);
 

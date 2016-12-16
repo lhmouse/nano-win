@@ -379,7 +379,7 @@ char *do_browse_from(const char *inpath)
 		napms(1200);
 		return NULL;
 	    } else
-		align(&path);
+		snuggly_fit(&path);
 	}
     }
 
