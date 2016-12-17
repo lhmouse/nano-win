@@ -1969,8 +1969,8 @@ void titlebar(const char *path)
 	/* What is shown before the path -- "File:", "DIR:", or "". */
     const char *state = "";
 	/* The state of the current buffer -- "Modified", "View", or "". */
-    char *fragment;
-	/* The tail part of the pathname when dottified. */
+    char *caption;
+	/* The presentable form of the pathname. */
 
     /* If the screen is too small, there is no titlebar. */
     if (topwin == NULL)
@@ -2049,14 +2049,16 @@ void titlebar(const char *path)
 	wmove(topwin, 0, offset);
 
     /* Print the full path if there's room; otherwise, dottify it. */
-    if (pathlen + pluglen + statelen <= COLS)
-	waddstr(topwin, path);
-    else if (5 + statelen <= COLS) {
+    if (pathlen + pluglen + statelen <= COLS) {
+	caption = display_string(path, 0, pathlen, FALSE);
+	waddstr(topwin, caption);
+	free(caption);
+    } else if (5 + statelen <= COLS) {
 	waddstr(topwin, "...");
-	fragment = display_string(path, 3 + pathlen - COLS + statelen,
+	caption = display_string(path, 3 + pathlen - COLS + statelen,
 					COLS - statelen, FALSE);
-	waddstr(topwin, fragment);
-	free(fragment);
+	waddstr(topwin, caption);
+	free(caption);
     }
 
     /* Right-align the state if there's room; otherwise, trim it. */
