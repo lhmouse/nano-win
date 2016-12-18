@@ -3056,12 +3056,21 @@ void save_poshistory(void)
 	chmod(poshist, S_IRUSR | S_IWUSR);
 
 	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
+	    size_t length;
+
 	    /* Assume 20 decimal positions each for line and column number,
 	     * plus two spaces, plus the line feed, plus the null byte. */
 	    statusstr = charalloc(strlen(posptr->filename) + 44);
 	    sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
 			(long)posptr->xno);
-	    if (fwrite(statusstr, sizeof(char), strlen(statusstr), hist) < strlen(statusstr))
+	    length = strlen(statusstr);
+
+	    /* Encode newlines in filenames as nulls. */
+	    sunder(statusstr);
+	    /* Restore the terminating newline. */
+	    statusstr[length - 1] = '\n';
+
+	    if (fwrite(statusstr, sizeof(char), length, hist) < length)
 		fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
 	    free(statusstr);
 	}
