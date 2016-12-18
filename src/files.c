@@ -1173,9 +1173,6 @@ void do_insertfile(void)
 		current_was_at_top = (openfile->edittop == openfile->fileage);
 	    }
 
-	    /* Convert newlines to nulls in the given filename. */
-	    sunder(answer);
-
 #ifndef NANO_TINY
 	    if (execute) {
 #ifndef DISABLE_MULTIBUFFER
@@ -2320,14 +2317,9 @@ int do_writeout(bool exiting)
 #endif
 
 	    if (method == OVERWRITE) {
-		size_t answer_len = strlen(answer);
 		bool name_exists, do_warning;
 		char *full_answer, *full_filename;
 		struct stat st;
-
-		/* Convert newlines to nulls, just before we get the
-		 * full path. */
-		sunder(answer);
 
 		full_answer = get_full_path(answer);
 		full_filename = get_full_path(openfile->filename);
@@ -2339,10 +2331,6 @@ int do_writeout(bool exiting)
 		    do_warning = (strcmp((full_answer == NULL) ?
 				answer : full_answer, (full_filename == NULL) ?
 				openfile->filename : full_filename) != 0);
-
-		/* Convert nulls to newlines.  answer_len is the
-		 * string's real length. */
-		unsunder(answer, answer_len);
 
 		free(full_filename);
 		free(full_answer);
@@ -2398,9 +2386,6 @@ int do_writeout(bool exiting)
 		}
 #endif
 	    }
-
-	    /* Convert newlines to nulls, just before we save the file. */
-	    sunder(answer);
 
 	    /* Here's where we allow the selected text to be written to
 	     * a separate file.  If we're using restricted mode, this

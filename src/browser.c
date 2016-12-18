@@ -237,9 +237,6 @@ char *do_browser(char *path)
 		continue;
 	    }
 
-	    /* Convert newlines to nulls in the directory name. */
-	    sunder(answer);
-
 	    path = free_and_assign(path, real_dir_from_tilde(answer));
 
 	    /* If the given path is relative, join it with the current path. */
