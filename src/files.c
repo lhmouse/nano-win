@@ -2962,12 +2962,11 @@ void load_history(void)
 	    size_t buf_len = 0;
 	    ssize_t read;
 
-	    while ((read = getline(&line, &buf_len, hist)) >= 0) {
-		if (read > 0 && line[read - 1] == '\n')
-		    line[--read] = '\0';
-		if (read > 0) {
+	    while ((read = getline(&line, &buf_len, hist)) > 0) {
+		line[--read] = '\0';
+		if (read > 0)
 		    update_history(history, line);
-		} else
+		else
 		    history = &replace_history;
 	    }
 
