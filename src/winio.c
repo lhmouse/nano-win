@@ -1803,11 +1803,11 @@ void check_statusblank(void)
  * caller wants to display buf starting with column start_col, and
  * extending for at most span columns.  start_col is zero-based.  span
  * is one-based, so span == 0 means you get "" returned.  The returned
- * string is dynamically allocated, and should be freed.  If dollars is
+ * string is dynamically allocated, and should be freed.  If isdata is
  * TRUE, the caller might put "$" at the beginning or end of the line if
  * it's too long. */
 char *display_string(const char *buf, size_t start_col, size_t span,
-	bool dollars)
+	bool isdata)
 {
     size_t start_index;
 	/* Index in buf of the first character shown. */
@@ -1818,9 +1818,8 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     size_t index;
 	/* Current position in converted. */
 
-    /* If dollars is TRUE, make room for the "$" at the end of the
-     * line. */
-    if (dollars && span > 0 && strlenpt(buf) > start_col + span)
+    /* If this is data, make room for the "$" at the end of the line. */
+    if (isdata && !ISSET(SOFTWRAP) && strlenpt(buf) > start_col + span)
 	span--;
 
     if (span == 0)
@@ -1841,12 +1840,12 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     buf += start_index;
 
     if (*buf != '\0' && *buf != '\t' &&
-	(column < start_col || (dollars && column > 0))) {
+	(column < start_col || (isdata && column > 0))) {
 	/* We don't display the complete first character as it starts to
 	 * the left of the screen. */
 	if (is_cntrl_mbchar(buf)) {
 	    if (column < start_col) {
-		converted[index++] = control_mbrep(buf);
+		converted[index++] = control_mbrep(buf, isdata);
 		start_col++;
 		buf += parse_mbchar(buf, NULL, NULL);
 	    }
@@ -1909,7 +1908,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	/* If buf contains a control character, represent it. */
 	if (is_cntrl_mbchar(buf)) {
 	    converted[index++] = '^';
-	    converted[index++] = control_mbrep(buf);
+	    converted[index++] = control_mbrep(buf, isdata);
 	    start_col += 2;
 	    buf += charlength;
 	    continue;
@@ -2743,15 +2742,11 @@ int update_line(filestruct *fileptr, size_t index)
 
     /* Expand the line, replacing tabs with spaces, and control
      * characters with their displayed forms. */
-#ifdef NANO_TINY
     converted = display_string(fileptr->data, page_start, editwincols, TRUE);
-#else
-    converted = display_string(fileptr->data, page_start, editwincols, !ISSET(SOFTWRAP));
 #ifdef DEBUG
     if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
 	fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
 #endif
-#endif /* !NANO_TINY */
 
     /* Paint the line. */
     edit_draw(fileptr, converted, line, page_start);
@@ -2776,7 +2771,7 @@ int update_line(filestruct *fileptr, size_t index)
 
 	    /* Expand the line, replacing tabs with spaces, and control
 	     * characters with their displayed forms. */
-	    converted = display_string(fileptr->data, index, editwincols, !ISSET(SOFTWRAP));
+	    converted = display_string(fileptr->data, index, editwincols, TRUE);
 #ifdef DEBUG
 	    if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
 		fprintf(stderr, "update_line(): converted(2) line = %s\n", converted);

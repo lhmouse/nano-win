@@ -225,10 +225,7 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 /* Return the visible representation of control character c. */
 char control_rep(const signed char c)
 {
-    /* An embedded newline is an encoded null. */
-    if (c == '\n')
-	return '@';
-    else if (c == DEL_CODE)
+    if (c == DEL_CODE)
 	return '?';
     else if (c == -97)
 	return '=';
@@ -239,8 +236,12 @@ char control_rep(const signed char c)
 }
 
 /* Return the visible representation of multibyte control character c. */
-char control_mbrep(const char *c)
+char control_mbrep(const char *c, bool isdata)
 {
+    /* An embedded newline is an encoded null *if* it is data. */
+    if (*c == '\n' && isdata)
+	return '@';
+
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	if ((unsigned char)c[0] < 128)

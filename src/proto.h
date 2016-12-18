@@ -207,7 +207,7 @@ bool is_cntrl_mbchar(const char *c);
 bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_rep(const signed char c);
-char control_mbrep(const char *c);
+char control_mbrep(const char *c, bool isdata);
 int length_of_char(const char *c, int *width);
 int mbwidth(const char *c);
 int mb_cur_max(void);
