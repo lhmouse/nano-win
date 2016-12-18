@@ -2978,20 +2978,20 @@ void load_history(void)
     }
 }
 
-/* Write the lines of a history list, starting with the line at h, to
+/* Write the lines of a history list, starting with the line at head, to
  * the open file at hist.  Return TRUE if the write succeeded, and FALSE
  * otherwise. */
-bool writehist(FILE *hist, filestruct *h)
+bool writehist(FILE *hist, const filestruct *head)
 {
-    filestruct *p;
+    const filestruct *item;
 
-    /* Write a history list from the oldest entry to the newest.  Assume
-     * the last history entry is a blank line. */
-    for (p = h; p != NULL; p = p->next) {
-	size_t p_len = strlen(p->data);
+    /* Write a history list from the oldest entry to the newest. */
+    for (item = head; item != NULL; item = item->next) {
+	size_t length = strlen(item->data);
 
-	if (fwrite(p->data, sizeof(char), p_len, hist) < p_len ||
-		putc('\n', hist) == EOF)
+	if (fwrite(item->data, sizeof(char), length, hist) < length)
+	    return FALSE;
+	if (putc('\n', hist) == EOF)
 	    return FALSE;
     }
 
@@ -3051,25 +3051,25 @@ void save_poshistory(void)
 	chmod(poshist, S_IRUSR | S_IWUSR);
 
 	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-	    char *path_and_location;
+	    char *path_and_place;
 	    size_t length;
 
 	    /* Assume 20 decimal positions each for line and column number,
 	     * plus two spaces, plus the line feed, plus the null byte. */
-	    path_and_location = charalloc(strlen(posptr->filename) + 44);
-	    sprintf(path_and_location, "%s %ld %ld\n", posptr->filename,
+	    path_and_place = charalloc(strlen(posptr->filename) + 44);
+	    sprintf(path_and_place, "%s %ld %ld\n", posptr->filename,
 			(long)posptr->lineno, (long)posptr->xno);
-	    length = strlen(path_and_location);
+	    length = strlen(path_and_place);
 
 	    /* Encode newlines in filenames as nulls. */
-	    sunder(path_and_location);
+	    sunder(path_and_place);
 	    /* Restore the terminating newline. */
-	    path_and_location[length - 1] = '\n';
+	    path_and_place[length - 1] = '\n';
 
-	    if (fwrite(path_and_location, sizeof(char), length, hist) < length)
+	    if (fwrite(path_and_place, sizeof(char), length, hist) < length)
 		fprintf(stderr, _("Error writing %s: %s\n"),
 					poshist, strerror(errno));
-	    free(path_and_location);
+	    free(path_and_place);
 	}
 	fclose(hist);
     }

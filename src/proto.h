@@ -346,7 +346,7 @@ const char *tail(const char *path);
 #ifndef DISABLE_HISTORIES
 char *histfilename(void);
 void load_history(void);
-bool writehist(FILE *hist, filestruct *histhead);
+bool writehist(FILE *hist, const filestruct *histhead);
 void save_history(void);
 int check_dotnano(void);
 void load_poshistory(void);
