@@ -2966,7 +2966,6 @@ void load_history(void)
 		if (read > 0 && line[read - 1] == '\n')
 		    line[--read] = '\0';
 		if (read > 0) {
-		    unsunder(line, read);
 		    update_history(history, line);
 		} else
 		    history = &replace_history;
@@ -2991,8 +2990,6 @@ bool writehist(FILE *hist, filestruct *h)
      * the last history entry is a blank line. */
     for (p = h; p != NULL; p = p->next) {
 	size_t p_len = strlen(p->data);
-
-	sunder(p->data);
 
 	if (fwrite(p->data, sizeof(char), p_len, hist) < p_len ||
 		putc('\n', hist) == EOF)
