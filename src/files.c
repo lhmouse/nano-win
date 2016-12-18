@@ -1527,7 +1527,7 @@ void init_operating_dir(void)
     if (full_operating_dir == NULL || chdir(full_operating_dir) == -1)
 	die("Invalid operating directory\n");
 
-    snuggly_fit(full_operating_dir);
+    snuggly_fit(&full_operating_dir);
 }
 
 /* Check to see if we're inside the operating directory.  Return FALSE
@@ -1618,7 +1618,7 @@ void init_backup_dir(void)
     } else {
 	free(backup_dir);
 	backup_dir = full_backup_dir;
-	snuggly_fit(backup_dir);
+	snuggly_fit(&backup_dir);
     }
 }
 #endif /* !NANO_TINY */
