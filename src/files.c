@@ -3040,7 +3040,6 @@ void save_history(void)
 void save_poshistory(void)
 {
     char *poshist = poshistfilename();
-    char *statusstr = NULL;
     poshiststruct *posptr;
     FILE *hist;
 
@@ -3056,23 +3055,25 @@ void save_poshistory(void)
 	chmod(poshist, S_IRUSR | S_IWUSR);
 
 	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
+	    char *path_and_location;
 	    size_t length;
 
 	    /* Assume 20 decimal positions each for line and column number,
 	     * plus two spaces, plus the line feed, plus the null byte. */
-	    statusstr = charalloc(strlen(posptr->filename) + 44);
-	    sprintf(statusstr, "%s %ld %ld\n", posptr->filename, (long)posptr->lineno,
-			(long)posptr->xno);
-	    length = strlen(statusstr);
+	    path_and_location = charalloc(strlen(posptr->filename) + 44);
+	    sprintf(path_and_location, "%s %ld %ld\n", posptr->filename,
+			(long)posptr->lineno, (long)posptr->xno);
+	    length = strlen(path_and_location);
 
 	    /* Encode newlines in filenames as nulls. */
-	    sunder(statusstr);
+	    sunder(path_and_location);
 	    /* Restore the terminating newline. */
-	    statusstr[length - 1] = '\n';
+	    path_and_location[length - 1] = '\n';
 
-	    if (fwrite(statusstr, sizeof(char), length, hist) < length)
-		fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
-	    free(statusstr);
+	    if (fwrite(path_and_location, sizeof(char), length, hist) < length)
+		fprintf(stderr, _("Error writing %s: %s\n"),
+					poshist, strerror(errno));
+	    free(path_and_location);
 	}
 	fclose(hist);
     }
