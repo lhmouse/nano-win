@@ -3191,8 +3191,7 @@ void load_poshistory(void)
 
 	/* Read and parse each line, and store the extracted data. */
 	while ((read = getline(&line, &buf_len, hist)) > 2) {
-	    if (line[read - 1] == '\n')
-		line[--read] = '\0';
+	    /* Decode nulls as newlines. */
 	    unsunder(line, read);
 
 	    lineptr = parse_next_word(line);
