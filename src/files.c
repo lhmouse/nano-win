@@ -3190,8 +3190,13 @@ void load_poshistory(void)
 	    /* Decode nulls as newlines. */
 	    unsunder(line, read);
 
-	    lineptr = parse_next_word(line);
-	    xptr = parse_next_word(lineptr);
+	    /* Find where x index and line number are in the line. */
+	    xptr = revstrstr(line, " ", line + read);
+	    lineptr = revstrstr(line, " ", xptr - 1);
+
+	    /* Now separate the three elements of the line. */
+	    *(xptr++) = '\0';
+	    *(lineptr++) = '\0';
 
 	    /* Create a new position record. */
 	    newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
