@@ -227,8 +227,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 char *nstrcasestr(const char *haystack, const char *needle);
 #endif
 char *mbstrcasestr(const char *haystack, const char *needle);
-char *revstrstr(const char *haystack, const char *needle, const char
-	*rev_start);
+char *revstrstr(const char *haystack, const char *needle,
+	const char *pointer);
 char *revstrcasestr(const char *haystack, const char *needle, const char
 	*rev_start);
 char *mbrevstrcasestr(const char *haystack, const char *needle, const

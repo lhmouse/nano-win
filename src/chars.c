@@ -577,25 +577,25 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 
 /* This function is equivalent to strstr(), except in that it scans the
  * string in reverse, starting at rev_start. */
-char *revstrstr(const char *haystack, const char *needle, const char
-	*rev_start)
+char *revstrstr(const char *haystack, const char *needle,
+	const char *pointer)
 {
-    size_t rev_start_len, needle_len;
+    size_t needle_len = strlen(needle);
+    size_t tail_len = strlen(pointer);
 
-    if (*needle == '\0')
-	return (char *)rev_start;
-
-    needle_len = strlen(needle);
+    if (needle_len == 0)
+	return (char *)pointer;
 
     if (strlen(haystack) < needle_len)
 	return NULL;
 
-    rev_start_len = strlen(rev_start);
+    if (tail_len < needle_len)
+	pointer += tail_len - needle_len;
 
-    for (; rev_start >= haystack; rev_start--, rev_start_len++) {
-	if (rev_start_len >= needle_len && strncmp(rev_start, needle,
-		needle_len) == 0)
-	    return (char *)rev_start;
+    while (pointer >= haystack) {
+	if (strncmp(pointer, needle, needle_len) == 0)
+	    return (char *)pointer;
+	pointer--;
     }
 
     return NULL;
