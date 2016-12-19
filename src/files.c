@@ -3186,13 +3186,13 @@ void load_poshistory(void)
 	poshiststruct *record_ptr = NULL, *newrecord;
 
 	/* Read and parse each line, and store the extracted data. */
-	while ((read = getline(&line, &buf_len, hist)) > 2) {
-	    /* Decode nulls as newlines. */
+	while ((read = getline(&line, &buf_len, hist)) > 5) {
+	    /* Decode nulls as embedded newlines. */
 	    unsunder(line, read);
 
-	    /* Find where x index and line number are in the line. */
-	    xptr = revstrstr(line, " ", line + read);
-	    lineptr = revstrstr(line, " ", xptr - 1);
+	    /* Find where the x index and line number are in the line. */
+	    xptr = revstrstr(line, " ", line + read - 3);
+	    lineptr = revstrstr(line, " ", xptr - 2);
 
 	    /* Now separate the three elements of the line. */
 	    *(xptr++) = '\0';
