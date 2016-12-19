@@ -31,13 +31,12 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
+static const char *start_of_text = NULL;
+	/* The point in the help text just after the title. */
+
 static char *end_of_intro = NULL;
 	/* The point in the help text where the introductory paragraphs end
 	 * and the shortcut descriptions begin. */
-
-const char *beg_of_intro = NULL;
-	/* The point in the help text where the introductory paragraphs
-	 * begin. */
 
 static size_t location;
 	/* The offset (in bytes) of the topleft of the shown help text. */
@@ -50,7 +49,7 @@ char *tempfilename = NULL;
 void display_the_help_text(bool redisplaying)
 {
     int line_size, sum = 0;
-    const char *ptr = beg_of_intro;
+    const char *ptr = start_of_text;
     FILE *fp = fopen(tempfilename, "w+b");
 
     if (fp == NULL) {
@@ -59,7 +58,7 @@ void display_the_help_text(bool redisplaying)
     }
 
     /* Wrap and copy the rest of the help_text into the temporary file. */
-    while (strlen(ptr) > 0) {
+    while (*ptr != '\0') {
 	line_size = help_line_len(ptr);
 	fwrite(ptr, sizeof(char), line_size, fp);
 	ptr += line_size;
@@ -71,6 +70,7 @@ void display_the_help_text(bool redisplaying)
 	    while (*ptr == '\n')
 		fwrite(ptr++, sizeof(char), 1, fp);
     }
+
     fclose(fp);
 
     if (redisplaying)
@@ -116,27 +116,23 @@ void do_help(void)
     char *saved_answer = (answer != NULL) ? strdup(answer) : NULL;
 	/* Store current answer when user invokes help at the prompt. */
 
-    inhelp = TRUE;
-
     blank_statusbar();
 
-    /* Get a safe temporary file for displaying the help text. If we can't
-     * obtain one, return. */
     tempfilename = safe_tempfile(&fp);
-    fclose(fp);
+
+    /* If we can't get a temporary file for the help text, give up. */
     if (tempfilename == NULL) {
 	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
-
-	inhelp = FALSE;
 	free(saved_answer);
 	return;
     }
 
+    fclose(fp);
+
     /* Set help_text as the string to display. */
     help_init();
+    inhelp = TRUE;
     location = 0;
-
-    assert(help_text != NULL);
 
     if (ISSET(NO_HELP)) {
 	/* Make sure that the help screen's shortcut list will actually
@@ -158,20 +154,20 @@ void do_help(void)
     }
 #endif
 
-    /* Extract title from help_text and display it. */
-    title = charalloc(MAX_BUF_SIZE * sizeof(char));
+    /* Extract the title from the head of the help text. */
     ptr = help_text;
-    line_size = break_line(ptr, 74, TRUE);
+    line_size = break_line(ptr, MAX_BUF_SIZE, TRUE);
+    title = charalloc(line_size * sizeof(char) + 1);
     strncpy(title, ptr, line_size);
     title[line_size] = '\0';
+
     titlebar(title);
 
-    /* Skip the title and point to the beginning of the introductory
-     * paragraphs. */
+    /* Skip over the title to point at the start of the body text. */
     ptr += line_size;
     while (*ptr == '\n')
 	++ptr;
-    beg_of_intro = ptr;
+    start_of_text = ptr;
 
     display_the_help_text(FALSE);
     curs_set(0);
@@ -190,8 +186,8 @@ void do_help(void)
 	} else if (func == do_up_void) {
 	    do_up(TRUE);
 	} else if (func == do_down_void) {
-	    if (openfile->edittop->lineno + editwinrows < openfile->
-				filebot->lineno)
+	    if (openfile->edittop->lineno + editwinrows <
+				openfile->filebot->lineno)
 		do_down(TRUE);
 	} else if (func == do_page_up) {
 	    do_page_up();
