@@ -102,7 +102,7 @@ void do_deletion(undo_type action)
 
     if (openfile->current->data[openfile->current_x] != '\0') {
 	/* We're in the middle of a line: delete the current character. */
-	int char_buf_len = parse_mbchar(openfile->current->data +
+	int char_len = parse_mbchar(openfile->current->data +
 					openfile->current_x, NULL, NULL);
 	size_t line_len = strlen(openfile->current->data +
 					openfile->current_x);
@@ -118,16 +118,16 @@ void do_deletion(undo_type action)
 
 	/* Move the remainder of the line "in", over the current character. */
 	charmove(&openfile->current->data[openfile->current_x],
-		&openfile->current->data[openfile->current_x + char_buf_len],
-		line_len - char_buf_len + 1);
+		&openfile->current->data[openfile->current_x + char_len],
+		line_len - char_len + 1);
 	null_at(&openfile->current->data, openfile->current_x +
-		line_len - char_buf_len);
+		line_len - char_len);
 
 #ifndef NANO_TINY
 	/* Adjust the mark if it is after the cursor on the current line. */
 	if (openfile->mark_set && openfile->mark_begin == openfile->current &&
 				openfile->mark_begin_x > openfile->current_x)
-	    openfile->mark_begin_x -= char_buf_len;
+	    openfile->mark_begin_x -= char_len;
 #endif
 	/* Adjust the file size. */
 	openfile->totsize--;
@@ -1222,12 +1222,12 @@ void add_undo(undo_type action)
     case DEL:
 	if (u->begin != strlen(openfile->current->data)) {
 	    char *char_buf = charalloc(mb_cur_max() + 1);
-	    int char_buf_len = parse_mbchar(&openfile->current->data[u->begin],
+	    int char_len = parse_mbchar(&openfile->current->data[u->begin],
 						char_buf, NULL);
-	    null_at(&char_buf, char_buf_len);
+	    null_at(&char_buf, char_len);
 	    u->strdata = char_buf;
 	    if (u->type == BACK)
-		u->mark_begin_x += char_buf_len;
+		u->mark_begin_x += char_len;
 	    break;
 	}
 	/* Else purposely fall into the line-joining code. */
@@ -1355,8 +1355,8 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 			openfile->current->data, (unsigned long)openfile->current_x, (unsigned long)u->begin);
 #endif
 	char *char_buf = charalloc(mb_cur_max());
-	size_t char_buf_len = parse_mbchar(&openfile->current->data[u->mark_begin_x], char_buf, NULL);
-	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_buf_len);
+	int char_len = parse_mbchar(&openfile->current->data[u->mark_begin_x], char_buf, NULL);
+	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_len);
 #ifdef DEBUG
 	fprintf(stderr, "  >> current undo data is \"%s\"\n", u->strdata);
 #endif
@@ -1367,14 +1367,14 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
     case BACK:
     case DEL: {
 	char *char_buf = charalloc(mb_cur_max());
-	size_t char_buf_len = parse_mbchar(&openfile->current->data[openfile->current_x], char_buf, NULL);
+	int char_len = parse_mbchar(&openfile->current->data[openfile->current_x], char_buf, NULL);
 	if (openfile->current_x == u->begin) {
 	    /* They're deleting. */
-	    u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_buf_len);
+	    u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_len);
 	    u->mark_begin_x = openfile->current_x;
-	} else if (openfile->current_x == u->begin - char_buf_len) {
+	} else if (openfile->current_x == u->begin - char_len) {
 	    /* They're backspacing. */
-	    u->strdata = addstrings(char_buf, char_buf_len, u->strdata, strlen(u->strdata));
+	    u->strdata = addstrings(char_buf, char_len, u->strdata, strlen(u->strdata));
 	    u->begin = openfile->current_x;
 	} else {
 	    /* They deleted something else on the line. */

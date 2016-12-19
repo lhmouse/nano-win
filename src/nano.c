@@ -1813,9 +1813,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #ifndef NANO_TINY
     size_t orig_lenpt = 0;
 #endif
-
     char *char_buf = charalloc(mb_cur_max());
-    int char_buf_len;
+    int char_len;
 
     current_len = strlen(openfile->current->data);
 
@@ -1838,12 +1837,12 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	}
 
 	/* Get the next multibyte character. */
-	char_buf_len = parse_mbchar(output + i, char_buf, NULL);
+	char_len = parse_mbchar(output + i, char_buf, NULL);
 
-	i += char_buf_len;
+	i += char_len;
 
 	/* If controls are not allowed, ignore an ASCII control character. */
-	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -	char_buf_len)))
+	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -	char_len)))
 	    continue;
 
 	/* If we're adding to the magicline, create a new magicline. */
@@ -1857,13 +1856,13 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 	/* Make room for the new character and copy it into the line. */
 	openfile->current->data = charealloc(openfile->current->data,
-					current_len + char_buf_len + 1);
-	charmove(openfile->current->data + openfile->current_x + char_buf_len,
+					current_len + char_len + 1);
+	charmove(openfile->current->data + openfile->current_x + char_len,
 			openfile->current->data + openfile->current_x,
 			current_len - openfile->current_x + 1);
 	strncpy(openfile->current->data + openfile->current_x, char_buf,
-			char_buf_len);
-	current_len += char_buf_len;
+			char_len);
+	current_len += char_len;
 	openfile->totsize++;
 	set_modified();
 
@@ -1873,10 +1872,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	/* Note that current_x has not yet been incremented. */
 	if (openfile->mark_set && openfile->current == openfile->mark_begin &&
 		openfile->current_x < openfile->mark_begin_x)
-	    openfile->mark_begin_x += char_buf_len;
+	    openfile->mark_begin_x += char_len;
 #endif
 
-	openfile->current_x += char_buf_len;
+	openfile->current_x += char_len;
 
 #ifndef NANO_TINY
 	update_undo(ADD);
