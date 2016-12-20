@@ -230,9 +230,7 @@ char *do_browser(char *path)
 			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
 
-	    /* If the directory begins with a newline (i.e. an
-	     * encoded null), treat it as though it's blank. */
-	    if (i < 0 || *answer == '\n') {
+	    if (i < 0) {
 		statusbar(_("Cancelled"));
 		continue;
 	    }

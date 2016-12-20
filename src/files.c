@@ -1098,10 +1098,8 @@ void do_insertfile(void)
 		"./");
 
 	/* If we're in multibuffer mode and the filename or command is
-	 * blank, open a new buffer instead of canceling.  If the
-	 * filename or command begins with a newline (i.e. an encoded
-	 * null), treat it as though it's blank. */
-	if (i == -1 || (!ISSET(MULTIBUFFER) && (i == -2 || *answer == '\n'))) {
+	 * blank, open a new buffer instead of canceling. */
+	if (i == -1 || (i == -2 && !ISSET(MULTIBUFFER))) {
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
@@ -2236,9 +2234,7 @@ int do_writeout(bool exiting)
 #endif
 		);
 
-	/* If the filename or command begins with a newline (i.e. an
-	 * encoded null), treat it as though it's blank. */
-	if (i < 0 || *answer == '\n') {
+	if (i < 0) {
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
