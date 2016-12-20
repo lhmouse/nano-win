@@ -1220,7 +1220,7 @@ void add_undo(undo_type action)
 			openfile->current->data[0] != '\0')
 	    u->xflags = WAS_FINAL_BACKSPACE;
     case DEL:
-	if (u->begin != strlen(openfile->current->data)) {
+	if (openfile->current->data[openfile->current_x] != '\0') {
 	    char *char_buf = charalloc(mb_cur_max() + 1);
 	    int char_len = parse_mbchar(&openfile->current->data[u->begin],
 						char_buf, NULL);
