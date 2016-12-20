@@ -743,6 +743,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	    }
 
 	    set_modified();
+	    as_an_at = TRUE;
 	    numreplaced++;
 	}
     }

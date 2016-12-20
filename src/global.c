@@ -45,6 +45,9 @@ bool shift_held;
 bool focusing = TRUE;
 	/* Whether an update of the edit window should center the cursor. */
 
+bool as_an_at = TRUE;
+	/* Whether a 0x0A byte should be shown as a ^@ instead of a ^J. */
+
 int margin = 0;
 	/* The amount of space reserved at the left for line numbers. */
 int editwincols = -1;

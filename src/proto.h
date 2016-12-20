@@ -38,6 +38,8 @@ extern bool shift_held;
 
 extern bool focusing;
 
+extern bool as_an_at;
+
 extern int margin;
 extern int editwincols;
 

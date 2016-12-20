@@ -1058,6 +1058,9 @@ void do_insertfile(void)
     bool execute = FALSE, right_side_up = FALSE, single_line = FALSE;
 #endif
 
+    /* Display embedded newlines as ^J. */
+    as_an_at = FALSE;
+
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {
@@ -2177,6 +2180,9 @@ int do_writeout(bool exiting)
 #ifndef DISABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
+
+    /* Display embedded newlines as ^J. */
+    as_an_at = FALSE;
 
     if (exiting && ISSET(TEMP_FILE) && openfile->filename[0] != '\0') {
 	if (write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE))

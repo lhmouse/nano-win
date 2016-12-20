@@ -1967,6 +1967,7 @@ void titlebar(const char *path)
     wattron(topwin, interface_color_pair[TITLE_BAR]);
 
     blank_titlebar();
+    as_an_at = FALSE;
 
     /* Do as Pico: if there is not enough width available for all items,
      * first sacrifice the version string, then eat up the side spaces,

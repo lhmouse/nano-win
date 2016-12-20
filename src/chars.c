@@ -234,8 +234,8 @@ char control_rep(const signed char c)
 /* Return the visible representation of multibyte control character c. */
 char control_mbrep(const char *c, bool isdata)
 {
-    /* An embedded newline is an encoded null *if* it is data. */
-    if (*c == '\n' && isdata)
+    /* An embedded newline is an encoded NUL if it is data. */
+    if (*c == '\n' && (isdata || as_an_at))
 	return '@';
 
 #ifdef ENABLE_UTF8

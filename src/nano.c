@@ -2674,6 +2674,7 @@ int main(int argc, char **argv)
 	    display_main_list();
 
 	lastmessage = HUSH;
+	as_an_at = TRUE;
 
 	/* Update the displayed current cursor position only when there
 	 * are no keys waiting in the input buffer. */
