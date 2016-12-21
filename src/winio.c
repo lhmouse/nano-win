@@ -667,7 +667,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	/* Slang doesn't support KEY_CANCEL. */
 	case KEY_CANCEL:
-	    return first_sc_for(currmenu, do_cancel)->keycode;
+	    return sc_seq_or(do_cancel, 0x03);
 #endif
 #ifdef KEY_SUSPEND
 #ifdef KEY_SSUSPEND
