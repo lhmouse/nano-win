@@ -3192,7 +3192,11 @@ void load_poshistory(void)
 
 	    /* Find where the x index and line number are in the line. */
 	    xptr = revstrstr(line, " ", line + read - 3);
+	    if (xptr == NULL)
+		continue;
 	    lineptr = revstrstr(line, " ", xptr - 2);
+	    if (lineptr == NULL)
+		continue;
 
 	    /* Now separate the three elements of the line. */
 	    *(xptr++) = '\0';
