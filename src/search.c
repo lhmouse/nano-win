@@ -664,18 +664,17 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
 	    if (i == -1)  /* The replacing was cancelled. */
 		break;
+	    else if (i == 2)
+		replaceall = TRUE;
 	}
 
-	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
+	if (i == 1 || replaceall) {  /* Yes, replace it. */
 	    char *copy;
 	    size_t length_change;
 
 #ifndef NANO_TINY
 	    add_undo(REPLACE);
 #endif
-	    if (i == 2)
-		replaceall = TRUE;
-
 	    copy = replace_line(needle);
 
 	    length_change = strlen(copy) - strlen(openfile->current->data);
