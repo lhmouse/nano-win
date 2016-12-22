@@ -378,7 +378,6 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
     /* Set the current position to point at what we found. */
     openfile->current = fileptr;
     openfile->current_x = found_x;
-    openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     /* When requested, pass back the length of the match. */
     if (match_len != NULL)
@@ -999,7 +998,6 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
     /* Set the current position to the found matching bracket. */
     openfile->current = fileptr;
     openfile->current_x = found - fileptr->data;
-    openfile->current_y = fileptr->lineno - openfile->edittop->lineno;
 
     return TRUE;
 }
