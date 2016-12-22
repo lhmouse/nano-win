@@ -148,7 +148,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	     * fake a press of Enter, and indicate that we're done. */
 	    if (got_newline) {
 		get_input(NULL, 1);
-		input = the_code_for(do_enter, 0);
+		input = KEY_ENTER;
 		*finished = TRUE;
 	    }
 	} else if (s->scfunc == do_cut_text_void)
