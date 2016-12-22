@@ -148,7 +148,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	     * fake a press of Enter, and indicate that we're done. */
 	    if (got_newline) {
 		get_input(NULL, 1);
-		input = sc_seq_or(do_enter, 0);
+		input = the_code_for(do_enter, 0);
 		*finished = TRUE;
 	    }
 	} else if (s->scfunc == do_cut_text_void)
@@ -531,7 +531,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	if (func == do_tab) {
 #ifndef DISABLE_HISTORIES
 	    if (history_list != NULL) {
-		if (last_kbinput != sc_seq_or(do_tab, TAB_CODE))
+		if (last_kbinput != the_code_for(do_tab, TAB_CODE))
 		    complete_len = strlen(answer);
 
 		if (complete_len > 0) {

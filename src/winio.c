@@ -642,13 +642,13 @@ int parse_kbinput(WINDOW *win)
 #endif
 	case DEL_CODE:
 	    if (ISSET(REBIND_DELETE))
-		return sc_seq_or(do_delete, KEY_DC);
+		return the_code_for(do_delete, KEY_DC);
 	    else
 		return KEY_BACKSPACE;
 #ifdef KEY_SIC
 	/* Slang doesn't support KEY_SIC. */
 	case KEY_SIC:
-	    return sc_seq_or(do_insertfile_void, KEY_IC);
+	    return the_code_for(do_insertfile_void, KEY_IC);
 #endif
 #ifdef KEY_SBEG
 	/* Slang doesn't support KEY_SBEG. */
@@ -667,7 +667,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	/* Slang doesn't support KEY_CANCEL. */
 	case KEY_CANCEL:
-	    return sc_seq_or(do_cancel, 0x03);
+	    return the_code_for(do_cancel, 0x03);
 #endif
 #ifdef KEY_SUSPEND
 #ifdef KEY_SSUSPEND
@@ -676,7 +676,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 	/* Slang doesn't support KEY_SUSPEND. */
 	case KEY_SUSPEND:
-	    return sc_seq_or(do_suspend_void, KEY_SUSPEND);
+	    return the_code_for(do_suspend_void, KEY_SUSPEND);
 #endif
 #ifdef PDCURSES
 	case KEY_SHIFT_L:
