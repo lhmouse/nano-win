@@ -508,28 +508,28 @@ int parse_kbinput(WINDOW *win)
 #ifndef NANO_TINY
     else if (retval == shiftcontrolleft) {
 	shift_held = TRUE;
-	return sc_seq_or(do_prev_word_void, shiftcontrolleft);
+	return CONTROL_LEFT;
     } else if (retval == shiftcontrolright) {
 	shift_held = TRUE;
-	return sc_seq_or(do_next_word_void, shiftcontrolright);
+	return CONTROL_RIGHT;
     } else if (retval == shiftcontrolup) {
 	shift_held = TRUE;
-	return sc_seq_or(do_prev_block, shiftcontrolup);
+	return CONTROL_UP;
     } else if (retval == shiftcontroldown) {
 	shift_held = TRUE;
-	return sc_seq_or(do_next_block, shiftcontroldown);
+	return CONTROL_DOWN;
     } else if (retval == shiftaltleft) {
 	shift_held = TRUE;
-	return sc_seq_or(do_home, shiftaltleft);
+	return KEY_HOME;
     } else if (retval == shiftaltright) {
 	shift_held = TRUE;
-	return sc_seq_or(do_end, shiftaltright);
+	return KEY_END;
     } else if (retval == shiftaltup) {
 	shift_held = TRUE;
-	return sc_seq_or(do_page_up, shiftaltup);
+	return KEY_PPAGE;
     } else if (retval == shiftaltdown) {
 	shift_held = TRUE;
-	return sc_seq_or(do_page_down, shiftaltdown);
+	return KEY_NPAGE;
     }
 #endif
 
@@ -547,25 +547,25 @@ int parse_kbinput(WINDOW *win)
 	/* Is Ctrl being held? */
 	if (modifiers & 0x04) {
 	    if (retval == KEY_UP)
-		return sc_seq_or(do_prev_block, controlup);
+		return CONTROL_UP;
 	    else if (retval == KEY_DOWN)
-		return sc_seq_or(do_next_block, controldown);
+		return CONTROL_DOWN;
 	    else if (retval == KEY_LEFT)
-		return sc_seq_or(do_prev_word_void, controlleft);
+		return CONTROL_LEFT;
 	    else if (retval == KEY_RIGHT)
-		return sc_seq_or(do_next_word_void, controlright);
+		return CONTROL_RIGHT;
 	}
 #ifndef NANO_TINY
 	/* Are both Shift and Alt being held? */
 	if ((modifiers & 0x09) == 0x09) {
 	    if (retval == KEY_UP)
-		return sc_seq_or(do_page_up, shiftaltup);
+		return KEY_PPAGE;
 	    else if (retval == KEY_DOWN)
-		return sc_seq_or(do_page_down, shiftaltdown);
+		return KEY_NPAGE;
 	    else if (retval == KEY_LEFT)
-		return sc_seq_or(do_home, shiftaltleft);
+		return KEY_HOME;
 	    else if (retval == KEY_RIGHT)
-		return sc_seq_or(do_end, shiftaltright);
+		return KEY_END;
 	}
 #endif
     }
