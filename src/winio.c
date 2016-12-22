@@ -539,6 +539,11 @@ int parse_kbinput(WINDOW *win)
     unsigned char modifiers = 6;
 
     if (console && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
+#ifndef NANO_TINY
+	/* Is Shift being held? */
+	if (modifiers & 0x01)
+	    shift_held = TRUE;
+#endif
 	/* Is Ctrl being held? */
 	if (modifiers & 0x04) {
 	    if (retval == KEY_UP)
@@ -550,12 +555,7 @@ int parse_kbinput(WINDOW *win)
 	    else if (retval == KEY_RIGHT)
 		return sc_seq_or(do_next_word_void, controlright);
 	}
-
 #ifndef NANO_TINY
-	/* Is Shift being held? */
-	if (modifiers & 0x01)
-	    shift_held =TRUE;
-
 	/* Are both Shift and Alt being held? */
 	if ((modifiers & 0x09) == 0x09) {
 	    if (retval == KEY_UP)
