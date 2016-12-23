@@ -354,7 +354,7 @@ int check_dotnano(void);
 void load_poshistory(void);
 void save_poshistory(void);
 void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
-int check_poshistory(const char *file, ssize_t *line, ssize_t *column);
+bool has_old_position(const char *file, ssize_t *line, ssize_t *column);
 #endif
 
 /* Some functions in global.c. */

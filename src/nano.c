@@ -2606,7 +2606,7 @@ int main(int argc, char **argv)
 		else if (ISSET(POS_HISTORY)) {
 		    ssize_t savedposline, savedposcol;
 		    /* If edited before, restore the last cursor position. */
-		    if (check_poshistory(argv[i], &savedposline, &savedposcol))
+		    if (has_old_position(argv[i], &savedposline, &savedposcol))
 			do_gotolinecolumn(savedposline, savedposcol,
 						FALSE, FALSE);
 		}
@@ -2640,7 +2640,7 @@ int main(int argc, char **argv)
     else if (ISSET(POS_HISTORY)) {
 	ssize_t savedposline, savedposcol;
 	/* If the file was edited before, restore the last cursor position. */
-	if (check_poshistory(argv[optind], &savedposline, &savedposcol))
+	if (has_old_position(argv[optind], &savedposline, &savedposcol))
 	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE);
     }
 #endif

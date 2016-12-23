@@ -1214,7 +1214,7 @@ void do_insertfile(void)
 #ifndef NANO_TINY
 		    if (!execute)
 #endif
-		    if (check_poshistory(answer, &priorline, &priorcol))
+		    if (has_old_position(answer, &priorline, &priorcol))
 			do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
 		}
 #endif /* !DISABLE_HISTORIES */
@@ -3146,27 +3146,28 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     free(fullpath);
 }
 
-/* Check the recorded last file positions to see if the given file
- * matches an existing entry.  If so, return 1 and set line and column
- * to the retrieved values.  Otherwise, return 0. */
-int check_poshistory(const char *file, ssize_t *line, ssize_t *column)
+/* Check whether the given file matches an existing entry in the recorded
+ * last file positions.  If not, return FALSE.  If yes, return TRUE and
+ * set line and column to the retrieved values. */
+bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 {
-    poshiststruct *posptr;
+    poshiststruct *posptr = position_history;
     char *fullpath = get_full_path(file);
 
     if (fullpath == NULL)
-	return 0;
+	return FALSE;
 
-    for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-	if (!strcmp(posptr->filename, fullpath)) {
-	    *line = posptr->lineno;
-	    *column = posptr->xno;
-	    free(fullpath);
-	    return 1;
-	}
-    }
+    while (posptr != NULL && strcmp(posptr->filename, fullpath) != 0)
+	posptr = posptr->next;
+
     free(fullpath);
-    return 0;
+
+    if (posptr == NULL)
+        return FALSE;
+
+    *line = posptr->lineno;
+    *column = posptr->xno;
+    return TRUE;
 }
 
 /* Load the recorded file positions from ~/.nano/filepos_history. */
