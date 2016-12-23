@@ -1203,10 +1203,10 @@ void update_history(filestruct **h, const char *s)
     /* If the history is full, delete the oldest item (the one at the
      * head of the list), to make room for a new item at the end. */
     if ((*hbot)->lineno == MAX_SEARCH_HISTORY + 1) {
-	filestruct *foo = *hage;
+	filestruct *oldest = *hage;
 
 	*hage = (*hage)->next;
-	unlink_node(foo);
+	unlink_node(oldest);
 	renumber(*hage);
     }
 

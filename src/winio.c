@@ -2967,8 +2967,8 @@ void edit_redraw(filestruct *old_current)
  * if we've moved and changed text. */
 void edit_refresh(void)
 {
-    filestruct *foo;
-    int nlines;
+    filestruct *line;
+    int row = 0;
 
     /* Figure out what maxrows should really be. */
     compute_maxrows();
@@ -2983,20 +2983,22 @@ void edit_refresh(void)
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
 
-    foo = openfile->edittop;
-
 #ifdef DEBUG
     fprintf(stderr, "edit-refresh: now edittop = %ld\n", (long)openfile->edittop->lineno);
 #endif
 
-    for (nlines = 0; nlines < editwinrows && foo != NULL; nlines++) {
-	nlines += update_line(foo, (foo == openfile->current) ?
-					openfile->current_x : 0);
-	foo = foo->next;
+    line = openfile->edittop;
+
+    while (row < editwinrows && line != NULL) {
+	if (line == openfile->current)
+	    row += update_line(line, openfile->current_x) + 1;
+	else
+	    row += update_line(line, 0) + 1;
+	line = line->next;
     }
 
-    for (; nlines < editwinrows; nlines++)
-	blank_line(edit, nlines, 0, COLS);
+    while (row < editwinrows)
+	blank_line(edit, row++, 0, COLS);
 
     reset_cursor();
     wnoutrefresh(edit);
