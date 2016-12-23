@@ -424,7 +424,6 @@ void do_indent(ssize_t cols)
 	/* Throw away the undo stack, to prevent making mistakes when
 	 * the user tries to undo something in the reindented text. */
 	discard_until(NULL, openfile);
-	openfile->current_undo = NULL;
 
 	/* Mark the file as modified. */
 	set_modified();
@@ -1154,6 +1153,9 @@ void discard_until(const undo *thisitem, openfilestruct *thefile)
 	free(dropit);
 	dropit = thefile->undotop;
     }
+
+    /* Adjust the pointer to the top of the undo stack. */
+    thefile->current_undo = (undo *)thisitem;
 
     /* Prevent a chain of editing actions from continuing. */
     thefile->last_action = OTHER;
@@ -2564,7 +2566,6 @@ void do_justify(bool full_justify)
 	/* Throw away the entire undo stack, to prevent a crash when
 	 * the user tries to undo something in the justified text. */
 	discard_until(NULL, openfile);
-	openfile->current_undo = NULL;
 #endif
 	/* Blow away the unjustified text. */
 	free_filestruct(jusbuffer);
@@ -3082,9 +3083,12 @@ const char *do_alt_speller(char *tempfile_name)
     /* Stat the temporary file again, and mark the buffer as modified only
      * if this file was changed since it was written. */
     stat(tempfile_name, &spellfileinfo);
-    if (spellfileinfo.st_mtime != timestamp)
+    if (spellfileinfo.st_mtime != timestamp) {
 	set_modified();
-
+	/* Flush the undo stack, to avoid making a mess when the user
+	 * tries to undo things in spell-corrected lines. */
+	discard_until(NULL, openfile);
+    }
 #ifndef NANO_TINY
     /* Unblock SIGWINCHes again. */
     allow_sigwinch(TRUE);
@@ -3556,6 +3560,10 @@ void do_formatter(void)
 	adjust_viewport(STATIONARY);
 
 	set_modified();
+
+	/* Flush the undo stack, to avoid a mess or crash when
+	 * the user tries to undo things in reformatted lines. */
+	discard_until(NULL, openfile);
 
 	finalstatus = _("Finished formatting");
     }
