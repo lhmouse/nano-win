@@ -563,7 +563,8 @@ void display_buffer(void)
 	precalc_multicolorinfo();
 #endif
 
-    refresh_needed = TRUE;
+    /* Update the content of the edit window straightaway. */
+    edit_refresh();
 }
 
 #ifndef DISABLE_MULTIBUFFER
