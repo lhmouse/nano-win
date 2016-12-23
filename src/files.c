@@ -2961,9 +2961,11 @@ void load_history(void)
 
 	    while ((read = getline(&line, &buf_len, hist)) > 0) {
 		line[--read] = '\0';
-		if (read > 0)
+		if (read > 0) {
+		    /* Encode any embedded NUL as 0x0A. */
+		    unsunder(line, read);
 		    update_history(history, line);
-		else
+		} else
 		    history = &replace_history;
 	    }
 
@@ -2985,6 +2987,9 @@ bool writehist(FILE *hist, const filestruct *head)
     /* Write a history list from the oldest entry to the newest. */
     for (item = head; item != NULL; item = item->next) {
 	size_t length = strlen(item->data);
+
+	/* Decode 0x0A bytes as embedded NULs. */
+	sunder(item->data);
 
 	if (fwrite(item->data, sizeof(char), length, hist) < length)
 	    return FALSE;
