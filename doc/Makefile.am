@@ -1,10 +1,6 @@
 SUBDIRS =
 BUILT_SOURCES =
 
-if USE_COLOR
-SUBDIRS += syntax
-endif
-
 dist_html_DATA = faq.html
 
 dist_man_MANS = nano.1 rnano.1

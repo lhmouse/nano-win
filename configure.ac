@@ -752,10 +752,10 @@ AC_CONFIG_FILES([
 Makefile
 doc/Makefile
 doc/nanorc.sample
-doc/syntax/Makefile
 m4/Makefile
 po/Makefile.in
 src/Makefile
+syntax/Makefile
 nano.spec
 ])
 
