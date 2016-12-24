@@ -752,10 +752,7 @@ AC_CONFIG_FILES([
 Makefile
 doc/Makefile
 doc/nanorc.sample
-doc/man/Makefile
-doc/man/fr/Makefile
 doc/syntax/Makefile
-doc/texinfo/Makefile
 m4/Makefile
 po/Makefile.in
 src/Makefile
