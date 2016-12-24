@@ -751,7 +751,7 @@ AM_CONDITIONAL(BUILDING_FROM_GIT, test x$from_git = xyes)
 AC_CONFIG_FILES([
 Makefile
 doc/Makefile
-doc/nanorc.sample
+doc/sample.nanorc
 m4/Makefile
 po/Makefile.in
 src/Makefile
