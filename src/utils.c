@@ -93,8 +93,6 @@ bool parse_num(const char *str, ssize_t *val)
     char *first_error;
     ssize_t j;
 
-    assert(str != NULL);
-
     /* The manual page for strtol() says this is required, and
      * it looks like it is! */
     errno = 0;
@@ -144,8 +142,6 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 /* Reduce the memory allocation of a string to what is needed. */
 void snuggly_fit(char **str)
 {
-    assert(str != NULL);
-
     if (*str != NULL)
 	*str = charealloc(*str, strlen(*str) + 1);
 }
@@ -311,8 +307,6 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
     size_t word_end = position + length;
     bool retval;
 
-    assert(buf != NULL && position < strlen(buf) && position + length <= strlen(buf));
-
     /* Get the characters before and after the word, if any. */
     parse_mbchar(buf + move_mbleft(buf, position), before, NULL);
     parse_mbchar(buf + word_end, after, NULL);
@@ -343,8 +337,6 @@ const char *strstrwrapper(const char *haystack, const char *needle,
      * line.  In either case, we just say no match was found. */
     if ((start > haystack && *(start - 1) == '\0') || start < haystack)
 	return NULL;
-
-    assert(haystack != NULL && needle != NULL && start != NULL);
 
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
@@ -547,9 +539,6 @@ void remove_magicline(void)
 {
     if (openfile->filebot->data[0] == '\0' &&
 		openfile->filebot != openfile->fileage) {
-	assert(openfile->filebot != openfile->edittop &&
-		openfile->filebot != openfile->current);
-
 	openfile->filebot = openfile->filebot->prev;
 	free_filestruct(openfile->filebot->next);
 	openfile->filebot->next = NULL;
@@ -565,8 +554,6 @@ void remove_magicline(void)
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up)
 {
-    assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
-
     if ((openfile->current->lineno == openfile->mark_begin->lineno &&
 		openfile->current_x > openfile->mark_begin_x) ||
 		openfile->current->lineno > openfile->mark_begin->lineno) {
