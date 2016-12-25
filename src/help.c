@@ -142,6 +142,7 @@ void do_help(void)
     }
 
     UNSET(WHITESPACE_DISPLAY);
+    UNSET(NOREAD_MODE);
 
     bottombars(MHELP);
     wnoutrefresh(bottomwin);
