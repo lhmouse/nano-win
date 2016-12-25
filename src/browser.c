@@ -707,7 +707,7 @@ void findnextfile(const char *needle)
     /* Save the settings of all flags. */
     memcpy(stash, flags, sizeof(flags));
 
-    /* Search forward, case insensitive and without regexes. */
+    /* Search forward, case insensitive, and without regexes. */
     UNSET(BACKWARDS_SEARCH);
     UNSET(CASE_SENSITIVE);
     UNSET(USE_REGEXP);

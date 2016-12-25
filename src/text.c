@@ -2622,16 +2622,10 @@ bool do_int_spell_fix(const char *word)
     /* Save the settings of the global flags. */
     memcpy(stash, flags, sizeof(flags));
 
-    /* Make sure spell-check is case sensitive. */
+    /* Do the spell checking case sensitive, forward, and without regexes. */
     SET(CASE_SENSITIVE);
-
-    /* Make sure spell-check goes forward only. */
     UNSET(BACKWARDS_SEARCH);
-
-#ifdef HAVE_REGEX_H
-    /* Make sure spell-check doesn't use regular expressions. */
     UNSET(USE_REGEXP);
-#endif
 
     /* Save the current search string, then set it to the misspelled word. */
     save_search = last_search;
