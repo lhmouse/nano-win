@@ -235,6 +235,9 @@ void do_help(void)
 	}
     }
 
+    /* Switch back to the buffer we were invoked from. */
+    switch_to_prev_buffer_void();
+
     /* Restore the settings of all flags. */
     memcpy(flags, stash, sizeof(flags));
 

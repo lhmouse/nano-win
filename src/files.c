@@ -611,7 +611,7 @@ void switch_to_prevnext_buffer(bool to_next)
     assert(openfile != NULL);
 
     /* If only one file buffer is open, say so and get out. */
-    if (openfile == openfile->next) {
+    if (openfile == openfile->next && !inhelp) {
 	statusbar(_("No more open file buffers"));
 	return;
     }
