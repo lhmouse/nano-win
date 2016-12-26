@@ -2713,25 +2713,24 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	char *mzero, *glued;
 	const char *lastslash = revstrstr(buf, "/", buf + *place);
 	size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
-	char match1[mb_cur_max()], match2[mb_cur_max()];
-	int match1_len, match2_len;
+	char char1[mb_cur_max()], char2[mb_cur_max()];
+	int len1, len2;
 
 	/* Get the number of characters that all matches have in common. */
 	while (TRUE) {
-	    match1_len = parse_mbchar(matches[0] + common_len, match1, NULL);
+	    len1 = parse_mbchar(matches[0] + common_len, char1, NULL);
 
 	    for (match = 1; match < num_matches; match++) {
-		match2_len = parse_mbchar(matches[match] + common_len,
-						match2, NULL);
-		if (match1_len != match2_len ||
-				strncmp(match1, match2, match2_len) != 0)
+		len2 = parse_mbchar(matches[match] + common_len, char2, NULL);
+
+		if (len1 != len2 || strncmp(char1, char2, len2) != 0)
 		    break;
 	    }
 
 	    if (match < num_matches || matches[0][common_len] == '\0')
 		break;
 
-	    common_len += match1_len;
+	    common_len += len1;
 	}
 
 	mzero = charalloc(lastslash_len + common_len + 1);
