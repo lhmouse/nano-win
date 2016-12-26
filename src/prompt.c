@@ -736,12 +736,9 @@ int do_yesno_prompt(bool all, const char *msg)
      * that are accepted for the corresponding answer.  Of each variable,
      * the first character is displayed in the help lines. */
 
-    do {
+    while (response == -2) {
 	int kbinput;
 	functionptrtype func;
-#ifndef DISABLE_MOUSE
-	int mouse_x, mouse_y;
-#endif
 
 	if (!ISSET(NO_HELP)) {
 	    char shortstr[3];
@@ -787,17 +784,13 @@ int do_yesno_prompt(bool all, const char *msg)
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
 
-#ifndef NANO_TINY
-	if (kbinput == KEY_WINCH)
-	    continue;
-#endif
-
 	func = func_from_key(&kbinput);
 
 	if (func == do_cancel)
 	    response = -1;
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
+	    int mouse_x, mouse_y;
 	    /* We can click on the Yes/No/All shortcuts to select an answer. */
 	    if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
 			wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE) &&
@@ -827,7 +820,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	    else if (all && strchr(allstr, kbinput) != NULL)
 		response = 2;
 	}
-    } while (response == -2);
+    }
 
     free(message);
 
