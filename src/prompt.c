@@ -723,6 +723,8 @@ int do_prompt(bool allow_tabs,
 int do_yesno_prompt(bool all, const char *msg)
 {
     int response = -2, width = 16;
+    char *message = display_string(msg, 0, COLS, FALSE);
+
     /* TRANSLATORS: For the next three strings, if possible, specify
      * the single-byte shortcuts for both your language and English.
      * For example, in French: "OoYy", for both "Oui" and "Yes". */
@@ -773,7 +775,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	/* Color the statusbar over its full width and display the question. */
 	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 	blank_statusbar();
-	mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
+	mvwaddnstr(bottomwin, 0, 0, message, actual_x(message, COLS - 1));
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
 	wnoutrefresh(bottomwin);
@@ -826,6 +828,8 @@ int do_yesno_prompt(bool all, const char *msg)
 		response = 2;
 	}
     } while (response == -2);
+
+    free(message);
 
     return response;
 }
