@@ -303,9 +303,8 @@ const char *fixbounds(const char *r)
  * a separate word?  That is: is it not part of a longer word?*/
 bool is_separate_word(size_t position, size_t length, const char *buf)
 {
-    char *before = charalloc(mb_cur_max()), *after = charalloc(mb_cur_max());
+    char before[mb_cur_max()], after[mb_cur_max()];
     size_t word_end = position + length;
-    bool retval;
 
     /* Get the characters before and after the word, if any. */
     parse_mbchar(buf + move_mbleft(buf, position), before, NULL);
@@ -314,13 +313,8 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
     /* If the word starts at the beginning of the line OR the character before
      * the word isn't a letter, and if the word ends at the end of the line OR
      * the character after the word isn't a letter, we have a whole word. */
-    retval = (position == 0 || !is_alpha_mbchar(before)) &&
-		(word_end == strlen(buf) || !is_alpha_mbchar(after));
-
-    free(before);
-    free(after);
-
-    return retval;
+    return ((position == 0 || !is_alpha_mbchar(before)) &&
+		(buf[word_end] == '\0' || !is_alpha_mbchar(after)));
 }
 #endif /* !DISABLE_SPELLER */
 
