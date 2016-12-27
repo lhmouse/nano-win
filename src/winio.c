@@ -1442,8 +1442,14 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     if (!ISSET(REBIND_KEYPAD))
 	keypad(win, FALSE);
 
-    /* Read in a stream of characters and interpret it if possible. */
+    /* Read in one keycode, or one or two escapes. */
     retval = parse_verbatim_kbinput(win, kbinput_len);
+
+    /* If the code is invalid in the current mode, discard it. */
+    if ((*retval == '\n' && as_an_at) || (*retval == '\0' && !as_an_at)) {
+	*kbinput_len = 0;
+	beep();
+    }
 
     /* Turn flow control characters back on if necessary and turn the
      * keypad back on if necessary now that we're done. */

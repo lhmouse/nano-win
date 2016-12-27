@@ -1824,17 +1824,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
     while (i < output_len) {
-	/* If control codes are allowed, encode a verbatim null as a newline,
-	 * and let a verbatim ^J create a whole new line. */
-	if (allow_cntrls) {
-	    if (output[i] == '\0')
-		output[i] = '\n';
-	    else if (output[i] == '\n') {
-		do_enter();
-		i++;
-		continue;
-	    }
-	}
+	/* Encode an embedded NUL byte as 0x0A. */
+	if (output[i] == '\0')
+	    output[i] = '\n';
 
 	/* Get the next multibyte character. */
 	char_len = parse_mbchar(output + i, char_buf, NULL);

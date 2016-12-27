@@ -104,7 +104,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
     if ((have_shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
 	/* Inject all characters in the input buffer at once, filtering out
 	 * control characters. */
-	do_statusbar_output(kbinput, kbinput_len, TRUE, NULL);
+	do_statusbar_output(kbinput, kbinput_len, TRUE);
 
 	/* Empty the input buffer. */
 	kbinput_len = 0;
@@ -139,18 +139,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 				s->scfunc == do_backspace))
 	    ;
 	else if (s->scfunc == do_verbatim_input) {
-	    bool got_newline = FALSE;
-		/* Whether we got a verbatim ^J. */
-
-	    do_statusbar_verbatim_input(&got_newline);
-
-	    /* If we got a verbatim ^J, remove it from the input buffer,
-	     * fake a press of Enter, and indicate that we're done. */
-	    if (got_newline) {
-		get_input(NULL, 1);
-		input = KEY_ENTER;
-		*finished = TRUE;
-	    }
+	    do_statusbar_verbatim_input();
 	} else if (s->scfunc == do_cut_text_void)
 	    do_statusbar_cut_text();
 	else if (s->scfunc == do_delete)
@@ -202,11 +191,10 @@ int do_statusbar_mouse(void)
 }
 #endif
 
-/* The user typed input_len multibyte characters.  Add them to the
- * statusbar prompt, setting got_newline to TRUE if we got a verbatim ^J,
- * and filtering out ASCII control characters if filtering is TRUE. */
+/* The user typed input_len multibyte characters.  Add them to the answer,
+ * filtering out ASCII control characters if filtering is TRUE. */
 void do_statusbar_output(int *the_input, size_t input_len,
-	bool filtering, bool *got_newline)
+	bool filtering)
 {
     char *output = charalloc(input_len + 1);
     char *char_buf = charalloc(mb_cur_max());
@@ -220,18 +208,9 @@ void do_statusbar_output(int *the_input, size_t input_len,
     i = 0;
 
     while (i < input_len) {
-	/* When not filtering, convert nulls and stop at a newline. */
-	if (!filtering) {
-	    if (output[i] == '\0')
-		output[i] = '\n';
-	    else if (output[i] == '\n') {
-		/* Put back the rest of the characters for reparsing,
-		 * indicate that we got a ^J and get out. */
-		unparse_kbinput(output + i, input_len - i);
-		*got_newline = TRUE;
-		return;
-	    }
-	}
+	/* Encode any NUL byte as 0x0A. */
+	if (output[i] == '\0')
+	    output[i] = '\n';
 
 	/* Interpret the next multibyte character. */
 	char_len = parse_mbchar(output + i, char_buf, NULL);
@@ -369,19 +348,15 @@ void do_statusbar_prev_word(void)
 }
 #endif /* !NANO_TINY */
 
-/* Get verbatim input, setting got_newline to TRUE if we get a ^J as
- * part of the verbatim input. */
-void do_statusbar_verbatim_input(bool *got_newline)
+/* Get verbatim input and inject it into the answer, without filtering. */
+void do_statusbar_verbatim_input(void)
 {
     int *kbinput;
     size_t kbinput_len;
 
-    /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
-    /* Display all the verbatim characters at once, not filtering out
-     * control characters. */
-    do_statusbar_output(kbinput, kbinput_len, FALSE, got_newline);
+    do_statusbar_output(kbinput, kbinput_len, FALSE);
 }
 
 /* Return the zero-based column position of the cursor in the answer. */
