@@ -148,8 +148,9 @@ void set_modified(void)
 
     if (openfile->lock_filename == NULL) {
 	/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
-	statusline(ALERT, _("Warning: Modifying a file which is not locked,"
-			" check directory permission?"));
+//	statusline(ALERT, _("Warning: Modifying a file which is not locked,"
+//			" check directory permission?"));
+	;
     } else {
 	char *fullname = get_full_path(openfile->filename);
 	write_lockfile(openfile->lock_filename, fullname, TRUE);
