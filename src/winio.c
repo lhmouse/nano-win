@@ -2683,8 +2683,9 @@ int update_line(filestruct *fileptr, size_t index)
 #endif
 	row = fileptr->lineno - openfile->edittop->lineno;
 
+    /* If the line is offscreen, don't even try to display it. */
     if (row < 0 || row >= editwinrows)
-	return 1;
+	return 0;
 
     /* First, blank out the row. */
     blank_row(edit, row, 0, COLS);
