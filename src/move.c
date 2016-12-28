@@ -488,11 +488,9 @@ void do_down(bool scroll_only)
     openfile->current_x = actual_x(openfile->current->data,
 					openfile->placewewant);
 
-    /* If scroll_only is FALSE and if we're on the last line of the
-     * edit window, scroll the edit window down one line if we're in
-     * smooth scrolling mode, or down half a page if we're not.  If
-     * scroll_only is TRUE, scroll the edit window down one line
-     * unconditionally. */
+    /* When the cursor was on the last line of the edit window (or when just
+     * scrolling without moving the cursor), scroll the edit window down -- one
+     * line if we're in smooth scrolling mode, and half a page otherwise. */
 #ifndef NANO_TINY
     if (openfile->current_y == editwinrows - 1 || amount > 0 || scroll_only) {
 	if (amount < 1 || scroll_only)

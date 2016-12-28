@@ -223,7 +223,7 @@ void do_copy_text(void)
     static struct filestruct *next_contiguous_line = NULL;
     bool mark_set = openfile->mark_set;
 
-    /* Remember the current view port and cursor position. */
+    /* Remember the current viewport and cursor position. */
     ssize_t is_edittop_lineno = openfile->edittop->lineno;
     ssize_t is_current_lineno = openfile->current->lineno;
     size_t is_current_x = openfile->current_x;
@@ -237,7 +237,7 @@ void do_copy_text(void)
     next_contiguous_line = (mark_set ? NULL : openfile->current);
 
     if (mark_set) {
-	/* Restore the view port and cursor position. */
+	/* Restore the viewport and cursor position. */
 	openfile->edittop = fsfromline(is_edittop_lineno);
 	openfile->current = fsfromline(is_current_lineno);
 	openfile->current_x = is_current_x;

@@ -2909,8 +2909,8 @@ void edit_redraw(filestruct *old_current)
 	if (old_current != openfile->current && get_page_start(was_pww) > 0)
 	    update_line(old_current, 0);
 
-    /* Update current if we've changed page, or if it differs from
-     * old_current and needs to be horizontally scrolled. */
+    /* Update current if the mark is on or it has changed "page", or if it
+     * differs from old_current and needs to be horizontally scrolled. */
     if (need_horizontal_scroll(was_pww, openfile->placewewant) ||
 			(old_current != openfile->current &&
 			get_page_start(openfile->placewewant) > 0))
@@ -2969,15 +2969,14 @@ void adjust_viewport(update_type manner)
 {
     int goal = 0;
 
-    /* If manner is CENTERING, move edittop half the number of window
-     * lines back from current.  If manner is STATIONARY, move edittop
-     * back current_y lines if current_y is in range of the screen,
-     * 0 lines if current_y is below zero, or (editwinrows - 1) lines
-     * if current_y is too big.  This puts current at the same place
-     * on the screen as before, or at the top or bottom if current_y is
-     * beyond either.  If manner is FLOWING, move edittop back 0 lines
-     * or (editwinrows - 1) lines, depending or where current has moved.
-     * This puts the cursor on the first or the last line. */
+    /* If manner is CENTERING, move edittop half the number of window rows
+     * back from current.  If manner is FLOWING, move edittop back 0 rows
+     * or (editwinrows - 1) rows, depending on where current has moved.
+     * This puts the cursor on the first or the last row.  If manner is
+     * STATIONARY, move edittop back current_y rows if current_y is in range
+     * of the screen, 0 rows if current_y is below zero, or (editwinrows - 1)
+     * rows if current_y is too big.  This puts current at the same place on
+     * the screen as before, or... at some undefined place. */
     if (manner == CENTERING)
 	goal = editwinrows / 2;
     else if (manner == FLOWING) {
@@ -2991,7 +2990,7 @@ void adjust_viewport(update_type manner)
     } else {
 	goal = openfile->current_y;
 
-	/* Limit goal to (editwinrows - 1) lines maximum. */
+	/* Limit goal to (editwinrows - 1) rows maximum. */
 	if (goal > editwinrows - 1)
 	    goal = editwinrows - 1;
     }
