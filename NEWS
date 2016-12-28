@@ -1,3 +1,15 @@
+2016.12.28 - GNU nano 2.7.3 "Ontbijtkoek" wipes away a handful of bugs:
+		your editor is now able to handle filenames that contain
+		newlines, avoids a brief flash of color when switching
+		between buffers that are governed by different syntaxes,
+		makes the Shift+Ctrl+Arrow keys select text again on a
+		Linux console, is more resistant against malformations
+		in the positionlog file, and does not crash when ^C is
+		typed on systems where it produces the code KEY_CANCEL.
+		Oh, and it no longer mistakenly warns about editing an
+		unlocked file just after saving a new one.  That's it.
+		Tastes great with thick butter.
+
 2016.12.12 - GNU nano 2.7.2 "Shemesh! Shemesh!" brings another feature:
 		the ability to complete with one keystroke (^] by default)
 		a fragment of a word to a full word existing elsewhere in
