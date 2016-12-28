@@ -410,13 +410,18 @@ Characters not present on the keyboard can be entered in two ways:
 @item
 For characters with a single-byte code,
 pressing the Esc key twice and then typing a three-digit decimal number
-(from 000 to 255) will enter the character with the corresponding value.
+(from 000 to 255) will make @code{nano} behave as if you typed the key
+with that value.
 
 @item
 For any possible character, pressing M-V (Alt+V) and then typing a
 six-digit hexadecimal number (starting with 0 or 1) will enter the
-character with the corresponding Unicode value.
+corresponding Unicode character into the buffer.
 @end itemize
+
+For example, typing "Esc Esc 2 3 4" will enter the character "ê" ---
+useful when going to a French party.  Typing "M-V 0 0 2 5 c 6" will
+enter the symbol "◆", a little black diamond.
 
 @node Commands
 @section Commands
