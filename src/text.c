@@ -3079,9 +3079,11 @@ const char *do_alt_speller(char *tempfile_name)
     stat(tempfile_name, &spellfileinfo);
     if (spellfileinfo.st_mtime != timestamp) {
 	set_modified();
+#ifndef NANO_TINY
 	/* Flush the undo stack, to avoid making a mess when the user
 	 * tries to undo things in spell-corrected lines. */
 	discard_until(NULL, openfile);
+#endif
     }
 #ifndef NANO_TINY
     /* Unblock SIGWINCHes again. */
