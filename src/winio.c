@@ -2781,7 +2781,7 @@ void compute_maxlines(void)
 void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
     ssize_t i;
-    filestruct *foo;
+    filestruct *line;
 
     /* Part 1: nlines is the number of lines we're going to scroll the
      * text of the edit window. */
@@ -2843,12 +2843,12 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	nlines = editwinrows;
 
     /* If we scrolled up, we're on the line before the scrolled region. */
-    foo = openfile->edittop;
+    line = openfile->edittop;
 
     /* If we scrolled down, move down to the line before the scrolled region. */
     if (direction == DOWNWARD) {
-	for (i = editwinrows - nlines; i > 0 && foo != NULL; i--)
-	    foo = foo->next;
+	for (i = editwinrows - nlines; i > 0 && line != NULL; i--)
+	    line = line->next;
     }
 
     /* Draw new lines on any blank lines before or inside the scrolled
@@ -2856,16 +2856,16 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * scrolled up and we're on the bottom line, the line won't be
      * blank, so we don't need to draw it unless the mark is on or we're
      * not on the first page. */
-    for (i = nlines; i > 0 && foo != NULL; i--) {
+    for (i = nlines; i > 0 && line != NULL; i--) {
 	if ((i == nlines && direction == DOWNWARD) ||
 			(i == 1 && direction == UPWARD)) {
 	    if (need_horizontal_scroll(openfile->placewewant, 0))
-		update_line(foo, (foo == openfile->current) ?
+		update_line(line, (line == openfile->current) ?
 			openfile->current_x : 0);
 	} else
-	    update_line(foo, (foo == openfile->current) ?
+	    update_line(line, (line == openfile->current) ?
 		openfile->current_x : 0);
-	foo = foo->next;
+	line = line->next;
     }
 
     compute_maxlines();
