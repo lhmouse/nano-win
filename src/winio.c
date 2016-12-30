@@ -2753,6 +2753,88 @@ void compute_maxlines(void)
 	maxlines = editwinrows;
 }
 
+/* Try to move up nrows softwrapped chunks from the given line and the
+ * given column (leftedge).  After moving, leftedge will be set to the
+ * starting column of the current chunk.  Return the number of chunks we
+ * couldn't move up, which will be zero if we completely succeeded. */
+int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
+{
+    int i;
+
+    /* Don't move more chunks than the window can hold. */
+    if (nrows > editwinrows - 1)
+	nrows = (editwinrows < 2) ? 1 : editwinrows - 1;
+
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	size_t current_chunk = (*leftedge) / editwincols;
+
+	for (i = nrows; i > 0; i--) {
+	    if (current_chunk > 0) {
+		current_chunk--;
+		continue;
+	    }
+
+	    if (*line == openfile->fileage)
+		break;
+
+	    *line = (*line)->prev;
+	    current_chunk = strlenpt((*line)->data) / editwincols;
+	}
+
+	/* Only change leftedge when we actually could move. */
+	if (i < nrows)
+	    *leftedge = current_chunk * editwincols;
+    } else
+#endif
+	for (i = nrows; i > 0 && (*line)->prev != NULL; i--)
+	    *line = (*line)->prev;
+
+    return i;
+}
+
+/* Try to move down nrows softwrapped chunks from the given line and the
+ * given column (leftedge).  After moving, leftedge will be set to the
+ * starting column of the current chunk.  Return the number of chunks we
+ * couldn't move down, which will be zero if we completely succeeded. */
+int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
+{
+    int i;
+
+    /* Don't move more chunks than the window can hold. */
+    if (nrows > editwinrows - 1)
+	nrows = (editwinrows < 2) ? 1 : editwinrows - 1;
+
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	size_t current_chunk = (*leftedge) / editwincols;
+	size_t last_chunk = strlenpt((*line)->data) / editwincols;
+
+	for (i = nrows; i > 0; i--) {
+	    if (current_chunk < last_chunk) {
+		current_chunk++;
+		continue;
+	    }
+
+	    if (*line == openfile->filebot)
+		break;
+
+	    *line = (*line)->next;
+	    current_chunk = 0;
+	    last_chunk = strlenpt((*line)->data) / editwincols;
+	}
+
+	/* Only change leftedge when we actually could move. */
+	if (i < nrows)
+	    *leftedge = current_chunk * editwincols;
+    } else
+#endif
+	for (i = nrows; i > 0 && (*line)->next != NULL; i--)
+	    *line = (*line)->next;
+
+    return i;
+}
+
 /* Scroll the edit window in the given direction and the given number of rows,
  * and draw new lines on the blank lines left after the scrolling.  We change
  * edittop, and assume that current and current_x are up to date. */

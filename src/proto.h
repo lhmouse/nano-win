@@ -707,6 +707,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	int line, size_t from_col);
 int update_line(filestruct *fileptr, size_t index);
 bool need_horizontal_scroll(const size_t old_column, const size_t new_column);
+int go_back_chunks(int nrows, filestruct **line, size_t *leftedge);
+int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge);
 void edit_scroll(scroll_dir direction, int nrows);
 void edit_redraw(filestruct *old_current);
 void edit_refresh(void);
