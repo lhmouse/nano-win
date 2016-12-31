@@ -276,7 +276,7 @@ void cutbuffer_reset(void);
 bool keeping_cutbuffer(void);
 void cut_line(void);
 #ifndef NANO_TINY
-void cut_marked(void);
+void cut_marked(bool *right_side_up);
 void cut_to_eol(void);
 void cut_to_eof(void);
 #endif

@@ -60,13 +60,13 @@ void cut_line(void)
 #ifndef NANO_TINY
 /* Move all currently marked text into the cutbuffer, and set the
  * current place we want to where the text used to start. */
-void cut_marked(void)
+void cut_marked(bool *right_side_up)
 {
     filestruct *top, *bot;
     size_t top_x, bot_x;
 
     mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, NULL);
+		(const filestruct **)&bot, &bot_x, right_side_up);
 
     move_to_filestruct(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
     openfile->placewewant = xplustabs();
@@ -124,6 +124,8 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	/* The length of the string at the current end of the cutbuffer,
 	 * before we add text to it. */
     bool old_no_newlines = ISSET(NO_NEWLINES);
+    bool right_side_up = TRUE;
+	/* There *is* no region, *or* it is marked forward. */
 #endif
     size_t was_totsize = openfile->totsize;
 
@@ -156,7 +158,7 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	cut_to_eof();
     } else if (openfile->mark_set) {
 	/* Move the marked text to the cutbuffer, and turn the mark off. */
-	cut_marked();
+	cut_marked(&right_side_up);
 	openfile->mark_set = FALSE;
     } else if (ISSET(CUT_TO_END))
 	/* Move all text up to the end of the line into the cutbuffer. */
@@ -179,7 +181,10 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	    } else
 		copy_from_filestruct(cutbuffer);
 
-	    openfile->placewewant = xplustabs();
+	    /* If the copied region was marked forward, put the new desired
+	     * x position at its end; otherwise, leave it at its beginning. */
+	    if (right_side_up)
+		openfile->placewewant = xplustabs();
 	}
 	/* Restore the magicline behavior now that we're done fiddling. */
 	if (!old_no_newlines)
