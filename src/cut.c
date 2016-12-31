@@ -125,6 +125,7 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	 * before we add text to it. */
     bool old_no_newlines = ISSET(NO_NEWLINES);
 #endif
+    size_t was_totsize = openfile->totsize;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
@@ -197,6 +198,8 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	    UNSET(NO_NEWLINES);
     } else
 #endif /* !NANO_TINY */
+    /* Only set the modification flag if actually something was cut. */
+    if (openfile->totsize != was_totsize)
 	set_modified();
 
     refresh_needed = TRUE;
