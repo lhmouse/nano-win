@@ -129,35 +129,28 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    /* Empty the cutbuffer when a chain of cuts is broken. */
+    /* If a chain of cuts was broken, empty the cutbuffer. */
     if (!keep_cutbuffer) {
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 #ifdef DEBUG
 	fprintf(stderr, "Blew away cutbuffer =)\n");
 #endif
+	/* Indicate that future cuts should add to the cutbuffer. */
+	keep_cutbuffer = TRUE;
     }
 
 #ifndef NANO_TINY
     if (copy_text) {
+	/* If the cutbuffer isn't empty, remember where it currently ends. */
 	if (cutbuffer != NULL) {
-	    /* If the cutbuffer isn't empty, save where it currently
-	     * ends.  This is where we'll add the new text. */
 	    cb_save = cutbottom;
 	    cb_save_len = strlen(cutbottom->data);
 	}
-
-	/* Set NO_NEWLINES to TRUE, so that we don't disturb the last
-	 * line of the file when moving text to the cutbuffer. */
+	/* Don't add a magicline when moving text to the cutbuffer. */
 	SET(NO_NEWLINES);
     }
-#endif
 
-    /* Ensure that the text we're going to move into the cutbuffer will
-     * be added to the text already there, instead of replacing it. */
-    keep_cutbuffer = TRUE;
-
-#ifndef NANO_TINY
     if (cut_till_eof) {
 	/* Move all text up to the end of the file into the cutbuffer. */
 	cut_to_eof();
@@ -175,10 +168,9 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 
 #ifndef NANO_TINY
     if (copy_text) {
-	/* Copy the text in the cutbuffer, starting at its saved end if
-	 * there is one, back into the filestruct.  This effectively
-	 * uncuts the text we just cut without marking the file as
-	 * modified. */
+	/* Copy the text that is in the cutbuffer (starting at its saved end,
+	 * if there is one) back into the current buffer.  This effectively
+	 * uncuts the text we just cut. */
 	if (cutbuffer != NULL) {
 	    if (cb_save != NULL) {
 		cb_save->data += cb_save_len;
@@ -187,13 +179,9 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	    } else
 		copy_from_filestruct(cutbuffer);
 
-	    /* Set the current place we want to where the text from the
-	     * cutbuffer ends. */
 	    openfile->placewewant = xplustabs();
 	}
-
-	/* Set NO_NEWLINES back to what it was before, since we're done
-	 * disturbing the text. */
+	/* Restore the magicline behavior now that we're done fiddling. */
 	if (!old_no_newlines)
 	    UNSET(NO_NEWLINES);
     } else
