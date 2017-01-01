@@ -1296,21 +1296,16 @@ void do_insertfile(void)
     free(given);
 }
 
-/* Insert a file into a new buffer or the current buffer, depending on
- * whether the MULTIBUFFER flag is set.  If we're in view mode, only
- * allow inserting a file into a new buffer. */
+/* If the current mode of operation allows it, go insert a file. */
 void do_insertfile_void(void)
 {
-    if (ISSET(RESTRICTED)) {
+    if (ISSET(RESTRICTED))
 	show_restricted_warning();
-	return;
-    }
-
 #ifndef DISABLE_MULTIBUFFER
-    if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
+    else if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
 	statusbar(_("Key invalid in non-multibuffer mode"));
-    else
 #endif
+    else
 	do_insertfile();
 }
 
