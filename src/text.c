@@ -3724,7 +3724,9 @@ void complete_a_word(void)
     int start_of_shard, shard_length = 0;
     int i = 0, j = 0;
     completion_word *some_word;
+#ifndef DISABLE_WRAPPING
     bool was_set_wrapping = !ISSET(NO_WRAP);
+#endif
 
     /* If this is a fresh completion attempt... */
     if (pletion_line == NULL) {
@@ -3827,19 +3829,20 @@ void complete_a_word(void)
 	    some_word->next = list_of_completions;
 	    list_of_completions = some_word;
 
+#ifndef DISABLE_WRAPPING
 	    /* Temporarily disable wrapping so only one undo item is added. */
 	    SET(NO_WRAP);
-
+#endif
 	    /* Inject the completion into the buffer. */
 	    do_output(&completion[shard_length],
 			strlen(completion) - shard_length, FALSE);
-
+#ifndef DISABLE_WRAPPING
 	    /* If needed, reenable wrapping and wrap the current line. */
 	    if (was_set_wrapping) {
 		UNSET(NO_WRAP);
 		do_wrap(openfile->current);
 	    }
-
+#endif
 	    /* Set the position for a possible next search attempt. */
 	    pletion_x = ++i;
 
