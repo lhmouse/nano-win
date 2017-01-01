@@ -1116,7 +1116,6 @@ void do_insertfile(void)
 	    size_t was_current_x = openfile->current_x;
 	    ssize_t was_current_y = openfile->current_y;
 	    bool current_was_at_top = FALSE;
-	    size_t pww_save = openfile->placewewant;
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 	    functionptrtype func = func_from_key(&i);
 #endif
@@ -1278,8 +1277,8 @@ void do_insertfile(void)
 		/* Restore the old edittop. */
 		openfile->edittop = edittop_save;
 
-		/* Restore the old place we want. */
-		openfile->placewewant = pww_save;
+		/* Set the desired x position to the current one. */
+		openfile->placewewant = xplustabs();
 
 		/* Mark the file as modified if it changed. */
 		if (openfile->current->lineno != was_current_lineno ||
