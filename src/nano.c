@@ -1738,7 +1738,7 @@ int do_mouse(void)
 
     /* We can click on the edit window to move the cursor. */
     if (wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
-	bool sameline;
+	bool sameline = (mouse_y == openfile->current_y);
 	    /* Did they click on the line with the cursor?  If they
 	     * clicked on the cursor, we set the mark. */
 	filestruct *current_save = openfile->current;
@@ -1746,15 +1746,13 @@ int do_mouse(void)
 	size_t current_x_save = openfile->current_x;
 #endif
 
-	sameline = (mouse_y == openfile->current_y);
-
 #ifdef DEBUG
 	fprintf(stderr, "mouse_y = %d, current_y = %ld\n", mouse_y, (long)openfile->current_y);
 #endif
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-	    size_t i = 0;
+	    ssize_t i = 0;
 
 	    openfile->current = openfile->edittop;
 
@@ -1767,7 +1765,7 @@ int do_mouse(void)
 	    if (i > mouse_y) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = actual_x(openfile->current->data,
-			mouse_x + (mouse_y - openfile->current_y) * editwincols);
+			((mouse_y - openfile->current_y) * editwincols) + mouse_x);
 	    } else
 		openfile->current_x = actual_x(openfile->current->data, mouse_x);
 	} else
