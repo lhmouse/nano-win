@@ -1087,10 +1087,7 @@ void do_insertfile(void)
 
 	present_path = mallocstrcpy(present_path, "./");
 
-	i = do_prompt(TRUE,
-#ifndef DISABLE_TABCOMP
-		TRUE,
-#endif
+	i = do_prompt(TRUE, TRUE,
 #ifndef NANO_TINY
 		execute ? MEXTCMD :
 #endif
@@ -2224,10 +2221,7 @@ int do_writeout(bool exiting)
 	/* If we're using restricted mode, and the filename isn't blank,
 	 * disable tab completion. */
 	i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
-#ifndef DISABLE_TABCOMP
-		TRUE,
-#endif
-		MWRITEFILE, given,
+		TRUE, MWRITEFILE, given,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif

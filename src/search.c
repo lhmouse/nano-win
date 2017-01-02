@@ -147,10 +147,7 @@ int search_init(bool replacing, bool use_answer)
 	buf = mallocstrcpy(NULL, "");
 
     /* This is now one simple call.  It just does a lot. */
-    i = do_prompt(FALSE,
-#ifndef DISABLE_TABCOMP
-		FALSE,
-#endif
+    i = do_prompt(FALSE, FALSE,
 		replacing ? MREPLACE : MWHEREIS, backupstring,
 #ifndef DISABLE_HISTORIES
 		&search_history,
@@ -785,11 +782,7 @@ void do_replace(void)
     if (i != 0)
 	return;
 
-    i = do_prompt(FALSE,
-#ifndef DISABLE_TABCOMP
-		FALSE,
-#endif
-		MREPLACEWITH, NULL,
+    i = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL,
 #ifndef DISABLE_HISTORIES
 		&replace_history,
 #endif
@@ -854,11 +847,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	functionptrtype func;
 
 	/* Ask for the line and column. */
-	int i = do_prompt(FALSE,
-#ifndef DISABLE_TABCOMP
-		FALSE,
-#endif
-		MGOTOLINE, use_answer ? answer : NULL,
+	int i = do_prompt(FALSE, FALSE, MGOTOLINE,
+		use_answer ? answer : NULL,
 #ifndef DISABLE_HISTORIES
 		NULL,
 #endif

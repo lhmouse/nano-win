@@ -2664,11 +2664,7 @@ bool do_int_spell_fix(const char *word)
 	spotlight(TRUE, exp_word);
 
 	/* Let the user supply a correctly spelled alternative. */
-	proceed = (do_prompt(FALSE,
-#ifndef DISABLE_TABCOMP
-				FALSE,
-#endif
-				MSPELL, word,
+	proceed = (do_prompt(FALSE, FALSE, MSPELL, word,
 #ifndef DISABLE_HISTORIES
 				NULL,
 #endif

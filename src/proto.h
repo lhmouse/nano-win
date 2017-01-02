@@ -503,10 +503,7 @@ size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reinit_statusbar_x(void);
 void reset_statusbar_cursor(void);
 void update_the_statusbar(void);
-int do_prompt(bool allow_tabs,
-#ifndef DISABLE_TABCOMP
-	bool allow_files,
-#endif
+int do_prompt(bool allow_tabs, bool allow_files,
 	int menu, const char *curranswer,
 #ifndef DISABLE_HISTORIES
 	filestruct **history_list,
