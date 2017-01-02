@@ -1752,12 +1752,12 @@ int do_mouse(void)
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-	    ssize_t i = 0;
+	    ssize_t i = 0, current_row = 0;
 
 	    openfile->current = openfile->edittop;
 
 	    while (openfile->current->next != NULL && i < mouse_y) {
-		openfile->current_y = i;
+		current_row = i;
 		i += strlenpt(openfile->current->data) / editwincols + 1;
 		openfile->current = openfile->current->next;
 	    }
@@ -1765,18 +1765,20 @@ int do_mouse(void)
 	    if (i > mouse_y) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = actual_x(openfile->current->data,
-			((mouse_y - openfile->current_y) * editwincols) + mouse_x);
+			((mouse_y - current_row) * editwincols) + mouse_x);
 	    } else
 		openfile->current_x = actual_x(openfile->current->data, mouse_x);
 	} else
 #endif /* NANO_TINY */
 	{
+	    ssize_t current_row = openfile->current_y;
+
 	    /* Move to where the click occurred. */
-	    for (; openfile->current_y < mouse_y && openfile->current !=
-			openfile->filebot; openfile->current_y++)
+	    for (; current_row < mouse_y && openfile->current !=
+			openfile->filebot; current_row++)
 		openfile->current = openfile->current->next;
-	    for (; openfile->current_y > mouse_y && openfile->current !=
-			openfile->fileage; openfile->current_y--)
+	    for (; current_row > mouse_y && openfile->current !=
+			openfile->fileage; current_row--)
 		openfile->current = openfile->current->prev;
 
 	    openfile->current_x = actual_x(openfile->current->data,
