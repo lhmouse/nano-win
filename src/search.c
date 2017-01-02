@@ -39,22 +39,19 @@ static bool history_changed = FALSE;
 static bool regexp_compiled = FALSE;
 	/* Have we compiled any regular expressions? */
 
-/* Compile the regular expression regexp to see if it's valid.  Return
- * TRUE if it is, or FALSE otherwise. */
+/* Compile the given regular expression and store it in search_regexp.
+ * Return TRUE if the expression is valid, and FALSE otherwise. */
 bool regexp_init(const char *regexp)
 {
-    int rc;
-
-    assert(!regexp_compiled);
-
-    rc = regcomp(&search_regexp, fixbounds(regexp),
+    int value = regcomp(&search_regexp, fixbounds(regexp),
 		NANO_REG_EXTENDED | (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE));
 
-    if (rc != 0) {
-	size_t len = regerror(rc, &search_regexp, NULL, 0);
+    /* If regex compilation failed, show the error message. */
+    if (value != 0) {
+	size_t len = regerror(value, &search_regexp, NULL, 0);
 	char *str = charalloc(len);
 
-	regerror(rc, &search_regexp, str, len);
+	regerror(value, &search_regexp, str, len);
 	statusline(ALERT, _("Bad regex \"%s\": %s"), regexp, str);
 	free(str);
 
