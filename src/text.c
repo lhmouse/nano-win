@@ -2666,7 +2666,7 @@ bool do_int_spell_fix(const char *word)
 	/* Let the user supply a correctly spelled alternative. */
 	proceed = (do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-				TRUE,
+				FALSE,
 #endif
 				MSPELL, word,
 #ifndef DISABLE_HISTORIES

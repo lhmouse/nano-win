@@ -149,7 +149,7 @@ int search_init(bool replacing, bool use_answer)
     /* This is now one simple call.  It just does a lot. */
     i = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-		TRUE,
+		FALSE,
 #endif
 		replacing ? MREPLACE : MWHEREIS, backupstring,
 #ifndef DISABLE_HISTORIES
@@ -787,7 +787,7 @@ void do_replace(void)
 
     i = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-		TRUE,
+		FALSE,
 #endif
 		MREPLACEWITH, NULL,
 #ifndef DISABLE_HISTORIES
@@ -856,7 +856,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	/* Ask for the line and column. */
 	int i = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-		TRUE,
+		FALSE,
 #endif
 		MGOTOLINE, use_answer ? answer : NULL,
 #ifndef DISABLE_HISTORIES

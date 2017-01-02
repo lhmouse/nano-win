@@ -672,7 +672,7 @@ int filesearch_init(void)
     /* This is now one simple call.  It just does a lot. */
     input = do_prompt(FALSE,
 #ifndef DISABLE_TABCOMP
-		TRUE,
+		FALSE,
 #endif
 		MWHEREISFILE, NULL,
 #ifndef DISABLE_HISTORIES
