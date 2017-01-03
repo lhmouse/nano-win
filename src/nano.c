@@ -1767,6 +1767,10 @@ int do_mouse(void)
 				((mouse_y - current_row) * editwincols) + mouse_x);
 	    } else
 		openfile->current_x = actual_x(openfile->current->data, mouse_x);
+
+	    openfile->current_y = current_row;
+	    ensure_line_is_visible();
+	    refresh_needed = TRUE;
 	} else
 #endif /* NANO_TINY */
 	{
@@ -1796,7 +1800,8 @@ int do_mouse(void)
 	    /* The cursor moved; clean the cutbuffer on the next cut. */
 	    cutbuffer_reset();
 
-	edit_redraw(current_save);
+	if (!ISSET(SOFTWRAP))
+	    edit_redraw(current_save);
     }
 
     /* No more handling is needed. */
