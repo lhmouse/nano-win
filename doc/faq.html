@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body text="#330000" bgcolor="#ffffff" link="#0000ef" vlink="#51188e" alink="#ff0000">
+
 <h1>The GNU nano editor FAQ</h1>
 <h2>Table of Contents</h2>
 <h2><a href="#1">1. General</a></h2>
@@ -64,6 +65,7 @@
   <a href="#7.5">7.5. Can I have write access to the GIT tree?</a></p></blockquote>
 <h2><a href="#8">8. ChangeLog</a></h2>
 <hr width="100%">
+
 <h1><a name="1"></a>1. General</h1>
 <h2><a name="1.1"></a>1.1 About this FAQ</h2>
 <blockquote><p>This FAQ was originally written and maintained by Chris Allegretta &lt;<a href="mailto:chrisa@asty.org">chrisa@asty.org</a>&gt;, who also happens to be the creator of nano. It was then maintained by David Lawrence Ramsey &lt;<a href="mailto:pooka109@gmail.com">pooka109@gmail.com</a>&gt;. Maybe someone else will volunteer to maintain this FAQ someday, who knows...</p></blockquote>
@@ -88,6 +90,7 @@
 <h2><a name="1.7"></a>1.7. I want to read the man page without having to download the program!</h2>
 <blockquote><p>Jeez, demanding, aren't we? Okay, look <a href="https://nano-editor.org/dist/latest/nano.1.html">here</a>.</p></blockquote>
 <hr width="100%">
+
 <h1><a name="2"></a>2. Where to get GNU nano.</h1>
 <h2><a name="2.1"></a>2.1. Web sites that carry nano.</h2>
 <blockquote><p>The nano source tarballs can be downloaded from the following web sites:</p>
@@ -115,6 +118,7 @@
 <h2><a name="2.4"></a>2.4. By GIT (for the brave).</h2>
 <blockquote><p>For the 'bleeding edge' current version of nano, you can use GIT to download the current source code. <b>Note:</b> believe it or not, by downloading code that has not yet stabilized into an official release, there could quite possibly be bugs, in fact the code may not even compile! Anyway, see <a href="http://git.savannah.gnu.org/cgit/nano.git/tree/README.GIT">the nano GIT document</a> for info on anonymous GIT access to the nano source.</p></blockquote>
 <hr width="100%">
+
 <h1><a name="3"></a>3. Installation and Configuration</h1>
 <h2><a name="3.1"></a>3.1. How do I install the RPM or DEB package?</h2>
 <blockquote><p>It's simple really! As root, type <b>rpm -Uvh nano-x.y.z-1.i386.rpm</b> if you have a RedHat-ish system or <b>dpkg -i nano_x.y.z-1.deb</b> if you have a Debian-ish system, where <b>x.y.z</b> is the release of nano. There are other programs to install packages, and if you wish to use those, knock yourself out.</p></blockquote>
@@ -166,6 +170,7 @@
 <p>We're still working on documentation for enabling syntax highlighting on Win32; please bear with us.</p>
 <p>Note that the nano.rc file must remain Unix-formatted in order for nano to understand it.  In other words, you should probably use only nano to edit its config file.  Other programs like Wordpad and Notepad will convert the file to DOS format when saving, and the latter does not even properly read Unix-formatted files to begin with.</p></blockquote>
 <hr width="100%">
+
 <h1><a name="4"></a>4. Running</h1>
 <h2><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h2>
 <blockquote><p>If a command-line option that begins with '+' is followed by another option, the former is always treated as a starting line and column number, and the latter is always treated as a filename. If a command-line option that begins with '+' isn't followed by another option, it's always treated as a filename. Examples:</p>
@@ -220,6 +225,7 @@
   <p><b>ln -sf ~/.nano/search_history ~/.nano_history</b></p>
 </p><p>The "migration service" (moving the search-history file to its new location) will be deleted from nano in early 2018.</p></blockquote>
 <hr width="100%">
+
 <h1><a name="5"></a>5. Internationalization</h1>
 <h2><a name="5.1"></a>5.1. There's no translation for my language!</h2>
 <blockquote><p>In June 2001, GNU nano entered the <a href="http://translationproject.org/html/welcome.html">Translation Project</a> and since then, translations should be managed from there.</p>
@@ -230,6 +236,7 @@
 <h2><a name="5.3"></a>5.3. What is the status of Unicode support?</h2>
 <blockquote><p>In version 1.3.12 or later, Unicode should be usable. With your terminal, locale (LC_ALL and similar environment variables), and encoding configured to properly support UTF-8, you should be able to enter and save Unicode text.</p></blockquote>
 <hr width="100%">
+
 <h1><a name="6"></a>6. Advocacy and Licensing</h1>
 <h2><a name="6.1"></a>6.1. Why should I use nano instead of Pico?</h2>
 <blockquote><p>There are many reasons to use nano instead of Pico. A more complete list can be found at the <a href="https://nano-editor.org/">nano homepage</a>.</p></blockquote>
@@ -241,6 +248,7 @@
 <blockquote><p>If you are looking to use a Free Software program similar to Pine, and Emacs is not your thing, you should definitely take a look at <a href="http://www.mutt.org/">mutt</a>. It is a full-screen, console based mail program that actually has a lot more flexibility than Pine, but has a keymap included in the distribution that allows you to use the same keystrokes as Pine would to send and receive mail. It's also under the GNU General Public License, version 2.0.<P>
 Of course, due to the license change you can now use the <A HREF="http://www.washington.edu/alpine/">Alpine distribution</A> of PINE as it is now considered Free Software, but you would be sacrificing many of nano's features to do so.</p></blockquote>
 <hr width="100%">
+
 <h1><a name="7"></a>7. Miscellaneous</h1>
 <h2><a name="7.1"></a>7.1. nano-related mailing lists.</h2>
 <blockquote><p>There are three mailing lists for nano hosted at <a href="http://savannah.gnu.org/">Savannah</a>: info-nano, help-nano and nano-devel. info-nano is a very low traffic list where new versions of nano are announced (surprise!). help-nano is for getting help with the editor without needing to hear all of the development issues surrounding it. nano-devel is a normally low, sometimes high traffic list for discussing the present and future development of nano. Here are links to where you can sign up for a given list:</p>
@@ -257,7 +265,9 @@ Of course, due to the license change you can now use the <A HREF="http://www.was
 <blockquote><p>The easiest way is to consistently send in good patches that add some needed functionality, fix a bug or two, and/or make the program more optimized/efficient. Then ask nicely and you will probably be added to the Savannah development list and be given write access after a while. There is a lot of responsibility that goes along with being a team member, so don't think it's just something to add to your resume.</p></blockquote>
 <h2><a name="7.5"></a>7.5. Can I have write access to the git tree?</h2>
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
-<h2><a name="8"></a>8. ChangeLog</h2>
+<hr width="100%">
+
+<h1><a name="8"></a>8. ChangeLog</h1>
 <blockquote><p>
 2016/04/17 - Update docs to refer to GIT instead of subversion. (Mike)<br>
 2015/07/18 - More small fixes and updates. (Benno)<br>
