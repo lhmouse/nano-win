@@ -1732,15 +1732,14 @@ int do_mouse(void)
     int mouse_x, mouse_y;
     int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
+    /* If the click is wrong or already handled, we're done. */
     if (retval != 0)
-	/* The click is wrong or already handled. */
 	return retval;
 
-    /* We can click on the edit window to move the cursor. */
+    /* If the click was in the edit window, put the cursor in that spot. */
     if (wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
 	bool sameline = (mouse_y == openfile->current_y);
-	    /* Did they click on the line with the cursor?  If they
-	     * clicked on the cursor, we set the mark. */
+	    /* Whether the click was on the line where the cursor is. */
 	filestruct *current_save = openfile->current;
 #ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
@@ -1752,20 +1751,20 @@ int do_mouse(void)
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-	    ssize_t i = 0, current_row = 0;
+	    ssize_t current_row = 0;
 
 	    openfile->current = openfile->edittop;
 
-	    while (openfile->current->next != NULL && i < mouse_y) {
-		current_row = i;
-		i += strlenpt(openfile->current->data) / editwincols + 1;
+	    while (openfile->current->next != NULL && current_row < mouse_y) {
+		current_row += strlenpt(openfile->current->data) / editwincols + 1;
 		openfile->current = openfile->current->next;
 	    }
 
-	    if (i > mouse_y) {
+	    if (current_row > mouse_y) {
 		openfile->current = openfile->current->prev;
+		current_row -= strlenpt(openfile->current->data) / editwincols + 1;
 		openfile->current_x = actual_x(openfile->current->data,
-			((mouse_y - current_row) * editwincols) + mouse_x);
+				((mouse_y - current_row) * editwincols) + mouse_x);
 	    } else
 		openfile->current_x = actual_x(openfile->current->data, mouse_x);
 	} else
@@ -1774,21 +1773,22 @@ int do_mouse(void)
 	    ssize_t current_row = openfile->current_y;
 
 	    /* Move to where the click occurred. */
-	    for (; current_row < mouse_y && openfile->current !=
-			openfile->filebot; current_row++)
+	    while (current_row < mouse_y && openfile->current->next != NULL) {
 		openfile->current = openfile->current->next;
-	    for (; current_row > mouse_y && openfile->current !=
-			openfile->fileage; current_row--)
+		current_row++;
+	    }
+	    while (current_row > mouse_y && openfile->current->prev != NULL) {
 		openfile->current = openfile->current->prev;
+		current_row--;
+	    }
 
 	    openfile->current_x = actual_x(openfile->current->data,
-		get_page_start(xplustabs()) + mouse_x);
+					get_page_start(xplustabs()) + mouse_x);
 	}
 
 #ifndef NANO_TINY
-	/* Clicking where the cursor is toggles the mark, as does
-	 * clicking beyond the line length with the cursor at the end of
-	 * the line. */
+	/* Clicking where the cursor is toggles the mark, as does clicking
+	 * beyond the line length with the cursor at the end of the line. */
 	if (sameline && openfile->current_x == current_x_save)
 	    do_mark();
 	else
