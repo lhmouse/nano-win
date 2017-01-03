@@ -2539,11 +2539,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		 * looking only after an end match, if there is one. */
 		start_col = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-		while (start_col < endpos) {
+		while (TRUE) {
 		    if (regexec(varnish->start, fileptr->data + start_col,
 				1, &startmatch, (start_col == 0) ?
-				0 : REG_NOTBOL) == REG_NOMATCH ||
-				start_col + startmatch.rm_so >= endpos)
+				0 : REG_NOTBOL) == REG_NOMATCH)
 			/* No more starts on this line. */
 			break;
 
@@ -2575,16 +2574,13 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 					strnlenpt(fileptr->data,
 					endmatch.rm_eo) - start - x_start);
 
-			    assert(0 <= x_start && x_start < editwincols);
-
 			    mvwaddnstr(edit, line, x_start + margin,
 					converted + index, paintlen);
-			    if (paintlen > 0) {
-				fileptr->multidata[varnish->id] = CSTARTENDHERE;
+
+			    fileptr->multidata[varnish->id] = CSTARTENDHERE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CSTARTENDHERE\n", varnish->id, line);
 #endif
-			    }
 			}
 			start_col = endmatch.rm_eo;
 			/* Skip over a zero-length match. */
@@ -2603,8 +2599,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			/* If there is no end, we're done on this line. */
 			if (end_line == NULL)
 			    break;
-
-			assert(0 <= x_start && x_start < editwincols);
 
 			/* Paint the rest of the line. */
 			mvwaddnstr(edit, line, x_start + margin, converted + index, -1);
