@@ -1,0 +1,700 @@
+Changes between v2.7.2 and v2.7.3:
+----------------------------------
+
+Arturo Borrero González (1):
+      syntax: nftables: add two new families, and add set references
+
+Benno Schulenberg (62):
+      binding: use plain codes instead of function calls for the jumping keys
+      binding: use the code for the Enter directly instead of a function call
+      bump version numbers and add a news item for the 2.7.3 release
+      chars: optimize for the most common case
+      chars: use memory on the stack instead of calling malloc() and free()
+      docs: clarify the difference between "Esc Esc ddd" and "M-V xxxxxx"
+      files: don't change embedded newlines into nulls in filenames
+      files: show newlines in filenames as ^J also in error messages
+      general: simplify the detection of a SIGWINCH
+      history: avoid crashing when the positionlog file is malformed
+      history: don't bother encoding search items -- they cannot contain newlines
+      history: encode newlines in filenames as nulls
+      history: search for the two position numbers from EOL instead of BOL
+      history: search items *can* contain newlines -- encoded NUL bytes
+      input: detect again when both Shift and Ctrl are being held on a VT
+      input: discard a verbatim 0x0A or 0x00 byte, depending on the mode
+      input: don't crash when receiving a KEY_CANCEL
+      locking: disable an annoying warning
+      memory: don't bother making a snug fit for things that will be freed soon
+      oops: forgot to add and amend this to the previous commit
+      po: update translations and regenerate POT file and PO files
+      prompt: do not treat a leading newline in a filename specially
+      prompt: represent newlines as ^J instead of breaking the bar
+      screen: display byte value 0x0A in the right places as ^@ or as ^J
+      screen: draw new content immediately, to prevent color flashes
+      screen: show an embedded newline in filenames as ^J instead of ^@
+      text: avoid a crash when a spell-checked line has gotten shorter
+      text: discard the undo stack after formatting and after spell checking
+      titlebar: always pass a pathname through display_string()
+      tweaks: adjust some comments and indentation and ordering
+      tweaks: chuck a special case, and reduce the scope of two variables
+      tweaks: condense the setting of three flags
+      tweaks: conditionalize a function that is not used in the tiny version
+      tweaks: delete a bunch of unneeded asserts
+      tweaks: don't bother making the next line of an end point NULL
+      tweaks: don't bother reallocating a string of which there is only one
+      tweaks: don't bother trimming the final newline from a position item
+      tweaks: drive closer to the edge
+      tweaks: elide a counter and a comparison
+      tweaks: elide a function that is called just once
+      tweaks: move a setting to a better place -- it needs setting just once
+      tweaks: put some prototypes in the proper order, and move a bit of code
+      tweaks: remove pointless or obscuring asserts
+      tweaks: rename a function to describe what it does
+      tweaks: rename a function to something less abbrevy
+      tweaks: rename a variable and rewrap two lines
+      tweaks: rename a variable to be shorter and clearer
+      tweaks: rename five variables, for uniformity with a few others
+      tweaks: rename four variables, for density and aptness
+      tweaks: rename three variables, for visibility
+      tweaks: rename three variables, to be more fitting
+      tweaks: rename two variables, for self-documentation
+      tweaks: retype, rename, and reshuffle a function
+      tweaks: start searching at a better place
+      tweaks: use a faster comparison
+      tweaks: use a slightly faster comparison
+      tweaks: use memory on the stack instead of calling malloc() and free()
+      tweaks: write two pieces of conditionalized code like all others
+      undo: there are just two forms of deletion: backspacing and deleting
+      utils: go on to parse the line number even if the column number is bad
+      utils: slightly speed up the calculation of the size of a buffer
+      version: properly mention --disable-wordcomp if it was used
+
+David Lawrence Ramsey (2):
+      tweaks: adjust the type of two arguments
+      tweaks: elide two unneeded variables from line numbering mode
+
+
+Changes between v2.7.1 and v2.7.2:
+----------------------------------
+
+Benno Schulenberg (53):
+      binding: allow to rebind the word-completion function, and document it
+      binding: always initialize some keycode variables to a standard value
+      build: add configure option --disable-wordcomp to disable word completion
+      build: clean out the revision.h file, to make 'make distcheck' pass
+      bump version numbers and add a news item for 2.7.2
+      docs: correct and improve the description of --disable-wrapping
+      docs: harmonize the indentation of the README, and tweak some wordings
+      docs: mention that a foreground color can be bright
+      docs: mention that libncursesw5-dev is needed for building from git
+      docs: note Sumedh as the author of the word-completion feature
+      docs: tweak some lines in the NEWS file
+      files: trying to open a non-existent file will never succeed
+      input: add the shifted PageUp and PageDown keycodes produced by VTE
+      input: distinguish <Alt+Left> from <Alt+Right> on an rxvt terminal
+      input: distinguish <Shift+Home> from <Home> on an rxvt terminal
+      mouse: use the correct screen width for calculating the cursor position
+      oops: the yesno prompt for replacing does not want a visible cursor
+      po: update translations and regenerate POT file and PO files
+      prompt: remove two fragments of dead code
+      rcfile: actually avoid opening directories and devices
+      rcfile: actually don't try to open things that cannot be syntax files
+      rcfile: check the vital shortcuts just once, not for every included file
+      rcfile: let a 'set fill' reenable hardwrapping
+      screen: do a refresh before changing the value of 'focusing'
+      screen: don't hide the cursor when --constantshow is used
+      screen: don't request an update of the edit window for every yesno prompt
+      screen: don't restore the previous menu after a yesno prompt
+      screen: remove an unneeded blanking of the statusbar
+      screen: switch the cursor back on only in the main loop
+      screen: use the correct width to determine whether a softwrap occurred
+      spelling: correctly restore the selected region
+      startup: activate restricted mode earlier, so --help will reflect it
+      syntax: don't leave the number after 'fill' and 'tabsize' in red
+      syntax: give the statistics part of a git patch a different color
+      tweaks: add a few translator hints
+      tweaks: correct the wording of a string
+      tweaks: delete some obscuring debugging stuff
+      tweaks: factor out a small function
+      tweaks: fix compilation when configured with --enable-tiny
+      tweaks: get rid of some spurious textual references to edit_refresh()
+      tweaks: miscellaneous frobbings and rewrappings
+      tweaks: move a cursor-on switch to a more logical place (again)
+      tweaks: move a switching on of the cursor to a more logical place
+      tweaks: remove a bit of obscuring conditional compilation
+      tweaks: remove an annoying conditional compilation of an argument
+      tweaks: remove a superfluous cleanup call
+      tweaks: remove some cluttering conditional compilation
+      tweaks: remove some more annoying conditional compilation
+      tweaks: rename two variables to make more sense
+      tweaks: replace some unneeded direct calls of edit_refresh()
+      tweaks: reshuffle some things in a more linear manner
+      tweaks: reshuffle three initializations and trim some comments
+      tweaks: use a while loop when the end point is not known in advance
+
+David Lawrence Ramsey (8):
+      docs: add info about Slang to README.GIT, and improve info about glib2
+      files: give feedback when restricted mode prevents overwriting a file
+      general: gettextize three overlooked statusbar messages
+      input: make Shift+Alt+Arrow work properly on rxvt and Eterm terminals
+      input: properly check the full escape sequences for all keys
+      moving: always account for the margin when in line numbering mode
+      tweaks: adjust the type of four lockfile variables
+      tweaks: conditionalize a bit of softwrap code
+
+Mike Frysinger (3):
+      configure: fix ncurses lib symbol checking
+      syntax: avoid using black colors
+      syntax: gentoo: various updates
+
+Sumedh Pendurkar (1):
+      new feature: complete a fragment to a longer word found in the buffer
+
+
+Changes between v2.7.0 and v2.7.1:
+----------------------------------
+
+Benno Schulenberg (71):
+      binding: fix some duplicated carets and too restrictive menus
+      binding: properly conditionalize the UTF-8 parts
+      binding: supply the keycode for most special keys directly
+      binding: use arrows instead of words to designate the cursor keys
+      browser: add the option showcursor, to place the cursor on the highlight
+      build: avoid an annoying warning at configure time
+      build: avoid updated PO files being remerged upon every make
+      bump version numbers and add a news item for 2.7.1
+      docs: add 'linenumbers' and 'numbercolor' to the sample nanorc
+      docs: add 'set linenumbers' and '--linenumbers' to the texinfo document
+      docs: brush up the TODO list
+      docs: mark some rebindable function names as deprecated
+      docs: mention the existence of the toggles in the man page
+      docs: refresh some info in the FAQ
+      docs: remove a reference that was only valid on Debian systems
+      files: alert about an unwritable file also in the tiny version
+      files: mark a new buffer as modified after inserting command output
+      general: add the option -g/--showcursor, to match Pico
+      general: include word-jumping and block-jumping into the tiny version
+      history: slate the search-history migration for removal
+      input: don't return zero when some function is completely unbound
+      input: handle the "resize key" in a better way
+      input: keep the Ctrl+Arrow keys working when their synonyms are unbound
+      moving: adjust the Y position to correspond with the changed X position
+      po: update translations and regenerate POT file and PO files
+      rcfile: add an option to customize the color of line numbers
+      screen: defeat a VTE bug by doing an extra cursor move and update
+      screen: keep the help items aligned in more configurations
+      screen: keep the help items nicely lined up also in the tiny version
+      screen: move the margin determination to the main loop
+      screen: refresh when a new magicline is added in line-numbering mode
+      screen: repaint the edit window in a single place -- the main loop
+      screen: suppress line numbers when the terminal is very narrow
+      scrolling: don't put the last line at the bottom when softwrap in on
+      scrolling: use a comparison that will work also in softwrap mode
+      softwrap: ensure the current line is fully visible when moving in it
+      softwrap: initialize 'editwincols' early, for computing the number of wraps
+      softwrap: scroll 'enough' whenever it surpasses 'amount'
+      softwrap: scroll the current line fully into view when jumping words
+      softwrap: scroll when searching lands on an overlong bottom line
+      startup: allow to rebind the RegExp toggle also in the tiny version
+      startup: always initialize 'margin' and 'editwincols'
+      syntax: make the contents of the X-Bugs field in a PO file stand out
+      syntax: show another deprecated keyword (replace2) in red
+      syntax: show deprecated keywords in red, and 'wordchars' in green
+      tweaks: adjust some comments and reduce the scope of some variables
+      tweaks: adjust some indentation
+      tweaks: adjust some whitespace and a comment
+      tweaks: compile two parameters unconditionally
+      tweaks: don't bother redrawing some lines when whole screen will be redrawn
+      tweaks: don't spread a statement over multiple lines unnecessarily
+      tweaks: elide an unneeded variable
+      tweaks: elide a parameter that is always FALSE
+      tweaks: fix compilation when configured with --enable-tiny
+      tweaks: frob a few comments
+      tweaks: make several small adjustments to the documentation
+      tweaks: make tiny nano a teeny bit smaller
+      tweaks: move a variable that doesn't need to be global
+      tweaks: preen some comments, and reshuffle a few ifdefs
+      tweaks: remove a band-aid condition that is no longer needed
+      tweaks: remove a bit of duplication
+      tweaks: remove a superfluous blanking of the statusbar
+      tweaks: remove a superfluous setting, and add a comment
+      tweaks: remove a useless cursor movement
+      tweaks: rename a function to better describe what it does
+      tweaks: rename a variable, for consistency
+      tweaks: reshuffle a couple of items
+      tweaks: reshuffle an if statement
+      tweaks: reshuffle some ifdefs, for less fragmentation
+      tweaks: stop compiling the whole_word_only parameter conditionally
+      tweaks: use hard-baked keycodes where possible
+
+Faissal Bensefia (1):
+      new feature: the ability to show line numbers before the text
+
+Rishabh Dave (2):
+      rcfile: reject key names that are wrong or too long
+      rcfile: reject rebindings that have no effect or have side effects
+
+
+Changes between v2.6.3 and v2.7.0:
+----------------------------------
+
+Benno Schulenberg (47):
+      AUTHORS: add Mahyar Abbaspour and Mike Scalora for their contributions
+      bottombar: only count help items that have a shortcut bound to them
+      bump version numbers and add a news item for 2.7.0
+      docs: explain how to contribute code
+      files: close a lockfile after reading it
+      input: ignore the resize "key", to prevent reporting an unbound key
+      input: look at the modifier keys only when compiled on Linux
+      input: unset a softmark whenever a character is typed
+      moving: make PgUp and PgDown functional also in very flat terminals
+      new feature: allow text selection by holding Shift with the cursor keys
+      po: update translations and regenerate POT file and PO files
+      prompt: don't crash when the terminal is less than four columns wide
+      prompt: leave always at least the last character of the answer visible
+      prompt: mouse clicks that moved the cursor need no further processing
+      prompt: recompose the statusbar text whenever the window size changes
+      prompt: set up the prepared answer before allowing to change it
+      prompt: show a trailing $ when the tail of the answer is offscreen
+      prompt: use angular brackets as continuation mark, as Pico does
+      prompt: work around a VTE bug by outdancing an ncurses optimization
+      restore the GNU marker in nano's name
+      screen: continue to function also in a terminal with very few lines
+      screen: don't die when the window is narrower than four columns
+      screen: retain the placewewant also when using an alternate speller
+      startup: don't crash when dying early
+      statusbar: leave out the brackets when the message is very long
+      tweaks: adjust indentation after previous change
+      tweaks: adjust indentation after previous change
+      tweaks: adjust some braces and indentations
+      tweaks: adjust some comments and remove needless asserts
+      tweaks: don't bother avoiding unneeded rewrites of the promptbar
+      tweaks: don't bother trimming the prompt again
+      tweaks: elide a variable and rename some others
+      tweaks: fix compilation when configured with --with-slang
+      tweaks: fix compilation with --disable-histories
+      tweaks: fix compilation with --enable-tiny again
+      tweaks: improve some indentation and reshuffle a few lines
+      tweaks: make a call in one place instead of in four different ones
+      tweaks: remove an unneeded check, reshuffle some things, add a comment
+      tweaks: rename a function and adjust indentation
+      tweaks: rename three variables
+      tweaks: rename two variables, to make some sense
+      tweaks: reshuffle some stuff in a more logical order
+      tweaks: reshuffle some things, and remove a misplaced comment
+      tweaks: simplify the determination of the number of shown help items
+      tweaks: use a separate function to ask ncurses for keycodes
+      update the copyright notices
+      update the license text to the preferred version
+
+
+Changes between v2.6.2 and v2.6.3:
+----------------------------------
+
+Benno Schulenberg (53):
+      bump version numbers and add a news item for 2.6.3
+      chars: don't persist when only one of the compared sequences is invalid
+      chars: make searching case-insensitively some ten percent faster
+      chars: properly compare strings of different lengths
+      chars: remove a special case that never occurs
+      chars: remove superfluous afterchecks
+      chars: straighten out the flow of a loop, so it is easier to follow
+      debug: add a timing instrument to the main search routine
+      docs: tweak some spacing and spelling
+      files: avoid a warning about not being able to write a lockfile
+      files: make allowances for 32-bit PIDs
+      input: after an Esc, don't discard starter byte of a multibyte sequence
+      input: be more strict in recognizing certain escape sequences
+      input: don't bother putting a keycode into byte range
+      input: don't use a function call when a literal value will do
+      input: fix a pasto from eight years ago, from commit e347efb
+      input: ingest as verbatim just one control code or one or two escapes
+      input: make the Ctrl+Arrow keys work on a Linux console
+      locking: remove any lock files when dying
+      po: update translations and regenerate POT file and PO files
+      screen: don't look at placewewant but at where we actually were and are
+      screen: remove redundant redrawings of the entire edit window
+      shortcuts: group the setting of key string and keycode into one function
+      shortcuts: remove any unnecessary classifying of keys
+      spelling: don't abort when a misspelled word isn't found, just note it
+      spelling: don't consider digits as word parts, because GNU spell doesn't
+      tweaks: add a variable, in preparation for making returning easier
+      tweaks: adjust indentation after previous changes
+      tweaks: adjust indentation after the previous changes
+      tweaks: check earlier on for sufficient length of the sequence
+      tweaks: compile a parameter unconditionally
+      tweaks: condense three asserts into a single one
+      tweaks: consistently use a parameter instead of a struct element
+      tweaks: correct one comment, and adjust another
+      tweaks: don't bother setting meta_key to false when a key is invalid
+      tweaks: don't optimize for a special case -- it is far too seldom
+      tweaks: don't use a function call when reference to the variable will do
+      tweaks: elide the global variable 'func_key'
+      tweaks: move some debugging stuff, and move modified editing keys too
+      tweaks: move the modified editing keys again
+      tweaks: normalize some indentation
+      tweaks: normalize some whitespace and adjust several comments
+      tweaks: reduce two comparisons to a single one
+      tweaks: remove some unnecessary keycodes from a switch statement
+      tweaks: rename a function, and adjust some comments
+      tweaks: rename a struct element, to be more fitting
+      tweaks: rename three constants, for clarity, and hardcode two others
+      tweaks: replace a three-case switch with an if and an else
+      tweaks: reshuffle two ifs for a little more speed
+      tweaks: restore earlier conditions to prevent superfluous redrawings
+      tweaks: return quicker from the key parsing routine
+      tweaks: unconditionally compile a couple of parameters
+      usage: show that the option --wordchars needs an argument
+
+Rishabh Dave (1):
+      shortcuts: zero the value of 'toggle' for keys that are not toggles
+
+
+Changes between v2.6.1 and v2.6.2:
+----------------------------------
+
+Benno Schulenberg (81):
+      browser: elide another call of opendir()
+      browser: trim all trailing slashes (just in case there are more)
+      build: refresh the git description whenever something is recompiled
+      build-sys: ignore the revision header file
+      bump version numbers and add a news item for 2.6.2
+      chars: delete a now-unused function
+      chars: don't try to see a character in an empty line
+      chars: invalid sequences are not blank, nor text, nor punctuation
+      chars: look at bytes in their context, so only valid sequences are accepted
+      chars: measure invalid sequences and unassigned codepoints more quickly
+      chars: plug a gushing memory leak
+      chars: represent the high-bit controls more intelligibly
+      chars: speed up the determination whether something is a control character
+      chars: speed up two reverse-searching routines a bit
+      chars: the representation of a control character is always two bytes
+      color: forget about aborting the precalculation for multiline regexes
+      color: integrate the hilite attribute into the pair number
+      color: push the resets further when start and end match are equal
+      color: refresh the screen whenever the active syntax changes
+      credits: don't bother blanking the second line nor the help lines
+      debug: remove duplicate information
+      files: beep whenever writing out a file fails
+      input: accept only the four iTerm sequences that actually get handled
+      input: add some missing keycodes to the parsing routine
+      input: consider only O, o and [ as starters of multi-character sequences
+      input: don't crash when the window is resized during verbatim input
+      input: don't drop a keystroke on the floor when the terminal resizes
+      input: don't drop the first byte when user starts typing during loading
+      input: elide an extra buffer for inserting stuff into the text
+      input: plug a memory leak
+      input: report keystroke M-[ as being unbindable instead of just unbound
+      input: treat Ctrl+Alt+key different from Esc followed by Ctrl+key
+      moving: don't do an automatic smart home with Ctrl+Up and Ctrl+Down
+      new feature: add the option --wordchars, to set extra word characters
+      new feature: functions to jump to previous or following block of text
+      po: update translations and regenerate POT file and PO files
+      screen: again, look at the bytes in their context
+      screen: avoid converting each character twice from multibyte to wide
+      screen: avoid looking up the width of whitespace and control codes
+      screen: don't check for every character whether there is still enough space
+      screen: don't simulate a sigwinch but directly reinitialize the screen
+      screen: elide another intermediate buffer for every visible character
+      screen: elide the intermediate buffer for every single character
+      screen: include a workaround only when compiling against older ncurses
+      search: match a beginning-of-line anchor just once per line
+      tweaks: adjust a comment for removed definitions
+      tweaks: adjust a couple of comments
+      tweaks: adjust indentation after the previous change, and edit comments
+      tweaks: avoid a runtime error when compiled with -fsanitize=undefined
+      tweaks: avoid two compiler warnings
+      tweaks: compute the sizes of the subwindows in a more direct manner
+      tweaks: correct a comment
+      tweaks: delete an element that is always FALSE and never used
+      tweaks: don't bother resetting the Unicode code holder
+      tweaks: don't call a thing malloc... when it doesn't call malloc()
+      tweaks: elide a bit of code duplication
+      tweaks: elide a typedef, as it now has just one element
+      tweaks: elide two unneeded variables
+      tweaks: factor out a common condition
+      tweaks: fix compilation with --enable-tiny
+      tweaks: fuse two handlings of a delete key, and fix a comment
+      tweaks: improve a few comments
+      tweaks: improve two comments
+      tweaks: move a debug statement to its proper place, and improve aspect
+      tweaks: put all the movement functions together
+      tweaks: put similar things together
+      tweaks: put some case labels closer to their statements
+      tweaks: put the case labels (the keycodes) in a more sensible order
+      tweaks: rearrange a function in my style, and rename a variable
+      tweaks: reduce the scope of two variables
+      tweaks: rename another variable, for aptness
+      tweaks: rename a variable and a type, to be less confusing
+      tweaks: rename a variable to be more accurate
+      tweaks: rename a variable, to clarify it refers to columns, not to bytes
+      tweaks: rename a variable -- to match others and to be more concise
+      tweaks: rename two variables, to match others
+      tweaks: shuffle the resetting of a counter to the tail of the routine
+      tweaks: straighten out the flow of a loop
+      tweaks: trim some comments, and simplify a condition
+      tweaks: use mallocstrcpy() instead of strdup(), for a graceful death
+      utils: don't bother to check line and column for NULL
+
+David Lawrence Ramsey (1):
+      input: provide feedback on the Unicode digits typed so far
+
+Dirkjan Ochtman (1):
+      syntax: allow capital letters in Rust struct/trait names
+
+Rishabh Dave (4):
+      browser: elide a variable by fusing the uses of 'newpath' and 'path'
+      browser: select an inaccessible directory also when tabbed
+      tweaks: reduce the number of wattron/wattrof calls
+      utils: accept mistypings and common separators between line and column
+
+
+Changes between v2.6.0 and v2.6.1:
+----------------------------------
+
+Benno Schulenberg (20):
+      browser: don't use a term that is not explained in the documentation
+      bump version numbers and add a news item for 2.6.1
+      docs: adjust the description of the verbatim function
+      linter: refresh the edit window in order to actually place the cursor
+      main: let the main loop restore the main menu, if needed
+      moving: allow specifying negative numbers in "Go To Line"
+      moving: ignore any number when ^Y or ^V is given
+      po: make the linguas script regenerate the POT file
+      po: update translations and regenerate POT file and PO files
+      tabs: compute the number of required spaces without iterating
+      tweaks: add a reporter's name
+      tweaks: add a translator hint
+      tweaks: elide an impossible case
+      tweaks: elide an intermediate copy of some line data
+      tweaks: elide an unneeded variable
+      tweaks: fix a date and an email address
+      tweaks: normalize a type, and rewrap a line
+      tweaks: reshuffle two lines and improve two comments
+      tweaks: rewrap a bunch of lines and some comments
+      tweaks: try to distinguish between keystrokes and characters
+
+Jordi Mallach (2):
+      docs: bump pointers to the newest version available
+      docs: use https for nano-editor.org, and drop the www
+
+Luke Francl (1):
+      syntaxes: add highlighting rules for Rust
+
+Rishabh Dave (1):
+      browser: don't seem to enter a directory when it is inaccessible
+
+
+Changes between v2.5.3 and v2.6.0 since 2016 April 1:
+-----------------------------------------------------
+
+Benno Schulenberg (192):
+      all: eradicate SVN's $Id$ tags
+      backups: take an unlikely condition into account
+      browser: add a binding for the refresh function
+      browser: after getting a mouse click, don't try any further interpretation
+      browser, files: use full path in error message when in confined mode
+      browser: fix a memory leak
+      browser: keep the highlight in the same spot or column, when possible
+      browser: make Ctrl+Left and Ctrl+Right jump to left and right column
+      browser: make the calculation of files-per-line a straightforward one
+      browser: provide tab completion also outside of the working directory
+      browser: rearrange the search loop to elide two unneeded variables
+      browser: show a message when getcwd() fails, instead of just beeping
+      browser: show an error message when selecting an inaccessible directory
+      browser: use the reselection mechanism also after resizing and after help
+      browser: when nothing was found, restore the global search flags
+      build-sys: detect a build from git and show its short commit hash
+      build-sys: identify a build from git not as one from svn
+      build-sys: ignore .patch, .orig and .swp files
+      chars: a control character can never be an invalid multibyte sequence
+      chars: ensure that files are sorted also when strncasecmp() is strange
+      chars: make comparing multibyte strings twice as fast
+      chars: the representation of control characters is always two columns wide
+      docs: add a list of the important changes since version 2.2.6
+      docs: mention that pkg-config is needed when building from git
+      docs: rename a file, to be less confusing
+      docs: update the version number for the upcoming release
+      files: allocate enough space for the prompt when finding a lock file
+      files: do not call free on the result of dirname
+      files: do not use two variables for two different purposes each
+      files: don't reuse a variable that may have been modified by dirname()
+      files: fix a memory leak
+      files: free all the multidata when a file is saved, then recompute it
+      files: handle systems that disallow NULL as first parameter of getcwd
+      files: it is fine to "change" the name of a nameless buffer
+      files: limit the number of attempts at climbing up the directory tree
+      files: make an 'if' more transparent and snip an unneeded condition
+      files: miscellaneous tweaks of braces, comments, and variable names
+      files: prevent dereferencing a possible (although very unlikely) NULL
+      files: prune a message to be less than 76 characters
+      files: recompute the multidata only when the applicable syntax changed
+      files: remove a redundant condition
+      files: remove a superfluous condition, and do not ignore a "No"
+      files: remove the special 'quiet' mechanism for not overwriting messages
+      files: report an unwritable file in a separate message
+      files: rewrap en reindent some lines
+      files: tweak the function tail() and rename two variables
+      files: upgrade the locking errors, so they will not be overwritten
+      files: when opening a buffer, make sure to expand a tilde in its name
+      files: when the requested operating directory cannot be set, fail
+      files: when writing a lockfile fails, continue loading the file
+      help: add an extra blank line to the lists of searching shortcuts
+      help: bring some air into the lists of shortcuts, giving the eye a hold
+      help: only speak of Control and Meta sequences
+      i18n: advise the translators about the maximum length of some strings
+      i18n: gather three more translatable strings into the POT file
+      input: after an unknown sequence, reenable cursor only when in main menu
+      input: distinguish an unknown escape sequence from an unbound key
+      input: don't allocate too much, and don't move too many
+      input: don't take multiple keystrokes to be a single sequence
+      input: give more detailed feedback when an unbound key is struck
+      input: properly restore waiting mode, or retain non-waiting mode
+      input: simplify a bit of code, reducing a four-case switch to a single if
+      input: trim some oververbose comments
+      input: write a few ifs more compactly
+      inserting: differentiate not finding a file from not finding a string
+      inserting: don't bother zero-terminating every single character
+      inserting: prune a duplicate variable
+      inserting: prune some superfluous settings, and do one differently
+      inserting: reshuffle some conditions for a teeny bit more speed
+      inserting: strip a carriage return before copying the line
+      inserting: treat also the final \r of a Mac file as a newline
+      justify: enable cursor display also for the first keystroke afterward
+      keyboard: reshuffle some lines to avoid an empty while
+      locking: don't try to read more bytes than the buffer can hold
+      po: correctly advertise whether new PO files have arrived
+      po: delete an obsolete script
+      po: regenerated POT file, and updated PO files from TP
+      prompt: properly save and restore the x position in the statusbar
+      rcfile: disallow 'bind' and 'unbind' in an included file
+      rcfile: make an error message equal to another, and more informative
+      README.GIT: reformat the text a bit
+      remove the GNU marker from nano's name
+      replacing: properly detect when we've rereached the starting position
+      screen: a full refresh is only needed when softwrap is on
+      screen: avoid redrawing a line twice
+      screen: catch a window resize also when the keyboard is in nodelay mode
+      screen: check for the most frequent character first: a space
+      screen: concentrate the setting of placewewant
+      screen: displaying the cursor position should not suppress it next time
+      screen: don't always set 'edit_refresh_needed' when adjusting edittop
+      screen: don't redraw some lines when doing a full refresh anyway
+      screen: don't redraw the current line unnecessarily
+      screen: elide a variable and serialize some logic for clarity
+      screen: fix compilation when configured with --enable-tiny
+      screen: improve the conditional placement of a help-line item
+      screen: make better use of the available space in the titlebar
+      screen: rename a variable, because 'disable' sounds too permanent
+      screen: rename 'edit_refresh_needed' to 'refresh_needed'
+      screen: when using positionlog, show as much of the file as possible
+      scrolling: catch the special case of reading a file from standard input
+      scrolling: center the cursor when inserted stuff does not fit on screen
+      scrolling: don't scroll too much when having to bridge blank lines
+      scrolling: elide a variable, to make clearer that edittop is being moved
+      search: avoid saving and restoring placewewant when bracket matching
+      search: don't set placewewant when we are just iterating
+      search: elide an unneeded function
+      search: find, and thus delete, only exact matches from history
+      search: fix compilation when configured with --enable-tiny
+      searching: don't keep track of current_y, but calculate it at the end
+      search: modify a function to take a length as parameter instead of a word
+      search: rename a variable and a function, for clarity and contrast
+      search: terminate the loop a tiny bit earlier when spell checking
+      search: untangle two lines and tweak two comments
+      search: when looking for whole words, examine the entire line
+      search: when polling the keyboard, consume all waiting keystrokes
+      softwrap: adjust for current_x when computing the amount to scroll
+      speller: don't proceed when the user aborts the searching
+      speller: simplify the calculation of the width of the misspelled word
+      spelling: don't partition the file for replacements in a marked region
+      spelling: gettextize the next-word message
+      spelling: if rereading the file fails, don't destroy the current buffer
+      spelling: pass the correct position of the cursor
+      spelling: retreat one x position, to not miss the first word
+      spelling: separate the fixing of different words with a short pause
+      startup: show an error message when argument of --operatingdir is invalid
+      statusbar: add a non-beeping message type that does not get overwritten
+      statusbar: prevent error messages from overwriting each other
+      syntax: don't call getcwd() with a NULL pointer
+      tabbing: avoid recalculating the length of the first match every time
+      tabbing: don't null-terminate a directory name on the slash but after it
+      tabbing: don't refresh the edit window when nothing was printed on it
+      tabbing: fix erroneous use of strnlenpt()
+      tabbing: make sure to refresh the edit window when returning to it
+      tabbing: refresh the edit window in case a previous tab listed names
+      tabbing: refresh the window also when Goto-Dir in browser was cancelled
+      tabbing: rename four variables, snipping a redundant part
+      text: add an undo item before starting to comment or uncomment lines
+      text: after undoing or redoing something, unset the mark
+      text: remove a pointless setting of an undo element; it is never used
+      text: remove a redundant undo element
+      text: store the new file size in the undo item also when joining lines
+      titlebar: snip two superfluous tests for having enough space
+      TODO: tidy up the punctuation
+      tweaks: add come comments and rename a variable
+      tweaks: adjust a couple of comments
+      tweaks: a few last tiny adjustments before release
+      tweaks: avoid a warning when configured with --disable-wrapping
+      tweaks: do an assignment in a more transparent way
+      tweaks: elide an unneeded variable
+      tweaks: elide four #ifdefs, improve one comment and unwrap some others
+      tweaks: elide unneeded intermediate assignments
+      tweaks: fix compilation when configured with --enable-tiny
+      tweaks: fix compilation when configured with --enable-tiny --enable-browser
+      tweaks: harmonize some indentations, elide an #ifdef, and rewrap a line
+      tweaks: harmonize the routine for tabs with the one for spaces
+      tweaks: improve a couple of comments
+      tweaks: improve a few comments
+      tweaks: improve a few comments
+      tweaks: make advancing and retreating more symmetrical
+      tweaks: make the conditions for statusbar blanking more transparent
+      tweaks: more consistently use * instead of [0] when checking for '\0'
+      tweaks: normalize some whitespace
+      tweaks: normalize some whitespace
+      tweaks: put some conditions in a better order: the main one first
+      tweaks: rearrange some key reading stuff in a clearer way
+      tweaks: reindent and rewrap a few lines, and shorten a comment
+      tweaks: remove an unnecessary intermediate assignment
+      tweaks: remove a redundant assignment
+      tweaks: remove a superfluous call of 'wnoutrefresh'
+      tweaks: remove a superfluous condition
+      tweaks: remove a superfluous setting of 'refresh_needed'
+      tweaks: remove the fiddling with an unrelated setting
+      tweaks: remove two redundant assignments
+      tweaks: rename a function, and move the sorting there too
+      tweaks: rename a variable, because nothing is returned there
+      tweaks: rename a variable, for aptness
+      tweaks: rename a variable, to indicate better what it contains
+      tweaks: rename a variable, to indicate what it contains
+      tweaks: rename some variables for contrast
+      tweaks: rename some variables to be more readable
+      tweaks: rename two more variables
+      tweaks: rename two variables, and elide a third
+      tweaks: rename two variables, to avoid using a name for different purposes
+      tweaks: reshuffle a few things
+      tweaks: trim or improve some comments, and rewrap two lines
+      tweaks: use an available macro to silence a compiler warning
+      undo: start renumbering from the head of the paste, not from its tail
+      utils: distinguish between width (columns) and length (bytes)
+      utils: provide a failure message for all uses of 'fsfromline'
+      utils: rename some variables, to match those in strnlenpt()
+      utils: snip a superfluous check for NULL
+      version: cover the copyrights that are not assigned to the FSF
+
+Chris Allegretta (2):
+      add /intl to gitignore
+      rename README.SVN -> README.GIT and take out the branch details
+
+Mike Frysinger (3):
+      more svn->git updates
+      README.GIT: update a few more points to match current tree
+      syntax: changelog: support more bug/issue styles
+
+Mike Scalora (3):
+      keyboard: recognize four escape sequences produced by iTerm2
+      new feature: comment/uncomment current line or selected lines
+      text: keep the file size correct when undoing/redoing a comment/uncomment
+
+Rishabh Dave (2):
+      browser: keep the same file selected when the directory contents change
+      browser: move all openings and closings of a directory to the same function
