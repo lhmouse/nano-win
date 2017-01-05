@@ -234,8 +234,8 @@ int search_init(bool replacing, bool use_answer)
 int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	const filestruct *begin, size_t begin_x)
 {
-    size_t found_len;
-	/* The length of the match we find. */
+    size_t found_len = strlen(needle);
+	/* The length of a match -- will be recomputed for a regex. */
     int feedback = 0;
 	/* When bigger than zero, show and wipe the "Searching..." message. */
     filestruct *fileptr = openfile->current;
@@ -290,14 +290,11 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
 	if (found != NULL) {
-	    /* Remember the length of the potential match. */
-	    found_len =
 #ifdef HAVE_REGEX_H
-		ISSET(USE_REGEXP) ?
-		regmatches[0].rm_eo - regmatches[0].rm_so :
+	    /* When doing a regex search, compute the length of the match. */
+	    if (ISSET(USE_REGEXP))
+		found_len = regmatches[0].rm_eo - regmatches[0].rm_so;
 #endif
-		strlen(needle);
-
 #ifndef DISABLE_SPELLER
 	    /* When we're spell checking, a match is only a true match when
 	     * it is a separate word. */
