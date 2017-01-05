@@ -244,24 +244,24 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	/* The length of a match -- will be recomputed for a regex. */
     int feedback = 0;
 	/* When bigger than zero, show and wipe the "Searching..." message. */
-    filestruct *fileptr = openfile->current;
-    const char *rev_start = fileptr->data, *found = NULL;
+    filestruct *line = openfile->current;
+    const char *from = line->data, *found = NULL;
     size_t found_x;
 	/* The x coordinate of a found occurrence. */
     time_t lastkbcheck = time(NULL);
 
-    /* rev_start might end up 1 character before the start or after the
-     * end of the line.  This won't be a problem because strstrwrapper()
+    /* 'from' might end up 1 character before the start or after the end
+     * of the line.  This is fine because in that case strstrwrapper()
      * will return immediately and say that no match was found, and
-     * rev_start will be properly set when the search continues on the
+     * 'from' will be properly set when the search continues on the
      * previous or next line. */
     if (ISSET(BACKWARDS_SEARCH)) {
 	if (openfile->current_x == 0)
-	    rev_start += -1;
+	    from += -1;
 	else
-	    rev_start += move_mbleft(fileptr->data, openfile->current_x);
+	    from += move_mbleft(line->data, openfile->current_x);
     } else
-	rev_start += move_mbright(fileptr->data, openfile->current_x);
+	from += move_mbright(line->data, openfile->current_x);
 
     enable_nodelay();
 
@@ -293,7 +293,7 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	}
 
 	/* Search for the needle in the current line. */
-	found = strstrwrapper(fileptr->data, needle, rev_start);
+	found = strstrwrapper(line->data, needle, from);
 
 	if (found != NULL) {
 #ifdef HAVE_REGEX_H
@@ -303,15 +303,15 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 
 		/* If the regex starts with a BOW anchor, check that the found
 		 * match actually is the start of a word.  If not, continue. */
-		if (bow_anchored && found != fileptr->data) {
-		    size_t before = move_mbleft(fileptr->data, found - fileptr->data);
+		if (bow_anchored && found != line->data) {
+		    size_t before = move_mbleft(line->data, found - line->data);
 
 		    /* If a word char is before the match, skip this match. */
-		    if (is_word_mbchar(fileptr->data + before, FALSE)) {
+		    if (is_word_mbchar(line->data + before, FALSE)) {
 			if (ISSET(BACKWARDS_SEARCH))
-			    rev_start = fileptr->data + before;
+			    from = line->data + before;
 			else
-			    rev_start = found + move_mbright(found, 0);
+			    from = found + move_mbright(found, 0);
 			continue;
 		    }
 		}
@@ -321,12 +321,11 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	    /* When we're spell checking, a match is only a true match when
 	     * it is a separate word. */
 	    if (whole_word_only) {
-		if (is_separate_word(found - fileptr->data, found_len,
-					fileptr->data))
+		if (is_separate_word(found - line->data, found_len, line->data))
 		    break;
 		else {
 		    /* Maybe there is a whole word in the rest of the line. */
-		    rev_start = found + move_mbright(found, 0);
+		    from = found + move_mbright(found, 0);
 		    continue;
 		}
 	    } else
@@ -343,12 +342,12 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 
 	/* Move to the previous or next line in the file. */
 	if (ISSET(BACKWARDS_SEARCH))
-	    fileptr = fileptr->prev;
+	    line = line->prev;
 	else
-	    fileptr = fileptr->next;
+	    line = line->next;
 
 	/* If we've reached the start or end of the buffer, wrap around. */
-	if (fileptr == NULL) {
+	if (line == NULL) {
 #ifndef DISABLE_SPELLER
 	    /* When we're spell-checking, end-of-buffer means we're done. */
 	    if (whole_word_only) {
@@ -357,9 +356,9 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	    }
 #endif
 	    if (ISSET(BACKWARDS_SEARCH))
-		fileptr = openfile->filebot;
+		line = openfile->filebot;
 	    else
-		fileptr = openfile->fileage;
+		line = openfile->fileage;
 
 	    statusbar(_("Search Wrapped"));
 	    /* Delay the "Searching..." message for at least two seconds. */
@@ -367,16 +366,16 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	}
 
 	/* If we've reached the original starting line, take note. */
-	if (fileptr == begin)
+	if (line == begin)
 	    came_full_circle = TRUE;
 
 	/* Set the starting x to the start or end of the line. */
-	rev_start = fileptr->data;
+	from = line->data;
 	if (ISSET(BACKWARDS_SEARCH))
-	    rev_start += strlen(fileptr->data);
+	    from += strlen(line->data);
     }
 
-    found_x = found - fileptr->data;
+    found_x = found - line->data;
 
     /* Ensure that the found occurrence is not beyond the starting x. */
     if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && found_x > begin_x) ||
@@ -389,7 +388,7 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
     disable_nodelay();
 
     /* Set the current position to point at what we found. */
-    openfile->current = fileptr;
+    openfile->current = line;
     openfile->current_x = found_x;
 
     /* When requested, pass back the length of the match. */
