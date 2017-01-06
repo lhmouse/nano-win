@@ -1111,7 +1111,6 @@ void do_insertfile(void)
 	    filestruct *edittop_save = openfile->edittop;
 	    ssize_t was_current_lineno = openfile->current->lineno;
 	    size_t was_current_x = openfile->current_x;
-	    ssize_t was_current_y = openfile->current_y;
 	    bool current_was_at_top = FALSE;
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 	    functionptrtype func = func_from_key(&i);
@@ -1257,9 +1256,6 @@ void do_insertfile(void)
 		    }
 		}
 #endif
-		/* Update the current y-coordinate to account for the
-		 * number of lines inserted. */
-		openfile->current_y += was_current_y;
 
 		/* Unpartition the filestruct so that it contains all
 		 * the text again.  Note that we've replaced the
@@ -1281,6 +1277,10 @@ void do_insertfile(void)
 		if (openfile->current->lineno != was_current_lineno ||
 			openfile->current_x != was_current_x)
 		    set_modified();
+
+		/* Update the cursor position to account for the number
+		 * of lines inserted. */
+		reset_cursor();
 
 		refresh_needed = TRUE;
 	    }
