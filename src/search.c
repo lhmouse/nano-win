@@ -318,19 +318,16 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	    }
 #endif
 #ifndef DISABLE_SPELLER
-	    /* When we're spell checking, a match is only a true match when
-	     * it is a separate word. */
-	    if (whole_word_only) {
-		if (is_separate_word(found - line->data, found_len, line->data))
-		    break;
-		else {
-		    /* Maybe there is a whole word in the rest of the line. */
-		    from = found + move_mbright(found, 0);
-		    continue;
-		}
-	    } else
+	    /* When we're spell checking, a match should be a separate word;
+	     * if it's not, continue looking in the rest of the line. */
+	    if (whole_word_only && !is_separate_word(found - line->data,
+						found_len, line->data)) {
+		from = found + move_mbright(found, 0);
+		continue;
+	    }
 #endif
-		break;
+	    /* The match is valid. */
+	    break;
 	}
 
 	/* If we're back at the beginning, then there is no needle. */
