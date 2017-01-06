@@ -25,11 +25,9 @@ endif
 
 info_TEXINFOS = nano.texi
 
-if HAVE_MAKEINFO
 BUILT_SOURCES += nano.html
-endif
+dist_html_DATA += nano.html
 
-nano.html: nano.texi
-	makeinfo --no-split --html < $< > $@
+AM_MAKEINFOHTMLFLAGS = --no-split
 
 EXTRA_DIST = $(BUILT_SOURCES) $(info_TEXINFOS)
