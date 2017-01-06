@@ -1282,6 +1282,10 @@ void do_insertfile(void)
 		 * of lines inserted. */
 		reset_cursor();
 
+#ifndef NANO_TINY
+		if (ISSET(SOFTWRAP))
+		    ensure_line_is_visible();
+#endif
 		refresh_needed = TRUE;
 	    }
 
