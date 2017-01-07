@@ -260,7 +260,7 @@ void do_cut_till_eof(void)
 /* Copy text from the cutbuffer into the current filestruct. */
 void do_uncut_text(void)
 {
-    int was_lineno = openfile->current->lineno;
+    ssize_t was_lineno = openfile->current->lineno;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
