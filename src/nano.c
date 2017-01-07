@@ -469,11 +469,6 @@ void copy_from_filestruct(filestruct *somebuffer)
     /* Add the number of characters in the copied text to the file size. */
     openfile->totsize += get_totsize(openfile->fileage, openfile->filebot);
 
-    /* Update the current y-coordinate to account for the number of
-     * lines the copied text has, less one since the first line will be
-     * tacked onto the current line. */
-    openfile->current_y += openfile->filebot->lineno - 1;
-
     /* If we pasted onto the first line of the edit window, the corresponding
      * struct has been freed, so... point at the start of the copied text. */
     if (edittop_inside)

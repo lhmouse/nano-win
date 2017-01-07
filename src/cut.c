@@ -284,6 +284,9 @@ void do_uncut_text(void)
     /* Mark the file as modified. */
     set_modified();
 
+    /* Update the cursor position to account for the inserted lines. */
+    reset_cursor();
+
     refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
