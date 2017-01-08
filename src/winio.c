@@ -2348,6 +2348,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 	/* Iterate through all the coloring regexes. */
 	for (; varnish != NULL; varnish = varnish->next) {
+	    size_t index = 0;
+		/* Where in the line we currently begin looking for a match. */
 	    int start_col;
 		/* The starting column of a piece to paint.  Zero-based. */
 	    int paintlen = 0;
@@ -2365,32 +2367,38 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 	    /* First case: varnish is a single-line expression. */
 	    if (varnish->end == NULL) {
-		size_t k = 0;
-
-		/* We increment k by rm_eo, to move past the end of the
+		/* We increment index by rm_eo, to move past the end of the
 		 * last match.  Even though two matches may overlap, we
 		 * want to ignore them, so that we can highlight e.g. C
 		 * strings correctly. */
-		while (k < till_x) {
+		while (index < till_x) {
 		    /* Note the fifth parameter to regexec().  It says
 		     * not to match the beginning-of-line character
-		     * unless k is zero.  If regexec() returns
+		     * unless index is zero.  If regexec() returns
 		     * REG_NOMATCH, there are no more matches in the
 		     * line. */
-		    if (regexec(varnish->start, &fileptr->data[k], 1,
-				&startmatch, (k == 0) ? 0 : REG_NOTBOL) ==
+		    if (regexec(varnish->start, &fileptr->data[index], 1,
+				&startmatch, (index == 0) ? 0 : REG_NOTBOL) ==
 				REG_NOMATCH)
 			break;
 
-		    /* Translate the match to the beginning of the line. */
-		    startmatch.rm_so += k;
-		    startmatch.rm_eo += k;
-
 		    /* Skip over a zero-length regex match. */
-		    if (startmatch.rm_so == startmatch.rm_eo)
-			startmatch.rm_eo++;
-		    else if (startmatch.rm_so < till_x &&
-					startmatch.rm_eo > from_x) {
+		    if (startmatch.rm_so == startmatch.rm_eo) {
+			index += startmatch.rm_eo + 1;
+			continue;
+		    }
+
+		    /* Translate the match to the beginning of the line. */
+		    startmatch.rm_so += index;
+		    startmatch.rm_eo += index;
+		    index = startmatch.rm_eo;
+
+		    /* If the matching piece is not visible, skip it. */
+		    if (startmatch.rm_so >= till_x ||
+					startmatch.rm_eo <= from_x)
+			continue;
+
+		    {
 			start_col = (startmatch.rm_so <= from_x) ?
 				0 : strnlenpt(fileptr->data,
 				startmatch.rm_so) - from_col;
@@ -2403,14 +2411,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			mvwaddnstr(edit, line, margin + start_col,
 						thetext, paintlen);
 		    }
-		    k = startmatch.rm_eo;
 		}
-	    } else {	/* Second case: varnish is a multiline expression. */
+		goto tail_of_loop;
+	    }
+
+	    /* Second case: varnish is a multiline expression. */
+	    {
 		const filestruct *start_line = fileptr->prev;
 		    /* The first line before fileptr that matches 'start'. */
-		size_t start_x;
-		    /* Where the match starts in that line. */
-		const filestruct *end_line;
+		const filestruct *end_line = fileptr;
 		    /* The line that matches 'end'. */
 
 		/* First see if the multidata was maybe already calculated. */
@@ -2474,18 +2483,17 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		/* Now start_line is the first line before fileptr containing
 		 * a start match.  Is there a start on that line not followed
 		 * by an end on that line? */
-		start_x = 0;
 		while (TRUE) {
-		    start_x += startmatch.rm_so;
+		    index += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
 		    if (regexec(varnish->end, start_line->data +
-				start_x + startmatch.rm_eo, 0, NULL,
-				(start_x + startmatch.rm_eo == 0) ?
+				index + startmatch.rm_eo, 0, NULL,
+				(index + startmatch.rm_eo == 0) ?
 				0 : REG_NOTBOL) == REG_NOMATCH)
 			/* No end found after this start. */
 			break;
-		    start_x++;
-		    if (regexec(varnish->start, start_line->data + start_x,
+		    index++;
+		    if (regexec(varnish->start, start_line->data + index,
 				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
@@ -2495,7 +2503,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		/* We've already checked that there is no end before fileptr
 		 * and after the start.  But is there an end after the start
 		 * at all?  We don't paint unterminated starts. */
-		end_line = fileptr;
 		while (end_line != NULL && regexec(varnish->end,
 			end_line->data, 1, &endmatch, 0) == REG_NOMATCH)
 		    end_line = end_line->next;
@@ -2530,15 +2537,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
   step_two:
 		/* Second step: look for starts on this line, but begin
 		 * looking only after an end match, if there is one. */
-		start_x = (paintlen == 0) ? 0 : endmatch.rm_eo;
+		index = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-		while (regexec(varnish->start, fileptr->data + start_x,
-				1, &startmatch, (start_x == 0) ?
+		while (regexec(varnish->start, fileptr->data + index,
+				1, &startmatch, (index == 0) ?
 				0 : REG_NOTBOL) == 0) {
 		    /* Translate the match to be relative to the
 		     * beginning of the line. */
-		    startmatch.rm_so += start_x;
-		    startmatch.rm_eo += start_x;
+		    startmatch.rm_so += index;
+		    startmatch.rm_eo += index;
 
 		    start_col = (startmatch.rm_so <= from_x) ?
 				0 : strnlenpt(fileptr->data,
@@ -2570,11 +2577,14 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     fprintf(stderr, "  Marking for id %i  line %i as CSTARTENDHERE\n", varnish->id, line);
 #endif
 			}
-			start_x = endmatch.rm_eo;
+			index = endmatch.rm_eo;
 			/* Skip over a zero-length match. */
 			if (endmatch.rm_so == endmatch.rm_eo)
-			    start_x += 1;
-		    } else {
+			    index += 1;
+			continue;
+		    }
+
+		    {
 			/* There is no end on this line.  But we haven't yet
 			 * looked for one on later lines. */
 			end_line = fileptr->next;
