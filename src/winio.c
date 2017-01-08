@@ -2303,17 +2303,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	 * that displays at least partially on the window. */
     size_t till_x = actual_x(fileptr->data, from_col + editwincols - 1) + 1;
 	/* The position in fileptr->data of the first character that is
-	 * completely off the window to the right.
-	 *
-	 * Note that till_x might be beyond the null terminator of the
-	 * string. */
+	 * completely off the window to the right.  Note that till_x
+	 * might be beyond the null terminator of the string. */
 #endif
 
     assert(openfile != NULL && fileptr != NULL && converted != NULL);
     assert(strlenpt(converted) <= editwincols);
 
 #ifdef ENABLE_LINENUMBERS
-    /* If line numbering is switched on, show a line number in front of
+    /* If line numbering is switched on, put a line number in front of
      * the text -- but only for the parts that are not softwrapped. */
     if (margin > 0) {
 	wattron(edit, interface_color_pair[LINE_NUMBER]);
@@ -2327,7 +2325,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     }
 #endif
 
-    /* First simply paint the line -- then we'll add colors or the
+    /* First simply write the line -- afterward we'll add colors and the
      * marking highlight on just the pieces that need it. */
     mvwaddstr(edit, line, margin, converted);
 
@@ -2340,8 +2338,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 #endif
 
 #ifndef DISABLE_COLOR
-    /* If color syntaxes are available and turned on, we need to display
-     * them. */
+    /* If color syntaxes are available and turned on, apply them. */
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *varnish = openfile->colorstrings;
 
@@ -2349,21 +2346,22 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	if (openfile->syntax->nmultis > 0)
 	    alloc_multidata_if_needed(fileptr);
 
+	/* Iterate through all the coloring regexes. */
 	for (; varnish != NULL; varnish = varnish->next) {
 	    int start_col;
-		/* Starting column for mvwaddnstr.  Zero-based. */
+		/* The starting column of a piece to paint.  Zero-based. */
 	    int paintlen = 0;
-		/* Number of chars to paint on this line.  There are
-		 * COLS characters on a whole line. */
-	    size_t index;
-		/* Index in converted where we paint. */
+		/* The number of characters to paint. */
+	    const char *thetext;
+		/* The place in converted from where painting starts. */
 	    regmatch_t startmatch, endmatch;
-		/* Match positions for the start and end regexes. */
+		/* Match positions of the start and end regexes. */
 
-	    wattron(edit, varnish->attributes);
 	    /* Two notes about regexec().  A return value of zero means
 	     * that there is a match.  Also, rm_eo is the first
 	     * non-matching character after the match. */
+
+	    wattron(edit, varnish->attributes);
 
 	    /* First case: varnish is a single-line expression. */
 	    if (varnish->end == NULL) {
@@ -2380,11 +2378,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		     * REG_NOMATCH, there are no more matches in the
 		     * line. */
 		    if (regexec(varnish->start, &fileptr->data[k], 1,
-			&startmatch, (k == 0) ? 0 : REG_NOTBOL) ==
-			REG_NOMATCH)
+				&startmatch, (k == 0) ? 0 : REG_NOTBOL) ==
+				REG_NOMATCH)
 			break;
-		    /* Translate the match to the beginning of the
-		     * line. */
+
+		    /* Translate the match to the beginning of the line. */
 		    startmatch.rm_so += k;
 		    startmatch.rm_eo += k;
 
@@ -2393,20 +2391,17 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			startmatch.rm_eo++;
 		    else if (startmatch.rm_so < till_x &&
 					startmatch.rm_eo > from_x) {
-			start_col = (startmatch.rm_so <= from_x) ? 0 :
-				strnlenpt(fileptr->data,
+			start_col = (startmatch.rm_so <= from_x) ?
+				0 : strnlenpt(fileptr->data,
 				startmatch.rm_so) - from_col;
 
-			index = actual_x(converted, start_col);
+			thetext = converted + actual_x(converted, start_col);
 
-			paintlen = actual_x(converted + index,
-				strnlenpt(fileptr->data,
+			paintlen = actual_x(thetext, strnlenpt(fileptr->data,
 				startmatch.rm_eo) - from_col - start_col);
 
-			assert(0 <= start_col && 0 <= paintlen);
-
 			mvwaddnstr(edit, line, margin + start_col,
-				converted + index, paintlen);
+						thetext, paintlen);
 		    }
 		    k = startmatch.rm_eo;
 		}
@@ -2549,7 +2544,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 				0 : strnlenpt(fileptr->data,
 				startmatch.rm_so) - from_col;
 
-		    index = actual_x(converted, start_col);
+		    thetext = converted + actual_x(converted, start_col);
 
 		    if (regexec(varnish->end, fileptr->data +
 				startmatch.rm_eo, 1, &endmatch,
@@ -2564,12 +2559,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			 * more than zero characters long? */
 			if (endmatch.rm_eo > from_x &&
 					endmatch.rm_eo > startmatch.rm_so) {
-			    paintlen = actual_x(converted + index,
-					strnlenpt(fileptr->data,
+			    paintlen = actual_x(thetext, strnlenpt(fileptr->data,
 					endmatch.rm_eo) - from_col - start_col);
 
 			    mvwaddnstr(edit, line, margin + start_col,
-					converted + index, paintlen);
+							thetext, paintlen);
 
 			    fileptr->multidata[varnish->id] = CSTARTENDHERE;
 #ifdef DEBUG
@@ -2595,7 +2589,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			    break;
 
 			/* Paint the rest of the line. */
-			mvwaddnstr(edit, line, margin + start_col, converted + index, -1);
+			mvwaddnstr(edit, line, margin + start_col, thetext, -1);
 			fileptr->multidata[varnish->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", varnish->id, line);
