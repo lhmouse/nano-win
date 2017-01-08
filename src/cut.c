@@ -82,8 +82,6 @@ void cut_to_eol(void)
 {
     size_t data_len = strlen(openfile->current->data);
 
-    assert(openfile->current_x <= data_len);
-
     if (openfile->current_x < data_len)
 	/* If we're not at the end of the line, move all the text from
 	 * the current position up to it, not counting the newline at
@@ -128,8 +126,6 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	/* There *is* no region, *or* it is marked forward. */
 #endif
     size_t was_totsize = openfile->totsize;
-
-    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     /* If a chain of cuts was broken, empty the cutbuffer. */
     if (!keep_cutbuffer) {
@@ -261,8 +257,6 @@ void do_cut_till_eof(void)
 void do_uncut_text(void)
 {
     ssize_t was_lineno = openfile->current->lineno;
-
-    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     /* If the cutbuffer is empty, get out. */
     if (cutbuffer == NULL)

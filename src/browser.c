@@ -344,8 +344,6 @@ char *do_browse_from(const char *inpath)
     char *path;
 	/* This holds the tilde-expanded version of inpath. */
 
-    assert(inpath != NULL);
-
     path = real_dir_from_tilde(inpath);
 
     /* Perhaps path is a directory.  If so, we'll pass it to
@@ -789,8 +787,6 @@ void do_last_file(void)
 char *striponedir(const char *path)
 {
     char *retval, *tmp;
-
-    assert(path != NULL);
 
     retval = mallocstrcpy(NULL, path);
 
