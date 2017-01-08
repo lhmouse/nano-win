@@ -1368,15 +1368,21 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
     }
     case BACK:
     case DEL: {
-	/* Add the removed character after or before earlier removed stuff. */
 	char *char_buf = charalloc(mb_cur_max());
 	int char_len = parse_mbchar(&openfile->current->data[openfile->current_x], char_buf, NULL);
-	if (action == DEL) {
+	if (openfile->current_x == u->begin) {
+	    /* They deleted more: add removed character after earlier stuff. */
 	    u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_len);
 	    u->mark_begin_x = openfile->current_x;
-	} else {
+	} else if (openfile->current_x == u->begin - char_len) {
+	    /* They backspaced further: add removed character before earlier. */
 	    u->strdata = addstrings(char_buf, char_len, u->strdata, strlen(u->strdata));
 	    u->begin = openfile->current_x;
+	} else {
+	    /* They deleted *elsewhere* on the line: start a new undo item. */
+	    free(char_buf);
+	    add_undo(u->type);
+	    return;
 	}
 #ifdef DEBUG
 	fprintf(stderr, "  >> current undo data is \"%s\"\nu->begin = %lu\n", u->strdata, (unsigned long)u->begin);
