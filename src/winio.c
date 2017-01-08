@@ -2641,8 +2641,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 	/* Only paint if the marked part of the line is on this page. */
 	if (top_x < till_x && bot_x > from_x) {
-	    assert(from_x <= top_x);
-
 	    /* Compute on which screen column to start painting. */
 	    start_col = strnlenpt(fileptr->data, top_x) - from_col;
 
@@ -2655,12 +2653,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		paintlen = -1;
 	    else
 		paintlen = strnlenpt(fileptr->data, bot_x) - (start_col + from_col);
-
-	    /* If painting starts before the beginning of the page, adjust. */
-	    if (start_col < 0) {
-		paintlen += start_col;
-		start_col = 0;
-	    }
 
 	    index = actual_x(converted, start_col);
 
