@@ -2318,7 +2318,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     if (margin > 0) {
 	wattron(edit, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && from_x >= editwincols)
+	if (ISSET(SOFTWRAP) && from_x != 0)
 	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
 	else
 #endif
@@ -2664,8 +2664,6 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		paintlen += x_start;
 		x_start = 0;
 	    }
-
-	    assert(x_start >= 0 && x_start <= strlen(converted));
 
 	    index = actual_x(converted, x_start);
 
