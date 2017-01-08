@@ -2350,7 +2350,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    alloc_multidata_if_needed(fileptr);
 
 	for (; varnish != NULL; varnish = varnish->next) {
-	    int x_start;
+	    int start_col;
 		/* Starting column for mvwaddnstr.  Zero-based. */
 	    int paintlen = 0;
 		/* Number of chars to paint on this line.  There are
@@ -2393,19 +2393,19 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			startmatch.rm_eo++;
 		    else if (startmatch.rm_so < till_x &&
 					startmatch.rm_eo > from_x) {
-			x_start = (startmatch.rm_so <= from_x) ? 0 :
+			start_col = (startmatch.rm_so <= from_x) ? 0 :
 				strnlenpt(fileptr->data,
 				startmatch.rm_so) - from_col;
 
-			index = actual_x(converted, x_start);
+			index = actual_x(converted, start_col);
 
 			paintlen = actual_x(converted + index,
 				strnlenpt(fileptr->data,
-				startmatch.rm_eo) - from_col - x_start);
+				startmatch.rm_eo) - from_col - start_col);
 
-			assert(0 <= x_start && 0 <= paintlen);
+			assert(0 <= start_col && 0 <= paintlen);
 
-			mvwaddnstr(edit, line, x_start + margin,
+			mvwaddnstr(edit, line, margin + start_col,
 				converted + index, paintlen);
 		    }
 		    k = startmatch.rm_eo;
@@ -2545,11 +2545,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    startmatch.rm_so += start_x;
 		    startmatch.rm_eo += start_x;
 
-		    x_start = (startmatch.rm_so <= from_x) ?
+		    start_col = (startmatch.rm_so <= from_x) ?
 				0 : strnlenpt(fileptr->data,
 				startmatch.rm_so) - from_col;
 
-		    index = actual_x(converted, x_start);
+		    index = actual_x(converted, start_col);
 
 		    if (regexec(varnish->end, fileptr->data +
 				startmatch.rm_eo, 1, &endmatch,
@@ -2566,9 +2566,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 					endmatch.rm_eo > startmatch.rm_so) {
 			    paintlen = actual_x(converted + index,
 					strnlenpt(fileptr->data,
-					endmatch.rm_eo) - from_col - x_start);
+					endmatch.rm_eo) - from_col - start_col);
 
-			    mvwaddnstr(edit, line, x_start + margin,
+			    mvwaddnstr(edit, line, margin + start_col,
 					converted + index, paintlen);
 
 			    fileptr->multidata[varnish->id] = CSTARTENDHERE;
@@ -2595,7 +2595,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			    break;
 
 			/* Paint the rest of the line. */
-			mvwaddnstr(edit, line, x_start + margin, converted + index, -1);
+			mvwaddnstr(edit, line, margin + start_col, converted + index, -1);
 			fileptr->multidata[varnish->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", varnish->id, line);
@@ -2624,7 +2624,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    /* The lines where the marked region begins and ends. */
 	size_t top_x, bot_x;
 	    /* The x positions where the marked region begins and ends. */
-	int x_start;
+	int start_col;
 	    /* The starting column for mvwaddnstr().  Zero-based. */
 	int paintlen;
 	    /* Number of characters to paint on this line.  There are
@@ -2639,13 +2639,12 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	if (bot->lineno > fileptr->lineno || bot_x > till_x)
 	    bot_x = till_x;
 
-	/* Only paint if the marked bit of fileptr is on this page. */
+	/* Only paint if the marked part of the line is on this page. */
 	if (top_x < till_x && bot_x > from_x) {
 	    assert(from_x <= top_x);
 
-	    /* x_start is the expanded location of the beginning of the
-	     * mark minus the beginning of the page. */
-	    x_start = strnlenpt(fileptr->data, top_x) - from_col;
+	    /* Compute on which screen column to start painting. */
+	    start_col = strnlenpt(fileptr->data, top_x) - from_col;
 
 	    /* If the end of the mark is off the page, paintlen is -1,
 	     * meaning that everything on the line gets painted.
@@ -2655,23 +2654,21 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    if (bot_x >= till_x)
 		paintlen = -1;
 	    else
-		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start + from_col);
+		paintlen = strnlenpt(fileptr->data, bot_x) - (start_col + from_col);
 
-	    /* If x_start is before the beginning of the page, shift
-	     * paintlen x_start characters to compensate, and put
-	     * x_start at the beginning of the page. */
-	    if (x_start < 0) {
-		paintlen += x_start;
-		x_start = 0;
+	    /* If painting starts before the beginning of the page, adjust. */
+	    if (start_col < 0) {
+		paintlen += start_col;
+		start_col = 0;
 	    }
 
-	    index = actual_x(converted, x_start);
+	    index = actual_x(converted, start_col);
 
 	    if (paintlen > 0)
 		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, hilite_attribute);
-	    mvwaddnstr(edit, line, x_start + margin, converted + index, paintlen);
+	    mvwaddnstr(edit, line, margin + start_col, converted + index, paintlen);
 	    wattroff(edit, hilite_attribute);
 	}
     }
