@@ -2290,22 +2290,22 @@ void reset_cursor(void)
  * the edit window.  fileptr is the line to be painted, at row line of
  * the window.  converted is the actual string to be written to the
  * window, with tabs and control characters replaced by strings of
- * regular characters.  start is the column number of the first
+ * regular characters.  from_col is the column number of the first
  * character of this page.  That is, the first character of converted
- * corresponds to character number actual_x(fileptr->data, start) of the
+ * corresponds to character number actual_x(fileptr->data, from_col) of the
  * line. */
 void edit_draw(filestruct *fileptr, const char *converted, int
-	line, size_t start)
+	line, size_t from_col)
 {
 #if !defined(NANO_TINY) || !defined(DISABLE_COLOR)
-    size_t startpos = actual_x(fileptr->data, start);
+    size_t from_x = actual_x(fileptr->data, from_col);
 	/* The position in fileptr->data of the leftmost character
 	 * that displays at least partially on the window. */
-    size_t endpos = actual_x(fileptr->data, start + editwincols - 1) + 1;
+    size_t till_x = actual_x(fileptr->data, from_col + editwincols - 1) + 1;
 	/* The position in fileptr->data of the first character that is
 	 * completely off the window to the right.
 	 *
-	 * Note that endpos might be beyond the null terminator of the
+	 * Note that till_x might be beyond the null terminator of the
 	 * string. */
 #endif
 
@@ -2318,7 +2318,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     if (margin > 0) {
 	wattron(edit, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && startpos >= editwincols)
+	if (ISSET(SOFTWRAP) && from_x >= editwincols)
 	    mvwprintw(edit, line, 0, "%*s", margin - 1, " ");
 	else
 #endif
@@ -2373,7 +2373,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		 * last match.  Even though two matches may overlap, we
 		 * want to ignore them, so that we can highlight e.g. C
 		 * strings correctly. */
-		while (k < endpos) {
+		while (k < till_x) {
 		    /* Note the fifth parameter to regexec().  It says
 		     * not to match the beginning-of-line character
 		     * unless k is zero.  If regexec() returns
@@ -2391,17 +2391,17 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    /* Skip over a zero-length regex match. */
 		    if (startmatch.rm_so == startmatch.rm_eo)
 			startmatch.rm_eo++;
-		    else if (startmatch.rm_so < endpos &&
-					startmatch.rm_eo > startpos) {
-			x_start = (startmatch.rm_so <= startpos) ? 0 :
+		    else if (startmatch.rm_so < till_x &&
+					startmatch.rm_eo > from_x) {
+			x_start = (startmatch.rm_so <= from_x) ? 0 :
 				strnlenpt(fileptr->data,
-				startmatch.rm_so) - start;
+				startmatch.rm_so) - from_col;
 
 			index = actual_x(converted, x_start);
 
 			paintlen = actual_x(converted + index,
 				strnlenpt(fileptr->data,
-				startmatch.rm_eo) - start - x_start);
+				startmatch.rm_eo) - from_col - x_start);
 
 			assert(0 <= x_start && 0 <= paintlen);
 
@@ -2427,10 +2427,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		} else if (fileptr->multidata[varnish->id] == CBEGINBEFORE) {
 		    regexec(varnish->end, fileptr->data, 1, &endmatch, 0);
 		    /* If the coloured part is scrolled off, skip it. */
-		    if (endmatch.rm_eo <= startpos)
+		    if (endmatch.rm_eo <= from_x)
 			goto tail_of_loop;
 		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
-						endmatch.rm_eo) - start);
+						endmatch.rm_eo) - from_col);
 		    mvwaddnstr(edit, line, margin, converted, paintlen);
 		    goto tail_of_loop;
 		}
@@ -2508,7 +2508,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		/* If no end was found, or it is too early, next step. */
 		if (end_line == NULL)
 		    goto step_two;
-		if (end_line == fileptr && endmatch.rm_eo <= startpos) {
+		if (end_line == fileptr && endmatch.rm_eo <= from_x) {
 		    fileptr->multidata[varnish->id] = CBEGINBEFORE;
 		    goto step_two;
 		}
@@ -2525,7 +2525,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    goto tail_of_loop;
 		} else {
 		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
-						endmatch.rm_eo) - start);
+						endmatch.rm_eo) - from_col);
 		    mvwaddnstr(edit, line, margin, converted, paintlen);
 		    fileptr->multidata[varnish->id] = CBEGINBEFORE;
 #ifdef DEBUG
@@ -2545,9 +2545,9 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		    startmatch.rm_so += start_col;
 		    startmatch.rm_eo += start_col;
 
-		    x_start = (startmatch.rm_so <= startpos) ?
+		    x_start = (startmatch.rm_so <= from_x) ?
 				0 : strnlenpt(fileptr->data,
-				startmatch.rm_so) - start;
+				startmatch.rm_so) - from_col;
 
 		    index = actual_x(converted, x_start);
 
@@ -2562,11 +2562,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 			/* There is an end on this line.  But does
 			 * it appear on this page, and is the match
 			 * more than zero characters long? */
-			if (endmatch.rm_eo > startpos &&
+			if (endmatch.rm_eo > from_x &&
 					endmatch.rm_eo > startmatch.rm_so) {
 			    paintlen = actual_x(converted + index,
 					strnlenpt(fileptr->data,
-					endmatch.rm_eo) - start - x_start);
+					endmatch.rm_eo) - from_col - x_start);
 
 			    mvwaddnstr(edit, line, x_start + margin,
 					converted + index, paintlen);
@@ -2634,28 +2634,28 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 
 	mark_order(&top, &top_x, &bot, &bot_x, NULL);
 
-	if (top->lineno < fileptr->lineno || top_x < startpos)
-	    top_x = startpos;
-	if (bot->lineno > fileptr->lineno || bot_x > endpos)
-	    bot_x = endpos;
+	if (top->lineno < fileptr->lineno || top_x < from_x)
+	    top_x = from_x;
+	if (bot->lineno > fileptr->lineno || bot_x > till_x)
+	    bot_x = till_x;
 
 	/* Only paint if the marked bit of fileptr is on this page. */
-	if (top_x < endpos && bot_x > startpos) {
-	    assert(startpos <= top_x);
+	if (top_x < till_x && bot_x > from_x) {
+	    assert(from_x <= top_x);
 
 	    /* x_start is the expanded location of the beginning of the
 	     * mark minus the beginning of the page. */
-	    x_start = strnlenpt(fileptr->data, top_x) - start;
+	    x_start = strnlenpt(fileptr->data, top_x) - from_col;
 
 	    /* If the end of the mark is off the page, paintlen is -1,
 	     * meaning that everything on the line gets painted.
 	     * Otherwise, paintlen is the expanded location of the end
 	     * of the mark minus the expanded location of the beginning
 	     * of the mark. */
-	    if (bot_x >= endpos)
+	    if (bot_x >= till_x)
 		paintlen = -1;
 	    else
-		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start + start);
+		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start + from_col);
 
 	    /* If x_start is before the beginning of the page, shift
 	     * paintlen x_start characters to compensate, and put
