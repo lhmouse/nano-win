@@ -2625,12 +2625,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	size_t top_x, bot_x;
 	    /* The x positions where the marked region begins and ends. */
 	int start_col;
-	    /* The starting column for mvwaddnstr().  Zero-based. */
-	int paintlen;
-	    /* Number of characters to paint on this line.  There are
-	     * COLS characters on a whole line. */
-	size_t index;
-	    /* Index in converted where we paint. */
+	    /* The column where painting starts.  Zero-based. */
+	const char *thetext;
+	    /* The place in converted from where painting starts. */
+	int paintlen = -1;
+	    /* The number of characters to paint.  Negative means "all". */
 
 	mark_order(&top, &top_x, &bot, &bot_x, NULL);
 
@@ -2644,23 +2643,17 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    /* Compute on which screen column to start painting. */
 	    start_col = strnlenpt(fileptr->data, top_x) - from_col;
 
-	    /* If the end of the mark is off the page, paintlen is -1,
-	     * meaning that everything on the line gets painted.
-	     * Otherwise, paintlen is the expanded location of the end
-	     * of the mark minus the expanded location of the beginning
-	     * of the mark. */
-	    if (bot_x >= till_x)
-		paintlen = -1;
-	    else
-		paintlen = strnlenpt(fileptr->data, bot_x) - (start_col + from_col);
+	    thetext = converted + actual_x(converted, start_col);
 
-	    index = actual_x(converted, start_col);
-
-	    if (paintlen > 0)
-		paintlen = actual_x(converted + index, paintlen);
+	    /* If the end of the mark is onscreen, compute how many
+	     * characters to paint.  Otherwise, just paint all. */
+	    if (bot_x < till_x) {
+		size_t end_col = strnlenpt(fileptr->data, bot_x) - from_col;
+		paintlen = actual_x(thetext, end_col - start_col);
+	    }
 
 	    wattron(edit, hilite_attribute);
-	    mvwaddnstr(edit, line, margin + start_col, converted + index, paintlen);
+	    mvwaddnstr(edit, line, margin + start_col, thetext, paintlen);
 	    wattroff(edit, hilite_attribute);
 	}
     }
