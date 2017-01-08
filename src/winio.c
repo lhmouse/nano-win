@@ -2089,7 +2089,7 @@ void statusline(message_type importance, const char *msg, ...)
 {
     va_list ap;
     char *compound, *message;
-    size_t start_x;
+    size_t start_col;
     bool bracketed;
 #ifndef NANO_TINY
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
@@ -2133,10 +2133,10 @@ void statusline(message_type importance, const char *msg, ...)
     message = display_string(compound, 0, COLS, FALSE);
     free(compound);
 
-    start_x = (COLS - strlenpt(message)) / 2;
-    bracketed = (start_x > 1);
+    start_col = (COLS - strlenpt(message)) / 2;
+    bracketed = (start_col > 1);
 
-    wmove(bottomwin, 0, (bracketed ? start_x - 2 : start_x));
+    wmove(bottomwin, 0, (bracketed ? start_col - 2 : start_col));
     wattron(bottomwin, interface_color_pair[STATUS_BAR]);
     if (bracketed)
 	waddstr(bottomwin, "[ ");
@@ -2413,7 +2413,7 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    } else {	/* Second case: varnish is a multiline expression. */
 		const filestruct *start_line = fileptr->prev;
 		    /* The first line before fileptr that matches 'start'. */
-		size_t start_col;
+		size_t start_x;
 		    /* Where the match starts in that line. */
 		const filestruct *end_line;
 		    /* The line that matches 'end'. */
@@ -2479,18 +2479,18 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		/* Now start_line is the first line before fileptr containing
 		 * a start match.  Is there a start on that line not followed
 		 * by an end on that line? */
-		start_col = 0;
+		start_x = 0;
 		while (TRUE) {
-		    start_col += startmatch.rm_so;
+		    start_x += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
 		    if (regexec(varnish->end, start_line->data +
-				start_col + startmatch.rm_eo, 0, NULL,
-				(start_col + startmatch.rm_eo == 0) ?
+				start_x + startmatch.rm_eo, 0, NULL,
+				(start_x + startmatch.rm_eo == 0) ?
 				0 : REG_NOTBOL) == REG_NOMATCH)
 			/* No end found after this start. */
 			break;
-		    start_col++;
-		    if (regexec(varnish->start, start_line->data + start_col,
+		    start_x++;
+		    if (regexec(varnish->start, start_line->data + start_x,
 				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
@@ -2535,15 +2535,15 @@ void edit_draw(filestruct *fileptr, const char *converted, int
   step_two:
 		/* Second step: look for starts on this line, but begin
 		 * looking only after an end match, if there is one. */
-		start_col = (paintlen == 0) ? 0 : endmatch.rm_eo;
+		start_x = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-		while (regexec(varnish->start, fileptr->data + start_col,
-				1, &startmatch, (start_col == 0) ?
+		while (regexec(varnish->start, fileptr->data + start_x,
+				1, &startmatch, (start_x == 0) ?
 				0 : REG_NOTBOL) == 0) {
 		    /* Translate the match to be relative to the
 		     * beginning of the line. */
-		    startmatch.rm_so += start_col;
-		    startmatch.rm_eo += start_col;
+		    startmatch.rm_so += start_x;
+		    startmatch.rm_eo += start_x;
 
 		    x_start = (startmatch.rm_so <= from_x) ?
 				0 : strnlenpt(fileptr->data,
@@ -2576,10 +2576,10 @@ void edit_draw(filestruct *fileptr, const char *converted, int
     fprintf(stderr, "  Marking for id %i  line %i as CSTARTENDHERE\n", varnish->id, line);
 #endif
 			}
-			start_col = endmatch.rm_eo;
+			start_x = endmatch.rm_eo;
 			/* Skip over a zero-length match. */
 			if (endmatch.rm_so == endmatch.rm_eo)
-			    start_col += 1;
+			    start_x += 1;
 		    } else {
 			/* There is no end on this line.  But we haven't yet
 			 * looked for one on later lines. */
@@ -3293,7 +3293,7 @@ void do_credits(void)
 
 	if (crpos < CREDIT_LEN) {
 	    const char *what;
-	    size_t start_x;
+	    size_t start_col;
 
 	    if (credits[crpos] == NULL) {
 		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
@@ -3303,9 +3303,9 @@ void do_credits(void)
 	    } else
 		what = credits[crpos];
 
-	    start_x = COLS / 2 - strlenpt(what) / 2 - 1;
+	    start_col = COLS / 2 - strlenpt(what) / 2 - 1;
 	    mvwaddstr(edit, editwinrows - 1 - (editwinrows % 2),
-		start_x, what);
+						start_col, what);
 	}
 
 	wrefresh(edit);
