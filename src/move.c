@@ -44,6 +44,7 @@ void do_last_line(void)
 
     /* Set the last line of the screen as the target for the cursor. */
     openfile->current_y = editwinrows - 1;
+    ensure_line_is_visible();
 
     refresh_needed = TRUE;
     focusing = FALSE;
