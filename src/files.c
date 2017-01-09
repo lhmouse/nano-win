@@ -1278,14 +1278,11 @@ void do_insertfile(void)
 			openfile->current_x != was_current_x)
 		    set_modified();
 
-		/* Update the cursor position to account for the number
-		 * of lines inserted. */
+		/* Update the cursor position to account for inserted lines. */
 		reset_cursor();
 
-#ifndef NANO_TINY
-		if (ISSET(SOFTWRAP))
-		    ensure_line_is_visible();
-#endif
+		ensure_line_is_visible();
+
 		refresh_needed = TRUE;
 	    }
 
