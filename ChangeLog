@@ -1,3 +1,69 @@
+Changes between v2.7.3 and v2.7.4:
+----------------------------------
+
+Benno Schulenberg (48):
+      build: check for GNU-style word-boundary support also in the tiny version
+      build: include the old Changelogs in the tarball
+      build: install the Info and Html manuals even when 'makeinfo' is missing
+      build: move all documentation into a single directory
+      build: move the syntax files out of the doc/ directory
+      build: rename the sample config file, so it will be colored like a nanorc
+      bump version numbers and add a news item for the 2.7.4 release
+      copy: properly set preferred x position when region was marked backwards
+      cut: indicate a buffer as modified only if actually something was deleted
+      docs: add a new Changelog -- a list of the short commit messages
+      docs: bring some air into the FAQ, so that <Ctrl+Up/Down> become useful
+      docs: fix some spellos and trim some trailing tabs in the old Changelog
+      docs: rename the Changelogs to indicate which periods they cover
+      docs: snip some obsolete items from the FAQ, and normalize its dates
+      docs: standardize the dates in the old Changelog
+      inserting: adjust the desired x position (don't restore the old one)
+      screen: examine the whole line when painting, to set the correct info
+      search: make a regex with a beginning-of-word anchor work correctly
+      softwrap: don't scroll half a page when just a few lines will do
+      softwrap: when pasting an overlong line, ensure it is fully visible
+      softwrap: when typing M-/, ensure the last line is fully visible
+      syntax: html: be more precise with tags, and paint attribute names
+      tweaks: adjust whitespace after the previous change
+      tweaks: chuck a couple of useless asserts
+      tweaks: condense two ifs to a single one
+      tweaks: discard some conditional compilation
+      tweaks: don't compare a character offset with a column position
+      tweaks: don't use a variable for two different purposes
+      tweaks: fix compilation when configured with --disable-wrapping
+      tweaks: frob some comments, and transform one variable
+      tweaks: frob some comments, elide a variable, and use 'while' loops
+      tweaks: if there is no end match, there is nothing to paint
+      tweaks: miscellaneous frobbings
+      tweaks: rearrange and reindent some lines in the painting routines
+      tweaks: remove the cluttering conditional compilation of a parameter
+      tweaks: rename another variable, to show it refers to columns not chars
+      tweaks: rename a variable, chuck an assert, and frob a comment
+      tweaks: rename three painting variables, to be more distinct
+      tweaks: rename two variables, for distinguishing characters from columns
+      tweaks: rename two variables to be just one as they play the same role
+      tweaks: rename two variables, to be more telling
+      tweaks: reshuffle a statement to a better place and condense some comments
+      tweaks: set the length of a search match in a clearer manner
+      tweaks: slightly condense a function and its comment
+      tweaks: terminate lots of sentences with a period in the old Changelog
+      tweaks: the starting point for painting /cannot/ be offscreen
+      tweaks: when allow_tabs is FALSE, allow_files is irrelevant
+      undo: properly create separate items for deletes at different positions
+
+David Lawrence Ramsey (7):
+      screen: properly place the cursor after inserting a file
+      softwrap: ensure the current line is fully visible after inserting a file
+      tweaks: avoid an unnecessary fiddling with current_y in do_mouse()
+      tweaks: line numbers are ssize_t, not int
+      tweaks: move a setting, fix a type, and rearrange a line in do_mouse()
+      weeding: remove another unnecessary setting of openfile->current_y
+      weeding: remove unnecessary settings of openfile->current_y
+
+Felix Janda (1):
+      speller: fix build when tiny build is enabled
+
+
 Changes between v2.7.2 and v2.7.3:
 ----------------------------------
 
