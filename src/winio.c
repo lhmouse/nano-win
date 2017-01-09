@@ -2504,9 +2504,10 @@ void edit_draw(filestruct *fileptr, const char *converted,
 				 1, &endmatch, 0) == REG_NOMATCH)
 		end_line = end_line->next;
 
-	    /* If no end was found, or it is too early, next step. */
+	    /* If there is no end, there is nothing to paint. */
 	    if (end_line == NULL)
-		goto step_two;
+		goto tail_of_loop;
+	    /* If the end is scrolled off to the left, next step. */
 	    if (end_line == fileptr && endmatch.rm_eo <= from_x) {
 		fileptr->multidata[varnish->id] = CBEGINBEFORE;
 		goto step_two;
