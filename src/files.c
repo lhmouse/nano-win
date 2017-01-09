@@ -906,8 +906,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	openfile->current_x = 0;
     }
 
-    /* Set the current place we want to the end of the last line of the
-     * file we inserted. */
+    /* Set the desired x position at the end of what was inserted. */
     openfile->placewewant = xplustabs();
 
     if (!writable)
@@ -2978,7 +2977,7 @@ bool writehist(FILE *hist, const filestruct *head)
 {
     const filestruct *item;
 
-    /* Write a history list from the oldest entry to the newest. */
+    /* Write a history list, from the oldest item to the newest. */
     for (item = head; item != NULL; item = item->next) {
 	size_t length = strlen(item->data);
 

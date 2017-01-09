@@ -258,7 +258,7 @@ void do_uncut_text(void)
 {
     ssize_t was_lineno = openfile->current->lineno;
 
-    /* If the cutbuffer is empty, get out. */
+    /* If the cutbuffer is empty, there is nothing to do. */
     if (cutbuffer == NULL)
 	return;
 
@@ -277,8 +277,7 @@ void do_uncut_text(void)
     if (openfile->current->lineno - was_lineno < editwinrows)
 	focusing = FALSE;
 
-    /* Set the current place we want to where the text from the
-     * cutbuffer ends. */
+    /* Set the desired x position to where the pasted text ends. */
     openfile->placewewant = xplustabs();
 
     /* Mark the file as modified. */

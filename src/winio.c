@@ -2294,8 +2294,8 @@ void reset_cursor(void)
  * character of this page.  That is, the first character of converted
  * corresponds to character number actual_x(fileptr->data, from_col) of the
  * line. */
-void edit_draw(filestruct *fileptr, const char *converted, int
-	line, size_t from_col)
+void edit_draw(filestruct *fileptr, const char *converted,
+	int line, size_t from_col)
 {
 #if !defined(NANO_TINY) || !defined(DISABLE_COLOR)
     size_t from_x = actual_x(fileptr->data, from_col);
@@ -2483,8 +2483,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    while (TRUE) {
 		index += startmatch.rm_so;
 		startmatch.rm_eo -= startmatch.rm_so;
-		if (regexec(varnish->end, start_line->data +
-				index + startmatch.rm_eo, 0, NULL,
+		if (regexec(varnish->end, start_line->data + index +
+				startmatch.rm_eo, 0, NULL,
 				(index + startmatch.rm_eo == 0) ?
 				0 : REG_NOTBOL) == REG_NOMATCH)
 		    /* No end found after this start. */
@@ -2497,8 +2497,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 	    }
 	    /* Indeed, there is a start without an end on that line. */
 
-	    /* We've already checked that there is no end before fileptr
-	     * and after the start.  But is there an end after the start
+	    /* We've already checked that there is no end between the start
+	     * and the current line.  But is there an end after the start
 	     * at all?  We don't paint unterminated starts. */
 	    while (end_line != NULL && regexec(varnish->end, end_line->data,
 				 1, &endmatch, 0) == REG_NOMATCH)
@@ -2557,9 +2557,8 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 		     * the beginning of the line. */
 		    endmatch.rm_so += startmatch.rm_eo;
 		    endmatch.rm_eo += startmatch.rm_eo;
-		    /* There is an end on this line.  But does
-		     * it appear on this page, and is the match
-		     * more than zero characters long? */
+		    /* Only paint the match if it is visible on screen and
+		     * it is more than zero characters long. */
 		    if (endmatch.rm_eo > from_x &&
 					endmatch.rm_eo > startmatch.rm_so) {
 			paintlen = actual_x(thetext, strnlenpt(fileptr->data,
@@ -2662,14 +2661,11 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 int update_line(filestruct *fileptr, size_t index)
 {
     int line = 0;
-	/* The line in the edit window that we want to update. */
+	/* The row in the edit window we will be updating. */
     int extralinesused = 0;
     char *converted;
-	/* fileptr->data converted to have tabs and control characters
-	 * expanded. */
+	/* The data of the line with tabs and control characters expanded. */
     size_t page_start;
-
-    assert(fileptr != NULL);
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
@@ -2795,8 +2791,6 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     ssize_t i;
     filestruct *foo;
 
-    assert(nlines > 0);
-
     /* Part 1: nlines is the number of lines we're going to scroll the
      * text of the edit window. */
 
@@ -2856,12 +2850,10 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     if (nlines > editwinrows)
 	nlines = editwinrows;
 
-    /* If we scrolled up, we're on the line before the scrolled
-     * region. */
+    /* If we scrolled up, we're on the line before the scrolled region. */
     foo = openfile->edittop;
 
-    /* If we scrolled down, move down to the line before the scrolled
-     * region. */
+    /* If we scrolled down, move down to the line before the scrolled region. */
     if (direction == DOWNWARD) {
 	for (i = editwinrows - nlines; i > 0 && foo != NULL; i--)
 	    foo = foo->next;
@@ -2873,8 +2865,8 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * blank, so we don't need to draw it unless the mark is on or we're
      * not on the first page. */
     for (i = nlines; i > 0 && foo != NULL; i--) {
-	if ((i == nlines && direction == DOWNWARD) || (i == 1 &&
-		direction == UPWARD)) {
+	if ((i == nlines && direction == DOWNWARD) ||
+			(i == 1 && direction == UPWARD)) {
 	    if (need_horizontal_scroll(openfile->placewewant, 0))
 		update_line(foo, (foo == openfile->current) ?
 			openfile->current_x : 0);
@@ -2883,6 +2875,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 		openfile->current_x : 0);
 	foo = foo->next;
     }
+
     compute_maxrows();
 }
 

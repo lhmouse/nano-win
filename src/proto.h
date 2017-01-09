@@ -348,7 +348,7 @@ const char *tail(const char *path);
 #ifndef DISABLE_HISTORIES
 char *histfilename(void);
 void load_history(void);
-bool writehist(FILE *hist, const filestruct *histhead);
+bool writehist(FILE *hist, const filestruct *head);
 void save_history(void);
 int check_dotnano(void);
 void load_poshistory(void);
@@ -743,8 +743,8 @@ void statusline(message_type importance, const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, int length);
 void reset_cursor(void);
-void edit_draw(filestruct *fileptr, const char *converted, int
-	line, size_t start);
+void edit_draw(filestruct *fileptr, const char *converted,
+	int line, size_t from_col);
 int update_line(filestruct *fileptr, size_t index);
 bool need_horizontal_scroll(const size_t old_column, const size_t new_column);
 void edit_scroll(scroll_dir direction, ssize_t nlines);
