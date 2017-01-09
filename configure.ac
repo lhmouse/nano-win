@@ -628,12 +628,10 @@ AC_CACHE_CHECK([for enhanced regular expression flag], nano_cv_flag_reg_extended
 AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_cv_flag_reg_extended,
 		   [Flag(s) to use to get the full range of extended regular expressions])
 
-if test x$color_support = xyes; then
-	# Now check for the end-of-word boundary support (/< and />).
-	AC_MSG_CHECKING([for GNU-style word boundary regex support])
-
-	AC_ARG_WITH(wordbounds,
-        AS_HELP_STRING([--with-wordbounds], [Use GNU-style word boundary delimiters]),
+# Check for word-boundary support (/< and />).
+AC_MSG_CHECKING([for GNU-style word boundary regex support])
+AC_ARG_WITH(wordbounds,
+AS_HELP_STRING([--with-wordbounds], [Use GNU-style word boundary delimiters]),
 	[ case "$with_wordbounds" in
 	    no)
 		AC_MSG_RESULT(no)
@@ -670,6 +668,7 @@ int main(void)
 	)
 ])
 
+if test x$color_support = xyes; then
 #    if test x$CURSES_LIB_NAME = xcurses; then
 	AC_MSG_CHECKING([whether _XOPEN_SOURCE_EXTENDED is needed])
 	AC_TRY_RUN([
