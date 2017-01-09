@@ -287,6 +287,11 @@ void do_uncut_text(void)
     /* Update the cursor position to account for the inserted lines. */
     reset_cursor();
 
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP))
+	ensure_line_is_visible();
+#endif
+
     refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
