@@ -2398,217 +2398,208 @@ void edit_draw(filestruct *fileptr, const char *converted, int
 					startmatch.rm_eo <= from_x)
 			continue;
 
-		    {
-			start_col = (startmatch.rm_so <= from_x) ?
-				0 : strnlenpt(fileptr->data,
-				startmatch.rm_so) - from_col;
-
-			thetext = converted + actual_x(converted, start_col);
-
-			paintlen = actual_x(thetext, strnlenpt(fileptr->data,
-				startmatch.rm_eo) - from_col - start_col);
-
-			mvwaddnstr(edit, line, margin + start_col,
-						thetext, paintlen);
-		    }
-		}
-		goto tail_of_loop;
-	    }
-
-	    /* Second case: varnish is a multiline expression. */
-	    {
-		const filestruct *start_line = fileptr->prev;
-		    /* The first line before fileptr that matches 'start'. */
-		const filestruct *end_line = fileptr;
-		    /* The line that matches 'end'. */
-
-		/* First see if the multidata was maybe already calculated. */
-		if (fileptr->multidata[varnish->id] == CNONE)
-		    goto tail_of_loop;
-		else if (fileptr->multidata[varnish->id] == CWHOLELINE) {
-		    mvwaddnstr(edit, line, margin, converted, -1);
-		    goto tail_of_loop;
-		} else if (fileptr->multidata[varnish->id] == CBEGINBEFORE) {
-		    regexec(varnish->end, fileptr->data, 1, &endmatch, 0);
-		    /* If the coloured part is scrolled off, skip it. */
-		    if (endmatch.rm_eo <= from_x)
-			goto tail_of_loop;
-		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
-						endmatch.rm_eo) - from_col);
-		    mvwaddnstr(edit, line, margin, converted, paintlen);
-		    goto tail_of_loop;
-		}
-
-		/* There is no precalculated multidata, or it is CENDAFTER or
-		 * CSTARTENDHERE.  In all cases, find out what to paint. */
-
-		/* When the multidata is unitialized, assume CNONE until one
-		 * of the steps below concludes otherwise. */
-		if (fileptr->multidata[varnish->id] == -1)
-		    fileptr->multidata[varnish->id] = CNONE;
-
-		/* First check if the beginning of the line is colored by a
-		 * start on an earlier line, and an end on this line or later.
-		 *
-		 * So: find the first line before fileptr matching the start.
-		 * If every match on that line is followed by an end, then go
-		 * to step two.  Otherwise, find a line after start_line that
-		 * matches the end.  If that line is not before fileptr, then
-		 * paint the beginning of this line. */
-
-		while (start_line != NULL && regexec(varnish->start,
-			start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
-		    /* There is no start; but if there is an end on this line,
-		     * there is no need to look for starts on earlier lines. */
-		    if (regexec(varnish->end, start_line->data, 0, NULL, 0) == 0)
-			goto step_two;
-		    start_line = start_line->prev;
-		}
-
-		/* If no start was found, skip to the next step. */
-		if (start_line == NULL)
-		    goto step_two;
-
-		/* If a found start has been qualified as an end earlier,
-		 * believe it and skip to the next step. */
-		if (start_line->multidata != NULL &&
-			(start_line->multidata[varnish->id] == CBEGINBEFORE ||
-			start_line->multidata[varnish->id] == CSTARTENDHERE))
-		    goto step_two;
-
-		/* Skip over a zero-length regex match. */
-		if (startmatch.rm_so == startmatch.rm_eo)
-		    goto tail_of_loop;
-
-		/* Now start_line is the first line before fileptr containing
-		 * a start match.  Is there a start on that line not followed
-		 * by an end on that line? */
-		while (TRUE) {
-		    index += startmatch.rm_so;
-		    startmatch.rm_eo -= startmatch.rm_so;
-		    if (regexec(varnish->end, start_line->data +
-				index + startmatch.rm_eo, 0, NULL,
-				(index + startmatch.rm_eo == 0) ?
-				0 : REG_NOTBOL) == REG_NOMATCH)
-			/* No end found after this start. */
-			break;
-		    index++;
-		    if (regexec(varnish->start, start_line->data + index,
-				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
-			/* No later start on this line. */
-			goto step_two;
-		}
-		/* Indeed, there is a start without an end on that line. */
-
-		/* We've already checked that there is no end before fileptr
-		 * and after the start.  But is there an end after the start
-		 * at all?  We don't paint unterminated starts. */
-		while (end_line != NULL && regexec(varnish->end,
-			end_line->data, 1, &endmatch, 0) == REG_NOMATCH)
-		    end_line = end_line->next;
-
-		/* If no end was found, or it is too early, next step. */
-		if (end_line == NULL)
-		    goto step_two;
-		if (end_line == fileptr && endmatch.rm_eo <= from_x) {
-		    fileptr->multidata[varnish->id] = CBEGINBEFORE;
-		    goto step_two;
-		}
-
-		/* Now paint the start of the line.  However, if the end match
-		 * is on a different line, paint the whole line, and go on. */
-		if (end_line != fileptr) {
-		    mvwaddnstr(edit, line, margin, converted, -1);
-		    fileptr->multidata[varnish->id] = CWHOLELINE;
-#ifdef DEBUG
-    fprintf(stderr, "  Marking for id %i  line %i as CWHOLELINE\n", varnish->id, line);
-#endif
-		    /* Don't bother looking for any more starts. */
-		    goto tail_of_loop;
-		} else {
-		    paintlen = actual_x(converted, strnlenpt(fileptr->data,
-						endmatch.rm_eo) - from_col);
-		    mvwaddnstr(edit, line, margin, converted, paintlen);
-		    fileptr->multidata[varnish->id] = CBEGINBEFORE;
-#ifdef DEBUG
-    fprintf(stderr, "  Marking for id %i  line %i as CBEGINBEFORE\n", varnish->id, line);
-#endif
-		}
-  step_two:
-		/* Second step: look for starts on this line, but begin
-		 * looking only after an end match, if there is one. */
-		index = (paintlen == 0) ? 0 : endmatch.rm_eo;
-
-		while (regexec(varnish->start, fileptr->data + index,
-				1, &startmatch, (index == 0) ?
-				0 : REG_NOTBOL) == 0) {
-		    /* Translate the match to be relative to the
-		     * beginning of the line. */
-		    startmatch.rm_so += index;
-		    startmatch.rm_eo += index;
-
 		    start_col = (startmatch.rm_so <= from_x) ?
 				0 : strnlenpt(fileptr->data,
 				startmatch.rm_so) - from_col;
 
 		    thetext = converted + actual_x(converted, start_col);
 
-		    if (regexec(varnish->end, fileptr->data +
-				startmatch.rm_eo, 1, &endmatch,
-				(startmatch.rm_eo == 0) ?
+		    paintlen = actual_x(thetext, strnlenpt(fileptr->data,
+				startmatch.rm_eo) - from_col - start_col);
+
+		    mvwaddnstr(edit, line, margin + start_col,
+						thetext, paintlen);
+		}
+		goto tail_of_loop;
+	    }
+
+	    /* Second case: varnish is a multiline expression. */
+	    const filestruct *start_line = fileptr->prev;
+		/* The first line before fileptr that matches 'start'. */
+	    const filestruct *end_line = fileptr;
+		/* The line that matches 'end'. */
+
+	    /* First see if the multidata was maybe already calculated. */
+	    if (fileptr->multidata[varnish->id] == CNONE)
+		goto tail_of_loop;
+	    else if (fileptr->multidata[varnish->id] == CWHOLELINE) {
+		mvwaddnstr(edit, line, margin, converted, -1);
+		goto tail_of_loop;
+	    } else if (fileptr->multidata[varnish->id] == CBEGINBEFORE) {
+		regexec(varnish->end, fileptr->data, 1, &endmatch, 0);
+		/* If the coloured part is scrolled off, skip it. */
+		if (endmatch.rm_eo <= from_x)
+		    goto tail_of_loop;
+		paintlen = actual_x(converted, strnlenpt(fileptr->data,
+						endmatch.rm_eo) - from_col);
+		mvwaddnstr(edit, line, margin, converted, paintlen);
+		goto tail_of_loop;
+	    }
+
+	    /* There is no precalculated multidata, or it is CENDAFTER or
+	     * CSTARTENDHERE.  In all cases, find out what to paint. */
+
+	    /* When the multidata is unitialized, assume CNONE until one
+	     * of the steps below concludes otherwise. */
+	    if (fileptr->multidata[varnish->id] == -1)
+		fileptr->multidata[varnish->id] = CNONE;
+
+	    /* First check if the beginning of the line is colored by a
+	     * start on an earlier line, and an end on this line or later.
+	     *
+	     * So: find the first line before fileptr matching the start.
+	     * If every match on that line is followed by an end, then go
+	     * to step two.  Otherwise, find a line after start_line that
+	     * matches the end.  If that line is not before fileptr, then
+	     * paint the beginning of this line. */
+
+	    while (start_line != NULL && regexec(varnish->start,
+		    start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
+		/* There is no start; but if there is an end on this line,
+		 * there is no need to look for starts on earlier lines. */
+		if (regexec(varnish->end, start_line->data, 0, NULL, 0) == 0)
+		    goto step_two;
+		start_line = start_line->prev;
+	    }
+
+	    /* If no start was found, skip to the next step. */
+	    if (start_line == NULL)
+		goto step_two;
+
+	    /* If a found start has been qualified as an end earlier,
+	     * believe it and skip to the next step. */
+	    if (start_line->multidata != NULL &&
+			(start_line->multidata[varnish->id] == CBEGINBEFORE ||
+			start_line->multidata[varnish->id] == CSTARTENDHERE))
+		goto step_two;
+
+	    /* Skip over a zero-length regex match. */
+	    if (startmatch.rm_so == startmatch.rm_eo)
+		goto tail_of_loop;
+
+	    /* Now start_line is the first line before fileptr containing
+	     * a start match.  Is there a start on that line not followed
+	     * by an end on that line? */
+	    while (TRUE) {
+		index += startmatch.rm_so;
+		startmatch.rm_eo -= startmatch.rm_so;
+		if (regexec(varnish->end, start_line->data +
+				index + startmatch.rm_eo, 0, NULL,
+				(index + startmatch.rm_eo == 0) ?
+				0 : REG_NOTBOL) == REG_NOMATCH)
+		    /* No end found after this start. */
+		    break;
+		index++;
+		if (regexec(varnish->start, start_line->data + index,
+				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
+		    /* No later start on this line. */
+		    goto step_two;
+	    }
+	    /* Indeed, there is a start without an end on that line. */
+
+	    /* We've already checked that there is no end before fileptr
+	     * and after the start.  But is there an end after the start
+	     * at all?  We don't paint unterminated starts. */
+	    while (end_line != NULL && regexec(varnish->end, end_line->data,
+				 1, &endmatch, 0) == REG_NOMATCH)
+		end_line = end_line->next;
+
+	    /* If no end was found, or it is too early, next step. */
+	    if (end_line == NULL)
+		goto step_two;
+	    if (end_line == fileptr && endmatch.rm_eo <= from_x) {
+		fileptr->multidata[varnish->id] = CBEGINBEFORE;
+		goto step_two;
+	    }
+
+	    /* Now paint the start of the line.  However, if the end match
+	     * is on a different line, paint the whole line, and go on. */
+	    if (end_line != fileptr) {
+		mvwaddnstr(edit, line, margin, converted, -1);
+		fileptr->multidata[varnish->id] = CWHOLELINE;
+#ifdef DEBUG
+    fprintf(stderr, "  Marking for id %i  line %i as CWHOLELINE\n", varnish->id, line);
+#endif
+		/* Don't bother looking for any more starts. */
+		goto tail_of_loop;
+	    } else {
+		paintlen = actual_x(converted, strnlenpt(fileptr->data,
+						endmatch.rm_eo) - from_col);
+		mvwaddnstr(edit, line, margin, converted, paintlen);
+		fileptr->multidata[varnish->id] = CBEGINBEFORE;
+#ifdef DEBUG
+    fprintf(stderr, "  Marking for id %i  line %i as CBEGINBEFORE\n", varnish->id, line);
+#endif
+	    }
+  step_two:
+	    /* Second step: look for starts on this line, but begin
+	     * looking only after an end match, if there is one. */
+	    index = (paintlen == 0) ? 0 : endmatch.rm_eo;
+
+	    while (regexec(varnish->start, fileptr->data + index,
+				1, &startmatch, (index == 0) ?
 				0 : REG_NOTBOL) == 0) {
-			/* Translate the end match to be relative to
-			 * the beginning of the line. */
-			endmatch.rm_so += startmatch.rm_eo;
-			endmatch.rm_eo += startmatch.rm_eo;
-			/* There is an end on this line.  But does
-			 * it appear on this page, and is the match
-			 * more than zero characters long? */
-			if (endmatch.rm_eo > from_x &&
+		/* Translate the match to be relative to the
+		 * beginning of the line. */
+		startmatch.rm_so += index;
+		startmatch.rm_eo += index;
+
+		start_col = (startmatch.rm_so <= from_x) ?
+				0 : strnlenpt(fileptr->data,
+				startmatch.rm_so) - from_col;
+
+		thetext = converted + actual_x(converted, start_col);
+
+		if (regexec(varnish->end, fileptr->data + startmatch.rm_eo,
+				1, &endmatch, (startmatch.rm_eo == 0) ?
+				0 : REG_NOTBOL) == 0) {
+		    /* Translate the end match to be relative to
+		     * the beginning of the line. */
+		    endmatch.rm_so += startmatch.rm_eo;
+		    endmatch.rm_eo += startmatch.rm_eo;
+		    /* There is an end on this line.  But does
+		     * it appear on this page, and is the match
+		     * more than zero characters long? */
+		    if (endmatch.rm_eo > from_x &&
 					endmatch.rm_eo > startmatch.rm_so) {
-			    paintlen = actual_x(thetext, strnlenpt(fileptr->data,
+			paintlen = actual_x(thetext, strnlenpt(fileptr->data,
 					endmatch.rm_eo) - from_col - start_col);
 
-			    mvwaddnstr(edit, line, margin + start_col,
-							thetext, paintlen);
+			mvwaddnstr(edit, line, margin + start_col,
+						thetext, paintlen);
 
-			    fileptr->multidata[varnish->id] = CSTARTENDHERE;
+			fileptr->multidata[varnish->id] = CSTARTENDHERE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CSTARTENDHERE\n", varnish->id, line);
 #endif
-			}
-			index = endmatch.rm_eo;
-			/* Skip over a zero-length match. */
-			if (endmatch.rm_so == endmatch.rm_eo)
-			    index += 1;
-			continue;
 		    }
+		    index = endmatch.rm_eo;
+		    /* Skip over a zero-length match. */
+		    if (endmatch.rm_so == endmatch.rm_eo)
+			index += 1;
+		    continue;
+		}
 
-		    {
-			/* There is no end on this line.  But we haven't yet
-			 * looked for one on later lines. */
-			end_line = fileptr->next;
+		/* There is no end on this line.  But maybe on later lines? */
+		end_line = fileptr->next;
 
-			while (end_line != NULL &&
-				regexec(varnish->end, end_line->data,
-				0, NULL, 0) == REG_NOMATCH)
-			    end_line = end_line->next;
+		while (end_line != NULL && regexec(varnish->end, end_line->data,
+					0, NULL, 0) == REG_NOMATCH)
+		    end_line = end_line->next;
 
-			/* If there is no end, we're done on this line. */
-			if (end_line == NULL)
-			    break;
+		/* If there is no end, we're done with this regex. */
+		if (end_line == NULL)
+		    break;
 
-			/* Paint the rest of the line. */
-			mvwaddnstr(edit, line, margin + start_col, thetext, -1);
-			fileptr->multidata[varnish->id] = CENDAFTER;
+		/* Paint the rest of the line. */
+		mvwaddnstr(edit, line, margin + start_col, thetext, -1);
+		fileptr->multidata[varnish->id] = CENDAFTER;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  line %i as CENDAFTER\n", varnish->id, line);
 #endif
-			/* We've painted to the end of the line, so don't
-			 * bother checking for any more starts. */
-			break;
-		    }
-		}
+		/* We've painted to the end of the line, so don't
+		 * bother checking for any more starts. */
+		break;
 	    }
   tail_of_loop:
 	    wattroff(edit, varnish->attributes);
