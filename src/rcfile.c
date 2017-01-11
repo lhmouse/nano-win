@@ -1147,10 +1147,9 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 		rcfile_error(N_("Requested fill size \"%s\" is invalid"),
 				option);
 		wrap_at = -CHARS_FROM_EOL;
-	    } else {
+	    } else
 		UNSET(NO_WRAP);
-		free(option);
-	    }
+	    free(option);
 	} else
 #endif
 #ifndef NANO_TINY
@@ -1211,8 +1210,8 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 		rcfile_error(N_("Requested tab size \"%s\" is invalid"),
 				option);
 		tabsize = -1;
-	    } else
-		free(option);
+	    }
+	    free(option);
 	} else
 	    assert(FALSE);
     }
