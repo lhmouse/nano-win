@@ -85,25 +85,22 @@ int digits(ssize_t n)
 }
 #endif
 
-/* Read a ssize_t from str, and store it in *val (if val is not NULL).
- * On error, we return FALSE and don't change *val.  Otherwise, we
- * return TRUE. */
-bool parse_num(const char *str, ssize_t *val)
+/* Read an integer from str.  If it parses okay, store it in *result
+ * and return TRUE; otherwise, return FALSE. */
+bool parse_num(const char *str, ssize_t *result)
 {
     char *first_error;
-    ssize_t j;
+    ssize_t value;
 
-    /* The manual page for strtol() says this is required, and
-     * it looks like it is! */
+    /* The manual page for strtol() says this is required. */
     errno = 0;
 
-    j = (ssize_t)strtol(str, &first_error, 10);
+    value = (ssize_t)strtol(str, &first_error, 10);
 
     if (errno == ERANGE || *str == '\0' || *first_error != '\0')
 	return FALSE;
 
-    if (val != NULL)
-	*val = j;
+    *result = value;
 
     return TRUE;
 }
