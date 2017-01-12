@@ -528,7 +528,7 @@ void browser_refresh(void)
 	    the_column = col;
 	}
 
-	blank_line(edit, line, col, longest);
+	blank_row(edit, line, col, longest);
 
 	/* If the name is too long, we display something like "...ename". */
 	if (dots)

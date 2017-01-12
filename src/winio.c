@@ -1726,7 +1726,7 @@ const sc *get_shortcut(int *kbinput)
 
 /* Move to (x, y) in win, and display a line of n spaces with the
  * current attributes. */
-void blank_line(WINDOW *win, int y, int x, int n)
+void blank_row(WINDOW *win, int y, int x, int n)
 {
     wmove(win, y, x);
 
@@ -1737,23 +1737,23 @@ void blank_line(WINDOW *win, int y, int x, int n)
 /* Blank the first line of the top portion of the window. */
 void blank_titlebar(void)
 {
-    blank_line(topwin, 0, 0, COLS);
+    blank_row(topwin, 0, 0, COLS);
 }
 
 /* Blank all the lines of the middle portion of the window, i.e. the
  * edit window. */
 void blank_edit(void)
 {
-    int i;
+    int row;
 
-    for (i = 0; i < editwinrows; i++)
-	blank_line(edit, i, 0, COLS);
+    for (row = 0; row < editwinrows; row++)
+	blank_row(edit, row, 0, COLS);
 }
 
 /* Blank the first line of the bottom portion of the window. */
 void blank_statusbar(void)
 {
-    blank_line(bottomwin, 0, 0, COLS);
+    blank_row(bottomwin, 0, 0, COLS);
 }
 
 /* If the NO_HELP flag isn't set, blank the last two lines of the bottom
@@ -1761,8 +1761,8 @@ void blank_statusbar(void)
 void blank_bottombars(void)
 {
     if (!ISSET(NO_HELP) && LINES > 4) {
-	blank_line(bottomwin, 1, 0, COLS);
-	blank_line(bottomwin, 2, 0, COLS);
+	blank_row(bottomwin, 1, 0, COLS);
+	blank_row(bottomwin, 2, 0, COLS);
     }
 }
 
@@ -2682,7 +2682,7 @@ int update_line(filestruct *fileptr, size_t index)
 	return 1;
 
     /* First, blank out the line. */
-    blank_line(edit, line, 0, COLS);
+    blank_row(edit, line, 0, COLS);
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
@@ -2721,7 +2721,7 @@ int update_line(filestruct *fileptr, size_t index)
 #ifdef DEBUG
 	    fprintf(stderr, "update_line(): softwrap code, moving to %d index %lu\n", line, (unsigned long)index);
 #endif
-	    blank_line(edit, line, 0, COLS);
+	    blank_row(edit, line, 0, COLS);
 
 	    /* Expand the line, replacing tabs with spaces, and control
 	     * characters with their displayed forms. */
@@ -2961,7 +2961,7 @@ void edit_refresh(void)
     }
 
     while (row < editwinrows)
-	blank_line(edit, row++, 0, COLS);
+	blank_row(edit, row++, 0, COLS);
 
     reset_cursor();
     wnoutrefresh(edit);
