@@ -2752,26 +2752,24 @@ bool need_horizontal_scroll(const size_t old_column, const size_t new_column)
 	return (get_page_start(old_column) != get_page_start(new_column));
 }
 
-/* When edittop changes, try and figure out how many lines we really
- * have to work with, accounting for softwrap mode. */
+/* Determine how many file lines we can display, accounting for softwraps. */
 void compute_maxlines(void)
 {
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	int screenrow;
 	filestruct *line = openfile->edittop;
+	int row = 0;
 
 	maxlines = 0;
 
-	for (screenrow = 0; screenrow < editwinrows && line != NULL; screenrow++) {
-	    screenrow += strlenpt(line->data) / editwincols;
+	while (row < editwinrows && line != NULL) {
+	    row += (strlenpt(line->data) / editwincols) + 1;
 	    line = line->next;
 	    maxlines++;
 	}
 
-	if (screenrow < editwinrows)
-	    maxlines += editwinrows - screenrow;
-
+	if (row < editwinrows)
+	    maxlines += (editwinrows - row);
 #ifdef DEBUG
 	fprintf(stderr, "recomputed: maxlines = %d\n", maxlines);
 #endif
