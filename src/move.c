@@ -100,7 +100,7 @@ void do_page_down(void)
 
     /* If the cursor is less than a page away from the bottom of the file,
      * put it at the end of the last line. */
-    if (openfile->current->lineno + maxrows - 2 >= openfile->filebot->lineno) {
+    if (openfile->current->lineno + maxlines - 2 >= openfile->filebot->lineno) {
 	do_last_line();
 	return;
     }
@@ -112,7 +112,7 @@ void do_page_down(void)
 	openfile->placewewant = openfile->current_y = 0;
     }
 
-    mustmove = (maxrows < 3) ? 1 : maxrows - 2;
+    mustmove = (maxlines < 3) ? 1 : maxlines - 2;
 
     for (i = mustmove; i > 0 && openfile->current != openfile->filebot; i--) {
 	openfile->current = openfile->current->next;

@@ -2755,30 +2755,30 @@ bool need_horizontal_scroll(const size_t old_column, const size_t new_column)
 
 /* When edittop changes, try and figure out how many lines we really
  * have to work with, accounting for softwrap mode. */
-void compute_maxrows(void)
+void compute_maxlines(void)
 {
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	int screenrow;
 	filestruct *line = openfile->edittop;
 
-	maxrows = 0;
+	maxlines = 0;
 
 	for (screenrow = 0; screenrow < editwinrows && line != NULL; screenrow++) {
 	    screenrow += strlenpt(line->data) / editwincols;
 	    line = line->next;
-	    maxrows++;
+	    maxlines++;
 	}
 
 	if (screenrow < editwinrows)
-	    maxrows += editwinrows - screenrow;
+	    maxlines += editwinrows - screenrow;
 
 #ifdef DEBUG
-	fprintf(stderr, "recomputed: maxrows = %d\n", maxrows);
+	fprintf(stderr, "recomputed: maxlines = %d\n", maxlines);
 #endif
     } else
 #endif /* !NANO_TINY */
-	maxrows = editwinrows;
+	maxlines = editwinrows;
 }
 
 /* Scroll the edit window in the given direction and the given number
@@ -2877,7 +2877,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	foo = foo->next;
     }
 
-    compute_maxrows();
+    compute_maxlines();
 }
 
 /* Update any lines between old_current and current that need to be
@@ -2889,9 +2889,9 @@ void edit_redraw(filestruct *old_current)
     openfile->placewewant = xplustabs();
 
     /* If the current line is offscreen, scroll until it's onscreen. */
-    if (openfile->current->lineno >= openfile->edittop->lineno + maxrows ||
+    if (openfile->current->lineno >= openfile->edittop->lineno + maxlines ||
 #ifndef NANO_TINY
-		(openfile->current->lineno == openfile->edittop->lineno + maxrows - 1 &&
+		(openfile->current->lineno == openfile->edittop->lineno + maxlines - 1 &&
 		ISSET(SOFTWRAP) && strlenpt(openfile->current->data) >= editwincols) ||
 #endif
 		openfile->current->lineno < openfile->edittop->lineno) {
@@ -2933,15 +2933,15 @@ void edit_refresh(void)
     filestruct *line;
     int row = 0;
 
-    /* Figure out what maxrows should really be. */
-    compute_maxrows();
+    /* Figure out what maxlines should really be. */
+    compute_maxlines();
 
     /* If the current line is out of view, get it back on screen. */
     if (openfile->current->lineno < openfile->edittop->lineno ||
-		openfile->current->lineno >= openfile->edittop->lineno + maxrows) {
+		openfile->current->lineno >= openfile->edittop->lineno + maxlines) {
 #ifdef DEBUG
-	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and maxrows = %d\n",
-		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxrows);
+	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and maxlines = %d\n",
+		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxlines);
 #endif
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
@@ -3021,7 +3021,7 @@ void adjust_viewport(update_type manner)
 #ifdef DEBUG
     fprintf(stderr, "adjust_viewport(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
-    compute_maxrows();
+    compute_maxlines();
 }
 
 /* Unconditionally redraw the entire screen. */
