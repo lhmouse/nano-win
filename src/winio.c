@@ -2655,9 +2655,11 @@ void edit_draw(filestruct *fileptr, const char *converted,
 #endif /* !NANO_TINY */
 }
 
-/* Redraw one line from the edit buffer.  The line will be displayed starting
- * with fileptr->data[index].  Likely values of index are current_x or zero.
- * Return the number of additional rows consumed (needed for SOFTWRAP). */
+/* Redraw the line at fileptr.  The line will be displayed so that the
+ * character with the given index is visible -- if necessary, the line
+ * will be horizontally scrolled.  In softwrap mode, however, the entire
+ * line will be displayed.  Likely values of index are current_x or zero.
+ * Return the number of additional rows consumed (when softwrapping). */
 int update_line(filestruct *fileptr, size_t index)
 {
     int row = 0;
@@ -2720,6 +2722,7 @@ int update_line(filestruct *fileptr, size_t index)
 #ifdef DEBUG
 	    fprintf(stderr, "update_line(): softwrap code, moving to %d column %lu\n", row, (unsigned long)from_col);
 #endif
+	    /* First, blank out the row. */
 	    blank_row(edit, row, 0, COLS);
 
 	    /* Expand the line, replacing tabs with spaces, and control
@@ -2737,6 +2740,7 @@ int update_line(filestruct *fileptr, size_t index)
 	}
     }
 #endif /* !NANO_TINY */
+
     return extra_rows;
 }
 
