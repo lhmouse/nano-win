@@ -2711,7 +2711,7 @@ int update_line(filestruct *fileptr, size_t index)
 #endif
 	if (page_start > 0)
 	    mvwaddch(edit, line, margin, '$');
-	if (strlenpt(fileptr->data + page_start) > editwincols)
+	if (strlenpt(fileptr->data) > page_start + editwincols)
 	    mvwaddch(edit, line, COLS - 1, '$');
 #ifndef NANO_TINY
     } else {
