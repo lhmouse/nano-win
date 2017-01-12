@@ -2655,25 +2655,28 @@ void edit_draw(filestruct *fileptr, const char *converted,
 #endif /* !NANO_TINY */
 }
 
-/* Just update one line in the edit buffer.  This is basically a wrapper
- * for edit_draw().  The line will be displayed starting with
- * fileptr->data[index].  Likely arguments are current_x or zero.
- * Returns: Number of additional lines consumed (needed for SOFTWRAP). */
+/* Redraw one line from the edit buffer.  The line will be displayed starting
+ * with fileptr->data[index].  Likely values of index are current_x or zero.
+ * Return the number of additional rows consumed (needed for SOFTWRAP). */
 int update_line(filestruct *fileptr, size_t index)
 {
     int row = 0;
 	/* The row in the edit window we will be updating. */
-    int extralinesused = 0;
+    int extra_rows = 0;
+	/* The number of extra rows a softwrapped line occupies. */
     char *converted;
 	/* The data of the line with tabs and control characters expanded. */
-    size_t page_start;
+    size_t from_col = 0;
+	/* From which column a horizontally scrolled line is displayed. */
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	filestruct *tmp;
+	filestruct *line = openfile->edittop;
 
-	for (tmp = openfile->edittop; tmp && tmp != fileptr; tmp = tmp->next)
-	    row += (strlenpt(tmp->data) / editwincols) + 1;
+	while (line != fileptr && line != NULL) {
+	    row += (strlenpt(line->data) / editwincols) + 1;
+	    line = line->next;
+	}
     } else
 #endif
 	row = fileptr->lineno - openfile->edittop->lineno;
@@ -2684,61 +2687,57 @@ int update_line(filestruct *fileptr, size_t index)
     /* First, blank out the row. */
     blank_row(edit, row, 0, COLS);
 
-    /* Next, convert variables that index the line to their equivalent
-     * positions in the expanded line. */
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP))
-	index = 0;
-    else
-#endif
-	index = strnlenpt(fileptr->data, index);
-    page_start = get_page_start(index);
+    /* Next, find out from which column to start displaying the line. */
+    if (!ISSET(SOFTWRAP))
+	from_col = get_page_start(strnlenpt(fileptr->data, index));
 
     /* Expand the line, replacing tabs with spaces, and control
      * characters with their displayed forms. */
-    converted = display_string(fileptr->data, page_start, editwincols, TRUE);
+    converted = display_string(fileptr->data, from_col, editwincols, TRUE);
 #ifdef DEBUG
     if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
 	fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
 #endif
 
     /* Draw the line. */
-    edit_draw(fileptr, converted, row, page_start);
+    edit_draw(fileptr, converted, row, from_col);
     free(converted);
 
 #ifndef NANO_TINY
     if (!ISSET(SOFTWRAP)) {
 #endif
-	if (page_start > 0)
+	if (from_col > 0)
 	    mvwaddch(edit, row, margin, '$');
-	if (strlenpt(fileptr->data) > page_start + editwincols)
+	if (strlenpt(fileptr->data) > from_col + editwincols)
 	    mvwaddch(edit, row, COLS - 1, '$');
 #ifndef NANO_TINY
     } else {
 	size_t full_length = strlenpt(fileptr->data);
-	for (index += editwincols; index <= full_length && row < editwinrows - 1; index += editwincols) {
+
+	for (from_col += editwincols; from_col <= full_length &&
+			row < editwinrows - 1; from_col += editwincols) {
 	    row++;
 #ifdef DEBUG
-	    fprintf(stderr, "update_line(): softwrap code, moving to %d index %lu\n", row, (unsigned long)index);
+	    fprintf(stderr, "update_line(): softwrap code, moving to %d column %lu\n", row, (unsigned long)from_col);
 #endif
 	    blank_row(edit, row, 0, COLS);
 
 	    /* Expand the line, replacing tabs with spaces, and control
 	     * characters with their displayed forms. */
-	    converted = display_string(fileptr->data, index, editwincols, TRUE);
+	    converted = display_string(fileptr->data, from_col, editwincols, TRUE);
 #ifdef DEBUG
 	    if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
 		fprintf(stderr, "update_line(): converted(2) line = %s\n", converted);
 #endif
 	    /* Draw the line. */
-	    edit_draw(fileptr, converted, row, index);
+	    edit_draw(fileptr, converted, row, from_col);
 	    free(converted);
 
-	    extralinesused++;
+	    extra_rows++;
 	}
     }
 #endif /* !NANO_TINY */
-    return extralinesused;
+    return extra_rows;
 }
 
 /* Check whether old_column and new_column are on different "pages" (or that
