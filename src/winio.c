@@ -2664,8 +2664,6 @@ int update_line(filestruct *fileptr, size_t index)
 {
     int row = 0;
 	/* The row in the edit window we will be updating. */
-    int extra_rows = 0;
-	/* The number of extra rows a softwrapped line occupies. */
     char *converted;
 	/* The data of the line with tabs and control characters expanded. */
     size_t from_col = 0;
@@ -2691,6 +2689,7 @@ int update_line(filestruct *fileptr, size_t index)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	size_t full_length = strlenpt(fileptr->data);
+	int starting_row = row;
 
 	for (from_col = 0; from_col <= full_length &&
 			row < editwinrows; from_col += editwincols) {
@@ -2704,11 +2703,9 @@ int update_line(filestruct *fileptr, size_t index)
 	    /* Draw the line. */
 	    edit_draw(fileptr, converted, row++, from_col);
 	    free(converted);
-
-	    extra_rows++;
 	}
 
-	return --extra_rows;
+	return (row - starting_row);
     }
 #endif
 
@@ -2731,7 +2728,7 @@ int update_line(filestruct *fileptr, size_t index)
     if (strlenpt(fileptr->data) > from_col + editwincols)
 	mvwaddch(edit, row, COLS - 1, '$');
 
-    return 0;
+    return 1;
 }
 
 /* Check whether old_column and new_column are on different "pages" (or that
@@ -2945,9 +2942,9 @@ void edit_refresh(void)
 
     while (row < editwinrows && line != NULL) {
 	if (line == openfile->current)
-	    row += update_line(line, openfile->current_x) + 1;
+	    row += update_line(line, openfile->current_x);
 	else
-	    row += update_line(line, 0) + 1;
+	    row += update_line(line, 0);
 	line = line->next;
     }
 
