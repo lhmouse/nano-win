@@ -245,23 +245,14 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
     int feedback = 0;
 	/* When bigger than zero, show and wipe the "Searching..." message. */
     filestruct *line = openfile->current;
-    const char *from = line->data, *found = NULL;
+	/* The line that we will search through now. */
+    const char *from = line->data + openfile->current_x;
+	/* The point in the line from where we start searching. */
+    const char *found = NULL;
+	/* A pointer to the location of the match, if any. */
     size_t found_x;
 	/* The x coordinate of a found occurrence. */
     time_t lastkbcheck = time(NULL);
-
-    /* 'from' might end up 1 character before the start or after the end
-     * of the line.  This is fine because in that case strstrwrapper()
-     * will return immediately and say that no match was found, and
-     * 'from' will be properly set when the search continues on the
-     * previous or next line. */
-    if (ISSET(BACKWARDS_SEARCH)) {
-	if (openfile->current_x == 0)
-	    from += -1;
-	else
-	    from += move_mbleft(line->data, openfile->current_x);
-    } else
-	from += move_mbright(line->data, openfile->current_x);
 
     enable_nodelay();
 
@@ -294,6 +285,19 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 
 	/* Search for the needle in the current line. */
 	found = strstrwrapper(line->data, needle, from);
+
+	/* Ignore the initial match at the starting position: continue
+	 * searching from the next character, or invalidate the match. */
+	if (found == begin->data + begin_x && !came_full_circle) {
+	    if (ISSET(BACKWARDS_SEARCH) && from != line->data) {
+		from = line->data + move_mbleft(line->data, from - line->data);
+		continue;
+	    } else if (!ISSET(BACKWARDS_SEARCH) && *from != '\0') {
+		from += move_mbright(from, 0);
+		continue;
+	    }
+	    found = NULL;
+	}
 
 	if (found != NULL) {
 #ifdef HAVE_REGEX_H

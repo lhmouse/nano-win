@@ -324,11 +324,6 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start)
 {
-    /* start can be 1 character before the start or after the end of the
-     * line.  In either case, we just say no match was found. */
-    if ((start > haystack && *(start - 1) == '\0') || start < haystack)
-	return NULL;
-
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 	if (ISSET(BACKWARDS_SEARCH)) {
