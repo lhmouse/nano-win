@@ -2688,11 +2688,13 @@ int update_line(filestruct *fileptr, size_t index)
     if (row < 0 || row >= editwinrows)
 	return 0;
 
+#ifndef NANO_TINY
+    if (!ISSET(SOFTWRAP)) {
+#endif
     /* First, blank out the row. */
     blank_row(edit, row, 0, COLS);
 
     /* Next, find out from which column to start displaying the line. */
-    if (!ISSET(SOFTWRAP))
 	from_col = get_page_start(strnlenpt(fileptr->data, index));
 
     /* Expand the line, replacing tabs with spaces, and control
@@ -2703,9 +2705,6 @@ int update_line(filestruct *fileptr, size_t index)
     edit_draw(fileptr, converted, row, from_col);
     free(converted);
 
-#ifndef NANO_TINY
-    if (!ISSET(SOFTWRAP)) {
-#endif
 	if (from_col > 0)
 	    mvwaddch(edit, row, margin, '$');
 	if (strlenpt(fileptr->data) > from_col + editwincols)
@@ -2714,25 +2713,27 @@ int update_line(filestruct *fileptr, size_t index)
     } else {
 	size_t full_length = strlenpt(fileptr->data);
 
-	for (from_col += editwincols; from_col <= full_length &&
-			row < editwinrows - 1; from_col += editwincols) {
+	for (from_col = 0; from_col <= full_length &&
+			row < editwinrows; from_col += editwincols) {
 	    /* First, blank out the row. */
-	    blank_row(edit, ++row, 0, COLS);
+	    blank_row(edit, row, 0, COLS);
 
 	    /* Expand the line, replacing tabs with spaces, and control
 	     * characters with their displayed forms. */
 	    converted = display_string(fileptr->data, from_col, editwincols, TRUE);
 
 	    /* Draw the line. */
-	    edit_draw(fileptr, converted, row, from_col);
+	    edit_draw(fileptr, converted, row++, from_col);
 	    free(converted);
 
 	    extra_rows++;
 	}
+
+	return --extra_rows;
     }
 #endif
 
-    return extra_rows;
+    return 0;
 }
 
 /* Check whether old_column and new_column are on different "pages" (or that
