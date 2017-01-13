@@ -2675,6 +2675,7 @@ int update_line(filestruct *fileptr, size_t index)
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->edittop;
 
+	/* Find out on which screen row the target line should be shown. */
 	while (line != fileptr && line != NULL) {
 	    row += (strlenpt(line->data) / editwincols) + 1;
 	    line = line->next;
@@ -2697,10 +2698,6 @@ int update_line(filestruct *fileptr, size_t index)
     /* Expand the line, replacing tabs with spaces, and control
      * characters with their displayed forms. */
     converted = display_string(fileptr->data, from_col, editwincols, TRUE);
-#ifdef DEBUG
-    if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
-	fprintf(stderr, "update_line(): converted(1) line = %s\n", converted);
-#endif
 
     /* Draw the line. */
     edit_draw(fileptr, converted, row, from_col);
@@ -2719,20 +2716,13 @@ int update_line(filestruct *fileptr, size_t index)
 
 	for (from_col += editwincols; from_col <= full_length &&
 			row < editwinrows - 1; from_col += editwincols) {
-	    row++;
-#ifdef DEBUG
-	    fprintf(stderr, "update_line(): softwrap code, moving to %d column %lu\n", row, (unsigned long)from_col);
-#endif
 	    /* First, blank out the row. */
-	    blank_row(edit, row, 0, COLS);
+	    blank_row(edit, ++row, 0, COLS);
 
 	    /* Expand the line, replacing tabs with spaces, and control
 	     * characters with their displayed forms. */
 	    converted = display_string(fileptr->data, from_col, editwincols, TRUE);
-#ifdef DEBUG
-	    if (ISSET(SOFTWRAP) && strlen(converted) >= editwincols - 2)
-		fprintf(stderr, "update_line(): converted(2) line = %s\n", converted);
-#endif
+
 	    /* Draw the line. */
 	    edit_draw(fileptr, converted, row, from_col);
 	    free(converted);
@@ -2740,7 +2730,7 @@ int update_line(filestruct *fileptr, size_t index)
 	    extra_rows++;
 	}
     }
-#endif /* !NANO_TINY */
+#endif
 
     return extra_rows;
 }
