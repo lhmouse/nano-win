@@ -257,6 +257,9 @@ void do_cut_till_eof(void)
 void do_uncut_text(void)
 {
     ssize_t was_lineno = openfile->current->lineno;
+	/* The line number where we started the paste. */
+    size_t was_leftedge = 0;
+	/* The leftedge where we started the paste. */
 
     /* If the cutbuffer is empty, there is nothing to do. */
     if (cutbuffer == NULL)
@@ -264,6 +267,9 @@ void do_uncut_text(void)
 
 #ifndef NANO_TINY
     add_undo(PASTE);
+
+    if (ISSET(SOFTWRAP))
+	was_leftedge = (xplustabs() / editwincols) * editwincols;
 #endif
 
     /* Add a copy of the text in the cutbuffer to the current filestruct
@@ -274,7 +280,8 @@ void do_uncut_text(void)
     update_undo(PASTE);
 #endif
 
-    if (openfile->current->lineno - was_lineno < editwinrows)
+    /* If we pasted less than a screenful, don't center the cursor. */
+    if (less_than_a_screenful(was_lineno, was_leftedge))
 	focusing = FALSE;
 
     /* Set the desired x position to where the pasted text ends. */
@@ -285,8 +292,6 @@ void do_uncut_text(void)
 
     /* Update the cursor position to account for the inserted lines. */
     reset_cursor();
-
-    ensure_line_is_visible();
 
     refresh_needed = TRUE;
 

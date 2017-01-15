@@ -2835,6 +2835,24 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
     return i;
 }
 
+/* Return TRUE if there are fewer than a screen's worth of lines between
+ * the line at line number was_lineno (and column was_leftedge, if we're
+ * in softwrap mode) and the line at current[current_x]. */
+bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
+{
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	filestruct *line = openfile->current;
+	size_t leftedge = (xplustabs() / editwincols) * editwincols;
+	int rows_left = go_back_chunks(editwinrows - 1, &line, &leftedge);
+
+	return (rows_left > 0 || line->lineno < was_lineno ||
+		(line->lineno == was_lineno && leftedge <= was_leftedge));
+    } else
+#endif
+	return (openfile->current->lineno - was_lineno < editwinrows);
+}
+
 /* Scroll the edit window in the given direction and the given number of rows,
  * and draw new lines on the blank lines left after the scrolling.  We change
  * edittop, and assume that current and current_x are up to date. */
