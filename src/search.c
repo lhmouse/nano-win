@@ -883,17 +883,29 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->placewewant = column - 1;
 
     /* When the position was manually given, center the target line. */
-    if (interactive || ISSET(SOFTWRAP)) {
+    if (interactive) {
 	adjust_viewport(CENTERING);
 	refresh_needed = TRUE;
     } else {
+	int rows_from_tail;
+
+#ifndef NANO_TINY
+	if (ISSET(SOFTWRAP)) {
+	    filestruct *line = openfile->current;
+	    size_t leftedge = (xplustabs() / editwincols) * editwincols;
+
+	    rows_from_tail = (editwinrows / 2) -
+			go_forward_chunks(editwinrows / 2, &line, &leftedge);
+	} else
+#endif
+	    rows_from_tail = openfile->filebot->lineno -
+				openfile->current->lineno;
+
 	/* If the target line is close to the tail of the file, put the last
-	 * line of the file on the bottom line of the screen; otherwise, just
+	 * line or chunk on the bottom line of the screen; otherwise, just
 	 * center the target line. */
-	if (openfile->filebot->lineno - openfile->current->lineno <
-							editwinrows / 2) {
-	    openfile->current_y = editwinrows - openfile->filebot->lineno +
-					openfile->current->lineno - 1;
+	if (rows_from_tail < editwinrows / 2) {
+	    openfile->current_y = editwinrows - 1 - rows_from_tail;
 	    adjust_viewport(STATIONARY);
 	} else
 	    adjust_viewport(CENTERING);
