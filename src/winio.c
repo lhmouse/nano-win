@@ -2772,24 +2772,21 @@ void compute_maxlines(void)
 	maxlines = editwinrows;
 }
 
-/* Scroll the edit window in the given direction and the given number
- * of lines, and draw new lines on the blank lines left after the
- * scrolling.  direction is the direction to scroll, either UPWARD or
- * DOWNWARD, and nlines is the number of lines to scroll.  We change
- * edittop, and assume that current and current_x are up to date.  We
- * also assume that scrollok(edit) is FALSE. */
-void edit_scroll(scroll_dir direction, ssize_t nlines)
+/* Scroll the edit window in the given direction and the given number of rows,
+ * and draw new lines on the blank lines left after the scrolling.  We change
+ * edittop, and assume that current and current_x are up to date. */
+void edit_scroll(scroll_dir direction, int nrows)
 {
-    ssize_t i;
+    int i;
     filestruct *line;
 
-    /* Part 1: nlines is the number of lines we're going to scroll the
-     * text of the edit window. */
+    /* Part 1: nrows is the number of rows we're going to scroll the text of
+     * the edit window. */
 
-    /* Move the top line of the edit window up or down (depending on the
-     * value of direction) nlines lines, or as many lines as we can if
-     * there are fewer than nlines lines available. */
-    for (i = nlines; i > 0; i--) {
+    /* Move the top line of the edit window up or down (depending on the value
+     * of direction) nrows rows, or as many rows as we can if there are fewer
+     * than nrows rows available. */
+    for (i = nrows; i > 0; i--) {
 	if (direction == UPWARD) {
 	    if (openfile->edittop == openfile->fileage)
 		break;
@@ -2811,53 +2808,50 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 #endif
     }
 
-    /* Limit nlines to the number of lines we could scroll. */
-    nlines -= i;
+    /* Limit nrows to the number of rows we could scroll. */
+    nrows -= i;
 
-    /* Don't bother scrolling zero lines, nor more than the window can hold. */
-    if (nlines == 0)
+    /* Don't bother scrolling zero rows, nor more than the window can hold. */
+    if (nrows == 0)
 	return;
-    if (nlines >= editwinrows)
+    if (nrows >= editwinrows)
 	refresh_needed = TRUE;
 
     if (refresh_needed == TRUE)
 	return;
 
-    /* Scroll the text of the edit window up or down nlines lines,
-     * depending on the value of direction. */
+    /* Scroll the text of the edit window a number of rows up or down. */
     scrollok(edit, TRUE);
-    wscrl(edit, (direction == UPWARD) ? -nlines : nlines);
+    wscrl(edit, (direction == UPWARD) ? -nrows : nrows);
     scrollok(edit, FALSE);
 
-    /* Part 2: nlines is the number of lines in the scrolled region of
-     * the edit window that we need to draw. */
+    /* Part 2: nrows is now the number of rows in the scrolled region of the
+     * edit window that we need to draw. */
 
-    /* If the scrolled region contains only one line, and the line
-     * before it is visible in the edit window, we need to draw it too.
-     * If the scrolled region contains more than one line, and the lines
-     * before and after the scrolled region are visible in the edit
-     * window, we need to draw them too. */
-    nlines += (nlines == 1) ? 1 : 2;
+    /* If the scrolled region contains only one row, and the row before it is
+     * visible in the edit window, we need to draw it too.  If the scrolled
+     * region is more than one row, and the rows before and after it are
+     * visible in the edit window, we need to draw them too. */
+    nrows += (nrows == 1) ? 1 : 2;
 
-    if (nlines > editwinrows)
-	nlines = editwinrows;
+    if (nrows > editwinrows)
+	nrows = editwinrows;
 
     /* If we scrolled up, we're on the line before the scrolled region. */
     line = openfile->edittop;
 
     /* If we scrolled down, move down to the line before the scrolled region. */
     if (direction == DOWNWARD) {
-	for (i = editwinrows - nlines; i > 0 && line != NULL; i--)
+	for (i = editwinrows - nrows; i > 0 && line != NULL; i--)
 	    line = line->next;
     }
 
-    /* Draw new lines on any blank lines before or inside the scrolled
-     * region.  If we scrolled down and we're on the top line, or if we
-     * scrolled up and we're on the bottom line, the line won't be
-     * blank, so we don't need to draw it unless the mark is on or we're
-     * not on the first page. */
-    for (i = nlines; i > 0 && line != NULL; i--) {
-	if ((i == nlines && direction == DOWNWARD) ||
+    /* Draw new lines on any blank rows before or inside the scrolled region.
+     * If we scrolled down and we're on the top row, or if we scrolled up and
+     * we're on the bottom row, the row won't be blank, so we don't need to
+     * draw it unless the mark is on or we're not on the first "page". */
+    for (i = nrows; i > 0 && line != NULL; i--) {
+	if ((i == nrows && direction == DOWNWARD) ||
 			(i == 1 && direction == UPWARD)) {
 	    if (need_horizontal_scroll(openfile->placewewant, 0))
 		update_line(line, (line == openfile->current) ?
