@@ -701,7 +701,11 @@ void parse_colors(char *ptr, int rex_flags)
 	if (ptr == NULL)
 	    break;
 
-	goodstart = nregcomp(fgstr, rex_flags);
+	if (*fgstr == '\0') {
+	    rcfile_error(N_("Empty regex string"));
+	    goodstart = FALSE;
+	} else
+	    goodstart = nregcomp(fgstr, rex_flags);
 
 	/* If the starting regex is valid, initialize a new color struct,
 	 * and hook it in at the tail of the linked list. */
@@ -750,6 +754,11 @@ void parse_colors(char *ptr, int rex_flags)
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
 	    break;
+
+	if (*fgstr == '\0') {
+	    rcfile_error(N_("Empty regex string"));
+	    continue;
+	}
 
 	/* If the start regex was invalid, skip past the end regex
 	 * to stay in sync. */
