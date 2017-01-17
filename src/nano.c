@@ -2557,7 +2557,8 @@ int main(int argc, char **argv)
      * non-option argument, and it is followed by at least one other
      * argument, the filename it applies to. */
     if (0 < optind && optind < argc - 1 && argv[optind][0] == '+') {
-	parse_line_column(&argv[optind][1], &startline, &startcol);
+	if (!parse_line_column(&argv[optind][1], &startline, &startcol))
+	    statusline(ALERT, _("Invalid line or column number"));
 	optind++;
     }
 
@@ -2581,9 +2582,10 @@ int main(int argc, char **argv)
 	for (; i < argc; i++) {
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is followed
 	     * by at least one other argument: the filename it applies to. */
-	    if (i < argc - 1 && argv[i][0] == '+')
-		parse_line_column(&argv[i][1], &iline, &icol);
-	    else {
+	    if (i < argc - 1 && argv[i][0] == '+') {
+		if (!parse_line_column(&argv[i][1], &iline, &icol))
+		    statusline(ALERT, _("Invalid line or column number"));
+	    } else {
 		/* If opening fails, don't try to position the cursor. */
 		if (!open_buffer(argv[i], FALSE))
 		    continue;

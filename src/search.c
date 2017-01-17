@@ -894,7 +894,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 	/* Try to extract one or two numbers from the user's response. */
 	if (!parse_line_column(answer, &line, &column)) {
-	    statusbar(_("Invalid line or column number"));
+	    statusline(ALERT, _("Invalid line or column number"));
 	    return;
 	}
     } else {
