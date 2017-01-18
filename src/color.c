@@ -417,6 +417,7 @@ void precalc_multicolorinfo(void)
 
 	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 	    int startx = 0, nostart = 0;
+	    int linelen = strlen(fileptr->data);
 #ifdef DEBUG
 	    fprintf(stderr, "working on lineno %ld... ", (long)fileptr->lineno);
 #endif
@@ -427,6 +428,9 @@ void precalc_multicolorinfo(void)
 		/* Look for an end, and start marking how many lines are
 		 * encompassed, which should speed up rendering later. */
 		startx += startmatch.rm_eo;
+
+		if (startx > linelen)
+		    break;
 #ifdef DEBUG
 		fprintf(stderr, "start found at pos %lu... ", (unsigned long)startx);
 #endif

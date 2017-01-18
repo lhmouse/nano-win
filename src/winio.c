@@ -2350,6 +2350,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	for (; varnish != NULL; varnish = varnish->next) {
 	    size_t index = 0;
 		/* Where in the line we currently begin looking for a match. */
+	    int linelen;
+		/* The length of the line we are currently looking at. */
 	    int start_col;
 		/* The starting column of a piece to paint.  Zero-based. */
 	    int paintlen = 0;
@@ -2473,6 +2475,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			start_line->multidata[varnish->id] == CSTARTENDHERE))
 		goto step_two;
 
+	    linelen = strlen(start_line->data);
+
 	    /* Now start_line is the first line before fileptr containing
 	     * a start match.  Is there a start on that line not followed
 	     * by an end on that line? */
@@ -2481,7 +2485,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		index += startmatch.rm_eo;
 		/* If the start match is zero-length, don't get stuck. */
 		if (startmatch.rm_so == startmatch.rm_eo)
-		    index++;
+		    if (++index > linelen)
+			break;
 
 		/* If there is no end after this last start, good. */
 		if (regexec(varnish->end, start_line->data + index,
@@ -2534,6 +2539,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	     * looking only after an end match, if there is one. */
 	    index = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
+	    linelen = strlen(fileptr->data);
+
 	    while (regexec(varnish->start, fileptr->data + index,
 				1, &startmatch, (index == 0) ?
 				0 : REG_NOTBOL) == 0) {
@@ -2574,7 +2581,10 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		    /* Skip over a zero-length match. */
 		    if (endmatch.rm_so == endmatch.rm_eo)
 			index += 1;
-		    continue;
+		    if (index > linelen)
+			break;
+		    else
+			continue;
 		}
 
 		/* There is no end on this line.  But maybe on later lines? */
