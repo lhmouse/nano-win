@@ -1069,10 +1069,11 @@ void do_insertfile(void)
 	if (execute) {
 #ifndef DISABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
-		msg = _("Command to execute in new buffer [from %s] ");
+		/* TRANSLATORS: The next four messages are prompts. */
+		msg = _("Command to execute in new buffer");
 	    else
 #endif
-		msg = _("Command to execute [from %s] ");
+		msg = _("Command to execute");
 	} else
 #endif /* NANO_TINY */
 	{
