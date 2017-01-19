@@ -2946,6 +2946,41 @@ void edit_scroll(scroll_dir direction, int nrows)
     compute_maxlines();
 }
 
+/* Return TRUE if current[current_x] is above the top of the screen, and FALSE
+ * otherwise. */
+bool current_is_above_screen(void)
+{
+    return (openfile->current->lineno < openfile->edittop->lineno);
+}
+
+/* Return TRUE if current[current_x] is below the bottom of the screen, and
+ * FALSE otherwise. */
+bool current_is_below_screen(void)
+{
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	filestruct *line = openfile->edittop;
+	size_t leftedge = 0;
+
+	/* If current[current_x] is more than a screen's worth of lines after
+	 * edittop, it's below the screen. */
+	return (go_forward_chunks(editwinrows - 1, &line, &leftedge) == 0 &&
+			(line->lineno < openfile->current->lineno ||
+			(line->lineno == openfile->current->lineno &&
+			leftedge < (xplustabs() / editwincols) * editwincols)));
+    } else
+#endif
+	return (openfile->current->lineno >=
+			openfile->edittop->lineno + editwinrows);
+}
+
+/* Return TRUE if current[current_x] is offscreen relative to edittop, and
+ * FALSE otherwise. */
+bool current_is_offscreen(void)
+{
+    return (current_is_above_screen() || current_is_below_screen());
+}
+
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
 void edit_redraw(filestruct *old_current)
@@ -2955,12 +2990,7 @@ void edit_redraw(filestruct *old_current)
     openfile->placewewant = xplustabs();
 
     /* If the current line is offscreen, scroll until it's onscreen. */
-    if (openfile->current->lineno >= openfile->edittop->lineno + maxlines ||
-#ifndef NANO_TINY
-		(openfile->current->lineno == openfile->edittop->lineno + maxlines - 1 &&
-		ISSET(SOFTWRAP) && strlenpt(openfile->current->data) >= editwincols) ||
-#endif
-		openfile->current->lineno < openfile->edittop->lineno) {
+    if (current_is_offscreen()) {
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
 	refresh_needed = TRUE;
 	return;
@@ -3003,8 +3033,7 @@ void edit_refresh(void)
     compute_maxlines();
 
     /* If the current line is out of view, get it back on screen. */
-    if (openfile->current->lineno < openfile->edittop->lineno ||
-		openfile->current->lineno >= openfile->edittop->lineno + maxlines) {
+    if (current_is_offscreen()) {
 #ifdef DEBUG
 	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and maxlines = %d\n",
 		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxlines);
@@ -3055,7 +3084,7 @@ void adjust_viewport(update_type manner)
     if (manner == CENTERING)
 	goal = editwinrows / 2;
     else if (manner == FLOWING) {
-	if (openfile->current->lineno >= openfile->edittop->lineno) {
+	if (!current_is_above_screen()) {
 	    goal = editwinrows - 1;
 #ifndef NANO_TINY
 	    if (ISSET(SOFTWRAP))
