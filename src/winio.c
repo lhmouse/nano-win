@@ -2861,6 +2861,11 @@ void edit_scroll(scroll_dir direction, int nrows)
 {
     int i;
     filestruct *line;
+    size_t leftedge;
+
+    /* FIXME: This should be replaced with openfile->firstcolumn when the
+     * latter is added. */
+    size_t firstcolumn = 0;
 
     /* Part 1: nrows is the number of rows we're going to scroll the text of
      * the edit window. */
@@ -2868,27 +2873,19 @@ void edit_scroll(scroll_dir direction, int nrows)
     /* Move the top line of the edit window up or down (depending on the value
      * of direction) nrows rows, or as many rows as we can if there are fewer
      * than nrows rows available. */
-    for (i = nrows; i > 0; i--) {
-	if (direction == UPWARD) {
-	    if (openfile->edittop == openfile->fileage)
-		break;
-	    openfile->edittop = openfile->edittop->prev;
-	} else {
-	    if (openfile->edittop == openfile->filebot)
-		break;
-	    openfile->edittop = openfile->edittop->next;
-	}
+    if (direction == UPWARD)
+	i = go_back_chunks(nrows, &openfile->edittop, &firstcolumn);
+    else
+	i = go_forward_chunks(nrows, &openfile->edittop, &firstcolumn);
 
 #ifndef NANO_TINY
-	/* Don't over-scroll on long lines. */
-	if (ISSET(SOFTWRAP) && direction == UPWARD) {
-	    ssize_t len = strlenpt(openfile->edittop->data) / editwincols;
-	    i -= len;
-	    if (len > 0)
-		refresh_needed = TRUE;
-	}
-#endif
+    /* FIXME: nano currently can't handle a partially scrolled edittop,
+     * so for now: move edittop back to a full line and refresh. */
+    if (ISSET(SOFTWRAP) && firstcolumn > 0) {
+	openfile->edittop = openfile->edittop->prev;
+	refresh_needed = TRUE;
     }
+#endif
 
     /* Limit nrows to the number of rows we could scroll. */
     nrows -= i;
@@ -2921,12 +2918,11 @@ void edit_scroll(scroll_dir direction, int nrows)
 
     /* If we scrolled up, we're on the line before the scrolled region. */
     line = openfile->edittop;
+    leftedge = firstcolumn;
 
     /* If we scrolled down, move down to the line before the scrolled region. */
-    if (direction == DOWNWARD) {
-	for (i = editwinrows - nrows; i > 0 && line != NULL; i--)
-	    line = line->next;
-    }
+    if (direction == DOWNWARD)
+	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
     /* Draw new lines on any blank rows before or inside the scrolled region.
      * If we're not in softwrap mode, we can optimize one case: if we scrolled
