@@ -2894,13 +2894,13 @@ void edit_redraw(filestruct *old_current)
 #ifndef NANO_TINY
     /* If the mark is on, update all lines between old_current and current. */
     if (openfile->mark_set) {
-	filestruct *foo = old_current;
+	filestruct *line = old_current;
 
-	while (foo != openfile->current) {
-	    update_line(foo, 0);
+	while (line != openfile->current) {
+	    update_line(line, 0);
 
-	    foo = (foo->lineno > openfile->current->lineno) ?
-			foo->prev : foo->next;
+	    line = (line->lineno > openfile->current->lineno) ?
+			line->prev : line->next;
 	}
     } else
 #endif
