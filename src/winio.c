@@ -2929,12 +2929,14 @@ void edit_scroll(scroll_dir direction, int nrows)
     }
 
     /* Draw new lines on any blank rows before or inside the scrolled region.
-     * If we scrolled down and we're on the top row, or if we scrolled up and
-     * we're on the bottom row, the row won't be blank, so we don't need to
-     * draw it unless the mark is on or we're not on the first "page". */
+     * If we're not in softwrap mode, we can optimize one case: if we scrolled
+     * forward and we're on the top row, or if we scrolled backward and we're
+     * on the bottom row, the row won't be blank, so we don't need to draw it
+     * unless the mark is on or we're not on the first "page". */
     for (i = nrows; i > 0 && line != NULL; i--) {
-	if ((i == nrows && direction == DOWNWARD) ||
-			(i == 1 && direction == UPWARD)) {
+	if (!ISSET(SOFTWRAP) &&
+		((i == 1 && direction == UPWARD) ||
+		(i == nrows && direction == DOWNWARD))) {
 	    if (line_needs_update(openfile->placewewant, 0))
 		update_line(line, (line == openfile->current) ?
 			openfile->current_x : 0);
