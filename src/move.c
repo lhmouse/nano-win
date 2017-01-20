@@ -455,22 +455,33 @@ void do_end_void(void)
     do_end(TRUE);
 }
 
-/* If scroll_only is FALSE, move up one line.  If scroll_only is TRUE,
- * scroll up one line without scrolling the cursor. */
+/* Move the cursor to the preceding line or chunk.  If scroll_only is TRUE,
+ * also scroll the screen one row, so the cursor stays in the same spot. */
 void do_up(bool scroll_only)
 {
     size_t was_column = xplustabs();
+    filestruct *was_current = openfile->current;
+    size_t leftedge = 0;
+    size_t target_column = openfile->placewewant;
 
-    /* If we're at the top of the file, or if scroll_only is TRUE and
-     * the top of the file is onscreen, get out. */
-    if (openfile->current == openfile->fileage ||
-		(scroll_only && openfile->edittop == openfile->fileage))
+    /* When just scrolling and the top of the file is onscreen, get out. */
+    if (scroll_only && openfile->edittop == openfile->fileage)
 	return;
 
-    /* Move the current line of the edit window up. */
-    openfile->current = openfile->current->prev;
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	leftedge = (openfile->placewewant / editwincols) * editwincols;
+	target_column = openfile->placewewant % editwincols;
+    }
+#endif
+
+    /* Move up one line or chunk. */
+    if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
+	return;
+
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+					leftedge + target_column);
+    openfile->placewewant = leftedge + target_column;
 
     /* When the cursor was on the first line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window up -- one
@@ -481,8 +492,11 @@ void do_up(bool scroll_only)
 
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y > 0) {
-	/* Redraw the prior line if it was horizontally scrolled. */
-	if (line_needs_update(was_column, 0))
+	/* Redraw the prior line if it's not actually the same line as the
+	 * current one (which it might be in softwrap mode, if we moved just
+         * one chunk) and the line was horizontally scrolled. */
+	if (openfile->current != was_current
+		&& line_needs_update(was_column, 0))
 	    update_line(openfile->current->next, 0);
 	/* Redraw the current line if it needs to be horizontally scrolled. */
 	if (line_needs_update(0, xplustabs()))
@@ -490,77 +504,50 @@ void do_up(bool scroll_only)
     }
 }
 
-/* Move up one line. */
+/* Move up one line or chunk. */
 void do_up_void(void)
 {
     do_up(FALSE);
 }
 
-/* If scroll_only is FALSE, move down one line.  If scroll_only is TRUE,
- * scroll down one line without scrolling the cursor. */
+/* Move the cursor to next line or chunk.  If scroll_only is TRUE, also
+ * scroll the screen one row, so the cursor stays in the same spot. */
 void do_down(bool scroll_only)
 {
-#ifndef NANO_TINY
-    int amount = 0, enough;
-    filestruct *topline;
-#endif
     size_t was_column = xplustabs();
-
-    /* If we're at the bottom of the file, get out. */
-    if (openfile->current == openfile->filebot)
-	return;
+    filestruct *was_current = openfile->current;
+    size_t leftedge = 0;
+    size_t target_column = openfile->placewewant;
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	/* Compute the number of lines to scroll. */
-	amount = strlenpt(openfile->current->data) / editwincols -
-			xplustabs() / editwincols +
-			strlenpt(openfile->current->next->data) / editwincols +
-			openfile->current_y - editwinrows + 2;
-	topline = openfile->edittop;
-	/* Reduce the amount when there are overlong lines at the top. */
-	for (enough = 1; enough < amount; enough++) {
-	    amount -= strlenpt(topline->data) / editwincols;
-	    if (amount > 0)
-		topline = topline->next;
-	    if (amount < enough) {
-		amount = enough;
-		break;
-	    }
-	}
+	leftedge = (openfile->placewewant / editwincols) * editwincols;
+	target_column = openfile->placewewant % editwincols;
     }
 #endif
 
-    /* Move to the next line in the file. */
-    openfile->current = openfile->current->next;
+    /* Move down one line or chunk. */
+    if (go_forward_chunks(1, &openfile->current, &leftedge) > 0)
+	return;
+
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+					leftedge + target_column);
+    openfile->placewewant = leftedge + target_column;
 
     /* When the cursor was on the last line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window down -- one
      * line if we're in smooth scrolling mode, and half a page otherwise. */
-#ifndef NANO_TINY
-    if (openfile->current_y == editwinrows - 1 || amount > 0 || scroll_only) {
-	if (amount < 1 || scroll_only)
-	    amount = 1;
-
+    if (openfile->current_y == editwinrows - 1 || scroll_only)
 	edit_scroll(DOWNWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
-				amount : editwinrows / 2 + 1);
-
-	if (ISSET(SOFTWRAP)) {
-	    refresh_needed = TRUE;
-	    return;
-	}
-    }
-#else
-    if (openfile->current_y == editwinrows - 1)
-	edit_scroll(DOWNWARD, editwinrows / 2 + 1);
-#endif
+				1 : editwinrows / 2 + 1);
 
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y < editwinrows - 1) {
-	/* Redraw the prior line if it was horizontally scrolled. */
-	if (line_needs_update(was_column, 0))
+	/* Redraw the prior line if it's not actually the same line as the
+	 * current one (which it might be in softwrap mode, if we moved just
+         * one chunk) and the line was horizontally scrolled. */
+	if (openfile->current != was_current &&
+		line_needs_update(was_column, 0))
 	    update_line(openfile->current->prev, 0);
 	/* Redraw the current line if it needs to be horizontally scrolled. */
 	if (line_needs_update(0, xplustabs()))
@@ -568,20 +555,20 @@ void do_down(bool scroll_only)
     }
 }
 
-/* Move down one line. */
+/* Move down one line or chunk. */
 void do_down_void(void)
 {
     do_down(FALSE);
 }
 
 #ifndef NANO_TINY
-/* Scroll up one line without scrolling the cursor. */
+/* Scroll up one line or chunk without scrolling the cursor. */
 void do_scroll_up(void)
 {
     do_up(TRUE);
 }
 
-/* Scroll down one line without scrolling the cursor. */
+/* Scroll down one line or chunk without scrolling the cursor. */
 void do_scroll_down(void)
 {
     do_down(TRUE);
