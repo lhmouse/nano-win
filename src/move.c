@@ -410,18 +410,43 @@ void do_home_void(void)
     do_home();
 }
 
-/* Move to the end of the current line. */
+/* Move to the end of the current line (or softwrapped chunk).
+ *
+ * Try to do a dynamic end if it's possible and we're in softwrap mode. */
 void do_end(void)
 {
     size_t was_column = xplustabs();
+    size_t line_len = strlen(openfile->current->data);
+    filestruct *was_current = openfile->current;
+    bool moved_off_chunk = TRUE;
 
-    openfile->current_x = strlen(openfile->current->data);
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	size_t rightedge_x = actual_x(openfile->current->data,
+			((was_column / editwincols) * editwincols) +
+			(editwincols - 1));
+
+	/* If already at the right edge of the screen, move fully to the
+	 * end of the line.  Otherwise, move to the right edge. */
+	if (openfile->current_x == rightedge_x)
+	    openfile->current_x = line_len;
+	else {
+	    openfile->current_x = rightedge_x;
+	    moved_off_chunk = FALSE;
+	}
+    } else
+#endif
+	openfile->current_x = line_len;
+
     openfile->placewewant = xplustabs();
 
-    if (line_needs_update(was_column, openfile->placewewant))
+    /* If we changed chunk, we might be offscreen.  Otherwise,
+     * update current if the mark is on or we changed "page". */
+    if (ISSET(SOFTWRAP) && moved_off_chunk) {
+	focusing = FALSE;
+	edit_redraw(was_current);
+    } else if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
-
-    ensure_line_is_visible();
 }
 
 void do_end_void(void)
