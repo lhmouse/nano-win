@@ -2473,25 +2473,24 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			start_line->multidata[varnish->id] == CSTARTENDHERE))
 		goto step_two;
 
-	    /* Skip over a zero-length regex match. */
-	    if (startmatch.rm_so == startmatch.rm_eo)
-		goto tail_of_loop;
-
 	    /* Now start_line is the first line before fileptr containing
 	     * a start match.  Is there a start on that line not followed
 	     * by an end on that line? */
 	    while (TRUE) {
+		/* Begin searching for an end after the start match. */
 		index += startmatch.rm_eo;
-		if (regexec(varnish->end, start_line->data + index,
-				0, NULL, REG_NOTBOL) == REG_NOMATCH)
-		    /* No end found after this start. */
-		    break;
-		if (regexec(varnish->start, start_line->data + index,
-				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
-		    /* No later start on this line. */
-		    goto step_two;
+		/* If the start match is zero-length, don't get stuck. */
 		if (startmatch.rm_so == startmatch.rm_eo)
 		    index++;
+
+		/* If there is no end after this last start, good. */
+		if (regexec(varnish->end, start_line->data + index,
+				0, NULL, REG_NOTBOL) == REG_NOMATCH)
+		    break;
+		/* If there is no later start on this line, next step. */
+		if (regexec(varnish->start, start_line->data + index,
+				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
+		    goto step_two;
 	    }
 	    /* Indeed, there is a start without an end on that line. */
 
