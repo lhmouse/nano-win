@@ -592,17 +592,34 @@ void do_scroll_down(void)
 void do_left(void)
 {
     size_t was_column = xplustabs();
+#ifndef NANO_TINY
+    size_t was_chunk = (was_column / editwincols);
+    filestruct *was_current = openfile->current;
+#endif
 
     if (openfile->current_x > 0)
 	openfile->current_x = move_mbleft(openfile->current->data,
 						openfile->current_x);
     else if (openfile->current != openfile->fileage) {
 	do_up_void();
-	openfile->current_x = strlen(openfile->current->data);
+	do_end(FALSE);
+	return;
     }
 
     openfile->placewewant = xplustabs();
 
+#ifndef NANO_TINY
+    /* If we were on the first line of the edit window, and we changed chunk,
+     * we're now above the first line of the edit window, so scroll up. */
+    if (ISSET(SOFTWRAP) && openfile->current_y == 0 &&
+		openfile->current == was_current &&
+		(openfile->placewewant / editwincols) != was_chunk) {
+	edit_scroll(UPWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
+	return;
+    }
+#endif
+
+    /* Update current if the mark is on or it has changed "page". */
     if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
@@ -611,25 +628,34 @@ void do_left(void)
 void do_right(void)
 {
     size_t was_column = xplustabs();
+#ifndef NANO_TINY
+    size_t was_chunk = (was_column / editwincols);
+    filestruct *was_current = openfile->current;
+#endif
 
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
     else if (openfile->current != openfile->filebot) {
-	openfile->current_x = 0;
-#ifndef NANO_TINY
-	if (ISSET(SOFTWRAP))
-	    openfile->current_y -= strlenpt(openfile->current->data) / editwincols;
-#endif
+	do_home(FALSE);
+	do_down_void();
+	return;
     }
 
     openfile->placewewant = xplustabs();
 
+#ifndef NANO_TINY
+    /* If we were on the last line of the edit window, and we changed chunk,
+     * we're now below the first line of the edit window, so scroll down. */
+    if (ISSET(SOFTWRAP) && openfile->current_y == editwinrows - 1 &&
+		openfile->current == was_current &&
+		openfile->placewewant / editwincols != was_chunk) {
+	edit_scroll(DOWNWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
+	return;
+    }
+#endif
+
+    /* Update current if the mark is on or it has changed "page". */
     if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
-
-    if (openfile->current_x == 0)
-	do_down_void();
-    else
-	ensure_line_is_visible();
 }
