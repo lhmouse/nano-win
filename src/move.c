@@ -346,30 +346,62 @@ void ensure_line_is_visible(void)
 #endif
 }
 
-/* Move to the beginning of the current line.  If the SMART_HOME flag is
- * set, move to the first non-whitespace character of the current line
- * if we aren't already there, or to the beginning of the current line
- * if we are. */
+/* Move to the beginning of the current line (or softwrapped chunk).
+ *
+ * Try to do a smart home if it's possible and the SMART_HOME flag is set, and
+ * then try to do a dynamic home if it's possible and we're in softwrap
+ * mode. */
 void do_home(void)
 {
     size_t was_column = xplustabs();
-
+    filestruct *was_current = openfile->current;
+    bool moved_off_chunk = TRUE;
 #ifndef NANO_TINY
+    bool moved = FALSE;
+    size_t leftedge_x = 0;
+
+    if (ISSET(SOFTWRAP))
+	leftedge_x = actual_x(openfile->current->data,
+			(was_column / editwincols) * editwincols);
+
     if (ISSET(SMART_HOME)) {
-	size_t current_x_save = openfile->current_x;
+	size_t indent_x = indent_length(openfile->current->data);
 
-	openfile->current_x = indent_length(openfile->current->data);
+	if (openfile->current->data[indent_x] != '\0') {
+	    /* If we're exactly on the indent, move fully home.  Otherwise,
+	     * when not softwrapping or not after the first nonblank chunk,
+	     * move to the first nonblank character. */
+	    if (openfile->current_x == indent_x) {
+		openfile->current_x = 0;
+		moved = TRUE;
+	    } else if (!ISSET(SOFTWRAP) || leftedge_x <= indent_x) {
+		openfile->current_x = indent_x;
+		moved = TRUE;
+	    }
+	}
+    }
 
-	if (openfile->current_x == current_x_save ||
-		openfile->current->data[openfile->current_x] == '\0')
+    if (!moved && ISSET(SOFTWRAP)) {
+	/* If already at the left edge of the screen, move fully home.
+	 * Otherwise, move to the left edge. */
+	if (openfile->current_x == leftedge_x)
 	    openfile->current_x = 0;
-    } else
+	else {
+	    openfile->current_x = leftedge_x;
+	    moved_off_chunk = FALSE;
+	}
+    } else if (!moved)
 #endif
 	openfile->current_x = 0;
 
     openfile->placewewant = xplustabs();
 
-    if (line_needs_update(was_column, openfile->placewewant))
+    /* If we changed chunk, we might be offscreen.  Otherwise, update
+     * current if the mark is on or we changed "page". */
+    if (ISSET(SOFTWRAP) && moved_off_chunk) {
+	focusing = FALSE;
+	edit_redraw(was_current);
+    } else if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
