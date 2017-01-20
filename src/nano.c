@@ -1758,54 +1758,29 @@ int do_mouse(void)
 	bool sameline = (mouse_row == openfile->current_y);
 	    /* Whether the click was on the row where the cursor is. */
 	filestruct *current_save = openfile->current;
+	ssize_t row_count = mouse_row - openfile->current_y;
+	size_t leftedge;
 #ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
+
+	if (ISSET(SOFTWRAP))
+	    leftedge = (xplustabs() / editwincols) * editwincols;
+	else
 #endif
+	    leftedge = get_page_start(xplustabs());
 
 #ifdef DEBUG
 	fprintf(stderr, "mouse_row = %d, current_y = %ld\n", mouse_row, (long)openfile->current_y);
 #endif
 
-#ifndef NANO_TINY
-	if (ISSET(SOFTWRAP)) {
-	    ssize_t current_row = 0;
+	/* Move current up or down to the row corresponding to mouse_row. */
+	if (row_count < 0)
+	    go_back_chunks(-row_count, &openfile->current, &leftedge);
+	else
+	    go_forward_chunks(row_count, &openfile->current, &leftedge);
 
-	    openfile->current = openfile->edittop;
-
-	    while (openfile->current->next != NULL && current_row < mouse_row) {
-		current_row += strlenpt(openfile->current->data) / editwincols + 1;
-		openfile->current = openfile->current->next;
-	    }
-
-	    if (current_row > mouse_row) {
-		openfile->current = openfile->current->prev;
-		current_row -= strlenpt(openfile->current->data) / editwincols + 1;
-		openfile->current_x = actual_x(openfile->current->data,
-				((mouse_row - current_row) * editwincols) + mouse_col);
-	    } else
-		openfile->current_x = actual_x(openfile->current->data, mouse_col);
-
-	    openfile->current_y = current_row;
-	    ensure_line_is_visible();
-	    refresh_needed = TRUE;
-	} else
-#endif /* NANO_TINY */
-	{
-	    ssize_t current_row = openfile->current_y;
-
-	    /* Move to where the click occurred. */
-	    while (current_row < mouse_row && openfile->current->next != NULL) {
-		openfile->current = openfile->current->next;
-		current_row++;
-	    }
-	    while (current_row > mouse_row && openfile->current->prev != NULL) {
-		openfile->current = openfile->current->prev;
-		current_row--;
-	    }
-
-	    openfile->current_x = actual_x(openfile->current->data,
-					get_page_start(xplustabs()) + mouse_col);
-	}
+	openfile->current_x = actual_x(openfile->current->data,
+					leftedge + mouse_col);
 
 #ifndef NANO_TINY
 	/* Clicking where the cursor is toggles the mark, as does clicking
@@ -1817,8 +1792,7 @@ int do_mouse(void)
 	    /* The cursor moved; clean the cutbuffer on the next cut. */
 	    cutbuffer_reset();
 
-	if (!ISSET(SOFTWRAP))
-	    edit_redraw(current_save);
+	edit_redraw(current_save);
     }
 
     /* No more handling is needed. */
