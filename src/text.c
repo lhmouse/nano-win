@@ -92,7 +92,7 @@ char *invocation_error(const char *name)
 void do_deletion(undo_type action)
 {
 #ifndef NANO_TINY
-    size_t orig_lenpt = 0;
+    size_t orig_rows = 0;
 #endif
 
     assert(openfile->current != NULL && openfile->current->data != NULL &&
@@ -113,7 +113,7 @@ void do_deletion(undo_type action)
 	update_undo(action);
 
 	if (ISSET(SOFTWRAP))
-	    orig_lenpt = strlenpt(openfile->current->data);
+	    orig_rows = strlenpt(openfile->current->data) / editwincols;
 #endif
 
 	/* Move the remainder of the line "in", over the current character. */
@@ -184,7 +184,7 @@ void do_deletion(undo_type action)
     /* If the number of screen rows that a softwrapped line occupies
      * has changed, we need a full refresh. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if (strlenpt(openfile->current->data) / editwincols != orig_lenpt / editwincols)
+	if ((strlenpt(openfile->current->data) / editwincols) != orig_rows)
 	    refresh_needed = TRUE;
 #endif
 

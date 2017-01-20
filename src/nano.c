@@ -1811,7 +1811,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
     size_t current_len, i = 0;
 #ifndef NANO_TINY
-    size_t orig_lenpt = 0;
+    size_t orig_rows = 0;
 #endif
     char *char_buf = charalloc(mb_cur_max());
     int char_len;
@@ -1820,7 +1820,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
-	orig_lenpt = strlenpt(openfile->current->data);
+	orig_rows = strlenpt(openfile->current->data) / editwincols;
 #endif
 
     while (i < output_len) {
@@ -1886,7 +1886,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     /* If the number of screen rows that a softwrapped line occupies
      * has changed, we need a full refresh. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if (strlenpt(openfile->current->data) / editwincols != orig_lenpt / editwincols)
+	if ((strlenpt(openfile->current->data) / editwincols) != orig_rows)
 	    refresh_needed = TRUE;
 #endif
 
