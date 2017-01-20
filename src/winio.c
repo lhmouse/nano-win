@@ -2481,19 +2481,17 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	     * a start match.  Is there a start on that line not followed
 	     * by an end on that line? */
 	    while (TRUE) {
-		index += startmatch.rm_so;
-		startmatch.rm_eo -= startmatch.rm_so;
-		if (regexec(varnish->end, start_line->data + index +
-				startmatch.rm_eo, 0, NULL,
-				(index + startmatch.rm_eo == 0) ?
-				0 : REG_NOTBOL) == REG_NOMATCH)
+		index += startmatch.rm_eo;
+		if (regexec(varnish->end, start_line->data + index,
+				0, NULL, REG_NOTBOL) == REG_NOMATCH)
 		    /* No end found after this start. */
 		    break;
-		index++;
 		if (regexec(varnish->start, start_line->data + index,
 				1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
 		    /* No later start on this line. */
 		    goto step_two;
+		if (startmatch.rm_so == startmatch.rm_eo)
+		    index++;
 	    }
 	    /* Indeed, there is a start without an end on that line. */
 
