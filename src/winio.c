@@ -2509,31 +2509,27 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    /* If there is no end, there is nothing to paint. */
 	    if (end_line == NULL)
 		goto tail_of_loop;
-	    /* If the end is scrolled off to the left, next step. */
-	    if (end_line == fileptr && endmatch.rm_eo <= from_x) {
-		fileptr->multidata[varnish->id] = CBEGINBEFORE;
-		goto step_two;
-	    }
 
-	    /* Now paint the start of the line.  However, if the end match
-	     * is on a different line, paint the whole line, and go on. */
+	    /* If the end is on a later line, paint whole line, and be done. */
 	    if (end_line != fileptr) {
 		mvwaddnstr(edit, row, margin, converted, -1);
 		fileptr->multidata[varnish->id] = CWHOLELINE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  row %i as CWHOLELINE\n", varnish->id, row);
 #endif
-		/* Don't bother looking for any more starts. */
 		goto tail_of_loop;
-	    } else {
+	    }
+
+	    /* Only if it is visible, paint the part to be coloured. */
+	    if (endmatch.rm_eo > from_x) {
 		paintlen = actual_x(converted, strnlenpt(fileptr->data,
 						endmatch.rm_eo) - from_col);
 		mvwaddnstr(edit, row, margin, converted, paintlen);
-		fileptr->multidata[varnish->id] = CBEGINBEFORE;
+	    }
+	    fileptr->multidata[varnish->id] = CBEGINBEFORE;
 #ifdef DEBUG
     fprintf(stderr, "  Marking for id %i  row %i as CBEGINBEFORE\n", varnish->id, row);
 #endif
-	    }
   step_two:
 	    /* Second step: look for starts on this line, but begin
 	     * looking only after an end match, if there is one. */
