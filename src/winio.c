@@ -2350,16 +2350,14 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	for (; varnish != NULL; varnish = varnish->next) {
 	    size_t index = 0;
 		/* Where in the line we currently begin looking for a match. */
-	    int linelen;
-		/* The length of the line we are currently looking at. */
 	    int start_col;
 		/* The starting column of a piece to paint.  Zero-based. */
 	    int paintlen = 0;
 		/* The number of characters to paint. */
 	    const char *thetext;
 		/* The place in converted from where painting starts. */
-	    regmatch_t match, startmatch, endmatch;
-		/* Match positions of the full, start and end regexes. */
+	    regmatch_t match;
+		/* The match positions of a single-line regex. */
 
 	    /* Two notes about regexec().  A return value of zero means
 	     * that there is a match.  Also, rm_eo is the first
@@ -2419,6 +2417,10 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		/* The first line before fileptr that matches 'start'. */
 	    const filestruct *end_line = fileptr;
 		/* The line that matches 'end'. */
+	    regmatch_t startmatch, endmatch;
+		/* The match positions of the start and end regexes. */
+	    int linelen;
+		/* The length of the line we are currently looking at. */
 
 	    /* First see if the multidata was maybe already calculated. */
 	    if (fileptr->multidata[varnish->id] == CNONE)
