@@ -3072,6 +3072,10 @@ void adjust_viewport(update_type manner)
 {
     int goal = 0;
 
+    /* FIXME: This should be replaced with openfile->firstcolumn when the
+     * latter is added. */
+    size_t firstcolumn = 0;
+
     /* If manner is CENTERING, move edittop half the number of window rows
      * back from current.  If manner is FLOWING, move edittop back 0 rows
      * or (editwinrows - 1) rows, depending on where current has moved.
@@ -3083,13 +3087,8 @@ void adjust_viewport(update_type manner)
     if (manner == CENTERING)
 	goal = editwinrows / 2;
     else if (manner == FLOWING) {
-	if (!current_is_above_screen()) {
+	if (!current_is_above_screen())
 	    goal = editwinrows - 1;
-#ifndef NANO_TINY
-	    if (ISSET(SOFTWRAP))
-		goal -= strlenpt(openfile->current->data) / editwincols;
-#endif
-	}
     } else {
 	goal = openfile->current_y;
 
@@ -3100,17 +3099,14 @@ void adjust_viewport(update_type manner)
 
     openfile->edittop = openfile->current;
 
-    while (goal > 0 && openfile->edittop->prev != NULL) {
-	openfile->edittop = openfile->edittop->prev;
-	goal--;
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP)) {
-	    goal -= strlenpt(openfile->edittop->data) / editwincols;
-	    if (goal < 0)
-		openfile->edittop = openfile->edittop->next;
-	}
+    if (ISSET(SOFTWRAP))
+	firstcolumn = (xplustabs() / editwincols) * editwincols;
 #endif
-    }
+
+    /* Move edittop back goal rows, starting at current[current_x]. */
+    go_back_chunks(goal, &openfile->edittop, &firstcolumn);
+
 #ifdef DEBUG
     fprintf(stderr, "adjust_viewport(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
