@@ -2358,8 +2358,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		/* The number of characters to paint. */
 	    const char *thetext;
 		/* The place in converted from where painting starts. */
-	    regmatch_t startmatch, endmatch;
-		/* Match positions of the start and end regexes. */
+	    regmatch_t match, startmatch, endmatch;
+		/* Match positions of the full, start and end regexes. */
 
 	    /* Two notes about regexec().  A return value of zero means
 	     * that there is a match.  Also, rm_eo is the first
@@ -2380,35 +2380,33 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		     * REG_NOMATCH, there are no more matches in the
 		     * line. */
 		    if (regexec(varnish->start, &fileptr->data[index], 1,
-				&startmatch, (index == 0) ? 0 : REG_NOTBOL) ==
-				REG_NOMATCH)
+				&match, (index == 0) ? 0 : REG_NOTBOL) != 0)
 			break;
 
 		    /* If the match is of length zero, skip it. */
-		    if (startmatch.rm_so == startmatch.rm_eo) {
+		    if (match.rm_so == match.rm_eo) {
 			index = move_mbright(fileptr->data,
-						index + startmatch.rm_eo);
+						index + match.rm_eo);
 			continue;
 		    }
 
 		    /* Translate the match to the beginning of the line. */
-		    startmatch.rm_so += index;
-		    startmatch.rm_eo += index;
-		    index = startmatch.rm_eo;
+		    match.rm_so += index;
+		    match.rm_eo += index;
+		    index = match.rm_eo;
 
-		    /* If the matching piece is not visible, skip it. */
-		    if (startmatch.rm_so >= till_x ||
-					startmatch.rm_eo <= from_x)
+		    /* If the matching part is not visible, skip it. */
+		    if (match.rm_eo <= from_x || match.rm_so >= till_x)
 			continue;
 
-		    start_col = (startmatch.rm_so <= from_x) ?
-				0 : strnlenpt(fileptr->data,
-				startmatch.rm_so) - from_col;
+		    start_col = (match.rm_so <= from_x) ?
+					0 : strnlenpt(fileptr->data,
+					match.rm_so) - from_col;
 
 		    thetext = converted + actual_x(converted, start_col);
 
 		    paintlen = actual_x(thetext, strnlenpt(fileptr->data,
-				startmatch.rm_eo) - from_col - start_col);
+					match.rm_eo) - from_col - start_col);
 
 		    mvwaddnstr(edit, row, margin + start_col,
 						thetext, paintlen);
@@ -2430,7 +2428,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		goto tail_of_loop;
 	    } else if (fileptr->multidata[varnish->id] == CBEGINBEFORE) {
 		regexec(varnish->end, fileptr->data, 1, &endmatch, 0);
-		/* If the coloured part is scrolled off, skip it. */
+		/* If the part to be coloured is not visible, skip it. */
 		if (endmatch.rm_eo <= from_x)
 		    goto tail_of_loop;
 		paintlen = actual_x(converted, strnlenpt(fileptr->data,
