@@ -53,15 +53,9 @@ void do_last_line(void)
 /* Move up one page. */
 void do_page_up(void)
 {
-    int i, mustmove, skipped = 0;
-
-    /* If the cursor is less than a page away from the top of the file,
-     * put it at the beginning of the first line. */
-    if (openfile->current->lineno == 1 || (!ISSET(SOFTWRAP) &&
-		openfile->current->lineno <= editwinrows - 2)) {
-	do_first_line();
-	return;
-    }
+    int mustmove;
+    size_t leftedge = 0;
+    size_t target_column = openfile->placewewant;
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
@@ -72,16 +66,23 @@ void do_page_up(void)
 
     mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
 
-    for (i = mustmove; i - skipped > 0 && openfile->current != openfile->fileage; i--) {
-	openfile->current = openfile->current->prev;
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && openfile->current)
-	    skipped += strlenpt(openfile->current->data) / editwincols;
+    if (ISSET(SOFTWRAP)) {
+	leftedge = (openfile->placewewant / editwincols) * editwincols;
+	target_column = openfile->placewewant % editwincols;
+    }
 #endif
+
+    /* Move up the required number of lines or chunks.  If we can't, we're
+     * at the top of the file, so put the cursor there and get out. */
+    if (go_back_chunks(mustmove, &openfile->current, &leftedge) > 0) {
+	do_first_line();
+	return;
     }
 
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+					leftedge + target_column);
+    openfile->placewewant = leftedge + target_column;
 
     /* Scroll the edit window up a page. */
     adjust_viewport(STATIONARY);
@@ -91,14 +92,9 @@ void do_page_up(void)
 /* Move down one page. */
 void do_page_down(void)
 {
-    int i, mustmove;
-
-    /* If the cursor is less than a page away from the bottom of the file,
-     * put it at the end of the last line. */
-    if (openfile->current->lineno + maxlines - 2 >= openfile->filebot->lineno) {
-	do_last_line();
-	return;
-    }
+    int mustmove;
+    size_t leftedge = 0;
+    size_t target_column = openfile->placewewant;
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
@@ -107,13 +103,25 @@ void do_page_down(void)
 	openfile->placewewant = openfile->current_y = 0;
     }
 
-    mustmove = (maxlines < 3) ? 1 : maxlines - 2;
+    mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
 
-    for (i = mustmove; i > 0 && openfile->current != openfile->filebot; i--)
-	openfile->current = openfile->current->next;
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	leftedge = (openfile->placewewant / editwincols) * editwincols;
+	target_column = openfile->placewewant % editwincols;
+    }
+#endif
+
+    /* Move down the required number of lines or chunks.  If we can't, we're
+     * at the bottom of the file, so put the cursor there and get out. */
+    if (go_forward_chunks(mustmove, &openfile->current, &leftedge) > 0) {
+	do_last_line();
+	return;
+    }
 
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+					leftedge + target_column);
+    openfile->placewewant = leftedge + target_column;
 
     /* Scroll the edit window down a page. */
     adjust_viewport(STATIONARY);
