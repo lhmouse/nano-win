@@ -2837,10 +2837,6 @@ void edit_scroll(scroll_dir direction, int nrows)
     filestruct *line;
     size_t leftedge;
 
-    /* FIXME: This should be replaced with openfile->firstcolumn when the
-     * latter is added. */
-    size_t firstcolumn = 0;
-
     /* Part 1: nrows is the number of rows we're going to scroll the text of
      * the edit window. */
 
@@ -2848,18 +2844,9 @@ void edit_scroll(scroll_dir direction, int nrows)
      * of direction) nrows rows, or as many rows as we can if there are fewer
      * than nrows rows available. */
     if (direction == UPWARD)
-	i = go_back_chunks(nrows, &openfile->edittop, &firstcolumn);
+	i = go_back_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
     else
-	i = go_forward_chunks(nrows, &openfile->edittop, &firstcolumn);
-
-#ifndef NANO_TINY
-    /* FIXME: nano currently can't handle a partially scrolled edittop,
-     * so for now: move edittop back to a full line and refresh. */
-    if (ISSET(SOFTWRAP) && firstcolumn > 0) {
-	openfile->edittop = openfile->edittop->prev;
-	refresh_needed = TRUE;
-    }
-#endif
+	i = go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
 
     /* Limit nrows to the number of rows we could scroll. */
     nrows -= i;
@@ -2892,7 +2879,7 @@ void edit_scroll(scroll_dir direction, int nrows)
 
     /* If we scrolled up, we're on the line before the scrolled region. */
     line = openfile->edittop;
-    leftedge = firstcolumn;
+    leftedge = openfile->firstcolumn;
 
     /* If we scrolled down, move down to the line before the scrolled region. */
     if (direction == DOWNWARD)
@@ -3041,10 +3028,6 @@ void adjust_viewport(update_type manner)
 {
     int goal = 0;
 
-    /* FIXME: This should be replaced with openfile->firstcolumn when the
-     * latter is added. */
-    size_t firstcolumn = 0;
-
     /* If manner is CENTERING, move edittop half the number of window rows
      * back from current.  If manner is FLOWING, move edittop back 0 rows
      * or (editwinrows - 1) rows, depending on where current has moved.
@@ -3070,11 +3053,11 @@ void adjust_viewport(update_type manner)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
-	firstcolumn = (xplustabs() / editwincols) * editwincols;
+	openfile->firstcolumn = (xplustabs() / editwincols) * editwincols;
 #endif
 
     /* Move edittop back goal rows, starting at current[current_x]. */
-    go_back_chunks(goal, &openfile->edittop, &firstcolumn);
+    go_back_chunks(goal, &openfile->edittop, &openfile->firstcolumn);
 
 #ifdef DEBUG
     fprintf(stderr, "adjust_viewport(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
