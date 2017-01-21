@@ -2268,6 +2268,8 @@ void reset_cursor(void)
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->edittop;
 
+	row -= (openfile->firstcolumn / editwincols);
+
 	/* Calculate how many rows the lines from edittop to current use. */
 	while (line != NULL && line != openfile->current) {
 	    row += strlenpt(line->data) / editwincols + 1;
