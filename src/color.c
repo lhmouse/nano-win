@@ -420,31 +420,35 @@ void precalc_multicolorinfo(void)
 	    /* Assume nothing applies until proven otherwise below. */
 	    fileptr->multidata[ink->id] = CNONE;
 
+	    /* When the line contains a start match, look for an end, and if
+	     * found, mark all the lines that are affected. */
 	    while (regexec(ink->start, &fileptr->data[startx], 1,
 			&startmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
-		/* Look for an end, and start marking how many lines are
-		 * encompassed, which should speed up rendering later. */
 		startx += startmatch.rm_eo;
 
 		if (startx > linelen)
 		    break;
 
-		/* Look first on this line for an end. */
+		/* If there is an end match on this line, mark the line, but
+		 * continue looking for other starts after it. */
 		if (regexec(ink->end, &fileptr->data[startx], 1,
 			&endmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
+		    fileptr->multidata[ink->id] = CSTARTENDHERE;
 		    startx += endmatch.rm_eo;
-		    /* Step ahead when both start and end are mere anchors. */
+		    /* If both start and end are mere anchors, step ahead. */
 		    if (startmatch.rm_so == startmatch.rm_eo &&
 				endmatch.rm_so == endmatch.rm_eo)
 			startx += 1;
-		    fileptr->multidata[ink->id] = CSTARTENDHERE;
 		    continue;
 		}
 
-		/* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
-		for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
+		/* Look for an end match on later lines. */
+		endptr = fileptr->next;
+
+		while (endptr != NULL) {
 		    if (regexec(ink->end, endptr->data, 1, &endmatch, 0) == 0)
 			break;
+		    endptr = endptr->next;
 		}
 
 		if (endptr == NULL)
@@ -462,7 +466,7 @@ void precalc_multicolorinfo(void)
 		alloc_multidata_if_needed(endptr);
 		fileptr->multidata[ink->id] = CBEGINBEFORE;
 
-		/* Skip to the end point of the match. */
+		/* Begin looking for a new start after the end match. */
 		startx = endmatch.rm_eo;
 	    }
 	}
