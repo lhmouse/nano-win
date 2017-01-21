@@ -404,23 +404,18 @@ void precalc_multicolorinfo(void)
 	return;
 
 #ifdef DEBUG
-    fprintf(stderr, "Entering precalculation of multiline color info\n");
+    fprintf(stderr, "Precalculating the multiline color info...\n");
 #endif
 
     for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 	/* If this is not a multi-line regex, skip it. */
 	if (ink->end == NULL)
 	    continue;
-#ifdef DEBUG
-	fprintf(stderr, "Starting work on color id %d\n", ink->id);
-#endif
 
 	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
 	    int startx = 0, nostart = 0;
 	    int linelen = strlen(fileptr->data);
-#ifdef DEBUG
-	    fprintf(stderr, "working on lineno %ld... ", (long)fileptr->lineno);
-#endif
+
 	    alloc_multidata_if_needed(fileptr);
 
 	    while ((nostart = regexec(ink->start, &fileptr->data[startx], 1,
@@ -431,9 +426,7 @@ void precalc_multicolorinfo(void)
 
 		if (startx > linelen)
 		    break;
-#ifdef DEBUG
-		fprintf(stderr, "start found at pos %lu... ", (unsigned long)startx);
-#endif
+
 		/* Look first on this line for an end. */
 		if (regexec(ink->end, &fileptr->data[startx], 1,
 			&endmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
@@ -443,60 +436,35 @@ void precalc_multicolorinfo(void)
 				endmatch.rm_so == endmatch.rm_eo)
 			startx += 1;
 		    fileptr->multidata[ink->id] = CSTARTENDHERE;
-#ifdef DEBUG
-		    fprintf(stderr, "end found on this line\n");
-#endif
 		    continue;
 		}
 
 		/* Nice, we didn't find the end regex on this line.  Let's start looking for it. */
 		for (endptr = fileptr->next; endptr != NULL; endptr = endptr->next) {
-#ifdef DEBUG
-		    fprintf(stderr, "\nadvancing to line %ld to find end... ", (long)endptr->lineno);
-#endif
 		    if (regexec(ink->end, endptr->data, 1, &endmatch, 0) == 0)
 			break;
 		}
 
-		if (endptr == NULL) {
-#ifdef DEBUG
-		    fprintf(stderr, "no end found, breaking out\n");
-#endif
+		if (endptr == NULL)
 		    break;
-		}
-#ifdef DEBUG
-		fprintf(stderr, "end found\n");
-#endif
+
 		/* We found it, we found it, la la la la la.  Mark all
 		 * the lines in between and the end properly. */
 		fileptr->multidata[ink->id] = CENDAFTER;
-#ifdef DEBUG
-		fprintf(stderr, "marking line %ld as CENDAFTER\n", (long)fileptr->lineno);
-#endif
+
 		for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
 		    alloc_multidata_if_needed(fileptr);
 		    fileptr->multidata[ink->id] = CWHOLELINE;
-#ifdef DEBUG
-		    fprintf(stderr, "marking intermediary line %ld as CWHOLELINE\n", (long)fileptr->lineno);
-#endif
 		}
 
 		alloc_multidata_if_needed(endptr);
 		fileptr->multidata[ink->id] = CBEGINBEFORE;
-#ifdef DEBUG
-		fprintf(stderr, "marking line %ld as CBEGINBEFORE\n", (long)fileptr->lineno);
-#endif
+
 		/* Skip to the end point of the match. */
 		startx = endmatch.rm_eo;
-#ifdef DEBUG
-		fprintf(stderr, "jumping to line %ld pos %lu to continue\n", (long)fileptr->lineno, (unsigned long)startx);
-#endif
 	    }
 
 	    if (nostart && startx == 0) {
-#ifdef DEBUG
-		fprintf(stderr, "no match\n");
-#endif
 		fileptr->multidata[ink->id] = CNONE;
 		continue;
 	    }
