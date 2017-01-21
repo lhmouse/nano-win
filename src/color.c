@@ -413,13 +413,15 @@ void precalc_multicolorinfo(void)
 	    continue;
 
 	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
-	    int startx = 0, nostart = 0;
+	    int startx = 0;
 	    int linelen = strlen(fileptr->data);
 
 	    alloc_multidata_if_needed(fileptr);
+	    /* Assume nothing applies until proven otherwise below. */
+	    fileptr->multidata[ink->id] = CNONE;
 
-	    while ((nostart = regexec(ink->start, &fileptr->data[startx], 1,
-			&startmatch, (startx == 0) ? 0 : REG_NOTBOL)) == 0) {
+	    while (regexec(ink->start, &fileptr->data[startx], 1,
+			&startmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
 		/* Look for an end, and start marking how many lines are
 		 * encompassed, which should speed up rendering later. */
 		startx += startmatch.rm_eo;
@@ -462,11 +464,6 @@ void precalc_multicolorinfo(void)
 
 		/* Skip to the end point of the match. */
 		startx = endmatch.rm_eo;
-	    }
-
-	    if (nostart && startx == 0) {
-		fileptr->multidata[ink->id] = CNONE;
-		continue;
 	    }
 	}
     }
