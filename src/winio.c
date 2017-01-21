@@ -2908,7 +2908,16 @@ void edit_scroll(scroll_dir direction, int nrows)
  * otherwise. */
 bool current_is_above_screen(void)
 {
-    return (openfile->current->lineno < openfile->edittop->lineno);
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP))
+	/* The cursor is above screen when current[current_x] is before edittop
+	 * at column firstcolumn. */
+	return (openfile->current->lineno < openfile->edittop->lineno ||
+		(openfile->current->lineno == openfile->edittop->lineno &&
+		xplustabs() < openfile->firstcolumn));
+    else
+#endif
+	return (openfile->current->lineno < openfile->edittop->lineno);
 }
 
 /* Return TRUE if current[current_x] is below the bottom of the screen, and
@@ -2918,10 +2927,10 @@ bool current_is_below_screen(void)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->edittop;
-	size_t leftedge = 0;
+	size_t leftedge = openfile->firstcolumn;
 
 	/* If current[current_x] is more than a screen's worth of lines after
-	 * edittop, it's below the screen. */
+	 * edittop at column firstcolumn, it's below the screen. */
 	return (go_forward_chunks(editwinrows - 1, &line, &leftedge) == 0 &&
 			(line->lineno < openfile->current->lineno ||
 			(line->lineno == openfile->current->lineno &&
