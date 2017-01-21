@@ -2480,20 +2480,15 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    while (TRUE) {
 		/* Begin searching for an end after the start match. */
 		index += startmatch.rm_eo;
-		/* If the start match is of length zero, step ahead. */
-		if (startmatch.rm_so == startmatch.rm_eo) {
-		    if (start_line->data[index] == '\0')
-			break;
-		    index = move_mbright(start_line->data, index);
-		}
 		/* If there is no end after this last start, good. */
 		if (regexec(varnish->end, start_line->data + index,
 				1, &endmatch, REG_NOTBOL) == REG_NOMATCH)
 		    break;
 		/* Begin searching for a new start after the end match. */
 		index += endmatch.rm_eo;
-		/* If the end match is of length zero, step ahead. */
-		if (endmatch.rm_so == endmatch.rm_eo) {
+		/* If both start and end match are mere anchors, advance. */
+		if (startmatch.rm_so == startmatch.rm_eo &&
+				endmatch.rm_so == endmatch.rm_eo) {
 		    if (start_line->data[index] == '\0')
 			break;
 		    index = move_mbright(start_line->data, index);
@@ -2578,8 +2573,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 #endif
 		    }
 		    index = endmatch.rm_eo;
-		    /* If the end match is of length zero, step ahead. */
-		    if (endmatch.rm_so == endmatch.rm_eo) {
+		    /* If both start and end match are anchors, advance. */
+		    if (startmatch.rm_so == startmatch.rm_eo &&
+				endmatch.rm_so == endmatch.rm_eo) {
 			if (fileptr->data[index] == '\0')
 			    break;
 			index = move_mbright(fileptr->data, index);
