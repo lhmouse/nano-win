@@ -130,6 +130,7 @@ void initialize_buffer_text(void)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
 
+    openfile->firstcolumn = 0;
     openfile->current_x = 0;
     openfile->totsize = 0;
 }
@@ -625,6 +626,14 @@ void switch_to_prevnext_buffer(bool to_next)
 
 #ifdef DEBUG
     fprintf(stderr, "filename is %s\n", openfile->filename);
+#endif
+
+#ifndef NANO_TINY
+    /* When not in softwrap mode, make sure firstcolumn is zero.  It might
+     * be nonzero if we had softwrap mode on while in this buffer, and then
+     * turned softwrap mode off while in a different buffer. */
+    if (!ISSET(SOFTWRAP))
+	openfile->firstcolumn = 0;
 #endif
 
     /* Update the screen to account for the current buffer. */

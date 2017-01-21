@@ -1398,12 +1398,16 @@ void do_toggle(int flag)
 	case SUSPEND:
 	    signal_init();
 	    break;
+	case SOFTWRAP:
+	    if (!ISSET(SOFTWRAP))
+		openfile->firstcolumn = 0;
+	    refresh_needed = TRUE;
+	    break;
 	case WHITESPACE_DISPLAY:
 	    titlebar(NULL);	/* Fall through. */
 #ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
 #endif
-	case SOFTWRAP:
 	    refresh_needed = TRUE;
 	    break;
     }

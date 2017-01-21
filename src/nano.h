@@ -353,6 +353,9 @@ typedef struct openfilestruct {
 	/* The current line for this file. */
     size_t totsize;
 	/* The file's total number of characters. */
+    size_t firstcolumn;
+	/* The starting column of the top line of the edit window.
+	 * When not in softwrap mode, it's always zero. */
     size_t current_x;
 	/* The file's x-coordinate position. */
     size_t placewewant;
