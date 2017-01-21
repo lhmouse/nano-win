@@ -2419,8 +2419,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		/* The line that matches 'end'. */
 	    regmatch_t startmatch, endmatch;
 		/* The match positions of the start and end regexes. */
-	    int linelen;
-		/* The length of the line we are currently looking at. */
 
 	    /* First see if the multidata was maybe already calculated. */
 	    if (fileptr->multidata[varnish->id] == CNONE)
@@ -2476,8 +2474,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			start_line->multidata[varnish->id] == CSTARTENDHERE))
 		goto step_two;
 
-	    linelen = strlen(start_line->data);
-
 	    /* Now start_line is the first line before fileptr containing
 	     * a start match.  Is there a start on that line not followed
 	     * by an end on that line? */
@@ -2486,9 +2482,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		index += startmatch.rm_eo;
 		/* If the start match is of length zero, step ahead. */
 		if (startmatch.rm_so == startmatch.rm_eo) {
-		    index = move_mbright(start_line->data, index);
-		    if (index > linelen)
+		    if (start_line->data[index] == '\0')
 			break;
+		    index = move_mbright(start_line->data, index);
 		}
 		/* If there is no end after this last start, good. */
 		if (regexec(varnish->end, start_line->data + index,
@@ -2498,9 +2494,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		index += endmatch.rm_eo;
 		/* If the end match is of length zero, step ahead. */
 		if (endmatch.rm_so == endmatch.rm_eo) {
-		    index = move_mbright(start_line->data, index);
-		    if (index > linelen)
+		    if (start_line->data[index] == '\0')
 			break;
+		    index = move_mbright(start_line->data, index);
 		}
 		/* If there is no later start on this line, next step. */
 		if (regexec(varnish->start, start_line->data + index,
@@ -2545,8 +2541,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	     * looking only after an end match, if there is one. */
 	    index = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-	    linelen = strlen(fileptr->data);
-
 	    while (regexec(varnish->start, fileptr->data + index,
 				1, &startmatch, (index == 0) ?
 				0 : REG_NOTBOL) == 0) {
@@ -2586,9 +2580,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		    index = endmatch.rm_eo;
 		    /* If the end match is of length zero, step ahead. */
 		    if (endmatch.rm_so == endmatch.rm_eo) {
-			index = move_mbright(fileptr->data, index);
-			if (index > linelen)
+			if (fileptr->data[index] == '\0')
 			    break;
+			index = move_mbright(fileptr->data, index);
 		    }
 		    continue;
 		}

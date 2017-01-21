@@ -414,7 +414,6 @@ void precalc_multicolorinfo(void)
 
 	for (line = openfile->fileage; line != NULL; line = line->next) {
 	    int index = 0;
-	    int linelen = strlen(line->data);
 
 	    alloc_multidata_if_needed(line);
 	    /* Assume nothing applies until proven otherwise below. */
@@ -424,10 +423,8 @@ void precalc_multicolorinfo(void)
 	     * found, mark all the lines that are affected. */
 	    while (regexec(ink->start, line->data + index, 1,
 			&startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
+		/* Begin looking for an end match after the start match. */
 		index += startmatch.rm_eo;
-
-		if (index > linelen)
-		    break;
 
 		/* If there is an end match on this line, mark the line, but
 		 * continue looking for other starts after it. */
@@ -437,8 +434,12 @@ void precalc_multicolorinfo(void)
 		    index += endmatch.rm_eo;
 		    /* If both start and end are mere anchors, step ahead. */
 		    if (startmatch.rm_so == startmatch.rm_eo &&
-				endmatch.rm_so == endmatch.rm_eo)
-			index += 1;
+				endmatch.rm_so == endmatch.rm_eo) {
+			/* When at end-of-line, we're done. */
+			if (line->data[index] == '\0')
+			    break;
+			index = move_mbright(line->data, index);
+		    }
 		    continue;
 		}
 
