@@ -413,7 +413,7 @@ void precalc_multicolorinfo(void)
 	    continue;
 
 	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
-	    int startx = 0;
+	    int index = 0;
 	    int linelen = strlen(fileptr->data);
 
 	    alloc_multidata_if_needed(fileptr);
@@ -422,23 +422,23 @@ void precalc_multicolorinfo(void)
 
 	    /* When the line contains a start match, look for an end, and if
 	     * found, mark all the lines that are affected. */
-	    while (regexec(ink->start, &fileptr->data[startx], 1,
-			&startmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
-		startx += startmatch.rm_eo;
+	    while (regexec(ink->start, &fileptr->data[index], 1,
+			&startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
+		index += startmatch.rm_eo;
 
-		if (startx > linelen)
+		if (index > linelen)
 		    break;
 
 		/* If there is an end match on this line, mark the line, but
 		 * continue looking for other starts after it. */
-		if (regexec(ink->end, &fileptr->data[startx], 1,
-			&endmatch, (startx == 0) ? 0 : REG_NOTBOL) == 0) {
+		if (regexec(ink->end, &fileptr->data[index], 1,
+			&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 		    fileptr->multidata[ink->id] = CSTARTENDHERE;
-		    startx += endmatch.rm_eo;
+		    index += endmatch.rm_eo;
 		    /* If both start and end are mere anchors, step ahead. */
 		    if (startmatch.rm_so == startmatch.rm_eo &&
 				endmatch.rm_so == endmatch.rm_eo)
-			startx += 1;
+			index += 1;
 		    continue;
 		}
 
@@ -467,7 +467,7 @@ void precalc_multicolorinfo(void)
 		fileptr->multidata[ink->id] = CBEGINBEFORE;
 
 		/* Begin looking for a new start after the end match. */
-		startx = endmatch.rm_eo;
+		index = endmatch.rm_eo;
 	    }
 	}
     }
