@@ -398,7 +398,7 @@ void precalc_multicolorinfo(void)
 {
     const colortype *ink;
     regmatch_t startmatch, endmatch;
-    filestruct *fileptr, *endptr;
+    filestruct *line, *endptr;
 
     if (openfile->colorstrings == NULL || ISSET(NO_COLOR_SYNTAX))
 	return;
@@ -412,17 +412,17 @@ void precalc_multicolorinfo(void)
 	if (ink->end == NULL)
 	    continue;
 
-	for (fileptr = openfile->fileage; fileptr != NULL; fileptr = fileptr->next) {
+	for (line = openfile->fileage; line != NULL; line = line->next) {
 	    int index = 0;
-	    int linelen = strlen(fileptr->data);
+	    int linelen = strlen(line->data);
 
-	    alloc_multidata_if_needed(fileptr);
+	    alloc_multidata_if_needed(line);
 	    /* Assume nothing applies until proven otherwise below. */
-	    fileptr->multidata[ink->id] = CNONE;
+	    line->multidata[ink->id] = CNONE;
 
 	    /* When the line contains a start match, look for an end, and if
 	     * found, mark all the lines that are affected. */
-	    while (regexec(ink->start, &fileptr->data[index], 1,
+	    while (regexec(ink->start, line->data + index, 1,
 			&startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 		index += startmatch.rm_eo;
 
@@ -431,9 +431,9 @@ void precalc_multicolorinfo(void)
 
 		/* If there is an end match on this line, mark the line, but
 		 * continue looking for other starts after it. */
-		if (regexec(ink->end, &fileptr->data[index], 1,
+		if (regexec(ink->end, line->data + index, 1,
 			&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
-		    fileptr->multidata[ink->id] = CSTARTENDHERE;
+		    line->multidata[ink->id] = CSTARTENDHERE;
 		    index += endmatch.rm_eo;
 		    /* If both start and end are mere anchors, step ahead. */
 		    if (startmatch.rm_so == startmatch.rm_eo &&
@@ -443,7 +443,7 @@ void precalc_multicolorinfo(void)
 		}
 
 		/* Look for an end match on later lines. */
-		endptr = fileptr->next;
+		endptr = line->next;
 
 		while (endptr != NULL) {
 		    if (regexec(ink->end, endptr->data, 1, &endmatch, 0) == 0)
@@ -456,15 +456,15 @@ void precalc_multicolorinfo(void)
 
 		/* We found it, we found it, la la la la la.  Mark all
 		 * the lines in between and the end properly. */
-		fileptr->multidata[ink->id] = CENDAFTER;
+		line->multidata[ink->id] = CENDAFTER;
 
-		for (fileptr = fileptr->next; fileptr != endptr; fileptr = fileptr->next) {
-		    alloc_multidata_if_needed(fileptr);
-		    fileptr->multidata[ink->id] = CWHOLELINE;
+		for (line = line->next; line != endptr; line = line->next) {
+		    alloc_multidata_if_needed(line);
+		    line->multidata[ink->id] = CWHOLELINE;
 		}
 
 		alloc_multidata_if_needed(endptr);
-		fileptr->multidata[ink->id] = CBEGINBEFORE;
+		line->multidata[ink->id] = CBEGINBEFORE;
 
 		/* Begin looking for a new start after the end match. */
 		index = endmatch.rm_eo;
