@@ -398,7 +398,7 @@ void precalc_multicolorinfo(void)
 {
     const colortype *ink;
     regmatch_t startmatch, endmatch;
-    filestruct *line, *endptr;
+    filestruct *line, *tailline;
 
     if (openfile->colorstrings == NULL || ISSET(NO_COLOR_SYNTAX))
 	return;
@@ -443,28 +443,28 @@ void precalc_multicolorinfo(void)
 		}
 
 		/* Look for an end match on later lines. */
-		endptr = line->next;
+		tailline = line->next;
 
-		while (endptr != NULL) {
-		    if (regexec(ink->end, endptr->data, 1, &endmatch, 0) == 0)
+		while (tailline != NULL) {
+		    if (regexec(ink->end, tailline->data, 1, &endmatch, 0) == 0)
 			break;
-		    endptr = endptr->next;
+		    tailline = tailline->next;
 		}
 
-		if (endptr == NULL)
+		if (tailline == NULL)
 		    break;
 
 		/* We found it, we found it, la la la la la.  Mark all
 		 * the lines in between and the end properly. */
 		line->multidata[ink->id] = CENDAFTER;
 
-		for (line = line->next; line != endptr; line = line->next) {
+		for (line = line->next; line != tailline; line = line->next) {
 		    alloc_multidata_if_needed(line);
 		    line->multidata[ink->id] = CWHOLELINE;
 		}
 
-		alloc_multidata_if_needed(endptr);
-		line->multidata[ink->id] = CBEGINBEFORE;
+		alloc_multidata_if_needed(tailline);
+		tailline->multidata[ink->id] = CBEGINBEFORE;
 
 		/* Begin looking for a new start after the end match. */
 		index = endmatch.rm_eo;
