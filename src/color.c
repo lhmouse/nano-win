@@ -354,19 +354,20 @@ void reset_multis(filestruct *fileptr, bool force)
 	    /* Check whether the multidata still matches the current situation. */
 	    nobegin = regexec(ink->start, fileptr->data, 1, &startmatch, 0);
 	    noend = regexec(ink->end, fileptr->data, 1, &endmatch, 0);
-	    if ((fileptr->multidata[ink->id] == CWHOLELINE ||
-			fileptr->multidata[ink->id] == CNONE) &&
-			nobegin && noend)
-		continue;
-	    else if (fileptr->multidata[ink->id] == CSTARTENDHERE &&
-			!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
-		continue;
-	    else if (fileptr->multidata[ink->id] == CBEGINBEFORE &&
-			nobegin && !noend)
-		continue;
-	    else if (fileptr->multidata[ink->id] == CENDAFTER &&
-			!nobegin && noend)
-		continue;
+	    if (fileptr->multidata[ink->id] == CNONE ||
+			fileptr->multidata[ink->id] == CWHOLELINE) {
+		if (nobegin && noend)
+		    continue;
+	    } else if (fileptr->multidata[ink->id] == CSTARTENDHERE) {
+		if (!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
+		    continue;
+	    } else if (fileptr->multidata[ink->id] == CBEGINBEFORE) {
+		if (nobegin && !noend)
+		    continue;
+	    } else if (fileptr->multidata[ink->id] == CENDAFTER) {
+		if (!nobegin && noend)
+		    continue;
+	    }
 	}
 
 	/* If we got here, things have changed. */
