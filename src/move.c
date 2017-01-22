@@ -347,11 +347,10 @@ void ensure_line_is_visible(void)
 }
 
 /* Move to the beginning of the current line (or softwrapped chunk).
- *
- * Try to do a smart home if it's possible and the SMART_HOME flag is set, and
- * then try to do a dynamic home if it's possible and we're in softwrap
- * mode. */
-void do_home(void)
+ * If be_clever is TRUE, do a smart home when wanted and possible,
+ * and do a dynamic home when in softwrap mode and it'spossible.
+ * If be_clever is FALSE, just do a simple home. */
+void do_home(bool be_clever)
 {
     size_t was_column = xplustabs();
     filestruct *was_current = openfile->current;
@@ -364,7 +363,7 @@ void do_home(void)
 	leftedge_x = actual_x(openfile->current->data,
 			(was_column / editwincols) * editwincols);
 
-    if (ISSET(SMART_HOME)) {
+    if (ISSET(SMART_HOME) && be_clever) {
 	size_t indent_x = indent_length(openfile->current->data);
 
 	if (openfile->current->data[indent_x] != '\0') {
@@ -384,7 +383,7 @@ void do_home(void)
     if (!moved && ISSET(SOFTWRAP)) {
 	/* If already at the left edge of the screen, move fully home.
 	 * Otherwise, move to the left edge. */
-	if (openfile->current_x == leftedge_x)
+	if (openfile->current_x == leftedge_x && be_clever)
 	    openfile->current_x = 0;
 	else {
 	    openfile->current_x = leftedge_x;
@@ -405,15 +404,16 @@ void do_home(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Do a (smart or dynamic) home. */
 void do_home_void(void)
 {
-    do_home();
+    do_home(TRUE);
 }
 
 /* Move to the end of the current line (or softwrapped chunk).
- *
- * Try to do a dynamic end if it's possible and we're in softwrap mode. */
-void do_end(void)
+ * If be_clever is TRUE, do a dynamic end when in softwrap mode and
+ * it's possible.  If be_clever is FALSE, just do a simple end. */
+void do_end(bool be_clever)
 {
     size_t was_column = xplustabs();
     size_t line_len = strlen(openfile->current->data);
@@ -428,7 +428,7 @@ void do_end(void)
 
 	/* If already at the right edge of the screen, move fully to the
 	 * end of the line.  Otherwise, move to the right edge. */
-	if (openfile->current_x == rightedge_x)
+	if (openfile->current_x == rightedge_x && be_clever)
 	    openfile->current_x = line_len;
 	else {
 	    openfile->current_x = rightedge_x;
@@ -449,9 +449,10 @@ void do_end(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Do a (dynamic) end. */
 void do_end_void(void)
 {
-    do_end();
+    do_end(TRUE);
 }
 
 /* If scroll_only is FALSE, move up one line.  If scroll_only is TRUE,
