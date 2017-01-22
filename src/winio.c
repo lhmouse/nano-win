@@ -2481,8 +2481,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		/* Begin searching for an end after the start match. */
 		index += startmatch.rm_eo;
 		/* If there is no end after this last start, good. */
-		if (regexec(varnish->end, start_line->data + index,
-				1, &endmatch, REG_NOTBOL) == REG_NOMATCH)
+		if (regexec(varnish->end, start_line->data + index, 1, &endmatch,
+				(index == 0) ? 0 : REG_NOTBOL) == REG_NOMATCH)
 		    break;
 		/* Begin searching for a new start after the end match. */
 		index += endmatch.rm_eo;
