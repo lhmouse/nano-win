@@ -373,6 +373,11 @@ void do_home(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+void do_home_void(void)
+{
+    do_home();
+}
+
 /* Move to the end of the current line. */
 void do_end(void)
 {
@@ -385,6 +390,11 @@ void do_end(void)
 	update_line(openfile->current, openfile->current_x);
 
     ensure_line_is_visible();
+}
+
+void do_end_void(void)
+{
+    do_end();
 }
 
 /* If scroll_only is FALSE, move up one line.  If scroll_only is TRUE,

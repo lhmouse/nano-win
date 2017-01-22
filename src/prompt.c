@@ -125,9 +125,9 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	else if (s->scfunc == do_next_word_void)
 	    do_statusbar_next_word();
 #endif
-	else if (s->scfunc == do_home)
+	else if (s->scfunc == do_home_void)
 	    do_statusbar_home();
-	else if (s->scfunc == do_end)
+	else if (s->scfunc == do_end_void)
 	    do_statusbar_end();
 	/* When in restricted mode at the "Write File" prompt and the
 	 * filename isn't blank, disallow any input and deletion. */

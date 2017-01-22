@@ -831,9 +831,9 @@ void shortcut_init(void)
     add_to_funcs(do_next_word_void, MMAIN,
 	N_("Next Word"), IFSCHELP(nano_nextword_msg), TOGETHER, VIEW);
 
-    add_to_funcs(do_home, MMAIN,
+    add_to_funcs(do_home_void, MMAIN,
 	N_("Home"), IFSCHELP(nano_home_msg), TOGETHER, VIEW);
-    add_to_funcs(do_end, MMAIN,
+    add_to_funcs(do_end_void, MMAIN,
 	N_("End"), IFSCHELP(nano_end_msg), TOGETHER, VIEW);
 
     add_to_funcs(do_up_void, MMAIN|MBROWSER,
@@ -1114,10 +1114,10 @@ void shortcut_init(void)
     }
     add_to_sclist(MMOST, "M-Space", 0, do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", 0, do_next_word_void, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "^A", 0, do_home, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "Home", KEY_HOME, do_home, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "^A", 0, do_home_void, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "Home", KEY_HOME, do_home_void, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end_void, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", 0, do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down_void, 0);
@@ -1489,9 +1489,9 @@ sc *strtosc(const char *input)
 	     !strcasecmp(input, "nextline"))
 	s->scfunc = do_down_void;
     else if (!strcasecmp(input, "home"))
-	s->scfunc = do_home;
+	s->scfunc = do_home_void;
     else if (!strcasecmp(input, "end"))
-	s->scfunc = do_end;
+	s->scfunc = do_end_void;
     else if (!strcasecmp(input, "pageup") ||
 	     !strcasecmp(input, "prevpage"))
 	s->scfunc = do_page_up;
