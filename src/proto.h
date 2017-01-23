@@ -714,6 +714,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge);
 int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge);
 bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge);
 void edit_scroll(scroll_dir direction, int nrows);
+void ensure_firstcolumn_is_aligned(void);
 bool current_is_above_screen(void);
 bool current_is_below_screen(void);
 bool current_is_offscreen(void);

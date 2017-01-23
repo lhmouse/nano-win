@@ -1332,6 +1332,9 @@ void regenerate_screen(void)
 #endif
     editwincols = COLS - margin;
 
+    /* Ensure that firstcolumn is the starting column of its chunk. */
+    ensure_firstcolumn_is_aligned();
+
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what
      * curses does here, it'll only work properly if the resize made the
@@ -2643,6 +2646,10 @@ int main(int argc, char **argv)
 	if (needed_margin != margin) {
 	    margin = needed_margin;
 	    editwincols = COLS - margin;
+
+	    /* Ensure that firstcolumn is the starting column of its chunk. */
+	    ensure_firstcolumn_is_aligned();
+
 	    /* The margin has changed -- schedule a full refresh. */
 	    refresh_needed = TRUE;
 	}
