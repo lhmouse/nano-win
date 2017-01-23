@@ -2420,6 +2420,22 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    regmatch_t startmatch, endmatch;
 		/* The match positions of the start and end regexes. */
 
+	    /* First check the multidata of the preceding line -- it tells
+	     * us about the situation so far, and thus what to do here. */
+	    if (start_line != NULL && start_line->multidata != NULL) {
+		if (start_line->multidata[varnish->id] == CWHOLELINE ||
+			start_line->multidata[varnish->id] == CENDAFTER) {
+		    fileptr->multidata[varnish->id] = CNONE;
+		    goto seek_an_end;
+		}
+		if (start_line->multidata[varnish->id] == CNONE ||
+			start_line->multidata[varnish->id] == CBEGINBEFORE ||
+			start_line->multidata[varnish->id] == CSTARTENDHERE) {
+		    fileptr->multidata[varnish->id] = CNONE;
+		    goto step_two;
+		}
+	    }
+
 	    /* First see if the multidata was maybe already calculated. */
 	    if (fileptr->multidata[varnish->id] == CNONE)
 		goto tail_of_loop;
@@ -2440,10 +2456,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    /* There is no precalculated multidata, or it is CENDAFTER or
 	     * CSTARTENDHERE.  In all cases, find out what to paint. */
 
-	    /* When the multidata is unitialized, assume CNONE until one
-	     * of the steps below concludes otherwise. */
-	    if (fileptr->multidata[varnish->id] == -1)
-		fileptr->multidata[varnish->id] = CNONE;
+	    /* Assume nothing gets painted until proven otherwise below. */
+	    fileptr->multidata[varnish->id] = CNONE;
 
 	    /* First check if the beginning of the line is colored by a
 	     * start on an earlier line, and an end on this line or later.
@@ -2500,6 +2514,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    }
 	    /* Indeed, there is a start without an end on that line. */
 
+  seek_an_end:
 	    /* We've already checked that there is no end between the start
 	     * and the current line.  But is there an end after the start
 	     * at all?  We don't paint unterminated starts. */

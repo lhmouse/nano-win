@@ -370,6 +370,9 @@ void reset_multis(filestruct *fileptr, bool force)
 	    }
 	}
 
+	refresh_needed = TRUE;
+	return;
+
 	/* If we got here, things have changed. */
 	reset_multis_for_id(fileptr, ink->id);
 
