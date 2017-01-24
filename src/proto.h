@@ -533,7 +533,7 @@ void not_found_msg(const char *str);
 void search_replace_abort(void);
 int search_init(bool replacing, bool use_answer);
 int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
-	const filestruct *begin, size_t begin_x);
+	bool skipone, const filestruct *begin, size_t begin_x);
 void do_search(void);
 #ifndef NANO_TINY
 void do_findprevious(void);

@@ -232,7 +232,7 @@ int search_init(bool replacing, bool use_answer)
  * found something, 0 when nothing, and -2 on cancel.  When match_len is
  * not NULL, set it to the length of the found string, if any. */
 int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
-	const filestruct *begin, size_t begin_x)
+	bool skipone, const filestruct *begin, size_t begin_x)
 {
     size_t found_len = strlen(needle);
 	/* The length of a match -- will be recomputed for a regex. */
@@ -278,11 +278,13 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	}
 
 	/* Search for the needle in the current line. */
-	found = strstrwrapper(line->data, needle, from);
+	if (!skipone)
+	    found = strstrwrapper(line->data, needle, from);
 
 	/* Ignore the initial match at the starting position: continue
 	 * searching from the next character, or invalidate the match. */
-	if (found == begin->data + begin_x && !came_full_circle) {
+	if (skipone || (found == begin->data + begin_x && !came_full_circle)) {
+	    skipone = FALSE;
 	    if (ISSET(BACKWARDS_SEARCH) && from != line->data) {
 		from = line->data + move_mbleft(line->data, from - line->data);
 		continue;
@@ -460,7 +462,7 @@ void go_looking(void)
 
     came_full_circle = FALSE;
 
-    didfind = findnextstr(last_search, FALSE, NULL,
+    didfind = findnextstr(last_search, FALSE, NULL, FALSE,
 				openfile->current, openfile->current_x);
 
     /* If we found something, and we're back at the exact same spot
@@ -576,6 +578,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
     ssize_t numreplaced = -1;
     size_t match_len;
     bool replaceall = FALSE;
+    bool skipone = FALSE;
 #ifndef NANO_TINY
     bool old_mark_set = openfile->mark_set;
     filestruct *top, *bot;
@@ -605,7 +608,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
     while (TRUE) {
 	int i = 0;
-	int result = findnextstr(needle, whole_word_only, &match_len,
+	int result = findnextstr(needle, whole_word_only, &match_len, skipone,
 					real_current, *real_current_x);
 
 	/* If nothing more was found, or the user aborted, stop looping. */
@@ -656,6 +659,10 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 		break;
 	    else if (i == 2)
 		replaceall = TRUE;
+
+	    /* When "No" or moving backwards, the search routine should
+	     * first move one character further before continuing. */
+	    skipone = (i == 0 || ISSET(BACKWARDS_SEARCH));
 	}
 
 	if (i == 1 || replaceall) {  /* Yes, replace it. */
@@ -701,13 +708,12 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 #ifdef HAVE_REGEX_H
 	    /* Don't find the same zero-length or BOL match again. */
 	    if (match_len == 0 || (*needle == '^' && ISSET(USE_REGEXP)))
-		match_len++;
+		skipone = TRUE;
 #endif
-	    /* Set the cursor at the last character of the replacement
-	     * text, so that searching will continue /after/ it.  Note
-	     * that current_x might be set to (size_t)-1 here. */
+	    /* When moving forward, put the cursor just after the replacement
+	     * text, so that searching will continue there. */
 	    if (!ISSET(BACKWARDS_SEARCH))
-		openfile->current_x += match_len + length_change - 1;
+		openfile->current_x += match_len + length_change;
 
 	    /* Update the file size, and put the changed line into place. */
 	    openfile->totsize += mbstrlen(copy) - mbstrlen(openfile->current->data);
