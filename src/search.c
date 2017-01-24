@@ -710,7 +710,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	    if (!old_mark_set || right_side_up) {
 #endif
 		if (openfile->current == real_current &&
-			openfile->current_x <= *real_current_x) {
+			openfile->current_x < *real_current_x) {
 		    if (*real_current_x < openfile->current_x + match_len)
 			*real_current_x = openfile->current_x + match_len;
 		    *real_current_x += length_change;
