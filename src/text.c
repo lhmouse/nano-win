@@ -2534,6 +2534,7 @@ void do_full_justify(void)
 bool do_int_spell_fix(const char *word)
 {
     char *save_search, *exp_word;
+    size_t firstcolumn_save = openfile->firstcolumn;
     size_t current_x_save = openfile->current_x;
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
@@ -2655,6 +2656,7 @@ bool do_int_spell_fix(const char *word)
 
     /* Restore the viewport to where it was. */
     openfile->edittop = edittop_save;
+    openfile->firstcolumn = firstcolumn_save;
 
     /* Restore the settings of the global flags. */
     memcpy(flags, stash, sizeof(flags));
