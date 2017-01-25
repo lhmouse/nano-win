@@ -643,7 +643,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	     * stop the fanfare. */
 	    if (openfile->current->lineno > bot->lineno ||
 			openfile->current->lineno < top->lineno ||
-			(openfile->current == bot && openfile->current_x > bot_x) ||
+			(openfile->current == bot && openfile->current_x + match_len > bot_x) ||
 			(openfile->current == top && openfile->current_x < top_x))
 		break;
 	}
