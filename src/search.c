@@ -736,7 +736,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 void do_replace(void)
 {
     filestruct *edittop_save, *begin;
-    size_t begin_x;
+    size_t firstcolumn_save, begin_x;
     ssize_t numreplaced;
     int i;
 
@@ -780,6 +780,7 @@ void do_replace(void)
 
     /* Save where we are. */
     edittop_save = openfile->edittop;
+    firstcolumn_save = openfile->firstcolumn;
     begin = openfile->current;
     begin_x = openfile->current_x;
 
@@ -787,6 +788,7 @@ void do_replace(void)
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;
+    openfile->firstcolumn = firstcolumn_save;
     openfile->current = begin;
     openfile->current_x = begin_x;
     refresh_needed = TRUE;
