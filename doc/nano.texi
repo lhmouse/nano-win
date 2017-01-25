@@ -101,13 +101,18 @@ But it is also possible to specify one or more options, and to edit
 several files in a row.  Additionally, the cursor can be put on a
 specific line of a file by adding the line number
 with a plus sign before the filename, and even in a specific column by
-adding it with a comma.  So the complete command synopsis is:
+adding it with a comma.
+
+Also, if the first file specified is a dash, @code{nano} will read
+data from standard input.
+
+So a more complete command synopsis is:
 
 @quotation
 @code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+,COLUMN] FILE]@dots{}}
 @end quotation
 
-But normallly you would set your preferred options in your
+But normally you would set your preferred options in your
 @file{.nanorc} file.  And when the @code{positionlog} option is set
 (making @code{nano} remember the cursor position when you close a file),
 you will rarely need to specify a line number.
@@ -119,10 +124,6 @@ you will rarely need to specify a line number.
 @command{nano} takes the following options from the command line:
 
 @table @option
-
-@item +@var{line},@var{column}
-Start at line number @var{line} and column number @var{column} (at least one of
-which must be specified) instead of the default of line 1, column 1.
 
 @item -A
 @itemx --smarthome
