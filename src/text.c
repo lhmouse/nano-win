@@ -2160,6 +2160,7 @@ void do_justify(bool full_justify)
     /* We save these variables to be restored if the user
      * unjustifies. */
     filestruct *edittop_save = openfile->edittop;
+    size_t firstcolumn_save = openfile->firstcolumn;
     filestruct *current_save = openfile->current;
     size_t current_x_save = openfile->current_x;
 #ifndef NANO_TINY
@@ -2473,6 +2474,7 @@ void do_justify(bool full_justify)
 
 	    /* Restore the old position and the mark. */
 	    openfile->edittop = edittop_save;
+	    openfile->firstcolumn = firstcolumn_save;
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
 #ifndef NANO_TINY
