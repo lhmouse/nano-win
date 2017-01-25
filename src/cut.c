@@ -225,6 +225,7 @@ void do_copy_text(void)
 
     /* Remember the current viewport and cursor position. */
     ssize_t is_edittop_lineno = openfile->edittop->lineno;
+    size_t is_firstcolumn = openfile->firstcolumn;
     ssize_t is_current_lineno = openfile->current->lineno;
     size_t is_current_x = openfile->current_x;
 
@@ -239,6 +240,7 @@ void do_copy_text(void)
     if (mark_set) {
 	/* Restore the viewport and cursor position. */
 	openfile->edittop = fsfromline(is_edittop_lineno);
+	openfile->firstcolumn = is_firstcolumn;
 	openfile->current = fsfromline(is_current_lineno);
 	openfile->current_x = is_current_x;
     }
