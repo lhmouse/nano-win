@@ -315,41 +315,66 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 }
 #endif /* !DISABLE_SPELLER */
 
-/* If we are searching backwards, we will find the last match that
- * starts no later than start.  Otherwise we find the first match
- * starting no earlier than start.  If we are doing a regexp search, we
- * fill in the global variable regmatches with at most 9 subexpression
- * matches.  Also, all .rm_so elements are relative to the start of the
- * whole match, so regmatches[0].rm_so == 0. */
+/* Return the position of the needle in the haystack, or NULL if not found.
+ * When searching backwards, we will find the last match that starts no later
+ * than the given start; otherwise, we find the first match starting no earlier
+ * than start.  If we are doing a regexp search, and we find a match, we fill
+ * in the global variable regmatches with at most 9 subexpression matches. */
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start)
 {
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 	if (ISSET(BACKWARDS_SEARCH)) {
-	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0 &&
-			haystack + regmatches[0].rm_so <= start) {
-		const char *retval = haystack + regmatches[0].rm_so;
+	    size_t last_find, ceiling, far_end;
+	    size_t floor = 0, next_rung = 0;
+		/* The start of the search range, and the next start. */
 
-		/* Search forward until there are no more matches. */
-		while (regexec(&search_regexp, retval + 1, 1,
-			regmatches, REG_NOTBOL) == 0 &&
-			retval + regmatches[0].rm_so + 1 <= start)
-		    retval += regmatches[0].rm_so + 1;
-		/* Finally, put the subexpression matches in global
-		 * variable regmatches.  The REG_NOTBOL flag doesn't
-		 * matter now. */
-		regexec(&search_regexp, retval, 10, regmatches, 0);
-		return retval;
+	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) != 0)
+		return NULL;
+
+	    far_end = strlen(haystack);
+	    ceiling = start - haystack;
+	    last_find = regmatches[0].rm_so;
+
+	    /* A result beyond the search range also means: no match. */
+	    if (last_find > ceiling)
+		return NULL;
+
+	    /* Move the start-of-range forward until there is no more match;
+	     * then the last match found is the first match backwards. */
+	    while (regmatches[0].rm_so <= ceiling) {
+		floor = next_rung;
+		last_find = regmatches[0].rm_so;
+		/* If this is the last possible match, don't try to advance. */
+		if (last_find == ceiling)
+		    break;
+		next_rung = move_mbright(haystack, last_find);
+		regmatches[0].rm_so = next_rung;
+		regmatches[0].rm_eo = far_end;
+		if (regexec(&search_regexp, haystack, 1, regmatches,
+					REG_STARTEND) != 0)
+		    break;
 	    }
-	} else if (regexec(&search_regexp, start, 10, regmatches,
-			(start > haystack) ? REG_NOTBOL : 0) == 0) {
-	    const char *retval = start + regmatches[0].rm_so;
 
-	    regexec(&search_regexp, retval, 10, regmatches, 0);
-	    return retval;
+	    /* Find the last match again, to get possible submatches. */
+	    regmatches[0].rm_so = floor;
+	    regmatches[0].rm_eo = far_end;
+	    if (regexec(&search_regexp, haystack, 10, regmatches,
+					REG_STARTEND) != 0)
+		statusline(ALERT, "BAD: failed to refind the match!");
+
+	    return haystack + regmatches[0].rm_so;
 	}
-	return NULL;
+
+	/* Do a forward regex search from the starting point. */
+	regmatches[0].rm_so = start - haystack;
+	regmatches[0].rm_eo = strlen(haystack);
+	if (regexec(&search_regexp, haystack, 10, regmatches,
+					REG_STARTEND) != 0)
+	    return NULL;
+	else
+	    return haystack + regmatches[0].rm_so;
     }
 #endif /* HAVE_REGEX_H */
     if (ISSET(CASE_SENSITIVE)) {

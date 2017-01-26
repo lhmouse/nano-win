@@ -38,8 +38,6 @@ static bool history_changed = FALSE;
 #ifdef HAVE_REGEX_H
 static bool regexp_compiled = FALSE;
 	/* Have we compiled any regular expressions? */
-static bool bow_anchored = FALSE;
-	/* Whether a regex starts with a beginning-of-word anchor. */
 
 /* Compile the given regular expression and store it in search_regexp.
  * Return TRUE if the expression is valid, and FALSE otherwise. */
@@ -61,10 +59,6 @@ bool regexp_init(const char *regexp)
     }
 
     regexp_compiled = TRUE;
-
-    /* Remember whether the regex starts with a beginning-of-word anchor. */
-    bow_anchored = (strncmp(regexp, "\\<", 2) == 0 ||
-			strncmp(regexp, "\\b", 2) == 0);
 
     return TRUE;
 }
@@ -302,24 +296,8 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	if (found != NULL) {
 #ifdef HAVE_REGEX_H
 	    /* When doing a regex search, compute the length of the match. */
-	    if (ISSET(USE_REGEXP)) {
+	    if (ISSET(USE_REGEXP))
 		found_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-
-		/* If the regex starts with a BOW anchor, check that the found
-		 * match actually is the start of a word.  If not, continue. */
-		if (bow_anchored && found != line->data) {
-		    size_t before = move_mbleft(line->data, found - line->data);
-
-		    /* If a word char is before the match, skip this match. */
-		    if (is_word_mbchar(line->data + before, FALSE)) {
-			if (ISSET(BACKWARDS_SEARCH))
-			    from = line->data + before;
-			else
-			    from = found + move_mbright(found, 0);
-			continue;
-		    }
-		}
-	    }
 #endif
 #ifndef DISABLE_SPELLER
 	    /* When we're spell checking, a match should be a separate word;
@@ -531,7 +509,7 @@ int replace_regexp(char *string, bool create)
 	     * subexpression match to the new line. */
 	    if (create) {
 		strncpy(string, openfile->current->data +
-			openfile->current_x + regmatches[num].rm_so, i);
+					regmatches[num].rm_so, i);
 		string += i;
 	    }
 	}
