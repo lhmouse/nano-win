@@ -283,7 +283,8 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 
 	/* Ignore the initial match at the starting position: continue
 	 * searching from the next character, or invalidate the match. */
-	if (skipone || (found == begin->data + begin_x && !came_full_circle)) {
+	if (skipone || (!whole_word_only && !came_full_circle &&
+				found == begin->data + begin_x)) {
 	    skipone = FALSE;
 	    if (ISSET(BACKWARDS_SEARCH) && from != line->data) {
 		from = line->data + move_mbleft(line->data, from - line->data);

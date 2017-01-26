@@ -2641,11 +2641,10 @@ bool do_int_spell_fix(const char *word)
 	 * (current, current_x) (where searching starts) is at the top. */
 	if (right_side_up) {
 	    openfile->current = top;
-	    openfile->current_x = (size_t)(top_x - 1);
+	    openfile->current_x = top_x;
 	    openfile->mark_begin = bot;
 	    openfile->mark_begin_x = bot_x;
-	} else
-	    openfile->current_x = (size_t)(openfile->current_x - 1);
+	}
 	openfile->mark_set = FALSE;
     } else
 #endif
@@ -2653,7 +2652,7 @@ bool do_int_spell_fix(const char *word)
     {
 	openfile->edittop = openfile->fileage;
 	openfile->current = openfile->fileage;
-	openfile->current_x = (size_t)-1;
+	openfile->current_x = 0;
     }
 
     /* Find the first whole occurrence of word. */
@@ -2685,7 +2684,6 @@ bool do_int_spell_fix(const char *word)
 
 	/* If a replacement was given, go through all occurrences. */
 	if (proceed && strcmp(word, answer) != 0) {
-	    openfile->current_x--;
 #ifndef NANO_TINY
 	    /* Replacements should happen only in the marked region. */
 	    openfile->mark_set = old_mark_set;
