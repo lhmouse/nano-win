@@ -623,7 +623,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	if (old_mark_set) {
 	    /* When we've found an occurrence outside of the marked region,
 	     * stop the fanfare. */
-	    if (openfile->current->lineno > bot->lineno ||
+	    if (came_full_circle || openfile->current->lineno > bot->lineno ||
 			openfile->current->lineno < top->lineno ||
 			(openfile->current == bot && openfile->current_x + match_len > bot_x) ||
 			(openfile->current == top && openfile->current_x < top_x))
