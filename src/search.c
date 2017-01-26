@@ -597,7 +597,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	/* Start either at the top or the bottom of the marked region. */
 	if (!ISSET(BACKWARDS_SEARCH)) {
 	    openfile->current = top;
-	    openfile->current_x = (top_x == 0 ? 0 : top_x - 1);
+	    openfile->current_x = top_x;
 	} else {
 	    openfile->current = bot;
 	    openfile->current_x = bot_x;
