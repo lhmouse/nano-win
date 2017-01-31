@@ -369,7 +369,7 @@ void do_home(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_scroll(was_column, openfile->placewewant))
+    if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -381,7 +381,7 @@ void do_end(void)
     openfile->current_x = strlen(openfile->current->data);
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_scroll(was_column, openfile->placewewant))
+    if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 
     ensure_line_is_visible();
@@ -414,10 +414,10 @@ void do_up(bool scroll_only)
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y > 0) {
 	/* Redraw the prior line if it was horizontally scrolled. */
-	if (need_horizontal_scroll(was_column, 0))
+	if (line_needs_update(was_column, 0))
 	    update_line(openfile->current->next, 0);
 	/* Redraw the current line if it needs to be horizontally scrolled. */
-	if (need_horizontal_scroll(0, xplustabs()))
+	if (line_needs_update(0, xplustabs()))
 	    update_line(openfile->current, openfile->current_x);
     }
 }
@@ -492,10 +492,10 @@ void do_down(bool scroll_only)
     /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y < editwinrows - 1) {
 	/* Redraw the prior line if it was horizontally scrolled. */
-	if (need_horizontal_scroll(was_column, 0))
+	if (line_needs_update(was_column, 0))
 	    update_line(openfile->current->prev, 0);
 	/* Redraw the current line if it needs to be horizontally scrolled. */
-	if (need_horizontal_scroll(0, xplustabs()))
+	if (line_needs_update(0, xplustabs()))
 	    update_line(openfile->current, openfile->current_x);
     }
 }
@@ -535,7 +535,7 @@ void do_left(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_scroll(was_column, openfile->placewewant))
+    if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -557,7 +557,7 @@ void do_right(void)
 
     openfile->placewewant = xplustabs();
 
-    if (need_horizontal_scroll(was_column, openfile->placewewant))
+    if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 
     if (openfile->current_x == 0)

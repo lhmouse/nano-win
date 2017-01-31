@@ -2715,9 +2715,10 @@ int update_line(filestruct *fileptr, size_t index)
     return 1;
 }
 
-/* Check whether old_column and new_column are on different "pages" (or that
- * the mark is on), which means that the relevant line needs to be redrawn. */
-bool need_horizontal_scroll(const size_t old_column, const size_t new_column)
+/* Check whether the mark is on, or whether old_column and new_column are on
+ * different "pages" (in softwrap mode, only the former applies), which means
+ * that the relevant line needs to be redrawn. */
+bool line_needs_update(const size_t old_column, const size_t new_column)
 {
 #ifndef NANO_TINY
     if (openfile->mark_set)
@@ -2934,7 +2935,7 @@ void edit_scroll(scroll_dir direction, int nrows)
     for (i = nrows; i > 0 && line != NULL; i--) {
 	if ((i == nrows && direction == DOWNWARD) ||
 			(i == 1 && direction == UPWARD)) {
-	    if (need_horizontal_scroll(openfile->placewewant, 0))
+	    if (line_needs_update(openfile->placewewant, 0))
 		update_line(line, (line == openfile->current) ?
 			openfile->current_x : 0);
 	} else
@@ -3016,7 +3017,7 @@ void edit_redraw(filestruct *old_current)
 
     /* Update current if the mark is on or it has changed "page", or if it
      * differs from old_current and needs to be horizontally scrolled. */
-    if (need_horizontal_scroll(was_pww, openfile->placewewant) ||
+    if (line_needs_update(was_pww, openfile->placewewant) ||
 			(old_current != openfile->current &&
 			get_page_start(openfile->placewewant) > 0))
 	update_line(openfile->current, openfile->current_x);
