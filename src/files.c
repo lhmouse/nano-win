@@ -1196,8 +1196,6 @@ void do_insertfile(void)
 		/* Update the cursor position to account for inserted lines. */
 		reset_cursor();
 
-		ensure_line_is_visible();
-
 		refresh_needed = TRUE;
 	    }
 

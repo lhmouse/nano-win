@@ -179,8 +179,6 @@ void do_deletion(undo_type action)
 	return;
 
 #ifndef NANO_TINY
-    ensure_line_is_visible();
-
     /* If the number of screen rows that a softwrapped line occupies
      * has changed, we need a full refresh. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)

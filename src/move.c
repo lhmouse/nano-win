@@ -44,7 +44,6 @@ void do_last_line(void)
 
     /* Set the last line of the screen as the target for the cursor. */
     openfile->current_y = editwinrows - 1;
-    ensure_line_is_visible();
 
     refresh_needed = TRUE;
     focusing = FALSE;
@@ -339,19 +338,6 @@ bool do_next_word(bool allow_punct, bool allow_update)
 void do_next_word_void(void)
 {
     do_next_word(ISSET(WORD_BOUNDS), TRUE);
-}
-
-/* Make sure that the current line, when it is partially scrolled off the
- * screen in softwrap mode, is scrolled fully into view. */
-void ensure_line_is_visible(void)
-{
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP) && strlenpt(openfile->current->data) / editwincols +
-				openfile->current_y >= editwinrows) {
-	adjust_viewport(ISSET(SMOOTH_SCROLL) ? FLOWING : CENTERING);
-	refresh_needed = TRUE;
-    }
-#endif
 }
 
 /* Move to the beginning of the current line (or softwrapped chunk).

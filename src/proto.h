@@ -383,7 +383,6 @@ void do_prev_word(bool allow_punct, bool allow_update);
 void do_prev_word_void(void);
 bool do_next_word(bool allow_punct, bool allow_update);
 void do_next_word_void(void);
-void ensure_line_is_visible(void);
 void do_home(bool be_clever);
 void do_home_void(void);
 void do_end(bool be_clever);

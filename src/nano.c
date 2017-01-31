@@ -1877,8 +1877,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     }
 
 #ifndef NANO_TINY
-    ensure_line_is_visible();
-
     /* If the number of screen rows that a softwrapped line occupies
      * has changed, we need a full refresh. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
