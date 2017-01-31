@@ -2728,32 +2728,6 @@ bool line_needs_update(const size_t old_column, const size_t new_column)
 	return (get_page_start(old_column) != get_page_start(new_column));
 }
 
-/* Determine how many file lines we can display, accounting for softwraps. */
-void compute_maxlines(void)
-{
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	filestruct *line = openfile->edittop;
-	int row = 0;
-
-	maxlines = 0;
-
-	while (row < editwinrows && line != NULL) {
-	    row += (strlenpt(line->data) / editwincols) + 1;
-	    line = line->next;
-	    maxlines++;
-	}
-
-	if (row < editwinrows)
-	    maxlines += (editwinrows - row);
-#ifdef DEBUG
-	fprintf(stderr, "recomputed: maxlines = %d\n", maxlines);
-#endif
-    } else
-#endif /* !NANO_TINY */
-	maxlines = editwinrows;
-}
-
 /* Try to move up nrows softwrapped chunks from the given line and the
  * given column (leftedge).  After moving, leftedge will be set to the
  * starting column of the current chunk.  Return the number of chunks we
@@ -2941,8 +2915,6 @@ void edit_scroll(scroll_dir direction, int nrows)
 		openfile->current_x : 0);
 	line = line->next;
     }
-
-    compute_maxlines();
 }
 
 /* Return TRUE if current[current_x] is above the top of the screen, and FALSE
@@ -3028,14 +3000,11 @@ void edit_refresh(void)
     filestruct *line;
     int row = 0;
 
-    /* Figure out what maxlines should really be. */
-    compute_maxlines();
-
     /* If the current line is out of view, get it back on screen. */
     if (current_is_offscreen()) {
 #ifdef DEBUG
-	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and maxlines = %d\n",
-		(long)openfile->current->lineno, (long)openfile->edittop->lineno, maxlines);
+	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and editwinrows = %d\n",
+		(long)openfile->current->lineno, (long)openfile->edittop->lineno, editwinrows);
 #endif
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
@@ -3110,7 +3079,6 @@ void adjust_viewport(update_type manner)
 #ifdef DEBUG
     fprintf(stderr, "adjust_viewport(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
 #endif
-    compute_maxlines();
 }
 
 /* Unconditionally redraw the entire screen. */

@@ -94,8 +94,6 @@ WINDOW *bottomwin;
 	 * messages, the statusbar prompt, and a list of shortcuts. */
 int editwinrows = 0;
 	/* How many rows does the edit window take up? */
-int maxlines = 0;
-	/* How many file lines can be shown (due to soft wrapping). */
 
 filestruct *cutbuffer = NULL;
 	/* The buffer where we store cut text. */
