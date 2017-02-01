@@ -459,7 +459,8 @@ void do_up(bool scroll_only)
     size_t target_column = openfile->placewewant;
 
     /* When just scrolling and the top of the file is onscreen, get out. */
-    if (scroll_only && openfile->edittop == openfile->fileage)
+    if (scroll_only && openfile->edittop == openfile->fileage &&
+			openfile->firstcolumn == 0)
 	return;
 
 #ifndef NANO_TINY
@@ -480,7 +481,7 @@ void do_up(bool scroll_only)
     /* When the cursor was on the first line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window up -- one
      * line if we're in smooth scrolling mode, and half a page otherwise. */
-    if (openfile->current->next == openfile->edittop || scroll_only)
+    if (openfile->current_y == 0 || scroll_only)
 	edit_scroll(UPWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
 				1 : editwinrows / 2 + 1);
 
