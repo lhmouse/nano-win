@@ -706,6 +706,9 @@ void reset_cursor(void);
 void edit_draw(filestruct *fileptr, const char *converted,
 	int line, size_t from_col);
 int update_line(filestruct *fileptr, size_t index);
+#ifndef NANO_TINY
+int update_softwrapped_line(filestruct *fileptr);
+#endif
 bool line_needs_update(const size_t old_column, const size_t new_column);
 int go_back_chunks(int nrows, filestruct **line, size_t *leftedge);
 int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge);

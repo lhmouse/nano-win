@@ -2644,8 +2644,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 /* Redraw the line at fileptr.  The line will be displayed so that the
  * character with the given index is visible -- if necessary, the line
  * will be horizontally scrolled.  In softwrap mode, however, the entire
- * line will be displayed.  Likely values of index are current_x or zero.
- * Return the number of additional rows consumed (when softwrapping). */
+ * line will be passed to update_softwrapped_line().  Likely values of
+ * index are current_x or zero.  Return the number of additional rows
+ * consumed (when softwrapping). */
 int update_line(filestruct *fileptr, size_t index)
 {
     int row = 0;
@@ -2656,44 +2657,15 @@ int update_line(filestruct *fileptr, size_t index)
 	/* From which column a horizontally scrolled line is displayed. */
 
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	filestruct *line = openfile->edittop;
-
-	/* Find out on which screen row the target line should be shown. */
-	while (line != fileptr && line != NULL) {
-	    row += (strlenpt(line->data) / editwincols) + 1;
-	    line = line->next;
-	}
-    } else
+    if (ISSET(SOFTWRAP))
+	return update_softwrapped_line(fileptr);
 #endif
-	row = fileptr->lineno - openfile->edittop->lineno;
+
+    row = fileptr->lineno - openfile->edittop->lineno;
 
     /* If the line is offscreen, don't even try to display it. */
     if (row < 0 || row >= editwinrows)
 	return 0;
-
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	size_t full_length = strlenpt(fileptr->data);
-	int starting_row = row;
-
-	for (from_col = 0; from_col <= full_length &&
-			row < editwinrows; from_col += editwincols) {
-	    /* First, blank out the row. */
-	    blank_row(edit, row, 0, COLS);
-
-	    /* Expand the line, replacing tabs with spaces, and control
-	     * characters with their displayed forms. */
-	    converted = display_string(fileptr->data, from_col, editwincols, TRUE);
-
-	    /* Draw the line. */
-	    edit_draw(fileptr, converted, row++, from_col);
-	    free(converted);
-	}
-
-	return (row - starting_row);
-    }
-#endif
 
     /* First, blank out the row. */
     blank_row(edit, row, 0, COLS);
@@ -2716,6 +2688,58 @@ int update_line(filestruct *fileptr, size_t index)
 
     return 1;
 }
+
+#ifndef NANO_TINY
+/* Redraw all the chunks of the given line (as far as they fit onscreen),
+ * unless it's edittop, which will be displayed from column firstcolumn.
+ * Return the number of additional rows consumed. */
+int update_softwrapped_line(filestruct *fileptr)
+{
+    int row = 0;
+	/* The row in the edit window we will write to. */
+    filestruct *line = openfile->edittop;
+	/* An iterator needed to find the relevant row. */
+    int starting_row;
+	/* The first row in the edit window that gets updated. */
+    size_t from_col = 0;
+	/* The starting column of the current chunk. */
+    char *converted;
+	/* The data of the chunk with tabs and control characters expanded. */
+    size_t full_length;
+	/* The length of the expanded line. */
+
+    if (fileptr == openfile->edittop)
+	from_col = openfile->firstcolumn;
+    else
+	row -= (openfile->firstcolumn / editwincols);
+
+    /* Find out on which screen row the target line should be shown. */
+    while (line != fileptr && line != NULL) {
+	row += (strlenpt(line->data) / editwincols) + 1;
+	line = line->next;
+    }
+
+    /* If the line is offscreen, don't even try to display it. */
+    if (row < 0 || row >= editwinrows)
+	return 0;
+
+    full_length = strlenpt(fileptr->data);
+    starting_row = row;
+
+    while (from_col <= full_length && row < editwinrows) {
+	blank_row(edit, row, 0, COLS);
+
+	/* Convert the chunk to its displayable form and draw it. */
+	converted = display_string(fileptr->data, from_col, editwincols, TRUE);
+	edit_draw(fileptr, converted, row++, from_col);
+	free(converted);
+
+	from_col += editwincols;
+    }
+
+    return (row - starting_row);
+}
+#endif
 
 /* Check whether the mark is on, or whether old_column and new_column are on
  * different "pages" (in softwrap mode, only the former applies), which means
