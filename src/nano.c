@@ -1724,24 +1724,24 @@ void xoff_complaint(void)
 /* Handle a mouse click on the edit window or the shortcut list. */
 int do_mouse(void)
 {
-    int mouse_x, mouse_y;
-    int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+    int mouse_col, mouse_row;
+    int retval = get_mouseinput(&mouse_col, &mouse_row, TRUE);
 
     /* If the click is wrong or already handled, we're done. */
     if (retval != 0)
 	return retval;
 
     /* If the click was in the edit window, put the cursor in that spot. */
-    if (wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
-	bool sameline = (mouse_y == openfile->current_y);
-	    /* Whether the click was on the line where the cursor is. */
+    if (wmouse_trafo(edit, &mouse_row, &mouse_col, FALSE)) {
+	bool sameline = (mouse_row == openfile->current_y);
+	    /* Whether the click was on the row where the cursor is. */
 	filestruct *current_save = openfile->current;
 #ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
 #endif
 
 #ifdef DEBUG
-	fprintf(stderr, "mouse_y = %d, current_y = %ld\n", mouse_y, (long)openfile->current_y);
+	fprintf(stderr, "mouse_row = %d, current_y = %ld\n", mouse_row, (long)openfile->current_y);
 #endif
 
 #ifndef NANO_TINY
@@ -1750,18 +1750,18 @@ int do_mouse(void)
 
 	    openfile->current = openfile->edittop;
 
-	    while (openfile->current->next != NULL && current_row < mouse_y) {
+	    while (openfile->current->next != NULL && current_row < mouse_row) {
 		current_row += strlenpt(openfile->current->data) / editwincols + 1;
 		openfile->current = openfile->current->next;
 	    }
 
-	    if (current_row > mouse_y) {
+	    if (current_row > mouse_row) {
 		openfile->current = openfile->current->prev;
 		current_row -= strlenpt(openfile->current->data) / editwincols + 1;
 		openfile->current_x = actual_x(openfile->current->data,
-				((mouse_y - current_row) * editwincols) + mouse_x);
+				((mouse_row - current_row) * editwincols) + mouse_col);
 	    } else
-		openfile->current_x = actual_x(openfile->current->data, mouse_x);
+		openfile->current_x = actual_x(openfile->current->data, mouse_col);
 
 	    openfile->current_y = current_row;
 	    ensure_line_is_visible();
@@ -1772,17 +1772,17 @@ int do_mouse(void)
 	    ssize_t current_row = openfile->current_y;
 
 	    /* Move to where the click occurred. */
-	    while (current_row < mouse_y && openfile->current->next != NULL) {
+	    while (current_row < mouse_row && openfile->current->next != NULL) {
 		openfile->current = openfile->current->next;
 		current_row++;
 	    }
-	    while (current_row > mouse_y && openfile->current->prev != NULL) {
+	    while (current_row > mouse_row && openfile->current->prev != NULL) {
 		openfile->current = openfile->current->prev;
 		current_row--;
 	    }
 
 	    openfile->current_x = actual_x(openfile->current->data,
-					get_page_start(xplustabs()) + mouse_x);
+					get_page_start(xplustabs()) + mouse_col);
 	}
 
 #ifndef NANO_TINY
