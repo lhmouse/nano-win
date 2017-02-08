@@ -742,6 +742,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 {
     ssize_t was_lineno = openfile->current->lineno;
 	/* The line number where we start the insertion. */
+    size_t was_leftedge = 0;
+	/* The leftedge where we start the insertion. */
     size_t num_lines = 0;
 	/* The number of lines in the file. */
     size_t len = 0;
@@ -771,6 +773,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 #ifndef NANO_TINY
     if (undoable)
 	add_undo(INSERT);
+
+    if (ISSET(SOFTWRAP))
+	was_leftedge = (xplustabs() / editwincols) * editwincols;
 #endif
 
     /* Create an empty buffer. */
@@ -919,7 +924,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	statusline(HUSH, P_("Read %lu line", "Read %lu lines",
 			(unsigned long)num_lines), (unsigned long)num_lines);
 
-    if (openfile->current->lineno - was_lineno < editwinrows)
+    /* If we inserted less than a screenful, don't center the cursor. */
+    if (less_than_a_screenful(was_lineno, was_leftedge))
 	focusing = FALSE;
 
 #ifndef NANO_TINY
