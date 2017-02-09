@@ -731,7 +731,8 @@ filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
  * undoable means do we want to create undo records to try and undo
  * this.  Will also attempt to check file writability if fd > 0 and
  * checkwritable == TRUE. */
-void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable)
+void read_file(FILE *f, int fd, const char *filename, bool undoable,
+		bool checkwritable)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
@@ -749,7 +750,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
 	/* The current value we read from the file, whether an input
 	 * character or EOF. */
     bool writable = TRUE;
-	/* Is the file writable (if we care) */
+	/* Whether the file is writable (in case we care). */
 #ifndef NANO_TINY
     int format = 0;
 	/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
@@ -837,7 +838,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkw
     if (len > 0) {
 #ifndef NANO_TINY
 	/* If file conversion isn't disabled and the last character in
-	 * This file is '\r', set format to Mac if we currently think
+	 * this file is '\r', set format to Mac if we currently think
 	 * the file is a *nix file, or to both DOS and Mac if we
 	 * currently think the file is a DOS file. */
 	if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT) && format < 2)

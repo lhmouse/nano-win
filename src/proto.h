@@ -302,7 +302,8 @@ void switch_to_next_buffer_void(void);
 bool close_buffer(void);
 #endif
 filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode);
-void read_file(FILE *f, int fd, const char *filename, bool undoable, bool checkwritable);
+void read_file(FILE *f, int fd, const char *filename, bool undoable,
+		bool checkwritable);
 int open_file(const char *filename, bool newfie, bool quiet, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
 void do_insertfile_void(void);
