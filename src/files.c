@@ -91,7 +91,6 @@ void make_new_buffer(void)
 
     initialize_buffer_text();
 
-    openfile->current_x = 0;
     openfile->placewewant = 0;
     openfile->current_y = 0;
 
@@ -129,6 +128,7 @@ void initialize_buffer_text(void)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
 
+    openfile->current_x = 0;
     openfile->totsize = 0;
 }
 
@@ -683,44 +683,14 @@ int is_file_writable(const char *filename)
     return result;
 }
 
-/* Make a new line of text from the given buf, which is of length buf_len.
- * Then attach this line after prevnode. */
-filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
+/* Encode any NUL bytes in the given line of text, which is of length buf_len,
+ * and return a dynamically allocated copy of the resultant string. */
+char *encode_data(char *buf, size_t buf_len)
 {
-    filestruct *freshline = (filestruct *)nmalloc(sizeof(filestruct));
-
-    /* Convert nulls to newlines.  buf_len is the string's real length. */
     unsunder(buf, buf_len);
     buf[buf_len] = '\0';
 
-    assert(openfile->fileage != NULL && strlen(buf) == buf_len);
-
-#ifndef NANO_TINY
-    /* If file conversion isn't disabled, strip a '\r' from the line. */
-    if (buf_len > 0 && buf[buf_len - 1] == '\r' && !ISSET(NO_CONVERT))
-	buf[buf_len - 1] = '\0';
-#endif
-
-    freshline->data = mallocstrcpy(NULL, buf);
-
-#ifndef DISABLE_COLOR
-    freshline->multidata = NULL;
-#endif
-
-    freshline->prev = prevnode;
-
-    if (prevnode == NULL) {
-	/* Special case: we're inserting into the first line. */
-	freshline->next = openfile->fileage;
-	openfile->fileage = freshline;
-	freshline->lineno = 1;
-    } else {
-	prevnode->next = freshline;
-	freshline->next = NULL;
-	freshline->lineno = prevnode->lineno + 1;
-    }
-
-    return freshline;
+    return mallocstrcpy(NULL, buf);
 }
 
 /* Read an open file into the current buffer.  f should be set to the
@@ -731,6 +701,8 @@ filestruct *read_line(char *buf, size_t buf_len, filestruct *prevnode)
 void read_file(FILE *f, int fd, const char *filename, bool undoable,
 		bool checkwritable)
 {
+    ssize_t was_lineno = openfile->current->lineno;
+	/* The line number where we start the insertion. */
     size_t num_lines = 0;
 	/* The number of lines in the file. */
     size_t len = 0;
@@ -741,8 +713,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	/* The buffer in which we assemble each line of the file. */
     size_t bufx = MAX_BUF_SIZE;
 	/* The allocated size of the line buffer; increased as needed. */
-    filestruct *fileptr = openfile->current->prev;
-	/* The line after which to start inserting. */
+    filestruct *topline;
+	/* The top of the new buffer where we store the read file. */
+    filestruct *bottomline;
+	/* The bottom of the new buffer. */
     int input_int;
 	/* The current value we read from the file, whether an input
 	 * character or EOF. */
@@ -760,7 +734,11 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	add_undo(INSERT);
 #endif
 
-    /* Read the entire file into the filestruct. */
+    /* Create an empty buffer. */
+    topline = make_new_node(NULL);
+    bottomline = topline;
+
+    /* Read the entire file into the new buffer. */
     while ((input_int = getc(f)) != EOF) {
 	input = (char)input_int;
 
@@ -777,14 +755,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 		if (format == 0 || format == 2)
 		    format++;
 	    }
-#endif
-	    /* Read in the line properly. */
-	    fileptr = read_line(buf, len, fileptr);
-	    num_lines++;
-
-	    /* Reset the length in preparation for the next line. */
-	    len = 0;
-#ifndef NANO_TINY
 	/* If it's a Mac file ('\r' without '\n' on the first line if we
 	 * think it's a *nix file, or on any line otherwise), and file
 	 * conversion isn't disabled, handle it! */
@@ -795,15 +765,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	     * set format to both DOS and Mac. */
 	    if (format == 0 || format == 1)
 		format += 2;
-
-	    /* Read in the line properly. */
-	    fileptr = read_line(buf, len, fileptr);
-	    num_lines++;
-
-	    /* Store the character after the \r as the first character
-	     * of the next line. */
-	    buf[0] = input;
-	    len = 1;
 #endif
 	} else {
 	    /* Store the character. */
@@ -819,7 +780,30 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 		bufx += MAX_BUF_SIZE;
 		buf = charealloc(buf, bufx);
 	    }
+	    continue;
 	}
+
+#ifndef NANO_TINY
+	/* If it's a DOS or Mac line, strip the '\r' from it. */
+	if (len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT))
+	    buf[--len] = '\0';
+#endif
+
+	/* Store the data and make a new line. */
+	bottomline->data = encode_data(buf, len);
+	bottomline->next = make_new_node(bottomline);
+	bottomline = bottomline->next;
+	num_lines++;
+
+	/* Reset the length in preparation for the next line. */
+	len = 0;
+
+#ifndef NANO_TINY
+	/* If it happens to be a Mac line, store the character after the \r
+	 * as the first character of the next line. */
+	if (input != '\n')
+	    buf[len++] = input;
+#endif
     }
 
     /* Perhaps this could use some better handling. */
@@ -831,78 +815,43 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	writable = is_file_writable(filename);
     }
 
-    /* Did we not get a newline and still have stuff to do? */
-    if (len > 0) {
+    /* If the file ended with newline, or it was entirely empty, make the
+     * last line blank.  Otherwise, put the last read data in. */
+    if (len == 0)
+	bottomline->data = mallocstrcpy(NULL, "");
+    else {
+	bool mac_line_needs_newline = FALSE;
+
 #ifndef NANO_TINY
-	/* If file conversion isn't disabled and the last character in
-	 * this file is '\r', set format to Mac if we currently think
-	 * the file is a *nix file, or to both DOS and Mac if we
-	 * currently think the file is a DOS file. */
-	if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT) && format < 2)
-	    format += 2;
+	/* If the final character is '\r', and file conversion isn't disabled,
+	 * set format to Mac if we currently think the file is a *nix file, or
+	 * to DOS-and-Mac if we currently think it is a DOS file. */
+	if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
+	    if (format < 2)
+		format += 2;
+
+	    /* Strip the carriage return. */
+	    buf[--len] = '\0';
+
+	    /* Indicate we need to put a blank line in after this one. */
+	    mac_line_needs_newline = TRUE;
+	}
 #endif
-	/* Read in the last line properly. */
-	fileptr = read_line(buf, len, fileptr);
+	/* Store the data of the final line. */
+	bottomline->data = encode_data(buf, len);
 	num_lines++;
+
+	if (mac_line_needs_newline) {
+	    bottomline->next = make_new_node(bottomline);
+	    bottomline = bottomline->next;
+	    bottomline->data = mallocstrcpy(NULL, "");
+	}
     }
 
     free(buf);
 
-    /* Attach the file we got to the filestruct.  If we got a file of
-     * zero bytes, don't do anything. */
-    if (num_lines > 0) {
-	/* If the file we got doesn't end in a newline (nor in a Mac return),
-	 * tack its last line onto the beginning of the line at current. */
-	if (len > 0 && (input != '\r' || ISSET(NO_CONVERT))) {
-	    filestruct *dropline = fileptr;
-	    size_t current_len = strlen(openfile->current->data);
-
-	    /* Adjust the current x-coordinate to compensate for the
-	     * change in the current line. */
-	    if (num_lines == 1)
-		openfile->current_x += len;
-	    else
-		openfile->current_x = len;
-
-	    /* Tack the text at fileptr onto the beginning of the text
-	     * at current. */
-	    openfile->current->data = charealloc(openfile->current->data,
-						len + current_len + 1);
-	    charmove(openfile->current->data + len, openfile->current->data,
-			current_len + 1);
-	    strncpy(openfile->current->data, fileptr->data, len);
-
-	    /* Step back one line, and blow away the unterminated line,
-	     * since its text has been copied into current. */
-	    fileptr = fileptr->prev;
-	    delete_node(dropline);
-	}
-
-	if (fileptr == NULL)
-	    /* After inserting a single unterminated line at the top,
-	     * readjust the top-of-file pointer. */
-	    openfile->fileage = openfile->current;
-	else {
-	    /* Attach the line at current after the line at fileptr. */
-	    fileptr->next = openfile->current;
-	    openfile->current->prev = fileptr;
-	}
-
-	/* Renumber, starting with the last line of the file we inserted. */
-	renumber(openfile->current);
-    }
-
-    openfile->totsize += get_totsize(openfile->fileage, openfile->filebot);
-
-    /* If the NO_NEWLINES flag isn't set, and text has been added to
-     * the magicline (i.e. a file that doesn't end in a newline has been
-     * inserted at the end of the current buffer), add a new magicline,
-     * and move the current line down to it. */
-    if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
-	new_magicline();
-	openfile->current = openfile->filebot;
-	openfile->current_x = 0;
-    }
+    /* Insert the just read buffer into the current one. */
+    ingraft_buffer(topline);
 
     /* Set the desired x position at the end of what was inserted. */
     openfile->placewewant = xplustabs();
@@ -931,7 +880,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	statusline(HUSH, P_("Read %lu line", "Read %lu lines",
 			(unsigned long)num_lines), (unsigned long)num_lines);
 
-    if (num_lines < editwinrows)
+    if (openfile->current->lineno - was_lineno < editwinrows)
 	focusing = FALSE;
 
 #ifndef NANO_TINY
