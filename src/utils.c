@@ -530,14 +530,8 @@ size_t strlenpt(const char *text)
 /* Append a new magicline to filebot. */
 void new_magicline(void)
 {
-    openfile->filebot->next = (filestruct *)nmalloc(sizeof(filestruct));
+    openfile->filebot->next = make_new_node(openfile->filebot);
     openfile->filebot->next->data = mallocstrcpy(NULL, "");
-    openfile->filebot->next->prev = openfile->filebot;
-    openfile->filebot->next->next = NULL;
-    openfile->filebot->next->lineno = openfile->filebot->lineno + 1;
-#ifndef DISABLE_COLOR
-    openfile->filebot->next->multidata = NULL;
-#endif
     openfile->filebot = openfile->filebot->next;
     openfile->totsize++;
 }

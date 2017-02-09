@@ -353,13 +353,9 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     }
 
     /* Since the text has now been saved, remove it from the filestruct. */
-    openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
+    openfile->fileage = make_new_node(NULL);
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
-
-#ifndef DISABLE_COLOR
-    openfile->fileage->multidata = NULL;
-#endif
 
     /* Restore the current line and cursor position.  If the mark begins
      * inside the partition, set the beginning of the mark to where the
