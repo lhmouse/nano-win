@@ -791,10 +791,7 @@ void do_undo(void)
 	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
 	cutbuffer = NULL;
 	cutbottom = NULL;
-	/* Instead of a line number, u->mark_begin_lineno contains the number
-	 * of lines of the inserted segment, because the file was partitioned
-	 * when update_undo() was called; so, calculate the end-line number. */
-	openfile->mark_begin = fsfromline(u->lineno + u->mark_begin_lineno - 1);
+	openfile->mark_begin = fsfromline(u->mark_begin_lineno);
 	openfile->mark_begin_x = u->mark_begin_x;
 	openfile->mark_set = TRUE;
 	goto_line_posx(u->lineno, u->begin);
@@ -855,7 +852,7 @@ void do_redo(void)
 	return;
     }
 
-    f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
+    f = fsfromline(u->mark_begin_lineno);
     if (!f)
 	return;
 
@@ -1434,14 +1431,8 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	u->lineno = openfile->current->lineno;
 	break;
     case INSERT:
-	/* Store the number of lines (plus one) of the insertion. */
 	u->mark_begin_lineno = openfile->current->lineno;
-	/* When the insertion contains no newline, store the adjusted
-	 * x position; otherwise, store the length of the last line. */
-	if (openfile->fileage == openfile->filebot)
-	    u->mark_begin_x = openfile->current_x;
-	else
-	    u->mark_begin_x = strlen(openfile->filebot->data);
+	u->mark_begin_x = openfile->current_x;
 	break;
     case ENTER:
 	u->strdata = mallocstrcpy(NULL, openfile->current->data);
