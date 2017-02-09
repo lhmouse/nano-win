@@ -1384,9 +1384,6 @@ void do_toggle(int flag)
 #ifndef DISABLE_COLOR
 	case NO_COLOR_SYNTAX:
 #endif
-#ifdef ENABLE_LINENUMBERS
-	case LINE_NUMBERS:
-#endif
 	case SOFTWRAP:
 	    refresh_needed = TRUE;
 	    break;
@@ -2646,19 +2643,16 @@ int main(int argc, char **argv)
 	int needed_margin = digits(openfile->filebot->lineno) + 1;
 
 	/* Only enable line numbers when there is enough room for them. */
-	if (ISSET(LINE_NUMBERS) && needed_margin < COLS - 3) {
-	    if (needed_margin != margin) {
-		margin = needed_margin;
-		editwincols = COLS - margin;
-		/* The margin has changed -- schedule a full refresh. */
-		refresh_needed = TRUE;
-	    }
-	} else
-#endif
-	{
-	    margin = 0;
-	    editwincols = COLS;
+	if (!ISSET(LINE_NUMBERS) || needed_margin > COLS - 4)
+	    needed_margin = 0;
+
+	if (needed_margin != margin) {
+	    margin = needed_margin;
+	    editwincols = COLS - margin;
+	    /* The margin has changed -- schedule a full refresh. */
+	    refresh_needed = TRUE;
 	}
+#endif
 
 	if (currmenu != MMAIN)
 	    display_main_list();
