@@ -1005,7 +1005,7 @@ void do_insertfile(void)
     char *given = mallocstrcpy(NULL, "");
 	/* The last answer the user typed at the statusbar prompt. */
 #ifndef NANO_TINY
-    bool execute = FALSE, right_side_up = FALSE, single_line = FALSE;
+    bool execute = FALSE;
 #endif
 
     /* Display newlines in filenames as ^J. */
@@ -1055,10 +1055,8 @@ void do_insertfile(void)
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
-	    filestruct *edittop_save = openfile->edittop;
 	    ssize_t was_current_lineno = openfile->current->lineno;
 	    size_t was_current_x = openfile->current_x;
-	    bool current_was_at_top = FALSE;
 #if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
 	    functionptrtype func = func_from_key(&i);
 #endif
@@ -1097,29 +1095,6 @@ void do_insertfile(void)
 	    /* If we don't have a file yet, go back to the prompt. */
 	    if (i != 0 && (!ISSET(MULTIBUFFER) || i != -2))
 		continue;
-
-#ifndef NANO_TINY
-	    /* Keep track of whether the mark begins inside the
-	     * partition and will need adjustment. */
-	    if (openfile->mark_set) {
-		filestruct *top, *bot;
-		size_t top_x, bot_x;
-
-		mark_order((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x, &right_side_up);
-
-		single_line = (top == bot);
-	    }
-#endif
-	    /* When not inserting into a new buffer, partition the filestruct
-	     * so that it contains no text and hence looks like a new buffer,
-	     * and remember whether the current line is the first on screen. */
-	    if (!ISSET(MULTIBUFFER)) {
-		filepart = partition_filestruct(openfile->current,
-			openfile->current_x, openfile->current,
-			openfile->current_x);
-		current_was_at_top = (openfile->edittop == openfile->fileage);
-	    }
 
 #ifndef NANO_TINY
 	    if (execute) {
@@ -1169,57 +1144,6 @@ void do_insertfile(void)
 	    } else
 #endif /* !DISABLE_MULTIBUFFER */
 	    {
-		filestruct *top_save = openfile->fileage;
-
-		/* If we were at the top of the edit window before, change the
-		 * saved value of edittop to the start of inserted stuff. */
-		if (current_was_at_top)
-		    edittop_save = openfile->fileage;
-
-		/* Update the current x-coordinate to account for the
-		 * number of characters inserted on the current line.
-		 * If the mark was positioned after the cursor and on the
-		 * same line, adjust the mark's coordinates to compensate
-		 * for the change in this line. */
-		openfile->current_x = strlen(openfile->filebot->data);
-		if (openfile->fileage == openfile->filebot) {
-#ifndef NANO_TINY
-		    if (openfile->mark_set) {
-			openfile->mark_begin = openfile->current;
-			if (!right_side_up)
-			    openfile->mark_begin_x += openfile->current_x;
-		    }
-#endif
-		    openfile->current_x += was_current_x;
-		}
-#ifndef NANO_TINY
-		else if (openfile->mark_set) {
-		    if (!right_side_up) {
-			if (single_line) {
-			    openfile->mark_begin = openfile->current;
-			    openfile->mark_begin_x -= was_current_x;
-			} else
-			    openfile->mark_begin_x -= openfile->current_x;
-		    }
-		}
-#endif
-
-		/* Unpartition the filestruct so that it contains all
-		 * the text again.  Note that we've replaced the
-		 * non-text originally in the partition with the text in
-		 * the inserted file/executed command output. */
-		unpartition_filestruct(&filepart);
-
-		/* Renumber starting with the beginning line of the old
-		 * partition. */
-		renumber(top_save);
-
-		/* Restore the old edittop. */
-		openfile->edittop = edittop_save;
-
-		/* Set the desired x position to the current one. */
-		openfile->placewewant = xplustabs();
-
 		/* Mark the file as modified if it changed. */
 		if (openfile->current->lineno != was_current_lineno ||
 			openfile->current_x != was_current_x)
