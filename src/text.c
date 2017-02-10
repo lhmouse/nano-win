@@ -2650,7 +2650,6 @@ bool do_int_spell_fix(const char *word)
 #endif
     /* Otherwise, start from the top of the file. */
     {
-	openfile->edittop = openfile->fileage;
 	openfile->current = openfile->fileage;
 	openfile->current_x = 0;
     }
