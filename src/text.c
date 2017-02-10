@@ -2178,7 +2178,6 @@ void do_justify(bool full_justify)
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
     size_t current_x_save = openfile->current_x;
-    size_t totsize_save = openfile->totsize;
 #ifndef NANO_TINY
     filestruct *mark_begin_save = openfile->mark_begin;
     size_t mark_begin_x_save = openfile->mark_begin_x;
@@ -2479,29 +2478,19 @@ void do_justify(bool full_justify)
 	/* If we actually justified something, then splice the preserved
 	 * unjustified text back into the file, */
 	if (first_par_line != NULL) {
-	    /* Partition the filestruct so that it contains only the
-	     * text of the justified paragraph. */
-	    filepart = partition_filestruct(first_par_line, 0,
-				last_par_line, filebot_inpar ?
-				strlen(last_par_line->data) : 0);
+	    filestruct *trash = NULL, *dummy = NULL;
 
 	    /* Throw away the justified paragraph, and replace it with
 	     * the preserved unjustified text. */
-	    free_filestruct(openfile->fileage);
-	    openfile->fileage = jusbuffer;
-	    openfile->filebot = jusbottom;
+	    extract_buffer(&trash, &dummy, first_par_line, 0, last_par_line,
+			filebot_inpar ? strlen(last_par_line->data) : 0);
+	    free_filestruct(trash);
+	    ingraft_buffer(jusbuffer);
 
-	    /* Unpartition the filestruct, to contain the entire text again. */
-	    unpartition_filestruct(&filepart);
-
-	    /* Renumber, from the beginning of the unjustified part. */
-	    renumber(jusbuffer);
-
-	    /* Restore the old position, the size, and the mark. */
+	    /* Restore the old position and the mark. */
 	    openfile->edittop = edittop_save;
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
-	    openfile->totsize = totsize_save;
 #ifndef NANO_TINY
 	    if (openfile->mark_set) {
 		openfile->mark_begin = mark_begin_save;
