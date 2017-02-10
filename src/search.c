@@ -580,7 +580,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
     bool replaceall = FALSE;
     bool skipone = FALSE;
 #ifndef NANO_TINY
-    bool old_mark_set = openfile->mark_set;
+    bool mark_was_set = openfile->mark_set;
     filestruct *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
@@ -588,7 +588,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	 * FALSE if (current, current_x) is. */
 
     /* If the mark is on, frame the region, and turn the mark off. */
-    if (old_mark_set) {
+    if (mark_was_set) {
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, &right_side_up);
 	openfile->mark_set = FALSE;
@@ -608,7 +608,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
     while (TRUE) {
 	int i = 0;
-	int result = findnextstr(needle, whole_word_only, old_mark_set,
+	int result = findnextstr(needle, whole_word_only, mark_was_set,
 			&match_len, skipone, real_current, *real_current_x);
 
 	/* If nothing more was found, or the user aborted, stop looping. */
@@ -619,15 +619,14 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	}
 
 #ifndef NANO_TINY
-	if (old_mark_set) {
-	    /* When we've found an occurrence outside of the marked region,
-	     * stop the fanfare. */
-	    if (openfile->current->lineno > bot->lineno ||
-			openfile->current->lineno < top->lineno ||
-			(openfile->current == bot && openfile->current_x + match_len > bot_x) ||
-			(openfile->current == top && openfile->current_x < top_x))
-		break;
-	}
+	/* An occurrence outside of the marked region means we're done. */
+	if (mark_was_set && (openfile->current->lineno > bot->lineno ||
+				openfile->current->lineno < top->lineno ||
+				(openfile->current == bot &&
+				openfile->current_x + match_len > bot_x) ||
+				(openfile->current == top &&
+				openfile->current_x < top_x)))
+	    break;
 #endif
 
 	/* Indicate that we found the search string. */
@@ -679,7 +678,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 #ifndef NANO_TINY
 	    /* If the mark was on and it was located after the cursor,
 	     * then adjust its x position for any text length changes. */
-	    if (old_mark_set && !right_side_up) {
+	    if (mark_was_set && !right_side_up) {
 		if (openfile->current == openfile->mark_begin &&
 			openfile->mark_begin_x > openfile->current_x) {
 		    if (openfile->mark_begin_x < openfile->current_x + match_len)
@@ -692,7 +691,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
 	    /* If the mark was not on or it was before the cursor, then
 	     * adjust the cursor's x position for any text length changes. */
-	    if (!old_mark_set || right_side_up) {
+	    if (!mark_was_set || right_side_up) {
 #endif
 		if (openfile->current == real_current &&
 			openfile->current_x < *real_current_x) {
@@ -748,7 +747,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	not_found_msg(needle);
 
 #ifndef NANO_TINY
-    if (old_mark_set)
+    if (mark_was_set)
 	openfile->mark_set = TRUE;
 #endif
 
