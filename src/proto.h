@@ -294,6 +294,10 @@ void initialize_buffer_text(void);
 bool open_buffer(const char *filename, bool undoable);
 #ifndef DISABLE_SPELLER
 void replace_buffer(const char *filename);
+#ifndef NANO_TINY
+void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
+	filestruct *bot, size_t bot_x);
+#endif
 #endif
 void display_buffer(void);
 #ifndef DISABLE_MULTIBUFFER

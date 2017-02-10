@@ -2880,19 +2880,11 @@ const char *do_alt_speller(char *tempfile_name)
     static int arglen = 3;
     static char **spellargs = NULL;
 #ifndef NANO_TINY
-    bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
-    size_t top_x, bot_x, was_x, new_x;
+    size_t top_x, bot_x;
     bool right_side_up = FALSE;
+    bool old_mark_set = openfile->mark_set;
     ssize_t mb_lineno_save = 0;
-	/* We're going to close the current file, and open the output of
-	 * the alternate spell command.  The line that mark_begin points
-	 * to will be freed, so we save the line number and restore it
-	 * afterwards. */
-    size_t size_of_surrounding = 0;
-	/* The size of the text outside of a marked region. */
 #endif
 
     /* Get the timestamp and the size of the temporary file. */
@@ -2904,9 +2896,8 @@ const char *do_alt_speller(char *tempfile_name)
 	return NULL;
 
 #ifndef NANO_TINY
+    /* Save the mark's position and turn it off. */
     if (old_mark_set) {
-	/* If the mark is on, save the number of the line it starts on,
-	 * and then turn the mark off. */
 	mb_lineno_save = openfile->mark_begin->lineno;
 	openfile->mark_set = FALSE;
     }
@@ -2965,65 +2956,28 @@ const char *do_alt_speller(char *tempfile_name)
     }
 
 #ifndef NANO_TINY
+    /* Replace the text (or just the marked text) of the current buffer
+     * with the spell-checked text. */
     if (old_mark_set) {
-	/* Trim the filestruct so that it contains only the marked text. */
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, &right_side_up);
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
 
-	/* Foresay whether a magicline will be added when the
-	 * spell-checked text is read back in. */
-	if (!ISSET(NO_NEWLINES))
-	    added_magicline = (openfile->filebot->data[0] != '\0');
-
-	/* Compute the size of the text outside of the marked region. */
-	size_of_surrounding = openfile->totsize - get_totsize(top, bot);
-    }
-#endif
-
-    /* Replace the text of the current buffer with the spell-checked text. */
-    replace_buffer(tempfile_name);
-
-#ifndef NANO_TINY
-    if (old_mark_set) {
-	filestruct *top_save = openfile->fileage;
-
-	/* If a magicline was added, remove it again. */
-	if (added_magicline)
-	    remove_magicline();
+	replace_marked_buffer(tempfile_name, top, top_x, bot, bot_x);
 
 	/* Adjust the end point of the marked region for any change in
 	 * length of the region's last line. */
 	if (right_side_up)
-	    was_x = current_x_save;
+	    current_x_save = openfile->current_x;
 	else
-	    was_x = openfile->mark_begin_x;
-	if (top == bot)
-	    new_x = was_x - bot_x + top_x + strlen(openfile->filebot->data);
-	else
-	    new_x = strlen(openfile->filebot->data);
-	if (right_side_up)
-	    current_x_save = new_x;
-	else
-	    openfile->mark_begin_x = new_x;
+	    openfile->mark_begin_x = openfile->current_x;
 
-	/* Unpartition the filestruct so that it contains all the text
-	 * again.  Note that we've replaced the marked text originally
-	 * in the partition with the spell-checked marked text in the
-	 * temp file. */
-	unpartition_filestruct(&filepart);
-
-	/* Renumber, starting with the beginning line of the old partition. */
-	renumber(top_save);
-
-	/* Add back the size of the text surrounding the marked region. */
-	openfile->totsize += size_of_surrounding;
-
-	/* Restore the position of the mark, and turn it back on. */
+	/* Restore the mark's position and turn it on. */
 	openfile->mark_begin = fsfromline(mb_lineno_save);
 	openfile->mark_set = TRUE;
-    }
-#endif /* !NANO_TINY */
+    } else
+#endif
+	replace_buffer(tempfile_name);
+
 
     /* Go back to the old position. */
     goto_line_posx(lineno_save, current_x_save);

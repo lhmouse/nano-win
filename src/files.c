@@ -545,6 +545,39 @@ void replace_buffer(const char *filename)
     /* Put current at a place that is certain to exist. */
     openfile->current = openfile->fileage;
 }
+
+#ifndef NANO_TINY
+/* Open the specified file, and if that succeeds, blow away the text of
+ * the current buffer at the given coordinates and read the file
+ * contents into its place. */
+void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
+	filestruct *bot, size_t bot_x)
+{
+    FILE *f;
+    int descriptor;
+    bool old_no_newlines = ISSET(NO_NEWLINES);
+    filestruct *trash_top = NULL;
+    filestruct *trash_bot = NULL;
+
+    descriptor = open_file(filename, FALSE, TRUE, &f);
+
+    if (descriptor < 0)
+	return;
+
+    /* Don't add a magicline when replacing text in the buffer. */
+    SET(NO_NEWLINES);
+
+    /* Throw away the text under the mark, and insert the processed file
+     * where the marked text was. */
+    extract_buffer(&trash_top, &trash_bot, top, top_x, bot, bot_x);
+    free_filestruct(trash_top);
+    read_file(f, descriptor, filename, FALSE, TRUE);
+
+    /* Restore the magicline behavior now that we're done fiddling. */
+    if (!old_no_newlines)
+	UNSET(NO_NEWLINES);
+}
+#endif /* !ENABLE_TINY */
 #endif /* !DISABLE_SPELLER */
 
 /* Update the screen to account for the current buffer. */
