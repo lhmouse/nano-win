@@ -432,6 +432,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 void unpartition_filestruct(partition **p);
 void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
+void ingraft_buffer(filestruct *somebuffer);
 void copy_from_buffer(filestruct *somebuffer);
 openfilestruct *make_new_opennode(void);
 void unlink_opennode(openfilestruct *fileptr);

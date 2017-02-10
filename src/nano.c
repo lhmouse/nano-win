@@ -392,9 +392,9 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	new_magicline();
 }
 
-/* Copy all text from the given filestruct to the current filestruct
+/* Meld the given buffer into the current file buffer
  * at the current cursor position. */
-void copy_from_buffer(filestruct *somebuffer)
+void ingraft_buffer(filestruct *somebuffer)
 {
     filestruct *top_save;
     size_t current_x_save = openfile->current_x;
@@ -427,8 +427,8 @@ void copy_from_buffer(filestruct *somebuffer)
     free_filestruct(openfile->fileage);
 
     /* Put the top and bottom of the current filestruct at the top and
-     * bottom of a copy of the passed buffer. */
-    openfile->fileage = copy_filestruct(somebuffer);
+     * bottom of the passed buffer. */
+    openfile->fileage = somebuffer;
     openfile->filebot = openfile->fileage;
     while (openfile->filebot->next != NULL)
 	openfile->filebot = openfile->filebot->next;
@@ -482,6 +482,14 @@ void copy_from_buffer(filestruct *somebuffer)
     /* If the text doesn't end with a magicline, and it should, add one. */
     if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 	new_magicline();
+}
+
+/* Meld a copy of the given buffer into the current file buffer. */
+void copy_from_buffer(filestruct *somebuffer)
+{
+    filestruct *the_copy = copy_filestruct(somebuffer);
+
+    ingraft_buffer(the_copy);
 }
 
 /* Create a new openfilestruct node. */
