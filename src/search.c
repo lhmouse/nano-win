@@ -231,8 +231,8 @@ int search_init(bool replacing, bool use_answer)
  * where we first started searching, at column begin_x.  Return 1 when we
  * found something, 0 when nothing, and -2 on cancel.  When match_len is
  * not NULL, set it to the length of the found string, if any. */
-int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
-	bool skipone, const filestruct *begin, size_t begin_x)
+int findnextstr(const char *needle, bool whole_word_only, bool have_region,
+	size_t *match_len, bool skipone, const filestruct *begin, size_t begin_x)
 {
     size_t found_len = strlen(needle);
 	/* The length of a match -- will be recomputed for a regex. */
@@ -328,15 +328,14 @@ int findnextstr(const char *needle, bool whole_word_only, size_t *match_len,
 	else
 	    line = line->next;
 
-	/* If we've reached the start or end of the buffer, wrap around. */
+	/* If we've reached the start or end of the buffer, wrap around;
+	 * but stop when spell-checking or replacing in a region. */
 	if (line == NULL) {
-#ifndef DISABLE_SPELLER
-	    /* When we're spell-checking, end-of-buffer means we're done. */
-	    if (whole_word_only) {
+	    if (whole_word_only || have_region) {
 		disable_nodelay();
 		return 0;
 	    }
-#endif
+
 	    if (ISSET(BACKWARDS_SEARCH))
 		line = openfile->filebot;
 	    else
@@ -463,7 +462,7 @@ void go_looking(void)
 
     came_full_circle = FALSE;
 
-    didfind = findnextstr(last_search, FALSE, NULL, FALSE,
+    didfind = findnextstr(last_search, FALSE, FALSE, NULL, FALSE,
 				openfile->current, openfile->current_x);
 
     /* If we found something, and we're back at the exact same spot
@@ -609,8 +608,8 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
     while (TRUE) {
 	int i = 0;
-	int result = findnextstr(needle, whole_word_only, &match_len, skipone,
-					real_current, *real_current_x);
+	int result = findnextstr(needle, whole_word_only, old_mark_set,
+			&match_len, skipone, real_current, *real_current_x);
 
 	/* If nothing more was found, or the user aborted, stop looping. */
 	if (result < 1) {
@@ -623,7 +622,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	if (old_mark_set) {
 	    /* When we've found an occurrence outside of the marked region,
 	     * stop the fanfare. */
-	    if (came_full_circle || openfile->current->lineno > bot->lineno ||
+	    if (openfile->current->lineno > bot->lineno ||
 			openfile->current->lineno < top->lineno ||
 			(openfile->current == bot && openfile->current_x + match_len > bot_x) ||
 			(openfile->current == top && openfile->current_x < top_x))
