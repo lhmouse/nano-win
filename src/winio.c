@@ -2506,8 +2506,10 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		end_line = end_line->next;
 
 	    /* If there is no end, there is nothing to paint. */
-	    if (end_line == NULL)
+	    if (end_line == NULL) {
+		fileptr->multidata[varnish->id] = CWOULDBE;
 		goto tail_of_loop;
+	    }
 
 	    /* If the end is on a later line, paint whole line, and be done. */
 	    if (end_line != fileptr) {
@@ -2589,8 +2591,10 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		    end_line = end_line->next;
 
 		/* If there is no end, we're done with this regex. */
-		if (end_line == NULL)
+		if (end_line == NULL) {
+		    fileptr->multidata[varnish->id] = CWOULDBE;
 		    break;
+		}
 
 		/* Paint the rest of the line. */
 		mvwaddnstr(edit, row, margin + start_col, thetext, -1);

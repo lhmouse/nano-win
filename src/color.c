@@ -423,6 +423,12 @@ void precalc_multicolorinfo(void)
 	    /* Assume nothing applies until proven otherwise below. */
 	    line->multidata[ink->id] = CNONE;
 
+	    /* For an unpaired start match, mark all remaining lines. */
+	    if (line->prev && line->prev->multidata[ink->id] == CWOULDBE) {
+		line->multidata[ink->id] = CWOULDBE;
+		continue;
+	    }
+
 	    /* When the line contains a start match, look for an end, and if
 	     * found, mark all the lines that are affected. */
 	    while (regexec(ink->start, line->data + index, 1,
@@ -456,8 +462,10 @@ void precalc_multicolorinfo(void)
 		    tailline = tailline->next;
 		}
 
-		if (tailline == NULL)
+		if (tailline == NULL) {
+		    line->multidata[ink->id] = CWOULDBE;
 		    break;
+		}
 
 		/* We found it, we found it, la la la la la.  Mark all
 		 * the lines in between and the end properly. */
