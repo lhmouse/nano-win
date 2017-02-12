@@ -2436,25 +2436,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		}
 	    }
 
-	    /* First see if the multidata was maybe already calculated. */
-	    if (fileptr->multidata[varnish->id] == CNONE)
-		goto tail_of_loop;
-	    else if (fileptr->multidata[varnish->id] == CWHOLELINE) {
-		mvwaddnstr(edit, row, margin, converted, -1);
-		goto tail_of_loop;
-	    } else if (fileptr->multidata[varnish->id] == CBEGINBEFORE) {
-		regexec(varnish->end, fileptr->data, 1, &endmatch, 0);
-		/* If the part to be coloured is not visible, skip it. */
-		if (endmatch.rm_eo <= from_x)
-		    goto tail_of_loop;
-		paintlen = actual_x(converted, strnlenpt(fileptr->data,
-						endmatch.rm_eo) - from_col);
-		mvwaddnstr(edit, row, margin, converted, paintlen);
-		goto tail_of_loop;
-	    }
-
-	    /* There is no precalculated multidata, or it is CENDAFTER or
-	     * CSTARTENDHERE.  In all cases, find out what to paint. */
+	    /* The preceding line has no precalculated multidata.  So, do
+	     * some backtracking to find out what to paint. */
 
 	    /* Assume nothing gets painted until proven otherwise below. */
 	    fileptr->multidata[varnish->id] = CNONE;
