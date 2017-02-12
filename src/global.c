@@ -424,7 +424,7 @@ void assign_keyinfo(sc *s, const char *keystring, const int keycode)
 	if (strcasecmp(keystring, "M-Space") == 0)
 	    s->keycode = (int)' ';
 	else
-	    s->keycode = tolower((int)keystring[2]);
+	    s->keycode = tolower((unsigned char)keystring[2]);
     } else if (keystring[0] == 'F')
 	s->keycode = KEY_F0 + atoi(&keystring[1]);
     else if (!strcasecmp(keystring, "Ins"))

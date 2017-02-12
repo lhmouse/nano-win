@@ -736,7 +736,7 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
 bool has_blank_chars(const char *s)
 {
     for (; *s != '\0'; s++) {
-	if (isblank(*s))
+	if (isblank((unsigned char)*s))
 	    return TRUE;
     }
 
