@@ -290,49 +290,8 @@ void color_update(void)
     }
 }
 
-/* Reset the multiline coloring cache for one specific regex (given by
- * index) for lines that need reevaluation. */
-void reset_multis_for_id(filestruct *fileptr, int index)
-{
-    filestruct *row;
-
-    /* Reset the cache of earlier lines, as far back as needed. */
-    for (row = fileptr->prev; row != NULL; row = row->prev) {
-	alloc_multidata_if_needed(row);
-	if (row->multidata[index] == CNONE)
-	    break;
-	row->multidata[index] = -1;
-    }
-    for (; row != NULL; row = row->prev) {
-	alloc_multidata_if_needed(row);
-	if (row->multidata[index] != CNONE)
-	    break;
-	row->multidata[index] = -1;
-    }
-
-    /* Reset the cache of the current line. */
-    fileptr->multidata[index] = -1;
-
-    /* Reset the cache of later lines, as far ahead as needed. */
-    for (row = fileptr->next; row != NULL; row = row->next) {
-	alloc_multidata_if_needed(row);
-	if (row->multidata[index] == CNONE)
-	    break;
-	row->multidata[index] = -1;
-    }
-    for (; row != NULL; row = row->next) {
-	alloc_multidata_if_needed(row);
-	if (row->multidata[index] != CNONE)
-	    break;
-	row->multidata[index] = -1;
-    }
-
-    refresh_needed = TRUE;
-}
-
-/* Reset multi-line strings around the filestruct fileptr, trying to be
- * smart about stopping.  Bool force means: reset everything regardless,
- * useful when we don't know how much screen state has changed. */
+/* Determine whether the matches of multiline regexes are still the same,
+ * and if not, schedule a screen refresh, so things will be repainted. */
 void reset_multis(filestruct *fileptr, bool force)
 {
     const colortype *ink;
@@ -372,14 +331,6 @@ void reset_multis(filestruct *fileptr, bool force)
 
 	refresh_needed = TRUE;
 	return;
-
-	/* If we got here, things have changed. */
-	reset_multis_for_id(fileptr, ink->id);
-
-	/* If start and end are the same, push the resets further. */
-	if (force == FALSE && !nobegin && !noend &&
-				startmatch.rm_so == endmatch.rm_so)
-	    reset_multis_for_id(fileptr, ink->id);
     }
 }
 
