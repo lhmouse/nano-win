@@ -579,13 +579,15 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
     size_t match_len;
     bool replaceall = FALSE;
     bool skipone = FALSE;
+    bool mark_was_set = FALSE;
 #ifndef NANO_TINY
-    bool mark_was_set = openfile->mark_set;
     filestruct *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
+
+    mark_was_set = openfile->mark_set;
 
     /* If the mark is on, frame the region, and turn the mark off. */
     if (mark_was_set) {
