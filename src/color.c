@@ -303,7 +303,7 @@ void check_the_multis(filestruct *line)
 	return;
 
     for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
-	/* If it's not a multi-line regex, amscray. */
+	/* If it's not a multiline regex, skip. */
 	if (ink->end == NULL)
 	    continue;
 
@@ -312,22 +312,23 @@ void check_the_multis(filestruct *line)
 	astart = regexec(ink->start, line->data, 1, &startmatch, 0);
 	anend = regexec(ink->end, line->data, 1, &endmatch, 0);
 
-	    /* Check whether the multidata still matches the current situation. */
-	    if (line->multidata[ink->id] == CNONE ||
+	/* Check whether the multidata still matches the current situation. */
+	if (line->multidata[ink->id] == CNONE ||
 			line->multidata[ink->id] == CWHOLELINE) {
-		if (!astart && !anend)
-		    continue;
-	    } else if (line->multidata[ink->id] == CSTARTENDHERE) {
-		if (astart && anend && startmatch.rm_so < endmatch.rm_so)
-		    continue;
-	    } else if (line->multidata[ink->id] == CBEGINBEFORE) {
-		if (!astart && anend)
-		    continue;
-	    } else if (line->multidata[ink->id] == CENDAFTER) {
-		if (astart && !anend)
-		    continue;
-	    }
+	    if (!astart && !anend)
+		continue;
+	} else if (line->multidata[ink->id] == CSTARTENDHERE) {
+	    if (astart && anend && startmatch.rm_so < endmatch.rm_so)
+		continue;
+	} else if (line->multidata[ink->id] == CBEGINBEFORE) {
+	    if (!astart && anend)
+		continue;
+	} else if (line->multidata[ink->id] == CENDAFTER) {
+	    if (astart && !anend)
+		continue;
+	}
 
+	/* There is a mismatch, so something changed: repaint. */
 	refresh_needed = TRUE;
 	return;
     }
