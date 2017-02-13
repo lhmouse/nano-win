@@ -2515,9 +2515,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    if (end_line != fileptr) {
 		mvwaddnstr(edit, row, margin, converted, -1);
 		fileptr->multidata[varnish->id] = CWHOLELINE;
-#ifdef DEBUG
-    fprintf(stderr, "  Marking for id %i  row %i as CWHOLELINE\n", varnish->id, row);
-#endif
 		goto tail_of_loop;
 	    }
 
@@ -2528,9 +2525,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		mvwaddnstr(edit, row, margin, converted, paintlen);
 	    }
 	    fileptr->multidata[varnish->id] = CBEGINBEFORE;
-#ifdef DEBUG
-    fprintf(stderr, "  Marking for id %i  row %i as CBEGINBEFORE\n", varnish->id, row);
-#endif
+
   step_two:
 	    /* Second step: look for starts on this line, but begin
 	     * looking only after an end match, if there is one. */
@@ -2568,9 +2563,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 						thetext, paintlen);
 
 			fileptr->multidata[varnish->id] = CSTARTENDHERE;
-#ifdef DEBUG
-    fprintf(stderr, "  Marking for id %i  row %i as CSTARTENDHERE\n", varnish->id, row);
-#endif
 		    }
 		    index = endmatch.rm_eo;
 		    /* If both start and end match are anchors, advance. */
@@ -2596,14 +2588,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		    break;
 		}
 
-		/* Paint the rest of the line. */
+		/* Paint the rest of the line, and we're done. */
 		mvwaddnstr(edit, row, margin + start_col, thetext, -1);
 		fileptr->multidata[varnish->id] = CENDAFTER;
-#ifdef DEBUG
-    fprintf(stderr, "  Marking for id %i  row %i as CENDAFTER\n", varnish->id, row);
-#endif
-		/* We've painted to the end of the line, so don't
-		 * bother checking for any more starts. */
 		break;
 	    }
   tail_of_loop:
