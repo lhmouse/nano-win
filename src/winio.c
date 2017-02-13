@@ -2420,40 +2420,30 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    regmatch_t startmatch, endmatch;
 		/* The match positions of the start and end regexes. */
 
+	    /* Assume nothing gets painted until proven otherwise below. */
+	    fileptr->multidata[varnish->id] = CNONE;
+
 	    /* First check the multidata of the preceding line -- it tells
 	     * us about the situation so far, and thus what to do here. */
 	    if (start_line != NULL && start_line->multidata != NULL) {
 		if (start_line->multidata[varnish->id] == CWHOLELINE ||
-			start_line->multidata[varnish->id] == CENDAFTER) {
-		    fileptr->multidata[varnish->id] = CNONE;
+			start_line->multidata[varnish->id] == CENDAFTER ||
+			start_line->multidata[varnish->id] == CWOULDBE)
 		    goto seek_an_end;
-		}
 		if (start_line->multidata[varnish->id] == CNONE ||
 			start_line->multidata[varnish->id] == CBEGINBEFORE ||
-			start_line->multidata[varnish->id] == CSTARTENDHERE) {
-		    fileptr->multidata[varnish->id] = CNONE;
+			start_line->multidata[varnish->id] == CSTARTENDHERE)
 		    goto step_two;
-		}
 	    }
 
 	    /* The preceding line has no precalculated multidata.  So, do
 	     * some backtracking to find out what to paint. */
 
-	    /* Assume nothing gets painted until proven otherwise below. */
-	    fileptr->multidata[varnish->id] = CNONE;
-
-	    /* First check if the beginning of the line is colored by a
-	     * start on an earlier line, and an end on this line or later.
-	     *
-	     * So: find the first line before fileptr matching the start.
-	     * If every match on that line is followed by an end, then go
-	     * to step two.  Otherwise, find a line after start_line that
-	     * matches the end.  If that line is not before fileptr, then
-	     * paint the beginning of this line. */
-
+	    /* First step: see if there is a line before current that
+	     * matches 'start' and is not complemented by an 'end'. */
 	    while (start_line != NULL && regexec(varnish->start,
 		    start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
-		/* There is no start; but if there is an end on this line,
+		/* There is no start on this line; but if there is an end,
 		 * there is no need to look for starts on earlier lines. */
 		if (regexec(varnish->end, start_line->data, 0, NULL, 0) == 0)
 		    goto step_two;
@@ -2471,9 +2461,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			start_line->multidata[varnish->id] == CSTARTENDHERE))
 		goto step_two;
 
-	    /* Now start_line is the first line before fileptr containing
-	     * a start match.  Is there a start on that line not followed
-	     * by an end on that line? */
+	    /* Is there an uncomplemented start on the found line? */
 	    while (TRUE) {
 		/* Begin searching for an end after the start match. */
 		index += startmatch.rm_eo;
