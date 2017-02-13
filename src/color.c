@@ -295,7 +295,7 @@ void color_update(void)
 void check_the_multis(filestruct *line)
 {
     const colortype *ink;
-    int nobegin = 0, noend = 0;
+    int astart, anend;
     regmatch_t startmatch, endmatch;
 
     /* If there is no syntax or no multiline regex, there is nothing to do. */
@@ -309,21 +309,22 @@ void check_the_multis(filestruct *line)
 
 	alloc_multidata_if_needed(line);
 
+	astart = regexec(ink->start, line->data, 1, &startmatch, 0);
+	anend = regexec(ink->end, line->data, 1, &endmatch, 0);
+
 	    /* Check whether the multidata still matches the current situation. */
-	    nobegin = regexec(ink->start, line->data, 1, &startmatch, 0);
-	    noend = regexec(ink->end, line->data, 1, &endmatch, 0);
 	    if (line->multidata[ink->id] == CNONE ||
 			line->multidata[ink->id] == CWHOLELINE) {
-		if (nobegin && noend)
+		if (!astart && !anend)
 		    continue;
 	    } else if (line->multidata[ink->id] == CSTARTENDHERE) {
-		if (!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
+		if (astart && anend && startmatch.rm_so < endmatch.rm_so)
 		    continue;
 	    } else if (line->multidata[ink->id] == CBEGINBEFORE) {
-		if (nobegin && !noend)
+		if (!astart && anend)
 		    continue;
 	    } else if (line->multidata[ink->id] == CENDAFTER) {
-		if (!nobegin && noend)
+		if (astart && !anend)
 		    continue;
 	    }
 
