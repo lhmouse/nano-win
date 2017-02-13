@@ -719,13 +719,6 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	    free(openfile->current->data);
 	    openfile->current->data = copy;
 
-#ifndef DISABLE_COLOR
-	    /* Reset the precalculated multiline-regex hints only when
-	     * the first replacement has been made. */
-	    if (numreplaced == 0)
-		reset_multis(openfile->current, TRUE);
-#endif
-
 	    if (!replaceall) {
 #ifndef DISABLE_COLOR
 		/* When doing syntax coloring, the replacement might require
@@ -745,6 +738,10 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
     if (numreplaced == -1)
 	not_found_msg(needle);
+#ifndef DISABLE_COLOR
+    else if (numreplaced > 0)
+	refresh_needed = TRUE;
+#endif
 
 #ifndef NANO_TINY
     if (mark_was_set)

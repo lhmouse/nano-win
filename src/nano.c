@@ -1690,7 +1690,7 @@ int do_input(bool allow_funcs)
 #endif
 #ifndef DISABLE_COLOR
 	    if (f && !f->viewok)
-		reset_multis(openfile->current, FALSE);
+		check_the_multis(openfile->current);
 #endif
 	    if (!refresh_needed && (s->scfunc == do_delete || s->scfunc == do_backspace))
 		update_line(openfile->current, openfile->current_x);
@@ -1891,7 +1891,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     openfile->placewewant = xplustabs();
 
 #ifndef DISABLE_COLOR
-    reset_multis(openfile->current, FALSE);
+    check_the_multis(openfile->current);
 #endif
 
     if (!refresh_needed)

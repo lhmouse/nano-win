@@ -266,7 +266,7 @@ bool is_valid_mbstring(const char *s);
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
-void reset_multis(filestruct *fileptr, bool force);
+void check_the_multis(filestruct *line);
 void alloc_multidata_if_needed(filestruct *fileptr);
 void precalc_multicolorinfo(void);
 #endif

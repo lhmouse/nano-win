@@ -194,7 +194,7 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
     refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
-    reset_multis(openfile->current, FALSE);
+    check_the_multis(openfile->current);
 #endif
 
 #ifdef DEBUG
@@ -291,7 +291,7 @@ void do_uncut_text(void)
     refresh_needed = TRUE;
 
 #ifndef DISABLE_COLOR
-    reset_multis(openfile->current, FALSE);
+    check_the_multis(openfile->current);
 #endif
 
 #ifdef DEBUG

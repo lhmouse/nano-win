@@ -292,7 +292,7 @@ void color_update(void)
 
 /* Determine whether the matches of multiline regexes are still the same,
  * and if not, schedule a screen refresh, so things will be repainted. */
-void reset_multis(filestruct *fileptr, bool force)
+void check_the_multis(filestruct *line)
 {
     const colortype *ink;
     int nobegin = 0, noend = 0;
@@ -307,27 +307,25 @@ void reset_multis(filestruct *fileptr, bool force)
 	if (ink->end == NULL)
 	    continue;
 
-	alloc_multidata_if_needed(fileptr);
+	alloc_multidata_if_needed(line);
 
-	if (force == FALSE) {
 	    /* Check whether the multidata still matches the current situation. */
-	    nobegin = regexec(ink->start, fileptr->data, 1, &startmatch, 0);
-	    noend = regexec(ink->end, fileptr->data, 1, &endmatch, 0);
-	    if (fileptr->multidata[ink->id] == CNONE ||
-			fileptr->multidata[ink->id] == CWHOLELINE) {
+	    nobegin = regexec(ink->start, line->data, 1, &startmatch, 0);
+	    noend = regexec(ink->end, line->data, 1, &endmatch, 0);
+	    if (line->multidata[ink->id] == CNONE ||
+			line->multidata[ink->id] == CWHOLELINE) {
 		if (nobegin && noend)
 		    continue;
-	    } else if (fileptr->multidata[ink->id] == CSTARTENDHERE) {
+	    } else if (line->multidata[ink->id] == CSTARTENDHERE) {
 		if (!nobegin && !noend && startmatch.rm_so < endmatch.rm_so)
 		    continue;
-	    } else if (fileptr->multidata[ink->id] == CBEGINBEFORE) {
+	    } else if (line->multidata[ink->id] == CBEGINBEFORE) {
 		if (nobegin && !noend)
 		    continue;
-	    } else if (fileptr->multidata[ink->id] == CENDAFTER) {
+	    } else if (line->multidata[ink->id] == CENDAFTER) {
 		if (!nobegin && noend)
 		    continue;
 	    }
-	}
 
 	refresh_needed = TRUE;
 	return;
