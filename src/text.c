@@ -1509,11 +1509,7 @@ bool do_wrap(filestruct *line)
     line_len = strlen(line->data);
 
     /* Find the last blank where we can break the line. */
-    wrap_loc = break_line(line->data, fill
-#ifndef DISABLE_HELP
-	, FALSE
-#endif
-	);
+    wrap_loc = break_line(line->data, fill, FALSE);
 
     /* If we couldn't break the line, or we've reached the end of it, we
      * don't wrap. */
@@ -1622,12 +1618,8 @@ bool do_wrap(filestruct *line)
  * that the display length to there is at most (goal + 1).  If there is
  * no such blank, then we find the first blank.  We then take the last
  * blank in that group of blanks.  The terminating '\0' counts as a
- * blank, as does a '\n' if newln is TRUE. */
-ssize_t break_line(const char *line, ssize_t goal
-#ifndef DISABLE_HELP
-	, bool newln
-#endif
-	)
+ * blank, as does a '\n' if snap_at_nl is TRUE. */
+ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 {
     ssize_t blank_loc = -1;
 	/* Current tentative return value.  Index of the last blank we
@@ -1644,17 +1636,11 @@ ssize_t break_line(const char *line, ssize_t goal
     while (*line != '\0' && goal >= cur_pos) {
 	char_len = parse_mbchar(line, NULL, &cur_pos);
 
-	if (is_blank_mbchar(line)
-#ifndef DISABLE_HELP
-		|| (newln && *line == '\n')
-#endif
-		) {
+	if (is_blank_mbchar(line) || (snap_at_nl && *line == '\n')) {
 	    blank_loc = cur_loc;
 
-#ifndef DISABLE_HELP
-	    if (newln && *line == '\n')
+	    if (*line == '\n')
 		break;
-#endif
 	}
 
 	line += char_len;
@@ -1666,7 +1652,7 @@ ssize_t break_line(const char *line, ssize_t goal
 	return cur_loc;
 
 #ifndef DISABLE_HELP
-    if (newln && blank_loc <= 0) {
+    if (snap_at_nl && blank_loc < 1) {
 	/* If no blank was found, or was found only as the first
 	 * character, force a line break. */
 	cur_loc -= char_len;
@@ -1683,11 +1669,7 @@ ssize_t break_line(const char *line, ssize_t goal
 	while (*line != '\0') {
 	    char_len = parse_mbchar(line, NULL, NULL);
 
-	    if (is_blank_mbchar(line)
-#ifndef DISABLE_HELP
-		|| (newln && *line == '\n')
-#endif
-		) {
+	    if (is_blank_mbchar(line)) {
 		found_blank = TRUE;
 		found_blank_loc = cur_loc;
 	    } else if (found_blank)
@@ -2396,11 +2378,7 @@ void do_justify(bool full_justify)
 	    /* If this line is too long, try to wrap it to the next line
 	     * to make it short enough. */
 	    break_pos = break_line(openfile->current->data + indent_len,
-		fill - strnlenpt(openfile->current->data, indent_len)
-#ifndef DISABLE_HELP
-		, FALSE
-#endif
-		);
+		fill - strnlenpt(openfile->current->data, indent_len), FALSE);
 
 	    /* We can't break the line, or don't need to, so get out. */
 	    if (break_pos == -1 || break_pos + indent_len == line_len)
