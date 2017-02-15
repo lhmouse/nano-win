@@ -278,7 +278,7 @@ void unpartition_filestruct(partition **p)
  * current filestruct to a filestruct beginning with file_top and ending
  * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
  * don't do anything. */
-void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
+void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
 {
     filestruct *top_save;
@@ -394,7 +394,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
 /* Copy all text from the given filestruct to the current filestruct
  * at the current cursor position. */
-void copy_from_filestruct(filestruct *somebuffer)
+void copy_from_buffer(filestruct *somebuffer)
 {
     filestruct *top_save;
     size_t current_x_save = openfile->current_x;

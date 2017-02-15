@@ -647,7 +647,7 @@ void undo_cut(undo *u)
     else
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 
-    copy_from_filestruct(u->cutbuffer);
+    copy_from_buffer(u->cutbuffer);
 
     if (u->xflags != WAS_MARKED_FORWARD && u->type != PASTE)
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -949,7 +949,7 @@ void do_redo(void)
     case INSERT:
 	redidmsg = _("text insert");
 	goto_line_posx(u->lineno, u->begin);
-	copy_from_filestruct(u->cutbuffer);
+	copy_from_buffer(u->cutbuffer);
 	free_filestruct(u->cutbuffer);
 	u->cutbuffer = NULL;
 	break;
@@ -2064,12 +2064,12 @@ void backup_lines(filestruct *first_line, size_t par_len)
 
     /* Move the paragraph from the current buffer's filestruct to the
      * justify buffer. */
-    move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot,
+    extract_buffer(&jusbuffer, &jusbottom, top, 0, bot,
 		(i == 1 && bot == openfile->filebot) ? strlen(bot->data) : 0);
 
     /* Copy the paragraph back to the current buffer's filestruct from
      * the justify buffer. */
-    copy_from_filestruct(jusbuffer);
+    copy_from_buffer(jusbuffer);
 
     /* Move upward from the last line of the paragraph to the first
      * line, putting first_line, edittop, current, and mark_begin at the
