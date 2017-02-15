@@ -1647,22 +1647,22 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	cur_loc += char_len;
     }
 
+    /* If the whole line displays shorter than goal, we're done. */
     if (goal >= cur_pos)
-	/* In fact, the whole line displays shorter than goal. */
 	return cur_loc;
 
 #ifndef DISABLE_HELP
+    /* If we're wrapping a help text and no blank was found, or was
+     * found only as the first character, force a line break. */
     if (snap_at_nl && blank_loc < 1) {
-	/* If no blank was found, or was found only as the first
-	 * character, force a line break. */
 	cur_loc -= char_len;
 	return cur_loc;
     }
 #endif
 
+    /* If no blank was found within the goal width, try to find a
+     * blank beyond it. */
     if (blank_loc == -1) {
-	/* No blank was found within the goal width,
-	 * so now try and find a blank beyond it. */
 	bool found_blank = FALSE;
 	ssize_t found_blank_loc = 0;
 
