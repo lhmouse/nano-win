@@ -2926,7 +2926,7 @@ const char *do_alt_speller(char *tempfile_name)
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
-    size_t top_x, bot_x;
+    size_t top_x, bot_x, was_x, new_x;
     bool right_side_up = FALSE;
     ssize_t mb_lineno_save = 0;
 	/* We're going to close the current file, and open the output of
@@ -3037,9 +3037,17 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Adjust the end point of the marked region for any change in
 	 * length of the region's last line. */
 	if (right_side_up)
-	    current_x_save = strlen(openfile->filebot->data);
+	    was_x = current_x_save;
 	else
-	    openfile->mark_begin_x = strlen(openfile->filebot->data);
+	    was_x = openfile->mark_begin_x;
+	if (top == bot)
+	    new_x = was_x - bot_x + top_x + strlen(openfile->filebot->data);
+	else
+	    new_x = strlen(openfile->filebot->data);
+	if (right_side_up)
+	    current_x_save = new_x;
+	else
+	    openfile->mark_begin_x = new_x;
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again.  Note that we've replaced the marked text originally
