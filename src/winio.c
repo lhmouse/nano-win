@@ -1832,10 +1832,10 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 #endif
     buf += start_index;
 
-    if (*buf != '\0' && *buf != '\t' &&
-	(column < start_col || (isdata && !ISSET(SOFTWRAP) && column > 0))) {
-	/* We don't display the complete first character as it starts to
-	 * the left of the screen. */
+    /* If the first character starts before the left edge, or would be
+     * overwritten by a "$" token, then show spaces instead. */
+    if (*buf != '\0' && *buf != '\t' && (column < start_col ||
+				(column > 0 && isdata && !ISSET(SOFTWRAP)))) {
 	if (is_cntrl_mbchar(buf)) {
 	    if (column < start_col) {
 		converted[index++] = control_mbrep(buf, isdata);
