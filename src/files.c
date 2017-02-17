@@ -738,12 +738,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	/* The number of lines in the file. */
     size_t len = 0;
 	/* The length of the current line of the file. */
-    size_t bufx = MAX_BUF_SIZE;
-	/* The size of each chunk of the file that we read. */
     char input = '\0';
 	/* The current input character. */
     char *buf;
-	/* The buffer where we store chunks of the file. */
+	/* The buffer in which we assemble each line of the file. */
+    size_t bufx = MAX_BUF_SIZE;
+	/* The allocated size of the line buffer; increased as needed. */
     filestruct *fileptr = openfile->current->prev;
 	/* The line after which to start inserting. */
     int input_int;
