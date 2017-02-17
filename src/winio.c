@@ -1833,7 +1833,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     buf += start_index;
 
     if (*buf != '\0' && *buf != '\t' &&
-	(column < start_col || (isdata && column > 0))) {
+	(column < start_col || (isdata && !ISSET(SOFTWRAP) && column > 0))) {
 	/* We don't display the complete first character as it starts to
 	 * the left of the screen. */
 	if (is_cntrl_mbchar(buf)) {
