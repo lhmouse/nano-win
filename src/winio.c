@@ -2295,16 +2295,16 @@ void place_the_cursor(bool forreal)
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->edittop;
 
-	row -= (openfile->firstcolumn / editwincols);
+	row -= get_chunk_row(openfile->edittop, openfile->firstcolumn);
 
 	/* Calculate how many rows the lines from edittop to current use. */
 	while (line != NULL && line != openfile->current) {
-	    row += strlenpt(line->data) / editwincols + 1;
+	    row += get_last_chunk_row(line) + 1;
 	    line = line->next;
 	}
 
 	/* Add the number of wraps in the current line before the cursor. */
-	row += xpt / editwincols;
+	row += get_chunk_row(openfile->current, xpt);
 	col = xpt % editwincols;
 
 	/* If the cursor ought to be in column zero, nudge it there. */
@@ -2753,11 +2753,11 @@ int update_softwrapped_line(filestruct *fileptr)
     if (fileptr == openfile->edittop)
 	from_col = openfile->firstcolumn;
     else
-	row -= (openfile->firstcolumn / editwincols);
+	row -= get_chunk_row(openfile->edittop, openfile->firstcolumn);
 
     /* Find out on which screen row the target line should be shown. */
     while (line != fileptr && line != NULL) {
-	row += (strlenpt(line->data) / editwincols) + 1;
+	row += get_last_chunk_row(line) + 1;
 	line = line->next;
     }
 
@@ -2813,7 +2813,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	size_t current_chunk = (*leftedge) / editwincols;
+	size_t current_chunk = get_chunk_row(*line, *leftedge);
 
 	/* Recede through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
@@ -2826,7 +2826,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 		break;
 
 	    *line = (*line)->prev;
-	    current_chunk = strlenpt((*line)->data) / editwincols;
+	    current_chunk = get_last_chunk_row(*line);
 	}
 
 	/* Only change leftedge when we actually could move. */
@@ -2854,8 +2854,8 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	size_t current_chunk = (*leftedge) / editwincols;
-	size_t last_chunk = strlenpt((*line)->data) / editwincols;
+	size_t current_chunk = get_chunk_row(*line, *leftedge);
+	size_t last_chunk = get_last_chunk_row(*line);
 
 	/* Advance through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
@@ -2869,7 +2869,7 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
 
 	    *line = (*line)->next;
 	    current_chunk = 0;
-	    last_chunk = strlenpt((*line)->data) / editwincols;
+	    last_chunk = get_last_chunk_row(*line);
 	}
 
 	/* Only change leftedge when we actually could move. */
@@ -2891,7 +2891,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->current;
-	size_t leftedge = (xplustabs() / editwincols) * editwincols;
+	size_t leftedge = get_chunk_leftedge(openfile->current, xplustabs());
 	int rows_left = go_back_chunks(editwinrows - 1, &line, &leftedge);
 
 	return (rows_left > 0 || line->lineno < was_lineno ||
@@ -2957,11 +2957,11 @@ void edit_scroll(scroll_dir direction, int nrows)
 
 #ifndef NANO_TINY
     /* Compensate for the earlier chunks of a softwrapped line. */
-    nrows += leftedge / editwincols;
+    nrows += get_chunk_row(line, leftedge);
 
     /* Don't compensate for the chunks that are offscreen. */
     if (line == openfile->edittop)
-	nrows -= openfile->firstcolumn / editwincols;
+	nrows -= get_chunk_row(line, openfile->firstcolumn);
 #endif
 
     /* Draw new content on the blank rows inside the scrolled region
@@ -3039,6 +3039,34 @@ size_t get_chunk(filestruct *line, size_t column, size_t *leftedge)
     }
 }
 
+/* Return the row of the softwrapped chunk of the given line that column is on,
+ * relative to the first row (zero-based). */
+size_t get_chunk_row(filestruct *line, size_t column)
+{
+    return strnlenpt(line->data, column) / editwincols;
+}
+
+/* Return the leftmost column of the softwrapped chunk of the given line that
+ * column is on. */
+size_t get_chunk_leftedge(filestruct *line, size_t column)
+{
+    return (strnlenpt(line->data, column) / editwincols) * editwincols;
+}
+
+/* Return the row of the last softwrapped chunk of the given line, relative to
+ * the first row (zero-based). */
+size_t get_last_chunk_row(filestruct *line)
+{
+    return get_chunk_row(line, (size_t)-1);
+}
+
+/* Return the leftmost column of the last softwrapped chunk of the given
+ * line. */
+size_t get_last_chunk_leftedge(filestruct *line)
+{
+    return get_chunk_leftedge(line, (size_t)-1);
+}
+
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk
  * it's on.  We need to do this when the number of columns of the edit window
  * has changed, because then the width of softwrapped chunks has changed. */
@@ -3082,7 +3110,8 @@ bool current_is_below_screen(void)
 	return (go_forward_chunks(editwinrows - 1, &line, &leftedge) == 0 &&
 			(line->lineno < openfile->current->lineno ||
 			(line->lineno == openfile->current->lineno &&
-			leftedge < (xplustabs() / editwincols) * editwincols)));
+			leftedge < get_chunk_leftedge(openfile->current,
+					xplustabs()))));
     } else
 #endif
 	return (openfile->current->lineno >=
@@ -3201,7 +3230,8 @@ void adjust_viewport(update_type manner)
     openfile->edittop = openfile->current;
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
-	openfile->firstcolumn = (xplustabs() / editwincols) * editwincols;
+	openfile->firstcolumn = get_chunk_leftedge(openfile->current,
+							xplustabs());
 #endif
 
     /* Move edittop back goal rows, starting at current[current_x]. */

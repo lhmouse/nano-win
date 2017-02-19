@@ -58,7 +58,7 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
 	if (realspan > openfile->placewewant)
 	    realspan = openfile->placewewant;
 
-	*leftedge = (realspan / editwincols) * editwincols;
+	*leftedge = get_chunk_leftedge(openfile->current, realspan);
 	*target_column = openfile->placewewant % editwincols;
     } else
 #endif
@@ -352,9 +352,11 @@ void do_home(bool be_clever)
     bool moved = FALSE;
     size_t leftedge_x = 0;
 
-    if (ISSET(SOFTWRAP))
-	leftedge_x = actual_x(openfile->current->data,
-			(was_column / editwincols) * editwincols);
+    if (ISSET(SOFTWRAP)) {
+	size_t leftedge = get_chunk_leftedge(openfile->current, was_column);
+
+	leftedge_x = actual_x(openfile->current->data, leftedge);
+    }
 
     if (ISSET(SMART_HOME) && be_clever) {
 	size_t indent_x = indent_length(openfile->current->data);
@@ -417,9 +419,9 @@ void do_end(bool be_clever)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
+	size_t leftedge = get_chunk_leftedge(openfile->current, was_column);
 	size_t rightedge_x = actual_x(openfile->current->data,
-			((was_column / editwincols) * editwincols) +
-			(editwincols - 1));
+				leftedge + (editwincols - 1));
 
 	/* If already at the right edge of the screen, move fully to
 	 * the end of the line.  Otherwise, move to the right edge. */
@@ -562,8 +564,8 @@ void do_left(void)
 {
     size_t was_column = xplustabs();
 #ifndef NANO_TINY
-    size_t was_chunk = (was_column / editwincols);
     filestruct *was_current = openfile->current;
+    size_t was_chunk = get_chunk_row(was_current, was_column);
 #endif
 
     if (openfile->current_x > 0)
@@ -582,7 +584,8 @@ void do_left(void)
      * we're now above the first line of the edit window, so scroll up. */
     if (ISSET(SOFTWRAP) && openfile->current_y == 0 &&
 		openfile->current == was_current &&
-		openfile->placewewant / editwincols != was_chunk) {
+		get_chunk_row(openfile->current,
+				openfile->placewewant) != was_chunk) {
 	edit_scroll(UPWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
 	return;
     }
@@ -598,8 +601,8 @@ void do_right(void)
 {
     size_t was_column = xplustabs();
 #ifndef NANO_TINY
-    size_t was_chunk = (was_column / editwincols);
     filestruct *was_current = openfile->current;
+    size_t was_chunk = get_chunk_row(was_current, was_column);
 #endif
 
     if (openfile->current->data[openfile->current_x] != '\0')
@@ -618,7 +621,8 @@ void do_right(void)
      * we're now below the first line of the edit window, so scroll down. */
     if (ISSET(SOFTWRAP) && openfile->current_y == editwinrows - 1 &&
 		openfile->current == was_current &&
-		openfile->placewewant / editwincols != was_chunk) {
+		get_chunk_row(openfile->current,
+				openfile->placewewant) != was_chunk) {
 	edit_scroll(DOWNWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
 	return;
     }

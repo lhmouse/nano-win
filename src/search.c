@@ -903,7 +903,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
 	    filestruct *line = openfile->current;
-	    size_t leftedge = (xplustabs() / editwincols) * editwincols;
+	    size_t leftedge = get_chunk_leftedge(openfile->current, xplustabs());
 
 	    rows_from_tail = (editwinrows / 2) -
 			go_forward_chunks(editwinrows / 2, &line, &leftedge);

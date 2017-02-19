@@ -777,7 +777,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	add_undo(INSERT);
 
     if (ISSET(SOFTWRAP))
-	was_leftedge = (xplustabs() / editwincols) * editwincols;
+	was_leftedge = get_chunk_leftedge(openfile->current, xplustabs());
 #endif
 
     /* Create an empty buffer. */
