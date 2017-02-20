@@ -43,6 +43,8 @@ color yellow "(^|[[:space:]])#.*$"
 color brightyellow ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
 ## Trailing space is bad!
 color ,green "[[:space:]]+$"
+## Mixed whitespace is also bad.
+color ,green " 	"
 
 ## Here is an example for Portage control files.
 ##
@@ -66,3 +68,5 @@ color brightmagenta "^[[:space:]]*(=|~|<|<=|>|>=)"
 color yellow "#.*$"
 ## Trailing space is bad!
 color ,green "[[:space:]]+$"
+## Mixed whitespace is also bad.
+color ,green " 	"
