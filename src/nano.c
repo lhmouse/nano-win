@@ -782,6 +782,7 @@ void print_opt_full(const char *shortflag
 void usage(void)
 {
     printf(_("Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n\n"));
+    printf(_("If the first file is \"-\", it is read from standard input.\n\n"));
 #ifdef HAVE_GETOPT_LONG
     printf(_("Option\t\tGNU long option\t\tMeaning\n"));
 #else
