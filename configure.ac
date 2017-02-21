@@ -26,10 +26,16 @@ dnl Make sure the ONCE macros are available.
 
 AC_PREREQ([2.69])
 
+dnl Lie about gnulib features we don't use to speed up & shrink down.
+
+gl_cv_func_printf_infinite_long_double=yes
+
 dnl Checks for programs.
 
 AC_GNU_SOURCE
 AC_PROG_CC
+gl_EARLY
+gl_INIT
 AC_PROG_LN_S
 AC_ISC_POSIX
 AC_SYS_LARGEFILE
@@ -747,6 +753,7 @@ AC_CONFIG_FILES([
 Makefile
 doc/Makefile
 doc/sample.nanorc
+lib/Makefile
 m4/Makefile
 po/Makefile.in
 src/Makefile
