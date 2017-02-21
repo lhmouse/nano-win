@@ -19,6 +19,7 @@ modules="
 	strcase
 	strcasestr-simple
 	strnlen
+	sys_wait
 	vsnprintf-posix
 	wchar
 	wctype-h
