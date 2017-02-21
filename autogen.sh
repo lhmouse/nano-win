@@ -11,6 +11,7 @@ modules="
 	glob
 	isblank
 	iswblank
+	lstat
 	regex
 	snprintf-posix
 	stdarg
