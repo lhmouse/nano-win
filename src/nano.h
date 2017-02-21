@@ -120,12 +120,6 @@
 #include <signal.h>
 #include <assert.h>
 
-/* If no vsnprintf(), use the version from glib 2.x. */
-#ifndef HAVE_VSNPRINTF
-#include <glib.h>
-#define vsnprintf g_vsnprintf
-#endif
-
 /* If we aren't using ncurses with mouse support, turn the mouse support
  * off, as it's useless then. */
 #ifndef NCURSES_MOUSE_VERSION

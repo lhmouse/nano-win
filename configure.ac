@@ -28,7 +28,10 @@ AC_PREREQ([2.69])
 
 dnl Lie about gnulib features we don't use to speed up & shrink down.
 
+gl_cv_func_printf_directive_n=yes
 gl_cv_func_printf_infinite_long_double=yes
+gl_cv_func_printf_long_double=yes
+gl_cv_func_snprintf_directive_n=yes
 
 dnl Checks for programs.
 
@@ -465,30 +468,9 @@ int main(void)
 
 dnl Checks for functions.
 
-AC_CHECK_FUNCS(snprintf vsnprintf)
-
 if test "x$enable_utf8" != xno; then
     AC_CHECK_FUNCS(iswalnum iswpunct iswspace nl_langinfo mblen mbstowcs mbtowc wctomb wcwidth)
 fi
-
-if test x$ac_cv_func_snprintf = xno; then
-    AM_PATH_GLIB_2_0(2.0.0,,
-	AC_MSG_ERROR([
-*** snprintf() not found.  GLIB 2.x not found either.
-*** You should install the GLIB 2.x library which can
-*** be found at http://ftp.gtk.org/.]),
-	glib)
-fi
-
-if test x$ac_cv_func_vsnprintf = xno; then
-    AM_PATH_GLIB_2_0(2.0.0,,
-	AC_MSG_ERROR([
-*** vsnprintf() not found.  GLIB 2.x not found either.
-*** You should install the GLIB 2.x library which can
-*** be found at http://ftp.gtk.org/.]),
-	glib)
-fi
-
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for available flags.
@@ -498,7 +480,6 @@ AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [], [])
 dnl Checks for library functions.
 
 AC_TYPE_SIGNAL
-AC_FUNC_VPRINTF
 
 dnl Checks for libraries.
 
@@ -574,13 +555,6 @@ dnl Parse any configure options.
 LIBS="$LIBS $CURSES_LIB"
 
 AC_SUBST(CURSES_LIB)
-
-if test "x$GLIB_CFLAGS" != "x"; then
-    CFLAGS="$CFLAGS $GLIB_CFLAGS"
-fi
-if test "x$GLIB_LIBS" != "x"; then
-    LDFLAGS="$LDFLAGS $GLIB_LIBS"
-fi
 
 if test "x$enable_utf8" != xno && \
     test x$CURSES_LIB_WIDE = xyes && \

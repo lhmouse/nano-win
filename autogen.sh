@@ -11,9 +11,11 @@ modules="
 	isblank
 	iswblank
 	regex
+	snprintf-posix
 	strcase
 	strcasestr-simple
 	strnlen
+	vsnprintf-posix
 "
 
 # Make sure the local gnulib git repo is up-to-date.

@@ -5,7 +5,6 @@ EXTRA_DIST = \
 	extern-inline.m4 \
 	fcntl-o.m4 \
 	gettext.m4 \
-	glib-2.0.m4 \
 	glibc21.m4 \
 	glibc2.m4 \
 	gnulib-cache.m4 \
