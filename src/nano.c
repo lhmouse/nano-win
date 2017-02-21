@@ -1173,11 +1173,15 @@ void signal_init(void)
     memset(&act, 0, sizeof(struct sigaction));
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
+#ifdef SIGQUIT
     sigaction(SIGQUIT, &act, NULL);
+#endif
 
     /* Trap SIGHUP and SIGTERM because we want to write the file out. */
     act.sa_handler = handle_hupterm;
+#ifdef SIGHUP
     sigaction(SIGHUP, &act, NULL);
+#endif
     sigaction(SIGTERM, &act, NULL);
 
 #ifndef NANO_TINY
@@ -1189,17 +1193,23 @@ void signal_init(void)
     /* Trap normal suspend (^Z) so we can handle it ourselves. */
     if (!ISSET(SUSPEND)) {
 	act.sa_handler = SIG_IGN;
+#ifdef SIGTSTP
 	sigaction(SIGTSTP, &act, NULL);
+#endif
     } else {
 	/* Block all other signals in the suspend and continue handlers.
 	 * If we don't do this, other stuff interrupts them! */
 	sigfillset(&act.sa_mask);
 
 	act.sa_handler = do_suspend;
+#ifdef SIGTSTP
 	sigaction(SIGTSTP, &act, NULL);
+#endif
 
 	act.sa_handler = do_continue;
+#ifdef SIGCONT
 	sigaction(SIGCONT, &act, NULL);
+#endif
     }
 }
 
@@ -1231,11 +1241,15 @@ RETSIGTYPE do_suspend(int signal)
     /* Trap SIGHUP and SIGTERM so we can properly deal with them while
      * suspended. */
     act.sa_handler = handle_hupterm;
+#ifdef SIGHUP
     sigaction(SIGHUP, &act, NULL);
+#endif
     sigaction(SIGTERM, &act, NULL);
 
     /* Do what mutt does: send ourselves a SIGSTOP. */
+#ifdef SIGSTOP
     kill(0, SIGSTOP);
+#endif
 }
 
 /* The version of above function that is bound to a key. */

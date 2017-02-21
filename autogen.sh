@@ -13,6 +13,7 @@ modules="
 	iswblank
 	lstat
 	regex
+	sigaction
 	snprintf-posix
 	stdarg
 	strcase
