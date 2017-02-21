@@ -137,12 +137,6 @@
 #ifndef HAVE_ISWBLANK
 #define iswblank niswblank
 #endif
-#ifndef HAVE_GETDELIM
-#define getdelim ngetdelim
-#endif
-#ifndef HAVE_GETLINE
-#define getline ngetline
-#endif
 
 /* If we aren't using ncurses with mouse support, turn the mouse support
  * off, as it's useless then. */

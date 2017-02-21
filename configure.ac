@@ -473,7 +473,7 @@ int main(void)
 
 dnl Checks for functions.
 
-AC_CHECK_FUNCS(getdelim getline isblank snprintf vsnprintf)
+AC_CHECK_FUNCS(isblank snprintf vsnprintf)
 
 if test "x$enable_utf8" != xno; then
     AC_CHECK_FUNCS(iswalnum iswblank iswpunct iswspace nl_langinfo mblen mbstowcs mbtowc wctomb wcwidth)

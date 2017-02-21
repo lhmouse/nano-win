@@ -652,14 +652,6 @@ void snuggly_fit(char **str);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
-#if !defined(NANO_TINY) && !defined(DISABLE_NANORC)
-#ifndef HAVE_GETLINE
-ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
-#endif
-#ifndef HAVE_GETDELIM
-ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
-#endif
-#endif
 #ifdef HAVE_REGEX_H
 const char *fixbounds(const char *r);
 #endif
