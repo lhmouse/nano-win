@@ -54,7 +54,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
 dnl Checks for header files.
 
-AC_CHECK_HEADERS(getopt.h libintl.h limits.h regex.h sys/param.h wchar.h wctype.h stdarg.h)
+AC_CHECK_HEADERS(getopt.h libintl.h limits.h sys/param.h wchar.h wctype.h stdarg.h)
 
 dnl Checks for options.
 
@@ -77,15 +77,7 @@ fi
 if test "x$enable_color" = xno; then
     AC_DEFINE(DISABLE_COLOR, 1, [Define this to disable syntax highlighting.])
 else
-    if test x$ac_cv_header_regex_h != xyes; then
-	AC_MSG_ERROR([
-*** The header file regex.h was not found.  If you wish to have
-*** color support, this header file is required.  Please either
-*** install C libraries that include the regex.h file, or call
-*** the configure script with --disable-color.])
-    else
-	color_support=yes
-    fi
+    color_support=yes
 fi
 
 AC_ARG_ENABLE(comment,

@@ -124,17 +124,12 @@ char *brackets = NULL;
 	 * can end sentences. */
 char *quotestr = NULL;
 	/* The quoting string.  The default value is set in main(). */
-#ifdef HAVE_REGEX_H
 regex_t quotereg;
 	/* The compiled regular expression from the quoting string. */
 int quoterc;
 	/* Whether it was compiled successfully. */
 char *quoteerr = NULL;
 	/* The error message, if it didn't. */
-#else
-size_t quotelen;
-	/* The length of the quoting string in bytes. */
-#endif
 #endif /* !DISABLE_JUSTIFY */
 
 char *word_chars = NULL;
@@ -212,13 +207,11 @@ poshiststruct *position_history = NULL;
 	/* The cursor position history list. */
 #endif
 
-#ifdef HAVE_REGEX_H
 regex_t search_regexp;
 	/* The compiled regular expression to use in searches. */
 regmatch_t regmatches[10];
 	/* The match positions for parenthetical subexpressions, 10
 	 * maximum, used in regular expression searches. */
-#endif
 
 int hilite_attribute = A_REVERSE;
 	/* The curses attribute we use to highlight something. */
@@ -605,10 +598,8 @@ void shortcut_init(void)
 	N_("Toggle the case sensitivity of the search");
     const char *nano_reverse_msg =
 	N_("Reverse the direction of the search");
-#ifdef HAVE_REGEX_H
     const char *nano_regexp_msg =
 	N_("Toggle the use of regular expressions");
-#endif
 #ifndef DISABLE_HISTORIES
     const char *nano_prev_history_msg =
 	N_("Recall the previous search/replace string");
@@ -765,10 +756,8 @@ void shortcut_init(void)
 
     add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
 	N_("Case Sens"), IFSCHELP(nano_case_msg), TOGETHER, VIEW);
-#ifdef HAVE_REGEX_H
     add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
 	N_("Regexp"), IFSCHELP(nano_regexp_msg), TOGETHER, VIEW);
-#endif
     add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
 	N_("Backwards"), IFSCHELP(nano_reverse_msg), TOGETHER, VIEW);
 
@@ -1697,10 +1686,8 @@ void thanks_for_all_the_fish(void)
     free(word_chars);
 #ifndef DISABLE_JUSTIFY
     free(quotestr);
-#ifdef HAVE_REGEX_H
     regfree(&quotereg);
     free(quoteerr);
-#endif
 #endif
 #ifndef NANO_TINY
     free(backup_dir);

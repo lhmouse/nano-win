@@ -2421,14 +2421,7 @@ int main(int argc, char **argv)
 
     /* If quotestr wasn't specified, set its default value. */
     if (quotestr == NULL)
-	quotestr = mallocstrcpy(NULL,
-#ifdef HAVE_REGEX_H
-		"^([ \t]*[#:>|}])+"
-#else
-		"> "
-#endif
-		);
-#ifdef HAVE_REGEX_H
+	quotestr = mallocstrcpy(NULL, "^([ \t]*[#:>|}])+");
     quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
 
     if (quoterc == 0) {
@@ -2441,9 +2434,6 @@ int main(int argc, char **argv)
 	quoteerr = charalloc(size);
 	regerror(quoterc, &quotereg, quoteerr, size);
     }
-#else
-    quotelen = strlen(quotestr);
-#endif /* !HAVE_REGEX_H */
 #endif /* !DISABLE_JUSTIFY */
 
 #ifndef DISABLE_SPELLER

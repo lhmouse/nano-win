@@ -1864,13 +1864,9 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 /* The "quote part" of a line is the largest initial substring matching
  * the quote string.  This function returns the length of the quote part
- * of the given line.
- *
- * Note that if !HAVE_REGEX_H then we match concatenated copies of
- * quotestr. */
+ * of the given line. */
 size_t quote_length(const char *line)
 {
-#ifdef HAVE_REGEX_H
     regmatch_t matches;
     int rc = regexec(&quotereg, line, 1, &matches, 0);
 
@@ -1879,14 +1875,6 @@ size_t quote_length(const char *line)
     /* matches.rm_so should be 0, since the quote string should start
      * with the caret ^. */
     return matches.rm_eo;
-#else	/* !HAVE_REGEX_H */
-    size_t qdepth = 0;
-
-    /* Compute quote depth level. */
-    while (strncmp(line + qdepth, quotestr, quotelen) == 0)
-	qdepth += quotelen;
-    return qdepth;
-#endif	/* !HAVE_REGEX_H */
 }
 
 /* a_line and b_line are lines of text.  The quotation part of a_line is
@@ -2088,12 +2076,10 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     filestruct *current_save;
 	/* The line at the beginning of the paragraph we search for. */
 
-#ifdef HAVE_REGEX_H
     if (quoterc != 0) {
 	statusline(ALERT, _("Bad quote string %s: %s"), quotestr, quoteerr);
 	return FALSE;
     }
-#endif
 
     assert(openfile->current != NULL);
 

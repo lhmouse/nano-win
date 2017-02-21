@@ -9,6 +9,7 @@ modules="
 	getline
 	isblank
 	iswblank
+	regex
 	strcase
 	strcasestr-simple
 	strnlen

@@ -170,7 +170,6 @@ void sunder(char *str)
     }
 }
 
-#ifdef HAVE_REGEX_H
 /* Fix the regex if we're on platforms which require an adjustment
  * from GNU-style to BSD-style word boundaries. */
 const char *fixbounds(const char *r)
@@ -206,7 +205,6 @@ const char *fixbounds(const char *r)
 
     return r;
 }
-#endif /* HAVE_REGEX_H */
 
 #ifndef DISABLE_SPELLER
 /* Is the word starting at the given position in buf and of the given length
@@ -236,7 +234,6 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start)
 {
-#ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 	if (ISSET(BACKWARDS_SEARCH)) {
 	    size_t last_find, ceiling, far_end;
@@ -289,7 +286,6 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	else
 	    return haystack + regmatches[0].rm_so;
     }
-#endif /* HAVE_REGEX_H */
     if (ISSET(CASE_SENSITIVE)) {
 	if (ISSET(BACKWARDS_SEARCH))
 	    return revstrstr(haystack, needle, start);

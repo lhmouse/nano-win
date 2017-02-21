@@ -100,13 +100,9 @@ extern const char *unjust_tag;
 extern char *punct;
 extern char *brackets;
 extern char *quotestr;
-#ifdef HAVE_REGEX_H
 extern regex_t quotereg;
 extern int quoterc;
 extern char *quoteerr;
-#else
-extern size_t quotelen;
-#endif
 #endif /* !DISABLE_JUSTIFY */
 
 extern char *word_chars;
@@ -154,10 +150,8 @@ extern filestruct *replacebot;
 extern poshiststruct *position_history;
 #endif
 
-#ifdef HAVE_REGEX_H
 extern regex_t search_regexp;
 extern regmatch_t regmatches[10];
-#endif
 
 extern int hilite_attribute;
 #ifndef DISABLE_COLOR
@@ -513,10 +507,8 @@ void do_rcfiles(void);
 #endif /* !DISABLE_NANORC */
 
 /* All functions in search.c. */
-#ifdef HAVE_REGEX_H
 bool regexp_init(const char *regexp);
 void regexp_cleanup(void);
-#endif
 void not_found_msg(const char *str);
 void search_replace_abort(void);
 int search_init(bool replacing, bool use_answer);
@@ -529,9 +521,7 @@ void do_findnext(void);
 #endif
 void do_research(void);
 void go_looking(void);
-#ifdef HAVE_REGEX_H
 int replace_regexp(char *string, bool create);
-#endif
 char *replace_line(const char *needle);
 ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	const filestruct *real_current, size_t *real_current_x);
@@ -646,9 +636,7 @@ void snuggly_fit(char **str);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
-#ifdef HAVE_REGEX_H
 const char *fixbounds(const char *r);
-#endif
 #ifndef DISABLE_SPELLER
 bool is_separate_word(size_t position, size_t length, const char *buf);
 #endif
