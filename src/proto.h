@@ -193,12 +193,6 @@ void utf8_init(void);
 bool using_utf8(void);
 #endif
 char *addstrings(char* str1, size_t len1, char* str2, size_t len2);
-#ifndef HAVE_ISBLANK
-bool nisblank(int c);
-#endif
-#if !defined(HAVE_ISWBLANK) && defined(ENABLE_UTF8)
-bool niswblank(wchar_t wc);
-#endif
 bool is_byte(int c);
 bool is_alpha_mbchar(const char *c);
 bool is_alnum_mbchar(const char *c);

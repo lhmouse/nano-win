@@ -128,16 +128,6 @@
 #define vsnprintf g_vsnprintf
 #endif
 
-/* If no isblank(), iswblank(), strcasecmp(), strncasecmp(),
- * strcasestr(), strnlen(), getdelim(), or getline(), use the versions
- * we have. */
-#ifndef HAVE_ISBLANK
-#define isblank nisblank
-#endif
-#ifndef HAVE_ISWBLANK
-#define iswblank niswblank
-#endif
-
 /* If we aren't using ncurses with mouse support, turn the mouse support
  * off, as it's useless then. */
 #ifndef NCURSES_MOUSE_VERSION

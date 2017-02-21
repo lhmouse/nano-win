@@ -61,22 +61,6 @@ char *addstrings(char* str1, size_t len1, char* str2, size_t len2)
     return str1;
 }
 
-#ifndef HAVE_ISBLANK
-/* This function is equivalent to isblank(). */
-bool nisblank(int c)
-{
-    return isspace(c) && (c == '\t' || !is_cntrl_char(c));
-}
-#endif
-
-#if !defined(HAVE_ISWBLANK) && defined(ENABLE_UTF8)
-/* This function is equivalent to iswblank(). */
-bool niswblank(wchar_t wc)
-{
-    return iswspace(wc) && (wc == '\t' || !is_cntrl_wchar(wc));
-}
-#endif
-
 /* Return TRUE if the value of c is in byte range, and FALSE otherwise. */
 bool is_byte(int c)
 {
