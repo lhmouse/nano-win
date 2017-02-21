@@ -2088,6 +2088,7 @@ void warn_and_shortly_pause(const char *msg)
 void statusline(message_type importance, const char *msg, ...)
 {
     va_list ap;
+    static int alerts = 0;
     char *compound, *message;
     size_t start_col;
     bool bracketed;
@@ -2112,12 +2113,20 @@ void statusline(message_type importance, const char *msg, ...)
 		(lastmessage == MILD && importance == HUSH))
 	return;
 
-    /* Delay another alert message, to allow an earlier one to be noticed. */
-    if (lastmessage == ALERT)
+    /* If the ALERT status has been reset, reset the counter. */
+    if (lastmessage == HUSH)
+	alerts = 0;
+
+    /* Shortly pause after each of the first three alert messages,
+     * to give the user time to read them. */
+    if (lastmessage == ALERT && alerts < 4)
 	napms(1200);
 
-    if (importance == ALERT)
+    if (importance == ALERT) {
+	if (++alerts > 3)
+	    msg = "Some warnings were suppressed";
 	beep();
+    }
 
     lastmessage = importance;
 
