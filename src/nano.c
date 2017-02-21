@@ -2513,7 +2513,7 @@ int main(int argc, char **argv)
     shiftaltdown = get_keycode("kDN4", SHIFT_ALT_DOWN);
 #endif
 
-#ifndef USE_SLANG
+#ifdef HAVE_SET_ESCDELAY
     /* Tell ncurses to pass the Esc key quickly. */
     set_escdelay(50);
 #endif
