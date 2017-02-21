@@ -137,18 +137,6 @@
 #ifndef HAVE_ISWBLANK
 #define iswblank niswblank
 #endif
-#ifndef HAVE_STRCASECMP
-#define strcasecmp nstrcasecmp
-#endif
-#ifndef HAVE_STRNCASECMP
-#define strncasecmp nstrncasecmp
-#endif
-#ifndef HAVE_STRCASESTR
-#define strcasestr nstrcasestr
-#endif
-#ifndef HAVE_STRNLEN
-#define strnlen nstrnlen
-#endif
 #ifndef HAVE_GETDELIM
 #define getdelim ngetdelim
 #endif
