@@ -12,10 +12,13 @@ modules="
 	iswblank
 	regex
 	snprintf-posix
+	stdarg
 	strcase
 	strcasestr-simple
 	strnlen
 	vsnprintf-posix
+	wchar
+	wctype-h
 "
 
 # Make sure the local gnulib git repo is up-to-date.

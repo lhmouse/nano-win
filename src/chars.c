@@ -26,12 +26,8 @@
 #include <ctype.h>
 
 #ifdef ENABLE_UTF8
-#ifdef HAVE_WCHAR_H
 #include <wchar.h>
-#endif
-#ifdef HAVE_WCTYPE_H
 #include <wctype.h>
-#endif
 
 static bool use_utf8 = FALSE;
 	/* Whether we've enabled UTF-8 support. */
