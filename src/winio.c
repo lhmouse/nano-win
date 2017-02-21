@@ -1823,14 +1823,14 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 
     assert(column <= start_col);
 
-    /* Allocate enough space to hold the entire converted buffer. */
-    converted = charalloc(strlen(buf) * (mb_cur_max() + tabsize) + 1);
-
     index = 0;
 #ifdef USING_OLD_NCURSES
     seen_wide = FALSE;
 #endif
     buf += start_index;
+
+    /* Allocate enough space for converting the relevant part of the line. */
+    converted = charalloc(strlen(buf) * (mb_cur_max() + tabsize) + 1);
 
     /* If the first character starts before the left edge, or would be
      * overwritten by a "$" token, then show spaces instead. */
