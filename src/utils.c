@@ -25,7 +25,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#ifdef HAVE_PWD_H
 #include <pwd.h>
+#endif
 #include <ctype.h>
 #include <errno.h>
 
@@ -36,6 +38,7 @@ void get_homedir(void)
     if (homedir == NULL) {
 	const char *homenv = getenv("HOME");
 
+#ifdef HAVE_PWD_H
 	/* When HOME isn't set, or when we're root, get the home directory
 	 * from the password file instead. */
 	if (homenv == NULL || geteuid() == 0) {
@@ -44,6 +47,7 @@ void get_homedir(void)
 	    if (userage != NULL)
 		homenv = userage->pw_dir;
 	}
+#endif
 
 	/* Only set homedir if some home directory could be determined,
 	 * otherwise keep homedir NULL. */

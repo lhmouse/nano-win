@@ -29,7 +29,9 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <ctype.h>
+#ifdef HAVE_PWD_H
 #include <pwd.h>
+#endif
 #include <libgen.h>
 
 #define LOCKBUFSIZE 8192
@@ -168,6 +170,7 @@ void set_modified(void)
  * Returns 1 on success, and 0 on failure (but continue anyway). */
 int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
 {
+#ifdef HAVE_PWD_H
     int cflags, fd;
     FILE *filestream;
     pid_t mypid;
@@ -284,6 +287,9 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
   free_the_data:
     free(lockdata);
     return 0;
+#else
+    return 1;
+#endif
 }
 
 /* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
@@ -2345,6 +2351,7 @@ char *real_dir_from_tilde(const char *buf)
 	    get_homedir();
 	    tilde_dir = mallocstrcpy(NULL, homedir);
 	} else {
+#ifdef HAVE_PWD_H
 	    const struct passwd *userdata;
 
 	    tilde_dir = mallocstrncpy(NULL, buf, i + 1);
@@ -2357,6 +2364,9 @@ char *real_dir_from_tilde(const char *buf)
 	    endpwent();
 	    if (userdata != NULL)
 		tilde_dir = mallocstrcpy(tilde_dir, userdata->pw_dir);
+#else
+	    tilde_dir = strdup("");
+#endif
 	}
 
 	retval = charalloc(strlen(tilde_dir) + strlen(buf + i) + 1);
@@ -2447,11 +2457,13 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	size_t buf_len)
 {
     char **matches = NULL;
-    const struct passwd *userdata;
 
     assert(buf != NULL && num_matches != NULL && buf_len > 0);
 
     *num_matches = 0;
+
+#ifdef HAVE_PWD_H
+    const struct passwd *userdata;
 
     while ((userdata = getpwent()) != NULL) {
 	if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
@@ -2473,6 +2485,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	}
     }
     endpwent();
+#endif
 
     return matches;
 }

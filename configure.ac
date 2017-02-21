@@ -57,7 +57,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
 dnl Checks for header files.
 
-AC_CHECK_HEADERS(libintl.h limits.h sys/param.h)
+AC_CHECK_HEADERS(libintl.h limits.h pwd.h sys/param.h)
 
 dnl Checks for options.
 
