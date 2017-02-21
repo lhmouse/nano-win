@@ -34,7 +34,9 @@
 #ifdef ENABLE_UTF8
 #include <langinfo.h>
 #endif
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
 #include <getopt.h>
 #ifndef NANO_TINY
 #include <sys/ioctl.h>
@@ -48,7 +50,12 @@ static int oldinterval = -1;
 static bool no_rcfiles = FALSE;
 	/* Should we ignore all rcfiles? */
 #endif
+#ifdef HAVE_TERMIOS_H
 static struct termios oldterm;
+#else
+# define tcsetattr(...)
+# define tcgetattr(...)
+#endif
 	/* The user's original terminal settings. */
 static struct sigaction act;
 	/* Used to set up all our fun signal handlers. */
@@ -1417,23 +1424,27 @@ void do_toggle_void(void)
  * settings. */
 void disable_extended_io(void)
 {
+#ifdef HAVE_TERMIOS_H
     struct termios term;
 
     tcgetattr(0, &term);
     term.c_lflag &= ~IEXTEN;
     term.c_oflag &= ~OPOST;
     tcsetattr(0, TCSANOW, &term);
+#endif
 }
 
 /* Disable interpretation of the special control keys in our terminal
  * settings. */
 void disable_signals(void)
 {
+#ifdef HAVE_TERMIOS_H
     struct termios term;
 
     tcgetattr(0, &term);
     term.c_lflag &= ~ISIG;
     tcsetattr(0, TCSANOW, &term);
+#endif
 }
 
 #ifndef NANO_TINY
@@ -1441,11 +1452,13 @@ void disable_signals(void)
  * settings. */
 void enable_signals(void)
 {
+#ifdef HAVE_TERMIOS_H
     struct termios term;
 
     tcgetattr(0, &term);
     term.c_lflag |= ISIG;
     tcsetattr(0, TCSANOW, &term);
+#endif
 }
 #endif
 
@@ -1453,22 +1466,26 @@ void enable_signals(void)
  * settings. */
 void disable_flow_control(void)
 {
+#ifdef HAVE_TERMIOS_H
     struct termios term;
 
     tcgetattr(0, &term);
     term.c_iflag &= ~IXON;
     tcsetattr(0, TCSANOW, &term);
+#endif
 }
 
 /* Enable interpretation of the flow control characters in our terminal
  * settings. */
 void enable_flow_control(void)
 {
+#ifdef HAVE_TERMIOS_H
     struct termios term;
 
     tcgetattr(0, &term);
     term.c_iflag |= IXON;
     tcsetattr(0, TCSANOW, &term);
+#endif
 }
 
 /* Set up the terminal state.  Put the terminal in raw mode (read one
