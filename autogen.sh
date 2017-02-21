@@ -8,6 +8,7 @@ modules="
 	getdelim
 	getline
 	getopt-gnu
+	glob
 	isblank
 	iswblank
 	regex
