@@ -54,7 +54,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
 dnl Checks for header files.
 
-AC_CHECK_HEADERS(getopt.h libintl.h limits.h sys/param.h wchar.h wctype.h stdarg.h)
+AC_CHECK_HEADERS(libintl.h limits.h sys/param.h wchar.h wctype.h stdarg.h)
 
 dnl Checks for options.
 
@@ -499,7 +499,6 @@ dnl Checks for library functions.
 
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(getopt_long)
 
 dnl Checks for libraries.
 

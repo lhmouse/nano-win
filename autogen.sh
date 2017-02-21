@@ -7,6 +7,7 @@ gnulib_hash="4084b3a1094372b960ce4a97634e08f4538c8bdd"
 modules="
 	getdelim
 	getline
+	getopt-gnu
 	isblank
 	iswblank
 	regex

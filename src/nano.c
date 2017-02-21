@@ -35,9 +35,7 @@
 #include <langinfo.h>
 #endif
 #include <termios.h>
-#ifdef HAVE_GETOPT_H
 #include <getopt.h>
-#endif
 #ifndef NANO_TINY
 #include <sys/ioctl.h>
 #endif
@@ -746,32 +744,20 @@ void mouse_init(void)
 }
 #endif /* !DISABLE_MOUSE */
 
-#ifdef HAVE_GETOPT_LONG
-#define print_opt(shortflag, longflag, desc) print_opt_full(shortflag, longflag, desc)
-#else
-#define print_opt(shortflag, longflag, desc) print_opt_full(shortflag, desc)
-#endif
-
 /* Print one usage string to the screen.  This cuts down on duplicate
  * strings to translate, and leaves out the parts that shouldn't be
  * translatable (i.e. the flag names). */
-void print_opt_full(const char *shortflag
-#ifdef HAVE_GETOPT_LONG
-	, const char *longflag
-#endif
-	, const char *desc)
+void print_opt(const char *shortflag, const char *longflag, const char *desc)
 {
     printf(" %s\t", shortflag);
     if (strlenpt(shortflag) < 8)
 	printf("\t");
 
-#ifdef HAVE_GETOPT_LONG
     printf("%s\t", longflag);
     if (strlenpt(longflag) < 8)
 	printf("\t\t");
     else if (strlenpt(longflag) < 16)
 	printf("\t");
-#endif
 
     if (desc != NULL)
 	printf("%s", _(desc));
@@ -787,11 +773,7 @@ void usage(void)
     printf(_("To place the cursor on a specific line of a file, put the line number with\n"
 		"a '+' before the filename.  The column number can be added after a comma.\n"));
     printf(_("When the first filename is '-', nano reads data from standard input.\n\n"));
-#ifdef HAVE_GETOPT_LONG
     printf(_("Option\t\tGNU long option\t\tMeaning\n"));
-#else
-    printf(_("Option\t\tMeaning\n"));
-#endif
 #ifndef NANO_TINY
     print_opt("-A", "--smarthome",
 	/* TRANSLATORS: The next forty or so strings are option descriptions
@@ -1925,7 +1907,6 @@ int main(int argc, char **argv)
 	/* The old value of the multibuffer option, restored after we
 	 * load all files on the command line. */
 #endif
-#ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
 	{"boldtext", 0, NULL, 'D'},
 #ifndef DISABLE_MULTIBUFFER
@@ -1998,7 +1979,6 @@ int main(int argc, char **argv)
 #endif
 	{NULL, 0, NULL, 0}
     };
-#endif
 
     /* Back up the terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
@@ -2038,15 +2018,9 @@ int main(int argc, char **argv)
 	SET(RESTRICTED);
 
     while ((optchr =
-#ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
 		"ABC:DEFGHIKLNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$",
-		long_options, NULL)
-#else
-	getopt(argc, argv,
-		"ABC:DEFGHIKLNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$")
-#endif
-		) != -1) {
+		long_options, NULL)) != -1) {
 	switch (optchr) {
 	    case 'a':
 	    case 'b':

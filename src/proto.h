@@ -431,11 +431,7 @@ void disable_mouse_support(void);
 void enable_mouse_support(void);
 void mouse_init(void);
 #endif
-void print_opt_full(const char *shortflag
-#ifdef HAVE_GETOPT_LONG
-	, const char *longflag
-#endif
-	, const char *desc);
+void print_opt(const char *shortflag, const char *longflag, const char *desc);
 void usage(void);
 void version(void);
 void do_exit(void);
