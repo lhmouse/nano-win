@@ -53,13 +53,8 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
 {
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	size_t realspan = strlenpt(openfile->current->data);
-
-	if (realspan > openfile->placewewant)
-	    realspan = openfile->placewewant;
-
-	*leftedge = get_chunk_leftedge(openfile->current, realspan);
-	*target_column = openfile->placewewant % editwincols;
+	*leftedge = get_chunk_leftedge(openfile->current, xplustabs());
+	*target_column = openfile->placewewant - *leftedge;
     } else
 #endif
     {
@@ -346,15 +341,14 @@ void do_next_word_void(void)
 void do_home(bool be_clever)
 {
     filestruct *was_current = openfile->current;
-    size_t was_column = openfile->placewewant;
+    size_t was_column = xplustabs();
     bool moved_off_chunk = TRUE;
 #ifndef NANO_TINY
     bool moved = FALSE;
-    size_t leftedge_x = 0;
+    size_t leftedge = 0, leftedge_x = 0;
 
     if (ISSET(SOFTWRAP)) {
-	size_t leftedge = get_chunk_leftedge(openfile->current, was_column);
-
+	leftedge = get_chunk_leftedge(openfile->current, was_column);
 	leftedge_x = actual_x(openfile->current->data, leftedge);
     }
 
@@ -378,11 +372,11 @@ void do_home(bool be_clever)
     if (!moved && ISSET(SOFTWRAP)) {
 	/* If already at the left edge of the screen, move fully home.
 	 * Otherwise, move to the left edge. */
-	if (was_column % editwincols == 0 && be_clever)
+	if (openfile->current_x == leftedge_x && be_clever)
 	    openfile->current_x = 0;
 	else {
 	    openfile->current_x = leftedge_x;
-	    openfile->placewewant = (was_column / editwincols) * editwincols;
+	    openfile->placewewant = leftedge;
 	    moved_off_chunk = FALSE;
 	}
     } else if (!moved)
@@ -413,15 +407,26 @@ void do_home_void(void)
 void do_end(bool be_clever)
 {
     filestruct *was_current = openfile->current;
-    size_t was_column = openfile->placewewant;
+    size_t was_column = xplustabs();
     size_t line_len = strlen(openfile->current->data);
     bool moved_off_chunk = TRUE;
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
+	bool last_chunk;
 	size_t leftedge = get_chunk_leftedge(openfile->current, was_column);
-	size_t rightedge_x = actual_x(openfile->current->data,
-				leftedge + (editwincols - 1));
+	size_t rightedge = get_softwrap_breakpoint(openfile->current->data,
+							leftedge,
+							&last_chunk);
+	size_t rightedge_x;
+	/* If we're on the last chunk, we're already at the end of the line.
+	 * Otherwise, we're one column past the end of the line.  Shifting
+	 * backwards one column might put us in the middle of a multi-column
+	 * character, but actual_x() will fix that. */
+	if (!last_chunk)
+	    rightedge--;
+
+	rightedge_x = actual_x(openfile->current->data, rightedge);
 
 	/* If already at the right edge of the screen, move fully to
 	 * the end of the line.  Otherwise, move to the right edge. */
@@ -429,13 +434,15 @@ void do_end(bool be_clever)
 	    openfile->current_x = line_len;
 	else {
 	    openfile->current_x = rightedge_x;
+	    openfile->placewewant = rightedge;
 	    moved_off_chunk = FALSE;
 	}
     } else
 #endif
 	openfile->current_x = line_len;
 
-    openfile->placewewant = xplustabs();
+    if (moved_off_chunk)
+	openfile->placewewant = xplustabs();
 
     /* If we changed chunk, we might be offscreen.  Otherwise,
      * update current if the mark is on or we changed "page". */
