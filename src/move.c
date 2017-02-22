@@ -88,7 +88,7 @@ void do_page_up(void)
 
     openfile->placewewant = leftedge + target_column;
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+				actual_last_column(leftedge, target_column));
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
     adjust_viewport(STATIONARY);
@@ -120,7 +120,7 @@ void do_page_down(void)
 
     openfile->placewewant = leftedge + target_column;
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+				actual_last_column(leftedge, target_column));
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
     adjust_viewport(STATIONARY);
@@ -480,7 +480,7 @@ void do_up(bool scroll_only)
 
     openfile->placewewant = leftedge + target_column;
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+				actual_last_column(leftedge, target_column));
 
     /* When the cursor was on the first line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window up -- one
@@ -524,7 +524,7 @@ void do_down(bool scroll_only)
 
     openfile->placewewant = leftedge + target_column;
     openfile->current_x = actual_x(openfile->current->data,
-					openfile->placewewant);
+				actual_last_column(leftedge, target_column));
 
     /* When the cursor was on the last line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window down -- one
