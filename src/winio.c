@@ -2974,6 +2974,71 @@ void edit_scroll(scroll_dir direction, int nrows)
 }
 
 #ifndef NANO_TINY
+/* Get the column number after leftedge where we can break the given text, and
+ * return it.  This will always be editwincols or less after leftedge.  Set
+ * end_of_line to TRUE if we reach the end of the line while searching the
+ * text.  Assume leftedge is the leftmost column of a softwrapped chunk. */
+size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
+				bool *end_of_line)
+{
+    size_t column = 0;
+	/* Current column position in text. */
+    size_t prev_column = 0;
+	/* Previous column position in text. */
+    size_t goal_column;
+	/* Column of the last character where we can break the text. */
+    int char_len = 0;
+	/* Length of current character, in bytes. */
+
+    *end_of_line = FALSE;
+
+    while (*text != '\0' && column < leftedge)
+	text += parse_mbchar(text, NULL, &column);
+
+    /* Use a full screen row for text. */
+    goal_column = column + editwincols;
+
+    while (*text != '\0' && column <= goal_column) {
+	prev_column = column;
+	char_len = parse_mbchar(text, NULL, &column);
+	text += char_len;
+    }
+
+    /* If the text displays within goal_column, we've reached the end of the
+     * line, and we're done. */
+    if (column <= goal_column) {
+	*end_of_line = TRUE;
+	return column;
+    }
+
+    /* Otherwise, return the column of the last character before goal_column,
+     * since we can't break the text anywhere else. */
+    return (editwincols > 2) ? prev_column : column - 1;
+}
+
+/* Get the row of the softwrapped chunk of the given line that column is on,
+ * relative to the first row (zero-based), and return it.  If leftedge isn't
+ * NULL, return the leftmost column of the chunk in it. */
+size_t get_chunk(filestruct *line, size_t column, size_t *leftedge)
+{
+    size_t current_chunk = 0, start_col = 0, end_col;
+    bool end_of_line;
+
+    while (TRUE) {
+	end_col = get_softwrap_breakpoint(line->data, start_col, &end_of_line);
+
+	/* We reached the end of the line and/or found column, so get out. */
+	if (end_of_line || (column >= start_col && column < end_col)) {
+	    if (leftedge != NULL)
+		*leftedge = start_col;
+	    return current_chunk;
+	}
+
+	current_chunk++;
+	start_col = end_col;
+    }
+}
+
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk
  * it's on.  We need to do this when the number of columns of the edit window
  * has changed, because then the width of softwrapped chunks has changed. */

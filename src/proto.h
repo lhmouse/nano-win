@@ -663,6 +663,9 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge);
 bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge);
 void edit_scroll(scroll_dir direction, int nrows);
 #ifndef NANO_TINY
+size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
+				bool *end_of_line);
+size_t get_chunk(filestruct *line, size_t column, size_t *leftedge);
 void ensure_firstcolumn_is_aligned(void);
 #endif
 void edit_redraw(filestruct *old_current);
