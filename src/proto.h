@@ -665,6 +665,7 @@ void edit_scroll(scroll_dir direction, int nrows);
 #ifndef NANO_TINY
 size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 				bool *end_of_line);
+size_t actual_last_column(size_t leftedge, size_t column);
 size_t get_chunk(filestruct *line, size_t column, size_t *leftedge);
 size_t get_chunk_row(filestruct *line, size_t column);
 size_t get_chunk_leftedge(filestruct *line, size_t column);

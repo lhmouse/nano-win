@@ -1775,7 +1775,7 @@ int do_mouse(void)
 	    go_forward_chunks(row_count, &openfile->current, &leftedge);
 
 	openfile->current_x = actual_x(openfile->current->data,
-					leftedge + mouse_col);
+				actual_last_column(leftedge, mouse_col));
 
 #ifndef NANO_TINY
 	/* Clicking where the cursor is toggles the mark, as does clicking

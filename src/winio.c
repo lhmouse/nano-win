@@ -3028,6 +3028,34 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     return (editwincols > 2) ? prev_column : column - 1;
 }
 
+/* When in softwrap mode, and the given column is on or after the breakpoint of
+ * a softwrapped chunk, shift it back to the last column before the breakpoint.
+ * The given column is relative to the given leftedge in current.  The returned
+ * column is relative to the start of the text. */
+size_t actual_last_column(size_t leftedge, size_t column)
+{
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	size_t end_col;
+	bool last_chunk;
+
+	end_col = get_softwrap_breakpoint(openfile->current->data, leftedge,
+						&last_chunk) - leftedge;
+
+	/* If we're not on the last chunk, we're one column past the end of
+	 * the row.  Shifting back one column might put us in the middle of
+	  * a multi-column character, but actual_x() will fix that later. */
+	if (!last_chunk)
+	    end_col--;
+
+	if (column > end_col)
+	    column = end_col;
+    }
+#endif
+
+    return leftedge + column;
+}
+
 /* Get the row of the softwrapped chunk of the given line that column is on,
  * relative to the first row (zero-based), and return it.  If leftedge isn't
  * NULL, return the leftmost column of the chunk in it. */
