@@ -2445,10 +2445,11 @@ void do_justify(bool full_justify)
 #endif
 
 	    /* Break the current line. */
-	if (ISSET(JUSTIFY_TRIM)) {
+	    if (ISSET(JUSTIFY_TRIM)) {
 		while (break_pos > 0 &&
 			is_blank_mbchar(&openfile->current->data[break_pos - 1])) {
 		    break_pos--;
+		    openfile->totsize--;
 		}
 	    }
 	    null_at(&openfile->current->data, break_pos);
