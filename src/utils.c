@@ -520,11 +520,15 @@ size_t strnlenpt(const char *text, size_t maxlen)
     return width;
 }
 
-/* A strlen() with tabs and multicolumn characters factored in:
- * how many columns wide is text? */
+/* Return the number of columns that the given text occupies. */
 size_t strlenpt(const char *text)
 {
-    return strnlenpt(text, (size_t)-1);
+    size_t span = 0;
+
+    while (*text != '\0')
+	text += parse_mbchar(text, NULL, &span);
+
+    return span;
 }
 
 /* Append a new magicline to filebot. */
