@@ -2671,7 +2671,7 @@ int main(int argc, char **argv)
 	/* Update the displayed current cursor position only when there
 	 * are no keys waiting in the input buffer. */
 	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
-	    do_cursorpos(TRUE);
+	    do_cursorpos(FALSE);
 
 	/* Refresh just the cursor position or the entire edit window. */
 	if (!refresh_needed) {

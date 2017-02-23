@@ -2510,7 +2510,7 @@ void do_justify(bool full_justify)
     /* If needed, unset the cursor-position suppression flag, so the cursor
      * position /will/ be displayed upon a return to the main loop. */
     if (ISSET(CONST_UPDATE))
-	do_cursorpos(TRUE);
+	do_cursorpos(FALSE);
 
     func = func_from_key(&kbinput);
 
@@ -3664,11 +3664,9 @@ void do_verbatim_input(void)
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
-    /* If constant cursor position display is on, make sure the current
-     * cursor position will be properly displayed on the statusbar.
-     * Otherwise, blank the statusbar. */
+    /* Unsuppress cursor-position display or blank the statusbar. */
     if (ISSET(CONST_UPDATE))
-	do_cursorpos(TRUE);
+	do_cursorpos(FALSE);
     else {
 	blank_statusbar();
 	wnoutrefresh(bottomwin);

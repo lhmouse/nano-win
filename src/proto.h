@@ -756,7 +756,7 @@ void adjust_viewport(update_type location);
 void total_redraw(void);
 void total_refresh(void);
 void display_main_list(void);
-void do_cursorpos(bool constant);
+void do_cursorpos(bool force);
 void do_cursorpos_void(void);
 void spotlight(bool active, const char *word);
 void xon_complaint(void);

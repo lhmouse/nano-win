@@ -3032,10 +3032,10 @@ void display_main_list(void)
     bottombars(MMAIN);
 }
 
-/* If constant is TRUE, we display the current cursor position only if
- * suppress_cursorpos is FALSE.  If constant is FALSE, we display the
- * position always.  In any case we reset suppress_cursorpos to FALSE. */
-void do_cursorpos(bool constant)
+/* Show info about the current cursor position on the statusbar.
+ * Do this unconditionally when force is TRUE; otherwise, only if
+ * suppress_cursorpos is FALSE.  In any case, reset the latter. */
+void do_cursorpos(bool force)
 {
     char saved_byte;
     size_t sum, cur_xpt = xplustabs() + 1;
@@ -3056,8 +3056,8 @@ void do_cursorpos(bool constant)
     if (openfile->current != openfile->filebot)
 	sum--;
 
-    /* If the position needs to be suppressed, don't suppress it next time. */
-    if (suppress_cursorpos && constant) {
+    /* If the showing needs to be suppressed, don't suppress it next time. */
+    if (suppress_cursorpos && !force) {
 	suppress_cursorpos = FALSE;
 	return;
     }
@@ -3081,7 +3081,7 @@ void do_cursorpos(bool constant)
 /* Unconditionally display the current cursor position. */
 void do_cursorpos_void(void)
 {
-    do_cursorpos(FALSE);
+    do_cursorpos(TRUE);
 }
 
 void enable_nodelay(void)
