@@ -2124,7 +2124,7 @@ void statusline(message_type importance, const char *msg, ...)
 
     if (importance == ALERT) {
 	if (++alerts > 3)
-	    msg = "Some warnings were suppressed";
+	    msg = _("Further warnings were suppressed");
 	beep();
     }
 
