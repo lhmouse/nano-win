@@ -3100,16 +3100,17 @@ void disable_nodelay(void)
  * expect word to have tabs and control characters expanded. */
 void spotlight(bool active, const char *word)
 {
-    size_t word_len = strlenpt(word), room = word_len;
+    size_t word_span = strlenpt(word);
+    size_t room = word_span;
 
     /* Compute the number of columns that are available for the word. */
-    if (!ISSET(SOFTWRAP))
+    if (!ISSET(SOFTWRAP)) {
 	room = editwincols + get_page_start(xplustabs()) - xplustabs();
 
-    assert(room > 0);
-
-    if (word_len > room)
-	room--;
+	/* If the word is partially offscreen, reserve space for the "$". */
+	if (word_span > room)
+	    room--;
+    }
 
     reset_cursor();
 
@@ -3117,12 +3118,12 @@ void spotlight(bool active, const char *word)
 	wattron(edit, hilite_attribute);
 
     /* This is so we can show zero-length matches. */
-    if (word_len == 0)
+    if (word_span == 0)
 	waddch(edit, ' ');
     else
 	waddnstr(edit, word, actual_x(word, room));
 
-    if (word_len > room)
+    if (word_span > room)
 	waddch(edit, '$');
 
     if (active)
