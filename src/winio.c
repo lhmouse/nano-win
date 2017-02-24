@@ -1807,9 +1807,11 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	/* The string we return. */
     size_t index;
 	/* Current position in converted. */
+    size_t beyond = start_col + span;
+	/* The column number just beyond the last shown character. */
 
     /* If this is data, make room for the "$" at the end of the line. */
-    if (isdata && !ISSET(SOFTWRAP) && strlenpt(buf) > start_col + span)
+    if (isdata && !ISSET(SOFTWRAP) && strlenpt(buf) > beyond)
 	span--;
 
     if (span == 0)
@@ -1855,7 +1857,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 #endif
     }
 
-    while (*buf != '\0') {
+    while (*buf != '\0' && start_col < beyond) {
 	int charlength, charwidth = 1;
 
 	if (*buf == ' ') {
