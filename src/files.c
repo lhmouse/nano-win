@@ -146,13 +146,9 @@ void set_modified(void)
     if (!ISSET(LOCKING) || openfile->filename[0] == '\0')
 	return;
 
-    if (openfile->lock_filename == NULL) {
-	/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
-//	statusline(ALERT, _("Warning: Modifying a file which is not locked,"
-//			" check directory permission?"));
-	;
-    } else {
+    if (openfile->lock_filename != NULL) {
 	char *fullname = get_full_path(openfile->filename);
+
 	write_lockfile(openfile->lock_filename, fullname, TRUE);
 	free(fullname);
     }
@@ -188,6 +184,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
     /* First run things that might fail before blowing away the old state. */
     if ((mypwuid = getpwuid(myuid)) == NULL) {
+	/* TRANSLATORS: Keep the next eight messages at most 76 characters. */
 	statusline(MILD, _("Couldn't determine my identity for lock file "
 				"(getpwuid() failed)"));
 	goto free_the_data;
