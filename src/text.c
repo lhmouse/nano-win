@@ -1622,17 +1622,15 @@ bool do_wrap(filestruct *line)
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 {
     ssize_t blank_loc = -1;
-	/* Current tentative return value.  Index of the last blank we
-	 * found with short enough display width. */
+	/* The index of the last blank we found. */
     ssize_t cur_loc = 0;
 	/* Current index in line. */
     size_t cur_pos = 0;
-	/* Current column position in line. */
+	/* The column position that corresponds with cur_loc. */
     int char_len = 0;
 	/* Length of current character, in bytes. */
 
-    assert(line != NULL);
-
+    /* Find the last blank that does not overshoot the target column. */
     while (*line != '\0' && goal >= cur_pos) {
 	char_len = parse_mbchar(line, NULL, &cur_pos);
 
@@ -1654,26 +1652,20 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 #ifndef DISABLE_HELP
     /* If we're wrapping a help text and no blank was found, or was
      * found only as the first character, force a line break. */
-    if (snap_at_nl && blank_loc < 1) {
-	cur_loc -= char_len;
-	return cur_loc;
-    }
+    if (snap_at_nl && blank_loc < 1)
+	return (cur_loc - char_len);
 #endif
 
     /* If no blank was found within the goal width, try to find a
      * blank beyond it. */
     if (blank_loc == -1) {
-	bool found_blank = FALSE;
-	ssize_t found_blank_loc = 0;
-
 	while (*line != '\0') {
 	    char_len = parse_mbchar(line, NULL, NULL);
 
-	    if (is_blank_mbchar(line)) {
-		found_blank = TRUE;
-		found_blank_loc = cur_loc;
-	    } else if (found_blank)
-		return found_blank_loc;
+	    if (is_blank_mbchar(line))
+		blank_loc = cur_loc;
+	    else if (blank_loc > 0)
+		return blank_loc;
 
 	    line += char_len;
 	    cur_loc += char_len;
@@ -1682,12 +1674,10 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	return -1;
     }
 
-    /* Move to the last blank after blank_loc, if there is one. */
-    line -= cur_loc;
-    line += blank_loc;
-    char_len = parse_mbchar(line, NULL, NULL);
-    line += char_len;
+    line += blank_loc - cur_loc;
+    line += parse_mbchar(line, NULL, NULL);
 
+    /* Move to the last consecutive blank after blank_loc. */
     while (*line != '\0' && is_blank_mbchar(line)) {
 	char_len = parse_mbchar(line, NULL, NULL);
 
