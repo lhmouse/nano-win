@@ -1621,71 +1621,71 @@ bool do_wrap(filestruct *line)
  * blank, as does a '\n' if snap_at_nl is TRUE. */
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 {
-    ssize_t blank_loc = -1;
+    ssize_t lastblank = -1;
 	/* The index of the last blank we found. */
-    ssize_t cur_loc = 0;
-	/* Current index in line. */
-    size_t cur_pos = 0;
-	/* The column position that corresponds with cur_loc. */
+    ssize_t index = 0;
+	/* The index of the character we are looking at. */
+    size_t column = 0;
+	/* The column position that corresponds with index. */
     int char_len = 0;
-	/* Length of current character, in bytes. */
+	/* The length of the current character, in bytes. */
 
     /* Find the last blank that does not overshoot the target column. */
-    while (*line != '\0' && goal >= cur_pos) {
-	char_len = parse_mbchar(line, NULL, &cur_pos);
+    while (*line != '\0' && column <= goal) {
+	char_len = parse_mbchar(line, NULL, &column);
 
 	if (is_blank_mbchar(line) || (snap_at_nl && *line == '\n')) {
-	    blank_loc = cur_loc;
+	    lastblank = index;
 
 	    if (*line == '\n')
 		break;
 	}
 
 	line += char_len;
-	cur_loc += char_len;
+	index += char_len;
     }
 
     /* If the whole line displays shorter than goal, we're done. */
-    if (goal >= cur_pos)
-	return cur_loc;
+    if (column <= goal)
+	return index;
 
 #ifndef DISABLE_HELP
     /* If we're wrapping a help text and no blank was found, or was
      * found only as the first character, force a line break. */
-    if (snap_at_nl && blank_loc < 1)
-	return (cur_loc - char_len);
+    if (snap_at_nl && lastblank < 1)
+	return (index - char_len);
 #endif
 
     /* If no blank was found within the goal width, try to find a
      * blank beyond it. */
-    if (blank_loc == -1) {
+    if (lastblank < 0) {
 	while (*line != '\0') {
 	    char_len = parse_mbchar(line, NULL, NULL);
 
 	    if (is_blank_mbchar(line))
-		blank_loc = cur_loc;
-	    else if (blank_loc > 0)
-		return blank_loc;
+		lastblank = index;
+	    else if (lastblank > 0)
+		return lastblank;
 
 	    line += char_len;
-	    cur_loc += char_len;
+	    index += char_len;
 	}
 
 	return -1;
     }
 
-    line += blank_loc - cur_loc;
+    line += lastblank - index;
     line += parse_mbchar(line, NULL, NULL);
 
-    /* Move to the last consecutive blank after blank_loc. */
+    /* Skip any consecutive blanks after the last found blank. */
     while (*line != '\0' && is_blank_mbchar(line)) {
 	char_len = parse_mbchar(line, NULL, NULL);
 
 	line += char_len;
-	blank_loc += char_len;
+	lastblank += char_len;
     }
 
-    return blank_loc;
+    return lastblank;
 }
 #endif /* !DISABLE_HELP || !DISABLE_WRAPJUSTIFY */
 
