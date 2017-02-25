@@ -781,19 +781,22 @@ void print_opt_full(const char *shortflag
 /* Explain how to properly use nano and its command-line options. */
 void usage(void)
 {
-    printf(_("Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n\n"));
-    printf(_("If the first file is \"-\", it is read from standard input.\n\n"));
+    printf(_("Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n\n"));
+    /* TRANSLATORS: The next two strings are part of the --help output.
+     * It's best to keep its lines within 80 characters. */
+    printf(_("To place the cursor on a specific line of a file, put the line number with\n"
+		"a '+' before the filename.  The column number can be added after a comma.\n"));
+    printf(_("When the first filename is '-', nano reads data from standard input.\n\n"));
 #ifdef HAVE_GETOPT_LONG
     printf(_("Option\t\tGNU long option\t\tMeaning\n"));
 #else
     printf(_("Option\t\tMeaning\n"));
 #endif
-    print_opt(_("+LINE,COLUMN"), "",
+#ifndef NANO_TINY
+    print_opt("-A", "--smarthome",
 	/* TRANSLATORS: The next forty or so strings are option descriptions
 	 * for the --help output.  Try to keep them at most 40 characters. */
-	N_("Start at line LINE, column COLUMN"));
-#ifndef NANO_TINY
-    print_opt("-A", "--smarthome", N_("Enable smart home key"));
+		N_("Enable smart home key"));
     if (!ISSET(RESTRICTED)) {
 	print_opt("-B", "--backup", N_("Save backups of existing files"));
 	print_opt(_("-C <dir>"), _("--backupdir=<dir>"),
@@ -857,7 +860,7 @@ void usage(void)
 #endif
 #ifndef DISABLE_COLOR
     if (!ISSET(RESTRICTED))
-	print_opt(_("-Y <str>"), _("--syntax=<str>"),
+	print_opt(_("-Y <name>"), _("--syntax=<name>"),
 		N_("Syntax definition to use for coloring"));
 #endif
     print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
