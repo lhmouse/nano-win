@@ -1674,15 +1674,16 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	return -1;
     }
 
+    /* Move the pointer back to the last blank, and then step beyond it. */
     line += lastblank - index;
-    line += parse_mbchar(line, NULL, NULL);
+    char_len = parse_mbchar(line, NULL, NULL);
+    line += char_len;
 
-    /* Skip any consecutive blanks after the last found blank. */
+    /* Skip any consecutive blanks after the last blank. */
     while (*line != '\0' && is_blank_mbchar(line)) {
-	char_len = parse_mbchar(line, NULL, NULL);
-
-	line += char_len;
 	lastblank += char_len;
+	char_len = parse_mbchar(line, NULL, NULL);
+	line += char_len;
     }
 
     return lastblank;
