@@ -1632,8 +1632,6 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 
     /* Find the last blank that does not overshoot the target column. */
     while (*line != '\0' && column <= goal) {
-	char_len = parse_mbchar(line, NULL, &column);
-
 	if (is_blank_mbchar(line) || (snap_at_nl && *line == '\n')) {
 	    lastblank = index;
 
@@ -1641,6 +1639,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 		break;
 	}
 
+	char_len = parse_mbchar(line, NULL, &column);
 	line += char_len;
 	index += char_len;
     }
@@ -1656,17 +1655,15 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	return (index - char_len);
 #endif
 
-    /* If no blank was found within the goal width, try to find a
-     * blank beyond it. */
+    /* If no blank was found within the goal width, seek one after it. */
     if (lastblank < 0) {
 	while (*line != '\0') {
-	    char_len = parse_mbchar(line, NULL, NULL);
-
 	    if (is_blank_mbchar(line))
 		lastblank = index;
 	    else if (lastblank > 0)
 		return lastblank;
 
+	    char_len = parse_mbchar(line, NULL, NULL);
 	    line += char_len;
 	    index += char_len;
 	}
@@ -1675,7 +1672,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
     }
 
     /* Move the pointer back to the last blank, and then step beyond it. */
-    line += lastblank - index;
+    line = line - index + lastblank;
     char_len = parse_mbchar(line, NULL, NULL);
     line += char_len;
 
