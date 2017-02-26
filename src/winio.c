@@ -2269,7 +2269,7 @@ void onekey(const char *keystroke, const char *desc, int length)
  * and put the cursor in the edit window at (current_y, "current_x"). */
 void reset_cursor(void)
 {
-    ssize_t row;
+    ssize_t row = 0;
     size_t col, xpt = xplustabs();
 
 #ifndef NANO_TINY
