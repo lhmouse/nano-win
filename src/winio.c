@@ -2266,33 +2266,36 @@ void onekey(const char *keystroke, const char *desc, int length)
 }
 
 /* Redetermine current_y from the position of current relative to edittop,
- * and put the cursor in the edit window at (current_y, current_x). */
+ * and put the cursor in the edit window at (current_y, "current_x"). */
 void reset_cursor(void)
 {
-    size_t xpt = xplustabs();
+    ssize_t row;
+    size_t col, xpt = xplustabs();
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->edittop;
-	openfile->current_y = 0;
 
+	/* Calculate how many rows the lines from edittop to current use. */
 	while (line != NULL && line != openfile->current) {
-	    openfile->current_y += strlenpt(line->data) / editwincols + 1;
+	    row += strlenpt(line->data) / editwincols + 1;
 	    line = line->next;
 	}
-	openfile->current_y += xpt / editwincols;
 
-	if (openfile->current_y < editwinrows)
-	    wmove(edit, openfile->current_y, xpt % editwincols + margin);
+	/* Add the number of wraps in the current line before the cursor. */
+	row += xpt / editwincols;
+	col = xpt % editwincols;
     } else
 #endif
     {
-	openfile->current_y = openfile->current->lineno -
-				openfile->edittop->lineno;
-
-	if (openfile->current_y < editwinrows)
-	    wmove(edit, openfile->current_y, xpt - get_page_start(xpt) + margin);
+	row = openfile->current->lineno - openfile->edittop->lineno;
+	col = xpt - get_page_start(xpt);
     }
+
+    if (row < editwinrows)
+	wmove(edit, row, margin + col);
+
+    openfile->current_y = row;
 }
 
 /* edit_draw() takes care of the job of actually painting a line into
