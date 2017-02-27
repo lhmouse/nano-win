@@ -523,9 +523,9 @@ void shortcut_init(void)
 #endif
     const char *nano_replace_msg = N_("Replace a string or a regular expression");
     const char *nano_gotoline_msg = N_("Go to line and column number");
+    const char *nano_whereis_next_msg = N_("Repeat the last search");
 #ifndef NANO_TINY
     const char *nano_mark_msg = N_("Mark text starting from the cursor position");
-    const char *nano_whereis_next_msg = N_("Repeat the last search");
     const char *nano_copy_msg =
 	N_("Copy the current line and store it in the cutbuffer");
     const char *nano_indent_msg = N_("Indent the current line");
@@ -598,11 +598,11 @@ void shortcut_init(void)
     const char *nano_savefile_msg = N_("Save file without prompting");
     const char *nano_findprev_msg = N_("Search next occurrence backward");
     const char *nano_findnext_msg = N_("Search next occurrence forward");
+#endif
     const char *nano_case_msg =
 	N_("Toggle the case sensitivity of the search");
     const char *nano_reverse_msg =
 	N_("Reverse the direction of the search");
-#endif
 #ifdef HAVE_REGEX_H
     const char *nano_regexp_msg =
 	N_("Toggle the use of regular expressions");
