@@ -2873,8 +2873,6 @@ const char *do_alt_speller(char *tempfile_name)
     filestruct *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
-    bool old_mark_set = openfile->mark_set;
-    ssize_t mb_lineno_save = 0;
 #endif
 
     /* Get the timestamp and the size of the temporary file. */
@@ -2885,14 +2883,7 @@ const char *do_alt_speller(char *tempfile_name)
     if (spellfileinfo.st_size == 0)
 	return NULL;
 
-#ifndef NANO_TINY
-    /* Save the mark's position and turn it off. */
-    if (old_mark_set) {
-	mb_lineno_save = openfile->mark_begin->lineno;
-	openfile->mark_set = FALSE;
-    }
-#endif
-
+    /* Exit from curses mode. */
     endwin();
 
     /* Set up an argument list to pass to execvp(). */
@@ -2937,18 +2928,17 @@ const char *do_alt_speller(char *tempfile_name)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
-    if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
-#ifndef NANO_TINY
-	/* Turn the mark back on if it was on before. */
-	openfile->mark_set = old_mark_set;
-#endif
+    if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0)
 	return invocation_error(alt_speller);
-    }
 
 #ifndef NANO_TINY
-    /* Replace the text (or just the marked text) of the current buffer
+    /* Replace the marked text (or the entire text) of the current buffer
      * with the spell-checked text. */
-    if (old_mark_set) {
+    if (openfile->mark_set) {
+	ssize_t was_mark_lineno = openfile->mark_begin->lineno;
+
+	openfile->mark_set = FALSE;
+
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, &right_side_up);
 
@@ -2962,7 +2952,7 @@ const char *do_alt_speller(char *tempfile_name)
 	    openfile->mark_begin_x = openfile->current_x;
 
 	/* Restore the mark's position and turn it on. */
-	openfile->mark_begin = fsfromline(mb_lineno_save);
+	openfile->mark_begin = fsfromline(was_mark_lineno);
 	openfile->mark_set = TRUE;
     } else
 #endif
