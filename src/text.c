@@ -2862,6 +2862,7 @@ const char *do_alt_speller(char *tempfile_name)
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     ssize_t lineno_save = openfile->current->lineno;
+    bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
     struct stat spellfileinfo;
     time_t timestamp;
     pid_t pid_spell;
@@ -2970,7 +2971,7 @@ const char *do_alt_speller(char *tempfile_name)
 
     /* Go back to the old position. */
     goto_line_posx(lineno_save, current_x_save);
-    if (openfile->current_x > strlen(openfile->current->data))
+    if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 	openfile->current_x = strlen(openfile->current->data);
     openfile->placewewant = pww_save;
     adjust_viewport(STATIONARY);
@@ -3372,6 +3373,7 @@ void do_formatter(void)
     ssize_t lineno_save = openfile->current->lineno;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
+    bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
     pid_t pid_format;
     static int arglen = 3;
     static char **formatargs = NULL;
@@ -3449,7 +3451,7 @@ void do_formatter(void)
 
 	/* Restore the cursor position. */
 	goto_line_posx(lineno_save, current_x_save);
-	if (openfile->current_x > strlen(openfile->current->data))
+	if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 	    openfile->current_x = strlen(openfile->current->data);
 	openfile->placewewant = pww_save;
 	adjust_viewport(STATIONARY);
