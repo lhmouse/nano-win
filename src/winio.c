@@ -1491,34 +1491,34 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
 	/* Check whether the first code is a valid starter digit: 0 or 1. */
-	long uni = get_unicode_kbinput(win, *kbinput);
+	long unicode = get_unicode_kbinput(win, *kbinput);
 
 	/* If the first code isn't the digit 0 nor 1, put it back. */
-	if (uni != ERR)
+	if (unicode != ERR)
 	    unget_input(kbinput, 1);
 	/* Otherwise, continue reading in digits until we have a complete
 	 * Unicode value, and put back the corresponding byte(s). */
 	else {
-	    char *uni_mb;
+	    char *multibyte;
 	    int onebyte, i;
 
-	    while (uni == ERR) {
+	    while (unicode == ERR) {
 		free(kbinput);
 		while ((kbinput = get_input(win, 1)) == NULL)
 		    ;
-		uni = get_unicode_kbinput(win, *kbinput);
+		unicode = get_unicode_kbinput(win, *kbinput);
 	    }
 
 	    /* Convert the Unicode value to a multibyte sequence. */
-	    uni_mb = make_mbchar(uni, (int *)count);
+	    multibyte = make_mbchar(unicode, (int *)count);
 
 	    /* Insert the multibyte sequence into the input buffer. */
 	    for (i = *count; i > 0 ; i--) {
-		onebyte = (unsigned char)uni_mb[i - 1];
+		onebyte = (unsigned char)multibyte[i - 1];
 		unget_input(&onebyte, 1);
 	    }
 
-	    free(uni_mb);
+	    free(multibyte);
 	}
     } else
 #endif /* ENABLE_UTF8 */
