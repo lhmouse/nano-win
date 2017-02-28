@@ -1810,13 +1810,6 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     size_t beyond = start_col + span;
 	/* The column number just beyond the last shown character. */
 
-    /* If this is data, make room for the "$" at the end of the line. */
-    if (isdata && !ISSET(SOFTWRAP) && strlenpt(buf) > beyond)
-	span--;
-
-    if (span == 0)
-	return mallocstrcpy(NULL, "");
-
     start_index = actual_x(buf, start_col);
     column = strnlenpt(buf, start_index);
 
