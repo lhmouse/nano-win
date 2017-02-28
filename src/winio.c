@@ -1500,7 +1500,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	 * Unicode value, and put back the corresponding byte(s). */
 	else {
 	    char *uni_mb;
-	    int *seq, i;
+	    int onebyte, i;
 
 	    while (uni == ERR) {
 		free(kbinput);
@@ -1512,15 +1512,12 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	    /* Convert the Unicode value to a multibyte sequence. */
 	    uni_mb = make_mbchar(uni, (int *)count);
 
-	    seq = (int *)nmalloc(*count * sizeof(int));
-
-	    for (i = 0; i < *count; i++)
-		seq[i] = (unsigned char)uni_mb[i];
-
 	    /* Insert the multibyte sequence into the input buffer. */
-	    unget_input(seq, *count);
+	    for (i = *count; i > 0 ; i--) {
+		onebyte = (unsigned char)uni_mb[i - 1];
+		unget_input(&onebyte, 1);
+	    }
 
-	    free(seq);
 	    free(uni_mb);
 	}
     } else
