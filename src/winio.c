@@ -1486,6 +1486,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
     }
 #endif
 
+    *count = 1;
+
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
 	/* Check whether the first code is a valid starter digit: 0 or 1. */
@@ -1518,6 +1520,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	    /* Insert the multibyte sequence into the input buffer. */
 	    unget_input(seq, uni_mb_len);
 
+	    *count = uni_mb_len;
+
 	    free(seq);
 	    free(uni_mb);
 	}
@@ -1527,8 +1531,6 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	unget_input(kbinput, 1);
 
     free(kbinput);
-
-    *count = 1;
 
     /* If this is an iTerm/Eterm/rxvt double escape, take both Escapes. */
     if (key_buffer_len > 3 && *key_buffer == ESC_CODE &&
