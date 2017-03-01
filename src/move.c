@@ -75,13 +75,8 @@ void do_page_up(void)
     for (i = mustmove; i - skipped > 0 && openfile->current != openfile->fileage; i--) {
 	openfile->current = openfile->current->prev;
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && openfile->current) {
+	if (ISSET(SOFTWRAP) && openfile->current)
 	    skipped += strlenpt(openfile->current->data) / editwincols;
-#ifdef DEBUG
-	    fprintf(stderr, "paging up: i = %d, skipped = %d based on line %ld len %lu\n",
-			i, skipped, (long)openfile->current->lineno, (unsigned long)strlenpt(openfile->current->data));
-#endif
-	}
 #endif
     }
 
@@ -114,13 +109,8 @@ void do_page_down(void)
 
     mustmove = (maxlines < 3) ? 1 : maxlines - 2;
 
-    for (i = mustmove; i > 0 && openfile->current != openfile->filebot; i--) {
+    for (i = mustmove; i > 0 && openfile->current != openfile->filebot; i--)
 	openfile->current = openfile->current->next;
-#ifdef DEBUG
-	fprintf(stderr, "paging down: moving to line %lu\n", (unsigned long)openfile->current->lineno);
-#endif
-
-    }
 
     openfile->current_x = actual_x(openfile->current->data,
 					openfile->placewewant);
@@ -244,8 +234,6 @@ void do_prev_word(bool allow_punct, bool allow_update)
     filestruct *was_current = openfile->current;
     bool seen_a_word = FALSE, step_forward = FALSE;
 
-    assert(openfile->current != NULL && openfile->current->data != NULL);
-
     /* Move backward until we pass over the start of a word. */
     while (TRUE) {
 	/* If at the head of a line, move to the end of the preceding one. */
@@ -302,8 +290,6 @@ bool do_next_word(bool allow_punct, bool allow_update)
     bool started_on_word = is_word_mbchar(openfile->current->data +
 				openfile->current_x, allow_punct);
     bool seen_space = !started_on_word;
-
-    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     /* Move forward until we reach the start of a word. */
     while (TRUE) {
@@ -413,8 +399,6 @@ void do_up(bool scroll_only)
 		(scroll_only && openfile->edittop == openfile->fileage))
 	return;
 
-    assert(ISSET(SOFTWRAP) || openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
-
     /* Move the current line of the edit window up. */
     openfile->current = openfile->current->prev;
     openfile->current_x = actual_x(openfile->current->data,
@@ -457,10 +441,6 @@ void do_down(bool scroll_only)
     /* If we're at the bottom of the file, get out. */
     if (openfile->current == openfile->filebot)
 	return;
-
-    assert(ISSET(SOFTWRAP) || openfile->current_y ==
-		openfile->current->lineno - openfile->edittop->lineno);
-    assert(openfile->current->next != NULL);
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
@@ -563,8 +543,6 @@ void do_left(void)
 void do_right(void)
 {
     size_t was_column = xplustabs();
-
-    assert(openfile->current_x <= strlen(openfile->current->data));
 
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
