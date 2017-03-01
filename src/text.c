@@ -2869,11 +2869,6 @@ const char *do_alt_speller(char *tempfile_name)
     char *ptr;
     static int arglen = 3;
     static char **spellargs = NULL;
-#ifndef NANO_TINY
-    filestruct *top, *bot;
-    size_t top_x, bot_x;
-    bool right_side_up = FALSE;
-#endif
 
     /* Get the timestamp and the size of the temporary file. */
     stat(tempfile_name, &spellfileinfo);
@@ -2886,7 +2881,7 @@ const char *do_alt_speller(char *tempfile_name)
     /* Exit from curses mode. */
     endwin();
 
-    /* Set up an argument list to pass to execvp(). */
+    /* Set up the argument list to pass to execvp(). */
     if (spellargs == NULL) {
 	spellargs = (char **)nmalloc(arglen * sizeof(char *));
 
@@ -2901,17 +2896,13 @@ const char *do_alt_speller(char *tempfile_name)
     }
     spellargs[arglen - 2] = tempfile_name;
 
-    /* Start a new process for the alternate speller. */
+    /* Fork a child process and run the alternate spell program in it. */
     if ((pid_spell = fork()) == 0) {
-	/* Start alternate spell program; we are using $PATH. */
 	execvp(spellargs[0], spellargs);
 
-	/* Should not be reached, if alternate speller is found!!! */
+	/* Terminate the child process if no alternate speller is found. */
 	exit(1);
-    }
-
-    /* If we couldn't fork, get out. */
-    if (pid_spell < 0)
+    } else if (pid_spell < 0)
 	return _("Could not fork");
 
 #ifndef NANO_TINY
@@ -2935,6 +2926,9 @@ const char *do_alt_speller(char *tempfile_name)
     /* Replace the marked text (or the entire text) of the current buffer
      * with the spell-checked text. */
     if (openfile->mark_set) {
+	filestruct *top, *bot;
+	size_t top_x, bot_x;
+	bool right_side_up;
 	ssize_t was_mark_lineno = openfile->mark_begin->lineno;
 
 	openfile->mark_set = FALSE;
@@ -2951,13 +2945,12 @@ const char *do_alt_speller(char *tempfile_name)
 	else
 	    openfile->mark_begin_x = openfile->current_x;
 
-	/* Restore the mark's position and turn it on. */
+	/* Restore the mark's position and turn it back on. */
 	openfile->mark_begin = fsfromline(was_mark_lineno);
 	openfile->mark_set = TRUE;
     } else
 #endif
 	replace_buffer(tempfile_name);
-
 
     /* Go back to the old position. */
     goto_line_posx(lineno_save, current_x_save);
@@ -2977,6 +2970,7 @@ const char *do_alt_speller(char *tempfile_name)
 	discard_until(NULL, openfile);
 #endif
     }
+
 #ifndef NANO_TINY
     /* Unblock SIGWINCHes again. */
     allow_sigwinch(TRUE);
