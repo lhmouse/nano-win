@@ -2909,42 +2909,45 @@ void do_wordlinechar_count(void)
 {
 	linestruct *was_current = openfile->current;
 	size_t was_x = openfile->current_x;
+	linestruct *topline, *botline;
+	size_t top_x, bot_x;
 	size_t words = 0, chars = 0;
 	ssize_t lines = 0;
-	linestruct *top, *bot;
-	size_t top_x, bot_x;
 
-	/* If the mark is on, partition the buffer so that it
-	 * contains only the marked text, and turn the mark off. */
+	/* Set the start and end point of the area to measure: either the marked
+	 * region or the whole buffer.  Then compute the number of characters. */
 	if (openfile->mark) {
-		get_region(&top, &top_x, &bot, &bot_x);
-		partition_buffer(top, top_x, bot, bot_x);
+		get_region(&topline, &top_x, &botline, &bot_x);
+
+		if (topline != botline)
+			chars = get_totsize(topline->next, botline);
+
+		chars += mbstrlen(topline->data + top_x) - mbstrlen(botline->data + bot_x);
+		chars += (botline->next == NULL) ? 1 : 0;
+	} else {
+		topline = openfile->filetop;
+		top_x = 0;
+		botline = openfile->filebot;
+		bot_x = strlen(botline->data);
+
+		chars = openfile->totsize;
 	}
 
-	/* Start at the top of the file. */
-	openfile->current = openfile->filetop;
-	openfile->current_x = 0;
+	/* Compute the number of lines. */
+	lines = botline->lineno - topline->lineno;
+	lines += (bot_x == 0 || (topline == botline && top_x == bot_x)) ? 0 : 1;
 
-	/* Keep moving to the next word (counting punctuation characters as
-	 * part of a word, as "wc -w" does), without updating the screen,
-	 * until we reach the end of the file, incrementing the total word
-	 * count whenever we're on a word just before moving. */
-	while (openfile->current != openfile->filebot ||
-					openfile->current->data[openfile->current_x] != '\0') {
+	openfile->current = topline;
+	openfile->current_x = top_x;
+
+	/* Keep stepping to the next word (considering punctuation as part of a
+	 * word, as "wc -w" does), until we reach the end of the relevant area,
+	 * incrementing the word count for each succesful step. */
+	while (openfile->current->lineno < botline->lineno ||
+				(openfile->current == botline && openfile->current_x < bot_x)) {
 		if (do_next_word(FALSE, TRUE))
 			words++;
 	}
-
-	/* Get the number of lines, similar to what "wc -l" gives. */
-	lines = openfile->filebot->lineno - openfile->filetop->lineno +
-					((openfile->filebot->data[0] == '\0') ? 0 : 1);
-
-	/* Get the number of multibyte characters, similar to "wc -c". */
-	if (openfile->mark) {
-		chars = get_totsize(openfile->filetop, openfile->filebot);
-		unpartition_buffer();
-	} else
-		chars = openfile->totsize;
 
 	/* Restore where we were. */
 	openfile->current = was_current;
