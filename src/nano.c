@@ -855,6 +855,10 @@ void usage(void)
     print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
+#ifndef DISABLE_BROWSER
+    if (!ISSET(RESTRICTED))
+	print_opt("-g", "--showcursor", N_("Show cursor in file browser"));
+#endif
     print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
     print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
