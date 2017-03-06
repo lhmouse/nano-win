@@ -743,6 +743,10 @@ Don't convert files from DOS/Mac format.
 @item set nohelp
 Don't display the help lists at the bottom of the screen.
 
+@item set nopauses
+Don't pause between warnings at startup.  This means that only
+the last one will be visible (when there are multiple ones).
+
 @item set nonewlines
 Don't add newlines to the ends of files.
 

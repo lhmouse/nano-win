@@ -2111,11 +2111,11 @@ void statusline(message_type importance, const char *msg, ...)
 
     /* Shortly pause after each of the first three alert messages,
      * to give the user time to read them. */
-    if (lastmessage == ALERT && alerts < 4)
+    if (lastmessage == ALERT && alerts < 4 && !ISSET(NO_PAUSES))
 	napms(1200);
 
     if (importance == ALERT) {
-	if (++alerts > 3)
+	if (++alerts > 3 && !ISSET(NO_PAUSES))
 	    msg = _("Further warnings were suppressed");
 	beep();
     }

@@ -509,7 +509,8 @@ enum
     MAKE_IT_UNIX,
     JUSTIFY_TRIM,
     SHOW_CURSOR,
-    LINE_NUMBERS
+    LINE_NUMBERS,
+    NO_PAUSES
 };
 
 /* Flags for the menus in which a given function should be present. */

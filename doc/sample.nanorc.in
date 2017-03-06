@@ -95,6 +95,10 @@
 ## Don't display the helpful shortcut lists at the bottom of the screen.
 # set nohelp
 
+## Don't pause between warnings at startup.  Which means that only the
+## last one will be readable (when there are multiple ones).
+# set nopauses
+
 ## Don't add newlines to the ends of files.
 # set nonewlines
 

@@ -62,6 +62,7 @@ static const rcoption rcopts[] = {
 #endif
     {"nohelp", NO_HELP},
     {"nonewlines", NO_NEWLINES},
+    {"nopauses", NO_PAUSES},
 #ifndef DISABLE_WRAPPING
     {"nowrap", NO_WRAP},
 #endif
@@ -1292,7 +1293,7 @@ void do_rcfiles(void)
 
     free(nanorc);
 
-    if (errors && !ISSET(QUIET)) {
+    if (errors && !ISSET(QUIET) && !ISSET(NO_PAUSES)) {
 	errors = FALSE;
 	fprintf(stderr, _("\nPress Enter to continue starting nano.\n"));
 	while (getchar() != '\n')
