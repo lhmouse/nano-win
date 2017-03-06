@@ -681,7 +681,10 @@ void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(bool force);
 void do_cursorpos_void(void);
-void spotlight(bool active, const char *word);
+void spotlight(bool active, size_t from_col, size_t to_col);
+#ifndef NANO_TINY
+void spotlight_softwrapped(bool active, size_t from_col, size_t to_col);
+#endif
 void xon_complaint(void);
 void xoff_complaint(void);
 void do_suspend_void(void);

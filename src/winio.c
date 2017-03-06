@@ -3396,32 +3396,43 @@ void enable_waiting(void)
     nodelay(edit, FALSE);
 }
 
-/* Highlight the current word being replaced or spell checked.  We
- * expect word to have tabs and control characters expanded. */
-void spotlight(bool active, const char *word)
+/* Highlight the text between from_col and to_col when active is TRUE.
+ * Remove the highlight when active is FALSE. */
+void spotlight(bool active, size_t from_col, size_t to_col)
 {
-    size_t word_span = strlenpt(word);
-    size_t room = word_span;
+    char *word;
+    size_t word_span, room;
 
-    /* Compute the number of columns that are available for the word. */
-    if (!ISSET(SOFTWRAP)) {
-	room = editwincols + get_page_start(xplustabs()) - xplustabs();
-
-	/* If the word is partially offscreen, reserve space for the "$". */
-	if (word_span > room)
-	    room--;
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	spotlight_softwrapped(active, from_col, to_col);
+	return;
     }
+#endif
 
     place_the_cursor(FALSE);
+
+    /* This is so we can show zero-length matches. */
+    if (to_col == from_col) {
+	word = mallocstrcpy(NULL, " ");
+	to_col++;
+    } else
+	word = display_string(openfile->current->data, from_col,
+				to_col - from_col, FALSE);
+
+    word_span = strlenpt(word);
+
+    /* Compute the number of columns that are available for the word. */
+    room = editwincols + get_page_start(from_col) - from_col;
+
+    /* If the word is partially offscreen, reserve space for the "$". */
+    if (word_span > room)
+	room--;
 
     if (active)
 	wattron(edit, hilite_attribute);
 
-    /* This is so we can show zero-length matches. */
-    if (word_span == 0)
-	waddch(edit, ' ');
-    else
-	waddnstr(edit, word, actual_x(word, room));
+    waddnstr(edit, word, actual_x(word, room));
 
     if (word_span > room)
 	waddch(edit, '$');
@@ -3429,8 +3440,70 @@ void spotlight(bool active, const char *word)
     if (active)
 	wattroff(edit, hilite_attribute);
 
+    free(word);
+
     wnoutrefresh(edit);
 }
+
+#ifndef NANO_TINY
+/* Highlight the text between from_col and to_col when active is TRUE; remove
+ * the highlight when active is FALSE.  This will not highlight softwrapped
+ * line breaks, since they're not actually part of the spotlighted text. */
+void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
+{
+    ssize_t row;
+    size_t leftedge = get_chunk_leftedge(openfile->current, from_col);
+    size_t break_col;
+    bool end_of_line;
+    char *word;
+
+    place_the_cursor(FALSE);
+
+    row = openfile->current_y;
+
+    while (row < editwinrows) {
+	break_col = get_softwrap_breakpoint(openfile->current->data,
+						leftedge, &end_of_line);
+
+	/* Stop after the end of the word, by pretending the end of the word is
+	 * the end of the line. */
+	if (break_col >= to_col) {
+	    end_of_line = TRUE;
+	    break_col = to_col;
+	}
+
+	/* This is so we can show zero-length matches. */
+	if (break_col == from_col) {
+	    word = mallocstrcpy(NULL, " ");
+	    break_col++;
+	} else
+	    word = display_string(openfile->current->data, from_col,
+					break_col - from_col, FALSE);
+
+	if (active)
+	    wattron(edit, hilite_attribute);
+
+	waddnstr(edit, word, actual_x(word, break_col));
+
+	if (active)
+	    wattroff(edit, hilite_attribute);
+
+	free(word);
+
+	if (end_of_line)
+	    break;
+
+	row++;
+
+	wmove(edit, row, 0);
+
+	leftedge = break_col;
+	from_col = break_col;
+    }
+
+    wnoutrefresh(edit);
+}
+#endif
 
 #ifndef DISABLE_EXTRA
 #define CREDIT_LEN 54

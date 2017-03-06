@@ -2540,7 +2540,7 @@ void do_full_justify(void)
  * return FALSE if the user cancels. */
 bool do_int_spell_fix(const char *word)
 {
-    char *save_search, *exp_word;
+    char *save_search;
     size_t firstcolumn_save = openfile->firstcolumn;
     size_t current_x_save = openfile->current_x;
     filestruct *edittop_save = openfile->edittop;
@@ -2605,11 +2605,12 @@ bool do_int_spell_fix(const char *word)
 	proceed = TRUE;
 	napms(2800);
     } else if (result == 1) {
-	exp_word = display_string(openfile->current->data, xplustabs(),
-					strlenpt(word), FALSE);
+	size_t from_col = xplustabs();
+	size_t to_col = from_col + strlenpt(word);
+
 	edit_refresh();
 
-	spotlight(TRUE, exp_word);
+	spotlight(TRUE, from_col, to_col);
 
 	/* Let the user supply a correctly spelled alternative. */
 	proceed = (do_prompt(FALSE, FALSE, MSPELL, word,
@@ -2618,9 +2619,7 @@ bool do_int_spell_fix(const char *word)
 #endif
 				edit_refresh, _("Edit a replacement")) != -1);
 
-	spotlight(FALSE, exp_word);
-
-	free(exp_word);
+	spotlight(FALSE, from_col, to_col);
 
 	/* If a replacement was given, go through all occurrences. */
 	if (proceed && strcmp(word, answer) != 0) {
