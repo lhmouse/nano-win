@@ -1811,7 +1811,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
     size_t current_len, i = 0;
 #ifndef NANO_TINY
-    size_t orig_rows = 0;
+    size_t orig_rows = 0, original_row = 0;
 #endif
     char *char_buf = charalloc(mb_cur_max());
     int char_len;
@@ -1819,8 +1819,11 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     current_len = strlen(openfile->current->data);
 
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP))
+    if (ISSET(SOFTWRAP)) {
+	if (openfile->current_y == editwinrows - 1)
+	    original_row = xplustabs() / editwincols;
 	orig_rows = strlenpt(openfile->current->data) / editwincols;
+    }
 #endif
 
     while (i < output_len) {
@@ -1881,10 +1884,14 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     }
 
 #ifndef NANO_TINY
-    /* If the number of screen rows that a softwrapped line occupies
-     * has changed, we need a full refresh. */
+    /* If the number of screen rows that a softwrapped line occupies has
+     * changed, we need a full refresh.  And if we were on the last line
+     * of the edit window, and we moved one screen row, we're now below
+     * the last line of the edit window, so we need a full refresh too. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if ((strlenpt(openfile->current->data) / editwincols) != orig_rows)
+	if ((strlenpt(openfile->current->data) / editwincols) != orig_rows ||
+		(openfile->current_y == editwinrows - 1 &&
+		xplustabs() / editwincols != original_row))
 	    refresh_needed = TRUE;
 #endif
 
