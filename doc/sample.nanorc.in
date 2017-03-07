@@ -20,6 +20,10 @@
 ## versions of nano installed (e.g. your home directory is on NFS).
 # set quiet
 
+## When soft line wrapping is enabled, make it wrap lines at blanks
+## (tabs and spaces) instead of always at the edge of the screen.
+# set atblanks
+
 ## Use auto-indentation.
 # set autoindent
 

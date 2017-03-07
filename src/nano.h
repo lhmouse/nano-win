@@ -521,7 +521,8 @@ enum
     JUSTIFY_TRIM,
     SHOW_CURSOR,
     LINE_NUMBERS,
-    NO_PAUSES
+    NO_PAUSES,
+    AT_BLANKS
 };
 
 /* Flags for the menus in which a given function should be present. */

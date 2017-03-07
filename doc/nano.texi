@@ -657,6 +657,10 @@ When backing up files, allow the backup to succeed even if its
 permissions can't be (re)set due to special OS considerations.
 You should NOT enable this option unless you are sure you need it.
 
+@item set atblanks
+When soft line wrapping is enabled, make it wrap lines at blank characters
+(tabs and spaces) instead of always at the edge of the screen.
+
 @item set autoindent
 Use auto-indentation.
 

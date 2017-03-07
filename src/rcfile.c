@@ -90,6 +90,7 @@ static const rcoption rcopts[] = {
     {"view", VIEW_MODE},
 #ifndef NANO_TINY
     {"allow_insecure_backup", INSECURE_BACKUP},
+    {"atblanks", AT_BLANKS},
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
     {"backupdir", 0},

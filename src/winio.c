@@ -2782,8 +2782,9 @@ int update_softwrapped_line(filestruct *fileptr)
 	    break;
 
 	/* If the line is softwrapped before its last column, add a ">" just
-	 * after its softwrap breakpoint. */
-	if (to_col - from_col < editwincols)
+	 * after its softwrap breakpoint, unless we're softwrapping at blanks
+	 * and not in the middle of a word. */
+	if (!ISSET(AT_BLANKS) && to_col - from_col < editwincols)
 	    mvwaddch(edit, row - 1, to_col - from_col, '>');
 
 	from_col = to_col;
@@ -2993,12 +2994,20 @@ void edit_scroll(scroll_dir direction, int nrows)
 size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 				bool *end_of_line)
 {
+    size_t index = 0;
+	/* Current index in text. */
     size_t column = 0;
 	/* Current column position in text. */
     size_t prev_column = 0;
 	/* Previous column position in text. */
     size_t goal_column;
 	/* Column of the last character where we can break the text. */
+    bool found_blank = FALSE;
+	/* Did we find at least one blank? */
+    size_t lastblank_index = 0;
+	/* Current index of the last blank in text. */
+    size_t lastblank_column = 0;
+	/* Current column position of the last blank in text. */
     int char_len = 0;
 	/* Length of current character, in bytes. */
 
@@ -3007,13 +3016,26 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     while (*text != '\0' && column < leftedge)
 	text += parse_mbchar(text, NULL, &column);
 
-    /* Use a full screen row for text. */
-    goal_column = column + editwincols;
+    /* Use a full screen row for text, or, if we're softwrapping at blanks, use
+     * a full screen row less one column for text and reserve the last column
+     * for blanks.  The latter case is to ensure that we have enough room for
+     * blanks exactly on the last column of the screen. */
+    if (ISSET(AT_BLANKS) && editwincols > 2)
+	goal_column = column + (editwincols - 1);
+    else
+	goal_column = column + editwincols;
 
     while (*text != '\0' && column <= goal_column) {
+	if (ISSET(AT_BLANKS) && editwincols > 2 && is_blank_mbchar(text)) {
+	    found_blank = TRUE;
+	    lastblank_index = index;
+	    lastblank_column = column;
+	}
+
 	prev_column = column;
 	char_len = parse_mbchar(text, NULL, &column);
 	text += char_len;
+	index += char_len;
     }
 
     /* If the text displays within goal_column, we've reached the end of the
@@ -3021,6 +3043,14 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     if (column <= goal_column) {
 	*end_of_line = TRUE;
 	return column;
+    }
+
+    /* If we're softwrapping at blanks and we found at least one blank, move
+     * the pointer back to the last blank, step beyond it, and we're done. */
+    if (found_blank) {
+	text = text - index + lastblank_index;
+	parse_mbchar(text, NULL, &lastblank_column);
+	return lastblank_column;
     }
 
     /* Otherwise, return the column of the last character before goal_column,
