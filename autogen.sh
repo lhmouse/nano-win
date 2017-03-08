@@ -12,6 +12,7 @@ modules="
 	isblank
 	iswblank
 	lstat
+	nl_langinfo
 	regex
 	sigaction
 	snprintf-posix
@@ -23,6 +24,7 @@ modules="
 	vsnprintf-posix
 	wchar
 	wctype-h
+	wcwidth
 "
 
 # Make sure the local gnulib git repo is up-to-date.

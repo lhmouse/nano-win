@@ -469,7 +469,7 @@ int main(void)
 dnl Checks for functions.
 
 if test "x$enable_utf8" != xno; then
-    AC_CHECK_FUNCS(iswalnum iswpunct iswspace nl_langinfo mblen mbstowcs mbtowc wctomb wcwidth)
+    AC_CHECK_FUNCS(iswalnum iswpunct iswspace mblen mbstowcs mbtowc wctomb)
 fi
 dnl Checks for typedefs, structures, and compiler characteristics.
 
@@ -564,13 +564,11 @@ if test "x$enable_utf8" != xno && \
     test x$ac_cv_func_iswalnum = xyes && \
     test x$ac_cv_func_iswpunct = xyes && \
     (test x$ac_cv_func_iswblank = xyes || test x$ac_cv_func_iswspace = xyes) && \
-    test x$ac_cv_func_nl_langinfo = xyes && \
     test x$ac_cv_func_mblen = xyes && \
     test x$ac_cv_func_mbstowcs = xyes && \
     test x$ac_cv_func_mbtowc = xyes && \
-    test x$ac_cv_func_wctomb = xyes && \
-    test x$ac_cv_func_wcwidth = xyes; then
-	AC_DEFINE(ENABLE_UTF8, 1, [Define this if your system has sufficient UTF-8 support (a wide curses library, iswalnum(), iswpunct(), iswblank() or iswspace(), nl_langinfo, mblen(), mbstowcs(), mbtowc(), wctomb(), and wcwidth()).])
+    test x$ac_cv_func_wctomb = xyes; then
+	AC_DEFINE(ENABLE_UTF8, 1, [Define this if your system has sufficient UTF-8 support.])
 else
     if test "x$enable_utf8" = xyes; then
 	AC_MSG_ERROR([
