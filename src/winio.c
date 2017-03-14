@@ -1925,16 +1925,12 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	   buf += charlength + 7;
     }
 
-    /* Null-terminate converted. */
-    converted[index] = '\0';
-
     /* If there is more text than can be shown, make room for the $. */
     if (*buf != '\0' && isdata && !ISSET(SOFTWRAP))
-	span--;
+	index = move_mbleft(converted, index);
 
-    /* Make sure converted takes up no more than span columns. */
-    index = actual_x(converted, span);
-    null_at(&converted, index);
+    /* Null-terminate the converted string. */
+    converted[index] = '\0';
 
     return converted;
 }
