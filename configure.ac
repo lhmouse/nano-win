@@ -32,6 +32,7 @@ gl_cv_func_printf_directive_n=yes
 gl_cv_func_printf_infinite_long_double=yes
 gl_cv_func_printf_long_double=yes
 gl_cv_func_snprintf_directive_n=yes
+gl_cv_glob_lists_symlinks=yes
 
 dnl Checks for programs.
 
