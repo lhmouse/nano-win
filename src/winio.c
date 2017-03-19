@@ -2624,6 +2624,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    /* Compute on which screen column to start painting. */
 	    start_col = strnlenpt(fileptr->data, top_x) - from_col;
 
+	    if (start_col < 0)
+		start_col = 0;
+
 	    thetext = converted + actual_x(converted, start_col);
 
 	    /* If the end of the mark is onscreen, compute how many
