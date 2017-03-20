@@ -1028,9 +1028,8 @@ char *get_next_filename(const char *name, const char *suffix)
 	sprintf(buf + wholenamelen, ".%lu", i);
     }
 
-    /* We get here only if there is no possible save file.  Blank out
-     * the filename to indicate this. */
-    null_at(&buf, 0);
+    /* There is no possible save file: blank out the filename. */
+    *buf = '\0';
 
     return buf;
 }
@@ -1228,7 +1227,7 @@ char *get_full_path(const char *origpath)
 	/* How often we've tried climbing back up the tree. */
     struct stat fileinfo;
     char *currentdir, *d_here, *d_there, *d_there_file = NULL;
-    const char *last_slash;
+    char *last_slash;
     bool path_only;
 
     if (origpath == NULL)
@@ -1294,7 +1293,7 @@ char *get_full_path(const char *origpath)
 	    d_there_file = mallocstrcpy(NULL, last_slash + 1);
 
 	/* Remove the filename portion of the answer from d_there. */
-	null_at(&d_there, last_slash - d_there + 1);
+	*(last_slash + 1) = '\0';
 
 	/* Go to the path specified in d_there. */
 	if (chdir(d_there) == -1) {
@@ -2503,7 +2502,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
     const struct dirent *nextdir;
 
     *num_matches = 0;
-    null_at(&dirname, buf_len);
+    dirname[buf_len] = '\0';
 
     /* If there's a / in the name, split out filename and directory parts. */
     slash = strrchr(dirname, '/');

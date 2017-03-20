@@ -1226,7 +1226,7 @@ void add_undo(undo_type action)
 	    char *char_buf = charalloc(mb_cur_max() + 1);
 	    int char_len = parse_mbchar(&openfile->current->data[u->begin],
 						char_buf, NULL);
-	    null_at(&char_buf, char_len);
+	    char_buf[char_len] = '\0';
 	    u->strdata = char_buf;
 	    if (u->type == BACK)
 		u->mark_begin_x += char_len;

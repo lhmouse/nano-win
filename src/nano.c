@@ -228,7 +228,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     p->bot_data = mallocstrcpy(NULL, bot->data + bot_x);
 
     /* Remove all text after bot_x at the bottom of the partition. */
-    null_at(&bot->data, bot_x);
+    bot->data[bot_x] = '\0';
 
     /* Remove all text before top_x at the top of the partition. */
     charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);

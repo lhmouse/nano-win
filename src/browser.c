@@ -587,7 +587,7 @@ void browser_refresh(void)
 	/* Make sure info takes up no more than infomaxlen columns. */
 	infolen = strlenpt(info);
 	if (infolen > infomaxlen) {
-	    null_at(&info, actual_x(info, infomaxlen));
+	    info[actual_x(info, infomaxlen)] = '\0';
 	    infolen = infomaxlen;
 	}
 

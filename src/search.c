@@ -1046,7 +1046,7 @@ void do_find_bracket(void)
     bracket_set = charalloc((mb_cur_max() * 2) + 1);
     strncpy(bracket_set, ch, ch_len);
     strncpy(bracket_set + ch_len, wanted_ch, wanted_ch_len);
-    null_at(&bracket_set, ch_len + wanted_ch_len);
+    bracket_set[ch_len + wanted_ch_len] = '\0';
 
     found_ch = charalloc(mb_cur_max() + 1);
 
