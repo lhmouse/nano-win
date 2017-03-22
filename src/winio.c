@@ -2668,7 +2668,7 @@ int update_line(filestruct *fileptr, size_t index)
 
     /* If the line is offscreen, don't even try to display it. */
     if (row < 0 || row >= editwinrows) {
-	statusline(ALERT, "Badness: tried to display a chunk on row %i"
+	statusline(ALERT, "Badness: tried to display a line on row %i"
 				" -- please report a bug", row);
 	return 0;
     }
@@ -2725,9 +2725,12 @@ int update_softwrapped_line(filestruct *fileptr)
 	line = line->next;
     }
 
-    /* If the line is offscreen, don't even try to display it. */
-    if (row < 0 || row >= editwinrows)
+    /* If the first chunk is offscreen, don't even try to display it. */
+    if (row < 0 || row >= editwinrows) {
+	statusline(ALERT, "Badness: tried to display a chunk on row %i"
+				" -- please report a bug", row);
 	return 0;
+    }
 
     full_length = strlenpt(fileptr->data);
     starting_row = row;
