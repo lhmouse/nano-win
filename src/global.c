@@ -752,6 +752,18 @@ void shortcut_init(void)
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
 
+#ifndef NANO_TINY
+    add_to_funcs(do_undo, MMAIN,
+	N_("Undo"), IFSCHELP(nano_undo_msg), TOGETHER, NOVIEW);
+    add_to_funcs(do_redo, MMAIN,
+	N_("Redo"), IFSCHELP(nano_redo_msg), BLANKAFTER, NOVIEW);
+
+    add_to_funcs(do_mark, MMAIN,
+	N_("Mark Text"), IFSCHELP(nano_mark_msg), TOGETHER, VIEW);
+    add_to_funcs(do_copy_text, MMAIN,
+	N_("Copy Text"), IFSCHELP(nano_copy_msg), BLANKAFTER, NOVIEW);
+#endif
+
     add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
 	N_("Case Sens"), IFSCHELP(nano_case_msg), TOGETHER, VIEW);
     add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
@@ -773,16 +785,6 @@ void shortcut_init(void)
 	gotoline_tag, IFSCHELP(nano_gotoline_msg), BLANKAFTER, VIEW);
 #endif
 
-    add_to_funcs(do_page_up, MMAIN|MHELP,
-	prev_page_tag, IFSCHELP(nano_prevpage_msg), TOGETHER, VIEW);
-    add_to_funcs(do_page_down, MMAIN|MHELP,
-	next_page_tag, IFSCHELP(nano_nextpage_msg), TOGETHER, VIEW);
-
-    add_to_funcs(do_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
-	N_("First Line"), IFSCHELP(nano_firstline_msg), TOGETHER, VIEW);
-    add_to_funcs(do_last_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
-	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
-
 #ifndef NANO_TINY
     add_to_funcs(do_find_bracket, MMAIN,
 	N_("To Bracket"), IFSCHELP(nano_bracket_msg), BLANKAFTER, VIEW);
@@ -794,29 +796,12 @@ void shortcut_init(void)
 	N_("Previous"), IFSCHELP(nano_findprev_msg), TOGETHER, VIEW);
     add_to_funcs(do_findnext, MMAIN,
 	N_("Next"), IFSCHELP(nano_findnext_msg), BLANKAFTER, VIEW);
-
-    add_to_funcs(do_mark, MMAIN,
-	N_("Mark Text"), IFSCHELP(nano_mark_msg), TOGETHER, VIEW);
-
-    add_to_funcs(do_copy_text, MMAIN,
-	N_("Copy Text"), IFSCHELP(nano_copy_msg), BLANKAFTER, NOVIEW);
-
-    add_to_funcs(do_indent_void, MMAIN,
-	N_("Indent Text"), IFSCHELP(nano_indent_msg), TOGETHER, NOVIEW);
-    add_to_funcs(do_unindent, MMAIN,
-	N_("Unindent Text"), IFSCHELP(nano_unindent_msg), BLANKAFTER, NOVIEW);
-
-    add_to_funcs(do_undo, MMAIN,
-	N_("Undo"), IFSCHELP(nano_undo_msg), TOGETHER, NOVIEW);
-    add_to_funcs(do_redo, MMAIN,
-	N_("Redo"), IFSCHELP(nano_redo_msg), BLANKAFTER, NOVIEW);
 #endif /* !NANO_TINY */
 
     add_to_funcs(do_left, MMAIN,
 	N_("Back"), IFSCHELP(nano_back_msg), TOGETHER, VIEW);
     add_to_funcs(do_right, MMAIN,
 	N_("Forward"), IFSCHELP(nano_forward_msg), TOGETHER, VIEW);
-
 #ifndef DISABLE_BROWSER
     add_to_funcs(do_left, MBROWSER,
 	N_("Back"), IFSCHELP(nano_backfile_msg), TOGETHER, VIEW);
@@ -832,31 +817,39 @@ void shortcut_init(void)
     add_to_funcs(do_home_void, MMAIN,
 	N_("Home"), IFSCHELP(nano_home_msg), TOGETHER, VIEW);
     add_to_funcs(do_end_void, MMAIN,
-	N_("End"), IFSCHELP(nano_end_msg), TOGETHER, VIEW);
+	N_("End"), IFSCHELP(nano_end_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(do_up_void, MMAIN|MBROWSER,
 	prev_line_tag, IFSCHELP(nano_prevline_msg), TOGETHER, VIEW);
     add_to_funcs(do_down_void, MMAIN|MBROWSER,
-	next_line_tag, IFSCHELP(nano_nextline_msg), BLANKAFTER, VIEW);
-
-    add_to_funcs(do_prev_block, MMAIN,
-	N_("Prev Block"), IFSCHELP(nano_prevblock_msg), TOGETHER, VIEW);
-    add_to_funcs(do_next_block, MMAIN,
-	N_("Next Block"), IFSCHELP(nano_nextblock_msg), TOGETHER, VIEW);
-
-#ifndef DISABLE_JUSTIFY
-    add_to_funcs(do_para_begin_void, MMAIN|MWHEREIS,
-	N_("Beg of Par"), IFSCHELP(nano_parabegin_msg), TOGETHER, VIEW);
-    add_to_funcs(do_para_end_void, MMAIN|MWHEREIS,
-	N_("End of Par"), IFSCHELP(nano_paraend_msg), TOGETHER, VIEW);
-#endif
-
+	next_line_tag, IFSCHELP(nano_nextline_msg), TOGETHER, VIEW);
 #ifndef NANO_TINY
     add_to_funcs(do_scroll_up, MMAIN,
 	N_("Scroll Up"), IFSCHELP(nano_scrollup_msg), TOGETHER, VIEW);
     add_to_funcs(do_scroll_down, MMAIN,
 	N_("Scroll Down"), IFSCHELP(nano_scrolldown_msg), BLANKAFTER, VIEW);
 #endif
+
+    add_to_funcs(do_prev_block, MMAIN,
+	N_("Prev Block"), IFSCHELP(nano_prevblock_msg), TOGETHER, VIEW);
+    add_to_funcs(do_next_block, MMAIN,
+	N_("Next Block"), IFSCHELP(nano_nextblock_msg), TOGETHER, VIEW);
+#ifndef DISABLE_JUSTIFY
+    add_to_funcs(do_para_begin_void, MMAIN|MWHEREIS,
+	N_("Beg of Par"), IFSCHELP(nano_parabegin_msg), TOGETHER, VIEW);
+    add_to_funcs(do_para_end_void, MMAIN|MWHEREIS,
+	N_("End of Par"), IFSCHELP(nano_paraend_msg), BLANKAFTER, VIEW);
+#endif
+
+    add_to_funcs(do_page_up, MMAIN|MHELP,
+	prev_page_tag, IFSCHELP(nano_prevpage_msg), TOGETHER, VIEW);
+    add_to_funcs(do_page_down, MMAIN|MHELP,
+	next_page_tag, IFSCHELP(nano_nextpage_msg), TOGETHER, VIEW);
+
+    add_to_funcs(do_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
+	N_("First Line"), IFSCHELP(nano_firstline_msg), TOGETHER, VIEW);
+    add_to_funcs(do_last_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
+	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
 
 #ifndef DISABLE_MULTIBUFFER
     add_to_funcs(switch_to_prev_buffer_void, MMAIN,
@@ -922,6 +915,12 @@ void shortcut_init(void)
     add_to_funcs(do_suspend_void, MMAIN,
 	N_("Suspend"), IFSCHELP(nano_suspend_msg), BLANKAFTER, VIEW);
 
+#ifndef NANO_TINY
+    add_to_funcs(do_indent_void, MMAIN,
+	N_("Indent Text"), IFSCHELP(nano_indent_msg), TOGETHER, NOVIEW);
+    add_to_funcs(do_unindent, MMAIN,
+	N_("Unindent Text"), IFSCHELP(nano_unindent_msg), BLANKAFTER, NOVIEW);
+#endif
 #ifdef ENABLE_WORDCOMPLETION
     add_to_funcs(complete_a_word, MMAIN,
 	N_("Complete"), IFSCHELP(nano_completion_msg), TOGETHER, NOVIEW);
