@@ -467,6 +467,10 @@ functionptrtype parse_browser_input(int *kbinput)
 		return do_help_void;
 	    case 'E':
 	    case 'e':
+	    case 'Q':
+	    case 'q':
+	    case 'X':
+	    case 'x':
 		return do_exit;
 	    case 'G':
 	    case 'g':
