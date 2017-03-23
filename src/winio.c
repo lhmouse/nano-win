@@ -2939,7 +2939,7 @@ void edit_scroll(scroll_dir direction, int nrows)
     }
 }
 
-/* Ensure that firstcolumn is at the startting column of the softwrapped chunk
+/* Ensure that firstcolumn is at the starting column of the softwrapped chunk
  * it's on.  We need to do this when the number of columns of the edit window
  * has changed, because then the width of softwrapped chunks has changed. */
 void ensure_firstcolumn_is_aligned(void)
