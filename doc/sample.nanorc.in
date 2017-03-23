@@ -202,10 +202,16 @@
 ## Paint the interface elements of nano.
 ## These are examples; by default there are no colors.
 # set titlecolor brightwhite,blue
-# set numbercolor cyan
 # set statuscolor brightwhite,green
-# set keycolor green
-# set functioncolor yellow
+# set numbercolor cyan
+# set keycolor cyan
+# set functioncolor green
+## In root's .nanorc you might want to use:
+# set titlecolor brightwhite,red
+# set statuscolor brightwhite,red
+# set numbercolor magenta
+# set keycolor brightmagenta
+# set functioncolor magenta
 
 
 ## Setup of syntax coloring.
