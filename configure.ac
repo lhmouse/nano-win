@@ -470,7 +470,7 @@ int main(void)
 dnl Checks for functions.
 
 if test "x$enable_utf8" != xno; then
-    AC_CHECK_FUNCS(iswalnum iswpunct iswspace mblen mbstowcs mbtowc wctomb)
+    AC_CHECK_FUNCS(iswalnum iswpunct mblen mbstowcs mbtowc wctomb)
 fi
 dnl Checks for typedefs, structures, and compiler characteristics.
 
@@ -564,7 +564,6 @@ if test "x$enable_utf8" != xno && \
     test x$CURSES_LIB_WIDE = xyes && \
     test x$ac_cv_func_iswalnum = xyes && \
     test x$ac_cv_func_iswpunct = xyes && \
-    (test x$ac_cv_func_iswblank = xyes || test x$ac_cv_func_iswspace = xyes) && \
     test x$ac_cv_func_mblen = xyes && \
     test x$ac_cv_func_mbstowcs = xyes && \
     test x$ac_cv_func_mbtowc = xyes && \
