@@ -2889,11 +2889,10 @@ void edit_scroll(scroll_dir direction, int nrows)
     /* Don't bother scrolling zero rows, nor more than the window can hold. */
     if (nrows == 0)
 	return;
-    if (nrows >= editwinrows)
+    if (nrows >= editwinrows) {
 	refresh_needed = TRUE;
-
-    if (refresh_needed == TRUE)
 	return;
+    }
 
     /* Scroll the text of the edit window a number of rows up or down. */
     scrollok(edit, TRUE);
