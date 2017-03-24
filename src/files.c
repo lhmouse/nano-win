@@ -1069,7 +1069,7 @@ void do_insertfile(void)
 	if (execute) {
 #ifndef DISABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
-		/* TRANSLATORS: The next six messages are prompts. */
+		/* TRANSLATORS: The next four messages are prompts. */
 		msg = _("Command to execute in new buffer");
 	    else
 #endif
@@ -1077,22 +1077,12 @@ void do_insertfile(void)
 	} else
 #endif /* NANO_TINY */
 	{
-#ifndef DISABLE_OPERATINGDIR
 #ifndef DISABLE_MULTIBUFFER
-	    if (operating_dir != NULL && ISSET(MULTIBUFFER))
+	    if (ISSET(MULTIBUFFER))
 		msg = _("File to insert into new buffer [from %s]");
 	    else
 #endif
-	    if (operating_dir != NULL)
 		msg = _("File to insert [from %s]");
-	    else
-#endif
-#ifndef DISABLE_MULTIBUFFER
-	    if (ISSET(MULTIBUFFER))
-		msg = _("File to insert into new buffer");
-	    else
-#endif
-		msg = _("File to insert");
 	}
 
 	present_path = mallocstrcpy(present_path, "./");
@@ -1109,7 +1099,7 @@ void do_insertfile(void)
 #ifndef DISABLE_OPERATINGDIR
 		operating_dir != NULL ? operating_dir :
 #endif
-		"xxx");
+		"./");
 
 	/* If we're in multibuffer mode and the filename or command is
 	 * blank, open a new buffer instead of canceling. */
