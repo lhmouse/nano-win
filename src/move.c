@@ -60,7 +60,8 @@ void do_page_up(void)
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->placewewant = openfile->current_y = 0;
+	openfile->placewewant = target_column = openfile->firstcolumn;
+	openfile->current_y = 0;
     }
 
     mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
@@ -99,7 +100,8 @@ void do_page_down(void)
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->placewewant = openfile->current_y = 0;
+	openfile->placewewant = target_column = openfile->firstcolumn;
+	openfile->current_y = 0;
     }
 
     mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
