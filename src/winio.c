@@ -2902,14 +2902,10 @@ void edit_scroll(scroll_dir direction, int nrows)
     /* Part 2: nrows is now the number of rows in the scrolled region of the
      * edit window that we need to draw. */
 
-    /* If the scrolled region contains only one row, and the row before it is
-     * visible in the edit window, we need to draw it too.  If the scrolled
-     * region is more than one row, and the rows before and after it are
-     * visible in the edit window, we need to draw them too. */
-    nrows += (nrows == 1) ? 1 : 2;
-
-    if (nrows > editwinrows)
-	nrows = editwinrows;
+    /* If we're not on the first "page" (when not softwrapping), or the mark
+     * is on, the row next to the scrolled region needs to be redrawn too. */
+    if (line_needs_update(openfile->placewewant, 0) && nrows < editwinrows)
+	nrows++;
 
     /* If we scrolled up, we're on the line before the scrolled region. */
     line = openfile->edittop;
@@ -2919,21 +2915,18 @@ void edit_scroll(scroll_dir direction, int nrows)
     if (direction == DOWNWARD)
 	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
-    /* Draw new lines on any blank rows before or inside the scrolled region.
-     * If we're not in softwrap mode, we can optimize one case: if we scrolled
-     * forward and we're on the top row, or if we scrolled backward and we're
-     * on the bottom row, the row won't be blank, so we don't need to draw it
-     * unless the mark is on or we're not on the first "page". */
-    for (i = nrows; i > 0 && line != NULL; i--) {
-	if (!ISSET(SOFTWRAP) &&
-		((i == 1 && direction == UPWARD) ||
-		(i == nrows && direction == DOWNWARD))) {
-	    if (line_needs_update(openfile->placewewant, 0))
-		update_line(line, (line == openfile->current) ?
-			openfile->current_x : 0);
-	} else
-	    update_line(line, (line == openfile->current) ?
-		openfile->current_x : 0);
+    /* Draw new content on the blank rows inside the scrolled region
+     * (and on the bordering row too when it was deemed necessary). */
+    i = nrows;
+    while (i > 0 && line != NULL) {
+#ifndef NANO_TINY
+	/* If the first blank row is in the middle of a softwrapped line,
+	 * compensate for the earlier chunks of that line. */
+	if (ISSET(SOFTWRAP) && i == nrows)
+	    i += strnlenpt(line->data, leftedge) / editwincols;
+#endif
+	i -= update_line(line, (line == openfile->current) ?
+				openfile->current_x : 0);
 	line = line->next;
     }
 }
