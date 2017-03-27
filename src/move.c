@@ -52,26 +52,24 @@ void do_last_line(void)
 /* Move up one page. */
 void do_page_up(void)
 {
-    int mustmove;
-    size_t leftedge = 0;
-    size_t target_column = openfile->placewewant;
+    int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
+    size_t leftedge = 0, target_column;
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->placewewant = target_column = openfile->firstcolumn;
+	openfile->placewewant = openfile->firstcolumn;
 	openfile->current_y = 0;
     }
-
-    mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	leftedge = (openfile->placewewant / editwincols) * editwincols;
 	target_column = openfile->placewewant % editwincols;
-    }
+    } else
 #endif
+	target_column = openfile->placewewant;
 
     /* Move up the required number of lines or chunks.  If we can't, we're
      * at the top of the file, so put the cursor there and get out. */
@@ -80,9 +78,9 @@ void do_page_up(void)
 	return;
     }
 
-    openfile->current_x = actual_x(openfile->current->data,
-					leftedge + target_column);
     openfile->placewewant = leftedge + target_column;
+    openfile->current_x = actual_x(openfile->current->data,
+					openfile->placewewant);
 
     /* Scroll the edit window up a page. */
     adjust_viewport(STATIONARY);
@@ -92,26 +90,24 @@ void do_page_up(void)
 /* Move down one page. */
 void do_page_down(void)
 {
-    int mustmove;
-    size_t leftedge = 0;
-    size_t target_column = openfile->placewewant;
+    int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
+    size_t leftedge = 0, target_column;
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->placewewant = target_column = openfile->firstcolumn;
+	openfile->placewewant = openfile->firstcolumn;
 	openfile->current_y = 0;
     }
-
-    mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	leftedge = (openfile->placewewant / editwincols) * editwincols;
 	target_column = openfile->placewewant % editwincols;
-    }
+    } else
 #endif
+	target_column = openfile->placewewant;
 
     /* Move down the required number of lines or chunks.  If we can't, we're
      * at the bottom of the file, so put the cursor there and get out. */
@@ -120,9 +116,9 @@ void do_page_down(void)
 	return;
     }
 
-    openfile->current_x = actual_x(openfile->current->data,
-					leftedge + target_column);
     openfile->placewewant = leftedge + target_column;
+    openfile->current_x = actual_x(openfile->current->data,
+					openfile->placewewant);
 
     /* Scroll the edit window down a page. */
     adjust_viewport(STATIONARY);
