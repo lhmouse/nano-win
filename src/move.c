@@ -65,7 +65,12 @@ void do_page_up(void)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	leftedge = (openfile->placewewant / editwincols) * editwincols;
+	size_t realspan = strlenpt(openfile->current->data);
+
+	if (openfile->placewewant < realspan)
+	    realspan = openfile->placewewant;
+
+	leftedge = (realspan / editwincols) * editwincols;
 	target_column = openfile->placewewant % editwincols;
     } else
 #endif
@@ -103,7 +108,12 @@ void do_page_down(void)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	leftedge = (openfile->placewewant / editwincols) * editwincols;
+	size_t realspan = strlenpt(openfile->current->data);
+
+	if (openfile->placewewant < realspan)
+	    realspan = openfile->placewewant;
+
+	leftedge = (realspan / editwincols) * editwincols;
 	target_column = openfile->placewewant % editwincols;
     } else
 #endif
