@@ -2921,8 +2921,8 @@ void edit_scroll(scroll_dir direction, int nrows)
     while (i > 0 && line != NULL) {
 #ifndef NANO_TINY
 	/* If the first blank row is in the middle of a softwrapped line,
-	 * compensate for the earlier chunks of that line. */
-	if (ISSET(SOFTWRAP) && i == nrows)
+	 * compensate for the earlier onscreen chunks of that line. */
+	if (ISSET(SOFTWRAP) && i == nrows && line != openfile->edittop)
 	    i += strnlenpt(line->data, leftedge) / editwincols;
 #endif
 	i -= update_line(line, (line == openfile->current) ?
