@@ -2923,7 +2923,7 @@ void edit_scroll(scroll_dir direction, int nrows)
 	/* If the first blank row is in the middle of a softwrapped line,
 	 * compensate for the earlier onscreen chunks of that line. */
 	if (ISSET(SOFTWRAP) && i == nrows && line != openfile->edittop)
-	    i += strnlenpt(line->data, leftedge) / editwincols;
+	    i += leftedge / editwincols;
 #endif
 	i -= update_line(line, (line == openfile->current) ?
 				openfile->current_x : 0);
