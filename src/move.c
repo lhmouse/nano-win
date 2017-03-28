@@ -49,7 +49,7 @@ void do_last_line(void)
     focusing = FALSE;
 }
 
-/* Move up one page. */
+/* Move up nearly one screenful. */
 void do_page_up(void)
 {
     int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
@@ -87,7 +87,7 @@ void do_page_up(void)
     refresh_needed = TRUE;
 }
 
-/* Move down one page. */
+/* Move down nearly one screenful. */
 void do_page_down(void)
 {
     int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
@@ -451,10 +451,9 @@ void do_end_void(void)
  * also scroll the screen one row, so the cursor stays in the same spot. */
 void do_up(bool scroll_only)
 {
-    size_t was_column = xplustabs();
     filestruct *was_current = openfile->current;
-    size_t leftedge = 0;
-    size_t target_column = openfile->placewewant;
+    size_t was_column = xplustabs();
+    size_t leftedge = 0, target_column;
 
     /* When just scrolling and the top of the file is onscreen, get out. */
     if (scroll_only && openfile->edittop == openfile->fileage &&
@@ -470,16 +469,17 @@ void do_up(bool scroll_only)
 
 	leftedge = (realspan / editwincols) * editwincols;
 	target_column = openfile->placewewant % editwincols;
-    }
+    } else
 #endif
+	target_column = openfile->placewewant;
 
-    /* Move up one line or chunk. */
+    /* If we can't move up one line or chunk, we're at top of file. */
     if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
 	return;
 
-    openfile->current_x = actual_x(openfile->current->data,
-					leftedge + target_column);
     openfile->placewewant = leftedge + target_column;
+    openfile->current_x = actual_x(openfile->current->data,
+					openfile->placewewant);
 
     /* When the cursor was on the first line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window up -- one
@@ -511,10 +511,9 @@ void do_up_void(void)
  * scroll the screen one row, so the cursor stays in the same spot. */
 void do_down(bool scroll_only)
 {
-    size_t was_column = xplustabs();
     filestruct *was_current = openfile->current;
-    size_t leftedge = 0;
-    size_t target_column = openfile->placewewant;
+    size_t was_column = xplustabs();
+    size_t leftedge = 0, target_column;
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
@@ -525,16 +524,17 @@ void do_down(bool scroll_only)
 
 	leftedge = (realspan / editwincols) * editwincols;
 	target_column = openfile->placewewant % editwincols;
-    }
+    } else
 #endif
+	target_column = openfile->placewewant;
 
-    /* Move down one line or chunk. */
+    /* If we can't move down one line or chunk, we're at bottom of file. */
     if (go_forward_chunks(1, &openfile->current, &leftedge) > 0)
 	return;
 
-    openfile->current_x = actual_x(openfile->current->data,
-					leftedge + target_column);
     openfile->placewewant = leftedge + target_column;
+    openfile->current_x = actual_x(openfile->current->data,
+					openfile->placewewant);
 
     /* When the cursor was on the last line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window down -- one
