@@ -488,14 +488,12 @@ void do_up(bool scroll_only)
 	edit_scroll(UPWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
 				1 : editwinrows / 2 + 1);
 
-    /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y > 0) {
-	/* Redraw the prior line if it's not actually the same line as the
-	 * current one (which it might be in softwrap mode, if we moved just
-         * one chunk) and the line was horizontally scrolled. */
-	if (openfile->current != was_current
-		&& (!scroll_only || openfile->current_y < editwinrows - 1)
-		&& line_needs_update(was_column, 0))
+	/* Redraw the prior line if it's not offscreen, and it's not the same
+	 * line as the current one, and the line was horizontally scrolled. */
+	if ((!scroll_only || openfile->current_y < editwinrows - 1) &&
+			openfile->current != was_current &&
+			line_needs_update(was_column, 0))
 	    update_line(openfile->current->next, 0);
 	/* Redraw the current line if it needs to be horizontally scrolled. */
 	if (line_needs_update(0, xplustabs()))
@@ -545,14 +543,12 @@ void do_down(bool scroll_only)
 	edit_scroll(DOWNWARD, (ISSET(SMOOTH_SCROLL) || scroll_only) ?
 				1 : editwinrows / 2 + 1);
 
-    /* If the lines weren't already redrawn, see if they need to be. */
     if (openfile->current_y < editwinrows - 1) {
-	/* Redraw the prior line if it's not actually the same line as the
-	 * current one (which it might be in softwrap mode, if we moved just
-         * one chunk) and the line was horizontally scrolled. */
-	if (openfile->current != was_current &&
-		(!scroll_only || openfile->current_y > 0) &&
-		line_needs_update(was_column, 0))
+	/* Redraw the prior line if it's not offscreen, and it's not the same
+	 * line as the current one, and the line was horizontally scrolled. */
+	if ((!scroll_only || openfile->current_y > 0) &&
+			openfile->current != was_current &&
+			line_needs_update(was_column, 0))
 	    update_line(openfile->current->prev, 0);
 	/* Redraw the current line if it needs to be horizontally scrolled. */
 	if (line_needs_update(0, xplustabs()))
