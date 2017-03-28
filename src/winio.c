@@ -2779,6 +2779,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
     if (ISSET(SOFTWRAP)) {
 	size_t current_chunk = (*leftedge) / editwincols;
 
+	/* Recede through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
 	    if (current_chunk > 0) {
 		current_chunk--;
@@ -2820,6 +2821,7 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
 	size_t current_chunk = (*leftedge) / editwincols;
 	size_t last_chunk = strlenpt((*line)->data) / editwincols;
 
+	/* Advance through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
 	    if (current_chunk < last_chunk) {
 		current_chunk++;
@@ -2864,8 +2866,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 }
 
 /* Scroll the edit window in the given direction and the given number of rows,
- * and draw new lines on the blank lines left after the scrolling.  We change
- * edittop, and assume that current and current_x are up to date. */
+ * and draw new lines on the blank lines left after the scrolling. */
 void edit_scroll(scroll_dir direction, int nrows)
 {
     int i;
@@ -2875,15 +2876,13 @@ void edit_scroll(scroll_dir direction, int nrows)
     /* Part 1: nrows is the number of rows we're going to scroll the text of
      * the edit window. */
 
-    /* Move the top line of the edit window up or down (depending on the value
-     * of direction) nrows rows, or as many rows as we can if there are fewer
-     * than nrows rows available. */
+    /* Move the top line of the edit window the requested number of rows. */
     if (direction == UPWARD)
 	i = go_back_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
     else
 	i = go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
 
-    /* Limit nrows to the number of rows we could scroll. */
+    /* If necessary, reduce the number of rows to what we could scroll. */
     nrows -= i;
 
     /* Don't bother scrolling zero rows, nor more than the window can hold. */
@@ -2907,11 +2906,11 @@ void edit_scroll(scroll_dir direction, int nrows)
     if (line_needs_update(openfile->placewewant, 0) && nrows < editwinrows)
 	nrows++;
 
-    /* If we scrolled up, we're on the line before the scrolled region. */
+    /* If we scrolled backward, start on the first line of the blank region. */
     line = openfile->edittop;
     leftedge = openfile->firstcolumn;
 
-    /* If we scrolled down, move down to the line before the scrolled region. */
+    /* If we scrolled forward, move down to the start of the blank region. */
     if (direction == DOWNWARD)
 	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
