@@ -2914,16 +2914,17 @@ void edit_scroll(scroll_dir direction, int nrows)
     if (direction == DOWNWARD)
 	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
+    i = nrows;
+#ifndef NANO_TINY
+    /* Compensate for the earlier onscreen chunks of a softwrapped line
+     * when the first blank row happens to be in the middle of that line. */
+    if (ISSET(SOFTWRAP) && line != openfile->edittop)
+	i += leftedge / editwincols;
+#endif
+
     /* Draw new content on the blank rows inside the scrolled region
      * (and on the bordering row too when it was deemed necessary). */
-    i = nrows;
     while (i > 0 && line != NULL) {
-#ifndef NANO_TINY
-	/* If the first blank row is in the middle of a softwrapped line,
-	 * compensate for the earlier onscreen chunks of that line. */
-	if (ISSET(SOFTWRAP) && i == nrows && line != openfile->edittop)
-	    i += leftedge / editwincols;
-#endif
 	i -= update_line(line, (line == openfile->current) ?
 				openfile->current_x : 0);
 	line = line->next;
