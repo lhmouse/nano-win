@@ -395,8 +395,8 @@ void do_home(bool be_clever)
 
     openfile->placewewant = xplustabs();
 
-    /* If we changed chunk, we might be offscreen.  Otherwise, update
-     * current if the mark is on or we changed "page". */
+    /* If we changed chunk, we might be offscreen.  Otherwise,
+     * update current if the mark is on or we changed "page". */
     if (ISSET(SOFTWRAP) && moved_off_chunk) {
 	focusing = FALSE;
 	edit_redraw(was_current);
@@ -426,8 +426,8 @@ void do_end(bool be_clever)
 			((was_column / editwincols) * editwincols) +
 			(editwincols - 1));
 
-	/* If already at the right edge of the screen, move fully to the
-	 * end of the line.  Otherwise, move to the right edge. */
+	/* If already at the right edge of the screen, move fully to
+	 * the end of the line.  Otherwise, move to the right edge. */
 	if (openfile->current_x == rightedge_x && be_clever)
 	    openfile->current_x = line_len;
 	else {
@@ -587,7 +587,7 @@ void do_left(void)
      * we're now above the first line of the edit window, so scroll up. */
     if (ISSET(SOFTWRAP) && openfile->current_y == 0 &&
 		openfile->current == was_current &&
-		(openfile->placewewant / editwincols) != was_chunk) {
+		openfile->placewewant / editwincols != was_chunk) {
 	edit_scroll(UPWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
 	return;
     }

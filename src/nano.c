@@ -1891,11 +1891,11 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
      * changed, we need a full refresh.  And if we were on the last line
      * of the edit window, and we moved one screen row, we're now below
      * the last line of the edit window, so we need a full refresh too. */
-    if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if ((strlenpt(openfile->current->data) / editwincols) != orig_rows ||
+    if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
+		(strlenpt(openfile->current->data) / editwincols != orig_rows ||
 		(openfile->current_y == editwinrows - 1 &&
-		xplustabs() / editwincols != original_row))
-	    refresh_needed = TRUE;
+		xplustabs() / editwincols != original_row)))
+	refresh_needed = TRUE;
 #endif
 
     free(char_buf);

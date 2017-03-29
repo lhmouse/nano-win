@@ -181,9 +181,9 @@ void do_deletion(undo_type action)
 #ifndef NANO_TINY
     /* If the number of screen rows that a softwrapped line occupies
      * has changed, we need a full refresh. */
-    if (ISSET(SOFTWRAP) && refresh_needed == FALSE)
-	if ((strlenpt(openfile->current->data) / editwincols) != orig_rows)
-	    refresh_needed = TRUE;
+    if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
+		strlenpt(openfile->current->data) / editwincols != orig_rows)
+	refresh_needed = TRUE;
 #endif
 
     set_modified();
