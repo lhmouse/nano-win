@@ -2869,21 +2869,18 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
  * and draw new lines on the blank lines left after the scrolling. */
 void edit_scroll(scroll_dir direction, int nrows)
 {
-    int i;
     filestruct *line;
     size_t leftedge;
 
     /* Part 1: nrows is the number of rows we're going to scroll the text of
      * the edit window. */
 
-    /* Move the top line of the edit window the requested number of rows. */
+    /* Move the top line of the edit window the requested number of rows up or
+     * down, and reduce the number of rows with the amount we couldn't move. */
     if (direction == UPWARD)
-	i = go_back_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
+	nrows -= go_back_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
     else
-	i = go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
-
-    /* If necessary, reduce the number of rows to what we could scroll. */
-    nrows -= i;
+	nrows -= go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
 
     /* Don't bother scrolling zero rows, nor more than the window can hold. */
     if (nrows == 0)
@@ -2914,19 +2911,18 @@ void edit_scroll(scroll_dir direction, int nrows)
     if (direction == DOWNWARD)
 	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
-    i = nrows;
 #ifndef NANO_TINY
     /* Compensate for the earlier onscreen chunks of a softwrapped line
      * when the first blank row happens to be in the middle of that line. */
     if (ISSET(SOFTWRAP) && line != openfile->edittop)
-	i += leftedge / editwincols;
+	nrows += leftedge / editwincols;
 #endif
 
     /* Draw new content on the blank rows inside the scrolled region
      * (and on the bordering row too when it was deemed necessary). */
-    while (i > 0 && line != NULL) {
-	i -= update_line(line, (line == openfile->current) ?
-				openfile->current_x : 0);
+    while (nrows > 0 && line != NULL) {
+	nrows -= update_line(line, (line == openfile->current) ?
+					openfile->current_x : 0);
 	line = line->next;
     }
 }
