@@ -352,8 +352,8 @@ void do_next_word_void(void)
  * If be_clever is FALSE, just do a simple home. */
 void do_home(bool be_clever)
 {
-    size_t was_column = xplustabs();
     filestruct *was_current = openfile->current;
+    size_t was_column = xplustabs();
     bool moved_off_chunk = TRUE;
 #ifndef NANO_TINY
     bool moved = FALSE;
@@ -415,9 +415,9 @@ void do_home_void(void)
  * it's possible.  If be_clever is FALSE, just do a simple end. */
 void do_end(bool be_clever)
 {
+    filestruct *was_current = openfile->current;
     size_t was_column = xplustabs();
     size_t line_len = strlen(openfile->current->data);
-    filestruct *was_current = openfile->current;
     bool moved_off_chunk = TRUE;
 
 #ifndef NANO_TINY
