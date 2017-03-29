@@ -1812,16 +1812,13 @@ int do_mouse(void)
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
-    size_t current_len, i = 0;
-#ifndef NANO_TINY
-    size_t orig_rows = 0, original_row = 0;
-#endif
     char *char_buf = charalloc(mb_cur_max());
     int char_len;
-
-    current_len = strlen(openfile->current->data);
-
+    size_t current_len = strlen(openfile->current->data);
+    size_t i = 0;
 #ifndef NANO_TINY
+    size_t orig_rows = 0, original_row = 0;
+
     if (ISSET(SOFTWRAP)) {
 	if (openfile->current_y == editwinrows - 1)
 	    original_row = xplustabs() / editwincols;
@@ -1849,8 +1846,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    if (margin > 0)
 		refresh_needed = TRUE;
 	}
-
-	assert(openfile->current_x <= current_len);
 
 	/* Make room for the new character and copy it into the line. */
 	openfile->current->data = charealloc(openfile->current->data,
