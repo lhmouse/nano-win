@@ -49,11 +49,31 @@ void do_last_line(void)
     focusing = FALSE;
 }
 
+/* Determine the actual current chunk and the target column. */
+void get_edge_and_target(size_t *leftedge, size_t *target_column)
+{
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP)) {
+	size_t realspan = strlenpt(openfile->current->data);
+
+	if (openfile->placewewant < realspan)
+	    realspan = openfile->placewewant;
+
+	*leftedge = (realspan / editwincols) * editwincols;
+	*target_column = openfile->placewewant % editwincols;
+    } else
+#endif
+    {
+	*leftedge = 0;
+	*target_column = openfile->placewewant;
+    }
+}
+
 /* Move up nearly one screenful. */
 void do_page_up(void)
 {
     int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
-    size_t leftedge = 0, target_column;
+    size_t leftedge, target_column;
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
@@ -63,18 +83,7 @@ void do_page_up(void)
 	openfile->current_y = 0;
     }
 
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	size_t realspan = strlenpt(openfile->current->data);
-
-	if (openfile->placewewant < realspan)
-	    realspan = openfile->placewewant;
-
-	leftedge = (realspan / editwincols) * editwincols;
-	target_column = openfile->placewewant % editwincols;
-    } else
-#endif
-	target_column = openfile->placewewant;
+    get_edge_and_target(&leftedge, &target_column);
 
     /* Move up the required number of lines or chunks.  If we can't, we're
      * at the top of the file, so put the cursor there and get out. */
@@ -96,7 +105,7 @@ void do_page_up(void)
 void do_page_down(void)
 {
     int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
-    size_t leftedge = 0, target_column;
+    size_t leftedge, target_column;
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
@@ -106,18 +115,7 @@ void do_page_down(void)
 	openfile->current_y = 0;
     }
 
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	size_t realspan = strlenpt(openfile->current->data);
-
-	if (openfile->placewewant < realspan)
-	    realspan = openfile->placewewant;
-
-	leftedge = (realspan / editwincols) * editwincols;
-	target_column = openfile->placewewant % editwincols;
-    } else
-#endif
-	target_column = openfile->placewewant;
+    get_edge_and_target(&leftedge, &target_column);
 
     /* Move down the required number of lines or chunks.  If we can't, we're
      * at the bottom of the file, so put the cursor there and get out. */
@@ -463,25 +461,14 @@ void do_up(bool scroll_only)
 {
     filestruct *was_current = openfile->current;
     size_t was_column = xplustabs();
-    size_t leftedge = 0, target_column;
+    size_t leftedge, target_column;
 
     /* When just scrolling and the top of the file is onscreen, get out. */
     if (scroll_only && openfile->edittop == openfile->fileage &&
 			openfile->firstcolumn == 0)
 	return;
 
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	size_t realspan = strlenpt(openfile->current->data);
-
-	if (openfile->placewewant < realspan)
-	    realspan = openfile->placewewant;
-
-	leftedge = (realspan / editwincols) * editwincols;
-	target_column = openfile->placewewant % editwincols;
-    } else
-#endif
-	target_column = openfile->placewewant;
+    get_edge_and_target(&leftedge, &target_column);
 
     /* If we can't move up one line or chunk, we're at top of file. */
     if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
@@ -523,20 +510,9 @@ void do_down(bool scroll_only)
 {
     filestruct *was_current = openfile->current;
     size_t was_column = xplustabs();
-    size_t leftedge = 0, target_column;
+    size_t leftedge, target_column;
 
-#ifndef NANO_TINY
-    if (ISSET(SOFTWRAP)) {
-	size_t realspan = strlenpt(openfile->current->data);
-
-	if (openfile->placewewant < realspan)
-	    realspan = openfile->placewewant;
-
-	leftedge = (realspan / editwincols) * editwincols;
-	target_column = openfile->placewewant % editwincols;
-    } else
-#endif
-	target_column = openfile->placewewant;
+    get_edge_and_target(&leftedge, &target_column);
 
     /* If we can't move down one line or chunk, we're at bottom of file. */
     if (go_forward_chunks(1, &openfile->current, &leftedge) > 0)
