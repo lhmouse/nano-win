@@ -1057,12 +1057,12 @@ void do_find_bracket(void)
     wanted_ch_len = parse_mbchar(wanted_ch, NULL, NULL);
 
     /* Fill bracket_set in with the values of ch and wanted_ch. */
-    bracket_set = charalloc((mb_cur_max() * 2) + 1);
+    bracket_set = charalloc((MAXCHARLEN * 2) + 1);
     strncpy(bracket_set, ch, ch_len);
     strncpy(bracket_set + ch_len, wanted_ch, wanted_ch_len);
     bracket_set[ch_len + wanted_ch_len] = '\0';
 
-    found_ch = charalloc(mb_cur_max() + 1);
+    found_ch = charalloc(MAXCHARLEN + 1);
 
     while (TRUE) {
 	if (find_bracket_match(reverse, bracket_set)) {

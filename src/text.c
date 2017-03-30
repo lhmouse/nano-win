@@ -1221,7 +1221,7 @@ void add_undo(undo_type action)
 	    u->xflags = WAS_FINAL_BACKSPACE;
     case DEL:
 	if (openfile->current->data[openfile->current_x] != '\0') {
-	    char *char_buf = charalloc(mb_cur_max() + 1);
+	    char *char_buf = charalloc(MAXCHARLEN + 1);
 	    int char_len = parse_mbchar(&openfile->current->data[u->begin],
 						char_buf, NULL);
 	    char_buf[char_len] = '\0';
@@ -1354,7 +1354,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	fprintf(stderr, "  >> openfile->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
 			openfile->current->data, (unsigned long)openfile->current_x, (unsigned long)u->begin);
 #endif
-	char *char_buf = charalloc(mb_cur_max());
+	char *char_buf = charalloc(MAXCHARLEN);
 	int char_len = parse_mbchar(&openfile->current->data[u->mark_begin_x], char_buf, NULL);
 	u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_len);
 #ifdef DEBUG
@@ -1366,7 +1366,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
     }
     case BACK:
     case DEL: {
-	char *char_buf = charalloc(mb_cur_max());
+	char *char_buf = charalloc(MAXCHARLEN);
 	int char_len = parse_mbchar(&openfile->current->data[openfile->current_x], char_buf, NULL);
 	if (openfile->current_x == u->begin) {
 	    /* They deleted more: add removed character after earlier stuff. */
@@ -1682,7 +1682,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 size_t indent_length(const char *line)
 {
     size_t len = 0;
-    char onechar[mb_cur_max()];
+    char onechar[MAXCHARLEN];
     int charlen;
 
     while (*line != '\0') {

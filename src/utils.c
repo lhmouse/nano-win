@@ -215,7 +215,7 @@ const char *fixbounds(const char *r)
  * a separate word?  That is: is it not part of a longer word?*/
 bool is_separate_word(size_t position, size_t length, const char *buf)
 {
-    char before[mb_cur_max()], after[mb_cur_max()];
+    char before[MAXCHARLEN], after[MAXCHARLEN];
     size_t word_end = position + length;
 
     /* Get the characters before and after the word, if any. */

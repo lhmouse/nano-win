@@ -68,6 +68,13 @@
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
 #define charset(dest, src, n) memset(dest, src, (n) * sizeof(char))
 
+/* In UTF-8 a character is at most six bytes long. */
+#ifdef ENABLE_UTF8
+#define MAXCHARLEN 6
+#else
+#define MAXCHARLEN 1
+#endif
+
 /* Set a default value for PATH_MAX if there isn't one. */
 #ifndef PATH_MAX
 #define PATH_MAX 4096

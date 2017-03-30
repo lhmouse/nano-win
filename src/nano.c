@@ -1812,7 +1812,7 @@ int do_mouse(void)
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
-    char onechar[mb_cur_max()];
+    char onechar[MAXCHARLEN];
     int char_len;
     size_t current_len = strlen(openfile->current->data);
     size_t i = 0;
@@ -2015,6 +2015,10 @@ int main(int argc, char **argv)
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
 #endif
+
+    if (MB_CUR_MAX > MAXCHARLEN)
+	fprintf(stderr, "Unexpected large character size: %i bytes"
+			" -- please report a bug\n", MB_CUR_MAX);
 
 #if defined(DISABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
     /* If we don't have rcfile support, --disable-wrapping-as-root is

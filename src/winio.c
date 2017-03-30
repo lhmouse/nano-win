@@ -1822,7 +1822,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     buf += start_index;
 
     /* Allocate enough space for converting the relevant part of the line. */
-    converted = charalloc(strlen(buf) * (mb_cur_max() + tabsize) + 1);
+    converted = charalloc(strlen(buf) * (MAXCHARLEN + tabsize) + 1);
 
     /* If the first character starts before the left edge, or would be
      * overwritten by a "$" token, then show placeholders instead. */
@@ -2136,8 +2136,8 @@ void statusline(message_type importance, const char *msg, ...)
     blank_statusbar();
 
     /* Construct the message out of all the arguments. */
-    compound = charalloc(mb_cur_max() * (COLS + 1));
-    vsnprintf(compound, mb_cur_max() * (COLS + 1), msg, ap);
+    compound = charalloc(MAXCHARLEN * (COLS + 1));
+    vsnprintf(compound, MAXCHARLEN * (COLS + 1), msg, ap);
     va_end(ap);
     message = display_string(compound, 0, COLS, FALSE);
     free(compound);

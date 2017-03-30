@@ -197,7 +197,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	bool filtering)
 {
     char *output = charalloc(input_len + 1);
-    char onechar[mb_cur_max()];
+    char onechar[MAXCHARLEN];
     int i, char_len;
 
     /* Copy the typed stuff so it can be treated. */
@@ -631,9 +631,9 @@ int do_prompt(bool allow_tabs, bool allow_files,
 #ifndef NANO_TINY
   redo_theprompt:
 #endif
-    prompt = charalloc((COLS * mb_cur_max()) + 1);
+    prompt = charalloc((COLS * MAXCHARLEN) + 1);
     va_start(ap, msg);
-    vsnprintf(prompt, COLS * mb_cur_max(), msg, ap);
+    vsnprintf(prompt, COLS * MAXCHARLEN, msg, ap);
     va_end(ap);
     /* Reserve five columns for colon plus angles plus answer, ":<aa>". */
     prompt[actual_x(prompt, (COLS < 5) ? 0 : COLS - 5)] = '\0';

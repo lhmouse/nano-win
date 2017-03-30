@@ -199,7 +199,6 @@ char control_rep(const signed char c);
 char control_mbrep(const char *c, bool isdata);
 int length_of_char(const char *c, int *width);
 int mbwidth(const char *c);
-int mb_cur_max(void);
 char *make_mbchar(long chr, int *chr_mb_len);
 int parse_mbchar(const char *buf, char *chr, size_t *col);
 size_t move_mbleft(const char *buf, size_t pos);

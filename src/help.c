@@ -370,7 +370,7 @@ void help_init(void)
      * plus one or two \n's. */
     for (f = allfuncs; f != NULL; f = f->next)
 	if (f->menus & currmenu)
-	    allocsize += (16 * mb_cur_max()) + strlen(f->help) + 2;
+	    allocsize += (16 * MAXCHARLEN) + strlen(f->help) + 2;
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.

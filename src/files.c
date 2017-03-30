@@ -2633,7 +2633,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	char *mzero, *glued;
 	const char *lastslash = revstrstr(buf, "/", buf + *place);
 	size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
-	char char1[mb_cur_max()], char2[mb_cur_max()];
+	char char1[MAXCHARLEN], char2[MAXCHARLEN];
 	int len1, len2;
 
 	/* Get the number of characters that all matches have in common. */

@@ -77,7 +77,7 @@ bool is_alpha_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 	    mbtowc_reset();
 	    return 0;
 	}
@@ -97,7 +97,7 @@ bool is_alnum_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 	    mbtowc_reset();
 	    return 0;
 	}
@@ -117,7 +117,7 @@ bool is_blank_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 	    mbtowc_reset();
 	    return 0;
 	}
@@ -165,7 +165,7 @@ bool is_punct_mbchar(const char *c)
     if (use_utf8) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 	    mbtowc_reset();
 	    return 0;
 	}
@@ -188,7 +188,7 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 	return TRUE;
 
     if (word_chars != NULL && *word_chars != '\0') {
-	char symbol[mb_cur_max() + 1];
+	char symbol[MAXCHARLEN + 1];
 	int symlen = parse_mbchar(c, symbol, NULL);
 
 	symbol[symlen] = '\0';
@@ -240,7 +240,7 @@ int length_of_char(const char *c, int *width)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
-	int charlen = mbtowc(&wc, c, MB_CUR_MAX);
+	int charlen = mbtowc(&wc, c, MAXCHARLEN);
 
 	/* If the sequence is invalid... */
 	if (charlen < 0) {
@@ -273,7 +273,7 @@ int mbwidth(const char *c)
 	wchar_t wc;
 	int width;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 	    mbtowc_reset();
 	    return 1;
 	}
@@ -289,17 +289,6 @@ int mbwidth(const char *c)
 	return 1;
 }
 
-/* Return the maximum length (in bytes) of a character. */
-int mb_cur_max(void)
-{
-#ifdef ENABLE_UTF8
-    if (use_utf8)
-	return MB_CUR_MAX;
-    else
-#endif
-	return 1;
-}
-
 /* Convert the Unicode value in chr to a multibyte character, if possible.
  * If the conversion succeeds, return the (dynamically allocated) multibyte
  * character and its length.  Otherwise, return an undefined (dynamically
@@ -310,7 +299,7 @@ char *make_mbchar(long chr, int *chr_mb_len)
 
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	chr_mb = charalloc(MB_CUR_MAX);
+	chr_mb = charalloc(MAXCHARLEN);
 	*chr_mb_len = wctomb(chr_mb, (wchar_t)chr);
 
 	/* Reject invalid Unicode characters. */
@@ -340,7 +329,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	/* Get the number of bytes in the multibyte character. */
-	length = mblen(buf, MB_CUR_MAX);
+	length = mblen(buf, MAXCHARLEN);
 
 	/* When the multibyte sequence is invalid, only take the first byte. */
 	if (length <= 0) {
@@ -410,10 +399,10 @@ size_t move_mbleft(const char *buf, size_t pos)
     /* There is no library function to move backward one multibyte
      * character.  So we just start groping for one at the farthest
      * possible point. */
-    if (mb_cur_max() > pos)
+    if (pos < MAXCHARLEN)
 	before = 0;
     else
-	before = pos - mb_cur_max();
+	before = pos - MAXCHARLEN;
 
     while (before < pos) {
 	char_len = parse_mbchar(buf + before, NULL, NULL);
@@ -446,12 +435,12 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	while (*s1 != '\0' && *s2 != '\0' && n > 0) {
 	    bool bad1 = FALSE, bad2 = FALSE;
 
-	    if (mbtowc(&wc1, s1, MB_CUR_MAX) < 0) {
+	    if (mbtowc(&wc1, s1, MAXCHARLEN) < 0) {
 		mbtowc_reset();
 		bad1 = TRUE;
 	    }
 
-	    if (mbtowc(&wc2, s2, MB_CUR_MAX) < 0) {
+	    if (mbtowc(&wc2, s2, MAXCHARLEN) < 0) {
 		mbtowc_reset();
 		bad2 = TRUE;
 	    }
@@ -625,11 +614,11 @@ char *mbstrchr(const char *s, const char *c)
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	bool bad_s_mb = FALSE, bad_c_mb = FALSE;
-	char symbol[MB_CUR_MAX];
+	char symbol[MAXCHARLEN];
 	const char *q = s;
 	wchar_t ws, wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 	    mbtowc_reset();
 	    wc = (unsigned char)*c;
 	    bad_c_mb = TRUE;
@@ -749,7 +738,7 @@ bool has_blank_mbchars(const char *s)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	char symbol[MB_CUR_MAX];
+	char symbol[MAXCHARLEN];
 
 	for (; *s != '\0'; s += move_mbright(s, 0)) {
 	    parse_mbchar(s, symbol, NULL);
