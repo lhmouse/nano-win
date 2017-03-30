@@ -197,7 +197,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	bool filtering)
 {
     char *output = charalloc(input_len + 1);
-    char *char_buf = charalloc(mb_cur_max());
+    char onechar[mb_cur_max()];
     int i, char_len;
 
     /* Copy the typed stuff so it can be treated. */
@@ -213,7 +213,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	    output[i] = '\n';
 
 	/* Interpret the next multibyte character. */
-	char_len = parse_mbchar(output + i, char_buf, NULL);
+	char_len = parse_mbchar(output + i, onechar, NULL);
 
 	i += char_len;
 
@@ -225,12 +225,11 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	answer = charealloc(answer, strlen(answer) + char_len + 1);
 	charmove(answer + statusbar_x + char_len, answer + statusbar_x,
 				strlen(answer) - statusbar_x + 1);
-	strncpy(answer + statusbar_x, char_buf, char_len);
+	strncpy(answer + statusbar_x, onechar, char_len);
 
 	statusbar_x += char_len;
     }
 
-    free(char_buf);
     free(output);
 
     update_the_statusbar();

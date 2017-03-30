@@ -1682,24 +1682,18 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 size_t indent_length(const char *line)
 {
     size_t len = 0;
-    char *blank_mb;
-    int blank_mb_len;
-
-    assert(line != NULL);
-
-    blank_mb = charalloc(mb_cur_max());
+    char onechar[mb_cur_max()];
+    int charlen;
 
     while (*line != '\0') {
-	blank_mb_len = parse_mbchar(line, blank_mb, NULL);
+	charlen = parse_mbchar(line, onechar, NULL);
 
-	if (!is_blank_mbchar(blank_mb))
+	if (!is_blank_mbchar(onechar))
 	    break;
 
-	line += blank_mb_len;
-	len += blank_mb_len;
+	line += charlen;
+	len += charlen;
     }
-
-    free(blank_mb);
 
     return len;
 }

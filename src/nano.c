@@ -1812,7 +1812,7 @@ int do_mouse(void)
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
-    char *char_buf = charalloc(mb_cur_max());
+    char onechar[mb_cur_max()];
     int char_len;
     size_t current_len = strlen(openfile->current->data);
     size_t i = 0;
@@ -1832,7 +1832,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    output[i] = '\n';
 
 	/* Get the next multibyte character. */
-	char_len = parse_mbchar(output + i, char_buf, NULL);
+	char_len = parse_mbchar(output + i, onechar, NULL);
 
 	i += char_len;
 
@@ -1853,7 +1853,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	charmove(openfile->current->data + openfile->current_x + char_len,
 			openfile->current->data + openfile->current_x,
 			current_len - openfile->current_x + 1);
-	strncpy(openfile->current->data + openfile->current_x, char_buf,
+	strncpy(openfile->current->data + openfile->current_x, onechar,
 			char_len);
 	current_len += char_len;
 	openfile->totsize++;
@@ -1892,8 +1892,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		xplustabs() / editwincols != original_row)))
 	refresh_needed = TRUE;
 #endif
-
-    free(char_buf);
 
     openfile->placewewant = xplustabs();
 
