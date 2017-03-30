@@ -1998,18 +1998,14 @@ int main(int argc, char **argv)
     tcgetattr(0, &oldterm);
 
 #ifdef ENABLE_UTF8
-    {
-	/* If the locale set exists and uses UTF-8, we should use
-	 * UTF-8. */
-	char *locale = setlocale(LC_ALL, "");
-
-	if (locale != NULL && (strcmp(nl_langinfo(CODESET),
-		"UTF-8") == 0)) {
+    /* If setting the locale is successful and it uses UTF-8, we need
+     * to use the multibyte functions for text processing. */
+    if (setlocale(LC_ALL, "") != NULL &&
+		strcmp(nl_langinfo(CODESET), "UTF-8") == 0) {
 #ifdef USE_SLANG
-	    SLutf8_enable(1);
+	SLutf8_enable(1);
 #endif
-	    utf8_init();
-	}
+	utf8_init();
     }
 #else
     setlocale(LC_ALL, "");
