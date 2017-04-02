@@ -1428,6 +1428,13 @@ it can also be appended or prepended to an existing file.
 When using the Read-File key (^R), @code{nano} can not just read a file,
 it can also read the output of a command to be run (^X).
 
+@item Reading from Working Directory
+By default, Pico will read files from the user's home directory (when
+using ^R), but it will write files to the current working directory
+(when using ^O).  @code{nano} makes this symmetrical: always reading
+from and writing to the current working directory --- the directory
+that @code{nano} was started in.
+
 @item File Browser
 In the file browser, @code{nano} does not implement the Add, Copy,
 Rename, and Delete commands that Pico provides.  In @code{nano} the
