@@ -1825,7 +1825,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     converted = charalloc(strlen(buf) * (mb_cur_max() + tabsize) + 1);
 
     /* If the first character starts before the left edge, or would be
-     * overwritten by a "$" token, then show spaces instead. */
+     * overwritten by a "$" token, then show placeholders instead. */
     if (*buf != '\0' && *buf != '\t' && (column < start_col ||
 				(column > 0 && isdata && !ISSET(SOFTWRAP)))) {
 	if (is_cntrl_mbchar(buf)) {
@@ -1842,7 +1842,8 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 		start_col++;
 	    }
 
-	    converted[index++] = ' ';
+	    /* Display the right half of a two-column character as '<'. */
+	    converted[index++] = '<';
 	    start_col++;
 
 	    buf += parse_mbchar(buf, NULL, NULL);
@@ -1925,9 +1926,16 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	   buf += charlength + 7;
     }
 
-    /* If there is more text than can be shown, make room for the $. */
-    if (*buf != '\0' && isdata && !ISSET(SOFTWRAP))
+    /* If there is more text than can be shown, make room for the $ or >. */
+    if (*buf != '\0' && (start_col > beyond || (isdata && !ISSET(SOFTWRAP)))) {
 	index = move_mbleft(converted, index);
+
+#ifdef ENABLE_UTF8
+	/* Display the left half of a two-column character as '>'. */
+	if (using_utf8() && mbwidth(buf) == 2)
+	    converted[index++] = '>';
+#endif
+    }
 
     /* Null-terminate the converted string. */
     converted[index] = '\0';
