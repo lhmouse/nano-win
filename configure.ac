@@ -604,19 +604,17 @@ AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_cv_flag_reg_extended,
 AC_MSG_CHECKING([for GNU-style word boundary regex support])
 AC_ARG_WITH(wordbounds,
 AS_HELP_STRING([--with-wordbounds], [Use GNU-style word boundary delimiters]),
-	[ case "$with_wordbounds" in
-	    no)
-		AC_MSG_RESULT(no)
-		;;
-	    *)
-		AC_MSG_RESULT(yes)
-		# We explicitly don't check if the user forced the option, because
-		# this is needed for cross compilers and we can't test the target.
-		AC_DEFINE(GNU_WORDBOUNDS, 1, [Define this if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
-		;;
-	  esac
-	], [
-	    AC_TRY_RUN([
+	[with_wordbounds=$withval], [with_wordbounds=auto])
+if test "$with_wordbounds" != "no"; then
+    dnl If we're using the bundled gnulib regex module, we know it's supported.
+    if test "$ac_use_included_regex" = "yes"; then
+        with_wordbounds="yes"
+    fi
+
+    dnl We explicitly don't check if the user forced the option, because
+    dnl this is needed for cross compilers and we can't test the target.
+    if test "$with_wordbounds" != "yes"; then
+        AC_TRY_RUN([
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -633,12 +631,23 @@ int main(void)
 	return 1;
     return 0;
 }],
-	    AC_MSG_RESULT(yes)
-	    AC_DEFINE(GNU_WORDBOUNDS, 1, [Define this if the system supports GNU-style word boundaries in regexes.]) gnu_wordbounds=yes,
-	    AC_MSG_RESULT(no),
-	    AC_MSG_WARN([*** Can't check for GNU-style word boundary support when cross-compiling])
-	)
-])
+        with_wordbounds="yes",
+        with_wordbounds="no",
+        with_wordbounds="cross")
+    fi
+fi
+case $with_wordbounds in
+yes)
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(GNU_WORDBOUNDS, 1, [Define this if the system supports GNU-style word boundaries in regexes.])
+    ;;
+no)
+    AC_MSG_RESULT(no)
+    ;;
+cross)
+    AC_MSG_WARN([*** Can't check for GNU-style word boundary support when cross-compiling])
+    ;;
+esac
 
 if test x$color_support = xyes; then
 #    if test x$CURSES_LIB_NAME = xcurses; then
