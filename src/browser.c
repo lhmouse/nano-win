@@ -198,6 +198,17 @@ char *do_browser(char *path)
 	} else if (func == do_down_void) {
 	    if (selected + width <= filelist_len - 1)
 		selected += width;
+	} else if (func == do_prev_block) {
+	    selected = ((selected / (editwinrows * width)) *
+				editwinrows * width) + selected % width;
+	} else if (func == do_next_block) {
+	    selected = ((selected / (editwinrows * width)) *
+				editwinrows * width) + selected % width +
+				editwinrows * width - width;
+	    if (selected >= filelist_len)
+		selected = (filelist_len / width) * width + selected % width;
+	    if (selected >= filelist_len)
+		selected -= width;
 	} else if (func == do_page_up) {
 	    if (selected < width)
 		selected = 0;

@@ -502,6 +502,8 @@ void shortcut_init(void)
 #ifndef NANO_TINY
     const char *nano_browser_lefthand_msg = N_("Go to lefthand column");
     const char *nano_browser_righthand_msg = N_("Go to righthand column");
+    const char *nano_browser_toprow_msg = N_("Go to first row in this column");
+    const char *nano_browser_bottomrow_msg = N_("Go to last row in this column");
 #endif
 #endif
     const char *nano_prevpage_msg = N_("Go one screenful up");
@@ -1015,7 +1017,11 @@ void shortcut_init(void)
     add_to_funcs(do_prev_word_void, MBROWSER,
 	N_("Left Column"), IFSCHELP(nano_browser_lefthand_msg), TOGETHER, VIEW);
     add_to_funcs(do_next_word_void, MBROWSER,
-	N_("Right Column"), IFSCHELP(nano_browser_righthand_msg), BLANKAFTER, VIEW);
+	N_("Right Column"), IFSCHELP(nano_browser_righthand_msg), TOGETHER, VIEW);
+    add_to_funcs(do_prev_block, MBROWSER,
+	N_("Top Row"), IFSCHELP(nano_browser_toprow_msg), TOGETHER, VIEW);
+    add_to_funcs(do_next_block, MBROWSER,
+	N_("Bottom Row"), IFSCHELP(nano_browser_bottomrow_msg), BLANKAFTER, VIEW);
 #endif
 #endif
 
@@ -1121,13 +1127,13 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down_void, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
-	add_to_sclist(MMAIN, "^\xE2\x86\x91", CONTROL_UP, do_prev_block, 0);
-	add_to_sclist(MMAIN, "^\xE2\x86\x93", CONTROL_DOWN, do_next_block, 0);
+	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x86\x91", CONTROL_UP, do_prev_block, 0);
+	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x86\x93", CONTROL_DOWN, do_next_block, 0);
     } else
 #endif
     {
-	add_to_sclist(MMAIN, "^Up", CONTROL_UP, do_prev_block, 0);
-	add_to_sclist(MMAIN, "^Down", CONTROL_DOWN, do_next_block, 0);
+	add_to_sclist(MMAIN|MBROWSER, "^Up", CONTROL_UP, do_prev_block, 0);
+	add_to_sclist(MMAIN|MBROWSER, "^Down", CONTROL_DOWN, do_next_block, 0);
     }
     add_to_sclist(MMAIN, "M-7", 0, do_prev_block, 0);
     add_to_sclist(MMAIN, "M-8", 0, do_next_block, 0);
