@@ -298,7 +298,7 @@ void init_backup_dir(void);
 int delete_lockfile(const char *lockfilename);
 int write_lockfile(const char *lockfilename, const char *origfilename, bool modified);
 #endif
-int copy_file(FILE *inn, FILE *out);
+int copy_file(FILE *inn, FILE *out, bool close_out);
 bool write_file(const char *name, FILE *f_open, bool tmp,
 	kind_of_writing_type method, bool nonamechange);
 #ifndef NANO_TINY

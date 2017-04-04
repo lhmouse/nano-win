@@ -1541,12 +1541,14 @@ void init_backup_dir(void)
 
 /* Read from inn, write to out.  We assume inn is opened for reading,
  * and out for writing.  We return 0 on success, -1 on read error, or -2
- * on write error. */
-int copy_file(FILE *inn, FILE *out)
+ * on write error.  inn is always closed by this function, out is closed
+ * only if close_out is true. */
+int copy_file(FILE *inn, FILE *out, bool close_out)
 {
     int retval = 0;
     char buf[BUFSIZ];
     size_t charsread;
+    int (*flush_out_fnc)(FILE *) = (close_out) ? fclose : fflush;
 
     assert(inn != NULL && out != NULL && inn != out);
 
@@ -1564,7 +1566,7 @@ int copy_file(FILE *inn, FILE *out)
 
     if (fclose(inn) == EOF)
 	retval = -1;
-    if (fclose(out) == EOF)
+    if (flush_out_fnc(out) == EOF)
 	retval = -2;
 
     return retval;
@@ -1655,13 +1657,13 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	int backup_fd;
 	FILE *backup_file;
 	char *backupname;
-	struct utimbuf filetime;
+	static struct timespec filetime[2];
 	int copy_status;
 	int backup_cflags;
 
 	/* Save the original file's access and modification times. */
-	filetime.actime = openfile->current_stat->st_atime;
-	filetime.modtime = openfile->current_stat->st_mtime;
+	filetime[0].tv_sec = openfile->current_stat->st_atime;
+	filetime[1].tv_sec = openfile->current_stat->st_mtime;
 
 	if (f_open == NULL) {
 	    /* Open the original file to copy to the backup. */
@@ -1790,7 +1792,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #endif
 
 	/* Copy the file. */
-	copy_status = copy_file(f, backup_file);
+	copy_status = copy_file(f, backup_file, FALSE);
 
 	if (copy_status != 0) {
 	    statusline(ALERT, _("Error reading %s: %s"), realname,
@@ -1799,7 +1801,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	}
 
 	/* And set its metadata. */
-	if (utime(backupname, &filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
+	if (futimens(backup_fd, filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
+	    fclose(backup_file);
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
@@ -1811,6 +1814,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    goto cleanup_and_exit;
 	}
 
+	fclose(backup_file);
 	free(backupname);
     }
 
@@ -1867,7 +1871,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    }
 	}
 
-	if (f_source == NULL || copy_file(f_source, f) != 0) {
+	if (f_source == NULL || copy_file(f_source, f, TRUE) != 0) {
 	    statusline(ALERT, _("Error writing temp file: %s"),
 			strerror(errno));
 	    unlink(tempname);
@@ -1975,7 +1979,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    goto cleanup_and_exit;
 	}
 
-	if (copy_file(f_source, f) == -1) {
+	if (copy_file(f_source, f, TRUE) == -1) {
 	    statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	    goto cleanup_and_exit;
