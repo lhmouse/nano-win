@@ -587,17 +587,26 @@ else
     fi
 fi
 
-AC_CACHE_CHECK([for enhanced regular expression flag], nano_cv_flag_reg_extended,
+AC_CACHE_CHECK([for enhanced regular expression flag], nano_cv_flag_reg_enhanced,
 	       [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <regex.h>]],
 						   [[
 						     #ifndef REG_ENHANCED
 						     error: No REG_ENHANCED support!
 						     #endif
 						   ]])],
-				  [nano_cv_flag_reg_extended="REG_EXTENDED | REG_ENHANCED"],
-				  [nano_cv_flag_reg_extended="REG_EXTENDED"])])
+				  [nano_cv_flag_reg_enhanced=yes],
+				  [nano_cv_flag_reg_enhanced=no])])
+dnl The bundled gnulib regex module doesn't support REG_ENHANCED.
+if test "$ac_use_included_regex" = "yes"; then
+    nano_cv_flag_reg_enhanced="no"
+fi
+if test "$nano_cv_flag_reg_enhanced" = "yes"; then
+    nano_reg_extended="REG_EXTENDED | REG_ENHANCED"
+else
+    nano_reg_extended="REG_EXTENDED"
+fi
 
-AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_cv_flag_reg_extended,
+AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_reg_extended,
 		   [Flag(s) to use to get the full range of extended regular expressions])
 
 # Check for word-boundary support (/< and />).
@@ -625,7 +634,7 @@ int main(void)
     size_t nmatch;
     regmatch_t pmatch;
 
-    if (regcomp(&r, "\\\\>", $nano_cv_flag_reg_extended|REG_NOSUB))
+    if (regcomp(&r, "\\\\>", $nano_reg_extended|REG_NOSUB))
 	return 1;
     if (regexec(&r, "word boundary", nmatch, &pmatch, 0))
 	return 1;
