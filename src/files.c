@@ -1979,7 +1979,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    goto cleanup_and_exit;
 	}
 
-	if (copy_file(f_source, f, TRUE) == -1) {
+	if (copy_file(f_source, f, TRUE) != 0) {
 	    statusline(ALERT, _("Error writing %s: %s"), realname,
 			strerror(errno));
 	    goto cleanup_and_exit;
