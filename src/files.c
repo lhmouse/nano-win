@@ -1658,7 +1658,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	FILE *backup_file;
 	char *backupname;
 	static struct timespec filetime[2];
-	int copy_status;
 	int backup_cflags;
 
 	/* Save the original file's access and modification times. */
@@ -1755,35 +1754,36 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
 			backupname, strerror(errno));
 	    free(backupname);
+	    /* If we can't make a backup, DON'T go on, since whatever caused
+	     * the backup to fail (e.g. disk full) may well cause the real
+	     * file write to fail, in which case we could lose both the
+	     * backup and the original! */
 	    goto cleanup_and_exit;
 	}
 
-	/* We shouldn't worry about chown()ing something if we're not
-	 * root, since it's likely to fail! */
-	if (geteuid() == NANO_ROOT_UID && fchown(backup_fd,
-		openfile->current_stat->st_uid, openfile->current_stat->st_gid) == -1
-		&& !ISSET(INSECURE_BACKUP)) {
+	/* Only try chowning the backup when we're root. */
+	if (geteuid() == NANO_ROOT_UID &&
+			fchown(backup_fd, openfile->current_stat->st_uid,
+			openfile->current_stat->st_gid) == -1 &&
+			!ISSET(INSECURE_BACKUP)) {
+	    fclose(backup_file);
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
 			backupname, strerror(errno));
 	    free(backupname);
-	    fclose(backup_file);
 	    goto cleanup_and_exit;
 	}
 
-	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1
-		&& !ISSET(INSECURE_BACKUP)) {
+	/* Set the backup's mode bits. */
+	if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 &&
+			!ISSET(INSECURE_BACKUP)) {
+	    fclose(backup_file);
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
 			backupname, strerror(errno));
 	    free(backupname);
-	    fclose(backup_file);
-	    /* If we can't write to the backup, DONT go on, since
-	     * whatever caused the backup file to fail (e.g. disk
-	     * full) may well cause the real file write to fail, which
-	     * means we could lose both the backup and the original! */
 	    goto cleanup_and_exit;
 	}
 
@@ -1792,25 +1792,20 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #endif
 
 	/* Copy the file. */
-	copy_status = copy_file(f, backup_file, FALSE);
-
-	if (copy_status != 0) {
+	if (copy_file(f, backup_file, FALSE) != 0) {
+	    fclose(backup_file);
 	    statusline(ALERT, _("Error reading %s: %s"), realname,
 			strerror(errno));
 	    goto cleanup_and_exit;
 	}
 
-	/* And set its metadata. */
+	/* And set the backup's timestamps. */
 	if (futimens(backup_fd, filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
 	    fclose(backup_file);
 	    if (prompt_failed_backupwrite(backupname))
 		goto skip_backup;
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
 			backupname, strerror(errno));
-	    /* If we can't write to the backup, DON'T go on, since
-	     * whatever caused the backup file to fail (e.g. disk full
-	     * may well cause the real file write to fail, which means
-	     * we could lose both the backup and the original! */
 	    goto cleanup_and_exit;
 	}
 
