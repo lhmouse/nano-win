@@ -1103,16 +1103,18 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-3", 0, do_comment, 0);
 #endif
     add_to_sclist(MMOST, "^B", 0, do_left, 0);
-    add_to_sclist(MMOST, "Left", KEY_LEFT, do_left, 0);
     add_to_sclist(MMOST, "^F", 0, do_right, 0);
-    add_to_sclist(MMOST, "Right", KEY_RIGHT, do_right, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
+	add_to_sclist(MMOST, "\xE2\x86\x90", KEY_LEFT, do_left, 0);
+	add_to_sclist(MMOST, "\xE2\x86\x92", KEY_RIGHT, do_right, 0);
 	add_to_sclist(MMOST, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
 	add_to_sclist(MMOST, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
     } else
 #endif
     {
+	add_to_sclist(MMOST, "Left", KEY_LEFT, do_left, 0);
+	add_to_sclist(MMOST, "Right", KEY_RIGHT, do_right, 0);
 	add_to_sclist(MMOST, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
 	add_to_sclist(MMOST, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
     }
@@ -1123,16 +1125,18 @@ void shortcut_init(void)
     add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end_void, 0);
     add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", 0, do_up_void, 0);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down_void, 0);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down_void, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x86\x91", KEY_UP, do_up_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x86\x93", KEY_DOWN, do_down_void, 0);
 	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x86\x91", CONTROL_UP, do_prev_block, 0);
 	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x86\x93", CONTROL_DOWN, do_next_block, 0);
     } else
 #endif
     {
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down_void, 0);
 	add_to_sclist(MMAIN|MBROWSER, "^Up", CONTROL_UP, do_prev_block, 0);
 	add_to_sclist(MMAIN|MBROWSER, "^Down", CONTROL_DOWN, do_next_block, 0);
     }
