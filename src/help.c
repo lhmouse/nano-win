@@ -418,9 +418,9 @@ void help_init(void)
 		/* Make the first column narrower (6) than the second (10),
 		 * but allow it to spill into the second, for "M-Space". */
 		if (scsfound == 1) {
-		    sprintf(ptr, "%s              ", s->keystr);
+		    sprintf(ptr, "%s               ", s->keystr);
 		    /* Unicode arrows take three bytes instead of one. */
-		    if (s->keystr[1] == '\xE2')
+		    if (s->keystr[0] == '\xE2' || s->keystr[1] == '\xE2')
 			ptr += 8;
 		    else
 			ptr += 6;
