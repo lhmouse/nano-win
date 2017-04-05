@@ -505,6 +505,10 @@ int parse_kbinput(WINDOW *win)
 	return CONTROL_UP;
     else if (retval == controldown)
 	return CONTROL_DOWN;
+    else if (retval == controlhome)
+	return CONTROL_HOME;
+    else if (retval == controlend)
+	return CONTROL_END;
 #ifndef NANO_TINY
     else if (retval == shiftcontrolleft) {
 	shift_held = TRUE;
@@ -518,6 +522,12 @@ int parse_kbinput(WINDOW *win)
     } else if (retval == shiftcontroldown) {
 	shift_held = TRUE;
 	return CONTROL_DOWN;
+    } else if (retval == shiftcontrolhome) {
+	shift_held = TRUE;
+	return CONTROL_HOME;
+    } else if (retval == shiftcontrolend) {
+	shift_held = TRUE;
+	return CONTROL_END;
     } else if (retval == shiftaltleft) {
 	shift_held = TRUE;
 	return KEY_HOME;
@@ -554,6 +564,10 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_LEFT;
 	    else if (retval == KEY_RIGHT)
 		return CONTROL_RIGHT;
+	    else if (retval == KEY_HOME)
+		return CONTROL_HOME;
+	    else if (retval == KEY_END)
+		return CONTROL_END;
 	}
 #ifndef NANO_TINY
 	/* Are both Shift and Alt being held? */

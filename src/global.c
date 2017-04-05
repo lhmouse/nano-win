@@ -59,9 +59,10 @@ message_type lastmessage = HUSH;
 filestruct *pletion_line = NULL;
 	/* The line where the last completion was found, if any. */
 
-int controlleft, controlright, controlup, controldown;
+int controlleft, controlright, controlup, controldown, controlhome, controlend;
 #ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
+int shiftcontrolhome, shiftcontrolend;
 int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
@@ -1078,8 +1079,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", 0, do_page_down, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgDn", KEY_NPAGE, do_page_down, 0);
     add_to_sclist(MMAIN|MHELP, "M-\\", 0, do_first_line, 0);
+    add_to_sclist(MMAIN|MHELP, "^Home", CONTROL_HOME, do_first_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-|", 0, do_first_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-/", 0, do_last_line, 0);
+    add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-?", 0, do_last_line, 0);
     add_to_sclist(MMAIN|MBROWSER, "M-W", 0, do_research, 0);
     add_to_sclist(MMAIN|MBROWSER, "F16", 0, do_research, 0);
@@ -1239,6 +1242,8 @@ void shortcut_init(void)
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", 0, do_last_file, 0);
     add_to_sclist(MBROWSER, "Home", KEY_HOME, do_first_file, 0);
     add_to_sclist(MBROWSER, "End", KEY_END, do_last_file, 0);
+    add_to_sclist(MBROWSER, "^Home", CONTROL_HOME, do_first_file, 0);
+    add_to_sclist(MBROWSER, "^End", CONTROL_HOME, do_last_file, 0);
     add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
     add_to_sclist(MBROWSER, "M-G", 0, goto_dir_void, 0);
     add_to_sclist(MBROWSER, "F13", 0, goto_dir_void, 0);

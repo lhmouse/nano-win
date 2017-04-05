@@ -2514,12 +2514,18 @@ int main(int argc, char **argv)
     controlright = get_keycode("kRIT5", CONTROL_RIGHT);
     controlup = get_keycode("kUP5", CONTROL_UP);
     controldown = get_keycode("kDN5", CONTROL_DOWN);
+    /* Ask for the codes for Control+Home/End. */
+    controlhome = get_keycode("kHOM5", CONTROL_HOME);
+    controlend = get_keycode("kEND5", CONTROL_END);
 #ifndef NANO_TINY
     /* Ask for the codes for Shift+Control+Left/Right/Up/Down. */
     shiftcontrolleft = get_keycode("kLFT6", SHIFT_CONTROL_LEFT);
     shiftcontrolright = get_keycode("kRIT6", SHIFT_CONTROL_RIGHT);
     shiftcontrolup = get_keycode("kUP6", SHIFT_CONTROL_UP);
     shiftcontroldown = get_keycode("kDN6", SHIFT_CONTROL_DOWN);
+    /* Ask for the codes for Shift+Control+Home/End. */
+    shiftcontrolhome = get_keycode("kHOM6", SHIFT_CONTROL_HOME);
+    shiftcontrolend = get_keycode("kEND6", SHIFT_CONTROL_END);
     /* Ask for the codes for Shift+Alt+Left/Right/Up/Down. */
     shiftaltleft = get_keycode("kLFT4", SHIFT_ALT_LEFT);
     shiftaltright = get_keycode("kRIT4", SHIFT_ALT_RIGHT);
