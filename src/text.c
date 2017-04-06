@@ -768,11 +768,13 @@ void do_undo(void)
 	    break;
 	}
 	undidmsg = _("line break");
+	size_t from_x = (u->begin == 0) ? 0 : u->mark_begin_x;
+	size_t to_x = (u->begin == 0) ? u->mark_begin_x : u->begin;
 	f->data = charealloc(f->data, strlen(f->data) +
-				strlen(&f->next->data[u->mark_begin_x]) + 1);
-	strcat(f->data, &f->next->data[u->mark_begin_x]);
+				strlen(&u->strdata[from_x]) + 1);
+	strcat(f->data, &u->strdata[from_x]);
 	unlink_node(f->next);
-	goto_line_posx(u->lineno, u->begin);
+	goto_line_posx(u->lineno, to_x);
 	break;
 #ifdef ENABLE_COMMENT
     case COMMENT:
@@ -982,12 +984,11 @@ void do_enter(void)
 {
     filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
+    bool allblanks = FALSE;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_TINY
-    add_undo(ENTER);
-
     if (ISSET(AUTOINDENT)) {
 	extra = indent_length(openfile->current->data);
 
@@ -995,6 +996,8 @@ void do_enter(void)
 	 * indentation to the current x position. */
 	if (extra > openfile->current_x)
 	    extra = openfile->current_x;
+	else if (extra == openfile->current_x)
+	    allblanks = TRUE;
     }
 #endif
     newnode->data = charalloc(strlen(openfile->current->data +
@@ -1005,13 +1008,19 @@ void do_enter(void)
     if (ISSET(AUTOINDENT)) {
 	/* Copy the whitespace from the current line to the new one. */
 	strncpy(newnode->data, openfile->current->data, extra);
-	openfile->totsize += extra;
+	/* If there were only blanks before the cursor, trim them. */
+	if (allblanks)
+	    openfile->current_x = 0;
+	else
+	    openfile->totsize += extra;
     }
 #endif
 
     null_at(&openfile->current->data, openfile->current_x);
 
 #ifndef NANO_TINY
+    add_undo(ENTER);
+
     /* Adjust the mark if it was on the current line after the cursor. */
     if (openfile->mark_set && openfile->current == openfile->mark_begin &&
 		openfile->current_x < openfile->mark_begin_x) {
