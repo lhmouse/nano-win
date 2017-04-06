@@ -967,6 +967,10 @@ int convert_sequence(const int *seq, size_t seq_len)
 			return CONTROL_RIGHT;
 		    case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
 			return CONTROL_LEFT;
+		    case 'F': /* Esc [ 1 ; 5 F == Ctrl-End on xterm. */
+			return CONTROL_END;
+		    case 'H': /* Esc [ 1 ; 5 H == Ctrl-Home on xterm. */
+			return CONTROL_HOME;
 		}
 		break;
 #ifndef NANO_TINY
@@ -980,6 +984,10 @@ int convert_sequence(const int *seq, size_t seq_len)
 			return shiftcontrolright;
 		    case 'D': /* Esc [ 1 ; 6 D == Shift-Ctrl-Left on xterm. */
 			return shiftcontrolleft;
+		    case 'F': /* Esc [ 1 ; 6 F == Shift-Ctrl-End on xterm. */
+			return shiftcontrolend;
+		    case 'H': /* Esc [ 1 ; 6 H == Shift-Ctrl-Home on xterm. */
+			return shiftcontrolhome;
 		}
 		break;
 #endif
@@ -1044,19 +1052,35 @@ int convert_sequence(const int *seq, size_t seq_len)
 			if (seq_len > 2 && (seq[2] == '~' || seq[2] == '^'))
 			    return KEY_NPAGE;
 			break;
-		    case '7': /* Esc [ 7 ~ == Home on Eterm/rxvt,
-			       * Esc [ 7 $ == Shift-Home on Eterm/rxvt. */
+		    case '7': /* Esc [ 7 ~ == Home on Eterm/rxvt;
+			       * Esc [ 7 $ == Shift-Home on Eterm/rxvt;
+			       * Esc [ 7 ^ == Control-Home on Eterm/rxvt;
+			       * Esc [ 7 @ == Shift-Control-Home on same. */
 			if (seq_len > 2 && seq[2] == '~')
 			    return KEY_HOME;
 			else if (seq_len > 2 && seq[2] == '$')
 			    return SHIFT_HOME;
+			else if (seq_len > 2 && seq[2] == '^')
+			    return CONTROL_HOME;
+#ifndef NANO_TINY
+			else if (seq_len > 2 && seq[2] == '@')
+			    return shiftcontrolhome;
+#endif
 			break;
-		    case '8': /* Esc [ 8 ~ == End on Eterm/rxvt.
-			       * Esc [ 8 $ == Shift-End on Eterm/rxvt. */
+		    case '8': /* Esc [ 8 ~ == End on Eterm/rxvt;
+			       * Esc [ 8 $ == Shift-End on Eterm/rxvt;
+			       * Esc [ 8 ^ == Control-End on Eterm/rxvt;
+			       * Esc [ 8 @ == Shift-Control-End on same. */
 			if (seq_len > 2 && seq[2] == '~')
 			    return KEY_END;
 			else if (seq_len > 2 && seq[2] == '$')
 			    return SHIFT_END;
+			else if (seq_len > 2 && seq[2] == '^')
+			    return CONTROL_END;
+#ifndef NANO_TINY
+			else if (seq_len > 2 && seq[2] == '@')
+			    return shiftcontrolend;
+#endif
 			break;
 		    case '9': /* Esc [ 9 == Delete on Mach console. */
 			return KEY_DC;
