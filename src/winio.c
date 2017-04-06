@@ -2287,6 +2287,12 @@ void reset_cursor(void)
 	/* Add the number of wraps in the current line before the cursor. */
 	row += xpt / editwincols;
 	col = xpt % editwincols;
+
+	/* If the cursor ought to be in column zero, nudge it there. */
+	if (openfile->placewewant % editwincols == 0 && col != 0) {
+	    row++;
+	    col = 0;
+	}
     } else
 #endif
     {
