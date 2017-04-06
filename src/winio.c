@@ -1932,7 +1932,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 
 #ifdef ENABLE_UTF8
 	/* Display the left half of a two-column character as '>'. */
-	if (using_utf8() && mbwidth(buf) == 2)
+	if (mbwidth(converted + index) == 2)
 	    converted[index++] = '>';
 #endif
     }
