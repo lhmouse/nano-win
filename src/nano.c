@@ -2017,7 +2017,7 @@ int main(int argc, char **argv)
 
     if (MB_CUR_MAX > MAXCHARLEN)
 	fprintf(stderr, "Unexpected large character size: %i bytes"
-			" -- please report a bug\n", MB_CUR_MAX);
+			" -- please report a bug\n", (int)MB_CUR_MAX);
 
 #if defined(DISABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
     /* If we don't have rcfile support, --disable-wrapping-as-root is
