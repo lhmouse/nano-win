@@ -350,7 +350,7 @@ void do_next_word_void(void)
 void do_home(bool be_clever)
 {
     filestruct *was_current = openfile->current;
-    size_t was_column = xplustabs();
+    size_t was_column = openfile->placewewant;
     bool moved_off_chunk = TRUE;
 #ifndef NANO_TINY
     bool moved = FALSE;
@@ -380,17 +380,19 @@ void do_home(bool be_clever)
     if (!moved && ISSET(SOFTWRAP)) {
 	/* If already at the left edge of the screen, move fully home.
 	 * Otherwise, move to the left edge. */
-	if (openfile->current_x == leftedge_x && be_clever)
+	if (was_column % editwincols == 0 && be_clever)
 	    openfile->current_x = 0;
 	else {
 	    openfile->current_x = leftedge_x;
+	    openfile->placewewant = (was_column / editwincols) * editwincols;
 	    moved_off_chunk = FALSE;
 	}
     } else if (!moved)
 #endif
 	openfile->current_x = 0;
 
-    openfile->placewewant = xplustabs();
+    if (moved_off_chunk)
+	openfile->placewewant = 0;
 
     /* If we changed chunk, we might be offscreen.  Otherwise,
      * update current if the mark is on or we changed "page". */
@@ -413,7 +415,7 @@ void do_home_void(void)
 void do_end(bool be_clever)
 {
     filestruct *was_current = openfile->current;
-    size_t was_column = xplustabs();
+    size_t was_column = openfile->placewewant;
     size_t line_len = strlen(openfile->current->data);
     bool moved_off_chunk = TRUE;
 
