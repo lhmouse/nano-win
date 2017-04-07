@@ -1088,10 +1088,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MBROWSER, "F16", 0, do_research, 0);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
-    add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
     add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
-    add_to_sclist(MMAIN, "F15", 0, do_mark, 0);
+    add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
     add_to_sclist(MMAIN, "^^", 0, do_mark, 0);
+    add_to_sclist(MMAIN, "F15", 0, do_mark, 0);
     add_to_sclist(MMAIN, "M-6", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-}", 0, do_indent_void, 0);
