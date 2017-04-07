@@ -96,7 +96,7 @@ void do_page_up(void)
     openfile->current_x = actual_x(openfile->current->data,
 					openfile->placewewant);
 
-    /* Scroll the edit window up a page. */
+    /* Move the viewport so that the cursor stays immobile, if possible. */
     adjust_viewport(STATIONARY);
     refresh_needed = TRUE;
 }
@@ -128,7 +128,7 @@ void do_page_down(void)
     openfile->current_x = actual_x(openfile->current->data,
 					openfile->placewewant);
 
-    /* Scroll the edit window down a page. */
+    /* Move the viewport so that the cursor stays immobile, if possible. */
     adjust_viewport(STATIONARY);
     refresh_needed = TRUE;
 }
@@ -153,8 +153,7 @@ void do_para_begin(bool allow_update)
 	edit_redraw(was_current);
 }
 
-/* Move up to the beginning of the last beginning-of-paragraph line
- * before the current line, and update the screen afterwards. */
+/* Move up to first start of a paragraph before the current line. */
 void do_para_begin_void(void)
 {
     do_para_begin(TRUE);
@@ -190,9 +189,7 @@ void do_para_end(bool allow_update)
 	edit_redraw(was_current);
 }
 
-/* Move down to the beginning of the last line of the current paragraph.
- * Then move down one line farther if there is such a line, or to the
- * end of the current line if not, and update the screen afterwards. */
+/* Move down to just after the first end of a paragraph. */
 void do_para_end_void(void)
 {
     do_para_end(TRUE);
@@ -348,7 +345,7 @@ void do_next_word_void(void)
 
 /* Move to the beginning of the current line (or softwrapped chunk).
  * If be_clever is TRUE, do a smart home when wanted and possible,
- * and do a dynamic home when in softwrap mode and it'spossible.
+ * and do a dynamic home when in softwrap mode and it's possible.
  * If be_clever is FALSE, just do a simple home. */
 void do_home(bool be_clever)
 {
