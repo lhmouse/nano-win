@@ -30,8 +30,7 @@ This manual documents GNU @code{nano}, a small and friendly text editor.
 
 This manual is part of the GNU @code{nano} distribution.@*
 @sp 4
-Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
-2009, 2014, 2015 Free Software Foundation, Inc.
+Copyright (C) 1999-2009, 2014-2017 Free Software Foundation, Inc.
 
 This document is dual-licensed.  You may distribute and/or modify it
 under the terms of either of the following licenses:
