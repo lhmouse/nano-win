@@ -1228,9 +1228,17 @@ void shortcut_init(void)
     add_to_sclist(MGOTOLINE, "^T", 0, gototext_void, 0);
 #ifndef DISABLE_HISTORIES
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^P", 0, get_history_older_void, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Up", KEY_UP, get_history_older_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^N", 0, get_history_newer_void, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Down", KEY_DOWN, get_history_newer_void, 0);
+#ifdef ENABLE_UTF8
+    if (using_utf8()) {
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "\xE2\x86\x91", KEY_UP, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "\xE2\x86\x93", KEY_DOWN, get_history_newer_void, 0);
+    } else
+#endif
+    {
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Up", KEY_UP, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Down", KEY_DOWN, get_history_newer_void, 0);
+    }
 #endif
 #ifndef DISABLE_BROWSER
     add_to_sclist(MWHEREISFILE, "^Y", 0, do_first_file, 0);
