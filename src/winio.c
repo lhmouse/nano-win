@@ -1445,26 +1445,6 @@ int get_control_kbinput(int kbinput)
     return retval;
 }
 
-/* Put the output-formatted characters in output back into the keystroke
- * buffer, so that they can be parsed and displayed as output again. */
-void unparse_kbinput(char *output, size_t output_len)
-{
-    int *input;
-    size_t i;
-
-    if (output_len == 0)
-	return;
-
-    input = (int *)nmalloc(output_len * sizeof(int));
-
-    for (i = 0; i < output_len; i++)
-	input[i] = (int)output[i];
-
-    unget_input(input, output_len);
-
-    free(input);
-}
-
 /* Read in a stream of characters verbatim, and return the length of the
  * string in kbinput_len.  Assume nodelay(win) is FALSE. */
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
