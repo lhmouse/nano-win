@@ -3306,8 +3306,9 @@ void do_linter(void)
 		}
 	    }
 #endif /* !NANO_TINY */
-	    do_gotolinecolumn(curlint->lineno, curlint->colno, FALSE, FALSE);
+	    goto_line_posx(curlint->lineno, curlint->colno - 1);
 	    titlebar(NULL);
+	    adjust_viewport(CENTERING);
 	    edit_refresh();
 	    statusbar(curlint->msg);
 	    bottombars(MLINTER);
