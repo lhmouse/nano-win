@@ -392,10 +392,10 @@ size_t xplustabs(void)
  * not overshoot the given column. */
 size_t actual_x(const char *text, size_t column)
 {
-    size_t index = 0;
-	/* The index in text, returned. */
+    const char *start = text;
+	/* From where we start walking through the text. */
     size_t width = 0;
-	/* The screen display width to text[index], in columns. */
+	/* The current accumulated span, in columns. */
 
     while (*text != '\0') {
 	int charlen = parse_mbchar(text, NULL, &width);
@@ -403,11 +403,10 @@ size_t actual_x(const char *text, size_t column)
 	if (width > column)
 	    break;
 
-	index += charlen;
 	text += charlen;
     }
 
-    return index;
+    return (text - start);
 }
 
 /* A strnlen() with tabs and multicolumn characters factored in:
