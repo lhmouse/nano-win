@@ -872,9 +872,6 @@ void shortcut_init(void)
 	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
 #endif
 
-    add_to_funcs(do_verbatim_input, MMAIN,
-	N_("Verbatim"), IFSCHELP(nano_verbatim_msg), TOGETHER, NOVIEW);
-
     add_to_funcs(do_tab, MMAIN,
 	N_("Tab"), IFSCHELP(nano_tab_msg), TOGETHER, NOVIEW);
     add_to_funcs(do_enter, MMAIN,
@@ -910,6 +907,9 @@ void shortcut_init(void)
     add_to_funcs(do_wordlinechar_count, MMAIN,
 	N_("Word Count"), IFSCHELP(nano_wordcount_msg), TOGETHER, VIEW);
 #endif
+
+    add_to_funcs(do_verbatim_input, MMAIN,
+	N_("Verbatim"), IFSCHELP(nano_verbatim_msg), BLANKAFTER, NOVIEW);
 
     add_to_funcs(total_refresh, MMAIN,
 	refresh_tag, IFSCHELP(nano_refresh_msg), TOGETHER, VIEW);
