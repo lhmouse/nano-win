@@ -183,7 +183,7 @@
 <h2><a name="4.3"></a>4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</h2>
 <blockquote><p>You can use the <b>-K</b> or <b>--rebindkeypad</b> option on the command line, or add the line <b>set rebindkeypad</b> to your .nanorc. However, nano's mouse support won't work properly if you do any of these things.</p></blockquote>
 <h2><a name="4.4"></a>4.4. Ack! When I hold down a Meta key combination for a while, the character of the held key gets inserted now and then. What gives?</h2>
-<blockquote><p>This is a bug in the terminal, not in nano. When a key is repeating faster than nano can process it, the keyboard buffer becomes full and starts dropping incoming keystrokes. Unfortunately, it doesn't just drop whole keystrokes; it can also drop parts of multibyte key combinations, resulting in nano's receiving a wrong key.</p></blockquote>
+<blockquote><p>This was a bug in how nano handled consecutive escape sequences. It should be fixed since version 2.6.0.</p></blockquote>
 <h2><a name="4.5"></a>4.5. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
 <blockquote><p>It depends on the terminal type you're using. On some terminals, such as the FreeBSD console, xterm, konsole, and gnome-terminal, Shift-F1 to Shift-F4 will generate F13 to F16. On other terminals, such as the Linux console, rxvt, and Eterm, Shift-F3 to Shift-F6 will generate F13 to F16.</p></blockquote>
 <h2><a name="4.6"></a>4.6. nano crashes when I type &lt;insert keystroke here&gt;!</h2>
