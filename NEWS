@@ -1,3 +1,17 @@
+2017.04.12 - GNU nano 2.8.1 "Ellert" fixes build failures on MacOS and
+		on musl, fixes scrolling problems in softwrap mode when
+		double-width characters on row boundaries are involved,
+		shows double-width characters as ">" and "<" when split
+		across two rows, moves the cursor more predictably (at
+		the cost of sometimes putting it on the second "half"
+		of a character), avoids creating lines that consist of
+		only blanks when using autoindent, makes ^Home and ^End
+		go to the start and end of the file (on terminals that
+		support those keystrokes), places the cursor better when
+		linting, lets the linter ask only once whether to open
+		an included file, and adds bindings for ^Up and ^Down
+		in the file browser.  Don't sit on your hands.
+
 2017.03.31 - GNU nano 2.8.0 "Axat" makes it easier to move around in
 		softwrapped lines: the Up and Down keys now step from
 		visual row to visual row instead of jumping between
