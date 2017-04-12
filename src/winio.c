@@ -1797,8 +1797,6 @@ void check_statusblank(void)
     if (statusblank == 0) {
 	blank_statusbar();
 	wnoutrefresh(bottomwin);
-	reset_cursor();
-	wnoutrefresh(edit);
     }
 
     /* If the subwindows overlap, make sure to show the edit window now. */
@@ -2080,8 +2078,6 @@ void titlebar(const char *path)
     wattroff(topwin, interface_color_pair[TITLE_BAR]);
 
     wnoutrefresh(topwin);
-    reset_cursor();
-    wnoutrefresh(edit);
 }
 
 /* Display a normal message on the statusbar, quietly. */
@@ -2254,9 +2250,6 @@ void bottombars(int menu)
     wmove(bottomwin, 0, 0);
     wnoutrefresh(bottomwin);
     doupdate();
-
-    reset_cursor();
-    wnoutrefresh(edit);
 }
 
 /* Write a shortcut key to the help area at the bottom of the window.
