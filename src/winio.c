@@ -2914,9 +2914,13 @@ void edit_scroll(scroll_dir direction, int nrows)
 	nrows -= go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
 
     /* Don't bother scrolling zero rows, nor more than the window can hold. */
-    if (nrows == 0)
+    if (nrows == 0) {
+	statusline(ALERT, "Underscrolling -- please report a bug");
 	return;
+    }
     if (nrows >= editwinrows) {
+	if (editwinrows > 1)
+	    statusline(ALERT, "Overscrolling -- please report a bug");
 	refresh_needed = TRUE;
 	return;
     }
@@ -3120,9 +3124,8 @@ void adjust_viewport(update_type manner)
     } else {
 	goal = openfile->current_y;
 
-	/* Limit goal to (editwinrows - 1) rows maximum. */
 	if (goal > editwinrows - 1)
-	    goal = editwinrows - 1;
+	    statusline(ALERT, "Row is out of range -- please report a bug");
     }
 
     openfile->edittop = openfile->current;
