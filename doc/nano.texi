@@ -672,8 +672,9 @@ Do backwards searches by default.
 
 @item set boldtext
 Use bold instead of reverse video for the titlebar, statusbar, key combos,
-and selected text.  This can be overridden for the first three by setting
-the options @code{titlecolor}, @code{statuscolor}, and @code{keycolor}.
+line numbers, and selected text.  This can be overridden for the first four
+by setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
+and @code{numbercolor}.
 
 @item set brackets "@var{string}"
 Set the characters treated as closing brackets when justifying
