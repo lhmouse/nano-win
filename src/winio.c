@@ -2078,6 +2078,7 @@ void titlebar(const char *path)
     wattroff(topwin, interface_color_pair[TITLE_BAR]);
 
     wnoutrefresh(topwin);
+    doupdate();
 }
 
 /* Display a normal message on the statusbar, quietly. */
