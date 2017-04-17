@@ -383,35 +383,18 @@ void reinit_statusbar_x(void)
     statusbar_x = HIGHEST_POSITIVE;
 }
 
-/* Put the cursor in the answer at statusbar_x. */
-void reset_statusbar_cursor(void)
-{
-    size_t start_col = strlenpt(prompt) + 2;
-    size_t xpt = statusbar_xplustabs();
-
-    /* Work around a cursor-misplacement bug in VTEs. */
-    wmove(bottomwin, 0, 0);
-    wnoutrefresh(bottomwin);
-    doupdate();
-
-    wmove(bottomwin, 0, start_col + xpt -
-			get_statusbar_page_start(start_col, start_col + xpt));
-
-    wnoutrefresh(bottomwin);
-}
-
-/* Repaint the statusbar. */
+/* Redraw the promptbar and place the cursor at the right spot. */
 void update_the_statusbar(void)
 {
-    size_t base, the_page, end_page;
+    size_t base = strlenpt(prompt) + 2;
+    size_t the_page, end_page, column;
     char *expanded;
 
-    base = strlenpt(prompt) + 2;
     the_page = get_statusbar_page_start(base, base + strnlenpt(answer, statusbar_x));
     end_page = get_statusbar_page_start(base, base + strlenpt(answer) - 1);
 
+    /* Color the promptbar over its full width. */
     wattron(bottomwin, interface_color_pair[TITLE_BAR]);
-
     blank_statusbar();
 
     mvwaddstr(bottomwin, 0, 0, prompt);
@@ -426,7 +409,15 @@ void update_the_statusbar(void)
 
     wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
-    reset_statusbar_cursor();
+    /* Work around a cursor-misplacement bug in VTEs. */
+    wmove(bottomwin, 0, 0);
+    wnoutrefresh(bottomwin);
+    doupdate();
+
+    /* Place the cursor at statusbar_x in the answer. */
+    column = base + statusbar_xplustabs();
+    wmove(bottomwin, 0, column - get_statusbar_page_start(base, column));
+    wnoutrefresh(bottomwin);
 }
 
 /* Get a string of input at the statusbar prompt. */
