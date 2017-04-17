@@ -480,7 +480,7 @@ enum
 {
     DONTUSE,
     CASE_SENSITIVE,
-    CONST_UPDATE,
+    CONSTANT_SHOW,
     NO_HELP,
     SUSPEND,
     NO_WRAP,

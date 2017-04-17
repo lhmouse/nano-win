@@ -2141,7 +2141,7 @@ int main(int argc, char **argv)
 		break;
 #endif
 	    case 'c':
-		SET(CONST_UPDATE);
+		SET(CONSTANT_SHOW);
 		break;
 	    case 'd':
 		SET(REBIND_DELETE);
@@ -2660,7 +2660,7 @@ int main(int argc, char **argv)
 
 	/* Update the displayed current cursor position only when there
 	 * are no keys waiting in the input buffer. */
-	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
+	if (ISSET(CONSTANT_SHOW) && get_key_buffer_len() == 0)
 	    do_cursorpos(FALSE);
 
 	/* Refresh just the cursor position or the entire edit window. */

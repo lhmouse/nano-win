@@ -1176,7 +1176,7 @@ void shortcut_init(void)
 #ifndef NANO_TINY
     /* Group of "Appearance" toggles. */
     add_to_sclist(MMAIN, "M-X", 0, do_toggle_void, NO_HELP);
-    add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONST_UPDATE);
+    add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
     add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, MORE_SPACE);
     add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SMOOTH_SCROLL);
     add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);
@@ -1339,7 +1339,7 @@ const char *flagtostr(int flag)
 	    /* TRANSLATORS: The next seventeen strings are toggle descriptions;
 	     * they are best kept shorter than 40 characters, but may be longer. */
 	    return N_("Help mode");
-	case CONST_UPDATE:
+	case CONSTANT_SHOW:
 	    return N_("Constant cursor position display");
 	case MORE_SPACE:
 	    return N_("Use of one more line for editing");
@@ -1596,7 +1596,7 @@ sc *strtosc(const char *input)
 	if (!strcasecmp(input, "nohelp"))
 	    s->toggle = NO_HELP;
 	else if (!strcasecmp(input, "constupdate"))
-	    s->toggle = CONST_UPDATE;
+	    s->toggle = CONSTANT_SHOW;
 	else if (!strcasecmp(input, "morespace"))
 	    s->toggle = MORE_SPACE;
 	else if (!strcasecmp(input, "smoothscroll"))

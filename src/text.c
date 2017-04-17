@@ -2452,7 +2452,7 @@ void do_justify(bool full_justify)
 
     /* If needed, unset the cursor-position suppression flag, so the cursor
      * position /will/ be displayed upon a return to the main loop. */
-    if (ISSET(CONST_UPDATE))
+    if (ISSET(CONSTANT_SHOW))
 	do_cursorpos(FALSE);
 
     func = func_from_key(&kbinput);
@@ -3566,7 +3566,7 @@ void do_verbatim_input(void)
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
     /* Unsuppress cursor-position display or blank the statusbar. */
-    if (ISSET(CONST_UPDATE))
+    if (ISSET(CONSTANT_SHOW))
 	do_cursorpos(FALSE);
     else {
 	blank_statusbar();
