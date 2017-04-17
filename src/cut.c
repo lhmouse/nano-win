@@ -291,8 +291,8 @@ void do_uncut_text(void)
     /* Mark the file as modified. */
     set_modified();
 
-    /* Update the cursor position to account for the inserted lines. */
-    reset_cursor();
+    /* Update current_y to account for the inserted lines. */
+    place_the_cursor();
 
     refresh_needed = TRUE;
 

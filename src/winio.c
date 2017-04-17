@@ -1235,7 +1235,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	    suppress_cursorpos = FALSE;
 	    lastmessage = HUSH;
 	    if (currmenu == MMAIN) {
-		reset_cursor();
+		place_the_cursor();
 		curs_set(1);
 	    }
 	}
@@ -2278,7 +2278,7 @@ void onekey(const char *keystroke, const char *desc, int length)
 
 /* Redetermine current_y from the position of current relative to edittop,
  * and put the cursor in the edit window at (current_y, "current_x"). */
-void reset_cursor(void)
+void place_the_cursor(void)
 {
     ssize_t row = 0;
     size_t col, xpt = xplustabs();
@@ -3087,7 +3087,7 @@ void edit_refresh(void)
     while (row < editwinrows)
 	blank_row(edit, row++, 0, COLS);
 
-    reset_cursor();
+    place_the_cursor();
     wnoutrefresh(edit);
 
     refresh_needed = FALSE;
@@ -3255,7 +3255,7 @@ void spotlight(bool active, const char *word)
 	    room--;
     }
 
-    reset_cursor();
+    place_the_cursor();
 
     if (active)
 	wattron(edit, hilite_attribute);

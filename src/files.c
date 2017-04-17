@@ -1200,8 +1200,8 @@ void do_insertfile(void)
 			openfile->current_x != was_current_x)
 		    set_modified();
 
-		/* Update the cursor position to account for inserted lines. */
-		reset_cursor();
+		/* Update current_y to account for inserted lines. */
+		place_the_cursor();
 
 		refresh_needed = TRUE;
 	    }

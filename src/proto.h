@@ -640,7 +640,7 @@ void warn_and_shortly_pause(const char *msg);
 void statusline(message_type importance, const char *msg, ...);
 void bottombars(int menu);
 void onekey(const char *keystroke, const char *desc, int length);
-void reset_cursor(void);
+void place_the_cursor(void);
 void edit_draw(filestruct *fileptr, const char *converted,
 	int line, size_t from_col);
 int update_line(filestruct *fileptr, size_t index);
