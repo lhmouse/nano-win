@@ -106,6 +106,7 @@ void do_help(void)
     int line_size;
     int saved_margin = margin;
 	/* For avoiding the line numbers on the help screen. */
+    ssize_t was_tabsize = tabsize;
     char *saved_answer = (answer != NULL) ? strdup(answer) : NULL;
 	/* Store current answer when user invokes help at the prompt. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
@@ -124,7 +125,8 @@ void do_help(void)
 
     fclose(fp);
 
-    /* Set help_text as the string to display. */
+    /* Compose the help text from all the pieces. */
+    tabsize = 8;
     help_init();
     inhelp = TRUE;
     location = 0;
@@ -266,6 +268,7 @@ void do_help(void)
 
     free(answer);
     answer = saved_answer;
+    tabsize = was_tabsize;
 
     remove(tempfilename);
     free(tempfilename);
