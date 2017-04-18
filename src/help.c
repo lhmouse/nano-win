@@ -77,6 +77,7 @@ void display_the_help_text(bool redisplaying)
 	close_buffer();
 
     open_buffer(tempfilename, FALSE);
+    remove_magicline();
 
     display_buffer();
 
@@ -189,7 +190,7 @@ void do_help(void)
 	} else if (func == do_up_void) {
 	    do_up(TRUE);
 	} else if (func == do_down_void) {
-	    if (openfile->edittop->lineno + editwinrows <
+	    if (openfile->edittop->lineno + editwinrows - 1 <
 				openfile->filebot->lineno)
 		do_down(TRUE);
 	} else if (func == do_page_up) {
