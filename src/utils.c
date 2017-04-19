@@ -535,7 +535,7 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
 }
 
 #ifdef DEBUG
-/* Dump the filestruct inptr to stderr. */
+/* Dump the given buffer to stderr. */
 void dump_filestruct(const filestruct *inptr)
 {
     if (inptr == openfile->fileage)
@@ -551,7 +551,7 @@ void dump_filestruct(const filestruct *inptr)
     }
 }
 
-/* Dump the current buffer's filestruct to stderr in reverse. */
+/* Dump the current buffer to stderr in reverse. */
 void dump_filestruct_reverse(void)
 {
     const filestruct *fileptr = openfile->filebot;

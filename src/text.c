@@ -2009,13 +2009,11 @@ void backup_lines(filestruct *first_line, size_t par_len)
     for (i = par_len; i > 0 && bot != openfile->filebot; i--)
 	bot = bot->next;
 
-    /* Move the paragraph from the current buffer's filestruct to the
-     * justify buffer. */
+    /* Move the paragraph from the current buffer to the justify buffer. */
     extract_buffer(&jusbuffer, &jusbottom, top, 0, bot,
 		(i == 1 && bot == openfile->filebot) ? strlen(bot->data) : 0);
 
-    /* Copy the paragraph back to the current buffer's filestruct from
-     * the justify buffer. */
+    /* Copy the paragraph back to the current buffer. */
     copy_from_buffer(jusbuffer);
 
     /* Move upward from the last line of the paragraph to the first
@@ -3499,7 +3497,7 @@ void do_wordlinechar_count(void)
     filestruct *top, *bot;
     size_t top_x, bot_x;
 
-    /* If the mark is on, partition the filestruct so that it
+    /* If the mark is on, partition the buffer so that it
      * contains only the marked text, and turn the mark off. */
     if (old_mark_set) {
 	mark_order((const filestruct **)&top, &top_x,
@@ -3529,7 +3527,7 @@ void do_wordlinechar_count(void)
 	nlines = openfile->filebot->lineno - openfile->fileage->lineno + 1;
 	chars = get_totsize(openfile->fileage, openfile->filebot);
 
-	/* Unpartition the filestruct so that it contains all the text
+	/* Unpartition the buffer so that it contains all the text
 	 * again, and turn the mark back on. */
 	unpartition_filestruct(&filepart);
 	openfile->mark_set = TRUE;

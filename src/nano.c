@@ -51,19 +51,19 @@ static bool no_rcfiles = FALSE;
 #endif
 #ifdef HAVE_TERMIOS_H
 static struct termios oldterm;
+	/* The user's original terminal settings. */
 #else
 # define tcsetattr(...)
 # define tcgetattr(...)
 #endif
-	/* The user's original terminal settings. */
 static struct sigaction act;
 	/* Used to set up all our fun signal handlers. */
 
-/* Create a new filestruct node.  Note that we do not set prevnode->next
+/* Create a new linestruct node.  Note that we do not set prevnode->next
  * to the new line. */
 filestruct *make_new_node(filestruct *prevnode)
 {
-    filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
+    filestruct *newnode = nmalloc(sizeof(filestruct));
 
     newnode->data = NULL;
     newnode->prev = prevnode;
@@ -77,17 +77,16 @@ filestruct *make_new_node(filestruct *prevnode)
     return newnode;
 }
 
-/* Make a copy of a filestruct node. */
+/* Make a copy of a linestruct node. */
 filestruct *copy_node(const filestruct *src)
 {
-    filestruct *dst;
-
-    dst = (filestruct *)nmalloc(sizeof(filestruct));
+    filestruct *dst = nmalloc(sizeof(filestruct));
 
     dst->data = mallocstrcpy(NULL, src->data);
     dst->next = src->next;
     dst->prev = src->prev;
     dst->lineno = src->lineno;
+
 #ifndef DISABLE_COLOR
     dst->multidata = NULL;
 #endif
@@ -95,7 +94,7 @@ filestruct *copy_node(const filestruct *src)
     return dst;
 }
 
-/* Splice a new node into an existing linked list of filestructs. */
+/* Splice a new node into an existing linked list of linestructs. */
 void splice_node(filestruct *afterthis, filestruct *newnode)
 {
     newnode->next = afterthis->next;
@@ -109,7 +108,7 @@ void splice_node(filestruct *afterthis, filestruct *newnode)
 	openfile->filebot = newnode;
 }
 
-/* Disconnect a node from a linked list of filestructs and delete it. */
+/* Disconnect a node from a linked list of linestructs and delete it. */
 void unlink_node(filestruct *fileptr)
 {
     if (fileptr->prev != NULL)
@@ -134,7 +133,7 @@ void delete_node(filestruct *fileptr)
     free(fileptr);
 }
 
-/* Duplicate a whole filestruct. */
+/* Duplicate an entire linked list of linestructs. */
 filestruct *copy_filestruct(const filestruct *src)
 {
     filestruct *head, *copy;
@@ -157,7 +156,7 @@ filestruct *copy_filestruct(const filestruct *src)
     return head;
 }
 
-/* Free a whole linked list of filestructs. */
+/* Free an entire linked list of linestructs. */
 void free_filestruct(filestruct *src)
 {
     if (src == NULL)
@@ -171,7 +170,7 @@ void free_filestruct(filestruct *src)
     delete_node(src);
 }
 
-/* Renumber all entries in a filestruct, starting with fileptr. */
+/* Renumber the lines in a buffer, starting with fileptr. */
 void renumber(filestruct *fileptr)
 {
     ssize_t line;
@@ -187,8 +186,8 @@ void renumber(filestruct *fileptr)
 	fileptr->lineno = ++line;
 }
 
-/* Partition a filestruct so that it begins at (top, top_x) and ends at
- * (bot, bot_x). */
+/* Partition the current buffer so that it appears to begin at (top, top_x)
+ * and appears to end at (bot, bot_x). */
 partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x)
 {
@@ -200,7 +199,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     p = (partition *)nmalloc(sizeof(partition));
 
     /* If the top and bottom of the partition are different from the top
-     * and bottom of the filestruct, save the latter and then set them
+     * and bottom of the buffer, save the latter and then set them
      * to top and bot. */
     if (top != openfile->fileage) {
 	p->fileage = openfile->fileage;
@@ -236,8 +235,8 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     return p;
 }
 
-/* Unpartition a filestruct so that it begins at (fileage, 0) and ends
- * at (filebot, strlen(filebot->data)) again. */
+/* Unpartition the current buffer so that it stretches from (fileage, 0)
+ * to (filebot, $) again. */
 void unpartition_filestruct(partition **p)
 {
     assert(p != NULL && openfile->fileage != NULL && openfile->filebot != NULL);
@@ -266,7 +265,7 @@ void unpartition_filestruct(partition **p)
     strcat(openfile->filebot->data, (*p)->bot_data);
     free((*p)->bot_data);
 
-    /* Restore the top and bottom of the filestruct, if they were
+    /* Restore the top and bottom of the buffer, if they were
      * different from the top and bottom of the partition. */
     if ((*p)->fileage != NULL)
 	openfile->fileage = (*p)->fileage;
@@ -279,7 +278,7 @@ void unpartition_filestruct(partition **p)
 }
 
 /* Move all the text between (top, top_x) and (bot, bot_x) in the
- * current filestruct to a filestruct beginning with file_top and ending
+ * current buffer to a new buffer beginning with file_top and ending
  * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
  * don't do anything. */
 void extract_buffer(filestruct **file_top, filestruct **file_bot,
@@ -298,7 +297,7 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
     if (top == bot && top_x == bot_x)
 	return;
 
-    /* Partition the filestruct so that it contains only the text from
+    /* Partition the buffer so that it contains only the text from
      * (top, top_x) to (bot, bot_x), keep track of whether the top of
      * the edit window is inside the partition, and keep track of
      * whether the mark begins inside the partition. */
@@ -356,7 +355,7 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	renumber(file_bot_save->next);
     }
 
-    /* Since the text has now been saved, remove it from the filestruct. */
+    /* Since the text has now been saved, remove it from the buffer. */
     openfile->fileage = make_new_node(NULL);
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
@@ -377,7 +376,7 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 
     top_save = openfile->fileage;
 
-    /* Unpartition the filestruct so that it contains all the text
+    /* Unpartition the buffer so that it contains all the text
      * again, minus the saved text. */
     unpartition_filestruct(&filepart);
 
@@ -423,14 +422,14 @@ void ingraft_buffer(filestruct *somebuffer)
     }
 #endif
 
-    /* Partition the filestruct so that it contains no text, and remember
+    /* Partition the buffer so that it contains no text, and remember
      * whether the current line is at the top of the edit window. */
     filepart = partition_filestruct(openfile->current, openfile->current_x,
 				openfile->current, openfile->current_x);
     edittop_inside = (openfile->edittop == openfile->fileage);
     free_filestruct(openfile->fileage);
 
-    /* Put the top and bottom of the current filestruct at the top and
+    /* Put the top and bottom of the current buffer at the top and
      * bottom of the passed buffer. */
     openfile->fileage = somebuffer;
     openfile->filebot = openfile->fileage;
@@ -476,7 +475,7 @@ void ingraft_buffer(filestruct *somebuffer)
 
     top_save = openfile->fileage;
 
-    /* Unpartition the filestruct so that it contains all the text
+    /* Unpartition the buffer so that it contains all the text
      * again, plus the copied text. */
     unpartition_filestruct(&filepart);
 
@@ -496,13 +495,13 @@ void copy_from_buffer(filestruct *somebuffer)
     ingraft_buffer(the_copy);
 }
 
-/* Create a new openfilestruct node. */
+/* Create a new openfile node. */
 openfilestruct *make_new_opennode(void)
 {
     return (openfilestruct *)nmalloc(sizeof(openfilestruct));
 }
 
-/* Unlink a node from the rest of the openfilestruct, and delete it. */
+/* Unlink a node from the rest of the circular list, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)
 {
     assert(fileptr != fileptr->prev && fileptr != fileptr->next);
@@ -600,7 +599,7 @@ void die(const char *msg, ...)
 
     /* If the current file buffer was modified, save it. */
     if (openfile && openfile->modified) {
-	/* If the filestruct is partitioned, unpartition it first. */
+	/* If the buffer is partitioned, unpartition it first. */
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
 

@@ -2044,7 +2044,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
     filestruct *top, *bot;
     size_t top_x, bot_x;
 
-    /* Partition the filestruct so that it contains only the marked text. */
+    /* Partition the buffer so that it contains only the marked text. */
     mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, NULL);
     filepart = partition_filestruct(top, top_x, bot, bot_x);
@@ -2062,7 +2062,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
     if (added_magicline)
 	remove_magicline();
 
-    /* Unpartition the filestruct so that it contains all the text again. */
+    /* Unpartition the buffer so that it contains all the text again. */
     unpartition_filestruct(&filepart);
 
     if (old_modified)
