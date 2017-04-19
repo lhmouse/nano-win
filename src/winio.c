@@ -2178,13 +2178,13 @@ void statusline(message_type importance, const char *msg, ...)
 #ifndef NANO_TINY
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
+#endif
 
     /* If doing quick blanking, blank the statusbar after just one keystroke.
      * Otherwise, blank it after twenty-six keystrokes, as Pico does. */
     if (ISSET(QUICK_BLANK))
 	statusblank = 1;
     else
-#endif
 	statusblank = 26;
 }
 

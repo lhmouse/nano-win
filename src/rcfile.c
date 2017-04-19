@@ -77,6 +77,7 @@ static const rcoption rcopts[] = {
     {"punct", 0},
     {"quotestr", 0},
 #endif
+    {"quickblank", QUICK_BLANK},
     {"rebinddelete", REBIND_DELETE},
     {"rebindkeypad", REBIND_KEYPAD},
     {"regexp", USE_REGEXP},
@@ -99,7 +100,6 @@ static const rcoption rcopts[] = {
     {"locking", LOCKING},
     {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},
-    {"quickblank", QUICK_BLANK},
     {"quiet", QUIET},
     {"showcursor", SHOW_CURSOR},
     {"smarthome", SMART_HOME},

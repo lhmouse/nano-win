@@ -836,9 +836,7 @@ void usage(void)
 #endif
     print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
 	N_("Set width of a tab to #cols columns"));
-#ifndef NANO_TINY
     print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
-#endif
     print_opt("-V", "--version", N_("Print version information and exit"));
 #ifndef NANO_TINY
     print_opt("-W", "--wordbounds",
@@ -1935,6 +1933,7 @@ int main(int argc, char **argv)
 #endif
 	{"restricted", 0, NULL, 'R'},
 	{"tabsize", 1, NULL, 'T'},
+	{"quickblank", 0, NULL, 'U'},
 	{"version", 0, NULL, 'V'},
 #ifndef DISABLE_COLOR
 	{"syntax", 1, NULL, 'Y'},
@@ -1981,7 +1980,6 @@ int main(int argc, char **argv)
 	{"poslog", 0, NULL, 'P'},  /* deprecated form, remove in 2018 */
 	{"positionlog", 0, NULL, 'P'},
 	{"smooth", 0, NULL, 'S'},
-	{"quickblank", 0, NULL, 'U'},
 	{"wordbounds", 0, NULL, 'W'},
 	{"wordchars", 1, NULL, 'X'},
 	{"autoindent", 0, NULL, 'i'},
@@ -2119,11 +2117,9 @@ int main(int argc, char **argv)
 		    exit(1);
 		}
 		break;
-#ifndef NANO_TINY
 	    case 'U':
 		SET(QUICK_BLANK);
 		break;
-#endif
 	    case 'V':
 		version();
 		exit(0);
