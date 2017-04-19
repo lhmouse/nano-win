@@ -289,14 +289,14 @@ good fit for a small editor like \fBnano\fR.
 A separate syntax can be defined for each kind of file
 via the following commands:
 .TP
-.BR syntax " ""\fIstr\fR"" [""\fIfileregex\fR"" ...]"
-Defines a syntax named \fIstr\fP which can be activated via the
+.BR syntax " ""\fIname\fR"" [""\fIfileregex\fR"" ...]"
+Defines a syntax named \fIname\fP which can be activated via the
 .BR \-Y / \-\-syntax
 command-line option, or will be automatically activated if
 the current filename matches the extended regular expression
 \fIfileregex\fP.  All subsequent \fBcolor\fR, \fBicolor\fR,
 \fBheader\fR and other such statements will apply to this
-\fIstr\fP syntax until a new \fBsyntax\fR command is encountered.
+\fIname\fP syntax until a new \fBsyntax\fR command is encountered.
 
 The \fBnone\fP syntax is reserved; specifying it on the command line is
 the same as not having a syntax at all.  The \fBdefault\fP syntax is
@@ -365,13 +365,14 @@ Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
 \fIsyntaxfile\fP may contain only the above commands, from \fBsyntax\fP
 to \fBicolor\fP.
 .TP
-.BI extendsyntax " str directive " \fR[ "arg " \fR...]
-Extend the syntax previously defined as \fIstr\fP to include
-new information.  This allows you to add a new \fBcolor\fP, \fBicolor\fP,
-\fBheader\fP, \fBmagic\fP, \fBcomment\fP, \fBlinter\fP, or \fBformatter\fP directive
-to an already defined syntax -- useful when you want to
+.BI extendsyntax " name directive " \fR[ "arg " \fR...]
+Extend the syntax previously defined as \fIname\fP to include
+new information.  This allows adding a new \fBcolor\fP, \fBicolor\fP,
+\fBheader\fP, \fBmagic\fP, \fBcomment\fP, \fBlinter\fP, or \fBformatter\fP
+directive to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
-files (which are normally not writable)
+files (which are normally not writable).
+
 .SH REBINDING KEYS
 Key bindings can be changed via the following two commands:
 .TP
