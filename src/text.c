@@ -983,11 +983,9 @@ void do_enter(void)
 {
     filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
+#ifndef NANO_TINY
     bool allblanks = FALSE;
 
-    assert(openfile->current != NULL && openfile->current->data != NULL);
-
-#ifndef NANO_TINY
     if (ISSET(AUTOINDENT)) {
 	extra = indent_length(openfile->current->data);
 
@@ -3390,8 +3388,10 @@ void do_formatter(void)
 	return;
     }
 
+#ifndef NANO_TINY
     /* We're not supporting partial formatting, oi vey. */
     openfile->mark_set = FALSE;
+#endif
     status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (!status) {
@@ -3457,10 +3457,11 @@ void do_formatter(void)
 
 	set_modified();
 
+#ifndef NANO_TINY
 	/* Flush the undo stack, to avoid a mess or crash when
 	 * the user tries to undo things in reformatted lines. */
 	discard_until(NULL, openfile);
-
+#endif
 	finalstatus = _("Finished formatting");
     }
 
