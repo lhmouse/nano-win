@@ -62,32 +62,29 @@ bool has_valid_path(const char *filename)
     return validity;
 }
 
-/* Add an entry to the circular list of openfile structs. */
+/* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
 {
+    openfilestruct *newnode = make_new_opennode();
+
     if (openfile == NULL) {
-	openfile = make_new_opennode();
-
 	/* Make the first open file the only element in the list. */
-	openfile->prev = openfile;
-	openfile->next = openfile;
+	newnode->prev = newnode;
+	newnode->next = newnode;
     } else {
-	openfilestruct *newnode = make_new_opennode();
-
 	/* Add the new open file after the current one in the list. */
 	newnode->prev = openfile;
 	newnode->next = openfile->next;
 	openfile->next->prev = newnode;
 	openfile->next = newnode;
 
-	/* Make the new file the current one. */
-	openfile = newnode;
-
-	/* There is more than one file open: show Close in help lines. */
+	/* There is more than one file open: show "Close" in help lines. */
 	exitfunc->desc = close_tag;
     }
 
-    /* Start initializing the new buffer. */
+    /* Make the new buffer the current one, and start initializing it. */
+    openfile = newnode;
+
     openfile->filename = mallocstrcpy(NULL, "");
 
     initialize_buffer_text();
@@ -117,11 +114,9 @@ void make_new_buffer(void)
 #endif
 }
 
-/* Initialize the text of the current openfile struct. */
+/* Initialize the text and pointers of the current openfile struct. */
 void initialize_buffer_text(void)
 {
-    assert(openfile != NULL);
-
     openfile->fileage = make_new_node(NULL);
     openfile->fileage->data = mallocstrcpy(NULL, "");
 
