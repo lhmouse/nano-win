@@ -583,7 +583,7 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
     if (!old_no_newlines)
 	UNSET(NO_NEWLINES);
 }
-#endif /* !ENABLE_TINY */
+#endif /* !NANO_TINY */
 #endif /* !DISABLE_SPELLER */
 
 /* Update the screen to account for the current buffer. */
@@ -2200,15 +2200,15 @@ int do_writeout(bool exiting)
 	    } else if (func == backup_file_void) {
 		TOGGLE(BACKUP_FILE);
 		continue;
-	    } else
-#endif /* !NANO_TINY */
-	    if (func == prepend_void) {
+	    } else if (func == prepend_void) {
 		method = (method == PREPEND) ? OVERWRITE : PREPEND;
 		continue;
 	    } else if (func == append_void) {
 		method = (method == APPEND) ? OVERWRITE : APPEND;
 		continue;
-	    } else if (func == do_help_void) {
+	    } else
+#endif /* !NANO_TINY */
+	    if (func == do_help_void) {
 		continue;
 	    }
 

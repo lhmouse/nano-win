@@ -1258,19 +1258,24 @@ void shortcut_init(void)
 #endif
     if (ISSET(TEMP_FILE))
 	add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
+#ifndef NANO_TINY
     add_to_sclist(MWRITEFILE, "M-D", 0, dos_format_void, 0);
     add_to_sclist(MWRITEFILE, "M-M", 0, mac_format_void, 0);
+    /* In restricted mode, don't allow Appending, Prepending, nor making
+     * backups, nor executing a command, nor opening a new buffer. */
     if (!ISSET(RESTRICTED)) {
-	/* Don't allow Appending, Prepending, nor Backups in restricted mode. */
 	add_to_sclist(MWRITEFILE, "M-A", 0, append_void, 0);
 	add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
 	add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);
-#ifndef DISABLE_BROWSER
-	add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", 0, to_files_void, 0);
-#endif
 	add_to_sclist(MINSERTFILE|MEXTCMD, "^X", 0, flip_execute_void, 0);
 	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, new_buffer_void, 0);
     }
+#endif
+#ifndef DISABLE_BROWSER
+    /* In restricted mode, don't allow entering the file browser. */
+    if (!ISSET(RESTRICTED))
+	add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", 0, to_files_void, 0);
+#endif
     add_to_sclist(MHELP|MBROWSER, "^C", 0, do_exit, 0);
     /* Allow exiting from the file browser and the help viewer with
      * the same key as they were entered. */
@@ -1560,6 +1565,7 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "nexthistory"))
 	s->scfunc = get_history_newer_void;
 #endif
+#ifndef NANO_TINY
     else if (!strcasecmp(input, "dosformat"))
 	s->scfunc = dos_format_void;
     else if (!strcasecmp(input, "macformat"))
@@ -1570,7 +1576,6 @@ sc *strtosc(const char *input)
 	s->scfunc = prepend_void;
     else if (!strcasecmp(input, "backup"))
 	s->scfunc = backup_file_void;
-#ifndef ENABLE_TINY
     else if (!strcasecmp(input, "flipexecute"))
 	s->scfunc = flip_execute_void;
 #endif
