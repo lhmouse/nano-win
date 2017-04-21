@@ -893,12 +893,12 @@ via the following commands in a nanorc file:
 
 @table @code
 
-@item syntax "str" ["fileregex" @dots{}]
-Defines a syntax named "str" which can be activated via the @code{-Y/--syntax}
+@item syntax "name" ["fileregex" @dots{}]
+Defines a syntax named "name" which can be activated via the @code{-Y/--syntax}
 command-line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
 subsequent @code{color}, @code{icolor}, @code{header} and other such
-statements will apply to this "str" syntax until a new @code{syntax}
+statements will apply to this "name" syntax until a new @code{syntax}
 command is encountered.
 
 The "none" syntax is reserved; specifying it on the command line is the
@@ -947,26 +947,26 @@ terminal supports transparency, not specifying a "bgcolor" tells @code{nano}
 to attempt to use a transparent background.
 
 @item icolor fgcolor,bgcolor "regex" @dots{}
-Same as above, except that the text matching is case insensitive.
+Same as above, except that the matching is case insensitive.
 
-@item color fgcolor,bgcolor start="sr" end="er"
+@item color fgcolor,bgcolor start="fromrx" end="torx"
 Display all pieces of text whose start matches extended regular expression
-"sr" and whose end matches extended regular expression "er" with foreground
-color "fgcolor" and background color "bgcolor", at least one of which
-must be specified.  This means that, after an initial instance of "sr",
-all text will be highlighted until the first instance of "er".
+"fromrx" and whose end matches extended regular expression "torx" with
+foreground color "fgcolor" and background color "bgcolor", at least one of
+which must be specified.  This means that, after an initial instance of
+"fromrx", all text until the first instance of "torx" will be colored.
 This allows syntax highlighting to span multiple lines.
 
-@item icolor fgcolor,bgcolor start="sr" end="er"
-Same as above, except that the text matching is case insensitive.
+@item icolor fgcolor,bgcolor start="fromrx" end="torx"
+Same as above, except that the matching is case insensitive.
 
 @item include "syntaxfile"
 Read in self-contained color syntaxes from "syntaxfile".  Note that
 "syntaxfile" may contain only the above commands, from @code{syntax}
 to @code{icolor}.
 
-@item extendsyntax str directive [arg @dots{}]
-Extend the syntax previously defined as str to include new information.
+@item extendsyntax name directive [arg @dots{}]
+Extend the syntax previously defined as "name" to include new information.
 This allows you to add a new @code{color}, @code{icolor}, @code{header},
 @code{magic}, @code{comment}, @code{linter}, or @code{formatter} directive to an already
 defined syntax --- useful when you want to slightly improve a syntax defined

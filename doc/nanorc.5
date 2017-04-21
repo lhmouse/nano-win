@@ -346,19 +346,19 @@ foreground.  If your terminal supports transparency, not specifying a
 background.
 .TP
 .B icolor \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
-Same as above, except that the text matching is case insensitive.
+Same as above, except that the matching is case insensitive.
 .TP
-.BR color " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIsr\fR"" " end= """\fIer\fR""
+.BR color " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIfromrx\fR"" " end= """\fItorx\fR""
 Display all pieces of text whose start matches extended regular expression
-\fIsr\fP and whose end matches extended regular expression \fIer\fP with
+\fIfromrx\fP and whose end matches extended regular expression \fItorx\fP with
 foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
 at least one of which must be specified.  This means that, after an
-initial instance of \fIsr\fP, all text will be highlighted until the
-first instance of \fIer\fP.  This allows syntax highlighting to span
+initial instance of \fIfromrx\fP, all text until the first instance of
+\fItorx\fP will be colored.  This allows syntax highlighting to span
 multiple lines.
 .TP
-.BR icolor " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIsr\fR"" " end= """\fIer\fR""
-Same as above, except that the text matching is case insensitive.
+.BR icolor " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIfromrx\fR"" " end= """\fItorx\fR""
+Same as above, except that the matching is case insensitive.
 .TP
 .BR include " ""\fIsyntaxfile\fR"""
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
