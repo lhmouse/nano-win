@@ -58,6 +58,11 @@ message_type lastmessage = HUSH;
 filestruct *pletion_line = NULL;
 	/* The line where the last completion was found, if any. */
 
+bool inhelp = FALSE;
+	/* Whether we are in the help viewer. */
+char *title = NULL;
+	/* When not NULL: the title of the current help text. */
+
 int controlleft, controlright, controlup, controldown, controlhome, controlend;
 #ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
@@ -711,6 +716,9 @@ void shortcut_init(void)
 
     add_to_funcs(total_refresh, MHELP, refresh_tag, "x", 0, VIEW);
 
+    add_to_funcs(do_search, MHELP, whereis_tag, "x", 0, VIEW);
+    add_to_funcs(do_research, MHELP, whereis_next_tag, "x", 0, VIEW);
+
     add_to_funcs(do_up_void, MHELP, prev_line_tag, "x", 0, VIEW);
     add_to_funcs(do_down_void, MHELP, next_line_tag, "x" , 0, VIEW);
 #endif
@@ -1035,8 +1043,8 @@ void shortcut_init(void)
 
     /* Start associating key combos with functions in specific menus. */
 
-    add_to_sclist(MMOST, "^G", 0, do_help_void, 0);
-    add_to_sclist(MMOST, "F1", 0, do_help_void, 0);
+    add_to_sclist(MMOST & ~MFINDINHELP, "^G", 0, do_help_void, 0);
+    add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", 0, do_exit, 0);
     add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
@@ -1044,8 +1052,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
-    add_to_sclist(MMAIN|MBROWSER, "^W", 0, do_search, 0);
-    add_to_sclist(MMAIN|MBROWSER, "F6", 0, do_search, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search, 0);
     add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
     add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
     add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
@@ -1083,8 +1091,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP, "M-/", 0, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-?", 0, do_last_line, 0);
-    add_to_sclist(MMAIN|MBROWSER, "M-W", 0, do_research, 0);
-    add_to_sclist(MMAIN|MBROWSER, "F16", 0, do_research, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_research, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "F16", 0, do_research, 0);
 #ifndef NANO_TINY
     add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
     add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
@@ -1227,17 +1235,17 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS, "^T", 0, do_gotolinecolumn_void, 0);
     add_to_sclist(MGOTOLINE, "^T", 0, gototext_void, 0);
 #ifndef DISABLE_HISTORIES
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^P", 0, get_history_older_void, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "^N", 0, get_history_newer_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "^P", 0, get_history_older_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "^N", 0, get_history_newer_void, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "\xE2\x86\x91", KEY_UP, get_history_older_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "\xE2\x86\x93", KEY_DOWN, get_history_newer_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "\xE2\x86\x91", KEY_UP, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "\xE2\x86\x93", KEY_DOWN, get_history_newer_void, 0);
     } else
 #endif
     {
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Up", KEY_UP, get_history_older_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE, "Down", KEY_DOWN, get_history_newer_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "Up", KEY_UP, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "Down", KEY_DOWN, get_history_newer_void, 0);
     }
 #endif
 #ifndef DISABLE_BROWSER

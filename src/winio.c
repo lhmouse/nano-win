@@ -1961,10 +1961,9 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 
 /* If path is NULL, we're in normal editing mode, so display the current
  * version of nano, the current filename, and whether the current file
- * has been modified on the titlebar.  If path isn't NULL, we're in the
- * file browser, and path contains the directory to start the file
- * browser in, so display the current version of nano and the contents
- * of path on the titlebar. */
+ * has been modified on the titlebar.  If path isn't NULL, we're either
+ * in the file browser or the help viewer, so show either the current
+ * directory or the title of help text, that is: whatever is in path. */
 void titlebar(const char *path)
 {
     size_t verlen, prefixlen, pathlen, statelen;
@@ -1996,12 +1995,13 @@ void titlebar(const char *path)
      * then sacrifice the prefix, and only then start dottifying. */
 
     /* Figure out the path, prefix and state strings. */
+    if (inhelp)
+	state = _("Help");
 #ifndef DISABLE_BROWSER
-    if (path != NULL)
+    else if (path != NULL)
 	prefix = _("DIR:");
-    else
 #endif
-    {
+    else {
 	if (openfile->filename[0] == '\0')
 	    path = _("New Buffer");
 	else {
@@ -3142,8 +3142,13 @@ void total_redraw(void)
 void total_refresh(void)
 {
     total_redraw();
-    titlebar(NULL);
-    edit_refresh();
+    titlebar(title);
+#ifndef DISABLE_HELP
+    if (inhelp)
+	display_the_help_text(TRUE);
+    else
+#endif
+	edit_refresh();
     bottombars(currmenu);
 }
 

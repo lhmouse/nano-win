@@ -24,6 +24,7 @@
 #include "nano.h"
 
 /* All external variables.  See global.c for their descriptions. */
+
 #ifndef NANO_TINY
 extern volatile sig_atomic_t the_window_resized;
 #endif
@@ -45,6 +46,9 @@ extern int editwincols;
 extern message_type lastmessage;
 
 extern filestruct *pletion_line;
+
+extern bool inhelp;
+extern char *title;
 
 extern int controlleft;
 extern int controlright;
@@ -337,6 +341,7 @@ void thanks_for_all_the_fish(void);
 
 /* All functions in help.c. */
 #ifndef DISABLE_HELP
+void display_the_help_text(bool redisplaying);
 void do_help(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);

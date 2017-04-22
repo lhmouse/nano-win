@@ -611,8 +611,9 @@ int do_prompt(bool allow_tabs, bool allow_files,
     int retval;
     functionptrtype func = NULL;
     bool listed = FALSE;
-    /* Save a possible current statusbar x position. */
+    /* Save a possible current statusbar x position and prompt. */
     size_t was_statusbar_x = statusbar_x;
+    char *saved_prompt = prompt;
 
     bottombars(menu);
 
@@ -635,7 +636,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
 			refresh_func);
 
     free(prompt);
-    prompt = NULL;
+    prompt = saved_prompt;
 
 #ifndef NANO_TINY
     if (retval == KEY_WINCH)
