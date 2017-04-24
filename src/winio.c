@@ -3093,37 +3093,23 @@ void edit_refresh(void)
     refresh_needed = FALSE;
 }
 
-/* Move edittop so that current is on the screen.  manner says how it
- * should be moved: CENTERING means that current should end up in the
- * middle of the screen, STATIONARY means that it should stay at the
- * same vertical position, and FLOWING means that it should scroll no
- * more than needed to bring current into view. */
+/* Move edittop so that current is on the screen.  manner says how:
+ * STATIONARY means that the cursor should stay on the same screen row,
+ * CENTERING means that current should end up in the middle of the screen,
+ * and FLOWING means that it should scroll no more than needed to bring
+ * current into view. */
 void adjust_viewport(update_type manner)
 {
     int goal = 0;
 
-    /* If manner is CENTERING, move edittop half the number of window rows
-     * back from current.  If manner is FLOWING, move edittop back 0 rows
-     * or (editwinrows - 1) rows, depending on where current has moved.
-     * This puts the cursor on the first or the last row.  If manner is
-     * STATIONARY, move edittop back current_y rows if current_y is in range
-     * of the screen, 0 rows if current_y is below zero, or (editwinrows - 1)
-     * rows if current_y is too big.  This puts current at the same place on
-     * the screen as before, or... at some undefined place. */
-    if (manner == CENTERING)
-	goal = editwinrows / 2;
-    else if (manner == FLOWING) {
-	if (!current_is_above_screen())
-	    goal = editwinrows - 1;
-    } else {
+    if (manner == STATIONARY)
 	goal = openfile->current_y;
-
-	if (goal > editwinrows - 1)
-	    statusline(ALERT, "Row is out of range -- please report a bug");
-    }
+    else if (manner == CENTERING)
+	goal = editwinrows / 2;
+    else if (!current_is_above_screen())
+	goal = editwinrows - 1;
 
     openfile->edittop = openfile->current;
-
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
 	openfile->firstcolumn = (xplustabs() / editwincols) * editwincols;
