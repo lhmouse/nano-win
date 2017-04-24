@@ -574,6 +574,13 @@ functionptrtype parse_help_input(int *kbinput)
 		return do_page_down;
 	    case '-':
 		return do_page_up;
+	    case 'W':
+	    case 'w':
+	    case '/':
+		return do_search;
+	    case 'N':
+	    case 'n':
+		return do_research;
 	    case 'E':
 	    case 'e':
 	    case 'Q':

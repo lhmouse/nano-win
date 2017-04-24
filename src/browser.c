@@ -490,7 +490,11 @@ functionptrtype parse_browser_input(int *kbinput)
 		return do_enter;
 	    case 'W':
 	    case 'w':
+	    case '/':
 		return do_search;
+	    case 'N':
+	    case 'n':
+		return do_research;
 	}
     }
     return func_from_key(kbinput);
