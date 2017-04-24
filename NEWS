@@ -1267,7 +1267,7 @@
 		is now a preliminary (read: needs testing) fix for
 		resizing the editor in any mode other than normal edit
 		mode.  Other fixes include some more tab completion
-		segfaults, and an silly segfault that occurred when
+		segfaults, and a silly segfault that occurred when
 		successfully writing a file on the 2nd try (i.e. after
 		an initial write error).  Slowly but surely, on toward
 		1.0 we travel.
