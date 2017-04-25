@@ -1463,7 +1463,8 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     retval = parse_verbatim_kbinput(win, kbinput_len);
 
     /* If the code is invalid in the current mode, discard it. */
-    if ((*retval == '\n' && as_an_at) || (*retval == '\0' && !as_an_at)) {
+    if (retval != NULL && ((*retval == '\n' && as_an_at) ||
+				(*retval == '\0' && !as_an_at))) {
 	*kbinput_len = 0;
 	beep();
     }
