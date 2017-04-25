@@ -621,11 +621,11 @@ void shortcut_init(void)
     const char *nano_prepend_msg = N_("Toggle prepending");
     const char *nano_backup_msg = N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
+#ifndef DISABLE_MULTIBUFFER
+    const char *nano_newbuffer_msg = N_("Toggle the use of a new buffer");
+#endif
 #endif
     const char *nano_discard_buffer_msg = N_("Close buffer without saving it");
-#ifndef DISABLE_MULTIBUFFER
-    const char *nano_multibuffer_msg = N_("Toggle the use of a new buffer");
-#endif
 #ifndef DISABLE_BROWSER
     const char *nano_exitbrowser_msg = N_("Exit from the file browser");
     const char *nano_firstfile_msg = N_("Go to the first file in the list");
@@ -992,7 +992,7 @@ void shortcut_init(void)
 
 #ifndef DISABLE_MULTIBUFFER
 	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
-	    N_("New Buffer"), IFSCHELP(nano_multibuffer_msg), TOGETHER, NOVIEW);
+	    N_("New Buffer"), IFSCHELP(nano_newbuffer_msg), TOGETHER, NOVIEW);
 #endif
     }
 #endif /* !NANO_TINY */
