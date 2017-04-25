@@ -108,6 +108,9 @@ void do_help(void)
     int saved_margin = margin;
 	/* For avoiding the line numbers on the help screen. */
     ssize_t was_tabsize = tabsize;
+#ifndef DISABLE_COLOR
+    char *was_syntax = syntaxstr;
+#endif
     char *saved_answer = (answer != NULL) ? strdup(answer) : NULL;
 	/* Store current answer when user invokes help at the prompt. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
@@ -173,6 +176,9 @@ void do_help(void)
 	++ptr;
     start_of_text = ptr;
 
+#ifndef DISABLE_COLOR
+    syntaxstr = "nanohelp";
+#endif
     display_the_help_text(FALSE);
     curs_set(0);
     edit_refresh();
@@ -270,6 +276,9 @@ void do_help(void)
     free(answer);
     answer = saved_answer;
     tabsize = was_tabsize;
+#ifndef DISABLE_COLOR
+    syntaxstr = was_syntax;
+#endif
 
     remove(tempfilename);
     free(tempfilename);
