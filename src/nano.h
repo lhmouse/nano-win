@@ -442,7 +442,7 @@ typedef struct subnfunc {
 	/* In what menus this function applies. */
     const char *desc;
 	/* The function's short description, for example "Where Is". */
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     const char *help;
 	/* The help-screen text for this function. */
     bool blank_after;

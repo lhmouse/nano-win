@@ -26,7 +26,7 @@
 #include <ctype.h>
 #include <errno.h>
 
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
 
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
@@ -631,17 +631,17 @@ size_t help_line_len(const char *ptr)
 	return 0;
 }
 
-#endif /* !DISABLE_HELP */
+#endif /* ENABLE_HELP */
 
 /* Start the help viewer. */
 void do_help_void(void)
 {
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     do_help();
 #else
     if (currmenu == MMAIN)
 	say_there_is_no_help();
     else
 	beep();
-#endif /* !DISABLE_HELP */
+#endif
 }

@@ -1608,7 +1608,7 @@ bool do_wrap(filestruct *line)
 }
 #endif /* !DISABLE_WRAPPING */
 
-#if !defined(DISABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
+#if defined(ENABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 /* We are trying to break a chunk off line.  We find the last blank such
  * that the display length to there is at most (goal + 1).  If there is
  * no such blank, then we find the first blank.  We then take the last
@@ -1643,7 +1643,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
     if (column <= goal)
 	return index;
 
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     /* If we're wrapping a help text and no blank was found, or was
      * found only as the first character, force a line break. */
     if (snap_at_nl && lastblank < 1)
@@ -1680,7 +1680,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 
     return lastblank;
 }
-#endif /* !DISABLE_HELP || !DISABLE_WRAPJUSTIFY */
+#endif /* ENABLE_HELP || !DISABLE_WRAPJUSTIFY */
 
 #if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the whitespace between the quote part

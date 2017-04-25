@@ -539,7 +539,7 @@ void show_restricted_warning(void)
     beep();
 }
 
-#ifdef DISABLE_HELP
+#ifndef ENABLE_HELP
 /* Indicate that help texts are unavailable. */
 void say_there_is_no_help(void)
 {
@@ -928,7 +928,7 @@ void version(void)
 #ifndef DISABLE_EXTRA
     printf(" --enable-extra");
 #endif
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     printf(" --enable-help");
 #endif
 #ifndef DISABLE_HISTORIES
@@ -977,7 +977,7 @@ void version(void)
 #ifdef DISABLE_EXTRA
     printf(" --disable-extra");
 #endif
-#ifdef DISABLE_HELP
+#ifndef ENABLE_HELP
     printf(" --disable-help");
 #endif
 #ifdef DISABLE_HISTORIES

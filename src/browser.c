@@ -162,7 +162,7 @@ char *do_browser(char *path)
 	    kbinput = KEY_WINCH;
 #endif
 	} else if (func == do_help_void) {
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
 	    do_help_void();
 #ifndef NANO_TINY
 	    /* The window dimensions might have changed, so act as if. */

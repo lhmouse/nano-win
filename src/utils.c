@@ -452,7 +452,7 @@ void new_magicline(void)
     openfile->totsize++;
 }
 
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 /* Remove the magicline from filebot, if there is one and it isn't the
  * only line in the file.  Assume that edittop and current are not at
  * filebot. */
@@ -466,7 +466,9 @@ void remove_magicline(void)
 	openfile->totsize--;
     }
 }
+#endif
 
+#ifndef NANO_TINY
 /* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
  * respectively, based on the locations of top and bot.  If
  * right_side_up isn't NULL, set it to TRUE if the mark begins with

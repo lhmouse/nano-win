@@ -314,7 +314,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
     f->menus = menus;
     f->desc = desc;
     f->viewok = viewok;
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     f->help = help;
     f->blank_after = blank_after;
 #endif
@@ -480,7 +480,7 @@ void shortcut_init(void)
     /* TRANSLATORS: Try to keep this string at most 12 characters. */
     const char *whereis_next_tag = N_("WhereIs Next");
 
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
 #ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
      * they are best kept shorter than 56 characters, but may be longer. */
@@ -642,9 +642,9 @@ void shortcut_init(void)
     const char *nano_formatter_msg = N_("Invoke formatter, if available");
 #endif
 #endif
-#endif /* !DISABLE_HELP */
+#endif /* ENABLE_HELP */
 
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
 #define IFSCHELP(help) help
 #else
 #define IFSCHELP(help) ""
@@ -709,7 +709,7 @@ void shortcut_init(void)
 	N_("Go To Dir"), IFSCHELP(nano_gotodir_msg), BLANKAFTER, VIEW);
 #endif
 
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     /* The description ("x") and blank_after (0) are irrelevant,
      * because the help viewer does not have a help text. */
     add_to_funcs(do_exit, MHELP, exit_tag, "x", 0, VIEW);
@@ -1290,7 +1290,7 @@ void shortcut_init(void)
 #ifndef DISABLE_BROWSER
     add_to_sclist(MBROWSER, "^T", 0, do_exit, 0);
 #endif
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     add_to_sclist(MHELP, "^G", 0, do_exit, 0);
     add_to_sclist(MHELP, "Home", KEY_HOME, do_first_line, 0);
     add_to_sclist(MHELP, "End", KEY_END, do_last_line, 0);
@@ -1403,7 +1403,7 @@ sc *strtosc(const char *input)
     s->toggle = 0;
 #endif
 
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     if (!strcasecmp(input, "help"))
 	s->scfunc = do_help_void;
     else
@@ -1681,7 +1681,7 @@ int strtomenu(const char *input)
     else if (!strcasecmp(input, "externalcmd") ||
 	     !strcasecmp(input, "extcmd"))
 	return MEXTCMD;
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     else if (!strcasecmp(input, "help"))
 	return MHELP;
 #endif

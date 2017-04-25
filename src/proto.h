@@ -340,7 +340,7 @@ void thanks_for_all_the_fish(void);
 #endif
 
 /* All functions in help.c. */
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
 void display_the_help_text(bool redisplaying);
 void do_help(void);
 void help_init(void);
@@ -401,7 +401,7 @@ void unlink_opennode(openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
 void print_view_warning(void);
 void show_restricted_warning(void);
-#ifdef DISABLE_HELP
+#ifndef ENABLE_HELP
 void say_there_is_no_help(void);
 #endif
 void finish(void);
@@ -545,7 +545,7 @@ void update_undo(undo_type action);
 void wrap_reset(void);
 bool do_wrap(filestruct *line);
 #endif
-#if !defined(DISABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
+#if defined(ENABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
 #endif
 #if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
@@ -601,8 +601,10 @@ size_t actual_x(const char *s, size_t column);
 size_t strnlenpt(const char *s, size_t maxlen);
 size_t strlenpt(const char *s);
 void new_magicline(void);
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 void remove_magicline(void);
+#endif
+#ifndef NANO_TINY
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif

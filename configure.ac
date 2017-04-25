@@ -106,9 +106,28 @@ if test "x$enable_extra" = xno; then
 fi
 
 AC_ARG_ENABLE(help,
-AS_HELP_STRING([--disable-help], [Disable help functions]))
-if test "x$enable_help" = xno; then
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
+AS_HELP_STRING([--disable-help], [Disable built-in help texts]))
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_help" = xyes; then
+	if test "x$enable_multibuffer" != xyes; then
+	    AC_MSG_ERROR([--enable-help cannot work without --enable-multibuffer])
+	fi
+    else
+	enable_help=no
+    fi
+fi
+if test "x$enable_multibuffer" = xno; then
+    if test "x$enable_help" = xyes; then
+	AC_MSG_ERROR([--enable-help cannot work with --disable-multibuffer])
+    else
+	# Disabling multibuffer silently disables the help texts.
+	enable_help=no
+    fi
+fi
+if test "x$disable_help" != xyes; then
+    if test "x$enable_help" != xno; then
+	AC_DEFINE(ENABLE_HELP, 1, [Define this to enable the Ctrl+G help texts.])
+    fi
 fi
 
 AC_ARG_ENABLE(histories,
@@ -229,9 +248,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_extra" != xyes; then
 	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
-    fi
-    if test "x$enable_help" != xyes; then
-	AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help text display.])
     fi
     if test "x$enable_histories" != xyes; then
 	AC_DEFINE(DISABLE_HISTORIES, 1, [Define this to disable search and position histories.])

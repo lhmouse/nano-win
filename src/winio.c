@@ -3145,7 +3145,7 @@ void total_refresh(void)
 {
     total_redraw();
     titlebar(title);
-#ifndef DISABLE_HELP
+#ifdef ENABLE_HELP
     if (inhelp)
 	display_the_help_text(TRUE);
     else
