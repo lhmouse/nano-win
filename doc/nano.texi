@@ -1480,11 +1480,15 @@ The possible options to @code{./configure} are:
 @table @code
 
 @item --disable-browser
-Disable the mini file browser when reading or writing files.
+Disable the mini file browser that can be called with ^T when reading
+or writing files.
 
 @item --disable-color
 Disable support for the syntax coloring of files.  This also eliminates
 the @code{-Y} command-line option, which chooses a specific syntax.
+
+@item --disable-comment
+Disable the single-keystroke comment/uncomment function (M-3).
 
 @item --disable-extra
 Disable extra features.  At the moment, this is just easter-egg-type
@@ -1509,6 +1513,10 @@ Disable the justify and unjustify functions.
 Disable the use of the library of magic-number tests (for determining
 the file type and thus which syntax to use for colouring --- often the
 tests on filename extension and header line will be enough).
+
+@item --disable-linenumbers
+Disable the line-numbering function (M-#).  This also eliminates the
+@code{-l} command-line option, which turns line numbering on.
 
 @item --disable-mouse
 Disable all mouse functionality.  This also eliminates the @code{-m}
@@ -1540,7 +1548,7 @@ command-line option, which allows specifying an alternate spell checker.
 Disable tab completion (when nano asks for a filename or a search string).
 
 @item --disable-wordcomp
-Disable word completion.
+Disable word completion (^[).
 
 @item --disable-wrapping
 Disable all hard-wrapping of overlong lines.  This also eliminates the
