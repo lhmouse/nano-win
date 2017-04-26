@@ -63,7 +63,7 @@ AC_CHECK_HEADERS(libintl.h limits.h pwd.h termios.h sys/param.h)
 dnl Checks for options.
 
 AC_ARG_ENABLE(browser,
-AS_HELP_STRING([--disable-browser], [Disable built-in file browser]))
+AS_HELP_STRING([--disable-browser], [Disable the built-in file browser]))
 if test "x$enable_browser" = xno; then
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
 fi
@@ -85,7 +85,7 @@ else
 fi
 
 AC_ARG_ENABLE(comment,
-AS_HELP_STRING([--disable-comment], [Disable comment/uncomment functions]))
+AS_HELP_STRING([--disable-comment], [Disable the comment/uncomment function]))
 if test "x$enable_tiny" = xyes; then
     if test "x$enable_comment" = xyes; then
 	AC_MSG_ERROR([--enable-comment cannot work with --enable-tiny])
@@ -100,13 +100,13 @@ if test "x$disable_comment" != xyes; then
 fi
 
 AC_ARG_ENABLE(extra,
-AS_HELP_STRING([--disable-extra], [Disable extra features, currently only easter eggs]))
+AS_HELP_STRING([--disable-extra], [Disable the Easter egg]))
 if test "x$enable_extra" = xno; then
     AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
 fi
 
 AC_ARG_ENABLE(help,
-AS_HELP_STRING([--disable-help], [Disable built-in help texts]))
+AS_HELP_STRING([--disable-help], [Disable the built-in help texts]))
 if test "x$enable_tiny" = xyes; then
     if test "x$enable_help" = xyes; then
 	if test "x$enable_multibuffer" != xyes; then
@@ -137,7 +137,7 @@ if test "x$enable_histories" = xno; then
 fi
 
 AC_ARG_ENABLE(justify,
-AS_HELP_STRING([--disable-justify], [Disable justify/unjustify functions]))
+AS_HELP_STRING([--disable-justify], [Disable the justify/unjustify functions]))
 if test "x$enable_justify" = xno; then
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
 fi
@@ -159,9 +159,9 @@ if test "x$disable_linenumbers" != xyes; then
 fi
 
 AC_ARG_ENABLE(mouse,
-AS_HELP_STRING([--disable-mouse], [Disable mouse support (and -m flag)]))
+AS_HELP_STRING([--disable-mouse], [Disable mouse support]))
 if test "x$enable_mouse" = xno; then
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
+    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable mouse support.])
 fi
 
 AC_ARG_ENABLE(multibuffer,
@@ -171,7 +171,7 @@ if test "x$enable_multibuffer" = xno; then
 fi
 
 AC_ARG_ENABLE(nanorc,
-AS_HELP_STRING([--disable-nanorc], [Disable use of .nanorc files]))
+AS_HELP_STRING([--disable-nanorc], [Disable the use of .nanorc files]))
 if test "x$enable_nanorc" = xno; then
     AC_DEFINE(DISABLE_NANORC, 1, [Define this to disable the use of .nanorc files.])
 else
@@ -179,25 +179,25 @@ else
 fi
 
 AC_ARG_ENABLE(operatingdir,
-AS_HELP_STRING([--disable-operatingdir], [Disable setting of operating directory (chroot of sorts)]))
+AS_HELP_STRING([--disable-operatingdir], [Disable the setting of an operating directory]))
 if test "x$enable_operatingdir" = xno; then
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
+    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of an operating directory (a chroot of sorts).])
 fi
 
 AC_ARG_ENABLE(speller,
-AS_HELP_STRING([--disable-speller], [Disable spell checker functions]))
+AS_HELP_STRING([--disable-speller], [Disable the spell-checker functions]))
 if test "x$enable_speller" = xno; then
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
+    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])
 fi
 
 AC_ARG_ENABLE(tabcomp,
-AS_HELP_STRING([--disable-tabcomp], [Disable tab completion functions]))
+AS_HELP_STRING([--disable-tabcomp], [Disable the tab-completion functions]))
 if test "x$enable_tabcomp" = xno; then
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for filenames and search strings.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab-completion functions for filenames and search strings.])
 fi
 
 AC_ARG_ENABLE(wordcomp,
-AS_HELP_STRING([--disable-wordcomp], [Disable the word completion function]))
+AS_HELP_STRING([--disable-wordcomp], [Disable the word-completion function]))
 if test "x$enable_tiny" = xyes; then
     if test "x$enable_wordcomp" = xyes; then
 	AC_MSG_ERROR([--enable-wordcomp cannot work with --enable-tiny])
@@ -207,14 +207,14 @@ if test "x$enable_tiny" = xyes; then
 fi
 if test "x$disable_wordcomp" != xyes; then
     if test "x$enable_wordcomp" != xno; then
-	AC_DEFINE(ENABLE_WORDCOMPLETION, 1, [Define this to enable the word completion function.])
+	AC_DEFINE(ENABLE_WORDCOMPLETION, 1, [Define this to enable the word-completion function.])
     fi
 fi
 
 AC_ARG_ENABLE(wrapping,
-AS_HELP_STRING([--disable-wrapping], [Disable all wrapping of text (and -w flag)]))
+AS_HELP_STRING([--disable-wrapping], [Disable all hard-wrapping of text]))
 if test "x$enable_wrapping" = xno; then
-    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
+    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all hard text wrapping.])
 fi
 
 AC_ARG_ENABLE(wrapping-as-root,
@@ -226,7 +226,7 @@ fi
 AC_ARG_ENABLE(debug,
 AS_HELP_STRING([--enable-debug], [Enable debugging (disabled by default)]))
 if test "x$enable_debug" = xyes; then
-    AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and assert warnings.])
+    AC_DEFINE(DEBUG, 1, [Define this to enable debug messages and abortion on failing asserts.])
 else
     AC_DEFINE(NDEBUG, 1, [Shut up assert warnings :-)])
 fi
@@ -259,7 +259,7 @@ if test "x$enable_tiny" = xyes; then
 	enable_libmagic=no
     fi
     if test "x$enable_mouse" != xyes; then
-	AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse support.])
+	AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable mouse support.])
     fi
     if test "x$enable_multibuffer" != xyes; then
 	AC_DEFINE(DISABLE_MULTIBUFFER, 1, [Define this to disable multiple file buffers.])
@@ -268,13 +268,13 @@ if test "x$enable_tiny" = xyes; then
 	AC_DEFINE(DISABLE_NANORC, 1, [Define this to disable the use of .nanorc files.])
     fi
     if test "x$enable_operatingdir" != xyes; then
-	AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of the operating directory (chroot of sorts).])
+	AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of an operating directory (a chroot of sorts).])
     fi
     if test "x$enable_speller" != xyes; then
-	AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
+	AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])
     fi
     if test "x$enable_tabcomp" != xyes; then
-	AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab completion functions for files and search strings.])
+	AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab-completion functions for files and search strings.])
     fi
     if test "x$enable_wrapping" != xyes; then
 	AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
@@ -561,13 +561,13 @@ else
 fi
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], [use_default_colors],
-	     [AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors() command.])],
+	     [AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors() function.])],
 	     [], [$CURSES_LIB])
 AC_CHECK_LIB([$CURSES_LIB_NAME], [set_escdelay],
 	     [AC_DEFINE(HAVE_SET_ESCDELAY, 1, [Define this if your curses library has the set_escdelay() function.])],
 	     [], [$CURSES_LIB])
 AC_CHECK_LIB([$CURSES_LIB_NAME], [key_defined],
-	     [AC_DEFINE(HAVE_KEY_DEFINED, 1, [Define this if your curses library has the key_defined() command.])],
+	     [AC_DEFINE(HAVE_KEY_DEFINED, 1, [Define this if your curses library has the key_defined() function.])],
 	     [], [$CURSES_LIB])
 
 dnl Parse any configure options.
@@ -694,7 +694,7 @@ int main(void)
     int testcolor = COLOR_WHITE;
     return 0;
 }],
-	AC_DEFINE(NEED_XOPEN_SOURCE_EXTENDED, 1, [Define this if you need the _XOPEN_SOURCE_EXTENDED macro for color support])
+	AC_DEFINE(NEED_XOPEN_SOURCE_EXTENDED, 1, [Define this if you need the _XOPEN_SOURCE_EXTENDED macro for color support.])
 	AC_MSG_RESULT(yes),
 	AC_MSG_RESULT(not sure)
 	AC_MSG_WARN([*** Couldn't successfully compile basic color test with or without _XOPEN_SOURCE_EXTENDED])
@@ -712,7 +712,7 @@ int main(void)
     COLS = 25;
     return 0;
 }],
-AC_DEFINE(REDEFINING_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug])
+AC_DEFINE(REDEFINING_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug.])
 AC_MSG_RESULT(yes),
 AC_MSG_RESULT(no),
 AC_MSG_WARN([*** Can't check for macro redefinability when cross-compiling]))

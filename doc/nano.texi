@@ -1491,8 +1491,7 @@ the @code{-Y} command-line option, which chooses a specific syntax.
 Disable the single-keystroke comment/uncomment function (M-3).
 
 @item --disable-extra
-Disable extra features.  At the moment, this is just easter-egg-type
-stuff.
+Disable the Easter egg: a crawl of major contributors.
 
 @item --disable-help
 Disable the help function.  Doing this makes the binary much smaller,
@@ -1548,7 +1547,7 @@ command-line option, which allows specifying an alternate spell checker.
 Disable tab completion (when nano asks for a filename or a search string).
 
 @item --disable-wordcomp
-Disable word completion (^[).
+Disable word completion (^]).
 
 @item --disable-wrapping
 Disable all hard-wrapping of overlong lines.  This also eliminates the
