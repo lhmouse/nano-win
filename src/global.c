@@ -52,6 +52,11 @@ int margin = 0;
 int editwincols = -1;
 	/* The number of usable columns in the edit window: COLS - margin. */
 
+#ifndef DISABLE_COLOR
+bool have_palette = FALSE;
+	/* Whether the colors for the current syntax have been initialized. */
+#endif
+
 message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 

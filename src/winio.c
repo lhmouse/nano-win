@@ -3054,6 +3054,12 @@ void edit_refresh(void)
     filestruct *line;
     int row = 0;
 
+#ifndef DISABLE_COLOR
+    /* When needed, initialize the colors for the current syntax. */
+    if (!have_palette)
+	color_init();
+#endif
+
     /* If the current line is out of view, get it back on screen. */
     if (current_is_offscreen()) {
 #ifdef DEBUG

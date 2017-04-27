@@ -43,6 +43,10 @@ extern bool as_an_at;
 extern int margin;
 extern int editwincols;
 
+#ifndef DISABLE_COLOR
+extern bool have_palette;
+#endif
+
 extern message_type lastmessage;
 
 extern filestruct *pletion_line;

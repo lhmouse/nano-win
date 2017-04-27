@@ -589,8 +589,7 @@ void display_buffer(void)
 	titlebar(NULL);
 
 #ifndef DISABLE_COLOR
-    /* Make sure we're using the buffer's associated colors. */
-    color_init();
+    have_palette = FALSE;
 
     /* If there are multiline coloring regexes, and there is no
      * multiline cache data yet, precalculate it now. */
@@ -599,8 +598,7 @@ void display_buffer(void)
 	precalc_multicolorinfo();
 #endif
 
-    /* Update the content of the edit window straightaway. */
-    edit_refresh();
+    refresh_needed = TRUE;
 }
 
 #ifndef DISABLE_MULTIBUFFER
