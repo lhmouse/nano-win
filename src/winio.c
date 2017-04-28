@@ -1813,23 +1813,17 @@ void check_statusblank(void)
  * "$" at the beginning or end of the line if it's too long. */
 char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 {
-    size_t start_index;
-	/* Index in buf of the first character shown. */
-    size_t start_col;
-	/* Screen column that start_index corresponds to. */
+    size_t start_index = actual_x(buf, column);
+	/* The index of the first character that the caller wishes to show. */
+    size_t start_col = strnlenpt(buf, start_index);
+	/* The actual column where that first character starts. */
     char *converted;
 	/* The expanded string we will return. */
-    size_t index;
+    size_t index = 0;
 	/* Current position in converted. */
     size_t beyond = column + span;
 	/* The column number just beyond the last shown character. */
 
-    start_index = actual_x(buf, column);
-    start_col = strnlenpt(buf, start_index);
-
-    assert(start_col <= column);
-
-    index = 0;
 #ifdef USING_OLD_NCURSES
     seen_wide = FALSE;
 #endif
@@ -3371,12 +3365,9 @@ void do_credits(void)
 	    const char *what;
 	    size_t start_col;
 
-	    if (credits[crpos] == NULL) {
-		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
-
-		what = _(xlcredits[xlpos]);
-		xlpos++;
-	    } else
+	    if (credits[crpos] == NULL)
+		what = _(xlcredits[xlpos++]);
+	    else
 		what = credits[crpos];
 
 	    start_col = COLS / 2 - strlenpt(what) / 2 - 1;
