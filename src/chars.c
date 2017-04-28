@@ -70,8 +70,6 @@ void mbtowc_reset(void)
 /* This function is equivalent to isalpha() for multibyte characters. */
 bool is_alpha_mbchar(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
@@ -90,8 +88,6 @@ bool is_alpha_mbchar(const char *c)
 /* This function is equivalent to isalnum() for multibyte characters. */
 bool is_alnum_mbchar(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
@@ -110,8 +106,6 @@ bool is_alnum_mbchar(const char *c)
 /* This function is equivalent to isblank() for multibyte characters. */
 bool is_blank_mbchar(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
@@ -158,8 +152,6 @@ bool is_cntrl_mbchar(const char *c)
 /* This function is equivalent to ispunct() for multibyte characters. */
 bool is_punct_mbchar(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
@@ -234,8 +226,6 @@ char control_mbrep(const char *c, bool isdata)
  * return the number of columns that the character occupies. */
 int length_of_char(const char *c, int *width)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
@@ -265,8 +255,6 @@ int length_of_char(const char *c, int *width)
 /* This function is equivalent to wcwidth() for multibyte characters. */
 int mbwidth(const char *c)
 {
-    assert(c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	wchar_t wc;
@@ -321,14 +309,10 @@ char *make_mbchar(long chr, int *chr_mb_len)
  * col isn't NULL, add the character's width (in columns) to it. */
 int parse_mbchar(const char *buf, char *chr, size_t *col)
 {
-    int length;
-
-    assert(buf != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	/* Get the number of bytes in the multibyte character. */
-	length = mblen(buf, MAXCHARLEN);
+	int length = mblen(buf, MAXCHARLEN);
 
 	/* When the multibyte sequence is invalid, only take the first byte. */
 	if (length <= 0) {
@@ -358,12 +342,11 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	    } else
 		*col += mbwidth(buf);
 	}
+
+	return length;
     } else
 #endif
     {
-	/* A byte character is one byte long. */
-	length = 1;
-
 	/* When requested, store the byte character in chr. */
 	if (chr != NULL)
 	    *chr = *buf;
@@ -382,9 +365,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	    else
 		(*col)++;
 	}
-    }
 
-    return length;
+	return 1;
+    }
 }
 
 /* Return the index in buf of the beginning of the multibyte character
@@ -393,7 +376,7 @@ size_t move_mbleft(const char *buf, size_t pos)
 {
     size_t before, char_len = 0;
 
-    assert(buf != NULL && pos <= strlen(buf));
+    assert(pos <= strlen(buf));
 
     /* There is no library function to move backward one multibyte
      * character.  So we just start groping for one at the farthest
@@ -608,8 +591,6 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 /* This function is equivalent to strchr() for multibyte strings. */
 char *mbstrchr(const char *s, const char *c)
 {
-    assert(s != NULL && c != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	bool bad_s_mb = FALSE, bad_c_mb = FALSE;
@@ -671,8 +652,6 @@ char *mbstrpbrk(const char *s, const char *accept)
 char *revstrpbrk(const char *s, const char *accept, const char
 	*rev_start)
 {
-    assert(s != NULL && accept != NULL && rev_start != NULL);
-
     if (*rev_start == '\0') {
 	if (rev_start == s)
 	   return NULL;
@@ -692,8 +671,6 @@ char *revstrpbrk(const char *s, const char *accept, const char
 char *mbrevstrpbrk(const char *s, const char *accept, const char
 	*rev_start)
 {
-    assert(s != NULL && accept != NULL && rev_start != NULL);
-
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	if (*rev_start == '\0') {
