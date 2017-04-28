@@ -507,22 +507,22 @@ char *revstrstr(const char *haystack, const char *needle,
 char *revstrcasestr(const char *haystack, const char *needle,
 	const char *index)
 {
-    size_t tail_len, needle_len;
+    size_t needle_len = strlen(needle);
+    size_t tail_len = strlen(index);
 
-    if (*needle == '\0')
+    if (needle_len == 0)
 	return (char *)index;
-
-    needle_len = strlen(needle);
 
     if (strlen(haystack) < needle_len)
 	return NULL;
 
-    tail_len = strlen(index);
+    if (tail_len < needle_len)
+	index += tail_len - needle_len;
 
-    for (; index >= haystack; index--, tail_len++) {
-	if (tail_len >= needle_len &&
-			strncasecmp(index, needle, needle_len) == 0)
+    while (index >= haystack) {
+	if (strncasecmp(index, needle, needle_len) == 0)
 	    return (char *)index;
+	index--;
     }
 
     return NULL;
