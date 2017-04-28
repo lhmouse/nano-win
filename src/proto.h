@@ -638,8 +638,7 @@ void blank_edit(void);
 void blank_statusbar(void);
 void blank_bottombars(void);
 void check_statusblank(void);
-char *display_string(const char *buf, size_t start_col, size_t span,
-	bool dollars);
+char *display_string(const char *buf, size_t column, size_t span, bool isdata);
 void titlebar(const char *path);
 extern void set_modified(void);
 void statusbar(const char *msg);

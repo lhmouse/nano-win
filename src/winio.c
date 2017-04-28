@@ -1805,31 +1805,29 @@ void check_statusblank(void)
 	edit_refresh();
 }
 
-/* Convert buf into a string that can be displayed on screen.  The
- * caller wants to display buf starting with column start_col, and
- * extending for at most span columns.  start_col is zero-based.  span
- * is one-based, so span == 0 means you get "" returned.  The returned
- * string is dynamically allocated, and should be freed.  If isdata is
- * TRUE, the caller might put "$" at the beginning or end of the line if
- * it's too long. */
-char *display_string(const char *buf, size_t start_col, size_t span,
-	bool isdata)
+/* Convert buf into a string that can be displayed on screen.  The caller
+ * wants to display buf starting with the given column, and extending for
+ * at most span columns.  column is zero-based, and span is one-based, so
+ * span == 0 means you get "" returned.  The returned string is dynamically
+ * allocated, and should be freed.  If isdata is TRUE, the caller might put
+ * "$" at the beginning or end of the line if it's too long. */
+char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 {
     size_t start_index;
 	/* Index in buf of the first character shown. */
-    size_t column;
+    size_t start_col;
 	/* Screen column that start_index corresponds to. */
     char *converted;
-	/* The string we return. */
+	/* The expanded string we will return. */
     size_t index;
 	/* Current position in converted. */
-    size_t beyond = start_col + span;
+    size_t beyond = column + span;
 	/* The column number just beyond the last shown character. */
 
-    start_index = actual_x(buf, start_col);
-    column = strnlenpt(buf, start_index);
+    start_index = actual_x(buf, column);
+    start_col = strnlenpt(buf, start_index);
 
-    assert(column <= start_col);
+    assert(start_col <= column);
 
     index = 0;
 #ifdef USING_OLD_NCURSES
@@ -1842,32 +1840,31 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 
     /* If the first character starts before the left edge, or would be
      * overwritten by a "$" token, then show placeholders instead. */
-    if (*buf != '\0' && *buf != '\t' && (column < start_col ||
-				(column > 0 && isdata && !ISSET(SOFTWRAP)))) {
+    if (*buf != '\0' && *buf != '\t' && (start_col < column ||
+			(start_col > 0 && isdata && !ISSET(SOFTWRAP)))) {
 	if (is_cntrl_mbchar(buf)) {
-	    if (column < start_col) {
+	    if (start_col < column) {
 		converted[index++] = control_mbrep(buf, isdata);
-		start_col++;
+		column++;
 		buf += parse_mbchar(buf, NULL, NULL);
 	    }
 	}
 #ifdef ENABLE_UTF8
 	else if (mbwidth(buf) == 2) {
-	    if (column >= start_col) {
+	    if (start_col == column) {
 		converted[index++] = ' ';
-		start_col++;
+		column++;
 	    }
 
 	    /* Display the right half of a two-column character as '<'. */
 	    converted[index++] = '<';
-	    start_col++;
-
+	    column++;
 	    buf += parse_mbchar(buf, NULL, NULL);
 	}
 #endif
     }
 
-    while (*buf != '\0' && start_col < beyond) {
+    while (*buf != '\0' && column < beyond) {
 	int charlength, charwidth = 1;
 
 	if (*buf == ' ') {
@@ -1881,7 +1878,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	    } else
 #endif
 		converted[index++] = ' ';
-	    start_col++;
+	    column++;
 	    buf++;
 	    continue;
 	} else if (*buf == '\t') {
@@ -1895,11 +1892,11 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	    } else
 #endif
 		converted[index++] = ' ';
-	    start_col++;
+	    column++;
 	    /* Fill the tab up with the required number of spaces. */
-	    while (start_col % tabsize != 0) {
+	    while (column % tabsize != 0) {
 		converted[index++] = ' ';
-		start_col++;
+		column++;
 	    }
 	    buf++;
 	    continue;
@@ -1911,7 +1908,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	if (is_cntrl_mbchar(buf)) {
 	    converted[index++] = '^';
 	    converted[index++] = control_mbrep(buf, isdata);
-	    start_col += 2;
+	    column += 2;
 	    buf += charlength;
 	    continue;
 	}
@@ -1921,7 +1918,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	    for (; charlength > 0; charlength--)
 		converted[index++] = *(buf++);
 
-	    start_col += charwidth;
+	    column += charwidth;
 #ifdef USING_OLD_NCURSES
 	    if (charwidth > 1)
 		seen_wide = TRUE;
@@ -1933,8 +1930,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
 	converted[index++] = '\xEF';
 	converted[index++] = '\xBF';
 	converted[index++] = '\xBD';
-
-	start_col += 1;
+	column++;
 	buf++;
 
 	/* For invalid codepoints, skip extra bytes. */
@@ -1943,7 +1939,7 @@ char *display_string(const char *buf, size_t start_col, size_t span,
     }
 
     /* If there is more text than can be shown, make room for the $ or >. */
-    if (*buf != '\0' && (start_col > beyond || (isdata && !ISSET(SOFTWRAP)))) {
+    if (*buf != '\0' && (column > beyond || (isdata && !ISSET(SOFTWRAP)))) {
 	index = move_mbleft(converted, index);
 
 #ifdef ENABLE_UTF8
