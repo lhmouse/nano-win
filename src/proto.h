@@ -206,9 +206,9 @@ int mbstrcasecmp(const char *s1, const char *s2);
 int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 char *mbstrcasestr(const char *haystack, const char *needle);
 char *revstrstr(const char *haystack, const char *needle,
-	const char *pointer);
-char *mbrevstrcasestr(const char *haystack, const char *needle, const
-	char *rev_start);
+	const char *index);
+char *mbrevstrcasestr(const char *haystack, const char *needle,
+	const char *index);
 size_t mbstrlen(const char *s);
 size_t mbstrnlen(const char *s, size_t maxlen);
 #if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)

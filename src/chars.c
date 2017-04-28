@@ -477,91 +477,91 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 }
 
 /* This function is equivalent to strstr(), except in that it scans the
- * string in reverse, starting at rev_start. */
+ * string in reverse, starting at index. */
 char *revstrstr(const char *haystack, const char *needle,
-	const char *pointer)
+	const char *index)
 {
     size_t needle_len = strlen(needle);
-    size_t tail_len = strlen(pointer);
+    size_t tail_len = strlen(index);
 
     if (needle_len == 0)
-	return (char *)pointer;
+	return (char *)index;
 
     if (strlen(haystack) < needle_len)
 	return NULL;
 
     if (tail_len < needle_len)
-	pointer += tail_len - needle_len;
+	index += tail_len - needle_len;
 
-    while (pointer >= haystack) {
-	if (strncmp(pointer, needle, needle_len) == 0)
-	    return (char *)pointer;
-	pointer--;
+    while (index >= haystack) {
+	if (strncmp(index, needle, needle_len) == 0)
+	    return (char *)index;
+	index--;
     }
 
     return NULL;
 }
 
 /* This function is equivalent to strcasestr(), except in that it scans
- * the string in reverse, starting at rev_start. */
-char *revstrcasestr(const char *haystack, const char *needle, const char
-	*rev_start)
+ * the string in reverse, starting at index. */
+char *revstrcasestr(const char *haystack, const char *needle,
+	const char *index)
 {
-    size_t rev_start_len, needle_len;
+    size_t tail_len, needle_len;
 
     if (*needle == '\0')
-	return (char *)rev_start;
+	return (char *)index;
 
     needle_len = strlen(needle);
 
     if (strlen(haystack) < needle_len)
 	return NULL;
 
-    rev_start_len = strlen(rev_start);
+    tail_len = strlen(index);
 
-    for (; rev_start >= haystack; rev_start--, rev_start_len++) {
-	if (rev_start_len >= needle_len && strncasecmp(rev_start,
-		needle, needle_len) == 0)
-	    return (char *)rev_start;
+    for (; index >= haystack; index--, tail_len++) {
+	if (tail_len >= needle_len &&
+			strncasecmp(index, needle, needle_len) == 0)
+	    return (char *)index;
     }
 
     return NULL;
 }
 
 /* This function is equivalent to strcasestr() for multibyte strings,
- * except in that it scans the string in reverse, starting at rev_start. */
-char *mbrevstrcasestr(const char *haystack, const char *needle, const
-	char *rev_start)
+ * except in that it scans the string in reverse, starting at index. */
+char *mbrevstrcasestr(const char *haystack, const char *needle,
+	const char *index)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	size_t rev_start_len, needle_len;
+	size_t tail_len, needle_len;
 
 	if (*needle == '\0')
-	    return (char *)rev_start;
+	    return (char *)index;
 
 	needle_len = mbstrlen(needle);
 
 	if (mbstrlen(haystack) < needle_len)
 	    return NULL;
 
-	rev_start_len = mbstrlen(rev_start);
+	tail_len = mbstrlen(index);
 
 	while (TRUE) {
-	    if (rev_start_len >= needle_len &&
-			mbstrncasecmp(rev_start, needle, needle_len) == 0)
-		return (char *)rev_start;
+	    if (tail_len >= needle_len &&
+			mbstrncasecmp(index, needle, needle_len) == 0)
+		return (char *)index;
 
 	    /* If we've reached the head of the haystack, we found nothing. */
-	    if (rev_start == haystack)
+	    if (index == haystack)
 		return NULL;
 
-	    rev_start = haystack + move_mbleft(haystack, rev_start - haystack);
-	    rev_start_len++;
+	    index = haystack + move_mbleft(haystack, index - haystack);
+	    tail_len++;
 	}
     } else
 #endif
-	return revstrcasestr(haystack, needle, rev_start);
+	return revstrcasestr(haystack, needle, index);
 }
 
 /* This function is equivalent to strlen() for multibyte strings. */
