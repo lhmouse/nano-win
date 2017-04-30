@@ -237,6 +237,10 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start)
 {
+    /* Just in case we search for an empty needle. :/ */
+    if (*needle == '\0')
+	return (char *)start;
+
     if (ISSET(USE_REGEXP)) {
 	if (ISSET(BACKWARDS_SEARCH)) {
 	    size_t last_find, ceiling, far_end;

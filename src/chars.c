@@ -456,12 +456,7 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	size_t needle_len;
-
-	if (*needle == '\0')
-	    return (char *)haystack;
-
-	needle_len = mbstrlen(needle);
+	size_t needle_len = mbstrlen(needle);
 
 	while (*haystack != '\0') {
 	    if (mbstrncasecmp(haystack, needle, needle_len) == 0)
@@ -484,9 +479,6 @@ char *revstrstr(const char *haystack, const char *needle,
     size_t needle_len = strlen(needle);
     size_t tail_len = strlen(pointer);
 
-    if (needle_len == 0)
-	return (char *)pointer;
-
     if (tail_len < needle_len)
 	pointer += tail_len - needle_len;
 
@@ -506,9 +498,6 @@ char *revstrcasestr(const char *haystack, const char *needle,
 {
     size_t needle_len = strlen(needle);
     size_t tail_len = strlen(pointer);
-
-    if (needle_len == 0)
-	return (char *)pointer;
 
     if (tail_len < needle_len)
 	pointer += tail_len - needle_len;
@@ -531,9 +520,6 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
     if (use_utf8) {
 	size_t needle_len = mbstrlen(needle);
 	size_t tail_len = mbstrlen(pointer);
-
-	if (needle_len == 0)
-	    return (char *)pointer;
 
 	if (tail_len < needle_len)
 	    pointer += tail_len - needle_len;
