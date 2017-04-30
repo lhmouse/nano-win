@@ -477,91 +477,91 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 }
 
 /* This function is equivalent to strstr(), except in that it scans the
- * string in reverse, starting at index. */
+ * string in reverse, starting at pointer. */
 char *revstrstr(const char *haystack, const char *needle,
-	const char *index)
+	const char *pointer)
 {
     size_t needle_len = strlen(needle);
-    size_t tail_len = strlen(index);
+    size_t tail_len = strlen(pointer);
 
     if (needle_len == 0)
-	return (char *)index;
+	return (char *)pointer;
 
     if (strlen(haystack) < needle_len)
 	return NULL;
 
     if (tail_len < needle_len)
-	index += tail_len - needle_len;
+	pointer += tail_len - needle_len;
 
-    while (index >= haystack) {
-	if (strncmp(index, needle, needle_len) == 0)
-	    return (char *)index;
-	index--;
+    while (pointer >= haystack) {
+	if (strncmp(pointer, needle, needle_len) == 0)
+	    return (char *)pointer;
+	pointer--;
     }
 
     return NULL;
 }
 
 /* This function is equivalent to strcasestr(), except in that it scans
- * the string in reverse, starting at index. */
+ * the string in reverse, starting at pointer. */
 char *revstrcasestr(const char *haystack, const char *needle,
-	const char *index)
+	const char *pointer)
 {
     size_t needle_len = strlen(needle);
-    size_t tail_len = strlen(index);
+    size_t tail_len = strlen(pointer);
 
     if (needle_len == 0)
-	return (char *)index;
+	return (char *)pointer;
 
     if (strlen(haystack) < needle_len)
 	return NULL;
 
     if (tail_len < needle_len)
-	index += tail_len - needle_len;
+	pointer += tail_len - needle_len;
 
-    while (index >= haystack) {
-	if (strncasecmp(index, needle, needle_len) == 0)
-	    return (char *)index;
-	index--;
+    while (pointer >= haystack) {
+	if (strncasecmp(pointer, needle, needle_len) == 0)
+	    return (char *)pointer;
+	pointer--;
     }
 
     return NULL;
 }
 
 /* This function is equivalent to strcasestr() for multibyte strings,
- * except in that it scans the string in reverse, starting at index. */
+ * except in that it scans the string in reverse, starting at pointer. */
 char *mbrevstrcasestr(const char *haystack, const char *needle,
-	const char *index)
+	const char *pointer)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
 	size_t tail_len, needle_len;
 
 	if (*needle == '\0')
-	    return (char *)index;
+	    return (char *)pointer;
 
 	needle_len = mbstrlen(needle);
 
 	if (mbstrlen(haystack) < needle_len)
 	    return NULL;
 
-	tail_len = mbstrlen(index);
+	tail_len = mbstrlen(pointer);
 
 	while (TRUE) {
 	    if (tail_len >= needle_len &&
-			mbstrncasecmp(index, needle, needle_len) == 0)
-		return (char *)index;
+			mbstrncasecmp(pointer, needle, needle_len) == 0)
+		return (char *)pointer;
 
 	    /* If we've reached the head of the haystack, we found nothing. */
-	    if (index == haystack)
+	    if (pointer == haystack)
 		return NULL;
 
-	    index = haystack + move_mbleft(haystack, index - haystack);
+	    pointer = haystack + move_mbleft(haystack, pointer - haystack);
 	    tail_len++;
 	}
     } else
 #endif
-	return revstrcasestr(haystack, needle, index);
+	return revstrcasestr(haystack, needle, pointer);
 }
 
 /* This function is equivalent to strlen() for multibyte strings. */
@@ -647,50 +647,50 @@ char *mbstrpbrk(const char *s, const char *accept)
 	return (char *) strpbrk(s, accept);
 }
 
-/* Locate the first occurrence in the string that starts at head
- * of any of the characters in the string accept, starting from
- * the given index and searching backwards. */
-char *revstrpbrk(const char *head, const char *accept, const char *index)
+/* Locate, in the string that starts at head, the first occurrence of any of
+ * the characters in the string accept, starting from pointer and searching
+ * backwards. */
+char *revstrpbrk(const char *head, const char *accept, const char *pointer)
 {
-    if (*index == '\0') {
-	if (index == head)
+    if (*pointer == '\0') {
+	if (pointer == head)
 	   return NULL;
-	index--;
+	pointer--;
     }
 
-    while (index >= head) {
-	if (strchr(accept, *index) != NULL)
-	    return (char *)index;
-	index--;
+    while (pointer >= head) {
+	if (strchr(accept, *pointer) != NULL)
+	    return (char *)pointer;
+	pointer--;
     }
 
     return NULL;
 }
 
 /* The same as the preceding function but then for multibyte strings. */
-char *mbrevstrpbrk(const char *head, const char *accept, const char *index)
+char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	if (*index == '\0') {
-	    if (index == head)
+	if (*pointer == '\0') {
+	    if (pointer == head)
 		return NULL;
-	    index = head + move_mbleft(head, index - head);
+	    pointer = head + move_mbleft(head, pointer - head);
 	}
 
 	while (TRUE) {
-	    if (mbstrchr(accept, index) != NULL)
-		return (char *)index;
+	    if (mbstrchr(accept, pointer) != NULL)
+		return (char *)pointer;
 
 	    /* If we've reached the head of the string, we found nothing. */
-	    if (index == head)
+	    if (pointer == head)
 		return NULL;
 
-	    index = head + move_mbleft(head, index - head);
+	    pointer = head + move_mbleft(head, pointer - head);
 	}
     } else
 #endif
-	return revstrpbrk(head, accept, index);
+	return revstrpbrk(head, accept, pointer);
 }
 #endif /* !NANO_TINY */
 
