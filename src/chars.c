@@ -535,29 +535,29 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-	size_t tail_len, needle_len;
+	size_t needle_len = mbstrlen(needle);
+	size_t tail_len = mbstrlen(pointer);
 
-	if (*needle == '\0')
+	if (needle_len == 0)
 	    return (char *)pointer;
-
-	needle_len = mbstrlen(needle);
 
 	if (mbstrlen(haystack) < needle_len)
 	    return NULL;
 
-	tail_len = mbstrlen(pointer);
+	if (tail_len < needle_len)
+	    pointer += tail_len - needle_len;
+
+	if (pointer < haystack)
+	    return NULL;
 
 	while (TRUE) {
-	    if (tail_len >= needle_len &&
-			mbstrncasecmp(pointer, needle, needle_len) == 0)
+	    if (mbstrncasecmp(pointer, needle, needle_len) == 0)
 		return (char *)pointer;
 
-	    /* If we've reached the head of the haystack, we found nothing. */
 	    if (pointer == haystack)
 		return NULL;
 
 	    pointer = haystack + move_mbleft(haystack, pointer - haystack);
-	    tail_len++;
 	}
     } else
 #endif
