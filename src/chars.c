@@ -487,9 +487,6 @@ char *revstrstr(const char *haystack, const char *needle,
     if (needle_len == 0)
 	return (char *)pointer;
 
-    if (strlen(haystack) < needle_len)
-	return NULL;
-
     if (tail_len < needle_len)
 	pointer += tail_len - needle_len;
 
@@ -512,9 +509,6 @@ char *revstrcasestr(const char *haystack, const char *needle,
 
     if (needle_len == 0)
 	return (char *)pointer;
-
-    if (strlen(haystack) < needle_len)
-	return NULL;
 
     if (tail_len < needle_len)
 	pointer += tail_len - needle_len;
@@ -540,9 +534,6 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 
 	if (needle_len == 0)
 	    return (char *)pointer;
-
-	if (mbstrlen(haystack) < needle_len)
-	    return NULL;
 
 	if (tail_len < needle_len)
 	    pointer += tail_len - needle_len;
