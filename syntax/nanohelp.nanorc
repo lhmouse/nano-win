@@ -4,9 +4,9 @@
 syntax "nanohelp"
 
 # Key combos:
-color brightblue "\^([]A-Z^\_←→↑↓]|Home|End)"  "[←→↑↓]"
-color brightblue "\<(Tab|Enter|Home|End|Ins|Del|Bsp|PgUp|PgDn)\>"
-color brightblue "\<M-."  "\<F1?[0-9]"  "(\^|M-)Space"
+color cyan "\^([]A-Z^\_←→↑↓]|Home|End)"  "[←→↑↓]"
+color cyan "\<(Tab|Enter|Home|End|Ins|Del|Bsp|PgUp|PgDn)\>"
+color cyan "\<M-."  "\<F1?[0-9]"  "(\^|M-)Space"
 
 # Quoted indicators:
 color brightred "'(\^|M-)'"
