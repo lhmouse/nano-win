@@ -2011,9 +2011,11 @@ int main(int argc, char **argv)
     textdomain(PACKAGE);
 #endif
 
+#ifdef ENABLE_UTF8
     if (MB_CUR_MAX > MAXCHARLEN)
 	fprintf(stderr, "Unexpected large character size: %i bytes"
 			" -- please report a bug\n", (int)MB_CUR_MAX);
+#endif
 
 #if defined(DISABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
     /* If we don't have rcfile support, --disable-wrapping-as-root is
