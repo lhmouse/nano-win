@@ -128,12 +128,6 @@ void do_help(void)
 
     fclose(fp);
 
-    /* Compose the help text from all the pieces. */
-    tabsize = 8;
-    help_init();
-    inhelp = TRUE;
-    location = 0;
-
     /* Save the settings of all flags. */
     memcpy(stash, flags, sizeof(flags));
 
@@ -156,6 +150,12 @@ void do_help(void)
     UNSET(LINE_NUMBERS);
     margin = 0;
 #endif
+    tabsize = 8;
+
+    /* Compose the help text from all the pieces. */
+    help_init();
+    inhelp = TRUE;
+    location = 0;
 
     bottombars(MHELP);
     wnoutrefresh(bottomwin);
@@ -295,12 +295,6 @@ void help_init(void)
     char *ptr;
     const subnfunc *f;
     const sc *s;
-
-#ifndef NANO_TINY
-    bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
-
-    UNSET(WHITESPACE_DISPLAY);
-#endif
 
     /* First, set up the initial help text for the current function. */
     if (currmenu == MWHEREIS || currmenu == MREPLACE || currmenu == MREPLACEWITH) {
@@ -561,9 +555,6 @@ void help_init(void)
 		}
 	}
     }
-
-    if (old_whitespace)
-	SET(WHITESPACE_DISPLAY);
 #endif /* !NANO_TINY */
 
     /* If all went well, we didn't overwrite the allocated space. */
