@@ -475,7 +475,7 @@ void help_init(void)
     }
 #endif
 
-    /* Allocate space for the help text. */
+    /* Allocate memory for the help text. */
     help_text = charalloc(allocsize + 1);
 
     /* Now add the text we want. */
@@ -557,8 +557,8 @@ void help_init(void)
     }
 #endif /* !NANO_TINY */
 
-    /* If all went well, we didn't overwrite the allocated space. */
-    assert(strlen(help_text) <= allocsize + 1);
+    if (strlen(help_text) > allocsize)
+	statusline(ALERT, "Help text spilled over -- please report a bug");
 }
 
 /* Return the function that is bound to the given key, accepting certain
