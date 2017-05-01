@@ -494,7 +494,7 @@ void shortcut_init(void)
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	N_("Close the current file buffer / Exit from nano")
 #else
 	N_("Exit from nano")
@@ -563,7 +563,7 @@ void shortcut_init(void)
     const char *nano_scrolldown_msg =
 	N_("Scroll down one line without scrolling the cursor");
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     const char *nano_prevfile_msg = N_("Switch to the previous file buffer");
     const char *nano_nextfile_msg = N_("Switch to the next file buffer");
 #endif
@@ -626,7 +626,7 @@ void shortcut_init(void)
     const char *nano_prepend_msg = N_("Toggle prepending");
     const char *nano_backup_msg = N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     const char *nano_newbuffer_msg = N_("Toggle the use of a new buffer");
 #endif
 #endif
@@ -688,7 +688,7 @@ void shortcut_init(void)
 		read_file_tag, IFSCHELP(nano_insert_msg), BLANKAFTER,
 		/* We allow inserting files in view mode if multibuffer mode
 		 * is switched on, so that we can view multiple files. */
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 		VIEW);
 #else
 		NOVIEW);
@@ -866,7 +866,7 @@ void shortcut_init(void)
     add_to_funcs(do_last_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     add_to_funcs(switch_to_prev_buffer_void, MMAIN,
 	N_("Prev File"), IFSCHELP(nano_prevfile_msg), TOGETHER, VIEW);
     add_to_funcs(switch_to_next_buffer_void, MMAIN,
@@ -995,7 +995,7 @@ void shortcut_init(void)
 	add_to_funcs(flip_execute_void, MEXTCMD,
 	    read_file_tag, IFSCHELP(nano_insert_msg), TOGETHER, NOVIEW);
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
 	    N_("New Buffer"), IFSCHELP(nano_newbuffer_msg), TOGETHER, NOVIEW);
 #endif
@@ -1170,7 +1170,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-+", 0, do_scroll_down, 0);
     add_to_sclist(MMAIN, "M-=", 0, do_scroll_down, 0);
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     add_to_sclist(MMAIN, "M-<", 0, switch_to_prev_buffer_void, 0);
     add_to_sclist(MMAIN, "M-,", 0, switch_to_prev_buffer_void, 0);
     add_to_sclist(MMAIN, "M->", 0, switch_to_next_buffer_void, 0);
@@ -1213,7 +1213,7 @@ void shortcut_init(void)
 
     /* Group of "Peripheral-feature" toggles. */
     add_to_sclist(MMAIN, "M-B", 0, do_toggle_void, BACKUP_FILE);
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     add_to_sclist(MMAIN, "M-F", 0, do_toggle_void, MULTIBUFFER);
 #endif
 #ifndef DISABLE_MOUSE
@@ -1541,7 +1541,7 @@ sc *strtosc(const char *input)
 	s->scfunc = do_first_line;
     else if (!strcasecmp(input, "lastline"))
 	s->scfunc = do_last_line;
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     else if (!strcasecmp(input, "prevbuf"))
 	s->scfunc = switch_to_prev_buffer_void;
     else if (!strcasecmp(input, "nextbuf"))
@@ -1593,7 +1593,7 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "flipexecute"))
 	s->scfunc = flip_execute_void;
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     else if (!strcasecmp(input, "flipnewbuffer") ||
 	     !strcasecmp(input, "newbuffer"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = new_buffer_void;
@@ -1642,7 +1642,7 @@ sc *strtosc(const char *input)
 	    s->toggle = TABS_TO_SPACES;
 	else if (!strcasecmp(input, "backupfile"))
 	    s->toggle = BACKUP_FILE;
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	else if (!strcasecmp(input, "multibuffer"))
 	    s->toggle = MULTIBUFFER;
 #endif

@@ -606,7 +606,7 @@ void die(const char *msg, ...)
 	die_save_file(openfile->filename, openfile->current_stat);
     }
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     /* Save all of the other modified file buffers, if any. */
     if (openfile != NULL) {
 	openfilestruct *firstone = openfile;
@@ -794,7 +794,7 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-E", "--tabstospaces", N_("Convert typed tabs to spaces"));
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     if (!ISSET(RESTRICTED))
 	print_opt("-F", "--multibuffer",
 		N_("Read a file into a new buffer by default"));
@@ -949,7 +949,7 @@ void version(void)
 #ifndef DISABLE_NANORC
     printf(" --enable-nanorc");
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     printf(" --enable-multibuffer");
 #endif
 #ifndef DISABLE_OPERATINGDIR
@@ -995,7 +995,7 @@ void version(void)
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
 #endif
-#ifdef DISABLE_MULTIBUFFER
+#ifndef ENABLE_MULTIBUFFER
     printf(" --disable-multibuffer");
 #endif
 #ifdef DISABLE_NANORC
@@ -1087,7 +1087,7 @@ void close_and_go(void)
     if (ISSET(LOCKING) && openfile->lock_filename)
 	delete_lockfile(openfile->lock_filename);
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     /* If there are no more open file buffers, jump off a cliff. */
     if (!close_buffer())
 #endif
@@ -1911,14 +1911,14 @@ int main(int argc, char **argv)
 	/* Should long lines be automatically hard wrapped? */
 #endif
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     bool old_multibuffer;
 	/* The old value of the multibuffer option, restored after we
 	 * load all files on the command line. */
 #endif
     const struct option long_options[] = {
 	{"boldtext", 0, NULL, 'D'},
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	{"multibuffer", 0, NULL, 'F'},
 #endif
 #ifndef DISABLE_NANORC
@@ -2059,7 +2059,7 @@ int main(int argc, char **argv)
 		SET(TABS_TO_SPACES);
 		break;
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	    case 'F':
 		SET(MULTIBUFFER);
 		break;
@@ -2553,7 +2553,7 @@ int main(int argc, char **argv)
 	optind++;
     }
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     old_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);
 
@@ -2592,7 +2592,7 @@ int main(int argc, char **argv)
 	    }
 	}
     }
-#endif /* !DISABLE_MULTIBUFFER */
+#endif /* ENABLE_MULTIBUFFER */
 
     /* Now read the first file on the command line into a new buffer. */
     if (optind < argc)
@@ -2606,7 +2606,7 @@ int main(int argc, char **argv)
 	UNSET(VIEW_MODE);
     }
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     if (!old_multibuffer)
 	UNSET(MULTIBUFFER);
 #endif

@@ -56,7 +56,7 @@ static const rcoption rcopts[] = {
 #ifndef DISABLE_MOUSE
     {"mouse", USE_MOUSE},
 #endif
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     {"multibuffer", MULTIBUFFER},
 #endif
     {"nohelp", NO_HELP},

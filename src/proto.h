@@ -268,7 +268,7 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 #endif
 #endif
 void prepare_for_display(void);
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 void switch_to_prev_buffer_void(void);
 void switch_to_next_buffer_void(void);
 bool close_buffer(void);

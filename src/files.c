@@ -470,7 +470,7 @@ bool open_buffer(const char *filename, bool undoable)
 	    if (ISSET(LOCKING) && filename[0] != '\0') {
 		/* When not overriding an existing lock, discard the buffer. */
 		if (do_lockfile(realname) < 0) {
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 		    close_buffer();
 #endif
 		    free(realname);
@@ -600,7 +600,7 @@ void prepare_for_display(void)
     refresh_needed = TRUE;
 }
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 /* Switch to a neighbouring file buffer; to the next if to_next is TRUE;
  * otherwise, to the previous one. */
 void switch_to_prevnext_buffer(bool to_next)
@@ -683,7 +683,7 @@ bool close_buffer(void)
 
     return TRUE;
 }
-#endif /* !DISABLE_MULTIBUFFER */
+#endif /* ENABLE_MULTIBUFFER */
 
 /* Do a quick permissions check by verifying whether the file is appendable.
  * Err on the side of permissiveness (reporting TRUE when it might be wrong)
@@ -1064,7 +1064,7 @@ void do_insertfile(void)
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
 		/* TRANSLATORS: The next four messages are prompts. */
 		msg = _("Command to execute in new buffer");
@@ -1074,7 +1074,7 @@ void do_insertfile(void)
 	} else
 #endif /* NANO_TINY */
 	{
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
 		msg = _("File to insert into new buffer [from %s]");
 	    else
@@ -1112,7 +1112,7 @@ void do_insertfile(void)
 	    given = mallocstrcpy(given, answer);
 
 #ifndef NANO_TINY
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	    if (func == new_buffer_void) {
 		/* Don't allow toggling when in view mode. */
 		if (!ISSET(VIEW_MODE))
@@ -1147,7 +1147,7 @@ void do_insertfile(void)
 
 #ifndef NANO_TINY
 	    if (execute) {
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 		/* When in multibuffer mode, first open a blank buffer. */
 		if (ISSET(MULTIBUFFER))
 		    open_buffer("", FALSE);
@@ -1155,7 +1155,7 @@ void do_insertfile(void)
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 		/* If this is a new buffer, put the cursor at the top. */
 		if (ISSET(MULTIBUFFER)) {
 		    openfile->current = openfile->fileage;
@@ -1176,7 +1176,7 @@ void do_insertfile(void)
 		open_buffer(answer, TRUE);
 	    }
 
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER)) {
 #ifndef DISABLE_HISTORIES
 		if (ISSET(POS_HISTORY)) {
@@ -1191,7 +1191,7 @@ void do_insertfile(void)
 		/* Update stuff to account for the current buffer. */
 		prepare_for_display();
 	    } else
-#endif /* !DISABLE_MULTIBUFFER */
+#endif /* ENABLE_MULTIBUFFER */
 	    {
 		/* Mark the file as modified if it changed. */
 		if (openfile->current->lineno != was_current_lineno ||
@@ -1216,7 +1216,7 @@ void do_insertfile_void(void)
 {
     if (ISSET(RESTRICTED))
 	show_restricted_warning();
-#ifndef DISABLE_MULTIBUFFER
+#ifdef ENABLE_MULTIBUFFER
     else if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
 	statusbar(_("Key invalid in non-multibuffer mode"));
 #endif

@@ -166,8 +166,15 @@ fi
 
 AC_ARG_ENABLE(multibuffer,
 AS_HELP_STRING([--disable-multibuffer], [Disable multiple file buffers]))
-if test "x$enable_multibuffer" = xno; then
-    AC_DEFINE(DISABLE_MULTIBUFFER, 1, [Define this to disable multiple file buffers.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_multibuffer" != xyes; then
+	enable_multibuffer=no
+    fi
+fi
+if test "x$disable_multibuffer" != xyes; then
+    if test "x$enable_multibuffer" != xno; then
+	AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
+    fi
 fi
 
 AC_ARG_ENABLE(nanorc,
@@ -260,9 +267,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_mouse" != xyes; then
 	AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable mouse support.])
-    fi
-    if test "x$enable_multibuffer" != xyes; then
-	AC_DEFINE(DISABLE_MULTIBUFFER, 1, [Define this to disable multiple file buffers.])
     fi
     if test "x$enable_nanorc" != xyes; then
 	AC_DEFINE(DISABLE_NANORC, 1, [Define this to disable the use of .nanorc files.])
