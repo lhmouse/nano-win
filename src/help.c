@@ -32,7 +32,7 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
-static const char *start_of_text = NULL;
+static const char *start_of_body = NULL;
 	/* The point in the help text just after the title. */
 
 static char *end_of_intro = NULL;
@@ -50,7 +50,7 @@ char *tempfilename = NULL;
 void display_the_help_text(bool redisplaying)
 {
     int line_size, sum = 0;
-    const char *ptr = start_of_text;
+    const char *ptr = start_of_body;
     FILE *fp = fopen(tempfilename, "w+b");
 
     if (fp == NULL) {
@@ -97,31 +97,29 @@ void display_the_help_text(bool redisplaying)
 void do_help(void)
 {
     int kbinput = ERR;
-    int oldmenu = currmenu;
-	/* The menu we were called from. */
-    const char *ptr;
-	/* The current line of the help text. */
     functionptrtype func;
 	/* The function of the key the user typed in. */
-    FILE *fp;
-    filestruct *line;
-    int line_size;
-    int saved_margin = margin;
-	/* For avoiding the line numbers on the help screen. */
+    int oldmenu = currmenu;
+	/* The menu we were called from. */
+#ifdef ENABLE_LINENUMBERS
+    int was_margin = margin;
+#endif
     ssize_t was_tabsize = tabsize;
 #ifndef DISABLE_COLOR
     char *was_syntax = syntaxstr;
 #endif
     char *saved_answer = (answer != NULL) ? strdup(answer) : NULL;
-	/* Store current answer when user invokes help at the prompt. */
+	/* The current answer when the user invokes help at the prompt. */
     unsigned stash[sizeof(flags) / sizeof(flags[0])];
 	/* A storage place for the current flag settings. */
+    filestruct *line;
+    int length;
+    FILE *fp;
 
     blank_statusbar();
 
+    /* Get a temporary file for the help text.  If it fails, give up. */
     tempfilename = safe_tempfile(&fp);
-
-    /* If we can't get a temporary file for the help text, give up. */
     if (tempfilename == NULL) {
 	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 	free(saved_answer);
@@ -145,37 +143,35 @@ void do_help(void)
 	window_init();
     }
 
-    UNSET(WHITESPACE_DISPLAY);
-    UNSET(NOREAD_MODE);
-    SET(MULTIBUFFER);
-
     /* When searching, do it forward, case insensitive, and without regexes. */
     UNSET(BACKWARDS_SEARCH);
     UNSET(CASE_SENSITIVE);
     UNSET(USE_REGEXP);
 
-    bottombars(MHELP);
-    wnoutrefresh(bottomwin);
+    UNSET(WHITESPACE_DISPLAY);
+    UNSET(NOREAD_MODE);
+    SET(MULTIBUFFER);
 
 #ifdef ENABLE_LINENUMBERS
     UNSET(LINE_NUMBERS);
     margin = 0;
 #endif
 
+    bottombars(MHELP);
+    wnoutrefresh(bottomwin);
+
     /* Extract the title from the head of the help text. */
-    ptr = help_text;
-    line_size = break_line(ptr, MAX_BUF_SIZE, TRUE);
-    title = charalloc(line_size * sizeof(char) + 1);
-    strncpy(title, ptr, line_size);
-    title[line_size] = '\0';
+    length = break_line(help_text, MAX_BUF_SIZE, TRUE);
+    title = charalloc(length * sizeof(char) + 1);
+    strncpy(title, help_text, length);
+    title[length] = '\0';
 
     titlebar(title);
 
     /* Skip over the title to point at the start of the body text. */
-    ptr += line_size;
-    while (*ptr == '\n')
-	++ptr;
-    start_of_text = ptr;
+    start_of_body = help_text + length;
+    while (*start_of_body == '\n')
+	start_of_body++;
 
 #ifndef DISABLE_COLOR
     syntaxstr = "nanohelp";
@@ -252,7 +248,7 @@ void do_help(void)
     memcpy(flags, stash, sizeof(flags));
 
 #ifdef ENABLE_LINENUMBERS
-    margin = saved_margin;
+    margin = was_margin;
 #endif
 
     if (ISSET(NO_HELP)) {
