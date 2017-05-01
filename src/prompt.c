@@ -57,7 +57,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	return KEY_WINCH;
 #endif
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     /* If we got a mouse click and it was on a shortcut, read in the
      * shortcut character. */
     if (input == KEY_MOUSE) {
@@ -164,7 +164,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
     return input;
 }
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 /* Handle a mouse click on the statusbar prompt or the shortcut list. */
 int do_statusbar_mouse(void)
 {
@@ -739,7 +739,7 @@ int do_yesno_prompt(bool all, const char *msg)
 
 	if (func == do_cancel)
 	    response = -1;
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
 	    int mouse_x, mouse_y;
 	    /* We can click on the Yes/No/All shortcuts to select an answer. */
@@ -761,7 +761,7 @@ int do_yesno_prompt(bool all, const char *msg)
 		    response = -2;
 	    }
 	}
-#endif /* !DISABLE_MOUSE */
+#endif /* ENABLE_MOUSE */
 	else {
 	    /* Look for the kbinput in the Yes, No (and All) strings. */
 	    if (strchr(yesstr, kbinput) != NULL)

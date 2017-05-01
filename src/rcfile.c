@@ -53,7 +53,7 @@ static const rcoption rcopts[] = {
     {"historylog", HISTORYLOG},
 #endif
     {"morespace", MORE_SPACE},
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     {"mouse", USE_MOUSE},
 #endif
 #ifdef ENABLE_MULTIBUFFER

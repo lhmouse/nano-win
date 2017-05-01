@@ -428,13 +428,13 @@ void enable_flow_control(void);
 void terminal_init(void);
 void unbound_key(int code);
 int do_input(bool allow_funcs);
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 int do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* Most functions in prompt.c. */
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 int do_statusbar_mouse(void);
 #endif
 void do_statusbar_output(int *the_input, size_t input_len,
@@ -631,7 +631,7 @@ int get_byte_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
 const sc *get_shortcut(int *kbinput);

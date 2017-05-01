@@ -124,10 +124,10 @@
 #include <signal.h>
 #include <assert.h>
 
-/* If we aren't using ncurses with mouse support, turn the mouse support
- * off, as it's useless then. */
+/* If we aren't using an ncurses with mouse support, exclude any
+ * mouse routines, as they are useless then. */
 #ifndef NCURSES_MOUSE_VERSION
-#define DISABLE_MOUSE 1
+#undef ENABLE_MOUSE
 #endif
 
 #if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)

@@ -1216,7 +1216,7 @@ void shortcut_init(void)
 #ifdef ENABLE_MULTIBUFFER
     add_to_sclist(MMAIN, "M-F", 0, do_toggle_void, MULTIBUFFER);
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
 #endif
     add_to_sclist(MMAIN, "M-N", 0, do_toggle_void, NO_CONVERT);
@@ -1646,7 +1646,7 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "multibuffer"))
 	    s->toggle = MULTIBUFFER;
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	else if (!strcasecmp(input, "mouse"))
 	    s->toggle = USE_MOUSE;
 #endif

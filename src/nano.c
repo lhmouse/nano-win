@@ -41,7 +41,7 @@
 #include <sys/ioctl.h>
 #endif
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 static int oldinterval = -1;
 	/* Used to store the user's original mouse click interval. */
 #endif
@@ -723,23 +723,20 @@ void window_init(void)
 #endif
 }
 
-#ifndef DISABLE_MOUSE
-/* Disable mouse support. */
+#ifdef ENABLE_MOUSE
 void disable_mouse_support(void)
 {
     mousemask(0, NULL);
     mouseinterval(oldinterval);
 }
 
-/* Enable mouse support. */
 void enable_mouse_support(void)
 {
     mousemask(ALL_MOUSE_EVENTS, NULL);
     oldinterval = mouseinterval(50);
 }
 
-/* Initialize mouse support.  Enable it if the USE_MOUSE flag is set,
- * and disable it otherwise. */
+/* Switch mouse support on or off, as needed. */
 void mouse_init(void)
 {
     if (ISSET(USE_MOUSE))
@@ -747,7 +744,7 @@ void mouse_init(void)
     else
 	disable_mouse_support();
 }
-#endif /* !DISABLE_MOUSE */
+#endif /* ENABLE_MOUSE */
 
 /* Print one usage string to the screen.  This cuts down on duplicate
  * strings to translate, and leaves out the parts that shouldn't be
@@ -863,7 +860,7 @@ void usage(void)
 #ifdef ENABLE_LINENUMBERS
     print_opt("-l", "--linenumbers", N_("Show line numbers in front of the text"));
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
     print_opt("-n", "--noread", N_("Do not read the file (only write it)"));
@@ -943,7 +940,7 @@ void version(void)
 #ifdef ENABLE_LINENUMBERS
     printf(" --enable-linenumbers");
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     printf(" --enable-mouse");
 #endif
 #ifndef DISABLE_NANORC
@@ -992,7 +989,7 @@ void version(void)
 #ifndef ENABLE_LINENUMBERS
     printf(" --disable-linenumbers");
 #endif
-#ifdef DISABLE_MOUSE
+#ifndef ENABLE_MOUSE
     printf(" --disable-mouse");
 #endif
 #ifndef ENABLE_MULTIBUFFER
@@ -1228,8 +1225,7 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
-#ifndef DISABLE_MOUSE
-    /* Turn mouse support off. */
+#ifdef ENABLE_MOUSE
     disable_mouse_support();
 #endif
 
@@ -1272,8 +1268,7 @@ void do_suspend_void(void)
 /* Handler for SIGCONT (continue after suspend). */
 RETSIGTYPE do_continue(int signal)
 {
-#ifndef DISABLE_MOUSE
-    /* Turn mouse support back on if it was on before. */
+#ifdef ENABLE_MOUSE
     if (ISSET(USE_MOUSE))
 	enable_mouse_support();
 #endif
@@ -1383,7 +1378,7 @@ void do_toggle(int flag)
     TOGGLE(flag);
 
     switch (flag) {
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	case USE_MOUSE:
 	    mouse_init();
 	    break;
@@ -1589,7 +1584,7 @@ int do_input(bool allow_funcs)
 	return KEY_WINCH;
 #endif
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     if (input == KEY_MOUSE) {
 	/* We received a mouse click. */
 	if (do_mouse() == 1)
@@ -1744,7 +1739,7 @@ void xoff_complaint(void)
 }
 
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 /* Handle a mouse click on the edit window or the shortcut list. */
 int do_mouse(void)
 {
@@ -1757,13 +1752,13 @@ int do_mouse(void)
 
     /* If the click was in the edit window, put the cursor in that spot. */
     if (wmouse_trafo(edit, &mouse_row, &mouse_col, FALSE)) {
-	bool sameline = (mouse_row == openfile->current_y);
-	    /* Whether the click was on the row where the cursor is. */
 	filestruct *current_save = openfile->current;
 	ssize_t row_count = mouse_row - openfile->current_y;
 	size_t leftedge;
 #ifndef NANO_TINY
 	size_t current_x_save = openfile->current_x;
+	bool sameline = (mouse_row == openfile->current_y);
+	    /* Whether the click was on the row where the cursor is. */
 
 	if (ISSET(SOFTWRAP))
 	    leftedge = (xplustabs() / editwincols) * editwincols;
@@ -1800,7 +1795,7 @@ int do_mouse(void)
     /* No more handling is needed. */
     return 2;
 }
-#endif /* !DISABLE_MOUSE */
+#endif /* ENABLE_MOUSE */
 
 /* The user typed output_len multibyte characters.  Add them to the edit
  * buffer, filtering out all ASCII control characters if allow_cntrls is
@@ -1946,7 +1941,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_LINENUMBERS
 	{"linenumbers", 0, NULL, 'l'},
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	{"mouse", 0, NULL, 'm'},
 #endif
 	{"noread", 0, NULL, 'n'},
@@ -2154,7 +2149,7 @@ int main(int argc, char **argv)
 		SET(CUT_TO_END);
 		break;
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	    case 'm':
 		SET(USE_MOUSE);
 		break;
@@ -2489,7 +2484,7 @@ int main(int argc, char **argv)
     /* Set up the signal handlers. */
     signal_init();
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
     /* Initialize mouse support. */
     mouse_init();
 #endif

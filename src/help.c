@@ -217,7 +217,7 @@ void do_help(void)
 	} else if (kbinput == KEY_WINCH) {
 	    ; /* Nothing to do. */
 #endif
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	} else if (kbinput == KEY_MOUSE) {
 	    int dummy_x, dummy_y;
 	    get_mouseinput(&dummy_x, &dummy_y, TRUE);

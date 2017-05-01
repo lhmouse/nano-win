@@ -122,7 +122,7 @@ char *do_browser(char *path)
 
 	kbinput = get_kbinput(edit);
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {
 	    int mouse_x, mouse_y;
 
@@ -151,7 +151,7 @@ char *do_browser(char *path)
 
 	    continue;
 	}
-#endif /* !DISABLE_MOUSE */
+#endif /* ENABLE_MOUSE */
 
 	func = parse_browser_input(&kbinput);
 

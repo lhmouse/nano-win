@@ -1553,7 +1553,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
     return get_input(NULL, *count);
 }
 
-#ifndef DISABLE_MOUSE
+#ifdef ENABLE_MOUSE
 /* Handle any mouse event that may have occurred.  We currently handle
  * releases/clicks of the first mouse button.  If allow_shortcuts is
  * TRUE, releasing/clicking on a visible shortcut will put back the
@@ -1707,7 +1707,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
     /* Ignore all other mouse events. */
     return 2;
 }
-#endif /* !DISABLE_MOUSE */
+#endif /* ENABLE_MOUSE */
 
 /* Return the shortcut that corresponds to the values of kbinput (the
  * key itself) and meta_key (whether the key is a meta sequence).  The

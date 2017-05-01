@@ -160,8 +160,15 @@ fi
 
 AC_ARG_ENABLE(mouse,
 AS_HELP_STRING([--disable-mouse], [Disable mouse support]))
-if test "x$enable_mouse" = xno; then
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable mouse support.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_mouse" != xyes; then
+	enable_mouse=no
+    fi
+fi
+if test "x$disable_mouse" != xyes; then
+    if test "x$enable_mouse" != xno; then
+	AC_DEFINE(ENABLE_MOUSE, 1, [Define this to enable mouse support.])
+    fi
 fi
 
 AC_ARG_ENABLE(multibuffer,
@@ -264,9 +271,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_libmagic" != xyes; then
 	enable_libmagic=no
-    fi
-    if test "x$enable_mouse" != xyes; then
-	AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable mouse support.])
     fi
     if test "x$enable_nanorc" != xyes; then
 	AC_DEFINE(DISABLE_NANORC, 1, [Define this to disable the use of .nanorc files.])
