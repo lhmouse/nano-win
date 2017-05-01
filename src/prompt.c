@@ -459,10 +459,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 
     update_the_statusbar();
 
-    /* Refresh edit window and statusbar before getting input. */
-    wnoutrefresh(edit);
-    wnoutrefresh(bottomwin);
-
     while (TRUE) {
 	/* Ensure the cursor is shown when waiting for input. */
 	curs_set(1);
