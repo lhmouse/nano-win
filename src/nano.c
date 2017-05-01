@@ -2624,10 +2624,10 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "Main: show buffer contents, and enter main loop\n");
+    fprintf(stderr, "Main: show title bar, and enter main loop\n");
 #endif
 
-    display_buffer();
+    prepare_for_display();
 
     while (TRUE) {
 #ifdef ENABLE_LINENUMBERS

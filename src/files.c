@@ -581,23 +581,22 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 #endif /* !NANO_TINY */
 #endif /* !DISABLE_SPELLER */
 
-/* Update the screen to account for the current buffer. */
-void display_buffer(void)
+/* Update the titlebar and the multiline cache to match the current buffer. */
+void prepare_for_display(void)
 {
     /* Update the titlebar, since the filename may have changed. */
     if (!inhelp)
 	titlebar(NULL);
 
 #ifndef DISABLE_COLOR
-    have_palette = FALSE;
-
     /* If there are multiline coloring regexes, and there is no
      * multiline cache data yet, precalculate it now. */
     if (openfile->syntax && openfile->syntax->nmultis > 0 &&
 		openfile->fileage->multidata == NULL)
 	precalc_multicolorinfo();
-#endif
 
+    have_palette = FALSE;
+#endif
     refresh_needed = TRUE;
 }
 
@@ -629,8 +628,8 @@ void switch_to_prevnext_buffer(bool to_next)
 	openfile->firstcolumn = 0;
 #endif
 
-    /* Update the screen to account for the current buffer. */
-    display_buffer();
+    /* Update titlebar and multiline info to match the current buffer. */
+    prepare_for_display();
 
     /* Indicate the switch on the statusbar. */
     if (!inhelp)
@@ -1190,7 +1189,7 @@ void do_insertfile(void)
 		}
 #endif /* !DISABLE_HISTORIES */
 		/* Update stuff to account for the current buffer. */
-		display_buffer();
+		prepare_for_display();
 	    } else
 #endif /* !DISABLE_MULTIBUFFER */
 	    {

@@ -80,7 +80,7 @@ void display_the_help_text(bool redisplaying)
     open_buffer(tempfilename, FALSE);
     remove_magicline();
 
-    display_buffer();
+    prepare_for_display();
 
     /* Move to the position in the file where we were before. */
     while (TRUE) {
