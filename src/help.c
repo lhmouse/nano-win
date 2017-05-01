@@ -36,43 +36,43 @@ static const char *start_of_body = NULL;
 	/* The point in the help text just after the title. */
 
 static char *end_of_intro = NULL;
-	/* The point in the help text where the introductory paragraphs end
-	 * and the shortcut descriptions begin. */
+	/* The point in the help text where the shortcut descriptions begin. */
 
 static size_t location;
 	/* The offset (in bytes) of the topleft of the shown help text. */
 
 char *tempfilename = NULL;
-	/* Name of the safe temporary file that we will use for wrapping
-	 * and writing the help text. */
+	/* Name of the temporary file used for wrapping the help text. */
 
-/* Writes the hard wrapped help text in the temp file and displays it. */
+/* Hard-wrap the help text, write it to the existing temporary file, and
+ * read that file into a new buffer. */
 void display_the_help_text(bool redisplaying)
 {
-    int line_size, sum = 0;
+    int sum = 0;
     const char *ptr = start_of_body;
-    FILE *fp = fopen(tempfilename, "w+b");
+    FILE *tempfile = fopen(tempfilename, "w+b");
 
-    if (fp == NULL) {
+    /* If re-opening the temporary file failed, give up. */
+    if (tempfile == NULL) {
 	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 	return;
     }
 
-    /* Wrap and copy the rest of the help_text into the temporary file. */
+    /* Write the body of the help_text into the temporary file. */
     while (*ptr != '\0') {
-	line_size = help_line_len(ptr);
-	fwrite(ptr, sizeof(char), line_size, fp);
-	ptr += line_size;
+	int length = help_line_len(ptr);
 
-	/* Hard wrap the lines in the help text. */
+	fwrite(ptr, sizeof(char), length, tempfile);
+	ptr += length;
+
+	/* Hard-wrap the lines in the help text. */
 	if (*ptr != '\n')
-	    fwrite("\n", sizeof(char), 1, fp);
-	else
-	    while (*ptr == '\n')
-		fwrite(ptr++, sizeof(char), 1, fp);
+	    fwrite("\n", sizeof(char), 1, tempfile);
+	else while (*ptr == '\n')
+	    fwrite(ptr++, sizeof(char), 1, tempfile);
     }
 
-    fclose(fp);
+    fclose(tempfile);
 
     if (redisplaying)
 	close_buffer();
@@ -241,15 +241,19 @@ void do_help(void)
 	}
     }
 
-    /* Switch back to the buffer we were invoked from. */
-    switch_to_prev_buffer_void();
-
     /* Restore the settings of all flags. */
     memcpy(flags, stash, sizeof(flags));
 
 #ifdef ENABLE_LINENUMBERS
     margin = was_margin;
 #endif
+    tabsize = was_tabsize;
+#ifndef DISABLE_COLOR
+    syntaxstr = was_syntax;
+#endif
+
+    /* Switch back to the buffer we were invoked from. */
+    switch_to_prev_buffer_void();
 
     if (ISSET(NO_HELP)) {
 	blank_bottombars();
@@ -272,10 +276,6 @@ void do_help(void)
 
     free(answer);
     answer = saved_answer;
-    tabsize = was_tabsize;
-#ifndef DISABLE_COLOR
-    syntaxstr = was_syntax;
-#endif
 
     remove(tempfilename);
     free(tempfilename);
