@@ -46,7 +46,7 @@ char *tempfilename = NULL;
 
 /* Hard-wrap the help text, write it to the existing temporary file, and
  * read that file into a new buffer. */
-void display_the_help_text(bool redisplaying)
+void wrap_the_help_text(bool redisplaying)
 {
     int sum = 0;
     const char *ptr = start_of_body;
@@ -151,6 +151,10 @@ void do_help(void)
     margin = 0;
 #endif
     tabsize = 8;
+#ifndef DISABLE_COLOR
+    syntaxstr = "nanohelp";
+#endif
+    curs_set(0);
 
     /* Compose the help text from all the pieces. */
     help_init();
@@ -173,11 +177,7 @@ void do_help(void)
     while (*start_of_body == '\n')
 	start_of_body++;
 
-#ifndef DISABLE_COLOR
-    syntaxstr = "nanohelp";
-#endif
-    display_the_help_text(FALSE);
-    curs_set(0);
+    wrap_the_help_text(FALSE);
     edit_refresh();
 
     while (TRUE) {

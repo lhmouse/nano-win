@@ -343,7 +343,7 @@ void thanks_for_all_the_fish(void);
 
 /* All functions in help.c. */
 #ifdef ENABLE_HELP
-void display_the_help_text(bool redisplaying);
+void wrap_the_help_text(bool redisplaying);
 void do_help(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);

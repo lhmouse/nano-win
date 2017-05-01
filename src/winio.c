@@ -3143,7 +3143,7 @@ void total_refresh(void)
     titlebar(title);
 #ifdef ENABLE_HELP
     if (inhelp)
-	display_the_help_text(TRUE);
+	wrap_the_help_text(TRUE);
     else
 #endif
 	edit_refresh();
