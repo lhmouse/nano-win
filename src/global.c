@@ -1258,11 +1258,11 @@ void shortcut_init(void)
     add_to_sclist(MWHEREISFILE, "^Y", 0, do_first_file, 0);
     add_to_sclist(MWHEREISFILE, "^V", 0, do_last_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-\\", 0, do_first_file, 0);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", 0, do_first_file, 0);
     add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", 0, do_last_file, 0);
-    add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", 0, do_last_file, 0);
     add_to_sclist(MBROWSER, "Home", KEY_HOME, do_first_file, 0);
     add_to_sclist(MBROWSER, "End", KEY_END, do_last_file, 0);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", 0, do_first_file, 0);
+    add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", 0, do_last_file, 0);
     add_to_sclist(MBROWSER, "^Home", CONTROL_HOME, do_first_file, 0);
     add_to_sclist(MBROWSER, "^End", CONTROL_END, do_last_file, 0);
     add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
