@@ -383,8 +383,20 @@ size_t move_mbleft(const char *buf, size_t pos)
      * possible point. */
     if (pos < 4)
 	before = 0;
-    else
-	before = pos - 4;
+    else {
+	const char *ptr = buf + pos;
+
+       if ((signed char)*(--ptr) > -65)
+	    before = pos - 1;
+       else if ((signed char)*(--ptr) > -65)
+	    before = pos - 2;
+       else if ((signed char)*(--ptr) > -65)
+	    before = pos - 3;
+       else if ((signed char)*(--ptr) > -65)
+	    before = pos - 4;
+	else
+	    before = pos - 1;
+    }
 
     while (before < pos) {
 	char_len = parse_mbchar(buf + before, NULL, NULL);
