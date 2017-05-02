@@ -381,10 +381,10 @@ size_t move_mbleft(const char *buf, size_t pos)
     /* There is no library function to move backward one multibyte
      * character.  So we just start groping for one at the farthest
      * possible point. */
-    if (pos < MAXCHARLEN)
+    if (pos < 4)
 	before = 0;
     else
-	before = pos - MAXCHARLEN;
+	before = pos - 4;
 
     while (before < pos) {
 	char_len = parse_mbchar(buf + before, NULL, NULL);
