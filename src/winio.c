@@ -2959,6 +2959,9 @@ void ensure_firstcolumn_is_aligned(void)
 #ifndef NANO_TINY
     if (openfile->firstcolumn % editwincols != 0)
 	openfile->firstcolumn -= (openfile->firstcolumn % editwincols);
+
+    /* If smooth scrolling is on, make sure the viewport doesn't center. */
+    focusing = FALSE;
 #endif
 }
 
