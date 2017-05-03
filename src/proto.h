@@ -54,6 +54,8 @@ extern filestruct *pletion_line;
 extern bool inhelp;
 extern char *title;
 
+extern int didfind;
+
 extern int controlleft;
 extern int controlright;
 extern int controlup;

@@ -68,6 +68,9 @@ bool inhelp = FALSE;
 char *title = NULL;
 	/* When not NULL: the title of the current help text. */
 
+int didfind = 0;
+	/* Whether the last search found something. */
+
 int controlleft, controlright, controlup, controldown, controlhome, controlend;
 #ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;

@@ -438,7 +438,6 @@ void go_looking(void)
 {
     filestruct *was_current = openfile->current;
     size_t was_current_x = openfile->current_x;
-    int didfind;
 #ifdef DEBUG
     clock_t start = clock();
 #endif

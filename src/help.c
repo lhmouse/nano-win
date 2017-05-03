@@ -183,6 +183,7 @@ void do_help(void)
     while (TRUE) {
 	lastmessage = HUSH;
 	focusing = TRUE;
+	didfind = 0;
 
 	kbinput = get_kbinput(edit);
 
@@ -207,12 +208,9 @@ void do_help(void)
 	} else if (func == do_search) {
 	    do_search();
 	    bottombars(MHELP);
-	    wnoutrefresh(bottomwin);
-	    curs_set(1);
 	} else if (func == do_research) {
 	    do_research();
 	    currmenu = MHELP;
-	    curs_set(1);
 #ifndef NANO_TINY
 	} else if (kbinput == KEY_WINCH) {
 	    ; /* Nothing to do. */
@@ -228,6 +226,12 @@ void do_help(void)
 	    break;
 	} else
 	    unbound_key(kbinput);
+
+	/* If we searched and found something, let the cursor show it. */
+	if (didfind == 1)
+	    curs_set(1);
+	else
+	    curs_set(0);
 
 	edit_refresh();
 
