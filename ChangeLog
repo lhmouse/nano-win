@@ -1,3 +1,79 @@
+Changes between v2.8.1 and v2.8.2:
+----------------------------------
+
+Benno Schulenberg (64):
+      bindings: allow using <Backspace> to scroll back up in the help viewer
+      bindings: allow using '/' to start a search in the help viewer
+      bindings: show Home and End in browser help text, instead of M-| and M-?
+      browser: make ^End work properly by fixing a paste error
+      build: make --enable-help properly depend on --enable-multibuffer
+      bump version numbers and add a news item for the 2.8.2 release
+      display: initialize the colors only when starting to draw the content
+      display: push the titlebar to the screen as soon as it has been drawn
+      docs: add an item to the FAQ, about pasting from Windows to a remote nano
+      docs: harmonize the nanorc man page and Info document a bit
+      docs: in the FAQ, extend the answer to the pasting problem
+      docs: reword the main paragraph of the man page
+      docs: update the list of who authored what
+      gnulib: update to its current state in git
+      help: after a search, show the cursor only when something was found
+      help: allocate enough space for the descriptions, so we don't crash
+      help: don't crash when nano was started with --noread
+      help: don't cycle forward in the buffers when exiting from help
+      help: keep the same position also after M-\ or M-/ has been used
+      help: keep the text at the same position when the screen is resized
+      help: remove the final blank line, so <End> does the same as all <Down>
+      help: set tabsize to the default width while showing a help text
+      help: suppress nano's name and number to make it clearer this is help
+      help: use a dedicated syntax to color shortcuts in a help text
+      help: when searching, do it forward, without case, and without regexes
+      input: avoid crashing when resizing the window during verbatim input
+      options: allow -U (--quickblank) to be used in the tiny version
+      scrolling: don't bother to limit the number of lines to step back
+      startup: warn about a strange character size only in the UTF-8 case
+      syntax: nanohelp: change the hue of the keystrokes to match sample.nanorc
+      tweaks: add a warning for a condition that should never occur
+      tweaks: add three warnings for conditions that should never occur
+      tweaks: avoid an unused-variable warning
+      tweaks: be more precise about what --disable-extra does
+      tweaks: check for an empty needle in a central place
+      tweaks: complete the exclusion of backups and such from the tiny version
+      tweaks: condense two bits of code, and drop two asserts
+      tweaks: distinguish (in the comments) between buffers and linestructs
+      tweaks: drop a bunch of asserts
+      tweaks: elide a function that is used just once
+      tweaks: fix compilation with --enable-tiny --enable-color --enable-speller
+      tweaks: fix two typos
+      tweaks: remove a superfluous check
+      tweaks: remove a superfluous strlen() call from the reverse searches
+      tweaks: remove some superfluous placements of the cursor
+      tweaks: remove two superfluous calls of wnoutrefresh()
+      tweaks: rename a constant, to match the corresponding option
+      tweaks: rename a function, to be more accurate
+      tweaks: rename a function, to better suit what it does
+      tweaks: rename another function, to better describe what it does
+      tweaks: rename a parameter, to be more imperative
+      tweaks: rename a variable, use a faster comparison, and reshuffle a bit
+      tweaks: rename one variable again
+      tweaks: rename some more of these 'rev_start' variables
+      tweaks: rename three variables, elide another, and reshuffle some stuff
+      tweaks: rename two variables, because this 'rev_start' is irksome
+      tweaks: reshuffle a couple of lines to avoid a duplicate call
+      tweaks: reshuffle help-text initialization, to elide a save-and-restore
+      tweaks: reshuffle some more stuff, and rename two more variables
+      tweaks: swap the names of two variables, to make more sense
+      tweaks: transform the token DISABLE_MOUSE to ENABLE_MOUSE
+      tweaks: transform the token DISABLE_MULTIBUFFER to ENABLE_MULTIBUFFER
+      tweaks: use the logic from revstrstr() also in mbrevstrcasestr()
+      tweaks: use the logic from revstrstr() also in revstrcasestr()
+
+David Lawrence Ramsey (1):
+      docs: mention that also numbercolor overrides boldtext
+
+Rishabh Dave (1):
+      new feature: add a search facility to the help viewer
+
+
 Changes between v2.8.0 and v2.8.1:
 ----------------------------------
 

@@ -1,3 +1,13 @@
+2017.05.04 - GNU nano 2.8.2 "Krats" adds another new feature: it makes
+		the ^G help texts searchable with ^W.  Apart from that,
+		it fixes a crash when resizing the window in the middle
+		of verbatim input, avoids an unlikely crash when used
+		without UTF-8 support in some locales, avoids redrawing
+		the screen twice when switching between buffers while
+		line numbers are active, and works around a coloring
+		bug on musl.  Plus tweaks to the documentation; plus
+		translation updates for fifteen languages.
+
 2017.04.12 - GNU nano 2.8.1 "Ellert" fixes build failures on MacOS and
 		on musl, fixes scrolling problems in softwrap mode when
 		double-width characters on row boundaries are involved,
