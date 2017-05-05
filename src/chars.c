@@ -376,34 +376,34 @@ size_t move_mbleft(const char *buf, size_t pos)
 {
 #ifdef ENABLE_UTF8
     if (use_utf8) {
-    size_t before, char_len = 0;
+	size_t before, char_len = 0;
 
-    /* There is no library function to move backward one multibyte
-     * character.  So we just start groping for one at the farthest
-     * possible point. */
-    if (pos < 4)
-	before = 0;
-    else {
-	const char *ptr = buf + pos;
+	if (pos < 4)
+	    before = 0;
+	else {
+	    const char *ptr = buf + pos;
 
-       if ((signed char)*(--ptr) > -65)
-	    before = pos - 1;
-       else if ((signed char)*(--ptr) > -65)
-	    before = pos - 2;
-       else if ((signed char)*(--ptr) > -65)
-	    before = pos - 3;
-       else if ((signed char)*(--ptr) > -65)
-	    before = pos - 4;
-	else
-	    before = pos - 1;
-    }
+	    /* Probe for a valid starter byte in the preceding four bytes. */
+	    if ((signed char)*(--ptr) > -65)
+		before = pos - 1;
+	    else if ((signed char)*(--ptr) > -65)
+		before = pos - 2;
+	    else if ((signed char)*(--ptr) > -65)
+		before = pos - 3;
+	   else if ((signed char)*(--ptr) > -65)
+		before = pos - 4;
+	    else
+		before = pos - 1;
+	}
 
-    while (before < pos) {
-	char_len = parse_mbchar(buf + before, NULL, NULL);
-	before += char_len;
-    }
+	/* Move forward again until we reach the original character,
+	 * so we know the length of its preceding the character. */
+	while (before < pos) {
+	    char_len = parse_mbchar(buf + before, NULL, NULL);
+	    before += char_len;
+	}
 
-    return before - char_len;
+	return before - char_len;
     } else
 #endif
     return (pos == 0 ? 0 : pos - 1);
