@@ -374,9 +374,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
  * before the one at pos. */
 size_t move_mbleft(const char *buf, size_t pos)
 {
+#ifdef ENABLE_UTF8
+    if (use_utf8) {
     size_t before, char_len = 0;
-
-    assert(pos <= strlen(buf));
 
     /* There is no library function to move backward one multibyte
      * character.  So we just start groping for one at the farthest
@@ -404,6 +404,9 @@ size_t move_mbleft(const char *buf, size_t pos)
     }
 
     return before - char_len;
+    } else
+#endif
+    return (pos == 0 ? 0 : pos - 1);
 }
 
 /* Return the index in buf of the beginning of the multibyte character
