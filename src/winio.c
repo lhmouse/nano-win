@@ -2951,19 +2951,19 @@ void edit_scroll(scroll_dir direction, int nrows)
     }
 }
 
+#ifndef NANO_TINY
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk
  * it's on.  We need to do this when the number of columns of the edit window
  * has changed, because then the width of softwrapped chunks has changed. */
 void ensure_firstcolumn_is_aligned(void)
 {
-#ifndef NANO_TINY
     if (openfile->firstcolumn % editwincols != 0)
 	openfile->firstcolumn -= (openfile->firstcolumn % editwincols);
 
     /* If smooth scrolling is on, make sure the viewport doesn't center. */
     focusing = FALSE;
-#endif
 }
+#endif
 
 /* Return TRUE if current[current_x] is above the top of the screen, and FALSE
  * otherwise. */

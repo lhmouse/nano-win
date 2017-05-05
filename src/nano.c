@@ -2637,9 +2637,10 @@ int main(int argc, char **argv)
 	    margin = needed_margin;
 	    editwincols = COLS - margin;
 
+#ifndef NANO_TINY
 	    /* Ensure that firstcolumn is the starting column of its chunk. */
 	    ensure_firstcolumn_is_aligned();
-
+#endif
 	    /* The margin has changed -- schedule a full refresh. */
 	    refresh_needed = TRUE;
 	}

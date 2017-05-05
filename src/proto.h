@@ -662,7 +662,9 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge);
 int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge);
 bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge);
 void edit_scroll(scroll_dir direction, int nrows);
+#ifndef NANO_TINY
 void ensure_firstcolumn_is_aligned(void);
+#endif
 void edit_redraw(filestruct *old_current);
 void edit_refresh(void);
 void adjust_viewport(update_type location);
