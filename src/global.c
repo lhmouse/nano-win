@@ -728,7 +728,7 @@ void shortcut_init(void)
     add_to_funcs(do_research, MHELP, whereis_next_tag, "x", 0, VIEW);
 
     add_to_funcs(do_up_void, MHELP, prev_line_tag, "x", 0, VIEW);
-    add_to_funcs(do_down_void, MHELP, next_line_tag, "x" , 0, VIEW);
+    add_to_funcs(do_down_void, MHELP, next_line_tag, "x", 0, VIEW);
 #endif
 
     add_to_funcs(do_cut_text_void, MMAIN,

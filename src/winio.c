@@ -2014,7 +2014,7 @@ void titlebar(const char *path)
     prefixlen = strlenpt(prefix);
     if (prefixlen > 0)
 	prefixlen++;
-    pathlen= strlenpt(path);
+    pathlen = strlenpt(path);
     statelen = strlenpt(state) + 2;
     if (statelen > 2) {
 	pathlen++;

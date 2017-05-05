@@ -3075,7 +3075,7 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
     free(fullpath);
 
     if (posptr == NULL)
-        return FALSE;
+	return FALSE;
 
     *line = posptr->lineno;
     *column = posptr->xno;

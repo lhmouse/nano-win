@@ -390,7 +390,7 @@ size_t move_mbleft(const char *buf, size_t pos)
 		before = pos - 2;
 	    else if ((signed char)*(--ptr) > -65)
 		before = pos - 3;
-	   else if ((signed char)*(--ptr) > -65)
+	    else if ((signed char)*(--ptr) > -65)
 		before = pos - 4;
 	    else
 		before = pos - 1;

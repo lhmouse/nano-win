@@ -95,7 +95,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	    kbinput = (int *)nrealloc(kbinput, kbinput_len * sizeof(int));
 	    kbinput[kbinput_len - 1] = input;
 	}
-     }
+    }
 
     /* If we got a shortcut, or if there aren't any other keystrokes waiting
      * after the one we read in, we need to insert all the characters in the

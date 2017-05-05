@@ -1386,7 +1386,7 @@ void do_toggle(int flag)
 	case MORE_SPACE:
 	case NO_HELP:
 	    window_init();
-	    focusing=FALSE;
+	    focusing = FALSE;
 	    total_refresh();
 	    break;
 	case SUSPEND:
@@ -1620,7 +1620,7 @@ int do_input(bool allow_funcs)
     /* If the keystroke isn't a shortcut nor a toggle, it's a normal text
      * character: add the character to the input buffer -- or display a
      * warning when we're in view mode. */
-     if (input != ERR && !have_shortcut) {
+    if (input != ERR && !have_shortcut) {
 	if (ISSET(VIEW_MODE))
 	    print_view_warning();
 	else {
