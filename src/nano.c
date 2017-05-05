@@ -1386,6 +1386,7 @@ void do_toggle(int flag)
 	case MORE_SPACE:
 	case NO_HELP:
 	    window_init();
+	    focusing=FALSE;
 	    total_refresh();
 	    break;
 	case SUSPEND:
