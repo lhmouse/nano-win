@@ -213,8 +213,15 @@ fi
 
 AC_ARG_ENABLE(tabcomp,
 AS_HELP_STRING([--disable-tabcomp], [Disable the tab-completion functions]))
-if test "x$enable_tabcomp" = xno; then
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab-completion functions for filenames and search strings.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_tabcomp" != xyes; then
+	enable_tabcomp=no
+    fi
+fi
+if test "x$disable_tabcomp" != xyes; then
+    if test "x$enable_tabcomp" != xno; then
+	AC_DEFINE(ENABLE_TABCOMP, 1, [Define this to have tab completion for filenames and search strings.])
+    fi
 fi
 
 AC_ARG_ENABLE(wordcomp,
@@ -284,9 +291,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_speller" != xyes; then
 	AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])
-    fi
-    if test "x$enable_tabcomp" != xyes; then
-	AC_DEFINE(DISABLE_TABCOMP, 1, [Define this to disable the tab-completion functions for files and search strings.])
     fi
     if test "x$enable_wrapping" != xyes; then
 	AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])

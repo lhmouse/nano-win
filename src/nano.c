@@ -955,7 +955,7 @@ void version(void)
 #ifndef DISABLE_SPELLER
     printf(" --enable-speller");
 #endif
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
     printf(" --enable-tabcomp");
 #endif
 #ifndef DISABLE_WRAPPING
@@ -1004,7 +1004,7 @@ void version(void)
 #ifdef DISABLE_SPELLER
     printf(" --disable-speller");
 #endif
-#ifdef DISABLE_TABCOMP
+#ifndef ENABLE_TABCOMP
     printf(" --disable-tabcomp");
 #endif
 #ifndef ENABLE_WORDCOMPLETION

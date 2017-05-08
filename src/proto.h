@@ -304,11 +304,11 @@ void do_writeout_void(void);
 void do_savefile(void);
 #endif
 char *real_dir_from_tilde(const char *buf);
-#if !defined(DISABLE_TABCOMP) || defined(ENABLE_BROWSER)
+#if defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);
 void free_chararray(char **array, size_t len);
 #endif
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
 char *input_tab(char *buf, bool allow_files, size_t *place,
 	bool *lastwastab, void (*refresh_func)(void), bool *listed);
 #endif
@@ -496,7 +496,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 void do_gotolinecolumn_void(void);
 #ifndef NANO_TINY
 void do_find_bracket(void);
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
 char *get_history_completion(filestruct **h, char *s, size_t len);
 #endif
 #endif

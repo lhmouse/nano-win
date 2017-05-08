@@ -1224,7 +1224,7 @@ void get_history_older_void(void)
     ;
 }
 
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
 /* Move h to the next string that's a tab completion of the string s,
  * looking at only the first len characters of s, and return that
  * string.  If there isn't one, or if len is 0, don't move h and return
@@ -1277,5 +1277,5 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
      * match, or len is 0.  Return s. */
     return (char *)s;
 }
-#endif /* !DISABLE_TABCOMP */
+#endif /* ENSABLE_TABCOMP */
 #endif /* !DISABLE_HISTORIES */

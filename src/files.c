@@ -2385,7 +2385,7 @@ char *real_dir_from_tilde(const char *buf)
     return retval;
 }
 
-#if !defined(DISABLE_TABCOMP) || defined(ENABLE_BROWSER)
+#if defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
 /* Our sort routine for file listings.  Sort alphabetically and
  * case-insensitively, and sort directories before filenames. */
 int diralphasort(const void *va, const void *vb)
@@ -2422,7 +2422,7 @@ void free_chararray(char **array, size_t len)
 }
 #endif
 
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
 /* Is the given path a directory? */
 bool is_dir(const char *buf)
 {
@@ -2746,7 +2746,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
     return buf;
 }
-#endif /* !DISABLE_TABCOMP */
+#endif /* ENABLE_TABCOMP */
 
 /* Return the filename part of the given path. */
 const char *tail(const char *path)

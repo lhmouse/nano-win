@@ -431,7 +431,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
     int kbinput = ERR;
     bool ran_func, finished;
     functionptrtype func;
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
 #endif
@@ -441,7 +441,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
     char *magichistory = NULL;
 	/* The temporary string typed at the bottom of the history, if
 	 * any. */
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
     int last_kbinput = ERR;
 	/* The key we pressed before the current key. */
     size_t complete_len = 0;
@@ -482,7 +482,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	if (func == do_cancel || func == do_enter)
 	    break;
 
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
 	if (func != do_tab)
 	    tabbed = FALSE;
 
@@ -503,7 +503,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		answer = input_tab(answer, allow_files, &statusbar_x,
 					&tabbed, refresh_func, listed);
 	} else
-#endif /* !DISABLE_TABCOMP */
+#endif /* ENABLE_TABCOMP */
 #ifndef DISABLE_HISTORIES
 	if (func == get_history_older_void) {
 	    if (history_list != NULL) {
@@ -567,7 +567,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 
 	update_the_statusbar();
 
-#if !defined(DISABLE_HISTORIES) && !defined(DISABLE_TABCOMP)
+#if !defined(DISABLE_HISTORIES) && defined(ENABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
     }
@@ -658,7 +658,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
     fprintf(stderr, "answer = \"%s\"\n", answer);
 #endif
 
-#ifndef DISABLE_TABCOMP
+#ifdef ENABLE_TABCOMP
     /* If we've done tab completion, there might still be a list of
      * filename matches on the edit window.  Clear them off. */
     if (listed)
