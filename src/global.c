@@ -277,6 +277,7 @@ void goto_dir_void(void)
 {
 }
 #endif
+#ifndef NANO_TINY
 void dos_format_void(void)
 {
 }
@@ -292,6 +293,7 @@ void prepend_void(void)
 void backup_file_void(void)
 {
 }
+#endif
 void discard_buffer(void)
 {
 }

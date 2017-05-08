@@ -683,17 +683,19 @@ void disable_nodelay(void);
 void do_credits(void);
 #endif
 
-/* May as well throw these here, since they are just placeholders. */
+/* These are just name definitions. */
 void do_cancel(void);
 void case_sens_void(void);
 void regexp_void(void);
 void gototext_void(void);
 void to_files_void(void);
+#ifndef NANO_TINY
 void dos_format_void(void);
 void mac_format_void(void);
 void append_void(void);
 void prepend_void(void);
 void backup_file_void(void);
+#endif
 void discard_buffer(void);
 void new_buffer_void(void);
 void backwards_void(void);
