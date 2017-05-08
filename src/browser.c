@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
 
 static char **filelist = NULL;
 	/* The list of files to display in the file browser. */
@@ -183,14 +183,12 @@ char *do_browser(char *path)
 	} else if (func == do_right) {
 	    if (selected < filelist_len - 1)
 		selected++;
-#ifndef NANO_TINY
 	} else if (func == do_prev_word_void) {
 	    selected -= (selected % width);
 	} else if (func == do_next_word_void) {
 	    selected += width - 1 - (selected % width);
 	    if (selected >= filelist_len)
 		selected = filelist_len - 1;
-#endif
 	} else if (func == do_up_void) {
 	    if (selected >= width)
 		selected -= width;
@@ -812,4 +810,4 @@ char *strip_last_component(const char *path)
     return copy;
 }
 
-#endif /* !DISABLE_BROWSER */
+#endif /* ENABLE_BROWSER */

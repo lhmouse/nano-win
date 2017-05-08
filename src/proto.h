@@ -176,7 +176,7 @@ extern char *homedir;
 typedef void (*functionptrtype)(void);
 
 /* Most functions in browser.c. */
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
 char *do_browse_from(const char *inpath);
 void read_the_list(const char *path, DIR *dir);
 functionptrtype parse_browser_input(int *kbinput);
@@ -304,7 +304,7 @@ void do_writeout_void(void);
 void do_savefile(void);
 #endif
 char *real_dir_from_tilde(const char *buf);
-#if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
+#if !defined(DISABLE_TABCOMP) || defined(ENABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);
 void free_chararray(char **array, size_t len);
 #endif
@@ -690,7 +690,7 @@ void regexp_void(void);
 void backwards_void(void);
 void flip_replace(void);
 void gototext_void(void);
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
 void to_files_void(void);
 void goto_dir_void(void);
 #endif

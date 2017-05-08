@@ -271,7 +271,7 @@ void do_help(void)
     title = NULL;
     inhelp = FALSE;
 
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
     if (oldmenu == MBROWSER || oldmenu == MWHEREISFILE || oldmenu == MGOTODIR)
 	browser_refresh();
     else
@@ -353,7 +353,7 @@ void help_init(void)
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
     else if (currmenu == MBROWSER) {
 	htx[0] = N_("File Browser Help Text\n\n "
 		"The file browser is used to visually browse the "
@@ -391,7 +391,7 @@ void help_init(void)
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
-#endif /* !DISABLE_BROWSER */
+#endif /* ENABLE_BROWSER */
 #ifndef DISABLE_SPELLER
     else if (currmenu == MSPELL) {
 	htx[0] = N_("Spell Check Help Text\n\n "

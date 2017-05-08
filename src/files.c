@@ -1106,7 +1106,7 @@ void do_insertfile(void)
 	} else {
 	    ssize_t was_current_lineno = openfile->current->lineno;
 	    size_t was_current_x = openfile->current_x;
-#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER) || defined(ENABLE_MULTIBUFFER)
+#if !defined(NANO_TINY) || defined(ENABLE_BROWSER) || defined(ENABLE_MULTIBUFFER)
 	    functionptrtype func = func_from_key(&i);
 #endif
 	    given = mallocstrcpy(given, answer);
@@ -1127,7 +1127,7 @@ void do_insertfile(void)
 		continue;
 	    }
 #endif
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
 	    if (func == to_files_void) {
 		char *chosen = do_browse_from(answer);
 
@@ -2173,7 +2173,7 @@ int do_writeout(bool exiting)
 
 	    given = mallocstrcpy(given, answer);
 
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
 	    if (func == to_files_void) {
 		char *chosen = do_browse_from(answer);
 
@@ -2184,7 +2184,7 @@ int do_writeout(bool exiting)
 		free(answer);
 		answer = chosen;
 	    } else
-#endif /* !DISABLE_BROWSER */
+#endif
 #ifndef NANO_TINY
 	    if (func == dos_format_void) {
 		openfile->fmt = (openfile->fmt == DOS_FILE) ? NIX_FILE :
@@ -2385,7 +2385,7 @@ char *real_dir_from_tilde(const char *buf)
     return retval;
 }
 
-#if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
+#if !defined(DISABLE_TABCOMP) || defined(ENABLE_BROWSER)
 /* Our sort routine for file listings.  Sort alphabetically and
  * case-insensitively, and sort directories before filenames. */
 int diralphasort(const void *va, const void *vb)

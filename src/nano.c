@@ -848,7 +848,7 @@ void usage(void)
     print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
     if (!ISSET(RESTRICTED))
 	print_opt("-g", "--showcursor", N_("Show cursor in file browser"));
 #endif
@@ -916,7 +916,7 @@ void version(void)
 
 #ifdef NANO_TINY
     printf(" --enable-tiny");
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
     printf(" --enable-browser");
 #endif
 #ifndef DISABLE_COLOR
@@ -962,7 +962,7 @@ void version(void)
     printf(" --enable-wrapping");
 #endif
 #else /* !NANO_TINY */
-#ifdef DISABLE_BROWSER
+#ifndef ENABLE_BROWSER
     printf(" --disable-browser");
 #endif
 #ifdef DISABLE_COLOR
@@ -1935,7 +1935,7 @@ int main(int argc, char **argv)
 #endif
 	{"constantshow", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
 	{"showcursor", 0, NULL, 'g'},
 #endif
 	{"help", 0, NULL, 'h'},

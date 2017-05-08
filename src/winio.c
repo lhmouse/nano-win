@@ -1989,7 +1989,7 @@ void titlebar(const char *path)
     /* Figure out the path, prefix and state strings. */
     if (inhelp)
 	branding = "";
-#ifndef DISABLE_BROWSER
+#ifdef ENABLE_BROWSER
     else if (path != NULL)
 	prefix = _("DIR:");
 #endif

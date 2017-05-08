@@ -64,8 +64,15 @@ dnl Checks for options.
 
 AC_ARG_ENABLE(browser,
 AS_HELP_STRING([--disable-browser], [Disable the built-in file browser]))
-if test "x$enable_browser" = xno; then
-    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_browser" != xyes; then
+	enable_browser=no
+    fi
+fi
+if test "x$disable_browser" != xyes; then
+    if test "x$enable_browser" != xno; then
+	AC_DEFINE(ENABLE_BROWSER, 1, [Define this to enable the built-in file browser.])
+    fi
 fi
 
 AC_ARG_ENABLE(color,
@@ -249,9 +256,6 @@ AC_ARG_ENABLE(tiny,
 AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
 if test "x$enable_tiny" = xyes; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
-    if test "x$enable_browser" != xyes; then
-	AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
-    fi
     if test "x$enable_color" != xyes; then
 	AC_DEFINE(DISABLE_COLOR, 1, [Define this to disable syntax highlighting.])
 	color_support=no
