@@ -697,7 +697,9 @@ void prepend_void(void);
 void backup_file_void(void);
 #endif
 void discard_buffer(void);
+#ifdef ENABLE_MULTIBUFFER
 void new_buffer_void(void);
+#endif
 void backwards_void(void);
 void goto_dir_void(void);
 void flip_replace_void(void);

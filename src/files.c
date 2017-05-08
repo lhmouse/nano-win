@@ -1106,12 +1106,11 @@ void do_insertfile(void)
 	} else {
 	    ssize_t was_current_lineno = openfile->current->lineno;
 	    size_t was_current_x = openfile->current_x;
-#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER)
+#if !defined(NANO_TINY) || !defined(DISABLE_BROWSER) || defined(ENABLE_MULTIBUFFER)
 	    functionptrtype func = func_from_key(&i);
 #endif
 	    given = mallocstrcpy(given, answer);
 
-#ifndef NANO_TINY
 #ifdef ENABLE_MULTIBUFFER
 	    if (func == new_buffer_void) {
 		/* Don't allow toggling when in view mode. */
@@ -1122,12 +1121,12 @@ void do_insertfile(void)
 		continue;
 	    }
 #endif
+#ifndef NANO_TINY
 	    if (func == flip_execute_void) {
 		execute = !execute;
 		continue;
 	    }
-#endif /* !NANO_TINY */
-
+#endif
 #ifndef DISABLE_BROWSER
 	    if (func == to_files_void) {
 		char *chosen = do_browse_from(answer);

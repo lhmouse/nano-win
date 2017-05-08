@@ -297,9 +297,11 @@ void backup_file_void(void)
 void discard_buffer(void)
 {
 }
+#ifdef ENABLE_MULTIBUFFER
 void new_buffer_void(void)
 {
 }
+#endif
 void flip_replace_void(void)
 {
 }
@@ -999,13 +1001,13 @@ void shortcut_init(void)
 
 	add_to_funcs(flip_execute_void, MEXTCMD,
 	    read_file_tag, IFSCHELP(nano_insert_msg), TOGETHER, NOVIEW);
-
+    }
+#endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
+    if (!ISSET(RESTRICTED))
 	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
 	    N_("New Buffer"), IFSCHELP(nano_newbuffer_msg), TOGETHER, NOVIEW);
 #endif
-    }
-#endif /* !NANO_TINY */
 
 #ifndef DISABLE_BROWSER
     if (!ISSET(RESTRICTED))
@@ -1287,8 +1289,11 @@ void shortcut_init(void)
 	add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
 	add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);
 	add_to_sclist(MINSERTFILE|MEXTCMD, "^X", 0, flip_execute_void, 0);
-	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, new_buffer_void, 0);
     }
+#endif
+#ifdef ENABLE_MULTIBUFFER
+    if (!ISSET(RESTRICTED))
+	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, new_buffer_void, 0);
 #endif
 #ifndef DISABLE_BROWSER
     /* In restricted mode, don't allow entering the file browser. */
