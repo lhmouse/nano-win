@@ -687,22 +687,24 @@ void do_credits(void);
 void do_cancel(void);
 void case_sens_void(void);
 void regexp_void(void);
+void backwards_void(void);
+void flip_replace(void);
 void gototext_void(void);
+#ifndef DISABLE_BROWSER
 void to_files_void(void);
+void goto_dir_void(void);
+#endif
 #ifndef NANO_TINY
 void dos_format_void(void);
 void mac_format_void(void);
 void append_void(void);
 void prepend_void(void);
 void backup_file_void(void);
+void flip_execute(void);
+#endif
+#ifdef ENABLE_MULTIBUFFER
+void flip_newbuffer(void);
 #endif
 void discard_buffer(void);
-#ifdef ENABLE_MULTIBUFFER
-void new_buffer_void(void);
-#endif
-void backwards_void(void);
-void goto_dir_void(void);
-void flip_replace_void(void);
-void flip_execute_void(void);
 
 #endif /* !PROTO_H */

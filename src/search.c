@@ -202,7 +202,7 @@ int search_init(bool replacing, bool use_answer)
 	TOGGLE(USE_REGEXP);
 	backupstring = mallocstrcpy(backupstring, answer);
 	return 1;
-    } else if (func == do_replace || func == flip_replace_void) {
+    } else if (func == flip_replace) {
 	backupstring = mallocstrcpy(backupstring, answer);
 	return -2;	/* Call the opposite search function. */
     } else if (func == do_gotolinecolumn_void) {

@@ -266,6 +266,9 @@ void regexp_void(void)
 void backwards_void(void)
 {
 }
+void flip_replace(void)
+{
+}
 void gototext_void(void)
 {
 }
@@ -293,19 +296,16 @@ void prepend_void(void)
 void backup_file_void(void)
 {
 }
+void flip_execute(void)
+{
+}
+#endif
+#ifdef ENABLE_MULTIBUFFER
+void flip_newbuffer(void)
+{
+}
 #endif
 void discard_buffer(void)
-{
-}
-#ifdef ENABLE_MULTIBUFFER
-void new_buffer_void(void)
-{
-}
-#endif
-void flip_replace_void(void)
-{
-}
-void flip_execute_void(void)
 {
 }
 
@@ -793,10 +793,10 @@ void shortcut_init(void)
     add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
 	N_("Backwards"), IFSCHELP(nano_reverse_msg), TOGETHER, VIEW);
 
-    add_to_funcs(flip_replace_void, MWHEREIS,
+    add_to_funcs(flip_replace, MWHEREIS,
 	replace_tag, IFSCHELP(nano_replace_msg), BLANKAFTER, VIEW);
 
-    add_to_funcs(flip_replace_void, MREPLACE,
+    add_to_funcs(flip_replace, MREPLACE,
 	N_("No Replace"), IFSCHELP(nano_whereis_msg), BLANKAFTER, VIEW);
 
 #ifndef DISABLE_JUSTIFY
@@ -996,16 +996,16 @@ void shortcut_init(void)
     /* If we're using restricted mode, file insertion is disabled, and
      * thus command execution and the multibuffer toggle have no place. */
     if (!ISSET(RESTRICTED)) {
-	add_to_funcs(flip_execute_void, MINSERTFILE,
+	add_to_funcs(flip_execute, MINSERTFILE,
 	    N_("Execute Command"), IFSCHELP(nano_execute_msg), TOGETHER, NOVIEW);
 
-	add_to_funcs(flip_execute_void, MEXTCMD,
+	add_to_funcs(flip_execute, MEXTCMD,
 	    read_file_tag, IFSCHELP(nano_insert_msg), TOGETHER, NOVIEW);
     }
 #endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
     if (!ISSET(RESTRICTED))
-	add_to_funcs(new_buffer_void, MINSERTFILE|MEXTCMD,
+	add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
 	    N_("New Buffer"), IFSCHELP(nano_newbuffer_msg), TOGETHER, NOVIEW);
 #endif
 
@@ -1238,7 +1238,7 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE, "M-C", 0, case_sens_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "M-R", 0, regexp_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "M-B", 0, backwards_void, 0);
-    add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", 0, do_first_line, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^V", 0, do_last_line, 0);
 #ifndef DISABLE_JUSTIFY
@@ -1288,12 +1288,12 @@ void shortcut_init(void)
 	add_to_sclist(MWRITEFILE, "M-A", 0, append_void, 0);
 	add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
 	add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);
-	add_to_sclist(MINSERTFILE|MEXTCMD, "^X", 0, flip_execute_void, 0);
+	add_to_sclist(MINSERTFILE|MEXTCMD, "^X", 0, flip_execute, 0);
     }
 #endif
 #ifdef ENABLE_MULTIBUFFER
     if (!ISSET(RESTRICTED))
-	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, new_buffer_void, 0);
+	add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, flip_newbuffer, 0);
 #endif
 #ifndef DISABLE_BROWSER
     /* In restricted mode, don't allow entering the file browser. */
@@ -1580,7 +1580,7 @@ sc *strtosc(const char *input)
 	s->scfunc = backwards_void;
     else if (!strcasecmp(input, "flipreplace") ||
 	     !strcasecmp(input, "dontreplace"))  /* Deprecated.  Remove in 2018. */
-	s->scfunc = flip_replace_void;
+	s->scfunc = flip_replace;
     else if (!strcasecmp(input, "gototext"))
 	s->scfunc = gototext_void;
 #ifndef DISABLE_HISTORIES
@@ -1601,12 +1601,12 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "backup"))
 	s->scfunc = backup_file_void;
     else if (!strcasecmp(input, "flipexecute"))
-	s->scfunc = flip_execute_void;
+	s->scfunc = flip_execute;
 #endif
 #ifdef ENABLE_MULTIBUFFER
     else if (!strcasecmp(input, "flipnewbuffer") ||
 	     !strcasecmp(input, "newbuffer"))  /* Deprecated.  Remove in 2018. */
-	s->scfunc = new_buffer_void;
+	s->scfunc = flip_newbuffer;
 #endif
 #ifndef DISABLE_BROWSER
     else if (!strcasecmp(input, "tofiles") ||

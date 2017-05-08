@@ -1112,7 +1112,7 @@ void do_insertfile(void)
 	    given = mallocstrcpy(given, answer);
 
 #ifdef ENABLE_MULTIBUFFER
-	    if (func == new_buffer_void) {
+	    if (func == flip_newbuffer) {
 		/* Don't allow toggling when in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
@@ -1122,7 +1122,7 @@ void do_insertfile(void)
 	    }
 #endif
 #ifndef NANO_TINY
-	    if (func == flip_execute_void) {
+	    if (func == flip_execute) {
 		execute = !execute;
 		continue;
 	    }
