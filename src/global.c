@@ -633,9 +633,9 @@ void shortcut_init(void)
     const char *nano_prepend_msg = N_("Toggle prepending");
     const char *nano_backup_msg = N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
+#endif
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_newbuffer_msg = N_("Toggle the use of a new buffer");
-#endif
 #endif
     const char *nano_discard_buffer_msg = N_("Close buffer without saving it");
 #ifdef ENABLE_BROWSER
