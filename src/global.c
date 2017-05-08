@@ -1408,7 +1408,7 @@ const char *flagtostr(int flag)
 }
 #endif /* !NANO_TINY */
 
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 /* Interpret a function string given in the rc file, and return a
  * shortcut struct with the corresponding function filled in. */
 sc *strtosc(const char *input)
@@ -1504,18 +1504,10 @@ sc *strtosc(const char *input)
 	s->scfunc = do_scroll_up;
     else if (!strcasecmp(input, "scrolldown"))
 	s->scfunc = do_scroll_down;
-    else if (!strcasecmp(input, "prevword"))
-	s->scfunc = do_prev_word_void;
-    else if (!strcasecmp(input, "nextword"))
-	s->scfunc = do_next_word_void;
     else if (!strcasecmp(input, "cutwordleft"))
 	s->scfunc = do_cut_prev_word;
     else if (!strcasecmp(input, "cutwordright"))
 	s->scfunc = do_cut_next_word;
-    else if (!strcasecmp(input, "prevblock"))
-	s->scfunc = do_prev_block;
-    else if (!strcasecmp(input, "nextblock"))
-	s->scfunc = do_next_block;
     else if (!strcasecmp(input, "findbracket"))
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))
@@ -1537,10 +1529,18 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "down") ||
 	     !strcasecmp(input, "nextline"))
 	s->scfunc = do_down_void;
+    else if (!strcasecmp(input, "prevword"))
+	s->scfunc = do_prev_word_void;
+    else if (!strcasecmp(input, "nextword"))
+	s->scfunc = do_next_word_void;
     else if (!strcasecmp(input, "home"))
 	s->scfunc = do_home_void;
     else if (!strcasecmp(input, "end"))
 	s->scfunc = do_end_void;
+    else if (!strcasecmp(input, "prevblock"))
+	s->scfunc = do_prev_block;
+    else if (!strcasecmp(input, "nextblock"))
+	s->scfunc = do_next_block;
     else if (!strcasecmp(input, "pageup") ||
 	     !strcasecmp(input, "prevpage"))
 	s->scfunc = do_page_up;
@@ -1717,7 +1717,7 @@ int strtomenu(const char *input)
 #endif
     return -1;
 }
-#endif /* !DISABLE_NANORC */
+#endif /* ENABLE_NANORC */
 
 
 #ifdef DEBUG
@@ -1823,7 +1823,7 @@ void thanks_for_all_the_fish(void)
 	sclist = sclist->next;
 	free(s);
     }
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
     free(homedir);
 #endif
 }

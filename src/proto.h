@@ -225,13 +225,13 @@ char *mbstrpbrk(const char *s, const char *accept);
 char *revstrpbrk(const char *head, const char *accept, const char *index);
 char *mbrevstrpbrk(const char *head, const char *accept, const char *index);
 #endif
-#if !defined(DISABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
+#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
 bool has_blank_mbchars(const char *s);
 #endif
 #ifdef ENABLE_UTF8
 bool is_valid_unicode(wchar_t wc);
 #endif
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 bool is_valid_mbstring(const char *s);
 #endif
 
@@ -466,14 +466,14 @@ int do_prompt(bool allow_tabs, bool allow_files,
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 #ifndef DISABLE_COLOR
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
 #endif
 void parse_rcfile(FILE *rcstream, bool syntax_only);
 void do_rcfiles(void);
-#endif /* !DISABLE_NANORC */
+#endif /* ENABLE_NANORC */
 
 /* Most functions in search.c. */
 void not_found_msg(const char *str);

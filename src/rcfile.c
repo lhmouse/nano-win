@@ -30,7 +30,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 
 #ifndef RCFILE_NAME
 #define RCFILE_NAME ".nanorc"
@@ -159,9 +159,9 @@ void rcfile_error(const char *msg, ...)
 
     fprintf(stderr, "\n");
 }
-#endif /* !DISABLE_NANORC */
+#endif /* ENABLE_NANORC */
 
-#if !defined(DISABLE_NANORC) || !defined(DISABLE_HISTORIES)
+#if defined(ENABLE_NANORC) || !defined(DISABLE_HISTORIES)
 /* Parse the next word from the string, null-terminate it, and return
  * a pointer to the first character after the null terminator.  The
  * returned pointer will point to '\0' if we hit the end of the line. */
@@ -181,9 +181,9 @@ char *parse_next_word(char *ptr)
 
     return ptr;
 }
-#endif /* !DISABLE_NANORC || !DISABLE_HISTORIES */
+#endif /* ENABLE_NANORC || !DISABLE_HISTORIES */
 
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 /* Parse an argument, with optional quotes, after a keyword that takes
  * one.  If the next word starts with a ", we say that it ends with the
  * last " of the line.  Otherwise, we interpret it as usual, so that the
@@ -1300,4 +1300,4 @@ void do_rcfiles(void)
     }
 }
 
-#endif /* !DISABLE_NANORC */
+#endif /* ENABLE_NANORC */

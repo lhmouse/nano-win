@@ -404,7 +404,7 @@ typedef struct openfilestruct {
 	/* The preceding open file, if any. */
 } openfilestruct;
 
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 typedef struct rcoption {
     const char *name;
 	/* The name of the rcfile option. */

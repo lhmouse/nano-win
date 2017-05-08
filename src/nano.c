@@ -45,7 +45,7 @@
 static int oldinterval = -1;
 	/* Used to store the user's original mouse click interval. */
 #endif
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 static bool no_rcfiles = FALSE;
 	/* Should we ignore all rcfiles? */
 #endif
@@ -804,7 +804,7 @@ void usage(void)
 	print_opt("-H", "--historylog",
 		N_("Log & read search/replace string history"));
 #endif
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
     if (!ISSET(RESTRICTED))
 	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
@@ -869,7 +869,7 @@ void usage(void)
 	N_("Set operating directory"));
 #endif
     print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
     if (!ISSET(RESTRICTED))
 	print_opt("-q", "--quiet",
 		N_("Silently ignore startup issues like rc file errors"));
@@ -943,7 +943,7 @@ void version(void)
 #ifdef ENABLE_MOUSE
     printf(" --enable-mouse");
 #endif
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -995,7 +995,7 @@ void version(void)
 #ifndef ENABLE_MULTIBUFFER
     printf(" --disable-multibuffer");
 #endif
-#ifdef DISABLE_NANORC
+#ifndef ENABLE_NANORC
     printf(" --disable-nanorc");
 #endif
 #ifdef DISABLE_OPERATINGDIR
@@ -1917,7 +1917,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_MULTIBUFFER
 	{"multibuffer", 0, NULL, 'F'},
 #endif
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 	{"ignorercfiles", 0, NULL, 'I'},
 #endif
 	{"rebindkeypad", 0, NULL, 'K'},
@@ -2013,7 +2013,7 @@ int main(int argc, char **argv)
 			" -- please report a bug\n", (int)MB_CUR_MAX);
 #endif
 
-#if defined(DISABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
+#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
     /* If we don't have rcfile support, --disable-wrapping-as-root is
      * used, and we're root, turn wrapping off. */
     if (geteuid() == NANO_ROOT_UID)
@@ -2070,7 +2070,7 @@ int main(int argc, char **argv)
 		SET(HISTORYLOG);
 		break;
 #endif
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 	    case 'I':
 		no_rcfiles = TRUE;
 		break;
@@ -2166,7 +2166,7 @@ int main(int argc, char **argv)
 	    case 'p':
 		SET(PRESERVE);
 		break;
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 	    case 'q':
 		SET(QUIET);
 		break;
@@ -2239,7 +2239,7 @@ int main(int argc, char **argv)
     if (ISSET(RESTRICTED)) {
 	UNSET(SUSPEND);
 	UNSET(BACKUP_FILE);
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
 	no_rcfiles = TRUE;
 	UNSET(HISTORYLOG);
 	UNSET(POS_HISTORY);
@@ -2250,11 +2250,9 @@ int main(int argc, char **argv)
      * before reading the rcfile, to be able to rebind/unbind keys. */
     shortcut_init();
 
-/* We've read through the command line options.  Now back up the flags
- * and values that are set, and read the rcfile(s).  If the values
- * haven't changed afterward, restore the backed-up values. */
-#ifndef DISABLE_NANORC
+#ifdef ENABLE_NANORC
     if (!no_rcfiles) {
+	/* Back up the command-line options, then read the rcfile(s). */
 #ifndef DISABLE_OPERATINGDIR
 	char *operating_dir_cpy = operating_dir;
 #endif
@@ -2298,6 +2296,7 @@ int main(int argc, char **argv)
 	print_sclist();
 #endif
 
+	/* If the backed-up command-line options have a value, restore them. */
 #ifndef DISABLE_OPERATINGDIR
 	if (operating_dir_cpy != NULL) {
 	    free(operating_dir);
@@ -2333,6 +2332,7 @@ int main(int argc, char **argv)
 	if (tabsize_cpy != -1)
 	    tabsize = tabsize_cpy;
 
+	/* Simply OR the boolean flags from rcfile and command line. */
 	for (i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 	    flags[i] |= flags_cpy[i];
     }
@@ -2342,7 +2342,7 @@ int main(int argc, char **argv)
     else if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
-#endif /* !DISABLE_NANORC */
+#endif /* ENABLE_NANORC */
 
 #ifndef DISABLE_WRAPPING
     /* Override a "set nowrap" in an rcfile (or a --disable-wrapping-as-root)
