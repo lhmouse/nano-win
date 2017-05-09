@@ -4,7 +4,7 @@ AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" \
 CLEANFILES = revision.h
 
 if BUILDING_FROM_GIT
-SOMETHING = "REVISION \"$(shell git describe --tags 2>/dev/null)\""
+SOMETHING = "REVISION \"`git describe --tags 2>/dev/null`\""
 else
 SOMETHING = "NOTHING \"from tarball\""
 endif
