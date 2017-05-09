@@ -12,10 +12,13 @@ endif
 nano.o: revision.h
 winio.o: revision.h
 
-revision.h:
+# Always run the commands in this rule.  But update the target
+# only when the revision actually changed.
+revision.h: FORCE
 	@[ -f $@ ] || touch $@
 	@echo "#define $(SOMETHING)" | cmp -s $@ - || \
-	echo "#define $(SOMETHING)" > $@
+			echo "#define $(SOMETHING)" > $@
+FORCE:
 
 bin_PROGRAMS = 	nano
 nano_SOURCES =	browser.c \
