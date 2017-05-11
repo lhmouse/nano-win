@@ -292,7 +292,7 @@ void do_uncut_text(void)
     set_modified();
 
     /* Update current_y to account for the inserted lines. */
-    place_the_cursor();
+    place_the_cursor(TRUE);
 
     refresh_needed = TRUE;
 

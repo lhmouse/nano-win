@@ -1198,7 +1198,7 @@ void do_insertfile(void)
 		    set_modified();
 
 		/* Update current_y to account for inserted lines. */
-		place_the_cursor();
+		place_the_cursor(TRUE);
 
 		refresh_needed = TRUE;
 	    }

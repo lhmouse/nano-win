@@ -1235,7 +1235,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	    suppress_cursorpos = FALSE;
 	    lastmessage = HUSH;
 	    if (currmenu == MMAIN) {
-		place_the_cursor();
+		place_the_cursor(TRUE);
 		curs_set(1);
 	    }
 	}
@@ -2271,7 +2271,7 @@ void onekey(const char *keystroke, const char *desc, int length)
 
 /* Redetermine current_y from the position of current relative to edittop,
  * and put the cursor in the edit window at (current_y, "current_x"). */
-void place_the_cursor(void)
+void place_the_cursor(bool forreal)
 {
     ssize_t row = 0;
     size_t col, xpt = xplustabs();
@@ -2293,7 +2293,7 @@ void place_the_cursor(void)
 	col = xpt % editwincols;
 
 	/* If the cursor ought to be in column zero, nudge it there. */
-	if (openfile->placewewant % editwincols == 0 && col != 0) {
+	if (forreal && openfile->placewewant % editwincols == 0 && col != 0) {
 	    row++;
 	    col = 0;
 	}
@@ -2307,7 +2307,8 @@ void place_the_cursor(void)
     if (row < editwinrows)
 	wmove(edit, row, margin + col);
 
-    openfile->current_y = row;
+    if (forreal)
+	openfile->current_y = row;
 }
 
 /* edit_draw() takes care of the job of actually painting a line into
@@ -3089,7 +3090,7 @@ void edit_refresh(void)
     while (row < editwinrows)
 	blank_row(edit, row++, 0, COLS);
 
-    place_the_cursor();
+    place_the_cursor(TRUE);
     wnoutrefresh(edit);
 
     refresh_needed = FALSE;
@@ -3248,7 +3249,7 @@ void spotlight(bool active, const char *word)
 	    room--;
     }
 
-    place_the_cursor();
+    place_the_cursor(FALSE);
 
     if (active)
 	wattron(edit, hilite_attribute);

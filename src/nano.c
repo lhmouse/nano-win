@@ -2659,7 +2659,7 @@ int main(int argc, char **argv)
 
 	/* Refresh just the cursor position or the entire edit window. */
 	if (!refresh_needed) {
-	    place_the_cursor();
+	    place_the_cursor(TRUE);
 	    wnoutrefresh(edit);
 	} else
 	    edit_refresh();
