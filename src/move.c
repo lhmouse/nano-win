@@ -55,7 +55,7 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
     if (ISSET(SOFTWRAP)) {
 	size_t realspan = strlenpt(openfile->current->data);
 
-	if (openfile->placewewant < realspan)
+	if (realspan > openfile->placewewant)
 	    realspan = openfile->placewewant;
 
 	*leftedge = (realspan / editwincols) * editwincols;
