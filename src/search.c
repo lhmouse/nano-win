@@ -883,6 +883,12 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->current_x = actual_x(openfile->current->data, column - 1);
     openfile->placewewant = column - 1;
 
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP) && openfile->placewewant / editwincols >
+			strlenpt(openfile->current->data) / editwincols)
+	openfile->placewewant = strlenpt(openfile->current->data);
+#endif
+
     /* When the position was manually given, center the target line. */
     if (interactive) {
 	adjust_viewport(CENTERING);
