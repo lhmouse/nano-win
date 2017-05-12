@@ -383,13 +383,13 @@ typedef struct openfilestruct {
 	/* The file's current stat information. */
 #ifndef NANO_TINY
     filestruct *mark;
-	/* The file's line where the mark is, if any. */
+	/* The line in the file where the mark is set; NULL if not set. */
     size_t mark_x;
-	/* The file's mark's x-coordinate position, if any. */
+	/* The mark's x position in the above line. */
     mark_type kind_of_mark;
-	/* Whether this is a soft or a hard mark. */
+	/* Whether it is a soft (with Shift) or a hard mark. */
     file_format fmt;
-	/* The file's format. */
+	/* The file's format -- Unix or DOS or Mac or mixed. */
     undo *undotop;
 	/* The top of the undo list. */
     undo *current_undo;

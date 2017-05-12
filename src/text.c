@@ -57,14 +57,14 @@ static completion_word *list_of_completions;
 /* Toggle the mark. */
 void do_mark(void)
 {
-    if (openfile->mark == NULL) {
-	statusbar(_("Mark Set"));
+    if (!openfile->mark) {
 	openfile->mark = openfile->current;
 	openfile->mark_x = openfile->current_x;
+	statusbar(_("Mark Set"));
 	openfile->kind_of_mark = HARDMARK;
     } else {
-	statusbar(_("Mark Unset"));
 	openfile->mark = NULL;
+	statusbar(_("Mark Unset"));
 	refresh_needed = TRUE;
     }
 }
@@ -1063,8 +1063,8 @@ void do_enter(void)
     add_undo(ENTER);
 
     /* Adjust the mark if it was on the current line after the cursor. */
-    if (openfile->current == openfile->mark &&
-		openfile->current_x < openfile->mark_x) {
+    if (openfile->mark == openfile->current &&
+		openfile->mark_x > openfile->current_x) {
 	openfile->mark = newnode;
 	openfile->mark_x += extra - openfile->current_x;
     }
@@ -2019,13 +2019,8 @@ void backup_lines(filestruct *first_line, size_t par_len)
     ssize_t current_lineno_save = openfile->current->lineno;
 #ifndef NANO_TINY
     bool mark_is_set = (openfile->mark != NULL);
-    ssize_t mb_lineno_save = 0;
-    size_t mark_begin_x_save = 0;
-
-    if (mark_is_set) {
-	mb_lineno_save = openfile->mark->lineno;
-	mark_begin_x_save = openfile->mark_x;
-    }
+    ssize_t was_mark_lineno = (mark_is_set ? openfile->mark->lineno : 0);
+    size_t was_mark_x = openfile->mark_x;
 #endif
 
     /* Move bot down par_len lines to the line after the last line of
@@ -2047,9 +2042,9 @@ void backup_lines(filestruct *first_line, size_t par_len)
     if (openfile->current != openfile->fileage) {
 	top = openfile->current->prev;
 #ifndef NANO_TINY
-	if (mark_is_set && openfile->current->lineno == mb_lineno_save) {
+	if (mark_is_set && openfile->current->lineno == was_mark_lineno) {
 	    openfile->mark = openfile->current;
-	    openfile->mark_x = mark_begin_x_save;
+	    openfile->mark_x = was_mark_x;
 	}
 #endif
     } else
@@ -2062,9 +2057,9 @@ void backup_lines(filestruct *first_line, size_t par_len)
 	if (top->lineno == current_lineno_save)
 	    openfile->current = top;
 #ifndef NANO_TINY
-	if (mark_is_set && top->lineno == mb_lineno_save) {
+	if (mark_is_set && top->lineno == was_mark_lineno) {
 	    openfile->mark = top;
-	    openfile->mark_x = mark_begin_x_save;
+	    openfile->mark_x = was_mark_x;
 	}
 #endif
 	top = top->prev;
@@ -2927,7 +2922,6 @@ const char *do_alt_speller(char *tempfile_name)
 
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, &right_side_up);
-
 	openfile->mark = NULL;
 
 	replace_marked_buffer(tempfile_name, top, top_x, bot, bot_x);

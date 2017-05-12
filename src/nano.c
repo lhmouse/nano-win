@@ -307,14 +307,12 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 			openfile->edittop->lineno <= openfile->filebot->lineno);
 #ifndef NANO_TINY
     if (openfile->mark) {
-	mark_inside = (openfile->mark->lineno >=
-		openfile->fileage->lineno &&
-		openfile->mark->lineno <=
-		openfile->filebot->lineno &&
-		(openfile->mark != openfile->fileage ||
-		openfile->mark_x >= top_x) &&
-		(openfile->mark != openfile->filebot ||
-		openfile->mark_x <= bot_x));
+	mark_inside = (openfile->mark->lineno >= openfile->fileage->lineno &&
+			openfile->mark->lineno <= openfile->filebot->lineno &&
+			(openfile->mark != openfile->fileage ||
+						openfile->mark_x >= top_x) &&
+			(openfile->mark != openfile->filebot ||
+						openfile->mark_x <= bot_x));
 	same_line = (openfile->mark == openfile->fileage);
     }
 #endif

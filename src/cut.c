@@ -216,7 +216,7 @@ void do_cut_text_void(void)
 void do_copy_text(void)
 {
     static struct filestruct *next_contiguous_line = NULL;
-    bool mark_set = (openfile->mark != NULL);
+    bool mark_is_set = (openfile->mark != NULL);
 
     /* Remember the current viewport and cursor position. */
     ssize_t is_edittop_lineno = openfile->edittop->lineno;
@@ -224,16 +224,16 @@ void do_copy_text(void)
     ssize_t is_current_lineno = openfile->current->lineno;
     size_t is_current_x = openfile->current_x;
 
-    if (mark_set || openfile->current != next_contiguous_line)
+    if (mark_is_set || openfile->current != next_contiguous_line)
 	cutbuffer_reset();
 
     do_cut_text(TRUE, FALSE);
 
     /* If the mark was set, blow away the cutbuffer on the next copy. */
-    next_contiguous_line = (mark_set ? NULL : openfile->current);
+    next_contiguous_line = (mark_is_set ? NULL : openfile->current);
 
     /* If the mark was set, restore the viewport and cursor position. */
-    if (mark_set) {
+    if (mark_is_set) {
 	openfile->edittop = fsfromline(is_edittop_lineno);
 	openfile->firstcolumn = is_firstcolumn;
 	openfile->current = fsfromline(is_current_lineno);
