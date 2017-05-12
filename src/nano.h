@@ -382,11 +382,9 @@ typedef struct openfilestruct {
     struct stat *current_stat;
 	/* The file's current stat information. */
 #ifndef NANO_TINY
-    bool mark_set;
-	/* Whether the mark is on in this file. */
-    filestruct *mark_begin;
+    filestruct *mark;
 	/* The file's line where the mark is, if any. */
-    size_t mark_begin_x;
+    size_t mark_x;
 	/* The file's mark's x-coordinate position, if any. */
     mark_type kind_of_mark;
 	/* Whether this is a soft or a hard mark. */

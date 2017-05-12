@@ -147,10 +147,10 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
     if (cut_till_eof) {
 	/* Move all text up to the end of the file into the cutbuffer. */
 	cut_to_eof();
-    } else if (openfile->mark_set) {
+    } else if (openfile->mark) {
 	/* Move the marked text to the cutbuffer, and turn the mark off. */
 	cut_marked(&right_side_up);
-	openfile->mark_set = FALSE;
+	openfile->mark = NULL;
     } else if (ISSET(CUT_FROM_CURSOR))
 	/* Move all text up to the end of the line into the cutbuffer. */
 	cut_to_eol();
@@ -216,7 +216,7 @@ void do_cut_text_void(void)
 void do_copy_text(void)
 {
     static struct filestruct *next_contiguous_line = NULL;
-    bool mark_set = openfile->mark_set;
+    bool mark_set = (openfile->mark != NULL);
 
     /* Remember the current viewport and cursor position. */
     ssize_t is_edittop_lineno = openfile->edittop->lineno;
@@ -232,8 +232,8 @@ void do_copy_text(void)
     /* If the mark was set, blow away the cutbuffer on the next copy. */
     next_contiguous_line = (mark_set ? NULL : openfile->current);
 
+    /* If the mark was set, restore the viewport and cursor position. */
     if (mark_set) {
-	/* Restore the viewport and cursor position. */
 	openfile->edittop = fsfromline(is_edittop_lineno);
 	openfile->firstcolumn = is_firstcolumn;
 	openfile->current = fsfromline(is_current_lineno);

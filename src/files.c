@@ -93,10 +93,7 @@ void make_new_buffer(void)
 
     openfile->modified = FALSE;
 #ifndef NANO_TINY
-    openfile->mark_set = FALSE;
-    openfile->mark_begin = NULL;
-    openfile->mark_begin_x = 0;
-    openfile->kind_of_mark = SOFTMARK;
+    openfile->mark = NULL;
 
     openfile->fmt = NIX_FILE;
 
@@ -1594,7 +1591,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
      * only if the file has not been modified by someone else since nano
      * opened it. */
     if (ISSET(BACKUP_FILE) && !tmp && realexists && openfile->current_stat &&
-		(method != OVERWRITE || openfile->mark_set ||
+		(method != OVERWRITE || openfile->mark ||
 		openfile->current_stat->st_mtime == st.st_mtime)) {
 	static struct timespec filetime[2];
 	char *backupname;
@@ -1952,7 +1949,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	if (!openfile->mark_set)
+	if (!openfile->mark)
 	    /* Get or update the stat info to reflect the current state. */
 	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
@@ -2039,7 +2036,7 @@ int do_writeout(bool exiting, bool withprompt)
 
     given = mallocstrcpy(NULL,
 #ifndef NANO_TINY
-	(openfile->mark_set && !exiting) ? "" :
+	(openfile->mark && !exiting) ? "" :
 #endif
 	openfile->filename);
 
@@ -2057,7 +2054,7 @@ int do_writeout(bool exiting, bool withprompt)
 	 * Selection to File" prompt.  This function is disabled, since
 	 * it allows reading from or writing to files not specified on
 	 * the command line. */
-	if (openfile->mark_set && !exiting && !ISSET(RESTRICTED))
+	if (openfile->mark && !exiting && !ISSET(RESTRICTED))
 	    /* TRANSLATORS: The next six strings are prompts. */
 	    msg = (method == PREPEND) ? _("Prepend Selection to File") :
 			(method == APPEND) ? _("Append Selection to File") :
@@ -2186,7 +2183,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 		    if (!maychange) {
 #ifndef NANO_TINY
-			if (exiting || !openfile->mark_set)
+			if (exiting || !openfile->mark)
 #endif
 			{
 			    if (do_yesno_prompt(FALSE, _("Save file under "
@@ -2249,7 +2246,7 @@ int do_writeout(bool exiting, bool withprompt)
 	     * function is disabled, since it allows reading from or
 	     * writing to files not specified on the command line. */
 #ifndef NANO_TINY
-	    if (openfile->mark_set && !exiting && !ISSET(RESTRICTED))
+	    if (openfile->mark && !exiting && !ISSET(RESTRICTED))
 		result = write_marked_file(answer, NULL, FALSE, method);
 	    else
 #endif
