@@ -1,6 +1,6 @@
 ## Here is an example for PHP.
 
-syntax "php" "\.php[2345s~]?$"
+syntax "php" "\.ph(p[23457s~]?|tml)$"
 magic "PHP script text"
 comment "//"
 
@@ -11,13 +11,13 @@ color brightgreen "(<\?(php)?|\?>)"
 color white "\<[a-z_]*\("
 
 # Types.
-color green "\<(var|float|global|double|bool|char|int|enum|const)\>"
+color green "\<(bool|char|const|double|enum|float|global|int|var)\>"
 
 # Structure.
-color brightyellow "\<(class|new|private|public|function|for|foreach|if|while|do|else|elseif|case|default|switch)\>"
+color brightyellow "\<(class|function|new|private|protected|public|for|foreach|while|do|if|else|elseif|switch|case|default)\>"
 
 # Control flow.
-color magenta "\<(goto|continue|break|return)\>"
+color magenta "\<(break|continue|goto|return)\>"
 
 # Strings.
 color brightyellow "<[^=       ]*>" ""(\.|[^"])*""
