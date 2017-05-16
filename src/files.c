@@ -2157,19 +2157,10 @@ int do_writeout(bool exiting)
 	} else {
 	    functionptrtype func = func_from_key(&i);
 
-	    /* Upon request, abandon the buffer, if user is sure. */
+	    /* Upon request, abandon the buffer. */
 	    if (func == discard_buffer) {
-		if (openfile->modified)
-		    i = do_yesno_prompt(FALSE,
-				_("Save modified buffer anyway? "));
-		else
-		    i = 0;
-
-		if (i == 0) {
-		    free(given);
-		    return 2;	/* Yes, discard the buffer. */
-		} else
-		    continue;	/* Go back to the filename prompt. */
+		free(given);
+		return 2;
 	    }
 
 	    given = mallocstrcpy(given, answer);
