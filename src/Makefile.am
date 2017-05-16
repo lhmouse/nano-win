@@ -39,7 +39,7 @@ nano_SOURCES =	browser.c \
 		utils.c \
 		winio.c 
 
-nano_LDADD = @LIBINTL@ $(top_builddir)/lib/libgnu.a
+nano_LDADD = @LIBINTL@ $(top_builddir)/lib/libgnu.a $(LIB_CLOCK_GETTIME)
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && rm -f rnano && $(LN_S) nano rnano
