@@ -2687,8 +2687,10 @@ int update_line(filestruct *fileptr, size_t index)
 
     /* If the line is offscreen, don't even try to display it. */
     if (row < 0 || row >= editwinrows) {
+#ifndef NANO_TINY
 	statusline(ALERT, "Badness: tried to display a line on row %i"
 				" -- please report a bug", row);
+#endif
 	return 0;
     }
 
@@ -2903,12 +2905,16 @@ void edit_scroll(scroll_dir direction, int nrows)
 
     /* Don't bother scrolling zero rows, nor more than the window can hold. */
     if (nrows == 0) {
+#ifndef NANO_TINY
 	statusline(ALERT, "Underscrolling -- please report a bug");
+#endif
 	return;
     }
     if (nrows >= editwinrows) {
+#ifndef NANO_TINY
 	if (editwinrows > 1)
 	    statusline(ALERT, "Overscrolling -- please report a bug");
+#endif
 	refresh_needed = TRUE;
 	return;
     }

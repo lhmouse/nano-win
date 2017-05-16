@@ -237,7 +237,9 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start)
 {
     if (*needle == '\0') {
+#ifndef NANO_TINY
 	statusline(ALERT, "Searching for nothing -- please report a bug");
+#endif
 	return (char *)start;
     }
 
