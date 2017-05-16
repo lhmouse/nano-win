@@ -279,7 +279,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	    regmatches[0].rm_eo = far_end;
 	    if (regexec(&search_regexp, haystack, 10, regmatches,
 					REG_STARTEND) != 0)
-		statusline(ALERT, "BAD: failed to refind the match!");
+		return NULL;
 
 	    return haystack + regmatches[0].rm_so;
 	}
