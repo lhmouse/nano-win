@@ -2127,11 +2127,12 @@ int do_writeout(bool exiting)
 	    msg = (method == PREPEND) ? _("Prepend Selection to File") :
 			(method == APPEND) ? _("Append Selection to File") :
 			_("Write Selection to File");
+	else if (method != OVERWRITE)
+	    msg = (method == PREPEND) ? _("File Name to Prepend to") :
+					_("File Name to Append to");
 	else
 #endif /* !NANO_TINY */
-	    msg = (method == PREPEND) ? _("File Name to Prepend to") :
-			(method == APPEND) ? _("File Name to Append to") :
-			_("File Name to Write");
+	    msg = _("File Name to Write");
 
 	present_path = mallocstrcpy(present_path, "./");
 
