@@ -1,3 +1,9 @@
+2017.05.18 - GNU nano 2.8.3 "Hirsch" fixes a misplacement of the spotlight
+		during interactive replacing, avoids build failures on AIX
+		and Solaris, fixes a crash on Solaris, speeds up backwards
+		searching, improves PHP syntax highlighting, and no longer
+		asks “save anyway?” when the user ^Q discards the buffer.
+
 2017.05.04 - GNU nano 2.8.2 "Krats" adds another new feature: it makes
 		the ^G help texts searchable with ^W.  Apart from that,
 		it fixes a crash when resizing the window in the middle

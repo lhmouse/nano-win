@@ -1,3 +1,47 @@
+Changes between v2.8.2 and v2.8.3:
+----------------------------------
+
+Benno Schulenberg (34):
+      bindings: allow toggling a new buffer when multiple buffers are enabled
+      build: don't use a dummy dependency, as it breaks non-GNU makes
+      build: for Solaris, tell the linker where to find clock_gettime()
+      build: use backticks to avoid a warning during autoreconf
+      build: use the "force" mechanism to always run the revision rule
+      bump version numbers and add a news item for the 2.8.3 release
+      chars: optimize moving a character left in the non-UTF-8 case
+      chars: probe for a valid UTF-8 starter byte, instead of overstepping
+      chars: valid UTF-8 codes are at most 4 bytes long, so look only that far
+      display: keep the cursor put, also when toggling nohelp or morespace
+      files: don't ask "save anyway" when user orders to discard the buffer
+      history: don't save the cursor position for temporary help files
+      moving: limit the target column when it is beyond the last chunk
+      replacing: don't let placewewant influence the placement of the cursor
+      startup: don't call delwin() with NULL, to avoid crashing on Solaris
+      syntax: makefile: color comments only at start of line or after whitespace
+      syntax: nanohelp: color also ^6 as a shortcut keystroke
+      syntax: php: color also variable names, and color more reserved words
+      syntax: php: recognize also the .phtml and .php7 extensions
+      syntax: xml: recognize an XML file also by its first line
+      tweaks: add another warning for an impossible condition
+      tweaks: adjust whitespace and comments after the preceding change
+      tweaks: avoid an empty function call in tiny version with line numbers
+      tweaks: exclude from the tiny version five error-betraying messages
+      tweaks: exclude from the tiny version two messages that will never occur
+      tweaks: fix compilation with --enable-tiny ...-help and ...-multibuffer
+      tweaks: remove an old fault-catching message
+      tweaks: remove five dummy function definitions from the tiny version
+      tweaks: rename three empty functions, and reshuffle some others
+      tweaks: rewrap a couple of old items in NEWS, and fix an article
+      tweaks: swap a comparison, to be clearer
+      tweaks: transform the token DISABLE_BROWSER to ENABLE_BROWSER
+      tweaks: transform the token DISABLE_NANORC to ENABLE_NANORC
+      tweaks: transform the token DISABLE_TABCOMP to ENABLE_TABCOMP
+
+David Lawrence Ramsey (2):
+      display: ensure smooth scrolling when the edit window is resized
+      tweaks: fix several whitespace irregularities
+
+
 Changes between v2.8.1 and v2.8.2:
 ----------------------------------
 
