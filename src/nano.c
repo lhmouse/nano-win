@@ -677,14 +677,17 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
 /* Initialize the three window portions nano uses. */
 void window_init(void)
 {
-    /* First delete existing windows, in case of resizing. */
-    delwin(topwin);
-    topwin = NULL;
-    delwin(edit);
-    delwin(bottomwin);
+    /* When resizing, first delete the existing windows. */
+    if (edit != NULL) {
+	if (topwin != NULL)
+	    delwin(topwin);
+	delwin(edit);
+	delwin(bottomwin);
+    }
 
     /* If the terminal is very flat, don't set up a titlebar. */
     if (LINES < 3) {
+	topwin = NULL;
 	editwinrows = 1;
 	/* Set up two subwindows.  If the terminal is just one line,
 	 * edit window and statusbar window will cover each other. */

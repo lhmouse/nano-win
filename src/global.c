@@ -95,14 +95,14 @@ char *present_path = NULL;
 
 unsigned flags[4] = {0, 0, 0, 0};
 	/* Our flag containing the states of all global options. */
-WINDOW *topwin;
+WINDOW *topwin = NULL;
 	/* The top portion of the window, where we display the version
 	 * number of nano, the name of the current file, and whether the
 	 * current file has been modified. */
-WINDOW *edit;
+WINDOW *edit = NULL;
 	/* The middle portion of the window, i.e. the edit window, where
 	 * we display the current file we're editing. */
-WINDOW *bottomwin;
+WINDOW *bottomwin = NULL;
 	/* The bottom portion of the window, where we display statusbar
 	 * messages, the statusbar prompt, and a list of shortcuts. */
 int editwinrows = 0;
@@ -1728,7 +1728,8 @@ int strtomenu(const char *input)
  * function unless debugging is turned on. */
 void thanks_for_all_the_fish(void)
 {
-    delwin(topwin);
+    if (topwin != NULL)
+	delwin(topwin);
     delwin(edit);
     delwin(bottomwin);
 
