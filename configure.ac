@@ -69,9 +69,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_browser=no
     fi
 fi
-    if test "x$enable_browser" != xno; then
-	AC_DEFINE(ENABLE_BROWSER, 1, [Define this to enable the built-in file browser.])
-    fi
+if test "x$enable_browser" != xno; then
+    AC_DEFINE(ENABLE_BROWSER, 1, [Define this to enable the built-in file browser.])
+fi
 
 AC_ARG_ENABLE(color,
 AS_HELP_STRING([--disable-color], [Disable color and syntax highlighting]))
@@ -98,9 +98,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_comment=no
     fi
 fi
-    if test "x$enable_comment" != xno; then
-	AC_DEFINE(ENABLE_COMMENT, 1, [Define this to enable the comment/uncomment function.])
-    fi
+if test "x$enable_comment" != xno; then
+    AC_DEFINE(ENABLE_COMMENT, 1, [Define this to enable the comment/uncomment function.])
+fi
 
 AC_ARG_ENABLE(extra,
 AS_HELP_STRING([--disable-extra], [Disable the Easter egg]))
@@ -113,7 +113,7 @@ AS_HELP_STRING([--disable-help], [Disable the built-in help texts]))
 if test "x$enable_tiny" = xyes; then
     if test "x$enable_help" = xyes; then
 	if test "x$enable_multibuffer" != xyes; then
-	    AC_MSG_ERROR([--enable-help cannot work without --enable-multibuffer])
+	    AC_MSG_ERROR([--enable-help needs --enable-multibuffer to work])
 	fi
     else
 	enable_help=no
@@ -127,9 +127,9 @@ if test "x$enable_multibuffer" = xno; then
 	enable_help=no
     fi
 fi
-    if test "x$enable_help" != xno; then
-	AC_DEFINE(ENABLE_HELP, 1, [Define this to enable the Ctrl+G help texts.])
-    fi
+if test "x$enable_help" != xno; then
+    AC_DEFINE(ENABLE_HELP, 1, [Define this to enable the Ctrl+G help texts.])
+fi
 
 AC_ARG_ENABLE(histories,
 AS_HELP_STRING([--disable-histories], [Disable search and position histories]))
@@ -153,9 +153,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_linenumbers=no
     fi
 fi
-    if test "x$enable_linenumbers" != xno; then
-	AC_DEFINE(ENABLE_LINENUMBERS, 1, [Define this to enable line numbering.])
-    fi
+if test "x$enable_linenumbers" != xno; then
+    AC_DEFINE(ENABLE_LINENUMBERS, 1, [Define this to enable line numbering.])
+fi
 
 AC_ARG_ENABLE(mouse,
 AS_HELP_STRING([--disable-mouse], [Disable mouse support]))
@@ -164,9 +164,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_mouse=no
     fi
 fi
-    if test "x$enable_mouse" != xno; then
-	AC_DEFINE(ENABLE_MOUSE, 1, [Define this to enable mouse support.])
-    fi
+if test "x$enable_mouse" != xno; then
+    AC_DEFINE(ENABLE_MOUSE, 1, [Define this to enable mouse support.])
+fi
 
 AC_ARG_ENABLE(multibuffer,
 AS_HELP_STRING([--disable-multibuffer], [Disable multiple file buffers]))
@@ -175,9 +175,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_multibuffer=no
     fi
 fi
-    if test "x$enable_multibuffer" != xno; then
-	AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
-    fi
+if test "x$enable_multibuffer" != xno; then
+    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.])
+fi
 
 AC_ARG_ENABLE(nanorc,
 AS_HELP_STRING([--disable-nanorc], [Disable the use of .nanorc files]))
@@ -186,10 +186,10 @@ if test "x$enable_tiny" = xyes; then
 	enable_nanorc=no
     fi
 fi
-    if test "x$enable_nanorc" != xno; then
-	AC_DEFINE(ENABLE_NANORC, 1, [Define this to enable the use of .nanorc files.])
-	nanorc_support=yes
-    fi
+if test "x$enable_nanorc" != xno; then
+    AC_DEFINE(ENABLE_NANORC, 1, [Define this to enable the use of .nanorc files.])
+    nanorc_support=yes
+fi
 
 AC_ARG_ENABLE(operatingdir,
 AS_HELP_STRING([--disable-operatingdir], [Disable the setting of an operating directory]))
@@ -210,9 +210,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_tabcomp=no
     fi
 fi
-    if test "x$enable_tabcomp" != xno; then
-	AC_DEFINE(ENABLE_TABCOMP, 1, [Define this to have tab completion for filenames and search strings.])
-    fi
+if test "x$enable_tabcomp" != xno; then
+    AC_DEFINE(ENABLE_TABCOMP, 1, [Define this to have tab completion for filenames and search strings.])
+fi
 
 AC_ARG_ENABLE(wordcomp,
 AS_HELP_STRING([--disable-wordcomp], [Disable the word-completion function]))
@@ -223,9 +223,9 @@ if test "x$enable_tiny" = xyes; then
 	enable_wordcomp=no
     fi
 fi
-    if test "x$enable_wordcomp" != xno; then
-	AC_DEFINE(ENABLE_WORDCOMPLETION, 1, [Define this to enable the word-completion function.])
-    fi
+if test "x$enable_wordcomp" != xno; then
+    AC_DEFINE(ENABLE_WORDCOMPLETION, 1, [Define this to enable the word-completion function.])
+fi
 
 AC_ARG_ENABLE(wrapping,
 AS_HELP_STRING([--disable-wrapping], [Disable all hard-wrapping of text]))
@@ -256,7 +256,7 @@ if test "x$enable_tiny" = xyes; then
 	color_support=no
     else
 	if test "x$enable_nanorc" != xyes; then
-	    AC_MSG_ERROR([--enable-color with --enable-tiny cannot work without --enable-nanorc])
+	    AC_MSG_ERROR([--enable-color needs --enable-nanorc to work])
 	fi
     fi
     if test "x$enable_extra" != xyes; then
