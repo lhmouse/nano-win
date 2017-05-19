@@ -493,11 +493,8 @@ void shortcut_init(void)
     const char *whereis_next_tag = N_("WhereIs Next");
 
 #ifdef ENABLE_HELP
-#ifndef DISABLE_JUSTIFY
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
      * they are best kept shorter than 56 characters, but may be longer. */
-    const char *nano_justify_msg = N_("Justify the current paragraph");
-#endif
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
@@ -589,6 +586,7 @@ void shortcut_init(void)
 	N_("Cut from the cursor position to the end of the file");
 #endif
 #ifndef DISABLE_JUSTIFY
+    const char *nano_justify_msg = N_("Justify the current paragraph");
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
 #ifndef NANO_TINY
@@ -623,9 +621,6 @@ void shortcut_init(void)
     const char *nano_next_history_msg =
 	N_("Recall the next search/replace string");
 #endif
-#ifdef ENABLE_BROWSER
-    const char *nano_tofiles_msg = N_("Go to file browser");
-#endif
 #ifndef NANO_TINY
     const char *nano_dos_msg = N_("Toggle the use of DOS format");
     const char *nano_mac_msg = N_("Toggle the use of Mac format");
@@ -639,6 +634,7 @@ void shortcut_init(void)
 #endif
     const char *nano_discard_buffer_msg = N_("Close buffer without saving it");
 #ifdef ENABLE_BROWSER
+    const char *nano_tofiles_msg = N_("Go to file browser");
     const char *nano_exitbrowser_msg = N_("Exit from the file browser");
     const char *nano_firstfile_msg = N_("Go to the first file in the list");
     const char *nano_lastfile_msg = N_("Go to the last file in the list");
@@ -671,7 +667,7 @@ void shortcut_init(void)
     add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
 	N_("Cancel"), IFSCHELP(nano_cancel_msg), BLANKAFTER, VIEW);
 
-    add_to_funcs(do_exit, MMAIN,
+    add_to_funcs(do_exit, MMAIN|MHELP,
 	exit_tag, IFSCHELP(nano_exit_msg), TOGETHER, VIEW);
     /* Remember the entry for Exit, to be able to replace it with Close. */
     exitfunc = tailfunc;
@@ -724,15 +720,10 @@ void shortcut_init(void)
 #ifdef ENABLE_HELP
     /* The description ("x") and blank_after (0) are irrelevant,
      * because the help viewer does not have a help text. */
-    add_to_funcs(do_exit, MHELP, exit_tag, "x", 0, VIEW);
-
     add_to_funcs(total_refresh, MHELP, refresh_tag, "x", 0, VIEW);
 
     add_to_funcs(do_search, MHELP, whereis_tag, "x", 0, VIEW);
     add_to_funcs(do_research, MHELP, whereis_next_tag, "x", 0, VIEW);
-
-    add_to_funcs(do_up_void, MHELP, prev_line_tag, "x", 0, VIEW);
-    add_to_funcs(do_down_void, MHELP, next_line_tag, "x", 0, VIEW);
 #endif
 
     add_to_funcs(do_cut_text_void, MMAIN,
@@ -841,9 +832,9 @@ void shortcut_init(void)
     add_to_funcs(do_end_void, MMAIN,
 	N_("End"), IFSCHELP(nano_end_msg), BLANKAFTER, VIEW);
 
-    add_to_funcs(do_up_void, MMAIN|MBROWSER,
+    add_to_funcs(do_up_void, MMAIN|MHELP|MBROWSER,
 	prev_line_tag, IFSCHELP(nano_prevline_msg), TOGETHER, VIEW);
-    add_to_funcs(do_down_void, MMAIN|MBROWSER,
+    add_to_funcs(do_down_void, MMAIN|MHELP|MBROWSER,
 	next_line_tag, IFSCHELP(nano_nextline_msg), TOGETHER, VIEW);
 #ifndef NANO_TINY
     add_to_funcs(do_scroll_up, MMAIN,
