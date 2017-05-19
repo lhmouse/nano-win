@@ -600,11 +600,11 @@ nanorc.  See @xref{Syntax Highlighting}, for more info.
 @item Suspension Toggle (Meta-Z)
 toggles the @code{-z} (@code{--suspend}) command-line option.
 
-@item Soft Wrapping Toggle (Meta-$)
-toggles the @code{-$} (@code{--softwrap}) command-line option.
-
 @item Line Numbers Toggle (Meta-#)
 toggles the @code{-l} (@code{--linenumbers}) command-line option.
+
+@item Soft Wrapping Toggle (Meta-$)
+toggles the @code{-$} (@code{--softwrap}) command-line option.
 
 @end table
 
@@ -1419,6 +1419,16 @@ the .nanorc file), @code{nano} will store the position of the cursor
 when you close a file, and will place the cursor in that position
 again when you later reopen the file.
 
+@item Current Cursor Position
+The output of the "Display Cursor Position" command (^C) displays
+not only the current line and character position of the cursor,
+but also (between the two) the current column position.
+
+@item Spell Checking
+In the internal spell checker misspelled words are sorted alphabetically
+and trimmed for uniqueness, such that the words 'apple' and 'Apple' will
+be prompted for correction separately.
+
 @item Writing Selected Text to Files
 When using the Write-Out key (^O), text that has been selected using the
 marking key (^^) can not just be written out to a new (or existing) file,
@@ -1446,16 +1456,6 @@ Many options which alter the functionality of the program can be
 not have to be restarted to turn a particular feature on or off.
 See the internal help function (^G) for a list of features that
 can be toggled.  Or see @xref{Feature Toggles} instead.
-
-@item Current Cursor Position
-The output of the "Display Cursor Position" command (^C) displays
-not only the current line and character position of the cursor,
-but also (between the two) the current column position.
-
-@item Spell Checking
-In the internal spell checker misspelled words are sorted alphabetically
-and trimmed for uniqueness, such that the words 'apple' and 'Apple' will
-be prompted for correction separately.
 
 @end table
 
