@@ -411,8 +411,7 @@ void update_the_statusbar(void)
 
     /* Work around a cursor-misplacement bug in VTEs. */
     wmove(bottomwin, 0, 0);
-    wnoutrefresh(bottomwin);
-    doupdate();
+    wrefresh(bottomwin);
 
     /* Place the cursor at statusbar_x in the answer. */
     column = base + statusbar_xplustabs();

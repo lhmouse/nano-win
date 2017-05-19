@@ -2070,8 +2070,7 @@ void titlebar(const char *path)
 
     wattroff(topwin, interface_color_pair[TITLE_BAR]);
 
-    wnoutrefresh(topwin);
-    doupdate();
+    wrefresh(topwin);
 }
 
 /* Display a normal message on the statusbar, quietly. */
@@ -2163,8 +2162,7 @@ void statusline(message_type importance, const char *msg, ...)
     wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
 
     /* Push the message to the screen straightaway. */
-    wnoutrefresh(bottomwin);
-    doupdate();
+    wrefresh(bottomwin);
 
     suppress_cursorpos = TRUE;
 
@@ -2242,8 +2240,7 @@ void bottombars(int menu)
 
     /* Defeat a VTE bug by moving the cursor and forcing a screen update. */
     wmove(bottomwin, 0, 0);
-    wnoutrefresh(bottomwin);
-    doupdate();
+    wrefresh(bottomwin);
 }
 
 /* Write a shortcut key to the help area at the bottom of the window.
