@@ -1,3 +1,5 @@
+2017.05.21 - GNU nano 2.8.4 includes the nanorc man page again.
+
 2017.05.18 - GNU nano 2.8.3 "Hirsch" fixes a misplacement of the spotlight
 		during interactive replacing, avoids build failures on AIX
 		and Solaris, fixes a crash on Solaris, speeds up backwards

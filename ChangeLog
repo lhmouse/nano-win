@@ -1,3 +1,20 @@
+Changes between v2.8.3 and v2.8.4:
+----------------------------------
+
+Benno Schulenberg (11):
+      build: correct the inverted logic for the nanorc man page
+      bump version numbers and add a news item for the 2.8.4 release
+      gnulib: update to its current state
+      syntax: default: color also hash comments and email addresses
+      syntax: php: color "static" again as "function", like it used to be
+      tweaks: adjust the indentation after the preceding change
+      tweaks: avoid an unused-variable warning when using --disable-comment
+      tweaks: do actual screen refreshes in a single call, when possible
+      tweaks: remove the no-op x$disable tests
+      tweaks: reorder three items in the Info document
+      tweaks: reshuffle a few things to reduce duplication
+
+
 Changes between v2.8.2 and v2.8.3:
 ----------------------------------
 
