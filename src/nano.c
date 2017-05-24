@@ -1196,25 +1196,23 @@ void signal_init(void)
     sigaction(SIGWINCH, &act, NULL);
 #endif
 
-    /* Trap normal suspend (^Z) so we can handle it ourselves. */
-    if (!ISSET(SUSPEND)) {
-	act.sa_handler = SIG_IGN;
-#ifdef SIGTSTP
-	sigaction(SIGTSTP, &act, NULL);
-#endif
-    } else {
+    /* Trap a normal suspend (^Z) so we can handle it ourselves. */
+    if (ISSET(SUSPEND)) {
 	/* Block all other signals in the suspend and continue handlers.
 	 * If we don't do this, other stuff interrupts them! */
 	sigfillset(&act.sa_mask);
-
-	act.sa_handler = do_suspend;
 #ifdef SIGTSTP
+	act.sa_handler = do_suspend;
 	sigaction(SIGTSTP, &act, NULL);
 #endif
-
-	act.sa_handler = do_continue;
 #ifdef SIGCONT
+	act.sa_handler = do_continue;
 	sigaction(SIGCONT, &act, NULL);
+#endif
+    } else {
+#ifdef SIGTSTP
+	act.sa_handler = SIG_IGN;
+	sigaction(SIGTSTP, &act, NULL);
 #endif
     }
 }
@@ -1243,8 +1241,8 @@ RETSIGTYPE do_suspend(int signal)
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
-    /* Do what mutt does: send ourselves a SIGSTOP. */
 #ifdef SIGSTOP
+    /* Do what mutt does: send ourselves a SIGSTOP. */
     kill(0, SIGSTOP);
 #endif
 }
