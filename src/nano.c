@@ -1243,14 +1243,6 @@ RETSIGTYPE do_suspend(int signal)
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
-    /* Trap SIGHUP and SIGTERM so we can properly deal with them while
-     * suspended. */
-    act.sa_handler = handle_hupterm;
-#ifdef SIGHUP
-    sigaction(SIGHUP, &act, NULL);
-#endif
-    sigaction(SIGTERM, &act, NULL);
-
     /* Do what mutt does: send ourselves a SIGSTOP. */
 #ifdef SIGSTOP
     kill(0, SIGSTOP);
