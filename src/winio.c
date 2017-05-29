@@ -47,8 +47,6 @@ static bool solitary = FALSE;
 	/* Whether an Esc arrived by itself -- not as leader of a sequence. */
 static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
-static bool suppress_cursorpos = FALSE;
-	/* Should we skip constant position display for one keystroke? */
 #ifdef USING_OLD_NCURSES
 static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */

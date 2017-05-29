@@ -361,8 +361,11 @@ int findnextstr(const char *needle, bool whole_word_only, bool have_region,
     if (match_len != NULL)
 	*match_len = found_len;
 
-    if (feedback > 0)
+    /* Wipe the "Searching..." message and unset the suppression flag. */
+    if (feedback > 0) {
 	blank_statusbar();
+	suppress_cursorpos = FALSE;
+    }
 
     return 1;
 }

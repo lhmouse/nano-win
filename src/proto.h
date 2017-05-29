@@ -47,6 +47,8 @@ extern int editwincols;
 extern bool have_palette;
 #endif
 
+extern bool suppress_cursorpos;
+
 extern message_type lastmessage;
 
 extern filestruct *pletion_line;

@@ -57,6 +57,9 @@ bool have_palette = FALSE;
 	/* Whether the colors for the current syntax have been initialized. */
 #endif
 
+bool suppress_cursorpos = FALSE;
+	/* Should we skip constant position display for current keystroke? */
+
 message_type lastmessage = HUSH;
 	/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
