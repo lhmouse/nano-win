@@ -3184,6 +3184,9 @@ void do_cursorpos(bool force)
 
     assert(openfile->fileage != NULL && openfile->current != NULL);
 
+    /* Hide the cursor while we are calculating. */
+    curs_set(0);
+
     /* Determine the size of the file up to the cursor. */
     saved_byte = openfile->current->data[openfile->current_x];
     openfile->current->data[openfile->current_x] = '\0';
