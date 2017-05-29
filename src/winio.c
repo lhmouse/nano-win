@@ -3182,7 +3182,11 @@ void do_cursorpos(bool force)
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
 
-    assert(openfile->fileage != NULL && openfile->current != NULL);
+    /* If the showing needs to be suppressed, don't suppress it next time. */
+    if (suppress_cursorpos && !force) {
+	suppress_cursorpos = FALSE;
+	return;
+    }
 
     /* Hide the cursor while we are calculating. */
     curs_set(0);
@@ -3198,12 +3202,6 @@ void do_cursorpos(bool force)
     /* When not at EOF, subtract 1 for an overcounted newline. */
     if (openfile->current != openfile->filebot)
 	sum--;
-
-    /* If the showing needs to be suppressed, don't suppress it next time. */
-    if (suppress_cursorpos && !force) {
-	suppress_cursorpos = FALSE;
-	return;
-    }
 
     /* Display the current cursor position on the statusbar. */
     linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
