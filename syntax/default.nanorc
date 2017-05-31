@@ -28,3 +28,6 @@ color cyan "^[[:blank:]]*#.*"
 
 # Control codes.
 color orange "[[:cntrl:]]"
+
+# Trailing whitespace.
+color ,green "[[:space:]]+$"
