@@ -21,3 +21,6 @@ color brightgreen "^\[[^][]+\]$"
 
 # Control codes.
 color latte "[[:cntrl:]]"
+
+# Trailing whitespace.
+color ,green "[[:space:]]+$"
