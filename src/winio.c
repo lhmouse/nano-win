@@ -701,8 +701,9 @@ int parse_kbinput(WINDOW *win)
 #ifdef KEY_RESIZE
 	/* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 	case KEY_RESIZE:
-	    return ERR;
 #endif
+	case KEY_F0:
+	    return ERR;
     }
 
     return retval;

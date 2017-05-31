@@ -1267,9 +1267,10 @@ RETSIGTYPE do_continue(int signal)
 #endif
 
 #ifndef NANO_TINY
-    /* Perhaps the user resized the window while we slept.  So act as if,
-     * and restore the terminal to its previous state in the process. */
-    regenerate_screen();
+    /* Perhaps the user resized the window while we slept.  So set that
+     * flag, and tickle the input routine so that it will see the flag. */
+    the_window_resized = TRUE;
+    ungetch(KEY_F0);
 #else
     /* Restore the state of the terminal and redraw the whole screen. */
     terminal_init();
