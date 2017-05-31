@@ -31,3 +31,6 @@ color ,#444 " "
 
 # Control codes.
 color orange "[[:cntrl:]]"
+
+# Trailing whitespace.
+color ,green "[[:space:]]+$"
