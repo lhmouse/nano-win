@@ -142,7 +142,7 @@ void get_key_buffer(WINDOW *win)
 	 * check if errno is set to EIO ("Input/output error") and die in
 	 * that case, but it's not always set properly.  Argh. */
 	if (++errcount == MAX_BUF_SIZE)
-	    handle_hupterm(0);
+	    die(_("Too many errors from stdin"));
 
 #ifndef NANO_TINY
 	if (the_window_resized) {
