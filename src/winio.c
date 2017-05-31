@@ -3140,17 +3140,19 @@ void total_redraw(void)
 #endif
 }
 
-/* Unconditionally redraw the entire screen, and then refresh it using
- * the current file. */
+/* Redraw the entire screen, then refresh the title bar and the content of
+ * the edit window (when not in the file browser), and the bottom bars. */
 void total_refresh(void)
 {
     total_redraw();
-    titlebar(title);
+    if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
+	titlebar(title);
 #ifdef ENABLE_HELP
     if (inhelp)
 	wrap_the_help_text(TRUE);
     else
 #endif
+    if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
 	edit_refresh();
     bottombars(currmenu);
 }
