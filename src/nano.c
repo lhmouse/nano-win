@@ -1267,15 +1267,14 @@ RETSIGTYPE do_continue(int signal)
 #endif
 
 #ifndef NANO_TINY
-    /* Perhaps the user resized the window while we slept.  So set that
-     * flag, and tickle the input routine so that it will see the flag. */
+    /* Perhaps the user resized the window while we slept. */
     the_window_resized = TRUE;
-    ungetch(KEY_F0);
 #else
-    /* Restore the state of the terminal and redraw the whole screen. */
+    /* Restore the state of the terminal. */
     terminal_init();
-    total_refresh();
 #endif
+    /* Tickle the input routine so it will update the screen. */
+    ungetch(KEY_F0);
 }
 
 #ifndef NANO_TINY
