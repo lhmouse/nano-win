@@ -1125,15 +1125,15 @@ void shortcut_init(void)
     if (using_utf8()) {
 	add_to_sclist(MMOST, "\xE2\x86\x90", KEY_LEFT, do_left, 0);
 	add_to_sclist(MMOST, "\xE2\x86\x92", KEY_RIGHT, do_right, 0);
-	add_to_sclist(MMOST, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
-	add_to_sclist(MMOST, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
+	add_to_sclist(MSOME, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
+	add_to_sclist(MSOME, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
     } else
 #endif
     {
 	add_to_sclist(MMOST, "Left", KEY_LEFT, do_left, 0);
 	add_to_sclist(MMOST, "Right", KEY_RIGHT, do_right, 0);
-	add_to_sclist(MMOST, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
-	add_to_sclist(MMOST, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
+	add_to_sclist(MSOME, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
+	add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
     }
     add_to_sclist(MMOST, "M-Space", 0, do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", 0, do_next_word_void, 0);
