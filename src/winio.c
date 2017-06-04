@@ -45,6 +45,8 @@ static size_t key_buffer_len = 0;
 	/* The length of the keystroke buffer. */
 static bool solitary = FALSE;
 	/* Whether an Esc arrived by itself -- not as leader of a sequence. */
+static nodelay_mode = FALSE;
+	/* Whether we will check for a Cancel now and then during a search. */
 static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
 #ifdef USING_OLD_NCURSES

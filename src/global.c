@@ -149,9 +149,6 @@ char *quoteerr = NULL;
 char *word_chars = NULL;
 	/* Nonalphanumeric characters that also form words. */
 
-bool nodelay_mode = FALSE;
-	/* Are we checking for a cancel wile doing something? */
-
 char *answer = NULL;
 	/* The answer string used by the statusbar prompt. */
 
