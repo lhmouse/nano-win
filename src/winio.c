@@ -45,8 +45,8 @@ static size_t key_buffer_len = 0;
 	/* The length of the keystroke buffer. */
 static bool solitary = FALSE;
 	/* Whether an Esc arrived by itself -- not as leader of a sequence. */
-static nodelay_mode = FALSE;
-	/* Whether we will check for a Cancel now and then during a search. */
+static waiting_mode = TRUE;
+	/* Whether getting a character will wait for a key to be pressed. */
 static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
 #ifdef USING_OLD_NCURSES
@@ -135,7 +135,7 @@ void get_key_buffer(WINDOW *win)
     }
 #endif
 
-    if (input == ERR && nodelay_mode)
+    if (input == ERR && !waiting_mode)
 	return;
 
     while (input == ERR) {
@@ -188,7 +188,7 @@ void get_key_buffer(WINDOW *win)
     }
 
     /* Restore waiting mode if it was on. */
-    if (!nodelay_mode)
+    if (waiting_mode)
 	nodelay(win, FALSE);
 
 #ifdef DEBUG
@@ -327,7 +327,7 @@ int parse_kbinput(WINDOW *win)
     /* Read in a character. */
     kbinput = get_input(win, 1);
 
-    if (kbinput == NULL && nodelay_mode)
+    if (kbinput == NULL && !waiting_mode)
 	return 0;
 
     while (kbinput == NULL)
@@ -3228,15 +3228,15 @@ void do_cursorpos_void(void)
     do_cursorpos(TRUE);
 }
 
-void enable_nodelay(void)
+void disable_waiting(void)
 {
-    nodelay_mode = TRUE;
+    waiting_mode = FALSE;
     nodelay(edit, TRUE);
 }
 
-void disable_nodelay(void)
+void enable_waiting(void)
 {
-    nodelay_mode = FALSE;
+    waiting_mode = TRUE;
     nodelay(edit, FALSE);
 }
 
