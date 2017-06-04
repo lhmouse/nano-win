@@ -45,7 +45,7 @@ static size_t key_buffer_len = 0;
 	/* The length of the keystroke buffer. */
 static bool solitary = FALSE;
 	/* Whether an Esc arrived by itself -- not as leader of a sequence. */
-static waiting_mode = TRUE;
+static bool waiting_mode = TRUE;
 	/* Whether getting a character will wait for a key to be pressed. */
 static int statusblank = 0;
 	/* The number of keystrokes left before we blank the statusbar. */
