@@ -1172,7 +1172,7 @@ void stdin_pager(void)
     finish_stdin_pager();
 }
 
-/* Initialize the signal handlers. */
+/* Register half a dozen signal handlers. */
 void signal_init(void)
 {
     /* Trap SIGINT and SIGQUIT because we want them to do useful things. */
@@ -1196,12 +1196,12 @@ void signal_init(void)
     sigaction(SIGWINCH, &act, NULL);
 #endif
 
-    /* Trap a normal suspend (^Z) so we can handle it ourselves. */
     if (ISSET(SUSPEND)) {
 	/* Block all other signals in the suspend and continue handlers.
 	 * If we don't do this, other stuff interrupts them! */
 	sigfillset(&act.sa_mask);
 #ifdef SIGTSTP
+	/* Trap a normal suspend (^Z) so we can handle it ourselves. */
 	act.sa_handler = do_suspend;
 	sigaction(SIGTSTP, &act, NULL);
 #endif
@@ -1247,7 +1247,7 @@ RETSIGTYPE do_suspend(int signal)
 #endif
 }
 
-/* The version of above function that is bound to a key. */
+/* Put nano to sleep (if suspension is enabled). */
 void do_suspend_void(void)
 {
     if (ISSET(SUSPEND))
@@ -1270,7 +1270,7 @@ RETSIGTYPE do_continue(int signal)
     /* Perhaps the user resized the window while we slept. */
     the_window_resized = TRUE;
 #else
-    /* Restore the state of the terminal. */
+    /* Put the terminal in the desired state again. */
     terminal_init();
 #endif
     /* Tickle the input routine so it will update the screen. */
@@ -1326,21 +1326,16 @@ void regenerate_screen(void)
     SLsmg_reset_smg();
     SLsmg_init_smg();
 #else
-    /* Do the equivalent of what Minimum Profit does: Leave and
-     * immediately reenter curses mode. */
+    /* Do the equivalent of what Minimum Profit does: leave and immediately
+     * reenter curses mode. */
     endwin();
     doupdate();
 #endif
 
-    /* Restore the terminal to its previous state. */
+    /* Put the terminal in the desired state again, recreate the subwindows
+     * with their (new) sizes, and redraw the contents of these windows. */
     terminal_init();
-
-    /* Do the equivalent of what both mutt and Minimum Profit do:
-     * Reinitialize all the windows based on the new screen
-     * dimensions. */
     window_init();
-
-    /* Redraw the contents of the windows that need it. */
     total_refresh();
 }
 
@@ -1354,9 +1349,7 @@ void allow_sigwinch(bool allow)
     sigaddset(&winch, SIGWINCH);
     sigprocmask(allow ? SIG_UNBLOCK : SIG_BLOCK, &winch, NULL);
 }
-#endif /* !NANO_TINY */
 
-#ifndef NANO_TINY
 /* Handle the global toggle specified in flag. */
 void do_toggle(int flag)
 {
