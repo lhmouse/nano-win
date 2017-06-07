@@ -1107,35 +1107,6 @@ static bool pager_sig_failed = FALSE;
 static bool pager_input_aborted = FALSE;
 	/* Did someone invoke the pager and abort it via ^C? */
 
-/* Things which need to be run regardless of whether
- * we finished the stdin pipe correctly or not. */
-void finish_stdin_pager(void)
-{
-    FILE *f;
-    int ttystdin;
-
-    /* Read whatever we did get from stdin. */
-    f = fopen("/dev/stdin", "rb");
-    if (f == NULL)
-	nperror("fopen");
-
-    read_file(f, 0, "stdin", TRUE, FALSE);
-    openfile->edittop = openfile->fileage;
-
-    ttystdin = open("/dev/tty", O_RDONLY);
-    if (!ttystdin)
-	die(_("Couldn't reopen stdin from keyboard, sorry\n"));
-
-    dup2(ttystdin,0);
-    close(ttystdin);
-    if (!pager_input_aborted)
-	tcgetattr(0, &oldterm);
-    if (!pager_sig_failed && sigaction(SIGINT, &pager_oldaction, NULL) == -1)
-	nperror("sigaction");
-    terminal_init();
-    doupdate();
-}
-
 /* Cancel reading from stdin like a pager. */
 RETSIGTYPE cancel_stdin_pager(int signal)
 {
@@ -1145,7 +1116,11 @@ RETSIGTYPE cancel_stdin_pager(int signal)
 /* Let nano read stdin for the first file at least. */
 void stdin_pager(void)
 {
+    FILE *stream;
+    int thetty;
+
     endwin();
+
     if (!pager_input_aborted)
 	tcsetattr(0, TCSANOW, &oldterm);
     fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
@@ -1168,8 +1143,30 @@ void stdin_pager(void)
 	}
     }
 
+    /* Open standard input. */
+    stream = fopen("/dev/stdin", "rb");
+    if (stream == NULL)
+	nperror("fopen");
+
+    /* Read the input into a new buffer. */
     open_buffer("", FALSE);
-    finish_stdin_pager();
+    read_file(stream, 0, "stdin", TRUE, FALSE);
+    openfile->edittop = openfile->fileage;
+
+    /* Reconnect the tty as the input source. */
+    thetty = open("/dev/tty", O_RDONLY);
+    if (!thetty)
+	die(_("Couldn't reopen stdin from keyboard, sorry\n"));
+    dup2(thetty, 0);
+    close(thetty);
+
+    if (!pager_input_aborted)
+	tcgetattr(0, &oldterm);
+    if (!pager_sig_failed && sigaction(SIGINT, &pager_oldaction, NULL) == -1)
+	nperror("sigaction");
+
+    terminal_init();
+    doupdate();
 }
 
 /* Register half a dozen signal handlers. */
