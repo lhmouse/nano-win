@@ -81,8 +81,9 @@ file locking, backup files, and internationalization support.
 
 The original goal for @code{nano} was to be a complete bug-for-bug
 emulation of Pico.  But currently the goal is to be as compatible
-as possible while offering a superset of Pico's functionality.  See
-@xref{Pico Compatibility}, for more info.
+as possible while offering a superset of Pico's functionality.
+@xref{Pico Compatibility} for more details on how @code{nano} and
+Pico differ.
 
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 
@@ -107,7 +108,7 @@ adding it with a comma.  So a more complete command synopsis is:
 @end quotation
 
 Normally, however, you set your preferred options in a @file{.nanorc}
-file (see @xref{Nanorc Files}).  And when using @code{set positionlog}
+file (@pxref{Nanorc Files}).  And when using @code{set positionlog}
 (making @code{nano} remember the cursor position when you close a file),
 you will rarely need to specify a line number.
 
@@ -240,8 +241,8 @@ should be considered as parts of words.  This overrides option
 
 @item -Y @var{name}
 @itemx --syntax=@var{name}
-Specify a specific syntax from the nanorc files to use for highlighting.
-See @xref{Syntax Highlighting}, for more info.
+Specify the syntax to be used for highlighting.
+@xref{Syntax Highlighting} for more info.
 
 @item -c
 @itemx --constantshow
@@ -545,7 +546,7 @@ and ^V (Page Down) keys.  ^X exits the help system.
 
 Toggles allow you to change on-the-fly certain aspects of the editor
 which would normally be specified via command-line options.  They are
-invoked via Meta-key sequences (see @xref{Commands}, for more info).
+invoked via Meta-key sequences (@pxref{Commands} for more info).
 The following global toggles are available:
 
 @table @code
@@ -581,8 +582,7 @@ toggles the @code{-N} (@code{--noconvert}) command-line option.
 toggles the @code{-O} (@code{--morespace}) command-line option.
 
 @item Whitespace Display Toggle (Meta-P)
-toggles the whitespace-display mode.
-See @xref{Whitespace}, for more info.
+toggles the whitespace-display mode (@pxref{Whitespace}).
 
 @item Tabs to Spaces Toggle (Meta-Q)
 toggles the @code{-E} (@code{--tabstospaces}) command-line option.
@@ -594,8 +594,8 @@ toggles the @code{-S} (@code{--smooth}) command-line option.
 toggles the @code{-x} (@code{--nohelp}) command-line option.
 
 @item Color Syntax Highlighting Toggle (Meta-Y)
-toggles color syntax highlighting if you have color syntaxes in your
-nanorc.  See @xref{Syntax Highlighting}, for more info.
+toggles color syntax highlighting (if your nanorc defines syntaxes
+--- @pxref{Syntax Highlighting}).
 
 @item Suspension Toggle (Meta-Z)
 toggles the @code{-z} (@code{--suspend}) command-line option.
@@ -621,7 +621,7 @@ from @file{~/.nanorc}.
 A nanorc file accepts a series of "set" and "unset" commands, which can
 be used to configure @code{nano} on startup without using command-line
 options.  Additionally, there are some commands to define syntax highlighting
-and to rebind keys --- @xref{Syntax Highlighting}, and @xref{Rebinding Keys}.
+and to rebind keys --- @pxref{Syntax Highlighting} and @ref{Rebinding Keys}.
 @code{nano} will read one command per line.
 
 Options in nanorc files take precedence over @code{nano}'s defaults, and
@@ -1454,8 +1454,8 @@ browser is just a file browser, not a file manager.
 Many options which alter the functionality of the program can be
 "toggled" on or off using Meta key sequences, meaning the program does
 not have to be restarted to turn a particular feature on or off.
-See the internal help function (^G) for a list of features that
-can be toggled.  Or see @xref{Feature Toggles} instead.
+@xref{Feature Toggles} for a list of options that can be toggled.
+Or see the list at the end the main internal help text (^G) instead.
 
 @end table
 
@@ -1530,7 +1530,7 @@ option, which causes a file to be read into a separate buffer by default.
 Disable support for reading the nanorc files at startup.  With such
 support, you can store custom settings in a system-wide and a per-user
 nanorc file rather than having to pass command-line options to get
-the desired behavior.  See @xref{Nanorc Files}, for more info.
+the desired behavior.  @xref{Nanorc Files} for more info.
 Disabling this also eliminates the @code{-I} and @code{-q} command-line
 options; the first inhibits the reading of nanorcfiles, and the second
 suppresses warnings about errors in those files.
