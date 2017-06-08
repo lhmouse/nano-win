@@ -1145,8 +1145,14 @@ void stdin_pager(void)
 
     /* Open standard input. */
     stream = fopen("/dev/stdin", "rb");
-    if (stream == NULL)
-	nperror("fopen");
+    if (stream == NULL) {
+	int errnumber = errno;
+
+	terminal_init();
+	doupdate();
+	statusline(ALERT, _("Failed to open stdin: %s"), strerror(errnumber));
+	return;
+    }
 
     /* Read the input into a new buffer. */
     open_buffer("", FALSE);
@@ -1167,6 +1173,7 @@ void stdin_pager(void)
 
     terminal_init();
     doupdate();
+    set_modified();
 }
 
 /* Register half a dozen signal handlers. */
@@ -2528,7 +2535,6 @@ int main(int argc, char **argv)
     /* If one of the arguments is a dash, read text from standard input. */
     if (optind < argc && !strcmp(argv[optind], "-")) {
 	stdin_pager();
-	set_modified();
 	optind++;
     }
 
