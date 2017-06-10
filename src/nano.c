@@ -1887,8 +1887,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
     int optchr;
-    ssize_t startline = 0, startcol = 0;
-	/* Target line and column when specified on the command line. */
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_used = FALSE;
 	/* Was the fill option used on the command line? */
@@ -2523,15 +2521,6 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: open file\n");
 #endif
 
-    /* If there's a +LINE or +LINE,COLUMN flag here, it is the first
-     * non-option argument, and it is followed by at least one other
-     * argument, the filename it applies to. */
-    if (0 < optind && optind < argc - 1 && argv[optind][0] == '+') {
-	if (!parse_line_column(&argv[optind][1], &startline, &startcol))
-	    statusline(ALERT, _("Invalid line or column number"));
-	optind++;
-    }
-
     /* If one of the arguments is a dash, read text from standard input. */
     if (optind < argc && !strcmp(argv[optind], "-")) {
 	stdin_pager();
@@ -2541,20 +2530,21 @@ int main(int argc, char **argv)
 #ifdef ENABLE_MULTIBUFFER
     old_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);
+#endif
 
-    /* Read all the files after the first one on the command line into
-     * new buffers. */
+    /* Read the named files on the command line into new buffers. */
     {
-	int i = optind + 1;
+	int i = optind;
 	ssize_t iline = 0, icol = 0;
 
-	for (; i < argc; i++) {
+	for (; i < argc && (!openfile || ISSET(MULTIBUFFER)); i++) {
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is followed
 	     * by at least one other argument: the filename it applies to. */
 	    if (i < argc - 1 && argv[i][0] == '+') {
 		if (!parse_line_column(&argv[i][1], &iline, &icol))
 		    statusline(ALERT, _("Invalid line or column number"));
-	    } else {
+		i++;
+	    }
 		/* If opening fails, don't try to position the cursor. */
 		if (!open_buffer(argv[i], FALSE))
 		    continue;
@@ -2574,38 +2564,21 @@ int main(int argc, char **argv)
 						FALSE, FALSE);
 		}
 #endif
-	    }
 	}
     }
-#endif /* ENABLE_MULTIBUFFER */
 
-    /* Now read the first file on the command line into a new buffer. */
-    if (optind < argc)
-	open_buffer(argv[optind], FALSE);
-
-    /* If all the command-line arguments were invalid files like directories,
-     * or if there were no filenames given, we didn't open any file.  In this
-     * case, load a blank buffer.  Also, unset view mode to allow editing. */
+    /* If no filenames were given, or all of them were invalid things like
+     * directories, then open a blank buffer and allow editing.  Otherwise,
+     * switch from the last opened file to the next, that is: the first. */
     if (openfile == NULL) {
 	open_buffer("", FALSE);
 	UNSET(VIEW_MODE);
-    }
+    } else
+	openfile = openfile->next;
 
 #ifdef ENABLE_MULTIBUFFER
     if (!old_multibuffer)
 	UNSET(MULTIBUFFER);
-#endif
-
-    /* If a starting position was given on the command line, go there. */
-    if (startline > 0 || startcol > 0)
-	do_gotolinecolumn(startline, startcol, FALSE, FALSE);
-#ifndef DISABLE_HISTORIES
-    else if (ISSET(POS_HISTORY)) {
-	ssize_t savedposline, savedposcol;
-	/* If the file was edited before, restore the last cursor position. */
-	if (has_old_position(argv[optind], &savedposline, &savedposcol))
-	    do_gotolinecolumn(savedposline, savedposcol, FALSE, FALSE);
-    }
 #endif
 
 #ifdef DEBUG
