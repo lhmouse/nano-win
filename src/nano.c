@@ -2534,19 +2534,17 @@ int main(int argc, char **argv)
 
     /* Read the named files on the command line into new buffers. */
     {
-	int i = optind;
 	ssize_t iline = 0, icol = 0;
 
-	for (; i < argc && (!openfile || ISSET(MULTIBUFFER)); i++) {
+	while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is followed
 	     * by at least one other argument: the filename it applies to. */
-	    if (i < argc - 1 && argv[i][0] == '+') {
-		if (!parse_line_column(&argv[i][1], &iline, &icol))
+	    if (optind < argc - 1 && argv[optind][0] == '+') {
+		if (!parse_line_column(&argv[optind++][1], &iline, &icol))
 		    statusline(ALERT, _("Invalid line or column number"));
-		i++;
 	    }
 		/* If opening fails, don't try to position the cursor. */
-		if (!open_buffer(argv[i], FALSE))
+		if (!open_buffer(argv[optind++], FALSE))
 		    continue;
 
 		/* If a position was given on the command line, go there. */
@@ -2559,7 +2557,7 @@ int main(int argc, char **argv)
 		else if (ISSET(POS_HISTORY)) {
 		    ssize_t savedposline, savedposcol;
 		    /* If edited before, restore the last cursor position. */
-		    if (has_old_position(argv[i], &savedposline, &savedposcol))
+		    if (has_old_position(argv[optind - 1], &savedposline, &savedposcol))
 			do_gotolinecolumn(savedposline, savedposcol,
 						FALSE, FALSE);
 		}
