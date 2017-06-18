@@ -1896,9 +1896,9 @@ int main(int argc, char **argv)
 #endif
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    bool old_multibuffer;
-	/* The old value of the multibuffer option, restored after we
-	 * load all files on the command line. */
+    bool is_multibuffer;
+	/* The actual value of the multibuffer option, restored after
+	 * we've loaded all files given on the command line. */
 #endif
     const struct option long_options[] = {
 	{"boldtext", 0, NULL, 'D'},
@@ -2421,13 +2421,12 @@ int main(int argc, char **argv)
     if (matchbrackets == NULL)
 	matchbrackets = mallocstrcpy(NULL, "(<[{)>]}");
 
-    /* If whitespace wasn't specified, set its default value.  If we're
-     * using UTF-8, it's Unicode 00BB (Right-Pointing Double Angle
-     * Quotation Mark) and Unicode 00B7 (Middle Dot).  Otherwise, it's
-     * ">" and ".". */
+    /* If the whitespace option wasn't specified, set its default value. */
     if (whitespace == NULL) {
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
+	    /* A tab is shown as a Right-Pointing Double Angle Quotation Mark
+	     * (U+00BB), and a space as a Middle Dot (U+00B7). */
 	    whitespace = mallocstrcpy(NULL, "\xC2\xBB\xC2\xB7");
 	    whitespace_len[0] = 2;
 	    whitespace_len[1] = 2;
@@ -2464,8 +2463,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: set up windows\n");
 #endif
 
-    /* Initialize all the windows based on the current screen
-     * dimensions. */
+    /* Create the three subwindows, based on the current screen dimensions. */
     window_init();
 
     editwincols = COLS;
@@ -2528,7 +2526,7 @@ int main(int argc, char **argv)
     }
 
 #ifdef ENABLE_MULTIBUFFER
-    old_multibuffer = ISSET(MULTIBUFFER);
+    is_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);
 #endif
 
@@ -2565,11 +2563,12 @@ int main(int argc, char **argv)
     if (openfile == NULL) {
 	open_buffer("", FALSE);
 	UNSET(VIEW_MODE);
-    } else
+    }
+#ifdef ENABLE_MULTIBUFFER
+    else
 	openfile = openfile->next;
 
-#ifdef ENABLE_MULTIBUFFER
-    if (!old_multibuffer)
+    if (!is_multibuffer)
 	UNSET(MULTIBUFFER);
 #endif
 
@@ -2583,7 +2582,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_LINENUMBERS
 	int needed_margin = digits(openfile->filebot->lineno) + 1;
 
-	/* Only enable line numbers when there is enough room for them. */
+	/* Suppress line numbers when there is not enough room for them. */
 	if (!ISSET(LINE_NUMBERS) || needed_margin > COLS - 4)
 	    needed_margin = 0;
 
