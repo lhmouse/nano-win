@@ -2534,13 +2534,13 @@ int main(int argc, char **argv)
 
     /* Read the named files on the command line into new buffers. */
     {
-	ssize_t iline = 0, icol = 0;
-
 	while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
+	    ssize_t givenline = 0, givencol = 0;
+
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is followed
 	     * by at least one other argument: the filename it applies to. */
 	    if (optind < argc - 1 && argv[optind][0] == '+') {
-		if (!parse_line_column(&argv[optind++][1], &iline, &icol))
+		if (!parse_line_column(&argv[optind++][1], &givenline, &givencol))
 		    statusline(ALERT, _("Invalid line or column number"));
 	    }
 		/* If opening fails, don't try to position the cursor. */
@@ -2548,11 +2548,8 @@ int main(int argc, char **argv)
 		    continue;
 
 		/* If a position was given on the command line, go there. */
-		if (iline > 0 || icol > 0) {
-		    do_gotolinecolumn(iline, icol, FALSE, FALSE);
-		    iline = 0;
-		    icol = 0;
-		}
+		if (givenline > 0 || givencol > 0)
+		    do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
 #ifndef DISABLE_HISTORIES
 		else if (ISSET(POS_HISTORY)) {
 		    ssize_t savedposline, savedposcol;
