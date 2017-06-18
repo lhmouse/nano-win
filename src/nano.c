@@ -2533,33 +2533,30 @@ int main(int argc, char **argv)
 #endif
 
     /* Read the named files on the command line into new buffers. */
-    {
-	while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
-	    ssize_t givenline = 0, givencol = 0;
+    while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
+	ssize_t givenline = 0, givencol = 0;
 
-	    /* If there's a +LINE or +LINE,COLUMN flag here, it is followed
-	     * by at least one other argument: the filename it applies to. */
-	    if (optind < argc - 1 && argv[optind][0] == '+') {
-		if (!parse_line_column(&argv[optind++][1], &givenline, &givencol))
-		    statusline(ALERT, _("Invalid line or column number"));
-	    }
-		/* If opening fails, don't try to position the cursor. */
-		if (!open_buffer(argv[optind++], FALSE))
-		    continue;
-
-		/* If a position was given on the command line, go there. */
-		if (givenline > 0 || givencol > 0)
-		    do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
-#ifndef DISABLE_HISTORIES
-		else if (ISSET(POS_HISTORY)) {
-		    ssize_t savedposline, savedposcol;
-		    /* If edited before, restore the last cursor position. */
-		    if (has_old_position(argv[optind - 1], &savedposline, &savedposcol))
-			do_gotolinecolumn(savedposline, savedposcol,
-						FALSE, FALSE);
-		}
-#endif
+	/* If there's a +LINE[,COLUMN] argument here, eat it up. */
+	if (optind < argc - 1 && argv[optind][0] == '+') {
+	    if (!parse_line_column(&argv[optind++][1], &givenline, &givencol))
+		statusline(ALERT, _("Invalid line or column number"));
 	}
+
+	/* If opening fails, don't try to position the cursor. */
+	if (!open_buffer(argv[optind++], FALSE))
+	    continue;
+
+	/* If a position was given on the command line, go there. */
+	if (givenline > 0 || givencol > 0)
+	    do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
+#ifndef DISABLE_HISTORIES
+	else if (ISSET(POS_HISTORY)) {
+	    ssize_t savedline, savedcol;
+	    /* If edited before, restore the last cursor position. */
+	    if (has_old_position(argv[optind - 1], &savedline, &savedcol))
+		do_gotolinecolumn(savedline, savedcol, FALSE, FALSE);
+	}
+#endif
     }
 
     /* If no filenames were given, or all of them were invalid things like
