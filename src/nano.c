@@ -2519,18 +2519,12 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: open file\n");
 #endif
 
-    /* If one of the arguments is a dash, read text from standard input. */
-    if (optind < argc && !strcmp(argv[optind], "-")) {
-	stdin_pager();
-	optind++;
-    }
-
 #ifdef ENABLE_MULTIBUFFER
     is_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);
 #endif
 
-    /* Read the named files on the command line into new buffers. */
+    /* Read the files mentioned on the command line into new buffers. */
     while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
 	ssize_t givenline = 0, givencol = 0;
 
@@ -2540,8 +2534,12 @@ int main(int argc, char **argv)
 		statusline(ALERT, _("Invalid line or column number"));
 	}
 
-	/* If opening fails, don't try to position the cursor. */
-	if (!open_buffer(argv[optind++], FALSE))
+	/* If the filename is a dash, read from standard input.  Otherwise,
+	 * open the file, but skip positioning the cursor if it failed. */
+	if (strcmp(argv[optind], "-") == 0) {
+	    stdin_pager();
+	    optind++;
+	} else if (!open_buffer(argv[optind++], FALSE))
 	    continue;
 
 	/* If a position was given on the command line, go there. */
