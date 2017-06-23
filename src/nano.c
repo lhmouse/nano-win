@@ -1176,7 +1176,10 @@ bool scoop_stdin(void)
 
     terminal_init();
     doupdate();
-    set_modified();
+
+    if (openfile->totsize > 0)
+	set_modified();
+
     return TRUE;
 }
 
