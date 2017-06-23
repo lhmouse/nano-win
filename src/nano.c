@@ -2534,6 +2534,7 @@ int main(int argc, char **argv)
     /* Read the files mentioned on the command line into new buffers. */
     while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
 	ssize_t givenline = 0, givencol = 0;
+	bool dash = FALSE;
 
 	/* If there's a +LINE[,COLUMN] argument here, eat it up. */
 	if (optind < argc - 1 && argv[optind][0] == '+') {
@@ -2546,6 +2547,7 @@ int main(int argc, char **argv)
 	if (strcmp(argv[optind], "-") == 0) {
 	    if (!scoop_stdin())
 		continue;
+	    dash = TRUE;
 	    optind++;
 	} else if (!open_buffer(argv[optind++], FALSE))
 	    continue;
@@ -2554,7 +2556,7 @@ int main(int argc, char **argv)
 	if (givenline != 0 || givencol != 0)
 	    do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
 #ifndef DISABLE_HISTORIES
-	else if (ISSET(POS_HISTORY)) {
+	else if (ISSET(POS_HISTORY) && !dash) {
 	    ssize_t savedline, savedcol;
 	    /* If edited before, restore the last cursor position. */
 	    if (has_old_position(argv[optind - 1], &savedline, &savedcol))
