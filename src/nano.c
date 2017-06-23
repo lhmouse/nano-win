@@ -1177,7 +1177,7 @@ bool scoop_stdin(void)
     terminal_init();
     doupdate();
 
-    if (openfile->totsize > 0)
+    if (!ISSET(VIEW_MODE) && openfile->totsize > 0)
 	set_modified();
 
     return TRUE;
