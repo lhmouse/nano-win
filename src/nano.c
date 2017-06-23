@@ -59,6 +59,9 @@ static struct termios oldterm;
 static struct sigaction act;
 	/* Used to set up all our fun signal handlers. */
 
+static bool input_was_aborted = FALSE;
+	/* Whether reading from standard input was aborted via ^C. */
+
 /* Create a new linestruct node.  Note that we do not set prevnode->next
  * to the new line. */
 filestruct *make_new_node(filestruct *prevnode)
@@ -1100,13 +1103,10 @@ void do_cancel(void)
     ;
 }
 
-static bool pager_input_aborted = FALSE;
-	/* Did someone invoke the pager and abort it via ^C? */
-
-/* Cancel reading from stdin like a pager. */
-RETSIGTYPE cancel_stdin_pager(int signal)
+/* Make a note that reading from stdin was concluded with ^C. */
+RETSIGTYPE make_a_note(int signal)
 {
-    pager_input_aborted = TRUE;
+    input_was_aborted = TRUE;
 }
 
 /* Read whatever comes from standard input into a new buffer. */
@@ -1136,7 +1136,7 @@ bool scoop_stdin(void)
 	setup_failed = TRUE;
 	nperror("sigaction");
     } else {
-	newaction.sa_handler = cancel_stdin_pager;
+	newaction.sa_handler = make_a_note;
 	if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
 	    setup_failed = TRUE;
 	    nperror("sigaction");
@@ -1166,8 +1166,11 @@ bool scoop_stdin(void)
     dup2(thetty, 0);
     close(thetty);
 
-    if (!pager_input_aborted)
+    /* If things went well, store the current state of the terminal. */
+    if (!input_was_aborted)
 	tcgetattr(0, &oldterm);
+
+    /* If it was changed, restore the handler for SIGINT. */
     if (!setup_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
 
