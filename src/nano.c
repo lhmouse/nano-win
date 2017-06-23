@@ -1100,10 +1100,6 @@ void do_cancel(void)
     ;
 }
 
-static struct sigaction pager_oldaction, pager_newaction;
-	/* Original and temporary handlers for SIGINT. */
-static bool pager_sig_failed = FALSE;
-	/* Did sigaction() fail without changing the signal handlers? */
 static bool pager_input_aborted = FALSE;
 	/* Did someone invoke the pager and abort it via ^C? */
 
@@ -1116,13 +1112,17 @@ RETSIGTYPE cancel_stdin_pager(int signal)
 /* Read whatever comes from standard input into a new buffer. */
 bool scoop_stdin(void)
 {
+    struct sigaction oldaction, newaction;
+	/* Original and temporary handlers for SIGINT. */
+    bool setup_failed = FALSE;
+	/* Whether setting up the SIGINT handler failed. */
     FILE *stream;
     int thetty;
 
+    /* Exit from curses mode and put the terminal into its original state. */
     endwin();
+    tcsetattr(0, TCSANOW, &oldterm);
 
-    if (!pager_input_aborted)
-	tcsetattr(0, TCSANOW, &oldterm);
     fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
 
 #ifndef NANO_TINY
@@ -1131,14 +1131,14 @@ bool scoop_stdin(void)
     enable_signals();
 #endif
 
-    /* Set things up so that SIGINT will cancel the new process. */
-    if (sigaction(SIGINT, NULL, &pager_newaction) == -1) {
-	pager_sig_failed = TRUE;
+    /* Set things up so that SIGINT will cancel the reading. */
+    if (sigaction(SIGINT, NULL, &newaction) == -1) {
+	setup_failed = TRUE;
 	nperror("sigaction");
     } else {
-	pager_newaction.sa_handler = cancel_stdin_pager;
-	if (sigaction(SIGINT, &pager_newaction, &pager_oldaction) == -1) {
-	    pager_sig_failed = TRUE;
+	newaction.sa_handler = cancel_stdin_pager;
+	if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
+	    setup_failed = TRUE;
 	    nperror("sigaction");
 	}
     }
@@ -1168,7 +1168,7 @@ bool scoop_stdin(void)
 
     if (!pager_input_aborted)
 	tcgetattr(0, &oldterm);
-    if (!pager_sig_failed && sigaction(SIGINT, &pager_oldaction, NULL) == -1)
+    if (!setup_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
 
     terminal_init();
