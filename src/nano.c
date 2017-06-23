@@ -2551,7 +2551,7 @@ int main(int argc, char **argv)
 	    continue;
 
 	/* If a position was given on the command line, go there. */
-	if (givenline > 0 || givencol > 0)
+	if (givenline != 0 || givencol != 0)
 	    do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
 #ifndef DISABLE_HISTORIES
 	else if (ISSET(POS_HISTORY)) {

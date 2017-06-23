@@ -859,10 +859,10 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	    return;
 	}
     } else {
-	if (line < 1)
+	if (line == 0)
 	    line = openfile->current->lineno;
 
-	if (column < 1)
+	if (column == 0)
 	    column = openfile->placewewant + 1;
     }
 
