@@ -1113,8 +1113,8 @@ RETSIGTYPE cancel_stdin_pager(int signal)
     pager_input_aborted = TRUE;
 }
 
-/* Let nano read stdin for the first file at least. */
-void stdin_pager(void)
+/* Read whatever comes from standard input into a new buffer. */
+bool scoop_stdin(void)
 {
     FILE *stream;
     int thetty;
@@ -1151,7 +1151,7 @@ void stdin_pager(void)
 	terminal_init();
 	doupdate();
 	statusline(ALERT, _("Failed to open stdin: %s"), strerror(errnumber));
-	return;
+	return FALSE;
     }
 
     /* Read the input into a new buffer. */
@@ -1174,6 +1174,7 @@ void stdin_pager(void)
     terminal_init();
     doupdate();
     set_modified();
+    return TRUE;
 }
 
 /* Register half a dozen signal handlers. */
@@ -2534,10 +2535,11 @@ int main(int argc, char **argv)
 		statusline(ALERT, _("Invalid line or column number"));
 	}
 
-	/* If the filename is a dash, read from standard input.  Otherwise,
-	 * open the file, but skip positioning the cursor if it failed. */
+	/* If the filename is a dash, read from standard input; otherwise,
+	 * open the file; skip positioning the cursor if either failed. */
 	if (strcmp(argv[optind], "-") == 0) {
-	    stdin_pager();
+	    if (!scoop_stdin())
+		continue;
 	    optind++;
 	} else if (!open_buffer(argv[optind++], FALSE))
 	    continue;
