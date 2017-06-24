@@ -145,7 +145,8 @@ Set the size (width) of a tab to \fInumber\fP columns.  The value of
 .TP
 .BR \-U ", " \-\-quickblank
 Do quick status-bar blanking: status-bar messages will disappear after 1
-keystroke instead of 25.  Note that \fB\-c\fP overrides this.
+keystroke instead of 25.  Note that option \fB\-c\fR (\fB\-\-constantshow\fR)
+overrides this.
 .TP
 .BR \-V ", " \-\-version
 Show the current version number and exit.
@@ -165,7 +166,7 @@ defined in the \fInanorc\fP files.
 .TP
 .BR \-c ", " \-\-constantshow
 Constantly show the cursor position on the status bar.
-Note that this overrides \fB\-U\fP.
+Note that this overrides option \fB\-U\fR (\fB\-\-quickblank\fR).
 .TP
 .BR \-d ", " \-\-rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete
@@ -221,7 +222,7 @@ Hard-wrap lines at column \fInumber\fP.  If this value is 0 or less, wrapping
 will occur at the width of the screen less \fInumber\fP columns, allowing
 the wrap point to vary along with the width of the screen if the screen
 is resized.  The default value is \-8.  This option conflicts with
-\fB\-w\fR -- the last one given takes effect.
+\fB\-w\fR (\fB\-\-nowrap\fR) -- the last one given takes effect.
 .TP
 .BR \-s\ \fIprogram\fR ", " \-\-speller= \fIprogram
 Use this alternative spell checker command.
@@ -239,7 +240,7 @@ Just view the file and disallow editing: read-only mode.
 .TP
 .BR \-w ", " \-\-nowrap
 Disable the hard-wrapping of long lines.  This option conflicts with
-\fB\-r\fR -- the last one given takes effect.
+\fB\-r\fR (\fB\-\-fill\fR) -- the last one given takes effect.
 .TP
 .BR \-x ", " \-\-nohelp
 Don't show the two help lines at the bottom of the screen.

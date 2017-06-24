@@ -125,7 +125,7 @@
 # set punct "!.?"
 
 ## Do quick status-bar blanking.  Status-bar messages will disappear after
-## 1 keystroke instead of 26.  Note that "const" overrides this.
+## 1 keystroke instead of 26.  Note that "constantshow" overrides this.
 # set quickblank
 
 ## The email-quote string, used to justify email-quoted paragraphs.

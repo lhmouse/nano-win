@@ -690,6 +690,7 @@ Do case-sensitive searches by default.
 @item set constantshow
 Constantly display the cursor position on the status bar.
 (The old form of this option, @code{set const}, is deprecated.)
+Note that this overrides @option{quickblank}.
 
 @item set cut
 Use cut-to-end-of-line by default, instead of cutting the whole line.
@@ -697,7 +698,8 @@ Use cut-to-end-of-line by default, instead of cutting the whole line.
 @item set fill @var{number}
 Hard-wrap lines at column number @var{number}.  If @var{number} is 0 or less,
 the maximum line length will be the screen width less @var{number} columns.
-The default value is @t{-8}.
+The default value is @t{-8}.  This option conflicts with
+@option{nowrap}; the last one given takes effect.
 
 @item set functioncolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the function descriptions
@@ -752,7 +754,8 @@ the last one will be visible (when there are multiple ones).
 Don't add newlines to the ends of files.
 
 @item set nowrap
-Don't hard-wrap text at all.
+Don't hard-wrap text at all.  This option conflicts with
+@option{fill}; the last one given takes effect.
 
 @item set numbercolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for line numbers.
@@ -781,7 +784,7 @@ The default value is @t{"!.?"}.
 
 @item set quickblank
 Do quick status-bar blanking: status-bar messages will disappear after 1
-keystroke instead of 25.
+keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quiet
 When set, @code{nano} will not report errors in the nanorc file nor ask them

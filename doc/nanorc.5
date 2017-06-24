@@ -91,6 +91,7 @@ Do case-sensitive searches by default.
 .B set constantshow
 Constantly display the cursor position in the status bar.
 (The old form of this option, '\fBset const\fR', is deprecated.)
+This overrides the option \fBquickblank\fR.
 .TP
 .B set cut
 Use cut-to-end-of-line by default, instead of cutting the whole line.
@@ -98,7 +99,8 @@ Use cut-to-end-of-line by default, instead of cutting the whole line.
 .B set fill \fInumber\fR
 Hard-wrap lines at column number \fInumber\fR.  If \fInumber\fR is 0 or less,
 the maximum line length will be the screen width less \fInumber\fP columns.
-The default value is \fB\-8\fR.
+The default value is \fB\-8\fR.  This option conflicts with
+\fBnowrap\fR -- the last one given takes effect.
 .TP
 .B set functioncolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for the function descriptions
@@ -156,7 +158,8 @@ Don't pause between warnings at startup.  This means that only
 the last one will be visible (when there are multiple ones).
 .TP
 .B set nowrap
-Don't hard-wrap text at all.
+Don't hard-wrap text at all.  This option conflicts with
+\fBfill\fR -- the last one given takes effect.
 .TP
 .B set numbercolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for line numbers.
@@ -184,7 +187,7 @@ specfified closing punctuation, optionally followed by closing brackets
 .TP
 .B set quickblank
 Do quick status-bar blanking: status-bar messages will disappear after 1
-keystroke instead of 25.
+keystroke instead of 25.  The option \fBconstantshow\fR overrides this.
 .TP
 .B set quiet
 \fBnano\fP will not report errors in the \fInanorc\fP file nor ask them
