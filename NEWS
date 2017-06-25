@@ -6,7 +6,8 @@
 		mentioned on the command line, and does not pretend to
 		have woken from suspension when receiving a SIGCONT.
 
-2017.05.21 - GNU nano 2.8.4 includes the nanorc man page again.
+2017.05.21 - GNU nano 2.8.4 "Our Version of Events" includes the nanorc
+		man page again.
 
 2017.05.18 - GNU nano 2.8.3 "Hirsch" fixes a misplacement of the spotlight
 		during interactive replacing, avoids build failures on AIX
