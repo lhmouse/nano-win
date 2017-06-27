@@ -2834,7 +2834,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 		break;
 
 	    *line = (*line)->prev;
-	    current_leftedge = get_last_chunk_leftedge(*line);
+	    current_leftedge = get_chunk_leftedge(*line, (size_t)-1);
 	}
 
 	/* Only change leftedge when we actually could move. */
@@ -2863,24 +2863,22 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	size_t current_leftedge = *leftedge;
-	size_t last_leftedge = get_last_chunk_leftedge(*line);
 
 	/* Advance through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
-	    if (current_leftedge < last_leftedge) {
-		bool dummy;
+	    bool end_of_line = FALSE;
 
-		current_leftedge = get_softwrap_breakpoint((*line)->data,
-						current_leftedge, &dummy);
+	    current_leftedge = get_softwrap_breakpoint((*line)->data,
+					current_leftedge, &end_of_line);
+
+	    if (!end_of_line)
 		continue;
-	    }
 
 	    if (*line == openfile->filebot)
 		break;
 
 	    *line = (*line)->next;
 	    current_leftedge = 0;
-	    last_leftedge = get_last_chunk_leftedge(*line);
 	}
 
 	/* Only change leftedge when we actually could move. */
@@ -3128,13 +3126,6 @@ size_t get_chunk_leftedge(filestruct *line, size_t column)
 size_t get_last_chunk_row(filestruct *line)
 {
     return get_chunk_row(line, (size_t)-1);
-}
-
-/* Return the leftmost column of the last softwrapped chunk of the given
- * line. */
-size_t get_last_chunk_leftedge(filestruct *line)
-{
-    return get_chunk_leftedge(line, (size_t)-1);
 }
 
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk

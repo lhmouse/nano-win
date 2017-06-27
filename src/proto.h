@@ -670,7 +670,6 @@ size_t get_chunk(filestruct *line, size_t column, size_t *leftedge);
 size_t get_chunk_row(filestruct *line, size_t column);
 size_t get_chunk_leftedge(filestruct *line, size_t column);
 size_t get_last_chunk_row(filestruct *line);
-size_t get_last_chunk_leftedge(filestruct *line);
 void ensure_firstcolumn_is_aligned(void);
 #endif
 void edit_redraw(filestruct *old_current);
