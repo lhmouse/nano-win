@@ -2766,15 +2766,14 @@ int update_softwrapped_line(filestruct *fileptr)
     starting_row = row;
 
     while (row < editwinrows) {
-	bool end_of_line;
+	bool end_of_line = FALSE;
 
 	to_col = get_softwrap_breakpoint(fileptr->data, from_col, &end_of_line);
 
 	blank_row(edit, row, 0, COLS);
 
 	/* Convert the chunk to its displayable form and draw it. */
-	converted = display_string(fileptr->data, from_col, to_col - from_col,
-					TRUE);
+	converted = display_string(fileptr->data, from_col, to_col - from_col, TRUE);
 	edit_draw(fileptr, converted, row++, from_col);
 	free(converted);
 
@@ -2869,11 +2868,10 @@ int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
 	/* Advance through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
 	    if (current_leftedge < last_leftedge) {
-		bool end_of_line;
+		bool dummy;
 
 		current_leftedge = get_softwrap_breakpoint((*line)->data,
-							current_leftedge,
-							&end_of_line);
+						current_leftedge, &dummy);
 		continue;
 	    }
 
@@ -3011,8 +3009,6 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     int char_len = 0;
 	/* Length of current character, in bytes. */
 
-    *end_of_line = FALSE;
-
     while (*text != '\0' && column < leftedge)
 	text += parse_mbchar(text, NULL, &column);
 
@@ -3092,7 +3088,7 @@ size_t actual_last_column(size_t leftedge, size_t column)
 size_t get_chunk(filestruct *line, size_t column, size_t *leftedge)
 {
     size_t current_chunk = 0, start_col = 0, end_col;
-    bool end_of_line;
+    bool end_of_line = FALSE;
 
     while (TRUE) {
 	end_col = get_softwrap_breakpoint(line->data, start_col, &end_of_line);
@@ -3433,14 +3429,14 @@ void spotlight(bool active, size_t from_col, size_t to_col)
     char *word;
     size_t word_span, room;
 
+    place_the_cursor(FALSE);
+
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	spotlight_softwrapped(active, from_col, to_col);
 	return;
     }
 #endif
-
-    place_the_cursor(FALSE);
 
     /* This is so we can show zero-length matches. */
     if (to_col == from_col) {
@@ -3481,15 +3477,11 @@ void spotlight(bool active, size_t from_col, size_t to_col)
  * line breaks, since they're not actually part of the spotlighted text. */
 void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
 {
-    ssize_t row;
+    ssize_t row = openfile->current_y;
     size_t leftedge = get_chunk_leftedge(openfile->current, from_col);
     size_t break_col;
-    bool end_of_line;
+    bool end_of_line = FALSE;
     char *word;
-
-    place_the_cursor(FALSE);
-
-    row = openfile->current_y;
 
     while (row < editwinrows) {
 	break_col = get_softwrap_breakpoint(openfile->current->data,
@@ -3523,9 +3515,7 @@ void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
 	if (end_of_line)
 	    break;
 
-	row++;
-
-	wmove(edit, row, 0);
+	wmove(edit, ++row, 0);
 
 	leftedge = break_col;
 	from_col = break_col;

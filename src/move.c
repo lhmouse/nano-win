@@ -413,12 +413,12 @@ void do_end(bool be_clever)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	bool last_chunk;
+	bool last_chunk = FALSE;
 	size_t leftedge = get_chunk_leftedge(openfile->current, was_column);
 	size_t rightedge = get_softwrap_breakpoint(openfile->current->data,
-							leftedge,
-							&last_chunk);
+						leftedge, &last_chunk);
 	size_t rightedge_x;
+
 	/* If we're on the last chunk, we're already at the end of the line.
 	 * Otherwise, we're one column past the end of the line.  Shifting
 	 * backwards one column might put us in the middle of a multi-column
