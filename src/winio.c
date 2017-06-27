@@ -3010,17 +3010,12 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     while (*text != '\0' && column < leftedge)
 	text += parse_mbchar(text, NULL, &column);
 
-    /* Use a full screen row for text, or, if we're softwrapping at blanks, use
-     * a full screen row less one column for text and reserve the last column
-     * for blanks.  The latter case is to ensure that we have enough room for
-     * blanks exactly on the last column of the screen. */
-    if (ISSET(AT_BLANKS) && editwincols > 2)
-	goal_column = column + (editwincols - 1);
-    else
-	goal_column = column + editwincols;
+    /* Use a full screen row for text. */
+    goal_column = column + editwincols;
 
     while (*text != '\0' && column <= goal_column) {
-	if (ISSET(AT_BLANKS) && editwincols > 2 && is_blank_mbchar(text)) {
+	/* When breaking at blanks, do it *before* the target column. */
+	if (ISSET(AT_BLANKS) && is_blank_mbchar(text) && column < goal_column) {
 	    found_blank = TRUE;
 	    lastblank_index = index;
 	    lastblank_column = column;
@@ -3032,10 +3027,10 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 	index += char_len;
     }
 
-    /* If the text displays within goal_column, we've reached the end of the
-     * line, and we're done. */
+    /* If we didn't overshoot the target, we've found a breaking point. */
     if (column <= goal_column) {
-	*end_of_line = TRUE;
+	/* We've reached EOL if we didn't even reach the target. */
+	*end_of_line = (column < goal_column);
 	return column;
     }
 
@@ -3047,9 +3042,9 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 	return lastblank_column;
     }
 
-    /* Otherwise, return the column of the last character before goal_column,
-     * since we can't break the text anywhere else. */
-    return (editwincols > 2) ? prev_column : column - 1;
+    /* Otherwise, return the column of the last character that doesn't
+     * overshoot the target, since we can't break the text anywhere else. */
+    return (editwincols > 1) ? prev_column : column - 1;
 }
 
 /* When in softwrap mode, and the given column is on or after the breakpoint of
