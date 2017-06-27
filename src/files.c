@@ -2284,6 +2284,8 @@ int do_writeout(bool exiting)
 			openfile->current_stat->st_dev != st.st_dev ||
 			openfile->current_stat->st_ino != st.st_ino)) {
 
+		    warn_and_shortly_pause(_("File on disk has changed"));
+
 		    if (do_yesno_prompt(FALSE, _("File was modified since "
 				"you opened it; continue saving? ")) < 1)
 			continue;
