@@ -1592,5 +1592,10 @@ curses libraries.
 
 @end table
 
+@html
+<hr>
+@end html
+
 @contents
+
 @bye
