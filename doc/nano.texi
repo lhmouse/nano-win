@@ -246,6 +246,11 @@ should be considered as parts of words.  This overrides option
 Specify the syntax to be used for highlighting.
 @xref{Syntax Highlighting} for more info.
 
+@item -a
+@itemx --atblanks
+When doing soft line wrapping, wrap lines at whitespace
+instead of always at the edge of the screen.
+
 @item -c
 @itemx --constantshow
 Constantly display the cursor position (line number, column number,
@@ -375,8 +380,7 @@ continuing it over multiple screen lines.  Since
 this option last when using other options (e.g.@: @code{nano -wS$}) or pass it
 separately (e.g.@: @code{nano -wS -$}).
 
-@item -a
-@itemx -b
+@item -b
 @itemx -e
 @itemx -f
 @itemx -j

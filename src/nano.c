@@ -851,6 +851,9 @@ void usage(void)
 	print_opt(_("-Y <name>"), _("--syntax=<name>"),
 		N_("Syntax definition to use for coloring"));
 #endif
+#ifndef NANO_TINY
+    print_opt("-a", "--atblanks", N_("When soft-wrapping, do it at whitespace"));
+#endif
     print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
     print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
@@ -1972,6 +1975,7 @@ int main(int argc, char **argv)
 	{"smooth", 0, NULL, 'S'},
 	{"wordbounds", 0, NULL, 'W'},
 	{"wordchars", 1, NULL, 'X'},
+	{"atblanks", 0, NULL, 'a'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
 	{"unix", 0, NULL, 'u'},
@@ -2024,7 +2028,6 @@ int main(int argc, char **argv)
 		"ABC:DEFGHIKLNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$",
 		long_options, NULL)) != -1) {
 	switch (optchr) {
-	    case 'a':
 	    case 'b':
 	    case 'e':
 	    case 'f':
@@ -2126,6 +2129,11 @@ int main(int argc, char **argv)
 #ifndef DISABLE_COLOR
 	    case 'Y':
 		syntaxstr = mallocstrcpy(syntaxstr, optarg);
+		break;
+#endif
+#ifndef NANO_TINY
+	    case 'a':
+		SET(AT_BLANKS);
 		break;
 #endif
 	    case 'c':
