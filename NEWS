@@ -746,7 +746,7 @@
 		focuses mostly on bugfixes, which include better
 		handling of the cursor at the statusbar prompt, support
 		for certain combinations of Shift and keypad keys in
-		both normal and --rebind-keypad mode, a fix for a minor
+		both normal and --rebindkeypad mode, a fix for a minor
 		display problem after some searches, a real fix for a
 		long-standing segfault when displaying overly long
 		lines, and a real fix for nano's not hanging up properly
