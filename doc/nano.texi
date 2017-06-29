@@ -112,9 +112,9 @@ file (@pxref{Nanorc Files}).  And when using @code{set positionlog}
 (making @code{nano} remember the cursor position when you close a file),
 you will rarely need to specify a line number.
 
-As a special case: when the first file specified is a dash, @code{nano}
-will read data from standard input.  Which means you can pipe the output
-of a command straight into a buffer.
+As a special case: when instead of a filename a dash is given, @code{nano}
+will read data from standard input.  This means you can pipe the output of
+a command straight into a buffer, and then edit it.
 
 @node Command-line Options
 @chapter Command-line Options
