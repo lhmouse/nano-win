@@ -2162,6 +2162,10 @@ void statusline(message_type importance, const char *msg, ...)
 	waddstr(bottomwin, " ]");
     wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
 
+    /* Defeat a VTE/Konsole bug, where the cursor can go off-limits. */
+    if (ISSET(CONSTANT_SHOW) && ISSET(NO_HELP))
+	wmove(bottomwin, 0, 0);
+
     /* Push the message to the screen straightaway. */
     wrefresh(bottomwin);
 
