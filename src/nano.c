@@ -780,7 +780,7 @@ void usage(void)
      * It's best to keep its lines within 80 characters. */
     printf(_("To place the cursor on a specific line of a file, put the line number with\n"
 		"a '+' before the filename.  The column number can be added after a comma.\n"));
-    printf(_("When the first filename is '-', nano reads data from standard input.\n\n"));
+    printf(_("When a filename is '-', nano reads data from standard input.\n\n"));
     printf(_("Option\t\tGNU long option\t\tMeaning\n"));
 #ifndef NANO_TINY
     print_opt("-A", "--smarthome",
