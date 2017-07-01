@@ -773,6 +773,19 @@ int convert_sequence(const int *seq, size_t seq_len)
 			    }
 			}
 			break;
+		    case '5':
+			if (seq_len >= 3) {
+			    switch (seq[2]) {
+				case 'A': /* Esc O 5 A == Ctrl-Up on Haiku. */
+				    return CONTROL_UP;
+				case 'B': /* Esc O 5 B == Ctrl-Down on Haiku. */
+				    return CONTROL_DOWN;
+				case 'C': /* Esc O 5 C == Ctrl-Right on Haiku. */
+				    return CONTROL_RIGHT;
+				case 'D': /* Esc O 5 D == Ctrl-Left on Haiku. */
+				    return CONTROL_LEFT;
+			    }
+			}
 		    case 'A': /* Esc O A == Up on VT100/VT320/xterm. */
 		    case 'B': /* Esc O B == Down on VT100/VT320/xterm. */
 		    case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
