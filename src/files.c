@@ -1987,6 +1987,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	/* If we must set the filename, and it changed, adjust things. */
 	if (!nonamechange && strcmp(openfile->filename, realname) != 0) {
 #ifndef DISABLE_COLOR
+	    char *newname;
 	    char *oldname = openfile->syntax ? openfile->syntax->name : "";
 	    filestruct *line = openfile->fileage;
 #endif
@@ -1997,7 +1998,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    color_update();
 	    color_init();
 
-	    char *newname = openfile->syntax ? openfile->syntax->name : "";
+	    newname = openfile->syntax ? openfile->syntax->name : "";
 
 	    /* If the syntax changed, discard and recompute the multidata. */
 	    if (strcmp(oldname, newname) != 0) {
@@ -2457,14 +2458,15 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	size_t buf_len)
 {
     char **matches = NULL;
+#ifdef HAVE_PWD_H
+    const struct passwd *userdata;
+#endif
 
     assert(buf != NULL && num_matches != NULL && buf_len > 0);
 
     *num_matches = 0;
 
 #ifdef HAVE_PWD_H
-    const struct passwd *userdata;
-
     while ((userdata = getpwent()) != NULL) {
 	if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
 	    /* Cool, found a match.  Add it to the list.  This makes a

@@ -899,9 +899,10 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
     if (!strcmp(ptr, "\"\""))
 	*storage = NULL;
     else if (*ptr == '"') {
-	*storage = mallocstrcpy(NULL, ++ptr);
-	char* q = *storage;
-	char* p = *storage;
+	char *p, *q;
+
+	p = q = *storage = mallocstrcpy(NULL, ++ptr);
+
 	/* Snip out the backslashes of escaped characters. */
 	while (*p != '"') {
 	    if (*p == '\0') {

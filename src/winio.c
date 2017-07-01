@@ -2385,6 +2385,12 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		/* The place in converted from where painting starts. */
 	    regmatch_t match;
 		/* The match positions of a single-line regex. */
+	    const filestruct *start_line = fileptr->prev;
+		/* The first line before fileptr that matches 'start'. */
+	    const filestruct *end_line = fileptr;
+		/* The line that matches 'end'. */
+	    regmatch_t startmatch, endmatch;
+		/* The match positions of the start and end regexes. */
 
 	    /* Two notes about regexec().  A return value of zero means
 	     * that there is a match.  Also, rm_eo is the first
@@ -2440,12 +2446,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    }
 
 	    /* Second case: varnish is a multiline expression. */
-	    const filestruct *start_line = fileptr->prev;
-		/* The first line before fileptr that matches 'start'. */
-	    const filestruct *end_line = fileptr;
-		/* The line that matches 'end'. */
-	    regmatch_t startmatch, endmatch;
-		/* The match positions of the start and end regexes. */
 
 	    /* Assume nothing gets painted until proven otherwise below. */
 	    fileptr->multidata[varnish->id] = CNONE;

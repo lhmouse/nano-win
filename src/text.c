@@ -653,12 +653,14 @@ void undo_cut(undo *u)
 /* Redo a cut, or undo an uncut. */
 void redo_cut(undo *u)
 {
+    filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
+
     /* If we cut the magicline, we may as well not crash. :/ */
     if (!u->cutbuffer)
 	return;
 
-    filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
-    cutbuffer = cutbottom = NULL;
+    cutbuffer = NULL;
+    cutbottom = NULL;
 
     goto_line_posx(u->lineno, u->begin);
 
@@ -678,7 +680,9 @@ void do_undo(void)
 {
     undo *u = openfile->current_undo;
     filestruct *f, *t = NULL;
+    filestruct *oldcutbuffer, *oldcutbottom;
     char *data, *undidmsg = NULL;
+    size_t from_x, to_x;
 
     if (!u) {
 	statusbar(_("Nothing in undo buffer!"));
@@ -767,8 +771,8 @@ void do_undo(void)
 	    break;
 	}
 	undidmsg = _("line break");
-	size_t from_x = (u->begin == 0) ? 0 : u->mark_begin_x;
-	size_t to_x = (u->begin == 0) ? u->mark_begin_x : u->begin;
+	from_x = (u->begin == 0) ? 0 : u->mark_begin_x;
+	to_x = (u->begin == 0) ? u->mark_begin_x : u->begin;
 	f->data = charealloc(f->data, strlen(f->data) +
 				strlen(&u->strdata[from_x]) + 1);
 	strcat(f->data, &u->strdata[from_x]);
@@ -787,7 +791,8 @@ void do_undo(void)
 #endif
     case INSERT:
 	undidmsg = _("text insert");
-	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
+	oldcutbuffer = cutbuffer;
+	oldcutbottom = cutbottom;
 	cutbuffer = NULL;
 	cutbottom = NULL;
 	openfile->mark_begin = fsfromline(u->mark_begin_lineno);
@@ -832,7 +837,7 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-    filestruct *f;
+    filestruct *f, *shoveline;
     char *data, *redidmsg = NULL;
     undo *u = openfile->undotop;
 
@@ -883,7 +888,7 @@ void do_redo(void)
 	break;
     case ENTER:
 	redidmsg = _("line break");
-	filestruct *shoveline = make_new_node(f);
+	shoveline = make_new_node(f);
 	shoveline->data = mallocstrcpy(NULL, u->strdata);
 	data = mallocstrncpy(NULL, f->data, u->begin + 1);
 	data[u->begin] = '\0';
@@ -1406,11 +1411,12 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	     * bottom-->top, then swap the mark points. */
 	    if ((u->lineno == u->mark_begin_lineno && u->begin < u->mark_begin_x)
 			|| u->lineno < u->mark_begin_lineno) {
+		ssize_t line = u->lineno;
 		size_t x_loc = u->begin;
+
 		u->begin = u->mark_begin_x;
 		u->mark_begin_x = x_loc;
 
-		ssize_t line = u->lineno;
 		u->lineno = u->mark_begin_lineno;
 		u->mark_begin_lineno = line;
 	    } else
@@ -1487,6 +1493,9 @@ bool do_wrap(filestruct *line)
     size_t next_line_len = 0;
 	/* The length of next_line. */
 
+    size_t old_x = openfile->current_x;
+    filestruct * oldLine = openfile->current;
+
     /* There are three steps.  First, we decide where to wrap.  Then, we
      * create the new wrap line.  Finally, we clean up. */
 
@@ -1529,8 +1538,6 @@ bool do_wrap(filestruct *line)
     add_undo(SPLIT_BEGIN);
 #endif
 
-    size_t old_x = openfile->current_x;
-    filestruct * oldLine = openfile->current;
     openfile->current = line;
 
     /* Step 2, making the new wrap line.  It will consist of indentation
