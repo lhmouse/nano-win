@@ -315,7 +315,11 @@ void parse_syntax(char *ptr)
     live_syntax->magics = NULL;
     live_syntax->linter = NULL;
     live_syntax->formatter = NULL;
+#ifdef ENABLE_COMMENT
+    live_syntax->comment = mallocstrcpy(NULL, GENERAL_COMMENT_CHARACTER);
+#else
     live_syntax->comment = NULL;
+#endif
     live_syntax->color = NULL;
     lastcolor = NULL;
     live_syntax->nmultis = 0;

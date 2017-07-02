@@ -458,7 +458,7 @@ bool white_string(const char *s)
 /* Comment or uncomment the current line or the marked lines. */
 void do_comment()
 {
-    const char *comment_seq = "#";
+    const char *comment_seq = GENERAL_COMMENT_CHARACTER;
     undo_type action = UNCOMMENT;
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
@@ -467,11 +467,11 @@ void do_comment()
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef DISABLE_COLOR
-    if (openfile->syntax && openfile->syntax->comment)
+    if (openfile->syntax)
 	comment_seq = openfile->syntax->comment;
 
     /* Does the syntax not allow comments? */
-    if (strlen(comment_seq) == 0) {
+    if (comment_seq == NULL) {
 	statusbar(_("Commenting is not supported for this file type"));
 	return;
     }

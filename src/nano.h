@@ -597,6 +597,9 @@ enum
 /* The default width of a tab in spaces. */
 #define WIDTH_OF_TAB 8
 
+/* The default comment character when a syntax does not specify any. */
+#define GENERAL_COMMENT_CHARACTER "#"
+
 /* The maximum number of search/replace history strings saved, not
  * counting the blank lines at their ends. */
 #define MAX_SEARCH_HISTORY 100
