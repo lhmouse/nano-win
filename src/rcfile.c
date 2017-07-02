@@ -350,7 +350,7 @@ void parse_syntax(char *ptr)
 /* Check whether the given executable function is "universal" (meaning
  * any horizontal movement or deletion) and thus is present in almost
  * all menus. */
-bool is_universal(void (*func))
+bool is_universal(void (*func)(void))
 {
     if (func == do_left || func == do_right ||
 	func == do_home_void || func == do_end_void ||
