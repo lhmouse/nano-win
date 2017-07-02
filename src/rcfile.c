@@ -881,7 +881,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
     }
 }
 
-/* Parse and store the name given after a linter/formatter command. */
+/* Gather and store the string after a comment/linter/formatter command. */
 void pick_up_name(const char *kind, char *ptr, char **storage)
 {
     assert(ptr != NULL);
@@ -893,7 +893,7 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
     }
 
     if (*ptr == '\0') {
-	rcfile_error(N_("Missing command after '%s'"), kind);
+	rcfile_error(N_("Missing argument after '%s'"), kind);
 	return;
     }
 
