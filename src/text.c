@@ -1494,7 +1494,7 @@ bool do_wrap(filestruct *line)
 	/* The length of next_line. */
 
     size_t old_x = openfile->current_x;
-    filestruct * oldLine = openfile->current;
+    filestruct * old_line = openfile->current;
 
     /* There are three steps.  First, we decide where to wrap.  Then, we
      * create the new wrap line.  Finally, we clean up. */
@@ -1600,7 +1600,7 @@ bool do_wrap(filestruct *line)
 
     if (old_x < wrap_loc) {
 	openfile->current_x = old_x;
-	openfile->current = oldLine;
+	openfile->current = old_line;
 	prepend_wrap = TRUE;
     } else {
 	openfile->current_x += (old_x - wrap_loc);

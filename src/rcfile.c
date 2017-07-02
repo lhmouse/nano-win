@@ -899,23 +899,23 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
     if (!strcmp(ptr, "\"\""))
 	*storage = NULL;
     else if (*ptr == '"') {
-	char *p, *q;
+	char *look, *take;
 
-	p = q = *storage = mallocstrcpy(NULL, ++ptr);
+	look = take = *storage = mallocstrcpy(NULL, ++ptr);
 
 	/* Snip out the backslashes of escaped characters. */
-	while (*p != '"') {
-	    if (*p == '\0') {
+	while (*look != '"') {
+	    if (*look == '\0') {
 		rcfile_error(N_("Argument of '%s' lacks closing \""), kind);
 		free(*storage);
 		*storage = NULL;
 		return;
-	    } else if (*p == '\\' && *(p + 1) != '\0') {
-		p++;
+	    } else if (*look == '\\' && *(look + 1) != '\0') {
+		look++;
 	    }
-	    *q++ = *p++;
+	    *take++ = *look++;
 	}
-	*q = '\0';
+	*take = '\0';
     }
     else
 	*storage = mallocstrcpy(NULL, ptr);
