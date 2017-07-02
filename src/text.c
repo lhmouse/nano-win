@@ -2438,7 +2438,7 @@ void do_justify(bool full_justify)
 
     edit_refresh();
 
-    /* Display the shortcut list with UnJustify. */
+    /* Show "Unjustify" in the help lines. */
     uncutfunc->desc = unjust_tag;
     display_main_list();
 
@@ -2515,9 +2515,8 @@ void do_justify(bool full_justify)
 
     blank_statusbar();
 
-    /* Display the shortcut list with UnCut. */
+    /* Show "Uncut" again in the help lines. */
     uncutfunc->desc = uncut_tag;
-    display_main_list();
 }
 
 /* Justify the current paragraph. */

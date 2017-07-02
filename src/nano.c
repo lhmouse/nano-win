@@ -2605,8 +2605,7 @@ int main(int argc, char **argv)
 	}
 #endif
 
-	if (currmenu != MMAIN)
-	    display_main_list();
+	display_main_list();
 
 	lastmessage = HUSH;
 	as_an_at = TRUE;
