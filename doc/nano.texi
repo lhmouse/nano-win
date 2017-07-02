@@ -932,13 +932,14 @@ system and will be silently ignored otherwise.
 
 @item comment "string"
 Use the given string for commenting and uncommenting lines.  A vertical bar or
-pipe character (|) designates bracket-style comments; for example, "/*|*/" for
+pipe character (@t{|}) designates bracket-style comments; for example, @t{"/*|*/"} for
 CSS files.  The characters before the pipe are prepended to the line and the
 characters after the pipe are appended at the end of the line.  If no pipe
-character is present, the entire string is prepended; for example, "#" for
+character is present, the entire string is prepended; for example, @t{"#"} for
 Python files.  If empty double quotes are specified, the comment/uncomment
-functions are disabled; for example, "" for JSON.  Double quotes or backslashes
-may be escaped with a backslash; for example, ".\\"" for man page source.
+functions are disabled; for example, @t{""} for JSON.  Double quotes or backslashes
+may be escaped with a backslash; for example, @t{".\\""} for man page source.
+The default value is @t{"#"}.
 
 @item color fgcolor,bgcolor "regex" @dots{}
 Display all pieces of text that match the
