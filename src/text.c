@@ -456,7 +456,7 @@ bool white_string(const char *s)
 
 #ifdef ENABLE_COMMENT
 /* Comment or uncomment the current line or the marked lines. */
-void do_comment()
+void do_comment(void)
 {
     const char *comment_seq = GENERAL_COMMENT_CHARACTER;
     undo_type action = UNCOMMENT;
