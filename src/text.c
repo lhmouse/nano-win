@@ -2514,6 +2514,7 @@ void do_justify(bool full_justify)
     jusbuffer = NULL;
 
     blank_statusbar();
+    wnoutrefresh(bottomwin);
 
     /* Show "Uncut" again in the help lines. */
     uncutfunc->desc = uncut_tag;
@@ -3349,6 +3350,7 @@ void do_linter(void)
     }
 
     blank_statusbar();
+    wnoutrefresh(bottomwin);
 
 #ifndef NANO_TINY
   free_lints_and_return:
