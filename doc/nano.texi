@@ -4,6 +4,8 @@
 @settitle nano
 @c %**end of header
 
+@documentencoding UTF-8
+
 @smallbook
 @set EDITION 0.4
 @set VERSION 2.8.5
