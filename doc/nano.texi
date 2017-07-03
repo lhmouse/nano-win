@@ -422,8 +422,8 @@ corresponding Unicode character into the buffer.
 @end itemize
 
 For example, typing "Esc Esc 2 3 4" will enter the character "ê" ---
-useful when going to a French party.  Typing "M-V 0 0 2 5 c 6" will
-enter the symbol "◆", a little black diamond.
+useful when writing about a French party.  Typing "M-V 0 0 2 2 c 4"
+will enter the symbol "⋄", a little diamond.
 
 @node Commands
 @section Commands
