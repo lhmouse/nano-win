@@ -335,8 +335,8 @@ CSS files.  The characters before the pipe are prepended to the line and the
 characters after the pipe are appended at the end of the line.  If no pipe
 character is present, the entire string is prepended; for example, "\fB#\fP" for
 Python files.  If empty double quotes are specified, the comment/uncomment
-function is disabled; for example, "" for JSON.  Double quotes or backslashes
-may be escaped with a backslash; for example, "\fB.\\"\fP" for man page source.
+function is disabled; for example, "" for JSON.  Backslashes and double quotes
+should be escaped with a backslash; for example, "\fB.\\\"\fP" for man page source.
 The default value is "\fB#\fP".
 .TP
 .B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...

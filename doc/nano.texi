@@ -937,8 +937,8 @@ CSS files.  The characters before the pipe are prepended to the line and the
 characters after the pipe are appended at the end of the line.  If no pipe
 character is present, the entire string is prepended; for example, @t{"#"} for
 Python files.  If empty double quotes are specified, the comment/uncomment
-functions are disabled; for example, @t{""} for JSON.  Double quotes or backslashes
-may be escaped with a backslash; for example, @t{".\\""} for man page source.
+functions are disabled; for example, @t{""} for JSON.  Backslashes and double quotes
+should be escaped with a backslash; for example, @t{".\\\""} for man page source.
 The default value is @t{"#"}.
 
 @item color fgcolor,bgcolor "regex" @dots{}
