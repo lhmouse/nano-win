@@ -540,7 +540,7 @@ RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
 void discard_until(const undo *thisitem, openfilestruct *thefile);
 void add_undo(undo_type action);
-#ifndef DISABLE_COMMENT
+#ifdef ENABLE_COMMENT
 void update_comment_undo(ssize_t lineno);
 #endif
 void update_undo(undo_type action);
