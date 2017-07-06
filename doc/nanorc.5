@@ -329,14 +329,14 @@ functionality only works when \fBlibmagic\fP is installed on the
 system and will be silently ignored otherwise.
 .TP
 .BI comment " string"
-Use the given string for commenting and uncommenting lines.  A vertical bar or
-pipe character (\fB|\fP) designates bracket-style comments; for example, "\fB/*|*/\fP" for
+Use the given string for commenting and uncommenting lines.
+If the string contains a vertical bar or pipe character (\fB|\fR),
+this designates bracket-style comments; for example, "\fB/*|*/\fR" for
 CSS files.  The characters before the pipe are prepended to the line and the
 characters after the pipe are appended at the end of the line.  If no pipe
-character is present, the entire string is prepended; for example, "\fB#\fP" for
-Python files.  If empty double quotes are specified, the comment/uncomment
-function is disabled; for example, "" for JSON.  Backslashes and double quotes
-should be escaped with a backslash; for example, "\fB.\\\"\fP" for man page source.
+character is present, the full string is prepended; for example, "\fB#\fR"
+for Python files.  If empty double quotes are specified, the comment/uncomment
+function is disabled; for example, "" for JSON.
 The default value is "\fB#\fP".
 .TP
 .B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...

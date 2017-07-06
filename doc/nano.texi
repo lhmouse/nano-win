@@ -933,14 +933,14 @@ file.  This functionality only works when libmagic is installed on the
 system and will be silently ignored otherwise.
 
 @item comment "string"
-Use the given string for commenting and uncommenting lines.  A vertical bar or
-pipe character (@t{|}) designates bracket-style comments; for example, @t{"/*|*/"} for
+Use the given string for commenting and uncommenting lines.
+If the string contains a vertical bar or pipe character (@t{|}),
+this designates bracket-style comments; for example, @t{"/*|*/"} for
 CSS files.  The characters before the pipe are prepended to the line and the
 characters after the pipe are appended at the end of the line.  If no pipe
-character is present, the entire string is prepended; for example, @t{"#"} for
+character is present, the full string is prepended; for example, @t{"#"} for
 Python files.  If empty double quotes are specified, the comment/uncomment
-functions are disabled; for example, @t{""} for JSON.  Backslashes and double quotes
-should be escaped with a backslash; for example, @t{".\\\""} for man page source.
+functions are disabled; for example, @t{""} for JSON.
 The default value is @t{"#"}.
 
 @item color fgcolor,bgcolor "regex" @dots{}
