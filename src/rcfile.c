@@ -613,8 +613,6 @@ void parse_includes(char *ptr)
  * and set bright to TRUE if that color is bright. */
 short color_to_short(const char *colorname, bool *bright)
 {
-    assert(colorname != NULL && bright != NULL);
-
     if (strncasecmp(colorname, "bright", 6) == 0) {
 	*bright = TRUE;
 	colorname += 6;
@@ -653,8 +651,6 @@ void parse_colors(char *ptr, int rex_flags)
     short fg, bg;
     bool bright = FALSE;
     char *item;
-
-    assert(ptr != NULL);
 
     if (!opensyntax) {
 	rcfile_error(
@@ -729,9 +725,6 @@ void parse_colors(char *ptr, int rex_flags)
 
 	    newcolor->next = NULL;
 
-#ifdef DEBUG
-	    fprintf(stderr, "Adding an entry for fg %hd, bg %hd\n", fg, bg);
-#endif
 	    if (lastcolor == NULL)
 		live_syntax->color = newcolor;
 	    else
@@ -785,12 +778,12 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
     char *comma = strchr(combostr, ',');
 
     if (comma != NULL) {
-	*comma = '\0';
-	if (strncasecmp(comma + 1, "bright", 6) == 0) {
+	*bg = color_to_short(comma + 1, bright);
+	if (*bright) {
 	    rcfile_error(N_("A background color cannot be bright"));
 	    return FALSE;
 	}
-	*bg = color_to_short(comma + 1, bright);
+	*comma = '\0';
     } else
 	*bg = -1;
 
