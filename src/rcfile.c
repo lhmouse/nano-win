@@ -879,32 +879,27 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 	return;
     }
 
-    free(*storage);
+    /* If the argument starts with a quote, find the terminating quote. */
+    if (*ptr == '"') {
+	char *look = ++ptr;
 
-    /* Allow unsetting the command by using an empty string. */
-    if (!strcmp(ptr, "\"\""))
-	*storage = NULL;
-    else if (*ptr == '"') {
-	char *look, *take;
+	look += strlen(ptr);
 
-	look = take = *storage = mallocstrcpy(NULL, ++ptr);
-
-	/* Snip out the backslashes of escaped characters. */
 	while (*look != '"') {
-	    if (*look == '\0') {
+	    if (--look < ptr) {
 		rcfile_error(N_("Argument of '%s' lacks closing \""), kind);
-		free(*storage);
-		*storage = NULL;
 		return;
-	    } else if (*look == '\\' && *(look + 1) != '\0') {
-		look++;
 	    }
-	    *take++ = *look++;
 	}
-	*take = '\0';
+	*look = '\0';
     }
-    else
-	*storage = mallocstrcpy(NULL, ptr);
+
+    if (*ptr == '\0') {
+	free(*storage);
+	*storage = NULL;
+    } else
+	*storage = mallocstrcpy(*storage, ptr);
+
 }
 #endif /* !DISABLE_COLOR */
 
