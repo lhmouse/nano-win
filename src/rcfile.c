@@ -782,33 +782,22 @@ void parse_colors(char *ptr, int rex_flags)
 /* Parse the color name, or pair of color names, in combostr. */
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 {
-    bool no_fgcolor = FALSE;
+    char *comma = strchr(combostr, ',');
 
-    if (combostr == NULL)
-	return FALSE;
-
-    if (strchr(combostr, ',') != NULL) {
-	char *bgcolorname;
-	strtok(combostr, ",");
-	bgcolorname = strtok(NULL, ",");
-	if (bgcolorname == NULL) {
-	    /* If we have a background color without a foreground color,
-	     * parse it properly. */
-	    bgcolorname = combostr + 1;
-	    no_fgcolor = TRUE;
-	}
-	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
-	    rcfile_error(N_("Background color \"%s\" cannot be bright"), bgcolorname);
+    if (comma != NULL) {
+	*comma = '\0';
+	if (strncasecmp(comma + 1, "bright", 6) == 0) {
+	    rcfile_error(N_("A background color cannot be bright"));
 	    return FALSE;
 	}
-	*bg = color_to_short(bgcolorname, bright);
+	*bg = color_to_short(comma + 1, bright);
     } else
 	*bg = -1;
 
-    if (!no_fgcolor) {
+    if (comma != combostr) {
 	*fg = color_to_short(combostr, bright);
 
-	/* Don't try to parse screwed-up foreground colors. */
+	/* If the specified foreground color is bad, ignore the regexes. */
 	if (*fg == -1)
 	    return FALSE;
     } else
