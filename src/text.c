@@ -470,8 +470,7 @@ void do_comment(void)
     if (openfile->syntax)
 	comment_seq = openfile->syntax->comment;
 
-    /* Does the syntax not allow comments? */
-    if (comment_seq == NULL) {
+    if (*comment_seq == '\0') {
 	statusbar(_("Commenting is not supported for this file type"));
 	return;
     }

@@ -317,8 +317,6 @@ void parse_syntax(char *ptr)
     live_syntax->formatter = NULL;
 #ifdef ENABLE_COMMENT
     live_syntax->comment = mallocstrcpy(NULL, GENERAL_COMMENT_CHARACTER);
-#else
-    live_syntax->comment = NULL;
 #endif
     live_syntax->color = NULL;
     lastcolor = NULL;
@@ -894,11 +892,7 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 	*look = '\0';
     }
 
-    if (*ptr == '\0') {
-	free(*storage);
-	*storage = NULL;
-    } else
-	*storage = mallocstrcpy(*storage, ptr);
+    *storage = mallocstrcpy(*storage, ptr);
 
 }
 #endif /* !DISABLE_COLOR */

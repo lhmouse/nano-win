@@ -220,8 +220,10 @@ typedef struct syntaxtype {
 	/* The command with which to lint this type of file. */
     char *formatter;
         /* The formatting command (for programming languages mainly). */
+#ifdef ENABLE_COMMENT
     char *comment;
 	/* The line comment prefix (and postfix) for this type of file. */
+#endif
     colortype *color;
 	/* The colors and their regexes used in this syntax. */
     int nmultis;
