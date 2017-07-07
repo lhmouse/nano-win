@@ -363,12 +363,31 @@ void do_indent(void)
     refresh_needed = TRUE;
 }
 
+/* If the given text starts with a tab's worth of whitespace, return the
+ * number of bytes this whitespace occupies.  Otherwise, return zero. */
+size_t length_of_white(const char *text)
+{
+    size_t bytes_of_white = 1;
+
+    while (TRUE) {
+	if (*text == '\t')
+	    return bytes_of_white;
+
+	if (*text != ' ')
+	    return 0;
+
+       if (bytes_of_white == tabsize)
+	    return tabsize;
+
+	bytes_of_white++;
+	text++;
+    }
+}
+
 /* Unindent the current line (or the marked lines) by tabsize columns.
  * The removed indent can be a mixture of spaces plus at most one tab. */
 void do_unindent(void)
 {
-    bool indent_changed = FALSE;
-	/* Whether any unindenting was done. */
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
 
@@ -384,53 +403,48 @@ void do_unindent(void)
 	bot = top;
     }
 
+    /* Go through the lines to check whether they a) are empty or blank
+     * or b) start with a tab's worth of whitespace. */
+    for (f = top; f != bot->next; f = f->next) {
+	if (!white_string(f->data) && length_of_white(f->data) == 0) {
+	    statusline(HUSH, _("Can unindent only by a full tab size"));
+	    return;
+	}
+    }
+
     /* Go through each line of the text. */
     for (f = top; f != bot->next; f = f->next) {
 	size_t line_len = strlen(f->data);
-	size_t indent_len = indent_length(f->data);
-	size_t indent_col = strnlenpt(f->data, indent_len);
-		/* The length in columns of the indentation on this line. */
+	size_t indent_len = length_of_white(f->data);
 
-	if (tabsize <= indent_col) {
-	    size_t indent_new = actual_x(f->data, indent_col - tabsize);
-		/* The length of the indentation remaining on
-		 * this line after we unindent. */
-	    size_t indent_shift = indent_len - indent_new;
-		/* The change in the indentation on this line
-		 * after we unindent. */
+	/* If the line consists of a small amount of whitespace, skip it. */
+	if (white_string(f->data) && indent_len < tabsize)
+	    continue;
 
 	    /* If there's at least tabsize
 	     * columns' worth of indentation at the beginning of the
 	     * non-whitespace text of this line, remove it. */
-	    charmove(&f->data[indent_new], &f->data[indent_len],
-			line_len - indent_shift - indent_new + 1);
-	    null_at(&f->data, line_len - indent_shift + 1);
-	    openfile->totsize -= indent_shift;
+	    charmove(f->data, &f->data[indent_len], line_len - indent_len + 1);
+	    null_at(&f->data, line_len - indent_len + 1);
+	    openfile->totsize -= indent_len;
 
 	    /* Keep track of the change in the current line. */
-	    if (openfile->mark_set && f == openfile->mark_begin &&
-			openfile->mark_begin_x > indent_new) {
+	    if (openfile->mark_set && f == openfile->mark_begin) {
 		if (openfile->mark_begin_x <= indent_len)
-		    openfile->mark_begin_x = indent_new;
+		    openfile->mark_begin_x = 0;
 		else
-		    openfile->mark_begin_x -= indent_shift;
+		    openfile->mark_begin_x -= indent_len;
 	    }
 
-	    if (f == openfile->current &&
-			openfile->current_x > indent_new) {
+	    if (f == openfile->current) {
 		if (openfile->current_x <= indent_len)
-		    openfile->current_x = indent_new;
+		    openfile->current_x = 0;
 		else
-		    openfile->current_x -= indent_shift;
+		    openfile->current_x -= indent_len;
 		openfile->placewewant = xplustabs();
 	    }
-
-	    /* We've unindented, so the indentation changed. */
-	    indent_changed = TRUE;
-	}
     }
 
-    if (indent_changed) {
 	/* Throw away the undo stack, to prevent making mistakes when
 	 * the user tries to undo something in the unindented text. */
 	discard_until(NULL, openfile);
@@ -440,7 +454,6 @@ void do_unindent(void)
 
 	/* Update the screen. */
 	refresh_needed = TRUE;
-    }
 }
 #endif /* !NANO_TINY */
 
