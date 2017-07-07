@@ -315,33 +315,38 @@ void do_indent(void)
 
     line_indent[line_indent_len] = '\0';
 
-    /* Go through each line of the text. */
+    /* Go through the lines to see if there's a non-empty one. */
+    for (f = top; f != bot->next; f = f->next) {
+	if (f->data[0] != '\0')
+	    break;
+    }
+
+    /* If all lines are empty, there is nothing to do. */
+    if (f == bot->next)
+	return;
+
+    /* Go through each of the lines, but skip empty ones. */
     for (f = top; f != bot->next; f = f->next) {
 	size_t line_len = strlen(f->data);
-	size_t indent_len = indent_length(f->data);
 
-	/* Add the characters in line_indent to
-	 * the beginning of the non-whitespace text of this line. */
+	if (f->data[0] == '\0')
+	    continue;
+
+	/* Add the fabricated indentation to the beginning of the line. */
 	f->data = charealloc(f->data, line_len + line_indent_len + 1);
-	charmove(&f->data[indent_len + line_indent_len],
-		&f->data[indent_len], line_len - indent_len + 1);
-	strncpy(f->data + indent_len, line_indent, line_indent_len);
+	charmove(&f->data[line_indent_len], f->data, line_len + 1);
+	strncpy(f->data, line_indent, line_indent_len);
+
 	openfile->totsize += line_indent_len;
 
 	/* Keep track of the change in the current line. */
-	if (openfile->mark_set && f == openfile->mark_begin &&
-		openfile->mark_begin_x >= indent_len)
+	if (openfile->mark_set && f == openfile->mark_begin)
 	    openfile->mark_begin_x += line_indent_len;
 
-	if (f == openfile->current && openfile->current_x >= indent_len) {
+	if (f == openfile->current) {
 	    openfile->current_x += line_indent_len;
 	    openfile->placewewant = xplustabs();
 	}
-
-	/* If the NO_NEWLINES flag isn't set, and this is the
-	 * magicline, add a new magicline. */
-	if (!ISSET(NO_NEWLINES) && f == openfile->filebot)
-	    new_magicline();
     }
 
     /* Clean up. */
