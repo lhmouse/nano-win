@@ -363,8 +363,10 @@ void do_indent(ssize_t cols)
 			openfile->mark_begin_x >= indent_len)
 		openfile->mark_begin_x += line_indent_len;
 
-	    if (f == openfile->current && openfile->current_x >= indent_len)
+	    if (f == openfile->current && openfile->current_x >= indent_len) {
 		openfile->current_x += line_indent_len;
+		openfile->placewewant = xplustabs();
+	    }
 
 	    /* If the NO_NEWLINES flag isn't set, and this is the
 	     * magicline, add a new magicline. */
@@ -405,6 +407,7 @@ void do_indent(ssize_t cols)
 			openfile->current_x = indent_new;
 		    else
 			openfile->current_x -= indent_shift;
+		    openfile->placewewant = xplustabs();
 		}
 
 		/* We've unindented, so the indentation changed. */
