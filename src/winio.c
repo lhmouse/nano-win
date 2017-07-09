@@ -1902,7 +1902,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 		converted[index++] = ' ';
 	    column++;
 	    /* Fill the tab up with the required number of spaces. */
-	    while (column % tabsize != 0) {
+	    while (column % tabsize != 0 && column < beyond) {
 		converted[index++] = ' ';
 		column++;
 	    }
