@@ -1762,7 +1762,7 @@ int do_mouse(void)
 	    /* Whether the click was on the row where the cursor is. */
 
 	if (ISSET(SOFTWRAP))
-	    leftedge = get_chunk_leftedge(openfile->current, xplustabs());
+	    leftedge = leftedge_for(xplustabs(), openfile->current);
 	else
 #endif
 	    leftedge = get_page_start(xplustabs());
@@ -1812,8 +1812,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     if (ISSET(SOFTWRAP)) {
 	if (openfile->current_y == editwinrows - 1)
-	    original_row = get_chunk_row(openfile->current, xplustabs());
-	orig_rows = get_last_chunk_row(openfile->current);
+	    original_row = chunk_for(xplustabs(), openfile->current);
+	orig_rows = number_of_chunks_in(openfile->current);
     }
 #endif
 
@@ -1878,9 +1878,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
      * of the edit window, and we moved one screen row, we're now below
      * the last line of the edit window, so we need a full refresh too. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
-		(get_last_chunk_row(openfile->current) != orig_rows ||
+		(number_of_chunks_in(openfile->current) != orig_rows ||
 		(openfile->current_y == editwinrows - 1 &&
-		get_chunk_row(openfile->current, xplustabs()) != original_row)))
+		chunk_for(xplustabs(), openfile->current) != original_row)))
 	refresh_needed = TRUE;
 #endif
 

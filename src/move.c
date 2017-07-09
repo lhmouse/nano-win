@@ -53,7 +53,7 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
 {
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	*leftedge = get_chunk_leftedge(openfile->current, xplustabs());
+	*leftedge = leftedge_for(xplustabs(), openfile->current);
 	*target_column = openfile->placewewant - *leftedge;
     } else
 #endif
@@ -348,7 +348,7 @@ void do_home(bool be_clever)
     size_t leftedge = 0, leftedge_x = 0;
 
     if (ISSET(SOFTWRAP)) {
-	leftedge = get_chunk_leftedge(openfile->current, was_column);
+	leftedge = leftedge_for(was_column, openfile->current);
 	leftedge_x = actual_x(openfile->current->data, leftedge);
     }
 
@@ -414,7 +414,7 @@ void do_end(bool be_clever)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	bool last_chunk = FALSE;
-	size_t leftedge = get_chunk_leftedge(openfile->current, was_column);
+	size_t leftedge = leftedge_for(was_column, openfile->current);
 	size_t rightedge = get_softwrap_breakpoint(openfile->current->data,
 						leftedge, &last_chunk);
 	size_t rightedge_x;
@@ -572,7 +572,7 @@ void do_left(void)
     size_t was_column = xplustabs();
 #ifndef NANO_TINY
     filestruct *was_current = openfile->current;
-    size_t was_chunk = get_chunk_row(was_current, was_column);
+    size_t was_chunk = chunk_for(was_column, was_current);
 #endif
 
     if (openfile->current_x > 0)
@@ -591,8 +591,8 @@ void do_left(void)
      * we're now above the first line of the edit window, so scroll up. */
     if (ISSET(SOFTWRAP) && openfile->current_y == 0 &&
 		openfile->current == was_current &&
-		get_chunk_row(openfile->current,
-				openfile->placewewant) != was_chunk) {
+		chunk_for(openfile->placewewant,
+				openfile->current) != was_chunk) {
 	edit_scroll(UPWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
 	return;
     }
@@ -609,7 +609,7 @@ void do_right(void)
     size_t was_column = xplustabs();
 #ifndef NANO_TINY
     filestruct *was_current = openfile->current;
-    size_t was_chunk = get_chunk_row(was_current, was_column);
+    size_t was_chunk = chunk_for(was_column, was_current);
 #endif
 
     if (openfile->current->data[openfile->current_x] != '\0')
@@ -628,8 +628,8 @@ void do_right(void)
      * we're now below the first line of the edit window, so scroll down. */
     if (ISSET(SOFTWRAP) && openfile->current_y == editwinrows - 1 &&
 		openfile->current == was_current &&
-		get_chunk_row(openfile->current,
-				openfile->placewewant) != was_chunk) {
+		chunk_for(openfile->placewewant,
+				openfile->current) != was_chunk) {
 	edit_scroll(DOWNWARD, ISSET(SMOOTH_SCROLL) ? 1 : editwinrows / 2 + 1);
 	return;
     }

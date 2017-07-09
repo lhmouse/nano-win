@@ -2296,16 +2296,16 @@ void place_the_cursor(bool forreal)
 	filestruct *line = openfile->edittop;
 	size_t leftedge;
 
-	row -= get_chunk_row(openfile->edittop, openfile->firstcolumn);
+	row -= chunk_for(openfile->firstcolumn, openfile->edittop);
 
 	/* Calculate how many rows the lines from edittop to current use. */
 	while (line != NULL && line != openfile->current) {
-	    row += get_last_chunk_row(line) + 1;
+	    row += number_of_chunks_in(line) + 1;
 	    line = line->next;
 	}
 
 	/* Add the number of wraps in the current line before the cursor. */
-	row += get_chunk(openfile->current, xpt, &leftedge);
+	row += get_chunk_and_edge(xpt, openfile->current, &leftedge);
 	col = xpt - leftedge;
     } else
 #endif
@@ -2748,11 +2748,11 @@ int update_softwrapped_line(filestruct *fileptr)
     if (fileptr == openfile->edittop)
 	from_col = openfile->firstcolumn;
     else
-	row -= get_chunk_row(openfile->edittop, openfile->firstcolumn);
+	row -= chunk_for(openfile->firstcolumn, openfile->edittop);
 
     /* Find out on which screen row the target line should be shown. */
     while (line != fileptr && line != NULL) {
-	row += get_last_chunk_row(line) + 1;
+	row += number_of_chunks_in(line) + 1;
 	line = line->next;
     }
 
@@ -2825,8 +2825,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 	/* Recede through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
 	    if (current_leftedge > 0) {
-		current_leftedge = get_chunk_leftedge(*line,
-							current_leftedge - 1);
+		current_leftedge = leftedge_for(current_leftedge - 1, *line);
 		continue;
 	    }
 
@@ -2834,7 +2833,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 		break;
 
 	    *line = (*line)->prev;
-	    current_leftedge = get_chunk_leftedge(*line, (size_t)-1);
+	    current_leftedge = leftedge_for((size_t)-1, *line);
 	}
 
 	/* Only change leftedge when we actually could move. */
@@ -2900,7 +2899,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	filestruct *line = openfile->current;
-	size_t leftedge = get_chunk_leftedge(openfile->current, xplustabs());
+	size_t leftedge = leftedge_for(xplustabs(), openfile->current);
 	int rows_left = go_back_chunks(editwinrows - 1, &line, &leftedge);
 
 	return (rows_left > 0 || line->lineno < was_lineno ||
@@ -2966,11 +2965,11 @@ void edit_scroll(scroll_dir direction, int nrows)
 
 #ifndef NANO_TINY
     /* Compensate for the earlier chunks of a softwrapped line. */
-    nrows += get_chunk_row(line, leftedge);
+    nrows += chunk_for(leftedge, line);
 
     /* Don't compensate for the chunks that are offscreen. */
     if (line == openfile->edittop)
-	nrows -= get_chunk_row(line, openfile->firstcolumn);
+	nrows -= chunk_for(openfile->firstcolumn, line);
 #endif
 
     /* Draw new content on the blank rows inside the scrolled region
@@ -3050,7 +3049,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 /* Get the row of the softwrapped chunk of the given line that column is on,
  * relative to the first row (zero-based), and return it.  If leftedge isn't
  * NULL, return the leftmost column of the chunk in it. */
-size_t get_chunk(filestruct *line, size_t column, size_t *leftedge)
+size_t get_chunk_and_edge(size_t column, filestruct *line, size_t *leftedge)
 {
     size_t current_chunk = 0, start_col = 0, end_col;
     bool end_of_line = FALSE;
@@ -3072,27 +3071,27 @@ size_t get_chunk(filestruct *line, size_t column, size_t *leftedge)
 
 /* Return the row of the softwrapped chunk of the given line that column is on,
  * relative to the first row (zero-based). */
-size_t get_chunk_row(filestruct *line, size_t column)
+size_t chunk_for(size_t column, filestruct *line)
 {
-    return get_chunk(line, column, NULL);
+    return get_chunk_and_edge(column, line, NULL);
 }
 
 /* Return the leftmost column of the softwrapped chunk of the given line that
  * column is on. */
-size_t get_chunk_leftedge(filestruct *line, size_t column)
+size_t leftedge_for(size_t column, filestruct *line)
 {
     size_t leftedge;
 
-    get_chunk(line, column, &leftedge);
+    get_chunk_and_edge(column, line, &leftedge);
 
     return leftedge;
 }
 
 /* Return the row of the last softwrapped chunk of the given line, relative to
  * the first row (zero-based). */
-size_t get_last_chunk_row(filestruct *line)
+size_t number_of_chunks_in(filestruct *line)
 {
-    return get_chunk_row(line, (size_t)-1);
+    return chunk_for((size_t)-1, line);
 }
 
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk
@@ -3100,8 +3099,8 @@ size_t get_last_chunk_row(filestruct *line)
  * has changed, because then the width of softwrapped chunks has changed. */
 void ensure_firstcolumn_is_aligned(void)
 {
-    openfile->firstcolumn = get_chunk_leftedge(openfile->edittop,
-						openfile->firstcolumn);
+    openfile->firstcolumn = leftedge_for(openfile->firstcolumn,
+						openfile->edittop);
 
     /* If smooth scrolling is on, make sure the viewport doesn't center. */
     focusing = FALSE;
@@ -3164,8 +3163,8 @@ bool current_is_below_screen(void)
 	return (go_forward_chunks(editwinrows - 1, &line, &leftedge) == 0 &&
 			(line->lineno < openfile->current->lineno ||
 			(line->lineno == openfile->current->lineno &&
-			leftedge < get_chunk_leftedge(openfile->current,
-					xplustabs()))));
+			leftedge < leftedge_for(xplustabs(),
+						openfile->current))));
     } else
 #endif
 	return (openfile->current->lineno >=
@@ -3284,8 +3283,7 @@ void adjust_viewport(update_type manner)
     openfile->edittop = openfile->current;
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP))
-	openfile->firstcolumn = get_chunk_leftedge(openfile->current,
-							xplustabs());
+	openfile->firstcolumn = leftedge_for(xplustabs(), openfile->current);
 #endif
 
     /* Move edittop back goal rows, starting at current[current_x]. */
@@ -3462,7 +3460,7 @@ void spotlight(bool active, size_t from_col, size_t to_col)
 void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
 {
     ssize_t row = openfile->current_y;
-    size_t leftedge = get_chunk_leftedge(openfile->current, from_col);
+    size_t leftedge = leftedge_for(from_col, openfile->current);
     size_t break_col;
     bool end_of_line = FALSE;
     char *word;

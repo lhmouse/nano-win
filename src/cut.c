@@ -270,7 +270,7 @@ void do_uncut_text(void)
     add_undo(PASTE);
 
     if (ISSET(SOFTWRAP))
-	was_leftedge = get_chunk_leftedge(openfile->current, xplustabs());
+	was_leftedge = leftedge_for(xplustabs(), openfile->current);
 #endif
 
     /* Add a copy of the text in the cutbuffer to the current buffer
