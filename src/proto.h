@@ -542,9 +542,7 @@ RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
 void discard_until(const undo *thisitem, openfilestruct *thefile);
 void add_undo(undo_type action);
-#ifdef ENABLE_COMMENT
-void update_comment_undo(ssize_t lineno);
-#endif
+void update_multiline_undo(ssize_t lineno, char *indentation);
 void update_undo(undo_type action);
 #endif /* !NANO_TINY */
 #ifndef DISABLE_WRAPPING

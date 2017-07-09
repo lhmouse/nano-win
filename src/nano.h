@@ -299,6 +299,8 @@ typedef struct undo_group {
 	/* First line of group. */
     ssize_t bottom_line;
 	/* Last line of group. */
+    char **indentations;
+	/* String data used to restore the affected lines; one per line. */
     struct undo_group *next;
 } undo_group;
 

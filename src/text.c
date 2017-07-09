@@ -509,7 +509,7 @@ void do_comment(void)
     for (line = top; line != bot->next; line = line->next) {
 	/* Comment/uncomment a line, and add undo data when line changed. */
 	if (comment_line(action, line, comment_seq))
-	    update_comment_undo(line->lineno);
+	    update_multiline_undo(line->lineno, "");
     }
 
     set_modified();
@@ -1137,22 +1137,20 @@ bool execute_command(const char *command)
 void discard_until(const undo *thisitem, openfilestruct *thefile)
 {
     undo *dropit = thefile->undotop;
-#ifdef ENABLE_COMMENT
     undo_group *group;
-#endif
 
     while (dropit != NULL && dropit != thisitem) {
 	thefile->undotop = dropit->next;
 	free(dropit->strdata);
 	free_filestruct(dropit->cutbuffer);
-#ifdef ENABLE_COMMENT
 	group = dropit->grouping;
 	while (group != NULL) {
 	    undo_group *next = group->next;
+	    free_chararray(group->indentations,
+				group->bottom_line - group->top_line);
 	    free(group);
 	    group = next;
 	}
-#endif
 	free(dropit);
 	dropit = thefile->undotop;
     }
@@ -1297,30 +1295,40 @@ void add_undo(undo_type action)
     openfile->last_action = action;
 }
 
-#ifdef ENABLE_COMMENT
-/* Update a comment undo item.  This should be called once for each line
- * affected by the comment/uncomment feature. */
-void update_comment_undo(ssize_t lineno)
+/* Update a multiline undo item.  This should be called once for each line
+ * affected by a multiple-line-altering feature.  The existing indentation
+ * is saved separately for each line in the undo item. */
+void update_multiline_undo(ssize_t lineno, char *indentation)
 {
     undo *u = openfile->current_undo;
 
     /* If there already is a group and the current line is contiguous with it,
      * extend the group; otherwise, create a new group. */
-    if (u->grouping && u->grouping->bottom_line + 1 == lineno)
+    if (u->grouping && u->grouping->bottom_line + 1 == lineno) {
+	size_t number_of_lines;
+
 	u->grouping->bottom_line++;
-    else {
+
+	number_of_lines = u->grouping->bottom_line - u->grouping->top_line + 1;
+	u->grouping->indentations = (char **)nrealloc(u->grouping->indentations,
+					number_of_lines * sizeof(char *));
+	u->grouping->indentations[number_of_lines - 1] = mallocstrcpy(NULL,
+								indentation);
+    } else {
 	undo_group *born = (undo_group *)nmalloc(sizeof(undo_group));
 
 	born->next = u->grouping;
 	u->grouping = born;
 	born->top_line = lineno;
 	born->bottom_line = lineno;
+
+	u->grouping->indentations = (char **)nmalloc(sizeof(char *));
+	u->grouping->indentations[0] = mallocstrcpy(NULL, indentation);
     }
 
     /* Store the file size after the change, to be used when redoing. */
     u->newsize = openfile->totsize;
 }
-#endif /* ENABLE_COMMENT */
 
 /* Update an undo item, or determine whether a new one is really needed
  * and bounce the data to add_undo instead.  The latter functionality
