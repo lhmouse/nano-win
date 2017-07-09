@@ -1808,12 +1808,12 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     size_t current_len = strlen(openfile->current->data);
     size_t i = 0;
 #ifndef NANO_TINY
-    size_t orig_rows = 0, original_row = 0;
+    size_t original_row = 0, old_amount = 0;
 
     if (ISSET(SOFTWRAP)) {
 	if (openfile->current_y == editwinrows - 1)
 	    original_row = chunk_for(xplustabs(), openfile->current);
-	orig_rows = number_of_chunks_in(openfile->current);
+	old_amount = number_of_chunks_in(openfile->current);
     }
 #endif
 
@@ -1878,7 +1878,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
      * of the edit window, and we moved one screen row, we're now below
      * the last line of the edit window, so we need a full refresh too. */
     if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
-		(number_of_chunks_in(openfile->current) != orig_rows ||
+		(number_of_chunks_in(openfile->current) != old_amount ||
 		(openfile->current_y == editwinrows - 1 &&
 		chunk_for(xplustabs(), openfile->current) != original_row)))
 	refresh_needed = TRUE;
