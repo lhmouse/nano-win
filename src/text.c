@@ -284,10 +284,6 @@ void do_tab(void)
  * tabsize) tabs and (len % tabsize) spaces. */
 void do_indent(ssize_t cols)
 {
-    bool indent_changed = FALSE;
-	/* Whether any indenting or unindenting was done. */
-    bool unindent = FALSE;
-	/* Whether we're unindenting text. */
     char *line_indent = NULL;
 	/* The text added to each line in order to indent it. */
     size_t line_indent_len = 0;
@@ -297,11 +293,6 @@ void do_indent(ssize_t cols)
     size_t top_x, bot_x;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    /* Otherwise, we're indenting, in which case the file will always be
-     * modified, so set indent_changed to TRUE. */
-    if (!unindent)
-	indent_changed = TRUE;
 
     /* If the mark is on, use all lines covered by the mark. */
     if (openfile->mark_set)
@@ -313,7 +304,6 @@ void do_indent(ssize_t cols)
 	bot = top;
     }
 
-    if (!unindent) {
 	/* Set up the text we'll be using as indentation. */
 	line_indent = charalloc(cols + 1);
 
@@ -334,14 +324,12 @@ void do_indent(ssize_t cols)
 	}
 
 	line_indent[line_indent_len] = '\0';
-    }
 
     /* Go through each line of the text. */
     for (f = top; f != bot->next; f = f->next) {
 	size_t line_len = strlen(f->data);
 	size_t indent_len = indent_length(f->data);
 
-	if (!unindent) {
 	    /* If we're indenting, add the characters in line_indent to
 	     * the beginning of the non-whitespace text of this line. */
 	    f->data = charealloc(f->data, line_len + line_indent_len + 1);
@@ -364,55 +352,11 @@ void do_indent(ssize_t cols)
 	     * magicline, add a new magicline. */
 	    if (!ISSET(NO_NEWLINES) && f == openfile->filebot)
 		new_magicline();
-	} else {
-	    size_t indent_col = strnlenpt(f->data, indent_len);
-		/* The length in columns of the indentation on this line. */
-
-	    if (cols <= indent_col) {
-		size_t indent_new = actual_x(f->data, indent_col - cols);
-			/* The length of the indentation remaining on
-			 * this line after we unindent. */
-		size_t indent_shift = indent_len - indent_new;
-			/* The change in the indentation on this line
-			 * after we unindent. */
-
-		/* If we're unindenting, and there's at least cols
-		 * columns' worth of indentation at the beginning of the
-		 * non-whitespace text of this line, remove it. */
-		charmove(&f->data[indent_new], &f->data[indent_len],
-			line_len - indent_shift - indent_new + 1);
-		null_at(&f->data, line_len - indent_shift + 1);
-		openfile->totsize -= indent_shift;
-
-		/* Keep track of the change in the current line. */
-		if (openfile->mark_set && f == openfile->mark_begin &&
-			openfile->mark_begin_x > indent_new) {
-		    if (openfile->mark_begin_x <= indent_len)
-			openfile->mark_begin_x = indent_new;
-		    else
-			openfile->mark_begin_x -= indent_shift;
-		}
-
-		if (f == openfile->current &&
-			openfile->current_x > indent_new) {
-		    if (openfile->current_x <= indent_len)
-			openfile->current_x = indent_new;
-		    else
-			openfile->current_x -= indent_shift;
-		    openfile->placewewant = xplustabs();
-		}
-
-		/* We've unindented, so the indentation changed. */
-		indent_changed = TRUE;
-	    }
-	}
     }
 
-    if (!unindent)
 	/* Clean up. */
 	free(line_indent);
 
-    if (indent_changed) {
 	/* Throw away the undo stack, to prevent making mistakes when
 	 * the user tries to undo something in the reindented text. */
 	discard_until(NULL, openfile);
@@ -422,7 +366,6 @@ void do_indent(ssize_t cols)
 
 	/* Update the screen. */
 	refresh_needed = TRUE;
-    }
 }
 
 /* Indent the current line, or all lines covered by the mark if the mark
