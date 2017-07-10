@@ -298,17 +298,9 @@ void do_indent(ssize_t cols)
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    /* If cols is zero, get out. */
-    if (cols == 0)
-	return;
-
-    /* If cols is negative, make it positive and set unindent to TRUE. */
-    if (cols < 0) {
-	cols = -cols;
-	unindent = TRUE;
     /* Otherwise, we're indenting, in which case the file will always be
      * modified, so set indent_changed to TRUE. */
-    } else
+    if (!unindent)
 	indent_changed = TRUE;
 
     /* If the mark is on, use all lines covered by the mark. */
@@ -449,7 +441,7 @@ void do_unindent(ssize_t cols)
 {
     bool indent_changed = FALSE;
 	/* Whether any indenting or unindenting was done. */
-    bool unindent = FALSE;
+    bool unindent = TRUE;
 	/* Whether we're unindenting text. */
     char *line_indent = NULL;
 	/* The text added to each line in order to indent it. */
@@ -461,17 +453,9 @@ void do_unindent(ssize_t cols)
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    /* If cols is zero, get out. */
-    if (cols == 0)
-	return;
-
-    /* If cols is negative, make it positive and set unindent to TRUE. */
-    if (cols < 0) {
-	cols = -cols;
-	unindent = TRUE;
     /* Otherwise, we're indenting, in which case the file will always be
      * modified, so set indent_changed to TRUE. */
-    } else
+    if (!unindent)
 	indent_changed = TRUE;
 
     /* If the mark is on, use all lines covered by the mark. */
@@ -600,7 +584,7 @@ void do_unindent(ssize_t cols)
  * is on, tabsize columns. */
 void do_unindent_void(void)
 {
-    do_unindent(-tabsize);
+    do_unindent(tabsize);
 }
 #endif /* !NANO_TINY */
 
