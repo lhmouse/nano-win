@@ -277,11 +277,9 @@ void do_tab(void)
 }
 
 #ifndef NANO_TINY
-/* Indent or unindent the current line (or, if the mark is on, all lines
- * covered by the mark) len columns, depending on whether len is
- * positive or negative.  If the TABS_TO_SPACES flag is set, indent or
- * unindent by len spaces.  Otherwise, indent or unindent by (len /
- * tabsize) tabs and (len % tabsize) spaces. */
+/* Indent the current line (or the marked lines) by tabsize columns.
+ * This inserts either a tab character or a tab's worth of spaces,
+ * depending on whether --tabstospaces is in effect. */
 void do_indent(void)
 {
     char *line_indent = NULL;
@@ -308,12 +306,11 @@ void do_indent(void)
     line_indent = charalloc(tabsize + 1);
 
     if (ISSET(TABS_TO_SPACES)) {
-	/* Set the indentation to cols spaces. */
+	/* Set the indentation to tabsize spaces. */
 	charset(line_indent, ' ', tabsize);
 	line_indent_len = tabsize;
     } else {
-	/* Set the indentation to (cols / tabsize) tabs and (cols %
-	 * tabsize) spaces. */
+	/* Set the indentation to a tab. */
 	line_indent[0] = '\t';
 	line_indent_len = 1;
     }
@@ -325,7 +322,7 @@ void do_indent(void)
 	size_t line_len = strlen(f->data);
 	size_t indent_len = indent_length(f->data);
 
-	/* If we're indenting, add the characters in line_indent to
+	/* Add the characters in line_indent to
 	 * the beginning of the non-whitespace text of this line. */
 	f->data = charealloc(f->data, line_len + line_indent_len + 1);
 	charmove(&f->data[indent_len + line_indent_len],
@@ -353,7 +350,7 @@ void do_indent(void)
     free(line_indent);
 
     /* Throw away the undo stack, to prevent making mistakes when
-     * the user tries to undo something in the reindented text. */
+     * the user tries to undo something in the indented text. */
     discard_until(NULL, openfile);
 
     /* Mark the file as modified. */
@@ -363,15 +360,12 @@ void do_indent(void)
     refresh_needed = TRUE;
 }
 
-/* Indent or unindent the current line (or, if the mark is on, all lines
- * covered by the mark) len columns, depending on whether len is
- * positive or negative.  If the TABS_TO_SPACES flag is set, indent or
- * unindent by len spaces.  Otherwise, indent or unindent by (len /
- * tabsize) tabs and (len % tabsize) spaces. */
+/* Unindent the current line (or the marked lines) by tabsize columns.
+ * The removed indent can be a mixture of spaces plus at most one tab. */
 void do_unindent(void)
 {
     bool indent_changed = FALSE;
-	/* Whether any indenting or unindenting was done. */
+	/* Whether any unindenting was done. */
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
 
@@ -402,7 +396,7 @@ void do_unindent(void)
 		/* The change in the indentation on this line
 		 * after we unindent. */
 
-	    /* If we're unindenting, and there's at least cols
+	    /* If there's at least tabsize
 	     * columns' worth of indentation at the beginning of the
 	     * non-whitespace text of this line, remove it. */
 	    charmove(&f->data[indent_new], &f->data[indent_len],
@@ -435,7 +429,7 @@ void do_unindent(void)
 
     if (indent_changed) {
 	/* Throw away the undo stack, to prevent making mistakes when
-	 * the user tries to undo something in the reindented text. */
+	 * the user tries to undo something in the unindented text. */
 	discard_until(NULL, openfile);
 
 	/* Mark the file as modified. */
