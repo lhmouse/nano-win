@@ -282,7 +282,7 @@ void do_tab(void)
  * positive or negative.  If the TABS_TO_SPACES flag is set, indent or
  * unindent by len spaces.  Otherwise, indent or unindent by (len /
  * tabsize) tabs and (len % tabsize) spaces. */
-void do_indent(ssize_t cols)
+void do_indent(void)
 {
     char *line_indent = NULL;
 	/* The text added to each line in order to indent it. */
@@ -305,22 +305,17 @@ void do_indent(ssize_t cols)
     }
 
     /* Set up the text we'll be using as indentation. */
-    line_indent = charalloc(cols + 1);
+    line_indent = charalloc(tabsize + 1);
 
     if (ISSET(TABS_TO_SPACES)) {
 	/* Set the indentation to cols spaces. */
-	charset(line_indent, ' ', cols);
-	line_indent_len = cols;
+	charset(line_indent, ' ', tabsize);
+	line_indent_len = tabsize;
     } else {
 	/* Set the indentation to (cols / tabsize) tabs and (cols %
 	 * tabsize) spaces. */
-	size_t num_tabs = cols / tabsize;
-	size_t num_spaces = cols % tabsize;
-
-	charset(line_indent, '\t', num_tabs);
-	charset(line_indent + num_tabs, ' ', num_spaces);
-
-	line_indent_len = num_tabs + num_spaces;
+	line_indent[0] = '\t';
+	line_indent_len = 1;
     }
 
     line_indent[line_indent_len] = '\0';
@@ -368,19 +363,12 @@ void do_indent(ssize_t cols)
     refresh_needed = TRUE;
 }
 
-/* Indent the current line, or all lines covered by the mark if the mark
- * is on, tabsize columns. */
-void do_indent_void(void)
-{
-    do_indent(tabsize);
-}
-
 /* Indent or unindent the current line (or, if the mark is on, all lines
  * covered by the mark) len columns, depending on whether len is
  * positive or negative.  If the TABS_TO_SPACES flag is set, indent or
  * unindent by len spaces.  Otherwise, indent or unindent by (len /
  * tabsize) tabs and (len % tabsize) spaces. */
-void do_unindent(ssize_t cols)
+void do_unindent(void)
 {
     bool indent_changed = FALSE;
 	/* Whether any indenting or unindenting was done. */
@@ -406,8 +394,8 @@ void do_unindent(ssize_t cols)
 	size_t indent_col = strnlenpt(f->data, indent_len);
 		/* The length in columns of the indentation on this line. */
 
-	if (cols <= indent_col) {
-	    size_t indent_new = actual_x(f->data, indent_col - cols);
+	if (tabsize <= indent_col) {
+	    size_t indent_new = actual_x(f->data, indent_col - tabsize);
 		/* The length of the indentation remaining on
 		 * this line after we unindent. */
 	    size_t indent_shift = indent_len - indent_new;
@@ -456,13 +444,6 @@ void do_unindent(ssize_t cols)
 	/* Update the screen. */
 	refresh_needed = TRUE;
     }
-}
-
-/* Unindent the current line, or all lines covered by the mark if the mark
- * is on, tabsize columns. */
-void do_unindent_void(void)
-{
-    do_unindent(tabsize);
 }
 #endif /* !NANO_TINY */
 
