@@ -931,7 +931,7 @@ void shortcut_init(void)
 #ifndef NANO_TINY
     add_to_funcs(do_indent_void, MMAIN,
 	N_("Indent Text"), IFSCHELP(nano_indent_msg), TOGETHER, NOVIEW);
-    add_to_funcs(do_unindent, MMAIN,
+    add_to_funcs(do_unindent_void, MMAIN,
 	N_("Unindent Text"), IFSCHELP(nano_unindent_msg), BLANKAFTER, NOVIEW);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
@@ -1106,7 +1106,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-6", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-}", 0, do_indent_void, 0);
-    add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
+    add_to_sclist(MMAIN, "M-{", 0, do_unindent_void, 0);
     add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
     add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
 #endif
@@ -1490,7 +1490,7 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "indent"))
 	s->scfunc = do_indent_void;
     else if (!strcasecmp(input, "unindent"))
-	s->scfunc = do_unindent;
+	s->scfunc = do_unindent_void;
     else if (!strcasecmp(input, "scrollup"))
 	s->scfunc = do_scroll_up;
     else if (!strcasecmp(input, "scrolldown"))

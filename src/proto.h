@@ -525,7 +525,8 @@ void do_tab(void);
 #ifndef NANO_TINY
 void do_indent(ssize_t cols);
 void do_indent_void(void);
-void do_unindent(void);
+void do_unindent(ssize_t cols);
+void do_unindent_void(void);
 #endif
 bool white_string(const char *s);
 #ifdef ENABLE_COMMENT
