@@ -22,12 +22,10 @@
 #include "proto.h"
 
 #include <string.h>
-#include <stdio.h>
 #include <unistd.h>
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
-#include <ctype.h>
 #include <errno.h>
 
 /* Return the user's home directory.  We use $HOME, and if that fails,

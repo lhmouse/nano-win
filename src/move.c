@@ -22,7 +22,6 @@
 #include "proto.h"
 
 #include <string.h>
-#include <ctype.h>
 
 /* Move to the first line of the file. */
 void do_first_line(void)

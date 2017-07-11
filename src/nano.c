@@ -22,14 +22,11 @@
 #include "proto.h"
 #include "revision.h"
 
-#include <stdio.h>
-#include <stdarg.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <ctype.h>
-#include <locale.h>
 #ifdef ENABLE_UTF8
 #include <langinfo.h>
 #endif

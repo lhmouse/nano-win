@@ -24,7 +24,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <strings.h>
-#include "assert.h"
 
 /* Global variables. */
 #ifndef NANO_TINY

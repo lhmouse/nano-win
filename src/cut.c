@@ -23,7 +23,6 @@
 #include "proto.h"
 
 #include <string.h>
-#include <stdio.h>
 
 static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */

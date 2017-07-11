@@ -22,9 +22,7 @@
 
 #include "proto.h"
 
-#include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 #include <errno.h>
 
 #ifdef ENABLE_HELP

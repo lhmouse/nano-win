@@ -21,13 +21,10 @@
 
 #include "proto.h"
 
-#include <stdarg.h>
-#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <ctype.h>
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif

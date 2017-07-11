@@ -21,8 +21,6 @@
 
 #include "proto.h"
 
-#include <stdio.h>
-#include <stdarg.h>
 #include <string.h>
 
 static char *prompt = NULL;

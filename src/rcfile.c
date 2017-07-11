@@ -23,9 +23,7 @@
 #include "proto.h"
 
 #include <glob.h>
-#include <stdarg.h>
 #include <string.h>
-#include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
 #include <ctype.h>
