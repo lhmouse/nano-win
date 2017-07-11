@@ -24,7 +24,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <time.h>
 #include <unistd.h>
 
 #ifdef HAVE_MAGIC_H
