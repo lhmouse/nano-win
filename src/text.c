@@ -275,6 +275,32 @@ void do_tab(void)
 }
 
 #ifndef NANO_TINY
+/* Add an indent to the line in f. */
+void indent_a_line(filestruct *f, char *line_indent)
+{
+    size_t line_indent_len = strlen(line_indent);
+    size_t line_len = strlen(f->data);
+
+    /* If the indent is empty, don't change the line. */
+    if (line_indent_len == 0)
+	return;
+
+    /* Add the fabricated indentation to the beginning of the line. */
+    f->data = charealloc(f->data, line_len + line_indent_len + 1);
+    charmove(&f->data[line_indent_len], f->data, line_len + 1);
+    strncpy(f->data, line_indent, line_indent_len);
+
+    openfile->totsize += line_indent_len;
+
+    /* Compensate for the change in the current line. */
+    if (openfile->mark_set && f == openfile->mark_begin)
+        openfile->mark_begin_x += line_indent_len;
+    if (f == openfile->current) {
+	openfile->current_x += line_indent_len;
+	openfile->placewewant = xplustabs();
+    }
+}
+
 /* Indent the current line (or the marked lines) by tabsize columns.
  * This inserts either a tab character or a tab's worth of spaces,
  * depending on whether --tabstospaces is in effect. */
@@ -282,8 +308,6 @@ void do_indent(void)
 {
     char *line_indent = charalloc(tabsize + 1);
 	/* The whitespace added to each line in order to indent it. */
-    size_t line_indent_len = 0;
-	/* The number of bytes added to each line in order to indent it. */
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
 
@@ -311,35 +335,17 @@ void do_indent(void)
     /* Set the indentation to either a bunch of spaces or a single tab. */
     if (ISSET(TABS_TO_SPACES)) {
 	charset(line_indent, ' ', tabsize);
-	line_indent_len = tabsize;
+	line_indent[tabsize] = '\0';
     } else {
 	line_indent[0] = '\t';
-	line_indent_len = 1;
+	line_indent[1] = '\0';
     }
-
-    line_indent[line_indent_len] = '\0';
 
     /* Go through each of the lines, but skip empty ones. */
     for (f = top; f != bot->next; f = f->next) {
-	size_t line_len = strlen(f->data);
+	char *real_indent = (f->data[0] == '\0') ? "" : line_indent;
 
-	if (f->data[0] == '\0')
-	    continue;
-
-	/* Add the fabricated indentation to the beginning of the line. */
-	f->data = charealloc(f->data, line_len + line_indent_len + 1);
-	charmove(&f->data[line_indent_len], f->data, line_len + 1);
-	strncpy(f->data, line_indent, line_indent_len);
-
-	openfile->totsize += line_indent_len;
-
-	/* Compensate for the change in the current line. */
-	if (openfile->mark_set && f == openfile->mark_begin)
-	    openfile->mark_begin_x += line_indent_len;
-	if (f == openfile->current) {
-	    openfile->current_x += line_indent_len;
-	    openfile->placewewant = xplustabs();
-	}
+	indent_a_line(f, real_indent);
     }
 
     free(line_indent);
