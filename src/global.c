@@ -667,7 +667,7 @@ void shortcut_init(void)
     add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
 	N_("Cancel"), IFSCHELP(nano_cancel_msg), BLANKAFTER, VIEW);
 
-    add_to_funcs(do_exit, MMAIN|MHELP,
+    add_to_funcs(do_exit, MMAIN,
 	exit_tag, IFSCHELP(nano_exit_msg), TOGETHER, VIEW);
     /* Remember the entry for Exit, to be able to replace it with Close. */
     exitfunc = tailfunc;
@@ -720,6 +720,7 @@ void shortcut_init(void)
 #ifdef ENABLE_HELP
     /* The description ("x") and blank_after (0) are irrelevant,
      * because the help viewer does not have a help text. */
+    add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
     add_to_funcs(total_refresh, MHELP, refresh_tag, "x", 0, VIEW);
 
     add_to_funcs(do_search, MHELP, whereis_tag, "x", 0, VIEW);
