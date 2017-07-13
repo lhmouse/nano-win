@@ -713,10 +713,15 @@ the maximum line length will be the screen width less @var{number} columns.
 The default value is @t{-8}.  This option conflicts with
 @option{nowrap}; the last one given takes effect.
 
+@anchor{@code{set functioncolor}}
 @item set functioncolor @var{fgcolor},@var{bgcolor}
-Specify the color combination to use for the function descriptions
+Use this color combination for the concise function descriptions
 in the two help lines at the bottom of the screen.
-@xref{@code{set titlecolor}} for details.
+Valid names for foreground and background color are:
+@code{white}, @code{black}, @code{blue}, @code{green},
+@code{red}, @code{cyan}, @code{yellow}, and @code{magenta}.
+The name of the foreground color may be prefixed with @code{bright}.
+And either @var{fgcolor} or @var{,bgcolor} may be left out.
 
 @item set historylog
 Enable the use of @file{~/.nano/search_history} for saving and reading
@@ -726,9 +731,9 @@ search/replace strings.
 When justifying text, trailing whitespace will automatically be removed.
 
 @item set keycolor @var{fgcolor},@var{bgcolor}
-Specify the color combination to use for the shortcut key combos
+Use this color combination for the shortcut key combos
 in the two help lines at the bottom of the screen.
-@xref{@code{set titlecolor}} for details.
+@xref{@code{set functioncolor}} for details.
 
 @item set linenumbers
 Display line numbers to the left of the text area.
@@ -770,8 +775,8 @@ Don't hard-wrap text at all.  This option conflicts with
 @option{fill}; the last one given takes effect.
 
 @item set numbercolor @var{fgcolor},@var{bgcolor}
-Specify the color combination to use for line numbers.
-@xref{@code{set titlecolor}} for details.
+Use this color combination for line numbers.
+@xref{@code{set functioncolor}} for details.
 
 @item set operatingdir "@var{directory}"
 @code{nano} will only read and write files inside "directory" and its
@@ -846,8 +851,8 @@ Use the given program to do spell checking and correcting.
 @xref{@code{--speller}} for details.
 
 @item set statuscolor @var{fgcolor},@var{bgcolor}
-Specify the color combination to use for the status bar.
-@xref{@code{set titlecolor}} for details.
+Use this color combination for the status bar.
+@xref{@code{set functioncolor}} for details.
 
 @item set suspend
 Allow @code{nano} to be suspended.
@@ -862,13 +867,9 @@ Convert typed tabs to spaces.
 @item set tempfile
 Save automatically on exit, don't prompt.
 
-@anchor{@code{set titlecolor}}
 @item set titlecolor @var{fgcolor},@var{bgcolor}
-Specify the color combination to use for the title bar.
-Valid color names for foreground and background are:
-white, black, blue, green, red, cyan, yellow, and magenta.
-The name of the foreground color may be prefixed with 'bright'.
-And either @var{fgcolor} or @var{,bgcolor} may be left out.
+Use this color combination for the title bar.
+@xref{@code{set functioncolor}} for details.
 
 @item set unix
 Save a file by default in Unix format.  This overrides nano's
