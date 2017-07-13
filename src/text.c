@@ -379,6 +379,38 @@ size_t length_of_white(const char *text)
     }
 }
 
+/* Remove an indent from the line in f. */
+void unindent_a_line(filestruct *f, size_t line_indent_len)
+{
+    size_t line_len = strlen(f->data);
+
+    /* If the indent is empty, don't change the line. */
+    if (line_indent_len == 0)
+	return;
+
+    /* Remove the first tab's worth of whitespace from this line. */
+    charmove(f->data, &f->data[line_indent_len],
+		line_len - line_indent_len + 1);
+    null_at(&f->data, line_len - line_indent_len + 1);
+
+    openfile->totsize -= line_indent_len;
+
+    /* Compensate for the change in the current line. */
+    if (openfile->mark_set && f == openfile->mark_begin) {
+	if (openfile->mark_begin_x < line_indent_len)
+	    openfile->mark_begin_x = 0;
+	else
+	    openfile->mark_begin_x -= line_indent_len;
+    }
+    if (f == openfile->current) {
+	if (openfile->current_x < line_indent_len)
+	    openfile->current_x = 0;
+	else
+	    openfile->current_x -= line_indent_len;
+	openfile->placewewant = xplustabs();
+    }
+}
+
 /* Unindent the current line (or the marked lines) by tabsize columns.
  * The removed indent can be a mixture of spaces plus at most one tab. */
 void do_unindent(void)
@@ -405,34 +437,8 @@ void do_unindent(void)
     }
 
     /* Go through each of the lines and remove their leading indent. */
-    for (f = top; f != bot->next; f = f->next) {
-	size_t line_len = strlen(f->data);
-	size_t indent_len = length_of_white(f->data);
-
-	/* If this line cannot be unindeted, simply skip it. */
-	if (indent_len == 0)
-	    continue;
-
-	/* Remove the first tab's worth of whitespace from this line. */
-	charmove(f->data, &f->data[indent_len], line_len - indent_len + 1);
-	null_at(&f->data, line_len - indent_len + 1);
-	openfile->totsize -= indent_len;
-
-	/* Compensate for the change in the current line. */
-	if (openfile->mark_set && f == openfile->mark_begin) {
-	    if (openfile->mark_begin_x <= indent_len)
-		openfile->mark_begin_x = 0;
-	    else
-		openfile->mark_begin_x -= indent_len;
-	}
-	if (f == openfile->current) {
-	    if (openfile->current_x <= indent_len)
-		openfile->current_x = 0;
-	    else
-		openfile->current_x -= indent_len;
-	    openfile->placewewant = xplustabs();
-	}
-    }
+    for (f = top; f != bot->next; f = f->next)
+	unindent_a_line(f, length_of_white(f->data));
 
     /* Throw away the undo stack, to prevent making mistakes when
      * the user tries to undo something in the unindented text. */
