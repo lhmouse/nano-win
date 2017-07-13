@@ -720,8 +720,8 @@ void shortcut_init(void)
 #ifdef ENABLE_HELP
     /* The description ("x") and blank_after (0) are irrelevant,
      * because the help viewer does not have a help text. */
-    add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
     add_to_funcs(total_refresh, MHELP, refresh_tag, "x", 0, VIEW);
+    add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
 
     add_to_funcs(do_search, MHELP, whereis_tag, "x", 0, VIEW);
     add_to_funcs(do_research, MHELP, whereis_next_tag, "x", 0, VIEW);
