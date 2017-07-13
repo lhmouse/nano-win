@@ -279,7 +279,7 @@ the previous line.
 
 @item -k
 @itemx --cut
-Make the 'Cut Text' command (normally ^K) cut from the current cursor
+Make the 'Cut Text' command (normally @kbd{^K}) cut from the current cursor
 position to the end of the line, instead of cutting the entire line.
 
 @item -l
@@ -309,8 +309,8 @@ similar to a chroot.
 
 @item -p
 @itemx --preserve
-Preserve the ^Q (XON) and ^S (XOFF) sequences so data being sent to the
-editor can be stopped and started.
+Preserve the @kbd{^Q} (XON) and @kbd{^S} (XOFF) sequences so data being
+sent to the editor can be stopped and started.
 
 @item -q
 @itemx --quiet
@@ -337,7 +337,7 @@ corrector, which requires the GNU @command{spell} program to be installed.
 
 @item -t
 @itemx --tempfile
-Don't ask whether to save a modified buffer when exiting with ^X, but
+Don't ask whether to save a modified buffer when exiting with @kbd{^X}, but
 assume yes.  This option is useful when @command{nano} is used as the
 composer of a mailer program.
 
@@ -371,7 +371,7 @@ disabled to display the help-system navigation keys.
 @item -z
 @itemx --suspend
 Enable the ability to suspend @command{nano} using the system's suspend
-keystroke (usually ^Z).
+keystroke (usually @kbd{^Z}).
 
 @item -$
 @itemx --softwrap
@@ -422,13 +422,13 @@ pressing the Esc key twice and then typing a three-digit decimal number
 with that value.
 
 @item
-For any possible character, pressing M-V (Alt+V) and then typing a
+For any possible character, pressing @kbd{M-V} (Alt+V) and then typing a
 six-digit hexadecimal number (starting with 0 or 1) will enter the
 corresponding Unicode character into the buffer.
 @end itemize
 
-For example, typing "Esc Esc 2 3 4" will enter the character "ê" ---
-useful when writing about a French party.  Typing "M-V 0 0 2 2 c 4"
+For example, typing @kbd{Esc Esc 2 3 4} will enter the character "ê" ---
+useful when writing about a French party.  Typing @kbd{M-V 0 0 2 2 c 4}
 will enter the symbol "⋄", a little diamond.
 
 @node Commands
@@ -457,29 +457,30 @@ and then pressing the desired key.
 @section The Cutbuffer
 
 Text can be cut from a file, a whole line at a time, by using the 'Cut Text'
-command (default key binding: ^K).  The cut line is stored in the cutbuffer.
-Consecutive strokes of ^K will add each cut line to this buffer, but a ^K
+command (default key binding: @kbd{^K}).  The cut line is stored in
+the cutbuffer.  Consecutive strokes of @kbd{^K} will add each cut line
+to this buffer, but a @kbd{^K}
 after any other keystroke will overwrite the entire cutbuffer.
 
 The contents of the cutbuffer can be pasted back into the file with the
-'Uncut Text' command (default key binding: ^U).
+'Uncut Text' command (default key binding: @kbd{^U}).
 
 A line of text can be copied into the cutbuffer (without cutting it) with
-the 'Copy Text' command (default key binding: M-6).
+the 'Copy Text' command (default key binding: @kbd{M-6}).
 
 @node The Mark
 @section The Mark
 
 Text can be selected by first 'setting the Mark' (default key bindings:
-^6 and M-A) and then moving the cursor to the other end of the portion
+@kbd{^6} and @kbd{M-A}) and then moving the cursor to the other end of the portion
 to be selected.  The selected portion of text will be highlighted in
 reverse video (or in bold if you set the boldtext option).
 This selection can now be cut or copied in its entirety with a single
-^K or M-6.  Or the selection can be used to limit the scope of a
-search-and-replace (^\) or spell-checking session (^T).
+@kbd{^K} or @kbd{M-6}.  Or the selection can be used to limit the scope of
+a search-and-replace (@kbd{^\}) or spell-checking session (@kbd{^T}).
 
 Cutting or copying selected text will toggle the mark off automatically.
-If necessary, it can be toggled off manually with another ^6 or M-A.
+If necessary, it can be toggled off manually with another @kbd{^6} or @kbd{M-A}.
 
 @node Screen Layout
 @section Screen Layout
@@ -509,13 +510,13 @@ Shortcut List.
 @section Search and Replace
 
 One can search the current buffer for the occurrence of any string
-with the Search command (default key binding: ^W).  The default search
+with the Search command (default key binding: @kbd{^W}).  The default search
 mode is forward, case-insensitive, and for literal strings.  But one
-can search backwards by pressing M-B, search case sensitively with M-C,
-and interpret regular expressions in the search string with M-R.
+can search backwards by pressing @kbd{M-B}, search case sensitively with @kbd{M-C},
+and interpret regular expressions in the search string with @kbd{M-R}.
 
 A regular expression in a search string always covers just one line;
-it cannot span multiple lines.  And when replacing (with ^\ or M-R)
+it cannot span multiple lines.  And when replacing (with @kbd{^\} or @kbd{M-R})
 the replacement string cannot contain a newline (LF).
 
 @node Using the Mouse
@@ -534,7 +535,7 @@ is running.
 @node Limitation
 @section Limitation
 
-Justifications (@code{^J}) and reindentations (@code{M-@{} and @code{M-@}})
+Justifications (@kbd{^J}) and reindentations (@kbd{M-@{} and @kbd{M-@}})
 are not yet covered by the general undo system.  So after a justification
 that is not immediately undone, or after any reindentation, earlier edits
 cannot be undone any more.  The workaround is, of course, to exit without
@@ -544,10 +545,10 @@ saving.
 @node Built-in Help
 @chapter Built-in Help
 
-The built-in help system in @code{nano} is available by pressing ^G@.
+The built-in help system in @code{nano} is available by pressing @kbd{^G}.
 It is fairly self-explanatory.  It documents the various parts of the
-editor and the available keystrokes.  Navigation is via the ^Y (Page Up)
-and ^V (Page Down) keys.  ^X exits the help system.
+editor and the available keystrokes.  Navigation is via the @kbd{^Y} (Page Up)
+and @kbd{^V} (Page Down) keys.  @kbd{^X} exits from the help system.
 
 
 @node Feature Toggles
@@ -560,60 +561,60 @@ The following global toggles are available:
 
 @table @code
 
-@item Backup Files Toggle (Meta-B)
-toggles the @code{-B} (@code{--backup}) command-line option.
+@item Backup Files toggle
+@kbd{Meta-B} toggles the @code{-B} (@code{--backup}) command-line option.
 
-@item Constant Cursor Position Display Toggle (Meta-C)
-toggles the @code{-c} (@code{--constantshow}) command-line option.
+@item Constant Cursor Position Display toggle
+@kbd{Meta-C} toggles the @code{-c} (@code{--constantshow}) command-line option.
 
-@item Multiple File Buffers Toggle (Meta-F)
-toggles the @code{-F} (@code{--multibuffer}) command-line option.
+@item Multiple File Buffers toggle
+@kbd{Meta-F} toggles the @code{-F} (@code{--multibuffer}) command-line option.
 
-@item Smart Home Key Toggle (Meta-H)
-toggles the @code{-A} (@code{--smarthome}) command-line option.
+@item Smart Home Key toggle
+@kbd{Meta-H} toggles the @code{-A} (@code{--smarthome}) command-line option.
 
-@item Auto Indent Toggle (Meta-I)
-toggles the @code{-i} (@code{--autoindent}) command-line option.
+@item Auto Indent toggle
+@kbd{Meta-I} toggles the @code{-i} (@code{--autoindent}) command-line option.
 
-@item Cut To End Toggle (Meta-K)
-toggles the @code{-k} (@code{--cut}) command-line option.
+@item Cut From Cursor To End-of-Line toggle
+@kbd{Meta-K} toggles the @code{-k} (@code{--cut}) command-line option.
 
-@item Long Line Wrapping Toggle (Meta-L)
-toggles the @code{-w} (@code{--nowrap}) command-line option.
+@item Long-Line Wrapping toggle
+@kbd{Meta-L} toggles the @code{-w} (@code{--nowrap}) command-line option.
 
-@item Mouse Support Toggle (Meta-M)
-toggles the @code{-m} (@code{--mouse}) command-line option.
+@item Mouse Support toggle
+@kbd{Meta-M} toggles the @code{-m} (@code{--mouse}) command-line option.
 
-@item No Conversion From DOS/Mac Format Toggle (Meta-N)
-toggles the @code{-N} (@code{--noconvert}) command-line option.
+@item No Conversion From DOS/Mac Format toggle
+@kbd{Meta-N} toggles the @code{-N} (@code{--noconvert}) command-line option.
 
-@item More Space For Editing Toggle (Meta-O)
-toggles the @code{-O} (@code{--morespace}) command-line option.
+@item More Space For Editing toggle
+@kbd{Meta-O} toggles the @code{-O} (@code{--morespace}) command-line option.
 
-@item Whitespace Display Toggle (Meta-P)
-toggles the whitespace-display mode (@pxref{Whitespace}).
+@item Whitespace Display toggle
+@kbd{Meta-P} toggles the whitespace-display mode (@pxref{Whitespace}).
 
-@item Tabs to Spaces Toggle (Meta-Q)
-toggles the @code{-E} (@code{--tabstospaces}) command-line option.
+@item Tabs To Spaces toggle
+@kbd{Meta-Q} toggles the @code{-E} (@code{--tabstospaces}) command-line option.
 
-@item Smooth Scrolling Toggle (Meta-S)
-toggles the @code{-S} (@code{--smooth}) command-line option.
+@item Smooth Scrolling toggle
+@kbd{Meta-S} toggles the @code{-S} (@code{--smooth}) command-line option.
 
-@item Expert/No Help Toggle (Meta-X)
-toggles the @code{-x} (@code{--nohelp}) command-line option.
+@item Expert/No Help toggle
+@kbd{Meta-X} toggles the @code{-x} (@code{--nohelp}) command-line option.
 
-@item Color Syntax Highlighting Toggle (Meta-Y)
-toggles color syntax highlighting (if your nanorc defines syntaxes
+@item Color Syntax Highlighting toggle
+@kbd{Meta-Y} toggles color syntax highlighting (if your nanorc defines syntaxes
 --- @pxref{Syntax Highlighting}).
 
-@item Suspension Toggle (Meta-Z)
-toggles the @code{-z} (@code{--suspend}) command-line option.
+@item Suspension toggle
+@kbd{Meta-Z} toggles the @code{-z} (@code{--suspend}) command-line option.
 
-@item Line Numbers Toggle (Meta-#)
-toggles the @code{-l} (@code{--linenumbers}) command-line option.
+@item Line Numbers toggle
+@kbd{Meta-#} toggles the @code{-l} (@code{--linenumbers}) command-line option.
 
-@item Soft Wrapping Toggle (Meta-$)
-toggles the @code{-$} (@code{--softwrap}) command-line option.
+@item Soft Wrapping toggle
+@kbd{Meta-$} toggles the @code{-$} (@code{--softwrap}) command-line option.
 
 @end table
 
@@ -755,7 +756,7 @@ Enable mouse support, so that mouse clicks can be used to place the
 cursor, set the mark (with a double click), or execute shortcuts.
 
 @item set multibuffer
-When reading in a file with ^R, insert it into a new buffer by default.
+When reading in a file with @kbd{^R}, insert it into a new buffer by default.
 
 @item set noconvert
 Don't convert files from DOS/Mac format.
@@ -790,7 +791,7 @@ The cursor position is remembered for the 200 most-recently edited files.
 (The old form of this option, @code{set poslog}, is deprecated.)
 
 @item set preserve
-Preserve the XON and XOFF keys (^Q and ^S).
+Preserve the XON and XOFF keys (@kbd{^Q} and @kbd{^S}).
 
 @item set punct "@var{string}"
 Set the characters treated as closing punctuation when justifying
@@ -1334,7 +1335,7 @@ Toggles mouse support.
 Toggles automatic conversion of files from DOS/Mac format.
 
 @item suspendenable
-Toggles whether the suspend sequence (normally ^Z) will suspend the editor window.
+Toggles whether the suspend shortcut (normally @kbd{^Z}) will suspend the editor.
 
 @end table
 
@@ -1396,14 +1397,15 @@ it means all menus where the specified @code{key} exists.
 @node The File Browser
 @chapter The File Browser
 
-When reading or writing files, pressing ^T will invoke the file browser.
+When reading or writing files, pressing @kbd{^T} will invoke the file browser.
 Here, one can navigate directories in a graphical manner in order to
 find the desired file.
 
 Basic movement in the file browser is accomplished with the arrow keys,
 page up, and page down.  More advanced movement is accomplished by
-searching via ^W (or 'w') and changing directories via ^_ (or 'g').  The
-behavior of the Enter (or 's') key varies by what is currently selected.
+searching via @kbd{^W} (or @kbd{w'} and changing directories via
+@kbd{^_} (or @kbd{g}).  The behavior of the @kbd{Enter} key (or @kbd{s})
+varies by what is currently selected.
 If the currently selected object is a directory, the file browser will
 enter and display the contents of the directory.  If the object is a
 file, this filename and path are copied to the status bar, and the file
@@ -1439,7 +1441,7 @@ when you close a file, and will place the cursor in that position
 again when you later reopen the file.
 
 @item Current Cursor Position
-The output of the "Display Cursor Position" command (^C) displays
+The output of the "Display Cursor Position" command (@kbd{^C}) displays
 not only the current line and character position of the cursor,
 but also (between the two) the current column position.
 
@@ -1449,18 +1451,18 @@ and trimmed for uniqueness, such that the words 'apple' and 'Apple' will
 be prompted for correction separately.
 
 @item Writing Selected Text to Files
-When using the Write-Out key (^O), text that has been selected using the
-marking key (^^) can not just be written out to a new (or existing) file,
+When using the Write-Out key (@kbd{^O}), text that has been selected using the
+marking key (@kbd{^^}) can not just be written out to a new (or existing) file,
 it can also be appended or prepended to an existing file.
 
 @item Reading Text from a Command
-When using the Read-File key (^R), @code{nano} can not just read a file,
-it can also read the output of a command to be run (^X).
+When using the Read-File key (@kbd{^R}), @code{nano} can not just read a file,
+it can also read the output of a command to be run (@kbd{^X}).
 
 @item Reading from Working Directory
 By default, Pico will read files from the user's home directory (when
-using ^R), but it will write files to the current working directory
-(when using ^O).  @code{nano} makes this symmetrical: always reading
+using @kbd{^R}), but it will write files to the current working directory
+(when using @kbd{^O}).  @code{nano} makes this symmetrical: always reading
 from and writing to the current working directory --- the directory
 that @code{nano} was started in.
 
@@ -1474,7 +1476,7 @@ Many options which alter the functionality of the program can be
 "toggled" on or off using Meta key sequences, meaning the program does
 not have to be restarted to turn a particular feature on or off.
 @xref{Feature Toggles} for a list of options that can be toggled.
-Or see the list at the end the main internal help text (^G) instead.
+Or see the list at the end of the main internal help text (@kbd{^G}) instead.
 
 @end table
 
@@ -1499,7 +1501,7 @@ The possible options to @code{./configure} are:
 @table @code
 
 @item --disable-browser
-Disable the mini file browser that can be called with ^T when reading
+Disable the mini file browser that can be called with @kbd{^T} when reading
 or writing files.
 
 @item --disable-color
@@ -1507,7 +1509,7 @@ Disable support for the syntax coloring of files.  This also eliminates
 the @code{-Y} command-line option, which chooses a specific syntax.
 
 @item --disable-comment
-Disable the single-keystroke comment/uncomment function (M-3).
+Disable the single-keystroke comment/uncomment function (@kbd{M-3}).
 
 @item --disable-extra
 Disable the Easter egg: a crawl of major contributors.
@@ -1533,7 +1535,7 @@ the file type and thus which syntax to use for colouring --- often the
 tests on filename extension and header line will be enough).
 
 @item --disable-linenumbers
-Disable the line-numbering function (M-#).  This also eliminates the
+Disable the line-numbering function (@kbd{M-#}).  This also eliminates the
 @code{-l} command-line option, which turns line numbering on.
 
 @item --disable-mouse
@@ -1566,7 +1568,7 @@ command-line option, which allows specifying an alternate spell checker.
 Disable tab completion (when nano asks for a filename or a search string).
 
 @item --disable-wordcomp
-Disable word completion (^]).
+Disable word completion (@kbd{^]}).
 
 @item --disable-wrapping
 Disable all hard-wrapping of overlong lines.  This also eliminates the
