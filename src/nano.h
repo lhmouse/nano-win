@@ -161,6 +161,7 @@ typedef enum {
 #ifndef DISABLE_WRAPPING
     SPLIT_BEGIN, SPLIT_END,
 #endif
+    INDENT, UNINDENT,
 #ifdef ENABLE_COMMENT
     COMMENT, UNCOMMENT, PREFLIGHT,
 #endif

@@ -334,18 +334,18 @@ void do_indent(void)
 	indentation[1] = '\0';
     }
 
+    add_undo(INDENT);
+
     /* Go through each of the lines, but skip empty ones. */
     for (line = top; line != bot->next; line = line->next) {
 	char *real_indent = (line->data[0] == '\0') ? "" : indentation;
 
+	/* Indent a line, add undo data, and save the original indent. */
 	indent_a_line(line, real_indent);
+	update_multiline_undo(line->lineno, real_indent);
     }
 
     free(indentation);
-
-    /* Throw away the undo stack, to prevent making mistakes when
-     * the user tries to undo something in the indented text. */
-    discard_until(NULL, openfile);
 
     set_modified();
     refresh_needed = TRUE;
@@ -427,15 +427,59 @@ void do_unindent(void)
 	}
     }
 
-    /* Go through each of the lines and remove their leading indent. */
-    for (line = top; line != bot->next; line = line->next)
-	unindent_a_line(line, length_of_white(line->data));
+    add_undo(UNINDENT);
 
-    /* Throw away the undo stack, to prevent making mistakes when
-     * the user tries to undo something in the unindented text. */
-    discard_until(NULL, openfile);
+    /* Go through each of the lines and remove their leading indent. */
+    for (line = top; line != bot->next; line = line->next) {
+	size_t indent_len = length_of_white(line->data);
+	char *indentation = mallocstrncpy(NULL, line->data, indent_len + 1);
+
+	indentation[indent_len] = '\0';
+
+	/* Unindent a line, add undo data, and save the original indent. */
+	unindent_a_line(line, indent_len);
+	update_multiline_undo(line->lineno, indentation);
+
+	free(indentation);
+    }
 
     set_modified();
+    refresh_needed = TRUE;
+}
+
+/* Perform an undo or redo for an indent or unindent action. */
+void handle_indent_action(undo *u, bool undoing, bool add_indent)
+{
+    undo_group *group = u->grouping;
+
+    /* When redoing, reposition the cursor and let the indenter adjust it. */
+    if (!undoing)
+	goto_line_posx(u->lineno, u->begin);
+
+    while (group) {
+	filestruct *line = fsfromline(group->top_line);
+
+	/* For each line in the group, add or remove the individual indent. */
+	while (line && line->lineno <= group->bottom_line) {
+	    char *indentation = mallocstrcpy(NULL,
+			group->indentations[line->lineno - group->top_line]);
+
+	    if (undoing ^ add_indent)
+		indent_a_line(line, indentation);
+	    else
+		unindent_a_line(line, strlen(indentation));
+
+	    free(indentation);
+
+	    line = line->next;
+	}
+	group = group->next;
+    }
+
+    /* When undoing, reposition the cursor to the recorded location. */
+    if (undoing)
+	goto_line_posx(u->lineno, u->begin);
+
     refresh_needed = TRUE;
 }
 #endif /* !NANO_TINY */
@@ -771,6 +815,14 @@ void do_undo(void)
 	unlink_node(f->next);
 	goto_line_posx(u->lineno, to_x);
 	break;
+    case INDENT:
+	handle_indent_action(u, TRUE, TRUE);
+	undidmsg = _("indent");
+	break;
+    case UNINDENT:
+	handle_indent_action(u, TRUE, FALSE);
+	undidmsg = _("unindent");
+	break;
 #ifdef ENABLE_COMMENT
     case COMMENT:
 	handle_comment_action(u, TRUE, TRUE);
@@ -945,6 +997,14 @@ void do_redo(void)
 	copy_from_buffer(u->cutbuffer);
 	free_filestruct(u->cutbuffer);
 	u->cutbuffer = NULL;
+	break;
+    case INDENT:
+	handle_indent_action(u, FALSE, TRUE);
+	redidmsg = _("indent");
+	break;
+    case UNINDENT:
+	handle_indent_action(u, FALSE, FALSE);
+	redidmsg = _("unindent");
 	break;
 #ifdef ENABLE_COMMENT
     case COMMENT:
@@ -1276,6 +1336,9 @@ void add_undo(undo_type action)
 	u->lineno += cutbottom->lineno - cutbuffer->lineno;
 	break;
     case ENTER:
+	break;
+    case INDENT:
+    case UNINDENT:
 	break;
 #ifdef ENABLE_COMMENT
     case COMMENT:
