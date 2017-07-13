@@ -2511,8 +2511,9 @@ void do_justify(bool full_justify)
     blank_statusbar();
     wnoutrefresh(bottomwin);
 
-    /* Show "Uncut" again in the help lines. */
+    /* Show "Uncut" again in the help lines, and force their redrawing. */
     uncutfunc->desc = uncut_tag;
+    currmenu = MMOST;
 }
 
 /* Justify the current paragraph. */

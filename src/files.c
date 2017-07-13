@@ -631,9 +631,14 @@ void switch_to_prevnext_buffer(bool to_next)
     /* Update titlebar and multiline info to match the current buffer. */
     prepare_for_display();
 
+    if (inhelp)
+	return;
+
+    /* Ensure that the main loop will redraw the help lines. */
+    currmenu = MMOST;
+
     /* Indicate the switch on the statusbar. */
-    if (!inhelp)
-	statusline(HUSH, _("Switched to %s"),
+    statusline(HUSH, _("Switched to %s"),
 			((openfile->filename[0] == '\0') ?
 			_("New Buffer") : openfile->filename));
 
@@ -677,7 +682,7 @@ bool close_buffer(void)
     /* Close the file buffer we had open before. */
     unlink_opennode(openfile->prev);
 
-    /* If only one buffer is open now, show Exit in the help lines. */
+    /* If now just one buffer remains open, show "Exit" in the help lines. */
     if (openfile == openfile->next)
 	exitfunc->desc = exit_tag;
 
