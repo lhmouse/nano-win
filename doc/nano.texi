@@ -326,12 +326,14 @@ vary along with the width of the screen if and when it is resized.
 The default value is @t{-8}.  This option conflicts with @option{-w}
 (@option{--nowrap}); the last one given takes effect.
 
+@anchor{@code{--speller}}
 @item -s @var{program}
 @itemx --speller=@var{program}
-Invoke the given program as the spell checker.  By default, @command{nano}
-uses the command specified in the @env{SPELL} environment variable, or,
-if @env{SPELL} is not set, its own interactive spell checker that requires
-the @command{spell} program to be installed on your system.
+Use the given program to do spell checking and correcting.  By default,
+@command{nano} uses the command specified in the @env{SPELL} environment
+variable for this.  If @env{SPELL} is not set, and @code{--speller} is
+not specified either, then @command{nano} uses its own interactive spell
+corrector, which requires the GNU @command{spell} program to be installed.
 
 @item -t
 @itemx --tempfile
@@ -672,7 +674,7 @@ Use auto-indentation.
 When saving a file, back up the previous version of it, using the current
 filename suffixed with a tilde (@code{~}).
 
-@item set backupdir "directory"
+@item set backupdir "@var{directory}"
 Make and keep not just one backup file, but make and keep a uniquely
 numbered one every time a file is saved --- when backups are enabled
 with @code{set backup} or @code{--backup} or @code{-B}.
@@ -714,7 +716,7 @@ The default value is @t{-8}.  This option conflicts with
 @item set functioncolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the function descriptions
 in the two help lines at the bottom of the screen.
-See @code{set titlecolor} for more details.
+@xref{@code{set titlecolor}} for details.
 
 @item set historylog
 Enable the use of @file{~/.nano/search_history} for saving and reading
@@ -726,7 +728,7 @@ When justifying text, trailing whitespace will automatically be removed.
 @item set keycolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the shortcut key combos
 in the two help lines at the bottom of the screen.
-See @code{set titlecolor} for more details.
+@xref{@code{set titlecolor}} for details.
 
 @item set linenumbers
 Display line numbers to the left of the text area.
@@ -769,9 +771,9 @@ Don't hard-wrap text at all.  This option conflicts with
 
 @item set numbercolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for line numbers.
-See @code{set titlecolor} for more details.
+@xref{@code{set titlecolor}} for details.
 
-@item set operatingdir "directory"
+@item set operatingdir "@var{directory}"
 @code{nano} will only read and write files inside "directory" and its
 subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
@@ -839,13 +841,13 @@ Use smooth scrolling by default.
 @item set softwrap
 Enable soft line wrapping for easier viewing of very long lines.
 
-@item set speller "spellprog"
-Use spelling checker "spellprog" instead of the built-in one, which
-calls "spell".
+@item set speller "@var{program}"
+Use the given program to do spell checking and correcting.
+@xref{@code{--speller}} for details.
 
 @item set statuscolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the status bar.
-See @code{set titlecolor} for more details.
+@xref{@code{set titlecolor}} for details.
 
 @item set suspend
 Allow @code{nano} to be suspended.
@@ -860,6 +862,7 @@ Convert typed tabs to spaces.
 @item set tempfile
 Save automatically on exit, don't prompt.
 
+@anchor{@code{set titlecolor}}
 @item set titlecolor @var{fgcolor},@var{bgcolor}
 Specify the color combination to use for the title bar.
 Valid color names for foreground and background are:
@@ -907,7 +910,7 @@ via the following commands in a nanorc file:
 
 @table @code
 
-@item syntax "name" ["fileregex" @dots{}]
+@item syntax "@var{name}" ["@var{fileregex}" @dots{}]
 Defines a syntax named "name" which can be activated via the @code{-Y/--syntax}
 command-line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
@@ -920,27 +923,27 @@ same as not having a syntax at all.  The "default" syntax is special: it
 takes no "fileregex", and applies to files that don't match any
 syntax's "fileregex".
 
-@item linter program [arg @dots{}]
+@item linter @var{program} [@var{arg} @dots{}]
 Use the given program to do a syntax check on the current file
 (this overrides the speller function when defined).
 
-@item formatter program [arg @dots{}]
+@item formatter @var{program} [@var{arg} @dots{}]
 Use the given program to automatically reformat text.
 Useful in certain programming languages (e.g.@: Go).
 
-@item header "regex" @dots{}
+@item header "@var{regex}" @dots{}
 Add one or more regexes which will
 be compared against the very first line of the file to be edited,
 to determine whether this syntax should be used for that file.
 
-@item magic "regex" @dots{}
+@item magic "@var{regex}" @dots{}
 Add one or more regexes which will be
 compared against the result of querying the magic database about the file
 to be edited, to determine whether this syntax should be used for that
 file.  This functionality only works when libmagic is installed on the
 system and will be silently ignored otherwise.
 
-@item comment "string"
+@item comment "@var{string}"
 Use the given string for commenting and uncommenting lines.
 If the string contains a vertical bar or pipe character (@t{|}),
 this designates bracket-style comments; for example, @t{"/*|*/"} for
@@ -951,7 +954,7 @@ Python files.  If empty double quotes are specified, the comment/uncomment
 functions are disabled; for example, @t{""} for JSON.
 The default value is @t{"#"}.
 
-@item color fgcolor,bgcolor "regex" @dots{}
+@item color @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
 Display all pieces of text that match the
 extended regular expression "regex" with foreground color "fgcolor" and
 background color "bgcolor", at least one of which must be specified.
@@ -961,10 +964,10 @@ to get a stronger color highlight for the foreground.  If your
 terminal supports transparency, not specifying a "bgcolor" tells @code{nano}
 to attempt to use a transparent background.
 
-@item icolor fgcolor,bgcolor "regex" @dots{}
+@item icolor @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
 Same as above, except that the matching is case insensitive.
 
-@item color fgcolor,bgcolor start="fromrx" end="torx"
+@item color @var{fgcolor},@var{bgcolor} start="@var{fromrx}" end="@var{torx}"
 Display all pieces of text whose start matches extended regular expression
 "fromrx" and whose end matches extended regular expression "torx" with
 foreground color "fgcolor" and background color "bgcolor", at least one of
@@ -972,15 +975,15 @@ which must be specified.  This means that, after an initial instance of
 "fromrx", all text until the first instance of "torx" will be colored.
 This allows syntax highlighting to span multiple lines.
 
-@item icolor fgcolor,bgcolor start="fromrx" end="torx"
+@item icolor @var{fgcolor},@var{bgcolor} start="@var{fromrx}" end="@var{torx}"
 Same as above, except that the matching is case insensitive.
 
-@item include "syntaxfile"
+@item include "@var{syntaxfile}"
 Read in self-contained color syntaxes from "syntaxfile".  Note that
 "syntaxfile" may contain only the above commands, from @code{syntax}
 to @code{icolor}.
 
-@item extendsyntax name directive [arg @dots{}]
+@item extendsyntax @var{name} @var{directive} [@var{arg} @dots{}]
 Extend the syntax previously defined as "name" to include new information.
 This allows you to add a new @code{color}, @code{icolor}, @code{header},
 @code{magic}, @code{comment}, @code{linter}, or @code{formatter} directive to an already
