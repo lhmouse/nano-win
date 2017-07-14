@@ -158,7 +158,7 @@ typedef enum {
 } update_type;
 
 typedef enum {
-    ADD, DEL, BACK, CUT, CUT_EOF, REPLACE,
+    ADD, DEL, BACK, CUT, CUT_TO_EOF, REPLACE,
 #ifndef DISABLE_WRAPPING
     SPLIT_BEGIN, SPLIT_END,
 #endif

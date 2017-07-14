@@ -248,9 +248,9 @@ void do_copy_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_eof(void)
 {
-    add_undo(CUT_EOF);
+    add_undo(CUT_TO_EOF);
     do_cut_text(FALSE, TRUE);
-    update_undo(CUT_EOF);
+    update_undo(CUT_TO_EOF);
 }
 #endif /* !NANO_TINY */
 

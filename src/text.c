@@ -748,7 +748,7 @@ void do_undo(void)
 	splice_node(f, t);
 	goto_line_posx(u->lineno, u->begin);
 	break;
-    case CUT_EOF:
+    case CUT_TO_EOF:
     case CUT:
 	undidmsg = _("text cut");
 	undo_cut(u);
@@ -926,7 +926,7 @@ void do_redo(void)
 	renumber(f);
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 	break;
-    case CUT_EOF:
+    case CUT_TO_EOF:
     case CUT:
 	redidmsg = _("text cut");
 	redo_cut(u);
@@ -1261,7 +1261,7 @@ void add_undo(undo_type action)
     case REPLACE:
 	u->strdata = mallocstrcpy(NULL, openfile->current->data);
 	break;
-    case CUT_EOF:
+    case CUT_TO_EOF:
 	cutbuffer_reset();
 	break;
     case CUT:
@@ -1395,7 +1395,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 #endif
 	break;
     }
-    case CUT_EOF:
+    case CUT_TO_EOF:
     case CUT:
 	if (!cutbuffer)
 	    break;
@@ -1423,7 +1423,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 		u->cutbottom = u->cutbottom->next;
 	    u->lineno = u->mark_begin_lineno + u->cutbottom->lineno -
 					u->cutbuffer->lineno;
-	    if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_EOF) {
+	    if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_TO_EOF) {
 		u->begin = strlen(u->cutbottom->data);
 		if (u->lineno == u->mark_begin_lineno)
 		    u->begin += u->mark_begin_x;
