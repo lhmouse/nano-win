@@ -934,26 +934,30 @@ via the following commands in a nanorc file:
 @table @code
 
 @item syntax "@var{name}" ["@var{fileregex}" @dots{}]
-Defines a syntax named "name" which can be activated via the @option{-Y}
-or @option{--syntax}
-command-line option, or will be automatically activated if the current
-filename matches the extended regular expression "fileregex".  All
-subsequent @code{color}, @code{icolor}, @code{header} and other such
-statements will apply to this "name" syntax until a new @code{syntax}
+Start the definition of a syntax with this @var{name}.
+All subsequent @code{color} and other such commands
+will be added to this syntax, until a new @code{syntax}
 command is encountered.
 
-The "none" syntax is reserved; specifying it on the command line is the
-same as not having a syntax at all.  The "default" syntax is special: it
-takes no "fileregex", and applies to files that don't match any
-syntax's "fileregex".
+When @command{nano} is run, this syntax will be automatically
+activated if the current filename matches the extended regular
+expression @var{fileregex}.  Or the syntax can be explicitly
+activated by using the @option{-Y} or @option{--syntax}
+command-line option followed by the @var{name}.
+
+The @code{default} syntax is special: it takes no @var{fileregex},
+and applies to files that don't match any syntax's @var{fileregex}.
+The @code{none} syntax is reserved; specifying it on the
+command line is the same as not having a syntax at all.
 
 @item linter @var{program} [@var{arg} @dots{}]
-Use the given program to do a syntax check on the current file
-(this overrides the speller function when defined).
+Use the given @var{program} to do a syntax check on the current file.
+(This overrides the speller function.)
 
 @item formatter @var{program} [@var{arg} @dots{}]
-Use the given program to automatically reformat text.
-Useful in certain programming languages (e.g.@: Go).
+Use the given @var{program} to automatically reformat text ---
+useful for a programming language like Go.
+(This overrides the speller and linter functions.)
 
 @item header "@var{regex}" @dots{}
 Add one or more regexes which will
@@ -1007,12 +1011,13 @@ Read in self-contained color syntaxes from "syntaxfile".  Note that
 "syntaxfile" may contain only the above commands, from @code{syntax}
 to @code{icolor}.
 
-@item extendsyntax @var{name} @var{directive} [@var{arg} @dots{}]
-Extend the syntax previously defined as "name" to include new information.
+@item extendsyntax @var{name} @var{command} [@var{arg} @dots{}]
+Extend the syntax previously defined as "@var{name}" with another @var{command}.
 This allows you to add a new @code{color}, @code{icolor}, @code{header},
-@code{magic}, @code{comment}, @code{linter}, or @code{formatter} directive to an already
+@code{magic}, @code{comment}, @code{linter}, or @code{formatter} command
+to an already
 defined syntax --- useful when you want to slightly improve a syntax defined
-in one of the system-installed files (which are normally not writable).
+in one of the system-installed files (which normally are not writable).
 
 @end table
 

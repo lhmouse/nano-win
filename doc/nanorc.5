@@ -70,7 +70,7 @@ the file's name.
 .TP
 .B set backupdir "\fIdirectory\fP"
 Make and keep not just one backup file, but make and keep a uniquely
-numbered one every time a file is saved --- when backups are enabled
+numbered one every time a file is saved -- when backups are enabled
 with \fBset backup\fR or \fB\-\-backup\fR or \fB\-B\fR.
 The uniquely numbered files are stored in the specified \fIdirectory\fR.
 .TP
@@ -294,30 +294,34 @@ powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
 good fit for a small editor like \fBnano\fR.
 .sp
-A separate syntax can be defined for each kind of file
+For each kind of file a separate syntax can be defined
 via the following commands:
 .TP
 .BR syntax " ""\fIname\fR"" [""\fIfileregex\fR"" ...]"
-Defines a syntax named \fIname\fP which can be activated via the
-.BR \-Y / \-\-syntax
-command-line option, or will be automatically activated if
-the current filename matches the extended regular expression
-\fIfileregex\fP.  All subsequent \fBcolor\fR, \fBicolor\fR,
-\fBheader\fR and other such statements will apply to this
-\fIname\fP syntax until a new \fBsyntax\fR command is encountered.
+Start the definition of a syntax with this \fIname\fR.
+All subsequent \fBcolor\fR and other such commands
+will be added to this syntax, until a new \fBsyntax\fR
+command is encountered.
 
-The \fBnone\fP syntax is reserved; specifying it on the command line is
-the same as not having a syntax at all.  The \fBdefault\fP syntax is
-special: it takes no \fIfileregex\fP, and applies to files that don't
-match any syntax's \fIfileregex\fP.
+When \fBnano\fR is run, this syntax will be automatically
+activated if the current filename matches the extended regular
+expression \fIfileregex\fR.  Or the syntax can be explicitly
+activated by using the \fB-Y\fR or \fB\-\-syntax\fR
+command-line option followed by the \fIname\fR.
+
+The syntax "\fBdefault\fP" is special: it takes no \fIfileregex\fR,
+and applies to files that don't match any syntax's regexes.
+The syntax "\fBnone\fP" is reserved; specifying it on the command line
+is the same as not having a syntax at all.
 .TP
 .BI linter " program " \fR[ "arg " \fR...]
-Use the given \fIprogram\fR to run a syntax check on the current file
-(this overrides the speller function when defined).
+Use the given \fIprogram\fR to run a syntax check on the current file.
+(This overrides the speller function.)
 .TP
 .BI formatter " program " \fR[ "arg " \fR...]
-Use the given \fIprogram\fR to automatically reformat text.
-Useful in certain programming languages (e.g. Go).
+Use the given \fIprogram\fR to automatically reformat text --
+useful in a programming language like Go.
+(This overrides the speller and linter functions.)
 .TP
 .BR header " \fIregex\fR " ...
 Add one or more regexes which will
@@ -374,13 +378,13 @@ Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
 \fIsyntaxfile\fP may contain only the above commands, from \fBsyntax\fP
 to \fBicolor\fP.
 .TP
-.BI extendsyntax " name directive " \fR[ "arg " \fR...]
-Extend the syntax previously defined as \fIname\fP to include
-new information.  This allows adding a new \fBcolor\fP, \fBicolor\fP,
+.BI extendsyntax " name command " \fR[ "arg " \fR...]
+Extend the syntax previously defined as \fIname\fR with another
+\fIcommand\fR.  This allows adding a new \fBcolor\fP, \fBicolor\fP,
 \fBheader\fP, \fBmagic\fP, \fBcomment\fP, \fBlinter\fP, or \fBformatter\fP
-directive to an already defined syntax -- useful when you want to
+command to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
-files (which are normally not writable).
+files (which normally are not writable).
 
 .SH REBINDING KEYS
 Key bindings can be changed via the following two commands:
