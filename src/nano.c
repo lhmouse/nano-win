@@ -864,7 +864,7 @@ void usage(void)
     print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
     print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
-    print_opt("-k", "--cut", N_("Cut from cursor to end of line"));
+    print_opt("-k", "--cutfromcursor", N_("Cut from cursor to end of line"));
 #endif
 #ifdef ENABLE_LINENUMBERS
     print_opt("-l", "--linenumbers", N_("Show line numbers in front of the text"));
@@ -1977,7 +1977,7 @@ int main(int argc, char **argv)
 	{"wordchars", 1, NULL, 'X'},
 	{"atblanks", 0, NULL, 'a'},
 	{"autoindent", 0, NULL, 'i'},
-	{"cut", 0, NULL, 'k'},
+	{"cutfromcursor", 0, NULL, 'k'},
 	{"unix", 0, NULL, 'u'},
 	{"softwrap", 0, NULL, '$'},
 #endif
