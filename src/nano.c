@@ -1687,7 +1687,7 @@ int do_input(bool allow_funcs)
 #ifndef NANO_TINY
 	if (s->scfunc == do_toggle_void) {
 	    do_toggle(s->toggle);
-	    if (s->toggle != CUT_TO_END)
+	    if (s->toggle != CUT_FROM_CURSOR)
 		preserve = TRUE;
 	} else
 #endif
@@ -2150,7 +2150,7 @@ int main(int argc, char **argv)
 		SET(AUTOINDENT);
 		break;
 	    case 'k':
-		SET(CUT_TO_END);
+		SET(CUT_FROM_CURSOR);
 		break;
 #endif
 #ifdef ENABLE_MOUSE

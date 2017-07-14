@@ -291,7 +291,7 @@ void do_statusbar_delete(void)
 /* Zap some or all text from the answer. */
 void do_statusbar_cut_text(void)
 {
-    if (!ISSET(CUT_TO_END))
+    if (!ISSET(CUT_FROM_CURSOR))
 	statusbar_x = 0;
 
     answer[statusbar_x] = '\0';

@@ -1204,7 +1204,7 @@ void shortcut_init(void)
     /* Group of "Editing-behavior" toggles. */
     add_to_sclist(MMAIN, "M-H", 0, do_toggle_void, SMART_HOME);
     add_to_sclist(MMAIN, "M-I", 0, do_toggle_void, AUTOINDENT);
-    add_to_sclist(MMAIN, "M-K", 0, do_toggle_void, CUT_TO_END);
+    add_to_sclist(MMAIN, "M-K", 0, do_toggle_void, CUT_FROM_CURSOR);
 #ifndef DISABLE_WRAPPING
     add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, NO_WRAP);
 #endif
@@ -1376,7 +1376,7 @@ const char *flagtostr(int flag)
 	    return N_("Smart home key");
 	case AUTOINDENT:
 	    return N_("Auto indent");
-	case CUT_TO_END:
+	case CUT_FROM_CURSOR:
 	    return N_("Cut to end");
 	case NO_WRAP:
 	    return N_("Hard wrapping of overlong lines");
@@ -1635,7 +1635,7 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "autoindent"))
 	    s->toggle = AUTOINDENT;
 	else if (!strcasecmp(input, "cuttoend"))
-	    s->toggle = CUT_TO_END;
+	    s->toggle = CUT_FROM_CURSOR;
 #ifndef DISABLE_WRAPPING
 	else if (!strcasecmp(input, "nowrap"))
 	    s->toggle = NO_WRAP;

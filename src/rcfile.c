@@ -96,8 +96,8 @@ static const rcoption rcopts[] = {
     {"backupdir", 0},
     {"backwards", BACKWARDS_SEARCH},
     {"casesensitive", CASE_SENSITIVE},
-    {"cut", CUT_TO_END},  /* deprecated form, remove in 2020 */
-    {"cutfromcursor", CUT_TO_END},
+    {"cut", CUT_FROM_CURSOR},  /* deprecated form, remove in 2020 */
+    {"cutfromcursor", CUT_FROM_CURSOR},
     {"justifytrim", JUSTIFY_TRIM},
     {"locking", LOCKING},
     {"matchbrackets", 0},

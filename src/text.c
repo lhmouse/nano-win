@@ -1270,7 +1270,7 @@ void add_undo(undo_type action)
 	    u->mark_begin_lineno = openfile->mark_begin->lineno;
 	    u->mark_begin_x = openfile->mark_begin_x;
 	    u->xflags = MARK_WAS_SET;
-	} else if (!ISSET(CUT_TO_END)) {
+	} else if (!ISSET(CUT_FROM_CURSOR)) {
 	    /* The entire line is being cut regardless of the cursor position. */
 	    u->begin = 0;
 	    u->xflags = WAS_WHOLE_LINE;
@@ -1423,7 +1423,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 		u->cutbottom = u->cutbottom->next;
 	    u->lineno = u->mark_begin_lineno + u->cutbottom->lineno -
 					u->cutbuffer->lineno;
-	    if (ISSET(CUT_TO_END) || u->type == CUT_EOF) {
+	    if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_EOF) {
 		u->begin = strlen(u->cutbottom->data);
 		if (u->lineno == u->mark_begin_lineno)
 		    u->begin += u->mark_begin_x;

@@ -155,7 +155,7 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	/* Move the marked text to the cutbuffer, and turn the mark off. */
 	cut_marked(&right_side_up);
 	openfile->mark_set = FALSE;
-    } else if (ISSET(CUT_TO_END))
+    } else if (ISSET(CUT_FROM_CURSOR))
 	/* Move all text up to the end of the line into the cutbuffer. */
 	cut_to_eol();
     else
