@@ -21,16 +21,16 @@
 @c end tex
 
 @titlepage
-@title GNU @code{nano}
+@title GNU @command{nano}
 @subtitle a small and friendly text editor
 @subtitle version 2.8.5
 
 @author Chris Allegretta
 @page
 
-This manual documents GNU @code{nano}, a small and friendly text editor.
+This manual documents GNU @command{nano}, a small and friendly text editor.
 
-This manual is part of the GNU @code{nano} distribution.@*
+This manual is part of the GNU @command{nano} distribution.@*
 @sp 4
 Copyright (C) 1999-2009, 2014-2017 Free Software Foundation, Inc.
 
@@ -56,7 +56,7 @@ e-mail: @email{chrisa@@asty.org}@*
 @node Top
 @top
 
-This manual documents GNU @code{nano}, a small and friendly text editor.
+This manual documents GNU @command{nano}, a small and friendly text editor.
 
 @menu
 * Introduction::
@@ -75,16 +75,16 @@ This manual documents GNU @code{nano}, a small and friendly text editor.
 @node Introduction
 @chapter Introduction
 
-GNU @code{nano} is a small and friendly text editor.  Besides basic text
-editing, @code{nano} offers many extra features, such as an interactive
+GNU @command{nano} is a small and friendly text editor.  Besides basic text
+editing, @command{nano} offers many extra features, such as an interactive
 search-and-replace, undo/redo, syntax coloring, smooth scrolling,
 auto-indentation, go-to-line-and-column-number, feature toggles,
 file locking, backup files, and internationalization support.
 
-The original goal for @code{nano} was to be a complete bug-for-bug
+The original goal for @command{nano} was to be a complete bug-for-bug
 emulation of Pico.  But currently the goal is to be as compatible
 as possible while offering a superset of Pico's functionality.
-@xref{Pico Compatibility} for more details on how @code{nano} and
+@xref{Pico Compatibility} for more details on how @command{nano} and
 Pico differ.
 
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
@@ -93,7 +93,7 @@ Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 @node Invoking
 @chapter Invoking
 
-The usual way to invoke @code{nano} is:
+The usual way to invoke @command{nano} is:
 
 @quotation
 @code{nano [FILE]}
@@ -111,10 +111,10 @@ adding it with a comma.  So a more complete command synopsis is:
 
 Normally, however, you set your preferred options in a @file{.nanorc}
 file (@pxref{Nanorc Files}).  And when using @code{set positionlog}
-(making @code{nano} remember the cursor position when you close a file),
+(making @command{nano} remember the cursor position when you close a file),
 you will rarely need to specify a line number.
 
-As a special case: when instead of a filename a dash is given, @code{nano}
+As a special case: when instead of a filename a dash is given, @command{nano}
 will read data from standard input.  This means you can pipe the output of
 a command straight into a buffer, and then edit it.
 
@@ -191,7 +191,7 @@ Use the blank line below the title bar as extra editing space.
 @itemx --positionlog
 For the 200 most recent files, log the last position of the cursor,
 and place it at that position again upon reopening such a file.
-(The old form of this option, @code{--poslog}, is deprecated.)
+(The old form of this option, @option{--poslog}, is deprecated.)
 
 @item -Q "@var{characters}"
 @itemx --quotestr="@var{characters}"
@@ -326,12 +326,12 @@ vary along with the width of the screen if and when it is resized.
 The default value is @t{-8}.  This option conflicts with @option{-w}
 (@option{--nowrap}); the last one given takes effect.
 
-@anchor{@code{--speller}}
+@anchor{@option{--speller}}
 @item -s @var{program}
 @itemx --speller=@var{program}
 Use the given program to do spell checking and correcting.  By default,
 @command{nano} uses the command specified in the @env{SPELL} environment
-variable for this.  If @env{SPELL} is not set, and @code{--speller} is
+variable for this.  If @env{SPELL} is not set, and @option{--speller} is
 not specified either, then @command{nano} uses its own interactive spell
 corrector, which requires the GNU @command{spell} program to be installed.
 
@@ -345,7 +345,7 @@ composer of a mailer program.
 @item --unix
 Save a file by default in Unix format.  This overrides nano's
 default behavior of saving a file in the format that it had.
-(This option has no effect when you also use @code{--noconvert}.)
+(This option has no effect when you also use @option{--noconvert}.)
 
 @item -v
 @itemx --view
@@ -408,7 +408,7 @@ Ignored, for compatibility with Pico.
 @node Entering Text
 @section Entering Text
 
-@code{nano} is a "modeless" editor.  This means that all keystrokes,
+@command{nano} is a "modeless" editor.  This means that all keystrokes,
 with the exception of Control and Meta sequences, enter text into the
 file being edited.
 
@@ -418,7 +418,7 @@ Characters not present on the keyboard can be entered in two ways:
 @item
 For characters with a single-byte code,
 pressing the Esc key twice and then typing a three-digit decimal number
-(from 000 to 255) will make @code{nano} behave as if you typed the key
+(from 000 to 255) will make @command{nano} behave as if you typed the key
 with that value.
 
 @item
@@ -491,7 +491,7 @@ and two help lines.
 
 The title bar consists of
 three sections: left, center and right.  The section on the left
-displays the version of @code{nano} being used.  The center section
+displays the version of @command{nano} being used.  The center section
 displays the current filename, or "New Buffer" if the file has not yet
 been named.  The section on the right displays "Modified" if the
 file has been modified since it was last saved or opened.
@@ -545,7 +545,7 @@ saving.
 @node Built-in Help
 @chapter Built-in Help
 
-The built-in help system in @code{nano} is available by pressing @kbd{^G}.
+The built-in help system in @command{nano} is available by pressing @kbd{^G}.
 It is fairly self-explanatory.  It documents the various parts of the
 editor and the available keystrokes.  Navigation is via the @kbd{^Y} (Page Up)
 and @kbd{^V} (Page Down) keys.  @kbd{^X} exits from the help system.
@@ -562,59 +562,59 @@ The following global toggles are available:
 @table @code
 
 @item Backup Files toggle
-@kbd{Meta-B} toggles the @code{-B} (@code{--backup}) command-line option.
+@kbd{Meta-B} toggles the @option{-B} (@option{--backup}) command-line option.
 
 @item Constant Cursor Position Display toggle
-@kbd{Meta-C} toggles the @code{-c} (@code{--constantshow}) command-line option.
+@kbd{Meta-C} toggles the @option{-c} (@option{--constantshow}) command-line option.
 
 @item Multiple File Buffers toggle
-@kbd{Meta-F} toggles the @code{-F} (@code{--multibuffer}) command-line option.
+@kbd{Meta-F} toggles the @option{-F} (@option{--multibuffer}) command-line option.
 
 @item Smart Home Key toggle
-@kbd{Meta-H} toggles the @code{-A} (@code{--smarthome}) command-line option.
+@kbd{Meta-H} toggles the @option{-A} (@option{--smarthome}) command-line option.
 
 @item Auto Indent toggle
-@kbd{Meta-I} toggles the @code{-i} (@code{--autoindent}) command-line option.
+@kbd{Meta-I} toggles the @option{-i} (@option{--autoindent}) command-line option.
 
 @item Cut From Cursor To End-of-Line toggle
-@kbd{Meta-K} toggles the @code{-k} (@code{--cut}) command-line option.
+@kbd{Meta-K} toggles the @option{-k} (@option{--cut}) command-line option.
 
 @item Long-Line Wrapping toggle
-@kbd{Meta-L} toggles the @code{-w} (@code{--nowrap}) command-line option.
+@kbd{Meta-L} toggles the @option{-w} (@option{--nowrap}) command-line option.
 
 @item Mouse Support toggle
-@kbd{Meta-M} toggles the @code{-m} (@code{--mouse}) command-line option.
+@kbd{Meta-M} toggles the @option{-m} (@option{--mouse}) command-line option.
 
 @item No Conversion From DOS/Mac Format toggle
-@kbd{Meta-N} toggles the @code{-N} (@code{--noconvert}) command-line option.
+@kbd{Meta-N} toggles the @option{-N} (@option{--noconvert}) command-line option.
 
 @item More Space For Editing toggle
-@kbd{Meta-O} toggles the @code{-O} (@code{--morespace}) command-line option.
+@kbd{Meta-O} toggles the @option{-O} (@option{--morespace}) command-line option.
 
 @item Whitespace Display toggle
 @kbd{Meta-P} toggles the whitespace-display mode (@pxref{Whitespace}).
 
 @item Tabs To Spaces toggle
-@kbd{Meta-Q} toggles the @code{-E} (@code{--tabstospaces}) command-line option.
+@kbd{Meta-Q} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
 @item Smooth Scrolling toggle
-@kbd{Meta-S} toggles the @code{-S} (@code{--smooth}) command-line option.
+@kbd{Meta-S} toggles the @option{-S} (@option{--smooth}) command-line option.
 
 @item Expert/No Help toggle
-@kbd{Meta-X} toggles the @code{-x} (@code{--nohelp}) command-line option.
+@kbd{Meta-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
 
 @item Color Syntax Highlighting toggle
 @kbd{Meta-Y} toggles color syntax highlighting (if your nanorc defines syntaxes
 --- @pxref{Syntax Highlighting}).
 
 @item Suspension toggle
-@kbd{Meta-Z} toggles the @code{-z} (@code{--suspend}) command-line option.
+@kbd{Meta-Z} toggles the @option{-z} (@option{--suspend}) command-line option.
 
 @item Line Numbers toggle
-@kbd{Meta-#} toggles the @code{-l} (@code{--linenumbers}) command-line option.
+@kbd{Meta-#} toggles the @option{-l} (@option{--linenumbers}) command-line option.
 
 @item Soft Wrapping toggle
-@kbd{Meta-$} toggles the @code{-$} (@code{--softwrap}) command-line option.
+@kbd{Meta-$} toggles the @option{-$} (@option{--softwrap}) command-line option.
 
 @end table
 
@@ -622,19 +622,19 @@ The following global toggles are available:
 @node Nanorc Files
 @chapter Nanorc Files
 
-The nanorc files contain the default settings for @code{nano}.  They
+The nanorc files contain the default settings for @command{nano}.  They
 should be in Unix format, not in DOS or Mac format.  During startup,
-@code{nano} will first read the system-wide settings, from /etc/nanorc
+@command{nano} will first read the system-wide settings, from /etc/nanorc
 (the exact path might be different), and then the user-specific settings,
 from @file{~/.nanorc}.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
-be used to configure @code{nano} on startup without using command-line
+be used to configure @command{nano} on startup without using command-line
 options.  Additionally, there are some commands to define syntax highlighting
 and to rebind keys --- @pxref{Syntax Highlighting} and @ref{Rebinding Keys}.
-@code{nano} will read one command per line.
+@command{nano} will read one command per line.
 
-Options in nanorc files take precedence over @code{nano}'s defaults, and
+Options in nanorc files take precedence over @command{nano}'s defaults, and
 command-line options override nanorc settings.  Also, options that do not
 take an argument are unset by default.  So using the @code{unset} command
 is only needed when wanting to override a setting of the system's nanorc
@@ -678,7 +678,7 @@ filename suffixed with a tilde (@code{~}).
 @item set backupdir "@var{directory}"
 Make and keep not just one backup file, but make and keep a uniquely
 numbered one every time a file is saved --- when backups are enabled
-with @code{set backup} or @code{--backup} or @code{-B}.
+with @code{set backup} or @option{--backup} or @option{-B}.
 The uniquely numbered files are stored in the specified directory.
 
 @item set backwards
@@ -780,7 +780,7 @@ Use this color combination for line numbers.
 @xref{@code{set functioncolor}} for details.
 
 @item set operatingdir "@var{directory}"
-@code{nano} will only read and write files inside "directory" and its
+@command{nano} will only read and write files inside "directory" and its
 subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
 directory feature is turned off.
@@ -805,7 +805,7 @@ Do quick status-bar blanking: status-bar messages will disappear after 1
 keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quiet
-When set, @code{nano} will not report errors in the nanorc file nor ask them
+When set, @command{nano} will not report errors in the nanorc file nor ask them
 to be acknowledged by pressing Enter at startup.  If this option is used, it
 should be placed at the top of the file to be fully effective.
 
@@ -849,14 +849,14 @@ Enable soft line wrapping for easier viewing of very long lines.
 
 @item set speller "@var{program}"
 Use the given program to do spell checking and correcting.
-@xref{@code{--speller}} for details.
+@xref{@option{--speller}} for details.
 
 @item set statuscolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar.
 @xref{@code{set functioncolor}} for details.
 
 @item set suspend
-Allow @code{nano} to be suspended.
+Allow @command{nano} to be suspended.
 
 @item set tabsize @var{number}
 Use a tab size of @var{number} columns.  The value of @var{number} must be
@@ -905,7 +905,7 @@ is done via regular expressions (see the @code{color} command below).
 This is inherently imperfect, because regular expressions are not
 powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
-good fit for a small editor like @code{nano}.
+good fit for a small editor like @command{nano}.
 
 A separate syntax can be defined for each kind of file
 via the following commands in a nanorc file:
@@ -913,7 +913,8 @@ via the following commands in a nanorc file:
 @table @code
 
 @item syntax "@var{name}" ["@var{fileregex}" @dots{}]
-Defines a syntax named "name" which can be activated via the @code{-Y/--syntax}
+Defines a syntax named "name" which can be activated via the @option{-Y}
+or @option{--syntax}
 command-line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
 subsequent @code{color}, @code{icolor}, @code{header} and other such
@@ -963,7 +964,7 @@ background color "bgcolor", at least one of which must be specified.
 Valid colors for foreground and background are: white, black, red,
 blue, green, yellow, magenta, and cyan.  You may use the prefix "bright"
 to get a stronger color highlight for the foreground.  If your
-terminal supports transparency, not specifying a "bgcolor" tells @code{nano}
+terminal supports transparency, not specifying a "bgcolor" tells @command{nano}
 to attempt to use a transparent background.
 
 @item icolor @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
@@ -1415,28 +1416,28 @@ browser exits.
 @node Pico Compatibility
 @chapter Pico Compatibility
 
-@code{nano} attempts to emulate Pico as closely as possible, but there
+@command{nano} attempts to emulate Pico as closely as possible, but there
 are some differences between the editors:
 
 @table @code
 
 @item Interactive Replace
 Instead of allowing you to replace either just one occurrence of a search
-string or all of them, @code{nano}'s replace function is interactive: it
+string or all of them, @command{nano}'s replace function is interactive: it
 will pause at each found search string and query whether to replace this
 instance.  You can then choose Yes, or No (skip this one), or All (don't
 ask any more), or Cancel (stop with replacing).
 
 @item Search and Replace History
-When the option @code{-H} or @code{--historylog} is given (or set in
+When the option @option{-H} or @option{--historylog} is given (or set in
 the .nanorc file), text entered as search or replace strings is stored.
 These strings can be accessed with the up/down arrow keys, or you can
 type the first few characters and then use Tab to cycle through the
 matching strings.  A retrieved string can subsequently be edited.
 
 @item Position History
-When the option @code{-P} or @code{--positionlog} is given (or set in
-the .nanorc file), @code{nano} will store the position of the cursor
+When the option @option{-P} or @option{--positionlog} is given (or set in
+the .nanorc file), @command{nano} will store the position of the cursor
 when you close a file, and will place the cursor in that position
 again when you later reopen the file.
 
@@ -1456,19 +1457,19 @@ marking key (@kbd{^^}) can not just be written out to a new (or existing) file,
 it can also be appended or prepended to an existing file.
 
 @item Reading Text from a Command
-When using the Read-File key (@kbd{^R}), @code{nano} can not just read a file,
+When using the Read-File key (@kbd{^R}), @command{nano} can not just read a file,
 it can also read the output of a command to be run (@kbd{^X}).
 
 @item Reading from Working Directory
 By default, Pico will read files from the user's home directory (when
 using @kbd{^R}), but it will write files to the current working directory
-(when using @kbd{^O}).  @code{nano} makes this symmetrical: always reading
+(when using @kbd{^O}).  @command{nano} makes this symmetrical: always reading
 from and writing to the current working directory --- the directory
-that @code{nano} was started in.
+that @command{nano} was started in.
 
 @item File Browser
-In the file browser, @code{nano} does not implement the Add, Copy,
-Rename, and Delete commands that Pico provides.  In @code{nano} the
+In the file browser, @command{nano} does not implement the Add, Copy,
+Rename, and Delete commands that Pico provides.  In @command{nano} the
 browser is just a file browser, not a file manager.
 
 @item Toggles
@@ -1484,12 +1485,12 @@ Or see the list at the end of the main internal help text (@kbd{^G}) instead.
 @node Building and Configure Options
 @chapter Building and Configure Options
 
-Building @code{nano} from source is fairly straightforward if you are
+Building @command{nano} from source is fairly straightforward if you are
 familiar with compiling programs with autoconf support:
 
 @itemize @bullet
 @item tar xvfz nano-x.y.z.tar.gz (where x.y.z is the version of
-@code{nano})
+@command{nano})
 @item cd nano-x.y.z/
 @item ./configure
 @item make
@@ -1506,7 +1507,7 @@ or writing files.
 
 @item --disable-color
 Disable support for the syntax coloring of files.  This also eliminates
-the @code{-Y} command-line option, which chooses a specific syntax.
+the @option{-Y} command-line option, which chooses a specific syntax.
 
 @item --disable-comment
 Disable the single-keystroke comment/uncomment function (@kbd{M-3}).
@@ -1522,7 +1523,7 @@ things about using the editor.
 @item --disable-histories
 Disable the code for the handling of the history files: the search and
 replace strings that were used, and the cursor position at which each
-file was closed.  This also eliminates the @code{-H} and @code{-P}
+file was closed.  This also eliminates the @option{-H} and @option{-P}
 command-line options, which switch on the logging of search/replace
 strings and cursor positions.
 
@@ -1536,15 +1537,15 @@ tests on filename extension and header line will be enough).
 
 @item --disable-linenumbers
 Disable the line-numbering function (@kbd{M-#}).  This also eliminates the
-@code{-l} command-line option, which turns line numbering on.
+@option{-l} command-line option, which turns line numbering on.
 
 @item --disable-mouse
-Disable all mouse functionality.  This also eliminates the @code{-m}
+Disable all mouse functionality.  This also eliminates the @option{-m}
 command-line option, which enables the mouse functionality.
 
 @item --disable-multibuffer
 Disable support for opening multiple files at a time and switching
-between them on the fly.  This also eliminates the @code{-F} command-line
+between them on the fly.  This also eliminates the @option{-F} command-line
 option, which causes a file to be read into a separate buffer by default.
 
 @item --disable-nanorc
@@ -1552,16 +1553,16 @@ Disable support for reading the nanorc files at startup.  With such
 support, you can store custom settings in a system-wide and a per-user
 nanorc file rather than having to pass command-line options to get
 the desired behavior.  @xref{Nanorc Files} for more info.
-Disabling this also eliminates the @code{-I} and @code{-q} command-line
+Disabling this also eliminates the @option{-I} and @option{-q} command-line
 options; the first inhibits the reading of nanorcfiles, and the second
 suppresses warnings about errors in those files.
 
 @item --disable-operatingdir
-Disable setting the operating directory.  This also eliminates the @code{-o}
+Disable setting the operating directory.  This also eliminates the @option{-o}
 command-line option, which sets the operating directory.
 
 @item --disable-speller
-Disable use of the spell checker.  This also eliminates the @code{-s}
+Disable use of the spell checker.  This also eliminates the @option{-s}
 command-line option, which allows specifying an alternate spell checker.
 
 @item --disable-tabcomp
@@ -1572,13 +1573,13 @@ Disable word completion (@kbd{^]}).
 
 @item --disable-wrapping
 Disable all hard-wrapping of overlong lines.  This also eliminates the
-@code{-w} command-line option, which switches long-line wrapping off.
+@option{-w} command-line option, which switches long-line wrapping off.
 
 @item --enable-tiny
 This option implies all of the above.  It also disables some other
 internals of the editor, like the marking code, the cut-to-end-of-line
 code, and the function toggles.  By using the enabling
-counterpart of the above options together with @code{--enable-tiny},
+counterpart of the above options together with @option{--enable-tiny},
 specific features can be switched back on --- but a few cannot.
 
 @item --enable-debug
@@ -1587,10 +1588,10 @@ chances are you only want this feature when you're working on the nano source.
 
 @item --disable-nls
 Disables Native Language support.  This will disable the use of any
-available GNU @code{nano} translations.
+available GNU @command{nano} translations.
 
 @item --disable-wrapping-as-root
-Disable hard-wrapping of overlong lines by default when @code{nano}
+Disable hard-wrapping of overlong lines by default when @command{nano}
 is run as root.
 
 @item --enable-utf8
@@ -1607,7 +1608,7 @@ Use the file with the given @var{name} (in the user's home directory)
 as nano's settings file, instead of the default @code{.nanorc}.
 
 @item --with-slang
-Compile @code{nano} against Slang instead of against ncurses or other
+Compile @command{nano} against Slang instead of against ncurses or other
 curses libraries.
 
 @end table
