@@ -7,7 +7,7 @@
 @documentencoding UTF-8
 
 @smallbook
-@set EDITION 0.4
+@set EDITION 0.5
 @set VERSION 2.8.5
 @set UPDATED June 2017
 
@@ -28,35 +28,42 @@
 @author Chris Allegretta
 @page
 
-This manual documents GNU @command{nano}, a small and friendly text editor.
-
+This manual documents the GNU @command{nano} editor.
+@sp 1
 This manual is part of the GNU @command{nano} distribution.@*
-@sp 4
-Copyright (C) 1999-2009, 2014-2017 Free Software Foundation, Inc.
 
+@sp 4
+Copyright @copyright{} 1999-2009, 2014-2017 Free Software Foundation, Inc.
+
+@sp 1
 This document is dual-licensed.  You may distribute and/or modify it
 under the terms of either of the following licenses:
 
+@sp 1
 * The GNU General Public License, as published by the Free Software
   Foundation, version 3 or (at your option) any later version.  You
   should have received a copy of the GNU General Public License along
-  with this program.  If not, see <http://www.gnu.org/licenses/>.
+  with this program.  If not, see @url{http://www.gnu.org/licenses/}.
 
+@sp 1
 * The GNU Free Documentation License, as published by the Free Software
   Foundation, version 1.2 or (at your option) any later version, with no
   Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
   You should have received a copy of the GNU Free Documentation License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  along with this program.  If not, see @url{http://www.gnu.org/licenses/}.
 
+@sp 1
 You may contact the author by
 e-mail: @email{chrisa@@asty.org}@*
 @end titlepage
 
 
+@ifnottex
+
 @node Top
 @top
 
-This manual documents GNU @command{nano}, a small and friendly text editor.
+This manual documents the GNU @command{nano} editor, version 2.8.5.
 
 @menu
 * Introduction::
@@ -70,6 +77,8 @@ This manual documents GNU @command{nano}, a small and friendly text editor.
 * Pico Compatibility::
 * Building and Configure Options::
 @end menu
+
+@end ifnottex
 
 
 @node Introduction
@@ -95,9 +104,15 @@ Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 
 The usual way to invoke @command{nano} is:
 
-@quotation
+@iftex
+@sp 1
+@end iftex
+@example
 @code{nano [FILE]}
-@end quotation
+@end example
+@iftex
+@sp 1
+@end iftex
 
 But it is also possible to specify one or more options (see the next
 section), and to edit several files in a row.  Additionally, the cursor
@@ -105,9 +120,15 @@ can be put on a specific line of a file by adding the line number
 with a plus sign before the filename, and even in a specific column by
 adding it with a comma.  So a more complete command synopsis is:
 
-@quotation
+@iftex
+@sp 1
+@end iftex
+@example
 @code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+,COLUMN] FILE]@dots{}}
-@end quotation
+@end example
+@iftex
+@sp 1
+@end iftex
 
 Normally, however, you set your preferred options in a @file{.nanorc}
 file (@pxref{Nanorc Files}).  And when using @code{set positionlog}
@@ -315,7 +336,7 @@ sent to the editor can be stopped and started.
 @item -q
 @itemx --quiet
 Do not report errors in the nanorc file nor ask them to be acknowledged
-by pressing Enter at startup.
+by pressing @kbd{Enter} at startup.
 
 @item -r @var{number}
 @itemx --fill=@var{number}
@@ -418,12 +439,12 @@ Characters not present on the keyboard can be entered in two ways:
 @item
 For characters with a single-byte code,
 pressing the Esc key twice and then typing a three-digit decimal number
-(from 000 to 255) will make @command{nano} behave as if you typed the key
-with that value.
+(from @kbd{000} to @kbd{255}) will make @command{nano} behave as if you
+typed the key with that value.
 
 @item
 For any possible character, pressing @kbd{M-V} (Alt+V) and then typing a
-six-digit hexadecimal number (starting with 0 or 1) will enter the
+six-digit hexadecimal number (starting with @kbd{0} or @kbd{1}) will enter the
 corresponding Unicode character into the buffer.
 @end itemize
 
@@ -434,8 +455,8 @@ will enter the symbol "⋄", a little diamond.
 @node Commands
 @section Commands
 
-Commands are given by using the Control key (Ctrl, shown as @code{^})
-or the Meta key (Alt or Cmd, shown as @code{M-}).
+Commands are given by using the Control key (Ctrl, shown as @kbd{^})
+or the Meta key (Alt or Cmd, shown as @kbd{M-}).
 
 @itemize @bullet
 @item
@@ -734,7 +755,7 @@ When justifying text, trailing whitespace will automatically be removed.
 @item set keycolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the shortcut key combos
 in the two help lines at the bottom of the screen.
-@xref{@code{set functioncolor}} for details.
+@xref{@code{set functioncolor}} for valid color names.
 
 @item set linenumbers
 Display line numbers to the left of the text area.
@@ -777,7 +798,7 @@ Don't hard-wrap text at all.  This option conflicts with
 
 @item set numbercolor @var{fgcolor},@var{bgcolor}
 Use this color combination for line numbers.
-@xref{@code{set functioncolor}} for details.
+@xref{@code{set functioncolor}} for valid color names.
 
 @item set operatingdir "@var{directory}"
 @command{nano} will only read and write files inside "directory" and its
@@ -806,7 +827,7 @@ keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quiet
 When set, @command{nano} will not report errors in the nanorc file nor ask them
-to be acknowledged by pressing Enter at startup.  If this option is used, it
+to be acknowledged by pressing @kbd{Enter} at startup.  If this option is used, it
 should be placed at the top of the file to be fully effective.
 
 @item set quotestr "@var{string}"
@@ -853,7 +874,7 @@ Use the given program to do spell checking and correcting.
 
 @item set statuscolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar.
-@xref{@code{set functioncolor}} for details.
+@xref{@code{set functioncolor}} for valid color names.
 
 @item set suspend
 Allow @command{nano} to be suspended.
@@ -870,7 +891,7 @@ Save automatically on exit, don't prompt.
 
 @item set titlecolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the title bar.
-@xref{@code{set functioncolor}} for details.
+@xref{@code{set functioncolor}} for valid color names.
 
 @item set unix
 Save a file by default in Unix format.  This overrides nano's
@@ -1013,24 +1034,24 @@ Unbinds @code{key} from @code{menu}
 
 @end table
 
+@sp 1
 The format of @code{key} should be one of:
 
-@table @code
+@itemize @w{}
+@item
+@code{^}@  followed by an ASCII character or the word "Space".
+Example: @code{^C}.
 
-@item ^
-followed by an alpha character or the word "Space".
-Example: @code{^C}
+@item
+@code{M-}@  followed by a ASCII character or the word "Space".
+Example: @code{M-C}.
 
-@item M-
-followed by a printable character or the word "Space".
-Example: @code{M-C}
+@item
+@code{F}@  followed by a numeric value from 1 to 16.
+Example: @code{F10}.
+@end itemize
 
-@item F
-followed by a numeric value from 1 to 16.
-Example: @code{F10}
-
-@end table
-
+@sp 1
 Valid names for the @code{function} to be bound are:
 
 @table @code
@@ -1060,7 +1081,7 @@ a string in the current list in the file browser
 
 @item searchagain
 Repeats the last search command without prompting.
-(The form 'research' is deprecated.)
+(The form @code{research} is deprecated.)
 
 @item findprevious
 As @code{searchagain}, but always in the backward direction.
@@ -1095,7 +1116,7 @@ Cuts all text from the cursor position till the end of the buffer.
 
 @item curpos
 Shows the current cursor position: the line, column, and character positions.
-(The form 'cursorpos' is deprecated.)
+(The form @code{cursorpos} is deprecated.)
 
 @item wordcount
 Counts the number of words, lines and characters in the current buffer.
@@ -1229,7 +1250,7 @@ Toggles case sensitivity in searching (search/replace menus only).
 
 @item regexp
 Toggles whether searching/replacing is based on literal strings or regular expressions.
-(The form 'regex' is deprecated.)
+(The form @code{regex} is deprecated.)
 
 @item backwards
 Toggles whether searching/replacing goes forward or backward.
@@ -1242,7 +1263,7 @@ Shows the next history entry in the prompt menus (e.g.@: search).
 
 @item flipreplace
 Toggles between searching for something and replacing something.
-(The form 'dontreplace' is deprecated.)
+(The form @code{dontreplace} is deprecated.)
 
 @item flipexecute
 Toggles between inserting a file and executing a command.
@@ -1250,7 +1271,7 @@ Toggles between inserting a file and executing a command.
 @item flipnewbuffer
 Toggles between inserting into the current buffer and into a new
 empty buffer.
-(The form 'newbuffer' is deprecated.)
+(The form @code{newbuffer} is deprecated.)
 
 @item dosformat
 When writing a file, switches to writing a DOS format (CR/LF).
@@ -1340,6 +1361,7 @@ Toggles whether the suspend shortcut (normally @kbd{^Z}) will suspend the editor
 
 @end table
 
+@sp 1
 Valid names for @code{menu} are:
 
 @table @code
@@ -1355,7 +1377,7 @@ The 'search to replace' menu.
 
 @item replacewith
 The 'replace with' menu, which comes up after 'search to replace'.
-(The form 'replace2' is deprecated.)
+(The form @code{replace2} is deprecated.)
 
 @item gotoline
 The 'goto line (and column)' menu.
@@ -1432,7 +1454,7 @@ ask any more), or Cancel (stop with replacing).
 When the option @option{-H} or @option{--historylog} is given (or set in
 the .nanorc file), text entered as search or replace strings is stored.
 These strings can be accessed with the up/down arrow keys, or you can
-type the first few characters and then use Tab to cycle through the
+type the first few characters and then use @kbd{Tab} to cycle through the
 matching strings.  A retrieved string can subsequently be edited.
 
 @item Position History
@@ -1488,14 +1510,19 @@ Or see the list at the end of the main internal help text (@kbd{^G}) instead.
 Building @command{nano} from source is fairly straightforward if you are
 familiar with compiling programs with autoconf support:
 
-@itemize @bullet
-@item tar xvfz nano-x.y.z.tar.gz (where x.y.z is the version of
-@command{nano})
-@item cd nano-x.y.z/
-@item ./configure
-@item make
-@item make install
-@end itemize
+@iftex
+@sp 1
+@end iftex
+@example
+  tar xvzf nano-x.y.z.tar.gz
+  cd nano-x.y.z
+  ./configure
+  make
+  make install
+@end example
+@iftex
+@sp 1
+@end iftex
 
 The possible options to @code{./configure} are:
 
