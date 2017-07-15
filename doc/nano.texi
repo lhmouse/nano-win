@@ -951,6 +951,19 @@ and applies to files that don't match any syntax's @var{fileregex}.
 The @code{none} syntax is reserved; specifying it on the
 command line is the same as not having a syntax at all.
 
+@item header "@var{regex}" @dots{}
+If from all defined syntaxes no @var{fileregex} matched, then compare
+this @var{regex} (or regexes) against the first line of the current file,
+to determine whether this syntax should be used for it.
+
+@item magic "@var{regex}" @dots{}
+If no @var{fileregex} matched and no @code{header} regex matched
+either, then compare this @var{regex} (or regexes) against the
+result of querying the @code{magic} database about the current
+file, to determine whether this syntax should be used for it.
+(This functionality only works when @code{libmagic} is installed
+on the system and will be silently ignored otherwise.)
+
 @item linter @var{program} [@var{arg} @dots{}]
 Use the given @var{program} to do a syntax check on the current file.
 (This overrides the speller function.)
@@ -959,18 +972,6 @@ Use the given @var{program} to do a syntax check on the current file.
 Use the given @var{program} to automatically reformat text ---
 useful for a programming language like Go.
 (This overrides the speller and linter functions.)
-
-@item header "@var{regex}" @dots{}
-Add one or more regexes which will
-be compared against the very first line of the file to be edited,
-to determine whether this syntax should be used for that file.
-
-@item magic "@var{regex}" @dots{}
-Add one or more regexes which will be
-compared against the result of querying the magic database about the file
-to be edited, to determine whether this syntax should be used for that
-file.  This functionality only works when libmagic is installed on the
-system and will be silently ignored otherwise.
 
 @item comment "@var{string}"
 Use the given string for commenting and uncommenting lines.

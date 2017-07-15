@@ -315,6 +315,19 @@ and applies to files that don't match any syntax's regexes.
 The syntax "\fBnone\fP" is reserved; specifying it on the command line
 is the same as not having a syntax at all.
 .TP
+.BR header " ""\fIregex\fR"" " ...
+If from all defined syntaxes no \fIfileregex\fR matched, then compare
+this \fIregex\fR (or regexes) against the first line of the current file,
+to determine whether this syntax should be used for it.
+.TP
+.BR magic " ""\fIregex\fR"" " ...
+If no \fIfileregex\fR matched and no \fBheader\fR regex matched
+either, then compare this \fIregex\fR (or regexes) against the
+result of querying the \fBmagic\fP database about the current
+file, to determine whether this syntax should be used for it.
+(This functionality only works when \fBlibmagic\fP is installed on the
+system and will be silently ignored otherwise.)
+.TP
 .BI linter " program " \fR[ "arg " \fR...]
 Use the given \fIprogram\fR to run a syntax check on the current file.
 (This overrides the speller function.)
@@ -324,20 +337,7 @@ Use the given \fIprogram\fR to automatically reformat text --
 useful in a programming language like Go.
 (This overrides the speller and linter functions.)
 .TP
-.BR header " \fIregex\fR " ...
-Add one or more regexes which will
-be compared against the very first line of the file to be edited,
-to determine whether this syntax should be used for that file.
-.TP
-.BR magic " \fIregex\fR " ...
-Add one or more regexes which
-will be compared against the result of querying the \fBmagic\fP
-database about the file to be edited, to determine whether this
-syntax should be used for that file.  This
-functionality only works when \fBlibmagic\fP is installed on the
-system and will be silently ignored otherwise.
-.TP
-.BI comment " string"
+.BR comment " ""\fIstring\fR"""
 Use the given string for commenting and uncommenting lines.
 If the string contains a vertical bar or pipe character (\fB|\fR),
 this designates bracket-style comments; for example, "\fB/*|*/\fR" for
