@@ -2226,37 +2226,23 @@ void bottombars(int menu)
 
     blank_bottombars();
 
-#ifdef DEBUG
-    fprintf(stderr, "In bottombars, number of items == \"%d\"\n", (int) number);
-#endif
-
+    /* Display the first number of shortcuts in the given menu that
+     * have a key combination assigned to them. */
     for (f = allfuncs, i = 0; i < number && f != NULL; f = f->next) {
-#ifdef DEBUG
-	fprintf(stderr, "Checking menu items....");
-#endif
 	if ((f->menus & menu) == 0)
 	    continue;
 
-#ifdef DEBUG
-	fprintf(stderr, "found one! f->menus = %x, desc = \"%s\"\n", f->menus, f->desc);
-#endif
 	s = first_sc_for(menu, f->scfunc);
-	if (s == NULL) {
-#ifdef DEBUG
-	    fprintf(stderr, "Whoops, guess not, no shortcut key found for func!\n");
-#endif
+	if (s == NULL)
 	    continue;
-	}
 
 	wmove(bottomwin, 1 + i % 2, (i / 2) * itemwidth);
-#ifdef DEBUG
-	fprintf(stderr, "Calling onekey with keystr \"%s\" and desc \"%s\"\n", s->keystr, f->desc);
-#endif
+
 	onekey(s->keystr, _(f->desc), itemwidth + (COLS % itemwidth));
 	i++;
     }
 
-    /* Defeat a VTE bug by moving the cursor and forcing a screen update. */
+    /* Defeat a VTE bug by homing the cursor and forcing a screen update. */
     wmove(bottomwin, 0, 0);
     wrefresh(bottomwin);
 }
