@@ -576,6 +576,15 @@ enum
 #define SHIFT_HOME 0x40f
 #define SHIFT_END 0x410
 
+#ifdef USE_SLANG
+#ifdef ENABLE_UTF8
+#define KEY_BAD 0xFF  /* Clipped error code. */
+#endif
+#define KEY_FLUSH 0x91  /* User-definable control code. */
+#else
+#define KEY_FLUSH KEY_F0  /* Nonexistent function key. */
+#endif
+
 #ifndef NANO_TINY
 /* An imaginary key for when we get a SIGWINCH (window resize). */
 #define KEY_WINCH -2

@@ -1288,7 +1288,7 @@ RETSIGTYPE do_continue(int signal)
     terminal_init();
 #endif
     /* Tickle the input routine so it will update the screen. */
-    ungetch(KEY_F0);
+    ungetch(KEY_FLUSH);
 }
 
 #ifndef NANO_TINY

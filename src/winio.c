@@ -704,7 +704,10 @@ int parse_kbinput(WINDOW *win)
 	/* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 	case KEY_RESIZE:
 #endif
-	case KEY_F0:
+#if defined(USE_SLANG) && defined(ENABLE_UTF8)
+	case KEY_BAD:
+#endif
+	case KEY_FLUSH:
 	    return ERR;
     }
 
