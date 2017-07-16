@@ -74,6 +74,8 @@ void do_page_up(void)
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
 	openfile->placewewant = openfile->firstcolumn;
+	openfile->current_x = actual_x(openfile->current->data,
+					openfile->firstcolumn);
 	openfile->current_y = 0;
     }
 
@@ -106,6 +108,8 @@ void do_page_down(void)
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
 	openfile->placewewant = openfile->firstcolumn;
+	openfile->current_x = actual_x(openfile->current->data,
+					openfile->firstcolumn);
 	openfile->current_y = 0;
     }
 
