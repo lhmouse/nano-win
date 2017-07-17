@@ -430,8 +430,6 @@ bool open_buffer(const char *filename, bool undoable)
 	/* rc == -2 means that we have a new file.  -1 means that the
 	 * open() failed.  0 means that the open() succeeded. */
 
-    assert(filename != NULL);
-
     /* Display newlines in filenames as ^J. */
     as_an_at = FALSE;
 
@@ -527,8 +525,6 @@ void replace_buffer(const char *filename)
     FILE *f;
     int descriptor;
 
-    assert(filename != NULL && filename[0] != '\0');
-
     /* Open the file quietly. */
     descriptor = open_file(filename, FALSE, TRUE, &f);
 
@@ -605,8 +601,6 @@ void prepare_for_display(void)
  * otherwise, to the previous one. */
 void switch_to_prevnext_buffer(bool to_next)
 {
-    assert(openfile != NULL);
-
     /* If only one file buffer is open, say so and get out. */
     if (openfile == openfile->next && !inhelp) {
 	statusbar(_("No more open file buffers"));
@@ -664,8 +658,6 @@ void switch_to_next_buffer_void(void)
  * open buffers. */
 bool close_buffer(void)
 {
-    assert(openfile != NULL);
-
     /* If only one file buffer is open, get out. */
     if (openfile == openfile->next)
 	return FALSE;
@@ -704,8 +696,6 @@ int is_file_writable(const char *filename)
 
     if (ISSET(VIEW_MODE))
 	return TRUE;
-
-    assert(filename != NULL);
 
     /* Get the specified file's full path. */
     full_filename = get_full_path(filename);
@@ -958,8 +948,6 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
     int fd;
     char *full_filename;
 
-    assert(filename != NULL && f != NULL);
-
     /* Get the specified file's full path. */
     full_filename = get_full_path(filename);
 
@@ -1022,8 +1010,6 @@ char *get_next_filename(const char *name, const char *suffix)
     unsigned long i = 0;
     char *buf;
     size_t wholenamelen;
-
-    assert(name != NULL && suffix != NULL);
 
     wholenamelen = strlen(name) + strlen(suffix);
 
@@ -1391,8 +1377,6 @@ char *safe_tempfile(FILE **f)
     int fd;
     mode_t original_umask = 0;
 
-    assert(f != NULL);
-
     /* If $TMPDIR is set, set tempdir to it, run it through
      * get_full_path(), and save the result in full_tempdir.  Otherwise,
      * leave full_tempdir set to NULL. */
@@ -1433,8 +1417,6 @@ char *safe_tempfile(FILE **f)
 /* Initialize full_operating_dir based on operating_dir. */
 void init_operating_dir(void)
 {
-    assert(full_operating_dir == NULL);
-
     if (operating_dir == NULL)
 	return;
 
@@ -1465,8 +1447,6 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp)
     /* If no operating directory is set, don't bother doing anything. */
     if (operating_dir == NULL)
 	return FALSE;
-
-    assert(full_operating_dir != NULL);
 
     fullpath = get_full_path(currpath);
 
