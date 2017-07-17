@@ -926,7 +926,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 			(unsigned long)num_lines), (unsigned long)num_lines);
 
     /* If we inserted less than a screenful, don't center the cursor. */
-    if (less_than_a_screenful(was_lineno, was_leftedge))
+    if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
 	focusing = FALSE;
 
 #ifndef NANO_TINY
