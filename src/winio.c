@@ -2805,25 +2805,25 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
-	size_t current_leftedge = *leftedge;
-
 	/* Recede through the requested number of chunks. */
 	for (i = nrows; i > 0; i--) {
-	    if (current_leftedge > 0) {
-		current_leftedge = leftedge_for(current_leftedge - 1, *line);
-		continue;
-	    }
+	    size_t chunk = chunk_for(*leftedge, *line);
+
+	    *leftedge = 0;
+
+	    if (chunk >= i)
+		return go_forward_chunks(chunk - i, line, leftedge);
 
 	    if (*line == openfile->fileage)
 		break;
 
+	    i -= chunk;
 	    *line = (*line)->prev;
-	    current_leftedge = leftedge_for((size_t)-1, *line);
+	    *leftedge = HIGHEST_POSITIVE;
 	}
 
-	/* Only change leftedge when we actually could move. */
-	if (i < nrows)
-	    *leftedge = current_leftedge;
+	if (*leftedge == HIGHEST_POSITIVE)
+	    *leftedge = leftedge_for(*leftedge, *line);
     } else
 #endif
 	for (i = nrows; i > 0 && (*line)->prev != NULL; i--)
