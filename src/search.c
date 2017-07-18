@@ -912,7 +912,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	/* If the target line is close to the tail of the file, put the last
 	 * line or chunk on the bottom line of the screen; otherwise, just
 	 * center the target line. */
-	if (rows_from_tail < editwinrows / 2) {
+	if (rows_from_tail < editwinrows / 2 && ISSET(SMOOTH_SCROLL)) {
 	    openfile->current_y = editwinrows - 1 - rows_from_tail;
 	    adjust_viewport(STATIONARY);
 	} else
