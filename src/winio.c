@@ -2803,6 +2803,10 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
 {
     int i;
 
+    /* Don't move more chunks than the window can hold. */
+    if (nrows > editwinrows - 1)
+	nrows = (editwinrows < 2) ? 1 : editwinrows - 1;
+
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
 	/* Recede through the requested number of chunks. */
