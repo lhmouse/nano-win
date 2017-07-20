@@ -1063,8 +1063,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
     add_to_sclist(MMOST, "^K", 0, do_cut_text_void, 0);
     add_to_sclist(MMOST, "F9", 0, do_cut_text_void, 0);
-    add_to_sclist(MMAIN, "^U", 0, do_uncut_text, 0);
-    add_to_sclist(MMAIN, "F10", 0, do_uncut_text, 0);
+    add_to_sclist(MMOST, "^U", 0, do_uncut_text, 0);
+    add_to_sclist(MMOST, "F10", 0, do_uncut_text, 0);
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
     add_to_sclist(MMAIN, "F4", 0, do_justify_void, 0);

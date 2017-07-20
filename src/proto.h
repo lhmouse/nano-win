@@ -448,6 +448,7 @@ void do_statusbar_right(void);
 void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
+void do_statusbar_uncut_text(void);
 #ifndef NANO_TINY
 void do_statusbar_prev_word(void);
 void do_statusbar_next_word(void);
