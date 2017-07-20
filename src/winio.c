@@ -2949,12 +2949,14 @@ void edit_scroll(scroll_dir direction, int nrows)
 	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
 #ifndef NANO_TINY
-    /* Compensate for the earlier chunks of a softwrapped line. */
-    nrows += chunk_for(leftedge, line);
+    if (ISSET(SOFTWRAP)) {
+	/* Compensate for the earlier chunks of a softwrapped line. */
+	nrows += chunk_for(leftedge, line);
 
-    /* Don't compensate for the chunks that are offscreen. */
-    if (line == openfile->edittop)
-	nrows -= chunk_for(openfile->firstcolumn, line);
+	/* Don't compensate for the chunks that are offscreen. */
+	if (line == openfile->edittop)
+	    nrows -= chunk_for(openfile->firstcolumn, line);
+    }
 #endif
 
     /* Draw new content on the blank rows inside the scrolled region
