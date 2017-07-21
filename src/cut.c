@@ -291,8 +291,8 @@ void do_uncut_text(void)
     /* Mark the file as modified. */
     set_modified();
 
-    /* Update current_y to account for the inserted lines. */
-    place_the_cursor(TRUE);
+    /* Set the target row for the cursor in case it got pushed offscreen. */
+    openfile->current_y = editwinrows - 1;
 
     refresh_needed = TRUE;
 
