@@ -1252,7 +1252,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	    suppress_cursorpos = FALSE;
 	    lastmessage = HUSH;
 	    if (currmenu == MMAIN) {
-		place_the_cursor(TRUE);
+		place_the_cursor();
 		curs_set(1);
 	    }
 	}
@@ -2275,7 +2275,7 @@ void onekey(const char *keystroke, const char *desc, int length)
 
 /* Redetermine current_y from the position of current relative to edittop,
  * and put the cursor in the edit window at (current_y, "current_x"). */
-void place_the_cursor(bool forreal)
+void place_the_cursor(void)
 {
     ssize_t row = 0;
     size_t col, xpt = xplustabs();
@@ -2306,8 +2306,7 @@ void place_the_cursor(bool forreal)
     if (row < editwinrows)
 	wmove(edit, row, margin + col);
 
-    if (forreal)
-	openfile->current_y = row;
+    openfile->current_y = row;
 }
 
 /* edit_draw() takes care of the job of actually painting a line into
@@ -3241,7 +3240,7 @@ void edit_refresh(void)
     while (row < editwinrows)
 	blank_row(edit, row++, 0, COLS);
 
-    place_the_cursor(TRUE);
+    place_the_cursor();
     wnoutrefresh(edit);
 
     refresh_needed = FALSE;
@@ -3394,7 +3393,7 @@ void spotlight(bool active, size_t from_col, size_t to_col)
     char *word;
     size_t word_span, room;
 
-    place_the_cursor(FALSE);
+    place_the_cursor();
 
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
