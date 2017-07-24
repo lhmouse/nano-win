@@ -3604,7 +3604,7 @@ char *copy_completion(char *check_line, int start)
 	position = next;
     }
 
-    word = (char *)nmalloc((len_of_word + 1) * sizeof(char));
+    word = charalloc(len_of_word + 1);
 
     /* Simply copy the word. */
     while (index < len_of_word)
@@ -3669,7 +3669,7 @@ void complete_a_word(void)
 	return;
     }
 
-    shard = (char *)nmalloc((openfile->current_x - start_of_shard + 1) * sizeof(char));
+    shard = charalloc(openfile->current_x - start_of_shard + 1);
 
     /* Copy the fragment that has to be searched for. */
     while (start_of_shard < openfile->current_x)
