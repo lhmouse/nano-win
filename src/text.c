@@ -3183,7 +3183,8 @@ void do_linter(void)
 				if ((tmplinecol = strtok(NULL, ",")) != NULL)
 				    tmpcolno = strtol(tmplinecol, NULL, 10);
 			    }
-
+			    if (tmpcolno <= 0)
+				tmpcolno = 1;
 #ifdef DEBUG
 			    fprintf(stderr, "text.c:do_lint:Successful parse! %ld:%ld:%s\n", (long)tmplineno, (long)tmpcolno, message);
 #endif
