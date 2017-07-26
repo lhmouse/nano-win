@@ -313,7 +313,7 @@ void discard_buffer(void)
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
     bool blank_after, bool viewok)
 {
-    subnfunc *f = (subnfunc *)nmalloc(sizeof(subnfunc));
+    subnfunc *f = nmalloc(sizeof(subnfunc));
 
     if (allfuncs == NULL)
 	allfuncs = f;
@@ -344,7 +344,7 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 #ifndef NANO_TINY
     static int counter = 0;
 #endif
-    sc *s = (sc *)nmalloc(sizeof(sc));
+    sc *s = nmalloc(sizeof(sc));
 
     /* Start the list, or tack on the next item. */
     if (sclist == NULL)
