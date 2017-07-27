@@ -3128,9 +3128,6 @@ void do_linter(void)
     read_buff = read_buff_ptr = charalloc(read_buff_size);
 
     while ((bytesread = read(lint_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
-#ifdef DEBUG
-	fprintf(stderr, "text.c:do_linter:%ld bytes (%s)\n", (long)bytesread, read_buff_ptr);
-#endif
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
 	read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
@@ -3139,10 +3136,6 @@ void do_linter(void)
 
     *read_buff_ptr = '\0';
     close(lint_fd[0]);
-
-#ifdef DEBUG
-		fprintf(stderr, "text.c:do_lint:Raw output: %s\n", read_buff);
-#endif
 
     /* Process the linter output. */
     read_buff_word = read_buff_ptr = read_buff;
@@ -3154,14 +3147,12 @@ void do_linter(void)
 		char *filename = NULL, *linestr = NULL, *maybecol = NULL;
 		char *message = mallocstrcpy(NULL, read_buff_word);
 
-		/* At the moment we're assuming the following formats:
+		/* At the moment we handle the following formats:
 		 *
 		 * filenameorcategory:line:column:message (e.g. splint)
+		 * filenameorcategory:line,column:message (e.g. pylint)
 		 * filenameorcategory:line:message        (e.g. pyflakes)
-		 * filenameorcategory:line,col:message    (e.g. pylint)
-		 *
-		 * This could be turned into some scanf() based parser,
-		 * but ugh. */
+		 */
 		if ((filename = strtok(read_buff_word, ":")) != NULL) {
 		    if ((linestr = strtok(NULL, ":")) != NULL) {
 			if ((maybecol = strtok(NULL, ":")) != NULL) {
@@ -3176,18 +3167,15 @@ void do_linter(void)
 			    }
 
 			    tmpcolno = strtol(maybecol, &convendptr, 10);
+			    /* Check if the middle field is in comma format. */
 			    if (*convendptr != '\0') {
-				/* Previous field might still be
-				 * line,col format. */
 				strtok(linestr, ",");
 				if ((tmplinecol = strtok(NULL, ",")) != NULL)
 				    tmpcolno = strtol(tmplinecol, NULL, 10);
 			    }
 			    if (tmpcolno <= 0)
 				tmpcolno = 1;
-#ifdef DEBUG
-			    fprintf(stderr, "text.c:do_lint:Successful parse! %ld:%ld:%s\n", (long)tmplineno, (long)tmpcolno, message);
-#endif
+
 			    /* Nice.  We have a lint message we can use. */
 			    parsesuccess++;
 			    tmplint = curlint;
