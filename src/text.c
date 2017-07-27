@@ -3030,14 +3030,13 @@ void do_spell(void)
  * termination, and the error string otherwise. */
 void do_linter(void)
 {
-    char *read_buff, *read_buff_ptr, *read_buff_word, *ptr;
+    char *read_buff, *read_buff_ptr, *read_buff_word, *ptr, *lintcopy;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
     size_t parsesuccess = 0;
     int lint_status, lint_fd[2];
     pid_t pid_lint;
     static int arglen = 3;
     static char **lintargs = NULL;
-    char *lintcopy, *convendptr = NULL;
     lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
     if (ISSET(RESTRICTED)) {
@@ -3166,15 +3165,15 @@ void do_linter(void)
 				continue;
 			    }
 
-			    tmpcolno = strtol(maybecol, &convendptr, 10);
+			    tmpcolno = strtol(maybecol, NULL, 10);
 			    /* Check if the middle field is in comma format. */
-			    if (*convendptr != '\0') {
+			    if (tmpcolno <= 0) {
 				strtok(linestr, ",");
 				if ((tmplinecol = strtok(NULL, ",")) != NULL)
 				    tmpcolno = strtol(tmplinecol, NULL, 10);
+				else
+				    tmpcolno = 1;
 			    }
-			    if (tmpcolno <= 0)
-				tmpcolno = 1;
 
 			    /* Nice.  We have a lint message we can use. */
 			    parsesuccess++;
