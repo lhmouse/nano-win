@@ -3400,7 +3400,7 @@ void do_formatter(void)
 	formatargs[0] = strtok(openfile->syntax->formatter, " ");
 	while ((ptr = strtok(NULL, " ")) != NULL) {
 	    arglen++;
-	    formatargs = (char **)nrealloc(formatargs, arglen *	sizeof(char *));
+	    formatargs = (char **)nrealloc(formatargs, arglen * sizeof(char *));
 	    formatargs[arglen - 3] = ptr;
 	}
 	formatargs[arglen - 1] = NULL;
