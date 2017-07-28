@@ -3152,7 +3152,8 @@ void do_linter(void)
 		 * filenameorcategory:line,column:message (e.g. pylint)
 		 * filenameorcategory:line:message        (e.g. pyflakes)
 		 */
-		if ((filename = strtok(read_buff_word, ":")) != NULL) {
+		if (strstr(message, ": ") != NULL) {
+		    filename = strtok(read_buff_word, ":");
 		    if ((linestr = strtok(NULL, ":")) != NULL) {
 			if ((maybecol = strtok(NULL, ":")) != NULL) {
 			    ssize_t tmplineno = 0, tmpcolno = 0;
