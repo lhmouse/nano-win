@@ -707,9 +707,9 @@ Do backwards searches by default.
 
 @item set boldtext
 Use bold instead of reverse video for the title bar, status bar, key combos,
-function tags, line numbers, and selected text.  This can be overridden for
-the first five by setting the options @code{titlecolor}, @code{statuscolor},
-@code{keycolor}, @code{functioncolor}, and @code{numbercolor}.
+function tags, line numbers, and selected text.  This can be overridden by
+setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
+@code{functioncolor}, @code{numbercolor}, and @code{selectedcolor}.
 
 @item set brackets "@var{string}"
 Set the characters treated as closing brackets when justifying
@@ -851,6 +851,10 @@ won't work properly with this option enabled.
 
 @item set regexp
 Do extended regular expression searches by default.
+
+@item set selectedcolor @var{fgcolor},@var{bgcolor}
+Use this color combination for selected text.
+@xref{@code{set functioncolor}} for valid color names.
 
 @item set showcursor
 Put the cursor on the highlighted item in the file browser, to aid

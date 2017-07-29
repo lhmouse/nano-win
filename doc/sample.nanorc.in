@@ -208,12 +208,14 @@
 ## These are examples; by default there are no colors.
 # set titlecolor brightwhite,blue
 # set statuscolor brightwhite,green
+# set selectedcolor brightwhite,magenta
 # set numbercolor cyan
 # set keycolor cyan
 # set functioncolor green
 ## In root's .nanorc you might want to use:
 # set titlecolor brightwhite,red
 # set statuscolor brightwhite,red
+# set selectedcolor brightwhite,cyan
 # set numbercolor magenta
 # set keycolor brightmagenta
 # set functioncolor magenta

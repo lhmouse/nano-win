@@ -469,6 +469,7 @@ enum
 {
     TITLE_BAR = 0,
     LINE_NUMBER,
+    SELECTED_TEXT,
     STATUS_BAR,
     KEY_COMBO,
     FUNCTION_TAG,

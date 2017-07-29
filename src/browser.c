@@ -538,7 +538,7 @@ void browser_refresh(void)
 	/* If this is the selected item, start its highlighting, and
 	 * remember its location to be able to place the cursor on it. */
 	if (i == selected) {
-	    wattron(edit, hilite_attribute);
+	    wattron(edit, interface_color_pair[SELECTED_TEXT]);
 	    the_row = row;
 	    the_column = col;
 	}
@@ -610,7 +610,7 @@ void browser_refresh(void)
 
 	/* If this is the selected item, finish its highlighting. */
 	if (i == selected)
-	    wattroff(edit, hilite_attribute);
+	    wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 	free(info);
 

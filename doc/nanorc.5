@@ -79,9 +79,9 @@ Do backwards searches by default.
 .TP
 .B set boldtext
 Use bold instead of reverse video for the title bar, status bar, key combos,
-function tags, line numbers, and selected text.  This can be overridden for
-the first five by setting the options \fBtitlecolor\fP, \fBstatuscolor\fP,
-\fBkeycolor\fP, \fBfunctioncolor\fP, and \fBnumbercolor\fP.
+function tags, line numbers, and selected text.  This can be overridden by
+setting the options \fBtitlecolor\fP, \fBstatuscolor\fP, \fBkeycolor\fP,
+\fBfunctioncolor\fP, \fBnumbercolor\fP, and \fBselectedcolor\fP.
 .TP
 .B set brackets "\fIstring\fP"
 Set the characters treated as closing brackets when justifying
@@ -219,6 +219,10 @@ won't work properly with this option enabled.
 .TP
 .B set regexp
 Do extended regular expression searches by default.
+.TP
+.B set selectedcolor \fIfgcolor\fR,\fIbgcolor\fR
+Specify the color combination to use for selected text.
+See \fBset titlecolor\fR for more details.
 .TP
 .B set showcursor
 Put the cursor on the highlighted item in the file browser, to aid

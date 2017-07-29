@@ -2650,9 +2650,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		paintlen = actual_x(thetext, end_col - start_col);
 	    }
 
-	    wattron(edit, hilite_attribute);
+	    wattron(edit, interface_color_pair[SELECTED_TEXT]);
 	    mvwaddnstr(edit, row, margin + start_col, thetext, paintlen);
-	    wattroff(edit, hilite_attribute);
+	    wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 	}
     }
 #endif /* !NANO_TINY */
@@ -3417,7 +3417,7 @@ void spotlight(bool active, size_t from_col, size_t to_col)
 	room--;
 
     if (active)
-	wattron(edit, hilite_attribute);
+	wattron(edit, interface_color_pair[SELECTED_TEXT]);
 
     waddnstr(edit, word, actual_x(word, room));
 
@@ -3425,7 +3425,7 @@ void spotlight(bool active, size_t from_col, size_t to_col)
 	waddch(edit, '$');
 
     if (active)
-	wattroff(edit, hilite_attribute);
+	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
     free(word);
 
@@ -3464,12 +3464,12 @@ void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
 					break_col - from_col, FALSE);
 
 	if (active)
-	    wattron(edit, hilite_attribute);
+	    wattron(edit, interface_color_pair[SELECTED_TEXT]);
 
 	waddnstr(edit, word, actual_x(word, break_col));
 
 	if (active)
-	    wattroff(edit, hilite_attribute);
+	    wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 	free(word);
 
