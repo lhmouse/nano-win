@@ -3103,7 +3103,7 @@ size_t actual_last_column(size_t leftedge, size_t column)
 
 	/* If we're not on the last chunk, we're one column past the end of
 	 * the row.  Shifting back one column might put us in the middle of
-	  * a multi-column character, but actual_x() will fix that later. */
+	 * a multi-column character, but actual_x() will fix that later. */
 	if (!last_chunk)
 	    end_col--;
 

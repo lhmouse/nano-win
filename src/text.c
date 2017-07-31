@@ -52,7 +52,7 @@ static filestruct *jusbottom = NULL;
 static int pletion_x = 0;
 	/* The x position in pletion_line of the last found completion. */
 static completion_word *list_of_completions;
-	/* A linked list of the completions that have been attepmted. */
+	/* A linked list of the completions that have been attempted. */
 #endif
 
 #ifndef NANO_TINY
