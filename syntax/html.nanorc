@@ -5,7 +5,7 @@ magic "HTML document text"
 comment "<!--|-->"
 
 # Tags:
-color cyan start="<[[:alpha:]/!?]" end=">"
+color cyan "<[[:alpha:]/!?][^>]*>"
 # Bold, italic, and underlined:
 color brightmagenta "</?[biu]>"
 
