@@ -2982,8 +2982,8 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     while (*text != '\0' && column < leftedge)
 	text += parse_mbchar(text, NULL, &column);
 
-    /* Use a full screen row for text. */
-    goal_column = column + editwincols;
+    /* The intention is to use the entire available width. */
+    goal_column = leftedge + editwincols;
 
     while (*text != '\0' && column <= goal_column) {
 	/* When breaking at blanks, do it *before* the target column. */
@@ -3011,8 +3011,17 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     if (found_blank) {
 	text = text - index + lastblank_index;
 	parse_mbchar(text, NULL, &lastblank_column);
+
+	/* If we've now overshot the screen's edge, then break there. */
+	if (lastblank_column > goal_column)
+	    return goal_column;
+
 	return lastblank_column;
     }
+
+    /* If a tab is split over two chunks, break at the screen's edge. */
+    if (*(text - char_len) == '\t')
+	prev_column = goal_column;
 
     /* Otherwise, return the column of the last character that doesn't
      * overshoot the target, since we can't break the text anywhere else. */
