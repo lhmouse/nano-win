@@ -2375,10 +2375,10 @@ int main(int argc, char **argv)
 #endif /* !DISABLE_HISTORIES */
 
 #ifndef NANO_TINY
-    /* If a backup directory was specified and we're not in restricted mode,
-     * make sure the path exists and is a directory, so that backup files can
-     * be saved there. */
-    if (backup_dir != NULL && !ISSET(RESTRICTED))
+    /* If backups are enabled and a backup directory was specified and
+     * we're not in restricted mode, make sure the path exists and is
+     * a directory, so that backup files can be saved there. */
+    if (ISSET(BACKUP_FILE) && backup_dir != NULL && !ISSET(RESTRICTED))
 	init_backup_dir();
 #endif
 

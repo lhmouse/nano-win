@@ -1487,23 +1487,18 @@ int prompt_failed_backupwrite(const char *filename)
     return response;
 }
 
-/* Transform the specified backup directory to an absolute path. */
+/* Transform the specified backup directory to an absolute path,
+ * and verify that it is usable. */
 void init_backup_dir(void)
 {
-    char *full_backup_dir = get_full_path(backup_dir);
+    backup_dir = free_and_assign(backup_dir, get_full_path(backup_dir));
 
-    /* When we can't get an absolute path, or it's not a directory,
-     * cancel the making of backups. */
-    if (full_backup_dir == NULL ||
-		full_backup_dir[strlen(full_backup_dir) - 1] != '/') {
-	free(full_backup_dir);
-	free(backup_dir);
-	backup_dir = NULL;
-    } else {
-	free(backup_dir);
-	backup_dir = full_backup_dir;
-	snuggly_fit(&backup_dir);
-    }
+    /* If we can't get an absolute path (which means it doesn't exist or
+       isn't accessible), or it's not a directory, fail. */
+    if (backup_dir == NULL || backup_dir[strlen(backup_dir) - 1] != '/')
+	die(_("Invalid backup directory\n"));
+
+    snuggly_fit(&backup_dir);
 }
 #endif /* !NANO_TINY */
 
