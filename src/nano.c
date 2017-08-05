@@ -2374,19 +2374,18 @@ int main(int argc, char **argv)
 #endif /* !DISABLE_HISTORIES */
 
 #ifndef NANO_TINY
-    /* Set up the backup directory (unless we're using restricted mode,
-     * in which case backups are disabled, since they would allow
-     * reading from or writing to files not specified on the command
-     * line).  This entails making sure it exists and is a directory, so
-     * that backup files will be saved there. */
-    if (!ISSET(RESTRICTED))
+    /* If a backup directory was specified and we're not in restricted mode,
+     * make sure the path exists and is a directory, so that backup files can
+     * be saved there. */
+    if (backup_dir != NULL && !ISSET(RESTRICTED))
 	init_backup_dir();
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
      * so that file reads and writes will be based there. */
-    init_operating_dir();
+    if (operating_dir != NULL)
+	init_operating_dir();
 #endif
 
 #ifndef DISABLE_JUSTIFY

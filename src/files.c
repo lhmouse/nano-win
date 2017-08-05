@@ -1411,12 +1411,9 @@ char *safe_tempfile(FILE **f)
 }
 
 #ifndef DISABLE_OPERATINGDIR
-/* Initialize full_operating_dir based on operating_dir. */
+/* Change to the specified operating directory, when it's valid. */
 void init_operating_dir(void)
 {
-    if (operating_dir == NULL)
-	return;
-
     full_operating_dir = get_full_path(operating_dir);
 
     /* If the operating directory is inaccessible, fail. */
@@ -1493,17 +1490,13 @@ int prompt_failed_backupwrite(const char *filename)
     return response;
 }
 
+/* Transform the specified backup directory to an absolute path. */
 void init_backup_dir(void)
 {
-    char *full_backup_dir;
+    char *full_backup_dir = get_full_path(backup_dir);
 
-    if (backup_dir == NULL)
-	return;
-
-    full_backup_dir = get_full_path(backup_dir);
-
-    /* If get_full_path() failed or the backup directory is
-     * inaccessible, unset backup_dir. */
+    /* When we can't get an absolute path, or it's not a directory,
+     * cancel the making of backups. */
     if (full_backup_dir == NULL ||
 		full_backup_dir[strlen(full_backup_dir) - 1] != '/') {
 	free(full_backup_dir);
