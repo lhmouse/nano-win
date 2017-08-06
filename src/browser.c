@@ -21,10 +21,10 @@
 
 #include "proto.h"
 
+#include <errno.h>
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
 
 #ifdef ENABLE_BROWSER
 

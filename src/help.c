@@ -22,8 +22,8 @@
 
 #include "proto.h"
 
-#include <string.h>
 #include <errno.h>
+#include <string.h>
 
 #ifdef ENABLE_HELP
 

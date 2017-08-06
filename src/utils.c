@@ -21,12 +21,12 @@
 
 #include "proto.h"
 
-#include <string.h>
-#include <unistd.h>
+#include <errno.h>
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
-#include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
 /* Return the user's home directory.  We use $HOME, and if that fails,
  * we fall back on the home directory of the effective user ID. */

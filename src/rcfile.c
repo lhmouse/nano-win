@@ -22,11 +22,11 @@
 
 #include "proto.h"
 
+#include <ctype.h>
+#include <errno.h>
 #include <glob.h>
 #include <string.h>
-#include <errno.h>
 #include <unistd.h>
-#include <ctype.h>
 
 #ifdef ENABLE_NANORC
 

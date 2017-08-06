@@ -22,12 +22,11 @@
 #include "proto.h"
 #include "revision.h"
 
+#include <ctype.h>
 #ifdef __linux__
 #include <sys/ioctl.h>
 #endif
-
 #include <string.h>
-#include <ctype.h>
 
 #ifdef REVISION
 #define BRANDING REVISION

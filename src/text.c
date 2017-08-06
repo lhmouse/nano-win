@@ -24,11 +24,11 @@
 
 #include "proto.h"
 
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
-#include <sys/wait.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 #ifndef NANO_TINY
 static pid_t pid = -1;

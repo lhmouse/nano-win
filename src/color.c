@@ -21,13 +21,12 @@
 
 #include "proto.h"
 
-#include <string.h>
 #include <errno.h>
-#include <unistd.h>
-
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
 #endif
+#include <string.h>
+#include <unistd.h>
 
 #ifndef DISABLE_COLOR
 

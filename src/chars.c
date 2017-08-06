@@ -21,8 +21,8 @@
 
 #include "proto.h"
 
-#include <string.h>
 #include <ctype.h>
+#include <string.h>
 
 #ifdef ENABLE_UTF8
 #include <wchar.h>

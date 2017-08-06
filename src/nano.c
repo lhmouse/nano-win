@@ -22,22 +22,22 @@
 #include "proto.h"
 #include "revision.h"
 
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <ctype.h>
-#ifdef ENABLE_UTF8
-#include <langinfo.h>
-#endif
-#include <locale.h>
-#ifdef HAVE_TERMIOS_H
-#include <termios.h>
-#endif
+#include <errno.h>
+#include <fcntl.h>
 #include <getopt.h>
 #ifndef NANO_TINY
 #include <sys/ioctl.h>
 #endif
+#ifdef ENABLE_UTF8
+#include <langinfo.h>
+#endif
+#include <locale.h>
+#include <string.h>
+#ifdef HAVE_TERMIOS_H
+#include <termios.h>
+#endif
+#include <unistd.h>
 
 #ifdef ENABLE_MOUSE
 static int oldinterval = -1;
