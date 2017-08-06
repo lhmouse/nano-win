@@ -30,6 +30,7 @@
 #ifdef ENABLE_UTF8
 #include <langinfo.h>
 #endif
+#include <locale.h>
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
