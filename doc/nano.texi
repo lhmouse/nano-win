@@ -744,7 +744,7 @@ Valid names for foreground and background color are:
 @code{white}, @code{black}, @code{blue}, @code{green},
 @code{red}, @code{cyan}, @code{yellow}, and @code{magenta}.
 The name of the foreground color may be prefixed with @code{bright}.
-And either @var{fgcolor} or @var{,bgcolor} may be left out.
+And either @var{fgcolor} or ,@var{bgcolor} may be left out.
 
 @item set historylog
 Enable the use of @file{~/.nano/search_history} for saving and reading

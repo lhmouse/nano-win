@@ -307,7 +307,7 @@
 		many many improvements to the core system, including
 		substantial improvements to the undo/redo code, UTF-8
 		handling, the configure script, and display of shortcuts
-		on very wide terminals,  New features include the
+		on very wide terminals.  New features include the
 		ability to write to named pipes (--noread), as well as
 		linter support (see the nanorc man page for details).  Also
 		included are much improved syntax highlighting code, and
