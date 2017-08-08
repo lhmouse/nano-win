@@ -1651,9 +1651,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    /* Adjust the index if we hit the last two wider ones. */
 	    if ((j > number) && (*mouse_x % i < COLS % i))
 		j -= 2;
-#ifdef DEBUG
-	    fprintf(stderr, "Calculated %i as index in shortcut list, currmenu = %x.\n", j, currmenu);
-#endif
+
 	    /* Ignore releases/clicks of the first mouse button beyond
 	     * the last shortcut. */
 	    if (j > number)
@@ -1671,9 +1669,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		if (j == 0)
 		    break;
 	    }
-#ifdef DEBUG
-	    fprintf(stderr, "Stopped on func %ld present in menus %x\n", (long)f->scfunc, f->menus);
-#endif
 
 	    /* And put the corresponding key into the keyboard buffer. */
 	    if (f != NULL) {
@@ -3212,17 +3207,9 @@ void edit_refresh(void)
 
     /* If the current line is out of view, get it back on screen. */
     if (current_is_offscreen()) {
-#ifdef DEBUG
-	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and editwinrows = %d\n",
-		(long)openfile->current->lineno, (long)openfile->edittop->lineno, editwinrows);
-#endif
 	openfile->current_y = editwinrows - 1;
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
-
-#ifdef DEBUG
-    fprintf(stderr, "edit-refresh: now edittop = %ld\n", (long)openfile->edittop->lineno);
-#endif
 
     line = openfile->edittop;
 
@@ -3267,10 +3254,6 @@ void adjust_viewport(update_type manner)
 
     /* Move edittop back goal rows, starting at current[current_x]. */
     go_back_chunks(goal, &openfile->edittop, &openfile->firstcolumn);
-
-#ifdef DEBUG
-    fprintf(stderr, "adjust_viewport(): setting edittop to lineno %ld\n", (long)openfile->edittop->lineno);
-#endif
 }
 
 /* Unconditionally redraw the entire screen. */
