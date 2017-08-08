@@ -1185,9 +1185,6 @@ void do_insertfile(void)
 			openfile->current_x != was_current_x)
 		    set_modified();
 
-		/* Set the target row for the cursor when pushed offscreen. */
-		openfile->current_y = editwinrows - 1;
-
 		refresh_needed = TRUE;
 	    }
 

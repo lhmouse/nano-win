@@ -3216,6 +3216,7 @@ void edit_refresh(void)
 	fprintf(stderr, "edit-refresh: line = %ld, edittop = %ld and editwinrows = %d\n",
 		(long)openfile->current->lineno, (long)openfile->edittop->lineno, editwinrows);
 #endif
+	openfile->current_y = editwinrows - 1;
 	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
     }
 
