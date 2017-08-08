@@ -258,8 +258,6 @@ void do_help(void)
     switch_to_prev_buffer_void();
 
     if (ISSET(NO_HELP)) {
-	blank_bottombars();
-	wnoutrefresh(bottomwin);
 	currmenu = oldmenu;
 	window_init();
     } else
