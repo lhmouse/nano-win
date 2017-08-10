@@ -3206,10 +3206,8 @@ void edit_refresh(void)
 #endif
 
     /* If the current line is out of view, get it back on screen. */
-    if (current_is_offscreen()) {
-	openfile->current_y = editwinrows - 1;
-	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : STATIONARY);
-    }
+    if (current_is_offscreen())
+	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
 
     line = openfile->edittop;
 
