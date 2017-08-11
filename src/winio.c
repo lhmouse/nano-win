@@ -523,6 +523,10 @@ int parse_kbinput(WINDOW *win)
     } else if (retval == shiftcontrolend) {
 	shift_held = TRUE;
 	return CONTROL_END;
+    } else if (retval == altleft) {
+	return ALT_LEFT;
+    } else if (retval == altright) {
+	return ALT_RIGHT;
     } else if (retval == shiftaltleft) {
 	shift_held = TRUE;
 	return KEY_HOME;
@@ -954,6 +958,18 @@ int convert_sequence(const int *seq, size_t seq_len)
 		}
 		break;
 #ifndef NANO_TINY
+	    case '3':
+		switch (seq[4]) {
+		    case 'A': /* Esc [ 1 ; 3 A == Alt-Up on xterm. */
+			return ALT_UP;
+		    case 'B': /* Esc [ 1 ; 3 B == Alt-Down on xterm. */
+			return ALT_DOWN;
+		    case 'C': /* Esc [ 1 ; 3 C == Alt-Right on xterm. */
+			return ALT_RIGHT;
+		    case 'D': /* Esc [ 1 ; 3 D == Alt-Left on xterm. */
+			return ALT_LEFT;
+		}
+		break;
 	    case '4':
 		/* When the arrow keys are held together with Shift+Meta,
 		 * act as if they are Home/End/PgUp/PgDown with Shift. */

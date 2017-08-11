@@ -2525,6 +2525,11 @@ int main(int argc, char **argv)
     /* Ask for the codes for Shift+Control+Home/End. */
     shiftcontrolhome = get_keycode("kHOM6", SHIFT_CONTROL_HOME);
     shiftcontrolend = get_keycode("kEND6", SHIFT_CONTROL_END);
+    /* Ask for the codes for Alt+Left/Right/Up/Down. */
+    altleft = get_keycode("kLFT3", ALT_LEFT);
+    altright = get_keycode("kRIT3", ALT_RIGHT);
+    altup = get_keycode("kUP3", ALT_UP);
+    altdown = get_keycode("kDN3", ALT_DOWN);
     /* Ask for the codes for Shift+Alt+Left/Right/Up/Down. */
     shiftaltleft = get_keycode("kLFT4", SHIFT_ALT_LEFT);
     shiftaltright = get_keycode("kRIT4", SHIFT_ALT_RIGHT);

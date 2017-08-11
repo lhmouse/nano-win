@@ -410,12 +410,7 @@ void parse_binding(char *ptr, bool dobind)
     else if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
 	rcfile_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
 	goto free_copy;
-    } else if ((keycopy[0] == 'M' && keycopy[1] != '-') ||
-		(keycopy[0] == '^' && ((keycopy[1] < 'A' || keycopy[1] > 'z') ||
-		keycopy[1] == '[' || keycopy[1] == '`' ||
-		(strlen(keycopy) > 2 && strcmp(keycopy, "^Space") != 0))) ||
-		(strlen(keycopy) > 3 && strcmp(keycopy, "^Space") != 0 &&
-		strcmp(keycopy, "M-Space") != 0)) {
+    } else if (keycode_from_string(keycopy) < 0) {
 	rcfile_error(N_("Key name %s is invalid"), keycopy);
 	goto free_copy;
     }

@@ -77,6 +77,7 @@ int controlleft, controlright, controlup, controldown, controlhome, controlend;
 #ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
+int altleft, altright, altup, altdown;
 int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
@@ -420,28 +421,45 @@ functionptrtype func_from_key(int *kbinput)
 void assign_keyinfo(sc *s, const char *keystring, const int keycode)
 {
     s->keystr = keystring;
-    s->meta = (keystring[0] == 'M');
+    s->meta = (keystring[0] == 'M' && keystring[2] != '\xE2');
 
     assert(strlen(keystring) > 1 && (!s->meta || strlen(keystring) > 2));
 
     if (keycode)
 	s->keycode = keycode;
-    else if (keystring[0] == '^') {
+    else
+	s->keycode = keycode_from_string(keystring);
+}
+
+/* Parse the given keystring and return the corresponding keycode,
+ * or return -1 when the string is invalid. */
+int keycode_from_string(const char *keystring)
+{
+    if (keystring[0] == '^') {
 	if (strcasecmp(keystring, "^Space") == 0)
-	    s->keycode = 0;
+	    return 0;
+	if (strlen(keystring) == 2)
+	    return keystring[1] - 64;
 	else
-	    s->keycode = keystring[1] - 64;
-    } else if (s->meta) {
+	    return -1;
+    } else if (keystring[0] == 'M') {
 	if (strcasecmp(keystring, "M-Space") == 0)
-	    s->keycode = (int)' ';
+	    return (int)' ';
+	if (keystring[1] == '-')
+	    return tolower((unsigned char)keystring[2]);
 	else
-	    s->keycode = tolower((unsigned char)keystring[2]);
-    } else if (keystring[0] == 'F')
-	s->keycode = KEY_F0 + atoi(&keystring[1]);
-    else if (!strcasecmp(keystring, "Ins"))
-	s->keycode = KEY_IC;
+	    return -1;
+    } else if (keystring[0] == 'F') {
+	int fn = atoi(&keystring[1]);
+	if ((fn < 0) || (fn > 63))
+	    return -1;
+	return KEY_F0 + fn;
+    } else if (!strcasecmp(keystring, "Ins"))
+	return KEY_IC;
     else if (!strcasecmp(keystring, "Del"))
-	s->keycode = KEY_DC;
+	return KEY_DC;
+    else
+	return -1;
 }
 
 #ifdef DEBUG
@@ -1121,6 +1139,10 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "\xE2\x86\x92", KEY_RIGHT, do_right, 0);
 	add_to_sclist(MSOME, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
 	add_to_sclist(MSOME, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
+#ifdef ENABLE_MULTIBUFFER
+	add_to_sclist(MMAIN, "M-\xE2\x86\x90", ALT_LEFT, switch_to_prev_buffer_void, 0);
+	add_to_sclist(MMAIN, "M-\xE2\x86\x92", ALT_RIGHT, switch_to_next_buffer_void, 0);
+#endif
     } else
 #endif
     {

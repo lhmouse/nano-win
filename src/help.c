@@ -510,7 +510,7 @@ void help_init(void)
 		if (scsfound == 1) {
 		    sprintf(ptr, "%s               ", s->keystr);
 		    /* Unicode arrows take three bytes instead of one. */
-		    if (s->keystr[0] == '\xE2' || s->keystr[1] == '\xE2')
+		    if (strstr(s->keystr, "\xE2") != NULL)
 			ptr += 8;
 		    else
 			ptr += 6;
