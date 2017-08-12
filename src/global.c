@@ -165,10 +165,7 @@ const char *locking_suffix = ".swp";
 #endif
 #ifndef DISABLE_OPERATINGDIR
 char *operating_dir = NULL;
-	/* The relative path to the operating directory, which we can't
-	 * move outside of. */
-char *full_operating_dir = NULL;
-	/* The full path to it. */
+	/* The path to our confining "operating" directory, when given. */
 #endif
 
 #ifndef DISABLE_SPELLER
@@ -1735,7 +1732,6 @@ void thanks_for_all_the_fish(void)
 #endif
 #ifndef DISABLE_OPERATINGDIR
     free(operating_dir);
-    free(full_operating_dir);
 #endif
     free(answer);
     free(last_search);

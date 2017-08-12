@@ -251,8 +251,7 @@ char *do_browser(char *path)
 	    if (check_operating_dir(path, FALSE)) {
 		/* TRANSLATORS: This refers to the confining effect of the
 		 * option --operatingdir, not of --restricted. */
-		statusline(ALERT, _("Can't go outside of %s"),
-				full_operating_dir);
+		statusline(ALERT, _("Can't go outside of %s"), operating_dir);
 		path = mallocstrcpy(path, present_path);
 		continue;
 	    }
@@ -283,8 +282,7 @@ char *do_browser(char *path)
 	     * directory if it's ".." or if it's a symlink to a
 	     * directory outside the operating directory. */
 	    if (check_operating_dir(filelist[selected], FALSE)) {
-		statusline(ALERT, _("Can't go outside of %s"),
-				full_operating_dir);
+		statusline(ALERT, _("Can't go outside of %s"), operating_dir);
 		continue;
 	    }
 #endif

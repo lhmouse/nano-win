@@ -132,7 +132,6 @@ extern const char *locking_suffix;
 #endif
 #ifndef DISABLE_OPERATINGDIR
 extern char *operating_dir;
-extern char *full_operating_dir;
 #endif
 
 #ifndef DISABLE_SPELLER

@@ -433,7 +433,7 @@ bool open_buffer(const char *filename, bool undoable)
 #ifndef DISABLE_OPERATINGDIR
     if (check_operating_dir(filename, FALSE)) {
 	statusline(ALERT, _("Can't insert file from outside of %s"),
-				full_operating_dir);
+				operating_dir);
 	return FALSE;
     }
 #endif
@@ -1411,13 +1411,13 @@ char *safe_tempfile(FILE **f)
 /* Change to the specified operating directory, when it's valid. */
 void init_operating_dir(void)
 {
-    full_operating_dir = get_full_path(operating_dir);
+    operating_dir = free_and_assign(operating_dir, get_full_path(operating_dir));
 
     /* If the operating directory is inaccessible, fail. */
-    if (full_operating_dir == NULL || chdir(full_operating_dir) == -1)
+    if (operating_dir == NULL || chdir(operating_dir) == -1)
 	die(_("Invalid operating directory\n"));
 
-    snuggly_fit(&full_operating_dir);
+    snuggly_fit(&operating_dir);
 }
 
 /* Check to see if we're inside the operating directory.  Return FALSE
@@ -1426,11 +1426,6 @@ void init_operating_dir(void)
  * so that tab completion will work. */
 bool check_operating_dir(const char *currpath, bool allow_tabcomp)
 {
-    /* full_operating_dir is global for memory cleanup.  It should have
-     * already been initialized by init_operating_dir().  Also, a
-     * relative operating directory path will only be handled properly
-     * if this is done. */
-
     char *fullpath;
     bool retval = FALSE;
     const char *whereami1, *whereami2 = NULL;
@@ -1451,16 +1446,16 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp)
     if (fullpath == NULL)
 	return allow_tabcomp;
 
-    whereami1 = strstr(fullpath, full_operating_dir);
+    whereami1 = strstr(fullpath, operating_dir);
     if (allow_tabcomp)
-	whereami2 = strstr(full_operating_dir, fullpath);
+	whereami2 = strstr(operating_dir, fullpath);
 
     /* If both searches failed, we're outside the operating directory.
      * Otherwise, check the search results.  If the full operating
      * directory path is not at the beginning of the full current path
      * (for normal usage) and vice versa (for tab completion, if we're
      * allowing it), we're outside the operating directory. */
-    if (whereami1 != fullpath && whereami2 != full_operating_dir)
+    if (whereami1 != fullpath && whereami2 != operating_dir)
 	retval = TRUE;
     free(fullpath);
 
@@ -1589,7 +1584,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
     if (!tmp && check_operating_dir(realname, FALSE)) {
-	statusline(ALERT, _("Can't write outside of %s"), full_operating_dir);
+	statusline(ALERT, _("Can't write outside of %s"), operating_dir);
 	goto cleanup_and_exit;
     }
 #endif
