@@ -283,7 +283,7 @@ char *get_full_path(const char *origpath);
 char *safe_tempfile(FILE **f);
 #ifndef DISABLE_OPERATINGDIR
 void init_operating_dir(void);
-bool check_operating_dir(const char *currpath, bool allow_tabcomp);
+bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
 #endif
 #ifndef NANO_TINY
 void init_backup_dir(void);

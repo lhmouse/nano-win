@@ -431,8 +431,8 @@ bool open_buffer(const char *filename, bool undoable)
     as_an_at = FALSE;
 
 #ifndef DISABLE_OPERATINGDIR
-    if (check_operating_dir(filename, FALSE)) {
-	statusline(ALERT, _("Can't insert file from outside of %s"),
+    if (outside_of_confinement(filename, FALSE)) {
+	statusline(ALERT, _("Can't read file from outside of %s"),
 				operating_dir);
 	return FALSE;
     }
@@ -1424,7 +1424,7 @@ void init_operating_dir(void)
  * if we are, or TRUE otherwise.  If allow_tabcomp is TRUE, allow
  * incomplete names that would be matches for the operating directory,
  * so that tab completion will work. */
-bool check_operating_dir(const char *currpath, bool allow_tabcomp)
+bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
 {
     char *fullpath;
     bool retval = FALSE;
@@ -1583,7 +1583,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #ifndef DISABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
-    if (!tmp && check_operating_dir(realname, FALSE)) {
+    if (!tmp && outside_of_confinement(realname, FALSE)) {
 	statusline(ALERT, _("Can't write outside of %s"), operating_dir);
 	goto cleanup_and_exit;
     }
@@ -2437,7 +2437,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 #ifndef DISABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
 	     * directory, in which case just go to the next match. */
-	    if (check_operating_dir(userdata->pw_dir, TRUE))
+	    if (outside_of_confinement(userdata->pw_dir, TRUE))
 		continue;
 #endif
 
@@ -2523,14 +2523,12 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 #ifndef DISABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
 	     * directory, in which case just go to the next match. */
-	    if (check_operating_dir(tmp, TRUE))
-		skip_match = TRUE;
+	    skip_match = outside_of_confinement(tmp, TRUE);
 #endif
 
 	    /* ...or unless the match isn't a directory and allow_files
 	     * isn't set, in which case just go to the next match. */
-	    if (!allow_files && !is_dir(tmp))
-		skip_match = TRUE;
+	    skip_match = skip_match || (!allow_files && !is_dir(tmp));
 
 	    free(tmp);
 
