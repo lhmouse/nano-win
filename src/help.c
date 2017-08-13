@@ -206,7 +206,10 @@ void do_help(void)
 	} else if (func == do_search) {
 	    do_search();
 	    bottombars(MHELP);
-	} else if (func == do_research) {
+	} else if (func == do_findprevious) {
+	    do_findprevious();
+	    currmenu = MHELP;
+	} else if (func == do_findnext || func == do_research) {
 	    do_research();
 	    currmenu = MHELP;
 #ifndef NANO_TINY
@@ -576,8 +579,9 @@ functionptrtype parse_help_input(int *kbinput)
 	    case '/':
 		return do_search;
 	    case 'N':
+		return do_findprevious;
 	    case 'n':
-		return do_research;
+		return do_findnext;
 	    case 'E':
 	    case 'e':
 	    case 'Q':

@@ -527,6 +527,10 @@ int parse_kbinput(WINDOW *win)
 	return ALT_LEFT;
     } else if (retval == altright) {
 	return ALT_RIGHT;
+    } else if (retval == altup) {
+	return ALT_UP;
+    } else if (retval == altdown) {
+	return ALT_DOWN;
     } else if (retval == shiftaltleft) {
 	shift_held = TRUE;
 	return KEY_HOME;
