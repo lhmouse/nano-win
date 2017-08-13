@@ -1855,6 +1855,15 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	if (openfile->mark_set && openfile->current == openfile->mark_begin &&
 		openfile->current_x < openfile->mark_begin_x)
 	    openfile->mark_begin_x += char_len;
+
+	/* When the cursor is on the top row and not on the first chunk
+	 * of a line, adding text there might change the preceding chunk
+	 * and thus require an adjustment of firstcolumn. */
+	if (openfile->current == openfile->edittop &&
+			openfile->firstcolumn > 0) {
+	    ensure_firstcolumn_is_aligned();
+	    refresh_needed = TRUE;
+	}
 #endif
 
 	openfile->current_x += char_len;
