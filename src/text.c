@@ -339,27 +339,22 @@ void do_indent(void)
 
 	openfile->totsize += line_indent_len;
 
-	/* Keep track of the change in the current line. */
+	/* Compensate for the change in the current line. */
 	if (openfile->mark_set && f == openfile->mark_begin)
 	    openfile->mark_begin_x += line_indent_len;
-
 	if (f == openfile->current) {
 	    openfile->current_x += line_indent_len;
 	    openfile->placewewant = xplustabs();
 	}
     }
 
-    /* Clean up. */
     free(line_indent);
 
     /* Throw away the undo stack, to prevent making mistakes when
      * the user tries to undo something in the indented text. */
     discard_until(NULL, openfile);
 
-    /* Mark the file as modified. */
     set_modified();
-
-    /* Update the screen. */
     refresh_needed = TRUE;
 }
 
@@ -421,39 +416,33 @@ void do_unindent(void)
 	if (white_string(f->data) && indent_len < tabsize)
 	    continue;
 
-	    /* If there's at least tabsize
-	     * columns' worth of indentation at the beginning of the
-	     * non-whitespace text of this line, remove it. */
-	    charmove(f->data, &f->data[indent_len], line_len - indent_len + 1);
-	    null_at(&f->data, line_len - indent_len + 1);
-	    openfile->totsize -= indent_len;
+	/* Remove the first tab's worth of whitespace from this line. */
+	charmove(f->data, &f->data[indent_len], line_len - indent_len + 1);
+	null_at(&f->data, line_len - indent_len + 1);
+	openfile->totsize -= indent_len;
 
-	    /* Keep track of the change in the current line. */
-	    if (openfile->mark_set && f == openfile->mark_begin) {
-		if (openfile->mark_begin_x <= indent_len)
-		    openfile->mark_begin_x = 0;
-		else
-		    openfile->mark_begin_x -= indent_len;
-	    }
-
-	    if (f == openfile->current) {
-		if (openfile->current_x <= indent_len)
-		    openfile->current_x = 0;
-		else
-		    openfile->current_x -= indent_len;
-		openfile->placewewant = xplustabs();
-	    }
+	/* Compensate for the change in the current line. */
+	if (openfile->mark_set && f == openfile->mark_begin) {
+	    if (openfile->mark_begin_x <= indent_len)
+		openfile->mark_begin_x = 0;
+	    else
+		openfile->mark_begin_x -= indent_len;
+	}
+	if (f == openfile->current) {
+	    if (openfile->current_x <= indent_len)
+		openfile->current_x = 0;
+	    else
+		openfile->current_x -= indent_len;
+	    openfile->placewewant = xplustabs();
+	}
     }
 
-	/* Throw away the undo stack, to prevent making mistakes when
-	 * the user tries to undo something in the unindented text. */
-	discard_until(NULL, openfile);
+    /* Throw away the undo stack, to prevent making mistakes when
+     * the user tries to undo something in the unindented text. */
+    discard_until(NULL, openfile);
 
-	/* Mark the file as modified. */
-	set_modified();
-
-	/* Update the screen. */
-	refresh_needed = TRUE;
+    set_modified();
+    refresh_needed = TRUE;
 }
 #endif /* !NANO_TINY */
 
