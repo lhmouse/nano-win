@@ -3054,13 +3054,12 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
      * the pointer back to the last blank, step beyond it, and we're done. */
     if (found_blank) {
 	text = text - index + lastblank_index;
-	parse_mbchar(text, NULL, &lastblank_column);
+	char_len = parse_mbchar(text, NULL, &lastblank_column);
+	text += char_len;
 
-	/* If we've now overshot the screen's edge, then break there. */
-	if (lastblank_column > goal_column)
-	    return goal_column;
-
-	return lastblank_column;
+	/* If we haven't overshot the screen's edge, break after the blank. */
+	if (lastblank_column <= goal_column)
+	    return lastblank_column;
     }
 
     /* If a tab is split over two chunks, break at the screen's edge. */
