@@ -1420,17 +1420,16 @@ void init_operating_dir(void)
     snuggly_fit(&operating_dir);
 }
 
-/* Check to see if we're inside the operating directory.  Return FALSE
- * if we are, or TRUE otherwise.  If allow_tabcomp is TRUE, allow
- * incomplete names that would be matches for the operating directory,
- * so that tab completion will work. */
+/* Check whether the given path is outside of the operating directory.
+ * Return TRUE if it is, and FALSE otherwise.  If allow_tabcomp is TRUE,
+ * incomplete names that can grow into matches for the operating directory
+ * are considered to be inside, so that tab completion will work. */
 bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
 {
     char *fullpath;
-    bool retval = FALSE;
-    const char *whereami1, *whereami2 = NULL;
+    bool is_inside, begins_to_be;
 
-    /* If no operating directory is set, don't bother doing anything. */
+    /* If no operating directory is set, there is nothing to check. */
     if (operating_dir == NULL)
 	return FALSE;
 
@@ -1441,26 +1440,17 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
      * is what the user typed somewhere.  We don't want to report a
      * non-existent directory as being outside the operating directory,
      * so we return FALSE.  If allow_tabcomp is TRUE, then currpath
-     * exists, but is not executable.  So we say it isn't in the
+     * exists, but is not executable.  So we say it is outside the
      * operating directory. */
     if (fullpath == NULL)
 	return allow_tabcomp;
 
-    whereami1 = strstr(fullpath, operating_dir);
-    if (allow_tabcomp)
-	whereami2 = strstr(operating_dir, fullpath);
-
-    /* If both searches failed, we're outside the operating directory.
-     * Otherwise, check the search results.  If the full operating
-     * directory path is not at the beginning of the full current path
-     * (for normal usage) and vice versa (for tab completion, if we're
-     * allowing it), we're outside the operating directory. */
-    if (whereami1 != fullpath && whereami2 != operating_dir)
-	retval = TRUE;
+    is_inside = (strstr(fullpath, operating_dir) == fullpath);
+    begins_to_be = (allow_tabcomp &&
+			strstr(operating_dir, fullpath) == operating_dir);
     free(fullpath);
 
-    /* Otherwise, we're still inside it. */
-    return retval;
+    return (!is_inside && !begins_to_be);
 }
 #endif
 
