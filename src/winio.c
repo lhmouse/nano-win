@@ -523,15 +523,15 @@ int parse_kbinput(WINDOW *win)
     } else if (retval == shiftcontrolend) {
 	shift_held = TRUE;
 	return CONTROL_END;
-    } else if (retval == altleft) {
+    } else if (retval == altleft)
 	return ALT_LEFT;
-    } else if (retval == altright) {
+    else if (retval == altright)
 	return ALT_RIGHT;
-    } else if (retval == altup) {
+    else if (retval == altup)
 	return ALT_UP;
-    } else if (retval == altdown) {
+    else if (retval == altdown)
 	return ALT_DOWN;
-    } else if (retval == shiftaltleft) {
+    else if (retval == shiftaltleft) {
 	shift_held = TRUE;
 	return KEY_HOME;
     } else if (retval == shiftaltright) {

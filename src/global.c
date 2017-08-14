@@ -451,7 +451,7 @@ int keycode_from_string(const char *keystring)
 	    return -1;
     } else if (keystring[0] == 'F') {
 	int fn = atoi(&keystring[1]);
-	if ((fn < 0) || (fn > 63))
+	if (fn < 0 || fn > 63)
 	    return -1;
 	return KEY_F0 + fn;
     } else if (!strcasecmp(keystring, "Ins"))
@@ -1147,7 +1147,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "M-\xE2\x86\x91", ALT_UP, do_findprevious, 0);
 	add_to_sclist(MMAIN|MHELP, "M-\xE2\x86\x93", ALT_DOWN, do_findnext, 0);
 #endif
-
     } else
 #endif
     {
