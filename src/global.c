@@ -1143,8 +1143,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-\xE2\x86\x92", ALT_RIGHT, switch_to_next_buffer_void, 0);
 #endif
 #ifndef NANO_TINY
-	add_to_sclist(MMAIN|MHELP, "M-\xE2\x86\x91", ALT_UP, do_findprevious, 0);
-	add_to_sclist(MMAIN|MHELP, "M-\xE2\x86\x93", ALT_DOWN, do_findnext, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x86\x91", ALT_UP, do_findprevious, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x86\x93", ALT_DOWN, do_findnext, 0);
 #endif
     } else
 #endif
