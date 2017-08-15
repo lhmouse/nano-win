@@ -686,32 +686,32 @@ bool close_buffer(void)
  * warnings. */
 int is_file_writable(const char *filename)
 {
-    struct stat fileinfo, fileinfo2;
+    char *full_filename;
+    struct stat fileinfo;
     int fd;
     FILE *f;
-    char *full_filename;
     bool result = TRUE;
 
     if (ISSET(VIEW_MODE))
 	return TRUE;
 
-    /* Get the specified file's full path. */
     full_filename = get_full_path(filename);
 
-    /* Okay, if we can't stat the absolute path due to some component's
-     * permissions, just try the relative one. */
-    if (full_filename == NULL ||
-		(stat(full_filename, &fileinfo) == -1 && stat(filename, &fileinfo2) != -1))
+    /* If the absolute path is unusable, use the given relative one. */
+    if (full_filename == NULL || stat(full_filename, &fileinfo) == -1)
 	full_filename = mallocstrcpy(NULL, filename);
 
     if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
-		S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1 ||
-		(f = fdopen(fd, "a")) == NULL)
+		S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1)
 	result = FALSE;
-    else
-	fclose(f);
+    else {
+	if ((f = fdopen(fd, "a")) == NULL)
+	    result = FALSE;
+	else
+	    fclose(f);
+	close(fd);
+    }
 
-    close(fd);
     free(full_filename);
 
     return result;
