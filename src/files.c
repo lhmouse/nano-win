@@ -1604,7 +1604,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		(method != OVERWRITE || openfile->mark_set ||
 		openfile->current_stat->st_mtime == st.st_mtime)) {
 	int backup_fd;
-	FILE *backup_file;
+	FILE *backup_file = NULL;
 	char *backupname;
 	static struct timespec filetime[2];
 	int backup_cflags;
@@ -1695,11 +1695,11 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 	backup_fd = open(backupname, backup_cflags,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-	/* Now we've got a safe file stream.  If the previous open()
-	 * call failed, this will return NULL. */
-	backup_file = fdopen(backup_fd, "wb");
 
-	if (backup_fd < 0 || backup_file == NULL) {
+	if (backup_fd >= 0)
+	    backup_file = fdopen(backup_fd, "wb");
+
+	if (backup_file == NULL) {
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
 			backupname, strerror(errno));
 	    free(backupname);
