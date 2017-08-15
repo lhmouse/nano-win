@@ -2863,9 +2863,9 @@ void save_history(void)
     char *searchhist;
     FILE *hist;
 
-    /* Don't save unchanged or empty histories. */
+    /* If the histories are unchanged or empty, don't bother saving them. */
     if (!history_has_changed() || (searchbot->lineno == 1 &&
-		replacebot->lineno == 1))
+				replacebot->lineno == 1))
 	return;
 
     searchhist = histfilename();
@@ -2873,23 +2873,23 @@ void save_history(void)
     if (searchhist == NULL)
 	return;
 
-	hist = fopen(searchhist, "wb");
+    hist = fopen(searchhist, "wb");
 
-	if (hist == NULL)
+    if (hist == NULL)
+	fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
+			strerror(errno));
+    else {
+	/* Don't allow others to read or write the history file. */
+	chmod(searchhist, S_IRUSR | S_IWUSR);
+
+	if (!writehist(hist, searchage) || !writehist(hist, replaceage))
 	    fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
 			strerror(errno));
-	else {
-	/* Don't allow others to read or write the history file. */
-	    chmod(searchhist, S_IRUSR | S_IWUSR);
 
-	    if (!writehist(hist, searchage) || !writehist(hist, replaceage))
-		fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
-			strerror(errno));
+	fclose(hist);
+    }
 
-	    fclose(hist);
-	}
-
-     free(searchhist);
+    free(searchhist);
 }
 
 /* Save the recorded last file positions to ~/.nano/filepos_history. */
