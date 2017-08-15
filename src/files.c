@@ -2860,35 +2860,36 @@ bool writehist(FILE *hist, const filestruct *head)
 /* Save the search and replace histories to ~/.nano/search_history. */
 void save_history(void)
 {
-    char *nanohist;
+    char *searchhist;
+    FILE *hist;
 
     /* Don't save unchanged or empty histories. */
     if (!history_has_changed() || (searchbot->lineno == 1 &&
 		replacebot->lineno == 1))
 	return;
 
-    nanohist = histfilename();
+    searchhist = histfilename();
 
-    if (nanohist != NULL) {
-	FILE *hist = fopen(nanohist, "wb");
+    if (searchhist == NULL)
+	return;
+
+	hist = fopen(searchhist, "wb");
 
 	if (hist == NULL)
-	    fprintf(stderr, _("Error writing %s: %s\n"), nanohist,
+	    fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
 			strerror(errno));
 	else {
-	    /* Make sure no one else can read from or write to the
-	     * history file. */
-	    chmod(nanohist, S_IRUSR | S_IWUSR);
+	/* Don't allow others to read or write the history file. */
+	    chmod(searchhist, S_IRUSR | S_IWUSR);
 
 	    if (!writehist(hist, searchage) || !writehist(hist, replaceage))
-		fprintf(stderr, _("Error writing %s: %s\n"), nanohist,
+		fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
 			strerror(errno));
 
 	    fclose(hist);
 	}
 
-	free(nanohist);
-    }
+     free(searchhist);
 }
 
 /* Save the recorded last file positions to ~/.nano/filepos_history. */
