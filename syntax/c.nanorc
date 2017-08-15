@@ -4,7 +4,11 @@ syntax "c" "\.(c(c|pp|xx|\+\+)?|C)$" "\.(h(h|pp|xx)?|H)$" "\.ii?$"
 magic "(ASCII|UTF-8 Unicode) C(\+\+)? program text"
 comment "//"
 
+# Constants.
 color brightred "\<[A-Z_][0-9A-Z_]+\>"
+# Labels.
+color brightmagenta "^[[:space:]]*[A-Z_a-z]+:[[:space:]]*$"
+
 color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|auto|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
 color green "\<((s?size)|((u_?)?int(8|16|32|64|ptr)))_t\>"
 color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|override|using|mutable|volatile|register|explicit)\>"
