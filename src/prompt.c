@@ -709,7 +709,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	functionptrtype func;
 
 	if (!ISSET(NO_HELP)) {
-	    char shortstr[3];
+	    char shortstr[MAXCHARLEN + 2];
 		/* Temporary string for (translated) " Y", " N" and " A". */
 
 	    if (COLS < 32)
