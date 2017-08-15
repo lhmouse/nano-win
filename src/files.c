@@ -1603,11 +1603,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
     if (ISSET(BACKUP_FILE) && !tmp && realexists && openfile->current_stat &&
 		(method != OVERWRITE || openfile->mark_set ||
 		openfile->current_stat->st_mtime == st.st_mtime)) {
-	int backup_fd;
-	FILE *backup_file = NULL;
-	char *backupname;
 	static struct timespec filetime[2];
-	int backup_cflags;
+	char *backupname;
+	int backup_cflags, backup_fd;
+	FILE *backup_file = NULL;
 
 	/* Save the original file's access and modification times. */
 	filetime[0].tv_sec = openfile->current_stat->st_atime;
@@ -1621,7 +1620,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		statusline(ALERT, _("Error reading %s: %s"), realname,
 			strerror(errno));
 		/* If we can't read from the original file, go on, since
-		 * only saving the original file is better than saving
+		 * only saving the current buffer is better than saving
 		 * nothing. */
 		goto skip_backup;
 	    }
@@ -1635,13 +1634,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	if (backup_dir != NULL) {
 	    char *backuptemp = get_full_path(realname);
 
+	    /* If we can't get a canonical absolute path, just use the
+	     * filename portion of the given path.  Otherwise, replace
+	     * slashes with exclamation marks in the full path. */
 	    if (backuptemp == NULL)
-		/* If get_full_path() failed, we don't have a
-		 * canonicalized absolute pathname, so just use the
-		 * filename portion of the pathname.  We use tail() so
-		 * that e.g. ../backupname will be backed up in
-		 * backupdir/backupname~ instead of
-		 * backupdir/../backupname~. */
 		backuptemp = mallocstrcpy(NULL, tail(realname));
 	    else {
 		size_t i = 0;
@@ -1662,10 +1658,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		free(backuptemp);
 		free(backupname);
 		/* If we can't write to the backup, DON'T go on, since
-		 * whatever caused the backup file to fail (e.g. disk
-		 * full may well cause the real file write to fail,
-		 * which means we could lose both the backup and the
-		 * original! */
+		 * whatever caused the backup-file write to fail (e.g.
+		 * disk full) may well cause the real file write to fail
+		 * too, which means we could lose the original! */
 		goto cleanup_and_exit;
 	    } else {
 		free(backupname);
@@ -1703,10 +1698,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    statusline(HUSH, _("Error writing backup file %s: %s"),
 			backupname, strerror(errno));
 	    free(backupname);
-	    /* If we can't make a backup, DON'T go on, since whatever caused
-	     * the backup to fail (e.g. disk full) may well cause the real
-	     * file write to fail, in which case we could lose both the
-	     * backup and the original! */
 	    goto cleanup_and_exit;
 	}
 
@@ -1768,8 +1759,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
     if (f_open == NULL) {
 	original_umask = umask(0);
 
-	/* If we create a temp file, we don't let anyone else access it.
-	 * We create a temp file if tmp is TRUE. */
+	/* If we create a temp file, we don't let anyone else access it. */
 	if (tmp)
 	    umask(S_IRWXG | S_IRWXO);
 	else
