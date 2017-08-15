@@ -1930,9 +1930,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	/* If we must set the filename, and it changed, adjust things. */
 	if (!nonamechange && strcmp(openfile->filename, realname) != 0) {
 #ifndef DISABLE_COLOR
-	    char *newname;
-	    char *oldname = openfile->syntax ? openfile->syntax->name : "";
-	    filestruct *line = openfile->fileage;
+	    const char *oldname, *newname;
+
+	    oldname = openfile->syntax ? openfile->syntax->name : "";
 #endif
 	    openfile->filename = mallocstrcpy(openfile->filename, realname);
 
@@ -1945,9 +1945,12 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 	    /* If the syntax changed, discard and recompute the multidata. */
 	    if (strcmp(oldname, newname) != 0) {
-		for (; line != NULL; line = line->next) {
+		filestruct *line = openfile->fileage;
+
+		while (line != NULL) {
 		    free(line->multidata);
 		    line->multidata = NULL;
+		    line = line->next;
 		}
 		precalc_multicolorinfo();
 		refresh_needed = TRUE;
