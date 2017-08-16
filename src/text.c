@@ -413,7 +413,7 @@ void do_unindent(void)
 	size_t indent_len = length_of_white(f->data);
 
 	/* If the line consists of a small amount of whitespace, skip it. */
-	if (white_string(f->data) && indent_len < tabsize)
+	if (indent_len == 0)
 	    continue;
 
 	/* Remove the first tab's worth of whitespace from this line. */
