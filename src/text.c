@@ -296,6 +296,18 @@ void do_indent(void)
 	bot = top;
     }
 
+    /* Go through the lines to see if there's a non-empty one. */
+    for (f = top; f != bot->next; f = f->next) {
+	if (f->data[0] != '\0')
+	    break;
+    }
+
+    /* If all lines are empty, there is nothing to do. */
+    if (f == bot->next) {
+	free(line_indent);
+	return;
+    }
+
     /* Set the indentation to either a bunch of spaces or a single tab. */
     if (ISSET(TABS_TO_SPACES)) {
 	charset(line_indent, ' ', tabsize);
@@ -306,16 +318,6 @@ void do_indent(void)
     }
 
     line_indent[line_indent_len] = '\0';
-
-    /* Go through the lines to see if there's a non-empty one. */
-    for (f = top; f != bot->next; f = f->next) {
-	if (f->data[0] != '\0')
-	    break;
-    }
-
-    /* If all lines are empty, there is nothing to do. */
-    if (f == bot->next)
-	return;
 
     /* Go through each of the lines, but skip empty ones. */
     for (f = top; f != bot->next; f = f->next) {
