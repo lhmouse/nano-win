@@ -2777,62 +2777,62 @@ int check_dotnano(void)
 /* Load the search and replace histories from ~/.nano/search_history. */
 void load_history(void)
 {
-    char *nanohist = histfilename();
+    char *searchhist = histfilename();
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
     FILE *hist;
 
     /* If no home directory was found, we can't do anything. */
-    if (nanohist == NULL || legacyhist == NULL)
+    if (searchhist == NULL || legacyhist == NULL)
 	return;
 
     /* If there is an old history file, migrate it. */
     /* (To be removed in 2018.) */
-    if (stat(legacyhist, &hstat) != -1 && stat(nanohist, &hstat) == -1) {
-	if (rename(legacyhist, nanohist) == -1)
+    if (stat(legacyhist, &hstat) != -1 && stat(searchhist, &hstat) == -1) {
+	if (rename(legacyhist, searchhist) == -1)
 	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\n"
 			     "to the preferred location (%s) but encountered an error: %s"),
-				legacyhist, nanohist, strerror(errno));
+				legacyhist, searchhist, strerror(errno));
 	else
 	    history_error(N_("Detected a legacy nano history file (%s) which I moved\n"
 			     "to the preferred location (%s)\n(see the nano FAQ about this change)"),
-				legacyhist, nanohist);
+				legacyhist, searchhist);
     }
 
-    hist = fopen(nanohist, "rb");
+    hist = fopen(searchhist, "rb");
 
-	if (hist == NULL) {
-	    if (errno != ENOENT) {
-		/* When reading failed, don't save history when we quit. */
-		UNSET(HISTORYLOG);
-		history_error(N_("Error reading %s: %s"), nanohist,
+    if (hist == NULL) {
+	if (errno != ENOENT) {
+	    /* When reading failed, don't save history when we quit. */
+	    UNSET(HISTORYLOG);
+	    history_error(N_("Error reading %s: %s"), searchhist,
 			strerror(errno));
-	    }
-	} else {
-	    /* Load a history list (first the search history, then the
-	     * replace history) from the oldest entry to the newest.
-	     * Assume the last history entry is a blank line. */
-	    filestruct **history = &search_history;
-	    char *line = NULL;
-	    size_t buf_len = 0;
-	    ssize_t read;
+	}
+    } else {
+	/* Load the two history lists -- first the search history, then
+	 * the replace history -- from the oldest entry to the newest.
+	 * The two lists are separated by an empty line. */
+	filestruct **history = &search_history;
+	char *line = NULL;
+	size_t buf_len = 0;
+	ssize_t read;
 
-	    while ((read = getline(&line, &buf_len, hist)) > 0) {
-		line[--read] = '\0';
-		if (read > 0) {
-		    /* Encode any embedded NUL as 0x0A. */
-		    unsunder(line, read);
-		    update_history(history, line);
-		} else
-		    history = &replace_history;
-	    }
-
-	    fclose(hist);
-	    free(line);
+	while ((read = getline(&line, &buf_len, hist)) > 0) {
+	    line[--read] = '\0';
+	    if (read > 0) {
+		/* Encode any embedded NUL as 0x0A. */
+		unsunder(line, read);
+		update_history(history, line);
+	    } else
+		history = &replace_history;
 	}
 
-	free(nanohist);
-	free(legacyhist);
+	fclose(hist);
+	free(line);
+    }
+
+    free(searchhist);
+    free(legacyhist);
 }
 
 /* Write the lines of a history list, starting with the line at head, to
