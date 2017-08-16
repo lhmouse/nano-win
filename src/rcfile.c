@@ -479,7 +479,6 @@ void parse_binding(char *ptr, bool dobind)
 
 	if (!menu) {
 	    rcfile_error(N_("Function '%s' does not exist in menu '%s'"), funcptr, menuptr);
-	    free(newsc);
 	    goto free_copy;
 	}
 
@@ -489,7 +488,6 @@ void parse_binding(char *ptr, bool dobind)
 	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
 	if (newsc->meta && newsc->keycode == 91) {
 	    rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
-	    free(newsc);
 	    goto free_copy;
 	}
 #ifdef DEBUG
@@ -525,6 +523,7 @@ void parse_binding(char *ptr, bool dobind)
     }
 
   free_copy:
+    free(newsc);
     free(keycopy);
 }
 
