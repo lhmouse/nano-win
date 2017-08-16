@@ -388,7 +388,7 @@ void parse_binding(char *ptr, bool dobind)
 
     if (strlen(keycopy) < 2) {
 	rcfile_error(N_("Key name is too short"));
-	goto free_copy;
+	goto free_things;
     }
 
     /* Uppercase only the first two or three characters of the key name. */
@@ -399,7 +399,7 @@ void parse_binding(char *ptr, bool dobind)
 	    keycopy[2] = toupper((unsigned char)keycopy[2]);
 	else {
 	    rcfile_error(N_("Key name is too short"));
-	    goto free_copy;
+	    goto free_things;
 	}
     }
 
@@ -409,10 +409,10 @@ void parse_binding(char *ptr, bool dobind)
 	keycopy[1] = tolower((unsigned char)keycopy[1]);
     else if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
 	rcfile_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
-	goto free_copy;
+	goto free_things;
     } else if (keycode_from_string(keycopy) < 0) {
 	rcfile_error(N_("Key name %s is invalid"), keycopy);
-	goto free_copy;
+	goto free_things;
     }
 
     if (dobind) {
@@ -421,7 +421,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	if (funcptr[0] == '\0') {
 	    rcfile_error(N_("Must specify a function to bind the key to"));
-	    goto free_copy;
+	    goto free_things;
 	}
     }
 
@@ -431,21 +431,21 @@ void parse_binding(char *ptr, bool dobind)
     if (menuptr[0] == '\0') {
 	/* TRANSLATORS: Do not translate the word "all". */
 	rcfile_error(N_("Must specify a menu (or \"all\") in which to bind/unbind the key"));
-	goto free_copy;
+	goto free_things;
     }
 
     if (dobind) {
 	newsc = strtosc(funcptr);
 	if (newsc == NULL) {
 	    rcfile_error(N_("Cannot map name \"%s\" to a function"), funcptr);
-	    goto free_copy;
+	    goto free_things;
 	}
     }
 
     menu = strtomenu(menuptr);
     if (menu < 1) {
 	rcfile_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
-	goto free_copy;
+	goto free_things;
     }
 
 #ifdef DEBUG
@@ -479,7 +479,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	if (!menu) {
 	    rcfile_error(N_("Function '%s' does not exist in menu '%s'"), funcptr, menuptr);
-	    goto free_copy;
+	    goto free_things;
 	}
 
 	newsc->menus = menu;
@@ -488,7 +488,7 @@ void parse_binding(char *ptr, bool dobind)
 	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
 	if (newsc->meta && newsc->keycode == 91) {
 	    rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
-	    goto free_copy;
+	    goto free_things;
 	}
 #ifdef DEBUG
 	fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
@@ -522,7 +522,7 @@ void parse_binding(char *ptr, bool dobind)
 	return;
     }
 
-  free_copy:
+  free_things:
     free(newsc);
     free(keycopy);
 }
