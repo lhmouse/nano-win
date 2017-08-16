@@ -3000,8 +3000,10 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     int char_len = 0;
 	/* Length of current character, in bytes. */
 
-    while (*text != '\0' && column < leftedge)
-	text += parse_mbchar(text, NULL, &column);
+    while (*text != '\0' && column < leftedge) {
+	char_len = parse_mbchar(text, NULL, &column);
+	text += char_len;
+    }
 
     /* The intention is to use the entire available width. */
     goal_column = leftedge + editwincols;
