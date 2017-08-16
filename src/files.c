@@ -2780,6 +2780,11 @@ void load_history(void)
     char *nanohist = histfilename();
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
+    FILE *hist;
+
+    /* If no home directory was found, we can't do anything. */
+    if (nanohist == NULL || legacyhist == NULL)
+	return;
 
     /* If there is an old history file, migrate it. */
     /* (To be removed in 2018.) */
@@ -2794,13 +2799,11 @@ void load_history(void)
 				legacyhist, nanohist);
     }
 
-    /* Assume do_rcfile() has reported a missing home directory. */
-    if (nanohist != NULL) {
-	FILE *hist = fopen(nanohist, "rb");
+    hist = fopen(nanohist, "rb");
 
 	if (hist == NULL) {
 	    if (errno != ENOENT) {
-		/* Don't save history when we quit. */
+		/* When reading failed, don't save history when we quit. */
 		UNSET(HISTORYLOG);
 		history_error(N_("Error reading %s: %s"), nanohist,
 			strerror(errno));
@@ -2827,9 +2830,9 @@ void load_history(void)
 	    fclose(hist);
 	    free(line);
 	}
+
 	free(nanohist);
 	free(legacyhist);
-    }
 }
 
 /* Write the lines of a history list, starting with the line at head, to
