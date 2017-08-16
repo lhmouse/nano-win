@@ -280,35 +280,27 @@ void do_tab(void)
  * depending on whether --tabstospaces is in effect. */
 void do_indent(void)
 {
-    char *line_indent = NULL;
-	/* The text added to each line in order to indent it. */
+    char *line_indent = charalloc(tabsize + 1);
+	/* The whitespace added to each line in order to indent it. */
     size_t line_indent_len = 0;
-	/* The length of the text added to each line in order to indent
-	 * it. */
+	/* The number of bytes added to each line in order to indent it. */
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
 
-    assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    /* If the mark is on, use all lines covered by the mark. */
+    /* Use either all the marked lines or just the current line. */
     if (openfile->mark_set)
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, NULL);
-    /* Otherwise, use the current line. */
     else {
 	top = openfile->current;
 	bot = top;
     }
 
-    /* Set up the text we'll be using as indentation. */
-    line_indent = charalloc(tabsize + 1);
-
+    /* Set the indentation to either a bunch of spaces or a single tab. */
     if (ISSET(TABS_TO_SPACES)) {
-	/* Set the indentation to tabsize spaces. */
 	charset(line_indent, ' ', tabsize);
 	line_indent_len = tabsize;
     } else {
-	/* Set the indentation to a tab. */
 	line_indent[0] = '\t';
 	line_indent_len = 1;
     }
@@ -386,33 +378,30 @@ void do_unindent(void)
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
 
-    assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    /* If the mark is on, use all lines covered by the mark. */
+    /* Use either all the marked lines or just the current line. */
     if (openfile->mark_set)
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, NULL);
-    /* Otherwise, use the current line. */
     else {
 	top = openfile->current;
 	bot = top;
     }
 
-    /* Go through the lines to check whether they a) are empty or blank
-     * or b) start with a tab's worth of whitespace. */
+    /* If any of the lines cannot be unindented and does not consist of
+     * only whitespace, we don't change anything. */
     for (f = top; f != bot->next; f = f->next) {
-	if (!white_string(f->data) && length_of_white(f->data) == 0) {
+	if (length_of_white(f->data) == 0 && !white_string(f->data)) {
 	    statusline(HUSH, _("Can unindent only by a full tab size"));
 	    return;
 	}
     }
 
-    /* Go through each line of the text. */
+    /* Go through each of the lines and remove their leading indent. */
     for (f = top; f != bot->next; f = f->next) {
 	size_t line_len = strlen(f->data);
 	size_t indent_len = length_of_white(f->data);
 
-	/* If the line consists of a small amount of whitespace, skip it. */
+	/* If this line cannot be unindeted, simply skip it. */
 	if (indent_len == 0)
 	    continue;
 
