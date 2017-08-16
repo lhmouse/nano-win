@@ -704,13 +704,11 @@ int is_file_writable(const char *filename)
     if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
 		S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1)
 	result = FALSE;
-    else {
-	if ((f = fdopen(fd, "a")) == NULL)
-	    result = FALSE;
-	else
-	    fclose(f);
+    else if ((f = fdopen(fd, "a")) == NULL) {
+	result = FALSE;
 	close(fd);
-    }
+    } else
+	fclose(f);
 
     free(full_filename);
 
