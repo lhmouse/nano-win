@@ -3076,7 +3076,10 @@ size_t get_chunk_and_edge(size_t column, filestruct *line, size_t *leftedge)
  * relative to the first row (zero-based). */
 size_t chunk_for(size_t column, filestruct *line)
 {
-    return get_chunk_and_edge(column, line, NULL);
+    if (ISSET(SOFTWRAP))
+	return get_chunk_and_edge(column, line, NULL);
+    else
+	return 0;
 }
 
 /* Return the leftmost column of the softwrapped chunk of the given line that
