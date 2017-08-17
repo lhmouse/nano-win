@@ -582,8 +582,11 @@ void do_left(void)
 	openfile->current_x = move_mbleft(openfile->current->data,
 						openfile->current_x);
     else if (openfile->current != openfile->fileage) {
-	do_up_void();
-	do_end(FALSE);
+	openfile->current = openfile->current->prev;
+	openfile->current_x = strlen(openfile->current->data);
+
+	focusing = FALSE;
+	edit_redraw(openfile->current->next);
 	return;
     }
 
@@ -619,8 +622,11 @@ void do_right(void)
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
     else if (openfile->current != openfile->filebot) {
-	do_home(FALSE);
-	do_down_void();
+	openfile->current = openfile->current->next;
+	openfile->current_x = 0;
+
+	focusing = FALSE;
+	edit_redraw(openfile->current->prev);
 	return;
     }
 
