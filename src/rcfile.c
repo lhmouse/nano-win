@@ -352,7 +352,7 @@ void parse_syntax(char *ptr)
 bool is_universal(void (*func)(void))
 {
     if (func == do_left || func == do_right ||
-	func == do_home_void || func == do_end_void ||
+	func == do_home || func == do_end ||
 #ifndef NANO_TINY
 	func == do_prev_word_void || func == do_next_word_void ||
 #endif

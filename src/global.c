@@ -842,9 +842,9 @@ void shortcut_init(void)
     add_to_funcs(do_next_word_void, MMAIN,
 	N_("Next Word"), IFSCHELP(nano_nextword_msg), TOGETHER, VIEW);
 
-    add_to_funcs(do_home_void, MMAIN,
+    add_to_funcs(do_home, MMAIN,
 	N_("Home"), IFSCHELP(nano_home_msg), TOGETHER, VIEW);
-    add_to_funcs(do_end_void, MMAIN,
+    add_to_funcs(do_end, MMAIN,
 	N_("End"), IFSCHELP(nano_end_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(do_up_void, MMAIN|MHELP|MBROWSER,
@@ -1157,10 +1157,10 @@ void shortcut_init(void)
     }
     add_to_sclist(MMOST, "M-Space", 0, do_prev_word_void, 0);
     add_to_sclist(MMOST, "^Space", 0, do_next_word_void, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "^A", 0, do_home_void, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "Home", KEY_HOME, do_home_void, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end_void, 0);
-    add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end_void, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "^A", 0, do_home, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "Home", KEY_HOME, do_home, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end, 0);
+    add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", 0, do_up_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down_void, 0);
 #ifdef ENABLE_UTF8
@@ -1548,9 +1548,9 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "nextword"))
 	s->scfunc = do_next_word_void;
     else if (!strcasecmp(input, "home"))
-	s->scfunc = do_home_void;
+	s->scfunc = do_home;
     else if (!strcasecmp(input, "end"))
-	s->scfunc = do_end_void;
+	s->scfunc = do_end;
     else if (!strcasecmp(input, "prevblock"))
 	s->scfunc = do_prev_block;
     else if (!strcasecmp(input, "nextblock"))
