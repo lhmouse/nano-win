@@ -1907,7 +1907,8 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 	    /* Show a tab as a visible character, or as as a space. */
 #ifndef NANO_TINY
 	    if (ISSET(WHITESPACE_DISPLAY) && (index > 0 || !isdata ||
-			!ISSET(SOFTWRAP) || column % tabsize == 0)) {
+			!ISSET(SOFTWRAP) || column % tabsize == 0 ||
+			column == start_col)) {
 		int i = 0;
 
 		while (i < whitespace_len[0])
