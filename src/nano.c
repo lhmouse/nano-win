@@ -1788,7 +1788,7 @@ int do_mouse(void)
 	    /* The cursor moved; clean the cutbuffer on the next cut. */
 	    cutbuffer_reset();
 
-	edit_redraw(current_save);
+	edit_redraw(current_save, CENTERING);
     }
 
     /* No more handling is needed. */

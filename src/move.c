@@ -146,7 +146,7 @@ void do_para_begin(bool update_screen)
     openfile->current_x = 0;
 
     if (update_screen)
-	edit_redraw(was_current);
+	edit_redraw(was_current, CENTERING);
 }
 
 /* Move up to first start of a paragraph before the current line. */
@@ -182,7 +182,7 @@ void do_para_end(bool update_screen)
 	openfile->current_x = strlen(openfile->current->data);
 
     if (update_screen)
-	edit_redraw(was_current);
+	edit_redraw(was_current, CENTERING);
 }
 
 /* Move down to just after the first end of a paragraph. */
@@ -211,7 +211,7 @@ void do_prev_block(void)
 	openfile->current = openfile->current->next;
 
     openfile->current_x = 0;
-    edit_redraw(was_current);
+    edit_redraw(was_current, CENTERING);
 }
 
 /* Move to the next block of text in the file. */
@@ -229,7 +229,7 @@ void do_next_block(void)
     }
 
     openfile->current_x = 0;
-    edit_redraw(was_current);
+    edit_redraw(was_current, CENTERING);
 }
 
 /* Move to the previous word in the file.  If allow_punct is TRUE, treat
@@ -272,10 +272,8 @@ void do_prev_word(bool allow_punct, bool update_screen)
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
 
-    if (update_screen) {
-	focusing = FALSE;
-	edit_redraw(was_current);
-    }
+    if (update_screen)
+	edit_redraw(was_current, FLOWING);
 }
 
 /* Move to the previous word in the file, treating punctuation as part of a
@@ -321,10 +319,8 @@ bool do_next_word(bool allow_punct, bool update_screen)
 	    break;
     }
 
-    if (update_screen) {
-	focusing = FALSE;
-	edit_redraw(was_current);
-    }
+    if (update_screen)
+	edit_redraw(was_current, FLOWING);
 
     /* Return whether we started on a word. */
     return started_on_word;
@@ -390,10 +386,9 @@ void do_home(void)
 
     /* If we changed chunk, we might be offscreen.  Otherwise,
      * update current if the mark is on or we changed "page". */
-    if (ISSET(SOFTWRAP) && moved_off_chunk) {
-	focusing = FALSE;
-	edit_redraw(was_current);
-    } else if (line_needs_update(was_column, openfile->placewewant))
+    if (ISSET(SOFTWRAP) && moved_off_chunk)
+	edit_redraw(was_current, FLOWING);
+    else if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -442,10 +437,9 @@ void do_end(void)
 
     /* If we changed chunk, we might be offscreen.  Otherwise,
      * update current if the mark is on or we changed "page". */
-    if (ISSET(SOFTWRAP) && moved_off_chunk) {
-	focusing = FALSE;
-	edit_redraw(was_current);
-    } else if (line_needs_update(was_column, openfile->placewewant))
+    if (ISSET(SOFTWRAP) && moved_off_chunk)
+	edit_redraw(was_current, FLOWING);
+    else if (line_needs_update(was_column, openfile->placewewant))
 	update_line(openfile->current, openfile->current_x);
 }
 
@@ -572,8 +566,7 @@ void do_left(void)
 	openfile->current = openfile->current->prev;
 	openfile->current_x = strlen(openfile->current->data);
 
-	focusing = FALSE;
-	edit_redraw(openfile->current->next);
+	edit_redraw(openfile->current->next, FLOWING);
 	return;
     }
 
@@ -612,8 +605,7 @@ void do_right(void)
 	openfile->current = openfile->current->next;
 	openfile->current_x = 0;
 
-	focusing = FALSE;
-	edit_redraw(openfile->current->prev);
+	edit_redraw(openfile->current->next, FLOWING);
 	return;
     }
 

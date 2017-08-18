@@ -674,7 +674,7 @@ size_t number_of_chunks_in(filestruct *line);
 void ensure_firstcolumn_is_aligned(void);
 #endif
 size_t actual_last_column(size_t leftedge, size_t column);
-void edit_redraw(filestruct *old_current);
+void edit_redraw(filestruct *old_current, update_type manner);
 void edit_refresh(void);
 void adjust_viewport(update_type location);
 void total_redraw(void);

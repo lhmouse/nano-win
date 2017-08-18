@@ -3189,7 +3189,7 @@ bool current_is_offscreen(void)
 
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
-void edit_redraw(filestruct *old_current)
+void edit_redraw(filestruct *old_current, update_type manner)
 {
     size_t was_pww = openfile->placewewant;
 
@@ -3197,7 +3197,7 @@ void edit_redraw(filestruct *old_current)
 
     /* If the current line is offscreen, scroll until it's onscreen. */
     if (current_is_offscreen()) {
-	adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
+	adjust_viewport(ISSET(SMOOTH_SCROLL) ? manner : CENTERING);
 	refresh_needed = TRUE;
 	return;
     }
