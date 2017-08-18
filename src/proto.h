@@ -357,28 +357,28 @@ size_t help_line_len(const char *ptr);
 #endif
 void do_help_void(void);
 
-/* All functions in move.c. */
+/* Most functions in move.c. */
 void do_first_line(void);
 void do_last_line(void);
 void do_page_up(void);
 void do_page_down(void);
 #ifndef DISABLE_JUSTIFY
 void do_para_begin(bool update_screen);
-void do_para_begin_void(void);
 void do_para_end(bool update_screen);
+void do_para_begin_void(void);
 void do_para_end_void(void);
 #endif
 void do_prev_block(void);
 void do_next_block(void);
 void do_prev_word(bool allow_punct, bool update_screen);
-void do_prev_word_void(void);
 bool do_next_word(bool allow_punct, bool update_screen);
+void do_prev_word_void(void);
 void do_next_word_void(void);
 void do_home(void);
 void do_end(void);
 void do_up(bool scroll_only);
-void do_up_void(void);
 void do_down(bool scroll_only);
+void do_up_void(void);
 void do_down_void(void);
 #ifndef NANO_TINY
 void do_scroll_up(void);

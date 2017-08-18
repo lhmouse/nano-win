@@ -149,12 +149,6 @@ void do_para_begin(bool update_screen)
 	edit_redraw(was_current, CENTERING);
 }
 
-/* Move up to first start of a paragraph before the current line. */
-void do_para_begin_void(void)
-{
-    do_para_begin(TRUE);
-}
-
 /* Move down to the beginning of the last line of the current paragraph.
  * Then move down one line farther if there is such a line, or to the
  * end of the current line if not.  If update_screen is TRUE, update the
@@ -183,6 +177,12 @@ void do_para_end(bool update_screen)
 
     if (update_screen)
 	edit_redraw(was_current, CENTERING);
+}
+
+/* Move up to first start of a paragraph before the current line. */
+void do_para_begin_void(void)
+{
+    do_para_begin(TRUE);
 }
 
 /* Move down to just after the first end of a paragraph. */
@@ -276,13 +276,6 @@ void do_prev_word(bool allow_punct, bool update_screen)
 	edit_redraw(was_current, FLOWING);
 }
 
-/* Move to the previous word in the file, treating punctuation as part of a
- * word if the WORD_BOUNDS flag is set, and update the screen afterwards. */
-void do_prev_word_void(void)
-{
-    do_prev_word(ISSET(WORD_BOUNDS), TRUE);
-}
-
 /* Move to the next word in the file.  If allow_punct is TRUE, treat
  * punctuation as part of a word.  If update_screen is TRUE, update the
  * screen afterwards.  Return TRUE if we started on a word, and FALSE
@@ -324,6 +317,13 @@ bool do_next_word(bool allow_punct, bool update_screen)
 
     /* Return whether we started on a word. */
     return started_on_word;
+}
+
+/* Move to the previous word in the file, treating punctuation as part of a
+ * word if the WORD_BOUNDS flag is set, and update the screen afterwards. */
+void do_prev_word_void(void)
+{
+    do_prev_word(ISSET(WORD_BOUNDS), TRUE);
 }
 
 /* Move to the next word in the file, treating punctuation as part of a word
@@ -486,12 +486,6 @@ void do_up(bool scroll_only)
     }
 }
 
-/* Move up one line or chunk. */
-void do_up_void(void)
-{
-    do_up(FALSE);
-}
-
 /* Move the cursor to next line or chunk.  If scroll_only is TRUE, also
  * scroll the screen one row, so the cursor stays in the same spot. */
 void do_down(bool scroll_only)
@@ -528,6 +522,12 @@ void do_down(bool scroll_only)
 	if (line_needs_update(0, xplustabs()))
 	    update_line(openfile->current, openfile->current_x);
     }
+}
+
+/* Move up one line or chunk. */
+void do_up_void(void)
+{
+    do_up(FALSE);
 }
 
 /* Move down one line or chunk. */
