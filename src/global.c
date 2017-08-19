@@ -727,8 +727,14 @@ void shortcut_init(void)
     add_to_funcs(do_search, MBROWSER,
 	whereis_tag, IFSCHELP(nano_browser_whereis_msg), TOGETHER, VIEW);
 
+    add_to_funcs(do_research, MBROWSER,
+	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), BLANKAFTER, VIEW);
+
     add_to_funcs(goto_dir_void, MBROWSER,
-	N_("Go To Dir"), IFSCHELP(nano_gotodir_msg), BLANKAFTER, VIEW);
+	N_("Go To Dir"), IFSCHELP(nano_gotodir_msg), TOGETHER, VIEW);
+
+    add_to_funcs(total_refresh, MBROWSER,
+	refresh_tag, IFSCHELP(nano_browser_refresh_msg), BLANKAFTER, VIEW);
 #endif
 
 #ifdef ENABLE_HELP
@@ -1029,16 +1035,6 @@ void shortcut_init(void)
 	N_("First File"), IFSCHELP(nano_firstfile_msg), TOGETHER, VIEW);
     add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
 	N_("Last File"), IFSCHELP(nano_lastfile_msg), BLANKAFTER, VIEW);
-#endif
-
-    add_to_funcs(discard_buffer, MWRITEFILE,
-	N_("Discard buffer"), IFSCHELP(nano_discard_buffer_msg), BLANKAFTER, NOVIEW);
-
-#ifdef ENABLE_BROWSER
-    add_to_funcs(do_research, MBROWSER,
-	whereis_next_tag, IFSCHELP(nano_whereis_next_msg), TOGETHER, VIEW);
-    add_to_funcs(total_refresh, MBROWSER,
-	refresh_tag, IFSCHELP(nano_browser_refresh_msg), BLANKAFTER, VIEW);
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MBROWSER,
 	N_("Left Column"), IFSCHELP(nano_browser_lefthand_msg), TOGETHER, VIEW);
@@ -1049,7 +1045,10 @@ void shortcut_init(void)
     add_to_funcs(do_next_block, MBROWSER,
 	N_("Bottom Row"), IFSCHELP(nano_browser_bottomrow_msg), BLANKAFTER, VIEW);
 #endif
-#endif
+#endif /* ENABLE_BROWSER */
+
+    add_to_funcs(discard_buffer, MWRITEFILE,
+	N_("Discard buffer"), IFSCHELP(nano_discard_buffer_msg), BLANKAFTER, NOVIEW);
 
 #ifndef DISABLE_COLOR
     add_to_funcs(do_page_up, MLINTER,
