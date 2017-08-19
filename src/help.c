@@ -206,13 +206,13 @@ void do_help(void)
 	} else if (func == do_search) {
 	    do_search();
 	    bottombars(MHELP);
+	} else if (func == do_research) {
+	    do_research();
+#ifndef NANO_TINY
 	} else if (func == do_findprevious) {
 	    do_findprevious();
-	    currmenu = MHELP;
-	} else if (func == do_findnext || func == do_research) {
-	    do_research();
-	    currmenu = MHELP;
-#ifndef NANO_TINY
+	} else if (func == do_findnext) {
+	    do_findnext();
 	} else if (kbinput == KEY_WINCH) {
 	    ; /* Nothing to do. */
 #endif
@@ -229,11 +229,9 @@ void do_help(void)
 	    unbound_key(kbinput);
 
 	/* If we searched and found something, let the cursor show it. */
-	if (didfind == 1)
-	    curs_set(1);
-	else
-	    curs_set(0);
+	curs_set(didfind == 1 ? 1 : 0);
 
+	currmenu = MHELP;
 	edit_refresh();
 
 	location = 0;
@@ -579,9 +577,11 @@ functionptrtype parse_help_input(int *kbinput)
 	    case '/':
 		return do_search;
 	    case 'N':
+#ifndef NANO_TINY
 		return do_findprevious;
+#endif
 	    case 'n':
-		return do_findnext;
+		return do_research;
 	    case 'E':
 	    case 'e':
 	    case 'Q':
