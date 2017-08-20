@@ -1716,12 +1716,10 @@ int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	if (in_edit || (in_bottomwin && *mouse_y == 0)) {
 	    int i;
 
-	    /* One upward roll of the mouse wheel is equivalent to
-	     * moving up three lines, and one downward roll of the mouse
-	     * wheel is equivalent to moving down three lines. */
+	    /* One roll of the mouse wheel should move three lines. */
 	    for (i = 0; i < 3; i++)
 		unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
-				KEY_PPAGE : KEY_NPAGE, FALSE);
+				KEY_UP : KEY_DOWN, FALSE);
 
 	    return 1;
 	} else
