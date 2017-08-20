@@ -62,6 +62,22 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
     }
 }
 
+/* Return the index in text that corresponds to the given column on the chunk
+ * starting on the given leftedge.  If the index is on a tab and this tab
+ * starts on the preceding chunk, push the index one step forward. */
+size_t proper_x(const char *text, size_t leftedge, size_t column)
+{
+    size_t index = actual_x(text, column);
+
+#ifndef NANO_TINY
+    if (ISSET(SOFTWRAP) && text[index] == '\t' &&
+		column < leftedge + leftedge % tabsize)
+	index++;
+#endif
+
+    return index;
+}
+
 /* Move up nearly one screenful. */
 void do_page_up(void)
 {
@@ -72,13 +88,12 @@ void do_page_up(void)
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->placewewant = openfile->firstcolumn;
-	openfile->current_x = actual_x(openfile->current->data,
-					openfile->firstcolumn);
 	openfile->current_y = 0;
-    }
 
-    get_edge_and_target(&leftedge, &target_column);
+	leftedge = leftedge_for(openfile->firstcolumn, openfile->edittop);
+	target_column = 0;
+    } else
+	get_edge_and_target(&leftedge, &target_column);
 
     /* Move up the required number of lines or chunks.  If we can't, we're
      * at the top of the file, so put the cursor there and get out. */
@@ -88,7 +103,7 @@ void do_page_up(void)
     }
 
     openfile->placewewant = leftedge + target_column;
-    openfile->current_x = actual_x(openfile->current->data,
+    openfile->current_x = proper_x(openfile->current->data, leftedge,
 				actual_last_column(leftedge, target_column));
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
@@ -106,13 +121,12 @@ void do_page_down(void)
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->placewewant = openfile->firstcolumn;
-	openfile->current_x = actual_x(openfile->current->data,
-					openfile->firstcolumn);
 	openfile->current_y = 0;
-    }
 
-    get_edge_and_target(&leftedge, &target_column);
+	leftedge = leftedge_for(openfile->firstcolumn, openfile->edittop);
+	target_column = 0;
+    } else
+	get_edge_and_target(&leftedge, &target_column);
 
     /* Move down the required number of lines or chunks.  If we can't, we're
      * at the bottom of the file, so put the cursor there and get out. */
@@ -122,7 +136,7 @@ void do_page_down(void)
     }
 
     openfile->placewewant = leftedge + target_column;
-    openfile->current_x = actual_x(openfile->current->data,
+    openfile->current_x = proper_x(openfile->current->data, leftedge,
 				actual_last_column(leftedge, target_column));
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
@@ -347,7 +361,7 @@ void do_home(void)
 
     if (ISSET(SOFTWRAP)) {
 	leftedge = leftedge_for(was_column, openfile->current);
-	leftedge_x = actual_x(openfile->current->data, leftedge);
+	leftedge_x = proper_x(openfile->current->data, leftedge, leftedge);
     }
 
     if (ISSET(SMART_HOME)) {
@@ -463,7 +477,7 @@ void do_up(bool scroll_only)
 	return;
 
     openfile->placewewant = leftedge + target_column;
-    openfile->current_x = actual_x(openfile->current->data,
+    openfile->current_x = proper_x(openfile->current->data, leftedge,
 				actual_last_column(leftedge, target_column));
 
     /* When the cursor was on the first line of the edit window (or when just
@@ -501,7 +515,7 @@ void do_down(bool scroll_only)
 	return;
 
     openfile->placewewant = leftedge + target_column;
-    openfile->current_x = actual_x(openfile->current->data,
+    openfile->current_x = proper_x(openfile->current->data, leftedge,
 				actual_last_column(leftedge, target_column));
 
     /* When the cursor was on the last line of the edit window (or when just
