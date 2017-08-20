@@ -173,12 +173,12 @@ char *do_browser(char *path)
 	} else if (func == do_search) {
 	    do_filesearch();
 	} else if (func == do_research) {
-	    do_fileresearch(FALSE);
+	    do_fileresearch(TRUE);
 #ifndef NANO_TINY
 	} else if (func == do_findprevious) {
-	    do_fileresearch(TRUE);
-	} else if (func == do_findnext) {
 	    do_fileresearch(FALSE);
+	} else if (func == do_findnext) {
+	    do_fileresearch(TRUE);
 #endif
 	} else if (func == do_left) {
 	    if (selected > 0)
