@@ -462,6 +462,7 @@ void do_end(void)
 void do_up(bool scroll_only)
 {
     filestruct *was_current = openfile->current;
+    size_t was_x = openfile->current_x;
     size_t was_column = xplustabs();
     size_t leftedge, target_column;
 
@@ -479,6 +480,8 @@ void do_up(bool scroll_only)
     openfile->placewewant = leftedge + target_column;
     openfile->current_x = proper_x(openfile->current->data, leftedge,
 				actual_last_column(leftedge, target_column));
+    if (openfile->current == was_current && openfile->current_x == was_x)
+	openfile->current_x--;
 
     /* When the cursor was on the first line of the edit window (or when just
      * scrolling without moving the cursor), scroll the edit window up -- one
