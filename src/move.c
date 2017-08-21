@@ -103,7 +103,7 @@ void do_page_up(void)
     }
 
     openfile->placewewant = leftedge + target_column;
-    openfile->current_x = proper_x(openfile->current->data, leftedge,
+    openfile->current_x = actual_x(openfile->current->data,
 				actual_last_column(leftedge, target_column));
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
@@ -461,8 +461,6 @@ void do_end(void)
  * also scroll the screen one row, so the cursor stays in the same spot. */
 void do_up(bool scroll_only)
 {
-    filestruct *was_current = openfile->current;
-    size_t was_x = openfile->current_x;
     size_t leftedge, target_column;
 
     /* When just scrolling and the top of the file is onscreen, get out. */
@@ -476,10 +474,8 @@ void do_up(bool scroll_only)
     if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
 	return;
 
-    openfile->current_x = proper_x(openfile->current->data, leftedge,
+    openfile->current_x = actual_x(openfile->current->data,
 				actual_last_column(leftedge, target_column));
-    if (openfile->current == was_current && openfile->current_x == was_x)
-	openfile->current_x--;
 
     if (scroll_only)
 	edit_scroll(UPWARD, 1);
@@ -488,7 +484,6 @@ void do_up(bool scroll_only)
 
     /* <Up> should not change placewewant, so restore it. */
     openfile->placewewant = leftedge + target_column;
-
 }
 
 /* Move the cursor to next line or chunk.  If scroll_only is TRUE, also
