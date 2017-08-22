@@ -70,8 +70,8 @@ size_t proper_x(const char *text, size_t leftedge, size_t column)
     size_t index = actual_x(text, column);
 
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP) && text[index] == '\t' &&
-		column < leftedge + leftedge % tabsize)
+    if (ISSET(SOFTWRAP) && text[index] == '\t' && leftedge % tabsize != 0 &&
+			column < leftedge + tabsize)
 	index++;
 #endif
 
