@@ -52,8 +52,10 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
 {
 #ifndef NANO_TINY
     if (ISSET(SOFTWRAP)) {
+	size_t shim = editwincols * (1 + (tabsize / editwincols));
+
 	*leftedge = leftedge_for(xplustabs(), openfile->current);
-	*target_column = openfile->placewewant - *leftedge;
+	*target_column = (openfile->placewewant + shim - *leftedge) % editwincols;
     } else
 #endif
     {
