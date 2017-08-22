@@ -463,6 +463,7 @@ void do_end(void)
  * also scroll the screen one row, so the cursor stays in the same spot. */
 void do_up(bool scroll_only)
 {
+    filestruct *was_current = openfile->current;
     size_t leftedge, target_column;
 
     /* When just scrolling and the top of the file is onscreen, get out. */
@@ -482,7 +483,7 @@ void do_up(bool scroll_only)
     if (scroll_only)
 	edit_scroll(UPWARD, 1);
 
-    edit_redraw(openfile->current, FLOWING);
+    edit_redraw(was_current, FLOWING);
 
     /* <Up> should not change placewewant, so restore it. */
     openfile->placewewant = leftedge + target_column;
@@ -492,6 +493,7 @@ void do_up(bool scroll_only)
  * scroll the screen one row, so the cursor stays in the same spot. */
 void do_down(bool scroll_only)
 {
+    filestruct *was_current = openfile->current;
     size_t leftedge, target_column;
 
     get_edge_and_target(&leftedge, &target_column);
@@ -506,7 +508,7 @@ void do_down(bool scroll_only)
     if (scroll_only)
 	edit_scroll(DOWNWARD, 1);
 
-    edit_redraw(openfile->current, FLOWING);
+    edit_redraw(was_current, FLOWING);
 
     /* <Down> should not change placewewant, so restore it. */
     openfile->placewewant = leftedge + target_column;
@@ -541,33 +543,31 @@ void do_scroll_down(void)
 /* Move left one character. */
 void do_left(void)
 {
+    filestruct *was_current = openfile->current;
+
     if (openfile->current_x > 0)
 	openfile->current_x = move_mbleft(openfile->current->data,
 						openfile->current_x);
     else if (openfile->current != openfile->fileage) {
 	openfile->current = openfile->current->prev;
 	openfile->current_x = strlen(openfile->current->data);
-
-	edit_redraw(openfile->current->next, FLOWING);
-	return;
     }
 
-    edit_redraw(openfile->current, FLOWING);
+    edit_redraw(was_current, FLOWING);
 }
 
 /* Move right one character. */
 void do_right(void)
 {
+    filestruct *was_current = openfile->current;
+
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
 						openfile->current_x);
     else if (openfile->current != openfile->filebot) {
 	openfile->current = openfile->current->next;
 	openfile->current_x = 0;
-
-	edit_redraw(openfile->current->prev, FLOWING);
-	return;
     }
 
-    edit_redraw(openfile->current, FLOWING);
+    edit_redraw(was_current, FLOWING);
 }
