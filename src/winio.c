@@ -3089,6 +3089,9 @@ size_t leftedge_for(size_t column, filestruct *line)
 {
     size_t leftedge;
 
+    if (!ISSET(SOFTWRAP))
+	return 0;
+
     get_chunk_and_edge(column, line, &leftedge);
 
     return leftedge;

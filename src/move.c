@@ -64,20 +64,49 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
     }
 }
 
-/* Return the index in text that corresponds to the given column on the chunk
- * starting on the given leftedge.  If the index is on a tab and this tab
- * starts on the preceding chunk, push the index one step forward. */
-size_t proper_x(const char *text, size_t leftedge, size_t column)
+/* Return the index in line->data that corresponds to the given column on the
+ * chunk that starts at the given leftedge.  If the index lands on a tab, and
+ * this tab starts on an earlier chunk, and the tab ends on this row OR we're
+ * going forward, then increment the index and recalculate leftedge. */
+size_t proper_x(filestruct *line, size_t *leftedge, bool forward,
+		size_t column, bool *shifted)
 {
-    size_t index = actual_x(text, column);
+    size_t index = actual_x(line->data, column);
 
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP) && text[index] == '\t' && leftedge % tabsize != 0 &&
-			column < leftedge + tabsize)
+    if (ISSET(SOFTWRAP) && line->data[index] == '\t' && (forward ||
+		*leftedge / tabsize < (*leftedge + editwincols) / tabsize) &&
+		*leftedge % tabsize != 0 && column < *leftedge + tabsize) {
 	index++;
+
+	*leftedge = leftedge_for(strnlenpt(line->data, index), line);
+
+	if (shifted != NULL)
+	    *shifted = TRUE;
+    }
 #endif
 
     return index;
+}
+
+/* Adjust the values for current_x and placewewant in case we have landed in
+ * the middle of a tab that crosses a row boundary. */
+void set_proper_index_and_pww(size_t *leftedge, size_t target, bool forward)
+{
+    bool shifted = FALSE;
+
+    openfile->current_x = proper_x(openfile->current, leftedge, forward,
+			actual_last_column(*leftedge, target), &shifted);
+
+    /* If the index was incremented, try going to the target column. */
+    if (shifted) {
+	size_t newer_x = actual_x(openfile->current->data, *leftedge + target);
+
+	if (newer_x > openfile->current_x)
+	    openfile->current_x = newer_x;
+    }
+
+    openfile->placewewant = *leftedge + target;
 }
 
 /* Move up nearly one screenful. */
@@ -104,9 +133,7 @@ void do_page_up(void)
 	return;
     }
 
-    openfile->placewewant = leftedge + target_column;
-    openfile->current_x = actual_x(openfile->current->data,
-				actual_last_column(leftedge, target_column));
+    set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
     adjust_viewport(STATIONARY);
@@ -137,9 +164,7 @@ void do_page_down(void)
 	return;
     }
 
-    openfile->placewewant = leftedge + target_column;
-    openfile->current_x = proper_x(openfile->current->data, leftedge,
-				actual_last_column(leftedge, target_column));
+    set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
     /* Move the viewport so that the cursor stays immobile, if possible. */
     adjust_viewport(STATIONARY);
@@ -363,7 +388,8 @@ void do_home(void)
 
     if (ISSET(SOFTWRAP)) {
 	leftedge = leftedge_for(was_column, openfile->current);
-	leftedge_x = proper_x(openfile->current->data, leftedge, leftedge);
+	leftedge_x = proper_x(openfile->current, &leftedge, FALSE, leftedge,
+				NULL);
     }
 
     if (ISSET(SMART_HOME)) {
@@ -477,8 +503,7 @@ void do_up(bool scroll_only)
     if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
 	return;
 
-    openfile->current_x = actual_x(openfile->current->data,
-				actual_last_column(leftedge, target_column));
+    set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
     if (scroll_only)
 	edit_scroll(UPWARD, 1);
@@ -502,8 +527,7 @@ void do_down(bool scroll_only)
     if (go_forward_chunks(1, &openfile->current, &leftedge) > 0)
 	return;
 
-    openfile->current_x = proper_x(openfile->current->data, leftedge,
-				actual_last_column(leftedge, target_column));
+    set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
     if (scroll_only)
 	edit_scroll(DOWNWARD, 1);
