@@ -1,2 +1,2 @@
-branch-sort=date
-repo.branch-sort=date
+branch-sort=age
+repo.branch-sort=age
