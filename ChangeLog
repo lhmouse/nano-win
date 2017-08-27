@@ -1,3 +1,94 @@
+Changes between v2.8.6 and v2.8.7:
+----------------------------------
+
+Benno Schulenberg (54):
+      bindings: hard-bind Alt+Up and Alt+Down to findprevious and findnext
+      browser: correct the inverted search behavior for Alt+Up/Alt+Down
+      bump version numbers and add a news item for the 2.8.7 release
+      display: catch all cases where the cursor can be pushed offscreen
+      display: don't doubly show tabs that cross a chunk boundary
+      files: do not silently ignore an invalid backup directory, but die
+      files: don't close a file descriptor when opening failed  [coverity scan]
+      files: don't try to open a negative file descriptor  [coverity scan]
+      gnulib: update to its current upstream state
+      linting: don't try to put the cursor at a negative x position
+      linting: skip the introductory message produced by 'gcc -fshow-column'
+      mouse: one click of the wheel should move three lines, not three pages
+      moving: don't push x forward when backward movement lands on a split tab
+      moving: get <Up> unstuck when trying to pass over a sprawling tab
+      moving: improve retention of the target column somewhat
+      moving: the current chunk is always 0 when not in softwrap mode
+      moving: use the correct formula for pushing the index forward
+      rcfile: don't leak a shortcut when something goes wrong  [coverity scan]
+      softwrap: properly move up and down over tabs that are split over rows
+      syntax: c: give labels some color too
+      syntax: html: don't bother coloring tags that cross line boundaries
+      syntax: python: don't require a character after an opening triple quote
+      text: properly unindent lines that consist of only whitespace
+      tweaks: a comma does not end a sentence, and is not part of a variable
+      tweaks: adjust the indentation after the previous change
+      tweaks: adjust the indentation after the previous change
+      tweaks: adjust the indentation after the previous change
+      tweaks: allow enough space for the Y/N/A characters  [coverity scan]
+      tweaks: avoid trying to stat a file that might be NULL  [coverity scan]
+      tweaks: close a file also in the error path  [coverity scan]
+      tweaks: condense or improve some comments
+      tweaks: condense some logic, to elide a variable and a comment
+      tweaks: do not leak the indentation when all lines are empty
+      tweaks: don't close a descriptor when its stream has already been closed
+      tweaks: drop some debugging stuff
+      tweaks: drop some debugging stuff, and frob two comments
+      tweaks: elide an unneeded pointer
+      tweaks: elide the global variable 'full_operating_dir'
+      tweaks: fix compilation with --enable-{tiny,help,multibuffer}
+      tweaks: group all movement routines in corresponding pairs
+      tweaks: keep the const qualifier of the syntax name  [coverity scan]
+      tweaks: remove includes that appear to be superfluous
+      tweaks: rename a function, to let it make more sense
+      tweaks: rename a label, to better match its task
+      tweaks: renumber the special key codes, to be in sequence and grouped
+      tweaks: reshuffle code and frob comments, to reduce the number of lines
+      tweaks: reshuffle some code to harmonize two related functions
+      tweaks: reshuffle some declarations and trim a few comments
+      tweaks: restore an include that is necessary on some platforms
+      tweaks: show "where is next" in the help lines of the file browser
+      tweaks: simply set the proper scrolling mode, instead of imitating it
+      tweaks: snip a superfluous clearing of the bottom bars after help
+      tweaks: sort the includes, so it's a little easier to see what is there
+      tweaks: specify more directly in what manner to move the viewport
+
+David Lawrence Ramsey (23):
+      browser: allow backward/forward re-searches with Alt+Up/Alt+Down
+      display: constrain line numbers on softwrapped lines with sprawling tabs
+      display: do show the visible character for a tab when it starts a row
+      display: revamp how screen updates are done in the movement code
+      moving: redraw not just the new current line but also the prior one
+      small addition: allow customizing the color of selected text
+      softwrap: correctly move vertically through overwide tabs
+      softwrap: don't push a straddling tab to the next chunk
+      softwrap: improve left/right navigation across line boundaries
+      softwrap: make sure char_len is set when a tab is wider than a chunk
+      softwrap: properly update the viewport when adding text at firstcolumn
+      text: make indenting add to the beginning of the line
+      text: make unindenting remove from the beginning of the line
+      tweaks: adjust spacing and wording in sample.nanorc
+      tweaks: correct a comment typo and an indentation error
+      tweaks: harmonize some prototypes with their functions
+      tweaks: remove unneeded parentheses and blank line and braces
+      tweaks: replace a misplaced tab with a space
+      tweaks: set the target row for smooth scrolling more directly
+      tweaks: use charalloc() instead of (char *)nmalloc() * sizeof(char)
+      weeding: drop the forreal parameter from place_the_cursor()
+      weeding: remove redundant casts of nmalloc()
+      weeding: remove the unused be_clever parameter from do_home()/do_end()
+
+Rishabh Dave (1):
+      new feature: allow pasting at all input prompts
+
+Urja Rannikko (1):
+      bindings: hard-bind Alt+Left and Alt+Right to buffer switching
+
+
 Changes between v2.8.5 and v2.8.6:
 ----------------------------------
 

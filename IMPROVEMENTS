@@ -2,6 +2,8 @@ Improvements in GNU nano
 ========================
 
 Since 2.8.0:
+  - Meta-Up/Meta-Down will search the previous/next occurrence.
+  - ^U pastes the first line of the cutbuffer at a prompt.
   - Softwrapping can be done at whitespace (with --soft --atblanks).
   - The ^G help texts have become searchable (with ^W and M-W).
   - Ctrl+Home and Ctrl+End jump to start and end of file.

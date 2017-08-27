@@ -1,3 +1,13 @@
+2017.08.27 - GNU nano 2.8.7 "Fragrance" fixes a lockup when tabs are
+		wider than the screen, makes indenting + unindenting
+		more predictable by retaining relative indentations,
+		allows pasting (^U) at a prompt, allows triple quotes
+		in Python to not be followed by a character, does not
+		scroll three pages on a roll of the mouse wheel, binds
+		Alt+Up and Alt+Down to findprevious and findnext, and
+		fixes some hard-to-describe issues with softwrapping
+		and boundary-crossing tabs.  Enjoy.
+
 2017.07.21 - GNU nano 2.8.6 "Kekulé" offers a new feature: the ability
 		to do softwrapping between words -- at whitespace --
 		instead of always at the edge of the screen.  This can
