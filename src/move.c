@@ -121,7 +121,7 @@ void do_page_up(void)
 	openfile->current = openfile->edittop;
 	openfile->current_y = 0;
 
-	leftedge = leftedge_for(openfile->firstcolumn, openfile->edittop);
+	leftedge = openfile->firstcolumn;
 	target_column = 0;
     } else
 	get_edge_and_target(&leftedge, &target_column);
@@ -152,7 +152,7 @@ void do_page_down(void)
 	openfile->current = openfile->edittop;
 	openfile->current_y = 0;
 
-	leftedge = leftedge_for(openfile->firstcolumn, openfile->edittop);
+	leftedge = openfile->firstcolumn;
 	target_column = 0;
     } else
 	get_edge_and_target(&leftedge, &target_column);
