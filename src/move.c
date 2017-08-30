@@ -119,9 +119,8 @@ void do_page_up(void)
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->current_y = 0;
-
 	leftedge = openfile->firstcolumn;
+	openfile->current_y = 0;
 	target_column = 0;
     } else
 	get_edge_and_target(&leftedge, &target_column);
@@ -150,9 +149,8 @@ void do_page_down(void)
      * beginning of the top line of the edit window, as Pico does. */
     if (!ISSET(SMOOTH_SCROLL)) {
 	openfile->current = openfile->edittop;
-	openfile->current_y = 0;
-
 	leftedge = openfile->firstcolumn;
+	openfile->current_y = 0;
 	target_column = 0;
     } else
 	get_edge_and_target(&leftedge, &target_column);
@@ -178,11 +176,11 @@ void do_para_begin(bool update_screen)
 {
     filestruct *was_current = openfile->current;
 
-    if (openfile->current != openfile->fileage) {
-	do
-	    openfile->current = openfile->current->prev;
-	while (!begpar(openfile->current));
-    }
+    if (openfile->current != openfile->fileage)
+	openfile->current = openfile->current->prev;
+
+    while (!begpar(openfile->current))
+	openfile->current = openfile->current->prev;
 
     openfile->current_x = 0;
 
@@ -233,7 +231,7 @@ void do_para_end_void(void)
 }
 #endif /* !DISABLE_JUSTIFY */
 
-/* Move to the preceding block of text in the file. */
+/* Move to the preceding block of text. */
 void do_prev_block(void)
 {
     filestruct *was_current = openfile->current;
@@ -255,7 +253,7 @@ void do_prev_block(void)
     edit_redraw(was_current, CENTERING);
 }
 
-/* Move to the next block of text in the file. */
+/* Move to the next block of text. */
 void do_next_block(void)
 {
     filestruct *was_current = openfile->current;
@@ -273,9 +271,8 @@ void do_next_block(void)
     edit_redraw(was_current, CENTERING);
 }
 
-/* Move to the previous word in the file.  If allow_punct is TRUE, treat
- * punctuation as part of a word.  If update_screen is TRUE, update the
- * screen afterwards. */
+/* Move to the previous word.  If allow_punct is TRUE, treat punctuation
+ * as part of a word.  When requested, update the screen afterwards. */
 void do_prev_word(bool allow_punct, bool update_screen)
 {
     filestruct *was_current = openfile->current;
@@ -317,10 +314,9 @@ void do_prev_word(bool allow_punct, bool update_screen)
 	edit_redraw(was_current, FLOWING);
 }
 
-/* Move to the next word in the file.  If allow_punct is TRUE, treat
- * punctuation as part of a word.  If update_screen is TRUE, update the
- * screen afterwards.  Return TRUE if we started on a word, and FALSE
- * otherwise. */
+/* Move to the next word.  If allow_punct is TRUE, treat punctuation
+ * as part of a word.   When requested, update the screen afterwards.
+ * Return TRUE if we started on a word, and FALSE otherwise. */
 bool do_next_word(bool allow_punct, bool update_screen)
 {
     filestruct *was_current = openfile->current;
@@ -332,7 +328,7 @@ bool do_next_word(bool allow_punct, bool update_screen)
     while (TRUE) {
 	/* If at the end of a line, move to the beginning of the next one. */
 	if (openfile->current->data[openfile->current_x] == '\0') {
-	    /* If at the end of the file, stop. */
+	    /* When at end of file, stop. */
 	    if (openfile->current->next == NULL)
 		break;
 	    openfile->current = openfile->current->next;
