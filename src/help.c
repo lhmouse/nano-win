@@ -256,7 +256,7 @@ void do_help(void)
 #endif
 
     /* Switch back to the buffer we were invoked from. */
-    switch_to_prev_buffer_void();
+    switch_to_prev_buffer();
 
     if (ISSET(NO_HELP)) {
 	currmenu = oldmenu;

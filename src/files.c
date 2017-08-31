@@ -597,7 +597,7 @@ void prepare_for_display(void)
 #ifdef ENABLE_MULTIBUFFER
 /* Switch to a neighbouring file buffer; to the next if to_next is TRUE;
  * otherwise, to the previous one. */
-void switch_to_prevnext_buffer(bool to_next)
+void switch_to_adjacent_buffer(bool to_next)
 {
     /* If only one file buffer is open, say so and get out. */
     if (openfile == openfile->next && !inhelp) {
@@ -640,15 +640,15 @@ void switch_to_prevnext_buffer(bool to_next)
 }
 
 /* Switch to the previous entry in the openfile filebuffer. */
-void switch_to_prev_buffer_void(void)
+void switch_to_prev_buffer(void)
 {
-    switch_to_prevnext_buffer(FALSE);
+    switch_to_adjacent_buffer(FALSE);
 }
 
 /* Switch to the next entry in the openfile filebuffer. */
-void switch_to_next_buffer_void(void)
+void switch_to_next_buffer(void)
 {
-    switch_to_prevnext_buffer(TRUE);
+    switch_to_adjacent_buffer(TRUE);
 }
 
 /* Delete an entry from the circular list of open files, and switch to the
@@ -667,7 +667,7 @@ bool close_buffer(void)
 #endif
 
     /* Switch to the next file buffer. */
-    switch_to_prevnext_buffer(TRUE);
+    switch_to_adjacent_buffer(TRUE);
 
     /* Close the file buffer we had open before. */
     unlink_opennode(openfile->prev);

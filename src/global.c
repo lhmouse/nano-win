@@ -886,9 +886,9 @@ void shortcut_init(void)
 	N_("Last Line"), IFSCHELP(nano_lastline_msg), BLANKAFTER, VIEW);
 
 #ifdef ENABLE_MULTIBUFFER
-    add_to_funcs(switch_to_prev_buffer_void, MMAIN,
+    add_to_funcs(switch_to_prev_buffer, MMAIN,
 	N_("Prev File"), IFSCHELP(nano_prevfile_msg), TOGETHER, VIEW);
-    add_to_funcs(switch_to_next_buffer_void, MMAIN,
+    add_to_funcs(switch_to_next_buffer, MMAIN,
 	N_("Next File"), IFSCHELP(nano_nextfile_msg), BLANKAFTER, VIEW);
 #endif
 
@@ -1139,8 +1139,8 @@ void shortcut_init(void)
 	add_to_sclist(MSOME, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
 	add_to_sclist(MSOME, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
 #ifdef ENABLE_MULTIBUFFER
-	add_to_sclist(MMAIN, "M-\xE2\x86\x90", ALT_LEFT, switch_to_prev_buffer_void, 0);
-	add_to_sclist(MMAIN, "M-\xE2\x86\x92", ALT_RIGHT, switch_to_next_buffer_void, 0);
+	add_to_sclist(MMAIN, "M-\xE2\x86\x90", ALT_LEFT, switch_to_prev_buffer, 0);
+	add_to_sclist(MMAIN, "M-\xE2\x86\x92", ALT_RIGHT, switch_to_next_buffer, 0);
 #endif
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x86\x91", ALT_UP, do_findprevious, 0);
@@ -1191,10 +1191,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-=", 0, do_scroll_down, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    add_to_sclist(MMAIN, "M-<", 0, switch_to_prev_buffer_void, 0);
-    add_to_sclist(MMAIN, "M-,", 0, switch_to_prev_buffer_void, 0);
-    add_to_sclist(MMAIN, "M->", 0, switch_to_next_buffer_void, 0);
-    add_to_sclist(MMAIN, "M-.", 0, switch_to_next_buffer_void, 0);
+    add_to_sclist(MMAIN, "M-<", 0, switch_to_prev_buffer, 0);
+    add_to_sclist(MMAIN, "M-,", 0, switch_to_prev_buffer, 0);
+    add_to_sclist(MMAIN, "M->", 0, switch_to_next_buffer, 0);
+    add_to_sclist(MMAIN, "M-.", 0, switch_to_next_buffer, 0);
 #endif
     add_to_sclist(MMOST, "M-V", 0, do_verbatim_input, 0);
 #ifndef NANO_TINY
@@ -1566,9 +1566,9 @@ sc *strtosc(const char *input)
 	s->scfunc = do_last_line;
 #ifdef ENABLE_MULTIBUFFER
     else if (!strcasecmp(input, "prevbuf"))
-	s->scfunc = switch_to_prev_buffer_void;
+	s->scfunc = switch_to_prev_buffer;
     else if (!strcasecmp(input, "nextbuf"))
-	s->scfunc = switch_to_next_buffer_void;
+	s->scfunc = switch_to_next_buffer;
 #endif
     else if (!strcasecmp(input, "verbatim"))
 	s->scfunc = do_verbatim_input;

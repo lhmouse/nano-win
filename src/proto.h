@@ -274,8 +274,8 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 #endif
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER
-void switch_to_prev_buffer_void(void);
-void switch_to_next_buffer_void(void);
+void switch_to_prev_buffer(void);
+void switch_to_next_buffer(void);
 bool close_buffer(void);
 #endif
 void read_file(FILE *f, int fd, const char *filename, bool undoable,
