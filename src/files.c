@@ -639,16 +639,16 @@ void switch_to_adjacent_buffer(bool to_next)
 #endif
 }
 
-/* Switch to the previous entry in the openfile filebuffer. */
+/* Switch to the previous entry in the list of open files. */
 void switch_to_prev_buffer(void)
 {
-    switch_to_adjacent_buffer(FALSE);
+    switch_to_adjacent_buffer(BACKWARD);
 }
 
-/* Switch to the next entry in the openfile filebuffer. */
+/* Switch to the next entry in the list of open files. */
 void switch_to_next_buffer(void)
 {
-    switch_to_adjacent_buffer(TRUE);
+    switch_to_adjacent_buffer(FORWARD);
 }
 
 /* Delete an entry from the circular list of open files, and switch to the

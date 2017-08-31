@@ -2902,7 +2902,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 
 /* Scroll the edit window in the given direction and the given number of rows,
  * and draw new lines on the blank lines left after the scrolling. */
-void edit_scroll(scroll_dir direction, int nrows)
+void edit_scroll(bool direction, int nrows)
 {
     filestruct *line;
     size_t leftedge;
@@ -2912,7 +2912,7 @@ void edit_scroll(scroll_dir direction, int nrows)
 
     /* Move the top line of the edit window the requested number of rows up or
      * down, and reduce the number of rows with the amount we couldn't move. */
-    if (direction == UPWARD)
+    if (direction == BACKWARD)
 	nrows -= go_back_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
     else
 	nrows -= go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
@@ -2935,7 +2935,7 @@ void edit_scroll(scroll_dir direction, int nrows)
 
     /* Scroll the text of the edit window a number of rows up or down. */
     scrollok(edit, TRUE);
-    wscrl(edit, (direction == UPWARD) ? -nrows : nrows);
+    wscrl(edit, (direction == BACKWARD) ? -nrows : nrows);
     scrollok(edit, FALSE);
 
     /* Part 2: nrows is now the number of rows in the scrolled region of the
@@ -2951,7 +2951,7 @@ void edit_scroll(scroll_dir direction, int nrows)
     leftedge = openfile->firstcolumn;
 
     /* If we scrolled forward, move down to the start of the blank region. */
-    if (direction == DOWNWARD)
+    if (direction == FORWARD)
 	go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
 #ifndef NANO_TINY

@@ -663,7 +663,7 @@ bool line_needs_update(const size_t old_column, const size_t new_column);
 int go_back_chunks(int nrows, filestruct **line, size_t *leftedge);
 int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge);
 bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge);
-void edit_scroll(scroll_dir direction, int nrows);
+void edit_scroll(bool direction, int nrows);
 #ifndef NANO_TINY
 size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 				bool *end_of_line);

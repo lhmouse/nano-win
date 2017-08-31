@@ -132,6 +132,9 @@
 #define DISABLE_WRAPJUSTIFY 1
 #endif
 
+#define BACKWARD FALSE
+#define FORWARD TRUE
+
 /* Enumeration types. */
 typedef enum {
     NIX_FILE, DOS_FILE, MAC_FILE
@@ -148,10 +151,6 @@ typedef enum {
 typedef enum {
     SOFTMARK, HARDMARK
 } mark_type;
-
-typedef enum {
-    UPWARD, DOWNWARD
-} scroll_dir;
 
 typedef enum {
     CENTERING, FLOWING, STATIONARY
