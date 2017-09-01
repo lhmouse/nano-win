@@ -1977,6 +1977,19 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
     return converted;
 }
 
+/* Determine the sequence number of the given buffer in the circular list. */
+int buffer_number(openfilestruct *buffer)
+{
+    int count = 1;
+
+    while (buffer != firstfile) {
+	buffer = buffer->prev;
+	count++;
+    }
+
+    return count;
+}
+
 /* If path is NULL, we're in normal editing mode, so display the current
  * version of nano, the current filename, and whether the current file
  * has been modified on the titlebar.  If path isn't NULL, we're either
@@ -1998,6 +2011,8 @@ void titlebar(const char *path)
 	/* The state of the current buffer -- "Modified", "View", or "". */
     char *caption;
 	/* The presentable form of the pathname. */
+    char *indicator = NULL;
+	/* The buffer sequence number plus buffer count. */
 
     /* If the screen is too small, there is no titlebar. */
     if (topwin == NULL)
@@ -2013,6 +2028,14 @@ void titlebar(const char *path)
     /* Do as Pico: if there is not enough width available for all items,
      * first sacrifice the version string, then eat up the side spaces,
      * then sacrifice the prefix, and only then start dottifying. */
+
+    /* When multiple buffers are open, show which one out of how many. */
+    if (path == NULL && firstfile != firstfile->next) {
+	indicator = charalloc(24);
+	sprintf(indicator, "[%i/%i]", buffer_number(openfile),
+					buffer_number(firstfile->prev));
+	branding = indicator;
+    }
 
     /* Figure out the path, prefix and state strings. */
     if (inhelp)
@@ -2063,6 +2086,8 @@ void titlebar(const char *path)
 	    statelen -= 2;
 	}
     }
+
+    free(indicator);
 
     /* If we have side spaces left, center the path name. */
     if (verlen > 0)

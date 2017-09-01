@@ -68,6 +68,7 @@ void make_new_buffer(void)
 	/* Make the first open file the only element in the list. */
 	newnode->prev = newnode;
 	newnode->next = newnode;
+	firstfile = newnode;
     } else {
 	/* Add the new open file after the current one in the list. */
 	newnode->prev = openfile;
@@ -669,8 +670,10 @@ bool close_buffer(void)
     /* Switch to the next file buffer. */
     switch_to_adjacent_buffer(TRUE);
 
-    /* Close the file buffer we had open before. */
+    /* Delete the old file buffer, and adjust the count in the top bar. */
     unlink_opennode(openfile->prev);
+    if (!inhelp)
+	titlebar(NULL);
 
     /* If now just one buffer remains open, show "Exit" in the help lines. */
     if (openfile == openfile->next)

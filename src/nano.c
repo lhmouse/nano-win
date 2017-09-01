@@ -507,6 +507,9 @@ void unlink_opennode(openfilestruct *fileptr)
 {
     assert(fileptr != fileptr->prev && fileptr != fileptr->next);
 
+    if (fileptr == firstfile)
+	firstfile = firstfile->next;
+
     fileptr->prev->next = fileptr->next;
     fileptr->next->prev = fileptr->prev;
 

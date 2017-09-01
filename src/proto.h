@@ -100,6 +100,7 @@ extern filestruct *cutbuffer;
 extern filestruct *cutbottom;
 extern partition *filepart;
 extern openfilestruct *openfile;
+extern openfilestruct *firstfile;
 
 #ifndef NANO_TINY
 extern char *matchbrackets;
