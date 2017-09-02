@@ -2159,7 +2159,8 @@ void statusline(message_type importance, const char *msg, ...)
     if (importance == ALERT) {
 	if (++alerts > 3 && !ISSET(NO_PAUSES))
 	    msg = _("Further warnings were suppressed");
-	beep();
+	else if (alerts < 4)
+	    beep();
     }
 
     lastmessage = importance;
