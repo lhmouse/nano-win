@@ -77,6 +77,13 @@ void search_init(bool replacing, bool keep_the_answer)
 	char *thedefault;
 		/* What will be searched for when the user typed nothing. */
 
+#ifdef ENABLE_HISTORIES
+	/* If nothing was searched for yet during this run of nano, but
+	 * there is a search history, take the most recent item. */
+	if (*last_search == '\0' && searchbot->prev != NULL)
+		last_search = mallocstrcpy(last_search, searchbot->prev->data);
+#endif
+
 	/* When starting a new search, clear the current answer. */
 	if (!keep_the_answer)
 		answer = mallocstrcpy(answer, NULL);
