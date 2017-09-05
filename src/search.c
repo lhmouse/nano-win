@@ -74,6 +74,13 @@ void search_init(bool replacing, bool retain_answer)
 	char *thedefault;
 		/* What will be searched for when the user types just <Enter>. */
 
+#ifdef ENABLE_HISTORIES
+	/* If nothing was searched for yet during this run of nano, but
+	 * there is a search history, take the most recent item. */
+	if (*last_search == '\0' && searchbot->prev != NULL)
+		last_search = mallocstrcpy(last_search, searchbot->prev->data);
+#endif
+
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
