@@ -165,6 +165,9 @@ extern filestruct *searchbot;
 extern filestruct *replace_history;
 extern filestruct *replaceage;
 extern filestruct *replacebot;
+extern filestruct *execute_history;
+extern filestruct *executetop;
+extern filestruct *executebot;
 extern poshiststruct *position_history;
 #endif
 

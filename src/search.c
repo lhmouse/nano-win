@@ -1107,6 +1107,11 @@ void history_init(void)
     replace_history->data = mallocstrcpy(NULL, "");
     replaceage = replace_history;
     replacebot = replace_history;
+
+    execute_history = make_new_node(NULL);
+    execute_history->data = mallocstrcpy(NULL, "");
+    executetop = execute_history;
+    executebot = execute_history;
 }
 
 /* Set the current position in the history list h to the bottom. */
@@ -1116,6 +1121,8 @@ void history_reset(const filestruct *h)
 	search_history = searchbot;
     else if (h == replace_history)
 	replace_history = replacebot;
+    else if (h == execute_history)
+	execute_history = executebot;
 }
 
 /* Return the first node containing the first len characters of the
@@ -1148,6 +1155,9 @@ void update_history(filestruct **h, const char *s)
     } else if (*h == replace_history) {
 	hage = &replaceage;
 	hbot = &replacebot;
+    } else if (*h == execute_history) {
+	hage = &executetop;
+	hbot = &executebot;
     }
 
     assert(hage != NULL && hbot != NULL);
@@ -1248,6 +1258,9 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 	} else if (*h == replace_history) {
 	    hage = replaceage;
 	    hbot = replacebot;
+	} else if (*h == execute_history) {
+	    hage = executetop;
+	    hbot = executebot;
 	}
 
 	assert(hage != NULL && hbot != NULL);

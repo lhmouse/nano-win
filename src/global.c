@@ -216,6 +216,12 @@ filestruct *replaceage = NULL;
 	/* The top of the replace string history list. */
 filestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
+filestruct *execute_history = NULL;
+	/* The list of commands that have been run with ^R ^X. */
+filestruct *executetop = NULL;
+	/* The top of the execute history list. */
+filestruct *executebot = NULL;
+	/* The bottom of the execute history list. */
 poshiststruct *position_history = NULL;
 	/* The cursor position history list. */
 #endif
@@ -1266,17 +1272,17 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS, "^T", 0, do_gotolinecolumn_void, 0);
     add_to_sclist(MGOTOLINE, "^T", 0, gototext_void, 0);
 #ifndef DISABLE_HISTORIES
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "^P", 0, get_history_older_void, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "^N", 0, get_history_newer_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^P", 0, get_history_older_void, 0);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^N", 0, get_history_newer_void, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "\xE2\x86\x91", KEY_UP, get_history_older_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "\xE2\x86\x93", KEY_DOWN, get_history_newer_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "\xE2\x86\x91", KEY_UP, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "\xE2\x86\x93", KEY_DOWN, get_history_newer_void, 0);
     } else
 #endif
     {
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "Up", KEY_UP, get_history_older_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP, "Down", KEY_DOWN, get_history_newer_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Up", KEY_UP, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Down", KEY_DOWN, get_history_newer_void, 0);
     }
 #endif
 #ifdef ENABLE_BROWSER
