@@ -276,27 +276,27 @@ void do_tab(void)
 
 #ifndef NANO_TINY
 /* Add an indent to the line in f. */
-void indent_a_line(filestruct *f, char *line_indent)
+void indent_a_line(filestruct *f, char *indentation)
 {
-    size_t line_indent_len = strlen(line_indent);
-    size_t line_len = strlen(f->data);
+    size_t length = strlen(f->data);
+    size_t indent_len = strlen(indentation);
 
     /* If the indent is empty, don't change the line. */
-    if (line_indent_len == 0)
+    if (indent_len == 0)
 	return;
 
     /* Add the fabricated indentation to the beginning of the line. */
-    f->data = charealloc(f->data, line_len + line_indent_len + 1);
-    charmove(&f->data[line_indent_len], f->data, line_len + 1);
-    strncpy(f->data, line_indent, line_indent_len);
+    f->data = charealloc(f->data, length + indent_len + 1);
+    charmove(&f->data[indent_len], f->data, length + 1);
+    strncpy(f->data, indentation, indent_len);
 
-    openfile->totsize += line_indent_len;
+    openfile->totsize += indent_len;
 
     /* Compensate for the change in the current line. */
     if (openfile->mark_set && f == openfile->mark_begin)
-        openfile->mark_begin_x += line_indent_len;
+        openfile->mark_begin_x += indent_len;
     if (f == openfile->current) {
-	openfile->current_x += line_indent_len;
+	openfile->current_x += indent_len;
 	openfile->placewewant = xplustabs();
     }
 }
@@ -306,7 +306,7 @@ void indent_a_line(filestruct *f, char *line_indent)
  * depending on whether --tabstospaces is in effect. */
 void do_indent(void)
 {
-    char *line_indent = charalloc(tabsize + 1);
+    char *indentation = charalloc(tabsize + 1);
 	/* The whitespace added to each line in order to indent it. */
     filestruct *top, *bot, *f;
     size_t top_x, bot_x;
@@ -328,27 +328,27 @@ void do_indent(void)
 
     /* If all lines are empty, there is nothing to do. */
     if (f == bot->next) {
-	free(line_indent);
+	free(indentation);
 	return;
     }
 
     /* Set the indentation to either a bunch of spaces or a single tab. */
     if (ISSET(TABS_TO_SPACES)) {
-	charset(line_indent, ' ', tabsize);
-	line_indent[tabsize] = '\0';
+	charset(indentation, ' ', tabsize);
+	indentation[tabsize] = '\0';
     } else {
-	line_indent[0] = '\t';
-	line_indent[1] = '\0';
+	indentation[0] = '\t';
+	indentation[1] = '\0';
     }
 
     /* Go through each of the lines, but skip empty ones. */
     for (f = top; f != bot->next; f = f->next) {
-	char *real_indent = (f->data[0] == '\0') ? "" : line_indent;
+	char *real_indent = (f->data[0] == '\0') ? "" : indentation;
 
 	indent_a_line(f, real_indent);
     }
 
-    free(line_indent);
+    free(indentation);
 
     /* Throw away the undo stack, to prevent making mistakes when
      * the user tries to undo something in the indented text. */
@@ -380,33 +380,32 @@ size_t length_of_white(const char *text)
 }
 
 /* Remove an indent from the line in f. */
-void unindent_a_line(filestruct *f, size_t line_indent_len)
+void unindent_a_line(filestruct *f, size_t indent_len)
 {
-    size_t line_len = strlen(f->data);
+    size_t length = strlen(f->data);
 
     /* If the indent is empty, don't change the line. */
-    if (line_indent_len == 0)
+    if (indent_len == 0)
 	return;
 
     /* Remove the first tab's worth of whitespace from this line. */
-    charmove(f->data, &f->data[line_indent_len],
-		line_len - line_indent_len + 1);
-    null_at(&f->data, line_len - line_indent_len + 1);
+    charmove(f->data, &f->data[indent_len], length - indent_len + 1);
+    null_at(&f->data, length - indent_len + 1);
 
-    openfile->totsize -= line_indent_len;
+    openfile->totsize -= indent_len;
 
     /* Compensate for the change in the current line. */
     if (openfile->mark_set && f == openfile->mark_begin) {
-	if (openfile->mark_begin_x < line_indent_len)
+	if (openfile->mark_begin_x < indent_len)
 	    openfile->mark_begin_x = 0;
 	else
-	    openfile->mark_begin_x -= line_indent_len;
+	    openfile->mark_begin_x -= indent_len;
     }
     if (f == openfile->current) {
-	if (openfile->current_x < line_indent_len)
+	if (openfile->current_x < indent_len)
 	    openfile->current_x = 0;
 	else
-	    openfile->current_x -= line_indent_len;
+	    openfile->current_x -= indent_len;
 	openfile->placewewant = xplustabs();
     }
 }
