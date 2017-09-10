@@ -92,9 +92,6 @@ void do_deletion(undo_type action)
     size_t old_amount = 0;
 #endif
 
-    assert(openfile->current != NULL && openfile->current->data != NULL &&
-		openfile->current_x <= strlen(openfile->current->data));
-
     openfile->placewewant = xplustabs();
 
     if (openfile->current->data[openfile->current_x] != '\0') {
@@ -103,8 +100,6 @@ void do_deletion(undo_type action)
 					openfile->current_x, NULL, NULL);
 	size_t line_len = strlen(openfile->current->data +
 					openfile->current_x);
-
-	assert(openfile->current_x < strlen(openfile->current->data));
 
 #ifndef NANO_TINY
 	update_undo(action);
@@ -132,8 +127,6 @@ void do_deletion(undo_type action)
 	/* We're at the end of a line and not at the end of the file: join
 	 * this line with the next. */
 	filestruct *joining = openfile->current->next;
-
-	assert(openfile->current_x == strlen(openfile->current->data));
 
 	/* If there is a magic line, and we're before it: don't eat it. */
 	if (joining == openfile->filebot && openfile->current_x != 0 &&
@@ -465,8 +458,6 @@ void do_comment(void)
     filestruct *top, *bot, *line;
     size_t top_x, bot_x;
     bool empty, all_empty = TRUE;
-
-    assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef DISABLE_COLOR
     if (openfile->syntax)
@@ -1357,7 +1348,6 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	return;
     }
 
-    assert(openfile->undotop != NULL);
     u = openfile->undotop;
 
     u->newsize = openfile->totsize;
@@ -1481,7 +1471,7 @@ void wrap_reset(void)
 /* Try wrapping the given line.  Return TRUE if wrapped, FALSE otherwise. */
 bool do_wrap(filestruct *line)
 {
-    size_t line_len;
+    size_t line_len = strlen(line->data);
 	/* The length of the line we wrap. */
     ssize_t wrap_loc;
 	/* The index of line->data where we wrap. */
@@ -1510,10 +1500,6 @@ bool do_wrap(filestruct *line)
      * of the line while trying to find one, we should return without
      * wrapping.  Note that if autoindent is turned on, we don't break
      * at the end of it! */
-    assert(line != NULL && line->data != NULL);
-
-    /* Save the length of the line. */
-    line_len = strlen(line->data);
 
     /* Find the last blank where we can break the line. */
     wrap_loc = break_line(line->data, fill, FALSE);
@@ -1550,8 +1536,6 @@ bool do_wrap(filestruct *line)
     /* after_break is the text that will be wrapped to the next line. */
     after_break = line->data + wrap_loc;
     after_break_len = line_len - wrap_loc;
-
-    assert(strlen(after_break) == after_break_len);
 
     /* We prepend the wrapped text to the next line, if the prepend_wrap
      * flag is set, there is a next line, and prepending would not make
@@ -1734,12 +1718,6 @@ void justify_format(filestruct *paragraph, size_t skip)
     size_t mark_shift = 0;
 #endif
 
-    /* These four asserts are assumptions about the input data. */
-    assert(paragraph != NULL);
-    assert(paragraph->data != NULL);
-    assert(skip < strlen(paragraph->data));
-    assert(!is_blank_mbchar(paragraph->data + skip));
-
     end = paragraph->data + skip;
     new_paragraph_data = charalloc(strlen(paragraph->data) + 1);
     strncpy(new_paragraph_data, paragraph->data, skip);
@@ -1840,8 +1818,6 @@ void justify_format(filestruct *paragraph, size_t skip)
 	}
     }
 
-    assert(*end == '\0');
-
     *new_end = *end;
 
     /* If there are spaces at the end of the line, remove them. */
@@ -1891,11 +1867,8 @@ size_t quote_length(const char *line)
 bool quotes_match(const char *a_line, size_t a_quote, const char
 	*b_line)
 {
-    /* Here is the assumption about a_quote. */
-    assert(a_quote == quote_length(a_line));
-
     return (a_quote == quote_length(b_line) &&
-	strncmp(a_line, b_line, a_quote) == 0);
+			strncmp(a_line, b_line, a_quote) == 0);
 }
 
 /* We assume a_line and b_line have no quote part.  Then, we return
@@ -1903,11 +1876,8 @@ bool quotes_match(const char *a_line, size_t a_quote, const char
 bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent)
 {
-    assert(a_indent == indent_length(a_line));
-    assert(b_indent == indent_length(b_line));
-
     return (b_indent <= a_indent &&
-	strncmp(a_line, b_line, b_indent) == 0);
+			strncmp(a_line, b_line, b_indent) == 0);
 }
 
 /* Is foo the beginning of a paragraph?
@@ -2008,12 +1978,6 @@ void backup_lines(filestruct *first_line, size_t par_len)
     }
 #endif
 
-    /* par_len will be one greater than the number of lines between
-     * current and filebot if filebot is the last line in the
-     * paragraph. */
-    assert(par_len > 0 && openfile->current->lineno + par_len <=
-				openfile->filebot->lineno + 1);
-
     /* Move bot down par_len lines to the line after the last line of
      * the paragraph, if there is one. */
     for (i = par_len; i > 0 && bot != openfile->filebot; i--)
@@ -2087,8 +2051,6 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	return FALSE;
     }
 
-    assert(openfile->current != NULL);
-
     /* If we're at the end of the last line of the file, it means that
      * there aren't any paragraphs left, so get out. */
     if (openfile->current == openfile->filebot && openfile->current_x ==
@@ -2139,8 +2101,6 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     openfile->current = current_save;
 
     /* Save the values of quote_len and par_len. */
-    assert(quote != NULL && par != NULL);
-
     *quote = quote_len;
     *par = par_len;
 
@@ -2358,8 +2318,6 @@ void do_justify(bool full_justify)
 	    /* Move forward to the character after the indentation and
 	     * just after the space. */
 	    break_pos += indent_len + 1;
-
-	    assert(break_pos <= line_len);
 
 	    /* If this paragraph is non-quoted, and autoindent isn't
 	     * turned on, set the indentation length to zero so that the
