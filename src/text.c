@@ -275,10 +275,10 @@ void do_tab(void)
 }
 
 #ifndef NANO_TINY
-/* Add an indent to the line in f. */
-void indent_a_line(filestruct *f, char *indentation)
+/* Add an indent to the given line. */
+void indent_a_line(filestruct *line, char *indentation)
 {
-    size_t length = strlen(f->data);
+    size_t length = strlen(line->data);
     size_t indent_len = strlen(indentation);
 
     /* If the indent is empty, don't change the line. */
@@ -286,16 +286,16 @@ void indent_a_line(filestruct *f, char *indentation)
 	return;
 
     /* Add the fabricated indentation to the beginning of the line. */
-    f->data = charealloc(f->data, length + indent_len + 1);
-    charmove(&f->data[indent_len], f->data, length + 1);
-    strncpy(f->data, indentation, indent_len);
+    line->data = charealloc(line->data, length + indent_len + 1);
+    charmove(line->data + indent_len, line->data, length + 1);
+    strncpy(line->data, indentation, indent_len);
 
     openfile->totsize += indent_len;
 
     /* Compensate for the change in the current line. */
-    if (openfile->mark_set && f == openfile->mark_begin)
+    if (openfile->mark_set && line == openfile->mark_begin)
         openfile->mark_begin_x += indent_len;
-    if (f == openfile->current) {
+    if (line == openfile->current) {
 	openfile->current_x += indent_len;
 	openfile->placewewant = xplustabs();
     }
@@ -308,7 +308,7 @@ void do_indent(void)
 {
     char *indentation = charalloc(tabsize + 1);
 	/* The whitespace added to each line in order to indent it. */
-    filestruct *top, *bot, *f;
+    filestruct *top, *bot, *line;
     size_t top_x, bot_x;
 
     /* Use either all the marked lines or just the current line. */
@@ -321,13 +321,13 @@ void do_indent(void)
     }
 
     /* Go through the lines to see if there's a non-empty one. */
-    for (f = top; f != bot->next; f = f->next) {
-	if (f->data[0] != '\0')
+    for (line = top; line != bot->next; line = line->next) {
+	if (line->data[0] != '\0')
 	    break;
     }
 
     /* If all lines are empty, there is nothing to do. */
-    if (f == bot->next) {
+    if (line == bot->next) {
 	free(indentation);
 	return;
     }
@@ -342,10 +342,10 @@ void do_indent(void)
     }
 
     /* Go through each of the lines, but skip empty ones. */
-    for (f = top; f != bot->next; f = f->next) {
-	char *real_indent = (f->data[0] == '\0') ? "" : indentation;
+    for (line = top; line != bot->next; line = line->next) {
+	char *real_indent = (line->data[0] == '\0') ? "" : indentation;
 
-	indent_a_line(f, real_indent);
+	indent_a_line(line, real_indent);
     }
 
     free(indentation);
@@ -379,29 +379,28 @@ size_t length_of_white(const char *text)
     }
 }
 
-/* Remove an indent from the line in f. */
-void unindent_a_line(filestruct *f, size_t indent_len)
+/* Remove an indent from the given line. */
+void unindent_a_line(filestruct *line, size_t indent_len)
 {
-    size_t length = strlen(f->data);
+    size_t length = strlen(line->data);
 
     /* If the indent is empty, don't change the line. */
     if (indent_len == 0)
 	return;
 
     /* Remove the first tab's worth of whitespace from this line. */
-    charmove(f->data, &f->data[indent_len], length - indent_len + 1);
-    null_at(&f->data, length - indent_len + 1);
+    charmove(line->data, line->data + indent_len, length - indent_len + 1);
 
     openfile->totsize -= indent_len;
 
     /* Compensate for the change in the current line. */
-    if (openfile->mark_set && f == openfile->mark_begin) {
+    if (openfile->mark_set && line == openfile->mark_begin) {
 	if (openfile->mark_begin_x < indent_len)
 	    openfile->mark_begin_x = 0;
 	else
 	    openfile->mark_begin_x -= indent_len;
     }
-    if (f == openfile->current) {
+    if (line == openfile->current) {
 	if (openfile->current_x < indent_len)
 	    openfile->current_x = 0;
 	else
@@ -414,7 +413,7 @@ void unindent_a_line(filestruct *f, size_t indent_len)
  * The removed indent can be a mixture of spaces plus at most one tab. */
 void do_unindent(void)
 {
-    filestruct *top, *bot, *f;
+    filestruct *top, *bot, *line;
     size_t top_x, bot_x;
 
     /* Use either all the marked lines or just the current line. */
@@ -428,16 +427,16 @@ void do_unindent(void)
 
     /* If any of the lines cannot be unindented and does not consist of
      * only whitespace, we don't change anything. */
-    for (f = top; f != bot->next; f = f->next) {
-	if (length_of_white(f->data) == 0 && !white_string(f->data)) {
+    for (line = top; line != bot->next; line = line->next) {
+	if (length_of_white(line->data) == 0 && !white_string(line->data)) {
 	    statusline(HUSH, _("Can unindent only by a full tab size"));
 	    return;
 	}
     }
 
     /* Go through each of the lines and remove their leading indent. */
-    for (f = top; f != bot->next; f = f->next)
-	unindent_a_line(f, length_of_white(f->data));
+    for (line = top; line != bot->next; line = line->next)
+	unindent_a_line(line, length_of_white(line->data));
 
     /* Throw away the undo stack, to prevent making mistakes when
      * the user tries to undo something in the unindented text. */
@@ -463,7 +462,7 @@ void do_comment(void)
 {
     const char *comment_seq = GENERAL_COMMENT_CHARACTER;
     undo_type action = UNCOMMENT;
-    filestruct *top, *bot, *f;
+    filestruct *top, *bot, *line;
     size_t top_x, bot_x;
     bool empty, all_empty = TRUE;
 
@@ -495,11 +494,11 @@ void do_comment(void)
     }
 
     /* Figure out whether to comment or uncomment the selected line or lines. */
-    for (f = top; f != bot->next; f = f->next) {
-	empty = white_string(f->data);
+    for (line = top; line != bot->next; line = line->next) {
+	empty = white_string(line->data);
 
 	/* If this line is not blank and not commented, we comment all. */
-	if (!empty && !comment_line(PREFLIGHT, f, comment_seq)) {
+	if (!empty && !comment_line(PREFLIGHT, line, comment_seq)) {
 	    action = COMMENT;
 	    break;
 	}
@@ -516,10 +515,10 @@ void do_comment(void)
     openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
 
     /* Process the selected line or lines. */
-    for (f = top; f != bot->next; f = f->next) {
+    for (line = top; line != bot->next; line = line->next) {
 	/* Comment/uncomment a line, and add undo data when line changed. */
-	if (comment_line(action, f, comment_seq))
-	    update_comment_undo(f->lineno);
+	if (comment_line(action, line, comment_seq))
+	    update_comment_undo(line->lineno);
     }
 
     set_modified();
@@ -529,7 +528,7 @@ void do_comment(void)
 /* Test whether the given line can be uncommented, or add or remove a comment,
  * depending on action.  Return TRUE if the line is uncommentable, or when
  * anything was added or removed; FALSE otherwise. */
-bool comment_line(undo_type action, filestruct *f, const char *comment_seq)
+bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 {
     size_t comment_seq_len = strlen(comment_seq);
     const char *post_seq = strchr(comment_seq, '|');
@@ -538,27 +537,27 @@ bool comment_line(undo_type action, filestruct *f, const char *comment_seq)
 	/* Length of prefix. */
     size_t post_len = post_seq ? comment_seq_len - pre_len - 1 : 0;
 	/* Length of postfix. */
-    size_t line_len = strlen(f->data);
+    size_t line_len = strlen(line->data);
 
-    if (!ISSET(NO_NEWLINES) && f == openfile->filebot)
+    if (!ISSET(NO_NEWLINES) && line == openfile->filebot)
 	return FALSE;
 
     if (action == COMMENT) {
 	/* Make room for the comment sequence(s), move the text right and
 	 * copy them in. */
-	f->data = charealloc(f->data, line_len + pre_len + post_len + 1);
-	charmove(&f->data[pre_len], f->data, line_len);
-	charmove(f->data, comment_seq, pre_len);
+	line->data = charealloc(line->data, line_len + pre_len + post_len + 1);
+	charmove(line->data + pre_len, line->data, line_len);
+	charmove(line->data, comment_seq, pre_len);
 	if (post_len)
-	    charmove(&f->data[pre_len + line_len], post_seq, post_len);
-	f->data[pre_len + line_len + post_len] = '\0';
+	    charmove(line->data + pre_len + line_len, post_seq, post_len);
+	line->data[pre_len + line_len + post_len] = '\0';
 
 	openfile->totsize += pre_len + post_len;
 
 	/* If needed, adjust the position of the mark and of the cursor. */
-	if (openfile->mark_set && f == openfile->mark_begin)
+	if (openfile->mark_set && line == openfile->mark_begin)
 	    openfile->mark_begin_x += pre_len;
-	if (f == openfile->current) {
+	if (line == openfile->current) {
 	    openfile->current_x += pre_len;
 	    openfile->placewewant = xplustabs();
 	}
@@ -567,27 +566,27 @@ bool comment_line(undo_type action, filestruct *f, const char *comment_seq)
     }
 
     /* If the line is commented, report it as uncommentable, or uncomment it. */
-    if (strncmp(f->data, comment_seq, pre_len) == 0 && (post_len == 0 ||
-		strcmp(&f->data[line_len - post_len], post_seq) == 0)) {
+    if (strncmp(line->data, comment_seq, pre_len) == 0 && (post_len == 0 ||
+		strcmp(line->data + line_len - post_len, post_seq) == 0)) {
 
 	if (action == PREFLIGHT)
 	    return TRUE;
 
 	/* Erase the comment prefix by moving the non-comment part. */
-	charmove(f->data, &f->data[pre_len], line_len - pre_len);
+	charmove(line->data, line->data + pre_len, line_len - pre_len);
 	/* Truncate the postfix if there was one. */
-	f->data[line_len - pre_len - post_len] = '\0';
+	line->data[line_len - pre_len - post_len] = '\0';
 
 	openfile->totsize -= pre_len + post_len;
 
 	/* If needed, adjust the position of the mark and then the cursor. */
-	if (openfile->mark_set && f == openfile->mark_begin) {
+	if (openfile->mark_set && line == openfile->mark_begin) {
 	    if (openfile->mark_begin_x < pre_len)
 		openfile->mark_begin_x = 0;
 	    else
 		openfile->mark_begin_x -= pre_len;
 	}
-	if (f == openfile->current) {
+	if (line == openfile->current) {
 	    if (openfile->current_x < pre_len)
 		openfile->current_x = 0;
 	    else
