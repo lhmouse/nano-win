@@ -2006,7 +2006,7 @@ void titlebar(const char *path)
     const char *branding = BRANDING;
 	/* What is shown in the top left corner. */
     const char *prefix = "";
-	/* What is shown before the path -- "File:", "DIR:", or "". */
+	/* What is shown before the path -- "DIR:" or nothing. */
     const char *state = "";
 	/* The state of the current buffer -- "Modified", "View", or "". */
     char *caption;
@@ -2047,10 +2047,8 @@ void titlebar(const char *path)
     else {
 	if (openfile->filename[0] == '\0')
 	    path = _("New Buffer");
-	else {
+	else
 	    path = openfile->filename;
-	    prefix = _("File:");
-	}
 
 	if (openfile->modified)
 	    state = _("Modified");
