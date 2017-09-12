@@ -2030,7 +2030,7 @@ void titlebar(const char *path)
      * then sacrifice the prefix, and only then start dottifying. */
 
     /* When multiple buffers are open, show which one out of how many. */
-    if (path == NULL && firstfile != firstfile->next) {
+    if (path == NULL && more_than_one) {
 	indicator = charalloc(24);
 	sprintf(indicator, "[%i/%i]", buffer_number(openfile),
 					buffer_number(firstfile->prev));

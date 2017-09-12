@@ -70,6 +70,9 @@ bool inhelp = FALSE;
 char *title = NULL;
 	/* When not NULL: the title of the current help text. */
 
+bool more_than_one = FALSE;
+	/* Whether more than one buffer is or has been open. */
+
 int didfind = 0;
 	/* Whether the last search found something. */
 
