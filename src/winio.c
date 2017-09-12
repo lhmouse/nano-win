@@ -2018,8 +2018,6 @@ void titlebar(const char *path)
     if (topwin == NULL)
 	return;
 
-    assert(path != NULL || openfile->filename != NULL);
-
     wattron(topwin, interface_color_pair[TITLE_BAR]);
 
     blank_titlebar();
@@ -2292,8 +2290,6 @@ void bottombars(int menu)
  * the whole string!  We do not bother padding the entry with blanks. */
 void onekey(const char *keystroke, const char *desc, int length)
 {
-    assert(keystroke != NULL && desc != NULL);
-
     wattron(bottomwin, interface_color_pair[KEY_COMBO]);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, length));
     wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
@@ -2364,9 +2360,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	 * completely off the window to the right.  Note that till_x
 	 * might be beyond the null terminator of the string. */
 #endif
-
-    assert(openfile != NULL && fileptr != NULL && converted != NULL);
-    assert(strlenpt(converted) <= editwincols);
 
 #ifdef ENABLE_LINENUMBERS
     /* If line numbering is switched on, put a line number in front of
