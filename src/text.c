@@ -461,18 +461,16 @@ void handle_indent_action(undo *u, bool undoing, bool add_indent)
 
 	/* For each line in the group, add or remove the individual indent. */
 	while (line && line->lineno <= group->bottom_line) {
-	    char *indentation = mallocstrcpy(NULL,
-			group->indentations[line->lineno - group->top_line]);
+	    char *blanks = group->indentations[line->lineno - group->top_line];
 
 	    if (undoing ^ add_indent)
-		indent_a_line(line, indentation);
+		indent_a_line(line, blanks);
 	    else
-		unindent_a_line(line, strlen(indentation));
-
-	    free(indentation);
+		unindent_a_line(line, strlen(blanks));
 
 	    line = line->next;
 	}
+
 	group = group->next;
     }
 
@@ -652,6 +650,7 @@ void handle_comment_action(undo *u, bool undoing, bool add_comment)
 				COMMENT : UNCOMMENT, f, u->strdata);
 	    f = f->next;
 	}
+
 	group = group->next;
     }
 
