@@ -2041,8 +2041,10 @@ void titlebar(const char *path)
     if (inhelp)
 	branding = "";
 #ifdef ENABLE_BROWSER
-    else if (path != NULL)
+    else if (path != NULL) {
+	branding = "";
 	prefix = _("DIR:");
+    }
 #endif
     else {
 	if (openfile->filename[0] == '\0')
