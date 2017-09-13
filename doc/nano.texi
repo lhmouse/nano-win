@@ -556,9 +556,9 @@ is running.
 @node Limitation
 @section Limitation
 
-Justifications (@kbd{^J}) and reindentations (@kbd{M-@{} and @kbd{M-@}})
+Justifications (@kbd{^J})
 are not yet covered by the general undo system.  So after a justification
-that is not immediately undone, or after any reindentation, earlier edits
+that is not immediately undone, earlier edits
 cannot be undone any more.  The workaround is, of course, to exit without
 saving.
 
