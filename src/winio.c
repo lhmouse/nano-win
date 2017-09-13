@@ -2003,7 +2003,7 @@ void titlebar(const char *path)
 	/* The width that "Modified" would take up. */
     size_t offset = 0;
 	/* The position at which the center part of the titlebar starts. */
-    const char *branding = BRANDING;
+    const char *upperleft = "";
 	/* What is shown in the top left corner. */
     const char *prefix = "";
 	/* What is shown before the path -- "DIR:" or nothing. */
@@ -2029,24 +2029,22 @@ void titlebar(const char *path)
      * first sacrifice the version string, then eat up the side spaces,
      * then sacrifice the prefix, and only then start dottifying. */
 
-    /* When multiple buffers are open, show which one out of how many. */
-    if (path == NULL && more_than_one) {
-	indicator = charalloc(24);
-	sprintf(indicator, "[%i/%i]", buffer_number(openfile),
-					buffer_number(firstfile->prev));
-	branding = indicator;
-    }
-
     /* Figure out the path, prefix and state strings. */
-    if (inhelp)
-	branding = "";
 #ifdef ENABLE_BROWSER
-    else if (path != NULL) {
-	branding = "";
+    if (!inhelp && path != NULL)
 	prefix = _("DIR:");
-    }
+    else
 #endif
-    else {
+    if (!inhelp) {
+	/* If there are/were multiple buffers, show which out of how many. */
+	if (more_than_one) {
+	    indicator = charalloc(24);
+	    sprintf(indicator, "[%i/%i]", buffer_number(openfile),
+					buffer_number(firstfile->prev));
+	    upperleft = indicator;
+	} else
+	    upperleft = BRANDING;
+
 	if (openfile->filename[0] == '\0')
 	    path = _("New Buffer");
 	else
@@ -2061,7 +2059,7 @@ void titlebar(const char *path)
     }
 
     /* Determine the widths of the four elements, including their padding. */
-    verlen = strlenpt(branding) + 3;
+    verlen = strlenpt(upperleft) + 3;
     prefixlen = strlenpt(prefix);
     if (prefixlen > 0)
 	prefixlen++;
@@ -2074,7 +2072,7 @@ void titlebar(const char *path)
 
     /* Only print the version message when there is room for it. */
     if (verlen + prefixlen + pathlen + pluglen + statelen <= COLS)
-	mvwaddstr(topwin, 0, 2, branding);
+	mvwaddstr(topwin, 0, 2, upperleft);
     else {
 	verlen = 2;
 	/* If things don't fit yet, give up the placeholder. */
