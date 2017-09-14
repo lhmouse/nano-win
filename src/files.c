@@ -2828,8 +2828,11 @@ void load_history(void)
 		/* Encode any embedded NUL as 0x0A. */
 		unsunder(line, read);
 		update_history(history, line);
-	    } else
+	    } else if (history == &search_history)
 		history = &replace_history;
+	   else
+		history = &execute_history;
+
 	}
 
 	fclose(hist);
@@ -2871,7 +2874,7 @@ void save_history(void)
 
     /* If the histories are unchanged or empty, don't bother saving them. */
     if (!history_has_changed() || (searchbot->lineno == 1 &&
-				replacebot->lineno == 1))
+		replacebot->lineno == 1 && executebot->lineno == 1))
 	return;
 
     searchhist = histfilename();
@@ -2888,7 +2891,8 @@ void save_history(void)
 	/* Don't allow others to read or write the history file. */
 	chmod(searchhist, S_IRUSR | S_IWUSR);
 
-	if (!writehist(hist, searchage) || !writehist(hist, replaceage))
+	if (!writehist(hist, searchage) || !writehist(hist, replaceage) ||
+				!writehist(hist, executetop))
 	    fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
 			strerror(errno));
 
