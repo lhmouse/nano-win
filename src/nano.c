@@ -1769,10 +1769,6 @@ int do_mouse(void)
 #endif
 	    leftedge = get_page_start(xplustabs());
 
-#ifdef DEBUG
-	fprintf(stderr, "mouse_row = %d, current_y = %ld\n", mouse_row, (long)openfile->current_y);
-#endif
-
 	/* Move current up or down to the row corresponding to mouse_row. */
 	if (row_count < 0)
 	    go_back_chunks(-row_count, &openfile->current, &leftedge);

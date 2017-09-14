@@ -1440,11 +1440,6 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
 	statusline(HUSH, _("Unicode Input: %s"), partial);
     }
 
-#ifdef DEBUG
-    fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %ld, retval = %ld\n",
-						kbinput, uni_digits, uni, retval);
-#endif
-
     /* If we have an end result, reset the Unicode digit counter. */
     if (retval != ERR)
 	uni_digits = 0;

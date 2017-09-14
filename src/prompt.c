@@ -470,10 +470,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
     if (statusbar_x > strlen(answer))
 	statusbar_x = strlen(answer);
 
-#ifdef DEBUG
-    fprintf(stderr, "acquiring: answer = \"%s\", statusbar_x = %lu\n", answer, (unsigned long) statusbar_x);
-#endif
-
     update_the_statusbar();
 
     while (TRUE) {
@@ -667,10 +663,6 @@ int do_prompt(bool allow_tabs, bool allow_files,
 
     blank_statusbar();
     wnoutrefresh(bottomwin);
-
-#ifdef DEBUG
-    fprintf(stderr, "answer = \"%s\"\n", answer);
-#endif
 
 #ifdef ENABLE_TABCOMP
     /* If we've done tab completion, there might still be a list of

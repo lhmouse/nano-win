@@ -1350,10 +1350,6 @@ void add_undo(undo_type action)
 	break;
     }
 
-#ifdef DEBUG
-    fprintf(stderr, "  >> openfile->current->data = \"%s\", current_x = %lu, u->begin = %lu, type = %d\n",
-		openfile->current->data, (unsigned long)openfile->current_x, (unsigned long)u->begin, action);
-#endif
     openfile->last_action = action;
 }
 

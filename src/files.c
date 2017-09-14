@@ -264,10 +264,6 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	goto free_the_data;
     }
 
-#ifdef DEBUG
-    fprintf(stderr, "In write_lockfile(), write successful (wrote %lu bytes)\n", (unsigned long)wroteamt);
-#endif
-
     if (fclose(filestream) == EOF) {
 	statusline(MILD, _("Error writing lock file %s: %s"),
 			lockfilename, strerror(errno));
@@ -314,10 +310,7 @@ int do_lockfile(const char *filename)
 
     snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
 		locking_prefix, basename(secondcopy), locking_suffix);
-    free(secondcopy);
-#ifdef DEBUG
-    fprintf(stderr, "lock file name is %s\n", lockfilename);
-#endif
+
     if (stat(lockfilename, &fileinfo) != -1) {
 	size_t readtot = 0;
 	size_t readamt = 0;
@@ -354,11 +347,6 @@ int do_lockfile(const char *filename)
 	pidstring = charalloc(11);
 	sprintf (pidstring, "%u", (unsigned int)lockpid);
 
-#ifdef DEBUG
-	fprintf(stderr, "lockpid = %d\n", lockpid);
-	fprintf(stderr, "program name which created this lock file should be %s\n", lockprog);
-	fprintf(stderr, "user which created this lock file should be %s\n", lockuser);
-#endif
 	/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
 	question = _("File %s is being edited (by %s with %s, PID %s); continue?");
 	room = COLS - strlenpt(question) + 7 - strlenpt(lockuser) -
@@ -395,6 +383,7 @@ int do_lockfile(const char *filename)
 
   free_the_name:
     free(namecopy);
+    free(secondcopy);
     if (retval < 1)
 	free(lockfilename);
 
@@ -609,10 +598,6 @@ void switch_to_adjacent_buffer(bool to_next)
 
     /* Switch to the next or previous file buffer. */
     openfile = to_next ? openfile->next : openfile->prev;
-
-#ifdef DEBUG
-    fprintf(stderr, "filename is %s\n", openfile->filename);
-#endif
 
 #ifndef NANO_TINY
     /* When not in softwrap mode, make sure firstcolumn is zero.  It might
@@ -2151,10 +2136,6 @@ int do_writeout(bool exiting)
 		continue;
 	    }
 
-#ifdef DEBUG
-	    fprintf(stderr, "filename is %s\n", answer);
-#endif
-
 #ifndef DISABLE_EXTRA
 	    /* If the current file has been modified, we've pressed
 	     * Ctrl-X at the edit window to exit, we've pressed "y" at
@@ -2494,9 +2475,6 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
     while ((nextdir = readdir(dir)) != NULL) {
 	bool skip_match = FALSE;
 
-#ifdef DEBUG
-	fprintf(stderr, "Comparing \'%s\'\n", nextdir->d_name);
-#endif
 	/* See if this matches. */
 	if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
 		(*filename == '.' || (strcmp(nextdir->d_name, ".") != 0 &&

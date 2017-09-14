@@ -448,14 +448,6 @@ void parse_binding(char *ptr, bool dobind)
 	goto free_things;
     }
 
-#ifdef DEBUG
-    if (dobind)
-	fprintf(stderr, "newsc address is now %ld, assigned func = %ld, menu = %x\n",
-	    (long)&newsc, (long)newsc->scfunc, menu);
-    else
-	fprintf(stderr, "unbinding \"%s\" from menu %x\n", keycopy, menu);
-#endif
-
     if (dobind) {
 	subnfunc *f;
 	int mask = 0;
@@ -490,20 +482,12 @@ void parse_binding(char *ptr, bool dobind)
 	    rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
 	    goto free_things;
 	}
-#ifdef DEBUG
-	fprintf(stderr, "s->keystr = \"%s\"\n", newsc->keystr);
-	fprintf(stderr, "s->keycode = \"%d\"\n", newsc->keycode);
-#endif
     }
 
     /* Now find and delete any existing same shortcut in the menu(s). */
     for (s = sclist; s != NULL; s = s->next) {
-	if ((s->menus & menu) && !strcmp(s->keystr, keycopy)) {
-#ifdef DEBUG
-	    fprintf(stderr, "deleting entry from among menus %x\n", s->menus);
-#endif
+	if ((s->menus & menu) && !strcmp(s->keystr, keycopy))
 	    s->menus &= ~menu;
-	}
     }
 
     if (dobind) {
@@ -1225,7 +1209,6 @@ void parse_one_nanorc(void)
 #ifdef DEBUG
     fprintf(stderr, "Going to parse file \"%s\"\n", nanorc);
 #endif
-
     rcstream = fopen(nanorc, "rb");
 
     /* If opening the file succeeded, parse it.  Otherwise, only
