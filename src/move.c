@@ -420,7 +420,7 @@ void do_home(void)
 	openfile->current_x = 0;
 
     if (moved_off_chunk)
-	openfile->placewewant = 0;
+	openfile->placewewant = xplustabs();
 
     /* If we changed chunk, we might be offscreen.  Otherwise,
      * update current if the mark is on or we changed "page". */
