@@ -322,15 +322,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	bool *lastwastab, void (*refresh_func)(void), bool *listed);
 #endif
 const char *tail(const char *path);
-#ifndef DISABLE_HISTORIES
-void load_history(void);
-void save_history(void);
-int check_dotnano(void);
-void load_poshistory(void);
-void save_poshistory(void);
-void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
-bool has_old_position(const char *file, ssize_t *line, ssize_t *column);
-#endif
 
 /* Some functions in global.c. */
 size_t length_of_list(int menu);
@@ -362,6 +353,27 @@ functionptrtype parse_help_input(int *kbinput);
 size_t help_line_len(const char *ptr);
 #endif
 void do_help_void(void);
+
+/* Most functions in history.c. */
+#ifndef DISABLE_HISTORIES
+void history_init(void);
+void history_reset(const filestruct *h);
+void update_history(filestruct **h, const char *s);
+char *get_history_older(filestruct **h);
+char *get_history_newer(filestruct **h);
+void get_history_older_void(void);
+void get_history_newer_void(void);
+#ifdef ENABLE_TABCOMP
+char *get_history_completion(filestruct **h, char *s, size_t len);
+#endif
+int check_dotnano(void);
+void load_history(void);
+void save_history(void);
+void load_poshistory(void);
+void save_poshistory(void);
+void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos);
+bool has_old_position(const char *file, ssize_t *line, ssize_t *column);
+#endif
 
 /* Most functions in move.c. */
 void do_first_line(void);
@@ -505,19 +517,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 void do_gotolinecolumn_void(void);
 #ifndef NANO_TINY
 void do_find_bracket(void);
-#ifdef ENABLE_TABCOMP
-char *get_history_completion(filestruct **h, char *s, size_t len);
-#endif
-#endif
-#ifndef DISABLE_HISTORIES
-bool history_has_changed(void);
-void history_init(void);
-void history_reset(const filestruct *h);
-void update_history(filestruct **h, const char *s);
-char *get_history_older(filestruct **h);
-char *get_history_newer(filestruct **h);
-void get_history_older_void(void);
-void get_history_newer_void(void);
 #endif
 
 /* Most functions in text.c. */
