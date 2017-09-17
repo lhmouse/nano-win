@@ -374,6 +374,20 @@ void do_search(void)
 	go_looking();
 }
 
+/* Search forward for a string. */
+void do_search_forward(void)
+{
+    UNSET(BACKWARDS_SEARCH);
+    do_search();
+}
+
+/* Search backwards for a string. */
+void do_search_backward(void)
+{
+    SET(BACKWARDS_SEARCH);
+    do_search();
+}
+
 #ifndef NANO_TINY
 /* Search in the backward direction for the next occurrence. */
 void do_findprevious(void)

@@ -502,6 +502,8 @@ void search_replace_abort(void);
 int findnextstr(const char *needle, bool whole_word_only, bool have_region,
 	size_t *match_len, bool skipone, const filestruct *begin, size_t begin_x);
 void do_search(void);
+void do_search_forward(void);
+void do_search_backward(void);
 #ifndef NANO_TINY
 void do_findprevious(void);
 void do_findnext(void);

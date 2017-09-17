@@ -534,6 +534,8 @@ void shortcut_init(void)
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
 	N_("Search for a string or a regular expression");
+    const char *nano_wherewas_msg =
+	N_("Search backward for a string or expression");
 #ifdef ENABLE_BROWSER
     const char *nano_browser_whereis_msg = N_("Search for a string");
     const char *nano_browser_refresh_msg = N_("Refresh the file list");
@@ -974,6 +976,9 @@ void shortcut_init(void)
 	N_("Comment Lines"), IFSCHELP(nano_comment_msg), BLANKAFTER, NOVIEW);
 #endif
 #ifndef NANO_TINY
+    add_to_funcs(do_search_backward, MMAIN,
+	N_("Where Was"), IFSCHELP(N_(nano_wherewas_msg)), BLANKAFTER, VIEW);
+
     add_to_funcs(do_savefile, MMAIN,
 	N_("Save"), IFSCHELP(nano_savefile_msg), BLANKAFTER, NOVIEW);
 #endif
@@ -1462,7 +1467,9 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "insert"))
 	s->scfunc = do_insertfile_void;
     else if (!strcasecmp(input, "whereis"))
-	s->scfunc = do_search;
+	s->scfunc = do_search_forward;
+    else if (!strcasecmp(input, "wherewas"))
+	s->scfunc = do_search_backward;
     else if (!strcasecmp(input, "searchagain") ||
 	     !strcasecmp(input, "research"))  /* Deprecated.  Remove in 2018. */
 	s->scfunc = do_research;

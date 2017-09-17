@@ -1087,8 +1087,11 @@ Inserts a file into the current buffer (at the current cursor position),
 or into a new buffer when option @code{multibuffer} is set.
 
 @item whereis
-Searches for text in the current buffer --- or for filenames matching
-a string in the current list in the file browser
+Starts a forward search for text in the current buffer --- or for filenames
+matching a string in the current list in the file browser.
+
+@item wherewas
+Starts a backward search for text in the current buffer.
 
 @item searchagain
 Repeats the last search command without prompting.

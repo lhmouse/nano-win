@@ -443,8 +443,11 @@ Inserts a file into the current buffer (at the current cursor position),
 or into a new buffer when option \fBmultibuffer\fR is set.
 .TP
 .B whereis
-Searches for text in the current buffer -- or for filenames matching
-a string in the current list in the file browser.
+Starts a forward search for text in the current buffer -- or for filenames
+matching a string in the current list in the file browser.
+.TP
+.B wherewas
+Starts a backward search for text in the current buffer.
 .TP
 .B searchagain
 Repeats the last search command without prompting.
