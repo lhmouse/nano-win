@@ -401,9 +401,8 @@ void save_history(void)
     char *searchhist;
     FILE *hist;
 
-    /* If the histories are unchanged or empty, don't bother saving them. */
-    if (!history_changed || (searchbot->lineno == 1 &&
-		replacebot->lineno == 1 && executebot->lineno == 1))
+    /* If the histories are unchanged, don't bother saving them. */
+    if (!history_changed)
 	return;
 
     searchhist = histfilename();
