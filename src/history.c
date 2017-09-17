@@ -294,35 +294,35 @@ int check_dotnano(void)
 /* Load the search and replace histories from ~/.nano/search_history. */
 void load_history(void)
 {
-    char *searchhist = histfilename();
+    char *histname = histfilename();
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
-    FILE *hist;
+    FILE *histfile;
 
     /* If no home directory was found, we can't do anything. */
-    if (searchhist == NULL || legacyhist == NULL)
+    if (histname == NULL || legacyhist == NULL)
 	return;
 
     /* If there is an old history file, migrate it. */
     /* (To be removed in 2018.) */
-    if (stat(legacyhist, &hstat) != -1 && stat(searchhist, &hstat) == -1) {
-	if (rename(legacyhist, searchhist) == -1)
+    if (stat(legacyhist, &hstat) != -1 && stat(histname, &hstat) == -1) {
+	if (rename(legacyhist, histname) == -1)
 	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\n"
 			     "to the preferred location (%s) but encountered an error: %s"),
-				legacyhist, searchhist, strerror(errno));
+				legacyhist, histname, strerror(errno));
 	else
 	    history_error(N_("Detected a legacy nano history file (%s) which I moved\n"
 			     "to the preferred location (%s)\n(see the nano FAQ about this change)"),
-				legacyhist, searchhist);
+				legacyhist, histname);
     }
 
-    hist = fopen(searchhist, "rb");
+    histfile = fopen(histname, "rb");
 
-    if (hist == NULL) {
+    if (histfile == NULL) {
 	if (errno != ENOENT) {
 	    /* When reading failed, don't save history when we quit. */
 	    UNSET(HISTORYLOG);
-	    history_error(N_("Error reading %s: %s"), searchhist,
+	    history_error(N_("Error reading %s: %s"), histname,
 			strerror(errno));
 	}
     } else {
@@ -334,7 +334,7 @@ void load_history(void)
 	size_t buf_len = 0;
 	ssize_t read;
 
-	while ((read = getline(&line, &buf_len, hist)) > 0) {
+	while ((read = getline(&line, &buf_len, histfile)) > 0) {
 	    line[--read] = '\0';
 	    if (read > 0) {
 		/* Encode any embedded NUL as 0x0A. */
@@ -347,14 +347,14 @@ void load_history(void)
 
 	}
 
-	fclose(hist);
+	fclose(histfile);
 	free(line);
     }
 
     /* After reading them in, set the status of the lists to "unchanged". */
     history_changed = FALSE;
 
-    free(searchhist);
+    free(histname);
     free(legacyhist);
 }
 
@@ -382,51 +382,51 @@ bool write_list(const filestruct *head, FILE *histfile)
 /* Save the search and replace histories to ~/.nano/search_history. */
 void save_history(void)
 {
-    char *searchhist;
-    FILE *hist;
+    char *histname;
+    FILE *histfile;
 
     /* If the histories are unchanged, don't bother saving them. */
     if (!history_changed)
 	return;
 
-    searchhist = histfilename();
+    histname = histfilename();
 
-    if (searchhist == NULL)
+    if (histname == NULL)
 	return;
 
-    hist = fopen(searchhist, "wb");
+    histfile = fopen(histname, "wb");
 
-    if (hist == NULL)
-	fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
+    if (histfile == NULL)
+	fprintf(stderr, _("Error writing %s: %s\n"), histname,
 			strerror(errno));
     else {
 	/* Don't allow others to read or write the history file. */
-	chmod(searchhist, S_IRUSR | S_IWUSR);
+	chmod(histname, S_IRUSR | S_IWUSR);
 
-	if (!write_list(searchtop, hist) || !write_list(replacetop, hist) ||
-				!write_list(executetop, hist))
-	    fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
+	if (!write_list(searchtop, histfile) || !write_list(replacetop, histfile) ||
+				!write_list(executetop, histfile))
+	    fprintf(stderr, _("Error writing %s: %s\n"), histname,
 			strerror(errno));
 
-	fclose(hist);
+	fclose(histfile);
     }
 
-    free(searchhist);
+    free(histname);
 }
 
 /* Load the recorded file positions from ~/.nano/filepos_history. */
 void load_poshistory(void)
 {
     char *poshist = poshistfilename();
-    FILE *hist;
+    FILE *histfile;
 
     /* If the home directory is missing, do_rcfile() will have reported it. */
     if (poshist == NULL)
 	return;
 
-    hist = fopen(poshist, "rb");
+    histfile = fopen(poshist, "rb");
 
-    if (hist == NULL) {
+    if (histfile == NULL) {
 	if (errno != ENOENT) {
 	    /* When reading failed, don't save history when we quit. */
 	    UNSET(POS_HISTORY);
@@ -439,7 +439,7 @@ void load_poshistory(void)
 	poshiststruct *record_ptr = NULL, *newrecord;
 
 	/* Read and parse each line, and store the extracted data. */
-	while ((read = getline(&line, &buf_len, hist)) > 5) {
+	while ((read = getline(&line, &buf_len, histfile)) > 5) {
 	    /* Decode nulls as embedded newlines. */
 	    unsunder(line, read);
 
@@ -480,7 +480,7 @@ void load_poshistory(void)
 		free(drop_record);
 	    }
 	}
-	fclose(hist);
+	fclose(histfile);
 	free(line);
     }
     free(poshist);
@@ -491,14 +491,14 @@ void save_poshistory(void)
 {
     char *poshist = poshistfilename();
     poshiststruct *posptr;
-    FILE *hist;
+    FILE *histfile;
 
     if (poshist == NULL)
 	return;
 
-    hist = fopen(poshist, "wb");
+    histfile = fopen(poshist, "wb");
 
-    if (hist == NULL)
+    if (histfile == NULL)
 	fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
     else {
 	/* Don't allow others to read or write the history file. */
@@ -520,12 +520,12 @@ void save_poshistory(void)
 	    /* Restore the terminating newline. */
 	    path_and_place[length - 1] = '\n';
 
-	    if (fwrite(path_and_place, sizeof(char), length, hist) < length)
+	    if (fwrite(path_and_place, sizeof(char), length, histfile) < length)
 		fprintf(stderr, _("Error writing %s: %s\n"),
 					poshist, strerror(errno));
 	    free(path_and_place);
 	}
-	fclose(hist);
+	fclose(histfile);
     }
     free(poshist);
 }
