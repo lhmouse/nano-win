@@ -365,6 +365,9 @@ void load_history(void)
 	free(line);
     }
 
+    /* After reading them in, set the status of the lists to "unchanged". */
+    history_changed = FALSE;
+
     free(searchhist);
     free(legacyhist);
 }
