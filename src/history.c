@@ -358,23 +358,21 @@ void load_history(void)
     free(legacyhist);
 }
 
-/* Write the lines of a history list, starting with the line at head, to
- * the open file at hist.  Return TRUE if the write succeeded, and FALSE
- * otherwise. */
-bool writehist(FILE *hist, const filestruct *head)
+/* Write the lines of a history list, starting at head, from oldest to newest,
+ * to the given file.  Return TRUE if writing succeeded, and FALSE otherwise. */
+bool write_list(const filestruct *head, FILE *histfile)
 {
     const filestruct *item;
 
-    /* Write a history list, from the oldest item to the newest. */
     for (item = head; item != NULL; item = item->next) {
 	size_t length = strlen(item->data);
 
 	/* Decode 0x0A bytes as embedded NULs. */
 	sunder(item->data);
 
-	if (fwrite(item->data, sizeof(char), length, hist) < length)
+	if (fwrite(item->data, sizeof(char), length, histfile) < length)
 	    return FALSE;
-	if (putc('\n', hist) == EOF)
+	if (putc('\n', histfile) == EOF)
 	    return FALSE;
     }
 
@@ -405,8 +403,8 @@ void save_history(void)
 	/* Don't allow others to read or write the history file. */
 	chmod(searchhist, S_IRUSR | S_IWUSR);
 
-	if (!writehist(hist, searchtop) || !writehist(hist, replacetop) ||
-				!writehist(hist, executetop))
+	if (!write_list(searchtop, hist) || !write_list(replacetop, hist) ||
+				!write_list(executetop, hist))
 	    fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
 			strerror(errno));
 
