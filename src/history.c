@@ -293,7 +293,7 @@ void load_history(void)
     char *histname = histfilename();
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
-    FILE *histfile;
+    FILE *hisfile;
 
     /* If there is an old history file, migrate it. */
     /* (To be removed in 2018.) */
@@ -308,9 +308,9 @@ void load_history(void)
 				legacyhist, histname);
     }
 
-    histfile = fopen(histname, "rb");
+    hisfile = fopen(histname, "rb");
 
-    if (histfile == NULL) {
+    if (hisfile == NULL) {
 	if (errno != ENOENT) {
 	    /* When reading failed, don't save history when we quit. */
 	    UNSET(HISTORYLOG);
@@ -326,7 +326,7 @@ void load_history(void)
 	size_t buf_len = 0;
 	ssize_t read;
 
-	while ((read = getline(&line, &buf_len, histfile)) > 0) {
+	while ((read = getline(&line, &buf_len, hisfile)) > 0) {
 	    line[--read] = '\0';
 	    if (read > 0) {
 		/* Encode any embedded NUL as 0x0A. */
@@ -339,7 +339,7 @@ void load_history(void)
 
 	}
 
-	fclose(histfile);
+	fclose(hisfile);
 	free(line);
     }
 
@@ -352,7 +352,7 @@ void load_history(void)
 
 /* Write the lines of a history list, starting at head, from oldest to newest,
  * to the given file.  Return TRUE if writing succeeded, and FALSE otherwise. */
-bool write_list(const filestruct *head, FILE *histfile)
+bool write_list(const filestruct *head, FILE *hisfile)
 {
     const filestruct *item;
 
@@ -362,9 +362,9 @@ bool write_list(const filestruct *head, FILE *histfile)
 	/* Decode 0x0A bytes as embedded NULs. */
 	sunder(item->data);
 
-	if (fwrite(item->data, sizeof(char), length, histfile) < length)
+	if (fwrite(item->data, sizeof(char), length, hisfile) < length)
 	    return FALSE;
-	if (putc('\n', histfile) == EOF)
+	if (putc('\n', hisfile) == EOF)
 	    return FALSE;
     }
 
@@ -375,28 +375,29 @@ bool write_list(const filestruct *head, FILE *histfile)
 void save_history(void)
 {
     char *histname;
-    FILE *histfile;
+    FILE *hisfile;
 
     /* If the histories are unchanged, don't bother saving them. */
     if (!history_changed)
 	return;
 
     histname = histfilename();
-    histfile = fopen(histname, "wb");
+    hisfile = fopen(histname, "wb");
 
-    if (histfile == NULL)
+    if (hisfile == NULL)
 	fprintf(stderr, _("Error writing %s: %s\n"), histname,
 			strerror(errno));
     else {
 	/* Don't allow others to read or write the history file. */
 	chmod(histname, S_IRUSR | S_IWUSR);
 
-	if (!write_list(searchtop, histfile) || !write_list(replacetop, histfile) ||
-				!write_list(executetop, histfile))
+	if (!write_list(searchtop, hisfile) ||
+			!write_list(replacetop, hisfile) ||
+			!write_list(executetop, hisfile))
 	    fprintf(stderr, _("Error writing %s: %s\n"), histname,
 			strerror(errno));
 
-	fclose(histfile);
+	fclose(hisfile);
     }
 
     free(histname);
@@ -406,9 +407,9 @@ void save_history(void)
 void load_poshistory(void)
 {
     char *poshist = poshistfilename();
-    FILE *histfile = fopen(poshist, "rb");
+    FILE *hisfile = fopen(poshist, "rb");
 
-    if (histfile == NULL) {
+    if (hisfile == NULL) {
 	if (errno != ENOENT) {
 	    /* When reading failed, don't save history when we quit. */
 	    UNSET(POS_HISTORY);
@@ -421,7 +422,7 @@ void load_poshistory(void)
 	poshiststruct *record_ptr = NULL, *newrecord;
 
 	/* Read and parse each line, and store the extracted data. */
-	while ((read = getline(&line, &buf_len, histfile)) > 5) {
+	while ((read = getline(&line, &buf_len, hisfile)) > 5) {
 	    /* Decode nulls as embedded newlines. */
 	    unsunder(line, read);
 
@@ -462,7 +463,7 @@ void load_poshistory(void)
 		free(drop_record);
 	    }
 	}
-	fclose(histfile);
+	fclose(hisfile);
 	free(line);
     }
     free(poshist);
@@ -473,9 +474,9 @@ void save_poshistory(void)
 {
     char *poshist = poshistfilename();
     poshiststruct *posptr;
-    FILE *histfile = fopen(poshist, "wb");
+    FILE *hisfile = fopen(poshist, "wb");
 
-    if (histfile == NULL)
+    if (hisfile == NULL)
 	fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
     else {
 	/* Don't allow others to read or write the history file. */
@@ -497,12 +498,12 @@ void save_poshistory(void)
 	    /* Restore the terminating newline. */
 	    path_and_place[length - 1] = '\n';
 
-	    if (fwrite(path_and_place, sizeof(char), length, histfile) < length)
+	    if (fwrite(path_and_place, sizeof(char), length, hisfile) < length)
 		fprintf(stderr, _("Error writing %s: %s\n"),
 					poshist, strerror(errno));
 	    free(path_and_place);
 	}
-	fclose(histfile);
+	fclose(hisfile);
     }
     free(poshist);
 }
