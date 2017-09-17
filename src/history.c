@@ -28,12 +28,6 @@
 static bool history_changed = FALSE;
 	/* Have any of the history lists changed? */
 
-/* Indicate whether any of the history lists have changed. */
-bool history_has_changed(void)
-{
-    return history_changed;
-}
-
 /* Initialize the search and replace history lists. */
 void history_init(void)
 {
@@ -405,7 +399,7 @@ void save_history(void)
     FILE *hist;
 
     /* If the histories are unchanged or empty, don't bother saving them. */
-    if (!history_has_changed() || (searchbot->lineno == 1 &&
+    if (!history_changed || (searchbot->lineno == 1 &&
 		replacebot->lineno == 1 && executebot->lineno == 1))
 	return;
 
