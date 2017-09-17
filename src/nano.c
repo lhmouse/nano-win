@@ -565,6 +565,7 @@ void finish(void)
     tcsetattr(0, TCSANOW, &oldterm);
 
 #ifndef DISABLE_HISTORIES
+    /* If the user wants history persistence, write the relevant files. */
     if (ISSET(HISTORYLOG))
 	save_history();
     if (ISSET(POS_HISTORY)) {
@@ -2364,22 +2365,25 @@ int main(int argc, char **argv)
 	UNSET(NO_WRAP);
 #endif
 
-    /* If we're using bold text instead of reverse video text, set it up
-     * now. */
+    /* If the user wants bold instead of reverse video for hilited text... */
     if (ISSET(BOLD_TEXT))
 	hilite_attribute = A_BOLD;
 
 #ifndef DISABLE_HISTORIES
-    /* Set up the search/replace history. */
+    /* Initialize the pointers for the Search/Replace/Execute histories. */
     history_init();
-    /* Verify that the home directory and ~/.nano subdir exist. */
+
+    /* If we need any of the history files, verify that the user's home
+     * directory and its .nano subdirctory exist. */
     if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
 	get_homedir();
-	if (homedir == NULL || check_dotnano() == 0) {
+	if (homedir == NULL || !have_dotnano()) {
 	    UNSET(HISTORYLOG);
 	    UNSET(POS_HISTORY);
 	}
     }
+
+    /* If the user wants history persistence, read the relevant files. */
     if (ISSET(HISTORYLOG))
 	load_history();
     if (ISSET(POS_HISTORY))

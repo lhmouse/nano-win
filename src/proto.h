@@ -366,7 +366,7 @@ void get_history_newer_void(void);
 #ifdef ENABLE_TABCOMP
 char *get_history_completion(filestruct **h, char *s, size_t len);
 #endif
-int check_dotnano(void);
+bool have_dotnano(void);
 void load_history(void);
 void save_history(void);
 void load_poshistory(void);

@@ -26,9 +26,10 @@
 
 #ifndef DISABLE_HISTORIES
 static bool history_changed = FALSE;
-	/* Have any of the history lists changed? */
+	/* Whether any of the history lists has changed. */
 
-/* Initialize the search and replace history lists. */
+/* Initialize the lists of historical search and replace strings
+ * and the list of historical executed commands. */
 void history_init(void)
 {
     search_history = make_new_node(NULL);
@@ -47,52 +48,52 @@ void history_init(void)
     executebot = execute_history;
 }
 
-/* Set the current position in the history list h to the bottom. */
-void history_reset(const filestruct *h)
+/* Set the current position in the given history list to the bottom. */
+void history_reset(const filestruct *list)
 {
-    if (h == search_history)
+    if (list == search_history)
 	search_history = searchbot;
-    else if (h == replace_history)
+    else if (list == replace_history)
 	replace_history = replacebot;
-    else if (h == execute_history)
+    else if (list == execute_history)
 	execute_history = executebot;
 }
 
-/* Return the first node containing the first len characters of the
- * string s in the history list, starting at h_start and ending at
- * h_end, or NULL if there isn't one. */
-filestruct *find_history(const filestruct *h_start, const filestruct
-	*h_end, const char *s, size_t len)
+/* Return from the history list that starts at start and ends at end
+ * the first node that contains the first len characters of the given
+ * text, or NULL if there is no such node. */
+filestruct *find_history(const filestruct *start, const filestruct *end,
+	const char *text, size_t len)
 {
-    const filestruct *p;
+    const filestruct *item;
 
-    for (p = h_start; p != h_end->prev && p != NULL; p = p->prev) {
-	if (strncmp(s, p->data, len) == 0)
-	    return (filestruct *)p;
+    for (item = start; item != end->prev && item != NULL; item = item->prev) {
+	if (strncmp(item->data, text, len) == 0)
+	    return (filestruct *)item;
     }
 
     return NULL;
 }
 
-/* Update a history list (the one in which h is the current position)
- * with a fresh string s.  That is: add s, or move it to the end. */
-void update_history(filestruct **h, const char *s)
+/* Update a history list (the one in which item is the current position)
+ * with a fresh string text.  That is: add text, or move it to the end. */
+void update_history(filestruct **item, const char *text)
 {
     filestruct **htop = NULL, **hbot = NULL, *thesame;
 
-    if (*h == search_history) {
+    if (*item == search_history) {
 	htop = &searchtop;
 	hbot = &searchbot;
-    } else if (*h == replace_history) {
+    } else if (*item == replace_history) {
 	htop = &replacetop;
 	hbot = &replacebot;
-    } else if (*h == execute_history) {
+    } else if (*item == execute_history) {
 	htop = &executetop;
 	hbot = &executebot;
     }
 
     /* See if the string is already in the history. */
-    thesame = find_history(*hbot, *htop, s, HIGHEST_POSITIVE);
+    thesame = find_history(*hbot, *htop, text, HIGHEST_POSITIVE);
 
     /* If an identical string was found, delete that item. */
     if (thesame != NULL) {
@@ -117,7 +118,7 @@ void update_history(filestruct **h, const char *s)
     }
 
     /* Store the fresh string in the last item, then create a new item. */
-    (*hbot)->data = mallocstrcpy((*hbot)->data, s);
+    (*hbot)->data = mallocstrcpy((*hbot)->data, text);
     splice_node(*hbot, make_new_node(*hbot));
     *hbot = (*hbot)->next;
     (*hbot)->data = mallocstrcpy(NULL, "");
@@ -126,7 +127,7 @@ void update_history(filestruct **h, const char *s)
     history_changed = TRUE;
 
     /* Set the current position in the list to the bottom. */
-    *h = *hbot;
+    *item = *hbot;
 }
 
 /* Move h to the string in the history list just before it, and return
@@ -262,12 +263,11 @@ void history_error(const char *msg, ...)
 	;
 }
 
-/* Now that we have more than one history file, let's just rely on a
- * .nano dir for this stuff.  Return 1 if the dir exists or was
- * successfully created, and return 0 otherwise. */
-int check_dotnano(void)
+/* Check whether the ~/.nano subdirectory for history files exists.  Return
+ * TRUE if it exists or was successfully created, and FALSE otherwise. */
+bool have_dotnano(void)
 {
-    int ret = 1;
+    bool retval = TRUE;
     struct stat dirstat;
     char *nanodir = construct_filename("/.nano");
 
@@ -277,21 +277,21 @@ int check_dotnano(void)
 				"It is required for saving/loading "
 				"search history or cursor positions.\n"),
 				nanodir, strerror(errno));
-	    ret = 0;
+	    retval = FALSE;
 	}
     } else if (!S_ISDIR(dirstat.st_mode)) {
 	history_error(N_("Path %s is not a directory and needs to be.\n"
 				"Nano will be unable to load or save "
 				"search history or cursor positions.\n"),
 				nanodir);
-	ret = 0;
+	retval = FALSE;
     }
 
     free(nanodir);
-    return ret;
+    return retval;
 }
 
-/* Load the search and replace histories from ~/.nano/search_history. */
+/* Load the histories for Search and Replace and Execute Command. */
 void load_history(void)
 {
     char *histname = histfilename();
@@ -379,7 +379,7 @@ bool write_list(const filestruct *head, FILE *histfile)
     return TRUE;
 }
 
-/* Save the search and replace histories to ~/.nano/search_history. */
+/* Save the histories for Search and Replace and Execute Command. */
 void save_history(void)
 {
     char *histname;
@@ -414,7 +414,7 @@ void save_history(void)
     free(histname);
 }
 
-/* Load the recorded file positions from ~/.nano/filepos_history. */
+/* Load the recorded cursor positions for files that were edited. */
 void load_poshistory(void)
 {
     char *poshist = poshistfilename();
@@ -486,7 +486,7 @@ void load_poshistory(void)
     free(poshist);
 }
 
-/* Save the recorded last file positions to ~/.nano/filepos_history. */
+/* Save the recorded cursor positions for files that were edited. */
 void save_poshistory(void)
 {
     char *poshist = poshistfilename();
