@@ -160,10 +160,10 @@ extern subnfunc *uncutfunc;
 
 #ifndef DISABLE_HISTORIES
 extern filestruct *search_history;
-extern filestruct *searchage;
+extern filestruct *searchtop;
 extern filestruct *searchbot;
 extern filestruct *replace_history;
-extern filestruct *replaceage;
+extern filestruct *replacetop;
 extern filestruct *replacebot;
 extern filestruct *execute_history;
 extern filestruct *executetop;

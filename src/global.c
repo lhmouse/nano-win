@@ -206,13 +206,13 @@ subnfunc *uncutfunc;
 #ifndef DISABLE_HISTORIES
 filestruct *search_history = NULL;
 	/* The search string history list. */
-filestruct *searchage = NULL;
+filestruct *searchtop = NULL;
 	/* The top of the search string history list. */
 filestruct *searchbot = NULL;
 	/* The bottom of the search string history list. */
 filestruct *replace_history = NULL;
 	/* The replace string history list. */
-filestruct *replaceage = NULL;
+filestruct *replacetop = NULL;
 	/* The top of the replace string history list. */
 filestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
@@ -1832,8 +1832,8 @@ void thanks_for_all_the_fish(void)
 #endif /* !DISABLE_COLOR */
 #ifndef DISABLE_HISTORIES
     /* Free the search and replace history lists. */
-    free_filestruct(searchage);
-    free_filestruct(replaceage);
+    free_filestruct(searchtop);
+    free_filestruct(replacetop);
 #endif
     /* Free the list of functions. */
     while (allfuncs != NULL) {

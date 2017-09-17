@@ -33,12 +33,12 @@ void history_init(void)
 {
     search_history = make_new_node(NULL);
     search_history->data = mallocstrcpy(NULL, "");
-    searchage = search_history;
+    searchtop = search_history;
     searchbot = search_history;
 
     replace_history = make_new_node(NULL);
     replace_history->data = mallocstrcpy(NULL, "");
-    replaceage = replace_history;
+    replacetop = replace_history;
     replacebot = replace_history;
 
     execute_history = make_new_node(NULL);
@@ -81,10 +81,10 @@ void update_history(filestruct **h, const char *s)
     filestruct **hage = NULL, **hbot = NULL, *thesame;
 
     if (*h == search_history) {
-	hage = &searchage;
+	hage = &searchtop;
 	hbot = &searchbot;
     } else if (*h == replace_history) {
-	hage = &replaceage;
+	hage = &replacetop;
 	hbot = &replacebot;
     } else if (*h == execute_history) {
 	hage = &executetop;
@@ -174,10 +174,10 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 	filestruct *hage = NULL, *hbot = NULL, *p;
 
 	if (*h == search_history) {
-	    hage = searchage;
+	    hage = searchtop;
 	    hbot = searchbot;
 	} else if (*h == replace_history) {
-	    hage = replaceage;
+	    hage = replacetop;
 	    hbot = replacebot;
 	} else if (*h == execute_history) {
 	    hage = executetop;
@@ -405,7 +405,7 @@ void save_history(void)
 	/* Don't allow others to read or write the history file. */
 	chmod(searchhist, S_IRUSR | S_IWUSR);
 
-	if (!writehist(hist, searchage) || !writehist(hist, replaceage) ||
+	if (!writehist(hist, searchtop) || !writehist(hist, replacetop) ||
 				!writehist(hist, executetop))
 	    fprintf(stderr, _("Error writing %s: %s\n"), searchhist,
 			strerror(errno));
