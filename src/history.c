@@ -216,21 +216,17 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 }
 #endif /* ENSABLE_TABCOMP */
 
-/* Return the constructed dirfile path, or NULL if we can't find the home
- * directory.  The string is dynamically allocated, and should be freed. */
-char *construct_filename(const char *str)
+/* Return a dynamically-allocated path that is the concatenation of the
+ * user's home directory and the given name. */
+char *construct_filename(const char *name)
 {
-    char *newstr = NULL;
+    size_t homelen = strlen(homedir);
+    char *joined = charalloc(homelen + strlen(name) + 1);
 
-    if (homedir != NULL) {
-	size_t homelen = strlen(homedir);
+    strcpy(joined, homedir);
+    strcpy(joined + homelen, name);
 
-	newstr = charalloc(homelen + strlen(str) + 1);
-	strcpy(newstr, homedir);
-	strcpy(newstr + homelen, str);
-    }
-
-    return newstr;
+    return joined;
 }
 
 char *histfilename(void)
@@ -298,10 +294,6 @@ void load_history(void)
     char *legacyhist = legacyhistfilename();
     struct stat hstat;
     FILE *histfile;
-
-    /* If no home directory was found, we can't do anything. */
-    if (histname == NULL || legacyhist == NULL)
-	return;
 
     /* If there is an old history file, migrate it. */
     /* (To be removed in 2018.) */
@@ -390,10 +382,6 @@ void save_history(void)
 	return;
 
     histname = histfilename();
-
-    if (histname == NULL)
-	return;
-
     histfile = fopen(histname, "wb");
 
     if (histfile == NULL)
@@ -418,13 +406,7 @@ void save_history(void)
 void load_poshistory(void)
 {
     char *poshist = poshistfilename();
-    FILE *histfile;
-
-    /* If the home directory is missing, do_rcfile() will have reported it. */
-    if (poshist == NULL)
-	return;
-
-    histfile = fopen(poshist, "rb");
+    FILE *histfile = fopen(poshist, "rb");
 
     if (histfile == NULL) {
 	if (errno != ENOENT) {
@@ -491,12 +473,7 @@ void save_poshistory(void)
 {
     char *poshist = poshistfilename();
     poshiststruct *posptr;
-    FILE *histfile;
-
-    if (poshist == NULL)
-	return;
-
-    histfile = fopen(poshist, "wb");
+    FILE *histfile = fopen(poshist, "wb");
 
     if (histfile == NULL)
 	fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
