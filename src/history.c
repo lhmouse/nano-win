@@ -78,29 +78,29 @@ filestruct *find_history(const filestruct *h_start, const filestruct
  * with a fresh string s.  That is: add s, or move it to the end. */
 void update_history(filestruct **h, const char *s)
 {
-    filestruct **hage = NULL, **hbot = NULL, *thesame;
+    filestruct **htop = NULL, **hbot = NULL, *thesame;
 
     if (*h == search_history) {
-	hage = &searchtop;
+	htop = &searchtop;
 	hbot = &searchbot;
     } else if (*h == replace_history) {
-	hage = &replacetop;
+	htop = &replacetop;
 	hbot = &replacebot;
     } else if (*h == execute_history) {
-	hage = &executetop;
+	htop = &executetop;
 	hbot = &executebot;
     }
 
     /* See if the string is already in the history. */
-    thesame = find_history(*hbot, *hage, s, HIGHEST_POSITIVE);
+    thesame = find_history(*hbot, *htop, s, HIGHEST_POSITIVE);
 
     /* If an identical string was found, delete that item. */
     if (thesame != NULL) {
 	filestruct *after = thesame->next;
 
 	/* If the string is at the head of the list, move the head. */
-	if (thesame == *hage)
-	    *hage = after;
+	if (thesame == *htop)
+	    *htop = after;
 
 	unlink_node(thesame);
 	renumber(after);
@@ -109,11 +109,11 @@ void update_history(filestruct **h, const char *s)
     /* If the history is full, delete the oldest item (the one at the
      * head of the list), to make room for a new item at the end. */
     if ((*hbot)->lineno == MAX_SEARCH_HISTORY + 1) {
-	filestruct *oldest = *hage;
+	filestruct *oldest = *htop;
 
-	*hage = (*hage)->next;
+	*htop = (*htop)->next;
 	unlink_node(oldest);
-	renumber(*hage);
+	renumber(*htop);
     }
 
     /* Store the fresh string in the last item, then create a new item. */
@@ -171,25 +171,25 @@ void get_history_older_void(void)
 char *get_history_completion(filestruct **h, char *s, size_t len)
 {
     if (len > 0) {
-	filestruct *hage = NULL, *hbot = NULL, *p;
+	filestruct *htop = NULL, *hbot = NULL, *p;
 
 	if (*h == search_history) {
-	    hage = searchtop;
+	    htop = searchtop;
 	    hbot = searchbot;
 	} else if (*h == replace_history) {
-	    hage = replacetop;
+	    htop = replacetop;
 	    hbot = replacebot;
 	} else if (*h == execute_history) {
-	    hage = executetop;
+	    htop = executetop;
 	    hbot = executebot;
 	}
 
 	/* Search the history list from the current position to the top
 	 * for a match of len characters.  Skip over an exact match. */
-	p = find_history((*h)->prev, hage, s, len);
+	p = find_history((*h)->prev, htop, s, len);
 
 	while (p != NULL && strcmp(p->data, s) == 0)
-	    p = find_history(p->prev, hage, s, len);
+	    p = find_history(p->prev, htop, s, len);
 
 	if (p != NULL) {
 	    *h = p;

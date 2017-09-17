@@ -205,25 +205,24 @@ subnfunc *uncutfunc;
 
 #ifndef DISABLE_HISTORIES
 filestruct *search_history = NULL;
-	/* The search string history list. */
+	/* The current item in the list of strings that were searched for. */
 filestruct *searchtop = NULL;
-	/* The top of the search string history list. */
+	/* The oldest item in the list of search strings. */
 filestruct *searchbot = NULL;
-	/* The bottom of the search string history list. */
+	/* The newest item in the list of search strings. */
+
 filestruct *replace_history = NULL;
-	/* The replace string history list. */
+	/* The current item in the list of replace strings. */
 filestruct *replacetop = NULL;
-	/* The top of the replace string history list. */
 filestruct *replacebot = NULL;
-	/* The bottom of the replace string history list. */
+
 filestruct *execute_history = NULL;
-	/* The list of commands that have been run with ^R ^X. */
+	/* The current item in the list of commands that were run with ^R ^X. */
 filestruct *executetop = NULL;
-	/* The top of the execute history list. */
 filestruct *executebot = NULL;
-	/* The bottom of the execute history list. */
+
 poshiststruct *position_history = NULL;
-	/* The cursor position history list. */
+	/* The list of filenames with their last cursor positions. */
 #endif
 
 regex_t search_regexp;
