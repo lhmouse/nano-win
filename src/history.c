@@ -80,8 +80,6 @@ void update_history(filestruct **h, const char *s)
 {
     filestruct **hage = NULL, **hbot = NULL, *thesame;
 
-    assert(h != NULL && s != NULL);
-
     if (*h == search_history) {
 	hage = &searchage;
 	hbot = &searchbot;
@@ -92,8 +90,6 @@ void update_history(filestruct **h, const char *s)
 	hage = &executetop;
 	hbot = &executebot;
     }
-
-    assert(hage != NULL && hbot != NULL);
 
     /* See if the string is already in the history. */
     thesame = find_history(*hbot, *hage, s, HIGHEST_POSITIVE);
@@ -137,8 +133,6 @@ void update_history(filestruct **h, const char *s)
  * that string.  If there isn't one, don't move h and return NULL. */
 char *get_history_older(filestruct **h)
 {
-    assert(h != NULL);
-
     if ((*h)->prev == NULL)
 	return NULL;
 
@@ -151,8 +145,6 @@ char *get_history_older(filestruct **h)
  * that string.  If there isn't one, don't move h and return NULL. */
 char *get_history_newer(filestruct **h)
 {
-    assert(h != NULL);
-
     if ((*h)->next == NULL)
 	return NULL;
 
@@ -178,12 +170,8 @@ void get_history_older_void(void)
  * s. */
 char *get_history_completion(filestruct **h, char *s, size_t len)
 {
-    assert(s != NULL);
-
     if (len > 0) {
 	filestruct *hage = NULL, *hbot = NULL, *p;
-
-	assert(h != NULL);
 
 	if (*h == search_history) {
 	    hage = searchage;
@@ -195,8 +183,6 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 	    hage = executetop;
 	    hbot = executebot;
 	}
-
-	assert(hage != NULL && hbot != NULL);
 
 	/* Search the history list from the current position to the top
 	 * for a match of len characters.  Skip over an exact match. */
