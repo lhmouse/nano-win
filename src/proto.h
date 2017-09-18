@@ -47,6 +47,7 @@ extern int editwincols;
 extern bool have_palette;
 #endif
 
+extern bool reveal_cursor;
 extern bool suppress_cursorpos;
 
 extern message_type lastmessage;

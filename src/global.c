@@ -56,6 +56,8 @@ bool have_palette = FALSE;
 	/* Whether the colors for the current syntax have been initialized. */
 #endif
 
+bool reveal_cursor = FALSE;
+	/* Whether the cursor should be shown when waiting for input. */
 bool suppress_cursorpos = FALSE;
 	/* Should we skip constant position display for current keystroke? */
 

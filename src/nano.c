@@ -1579,8 +1579,12 @@ int do_input(bool allow_funcs)
     const sc *s;
     bool have_shortcut;
 
+    reveal_cursor = TRUE;
+
     /* Read in a keystroke. */
     input = get_kbinput(edit);
+
+    reveal_cursor = FALSE;
 
 #ifndef NANO_TINY
     if (input == KEY_WINCH)
@@ -2649,9 +2653,6 @@ int main(int argc, char **argv)
 	    wnoutrefresh(edit);
 	} else
 	    edit_refresh();
-
-	/* Make sure the cursor is visible. */
-	curs_set(1);
 
 	focusing = TRUE;
 

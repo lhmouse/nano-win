@@ -2478,7 +2478,6 @@ void do_justify(bool full_justify)
 #endif
 	statusbar(_("Can now UnJustify!"));
 	place_the_cursor();
-	curs_set(1);
 	kbinput = do_input(FALSE);
 #ifndef NANO_TINY
     } while (kbinput == KEY_WINCH);
@@ -3337,8 +3336,8 @@ void do_linter(void)
 
 	/* Place and show the cursor to indicate the affected line. */
 	place_the_cursor();
+	reveal_cursor = TRUE;
 	wnoutrefresh(edit);
-	curs_set(1);
 
 	kbinput = get_kbinput(bottomwin);
 
@@ -3585,7 +3584,7 @@ void do_verbatim_input(void)
      * inserted verbatim. */
     statusbar(_("Verbatim Input"));
     place_the_cursor();
-    curs_set(1);
+    reveal_cursor = TRUE;
 
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);

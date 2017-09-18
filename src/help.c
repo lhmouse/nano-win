@@ -161,6 +161,7 @@ void do_help(void)
 
     bottombars(MHELP);
     wnoutrefresh(bottomwin);
+    reveal_cursor = FALSE;
 
     /* Extract the title from the head of the help text. */
     length = break_line(help_text, MAX_BUF_SIZE, TRUE);
@@ -224,12 +225,13 @@ void do_help(void)
 	} else if (func == do_exit) {
 	    /* Exit from the help viewer. */
 	    close_buffer();
+	    curs_set(0);
 	    break;
 	} else
 	    unbound_key(kbinput);
 
 	/* If we searched and found something, let the cursor show it. */
-	curs_set(didfind == 1 ? 1 : 0);
+	reveal_cursor = (didfind == 1);
 
 	currmenu = MHELP;
 	edit_refresh();

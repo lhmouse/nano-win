@@ -120,8 +120,13 @@ void get_key_buffer(WINDOW *win)
      * screen updates. */
     doupdate();
 
+    if (reveal_cursor)
+	curs_set(1);
+
     /* Read in the first character using whatever mode we're in. */
     input = wgetch(win);
+
+    curs_set(0);
 
 #ifndef NANO_TINY
     if (the_window_resized) {
@@ -1553,6 +1558,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	    char *multibyte;
 	    int onebyte, i;
 
+	    reveal_cursor = FALSE;
+
 	    while (unicode == ERR) {
 		free(kbinput);
 		while ((kbinput = get_input(win, 1)) == NULL)
@@ -2185,9 +2192,6 @@ void statusline(message_type importance, const char *msg, ...)
     }
 
     lastmessage = importance;
-
-    /* Turn the cursor off while fiddling in the statusbar. */
-    curs_set(0);
 
     blank_statusbar();
 
@@ -3369,9 +3373,6 @@ void do_cursorpos(bool force)
 	return;
     }
 
-    /* Hide the cursor while we are calculating. */
-    curs_set(0);
-
     /* Determine the size of the file up to the cursor. */
     saved_byte = openfile->current->data[openfile->current_x];
     openfile->current->data[openfile->current_x] = '\0';
@@ -3607,7 +3608,6 @@ void do_credits(void)
 	window_init();
     }
 
-    curs_set(0);
     nodelay(edit, TRUE);
 
     blank_titlebar();

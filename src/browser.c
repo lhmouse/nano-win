@@ -55,8 +55,8 @@ char *do_browser(char *path)
     DIR *dir;
 	/* The directory whose contents we are showing. */
 
-    /* Don't show a cursor in the file list. */
-    curs_set(0);
+    /* Show a cursor in the file list only when requested. */
+    reveal_cursor = ISSET(SHOW_CURSOR);
 
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
@@ -106,8 +106,6 @@ char *do_browser(char *path)
     titlebar(path);
 
     while (TRUE) {
-	/* Make sure that the cursor is off. */
-	curs_set(0);
 	lastmessage = HUSH;
 
 	bottombars(MBROWSER);

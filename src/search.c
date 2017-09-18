@@ -608,9 +608,6 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	    /* Refresh the edit window, scrolling it if necessary. */
 	    edit_refresh();
 
-	    /* Don't show cursor, to not distract from highlighted match. */
-	    curs_set(0);
-
 	    spotlight(TRUE, from_col, to_col);
 
 	    /* TRANSLATORS: This is a prompt. */

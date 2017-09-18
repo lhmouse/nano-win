@@ -478,7 +478,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 
     while (TRUE) {
 	/* Ensure the cursor is shown when waiting for input. */
-	curs_set(1);
+	reveal_cursor = TRUE;
 
 	kbinput = do_statusbar_input(&ran_func, &finished);
 
@@ -596,6 +596,8 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	free(magichistory);
     }
 #endif
+
+    reveal_cursor = FALSE;
 
     *actual = kbinput;
 
@@ -746,8 +748,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	wnoutrefresh(bottomwin);
 
 	/* When not replacing, show the cursor. */
-	if (!all)
-	    curs_set(1);
+	reveal_cursor = !all;
 
 	currmenu = MYESNO;
 	kbinput = get_kbinput(bottomwin);
