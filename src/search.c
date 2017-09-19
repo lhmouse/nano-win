@@ -70,12 +70,12 @@ void regexp_cleanup(void)
 void not_found_msg(const char *str)
 {
     char *disp;
-    int numchars;
+    size_t numchars;
 
     assert(str != NULL);
 
     disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
-    numchars = actual_x(disp, mbstrnlen(disp, COLS / 2));
+    numchars = actual_x(disp, strnlenpt(disp, COLS / 2));
 
     statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
 		(disp[numchars] == '\0') ? "" : "...");
