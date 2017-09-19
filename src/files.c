@@ -78,7 +78,7 @@ void make_new_buffer(void)
 
 	/* There is more than one file open: show "Close" in help lines. */
 	exitfunc->desc = close_tag;
-	more_than_one = TRUE;
+	more_than_one = !inhelp || more_than_one;
     }
 
     /* Make the new buffer the current one, and start initializing it. */
