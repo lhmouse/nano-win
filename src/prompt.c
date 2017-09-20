@@ -48,7 +48,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
     *finished = FALSE;
 
     /* Read in a character. */
-    input = get_kbinput(bottomwin);
+    input = get_kbinput(bottomwin, VISIBLE);
 
 #ifndef NANO_TINY
     if (input == KEY_WINCH)
@@ -60,7 +60,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
      * shortcut character. */
     if (input == KEY_MOUSE) {
 	if (do_statusbar_mouse() == 1)
-	    input = get_kbinput(bottomwin);
+	    input = get_kbinput(bottomwin, BLIND);
 	else
 	    return ERR;
     }
@@ -477,9 +477,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
     update_the_statusbar();
 
     while (TRUE) {
-	/* Ensure the cursor is shown when waiting for input. */
-	reveal_cursor = TRUE;
-
 	kbinput = do_statusbar_input(&ran_func, &finished);
 
 #ifndef NANO_TINY
@@ -596,8 +593,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	free(magichistory);
     }
 #endif
-
-    reveal_cursor = FALSE;
 
     *actual = kbinput;
 
@@ -746,12 +741,10 @@ int do_yesno_prompt(bool all, const char *msg)
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
 	wnoutrefresh(bottomwin);
-
-	/* When not replacing, show the cursor. */
-	reveal_cursor = !all;
-
 	currmenu = MYESNO;
-	kbinput = get_kbinput(bottomwin);
+
+	/* When not replacing, show the cursor while waiting for a key. */
+	kbinput = get_kbinput(bottomwin, !all);
 
 	func = func_from_key(&kbinput);
 

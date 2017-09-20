@@ -158,10 +158,10 @@ void do_help(void)
     help_init();
     inhelp = TRUE;
     location = 0;
+    didfind = 0;
 
     bottombars(MHELP);
     wnoutrefresh(bottomwin);
-    reveal_cursor = FALSE;
 
     /* Extract the title from the head of the help text. */
     length = break_line(help_text, MAX_BUF_SIZE, TRUE);
@@ -182,9 +182,10 @@ void do_help(void)
     while (TRUE) {
 	lastmessage = HUSH;
 	focusing = TRUE;
-	didfind = 0;
 
-	kbinput = get_kbinput(edit);
+	/* Show the cursor when we searched and found something. */
+	kbinput = get_kbinput(edit, didfind == 1);
+	didfind = 0;
 
 	func = parse_help_input(&kbinput);
 
@@ -229,9 +230,6 @@ void do_help(void)
 	    break;
 	} else
 	    unbound_key(kbinput);
-
-	/* If we searched and found something, let the cursor show it. */
-	reveal_cursor = (didfind == 1);
 
 	currmenu = MHELP;
 	edit_refresh();

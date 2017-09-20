@@ -3334,12 +3334,11 @@ void do_linter(void)
 	    bottombars(MLINTER);
 	}
 
-	/* Place and show the cursor to indicate the affected line. */
+	/* Place the cursor to indicate the affected line. */
 	place_the_cursor();
-	reveal_cursor = TRUE;
 	wnoutrefresh(edit);
 
-	kbinput = get_kbinput(bottomwin);
+	kbinput = get_kbinput(bottomwin, VISIBLE);
 
 #ifndef NANO_TINY
 	if (kbinput == KEY_WINCH)
@@ -3584,7 +3583,6 @@ void do_verbatim_input(void)
      * inserted verbatim. */
     statusbar(_("Verbatim Input"));
     place_the_cursor();
-    reveal_cursor = TRUE;
 
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);

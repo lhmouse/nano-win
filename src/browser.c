@@ -55,9 +55,6 @@ char *do_browser(char *path)
     DIR *dir;
 	/* The directory whose contents we are showing. */
 
-    /* Show a cursor in the file list only when requested. */
-    reveal_cursor = ISSET(SHOW_CURSOR);
-
   read_directory_contents:
 	/* We come here when we refresh or select a new directory. */
 
@@ -117,7 +114,7 @@ char *do_browser(char *path)
 
 	old_selected = selected;
 
-	kbinput = get_kbinput(edit);
+	kbinput = get_kbinput(edit, ISSET(SHOW_CURSOR));
 
 #ifdef ENABLE_MOUSE
 	if (kbinput == KEY_MOUSE) {

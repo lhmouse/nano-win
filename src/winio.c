@@ -49,6 +49,8 @@ static int statusblank = 0;
 static bool seen_wide = FALSE;
 	/* Whether we've seen a multicolumn character in the current line. */
 #endif
+static bool reveal_cursor = FALSE;
+	/* Whether the cursor should be shown when waiting for input. */
 
 /* Control character compatibility:
  *
@@ -290,9 +292,11 @@ int *get_input(WINDOW *win, size_t input_len)
 }
 
 /* Read in a single keystroke, ignoring any that are invalid. */
-int get_kbinput(WINDOW *win)
+int get_kbinput(WINDOW *win, bool showcursor)
 {
     int kbinput = ERR;
+
+    reveal_cursor = showcursor;
 
     /* Extract one keystroke from the input stream. */
     while (kbinput == ERR)
@@ -1528,6 +1532,8 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 {
     int *kbinput;
+
+    reveal_cursor = TRUE;
 
     /* Read in the first code. */
     while ((kbinput = get_input(win, 1)) == NULL)

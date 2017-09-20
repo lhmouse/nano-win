@@ -1579,12 +1579,8 @@ int do_input(bool allow_funcs)
     const sc *s;
     bool have_shortcut;
 
-    reveal_cursor = TRUE;
-
-    /* Read in a keystroke. */
-    input = get_kbinput(edit);
-
-    reveal_cursor = FALSE;
+    /* Read in a keystroke, and show the cursor while waiting. */
+    input = get_kbinput(edit, VISIBLE);
 
 #ifndef NANO_TINY
     if (input == KEY_WINCH)
@@ -1597,7 +1593,7 @@ int do_input(bool allow_funcs)
 	if (do_mouse() == 1)
 	    /* The click was on a shortcut -- read in the character
 	     * that it was converted into. */
-	    input = get_kbinput(edit);
+	    input = get_kbinput(edit, BLIND);
 	else
 	    /* The click was invalid or has been handled -- get out. */
 	    return ERR;

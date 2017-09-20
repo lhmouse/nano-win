@@ -47,7 +47,6 @@ extern int editwincols;
 extern bool have_palette;
 #endif
 
-extern bool reveal_cursor;
 extern bool suppress_cursorpos;
 
 extern message_type lastmessage;
@@ -631,7 +630,7 @@ void dump_filestruct_reverse(void);
 void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_kbinput(int kbinput, bool metakey);
-int get_kbinput(WINDOW *win);
+int get_kbinput(WINDOW *win, bool showcursor);
 int parse_kbinput(WINDOW *win);
 int arrow_from_abcd(int kbinput);
 int parse_escape_sequence(WINDOW *win, int kbinput);
