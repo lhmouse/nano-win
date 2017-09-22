@@ -109,7 +109,7 @@ char *do_browser(char *path)
 
 	/* Display (or redisplay) the file list if the list itself or
 	 * the selected file has changed. */
-	if (old_selected != selected)
+	if (old_selected != selected || ISSET(SHOW_CURSOR))
 	    browser_refresh();
 
 	old_selected = selected;
