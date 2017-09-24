@@ -309,9 +309,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 #endif
 int do_writeout(bool exiting, bool withprompt);
 void do_writeout_void(void);
-#ifndef NANO_TINY
 void do_savefile(void);
-#endif
 char *real_dir_from_tilde(const char *buf);
 #if defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);
@@ -691,8 +689,6 @@ void spotlight(bool active, size_t from_col, size_t to_col);
 #ifndef NANO_TINY
 void spotlight_softwrapped(bool active, size_t from_col, size_t to_col);
 #endif
-void xon_complaint(void);
-void xoff_complaint(void);
 void do_suspend_void(void);
 void disable_waiting(void);
 void enable_waiting(void);

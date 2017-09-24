@@ -1079,11 +1079,13 @@ void shortcut_init(void)
     add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", 0, do_exit, 0);
+    add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
     add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
     add_to_sclist(MMAIN, "F3", 0, do_writeout_void, 0);
     add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
+    add_to_sclist(MMAIN, "^Q", 0, do_search_backward, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search, 0);
     add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
@@ -1257,9 +1259,6 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-N", 0, do_toggle_void, NO_CONVERT);
     add_to_sclist(MMAIN, "M-Z", 0, do_toggle_void, SUSPEND);
 #endif /* !NANO_TINY */
-
-    add_to_sclist(MMAIN, "^Q", 0, xon_complaint, 0);
-    add_to_sclist(MMAIN, "^S", 0, xoff_complaint, 0);
 
     add_to_sclist(((MMOST & ~MMAIN & ~MBROWSER) | MYESNO), "^C", 0, do_cancel, 0);
 

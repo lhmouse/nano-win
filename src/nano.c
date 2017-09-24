@@ -1731,17 +1731,6 @@ int do_input(bool allow_funcs)
     return input;
 }
 
-void xon_complaint(void)
-{
-    statusbar(_("XON ignored, mumble mumble"));
-}
-
-void xoff_complaint(void)
-{
-    statusbar(_("XOFF ignored, mumble mumble"));
-}
-
-
 #ifdef ENABLE_MOUSE
 /* Handle a mouse click on the edit window or the shortcut list. */
 int do_mouse(void)

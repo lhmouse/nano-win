@@ -269,9 +269,8 @@
 ## Key bindings.
 ## See nanorc(5) (section REBINDING KEYS) for more details on this.
 ##
-## The following three functions are not bound to any key by default.
-## You may wish to choose different keys than the ones suggested here.
-# bind ^S savefile main
+## The following two functions are not bound to any key by default.
+## You may wish to choose other keys than the ones suggested here.
 # bind M-B cutwordleft main
 # bind M-N cutwordright main
 

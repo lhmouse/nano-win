@@ -2272,14 +2272,12 @@ void do_writeout_void(void)
 	close_and_go();
 }
 
-#ifndef NANO_TINY
 /* If it has a name, write the current file to disk without prompting. */
 void do_savefile(void)
 {
     if (do_writeout(FALSE, FALSE) == 2)
 	close_and_go();
 }
-#endif
 
 /* Return a malloc()ed string containing the actual directory, used to
  * convert ~user/ and ~/ notation. */
