@@ -1574,8 +1574,8 @@ int do_input(bool allow_funcs)
 	/* The input buffer for actual characters. */
     static size_t depth = 0;
 	/* The length of the input buffer. */
-    bool preserve = FALSE;
-	/* Whether to preserve the contents of the cutbuffer. */
+    bool retain_cuts = FALSE;
+	/* Whether to conserve the current contents of the cutbuffer. */
     const sc *s;
     bool have_shortcut;
 
@@ -1680,7 +1680,7 @@ int do_input(bool allow_funcs)
 		|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_eof
 #endif
 		)
-	    preserve = TRUE;
+	    retain_cuts = TRUE;
 
 #ifdef ENABLE_WORDCOMPLETION
 	if (s->scfunc != complete_a_word)
@@ -1690,7 +1690,7 @@ int do_input(bool allow_funcs)
 	if (s->scfunc == do_toggle_void) {
 	    do_toggle(s->toggle);
 	    if (s->toggle != CUT_FROM_CURSOR)
-		preserve = TRUE;
+		retain_cuts = TRUE;
 	} else
 #endif
 	{
@@ -1725,7 +1725,7 @@ int do_input(bool allow_funcs)
 
     /* If we aren't cutting or copying text, and the key wasn't a toggle,
      * blow away the text in the cutbuffer upon the next cutting action. */
-    if (!preserve)
+    if (!retain_cuts)
 	cutbuffer_reset();
 
     return input;
