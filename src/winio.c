@@ -971,6 +971,7 @@ int convert_sequence(const int *seq, size_t seq_len)
 		}
 		break;
 #ifndef NANO_TINY
+	    case '9': /* To accomodate iTerm2 in "xterm mode". */
 	    case '3':
 		switch (seq[4]) {
 		    case 'A': /* Esc [ 1 ; 3 A == Alt-Up on xterm. */
