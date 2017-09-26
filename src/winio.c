@@ -3006,16 +3006,16 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 {
     size_t column = 0;
 	/* Current column position in text. */
-    size_t prev_column = 0;
+    size_t previous_col = 0;
 	/* Previous column position in text. */
     size_t goal_column;
-	/* Column of the last character where we can break the text. */
-    size_t lastblank_column = 0;
-	/* Current column position of the last blank in text. */
+	/* The place at or before which text must be broken. */
+    size_t last_blank_col = 0;
+	/* The column position of the last seen whitespace character. */
     const char *farthest_blank = NULL;
 	/* A pointer to the last seen whitespace character in text. */
     int char_len = 0;
-	/* Length of current character, in bytes. */
+	/* Length of the current character, in bytes. */
 
     while (*text != '\0' && column < leftedge) {
 	char_len = parse_mbchar(text, NULL, &column);
@@ -3029,39 +3029,38 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 	/* When breaking at blanks, do it *before* the target column. */
 	if (ISSET(AT_BLANKS) && is_blank_mbchar(text) && column < goal_column) {
 	    farthest_blank = text;
-	    lastblank_column = column;
+	    last_blank_col = column;
 	}
 
-	prev_column = column;
+	previous_col = column;
 	char_len = parse_mbchar(text, NULL, &column);
 	text += char_len;
     }
 
-    /* If we didn't overshoot the target, we've found a breaking point. */
+    /* If we didn't overshoot the limit, we've found a breaking point;
+     * and we've reached EOL if we didn't even *reach* the limit. */
     if (column <= goal_column) {
-	/* We've reached EOL if we didn't even reach the target. */
 	*end_of_line = (column < goal_column);
 	return column;
     }
 
-    /* If we're softwrapping at blanks and we found at least one blank, move
-     * the pointer back to the last blank, step beyond it, and we're done. */
+    /* If we're softwrapping at blanks and we found at least one blank, break
+     * after that blank -- if it doesn't overshoot the screen's edge. */
     if (farthest_blank != NULL) {
-	char_len = parse_mbchar(farthest_blank, NULL, &lastblank_column);
+	char_len = parse_mbchar(farthest_blank, NULL, &last_blank_col);
 	text = farthest_blank + char_len;
 
-	/* If we haven't overshot the screen's edge, break after the blank. */
-	if (lastblank_column <= goal_column)
-	    return lastblank_column;
+	if (last_blank_col <= goal_column)
+	    return last_blank_col;
     }
 
     /* If a tab is split over two chunks, break at the screen's edge. */
     if (*(text - char_len) == '\t')
-	prev_column = goal_column;
+	previous_col = goal_column;
 
     /* Otherwise, return the column of the last character that doesn't
-     * overshoot the target, since we can't break the text anywhere else. */
-    return (editwincols > 1) ? prev_column : column - 1;
+     * overshoot the limit, since we can't break the text anywhere else. */
+    return (editwincols > 1) ? previous_col : column - 1;
 }
 
 /* Get the row of the softwrapped chunk of the given line that column is on,
