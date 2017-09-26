@@ -3004,20 +3004,16 @@ void edit_scroll(bool direction, int nrows)
 size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 				bool *end_of_line)
 {
-    size_t index = 0;
-	/* Current index in text. */
     size_t column = 0;
 	/* Current column position in text. */
     size_t prev_column = 0;
 	/* Previous column position in text. */
     size_t goal_column;
 	/* Column of the last character where we can break the text. */
-    bool found_blank = FALSE;
-	/* Did we find at least one blank? */
-    size_t lastblank_index = 0;
-	/* Current index of the last blank in text. */
     size_t lastblank_column = 0;
 	/* Current column position of the last blank in text. */
+    const char *farthest_blank = NULL;
+	/* A pointer to the last seen whitespace character in text. */
     int char_len = 0;
 	/* Length of current character, in bytes. */
 
@@ -3032,15 +3028,13 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
     while (*text != '\0' && column <= goal_column) {
 	/* When breaking at blanks, do it *before* the target column. */
 	if (ISSET(AT_BLANKS) && is_blank_mbchar(text) && column < goal_column) {
-	    found_blank = TRUE;
-	    lastblank_index = index;
+	    farthest_blank = text;
 	    lastblank_column = column;
 	}
 
 	prev_column = column;
 	char_len = parse_mbchar(text, NULL, &column);
 	text += char_len;
-	index += char_len;
     }
 
     /* If we didn't overshoot the target, we've found a breaking point. */
@@ -3052,10 +3046,9 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 
     /* If we're softwrapping at blanks and we found at least one blank, move
      * the pointer back to the last blank, step beyond it, and we're done. */
-    if (found_blank) {
-	text = text - index + lastblank_index;
-	char_len = parse_mbchar(text, NULL, &lastblank_column);
-	text += char_len;
+    if (farthest_blank != NULL) {
+	char_len = parse_mbchar(farthest_blank, NULL, &lastblank_column);
+	text = farthest_blank + char_len;
 
 	/* If we haven't overshot the screen's edge, break after the blank. */
 	if (lastblank_column <= goal_column)
