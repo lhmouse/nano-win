@@ -2017,9 +2017,9 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
  * to disk regardless of whether the mark is on, and without prompting if
  * the TEMP_FILE flag is set and the current file has a name.  Return 0
  * on error, 1 on success, and 2 when the buffer is to be discarded. */
-int do_writeout(bool exiting)
+int do_writeout(bool exiting, bool withprompt)
 {
-    int i;
+    int i = 0;
     bool result = FALSE;
     kind_of_writing_type method = OVERWRITE;
     char *given;
@@ -2032,12 +2032,6 @@ int do_writeout(bool exiting)
 
     /* Display newlines in filenames as ^J. */
     as_an_at = FALSE;
-
-    if (exiting && ISSET(TEMP_FILE) && openfile->filename[0] != '\0') {
-	if (write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE))
-	    return 1;
-	/* If writing the file failed, go on to prompt for a new name. */
-    }
 
     given = mallocstrcpy(NULL,
 #ifndef NANO_TINY
@@ -2073,6 +2067,11 @@ int do_writeout(bool exiting)
 
 	present_path = mallocstrcpy(present_path, "./");
 
+	/* When we shouldn't prompt, use the existing filename. */
+	if ((!withprompt || (ISSET(TEMP_FILE) && exiting)) &&
+				openfile->filename[0] != '\0')
+	    answer = mallocstrcpy(answer, openfile->filename);
+	else {
 	/* If we're using restricted mode, and the filename isn't blank,
 	 * disable tab completion. */
 	i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
@@ -2087,6 +2086,7 @@ int do_writeout(bool exiting)
 		"", ""
 #endif
 		);
+	}
 
 	if (i < 0) {
 	    statusbar(_("Cancelled"));
@@ -2216,12 +2216,29 @@ int do_writeout(bool exiting)
 			(openfile->current_stat->st_mtime < st.st_mtime ||
 			openfile->current_stat->st_dev != st.st_dev ||
 			openfile->current_stat->st_ino != st.st_ino)) {
+		    int response;
 
 		    warn_and_shortly_pause(_("File on disk has changed"));
 
-		    if (do_yesno_prompt(FALSE, _("File was modified since "
-				"you opened it; continue saving? ")) < 1)
-			continue;
+		    response = do_yesno_prompt(FALSE, _("File was modified "
+				"since you opened it; continue saving? "));
+		    blank_statusbar();
+
+		    /* When in tool mode and not called by 'savefile',
+		     * overwrite the file right here when requested. */
+		    if (ISSET(TEMP_FILE) && withprompt) {
+			free(given);
+			if (response == 1)
+			    return write_file(openfile->filename,
+					NULL, FALSE, OVERWRITE, FALSE);
+			else if (response == 0)
+			    return 2;
+			else
+			    return 0;
+		    } else if (response != 1) {
+			free(given);
+			return 1;
+		    }
 		}
 #endif
 	    }
@@ -2250,7 +2267,7 @@ int do_writeout(bool exiting)
 void do_writeout_void(void)
 {
     /* If the user chose to discard the buffer, close it. */
-    if (do_writeout(FALSE) == 2)
+    if (do_writeout(FALSE, TRUE) == 2)
 	close_and_go();
 }
 
@@ -2258,10 +2275,8 @@ void do_writeout_void(void)
 /* If it has a name, write the current file to disk without prompting. */
 void do_savefile(void)
 {
-    if (openfile->filename[0] != '\0')
-	write_file(openfile->filename, NULL, FALSE, OVERWRITE, FALSE);
-    else
-	do_writeout_void();
+    if (do_writeout(FALSE, FALSE) == 2)
+	close_and_go();
 }
 #endif
 

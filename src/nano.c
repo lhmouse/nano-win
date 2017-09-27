@@ -1081,7 +1081,7 @@ void do_exit(void)
 
     /* If the user chose not to save, or if the user chose to save and
      * the save succeeded, we're ready to exit. */
-    if (i == 0 || (i == 1 && do_writeout(TRUE)))
+    if (i == 0 || (i == 1 && do_writeout(TRUE, TRUE) > 0))
 	close_and_go();
     else if (i != 1)
 	statusbar(_("Cancelled"));

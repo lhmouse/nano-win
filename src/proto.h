@@ -307,7 +307,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	kind_of_writing_type method);
 #endif
-int do_writeout(bool exiting);
+int do_writeout(bool exiting, bool withprompt);
 void do_writeout_void(void);
 #ifndef NANO_TINY
 void do_savefile(void);

@@ -3084,7 +3084,7 @@ void do_linter(void)
 	if (i == -1) {
 	    statusbar(_("Cancelled"));
 	    return;
-	} else if (i == 1 && (do_writeout(FALSE) != TRUE))
+	} else if (i == 1 && (do_writeout(FALSE, FALSE) != 1))
 	    return;
     }
 
