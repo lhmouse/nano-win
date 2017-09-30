@@ -17,7 +17,6 @@
 .\"   <http://www.gnu.org/licenses/>.
 .\"
 .TH NANO 1 "version 2.8.7" "August 2017"
-.\" Please adjust this date whenever revising the manpage.
 
 .SH NAME
 nano \- Nano's ANOther editor, an enhanced free Pico clone
@@ -77,7 +76,7 @@ line.
 When saving a file, back up the previous version of it, using the current
 filename suffixed with a tilde (\fB~\fP).
 .TP
-.BR \-C\ \fIdirectory\fR ", " \-\-backupdir= \fIdirectory
+.BR \-C\ \fIdirectory ", " \-\-backupdir= \fIdirectory
 Make and keep not just one backup file, but make and keep a uniquely
 numbered one every time a file is saved -- when backups are enabled (\fB\-B\fR).
 The uniquely numbered files are stored in the specified \fIdirectory\fR.
@@ -120,7 +119,7 @@ For the 200 most recent files, log the last position of the cursor,
 and place it at that position again upon reopening such a file.
 (The old form of this option, \fB\-\-poslog\fR, is deprecated.)
 .TP
-.BR "\-Q ""\fIcharacters\fB""" ", " "\-\-quotestr=""" \fIcharacters\fR """
+.BR "\-Q ""\fIcharacters\fB""" ", " "\-\-quotestr=""" \fIcharacters """
 Set the quoting string for justifying.  The default is
 \fB"^([\ \\t]*[#:>\\|}])+"\fP if extended regular expression support is
 available, or \fB">\ "\fP otherwise.  Note that \fB\\t\fP stands for a
@@ -139,7 +138,7 @@ with any name beginning with 'r' (e.g. "rnano").
 Use smooth scrolling: text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
 .TP
-.BR \-T\ \fInumber\fR ", " \-\-tabsize= \fInumber
+.BR \-T\ \fInumber ", " \-\-tabsize= \fInumber
 Set the size (width) of a tab to \fInumber\fP columns.  The value of
 \fInumber\fP must be greater than 0.  The default value is 8.
 .TP
@@ -160,7 +159,7 @@ Specify which other characters (besides the normal alphanumeric ones)
 should be considered as part of a word.  This overrides option
 \fB\-W\fR (\fB\-\-wordbounds\fR).
 .TP
-.BR \-Y\ \fIname\fR ", " \-\-syntax= \fIname
+.BR \-Y\ \fIname ", " \-\-syntax= \fIname
 Specify the name of the syntax highlighting to use from among the ones
 defined in the \fInanorc\fP files.
 .TP
@@ -209,7 +208,7 @@ and will write to the pipe when the user saves the "file".  This way
 \fBnano\fR can be used as an editor in combination with for instance
 \fBgpg\fR without having to write sensitive data to disk first.
 .TP
-.BR \-o\ \fIdirectory\fR ", " \-\-operatingdir= \fIdirectory
+.BR \-o\ \fIdirectory ", " \-\-operatingdir= \fIdirectory
 Set the operating directory.  This makes \fBnano\fP set up something
 similar to a chroot.
 .TP
@@ -221,14 +220,14 @@ by the terminal.
 Do not report errors in the \fInanorc\fP files nor ask them to be
 acknowledged by pressing Enter at startup.
 .TP
-.BR \-r\ \fInumber\fR ", " \-\-fill= \fInumber
+.BR \-r\ \fInumber ", " \-\-fill= \fInumber
 Hard-wrap lines at column \fInumber\fP.  If this value is 0 or less, wrapping
 will occur at the width of the screen less \fInumber\fP columns, allowing
 the wrap point to vary along with the width of the screen if the screen
 is resized.  The default value is \-8.  This option conflicts with
 \fB\-w\fR (\fB\-\-nowrap\fR) -- the last one given takes effect.
 .TP
-.BR \-s\ \fIprogram\fR ", " \-\-speller= \fIprogram
+.BR \-s\ \fIprogram ", " \-\-speller= \fIprogram
 Use this alternative spell checker command.
 .TP
 .BR \-t ", " \-\-tempfile
