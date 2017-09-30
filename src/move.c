@@ -65,18 +65,19 @@ void get_edge_and_target(size_t *leftedge, size_t *target_column)
 }
 
 /* Return the index in line->data that corresponds to the given column on the
- * chunk that starts at the given leftedge.  If the index lands on a tab, and
- * this tab starts on an earlier chunk, and the tab ends on this row OR we're
- * going forward, then increment the index and recalculate leftedge. */
+ * chunk that starts at the given leftedge.  If the target column has landed
+ * on a tab, prevent the cursor from falling back a row when moving forward,
+ * or from skipping a row when moving backward, by incrementing the index. */
 size_t proper_x(filestruct *line, size_t *leftedge, bool forward,
 		size_t column, bool *shifted)
 {
     size_t index = actual_x(line->data, column);
 
 #ifndef NANO_TINY
-    if (ISSET(SOFTWRAP) && line->data[index] == '\t' && (forward ||
-		*leftedge / tabsize < (*leftedge + editwincols) / tabsize) &&
-		*leftedge % tabsize != 0 && column < *leftedge + tabsize) {
+    if (ISSET(SOFTWRAP) && line->data[index] == '\t' &&
+		((forward && strnlenpt(line->data, index) < *leftedge) ||
+		(!forward && column / tabsize == (*leftedge - 1) / tabsize &&
+		column / tabsize < (*leftedge + editwincols - 1) / tabsize))) {
 	index++;
 
 	*leftedge = leftedge_for(strnlenpt(line->data, index), line);
