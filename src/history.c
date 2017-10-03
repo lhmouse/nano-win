@@ -234,13 +234,6 @@ char *histfilename(void)
     return construct_filename("/.nano/search_history");
 }
 
-/* Construct the legacy history filename. */
-/* (To be removed in 2018.) */
-char *legacyhistfilename(void)
-{
-    return construct_filename("/.nano_history");
-}
-
 char *poshistfilename(void)
 {
     return construct_filename("/.nano/filepos_history");
@@ -291,24 +284,7 @@ bool have_dotnano(void)
 void load_history(void)
 {
     char *histname = histfilename();
-    char *legacyhist = legacyhistfilename();
-    struct stat hstat;
-    FILE *hisfile;
-
-    /* If there is an old history file, migrate it. */
-    /* (To be removed in 2018.) */
-    if (stat(legacyhist, &hstat) != -1 && stat(histname, &hstat) == -1) {
-	if (rename(legacyhist, histname) == -1)
-	    history_error(N_("Detected a legacy nano history file (%s) which I tried to move\n"
-			     "to the preferred location (%s) but encountered an error: %s"),
-				legacyhist, histname, strerror(errno));
-	else
-	    history_error(N_("Detected a legacy nano history file (%s) which I moved\n"
-			     "to the preferred location (%s)\n(see the nano FAQ about this change)"),
-				legacyhist, histname);
-    }
-
-    hisfile = fopen(histname, "rb");
+    FILE *hisfile = fopen(histname, "rb");
 
     if (hisfile == NULL) {
 	if (errno != ENOENT) {
@@ -347,7 +323,6 @@ void load_history(void)
     history_changed = FALSE;
 
     free(histname);
-    free(legacyhist);
 }
 
 /* Write the lines of a history list, starting at head, from oldest to newest,
