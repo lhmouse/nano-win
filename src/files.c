@@ -1129,7 +1129,9 @@ void do_insertfile(void)
 #endif
 		/* Save the command's output in the current buffer. */
 		execute_command(answer);
+#ifndef DISABLE_HISTORIES
 		update_history(&execute_history, answer);
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
 		/* If this is a new buffer, put the cursor at the top. */
