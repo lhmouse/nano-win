@@ -111,7 +111,7 @@ static bool reveal_cursor = FALSE;
  * buffer is empty. */
 void get_key_buffer(WINDOW *win)
 {
-    int input;
+    int input = ERR;
     size_t errcount = 0;
 
     /* If the keystroke buffer isn't empty, get out. */
@@ -125,38 +125,27 @@ void get_key_buffer(WINDOW *win)
     if (reveal_cursor)
 	curs_set(1);
 
-    /* Read in the first character using whatever mode we're in. */
-    input = wgetch(win);
-
-#ifndef NANO_TINY
-    if (the_window_resized) {
-	ungetch(input);
-	regenerate_screen();
-	input = KEY_WINCH;
-    }
-#endif
-
-    if (input == ERR && !waiting_mode) {
-	curs_set(0);
-	return;
-    }
-
+    /* Read in the first keystroke using whatever mode we're in. */
     while (input == ERR) {
-	/* If we've failed to get a character MAX_BUF_SIZE times in a row,
-	 * assume our input source is gone and die gracefully.  We could
-	 * check if errno is set to EIO ("Input/output error") and die in
-	 * that case, but it's not always set properly.  Argh. */
-	if (++errcount == MAX_BUF_SIZE)
-	    die(_("Too many errors from stdin"));
+	input = wgetch(win);
 
 #ifndef NANO_TINY
 	if (the_window_resized) {
 	    regenerate_screen();
 	    input = KEY_WINCH;
-	    break;
 	}
 #endif
-	input = wgetch(win);
+	if (input == ERR && !waiting_mode) {
+	    curs_set(0);
+	    return;
+	}
+
+	/* If we've failed to get a character MAX_BUF_SIZE times in a row,
+	 * assume our input source is gone and die gracefully.  We could
+	 * check if errno is set to EIO ("Input/output error") and die in
+	 * that case, but it's not always set properly.  Argh. */
+	if (input == ERR && ++errcount == MAX_BUF_SIZE)
+	    die(_("Too many errors from stdin"));
     }
 
     curs_set(0);
