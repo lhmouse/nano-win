@@ -2489,6 +2489,7 @@ int main(int argc, char **argv)
 
     /* Create the three subwindows, based on the current screen dimensions. */
     window_init();
+    curs_set(0);
 
     editwincols = COLS;
 
