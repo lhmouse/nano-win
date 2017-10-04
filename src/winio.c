@@ -128,8 +128,6 @@ void get_key_buffer(WINDOW *win)
     /* Read in the first character using whatever mode we're in. */
     input = wgetch(win);
 
-    curs_set(0);
-
 #ifndef NANO_TINY
     if (the_window_resized) {
 	ungetch(input);
@@ -138,8 +136,10 @@ void get_key_buffer(WINDOW *win)
     }
 #endif
 
-    if (input == ERR && !waiting_mode)
+    if (input == ERR && !waiting_mode) {
+	curs_set(0);
 	return;
+    }
 
     while (input == ERR) {
 	/* If we've failed to get a character MAX_BUF_SIZE times in a row,
@@ -158,6 +158,8 @@ void get_key_buffer(WINDOW *win)
 #endif
 	input = wgetch(win);
     }
+
+    curs_set(0);
 
     /* Increment the length of the keystroke buffer, and save the value
      * of the keystroke at the end of it. */
