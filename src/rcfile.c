@@ -122,10 +122,8 @@ static const rcoption rcopts[] = {
     {NULL, 0}
 };
 
-static bool errors = FALSE;
-	/* Whether we got any errors while parsing an rcfile. */
 static size_t lineno = 0;
-	/* If we did, the line number where the last error occurred. */
+	/* The line number of the last encountered error. */
 static char *nanorc = NULL;
 	/* The path to the rcfile we're parsing. */
 #ifdef ENABLE_COLOR
@@ -138,9 +136,7 @@ static colortype *lastcolor = NULL;
 	/* The end of the color list for the current syntax. */
 #endif
 
-/* We have an error in some part of the rcfile.  Print the error message
- * on stderr, and then make the user hit Enter to continue starting
- * nano. */
+/* Report an error in an rcfile, printing it to stderr. */
 void rcfile_error(const char *msg, ...)
 {
     va_list ap;
@@ -148,11 +144,8 @@ void rcfile_error(const char *msg, ...)
     if (ISSET(QUIET))
 	return;
 
-    fprintf(stderr, "\n");
-    if (lineno > 0) {
-	errors = TRUE;
+    if (lineno > 0)
 	fprintf(stderr, _("Error in %s on line %lu: "), nanorc, (unsigned long)lineno);
-    }
 
     va_start(ap, msg);
     vfprintf(stderr, _(msg), ap);
@@ -1248,13 +1241,6 @@ void do_rcfiles(void)
     check_vitals_mapped();
 
     free(nanorc);
-
-    if (errors && !ISSET(QUIET) && !ISSET(NO_PAUSES)) {
-	errors = FALSE;
-	fprintf(stderr, _("\nPress Enter to continue starting nano.\n"));
-	while (getchar() != '\n')
-	    ;
-    }
 }
 
 #endif /* ENABLE_NANORC */
