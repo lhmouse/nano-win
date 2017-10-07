@@ -141,9 +141,6 @@ void rcfile_error(const char *msg, ...)
 {
     va_list ap;
 
-    if (ISSET(QUIET))
-	return;
-
     if (lineno > 0)
 	fprintf(stderr, _("Error in %s on line %lu: "), nanorc, (unsigned long)lineno);
 

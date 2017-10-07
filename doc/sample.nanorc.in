@@ -15,11 +15,6 @@
 ## its end.  For example, for the "brackets" option, ""')>]}" will match
 ## ", ', ), >, ], and }.
 
-## Silently ignore problems with unknown directives in the nanorc file.
-## Useful when your nanorc file might be read on systems with multiple
-## versions of nano installed (e.g. your home directory is on NFS).
-# set quiet
-
 ## When soft line wrapping is enabled, make it wrap lines at blanks
 ## (tabs and spaces) instead of always at the edge of the screen.
 # set atblanks

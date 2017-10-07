@@ -335,8 +335,7 @@ sent to the editor can be stopped and started.
 
 @item -q
 @itemx --quiet
-Do not report errors in the nanorc file nor ask them to be acknowledged
-by pressing @kbd{Enter} at startup.
+Obsolete option.  Recognized but ignored.
 
 @item -r @var{number}
 @itemx --fill=@var{number}
@@ -828,9 +827,7 @@ Do quick status-bar blanking: status-bar messages will disappear after 1
 keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quiet
-When set, @command{nano} will not report errors in the nanorc file nor ask them
-to be acknowledged by pressing @kbd{Enter} at startup.  If this option is used, it
-should be placed at the top of the file to be fully effective.
+Obsolete option.  Recognized but ignored.
 
 @item set quotestr "@var{string}"
 The email-quote string, used to justify email-quoted paragraphs.  This

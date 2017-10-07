@@ -880,11 +880,6 @@ void usage(void)
 	N_("Set operating directory"));
 #endif
     print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
-#ifdef ENABLE_NANORC
-    if (!ISSET(RESTRICTED))
-	print_opt("-q", "--quiet",
-		N_("Silently ignore startup issues like rc file errors"));
-#endif
 #ifdef ENABLED_WRAPORJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
 	N_("Set hard-wrapping point at column #cols"));
@@ -2166,8 +2161,7 @@ int main(int argc, char **argv)
 		SET(PRESERVE);
 		break;
 #ifdef ENABLE_NANORC
-	    case 'q':
-		SET(QUIET);
+	    case 'q':  /* obsolete, ignored */
 		break;
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
