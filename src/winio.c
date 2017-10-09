@@ -51,6 +51,67 @@ static bool seen_wide = FALSE;
 #endif
 static bool reveal_cursor = FALSE;
 	/* Whether the cursor should be shown when waiting for input. */
+#ifndef NANO_TINY
+static bool recording = FALSE;
+	/* Whether we are in the process of recording a macro. */
+static int *macro_buffer = NULL;
+	/* A buffer where the recorded key codes are stored. */
+static size_t macro_length = 0;
+	/* The current length of the macro. */
+
+/* Add the given code to the macro buffer. */
+void add_to_macrobuffer(int code)
+{
+    macro_length++;
+    macro_buffer = (int*)nrealloc(macro_buffer, macro_length * sizeof(int));
+    macro_buffer[macro_length - 1] = code;
+}
+
+/* Remove the last key code plus any trailing Esc codes from macro buffer. */
+void snip_last_keystroke(void)
+{
+    macro_length--;
+    while (macro_length > 0 && macro_buffer[macro_length - 1] == '\x1b')
+	macro_length--;
+}
+
+/* Start or stop the recording of keystrokes. */
+void record_macro(void)
+{
+    recording = !recording;
+
+    if (recording) {
+	macro_length = 0;
+	statusbar(_("Recording a macro..."));
+    } else {
+	snip_last_keystroke();
+	statusbar(_("Stopped recording"));
+    }
+}
+
+/* Copy the stored sequence of codes into the regular key buffer,
+ * so they will be "executed" again. */
+void run_macro(void)
+{
+    size_t i;
+
+    if (recording) {
+	statusline(HUSH, _("Cannot run macro while recording"));
+	snip_last_keystroke();
+	return;
+    }
+
+    if (macro_length == 0)
+	return;
+
+    free(key_buffer);
+    key_buffer = (int *)nmalloc(macro_length * sizeof(int));
+    key_buffer_len = macro_length;
+
+    for (i = 0; i < macro_length; i++)
+	key_buffer[i] = macro_buffer[i];
+}
+#endif /* !NANO_TINY */
 
 /* Control character compatibility:
  *
@@ -167,6 +228,10 @@ void get_key_buffer(WINDOW *win)
     nodelay(win, TRUE);
 
     while (TRUE) {
+#ifndef NANO_TINY
+	if (recording)
+	    add_to_macrobuffer(input);
+#endif
 	input = wgetch(win);
 
 	/* If there aren't any more characters, stop reading. */

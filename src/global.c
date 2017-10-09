@@ -634,6 +634,8 @@ void shortcut_init(void)
     const char *nano_savefile_msg = N_("Save file without prompting");
     const char *nano_findprev_msg = N_("Search next occurrence backward");
     const char *nano_findnext_msg = N_("Search next occurrence forward");
+    const char *nano_recordmacro_msg = N_("Start/stop recording a macro");
+    const char *nano_runmacro_msg = N_("Run the last recorded macro");
 #endif
     const char *nano_case_msg =
 	N_("Toggle the case sensitivity of the search");
@@ -976,6 +978,11 @@ void shortcut_init(void)
 	N_("Comment Lines"), IFSCHELP(nano_comment_msg), BLANKAFTER, NOVIEW);
 #endif
 #ifndef NANO_TINY
+    add_to_funcs(record_macro, MMAIN,
+	N_("Record"), IFSCHELP(nano_recordmacro_msg), TOGETHER, VIEW);
+    add_to_funcs(run_macro, MMAIN,
+	N_("Run Macro"), IFSCHELP(nano_runmacro_msg), BLANKAFTER, VIEW);
+
     add_to_funcs(do_search_backward, MMAIN,
 	N_("Where Was"), IFSCHELP(N_(nano_wherewas_msg)), BLANKAFTER, VIEW);
 
@@ -1140,6 +1147,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
     add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
+    add_to_sclist(MMAIN, "M-:", 0, record_macro, 0);
+    add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
     add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
     add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
 #endif
@@ -1543,6 +1552,10 @@ sc *strtosc(const char *input)
 	s->scfunc = do_find_bracket;
     else if (!strcasecmp(input, "wordcount"))
 	s->scfunc = do_wordlinechar_count;
+    else if (!strcasecmp(input, "recordmacro"))
+	s->scfunc = record_macro;
+    else if (!strcasecmp(input, "runmacro"))
+	s->scfunc = run_macro;
     else if (!strcasecmp(input, "undo"))
 	s->scfunc = do_undo;
     else if (!strcasecmp(input, "redo"))
