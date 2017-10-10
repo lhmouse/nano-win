@@ -5,7 +5,7 @@ syntax "nanohelp"
 
 # Key combos:
 color cyan "\^([]4-8A-Z^\_←→↑↓]|Home|End)"  "[←→↑↓]"
-color cyan "\<(Tab|Enter|Home|End|Ins|Del|Bsp|PgUp|PgDn)\>"
+color cyan "\<(Tab|Enter|Home|End|Ins|Del|Bsp|PgUp|PgDn|Up|Down|Left|Right)\>"
 color cyan "\<M-."  "\<F1?[0-9]"  "(\^|M-)Space"
 
 # Quoted indicators:
