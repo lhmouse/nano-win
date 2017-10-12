@@ -1162,17 +1162,17 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "^F", 0, do_right, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
-	add_to_sclist(MMOST, "\xE2\x86\x90", KEY_LEFT, do_left, 0);
-	add_to_sclist(MMOST, "\xE2\x86\x92", KEY_RIGHT, do_right, 0);
-	add_to_sclist(MSOME, "^\xE2\x86\x90", CONTROL_LEFT, do_prev_word_void, 0);
-	add_to_sclist(MSOME, "^\xE2\x86\x92", CONTROL_RIGHT, do_next_word_void, 0);
+	add_to_sclist(MMOST, "\xE2\x97\x80", KEY_LEFT, do_left, 0);
+	add_to_sclist(MMOST, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
+	add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, do_prev_word_void, 0);
+	add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, do_next_word_void, 0);
 #ifdef ENABLE_MULTIBUFFER
-	add_to_sclist(MMAIN, "M-\xE2\x86\x90", ALT_LEFT, switch_to_prev_buffer, 0);
-	add_to_sclist(MMAIN, "M-\xE2\x86\x92", ALT_RIGHT, switch_to_next_buffer, 0);
+	add_to_sclist(MMAIN, "M-\xE2\x97\x80", ALT_LEFT, switch_to_prev_buffer, 0);
+	add_to_sclist(MMAIN, "M-\xE2\x96\xb6", ALT_RIGHT, switch_to_next_buffer, 0);
 #endif
 #ifndef NANO_TINY
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x86\x91", ALT_UP, do_findprevious, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x86\x93", ALT_DOWN, do_findnext, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x96\xb2", ALT_UP, do_findprevious, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-\xE2\x96\xbc", ALT_DOWN, do_findnext, 0);
 #endif
     } else
 #endif
@@ -1192,10 +1192,10 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down_void, 0);
 #ifdef ENABLE_UTF8
     if (using_utf8()) {
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x86\x91", KEY_UP, do_up_void, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x86\x93", KEY_DOWN, do_down_void, 0);
-	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x86\x91", CONTROL_UP, do_prev_block, 0);
-	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x86\x93", CONTROL_DOWN, do_next_block, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xb2", KEY_UP, do_up_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xbc", KEY_DOWN, do_down_void, 0);
+	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x96\xb2", CONTROL_UP, do_prev_block, 0);
+	add_to_sclist(MMAIN|MBROWSER, "^\xE2\x96\xbc", CONTROL_DOWN, do_next_block, 0);
     } else
 #endif
     {
