@@ -172,13 +172,13 @@ void color_update(void)
 		break;
 	}
 
-	if (sint == NULL)
+	if (sint == NULL && !inhelp)
 	    statusline(ALERT, _("Unknown syntax name: %s"), syntaxstr);
     }
 
     /* If no syntax-override string was specified, or it didn't match,
      * try finding a syntax based on the filename (extension). */
-    if (sint == NULL) {
+    if (sint == NULL && !inhelp) {
 	char *reserved = charalloc(PATH_MAX + 1);
 	char *currentdir = getcwd(reserved, PATH_MAX + 1);
 	char *joinednames = charalloc(PATH_MAX + 1);
@@ -207,7 +207,7 @@ void color_update(void)
     }
 
     /* If the filename didn't match anything, try the first line. */
-    if (sint == NULL) {
+    if (sint == NULL && !inhelp) {
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
 	    if (found_in_list(sint->headers, openfile->fileage->data))
 		break;
@@ -216,7 +216,7 @@ void color_update(void)
 
 #ifdef HAVE_LIBMAGIC
     /* If we still don't have an answer, try using magic. */
-    if (sint == NULL) {
+    if (sint == NULL && !inhelp) {
 	struct stat fileinfo;
 	magic_t cookie = NULL;
 	const char *magicstring = NULL;
@@ -252,7 +252,7 @@ void color_update(void)
 #endif /* HAVE_LIBMAGIC */
 
     /* If nothing at all matched, see if there is a default syntax. */
-    if (sint == NULL) {
+    if (sint == NULL && !inhelp) {
 	for (sint = syntaxes; sint != NULL; sint = sint->next) {
 	    if (strcmp(sint->name, "default") == 0)
 		break;
