@@ -2308,6 +2308,10 @@ void statusline(message_type importance, const char *msg, ...)
 	int colorpair;
 	va_list ap;
 
+	/* Drop all waiting keystrokes upon any kind of "error". */
+	if (importance >= AHEM)
+		waiting_codes = 0;
+
 	/* Ignore a message with an importance that is lower than the last one. */
 	if (importance < lastmessage && lastmessage > NOTICE)
 		return;
