@@ -2014,9 +2014,10 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 
 /* Write the current file to disk.  If the mark is on, write the current
  * marked selection to disk.  If exiting is TRUE, write the entire file
- * to disk regardless of whether the mark is on, and without prompting if
- * the TEMP_FILE flag is set and the current file has a name.  Return 0
- * on error, 1 on success, and 2 when the buffer is to be discarded. */
+ * to disk regardless of whether the mark is on.  Do not ask for a name
+ * when withprompt is FALSE nor when the TEMP_FILE flag is set and the
+ * file already has a name.  Return 0 on error, 1 on success, and 2 when
+ * the buffer is to be discarded. */
 int do_writeout(bool exiting, bool withprompt)
 {
     int i = 0;
@@ -2072,20 +2073,20 @@ int do_writeout(bool exiting, bool withprompt)
 				openfile->filename[0] != '\0')
 	    answer = mallocstrcpy(answer, openfile->filename);
 	else {
-	/* If we're using restricted mode, and the filename isn't blank,
-	 * disable tab completion. */
-	i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
-		TRUE, MWRITEFILE, given,
+	    /* Ask for (confirmation of) the filename.  Disable tab completion
+	     * when using restricted mode and the filename isn't blank. */
+	    i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
+			TRUE, MWRITEFILE, given,
 #ifndef DISABLE_HISTORIES
-		NULL,
+			NULL,
 #endif
-		edit_refresh, "%s%s%s", msg,
+			edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
-		formatstr, backupstr
+			formatstr, backupstr
 #else
-		"", ""
+			"", ""
 #endif
-		);
+			);
 	}
 
 	if (i < 0) {
