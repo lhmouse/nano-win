@@ -33,9 +33,6 @@
 ## The directory to put unique backup files in.
 # set backupdir ""
 
-## Do backwards searches by default.
-# set backwards
-
 ## Use bold text instead of reverse video text.
 # set boldtext
 

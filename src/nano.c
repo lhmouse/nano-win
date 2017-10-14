@@ -2455,6 +2455,7 @@ int main(int argc, char **argv)
 
     /* Initialize the search string. */
     last_search = mallocstrcpy(NULL, "");
+    UNSET(BACKWARDS_SEARCH);
 
     /* If tabsize wasn't specified, set its default value. */
     if (tabsize == -1)
