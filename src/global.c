@@ -533,9 +533,9 @@ void shortcut_init(void)
     const char *nano_insert_msg =
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
-	N_("Search for a string or a regular expression");
+	N_("Search forward for a string or a regular expression");
     const char *nano_wherewas_msg =
-	N_("Search backward for a string or expression");
+	N_("Search backward for a string or a regular expression");
 #ifdef ENABLE_BROWSER
     const char *nano_browser_whereis_msg = N_("Search for a string");
     const char *nano_browser_refresh_msg = N_("Refresh the file list");
@@ -729,7 +729,7 @@ void shortcut_init(void)
 #endif
     }
 
-    add_to_funcs(do_search, MMAIN,
+    add_to_funcs(do_search_forward, MMAIN,
 	whereis_tag, IFSCHELP(nano_whereis_msg), TOGETHER, VIEW);
 
     add_to_funcs(do_replace, MMAIN,
@@ -1086,8 +1086,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "^Q", 0, do_search_backward, 0);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search, 0);
-    add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search, 0);
+    add_to_sclist(MMAIN, "^W", 0, do_search_forward, 0);
+    add_to_sclist(MMAIN, "F6", 0, do_search_forward, 0);
     add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
     add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
     add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
@@ -1126,6 +1126,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP, "M-/", 0, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-?", 0, do_last_line, 0);
+    add_to_sclist(MHELP|MBROWSER, "^W", 0, do_search, 0);
+    add_to_sclist(MHELP|MBROWSER, "F6", 0, do_search, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_research, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F16", 0, do_research, 0);
 #ifndef NANO_TINY
