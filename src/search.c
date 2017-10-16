@@ -392,24 +392,15 @@ void do_search_backward(void)
 /* Search in the backward direction for the next occurrence. */
 void do_findprevious(void)
 {
-    if ISSET(BACKWARDS_SEARCH)
-	do_research();
-    else {
-	SET(BACKWARDS_SEARCH);
-	do_research();
-	UNSET(BACKWARDS_SEARCH);
-    }
+    SET(BACKWARDS_SEARCH);
+    do_research();
 }
 
 /* Search in the forward direction for the next occurrence. */
 void do_findnext(void)
 {
-    if ISSET(BACKWARDS_SEARCH) {
-	UNSET(BACKWARDS_SEARCH);
-	do_research();
-	SET(BACKWARDS_SEARCH);
-    } else
-	do_research();
+    UNSET(BACKWARDS_SEARCH);
+    do_research();
 }
 #endif /* !NANO_TINY */
 
