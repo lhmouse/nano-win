@@ -1247,6 +1247,13 @@ Deletes the character under the cursor.
 @item backspace
 Deletes the character before the cursor.
 
+@item recordmacro
+Starts the recording of keystrokes --- the keystrokes are stored
+as a macro.  When already recording, the recording is stopped.
+
+@item runmacro
+Replays the keystrokes of the last recorded macro.
+
 @item undo
 Undoes the last performed text action (add text, delete text, etc).
 
