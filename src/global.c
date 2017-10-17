@@ -1344,6 +1344,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_HELP
     add_to_sclist(MHELP, "^G", 0, do_exit, 0);
+    add_to_sclist(MHELP, "F1", 0, do_exit, 0);
     add_to_sclist(MHELP, "Home", KEY_HOME, do_first_line, 0);
     add_to_sclist(MHELP, "End", KEY_END, do_last_line, 0);
 #endif
