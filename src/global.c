@@ -738,7 +738,7 @@ void shortcut_init(void)
 	replace_tag, IFSCHELP(nano_replace_msg), TOGETHER, NOVIEW);
 
 #ifdef ENABLE_BROWSER
-    add_to_funcs(do_search, MBROWSER,
+    add_to_funcs(do_search_forward, MBROWSER,
 	whereis_tag, IFSCHELP(nano_browser_whereis_msg), TOGETHER, VIEW);
 
     add_to_funcs(do_research, MBROWSER,
@@ -757,7 +757,7 @@ void shortcut_init(void)
     add_to_funcs(total_refresh, MHELP, refresh_tag, "x", 0, VIEW);
     add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
 
-    add_to_funcs(do_search, MHELP, whereis_tag, "x", 0, VIEW);
+    add_to_funcs(do_search_forward, MHELP, whereis_tag, "x", 0, VIEW);
     add_to_funcs(do_research, MHELP, whereis_next_tag, "x", 0, VIEW);
 #endif
 
@@ -1093,8 +1093,8 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
     add_to_sclist(MMAIN, "^Q", 0, do_search_backward, 0);
-    add_to_sclist(MMAIN, "^W", 0, do_search_forward, 0);
-    add_to_sclist(MMAIN, "F6", 0, do_search_forward, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search_forward, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search_forward, 0);
     add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
     add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
     add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
@@ -1133,8 +1133,6 @@ void shortcut_init(void)
     add_to_sclist(MMAIN|MHELP, "M-/", 0, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, do_last_line, 0);
     add_to_sclist(MMAIN|MHELP, "M-?", 0, do_last_line, 0);
-    add_to_sclist(MHELP|MBROWSER, "^W", 0, do_search, 0);
-    add_to_sclist(MHELP|MBROWSER, "F6", 0, do_search, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_research, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "F16", 0, do_research, 0);
 #ifndef NANO_TINY

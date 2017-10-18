@@ -165,7 +165,7 @@ char *do_browser(char *path)
 #else
 	    say_there_is_no_help();
 #endif
-	} else if (func == do_search) {
+	} else if (func == do_search_forward) {
 	    do_filesearch();
 	} else if (func == do_research) {
 	    do_fileresearch(TRUE);
@@ -485,7 +485,7 @@ functionptrtype parse_browser_input(int *kbinput)
 	    case 'W':
 	    case 'w':
 	    case '/':
-		return do_search;
+		return do_search_forward;
 	    case 'N':
 #ifndef NANO_TINY
 		return do_findprevious;

@@ -205,7 +205,7 @@ void do_help(void)
 	    do_first_line();
 	} else if (func == do_last_line) {
 	    do_last_line();
-	} else if (func == do_search) {
+	} else if (func == do_search_forward) {
 	    do_search();
 	    bottombars(MHELP);
 	} else if (func == do_research) {
@@ -575,7 +575,7 @@ functionptrtype parse_help_input(int *kbinput)
 	    case 'W':
 	    case 'w':
 	    case '/':
-		return do_search;
+		return do_search_forward;
 	    case 'N':
 #ifndef NANO_TINY
 		return do_findprevious;
