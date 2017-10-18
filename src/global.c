@@ -688,7 +688,7 @@ void shortcut_init(void)
 
     /* Start populating the different menus with functions. */
 
-    add_to_funcs(do_help_void, MMOST,
+    add_to_funcs(do_help_void, MMOST & ~MFINDINHELP,
 	/* TRANSLATORS: Try to keep the following strings at most 10 characters. */
 	N_("Get Help"), IFSCHELP(nano_help_msg), TOGETHER, VIEW);
 
