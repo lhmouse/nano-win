@@ -1203,10 +1203,10 @@ Moves the cursor to the beginning of the current or preceding block of text.
 @item nextblock
 Moves the cursor to the beginning of the next block of text.
 
-@item prevpage
+@item pageup
 Goes up one screenful.
 
-@item nextpage
+@item pagedown
 Goes down one screenful.
 
 @item firstline
@@ -1315,7 +1315,7 @@ When about to write a file, discard the current buffer without saving.
 (This function is bound by default only when option @option{--tempfile}
 is in effect.)
 
-@item tofiles
+@item browser
 Starts the file browser, allowing to select a file from a list.
 
 @item gotodir
