@@ -80,11 +80,12 @@ size_t proper_x(filestruct *line, size_t *leftedge, bool forward,
 		column / tabsize < (*leftedge + editwincols - 1) / tabsize))) {
 	index++;
 
-	*leftedge = leftedge_for(strnlenpt(line->data, index), line);
-
 	if (shifted != NULL)
 	    *shifted = TRUE;
     }
+
+    if (ISSET(SOFTWRAP))
+	*leftedge = leftedge_for(strnlenpt(line->data, index), line);
 #endif
 
     return index;
@@ -95,17 +96,15 @@ size_t proper_x(filestruct *line, size_t *leftedge, bool forward,
 void set_proper_index_and_pww(size_t *leftedge, size_t target, bool forward)
 {
     bool shifted = FALSE;
+    size_t was_edge = *leftedge;
 
     openfile->current_x = proper_x(openfile->current, leftedge, forward,
 			actual_last_column(*leftedge, target), &shifted);
 
     /* If the index was incremented, try going to the target column. */
-    if (shifted) {
-	size_t newer_x = actual_x(openfile->current->data, *leftedge + target);
-
-	if (newer_x > openfile->current_x)
-	    openfile->current_x = newer_x;
-    }
+    if (shifted || *leftedge < was_edge)
+	openfile->current_x = proper_x(openfile->current, leftedge, forward,
+			actual_last_column(*leftedge, target), &shifted);
 
     openfile->placewewant = *leftedge + target;
 }
