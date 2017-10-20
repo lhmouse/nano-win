@@ -1275,8 +1275,8 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE, "M-R", 0, regexp_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "M-B", 0, backwards_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^Y", 0, do_first_line, 0);
-    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE, "^V", 0, do_last_line, 0);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MFINDINHELP, "^Y", 0, do_first_line, 0);
+    add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MFINDINHELP, "^V", 0, do_last_line, 0);
 #ifndef DISABLE_JUSTIFY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^W", 0, do_para_begin_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^O", 0, do_para_end_void, 0);
