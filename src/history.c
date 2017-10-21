@@ -40,6 +40,8 @@
 
 static bool history_changed = FALSE;
 	/* Whether any of the history lists has changed. */
+static struct stat stat_of_positions_file;
+	/* The last-obtained stat information of the positions file. */
 
 /* Initialize the lists of historical search and replace strings
  * and the list of historical executed commands. */
@@ -386,6 +388,15 @@ void save_history(void)
     free(histname);
 }
 
+/* Update the modification time of the position history file. */
+void update_posfile_timestamp(void)
+{
+    char *poshist = concatenate(statedir, POSITION_HISTORY);
+
+    stat(poshist, &stat_of_positions_file);
+    free(poshist);
+}
+
 /* Load the recorded cursor positions for files that were edited. */
 void load_poshistory(void)
 {
@@ -448,6 +459,8 @@ void load_poshistory(void)
 	}
 	fclose(hisfile);
 	free(line);
+
+	update_posfile_timestamp();
     }
     free(poshist);
 }
@@ -487,8 +500,33 @@ void save_poshistory(void)
 	    free(path_and_place);
 	}
 	fclose(hisfile);
+
+	update_posfile_timestamp();
     }
     free(poshist);
+}
+
+/* Reload the position history file if it has been modified since last load. */
+void reload_positions_if_needed(void)
+{
+    char *poshist = concatenate(statedir, POSITION_HISTORY);
+    struct stat newstat;
+
+    stat(poshist, &newstat);
+    free(poshist);
+
+    if (newstat.st_mtime != stat_of_positions_file.st_mtime) {
+	poshiststruct *ptr, *nextone;
+
+	for (ptr = position_history; ptr != NULL; ptr = nextone) {
+	    nextone = ptr->next;
+	    free(ptr->filename);
+	    free(ptr);
+	}
+	position_history = NULL;
+
+	load_poshistory();
+    }
 }
 
 /* Update the recorded last file positions, given a filename, a line
@@ -502,6 +540,8 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	free(fullpath);
 	return;
     }
+
+    reload_positions_if_needed();
 
     /* Look for a matching filename in the list. */
     for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
@@ -551,6 +591,8 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
     theone->next = NULL;
 
     free(fullpath);
+
+    save_poshistory();
 }
 
 /* Check whether the given file matches an existing entry in the recorded
@@ -563,6 +605,8 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 
     if (fullpath == NULL)
 	return FALSE;
+
+    reload_positions_if_needed();
 
     while (posptr != NULL && strcmp(posptr->filename, fullpath) != 0)
 	posptr = posptr->next;

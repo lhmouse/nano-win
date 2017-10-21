@@ -570,7 +570,6 @@ void finish(void)
 	save_history();
     if (ISSET(POS_HISTORY)) {
 	update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
-	save_poshistory();
     }
 #endif
 
