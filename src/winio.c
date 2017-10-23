@@ -1949,7 +1949,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 #endif
     }
 
-    while (*buf != '\0' && column < beyond) {
+    while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
 	int charlength, charwidth = 1;
 
 	if (*buf == ' ') {
