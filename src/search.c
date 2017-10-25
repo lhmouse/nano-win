@@ -291,7 +291,6 @@ int findnextstr(const char *needle, bool whole_word_only, bool have_region,
 
 	/* If we're back at the beginning, then there is no needle. */
 	if (came_full_circle) {
-	    not_found_msg(needle);
 	    enable_waiting();
 	    return 0;
 	}
@@ -336,10 +335,8 @@ int findnextstr(const char *needle, bool whole_word_only, bool have_region,
 
     /* Ensure that the found occurrence is not beyond the starting x. */
     if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && found_x > begin_x) ||
-			(ISSET(BACKWARDS_SEARCH) && found_x < begin_x))) {
-	not_found_msg(needle);
+			(ISSET(BACKWARDS_SEARCH) && found_x < begin_x)))
 	return 0;
-    }
 
     /* Set the current position to point at what we found. */
     openfile->current = line;
@@ -448,6 +445,8 @@ void go_looking(void)
     if (didfind == 1 && openfile->current == was_current &&
 		openfile->current_x == was_current_x)
 	statusbar(_("This is the only occurrence"));
+    else if (didfind == 0)
+	not_found_msg(last_search);
 
 #ifdef DEBUG
     statusline(HUSH, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
