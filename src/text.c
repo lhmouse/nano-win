@@ -2619,7 +2619,7 @@ bool do_int_spell_fix(const char *word)
     }
 
     /* Find the first whole occurrence of word. */
-    result = findnextstr(word, TRUE, TRUE, NULL, FALSE, NULL, 0);
+    result = findnextstr(word, TRUE, INREGION, NULL, FALSE, NULL, 0);
 
     /* If the word isn't found, alert the user; if it is, allow correction. */
     if (result == 0) {

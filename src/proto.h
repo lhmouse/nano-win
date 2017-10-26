@@ -497,7 +497,7 @@ void do_rcfiles(void);
 /* Most functions in search.c. */
 void not_found_msg(const char *str);
 void search_replace_abort(void);
-int findnextstr(const char *needle, bool whole_word_only, bool have_region,
+int findnextstr(const char *needle, bool whole_word_only, int modus,
 	size_t *match_len, bool skipone, const filestruct *begin, size_t begin_x);
 void do_search(void);
 void do_search_forward(void);

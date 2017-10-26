@@ -205,7 +205,7 @@ int search_init(bool replacing, bool use_answer)
  * where we first started searching, at column begin_x.  Return 1 when we
  * found something, 0 when nothing, and -2 on cancel.  When match_len is
  * not NULL, set it to the length of the found string, if any. */
-int findnextstr(const char *needle, bool whole_word_only, bool have_region,
+int findnextstr(const char *needle, bool whole_word_only, int modus,
 	size_t *match_len, bool skipone, const filestruct *begin, size_t begin_x)
 {
     size_t found_len = strlen(needle);
@@ -304,7 +304,7 @@ int findnextstr(const char *needle, bool whole_word_only, bool have_region,
 	/* If we've reached the start or end of the buffer, wrap around;
 	 * but stop when spell-checking or replacing in a region. */
 	if (line == NULL) {
-	    if (whole_word_only || have_region) {
+	    if (whole_word_only || modus == INREGION) {
 		enable_waiting();
 		return 0;
 	    }
@@ -314,9 +314,11 @@ int findnextstr(const char *needle, bool whole_word_only, bool have_region,
 	    else
 		line = openfile->fileage;
 
-	    statusbar(_("Search Wrapped"));
-	    /* Delay the "Searching..." message for at least two seconds. */
-	    feedback = -2;
+	    if (modus == JUSTFIND) {
+		statusbar(_("Search Wrapped"));
+		/* Delay the "Searching..." message for at least two seconds. */
+		feedback = -2;
+	    }
 	}
 
 	/* If we've reached the original starting line, take note. */
@@ -437,7 +439,7 @@ void go_looking(void)
 
     came_full_circle = FALSE;
 
-    didfind = findnextstr(last_search, FALSE, FALSE, NULL, FALSE,
+    didfind = findnextstr(last_search, FALSE, JUSTFIND, NULL, FALSE,
 				openfile->current, openfile->current_x);
 
     /* If we found something, and we're back at the exact same spot
@@ -548,21 +550,21 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
     size_t match_len;
     bool replaceall = FALSE;
     bool skipone = FALSE;
-    bool mark_was_set = FALSE;
+    int modus = REPLACING;
 #ifndef NANO_TINY
     filestruct *top, *bot;
     size_t top_x, bot_x;
+    bool mark_was_set = openfile->mark_set;
     bool right_side_up = FALSE;
 	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
-
-    mark_was_set = openfile->mark_set;
 
     /* If the mark is on, frame the region, and turn the mark off. */
     if (mark_was_set) {
 	mark_order((const filestruct **)&top, &top_x,
 			(const filestruct **)&bot, &bot_x, &right_side_up);
 	openfile->mark_set = FALSE;
+	modus = INREGION;
 
 	/* Start either at the top or the bottom of the marked region. */
 	if (!ISSET(BACKWARDS_SEARCH)) {
@@ -579,7 +581,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
     while (TRUE) {
 	int i = 0;
-	int result = findnextstr(needle, whole_word_only, mark_was_set,
+	int result = findnextstr(needle, whole_word_only, modus,
 			&match_len, skipone, real_current, *real_current_x);
 
 	/* If nothing more was found, or the user aborted, stop looping. */

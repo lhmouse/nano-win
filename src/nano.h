@@ -138,6 +138,10 @@
 #define BLIND FALSE
 #define VISIBLE TRUE
 
+#define JUSTFIND  0
+#define REPLACING 1
+#define INREGION  2
+
 /* Enumeration types. */
 typedef enum {
     NIX_FILE, DOS_FILE, MAC_FILE
