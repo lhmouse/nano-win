@@ -25,6 +25,19 @@
 #include <string.h>
 
 #ifdef ENABLE_HISTORIES
+
+#ifndef XDG_DATA_FALLBACK
+#define XDG_DATA_FALLBACK "/.local/share"
+#endif
+
+#ifndef SEARCH_HISTORY
+#define SEARCH_HISTORY "search_history"
+#endif
+
+#ifndef POSITION_HISTORY
+#define POSITION_HISTORY "filepos_history"
+#endif
+
 static bool history_changed = FALSE;
 	/* Whether any of the history lists has changed. */
 
@@ -216,29 +229,6 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 }
 #endif /* ENSABLE_TABCOMP */
 
-/* Return a dynamically-allocated path that is the concatenation of the
- * user's home directory and the given name. */
-char *construct_filename(const char *name)
-{
-    size_t homelen = strlen(homedir);
-    char *joined = charalloc(homelen + strlen(name) + 1);
-
-    strcpy(joined, homedir);
-    strcpy(joined + homelen, name);
-
-    return joined;
-}
-
-char *histfilename(void)
-{
-    return construct_filename("/.nano/search_history");
-}
-
-char *poshistfilename(void)
-{
-    return construct_filename("/.nano/filepos_history");
-}
-
 void history_error(const char *msg, ...)
 {
     va_list ap;
@@ -252,38 +242,56 @@ void history_error(const char *msg, ...)
 	;
 }
 
-/* Check whether the ~/.nano subdirectory for history files exists.  Return
- * TRUE if it exists or was successfully created, and FALSE otherwise. */
-bool have_dotnano(void)
+/* Check whether we have or could make a directory for history files. */
+bool have_statedir(void)
 {
-    bool retval = TRUE;
     struct stat dirstat;
-    char *nanodir = construct_filename("/.nano");
+    char *xdgdatadir;
 
-    if (stat(nanodir, &dirstat) == -1) {
-	if (mkdir(nanodir, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
+    get_homedir();
+
+    if (homedir != NULL) {
+	statedir = concatenate(homedir, "/.nano/");
+
+	if (stat(statedir, &dirstat) != 0 && S_ISDIR(dirstat.st_mode))
+	    return TRUE;
+    }
+
+    free(statedir);
+    xdgdatadir = getenv("XDG_DATA_HOME");
+
+    if (homedir == NULL && xdgdatadir == NULL)
+	return FALSE;
+
+    if (xdgdatadir != NULL) {
+	statedir = concatenate(xdgdatadir, "/nano/");
+	free(xdgdatadir);
+    } else
+	statedir = concatenate(homedir, XDG_DATA_FALLBACK "/nano/");
+
+    if (stat(statedir, &dirstat) == -1) {
+	if (mkdir(statedir, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
 	    history_error(N_("Unable to create directory %s: %s\n"
 				"It is required for saving/loading "
 				"search history or cursor positions.\n"),
-				nanodir, strerror(errno));
-	    retval = FALSE;
+				statedir, strerror(errno));
+	    return FALSE;
 	}
     } else if (!S_ISDIR(dirstat.st_mode)) {
 	history_error(N_("Path %s is not a directory and needs to be.\n"
 				"Nano will be unable to load or save "
 				"search history or cursor positions.\n"),
-				nanodir);
-	retval = FALSE;
+				statedir);
+	return FALSE;
     }
 
-    free(nanodir);
-    return retval;
+    return TRUE;
 }
 
 /* Load the histories for Search and Replace and Execute Command. */
 void load_history(void)
 {
-    char *histname = histfilename();
+    char *histname = concatenate(statedir, SEARCH_HISTORY);
     FILE *hisfile = fopen(histname, "rb");
 
     if (hisfile == NULL) {
@@ -356,7 +364,7 @@ void save_history(void)
     if (!history_changed)
 	return;
 
-    histname = histfilename();
+    histname = concatenate(statedir, SEARCH_HISTORY);
     hisfile = fopen(histname, "wb");
 
     if (hisfile == NULL)
@@ -381,7 +389,7 @@ void save_history(void)
 /* Load the recorded cursor positions for files that were edited. */
 void load_poshistory(void)
 {
-    char *poshist = poshistfilename();
+    char *poshist = concatenate(statedir, POSITION_HISTORY);
     FILE *hisfile = fopen(poshist, "rb");
 
     if (hisfile == NULL) {
@@ -447,7 +455,7 @@ void load_poshistory(void)
 /* Save the recorded cursor positions for files that were edited. */
 void save_poshistory(void)
 {
-    char *poshist = poshistfilename();
+    char *poshist = concatenate(statedir, POSITION_HISTORY);
     poshiststruct *posptr;
     FILE *hisfile = fopen(poshist, "wb");
 

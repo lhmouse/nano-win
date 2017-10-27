@@ -181,6 +181,7 @@ extern char* specified_color_combo[NUMBER_OF_ELEMENTS];
 extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
+extern char *statedir;
 extern char *rcfile_with_errors;
 
 typedef void (*functionptrtype)(void);
@@ -365,7 +366,7 @@ void get_history_newer_void(void);
 #ifdef ENABLE_TABCOMP
 char *get_history_completion(filestruct **h, char *s, size_t len);
 #endif
-bool have_dotnano(void);
+bool have_statedir(void);
 void load_history(void);
 void save_history(void);
 void load_poshistory(void);
@@ -581,6 +582,7 @@ void complete_a_word(void);
 
 /* All functions in utils.c. */
 void get_homedir(void);
+char *concatenate(const char *path, const char *name);
 #ifdef ENABLE_LINENUMBERS
 int digits(ssize_t n);
 #endif

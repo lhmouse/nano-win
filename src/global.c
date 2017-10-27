@@ -242,6 +242,8 @@ int interface_color_pair[] = {0};
 
 char *homedir = NULL;
 	/* The user's home directory, from $HOME or /etc/passwd. */
+char *statedir = NULL;
+	/* The directory for nano's history files. */
 char *rcfile_with_errors = NULL;
 	/* The first nanorc file, if any, that produced warnings. */
 

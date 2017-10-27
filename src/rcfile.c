@@ -31,7 +31,7 @@
 #ifdef ENABLE_NANORC
 
 #ifndef RCFILE_NAME
-#define RCFILE_NAME ".nanorc"
+#define RCFILE_NAME "nanorc"
 #endif
 
 static const rcoption rcopts[] = {
@@ -504,10 +504,14 @@ void parse_binding(char *ptr, bool dobind)
     free(keycopy);
 }
 
-/* Verify that the given file is not a folder nor a device. */
+/* Verify that the given file exists, is not a folder nor a device. */
 bool is_good_file(char *file)
 {
     struct stat rcinfo;
+
+    /* First check that the file exists and is readable. */
+    if (access(file, R_OK) != 0)
+	return FALSE;
 
     /* If the thing exists, it may not be a directory nor a device. */
     if (stat(file, &rcinfo) != -1 && (S_ISDIR(rcinfo.st_mode) ||
@@ -1211,6 +1215,17 @@ void parse_one_nanorc(void)
 	rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 }
 
+bool have_nanorc(char *path, char *name)
+{
+    if (path == NULL)
+	return FALSE;
+
+    free(nanorc);
+    nanorc = concatenate(path, name);
+
+    return is_good_file(nanorc);
+}
+
 /* First read the system-wide rcfile, then the user's rcfile. */
 void do_rcfiles(void)
 {
@@ -1228,18 +1243,22 @@ void do_rcfiles(void)
 
     get_homedir();
 
-    if (homedir == NULL)
-	rcfile_error(N_("I can't find my home directory!  Wah!"));
-    else {
-	nanorc = charealloc(nanorc, strlen(homedir) + strlen(RCFILE_NAME) + 2);
-	sprintf(nanorc, "%s/%s", homedir, RCFILE_NAME);
+    char *xdgconfdir = getenv("XDG_CONFIG_HOME");
 
-	/* Process the current user's nanorc. */
+    /* Now try the to find a nanorc file in the user's home directory
+     * or in the XDG configuration directories. */
+    if (have_nanorc(homedir, "/." RCFILE_NAME))
 	parse_one_nanorc();
-    }
+    else if (have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME))
+	parse_one_nanorc();
+    else if (have_nanorc(homedir, "/.config/nano/" RCFILE_NAME))
+	parse_one_nanorc();
+    else if (homedir == NULL && xdgconfdir == NULL)
+	rcfile_error(N_("I can't find my home directory!  Wah!"));
 
     check_vitals_mapped();
 
+    free(xdgconfdir);
     free(nanorc);
 }
 

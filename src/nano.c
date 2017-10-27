@@ -2357,8 +2357,7 @@ int main(int argc, char **argv)
     /* If we need any of the history files, verify that the user's home
      * directory and its .nano subdirctory exist. */
     if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
-	get_homedir();
-	if (homedir == NULL || !have_dotnano()) {
+	if (!have_statedir()) {
 	    UNSET(HISTORYLOG);
 	    UNSET(POS_HISTORY);
 	}

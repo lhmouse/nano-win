@@ -53,6 +53,18 @@ void get_homedir(void)
     }
 }
 
+/* Return a copy of the two given strings, welded together. */
+char *concatenate(const char *path, const char *name)
+{
+    size_t pathlen = strlen(path);
+    char *joined = charalloc(pathlen + strlen(name) + 1);
+
+    strcpy(joined, path);
+    strcpy(joined + pathlen, name);
+
+    return joined;
+}
+
 #ifdef ENABLE_LINENUMBERS
 /* Return the number of digits that the given integer n takes up. */
 int digits(ssize_t n)
