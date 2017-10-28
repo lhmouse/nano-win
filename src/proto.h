@@ -181,6 +181,7 @@ extern char* specified_color_combo[NUMBER_OF_ELEMENTS];
 extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
+extern char *rcfile_with_errors;
 
 typedef void (*functionptrtype)(void);
 

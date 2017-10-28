@@ -242,6 +242,8 @@ int interface_color_pair[] = {0};
 
 char *homedir = NULL;
 	/* The user's home directory, from $HOME or /etc/passwd. */
+char *rcfile_with_errors = NULL;
+	/* The first nanorc file, if any, that produced warnings. */
 
 
 /* Return the number of entries in the shortcut list for a given menu. */

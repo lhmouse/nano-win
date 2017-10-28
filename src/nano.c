@@ -2594,6 +2594,9 @@ int main(int argc, char **argv)
 
     prepare_for_display();
 
+    if (rcfile_with_errors != NULL)
+	statusline(ALERT, _("Mistakes in '%s'"), rcfile_with_errors);
+
     while (TRUE) {
 #ifdef ENABLE_LINENUMBERS
 	int needed_margin = digits(openfile->filebot->lineno) + 1;
