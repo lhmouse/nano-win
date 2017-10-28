@@ -500,21 +500,21 @@ const char *unjust_tag = N_("Unjustify");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-    const char *read_file_tag = N_("Read File");
+    const char *readfile_tag = N_("Read File");
     const char *whereis_tag = N_("Where Is");
     const char *replace_tag = N_("Replace");
     const char *gotoline_tag = N_("Go To Line");
-    const char *prev_line_tag = N_("Prev Line");
-    const char *next_line_tag = N_("Next Line");
-    const char *prev_page_tag = N_("Prev Page");
-    const char *next_page_tag = N_("Next Page");
+    const char *prevline_tag = N_("Prev Line");
+    const char *nextline_tag = N_("Next Line");
+    const char *prevpage_tag = N_("Prev Page");
+    const char *nextpage_tag = N_("Next Page");
 #ifndef DISABLE_JUSTIFY
     const char *justify_tag = N_("Justify");
     const char *fulljustify_tag = N_("FullJstify");
 #endif
     const char *refresh_tag = N_("Refresh");
     /* TRANSLATORS: Try to keep this string at most 12 characters. */
-    const char *whereis_next_tag = N_("WhereIs Next");
+    const char *whereisnext_tag = N_("WhereIs Next");
 
 #ifdef ENABLE_HELP
     /* TRANSLATORS: The next long series of strings are shortcut descriptions;
@@ -530,20 +530,20 @@ void shortcut_init(void)
 	;
     const char *writeout_gist =
 	N_("Write the current file to disk");
-    const char *insert_gist =
+    const char *readfile_gist =
 	N_("Insert another file into the current one");
     const char *whereis_gist =
 	N_("Search forward for a string or a regular expression");
     const char *wherewas_gist =
 	N_("Search backward for a string or a regular expression");
 #ifdef ENABLE_BROWSER
-    const char *browser_whereis_gist = N_("Search for a string");
-    const char *browser_refresh_gist = N_("Refresh the file list");
+    const char *browserwhereis_gist = N_("Search for a string");
+    const char *browserrefresh_gist = N_("Refresh the file list");
 #ifndef NANO_TINY
-    const char *browser_lefthand_gist = N_("Go to lefthand column");
-    const char *browser_righthand_gist = N_("Go to righthand column");
-    const char *browser_toprow_gist = N_("Go to first row in this column");
-    const char *browser_bottomrow_gist = N_("Go to last row in this column");
+    const char *browserlefthand_gist = N_("Go to lefthand column");
+    const char *browserrighthand_gist = N_("Go to righthand column");
+    const char *browsertoprow_gist = N_("Go to first row in this column");
+    const char *browserbottomrow_gist = N_("Go to last row in this column");
 #endif
 #endif
     const char *prevpage_gist = N_("Go one screenful up");
@@ -558,7 +558,7 @@ void shortcut_init(void)
 #endif
     const char *replace_gist = N_("Replace a string or a regular expression");
     const char *gotoline_gist = N_("Go to line and column number");
-    const char *whereis_next_gist = N_("Repeat the last search");
+    const char *whereisnext_gist = N_("Repeat the last search");
 #ifndef NANO_TINY
     const char *mark_gist = N_("Mark text starting from the cursor position");
     const char *copy_gist =
@@ -604,11 +604,11 @@ void shortcut_init(void)
     const char *backspace_gist =
 	N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
-    const char *cut_word_left_gist =
+    const char *cutwordleft_gist =
 	N_("Cut backward from cursor to word start");
-    const char *cut_word_right_gist =
+    const char *cutwordright_gist =
 	N_("Cut forward from cursor to next word start");
-    const char *cut_till_eof_gist =
+    const char *cuttilleof_gist =
 	N_("Cut from the cursor position to the end of the file");
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -644,9 +644,9 @@ void shortcut_init(void)
     const char *regexp_gist =
 	N_("Toggle the use of regular expressions");
 #ifndef DISABLE_HISTORIES
-    const char *prev_history_gist =
+    const char *prevhistory_gist =
 	N_("Recall the previous search/replace string");
-    const char *next_history_gist =
+    const char *nexthistory_gist =
 	N_("Recall the next search/replace string");
 #endif
 #ifndef NANO_TINY
@@ -660,7 +660,7 @@ void shortcut_init(void)
 #ifdef ENABLE_MULTIBUFFER
     const char *newbuffer_gist = N_("Toggle the use of a new buffer");
 #endif
-    const char *discard_buffer_gist = N_("Close buffer without saving it");
+    const char *discardbuffer_gist = N_("Close buffer without saving it");
 #ifdef ENABLE_BROWSER
     const char *tofiles_gist = N_("Go to file browser");
     const char *exitbrowser_gist = N_("Exit from the file browser");
@@ -716,7 +716,7 @@ void shortcut_init(void)
     if (TRUE) {
 #endif
 	add_to_funcs(do_insertfile_void, MMAIN,
-		read_file_tag, WITHORSANS(insert_gist), BLANKAFTER,
+		readfile_tag, WITHORSANS(readfile_gist), BLANKAFTER,
 		/* We allow inserting files in view mode if multibuffer mode
 		 * is switched on, so that we can view multiple files. */
 #ifdef ENABLE_MULTIBUFFER
@@ -739,16 +739,16 @@ void shortcut_init(void)
 
 #ifdef ENABLE_BROWSER
     add_to_funcs(do_search_forward, MBROWSER,
-	whereis_tag, WITHORSANS(browser_whereis_gist), TOGETHER, VIEW);
+	whereis_tag, WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
 
     add_to_funcs(do_research, MBROWSER,
-	whereis_next_tag, WITHORSANS(whereis_next_gist), BLANKAFTER, VIEW);
+	whereisnext_tag, WITHORSANS(whereisnext_gist), BLANKAFTER, VIEW);
 
     add_to_funcs(goto_dir_void, MBROWSER,
 	N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 
     add_to_funcs(total_refresh, MBROWSER,
-	refresh_tag, WITHORSANS(browser_refresh_gist), BLANKAFTER, VIEW);
+	refresh_tag, WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifdef ENABLE_HELP
@@ -758,7 +758,7 @@ void shortcut_init(void)
     add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
 
     add_to_funcs(do_search_forward, MHELP, whereis_tag, "x", 0, VIEW);
-    add_to_funcs(do_research, MHELP, whereis_next_tag, "x", 0, VIEW);
+    add_to_funcs(do_research, MHELP, whereisnext_tag, "x", 0, VIEW);
 #endif
 
     add_to_funcs(do_cut_text_void, MMAIN,
@@ -838,7 +838,7 @@ void shortcut_init(void)
 	N_("To Bracket"), WITHORSANS(bracket_gist), BLANKAFTER, VIEW);
 
     add_to_funcs(do_research, MMAIN,
-	whereis_next_tag, WITHORSANS(whereis_next_gist), TOGETHER, VIEW);
+	whereisnext_tag, WITHORSANS(whereisnext_gist), TOGETHER, VIEW);
 
     add_to_funcs(do_findprevious, MMAIN,
 	N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
@@ -868,9 +868,9 @@ void shortcut_init(void)
 	N_("End"), WITHORSANS(end_gist), BLANKAFTER, VIEW);
 
     add_to_funcs(do_up_void, MMAIN|MHELP|MBROWSER,
-	prev_line_tag, WITHORSANS(prevline_gist), TOGETHER, VIEW);
+	prevline_tag, WITHORSANS(prevline_gist), TOGETHER, VIEW);
     add_to_funcs(do_down_void, MMAIN|MHELP|MBROWSER,
-	next_line_tag, WITHORSANS(nextline_gist), TOGETHER, VIEW);
+	nextline_tag, WITHORSANS(nextline_gist), TOGETHER, VIEW);
 #ifndef NANO_TINY
     add_to_funcs(do_scroll_up, MMAIN,
 	N_("Scroll Up"), WITHORSANS(scrollup_gist), TOGETHER, VIEW);
@@ -890,9 +890,9 @@ void shortcut_init(void)
 #endif
 
     add_to_funcs(do_page_up, MMAIN|MHELP,
-	prev_page_tag, WITHORSANS(prevpage_gist), TOGETHER, VIEW);
+	prevpage_tag, WITHORSANS(prevpage_gist), TOGETHER, VIEW);
     add_to_funcs(do_page_down, MMAIN|MHELP,
-	next_page_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
+	nextpage_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
     add_to_funcs(do_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 	N_("First Line"), WITHORSANS(firstline_gist), TOGETHER, VIEW);
@@ -915,7 +915,7 @@ void shortcut_init(void)
 #ifdef NANO_TINY
     /* Place this one here only in the tiny version; otherwise further up. */
     add_to_funcs(do_research, MMAIN,
-	whereis_next_tag, WITHORSANS(whereis_next_gist), TOGETHER, VIEW);
+	whereisnext_tag, WITHORSANS(whereisnext_gist), TOGETHER, VIEW);
 #endif
 
     add_to_funcs(do_tab, MMAIN,
@@ -937,11 +937,11 @@ void shortcut_init(void)
 #ifndef NANO_TINY
     add_to_funcs(do_cut_prev_word, MMAIN,
 	/* TRANSLATORS: The next two strings refer to cutting words. */
-	N_("Cut Left"), WITHORSANS(cut_word_left_gist), TOGETHER, NOVIEW);
+	N_("Cut Left"), WITHORSANS(cutwordleft_gist), TOGETHER, NOVIEW);
     add_to_funcs(do_cut_next_word, MMAIN,
-	N_("Cut Right"), WITHORSANS(cut_word_right_gist), TOGETHER, NOVIEW);
+	N_("Cut Right"), WITHORSANS(cutwordright_gist), TOGETHER, NOVIEW);
     add_to_funcs(do_cut_till_eof, MMAIN,
-	N_("CutTillEnd"), WITHORSANS(cut_till_eof_gist), BLANKAFTER, NOVIEW);
+	N_("CutTillEnd"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 #endif
 
 #ifndef DISABLE_JUSTIFY
@@ -993,10 +993,10 @@ void shortcut_init(void)
 #ifndef DISABLE_HISTORIES
     add_to_funcs(get_history_older_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
-	N_("PrevHstory"), WITHORSANS(prev_history_gist), TOGETHER, VIEW);
+	N_("PrevHstory"), WITHORSANS(prevhistory_gist), TOGETHER, VIEW);
     add_to_funcs(get_history_newer_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
-	N_("NextHstory"), WITHORSANS(next_history_gist), BLANKAFTER, VIEW);
+	N_("NextHstory"), WITHORSANS(nexthistory_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifdef DISABLE_JUSTIFY
@@ -1034,7 +1034,7 @@ void shortcut_init(void)
 	    N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(flip_execute, MEXTCMD,
-	    read_file_tag, WITHORSANS(insert_gist), TOGETHER, NOVIEW);
+	    readfile_tag, WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
     }
 #endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
@@ -1049,9 +1049,9 @@ void shortcut_init(void)
 	    N_("To Files"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
 
     add_to_funcs(do_page_up, MBROWSER,
-	prev_page_tag, WITHORSANS(prevpage_gist), TOGETHER, VIEW);
+	prevpage_tag, WITHORSANS(prevpage_gist), TOGETHER, VIEW);
     add_to_funcs(do_page_down, MBROWSER,
-	next_page_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
+	nextpage_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
     add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
 	N_("First File"), WITHORSANS(firstfile_gist), TOGETHER, VIEW);
@@ -1059,18 +1059,18 @@ void shortcut_init(void)
 	N_("Last File"), WITHORSANS(lastfile_gist), BLANKAFTER, VIEW);
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MBROWSER,
-	N_("Left Column"), WITHORSANS(browser_lefthand_gist), TOGETHER, VIEW);
+	N_("Left Column"), WITHORSANS(browserlefthand_gist), TOGETHER, VIEW);
     add_to_funcs(do_next_word_void, MBROWSER,
-	N_("Right Column"), WITHORSANS(browser_righthand_gist), TOGETHER, VIEW);
+	N_("Right Column"), WITHORSANS(browserrighthand_gist), TOGETHER, VIEW);
     add_to_funcs(do_prev_block, MBROWSER,
-	N_("Top Row"), WITHORSANS(browser_toprow_gist), TOGETHER, VIEW);
+	N_("Top Row"), WITHORSANS(browsertoprow_gist), TOGETHER, VIEW);
     add_to_funcs(do_next_block, MBROWSER,
-	N_("Bottom Row"), WITHORSANS(browser_bottomrow_gist), BLANKAFTER, VIEW);
+	N_("Bottom Row"), WITHORSANS(browserbottomrow_gist), BLANKAFTER, VIEW);
 #endif
 #endif /* ENABLE_BROWSER */
 
     add_to_funcs(discard_buffer, MWRITEFILE,
-	N_("Discard buffer"), WITHORSANS(discard_buffer_gist), BLANKAFTER, NOVIEW);
+	N_("Discard buffer"), WITHORSANS(discardbuffer_gist), BLANKAFTER, NOVIEW);
 
 #ifndef DISABLE_COLOR
     add_to_funcs(do_page_up, MLINTER,
