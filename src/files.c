@@ -1127,11 +1127,14 @@ void do_insertfile(void)
 		if (ISSET(MULTIBUFFER))
 		    open_buffer("", FALSE);
 #endif
-		/* Save the command's output in the current buffer. */
-		execute_command(answer);
+		/* If the command is not empty, execute it and read its output
+		 * into the buffer, and add the command to the history list. */
+		if (*answer != '\0') {
+		    execute_command(answer);
 #ifndef DISABLE_HISTORIES
-		update_history(&execute_history, answer);
+		    update_history(&execute_history, answer);
 #endif
+		}
 
 #ifdef ENABLE_MULTIBUFFER
 		/* If this is a new buffer, put the cursor at the top. */
