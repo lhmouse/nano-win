@@ -984,7 +984,7 @@ void shortcut_init(void)
 	N_("Run Macro"), IFSCHELP(nano_runmacro_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(do_search_backward, MMAIN,
-	N_("Where Was"), IFSCHELP(N_(nano_wherewas_msg)), BLANKAFTER, VIEW);
+	N_("Where Was"), IFSCHELP(nano_wherewas_msg), BLANKAFTER, VIEW);
 
     add_to_funcs(do_savefile, MMAIN,
 	N_("Save"), IFSCHELP(nano_savefile_msg), BLANKAFTER, NOVIEW);
