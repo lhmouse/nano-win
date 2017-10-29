@@ -1066,7 +1066,10 @@ void do_insertfile(void)
 #endif
 		MINSERTFILE, given,
 #ifndef DISABLE_HISTORIES
-		execute ? &execute_history : NULL,
+#ifndef NANO_TINY
+		execute ? &execute_history :
+#endif
+		NULL,
 #endif
 		edit_refresh, msg,
 #ifndef DISABLE_OPERATINGDIR
