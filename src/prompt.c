@@ -440,7 +440,7 @@ void update_the_statusbar(void)
 /* Get a string of input at the statusbar prompt. */
 functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	bool allow_files, bool *listed,
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	filestruct **history_list,
 #endif
 	void (*refresh_func)(void))
@@ -452,7 +452,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
 #endif
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     char *history = NULL;
 	/* The current history string. */
     char *magichistory = NULL;
@@ -465,7 +465,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	/* The length of the original string that we're trying to
 	 * tab complete, if any. */
 #endif
-#endif /* !DISABLE_HISTORIES */
+#endif /* ENABLE_HISTORIES */
 
     if (statusbar_x > strlen(answer))
 	statusbar_x = strlen(answer);
@@ -480,7 +480,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	if (kbinput == KEY_WINCH) {
 	    refresh_func();
 	    *actual = KEY_WINCH;
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	    free(magichistory);
 #endif
 	    return NULL;
@@ -497,7 +497,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	    tabbed = FALSE;
 
 	if (func == do_tab) {
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	    if (history_list != NULL) {
 		if (last_kbinput != the_code_for(do_tab, TAB_CODE))
 		    complete_len = strlen(answer);
@@ -514,7 +514,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 					&tabbed, refresh_func, listed);
 	} else
 #endif /* ENABLE_TABCOMP */
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	if (func == get_history_older_void) {
 	    if (history_list != NULL) {
 		/* If we're scrolling up at the bottom of the history list
@@ -560,7 +560,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		finished = FALSE;
 	    }
 	} else
-#endif /* !DISABLE_HISTORIES */
+#endif /* ENABLE_HISTORIES */
 	if (func == do_help_void) {
 	    /* This key has a shortcut-list entry when it's used to go to
 	     * the help browser or display a message indicating that help
@@ -577,12 +577,12 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 
 	update_the_statusbar();
 
-#if !defined(DISABLE_HISTORIES) && defined(ENABLE_TABCOMP)
+#if defined(ENABLE_HISTORIES) && defined(ENABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
     }
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* Set the current position in the history list to the bottom. */
     if (history_list != NULL) {
 	history_reset(*history_list);
@@ -633,7 +633,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
     prompt[actual_x(prompt, (COLS < 5) ? 0 : COLS - 5)] = '\0';
 
     func = acquire_an_answer(&retval, allow_tabs, allow_files, &listed,
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 			history_list,
 #endif
 			refresh_func);

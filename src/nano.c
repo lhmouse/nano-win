@@ -564,7 +564,7 @@ void finish(void)
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* If the user wants history persistence, write the relevant files. */
     if (ISSET(HISTORYLOG))
 	save_history();
@@ -807,7 +807,7 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-G", "--locking", N_("Use (vim-style) lock files"));
 #endif
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     if (!ISSET(RESTRICTED))
 	print_opt("-H", "--historylog",
 		N_("Log & read search/replace string history"));
@@ -825,7 +825,7 @@ void usage(void)
 	N_("Don't convert files from DOS/Mac format"));
 #endif
     print_opt("-O", "--morespace", N_("Use one more line for editing"));
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     if (!ISSET(RESTRICTED))
 	print_opt("-P", "--positionlog",
 		N_("Log & read location of cursor position"));
@@ -939,7 +939,7 @@ void version(void)
 #ifdef ENABLE_HELP
     printf(" --enable-help");
 #endif
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     printf(" --enable-histories");
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -988,7 +988,7 @@ void version(void)
 #ifndef ENABLE_HELP
     printf(" --disable-help");
 #endif
-#ifdef DISABLE_HISTORIES
+#ifndef ENABLE_HISTORIES
     printf(" --disable-histories");
 #endif
 #ifdef DISABLE_JUSTIFY
@@ -2059,7 +2059,7 @@ int main(int argc, char **argv)
 		SET(LOCKING);
 		break;
 #endif
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	    case 'H':
 		SET(HISTORYLOG);
 		break;
@@ -2083,7 +2083,7 @@ int main(int argc, char **argv)
 	    case 'O':
 		SET(MORE_SPACE);
 		break;
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	    case 'P':
 		SET(POS_HISTORY);
 		break;
@@ -2354,7 +2354,7 @@ int main(int argc, char **argv)
     if (ISSET(BOLD_TEXT))
 	hilite_attribute = A_BOLD;
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* Initialize the pointers for the Search/Replace/Execute histories. */
     history_init();
 
@@ -2373,7 +2373,7 @@ int main(int argc, char **argv)
 	load_history();
     if (ISSET(POS_HISTORY))
 	load_poshistory();
-#endif /* !DISABLE_HISTORIES */
+#endif /* ENABLE_HISTORIES */
 
 #ifndef NANO_TINY
     /* If backups are enabled and a backup directory was specified and
@@ -2567,7 +2567,7 @@ int main(int argc, char **argv)
 	/* If a position was given on the command line, go there. */
 	if (givenline != 0 || givencol != 0)
 	    do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	else if (ISSET(POS_HISTORY) && openfile->filename[0] != '\0') {
 	    ssize_t savedline, savedcol;
 	    /* If edited before, restore the last cursor position. */

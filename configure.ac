@@ -133,8 +133,13 @@ fi
 
 AC_ARG_ENABLE(histories,
 AS_HELP_STRING([--disable-histories], [Disable search and position histories]))
-if test "x$enable_histories" = xno; then
-    AC_DEFINE(DISABLE_HISTORIES, 1, [Define this to disable search and position histories.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_histories" != xyes; then
+	enable_histories=no
+    fi
+fi
+if test "x$enable_histories" != xno; then
+    AC_DEFINE(ENABLE_HISTORIES, 1, [Define this to have search and position histories.])
 fi
 
 AC_ARG_ENABLE(justify,
@@ -261,9 +266,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_extra" != xyes; then
 	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
-    fi
-    if test "x$enable_histories" != xyes; then
-	AC_DEFINE(DISABLE_HISTORIES, 1, [Define this to disable search and position histories.])
     fi
     if test "x$enable_justify" != xyes; then
 	AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])

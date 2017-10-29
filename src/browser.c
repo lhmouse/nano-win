@@ -765,7 +765,7 @@ void do_filesearch(void)
     else
 	last_search = mallocstrcpy(last_search, answer);
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* If answer is not empty, add the string to the search history list. */
     if (*answer != '\0')
 	update_history(&search_history, answer);

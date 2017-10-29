@@ -162,7 +162,7 @@ int search_init(bool replacing, bool use_answer)
 	/* If an answer was given, remember it. */
 	if (*answer != '\0') {
 	    last_search = mallocstrcpy(last_search, answer);
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 	    update_history(&search_history, answer);
 #endif
 	}
@@ -403,7 +403,7 @@ void do_findnext(void)
 /* Search for the last string without prompting. */
 void do_research(void)
 {
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* If nothing was searched for yet during this run of nano, but
      * there is a search history, take the most recent item. */
     if (*last_search == '\0' && searchbot->prev != NULL)
@@ -748,7 +748,7 @@ void do_replace(void)
 		/* TRANSLATORS: This is a prompt. */
 		edit_refresh, _("Replace with"));
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* If the replace string is not "", add it to the replace history list. */
     if (i == 0)
 	update_history(&replace_history, answer);

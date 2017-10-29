@@ -161,7 +161,7 @@ extern subnfunc *uncutfunc;
 extern filestruct *search_history;
 extern filestruct *replace_history;
 extern filestruct *execute_history;
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 extern filestruct *searchtop;
 extern filestruct *searchbot;
 extern filestruct *replacetop;
@@ -353,7 +353,7 @@ size_t help_line_len(const char *ptr);
 void do_help_void(void);
 
 /* Most functions in history.c. */
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 void history_init(void);
 void history_reset(const filestruct *h);
 void update_history(filestruct **h, const char *s);

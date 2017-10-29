@@ -47,7 +47,7 @@ static const rcoption rcopts[] = {
 #ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
 #endif
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     {"historylog", HISTORYLOG},
 #endif
     {"morespace", MORE_SPACE},
@@ -66,7 +66,7 @@ static const rcoption rcopts[] = {
 #ifndef DISABLE_OPERATINGDIR
     {"operatingdir", 0},
 #endif
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     {"poslog", POS_HISTORY},  /* deprecated form, remove in 2018 */
     {"positionlog", POS_HISTORY},
 #endif
@@ -162,7 +162,7 @@ void rcfile_error(const char *msg, ...)
 }
 #endif /* ENABLE_NANORC */
 
-#if defined(ENABLE_NANORC) || !defined(DISABLE_HISTORIES)
+#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 /* Parse the next word from the string, null-terminate it, and return
  * a pointer to the first character after the null terminator.  The
  * returned pointer will point to '\0' if we hit the end of the line. */
@@ -182,7 +182,7 @@ char *parse_next_word(char *ptr)
 
     return ptr;
 }
-#endif /* ENABLE_NANORC || !DISABLE_HISTORIES */
+#endif /* ENABLE_NANORC || ENABLE_HISTORIES */
 
 #ifdef ENABLE_NANORC
 /* Parse an argument, with optional quotes, after a keyword that takes

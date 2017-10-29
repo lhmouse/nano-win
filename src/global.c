@@ -209,7 +209,7 @@ filestruct *execute_history = NULL;
 	/* The current item in the list of commands that were run with ^R ^X. */
 filestruct *replace_history = NULL;
 	/* The current item in the list of replace strings. */
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 filestruct *searchtop = NULL;
 	/* The oldest item in the list of search strings. */
 filestruct *searchbot = NULL;
@@ -643,7 +643,7 @@ void shortcut_init(void)
 	N_("Reverse the direction of the search");
     const char *regexp_gist =
 	N_("Toggle the use of regular expressions");
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     const char *prevhistory_gist =
 	N_("Recall the previous search/replace string");
     const char *nexthistory_gist =
@@ -990,7 +990,7 @@ void shortcut_init(void)
 	N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 #endif
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     add_to_funcs(get_history_older_void,
 	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
 	N_("PrevHstory"), WITHORSANS(prevhistory_gist), TOGETHER, VIEW);
@@ -1283,7 +1283,7 @@ void shortcut_init(void)
 #endif
     add_to_sclist(MWHEREIS, "^T", 0, do_gotolinecolumn_void, 0);
     add_to_sclist(MGOTOLINE, "^T", 0, gototext_void, 0);
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^P", 0, get_history_older_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^N", 0, get_history_newer_void, 0);
 #ifdef ENABLE_UTF8
@@ -1626,7 +1626,7 @@ sc *strtosc(const char *input)
 	s->scfunc = flip_replace;
     else if (!strcasecmp(input, "gototext"))
 	s->scfunc = gototext_void;
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     else if (!strcasecmp(input, "prevhistory"))
 	s->scfunc = get_history_older_void;
     else if (!strcasecmp(input, "nexthistory"))
@@ -1849,7 +1849,7 @@ void thanks_for_all_the_fish(void)
 	free(sint);
     }
 #endif /* !DISABLE_COLOR */
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     /* Free the search and replace history lists. */
     free_filestruct(searchtop);
     free_filestruct(replacetop);

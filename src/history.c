@@ -24,7 +24,7 @@
 #include <errno.h>
 #include <string.h>
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 static bool history_changed = FALSE;
 	/* Whether any of the history lists has changed. */
 
@@ -568,4 +568,4 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
     *column = posptr->xno;
     return TRUE;
 }
-#endif /* !DISABLE_HISTORIES */
+#endif /* ENABLE_HISTORIES */

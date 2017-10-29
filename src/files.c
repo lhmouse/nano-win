@@ -647,7 +647,7 @@ bool close_buffer(void)
     if (openfile == openfile->next)
 	return FALSE;
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
     if (ISSET(POS_HISTORY))
 	update_poshistory(openfile->filename,
 			openfile->current->lineno, xplustabs() + 1);
@@ -1131,7 +1131,7 @@ void do_insertfile(void)
 		 * into the buffer, and add the command to the history list. */
 		if (*answer != '\0') {
 		    execute_command(answer);
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 		    update_history(&execute_history, answer);
 #endif
 		}
@@ -1159,7 +1159,7 @@ void do_insertfile(void)
 
 #ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER)) {
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 		if (ISSET(POS_HISTORY)) {
 		    ssize_t priorline, priorcol;
 #ifndef NANO_TINY
@@ -1168,7 +1168,7 @@ void do_insertfile(void)
 		    if (has_old_position(answer, &priorline, &priorcol))
 			do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
 		}
-#endif /* !DISABLE_HISTORIES */
+#endif /* ENABLE_HISTORIES */
 		/* Update stuff to account for the current buffer. */
 		prepare_for_display();
 	    } else

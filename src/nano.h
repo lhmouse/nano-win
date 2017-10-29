@@ -343,7 +343,7 @@ typedef struct undo {
 } undo;
 #endif /* !NANO_TINY */
 
-#ifndef DISABLE_HISTORIES
+#ifdef ENABLE_HISTORIES
 typedef struct poshiststruct {
     char *filename;
 	/* The file. */
