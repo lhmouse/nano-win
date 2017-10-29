@@ -439,10 +439,7 @@ void update_the_statusbar(void)
 
 /* Get a string of input at the statusbar prompt. */
 functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
-	bool allow_files, bool *listed,
-#ifdef ENABLE_HISTORIES
-	filestruct **history_list,
-#endif
+	bool allow_files, bool *listed, filestruct **history_list,
 	void (*refresh_func)(void))
 {
     int kbinput = ERR;
@@ -633,11 +630,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
     prompt[actual_x(prompt, (COLS < 5) ? 0 : COLS - 5)] = '\0';
 
     func = acquire_an_answer(&retval, allow_tabs, allow_files, &listed,
-#ifdef ENABLE_HISTORIES
-			history_list,
-#endif
-			refresh_func);
-
+				history_list, refresh_func);
     free(prompt);
     prompt = saved_prompt;
 
