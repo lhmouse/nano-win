@@ -899,7 +899,7 @@ void usage(void)
     print_opt("-u", "--unix", N_("Save a file by default in Unix format"));
 #endif
     print_opt("-v", "--view", N_("View mode (read-only)"));
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines"));
 #endif
     print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
@@ -969,7 +969,7 @@ void version(void)
 #ifdef ENABLE_TABCOMP
     printf(" --enable-tabcomp");
 #endif
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     printf(" --enable-wrapping");
 #endif
 #else /* !NANO_TINY */
@@ -1021,7 +1021,7 @@ void version(void)
 #ifndef ENABLE_WORDCOMPLETION
     printf(" --disable-wordcomp");
 #endif
-#ifdef DISABLE_WRAPPING
+#ifndef ENABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
 #endif /* !NANO_TINY */
@@ -1643,7 +1643,7 @@ int do_input(bool allow_funcs)
      * all available characters in the input puddle.  Note that this
      * puddle will be empty if we're in view mode. */
     if (have_shortcut || get_key_buffer_len() == 0) {
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	/* If we got a shortcut or toggle, and it's not the shortcut
 	 * for verbatim input, turn off prepending of wrapped text. */
 	if (have_shortcut && s->scfunc != do_verbatim_input)
@@ -1861,7 +1861,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	update_undo(ADD);
 #endif
 
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	/* If text gets wrapped, the edit window needs a refresh. */
 	if (!ISSET(NO_WRAP) && do_wrap(openfile->current))
 	    refresh_needed = TRUE;
@@ -1896,7 +1896,7 @@ int main(int argc, char **argv)
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_used = FALSE;
 	/* Was the fill option used on the command line? */
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     bool forced_wrapping = FALSE;
 	/* Should long lines be automatically hard wrapped? */
 #endif
@@ -1953,7 +1953,7 @@ int main(int argc, char **argv)
 #endif
 	{"tempfile", 0, NULL, 't'},
 	{"view", 0, NULL, 'v'},
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	{"nowrap", 0, NULL, 'w'},
 #endif
 	{"nohelp", 0, NULL, 'x'},
@@ -2178,7 +2178,7 @@ int main(int argc, char **argv)
 		    exit(1);
 		}
 		fill_used = TRUE;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 		forced_wrapping = TRUE;
 #endif
 		break;
@@ -2199,7 +2199,7 @@ int main(int argc, char **argv)
 	    case 'v':
 		SET(VIEW_MODE);
 		break;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	    case 'w':
 		SET(NO_WRAP);
 		/* If both --fill and --nowrap are given on the
@@ -2343,7 +2343,7 @@ int main(int argc, char **argv)
 #endif
 #endif /* ENABLE_NANORC */
 
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     /* Override a "set nowrap" in an rcfile (or a --disable-wrapping-as-root)
      * if --fill was given on the command line and not undone by --nowrap. */
     if (forced_wrapping)

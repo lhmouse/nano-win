@@ -547,7 +547,7 @@ void add_undo(undo_type action);
 void update_multiline_undo(ssize_t lineno, char *indentation);
 void update_undo(undo_type action);
 #endif /* !NANO_TINY */
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 void wrap_reset(void);
 bool do_wrap(filestruct *line);
 #endif

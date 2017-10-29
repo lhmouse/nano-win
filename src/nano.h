@@ -128,7 +128,7 @@
 #undef ENABLE_MOUSE
 #endif
 
-#if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
+#if !defined(ENABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
 #define DISABLE_WRAPJUSTIFY 1
 #endif
 
@@ -165,7 +165,7 @@ typedef enum {
 
 typedef enum {
     ADD, DEL, BACK, CUT, CUT_TO_EOF, REPLACE,
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     SPLIT_BEGIN, SPLIT_END,
 #endif
     INDENT, UNINDENT,

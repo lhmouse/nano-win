@@ -1252,7 +1252,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-H", 0, do_toggle_void, SMART_HOME);
     add_to_sclist(MMAIN, "M-I", 0, do_toggle_void, AUTOINDENT);
     add_to_sclist(MMAIN, "M-K", 0, do_toggle_void, CUT_FROM_CURSOR);
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, NO_WRAP);
 #endif
     add_to_sclist(MMAIN, "M-Q", 0, do_toggle_void, TABS_TO_SPACES);
@@ -1687,7 +1687,7 @@ sc *strtosc(const char *input)
 	    s->toggle = AUTOINDENT;
 	else if (!strcasecmp(input, "cuttoend"))
 	    s->toggle = CUT_FROM_CURSOR;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	else if (!strcasecmp(input, "nowrap"))
 	    s->toggle = NO_WRAP;
 #endif

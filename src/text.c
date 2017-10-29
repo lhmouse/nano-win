@@ -35,7 +35,7 @@ static pid_t pid = -1;
 	/* The PID of the forked process in execute_command(), for use
 	 * with the cancel_command() signal handler. */
 #endif
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 static bool prepend_wrap = FALSE;
 	/* Should we prepend wrapped text to the next line? */
 #endif
@@ -757,7 +757,7 @@ void do_undo(void)
 	f->data = data;
 	goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 	break;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     case SPLIT_END:
 	goto_line_posx(u->lineno, u->begin);
 	openfile->current_undo = openfile->current_undo->next;
@@ -941,7 +941,7 @@ void do_redo(void)
 	renumber(shoveline);
 	goto_line_posx(u->lineno + 1, u->mark_begin_x);
 	break;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     case SPLIT_BEGIN:
 	goto_line_posx(u->lineno, u->begin);
 	openfile->current_undo = u;
@@ -1244,7 +1244,7 @@ void add_undo(undo_type action)
     /* Allocate and initialize a new undo type. */
     u = (undo *) nmalloc(sizeof(undo));
     u->type = action;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     if (u->type == SPLIT_BEGIN) {
 	/* Some action, most likely an ADD, was performed that invoked
 	 * do_wrap().  Rearrange the undo order so that this previous
@@ -1303,7 +1303,7 @@ void add_undo(undo_type action)
 	}
 	action = u->type = JOIN;
 	break;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     case SPLIT_BEGIN:
 	action = openfile->undotop->type;
 	break;
@@ -1507,7 +1507,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	u->strdata = mallocstrcpy(NULL, openfile->current->data);
 	u->mark_begin_x = openfile->current_x;
 	break;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     case SPLIT_BEGIN:
     case SPLIT_END:
 #endif
@@ -1526,7 +1526,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 }
 #endif /* !NANO_TINY */
 
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 /* Unset the prepend_wrap flag.  We need to do this as soon as we do
  * something other than type text. */
 void wrap_reset(void)
@@ -1666,7 +1666,7 @@ bool do_wrap(filestruct *line)
 
     return TRUE;
 }
-#endif /* !DISABLE_WRAPPING */
+#endif /* ENABLE_WRAPPING */
 
 #if defined(ENABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 /* We are trying to break a chunk off line.  We find the last blank such
@@ -3637,7 +3637,7 @@ void complete_a_word(void)
     int start_of_shard, shard_length = 0;
     int i = 0, j = 0;
     completion_word *some_word;
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     bool was_set_wrapping = !ISSET(NO_WRAP);
 #endif
 
@@ -3742,14 +3742,14 @@ void complete_a_word(void)
 	    some_word->next = list_of_completions;
 	    list_of_completions = some_word;
 
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	    /* Temporarily disable wrapping so only one undo item is added. */
 	    SET(NO_WRAP);
 #endif
 	    /* Inject the completion into the buffer. */
 	    do_output(&completion[shard_length],
 			strlen(completion) - shard_length, FALSE);
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
 	    /* If needed, reenable wrapping and wrap the current line. */
 	    if (was_set_wrapping) {
 		UNSET(NO_WRAP);

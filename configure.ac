@@ -234,8 +234,13 @@ fi
 
 AC_ARG_ENABLE(wrapping,
 AS_HELP_STRING([--disable-wrapping], [Disable all hard-wrapping of text]))
-if test "x$enable_wrapping" = xno; then
-    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all hard text wrapping.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_wrapping" != xyes; then
+	enable_wrapping=no
+    fi
+fi
+if test "x$enable_wrapping" != xno; then
+    AC_DEFINE(ENABLE_WRAPPING, 1, [Define this to have hard text wrapping.])
 fi
 
 AC_ARG_ENABLE(wrapping-as-root,
@@ -278,9 +283,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_speller" != xyes; then
 	AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])
-    fi
-    if test "x$enable_wrapping" != xyes; then
-	AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable all text wrapping.])
     fi
 fi
 

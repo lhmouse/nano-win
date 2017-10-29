@@ -60,7 +60,7 @@ static const rcoption rcopts[] = {
     {"nohelp", NO_HELP},
     {"nonewlines", NO_NEWLINES},
     {"nopauses", NO_PAUSES},
-#ifndef DISABLE_WRAPPING
+#ifdef ENABLE_WRAPPING
     {"nowrap", NO_WRAP},
 #endif
 #ifndef DISABLE_OPERATINGDIR
