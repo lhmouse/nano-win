@@ -875,7 +875,7 @@ void usage(void)
     print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
     print_opt("-n", "--noread", N_("Do not read the file (only write it)"));
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     print_opt(_("-o <dir>"), _("--operatingdir=<dir>"),
 	N_("Set operating directory"));
 #endif
@@ -960,7 +960,7 @@ void version(void)
 #ifdef ENABLE_MULTIBUFFER
     printf(" --enable-multibuffer");
 #endif
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     printf(" --enable-operatingdir");
 #endif
 #ifndef DISABLE_SPELLER
@@ -1009,7 +1009,7 @@ void version(void)
 #ifndef ENABLE_NANORC
     printf(" --disable-nanorc");
 #endif
-#ifdef DISABLE_OPERATINGDIR
+#ifndef ENABLE_OPERATINGDIR
     printf(" --disable-operatingdir");
 #endif
 #ifdef DISABLE_SPELLER
@@ -1940,7 +1940,7 @@ int main(int argc, char **argv)
 	{"mouse", 0, NULL, 'm'},
 #endif
 	{"noread", 0, NULL, 'n'},
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	{"operatingdir", 1, NULL, 'o'},
 #endif
 	{"preserve", 0, NULL, 'p'},
@@ -2157,7 +2157,7 @@ int main(int argc, char **argv)
 	    case 'n':
 		SET(NOREAD_MODE);
 		break;
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	    case 'o':
 		operating_dir = mallocstrcpy(operating_dir, optarg);
 		break;
@@ -2252,7 +2252,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
     if (!no_rcfiles) {
 	/* Back up the command-line options, then read the rcfile(s). */
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	char *operating_dir_cpy = operating_dir;
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
@@ -2274,7 +2274,7 @@ int main(int argc, char **argv)
 
 	memcpy(flags_cpy, flags, sizeof(flags_cpy));
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	operating_dir = NULL;
 #endif
 #ifndef NANO_TINY
@@ -2296,7 +2296,7 @@ int main(int argc, char **argv)
 #endif
 
 	/* If the backed-up command-line options have a value, restore them. */
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	if (operating_dir_cpy != NULL) {
 	    free(operating_dir);
 	    operating_dir = operating_dir_cpy;
@@ -2383,7 +2383,7 @@ int main(int argc, char **argv)
 	init_backup_dir();
 #endif
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
      * so that file reads and writes will be based there. */
     if (operating_dir != NULL)

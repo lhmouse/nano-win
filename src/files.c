@@ -422,7 +422,7 @@ bool open_buffer(const char *filename, bool undoable)
     /* Display newlines in filenames as ^J. */
     as_an_at = FALSE;
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     if (outside_of_confinement(filename, FALSE)) {
 	statusline(ALERT, _("Can't read file from outside of %s"),
 				operating_dir);
@@ -1069,7 +1069,7 @@ void do_insertfile(void)
 		execute ? &execute_history :
 #endif
 		NULL, edit_refresh, msg,
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 		operating_dir != NULL ? operating_dir :
 #endif
 		"./");
@@ -1401,7 +1401,7 @@ char *safe_tempfile(FILE **f)
     return full_tempdir;
 }
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 /* Change to the specified operating directory, when it's valid. */
 void init_operating_dir(void)
 {
@@ -1564,7 +1564,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
     realname = real_dir_from_tilde(name);
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
     if (!tmp && outside_of_confinement(realname, FALSE)) {
@@ -2418,7 +2418,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
 	     * directory, in which case just go to the next match. */
 	    if (outside_of_confinement(userdata->pw_dir, TRUE))
@@ -2501,7 +2501,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	    char *tmp = charalloc(strlen(dirname) + strlen(nextdir->d_name) + 1);
 	    sprintf(tmp, "%s%s", dirname, nextdir->d_name);
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
 	     * directory, in which case just go to the next match. */
 	    skip_match = outside_of_confinement(tmp, TRUE);

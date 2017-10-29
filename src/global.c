@@ -169,7 +169,7 @@ const char *locking_prefix = ".";
 const char *locking_suffix = ".swp";
 	/* Suffix of the vim-style lock file. */
 #endif
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 char *operating_dir = NULL;
 	/* The path to our confining "operating" directory, when given. */
 #endif
@@ -1785,7 +1785,7 @@ void thanks_for_all_the_fish(void)
 #ifndef NANO_TINY
     free(backup_dir);
 #endif
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     free(operating_dir);
 #endif
     free(answer);

@@ -63,7 +63,7 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_WRAPPING
     {"nowrap", NO_WRAP},
 #endif
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     {"operatingdir", 0},
 #endif
 #ifdef ENABLE_HISTORIES
@@ -1102,7 +1102,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	    specified_color_combo[FUNCTION_TAG] = option;
 	else
 #endif
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	if (strcasecmp(rcopts[i].name, "operatingdir") == 0)
 	    operating_dir = option;
 	else

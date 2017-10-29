@@ -137,7 +137,7 @@ extern char *backup_dir;
 extern const char *locking_prefix;
 extern const char *locking_suffix;
 #endif
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 extern char *operating_dir;
 #endif
 
@@ -291,7 +291,7 @@ char *get_next_filename(const char *name, const char *suffix);
 void do_insertfile_void(void);
 char *get_full_path(const char *origpath);
 char *safe_tempfile(FILE **f);
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 void init_operating_dir(void);
 bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
 #endif

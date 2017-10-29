@@ -198,8 +198,13 @@ fi
 
 AC_ARG_ENABLE(operatingdir,
 AS_HELP_STRING([--disable-operatingdir], [Disable the setting of an operating directory]))
-if test "x$enable_operatingdir" = xno; then
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of an operating directory (a chroot of sorts).])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_operatingdir" != xyes; then
+	enable_operatingdir=no
+    fi
+fi
+if test "x$enable_operatingdir" != xno; then
+    AC_DEFINE(ENABLE_OPERATINGDIR, 1, [Define this to allow setting an operating directory (a chroot of sorts).])
 fi
 
 AC_ARG_ENABLE(speller,
@@ -277,9 +282,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_libmagic" != xyes; then
 	enable_libmagic=no
-    fi
-    if test "x$enable_operatingdir" != xyes; then
-	AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable the setting of an operating directory (a chroot of sorts).])
     fi
     if test "x$enable_speller" != xyes; then
 	AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])

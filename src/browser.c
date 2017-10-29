@@ -243,7 +243,7 @@ char *do_browser(char *path)
 		sprintf(path, "%s%s", present_path, answer);
 	    }
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	    if (outside_of_confinement(path, FALSE)) {
 		/* TRANSLATORS: This refers to the confining effect of the
 		 * option --operatingdir, not of --restricted. */
@@ -273,7 +273,7 @@ char *do_browser(char *path)
 		continue;
 	    }
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
 	    /* Note: The selected file can be outside the operating
 	     * directory if it's ".." or if it's a symlink to a
 	     * directory outside the operating directory. */
@@ -372,7 +372,7 @@ char *do_browse_from(const char *inpath)
 	}
     }
 
-#ifndef DISABLE_OPERATINGDIR
+#ifdef ENABLE_OPERATINGDIR
     /* If the resulting path isn't in the operating directory, use
      * the operating directory instead. */
     if (outside_of_confinement(path, FALSE))
