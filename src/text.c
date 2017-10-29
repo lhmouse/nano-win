@@ -2636,10 +2636,7 @@ bool do_int_spell_fix(const char *word)
 	spotlight(TRUE, from_col, to_col);
 
 	/* Let the user supply a correctly spelled alternative. */
-	proceed = (do_prompt(FALSE, FALSE, MSPELL, word,
-#ifndef DISABLE_HISTORIES
-				NULL,
-#endif
+	proceed = (do_prompt(FALSE, FALSE, MSPELL, word, NULL,
 				edit_refresh, _("Edit a replacement")) != -1);
 
 	spotlight(FALSE, from_col, to_col);

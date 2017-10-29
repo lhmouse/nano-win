@@ -607,10 +607,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
  * interpreted.  The allow_files parameter indicates whether we should
  * allow all files (as opposed to just directories) to be tab completed. */
 int do_prompt(bool allow_tabs, bool allow_files,
-	int menu, const char *curranswer,
-#ifndef DISABLE_HISTORIES
-	filestruct **history_list,
-#endif
+	int menu, const char *curranswer, filestruct **history_list,
 	void (*refresh_func)(void), const char *msg, ...)
 {
     va_list ap;

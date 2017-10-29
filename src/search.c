@@ -131,10 +131,7 @@ int search_init(bool replacing, bool use_answer)
     /* This is now one simple call.  It just does a lot. */
     i = do_prompt(FALSE, FALSE,
 		inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
-		backupstring,
-#ifndef DISABLE_HISTORIES
-		&search_history,
-#endif
+		backupstring, &search_history,
 		/* TRANSLATORS: This is the main search prompt. */
 		edit_refresh, "%s%s%s%s%s%s", _("Search"),
 		/* TRANSLATORS: The next three modify the search prompt. */
@@ -747,10 +744,7 @@ void do_replace(void)
     if (i != 0)
 	return;
 
-    i = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL,
-#ifndef DISABLE_HISTORIES
-		&replace_history,
-#endif
+    i = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL, &replace_history,
 		/* TRANSLATORS: This is a prompt. */
 		edit_refresh, _("Replace with"));
 
@@ -815,10 +809,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 	/* Ask for the line and column. */
 	int i = do_prompt(FALSE, FALSE, MGOTOLINE,
-		use_answer ? answer : NULL,
-#ifndef DISABLE_HISTORIES
-		NULL,
-#endif
+		use_answer ? answer : NULL, NULL,
 		/* TRANSLATORS: This is a prompt. */
 		edit_refresh, _("Enter line number, column number"));
 

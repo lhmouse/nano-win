@@ -158,14 +158,14 @@ extern subnfunc *allfuncs;
 extern subnfunc *exitfunc;
 extern subnfunc *uncutfunc;
 
-#ifndef DISABLE_HISTORIES
 extern filestruct *search_history;
+extern filestruct *replace_history;
+extern filestruct *execute_history;
+#ifndef DISABLE_HISTORIES
 extern filestruct *searchtop;
 extern filestruct *searchbot;
-extern filestruct *replace_history;
 extern filestruct *replacetop;
 extern filestruct *replacebot;
-extern filestruct *execute_history;
 extern filestruct *executetop;
 extern filestruct *executebot;
 extern poshiststruct *position_history;
@@ -477,10 +477,7 @@ size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reinit_statusbar_x(void);
 void update_the_statusbar(void);
 int do_prompt(bool allow_tabs, bool allow_files,
-	int menu, const char *curranswer,
-#ifndef DISABLE_HISTORIES
-	filestruct **history_list,
-#endif
+	int menu, const char *curranswer, filestruct **history_list,
 	void (*refresh_func)(void), const char *msg, ...);
 int do_yesno_prompt(bool all, const char *msg);
 

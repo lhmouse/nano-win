@@ -203,21 +203,21 @@ subnfunc *exitfunc;
 subnfunc *uncutfunc;
 	/* A pointer to the special Uncut/Unjustify item. */
 
-#ifndef DISABLE_HISTORIES
 filestruct *search_history = NULL;
 	/* The current item in the list of strings that were searched for. */
+filestruct *execute_history = NULL;
+	/* The current item in the list of commands that were run with ^R ^X. */
+filestruct *replace_history = NULL;
+	/* The current item in the list of replace strings. */
+#ifndef DISABLE_HISTORIES
 filestruct *searchtop = NULL;
 	/* The oldest item in the list of search strings. */
 filestruct *searchbot = NULL;
 	/* The newest item in the list of search strings. */
 
-filestruct *replace_history = NULL;
-	/* The current item in the list of replace strings. */
 filestruct *replacetop = NULL;
 filestruct *replacebot = NULL;
 
-filestruct *execute_history = NULL;
-	/* The current item in the list of commands that were run with ^R ^X. */
 filestruct *executetop = NULL;
 filestruct *executebot = NULL;
 

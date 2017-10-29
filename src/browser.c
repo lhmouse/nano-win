@@ -225,10 +225,7 @@ char *do_browser(char *path)
 	    selected = filelist_len - 1;
 	} else if (func == goto_dir_void) {
 	    /* Ask for the directory to go to. */
-	    int i = do_prompt(TRUE, FALSE, MGOTODIR, NULL,
-#ifndef DISABLE_HISTORIES
-			NULL,
-#endif
+	    int i = do_prompt(TRUE, FALSE, MGOTODIR, NULL, NULL,
 			/* TRANSLATORS: This is a prompt. */
 			browser_refresh, _("Go To Directory"));
 
@@ -679,10 +676,7 @@ int filesearch_init(void)
 	buf = mallocstrcpy(NULL, "");
 
     /* This is now one simple call.  It just does a lot. */
-    input = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL,
-#ifndef DISABLE_HISTORIES
-		&search_history,
-#endif
+    input = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL, &search_history,
 		browser_refresh, "%s%s", _("Search"), buf);
 
     /* Release buf now that we don't need it anymore. */

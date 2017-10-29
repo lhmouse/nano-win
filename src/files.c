@@ -1065,13 +1065,10 @@ void do_insertfile(void)
 		execute ? MEXTCMD :
 #endif
 		MINSERTFILE, given,
-#ifndef DISABLE_HISTORIES
 #ifndef NANO_TINY
 		execute ? &execute_history :
 #endif
-		NULL,
-#endif
-		edit_refresh, msg,
+		NULL, edit_refresh, msg,
 #ifndef DISABLE_OPERATINGDIR
 		operating_dir != NULL ? operating_dir :
 #endif
@@ -2082,10 +2079,7 @@ int do_writeout(bool exiting, bool withprompt)
 	    /* Ask for (confirmation of) the filename.  Disable tab completion
 	     * when using restricted mode and the filename isn't blank. */
 	    i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
-			TRUE, MWRITEFILE, given,
-#ifndef DISABLE_HISTORIES
-			NULL,
-#endif
+			TRUE, MWRITEFILE, given, NULL,
 			edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
 			formatstr, backupstr
