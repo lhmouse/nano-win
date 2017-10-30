@@ -294,9 +294,9 @@ void load_history(void)
 			strerror(errno));
 	}
     } else {
-	/* Load the two history lists -- first the search history, then
-	 * the replace history -- from the oldest entry to the newest.
-	 * The two lists are separated by an empty line. */
+	/* Load the three history lists -- first search, then replace,
+	 * then execute -- from oldest entry to newest.  Between two
+	 * lists there is an empty line. */
 	filestruct **history = &search_history;
 	char *line = NULL;
 	size_t buf_len = 0;

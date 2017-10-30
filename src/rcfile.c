@@ -872,7 +872,6 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
     }
 
     *storage = mallocstrcpy(*storage, ptr);
-
 }
 #endif /* !DISABLE_COLOR */
 

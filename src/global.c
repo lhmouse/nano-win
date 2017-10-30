@@ -1850,9 +1850,10 @@ void thanks_for_all_the_fish(void)
     }
 #endif /* !DISABLE_COLOR */
 #ifdef ENABLE_HISTORIES
-    /* Free the search and replace history lists. */
+    /* Free the search, replace, and execute history lists. */
     free_filestruct(searchtop);
     free_filestruct(replacetop);
+    free_filestruct(executetop);
 #endif
     /* Free the list of functions. */
     while (allfuncs != NULL) {
@@ -1866,8 +1867,6 @@ void thanks_for_all_the_fish(void)
 	sclist = sclist->next;
 	free(s);
     }
-#ifdef ENABLE_NANORC
     free(homedir);
-#endif
 }
 #endif /* DEBUG */
