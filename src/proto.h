@@ -83,7 +83,7 @@ extern int shiftaltup;
 extern int shiftaltdown;
 #endif
 
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
 extern ssize_t fill;
 extern ssize_t wrap_at;
 #endif
@@ -551,7 +551,7 @@ void update_undo(undo_type action);
 void wrap_reset(void);
 bool do_wrap(filestruct *line);
 #endif
-#if defined(ENABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
+#if defined(ENABLE_HELP) || defined(ENABLED_WRAPORJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
 #endif
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)

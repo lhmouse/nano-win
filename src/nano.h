@@ -128,8 +128,8 @@
 #undef ENABLE_MOUSE
 #endif
 
-#if !defined(ENABLE_WRAPPING) && !defined(ENABLE_JUSTIFY)
-#define DISABLE_WRAPJUSTIFY 1
+#if defined(ENABLE_WRAPPING) || defined(ENABLE_JUSTIFY)
+#define ENABLED_WRAPORJUSTIFY 1
 #endif
 
 #define BACKWARD FALSE

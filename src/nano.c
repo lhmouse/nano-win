@@ -721,7 +721,7 @@ void window_init(void)
 	keypad(bottomwin, TRUE);
     }
 
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
     /* Set up the wrapping point, accounting for screen width when negative. */
     fill = wrap_at;
     if (fill <= 0)
@@ -885,7 +885,7 @@ void usage(void)
 	print_opt("-q", "--quiet",
 		N_("Silently ignore startup issues like rc file errors"));
 #endif
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
     print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
 	N_("Set hard-wrapping point at column #cols"));
 #endif
@@ -1893,7 +1893,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
     int optchr;
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
     bool fill_used = FALSE;
 	/* Was the fill option used on the command line? */
 #ifdef ENABLE_WRAPPING
@@ -1945,7 +1945,7 @@ int main(int argc, char **argv)
 #endif
 	{"preserve", 0, NULL, 'p'},
 	{"quiet", 0, NULL, 'q'},
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
 	{"fill", 1, NULL, 'r'},
 #endif
 #ifndef DISABLE_SPELLER
@@ -2170,7 +2170,7 @@ int main(int argc, char **argv)
 		SET(QUIET);
 		break;
 #endif
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
 	    case 'r':
 		if (!parse_num(optarg, &wrap_at)) {
 		    fprintf(stderr, _("Requested fill size \"%s\" is invalid"), optarg);
@@ -2255,7 +2255,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_OPERATINGDIR
 	char *operating_dir_cpy = operating_dir;
 #endif
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
 	ssize_t wrap_at_cpy = wrap_at;
 #endif
 #ifndef NANO_TINY
@@ -2302,7 +2302,7 @@ int main(int argc, char **argv)
 	    operating_dir = operating_dir_cpy;
 	}
 #endif
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
 	if (fill_used)
 	    wrap_at = wrap_at_cpy;
 #endif

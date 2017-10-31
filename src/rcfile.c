@@ -44,7 +44,7 @@ static const rcoption rcopts[] = {
 #endif
     {"const", CONSTANT_SHOW},  /* deprecated form, remove in 2018 */
     {"constantshow", CONSTANT_SHOW},
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
     {"fill", 0},
 #endif
 #ifdef ENABLE_HISTORIES
@@ -1106,7 +1106,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	    operating_dir = option;
 	else
 #endif
-#ifndef DISABLE_WRAPJUSTIFY
+#ifdef ENABLED_WRAPORJUSTIFY
 	if (strcasecmp(rcopts[i].name, "fill") == 0) {
 	    if (!parse_num(option, &wrap_at)) {
 		rcfile_error(N_("Requested fill size \"%s\" is invalid"),
