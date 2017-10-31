@@ -39,7 +39,7 @@ static pid_t pid = -1;
 static bool prepend_wrap = FALSE;
 	/* Should we prepend wrapped text to the next line? */
 #endif
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 static filestruct *jusbuffer = NULL;
 	/* The buffer where we store unjustified text. */
 static filestruct *jusbottom = NULL;
@@ -1742,7 +1742,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 }
 #endif /* ENABLE_HELP || !DISABLE_WRAPJUSTIFY */
 
-#if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
+#if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 /* The "indentation" of a line is the whitespace between the quote part
  * and the non-whitespace of the line. */
 size_t indent_length(const char *line)
@@ -1763,9 +1763,9 @@ size_t indent_length(const char *line)
 
     return len;
 }
-#endif /* !NANO_TINY || !DISABLE_JUSTIFY */
+#endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 /* justify_format() replaces blanks with spaces and multiple spaces by 1
  * (except it maintains up to 2 after a character in punct optionally
  * followed by a character in brackets, and removes all from the end).
@@ -2556,7 +2556,7 @@ void do_full_justify(void)
 {
     do_justify(TRUE);
 }
-#endif /* !DISABLE_JUSTIFY */
+#endif /* ENABLE_JUSTIFY */
 
 #ifndef DISABLE_SPELLER
 /* A word is misspelled in the file.  Let the user replace it.  We

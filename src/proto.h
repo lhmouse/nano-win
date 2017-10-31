@@ -116,7 +116,7 @@ extern int whitespace_len[2];
 extern const char *exit_tag;
 extern const char *close_tag;
 extern const char *uncut_tag;
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 extern const char *unjust_tag;
 extern char *punct;
 extern char *brackets;
@@ -124,7 +124,7 @@ extern char *quotestr;
 extern regex_t quotereg;
 extern int quoterc;
 extern char *quoteerr;
-#endif /* !DISABLE_JUSTIFY */
+#endif /* !ENABLE_JUSTIFY */
 
 extern char *word_chars;
 
@@ -226,7 +226,7 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 	const char *index);
 size_t mbstrlen(const char *s);
 size_t mbstrnlen(const char *s, size_t maxlen);
-#if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
+#if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 char *mbstrchr(const char *s, const char *c);
 #endif
 #ifndef NANO_TINY
@@ -234,7 +234,7 @@ char *mbstrpbrk(const char *s, const char *accept);
 char *revstrpbrk(const char *head, const char *accept, const char *index);
 char *mbrevstrpbrk(const char *head, const char *accept, const char *index);
 #endif
-#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
+#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
 bool has_blank_mbchars(const char *s);
 #endif
 #ifdef ENABLE_UTF8
@@ -378,7 +378,7 @@ void do_first_line(void);
 void do_last_line(void);
 void do_page_up(void);
 void do_page_down(void);
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 void do_para_begin(bool update_screen);
 void do_para_end(bool update_screen);
 void do_para_begin_void(void);
@@ -554,10 +554,10 @@ bool do_wrap(filestruct *line);
 #if defined(ENABLE_HELP) || !defined(DISABLE_WRAPJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
 #endif
-#if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
+#if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 size_t indent_length(const char *line);
 #endif
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 void justify_format(filestruct *paragraph, size_t skip);
 bool begpar(const filestruct *const foo);
 bool inpar(const filestruct *const foo);

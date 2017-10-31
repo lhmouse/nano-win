@@ -39,7 +39,7 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_LINENUMBERS
     {"linenumbers", LINE_NUMBERS},
 #endif
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     {"brackets", 0},
 #endif
     {"const", CONSTANT_SHOW},  /* deprecated form, remove in 2018 */
@@ -71,7 +71,7 @@ static const rcoption rcopts[] = {
     {"positionlog", POS_HISTORY},
 #endif
     {"preserve", PRESERVE},
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     {"punct", 0},
     {"quotestr", 0},
 #endif
@@ -1138,7 +1138,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	    }
 	} else
 #endif
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 	if (strcasecmp(rcopts[i].name, "punct") == 0) {
 	    punct = option;
 	    if (has_blank_mbchars(punct)) {

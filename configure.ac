@@ -144,8 +144,13 @@ fi
 
 AC_ARG_ENABLE(justify,
 AS_HELP_STRING([--disable-justify], [Disable the justify/unjustify functions]))
-if test "x$enable_justify" = xno; then
-    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_justify" != xyes; then
+	enable_justify=no
+    fi
+fi
+if test "x$enable_justify" != xno; then
+    AC_DEFINE(ENABLE_JUSTIFY, 1, [Define this to have the routines for justifying.])
 fi
 
 AC_ARG_ENABLE(libmagic,
@@ -276,9 +281,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_extra" != xyes; then
 	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
-    fi
-    if test "x$enable_justify" != xyes; then
-	AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routines.])
     fi
     if test "x$enable_libmagic" != xyes; then
 	enable_libmagic=no

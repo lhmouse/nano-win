@@ -135,7 +135,7 @@ int whitespace_len[2];
 	/* The length in bytes of these characters. */
 #endif
 
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 char *punct = NULL;
 	/* The closing punctuation that can end sentences. */
 char *brackets = NULL;
@@ -149,7 +149,7 @@ int quoterc;
 	/* Whether it was compiled successfully. */
 char *quoteerr = NULL;
 	/* The error message, if it didn't. */
-#endif /* !DISABLE_JUSTIFY */
+#endif
 
 char *word_chars = NULL;
 	/* Nonalphanumeric characters that also form words. */
@@ -493,7 +493,7 @@ void print_sclist(void)
 const char *exit_tag = N_("Exit");
 const char *close_tag = N_("Close");
 const char *uncut_tag = N_("Uncut Text");
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 const char *unjust_tag = N_("Unjustify");
 #endif
 
@@ -508,7 +508,7 @@ void shortcut_init(void)
     const char *nextline_tag = N_("Next Line");
     const char *prevpage_tag = N_("Prev Page");
     const char *nextpage_tag = N_("Next Page");
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     const char *justify_tag = N_("Justify");
     const char *fulljustify_tag = N_("FullJstify");
 #endif
@@ -578,7 +578,7 @@ void shortcut_init(void)
     const char *end_gist = N_("Go to end of current line");
     const char *prevblock_gist = N_("Go to previous block of text");
     const char *nextblock_gist = N_("Go to next block of text");
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     const char *parabegin_gist =
 	N_("Go to beginning of paragraph; then of previous paragraph");
     const char *paraend_gist =
@@ -611,7 +611,7 @@ void shortcut_init(void)
     const char *cuttilleof_gist =
 	N_("Cut from the cursor position to the end of the file");
 #endif
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     const char *justify_gist = N_("Justify the current paragraph");
     const char *fulljustify_gist = N_("Justify the entire file");
 #endif
@@ -708,7 +708,7 @@ void shortcut_init(void)
     add_to_funcs(do_writeout_void, MMAIN,
 	N_("Write Out"), WITHORSANS(writeout_gist), TOGETHER, NOVIEW);
 
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     if (!ISSET(RESTRICTED)) {
 #else
     /* If we can't replace Insert with Justify, show Insert anyway, to
@@ -725,7 +725,7 @@ void shortcut_init(void)
 		NOVIEW);
 #endif
     } else {
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_justify_void, MMAIN,
 		justify_tag, WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
 #endif
@@ -770,7 +770,7 @@ void shortcut_init(void)
     uncutfunc = tailfunc;
 
     if (!ISSET(RESTRICTED)) {
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_justify_void, MMAIN,
 		justify_tag, WITHORSANS(justify_gist), TOGETHER, NOVIEW);
 #endif
@@ -792,8 +792,8 @@ void shortcut_init(void)
     add_to_funcs(do_cursorpos_void, MMAIN,
 	N_("Cur Pos"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
-#if (!defined(DISABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	defined(DISABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
+#if (defined(ENABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
+	!defined(ENABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
     /* Conditionally placing this one here or further on, to keep the
      * help items nicely paired in most conditions. */
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
@@ -825,7 +825,7 @@ void shortcut_init(void)
     add_to_funcs(flip_replace, MREPLACE,
 	N_("No Replace"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_funcs(do_full_justify, MWHEREIS,
 	fulljustify_tag, WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 
@@ -882,7 +882,7 @@ void shortcut_init(void)
 	N_("Prev Block"), WITHORSANS(prevblock_gist), TOGETHER, VIEW);
     add_to_funcs(do_next_block, MMAIN,
 	N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_funcs(do_para_begin_void, MMAIN|MWHEREIS,
 	N_("Beg of Par"), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
     add_to_funcs(do_para_end_void, MMAIN|MWHEREIS,
@@ -906,8 +906,8 @@ void shortcut_init(void)
 	N_("Next File"), WITHORSANS(nextfile_gist), BLANKAFTER, VIEW);
 #endif
 
-#if (defined(DISABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	!defined(DISABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
+#if (!defined(ENABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
+	defined(ENABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
 	gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
@@ -944,7 +944,7 @@ void shortcut_init(void)
 	N_("CutTillEnd"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 #endif
 
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_funcs(do_full_justify, MMAIN,
 	fulljustify_tag, WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 #endif
@@ -999,7 +999,7 @@ void shortcut_init(void)
 	N_("NextHstory"), WITHORSANS(nexthistory_gist), BLANKAFTER, VIEW);
 #endif
 
-#ifdef DISABLE_JUSTIFY
+#ifndef ENABLE_JUSTIFY
     add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
 	gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
@@ -1102,7 +1102,7 @@ void shortcut_init(void)
     add_to_sclist(MMOST, "F9", 0, do_cut_text_void, 0);
     add_to_sclist(MMOST, "^U", 0, do_uncut_text, 0);
     add_to_sclist(MMOST, "F10", 0, do_uncut_text, 0);
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
     add_to_sclist(MMAIN, "F4", 0, do_justify_void, 0);
 #endif
@@ -1204,7 +1204,7 @@ void shortcut_init(void)
     }
     add_to_sclist(MMAIN, "M-7", 0, do_prev_block, 0);
     add_to_sclist(MMAIN, "M-8", 0, do_next_block, 0);
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_sclist(MMAIN, "M-(", 0, do_para_begin_void, 0);
     add_to_sclist(MMAIN, "M-9", 0, do_para_begin_void, 0);
     add_to_sclist(MMAIN, "M-)", 0, do_para_end_void, 0);
@@ -1227,7 +1227,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-T", 0, do_cut_till_eof, 0);
     add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
 #endif
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
 #endif
     add_to_sclist(MMAIN|MHELP, "^L", 0, total_refresh, 0);
@@ -1277,7 +1277,7 @@ void shortcut_init(void)
     add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MFINDINHELP, "^Y", 0, do_first_line, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MFINDINHELP, "^V", 0, do_last_line, 0);
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^W", 0, do_para_begin_void, 0);
     add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^O", 0, do_para_end_void, 0);
 #endif
@@ -1516,7 +1516,7 @@ sc *strtosc(const char *input)
 	s->scfunc = do_cursorpos_void;
     else if (!strcasecmp(input, "gotoline"))
 	s->scfunc = do_gotolinecolumn_void;
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     else if (!strcasecmp(input, "justify"))
 	s->scfunc = do_justify_void;
     else if (!strcasecmp(input, "fulljustify"))
@@ -1777,7 +1777,7 @@ void thanks_for_all_the_fish(void)
     delwin(bottomwin);
 
     free(word_chars);
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
     free(quotestr);
     regfree(&quotereg);
     free(quoteerr);

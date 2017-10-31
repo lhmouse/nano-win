@@ -169,7 +169,7 @@ void do_page_down(void)
     refresh_needed = TRUE;
 }
 
-#ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_JUSTIFY
 /* Move to the beginning of the last beginning-of-paragraph line before the
  * current line.  If update_screen is TRUE, update the screen afterwards. */
 void do_para_begin(bool update_screen)
@@ -229,7 +229,7 @@ void do_para_end_void(void)
 {
     do_para_end(TRUE);
 }
-#endif /* !DISABLE_JUSTIFY */
+#endif /* ENABLE_JUSTIFY */
 
 /* Move to the preceding block of text. */
 void do_prev_block(void)

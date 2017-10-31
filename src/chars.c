@@ -579,7 +579,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	return strnlen(s, maxlen);
 }
 
-#if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
+#if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 /* This function is equivalent to strchr() for multibyte strings. */
 char *mbstrchr(const char *s, const char *c)
 {
@@ -620,7 +620,7 @@ char *mbstrchr(const char *s, const char *c)
 #endif
 	return (char *) strchr(s, *c);
 }
-#endif /* !NANO_TINY || !DISABLE_JUSTIFY */
+#endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
 #ifndef NANO_TINY
 /* This function is equivalent to strpbrk() for multibyte strings. */
@@ -686,7 +686,7 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 }
 #endif /* !NANO_TINY */
 
-#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
+#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
 /* Return TRUE if the string s contains one or more blank characters,
  * and FALSE otherwise. */
 bool has_blank_chars(const char *s)
@@ -719,7 +719,7 @@ bool has_blank_mbchars(const char *s)
 #endif
 	return has_blank_chars(s);
 }
-#endif /* ENABLE_NANORC && (!NANO_TINY || !DISABLE_JUSTIFY) */
+#endif /* ENABLE_NANORC && (!NANO_TINY || ENABLE_JUSTIFY) */
 
 #ifdef ENABLE_UTF8
 /* Return TRUE if wc is valid Unicode, and FALSE otherwise. */
