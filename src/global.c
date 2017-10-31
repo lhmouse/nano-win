@@ -174,7 +174,7 @@ char *operating_dir = NULL;
 	/* The path to our confining "operating" directory, when given. */
 #endif
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 char *alt_speller = NULL;
 	/* The command to use for the alternate spell checker. */
 #endif
@@ -553,7 +553,7 @@ void shortcut_init(void)
     const char *uncut_gist =
 	N_("Uncut from the cutbuffer into the current line");
     const char *cursorpos_gist = N_("Display the position of the cursor");
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     const char *spell_gist = N_("Invoke the spell checker, if available");
 #endif
     const char *replace_gist = N_("Replace a string or a regular expression");
@@ -674,7 +674,7 @@ void shortcut_init(void)
     const char *lint_gist = N_("Invoke the linter, if available");
     const char *prevlint_gist = N_("Go to previous linter msg");
     const char *nextlint_gist = N_("Go to next linter msg");
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     const char *formatter_gist = N_("Invoke formatter, if available");
 #endif
 #endif
@@ -775,14 +775,14 @@ void shortcut_init(void)
 		justify_tag, WITHORSANS(justify_gist), TOGETHER, NOVIEW);
 #endif
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 	add_to_funcs(do_spell, MMAIN,
 		N_("To Spell"), WITHORSANS(spell_gist), TOGETHER, NOVIEW);
 #endif
 #ifndef DISABLE_COLOR
 	add_to_funcs(do_linter, MMAIN,
 		N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 	add_to_funcs(do_formatter, MMAIN,
 		N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
 #endif
@@ -792,8 +792,8 @@ void shortcut_init(void)
     add_to_funcs(do_cursorpos_void, MMAIN,
 	N_("Cur Pos"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
-#if (defined(ENABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	!defined(ENABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
+#if (defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
+	!defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && defined(DISABLE_COLOR))
     /* Conditionally placing this one here or further on, to keep the
      * help items nicely paired in most conditions. */
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
@@ -906,8 +906,8 @@ void shortcut_init(void)
 	N_("Next File"), WITHORSANS(nextfile_gist), BLANKAFTER, VIEW);
 #endif
 
-#if (!defined(ENABLE_JUSTIFY) && (!defined(DISABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	defined(ENABLE_JUSTIFY) && defined(DISABLE_SPELLER) && defined(DISABLE_COLOR))
+#if (!defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
+	defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && defined(DISABLE_COLOR))
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
 	gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
@@ -1106,7 +1106,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
     add_to_sclist(MMAIN, "F4", 0, do_justify_void, 0);
 #endif
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
     add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
 #else
@@ -1365,7 +1365,7 @@ void shortcut_init(void)
 #ifndef DISABLE_COLOR
 void set_lint_or_format_shortcuts(void)
 {
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     if (openfile->syntax->formatter) {
 	replace_scs_for(do_spell, do_formatter);
 	replace_scs_for(do_linter, do_formatter);
@@ -1378,7 +1378,7 @@ void set_lint_or_format_shortcuts(void)
 
 void set_spell_shortcuts(void)
 {
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 	replace_scs_for(do_formatter, do_spell);
 	replace_scs_for(do_linter, do_spell);
 #endif
@@ -1502,7 +1502,7 @@ sc *strtosc(const char *input)
     else if (!strcasecmp(input, "mark"))
 	s->scfunc = do_mark;
 #endif
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     else if (!strcasecmp(input, "tospell") ||
 	     !strcasecmp(input, "speller"))
 	s->scfunc = do_spell;
@@ -1744,7 +1744,7 @@ int strtomenu(const char *input)
     else if (!strcasecmp(input, "help"))
 	return MHELP;
 #endif
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     else if (!strcasecmp(input, "spell"))
 	return MSPELL;
 #endif
@@ -1791,7 +1791,7 @@ void thanks_for_all_the_fish(void)
     free(answer);
     free(last_search);
     free(present_path);
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     free(alt_speller);
 #endif
     free_filestruct(cutbuffer);

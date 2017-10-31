@@ -201,7 +201,7 @@ const char *fixbounds(const char *r)
     return r;
 }
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 /* Is the word starting at the given position in buf and of the given length
  * a separate word?  That is: is it not part of a longer word?*/
 bool is_separate_word(size_t position, size_t length, const char *buf)
@@ -219,7 +219,7 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
     return ((position == 0 || !is_alpha_mbchar(before)) &&
 		(buf[word_end] == '\0' || !is_alpha_mbchar(after)));
 }
-#endif /* !DISABLE_SPELLER */
+#endif /* ENABLE_SPELLER */
 
 /* Return the position of the needle in the haystack, or NULL if not found.
  * When searching backwards, we will find the last match that starts no later

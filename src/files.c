@@ -506,7 +506,7 @@ bool open_buffer(const char *filename, bool undoable)
     return TRUE;
 }
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 /* Open the specified file, and if that succeeds, blow away the text of
  * the current buffer and read the file contents into its place. */
 void replace_buffer(const char *filename)
@@ -564,7 +564,7 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 	UNSET(NO_NEWLINES);
 }
 #endif /* !NANO_TINY */
-#endif /* !DISABLE_SPELLER */
+#endif /* ENABLE_SPELLER */
 
 /* Update the titlebar and the multiline cache to match the current buffer. */
 void prepare_for_display(void)

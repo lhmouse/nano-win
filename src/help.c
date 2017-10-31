@@ -389,7 +389,7 @@ void help_init(void)
 	htx[2] = NULL;
     }
 #endif /* ENABLE_BROWSER */
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     else if (currmenu == MSPELL) {
 	htx[0] = N_("Spell Check Help Text\n\n "
 		"The spell checker checks the spelling of all text in "
@@ -403,7 +403,7 @@ void help_init(void)
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
-#endif /* !DISABLE_SPELLER */
+#endif /* ENABLE_SPELLER */
 #ifndef NANO_TINY
     else if (currmenu == MEXTCMD) {
 	htx[0] = N_("Execute Command Help Text\n\n "

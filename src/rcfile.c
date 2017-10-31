@@ -79,7 +79,7 @@ static const rcoption rcopts[] = {
     {"rebinddelete", REBIND_DELETE},
     {"rebindkeypad", REBIND_KEYPAD},
     {"regexp", USE_REGEXP},
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
     {"speller", 0},
 #endif
     {"suspend", SUSPEND},
@@ -994,7 +994,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	else if (strcasecmp(keyword, "linter") == 0)
 	    pick_up_name("linter", ptr, &live_syntax->linter);
 	else if (strcasecmp(keyword, "formatter") == 0)
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 	    pick_up_name("formatter", ptr, &live_syntax->formatter);
 #else
 	    ;
@@ -1165,7 +1165,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	    word_chars = option;
 	else
 #endif
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 	if (strcasecmp(rcopts[i].name, "speller") == 0)
 	    alt_speller = option;
 	else

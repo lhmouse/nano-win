@@ -73,7 +73,7 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
-#if !defined(DISABLE_COLOR) || !defined(DISABLE_SPELLER)
+#if !defined(DISABLE_COLOR) || defined(ENABLE_SPELLER)
 /* Return an error message containing the given name. */
 char *invocation_error(const char *name)
 {
@@ -2558,7 +2558,7 @@ void do_full_justify(void)
 }
 #endif /* ENABLE_JUSTIFY */
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 /* A word is misspelled in the file.  Let the user replace it.  We
  * return FALSE if the user cancels. */
 bool do_int_spell_fix(const char *word)
@@ -3049,7 +3049,7 @@ void do_spell(void)
     } else
 	statusbar(_("Finished checking spelling"));
 }
-#endif /* !DISABLE_SPELLER */
+#endif /* ENABLE_SPELLER */
 
 #ifndef DISABLE_COLOR
 /* Run a linting program on the current buffer.  Return NULL for normal
@@ -3373,7 +3373,7 @@ void do_linter(void)
     }
 }
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 /* Run a formatter for the current syntax.  This expects the formatter
  * to be non-interactive and operate on a file in-place, which we'll
  * pass it on the command line. */
@@ -3497,7 +3497,7 @@ void do_formatter(void)
     /* If there were any messages, clear them off. */
     total_refresh();
 }
-#endif /* !DISABLE_SPELLER */
+#endif /* ENABLE_SPELLER */
 #endif /* !DISABLE_COLOR */
 
 #ifndef NANO_TINY

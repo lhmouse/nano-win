@@ -214,8 +214,13 @@ fi
 
 AC_ARG_ENABLE(speller,
 AS_HELP_STRING([--disable-speller], [Disable the spell-checker functions]))
-if test "x$enable_speller" = xno; then
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_speller" != xyes; then
+	enable_speller=no
+    fi
+fi
+if test "x$enable_speller" != xno; then
+    AC_DEFINE(ENABLE_SPELLER, 1, [Define this to have the spell-checker functions.])
 fi
 
 AC_ARG_ENABLE(tabcomp,
@@ -284,9 +289,6 @@ if test "x$enable_tiny" = xyes; then
     fi
     if test "x$enable_libmagic" != xyes; then
 	enable_libmagic=no
-    fi
-    if test "x$enable_speller" != xyes; then
-	AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell-checker functions.])
     fi
 fi
 

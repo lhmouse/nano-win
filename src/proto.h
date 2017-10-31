@@ -141,7 +141,7 @@ extern const char *locking_suffix;
 extern char *operating_dir;
 #endif
 
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 extern char *alt_speller;
 #endif
 
@@ -271,7 +271,7 @@ void do_uncut_text(void);
 /* Most functions in files.c. */
 void initialize_buffer_text(void);
 bool open_buffer(const char *filename, bool undoable);
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 void replace_buffer(const char *filename);
 #ifndef NANO_TINY
 void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
@@ -565,7 +565,7 @@ void do_justify(bool full_justify);
 void do_justify_void(void);
 void do_full_justify(void);
 #endif
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 void do_spell(void);
 #endif
 #ifndef DISABLE_COLOR
@@ -590,7 +590,7 @@ void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
 const char *fixbounds(const char *r);
-#ifndef DISABLE_SPELLER
+#ifdef ENABLE_SPELLER
 bool is_separate_word(size_t position, size_t length, const char *buf);
 #endif
 const char *strstrwrapper(const char *haystack, const char *needle,
