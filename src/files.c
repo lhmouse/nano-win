@@ -2030,7 +2030,7 @@ int do_writeout(bool exiting, bool withprompt)
 	/* The filename we offer, or what the user typed so far. */
     bool maychange = (openfile->filename[0] == '\0');
 	/* Whether it's okay to save the file under a different name. */
-#ifndef DISABLE_EXTRA
+#ifdef ENABLE_EXTRA
     static bool did_credits = FALSE;
 #endif
 
@@ -2139,7 +2139,7 @@ int do_writeout(bool exiting, bool withprompt)
 		continue;
 	    }
 
-#ifndef DISABLE_EXTRA
+#ifdef ENABLE_EXTRA
 	    /* If the current file has been modified, we've pressed
 	     * Ctrl-X at the edit window to exit, we've pressed "y" at
 	     * the "Save modified buffer" prompt to save, we've entered

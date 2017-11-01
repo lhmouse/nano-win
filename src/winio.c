@@ -3563,7 +3563,7 @@ void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
 }
 #endif
 
-#ifndef DISABLE_EXTRA
+#ifdef ENABLE_EXTRA
 #define CREDIT_LEN 54
 #define XLCREDIT_LEN 9
 
@@ -3712,4 +3712,4 @@ void do_credits(void)
 
     total_refresh();
 }
-#endif /* !DISABLE_EXTRA */
+#endif /* ENABLE_EXTRA */

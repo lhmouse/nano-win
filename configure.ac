@@ -112,8 +112,13 @@ fi
 
 AC_ARG_ENABLE(extra,
 AS_HELP_STRING([--disable-extra], [Disable the Easter egg]))
-if test "x$enable_extra" = xno; then
-    AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
+if test "x$enable_tiny" = xyes; then
+    if test "x$enable_extra" != xyes; then
+	enable_extra=no
+    fi
+fi
+if test "x$enable_extra" != xno; then
+    AC_DEFINE(ENABLE_EXTRA, 1, [Define this to have an Easter egg.])
 fi
 
 AC_ARG_ENABLE(help,
@@ -284,9 +289,6 @@ AC_ARG_ENABLE(tiny,
 AS_HELP_STRING([--enable-tiny], [Disable features for the sake of size]))
 if test "x$enable_tiny" = xyes; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.])
-    if test "x$enable_extra" != xyes; then
-	AC_DEFINE(DISABLE_EXTRA, 1, [Define this to disable extra stuff.])
-    fi
     if test "x$enable_libmagic" != xyes; then
 	enable_libmagic=no
     fi

@@ -691,7 +691,7 @@ void spotlight_softwrapped(bool active, size_t from_col, size_t to_col);
 void do_suspend_void(void);
 void disable_waiting(void);
 void enable_waiting(void);
-#ifndef DISABLE_EXTRA
+#ifdef ENABLE_EXTRA
 void do_credits(void);
 #endif
 

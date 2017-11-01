@@ -933,7 +933,7 @@ void version(void)
 #ifdef ENABLE_COLOR
     printf(" --enable-color");
 #endif
-#ifndef DISABLE_EXTRA
+#ifdef ENABLE_EXTRA
     printf(" --enable-extra");
 #endif
 #ifdef ENABLE_HELP
@@ -982,7 +982,7 @@ void version(void)
 #ifndef ENABLE_COMMENT
     printf(" --disable-comment");
 #endif
-#ifdef DISABLE_EXTRA
+#ifndef ENABLE_EXTRA
     printf(" --disable-extra");
 #endif
 #ifndef ENABLE_HELP
