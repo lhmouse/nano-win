@@ -73,7 +73,7 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
-#if !defined(DISABLE_COLOR) || defined(ENABLE_SPELLER)
+#if defined(ENABLE_COLOR) || defined(ENABLE_SPELLER)
 /* Return an error message containing the given name. */
 char *invocation_error(const char *name)
 {
@@ -501,7 +501,7 @@ void do_comment(void)
     size_t top_x, bot_x;
     bool empty, all_empty = TRUE;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     if (openfile->syntax)
 	comment_seq = openfile->syntax->comment;
 
@@ -3051,7 +3051,7 @@ void do_spell(void)
 }
 #endif /* ENABLE_SPELLER */
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 /* Run a linting program on the current buffer.  Return NULL for normal
  * termination, and the error string otherwise. */
 void do_linter(void)
@@ -3498,7 +3498,7 @@ void do_formatter(void)
     total_refresh();
 }
 #endif /* ENABLE_SPELLER */
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 #ifndef NANO_TINY
 /* Our own version of "wc".  Note that its character counts are in

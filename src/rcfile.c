@@ -111,7 +111,7 @@ static const rcoption rcopts[] = {
     {"wordbounds", WORD_BOUNDS},
     {"wordchars", 0},
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     {"titlecolor", 0},
     {"numbercolor", 0},
     {"selectedcolor", 0},
@@ -128,7 +128,7 @@ static size_t lineno = 0;
 	/* If we did, the line number where the last error occurred. */
 static char *nanorc = NULL;
 	/* The path to the rcfile we're parsing. */
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 static bool opensyntax = FALSE;
 	/* Whether we're allowed to add to the last syntax.  When a file ends,
 	 * or when a new syntax command is seen, this bool becomes FALSE. */
@@ -221,7 +221,7 @@ char *parse_argument(char *ptr)
     return ptr;
 }
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 /* Pass over the current regex string in the line starting at ptr,
  * null-terminate it, and return a pointer to the /next/ word. */
 char *parse_next_regex(char *ptr)
@@ -344,7 +344,7 @@ void parse_syntax(char *ptr)
     if (*ptr != '\0')
 	grab_and_store("extension", ptr, &live_syntax->extensions);
 }
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 /* Check whether the given executable function is "universal" (meaning
  * any horizontal movement or deletion) and thus is present in almost
@@ -526,7 +526,7 @@ bool is_good_file(char *file)
 	return TRUE;
 }
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 /* Read and parse one included syntax file. */
 static void parse_one_include(char *file)
 {
@@ -873,7 +873,7 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 
     *storage = mallocstrcpy(*storage, ptr);
 }
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 /* Verify that the user has not unmapped every shortcut for a
  * function that we consider 'vital' (such as "Exit"). */
@@ -934,7 +934,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	keyword = ptr;
 	ptr = parse_next_word(ptr);
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	/* Handle extending first... */
 	if (strcasecmp(keyword, "extendsyntax") == 0) {
 	    syntaxtype *sint;
@@ -1005,7 +1005,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	else if (strcasecmp(keyword, "include") == 0)
 	    parse_includes(ptr);
 	else
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 	if (strcasecmp(keyword, "set") == 0)
 	    set = 1;
 	else if (strcasecmp(keyword, "unset") == 0)
@@ -1017,7 +1017,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	else
 	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	/* If a syntax was extended, it stops at the end of the command. */
 	if (live_syntax != syntaxes)
 	    opensyntax = FALSE;
@@ -1086,7 +1086,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	    continue;
 	}
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
 	    specified_color_combo[TITLE_BAR] = option;
 	else if (strcasecmp(rcopts[i].name, "numbercolor") == 0)
@@ -1181,7 +1181,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	    assert(FALSE);
     }
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     if (opensyntax && lastcolor == NULL)
 	rcfile_error(N_("Syntax \"%s\" has no color commands"),
 			live_syntax->name);

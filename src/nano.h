@@ -176,7 +176,7 @@ typedef enum {
 } undo_type;
 
 /* Structure types. */
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 typedef struct colortype {
     short fg;
 	/* This syntax's foreground color. */
@@ -265,7 +265,7 @@ typedef struct lintstruct {
 	/* Regex starts and ends within this line. */
 #define CWOULDBE	(1<<6)
 	/* An unpaired start match on or before this line. */
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 /* More structure types. */
 typedef struct filestruct {
@@ -277,7 +277,7 @@ typedef struct filestruct {
 	/* Next node. */
     struct filestruct *prev;
 	/* Previous node. */
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     short *multidata;
 	/* Array of which multi-line regexes apply to this line. */
 #endif
@@ -401,7 +401,7 @@ typedef struct openfilestruct {
     char *lock_filename;
 	/* The path of the lockfile, if we created one. */
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     syntaxtype *syntax;
 	/* The  syntax struct for this file, if any. */
     colortype *colorstrings;

@@ -107,7 +107,7 @@ void make_new_buffer(void)
     openfile->current_stat = NULL;
     openfile->lock_filename = NULL;
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     openfile->syntax = NULL;
     openfile->colorstrings = NULL;
 #endif
@@ -496,7 +496,7 @@ bool open_buffer(const char *filename, bool undoable)
 	openfile->placewewant = 0;
     }
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     /* If we're loading into a new buffer, update the colors to account
      * for it, if applicable. */
     if (new_buffer)
@@ -573,7 +573,7 @@ void prepare_for_display(void)
     if (!inhelp)
 	titlebar(NULL);
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     /* If there are multiline coloring regexes, and there is no
      * multiline cache data yet, precalculate it now. */
     if (openfile->syntax && openfile->syntax->nmultis > 0 &&
@@ -1922,14 +1922,14 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
     if (method == OVERWRITE && !tmp) {
 	/* If we must set the filename, and it changed, adjust things. */
 	if (!nonamechange && strcmp(openfile->filename, realname) != 0) {
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	    const char *oldname, *newname;
 
 	    oldname = openfile->syntax ? openfile->syntax->name : "";
 #endif
 	    openfile->filename = mallocstrcpy(openfile->filename, realname);
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	    /* See if the applicable syntax has changed. */
 	    color_update();
 	    color_init();

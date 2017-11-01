@@ -103,7 +103,7 @@ void do_help(void)
     int was_margin = margin;
 #endif
     ssize_t was_tabsize = tabsize;
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     char *was_syntax = syntaxstr;
 #endif
     char *saved_answer = (answer != NULL) ? strdup(answer) : NULL;
@@ -149,7 +149,7 @@ void do_help(void)
     margin = 0;
 #endif
     tabsize = 8;
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     syntaxstr = "nanohelp";
 #endif
     curs_set(0);
@@ -251,7 +251,7 @@ void do_help(void)
     margin = was_margin;
 #endif
     tabsize = was_tabsize;
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     syntaxstr = was_syntax;
 #endif
 

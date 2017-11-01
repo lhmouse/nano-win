@@ -71,7 +71,7 @@ filestruct *make_new_node(filestruct *prevnode)
     newnode->next = NULL;
     newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     newnode->multidata = NULL;
 #endif
 
@@ -88,7 +88,7 @@ filestruct *copy_node(const filestruct *src)
     dst->prev = src->prev;
     dst->lineno = src->lineno;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     dst->multidata = NULL;
 #endif
 
@@ -128,7 +128,7 @@ void unlink_node(filestruct *fileptr)
 void delete_node(filestruct *fileptr)
 {
     free(fileptr->data);
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     free(fileptr->multidata);
 #endif
     free(fileptr);
@@ -848,7 +848,7 @@ void usage(void)
     print_opt(_("-X <str>"), _("--wordchars=<str>"),
 	N_("Which other characters are word parts"));
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     if (!ISSET(RESTRICTED))
 	print_opt(_("-Y <name>"), _("--syntax=<name>"),
 		N_("Syntax definition to use for coloring"));
@@ -930,7 +930,7 @@ void version(void)
 #ifdef ENABLE_BROWSER
     printf(" --enable-browser");
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     printf(" --enable-color");
 #endif
 #ifndef DISABLE_EXTRA
@@ -976,7 +976,7 @@ void version(void)
 #ifndef ENABLE_BROWSER
     printf(" --disable-browser");
 #endif
-#ifdef DISABLE_COLOR
+#ifndef ENABLE_COLOR
     printf(" --disable-color");
 #endif
 #ifndef ENABLE_COMMENT
@@ -1401,7 +1401,7 @@ void do_toggle(int flag)
 	    break;
 	case WHITESPACE_DISPLAY:
 	    titlebar(NULL);	/* Fall through. */
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	case NO_COLOR_SYNTAX:
 #endif
 	    refresh_needed = TRUE;
@@ -1714,7 +1714,7 @@ int do_input(bool allow_funcs)
 		refresh_needed = TRUE;
 	    }
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	    if (f && !f->viewok)
 		check_the_multis(openfile->current);
 #endif
@@ -1882,7 +1882,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     openfile->placewewant = xplustabs();
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     check_the_multis(openfile->current);
 #endif
 
@@ -1924,7 +1924,7 @@ int main(int argc, char **argv)
 	{"tabsize", 1, NULL, 'T'},
 	{"quickblank", 0, NULL, 'U'},
 	{"version", 0, NULL, 'V'},
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	{"syntax", 1, NULL, 'Y'},
 #endif
 	{"constantshow", 0, NULL, 'c'},
@@ -2122,7 +2122,7 @@ int main(int argc, char **argv)
 		word_chars = mallocstrcpy(word_chars, optarg);
 		break;
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	    case 'Y':
 		syntaxstr = mallocstrcpy(syntaxstr, optarg);
 		break;
@@ -2491,7 +2491,7 @@ int main(int argc, char **argv)
     mouse_init();
 #endif
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     set_colorpairs();
 #else
     interface_color_pair[TITLE_BAR] = hilite_attribute;

@@ -188,7 +188,7 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 
     refresh_needed = TRUE;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     check_the_multis(openfile->current);
 #endif
 
@@ -289,7 +289,7 @@ void do_uncut_text(void)
 
     refresh_needed = TRUE;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     check_the_multis(openfile->current);
 #endif
 

@@ -28,7 +28,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 
 /* Initialize the colors for nano's interface, and assign pair numbers
  * for the colors in each syntax. */
@@ -424,4 +424,4 @@ void precalc_multicolorinfo(void)
     }
 }
 
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */

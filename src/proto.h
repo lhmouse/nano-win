@@ -43,7 +43,7 @@ extern bool as_an_at;
 extern int margin;
 extern int editwincols;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 extern bool have_palette;
 #endif
 
@@ -145,7 +145,7 @@ extern char *operating_dir;
 extern char *alt_speller;
 #endif
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 #endif
@@ -175,7 +175,7 @@ extern regex_t search_regexp;
 extern regmatch_t regmatches[10];
 
 extern int hilite_attribute;
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 extern char* specified_color_combo[NUMBER_OF_ELEMENTS];
 #endif
 extern int interface_color_pair[NUMBER_OF_ELEMENTS];
@@ -245,7 +245,7 @@ bool is_valid_mbstring(const char *s);
 #endif
 
 /* Most functions in color.c. */
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
@@ -330,7 +330,7 @@ int keycode_from_string(const char *keystring);
 void assign_keyinfo(sc *s, const char *keystring, const int keycode);
 void print_sclist(void);
 void shortcut_init(void);
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 void set_lint_or_format_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
@@ -483,7 +483,7 @@ int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
 #ifdef ENABLE_NANORC
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
 #endif
@@ -568,7 +568,7 @@ void do_full_justify(void);
 #ifdef ENABLE_SPELLER
 void do_spell(void);
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 void do_linter(void);
 void do_formatter(void);
 #endif

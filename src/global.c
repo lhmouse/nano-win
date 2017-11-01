@@ -51,7 +51,7 @@ int margin = 0;
 int editwincols = -1;
 	/* The number of usable columns in the edit window: COLS - margin. */
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 bool have_palette = FALSE;
 	/* Whether the colors for the current syntax have been initialized. */
 #endif
@@ -179,7 +179,7 @@ char *alt_speller = NULL;
 	/* The command to use for the alternate spell checker. */
 #endif
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 syntaxtype *syntaxes = NULL;
 	/* The global list of color syntaxes. */
 char *syntaxstr = NULL;
@@ -233,7 +233,7 @@ regmatch_t regmatches[10];
 
 int hilite_attribute = A_REVERSE;
 	/* The curses attribute we use to highlight something. */
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 char* specified_color_combo[] = {NULL};
 	/* The color combinations as specified in the rcfile. */
 #endif
@@ -670,7 +670,7 @@ void shortcut_init(void)
     const char *forwardfile_gist = N_("Go to the next file in the list");
     const char *gotodir_gist = N_("Go to directory");
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     const char *lint_gist = N_("Invoke the linter, if available");
     const char *prevlint_gist = N_("Go to previous linter msg");
     const char *nextlint_gist = N_("Go to next linter msg");
@@ -779,7 +779,7 @@ void shortcut_init(void)
 	add_to_funcs(do_spell, MMAIN,
 		N_("To Spell"), WITHORSANS(spell_gist), TOGETHER, NOVIEW);
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	add_to_funcs(do_linter, MMAIN,
 		N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
 #ifdef ENABLE_SPELLER
@@ -792,8 +792,8 @@ void shortcut_init(void)
     add_to_funcs(do_cursorpos_void, MMAIN,
 	N_("Cur Pos"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
-#if (defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	!defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && defined(DISABLE_COLOR))
+#if (defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)) || \
+	!defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && !defined(ENABLE_COLOR))
     /* Conditionally placing this one here or further on, to keep the
      * help items nicely paired in most conditions. */
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
@@ -906,8 +906,8 @@ void shortcut_init(void)
 	N_("Next File"), WITHORSANS(nextfile_gist), BLANKAFTER, VIEW);
 #endif
 
-#if (!defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || !defined(DISABLE_COLOR)) || \
-	defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && defined(DISABLE_COLOR))
+#if (!defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)) || \
+	defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && !defined(ENABLE_COLOR))
     add_to_funcs(do_gotolinecolumn_void, MMAIN,
 	gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
@@ -1072,7 +1072,7 @@ void shortcut_init(void)
     add_to_funcs(discard_buffer, MWRITEFILE,
 	N_("Discard buffer"), WITHORSANS(discardbuffer_gist), BLANKAFTER, NOVIEW);
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     add_to_funcs(do_page_up, MLINTER,
 	/* TRANSLATORS: Try to keep the next two strings at most 20 characters. */
 	N_("Prev Lint Msg"), WITHORSANS(prevlint_gist), TOGETHER, VIEW);
@@ -1110,7 +1110,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
     add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
 #else
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     add_to_sclist(MMAIN, "^T", 0, do_linter, 0);
     add_to_sclist(MMAIN, "F12", 0, do_linter, 0);
 #endif
@@ -1244,7 +1244,7 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-#", 0, do_toggle_void, LINE_NUMBERS);
 #endif
     add_to_sclist(MMAIN, "M-P", 0, do_toggle_void, WHITESPACE_DISPLAY);
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     add_to_sclist(MMAIN, "M-Y", 0, do_toggle_void, NO_COLOR_SYNTAX);
 #endif
 
@@ -1362,7 +1362,7 @@ void shortcut_init(void)
 #endif
 }
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 void set_lint_or_format_shortcuts(void)
 {
 #ifdef ENABLE_SPELLER
@@ -1383,7 +1383,7 @@ void set_spell_shortcuts(void)
 	replace_scs_for(do_linter, do_spell);
 #endif
 }
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 const subnfunc *sctofunc(const sc *s)
 {
@@ -1507,7 +1507,7 @@ sc *strtosc(const char *input)
 	     !strcasecmp(input, "speller"))
 	s->scfunc = do_spell;
 #endif
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     else if (!strcasecmp(input, "linter"))
 	s->scfunc = do_linter;
 #endif
@@ -1677,7 +1677,7 @@ sc *strtosc(const char *input)
 	    s->toggle = SOFTWRAP;
 	else if (!strcasecmp(input, "whitespacedisplay"))
 	    s->toggle = WHITESPACE_DISPLAY;
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
 	else if (!strcasecmp(input, "nosyntax"))
 	    s->toggle = NO_COLOR_SYNTAX;
 #endif
@@ -1801,7 +1801,7 @@ void thanks_for_all_the_fish(void)
 	delete_opennode(openfile->prev);
     }
     delete_opennode(openfile);
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     free(syntaxstr);
     while (syntaxes != NULL) {
 	syntaxtype *sint = syntaxes;
@@ -1848,7 +1848,7 @@ void thanks_for_all_the_fish(void)
 
 	free(sint);
     }
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 #ifdef ENABLE_HISTORIES
     /* Free the search, replace, and execute history lists. */
     free_filestruct(searchtop);

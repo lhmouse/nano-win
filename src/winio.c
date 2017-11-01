@@ -2413,7 +2413,7 @@ void place_the_cursor(void)
 void edit_draw(filestruct *fileptr, const char *converted,
 	int row, size_t from_col)
 {
-#if !defined(NANO_TINY) || !defined(DISABLE_COLOR)
+#if !defined(NANO_TINY) || defined(ENABLE_COLOR)
     size_t from_x = actual_x(fileptr->data, from_col);
 	/* The position in fileptr->data of the leftmost character
 	 * that displays at least partially on the window. */
@@ -2450,7 +2450,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	wredrawln(edit, row, 1);
 #endif
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     /* If color syntaxes are available and turned on, apply them. */
     if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *varnish = openfile->colorstrings;
@@ -2698,7 +2698,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    wattroff(edit, varnish->attributes);
 	}
     }
-#endif /* !DISABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 #ifndef NANO_TINY
     /* If the mark is on, and fileptr is at least partially selected, we
@@ -3298,7 +3298,7 @@ void edit_refresh(void)
     filestruct *line;
     int row = 0;
 
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     /* When needed, initialize the colors for the current syntax. */
     if (!have_palette)
 	color_init();
@@ -3387,7 +3387,7 @@ void total_refresh(void)
  * portion of the window. */
 void display_main_list(void)
 {
-#ifndef DISABLE_COLOR
+#ifdef ENABLE_COLOR
     if (openfile->syntax &&
 		(openfile->syntax->formatter || openfile->syntax->linter))
 	set_lint_or_format_shortcuts();
