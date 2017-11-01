@@ -1893,13 +1893,13 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
     int optchr;
-#ifdef ENABLED_WRAPORJUSTIFY
+#if defined(ENABLED_WRAPORJUSTIFY) && defined(ENABLE_NANORC)
     bool fill_used = FALSE;
 	/* Was the fill option used on the command line? */
+#endif
 #ifdef ENABLE_WRAPPING
     bool forced_wrapping = FALSE;
 	/* Should long lines be automatically hard wrapped? */
-#endif
 #endif
 #ifdef ENABLE_MULTIBUFFER
     bool is_multibuffer;
@@ -2177,7 +2177,9 @@ int main(int argc, char **argv)
 		    fprintf(stderr, "\n");
 		    exit(1);
 		}
+#ifdef ENABLE_NANORC
 		fill_used = TRUE;
+#endif
 #ifdef ENABLE_WRAPPING
 		forced_wrapping = TRUE;
 #endif
