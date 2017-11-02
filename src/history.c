@@ -42,6 +42,8 @@ static bool history_changed = FALSE;
 	/* Whether any of the history lists has changed. */
 static struct stat stat_of_positions_file;
 	/* The last-obtained stat information of the positions file. */
+static char *poshistname = NULL;
+	/* The name of the positions-history file. */
 
 /* Initialize the lists of historical search and replace strings
  * and the list of historical executed commands. */
@@ -287,6 +289,9 @@ bool have_statedir(void)
 	return FALSE;
     }
 
+    if (ISSET(POS_HISTORY))
+	poshistname = concatenate(statedir, POSITION_HISTORY);
+
     return TRUE;
 }
 
@@ -388,26 +393,16 @@ void save_history(void)
     free(histname);
 }
 
-/* Update the modification time of the position history file. */
-void update_posfile_timestamp(void)
-{
-    char *poshist = concatenate(statedir, POSITION_HISTORY);
-
-    stat(poshist, &stat_of_positions_file);
-    free(poshist);
-}
-
 /* Load the recorded cursor positions for files that were edited. */
 void load_poshistory(void)
 {
-    char *poshist = concatenate(statedir, POSITION_HISTORY);
-    FILE *hisfile = fopen(poshist, "rb");
+    FILE *hisfile = fopen(poshistname, "rb");
 
     if (hisfile == NULL) {
 	if (errno != ENOENT) {
 	    /* When reading failed, don't save history when we quit. */
 	    UNSET(POS_HISTORY);
-	    history_error(N_("Error reading %s: %s"), poshist, strerror(errno));
+	    history_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
 	}
     } else {
 	char *line = NULL, *lineptr, *xptr;
@@ -460,23 +455,21 @@ void load_poshistory(void)
 	fclose(hisfile);
 	free(line);
 
-	update_posfile_timestamp();
+	stat(poshistname, &stat_of_positions_file);
     }
-    free(poshist);
 }
 
 /* Save the recorded cursor positions for files that were edited. */
 void save_poshistory(void)
 {
-    char *poshist = concatenate(statedir, POSITION_HISTORY);
     poshiststruct *posptr;
-    FILE *hisfile = fopen(poshist, "wb");
+    FILE *hisfile = fopen(poshistname, "wb");
 
     if (hisfile == NULL)
-	fprintf(stderr, _("Error writing %s: %s\n"), poshist, strerror(errno));
+	fprintf(stderr, _("Error writing %s: %s\n"), poshistname, strerror(errno));
     else {
 	/* Don't allow others to read or write the history file. */
-	chmod(poshist, S_IRUSR | S_IWUSR);
+	chmod(poshistname, S_IRUSR | S_IWUSR);
 
 	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
 	    char *path_and_place;
@@ -496,24 +489,21 @@ void save_poshistory(void)
 
 	    if (fwrite(path_and_place, sizeof(char), length, hisfile) < length)
 		fprintf(stderr, _("Error writing %s: %s\n"),
-					poshist, strerror(errno));
+					poshistname, strerror(errno));
 	    free(path_and_place);
 	}
 	fclose(hisfile);
 
-	update_posfile_timestamp();
+	stat(poshistname, &stat_of_positions_file);
     }
-    free(poshist);
 }
 
 /* Reload the position history file if it has been modified since last load. */
 void reload_positions_if_needed(void)
 {
-    char *poshist = concatenate(statedir, POSITION_HISTORY);
     struct stat newstat;
 
-    stat(poshist, &newstat);
-    free(poshist);
+    stat(poshistname, &newstat);
 
     if (newstat.st_mtime != stat_of_positions_file.st_mtime) {
 	poshiststruct *ptr, *nextone;
