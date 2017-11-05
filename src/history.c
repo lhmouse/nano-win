@@ -253,7 +253,7 @@ bool have_statedir(void)
     if (homedir != NULL) {
 	statedir = concatenate(homedir, "/.nano/");
 
-	if (stat(statedir, &dirstat) != 0 && S_ISDIR(dirstat.st_mode))
+	if (stat(statedir, &dirstat) == 0 && S_ISDIR(dirstat.st_mode))
 	    return TRUE;
     }
 
