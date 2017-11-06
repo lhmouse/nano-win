@@ -891,24 +891,24 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 #ifndef NANO_TINY
     else if (format == 3) {
 	/* TRANSLATORS: Keep the next four messages at most 78 characters. */
-	statusline(HUSH, P_("Read %lu line (Converted from DOS and Mac format)",
-			"Read %lu lines (Converted from DOS and Mac format)",
-			(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %zu line (Converted from DOS and Mac format)",
+			"Read %zu lines (Converted from DOS and Mac format)",
+			num_lines), num_lines);
     } else if (format == 2) {
 	openfile->fmt = MAC_FILE;
-	statusline(HUSH, P_("Read %lu line (Converted from Mac format)",
-			"Read %lu lines (Converted from Mac format)",
-			(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %zu line (Converted from Mac format)",
+			"Read %zu lines (Converted from Mac format)",
+			num_lines), num_lines);
     } else if (format == 1) {
 	openfile->fmt = DOS_FILE;
-	statusline(HUSH, P_("Read %lu line (Converted from DOS format)",
-			"Read %lu lines (Converted from DOS format)",
-			(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %zu line (Converted from DOS format)",
+			"Read %zu lines (Converted from DOS format)",
+			num_lines), num_lines);
     }
 #endif
     else
-	statusline(HUSH, P_("Read %lu line", "Read %lu lines",
-			(unsigned long)num_lines), (unsigned long)num_lines);
+	statusline(HUSH, P_("Read %zu line", "Read %zu lines",
+			num_lines), num_lines);
 
     /* If we inserted less than a screenful, don't center the cursor. */
     if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
@@ -1957,8 +1957,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
 
-	statusline(HUSH, P_("Wrote %lu line", "Wrote %lu lines",
-		(unsigned long)lineswritten), (unsigned long)lineswritten);
+	statusline(HUSH, P_("Wrote %zu line", "Wrote %zu lines",
+			lineswritten), lineswritten);
 	openfile->modified = FALSE;
 	titlebar(NULL);
     }

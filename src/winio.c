@@ -2433,7 +2433,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	    mvwprintw(edit, row, 0, "%*s", margin - 1, " ");
 	else
 #endif
-	    mvwprintw(edit, row, 0, "%*ld", margin - 1, (long)fileptr->lineno);
+	    mvwprintw(edit, row, 0, "%*zd", margin - 1, fileptr->lineno);
 	wattroff(edit, interface_color_pair[LINE_NUMBER]);
     }
 #endif

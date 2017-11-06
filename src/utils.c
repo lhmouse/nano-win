@@ -559,7 +559,7 @@ void dump_filestruct(const filestruct *inptr)
 	fprintf(stderr, "Dumping a buffer to stderr...\n");
 
     while (inptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", (long)inptr->lineno, inptr->data);
+	fprintf(stderr, "(%zd) %s\n", inptr->lineno, inptr->data);
 	inptr = inptr->next;
     }
 }
@@ -570,8 +570,7 @@ void dump_filestruct_reverse(void)
     const filestruct *fileptr = openfile->filebot;
 
     while (fileptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", (long)fileptr->lineno,
-		fileptr->data);
+	fprintf(stderr, "(%zd) %s\n", fileptr->lineno, fileptr->data);
 	fileptr = fileptr->prev;
     }
 }

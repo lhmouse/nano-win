@@ -778,9 +778,8 @@ void do_replace(void)
     refresh_needed = TRUE;
 
     if (numreplaced >= 0)
-	statusline(HUSH, P_("Replaced %lu occurrence",
-		"Replaced %lu occurrences", (unsigned long)numreplaced),
-		(unsigned long)numreplaced);
+	statusline(HUSH, P_("Replaced %zd occurrence",
+		"Replaced %zd occurrences", numreplaced), numreplaced);
 
     search_replace_abort();
 }
