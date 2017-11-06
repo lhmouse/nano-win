@@ -3523,9 +3523,8 @@ void do_wordlinechar_count(void)
     openfile->placewewant = pww_save;
 
     /* Display the total word, line, and character counts on the statusbar. */
-    statusline(HUSH, _("%sWords: %lu  Lines: %ld  Chars: %lu"), was_mark ?
-		_("In Selection:  ") : "", (unsigned long)words, (long)nlines,
-		(unsigned long)chars);
+    statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), was_mark ?
+			_("In Selection:  ") : "", words, nlines, chars);
 }
 #endif /* !NANO_TINY */
 

@@ -146,7 +146,7 @@ void rcfile_error(const char *msg, ...)
 	rcfile_with_errors = strdup(nanorc);
 
     if (lineno > 0)
-	fprintf(stderr, _("Error in %s on line %lu: "), nanorc, (unsigned long)lineno);
+	fprintf(stderr, _("Error in %s on line %zu: "), nanorc, lineno);
 
     va_start(ap, msg);
     vfprintf(stderr, _(msg), ap);

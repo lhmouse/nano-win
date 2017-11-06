@@ -3390,11 +3390,9 @@ void do_cursorpos(bool force)
     charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;
 
     statusline(HUSH,
-	_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
-	(long)openfile->current->lineno,
-	(long)openfile->filebot->lineno, linepct,
-	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
-	(unsigned long)sum, (unsigned long)openfile->totsize, charpct);
+	_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
+	openfile->current->lineno, openfile->filebot->lineno, linepct,
+	cur_xpt, cur_lenpt, colpct, sum, openfile->totsize, charpct);
 
     /* Displaying the cursor position should not suppress it next time. */
     suppress_cursorpos = FALSE;
