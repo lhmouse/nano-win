@@ -801,8 +801,7 @@ void do_undo(void)
 	break;
     case ENTER:
 	if (f->next == NULL) {
-	    statusline(ALERT, _("Internal error: line is missing.  "
-				"Please save your work."));
+	    statusline(ALERT, "Missing break line -- please report a bug");
 	    break;
 	}
 	undidmsg = _("line break");
@@ -858,8 +857,7 @@ void do_undo(void)
 	f->data = data;
 	break;
     default:
-	statusline(ALERT, _("Internal error: unknown type.  "
-				"Please save your work."));
+	statusline(ALERT, "Wrong undo type -- please report a bug");
 	break;
     }
 
@@ -894,8 +892,7 @@ void do_redo(void)
 	u = u->next;
 
     if (u->next != openfile->current_undo) {
-	statusline(ALERT, _("Internal error: cannot set up redo.  "
-				"Please save your work."));
+	statusline(ALERT, "Bad undo stack -- please report a bug");
 	return;
     }
 
@@ -956,8 +953,7 @@ void do_redo(void)
 #endif
     case JOIN:
 	if (f->next == NULL) {
-	    statusline(ALERT, _("Internal error: line is missing.  "
-				"Please save your work."));
+	    statusline(ALERT, "Missing join line -- please report a bug");
 	    break;
 	}
 	redidmsg = _("line join");
@@ -1016,8 +1012,7 @@ void do_redo(void)
 	break;
 #endif
     default:
-	statusline(ALERT, _("Internal error: unknown type.  "
-				"Please save your work."));
+	statusline(ALERT, "Wrong redo type -- please report a bug");
 	break;
     }
 
@@ -1345,8 +1340,7 @@ void add_undo(undo_type action)
 	break;
 #endif
     default:
-	statusline(ALERT, _("Internal error: unknown type.  "
-				"Please save your work."));
+	statusline(ALERT, "Wrong undo adding type -- please report a bug");
 	break;
     }
 
@@ -1515,8 +1509,7 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 	/* These cases are handled by the earlier check for a new line and action. */
 	break;
     default:
-	statusline(ALERT, _("Internal error: unknown type.  "
-				"Please save your work."));
+	statusline(ALERT, "Wrong undo update type -- please report a bug");
 	break;
     }
 
