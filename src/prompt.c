@@ -673,7 +673,7 @@ int do_yesno_prompt(bool all, const char *msg)
     char *message = display_string(msg, 0, COLS, FALSE);
 
     /* TRANSLATORS: For the next three strings, if possible, specify
-     * the single-byte shortcuts for both your language and English.
+     * the single-byte letters for both your language and English.
      * For example, in French: "OoYy", for both "Oui" and "Yes". */
     const char *yesstr = _("Yy");
     const char *nostr = _("Nn");

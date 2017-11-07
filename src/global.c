@@ -988,6 +988,7 @@ void shortcut_init(void)
 	N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
 
     add_to_funcs(do_search_backward, MMAIN,
+	/* TRANSLATORS: This starts a backward search. */
 	N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
 
     add_to_funcs(do_savefile, MMAIN,
@@ -1406,7 +1407,7 @@ const char *flagtostr(int flag)
 {
     switch (flag) {
 	case NO_HELP:
-	    /* TRANSLATORS: The next seventeen strings are toggle descriptions;
+	    /* TRANSLATORS: The next eighteen strings are toggle descriptions;
 	     * they are best kept shorter than 40 characters, but may be longer. */
 	    return N_("Help mode");
 	case CONSTANT_SHOW:
@@ -1444,7 +1445,7 @@ const char *flagtostr(int flag)
 	case LINE_NUMBERS:
 	    return N_("Line numbering");
 	default:
-	    return "?????";
+	    return "Bad toggle -- please report a bug";
     }
 }
 #endif /* !NANO_TINY */
