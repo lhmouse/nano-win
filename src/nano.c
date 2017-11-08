@@ -1887,7 +1887,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 int main(int argc, char **argv)
 {
-    int optchr;
+    int stdin_flags, optchr;
 #if defined(ENABLED_WRAPORJUSTIFY) && defined(ENABLE_NANORC)
     bool fill_used = FALSE;
 	/* Was the fill option used on the command line? */
@@ -1977,6 +1977,11 @@ int main(int argc, char **argv)
 
     /* Back up the terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
+
+    /* Get the state of standard input and ensure it uses blocking mode. */
+    stdin_flags = fcntl(0, F_GETFL, 0);
+    if (stdin_flags != -1)
+	fcntl(0, F_SETFL, stdin_flags & ~O_NONBLOCK);
 
 #ifdef ENABLE_UTF8
     /* If setting the locale is successful and it uses UTF-8, we need
