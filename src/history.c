@@ -257,8 +257,10 @@ bool have_statedir(void)
     if (homedir != NULL) {
 	statedir = concatenate(homedir, "/.nano/");
 
-	if (stat(statedir, &dirstat) == 0 && S_ISDIR(dirstat.st_mode))
+	if (stat(statedir, &dirstat) == 0 && S_ISDIR(dirstat.st_mode)) {
+	    poshistname = concatenate(statedir, POSITION_HISTORY);
 	    return TRUE;
+	}
     }
 
     free(statedir);
@@ -289,9 +291,7 @@ bool have_statedir(void)
 	return FALSE;
     }
 
-    if (ISSET(POS_HISTORY))
-	poshistname = concatenate(statedir, POSITION_HISTORY);
-
+    poshistname = concatenate(statedir, POSITION_HISTORY);
     return TRUE;
 }
 
