@@ -2422,7 +2422,7 @@ int main(int argc, char **argv)
      * checking is disabled, since it would allow reading from or
      * writing to files not specified on the command line). */
     if (!ISSET(RESTRICTED) && alt_speller == NULL) {
-	char *spellenv = getenv("SPELL");
+	const char *spellenv = getenv("SPELL");
 	if (spellenv != NULL)
 	    alt_speller = mallocstrcpy(NULL, spellenv);
     }

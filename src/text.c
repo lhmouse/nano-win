@@ -1108,7 +1108,7 @@ bool execute_command(const char *command)
 {
     int fd[2];
     FILE *f;
-    char *shellenv;
+    const char *shellenv;
     struct sigaction oldaction, newaction;
 	/* Original and temporary handlers for SIGINT. */
     bool sig_failed = FALSE;

@@ -250,7 +250,7 @@ void history_error(const char *msg, ...)
 bool have_statedir(void)
 {
     struct stat dirstat;
-    char *xdgdatadir;
+    const char *xdgdatadir;
 
     get_homedir();
 
@@ -269,9 +269,9 @@ bool have_statedir(void)
     if (homedir == NULL && xdgdatadir == NULL)
 	return FALSE;
 
-    if (xdgdatadir != NULL) {
+    if (xdgdatadir != NULL)
 	statedir = concatenate(xdgdatadir, "/nano/");
-    } else
+    else
 	statedir = concatenate(homedir, XDG_DATA_FALLBACK "/nano/");
 
     if (stat(statedir, &dirstat) == -1) {

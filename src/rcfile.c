@@ -1215,7 +1215,7 @@ void parse_one_nanorc(void)
 	rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 }
 
-bool have_nanorc(char *path, char *name)
+bool have_nanorc(const char *path, char *name)
 {
     if (path == NULL)
 	return FALSE;
@@ -1229,6 +1229,8 @@ bool have_nanorc(char *path, char *name)
 /* First read the system-wide rcfile, then the user's rcfile. */
 void do_rcfiles(void)
 {
+    const char *xdgconfdir;
+
     nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 
     /* Process the system-wide nanorc. */
@@ -1242,8 +1244,7 @@ void do_rcfiles(void)
 #endif
 
     get_homedir();
-
-    char *xdgconfdir = getenv("XDG_CONFIG_HOME");
+    xdgconfdir = getenv("XDG_CONFIG_HOME");
 
     /* Now try the to find a nanorc file in the user's home directory
      * or in the XDG configuration directories. */
