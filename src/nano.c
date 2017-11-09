@@ -2358,13 +2358,11 @@ int main(int argc, char **argv)
     /* Initialize the pointers for the Search/Replace/Execute histories. */
     history_init();
 
-    /* If we need any of the history files, verify that the user's home
-     * directory and its .nano subdirctory exist. */
-    if (ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) {
-	if (!have_statedir()) {
-	    UNSET(HISTORYLOG);
-	    UNSET(POS_HISTORY);
-	}
+    /* If we need history files, verify that we have a directory for them,
+     * and when not, cancel the options. */
+    if ((ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) && !have_statedir()) {
+	UNSET(HISTORYLOG);
+	UNSET(POS_HISTORY);
     }
 
     /* If the user wants history persistence, read the relevant files. */
