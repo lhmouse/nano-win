@@ -271,7 +271,6 @@ bool have_statedir(void)
 
     if (xdgdatadir != NULL) {
 	statedir = concatenate(xdgdatadir, "/nano/");
-	free(xdgdatadir);
     } else
 	statedir = concatenate(homedir, XDG_DATA_FALLBACK "/nano/");
 

@@ -1258,7 +1258,6 @@ void do_rcfiles(void)
 
     check_vitals_mapped();
 
-    free(xdgconfdir);
     free(nanorc);
 }
 
