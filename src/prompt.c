@@ -685,7 +685,6 @@ int do_yesno_prompt(bool all, const char *msg)
 
     while (response == -2) {
 	int kbinput;
-	functionptrtype func;
 
 	if (!ISSET(NO_HELP)) {
 	    char shortstr[MAXCHARLEN + 2];
@@ -728,9 +727,14 @@ int do_yesno_prompt(bool all, const char *msg)
 	/* When not replacing, show the cursor while waiting for a key. */
 	kbinput = get_kbinput(bottomwin, !all);
 
-	func = func_from_key(&kbinput);
-
-	if (func == do_cancel)
+	/* See if the pressed key is in the Yes, No, or All strings. */
+	if (strchr(yesstr, kbinput) != NULL)
+	    response = 1;
+	else if (strchr(nostr, kbinput) != NULL)
+	    response = 0;
+	else if (all && strchr(allstr, kbinput) != NULL)
+	    response = 2;
+	else if (func_from_key(&kbinput) == do_cancel)
 	    response = -1;
 #ifdef ENABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {
@@ -740,14 +744,9 @@ int do_yesno_prompt(bool all, const char *msg)
 			wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE) &&
 			mouse_x < (width * 2) && mouse_y > 0) {
 		int x = mouse_x / width;
-			/* The x-coordinate among the Yes/No/All shortcuts. */
 		int y = mouse_y - 1;
-			/* The y-coordinate among the Yes/No/All shortcuts. */
 
-		assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
-
-		/* x == 0 means they clicked Yes or No.
-		 * y == 0 means Yes or All. */
+		/* x == 0 means Yes or No, y == 0 means Yes or All. */
 		response = -2 * x * y + x - y + 1;
 
 		if (response == 2 && !all)
@@ -755,15 +754,6 @@ int do_yesno_prompt(bool all, const char *msg)
 	    }
 	}
 #endif /* ENABLE_MOUSE */
-	else {
-	    /* Look for the kbinput in the Yes, No (and All) strings. */
-	    if (strchr(yesstr, kbinput) != NULL)
-		response = 1;
-	    else if (strchr(nostr, kbinput) != NULL)
-		response = 0;
-	    else if (all && strchr(allstr, kbinput) != NULL)
-		response = 2;
-	}
     }
 
     free(message);
