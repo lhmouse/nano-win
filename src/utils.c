@@ -53,6 +53,17 @@ void get_homedir(void)
     }
 }
 
+/* Return the filename part of the given path. */
+const char *tail(const char *path)
+{
+    const char *slash = strrchr(path, '/');
+
+    if (slash == NULL)
+	return path;
+    else
+	return ++slash;
+}
+
 /* Return a copy of the two given strings, welded together. */
 char *concatenate(const char *path, const char *name)
 {

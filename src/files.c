@@ -2684,14 +2684,3 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
     return buf;
 }
 #endif /* ENABLE_TABCOMP */
-
-/* Return the filename part of the given path. */
-const char *tail(const char *path)
-{
-    const char *slash = strrchr(path, '/');
-
-    if (slash == NULL)
-	return path;
-    else
-	return ++slash;
-}

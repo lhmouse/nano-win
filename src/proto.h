@@ -321,7 +321,6 @@ void free_chararray(char **array, size_t len);
 char *input_tab(char *buf, bool allow_files, size_t *place,
 	bool *lastwastab, void (*refresh_func)(void), bool *listed);
 #endif
-const char *tail(const char *path);
 
 /* Some functions in global.c. */
 size_t length_of_list(int menu);
@@ -581,6 +580,7 @@ void complete_a_word(void);
 
 /* All functions in utils.c. */
 void get_homedir(void);
+const char *tail(const char *path);
 char *concatenate(const char *path, const char *name);
 #ifdef ENABLE_LINENUMBERS
 int digits(ssize_t n);
