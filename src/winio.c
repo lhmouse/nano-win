@@ -2336,7 +2336,7 @@ void bottombars(int menu)
 
 	wmove(bottomwin, 1 + i % 2, (i / 2) * itemwidth);
 
-	onekey(s->keystr, _(f->desc), itemwidth + (COLS % itemwidth));
+	post_one_key(s->keystr, _(f->desc), itemwidth + (COLS % itemwidth));
 	i++;
     }
 
@@ -2345,25 +2345,24 @@ void bottombars(int menu)
     wrefresh(bottomwin);
 }
 
-/* Write a shortcut key to the help area at the bottom of the window.
- * keystroke is e.g. "^G" and desc is e.g. "Get Help".  We are careful
- * to write at most length characters, even if length is very small and
- * keystroke and desc are long.  Note that waddnstr(,,(size_t)-1) adds
- * the whole string!  We do not bother padding the entry with blanks. */
-void onekey(const char *keystroke, const char *desc, int length)
+/* Write a key's representation plus a minute description of its function
+ * to the screen.  For example, the key could be "^C" and its tag "Cancel".
+ * Key plus tag may occupy at most width columns. */
+void post_one_key(const char *keystroke, const char *tag, int width)
 {
     wattron(bottomwin, interface_color_pair[KEY_COMBO]);
-    waddnstr(bottomwin, keystroke, actual_x(keystroke, length));
+    waddnstr(bottomwin, keystroke, actual_x(keystroke, width));
     wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
 
-    length -= strlenpt(keystroke) + 1;
+    /* If the remaning space is too small, skip the description. */
+    width -= strlenpt(keystroke);
+    if (width < 2)
+	return;
 
-    if (length > 0) {
-	waddch(bottomwin, ' ');
-	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
-	waddnstr(bottomwin, desc, actual_x(desc, length));
-	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
-    }
+    waddch(bottomwin, ' ');
+    wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
+    waddnstr(bottomwin, tag, actual_x(tag, width - 1));
+    wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
 }
 
 /* Redetermine current_y from the position of current relative to edittop,

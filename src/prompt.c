@@ -700,20 +700,20 @@ int do_yesno_prompt(bool all, const char *msg)
 	    /* Now show the ones for "Yes", "No", "Cancel" and maybe "All". */
 	    sprintf(shortstr, " %c", yesstr[0]);
 	    wmove(bottomwin, 1, 0);
-	    onekey(shortstr, _("Yes"), width);
+	    post_one_key(shortstr, _("Yes"), width);
 
 	    if (all) {
 		shortstr[1] = allstr[0];
 		wmove(bottomwin, 1, width);
-		onekey(shortstr, _("All"), width);
+		post_one_key(shortstr, _("All"), width);
 	    }
 
 	    shortstr[1] = nostr[0];
 	    wmove(bottomwin, 2, 0);
-	    onekey(shortstr, _("No"), width);
+	    post_one_key(shortstr, _("No"), width);
 
 	    wmove(bottomwin, 2, width);
-	    onekey("^C", _("Cancel"), width);
+	    post_one_key("^C", _("Cancel"), width);
 	}
 
 	/* Color the statusbar over its full width and display the question. */

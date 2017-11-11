@@ -655,7 +655,7 @@ void statusbar(const char *msg);
 void warn_and_shortly_pause(const char *msg);
 void statusline(message_type importance, const char *msg, ...);
 void bottombars(int menu);
-void onekey(const char *keystroke, const char *desc, int length);
+void post_one_key(const char *keystroke, const char *tag, int width);
 void place_the_cursor(void);
 void edit_draw(filestruct *fileptr, const char *converted,
 	int line, size_t from_col);
