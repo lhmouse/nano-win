@@ -30,6 +30,15 @@
 
 #ifdef ENABLE_COLOR
 
+/* For early versions of ncurses-6.0, use an additional A_PROTECT attribute
+ * for all colors, in order to work around an ncurses miscoloring bug. */
+#if defined(NCURSES_VERSION_MAJOR) && (NCURSES_VERSION_MAJOR == 6) && \
+	(NCURSES_VERSION_MINOR == 0) && (NCURSES_VERSION_PATCH < 20151017)
+#define A_BANDAID  A_PROTECT
+#else
+#define A_BANDAID  A_NORMAL
+#endif
+
 /* Initialize the colors for nano's interface, and assign pair numbers
  * for the colors in each syntax. */
 void set_colorpairs(void)
@@ -59,8 +68,8 @@ void set_colorpairs(void)
 	    if (background == -1 && !using_defaults)
 		background = COLOR_BLACK;
 	    init_pair(i + 1, foreground, background);
-	    interface_color_pair[i] =
-			COLOR_PAIR(i + 1) | (bright ? A_BOLD : A_NORMAL);
+	    interface_color_pair[i] = COLOR_PAIR(i + 1) | A_BANDAID |
+					(bright ? A_BOLD : A_NORMAL);
 	} else {
 	    if (i != FUNCTION_TAG)
 		interface_color_pair[i] = hilite_attribute;
@@ -91,7 +100,7 @@ void set_colorpairs(void)
 	    else
 		ink->pairnum = new_number++;
 
-	    ink->attributes = COLOR_PAIR(ink->pairnum) |
+	    ink->attributes = COLOR_PAIR(ink->pairnum) | A_BANDAID |
 				(ink->bright ? A_BOLD : A_NORMAL);
 	}
     }
