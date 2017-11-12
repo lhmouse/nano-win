@@ -2,10 +2,10 @@
  *   text.c  --  This file is part of GNU nano.                           *
  *                                                                        *
  *   Copyright (C) 1999-2011, 2013-2017 Free Software Foundation, Inc.    *
- *   Copyright (C) 2014, 2015 Mark Majeres                                *
+ *   Copyright (C) 2014-2015 Mark Majeres                                 *
  *   Copyright (C) 2016 Mike Scalora                                      *
- *   Copyright (C) 2015, 2016 Benno Schulenberg                           *
  *   Copyright (C) 2016 Sumedh Pendurkar                                  *
+ *   Copyright (C) 2015-2017 Benno Schulenberg                            *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published    *
