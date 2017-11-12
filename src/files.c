@@ -1048,7 +1048,7 @@ void do_insertfile(void)
 #endif
 		msg = _("Command to execute");
 	} else
-#endif /* NANO_TINY */
+#endif
 	{
 #ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
@@ -1089,7 +1089,7 @@ void do_insertfile(void)
 
 #ifdef ENABLE_MULTIBUFFER
 	    if (func == flip_newbuffer) {
-		/* Don't allow toggling when in view mode. */
+		/* Allow toggling only when not in view mode. */
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
 		else
@@ -1149,11 +1149,10 @@ void do_insertfile(void)
 	    } else
 #endif /* !NANO_TINY */
 	    {
-		/* Make sure the path to the file specified in answer is
-		 * tilde-expanded. */
+		/* Make sure the specified path is tilde-expanded. */
 		answer = free_and_assign(answer, real_dir_from_tilde(answer));
 
-		/* Save the file specified in answer in the current buffer. */
+		/* Read the specified file into the current buffer. */
 		open_buffer(answer, TRUE);
 	    }
 
