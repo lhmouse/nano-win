@@ -348,6 +348,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
     /* Wipe the "Searching..." message and unset the suppression flag. */
     if (feedback > 0) {
 	blank_statusbar();
+	wrefresh(bottomwin);
 	suppress_cursorpos = FALSE;
     }
 
