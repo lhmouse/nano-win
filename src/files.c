@@ -931,13 +931,10 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 {
     struct stat fileinfo, fileinfo2;
     int fd;
-    char *full_filename;
+    char *full_filename = get_full_path(filename);
 
-    /* Get the specified file's full path. */
-    full_filename = get_full_path(filename);
-
-    /* Okay, if we can't stat the path due to a component's
-     * permissions, just try the relative one. */
+    /* If the full path is unusable (due to some component's permissions),
+     * but the relative path is okay, then just use that one. */
     if (full_filename == NULL || (stat(full_filename, &fileinfo) == -1 &&
 					stat(filename, &fileinfo2) != -1))
 	full_filename = mallocstrcpy(full_filename, filename);
@@ -1168,18 +1165,18 @@ void do_insertfile(void)
 		    if (has_old_position(answer, &priorline, &priorcol))
 			do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
 		}
-#endif /* ENABLE_HISTORIES */
-		/* Update stuff to account for the current buffer. */
+#endif
+		/* Update title bar and color info for this new buffer. */
 		prepare_for_display();
 	    } else
 #endif /* ENABLE_MULTIBUFFER */
 	    {
-		/* Mark the file as modified if it changed. */
+		/* If the file actually changed, mark it as modified. */
 		if (openfile->current->lineno != was_current_lineno ||
-			openfile->current_x != was_current_x)
+				openfile->current_x != was_current_x)
 		    set_modified();
 #ifndef NANO_TINY
-		/* Don't change the format of the current file. */
+		/* Ensure that the buffer retains the format that it had. */
 		openfile->fmt = original_fmt;
 #endif
 		refresh_needed = TRUE;
