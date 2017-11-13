@@ -298,6 +298,10 @@ that is not immediately undone, earlier edits
 cannot be undone any more.  The workaround is, of course, to exit without
 saving.
 .sp
+The recording and playback of keyboard macros works correctly only on a
+terminal emulator, not on a Linux console (VT), because the latter is a
+deficient terminal.  And it works only with recent versions of ncurses.
+.sp
 Please report any other bugs that you encounter via:
 .br
 \fIhttps://savannah.gnu.org/bugs/?group=nano\fR.
