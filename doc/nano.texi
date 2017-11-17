@@ -1081,7 +1081,7 @@ Exits from the program (or from the help viewer or the file browser).
 Writes the current buffer to disk, asking for a name.
 
 @item savefile
-Writes the current file to disk without prompting or warning.
+Writes the current file to disk without prompting.
 
 @item insert
 Inserts a file into the current buffer (at the current cursor position),
@@ -1602,9 +1602,8 @@ Disable support for reading the nanorc files at startup.  With such
 support, you can store custom settings in a system-wide and a per-user
 nanorc file rather than having to pass command-line options to get
 the desired behavior.  @xref{Nanorc Files} for more info.
-Disabling this also eliminates the @option{-I} and @option{-q} command-line
-options; the first inhibits the reading of nanorcfiles, and the second
-suppresses warnings about errors in those files.
+Disabling this also eliminates the @option{-I} command-line option,
+which inhibits the reading of nanorc files.
 
 @item --disable-operatingdir
 Disable setting the operating directory.  This also eliminates the @option{-o}
