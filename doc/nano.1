@@ -60,7 +60,7 @@ stride.
 .PP
 The two lines at the bottom of the screen show some important commands;
 the built-in help (\fB^G\fR) lists all the available ones.
-The default key bindings can be changed via the .nanorc file -- see
+The default key bindings can be changed via a \fInanorc\fR file -- see
 .BR nanorc (5).
 
 .SH OPTIONS
@@ -94,11 +94,11 @@ Read a file into a new buffer by default.
 Use vim-style file locking when editing files.
 .TP
 .BR \-H ", " \-\-historylog
-Log search and replace strings to \fI~/.nano/search_history\fP, so they can be
-retrieved in later sessions.
+Save the last hundred search strings and replacement strings and
+executed commands, so they can be easily reused in later sessions.
 .TP
 .BR \-I ", " \-\-ignorercfiles
-Don't look at the system's \fBnanorc\fP nor at \fB~/.nanorc\fP.
+Don't look at the system's \fInanorc\fR nor at the user's \fInanorc\fR.
 .TP
 .BR \-K ", " \-\-rebindkeypad
 Interpret the numeric keypad keys so that they all work properly.  You
@@ -270,9 +270,10 @@ hard-wrapping of long lines, \fBM\-$\fR toggles soft-wrapping,
 See at the end of the \fB^G\fR help text for a complete list.
 
 .SH INITIALIZATION FILE
-\fBnano\fP will read initialization files in the following order:
-the system's \fBnanorc\fP (if it exists), and then the user's
-\fB~/.nanorc\fP (if it exists).  Please see
+\fBnano\fR will read two configuration files: first the system's
+\fInanorc\fR (if it exists), and then the user's \fInanorc\fR (if it
+exists), either \fB~/.nanorc\fR or \fI$XDG_CONFIG_HOME\fB/nano/nanorc\fR
+or \fB~/.config/nano/nanorc\fR, whichever is encountered first.  See
 .BR nanorc (5)
 for more information on the possible contents of those files.
 

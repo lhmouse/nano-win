@@ -130,7 +130,7 @@ adding it with a comma.  So a more complete command synopsis is:
 @sp 1
 @end iftex
 
-Normally, however, you set your preferred options in a @file{.nanorc}
+Normally, however, you set your preferred options in a @file{nanorc}
 file (@pxref{Nanorc Files}).  And when using @code{set positionlog}
 (making @command{nano} remember the cursor position when you close a file),
 you will rarely need to specify a line number.
@@ -183,12 +183,12 @@ Enable vim-style file locking when editing files.
 
 @item -H
 @itemx --historylog
-Log search and replace strings to @file{~/.nano/search_history},
-so they can be retrieved in later sessions.
+Save the last hundred search strings and replacement strings and
+executed commands, so they can be easily reused in later sessions.
 
 @item -I
 @itemx --ignorercfiles
-Don't look at the system's nanorc file nor at the user's @file{~/.nanorc}.
+Don't look at the system's nanorc file nor at the user's nanorc.
 
 @item -K
 @itemx --rebindkeypad
@@ -649,7 +649,8 @@ The nanorc files contain the default settings for @command{nano}.  They
 should be in Unix format, not in DOS or Mac format.  During startup,
 @command{nano} will first read the system-wide settings, from /etc/nanorc
 (the exact path might be different), and then the user-specific settings,
-from @file{~/.nanorc}.
+either from @file{~/.nanorc} or from @file{$XDG_CONFIG_HOME/nano/nanorc}
+or from @file{.config/nano/nanorc}, whichever exists first.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
 be used to configure @command{nano} on startup without using command-line
@@ -661,8 +662,7 @@ Options in nanorc files take precedence over @command{nano}'s defaults, and
 command-line options override nanorc settings.  Also, options that do not
 take an argument are unset by default.  So using the @code{unset} command
 is only needed when wanting to override a setting of the system's nanorc
-file in your own @file{~/.nanorc}.  Options that take an argument cannot
-be unset.
+file in your own nanorc.  Options that take an argument cannot be unset.
 
 Quotes inside string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
@@ -750,8 +750,8 @@ The name of the foreground color may be prefixed with @code{bright}.
 And either @var{fgcolor} or ,@var{bgcolor} may be left out.
 
 @item set historylog
-Enable the use of @file{~/.nano/search_history} for saving and reading
-search/replace strings.
+Save the last hundred search strings and replacement strings and
+executed commands, so they can be easily reused in later sessions.
 
 @item set justifytrim
 When justifying text, trailing whitespace will automatically be removed.
@@ -1474,14 +1474,14 @@ ask any more), or Cancel (stop with replacing).
 
 @item Search and Replace History
 When the option @option{-H} or @option{--historylog} is given (or set in
-the .nanorc file), text entered as search or replace strings is stored.
+the a nanorc file), text entered as search or replace strings is stored.
 These strings can be accessed with the up/down arrow keys, or you can
 type the first few characters and then use @kbd{Tab} to cycle through the
 matching strings.  A retrieved string can subsequently be edited.
 
 @item Position History
 When the option @option{-P} or @option{--positionlog} is given (or set in
-the .nanorc file), @command{nano} will store the position of the cursor
+a nanorc file), @command{nano} will store the position of the cursor
 when you close a file, and will place the cursor in that position
 again when you later reopen the file.
 
