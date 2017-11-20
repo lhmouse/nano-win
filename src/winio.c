@@ -101,8 +101,10 @@ void run_macro(void)
 	return;
     }
 
-    if (macro_length == 0)
+    if (macro_length == 0) {
+	statusline(HUSH, _("Macro is empty"));
 	return;
+    }
 
     free(key_buffer);
     key_buffer = (int *)nmalloc(macro_length * sizeof(int));
