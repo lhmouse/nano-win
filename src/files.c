@@ -2348,19 +2348,6 @@ int diralphasort(const void *va, const void *vb)
      * have to use multibyte strcasecmp() instead. */
     return mbstrcasecmp(a, b);
 }
-
-/* Free the memory allocated for array, which should contain len
- * elements. */
-void free_chararray(char **array, size_t len)
-{
-    if (array == NULL)
-	return;
-
-    for (; len > 0; len--)
-	free(array[len - 1]);
-
-    free(array);
-}
 #endif
 
 #ifdef ENABLE_TABCOMP

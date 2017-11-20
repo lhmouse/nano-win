@@ -315,7 +315,6 @@ void do_savefile(void);
 char *real_dir_from_tilde(const char *buf);
 #if defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);
-void free_chararray(char **array, size_t len);
 #endif
 #ifdef ENABLE_TABCOMP
 char *input_tab(char *buf, bool allow_files, size_t *place,
@@ -591,6 +590,9 @@ void snuggly_fit(char **str);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
+#if !defined(ENABLE_TINY) || defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
+void free_chararray(char **array, size_t len);
+#endif
 const char *fixbounds(const char *r);
 #ifdef ENABLE_SPELLER
 bool is_separate_word(size_t position, size_t length, const char *buf);

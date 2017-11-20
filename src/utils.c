@@ -193,6 +193,20 @@ void sunder(char *str)
     }
 }
 
+#if !defined(ENABLE_TINY) || defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
+/* Free the memory of the given array, which should contain len elements. */
+void free_chararray(char **array, size_t len)
+{
+    if (array == NULL)
+	return;
+
+    while (len > 0)
+	free(array[--len]);
+
+    free(array);
+}
+#endif
+
 /* Fix the regex if we're on platforms which require an adjustment
  * from GNU-style to BSD-style word boundaries. */
 const char *fixbounds(const char *r)
