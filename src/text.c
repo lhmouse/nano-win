@@ -3068,6 +3068,9 @@ void do_linter(void)
 	return;
     }
 
+    openfile->mark_set = FALSE;
+    edit_refresh();
+
     if (openfile->modified) {
 	int i = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
 
