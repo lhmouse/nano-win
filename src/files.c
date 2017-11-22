@@ -2242,7 +2242,7 @@ int do_writeout(bool exiting, bool withprompt)
 	 * function is disabled, since it allows reading from or
 	 * writing to files not specified on the command line. */
 #ifndef NANO_TINY
-	if (openfile->mark && !exiting && !ISSET(RESTRICTED))
+	if (openfile->mark && !exiting && withprompt && !ISSET(RESTRICTED))
 	    result = write_marked_file(answer, NULL, FALSE, method);
 	else
 #endif
