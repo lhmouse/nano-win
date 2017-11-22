@@ -2242,7 +2242,7 @@ void do_justify(bool full_justify)
 	 * current and filebot if filebot is the last line in the
 	 * paragraph.  Set filebot_inpar to TRUE if this is the case. */
 	filebot_inpar = (openfile->current->lineno + par_len ==
-		openfile->filebot->lineno + 1);
+				openfile->filebot->lineno + 1);
 
 	/* If we haven't already done it, move the original paragraph(s)
 	 * to the justify buffer, splice a copy of the original
@@ -2335,8 +2335,8 @@ void do_justify(bool full_justify)
 	     * this line again. */
 	    i--;
 
-	    par_len--;
 	    openfile->totsize--;
+	    par_len--;
 	}
 
 	/* Call justify_format() on the paragraph, which will remove
@@ -2381,8 +2381,8 @@ void do_justify(bool full_justify)
 	    strcpy(openfile->current->next->data + indent_len,
 		openfile->current->data + break_pos);
 
-	    par_len++;
 	    openfile->totsize += indent_len + 1;
+	    par_len++;
 
 #ifndef NANO_TINY
 	    /* Adjust the mark coordinates to compensate for the change
@@ -2393,8 +2393,7 @@ void do_justify(bool full_justify)
 		openfile->mark_x -= break_pos - indent_len;
 	    }
 #endif
-
-	    /* Break the current line. */
+	    /* When requested, snip all trailing blanks. */
 	    if (ISSET(JUSTIFY_TRIM)) {
 		while (break_pos > 0 &&
 			is_blank_mbchar(&openfile->current->data[break_pos - 1])) {
@@ -2402,11 +2401,13 @@ void do_justify(bool full_justify)
 		    openfile->totsize--;
 		}
 	    }
+
+	    /* Break the current line. */
 	    null_at(&openfile->current->data, break_pos);
 
 	    /* Go to the next line. */
-	    par_len--;
 	    openfile->current = openfile->current->next;
+	    par_len--;
 	}
 
 	/* We're done breaking lines, so we don't need indent_string

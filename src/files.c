@@ -2020,7 +2020,6 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
  * the buffer is to be discarded. */
 int do_writeout(bool exiting, bool withprompt)
 {
-    int i = 0;
     bool result = FALSE;
     kind_of_writing_type method = OVERWRITE;
     char *given;
@@ -2042,18 +2041,18 @@ int do_writeout(bool exiting, bool withprompt)
 
     while (TRUE) {
 	const char *msg;
+	int i = 0;
+	functionptrtype func;
 #ifndef NANO_TINY
 	const char *formatstr, *backupstr;
 
 	formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
 			(openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
-
 	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
-	/* If we're using restricted mode, don't display the "Write
-	 * Selection to File" prompt.  This function is disabled, since
-	 * it allows reading from or writing to files not specified on
-	 * the command line. */
+	/* When the mark is on, offer to write the selection to disk, but
+	 * not when in restricted mode, because it would allow writing to
+	 * a file not specified on the command line. */
 	if (openfile->mark && !exiting && !ISSET(RESTRICTED))
 	    /* TRANSLATORS: The next six strings are prompts. */
 	    msg = (method == PREPEND) ? _("Prepend Selection to File") :
@@ -2089,8 +2088,9 @@ int do_writeout(bool exiting, bool withprompt)
 	if (i < 0) {
 	    statusbar(_("Cancelled"));
 	    break;
-	} else {
-	    functionptrtype func = func_from_key(&i);
+	}
+
+	func = func_from_key(&i);
 
 	    /* Upon request, abandon the buffer. */
 	    if (func == discard_buffer) {
@@ -2107,7 +2107,6 @@ int do_writeout(bool exiting, bool withprompt)
 		if (chosen == NULL)
 		    continue;
 
-		/* We have a file now.  Indicate this. */
 		free(answer);
 		answer = chosen;
 	    } else
@@ -2130,12 +2129,11 @@ int do_writeout(bool exiting, bool withprompt)
 	    } else if (func == append_void) {
 		method = (method == APPEND) ? OVERWRITE : APPEND;
 		continue;
-	    } else
+	    }
 #endif /* !NANO_TINY */
 	    if (func == do_help_void) {
 		continue;
 	    }
-
 #ifdef ENABLE_EXTRA
 	    /* If the current file has been modified, we've pressed
 	     * Ctrl-X at the edit window to exit, we've pressed "y" at
@@ -2253,7 +2251,6 @@ int do_writeout(bool exiting, bool withprompt)
 		result = write_file(answer, NULL, FALSE, method, FALSE);
 
 	    break;
-	}
     }
 
     free(given);
