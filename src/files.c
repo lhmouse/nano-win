@@ -100,6 +100,7 @@ void make_new_buffer(void)
     openfile->undotop = NULL;
     openfile->current_undo = NULL;
     openfile->last_action = OTHER;
+    openfile->pristine = TRUE;
 
     openfile->current_stat = NULL;
     openfile->lock_filename = NULL;

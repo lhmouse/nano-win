@@ -865,7 +865,13 @@ void do_undo(void)
     openfile->placewewant = xplustabs();
 
     openfile->totsize = u->wassize;
-    set_modified();
+
+    /* If *everything* was undone, then unset the "Modified" marker. */
+    if (openfile->current_undo == NULL && openfile->pristine) {
+	openfile->modified = FALSE;
+	titlebar(NULL);
+    } else
+	set_modified();
 }
 
 /* Redo the last thing(s) we undid. */
@@ -1207,6 +1213,9 @@ void discard_until(const undo *thisitem, openfilestruct *thefile)
 
     /* Prevent a chain of editing actions from continuing. */
     thefile->last_action = OTHER;
+
+    /* Record that the undo stack no longer goes back to the beginning. */
+    thefile->pristine = FALSE;
 }
 
 /* Add a new undo struct to the top of the current pile. */
