@@ -1687,6 +1687,9 @@ int do_input(bool allow_funcs)
 #endif
 	{
 #ifndef NANO_TINY
+	    filestruct *was_current = openfile->current;
+	    size_t was_x = openfile->current_x;
+
 	    /* If Shifted movement occurs, set the mark. */
 	    if (shift_held && !openfile->mark) {
 		openfile->mark = openfile->current;
@@ -1699,7 +1702,9 @@ int do_input(bool allow_funcs)
 #ifndef NANO_TINY
 	    /* If Shiftless movement occurred, discard a soft mark. */
 	    if (!shift_held && openfile->mark &&
-				openfile->kind_of_mark == SOFTMARK) {
+				openfile->kind_of_mark == SOFTMARK &&
+				(openfile->current_x != was_x ||
+				openfile->current != was_current)) {
 		openfile->mark = NULL;
 		refresh_needed = TRUE;
 	    }
