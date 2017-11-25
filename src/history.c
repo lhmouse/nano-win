@@ -279,7 +279,7 @@ bool have_statedir(void)
 	    mkdir(statepath, S_IRWXU);
 	    free(statepath);
 	}
-	if (mkdir(statedir, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
+	if (mkdir(statedir, S_IRWXU) == -1) {
 	    history_error(N_("Unable to create directory %s: %s\n"
 				"It is required for saving/loading "
 				"search history or cursor positions.\n"),
