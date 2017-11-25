@@ -26,10 +26,6 @@
 
 #ifdef ENABLE_HISTORIES
 
-#ifndef XDG_DATA_FALLBACK
-#define XDG_DATA_FALLBACK "/.local/share"
-#endif
-
 #ifndef SEARCH_HISTORY
 #define SEARCH_HISTORY "search_history"
 #endif
@@ -272,9 +268,17 @@ bool have_statedir(void)
     if (xdgdatadir != NULL)
 	statedir = concatenate(xdgdatadir, "/nano/");
     else
-	statedir = concatenate(homedir, XDG_DATA_FALLBACK "/nano/");
+	statedir = concatenate(homedir, "/.local/share/nano/");
 
     if (stat(statedir, &dirstat) == -1) {
+	if (xdgdatadir == NULL) {
+	    char *statepath = concatenate(homedir, "/.local");
+	    mkdir(statepath, S_IRWXU | S_IRWXG | S_IRWXO);
+	    free(statepath);
+	    statepath = concatenate(homedir, "/.local/share");
+	    mkdir(statepath, S_IRWXU);
+	    free(statepath);
+	}
 	if (mkdir(statedir, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
 	    history_error(N_("Unable to create directory %s: %s\n"
 				"It is required for saving/loading "
