@@ -43,10 +43,6 @@ extern bool as_an_at;
 extern int margin;
 extern int editwincols;
 
-#ifdef ENABLE_COLOR
-extern bool have_palette;
-#endif
-
 extern bool suppress_cursorpos;
 
 extern message_type lastmessage;
@@ -106,9 +102,6 @@ extern openfilestruct *firstfile;
 
 #ifndef NANO_TINY
 extern char *matchbrackets;
-#endif
-
-#ifndef NANO_TINY
 extern char *whitespace;
 extern int whitespace_len[2];
 #endif
@@ -124,7 +117,7 @@ extern char *quotestr;
 extern regex_t quotereg;
 extern int quoterc;
 extern char *quoteerr;
-#endif /* !ENABLE_JUSTIFY */
+#endif
 
 extern char *word_chars;
 
@@ -148,6 +141,7 @@ extern char *alt_speller;
 #ifdef ENABLE_COLOR
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
+extern bool have_palette;
 #endif
 
 extern bool refresh_needed;

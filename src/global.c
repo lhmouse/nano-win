@@ -51,11 +51,6 @@ int margin = 0;
 int editwincols = -1;
 	/* The number of usable columns in the edit window: COLS - margin. */
 
-#ifdef ENABLE_COLOR
-bool have_palette = FALSE;
-	/* Whether the colors for the current syntax have been initialized. */
-#endif
-
 bool suppress_cursorpos = FALSE;
 	/* Should we skip constant position display for current keystroke? */
 
@@ -184,6 +179,8 @@ syntaxtype *syntaxes = NULL;
 	/* The global list of color syntaxes. */
 char *syntaxstr = NULL;
 	/* The color syntax name specified on the command line. */
+bool have_palette = FALSE;
+	/* Whether the colors for the current syntax have been initialized. */
 #endif
 
 bool refresh_needed = FALSE;

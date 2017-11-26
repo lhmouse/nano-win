@@ -326,7 +326,6 @@ void load_history(void)
 		history = &replace_history;
 	   else
 		history = &execute_history;
-
 	}
 
 	fclose(hisfile);
