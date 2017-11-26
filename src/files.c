@@ -1950,7 +1950,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	if (!openfile->mark)
+	if (!nonamechange)
 	    /* Get or update the stat info to reflect the current state. */
 	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
