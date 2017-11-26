@@ -548,6 +548,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 		posprev->next = posptr->next;
 	    free(posptr->filename);
 	    free(posptr);
+	    save_poshistory();
 	}
 	free(fullpath);
 	return;
