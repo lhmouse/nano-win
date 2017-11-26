@@ -2439,6 +2439,10 @@ void do_justify(bool full_justify)
     if (first_par_line != NULL)
 	last_par_line = openfile->current;
 
+    /* Let a justification cancel a soft mark. */
+    if (openfile->mark && openfile->kind_of_mark == SOFTMARK)
+	openfile->mark = NULL;
+
     edit_refresh();
 
     /* Show "Unjustify" in the help lines. */
