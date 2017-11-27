@@ -1186,8 +1186,9 @@ bool execute_command(const char *command)
     return TRUE;
 }
 
-/* Discard undo items that are newer than the given one, or all if NULL. */
-void discard_until(const undo *thisitem, openfilestruct *thefile)
+/* Discard undo items that are newer than the given one, or all if NULL.
+ * When keep is TRUE, do not touch the pristine flag. */
+void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 {
     undo *dropit = thefile->undotop;
     undo_group *group;
@@ -1214,8 +1215,9 @@ void discard_until(const undo *thisitem, openfilestruct *thefile)
     /* Prevent a chain of editing actions from continuing. */
     thefile->last_action = OTHER;
 
-    /* Record that the undo stack no longer goes back to the beginning. */
-    thefile->pristine = FALSE;
+    /* When requested, record that the undo stack was chopped. */
+    if (!keep)
+	thefile->pristine = FALSE;
 }
 
 /* Add a new undo struct to the top of the current pile. */
@@ -1232,7 +1234,7 @@ void add_undo(undo_type action)
 	return;
 
     /* Blow away newer undo items if we add somewhere in the middle. */
-    discard_until(u, openfile);
+    discard_until(u, openfile, TRUE);
 
 #ifdef DEBUG
     fprintf(stderr, "  >> Adding an undo...\n");
@@ -2519,7 +2521,7 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	/* Throw away the entire undo stack, to prevent a crash when
 	 * the user tries to undo something in the justified text. */
-	discard_until(NULL, openfile);
+	discard_until(NULL, openfile, FALSE);
 #endif
 	/* Blow away the unjustified text. */
 	free_filestruct(jusbuffer);
@@ -2968,7 +2970,7 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_TINY
 	/* Flush the undo stack, to avoid making a mess when the user
 	 * tries to undo things in spell-corrected lines. */
-	discard_until(NULL, openfile);
+	discard_until(NULL, openfile, FALSE);
 #endif
     }
 
@@ -3465,7 +3467,7 @@ void do_formatter(void)
 #ifndef NANO_TINY
 	/* Flush the undo stack, to avoid a mess or crash when
 	 * the user tries to undo things in reformatted lines. */
-	discard_until(NULL, openfile);
+	discard_until(NULL, openfile, FALSE);
 #endif
 	finalstatus = _("Finished formatting");
     }

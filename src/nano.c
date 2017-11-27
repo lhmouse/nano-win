@@ -523,7 +523,7 @@ void delete_opennode(openfilestruct *fileptr)
     free(fileptr->current_stat);
     free(fileptr->lock_filename);
     /* Free the undo stack. */
-    discard_until(NULL, fileptr);
+    discard_until(NULL, fileptr, TRUE);
 #endif
     free(fileptr);
 }
