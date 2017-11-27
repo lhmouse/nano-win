@@ -1813,13 +1813,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -	char_len)))
 	    continue;
 
-	/* If we're adding to the magicline, create a new magicline. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot == openfile->current) {
-	    new_magicline();
-	    if (margin > 0)
-		refresh_needed = TRUE;
-	}
-
 	/* Make room for the new character and copy it into the line. */
 	openfile->current->data = charealloc(openfile->current->data,
 					current_len + char_len + 1);
@@ -1855,6 +1848,13 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #ifndef NANO_TINY
 	update_undo(ADD);
 #endif
+
+	/* If we've added text to the magicline, create a new magicline. */
+	if (openfile->filebot == openfile->current && !ISSET(NO_NEWLINES)) {
+	    new_magicline();
+	    if (margin > 0)
+		refresh_needed = TRUE;
+	}
 
 #ifdef ENABLE_WRAPPING
 	/* If text gets wrapped, the edit window needs a refresh. */

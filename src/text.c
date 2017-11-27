@@ -734,6 +734,8 @@ void do_undo(void)
 	/* TRANSLATORS: The next twelve strings describe actions
 	 * that are undone or redone.  It are all nouns, not verbs. */
 	undidmsg = _("text add");
+	if (u->xflags == WAS_FINAL_LINE && !ISSET(NO_NEWLINES))
+	    remove_magicline();
 	data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
@@ -907,6 +909,8 @@ void do_redo(void)
     switch (u->type) {
     case ADD:
 	redidmsg = _("text add");
+	if (u->xflags == WAS_FINAL_LINE && !ISSET(NO_NEWLINES))
+	    new_magicline();
 	data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 	strncpy(data, f->data, u->begin);
 	strcpy(&data[u->begin], u->strdata);
@@ -1272,6 +1276,9 @@ void add_undo(undo_type action)
     /* We need to start copying data into the undo buffer
      * or we won't be able to restore it later. */
     case ADD:
+	/* If a new magic line will be added, an undo should remove it. */
+	if (openfile->current == openfile->filebot && openfile->current_x == 0)
+	    u->xflags = WAS_FINAL_LINE;
 	u->wassize--;
 	break;
     case BACK:
