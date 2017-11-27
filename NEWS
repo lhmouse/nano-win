@@ -1,3 +1,10 @@
+2017.11.27 - GNU nano 2.9.1 "Damyatta" fixes a bug where, when the mark
+		is on, ^S would overwrite the file with just the marked
+		region.  This release further clears the "Modified" flag
+		when all edits are undone, adds or updates some magic
+		strings, and does not forget when the cursor was last
+		at line 1, column 1.
+
 2017.11.18 - GNU nano 2.9.0 "Eta" introduces the ability to record and
 		replay keystrokes (M-: to start and stop recording, M-;
 		to play the macro back), makes ^Q and ^S do something

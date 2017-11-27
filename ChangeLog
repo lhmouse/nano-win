@@ -1,3 +1,29 @@
+Changes between v2.9.0 and v2.9.1:
+----------------------------------
+
+Benno Schulenberg (20):
+      build: fix compilation with --disable-browser --disable-tabcomp
+      bump version numbers and add a news item for the 2.9.1 release
+      files: always update the stat info when the entire file is written
+      files: save the marked region only when we've prompted for a file name
+      gnulib: update to its current upstream state
+      history: create the path '~/.local/share/' when it is needed
+      history: make nano's state directory accessible for the user only
+      history: save the positions file also when a record was deleted
+      input: make the macro key discoverable by giving feedback when undefined
+      linting: switch the mark off when the linter starts
+      selecting: do not cancel the softmark when the cursor is not moved
+      selecting: let a justification cancel a softmark
+      syntax: adjust the magic strings for the changes since file-5.10
+      tweaks: adjust indentation after previous change
+      tweaks: elide the 'mark_set' boolean -- the 'mark' pointer is enough
+      tweaks: rename, rewrap, and reshuffle some stuff, and frob some comments
+      tweaks: reshuffle a couple of lines, and frob a comment or two
+      tweaks: reshuffle a couple of lines, to put similar things together
+      undo: clear the Modified state when the very first edit is undone
+      undo: discarding the stack does not always lose information
+
+
 Changes between v2.8.7 and v2.9.0:
 ----------------------------------
 
