@@ -1613,7 +1613,7 @@ bool do_wrap(filestruct *line)
 	openfile->current_x = line_len;
 
 	/* If the remainder doesn't end in a blank, add a space. */
-	if (!is_blank_mbchar(tail) && !ISSET(JUSTIFY_TRIM)) {
+	if (!is_blank_mbchar(tail)) {
 #ifndef NANO_TINY
 	    add_undo(ADD);
 #endif
@@ -1638,8 +1638,21 @@ bool do_wrap(filestruct *line)
 	}
     }
 
-    /* Go to the wrap location and split the line there. */
+    /* Go to the wrap location. */
     openfile->current_x = wrap_loc;
+
+    /* When requested, snip trailing blanks off the wrapped line. */
+    if (ISSET(JUSTIFY_TRIM)) {
+	size_t cur_x = move_mbleft(line->data, wrap_loc);
+
+	while (is_blank_mbchar(line->data + cur_x)) {
+	    openfile->current_x = cur_x;
+	    do_delete();
+	    cur_x = move_mbleft(line->data, cur_x);
+	}
+    }
+
+    /* Now split the line. */
     do_enter();
 
     if (old_x < wrap_loc) {
