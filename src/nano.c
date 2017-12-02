@@ -1635,13 +1635,6 @@ int do_input(bool allow_funcs)
      * all available characters in the input puddle.  Note that this
      * puddle will be empty if we're in view mode. */
     if (have_shortcut || get_key_buffer_len() == 0) {
-#ifdef ENABLE_WRAPPING
-	/* If we got a shortcut or toggle, and it's not the shortcut
-	 * for verbatim input, turn off prepending of wrapped text. */
-	if (have_shortcut && s->scfunc != do_verbatim_input)
-	    wrap_reset();
-#endif
-
 	if (puddle != NULL) {
 	    /* Insert all bytes in the input buffer into the edit buffer
 	     * at once, filtering out any low control codes. */
@@ -1708,6 +1701,11 @@ int do_input(bool allow_funcs)
 		openfile->mark = NULL;
 		refresh_needed = TRUE;
 	    }
+#endif
+#ifdef ENABLE_WRAPPING
+	    /* If the cursor moved to another line, clear the prepend flag. */
+	    if (openfile->current != was_current)
+		wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
 	    if (f && !f->viewok)
