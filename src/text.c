@@ -1549,10 +1549,6 @@ bool do_wrap(filestruct *line)
 	/* The text after the wrap point. */
     size_t rest_length;
 	/* The length of the remainder. */
-    const char *next_line = NULL;
-	/* The next line, minus indentation. */
-    size_t next_line_len = 0;
-	/* The length of next_line. */
 
     size_t old_x = openfile->current_x;
     filestruct * old_line = openfile->current;
@@ -1633,10 +1629,7 @@ bool do_wrap(filestruct *line)
 #endif
 	}
 
-	next_line = line->next->data;
-	next_line_len = strlen(next_line);
-
-	if (rest_length + next_line_len <= fill) {
+	if (rest_length + strlen(line->next->data) <= fill) {
 	    /* Delete the LF to join the two lines. */
 	    do_delete();
 	    /* Delete any leading blanks from the joined-on line. */
