@@ -1277,7 +1277,7 @@ void add_undo(undo_type action)
      * or we won't be able to restore it later. */
     case ADD:
 	/* If a new magic line will be added, an undo should remove it. */
-	if (openfile->current == openfile->filebot && openfile->current_x == 0)
+	if (openfile->current == openfile->filebot)
 	    u->xflags = WAS_FINAL_LINE;
 	u->wassize--;
 	break;
