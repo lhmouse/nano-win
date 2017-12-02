@@ -1645,7 +1645,6 @@ bool do_wrap(filestruct *line)
 	    /* Delete any leading blanks from the joined-on line. */
 	    while (is_blank_mbchar(&line->data[openfile->current_x]))
 		do_delete();
-	    renumber(line);
 	}
     }
 
