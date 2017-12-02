@@ -1623,10 +1623,9 @@ bool do_wrap(filestruct *line)
 #ifndef NANO_TINY
 	    add_undo(ADD);
 #endif
-	    line_len++;
-	    line->data = charealloc(line->data, line_len + 1);
-	    line->data[line_len - 1] = ' ';
-	    line->data[line_len] = '\0';
+	    line->data = charealloc(line->data, line_len + 2);
+	    line->data[line_len] = ' ';
+	    line->data[line_len + 1] = '\0';
 	    after_break = line->data + wrap_loc;
 	    after_break_len++;
 	    openfile->totsize++;
