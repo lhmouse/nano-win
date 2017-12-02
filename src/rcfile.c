@@ -96,7 +96,7 @@ static const rcoption rcopts[] = {
     {"casesensitive", CASE_SENSITIVE},
     {"cut", CUT_FROM_CURSOR},  /* deprecated form, remove in 2020 */
     {"cutfromcursor", CUT_FROM_CURSOR},
-    {"justifytrim", JUSTIFY_TRIM},
+    {"justifytrim", TRIM_BLANKS},  /* deprecated form, remove in 2020 */
     {"locking", LOCKING},
     {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},
@@ -106,6 +106,7 @@ static const rcoption rcopts[] = {
     {"smooth", SMOOTH_SCROLL},
     {"softwrap", SOFTWRAP},
     {"tabstospaces", TABS_TO_SPACES},
+    {"trimblanks", TRIM_BLANKS},
     {"unix", MAKE_IT_UNIX},
     {"whitespace", 0},
     {"wordbounds", WORD_BOUNDS},

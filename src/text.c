@@ -1642,7 +1642,7 @@ bool do_wrap(filestruct *line)
     openfile->current_x = wrap_loc;
 
     /* When requested, snip trailing blanks off the wrapped line. */
-    if (ISSET(JUSTIFY_TRIM)) {
+    if (ISSET(TRIM_BLANKS)) {
 	size_t cur_x = move_mbleft(line->data, wrap_loc);
 
 	while (is_blank_mbchar(line->data + cur_x)) {
@@ -2414,7 +2414,7 @@ void do_justify(bool full_justify)
 	    }
 #endif
 	    /* When requested, snip all trailing blanks. */
-	    if (ISSET(JUSTIFY_TRIM)) {
+	    if (ISSET(TRIM_BLANKS)) {
 		while (break_pos > 0 &&
 			is_blank_mbchar(&openfile->current->data[break_pos - 1])) {
 		    break_pos--;
