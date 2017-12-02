@@ -1679,6 +1679,9 @@ int do_input(bool allow_funcs)
 	} else
 #endif
 	{
+#ifdef ENABLE_WRAPPING
+	    filestruct *was_next = openfile->current->next;
+#endif
 #ifndef NANO_TINY
 	    filestruct *was_current = openfile->current;
 	    size_t was_x = openfile->current_x;
@@ -1704,7 +1707,7 @@ int do_input(bool allow_funcs)
 #endif
 #ifdef ENABLE_WRAPPING
 	    /* If the cursor moved to another line, clear the prepend flag. */
-	    if (openfile->current != was_current)
+	    if (openfile->current->next != was_next)
 		wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
