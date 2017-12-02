@@ -1545,10 +1545,10 @@ bool do_wrap(filestruct *line)
 	/* The length of the line we wrap. */
     ssize_t wrap_loc;
 	/* The index of line->data where we wrap. */
-    const char *after_break;
+    const char *remainder;
 	/* The text after the wrap point. */
-    size_t after_break_len;
-	/* The length of after_break. */
+    size_t rest_length;
+	/* The length of the remainder. */
     const char *next_line = NULL;
 	/* The next line, minus indentation. */
     size_t next_line_len = 0;
@@ -1603,31 +1603,29 @@ bool do_wrap(filestruct *line)
      * and the text of the next line, if they can fit without wrapping,
      * the next line exists, and the prepend_wrap flag is set. */
 
-    /* after_break is the text that will be wrapped to the next line. */
-    after_break = line->data + wrap_loc;
-    after_break_len = line_len - wrap_loc;
+    /* The remainder is the text that will be wrapped to the next line. */
+    remainder = line->data + wrap_loc;
+    rest_length = line_len - wrap_loc;
 
     /* We prepend the wrapped text to the next line, if the prepend_wrap
      * flag is set, there is a next line, and prepending would not make
      * the line too long. */
     if (prepend_wrap && line != openfile->filebot) {
-	const char *end = after_break + move_mbleft(after_break,
-		after_break_len);
+	const char *tail = remainder + move_mbleft(remainder, rest_length);
 
 	/* Go to the end of the line. */
 	openfile->current_x = line_len;
 
-	/* If after_break doesn't end in a blank, make sure it ends in a
-	 * space. */
-	if (!is_blank_mbchar(end) && !ISSET(JUSTIFY_TRIM)) {
+	/* If the remainder doesn't end in a blank, add a space. */
+	if (!is_blank_mbchar(tail) && !ISSET(JUSTIFY_TRIM)) {
 #ifndef NANO_TINY
 	    add_undo(ADD);
 #endif
 	    line->data = charealloc(line->data, line_len + 2);
 	    line->data[line_len] = ' ';
 	    line->data[line_len + 1] = '\0';
-	    after_break = line->data + wrap_loc;
-	    after_break_len++;
+	    remainder = line->data + wrap_loc;
+	    rest_length++;
 	    openfile->totsize++;
 	    openfile->current_x++;
 #ifndef NANO_TINY
@@ -1638,7 +1636,7 @@ bool do_wrap(filestruct *line)
 	next_line = line->next->data;
 	next_line_len = strlen(next_line);
 
-	if (after_break_len + next_line_len <= fill) {
+	if (rest_length + next_line_len <= fill) {
 	    /* Delete the LF to join the two lines. */
 	    do_delete();
 	    /* Delete any leading blanks from the joined-on line. */
