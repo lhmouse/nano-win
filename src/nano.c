@@ -651,7 +651,7 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
     targetname = get_next_filename(die_filename, ".save");
 
     if (*targetname != '\0')
-	failed = !write_file(targetname, NULL, TRUE, OVERWRITE, TRUE);
+	failed = !write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
 
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), targetname);

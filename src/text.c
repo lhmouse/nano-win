@@ -3004,7 +3004,7 @@ void do_spell(void)
 	status = write_marked_file(temp, temp_file, TRUE, OVERWRITE);
     else
 #endif
-	status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
+	status = write_file(temp, temp_file, TRUE, OVERWRITE, TRUE);
 
     if (!status) {
 	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
@@ -3395,7 +3395,7 @@ void do_formatter(void)
     /* We're not supporting partial formatting, oi vey. */
     openfile->mark = NULL;
 #endif
-    status = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
+    status = write_file(temp, temp_file, TRUE, OVERWRITE, TRUE);
 
     if (!status) {
 	statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));

@@ -1522,13 +1522,13 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
  * use it when spell checking or dumping the file on an error.  If
  * method is APPEND, it means we are appending instead of overwriting.
  * If method is PREPEND, it means we are prepending instead of
- * overwriting.  If nonamechange is TRUE, we don't change the current
- * filename.  nonamechange is irrelevant when appending or prepending,
+ * overwriting.  If fullbuffer is TRUE, we set the current filename and
+ * stat info.  But fullbuffer is irrelevant when appending or prepending,
  * or when writing a temporary file.
  *
  * Return TRUE on success or FALSE on error. */
 bool write_file(const char *name, FILE *f_open, bool tmp,
-	kind_of_writing_type method, bool nonamechange)
+	kind_of_writing_type method, bool fullbuffer)
 {
     bool retval = FALSE;
 	/* Instead of returning in this function, you should always
@@ -1919,7 +1919,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
     if (method == OVERWRITE && !tmp) {
 	/* If we must set the filename, and it changed, adjust things. */
-	if (!nonamechange && strcmp(openfile->filename, realname) != 0) {
+	if (fullbuffer && strcmp(openfile->filename, realname) != 0) {
 #ifdef ENABLE_COLOR
 	    const char *oldname, *newname;
 
@@ -1950,7 +1950,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	if (!nonamechange)
+	if (fullbuffer)
 	    /* Get or update the stat info to reflect the current state. */
 	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
@@ -1978,7 +1978,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 {
     bool retval;
     bool old_modified = openfile->modified;
-	/* Save the status, because write_file() unsets the modified flag. */
+	/* Save the status, as writing the file unsets the modified flag. */
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
@@ -1996,7 +1996,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	added_magicline = TRUE;
     }
 
-    retval = write_file(name, f_open, tmp, method, TRUE);
+    retval = write_file(name, f_open, tmp, method, FALSE);
 
     /* If we added a magicline, remove it now. */
     if (added_magicline)
@@ -2225,7 +2225,7 @@ int do_writeout(bool exiting, bool withprompt)
 		    free(given);
 		    if (response == 1)
 			return write_file(openfile->filename,
-					 NULL, FALSE, OVERWRITE, FALSE);
+					 NULL, FALSE, OVERWRITE, TRUE);
 		    else if (response == 0)
 			return 2;
 		    else
@@ -2247,7 +2247,7 @@ int do_writeout(bool exiting, bool withprompt)
 	    result = write_marked_file(answer, NULL, FALSE, method);
 	else
 #endif
-	    result = write_file(answer, NULL, FALSE, method, FALSE);
+	    result = write_file(answer, NULL, FALSE, method, TRUE);
 
 	break;
     }

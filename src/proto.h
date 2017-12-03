@@ -298,7 +298,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 #endif
 int copy_file(FILE *inn, FILE *out, bool close_out);
 bool write_file(const char *name, FILE *f_open, bool tmp,
-	kind_of_writing_type method, bool nonamechange);
+	kind_of_writing_type method, bool fullbuffer);
 #ifndef NANO_TINY
 bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	kind_of_writing_type method);
