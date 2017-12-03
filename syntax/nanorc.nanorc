@@ -16,12 +16,13 @@ icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]
 icolor brightgreen "^[[:space:]]*(linter|formatter)[[:space:]]+[[:alpha:]]+"
 icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|linter|formatter|extendsyntax)\>"
 
+# Strings
+color brightmagenta "".+"([[:space:]]|$)"
+
 # Colors
 icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
 
-# Strings
-color brightmagenta ""(\\.|[^"])*""
 # Comments
 color brightblue "(^|[[:space:]]+)#.*$"
 color cyan "^[[:space:]]*##.*$"
