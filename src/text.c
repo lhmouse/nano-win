@@ -347,23 +347,22 @@ void do_indent(void)
     refresh_needed = TRUE;
 }
 
-/* If the given text starts with a tab's worth of whitespace, return the
- * number of bytes this whitespace occupies.  Otherwise, return zero. */
+/* Return the number of bytes of whitespace at the start of the given text,
+ * but at most a tab's worth. */
 size_t length_of_white(const char *text)
 {
-    size_t bytes_of_white = 1;
+    size_t bytes_of_white = 0;
 
     while (TRUE) {
 	if (*text == '\t')
-	    return bytes_of_white;
+	    return ++bytes_of_white;
 
 	if (*text != ' ')
-	    return 0;
+	    return bytes_of_white;
 
-       if (bytes_of_white == tabsize)
+       if (++bytes_of_white == tabsize)
 	    return tabsize;
 
-	bytes_of_white++;
 	text++;
     }
 }
@@ -414,14 +413,15 @@ void do_unindent(void)
 	bot = top;
     }
 
-    /* If any of the lines cannot be unindented and does not consist of
-     * only whitespace, we don't change anything. */
+    /* Check if there is a line that can be unindented. */
     for (line = top; line != bot->next; line = line->next) {
-	if (length_of_white(line->data) == 0 && !white_string(line->data)) {
-	    statusline(HUSH, _("Can unindent only by a full tab size"));
-	    return;
-	}
+	if (length_of_white(line->data) != 0)
+	   break;
     }
+
+    /* If none of the lines can be unindented, there is nothing to do. */
+    if (line == bot->next)
+	return;
 
     add_undo(UNINDENT);
 
