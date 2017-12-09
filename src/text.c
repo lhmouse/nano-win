@@ -343,6 +343,7 @@ void do_indent(void)
 
     set_modified();
     refresh_needed = TRUE;
+    shift_held = TRUE;
 }
 
 /* Return the number of bytes of whitespace at the start of the given text,
@@ -439,6 +440,7 @@ void do_unindent(void)
 
     set_modified();
     refresh_needed = TRUE;
+    shift_held = TRUE;
 }
 
 /* Perform an undo or redo for an indent or unindent action. */
@@ -550,6 +552,7 @@ void do_comment(void)
 
     set_modified();
     refresh_needed = TRUE;
+    shift_held = TRUE;
 }
 
 /* Test whether the given line can be uncommented, or add or remove a comment,
