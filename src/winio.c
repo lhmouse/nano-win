@@ -621,8 +621,14 @@ int parse_kbinput(WINDOW *win)
     if (console && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
 #ifndef NANO_TINY
 	/* Is Shift being held? */
-	if (modifiers & 0x01)
+	if (modifiers & 0x01) {
+#ifdef KEY_BTAB
+	    /* A shifted <Tab> is a back tab. */
+	    if (retval == TAB_CODE)
+		return KEY_BTAB;
+#endif
 	    shift_held = TRUE;
+	}
 #endif
 	/* Is Ctrl being held? */
 	if (modifiers & 0x04) {
@@ -654,6 +660,16 @@ int parse_kbinput(WINDOW *win)
 #endif
     }
 #endif /* __linux__ */
+
+#ifndef NANO_TINY
+    /* When <Tab> is pressed while the mark is on, do an indent. */
+    if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN) {
+	const sc *command = first_sc_for(MMAIN, do_indent);
+
+	meta_key = command->meta;
+	return command->keycode;
+    }
+#endif
 
     switch (retval) {
 #ifdef KEY_SLEFT

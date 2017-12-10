@@ -1147,6 +1147,9 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
     add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
+#ifdef KEY_BTAB
+    add_to_sclist(MMAIN, "S-Tab", KEY_BTAB, do_unindent, 0);
+#endif
     add_to_sclist(MMAIN, "M-:", 0, record_macro, 0);
     add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
     add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
