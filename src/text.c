@@ -109,8 +109,6 @@ void do_deletion(undo_type action)
 	charmove(&openfile->current->data[openfile->current_x],
 		&openfile->current->data[openfile->current_x + char_len],
 		line_len - char_len + 1);
-	null_at(&openfile->current->data, openfile->current_x +
-		line_len - char_len);
 
 #ifndef NANO_TINY
 	/* Adjust the mark if it is after the cursor on the current line. */
