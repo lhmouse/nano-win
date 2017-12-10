@@ -573,11 +573,10 @@ bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 	/* Make room for the comment sequence(s), move the text right and
 	 * copy them in. */
 	line->data = charealloc(line->data, line_len + pre_len + post_len + 1);
-	charmove(line->data + pre_len, line->data, line_len);
+	charmove(line->data + pre_len, line->data, line_len + 1);
 	charmove(line->data, comment_seq, pre_len);
-	if (post_len)
-	    charmove(line->data + pre_len + line_len, post_seq, post_len);
-	line->data[pre_len + line_len + post_len] = '\0';
+	if (post_len > 0)
+	    charmove(line->data + pre_len + line_len, post_seq, post_len + 1);
 
 	openfile->totsize += pre_len + post_len;
 
