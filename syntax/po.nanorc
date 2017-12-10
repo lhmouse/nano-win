@@ -24,6 +24,6 @@ color brightmagenta "%([1-9]\$)?[a-z]*"
 color yellow "\""
 color cyan "\\n"
 # Reminders.
-color ,yellow "(FIXME|TODO|XXX)"
+color brightwhite,yellow "(FIXME|TODO|XXX)"
 # Obsolete strings.
 color red "#~.*$"
