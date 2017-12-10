@@ -1888,8 +1888,7 @@ void justify_format(filestruct *paragraph, size_t skip)
     *new_end = *end;
 
     /* If there are spaces at the end of the line, remove them. */
-    while (new_end > new_paragraph_data + skip &&
-	*(new_end - 1) == ' ') {
+    while (new_end > new_paragraph_data + skip && *(new_end - 1) == ' ') {
 	new_end--;
 	shift++;
     }
@@ -1931,8 +1930,7 @@ size_t quote_length(const char *line)
 /* a_line and b_line are lines of text.  The quotation part of a_line is
  * the first a_quote characters.  Check that the quotation part of
  * b_line is the same. */
-bool quotes_match(const char *a_line, size_t a_quote, const char
-	*b_line)
+bool quotes_match(const char *a_line, size_t a_quote, const char *b_line)
 {
     return (a_quote == quote_length(b_line) &&
 			strncmp(a_line, b_line, a_quote) == 0);
@@ -1943,8 +1941,7 @@ bool quotes_match(const char *a_line, size_t a_quote, const char
 bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent)
 {
-    return (b_indent <= a_indent &&
-			strncmp(a_line, b_line, b_indent) == 0);
+    return (b_indent <= a_indent && strncmp(a_line, b_line, b_indent) == 0);
 }
 
 /* Is foo the beginning of a paragraph?
@@ -2029,7 +2026,6 @@ void backup_lines(filestruct *first_line, size_t par_len)
     filestruct *bot = first_line;
 	/* The bottom of the paragraph we're backing up. */
     size_t i;
-	/* Generic loop variable. */
     size_t current_x_save = openfile->current_x;
     ssize_t fl_lineno_save = first_line->lineno;
     ssize_t edittop_lineno_save = openfile->edittop->lineno;
@@ -2153,10 +2149,9 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
 
-    /* If we end up past the beginning of the line, it means that we're
-     * at the end of the last line of the file, and the line isn't
-     * blank, in which case the last line of the file is part of the
-     * paragraph. */
+    /* If we end up past the beginning of the line, it means that we're at
+     * the end of the last line of the file, and the line isn't blank, in
+     * which case the last line of the file is part of the paragraph. */
     if (openfile->current_x > 0)
 	par_len++;
     openfile->current = current_save;
@@ -2179,15 +2174,13 @@ void do_justify(bool full_justify)
 	/* Will be the line after the last line of the justified
 	 * paragraph(s), if any.  Also for restoring after unjustify. */
     bool filebot_inpar = FALSE;
-	/* Whether the text at filebot is part of the current
-	 * paragraph. */
+	/* Whether the text at filebot is part of the current paragraph. */
     int kbinput;
 	/* The first keystroke after a justification. */
     functionptrtype func;
 	/* The function associated with that keystroke. */
 
-    /* We save these variables to be restored if the user
-     * unjustifies. */
+    /* We save these variables to be restored if the user unjustifies. */
     filestruct *edittop_save = openfile->edittop;
     size_t firstcolumn_save = openfile->firstcolumn;
     filestruct *current_save = openfile->current;
@@ -2213,11 +2206,9 @@ void do_justify(bool full_justify)
 	filestruct *curr_first_par_line;
 	    /* The first line of the current paragraph. */
 	size_t quote_len;
-	    /* Length of the initial quotation of the current
-	     * paragraph. */
+	    /* Length of the initial quotation of the current paragraph. */
 	size_t indent_len;
-	    /* Length of the initial indentation of the current
-	     * paragraph. */
+	    /* Length of the initial indentation of the current paragraph. */
 	size_t par_len;
 	    /* Number of lines in the current paragraph. */
 	ssize_t break_pos;
@@ -2356,9 +2347,8 @@ void do_justify(bool full_justify)
 	    par_len--;
 	}
 
-	/* Call justify_format() on the paragraph, which will remove
-	 * excess spaces from it and change all blank characters to
-	 * spaces. */
+	/* Call justify_format() on the paragraph, which will remove excess
+	 * spaces from it and change all blank characters to spaces. */
 	justify_format(openfile->current, quote_len +
 		indent_length(openfile->current->data + quote_len));
 
@@ -2427,15 +2417,13 @@ void do_justify(bool full_justify)
 	    par_len--;
 	}
 
-	/* We're done breaking lines, so we don't need indent_string
-	 * anymore. */
 	free(indent_string);
 
 	/* Go to the next line, if possible.  If there is no next line,
 	 * move to the end of the current line. */
-	if (openfile->current != openfile->filebot) {
+	if (openfile->current != openfile->filebot)
 	    openfile->current = openfile->current->next;
-	} else
+	else
 	    openfile->current_x = strlen(openfile->current->data);
 
 	/* Renumber the now-justified paragraph, since both refreshing the

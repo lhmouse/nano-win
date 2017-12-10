@@ -216,10 +216,8 @@ size_t move_mbright(const char *buf, size_t pos);
 int mbstrcasecmp(const char *s1, const char *s2);
 int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 char *mbstrcasestr(const char *haystack, const char *needle);
-char *revstrstr(const char *haystack, const char *needle,
-	const char *index);
-char *mbrevstrcasestr(const char *haystack, const char *needle,
-	const char *index);
+char *revstrstr(const char *haystack, const char *needle, const char *index);
+char *mbrevstrcasestr(const char *haystack, const char *needle, const char *index);
 size_t mbstrlen(const char *s);
 size_t mbstrnlen(const char *s, size_t maxlen);
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
@@ -266,6 +264,7 @@ void do_uncut_text(void);
 
 /* Most functions in files.c. */
 void initialize_buffer_text(void);
+void set_modified(void);
 bool open_buffer(const char *filename, bool undoable);
 #ifdef ENABLE_SPELLER
 void replace_buffer(const char *filename);
@@ -450,8 +449,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls);
 #ifdef ENABLE_MOUSE
 int do_statusbar_mouse(void);
 #endif
-void do_statusbar_output(int *the_input, size_t input_len,
-	bool filtering);
+void do_statusbar_output(int *the_input, size_t input_len, bool filtering);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
 void do_statusbar_left(void);
@@ -646,7 +644,6 @@ void blank_bottombars(void);
 void check_statusblank(void);
 char *display_string(const char *buf, size_t column, size_t span, bool isdata);
 void titlebar(const char *path);
-extern void set_modified(void);
 void statusbar(const char *msg);
 void warn_and_shortly_pause(const char *msg);
 void statusline(message_type importance, const char *msg, ...);
