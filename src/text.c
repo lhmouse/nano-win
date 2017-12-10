@@ -280,9 +280,9 @@ void indent_a_line(filestruct *line, char *indentation)
     openfile->totsize += indent_len;
 
     /* Compensate for the change in the current line. */
-    if (line == openfile->mark)
+    if (line == openfile->mark && openfile->mark_x > 0)
         openfile->mark_x += indent_len;
-    if (line == openfile->current) {
+    if (line == openfile->current && openfile->current_x > 0) {
 	openfile->current_x += indent_len;
 	openfile->placewewant = xplustabs();
     }
@@ -578,9 +578,9 @@ bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 	openfile->totsize += pre_len + post_len;
 
 	/* If needed, adjust the position of the mark and of the cursor. */
-	if (line == openfile->mark)
+	if (line == openfile->mark && openfile->mark_x > 0)
 	    openfile->mark_x += pre_len;
-	if (line == openfile->current) {
+	if (line == openfile->current && openfile->current_x > 0) {
 	    openfile->current_x += pre_len;
 	    openfile->placewewant = xplustabs();
 	}
@@ -603,13 +603,13 @@ bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 	openfile->totsize -= pre_len + post_len;
 
 	/* If needed, adjust the position of the mark and then the cursor. */
-	if (line == openfile->mark) {
+	if (line == openfile->mark && openfile->mark_x > 0) {
 	    if (openfile->mark_x < pre_len)
 		openfile->mark_x = 0;
 	    else
 		openfile->mark_x -= pre_len;
 	}
-	if (line == openfile->current) {
+	if (line == openfile->current && openfile->current_x > 0) {
 	    if (openfile->current_x < pre_len)
 		openfile->current_x = 0;
 	    else
