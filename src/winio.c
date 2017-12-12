@@ -613,11 +613,9 @@ int parse_kbinput(WINDOW *win)
 #ifndef NANO_TINY
 	/* Is Shift being held? */
 	if (modifiers & 0x01) {
-#ifdef KEY_BTAB
 	    /* A shifted <Tab> is a back tab. */
 	    if (retval == TAB_CODE)
-		return KEY_BTAB;
-#endif
+		return SHIFT_TAB;
 	    shift_held = TRUE;
 	}
 #endif
@@ -768,6 +766,11 @@ int parse_kbinput(WINDOW *win)
 	/* Slang doesn't support KEY_SUSPEND. */
 	case KEY_SUSPEND:
 	    return the_code_for(do_suspend_void, KEY_SUSPEND);
+#endif
+#ifdef KEY_BTAB
+	/* Slang doesn't support KEY_BTAB. */
+	case KEY_BTAB:
+	    return SHIFT_TAB;
 #endif
 #ifdef PDCURSES
 	case KEY_SHIFT_L:
@@ -1213,8 +1216,9 @@ int convert_sequence(const int *seq, size_t seq_len)
 			return KEY_F(12);
 		    case 'Y': /* Esc [ Y == End on Mach console. */
 			return KEY_END;
-		    case 'Z': /* Esc [ Z == F14 on FreeBSD console. */
-			return KEY_F(14);
+		    case 'Z': /* Esc [ Z == Shift-Tab on ANSI/Linux console/
+			       * FreeBSD console/xterm/rxvt/Terminal. */
+			return SHIFT_TAB;
 		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 		    case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */

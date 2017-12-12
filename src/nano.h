@@ -590,6 +590,7 @@ enum
 #define SHIFT_END 0x456
 #define SHIFT_PAGEUP 0x457
 #define SHIFT_PAGEDOWN 0x458
+#define SHIFT_TAB 0x45F
 
 #ifdef USE_SLANG
 #ifdef ENABLE_UTF8
