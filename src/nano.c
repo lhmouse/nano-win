@@ -557,6 +557,7 @@ void finish(void)
     blank_statusbar();
     blank_bottombars();
     wrefresh(bottomwin);
+    curs_set(1);
     endwin();
 
     /* Restore the old terminal settings. */
@@ -584,6 +585,7 @@ void die(const char *msg, ...)
 {
     va_list ap;
 
+    curs_set(1);
     endwin();
 
     /* Restore the old terminal settings. */

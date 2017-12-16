@@ -185,8 +185,12 @@ void get_key_buffer(WINDOW *win)
      * screen updates. */
     doupdate();
 
-    if (reveal_cursor)
+    if (reveal_cursor) {
 	curs_set(1);
+#ifdef USE_SLANG
+	doupdate();
+#endif
+    }
 
     /* Read in the first keystroke using whatever mode we're in. */
     while (input == ERR) {
