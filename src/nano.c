@@ -1532,7 +1532,7 @@ int get_keycode(const char *keyname, const int standard)
 #ifdef HAVE_KEY_DEFINED
     const char *keyvalue = tigetstr(keyname);
 
-    if (keyvalue != 0 && keyvalue != (char *)-1)
+    if (keyvalue != 0 && keyvalue != (char *)-1 && key_defined(keyvalue))
 	return key_defined(keyvalue);
     else
 #endif
