@@ -243,8 +243,7 @@ void get_key_buffer(WINDOW *win)
 	/* Otherwise, increment the length of the keystroke buffer, and
 	 * save the value of the keystroke at the end of it. */
 	key_buffer_len++;
-	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
-		sizeof(int));
+	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len * sizeof(int));
 	key_buffer[key_buffer_len - 1] = input;
     }
 
@@ -253,13 +252,10 @@ void get_key_buffer(WINDOW *win)
 	nodelay(win, FALSE);
 
 #ifdef DEBUG
-    {
-	size_t i;
-	fprintf(stderr, "\nget_key_buffer(): the sequence of hex codes:");
-	for (i = 0; i < key_buffer_len; i++)
-	    fprintf(stderr, " %3x", key_buffer[i]);
-	fprintf(stderr, "\n");
-    }
+    fprintf(stderr, "\nSequence of hex codes:");
+    for (size_t i = 0; i < key_buffer_len; i++)
+	fprintf(stderr, " %3x", key_buffer[i]);
+    fprintf(stderr, "\n");
 #endif
 }
 
