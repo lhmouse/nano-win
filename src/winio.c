@@ -360,11 +360,6 @@ int get_kbinput(WINDOW *win, bool showcursor)
     while (kbinput == ERR)
 	kbinput = parse_kbinput(win);
 
-#ifdef DEBUG
-    fprintf(stderr, "after parsing:  kbinput = %d, meta_key = %s\n",
-	kbinput, meta_key ? "TRUE" : "FALSE");
-#endif
-
     /* If we read from the edit window, blank the statusbar if needed. */
     if (win == edit)
 	check_statusblank();
@@ -1277,38 +1272,29 @@ int arrow_from_abcd(int kbinput)
  * isn't empty, and that the initial escape has already been read in. */
 int parse_escape_sequence(WINDOW *win, int kbinput)
 {
-    int retval, *seq;
-    size_t seq_len;
+    int retval, *sequence, length;
 
     /* Put back the non-escape character, get the complete escape
      * sequence, translate the sequence into its corresponding key
      * value, and save that as the result. */
     unget_input(&kbinput, 1);
-    seq_len = key_buffer_len;
-    seq = get_input(NULL, seq_len);
-    retval = convert_sequence(seq, seq_len);
-
-    free(seq);
+    length = key_buffer_len;
+    sequence = get_input(NULL, length);
+    retval = convert_sequence(sequence, length);
+    free(sequence);
 
     /* If we got an unrecognized escape sequence, notify the user. */
-    if (retval == ERR) {
-	if (win == edit) {
-	    /* TRANSLATORS: This refers to a sequence of escape codes
-	     * (from the keyboard) that nano does not know about. */
-	    statusline(ALERT, _("Unknown sequence"));
-	    suppress_cursorpos = FALSE;
-	    lastmessage = HUSH;
-	    if (currmenu == MMAIN) {
-		place_the_cursor();
-		curs_set(1);
-	    }
+    if (retval == ERR && win == edit) {
+	/* TRANSLATORS: This refers to a sequence of escape codes
+	 * (from the keyboard) that nano does not recogize. */
+	statusline(ALERT, _("Unknown sequence"));
+	suppress_cursorpos = FALSE;
+	lastmessage = HUSH;
+	if (currmenu == MMAIN) {
+	    place_the_cursor();
+	    curs_set(1);
 	}
     }
-
-#ifdef DEBUG
-    fprintf(stderr, "parse_escape_sequence(): kbinput = %d, seq_len = %lu, retval = %d\n",
-		kbinput, (unsigned long)seq_len, retval);
-#endif
 
     return retval;
 }
@@ -1774,7 +1760,7 @@ const sc *get_shortcut(int *kbinput)
     sc *s;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %s -- ",
+    fprintf(stderr, "after parsing: kbinput = %d, meta_key = %s -- ",
 				*kbinput, meta_key ? "TRUE" : "FALSE");
 #endif
 
@@ -1788,10 +1774,10 @@ const sc *get_shortcut(int *kbinput)
 	    return s;
 	}
     }
+
 #ifdef DEBUG
     fprintf (stderr, "matched nothing\n");
 #endif
-
     return NULL;
 }
 
