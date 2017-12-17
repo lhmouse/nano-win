@@ -96,13 +96,13 @@ void run_macro(void)
     size_t i;
 
     if (recording) {
-	statusline(HUSH, _("Cannot run macro while recording"));
+	statusbar(_("Cannot run macro while recording"));
 	snip_last_keystroke();
 	return;
     }
 
     if (macro_length == 0) {
-	statusline(HUSH, _("Macro is empty"));
+	statusbar(_("Macro is empty"));
 	return;
     }
 

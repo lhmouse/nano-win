@@ -993,11 +993,9 @@ void shortcut_init(void)
 #endif
 
 #ifdef ENABLE_HISTORIES
-    add_to_funcs(get_history_older_void,
-	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
+    add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 	N_("PrevHstory"), WITHORSANS(prevhistory_gist), TOGETHER, VIEW);
-    add_to_funcs(get_history_newer_void,
-	(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE),
+    add_to_funcs(get_history_newer_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 	N_("NextHstory"), WITHORSANS(nexthistory_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -1055,9 +1053,9 @@ void shortcut_init(void)
     add_to_funcs(do_page_down, MBROWSER,
 	nextpage_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
-    add_to_funcs(do_first_file, (MBROWSER|MWHEREISFILE),
+    add_to_funcs(do_first_file, MBROWSER|MWHEREISFILE,
 	N_("First File"), WITHORSANS(firstfile_gist), TOGETHER, VIEW);
-    add_to_funcs(do_last_file, (MBROWSER|MWHEREISFILE),
+    add_to_funcs(do_last_file, MBROWSER|MWHEREISFILE,
 	N_("Last File"), WITHORSANS(lastfile_gist), BLANKAFTER, VIEW);
 #ifndef NANO_TINY
     add_to_funcs(do_prev_word_void, MBROWSER,
