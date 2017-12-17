@@ -1764,6 +1764,10 @@ const sc *get_shortcut(int *kbinput)
 				*kbinput, meta_key ? "TRUE" : "FALSE");
 #endif
 
+    /* Plain characters cannot be shortcuts, so just skip those. */
+    if (!meta_key && (*kbinput & 0x7F) >= 0x20 && *kbinput <= 0xFF)
+	return NULL;
+
     for (s = sclist; s != NULL; s = s->next) {
 	if ((s->menus & currmenu) && *kbinput == s->keycode &&
 					meta_key == s->meta) {
