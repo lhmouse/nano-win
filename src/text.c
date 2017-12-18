@@ -300,8 +300,8 @@ void do_indent(void)
 
     /* Use either all the marked lines or just the current line. */
     if (openfile->mark)
-	mark_order((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x, NULL);
+	get_region((const filestruct **)&top, &top_x,
+			(const filestruct **)&bot, &bot_x);
     else {
 	top = openfile->current;
 	bot = top;
@@ -405,8 +405,8 @@ void do_unindent(void)
 
     /* Use either all the marked lines or just the current line. */
     if (openfile->mark)
-	mark_order((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x, NULL);
+	get_region((const filestruct **)&top, &top_x,
+			(const filestruct **)&bot, &bot_x);
     else {
 	top = openfile->current;
 	bot = top;
@@ -509,8 +509,8 @@ void do_comment(void)
 
     /* Determine which lines to work on. */
     if (openfile->mark)
-	mark_order((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x, NULL);
+	get_region((const filestruct **)&top, &top_x,
+			(const filestruct **)&bot, &bot_x);
     else {
 	top = openfile->current;
 	bot = top;
