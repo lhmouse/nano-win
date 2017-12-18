@@ -394,11 +394,10 @@ typedef struct openfilestruct {
 	/* The top of the undo list. */
     undo *current_undo;
 	/* The current (i.e. next) level of undo. */
+    undo *last_saved;
+	/* The undo item at which the file was last saved. */
     undo_type last_action;
 	/* The type of the last action the user performed. */
-    bool pristine;
-	/* Whether the undo stack still contains the first edit -- it won't
-	 * when a justification or spell check discarded the undo stack. */
     char *lock_filename;
 	/* The path of the lockfile, if we created one. */
 #endif

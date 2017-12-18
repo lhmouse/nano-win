@@ -868,8 +868,8 @@ void do_undo(void)
 
     openfile->totsize = u->wassize;
 
-    /* If *everything* was undone, then unset the "Modified" marker. */
-    if (openfile->current_undo == NULL && openfile->pristine) {
+    /* When at the point where the file was last saved, unset "Modified". */
+    if (openfile->current_undo == openfile->last_saved) {
 	openfile->modified = FALSE;
 	titlebar(NULL);
     } else
@@ -1028,7 +1028,13 @@ void do_redo(void)
     openfile->placewewant = xplustabs();
 
     openfile->totsize = u->newsize;
-    set_modified();
+
+    /* When at the point where the file was last saved, unset "Modified". */
+    if (openfile->current_undo == openfile->last_saved) {
+	openfile->modified = FALSE;
+	titlebar(NULL);
+    } else
+	set_modified();
 }
 #endif /* !NANO_TINY */
 
@@ -1191,7 +1197,7 @@ bool execute_command(const char *command)
 }
 
 /* Discard undo items that are newer than the given one, or all if NULL.
- * When keep is TRUE, do not touch the pristine flag. */
+ * When keep is TRUE, do not touch the last_saved pointer. */
 void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 {
     undo *dropit = thefile->undotop;
@@ -1209,7 +1215,6 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 	    free(group);
 	    group = next;
 	}
-	free(dropit);
 	dropit = thefile->undotop;
     }
 
@@ -1219,9 +1224,10 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
     /* Prevent a chain of editing actions from continuing. */
     thefile->last_action = OTHER;
 
-    /* When requested, record that the undo stack was chopped. */
+    /* When requested, record that the undo stack was chopped, and
+     * that thus there is no point at which the file was last saved. */
     if (!keep)
-	thefile->pristine = FALSE;
+	thefile->last_saved = (undo *)0xbeeb;
 }
 
 /* Add a new undo struct to the top of the current pile. */

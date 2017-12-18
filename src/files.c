@@ -99,8 +99,8 @@ void make_new_buffer(void)
 
     openfile->undotop = NULL;
     openfile->current_undo = NULL;
+    openfile->last_saved = NULL;
     openfile->last_action = OTHER;
-    openfile->pristine = TRUE;
 
     openfile->current_stat = NULL;
     openfile->lock_filename = NULL;
@@ -1953,6 +1953,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #ifndef NANO_TINY
 	    /* Get or update the stat info to reflect the current state. */
 	    stat_with_alloc(realname, &openfile->current_stat);
+
+	    /* Record at which point in the undo stack the file was saved. */
+	    openfile->last_saved = openfile->current_undo;
+	    openfile->last_action = OTHER;
 #endif
 	    openfile->modified = FALSE;
 	    titlebar(NULL);
