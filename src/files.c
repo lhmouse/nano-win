@@ -1949,16 +1949,17 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #endif
 	}
 
+	if (fullbuffer) {
 #ifndef NANO_TINY
-	if (fullbuffer)
 	    /* Get or update the stat info to reflect the current state. */
 	    stat_with_alloc(realname, &openfile->current_stat);
 #endif
+	    openfile->modified = FALSE;
+	    titlebar(NULL);
+	}
 
 	statusline(HUSH, P_("Wrote %zu line", "Wrote %zu lines",
 			lineswritten), lineswritten);
-	openfile->modified = FALSE;
-	titlebar(NULL);
     }
 
     retval = TRUE;
@@ -1977,8 +1978,6 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	kind_of_writing_type method)
 {
     bool retval;
-    bool old_modified = openfile->modified;
-	/* Save the status, as writing the file unsets the modified flag. */
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
@@ -2004,9 +2003,6 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 
     /* Unpartition the buffer so that it contains all the text again. */
     unpartition_filestruct(&filepart);
-
-    if (old_modified)
-	set_modified();
 
     return retval;
 }
