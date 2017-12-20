@@ -609,8 +609,7 @@ void remove_magicline(void);
 #ifndef NANO_TINY
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
-void get_region(const filestruct **top, size_t *top_x,
-        const filestruct **bot, size_t *bot_x);
+void get_region(const filestruct **top, const filestruct **bot);
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
 #ifndef NANO_TINY

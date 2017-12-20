@@ -534,12 +534,13 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 
 /* Get the start and end points of the marked region, but
  * push the end point back if it's at the start of a line. */
-void get_region(const filestruct **top, size_t *top_x,
-	const filestruct **bot, size_t *bot_x)
+void get_region(const filestruct **top, const filestruct **bot)
 {
-    mark_order(top, top_x, bot, bot_x, NULL);
+    size_t top_x, bot_x;
 
-    if (*bot_x == 0)
+    mark_order(top, &top_x, bot, &bot_x, NULL);
+
+    if (bot_x == 0)
 	*bot = (*bot)->prev;
 }
 

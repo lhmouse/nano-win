@@ -296,12 +296,10 @@ void do_indent(void)
     char *indentation = charalloc(tabsize + 1);
 	/* The whitespace added to each line in order to indent it. */
     filestruct *top, *bot, *line;
-    size_t top_x, bot_x;
 
     /* Use either all the marked lines or just the current line. */
     if (openfile->mark)
-	get_region((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x);
+	get_region((const filestruct **)&top, (const filestruct **)&bot);
     else {
 	top = openfile->current;
 	bot = top;
@@ -401,12 +399,10 @@ void unindent_a_line(filestruct *line, size_t indent_len)
 void do_unindent(void)
 {
     filestruct *top, *bot, *line;
-    size_t top_x, bot_x;
 
     /* Use either all the marked lines or just the current line. */
     if (openfile->mark)
-	get_region((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x);
+	get_region((const filestruct **)&top, (const filestruct **)&bot);
     else {
 	top = openfile->current;
 	bot = top;
@@ -494,7 +490,6 @@ void do_comment(void)
     const char *comment_seq = GENERAL_COMMENT_CHARACTER;
     undo_type action = UNCOMMENT;
     filestruct *top, *bot, *line;
-    size_t top_x, bot_x;
     bool empty, all_empty = TRUE;
 
 #ifdef ENABLE_COLOR
@@ -509,8 +504,7 @@ void do_comment(void)
 
     /* Determine which lines to work on. */
     if (openfile->mark)
-	get_region((const filestruct **)&top, &top_x,
-			(const filestruct **)&bot, &bot_x);
+	get_region((const filestruct **)&top, (const filestruct **)&bot);
     else {
 	top = openfile->current;
 	bot = top;
