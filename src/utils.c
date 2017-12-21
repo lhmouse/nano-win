@@ -587,15 +587,4 @@ void dump_filestruct(const filestruct *inptr)
 	inptr = inptr->next;
     }
 }
-
-/* Dump the current buffer to stderr in reverse. */
-void dump_filestruct_reverse(void)
-{
-    const filestruct *fileptr = openfile->filebot;
-
-    while (fileptr != NULL) {
-	fprintf(stderr, "(%zd) %s\n", fileptr->lineno, fileptr->data);
-	fileptr = fileptr->prev;
-    }
-}
 #endif /* DEBUG */

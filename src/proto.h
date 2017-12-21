@@ -616,7 +616,6 @@ filestruct *fsfromline(ssize_t lineno);
 #endif
 #ifdef DEBUG
 void dump_filestruct(const filestruct *inptr);
-void dump_filestruct_reverse(void);
 #endif
 
 /* Most functions in winio.c. */

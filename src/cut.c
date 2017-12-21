@@ -284,16 +284,10 @@ void do_uncut_text(void)
     /* Set the desired x position to where the pasted text ends. */
     openfile->placewewant = xplustabs();
 
-    /* Mark the file as modified. */
     set_modified();
-
     refresh_needed = TRUE;
 
 #ifdef ENABLE_COLOR
     check_the_multis(openfile->current);
-#endif
-
-#ifdef DEBUG
-    dump_filestruct_reverse();
 #endif
 }
