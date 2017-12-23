@@ -298,12 +298,7 @@ void do_indent(void)
     filestruct *top, *bot, *line;
 
     /* Use either all the marked lines or just the current line. */
-    if (openfile->mark)
-	get_region((const filestruct **)&top, (const filestruct **)&bot);
-    else {
-	top = openfile->current;
-	bot = top;
-    }
+    get_range((const filestruct **)&top, (const filestruct **)&bot);
 
     /* Go through the lines to see if there's a non-empty one. */
     for (line = top; line != bot->next; line = line->next) {
@@ -401,12 +396,7 @@ void do_unindent(void)
     filestruct *top, *bot, *line;
 
     /* Use either all the marked lines or just the current line. */
-    if (openfile->mark)
-	get_region((const filestruct **)&top, (const filestruct **)&bot);
-    else {
-	top = openfile->current;
-	bot = top;
-    }
+    get_range((const filestruct **)&top, (const filestruct **)&bot);
 
     /* Check if there is a line that can be unindented. */
     for (line = top; line != bot->next; line = line->next) {
@@ -503,12 +493,7 @@ void do_comment(void)
 #endif
 
     /* Determine which lines to work on. */
-    if (openfile->mark)
-	get_region((const filestruct **)&top, (const filestruct **)&bot);
-    else {
-	top = openfile->current;
-	bot = top;
-    }
+    get_range((const filestruct **)&top, (const filestruct **)&bot);
 
     /* If only the magic line is selected, don't do anything. */
     if (top == bot && bot == openfile->filebot && !ISSET(NO_NEWLINES)) {

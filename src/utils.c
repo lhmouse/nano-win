@@ -532,16 +532,22 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
     }
 }
 
-/* Get the start and end points of the marked region, but
- * push the end point back if it's at the start of a line. */
-void get_region(const filestruct **top, const filestruct **bot)
+/* Get the set of lines to work on -- either just the current line, or the
+ * first to last lines of the marked region.  When the cursor (or mark) is
+ * at the start of the last line of the region, exclude that line. */
+void get_range(const filestruct **top, const filestruct **bot)
 {
-    size_t top_x, bot_x;
+    if (!openfile->mark) {
+	*top = openfile->current;
+	*bot = openfile->current;
+    } else {
+	size_t top_x, bot_x;
 
-    mark_order(top, &top_x, bot, &bot_x, NULL);
+	mark_order(top, &top_x, bot, &bot_x, NULL);
 
-    if (bot_x == 0 && *bot != *top)
-	*bot = (*bot)->prev;
+	if (bot_x == 0 && *bot != *top)
+	    *bot = (*bot)->prev;
+    }
 }
 
 /* Given a line number, return a pointer to the corresponding struct. */
