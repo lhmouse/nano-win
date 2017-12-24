@@ -293,24 +293,21 @@ void indent_a_line(filestruct *line, char *indentation)
  * depending on whether --tabstospaces is in effect. */
 void do_indent(void)
 {
-    char *indentation = charalloc(tabsize + 1);
-	/* The whitespace added to each line in order to indent it. */
+    char *indentation;
     filestruct *top, *bot, *line;
 
     /* Use either all the marked lines or just the current line. */
     get_range((const filestruct **)&top, (const filestruct **)&bot);
 
-    /* Go through the lines to see if there's a non-empty one. */
-    for (line = top; line != bot->next; line = line->next) {
-	if (line->data[0] != '\0')
-	    break;
-    }
+    /* Skip any leading empty lines. */
+    while (top != bot->next && top->data[0] == '\0')
+	top = top->next;
 
     /* If all lines are empty, there is nothing to do. */
-    if (line == bot->next) {
-	free(indentation);
+    if (top == bot->next)
 	return;
-    }
+
+    indentation = charalloc(tabsize + 1);
 
     /* Set the indentation to either a bunch of spaces or a single tab. */
     if (ISSET(TABS_TO_SPACES)) {
@@ -398,14 +395,12 @@ void do_unindent(void)
     /* Use either all the marked lines or just the current line. */
     get_range((const filestruct **)&top, (const filestruct **)&bot);
 
-    /* Check if there is a line that can be unindented. */
-    for (line = top; line != bot->next; line = line->next) {
-	if (length_of_white(line->data) != 0)
-	   break;
-    }
+    /* Skip any leading lines that cannot be unindented. */
+    while (top != bot->next && length_of_white(top->data) == 0)
+	top = top->next;
 
     /* If none of the lines can be unindented, there is nothing to do. */
-    if (line == bot->next)
+    if (top == bot->next)
 	return;
 
     add_undo(UNINDENT);
