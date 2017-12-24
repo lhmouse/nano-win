@@ -583,13 +583,13 @@ bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 	openfile->totsize -= pre_len + post_len;
 
 	/* If needed, adjust the position of the mark and then the cursor. */
-	if (line == openfile->mark && openfile->mark_x > 0) {
+	if (line == openfile->mark) {
 	    if (openfile->mark_x < pre_len)
 		openfile->mark_x = 0;
 	    else
 		openfile->mark_x -= pre_len;
 	}
-	if (line == openfile->current && openfile->current_x > 0) {
+	if (line == openfile->current) {
 	    if (openfile->current_x < pre_len)
 		openfile->current_x = 0;
 	    else
