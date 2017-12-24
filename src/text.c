@@ -356,6 +356,25 @@ size_t length_of_white(const char *text)
     }
 }
 
+/* Adjust the positions of mark and cursor when they are on the given line. */
+void compensate_leftward(filestruct *line, size_t leftshift)
+{
+    if (line == openfile->mark) {
+	if (openfile->mark_x < leftshift)
+	    openfile->mark_x = 0;
+	else
+	    openfile->mark_x -= leftshift;
+    }
+
+    if (line == openfile->current) {
+	if (openfile->current_x < leftshift)
+	    openfile->current_x = 0;
+	else
+	    openfile->current_x -= leftshift;
+	openfile->placewewant = xplustabs();
+    }
+}
+
 /* Remove an indent from the given line. */
 void unindent_a_line(filestruct *line, size_t indent_len)
 {
@@ -370,20 +389,8 @@ void unindent_a_line(filestruct *line, size_t indent_len)
 
     openfile->totsize -= indent_len;
 
-    /* Compensate for the change in the current line. */
-    if (line == openfile->mark) {
-	if (openfile->mark_x < indent_len)
-	    openfile->mark_x = 0;
-	else
-	    openfile->mark_x -= indent_len;
-    }
-    if (line == openfile->current) {
-	if (openfile->current_x < indent_len)
-	    openfile->current_x = 0;
-	else
-	    openfile->current_x -= indent_len;
-	openfile->placewewant = xplustabs();
-    }
+    /* Adjust the positions of mark and cursor, when they are affected. */
+    compensate_leftward(line, indent_len);
 }
 
 /* Unindent the current line (or the marked lines) by tabsize columns.
@@ -582,20 +589,8 @@ bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 
 	openfile->totsize -= pre_len + post_len;
 
-	/* If needed, adjust the position of the mark and then the cursor. */
-	if (line == openfile->mark) {
-	    if (openfile->mark_x < pre_len)
-		openfile->mark_x = 0;
-	    else
-		openfile->mark_x -= pre_len;
-	}
-	if (line == openfile->current) {
-	    if (openfile->current_x < pre_len)
-		openfile->current_x = 0;
-	    else
-		openfile->current_x -= pre_len;
-	    openfile->placewewant = xplustabs();
-	}
+	/* Adjust the positions of mark and cursor, when needed. */
+	compensate_leftward(line, pre_len);
 
 	return TRUE;
     }
