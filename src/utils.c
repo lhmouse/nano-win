@@ -541,8 +541,10 @@ void get_range(const filestruct **top, const filestruct **bot)
 
 	mark_order(top, &top_x, bot, &bot_x, NULL);
 
-	if (bot_x == 0 && *bot != *top)
+	if (bot_x == 0 && *bot != *top && !also_the_last)
 	    *bot = (*bot)->prev;
+	else
+	    also_the_last = TRUE;
     }
 }
 

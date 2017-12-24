@@ -67,7 +67,9 @@ char *title = NULL;
 
 bool more_than_one = FALSE;
 	/* Whether more than one buffer is or has been open. */
-
+bool also_the_last = FALSE;
+	/* Whether indenting/commenting should include the last line of
+	 * the marked region. */
 int didfind = 0;
 	/* Whether the last search found something. */
 

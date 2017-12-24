@@ -1698,13 +1698,16 @@ int do_input(bool allow_funcs)
 	    /* Execute the function of the shortcut. */
 	    s->scfunc();
 #ifndef NANO_TINY
-	    /* If Shiftless movement occurred, discard a soft mark. */
-	    if (!shift_held && openfile->mark &&
-				openfile->kind_of_mark == SOFTMARK &&
-				(openfile->current_x != was_x ||
-				openfile->current != was_current)) {
-		openfile->mark = NULL;
-		refresh_needed = TRUE;
+	    /* When the marked region changes without Shift being held,
+	     * discard a soft mark.  And when the marked region covers a
+	     * different set of lines, reset  the "last line too" flag. */
+	    if (openfile->mark && (openfile->current != was_current ||
+					openfile->current_x != was_x)) {
+		if (!shift_held && openfile->kind_of_mark == SOFTMARK) {
+		    openfile->mark = NULL;
+		    refresh_needed = TRUE;
+		} else if (openfile->current != was_current)
+		    also_the_last = FALSE;
 	    }
 #endif
 #ifdef ENABLE_WRAPPING
