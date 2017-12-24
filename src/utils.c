@@ -348,8 +348,7 @@ void nperror(const char *s)
 }
 
 /* This is a wrapper for the malloc() function that properly handles
- * things when we run out of memory.  Thanks, BG, many people have been
- * asking for this... */
+ * things when we run out of memory. */
 void *nmalloc(size_t howmuch)
 {
     void *r = malloc(howmuch);
@@ -479,7 +478,7 @@ size_t strlenpt(const char *text)
     return span;
 }
 
-/* Append a new magicline to filebot. */
+/* Append a new magicline to the end of the buffer. */
 void new_magicline(void)
 {
     openfile->filebot->next = make_new_node(openfile->filebot);
@@ -489,9 +488,8 @@ void new_magicline(void)
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
-/* Remove the magicline from filebot, if there is one and it isn't the
- * only line in the file.  Assume that edittop and current are not at
- * filebot. */
+/* Remove the magicline from the end of the buffer, if there is one and
+ * it isn't the only line in the file. */
 void remove_magicline(void)
 {
     if (openfile->filebot->data[0] == '\0' &&
@@ -505,13 +503,11 @@ void remove_magicline(void)
 #endif
 
 #ifndef NANO_TINY
-/* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
- * respectively, based on the locations of top and bot.  If
- * right_side_up isn't NULL, set it to TRUE if the mark begins with
- * (mark_begin, mark_begin_x) and ends with (current, current_x), or
- * FALSE otherwise. */
-void mark_order(const filestruct **top, size_t *top_x, const filestruct
-	**bot, size_t *bot_x, bool *right_side_up)
+/* Set (top, top_x) and (bot, bot_x) to the start and end "coordinates" of
+ * the marked region.  If right_side_up isn't NULL, set it to TRUE when the
+ * mark is at the top of the marked region, and to FALSE otherwise. */
+void mark_order(const filestruct **top, size_t *top_x,
+	const filestruct **bot, size_t *bot_x, bool *right_side_up)
 {
     if ((openfile->current->lineno == openfile->mark->lineno &&
 		openfile->current_x > openfile->mark_x) ||
