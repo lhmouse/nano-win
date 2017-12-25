@@ -13,7 +13,7 @@ color brightmagenta "'([^'\]|(\\["'abfnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\
 # Strings.
 color brightyellow "<[^= 	]*>" ""(\\.|[^"])*"" "'(\\.|[^'])*'" "`(\\.|[^`])*`"
 # Comments.
-color brightblue "//.*"
+color brightblue "(^|[[:space:]])//.*"
 color brightblue start="/\*" end="\*/"
 
 # Trailing whitespace.
