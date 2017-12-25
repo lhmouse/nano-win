@@ -1,3 +1,19 @@
+2018.01.02 - GNU nano 2.9.2 "Pussy Riot" correctly displays the Modified
+				state when undoing/redoing (also when the file was saved
+				somewhere midway), improves the undoing of an automatic
+				linefeed at EOF, fixes a build issue on the BSDs, shows
+				the cursor again when compiled with --withslang, renames
+				the option 'justifytrim' to 'trimblanks' because it will
+				now snip trailing whitespace also while you are typing
+				(and hard-wrapping is enabled), continues pushing words
+				to the next line much longer (when hard-wrapping), makes
+				<Tab> and <Shift+Tab> indent and unindent a marked region,
+				allows unindenting when not all lines are indented, lets a
+				region marked with Shift persist when indenting/unindenting
+				or commenting/uncommenting it, and in those cases excludes
+				the last line of the region when it is not visibly marked
+				(which makes for a more intuitive behavior).
+
 2017.11.27 - GNU nano 2.9.1 "Damyatta" fixes a bug where, when the mark
 				is on, ^S would overwrite the file with just the marked
 				region.  This release further clears the "Modified" flag

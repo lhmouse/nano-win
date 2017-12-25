@@ -1,3 +1,96 @@
+Changes between v2.9.1 and v2.9.2:
+----------------------------------
+
+Benjamin Mintz (1):
+      syntax: python: add 'async', 'await', and 'nonlocal' as keywords
+
+Benno Schulenberg (62):
+      bump version numbers and add a news item for the 2.9.2 release
+      display: ensure that cursor is visible when compiled with --with-slang
+      docs: mention that the source code is best viewed with a tab size of 4
+      docs: say thanks to some fairly recent translators, and rename one
+      gnulib: pull in the fix for the missing stat include
+      gnulib: update to its current upstream state
+      help: show that "Tab" will indent, just like "Sh-Tab" will unindent
+      help: swap the order of the Complete and Comment functions
+      indenting: don't exclude last line of region when region is empty
+      indenting: keep affecting last line of marked region if it was at first
+      input: allow using <Tab> and <Shift+Tab> to (un)indent selected region
+      input: make <Ctrl+Shift+Arrow> work also when using --rebindkeypad
+      input: optimize a bit for non-shortcut keys, as they are most frequent
+      options: rename 'justifytrim' to 'trimblanks', because it has morphed
+      prompt: blank the bar when a "continue?" is answered with No or ^C
+      syntaxes: remove redundant word-boundary markers
+      syntax: javascript: add some comments, and color explicit numbers too
+      syntax: javascript: add some keywords, and sort them more logically
+      syntax: javascript: color strings differently from major keywords
+      syntax: javascript: require that a comment is preceded by whitespace
+      syntax: lua: condense some regexes, tweak comments, reorder things
+      syntax: nanorc: don't color parts of valid strings as if invalid
+      syntax: python: color also the special values 'False', 'None', 'True'
+      text: allow unindenting when not all lines are indented
+      text: keep cursor at left edge when it IS there when indenting/commenting
+      text: let a Shift-selection persist when indenting and commenting
+      text: let indenting/commenting skip the last line if its x is zero
+      text: set and reset the Modified state correctly when undoing/redoing
+      tweaks: add a separate function that actually wipes the status bar
+      tweaks: avoid incrementing a variable that won't be used again later
+      tweaks: condense or rewrap a bunch of repetitious comments
+      tweaks: condense, reword, and rewrap a bunch of comments
+      tweaks: condense some debugging code, and rewrap a line
+      tweaks: convert the indentation of the NEWS file too
+      tweaks: convert the indentation to use only tabs
+      tweaks: drop some old debugging code plus a superfluous comment
+      tweaks: elide two parameters from the get_region() function
+      tweaks: elide two variables that are used just once
+      tweaks: factor out a piece of common code
+      tweaks: fix some whitespace errors, and convert alignment tabs to spaces
+      tweaks: fold some regexes into one another, for conciseness
+      tweaks: frob four comments, and rewrap two lines
+      tweaks: invert the logic of a variable, and rename it
+      tweaks: limit the resetting of "Modified" to writing a full buffer
+      tweaks: move some frequently-used keystrokes to the top of the list
+      tweaks: remove a redundant call of renumber()
+      tweaks: remove a superfluous condition
+      tweaks: remove a superfluous placing of a terminating nul byte
+      tweaks: remove some unneeded parentheses, and shorten two function calls
+      tweaks: remove two irrelevant conditions
+      tweaks: rename three variables, for more contrast and variety
+      tweaks: reshuffle a bit of common code, moving it to an existing function
+      tweaks: reshuffle another bit of code, for conciseness
+      tweaks: rewrap some lines and some comments, and trim two others
+      tweaks: slightly rename four functions, for aptness and variety
+      tweaks: strip some debugging stuff, and condense a bit of code
+      tweaks: trim another placing of a terminating nul byte
+      tweaks: use for git the more faithful "less -x1,5" suggested by Brand
+      tweaks: use spaces for alignment also in the THANKS file
+      wrapping: delete trailing blanks upon hardwrapping, when requested
+      wrapping: keep prepending to the same next line as long as possible
+      wrapping: we're still on the same line if the next line has not changed
+
+David Lawrence Ramsey (3):
+      input: support backtab when Slang and/or --rebindkeypad is used
+      tweaks: use printf's z modifier for (s)size_t, instead of casting
+      undo: when adding text adds a magicline, an undo should remove both
+
+Liu Hao (1):
+      syntax: c: increase the color contrast of reminders like FIXME
+
+Michael Francis (1):
+      syntax: php: function and variable names can contain uppercase and digits
+
+Mike Frysinger (1):
+      syntax: javascript: add newer keywords and string syntax
+
+Tom Levy (6):
+      syntax: go: fix word boundary before dot in number literal
+      syntax: go: sign of exponent in number literal is optional
+      syntax: lua: add new and missing standard library functions
+      syntax: lua: correct the word boundaries on standard library functions
+      syntax: lua: require at least one digit for hexadecimal numbers
+      syntax: lua: support fractional part and exponent for decimal and hex
+
+
 Changes between v2.9.0 and v2.9.1:
 ----------------------------------
 
