@@ -4,12 +4,12 @@ syntax "javascript" "\.js$"
 comment "//"
 
 color green "\<(async|class|const|extends|function|let|this|typeof|var|void)\>"
-color brightyellow "\<(for|if|while|with|do|else|case|default|switch)\>"
-color brightyellow "\<(await|export|import|try|throw|catch|new|delete)\>"
-color magenta "\<(continue|break|return|yield)\>"
+color brightyellow "\<(do|while|if|else|switch|case|default|for|each|in|of|with)\>"
+color brightyellow "\<(await|export|import|throw|try|catch|finally|new|delete)\>"
+color magenta "\<(break|continue|return|yield)\>"
 
 # Strings.
-color brightmagenta "<[^= 	]*>" ""(\\.|[^"])*"" "'(\\.|[^'])*'" "`(\\.|[^`])*`"
+color brightmagenta ""(\\.|[^"])*"" "'(\\.|[^'])*'" "`(\\.|[^`])*`"
 # Comments.
 color brightblue "(^|[[:space:]])//.*"
 color brightblue start="/\*" end="\*/"
