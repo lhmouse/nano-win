@@ -564,8 +564,8 @@ void shortcut_init(void)
     const char *mark_gist = N_("Mark text starting from the cursor position");
     const char *copy_gist =
 	N_("Copy the current line and store it in the cutbuffer");
-    const char *indent_gist = N_("Indent the current line");
-    const char *unindent_gist = N_("Unindent the current line");
+    const char *indent_gist = N_("Indent the current line (or marked lines)");
+    const char *unindent_gist = N_("Unindent the current line (or marked lines)");
     const char *undo_gist = N_("Undo the last operation");
     const char *redo_gist = N_("Redo the last undone operation");
 #endif
@@ -629,7 +629,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_COMMENT
     const char *comment_gist =
-	N_("Comment/uncomment the current line or marked lines");
+	N_("Comment/uncomment the current line (or marked lines)");
 #endif
 #ifndef NANO_TINY
     const char *savefile_gist = N_("Save file without prompting");
@@ -1151,8 +1151,9 @@ void shortcut_init(void)
     add_to_sclist(MMAIN, "M-6", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
     add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
+    add_to_sclist(MMAIN, "Tab", TAB_CODE, do_indent, 0);
     add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
-    add_to_sclist(MMAIN, "S-Tab", SHIFT_TAB, do_unindent, 0);
+    add_to_sclist(MMAIN, "Sh-Tab", SHIFT_TAB, do_unindent, 0);
     add_to_sclist(MMAIN, "M-:", 0, record_macro, 0);
     add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
     add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
