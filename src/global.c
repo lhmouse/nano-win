@@ -970,13 +970,13 @@ void shortcut_init(void)
     add_to_funcs(do_unindent, MMAIN,
 	N_("Unindent Text"), WITHORSANS(unindent_gist), BLANKAFTER, NOVIEW);
 #endif
-#ifdef ENABLE_WORDCOMPLETION
-    add_to_funcs(complete_a_word, MMAIN,
-	N_("Complete"), WITHORSANS(completion_gist), TOGETHER, NOVIEW);
-#endif
 #ifdef ENABLE_COMMENT
     add_to_funcs(do_comment, MMAIN,
-	N_("Comment Lines"), WITHORSANS(comment_gist), BLANKAFTER, NOVIEW);
+	N_("Comment Lines"), WITHORSANS(comment_gist), TOGETHER, NOVIEW);
+#endif
+#ifdef ENABLE_WORDCOMPLETION
+    add_to_funcs(complete_a_word, MMAIN,
+	N_("Complete"), WITHORSANS(completion_gist), BLANKAFTER, NOVIEW);
 #endif
 #ifndef NANO_TINY
     add_to_funcs(record_macro, MMAIN,
