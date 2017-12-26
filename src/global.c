@@ -1080,8 +1080,15 @@ void shortcut_init(void)
 	N_("Next Lint Msg"), WITHORSANS(nextlint_gist), TOGETHER, VIEW);
 #endif
 
-    /* Start associating key combos with functions in specific menus. */
-
+    /* Link key combos to functions in certain menus. */
+    add_to_sclist(MMOST, "^M", 0, do_enter, 0);
+    add_to_sclist(MMOST, "Enter", KEY_ENTER, do_enter, 0);
+    add_to_sclist(MMOST, "^H", 0, do_backspace, 0);
+    add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
+    add_to_sclist(MMOST, "^D", 0, do_delete, 0);
+    add_to_sclist(MMOST, "Del", 0, do_delete, 0);
+    add_to_sclist(MMOST, "^I", 0, do_tab, 0);
+    add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
     add_to_sclist(MMOST & ~MFINDINHELP, "^G", 0, do_help_void, 0);
     add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help_void, 0);
     add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
@@ -1231,7 +1238,7 @@ void shortcut_init(void)
 #ifdef ENABLE_JUSTIFY
     add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
 #endif
-    add_to_sclist(MMAIN|MHELP, "^L", 0, total_refresh, 0);
+    add_to_sclist(MMAIN|MHELP|MBROWSER, "^L", 0, total_refresh, 0);
     add_to_sclist(MMAIN, "^Z", 0, do_suspend_void, 0);
 
 #ifndef NANO_TINY
@@ -1312,7 +1319,6 @@ void shortcut_init(void)
     add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
     add_to_sclist(MBROWSER, "M-G", 0, goto_dir_void, 0);
     add_to_sclist(MBROWSER, "F13", 0, goto_dir_void, 0);
-    add_to_sclist(MBROWSER, "^L", 0, total_refresh, 0);
 #endif
     if (ISSET(TEMP_FILE))
 	add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
@@ -1349,14 +1355,6 @@ void shortcut_init(void)
     add_to_sclist(MHELP, "Home", KEY_HOME, do_first_line, 0);
     add_to_sclist(MHELP, "End", KEY_END, do_last_line, 0);
 #endif
-    add_to_sclist(MMOST, "^I", 0, do_tab, 0);
-    add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
-    add_to_sclist(MMOST, "^M", 0, do_enter, 0);
-    add_to_sclist(MMOST, "Enter", KEY_ENTER, do_enter, 0);
-    add_to_sclist(MMOST, "^D", 0, do_delete, 0);
-    add_to_sclist(MMOST, "Del", 0, do_delete, 0);
-    add_to_sclist(MMOST, "^H", 0, do_backspace, 0);
-    add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
 
 #ifdef DEBUG
     print_sclist();
