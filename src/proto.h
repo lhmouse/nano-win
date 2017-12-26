@@ -189,8 +189,8 @@ void browser_refresh(void);
 void browser_select_dirname(const char *needle);
 void do_filesearch(void);
 void do_fileresearch(bool forwards);
-void do_first_file(void);
-void do_last_file(void);
+void to_first_file(void);
+void to_last_file(void);
 char *strip_last_component(const char *path);
 #endif
 
@@ -366,8 +366,8 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column);
 #endif
 
 /* Most functions in move.c. */
-void do_first_line(void);
-void do_last_line(void);
+void to_first_line(void);
+void to_last_line(void);
 void do_page_up(void);
 void do_page_down(void);
 #ifdef ENABLE_JUSTIFY

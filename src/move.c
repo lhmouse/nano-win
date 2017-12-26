@@ -24,7 +24,7 @@
 #include <string.h>
 
 /* Move to the first line of the file. */
-void do_first_line(void)
+void to_first_line(void)
 {
     openfile->current = openfile->fileage;
     openfile->current_x = 0;
@@ -34,7 +34,7 @@ void do_first_line(void)
 }
 
 /* Move to the last line of the file. */
-void do_last_line(void)
+void to_last_line(void)
 {
     openfile->current = openfile->filebot;
     openfile->current_x = strlen(openfile->filebot->data);
@@ -128,7 +128,7 @@ void do_page_up(void)
     /* Move up the required number of lines or chunks.  If we can't, we're
      * at the top of the file, so put the cursor there and get out. */
     if (go_back_chunks(mustmove, &openfile->current, &leftedge) > 0) {
-	do_first_line();
+	to_first_line();
 	return;
     }
 
@@ -158,7 +158,7 @@ void do_page_down(void)
     /* Move down the required number of lines or chunks.  If we can't, we're
      * at the bottom of the file, so put the cursor there and get out. */
     if (go_forward_chunks(mustmove, &openfile->current, &leftedge) > 0) {
-	do_last_line();
+	to_last_line();
 	return;
     }
 

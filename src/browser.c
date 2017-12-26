@@ -219,9 +219,9 @@ char *do_browser(char *path)
 				width +	filelist_len - width;
 	    else
 		selected += editwinrows * width;
-	} else if (func == do_first_file) {
+	} else if (func == to_first_file) {
 	    selected = 0;
-	} else if (func == do_last_file) {
+	} else if (func == to_last_file) {
 	    selected = filelist_len - 1;
 	} else if (func == goto_dir_void) {
 	    /* Ask for the directory to go to. */
@@ -785,13 +785,13 @@ void do_fileresearch(bool forwards)
 }
 
 /* Select the first file in the list. */
-void do_first_file(void)
+void to_first_file(void)
 {
     selected = 0;
 }
 
 /* Select the last file in the list. */
-void do_last_file(void)
+void to_last_file(void)
 {
     selected = filelist_len - 1;
 }

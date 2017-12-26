@@ -201,10 +201,10 @@ void do_help(void)
 	    do_page_up();
 	} else if (func == do_page_down) {
 	    do_page_down();
-	} else if (func == do_first_line) {
-	    do_first_line();
-	} else if (func == do_last_line) {
-	    do_last_line();
+	} else if (func == to_first_line) {
+	    to_first_line();
+	} else if (func == to_last_line) {
+	    to_last_line();
 	} else if (func == do_search_forward) {
 	    do_search();
 	    bottombars(MHELP);
