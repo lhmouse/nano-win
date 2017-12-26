@@ -125,16 +125,14 @@ void run_macro(void)
  * - Ctrl-8 (Ctrl-?) is Delete under ASCII, ANSI, VT100, and VT220,
  *          but is Backspace under VT320.
  *
- * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By
- * default, xterm assumes it's running on a VT320 and generates Ctrl-8
- * (Ctrl-?) for Backspace and Esc [ 3 ~ for Delete.  This causes
- * problems for VT100-derived terminals such as the FreeBSD console,
- * which expect Ctrl-H for Backspace and Ctrl-8 (Ctrl-?) for Delete, and
- * on which the VT320 sequences are translated by the keypad to KEY_DC
- * and [nothing].  We work around this conflict via the REBIND_DELETE
- * flag: if it's not set, we assume VT320 compatibility, and if it is,
- * we assume VT100 compatibility.  Thanks to Lee Nelson and Wouter van
- * Hemel for helping work this conflict out.
+ * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By default,
+ * xterm assumes it's running on a VT320 and generates Ctrl-8 (Ctrl-?)
+ * for Backspace and Esc [ 3 ~ for Delete.  This causes problems for
+ * VT100-derived terminals such as the FreeBSD console, which expect
+ * Ctrl-H for Backspace and Ctrl-8 (Ctrl-?) for Delete, and on which the
+ * VT320 sequences are translated by the keypad to KEY_DC and [nothing].
+ * We work around this conflict via the REBIND_DELETE flag: if it's not set,
+ * we assume VT320 compatibility, and if it is, we assume VT100 compatibility.
  *
  * Escape sequence compatibility:
  *
@@ -169,9 +167,8 @@ void run_macro(void)
  * - F16 on FreeBSD console == Shift-Down on rxvt/Eterm; the former is
  *   omitted.  (Same as above.) */
 
-/* Read in a sequence of keystrokes from win and save them in the
- * keystroke buffer.  This should only be called when the keystroke
- * buffer is empty. */
+/* Read in a sequence of keystrokes from the given window and save them
+ * in the keystroke buffer. */
 void get_key_buffer(WINDOW *win)
 {
     int input = ERR;
@@ -181,8 +178,7 @@ void get_key_buffer(WINDOW *win)
     if (key_buffer != NULL)
 	return;
 
-    /* Just before reading in the first character, display any pending
-     * screen updates. */
+    /* Before reading the first keycode, display any pending screen updates. */
     doupdate();
 
     if (reveal_cursor) {
@@ -192,7 +188,7 @@ void get_key_buffer(WINDOW *win)
 #endif
     }
 
-    /* Read in the first keystroke using whatever mode we're in. */
+    /* Read in the first keycode using whatever mode we're in. */
     while (input == ERR) {
 	input = wgetch(win);
 
@@ -207,7 +203,7 @@ void get_key_buffer(WINDOW *win)
 	    return;
 	}
 
-	/* If we've failed to get a character MAX_BUF_SIZE times in a row,
+	/* If we've failed to get a keycode MAX_BUF_SIZE times in a row,
 	 * assume our input source is gone and die gracefully.  We could
 	 * check if errno is set to EIO ("Input/output error") and die in
 	 * that case, but it's not always set properly.  Argh. */
@@ -217,15 +213,13 @@ void get_key_buffer(WINDOW *win)
 
     curs_set(0);
 
-    /* Increment the length of the keystroke buffer, and save the value
-     * of the keystroke at the end of it. */
+    /* Initiate the keystroke buffer, and save the keycode in it. */
     key_buffer_len++;
     key_buffer = (int *)nmalloc(sizeof(int));
     key_buffer[0] = input;
 
 #ifndef NANO_TINY
-    /* If we got SIGWINCH, get out immediately since the win argument is
-     * no longer valid. */
+    /* If we got a SIGWINCH, get out as the win argument is no longer valid. */
     if (input == KEY_WINCH)
 	return;
 #endif
@@ -244,8 +238,7 @@ void get_key_buffer(WINDOW *win)
 	if (input == ERR)
 	    break;
 
-	/* Otherwise, increment the length of the keystroke buffer, and
-	 * save the value of the keystroke at the end of it. */
+	/* Extend the keystroke buffer, and save the keycode at its end. */
 	key_buffer_len++;
 	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len * sizeof(int));
 	key_buffer[key_buffer_len - 1] = input;
@@ -269,25 +262,21 @@ size_t get_key_buffer_len(void)
     return key_buffer_len;
 }
 
-/* Add the keystrokes in input to the keystroke buffer. */
+/* Add the keycodes in input to the keystroke buffer. */
 void unget_input(int *input, size_t input_len)
 {
     /* If input is empty, get out. */
     if (input_len == 0)
 	return;
 
-    /* If adding input would put the keystroke buffer beyond maximum
-     * capacity, only add enough of input to put it at maximum
-     * capacity. */
+    /* If adding input would put the keystroke buffer beyond maximum capacity,
+     * only add enough of input to put it at maximum capacity. */
     if (key_buffer_len + input_len < key_buffer_len)
 	input_len = (size_t)-1 - key_buffer_len;
 
-    /* Add the length of input to the length of the keystroke buffer,
-     * and reallocate the keystroke buffer so that it has enough room
-     * for input. */
+    /* Extend the keystroke buffer to make room for the extra keycodes. */
     key_buffer_len += input_len;
-    key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
-	sizeof(int));
+    key_buffer = (int *)nrealloc(key_buffer, key_buffer_len * sizeof(int));
 
     /* If the keystroke buffer wasn't empty before, move its beginning
      * forward far enough so that we can add input to its beginning. */
