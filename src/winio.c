@@ -1810,6 +1810,13 @@ void blank_statusbar(void)
     blank_row(bottomwin, 0, 0, COLS);
 }
 
+/* Wipe the status bar clean and include this in the next screen update. */
+void wipe_statusbar(void)
+{
+    blank_row(bottomwin, 0, 0, COLS);
+    wnoutrefresh(bottomwin);
+}
+
 /* If the NO_HELP flag isn't set, blank the last two lines of the bottom
  * portion of the window. */
 void blank_bottombars(void)
@@ -1834,10 +1841,8 @@ void check_statusblank(void)
     if (currmenu == MMAIN && ISSET(CONSTANT_SHOW))
 	return;
 
-    if (statusblank == 0) {
-	blank_statusbar();
-	wnoutrefresh(bottomwin);
-    }
+    if (statusblank == 0)
+	wipe_statusbar();
 
     /* If the subwindows overlap, make sure to show the edit window now. */
     if (LINES == 1)

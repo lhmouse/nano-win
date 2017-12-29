@@ -642,6 +642,7 @@ const sc *get_shortcut(int *kbinput);
 void blank_row(WINDOW *win, int y, int x, int n);
 void blank_edit(void);
 void blank_statusbar(void);
+void wipe_statusbar(void);
 void blank_bottombars(void);
 void check_statusblank(void);
 char *display_string(const char *buf, size_t column, size_t span, bool isdata);

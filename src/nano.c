@@ -710,8 +710,7 @@ void window_init(void)
     }
 
     /* In case the terminal shrunk, make sure the status line is clear. */
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
+    wipe_statusbar();
 
     /* Turn the keypad on for the windows, if necessary. */
     if (!ISSET(REBIND_KEYPAD)) {

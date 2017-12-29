@@ -2502,8 +2502,7 @@ void do_justify(bool full_justify)
     /* Mark the buffer for unjustified text as empty. */
     jusbuffer = NULL;
 
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
+    wipe_statusbar();
 
     /* Show "Uncut" again in the help lines, and force their redrawing. */
     uncutfunc->desc = uncut_tag;
@@ -3322,8 +3321,7 @@ void do_linter(void)
 	}
     }
 
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
+    wipe_statusbar();
 
 #ifndef NANO_TINY
   free_lints_and_return:
@@ -3546,10 +3544,8 @@ void do_verbatim_input(void)
     /* Unsuppress cursor-position display or blank the statusbar. */
     if (ISSET(CONSTANT_SHOW))
 	suppress_cursorpos = FALSE;
-    else {
-	blank_statusbar();
-	wnoutrefresh(bottomwin);
-    }
+    else
+	wipe_statusbar();
 
     /* Display all the verbatim characters at once, not filtering out
      * control characters. */
@@ -3622,8 +3618,7 @@ void complete_a_word(void)
 	pletion_x = 0;
 
 	/* Wipe the "No further matches" message. */
-	blank_statusbar();
-	wnoutrefresh(bottomwin);
+	wipe_statusbar();
     } else {
 	/* Remove the attempted completion from the buffer. */
 	do_undo();

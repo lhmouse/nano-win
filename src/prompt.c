@@ -651,8 +651,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
     else if (func == do_enter)
 	retval = (*answer == '\0') ? -2 : 0;
 
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
+    wipe_statusbar();
 
 #ifdef ENABLE_TABCOMP
     /* If we've done tab completion, there might still be a list of
@@ -720,8 +719,8 @@ int do_yesno_prompt(bool all, const char *msg)
 	blank_statusbar();
 	mvwaddnstr(bottomwin, 0, 0, message, actual_x(message, COLS - 1));
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
-
 	wnoutrefresh(bottomwin);
+
 	currmenu = MYESNO;
 
 	/* When not replacing, show the cursor while waiting for a key. */
