@@ -373,6 +373,7 @@ int do_lockfile(const char *filename)
 
 	if (response < 1) {
 	    blank_statusbar();
+	    wnoutrefresh(bottomwin);
 	    goto free_the_name;
 	}
     }
@@ -2218,6 +2219,7 @@ int do_writeout(bool exiting, bool withprompt)
 		response = do_yesno_prompt(FALSE, _("File was modified "
 				"since you opened it; continue saving? "));
 		blank_statusbar();
+		wnoutrefresh(bottomwin);
 
 		/* When in tool mode and not called by 'savefile',
 		 * overwrite the file right here when requested. */
