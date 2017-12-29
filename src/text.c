@@ -281,7 +281,7 @@ void indent_a_line(filestruct *line, char *indentation)
 
 	/* Compensate for the change in the current line. */
 	if (line == openfile->mark && openfile->mark_x > 0)
-	    openfile->mark_x += indent_len;
+		openfile->mark_x += indent_len;
 	if (line == openfile->current && openfile->current_x > 0) {
 		openfile->current_x += indent_len;
 		openfile->placewewant = xplustabs();
@@ -349,7 +349,7 @@ size_t length_of_white(const char *text)
 		if (*text != ' ')
 			return bytes_of_white;
 
-	   if (++bytes_of_white == tabsize)
+		if (++bytes_of_white == tabsize)
 			return tabsize;
 
 		text++;
@@ -1933,14 +1933,14 @@ bool indents_match(const char *a_line, size_t a_indent, const char
  *
  *   A line is "the beginning of a paragraph" if it is part of a
  *   paragraph and
- *	1) it is the top line of the file, or
- *	2) the line above it is not part of a paragraph, or
- *	3) the line above it does not have precisely the same quote
- *	   part, or
- *	4) the indentation of this line is not an initial substring of
- *	   the indentation of the previous line, or
- *	5) this line has no quote part and some indentation, and
- *	   autoindent isn't turned on.
+ *      1) it is the top line of the file, or
+ *      2) the line above it is not part of a paragraph, or
+ *      3) the line above it does not have precisely the same quote
+ *         part, or
+ *      4) the indentation of this line is not an initial substring of
+ *         the indentation of the previous line, or
+ *      5) this line has no quote part and some indentation, and
+ *         autoindent isn't turned on.
  *   The reason for number 5) is that if autoindent isn't turned on,
  *   then an indented line is expected to start a paragraph, as in
  *   books.  Thus, nano can justify an indented paragraph only if
@@ -3139,8 +3139,7 @@ void do_linter(void)
 				 *
 				 * filenameorcategory:line:column:message (e.g. splint)
 				 * filenameorcategory:line,column:message (e.g. pylint)
-				 * filenameorcategory:line:message        (e.g. pyflakes)
-				 */
+				 * filenameorcategory:line:message        (e.g. pyflakes) */
 				if (strstr(message, ": ") != NULL) {
 					filename = strtok(read_buff_word, ":");
 					if ((linestr = strtok(NULL, ":")) != NULL) {

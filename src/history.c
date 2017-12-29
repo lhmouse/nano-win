@@ -328,7 +328,7 @@ void load_history(void)
 				update_history(history, line);
 			} else if (history == &search_history)
 				history = &replace_history;
-		   else
+			else
 				history = &execute_history;
 		}
 

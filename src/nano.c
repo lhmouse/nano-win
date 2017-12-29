@@ -1393,7 +1393,7 @@ void do_toggle(int flag)
 			refresh_needed = TRUE;
 			break;
 		case WHITESPACE_DISPLAY:
-			titlebar(NULL);	/* Fall through. */
+			titlebar(NULL);  /* Fall through. */
 #ifdef ENABLE_COLOR
 		case NO_COLOR_SYNTAX:
 #endif
@@ -1815,7 +1815,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		i += char_len;
 
 		/* If controls are not allowed, ignore an ASCII control character. */
-		if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -	char_len)))
+		if (!allow_cntrls && is_ascii_cntrl_char(*(output + i - char_len)))
 			continue;
 
 		/* Make room for the new character and copy it into the line. */

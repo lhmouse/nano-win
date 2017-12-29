@@ -216,7 +216,7 @@ char *do_browser(char *path)
 				selected = filelist_len - 1;
 			else if (selected + editwinrows * width >= filelist_len)
 				selected = (selected + editwinrows * width - filelist_len) %
-								width +	filelist_len - width;
+								width + filelist_len - width;
 			else
 				selected += editwinrows * width;
 		} else if (func == to_first_file) {

@@ -671,7 +671,7 @@ int parse_kbinput(WINDOW *win)
 		/* ncurses and Slang don't support KEY_SUP. */
 		case KEY_SUP:
 #endif
-		case KEY_SR:	/* Scroll backward, on Xfce4-terminal. */
+		case KEY_SR:    /* Scroll backward, on Xfce4-terminal. */
 			shift_held = TRUE;
 			return KEY_UP;
 #endif
@@ -680,7 +680,7 @@ int parse_kbinput(WINDOW *win)
 		/* ncurses and Slang don't support KEY_SDOWN. */
 		case KEY_SDOWN:
 #endif
-		case KEY_SF:	/* Scroll forward, on Xfce4-terminal. */
+		case KEY_SF:    /* Scroll forward, on Xfce4-terminal. */
 			shift_held = TRUE;
 			return KEY_DOWN;
 #endif
@@ -690,7 +690,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 		case SHIFT_HOME:
 			shift_held = TRUE;
-		case KEY_A1:	/* Home (7) on keypad with NumLock off. */
+		case KEY_A1:    /* Home (7) on keypad with NumLock off. */
 			return KEY_HOME;
 #ifdef KEY_SEND
 		/* HP-UX 10-11 and Slang don't support KEY_SEND. */
@@ -698,25 +698,25 @@ int parse_kbinput(WINDOW *win)
 #endif
 		case SHIFT_END:
 			shift_held = TRUE;
-		case KEY_C1:	/* End (1) on keypad with NumLock off. */
+		case KEY_C1:    /* End (1) on keypad with NumLock off. */
 			return KEY_END;
 #ifndef NANO_TINY
 #ifdef KEY_SPREVIOUS
 		case KEY_SPREVIOUS:
 #endif
-		case SHIFT_PAGEUP:	/* Fake key, from Shift+Alt+Up. */
+		case SHIFT_PAGEUP:    /* Fake key, from Shift+Alt+Up. */
 			shift_held = TRUE;
 #endif
-		case KEY_A3:	/* PageUp (9) on keypad with NumLock off. */
+		case KEY_A3:    /* PageUp (9) on keypad with NumLock off. */
 			return KEY_PPAGE;
 #ifndef NANO_TINY
 #ifdef KEY_SNEXT
 		case KEY_SNEXT:
 #endif
-		case SHIFT_PAGEDOWN:	/* Fake key, from Shift+Alt+Down. */
+		case SHIFT_PAGEDOWN:    /* Fake key, from Shift+Alt+Down. */
 			shift_held = TRUE;
 #endif
-		case KEY_C3:	/* PageDown (3) on keypad with NumLock off. */
+		case KEY_C3:    /* PageDown (3) on keypad with NumLock off. */
 			return KEY_NPAGE;
 #ifdef KEY_SDC
 		/* Slang doesn't support KEY_SDC. */
@@ -740,7 +740,7 @@ int parse_kbinput(WINDOW *win)
 		/* Slang doesn't support KEY_BEG. */
 		case KEY_BEG:
 #endif
-		case KEY_B2:	/* Center (5) on keypad with NumLock off. */
+		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
 			return ERR;
 #ifdef KEY_CANCEL
 #ifdef KEY_SCANCEL
@@ -1975,7 +1975,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 
 		/* For invalid codepoints, skip extra bytes. */
 		if (charlength < -1)
-		   buf += charlength + 7;
+			buf += charlength + 7;
 	}
 
 	/* If there is more text than can be shown, make room for the $ or >. */
@@ -2555,7 +2555,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			 * and the current line.  But is there an end after the start
 			 * at all?  We don't paint unterminated starts. */
 			while (end_line != NULL && regexec(varnish->end, end_line->data,
-								 1, &endmatch, 0) == REG_NOMATCH)
+								1, &endmatch, 0) == REG_NOMATCH)
 				end_line = end_line->next;
 
 			/* If there is no end, there is nothing to paint. */
@@ -3525,11 +3525,11 @@ void do_credits(void)
 	bool old_no_help = ISSET(NO_HELP);
 	int kbinput = ERR, crpos = 0, xlpos = 0;
 	const char *credits[CREDIT_LEN] = {
-		NULL,				/* "The nano text editor" */
-		NULL,				/* "version" */
+		NULL,                /* "The nano text editor" */
+		NULL,                /* "version" */
 		VERSION,
 		"",
-		NULL,				/* "Brought to you by:" */
+		NULL,                /* "Brought to you by:" */
 		"Chris Allegretta",
 		"Jordi Mallach",
 		"Adam Rogoyski",
@@ -3550,7 +3550,7 @@ void do_credits(void)
 		"Ryan Krebs",
 		"Albert Chin",
 		"",
-		NULL,				/* "Special thanks to:" */
+		NULL,                /* "Special thanks to:" */
 		"Monique, Brielle & Joseph",
 		"Plattsburgh State University",
 		"Benet Laboratories",
@@ -3558,16 +3558,16 @@ void do_credits(void)
 		"Linda Young",
 		"Jeremy Robichaud",
 		"Richard Kolb II",
-		NULL,				/* "The Free Software Foundation" */
+		NULL,                /* "The Free Software Foundation" */
 		"Linus Torvalds",
-		NULL,				/* "the many translators and the TP" */
-		NULL,				/* "For ncurses:" */
+		NULL,                /* "the many translators and the TP" */
+		NULL,                /* "For ncurses:" */
 		"Thomas Dickey",
 		"Pavel Curtis",
 		"Zeyd Ben-Halim",
 		"Eric S. Raymond",
-		NULL,				/* "and anyone else we forgot..." */
-		NULL,				/* "Thank you for using nano!" */
+		NULL,                /* "and anyone else we forgot..." */
+		NULL,                /* "Thank you for using nano!" */
 		"",
 		"",
 		"",

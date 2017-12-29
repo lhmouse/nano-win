@@ -261,9 +261,9 @@ size_t length_of_list(int menu)
 }
 
 /* To make the functions and shortcuts lists clearer. */
-#define VIEW  TRUE		/* Is allowed in view mode. */
+#define VIEW  TRUE    /* Is allowed in view mode. */
 #define NOVIEW  FALSE
-#define BLANKAFTER  TRUE	/* A blank line after this one. */
+#define BLANKAFTER  TRUE    /* A blank line after this one. */
 #define TOGETHER  FALSE
 
 /* Just throw this here. */

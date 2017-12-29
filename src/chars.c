@@ -646,7 +646,7 @@ char *revstrpbrk(const char *head, const char *accept, const char *pointer)
 {
 	if (*pointer == '\0') {
 		if (pointer == head)
-		   return NULL;
+			return NULL;
 		pointer--;
 	}
 

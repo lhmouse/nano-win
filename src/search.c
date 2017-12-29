@@ -169,7 +169,7 @@ int search_init(bool replacing, bool use_answer)
 		if (ISSET(USE_REGEXP) && !regexp_init(last_search))
 			return -1;
 		else
-			return 0;	/* We have a valid string or regex. */
+			return 0;    /* We have a valid string or regex. */
 	}
 
 	func = func_from_key(&i);
@@ -188,7 +188,7 @@ int search_init(bool replacing, bool use_answer)
 		return 1;
 	} else if (func == flip_replace) {
 		backupstring = mallocstrcpy(backupstring, answer);
-		return -2;	/* Call the opposite search function. */
+		return -2;    /* Call the opposite search function. */
 	} else if (func == do_gotolinecolumn_void) {
 		do_gotolinecolumn(openfile->current->lineno,
 						openfile->placewewant + 1, TRUE, TRUE);
@@ -359,11 +359,11 @@ void do_search(void)
 {
 	int i = search_init(FALSE, FALSE);
 
-	if (i == -1)	/* Cancelled, or some other exit reason. */
+	if (i == -1)    /* Cancelled, or some other exit reason. */
 		search_replace_abort();
-	else if (i == -2)	/* Do a replace instead. */
+	else if (i == -2)    /* Do a replace instead. */
 		do_replace();
-	else if (i == 1)	/* Toggled something. */
+	else if (i == 1)    /* Toggled something. */
 		do_search();
 
 	if (i == 0)
@@ -732,11 +732,11 @@ void do_replace(void)
 
 	i = search_init(TRUE, FALSE);
 
-	if (i == -1)	/* Cancelled, or some other exit reason. */
+	if (i == -1)    /* Cancelled, or some other exit reason. */
 		search_replace_abort();
-	else if (i == -2)	/* Do a search instead. */
+	else if (i == -2)    /* Do a search instead. */
 		do_search();
-	else if (i == 1)	/* Toggled something. */
+	else if (i == 1)    /* Toggled something. */
 		do_replace();
 
 	if (i != 0)
@@ -1048,7 +1048,7 @@ void do_find_bracket(void)
 			/* If we found an identical bracket, increment count.  If we
 			 * found a complementary bracket, decrement it. */
 			count += (strncmp(openfile->current->data + openfile->current_x,
-								 ch, ch_len) == 0) ? 1 : -1;
+								ch, ch_len) == 0) ? 1 : -1;
 
 			/* If count is zero, we've found a matching bracket.  Update
 			 * the screen and get out. */

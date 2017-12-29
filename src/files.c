@@ -258,7 +258,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	if (wroteamt < lockdatalen) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 						lockfilename, ferror(filestream));
- 	fclose(filestream);
+		fclose(filestream);
 		goto free_the_data;
 	}
 
@@ -1452,9 +1452,9 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
 int prompt_failed_backupwrite(const char *filename)
 {
 	static int response;
-	static char *prevfile = NULL; /* What was the last file we were
-								   * passed so we don't keep asking
-								   * this?  Though maybe we should... */
+	static char *prevfile = NULL;
+		/* The last file we were passed, so we don't keep asking this.
+		 * Though maybe we should? */
 	if (prevfile == NULL || strcmp(filename, prevfile)) {
 		response = do_yesno_prompt(FALSE, _("Failed to write backup file; "
 						"continue saving? (Say N if unsure.) "));
@@ -1471,7 +1471,7 @@ void init_backup_dir(void)
 	backup_dir = free_and_assign(backup_dir, get_full_path(backup_dir));
 
 	/* If we can't get an absolute path (which means it doesn't exist or
-	   isn't accessible), or it's not a directory, fail. */
+	 * isn't accessible), or it's not a directory, fail. */
 	if (backup_dir == NULL || backup_dir[strlen(backup_dir) - 1] != '/')
 		die(_("Invalid backup directory\n"));
 
@@ -2224,8 +2224,8 @@ int do_writeout(bool exiting, bool withprompt)
 				if (ISSET(TEMP_FILE) && withprompt) {
 					free(given);
 					if (response == 1)
-						return write_file(openfile->filename,
-										 NULL, FALSE, OVERWRITE, TRUE);
+						return write_file(openfile->filename, NULL,
+											FALSE, OVERWRITE, TRUE);
 					else if (response == 0)
 						return 2;
 					else

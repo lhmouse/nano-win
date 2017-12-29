@@ -84,7 +84,7 @@ void wrap_the_help_text(bool redisplaying)
 	while (TRUE) {
 		sum += strlen(openfile->current->data);
 		if (sum > location)
-		   break;
+			break;
 		openfile->current = openfile->current->next;
 	}
 

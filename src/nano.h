@@ -224,7 +224,7 @@ typedef struct syntaxtype {
 	char *linter;
 		/* The command with which to lint this type of file. */
 	char *formatter;
-	    /* The formatting command (for programming languages mainly). */
+		/* The formatting command (for programming languages mainly). */
 #ifdef ENABLE_COMMENT
 	char *comment;
 		/* The line comment prefix (and postfix) for this type of file. */
@@ -253,17 +253,17 @@ typedef struct lintstruct {
 } lintstruct;
 
 /* Flags that indicate how a multiline regex applies to a line. */
-#define CNONE		(1<<1)
+#define CNONE           (1<<1)
 		/* Yay, regex doesn't apply to this line at all! */
-#define CBEGINBEFORE	(1<<2)
+#define CBEGINBEFORE    (1<<2)
 		/* Regex starts on an earlier line, ends on this one. */
-#define CENDAFTER	(1<<3)
+#define CENDAFTER       (1<<3)
 		/* Regex starts on this line and ends on a later one. */
-#define CWHOLELINE	(1<<4)
+#define CWHOLELINE      (1<<4)
 		/* Whole line engulfed by the regex, start < me, end > me. */
-#define CSTARTENDHERE	(1<<5)
+#define CSTARTENDHERE   (1<<5)
 		/* Regex starts and ends within this line. */
-#define CWOULDBE	(1<<6)
+#define CWOULDBE        (1<<6)
 		/* An unpaired start match on or before this line. */
 #endif /* ENABLE_COLOR */
 
@@ -534,25 +534,25 @@ enum
 };
 
 /* Flags for the menus in which a given function should be present. */
-#define MMAIN			(1<<0)
-#define MWHEREIS		(1<<1)
-#define MREPLACE		(1<<2)
-#define MREPLACEWITH		(1<<3)
-#define MGOTOLINE		(1<<4)
-#define MWRITEFILE		(1<<5)
-#define MINSERTFILE		(1<<6)
-#define MEXTCMD			(1<<7)
-#define MHELP			(1<<8)
-#define MSPELL			(1<<9)
-#define MBROWSER		(1<<10)
-#define MWHEREISFILE		(1<<11)
-#define MGOTODIR		(1<<12)
-#define MYESNO			(1<<13)
-#define MLINTER			(1<<14)
-#define MFINDINHELP		(1<<15)
+#define MMAIN           (1<<0)
+#define MWHEREIS        (1<<1)
+#define MREPLACE        (1<<2)
+#define MREPLACEWITH    (1<<3)
+#define MGOTOLINE       (1<<4)
+#define MWRITEFILE      (1<<5)
+#define MINSERTFILE     (1<<6)
+#define MEXTCMD         (1<<7)
+#define MHELP           (1<<8)
+#define MSPELL          (1<<9)
+#define MBROWSER        (1<<10)
+#define MWHEREISFILE    (1<<11)
+#define MGOTODIR        (1<<12)
+#define MYESNO          (1<<13)
+#define MLINTER         (1<<14)
+#define MFINDINHELP     (1<<15)
 /* This is an abbreviation for all menus except Help and YesNo. */
 #define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
-				MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
+                MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
 #ifndef NANO_TINY
 #define MSOME  MMOST
 #else
@@ -605,12 +605,12 @@ enum
 #define KEY_WINCH -2
 
 /* Some extra flags for the undo function. */
-#define WAS_FINAL_BACKSPACE	(1<<1)
-#define WAS_WHOLE_LINE		(1<<2)
-#define WAS_FINAL_LINE		(1<<3)
+#define WAS_FINAL_BACKSPACE   (1<<1)
+#define WAS_WHOLE_LINE        (1<<2)
+#define WAS_FINAL_LINE        (1<<3)
 /* The flags for the mark need to be the highest. */
-#define MARK_WAS_SET		(1<<4)
-#define WAS_MARKED_FORWARD	(1<<5)
+#define MARK_WAS_SET          (1<<4)
+#define WAS_MARKED_FORWARD    (1<<5)
 #endif /* !NANO_TINY */
 
 /* The maximum number of entries displayed in the main shortcut list. */
