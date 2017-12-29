@@ -272,7 +272,7 @@ bool open_buffer(const char *filename, bool undoable);
 void replace_buffer(const char *filename);
 #ifndef NANO_TINY
 void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
-	filestruct *bot, size_t bot_x);
+		filestruct *bot, size_t bot_x);
 #endif
 #endif
 void prepare_for_display(void);
@@ -282,7 +282,7 @@ void switch_to_next_buffer(void);
 bool close_buffer(void);
 #endif
 void read_file(FILE *f, int fd, const char *filename, bool undoable,
-		bool checkwritable);
+				bool checkwritable);
 int open_file(const char *filename, bool newfie, bool quiet, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
 void do_insertfile_void(void);
@@ -299,10 +299,10 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 #endif
 int copy_file(FILE *inn, FILE *out, bool close_out);
 bool write_file(const char *name, FILE *f_open, bool tmp,
-	kind_of_writing_type method, bool fullbuffer);
+		kind_of_writing_type method, bool fullbuffer);
 #ifndef NANO_TINY
 bool write_marked_file(const char *name, FILE *f_open, bool tmp,
-	kind_of_writing_type method);
+		kind_of_writing_type method);
 #endif
 int do_writeout(bool exiting, bool withprompt);
 void do_writeout_void(void);
@@ -313,7 +313,7 @@ int diralphasort(const void *va, const void *vb);
 #endif
 #ifdef ENABLE_TABCOMP
 char *input_tab(char *buf, bool allow_files, size_t *place,
-	bool *lastwastab, void (*refresh_func)(void), bool *listed);
+		bool *lastwastab, void (*refresh_func)(void), bool *listed);
 #endif
 
 /* Some functions in global.c. */
@@ -406,10 +406,10 @@ filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
 void renumber(filestruct *fileptr);
 partition *partition_filestruct(filestruct *top, size_t top_x,
-	filestruct *bot, size_t bot_x);
+		filestruct *bot, size_t bot_x);
 void unpartition_filestruct(partition **p);
 void extract_buffer(filestruct **file_top, filestruct **file_bot,
-	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
+		filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
 void ingraft_buffer(filestruct *somebuffer);
 void copy_from_buffer(filestruct *somebuffer);
 openfilestruct *make_new_opennode(void);
@@ -470,8 +470,8 @@ size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reinit_statusbar_x(void);
 void update_the_statusbar(void);
 int do_prompt(bool allow_tabs, bool allow_files,
-	int menu, const char *curranswer, filestruct **history_list,
-	void (*refresh_func)(void), const char *msg, ...);
+		int menu, const char *curranswer, filestruct **history_list,
+		void (*refresh_func)(void), const char *msg, ...);
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
@@ -488,7 +488,7 @@ void do_rcfiles(void);
 void not_found_msg(const char *str);
 void search_replace_abort(void);
 int findnextstr(const char *needle, bool whole_word_only, int modus,
-	size_t *match_len, bool skipone, const filestruct *begin, size_t begin_x);
+		size_t *match_len, bool skipone, const filestruct *begin, size_t begin_x);
 void do_search(void);
 void do_search_forward(void);
 void do_search_backward(void);
@@ -499,11 +499,11 @@ void do_findnext(void);
 void do_research(void);
 void go_looking(void);
 ssize_t do_replace_loop(const char *needle, bool whole_word_only,
-	const filestruct *real_current, size_t *real_current_x);
+		const filestruct *real_current, size_t *real_current_x);
 void do_replace(void);
 void goto_line_posx(ssize_t line, size_t pos_x);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
-	bool interactive);
+		bool interactive);
 void do_gotolinecolumn_void(void);
 #ifndef NANO_TINY
 void do_find_bracket(void);
@@ -592,7 +592,7 @@ const char *fixbounds(const char *r);
 bool is_separate_word(size_t position, size_t length, const char *buf);
 #endif
 const char *strstrwrapper(const char *haystack, const char *needle,
-	const char *start);
+		const char *start);
 void nperror(const char *s);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
@@ -610,7 +610,7 @@ void remove_magicline(void);
 #endif
 #ifndef NANO_TINY
 void mark_order(const filestruct **top, size_t *top_x,
-	const filestruct **bot, size_t *bot_x, bool *right_side_up);
+		const filestruct **bot, size_t *bot_x, bool *right_side_up);
 void get_range(const filestruct **top, const filestruct **bot);
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
@@ -654,7 +654,7 @@ void bottombars(int menu);
 void post_one_key(const char *keystroke, const char *tag, int width);
 void place_the_cursor(void);
 void edit_draw(filestruct *fileptr, const char *converted,
-	int line, size_t from_col);
+		int line, size_t from_col);
 int update_line(filestruct *fileptr, size_t index);
 #ifndef NANO_TINY
 int update_softwrapped_line(filestruct *fileptr);
@@ -666,7 +666,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge);
 void edit_scroll(bool direction, int nrows);
 #ifndef NANO_TINY
 size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
-				bool *end_of_line);
+								bool *end_of_line);
 size_t get_chunk_and_edge(size_t column, filestruct *line, size_t *leftedge);
 size_t chunk_for(size_t column, filestruct *line);
 size_t leftedge_for(size_t column, filestruct *line);
