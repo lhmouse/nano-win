@@ -57,8 +57,8 @@ color green        "\-\-.*$"
 color green         start="\-\-\[\[" end="\]\]"
 
 # Strings
-color red "\"(\\.|[^\\\"])*\"|'(\\.|[^\\'])*'"
+color red ""(\\.|[^"\])*"|'(\\.|[^'\])*'"
 ##color red         start="\[\[" end="\]\]"
 
 # Hex literals
-color red "0x[0-9a-fA-F]*"
+color red "\<0x[0-9a-fA-F]+\>"
