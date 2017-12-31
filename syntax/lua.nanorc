@@ -42,7 +42,7 @@ color brightmagenta "\<(false|nil|true)\>"
 color brightgreen "\<(dofile|require)\>"
 
 # Numbers
-color red "\<([0-9]+)\>"
+color red "\<[0-9]+(\.[0-9]*)?([Ee][+-]?[0-9]+)?\>"
 
 # Symbols
 color brightmagenta "(\(|\)|\[|\]|\{|\})"
@@ -61,4 +61,4 @@ color red ""(\\.|[^"\])*"|'(\\.|[^'\])*'"
 ##color red         start="\[\[" end="\]\]"
 
 # Hex literals
-color red "\<0x[0-9a-fA-F]+\>"
+icolor red "\<0x[0-9a-f]+(\.[0-9a-f]*)?(p[+-]?[0-9]+)?\>"
