@@ -20,7 +20,7 @@ color brightyellow "\<(_G|_VERSION|assert|collectgarbage|dofile|error|getfenv|ge
 
 # Standard library
 color brightyellow "\<coroutine\.(create|isyieldable|resume|running|status|wrap|yield)\>"
-color brightyellow "\<debug\.(debug|(get|set)(fenv|hook|info|local|metatable|(up|user)value)|getregistry|traceback|upvalue(id|join))\>"
+color brightyellow "\<debug\.(debug|(get|set)(fenv|hook|local|metatable|(up|user)value)|getinfo|getregistry|traceback|upvalue(id|join))\>"
 color brightyellow "\<io\.(close|flush|input|lines|output|p?open|read|tmpfile|type|write|std(in|out|err))\>"
 color brightyellow "\<math\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|huge|ldexp|log10|log)\>"
 color brightyellow "\<math\.((max|min)(integer)?|modf?|pi|pow|rad|random(seed)?|sinh?|sqrt|tan|tointeger|type|ult)\>"
