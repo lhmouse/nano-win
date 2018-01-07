@@ -250,22 +250,19 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 				statusbar(_("Searching..."));
 		}
 
-		/* Search for the needle in the current line. */
-		if (!skipone)
-			found = strstrwrapper(line->data, needle, from);
-
-		/* When starting a new search, skip the first character. */
+		/* When starting a new search, skip the first character, then
+		 * (in either case) search for the needle in the current line. */
 		if (skipone) {
 			skipone = FALSE;
 			if (ISSET(BACKWARDS_SEARCH) && from != line->data) {
 				from = line->data + move_mbleft(line->data, from - line->data);
-				continue;
+				found = strstrwrapper(line->data, needle, from);
 			} else if (!ISSET(BACKWARDS_SEARCH) && *from != '\0') {
 				from += move_mbright(from, 0);
-				continue;
+				found = strstrwrapper(line->data, needle, from);
 			}
-			found = NULL;
-		}
+		} else
+			found = strstrwrapper(line->data, needle, from);
 
 		if (found != NULL) {
 			/* When doing a regex search, compute the length of the match. */
