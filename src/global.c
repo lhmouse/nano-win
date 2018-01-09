@@ -379,16 +379,6 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 #endif
 }
 
-/* Assign one function's shortcuts to another function. */
-void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
-{
-	sc *s;
-
-	for (s = sclist; s != NULL; s = s->next)
-		if (s->scfunc == oldfunc)
-			s->scfunc = newfunc;
-}
-
 /* Return the first shortcut in the list of shortcuts that
  * matches the given func in the given menu. */
 const sc *first_sc_for(int menu, void (*func)(void))
@@ -1363,10 +1353,17 @@ void shortcut_init(void)
 #endif
 }
 
-#ifdef ENABLE_COLOR
+#if defined(ENABLE_COLOR) && defined(ENABLE_SPELLER)
+/* Assign one function's shortcuts to another function. */
+void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
+{
+	for (sc *s = sclist; s != NULL; s = s->next)
+		if (s->scfunc == oldfunc)
+			s->scfunc = newfunc;
+}
+
 void set_lint_or_format_shortcuts(void)
 {
-#ifdef ENABLE_SPELLER
 	if (openfile->syntax->formatter) {
 		replace_scs_for(do_spell, do_formatter);
 		replace_scs_for(do_linter, do_formatter);
@@ -1374,17 +1371,14 @@ void set_lint_or_format_shortcuts(void)
 		replace_scs_for(do_spell, do_linter);
 		replace_scs_for(do_formatter, do_linter);
 	}
-#endif
 }
 
 void set_spell_shortcuts(void)
 {
-#ifdef ENABLE_SPELLER
 		replace_scs_for(do_formatter, do_spell);
 		replace_scs_for(do_linter, do_spell);
-#endif
 }
-#endif /* ENABLE_COLOR */
+#endif /* ENABLE_COLOR && ENABLE_SPELLER */
 
 const subnfunc *sctofunc(const sc *s)
 {

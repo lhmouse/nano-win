@@ -3339,7 +3339,7 @@ void total_refresh(void)
  * portion of the window. */
 void display_main_list(void)
 {
-#ifdef ENABLE_COLOR
+#if defined(ENABLE_COLOR) && defined(ENABLE_SPELLER)
 	if (openfile->syntax &&
 				(openfile->syntax->formatter || openfile->syntax->linter))
 		set_lint_or_format_shortcuts();
