@@ -633,8 +633,8 @@ void shortcut_init(void)
 	const char *comment_gist =
 		N_("Comment/uncomment the current line (or marked lines)");
 #endif
-#ifndef NANO_TINY
 	const char *savefile_gist = N_("Save file without prompting");
+#ifndef NANO_TINY
 	const char *findprev_gist = N_("Search next occurrence backward");
 	const char *findnext_gist = N_("Search next occurrence forward");
 	const char *recordmacro_gist = N_("Start/stop recording a macro");
@@ -985,14 +985,13 @@ void shortcut_init(void)
 		N_("Record"), WITHORSANS(recordmacro_gist), TOGETHER, VIEW);
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
-
+#endif
 	add_to_funcs(do_search_backward, MMAIN,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
-#endif
 
 #ifdef ENABLE_HISTORIES
 	add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
@@ -1471,10 +1470,8 @@ sc *strtosc(const char *input)
 		s->scfunc = discard_buffer;
 	else if (!strcasecmp(input, "writeout"))
 		s->scfunc = do_writeout_void;
-#ifndef NANO_TINY
 	else if (!strcasecmp(input, "savefile"))
 		s->scfunc = do_savefile;
-#endif
 	else if (!strcasecmp(input, "insert"))
 		s->scfunc = do_insertfile_void;
 	else if (!strcasecmp(input, "whereis"))
