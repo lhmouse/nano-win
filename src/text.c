@@ -3037,7 +3037,9 @@ void do_linter(void)
 		return;
 	}
 
+#ifndef NANO_TINY
 	openfile->mark = NULL;
+#endif
 	edit_refresh();
 
 	if (openfile->modified) {
