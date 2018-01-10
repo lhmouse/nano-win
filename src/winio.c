@@ -259,10 +259,6 @@ size_t get_key_buffer_len(void)
 /* Add the keycodes in input to the keystroke buffer. */
 void unget_input(int *input, size_t input_len)
 {
-	/* If input is empty, get out. */
-	if (input_len == 0)
-		return;
-
 	/* If adding input would put the keystroke buffer beyond maximum capacity,
 	 * only add enough of input to put it at maximum capacity. */
 	if (key_buffer_len + input_len < key_buffer_len)
