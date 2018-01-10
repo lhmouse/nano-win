@@ -447,19 +447,15 @@ int parse_kbinput(WINDOW *win)
 				double_esc = FALSE;
 				escapes = 0;
 			} else if (key_buffer_len == 0) {
-				if (('0' <= keycode && keycode <= '2' &&
-						byte_digits == 0) || ('0' <= keycode &&
-						keycode <= '9' && byte_digits > 0)) {
+				if ('0' <= keycode && ((keycode <= '2' && byte_digits == 0) ||
+										(keycode <= '9' && byte_digits > 0))) {
 					/* Two escapes followed by one or more decimal
 					 * digits, and there aren't any other codes
-					 * waiting: byte sequence mode.  If the range
-					 * of the byte sequence is limited to 2XX (the
-					 * first digit is between '0' and '2' and the
-					 * others between '0' and '9', interpret it. */
-					int byte;
+					 * waiting: byte sequence mode.  If the range of the
+					 * byte sequence is limited to 2XX, interpret it. */
+					int byte = get_byte_kbinput(keycode);
 
 					byte_digits++;
-					byte = get_byte_kbinput(keycode);
 
 					/* If the decimal byte value is complete, convert it and
 					 * put the obtained byte(s) back into the input buffer. */
