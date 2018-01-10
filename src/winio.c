@@ -464,22 +464,19 @@ int parse_kbinput(WINDOW *win)
 					/* If the decimal byte value is complete, convert it and
 					 * put the obtained byte(s) back into the input buffer. */
 					if (byte != ERR) {
-						char *byte_mb;
-						int byte_mb_len, *seq, i;
+						char *multibyte;
+						int count, onebyte, i;
 
 						/* Convert the decimal code to one or two bytes. */
-						byte_mb = make_mbchar((long)byte, &byte_mb_len);
-
-						seq = (int *)nmalloc(byte_mb_len * sizeof(int));
-
-						for (i = 0; i < byte_mb_len; i++)
-							seq[i] = (unsigned char)byte_mb[i];
+						multibyte = make_mbchar((long)byte, &count);
 
 						/* Insert the byte(s) into the input buffer. */
-						unget_input(seq, byte_mb_len);
+						for (i = count; i > 0 ; i--) {
+							onebyte = (unsigned char)multibyte[i - 1];
+							unget_input(&onebyte, 1);
+						}
 
-						free(byte_mb);
-						free(seq);
+						free(multibyte);
 
 						byte_digits = 0;
 						escapes = 0;
