@@ -35,8 +35,7 @@
 #endif
 
 static int *key_buffer = NULL;
-		/* The keystroke buffer, containing all the keystrokes we
-		 * haven't handled yet at a given point. */
+		/* A buffer for the keystrokes that haven't been handled yet. */
 static size_t key_buffer_len = 0;
 		/* The length of the keystroke buffer. */
 static bool solitary = FALSE;
@@ -106,8 +105,7 @@ void run_macro(void)
 		return;
 	}
 
-	free(key_buffer);
-	key_buffer = (int *)nmalloc(macro_length * sizeof(int));
+	key_buffer = (int *)nrealloc(key_buffer, macro_length * sizeof(int));
 	key_buffer_len = macro_length;
 
 	for (i = 0; i < macro_length; i++)
@@ -210,9 +208,9 @@ void read_keys_from(WINDOW *win)
 	curs_set(0);
 
 	/* Initiate the keystroke buffer, and save the keycode in it. */
-	key_buffer_len++;
-	key_buffer = (int *)nmalloc(sizeof(int));
+	key_buffer = (int *)nrealloc(key_buffer, sizeof(int));
 	key_buffer[0] = input;
+	key_buffer_len = 1;
 
 #ifndef NANO_TINY
 	/* If we got a SIGWINCH, get out as the win argument is no longer valid. */
@@ -319,12 +317,8 @@ int *get_input(WINDOW *win, size_t input_len)
 	memcpy(input, key_buffer, input_len * sizeof(int));
 	key_buffer_len -= input_len;
 
-	/* If the keystroke buffer is now empty, mark it as such. */
-	if (key_buffer_len == 0) {
-		free(key_buffer);
-		key_buffer = NULL;
-	} else {
-		/* Trim from the buffer the codes that were copied. */
+	/* If the buffer still contains keystrokes, move them to the front. */
+	if (key_buffer_len > 0) {
 		memmove(key_buffer, key_buffer + input_len, key_buffer_len *
 				sizeof(int));
 		key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
