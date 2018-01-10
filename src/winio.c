@@ -169,14 +169,10 @@ void run_macro(void)
 
 /* Read in a sequence of keystrokes from the given window and save them
  * in the keystroke buffer. */
-void get_key_buffer(WINDOW *win)
+void read_keys_from(WINDOW *win)
 {
 	int input = ERR;
 	size_t errcount = 0;
-
-	/* If the keystroke buffer isn't empty, get out. */
-	if (key_buffer != NULL)
-		return;
 
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
@@ -309,7 +305,7 @@ int *get_input(WINDOW *win, size_t input_len)
 	int *input;
 
 	if (key_buffer_len == 0 && win != NULL)
-		get_key_buffer(win);
+		read_keys_from(win);
 
 	if (key_buffer_len == 0)
 		return NULL;

@@ -624,7 +624,6 @@ void dump_filestruct(const filestruct *inptr);
 /* Most functions in winio.c. */
 void record_macro(void);
 void run_macro(void);
-void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_kbinput(int kbinput, bool metakey);
 int get_kbinput(WINDOW *win, bool showcursor);
