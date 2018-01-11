@@ -1270,13 +1270,15 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	return retval;
 }
 
-/* Translate a byte sequence: turn a three-digit decimal number (from
- * 000 to 255) into its corresponding byte value. */
+/* Turn a three-digit decimal number (from 000 to 255) into its corresponding
+ * byte value. */
 int get_byte_kbinput(int kbinput)
 {
 	static int byte = 0;
 	int retval = ERR;
 
+	/* Check that the given digit is within the allowed range for its position.
+	 * If yes, store it.  If no, return the digit (or character) itself. */
 	switch (++byte_digits) {
 		case 1:
 			/* First digit: This must be from zero to two.  Put it in
@@ -1284,36 +1286,28 @@ int get_byte_kbinput(int kbinput)
 			if ('0' <= kbinput && kbinput <= '2')
 				byte = (kbinput - '0') * 100;
 			else
-				/* This isn't the start of a byte sequence.  Return this
-				 * character as the result. */
 				retval = kbinput;
 			break;
 		case 2:
-			/* Second digit: This must be from zero to five if the first
-			 * was two, and may be any decimal value if the first was
-			 * zero or one.  Put it in the 10's position of the byte
-			 * sequence holder. */
+			/* Second digit: This must be from zero to five if the first was
+			 * two, and may be any decimal value if the first was zero or one.
+			 * Put it in the 10's position of the byte sequence holder. */
 			if (('0' <= kbinput && kbinput <= '5') || (byte < 200 &&
-				'6' <= kbinput && kbinput <= '9'))
+							'6' <= kbinput && kbinput <= '9'))
 				byte += (kbinput - '0') * 10;
 			else
-				/* This isn't the second digit of a byte sequence.
-				 * Return this character as the result. */
 				retval = kbinput;
 			break;
 		case 3:
-			/* Third digit: This must be from zero to five if the first
-			 * was two and the second was five, and may be any decimal
-			 * value otherwise.  Put it in the 1's position of the byte
-			 * sequence holder. */
+			/* Third digit: Must be from zero to five if the first was two and
+			 * the second was five, and may be any decimal value otherwise.
+			 * Put it in the 1's position of the byte sequence holder. */
 			if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
-				'6' <= kbinput && kbinput <= '9')) {
+							'6' <= kbinput && kbinput <= '9')) {
 				byte += kbinput - '0';
 				/* The byte sequence is complete. */
 				retval = byte;
 			} else
-				/* This isn't the third digit of a byte sequence.
-				 * Return this character as the result. */
 				retval = kbinput;
 			break;
 	}
@@ -1323,10 +1317,6 @@ int get_byte_kbinput(int kbinput)
 		byte_digits = 0;
 		byte = 0;
 	}
-
-#ifdef DEBUG
-	fprintf(stderr, "get_byte_kbinput(): kbinput = %d, byte_digits = %d, byte = %d, retval = %d\n", kbinput, byte_digits, byte, retval);
-#endif
 
 	return retval;
 }
