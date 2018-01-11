@@ -40,7 +40,7 @@ static size_t key_buffer_len = 0;
 		/* The length of the keystroke buffer. */
 static bool solitary = FALSE;
 		/* Whether an Esc arrived by itself -- not as leader of a sequence. */
-static int byte_digits = 0;
+static int digit_count = 0;
 		/* How many digits of a three-digit character code we've eaten. */
 static bool waiting_mode = TRUE;
 		/* Whether getting a character will wait for a key to be pressed. */
@@ -372,8 +372,8 @@ int parse_kbinput(WINDOW *win)
 	free(kbinput);
 
 #ifdef DEBUG
-	fprintf(stderr, "before parsing:  keycode = %d, escapes = %d, byte_digits = %d\n",
-		keycode, escapes, byte_digits);
+	fprintf(stderr, "before parsing:  keycode = %d, escapes = %d, digit_count = %d\n",
+		keycode, escapes, digit_count);
 #endif
 
 	if (keycode == ERR)
@@ -445,8 +445,8 @@ int parse_kbinput(WINDOW *win)
 				double_esc = FALSE;
 				escapes = 0;
 			} else if (key_buffer_len == 0) {
-				if ('0' <= keycode && ((keycode <= '2' && byte_digits == 0) ||
-										(keycode <= '9' && byte_digits > 0))) {
+				if ('0' <= keycode && ((keycode <= '2' && digit_count == 0) ||
+										(keycode <= '9' && digit_count > 0))) {
 					/* Two escapes followed by one or more decimal
 					 * digits, and there aren't any other codes
 					 * waiting: byte sequence mode.  If the range of the
@@ -473,7 +473,7 @@ int parse_kbinput(WINDOW *win)
 						escapes = 0;
 					}
 				} else {
-					if (byte_digits == 0)
+					if (digit_count == 0)
 						/* Two escapes followed by a non-decimal
 						 * digit (or a decimal digit that would
 						 * create a byte sequence greater than 2XX)
@@ -484,7 +484,7 @@ int parse_kbinput(WINDOW *win)
 						/* An invalid digit in the middle of a byte
 						 * sequence: reset the byte sequence counter
 						 * and save the code we got as the result. */
-						byte_digits = 0;
+						digit_count = 0;
 						retval = keycode;
 					}
 					escapes = 0;
@@ -1279,19 +1279,17 @@ int get_byte_kbinput(int kbinput)
 
 	/* Check that the given digit is within the allowed range for its position.
 	 * If yes, store it.  If no, return the digit (or character) itself. */
-	switch (++byte_digits) {
+	switch (++digit_count) {
 		case 1:
-			/* First digit: This must be from zero to two.  Put it in
-			 * the 100's position of the byte sequence holder. */
+			/* The first digit (the 100's position) must be from zero to two. */
 			if ('0' <= kbinput && kbinput <= '2')
 				byte = (kbinput - '0') * 100;
 			else
 				retval = kbinput;
 			break;
 		case 2:
-			/* Second digit: This must be from zero to five if the first was
-			 * two, and may be any decimal value if the first was zero or one.
-			 * Put it in the 10's position of the byte sequence holder. */
+			/* The second digit (the 10's position) must be from zero to five
+			 * if the first was two, and may be any decimal value otherwise. */
 			if (('0' <= kbinput && kbinput <= '5') || (byte < 200 &&
 							'6' <= kbinput && kbinput <= '9'))
 				byte += (kbinput - '0') * 10;
@@ -1299,9 +1297,9 @@ int get_byte_kbinput(int kbinput)
 				retval = kbinput;
 			break;
 		case 3:
-			/* Third digit: Must be from zero to five if the first was two and
-			 * the second was five, and may be any decimal value otherwise.
-			 * Put it in the 1's position of the byte sequence holder. */
+			/* The third digit (the 1's position) must be from zero to five
+			 * if the first was two and the second was five, and may be any
+			 * decimal value otherwise. */
 			if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
 							'6' <= kbinput && kbinput <= '9')) {
 				byte += kbinput - '0';
@@ -1314,7 +1312,7 @@ int get_byte_kbinput(int kbinput)
 
 	/* If we have a result, reset the counter and the byte holder. */
 	if (retval != ERR) {
-		byte_digits = 0;
+		digit_count = 0;
 		byte = 0;
 	}
 
