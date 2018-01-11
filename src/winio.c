@@ -1316,12 +1316,6 @@ int get_byte_kbinput(int kbinput)
 				 * Return this character as the result. */
 				retval = kbinput;
 			break;
-		default:
-			/* If there are more than three digits, return this
-			 * character as the result.  (Maybe we should produce an
-			 * error instead?) */
-			retval = kbinput;
-			break;
 	}
 
 	/* If we have a result, reset the counter and the byte holder. */
