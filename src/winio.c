@@ -1290,8 +1290,8 @@ int get_byte_kbinput(int kbinput)
 		case 2:
 			/* The second digit (the 10's position) must be from zero to five
 			 * if the first was two, and may be any decimal value otherwise. */
-			if (('0' <= kbinput && kbinput <= '5') || (byte < 200 &&
-							'6' <= kbinput && kbinput <= '9'))
+			if ((byte < 200 && '0' <= kbinput && kbinput <= '9') ||
+								('0' <= kbinput && kbinput <= '5'))
 				byte += (kbinput - '0') * 10;
 			else
 				retval = kbinput;
@@ -1300,8 +1300,8 @@ int get_byte_kbinput(int kbinput)
 			/* The third digit (the 1's position) must be from zero to five
 			 * if the first was two and the second was five, and may be any
 			 * decimal value otherwise. */
-			if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
-							'6' <= kbinput && kbinput <= '9')) {
+			if ((byte < 250 && '0' <= kbinput && kbinput <= '9') ||
+								('0' <= kbinput && kbinput <= '5')) {
 				byte += kbinput - '0';
 				/* The byte sequence is complete. */
 				retval = byte;
