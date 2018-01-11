@@ -40,6 +40,8 @@ static size_t key_buffer_len = 0;
 		/* The length of the keystroke buffer. */
 static bool solitary = FALSE;
 		/* Whether an Esc arrived by itself -- not as leader of a sequence. */
+static int byte_digits = 0;
+		/* How many digits of a three-digit character code we've eaten. */
 static bool waiting_mode = TRUE;
 		/* Whether getting a character will wait for a key to be pressed. */
 static int statusblank = 0;
@@ -350,7 +352,7 @@ int get_kbinput(WINDOW *win, bool showcursor)
  * the function keys (F1-F16), and the numeric keypad with NumLock off. */
 int parse_kbinput(WINDOW *win)
 {
-	static int escapes = 0, byte_digits = 0;
+	static int escapes = 0;
 	static bool double_esc = FALSE;
 	int *kbinput, keycode, retval = ERR;
 
@@ -451,8 +453,6 @@ int parse_kbinput(WINDOW *win)
 					 * byte sequence is limited to 2XX, interpret it. */
 					int byte = get_byte_kbinput(keycode);
 
-					byte_digits++;
-
 					/* If the decimal byte value is complete, convert it and
 					 * put the obtained byte(s) back into the input buffer. */
 					if (byte != ERR) {
@@ -470,7 +470,6 @@ int parse_kbinput(WINDOW *win)
 
 						free(multibyte);
 
-						byte_digits = 0;
 						escapes = 0;
 					}
 				} else {
@@ -1275,13 +1274,10 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
  * 000 to 255) into its corresponding byte value. */
 int get_byte_kbinput(int kbinput)
 {
-	static int byte_digits = 0, byte = 0;
+	static int byte = 0;
 	int retval = ERR;
 
-	/* Increment the byte digit counter. */
-	byte_digits++;
-
-	switch (byte_digits) {
+	switch (++byte_digits) {
 		case 1:
 			/* First digit: This must be from zero to two.  Put it in
 			 * the 100's position of the byte sequence holder. */
@@ -1328,8 +1324,7 @@ int get_byte_kbinput(int kbinput)
 			break;
 	}
 
-	/* If we have a result, reset the byte digit counter and the byte
-	 * sequence holder. */
+	/* If we have a result, reset the counter and the byte holder. */
 	if (retval != ERR) {
 		byte_digits = 0;
 		byte = 0;
