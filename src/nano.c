@@ -1980,6 +1980,11 @@ int main(int argc, char **argv)
 		{NULL, 0, NULL, 0}
 	};
 
+#ifdef __linux__
+	/* Check whether we're running on a Linux console. */
+	console = (getenv("DISPLAY") == NULL);
+#endif
+
 	/* Back up the terminal settings so that they can be restored. */
 	tcgetattr(0, &oldterm);
 
@@ -2470,11 +2475,6 @@ int main(int argc, char **argv)
 
 	/* Set up the terminal state. */
 	terminal_init();
-
-#ifdef __linux__
-	/* Check whether we're running on a Linux console. */
-	console = (getenv("DISPLAY") == NULL);
-#endif
 
 #ifdef DEBUG
 	fprintf(stderr, "Main: set up windows\n");
