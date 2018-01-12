@@ -774,6 +774,24 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 	return TRUE;
 }
 
+/* Parse interface color options. */
+colortype *parse_interface_color(char *combostr)
+{
+	short fg, bg;
+	bool bright = FALSE;
+	colortype *newcolor;
+
+	if (!parse_color_names(combostr, &fg, &bg, &bright))
+		return NULL;
+
+	newcolor = (colortype *)nmalloc(sizeof(colortype));
+	newcolor->fg = fg;
+	newcolor->bg = bg;
+	newcolor->bright = bright;
+
+	return newcolor;
+}
+
 /* Read regex strings enclosed in double quotes from the line pointed at
  * by ptr, and store them quoteless in the passed storage place. */
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
@@ -1086,17 +1104,17 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 
 #ifdef ENABLE_COLOR
 		if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
-			specified_color_combo[TITLE_BAR] = option;
+			specified_color_combo[TITLE_BAR] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "numbercolor") == 0)
-			specified_color_combo[LINE_NUMBER] = option;
+			specified_color_combo[LINE_NUMBER] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "selectedcolor") == 0)
-			specified_color_combo[SELECTED_TEXT] = option;
+			specified_color_combo[SELECTED_TEXT] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "statuscolor") == 0)
-			specified_color_combo[STATUS_BAR] = option;
+			specified_color_combo[STATUS_BAR] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "keycolor") == 0)
-			specified_color_combo[KEY_COMBO] = option;
+			specified_color_combo[KEY_COMBO] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "functioncolor") == 0)
-			specified_color_combo[FUNCTION_TAG] = option;
+			specified_color_combo[FUNCTION_TAG] = parse_interface_color(option);
 		else
 #endif
 #ifdef ENABLE_OPERATINGDIR

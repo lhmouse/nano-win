@@ -45,7 +45,6 @@ void set_colorpairs(void)
 {
 	const syntaxtype *sint;
 	bool using_defaults = FALSE;
-	short foreground, background;
 	size_t i;
 
 	/* Tell ncurses to enable colors. */
@@ -58,18 +57,16 @@ void set_colorpairs(void)
 
 	/* Initialize the color pairs for nano's interface elements. */
 	for (i = 0; i < NUMBER_OF_ELEMENTS; i++) {
-		bool bright = FALSE;
+		colortype *color = specified_color_combo[i];
 
-		if (specified_color_combo[i] != NULL &&
-						parse_color_names(specified_color_combo[i],
-								&foreground, &background, &bright)) {
-			if (foreground == -1 && !using_defaults)
-				foreground = COLOR_WHITE;
-			if (background == -1 && !using_defaults)
-				background = COLOR_BLACK;
-			init_pair(i + 1, foreground, background);
+		if (color != NULL) {
+			if (color->fg == -1 && !using_defaults)
+				color->fg = COLOR_WHITE;
+			if (color->bg == -1 && !using_defaults)
+				color->bg = COLOR_BLACK;
+			init_pair(i + 1, color->fg, color->bg);
 			interface_color_pair[i] = COLOR_PAIR(i + 1) | A_BANDAID |
-										(bright ? A_BOLD : A_NORMAL);
+										(color->bright ? A_BOLD : A_NORMAL);
 		} else {
 			if (i != FUNCTION_TAG)
 				interface_color_pair[i] = hilite_attribute;
