@@ -2473,6 +2473,17 @@ int main(int argc, char **argv)
 	if (initscr() == NULL)
 		exit(1);
 
+#ifdef ENABLE_COLOR
+	set_colorpairs();
+#else
+	interface_color_pair[TITLE_BAR] = hilite_attribute;
+	interface_color_pair[LINE_NUMBER] = hilite_attribute;
+	interface_color_pair[SELECTED_TEXT] = hilite_attribute;
+	interface_color_pair[STATUS_BAR] = hilite_attribute;
+	interface_color_pair[KEY_COMBO] = hilite_attribute;
+	interface_color_pair[FUNCTION_TAG] = A_NORMAL;
+#endif
+
 	/* Set up the terminal state. */
 	terminal_init();
 
@@ -2492,17 +2503,6 @@ int main(int argc, char **argv)
 #ifdef ENABLE_MOUSE
 	/* Initialize mouse support. */
 	mouse_init();
-#endif
-
-#ifdef ENABLE_COLOR
-	set_colorpairs();
-#else
-	interface_color_pair[TITLE_BAR] = hilite_attribute;
-	interface_color_pair[LINE_NUMBER] = hilite_attribute;
-	interface_color_pair[SELECTED_TEXT] = hilite_attribute;
-	interface_color_pair[STATUS_BAR] = hilite_attribute;
-	interface_color_pair[KEY_COMBO] = hilite_attribute;
-	interface_color_pair[FUNCTION_TAG] = A_NORMAL;
 #endif
 
 	/* Ask ncurses for the key codes for Control+Left/Right/Up/Down. */
