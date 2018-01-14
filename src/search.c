@@ -328,7 +328,8 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	enable_waiting();
 
 	/* Ensure that the found occurrence is not beyond the starting x. */
-	if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && found_x >= begin_x) ||
+	if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && (found_x > begin_x ||
+						(modus == REPLACING && found_x == begin_x))) ||
 						(ISSET(BACKWARDS_SEARCH) && found_x < begin_x)))
 		return 0;
 
