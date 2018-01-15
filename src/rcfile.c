@@ -591,7 +591,8 @@ short color_to_short(const char *colorname, bool *bright)
 	if (strncasecmp(colorname, "bright", 6) == 0) {
 		*bright = TRUE;
 		colorname += 6;
-	}
+	} else
+		*bright = FALSE;
 
 	if (strcasecmp(colorname, "green") == 0)
 		return COLOR_GREEN;
@@ -624,7 +625,7 @@ short color_to_short(const char *colorname, bool *bright)
 void parse_colors(char *ptr, int rex_flags)
 {
 	short fg, bg;
-	bool bright = FALSE;
+	bool bright;
 	char *item;
 
 	if (!opensyntax) {
@@ -778,8 +779,6 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 colortype *parse_interface_color(char *combostr)
 {
 	colortype *trio = nmalloc(sizeof(colortype));
-
-	trio->bright = FALSE;
 
 	if (parse_color_names(combostr, &trio->fg, &trio->bg, &trio->bright)) {
 		free(combostr);
