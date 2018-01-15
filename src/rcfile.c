@@ -774,22 +774,21 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 	return TRUE;
 }
 
-/* Parse interface color options. */
+/* Parse the argument of an interface color option. */
 colortype *parse_interface_color(char *combostr)
 {
-	short fg, bg;
-	bool bright = FALSE;
-	colortype *newcolor;
+	colortype *trio = nmalloc(sizeof(colortype));
 
-	if (!parse_color_names(combostr, &fg, &bg, &bright))
+	trio->bright = FALSE;
+
+	if (parse_color_names(combostr, &trio->fg, &trio->bg, &trio->bright)) {
+		free(combostr);
+		return trio;
+	} else {
+		free(combostr);
+		free(trio);
 		return NULL;
-
-	newcolor = (colortype *)nmalloc(sizeof(colortype));
-	newcolor->fg = fg;
-	newcolor->bg = bg;
-	newcolor->bright = bright;
-
-	return newcolor;
+	}
 }
 
 /* Read regex strings enclosed in double quotes from the line pointed at
