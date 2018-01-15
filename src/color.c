@@ -57,16 +57,16 @@ void set_colorpairs(void)
 
 	/* Initialize the color pairs for nano's interface elements. */
 	for (i = 0; i < NUMBER_OF_ELEMENTS; i++) {
-		colortype *color = specified_color_combo[i];
+		colortype *combo = color_combo[i];
 
-		if (color != NULL) {
-			if (color->fg == -1 && !using_defaults)
-				color->fg = COLOR_WHITE;
-			if (color->bg == -1 && !using_defaults)
-				color->bg = COLOR_BLACK;
-			init_pair(i + 1, color->fg, color->bg);
+		if (combo != NULL) {
+			if (combo->fg == -1 && !using_defaults)
+				combo->fg = COLOR_WHITE;
+			if (combo->bg == -1 && !using_defaults)
+				combo->bg = COLOR_BLACK;
+			init_pair(i + 1, combo->fg, combo->bg);
 			interface_color_pair[i] = COLOR_PAIR(i + 1) | A_BANDAID |
-										(color->bright ? A_BOLD : A_NORMAL);
+										(combo->bright ? A_BOLD : A_NORMAL);
 		} else {
 			if (i != FUNCTION_TAG)
 				interface_color_pair[i] = hilite_attribute;
@@ -74,8 +74,7 @@ void set_colorpairs(void)
 				interface_color_pair[i] = A_NORMAL;
 		}
 
-		free(specified_color_combo[i]);
-		specified_color_combo[i] = NULL;
+		free(color_combo[i]);
 	}
 
 	/* For each syntax, go through its list of colors and assign each

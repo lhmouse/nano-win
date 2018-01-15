@@ -172,7 +172,7 @@ extern regmatch_t regmatches[10];
 
 extern int hilite_attribute;
 #ifdef ENABLE_COLOR
-extern colortype* specified_color_combo[NUMBER_OF_ELEMENTS];
+extern colortype *color_combo[NUMBER_OF_ELEMENTS];
 #endif
 extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 

@@ -1098,17 +1098,17 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 
 #ifdef ENABLE_COLOR
 		if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
-			specified_color_combo[TITLE_BAR] = parse_interface_color(option);
+			color_combo[TITLE_BAR] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "numbercolor") == 0)
-			specified_color_combo[LINE_NUMBER] = parse_interface_color(option);
+			color_combo[LINE_NUMBER] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "selectedcolor") == 0)
-			specified_color_combo[SELECTED_TEXT] = parse_interface_color(option);
+			color_combo[SELECTED_TEXT] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "statuscolor") == 0)
-			specified_color_combo[STATUS_BAR] = parse_interface_color(option);
+			color_combo[STATUS_BAR] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "keycolor") == 0)
-			specified_color_combo[KEY_COMBO] = parse_interface_color(option);
+			color_combo[KEY_COMBO] = parse_interface_color(option);
 		else if (strcasecmp(rcopts[i].name, "functioncolor") == 0)
-			specified_color_combo[FUNCTION_TAG] = parse_interface_color(option);
+			color_combo[FUNCTION_TAG] = parse_interface_color(option);
 		else
 #endif
 #ifdef ENABLE_OPERATINGDIR

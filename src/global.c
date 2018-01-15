@@ -233,8 +233,8 @@ regmatch_t regmatches[10];
 int hilite_attribute = A_REVERSE;
 		/* The curses attribute we use to highlight something. */
 #ifdef ENABLE_COLOR
-colortype* specified_color_combo[] = {NULL};
-		/* The color combinations as specified in the rcfile. */
+colortype* color_combo[] = {NULL};
+		/* The color combinations for interface elements given in the rcfile. */
 #endif
 int interface_color_pair[] = {0};
 		/* The processed color pairs for the interface elements. */
