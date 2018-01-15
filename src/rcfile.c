@@ -611,11 +611,7 @@ short color_to_short(const char *colorname, bool *bright)
 	else if (strcasecmp(colorname, "black") == 0)
 		return COLOR_BLACK;
 
-	rcfile_error(N_("Color \"%s\" not understood.\n"
-				"Valid colors are \"green\", \"red\", \"blue\",\n"
-				"\"white\", \"yellow\", \"cyan\", \"magenta\" and\n"
-				"\"black\", with the optional prefix \"bright\"\n"
-				"for foreground colors."), colorname);
+	rcfile_error(N_("Color \"%s\" not understood"), colorname);
 	return -1;
 }
 
