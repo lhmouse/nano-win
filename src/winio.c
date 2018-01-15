@@ -316,12 +316,9 @@ int *get_input(WINDOW *win, size_t input_len)
 	key_buffer_len -= input_len;
 
 	/* If the buffer still contains keystrokes, move them to the front. */
-	if (key_buffer_len > 0) {
+	if (key_buffer_len > 0)
 		memmove(key_buffer, key_buffer + input_len, key_buffer_len *
 				sizeof(int));
-		key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
-				sizeof(int));
-	}
 
 	return input;
 }
