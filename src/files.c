@@ -435,7 +435,8 @@ bool open_buffer(const char *filename, bool undoable)
 	if (strcmp(filename, "") != 0) {
 		struct stat fileinfo;
 
-		if (stat(realname, &fileinfo) == 0 && !S_ISREG(fileinfo.st_mode)) {
+		if (stat(realname, &fileinfo) == 0 && !(S_ISREG(fileinfo.st_mode) ||
+					(ISSET(NOREAD_MODE) && S_ISFIFO(fileinfo.st_mode)))) {
 			if (S_ISDIR(fileinfo.st_mode))
 				statusline(ALERT, _("\"%s\" is a directory"), realname);
 			else
