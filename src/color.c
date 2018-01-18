@@ -289,6 +289,7 @@ void check_the_multis(filestruct *line)
 	const colortype *ink;
 	bool astart, anend;
 	regmatch_t startmatch, endmatch;
+	char *afterstart;
 
 	/* If there is no syntax or no multiline regex, there is nothing to do. */
 	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
@@ -302,7 +303,8 @@ void check_the_multis(filestruct *line)
 		alloc_multidata_if_needed(line);
 
 		astart = (regexec(ink->start, line->data, 1, &startmatch, 0) == 0);
-		anend = (regexec(ink->end, line->data, 1, &endmatch, 0) == 0);
+		afterstart = line->data + (astart ? startmatch.rm_eo : 0);
+		anend = (regexec(ink->end, afterstart, 1, &endmatch, 0) == 0);
 
 		/* Check whether the multidata still matches the current situation. */
 		if (line->multidata[ink->id] == CNONE ||
