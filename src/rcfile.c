@@ -848,17 +848,17 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 
 	/* If the argument starts with a quote, find the terminating quote. */
 	if (*ptr == '"') {
-		char *look = ++ptr;
-
-		look += strlen(ptr);
+		char *look = ptr + strlen(ptr);
 
 		while (*look != '"') {
-			if (--look < ptr) {
+			if (--look == ptr) {
 				rcfile_error(N_("Argument of '%s' lacks closing \""), kind);
 				return;
 			}
 		}
+
 		*look = '\0';
+		ptr++;
 	}
 
 	*storage = mallocstrcpy(*storage, ptr);
