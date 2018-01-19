@@ -200,11 +200,8 @@ char *parse_argument(char *ptr)
 	} while (*ptr != '\0');
 
 	if (last_quote == NULL) {
-		if (*ptr == '\0')
-			ptr = NULL;
-		else
-			*ptr++ = '\0';
 		rcfile_error(N_("Argument '%s' has an unterminated \""), ptr_save);
+		ptr = NULL;
 	} else {
 		*last_quote = '\0';
 		ptr = last_quote + 1;
