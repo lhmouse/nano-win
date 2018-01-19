@@ -215,19 +215,14 @@ char *parse_argument(char *ptr)
  * null-terminate it, and return a pointer to the /next/ word. */
 char *parse_next_regex(char *ptr)
 {
-	assert(ptr != NULL);
-
 	/* Continue until the end of line, or until a " followed by a
 	 * blank character or the end of line. */
 	while (*ptr != '\0' && (*ptr != '"' ||
 				(*(ptr + 1) != '\0' && !isblank((unsigned char)ptr[1]))))
 		ptr++;
 
-	assert(*ptr == '"' || *ptr == '\0');
-
 	if (*ptr == '\0') {
-		rcfile_error(
-				N_("Regex strings must begin and end with a \" character"));
+		rcfile_error(N_("Regex strings must begin and end with a \" character"));
 		return NULL;
 	}
 
@@ -269,8 +264,6 @@ void parse_syntax(char *ptr)
 		/* A pointer to what should be the name of the syntax. */
 
 	opensyntax = FALSE;
-
-	assert(ptr != NULL);
 
 	/* Check that the syntax name is not empty. */
 	if (*ptr == '\0' || (*ptr == '"' &&
@@ -324,8 +317,7 @@ void parse_syntax(char *ptr)
 
 	/* The default syntax should have no associated extensions. */
 	if (strcmp(live_syntax->name, "default") == 0 && *ptr != '\0') {
-		rcfile_error(
-				N_("The \"default\" syntax does not accept extensions"));
+		rcfile_error(N_("The \"default\" syntax does not accept extensions"));
 		return;
 	}
 
@@ -359,8 +351,6 @@ void parse_binding(char *ptr, bool dobind)
 	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
 	sc *s, *newsc = NULL;
 	int menu;
-
-	assert(ptr != NULL);
 
 #ifdef DEBUG
 	fprintf(stderr, "Starting the rebinding code...\n");
@@ -620,9 +610,8 @@ void parse_colors(char *ptr, int rex_flags)
 	char *item;
 
 	if (!opensyntax) {
-		rcfile_error(
-				N_("A '%s' command requires a preceding 'syntax' command"),
-				"color");
+		rcfile_error(N_("A '%s' command requires a preceding 'syntax' command"),
+						"color");
 		return;
 	}
 
@@ -657,8 +646,7 @@ void parse_colors(char *ptr, int rex_flags)
 		}
 
 		if (*ptr != '"') {
-			rcfile_error(
-				N_("Regex strings must begin and end with a \" character"));
+			rcfile_error(N_("Regex strings must begin and end with a \" character"));
 			ptr = parse_next_regex(ptr);
 			continue;
 		}
@@ -817,8 +805,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 		regexlisttype *newthing;
 
 		if (*ptr != '"') {
-			rcfile_error(
-				N_("Regex strings must begin and end with a \" character"));
+			rcfile_error(N_("Regex strings must begin and end with a \" character"));
 			return;
 		}
 
@@ -848,8 +835,6 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 /* Gather and store the string after a comment/linter/formatter command. */
 void pick_up_name(const char *kind, char *ptr, char **storage)
 {
-	assert(ptr != NULL);
-
 	if (!opensyntax) {
 		rcfile_error(
 				N_("A '%s' command requires a preceding 'syntax' command"), kind);
