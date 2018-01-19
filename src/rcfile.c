@@ -188,27 +188,25 @@ char *parse_argument(char *ptr)
 	const char *ptr_save = ptr;
 	char *last_quote = NULL;
 
-	assert(ptr != NULL);
-
 	if (*ptr != '"')
 		return parse_next_word(ptr);
 
-	do {
-		ptr++;
-		if (*ptr == '"')
+	while (*ptr != '\0') {
+		if (*++ptr == '"')
 			last_quote = ptr;
-	} while (*ptr != '\0');
+	}
 
 	if (last_quote == NULL) {
 		rcfile_error(N_("Argument '%s' has an unterminated \""), ptr_save);
-		ptr = NULL;
-	} else {
-		*last_quote = '\0';
-		ptr = last_quote + 1;
+		return NULL;
 	}
-	if (ptr != NULL)
-		while (isblank((unsigned char)*ptr))
-			ptr++;
+
+	*last_quote = '\0';
+	ptr = last_quote + 1;
+
+	while (isblank((unsigned char)*ptr))
+		ptr++;
+
 	return ptr;
 }
 
