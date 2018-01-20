@@ -2435,23 +2435,24 @@ void do_justify(bool full_justify)
 	uncutfunc->desc = unjust_tag;
 	display_main_list();
 
-	/* Now get a keystroke and see if it's unjustify.  If not, put back
-	 * the keystroke and return. */
 #ifndef NANO_TINY
-	do {
+	kbinput = KEY_WINCH;
+
+	/* Now wait for the next keystroke. */
+	while (kbinput == KEY_WINCH)
 #endif
+	{
 		statusbar(_("Can now UnJustify!"));
 		place_the_cursor();
 		kbinput = do_input(FALSE);
-#ifndef NANO_TINY
-	} while (kbinput == KEY_WINCH);
-#endif
+	}
 
 	/* Unset the suppression flag after showing the Unjustify message. */
 	suppress_cursorpos = FALSE;
 
 	func = func_from_key(&kbinput);
 
+	/* If the keystroke was Unjustify or Undo, then undo the justification. */
 	if (func == do_uncut_text
 #ifndef NANO_TINY
 						|| func == do_undo
