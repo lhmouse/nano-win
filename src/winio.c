@@ -763,15 +763,17 @@ int parse_kbinput(WINDOW *win)
  * keypad values, into their corresponding key values.  These sequences
  * are generated when the keypad doesn't support the needed keys.
  * Assume that Escape has already been read in. */
-int convert_sequence(const int *seq, size_t length)
+int convert_sequence(const int *seq, size_t length, int *consumed)
 {
 	if (length > 1) {
+		*consumed = 2;
 		switch (seq[0]) {
 			case 'O':
 				switch (seq[1]) {
 					case '1':
 						if (length > 4  && seq[2] == ';') {
 
+		*consumed = 5;
 		switch (seq[3]) {
 			case '2':
 				switch (seq[4]) {
@@ -808,7 +810,8 @@ int convert_sequence(const int *seq, size_t length)
 						}
 						break;
 					case '2':
-						if (length >= 3) {
+						if (length > 2) {
+							*consumed = 3;
 							switch (seq[2]) {
 								case 'P': /* Esc O 2 P == F13 on xterm. */
 									return KEY_F(13);
@@ -822,7 +825,8 @@ int convert_sequence(const int *seq, size_t length)
 						}
 						break;
 					case '5':
-						if (length >= 3) {
+						if (length > 2) {
+							*consumed = 3;
 							switch (seq[2]) {
 								case 'A': /* Esc O 5 A == Ctrl-Up on Haiku. */
 									return CONTROL_UP;
@@ -834,6 +838,7 @@ int convert_sequence(const int *seq, size_t length)
 									return CONTROL_LEFT;
 							}
 						}
+						break;
 					case 'A': /* Esc O A == Up on VT100/VT320/xterm. */
 					case 'B': /* Esc O B == Down on VT100/VT320/xterm. */
 					case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
@@ -933,9 +938,12 @@ int convert_sequence(const int *seq, size_t length)
 				}
 				break;
 			case '[':
+				if (seq[1] < '9')
+					*consumed = 3;
 				switch (seq[1]) {
 					case '1':
 						if (length > 3 && seq[3] == '~') {
+							*consumed = 4;
 							switch (seq[2]) {
 								case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
 									return KEY_F(1);
@@ -957,6 +965,7 @@ int convert_sequence(const int *seq, size_t length)
 							}
 						} else if (length > 4 && seq[2] == ';') {
 
+		*consumed = 5;
 		switch (seq[3]) {
 			case '2':
 				switch (seq[4]) {
@@ -1033,12 +1042,15 @@ int convert_sequence(const int *seq, size_t length)
 #endif
 		}
 
-						} else if (length > 2 && seq[2] == '~')
+						} else if (length > 2 && seq[2] == '~') {
+							*consumed = 3;
 							/* Esc [ 1 ~ == Home on VT320/Linux console. */
 							return KEY_HOME;
+						}
 						break;
 					case '2':
 						if (length > 3 && seq[3] == '~') {
+							*consumed = 4;
 							switch (seq[2]) {
 								case '0': /* Esc [ 2 0 ~ == F9 on VT220/VT320/
 										   * Linux console/xterm/rxvt/Eterm. */
@@ -1146,6 +1158,7 @@ int convert_sequence(const int *seq, size_t length)
 						return KEY_F(2);
 					case 'O':
 						if (length > 2) {
+							*consumed = 3;
 							switch (seq[2]) {
 								case 'P': /* Esc [ O P == F1 on xterm. */
 									return KEY_F(1);
@@ -1191,6 +1204,7 @@ int convert_sequence(const int *seq, size_t length)
 						return arrow_from_abcd(seq[1]);
 					case '[':
 						if (length > 2) {
+							*consumed = 3;
 							switch (seq[2]) {
 								case 'A': /* Esc [ [ A == F1 on Linux console. */
 									return KEY_F(1);
@@ -1236,15 +1250,20 @@ int arrow_from_abcd(int kbinput)
  * isn't empty, and that the initial escape has already been read in. */
 int parse_escape_sequence(WINDOW *win, int kbinput)
 {
-	int retval, *sequence, length;
+	int retval, *sequence, length, consumed;
 
-	/* Put back the non-escape character, get the complete escape
-	 * sequence, translate the sequence into its corresponding key
-	 * value, and save that as the result. */
+	/* Put back the non-escape code, then grab at most five integers
+	 * (the longest possible escape sequence) from the keybuffer and
+	 * translate the sequence into its corresponding keycode. */
 	unget_input(kbinput);
-	length = key_buffer_len;
+	length = (key_buffer_len < 5 ? key_buffer_len : 5);
 	sequence = get_input(NULL, length);
-	retval = convert_sequence(sequence, length);
+	retval = convert_sequence(sequence, length, &consumed);
+
+	/* If not all grabbed integers were consumed, put the leftovers back. */
+	for (int i = length - 1; i >= consumed; i--)
+		unget_input(sequence[i]);
+
 	free(sequence);
 
 	/* If we got an unrecognized escape sequence, notify the user. */
