@@ -180,7 +180,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 				*ran_func = TRUE;
 				if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
 								f->scfunc != do_gotolinecolumn_void)
-					f->scfunc();
+					execute(s);
 			}
 			*finished = TRUE;
 		}

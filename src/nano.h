@@ -439,6 +439,8 @@ typedef struct sc {
 	int ordinal;
 		/* The how-manieth toggle this is, in order to be able to
 		 * keep them in sequence. */
+	char *expansion;
+		/* The string of keycodes to which this shortcut is expanded. */
 #endif
 	struct sc *next;
 		/* Next in the list. */

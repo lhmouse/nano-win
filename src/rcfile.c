@@ -336,6 +336,7 @@ bool is_universal(void (*func)(void))
 		func == do_home || func == do_end ||
 #ifndef NANO_TINY
 		func == do_prev_word_void || func == do_next_word_void ||
+		func == implant ||
 #endif
 		func == do_delete || func == do_backspace ||
 		func == do_cut_text_void || func == do_uncut_text ||
@@ -396,7 +397,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	if (dobind) {
 		funcptr = ptr;
-		ptr = parse_next_word(ptr);
+		ptr = parse_argument(ptr);
 
 		if (funcptr[0] == '\0') {
 			rcfile_error(N_("Must specify a function to bind the key to"));
@@ -414,7 +415,16 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	if (dobind) {
-		newsc = strtosc(funcptr);
+		/* If the thing to bind starts with a double quote, it is a string,
+		 * otherwise it is the name of a function. */
+		if (*funcptr == '"') {
+			newsc = nmalloc(sizeof(sc));
+			newsc->scfunc = implant;
+			newsc->expansion = mallocstrcpy(NULL, funcptr + 1);
+			newsc->toggle = 0;
+		} else
+		    newsc = strtosc(funcptr);
+
 		if (newsc == NULL) {
 			rcfile_error(N_("Cannot map name \"%s\" to a function"), funcptr);
 			goto free_things;

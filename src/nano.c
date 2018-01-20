@@ -1753,7 +1753,8 @@ int do_input(bool allow_funcs)
 			}
 #endif
 			/* Execute the function of the shortcut. */
-			s->scfunc();
+			execute(s);
+
 #ifndef NANO_TINY
 			/* When the marked region changes without Shift being held,
 			 * discard a soft mark.  And when the marked region covers a

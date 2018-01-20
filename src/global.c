@@ -318,6 +318,9 @@ void flip_newbuffer(void)
 void discard_buffer(void)
 {
 }
+void implant(void)
+{
+}
 
 /* Add a function to the function list. */
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
@@ -1378,6 +1381,17 @@ void set_spell_shortcuts(void)
 		replace_scs_for(do_linter, do_spell);
 }
 #endif /* ENABLE_COLOR && ENABLE_SPELLER */
+
+/* Execute the function of the given shortcut. */
+void execute(const sc *shortcut)
+{
+	if (shortcut->scfunc == implant)
+		/* Insert the corresponding string into the keyboard buffer. */
+		for (int i = strlen(shortcut->expansion); i > 0; i--)
+			put_back(shortcut->expansion[i - 1]);
+	else
+		shortcut->scfunc();
+}
 
 const subnfunc *sctofunc(const sc *s)
 {
