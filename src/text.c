@@ -1619,8 +1619,9 @@ bool do_wrap(filestruct *line)
 	/* When requested, snip trailing blanks off the wrapped line. */
 	if (ISSET(TRIM_BLANKS)) {
 		size_t cur_x = move_mbleft(line->data, wrap_loc);
+		size_t typed_x = move_mbleft(line->data, old_x);
 
-		while (is_blank_mbchar(line->data + cur_x)) {
+		while (is_blank_mbchar(line->data + cur_x) && cur_x != typed_x) {
 			openfile->current_x = cur_x;
 			do_delete();
 			cur_x = move_mbleft(line->data, cur_x);
