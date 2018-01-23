@@ -978,6 +978,12 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
 						shift_held = TRUE;
 						return arrow_from_abcd(seq[4]);
+#ifndef NANO_TINY
+					case 'F': /* Esc [ 1 ; 2 F == Shift-End on xterm. */
+						return SHIFT_END;
+					case 'H': /* Esc [ 1 ; 2 H == Shift-Home on xterm. */
+						return SHIFT_HOME;
+#endif
 				}
 				break;
 #ifndef NANO_TINY
