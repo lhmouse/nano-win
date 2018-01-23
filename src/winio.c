@@ -772,7 +772,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 				switch (seq[1]) {
 					case '1':
 						if (length > 4  && seq[2] == ';') {
-
+		/* <-<-<-<-<-<-<- */
 		*consumed = 5;
 		switch (seq[3]) {
 			case '2':
@@ -806,7 +806,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 				}
 				break;
 		}
-
+		/* ->->->->->->-> */
 						}
 						break;
 					case '2':
@@ -942,7 +942,10 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					*consumed = 3;
 				switch (seq[1]) {
 					case '1':
-						if (length > 3 && seq[3] == '~') {
+						if (length > 2 && seq[2] == '~')
+							/* Esc [ 1 ~ == Home on VT320/Linux console. */
+							return KEY_HOME;
+						else if (length > 3 && seq[3] == '~') {
 							*consumed = 4;
 							switch (seq[2]) {
 								case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
@@ -964,7 +967,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 									return KEY_F(8);
 							}
 						} else if (length > 4 && seq[2] == ';') {
-
+		/* <-<-<-<-<-<-<- */
 		*consumed = 5;
 		switch (seq[3]) {
 			case '2':
@@ -1041,11 +1044,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 				break;
 #endif
 		}
-
-						} else if (length > 2 && seq[2] == '~') {
-							*consumed = 3;
-							/* Esc [ 1 ~ == Home on VT320/Linux console. */
-							return KEY_HOME;
+		/* ->->->->->->-> */
 						}
 						break;
 					case '2':
