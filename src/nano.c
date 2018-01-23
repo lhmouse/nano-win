@@ -818,6 +818,8 @@ void usage(void)
 		N_("Fix numeric keypad key confusion problem"));
 	print_opt("-L", "--nonewlines",
 		N_("Don't add newlines to the ends of files"));
+	print_opt("-M", "--trimblanks",
+		N_("Trim tail spaces when hard-wrapping"));
 #ifndef NANO_TINY
 	print_opt("-N", "--noconvert",
 		N_("Don't convert files from DOS/Mac format"));
@@ -2031,7 +2033,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 			case 'b':
@@ -2084,6 +2086,9 @@ int main(int argc, char **argv)
 				break;
 			case 'L':
 				SET(NO_NEWLINES);
+				break;
+			case 'M':
+				SET(TRIM_BLANKS);
 				break;
 #ifndef NANO_TINY
 			case 'N':

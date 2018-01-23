@@ -200,6 +200,11 @@ won't work properly with this option enabled.
 @itemx --nonewlines
 Don't add newlines to the ends of files.
 
+@item -M
+@itemx --trimblanks
+Snip trailing whitespace from the wrapped line when automatic
+hard-wrapping occurs or when text is justified.
+
 @item -N
 @itemx --noconvert
 Disable automatic conversion of files from DOS/Mac format.
