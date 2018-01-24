@@ -1,7 +1,7 @@
 /**************************************************************************
  *   rcfile.c  --  This file is part of GNU nano.                         *
  *                                                                        *
- *   Copyright (C) 2001-2011, 2013-2017 Free Software Foundation, Inc.    *
+ *   Copyright (C) 2001-2011, 2013-2018 Free Software Foundation, Inc.    *
  *   Copyright (C) 2014 Mike Frysinger                                    *
  *   Copyright (C) 2014-2017 Benno Schulenberg                            *
  *                                                                        *

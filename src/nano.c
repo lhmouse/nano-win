@@ -1,7 +1,7 @@
 /**************************************************************************
  *   nano.c  --  This file is part of GNU nano.                           *
  *                                                                        *
- *   Copyright (C) 1999-2011, 2013-2017 Free Software Foundation, Inc.    *
+ *   Copyright (C) 1999-2011, 2013-2018 Free Software Foundation, Inc.    *
  *   Copyright (C) 2014-2017 Benno Schulenberg                            *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
@@ -917,8 +917,8 @@ void version(void)
 #else
 	printf(_(" GNU nano, version %s\n"), VERSION);
 #endif
-	printf(" (C) 1999-2011, 2013-2017 Free Software Foundation, Inc.\n");
-	printf(_(" (C) 2014-%s the contributors to nano\n"), "2017");
+	printf(" (C) 1999-2011, 2013-2018 Free Software Foundation, Inc.\n");
+	printf(_(" (C) 2014-%s the contributors to nano\n"), "2018");
 	printf(_(" Email: nano@nano-editor.org	Web: https://nano-editor.org/"));
 	printf(_("\n Compiled options:"));
 
