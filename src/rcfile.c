@@ -1167,8 +1167,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 				tabsize = -1;
 			}
 			free(option);
-		} else
-			assert(FALSE);
+		}
 	}
 
 #ifdef ENABLE_COLOR

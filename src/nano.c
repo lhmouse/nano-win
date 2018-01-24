@@ -2636,7 +2636,6 @@ int main(int argc, char **argv)
 			refresh_needed = TRUE;
 		}
 #endif
-
 		if (currmenu != MMAIN)
 			display_main_list();
 
@@ -2663,7 +2662,4 @@ int main(int argc, char **argv)
 		/* Read in and interpret keystrokes. */
 		do_input(TRUE);
 	}
-
-	/* We should never get here. */
-	assert(FALSE);
 }
