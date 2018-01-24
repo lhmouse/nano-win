@@ -818,8 +818,10 @@ void usage(void)
 		N_("Fix numeric keypad key confusion problem"));
 	print_opt("-L", "--nonewlines",
 		N_("Don't add newlines to the ends of files"));
+#ifdef ENABLED_WRAPORJUSTIFY
 	print_opt("-M", "--trimblanks",
 		N_("Trim tail spaces when hard-wrapping"));
+#endif
 #ifndef NANO_TINY
 	print_opt("-N", "--noconvert",
 		N_("Don't convert files from DOS/Mac format"));
@@ -1918,6 +1920,9 @@ int main(int argc, char **argv)
 #endif
 		{"rebindkeypad", 0, NULL, 'K'},
 		{"nonewlines", 0, NULL, 'L'},
+#ifdef ENABLED_WRAPORJUSTIFY
+		{"trimblanks", 0, NULL, 'M'},
+#endif
 		{"morespace", 0, NULL, 'O'},
 #ifdef ENABLE_JUSTIFY
 		{"quotestr", 1, NULL, 'Q'},
@@ -2087,9 +2092,11 @@ int main(int argc, char **argv)
 			case 'L':
 				SET(NO_NEWLINES);
 				break;
+#ifdef ENABLED_WRAPORJUSTIFY
 			case 'M':
 				SET(TRIM_BLANKS);
 				break;
+#endif
 #ifndef NANO_TINY
 			case 'N':
 				SET(NO_CONVERT);
