@@ -345,6 +345,9 @@ int do_lockfile(const char *filename)
 		pidstring = charalloc(11);
 		sprintf (pidstring, "%u", (unsigned int)lockpid);
 
+		/* Display newlines in filenames as ^J. */
+		as_an_at = FALSE;
+
 		/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
 		question = _("File %s is being edited (by %s with %s, PID %s); continue?");
 		room = COLS - strlenpt(question) + 7 - strlenpt(lockuser) -
@@ -359,7 +362,7 @@ int do_lockfile(const char *filename)
 			strcat(postedname, fragment);
 			free(fragment);
 		} else
-			postedname = mallocstrcpy(NULL, filename);
+			postedname = display_string(filename, 0, room, FALSE);
 
 		/* Allow extra space for username (14), program name (8), PID (8),
 		 * and terminating \0 (1), minus the %s (2) for the file name. */
@@ -2193,12 +2196,17 @@ int do_writeout(bool exiting, bool withprompt)
 
 				if (name_exists) {
 					char *question = _("File \"%s\" exists; OVERWRITE? ");
+					char *name = display_string(answer, 0,
+										COLS - strlenpt(question) + 1, FALSE);
 					char *message = charalloc(strlen(question) +
-												strlen(answer) + 1);
-					sprintf(message, question, answer);
+												strlen(name) + 1);
+
+					sprintf(message, question, name);
 
 					i = do_yesno_prompt(FALSE, message);
+
 					free(message);
+					free(name);
 
 					if (i < 1)
 						continue;

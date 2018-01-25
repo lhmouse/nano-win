@@ -669,7 +669,6 @@ int do_prompt(bool allow_tabs, bool allow_files,
 int do_yesno_prompt(bool all, const char *msg)
 {
 	int response = -2, width = 16;
-	char *message = display_string(msg, 0, COLS, FALSE);
 
 	/* TRANSLATORS: For the next three strings, if possible, specify
 	 * the single-byte letters for both your language and English.
@@ -717,7 +716,7 @@ int do_yesno_prompt(bool all, const char *msg)
 		/* Color the statusbar over its full width and display the question. */
 		wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 		blank_statusbar();
-		mvwaddnstr(bottomwin, 0, 0, message, actual_x(message, COLS - 1));
+		mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 		wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 		wnoutrefresh(bottomwin);
 
@@ -754,8 +753,6 @@ int do_yesno_prompt(bool all, const char *msg)
 		}
 #endif /* ENABLE_MOUSE */
 	}
-
-	free(message);
 
 	return response;
 }
