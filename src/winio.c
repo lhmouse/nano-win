@@ -665,6 +665,10 @@ int parse_kbinput(WINDOW *win)
 			shift_held = TRUE;
 		case KEY_C1:    /* End (1) on keypad with NumLock off. */
 			return KEY_END;
+#ifdef KEY_EOL
+		case KEY_EOL:    /* Ctrl+End on rxvt-unicode. */
+			return CONTROL_END;
+#endif
 #ifndef NANO_TINY
 #ifdef KEY_SPREVIOUS
 		case KEY_SPREVIOUS:
