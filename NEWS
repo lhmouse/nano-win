@@ -1,3 +1,17 @@
+2018.01.29 - GNU nano 2.9.3 "Córdoba" fixes a segfault with trimblanks
+             that could occur when a typed space caused the word after
+             it to be pushed to the next line.  It further makes macros
+             work also when your keyboard still emits escape sequences,
+             adds the options -M and --trimblanks for the command line,
+             recognizes key combos with Shift on a few more terminals,
+             no longer shows dots in certain prompt texts when visible
+             witespace is turned on, fixes two corner cases when doing
+             replacements in a marked region, allows to open a named
+             pipe again when using --noread, and accurately detects
+             a needed color change when a line contains a start match
+             but not a corresponding end match any more.  Plus some
+             other small fry.
+
 2018.01.02 - GNU nano 2.9.2 "Pussy Riot" correctly displays the Modified
              state when undoing/redoing (also when the file was saved
              somewhere midway), improves the undoing of an automatic

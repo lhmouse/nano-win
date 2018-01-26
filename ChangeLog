@@ -1,3 +1,77 @@
+Changes between v2.9.2 and v2.9.3:
+----------------------------------
+
+Benno Schulenberg (65):
+      build: fix compilation when configured with --enable(tiny,color,nanorc}
+      build: fix compilation with --enable-tiny --enable-justify
+      build: let ./configure fail (not just warn) when curses.h is missing
+      bump version numbers and add a news item for the 2.9.3 release
+      copyright: update the years for the FSF
+      display: wipe the status bar when doing a total refresh
+      docs: remove the note about needing a recent ncurses for macros to work
+      docs: update the FAQ for the changed default location of history files
+      docs: update the TODO file to the current state of affairs
+      gnulib: update to its current upstream state
+      help: don't get stuck when there is an unwrappable piece of text
+      input: consume only the actual length of an escape sequence
+      input: fully reset state when a three-digit character code is cut short
+      input: make <Shift+Tab> do an unindent also on a Manjaro console
+      input: recognize escape sequences for <Shift+PageUp> and <Shift+PageDown>
+      input: recognize more escape sequences for <Shift+Home> and <Shift+End>
+      input: recognize the deviant keycode for <Ctrl+End> in urxvt
+      options: recognize -M and --trimblanks on the command line
+      painting: look for an end match only after a start match, if any
+      prompt: show whitespace only in the filename, not in the whole line
+      replacing: don't skip the first character of a backwards-marked region
+      search: suppress the occurrence at the cursor only when replacing
+      startup: allow a named pipe as file argument when --noread is used
+      startup: make an error message succinct and to the point
+      startup: move the initialization of colors, so any error gets printed
+      syntax: go: colorize only valid octal numbers
+      syntax: lua: do not color debug.setinfo as it doesn't exist
+      syntax: nanohelp: color also the Sh-Tab key combo
+      tweaks: change a 'do' to a 'while', and return early to elide an 'if'
+      tweaks: check for the type of terminal far earlier
+      tweaks: condense a condition and a comment, and reshuffle a line
+      tweaks: condense and rewrap some comments, and reindent two lines
+      tweaks: condense the conditional compilation of shortcut reassignments
+      tweaks: don't bother freeing the key buffer, just reallocate it
+      tweaks: don't bother to reallocate when the keybuffer size decreases
+      tweaks: drop a superfluous parameter, as it is always 1
+      tweaks: drop a useless assert, and don't abort over an unhandled option
+      tweaks: drop two unneeded initializations, and trim a comment
+      tweaks: elide a tiny intermediate buffer, and rename two variables
+      tweaks: exclude --trimblanks when no wrapping or justifying is configured
+      tweaks: fully include Savefile and Wherewas in the tiny version
+      tweaks: indenting text files with tabs is not a good idea
+      tweaks: mark the two blocks that have a deviant indentation
+      tweaks: move a bunch of comments to the lines that they refer to
+      tweaks: move two functions to their proper place, orderingwise
+      tweaks: remove a fragment of dead code
+      tweaks: remove a handful of redundant (because always true) asserts
+      tweaks: remove a superfluous case -- there can never be four digits
+      tweaks: remove a superfluous check, as we insert always one code
+      tweaks: rename a function, for aptness, and drop a superfluous check
+      tweaks: rename a function, to be more distinct
+      tweaks: rename a variable, and further condense some comments
+      tweaks: rename a variable, for more contrast
+      tweaks: rename a variable, to better fit its usage
+      tweaks: rename two variables, and swap their declaration order
+      tweaks: rename two variables, for preciseness and shortness
+      tweaks: reshuffle a couple of lines
+      tweaks: reshuffle a couple of lines, to make a bit more sense
+      tweaks: reshuffle some stuff, and avoid a memory leak
+      tweaks: reshuffle two condition series, to look better
+      tweaks: rewrap a bunch of lines in the NEWS file
+      tweaks: set a modifier in a single place, for conciseness
+      tweaks: swap the row and col parameters to a more consistent order
+      tweaks: transform a parameter, from a pointer to the value itself
+      wrapping: don't trim a blank character that the user just typed
+
+Brand Huntsman (1):
+      startup: parse interface colors when they are read, not when initialized
+
+
 Changes between v2.9.1 and v2.9.2:
 ----------------------------------
 
