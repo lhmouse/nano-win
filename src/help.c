@@ -620,7 +620,7 @@ size_t help_line_len(const char *ptr)
 	else if (wrap_location > 0)
 		return wrap_location;
 	else
-		return 0;
+		return 1;
 }
 
 #endif /* ENABLE_HELP */
