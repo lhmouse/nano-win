@@ -568,7 +568,7 @@ saving.
 
 The recording and playback of keyboard macros works correctly only on a
 terminal emulator, not on a Linux console (VT), because the latter is a
-deficient terminal.  And it works only with recent versions of ncurses.
+deficient terminal.
 
 @node Built-in Help
 @chapter Built-in Help
