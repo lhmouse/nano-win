@@ -1564,21 +1564,21 @@ void unbound_key(int code)
 /* Handle a mouse click on the edit window or the shortcut list. */
 int do_mouse(void)
 {
-	int mouse_col, mouse_row;
-	int retval = get_mouseinput(&mouse_col, &mouse_row, TRUE);
+	int click_row, click_col;
+	int retval = get_mouseinput(&click_col, &click_row, TRUE);
 
 	/* If the click is wrong or already handled, we're done. */
 	if (retval != 0)
 		return retval;
 
 	/* If the click was in the edit window, put the cursor in that spot. */
-	if (wmouse_trafo(edit, &mouse_row, &mouse_col, FALSE)) {
+	if (wmouse_trafo(edit, &click_row, &click_col, FALSE)) {
 		filestruct *current_save = openfile->current;
-		ssize_t row_count = mouse_row - openfile->current_y;
+		ssize_t row_count = click_row - openfile->current_y;
 		size_t leftedge;
 #ifndef NANO_TINY
 		size_t current_x_save = openfile->current_x;
-		bool sameline = (mouse_row == openfile->current_y);
+		bool sameline = (click_row == openfile->current_y);
 			/* Whether the click was on the row where the cursor is. */
 
 		if (ISSET(SOFTWRAP))
@@ -1587,14 +1587,14 @@ int do_mouse(void)
 #endif
 			leftedge = get_page_start(xplustabs());
 
-		/* Move current up or down to the row corresponding to mouse_row. */
+		/* Move current up or down to the row that was clicked on. */
 		if (row_count < 0)
 			go_back_chunks(-row_count, &openfile->current, &leftedge);
 		else
 			go_forward_chunks(row_count, &openfile->current, &leftedge);
 
 		openfile->current_x = actual_x(openfile->current->data,
-								actual_last_column(leftedge, mouse_col));
+								actual_last_column(leftedge, click_col));
 
 #ifndef NANO_TINY
 		/* Clicking where the cursor is toggles the mark, as does clicking

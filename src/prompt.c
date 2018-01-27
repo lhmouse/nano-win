@@ -32,18 +32,18 @@ static size_t statusbar_x = HIGHEST_POSITIVE;
 /* Handle a mouse click on the statusbar prompt or the shortcut list. */
 int do_statusbar_mouse(void)
 {
-	int mouse_x, mouse_y;
-	int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+	int click_row, click_col;
+	int retval = get_mouseinput(&click_col, &click_row, TRUE);
 
 	/* We can click on the statusbar window text to move the cursor. */
-	if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
+	if (retval == 0 && wmouse_trafo(bottomwin, &click_row, &click_col, FALSE)) {
 		size_t start_col = strlenpt(prompt) + 2;
 
 		/* Move to where the click occurred. */
-		if (mouse_x >= start_col && mouse_y == 0) {
+		if (click_row == 0 && click_col >= start_col) {
 			statusbar_x = actual_x(answer,
 							get_statusbar_page_start(start_col, start_col +
-							statusbar_xplustabs()) + mouse_x - start_col);
+							statusbar_xplustabs()) + click_col - start_col);
 			update_the_statusbar();
 		}
 	}
