@@ -1586,25 +1586,19 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 /* Handle any mouse event that may have occurred.  We currently handle
  * releases/clicks of the first mouse button.  If allow_shortcuts is
  * TRUE, releasing/clicking on a visible shortcut will put back the
- * keystroke associated with that shortcut.  If NCURSES_MOUSE_VERSION is
- * at least 2, we also currently handle presses of the fourth mouse
- * button (upward rolls of the mouse wheel) by putting back the
- * keystrokes to move up, and presses of the fifth mouse button
- * (downward rolls of the mouse wheel) by putting back the keystrokes to
- * move down.  We also store the coordinates of a mouse event that needs
- * to be handled in mouse_x and mouse_y, relative to the entire screen.
- * Return -1 on error, 0 if the mouse event needs to be handled, 1 if
- * it's been handled by putting back keystrokes that need to be handled.
- * or 2 if it's been ignored.  Assume that KEY_MOUSE has already been
- * read in. */
+ * keystroke associated with that shortcut.  If ncurses supports them,
+ * we also handle presses of the fourth mouse button (upward rolls of
+ * the mouse wheel) by putting back keystrokes to move up, and presses
+ * of the fifth mouse button (downward rolls of the mouse wheel) by
+ * putting back keystrokes to move down.  We also store the coordinates
+ * of a mouse event that needs further handling in mouse_x and mouse_y.
+ * Return -1 on error, 0 if the mouse event needs to be handled, 1 if it's
+ * been handled by putting back keystrokes, or 2 if it's been ignored. */
 int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 {
 	MEVENT mevent;
 	bool in_bottomwin;
 	subnfunc *f;
-
-	*mouse_x = -1;
-	*mouse_y = -1;
 
 	/* First, get the actual mouse event. */
 	if (getmouse(&mevent) == ERR)
@@ -1618,7 +1612,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 
 	/* Handle releases/clicks of the first mouse button. */
 	if (mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
-		/* If we're allowing shortcuts, the current shortcut list is
+		/* If we're allowing shortcuts, and the current shortcut list is
 		 * being displayed on the last two lines of the screen, and the
 		 * first mouse button was released on/clicked inside it, we need
 		 * to figure out which shortcut was released on/clicked and put
