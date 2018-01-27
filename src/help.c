@@ -220,8 +220,8 @@ void do_help(void)
 #endif
 #ifdef ENABLE_MOUSE
 		} else if (kbinput == KEY_MOUSE) {
-			int dummy_x, dummy_y;
-			get_mouseinput(&dummy_x, &dummy_y, TRUE);
+			int dummy_row, dummy_col;
+			get_mouseinput(&dummy_row, &dummy_col, TRUE);
 #endif
 		} else if (func == do_exit) {
 			/* Exit from the help viewer. */

@@ -1597,7 +1597,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
  * it's been handled by putting back keystrokes that need to be handled.
  * or 2 if it's been ignored.  Assume that KEY_MOUSE has already been
  * read in. */
-int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
+int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 {
 	MEVENT mevent;
 	bool in_bottomwin;

@@ -33,7 +33,7 @@ static size_t statusbar_x = HIGHEST_POSITIVE;
 int do_statusbar_mouse(void)
 {
 	int click_row, click_col;
-	int retval = get_mouseinput(&click_col, &click_row, TRUE);
+	int retval = get_mouseinput(&click_row, &click_col, TRUE);
 
 	/* We can click on the statusbar window text to move the cursor. */
 	if (retval == 0 && wmouse_trafo(bottomwin, &click_row, &click_col, FALSE)) {

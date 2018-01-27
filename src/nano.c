@@ -1565,7 +1565,7 @@ void unbound_key(int code)
 int do_mouse(void)
 {
 	int click_row, click_col;
-	int retval = get_mouseinput(&click_col, &click_row, TRUE);
+	int retval = get_mouseinput(&click_row, &click_col, TRUE);
 
 	/* If the click is wrong or already handled, we're done. */
 	if (retval != 0)

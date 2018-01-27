@@ -629,7 +629,7 @@ int get_control_kbinput(int kbinput);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE
-int get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
+int get_mouseinput(int *mouse_row, int *mouse_col, bool allow_shortcuts);
 #endif
 const sc *get_shortcut(int *kbinput);
 void blank_row(WINDOW *win, int y, int x, int n);
