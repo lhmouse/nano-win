@@ -442,15 +442,9 @@ void enable_flow_control(void);
 void terminal_init(void);
 void unbound_key(int code);
 int do_input(bool allow_funcs);
-#ifdef ENABLE_MOUSE
-int do_mouse(void);
-#endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* Most functions in prompt.c. */
-#ifdef ENABLE_MOUSE
-int do_statusbar_mouse(void);
-#endif
 void do_statusbar_output(int *the_input, size_t input_len, bool filtering);
 void do_statusbar_home(void);
 void do_statusbar_end(void);

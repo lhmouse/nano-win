@@ -28,6 +28,30 @@ static char *prompt = NULL;
 static size_t statusbar_x = HIGHEST_POSITIVE;
 		/* The cursor position in answer. */
 
+#ifdef ENABLE_MOUSE
+/* Handle a mouse click on the statusbar prompt or the shortcut list. */
+int do_statusbar_mouse(void)
+{
+	int mouse_x, mouse_y;
+	int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+
+	/* We can click on the statusbar window text to move the cursor. */
+	if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
+		size_t start_col = strlenpt(prompt) + 2;
+
+		/* Move to where the click occurred. */
+		if (mouse_x >= start_col && mouse_y == 0) {
+			statusbar_x = actual_x(answer,
+							get_statusbar_page_start(start_col, start_col +
+							statusbar_xplustabs()) + mouse_x - start_col);
+			update_the_statusbar();
+		}
+	}
+
+	return retval;
+}
+#endif
+
 /* Read in a keystroke, interpret it if it is a shortcut or toggle, and
  * return it.  Set ran_func to TRUE if we ran a function associated with
  * a shortcut key, and set finished to TRUE if we're done after running
@@ -164,32 +188,6 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 
 	return input;
 }
-
-#ifdef ENABLE_MOUSE
-/* Handle a mouse click on the statusbar prompt or the shortcut list. */
-int do_statusbar_mouse(void)
-{
-	int mouse_x, mouse_y;
-	int retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
-
-	/* We can click on the statusbar window text to move the cursor. */
-	if (retval == 0 && wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE)) {
-		size_t start_col;
-
-		start_col = strlenpt(prompt) + 2;
-
-		/* Move to where the click occurred. */
-		if (mouse_x >= start_col && mouse_y == 0) {
-			statusbar_x = actual_x(answer,
-						get_statusbar_page_start(start_col, start_col +
-						statusbar_xplustabs()) + mouse_x - start_col);
-			update_the_statusbar();
-		}
-	}
-
-	return retval;
-}
-#endif
 
 /* The user typed input_len multibyte characters.  Add them to the answer,
  * filtering out ASCII control characters if filtering is TRUE. */

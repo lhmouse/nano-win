@@ -1560,6 +1560,60 @@ void unbound_key(int code)
 		statusline(ALERT, _("Unbound key: %c"), code);
 }
 
+#ifdef ENABLE_MOUSE
+/* Handle a mouse click on the edit window or the shortcut list. */
+int do_mouse(void)
+{
+	int mouse_col, mouse_row;
+	int retval = get_mouseinput(&mouse_col, &mouse_row, TRUE);
+
+	/* If the click is wrong or already handled, we're done. */
+	if (retval != 0)
+		return retval;
+
+	/* If the click was in the edit window, put the cursor in that spot. */
+	if (wmouse_trafo(edit, &mouse_row, &mouse_col, FALSE)) {
+		filestruct *current_save = openfile->current;
+		ssize_t row_count = mouse_row - openfile->current_y;
+		size_t leftedge;
+#ifndef NANO_TINY
+		size_t current_x_save = openfile->current_x;
+		bool sameline = (mouse_row == openfile->current_y);
+			/* Whether the click was on the row where the cursor is. */
+
+		if (ISSET(SOFTWRAP))
+			leftedge = leftedge_for(xplustabs(), openfile->current);
+		else
+#endif
+			leftedge = get_page_start(xplustabs());
+
+		/* Move current up or down to the row corresponding to mouse_row. */
+		if (row_count < 0)
+			go_back_chunks(-row_count, &openfile->current, &leftedge);
+		else
+			go_forward_chunks(row_count, &openfile->current, &leftedge);
+
+		openfile->current_x = actual_x(openfile->current->data,
+								actual_last_column(leftedge, mouse_col));
+
+#ifndef NANO_TINY
+		/* Clicking where the cursor is toggles the mark, as does clicking
+		 * beyond the line length with the cursor at the end of the line. */
+		if (sameline && openfile->current_x == current_x_save)
+			do_mark();
+		else
+#endif
+			/* The cursor moved; clean the cutbuffer on the next cut. */
+			cutbuffer_reset();
+
+		edit_redraw(current_save, CENTERING);
+	}
+
+	/* No more handling is needed. */
+	return 2;
+}
+#endif /* ENABLE_MOUSE */
+
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
  * otherwise, insert it into the edit buffer.  If allow_funcs is FALSE, don't
  * do anything with the keystroke -- just return it. */
@@ -1734,60 +1788,6 @@ int do_input(bool allow_funcs)
 
 	return input;
 }
-
-#ifdef ENABLE_MOUSE
-/* Handle a mouse click on the edit window or the shortcut list. */
-int do_mouse(void)
-{
-	int mouse_col, mouse_row;
-	int retval = get_mouseinput(&mouse_col, &mouse_row, TRUE);
-
-	/* If the click is wrong or already handled, we're done. */
-	if (retval != 0)
-		return retval;
-
-	/* If the click was in the edit window, put the cursor in that spot. */
-	if (wmouse_trafo(edit, &mouse_row, &mouse_col, FALSE)) {
-		filestruct *current_save = openfile->current;
-		ssize_t row_count = mouse_row - openfile->current_y;
-		size_t leftedge;
-#ifndef NANO_TINY
-		size_t current_x_save = openfile->current_x;
-		bool sameline = (mouse_row == openfile->current_y);
-			/* Whether the click was on the row where the cursor is. */
-
-		if (ISSET(SOFTWRAP))
-			leftedge = leftedge_for(xplustabs(), openfile->current);
-		else
-#endif
-			leftedge = get_page_start(xplustabs());
-
-		/* Move current up or down to the row corresponding to mouse_row. */
-		if (row_count < 0)
-			go_back_chunks(-row_count, &openfile->current, &leftedge);
-		else
-			go_forward_chunks(row_count, &openfile->current, &leftedge);
-
-		openfile->current_x = actual_x(openfile->current->data,
-								actual_last_column(leftedge, mouse_col));
-
-#ifndef NANO_TINY
-		/* Clicking where the cursor is toggles the mark, as does clicking
-		 * beyond the line length with the cursor at the end of the line. */
-		if (sameline && openfile->current_x == current_x_save)
-			do_mark();
-		else
-#endif
-			/* The cursor moved; clean the cutbuffer on the next cut. */
-			cutbuffer_reset();
-
-		edit_redraw(current_save, CENTERING);
-	}
-
-	/* No more handling is needed. */
-	return 2;
-}
-#endif /* ENABLE_MOUSE */
 
 /* The user typed output_len multibyte characters.  Add them to the edit
  * buffer, filtering out all ASCII control characters if allow_cntrls is
