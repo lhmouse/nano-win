@@ -3301,6 +3301,7 @@ void total_refresh(void)
 #endif
 	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
 		edit_refresh();
+	wipe_statusbar();
 	bottombars(currmenu);
 }
 
