@@ -26,7 +26,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
-#ifndef NANO_TINY
+#if defined(__linux__) || !defined(NANO_TINY)
 #include <sys/ioctl.h>
 #endif
 #ifdef ENABLE_UTF8
@@ -38,6 +38,9 @@
 #include <termios.h>
 #endif
 #include <unistd.h>
+#ifdef __linux__
+#include <sys/vt.h>
+#endif
 
 #ifdef ENABLE_MOUSE
 static int oldinterval = -1;
@@ -1988,8 +1991,10 @@ int main(int argc, char **argv)
 	};
 
 #ifdef __linux__
+	struct vt_stat dummy;
+
 	/* Check whether we're running on a Linux console. */
-	console = (getenv("DISPLAY") == NULL);
+	console = (ioctl(0, VT_GETSTATE, &dummy) == 0);
 #endif
 
 	/* Back up the terminal settings so that they can be restored. */
