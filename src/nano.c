@@ -1994,7 +1994,7 @@ int main(int argc, char **argv)
 	struct vt_stat dummy;
 
 	/* Check whether we're running on a Linux console. */
-	console = (ioctl(0, VT_GETSTATE, &dummy) == 0);
+	on_a_vt = (ioctl(0, VT_GETSTATE, &dummy) == 0);
 #endif
 
 	/* Back up the terminal settings so that they can be restored. */

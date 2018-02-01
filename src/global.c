@@ -32,8 +32,8 @@ volatile sig_atomic_t the_window_resized = FALSE;
 #endif
 
 #ifdef __linux__
-bool console;
-		/* Whether we're running on a Linux VC (TRUE) or under X (FALSE). */
+bool on_a_vt;
+		/* Whether we're running on a Linux VT or on something else. */
 #endif
 
 bool meta_key;

@@ -30,7 +30,7 @@ extern volatile sig_atomic_t the_window_resized;
 #endif
 
 #ifdef __linux__
-extern bool console;
+extern bool on_a_vt;
 #endif
 
 extern bool meta_key;
