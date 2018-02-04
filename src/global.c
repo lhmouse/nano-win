@@ -1730,7 +1730,7 @@ int strtomenu(const char *input)
 		return MWHEREIS;
 	else if (!strcasecmp(input, "replace"))
 		return MREPLACE;
-	else if (!strcasecmp(input, "replacewith2"))
+	else if (!strcasecmp(input, "replacewith"))
 		return MREPLACEWITH;
 	else if (!strcasecmp(input, "gotoline"))
 		return MGOTOLINE;
