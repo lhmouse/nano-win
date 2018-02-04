@@ -1974,7 +1974,6 @@ int main(int argc, char **argv)
 		{"locking", 0, NULL, 'G'},
 		{"historylog", 0, NULL, 'H'},
 		{"noconvert", 0, NULL, 'N'},
-		{"poslog", 0, NULL, 'P'},  /* deprecated form, remove in 2018 */
 		{"positionlog", 0, NULL, 'P'},
 		{"smooth", 0, NULL, 'S'},
 		{"wordbounds", 0, NULL, 'W'},

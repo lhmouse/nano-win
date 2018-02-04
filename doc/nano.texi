@@ -217,7 +217,6 @@ Use the blank line below the title bar as extra editing space.
 @itemx --positionlog
 For the 200 most recent files, log the last position of the cursor,
 and place it at that position again upon reopening such a file.
-(The old form of this option, @option{--poslog}, is deprecated.)
 
 @item -Q "@var{characters}"
 @itemx --quotestr="@var{characters}"
@@ -731,7 +730,6 @@ Do case-sensitive searches by default.
 
 @item set constantshow
 Constantly display the cursor position on the status bar.
-(The old form of this option, @code{set const}, is deprecated.)
 Note that this overrides @option{quickblank}.
 
 @item set cutfromcursor
@@ -815,7 +813,6 @@ directory feature is turned off.
 @item set positionlog
 Save the cursor position of files between editing sessions.
 The cursor position is remembered for the 200 most-recently edited files.
-(The old form of this option, @code{set poslog}, is deprecated.)
 
 @item set preserve
 Preserve the XON and XOFF keys (@kbd{^Q} and @kbd{^S}).
@@ -1102,7 +1099,6 @@ Starts a backward search for text in the current buffer.
 
 @item searchagain
 Repeats the last search command without prompting.
-(The form @code{research} is deprecated.)
 
 @item findprevious
 As @code{searchagain}, but always in the backward direction.
@@ -1137,7 +1133,6 @@ Cuts all text from the cursor position till the end of the buffer.
 
 @item curpos
 Shows the current cursor position: the line, column, and character positions.
-(The form @code{cursorpos} is deprecated.)
 
 @item wordcount
 Counts the number of words, lines and characters in the current buffer.
@@ -1275,7 +1270,6 @@ Toggles case sensitivity in searching (search/replace menus only).
 
 @item regexp
 Toggles whether searching/replacing is based on literal strings or regular expressions.
-(The form @code{regex} is deprecated.)
 
 @item backwards
 Toggles whether searching/replacing goes forward or backward.
@@ -1288,7 +1282,6 @@ Shows the next history entry in the prompt menus (e.g.@: search).
 
 @item flipreplace
 Toggles between searching for something and replacing something.
-(The form @code{dontreplace} is deprecated.)
 
 @item flipgoto
 Toggles between searching for text and targeting a line number.
@@ -1300,7 +1293,6 @@ Toggles between inserting a file and executing a command.
 @item flipnewbuffer
 Toggles between inserting into the current buffer and into a new
 empty buffer.
-(The form @code{newbuffer} is deprecated.)
 
 @item dosformat
 When writing a file, switches to writing a DOS format (CR/LF).
@@ -1406,7 +1398,6 @@ The 'search to replace' menu.
 
 @item replacewith
 The 'replace with' menu, which comes up after 'search to replace'.
-(The form @code{replace2} is deprecated.)
 
 @item gotoline
 The 'goto line (and column)' menu.

@@ -42,7 +42,6 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_JUSTIFY
 	{"brackets", 0},
 #endif
-	{"const", CONSTANT_SHOW},  /* deprecated form, remove in 2018 */
 	{"constantshow", CONSTANT_SHOW},
 #ifdef ENABLED_WRAPORJUSTIFY
 	{"fill", 0},
@@ -67,7 +66,6 @@ static const rcoption rcopts[] = {
 	{"operatingdir", 0},
 #endif
 #ifdef ENABLE_HISTORIES
-	{"poslog", POS_HISTORY},  /* deprecated form, remove in 2018 */
 	{"positionlog", POS_HISTORY},
 #endif
 	{"preserve", PRESERVE},

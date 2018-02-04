@@ -1485,8 +1485,7 @@ sc *strtosc(const char *input)
 		s->scfunc = do_search_forward;
 	else if (!strcasecmp(input, "wherewas"))
 		s->scfunc = do_search_backward;
-	else if (!strcasecmp(input, "searchagain") ||
-			 !strcasecmp(input, "research"))  /* Deprecated.  Remove in 2018. */
+	else if (!strcasecmp(input, "searchagain"))
 		s->scfunc = do_research;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "findprevious"))
@@ -1517,8 +1516,7 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "linter"))
 		s->scfunc = do_linter;
 #endif
-	else if (!strcasecmp(input, "curpos") ||
-			 !strcasecmp(input, "cursorpos"))  /* Deprecated.  Remove in 2018. */
+	else if (!strcasecmp(input, "curpos"))
 		s->scfunc = do_cursorpos_void;
 	else if (!strcasecmp(input, "gotoline"))
 		s->scfunc = do_gotolinecolumn_void;
@@ -1622,13 +1620,11 @@ sc *strtosc(const char *input)
 		s->scfunc = do_suspend_void;
 	else if (!strcasecmp(input, "casesens"))
 		s->scfunc = case_sens_void;
-	else if (!strcasecmp(input, "regexp") ||
-			 !strcasecmp(input, "regex"))  /* Deprecated.  Remove in 2018. */
+	else if (!strcasecmp(input, "regexp"))
 		s->scfunc = regexp_void;
 	else if (!strcasecmp(input, "backwards"))
 		s->scfunc = backwards_void;
-	else if (!strcasecmp(input, "flipreplace") ||
-			 !strcasecmp(input, "dontreplace"))  /* Deprecated.  Remove in 2018. */
+	else if (!strcasecmp(input, "flipreplace"))
 		s->scfunc = flip_replace;
 	else if (!strcasecmp(input, "flipgoto") ||
 			 !strcasecmp(input, "gototext"))  /* Deprecated.  Remove end of 2018. */
@@ -1654,8 +1650,7 @@ sc *strtosc(const char *input)
 		s->scfunc = flip_execute;
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	else if (!strcasecmp(input, "flipnewbuffer") ||
-			 !strcasecmp(input, "newbuffer"))  /* Deprecated.  Remove in 2018. */
+	else if (!strcasecmp(input, "flipnewbuffer"))
 		s->scfunc = flip_newbuffer;
 #endif
 #ifdef ENABLE_BROWSER
@@ -1735,8 +1730,7 @@ int strtomenu(const char *input)
 		return MWHEREIS;
 	else if (!strcasecmp(input, "replace"))
 		return MREPLACE;
-	else if (!strcasecmp(input, "replace2") ||  /* Deprecated.  Remove in 2018. */
-			 !strcasecmp(input, "replacewith"))
+	else if (!strcasecmp(input, "replacewith2"))
 		return MREPLACEWITH;
 	else if (!strcasecmp(input, "gotoline"))
 		return MGOTOLINE;
