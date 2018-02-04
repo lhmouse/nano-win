@@ -189,7 +189,7 @@ int search_init(bool replacing, bool use_answer)
 	} else if (func == flip_replace) {
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;    /* Call the opposite search function. */
-	} else if (func == do_gotolinecolumn_void) {
+	} else if (func == flip_goto) {
 		do_gotolinecolumn(openfile->current->lineno,
 						openfile->placewewant + 1, TRUE, TRUE);
 		return 3;
@@ -810,7 +810,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 			return;
 		}
 
-		if (func_from_key(&i) == gototext_void) {
+		if (func_from_key(&i) == flip_goto) {
 			/* Retain what the user typed so far and switch to searching. */
 			search_init(TRUE, TRUE);
 			do_search();

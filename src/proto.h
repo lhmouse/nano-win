@@ -692,7 +692,7 @@ void case_sens_void(void);
 void regexp_void(void);
 void backwards_void(void);
 void flip_replace(void);
-void gototext_void(void);
+void flip_goto(void);
 #ifdef ENABLE_BROWSER
 void to_files_void(void);
 void goto_dir_void(void);

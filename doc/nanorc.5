@@ -579,9 +579,6 @@ Goes to the last line of the file.
 Goes to a specific line (and column if specified).  Negative numbers count
 from the end of the file (and end of the line).
 .TP
-.B gototext
-Switches from targeting a line number to searching for text.
-.TP
 .B findbracket
 Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 (pairs) with the one under the cursor.
@@ -646,6 +643,10 @@ Shows the next history entry in the prompt menus (e.g. search).
 .B flipreplace
 Toggles between searching for something and replacing something.
 (The form 'dontreplace' is deprecated.)
+.TP
+.B flipgoto
+Toggles between searching for text and targeting a line number.
+(The form 'gototext' is deprecated.)
 .TP
 .B flipexecute
 Toggles between inserting a file and executing a command.

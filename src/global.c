@@ -279,7 +279,7 @@ void backwards_void(void)
 void flip_replace(void)
 {
 }
-void gototext_void(void)
+void flip_goto(void)
 {
 }
 #ifdef ENABLE_BROWSER
@@ -822,7 +822,7 @@ void shortcut_init(void)
 	add_to_funcs(do_full_justify, MWHEREIS,
 		fulljustify_tag, WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 
-	add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
+	add_to_funcs(flip_goto, MWHEREIS,
 		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -991,11 +991,11 @@ void shortcut_init(void)
 #endif
 
 #ifndef ENABLE_JUSTIFY
-	add_to_funcs(do_gotolinecolumn_void, MWHEREIS,
+	add_to_funcs(flip_goto, MWHEREIS,
 		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
-	add_to_funcs(gototext_void, MGOTOLINE,
+	add_to_funcs(flip_goto, MGOTOLINE,
 		N_("Go To Text"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
 #ifndef NANO_TINY
@@ -1281,8 +1281,7 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^W", 0, do_para_begin_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^O", 0, do_para_end_void, 0);
 #endif
-	add_to_sclist(MWHEREIS, "^T", 0, do_gotolinecolumn_void, 0);
-	add_to_sclist(MGOTOLINE, "^T", 0, gototext_void, 0);
+	add_to_sclist(MWHEREIS|MGOTOLINE, "^T", 0, flip_goto, 0);
 #ifdef ENABLE_HISTORIES
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^P", 0, get_history_older_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^N", 0, get_history_newer_void, 0);
@@ -1617,8 +1616,9 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "flipreplace") ||
 			 !strcasecmp(input, "dontreplace"))  /* Deprecated.  Remove in 2018. */
 		s->scfunc = flip_replace;
-	else if (!strcasecmp(input, "gototext"))
-		s->scfunc = gototext_void;
+	else if (!strcasecmp(input, "flipgoto") ||
+			 !strcasecmp(input, "gototext"))  /* Deprecated.  Remove end of 2018. */
+		s->scfunc = flip_goto;
 #ifdef ENABLE_HISTORIES
 	else if (!strcasecmp(input, "prevhistory"))
 		s->scfunc = get_history_older_void;
