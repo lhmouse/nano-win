@@ -798,8 +798,6 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		bool interactive)
 {
 	if (interactive) {
-		functionptrtype func;
-
 		/* Ask for the line and column. */
 		int i = do_prompt(FALSE, FALSE, MGOTOLINE,
 				use_answer ? answer : NULL, NULL,
@@ -812,9 +810,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 			return;
 		}
 
-		func = func_from_key(&i);
-
-		if (func == gototext_void) {
+		if (func_from_key(&i) == gototext_void) {
 			/* Retain what the user typed so far and switch to searching. */
 			search_init(TRUE, TRUE);
 			do_search();
