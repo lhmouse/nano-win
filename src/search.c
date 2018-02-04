@@ -164,6 +164,7 @@ void search_init(bool replacing, bool keep_the_answer)
 			else
 				go_looking();
 
+			search_replace_abort();
 			return;
 		}
 
@@ -402,6 +403,8 @@ void do_research(void)
 	currmenu = MWHEREIS;
 
 	go_looking();
+
+	search_replace_abort();
 }
 
 /* Search for the global string 'last_search'.  Inform the user when
@@ -432,7 +435,6 @@ void go_looking(void)
 #endif
 
 	edit_redraw(was_current, CENTERING);
-	search_replace_abort();
 }
 
 /* Calculate the size of the replacement text, taking possible
@@ -726,7 +728,6 @@ void ask_for_replacement(void)
 	if (i == -1 || i > 0) {
 		if (i == -1)
 			statusbar(_("Cancelled"));
-		search_replace_abort();
 		return;
 	}
 
@@ -748,8 +749,6 @@ void ask_for_replacement(void)
 	if (numreplaced >= 0)
 		statusline(HUSH, P_("Replaced %zd occurrence",
 				"Replaced %zd occurrences", numreplaced), numreplaced);
-
-	search_replace_abort();
 }
 
 /* Go to the specified line and x position. */
