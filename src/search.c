@@ -98,7 +98,7 @@ void search_replace_abort(void)
  *
  * replacing is TRUE if we call from do_replace(), and FALSE if called
  * from do_search(). */
-int search_init(bool replacing, bool use_answer)
+void search_init(bool replacing, bool use_answer)
 {
 	int i = 0;
 	char *buf;
@@ -106,10 +106,9 @@ int search_init(bool replacing, bool use_answer)
 		/* The search string we'll be using. */
 	functionptrtype func;
 
-	/* If use_answer is TRUE, set backupstring to answer and get out. */
+	/* If use_answer is TRUE, set backupstring to answer. */
 	if (use_answer) {
 		backupstring = mallocstrcpy(backupstring, answer);
-		return 0;
 	}
 
 	/* We display the search prompt below.  If the user types a partial
@@ -128,6 +127,7 @@ int search_init(bool replacing, bool use_answer)
 	} else
 		buf = mallocstrcpy(NULL, "");
 
+	while (TRUE) {
 	/* This is now one simple call.  It just does a lot. */
 	i = do_prompt(FALSE, FALSE,
 				inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
@@ -144,17 +144,13 @@ int search_init(bool replacing, bool use_answer)
 #endif
 				_(" (to replace)") : "", buf);
 
-	/* Release buf now that we don't need it anymore. */
-	free(buf);
-
-	free(backupstring);
-	backupstring = NULL;
-
 	/* If the search was cancelled, or we have a blank answer and
 	 * nothing was searched for yet during this session, get out. */
 	if (i == -1 || (i == -2 && *last_search == '\0')) {
 		statusbar(_("Cancelled"));
-		return -1;
+		search_replace_abort();
+		free(buf);
+		return;
 	}
 
 	/* If Enter was pressed, see what we got. */
@@ -166,36 +162,43 @@ int search_init(bool replacing, bool use_answer)
 			update_history(&search_history, answer);
 #endif
 		}
-		if (ISSET(USE_REGEXP) && !regexp_init(last_search))
-			return -1;
+
+		free(buf);
+
+		if (ISSET(USE_REGEXP) && !regexp_init(last_search)) {
+			search_replace_abort();
+			return;
+		}
+
+		if (replacing)
+			ask_for_replacement();
 		else
-			return 0;    /* We have a valid string or regex. */
+			go_looking();
+
+		return;
 	}
+
+	backupstring = mallocstrcpy(backupstring, answer);
 
 	func = func_from_key(&i);
 
 	if (func == case_sens_void) {
 		TOGGLE(CASE_SENSITIVE);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
 	} else if (func == backwards_void) {
 		TOGGLE(BACKWARDS_SEARCH);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
 	} else if (func == regexp_void) {
 		TOGGLE(USE_REGEXP);
-		backupstring = mallocstrcpy(backupstring, answer);
-		return 1;
 	} else if (func == flip_replace) {
-		backupstring = mallocstrcpy(backupstring, answer);
-		return -2;    /* Call the opposite search function. */
-	} else if (func == flip_goto) {
-		do_gotolinecolumn(openfile->current->lineno,
+		replacing = !replacing;
+	} else {
+		if (func == flip_goto)
+			do_gotolinecolumn(openfile->current->lineno,
 						openfile->placewewant + 1, TRUE, TRUE);
-		return 3;
+		search_replace_abort();
+		free(buf);
+		return;
 	}
-
-	return -1;
+	}
 }
 
 /* Look for needle, starting at (current, current_x).  begin is the line
@@ -353,17 +356,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 /* Ask what to search for and then go looking for it. */
 void do_search(void)
 {
-	int i = search_init(FALSE, FALSE);
-
-	if (i == -1)    /* Cancelled, or some other exit reason. */
-		search_replace_abort();
-	else if (i == -2)    /* Do a replace instead. */
-		do_replace();
-	else if (i == 1)    /* Toggled something. */
-		do_search();
-
-	if (i == 0)
-		go_looking();
+	search_init(FALSE, FALSE);
 }
 
 /* Search forward for a string. */
@@ -716,29 +709,20 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 /* Replace a string. */
 void do_replace(void)
 {
-	filestruct *edittop_save, *begin;
-	size_t firstcolumn_save, begin_x;
-	ssize_t numreplaced;
-	int i;
-
 	if (ISSET(VIEW_MODE)) {
 		print_view_warning();
 		return;
 	}
 
-	i = search_init(TRUE, FALSE);
+	search_init(TRUE, FALSE);
+}
 
-	if (i == -1)    /* Cancelled, or some other exit reason. */
-		search_replace_abort();
-	else if (i == -2)    /* Do a search instead. */
-		do_search();
-	else if (i == 1)    /* Toggled something. */
-		do_replace();
-
-	if (i != 0)
-		return;
-
-	i = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL, &replace_history,
+void ask_for_replacement(void)
+{
+	filestruct *edittop_save, *begin;
+	size_t firstcolumn_save, begin_x;
+	ssize_t numreplaced;
+	int i = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL, &replace_history,
 				/* TRANSLATORS: This is a prompt. */
 				edit_refresh, _("Replace with"));
 
@@ -812,8 +796,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 		if (func_from_key(&i) == flip_goto) {
 			/* Retain what the user typed so far and switch to searching. */
-			search_init(TRUE, TRUE);
-			do_search();
+			search_init(FALSE, TRUE);
+			return;
 		}
 
 		/* If a function was executed, we're done here. */

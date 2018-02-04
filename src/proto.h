@@ -497,6 +497,7 @@ void go_looking(void);
 ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 		const filestruct *real_current, size_t *real_current_x);
 void do_replace(void);
+void ask_for_replacement(void);
 void goto_line_posx(ssize_t line, size_t pos_x);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		bool interactive);
