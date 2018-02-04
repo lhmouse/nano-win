@@ -94,31 +94,32 @@ void search_replace_abort(void)
  * when <Enter> is pressed or a non-toggle shortcut was executed. */
 void search_init(bool replacing, bool keep_the_answer)
 {
-	char *buf;
-	static char *backupstring = NULL;
+	char *thedefault;
+		/* What will be searched for when the user typed nothing. */
+	static char *sofar = NULL;
 		/* What the user has typed so far, before toggling something. */
 
 	if (keep_the_answer)
-		backupstring = mallocstrcpy(backupstring, answer);
+		sofar = mallocstrcpy(sofar, answer);
 
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
-		buf = charalloc(strlen(disp) + 7);
+		thedefault = charalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
-		sprintf(buf, " [%s%s]", disp,
+		sprintf(thedefault, " [%s%s]", disp,
 				(strlenpt(last_search) > COLS / 3) ? "..." : "");
 		free(disp);
 	} else
-		buf = mallocstrcpy(NULL, "");
+		thedefault = mallocstrcpy(NULL, "");
 
 	while (TRUE) {
 		functionptrtype func;
 		/* Ask the user what to search for (or replace). */
 		int i = do_prompt(FALSE, FALSE,
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
-					backupstring, &search_history,
+					sofar, &search_history,
 					/* TRANSLATORS: This is the main search prompt. */
 					edit_refresh, "%s%s%s%s%s%s", _("Search"),
 					/* TRANSLATORS: The next three modify the search prompt. */
@@ -129,14 +130,14 @@ void search_init(bool replacing, bool keep_the_answer)
 					/* TRANSLATORS: The next two modify the search prompt. */
 					openfile->mark ? _(" (to replace) in selection") :
 #endif
-					_(" (to replace)") : "", buf);
+					_(" (to replace)") : "", thedefault);
 
 		/* If the search was cancelled, or we have a blank answer and
 		 * nothing was searched for yet during this session, get out. */
 		if (i == -1 || (i == -2 && *last_search == '\0')) {
 			statusbar(_("Cancelled"));
 			search_replace_abort();
-			free(buf);
+			free(thedefault);
 			return;
 		}
 
@@ -150,7 +151,7 @@ void search_init(bool replacing, bool keep_the_answer)
 #endif
 			}
 
-			free(buf);
+			free(thedefault);
 
 			/* If doing a regular-expression search, compile the
 			 * search string, and get out when it's invalid. */
@@ -168,7 +169,7 @@ void search_init(bool replacing, bool keep_the_answer)
 			return;
 		}
 
-		backupstring = mallocstrcpy(backupstring, answer);
+		sofar = mallocstrcpy(sofar, answer);
 
 		func = func_from_key(&i);
 
@@ -187,7 +188,7 @@ void search_init(bool replacing, bool keep_the_answer)
 				do_gotolinecolumn(openfile->current->lineno,
 							openfile->placewewant + 1, TRUE, TRUE);
 			search_replace_abort();
-			free(buf);
+			free(thedefault);
 			return;
 		}
 	}
