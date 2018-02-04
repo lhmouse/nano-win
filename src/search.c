@@ -89,33 +89,19 @@ void search_replace_abort(void)
 	regexp_cleanup();
 }
 
-/* Set up the system variables for a search or replace.  If use_answer
- * is TRUE, only set backupstring to answer.  Return -2 to run the
- * opposite program (search -> replace, replace -> search), return -1 if
- * the search should be canceled (due to Cancel, a blank search string,
- * Go to Line, or a failed regcomp()), return 0 on success, and return 1
- * on rerun calling program.
- *
- * replacing is TRUE if we call from do_replace(), and FALSE if called
- * from do_search(). */
-void search_init(bool replacing, bool use_answer)
+/* Prepare the prompt and ask the user what to search for.  Keep looping
+ * as long as the user presses a toggle, and only take action and exit
+ * when <Enter> is pressed or a non-toggle shortcut was executed. */
+void search_init(bool replacing, bool keep_the_answer)
 {
-	int i = 0;
 	char *buf;
 	static char *backupstring = NULL;
-		/* The search string we'll be using. */
-	functionptrtype func;
+		/* What the user has typed so far, before toggling something. */
 
-	/* If use_answer is TRUE, set backupstring to answer. */
-	if (use_answer) {
+	if (keep_the_answer)
 		backupstring = mallocstrcpy(backupstring, answer);
-	}
 
-	/* We display the search prompt below.  If the user types a partial
-	 * search string and then Replace or a toggle, we will return to
-	 * do_search() or do_replace() and be called again.  In that case,
-	 * we should put the same search string back up. */
-
+	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
@@ -128,76 +114,81 @@ void search_init(bool replacing, bool use_answer)
 		buf = mallocstrcpy(NULL, "");
 
 	while (TRUE) {
-	/* This is now one simple call.  It just does a lot. */
-	i = do_prompt(FALSE, FALSE,
-				inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
-				backupstring, &search_history,
-				/* TRANSLATORS: This is the main search prompt. */
-				edit_refresh, "%s%s%s%s%s%s", _("Search"),
-				/* TRANSLATORS: The next three modify the search prompt. */
-				ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
-				ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
-				ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "", replacing ?
+		functionptrtype func;
+		/* Ask the user what to search for (or replace). */
+		int i = do_prompt(FALSE, FALSE,
+					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
+					backupstring, &search_history,
+					/* TRANSLATORS: This is the main search prompt. */
+					edit_refresh, "%s%s%s%s%s%s", _("Search"),
+					/* TRANSLATORS: The next three modify the search prompt. */
+					ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
+					ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
+					ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "", replacing ?
 #ifndef NANO_TINY
-				/* TRANSLATORS: The next two modify the search prompt. */
-				openfile->mark ? _(" (to replace) in selection") :
+					/* TRANSLATORS: The next two modify the search prompt. */
+					openfile->mark ? _(" (to replace) in selection") :
 #endif
-				_(" (to replace)") : "", buf);
+					_(" (to replace)") : "", buf);
 
-	/* If the search was cancelled, or we have a blank answer and
-	 * nothing was searched for yet during this session, get out. */
-	if (i == -1 || (i == -2 && *last_search == '\0')) {
-		statusbar(_("Cancelled"));
-		search_replace_abort();
-		free(buf);
-		return;
-	}
-
-	/* If Enter was pressed, see what we got. */
-	if (i == 0 || i == -2) {
-		/* If an answer was given, remember it. */
-		if (*answer != '\0') {
-			last_search = mallocstrcpy(last_search, answer);
-#ifdef ENABLE_HISTORIES
-			update_history(&search_history, answer);
-#endif
-		}
-
-		free(buf);
-
-		if (ISSET(USE_REGEXP) && !regexp_init(last_search)) {
+		/* If the search was cancelled, or we have a blank answer and
+		 * nothing was searched for yet during this session, get out. */
+		if (i == -1 || (i == -2 && *last_search == '\0')) {
+			statusbar(_("Cancelled"));
 			search_replace_abort();
+			free(buf);
 			return;
 		}
 
-		if (replacing)
-			ask_for_replacement();
-		else
-			go_looking();
+		/* If Enter was pressed, prepare to do a replace or a search. */
+		if (i == 0 || i == -2) {
+			/* If an actual answer was typed, remember it. */
+			if (*answer != '\0') {
+				last_search = mallocstrcpy(last_search, answer);
+#ifdef ENABLE_HISTORIES
+				update_history(&search_history, answer);
+#endif
+			}
 
-		return;
-	}
+			free(buf);
 
-	backupstring = mallocstrcpy(backupstring, answer);
+			/* If doing a regular-expression search, compile the
+			 * search string, and get out when it's invalid. */
+			if (ISSET(USE_REGEXP) && !regexp_init(last_search)) {
+				search_replace_abort();
+				return;
+			}
 
-	func = func_from_key(&i);
+			if (replacing)
+				ask_for_replacement();
+			else
+				go_looking();
 
-	if (func == case_sens_void) {
-		TOGGLE(CASE_SENSITIVE);
-	} else if (func == backwards_void) {
-		TOGGLE(BACKWARDS_SEARCH);
-	} else if (func == regexp_void) {
-		TOGGLE(USE_REGEXP);
-	} else if (func == flip_replace) {
-		replacing = !replacing;
-	} else {
-		if (func == flip_goto)
-			do_gotolinecolumn(openfile->current->lineno,
-						openfile->placewewant + 1, TRUE, TRUE);
-		search_replace_abort();
-		free(buf);
-		return;
-	}
+			return;
+		}
+
+		backupstring = mallocstrcpy(backupstring, answer);
+
+		func = func_from_key(&i);
+
+		/* If we're here, one of the five toggles was pressed, or
+		 * a shortcut was executed. */
+		if (func == case_sens_void) {
+			TOGGLE(CASE_SENSITIVE);
+		} else if (func == backwards_void) {
+			TOGGLE(BACKWARDS_SEARCH);
+		} else if (func == regexp_void) {
+			TOGGLE(USE_REGEXP);
+		} else if (func == flip_replace) {
+			replacing = !replacing;
+		} else {
+			if (func == flip_goto)
+				do_gotolinecolumn(openfile->current->lineno,
+							openfile->placewewant + 1, TRUE, TRUE);
+			search_replace_abort();
+			free(buf);
+			return;
+		}
 	}
 }
 
@@ -709,14 +700,13 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 /* Replace a string. */
 void do_replace(void)
 {
-	if (ISSET(VIEW_MODE)) {
+	if (ISSET(VIEW_MODE))
 		print_view_warning();
-		return;
-	}
-
-	search_init(TRUE, FALSE);
+	else
+		search_init(TRUE, FALSE);
 }
 
+/* Ask the user what the already given search string should be replaced with. */
 void ask_for_replacement(void)
 {
 	filestruct *edittop_save, *begin;
