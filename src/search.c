@@ -99,8 +99,7 @@ void search_init(bool replacing, bool keep_the_answer)
 	static char *sofar = NULL;
 		/* What the user has typed so far, before toggling something. */
 
-	if (keep_the_answer)
-		sofar = mallocstrcpy(sofar, answer);
+	sofar = mallocstrcpy(sofar, keep_the_answer ? answer : "");
 
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
