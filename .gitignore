@@ -79,3 +79,14 @@ core
 /nano.spec
 /src/nano
 /src/revision.h
+
+/ncurses-*
+/build_*-w64-mingw32
+/*-w64-mingw32
+/nano-*.7z
+/.nanorc
+*.exe
+*.dll
+share
+bin
+lib

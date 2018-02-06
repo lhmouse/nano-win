@@ -26,9 +26,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
-#if defined(__linux__) || !defined(NANO_TINY)
-#include <sys/ioctl.h>
-#endif
 #ifdef ENABLE_UTF8
 #include <langinfo.h>
 #endif
@@ -41,6 +38,7 @@
 #ifdef __linux__
 #include <sys/vt.h>
 #endif
+#include <shlobj.h>
 
 #ifdef ENABLE_MULTIBUFFER
 #define read_them_all TRUE
@@ -670,8 +668,6 @@ void emergency_save(const char *die_filename, struct stat *die_stat)
 	 * but ignore any failure as we are in a hurry to get out. */
 	if (die_stat) {
 		IGNORE_CALL_RESULT(chmod(targetname, die_stat->st_mode));
-		IGNORE_CALL_RESULT(chown(targetname, die_stat->st_uid,
-												die_stat->st_gid));
 	}
 #endif
 
@@ -1134,7 +1130,8 @@ bool scoop_stdin(void)
 	}
 
 	/* Open standard input. */
-	stream = fopen("/dev/stdin", "rb");
+	thetty = _fileno(stdin);
+	stream = (thetty < 0) ? NULL : _fdopen(thetty, "rb");
 	if (stream == NULL) {
 		int errnumber = errno;
 
@@ -1151,11 +1148,9 @@ bool scoop_stdin(void)
 	fprintf(stderr, ".\n");
 
 	/* Reconnect the tty as the input source. */
-	thetty = open("/dev/tty", O_RDONLY);
-	if (!thetty)
+	stream = freopen("CONIN$", "r", stdin);
+	if (!stream)
 		die(_("Couldn't reopen stdin from keyboard, sorry\n"));
-	dup2(thetty, 0);
-	close(thetty);
 
 	/* If things went well, store the current state of the terminal. */
 	if (!input_was_aborted)
@@ -1191,12 +1186,6 @@ void signal_init(void)
 	sigaction(SIGHUP, &act, NULL);
 #endif
 	sigaction(SIGTERM, &act, NULL);
-
-#ifndef NANO_TINY
-	/* Trap SIGWINCH because we want to handle window resizes. */
-	act.sa_handler = handle_sigwinch;
-	sigaction(SIGWINCH, &act, NULL);
-#endif
 
 	if (ISSET(SUSPEND)) {
 		/* Block all other signals in the suspend and continue handlers.
@@ -1248,28 +1237,7 @@ RETSIGTYPE handle_crash(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
-#ifdef ENABLE_MOUSE
-	disable_mouse_support();
-#endif
-
-	/* Move the cursor to the last line of the screen. */
-	move(LINES - 1, 0);
-	endwin();
-
-	/* Display our helpful message. */
-	printf(_("Use \"fg\" to return to nano.\n"));
-	fflush(stdout);
-
-	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &oldterm);
-
-	/* The suspend keystroke must not elicit cursor-position display. */
-	suppress_cursorpos=TRUE;
-
-#ifdef SIGSTOP
-	/* Do what mutt does: send ourselves a SIGSTOP. */
-	kill(0, SIGSTOP);
-#endif
+	statusbar(_("Not supported on Windows yet"));
 }
 
 /* Put nano to sleep (if suspension is enabled). */
@@ -1313,22 +1281,8 @@ RETSIGTYPE handle_sigwinch(int signal)
 /* Reinitialize and redraw the screen completely. */
 void regenerate_screen(void)
 {
-	const char *tty = ttyname(0);
-	int fd, result = 0;
-	struct winsize win;
-
 	/* Reset the trigger. */
 	the_window_resized = FALSE;
-
-	if (tty == NULL)
-		return;
-	fd = open(tty, O_RDWR);
-	if (fd == -1)
-		return;
-	result = ioctl(fd, TIOCGWINSZ, &win);
-	close(fd);
-	if (result == -1)
-		return;
 
 	/* We could check whether the COLS or LINES changed, and return
 	 * otherwise.  However, COLS and LINES are curses global variables,
@@ -1368,11 +1322,6 @@ void regenerate_screen(void)
  * unblock SIGWINCH so any pending ones can be dealt with. */
 void allow_sigwinch(bool allow)
 {
-	sigset_t winch;
-
-	sigemptyset(&winch);
-	sigaddset(&winch, SIGWINCH);
-	sigprocmask(allow ? SIG_UNBLOCK : SIG_BLOCK, &winch, NULL);
 }
 
 /* Handle the global toggle specified in flag. */
@@ -1955,7 +1904,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 int main(int argc, char **argv)
 {
-	int stdin_flags, optchr;
+	int optchr;
 #if defined(ENABLED_WRAPORJUSTIFY) && defined(ENABLE_NANORC)
 	bool fill_used = FALSE;
 		/* Was the fill option used on the command line? */
@@ -2051,11 +2000,6 @@ int main(int argc, char **argv)
 	/* Back up the terminal settings so that they can be restored. */
 	tcgetattr(0, &oldterm);
 
-	/* Get the state of standard input and ensure it uses blocking mode. */
-	stdin_flags = fcntl(0, F_GETFL, 0);
-	if (stdin_flags != -1)
-		fcntl(0, F_SETFL, stdin_flags & ~O_NONBLOCK);
-
 #ifdef ENABLE_UTF8
 	/* If setting the locale is successful and it uses UTF-8, we need
 	 * to use the multibyte functions for text processing. */
@@ -2084,7 +2028,7 @@ int main(int argc, char **argv)
 #if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
 	/* If we don't have rcfile support, --disable-wrapping-as-root is
 	 * used, and we're root, turn wrapping off. */
-	if (geteuid() == NANO_ROOT_UID)
+	if (IsUserAnAdmin())
 		SET(NO_WRAP);
 #endif
 
@@ -2421,7 +2365,7 @@ int main(int argc, char **argv)
 #ifdef DISABLE_ROOTWRAPPING
 	/* If we don't have any rcfiles, --disable-wrapping-as-root is used,
 	 * and we're root, turn wrapping off. */
-	else if (geteuid() == NANO_ROOT_UID)
+	else if (IsUserAnAdmin())
 		SET(NO_WRAP);
 #endif
 #endif /* ENABLE_NANORC */

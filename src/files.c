@@ -29,6 +29,14 @@
 #endif
 #include <string.h>
 #include <unistd.h>
+#include <windows.h>
+
+#define flockfile(f)         _lock_file(f)
+#define funlockfile(f)       _unlock_file(f)
+#define fgetc_unlocked(f)    _fgetc_nolock(f)
+#define getc_unlocked(f)     _getc_nolock(f)
+#define fputc_unlocked(c,f)  _fputc_nolock(c,f)
+#define putc_unlocked(c,f)   _putc_nolock(c,f)
 
 #define LOCKBUFSIZE 8192
 
@@ -165,38 +173,19 @@ void set_modified(void)
  * Returns 1 on success, and 0 on failure (but continue anyway). */
 int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
 {
-#ifdef HAVE_PWD_H
 	int cflags, fd;
 	FILE *filestream;
 	pid_t mypid;
-	uid_t myuid;
-	struct passwd *mypwuid;
 	struct stat fileinfo;
 	char *lockdata = charalloc(1024);
-	char myhostname[32];
+	char myhostname[32] = "localhost";
 	size_t lockdatalen = 1024;
 	size_t wroteamt;
+	DWORD usernamelen = 32;
+	char myusername[32] = "";
 
 	mypid = getpid();
-	myuid = geteuid();
-
-	/* First run things that might fail before blowing away the old state. */
-	if ((mypwuid = getpwuid(myuid)) == NULL) {
-		/* TRANSLATORS: Keep the next eight messages at most 76 characters. */
-		statusline(MILD, _("Couldn't determine my identity for lock file "
-								"(getpwuid() failed)"));
-		goto free_the_data;
-	}
-
-	if (gethostname(myhostname, 31) < 0) {
-		if (errno == ENAMETOOLONG)
-			myhostname[31] = '\0';
-		else {
-			statusline(MILD, _("Couldn't determine hostname for lock file: %s"),
-						strerror(errno));
-			goto free_the_data;
-		}
-	}
+	GetUserNameA(myusername, &usernamelen);
 
 	/* If the lockfile exists, try to delete it. */
 	if (stat(lockfilename, &fileinfo) != -1)
@@ -210,7 +199,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
 	/* Try to create the lockfile. */
 	fd = open(lockfilename, cflags,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH | _O_BINARY);
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 						lockfilename, strerror(errno));
@@ -250,7 +239,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	lockdata[26] = (mypid / (256 * 256)) % 256;
 	lockdata[27] = mypid / (256 * 256 * 256);
 	snprintf(&lockdata[2], 11, "nano %s", VERSION);
-	strncpy(&lockdata[28], mypwuid->pw_name, 16);
+	strncpy(&lockdata[28], myusername, 16);
 	strncpy(&lockdata[68], myhostname, 31);
 	if (origfilename != NULL)
 		strncpy(&lockdata[108], origfilename, 768);
@@ -279,9 +268,6 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
   free_the_data:
 	free(lockdata);
 	return 0;
-#else
-	return 1;
-#endif
 }
 
 /* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
@@ -318,7 +304,7 @@ int do_lockfile(const char *filename)
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 		int room, response;
 
-		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
+		if ((lockfd = open(lockfilename, O_RDONLY | _O_BINARY)) < 0) {
 			statusline(MILD, _("Error opening lock file %s: %s"),
 						lockfilename, strerror(errno));
 			goto free_the_name;
@@ -729,7 +715,7 @@ int is_file_writable(const char *filename)
 	if (full_filename == NULL || stat(full_filename, &fileinfo) == -1)
 		full_filename = mallocstrcpy(NULL, filename);
 
-	if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
+	if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND | _O_BINARY, S_IRUSR |
 				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1)
 		result = FALSE;
 	else if ((f = fdopen(fd, "a")) == NULL) {
@@ -1432,7 +1418,7 @@ char *safe_tempfile(FILE **f)
 	/* If $TMPDIR is set, set tempdir to it, run it through
 	 * get_full_path(), and save the result in full_tempdir.  Otherwise,
 	 * leave full_tempdir set to NULL. */
-	tmpdir_env = getenv("TMPDIR");
+	tmpdir_env = getenv("TMP");
 	if (tmpdir_env != NULL)
 		full_tempdir = check_writable_directory(tmpdir_env);
 
@@ -1443,7 +1429,7 @@ char *safe_tempfile(FILE **f)
 
 	/* if P_tmpdir is NULL, use /tmp. */
 	if (full_tempdir == NULL)
-		full_tempdir = mallocstrcpy(NULL, "/tmp/");
+		full_tempdir = mallocstrcpy(NULL, "C:\\Windows\\Temp\\");
 
 	full_tempdir = charealloc(full_tempdir, strlen(full_tempdir) + 12);
 	strcat(full_tempdir, "nano.XXXXXX");
@@ -1741,9 +1727,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		}
 
 		if (ISSET(INSECURE_BACKUP))
-			backup_cflags = O_WRONLY | O_CREAT | O_APPEND;
+			backup_cflags = O_WRONLY | O_CREAT | O_APPEND | _O_BINARY;
 		else
-			backup_cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
+			backup_cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND | _O_BINARY;
 
 		backup_fd = open(backupname, backup_cflags,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
@@ -1752,32 +1738,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			backup_file = fdopen(backup_fd, "wb");
 
 		if (backup_file == NULL) {
-			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
-			free(backupname);
-			goto cleanup_and_exit;
-		}
-
-		/* Only try chowning the backup when we're root. */
-		if (geteuid() == NANO_ROOT_UID &&
-						fchown(backup_fd, openfile->current_stat->st_uid,
-						openfile->current_stat->st_gid) == -1 &&
-						!ISSET(INSECURE_BACKUP)) {
-			fclose(backup_file);
-			if (prompt_failed_backupwrite(backupname))
-				goto skip_backup;
-			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
-			free(backupname);
-			goto cleanup_and_exit;
-		}
-
-		/* Set the backup's mode bits. */
-		if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 &&
-						!ISSET(INSECURE_BACKUP)) {
-			fclose(backup_file);
-			if (prompt_failed_backupwrite(backupname))
-				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
 						backupname, strerror(errno));
 			free(backupname);
@@ -1848,7 +1808,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		}
 
 		if (f_open == NULL) {
-			fd_source = open(realname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+			fd_source = open(realname, O_RDONLY | O_CREAT | _O_BINARY, S_IRUSR | S_IWUSR);
 
 			if (fd_source != -1) {
 				f_source = fdopen(fd_source, "rb");
@@ -1876,7 +1836,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
 		 * is copied from joe, because wiggy says so *shrug*. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
-				O_APPEND : (tmp ? O_EXCL : O_TRUNC)), S_IRUSR |
+				O_APPEND : (tmp ? O_EXCL : O_TRUNC)) | _O_BINARY, S_IRUSR |
 				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
 		/* Set the umask back to the user's original value. */
@@ -1958,7 +1918,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		int fd_source;
 		FILE *f_source = NULL;
 
-		fd_source = open(tempname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+		fd_source = open(tempname, O_RDONLY | O_CREAT | _O_BINARY, S_IRUSR | S_IWUSR);
 
 		if (fd_source != -1) {
 			f_source = fdopen(fd_source, "rb");

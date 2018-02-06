@@ -27,6 +27,7 @@
 #include <glob.h>
 #include <string.h>
 #include <unistd.h>
+#include <shlobj.h>
 
 #ifdef ENABLE_NANORC
 
@@ -1220,16 +1221,21 @@ bool have_nanorc(const char *path, char *name)
 /* First read the system-wide rcfile, then the user's rcfile. */
 void do_rcfiles(void)
 {
+	const char *allusers;
 	const char *xdgconfdir;
 
 	/* First process the system-wide nanorc, if there is one. */
-	nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
+	allusers = getenv("ALLUSERSPROFILE");
+	if(!allusers)
+		allusers = "C:\\Windows";
+	nanorc = mallocstrncpy(nanorc, allusers, strlen(allusers) + 8);
+	strcat(nanorc, "\\nanorc");
 	parse_one_nanorc();
 
 	/* When configured with --disable-wrapping-as-root, turn wrapping off
 	 * for root, so that only root's .nanorc or --fill can turn it on. */
 #ifdef DISABLE_ROOTWRAPPING
-	if (geteuid() == NANO_ROOT_UID)
+	if (IsUserAnAdmin())
 		SET(NO_WRAP);
 #endif
 
