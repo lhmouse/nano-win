@@ -1,0 +1,60 @@
+diff --git a/ncurses-6.1.orig/ncurses/win32con/win_driver.c b/ncurses-6.1/ncurses/win32con/win_driver.c
+index 2a6ed00e..57ced319 100644
+--- a/ncurses-6.1.orig/ncurses/win32con/win_driver.c
++++ b/ncurses-6.1/ncurses/win32con/win_driver.c
+@@ -624,25 +624,9 @@ wcon_CanHandle(TERMINAL_CONTROL_BLOCK * TCB,
+ 
+     TCB->magic = WINMAGIC;
+ 
+-    if (tname == 0 || *tname == 0)
+-	code = TRUE;
+-    else if (tname != 0 && *tname == '#') {
+-	/*
+-	 * Use "#" (a character which cannot begin a terminal's name) to
+-	 * select specific driver from the table.
+-	 *
+-	 * In principle, we could have more than one non-terminfo driver,
+-	 * e.g., "win32gui".
+-	 */
+-	size_t n = strlen(tname + 1);
+-	if (n != 0
+-	    && ((strncmp(tname + 1, "win32console", n) == 0)
+-		|| (strncmp(tname + 1, "win32con", n) == 0))) {
+-	    code = TRUE;
+-	}
+-    } else if (tname != 0 && stricmp(tname, "unknown") == 0) {
+-	code = TRUE;
+-    }
++    /* Ignore the terminal name for good.  */
++    (void)tname;
++    code = TRUE;
+ 
+     /*
+      * This is intentional, to avoid unnecessary breakage of applications
+@@ -2205,14 +2189,23 @@ InitConsole(void)
+ 	for (i = 0; i < NUMPAIRS; i++)
+ 	    CON.pairs[i] = a;
+ 
+-	CON.inp = GetStdHandle(STD_INPUT_HANDLE);
+-	CON.out = GetStdHandle(STD_OUTPUT_HANDLE);
+-
+ 	b = AllocConsole();
+ 
+ 	if (!b)
+ 	    b = AttachConsole(ATTACH_PARENT_PROCESS);
+ 
++	/* When the standard handles have been redirected (such as inside
++	 * a text editor or the less utility), keystrokes must be read from
++	 * the console rather than the redirected handle.  The standard
++	 * output handle suffers from a similar problem.
++	 * Both handles are not closed once opened.  The console shall be
++	 * considered reachable throughout the process.
++	 */
++	CON.inp = CreateFile(TEXT("CONIN$"), GENERIC_READ | GENERIC_WRITE,
++	                     FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
++	CON.out = CreateFile(TEXT("CONOUT$"), GENERIC_READ | GENERIC_WRITE,
++	                     FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
++
+ 	if (getenv("NCGDB") || getenv("NCURSES_CONSOLE2")) {
+ 	    T(("... will not buffer console"));
+ 	    buffered = FALSE;
