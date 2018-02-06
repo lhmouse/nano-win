@@ -1,3 +1,41 @@
+                -=* GNU nano for Windows *=-
+
+Overview
+
+    Here is the source code for a ported, standalone version of GNU nano,
+    a famous, easy-to-use and handy text editor on Linux.
+
+    The script 'build_nano-win.sh' can be run in MSYS2 with mingw-w64
+    toolchains installed.  That script does static linking such that
+    the executable, nano.exe, relies on no third party .DLL files,
+    including Microsoft Visual C++ Redistributable packages.
+
+Enhancements
+
+    + .nanorc is loaded from '%USERPROFILE%\.nanorc' with normal privilege
+      and from "%ALLUSERPROFILE%\.nanorc" with elevated priviledge.
+    + Systemwide nanorc is loaded from "%ALLUSERSPROFILE%\nanorc".
+    + Added C++11 keywords and identifiers with special meaning
+      (that is, override and final) in 'doc/syntax/c.nanorc'.
+    + Vim-style locking files have been enabled.
+
+Features Removed
+
+    + Spell checker (This requires the infamous `fork()` syscall. )
+    + Stop and continue (This requires the `SIGSTOP` signal. )
+    + UTF-8 support (This requires narrow multibyte strings to use
+      the UTF-8 encoding.  Despite the viability of linking against
+      ncursesw, the CRT part has never worked. )
+    + Native language support (This requires hard-coding the path to
+      the directory containing locale files in the executable. )
+
+Workarounds
+
+    + Either `Alt` key can be used as a `Meta` key.
+    + UNIX style end-of-line handling by default.
+    + Standard-conforming `sprintf()` function from mingw-w64.
+
+===============================================================================
 
           GNU nano -- a simple editor, inspired by Pico
 
