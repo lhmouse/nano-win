@@ -2338,7 +2338,7 @@ void do_int_speller(const char *tempfile_name)
 	/* Fork a process to run spell in. */
 	if ((pid_spell = fork()) == 0) {
 		/* Child: open the temporary file that holds the text to be checked. */
-		if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
+		if ((tempfile_fd = open(tempfile_name, O_RDONLY | _O_BINARY)) == -1)
 			exit(6);
 
 		/* Connect standard input to the temporary file. */
@@ -2902,6 +2902,7 @@ void do_linter(void)
 /* Run a manipulation program on the contents of the buffer. */
 void do_formatter(void)
 {
+#if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	FILE *stream;
 	char *temp_name;
 	bool okay = FALSE;
@@ -2932,6 +2933,7 @@ void do_formatter(void)
 
 	unlink(temp_name);
 	free(temp_name);
+#endif
 }
 #endif /* ENABLE_COLOR */
 
