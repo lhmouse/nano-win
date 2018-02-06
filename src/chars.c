@@ -98,10 +98,15 @@ bool is_blank_char(const char *c)
 bool is_cntrl_char(const char *c)
 {
 #ifdef ENABLE_UTF8
-	if (use_utf8) {
-		return ((c[0] & 0xE0) == 0 || c[0] == DEL_CODE ||
-				((signed char)c[0] == -62 && (signed char)c[1] < -96));
-	} else
+	wchar_t wc;
+
+	if ((signed char)*c >= 0)
+		return ((*c & 0x60) == 0 || *c == DEL_CODE);
+
+	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
+		return FALSE;
+
+	return iswcntrl(wc);
 #endif
 		return ((*c & 0x60) == 0 || *c == DEL_CODE);
 }
@@ -227,7 +232,7 @@ int char_length(const char *pointer)
 {
 #ifdef ENABLE_UTF8
 	/* If possibly a multibyte character, get its length; otherwise, it's 1. */
-	if ((unsigned char)*pointer > 0xC1) {
+	if (TRUE) {
 		int length = mblen(pointer, MAXCHARLEN);
 
 		return (length < 0 ? 1 : length);
@@ -243,7 +248,7 @@ size_t mbstrlen(const char *pointer)
 
 	while (*pointer != '\0') {
 #ifdef ENABLE_UTF8
-		if ((unsigned char)*pointer > 0xC1) {
+		if (TRUE) {
 			int length = mblen(pointer, MAXCHARLEN);
 
 			pointer += (length < 0 ? 1 : length);
@@ -265,7 +270,7 @@ int collect_char(const char *string, char *thechar)
 
 #ifdef ENABLE_UTF8
 	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
-	if ((unsigned char)*string > 0xC1) {
+	if (TRUE) {
 		charlen = mblen(string, MAXCHARLEN);
 
 		/* When the multibyte sequence is invalid, only take the first byte. */
@@ -334,14 +339,10 @@ size_t step_left(const char *buf, size_t pos)
 			const char *ptr = buf + pos;
 
 			/* Probe for a valid starter byte in the preceding four bytes. */
-			if ((signed char)*(--ptr) > -65)
+			if ((signed char)*(--ptr) >= 0 || _ismbblead(*ptr))
 				before = pos - 1;
-			else if ((signed char)*(--ptr) > -65)
+			else if ((signed char)*(--ptr) >= 0 || _ismbblead(*ptr))
 				before = pos - 2;
-			else if ((signed char)*(--ptr) > -65)
-				before = pos - 3;
-			else if ((signed char)*(--ptr) > -65)
-				before = pos - 4;
 			else
 				before = pos - 1;
 		}
