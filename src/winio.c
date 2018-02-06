@@ -30,6 +30,7 @@
 #ifdef ENABLE_UTF8
 #include <wchar.h>
 #endif
+#include <windows.h>
 
 #ifdef REVISION
 #define BRANDING  REVISION
@@ -177,6 +178,7 @@ void read_keys_from(WINDOW *win)
 #ifndef NANO_TINY
 	bool timed = FALSE;
 #endif
+	int altdown = 0;
 
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
@@ -226,10 +228,16 @@ void read_keys_from(WINDOW *win)
 
 	curs_set(0);
 
+	/* Is either Alt key is down? */
+	if(GetAsyncKeyState(VK_MENU) < 0)
+		altdown = 1;
+
 	/* Initiate the keystroke buffer, and save the keycode in it. */
-	key_buffer = nrealloc(key_buffer, sizeof(int));
-	key_buffer[0] = input;
-	key_buffer_len = 1;
+	key_buffer_len = altdown + 1;
+	key_buffer = nrealloc(key_buffer, key_buffer_len * sizeof(int));
+	if(altdown)
+		key_buffer[key_buffer_len - 2] = ESC_CODE;
+	key_buffer[key_buffer_len - 1] = input;
 
 #ifndef NANO_TINY
 	/* If we got a SIGWINCH, get out as the win argument is no longer valid. */
@@ -257,8 +265,10 @@ void read_keys_from(WINDOW *win)
 			break;
 
 		/* Extend the keystroke buffer, and save the keycode at its end. */
-		key_buffer_len++;
+		key_buffer_len += altdown + 1;
 		key_buffer = nrealloc(key_buffer, key_buffer_len * sizeof(int));
+		if(altdown)
+			key_buffer[key_buffer_len - 2] = ESC_CODE;
 		key_buffer[key_buffer_len - 1] = input;
 	}
 
@@ -1092,13 +1102,18 @@ int parse_kbinput(WINDOW *win)
 	}
 #endif
 
-#ifdef __linux__
 	/* When not running under X, check for the bare arrow keys whether
 	 * Shift/Ctrl/Alt are being held together with them. */
-	unsigned char modifiers = 6;
+	unsigned char modifiers = 0;
 
 	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
-	if (on_a_vt && !mute_modifiers && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
+	if(GetAsyncKeyState(VK_SHIFT) < 0)
+		modifiers |= 0x01;
+	if(GetAsyncKeyState(VK_CONTROL) < 0)
+		modifiers |= 0x04;
+	if(GetAsyncKeyState(VK_MENU) < 0)
+		modifiers |= 0x08;
+	if (!mute_modifiers) {
 #ifndef NANO_TINY
 		/* Is Shift being held? */
 		if (modifiers & 0x01) {
@@ -1147,7 +1162,6 @@ int parse_kbinput(WINDOW *win)
 		}
 #endif
 	}
-#endif /* __linux__ */
 
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while the mark is on, do an indent. */
@@ -1446,12 +1460,6 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	if (!ISSET(RAW_SEQUENCES))
 		keypad(win, FALSE);
 
-#ifndef NANO_TINY
-	/* Turn bracketed-paste mode off. */
-	printf("\x1B[?2004l");
-	fflush(stdout);
-#endif
-
 	linger_after_escape = TRUE;
 
 	/* Read in a single byte or two escapes. */
@@ -1468,12 +1476,6 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	}
 
 	linger_after_escape = FALSE;
-
-#ifndef NANO_TINY
-	/* Turn bracketed-paste mode back on. */
-	printf("\x1B[?2004h");
-	fflush(stdout);
-#endif
 
 	/* Turn flow control characters back on if necessary and turn the
 	 * keypad back on if necessary now that we're done. */
