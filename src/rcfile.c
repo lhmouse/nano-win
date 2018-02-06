@@ -30,6 +30,7 @@
 #include <glob.h>
 #include <string.h>
 #include <unistd.h>
+#include <shlobj.h>
 
 #ifndef RCFILE_NAME
 #define HOME_RC_NAME  ".nanorc"
@@ -1684,8 +1685,14 @@ void do_rcfiles(void)
 		nanorc = get_full_path(custom_nanorc);
 		if (access(nanorc, F_OK) != 0)
 			die(_("Specified rcfile does not exist\n"));
-	} else
-		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
+	} else {
+		/* First process the system-wide nanorc, if it exists and is suitable. */
+		const char* allusers = getenv("ALLUSERSPROFILE");
+		if(!allusers)
+			allusers = "C:\\Windows";
+		nanorc = free_and_assign(nanorc, measured_copy(allusers, strlen(allusers) + 8));
+		strcat(nanorc, "\\nanorc");
+	}
 
 	if (is_good_file(nanorc))
 		parse_one_nanorc();

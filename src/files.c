@@ -29,7 +29,16 @@
 #endif
 #include <string.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#include <windows.h>
+#include <shlobj.h>
+#include <shlwapi.h>
+
+#define flockfile(f)         _lock_file(f)
+#define funlockfile(f)       _unlock_file(f)
+#define fgetc_unlocked(f)    _fgetc_nolock(f)
+#define getc_unlocked(f)     _getc_nolock(f)
+#define fputc_unlocked(c,f)  _fputc_nolock(c,f)
+#define putc_unlocked(c,f)   _putc_nolock(c,f)
 
 #define RW_FOR_ALL  (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
@@ -140,27 +149,15 @@ const char *locking_suffix = ".swp";
  * existing version of that file.  Return TRUE on success; FALSE otherwise. */
 bool write_lockfile(const char *lockfilename, const char *filename, bool modified)
 {
-#ifdef HAVE_PWD_H
 	pid_t mypid = getpid();
-	uid_t myuid = geteuid();
-	struct passwd *mypwuid = getpwuid(myuid);
-	char myhostname[32];
+	char myhostname[32] = "localhost";
 	int fd;
 	FILE *filestream = NULL;
 	char *lockdata;
 	size_t wroteamt;
-
-	if (mypwuid == NULL) {
-		/* TRANSLATORS: Keep the next seven messages at most 76 characters. */
-		statusline(MILD, _("Couldn't determine my identity for lock file"));
-		return FALSE;
-	}
-
-	if (gethostname(myhostname, 31) < 0 && errno != ENAMETOOLONG) {
-		statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
-		return FALSE;
-	} else
-		myhostname[31] = '\0';
+	DWORD usernamelen = 32;
+	char myusername[32] = "";
+	GetUserNameA(myusername, &usernamelen);
 
 	/* First make sure to remove an existing lock file. */
 	if (!delete_lockfile(lockfilename))
@@ -205,7 +202,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	lockdata[25] = (mypid / 256) % 256;
 	lockdata[26] = (mypid / (256 * 256)) % 256;
 	lockdata[27] = mypid / (256 * 256 * 256);
-	strncpy(&lockdata[28], mypwuid->pw_name, 16);
+	strncpy(&lockdata[28], myusername, 16);
 	strncpy(&lockdata[68], myhostname, 32);
 	strncpy(&lockdata[108], filename, 768);
 	lockdata[1007] = (modified) ? 0x55 : 0x00;
@@ -219,7 +216,6 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 							lockfilename, strerror(errno));
 		return FALSE;
 	}
-#endif
 	return TRUE;
 }
 
@@ -249,7 +245,7 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 		int lockfd, lockpid, choice;
 		ssize_t readamt;
 
-		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
+		if ((lockfd = open(lockfilename, O_RDONLY | _O_BINARY)) < 0) {
 			statusline(ALERT, _("Error opening lock file %s: %s"),
 								lockfilename, strerror(errno));
 			free(lockfilename);
@@ -410,7 +406,7 @@ bool open_buffer(const char *filename, bool new_one)
 		}
 #else
 		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) &&
-						geteuid() == ROOT_UID)
+						IsUserAnAdmin())
 			statusline(ALERT, _("%s is meant to be read-only"), realname);
 #endif
 	}
@@ -864,7 +860,7 @@ int open_file(const char *filename, bool new_one, FILE **f)
 #endif
 
 	/* Try opening the file. */
-	fd = open(full_filename, O_RDONLY);
+	fd = open(full_filename, O_RDONLY | _O_BINARY);
 
 #ifndef NANO_TINY
 	restore_handler_for_Ctrl_C();
@@ -928,167 +924,10 @@ char *get_next_filename(const char *name, const char *suffix)
 }
 
 #ifndef NANO_TINY
-static pid_t pid_of_command = -1;
-		/* The PID of a forked process -- needed when wanting to abort it. */
-
-/* Send an unconditional kill signal to the running external command. */
-void cancel_the_command(int signal)
-{
-	kill(pid_of_command, SIGKILL);
-}
-
-/* Send the text that starts at the given line to file descriptor fd. */
-void send_data(const linestruct *line, int fd)
-{
-	FILE *tube = fdopen(fd, "w");
-
-	if (tube == NULL)
-		exit(4);
-
-	/* Send each line, except a final empty line. */
-	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
-		fprintf(tube, "%s%s", line->data, line->next == NULL ? "" : "\n");
-		line = line->next;
-	}
-
-	fclose(tube);
-}
-
 /* Execute the given command in a shell.  Return TRUE on success. */
 bool execute_command(const char *command)
 {
-	int from_fd[2], to_fd[2];
-		/* The pipes through which text will be written and read. */
-	const bool should_pipe = (command[0] == '|');
-	FILE *stream;
-	struct sigaction oldaction, newaction = {{0}};
-		/* Original and temporary handlers for SIGINT. */
-
-	/* Create a pipe to read the command's output from, and, if needed,
-	 * a pipe to feed the command's input through. */
-	if (pipe(from_fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
-		statusline(ALERT, _("Could not create pipe: %s"), strerror(errno));
-		return FALSE;
-	}
-
-	/* Fork a child process to run the command in. */
-	if ((pid_of_command = fork()) == 0) {
-		const char *theshell = getenv("SHELL");
-
-		if (theshell == NULL)
-			theshell = (char *)"/bin/sh";
-
-		/* Child: close the unused read end of the output pipe. */
-		close(from_fd[0]);
-
-		/* Connect the write end of the output pipe to the process' output streams. */
-		if (dup2(from_fd[1], STDOUT_FILENO) < 0)
-			exit(3);
-		if (dup2(from_fd[1], STDERR_FILENO) < 0)
-			exit(4);
-
-		/* If the parent sends text, connect the read end of the
-		 * feeding pipe to the child's input stream. */
-		if (should_pipe) {
-			if (dup2(to_fd[0], STDIN_FILENO) < 0)
-				exit(5);
-			close(to_fd[1]);
-		}
-
-		/* Run the given command inside the preferred shell. */
-		execl(theshell, tail(theshell), "-c", should_pipe ? &command[1] : command, NULL);
-
-		/* If the exec call returns, there was an error. */
-		exit(6);
-	}
-
-	/* Parent: close the unused write end of the pipe. */
-	close(from_fd[1]);
-
-	if (pid_of_command == -1) {
-		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
-		close(from_fd[0]);
-		return FALSE;
-	}
-
-	statusbar(_("Executing..."));
-
-	/* If the command starts with "|", pipe buffer or region to the command. */
-	if (should_pipe) {
-		linestruct *was_cutbuffer = cutbuffer;
-		bool whole_buffer = FALSE;
-
-		cutbuffer = NULL;
-
-#ifdef ENABLE_MULTIBUFFER
-		if (ISSET(MULTIBUFFER)) {
-			openfile = openfile->prev;
-			if (openfile->mark)
-				copy_marked_region();
-			else
-				whole_buffer = TRUE;
-		} else
-#endif
-		{
-			/* TRANSLATORS: This one goes with Undid/Redid messages. */
-			add_undo(COUPLE_BEGIN, N_("filtering"));
-			if (openfile->mark == NULL) {
-				openfile->current = openfile->filetop;
-				openfile->current_x = 0;
-			}
-			add_undo(CUT, NULL);
-			do_snip(openfile->mark != NULL, openfile->mark == NULL, FALSE);
-			openfile->filetop->has_anchor = FALSE;
-			update_undo(CUT);
-		}
-
-		/* Create a separate process for piping the data to the command. */
-		if (fork() == 0) {
-			send_data(whole_buffer ? openfile->filetop : cutbuffer, to_fd[1]);
-			exit(0);
-		}
-
-		close(to_fd[0]);
-		close(to_fd[1]);
-
-#ifdef ENABLE_MULTIBUFFER
-		if (ISSET(MULTIBUFFER))
-			openfile = openfile->next;
-#endif
-		free_lines(cutbuffer);
-		cutbuffer = was_cutbuffer;
-	}
-
-	/* Re-enable interpretation of the special control keys so that we get
-	 * SIGINT when Ctrl-C is pressed. */
-	enable_kb_interrupt();
-
-	/* Set up a signal handler so that ^C will terminate the forked process. */
-	newaction.sa_handler = cancel_the_command;
-	newaction.sa_flags = 0;
-	sigaction(SIGINT, &newaction, &oldaction);
-
-	stream = fdopen(from_fd[0], "rb");
-	if (stream == NULL)
-		statusline(ALERT, _("Failed to open pipe: %s"), strerror(errno));
-	else
-		read_file(stream, 0, "pipe", TRUE);
-
-	if (should_pipe && !ISSET(MULTIBUFFER))
-		add_undo(COUPLE_END, N_("filtering"));
-
-	/* Wait for the external command (and possibly data sender) to terminate. */
-	wait(NULL);
-	if (should_pipe)
-		wait(NULL);
-
-	/* Restore the original handler for SIGINT. */
-	sigaction(SIGINT, &oldaction, NULL);
-
-	/* Restore the terminal to its desired state, and disable
-	 * interpretation of the special control keys again. */
-	terminal_init();
-
+	statusbar(_("Not supported on Windows yet"));
 	return TRUE;
 }
 #endif /* NANO_TINY */
@@ -1418,6 +1257,11 @@ char *get_full_path(const char *origpath)
 
 	free(just_filename);
 
+	/* Replace backslashes with forwardslashes. */
+	for(here = target;  *here;  ++here)
+		if(*here == '\\')
+			*here = '/';
+
 	return target;
 }
 
@@ -1443,7 +1287,7 @@ char *check_writable_directory(const char *path)
  * file stream opened in read-write mode.  On error, return NULL. */
 char *safe_tempfile(FILE **stream)
 {
-	const char *env_dir = getenv("TMPDIR");
+	const char *env_dir = getenv("TMP");
 	char *tempdir = NULL, *tempfile_name = NULL;
 	int fd;
 
@@ -1456,7 +1300,7 @@ char *safe_tempfile(FILE **stream)
 		tempdir = check_writable_directory(P_tmpdir);
 
 	if (tempdir == NULL)
-		tempdir = copy_of("/tmp/");
+		tempdir = copy_of("C:\\Windows\\Temp\\");
 
 	tempfile_name = nrealloc(tempdir, strlen(tempdir) + 12);
 	strcat(tempfile_name, "nano.XXXXXX");
@@ -1601,7 +1445,7 @@ bool make_backup_of(char *realname)
 		 * just use the file-name portion of the given path. */
 		if (thename) {
 			for (int i = 0; thename[i] != '\0'; i++)
-				if (thename[i] == '/')
+				if (strchr("<>:\"/\\|?*", thename[i]))
 					thename[i] = '!';
 		} else
 			thename = copy_of(tail(realname));
@@ -1639,22 +1483,6 @@ bool make_backup_of(char *realname)
 	if (backup_file == NULL)
 		goto problem;
 
-	/* Try to change owner and group to those of the original file;
-	 * ignore permission errors, as a normal user cannot change the owner. */
-	if (fchown(descriptor, openfile->statinfo->st_uid,
-							openfile->statinfo->st_gid) < 0 && errno != EPERM) {
-		fclose(backup_file);
-		goto problem;
-	}
-
-	/* Set the backup's permissions to those of the original file.
-	 * It is not a security issue if this fails, as we have created
-	 * the file with just read and write permission for the owner. */
-	if (fchmod(descriptor, openfile->statinfo->st_mode) < 0 && errno != EPERM) {
-		fclose(backup_file);
-		goto problem;
-	}
-
 	original = fopen(realname, "rb");
 
 	/* If opening succeeded, copy the existing file to the backup. */
@@ -1672,7 +1500,7 @@ bool make_backup_of(char *realname)
 
 	/* Since this backup is a newly created file, explicitly sync it to
 	 * permanent storage before starting to write out the actual file. */
-	if (fflush(backup_file) != 0 || fsync(fileno(backup_file)) != 0) {
+	if (fflush(backup_file) != 0) {
 		fclose(backup_file);
 		goto problem;
 	}
@@ -1832,7 +1660,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		/* Now open the file.  Use O_EXCL for an emergency file. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
-					O_APPEND : (tmp ? O_EXCL : O_TRUNC)), permissions);
+					O_APPEND : (tmp ? O_EXCL : O_TRUNC)) | _O_BINARY, permissions);
 
 #ifndef NANO_TINY
 		restore_handler_for_Ctrl_C();
@@ -1941,7 +1769,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #endif
 
 	/* Ensure the data has reached the disk before reporting it as written. */
-	if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
+	if (fflush(thefile) != 0) {
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 		fclose(thefile);
 		goto cleanup_and_exit;
@@ -2464,7 +2292,7 @@ char **filename_completion(const char *morsel, size_t length, size_t *num_matche
 		*slash = '\0';
 		dirname = real_dir_from_tilde(dirname);
 		/* A non-absolute path is relative to the current browser directory. */
-		if (dirname[0] != '/') {
+		if (PathIsRelativeA(dirname)) {
 			dirname = nrealloc(dirname, strlen(present_path) + strlen(wasdirname) + 1);
 			sprintf(dirname, "%s%s", present_path, wasdirname);
 		}
