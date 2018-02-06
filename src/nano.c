@@ -26,9 +26,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
-#if defined(__linux__) || !defined(NANO_TINY)
-#include <sys/ioctl.h>
-#endif
 #ifdef ENABLE_UTF8
 #include <langinfo.h>
 #endif
@@ -41,6 +38,7 @@
 #ifdef __linux__
 #include <sys/vt.h>
 #endif
+#include <shlobj.h>
 
 #ifdef ENABLE_MULTIBUFFER
 #define read_them_all  TRUE
@@ -230,10 +228,6 @@ void restore_terminal(void)
 {
 	curs_set(1);
 	endwin();
-#ifndef NANO_TINY
-	printf("\x1B[?2004l");
-	fflush(stdout);
-#endif
 	tcsetattr(STDIN_FILENO, TCSANOW, &original_state);
 }
 
@@ -344,8 +338,6 @@ void emergency_save(const char *filename)
 		 * but ignore any failure as we are in a hurry to get out. */
 		if (openfile->statinfo) {
 			IGNORE_CALL_RESULT(chmod(targetname, openfile->statinfo->st_mode));
-			IGNORE_CALL_RESULT(chown(targetname, openfile->statinfo->st_uid,
-													openfile->statinfo->st_gid));
 		}
 #endif
 	}
@@ -819,7 +811,7 @@ void restore_handler_for_Ctrl_C(void)
 /* Reconnect standard input to the tty, and store its state. */
 void reconnect_and_store_state(void)
 {
-	int thetty = open("/dev/tty", O_RDONLY);
+	int thetty = open("CONIN$", O_RDONLY);
 
 	if (thetty < 0 || dup2(thetty, STDIN_FILENO) < 0)
 		die(_("Could not reconnect stdin to keyboard\n"));
@@ -834,6 +826,7 @@ void reconnect_and_store_state(void)
 /* Read whatever comes from standard input into a new buffer. */
 bool scoop_stdin(void)
 {
+	int fd;
 	FILE *stream;
 
 	restore_terminal();
@@ -844,9 +837,12 @@ bool scoop_stdin(void)
 							"type ^D or ^D^D to finish.\n"));
 
 	/* Open standard input. */
-	stream = fopen("/dev/stdin", "rb");
+	fd = dup(0);
+	stream = fdopen(fd, "rb");
 	if (stream == NULL) {
 		int errnumber = errno;
+		if(fd != -1)
+			close(fd);
 
 		terminal_init();
 		doupdate();
@@ -893,18 +889,6 @@ void signal_init(void)
 #endif
 	sigaction(SIGTERM, &deed, NULL);
 
-#ifndef NANO_TINY
-	/* Trap SIGWINCH because we want to handle window resizes. */
-	deed.sa_handler = handle_sigwinch;
-	sigaction(SIGWINCH, &deed, NULL);
-
-#ifdef SIGTSTP
-	/* Prevent the suspend handler from getting interrupted. */
-	sigfillset(&deed.sa_mask);
-	deed.sa_handler = suspend_nano;
-	sigaction(SIGTSTP, &deed, NULL);
-#endif
-#endif /* !NANO_TINY */
 #ifdef SIGCONT
 	sigfillset(&deed.sa_mask);
 	deed.sa_handler = continue_nano;
@@ -942,24 +926,7 @@ void handle_crash(int signal)
 /* Handler for SIGTSTP (suspend). */
 void suspend_nano(int signal)
 {
-#ifdef ENABLE_MOUSE
-	disable_mouse_support();
-#endif
-	restore_terminal();
-
-	printf("\n\n");
-
-	/* Display our helpful message. */
-	printf(_("Use \"fg\" to return to nano.\n"));
-	fflush(stdout);
-
-	/* The suspend keystroke must not elicit cursor-position display. */
-	lastmessage = HUSH;
-
-#ifdef SIGSTOP
-	/* Do what mutt does: send ourselves a SIGSTOP. */
-	kill(0, SIGSTOP);
-#endif
+	statusbar(_("Not supported on Windows yet"));
 }
 
 /* When permitted, put nano to sleep. */
@@ -998,12 +965,6 @@ void continue_nano(int signal)
 /* Block or unblock the SIGWINCH signal, depending on the blockit parameter. */
 void block_sigwinch(bool blockit)
 {
-	sigset_t winch;
-
-	sigemptyset(&winch);
-	sigaddset(&winch, SIGWINCH);
-	sigprocmask(blockit ? SIG_BLOCK : SIG_UNBLOCK, &winch, NULL);
-
 #ifndef NANO_TINY
 	if (the_window_resized)
 		regenerate_screen();
@@ -1022,22 +983,8 @@ void handle_sigwinch(int signal)
 /* Reinitialize and redraw the screen completely. */
 void regenerate_screen(void)
 {
-	const char *tty = ttyname(0);
-	int fd, result = 0;
-	struct winsize win;
-
 	/* Reset the trigger. */
 	the_window_resized = FALSE;
-
-	if (tty == NULL)
-		return;
-	fd = open(tty, O_RDWR);
-	if (fd == -1)
-		return;
-	result = ioctl(fd, TIOCGWINSZ, &win);
-	close(fd);
-	if (result == -1)
-		return;
 
 	/* We could check whether COLS or LINES changed, and return otherwise,
 	 * but it seems curses does not always update these global variables. */
@@ -1224,12 +1171,6 @@ void terminal_init(void)
 		enable_flow_control();
 
 	disable_kb_interrupt();
-
-#ifndef NANO_TINY
-	/* Tell the terminal to enable bracketed pastes. */
-	printf("\x1B[?2004h");
-	fflush(stdout);
-#endif
 }
 
 /* Ask ncurses for a keycode, or assign a default one. */
@@ -1685,7 +1626,7 @@ void process_a_keystroke(void)
 
 int main(int argc, char **argv)
 {
-	int stdin_flags, optchr;
+	int optchr;
 #ifdef ENABLE_NANORC
 	bool ignore_rcfiles = FALSE;
 		/* Whether to ignore the nanorc files. */
@@ -1804,11 +1745,6 @@ int main(int argc, char **argv)
 
 	/* Back up the terminal settings so that they can be restored. */
 	tcgetattr(STDIN_FILENO, &original_state);
-
-	/* Get the state of standard input and ensure it uses blocking mode. */
-	stdin_flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-	if (stdin_flags != -1)
-		fcntl(STDIN_FILENO, F_SETFL, stdin_flags & ~O_NONBLOCK);
 
 #ifdef ENABLE_UTF8
 	/* If setting the locale is successful and it uses UTF-8, we will
