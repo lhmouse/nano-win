@@ -1,6 +1,6 @@
 ## Here is an example for nanorc files.
 
-syntax "nanorc" "\.?nanorc$"
+syntax nanorc "\.?nanorc$"
 comment "#"
 
 # Possible errors and parameters
@@ -13,7 +13,7 @@ icolor brightgreen "^[[:space:]]*set[[:space:]]+(backupdir|brackets|functioncolo
 icolor brightgreen "^[[:space:]]*bind[[:space:]]+((\^([[:alpha:]]|[]0-9\^_]|Space)|M-([[:alpha:]]|[]!"#$%&'()*+,./0-9:;<=>?@\^_`{|}~-]|Space))|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+[[:alpha:]]+[[:space:]]+(all|main|search|replace(with)?|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)([[:space:]]+#|[[:space:]]*$)"
 icolor brightgreen "^[[:space:]]*unbind[[:space:]]+((\^([[:alpha:]]|[]0-9\^_]|Space)|M-([[:alpha:]]|[]!"#$%&'()*+,./0-9:;<=>?@\^_`{|}~-]|Space))|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+(all|main|search|replace(with)?|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)([[:space:]]+#|[[:space:]]*$)"
 icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]+(i?color|header|magic|comment|linter|formatter)[[:space:]]+.*$"
-icolor brightgreen "^[[:space:]]*(linter|formatter)[[:space:]]+[[:alpha:]]+"
+icolor brightgreen "^[[:space:]]*(syntax|linter|formatter)[[:space:]]+[^[:blank:]]+"
 icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|linter|formatter|extendsyntax)\>"
 
 # Strings

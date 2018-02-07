@@ -271,7 +271,7 @@ void parse_syntax(char *ptr)
 
 	ptr = parse_next_word(ptr);
 
-	/* Check that there are no quotes or that they are paired. */
+	/* Check that quotes around the name are either paired or absent. */
 	if ((*nameptr == '\x22') ^ (nameptr[strlen(nameptr) - 1] == '\x22')) {
 		rcfile_error(N_("Unpaired quote in syntax name"));
 		return;

@@ -1,6 +1,6 @@
 ## Here is an example for Go.
 
-syntax "go" "\.go$"
+syntax go "\.go$"
 comment "//"
 
 # Set up a formatter since spelling is probably useless...
