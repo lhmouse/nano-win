@@ -258,8 +258,7 @@ bool nregcomp(const char *regex, int compile_flags)
  * line at ptr, and add it to the global linked list of color syntaxes. */
 void parse_syntax(char *ptr)
 {
-	char *nameptr;
-		/* A pointer to what should be the name of the syntax. */
+	char *nameptr = ptr;
 
 	opensyntax = FALSE;
 
@@ -270,17 +269,19 @@ void parse_syntax(char *ptr)
 		return;
 	}
 
-	nameptr = ++ptr;
 	ptr = parse_next_word(ptr);
 
-	/* Check that the name starts and ends with a double quote. */
-	if (*(nameptr - 1) != '\x22' || nameptr[strlen(nameptr) - 1] != '\x22') {
-		rcfile_error(N_("A syntax name must be quoted"));
+	/* Check that there are no quotes or that they are paired. */
+	if ((*nameptr == '\x22') ^ (nameptr[strlen(nameptr) - 1] == '\x22')) {
+		rcfile_error(N_("Unpaired quote in syntax name"));
 		return;
 	}
 
-	/* Strip the end quote. */
-	nameptr[strlen(nameptr) - 1] = '\0';
+	/* If the name is quoted, strip the quotes. */
+	if (*nameptr == '\x22') {
+		nameptr++;
+		nameptr[strlen(nameptr) - 1] = '\0';
+	}
 
 	/* Redefining the "none" syntax is not allowed. */
 	if (strcmp(nameptr, "none") == 0) {
