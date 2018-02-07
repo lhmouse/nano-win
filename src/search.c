@@ -96,10 +96,10 @@ void search_init(bool replacing, bool keep_the_answer)
 {
 	char *thedefault;
 		/* What will be searched for when the user typed nothing. */
-	static char *sofar = NULL;
-		/* What the user has typed so far, before toggling something. */
 
-	sofar = mallocstrcpy(sofar, keep_the_answer ? answer : "");
+	/* When starting a new search, clear the current answer. */
+	if (!keep_the_answer)
+		answer = mallocstrcpy(answer, NULL);
 
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
@@ -118,7 +118,7 @@ void search_init(bool replacing, bool keep_the_answer)
 		/* Ask the user what to search for (or replace). */
 		int i = do_prompt(FALSE, FALSE,
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
-					sofar, &search_history,
+					answer, &search_history,
 					/* TRANSLATORS: This is the main search prompt. */
 					edit_refresh, "%s%s%s%s%s%s", _("Search"),
 					/* TRANSLATORS: The next three modify the search prompt. */
@@ -167,8 +167,6 @@ void search_init(bool replacing, bool keep_the_answer)
 			search_replace_abort();
 			return;
 		}
-
-		sofar = mallocstrcpy(sofar, answer);
 
 		func = func_from_key(&i);
 
