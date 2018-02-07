@@ -378,10 +378,10 @@ char *mallocstrncpy(char *dest, const char *src, size_t n)
 	if (src == NULL)
 		src = "";
 
-	if (src != dest)
-		free(dest);
+	if (src == dest)
+		fprintf(stderr, "\r*** Copying a string to itself -- please report a bug ***");
 
-	dest = charalloc(n);
+	dest = charealloc(dest, n);
 	strncpy(dest, src, n);
 
 	return dest;
