@@ -1772,8 +1772,10 @@ int do_input(bool allow_funcs)
 			}
 #endif
 #ifdef ENABLE_WRAPPING
-			/* If the cursor moved to another line, clear the prepend flag. */
-			if (openfile->current->next != was_next)
+			/* If the cursor moved to another line and this was not caused
+			 * by adding characters to the buffer, clear the prepend flag. */
+			if (openfile->current->next != was_next &&
+							s->scfunc != do_tab && s->scfunc != do_verbatim_input)
 				wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
