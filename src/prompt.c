@@ -354,6 +354,8 @@ void do_statusbar_verbatim_input(void)
 	kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
 	do_statusbar_output(kbinput, kbinput_len, FALSE);
+
+	free(kbinput);
 }
 
 /* Return the zero-based column position of the cursor in the answer. */
