@@ -617,7 +617,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
 
 	bottombars(menu);
 
-	if (answer != curranswer)
+	if (answer != curranswer || answer == NULL)
 		answer = mallocstrcpy(answer, curranswer);
 
 #ifndef NANO_TINY
