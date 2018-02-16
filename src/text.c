@@ -1070,6 +1070,7 @@ void do_enter(void)
 #endif
 
 	refresh_needed = TRUE;
+	focusing = FALSE;
 }
 
 #ifndef NANO_TINY
