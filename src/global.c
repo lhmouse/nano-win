@@ -529,7 +529,7 @@ void shortcut_init(void)
 #endif
 		;
 	const char *writeout_gist =
-		N_("Write the current file to disk");
+		N_("Write the current buffer (or the marked region) to disk");
 	const char *readfile_gist =
 		N_("Insert another file into the current one");
 	const char *whereis_gist =
@@ -549,7 +549,7 @@ void shortcut_init(void)
 	const char *prevpage_gist = N_("Go one screenful up");
 	const char *nextpage_gist = N_("Go one screenful down");
 	const char *cut_gist =
-		N_("Cut the current line and store it in the cutbuffer");
+		N_("Cut current line (or marked region) and store it in cutbuffer");
 	const char *uncut_gist =
 		N_("Uncut from the cutbuffer into the current line");
 	const char *cursorpos_gist = N_("Display the position of the cursor");
@@ -562,7 +562,7 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *mark_gist = N_("Mark text starting from the cursor position");
 	const char *copy_gist =
-		N_("Copy the current line and store it in the cutbuffer");
+		N_("Copy current line (or marked region) and store it in cutbuffer");
 	const char *indent_gist = N_("Indent the current line (or marked lines)");
 	const char *unindent_gist = N_("Unindent the current line (or marked lines)");
 	const char *undo_gist = N_("Undo the last operation");
