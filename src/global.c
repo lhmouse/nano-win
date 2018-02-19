@@ -446,6 +446,8 @@ int keycode_from_string(const char *keystring)
 	if (keystring[0] == '^') {
 		if (strcasecmp(keystring, "^Space") == 0)
 			return 0;
+		if (strcasecmp(keystring, "^/") == 0)
+			return '_' - 64;
 		if (strlen(keystring) == 2)
 			return keystring[1] - 64;
 		else
@@ -1120,7 +1122,7 @@ void shortcut_init(void)
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
 	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
-	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
+	add_to_sclist(MMAIN, "^/", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN, "F13", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^Y", 0, do_page_up, 0);
