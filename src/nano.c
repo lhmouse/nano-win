@@ -2500,6 +2500,7 @@ int main(int argc, char **argv)
 	interface_color_pair[LINE_NUMBER] = hilite_attribute;
 	interface_color_pair[SELECTED_TEXT] = hilite_attribute;
 	interface_color_pair[STATUS_BAR] = hilite_attribute;
+	interface_color_pair[ERROR_MESSAGE] = hilite_attribute;
 	interface_color_pair[KEY_COMBO] = hilite_attribute;
 	interface_color_pair[FUNCTION_TAG] = A_NORMAL;
 #endif

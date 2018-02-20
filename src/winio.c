@@ -2131,6 +2131,7 @@ void statusline(message_type importance, const char *msg, ...)
 {
 	va_list ap;
 	static int alerts = 0;
+	int colorpair;
 	char *compound, *message;
 	size_t start_col;
 	bool bracketed;
@@ -2169,7 +2170,9 @@ void statusline(message_type importance, const char *msg, ...)
 			msg = _("Further warnings were suppressed");
 		else if (alerts < 4)
 			beep();
-	}
+		colorpair = interface_color_pair[ERROR_MESSAGE];
+	} else
+		colorpair = interface_color_pair[STATUS_BAR];
 
 	lastmessage = importance;
 
@@ -2186,14 +2189,14 @@ void statusline(message_type importance, const char *msg, ...)
 	bracketed = (start_col > 1);
 
 	wmove(bottomwin, 0, (bracketed ? start_col - 2 : start_col));
-	wattron(bottomwin, interface_color_pair[STATUS_BAR]);
+	wattron(bottomwin, colorpair);
 	if (bracketed)
 		waddstr(bottomwin, "[ ");
 	waddstr(bottomwin, message);
 	free(message);
 	if (bracketed)
 		waddstr(bottomwin, " ]");
-	wattroff(bottomwin, interface_color_pair[STATUS_BAR]);
+	wattroff(bottomwin, colorpair);
 
 	/* Defeat a VTE/Konsole bug, where the cursor can go off-limits. */
 	if (ISSET(CONSTANT_SHOW) && ISSET(NO_HELP))

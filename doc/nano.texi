@@ -736,6 +736,10 @@ Note that this overrides @option{quickblank}.
 Use cut-from-cursor-to-end-of-line by default, instead of cutting the whole line.
 (The old form of this option, @code{set cut}, is deprecated.)
 
+@item set errorcolor @var{fgcolor},@var{bgcolor}
+Use this color combination for the status bar when an error message is displayed.
+@xref{@code{set functioncolor}} for valid color names.
+
 @item set fill @var{number}
 Hard-wrap lines at column number @var{number}.  If @var{number} is 0 or less,
 the maximum line length will be the screen width less @var{number} columns.
