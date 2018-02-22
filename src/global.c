@@ -517,16 +517,11 @@ void shortcut_init(void)
 	const char *cancel_gist = N_("Cancel the current function");
 	const char *help_gist = N_("Display this help text");
 	const char *exit_gist =
-#ifdef ENABLE_MULTIBUFFER
-		N_("Close the current file buffer / Exit from nano")
-#else
-		N_("Exit from nano")
-#endif
-		;
+		N_("Close the current buffer / Exit from nano");
 	const char *writeout_gist =
 		N_("Write the current buffer (or the marked region) to disk");
 	const char *readfile_gist =
-		N_("Insert another file into the current one");
+		N_("Insert another file into current buffer (or into new buffer)");
 	const char *whereis_gist =
 		N_("Search forward for a string or a regular expression");
 	const char *wherewas_gist =
