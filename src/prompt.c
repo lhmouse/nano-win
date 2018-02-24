@@ -156,6 +156,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 								openfile->filename[0] != '\0' &&
 								(s->scfunc == do_verbatim_input ||
 								s->scfunc == do_cut_text_void ||
+								s->scfunc == do_uncut_text ||
 								s->scfunc == do_delete ||
 								s->scfunc == do_backspace))
 			;
