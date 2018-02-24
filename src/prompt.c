@@ -64,7 +64,6 @@ int do_statusbar_input(bool *finished)
 	static size_t kbinput_len = 0;
 		/* The length of the input buffer. */
 	const sc *shortcut;
-	const subnfunc *f;
 
 	*finished = FALSE;
 
@@ -168,8 +167,7 @@ int do_statusbar_input(bool *finished)
 			/* Handle any other shortcut in the current menu, setting finished
 			 * to TRUE to indicate that we're done after running or trying to
 			 * run its associated function. */
-			f = sctofunc(shortcut);
-			if (f && (!ISSET(VIEW_MODE) || f->viewok))
+			if (!ISSET(VIEW_MODE) || sctofunc(shortcut)->viewok)
 				execute(shortcut);
 			*finished = TRUE;
 		}
