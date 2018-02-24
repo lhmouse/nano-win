@@ -129,41 +129,41 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	}
 
 	if (shortcut) {
-		if (shortcut->scfunc == do_tab || shortcut->scfunc == do_enter)
+		if (shortcut->func == do_tab || shortcut->func == do_enter)
 			;
-		else if (shortcut->scfunc == do_left)
+		else if (shortcut->func == do_left)
 			do_statusbar_left();
-		else if (shortcut->scfunc == do_right)
+		else if (shortcut->func == do_right)
 			do_statusbar_right();
 #ifndef NANO_TINY
-		else if (shortcut->scfunc == do_prev_word_void)
+		else if (shortcut->func == do_prev_word_void)
 			do_statusbar_prev_word();
-		else if (shortcut->scfunc == do_next_word_void)
+		else if (shortcut->func == do_next_word_void)
 			do_statusbar_next_word();
 #endif
-		else if (shortcut->scfunc == do_home)
+		else if (shortcut->func == do_home)
 			do_statusbar_home();
-		else if (shortcut->scfunc == do_end)
+		else if (shortcut->func == do_end)
 			do_statusbar_end();
 		/* When in restricted mode at the "Write File" prompt and the
 		 * filename isn't blank, disallow any input and deletion. */
 		else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
 								openfile->filename[0] != '\0' &&
-								(shortcut->scfunc == do_verbatim_input ||
-								shortcut->scfunc == do_cut_text_void ||
-								shortcut->scfunc == do_uncut_text ||
-								shortcut->scfunc == do_delete ||
-								shortcut->scfunc == do_backspace))
+								(shortcut->func == do_verbatim_input ||
+								shortcut->func == do_cut_text_void ||
+								shortcut->func == do_uncut_text ||
+								shortcut->func == do_delete ||
+								shortcut->func == do_backspace))
 			;
-		else if (shortcut->scfunc == do_verbatim_input)
+		else if (shortcut->func == do_verbatim_input)
 			do_statusbar_verbatim_input();
-		else if (shortcut->scfunc == do_cut_text_void)
+		else if (shortcut->func == do_cut_text_void)
 			do_statusbar_cut_text();
-		else if (shortcut->scfunc == do_delete)
+		else if (shortcut->func == do_delete)
 			do_statusbar_delete();
-		else if (shortcut->scfunc == do_backspace)
+		else if (shortcut->func == do_backspace)
 			do_statusbar_backspace();
-		else if (shortcut->scfunc == do_uncut_text) {
+		else if (shortcut->func == do_uncut_text) {
 			if (cutbuffer != NULL)
 				do_statusbar_uncut_text();
 		} else {
@@ -172,10 +172,10 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 			 * and setting finished to TRUE to indicatethat we're done after
 			 * running or trying to run their associated functions. */
 			f = sctofunc(shortcut);
-			if (shortcut->scfunc != NULL) {
+			if (shortcut->func != NULL) {
 				*ran_func = TRUE;
 				if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
-								f->scfunc != do_gotolinecolumn_void)
+								f->func != do_gotolinecolumn_void)
 					execute(shortcut);
 			}
 			*finished = TRUE;

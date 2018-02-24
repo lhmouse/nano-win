@@ -254,7 +254,7 @@ size_t length_of_list(int menu)
 	size_t i = 0;
 
 	for (f = allfuncs; f != NULL; f = f->next)
-		if ((f->menus & menu) && first_sc_for(menu, f->scfunc) != NULL)
+		if ((f->menus & menu) && first_sc_for(menu, f->func) != NULL)
 			i++;
 
 	return i;
@@ -337,7 +337,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 	tailfunc = f;
 
 	f->next = NULL;
-	f->scfunc = func;
+	f->func = func;
 	f->menus = menus;
 	f->desc = desc;
 	f->viewok = viewok;
@@ -371,7 +371,7 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 
 	/* Fill in the data. */
 	s->menus = menus;
-	s->scfunc = func;
+	s->func = func;
 #ifndef NANO_TINY
 	s->toggle = toggle;
 	if (toggle)
@@ -391,7 +391,7 @@ const sc *first_sc_for(int menu, void (*func)(void))
 	const sc *s;
 
 	for (s = sclist; s != NULL; s = s->next)
-		if ((s->menus & menu) && s->scfunc == func)
+		if ((s->menus & menu) && s->func == func)
 			return s;
 
 #ifdef DEBUG
@@ -420,7 +420,7 @@ functionptrtype func_from_key(int *kbinput)
 	const sc *s = get_shortcut(kbinput);
 
 	if (s)
-		return s->scfunc;
+		return s->func;
 	else
 		return NULL;
 }
@@ -1364,8 +1364,8 @@ void shortcut_init(void)
 void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 {
 	for (sc *s = sclist; s != NULL; s = s->next)
-		if (s->scfunc == oldfunc)
-			s->scfunc = newfunc;
+		if (s->func == oldfunc)
+			s->func = newfunc;
 }
 
 void set_lint_or_format_shortcuts(void)
@@ -1390,20 +1390,20 @@ void set_spell_shortcuts(void)
 void execute(const sc *shortcut)
 {
 #ifdef ENABLE_NANORC
-	if (shortcut->scfunc == implant)
+	if (shortcut->func == implant)
 		/* Insert the corresponding string into the keyboard buffer. */
 		for (int i = strlen(shortcut->expansion); i > 0; i--)
 			put_back(shortcut->expansion[i - 1]);
 	else
 #endif
-		shortcut->scfunc();
+		shortcut->func();
 }
 
 const subnfunc *sctofunc(const sc *s)
 {
 	subnfunc *f = allfuncs;
 
-	while (f != NULL && f->scfunc != s->scfunc)
+	while (f != NULL && f->func != s->func)
 		f = f->next;
 
 	return f;
@@ -1472,207 +1472,207 @@ sc *strtosc(const char *input)
 
 #ifdef ENABLE_HELP
 	if (!strcasecmp(input, "help"))
-		s->scfunc = do_help_void;
+		s->func = do_help_void;
 	else
 #endif
 	if (!strcasecmp(input, "cancel"))
-		s->scfunc = do_cancel;
+		s->func = do_cancel;
 	else if (!strcasecmp(input, "exit"))
-		s->scfunc = do_exit;
+		s->func = do_exit;
 	else if (!strcasecmp(input, "discardbuffer"))
-		s->scfunc = discard_buffer;
+		s->func = discard_buffer;
 	else if (!strcasecmp(input, "writeout"))
-		s->scfunc = do_writeout_void;
+		s->func = do_writeout_void;
 	else if (!strcasecmp(input, "savefile"))
-		s->scfunc = do_savefile;
+		s->func = do_savefile;
 	else if (!strcasecmp(input, "insert"))
-		s->scfunc = do_insertfile_void;
+		s->func = do_insertfile_void;
 	else if (!strcasecmp(input, "whereis"))
-		s->scfunc = do_search_forward;
+		s->func = do_search_forward;
 	else if (!strcasecmp(input, "wherewas"))
-		s->scfunc = do_search_backward;
+		s->func = do_search_backward;
 	else if (!strcasecmp(input, "searchagain"))
-		s->scfunc = do_research;
+		s->func = do_research;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "findprevious"))
-		s->scfunc = do_findprevious;
+		s->func = do_findprevious;
 	else if (!strcasecmp(input, "findnext"))
-		s->scfunc = do_findnext;
+		s->func = do_findnext;
 #endif
 	else if (!strcasecmp(input, "replace"))
-		s->scfunc = do_replace;
+		s->func = do_replace;
 	else if (!strcasecmp(input, "cut"))
-		s->scfunc = do_cut_text_void;
+		s->func = do_cut_text_void;
 	else if (!strcasecmp(input, "uncut"))
-		s->scfunc = do_uncut_text;
+		s->func = do_uncut_text;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "cutrestoffile"))
-		s->scfunc = do_cut_till_eof;
+		s->func = do_cut_till_eof;
 	else if (!strcasecmp(input, "copytext"))
-		s->scfunc = do_copy_text;
+		s->func = do_copy_text;
 	else if (!strcasecmp(input, "mark"))
-		s->scfunc = do_mark;
+		s->func = do_mark;
 #endif
 #ifdef ENABLE_SPELLER
 	else if (!strcasecmp(input, "tospell") ||
 			 !strcasecmp(input, "speller"))
-		s->scfunc = do_spell;
+		s->func = do_spell;
 #endif
 #ifdef ENABLE_COLOR
 	else if (!strcasecmp(input, "linter"))
-		s->scfunc = do_linter;
+		s->func = do_linter;
 #endif
 	else if (!strcasecmp(input, "curpos"))
-		s->scfunc = do_cursorpos_void;
+		s->func = do_cursorpos_void;
 	else if (!strcasecmp(input, "gotoline"))
-		s->scfunc = do_gotolinecolumn_void;
+		s->func = do_gotolinecolumn_void;
 #ifdef ENABLE_JUSTIFY
 	else if (!strcasecmp(input, "justify"))
-		s->scfunc = do_justify_void;
+		s->func = do_justify_void;
 	else if (!strcasecmp(input, "fulljustify"))
-		s->scfunc = do_full_justify;
+		s->func = do_full_justify;
 	else if (!strcasecmp(input, "beginpara"))
-		s->scfunc = do_para_begin_void;
+		s->func = do_para_begin_void;
 	else if (!strcasecmp(input, "endpara"))
-		s->scfunc = do_para_end_void;
+		s->func = do_para_end_void;
 #endif
 #ifdef ENABLE_COMMENT
 	else if (!strcasecmp(input, "comment"))
-		s->scfunc = do_comment;
+		s->func = do_comment;
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	else if (!strcasecmp(input, "complete"))
-		s->scfunc = complete_a_word;
+		s->func = complete_a_word;
 #endif
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "indent"))
-		s->scfunc = do_indent;
+		s->func = do_indent;
 	else if (!strcasecmp(input, "unindent"))
-		s->scfunc = do_unindent;
+		s->func = do_unindent;
 	else if (!strcasecmp(input, "scrollup"))
-		s->scfunc = do_scroll_up;
+		s->func = do_scroll_up;
 	else if (!strcasecmp(input, "scrolldown"))
-		s->scfunc = do_scroll_down;
+		s->func = do_scroll_down;
 	else if (!strcasecmp(input, "cutwordleft"))
-		s->scfunc = do_cut_prev_word;
+		s->func = do_cut_prev_word;
 	else if (!strcasecmp(input, "cutwordright"))
-		s->scfunc = do_cut_next_word;
+		s->func = do_cut_next_word;
 	else if (!strcasecmp(input, "findbracket"))
-		s->scfunc = do_find_bracket;
+		s->func = do_find_bracket;
 	else if (!strcasecmp(input, "wordcount"))
-		s->scfunc = do_wordlinechar_count;
+		s->func = do_wordlinechar_count;
 	else if (!strcasecmp(input, "recordmacro"))
-		s->scfunc = record_macro;
+		s->func = record_macro;
 	else if (!strcasecmp(input, "runmacro"))
-		s->scfunc = run_macro;
+		s->func = run_macro;
 	else if (!strcasecmp(input, "undo"))
-		s->scfunc = do_undo;
+		s->func = do_undo;
 	else if (!strcasecmp(input, "redo"))
-		s->scfunc = do_redo;
+		s->func = do_redo;
 #endif
 	else if (!strcasecmp(input, "left") ||
 			 !strcasecmp(input, "back"))
-		s->scfunc = do_left;
+		s->func = do_left;
 	else if (!strcasecmp(input, "right") ||
 			 !strcasecmp(input, "forward"))
-		s->scfunc = do_right;
+		s->func = do_right;
 	else if (!strcasecmp(input, "up") ||
 			 !strcasecmp(input, "prevline"))
-		s->scfunc = do_up_void;
+		s->func = do_up_void;
 	else if (!strcasecmp(input, "down") ||
 			 !strcasecmp(input, "nextline"))
-		s->scfunc = do_down_void;
+		s->func = do_down_void;
 	else if (!strcasecmp(input, "prevword"))
-		s->scfunc = do_prev_word_void;
+		s->func = do_prev_word_void;
 	else if (!strcasecmp(input, "nextword"))
-		s->scfunc = do_next_word_void;
+		s->func = do_next_word_void;
 	else if (!strcasecmp(input, "home"))
-		s->scfunc = do_home;
+		s->func = do_home;
 	else if (!strcasecmp(input, "end"))
-		s->scfunc = do_end;
+		s->func = do_end;
 	else if (!strcasecmp(input, "prevblock"))
-		s->scfunc = do_prev_block;
+		s->func = do_prev_block;
 	else if (!strcasecmp(input, "nextblock"))
-		s->scfunc = do_next_block;
+		s->func = do_next_block;
 	else if (!strcasecmp(input, "pageup") ||
 			 !strcasecmp(input, "prevpage"))
-		s->scfunc = do_page_up;
+		s->func = do_page_up;
 	else if (!strcasecmp(input, "pagedown") ||
 			 !strcasecmp(input, "nextpage"))
-		s->scfunc = do_page_down;
+		s->func = do_page_down;
 	else if (!strcasecmp(input, "firstline"))
-		s->scfunc = to_first_line;
+		s->func = to_first_line;
 	else if (!strcasecmp(input, "lastline"))
-		s->scfunc = to_last_line;
+		s->func = to_last_line;
 #ifdef ENABLE_MULTIBUFFER
 	else if (!strcasecmp(input, "prevbuf"))
-		s->scfunc = switch_to_prev_buffer;
+		s->func = switch_to_prev_buffer;
 	else if (!strcasecmp(input, "nextbuf"))
-		s->scfunc = switch_to_next_buffer;
+		s->func = switch_to_next_buffer;
 #endif
 	else if (!strcasecmp(input, "verbatim"))
-		s->scfunc = do_verbatim_input;
+		s->func = do_verbatim_input;
 	else if (!strcasecmp(input, "tab"))
-		s->scfunc = do_tab;
+		s->func = do_tab;
 	else if (!strcasecmp(input, "enter"))
-		s->scfunc = do_enter;
+		s->func = do_enter;
 	else if (!strcasecmp(input, "delete"))
-		s->scfunc = do_delete;
+		s->func = do_delete;
 	else if (!strcasecmp(input, "backspace"))
-		s->scfunc = do_backspace;
+		s->func = do_backspace;
 	else if (!strcasecmp(input, "refresh"))
-		s->scfunc = total_refresh;
+		s->func = total_refresh;
 	else if (!strcasecmp(input, "suspend"))
-		s->scfunc = do_suspend_void;
+		s->func = do_suspend_void;
 	else if (!strcasecmp(input, "casesens"))
-		s->scfunc = case_sens_void;
+		s->func = case_sens_void;
 	else if (!strcasecmp(input, "regexp"))
-		s->scfunc = regexp_void;
+		s->func = regexp_void;
 	else if (!strcasecmp(input, "backwards"))
-		s->scfunc = backwards_void;
+		s->func = backwards_void;
 	else if (!strcasecmp(input, "flipreplace"))
-		s->scfunc = flip_replace;
+		s->func = flip_replace;
 	else if (!strcasecmp(input, "flipgoto") ||
 			 !strcasecmp(input, "gototext"))  /* Deprecated.  Remove end of 2018. */
-		s->scfunc = flip_goto;
+		s->func = flip_goto;
 #ifdef ENABLE_HISTORIES
 	else if (!strcasecmp(input, "prevhistory"))
-		s->scfunc = get_history_older_void;
+		s->func = get_history_older_void;
 	else if (!strcasecmp(input, "nexthistory"))
-		s->scfunc = get_history_newer_void;
+		s->func = get_history_newer_void;
 #endif
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "dosformat"))
-		s->scfunc = dos_format_void;
+		s->func = dos_format_void;
 	else if (!strcasecmp(input, "macformat"))
-		s->scfunc = mac_format_void;
+		s->func = mac_format_void;
 	else if (!strcasecmp(input, "append"))
-		s->scfunc = append_void;
+		s->func = append_void;
 	else if (!strcasecmp(input, "prepend"))
-		s->scfunc = prepend_void;
+		s->func = prepend_void;
 	else if (!strcasecmp(input, "backup"))
-		s->scfunc = backup_file_void;
+		s->func = backup_file_void;
 	else if (!strcasecmp(input, "flipexecute"))
-		s->scfunc = flip_execute;
+		s->func = flip_execute;
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	else if (!strcasecmp(input, "flipnewbuffer"))
-		s->scfunc = flip_newbuffer;
+		s->func = flip_newbuffer;
 #endif
 #ifdef ENABLE_BROWSER
 	else if (!strcasecmp(input, "tofiles") ||
 			 !strcasecmp(input, "browser"))
-		s->scfunc = to_files_void;
+		s->func = to_files_void;
 	else if (!strcasecmp(input, "gotodir"))
-		s->scfunc = goto_dir_void;
+		s->func = goto_dir_void;
 	else if (!strcasecmp(input, "firstfile"))
-		s->scfunc = to_first_file;
+		s->func = to_first_file;
 	else if (!strcasecmp(input, "lastfile"))
-		s->scfunc = to_last_file;
+		s->func = to_last_file;
 #endif
 	else {
 #ifndef NANO_TINY
-		s->scfunc = do_toggle_void;
+		s->func = do_toggle_void;
 		if (!strcasecmp(input, "nohelp"))
 			s->toggle = NO_HELP;
 		else if (!strcasecmp(input, "constupdate"))

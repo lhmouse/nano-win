@@ -431,7 +431,7 @@ typedef struct sc {
 		/* The integer that, together with meta, identifies the keystroke. */
 	int menus;
 		/* Which menus this applies to. */
-	void (*scfunc)(void);
+	void (*func)(void);
 		/* The function we're going to run. */
 #ifndef NANO_TINY
 	int toggle;
@@ -449,7 +449,7 @@ typedef struct sc {
 } sc;
 
 typedef struct subnfunc {
-	void (*scfunc)(void);
+	void (*func)(void);
 		/* The actual function to call. */
 	int menus;
 		/* In what menus this function applies. */

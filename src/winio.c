@@ -1660,7 +1660,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			for (f = allfuncs; f != NULL; f = f->next) {
 				if ((f->menus & currmenu) == 0)
 					continue;
-				if (first_sc_for(currmenu, f->scfunc) == NULL)
+				if (first_sc_for(currmenu, f->func) == NULL)
 					continue;
 				/* Tick off an actually shown shortcut. */
 				j -= 1;
@@ -1670,7 +1670,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 
 			/* And put the corresponding key into the keyboard buffer. */
 			if (f != NULL) {
-				const sc *s = first_sc_for(currmenu, f->scfunc);
+				const sc *s = first_sc_for(currmenu, f->func);
 				unget_kbinput(s->keycode, s->meta);
 			}
 			return 1;
@@ -2255,7 +2255,7 @@ void bottombars(int menu)
 		if ((f->menus & menu) == 0)
 			continue;
 
-		s = first_sc_for(menu, f->scfunc);
+		s = first_sc_for(menu, f->func);
 		if (s == NULL)
 			continue;
 

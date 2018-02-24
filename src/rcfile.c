@@ -421,7 +421,7 @@ void parse_binding(char *ptr, bool dobind)
 		 * otherwise it is the name of a function. */
 		if (*funcptr == '"') {
 			newsc = nmalloc(sizeof(sc));
-			newsc->scfunc = implant;
+			newsc->func = implant;
 			newsc->expansion = mallocstrcpy(NULL, funcptr + 1);
 #ifndef NANO_TINY
 			newsc->toggle = 0;
@@ -447,17 +447,17 @@ void parse_binding(char *ptr, bool dobind)
 
 		/* Tally up the menus where the function exists. */
 		for (f = allfuncs; f != NULL; f = f->next)
-			if (f->scfunc == newsc->scfunc)
+			if (f->func == newsc->func)
 				mask = mask | f->menus;
 
 #ifndef NANO_TINY
 		/* Handle the special case of the toggles. */
-		if (newsc->scfunc == do_toggle_void)
+		if (newsc->func == do_toggle_void)
 			mask = MMAIN;
 #endif
 
 		/* Now limit the given menu to those where the function exists. */
-		if (is_universal(newsc->scfunc))
+		if (is_universal(newsc->func))
 			menu = menu & MMOST;
 		else
 			menu = menu & mask;
@@ -486,9 +486,9 @@ void parse_binding(char *ptr, bool dobind)
 	if (dobind) {
 #ifndef NANO_TINY
 		/* If this is a toggle, copy its sequence number. */
-		if (newsc->scfunc == do_toggle_void) {
+		if (newsc->func == do_toggle_void) {
 			for (s = sclist; s != NULL; s = s->next)
-				if (s->scfunc == do_toggle_void && s->toggle == newsc->toggle)
+				if (s->func == do_toggle_void && s->toggle == newsc->toggle)
 					newsc->ordinal = s->ordinal;
 		} else
 			newsc->ordinal = 0;
@@ -891,8 +891,8 @@ static void check_vitals_mapped(void)
 
 	for  (v = 0; v < VITALS; v++) {
 		for (f = allfuncs; f != NULL; f = f->next) {
-			if (f->scfunc == vitals[v] && f->menus & inmenus[v]) {
-				const sc *s = first_sc_for(inmenus[v], f->scfunc);
+			if (f->func == vitals[v] && f->menus & inmenus[v]) {
+				const sc *s = first_sc_for(inmenus[v], f->func);
 				if (!s) {
 					fprintf(stderr, _("Fatal error: no keys mapped for function "
 										"\"%s\".  Exiting.\n"), f->desc);

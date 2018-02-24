@@ -1717,20 +1717,20 @@ int do_input(bool allow_funcs)
 
 		/* If the function associated with this shortcut is
 		 * cutting or copying text, remember this. */
-		if (shortcut->scfunc == do_cut_text_void
+		if (shortcut->func == do_cut_text_void
 #ifndef NANO_TINY
-				|| shortcut->scfunc == do_copy_text
-				|| shortcut->scfunc == do_cut_till_eof
+				|| shortcut->func == do_copy_text
+				|| shortcut->func == do_cut_till_eof
 #endif
 				)
 			retain_cuts = TRUE;
 
 #ifdef ENABLE_WORDCOMPLETION
-		if (shortcut->scfunc != complete_a_word)
+		if (shortcut->func != complete_a_word)
 			pletion_line = NULL;
 #endif
 #ifndef NANO_TINY
-		if (shortcut->scfunc == do_toggle_void) {
+		if (shortcut->func == do_toggle_void) {
 			do_toggle(shortcut->toggle);
 			if (shortcut->toggle != CUT_FROM_CURSOR)
 				retain_cuts = TRUE;
@@ -1771,16 +1771,16 @@ int do_input(bool allow_funcs)
 			/* If the cursor moved to another line and this was not caused
 			 * by adding characters to the buffer, clear the prepend flag. */
 			if (openfile->current->next != was_next &&
-							shortcut->scfunc != do_tab &&
-							shortcut->scfunc != do_verbatim_input)
+							shortcut->func != do_tab &&
+							shortcut->func != do_verbatim_input)
 				wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
 			if (f && !f->viewok && !refresh_needed)
 				check_the_multis(openfile->current);
 #endif
-			if (!refresh_needed && (shortcut->scfunc == do_delete ||
-									shortcut->scfunc == do_backspace))
+			if (!refresh_needed && (shortcut->func == do_delete ||
+									shortcut->func == do_backspace))
 				update_line(openfile->current, openfile->current_x);
 		}
 	}
