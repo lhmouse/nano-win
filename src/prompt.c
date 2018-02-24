@@ -53,10 +53,9 @@ int do_statusbar_mouse(void)
 #endif
 
 /* Read in a keystroke, interpret it if it is a shortcut or toggle, and
- * return it.  Set ran_func to TRUE if we ran a function associated with
- * a shortcut key, and set finished to TRUE if we're done after running
+ * return it.  Set finished to TRUE if we're done after running
  * or trying to run a function associated with a shortcut key. */
-int do_statusbar_input(bool *ran_func, bool *finished)
+int do_statusbar_input(bool *finished)
 {
 	int input;
 		/* The character we read in. */
@@ -67,7 +66,6 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	const sc *shortcut;
 	const subnfunc *f;
 
-	*ran_func = FALSE;
 	*finished = FALSE;
 
 	/* Read in a character. */
@@ -167,13 +165,11 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 			if (cutbuffer != NULL)
 				do_statusbar_uncut_text();
 		} else {
-			/* Handle any other shortcut in the current menu, setting
-			 * ran_func to TRUE if we try to run their associated functions,
-			 * and setting finished to TRUE to indicatethat we're done after
-			 * running or trying to run their associated functions. */
+			/* Handle any other shortcut in the current menu, setting finished
+			 * to TRUE to indicate that we're done after running or trying to
+			 * run its associated function. */
 			f = sctofunc(shortcut);
 			if (shortcut->func != NULL) {
-				*ran_func = TRUE;
 				if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
 								f->func != do_gotolinecolumn_void)
 					execute(shortcut);
@@ -439,7 +435,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		void (*refresh_func)(void))
 {
 	int kbinput = ERR;
-	bool ran_func, finished;
+	bool finished;
 	functionptrtype func;
 #ifdef ENABLE_TABCOMP
 	bool tabbed = FALSE;
@@ -466,7 +462,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	update_the_statusbar();
 
 	while (TRUE) {
-		kbinput = do_statusbar_input(&ran_func, &finished);
+		kbinput = do_statusbar_input(&finished);
 
 #ifndef NANO_TINY
 		/* If the window size changed, go reformat the prompt string. */
