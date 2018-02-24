@@ -1630,7 +1630,7 @@ int do_input(bool allow_funcs)
 		/* The length of the input buffer. */
 	bool retain_cuts = FALSE;
 		/* Whether to conserve the current contents of the cutbuffer. */
-	const sc *s;
+	const sc *shortcut;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
 	input = get_kbinput(edit, VISIBLE);
@@ -1654,11 +1654,11 @@ int do_input(bool allow_funcs)
 #endif
 
 	/* Check for a shortcut in the main list. */
-	s = get_shortcut(&input);
+	shortcut = get_shortcut(&input);
 
 	/* If we got a non-high-bit control key, a meta key sequence, or a
 	 * function key, and it's not a shortcut or toggle, throw it out. */
-	if (s == NULL) {
+	if (shortcut == NULL) {
 		if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 			unbound_key(input);
 			input = ERR;
@@ -1671,7 +1671,7 @@ int do_input(bool allow_funcs)
 	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
 	 * character: add the character to the input buffer -- or display a
 	 * warning when we're in view mode. */
-	if (input != ERR && s == NULL) {
+	if (input != ERR && shortcut == NULL) {
 		if (ISSET(VIEW_MODE))
 			print_view_warning();
 		else {
@@ -1691,7 +1691,7 @@ int do_input(bool allow_funcs)
 	 * characters waiting after the one we read in, we need to output
 	 * all available characters in the input puddle.  Note that this
 	 * puddle will be empty if we're in view mode. */
-	if (s || get_key_buffer_len() == 0) {
+	if (shortcut || get_key_buffer_len() == 0) {
 		if (puddle != NULL) {
 			/* Insert all bytes in the input buffer into the edit buffer
 			 * at once, filtering out any low control codes. */
@@ -1705,10 +1705,10 @@ int do_input(bool allow_funcs)
 		}
 	}
 
-	if (s == NULL)
+	if (shortcut == NULL)
 		pletion_line = NULL;
 	else {
-		const subnfunc *f = sctofunc(s);
+		const subnfunc *f = sctofunc(shortcut);
 
 		if (ISSET(VIEW_MODE) && f && !f->viewok) {
 			print_view_warning();
@@ -1717,21 +1717,22 @@ int do_input(bool allow_funcs)
 
 		/* If the function associated with this shortcut is
 		 * cutting or copying text, remember this. */
-		if (s->scfunc == do_cut_text_void
+		if (shortcut->scfunc == do_cut_text_void
 #ifndef NANO_TINY
-				|| s->scfunc == do_copy_text || s->scfunc == do_cut_till_eof
+				|| shortcut->scfunc == do_copy_text
+				|| shortcut->scfunc == do_cut_till_eof
 #endif
 				)
 			retain_cuts = TRUE;
 
 #ifdef ENABLE_WORDCOMPLETION
-		if (s->scfunc != complete_a_word)
+		if (shortcut->scfunc != complete_a_word)
 			pletion_line = NULL;
 #endif
 #ifndef NANO_TINY
-		if (s->scfunc == do_toggle_void) {
-			do_toggle(s->toggle);
-			if (s->toggle != CUT_FROM_CURSOR)
+		if (shortcut->scfunc == do_toggle_void) {
+			do_toggle(shortcut->toggle);
+			if (shortcut->toggle != CUT_FROM_CURSOR)
 				retain_cuts = TRUE;
 		} else
 #endif
@@ -1751,7 +1752,7 @@ int do_input(bool allow_funcs)
 			}
 #endif
 			/* Execute the function of the shortcut. */
-			execute(s);
+			execute(shortcut);
 
 #ifndef NANO_TINY
 			/* When the marked region changes without Shift being held,
@@ -1770,14 +1771,16 @@ int do_input(bool allow_funcs)
 			/* If the cursor moved to another line and this was not caused
 			 * by adding characters to the buffer, clear the prepend flag. */
 			if (openfile->current->next != was_next &&
-							s->scfunc != do_tab && s->scfunc != do_verbatim_input)
+							shortcut->scfunc != do_tab &&
+							shortcut->scfunc != do_verbatim_input)
 				wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
 			if (f && !f->viewok && !refresh_needed)
 				check_the_multis(openfile->current);
 #endif
-			if (!refresh_needed && (s->scfunc == do_delete || s->scfunc == do_backspace))
+			if (!refresh_needed && (shortcut->scfunc == do_delete ||
+									shortcut->scfunc == do_backspace))
 				update_line(openfile->current, openfile->current_x);
 		}
 	}
