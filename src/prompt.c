@@ -169,11 +169,9 @@ int do_statusbar_input(bool *finished)
 			 * to TRUE to indicate that we're done after running or trying to
 			 * run its associated function. */
 			f = sctofunc(shortcut);
-			if (shortcut->func != NULL) {
-				if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
+			if (f && (!ISSET(VIEW_MODE) || f->viewok) &&
 								f->func != do_gotolinecolumn_void)
-					execute(shortcut);
-			}
+				execute(shortcut);
 			*finished = TRUE;
 		}
 	}
