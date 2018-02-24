@@ -65,7 +65,6 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	static size_t kbinput_len = 0;
 		/* The length of the input buffer. */
 	const sc *s;
-	bool have_shortcut = FALSE;
 	const subnfunc *f;
 
 	*ran_func = FALSE;
@@ -93,13 +92,9 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	/* Check for a shortcut in the current list. */
 	s = get_shortcut(&input);
 
-	/* If we got a shortcut from the current list, or a "universal"
-	 * statusbar prompt shortcut, set have_shortcut to TRUE. */
-	have_shortcut = (s != NULL);
-
 	/* If we got a non-high-bit control key, a meta key sequence, or a
 	 * function key, and it's not a shortcut or toggle, throw it out. */
-	if (!have_shortcut) {
+	if (s == NULL) {
 		if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 			beep();
 			input = ERR;
@@ -108,7 +103,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 
 	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
 	 * character: add the it to the input buffer, when allowed. */
-	if (input != ERR && !have_shortcut) {
+	if (input != ERR && s == NULL) {
 		/* Only accept input when not in restricted mode, or when not at
 		 * the "Write File" prompt, or when there is no filename yet. */
 		if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
@@ -122,7 +117,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 	/* If we got a shortcut, or if there aren't any other keystrokes waiting
 	 * after the one we read in, we need to insert all the characters in the
 	 * input buffer (if not empty) into the answer. */
-	if ((have_shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
+	if ((s || get_key_buffer_len() == 0) && kbinput != NULL) {
 		/* Inject all characters in the input buffer at once, filtering out
 		 * control characters. */
 		do_statusbar_output(kbinput, kbinput_len, TRUE);
@@ -133,7 +128,7 @@ int do_statusbar_input(bool *ran_func, bool *finished)
 		kbinput = NULL;
 	}
 
-	if (have_shortcut) {
+	if (s) {
 		if (s->scfunc == do_tab || s->scfunc == do_enter)
 			;
 		else if (s->scfunc == do_left)

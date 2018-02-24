@@ -1631,7 +1631,6 @@ int do_input(bool allow_funcs)
 	bool retain_cuts = FALSE;
 		/* Whether to conserve the current contents of the cutbuffer. */
 	const sc *s;
-	bool have_shortcut;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
 	input = get_kbinput(edit, VISIBLE);
@@ -1657,13 +1656,9 @@ int do_input(bool allow_funcs)
 	/* Check for a shortcut in the main list. */
 	s = get_shortcut(&input);
 
-	/* If we got a shortcut from the main list, or a "universal"
-	 * edit window shortcut, set have_shortcut to TRUE. */
-	have_shortcut = (s != NULL);
-
 	/* If we got a non-high-bit control key, a meta key sequence, or a
 	 * function key, and it's not a shortcut or toggle, throw it out. */
-	if (!have_shortcut) {
+	if (s == NULL) {
 		if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
 			unbound_key(input);
 			input = ERR;
@@ -1676,7 +1671,7 @@ int do_input(bool allow_funcs)
 	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
 	 * character: add the character to the input buffer -- or display a
 	 * warning when we're in view mode. */
-	if (input != ERR && !have_shortcut) {
+	if (input != ERR && s == NULL) {
 		if (ISSET(VIEW_MODE))
 			print_view_warning();
 		else {
@@ -1696,7 +1691,7 @@ int do_input(bool allow_funcs)
 	 * characters waiting after the one we read in, we need to output
 	 * all available characters in the input puddle.  Note that this
 	 * puddle will be empty if we're in view mode. */
-	if (have_shortcut || get_key_buffer_len() == 0) {
+	if (s || get_key_buffer_len() == 0) {
 		if (puddle != NULL) {
 			/* Insert all bytes in the input buffer into the edit buffer
 			 * at once, filtering out any low control codes. */
@@ -1710,7 +1705,7 @@ int do_input(bool allow_funcs)
 		}
 	}
 
-	if (!have_shortcut)
+	if (s == NULL)
 		pletion_line = NULL;
 	else {
 		const subnfunc *f = sctofunc(s);
