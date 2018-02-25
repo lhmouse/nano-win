@@ -1762,9 +1762,12 @@ int do_input(bool allow_funcs)
 			/* When the marked region changes without Shift being held,
 			 * discard a soft mark.  And when the marked region covers a
 			 * different set of lines, reset  the "last line too" flag. */
-			if (openfile->mark && (openfile->current != was_current ||
-										openfile->current_x != was_x)) {
-				if (!shift_held && openfile->kind_of_mark == SOFTMARK) {
+			if (openfile->mark) {
+				if (!shift_held && openfile->kind_of_mark == SOFTMARK &&
+									(openfile->current != was_current ||
+									openfile->current_x != was_x ||
+									(shortcut->func >= to_first_line &&
+									shortcut->func <= do_right))) {
 					openfile->mark = NULL;
 					refresh_needed = TRUE;
 				} else if (openfile->current != was_current)
