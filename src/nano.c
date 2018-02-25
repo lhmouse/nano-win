@@ -1708,9 +1708,7 @@ int do_input(bool allow_funcs)
 	if (shortcut == NULL)
 		pletion_line = NULL;
 	else {
-		const subnfunc *f = sctofunc(shortcut);
-
-		if (ISSET(VIEW_MODE) && f && !f->viewok) {
+		if (ISSET(VIEW_MODE) && !sctofunc(shortcut)->viewok) {
 			print_view_warning();
 			return ERR;
 		}
@@ -1776,7 +1774,7 @@ int do_input(bool allow_funcs)
 				wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
-			if (f && !f->viewok && !refresh_needed)
+			if (!refresh_needed && !sctofunc(shortcut)->viewok)
 				check_the_multis(openfile->current);
 #endif
 			if (!refresh_needed && (shortcut->func == do_delete ||
