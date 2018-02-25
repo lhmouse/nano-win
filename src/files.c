@@ -2156,11 +2156,11 @@ int write_it_out(bool exiting, bool withprompt)
 						(method == APPEND) ? _("Append Selection to File") :
 						_("Write Selection to File");
 		else if (method != OVERWRITE)
-			msg = (method == PREPEND) ? _("File Name to Prepend to") :
-										_("File Name to Append to");
+			msg = (method == PREPEND) ? _("Prepend to File") :
+										_("Append to File");
 		else
 #endif
-			msg = _("File Name to Write");
+			msg = _("Write to File");
 
 		present_path = mallocstrcpy(present_path, "./");
 
