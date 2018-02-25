@@ -196,8 +196,8 @@
 # set wordchars "<_>."
 
 
-## Paint the interface elements of nano.
-## These are examples; by default there are no colors.
+## Paint the interface elements of nano.  These are examples;
+## by default there are no colors, except for errorcolor.
 # set titlecolor brightwhite,blue
 # set statuscolor brightwhite,green
 # set errorcolor brightwhite,red
