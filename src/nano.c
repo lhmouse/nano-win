@@ -1727,6 +1727,12 @@ int do_input(bool allow_funcs)
 		if (shortcut->func != complete_a_word)
 			pletion_line = NULL;
 #endif
+#ifdef ENABLE_NANORC
+		if (shortcut->func == implant) {
+			execute(shortcut);
+			return 42;
+		}
+#endif
 #ifndef NANO_TINY
 		if (shortcut->func == do_toggle_void) {
 			do_toggle(shortcut->toggle);
