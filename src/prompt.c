@@ -152,6 +152,10 @@ int do_statusbar_input(bool *finished)
 								shortcut->func == do_delete ||
 								shortcut->func == do_backspace))
 			;
+#ifdef ENABLE_NANORC
+		else if (shortcut->func == implant)
+			execute(shortcut);
+#endif
 		else if (shortcut->func == do_verbatim_input)
 			do_statusbar_verbatim_input();
 		else if (shortcut->func == do_cut_text_void)
