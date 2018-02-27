@@ -5,7 +5,7 @@
              adds the options -M and --trimblanks for the command line,
              recognizes key combos with Shift on a few more terminals,
              no longer shows dots in certain prompt texts when visible
-             witespace is turned on, fixes two corner cases when doing
+             whitespace is turned on, fixes two corner cases when doing
              replacements in a marked region, allows to open a named
              pipe again when using --noread, and accurately detects
              a needed color change when a line contains a start match
