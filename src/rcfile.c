@@ -337,7 +337,7 @@ bool is_universal(void (*func)(void))
 #ifndef NANO_TINY
 		func == do_prev_word_void || func == do_next_word_void ||
 #endif
-#ifndef ENABLE_NANORC
+#ifdef ENABLE_NANORC
 		func == implant ||
 #endif
 		func == do_delete || func == do_backspace ||
