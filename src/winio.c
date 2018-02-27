@@ -286,6 +286,15 @@ void unget_kbinput(int kbinput, bool metakey)
 		put_back(ESC_CODE);
 }
 
+#ifdef ENABLE_NANORC
+/* Insert the given string into the keyboard buffer. */
+void implant(const char *string)
+{
+	for (int i = strlen(string); i > 0; i--)
+		put_back(string[i - 1]);
+}
+#endif
+
 /* Try to read input_len codes from the keystroke buffer.  If the
  * keystroke buffer is empty and win isn't NULL, try to read in more
  * codes from win and add them to the keystroke buffer before doing

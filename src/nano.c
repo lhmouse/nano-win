@@ -1728,8 +1728,8 @@ int do_input(bool allow_funcs)
 			pletion_line = NULL;
 #endif
 #ifdef ENABLE_NANORC
-		if (shortcut->func == implant) {
-			execute(shortcut);
+		if (shortcut->func == (void *)implant) {
+			implant(shortcut->expansion);
 			return 42;
 		}
 #endif
@@ -1756,7 +1756,7 @@ int do_input(bool allow_funcs)
 			}
 #endif
 			/* Execute the function of the shortcut. */
-			execute(shortcut);
+			shortcut->func();
 
 #ifndef NANO_TINY
 			/* When the marked region changes without Shift being held,

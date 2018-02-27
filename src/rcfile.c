@@ -338,7 +338,7 @@ bool is_universal(void (*func)(void))
 		func == do_prev_word_void || func == do_next_word_void ||
 #endif
 #ifdef ENABLE_NANORC
-		func == implant ||
+		func == (void *)implant ||
 #endif
 		func == do_delete || func == do_backspace ||
 		func == do_cut_text_void || func == do_uncut_text ||
@@ -421,7 +421,7 @@ void parse_binding(char *ptr, bool dobind)
 		 * otherwise it is the name of a function. */
 		if (*funcptr == '"') {
 			newsc = nmalloc(sizeof(sc));
-			newsc->func = implant;
+			newsc->func = (void *)implant;
 			newsc->expansion = mallocstrcpy(NULL, funcptr + 1);
 #ifndef NANO_TINY
 			newsc->toggle = 0;

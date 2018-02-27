@@ -318,7 +318,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 /* Some functions in global.c. */
 size_t length_of_list(int menu);
-void implant(void);
 const sc *first_sc_for(int menu, void (*func)(void));
 int the_code_for(void (*func)(void), int defaultval);
 functionptrtype func_from_key(int *kbinput);
@@ -330,7 +329,6 @@ void shortcut_init(void);
 void set_lint_or_format_shortcuts(void);
 void set_spell_shortcuts(void);
 #endif
-void execute(const sc *shortcut);
 const subnfunc *sctofunc(const sc *s);
 const char *flagtostr(int flag);
 sc *strtosc(const char *input);
@@ -624,6 +622,9 @@ void run_macro(void);
 size_t get_key_buffer_len(void);
 void put_back(int keycode);
 void unget_kbinput(int kbinput, bool metakey);
+#ifdef ENABLE_NANORC
+void implant(const char *string);
+#endif
 int get_kbinput(WINDOW *win, bool showcursor);
 int parse_kbinput(WINDOW *win);
 int arrow_from_abcd(int kbinput);

@@ -153,8 +153,8 @@ int do_statusbar_input(bool *finished)
 								shortcut->func == do_backspace))
 			;
 #ifdef ENABLE_NANORC
-		else if (shortcut->func == implant)
-			execute(shortcut);
+		else if (shortcut->func == (void *)implant)
+			implant(shortcut->expansion);
 #endif
 		else if (shortcut->func == do_verbatim_input)
 			do_statusbar_verbatim_input();
@@ -172,7 +172,7 @@ int do_statusbar_input(bool *finished)
 			 * to TRUE to indicate that we're done after running or trying to
 			 * run its associated function. */
 			if (!ISSET(VIEW_MODE) || sctofunc(shortcut)->viewok)
-				execute(shortcut);
+				shortcut->func();
 			*finished = TRUE;
 		}
 	}
