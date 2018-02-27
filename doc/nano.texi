@@ -1041,7 +1041,7 @@ in one of the system-installed files (which normally are not writable).
 @node Rebinding Keys
 @section Rebinding Keys
 
-Key bindings can be changed via the following two commands in a
+Key bindings can be changed via the following three commands in a
 nanorc file:
 
 @table @code
@@ -1049,6 +1049,13 @@ nanorc file:
 @item bind key function menu
 Rebinds @code{key} to @code{function} in the context of @code{menu}
 (or in all menus where the function exists by using @code{all}).
+
+@item bind key "string" menu
+Makes @code{key} produce @code{string} in the context of @code{menu}
+(or in all menus where the key exists when @code{all} is used).
+The @code{string} can consist of text or commands or a mix of them.
+(To enter a command into the @code{string}, precede its keystroke
+with @kbd{M-V}.)
 
 @item unbind key menu
 Unbinds @code{key} from @code{menu}

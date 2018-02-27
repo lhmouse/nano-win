@@ -395,16 +395,26 @@ slightly improve a syntax defined in one of the system-installed
 files (which normally are not writable).
 
 .SH REBINDING KEYS
-Key bindings can be changed via the following two commands:
+Key bindings can be changed via the following three commands:
+.RS 3
 .TP
 .BI bind " key function menu"
 Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
 context of menu \fImenu\fP (or in all menus where the function exists
 by using \fBall\fP).
 .TP
+.BI bind " key " """" string """" " menu"
+Makes the given \fIkey\fR produce the given \fIstring\fR in the given
+\fImenu\fR (or in all menus where the key exists when \fBall\fR is used).
+The \fIstring\fR can consist of text or commands or a mix of them.
+(To enter a command into the \fIstring\fR, precede its keystroke
+with \fBM-V\fR.)
+
+.TP
 .BI unbind " key menu"
 Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all
 menus where it exists by using \fBall\fP).
+.RE
 
 .TP
 The format of \fIkey\fP should be one of:
