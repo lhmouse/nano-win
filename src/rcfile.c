@@ -337,9 +337,6 @@ bool is_universal(void (*func)(void))
 #ifndef NANO_TINY
 		func == do_prev_word_void || func == do_next_word_void ||
 #endif
-#ifdef ENABLE_NANORC
-		func == (void *)implant ||
-#endif
 		func == do_delete || func == do_backspace ||
 		func == do_cut_text_void || func == do_uncut_text ||
 		func == do_tab || func == do_enter || func == do_verbatim_input)
@@ -455,12 +452,13 @@ void parse_binding(char *ptr, bool dobind)
 		if (newsc->func == do_toggle_void)
 			mask = MMAIN;
 #endif
-
+#ifdef ENABLE_NANORC
+		/* Handle the special case of a key defined as a string. */
+		if (newsc->func == (void *)implant)
+			mask = MMOST | MHELP;
+#endif
 		/* Now limit the given menu to those where the function exists. */
-		if (is_universal(newsc->func))
-			menu = menu & (MMOST | (newsc->func == (void *)implant ? MHELP : 0));
-		else
-			menu = menu & mask;
+		menu = menu & (is_universal(newsc->func) ? MMOST : mask);
 
 		if (!menu) {
 			rcfile_error(N_("Function '%s' does not exist in menu '%s'"), funcptr, menuptr);
