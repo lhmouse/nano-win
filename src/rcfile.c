@@ -327,22 +327,17 @@ void parse_syntax(char *ptr)
 }
 #endif /* ENABLE_COLOR */
 
-/* Check whether the given executable function is "universal" (meaning
- * any horizontal movement or deletion) and thus is present in almost
- * all menus. */
+/* Return TRUE when the given function is present in almost all menus. */
 bool is_universal(void (*func)(void))
 {
-	if (func == do_left || func == do_right ||
+	return (func == do_left || func == do_right ||
 		func == do_home || func == do_end ||
 #ifndef NANO_TINY
 		func == do_prev_word_void || func == do_next_word_void ||
 #endif
 		func == do_delete || func == do_backspace ||
 		func == do_cut_text_void || func == do_uncut_text ||
-		func == do_tab || func == do_enter || func == do_verbatim_input)
-		return TRUE;
-	else
-		return FALSE;
+		func == do_tab || func == do_enter || func == do_verbatim_input);
 }
 
 /* Bind or unbind a key combo, to or from a function. */
