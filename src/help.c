@@ -215,6 +215,10 @@ void do_help(void)
 			do_findprevious();
 		} else if (func == do_findnext) {
 			do_findnext();
+#ifdef ENABLE_NANORC
+		} else if (func == (void *)implant) {
+			implant(first_sc_for(MHELP, func)->expansion);
+#endif
 		} else if (kbinput == KEY_WINCH) {
 			; /* Nothing to do. */
 #endif

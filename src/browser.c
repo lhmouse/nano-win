@@ -303,6 +303,10 @@ char *do_browser(char *path)
 			/* Try opening and reading the selected directory. */
 			path = mallocstrcpy(path, filelist[selected]);
 			goto read_directory_contents;
+#ifdef ENABLE_NANORC
+		} else if (func == (void *)implant) {
+			implant(first_sc_for(MBROWSER, func)->expansion);
+#endif
 		} else if (func == do_exit) {
 			/* Exit from the file browser. */
 			break;

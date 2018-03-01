@@ -458,7 +458,7 @@ void parse_binding(char *ptr, bool dobind)
 
 		/* Now limit the given menu to those where the function exists. */
 		if (is_universal(newsc->func))
-			menu = menu & MMOST;
+			menu = menu & (MMOST | (newsc->func == (void *)implant ? MHELP : 0));
 		else
 			menu = menu & mask;
 
