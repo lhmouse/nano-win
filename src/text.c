@@ -866,7 +866,7 @@ void do_redo(void)
 		return;
 	}
 
-	f = fsfromline(u->mark_begin_lineno);
+	f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
 	if (!f)
 		return;
 
