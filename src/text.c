@@ -732,7 +732,6 @@ void do_undo(void)
 		while (openfile->current_undo->type != SPLIT_BEGIN)
 			do_undo();
 		u = openfile->current_undo;
-		f = openfile->current;
 	case SPLIT_BEGIN:
 		undidmsg = _("text add");
 		break;
@@ -753,18 +752,17 @@ void do_undo(void)
 		free(f->data);
 		f->data = data;
 		splice_node(f, t);
+		renumber(t);
 		goto_line_posx(u->lineno, u->begin);
 		break;
 	case CUT_TO_EOF:
 	case CUT:
 		undidmsg = _("text cut");
 		undo_cut(u);
-		f = fsfromline(u->lineno);
 		break;
 	case PASTE:
 		undidmsg = _("text uncut");
 		undo_paste(u);
-		f = fsfromline(u->mark_begin_lineno);
 		break;
 	case ENTER:
 		if (f->next == NULL) {
@@ -778,6 +776,7 @@ void do_undo(void)
 								strlen(&u->strdata[from_x]) + 1);
 		strcat(f->data, &u->strdata[from_x]);
 		unlink_node(f->next);
+		renumber(f);
 		goto_line_posx(u->lineno, to_x);
 		break;
 	case INDENT:
@@ -828,8 +827,6 @@ void do_undo(void)
 
 	if (undidmsg && !pletion_line)
 		statusline(HUSH, _("Undid action (%s)"), undidmsg);
-
-	renumber(f);
 
 	openfile->current_undo = openfile->current_undo->next;
 	openfile->last_action = OTHER;
