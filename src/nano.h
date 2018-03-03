@@ -163,8 +163,9 @@ typedef enum {
 	CENTERING, FLOWING, STATIONARY
 } update_type;
 
+/* The kinds of undo actions.  ADD...REPLACE must come first. */
 typedef enum {
-	ADD, DEL, BACK, CUT, CUT_TO_EOF, REPLACE,
+	ADD, BACK, DEL, ENTER, JOIN, REPLACE,
 #ifdef ENABLE_WRAPPING
 	SPLIT_BEGIN, SPLIT_END,
 #endif
@@ -172,7 +173,7 @@ typedef enum {
 #ifdef ENABLE_COMMENT
 	COMMENT, UNCOMMENT, PREFLIGHT,
 #endif
-	JOIN, PASTE, INSERT, ENTER, OTHER
+	CUT, CUT_TO_EOF, PASTE, INSERT, OTHER
 } undo_type;
 
 /* Structure types. */

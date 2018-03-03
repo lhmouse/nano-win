@@ -678,7 +678,7 @@ void redo_cut(undo *u)
 void do_undo(void)
 {
 	undo *u = openfile->current_undo;
-	filestruct *f, *t = NULL;
+	filestruct *f = NULL, *t = NULL;
 	filestruct *oldcutbuffer, *oldcutbottom;
 	char *data, *undidmsg = NULL;
 	size_t from_x, to_x;
@@ -688,13 +688,14 @@ void do_undo(void)
 		return;
 	}
 
-	f = fsfromline(u->mark_begin_lineno);
-	if (!f)
-		return;
+	if (u->type <= REPLACE) {
+		f = fsfromline(u->mark_begin_lineno);
+		if (f == NULL)
+			return;
+	}
 
 #ifdef DEBUG
 	fprintf(stderr, "  >> Undoing a type %d...\n", u->type);
-	fprintf(stderr, "  >> Data we're about to undo = \"%s\"\n", f->data);
 #endif
 
 	openfile->current_x = u->begin;
@@ -848,7 +849,7 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-	filestruct *f, *shoveline;
+	filestruct *f = NULL, *shoveline;
 	char *data, *redidmsg = NULL;
 	undo *u = openfile->undotop;
 
@@ -866,13 +867,14 @@ void do_redo(void)
 		return;
 	}
 
-	f = fsfromline(u->type == INSERT ? 1 : u->mark_begin_lineno);
-	if (!f)
-		return;
+	if (u->type <= REPLACE) {
+		f = fsfromline(u->mark_begin_lineno);
+		if (f == NULL)
+			return;
+	}
 
 #ifdef DEBUG
 	fprintf(stderr, "  >> Redo running for type %d\n", u->type);
-	fprintf(stderr, "  >> Data we're about to redo = \"%s\"\n", f->data);
 #endif
 
 	switch (u->type) {
