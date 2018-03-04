@@ -174,20 +174,20 @@ void free_filestruct(filestruct *src)
 	delete_node(src);
 }
 
-/* Renumber the lines in a buffer, starting with fileptr. */
-void renumber(filestruct *fileptr)
+/* Renumber the lines in a buffer, starting with the given line. */
+void renumber(filestruct *line)
 {
-	ssize_t line;
+	ssize_t number;
 
-	if (fileptr == NULL)
+	if (line == NULL)
 		return;
 
-	line = (fileptr->prev == NULL) ? 0 : fileptr->prev->lineno;
+	number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
-	assert(fileptr != fileptr->next);
+	assert(line != line->next);
 
-	for (; fileptr != NULL; fileptr = fileptr->next)
-		fileptr->lineno = ++line;
+	for (; line != NULL; line = line->next)
+		line->lineno = ++number;
 }
 
 /* Partition the current buffer so that it appears to begin at (top, top_x)

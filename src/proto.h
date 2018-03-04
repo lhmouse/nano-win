@@ -404,7 +404,7 @@ void unlink_node(filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
-void renumber(filestruct *fileptr);
+void renumber(filestruct *line);
 partition *partition_filestruct(filestruct *top, size_t top_x,
 		filestruct *bot, size_t bot_x);
 void unpartition_filestruct(partition **p);
