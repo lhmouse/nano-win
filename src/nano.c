@@ -179,15 +179,17 @@ void renumber(filestruct *line)
 {
 	ssize_t number;
 
-	if (line == NULL)
+	if (line == NULL) {
+		statusline(ALERT, "Trying to renumber nothing -- please report a bug");
 		return;
+	}
 
 	number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
-	assert(line != line->next);
-
-	for (; line != NULL; line = line->next)
+	while (line != NULL) {
 		line->lineno = ++number;
+		line = line->next;
+	}
 }
 
 /* Partition the current buffer so that it appears to begin at (top, top_x)
