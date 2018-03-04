@@ -90,8 +90,7 @@ void set_colorpairs(void)
 			const colortype *beforenow = sint->color;
 
 			while (beforenow != ink && (beforenow->fg != ink->fg ||
-										beforenow->bg != ink->bg ||
-										beforenow->bright != ink->bright))
+										beforenow->bg != ink->bg))
 				beforenow = beforenow->next;
 
 			if (beforenow != ink)
