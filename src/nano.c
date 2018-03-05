@@ -1429,7 +1429,7 @@ void do_toggle_void(void)
 void disable_extended_io(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term;
+	struct termios term = {0};
 
 	tcgetattr(0, &term);
 	term.c_lflag &= ~IEXTEN;
@@ -1443,7 +1443,7 @@ void disable_extended_io(void)
 void disable_signals(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term;
+	struct termios term = {0};
 
 	tcgetattr(0, &term);
 	term.c_lflag &= ~ISIG;
@@ -1457,7 +1457,7 @@ void disable_signals(void)
 void enable_signals(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term;
+	struct termios term = {0};
 
 	tcgetattr(0, &term);
 	term.c_lflag |= ISIG;
