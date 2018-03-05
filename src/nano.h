@@ -165,7 +165,7 @@ typedef enum {
 
 /* The kinds of undo actions.  ADD...REPLACE must come first. */
 typedef enum {
-	ADD, BACK, DEL, ENTER, JOIN, REPLACE,
+	ADD, ENTER, BACK, DEL, JOIN, REPLACE,
 #ifdef ENABLE_WRAPPING
 	SPLIT_BEGIN, SPLIT_END,
 #endif
