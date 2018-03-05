@@ -378,9 +378,10 @@ char *mallocstrncpy(char *dest, const char *src, size_t n)
 	if (src == NULL)
 		src = "";
 
+#ifndef NANO_TINY
 	if (src == dest)
 		fprintf(stderr, "\r*** Copying a string to itself -- please report a bug ***");
-
+#endif
 	dest = charealloc(dest, n);
 	strncpy(dest, src, n);
 
