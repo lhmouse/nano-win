@@ -1368,20 +1368,19 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 	u->newsize = openfile->totsize;
 }
 
-/* Update an undo item, or determine whether a new one is really needed
- * and bounce the data to add_undo instead.  The latter functionality
- * just feels gimmicky and may just be more hassle than it's worth,
- * so it should be axed if needed. */
+/* Update an undo record, after checking that a new one is not needed. */
 void update_undo(undo_type action)
 {
-	undo *u;
+	undo *u = openfile->undotop;
+	char *char_buf;
+	int char_len;
 
 #ifdef DEBUG
 fprintf(stderr, "  >> Updating an undo... action = %d\n", action);
 #endif
 
-	/* Change to an add if we're not using the same undo struct
-	 * that we should be using. */
+	/* If the action is different or the position changed, don't update the
+	 * current record but add a new one instead. */
 	if (action != openfile->last_action ||
 				(action != ENTER && action != CUT && action != INSERT &&
 				openfile->current->lineno != openfile->current_undo->lineno)) {
@@ -1389,27 +1388,27 @@ fprintf(stderr, "  >> Updating an undo... action = %d\n", action);
 		return;
 	}
 
-	u = openfile->undotop;
-
 	u->newsize = openfile->totsize;
 
 	switch (u->type) {
-	case ADD: {
-		char *char_buf = charalloc(MAXCHARLEN);
-		int char_len = parse_mbchar(&openfile->current->data[u->mark_begin_x], char_buf, NULL);
-		u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_len);
+	case ADD:
+		char_buf = charalloc(MAXCHARLEN);
+		char_len = parse_mbchar(&openfile->current->data[u->mark_begin_x],
+								char_buf, NULL);
+		u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0,
+								char_buf, char_len);
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
 		break;
-	}
 	case ENTER:
 		u->strdata = mallocstrcpy(NULL, openfile->current->data);
 		u->mark_begin_x = openfile->current_x;
 		break;
 	case BACK:
-	case DEL: {
-		char *char_buf = charalloc(MAXCHARLEN);
-		int char_len = parse_mbchar(&openfile->current->data[openfile->current_x], char_buf, NULL);
+	case DEL:
+		char_buf = charalloc(MAXCHARLEN);
+		char_len = parse_mbchar(&openfile->current->data[openfile->current_x],
+								char_buf, NULL);
 		if (openfile->current_x == u->begin) {
 			/* They deleted more: add removed character after earlier stuff. */
 			u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_len);
@@ -1425,7 +1424,6 @@ fprintf(stderr, "  >> Updating an undo... action = %d\n", action);
 			return;
 		}
 		break;
-	}
 	case JOIN:
 		break;
 	case REPLACE:
