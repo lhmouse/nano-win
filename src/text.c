@@ -871,7 +871,7 @@ void do_redo(void)
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, "  >> Redo running for type %d\n", u->type);
+	fprintf(stderr, "  >> Redoing a type %d...\n", u->type);
 #endif
 
 	switch (u->type) {
@@ -1216,7 +1216,7 @@ void add_undo(undo_type action)
 	discard_until(u, openfile, TRUE);
 
 #ifdef DEBUG
-	fprintf(stderr, "  >> Adding an undo...\n");
+	fprintf(stderr, "  >> Adding an undo... action = %d\n", action);
 #endif
 
 	/* Allocate and initialize a new undo type. */
@@ -1377,12 +1377,7 @@ void update_undo(undo_type action)
 	undo *u;
 
 #ifdef DEBUG
-fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openfile->current->lineno = %ld",
-				action, openfile->last_action, (long)openfile->current->lineno);
-		if (openfile->current_undo)
-			fprintf(stderr, ", openfile->current_undo->lineno = %ld\n", (long)openfile->current_undo->lineno);
-		else
-			fprintf(stderr, "\n");
+fprintf(stderr, "  >> Updating an undo... action = %d\n", action);
 #endif
 
 	/* Change to an add if we're not using the same undo struct
@@ -1400,16 +1395,9 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 
 	switch (u->type) {
 	case ADD: {
-#ifdef DEBUG
-		fprintf(stderr, "  >> openfile->current->data = \"%s\", current_x = %lu, u->begin = %lu\n",
-						openfile->current->data, (unsigned long)openfile->current_x, (unsigned long)u->begin);
-#endif
 		char *char_buf = charalloc(MAXCHARLEN);
 		int char_len = parse_mbchar(&openfile->current->data[u->mark_begin_x], char_buf, NULL);
 		u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0, char_buf, char_len);
-#ifdef DEBUG
-		fprintf(stderr, "  >> current undo data is \"%s\"\n", u->strdata);
-#endif
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
 		break;
@@ -1432,9 +1420,6 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 			add_undo(u->type);
 			return;
 		}
-#ifdef DEBUG
-		fprintf(stderr, "  >> current undo data is \"%s\"\nu->begin = %lu\n", u->strdata, (unsigned long)u->begin);
-#endif
 		break;
 	}
 	case CUT_TO_EOF:
@@ -1498,10 +1483,6 @@ fprintf(stderr, "  >> Updating... action = %d, openfile->last_action = %d, openf
 		statusline(ALERT, "Wrong undo update type -- please report a bug");
 		break;
 	}
-
-#ifdef DEBUG
-	fprintf(stderr, "  >> Done in update_undo (type was %d)\n", action);
-#endif
 }
 #endif /* !NANO_TINY */
 
