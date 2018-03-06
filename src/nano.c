@@ -180,7 +180,9 @@ void renumber(filestruct *line)
 	ssize_t number;
 
 	if (line == NULL) {
+#ifndef NANO_TINY
 		statusline(ALERT, "Trying to renumber nothing -- please report a bug");
+#endif
 		return;
 	}
 
