@@ -435,7 +435,7 @@ bool open_buffer(const char *filename, bool undoable)
 
 	/* When the specified filename is not empty, and the corresponding
 	 * file exists, verify that it is a normal file. */
-	if (strcmp(filename, "") != 0) {
+	if (*filename != '\0') {
 		struct stat fileinfo;
 
 		if (stat(realname, &fileinfo) == 0 && !(S_ISREG(fileinfo.st_mode) ||

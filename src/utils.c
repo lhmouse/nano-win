@@ -48,7 +48,7 @@ void get_homedir(void)
 
 		/* Only set homedir if some home directory could be determined,
 		 * otherwise keep homedir NULL. */
-		if (homenv != NULL && strcmp(homenv, "") != 0)
+		if (homenv != NULL && *homenv != '\0')
 			homedir = mallocstrcpy(NULL, homenv);
 	}
 }
