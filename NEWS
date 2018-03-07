@@ -1,3 +1,16 @@
+2018.03.08 - GNU nano 2.9.4 "Isabel" allows binding a key to a string
+             (any piece of text and/or commands), permits customizing
+             the color of error messages with 'set errorcolor', colors
+             those error messages by default in bright white on red,
+             makes <Enter> at the bottom of the screen scroll just one
+             row when --smooth is used, does not fail when redoing a
+             file insertion, and cancels a Shift-selection when any
+             cursor key is pressed without Shift even when the cursor
+             cannot move.  Further, it treats tabs fully the same as
+             spaces when doing automatic hard-wrapping, allows syntax
+             names to be unquoted, and removes two deprecated options
+             and six deprecated bindable function names.
+
 2018.01.29 - GNU nano 2.9.3 "Córdoba" fixes a segfault with trimblanks
              that could occur when a typed space caused the word after
              it to be pushed to the next line.  It further makes macros
