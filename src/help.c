@@ -146,6 +146,7 @@ void do_help(void)
 
 #ifdef ENABLE_LINENUMBERS
 	UNSET(LINE_NUMBERS);
+	editwincols = COLS;
 	margin = 0;
 #endif
 	tabsize = 8;
@@ -253,6 +254,7 @@ void do_help(void)
 
 #ifdef ENABLE_LINENUMBERS
 	margin = was_margin;
+	editwincols = COLS - margin;
 #endif
 	tabsize = was_tabsize;
 #ifdef ENABLE_COLOR
