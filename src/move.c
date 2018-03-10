@@ -502,7 +502,7 @@ void do_up(bool scroll_only)
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
 	if (scroll_only)
-		edit_scroll(BACKWARD, 1);
+		edit_scroll(BACKWARD);
 
 	edit_redraw(was_current, FLOWING);
 
@@ -526,7 +526,7 @@ void do_down(bool scroll_only)
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
 	if (scroll_only)
-		edit_scroll(FORWARD, 1);
+		edit_scroll(FORWARD);
 
 	edit_redraw(was_current, FLOWING);
 

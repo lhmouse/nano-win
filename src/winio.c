@@ -2912,57 +2912,42 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 		return (openfile->current->lineno - was_lineno < editwinrows);
 }
 
-/* Scroll the edit window in the given direction and the given number of rows,
- * and draw new lines on the blank lines left after the scrolling. */
-void edit_scroll(bool direction, int nrows)
+/* Scroll the edit window one row in the given direction, and
+ * draw the relevant content on the resultant blank row. */
+void edit_scroll(bool direction)
 {
 	filestruct *line;
 	size_t leftedge;
+	int remainder = 0, nrows = 1;
 
-	/* Part 1: nrows is the number of rows we're going to scroll the text of
-	 * the edit window. */
-
-	/* Move the top line of the edit window the requested number of rows up or
-	 * down, and reduce the number of rows with the amount we couldn't move. */
+	/* Move the top line of the edit window one row up or down. */
 	if (direction == BACKWARD)
-		nrows -= go_back_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
+		remainder = go_back_chunks(1, &openfile->edittop, &openfile->firstcolumn);
 	else
-		nrows -= go_forward_chunks(nrows, &openfile->edittop, &openfile->firstcolumn);
+		remainder = go_forward_chunks(1, &openfile->edittop, &openfile->firstcolumn);
 
-	/* Don't bother scrolling zero rows, nor more than the window can hold. */
-	if (nrows == 0) {
+	if (remainder > 0) {
 #ifndef NANO_TINY
-		statusline(ALERT, "Underscrolling -- please report a bug");
+		statusline(ALERT, "Could not scroll -- please report a bug");
 #endif
 		return;
 	}
-	if (nrows >= editwinrows) {
-#ifndef NANO_TINY
-		if (editwinrows > 1)
-			statusline(ALERT, "Overscrolling -- please report a bug");
-#endif
-		refresh_needed = TRUE;
-		return;
-	}
 
-	/* Scroll the text of the edit window a number of rows up or down. */
+	/* Actually scroll the text of the edit window one row up or down. */
 	scrollok(edit, TRUE);
-	wscrl(edit, (direction == BACKWARD) ? -nrows : nrows);
+	wscrl(edit, (direction == BACKWARD) ? -1 : 1);
 	scrollok(edit, FALSE);
-
-	/* Part 2: nrows is now the number of rows in the scrolled region of the
-	 * edit window that we need to draw. */
 
 	/* If we're not on the first "page" (when not softwrapping), or the mark
 	 * is on, the row next to the scrolled region needs to be redrawn too. */
 	if (line_needs_update(openfile->placewewant, 0) && nrows < editwinrows)
 		nrows++;
 
-	/* If we scrolled backward, start on the first line of the blank region. */
+	/* If we scrolled backward, the top row needs to be redrawn. */
 	line = openfile->edittop;
 	leftedge = openfile->firstcolumn;
 
-	/* If we scrolled forward, move down to the start of the blank region. */
+	/* If we scrolled forward, the bottom row needs to be redrawn. */
 	if (direction == FORWARD)
 		go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
@@ -2977,8 +2962,8 @@ void edit_scroll(bool direction, int nrows)
 	}
 #endif
 
-	/* Draw new content on the blank rows inside the scrolled region
-	 * (and on the bordering row too when it was deemed necessary). */
+	/* Draw new content on the blank row (and on the bordering row too
+	 * when it was deemed necessary). */
 	while (nrows > 0 && line != NULL) {
 		nrows -= update_line(line, (line == openfile->current) ?
 										openfile->current_x : 0);
