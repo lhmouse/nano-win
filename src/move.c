@@ -493,16 +493,17 @@ void do_up(bool scroll_only)
 						openfile->firstcolumn == 0)
 		return;
 
+	if (scroll_only)
+		edit_scroll(BACKWARD);
+
 	get_edge_and_target(&leftedge, &target_column);
 
 	/* If we can't move up one line or chunk, we're at top of file. */
-	if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
+	if ((!scroll_only || openfile->current_y == editwinrows - 1) &&
+				go_back_chunks(1, &openfile->current, &leftedge) > 0)
 		return;
 
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
-
-	if (scroll_only)
-		edit_scroll(BACKWARD);
 
 	edit_redraw(was_current, FLOWING);
 
@@ -517,16 +518,18 @@ void do_down(bool scroll_only)
 	filestruct *was_current = openfile->current;
 	size_t leftedge, target_column;
 
+	if (scroll_only && (openfile->current_y > 0 ||
+						openfile->current != openfile->filebot))
+		edit_scroll(FORWARD);
+
 	get_edge_and_target(&leftedge, &target_column);
 
 	/* If we can't move down one line or chunk, we're at bottom of file. */
-	if (go_forward_chunks(1, &openfile->current, &leftedge) > 0)
+	if ((!scroll_only || openfile->current_y == 0) &&
+				go_forward_chunks(1, &openfile->current, &leftedge) > 0)
 		return;
 
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
-
-	if (scroll_only)
-		edit_scroll(FORWARD);
 
 	edit_redraw(was_current, FLOWING);
 
