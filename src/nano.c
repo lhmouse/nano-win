@@ -357,8 +357,8 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 
 		delete_node(openfile->fileage);
 
-		/* Renumber, starting with the line after the original file_bot. */
-		renumber(file_bot_save->next);
+		/* Renumber, starting at the last line of the original buffer. */
+		renumber(file_bot_save);
 	}
 
 	/* Since the text has now been saved, remove it from the buffer. */
