@@ -1184,6 +1184,7 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 			free(group);
 			group = next;
 		}
+		free(dropit);
 		dropit = thefile->undotop;
 	}
 
