@@ -42,10 +42,10 @@
   <a href="#4.3">4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</a><br>
   <a href="#4.4">4.4. Ack! When I hold down a Meta key combination for a while, the character of the held key gets inserted now and then. What gives?</a><br>
   <a href="#4.5">4.5. How do I type the F13-F16 keys listed in the help viewer? My keyboard only has F1-F12!</a><br>
-  <a href="#4.6">4.6. nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
+  <a href="#4.6">4.6. nano crashes when I type &lt;insert keystrokes here&gt;!</a><br>
   <a href="#4.7">4.7. nano crashes when I resize my window. How can I fix that?</a><br>
   <a href="#4.8a">4.8a. With what keystroke can I paste text from the clipboard into nano?</a><br>
-  <a href="#4.8b">4.8b. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</a><br>
+  <a href="#4.8b">4.8b. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</a><br>
   <a href="#4.8c">4.8c. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?<a><br>
   <a href="#4.9">4.9. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
   <a href="#4.10">4.10. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
@@ -166,11 +166,11 @@
   <p>With <b>--disable-wrapping-as-root</b> you can disable any hard-wrapping by default when the user is root, useful to prevent accidentally changing long lines in system configuration files.</p>
 </blockquote>
 <h3><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h3>
-<blockquote><p>To use multiple file buffers, you must not have configured nano with <b>--disable-multibuffer</b> nor with <b>--enable-tiny</b> (use <b>nano -V</b> to check the compilation options). Then when you want to insert a file into its own buffer instead of into the current file, just hit <b>Meta-F</b> after typing <b>^R</b>. If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano.</p>
-  <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily without holding Shift: <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one file buffer open, the ^X shortcut will say &quot;Close&quot;, instead of the normal &quot;Exit&quot; when only one buffer is open.</p></blockquote>
+<blockquote><p>To use multiple file buffers, you must not have configured nano with <b>--disable-multibuffer</b> nor with <b>--enable-tiny</b> (use <b>nano -V</b> to check the compilation options). Then when you want to insert a file into its own buffer instead of into the current file, just hit <b>Meta-F</b> after typing <b>^R</b>. If you always want files to be loaded into their own buffers, use the <b>-F</b> or <b>--multibuffer</b> flag when you invoke nano, or add <b>set multibuffer</b> to your .nanorc file.</p>
+  <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily without holding Shift: <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one buffer open, the ^X shortcut will say &quot;Close&quot;, instead of &quot;Exit&quot;.</p></blockquote>
 <h3><a name="3.8"></a>3.8. Tell me more about this verbatim input stuff!</h3>
 <blockquote><p>When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b> (if you're not at a prompt, you'll get the message &quot;Verbatim Input&quot; on the status bar), then press the key(s) that generate the character you want.</p>
-  <p>Alternatively, if you've enabled Unicode support (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code (from 000000 to 10FFFF, case-insensitive), and the character with the corresponding value will be inserted. The statubar will change to &quot;Unicode Input: ......&quot; when you do this.</p></blockquote>
+  <p>Alternatively, if Unicode support is enabled (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code (from 000000 to 10FFFF, case-insensitive), and the character with the corresponding value will be inserted. The status bar will change to &quot;Unicode Input: ......&quot; when you do this.</p></blockquote>
 <h3><a name="3.9a"></a>3.9a. How do I make a .nanorc file that will be read when I start nano?</h3>
 <blockquote><p>It's not hard at all! But, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>. Then simply copy the <b>sample.nanorc</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax of the file is simple. Flags are turned on and off by using the words <b>set</b> and <b>unset</b> plus the long option name for the feature. For example, &quot;set nowrap&quot; or &quot;set smarthome&quot;.</p></blockquote>
 <h3><a name="3.9b"></a>3.9b. How about in Win32?</h3>
@@ -197,14 +197,14 @@
 <blockquote><p>This was a bug in how nano handled consecutive escape sequences. It should be fixed since version 2.6.0.</p></blockquote>
 <h3><a name="4.5"></a>4.5. How do I type the F13-F16 keys listed in the help viewer? My keyboard only has F1-F12!</h3>
 <blockquote><p>It depends on the terminal type you're using. On some terminals, such as the FreeBSD console, xterm, konsole, and gnome-terminal, Shift-F1 to Shift-F4 will generate F13 to F16. On other terminals, such as the Linux console, rxvt, and Eterm, Shift-F3 to Shift-F6 will generate F13 to F16.</p></blockquote>
-<h3><a name="4.6"></a>4.6. nano crashes when I type &lt;insert keystroke here&gt;!</h3>
+<h3><a name="4.6"></a>4.6. nano crashes when I type &lt;insert keystrokes here&gt;!</h3>
 <blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or in the <a href="https://savannah.gnu.org/bugs/?group=nano">bug tracker</a> on Savannah.</p></blockquote>
 <h3><a name="4.7"></a>4.7. nano crashes when I resize my window. How can I fix that?</h3>
 <blockquote><p>Older versions of nano had this problem.  Please upgrade to version 2.7.0 or newer.</p></blockquote>
 <h3><a name="4.8a"></a>4.8a. With what keystroke can I paste text from the clipboard into nano?</h3>
 <blockquote><p>In most desktop environments <b>Shift+Insert</b> will paste the contents of the clipboard.</p></blockquote>
-<h3><a name="4.8b"></a>4.8b. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</h3>
-<blockquote><p>You have the autoindent feature turned on. Hit Meta-I to turn it off, paste your text, and then hit Meta-I again to turn it back on.</p></blockquote>
+<h3><a name="4.8b"></a>4.8b. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</h3>
+<blockquote><p>You have the <i>autoindent</i> feature turned on. Hit <b>Meta-I</b> to turn it off, paste your text, and then hit <b>Meta-I</b> again to turn it back on.</p></blockquote>
 <h3><a name="4.8c"></a>4.8c. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h3>
 <blockquote><p>When pasting from Windows, in some situations linefeeds are sent instead of carriage returns (Enters). And linefeeds are <b>^J</b>s, which make nano justify (rewrap) the current paragraph. To prevent these linefeeds from causing these unwanted justifications, add this line to your .nanorc on the remote Linux box: <b>unbind ^J main</b> or <b>bind ^J enter main</b>, depending on whether the paste contains CR + LF or only LF.</p></blockquote>
 <h3><a name="4.9"></a>4.9. I've compiled nano with color support, but I don't see any color when I run it!</h3>
