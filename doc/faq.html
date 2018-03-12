@@ -44,8 +44,9 @@
   <a href="#4.5">4.5. How do I type the F13-F16 keys listed in the help viewer? My keyboard only has F1-F12!</a><br>
   <a href="#4.6">4.6. nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
   <a href="#4.7">4.7. nano crashes when I resize my window. How can I fix that?</a><br>
-  <a href="#4.8a">4.8a. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</a><br>
-  <a href="#4.8b">4.8b. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?<a><br>
+  <a href="#4.8a">4.8a. With what keystroke can I paste text from the clipboard into nano?</a><br>
+  <a href="#4.8b">4.8b. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</a><br>
+  <a href="#4.8c">4.8c. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?<a><br>
   <a href="#4.9">4.9. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
   <a href="#4.10">4.10. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
   <a href="#4.11">4.11. How do I select text for or paste text from the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a><br>
@@ -200,9 +201,11 @@
 <blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or in the <a href="https://savannah.gnu.org/bugs/?group=nano">bug tracker</a> on Savannah.</p></blockquote>
 <h2><a name="4.7"></a>4.7. nano crashes when I resize my window. How can I fix that?</h2>
 <blockquote><p>Older versions of nano had this problem.  Please upgrade to version 2.7.0 or newer.</p></blockquote>
-<h2><a name="4.8a"></a>4.8a. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</h2>
+<h2><a name="4.8a"></a>4.8a. With what keystroke can I paste text from the clipboard into nano?</h2>
+<blockquote><p>In most desktop environments <b>Shift+Insert</b> will paste the contents of the clipboard.</p></blockquote>
+<h2><a name="4.8b"></a>4.8b. When I paste text into a document, each line gets indented further than the last. Why does nano do this, and how can I avoid it?</h2>
 <blockquote><p>You have the autoindent feature turned on. Hit Meta-I to turn it off, paste your text, and then hit Meta-I again to turn it back on.</p></blockquote>
-<h2><a name="4.8b"></a>4.8b. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h2>
+<h2><a name="4.8c"></a>4.8c. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h2>
 <blockquote><p>When pasting from Windows, in some situations linefeeds are sent instead of carriage returns (Enters). And linefeeds are <b>^J</b>s, which make nano justify (rewrap) the current paragraph. To prevent these linefeeds from causing these unwanted justifications, add this line to your .nanorc on the remote Linux box: <b>unbind ^J main</b> or <b>bind ^J enter main</b>, depending on whether the paste contains CR + LF or only LF.</p></blockquote>
 <h2><a name="4.9"></a>4.9. I've compiled nano with color support, but I don't see any color when I run it!</h2>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Several example configurations are in the <b>syntax/</b> subdirectory of the nano source, which are normally installed to <b>/usr/local/share/nano/</b>. To enable all of them, uncomment the line <b># include "/usr/local/share/nano/*.nanorc"</b> in your nanorc. See also section <a href="#3.9a">3.9a</a>.</p></blockquote>
