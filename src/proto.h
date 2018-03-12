@@ -386,8 +386,8 @@ void do_prev_word_void(void);
 void do_next_word_void(void);
 void do_home(void);
 void do_end(void);
-void do_up(bool scroll_only);
-void do_down(bool scroll_only);
+void do_up(bool really_move);
+void do_down(bool really_move);
 void do_up_void(void);
 void do_down_void(void);
 #ifndef NANO_TINY
