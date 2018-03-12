@@ -481,9 +481,8 @@ void do_end(void)
 		update_line(openfile->current, openfile->current_x);
 }
 
-/* Move the cursor to the preceding line or chunk.  If scroll_only is TRUE,
- * also scroll the screen one row, so the cursor stays in the same spot. */
-void do_up(bool really_move)
+/* Move the cursor to the preceding line or chunk. */
+void do_up(void)
 {
 	filestruct *was_current = openfile->current;
 	size_t leftedge, target_column;
@@ -491,7 +490,7 @@ void do_up(bool really_move)
 	get_edge_and_target(&leftedge, &target_column);
 
 	/* If we can't move up one line or chunk, we're at top of file. */
-	if (really_move && go_back_chunks(1, &openfile->current, &leftedge) > 0)
+	if (go_back_chunks(1, &openfile->current, &leftedge) > 0)
 		return;
 
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
@@ -502,9 +501,8 @@ void do_up(bool really_move)
 	openfile->placewewant = leftedge + target_column;
 }
 
-/* Move the cursor to next line or chunk.  If scroll_only is TRUE, also
- * scroll the screen one row, so the cursor stays in the same spot. */
-void do_down(bool really_move)
+/* Move the cursor to next line or chunk. */
+void do_down(void)
 {
 	filestruct *was_current = openfile->current;
 	size_t leftedge, target_column;
@@ -512,7 +510,7 @@ void do_down(bool really_move)
 	get_edge_and_target(&leftedge, &target_column);
 
 	/* If we can't move down one line or chunk, we're at bottom of file. */
-	if (really_move && go_forward_chunks(1, &openfile->current, &leftedge) > 0)
+	if (go_forward_chunks(1, &openfile->current, &leftedge) > 0)
 		return;
 
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
@@ -521,18 +519,6 @@ void do_down(bool really_move)
 
 	/* <Down> should not change placewewant, so restore it. */
 	openfile->placewewant = leftedge + target_column;
-}
-
-/* Move up one line or chunk. */
-void do_up_void(void)
-{
-	do_up(TRUE);
-}
-
-/* Move down one line or chunk. */
-void do_down_void(void)
-{
-	do_down(TRUE);
 }
 
 #ifndef NANO_TINY
@@ -545,7 +531,8 @@ void do_scroll_up(void)
 
 	edit_scroll(BACKWARD);
 
-	do_up(openfile->current_y == editwinrows - 1);
+	if (openfile->current_y == editwinrows - 1)
+		do_up();
 }
 
 /* Scroll down one line or chunk without scrolling the cursor. */
@@ -554,7 +541,8 @@ void do_scroll_down(void)
 	if (openfile->current->next != NULL || openfile->current_y > 0)
 		edit_scroll(FORWARD);
 
-	do_down(openfile->current_y == 0);
+	if (openfile->current_y == 0)
+		do_down();
 }
 #endif
 

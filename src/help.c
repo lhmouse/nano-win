@@ -192,12 +192,12 @@ void do_help(void)
 
 		if (func == total_refresh) {
 			total_redraw();
-		} else if (func == do_up_void) {
-			do_up(TRUE);
-		} else if (func == do_down_void) {
+		} else if (func == do_up) {
+			do_scroll_up();
+		} else if (func == do_down) {
 			if (openfile->edittop->lineno + editwinrows - 1 <
 								openfile->filebot->lineno)
-				do_down(TRUE);
+				do_scroll_down();
 		} else if (func == do_page_up) {
 			do_page_up();
 		} else if (func == do_page_down) {

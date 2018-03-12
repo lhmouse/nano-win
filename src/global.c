@@ -855,9 +855,9 @@ void shortcut_init(void)
 	add_to_funcs(do_end, MMAIN,
 		N_("End"), WITHORSANS(end_gist), BLANKAFTER, VIEW);
 
-	add_to_funcs(do_up_void, MMAIN|MHELP|MBROWSER,
+	add_to_funcs(do_up, MMAIN|MHELP|MBROWSER,
 		prevline_tag, WITHORSANS(prevline_gist), TOGETHER, VIEW);
-	add_to_funcs(do_down_void, MMAIN|MHELP|MBROWSER,
+	add_to_funcs(do_down, MMAIN|MHELP|MBROWSER,
 		nextline_tag, WITHORSANS(nextline_gist), TOGETHER, VIEW);
 #ifndef NANO_TINY
 	add_to_funcs(do_scroll_up, MMAIN,
@@ -1181,19 +1181,19 @@ void shortcut_init(void)
 	add_to_sclist((MMOST & ~MBROWSER), "Home", KEY_HOME, do_home, 0);
 	add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end, 0);
 	add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", 0, do_up_void, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", 0, do_up, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down, 0);
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
-		add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xb2", KEY_UP, do_up_void, 0);
-		add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xbc", KEY_DOWN, do_down_void, 0);
+		add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xb2", KEY_UP, do_up, 0);
+		add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xbc", KEY_DOWN, do_down, 0);
 		add_to_sclist(MMAIN|MBROWSER, "^\xE2\x96\xb2", CONTROL_UP, do_prev_block, 0);
 		add_to_sclist(MMAIN|MBROWSER, "^\xE2\x96\xbc", CONTROL_DOWN, do_next_block, 0);
 	} else
 #endif
 	{
-		add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up_void, 0);
-		add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down_void, 0);
+		add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up, 0);
+		add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down, 0);
 		add_to_sclist(MMAIN|MBROWSER, "^Up", CONTROL_UP, do_prev_block, 0);
 		add_to_sclist(MMAIN|MBROWSER, "^Down", CONTROL_DOWN, do_next_block, 0);
 	}
@@ -1553,10 +1553,10 @@ sc *strtosc(const char *input)
 		s->func = do_right;
 	else if (!strcasecmp(input, "up") ||
 			 !strcasecmp(input, "prevline"))
-		s->func = do_up_void;
+		s->func = do_up;
 	else if (!strcasecmp(input, "down") ||
 			 !strcasecmp(input, "nextline"))
-		s->func = do_down_void;
+		s->func = do_down;
 	else if (!strcasecmp(input, "prevword"))
 		s->func = do_prev_word_void;
 	else if (!strcasecmp(input, "nextword"))

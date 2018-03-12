@@ -187,10 +187,10 @@ char *do_browser(char *path)
 			selected += width - 1 - (selected % width);
 			if (selected >= filelist_len)
 				selected = filelist_len - 1;
-		} else if (func == do_up_void) {
+		} else if (func == do_up) {
 			if (selected >= width)
 				selected -= width;
-		} else if (func == do_down_void) {
+		} else if (func == do_down) {
 			if (selected + width <= filelist_len - 1)
 				selected += width;
 		} else if (func == do_prev_block) {
