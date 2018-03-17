@@ -1188,10 +1188,12 @@ Goes one line up (in the editor or browser).
 Goes one line down (in the editor or browser).
 
 @item scrollup
-Scrolls up one line of text from the current position.
+Scrolls the viewport up one row (meaning that the text slides down)
+while keeping the cursor in the same text position, if possible.
 
 @item scrolldown
-Scrolls down one line of text from the current position.
+Scrolls the viewport down one row (meaning that the text slides up)
+while keeping the cursor in the same text position, if possible.
 
 @item prevword
 Moves the cursor to the beginning of the previous word.
