@@ -361,7 +361,7 @@ char *do_browse_from(const char *inpath)
 		path = free_and_assign(path, strip_last_component(path));
 
 		if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
-			char * currentdir = charalloc(PATH_MAX + 1);
+			char *currentdir = charalloc(PATH_MAX + 1);
 
 			free(path);
 			path = getcwd(currentdir, PATH_MAX + 1);

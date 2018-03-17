@@ -1506,7 +1506,7 @@ bool do_wrap(filestruct *line)
 		/* The length of the remainder. */
 
 	size_t old_x = openfile->current_x;
-	filestruct * old_line = openfile->current;
+	filestruct *old_line = openfile->current;
 
 	/* There are three steps.  First, we decide where to wrap.  Then, we
 	 * create the new wrap line.  Finally, we clean up. */
