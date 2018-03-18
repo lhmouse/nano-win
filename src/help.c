@@ -217,7 +217,7 @@ void do_help(void)
 		} else if (func == do_findnext) {
 			do_findnext();
 #ifdef ENABLE_NANORC
-		} else if (func == (void *)implant) {
+		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MHELP, func)->expansion);
 #endif
 		} else if (kbinput == KEY_WINCH) {

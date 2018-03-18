@@ -413,7 +413,7 @@ void parse_binding(char *ptr, bool dobind)
 		 * otherwise it is the name of a function. */
 		if (*funcptr == '"') {
 			newsc = nmalloc(sizeof(sc));
-			newsc->func = (void *)implant;
+			newsc->func = (functionptrtype)implant;
 			newsc->expansion = mallocstrcpy(NULL, funcptr + 1);
 #ifndef NANO_TINY
 			newsc->toggle = 0;
@@ -449,7 +449,7 @@ void parse_binding(char *ptr, bool dobind)
 #endif
 #ifdef ENABLE_NANORC
 		/* Handle the special case of a key defined as a string. */
-		if (newsc->func == (void *)implant)
+		if (newsc->func == (functionptrtype)implant)
 			mask = MMOST | MHELP;
 #endif
 		/* Now limit the given menu to those where the function exists. */

@@ -304,7 +304,7 @@ char *do_browser(char *path)
 			path = mallocstrcpy(path, filelist[selected]);
 			goto read_directory_contents;
 #ifdef ENABLE_NANORC
-		} else if (func == (void *)implant) {
+		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MBROWSER, func)->expansion);
 #endif
 		} else if (func == do_exit) {

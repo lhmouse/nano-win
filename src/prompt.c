@@ -153,7 +153,7 @@ int do_statusbar_input(bool *finished)
 								shortcut->func == do_backspace))
 			;
 #ifdef ENABLE_NANORC
-		else if (shortcut->func == (void *)implant)
+		else if (shortcut->func == (functionptrtype)implant)
 			implant(shortcut->expansion);
 #endif
 		else if (shortcut->func == do_verbatim_input)

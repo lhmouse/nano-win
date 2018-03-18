@@ -1622,7 +1622,7 @@ int do_mouse(void)
 #endif /* ENABLE_MOUSE */
 
 /* Return TRUE when the given function is a cursor-moving command. */
-bool wanted_to_move(void *func)
+bool wanted_to_move(void (*func)(void))
 {
 	return func == do_left || func == do_right ||
 			func == do_up || func == do_down ||
@@ -1747,7 +1747,7 @@ int do_input(bool allow_funcs)
 			pletion_line = NULL;
 #endif
 #ifdef ENABLE_NANORC
-		if (shortcut->func == (void *)implant) {
+		if (shortcut->func == (functionptrtype)implant) {
 			implant(shortcut->expansion);
 			return 42;
 		}
