@@ -529,20 +529,22 @@ void do_scroll_up(void)
 	if (openfile->edittop->prev == NULL && openfile->firstcolumn == 0)
 		return;
 
-	edit_scroll(BACKWARD);
-
 	if (openfile->current_y == editwinrows - 1)
 		do_up();
+
+	edit_scroll(BACKWARD);
 }
 
 /* Scroll down one line or chunk without scrolling the cursor. */
 void do_scroll_down(void)
 {
-	if (openfile->current->next != NULL || openfile->current_y > 0)
-		edit_scroll(FORWARD);
-
 	if (openfile->current_y == 0)
 		do_down();
+
+	if (openfile->edittop->next != NULL ||
+					chunk_for(openfile->firstcolumn, openfile->edittop) <
+					number_of_chunks_in(openfile->edittop))
+		edit_scroll(FORWARD);
 }
 #endif
 
