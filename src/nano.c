@@ -1628,7 +1628,9 @@ bool wanted_to_move(void *func)
 			func == do_up || func == do_down ||
 			func == do_home || func == do_end ||
 			func == do_prev_word_void || func == do_next_word_void ||
+#ifndef NANO_TINY
 			func == do_para_begin_void || func == do_para_end_void ||
+#endif
 			func == do_prev_block || func == do_next_block ||
 			func == do_page_up || func == do_page_down ||
 			func == to_first_line || func == to_last_line;
