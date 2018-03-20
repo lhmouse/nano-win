@@ -171,7 +171,7 @@ int do_statusbar_input(bool *finished)
 			/* Handle any other shortcut in the current menu, setting finished
 			 * to TRUE to indicate that we're done after running or trying to
 			 * run its associated function. */
-			if (!ISSET(VIEW_MODE) || sctofunc(shortcut)->viewok)
+			if (!ISSET(VIEW_MODE) || okay_for_view(shortcut))
 				shortcut->func();
 			*finished = TRUE;
 		}

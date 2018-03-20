@@ -439,6 +439,7 @@ void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
 void unbound_key(int code);
+bool okay_for_view(const sc *shortcut);
 int do_input(bool allow_funcs);
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
