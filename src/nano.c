@@ -1727,9 +1727,12 @@ int do_input(bool allow_funcs)
 	if (shortcut == NULL)
 		pletion_line = NULL;
 	else {
-		if (ISSET(VIEW_MODE) && !sctofunc(shortcut)->viewok) {
-			print_view_warning();
-			return ERR;
+		if (ISSET(VIEW_MODE)) {
+			const subnfunc *f = sctofunc(shortcut);
+			if (f && !f->viewok) {
+				print_view_warning();
+				return ERR;
+			}
 		}
 
 		/* If the function associated with this shortcut is
@@ -1801,8 +1804,11 @@ int do_input(bool allow_funcs)
 				wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
-			if (!refresh_needed && !sctofunc(shortcut)->viewok)
-				check_the_multis(openfile->current);
+			if (!refresh_needed) {
+				const subnfunc *f = sctofunc(shortcut);
+				if (f && !f->viewok)
+					check_the_multis(openfile->current);
+			}
 #endif
 			if (!refresh_needed && (shortcut->func == do_delete ||
 									shortcut->func == do_backspace))
