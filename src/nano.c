@@ -2605,9 +2605,9 @@ int main(int argc, char **argv)
 		/* If the filename is a dash, read from standard input; otherwise,
 		 * open the file; skip positioning the cursor if either failed. */
 		if (strcmp(argv[optind], "-") == 0) {
+			optind++;
 			if (!scoop_stdin())
 				continue;
-			optind++;
 		} else if (!open_buffer(argv[optind++], FALSE))
 			continue;
 
