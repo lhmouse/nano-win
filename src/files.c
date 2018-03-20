@@ -483,7 +483,7 @@ bool open_buffer(const char *filename, bool undoable)
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
 	if (rc > 0) {
-		read_file(f, rc, realname, undoable, new_buffer);
+		read_file(f, rc, realname, undoable && !new_buffer, new_buffer);
 #ifndef NANO_TINY
 		if (openfile->current_stat == NULL)
 			stat_with_alloc(realname, &openfile->current_stat);
