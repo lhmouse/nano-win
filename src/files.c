@@ -475,11 +475,6 @@ bool open_buffer(const char *filename, bool undoable)
 	rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
 				open_file(realname, new_buffer, inhelp, &f) : -2;
 
-	/* If we have a file, and we're loading into a new buffer, update
-	 * the filename. */
-	if (rc != -1 && new_buffer)
-		openfile->filename = mallocstrcpy(openfile->filename, realname);
-
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
 	if (rc > 0) {
@@ -490,9 +485,10 @@ bool open_buffer(const char *filename, bool undoable)
 #endif
 	}
 
-	/* If we have a file, and we're loading into a new buffer, move back
-	 * to the beginning of the first line of the buffer. */
+	/* If we have a file, and we've loaded it into a new buffer, set
+	 * the filename and put the cursor at the start of the buffer. */
 	if (rc != -1 && new_buffer) {
+		openfile->filename = mallocstrcpy(openfile->filename, realname);
 		openfile->current = openfile->fileage;
 		openfile->current_x = 0;
 		openfile->placewewant = 0;
