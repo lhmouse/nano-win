@@ -406,13 +406,11 @@ void stat_with_alloc(const char *filename, struct stat **pstat)
 }
 #endif /* !NANO_TINY */
 
-/* This does one of three things.  If the filename is "", just create a new
- * empty buffer.  Otherwise, read the given file into the existing buffer,
- * or into a new buffer when MULTIBUFFER is set or there is no buffer yet. */
-bool open_buffer(const char *filename, bool undoable)
+/* This does one of three things.  If the filename is "", it just creates
+ * a new empty buffer.  When the filename is not empty, it reads that file
+ * into a new buffer when requested, otherwise into the existing buffer. */
+bool open_buffer(const char *filename, bool new_buffer)
 {
-	bool new_buffer = (openfile == NULL || ISSET(MULTIBUFFER));
-		/* Whether we load into the current buffer or a new one. */
 	char *realname;
 		/* The filename after tilde expansion. */
 	FILE *f;
@@ -478,7 +476,7 @@ bool open_buffer(const char *filename, bool undoable)
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
 	if (rc > 0) {
-		read_file(f, rc, realname, undoable && !new_buffer, new_buffer);
+		read_file(f, rc, realname, !new_buffer, new_buffer);
 #ifndef NANO_TINY
 		if (openfile->current_stat == NULL)
 			stat_with_alloc(realname, &openfile->current_stat);
@@ -1121,7 +1119,7 @@ void do_insertfile(void)
 #ifdef ENABLE_MULTIBUFFER
 				/* When in multibuffer mode, first open a blank buffer. */
 				if (ISSET(MULTIBUFFER))
-					open_buffer("", FALSE);
+					open_buffer("", TRUE);
 #endif
 				/* If the command is not empty, execute it and read its output
 				 * into the buffer, and add the command to the history list. */
@@ -1148,8 +1146,8 @@ void do_insertfile(void)
 				/* Make sure the specified path is tilde-expanded. */
 				answer = free_and_assign(answer, real_dir_from_tilde(answer));
 
-				/* Read the specified file into the current buffer. */
-				open_buffer(answer, TRUE);
+				/* Read the file into a new buffer or into current buffer. */
+				open_buffer(answer, ISSET(MULTIBUFFER));
 			}
 
 #ifdef ENABLE_MULTIBUFFER

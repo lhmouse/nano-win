@@ -267,7 +267,7 @@ void do_uncut_text(void);
 /* Most functions in files.c. */
 void initialize_buffer_text(void);
 void set_modified(void);
-bool open_buffer(const char *filename, bool undoable);
+bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
 void replace_buffer(const char *filename);
 #ifndef NANO_TINY

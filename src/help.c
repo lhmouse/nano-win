@@ -75,7 +75,7 @@ void wrap_the_help_text(bool redisplaying)
 	if (redisplaying)
 		close_buffer();
 
-	open_buffer(tempfilename, FALSE);
+	open_buffer(tempfilename, TRUE);
 	remove_magicline();
 
 	prepare_for_display();

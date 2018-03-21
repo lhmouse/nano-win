@@ -1164,7 +1164,7 @@ bool scoop_stdin(void)
 	}
 
 	/* Read the input into a new buffer. */
-	open_buffer("", FALSE);
+	open_buffer("", TRUE);
 	read_file(stream, 0, "stdin", TRUE, FALSE);
 	openfile->edittop = openfile->fileage;
 
@@ -2616,7 +2616,7 @@ int main(int argc, char **argv)
 			optind++;
 			if (!scoop_stdin())
 				continue;
-		} else if (!open_buffer(argv[optind++], FALSE))
+		} else if (!open_buffer(argv[optind++], TRUE))
 			continue;
 
 		/* If a position was given on the command line, go there. */
@@ -2636,7 +2636,7 @@ int main(int argc, char **argv)
 	 * directories, then open a blank buffer and allow editing.  Otherwise,
 	 * switch from the last opened file to the next, that is: the first. */
 	if (openfile == NULL) {
-		open_buffer("", FALSE);
+		open_buffer("", TRUE);
 		UNSET(VIEW_MODE);
 	}
 #ifdef ENABLE_MULTIBUFFER
