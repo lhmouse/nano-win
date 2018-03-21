@@ -42,6 +42,12 @@
 #include <sys/vt.h>
 #endif
 
+#ifdef ENABLE_MULTIBUFFER
+#define read_them_all TRUE
+#else
+#define read_them_all FALSE
+#endif
+
 #ifdef ENABLE_MOUSE
 static int oldinterval = -1;
 		/* Used to store the user's original mouse click interval. */
@@ -1943,11 +1949,6 @@ int main(int argc, char **argv)
 	bool forced_wrapping = FALSE;
 		/* Should long lines be automatically hard wrapped? */
 #endif
-#ifdef ENABLE_MULTIBUFFER
-	bool is_multibuffer;
-		/* The actual value of the multibuffer option, restored after
-		 * we've loaded all files given on the command line. */
-#endif
 	const struct option long_options[] = {
 		{"boldtext", 0, NULL, 'D'},
 #ifdef ENABLE_MULTIBUFFER
@@ -2595,13 +2596,8 @@ int main(int argc, char **argv)
 	fprintf(stderr, "Main: open file\n");
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
-	is_multibuffer = ISSET(MULTIBUFFER);
-	SET(MULTIBUFFER);
-#endif
-
 	/* Read the files mentioned on the command line into new buffers. */
-	while (optind < argc && (!openfile || ISSET(MULTIBUFFER))) {
+	while (optind < argc && (!openfile || read_them_all)) {
 		ssize_t givenline = 0, givencol = 0;
 
 		/* If there's a +LINE[,COLUMN] argument here, eat it up. */
@@ -2642,9 +2638,6 @@ int main(int argc, char **argv)
 #ifdef ENABLE_MULTIBUFFER
 	else
 		openfile = openfile->next;
-
-	if (!is_multibuffer)
-		UNSET(MULTIBUFFER);
 #endif
 
 #ifdef DEBUG

@@ -3225,7 +3225,6 @@ void do_linter(void)
 							statusbar(_("Cancelled"));
 							goto free_lints_and_return;
 						} else if (i == 1) {
-							SET(MULTIBUFFER);
 							open_buffer(curlint->filename, TRUE);
 						} else {
 							char *dontwantfile = mallocstrcpy(NULL, curlint->filename);
