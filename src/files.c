@@ -476,7 +476,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
 	if (rc > 0) {
-		read_file(f, rc, realname, !new_buffer, new_buffer);
+		read_file(f, rc, realname, !new_buffer);
 #ifndef NANO_TINY
 		if (openfile->current_stat == NULL)
 			stat_with_alloc(realname, &openfile->current_stat);
@@ -522,7 +522,7 @@ void replace_buffer(const char *filename)
 	initialize_buffer_text();
 
 	/* Insert the processed file into its place. */
-	read_file(f, descriptor, filename, FALSE, TRUE);
+	read_file(f, descriptor, filename, FALSE);
 
 	/* Put current at a place that is certain to exist. */
 	openfile->current = openfile->fileage;
@@ -553,7 +553,7 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 	 * where the marked text was. */
 	extract_buffer(&trash_top, &trash_bot, top, top_x, bot, bot_x);
 	free_filestruct(trash_top);
-	read_file(f, descriptor, filename, FALSE, TRUE);
+	read_file(f, descriptor, filename, FALSE);
 
 	/* Restore the magicline behavior now that we're done fiddling. */
 	if (!old_no_newlines)
@@ -710,13 +710,10 @@ char *encode_data(char *buf, size_t buf_len)
 	return mallocstrcpy(NULL, buf);
 }
 
-/* Read an open file into the current buffer.  f should be set to the
- * open file, and filename should be set to the name of the file.
- * undoable means do we want to create undo records to try and undo
- * this.  Will also attempt to check file writability if fd > 0 and
- * checkwritable == TRUE. */
-void read_file(FILE *f, int fd, const char *filename, bool undoable,
-				bool checkwritable)
+/* Read the given open file f into the current buffer.  filename should be
+ * set to the name of the file.  undoable means that undo records should be
+ * created and that the file does not need to be checked for writability. */
+void read_file(FILE *f, int fd, const char *filename, bool undoable)
 {
 	ssize_t was_lineno = openfile->current->lineno;
 		/* The line number where we start the insertion. */
@@ -832,7 +829,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable,
 	if (ferror(f))
 		nperror(filename);
 	fclose(f);
-	if (fd > 0 && checkwritable) {
+	if (fd > 0 && !undoable) {
 		close(fd);
 		writable = is_file_writable(filename);
 	}
