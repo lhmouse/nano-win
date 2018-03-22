@@ -69,8 +69,7 @@ static struct sigaction act;
 static bool input_was_aborted = FALSE;
 		/* Whether reading from standard input was aborted via ^C. */
 
-/* Create a new linestruct node.  Note that we do not set prevnode->next
- * to the new line. */
+/* Create a new linestruct node.  Note that we do not set prevnode->next. */
 filestruct *make_new_node(filestruct *prevnode)
 {
 	filestruct *newnode = nmalloc(sizeof(filestruct));
@@ -1647,7 +1646,7 @@ bool okay_for_view(const sc *shortcut)
 {
 	const subnfunc *func = sctofunc(shortcut);
 
-	return (func && func->viewok);
+	return (func != NULL && func->viewok);
 }
 
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;

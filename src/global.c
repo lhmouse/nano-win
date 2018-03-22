@@ -1013,8 +1013,7 @@ void shortcut_init(void)
 			N_("Backup File"), WITHORSANS(backup_gist), BLANKAFTER, NOVIEW);
 	}
 
-	/* If we're using restricted mode, file insertion is disabled, and
-	 * thus command execution and the multibuffer toggle have no place. */
+	/* Command execution is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED)) {
 		add_to_funcs(flip_execute, MINSERTFILE,
 			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
@@ -1024,12 +1023,14 @@ void shortcut_init(void)
 	}
 #endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
+	/* Multiple buffers are only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
 		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
 
 #ifdef ENABLE_BROWSER
+	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
 		add_to_funcs(to_files_void, MWRITEFILE|MINSERTFILE,
 			N_("To Files"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
@@ -1311,8 +1312,8 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	add_to_sclist(MWRITEFILE, "M-D", 0, dos_format_void, 0);
 	add_to_sclist(MWRITEFILE, "M-M", 0, mac_format_void, 0);
-	/* In restricted mode, don't allow Appending, Prepending, nor making
-	 * backups, nor executing a command, nor opening a new buffer. */
+	/* Only when not in restricted mode, allow Appending, Prepending,
+	 * making backups, and executing a command. */
 	if (!ISSET(RESTRICTED)) {
 		add_to_sclist(MWRITEFILE, "M-A", 0, append_void, 0);
 		add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
@@ -1321,11 +1322,12 @@ void shortcut_init(void)
 	}
 #endif
 #ifdef ENABLE_MULTIBUFFER
+	/* Only when not in restricted mode, allow multiple buffers. */
 	if (!ISSET(RESTRICTED))
 		add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, flip_newbuffer, 0);
 #endif
 #ifdef ENABLE_BROWSER
-	/* In restricted mode, don't allow entering the file browser. */
+	/* Only when not in restricted mode, allow entering the file browser. */
 	if (!ISSET(RESTRICTED))
 		add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", 0, to_files_void, 0);
 #endif

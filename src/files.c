@@ -2420,8 +2420,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 
 /* We consider the first buf_len characters of buf for filename tab
  * completion. */
-char **cwd_tab_completion(const char *buf, bool allow_files, size_t
-		*num_matches, size_t buf_len)
+char **cwd_tab_completion(const char *buf, bool allow_files,
+		size_t *num_matches, size_t buf_len)
 {
 	char *dirname = mallocstrcpy(NULL, buf);
 	char *slash, *filename;

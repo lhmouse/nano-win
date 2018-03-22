@@ -187,27 +187,25 @@ void do_statusbar_output(int *the_input, size_t input_len,
 {
 	char *output = charalloc(input_len + 1);
 	char onechar[MAXCHARLEN];
-	size_t char_len, i;
+	size_t char_len, i, j = 0;
 
 	/* Copy the typed stuff so it can be treated. */
 	for (i = 0; i < input_len; i++)
 		output[i] = (char)the_input[i];
 	output[i] = '\0';
 
-	i = 0;
-
-	while (i < input_len) {
+	while (j < input_len) {
 		/* Encode any NUL byte as 0x0A. */
-		if (output[i] == '\0')
-			output[i] = '\n';
+		if (output[j] == '\0')
+			output[j] = '\n';
 
 		/* Interpret the next multibyte character. */
-		char_len = parse_mbchar(output + i, onechar, NULL);
+		char_len = parse_mbchar(output + j, onechar, NULL);
 
-		i += char_len;
+		j += char_len;
 
 		/* When filtering, skip any ASCII control character. */
-		if (filtering && is_ascii_cntrl_char(*(output + i - char_len)))
+		if (filtering && is_ascii_cntrl_char(*(output + j - char_len)))
 			continue;
 
 		/* Insert the typed character into the existing answer string. */
