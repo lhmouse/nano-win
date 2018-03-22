@@ -187,7 +187,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 {
 	char *output = charalloc(input_len + 1);
 	char onechar[MAXCHARLEN];
-	int i, char_len;
+	size_t char_len, i;
 
 	/* Copy the typed stuff so it can be treated. */
 	for (i = 0; i < input_len; i++)

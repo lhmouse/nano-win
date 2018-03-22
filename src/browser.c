@@ -32,9 +32,9 @@ static char **filelist = NULL;
 		/* The list of files to display in the file browser. */
 static size_t filelist_len = 0;
 		/* The number of files in the list. */
-static int width = 0;
+static size_t width = 0;
 		/* The number of files that we can display per screen row. */
-static int longest = 0;
+static size_t longest = 0;
 		/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
@@ -258,9 +258,9 @@ char *do_browser(char *path)
 
 			/* In case the specified directory cannot be entered, select it
 			 * (if it is in the current list) so it will be highlighted. */
-			for (i = 0; i < filelist_len; i++)
-				if (strcmp(filelist[i], path) == 0)
-					selected = i;
+			for (size_t j = 0; j < filelist_len; j++)
+				if (strcmp(filelist[j], path) == 0)
+					selected = j;
 
 			/* Try opening and reading the specified directory. */
 			goto read_directory_contents;
@@ -525,7 +525,7 @@ void browser_refresh(void)
 				/* The length of the filename in columns. */
 		size_t infolen;
 				/* The length of the file information in columns. */
-		int infomaxlen = 7;
+		size_t infomaxlen = 7;
 				/* The maximum length of the file information in columns:
 				 * normally seven, but will be twelve for "(parent dir)". */
 		bool dots = (COLS >= 15 && namelen >= longest - infomaxlen);

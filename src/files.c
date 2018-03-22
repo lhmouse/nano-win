@@ -2600,7 +2600,8 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 		if (!*lastwastab)
 			*lastwastab = TRUE;
 		else if (num_matches > 1) {
-			int longest_name = 0, ncols, editline = 0;
+			size_t longest_name = 0, ncols;
+			int editline = 0;
 
 			/* Sort the list of available choices. */
 			qsort(matches, num_matches, sizeof(char *), diralphasort);

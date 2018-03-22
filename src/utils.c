@@ -456,7 +456,7 @@ size_t strnlenpt(const char *text, size_t maxlen)
 		return 0;
 
 	while (*text != '\0') {
-		int charlen = parse_mbchar(text, NULL, &width);
+		size_t charlen = parse_mbchar(text, NULL, &width);
 
 		if (maxlen <= charlen)
 			break;

@@ -3577,8 +3577,8 @@ char *copy_completion(char *check_line, int start)
 void complete_a_word(void)
 {
 	char *shard, *completion = NULL;
-	int start_of_shard, shard_length = 0;
-	int i = 0, j = 0;
+	size_t start_of_shard, shard_length = 0;
+	size_t i = 0, j = 0;
 	completion_word *some_word;
 #ifdef ENABLE_WRAPPING
 	bool was_set_wrapping = !ISSET(NO_WRAP);

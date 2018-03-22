@@ -46,7 +46,7 @@ char *tempfilename = NULL;
  * read that file into a new buffer. */
 void wrap_the_help_text(bool redisplaying)
 {
-	int sum = 0;
+	size_t sum = 0;
 	const char *ptr = start_of_body;
 	FILE *tempfile = fopen(tempfilename, "w+b");
 
