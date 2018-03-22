@@ -577,9 +577,9 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *bracket_gist = N_("Go to the matching bracket");
 	const char *scrollup_gist =
-		N_("Scroll up one line without scrolling the cursor");
+		N_("Scroll up one line without moving the cursor textually");
 	const char *scrolldown_gist =
-		N_("Scroll down one line without scrolling the cursor");
+		N_("Scroll down one line without moving the cursor textually");
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	const char *prevfile_gist = N_("Switch to the previous file buffer");
