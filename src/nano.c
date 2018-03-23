@@ -617,8 +617,9 @@ void die(const char *msg, ...)
 		}
 
 		filepart = NULL;
+#ifdef ENABLE_MULTIBUFFER
 		openfile = openfile->next;
-
+#endif
 		if (openfile == firstone)
 			break;
 	}
