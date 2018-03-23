@@ -588,12 +588,14 @@ void die(const char *msg, ...)
 	va_list ap;
 	openfilestruct *firstone = openfile;
 
+	/* Switch on the cursor and leave curses mode. */
 	curs_set(1);
 	endwin();
 
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &oldterm);
 
+	/* Display the dying message. */
 	va_start(ap, msg);
 	vfprintf(stderr, msg, ap);
 	va_end(ap);
@@ -604,13 +606,14 @@ void die(const char *msg, ...)
 		if (ISSET(LOCKING) && openfile->lock_filename)
 			delete_lockfile(openfile->lock_filename);
 #endif
-		/* If the current file buffer was modified, save it. */
-		if (openfile->modified) {
-			/* If the buffer is partitioned, unpartition it first. */
+		/* If the current buffer was modified, ensure it is unpartitioned,
+		 * then save it.  When in restricted mode, we don't save anything,
+		 * because it would write files not mentioned on the command line. */
+		if (openfile->modified && !ISSET(RESTRICTED)) {
 			if (filepart != NULL)
 				unpartition_filestruct(&filepart);
 
-			die_save_file(openfile->filename, openfile->current_stat);
+			emergency_save(openfile->filename, openfile->current_stat);
 		}
 
 		filepart = NULL;
@@ -624,21 +627,14 @@ void die(const char *msg, ...)
 	exit(1);
 }
 
-/* Save the current file under the name specified in die_filename, which
- * is modified to be unique if necessary. */
-void die_save_file(const char *die_filename, struct stat *die_stat)
+/* Save the current buffer under the given name.
+ * If necessary, the name is modified to be unique. */
+void emergency_save(const char *die_filename, struct stat *die_stat)
 {
 	char *targetname;
 	bool failed = TRUE;
 
-	/* If we're using restricted mode, don't write any emergency backup
-	 * files, since that would allow reading from or writing to files
-	 * not specified on the command line. */
-	if (ISSET(RESTRICTED))
-		return;
-
-	/* If we can't save, we have really bad problems, but we might as
-	 * well try. */
+	/* If the buffer has no name, simply call it "nano". */
 	if (*die_filename == '\0')
 		die_filename = "nano";
 
@@ -657,9 +653,8 @@ void die_save_file(const char *die_filename, struct stat *die_stat)
 				_("Too many backup files?"));
 
 #ifndef NANO_TINY
-	/* Try and chmod/chown the save file to the values of the original file,
-	 * but don't worry if it fails because we're supposed to be bailing as
-	 * fast as possible. */
+	/* Try to chmod/chown the saved file to the values of the original file,
+	 * but ignore any failure as we are in a hurry to get out. */
 	if (die_stat) {
 		IGNORE_CALL_RESULT(chmod(targetname, die_stat->st_mode));
 		IGNORE_CALL_RESULT(chown(targetname, die_stat->st_uid,
