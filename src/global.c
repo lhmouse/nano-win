@@ -1779,12 +1779,14 @@ void thanks_for_all_the_fish(void)
 	free(alt_speller);
 #endif
 	free_filestruct(cutbuffer);
+#ifdef ENABLE_MULTIBUFFER
 	/* Free the memory associated with each open file buffer. */
 	while (openfile != openfile->next) {
 		openfile = openfile->next;
 		delete_opennode(openfile->prev);
 	}
 	delete_opennode(openfile);
+#endif
 #ifdef ENABLE_COLOR
 	free(syntaxstr);
 	while (syntaxes != NULL) {

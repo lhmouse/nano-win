@@ -408,10 +408,12 @@ typedef struct openfilestruct {
 	colortype *colorstrings;
 		/* The file's associated colors. */
 #endif
+#ifdef ENABLE_MULTIBUFFER
 	struct openfilestruct *next;
 		/* The next open file, if any. */
 	struct openfilestruct *prev;
 		/* The preceding open file, if any. */
+#endif
 } openfilestruct;
 
 #ifdef ENABLE_NANORC

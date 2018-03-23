@@ -1973,6 +1973,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 	return converted;
 }
 
+#ifdef ENABLE_MULTIBUFFER
 /* Determine the sequence number of the given buffer in the circular list. */
 int buffer_number(openfilestruct *buffer)
 {
@@ -1985,6 +1986,7 @@ int buffer_number(openfilestruct *buffer)
 
 	return count;
 }
+#endif
 
 /* If path is NULL, we're in normal editing mode, so display the current
  * version of nano, the current filename, and whether the current file
@@ -2030,6 +2032,7 @@ void titlebar(const char *path)
 	else
 #endif
 	if (!inhelp) {
+#ifdef ENABLE_MULTIBUFFER
 		/* If there are/were multiple buffers, show which out of how many. */
 		if (more_than_one) {
 			indicator = charalloc(24);
@@ -2037,6 +2040,7 @@ void titlebar(const char *path)
 										buffer_number(firstfile->prev));
 			upperleft = indicator;
 		} else
+#endif
 			upperleft = BRANDING;
 
 		if (openfile->filename[0] == '\0')

@@ -410,8 +410,10 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 void ingraft_buffer(filestruct *somebuffer);
 void copy_from_buffer(filestruct *somebuffer);
 openfilestruct *make_new_opennode(void);
+#ifdef ENABLE_MULTIBUFFER
 void unlink_opennode(openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
+#endif
 void print_view_warning(void);
 void show_restricted_warning(void);
 #ifndef ENABLE_HELP

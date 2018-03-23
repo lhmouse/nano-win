@@ -512,17 +512,19 @@ openfilestruct *make_new_opennode(void)
 	return (openfilestruct *)nmalloc(sizeof(openfilestruct));
 }
 
+#ifdef ENABLE_MULTIBUFFER
 /* Unlink a node from the rest of the circular list, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)
 {
 	assert(fileptr != fileptr->prev && fileptr != fileptr->next);
 
+#ifdef ENABLE_MULTIBUFFER
 	if (fileptr == firstfile)
 		firstfile = firstfile->next;
 
 	fileptr->prev->next = fileptr->next;
 	fileptr->next->prev = fileptr->prev;
-
+#endif
 	delete_opennode(fileptr);
 }
 
@@ -539,6 +541,7 @@ void delete_opennode(openfilestruct *fileptr)
 #endif
 	free(fileptr);
 }
+#endif
 
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)

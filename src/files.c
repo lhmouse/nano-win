@@ -66,16 +66,19 @@ void make_new_buffer(void)
 
 	if (openfile == NULL) {
 		/* Make the first open file the only element in the list. */
+#ifdef ENABLE_MULTIBUFFER
 		newnode->prev = newnode;
 		newnode->next = newnode;
+#endif
 		firstfile = newnode;
 	} else {
 		/* Add the new open file after the current one in the list. */
+#ifdef ENABLE_MULTIBUFFER
 		newnode->prev = openfile;
 		newnode->next = openfile->next;
 		openfile->next->prev = newnode;
 		openfile->next = newnode;
-
+#endif
 		/* There is more than one file open: show "Close" in help lines. */
 		exitfunc->desc = close_tag;
 		more_than_one = !inhelp || more_than_one;

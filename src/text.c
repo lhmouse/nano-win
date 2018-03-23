@@ -3200,7 +3200,7 @@ void do_linter(void)
 		functionptrtype func;
 
 		if (tmplint != curlint) {
-#ifndef NANO_TINY
+#ifdef ENABLE_MULTIBUFFER
 			struct stat lintfileinfo;
 
 		  new_lint_loop:
@@ -3265,7 +3265,7 @@ void do_linter(void)
 						openfile = tmpof;
 				}
 			}
-#endif /* !NANO_TINY */
+#endif /* ENABLE_MULTIBUFFER */
 			goto_line_posx(curlint->lineno, curlint->colno - 1);
 			titlebar(NULL);
 			adjust_viewport(CENTERING);
@@ -3307,7 +3307,7 @@ void do_linter(void)
 
 	wipe_statusbar();
 
-#ifndef NANO_TINY
+#ifdef ENABLE_MULTIBUFFER
   free_lints_and_return:
 #endif
 	for (curlint = lints; curlint != NULL;) {
