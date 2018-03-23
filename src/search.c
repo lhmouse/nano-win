@@ -840,10 +840,11 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 #ifndef NANO_TINY
 		if (ISSET(SOFTWRAP)) {
+			filestruct *currentline = openfile->current;
 			size_t leftedge = leftedge_for(xplustabs(), openfile->current);
 
 			rows_from_tail = (editwinrows / 2) - go_forward_chunks(
-							editwinrows / 2, &openfile->current, &leftedge);
+								editwinrows / 2, &currentline, &leftedge);
 		} else
 #endif
 			rows_from_tail = openfile->filebot->lineno -
