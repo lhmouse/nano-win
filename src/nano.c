@@ -586,6 +586,7 @@ void finish(void)
 void die(const char *msg, ...)
 {
 	va_list ap;
+	openfilestruct *firstone = openfile;
 
 	curs_set(1);
 	endwin();
@@ -597,38 +598,27 @@ void die(const char *msg, ...)
 	vfprintf(stderr, msg, ap);
 	va_end(ap);
 
+	while (openfile) {
 #ifndef NANO_TINY
-	/* If the current buffer has a lockfile, remove it. */
-	if (openfile && ISSET(LOCKING) && openfile->lock_filename)
-		delete_lockfile(openfile->lock_filename);
+		/* If the current buffer has a lockfile, remove it. */
+		if (ISSET(LOCKING) && openfile->lock_filename)
+			delete_lockfile(openfile->lock_filename);
 #endif
+		/* If the current file buffer was modified, save it. */
+		if (openfile->modified) {
+			/* If the buffer is partitioned, unpartition it first. */
+			if (filepart != NULL)
+				unpartition_filestruct(&filepart);
 
-	/* If the current file buffer was modified, save it. */
-	if (openfile && openfile->modified) {
-		/* If the buffer is partitioned, unpartition it first. */
-		if (filepart != NULL)
-			unpartition_filestruct(&filepart);
-
-		die_save_file(openfile->filename, openfile->current_stat);
-	}
-
-#ifdef ENABLE_MULTIBUFFER
-	/* Save all of the other modified file buffers, if any. */
-	if (openfile != NULL) {
-		openfilestruct *firstone = openfile;
-
-		while (openfile->next != firstone) {
-			openfile = openfile->next;
-
-#ifndef NANO_TINY
-			if (ISSET(LOCKING) && openfile->lock_filename)
-				delete_lockfile(openfile->lock_filename);
-#endif
-			if (openfile->modified)
-				die_save_file(openfile->filename, openfile->current_stat);
+			die_save_file(openfile->filename, openfile->current_stat);
 		}
+
+		filepart = NULL;
+		openfile = openfile->next;
+
+		if (openfile == firstone)
+			break;
 	}
-#endif
 
 	/* Abandon the building. */
 	exit(1);
