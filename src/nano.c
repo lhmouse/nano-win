@@ -204,12 +204,7 @@ void renumber(filestruct *line)
 partition *partition_filestruct(filestruct *top, size_t top_x,
 		filestruct *bot, size_t bot_x)
 {
-	partition *p;
-
-	assert(top != NULL && bot != NULL && openfile->fileage != NULL && openfile->filebot != NULL);
-
-	/* Initialize the partition. */
-	p = (partition *)nmalloc(sizeof(partition));
+	partition *p = nmalloc(sizeof(partition));
 
 	/* If the top and bottom of the partition are different from the top
 	 * and bottom of the buffer, save the latter and then set them
@@ -252,8 +247,6 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
  * to (filebot, $) again. */
 void unpartition_filestruct(partition **p)
 {
-	assert(p != NULL && openfile->fileage != NULL && openfile->filebot != NULL);
-
 	/* Reattach the line above the top of the partition, and restore the
 	 * text before top_x from top_data.  Free top_data when we're done
 	 * with it. */
@@ -303,8 +296,6 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	bool mark_inside = FALSE;
 	bool same_line = FALSE;
 #endif
-
-	assert(file_top != NULL && file_bot != NULL && top != NULL && bot != NULL);
 
 	/* If (top, top_x)-(bot, bot_x) doesn't cover any text, get out. */
 	if (top == bot && top_x == bot_x)
@@ -417,8 +408,6 @@ void ingraft_buffer(filestruct *somebuffer)
 	bool right_side_up = FALSE, single_line = FALSE;
 #endif
 
-	assert(somebuffer != NULL);
-
 #ifndef NANO_TINY
 	/* Keep track of whether the mark begins inside the partition and
 	 * will need adjustment. */
@@ -516,8 +505,6 @@ openfilestruct *make_new_opennode(void)
 /* Unlink a node from the rest of the circular list, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)
 {
-	assert(fileptr != fileptr->prev && fileptr != fileptr->next);
-
 #ifdef ENABLE_MULTIBUFFER
 	if (fileptr == firstfile)
 		firstfile = firstfile->next;
