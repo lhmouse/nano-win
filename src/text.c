@@ -3201,9 +3201,10 @@ void do_linter(void)
 #ifdef ENABLE_MULTIBUFFER
 			struct stat lintfileinfo;
 
-			if (stat(curlint->filename, &lintfileinfo) != -1) {
-				if (openfile->current_stat->st_ino != lintfileinfo.st_ino) {
+			if (stat(curlint->filename, &lintfileinfo) != -1 &&
+						openfile->current_stat->st_ino != lintfileinfo.st_ino) {
 					openfilestruct *tmpof = openfile;
+
 					while (tmpof != openfile->next) {
 						if (tmpof->current_stat->st_ino == lintfileinfo.st_ino)
 							break;
@@ -3260,7 +3261,6 @@ void do_linter(void)
 						}
 					} else
 						openfile = tmpof;
-				}
 			}
 #endif /* ENABLE_MULTIBUFFER */
 
