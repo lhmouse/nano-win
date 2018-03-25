@@ -3199,69 +3199,69 @@ void do_linter(void)
 		int kbinput;
 		functionptrtype func;
 #ifdef ENABLE_MULTIBUFFER
-			struct stat lintfileinfo;
+		struct stat lintfileinfo;
 
-			if (stat(curlint->filename, &lintfileinfo) != -1 &&
-						openfile->current_stat->st_ino != lintfileinfo.st_ino) {
-					openfilestruct *tmpof = openfile;
+		if (stat(curlint->filename, &lintfileinfo) != -1 &&
+			openfile->current_stat->st_ino != lintfileinfo.st_ino) {
+			openfilestruct *tmpof = openfile;
 
-					while (tmpof != openfile->next) {
-						if (tmpof->current_stat->st_ino == lintfileinfo.st_ino)
-							break;
-						tmpof = tmpof->next;
-					}
-					if (tmpof->current_stat->st_ino != lintfileinfo.st_ino) {
-						char *msg = charalloc(1024 + strlen(curlint->filename));
-						int i;
-
-						sprintf(msg, _("This message is for unopened file %s,"
-										" open it in a new buffer?"),
-								curlint->filename);
-						i = do_yesno_prompt(FALSE, msg);
-						free(msg);
-						if (i == -1) {
-							statusbar(_("Cancelled"));
-							goto free_lints_and_return;
-						} else if (i == 1) {
-							open_buffer(curlint->filename, TRUE);
-						} else {
-							char *dontwantfile = mallocstrcpy(NULL, curlint->filename);
-							lintstruct *restlint = NULL;
-
-							while (curlint != NULL) {
-								if (strcmp(curlint->filename, dontwantfile) == 0) {
-									if (curlint == lints)
-										lints = curlint->next;
-									else
-										curlint->prev->next = curlint->next;
-									if (curlint->next != NULL)
-										curlint->next->prev = curlint->prev;
-									tmplint = curlint;
-									curlint = curlint->next;
-									free(tmplint->msg);
-									free(tmplint->filename);
-									free(tmplint);
-								} else {
-									if (restlint == NULL)
-										restlint = curlint;
-									curlint = curlint->next;
-								}
-							}
-
-							if (restlint == NULL) {
-								statusbar(_("No more errors in unopened files, cancelling"));
-								napms(2400);
-								break;
-							} else {
-								curlint = restlint;
-								continue;
-							}
-
-							free(dontwantfile);
-						}
-					} else
-						openfile = tmpof;
+			while (tmpof != openfile->next) {
+				if (tmpof->current_stat->st_ino == lintfileinfo.st_ino)
+					break;
+				tmpof = tmpof->next;
 			}
+			if (tmpof->current_stat->st_ino != lintfileinfo.st_ino) {
+				char *msg = charalloc(1024 + strlen(curlint->filename));
+				int i;
+
+				sprintf(msg, _("This message is for unopened file %s,"
+							" open it in a new buffer?"), curlint->filename);
+				i = do_yesno_prompt(FALSE, msg);
+				free(msg);
+
+				if (i == -1) {
+					statusbar(_("Cancelled"));
+					goto free_lints_and_return;
+				} else if (i == 1) {
+					open_buffer(curlint->filename, TRUE);
+				} else {
+					char *dontwantfile = mallocstrcpy(NULL, curlint->filename);
+					lintstruct *restlint = NULL;
+
+					while (curlint != NULL) {
+						if (strcmp(curlint->filename, dontwantfile) == 0) {
+							if (curlint == lints)
+								lints = curlint->next;
+							else
+								curlint->prev->next = curlint->next;
+							if (curlint->next != NULL)
+								curlint->next->prev = curlint->prev;
+							tmplint = curlint;
+							curlint = curlint->next;
+							free(tmplint->msg);
+							free(tmplint->filename);
+							free(tmplint);
+						} else {
+							if (restlint == NULL)
+								restlint = curlint;
+							curlint = curlint->next;
+						}
+					}
+
+					if (restlint == NULL) {
+						statusbar(_("No more errors in unopened files, cancelling"));
+						napms(2400);
+						break;
+					} else {
+						curlint = restlint;
+						continue;
+					}
+
+					free(dontwantfile);
+				}
+			} else
+				openfile = tmpof;
+		}
 #endif /* ENABLE_MULTIBUFFER */
 
 		if (tmplint != curlint) {
