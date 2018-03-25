@@ -3198,12 +3198,9 @@ void do_linter(void)
 	while (TRUE) {
 		int kbinput;
 		functionptrtype func;
-
-		if (tmplint != curlint) {
 #ifdef ENABLE_MULTIBUFFER
 			struct stat lintfileinfo;
 
-		  new_lint_loop:
 			if (stat(curlint->filename, &lintfileinfo) != -1) {
 				if (openfile->current_stat->st_ino != lintfileinfo.st_ino) {
 					openfilestruct *tmpof = openfile;
@@ -3256,7 +3253,7 @@ void do_linter(void)
 								break;
 							} else {
 								curlint = restlint;
-								goto new_lint_loop;
+								continue;
 							}
 
 							free(dontwantfile);
@@ -3266,6 +3263,8 @@ void do_linter(void)
 				}
 			}
 #endif /* ENABLE_MULTIBUFFER */
+
+		if (tmplint != curlint) {
 			goto_line_posx(curlint->lineno, curlint->colno - 1);
 			titlebar(NULL);
 			adjust_viewport(CENTERING);
