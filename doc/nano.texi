@@ -755,7 +755,8 @@ Use this color combination for the concise function descriptions
 in the two help lines at the bottom of the screen.
 Valid names for foreground and background color are:
 @code{white}, @code{black}, @code{blue}, @code{green},
-@code{red}, @code{cyan}, @code{yellow}, and @code{magenta}.
+@code{red}, @code{cyan}, @code{yellow}, @code{magenta}, and @code{normal}
+--- where @code{normal} means the default foreground or background color.
 The name of the foreground color may be prefixed with @code{bright}.
 And either @var{fgcolor} or ,@var{bgcolor} may be left out.
 
