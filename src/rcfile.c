@@ -602,9 +602,11 @@ short color_to_short(const char *colorname, bool *bright)
 		return COLOR_MAGENTA;
 	else if (strcasecmp(colorname, "black") == 0)
 		return COLOR_BLACK;
+	else if (strcasecmp(colorname, "normal") == 0)
+		return -1;
 
 	rcfile_error(N_("Color \"%s\" not understood"), colorname);
-	return -1;
+	return -2;
 }
 
 /* Parse the color string in the line at ptr, and add it to the current
@@ -753,10 +755,13 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 		*fg = color_to_short(combostr, bright);
 
 		/* If the specified foreground color is bad, ignore the regexes. */
-		if (*fg == -1)
+		if (*fg == -2)
 			return FALSE;
 	} else
 		*fg = -1;
+
+	if (*bg == -2)
+		*bg = -1;
 
 	return TRUE;
 }
