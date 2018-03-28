@@ -1,3 +1,17 @@
+2018.03.29 - GNU nano 2.9.5 "Kiša pada" changes the way the Scroll-Up
+             and Scroll-Down commands work (M-- and M-+): instead of
+             keeping the cursor in the same screen position they now
+             keep the cursor in the same text position (if possible).
+             This version further adds a new color name, "normal",
+             which gives the default foreground or background color,
+             which is useful when you want to undo some overzealous
+             painting by earlier syntax regexes.  Bug fixes include:
+             a segfault when trying to insert a file in restricted
+             mode, the reading in of a new file being "undoable", a
+             slight miswrapping of help texts when --linenumbers was
+             used, and the shell syntax coloring the word "tar" in
+             file names.
+
 2018.03.08 - GNU nano 2.9.4 "Isabel" allows binding a key to a string
              (any piece of text and/or commands), permits customizing
              the color of error messages with 'set errorcolor', colors
