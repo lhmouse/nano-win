@@ -521,7 +521,7 @@ void do_down(void)
 	openfile->placewewant = leftedge + target_column;
 }
 
-#ifndef NANO_TINY
+#ifdef ENABLE_HELP
 /* Scroll up one line or chunk without scrolling the cursor. */
 void do_scroll_up(void)
 {
@@ -541,9 +541,12 @@ void do_scroll_down(void)
 	if (openfile->current_y == 0)
 		do_down();
 
-	if (openfile->edittop->next != NULL ||
-					chunk_for(openfile->firstcolumn, openfile->edittop) <
-					number_of_chunks_in(openfile->edittop))
+	if (openfile->edittop->next != NULL
+#ifndef NANO_TINY
+				|| chunk_for(openfile->firstcolumn, openfile->edittop) <
+					number_of_chunks_in(openfile->edittop)
+#endif
+										)
 		edit_scroll(FORWARD);
 }
 #endif

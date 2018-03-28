@@ -387,7 +387,7 @@ void do_home(void);
 void do_end(void);
 void do_up(void);
 void do_down(void);
-#ifndef NANO_TINY
+#ifdef ENABLE_HELP
 void do_scroll_up(void);
 void do_scroll_down(void);
 #endif
