@@ -471,7 +471,6 @@ int do_yesno_prompt(bool all, const char *msg);
 /* Most functions in rcfile.c. */
 #ifdef ENABLE_NANORC
 #ifdef ENABLE_COLOR
-bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
 #endif
 void parse_rcfile(FILE *rcstream, bool syntax_only);

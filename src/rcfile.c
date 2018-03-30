@@ -609,6 +609,34 @@ short color_to_short(const char *colorname, bool *bright)
 	return -2;
 }
 
+/* Parse the color name (or pair of color names) in the given string.
+ * Return FALSE when any color name is invalid; otherwise return TRUE. */
+bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
+{
+	char *comma = strchr(combostr, ',');
+
+	if (comma != NULL) {
+		*bg = color_to_short(comma + 1, bright);
+		if (*bright) {
+			rcfile_error(N_("A background color cannot be bright"));
+			return FALSE;
+		}
+		if (*bg == -2)
+			return FALSE;
+		*comma = '\0';
+	} else
+		*bg = -1;
+
+	if (comma != combostr) {
+		*fg = color_to_short(combostr, bright);
+		if (*fg == -2)
+			return FALSE;
+	} else
+		*fg = -1;
+
+	return TRUE;
+}
+
 /* Parse the color string in the line at ptr, and add it to the current
  * file's associated colors.  rex_flags are the regex compilation flags
  * to use, excluding or including REG_ICASE for case (in)sensitivity. */
@@ -734,34 +762,6 @@ void parse_colors(char *ptr, int rex_flags)
 		newcolor->id = live_syntax->nmultis;
 		live_syntax->nmultis++;
 	}
-}
-
-/* Parse the color name (or pair of color names) in the given string.
- * Return FALSE when any color name is invalid; otherwise return TRUE. */
-bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
-{
-	char *comma = strchr(combostr, ',');
-
-	if (comma != NULL) {
-		*bg = color_to_short(comma + 1, bright);
-		if (*bright) {
-			rcfile_error(N_("A background color cannot be bright"));
-			return FALSE;
-		}
-		if (*bg == -2)
-			return FALSE;
-		*comma = '\0';
-	} else
-		*bg = -1;
-
-	if (comma != combostr) {
-		*fg = color_to_short(combostr, bright);
-		if (*fg == -2)
-			return FALSE;
-	} else
-		*fg = -1;
-
-	return TRUE;
 }
 
 /* Parse the argument of an interface color option. */
