@@ -576,6 +576,8 @@ void shortcut_init(void)
 	const char *lastline_gist = N_("Go to the last line of the file");
 #ifndef NANO_TINY
 	const char *bracket_gist = N_("Go to the matching bracket");
+#endif
+#ifdef ENABLE_HELP
 	const char *scrollup_gist =
 		N_("Scroll up one line without moving the cursor textually");
 	const char *scrolldown_gist =
@@ -859,7 +861,7 @@ void shortcut_init(void)
 		prevline_tag, WITHORSANS(prevline_gist), TOGETHER, VIEW);
 	add_to_funcs(do_down, MMAIN|MHELP|MBROWSER,
 		nextline_tag, WITHORSANS(nextline_gist), TOGETHER, VIEW);
-#ifndef NANO_TINY
+#ifdef ENABLE_HELP
 	add_to_funcs(do_scroll_up, MMAIN,
 		N_("Scroll Up"), WITHORSANS(scrollup_gist), TOGETHER, VIEW);
 	add_to_funcs(do_scroll_down, MMAIN,
@@ -1206,7 +1208,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-)", 0, do_para_end_void, 0);
 	add_to_sclist(MMAIN, "M-0", 0, do_para_end_void, 0);
 #endif
-#ifndef NANO_TINY
+#ifdef ENABLE_HELP
 	add_to_sclist(MMAIN, "M--", 0, do_scroll_up, 0);
 	add_to_sclist(MMAIN, "M-_", 0, do_scroll_up, 0);
 	add_to_sclist(MMAIN, "M-+", 0, do_scroll_down, 0);
@@ -1526,10 +1528,6 @@ sc *strtosc(const char *input)
 		s->func = do_indent;
 	else if (!strcasecmp(input, "unindent"))
 		s->func = do_unindent;
-	else if (!strcasecmp(input, "scrollup"))
-		s->func = do_scroll_up;
-	else if (!strcasecmp(input, "scrolldown"))
-		s->func = do_scroll_down;
 	else if (!strcasecmp(input, "cutwordleft"))
 		s->func = do_cut_prev_word;
 	else if (!strcasecmp(input, "cutwordright"))
@@ -1559,6 +1557,12 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "down") ||
 			 !strcasecmp(input, "nextline"))
 		s->func = do_down;
+#ifdef ENABLE_HELP
+	else if (!strcasecmp(input, "scrollup"))
+		s->func = do_scroll_up;
+	else if (!strcasecmp(input, "scrolldown"))
+		s->func = do_scroll_down;
+#endif
 	else if (!strcasecmp(input, "prevword"))
 		s->func = do_prev_word_void;
 	else if (!strcasecmp(input, "nextword"))
