@@ -476,66 +476,6 @@ bool white_string(const char *s)
 }
 
 #ifdef ENABLE_COMMENT
-/* Comment or uncomment the current line or the marked lines. */
-void do_comment(void)
-{
-	const char *comment_seq = GENERAL_COMMENT_CHARACTER;
-	undo_type action = UNCOMMENT;
-	filestruct *top, *bot, *line;
-	bool empty, all_empty = TRUE;
-
-#ifdef ENABLE_COLOR
-	if (openfile->syntax)
-		comment_seq = openfile->syntax->comment;
-
-	if (*comment_seq == '\0') {
-		statusbar(_("Commenting is not supported for this file type"));
-		return;
-	}
-#endif
-
-	/* Determine which lines to work on. */
-	get_range((const filestruct **)&top, (const filestruct **)&bot);
-
-	/* If only the magic line is selected, don't do anything. */
-	if (top == bot && bot == openfile->filebot && !ISSET(NO_NEWLINES)) {
-		statusbar(_("Cannot comment past end of file"));
-		return;
-	}
-
-	/* Figure out whether to comment or uncomment the selected line or lines. */
-	for (line = top; line != bot->next; line = line->next) {
-		empty = white_string(line->data);
-
-		/* If this line is not blank and not commented, we comment all. */
-		if (!empty && !comment_line(PREFLIGHT, line, comment_seq)) {
-			action = COMMENT;
-			break;
-		}
-		all_empty = all_empty && empty;
-	}
-
-	/* If all selected lines are blank, we comment them. */
-	action = all_empty ? COMMENT : action;
-
-	add_undo(action);
-
-	/* Store the comment sequence used for the operation, because it could
-	 * change when the file name changes; we need to know what it was. */
-	openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
-
-	/* Process the selected line or lines. */
-	for (line = top; line != bot->next; line = line->next) {
-		/* Comment/uncomment a line, and add undo data when line changed. */
-		if (comment_line(action, line, comment_seq))
-			update_multiline_undo(line->lineno, "");
-	}
-
-	set_modified();
-	refresh_needed = TRUE;
-	shift_held = TRUE;
-}
-
 /* Test whether the given line can be uncommented, or add or remove a comment,
  * depending on action.  Return TRUE if the line is uncommentable, or when
  * anything was added or removed; FALSE otherwise. */
@@ -596,6 +536,66 @@ bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
 	}
 
 	return FALSE;
+}
+
+/* Comment or uncomment the current line or the marked lines. */
+void do_comment(void)
+{
+	const char *comment_seq = GENERAL_COMMENT_CHARACTER;
+	undo_type action = UNCOMMENT;
+	filestruct *top, *bot, *line;
+	bool empty, all_empty = TRUE;
+
+#ifdef ENABLE_COLOR
+	if (openfile->syntax)
+		comment_seq = openfile->syntax->comment;
+
+	if (*comment_seq == '\0') {
+		statusbar(_("Commenting is not supported for this file type"));
+		return;
+	}
+#endif
+
+	/* Determine which lines to work on. */
+	get_range((const filestruct **)&top, (const filestruct **)&bot);
+
+	/* If only the magic line is selected, don't do anything. */
+	if (top == bot && bot == openfile->filebot && !ISSET(NO_NEWLINES)) {
+		statusbar(_("Cannot comment past end of file"));
+		return;
+	}
+
+	/* Figure out whether to comment or uncomment the selected line or lines. */
+	for (line = top; line != bot->next; line = line->next) {
+		empty = white_string(line->data);
+
+		/* If this line is not blank and not commented, we comment all. */
+		if (!empty && !comment_line(PREFLIGHT, line, comment_seq)) {
+			action = COMMENT;
+			break;
+		}
+		all_empty = all_empty && empty;
+	}
+
+	/* If all selected lines are blank, we comment them. */
+	action = all_empty ? COMMENT : action;
+
+	add_undo(action);
+
+	/* Store the comment sequence used for the operation, because it could
+	 * change when the file name changes; we need to know what it was. */
+	openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
+
+	/* Process the selected line or lines. */
+	for (line = top; line != bot->next; line = line->next) {
+		/* Comment/uncomment a line, and add undo data when line changed. */
+		if (comment_line(action, line, comment_seq))
+			update_multiline_undo(line->lineno, "");
+	}
+
+	set_modified();
+	refresh_needed = TRUE;
+	shift_held = TRUE;
 }
 
 /* Perform an undo or redo for a comment or uncomment action. */

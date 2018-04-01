@@ -521,7 +521,6 @@ void do_unindent(void);
 bool white_string(const char *s);
 #ifdef ENABLE_COMMENT
 void do_comment(void);
-bool comment_line(undo_type action, filestruct *f, const char *comment_seq);
 #endif
 void do_undo(void);
 void do_redo(void);
