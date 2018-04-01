@@ -40,9 +40,6 @@ extern bool focusing;
 
 extern bool as_an_at;
 
-extern int margin;
-extern int editwincols;
-
 extern bool suppress_cursorpos;
 
 extern message_type lastmessage;
@@ -95,6 +92,8 @@ extern WINDOW *topwin;
 extern WINDOW *edit;
 extern WINDOW *bottomwin;
 extern int editwinrows;
+extern int editwincols;
+extern int margin;
 
 extern filestruct *cutbuffer;
 extern filestruct *cutbottom;

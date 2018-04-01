@@ -46,11 +46,6 @@ bool focusing = TRUE;
 bool as_an_at = TRUE;
 		/* Whether a 0x0A byte should be shown as a ^@ instead of a ^J. */
 
-int margin = 0;
-		/* The amount of space reserved at the left for line numbers. */
-int editwincols = -1;
-		/* The number of usable columns in the edit window: COLS - margin. */
-
 bool suppress_cursorpos = FALSE;
 		/* Should we skip constant position display for current keystroke? */
 
@@ -110,6 +105,10 @@ WINDOW *bottomwin = NULL;
 		 * messages, the statusbar prompt, and a list of shortcuts. */
 int editwinrows = 0;
 		/* How many rows does the edit window take up? */
+int editwincols = -1;
+		/* The number of usable columns in the edit window: COLS - margin. */
+int margin = 0;
+		/* The amount of space reserved at the left for line numbers. */
 
 filestruct *cutbuffer = NULL;
 		/* The buffer where we store cut text. */
