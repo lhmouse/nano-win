@@ -88,6 +88,7 @@ extern char *last_search;
 extern char *present_path;
 
 extern unsigned flags[4];
+
 extern WINDOW *topwin;
 extern WINDOW *edit;
 extern WINDOW *bottomwin;

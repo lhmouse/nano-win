@@ -93,15 +93,15 @@ char *present_path = NULL;
 
 unsigned flags[4] = {0, 0, 0, 0};
 		/* Our flag containing the states of all global options. */
+
 WINDOW *topwin = NULL;
-		/* The top portion of the window, where we display the version
-		 * number of nano, the name of the current file, and whether the
-		 * current file has been modified. */
+		/* The top portion of the screen, showing the version number of nano,
+		 * the name of the file, and whether the buffer was modified. */
 WINDOW *edit = NULL;
-		/* The middle portion of the window, i.e. the edit window, where
-		 * we display the current file we're editing. */
+		/* The middle portion of the screen: the edit window, showing the
+		 * contents of the current buffer, the file we are editing. */
 WINDOW *bottomwin = NULL;
-		/* The bottom portion of the window, where we display statusbar
+		/* The bottom portion of the screen, where we display statusbar
 		 * messages, the statusbar prompt, and a list of shortcuts. */
 int editwinrows = 0;
 		/* How many rows does the edit window take up? */
@@ -265,7 +265,7 @@ size_t length_of_list(int menu)
 #define BLANKAFTER  TRUE    /* A blank line after this one. */
 #define TOGETHER  FALSE
 
-/* Just throw this here. */
+/* Empty functions, for the most part corresponding to toggles. */
 void case_sens_void(void)
 {
 }
@@ -391,7 +391,6 @@ const sc *first_sc_for(int menu, void (*func)(void))
 #ifdef DEBUG
 	fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long)func, menu);
 #endif
-	/* Otherwise... */
 	return NULL;
 }
 
@@ -1388,8 +1387,7 @@ const subnfunc *sctofunc(const sc *s)
 }
 
 #ifndef NANO_TINY
-/* Now let's come up with a single (hopefully) function to get a string
- * for each flag. */
+/* Return the textual description that corresponds to the given flag. */
 const char *flagtostr(int flag)
 {
 	switch (flag) {
