@@ -603,10 +603,10 @@ short color_to_short(const char *colorname, bool *bright)
 	else if (strcasecmp(colorname, "black") == 0)
 		return COLOR_BLACK;
 	else if (strcasecmp(colorname, "normal") == 0)
-		return -1;
+		return USE_THE_DEFAULT;
 
 	rcfile_error(N_("Color \"%s\" not understood"), colorname);
-	return -2;
+	return BAD_COLOR;
 }
 
 /* Parse the color name (or pair of color names) in the given string.
@@ -621,18 +621,18 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 			rcfile_error(N_("A background color cannot be bright"));
 			return FALSE;
 		}
-		if (*bg == -2)
+		if (*bg == BAD_COLOR)
 			return FALSE;
 		*comma = '\0';
 	} else
-		*bg = -1;
+		*bg = USE_THE_DEFAULT;
 
 	if (comma != combostr) {
 		*fg = color_to_short(combostr, bright);
-		if (*fg == -2)
+		if (*fg == BAD_COLOR)
 			return FALSE;
 	} else
-		*fg = -1;
+		*fg = USE_THE_DEFAULT;
 
 	return TRUE;
 }
