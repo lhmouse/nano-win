@@ -320,11 +320,11 @@ void do_indent(void)
 
 	add_undo(INDENT);
 
-	/* Go through each of the lines, but skip empty ones. */
+	/* Go through each of the lines, adding an indent to the non-empty ones,
+	 * and recording whatever was added in the undo item. */
 	for (line = top; line != bot->next; line = line->next) {
 		char *real_indent = (line->data[0] == '\0') ? "" : indentation;
 
-		/* Indent a line, add undo data, and save the original indent. */
 		indent_a_line(line, real_indent);
 		update_multiline_undo(line->lineno, real_indent);
 	}
@@ -412,14 +412,14 @@ void do_unindent(void)
 
 	add_undo(UNINDENT);
 
-	/* Go through each of the lines and remove their leading indent. */
+	/* Go through each of the lines, removing their leading indent where
+	 * possible, and saving the removed whitespace in the undo item. */
 	for (line = top; line != bot->next; line = line->next) {
 		size_t indent_len = length_of_white(line->data);
 		char *indentation = mallocstrncpy(NULL, line->data, indent_len + 1);
 
 		indentation[indent_len] = '\0';
 
-		/* Unindent a line, add undo data, and save the original indent. */
 		unindent_a_line(line, indent_len);
 		update_multiline_undo(line->lineno, indentation);
 
@@ -586,9 +586,9 @@ void do_comment(void)
 	 * change when the file name changes; we need to know what it was. */
 	openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
 
-	/* Process the selected line or lines. */
+	/* Comment/uncomment each of the selected lines when possible, and
+	 * store undo data when a line changed. */
 	for (line = top; line != bot->next; line = line->next) {
-		/* Comment/uncomment a line, and add undo data when line changed. */
 		if (comment_line(action, line, comment_seq))
 			update_multiline_undo(line->lineno, "");
 	}
@@ -1335,8 +1335,8 @@ void add_undo(undo_type action)
 }
 
 /* Update a multiline undo item.  This should be called once for each line
- * affected by a multiple-line-altering feature.  The existing indentation
- * is saved separately for each line in the undo item. */
+ * affected by a multiple-line-altering feature.  The indentation that is
+ * added or removed is saved separately for each line in the undo item. */
 void update_multiline_undo(ssize_t lineno, char *indentation)
 {
 	undo *u = openfile->current_undo;
