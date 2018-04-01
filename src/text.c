@@ -435,27 +435,25 @@ void do_unindent(void)
 void handle_indent_action(undo *u, bool undoing, bool add_indent)
 {
 	undo_group *group = u->grouping;
+	filestruct *line = fsfromline(group->top_line);
+
+	if (group->next != NULL)
+		statusline(ALERT, "Multiple groups -- please report a bug");
 
 	/* When redoing, reposition the cursor and let the indenter adjust it. */
 	if (!undoing)
 		goto_line_posx(u->lineno, u->begin);
 
-	while (group) {
-		filestruct *line = fsfromline(group->top_line);
+	/* For each line in the group, add or remove the individual indent. */
+	while (line && line->lineno <= group->bottom_line) {
+		char *blanks = group->indentations[line->lineno - group->top_line];
 
-		/* For each line in the group, add or remove the individual indent. */
-		while (line && line->lineno <= group->bottom_line) {
-			char *blanks = group->indentations[line->lineno - group->top_line];
+		if (undoing ^ add_indent)
+			indent_a_line(line, blanks);
+		else
+			unindent_a_line(line, strlen(blanks));
 
-			if (undoing ^ add_indent)
-				indent_a_line(line, blanks);
-			else
-				unindent_a_line(line, strlen(blanks));
-
-			line = line->next;
-		}
-
-		group = group->next;
+		line = line->next;
 	}
 
 	/* When undoing, reposition the cursor to the recorded location. */
