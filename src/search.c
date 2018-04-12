@@ -702,8 +702,10 @@ void do_replace(void)
 {
 	if (ISSET(VIEW_MODE))
 		print_view_warning();
-	else
+	else {
+		UNSET(BACKWARDS_SEARCH);
 		search_init(TRUE, FALSE);
+	}
 }
 
 /* Ask the user what the already given search string should be replaced with. */
