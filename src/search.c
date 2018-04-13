@@ -68,7 +68,7 @@ void not_found_msg(const char *str)
 
 /* Free a compiled regular expression, if one was compiled; and schedule a
  * full screen refresh when the mark is on, in case the cursor has moved. */
-void search_replace_abort(void)
+void tidy_up_after_search(void)
 {
 	if (have_compiled_regexp) {
 		regfree(&search_regexp);
@@ -126,7 +126,7 @@ void search_init(bool replacing, bool keep_the_answer)
 		 * nothing was searched for yet during this session, get out. */
 		if (i == -1 || (i == -2 && *last_search == '\0')) {
 			statusbar(_("Cancelled"));
-			search_replace_abort();
+			tidy_up_after_search();
 			free(thedefault);
 			return;
 		}
@@ -146,7 +146,7 @@ void search_init(bool replacing, bool keep_the_answer)
 			/* If doing a regular-expression search, compile the
 			 * search string, and get out when it's invalid. */
 			if (ISSET(USE_REGEXP) && !regexp_init(last_search)) {
-				search_replace_abort();
+				tidy_up_after_search();
 				return;
 			}
 
@@ -155,7 +155,7 @@ void search_init(bool replacing, bool keep_the_answer)
 			else
 				go_looking();
 
-			search_replace_abort();
+			tidy_up_after_search();
 			return;
 		}
 
@@ -175,7 +175,7 @@ void search_init(bool replacing, bool keep_the_answer)
 			if (func == flip_goto)
 				do_gotolinecolumn(openfile->current->lineno,
 							openfile->placewewant + 1, TRUE, TRUE);
-			search_replace_abort();
+			tidy_up_after_search();
 			free(thedefault);
 			return;
 		}
@@ -393,7 +393,7 @@ void do_research(void)
 
 	go_looking();
 
-	search_replace_abort();
+	tidy_up_after_search();
 }
 
 /* Search for the global string 'last_search'.  Inform the user when

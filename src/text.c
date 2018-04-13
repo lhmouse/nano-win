@@ -2780,7 +2780,7 @@ const char *do_int_speller(const char *tempfile_name)
 		do_int_spell_fix(read_buff_word);
 
 	free(read_buff);
-	search_replace_abort();
+	tidy_up_after_search();
 	refresh_needed = TRUE;
 
 	/* Process the end of the three processes. */
