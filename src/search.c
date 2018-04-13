@@ -28,8 +28,8 @@
 
 static bool came_full_circle = FALSE;
 		/* Have we reached the starting line again while searching? */
-static bool regexp_compiled = FALSE;
-		/* Have we compiled any regular expressions? */
+static bool have_compiled_regexp = FALSE;
+		/* Whether we have compiled a regular expression for the search. */
 
 /* Compile the given regular expression and store it in search_regexp.
  * Return TRUE if the expression is valid, and FALSE otherwise. */
@@ -50,7 +50,7 @@ bool regexp_init(const char *regexp)
 		return FALSE;
 	}
 
-	regexp_compiled = TRUE;
+	have_compiled_regexp = TRUE;
 
 	return TRUE;
 }
@@ -70,9 +70,9 @@ void not_found_msg(const char *str)
  * full screen refresh when the mark is on, in case the cursor has moved. */
 void search_replace_abort(void)
 {
-	if (regexp_compiled) {
-		regexp_compiled = FALSE;
+	if (have_compiled_regexp) {
 		regfree(&search_regexp);
+		have_compiled_regexp = FALSE;
 	}
 #ifndef NANO_TINY
 	if (openfile->mark)
