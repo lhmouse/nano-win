@@ -55,17 +55,6 @@ bool regexp_init(const char *regexp)
 	return TRUE;
 }
 
-/* Report on the status bar that the given string was not found. */
-void not_found_msg(const char *str)
-{
-	char *disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
-	size_t numchars = actual_x(disp, strnlenpt(disp, COLS / 2));
-
-	statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
-				(disp[numchars] == '\0') ? "" : "...");
-	free(disp);
-}
-
 /* Free a compiled regular expression, if one was compiled; and schedule a
  * full screen refresh when the mark is on, in case the cursor has moved. */
 void tidy_up_after_search(void)
@@ -354,22 +343,6 @@ void do_search_backward(void)
 	do_search();
 }
 
-#ifndef NANO_TINY
-/* Search in the backward direction for the next occurrence. */
-void do_findprevious(void)
-{
-	SET(BACKWARDS_SEARCH);
-	do_research();
-}
-
-/* Search in the forward direction for the next occurrence. */
-void do_findnext(void)
-{
-	UNSET(BACKWARDS_SEARCH);
-	do_research();
-}
-#endif /* !NANO_TINY */
-
 /* Search for the last string without prompting. */
 void do_research(void)
 {
@@ -394,6 +367,33 @@ void do_research(void)
 	go_looking();
 
 	tidy_up_after_search();
+}
+
+#ifndef NANO_TINY
+/* Search in the backward direction for the next occurrence. */
+void do_findprevious(void)
+{
+	SET(BACKWARDS_SEARCH);
+	do_research();
+}
+
+/* Search in the forward direction for the next occurrence. */
+void do_findnext(void)
+{
+	UNSET(BACKWARDS_SEARCH);
+	do_research();
+}
+#endif /* !NANO_TINY */
+
+/* Report on the status bar that the given string was not found. */
+void not_found_msg(const char *str)
+{
+	char *disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
+	size_t numchars = actual_x(disp, strnlenpt(disp, COLS / 2));
+
+	statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
+						(disp[numchars] == '\0') ? "" : "...");
+	free(disp);
 }
 
 /* Search for the global string 'last_search'.  Inform the user when
