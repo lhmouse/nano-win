@@ -55,16 +55,6 @@ bool regexp_init(const char *regexp)
 	return TRUE;
 }
 
-/* Decompile the compiled regular expression we used in the last
- * search, if any. */
-void regexp_cleanup(void)
-{
-	if (regexp_compiled) {
-		regexp_compiled = FALSE;
-		regfree(&search_regexp);
-	}
-}
-
 /* Report on the status bar that the given string was not found. */
 void not_found_msg(const char *str)
 {
@@ -76,17 +66,18 @@ void not_found_msg(const char *str)
 	free(disp);
 }
 
-/* Abort the current search or replace.  Clean up by displaying the main
- * shortcut list, updating the screen if the mark was on before, and
- * decompiling the compiled regular expression we used in the last
- * search, if any. */
+/* Free a compiled regular expression, if one was compiled; and schedule a
+ * full screen refresh when the mark is on, in case the cursor has moved. */
 void search_replace_abort(void)
 {
+	if (regexp_compiled) {
+		regexp_compiled = FALSE;
+		regfree(&search_regexp);
+	}
 #ifndef NANO_TINY
 	if (openfile->mark)
 		refresh_needed = TRUE;
 #endif
-	regexp_cleanup();
 }
 
 /* Prepare the prompt and ask the user what to search for.  Keep looping
