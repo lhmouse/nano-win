@@ -219,7 +219,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			lastkbcheck = time(NULL);
 
 			/* Consume all waiting keystrokes until a Cancel. */
-			while (input) {
+			while (input != ERR) {
 				if (func_from_key(&input) == do_cancel) {
 					statusbar(_("Cancelled"));
 					enable_waiting();

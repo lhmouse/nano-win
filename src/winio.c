@@ -363,7 +363,7 @@ int parse_kbinput(WINDOW *win)
 	kbinput = get_input(win, 1);
 
 	if (kbinput == NULL && !waiting_mode)
-		return 0;
+		return ERR;
 
 	while (kbinput == NULL)
 		kbinput = get_input(win, 1);
