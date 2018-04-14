@@ -495,7 +495,10 @@ void do_up(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
-	edit_redraw(was_current, FLOWING);
+	if (openfile->current_y == 0 && ISSET(SMOOTH_SCROLL))
+		edit_scroll(BACKWARD);
+	else
+		edit_redraw(was_current, FLOWING);
 
 	/* <Up> should not change placewewant, so restore it. */
 	openfile->placewewant = leftedge + target_column;
@@ -515,7 +518,10 @@ void do_down(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
-	edit_redraw(was_current, FLOWING);
+	if (openfile->current_y == editwinrows - 1 && ISSET(SMOOTH_SCROLL))
+		edit_scroll(FORWARD);
+	else
+		edit_redraw(was_current, FLOWING);
 
 	/* <Down> should not change placewewant, so restore it. */
 	openfile->placewewant = leftedge + target_column;
