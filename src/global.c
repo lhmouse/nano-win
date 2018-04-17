@@ -290,6 +290,9 @@ void goto_dir_void(void)
 }
 #endif
 #ifndef NANO_TINY
+void do_toggle_void(void)
+{
+}
 void dos_format_void(void)
 {
 }
@@ -315,6 +318,9 @@ void flip_newbuffer(void)
 }
 #endif
 void discard_buffer(void)
+{
+}
+void do_cancel(void)
 {
 }
 

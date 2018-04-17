@@ -1087,12 +1087,6 @@ void close_and_go(void)
 		finish();
 }
 
-/* Another placeholder for function mapping. */
-void do_cancel(void)
-{
-	;
-}
-
 /* Make a note that reading from stdin was concluded with ^C. */
 RETSIGTYPE make_a_note(int signal)
 {
@@ -1400,12 +1394,6 @@ void do_toggle(int flag)
 
 	statusline(HUSH, "%s %s", _(flagtostr(flag)),
 						enabled ? _("enabled") : _("disabled"));
-}
-
-/* Bleh. */
-void do_toggle_void(void)
-{
-	;
 }
 #endif /* !NANO_TINY */
 

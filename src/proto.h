@@ -433,7 +433,6 @@ RETSIGTYPE handle_sigwinch(int signal);
 void regenerate_screen(void);
 void allow_sigwinch(bool allow);
 void do_toggle(int flag);
-void do_toggle_void(void);
 void enable_signals(void);
 #endif
 void disable_flow_control(void);
@@ -690,7 +689,6 @@ void do_credits(void);
 #endif
 
 /* These are just name definitions. */
-void do_cancel(void);
 void case_sens_void(void);
 void regexp_void(void);
 void backwards_void(void);
@@ -701,6 +699,7 @@ void to_files_void(void);
 void goto_dir_void(void);
 #endif
 #ifndef NANO_TINY
+void do_toggle_void(void);
 void dos_format_void(void);
 void mac_format_void(void);
 void append_void(void);
@@ -712,5 +711,6 @@ void flip_execute(void);
 void flip_newbuffer(void);
 #endif
 void discard_buffer(void);
+void do_cancel(void);
 
 #endif /* !PROTO_H */
