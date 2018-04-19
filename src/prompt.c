@@ -716,11 +716,20 @@ int do_yesno_prompt(bool all, const char *msg)
 		kbinput = get_kbinput(bottomwin, !all);
 
 		/* See if the pressed key is in the Yes, No, or All strings. */
+#ifdef ENABLE_NLS
 		if (strchr(yesstr, kbinput) != NULL)
 			response = 1;
 		else if (strchr(nostr, kbinput) != NULL)
 			response = 0;
 		else if (all && strchr(allstr, kbinput) != NULL)
+			response = 2;
+		else
+#endif
+		if (strchr("Yy", kbinput) != NULL)
+			response = 1;
+		else if (strchr("Nn", kbinput) != NULL)
+			response = 0;
+		else if (all && strchr("Aa", kbinput) != NULL)
 			response = 2;
 		else if (func_from_key(&kbinput) == do_cancel)
 			response = -1;
