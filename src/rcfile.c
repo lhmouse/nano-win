@@ -31,7 +31,10 @@
 #ifdef ENABLE_NANORC
 
 #ifndef RCFILE_NAME
+#define HOME_RC_NAME ".nanorc"
 #define RCFILE_NAME "nanorc"
+#else
+#define HOME_RC_NAME RCFILE_NAME
 #endif
 
 static const rcoption rcopts[] = {
@@ -1252,7 +1255,7 @@ void do_rcfiles(void)
 
 	/* Now try the to find a nanorc file in the user's home directory
 	 * or in the XDG configuration directories. */
-	if (have_nanorc(homedir, "/." RCFILE_NAME))
+	if (have_nanorc(homedir, "/" HOME_RC_NAME))
 		parse_one_nanorc();
 	else if (have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME))
 		parse_one_nanorc();
