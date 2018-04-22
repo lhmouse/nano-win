@@ -2504,6 +2504,28 @@ void do_full_justify(void)
 }
 #endif /* ENABLE_JUSTIFY */
 
+#if defined(ENABLE_SPELLER) || defined (ENABLE_COLOR)
+/* Set up an argument list for executing the given command. */
+void construct_argument_list(char ***arguments, char *command, char *filename)
+{
+	char *copy_of_command = mallocstrcpy(NULL, command);
+	char *element;
+	size_t length = 3;
+
+	*arguments = (char **)nmalloc(length * sizeof(char *));
+	(*arguments)[0] = strtok(copy_of_command, " ");
+
+	while ((element = strtok(NULL, " ")) != NULL) {
+		length++;
+		*arguments = (char **)nrealloc(*arguments, length * sizeof(char *));
+		(*arguments)[length - 3] = element;
+	}
+
+	(*arguments)[length - 2] = filename;
+	(*arguments)[length - 1] = NULL;
+}
+#endif
+
 #ifdef ENABLE_SPELLER
 /* A word is misspelled in the file.  Let the user replace it.  We
  * return FALSE if the user cancels. */
@@ -2824,8 +2846,6 @@ const char *do_alt_speller(char *tempfile_name)
 	struct stat spellfileinfo;
 	time_t timestamp;
 	pid_t pid_spell;
-	char *ptr;
-	static int arglen = 3;
 	static char **spellargs = NULL;
 
 	/* Get the timestamp and the size of the temporary file. */
@@ -2839,20 +2859,7 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Exit from curses mode. */
 	endwin();
 
-	/* Set up the argument list to pass to execvp(). */
-	if (spellargs == NULL) {
-		spellargs = (char **)nmalloc(arglen * sizeof(char *));
-
-		spellargs[0] = strtok(alt_speller, " ");
-		while ((ptr = strtok(NULL, " ")) != NULL) {
-			arglen++;
-			spellargs = (char **)nrealloc(spellargs, arglen *
-				sizeof(char *));
-			spellargs[arglen - 3] = ptr;
-		}
-		spellargs[arglen - 1] = NULL;
-	}
-	spellargs[arglen - 2] = tempfile_name;
+	construct_argument_list(&spellargs, alt_speller, tempfile_name);
 
 	/* Fork a child process and run the alternate spell program in it. */
 	if ((pid_spell = fork()) == 0) {
@@ -2998,12 +3005,11 @@ void do_spell(void)
  * termination, and the error string otherwise. */
 void do_linter(void)
 {
-	char *read_buff, *read_buff_ptr, *read_buff_word, *ptr, *lintcopy;
+	char *read_buff, *read_buff_ptr, *read_buff_word;
 	size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
 	size_t parsesuccess = 0;
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
-	static int arglen = 3;
 	static char **lintargs = NULL;
 	lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 
@@ -3032,7 +3038,6 @@ void do_linter(void)
 			return;
 	}
 
-	lintcopy = mallocstrcpy(NULL, openfile->syntax->linter);
 	/* Create a pipe up front. */
 	if (pipe(lint_fd) == -1) {
 		statusbar(_("Could not create pipe"));
@@ -3042,19 +3047,7 @@ void do_linter(void)
 	blank_bottombars();
 	statusbar(_("Invoking linter, please wait"));
 
-	/* Set up an argument list to pass to execvp(). */
-	if (lintargs == NULL) {
-		lintargs = (char **)nmalloc(arglen * sizeof(char *));
-
-		lintargs[0] = strtok(lintcopy, " ");
-		while ((ptr = strtok(NULL, " ")) != NULL) {
-			arglen++;
-			lintargs = (char **)nrealloc(lintargs, arglen * sizeof(char *));
-			lintargs[arglen - 3] = ptr;
-		}
-		lintargs[arglen - 1] = NULL;
-	}
-	lintargs[arglen - 2] = openfile->filename;
+	construct_argument_list(&lintargs, openfile->syntax->linter, openfile->filename);
 
 	/* Start a new process to run the linter in. */
 	if ((pid_lint = fork()) == 0) {
@@ -3334,9 +3327,8 @@ void do_formatter(void)
 	size_t pww_save = openfile->placewewant;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
 	pid_t pid_format;
-	static int arglen = 3;
 	static char **formatargs = NULL;
-	char *temp, *ptr, *finalstatus = NULL;
+	char *temp, *finalstatus = NULL;
 
 	if (openfile->totsize == 0) {
 		statusbar(_("Finished"));
@@ -3365,19 +3357,7 @@ void do_formatter(void)
 	blank_bottombars();
 	statusbar(_("Invoking formatter, please wait"));
 
-	/* Set up an argument list to pass to execvp(). */
-	if (formatargs == NULL) {
-		formatargs = (char **)nmalloc(arglen * sizeof(char *));
-
-		formatargs[0] = strtok(openfile->syntax->formatter, " ");
-		while ((ptr = strtok(NULL, " ")) != NULL) {
-			arglen++;
-			formatargs = (char **)nrealloc(formatargs, arglen * sizeof(char *));
-			formatargs[arglen - 3] = ptr;
-		}
-		formatargs[arglen - 1] = NULL;
-	}
-	formatargs[arglen - 2] = temp;
+	construct_argument_list(&formatargs, openfile->syntax->formatter, temp);
 
 	/* Start a new process for the formatter. */
 	if ((pid_format = fork()) == 0) {
