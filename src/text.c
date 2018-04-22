@@ -2510,16 +2510,16 @@ void construct_argument_list(char ***arguments, char *command, char *filename)
 {
 	char *copy_of_command = mallocstrcpy(NULL, command);
 	char *element = strtok(copy_of_command, " ");
-	size_t length = 2;
+	int count = 2;
 
 	while (element != NULL) {
-		*arguments = (char **)nrealloc(*arguments, ++length * sizeof(char *));
-		(*arguments)[length - 3] = element;
+		*arguments = (char **)nrealloc(*arguments, ++count * sizeof(char *));
+		(*arguments)[count - 3] = element;
 		element = strtok(NULL, " ");
 	}
 
-	(*arguments)[length - 2] = filename;
-	(*arguments)[length - 1] = NULL;
+	(*arguments)[count - 2] = filename;
+	(*arguments)[count - 1] = NULL;
 }
 #endif
 
