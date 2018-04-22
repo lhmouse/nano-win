@@ -2509,16 +2509,13 @@ void do_full_justify(void)
 void construct_argument_list(char ***arguments, char *command, char *filename)
 {
 	char *copy_of_command = mallocstrcpy(NULL, command);
-	char *element;
-	size_t length = 3;
+	char *element = strtok(copy_of_command, " ");
+	size_t length = 2;
 
-	*arguments = (char **)nmalloc(length * sizeof(char *));
-	(*arguments)[0] = strtok(copy_of_command, " ");
-
-	while ((element = strtok(NULL, " ")) != NULL) {
-		length++;
-		*arguments = (char **)nrealloc(*arguments, length * sizeof(char *));
+	while (element != NULL) {
+		*arguments = (char **)nrealloc(*arguments, ++length * sizeof(char *));
 		(*arguments)[length - 3] = element;
+		element = strtok(NULL, " ");
 	}
 
 	(*arguments)[length - 2] = filename;
