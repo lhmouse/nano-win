@@ -1487,7 +1487,6 @@ void terminal_init(void)
 
 	if (!newterm_set) {
 #endif
-
 		raw();
 		nonl();
 		noecho();

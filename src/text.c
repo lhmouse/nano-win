@@ -1122,13 +1122,11 @@ bool execute_command(const char *command)
 		return FALSE;
 	}
 
-	/* Before we start reading the forked command's output, we set
-	 * things up so that Ctrl-C will cancel the new process. */
-
-	/* Enable interpretation of the special control keys so that we get
+	/* Re-enable interpretation of the special control keys so that we get
 	 * SIGINT when Ctrl-C is pressed. */
 	enable_signals();
 
+	/* Set things up so that Ctrl-C will terminate the forked process. */
 	if (sigaction(SIGINT, NULL, &newaction) == -1) {
 		sig_failed = TRUE;
 		nperror("sigaction");
@@ -1140,9 +1138,6 @@ bool execute_command(const char *command)
 		}
 	}
 
-	/* Note that now oldaction is the previous SIGINT signal handler,
-	 * to be restored later. */
-
 	f = fdopen(fd[0], "rb");
 	if (f == NULL)
 		nperror("fdopen");
@@ -1152,12 +1147,12 @@ bool execute_command(const char *command)
 	if (wait(NULL) == -1)
 		nperror("wait");
 
+	/* If it was changed, restore the handler for SIGINT. */
 	if (!sig_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
 		nperror("sigaction");
 
-	/* Restore the terminal to its previous state.  In the process,
-	 * disable interpretation of the special control keys so that we can
-	 * use Ctrl-C for other things. */
+	/* Restore the terminal to its desired state, and disable
+	 * interpretation of the special control keys again. */
 	terminal_init();
 
 	return TRUE;
