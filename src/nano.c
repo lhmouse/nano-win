@@ -1099,7 +1099,7 @@ bool scoop_stdin(void)
 	struct sigaction oldaction, newaction;
 		/* Original and temporary handlers for SIGINT. */
 	bool setup_failed = FALSE;
-		/* Whether setting up the SIGINT handler failed. */
+		/* Whether setting up the temporary SIGINT handler failed. */
 	FILE *stream;
 	int thetty;
 

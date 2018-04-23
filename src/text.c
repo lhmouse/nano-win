@@ -1087,8 +1087,8 @@ bool execute_command(const char *command)
 	const char *shellenv;
 	struct sigaction oldaction, newaction;
 		/* Original and temporary handlers for SIGINT. */
-	bool sig_failed = FALSE;
-		/* Did sigaction() fail without changing the signal handlers? */
+	bool setup_failed = FALSE;
+		/* Whether setting up the temporary SIGINT handler failed. */
 
 	/* Make our pipes. */
 	if (pipe(fd) == -1) {
@@ -1128,12 +1128,12 @@ bool execute_command(const char *command)
 
 	/* Set things up so that Ctrl-C will terminate the forked process. */
 	if (sigaction(SIGINT, NULL, &newaction) == -1) {
-		sig_failed = TRUE;
+		setup_failed = TRUE;
 		nperror("sigaction");
 	} else {
 		newaction.sa_handler = cancel_command;
 		if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
-			sig_failed = TRUE;
+			setup_failed = TRUE;
 			nperror("sigaction");
 		}
 	}
@@ -1148,7 +1148,7 @@ bool execute_command(const char *command)
 		nperror("wait");
 
 	/* If it was changed, restore the handler for SIGINT. */
-	if (!sig_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
+	if (!setup_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
 		nperror("sigaction");
 
 	/* Restore the terminal to its desired state, and disable
