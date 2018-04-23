@@ -1118,12 +1118,12 @@ bool scoop_stdin(void)
 	/* Set things up so that SIGINT will cancel the reading. */
 	if (sigaction(SIGINT, NULL, &newaction) == -1) {
 		setup_failed = TRUE;
-		nperror("sigaction");
+		perror("sigaction");
 	} else {
 		newaction.sa_handler = make_a_note;
 		if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
 			setup_failed = TRUE;
-			nperror("sigaction");
+			perror("sigaction");
 		}
 	}
 
@@ -1156,7 +1156,7 @@ bool scoop_stdin(void)
 
 	/* If it was changed, restore the handler for SIGINT. */
 	if (!setup_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
-		nperror("sigaction");
+		perror("sigaction");
 
 	terminal_init();
 	doupdate();
