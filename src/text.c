@@ -1090,35 +1090,39 @@ bool execute_command(const char *command)
 	bool setup_failed = FALSE;
 		/* Whether setting up the temporary SIGINT handler failed. */
 
-	/* Make our pipes. */
+	/* Create a pipe to read the command's output from. */
 	if (pipe(fd) == -1) {
 		statusbar(_("Could not create pipe"));
 		return FALSE;
 	}
 
-	/* Check $SHELL for the shell to use.  If it isn't set, use /bin/sh.
-	 * Note that $SHELL should contain only a path, with no arguments. */
+	/* Check which shell to use.  If none is specified, use /bin/sh. */
 	shellenv = getenv("SHELL");
 	if (shellenv == NULL)
 		shellenv = (char *) "/bin/sh";
 
-	/* Fork a child. */
+	/* Fork a child process to run the command in. */
 	if ((pid = fork()) == 0) {
+		/* Child: close the unused read end of the pipe. */
 		close(fd[0]);
+
+		/* Connect the write end of the pipe to the process' output streams. */
 		dup2(fd[1], fileno(stdout));
 		dup2(fd[1], fileno(stderr));
 
-		/* If execl() returns at all, there was an error. */
+		/* Run the given command inside the preferred shell. */
 		execl(shellenv, tail(shellenv), "-c", command, NULL);
-		exit(0);
+
+		/* If the exec call returns, there was an error. */
+		exit(1);
 	}
 
-	/* Continue as parent. */
+	/* Parent: close the unused write end of the pipe. */
 	close(fd[1]);
 
 	if (pid == -1) {
-		close(fd[0]);
 		statusbar(_("Could not fork"));
+		close(fd[0]);
 		return FALSE;
 	}
 
