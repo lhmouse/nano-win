@@ -3614,7 +3614,7 @@ void complete_a_word(void)
 				/* The point where we can stop searching for shard. */
 
 		/* Traverse the whole line, looking for shard. */
-		for (i = pletion_x; i < threshold; i++) {
+		for (i = pletion_x; (int)i < threshold; i++) {
 			/* If the first byte doesn't match, run on. */
 			if (pletion_line->data[i] != shard[0])
 				continue;
