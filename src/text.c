@@ -1144,9 +1144,9 @@ bool execute_command(const char *command)
 
 	stream = fdopen(fd[0], "rb");
 	if (stream == NULL)
-		nperror("fdopen");
-
-	read_file(stream, 0, "stdin", TRUE);
+		statusline(ALERT, _("Failed to open pipe: %s"), strerror(errno));
+	else
+		read_file(stream, 0, "pipe", TRUE);
 
 	if (wait(NULL) == -1)
 		nperror("wait");
