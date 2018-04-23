@@ -1083,7 +1083,7 @@ RETSIGTYPE cancel_command(int signal)
 bool execute_command(const char *command)
 {
 	int fd[2];
-	FILE *f;
+	FILE *stream;
 	const char *shellenv;
 	struct sigaction oldaction, newaction;
 		/* Original and temporary handlers for SIGINT. */
@@ -1138,11 +1138,11 @@ bool execute_command(const char *command)
 		}
 	}
 
-	f = fdopen(fd[0], "rb");
-	if (f == NULL)
+	stream = fdopen(fd[0], "rb");
+	if (stream == NULL)
 		nperror("fdopen");
 
-	read_file(f, 0, "stdin", TRUE);
+	read_file(stream, 0, "stdin", TRUE);
 
 	if (wait(NULL) == -1)
 		nperror("wait");
