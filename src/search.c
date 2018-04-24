@@ -130,21 +130,18 @@ void search_init(bool replacing, bool keep_the_answer)
 #endif
 			}
 
-			free(thedefault);
-
-			/* If doing a regular-expression search, compile the
-			 * search string, and get out when it's invalid. */
-			if (ISSET(USE_REGEXP) && !regexp_init(last_search)) {
-				tidy_up_after_search();
-				return;
+			/* When not doing a regular-expression search, just search;
+			 * otherwise compile the search string, and only search when
+			 * the expression is valid. */
+			if (!ISSET(USE_REGEXP) || regexp_init(last_search)) {
+				if (replacing)
+					ask_for_replacement();
+				else
+					go_looking();
 			}
 
-			if (replacing)
-				ask_for_replacement();
-			else
-				go_looking();
-
 			tidy_up_after_search();
+			free(thedefault);
 			return;
 		}
 
