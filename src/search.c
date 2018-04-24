@@ -775,6 +775,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		}
 
 		if (func_from_key(&i) == flip_goto) {
+			UNSET(BACKWARDS_SEARCH);
 			/* Retain what the user typed so far and switch to searching. */
 			search_init(FALSE, TRUE);
 			return;
