@@ -2544,11 +2544,6 @@ bool fix_spello(const char *word)
 	size_t top_x, bot_x;
 #endif
 
-	/* Do the spell checking case sensitive, forward, and without regexes. */
-	SET(CASE_SENSITIVE);
-	UNSET(BACKWARDS_SEARCH);
-	UNSET(USE_REGEXP);
-
 	/* Save the current search string, then set it to the misspelled word. */
 	save_search = last_search;
 	last_search = mallocstrcpy(NULL, word);
@@ -2767,9 +2762,14 @@ const char *do_int_speller(const char *tempfile_name)
 	*read_buff_ptr = '\0';
 	close(uniq_fd[0]);
 
-	/* Process the spelling errors. */
+	/* Do any replacements case sensitive, forward, and without regexes. */
+	SET(CASE_SENSITIVE);
+	UNSET(BACKWARDS_SEARCH);
+	UNSET(USE_REGEXP);
+
 	read_buff_word = read_buff_ptr = read_buff;
 
+	/* Process each of the misspelled words. */
 	while (*read_buff_ptr != '\0') {
 		if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
 			*read_buff_ptr = '\0';
