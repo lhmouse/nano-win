@@ -2536,8 +2536,6 @@ bool fix_spello(const char *word)
 		/* The return value of this function. */
 	bool result;
 		/* The return value of searching for a misspelled word. */
-	unsigned stash[sizeof(flags) / sizeof(flags[0])];
-		/* A storage place for the current flag settings. */
 #ifndef NANO_TINY
 	bool right_side_up = FALSE;
 		/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
@@ -2545,9 +2543,6 @@ bool fix_spello(const char *word)
 	filestruct *top, *bot;
 	size_t top_x, bot_x;
 #endif
-
-	/* Save the settings of the global flags. */
-	memcpy(stash, flags, sizeof(flags));
 
 	/* Do the spell checking case sensitive, forward, and without regexes. */
 	SET(CASE_SENSITIVE);
@@ -2644,9 +2639,6 @@ bool fix_spello(const char *word)
 	/* Restore the viewport to where it was. */
 	openfile->edittop = edittop_save;
 	openfile->firstcolumn = firstcolumn_save;
-
-	/* Restore the settings of the global flags. */
-	memcpy(flags, stash, sizeof(flags));
 
 	return proceed;
 }
@@ -2944,6 +2936,8 @@ void do_spell(void)
 	bool status;
 	FILE *temp_file;
 	char *temp;
+	unsigned stash[sizeof(flags) / sizeof(flags[0])];
+		/* A storage place for the current flag settings. */
 	const char *spell_msg;
 
 	if (ISSET(RESTRICTED)) {
@@ -2957,6 +2951,12 @@ void do_spell(void)
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 		return;
 	}
+
+	/* Save the settings of the global flags. */
+	memcpy(stash, flags, sizeof(flags));
+
+	/* Don't add an extra newline when writing out the (selected) text. */
+	SET(NO_NEWLINES);
 
 #ifndef NANO_TINY
 	if (openfile->mark)
@@ -2978,6 +2978,9 @@ void do_spell(void)
 										do_int_speller(temp);
 	unlink(temp);
 	free(temp);
+
+	/* Restore the settings of the global flags. */
+	memcpy(flags, stash, sizeof(flags));
 
 	/* If the spell-checker printed any error messages onscreen, make
 	 * sure that they're cleared off. */
