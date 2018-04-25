@@ -659,17 +659,12 @@ int do_prompt(bool allow_tabs, bool allow_files,
 int do_yesno_prompt(bool all, const char *msg)
 {
 	int response = -2, width = 16;
-
-	/* TRANSLATORS: For the next three strings, if possible, specify
-	 * the single-byte letters for both your language and English.
-	 * For example, in French: "OoYy", for both "Oui" and "Yes". */
+	/* TRANSLATORS: For the next three strings, specify the single-byte
+	 * starting letters of the translations for "Yes", "No", and "All".
+	 * Of each string, the first letter is shown in the help lines. */
 	const char *yesstr = _("Yy");
 	const char *nostr = _("Nn");
 	const char *allstr = _("Aa");
-
-	/* The above three variables consist of all the single-byte characters
-	 * that are accepted for the corresponding answer.  Of each variable,
-	 * the first character is displayed in the help lines. */
 
 	while (response == -2) {
 		int kbinput;
