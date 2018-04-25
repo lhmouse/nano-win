@@ -2523,9 +2523,8 @@ void construct_argument_list(char ***arguments, char *command, char *filename)
 #endif
 
 #ifdef ENABLE_SPELLER
-/* A word is misspelled in the file.  Let the user replace it.  We
- * return FALSE if the user cancels. */
-bool do_int_spell_fix(const char *word)
+/* Let the user edit the misspelled word.  Return FALSE if the user cancels. */
+bool fix_spello(const char *word)
 {
 	char *save_search;
 	size_t firstcolumn_save = openfile->firstcolumn;
@@ -2783,7 +2782,7 @@ const char *do_int_speller(const char *tempfile_name)
 		if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
 			*read_buff_ptr = '\0';
 			if (read_buff_word != read_buff_ptr) {
-				if (!do_int_spell_fix(read_buff_word)) {
+				if (!fix_spello(read_buff_word)) {
 					read_buff_word = read_buff_ptr;
 					break;
 				}
@@ -2795,7 +2794,7 @@ const char *do_int_speller(const char *tempfile_name)
 
 	/* Special case: the last word doesn't end with '\r' or '\n'. */
 	if (read_buff_word != read_buff_ptr)
-		do_int_spell_fix(read_buff_word);
+		fix_spello(read_buff_word);
 
 	free(read_buff);
 	tidy_up_after_search();
