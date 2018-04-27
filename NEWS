@@ -1,3 +1,12 @@
+2018.04.27 - GNU nano 2.9.6 "Gomance" fixes a crash in word completion,
+             makes --enable-altrcname work again, improves the fluidity
+             of scrolling when using the touchpad, tweaks the syntaxes
+             for shell scripts and PO files, makes a replacing session
+             go always forward by default, no longer inserts a newline
+             after an external spell check of a selected region, always
+             accepts the English Y and N (and A) at a yes-no prompt in
+             any locale, and solves a few hypothetical bugs.
+
 2018.03.29 - GNU nano 2.9.5 "Kiša pada" changes the way the Scroll-Up
              and Scroll-Down commands work (M-- and M-+): instead of
              keeping the cursor in the same screen position they now
