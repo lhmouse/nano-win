@@ -1441,7 +1441,7 @@ The interactive spell checker Yes/no menu.
 The linter menu.
 
 @item browser
-The file browser for inserting or writing a file.
+The file browser, for choosing a file to read from or write to.
 
 @item whereisfile
 The 'search for a file' menu in the file browser.
@@ -1460,14 +1460,15 @@ it means all menus where the specified @code{key} exists.
 @node The File Browser
 @chapter The File Browser
 
-When reading or writing files, pressing @kbd{^T} will invoke the file browser.
+When in the Read-File (@kbd{^R}) or Write-Out menu (@kbd{^O}),
+pressing @kbd{^T} will invoke the file browser.
 Here, one can navigate directories in a graphical manner in order to
 find the desired file.
 
-Basic movement in the file browser is accomplished with the arrow keys,
-page up, and page down.  More advanced movement is accomplished by
-searching via @kbd{^W} (or @kbd{w'} and changing directories via
-@kbd{^_} (or @kbd{g}).  The behavior of the @kbd{Enter} key (or @kbd{s})
+Basic movement in the file browser is accomplished with the arrow and
+other cursor-movement keys.  More targeted movement is accomplished by
+searching, via @kbd{^W} or @kbd{w'}, or by changing directory, via
+@kbd{^_} or @kbd{g}.  The behavior of the @kbd{Enter} key (or @kbd{s})
 varies by what is currently selected.
 If the currently selected object is a directory, the file browser will
 enter and display the contents of the directory.  If the object is a
