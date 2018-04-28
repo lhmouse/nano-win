@@ -1659,7 +1659,8 @@ sc *strtosc(const char *input)
 		s->func = do_toggle_void;
 		if (!strcasecmp(input, "nohelp"))
 			s->toggle = NO_HELP;
-		else if (!strcasecmp(input, "constupdate"))
+		else if (!strcasecmp(input, "constantshow") ||
+				 !strcasecmp(input, "constupdate"))  /* Deprecated.  Remove end of 2018. */
 			s->toggle = CONSTANT_SHOW;
 		else if (!strcasecmp(input, "morespace"))
 			s->toggle = MORE_SPACE;
@@ -1681,7 +1682,8 @@ sc *strtosc(const char *input)
 			s->toggle = SMART_HOME;
 		else if (!strcasecmp(input, "autoindent"))
 			s->toggle = AUTOINDENT;
-		else if (!strcasecmp(input, "cuttoend"))
+		else if (!strcasecmp(input, "cutfromcursor") ||
+				 !strcasecmp(input, "cuttoend"))  /* Deprecated.  Remove end of 2018. */
 			s->toggle = CUT_FROM_CURSOR;
 #ifdef ENABLE_WRAPPING
 		else if (!strcasecmp(input, "nowrap"))
