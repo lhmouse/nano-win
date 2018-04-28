@@ -1107,7 +1107,7 @@ bool scoop_stdin(void)
 	endwin();
 	tcsetattr(0, TCSANOW, &oldterm);
 
-	fprintf(stderr, _("Reading from stdin, ^C to abort\n"));
+	fprintf(stderr, _("Reading from standard input; type ^D or ^D^D to finish.\n"));
 
 #ifndef NANO_TINY
 	/* Enable interpretation of the special control keys so that
@@ -1142,6 +1142,7 @@ bool scoop_stdin(void)
 	open_buffer("", TRUE);
 	read_file(stream, 0, "stdin", TRUE);
 	openfile->edittop = openfile->fileage;
+	fprintf(stderr, ".\n");
 
 	/* Reconnect the tty as the input source. */
 	thetty = open("/dev/tty", O_RDONLY);
