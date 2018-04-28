@@ -1667,6 +1667,10 @@ sc *strtosc(const char *input)
 			s->toggle = SMOOTH_SCROLL;
 		else if (!strcasecmp(input, "softwrap"))
 			s->toggle = SOFTWRAP;
+#ifdef ENABLE_LINENUMBERS
+		else if (!strcasecmp(input, "linenumbers"))
+			s->toggle = LINE_NUMBERS;
+#endif
 		else if (!strcasecmp(input, "whitespacedisplay"))
 			s->toggle = WHITESPACE_DISPLAY;
 #ifdef ENABLE_COLOR

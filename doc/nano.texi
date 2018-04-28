@@ -1359,6 +1359,9 @@ Toggles smooth scrolling (when moving around with the arrow keys).
 @item softwrap
 Toggles the displaying of overlong lines on multiple screen lines.
 
+@item linenumbers
+Toggles the display of line numbers in front of the text.
+
 @item whitespacedisplay
 Toggles the showing of whitespace.
 
