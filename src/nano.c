@@ -1211,6 +1211,16 @@ void signal_init(void)
 		sigaction(SIGTSTP, &act, NULL);
 #endif
 	}
+
+#ifndef DEBUG
+	/* Trap SIGSEGV and SIGABRT to save any changed buffers and reset
+	 * the terminal to a usable state.  Reset these handlers to their
+	 * defaults as soon as their signal fires. */
+	act.sa_handler = handle_crash;
+	act.sa_flags |= SA_RESETHAND;
+	sigaction(SIGSEGV, &act, NULL);
+	sigaction(SIGABRT, &act, NULL);
+#endif
 }
 
 /* Handler for SIGHUP (hangup) and SIGTERM (terminate). */
@@ -1218,6 +1228,14 @@ RETSIGTYPE handle_hupterm(int signal)
 {
 	die(_("Received SIGHUP or SIGTERM\n"));
 }
+
+#ifndef DEBUG
+/* Handler for SIGSEGV (segfault) and SIGABRT (abort). */
+RETSIGTYPE handle_crash(int signal)
+{
+	die(_("Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"), signal);
+}
+#endif
 
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)

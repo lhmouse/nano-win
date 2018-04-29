@@ -426,6 +426,9 @@ void window_init(void);
 void do_exit(void);
 void close_and_go(void);
 RETSIGTYPE handle_hupterm(int signal);
+#ifndef DEBUG
+RETSIGTYPE handle_crash(int signal);
+#endif
 RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_continue(int signal);
 #ifndef NANO_TINY
