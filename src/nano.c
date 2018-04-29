@@ -2649,6 +2649,7 @@ int main(int argc, char **argv)
 		} else
 			edit_refresh();
 
+		errno = 0;
 		focusing = TRUE;
 
 		/* Forget any earlier statusbar x position. */
