@@ -292,17 +292,28 @@ void do_statusbar_cut_text(void)
 void do_statusbar_next_word(void)
 {
 	bool seen_space = !is_word_mbchar(answer + statusbar_x, FALSE);
+	bool seen_word = !seen_space;
 
-	/* Move forward until we reach the start of a word. */
+	/* Move forward until we reach either the end or the start of a word,
+	 * depending on whether the AFTER_ENDS flag is set or not. */
 	while (answer[statusbar_x] != '\0') {
 		statusbar_x = move_mbright(answer, statusbar_x);
 
+		if (ISSET(AFTER_ENDS)) {
+			/* If this is a word character, continue; else it's a separator,
+			 * and if we've already seen a word, then it's a word end. */
+			if (is_word_mbchar(answer + statusbar_x, FALSE))
+				seen_word = TRUE;
+			else if (seen_word)
+				break;
+		} else {
 		/* If this is not a word character, then it's a separator; else
 		 * if we've already seen a separator, then it's a word start. */
 		if (!is_word_mbchar(answer + statusbar_x, FALSE))
 			seen_space = TRUE;
 		else if (seen_space)
 			break;
+		}
 	}
 
 	update_the_statusbar();

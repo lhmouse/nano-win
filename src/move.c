@@ -314,15 +314,17 @@ void do_prev_word(bool allow_punct, bool update_screen)
 		edit_redraw(was_current, FLOWING);
 }
 
-/* Move to the next word.  If allow_punct is TRUE, treat punctuation
+/* Move to the next word.  If after_ends is TRUE, stop at the ends of words
+ * instead of their beginnings.  If allow_punct is TRUE, treat punctuation
  * as part of a word.   When requested, update the screen afterwards.
  * Return TRUE if we started on a word, and FALSE otherwise. */
-bool do_next_word(bool allow_punct, bool update_screen)
+bool do_next_word(bool after_ends, bool allow_punct, bool update_screen)
 {
 	filestruct *was_current = openfile->current;
 	bool started_on_word = is_word_mbchar(openfile->current->data +
 								openfile->current_x, allow_punct);
 	bool seen_space = !started_on_word;
+	bool seen_word = started_on_word;
 
 	/* Move forward until we reach the start of a word. */
 	while (TRUE) {
@@ -340,6 +342,18 @@ bool do_next_word(bool allow_punct, bool update_screen)
 												openfile->current_x);
 		}
 
+#ifndef NANO_TINY
+		if (after_ends) {
+			/* If this is a word character, continue; else it's a separator,
+			 * and if we've already seen a word, then it's a word end. */
+			if (is_word_mbchar(openfile->current->data + openfile->current_x,
+								allow_punct))
+				seen_word = TRUE;
+			else if (seen_word)
+				break;
+		} else
+#endif
+		{
 		/* If this is not a word character, then it's a separator; else
 		 * if we've already seen a separator, then it's a word start. */
 		if (!is_word_mbchar(openfile->current->data + openfile->current_x,
@@ -347,6 +361,7 @@ bool do_next_word(bool allow_punct, bool update_screen)
 			seen_space = TRUE;
 		else if (seen_space)
 			break;
+		}
 	}
 
 	if (update_screen)
@@ -363,11 +378,12 @@ void do_prev_word_void(void)
 	do_prev_word(ISSET(WORD_BOUNDS), TRUE);
 }
 
-/* Move to the next word in the file, treating punctuation as part of a word
- * if the WORD_BOUNDS flag is set, and update the screen afterwards. */
+/* Move to the next word in the file.  If the AFTER_ENDS flag is set, stop
+ * at word ends instead of beginnings.  If the WORD_BOUNDS flag is set, treat
+ * punctuation as part of a word.  Update the screen afterwards. */
 void do_next_word_void(void)
 {
-	do_next_word(ISSET(WORD_BOUNDS), TRUE);
+	do_next_word(ISSET(AFTER_ENDS), ISSET(WORD_BOUNDS), TRUE);
 }
 
 /* Move to the beginning of the current line (or softwrapped chunk).

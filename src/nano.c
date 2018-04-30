@@ -888,6 +888,9 @@ void usage(void)
 	print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines"));
 #endif
 	print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
+#ifndef NANO_TINY
+	print_opt("-y", "--afterends", N_("Make Ctrl+Right stop at word ends"));
+#endif
 	if (!ISSET(RESTRICTED))
 		print_opt("-z", "--suspend", N_("Enable suspension"));
 #ifndef NANO_TINY
@@ -2003,6 +2006,7 @@ int main(int argc, char **argv)
 		{"autoindent", 0, NULL, 'i'},
 		{"cutfromcursor", 0, NULL, 'k'},
 		{"unix", 0, NULL, 'u'},
+		{"afterends", 0, NULL, 'y'},
 		{"softwrap", 0, NULL, '$'},
 #endif
 		{NULL, 0, NULL, 0}
@@ -2061,7 +2065,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 			case 'b':
@@ -2256,6 +2260,11 @@ int main(int argc, char **argv)
 			case 'x':
 				SET(NO_HELP);
 				break;
+#ifndef NANO_TINY
+			case 'y':
+				SET(AFTER_ENDS);
+				break;
+#endif
 			case 'z':
 				SET(SUSPEND);
 				break;

@@ -88,6 +88,7 @@ static const rcoption rcopts[] = {
 	{"tempfile", TEMP_FILE},
 	{"view", VIEW_MODE},
 #ifndef NANO_TINY
+	{"afterends", AFTER_ENDS},
 	{"allow_insecure_backup", INSECURE_BACKUP},
 	{"atblanks", AT_BLANKS},
 	{"autoindent", AUTOINDENT},

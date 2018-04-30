@@ -209,7 +209,7 @@ void do_cutword(bool backward)
 	if (backward)
 		do_prev_word(ISSET(WORD_BOUNDS), FALSE);
 	else
-		do_next_word(ISSET(WORD_BOUNDS), FALSE);
+		do_next_word(FALSE, ISSET(WORD_BOUNDS), FALSE);
 
 	/* Set the mark at the start of that word. */
 	openfile->mark = openfile->current;
@@ -3459,7 +3459,7 @@ void do_wordlinechar_count(void)
 	 * count whenever we're on a word just before moving. */
 	while (openfile->current != openfile->filebot ||
 		openfile->current->data[openfile->current_x] != '\0') {
-		if (do_next_word(TRUE, FALSE))
+		if (do_next_word(FALSE, TRUE, FALSE))
 			words++;
 	}
 

@@ -392,6 +392,10 @@ is located at the very bottom of the editor.
 Note: When accessing the help system, Expert Mode is temporarily
 disabled to display the help-system navigation keys.
 
+@item -y
+@itemx --afterends
+Make Ctrl+Right stop at word ends instead of beginnings.
+
 @item -z
 @itemx --suspend
 Enable the ability to suspend @command{nano} using the system's suspend
@@ -688,6 +692,9 @@ end.  For example, for the @code{brackets} option, @t{""')>]@}"} will match
 The supported settings in a nanorc file are:
 
 @table @code
+
+@item set afterends
+Make Ctrl+Right stop at word ends instead of beginnings.
 
 @item set allow_insecure_backup
 When backing up files, allow the backup to succeed even if its

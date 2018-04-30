@@ -15,6 +15,10 @@
 ## its end.  For example, for the "brackets" option, ""')>]}" will match
 ## ", ', ), >, ], and }.
 
+## Make the 'nextword' function (Ctrl+Right) stop at word ends
+## instead of at beginnings.
+# set afterends
+
 ## When soft line wrapping is enabled, make it wrap lines at blanks
 ## (tabs and spaces) instead of always at the edge of the screen.
 # set atblanks
