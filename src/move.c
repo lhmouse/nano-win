@@ -316,7 +316,7 @@ void do_prev_word(bool allow_punct, bool update_screen)
 
 /* Move to the next word.  If after_ends is TRUE, stop at the ends of words
  * instead of their beginnings.  If allow_punct is TRUE, treat punctuation
- * as part of a word.   When requested, update the screen afterwards.
+ * as part of a word.  When requested, update the screen afterwards.
  * Return TRUE if we started on a word, and FALSE otherwise. */
 bool do_next_word(bool after_ends, bool allow_punct, bool update_screen)
 {
@@ -354,13 +354,13 @@ bool do_next_word(bool after_ends, bool allow_punct, bool update_screen)
 		} else
 #endif
 		{
-		/* If this is not a word character, then it's a separator; else
-		 * if we've already seen a separator, then it's a word start. */
-		if (!is_word_mbchar(openfile->current->data + openfile->current_x,
+			/* If this is not a word character, then it's a separator; else
+			 * if we've already seen a separator, then it's a word start. */
+			if (!is_word_mbchar(openfile->current->data + openfile->current_x,
 								allow_punct))
-			seen_space = TRUE;
-		else if (seen_space)
-			break;
+				seen_space = TRUE;
+			else if (seen_space)
+				break;
 		}
 	}
 

@@ -1217,13 +1217,13 @@ void signal_init(void)
 
 #ifndef DEBUG
 	if (getenv("NANO_NOCATCH") == NULL) {
-	/* Trap SIGSEGV and SIGABRT to save any changed buffers and reset
-	 * the terminal to a usable state.  Reset these handlers to their
-	 * defaults as soon as their signal fires. */
-	act.sa_handler = handle_crash;
-	act.sa_flags |= SA_RESETHAND;
-	sigaction(SIGSEGV, &act, NULL);
-	sigaction(SIGABRT, &act, NULL);
+		/* Trap SIGSEGV and SIGABRT to save any changed buffers and reset
+		 * the terminal to a usable state.  Reset these handlers to their
+		 * defaults as soon as their signal fires. */
+		act.sa_handler = handle_crash;
+		act.sa_flags |= SA_RESETHAND;
+		sigaction(SIGSEGV, &act, NULL);
+		sigaction(SIGABRT, &act, NULL);
 	}
 #endif
 }

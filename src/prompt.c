@@ -307,12 +307,12 @@ void do_statusbar_next_word(void)
 			else if (seen_word)
 				break;
 		} else {
-		/* If this is not a word character, then it's a separator; else
-		 * if we've already seen a separator, then it's a word start. */
-		if (!is_word_mbchar(answer + statusbar_x, FALSE))
-			seen_space = TRUE;
-		else if (seen_space)
-			break;
+			/* If this is not a word character, then it's a separator; else
+			 * if we've already seen a separator, then it's a word start. */
+			if (!is_word_mbchar(answer + statusbar_x, FALSE))
+				seen_space = TRUE;
+			else if (seen_space)
+				break;
 		}
 	}
 
