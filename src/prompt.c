@@ -670,15 +670,16 @@ int do_prompt(bool allow_tabs, bool allow_files,
 int do_yesno_prompt(bool all, const char *msg)
 {
 	int response = -2, width = 16;
-	/* TRANSLATORS: For the next three strings, specify the single-byte
-	 * starting letters of the translations for "Yes", "No", and "All".
-	 * Of each string, the first letter is shown in the help lines. */
+	/* TRANSLATORS: For the next three strings, specify the starting letters
+	 * of the translations for "Yes"/"No"/"All".  The first letter of each of
+	 * these strings MUST be a single-byte letter; others may be multi-byte. */
 	const char *yesstr = _("Yy");
 	const char *nostr = _("Nn");
 	const char *allstr = _("Aa");
 
 	while (response == -2) {
-		int kbinput;
+		char letter[MAXCHARLEN + 1];
+		int kbinput, index = 0;
 
 		if (!ISSET(NO_HELP)) {
 			char shortstr[MAXCHARLEN + 2];
@@ -721,16 +722,29 @@ int do_yesno_prompt(bool all, const char *msg)
 		/* When not replacing, show the cursor while waiting for a key. */
 		kbinput = get_kbinput(bottomwin, !all);
 
-		/* See if the pressed key is in the Yes, No, or All strings. */
 #ifdef ENABLE_NLS
-		if (strchr(yesstr, kbinput) != NULL)
+		letter[index++] = (unsigned char)kbinput;
+#ifdef ENABLE_UTF8
+		/* If the received code is a UTF-8 starter byte, get also the
+		 * continuation bytes and assemble them into one letter. */
+		if (using_utf8() && 0xC0 <= kbinput && kbinput <= 0xF7) {
+			int extras = (kbinput / 16) % 4 + (kbinput <= 0xCF ? 1 : 0);
+
+			while (extras <= get_key_buffer_len() && extras-- > 0)
+				letter[index++] = (unsigned char)get_kbinput(bottomwin, !all);
+		}
+#endif
+		letter[index] = '\0';
+
+		/* See if the typed letter is in the Yes, No, or All strings. */
+		if (strstr(yesstr, letter) != NULL)
 			response = 1;
-		else if (strchr(nostr, kbinput) != NULL)
+		else if (strstr(nostr, letter) != NULL)
 			response = 0;
-		else if (all && strchr(allstr, kbinput) != NULL)
+		else if (all && strstr(allstr, letter) != NULL)
 			response = 2;
 		else
-#endif
+#endif /* ENABLE_NLS */
 		if (strchr("Yy", kbinput) != NULL)
 			response = 1;
 		else if (strchr("Nn", kbinput) != NULL)
