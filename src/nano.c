@@ -1215,7 +1215,7 @@ void signal_init(void)
 #endif
 	}
 
-#ifndef DEBUG
+#if !defined(NANO_TINY) && !defined(DEBUG)
 	if (getenv("NANO_NOCATCH") == NULL) {
 		/* Trap SIGSEGV and SIGABRT to save any changed buffers and reset
 		 * the terminal to a usable state.  Reset these handlers to their
@@ -1234,7 +1234,7 @@ RETSIGTYPE handle_hupterm(int signal)
 	die(_("Received SIGHUP or SIGTERM\n"));
 }
 
-#ifndef DEBUG
+#if !defined(NANO_TINY) && !defined(DEBUG)
 /* Handler for SIGSEGV (segfault) and SIGABRT (abort). */
 RETSIGTYPE handle_crash(int signal)
 {
