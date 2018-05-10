@@ -551,14 +551,15 @@ void say_there_is_no_help(void)
 }
 #endif
 
-/* Make nano exit gracefully. */
+/* Exit normally: restore the terminal state and save history files. */
 void finish(void)
 {
-	/* Blank the statusbar and (if applicable) the shortcut list,
-	 * and move the cursor to the last line of the screen. */
+	/* Blank the statusbar and (if applicable) the shortcut list. */
 	blank_statusbar();
 	blank_bottombars();
 	wrefresh(bottomwin);
+
+	/* Switch on the cursor and exit from curses mode. */
 	curs_set(1);
 	endwin();
 
@@ -582,7 +583,8 @@ void finish(void)
 	exit(0);
 }
 
-/* Make nano die gracefully. */
+/* Die gracefully -- by restoring the terminal state and saving any buffers
+ * that were modified. */
 void die(const char *msg, ...)
 {
 	va_list ap;

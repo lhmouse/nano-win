@@ -1944,7 +1944,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 			continue;
 		}
 
-		/* Represent an invalid sequence with the Replacement Character. */
+		/* Represent an invalid starter byte with the Replacement Character. */
 		converted[index++] = '\xEF';
 		converted[index++] = '\xBF';
 		converted[index++] = '\xBD';

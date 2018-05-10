@@ -659,15 +659,15 @@ void browser_select_dirname(const char *needle)
 	}
 }
 
-/* Set up the system variables for a filename search.  Return -1 or -2 if
- * the search should be canceled (due to Cancel or a blank search string),
- * return 0 when we have a string, and return a positive value when some
- * function was run. */
+/* Prepare the prompt and ask the user what to search for.  Return -2
+ * for a blank answer, -1 for Cancel, 0 when we have a string, and a
+ * positive value when some function was run. */
 int filesearch_init(void)
 {
 	int input;
 	char *buf;
 
+	/* If something was searched for before, show it between square brackets. */
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
@@ -679,18 +679,16 @@ int filesearch_init(void)
 	} else
 		buf = mallocstrcpy(NULL, "");
 
-	/* This is now one simple call.  It just does a lot. */
+	/* Now ask what to search for. */
 	input = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL, &search_history,
-				browser_refresh, "%s%s", _("Search"), buf);
-
-	/* Release buf now that we don't need it anymore. */
+						browser_refresh, "%s%s", _("Search"), buf);
 	free(buf);
 
 	/* If only Enter was pressed but we have a previous string, it's okay. */
 	if (input == -2 && *last_search != '\0')
 		return 0;
 
-	/* Otherwise negative inputs are a bailout. */
+	/* Otherwise negative responses are a bailout. */
 	if (input < 0)
 		statusbar(_("Cancelled"));
 
