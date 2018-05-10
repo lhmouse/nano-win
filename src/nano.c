@@ -566,6 +566,13 @@ void finish(void)
 	blank_bottombars();
 	wrefresh(bottomwin);
 
+#ifndef NANO_TINY
+	/* Deallocate the two or three subwindows. */
+	if (topwin != NULL)
+		delwin(topwin);
+	delwin(edit);
+	delwin(bottomwin);
+#endif
 	/* Switch on the cursor and exit from curses mode. */
 	curs_set(1);
 	endwin();
@@ -580,10 +587,6 @@ void finish(void)
 	if (ISSET(POS_HISTORY)) {
 		update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
 	}
-#endif
-
-#ifdef DEBUG
-	thanks_for_all_the_fish();
 #endif
 
 	/* Get out. */

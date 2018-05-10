@@ -333,9 +333,6 @@ sc *strtosc(const char *input);
 int name_to_menu(const char *name);
 char *menu_to_name(int menu);
 #endif
-#ifdef DEBUG
-void thanks_for_all_the_fish(void);
-#endif
 
 /* All functions in help.c. */
 #ifdef ENABLE_HELP
