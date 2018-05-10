@@ -664,35 +664,35 @@ void browser_select_dirname(const char *needle)
  * positive value when some function was run. */
 int filesearch_init(void)
 {
-	int input;
-	char *buf;
+	char *thedefault;
+	int response;
 
 	/* If something was searched for before, show it between square brackets. */
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
-		buf = charalloc(strlen(disp) + 7);
+		thedefault = charalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
-		sprintf(buf, " [%s%s]", disp,
+		sprintf(thedefault, " [%s%s]", disp,
 				(strlenpt(last_search) > COLS / 3) ? "..." : "");
 		free(disp);
 	} else
-		buf = mallocstrcpy(NULL, "");
+		thedefault = mallocstrcpy(NULL, "");
 
 	/* Now ask what to search for. */
-	input = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL, &search_history,
-						browser_refresh, "%s%s", _("Search"), buf);
-	free(buf);
+	response = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL, &search_history,
+						browser_refresh, "%s%s", _("Search"), thedefault);
+	free(thedefault);
 
 	/* If only Enter was pressed but we have a previous string, it's okay. */
-	if (input == -2 && *last_search != '\0')
+	if (response == -2 && *last_search != '\0')
 		return 0;
 
 	/* Otherwise negative responses are a bailout. */
-	if (input < 0)
+	if (response < 0)
 		statusbar(_("Cancelled"));
 
-	return input;
+	return response;
 }
 
 /* Look for the given needle in the list of files.  If forwards is TRUE,
