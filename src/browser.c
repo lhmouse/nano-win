@@ -168,12 +168,12 @@ char *do_browser(char *path)
 		} else if (func == do_search_forward) {
 			do_filesearch();
 		} else if (func == do_research) {
-			do_fileresearch(TRUE);
+			do_fileresearch(FORWARD);
 #ifndef NANO_TINY
 		} else if (func == do_findprevious) {
-			do_fileresearch(FALSE);
+			do_fileresearch(BACKWARD);
 		} else if (func == do_findnext) {
-			do_fileresearch(TRUE);
+			do_fileresearch(FORWARD);
 #endif
 		} else if (func == do_left) {
 			if (selected > 0)
