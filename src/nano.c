@@ -2070,12 +2070,6 @@ int main(int argc, char **argv)
 				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
-			case 'b':
-			case 'e':
-			case 'f':
-			case 'j':
-				/* Pico compatibility flags. */
-				break;
 #ifndef NANO_TINY
 			case 'A':
 				SET(SMART_HOME);
@@ -2192,12 +2186,20 @@ int main(int argc, char **argv)
 			case 'g':
 				SET(SHOW_CURSOR);
 				break;
+			case 'h':
+				usage();
+				exit(0);
 #ifndef NANO_TINY
 			case 'i':
 				SET(AUTOINDENT);
 				break;
 			case 'k':
 				SET(CUT_FROM_CURSOR);
+				break;
+#endif
+#ifdef ENABLE_LINENUMBERS
+			case 'l':
+				SET(LINE_NUMBERS);
 				break;
 #endif
 #ifdef ENABLE_MOUSE
@@ -2275,14 +2277,11 @@ int main(int argc, char **argv)
 				SET(SOFTWRAP);
 				break;
 #endif
-#ifdef ENABLE_LINENUMBERS
-			case 'l':
-				SET(LINE_NUMBERS);
+			case 'b':  /* Pico compatibility flags. */
+			case 'e':
+			case 'f':
+			case 'j':
 				break;
-#endif
-			case 'h':
-				usage();
-				exit(0);
 			default:
 				printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);
 				exit(1);
