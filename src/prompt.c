@@ -696,15 +696,15 @@ int do_yesno_prompt(bool all, const char *msg)
 			wmove(bottomwin, 1, 0);
 			post_one_key(shortstr, _("Yes"), width);
 
+			shortstr[1] = nostr[0];
+			wmove(bottomwin, 2, 0);
+			post_one_key(shortstr, _("No"), width);
+
 			if (all) {
 				shortstr[1] = allstr[0];
 				wmove(bottomwin, 1, width);
 				post_one_key(shortstr, _("All"), width);
 			}
-
-			shortstr[1] = nostr[0];
-			wmove(bottomwin, 2, 0);
-			post_one_key(shortstr, _("No"), width);
 
 			wmove(bottomwin, 2, width);
 			post_one_key("^C", _("Cancel"), width);
