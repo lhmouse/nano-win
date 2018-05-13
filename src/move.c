@@ -554,7 +554,8 @@ void do_scroll_up(void)
 	if (openfile->current_y == editwinrows - 1)
 		do_up();
 
-	edit_scroll(BACKWARD);
+	if (editwinrows > 1)
+		edit_scroll(BACKWARD);
 }
 
 /* Scroll down one line or chunk without scrolling the cursor. */
