@@ -1519,6 +1519,11 @@ The output of the "Display Cursor Position" command (@kbd{^C}) displays
 not only the current line and character position of the cursor,
 but also (between the two) the current column position.
 
+@item Hard-Wrapping
+By default, @command{nano} hard-wraps lines at screen width minus eight
+columns, whereas Pico does it at screen width minus six columns.  You can
+make @command{nano} do the same as Pico by using @option{--fill=-6}.
+
 @item Spell Checking
 In the internal spell checker misspelled words are sorted alphabetically
 and trimmed for uniqueness, such that the words 'apple' and 'Apple' will
