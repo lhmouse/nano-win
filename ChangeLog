@@ -1,3 +1,36 @@
+Changes between v2.9.6 and v2.9.7:
+----------------------------------
+
+Benno Schulenberg (21):
+      bindings: add the 'linenumbers' bindable function
+      bindings: rename constupdate to constantshow, cuttoend to cutfromcursor
+      bump version numbers and add a news item for the 2.9.7 release
+      docs: add notes about deprecated options and function names
+      docs: break down some old improvements further per version
+      docs: note a small difference with Pico in the default hard-wrapping
+      docs: say thanks to three recent translators, and re-sort two others
+      docs: slightly improve the description of the file browser in the manual
+      main: clear a spurious error number, to avoid irrelevant messages later
+      prompt: when asking for Yes/No/All, recognize also UTF-8 letters
+      scrolling: only do a scroll when the edit window has more than one row
+      signals: don't trap segfault/abort when envvar NANO_NOCATCH is defined
+      signals: exclude the crash handler from the tiny version
+      startup: suggest using ^D to finish reading from standard input
+      tweaks: improve a couple of comments
+      tweaks: normalize indentation and whitespace after previous changes
+      tweaks: put check for -h and -l options in their alphabetical positions
+      tweaks: put Yes/No/All in a consistent order (for the translators)
+      tweaks: rename two variables, to be more descriptive
+      tweaks: sort an option better, and reschedule a removal
+      tweaks: use symbolic names instead of puzzling TRUE and FALSE
+
+Devin Hussey (1):
+      signals: upon a crash, save changed buffers and reset terminal state
+
+Mark-Weston (1):
+      new feature: an option to make the 'nextword' function stop at word ends
+
+
 Changes between v2.9.5 and v2.9.6:
 ----------------------------------
 

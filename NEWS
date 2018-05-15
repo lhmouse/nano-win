@@ -1,3 +1,13 @@
+2018.05.15 - GNU nano 2.9.7 "Hvide Sande" adds the option '--afterends'
+             for making Ctrl+Right (the nextword function) stop at word
+             ends instead of beginnings, accepts multibyte letters for
+             the Yes/No/All answers, does emergency saves of changed
+             buffers in the unlikely event that nano crashes, adds the
+             until-now missing bindable function 'linenumbers', and
+             renames the toggles 'constupdate' to 'constantshow' and
+             'cuttoend' to 'cutfromcursor', for consistency with the
+             corresponding options -- adjust your nanorc files soon.
+
 2018.04.27 - GNU nano 2.9.6 "Gomance" fixes a crash in word completion,
              makes --enable-altrcname work again, improves the fluidity
              of scrolling when using the touchpad, tweaks the syntaxes

@@ -2,6 +2,8 @@ Improvements in GNU nano
 ========================
 
 Since 2.9.0:
+  - Option 'set afterends' for making Ctrl+Right stop at word ends.
+  - A crash handler that saves changed buffers in case of a crash.
   - Addition of the color name "normal", meaning the default color.
   - A key can be bound to a string -- any mix of text and commands.
   - Error messages are shown by default in bright white on red.
