@@ -2642,6 +2642,12 @@ int main(int argc, char **argv)
 	if (rcfile_with_errors != NULL)
 		statusline(ALERT, _("Mistakes in '%s'"), rcfile_with_errors);
 
+#ifdef ENABLE_HELP
+	if (*openfile->filename == '\0' && openfile->totsize == 0 &&
+				openfile->next == openfile && !ISSET(NO_HELP))
+		statusbar(_("Welcome to nano.  For basic help, type Ctrl+G."));
+#endif
+
 	while (TRUE) {
 #ifdef ENABLE_LINENUMBERS
 		int needed_margin = digits(openfile->filebot->lineno) + 1;
