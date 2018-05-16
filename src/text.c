@@ -1099,7 +1099,7 @@ void send_data(const filestruct *line, int fd)
 /* Execute command in a shell.  Return TRUE on success. */
 bool execute_command(const char *command)
 {
-	int fd[2], to_fd[2];
+	int from_fd[2], to_fd[2];
 		/* The pipes through which text will written and read. */
 	const bool has_selection = ISSET(MULTIBUFFER) ? openfile->prev->mark : openfile->mark;
 	const bool should_pipe = (command[0] == '|');
@@ -1112,7 +1112,7 @@ bool execute_command(const char *command)
 
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
-	if (pipe(fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
+	if (pipe(from_fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
 		statusbar(_("Could not create pipe"));
 		return FALSE;
 	}
@@ -1124,12 +1124,12 @@ bool execute_command(const char *command)
 
 	/* Fork a child process to run the command in. */
 	if ((pid = fork()) == 0) {
-		/* Child: close the unused read end of the pipe. */
-		close(fd[0]);
+		/* Child: close the unused read end of the output pipe. */
+		close(from_fd[0]);
 
-		/* Connect the write end of the pipe to the process' output streams. */
-		dup2(fd[1], fileno(stdout));
-		dup2(fd[1], fileno(stderr));
+		/* Connect the write end of the output pipe to the process' output streams. */
+		dup2(from_fd[1], fileno(stdout));
+		dup2(from_fd[1], fileno(stderr));
 
 		/* If the parent sends text, connect the read end of the
 		 * feeding pipe to the child's input stream. */
@@ -1146,11 +1146,11 @@ bool execute_command(const char *command)
 	}
 
 	/* Parent: close the unused write end of the pipe. */
-	close(fd[1]);
+	close(from_fd[1]);
 
 	if (pid == -1) {
 		statusbar(_("Could not fork"));
-		close(fd[0]);
+		close(from_fd[0]);
 		return FALSE;
 	}
 
@@ -1205,7 +1205,7 @@ bool execute_command(const char *command)
 		}
 	}
 
-	stream = fdopen(fd[0], "rb");
+	stream = fdopen(from_fd[0], "rb");
 	if (stream == NULL)
 		statusline(ALERT, _("Failed to open pipe: %s"), strerror(errno));
 	else
