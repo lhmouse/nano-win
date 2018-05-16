@@ -60,7 +60,7 @@ Sumedh Pendurkar <sumedh.pendurkar@gmail.com>
 Rishabh Dave <rishabhddave@gmail.com>
 	* Searchable help.
 
-Benno Schulenberg <bensberg@justemail.net>
+Benno Schulenberg <bensberg@telfort.nl>
 	* An array of small bug fixes, the cut-word and block-jump
-	  routines, text selection by holding Shift, and some extra
-	  key bindings.  Current maintainer.
+	  routines, text selection by holding Shift, plus several
+	  extra key bindings.  Current maintainer.
