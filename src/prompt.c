@@ -25,8 +25,6 @@
 
 static char *prompt = NULL;
 		/* The prompt string used for statusbar questions. */
-static size_t statusbar_x = HIGHEST_POSITIVE;
-		/* The cursor position in answer. */
 
 #ifdef ENABLE_MOUSE
 /* Handle a mouse click on the statusbar prompt or the shortcut list. */

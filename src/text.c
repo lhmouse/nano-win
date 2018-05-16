@@ -1079,10 +1079,30 @@ RETSIGTYPE cancel_command(int signal)
 		nperror("kill");
 }
 
+/* Send the text that starts at the given line to file descriptor fd. */
+void send_data(const filestruct *line, int fd)
+{
+	FILE *tube = fdopen(fd, "w");
+
+	if (tube == NULL)
+		return;
+
+	/* Send each line, except a final empty line. */
+	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
+		fprintf(tube, "%s%s", line->data, line->next == NULL ? "" : "\n");
+		line = line->next;
+	}
+
+	fclose(tube);
+}
+
 /* Execute command in a shell.  Return TRUE on success. */
 bool execute_command(const char *command)
 {
-	int fd[2];
+	int fd[2], to_fd[2];
+		/* The pipes through which text will written and read. */
+	const bool has_selection = ISSET(MULTIBUFFER) ? openfile->prev->mark : openfile->mark;
+	const bool should_pipe = (command[0] == '|');
 	FILE *stream;
 	const char *shellenv;
 	struct sigaction oldaction, newaction;
@@ -1090,8 +1110,9 @@ bool execute_command(const char *command)
 	bool setup_failed = FALSE;
 		/* Whether setting up the temporary SIGINT handler failed. */
 
-	/* Create a pipe to read the command's output from. */
-	if (pipe(fd) == -1) {
+	/* Create a pipe to read the command's output from, and, if needed,
+	 * a pipe to feed the command's input through. */
+	if (pipe(fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
 		statusbar(_("Could not create pipe"));
 		return FALSE;
 	}
@@ -1110,8 +1131,15 @@ bool execute_command(const char *command)
 		dup2(fd[1], fileno(stdout));
 		dup2(fd[1], fileno(stderr));
 
+		/* If the parent sends text, connect the read end of the
+		 * feeding pipe to the child's input stream. */
+		if (should_pipe) {
+			dup2(to_fd[0], fileno(stdin));
+			close(to_fd[1]);
+		}
+
 		/* Run the given command inside the preferred shell. */
-		execl(shellenv, tail(shellenv), "-c", command, NULL);
+		execl(shellenv, tail(shellenv), "-c", should_pipe ? &command[1] : command, NULL);
 
 		/* If the exec call returns, there was an error. */
 		exit(1);
@@ -1124,6 +1152,41 @@ bool execute_command(const char *command)
 		statusbar(_("Could not fork"));
 		close(fd[0]);
 		return FALSE;
+	}
+
+	/* If the command starts with "|", pipe buffer or region to the command. */
+	if (should_pipe) {
+		filestruct *was_cutbuffer = cutbuffer;
+		cutbuffer = NULL;
+
+		if (ISSET(MULTIBUFFER))
+			switch_to_prev_buffer();
+
+		if (has_selection || !ISSET(MULTIBUFFER)) {
+			if (!has_selection) {
+				openfile->current = openfile->fileage;
+				openfile->current_x = 0;
+			}
+			add_undo(CUT);
+			do_cut_text(ISSET(MULTIBUFFER), !has_selection);
+			update_undo(CUT);
+		}
+
+		if (fork() == 0) {
+			close(to_fd[0]);
+			send_data(cutbuffer != NULL ? cutbuffer : openfile->fileage, to_fd[1]);
+			close(to_fd[1]);
+			exit(0);
+		}
+
+		close(to_fd[0]);
+		close(to_fd[1]);
+
+		if (ISSET(MULTIBUFFER))
+			switch_to_next_buffer();
+
+		free_filestruct(cutbuffer);
+		cutbuffer = was_cutbuffer;
 	}
 
 	/* Re-enable interpretation of the special control keys so that we get

@@ -152,6 +152,8 @@ char *word_chars = NULL;
 
 char *answer = NULL;
 		/* The answer string used by the statusbar prompt. */
+size_t statusbar_x = HIGHEST_POSITIVE;
+		/* The cursor position in answer. */
 
 ssize_t tabsize = -1;
 		/* The width of a tab in spaces.  The default is set in main(). */
@@ -309,6 +311,9 @@ void backup_file_void(void)
 {
 }
 void flip_execute(void)
+{
+}
+void flip_pipe(void)
 {
 }
 #endif
@@ -524,6 +529,8 @@ void shortcut_init(void)
 		N_("Write the current buffer (or the marked region) to disk");
 	const char *readfile_gist =
 		N_("Insert another file into current buffer (or into new buffer)");
+	const char *pipe_gist =
+		N_("Pipe the current buffer (or marked region) to the command");
 	const char *whereis_gist =
 		N_("Search forward for a string or a regular expression");
 	const char *wherewas_gist =
@@ -1034,6 +1041,9 @@ void shortcut_init(void)
 		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
+	if (!ISSET(RESTRICTED))
+		add_to_funcs(flip_pipe, MEXTCMD,
+			N_("Pipe Text"), WITHORSANS(pipe_gist), TOGETHER, NOVIEW);
 
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
@@ -1329,8 +1339,10 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	/* Only when not in restricted mode, allow multiple buffers. */
-	if (!ISSET(RESTRICTED))
+	if (!ISSET(RESTRICTED)) {
 		add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, flip_newbuffer, 0);
+		add_to_sclist(MEXTCMD, "M-\\", 0, flip_pipe, 0);
+	}
 #endif
 #ifdef ENABLE_BROWSER
 	/* Only when not in restricted mode, allow entering the file browser. */

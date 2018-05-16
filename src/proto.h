@@ -124,6 +124,7 @@ extern char *quoteerr;
 extern char *word_chars;
 
 extern char *answer;
+extern size_t statusbar_x;
 
 extern ssize_t tabsize;
 
@@ -709,6 +710,7 @@ void append_void(void);
 void prepend_void(void);
 void backup_file_void(void);
 void flip_execute(void);
+void flip_pipe(void);
 #endif
 #ifdef ENABLE_MULTIBUFFER
 void flip_newbuffer(void);

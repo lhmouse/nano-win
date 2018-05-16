@@ -1110,6 +1110,23 @@ void do_insertfile(void)
 				i = 0;
 			}
 #endif
+			if (func == flip_pipe) {
+				/* Remove or add the pipe character at the answer's head. */
+				if (answer[0] == '|') {
+					charmove(answer, answer + 1, strlen(answer) + 1);
+					if (statusbar_x > 0)
+						statusbar_x--;
+				} else {
+					answer = charealloc(answer, strlen(answer) + 2);
+					charmove(answer + 1, answer, strlen(answer) + 1);
+					answer[0] = '|';
+					statusbar_x++;
+				}
+
+				given = mallocstrcpy(given, answer);
+				continue;
+			}
+
 			/* If we don't have a file yet, go back to the prompt. */
 			if (i != 0 && (!ISSET(MULTIBUFFER) || i != -2))
 				continue;
