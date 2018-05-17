@@ -800,6 +800,15 @@ void do_undo(void)
 		cutbuffer = oldcutbuffer;
 		cutbottom = oldcutbottom;
 		break;
+	case COUPLE_BEGIN:
+		undidmsg = _("filtering");
+		break;
+	case COUPLE_END:
+		openfile->current_undo = openfile->current_undo->next;
+		do_undo();
+		do_undo();
+		do_undo();
+		return;
 	case INDENT:
 		handle_indent_action(u, TRUE, TRUE);
 		undidmsg = _("indent");
@@ -961,6 +970,15 @@ void do_redo(void)
 		copy_from_buffer(u->cutbuffer);
 		free_filestruct(u->cutbuffer);
 		u->cutbuffer = NULL;
+		break;
+	case COUPLE_BEGIN:
+		openfile->current_undo = u;
+		do_redo();
+		do_redo();
+		do_redo();
+		return;
+	case COUPLE_END:
+		redidmsg = _("filtering");
 		break;
 	case INDENT:
 		handle_indent_action(u, FALSE, TRUE);
@@ -1159,16 +1177,18 @@ bool execute_command(const char *command)
 		filestruct *was_cutbuffer = cutbuffer;
 		cutbuffer = NULL;
 
-		if (ISSET(MULTIBUFFER))
+		if (ISSET(MULTIBUFFER)) {
 			switch_to_prev_buffer();
-
-		if (has_selection || !ISSET(MULTIBUFFER)) {
+			if (has_selection)
+				do_cut_text(TRUE, FALSE);
+		} else {
+			add_undo(COUPLE_BEGIN);
 			if (!has_selection) {
 				openfile->current = openfile->fileage;
 				openfile->current_x = 0;
 			}
 			add_undo(CUT);
-			do_cut_text(ISSET(MULTIBUFFER), !has_selection);
+			do_cut_text(FALSE, !has_selection);
 			update_undo(CUT);
 		}
 
@@ -1210,6 +1230,9 @@ bool execute_command(const char *command)
 		statusline(ALERT, _("Failed to open pipe: %s"), strerror(errno));
 	else
 		read_file(stream, 0, "pipe", TRUE);
+
+	if (should_pipe && !ISSET(MULTIBUFFER))
+		add_undo(COUPLE_END);
 
 	if (wait(NULL) == -1)
 		nperror("wait");
@@ -1377,6 +1400,8 @@ void add_undo(undo_type action)
 		u->lineno += cutbottom->lineno - cutbuffer->lineno;
 		break;
 	case INSERT:
+	case COUPLE_BEGIN:
+	case COUPLE_END:
 		break;
 	case INDENT:
 	case UNINDENT:
@@ -1537,6 +1562,8 @@ fprintf(stderr, "  >> Updating an undo... action = %d\n", action);
 	case INSERT:
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
+	case COUPLE_BEGIN:
+	case COUPLE_END:
 		break;
 	default:
 		statusline(ALERT, "Wrong undo update type -- please report a bug");
