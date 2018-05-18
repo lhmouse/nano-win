@@ -2004,13 +2004,7 @@ bool indents_match(const char *a_line, size_t a_indent, const char
  *      2) the line above it is not part of a paragraph, or
  *      3) the line above it has a different quote part, or
  *      4) the indentation of this line is not an initial substring of
- *         the indentation of the previous line, or
- *      5) this line has no quote part and some indentation, and
- *         autoindent isn't turned on.
- *   The reason for number 5) is that if autoindent isn't turned on,
- *   then an indented line is expected to start a paragraph, as in
- *   books.  Thus, nano can justify an indented paragraph only if
- *   autoindent is turned on. */
+ *         the indentation of the previous line. */
 bool begpar(const filestruct *const line)
 {
 	size_t quote_len, indent_len, temp_id_len;
@@ -2032,9 +2026,8 @@ bool begpar(const filestruct *const line)
 
 	temp_id_len = indent_length(line->prev->data + quote_len);
 
-	/* Case 2) or 5) or 4). */
+	/* Case 2) or 4). */
 	if (line->prev->data[quote_len + temp_id_len] == '\0' ||
-				(quote_len == 0 && indent_len > 0 && !ISSET(AUTOINDENT)) ||
 				!indents_match(line->prev->data + quote_len, temp_id_len,
 								line->data + quote_len, indent_len))
 		return TRUE;
@@ -2401,12 +2394,6 @@ void do_justify(bool full_justify)
 			/* Move forward to the character after the indentation and
 			 * just after the space. */
 			break_pos += indent_len + 1;
-
-			/* If this paragraph is non-quoted, and autoindent isn't
-			 * turned on, set the indentation length to zero so that the
-			 * indentation is treated as part of the line. */
-			if (quote_len == 0 && !ISSET(AUTOINDENT))
-				indent_len = 0;
 
 			/* Insert a new line after the current one. */
 			splice_node(openfile->current, make_new_node(openfile->current));
