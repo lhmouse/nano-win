@@ -1900,21 +1900,16 @@ bool indents_match(const char *a_line, size_t a_indent, const char
 	return (b_indent <= a_indent && strncmp(a_line, b_line, b_indent) == 0);
 }
 
-/* Is foo the beginning of a paragraph?
+/* Return TRUE when the given line is the beginning of a paragraph.
  *
- *   A line of text consists of a "quote part", followed by an
- *   "indentation part", followed by text.  The functions quote_length()
- *   and indent_length() calculate these parts.
+ *   A line consists of a "quote part", followed by an "indentation part",
+ *   followed by a "text part".  Each of these parts can be empty.  A line
+ *   is part of a paragraph if it has a non-empty text part.
  *
- *   A line is "part of a paragraph" if it has a part not in the quote
- *   part or the indentation.
- *
- *   A line is "the beginning of a paragraph" if it is part of a
- *   paragraph and
+ *   A line is "the beginning of a paragraph" if it has a text part AND
  *      1) it is the top line of the file, or
  *      2) the line above it is not part of a paragraph, or
- *      3) the line above it does not have precisely the same quote
- *         part, or
+ *      3) the line above it has a different quote part, or
  *      4) the indentation of this line is not an initial substring of
  *         the indentation of the previous line, or
  *      5) this line has no quote part and some indentation, and
@@ -1923,52 +1918,52 @@ bool indents_match(const char *a_line, size_t a_indent, const char
  *   then an indented line is expected to start a paragraph, as in
  *   books.  Thus, nano can justify an indented paragraph only if
  *   autoindent is turned on. */
-bool begpar(const filestruct *const foo)
+bool begpar(const filestruct *const line)
 {
 	size_t quote_len, indent_len, temp_id_len;
 
-	if (foo == NULL)
+	if (line == NULL)
 		return FALSE;
 
 	/* Case 1). */
-	if (foo == openfile->fileage)
+	if (line == openfile->fileage)
 		return TRUE;
 
-	quote_len = quote_length(foo->data);
-	indent_len = indent_length(foo->data + quote_len);
+	quote_len = quote_length(line->data);
+	indent_len = indent_length(line->data + quote_len);
 
 	/* Not part of a paragraph. */
-	if (foo->data[quote_len + indent_len] == '\0')
+	if (line->data[quote_len + indent_len] == '\0')
 		return FALSE;
 
 	/* Case 3). */
-	if (!quotes_match(foo->data, quote_len, foo->prev->data))
+	if (!quotes_match(line->data, quote_len, line->prev->data))
 		return TRUE;
 
-	temp_id_len = indent_length(foo->prev->data + quote_len);
+	temp_id_len = indent_length(line->prev->data + quote_len);
 
 	/* Case 2) or 5) or 4). */
-	if (foo->prev->data[quote_len + temp_id_len] == '\0' ||
+	if (line->prev->data[quote_len + temp_id_len] == '\0' ||
 				(quote_len == 0 && indent_len > 0 && !ISSET(AUTOINDENT)) ||
-				!indents_match(foo->prev->data + quote_len, temp_id_len,
-								foo->data + quote_len, indent_len))
+				!indents_match(line->prev->data + quote_len, temp_id_len,
+								line->data + quote_len, indent_len))
 		return TRUE;
 
 	return FALSE;
 }
 
-/* Is foo inside a paragraph? */
-bool inpar(const filestruct *const foo)
+/* Return TRUE when the given line is part of a paragraph. */
+bool inpar(const filestruct *const line)
 {
 	size_t quote_len;
 
-	if (foo == NULL)
+	if (line == NULL)
 		return FALSE;
 
-	quote_len = quote_length(foo->data);
+	quote_len = quote_length(line->data);
 
-	return (foo->data[quote_len + indent_length(foo->data +
-		quote_len)] != '\0');
+	return (line->data[quote_len +
+					indent_length(line->data + quote_len)] != '\0');
 }
 
 /* Move the next par_len lines, starting with first_line, into the
@@ -2045,15 +2040,11 @@ void backup_lines(filestruct *first_line, size_t par_len)
  * beginning of the next paragraph if we're not.  Afterwards, save the
  * quote length and paragraph length in *quote and *par.  Return TRUE if
  * we found a paragraph, and FALSE if there was an error or we didn't
- * find a paragraph.
- *
- * See the comment at begpar() for more about when a line is the
- * beginning of a paragraph. */
+ * find a paragraph. */
 bool find_paragraph(size_t *const quote, size_t *const par)
 {
 	size_t quote_len;
-		/* Length of the initial quotation of the paragraph we search
-		 * for. */
+		/* Length of the initial quotation of the paragraph we search for. */
 	size_t par_len;
 		/* Number of lines in the paragraph we search for. */
 	filestruct *current_save;
@@ -2119,8 +2110,8 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	return TRUE;
 }
 
-/* If full_justify is TRUE, justify the entire file.  Otherwise, justify
- * the current paragraph. */
+/* Justify the current paragraph, and justify the entire file when
+ * full_justify is TRUE. */
 void do_justify(bool full_justify)
 {
 	filestruct *first_par_line = NULL;
