@@ -1922,9 +1922,6 @@ bool begpar(const filestruct *const line)
 {
 	size_t quote_len, indent_len, temp_id_len;
 
-	if (line == NULL)
-		return FALSE;
-
 	/* Case 1). */
 	if (line == openfile->fileage)
 		return TRUE;
@@ -1955,12 +1952,7 @@ bool begpar(const filestruct *const line)
 /* Return TRUE when the given line is part of a paragraph. */
 bool inpar(const filestruct *const line)
 {
-	size_t quote_len;
-
-	if (line == NULL)
-		return FALSE;
-
-	quote_len = quote_length(line->data);
+	size_t quote_len = quote_length(line->data);
 
 	return (line->data[quote_len +
 					indent_length(line->data + quote_len)] != '\0');
@@ -2076,7 +2068,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 		 * paragraph, in which case we should move back to the last line
 		 * of the next paragraph. */
 		if (openfile->current_x == 0) {
-			if (!inpar(openfile->current->prev))
+			if (!openfile->current->prev || !inpar(openfile->current->prev))
 				return FALSE;
 			if (openfile->current != openfile->fileage)
 				openfile->current = openfile->current->prev;
