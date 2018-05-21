@@ -1990,49 +1990,44 @@ bool quotes_match(const char *a_line, size_t a_quote, const char *b_line)
 bool indents_match(const char *a_line, size_t a_indent, const char
 		*b_line, size_t b_indent)
 {
-	return (b_indent <= a_indent && strncmp(a_line, b_line, b_indent) == 0);
+	return (a_indent == b_indent && strncmp(a_line, b_line, b_indent) == 0);
 }
 
-/* Return TRUE when the given line is the beginning of a paragraph.
- *
- *   A line consists of a "quote part", followed by an "indentation part",
- *   followed by a "text part".  Each of these parts can be empty.  A line
- *   is part of a paragraph if it has a non-empty text part.
- *
- *   A line is "the beginning of a paragraph" if it has a text part AND
- *      1) it is the top line of the file, or
- *      2) the line above it is not part of a paragraph, or
- *      3) the line above it has a different quote part, or
- *      4) the indentation of this line is not an initial substring of
- *         the indentation of the previous line. */
+/* Return TRUE when the given line is the beginning of a paragraph (BOP). */
 bool begpar(const filestruct *const line)
 {
 	size_t quote_len, indent_len, temp_id_len;
 
-	/* Case 1). */
+	/* If this is the very first line of the buffer, it counts as a BOP
+	 * even when it contains no text. */
 	if (line == openfile->fileage)
 		return TRUE;
 
 	quote_len = quote_length(line->data);
 	indent_len = indent_length(line->data + quote_len);
 
-	/* Not part of a paragraph. */
+	/* If this line contains no text, it is not a BOP. */
 	if (line->data[quote_len + indent_len] == '\0')
 		return FALSE;
 
-	/* Case 3). */
+	/* If the quote part of the preceding line differs, this is a BOP. */
 	if (!quotes_match(line->data, quote_len, line->prev->data))
 		return TRUE;
 
 	temp_id_len = indent_length(line->prev->data + quote_len);
 
-	/* Case 2) or 4). */
-	if (line->prev->data[quote_len + temp_id_len] == '\0' ||
-				!indents_match(line->prev->data + quote_len, temp_id_len,
-								line->data + quote_len, indent_len))
+	/* If the preceding line contains no text, this is a BOP. */
+	if (line->prev->data[quote_len + temp_id_len] == '\0')
 		return TRUE;
 
-	return FALSE;
+	/* If the indentation of the preceding line equals the indentation
+	 * of this line, this is not a BOP. */
+	if (indents_match(line->prev->data + quote_len, temp_id_len,
+								line->data + quote_len, indent_len))
+		return FALSE;
+
+	/* Otherwise, this is a BOP if the preceding line is not. */
+	return !begpar(line->prev);
 }
 
 /* Return TRUE when the given line is part of a paragraph. */
