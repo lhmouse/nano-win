@@ -2470,7 +2470,7 @@ int main(int argc, char **argv)
 	if (brackets == NULL)
 		brackets = mallocstrcpy(NULL, "\"')>]}");
 	if (quotestr == NULL)
-		quotestr = mallocstrcpy(NULL, "^([ \t]*[#:>|}])+");
+		quotestr = mallocstrcpy(NULL, "^([ \t]*[#/:>|}])+");
 
 	/* Compile the quoting regex, and free it when it's good; otherwise,
 	 * retrieve and store the error message, to be shown when justifying. */

@@ -126,7 +126,7 @@
 
 ## The email-quote string, used to justify email-quoted paragraphs.
 ## This is an extended regular expression.  The default is:
-# set quotestr "^([ 	]*[#:>|}])+"
+# set quotestr "^([ 	]*[#/:>|}])+"
 
 ## Fix Backspace/Delete confusion problem.
 # set rebinddelete

@@ -221,7 +221,7 @@ and place it at that position again upon reopening such a file.
 @item -Q "@var{regex}"
 @itemx --quotestr="@var{regex}"
 Set the regular expression for matching the quoting part of a line, used
-when justifying.  The default value is @t{"^([@w{ }\t]*[#:>|@}])+"}.
+when justifying.  The default value is @t{"^([@w{ }\t]*[#/:>|@}])+"}.
 Note that @code{\t} stands for a literal Tab character.
 
 @item -R
@@ -848,7 +848,7 @@ Obsolete option.  Recognized but ignored.
 @item set quotestr "@var{regex}"
 The email-quote string, used to justify email-quoted paragraphs.  This
 is an extended regular expression.  The default value is
-@t{"^([@w{ }\t]*[#:>|@}])+"}.
+@t{"^([@w{ }\t]*[#/:>|@}])+"}.
 Note that @code{\t} stands for a literal Tab character.
 
 @item set rebinddelete
