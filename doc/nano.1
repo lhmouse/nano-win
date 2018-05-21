@@ -124,9 +124,7 @@ and place it at that position again upon reopening such a file.
 .TP
 .BR "\-Q ""\fIcharacters\fB""" ", " "\-\-quotestr=""" \fIcharacters """
 Set the quoting string for justifying.  The default is
-\fB"^([\ \\t]*[#:>\\|}])+"\fP if extended regular expression support is
-available, or \fB">\ "\fP otherwise.  Note that \fB\\t\fP stands for a
-Tab.
+\fB"^([\ \\t]*[#:>|}])+"\fP.  Note that \fB\\t\fP stands for an actual Tab.
 .TP
 .BR \-R ", " \-\-restricted
 Restricted mode: don't read or write to any file not specified on the

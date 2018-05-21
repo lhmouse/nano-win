@@ -203,10 +203,8 @@ Obsolete option.  Recognized but ignored.
 .TP
 .B set quotestr "\fIstring\fP"
 The email-quote string, used to justify email-quoted paragraphs.  This
-is an extended regular expression if your system supports them,
-otherwise a literal string.  The default value is
-"\fB^([\ \\t]*[#:>\\|}])+\fP" if you have extended regular expression
-support, and "\fB>\ \fP" otherwise.  Note that '\\t' stands for a literal
+is an extended regular expression.  The default value is
+"\fB^([\ \\t]*[#:>|}])+\fP".  Note that \fB\\t\fR stands for an actual
 Tab character.
 .TP
 .B set rebinddelete
