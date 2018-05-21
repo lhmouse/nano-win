@@ -2223,8 +2223,11 @@ void do_justify(bool full_justify)
 	while (TRUE) {
 		size_t i;
 			/* Generic loop variable. */
-		filestruct *curr_first_par_line;
+		filestruct *firstline;
 			/* The first line of the current paragraph. */
+		filestruct *sampleline;
+			/* The line from which the indentation is copied -- either
+			 * the first and only or the second line of the paragraph. */
 		size_t quote_len;
 			/* Length of the initial quotation of the current paragraph. */
 		size_t indent_len;
@@ -2234,14 +2237,7 @@ void do_justify(bool full_justify)
 		ssize_t break_pos;
 			/* Where we will break lines. */
 		char *indent_string;
-			/* The first indentation that doesn't match the initial
-			 * indentation of the current paragraph.  This is put at the
-			 * beginning of every line broken off the first justified
-			 * line of the paragraph.  Note that this works because a
-			 * paragraph can only contain two indentations at most: the
-			 * initial one, and a different one starting on a line after
-			 * the first.  See the comment at begpar() for more about
-			 * when a line is part of a paragraph. */
+			/* The indentation that is copied from the sample line. */
 
 		/* Find the first line of the paragraph to be justified.  That
 		 * is the start of this paragraph if we're in one, or the start
@@ -2283,40 +2279,16 @@ void do_justify(bool full_justify)
 			first_par_line = openfile->current;
 		}
 
-		/* Set curr_first_par_line to the first line of the current
-		 * paragraph. */
-		curr_first_par_line = openfile->current;
+		/* Remember the first line of the current paragraph. */
+		firstline = openfile->current;
 
-		/* Initialize indent_string to a blank string. */
-		indent_string = mallocstrcpy(NULL, "");
+		/* The sample line is either the only line or the second line. */
+		sampleline = (par_len == 1 ? firstline : firstline->next);
 
-		/* Find the first indentation in the paragraph that doesn't
-		 * match the indentation of the first line, and save it in
-		 * indent_string.  If all the indentations are the same, save
-		 * the indentation of the first line in indent_string. */
-		{
-			const filestruct *indent_line = openfile->current;
-			bool past_first_line = FALSE;
-
-			for (i = 0; i < par_len; i++) {
-				indent_len = quote_len +
-						indent_length(indent_line->data + quote_len);
-
-				if (indent_len != strlen(indent_string)) {
-					indent_string = mallocstrncpy(indent_string,
-						indent_line->data, indent_len + 1);
-					indent_string[indent_len] = '\0';
-
-					if (past_first_line)
-						break;
-				}
-
-				if (indent_line == openfile->current)
-					past_first_line = TRUE;
-
-				indent_line = indent_line->next;
-			}
-		}
+		/* Copy the leading part (quoting + indentation) of the sample line. */
+		indent_len = quote_len + indent_length(sampleline->data + quote_len);
+		indent_string = mallocstrncpy(NULL, sampleline->data, indent_len + 1);
+		indent_string[indent_len] = '\0';
 
 		/* Now tack all the lines of the paragraph together, skipping
 		 * the quoting and indentation on all lines after the first. */
@@ -2442,7 +2414,7 @@ void do_justify(bool full_justify)
 
 		/* Renumber the now-justified paragraph, since both refreshing the
 		 * edit window and finding a paragraph need correct line numbers. */
-		renumber(curr_first_par_line);
+		renumber(firstline);
 
 		/* We've just finished justifying the paragraph.  If we're not
 		 * justifying the entire file, break out of the loop.
