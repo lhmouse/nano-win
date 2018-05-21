@@ -1985,14 +1985,6 @@ bool quotes_match(const char *a_line, size_t a_quote, const char *b_line)
 						strncmp(a_line, b_line, a_quote) == 0);
 }
 
-/* We assume a_line and b_line have no quote part.  Then, we return
- * whether b_line could follow a_line in a paragraph. */
-bool indents_match(const char *a_line, size_t a_indent, const char
-		*b_line, size_t b_indent)
-{
-	return (a_indent == b_indent && strncmp(a_line, b_line, b_indent) == 0);
-}
-
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
 bool begpar(const filestruct *const line)
 {
@@ -2022,8 +2014,8 @@ bool begpar(const filestruct *const line)
 
 	/* If the indentation of the preceding line equals the indentation
 	 * of this line, this is not a BOP. */
-	if (indents_match(line->prev->data + quote_len, prev_dent_len,
-								line->data + quote_len, indent_len))
+	if (prev_dent_len == indent_len && strncmp(line->prev->data + quote_len,
+									line->data + quote_len, indent_len) == 0)
 		return FALSE;
 
 	/* Otherwise, this is a BOP if the preceding line is not. */
