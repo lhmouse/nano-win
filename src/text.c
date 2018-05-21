@@ -1976,15 +1976,6 @@ size_t quote_length(const char *line)
 	return matches.rm_eo;
 }
 
-/* a_line and b_line are lines of text.  The quotation part of a_line is
- * the first a_quote characters.  Check that the quotation part of
- * b_line is the same. */
-bool quotes_match(const char *a_line, size_t a_quote, const char *b_line)
-{
-	return (a_quote == quote_length(b_line) &&
-						strncmp(a_line, b_line, a_quote) == 0);
-}
-
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
 bool begpar(const filestruct *const line)
 {
@@ -2003,7 +1994,8 @@ bool begpar(const filestruct *const line)
 		return FALSE;
 
 	/* If the quote part of the preceding line differs, this is a BOP. */
-	if (!quotes_match(line->data, quote_len, line->prev->data))
+	if (quote_len != quote_length(line->prev->data) ||
+					strncmp(line->data, line->prev->data, quote_len) != 0)
 		return TRUE;
 
 	prev_dent_len = indent_length(line->prev->data + quote_len);
