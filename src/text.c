@@ -1996,7 +1996,7 @@ bool indents_match(const char *a_line, size_t a_indent, const char
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
 bool begpar(const filestruct *const line)
 {
-	size_t quote_len, indent_len, temp_id_len;
+	size_t quote_len, indent_len, prev_dent_len;
 
 	/* If this is the very first line of the buffer, it counts as a BOP
 	 * even when it contains no text. */
@@ -2014,15 +2014,15 @@ bool begpar(const filestruct *const line)
 	if (!quotes_match(line->data, quote_len, line->prev->data))
 		return TRUE;
 
-	temp_id_len = indent_length(line->prev->data + quote_len);
+	prev_dent_len = indent_length(line->prev->data + quote_len);
 
 	/* If the preceding line contains no text, this is a BOP. */
-	if (line->prev->data[quote_len + temp_id_len] == '\0')
+	if (line->prev->data[quote_len + prev_dent_len] == '\0')
 		return TRUE;
 
 	/* If the indentation of the preceding line equals the indentation
 	 * of this line, this is not a BOP. */
-	if (indents_match(line->prev->data + quote_len, temp_id_len,
+	if (indents_match(line->prev->data + quote_len, prev_dent_len,
 								line->data + quote_len, indent_len))
 		return FALSE;
 
