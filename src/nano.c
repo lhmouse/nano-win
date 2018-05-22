@@ -818,7 +818,8 @@ void usage(void)
 					N_("Log & read location of cursor position"));
 #endif
 #ifdef ENABLE_JUSTIFY
-	print_opt(_("-Q <str>"), _("--quotestr=<str>"), N_("Quoting string"));
+	print_opt(_("-Q <regex>"), _("--quotestr=<regex>"),
+					 N_("Regular expression to match quoting"));
 #endif
 	if (!ISSET(RESTRICTED))
 		print_opt("-R", "--restricted", N_("Restricted mode"));

@@ -122,9 +122,11 @@ Use the blank line below the title bar as extra editing space.
 For the 200 most recent files, log the last position of the cursor,
 and place it at that position again upon reopening such a file.
 .TP
-.BR "\-Q ""\fIcharacters\fB""" ", " "\-\-quotestr=""" \fIcharacters """
-Set the quoting string for justifying.  The default is
-\fB"^([\ \\t]*[#:>|}])+"\fP.  Note that \fB\\t\fP stands for an actual Tab.
+.BR "\-Q ""\fIregex\fB""" ", " "\-\-quotestr=""" \fIregex """
+Set the regular expression for matching the quoting part of a line.
+This is used when justifying.
+The default value is \fB"^([\ \\t]*[#:>|}])+"\fP.
+Note that \fB\\t\fP stands for an actual Tab.
 .TP
 .BR \-R ", " \-\-restricted
 Restricted mode: don't read or write to any file not specified on the
