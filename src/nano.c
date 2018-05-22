@@ -742,9 +742,7 @@ void mouse_init(void)
 }
 #endif /* ENABLE_MOUSE */
 
-/* Print one usage string to the screen.  This cuts down on duplicate
- * strings to translate, and leaves out the parts that shouldn't be
- * translatable (i.e. the flag names). */
+/* Print the usage line for the given option to the screen. */
 void print_opt(const char *shortflag, const char *longflag, const char *desc)
 {
 	printf(" %s\t", shortflag);
@@ -757,9 +755,7 @@ void print_opt(const char *shortflag, const char *longflag, const char *desc)
 	else if (strlenpt(longflag) < 16)
 		printf("\t");
 
-	if (desc != NULL)
-		printf("%s", _(desc));
-	printf("\n");
+	printf("%s\n", _(desc));
 }
 
 /* Explain how to properly use nano and its command-line options. */
