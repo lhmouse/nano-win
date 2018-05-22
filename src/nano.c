@@ -769,14 +769,13 @@ void usage(void)
 	printf(_("When a filename is '-', nano reads data from standard input.\n\n"));
 	printf(_("Option\t\tGNU long option\t\tMeaning\n"));
 #ifndef NANO_TINY
-	print_opt("-A", "--smarthome",
-		/* TRANSLATORS: The next forty or so strings are option descriptions
-		 * for the --help output.  Try to keep them at most 40 characters. */
-				N_("Enable smart home key"));
+	/* TRANSLATORS: The next forty or so strings are option descriptions
+	 * for the --help output.  Try to keep them at most 40 characters. */
+	print_opt("-A", "--smarthome", N_("Enable smart home key"));
 	if (!ISSET(RESTRICTED)) {
 		print_opt("-B", "--backup", N_("Save backups of existing files"));
 		print_opt(_("-C <dir>"), _("--backupdir=<dir>"),
-				N_("Directory for saving unique backup files"));
+					N_("Directory for saving unique backup files"));
 	}
 #endif
 	print_opt("-D", "--boldtext", N_("Use bold instead of reverse video text"));
@@ -786,7 +785,7 @@ void usage(void)
 #ifdef ENABLE_MULTIBUFFER
 	if (!ISSET(RESTRICTED))
 		print_opt("-F", "--multibuffer",
-				N_("Read a file into a new buffer by default"));
+					N_("Read a file into a new buffer by default"));
 #endif
 #ifndef NANO_TINY
 	print_opt("-G", "--locking", N_("Use (vim-style) lock files"));
@@ -794,29 +793,29 @@ void usage(void)
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
 		print_opt("-H", "--historylog",
-				N_("Log & read search/replace string history"));
+					N_("Log & read search/replace string history"));
 #endif
 #ifdef ENABLE_NANORC
 	if (!ISSET(RESTRICTED))
 		print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
 	print_opt("-K", "--rebindkeypad",
-		N_("Fix numeric keypad key confusion problem"));
+					N_("Fix numeric keypad key confusion problem"));
 	print_opt("-L", "--nonewlines",
-		N_("Don't add newlines to the ends of files"));
+					N_("Don't add newlines to the ends of files"));
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt("-M", "--trimblanks",
-		N_("Trim tail spaces when hard-wrapping"));
+					N_("Trim tail spaces when hard-wrapping"));
 #endif
 #ifndef NANO_TINY
 	print_opt("-N", "--noconvert",
-		N_("Don't convert files from DOS/Mac format"));
+					N_("Don't convert files from DOS/Mac format"));
 #endif
 	print_opt("-O", "--morespace", N_("Use one more line for editing"));
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
 		print_opt("-P", "--positionlog",
-				N_("Log & read location of cursor position"));
+					N_("Log & read location of cursor position"));
 #endif
 #ifdef ENABLE_JUSTIFY
 	print_opt(_("-Q <str>"), _("--quotestr=<str>"), N_("Quoting string"));
@@ -827,26 +826,26 @@ void usage(void)
 	print_opt("-S", "--smooth", N_("Scroll by line instead of half-screen"));
 #endif
 	print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
-		N_("Set width of a tab to #cols columns"));
+					N_("Set width of a tab to #cols columns"));
 	print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
 	print_opt("-V", "--version", N_("Print version information and exit"));
 #ifndef NANO_TINY
 	print_opt("-W", "--wordbounds",
-		N_("Detect word boundaries more accurately"));
+					N_("Detect word boundaries more accurately"));
 	print_opt(_("-X <str>"), _("--wordchars=<str>"),
-		N_("Which other characters are word parts"));
+					N_("Which other characters are word parts"));
 #endif
 #ifdef ENABLE_COLOR
 	if (!ISSET(RESTRICTED))
 		print_opt(_("-Y <name>"), _("--syntax=<name>"),
-				N_("Syntax definition to use for coloring"));
+					N_("Syntax definition to use for coloring"));
 #endif
 #ifndef NANO_TINY
 	print_opt("-a", "--atblanks", N_("When soft-wrapping, do it at whitespace"));
 #endif
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
 	print_opt("-d", "--rebinddelete",
-		N_("Fix Backspace/Delete confusion problem"));
+					N_("Fix Backspace/Delete confusion problem"));
 #ifdef ENABLE_BROWSER
 	if (!ISSET(RESTRICTED))
 		print_opt("-g", "--showcursor", N_("Show cursor in file browser"));
@@ -865,17 +864,17 @@ void usage(void)
 	print_opt("-n", "--noread", N_("Do not read the file (only write it)"));
 #ifdef ENABLE_OPERATINGDIR
 	print_opt(_("-o <dir>"), _("--operatingdir=<dir>"),
-		N_("Set operating directory"));
+					N_("Set operating directory"));
 #endif
 	print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
-		N_("Set hard-wrapping point at column #cols"));
+					N_("Set hard-wrapping point at column #cols"));
 #endif
 #ifdef ENABLE_SPELLER
 	if (!ISSET(RESTRICTED))
 		print_opt(_("-s <prog>"), _("--speller=<prog>"),
-				N_("Enable alternate speller"));
+					N_("Enable alternate speller"));
 #endif
 	print_opt("-t", "--tempfile", N_("Auto save on exit, don't prompt"));
 #ifndef NANO_TINY
