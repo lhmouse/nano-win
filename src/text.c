@@ -1026,12 +1026,19 @@ void do_redo(void)
 void do_enter(void)
 {
 	filestruct *newnode = make_new_node(openfile->current);
+	filestruct *sampleline = openfile->current;
 	size_t extra = 0;
 #ifndef NANO_TINY
 	bool allblanks = FALSE;
 
 	if (ISSET(AUTOINDENT)) {
-		extra = indent_length(openfile->current->data);
+		/* If the next line is in this same paragraph, use its indentation
+		 * as the model, as it is more likely to be what the user wants. */
+		if (openfile->current->next && inpar(openfile->current->next) &&
+								!begpar(openfile->current->next))
+			sampleline = openfile->current->next;
+
+		extra = indent_length(sampleline->data);
 
 		/* If we are breaking the line in the indentation, limit the new
 		 * indentation to the current x position. */
@@ -1047,8 +1054,8 @@ void do_enter(void)
 										openfile->current_x);
 #ifndef NANO_TINY
 	if (ISSET(AUTOINDENT)) {
-		/* Copy the whitespace from the current line to the new one. */
-		strncpy(newnode->data, openfile->current->data, extra);
+		/* Copy the whitespace from the sample line to the new one. */
+		strncpy(newnode->data, sampleline->data, extra);
 		/* If there were only blanks before the cursor, trim them. */
 		if (allblanks)
 			openfile->current_x = 0;
