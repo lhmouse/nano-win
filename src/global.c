@@ -1041,10 +1041,11 @@ void shortcut_init(void)
 		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
+#ifndef NANO_TINY
 	if (!ISSET(RESTRICTED))
 		add_to_funcs(flip_pipe, MEXTCMD,
 			N_("Pipe Text"), WITHORSANS(pipe_gist), TOGETHER, NOVIEW);
-
+#endif
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))

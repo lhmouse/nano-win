@@ -1110,6 +1110,7 @@ void do_insertfile(void)
 				i = 0;
 			}
 #endif
+#ifndef NANO_TINY
 			if (func == flip_pipe) {
 				/* Remove or add the pipe character at the answer's head. */
 				if (answer[0] == '|') {
@@ -1126,7 +1127,7 @@ void do_insertfile(void)
 				given = mallocstrcpy(given, answer);
 				continue;
 			}
-
+#endif
 			/* If we don't have a file yet, go back to the prompt. */
 			if (i != 0 && (!ISSET(MULTIBUFFER) || i != -2))
 				continue;
