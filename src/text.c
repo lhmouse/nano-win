@@ -3268,7 +3268,8 @@ void do_linter(void)
 			openfilestruct *tmpof = openfile;
 
 #ifdef ENABLE_MULTIBUFFER
-			while (tmpof != openfile->next) {
+			tmpof = tmpof->next;
+			while (tmpof != openfile) {
 				if (tmpof->current_stat->st_ino == lintfileinfo.st_ino)
 					break;
 				tmpof = tmpof->next;
