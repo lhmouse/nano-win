@@ -676,8 +676,11 @@ int do_yesno_prompt(bool all, const char *msg)
 	const char *allstr = _("Aa");
 
 	while (response == -2) {
+#ifdef ENABLE_NLS
 		char letter[MAXCHARLEN + 1];
-		int kbinput, index = 0;
+		int index = 0;
+#endif
+		int kbinput;
 
 		if (!ISSET(NO_HELP)) {
 			char shortstr[MAXCHARLEN + 2];
