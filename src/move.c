@@ -324,7 +324,9 @@ bool do_next_word(bool after_ends, bool allow_punct, bool update_screen)
 	bool started_on_word = is_word_mbchar(openfile->current->data +
 								openfile->current_x, allow_punct);
 	bool seen_space = !started_on_word;
+#ifndef NANO_TINY
 	bool seen_word = started_on_word;
+#endif
 
 	/* Move forward until we reach the start of a word. */
 	while (TRUE) {
