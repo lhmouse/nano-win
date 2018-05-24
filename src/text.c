@@ -3265,15 +3265,12 @@ void do_linter(void)
 
 		if (stat(curlint->filename, &lintfileinfo) != -1 &&
 			openfile->current_stat->st_ino != lintfileinfo.st_ino) {
-			openfilestruct *tmpof = openfile;
-
 #ifdef ENABLE_MULTIBUFFER
-			tmpof = tmpof->next;
-			while (tmpof != openfile) {
-				if (tmpof->current_stat->st_ino == lintfileinfo.st_ino)
-					break;
+			openfilestruct *tmpof = openfile->next;
+
+			while (tmpof != openfile &&
+						tmpof->current_stat->st_ino != lintfileinfo.st_ino)
 				tmpof = tmpof->next;
-			}
 
 			if (tmpof->current_stat->st_ino != lintfileinfo.st_ino) {
 				char *msg = charalloc(1024 + strlen(curlint->filename));
