@@ -400,7 +400,8 @@ void parse_binding(char *ptr, bool dobind)
 		if (funcptr[0] == '\0') {
 			rcfile_error(N_("Must specify a function to bind the key to"));
 			goto free_things;
-		}
+		} else if (ptr == NULL)
+			goto free_things;
 	}
 
 	menuptr = ptr;
