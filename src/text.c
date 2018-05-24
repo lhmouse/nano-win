@@ -3274,9 +3274,8 @@ void do_linter(void)
 					break;
 				tmpof = tmpof->next;
 			}
-#endif
+
 			if (tmpof->current_stat->st_ino != lintfileinfo.st_ino) {
-#ifdef ENABLE_MULTIBUFFER
 				char *msg = charalloc(1024 + strlen(curlint->filename));
 				int i;
 
@@ -3325,8 +3324,8 @@ void do_linter(void)
 					}
 
 					free(dontwantfile);
-				}
 #ifdef ENABLE_MULTIBUFFER
+				}
 			} else
 				openfile = tmpof;
 #endif
