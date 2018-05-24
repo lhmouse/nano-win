@@ -1146,19 +1146,17 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #endif
 #ifdef ENABLE_JUSTIFY
 		if (strcasecmp(rcopts[i].name, "punct") == 0) {
-			punct = option;
-			if (has_blank_mbchars(punct)) {
+			if (has_blank_mbchars(option)) {
 				rcfile_error(N_("Non-blank characters required"));
-				free(punct);
-				punct = NULL;
-			}
+				free(option);
+			} else
+				punct = option;
 		} else if (strcasecmp(rcopts[i].name, "brackets") == 0) {
-			brackets = option;
-			if (has_blank_mbchars(brackets)) {
+			if (has_blank_mbchars(option)) {
 				rcfile_error(N_("Non-blank characters required"));
-				free(brackets);
-				brackets = NULL;
-			}
+				free(option);
+			} else
+				brackets = option;
 		} else if (strcasecmp(rcopts[i].name, "quotestr") == 0)
 			quotestr = option;
 		else

@@ -2440,21 +2440,18 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef ENABLE_JUSTIFY
-	/* If punct wasn't specified, set its default value. */
+	/* Set the default value for things that weren't specified. */
 	if (punct == NULL)
 		punct = mallocstrcpy(NULL, "!.?");
-
-	/* If brackets wasn't specified, set its default value. */
 	if (brackets == NULL)
 		brackets = mallocstrcpy(NULL, "\"')>]}");
-
-	/* If quotestr wasn't specified, set its default value. */
 	if (quotestr == NULL)
 		quotestr = mallocstrcpy(NULL, "^([ \t]*[#:>|}])+");
-	quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
 
+	/* Compile the quoting regex, and free it when it's good; otherwise,
+	 * retrieve and store the error message, to be shown when justifying. */
+	quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
 	if (quoterc == 0) {
-		/* We no longer need quotestr, just quotereg. */
 		free(quotestr);
 		quotestr = NULL;
 	} else {
