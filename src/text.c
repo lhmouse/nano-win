@@ -1119,7 +1119,6 @@ bool execute_command(const char *command)
 {
 	int from_fd[2], to_fd[2];
 		/* The pipes through which text will written and read. */
-	const bool has_selection = ISSET(MULTIBUFFER) ? openfile->prev->mark : openfile->mark;
 	const bool should_pipe = (command[0] == '|');
 	FILE *stream;
 	const char *shellenv;
@@ -1177,18 +1176,21 @@ bool execute_command(const char *command)
 		filestruct *was_cutbuffer = cutbuffer;
 		cutbuffer = NULL;
 
+#ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER)) {
 			switch_to_prev_buffer();
-			if (has_selection)
+			if (openfile->mark)
 				do_cut_text(TRUE, FALSE);
-		} else {
+		} else
+#endif
+		{
 			add_undo(COUPLE_BEGIN);
-			if (!has_selection) {
+			if (openfile->mark == NULL) {
 				openfile->current = openfile->fileage;
 				openfile->current_x = 0;
 			}
 			add_undo(CUT);
-			do_cut_text(FALSE, !has_selection);
+			do_cut_text(FALSE, openfile->mark == NULL);
 			update_undo(CUT);
 		}
 
@@ -1202,9 +1204,10 @@ bool execute_command(const char *command)
 		close(to_fd[0]);
 		close(to_fd[1]);
 
+#ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
 			switch_to_next_buffer();
-
+#endif
 		free_filestruct(cutbuffer);
 		cutbuffer = was_cutbuffer;
 	}
