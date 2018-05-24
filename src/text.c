@@ -3116,6 +3116,7 @@ void do_linter(void)
 	}
 
 	blank_bottombars();
+	currmenu = MLINTER;
 	statusbar(_("Invoking linter, please wait"));
 
 	construct_argument_list(&lintargs, openfile->syntax->linter, openfile->filename);
