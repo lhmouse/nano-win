@@ -1543,7 +1543,7 @@ int get_keycode(const char *keyname, const int standard)
 
 #ifdef ENABLE_LINENUMBERS
 /* Ensure that the margin can accomodate the buffer's highest line number. */
-void check_margin(void)
+void confirm_margin(void)
 {
 	int needed_margin = digits(openfile->filebot->lineno) + 1;
 
@@ -2667,7 +2667,7 @@ int main(int argc, char **argv)
 
 	while (TRUE) {
 #ifdef ENABLE_LINENUMBERS
-		check_margin();
+		confirm_margin();
 #endif
 		if (currmenu != MMAIN)
 			display_main_list();

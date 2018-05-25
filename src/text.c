@@ -3338,7 +3338,7 @@ void do_linter(void)
 			titlebar(NULL);
 			adjust_viewport(CENTERING);
 #ifdef ENABLE_LINENUMBERS
-			check_margin();
+			confirm_margin();
 #endif
 			edit_refresh();
 			statusbar(curlint->msg);

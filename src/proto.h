@@ -443,7 +443,7 @@ void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
 #ifdef ENABLE_LINENUMBERS
-void check_margin(void);
+void confirm_margin(void);
 #endif
 void unbound_key(int code);
 bool okay_for_view(const sc *shortcut);
