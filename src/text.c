@@ -3267,16 +3267,18 @@ void do_linter(void)
 		struct stat lintfileinfo;
 
 		if (stat(curlint->filename, &lintfileinfo) != -1 &&
-					openfile->current_stat->st_ino != lintfileinfo.st_ino) {
+					(openfile->current_stat == NULL ||
+					openfile->current_stat->st_ino != lintfileinfo.st_ino)) {
 #ifdef ENABLE_MULTIBUFFER
 			const openfilestruct *started_at = openfile;
 
 			openfile = openfile->next;
-			while (openfile != started_at &&
-						openfile->current_stat->st_ino != lintfileinfo.st_ino)
+			while (openfile != started_at && (openfile->current_stat == NULL ||
+						openfile->current_stat->st_ino != lintfileinfo.st_ino))
 				openfile = openfile->next;
 
-			if (openfile->current_stat->st_ino != lintfileinfo.st_ino) {
+			if (openfile->current_stat == NULL ||
+						openfile->current_stat->st_ino != lintfileinfo.st_ino) {
 				char *msg = charalloc(1024 + strlen(curlint->filename));
 				int i;
 
