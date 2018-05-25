@@ -1541,6 +1541,30 @@ int get_keycode(const char *keyname, const int standard)
 		return standard;
 }
 
+#ifdef ENABLE_LINENUMBERS
+/* Ensure that the margin can accomodate the buffer's highest line number. */
+void check_margin(void)
+{
+	int needed_margin = digits(openfile->filebot->lineno) + 1;
+
+	/* When not requested or space is too tight, suppress line numbers. */
+	if (!ISSET(LINE_NUMBERS) || needed_margin > COLS - 4)
+		needed_margin = 0;
+
+	if (needed_margin != margin) {
+		margin = needed_margin;
+		editwincols = COLS - margin;
+
+#ifndef NANO_TINY
+		/* Ensure that firstcolumn is the starting column of its chunk. */
+		ensure_firstcolumn_is_aligned();
+#endif
+		/* The margin has changed -- schedule a full refresh. */
+		refresh_needed = TRUE;
+	}
+}
+#endif /* ENABLE_LINENUMBERS */
+
 /* Say that an unbound key was struck, and if possible which one. */
 void unbound_key(int code)
 {
@@ -2643,23 +2667,7 @@ int main(int argc, char **argv)
 
 	while (TRUE) {
 #ifdef ENABLE_LINENUMBERS
-		int needed_margin = digits(openfile->filebot->lineno) + 1;
-
-		/* Suppress line numbers when there is not enough room for them. */
-		if (!ISSET(LINE_NUMBERS) || needed_margin > COLS - 4)
-			needed_margin = 0;
-
-		if (needed_margin != margin) {
-			margin = needed_margin;
-			editwincols = COLS - margin;
-
-#ifndef NANO_TINY
-			/* Ensure that firstcolumn is the starting column of its chunk. */
-			ensure_firstcolumn_is_aligned();
-#endif
-			/* The margin has changed -- schedule a full refresh. */
-			refresh_needed = TRUE;
-		}
+		check_margin();
 #endif
 		if (currmenu != MMAIN)
 			display_main_list();

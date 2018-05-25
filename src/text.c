@@ -3335,6 +3335,9 @@ void do_linter(void)
 			goto_line_posx(curlint->lineno, curlint->colno - 1);
 			titlebar(NULL);
 			adjust_viewport(CENTERING);
+#ifdef ENABLE_LINENUMBERS
+			check_margin();
+#endif
 			edit_refresh();
 			statusbar(curlint->msg);
 			bottombars(MLINTER);
