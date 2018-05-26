@@ -179,7 +179,7 @@ void do_para_begin(bool update_screen)
 	if (openfile->current != openfile->fileage)
 		openfile->current = openfile->current->prev;
 
-	while (!begpar(openfile->current))
+	while (!begpar(openfile->current, 0))
 		openfile->current = openfile->current->prev;
 
 	openfile->current_x = 0;
@@ -204,7 +204,7 @@ void do_para_end(bool update_screen)
 
 	while (openfile->current != openfile->filebot &&
 				inpar(openfile->current->next) &&
-				!begpar(openfile->current->next)) {
+				!begpar(openfile->current->next, 0)) {
 		openfile->current = openfile->current->next;
 	}
 

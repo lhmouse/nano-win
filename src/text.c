@@ -1035,7 +1035,7 @@ void do_enter(void)
 		/* If the next line is in this same paragraph, use its indentation
 		 * as the model, as it is more likely to be what the user wants. */
 		if (openfile->current->next && inpar(openfile->current->next) &&
-								!begpar(openfile->current->next))
+								!begpar(openfile->current->next, 0))
 			sampleline = openfile->current->next;
 
 		extra = indent_length(sampleline->data);
@@ -1983,8 +1983,11 @@ size_t quote_length(const char *line)
 	return matches.rm_eo;
 }
 
+/* The maximum depth of recursion.  This must be an even number. */
+#define RECURSION_LIMIT 222
+
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
-bool begpar(const filestruct *const line)
+bool begpar(const filestruct *const line, int depth)
 {
 	size_t quote_len, indent_len, prev_dent_len;
 
@@ -1992,6 +1995,10 @@ bool begpar(const filestruct *const line)
 	 * even when it contains no text. */
 	if (line == openfile->fileage)
 		return TRUE;
+
+	/* If recursion is going too deep, just say it's not a BOP. */
+	if (depth > RECURSION_LIMIT)
+		return FALSE;
 
 	quote_len = quote_length(line->data);
 	indent_len = indent_length(line->data + quote_len);
@@ -2018,7 +2025,7 @@ bool begpar(const filestruct *const line)
 		return FALSE;
 
 	/* Otherwise, this is a BOP if the preceding line is not. */
-	return !begpar(line->prev);
+	return !begpar(line->prev, depth + 1);
 }
 
 /* Return TRUE when the given line is part of a paragraph. */
@@ -2149,7 +2156,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
 	/* If the current line isn't the first line of the paragraph, move
 	 * back to the first line of the paragraph. */
-	if (!begpar(openfile->current))
+	if (!begpar(openfile->current, 0))
 		do_para_begin(FALSE);
 
 	/* Now current is the first line of the paragraph.  Set quote_len to

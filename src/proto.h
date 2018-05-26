@@ -551,7 +551,7 @@ size_t indent_length(const char *line);
 #endif
 #ifdef ENABLE_JUSTIFY
 void justify_format(filestruct *paragraph, size_t skip);
-bool begpar(const filestruct *const foo);
+bool begpar(const filestruct *const foo, int depth);
 bool inpar(const filestruct *const foo);
 void do_justify(bool full_justify);
 void do_justify_void(void);
