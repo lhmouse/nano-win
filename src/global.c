@@ -1651,6 +1651,8 @@ sc *strtosc(const char *input)
 		s->func = backup_file_void;
 	else if (!strcasecmp(input, "flipexecute"))
 		s->func = flip_execute;
+	else if (!strcasecmp(input, "flippipe"))
+		s->func = flip_pipe;
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	else if (!strcasecmp(input, "flipnewbuffer"))
