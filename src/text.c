@@ -1738,7 +1738,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 		/* The length of the current character, in bytes. */
 
 	/* Find the last blank that does not overshoot the target column. */
-	while (*line != '\0' && column <= goal) {
+	while (*line != '\0' && ((ssize_t)column <= goal)) {
 		if (is_blank_mbchar(line) || (snap_at_nl && *line == '\n')) {
 			lastblank = index;
 
@@ -1752,7 +1752,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	}
 
 	/* If the whole line displays shorter than goal, we're done. */
-	if (column <= goal)
+	if ((ssize_t)column <= goal)
 		return index;
 
 #ifdef ENABLE_HELP
