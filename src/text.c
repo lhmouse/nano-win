@@ -2337,8 +2337,6 @@ void do_justify(bool full_justify)
 		while (par_len > 0 && strlenpt(openfile->current->data) > fill) {
 			size_t line_len = strlen(openfile->current->data);
 
-			lead_len = strlen(lead_string);
-
 			/* If this line is too long, try to wrap it to the next line
 			 * to make it short enough. */
 			break_pos = break_line(openfile->current->data + lead_len,
