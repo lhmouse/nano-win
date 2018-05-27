@@ -2225,15 +2225,15 @@ void do_justify(bool full_justify)
 			/* The line from which the indentation is copied -- either
 			 * the first and only or the second line of the paragraph. */
 		size_t quote_len;
-			/* Length of the initial quotation of the current paragraph. */
-		size_t indent_len;
-			/* Length of the initial indentation of the current paragraph. */
+			/* Length of the quote part of the current paragraph. */
+		size_t lead_len;
+			/* Length of the quote part plus the indentation part. */
 		size_t par_len;
 			/* Number of lines in the current paragraph. */
 		ssize_t break_pos;
 			/* Where we will break lines. */
-		char *indent_string;
-			/* The indentation that is copied from the sample line. */
+		char *lead_string;
+			/* The quote+indent stuff that is copied from the sample line. */
 
 		/* Find the first line of the paragraph to be justified.  That
 		 * is the start of this paragraph if we're in one, or the start
@@ -2282,9 +2282,9 @@ void do_justify(bool full_justify)
 		sampleline = (par_len == 1 ? firstline : firstline->next);
 
 		/* Copy the leading part (quoting + indentation) of the sample line. */
-		indent_len = quote_len + indent_length(sampleline->data + quote_len);
-		indent_string = mallocstrncpy(NULL, sampleline->data, indent_len + 1);
-		indent_string[indent_len] = '\0';
+		lead_len = quote_len + indent_length(sampleline->data + quote_len);
+		lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
+		lead_string[lead_len] = '\0';
 
 		/* Now tack all the lines of the paragraph together, skipping
 		 * the quoting and indentation on all lines after the first. */
@@ -2293,10 +2293,10 @@ void do_justify(bool full_justify)
 			size_t line_len = strlen(openfile->current->data);
 			size_t next_line_len = strlen(next_line->data);
 
-			indent_len = quote_len + indent_length(next_line->data + quote_len);
+			lead_len = quote_len + indent_length(next_line->data + quote_len);
 
-			next_line_len -= indent_len;
-			openfile->totsize -= indent_len;
+			next_line_len -= lead_len;
+			openfile->totsize -= lead_len;
 
 			/* We're just about to tack the next line onto this one.  If
 			 * this line isn't empty, make sure it ends in a space. */
@@ -2311,13 +2311,13 @@ void do_justify(bool full_justify)
 
 			openfile->current->data = charealloc(openfile->current->data,
 						line_len + next_line_len + 1);
-			strcat(openfile->current->data, next_line->data + indent_len);
+			strcat(openfile->current->data, next_line->data + lead_len);
 
 #ifndef NANO_TINY
 			/* If needed, adjust the coordinates of the mark. */
 			if (openfile->mark == next_line) {
 				openfile->mark = openfile->current;
-				openfile->mark_x += line_len - indent_len;
+				openfile->mark_x += line_len - lead_len;
 			}
 #endif
 			/* Don't destroy edittop! */
@@ -2337,34 +2337,33 @@ void do_justify(bool full_justify)
 		while (par_len > 0 && strlenpt(openfile->current->data) > fill) {
 			size_t line_len = strlen(openfile->current->data);
 
-			indent_len = strlen(indent_string);
+			lead_len = strlen(lead_string);
 
 			/* If this line is too long, try to wrap it to the next line
 			 * to make it short enough. */
-			break_pos = break_line(openfile->current->data + indent_len,
-				fill - strnlenpt(openfile->current->data, indent_len), FALSE);
+			break_pos = break_line(openfile->current->data + lead_len,
+					fill - strnlenpt(openfile->current->data, lead_len), FALSE);
 
 			/* We can't break the line, or don't need to, so get out. */
-			if (break_pos == -1 || break_pos + indent_len == line_len)
+			if (break_pos == -1 || break_pos + lead_len == line_len)
 				break;
 
 			/* Move forward to the character after the indentation and
 			 * just after the space. */
-			break_pos += indent_len + 1;
+			break_pos += lead_len + 1;
 
 			/* Insert a new line after the current one. */
 			splice_node(openfile->current, make_new_node(openfile->current));
 
 			/* Copy the text after where we're going to break the
 			 * current line to the next line. */
-			openfile->current->next->data = charalloc(indent_len + 1 +
-				line_len - break_pos);
-			strncpy(openfile->current->next->data, indent_string,
-				indent_len);
-			strcpy(openfile->current->next->data + indent_len,
-				openfile->current->data + break_pos);
+			openfile->current->next->data = charalloc(lead_len + 1 +
+													line_len - break_pos);
+			strncpy(openfile->current->next->data, lead_string, lead_len);
+			strcpy(openfile->current->next->data + lead_len,
+									openfile->current->data + break_pos);
 
-			openfile->totsize += indent_len + 1;
+			openfile->totsize += lead_len + 1;
 			par_len++;
 
 #ifndef NANO_TINY
@@ -2373,7 +2372,7 @@ void do_justify(bool full_justify)
 			if (openfile->mark == openfile->current &&
 						openfile->mark_x > break_pos) {
 				openfile->mark = openfile->current->next;
-				openfile->mark_x -= break_pos - indent_len;
+				openfile->mark_x -= break_pos - lead_len;
 			}
 #endif
 			/* When requested, snip all trailing blanks. */
@@ -2393,7 +2392,7 @@ void do_justify(bool full_justify)
 			par_len--;
 		}
 
-		free(indent_string);
+		free(lead_string);
 
 		/* Go to the next line, if possible.  If there is no next line,
 		 * move to the end of the current line. */
