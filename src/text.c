@@ -2291,10 +2291,9 @@ void do_justify(bool full_justify)
 		while (par_len > 1) {
 			filestruct *next_line = openfile->current->next;
 			size_t line_len = strlen(openfile->current->data);
-			size_t next_line_len = strlen(openfile->current->next->data);
+			size_t next_line_len = strlen(next_line->data);
 
-			indent_len = quote_len +
-				indent_length(openfile->current->next->data + quote_len);
+			indent_len = quote_len + indent_length(next_line->data + quote_len);
 
 			next_line_len -= indent_len;
 			openfile->totsize -= indent_len;
