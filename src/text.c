@@ -2295,22 +2295,18 @@ void do_justify(bool full_justify)
 
 			lead_len = quote_len + indent_length(next_line->data + quote_len);
 
-			next_line_len -= lead_len;
-			openfile->totsize -= lead_len;
-
 			/* We're just about to tack the next line onto this one.  If
 			 * this line isn't empty, make sure it ends in a space. */
 			if (line_len > 0 && openfile->current->data[line_len - 1] != ' ') {
-				line_len++;
 				openfile->current->data =
-						charealloc(openfile->current->data, line_len + 1);
-				openfile->current->data[line_len - 1] = ' ';
+							charealloc(openfile->current->data, line_len + 2);
+				openfile->current->data[line_len++] = ' ';
 				openfile->current->data[line_len] = '\0';
 				openfile->totsize++;
 			}
 
 			openfile->current->data = charealloc(openfile->current->data,
-						line_len + next_line_len + 1);
+									line_len + next_line_len - lead_len + 1);
 			strcat(openfile->current->data, next_line->data + lead_len);
 
 #ifndef NANO_TINY
@@ -2325,7 +2321,7 @@ void do_justify(bool full_justify)
 				openfile->edittop = openfile->current;
 
 			unlink_node(next_line);
-			openfile->totsize--;
+			openfile->totsize -= lead_len + 1;
 			par_len--;
 		}
 
