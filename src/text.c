@@ -2219,8 +2219,6 @@ void do_justify(bool full_justify)
 		openfile->current = openfile->fileage;
 
 	while (TRUE) {
-		size_t i;
-			/* Generic loop variable. */
 		filestruct *firstline;
 			/* The first line of the current paragraph. */
 		filestruct *sampleline;
@@ -2290,7 +2288,7 @@ void do_justify(bool full_justify)
 
 		/* Now tack all the lines of the paragraph together, skipping
 		 * the quoting and indentation on all lines after the first. */
-		for (i = 0; i < par_len - 1; i++) {
+		while (par_len > 1) {
 			filestruct *next_line = openfile->current->next;
 			size_t line_len = strlen(openfile->current->data);
 			size_t next_line_len = strlen(openfile->current->next->data);
@@ -2328,11 +2326,6 @@ void do_justify(bool full_justify)
 				openfile->edittop = openfile->current;
 
 			unlink_node(next_line);
-
-			/* If we've removed the next line, we need to go through
-			 * this line again. */
-			i--;
-
 			openfile->totsize--;
 			par_len--;
 		}
