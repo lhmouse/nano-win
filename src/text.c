@@ -699,7 +699,7 @@ void do_undo(void)
 	openfile->current_x = u->begin;
 	switch (u->type) {
 	case ADD:
-		/* TRANSLATORS: The next twelve strings describe actions
+		/* TRANSLATORS: The next thirteen strings describe actions
 		 * that are undone or redone.  It are all nouns, not verbs. */
 		undidmsg = _("text add");
 		if (u->xflags == WAS_FINAL_LINE && !ISSET(NO_NEWLINES))
