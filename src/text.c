@@ -700,7 +700,7 @@ void do_undo(void)
 	switch (u->type) {
 	case ADD:
 		/* TRANSLATORS: The next thirteen strings describe actions
-		 * that are undone or redone.  It are all nouns, not verbs. */
+		 * that are undone or redone.  They are all nouns, not verbs. */
 		undidmsg = _("text add");
 		if (u->xflags == WAS_FINAL_LINE && !ISSET(NO_NEWLINES))
 			remove_magicline();
