@@ -2342,21 +2342,21 @@ void do_justify(bool full_justify)
 			break_pos = break_line(openfile->current->data + lead_len,
 					fill - strnlenpt(openfile->current->data, lead_len), FALSE);
 
-			/* We can't break the line, or don't need to, so get out. */
+			/* If we can't break the line, or don't need to, we're done. */
 			if (break_pos == -1 || break_pos + lead_len == line_len)
 				break;
 
-			/* Move forward to the character after the indentation and
-			 * just after the space. */
+			/* Adjust the breaking position for the leading part and
+			 * move it beyond the found whitespace character. */
 			break_pos += lead_len + 1;
 
-			/* Insert a new line after the current one. */
+			/* Insert a new line after the current one and allocate it. */
 			splice_node(openfile->current, make_new_node(openfile->current));
-
-			/* Copy the text after where we're going to break the
-			 * current line to the next line. */
 			openfile->current->next->data = charalloc(lead_len + 1 +
 													line_len - break_pos);
+
+			/* Copy the leading part and the text after the breaking point
+			 * into the next line. */
 			strncpy(openfile->current->next->data, lead_string, lead_len);
 			strcpy(openfile->current->next->data + lead_len,
 									openfile->current->data + break_pos);
@@ -2365,7 +2365,7 @@ void do_justify(bool full_justify)
 			par_len++;
 
 #ifndef NANO_TINY
-			/* Adjust the mark coordinates to compensate for the change
+			/* If needed, compensate the mark coordinates for the change
 			 * in the current line. */
 			if (openfile->mark == openfile->current &&
 						openfile->mark_x > break_pos) {
