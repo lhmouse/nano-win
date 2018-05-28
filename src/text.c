@@ -1032,12 +1032,13 @@ void do_enter(void)
 	bool allblanks = FALSE;
 
 	if (ISSET(AUTOINDENT)) {
+#ifdef ENABLE_JUSTIFY
 		/* If the next line is in this same paragraph, use its indentation
 		 * as the model, as it is more likely to be what the user wants. */
 		if (openfile->current->next && inpar(openfile->current->next) &&
 								!begpar(openfile->current->next, 0))
 			sampleline = openfile->current->next;
-
+#endif
 		extra = indent_length(sampleline->data);
 
 		/* If we are breaking the line in the indentation, limit the new
@@ -1047,7 +1048,7 @@ void do_enter(void)
 		else if (extra == openfile->current_x)
 			allblanks = TRUE;
 	}
-#endif
+#endif /* NANO_TINY */
 	newnode->data = charalloc(strlen(openfile->current->data +
 										openfile->current_x) + extra + 1);
 	strcpy(&newnode->data[extra], openfile->current->data +
