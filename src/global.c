@@ -1342,7 +1342,9 @@ void shortcut_init(void)
 	/* Only when not in restricted mode, allow multiple buffers. */
 	if (!ISSET(RESTRICTED)) {
 		add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, flip_newbuffer, 0);
+#ifndef NANO_TINY
 		add_to_sclist(MEXTCMD, "M-\\", 0, flip_pipe, 0);
+#endif
 	}
 #endif
 #ifdef ENABLE_BROWSER
