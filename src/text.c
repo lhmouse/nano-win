@@ -1035,9 +1035,9 @@ void do_enter(void)
 #ifdef ENABLE_JUSTIFY
 		/* If the next line is in this same paragraph, use its indentation
 		 * as the model, as it is more likely to be what the user wants. */
-		if (openfile->current->next && inpar(openfile->current->next) &&
-								!begpar(openfile->current->next, 0))
-			sampleline = openfile->current->next;
+		if (sampleline->next && inpar(sampleline->next) &&
+								!begpar(sampleline->next, 0))
+			sampleline = sampleline->next;
 #endif
 		extra = indent_length(sampleline->data);
 
