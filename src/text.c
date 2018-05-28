@@ -1026,9 +1026,9 @@ void do_redo(void)
 void do_enter(void)
 {
 	filestruct *newnode = make_new_node(openfile->current);
-	filestruct *sampleline = openfile->current;
 	size_t extra = 0;
 #ifndef NANO_TINY
+	filestruct *sampleline = openfile->current;
 	bool allblanks = FALSE;
 
 	if (ISSET(AUTOINDENT)) {
