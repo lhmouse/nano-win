@@ -529,8 +529,6 @@ void shortcut_init(void)
 		N_("Write the current buffer (or the marked region) to disk");
 	const char *readfile_gist =
 		N_("Insert another file into current buffer (or into new buffer)");
-	const char *pipe_gist =
-		N_("Pipe the current buffer (or marked region) to the command");
 	const char *whereis_gist =
 		N_("Search forward for a string or a regular expression");
 	const char *wherewas_gist =
@@ -657,6 +655,8 @@ void shortcut_init(void)
 	const char *prepend_gist = N_("Toggle prepending");
 	const char *backup_gist = N_("Toggle backing up of the original file");
 	const char *execute_gist = N_("Execute external command");
+	const char *pipe_gist =
+		N_("Pipe the current buffer (or marked region) to the command");
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	const char *newbuffer_gist = N_("Toggle the use of a new buffer");
