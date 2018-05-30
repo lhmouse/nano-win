@@ -355,7 +355,7 @@ The default value is @t{-8}.  This option conflicts with @option{-w}
 @itemx --speller=@var{program}
 Use the given program to do spell checking and correcting.  By default,
 @command{nano} uses the command specified in the @env{SPELL} environment
-variable for this.  If @env{SPELL} is not set, and @option{--speller} is
+variable.  If @env{SPELL} is not set, and @option{--speller} is
 not specified either, then @command{nano} uses its own interactive spell
 corrector, which requires the GNU @command{spell} program to be installed.
 
@@ -989,12 +989,12 @@ file, to determine whether this syntax should be used for it.
 on the system and will be silently ignored otherwise.)
 
 @item linter @var{program} [@var{arg} @dots{}]
-Use the given @var{program} to do a syntax check on the current file.
+Use the given @var{program} to do a syntax check on the current buffer.
 (This overrides the speller function.)
 
 @item formatter @var{program} [@var{arg} @dots{}]
-Use the given @var{program} to automatically reformat text ---
-useful for a programming language like Go.
+Use the given @var{program} to automatically reformat the text in
+the current buffer --- useful for a programming language like Go.
 (This overrides the speller and linter functions.)
 
 @item comment "@var{string}"
@@ -1161,8 +1161,8 @@ Shows the current cursor position: the line, column, and character positions.
 Counts the number of words, lines and characters in the current buffer.
 
 @item speller
-Invokes a spell-checking program (or a linting program, if the current
-syntax highlighting defines one).
+Invokes a spell-checking program (or linting program, or formatter program,
+if the active syntax defines such a thing).
 
 @item justify
 Justifies the current paragraph.  A paragraph is a group of contiguous lines
