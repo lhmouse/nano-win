@@ -517,7 +517,10 @@ syntax highlighting defines one).
 A synonym of \fBspeller\fR (for when the speller has not been configured).
 .TP
 .B justify
-Justifies the current paragraph.
+Justifies the current paragraph.  A paragraph is a group of contiguous lines
+that, apart from possibly the first line, all have the same indentation.  The
+beginning of a paragraph is detected by either this lone line with a differing
+indentation or by a preceding blank line.
 .TP
 .B fulljustify
 Justifies the entire current buffer.

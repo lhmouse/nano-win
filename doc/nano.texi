@@ -1165,7 +1165,10 @@ Invokes a spell-checking program (or a linting program, if the current
 syntax highlighting defines one).
 
 @item justify
-Justifies the current paragraph.
+Justifies the current paragraph.  A paragraph is a group of contiguous lines
+that, apart from possibly the first line, all have the same indentation.  The
+beginning of a paragraph is detected by either this lone line with a differing
+indentation or by a preceding blank line.
 
 @item fulljustify
 Justifies the entire current buffer.
@@ -1483,7 +1486,7 @@ find the desired file.
 
 Basic movement in the file browser is accomplished with the arrow and
 other cursor-movement keys.  More targeted movement is accomplished by
-searching, via @kbd{^W} or @kbd{w'}, or by changing directory, via
+searching, via @kbd{^W} or @kbd{w}, or by changing directory, via
 @kbd{^_} or @kbd{g}.  The behavior of the @kbd{Enter} key (or @kbd{s})
 varies by what is currently selected.
 If the currently selected object is a directory, the file browser will
