@@ -298,8 +298,9 @@ Show a summary of command-line options and exit.
 
 @item -i
 @itemx --autoindent
-Automatically indent new lines to the same number of spaces and tabs as
-the previous line.
+Automatically indent a newly created line to the same number of tabs
+and/or spaces as the previous line (or as the next line if the previous
+line is the beginning of a paragraph).
 
 @item -k
 @itemx --cutfromcursor
@@ -705,7 +706,9 @@ When soft line wrapping is enabled, make it wrap lines at blank characters
 (tabs and spaces) instead of always at the edge of the screen.
 
 @item set autoindent
-Use auto-indentation.
+Automatically indent a newly created line to the same number of tabs
+and/or spaces as the previous line (or as the next line if the previous
+line is the beginning of a paragraph).
 
 @item set backup
 When saving a file, back up the previous version of it, using the current
@@ -1382,7 +1385,9 @@ Toggles syntax highlighting.
 Toggles the smartness of the Home key.
 
 @item autoindent
-Toggles whether new lines will contain the same amount of whitespace as the preceding line.
+Toggles whether a newly created line will contain the same amount of leading
+whitespace as the preceding line --- or as the next line if the preceding line
+is the beginning of a paragraph.
 
 @item cutfromcursor
 Toggles whether cutting text will cut the whole line or just from the current cursor

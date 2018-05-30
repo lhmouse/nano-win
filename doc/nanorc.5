@@ -66,7 +66,9 @@ When soft line wrapping is enabled, make it wrap lines at blank characters
 (tabs and spaces) instead of always at the edge of the screen.
 .TP
 .B set autoindent
-Use auto-indentation.
+Automatically indent a newly created line to the same number of tabs
+and/or spaces as the previous line (or as the next line if the previous
+line is the beginning of a paragraph).
 .TP
 .B set backup
 When saving a file, create a backup file by adding a tilde (\fB~\fP) to
@@ -735,7 +737,9 @@ Toggles syntax highlighting.
 Toggles the smartness of the Home key.
 .TP
 .B autoindent
-Toggles whether new lines will contain the same amount of whitespace as the preceding line.
+Toggles whether a newly created line will contain the same amount of leading
+whitespace as the preceding line -- or as the next line if the preceding line
+is the beginning of a paragraph.
 .TP
 .B cutfromcursor
 Toggles whether cutting text will cut the whole line or just from the current cursor

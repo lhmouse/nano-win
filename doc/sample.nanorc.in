@@ -23,7 +23,9 @@
 ## (tabs and spaces) instead of always at the edge of the screen.
 # set atblanks
 
-## Use auto-indentation.
+## Automatically indent a newly created line to the same number of
+## tabs and/or spaces as the preceding line -- or as the next line
+## if the preceding line is the beginning of a paragraph.
 # set autoindent
 
 ## Back up files to the current filename plus a tilde.
