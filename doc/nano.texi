@@ -594,59 +594,59 @@ The following global toggles are available:
 
 @table @code
 
-@item Backup Files toggle
+@item Backup Files
 @kbd{Meta-B} toggles the @option{-B} (@option{--backup}) command-line option.
 
-@item Constant Cursor Position Display toggle
+@item Constant Cursor Position Display
 @kbd{Meta-C} toggles the @option{-c} (@option{--constantshow}) command-line option.
 
-@item Multiple File Buffers toggle
+@item Multiple File Buffers
 @kbd{Meta-F} toggles the @option{-F} (@option{--multibuffer}) command-line option.
 
-@item Smart Home Key toggle
+@item Smart Home Key
 @kbd{Meta-H} toggles the @option{-A} (@option{--smarthome}) command-line option.
 
-@item Auto Indent toggle
+@item Auto Indent
 @kbd{Meta-I} toggles the @option{-i} (@option{--autoindent}) command-line option.
 
-@item Cut From Cursor To End-of-Line toggle
+@item Cut From Cursor To End-of-Line
 @kbd{Meta-K} toggles the @option{-k} (@option{--cutfromcursor}) command-line option.
 
-@item Long-Line Wrapping toggle
+@item Long-Line Wrapping
 @kbd{Meta-L} toggles the @option{-w} (@option{--nowrap}) command-line option.
 
-@item Mouse Support toggle
+@item Mouse Support
 @kbd{Meta-M} toggles the @option{-m} (@option{--mouse}) command-line option.
 
-@item No Conversion From DOS/Mac Format toggle
+@item No Conversion From DOS/Mac Format
 @kbd{Meta-N} toggles the @option{-N} (@option{--noconvert}) command-line option.
 
-@item More Space For Editing toggle
+@item More Space For Editing
 @kbd{Meta-O} toggles the @option{-O} (@option{--morespace}) command-line option.
 
-@item Whitespace Display toggle
-@kbd{Meta-P} toggles the whitespace-display mode (@pxref{Whitespace}).
+@item Whitespace Display
+@kbd{Meta-P} toggles the displaying of whitespace (@pxref{Whitespace}).
 
-@item Tabs To Spaces toggle
+@item Tabs To Spaces
 @kbd{Meta-Q} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
-@item Smooth Scrolling toggle
+@item Smooth Scrolling
 @kbd{Meta-S} toggles the @option{-S} (@option{--smooth}) command-line option.
 
-@item Expert/No Help toggle
+@item Expert/No Help
 @kbd{Meta-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
 
-@item Color Syntax Highlighting toggle
+@item Color Syntax Highlighting
 @kbd{Meta-Y} toggles color syntax highlighting (if your nanorc defines syntaxes
 --- @pxref{Syntax Highlighting}).
 
-@item Suspension toggle
+@item Suspension
 @kbd{Meta-Z} toggles the @option{-z} (@option{--suspend}) command-line option.
 
-@item Line Numbers toggle
+@item Line Numbers
 @kbd{Meta-#} toggles the @option{-l} (@option{--linenumbers}) command-line option.
 
-@item Soft Wrapping toggle
+@item Soft Wrapping
 @kbd{Meta-$} toggles the @option{-$} (@option{--softwrap}) command-line option.
 
 @end table
