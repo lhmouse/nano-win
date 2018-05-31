@@ -1977,11 +1977,11 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			openfile->modified = FALSE;
 			titlebar(NULL);
 		}
-
-		statusline(HUSH, P_("Wrote %zu line", "Wrote %zu lines",
-						lineswritten), lineswritten);
 	}
 
+	if (!tmp)
+		statusline(HUSH, P_("Wrote %zu line", "Wrote %zu lines",
+						lineswritten), lineswritten);
 	retval = TRUE;
 
   cleanup_and_exit:
