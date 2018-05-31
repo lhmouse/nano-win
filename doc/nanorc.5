@@ -311,7 +311,7 @@ good fit for a small editor like \fBnano\fR.
 For each kind of file a separate syntax can be defined
 via the following commands:
 .TP
-.BR syntax " \fIname\fR [""\fIfileregex\fR"" ...]"
+.BI syntax " name \fR[" """" fileregex """ " \fR...]
 Start the definition of a syntax with this \fIname\fR.
 All subsequent \fBcolor\fR and other such commands
 will be added to this syntax, until a new \fBsyntax\fR
@@ -328,12 +328,12 @@ and applies to files that don't match any syntax's regexes.
 The syntax \fBnone\fP is reserved; specifying it on the command line
 is the same as not having a syntax at all.
 .TP
-.BR header " ""\fIregex\fR"" " ...
+.BI "header """ regex """ \fR...
 If from all defined syntaxes no \fIfileregex\fR matched, then compare
 this \fIregex\fR (or regexes) against the first line of the current file,
 to determine whether this syntax should be used for it.
 .TP
-.BR magic " ""\fIregex\fR"" " ...
+.BI "magic """ regex """ \fR...
 If no \fIfileregex\fR matched and no \fBheader\fR regex matched
 either, then compare this \fIregex\fR (or regexes) against the
 result of querying the \fBmagic\fP database about the current
@@ -350,8 +350,8 @@ Use the given \fIprogram\fR to automatically reformat the text in
 the current buffer -- useful in a programming language like Go.
 (This overrides the speller and linter functions.)
 .TP
-.BR comment " ""\fIstring\fR"""
-Use the given string for commenting and uncommenting lines.
+.BI "comment """ string """
+Use the given \fIstring\fR for commenting and uncommenting lines.
 If the string contains a vertical bar or pipe character (\fB|\fR),
 this designates bracket-style comments; for example, "\fB/*|*/\fR" for
 CSS files.  The characters before the pipe are prepended to the line and the
@@ -361,7 +361,7 @@ for Python files.  If empty double quotes are specified, the comment/uncomment
 function is disabled; for example, "" for JSON.
 The default value is "\fB#\fP".
 .TP
-.B color \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
+.BI "color " fgcolor , bgcolor " """ regex """ " \fR...
 Display all pieces of text that match
 the extended regular expression \fIregex\fP with foreground color
 \fIfgcolor\fP and background color \fIbgcolor\fP, at least one of which
@@ -372,10 +372,10 @@ foreground.  If your terminal supports transparency, not specifying a
 \fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent
 background.
 .TP
-.B icolor \fIfgcolor\fR,\fIbgcolor\fR """\fIregex\fR""" ...
+.BI "icolor " fgcolor , bgcolor " """ regex """ " \fR...
 Same as above, except that the matching is case insensitive.
 .TP
-.BR color " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIfromrx\fR"" " end= """\fItorx\fR""
+.BI "color " fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
 Display all pieces of text whose start matches extended regular expression
 \fIfromrx\fP and whose end matches extended regular expression \fItorx\fP with
 foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
@@ -384,10 +384,10 @@ initial instance of \fIfromrx\fP, all text until the first instance of
 \fItorx\fP will be colored.  This allows syntax highlighting to span
 multiple lines.
 .TP
-.BR icolor " \fIfgcolor\fR,\fIbgcolor\fR " start= """\fIfromrx\fR"" " end= """\fItorx\fR""
+.BI "icolor " fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
 Same as above, except that the matching is case insensitive.
 .TP
-.BR include " ""\fIsyntaxfile\fR"""
+.BI "include """ syntaxfile """
 Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
 \fIsyntaxfile\fP may contain only the above commands, from \fBsyntax\fP
 to \fBicolor\fP.
