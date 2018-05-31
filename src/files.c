@@ -1933,16 +1933,16 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		goto cleanup_and_exit;
 	}
 
-	if (method == OVERWRITE && !tmp) {
-		/* If we must set the filename, and it changed, adjust things. */
-		if (fullbuffer && strcmp(openfile->filename, realname) != 0) {
+	/* When having written an entire buffer, update some administrivia. */
+	if (fullbuffer && method == OVERWRITE && !tmp) {
+		/* If the filename was changed, check if this means a new syntax. */
+		if (strcmp(openfile->filename, realname) != 0) {
 #ifdef ENABLE_COLOR
 			const char *oldname, *newname;
 
 			oldname = openfile->syntax ? openfile->syntax->name : "";
 #endif
 			openfile->filename = mallocstrcpy(openfile->filename, realname);
-
 #ifdef ENABLE_COLOR
 			/* See if the applicable syntax has changed. */
 			color_update();
@@ -1959,29 +1959,27 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 					line->multidata = NULL;
 					line = line->next;
 				}
+
 				precalc_multicolorinfo();
 				refresh_needed = TRUE;
 			}
 #endif
 		}
-
-		if (fullbuffer) {
 #ifndef NANO_TINY
-			/* Get or update the stat info to reflect the current state. */
-			stat_with_alloc(realname, &openfile->current_stat);
+		/* Get or update the stat info to reflect the current state. */
+		stat_with_alloc(realname, &openfile->current_stat);
 
-			/* Record at which point in the undo stack the file was saved. */
-			openfile->last_saved = openfile->current_undo;
-			openfile->last_action = OTHER;
+		/* Record at which point in the undo stack the file was saved. */
+		openfile->last_saved = openfile->current_undo;
+		openfile->last_action = OTHER;
 #endif
-			openfile->modified = FALSE;
-			titlebar(NULL);
-		}
+		openfile->modified = FALSE;
+		titlebar(NULL);
 	}
 
 	if (!tmp)
 		statusline(HUSH, P_("Wrote %zu line", "Wrote %zu lines",
-						lineswritten), lineswritten);
+								lineswritten), lineswritten);
 	retval = TRUE;
 
   cleanup_and_exit:
