@@ -311,7 +311,7 @@ good fit for a small editor like \fBnano\fR.
 For each kind of file a separate syntax can be defined
 via the following commands:
 .TP
-.BR syntax " ""\fIname\fR"" [""\fIfileregex\fR"" ...]"
+.BR syntax " \fIname\fR [""\fIfileregex\fR"" ...]"
 Start the definition of a syntax with this \fIname\fR.
 All subsequent \fBcolor\fR and other such commands
 will be added to this syntax, until a new \fBsyntax\fR
@@ -323,9 +323,9 @@ expression \fIfileregex\fR.  Or the syntax can be explicitly
 activated by using the \fB-Y\fR or \fB\-\-syntax\fR
 command-line option followed by the \fIname\fR.
 
-The syntax "\fBdefault\fP" is special: it takes no \fIfileregex\fR,
+The syntax \fBdefault\fP is special: it takes no \fIfileregex\fR,
 and applies to files that don't match any syntax's regexes.
-The syntax "\fBnone\fP" is reserved; specifying it on the command line
+The syntax \fBnone\fP is reserved; specifying it on the command line
 is the same as not having a syntax at all.
 .TP
 .BR header " ""\fIregex\fR"" " ...

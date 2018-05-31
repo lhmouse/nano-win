@@ -958,7 +958,7 @@ via the following commands in a nanorc file:
 
 @table @code
 
-@item syntax "@var{name}" ["@var{fileregex}" @dots{}]
+@item syntax @var{name} ["@var{fileregex}" @dots{}]
 Start the definition of a syntax with this @var{name}.
 All subsequent @code{color} and other such commands
 will be added to this syntax, until a new @code{syntax}
