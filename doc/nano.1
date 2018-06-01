@@ -125,7 +125,7 @@ and place it at that position again upon reopening such a file.
 .BR "\-Q ""\fIregex\fB""" ", " "\-\-quotestr=""" \fIregex """
 Set the regular expression for matching the quoting part of a line.
 This is used when justifying.
-The default value is \fB"^([\ \\t]*[#/:>|}])+"\fP.
+The default value is \fB"^([\ \\t]*([#:>|}]|//))+"\fP.
 Note that \fB\\t\fP stands for an actual Tab.
 .TP
 .BR \-R ", " \-\-restricted
