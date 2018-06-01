@@ -735,7 +735,7 @@ Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see @code{set punct}), optionally followed by the specified
 closing brackets, can end sentences.  The default value is
-@t{"')>]@}"}.
+@t{""')>]@}"}.
 
 @item set casesensitive
 Do case-sensitive searches by default.

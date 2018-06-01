@@ -37,10 +37,9 @@
 ## Use bold text instead of reverse video text.
 # set boldtext
 
-## The characters treated as closing brackets when justifying
-## paragraphs.  They cannot contain blank characters.  Only closing
-## punctuation, optionally followed by closing brackets, can end
-## sentences.
+## The characters treated as closing brackets when justifying paragraphs.
+## This may not include any blank characters.  Only closing punctuation,
+## optionally followed by these closing brackets, can end sentences.
 # set brackets ""')>]}"
 
 ## Do case-sensitive searches by default.
