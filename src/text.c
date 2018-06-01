@@ -1034,16 +1034,15 @@ void do_enter(void)
 
 	if (ISSET(AUTOINDENT)) {
 #ifdef ENABLE_JUSTIFY
-		/* If the next line is in this same paragraph, use its indentation
-		 * as the model, as it is more likely to be what the user wants. */
+		/* When doing automatic long-line wrapping and the next line is
+		 * in this same paragraph, use its indentation as the model. */
 		if (!ISSET(NO_WRAP) && sampleline->next != NULL &&
 					inpar(sampleline->next) && !begpar(sampleline->next, 0))
 			sampleline = sampleline->next;
 #endif
 		extra = indent_length(sampleline->data);
 
-		/* If we are breaking the line in the indentation, limit the new
-		 * indentation to the current x position. */
+		/* When breaking in the indentation, limit the automatic one. */
 		if (extra > openfile->current_x)
 			extra = openfile->current_x;
 		else if (extra == openfile->current_x)
@@ -1079,9 +1078,11 @@ void do_enter(void)
 	}
 #endif
 
+	/* Insert the newly created line after the current one and renumber. */
 	splice_node(openfile->current, newnode);
 	renumber(newnode);
 
+	/* Put the cursor on the new line, after any automatic whitespace. */
 	openfile->current = newnode;
 	openfile->current_x = extra;
 	openfile->placewewant = xplustabs();
@@ -1123,7 +1124,7 @@ void send_data(const filestruct *line, int fd)
 	fclose(tube);
 }
 
-/* Execute command in a shell.  Return TRUE on success. */
+/* Execute the given command in a shell.  Return TRUE on success. */
 bool execute_command(const char *command)
 {
 	int from_fd[2], to_fd[2];
@@ -1295,7 +1296,7 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 		thefile->last_saved = (undo *)0xbeeb;
 }
 
-/* Add a new undo struct to the top of the current pile. */
+/* Add a new undo struct of the given type to the top of the current pile. */
 void add_undo(undo_type action)
 {
 	undo *u = openfile->current_undo;
@@ -1315,23 +1316,9 @@ void add_undo(undo_type action)
 	fprintf(stderr, "  >> Adding an undo... action = %d\n", action);
 #endif
 
-	/* Allocate and initialize a new undo type. */
+	/* Allocate and initialize a new undo item. */
 	u = (undo *) nmalloc(sizeof(undo));
 	u->type = action;
-#ifdef ENABLE_WRAPPING
-	if (u->type == SPLIT_BEGIN) {
-		/* Some action, most likely an ADD, was performed that invoked
-		 * do_wrap().  Rearrange the undo order so that this previous
-		 * action is after the SPLIT_BEGIN undo. */
-		u->next = openfile->undotop->next;
-		openfile->undotop->next = u;
-	} else
-#endif
-	{
-		u->next = openfile->undotop;
-		openfile->undotop = u;
-		openfile->current_undo = u;
-	}
 	u->strdata = NULL;
 	u->cutbuffer = NULL;
 	u->cutbottom = NULL;
@@ -1343,9 +1330,23 @@ void add_undo(undo_type action)
 	u->xflags = 0;
 	u->grouping = NULL;
 
+#ifdef ENABLE_WRAPPING
+	/* If some action caused automatic long-line wrapping, insert the
+	 * SPLIT_BEGIN item underneath that action's undo item.  Otherwise,
+	 * just add the new item to the top of the undo stack. */
+	if (u->type == SPLIT_BEGIN) {
+		u->next = openfile->undotop->next;
+		openfile->undotop->next = u;
+	} else
+#endif
+	{
+		u->next = openfile->undotop;
+		openfile->undotop = u;
+		openfile->current_undo = u;
+	}
+
+	/* Record the info needed to be able to undo each possible action. */
 	switch (u->type) {
-	/* We need to start copying data into the undo buffer
-	 * or we won't be able to restore it later. */
 	case ADD:
 		/* If a new magic line will be added, an undo should remove it. */
 		if (openfile->current == openfile->filebot)
@@ -1361,6 +1362,8 @@ void add_undo(undo_type action)
 						openfile->current->data[0] != '\0')
 			u->xflags = WAS_FINAL_BACKSPACE;
 	case DEL:
+		/* When not at the end of a line, store the deleted character,
+		 * else purposely fall into the line-joining code. */
 		if (openfile->current->data[openfile->current_x] != '\0') {
 			char *char_buf = charalloc(MAXCHARLEN + 1);
 			int char_len = parse_mbchar(&openfile->current->data[u->begin],
@@ -1371,7 +1374,6 @@ void add_undo(undo_type action)
 				u->mark_begin_x += char_len;
 			break;
 		}
-		/* Else purposely fall into the line-joining code. */
 	case JOIN:
 		if (openfile->current->next) {
 			if (u->type == BACK) {
