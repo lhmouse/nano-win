@@ -764,7 +764,6 @@ void do_undo(void)
 	case SPLIT_END:
 		goto_line_posx(u->lineno, u->begin);
 		openfile->current_undo = openfile->current_undo->next;
-		openfile->last_action = OTHER;
 		while (openfile->current_undo->type != SPLIT_BEGIN)
 			do_undo();
 		u = openfile->current_undo;
@@ -939,7 +938,6 @@ void do_redo(void)
 	case SPLIT_BEGIN:
 		goto_line_posx(u->lineno, u->begin);
 		openfile->current_undo = u;
-		openfile->last_action = OTHER;
 		while (openfile->current_undo->type != SPLIT_END)
 			do_redo();
 		u = openfile->current_undo;
