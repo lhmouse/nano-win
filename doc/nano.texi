@@ -198,7 +198,7 @@ won't work properly with this option enabled.
 
 @item -L
 @itemx --nonewlines
-Don't add newlines to the ends of files.
+Don't automatically add a newline when a file does not end with one.
 
 @item -M
 @itemx --trimblanks
@@ -806,12 +806,12 @@ Don't convert files from DOS/Mac format.
 @item set nohelp
 Don't display the help lists at the bottom of the screen.
 
+@item set nonewlines
+When a file does not end with a newline, don't automatically add one.
+
 @item set nopauses
 Don't pause between warnings at startup.  This means that only
 the last one will be visible (when there are multiple ones).
-
-@item set nonewlines
-Don't add newlines to the ends of files.
 
 @item set nowrap
 Don't hard-wrap text at all.  This option conflicts with
