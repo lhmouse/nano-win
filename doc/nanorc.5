@@ -494,9 +494,6 @@ Copies the current line (or the marked region) without deleting it.
 Copies the currently stored text into the current buffer at the
 current cursor position.
 .TP
-.B mark
-Sets the mark at the current position, to start selecting text.
-.TP
 .B cutwordleft
 Cuts from the cursor position to the beginning of the preceding word.
 .TP
@@ -505,6 +502,10 @@ Cuts from the cursor position to the beginning of the next word.
 .TP
 .B cutrestoffile
 Cuts all text from the cursor position till the end of the buffer.
+.TP
+.B mark
+Sets the mark at the current position, to start selecting text.
+Or, when it is set, unsets the mark.
 .TP
 .B curpos
 Shows the current cursor position: the line, column, and character positions.
