@@ -1498,12 +1498,14 @@ sc *strtosc(const char *input)
 		s->func = do_replace;
 	else if (!strcasecmp(input, "cut"))
 		s->func = do_cut_text_void;
-	else if (!strcasecmp(input, "uncut"))
+	else if (!strcasecmp(input, "paste") ||
+			 !strcasecmp(input, "uncut"))  /* Deprecated.  Remove end of 2018. */
 		s->func = do_uncut_text;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "cutrestoffile"))
 		s->func = do_cut_till_eof;
-	else if (!strcasecmp(input, "copytext"))
+	else if (!strcasecmp(input, "copy") ||
+			 !strcasecmp(input, "copytext"))  /* Deprecated.  Remove end of 2018. */
 		s->func = do_copy_text;
 	else if (!strcasecmp(input, "mark"))
 		s->func = do_mark;
