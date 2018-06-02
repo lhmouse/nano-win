@@ -693,10 +693,6 @@ void do_undo(void)
 			return;
 	}
 
-#ifdef DEBUG
-	fprintf(stderr, "  >> Undoing a type %d...\n", u->type);
-#endif
-
 	openfile->current_x = u->begin;
 	switch (u->type) {
 	case ADD:
@@ -877,10 +873,6 @@ void do_redo(void)
 		if (f == NULL)
 			return;
 	}
-
-#ifdef DEBUG
-	fprintf(stderr, "  >> Redoing a type %d...\n", u->type);
-#endif
 
 	switch (u->type) {
 	case ADD:
@@ -1302,19 +1294,16 @@ void add_undo(undo_type action)
 	undo *u = openfile->current_undo;
 		/* The thing we did previously. */
 
-	/* When doing contiguous adds or contiguous cuts -- which means: with
-	 * no cursor movement in between -- don't add a new undo item. */
-	if (u && u->mark_begin_lineno == openfile->current->lineno && action == openfile->last_action &&
-		((action == ADD && u->type == ADD && u->mark_begin_x == openfile->current_x) ||
-		(action == CUT && u->type == CUT && u->xflags < MARK_WAS_SET && keeping_cutbuffer())))
+	/* When doing contiguous adds or cuts, don't add a new undo item. */
+	if (u != NULL && action == openfile->last_action && action == u->type &&
+					openfile->current->lineno == u->mark_begin_lineno &&
+					((action == ADD && u->mark_begin_x == openfile->current_x) ||
+					(action == CUT && u->xflags < MARK_WAS_SET &&
+					keeping_cutbuffer())))
 		return;
 
 	/* Blow away newer undo items if we add somewhere in the middle. */
 	discard_until(u, openfile, TRUE);
-
-#ifdef DEBUG
-	fprintf(stderr, "  >> Adding an undo... action = %d\n", action);
-#endif
 
 	/* Allocate and initialize a new undo item. */
 	u = (undo *) nmalloc(sizeof(undo));
@@ -1472,10 +1461,6 @@ void update_undo(undo_type action)
 	undo *u = openfile->undotop;
 	char *char_buf;
 	int char_len;
-
-#ifdef DEBUG
-fprintf(stderr, "  >> Updating an undo... action = %d\n", action);
-#endif
 
 	/* If the action is different or the position changed, don't update the
 	 * current record but add a new one instead. */
