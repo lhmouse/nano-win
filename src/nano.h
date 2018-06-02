@@ -622,7 +622,6 @@ enum
 #define WAS_FINAL_BACKSPACE   (1<<1)
 #define WAS_WHOLE_LINE        (1<<2)
 #define WAS_FINAL_LINE        (1<<3)
-/* The flags for the mark need to be the highest. */
 #define MARK_WAS_SET          (1<<4)
 #define WAS_MARKED_FORWARD    (1<<5)
 #endif /* !NANO_TINY */

@@ -1298,8 +1298,7 @@ void add_undo(undo_type action)
 	if (u != NULL && action == openfile->last_action && action == u->type &&
 					openfile->current->lineno == u->mark_begin_lineno &&
 					((action == ADD && u->mark_begin_x == openfile->current_x) ||
-					(action == CUT && u->xflags < MARK_WAS_SET &&
-					keeping_cutbuffer())))
+					(action == CUT && keeping_cutbuffer())))
 		return;
 
 	/* Blow away newer undo items if we add somewhere in the middle. */
