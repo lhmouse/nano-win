@@ -1759,7 +1759,6 @@ int do_input(bool allow_funcs)
 		if (shortcut->func == do_cut_text_void
 #ifndef NANO_TINY
 				|| shortcut->func == do_copy_text
-				|| shortcut->func == do_cut_till_eof
 #endif
 				)
 			retain_cuts = TRUE;

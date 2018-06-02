@@ -125,12 +125,12 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 #endif
 	size_t was_totsize = openfile->totsize;
 
-	/* If a chain of cuts was broken, empty the cutbuffer. */
-	if (!keep_cutbuffer) {
+	/* If cuts were not continuous, or when cutting a region, clear the slate. */
+	if (!keep_cutbuffer || openfile->mark || cut_till_eof) {
 		free_filestruct(cutbuffer);
 		cutbuffer = NULL;
-		/* Indicate that future cuts should add to the cutbuffer. */
-		keep_cutbuffer = TRUE;
+		/* After a line cut, future line cuts should add to the cutbuffer. */
+		keep_cutbuffer = !openfile->mark && !cut_till_eof;
 	}
 
 #ifndef NANO_TINY

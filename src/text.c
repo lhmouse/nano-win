@@ -1395,10 +1395,8 @@ void add_undo(undo_type action)
 		break;
 #endif
 	case CUT_TO_EOF:
-		cutbuffer_reset();
 		break;
 	case CUT:
-		cutbuffer_reset();
 		if (openfile->mark) {
 			u->mark_begin_lineno = openfile->mark->lineno;
 			u->mark_begin_x = openfile->mark_x;
