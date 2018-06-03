@@ -69,9 +69,8 @@ bool is_alpha_mbchar(const char *c)
 	if (use_utf8) {
 		wchar_t wc;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
+		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 			return 0;
-		}
 
 		return iswalpha(wc);
 	} else
@@ -86,9 +85,8 @@ bool is_alnum_mbchar(const char *c)
 	if (use_utf8) {
 		wchar_t wc;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
+		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 			return 0;
-		}
 
 		return iswalnum(wc);
 	} else
@@ -103,9 +101,8 @@ bool is_blank_mbchar(const char *c)
 	if (use_utf8) {
 		wchar_t wc;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
+		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 			return 0;
-		}
 
 		return iswblank(wc);
 	} else
@@ -148,9 +145,8 @@ bool is_punct_mbchar(const char *c)
 	if (use_utf8) {
 		wchar_t wc;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
+		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 			return 0;
-		}
 
 		return iswpunct(wc);
 	} else
@@ -223,9 +219,8 @@ int length_of_char(const char *c, int *width)
 		int charlen = mbtowc(&wc, c, MAXCHARLEN);
 
 		/* If the sequence is invalid... */
-		if (charlen < 0) {
+		if (charlen < 0)
 			return -1;
-		}
 
 		/* If the codepoint is invalid... */
 		if (!is_valid_unicode(wc))
@@ -250,9 +245,8 @@ int mbwidth(const char *c)
 		wchar_t wc;
 		int width;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
+		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 			return 1;
-		}
 
 		width = wcwidth(wc);
 
@@ -419,15 +413,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 		wchar_t wc1, wc2;
 
 		while (*s1 != '\0' && *s2 != '\0' && n > 0) {
-			bool bad1 = FALSE, bad2 = FALSE;
-
-			if (mbtowc(&wc1, s1, MAXCHARLEN) < 0) {
-				bad1 = TRUE;
-			}
-
-			if (mbtowc(&wc2, s2, MAXCHARLEN) < 0) {
-				bad2 = TRUE;
-			}
+			bool bad1 = (mbtowc(&wc1, s1, MAXCHARLEN) < 0);
+			bool bad2 = (mbtowc(&wc2, s2, MAXCHARLEN) < 0);
 
 			if (bad1 || bad2) {
 				if (*s1 != *s2)
