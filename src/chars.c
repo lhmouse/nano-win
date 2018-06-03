@@ -530,15 +530,11 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 		return revstrcasestr(haystack, needle, pointer);
 }
 
-/* This function is equivalent to strlen() for multibyte strings. */
+/* Count the number of (multibyte) characters in the given string. */
 size_t mbstrlen(const char *s)
 {
-	return mbstrnlen(s, (size_t)-1);
-}
+	size_t maxlen = (size_t)-1;
 
-/* This function is equivalent to strnlen() for multibyte strings. */
-size_t mbstrnlen(const char *s, size_t maxlen)
-{
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
 		size_t n = 0;

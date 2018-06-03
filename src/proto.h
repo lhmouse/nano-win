@@ -222,7 +222,6 @@ char *mbstrcasestr(const char *haystack, const char *needle);
 char *revstrstr(const char *haystack, const char *needle, const char *index);
 char *mbrevstrcasestr(const char *haystack, const char *needle, const char *index);
 size_t mbstrlen(const char *s);
-size_t mbstrnlen(const char *s, size_t maxlen);
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 char *mbstrchr(const char *s, const char *c);
 #endif
