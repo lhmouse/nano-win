@@ -62,11 +62,6 @@ bool is_byte(int c)
 	return ((unsigned int)c == (unsigned char)c);
 }
 
-void mbtowc_reset(void)
-{
-	IGNORE_CALL_RESULT(mbtowc(NULL, NULL, 0));
-}
-
 /* This function is equivalent to isalpha() for multibyte characters. */
 bool is_alpha_mbchar(const char *c)
 {
@@ -75,7 +70,6 @@ bool is_alpha_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			mbtowc_reset();
 			return 0;
 		}
 
@@ -93,7 +87,6 @@ bool is_alnum_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			mbtowc_reset();
 			return 0;
 		}
 
@@ -111,7 +104,6 @@ bool is_blank_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			mbtowc_reset();
 			return 0;
 		}
 
@@ -157,7 +149,6 @@ bool is_punct_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			mbtowc_reset();
 			return 0;
 		}
 
@@ -233,7 +224,6 @@ int length_of_char(const char *c, int *width)
 
 		/* If the sequence is invalid... */
 		if (charlen < 0) {
-			mbtowc_reset();
 			return -1;
 		}
 
@@ -261,7 +251,6 @@ int mbwidth(const char *c)
 		int width;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			mbtowc_reset();
 			return 1;
 		}
 
@@ -433,12 +422,10 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 			bool bad1 = FALSE, bad2 = FALSE;
 
 			if (mbtowc(&wc1, s1, MAXCHARLEN) < 0) {
-				mbtowc_reset();
 				bad1 = TRUE;
 			}
 
 			if (mbtowc(&wc2, s2, MAXCHARLEN) < 0) {
-				mbtowc_reset();
 				bad2 = TRUE;
 			}
 
@@ -591,7 +578,6 @@ char *mbstrchr(const char *s, const char *c)
 		wchar_t ws, wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			mbtowc_reset();
 			wc = (unsigned char)*c;
 			bad_c_mb = TRUE;
 		}
@@ -600,7 +586,6 @@ char *mbstrchr(const char *s, const char *c)
 			int sym_len = parse_mbchar(s, symbol, NULL);
 
 			if (mbtowc(&ws, symbol, sym_len) < 0) {
-				mbtowc_reset();
 				ws = (unsigned char)*s;
 				bad_s_mb = TRUE;
 			}
