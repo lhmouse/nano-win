@@ -539,9 +539,13 @@ size_t mbstrlen(const char *s)
 	if (use_utf8) {
 		size_t n = 0;
 
-		for (; *s != '\0' && maxlen > 0; s += move_mbright(s, 0),
-				maxlen--, n++)
-			;
+		while (*s != '\0' && maxlen > 0) {
+			int length = mblen(s, MAXCHARLEN);
+
+			s += (length < 0 ? 1 : length);
+			maxlen--;
+			n++;
+		}
 
 		return n;
 	} else
