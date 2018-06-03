@@ -540,9 +540,13 @@ size_t mbstrlen(const char *s)
 		size_t n = 0;
 
 		while (*s != '\0' && maxlen > 0) {
-			int length = mblen(s, MAXCHARLEN);
+			if ((signed char)*s < 0) {
+				int length = mblen(s, MAXCHARLEN);
 
-			s += (length < 0 ? 1 : length);
+				s += (length < 0 ? 1 : length);
+			} else
+				s++;
+
 			maxlen--;
 			n++;
 		}
