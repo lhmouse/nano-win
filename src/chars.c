@@ -294,14 +294,17 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
-		/* Get the number of bytes in the multibyte character. */
-		int length = mblen(buf, MAXCHARLEN);
+		int length;
 
-		/* When the multibyte sequence is invalid, only take the first byte. */
-		if (length <= 0) {
-			IGNORE_CALL_RESULT(mblen(NULL, 0));
+		/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
+		if ((signed char)*buf < 0) {
+			length = mblen(buf, MAXCHARLEN);
+
+			/* When the multibyte sequence is invalid, only take the first byte. */
+			if (length <= 0)
+				length = 1;
+		} else
 			length = 1;
-		}
 
 		/* When requested, store the multibyte character in chr. */
 		if (chr != NULL) {
@@ -322,7 +325,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 			else if (is_cntrl_mbchar(buf)) {
 				*col += 2;
 			/* If we have a normal character, get its width normally. */
-			} else
+			} else if (length == 1)
+				*col += 1;
+			else
 				*col += mbwidth(buf);
 		}
 
