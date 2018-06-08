@@ -760,8 +760,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	topline = make_new_node(NULL);
 	bottomline = topline;
 
+	/* Lock the file before starting to read it, to avoid the overhead
+	 * of locking it for each single byte that we read from it. */
+	flockfile(f);
+
 	/* Read the entire file into the new buffer. */
-	while ((input_int = getc(f)) != EOF) {
+	while ((input_int = getc_unlocked(f)) != EOF) {
 		input = (char)input_int;
 
 		/* If it's a *nix file ("\n") or a DOS file ("\r\n"), and file
@@ -827,6 +831,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 			buf[len++] = input;
 #endif
 	}
+
+	/* We are done with the file, unlock it. */
+	funlockfile(f);
 
 	/* Perhaps this could use some better handling. */
 	if (ferror(f))
