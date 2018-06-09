@@ -1078,16 +1078,20 @@ The format of @code{key} should be one of:
 
 @itemize @w{}
 @item
-@code{^}@  followed by an ASCII character or the word "Space".
+@code{^}@  followed by a Latin letter, one of several ASCII characters
+(@, ], \, ^, or _), or the word "Space".
 Example: @code{^C}.
 
 @item
-@code{M-}@  followed by a ASCII character or the word "Space".
+@code{M-}@  followed by any ASCII character except [, or the word "Space".
 Example: @code{M-C}.
 
 @item
 @code{F}@  followed by a numeric value from 1 to 16.
 Example: @code{F10}.
+
+@item
+the word "Ins" or the word "Del".
 @end itemize
 
 @sp 1

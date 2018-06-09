@@ -427,16 +427,19 @@ The format of \fIkey\fP should be one of:
 .RS 3
 .TP 3
 .B ^
-followed by an alpha character or the word "Space".
+followed by a Latin letter, one of several ASCII characters
+(@, ], \, ^, or _), or the word "Space".
 Example: ^C
 .TP
 .B M-
-followed by a printable character or the word "Space".
+followed by any ASCII character except [, or the word "Space".
 Example: M-C
 .TP
 .B F
 followed by a numeric value from 1 to 16.
 Example: F10
+.TP
+the word "Ins" or the word "Del".
 .RE
 
 .TP
