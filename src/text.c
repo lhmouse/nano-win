@@ -633,15 +633,15 @@ void handle_comment_action(undo *u, bool undoing, bool add_comment)
 /* Undo a cut, or redo an uncut. */
 void undo_cut(undo *u)
 {
-	/* If we cut the magicline, we may as well not crash. :/ */
-	if (!u->cutbuffer)
-		return;
-
 	/* Get to where we need to uncut from. */
 	if (u->xflags == WAS_WHOLE_LINE)
 		goto_line_posx(u->mark_begin_lineno, 0);
 	else
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+
+	/* If we cut the magicline, we may as well not crash. :/ */
+	if (!u->cutbuffer)
+		return;
 
 	copy_from_buffer(u->cutbuffer);
 
@@ -654,14 +654,14 @@ void redo_cut(undo *u)
 {
 	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
 
+	goto_line_posx(u->lineno, u->begin);
+
 	/* If we cut the magicline, we may as well not crash. :/ */
 	if (!u->cutbuffer)
 		return;
 
 	cutbuffer = NULL;
 	cutbottom = NULL;
-
-	goto_line_posx(u->lineno, u->begin);
 
 	openfile->mark = fsfromline(u->mark_begin_lineno);
 	openfile->mark_x = (u->xflags == WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
