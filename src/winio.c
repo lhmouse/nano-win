@@ -385,7 +385,7 @@ int parse_kbinput(WINDOW *win)
 		if (escapes > 3)
 			escapes = 1;
 		/* Take note when an Esc arrived by itself. */
-		solitary = (escapes == 1 && key_buffer_len == 0);
+		solitary = (key_buffer_len == 0);
 		return ERR;
 	}
 
@@ -476,12 +476,13 @@ int parse_kbinput(WINDOW *win)
 					}
 				} else {
 					if (digit_count == 0)
-						/* Two escapes followed by a non-decimal
-						 * digit (or a decimal digit that would
-						 * create a byte sequence greater than 2XX)
-						 * and there aren't any other codes waiting:
-						 * control character sequence mode. */
-						retval = get_control_kbinput(keycode);
+						/* Two escapes followed by a non-digit: meta key
+						 * or control character sequence mode. */
+						if (!solitary) {
+							meta_key = TRUE;
+							retval = keycode;
+						} else
+							retval = get_control_kbinput(keycode);
 					else {
 						/* An invalid digit in the middle of a byte
 						 * sequence: reset the byte sequence counter
@@ -505,11 +506,13 @@ int parse_kbinput(WINDOW *win)
 			}
 			break;
 		case 3:
-			if (key_buffer_len == 0)
+			if (key_buffer_len == 0) {
+				if (!solitary)
+					meta_key = TRUE;
 				/* Three escapes followed by a non-escape, and no
 				 * other codes are waiting: normal input mode. */
 				retval = keycode;
-			else
+			} else
 				/* Three escapes followed by a non-escape, and more
 				 * codes are waiting: combined control character and
 				 * escape sequence mode.  First interpret the escape
