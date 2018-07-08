@@ -639,7 +639,7 @@ void undo_cut(undo *u)
 	else
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 
-	/* If we cut the magicline, we may as well not crash. :/ */
+	/* If nothing was actually cut, positioning the cursor was enough. */
 	if (!u->cutbuffer)
 		return;
 
@@ -656,7 +656,7 @@ void redo_cut(undo *u)
 
 	goto_line_posx(u->lineno, u->begin);
 
-	/* If we cut the magicline, we may as well not crash. :/ */
+	/* If nothing was actually cut, positioning the cursor was enough. */
 	if (!u->cutbuffer)
 		return;
 
