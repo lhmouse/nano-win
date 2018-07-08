@@ -762,6 +762,14 @@ else
 fi
 AM_CONDITIONAL(BUILDING_FROM_GIT, test x$from_git = xyes)
 
+if test x$from_git = xyes; then
+	if test "$ac_cv_path_MSGFMT" = ":"; then
+		AC_MSG_ERROR([
+*** The msgfmt program is missing. ***
+*** The gettext package needs to be installed when building from git. ***])
+	fi
+fi
+
 AC_CONFIG_FILES([
 Makefile
 doc/Makefile
