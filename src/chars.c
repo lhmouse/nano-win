@@ -712,17 +712,3 @@ bool is_valid_unicode(wchar_t wc)
 				(0xFFFF < wc && wc <= 0x10FFFF && (wc & 0xFFFF) <= 0xFFFD));
 }
 #endif
-
-#ifdef ENABLE_NANORC
-/* Check if the string s is a valid multibyte string.  Return TRUE if it
- * is, and FALSE otherwise. */
-bool is_valid_mbstring(const char *s)
-{
-#ifdef ENABLE_UTF8
-	if (use_utf8)
-		return (mbstowcs(NULL, s, 0) != (size_t)-1);
-	else
-#endif
-		return TRUE;
-}
-#endif /* ENABLE_NANORC */

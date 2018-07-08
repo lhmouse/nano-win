@@ -1085,12 +1085,13 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #ifdef DEBUG
 		fprintf(stderr, "    Option argument = \"%s\"\n", option);
 #endif
-		/* Make sure the option argument is a valid multibyte string. */
-		if (!is_valid_mbstring(option)) {
+#ifdef ENABLE_UTF8
+		/* When in a UTF-8 locale, ignore arguments with invalid sequences. */
+		if (using_utf8() && mbstowcs(NULL, option, 0) == (size_t)-1) {
 			rcfile_error(N_("Argument is not a valid multibyte string"));
 			continue;
 		}
-
+#endif
 #ifdef ENABLE_COLOR
 		if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
 			color_combo[TITLE_BAR] = parse_interface_color(option);
