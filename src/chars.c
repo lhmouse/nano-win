@@ -117,13 +117,6 @@ bool is_ascii_cntrl_char(int c)
 	return (0 <= c && c < 32);
 }
 
-/* This function is equivalent to iscntrl(), except in that it also
- * handles high-bit control characters. */
-bool is_cntrl_char(int c)
-{
-	return ((c & 0x60) == 0 || c == 127);
-}
-
 /* This function is equivalent to iscntrl() for multibyte characters,
  * except in that it also handles multibyte control characters with
  * their high bits set. */
@@ -135,7 +128,7 @@ bool is_cntrl_mbchar(const char *c)
 				((signed char)c[0] == -62 && (signed char)c[1] < -96));
 	} else
 #endif
-		return is_cntrl_char((unsigned char)*c);
+		return (((unsigned char)*c & 0x60) == 0 || (unsigned char)*c == 127);
 }
 
 /* This function is equivalent to ispunct() for multibyte characters. */
