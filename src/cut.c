@@ -111,7 +111,7 @@ void cut_to_eof(void)
  * copy_text is TRUE, copy the text back into the buffer afterward.
  * If cut_till_eof is TRUE, move all text from the current cursor
  * position to the end of the file into the cutbuffer. */
-void do_cut_text(bool copy_text, bool cut_till_eof)
+void do_cut_text(bool copy_text, bool marked, bool cut_till_eof)
 {
 #ifndef NANO_TINY
 	filestruct *cb_save = NULL;
@@ -126,11 +126,11 @@ void do_cut_text(bool copy_text, bool cut_till_eof)
 	size_t was_totsize = openfile->totsize;
 
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
-	if (!keep_cutbuffer || openfile->mark || cut_till_eof) {
+	if (!keep_cutbuffer || marked || cut_till_eof) {
 		free_filestruct(cutbuffer);
 		cutbuffer = NULL;
 		/* After a line cut, future line cuts should add to the cutbuffer. */
-		keep_cutbuffer = !openfile->mark && !cut_till_eof;
+		keep_cutbuffer = !marked && !cut_till_eof;
 	}
 
 #ifndef NANO_TINY
@@ -198,10 +198,10 @@ void do_cut_text_void(void)
 {
 #ifndef NANO_TINY
 	add_undo(CUT);
-#endif
-	do_cut_text(FALSE, FALSE);
-#ifndef NANO_TINY
+	do_cut_text(FALSE, openfile->mark, FALSE);
 	update_undo(CUT);
+#else
+	do_cut_text(FALSE, FALSE, FALSE);
 #endif
 }
 
@@ -223,7 +223,7 @@ void do_copy_text(void)
 	if (mark_is_set || openfile->current != next_contiguous_line)
 		cutbuffer_reset();
 
-	do_cut_text(TRUE, FALSE);
+	do_cut_text(TRUE, mark_is_set, FALSE);
 
 	/* If the mark was set, blow away the cutbuffer on the next copy. */
 	next_contiguous_line = (mark_is_set ? NULL : openfile->current);
@@ -241,7 +241,7 @@ void do_copy_text(void)
 void do_cut_till_eof(void)
 {
 	add_undo(CUT_TO_EOF);
-	do_cut_text(FALSE, TRUE);
+	do_cut_text(FALSE, FALSE, TRUE);
 	update_undo(CUT_TO_EOF);
 }
 #endif /* !NANO_TINY */
