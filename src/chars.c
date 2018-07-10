@@ -292,48 +292,45 @@ char *make_mbchar(long chr, int *chr_mb_len)
  * col isn't NULL, add the character's width (in columns) to it. */
 int parse_mbchar(const char *buf, char *chr, size_t *col)
 {
-		int length;
+	int length;
 
 #ifdef ENABLE_UTF8
-		/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
-		if ((signed char)*buf < 0) {
-			length = mblen(buf, MAXCHARLEN);
+	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
+	if ((signed char)*buf < 0) {
+		length = mblen(buf, MAXCHARLEN);
 
-			/* When the multibyte sequence is invalid, only take the first byte. */
-			if (length <= 0)
-				length = 1;
-		} else
-#endif
+		/* When the multibyte sequence is invalid, only take the first byte. */
+		if (length <= 0)
 			length = 1;
-
-		/* When requested, store the multibyte character in chr. */
-		if (chr != NULL) {
-			int i;
-
-			for (i = 0; i < length; i++)
-				chr[i] = buf[i];
-		}
-
-		/* When requested, add the width of the character to col. */
-		if (col != NULL) {
-			/* If we have a tab, compute its width in columns based on the
-			 * current value of col. */
-			if (*buf == '\t')
-				*col += tabsize - *col % tabsize;
-			/* If we have a control character, it's two columns wide: one
-			 * column for the "^", and one for the visible character. */
-			else if (is_cntrl_mbchar(buf)) {
-				*col += 2;
-			/* If we have a normal character, get its width normally. */
-			} else if (length == 1)
-				*col += 1;
-#ifdef ENABLE_UTF8
-			else
-				*col += mbwidth(buf);
+	} else
 #endif
-		}
+		length = 1;
 
-		return length;
+	/* When requested, store the multibyte character in chr. */
+	if (chr != NULL)
+		for (int i = 0; i < length; i++)
+			chr[i] = buf[i];
+
+	/* When requested, add the width of the character to col. */
+	if (col != NULL) {
+		/* If we have a tab, compute its width in columns based on the
+		 * current value of col. */
+		if (*buf == '\t')
+			*col += tabsize - *col % tabsize;
+		/* If we have a control character, it's two columns wide: one
+		 * column for the "^", and one for the visible character. */
+		else if (is_cntrl_mbchar(buf))
+			*col += 2;
+		/* If we have a normal character, get its width normally. */
+		else if (length == 1)
+			*col += 1;
+#ifdef ENABLE_UTF8
+		else
+			*col += mbwidth(buf);
+#endif
+	}
+
+	return length;
 }
 
 /* Return the index in buf of the beginning of the multibyte character
