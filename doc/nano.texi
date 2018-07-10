@@ -986,11 +986,6 @@ on the system and will be silently ignored otherwise.)
 Use the given @var{program} to do a syntax check on the current buffer.
 (This overrides the speller function.)
 
-@item formatter @var{program} [@var{arg} @dots{}]
-Use the given @var{program} to automatically reformat the text in
-the current buffer --- useful for a programming language like Go.
-(This overrides the speller and linter functions.)
-
 @item comment "@var{string}"
 Use the given string for commenting and uncommenting lines.
 If the string contains a vertical bar or pipe character (@t{|}),
@@ -1034,8 +1029,7 @@ to @code{icolor}.
 @item extendsyntax @var{name} @var{command} [@var{arg} @dots{}]
 Extend the syntax previously defined as "@var{name}" with another @var{command}.
 This allows you to add a new @code{color}, @code{icolor}, @code{header},
-@code{magic}, @code{comment}, @code{linter}, or @code{formatter} command
-to an already
+@code{magic}, @code{comment}, or @code{linter} command to an already
 defined syntax --- useful when you want to slightly improve a syntax defined
 in one of the system-installed files (which normally are not writable).
 
@@ -1164,7 +1158,7 @@ Shows the current cursor position: the line, column, and character positions.
 Counts the number of words, lines and characters in the current buffer.
 
 @item speller
-Invokes a spell-checking program (or linting program, or formatter program,
+Invokes a spell-checking program (or linting program,
 if the active syntax defines such a thing).
 
 @item justify

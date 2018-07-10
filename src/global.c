@@ -655,9 +655,6 @@ void shortcut_init(void)
 	const char *lint_gist = N_("Invoke the linter, if available");
 	const char *prevlint_gist = N_("Go to previous linter msg");
 	const char *nextlint_gist = N_("Go to next linter msg");
-#ifdef ENABLE_SPELLER
-	const char *formatter_gist = N_("Invoke formatter, if available");
-#endif
 #endif
 #endif /* ENABLE_HELP */
 
@@ -754,10 +751,6 @@ void shortcut_init(void)
 #ifdef ENABLE_COLOR
 		add_to_funcs(do_linter, MMAIN,
 				N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
-#ifdef ENABLE_SPELLER
-		add_to_funcs(do_formatter, MMAIN,
-				N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
-#endif
 #endif
 	}
 
@@ -1349,21 +1342,14 @@ void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
 			s->func = newfunc;
 }
 
-void set_lint_or_format_shortcuts(void)
+void set_linter_shortcut(void)
 {
-	if (openfile->syntax->formatter) {
-		replace_scs_for(do_spell, do_formatter);
-		replace_scs_for(do_linter, do_formatter);
-	} else {
-		replace_scs_for(do_spell, do_linter);
-		replace_scs_for(do_formatter, do_linter);
-	}
+	replace_scs_for(do_spell, do_linter);
 }
 
-void set_spell_shortcuts(void)
+void set_speller_shortcut(void)
 {
-		replace_scs_for(do_formatter, do_spell);
-		replace_scs_for(do_linter, do_spell);
+	replace_scs_for(do_linter, do_spell);
 }
 #endif /* ENABLE_COLOR && ENABLE_SPELLER */
 
@@ -1795,7 +1781,6 @@ void thanks_for_all_the_fish(void)
 
 		free(sint->name);
 		free(sint->linter);
-		free(sint->formatter);
 
 		while (sint->extensions != NULL) {
 			regexlisttype *item = sint->extensions;

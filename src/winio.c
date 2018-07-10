@@ -3334,11 +3334,10 @@ void total_refresh(void)
 void display_main_list(void)
 {
 #if defined(ENABLE_COLOR) && defined(ENABLE_SPELLER)
-	if (openfile->syntax &&
-				(openfile->syntax->formatter || openfile->syntax->linter))
-		set_lint_or_format_shortcuts();
+	if (openfile->syntax && openfile->syntax->linter)
+		set_linter_shortcut();
 	else
-		set_spell_shortcuts();
+		set_speller_shortcut();
 #endif
 
 	bottombars(MMAIN);

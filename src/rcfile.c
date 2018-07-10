@@ -300,7 +300,6 @@ void parse_syntax(char *ptr)
 	live_syntax->headers = NULL;
 	live_syntax->magics = NULL;
 	live_syntax->linter = NULL;
-	live_syntax->formatter = NULL;
 #ifdef ENABLE_COMMENT
 	live_syntax->comment = mallocstrcpy(NULL, GENERAL_COMMENT_CHARACTER);
 #endif
@@ -834,7 +833,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 	}
 }
 
-/* Gather and store the string after a comment/linter/formatter command. */
+/* Gather and store the string after a comment/linter command. */
 void pick_up_name(const char *kind, char *ptr, char **storage)
 {
 	if (!opensyntax) {
@@ -985,12 +984,6 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 			parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
 		else if (strcasecmp(keyword, "linter") == 0)
 			pick_up_name("linter", ptr, &live_syntax->linter);
-		else if (strcasecmp(keyword, "formatter") == 0)
-#ifdef ENABLE_SPELLER
-			pick_up_name("formatter", ptr, &live_syntax->formatter);
-#else
-			;
-#endif
 		else if (syntax_only && (strcasecmp(keyword, "set") == 0 ||
 								strcasecmp(keyword, "unset") == 0 ||
 								strcasecmp(keyword, "bind") == 0 ||

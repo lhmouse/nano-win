@@ -323,8 +323,8 @@ void assign_keyinfo(sc *s, const char *keystring, const int keycode);
 void print_sclist(void);
 void shortcut_init(void);
 #ifdef ENABLE_COLOR
-void set_lint_or_format_shortcuts(void);
-void set_spell_shortcuts(void);
+void set_linter_shortcut(void);
+void set_speller_shortcut(void);
 #endif
 const subnfunc *sctofunc(const sc *s);
 const char *flagtostr(int flag);
@@ -555,7 +555,6 @@ void do_spell(void);
 #endif
 #ifdef ENABLE_COLOR
 void do_linter(void);
-void do_formatter(void);
 #endif
 #ifndef NANO_TINY
 void do_wordlinechar_count(void);

@@ -341,11 +341,6 @@ system and will be silently ignored otherwise.)
 Use the given \fIprogram\fR to run a syntax check on the current buffer.
 (This overrides the speller function.)
 .TP
-.BI formatter " program " \fR[ "arg " \fR...]
-Use the given \fIprogram\fR to automatically reformat the text in
-the current buffer -- useful in a programming language like Go.
-(This overrides the speller and linter functions.)
-.TP
 .BI "comment """ string """
 Use the given \fIstring\fR for commenting and uncommenting lines.
 If the string contains a vertical bar or pipe character (\fB|\fR),
@@ -391,7 +386,7 @@ to \fBicolor\fP.
 .BI extendsyntax " name command " \fR[ "arg " \fR...]
 Extend the syntax previously defined as \fIname\fR with another
 \fIcommand\fR.  This allows adding a new \fBcolor\fP, \fBicolor\fP,
-\fBheader\fP, \fBmagic\fP, \fBcomment\fP, \fBlinter\fP, or \fBformatter\fP
+\fBheader\fP, \fBmagic\fP, \fBcomment\fP, or \fBlinter\fP
 command to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
 files (which normally are not writable).
@@ -514,7 +509,7 @@ Shows the current cursor position: the line, column, and character positions.
 Counts the number of words, lines and characters in the current buffer.
 .TP
 .B speller
-Invokes a spell-checking program (or linting program, or formatter program,
+Invokes a spell-checking program (or linting program,
 if the active syntax defines such a thing).
 .TP
 .B linter
