@@ -506,8 +506,9 @@ This selection can now be cut or copied in its entirety with a single
 @kbd{^K} or @kbd{M-6}.  Or the selection can be used to limit the scope of
 a search-and-replace (@kbd{^\}) or spell-checking session (@kbd{^T}).
 
-On some terminals, it is also possible to select text by holding down
-@kbd{Shift} together with the cursor keys.  Such a selection is cancelled
+On some terminals, text can be selected also by holding down @kbd{Shift}
+while using the cursor keys.  Holding down the @kbd{Ctrl} or @kbd{Alt}
+key too will increase the stride.  Such a selection is cancelled
 upon any cursor movement where @kbd{Shift} isn't held.
 
 Cutting or copying selected text will toggle the mark off automatically.
