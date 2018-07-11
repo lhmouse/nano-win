@@ -43,7 +43,7 @@ int do_statusbar_mouse(void)
 		if (click_row == 0 && click_col >= start_col)
 			typing_x = actual_x(answer,
 							get_statusbar_page_start(start_col, start_col +
-							statusbar_xplustabs()) + click_col - start_col);
+							strnlenpt(answer, typing_x)) + click_col - start_col);
 	}
 
 	return retval;
@@ -340,12 +340,6 @@ void do_statusbar_verbatim_input(void)
 	free(kbinput);
 }
 
-/* Return the zero-based column position of the cursor in the answer. */
-size_t statusbar_xplustabs(void)
-{
-	return strnlenpt(answer, typing_x);
-}
-
 /* Paste the first line of the cutbuffer into the current answer. */
 void do_statusbar_uncut_text(void)
 {
@@ -413,8 +407,8 @@ void draw_the_promptbar(void)
 	wmove(bottomwin, 0, 0);
 	wrefresh(bottomwin);
 
-	/* Place the cursor at typing_x in the answer. */
-	column = base + statusbar_xplustabs();
+	/* Place the cursor at the right spot. */
+	column = base + strnlenpt(answer, typing_x);
 	wmove(bottomwin, 0, column - get_statusbar_page_start(base, column));
 	wnoutrefresh(bottomwin);
 }
