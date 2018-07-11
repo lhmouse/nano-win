@@ -42,7 +42,6 @@ int do_statusbar_mouse(void)
 			statusbar_x = actual_x(answer,
 							get_statusbar_page_start(start_col, start_col +
 							statusbar_xplustabs()) + click_col - start_col);
-			update_the_statusbar();
 		}
 	}
 
@@ -216,22 +215,18 @@ void do_statusbar_output(int *the_input, size_t input_len,
 	}
 
 	free(output);
-
-	update_the_statusbar();
 }
 
 /* Move to the beginning of the answer. */
 void do_statusbar_home(void)
 {
 	statusbar_x = 0;
-	update_the_statusbar();
 }
 
 /* Move to the end of the answer. */
 void do_statusbar_end(void)
 {
 	statusbar_x = strlen(answer);
-	update_the_statusbar();
 }
 
 /* Move left one character. */
@@ -239,7 +234,6 @@ void do_statusbar_left(void)
 {
 	if (statusbar_x > 0) {
 		statusbar_x = move_mbleft(answer, statusbar_x);
-		update_the_statusbar();
 	}
 }
 
@@ -248,7 +242,6 @@ void do_statusbar_right(void)
 {
 	if (answer[statusbar_x] != '\0') {
 		statusbar_x = move_mbright(answer, statusbar_x);
-		update_the_statusbar();
 	}
 }
 
@@ -269,8 +262,6 @@ void do_statusbar_delete(void)
 
 		charmove(answer + statusbar_x, answer + statusbar_x + char_len,
 						strlen(answer) - statusbar_x - char_len + 1);
-
-		update_the_statusbar();
 	}
 }
 
@@ -281,8 +272,6 @@ void do_statusbar_cut_text(void)
 		statusbar_x = 0;
 
 	answer[statusbar_x] = '\0';
-
-	update_the_statusbar();
 }
 
 #ifndef NANO_TINY
@@ -313,8 +302,6 @@ void do_statusbar_next_word(void)
 				break;
 		}
 	}
-
-	update_the_statusbar();
 }
 
 /* Move to the previous word in the answer. */
@@ -338,8 +325,6 @@ void do_statusbar_prev_word(void)
 	if (step_forward)
 		/* Move one character forward again to sit on the start of the word. */
 		statusbar_x = move_mbright(answer, statusbar_x);
-
-	update_the_statusbar();
 }
 #endif /* !NANO_TINY */
 
