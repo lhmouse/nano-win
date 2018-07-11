@@ -384,7 +384,7 @@ void reinit_statusbar_x(void)
 }
 
 /* Redraw the promptbar and place the cursor at the right spot. */
-void update_the_statusbar(void)
+void draw_the_promptbar(void)
 {
 	size_t base = strlenpt(prompt) + 2;
 	size_t the_page, end_page, column;
@@ -466,9 +466,9 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	if (statusbar_x > strlen(answer))
 		statusbar_x = strlen(answer);
 
-	update_the_statusbar();
-
 	while (TRUE) {
+		draw_the_promptbar();
+
 		kbinput = do_statusbar_input(&finished);
 
 #ifndef NANO_TINY
@@ -570,8 +570,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		 * we're finished after running or trying to run the function. */
 		if (finished)
 			break;
-
-		update_the_statusbar();
 
 #if defined(ENABLE_HISTORIES) && defined(ENABLE_TABCOMP)
 		last_kbinput = kbinput;
