@@ -38,11 +38,10 @@ int do_statusbar_mouse(void)
 		size_t start_col = strlenpt(prompt) + 2;
 
 		/* Move to where the click occurred. */
-		if (click_row == 0 && click_col >= start_col) {
+		if (click_row == 0 && click_col >= start_col)
 			statusbar_x = actual_x(answer,
 							get_statusbar_page_start(start_col, start_col +
 							statusbar_xplustabs()) + click_col - start_col);
-		}
 	}
 
 	return retval;
@@ -232,26 +231,15 @@ void do_statusbar_end(void)
 /* Move left one character. */
 void do_statusbar_left(void)
 {
-	if (statusbar_x > 0) {
+	if (statusbar_x > 0)
 		statusbar_x = move_mbleft(answer, statusbar_x);
-	}
 }
 
 /* Move right one character. */
 void do_statusbar_right(void)
 {
-	if (answer[statusbar_x] != '\0') {
+	if (answer[statusbar_x] != '\0')
 		statusbar_x = move_mbright(answer, statusbar_x);
-	}
-}
-
-/* Backspace over one character. */
-void do_statusbar_backspace(void)
-{
-	if (statusbar_x > 0) {
-		statusbar_x = move_mbleft(answer, statusbar_x);
-		do_statusbar_delete();
-	}
 }
 
 /* Delete one character. */
@@ -262,6 +250,15 @@ void do_statusbar_delete(void)
 
 		charmove(answer + statusbar_x, answer + statusbar_x + char_len,
 						strlen(answer) - statusbar_x - char_len + 1);
+	}
+}
+
+/* Backspace over one character. */
+void do_statusbar_backspace(void)
+{
+	if (statusbar_x > 0) {
+		statusbar_x = move_mbleft(answer, statusbar_x);
+		do_statusbar_delete();
 	}
 }
 
