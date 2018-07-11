@@ -462,7 +462,7 @@ void do_statusbar_next_word(void);
 void do_statusbar_verbatim_input(void);
 size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
-void reinit_statusbar_x(void);
+void put_cursor_at_end_of_answer(void);
 void add_or_remove_pipe_symbol_from_answer(void);
 int do_prompt(bool allow_tabs, bool allow_files,
 		int menu, const char *curranswer, filestruct **history_list,

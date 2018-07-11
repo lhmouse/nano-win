@@ -378,7 +378,7 @@ size_t get_statusbar_page_start(size_t base, size_t column)
 }
 
 /* Reinitialize the cursor position in the answer. */
-void reinit_statusbar_x(void)
+void put_cursor_at_end_of_answer(void)
 {
 	typing_x = HIGHEST_POSITIVE;
 }

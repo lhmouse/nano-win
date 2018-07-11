@@ -2696,8 +2696,8 @@ int main(int argc, char **argv)
 		errno = 0;
 		focusing = TRUE;
 
-		/* Forget any earlier statusbar x position. */
-		reinit_statusbar_x();
+		/* Forget any earlier cursor position at the prompt. */
+		put_cursor_at_end_of_answer();
 
 		/* Read in and interpret keystrokes. */
 		do_input(TRUE);
