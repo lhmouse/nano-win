@@ -124,7 +124,6 @@ extern char *quoteerr;
 extern char *word_chars;
 
 extern char *answer;
-extern size_t statusbar_x;
 
 extern ssize_t tabsize;
 
@@ -465,6 +464,7 @@ size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
 void reinit_statusbar_x(void);
 void update_the_statusbar(void);
+void add_or_remove_pipe_symbol_from_answer(void);
 int do_prompt(bool allow_tabs, bool allow_files,
 		int menu, const char *curranswer, filestruct **history_list,
 		void (*refresh_func)(void), const char *msg, ...);

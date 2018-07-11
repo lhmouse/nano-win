@@ -1112,18 +1112,7 @@ void do_insertfile(void)
 #endif
 #ifndef NANO_TINY
 			if (func == flip_pipe) {
-				/* Remove or add the pipe character at the answer's head. */
-				if (answer[0] == '|') {
-					charmove(answer, answer + 1, strlen(answer) + 1);
-					if (statusbar_x > 0)
-						statusbar_x--;
-				} else {
-					answer = charealloc(answer, strlen(answer) + 2);
-					charmove(answer + 1, answer, strlen(answer) + 1);
-					answer[0] = '|';
-					statusbar_x++;
-				}
-
+				add_or_remove_pipe_symbol_from_answer();
 				given = mallocstrcpy(given, answer);
 				continue;
 			}

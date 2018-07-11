@@ -152,8 +152,6 @@ char *word_chars = NULL;
 
 char *answer = NULL;
 		/* The answer string used by the statusbar prompt. */
-size_t statusbar_x = HIGHEST_POSITIVE;
-		/* The cursor position in answer. */
 
 ssize_t tabsize = -1;
 		/* The width of a tab in spaces.  The default is set in main(). */

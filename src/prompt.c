@@ -25,6 +25,8 @@
 
 static char *prompt = NULL;
 		/* The prompt string used for statusbar questions. */
+static size_t statusbar_x = HIGHEST_POSITIVE;
+		/* The cursor position in answer. */
 
 #ifdef ENABLE_MOUSE
 /* Handle a mouse click on the statusbar prompt or the shortcut list. */
@@ -416,6 +418,23 @@ void update_the_statusbar(void)
 	wmove(bottomwin, 0, column - get_statusbar_page_start(base, column));
 	wnoutrefresh(bottomwin);
 }
+
+#ifndef NANO_TINY
+/* Remove or add the pipe character at the answer's head. */
+void add_or_remove_pipe_symbol_from_answer(void)
+{
+	if (answer[0] == '|') {
+		charmove(answer, answer + 1, strlen(answer) + 1);
+		if (statusbar_x > 0)
+			statusbar_x--;
+	} else {
+		answer = charealloc(answer, strlen(answer) + 2);
+		charmove(answer + 1, answer, strlen(answer) + 1);
+		answer[0] = '|';
+		statusbar_x++;
+	}
+}
+#endif
 
 /* Get a string of input at the statusbar prompt. */
 functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
