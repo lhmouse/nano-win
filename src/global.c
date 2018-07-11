@@ -448,14 +448,14 @@ int keycode_from_string(const char *keystring)
 	if (keystring[0] == '^') {
 		if (strcasecmp(keystring, "^Space") == 0)
 			return 0;
-		if (strlen(keystring) == 2)
+		if (keystring[1] <= '_' && strlen(keystring) == 2)
 			return keystring[1] - 64;
 		else
 			return -1;
 	} else if (keystring[0] == 'M') {
 		if (strcasecmp(keystring, "M-Space") == 0)
 			return (int)' ';
-		if (keystring[1] == '-')
+		if (keystring[1] == '-' && strlen(keystring) == 3)
 			return tolower((unsigned char)keystring[2]);
 		else
 			return -1;
