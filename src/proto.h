@@ -61,6 +61,7 @@ extern int controlup;
 extern int controldown;
 extern int controlhome;
 extern int controlend;
+extern int controldelete;
 #ifndef NANO_TINY
 extern int shiftcontrolleft;
 extern int shiftcontrolright;

@@ -69,6 +69,7 @@ int didfind = 0;
 		/* Whether the last search found something. */
 
 int controlleft, controlright, controlup, controldown, controlhome, controlend;
+int controldelete;
 #ifndef NANO_TINY
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
@@ -1162,6 +1163,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
 	add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
 	add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
+	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, do_cut_next_word, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_sclist(MMAIN, "^]", 0, complete_a_word, 0);

@@ -538,6 +538,8 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_HOME;
 	else if (retval == controlend)
 		return CONTROL_END;
+	else if (retval == controldelete)
+	    return CONTROL_DELETE;
 #ifndef NANO_TINY
 	else if (retval == shiftcontrolleft) {
 		shift_held = TRUE;
@@ -609,6 +611,8 @@ int parse_kbinput(WINDOW *win)
 				return CONTROL_HOME;
 			else if (retval == KEY_END)
 				return CONTROL_END;
+			else if (retval == KEY_DC)
+				return CONTROL_DELETE;
 		}
 #ifndef NANO_TINY
 		/* Are both Shift and Alt being held? */
@@ -1088,9 +1092,18 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							   * Linux console/xterm/Terminal. */
 						if (length > 2 && seq[2] == '~')
 							return KEY_DC;
-						if (length > 4 && seq[2] == ';' && seq[4] == '~')
+						if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							/* Esc [ 3 ; x ~ == modified Delete on xterm. */
 							*consumed = 5;
+							if (seq[3] == '5')
+								/* Esc [ 3 ; 5 ~ == Ctrl-Delete on xterm. */
+								return CONTROL_DELETE;
+						}
+						if (length > 2 && seq[2] == '^') {
+							/* Esc [ 3 ^ == Ctrl-Delete on urxvt. */
+							*consumed = 3;
+							return CONTROL_DELETE;
+						}
 						break;
 					case '4': /* Esc [ 4 ~ == End on VT220/VT320/
 							   * Linux console/xterm. */
