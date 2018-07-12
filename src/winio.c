@@ -1094,10 +1094,10 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2 && (seq[2] == '~' || seq[2] == '^'))
 							return KEY_PPAGE;
 #ifndef NANO_TINY
-						else if (length > 4 && seq[2] == ';' &&
-									seq[3] == '2' && seq[4] == '~') {
+						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
-							return shiftaltup;
+							if (seq[3] == '2')
+								return shiftaltup;
 						}
 #endif
 						break;
@@ -1107,10 +1107,10 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2 && (seq[2] == '~' || seq[2] == '^'))
 							return KEY_NPAGE;
 #ifndef NANO_TINY
-						else if (length > 4 && seq[2] == ';' &&
-									seq[3] == '2' && seq[4] == '~') {
+						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
-							return shiftaltdown;
+							if (seq[3] == '2')
+								return shiftaltdown;
 						}
 #endif
 						break;
