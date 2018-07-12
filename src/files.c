@@ -2169,8 +2169,11 @@ int do_writeout(bool exiting, bool withprompt)
 		 * egg.  Display the credits. */
 		if (!did_credits && exiting && !ISSET(TEMP_FILE) &&
 								strcasecmp(answer, "zzy") == 0) {
-			do_credits();
-			did_credits = TRUE;
+			if (LINES > 5 && COLS > 31) {
+				do_credits();
+				did_credits = TRUE;
+			} else
+				statusbar(_("Screen is too small"));
 			break;
 		}
 #endif
