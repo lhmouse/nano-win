@@ -273,6 +273,7 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 #endif
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER
+void mention_name_and_linecount(void);
 void switch_to_prev_buffer(void);
 void switch_to_next_buffer(void);
 bool close_buffer(void);

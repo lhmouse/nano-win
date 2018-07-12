@@ -2652,8 +2652,11 @@ int main(int argc, char **argv)
 		UNSET(VIEW_MODE);
 	}
 #ifdef ENABLE_MULTIBUFFER
-	else
+	else {
 		openfile = openfile->next;
+		if (more_than_one)
+			mention_name_and_linecount();
+	}
 #endif
 
 #ifdef DEBUG

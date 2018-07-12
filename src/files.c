@@ -585,6 +585,17 @@ void prepare_for_display(void)
 }
 
 #ifdef ENABLE_MULTIBUFFER
+/* Show name of current buffer and its number of lines on the status bar. */
+void mention_name_and_linecount(void)
+{
+	size_t count = openfile->filebot->lineno -
+						(openfile->filebot->data[0] == '\0' ? 1 : 0);
+
+	statusline(HUSH, P_("%s -- %zu line", "%s -- %zu lines", count),
+						openfile->filename[0] == '\0' ?
+						_("New Buffer") : tail(openfile->filename), count);
+}
+
 /* Switch to a neighbouring file buffer; to the next if to_next is TRUE;
  * otherwise, to the previous one. */
 void switch_to_adjacent_buffer(bool to_next)
@@ -615,10 +626,8 @@ void switch_to_adjacent_buffer(bool to_next)
 	/* Ensure that the main loop will redraw the help lines. */
 	currmenu = MMOST;
 
-	/* Indicate the switch on the statusbar. */
-	statusline(HUSH, _("Switched to %s"),
-						((openfile->filename[0] == '\0') ?
-						_("New Buffer") : openfile->filename));
+	/* Indicate on the status bar where we switched to. */
+	mention_name_and_linecount();
 
 #ifdef DEBUG
 	dump_filestruct(openfile->current);
