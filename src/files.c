@@ -590,8 +590,16 @@ void mention_name_and_linecount(void)
 {
 	size_t count = openfile->filebot->lineno -
 						(openfile->filebot->data[0] == '\0' ? 1 : 0);
-
-	statusline(HUSH, P_("%s -- %zu line", "%s -- %zu lines", count),
+#ifndef NANO_TINY
+	if (openfile->fmt != NIX_FILE)
+		/* TRANSLATORS: first %s is the file name, second %s a format indicator. */
+		statusline(HUSH, P_("%s -- %zu line (%s)", "%s -- %zu lines (%s)", count),
+						openfile->filename[0] == '\0' ?
+						_("New Buffer") : tail(openfile->filename), count,
+						openfile->fmt == DOS_FILE ? _("DOS") : _("Mac"));
+	else
+#endif
+		statusline(HUSH, P_("%s -- %zu line", "%s -- %zu lines", count),
 						openfile->filename[0] == '\0' ?
 						_("New Buffer") : tail(openfile->filename), count);
 }
