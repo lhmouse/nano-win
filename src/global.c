@@ -1142,7 +1142,9 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "M-/", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-?", 0, to_last_line, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_research, 0);
+	add_to_sclist(MMAIN, "M-W", 0, do_findnext, 0);
+	add_to_sclist(MMAIN, "M-Q", 0, do_findprevious, 0);
+	add_to_sclist(MHELP|MBROWSER, "M-W", 0, do_research, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "F16", 0, do_research, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
@@ -1248,7 +1250,7 @@ void shortcut_init(void)
 	/* Group of "Appearance" toggles. */
 	add_to_sclist(MMAIN, "M-X", 0, do_toggle_void, NO_HELP);
 	add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
-	add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, MORE_SPACE);
+	add_to_sclist(MMAIN, "", 0, do_toggle_void, MORE_SPACE);
 	add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SMOOTH_SCROLL);
 	add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);
 #ifdef ENABLE_LINENUMBERS
@@ -1266,7 +1268,7 @@ void shortcut_init(void)
 #ifdef ENABLE_WRAPPING
 	add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, NO_WRAP);
 #endif
-	add_to_sclist(MMAIN, "M-Q", 0, do_toggle_void, TABS_TO_SPACES);
+	add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, TABS_TO_SPACES);
 
 	/* Group of "Peripheral-feature" toggles. */
 	add_to_sclist(MMAIN, "M-B", 0, do_toggle_void, BACKUP_FILE);

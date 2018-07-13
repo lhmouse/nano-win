@@ -623,14 +623,11 @@ The following global toggles are available:
 @item No Conversion From DOS/Mac Format
 @kbd{Meta-N} toggles the @option{-N} (@option{--noconvert}) command-line option.
 
-@item More Space For Editing
-@kbd{Meta-O} toggles the @option{-O} (@option{--morespace}) command-line option.
+@item Tabs To Spaces
+@kbd{Meta-O} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
 @item Whitespace Display
 @kbd{Meta-P} toggles the displaying of whitespace (@pxref{Whitespace}).
-
-@item Tabs To Spaces
-@kbd{Meta-Q} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
 @item Smooth Scrolling
 @kbd{Meta-S} toggles the @option{-S} (@option{--smooth}) command-line option.
