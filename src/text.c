@@ -862,7 +862,7 @@ void do_redo(void)
 	while (u != NULL && u->next != openfile->current_undo)
 		u = u->next;
 
-	if (u->next != openfile->current_undo) {
+	if (u == NULL) {
 		statusline(ALERT, "Bad undo stack -- please report a bug");
 		return;
 	}
