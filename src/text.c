@@ -3238,6 +3238,8 @@ void do_linter(void)
 						}
 					}
 
+					free(dontwantfile);
+
 					if (restlint == NULL) {
 						statusbar(_("No more errors in unopened files, cancelling"));
 						napms(2400);
@@ -3246,8 +3248,6 @@ void do_linter(void)
 						curlint = restlint;
 						continue;
 					}
-
-					free(dontwantfile);
 #ifdef ENABLE_MULTIBUFFER
 				}
 			}
