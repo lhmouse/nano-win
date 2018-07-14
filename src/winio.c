@@ -2157,6 +2157,11 @@ void statusline(message_type importance, const char *msg, ...)
 	UNSET(WHITESPACE_DISPLAY);
 #endif
 
+	/* Ignore a message with an importance that is lower than the last one. */
+	if ((lastmessage == ALERT && importance != ALERT) ||
+				(lastmessage == MILD && importance == HUSH))
+		return;
+
 	va_start(ap, msg);
 
 	/* Curses mode is turned off.  If we use wmove() now, it will muck
@@ -2167,11 +2172,6 @@ void statusline(message_type importance, const char *msg, ...)
 		va_end(ap);
 		return;
 	}
-
-	/* If there already was an alert message, ignore lesser ones. */
-	if ((lastmessage == ALERT && importance != ALERT) ||
-				(lastmessage == MILD && importance == HUSH))
-		return;
 
 	/* If the ALERT status has been reset, reset the counter. */
 	if (lastmessage == HUSH)
