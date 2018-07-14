@@ -2173,7 +2173,7 @@ int do_writeout(bool exiting, bool withprompt)
 				do_credits();
 				did_credits = TRUE;
 			} else
-				statusbar(_("Screen is too small"));
+				statusbar(_("Too tiny"));
 			break;
 		}
 #endif
