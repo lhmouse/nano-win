@@ -2661,8 +2661,10 @@ const char *do_int_speller(const char *tempfile_name)
 		if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
 			goto close_pipes_and_exit;
 
-		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
+		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO) {
+			close(tempfile_fd);
 			goto close_pipes_and_exit;
+		}
 
 		close(tempfile_fd);
 
@@ -2808,7 +2810,6 @@ const char *do_int_speller(const char *tempfile_name)
 
   close_pipes_and_exit:
 	/* Don't leak any handles. */
-	close(tempfile_fd);
 	close(spell_fd[0]);
 	close(spell_fd[1]);
 	close(sort_fd[0]);
