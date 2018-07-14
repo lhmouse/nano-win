@@ -751,7 +751,7 @@ int do_yesno_prompt(bool all, const char *msg)
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
 			/* We can click on the Yes/No/All shortcuts to select an answer. */
-			if (get_mouseinput(&mouse_x, &mouse_y, FALSE) == 0 &&
+			if (get_mouseinput(&mouse_y, &mouse_x, FALSE) == 0 &&
 						wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE) &&
 						mouse_x < (width * 2) && mouse_y > 0) {
 				int x = mouse_x / width;
