@@ -1085,6 +1085,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							   * Linux console/xterm/Terminal. */
 						if (length > 2 && seq[2] == '~')
 							return KEY_DC;
+						if (length > 4 && seq[4] == '~')
+							*consumed = 5;
 						break;
 					case '4': /* Esc [ 4 ~ == End on VT220/VT320/
 							   * Linux console/xterm. */
