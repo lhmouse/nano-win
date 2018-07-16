@@ -1080,6 +1080,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							/* Esc [ 2 ~ == Insert on VT220/VT320/
 							 * Linux console/xterm/Terminal. */
 							return KEY_IC;
+						else if (length > 4 && seq[4] == '~')
+							*consumed = 5;
 						break;
 					case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 							   * Linux console/xterm/Terminal. */
