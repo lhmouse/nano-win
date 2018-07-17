@@ -1102,26 +1102,26 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							   * Esc [ 5 ^ == PageUp on Eterm. */
 						if (length > 2 && (seq[2] == '~' || seq[2] == '^'))
 							return KEY_PPAGE;
-#ifndef NANO_TINY
 						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
+#ifndef NANO_TINY
 							if (seq[3] == '2')
 								return shiftaltup;
-						}
 #endif
+						}
 						break;
 					case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
 							   * Linux console/xterm/Terminal;
 							   * Esc [ 6 ^ == PageDown on Eterm. */
 						if (length > 2 && (seq[2] == '~' || seq[2] == '^'))
 							return KEY_NPAGE;
-#ifndef NANO_TINY
 						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
+#ifndef NANO_TINY
 							if (seq[3] == '2')
 								return shiftaltdown;
-						}
 #endif
+						}
 						break;
 					case '7': /* Esc [ 7 ~ == Home on Eterm/rxvt;
 							   * Esc [ 7 $ == Shift-Home on Eterm/rxvt;
