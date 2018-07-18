@@ -1068,10 +1068,6 @@ void do_exit(void)
 						"(Answering \"No\" will DISCARD changes.) "));
 	}
 
-#ifdef DEBUG
-	dump_filestruct(openfile->fileage);
-#endif
-
 	/* If the user chose not to save, or if the user chose to save and
 	 * the save succeeded, we're ready to exit. */
 	if (i == 0 || (i == 1 && do_writeout(TRUE, TRUE) > 0))

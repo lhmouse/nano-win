@@ -187,10 +187,6 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof)
 		set_modified();
 
 	refresh_needed = TRUE;
-
-#ifdef DEBUG
-	dump_filestruct(cutbuffer);
-#endif
 }
 
 /* Move text from the current buffer into the cutbuffer. */

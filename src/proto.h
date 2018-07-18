@@ -611,9 +611,6 @@ size_t get_totsize(const filestruct *begin, const filestruct *end);
 #ifndef NANO_TINY
 filestruct *fsfromline(ssize_t lineno);
 #endif
-#ifdef DEBUG
-void dump_filestruct(const filestruct *inptr);
-#endif
 
 /* Most functions in winio.c. */
 void record_macro(void);

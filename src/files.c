@@ -636,10 +636,6 @@ void switch_to_adjacent_buffer(bool to_next)
 
 	/* Indicate on the status bar where we switched to. */
 	mention_name_and_linecount();
-
-#ifdef DEBUG
-	dump_filestruct(openfile->current);
-#endif
 }
 
 /* Switch to the previous entry in the list of open files. */
