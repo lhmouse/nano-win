@@ -1075,12 +1075,12 @@ The format of @code{key} should be one of:
 
 @itemize @w{}
 @item
-@code{^}@  followed by a Latin letter, one of several ASCII characters
-(@, ], \, ^, or _), or the word "Space".
+@code{^}@  followed by a Latin letter, by one of several ASCII characters
+(@@, ], \, ^, or _), or by the word "Space".
 Example: @code{^C}.
 
 @item
-@code{M-}@  followed by any ASCII character except [, or the word "Space".
+@code{M-}@  followed by any ASCII character except [, or by the word "Space".
 Example: @code{M-C}.
 
 @item
