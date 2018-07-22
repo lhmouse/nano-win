@@ -263,10 +263,14 @@
 ## Key bindings.
 ## See nanorc(5) (section REBINDING KEYS) for more details on this.
 ##
-## The following two functions are not bound to any key by default.
-## You may wish to choose other keys than the ones suggested here.
-# bind M-B cutwordleft main
-# bind M-N cutwordright main
+## The <Ctrl+Delete> keystroke deletes the word to the right of the cursor.
+## On some terminals the <Ctrl+Backspace> keystroke produces ^H, which is
+## the ASCII character for backspace, so it is bound by default to the
+## backspace function.  The <Backspace> key itself produces a different
+## keycode, which is hard-bound to the backspace function.  So, if you
+## normally use <Backspace> for backspacing and not ^H, you can make
+## <Ctrl+Backspace> delete the word to the left of the cursor with:
+# bind ^H cutwordleft main
 
 ## Set this if your Backspace key sends Del most of the time.
 # bind Del backspace all

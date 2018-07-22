@@ -1148,9 +1148,13 @@ current cursor position.
 
 @item cutwordleft
 Cuts from the cursor position to the beginning of the preceding word.
+(This function is not bound by default.  If your terminal produces
+@code{^H} for <Ctrl+Backspace>, you can make <Ctrl+Backspace> delete
+the word to the left of the cursor by rebinding ^H to this function.)
 
 @item cutwordright
 Cuts from the cursor position to the beginning of the next word.
+(This function is bound by default to <Ctrl+Delete>.)
 
 @item cutrestoffile
 Cuts all text from the cursor position till the end of the buffer.

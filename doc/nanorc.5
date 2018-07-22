@@ -498,9 +498,13 @@ current cursor position.
 .TP
 .B cutwordleft
 Cuts from the cursor position to the beginning of the preceding word.
+(This function is not bound by default.  If your terminal produces
+\fB^H\fR for <Ctrl+Backspace>, you can make <Ctrl+Backspace> delete
+the word to the left of the cursor by rebinding ^H to this function.)
 .TP
 .B cutwordright
 Cuts from the cursor position to the beginning of the next word.
+(This function is bound by default to <Ctrl+Delete>.)
 .TP
 .B cutrestoffile
 Cuts all text from the cursor position till the end of the buffer.
