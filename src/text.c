@@ -1050,8 +1050,6 @@ void do_enter(void)
 		/* If there were only blanks before the cursor, trim them. */
 		if (allblanks)
 			openfile->current_x = 0;
-		else
-			openfile->totsize += extra;
 	}
 #endif
 
@@ -1081,6 +1079,8 @@ void do_enter(void)
 	set_modified();
 
 #ifndef NANO_TINY
+	if (ISSET(AUTOINDENT) && !allblanks)
+		openfile->totsize += extra;
 	update_undo(ENTER);
 #endif
 
