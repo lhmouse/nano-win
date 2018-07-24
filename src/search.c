@@ -366,7 +366,6 @@ void do_research(void)
 	tidy_up_after_search();
 }
 
-#ifndef NANO_TINY
 /* Search in the backward direction for the next occurrence. */
 void do_findprevious(void)
 {
@@ -380,7 +379,6 @@ void do_findnext(void)
 	UNSET(BACKWARDS_SEARCH);
 	do_research();
 }
-#endif /* !NANO_TINY */
 
 /* Report on the status bar that the given string was not found. */
 void not_found_msg(const char *str)

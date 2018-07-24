@@ -487,10 +487,8 @@ void do_search(void);
 void do_search_forward(void);
 void do_search_backward(void);
 void do_research(void);
-#ifndef NANO_TINY
 void do_findprevious(void);
 void do_findnext(void);
-#endif
 void not_found_msg(const char *str);
 void go_looking(void);
 ssize_t do_replace_loop(const char *needle, bool whole_word_only,
