@@ -1782,6 +1782,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			umask(original_umask);
 	}
 
+#ifndef NANO_TINY
 	/* If we're prepending, copy the file to a temp file. */
 	if (method == PREPEND) {
 		int fd_source;
@@ -1828,6 +1829,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			goto cleanup_and_exit;
 		}
 	}
+#endif /* !NANO_TINY */
 
 	if (f_open == NULL) {
 		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
@@ -1909,6 +1911,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		lineswritten++;
 	}
 
+#ifndef NANO_TINY
 	/* If we're prepending, open the temp file, and append it to f. */
 	if (method == PREPEND) {
 		int fd_source;
@@ -1936,7 +1939,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		}
 
 		unlink(tempname);
-	} else if (fclose(f) != 0) {
+	} else
+#endif
+	if (fclose(f) != 0) {
 		statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 		goto cleanup_and_exit;
