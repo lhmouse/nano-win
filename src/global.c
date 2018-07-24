@@ -503,6 +503,7 @@ void shortcut_init(void)
 {
 	const char *readfile_tag = N_("Read File");
 	const char *whereis_tag = N_("Where Is");
+	const char *wherewas_tag = N_("Where Was");
 	const char *replace_tag = N_("Replace");
 	const char *gotoline_tag = N_("Go To Line");
 	const char *prevline_tag = N_("Prev Line");
@@ -533,7 +534,8 @@ void shortcut_init(void)
 	const char *wherewas_gist =
 		N_("Search backward for a string or a regular expression");
 #ifdef ENABLE_BROWSER
-	const char *browserwhereis_gist = N_("Search for a string");
+	const char *browserwhereis_gist = N_("Search forward for a string");
+	const char *browserwherewas_gist = N_("Search backward for a string");
 	const char *browserrefresh_gist = N_("Refresh the file list");
 #ifndef NANO_TINY
 	const char *browserlefthand_gist = N_("Go to lefthand column");
@@ -738,12 +740,6 @@ void shortcut_init(void)
 		replace_tag, WITHORSANS(replace_gist), TOGETHER, NOVIEW);
 
 #ifdef ENABLE_BROWSER
-	add_to_funcs(do_search_forward, MBROWSER,
-		whereis_tag, WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
-
-	add_to_funcs(do_research, MBROWSER,
-		whereisnext_tag, WITHORSANS(whereisnext_gist), BLANKAFTER, VIEW);
-
 	add_to_funcs(goto_dir_void, MBROWSER,
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 
@@ -841,7 +837,13 @@ void shortcut_init(void)
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 #endif
 
-	add_to_funcs(do_search_backward, MMAIN|MHELP|MBROWSER,
+#ifdef ENABLE_BROWSER
+	add_to_funcs(do_search_forward, MBROWSER,
+		whereis_tag, WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
+	add_to_funcs(do_search_backward, MBROWSER,
+		wherewas_tag, WITHORSANS(browserwherewas_gist), TOGETHER, VIEW);
+#endif
+	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
 	add_to_funcs(do_findprevious, MMAIN|MHELP|MBROWSER,

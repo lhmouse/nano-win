@@ -190,7 +190,7 @@ void read_the_list(const char *path, DIR *dir);
 functionptrtype parse_browser_input(int *kbinput);
 void browser_refresh(void);
 void browser_select_dirname(const char *needle);
-void do_filesearch(void);
+void do_filesearch(bool forwards);
 void do_fileresearch(bool forwards);
 void to_first_file(void);
 void to_last_file(void);
