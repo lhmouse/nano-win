@@ -629,9 +629,9 @@ void shortcut_init(void)
 		N_("Comment/uncomment the current line (or marked lines)");
 #endif
 	const char *savefile_gist = N_("Save file without prompting");
-#ifndef NANO_TINY
 	const char *findprev_gist = N_("Search next occurrence backward");
 	const char *findnext_gist = N_("Search next occurrence forward");
+#ifndef NANO_TINY
 	const char *recordmacro_gist = N_("Start/stop recording a macro");
 	const char *runmacro_gist = N_("Run the last recorded macro");
 #endif
@@ -836,15 +836,19 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	add_to_funcs(do_find_bracket, MMAIN,
 		N_("To Bracket"), WITHORSANS(bracket_gist), BLANKAFTER, VIEW);
+#else
+	/* Place this one here only in the tiny version; otherwise further down. */
+	add_to_funcs(do_savefile, MMAIN,
+		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
+#endif
 
-	add_to_funcs(do_research, MMAIN,
-		whereisnext_tag, WITHORSANS(whereisnext_gist), TOGETHER, VIEW);
-
+	add_to_funcs(do_search_backward, MMAIN,
+		/* TRANSLATORS: This starts a backward search. */
+		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
 	add_to_funcs(do_findprevious, MMAIN,
 		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
 	add_to_funcs(do_findnext, MMAIN,
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
-#endif /* !NANO_TINY */
 
 	add_to_funcs(do_left, MMAIN,
 		N_("Back"), WITHORSANS(back_gist), TOGETHER, VIEW);
@@ -912,12 +916,6 @@ void shortcut_init(void)
 		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
-#ifdef NANO_TINY
-	/* Place this one here only in the tiny version; otherwise further up. */
-	add_to_funcs(do_research, MMAIN,
-		whereisnext_tag, WITHORSANS(whereisnext_gist), TOGETHER, VIEW);
-#endif
-
 	add_to_funcs(do_tab, MMAIN,
 		N_("Tab"), WITHORSANS(tab_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_enter, MMAIN,
@@ -982,14 +980,13 @@ void shortcut_init(void)
 		N_("Record"), WITHORSANS(recordmacro_gist), TOGETHER, VIEW);
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
-#endif
-	add_to_funcs(do_search_backward, MMAIN,
-		/* TRANSLATORS: This starts a backward search. */
-		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
+
+	add_to_funcs(do_research, MMAIN,
+		whereisnext_tag, WITHORSANS(whereisnext_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
-
+#endif
 #ifdef ENABLE_HISTORIES
 	add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 		N_("PrevHstory"), WITHORSANS(prevhistory_gist), TOGETHER, VIEW);
