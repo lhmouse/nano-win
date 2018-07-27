@@ -206,11 +206,11 @@ void do_help(void)
 		} else if (func == to_last_line) {
 			to_last_line();
 		} else if (func == do_search_forward) {
-			do_search();
+			do_search_forward();
 			bottombars(MHELP);
-		} else if (func == do_research) {
-			do_research();
-#ifndef NANO_TINY
+		} else if (func == do_search_backward) {
+			do_search_backward();
+			bottombars(MHELP);
 		} else if (func == do_findprevious) {
 			do_findprevious();
 		} else if (func == do_findnext) {
@@ -219,6 +219,7 @@ void do_help(void)
 		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MHELP, func)->expansion);
 #endif
+#ifndef NANO_TINY
 		} else if (kbinput == KEY_WINCH) {
 			; /* Nothing to do. */
 #endif

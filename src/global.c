@@ -758,7 +758,6 @@ void shortcut_init(void)
 	add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
 
 	add_to_funcs(do_search_forward, MHELP, whereis_tag, "x", 0, VIEW);
-	add_to_funcs(do_research, MHELP, whereisnext_tag, "x", 0, VIEW);
 #endif
 
 	add_to_funcs(do_cut_text_void, MMAIN,
@@ -842,12 +841,12 @@ void shortcut_init(void)
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 #endif
 
-	add_to_funcs(do_search_backward, MMAIN,
+	add_to_funcs(do_search_backward, MMAIN|MHELP|MBROWSER,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
-	add_to_funcs(do_findprevious, MMAIN,
+	add_to_funcs(do_findprevious, MMAIN|MHELP|MBROWSER,
 		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
-	add_to_funcs(do_findnext, MMAIN,
+	add_to_funcs(do_findnext, MMAIN|MHELP|MBROWSER,
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_left, MMAIN,
@@ -1099,7 +1098,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
 	add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
 	add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
-	add_to_sclist(MMAIN, "^Q", 0, do_search_backward, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "^Q", 0, do_search_backward, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search_forward, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search_forward, 0);
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
@@ -1140,10 +1139,9 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "M-/", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-?", 0, to_last_line, 0);
-	add_to_sclist(MMAIN, "M-W", 0, do_findnext, 0);
-	add_to_sclist(MMAIN, "M-Q", 0, do_findprevious, 0);
-	add_to_sclist(MHELP|MBROWSER, "M-W", 0, do_research, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "F16", 0, do_research, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_findnext, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-Q", 0, do_findprevious, 0);
+	add_to_sclist(MMAIN, "F16", 0, do_research, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
@@ -1489,12 +1487,10 @@ sc *strtosc(const char *input)
 		s->func = do_search_backward;
 	else if (!strcasecmp(input, "searchagain"))
 		s->func = do_research;
-#ifndef NANO_TINY
 	else if (!strcasecmp(input, "findprevious"))
 		s->func = do_findprevious;
 	else if (!strcasecmp(input, "findnext"))
 		s->func = do_findnext;
-#endif
 	else if (!strcasecmp(input, "replace"))
 		s->func = do_replace;
 	else if (!strcasecmp(input, "cut"))
