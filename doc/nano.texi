@@ -1120,16 +1120,14 @@ Starts a forward search for text in the current buffer --- or for filenames
 matching a string in the current list in the file browser.
 
 @item wherewas
-Starts a backward search for text in the current buffer.
-
-@item searchagain
-Repeats the last search command without prompting.
+Starts a backward search for text in the current buffer --- or for filenames
+matching a string in the current list in the file browser.
 
 @item findprevious
-As @code{searchagain}, but always in the backward direction.
+Searches the next occurrence in the backward direction.
 
 @item findnext
-As @code{searchagain}, but always in the forward direction.
+Searches the next occurrence in the forward direction.
 
 @item replace
 Interactively replaces text within the current buffer.

@@ -515,8 +515,6 @@ void shortcut_init(void)
 	const char *fulljustify_tag = N_("FullJstify");
 #endif
 	const char *refresh_tag = N_("Refresh");
-	/* TRANSLATORS: Try to keep this string at most 12 characters. */
-	const char *whereisnext_tag = N_("WhereIs Next");
 
 #ifdef ENABLE_HELP
 	/* TRANSLATORS: The next long series of strings are shortcut descriptions;
@@ -556,7 +554,6 @@ void shortcut_init(void)
 #endif
 	const char *replace_gist = N_("Replace a string or a regular expression");
 	const char *gotoline_gist = N_("Go to line and column number");
-	const char *whereisnext_gist = N_("Repeat the last search");
 #ifndef NANO_TINY
 	const char *mark_gist = N_("Mark text starting from the cursor position");
 	const char *copy_gist =
@@ -982,9 +979,6 @@ void shortcut_init(void)
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
 
-	add_to_funcs(do_research, MMAIN,
-		whereisnext_tag, WITHORSANS(whereisnext_gist), BLANKAFTER, VIEW);
-
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 #endif
@@ -1143,7 +1137,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "M-?", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_findnext, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-Q", 0, do_findprevious, 0);
-	add_to_sclist(MMAIN, "F16", 0, do_research, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
@@ -1487,8 +1480,6 @@ sc *strtosc(const char *input)
 		s->func = do_search_forward;
 	else if (!strcasecmp(input, "wherewas"))
 		s->func = do_search_backward;
-	else if (!strcasecmp(input, "searchagain"))
-		s->func = do_research;
 	else if (!strcasecmp(input, "findprevious"))
 		s->func = do_findprevious;
 	else if (!strcasecmp(input, "findnext"))
