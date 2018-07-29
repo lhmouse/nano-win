@@ -583,11 +583,9 @@ functionptrtype parse_help_input(int *kbinput)
 			case '/':
 				return do_search_forward;
 			case 'N':
-#ifndef NANO_TINY
 				return do_findprevious;
-#endif
 			case 'n':
-				return do_research;
+				return do_findnext;
 			case 'E':
 			case 'e':
 			case 'Q':

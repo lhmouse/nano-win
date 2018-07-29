@@ -486,7 +486,6 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 void do_search(void);
 void do_search_forward(void);
 void do_search_backward(void);
-void do_research(void);
 void do_findprevious(void);
 void do_findnext(void);
 void not_found_msg(const char *str);
