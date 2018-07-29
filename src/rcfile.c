@@ -94,7 +94,6 @@ static const rcoption rcopts[] = {
 	{"autoindent", AUTOINDENT},
 	{"backup", BACKUP_FILE},
 	{"backupdir", 0},
-	{"backwards", BACKWARDS_SEARCH},
 	{"casesensitive", CASE_SENSITIVE},
 	{"cut", CUT_FROM_CURSOR},  /* deprecated form, remove end of 2018 */
 	{"cutfromcursor", CUT_FROM_CURSOR},

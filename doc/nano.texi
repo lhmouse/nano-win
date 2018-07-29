@@ -718,10 +718,6 @@ numbered one every time a file is saved --- when backups are enabled
 with @code{set backup} or @option{--backup} or @option{-B}.
 The uniquely numbered files are stored in the specified directory.
 
-@item set backwards
-Obsolete option.  Recognized but ignored.  @code{^Q} is available to
-start a backward search.
-
 @item set boldtext
 Use bold instead of reverse video for the title bar, status bar, key combos,
 function tags, line numbers, and selected text.  This can be overridden by
