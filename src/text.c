@@ -1088,12 +1088,10 @@ void do_enter(void)
 }
 
 #ifndef NANO_TINY
-/* Send a SIGKILL (unconditional kill) to the forked process in
- * execute_command(). */
+/* Send an unconditional kill signal to the running external command. */
 RETSIGTYPE cancel_the_command(int signal)
 {
-	if (kill(pid_of_command, SIGKILL) == -1)
-		nperror("kill");
+	kill(pid_of_command, SIGKILL);
 }
 
 /* Send the text that starts at the given line to file descriptor fd. */
