@@ -566,9 +566,13 @@ void replace_marked_buffer(const char *filename)
 	/* Don't add a magicline when replacing text in the buffer. */
 	SET(NO_NEWLINES);
 
+	add_undo(COUPLE_BEGIN);
+
 	/* Throw away the text under the mark. */
 	cutbuffer = NULL;
+	add_undo(CUT);
 	do_cut_text(FALSE, TRUE, FALSE);
+	update_undo(CUT);
 	free_filestruct(cutbuffer);
 	cutbuffer = was_cutbuffer;
 
@@ -578,6 +582,8 @@ void replace_marked_buffer(const char *filename)
 	/* Restore the magicline behavior now that we're done fiddling. */
 	if (!old_no_newlines)
 		UNSET(NO_NEWLINES);
+
+	add_undo(COUPLE_END);
 }
 #endif /* !NANO_TINY */
 #endif /* ENABLE_SPELLER */
