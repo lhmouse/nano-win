@@ -715,7 +715,14 @@ void shortcut_init(void)
 #endif
 	}
 
-	add_to_funcs(do_search_forward, MMAIN,
+#ifdef ENABLE_HELP
+	/* The description ("x") and blank_after (0) are irrelevant,
+	 * because the help viewer does not have a help text. */
+	add_to_funcs(total_refresh, MHELP, N_("Refresh"), "x", 0, VIEW);
+	add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
+#endif
+
+	add_to_funcs(do_search_forward, MMAIN|MHELP,
 		N_("Where Is"), WITHORSANS(whereis_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_replace, MMAIN,
@@ -727,15 +734,6 @@ void shortcut_init(void)
 
 	add_to_funcs(total_refresh, MBROWSER,
 		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
-#endif
-
-#ifdef ENABLE_HELP
-	/* The description ("x") and blank_after (0) are irrelevant,
-	 * because the help viewer does not have a help text. */
-	add_to_funcs(total_refresh, MHELP, N_("Refresh"), "x", 0, VIEW);
-	add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
-
-	add_to_funcs(do_search_forward, MHELP, N_("Where Is"), "x", 0, VIEW);
 #endif
 
 	add_to_funcs(do_cut_text_void, MMAIN,
