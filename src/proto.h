@@ -269,8 +269,7 @@ bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
 void replace_buffer(const char *filename);
 #ifndef NANO_TINY
-void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
-		filestruct *bot, size_t bot_x);
+void replace_marked_buffer(const char *filename);
 #endif
 #endif
 void prepare_for_display(void);

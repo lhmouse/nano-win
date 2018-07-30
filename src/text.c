@@ -2880,9 +2880,8 @@ const char *do_alt_speller(char *tempfile_name)
 
 		mark_order((const filestruct **)&top, &top_x,
 						(const filestruct **)&bot, &bot_x, &right_side_up);
-		openfile->mark = NULL;
 
-		replace_marked_buffer(tempfile_name, top, top_x, bot, bot_x);
+		replace_marked_buffer(tempfile_name);
 
 		/* Adjust the end point of the marked region for any change in
 		 * length of the region's last line. */

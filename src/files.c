@@ -535,16 +535,14 @@ void replace_buffer(const char *filename)
 
 #ifndef NANO_TINY
 /* Open the specified file, and if that succeeds, blow away the text of
- * the current buffer at the given coordinates and read the file
+ * the current buffer covered by the mark and read the file
  * contents into its place. */
-void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
-		filestruct *bot, size_t bot_x)
+void replace_marked_buffer(const char *filename)
 {
 	FILE *f;
 	int descriptor;
 	bool old_no_newlines = ISSET(NO_NEWLINES);
-	filestruct *trash_top = NULL;
-	filestruct *trash_bot = NULL;
+	filestruct *was_cutbuffer = cutbuffer;
 
 	descriptor = open_file(filename, FALSE, TRUE, &f);
 
@@ -554,10 +552,13 @@ void replace_marked_buffer(const char *filename, filestruct *top, size_t top_x,
 	/* Don't add a magicline when replacing text in the buffer. */
 	SET(NO_NEWLINES);
 
-	/* Throw away the text under the mark, and insert the processed file
-	 * where the marked text was. */
-	extract_buffer(&trash_top, &trash_bot, top, top_x, bot, bot_x);
-	free_filestruct(trash_top);
+	/* Throw away the text under the mark. */
+	cutbuffer = NULL;
+	do_cut_text(FALSE, TRUE, FALSE);
+	free_filestruct(cutbuffer);
+	cutbuffer = was_cutbuffer;
+
+	/* Insert the processed file where the marked text was. */
 	read_file(f, descriptor, filename, FALSE);
 
 	/* Restore the magicline behavior now that we're done fiddling. */
