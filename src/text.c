@@ -32,9 +32,8 @@
 #include <sys/wait.h>
 
 #ifndef NANO_TINY
-static pid_t pid = -1;
-		/* The PID of the forked process in execute_command(), for use
-		 * with the cancel_command() signal handler. */
+static pid_t pid_of_command = -1;
+		/* The PID of the forked process -- needed when wanting to abort it. */
 #endif
 #ifdef ENABLE_WRAPPING
 static bool prepend_wrap = FALSE;
@@ -1091,9 +1090,9 @@ void do_enter(void)
 #ifndef NANO_TINY
 /* Send a SIGKILL (unconditional kill) to the forked process in
  * execute_command(). */
-RETSIGTYPE cancel_command(int signal)
+RETSIGTYPE cancel_the_command(int signal)
 {
-	if (kill(pid, SIGKILL) == -1)
+	if (kill(pid_of_command, SIGKILL) == -1)
 		nperror("kill");
 }
 
@@ -1140,7 +1139,7 @@ bool execute_command(const char *command)
 		shellenv = (char *) "/bin/sh";
 
 	/* Fork a child process to run the command in. */
-	if ((pid = fork()) == 0) {
+	if ((pid_of_command = fork()) == 0) {
 		/* Child: close the unused read end of the output pipe. */
 		close(from_fd[0]);
 
@@ -1165,7 +1164,7 @@ bool execute_command(const char *command)
 	/* Parent: close the unused write end of the pipe. */
 	close(from_fd[1]);
 
-	if (pid == -1) {
+	if (pid_of_command == -1) {
 		statusbar(_("Could not fork"));
 		close(from_fd[0]);
 		return FALSE;
@@ -1221,7 +1220,7 @@ bool execute_command(const char *command)
 		setup_failed = TRUE;
 		nperror("sigaction");
 	} else {
-		newaction.sa_handler = cancel_command;
+		newaction.sa_handler = cancel_the_command;
 		if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
 			setup_failed = TRUE;
 			nperror("sigaction");
