@@ -501,21 +501,6 @@ const char *unjust_tag = N_("Unjustify");
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
 {
-	const char *readfile_tag = N_("Read File");
-	const char *whereis_tag = N_("Where Is");
-	const char *wherewas_tag = N_("Where Was");
-	const char *replace_tag = N_("Replace");
-	const char *gotoline_tag = N_("Go To Line");
-	const char *prevline_tag = N_("Prev Line");
-	const char *nextline_tag = N_("Next Line");
-	const char *prevpage_tag = N_("Prev Page");
-	const char *nextpage_tag = N_("Next Page");
-#ifdef ENABLE_JUSTIFY
-	const char *justify_tag = N_("Justify");
-	const char *fulljustify_tag = N_("FullJstify");
-#endif
-	const char *refresh_tag = N_("Refresh");
-
 #ifdef ENABLE_HELP
 	/* TRANSLATORS: The next long series of strings are shortcut descriptions;
 	 * they are best kept shorter than 56 characters, but may be longer. */
@@ -715,7 +700,7 @@ void shortcut_init(void)
 	if (TRUE) {
 #endif
 		add_to_funcs(do_insertfile_void, MMAIN,
-				readfile_tag, WITHORSANS(readfile_gist), BLANKAFTER,
+				N_("Read File"), WITHORSANS(readfile_gist), BLANKAFTER,
 				/* We allow inserting files in view mode if multibuffer mode
 				 * is switched on, so that we can view multiple files. */
 #ifdef ENABLE_MULTIBUFFER
@@ -726,31 +711,31 @@ void shortcut_init(void)
 	} else {
 #ifdef ENABLE_JUSTIFY
 		add_to_funcs(do_justify_void, MMAIN,
-				justify_tag, WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
+				N_("Justify"), WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
 
 	add_to_funcs(do_search_forward, MMAIN,
-		whereis_tag, WITHORSANS(whereis_gist), TOGETHER, VIEW);
+		N_("Where Is"), WITHORSANS(whereis_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_replace, MMAIN,
-		replace_tag, WITHORSANS(replace_gist), TOGETHER, NOVIEW);
+		N_("Replace"), WITHORSANS(replace_gist), TOGETHER, NOVIEW);
 
 #ifdef ENABLE_BROWSER
 	add_to_funcs(goto_dir_void, MBROWSER,
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 
 	add_to_funcs(total_refresh, MBROWSER,
-		refresh_tag, WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
+		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifdef ENABLE_HELP
 	/* The description ("x") and blank_after (0) are irrelevant,
 	 * because the help viewer does not have a help text. */
-	add_to_funcs(total_refresh, MHELP, refresh_tag, "x", 0, VIEW);
+	add_to_funcs(total_refresh, MHELP, N_("Refresh"), "x", 0, VIEW);
 	add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
 
-	add_to_funcs(do_search_forward, MHELP, whereis_tag, "x", 0, VIEW);
+	add_to_funcs(do_search_forward, MHELP, N_("Where Is"), "x", 0, VIEW);
 #endif
 
 	add_to_funcs(do_cut_text_void, MMAIN,
@@ -764,7 +749,7 @@ void shortcut_init(void)
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_JUSTIFY
 		add_to_funcs(do_justify_void, MMAIN,
-				justify_tag, WITHORSANS(justify_gist), TOGETHER, NOVIEW);
+				N_("Justify"), WITHORSANS(justify_gist), TOGETHER, NOVIEW);
 #endif
 
 #ifdef ENABLE_SPELLER
@@ -789,7 +774,7 @@ void shortcut_init(void)
 	/* Conditionally placing this one here or further on, to keep the
 	 * help items nicely paired in most conditions. */
 	add_to_funcs(do_gotolinecolumn_void, MMAIN,
-		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
+		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -812,17 +797,17 @@ void shortcut_init(void)
 		N_("Backwards"), WITHORSANS(reverse_gist), TOGETHER, VIEW);
 
 	add_to_funcs(flip_replace, MWHEREIS,
-		replace_tag, WITHORSANS(replace_gist), BLANKAFTER, VIEW);
+		N_("Replace"), WITHORSANS(replace_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(flip_replace, MREPLACE,
 		N_("No Replace"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_full_justify, MWHEREIS,
-		fulljustify_tag, WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
+		N_("FullJstify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(flip_goto, MWHEREIS,
-		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
+		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -836,9 +821,9 @@ void shortcut_init(void)
 
 #ifdef ENABLE_BROWSER
 	add_to_funcs(do_search_forward, MBROWSER,
-		whereis_tag, WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
+		N_("Where Is"), WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
 	add_to_funcs(do_search_backward, MBROWSER,
-		wherewas_tag, WITHORSANS(browserwherewas_gist), TOGETHER, VIEW);
+		N_("Where Was"), WITHORSANS(browserwherewas_gist), TOGETHER, VIEW);
 #endif
 	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		/* TRANSLATORS: This starts a backward search. */
@@ -870,9 +855,9 @@ void shortcut_init(void)
 		N_("End"), WITHORSANS(end_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_up, MMAIN|MHELP|MBROWSER,
-		prevline_tag, WITHORSANS(prevline_gist), TOGETHER, VIEW);
+		N_("Prev Line"), WITHORSANS(prevline_gist), TOGETHER, VIEW);
 	add_to_funcs(do_down, MMAIN|MHELP|MBROWSER,
-		nextline_tag, WITHORSANS(nextline_gist), TOGETHER, VIEW);
+		N_("Next Line"), WITHORSANS(nextline_gist), TOGETHER, VIEW);
 #ifdef ENABLE_HELP
 	add_to_funcs(do_scroll_up, MMAIN,
 		N_("Scroll Up"), WITHORSANS(scrollup_gist), TOGETHER, VIEW);
@@ -892,9 +877,9 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(do_page_up, MMAIN|MHELP,
-		prevpage_tag, WITHORSANS(prevpage_gist), TOGETHER, VIEW);
+		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MMAIN|MHELP,
-		nextpage_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
+		N_("Prev Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
 	add_to_funcs(to_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 		N_("First Line"), WITHORSANS(firstline_gist), TOGETHER, VIEW);
@@ -911,7 +896,7 @@ void shortcut_init(void)
 #if (!defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)) || \
 		defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && !defined(ENABLE_COLOR))
 	add_to_funcs(do_gotolinecolumn_void, MMAIN,
-		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
+		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
 	add_to_funcs(do_tab, MMAIN,
@@ -942,7 +927,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_full_justify, MMAIN,
-		fulljustify_tag, WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
+		N_("FullJstify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -954,7 +939,7 @@ void shortcut_init(void)
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
 	add_to_funcs(total_refresh, MMAIN,
-		refresh_tag, WITHORSANS(refresh_gist), TOGETHER, VIEW);
+		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_suspend_void, MMAIN,
 		N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
@@ -991,7 +976,7 @@ void shortcut_init(void)
 
 #ifndef ENABLE_JUSTIFY
 	add_to_funcs(flip_goto, MWHEREIS,
-		gotoline_tag, WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
+		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
 	add_to_funcs(flip_goto, MGOTOLINE,
@@ -1023,7 +1008,7 @@ void shortcut_init(void)
 			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
 
 		add_to_funcs(flip_execute, MEXTCMD,
-			readfile_tag, WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
+			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
 	}
 #endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
@@ -1044,9 +1029,9 @@ void shortcut_init(void)
 			N_("To Files"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_page_up, MBROWSER,
-		prevpage_tag, WITHORSANS(prevpage_gist), TOGETHER, VIEW);
+		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MBROWSER,
-		nextpage_tag, WITHORSANS(nextpage_gist), TOGETHER, VIEW);
+		N_("Prev Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
 	add_to_funcs(to_first_file, MBROWSER|MWHEREISFILE,
 		N_("First File"), WITHORSANS(firstfile_gist), TOGETHER, VIEW);
