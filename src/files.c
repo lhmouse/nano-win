@@ -512,6 +512,7 @@ void replace_buffer(const char *filename)
 {
 	FILE *f;
 	int descriptor;
+	filestruct *was_cutbuffer = cutbuffer;
 
 	/* Open the file quietly. */
 	descriptor = open_file(filename, FALSE, TRUE, &f);
@@ -520,15 +521,16 @@ void replace_buffer(const char *filename)
 	if (descriptor < 0)
 		return;
 
-	/* Reinitialize the text of the current buffer. */
-	free_filestruct(openfile->fileage);
-	initialize_buffer_text();
+	/* Throw away the text of the file. */
+	cutbuffer = NULL;
+	openfile->current = openfile->fileage;
+	openfile->current_x = 0;
+	do_cut_text(FALSE, FALSE, TRUE);
+	free_filestruct(cutbuffer);
+	cutbuffer = was_cutbuffer;
 
 	/* Insert the processed file into its place. */
 	read_file(f, descriptor, filename, FALSE);
-
-	/* Put current at a place that is certain to exist. */
-	openfile->current = openfile->fileage;
 }
 
 #ifndef NANO_TINY
