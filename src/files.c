@@ -521,16 +521,30 @@ void replace_buffer(const char *filename)
 	if (descriptor < 0)
 		return;
 
+#ifndef NANO_TINY
+	add_undo(COUPLE_BEGIN);
+#endif
+
 	/* Throw away the text of the file. */
 	cutbuffer = NULL;
 	openfile->current = openfile->fileage;
 	openfile->current_x = 0;
+#ifndef NANO_TINY
+	add_undo(CUT_TO_EOF);
+#endif
 	do_cut_text(FALSE, FALSE, TRUE);
+#ifndef NANO_TINY
+	update_undo(CUT_TO_EOF);
+#endif
 	free_filestruct(cutbuffer);
 	cutbuffer = was_cutbuffer;
 
 	/* Insert the processed file into its place. */
 	read_file(f, descriptor, filename, FALSE);
+
+#ifndef NANO_TINY
+	add_undo(COUPLE_END);
+#endif
 }
 
 #ifndef NANO_TINY
