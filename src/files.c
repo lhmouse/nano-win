@@ -540,7 +540,7 @@ void replace_buffer(const char *filename)
 	cutbuffer = was_cutbuffer;
 
 	/* Insert the processed file into its place. */
-	read_file(f, descriptor, filename, FALSE);
+	read_file(f, descriptor, filename, TRUE);
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_END);
@@ -577,7 +577,7 @@ void replace_marked_buffer(const char *filename)
 	cutbuffer = was_cutbuffer;
 
 	/* Insert the processed file where the marked text was. */
-	read_file(f, descriptor, filename, FALSE);
+	read_file(f, descriptor, filename, TRUE);
 
 	/* Restore the magicline behavior now that we're done fiddling. */
 	if (!old_no_newlines)

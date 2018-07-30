@@ -2906,14 +2906,8 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Stat the temporary file again, and mark the buffer as modified only
 	 * if this file was changed since it was written. */
 	stat(tempfile_name, &spellfileinfo);
-	if (spellfileinfo.st_mtime != timestamp) {
+	if (spellfileinfo.st_mtime != timestamp)
 		set_modified();
-#ifndef NANO_TINY
-		/* Flush the undo stack, to avoid making a mess when the user
-		 * tries to undo things in spell-corrected lines. */
-		discard_until(NULL, openfile, FALSE);
-#endif
-	}
 
 #ifndef NANO_TINY
 	/* Unblock SIGWINCHes again. */
