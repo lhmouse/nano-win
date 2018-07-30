@@ -1114,7 +1114,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgDn", KEY_NPAGE, do_page_down, 0);
 	add_to_sclist(MMAIN|MHELP, "M-\\", 0, to_first_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^Home", CONTROL_HOME, to_first_line, 0);
-	add_to_sclist(MMAIN|MHELP, "M-|", 0, to_first_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-/", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-?", 0, to_last_line, 0);
@@ -1136,6 +1135,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
 	add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
 	add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
+	add_to_sclist(MMAIN, "M-|", 0, do_cut_prev_word, 0);
 	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, do_cut_next_word, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
