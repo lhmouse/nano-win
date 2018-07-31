@@ -1116,7 +1116,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "^Home", CONTROL_HOME, to_first_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-/", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, to_last_line, 0);
-	add_to_sclist(MMAIN|MHELP, "M-?", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-W", 0, do_findnext, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "M-Q", 0, do_findprevious, 0);
 #ifndef NANO_TINY
@@ -1291,8 +1290,6 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER|MWHEREISFILE, "M-/", 0, to_last_file, 0);
 	add_to_sclist(MBROWSER, "Home", KEY_HOME, to_first_file, 0);
 	add_to_sclist(MBROWSER, "End", KEY_END, to_last_file, 0);
-	add_to_sclist(MBROWSER|MWHEREISFILE, "M-|", 0, to_first_file, 0);
-	add_to_sclist(MBROWSER|MWHEREISFILE, "M-?", 0, to_last_file, 0);
 	add_to_sclist(MBROWSER, "^Home", CONTROL_HOME, to_first_file, 0);
 	add_to_sclist(MBROWSER, "^End", CONTROL_END, to_last_file, 0);
 	add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
