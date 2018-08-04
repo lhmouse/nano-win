@@ -1105,7 +1105,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 			if (!parse_num(option, &wrap_at)) {
 				rcfile_error(N_("Requested fill size \"%s\" is invalid"),
 								option);
-				wrap_at = -CHARS_FROM_EOL;
+				wrap_at = -COLUMNS_FROM_EOL;
 			} else
 				UNSET(NO_WRAP);
 			free(option);

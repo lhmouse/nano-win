@@ -630,9 +630,8 @@ enum
 /* The maximum number of entries displayed in the main shortcut list. */
 #define MAIN_VISIBLE (((COLS + 40) / 20) * 2)
 
-/* The default number of characters from the end of the line where
- * wrapping occurs. */
-#define CHARS_FROM_EOL 8
+/* The default number of columns from end of line where wrapping occurs. */
+#define COLUMNS_FROM_EOL 8
 
 /* The default width of a tab in spaces. */
 #define WIDTH_OF_TAB 8
