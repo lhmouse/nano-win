@@ -78,9 +78,7 @@ int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
 #ifdef ENABLED_WRAPORJUSTIFY
-ssize_t fill = 0;
-		/* The column where we will wrap lines. */
-ssize_t wrap_at = -COLUMNS_FROM_EOL;
+ssize_t fill = -COLUMNS_FROM_EOL;
 		/* The column where we will wrap lines. */
 #endif
 

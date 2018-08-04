@@ -718,7 +718,6 @@ void window_init(void)
 
 #ifdef ENABLED_WRAPORJUSTIFY
 	/* Set up the wrapping point, accounting for screen width when negative. */
-	fill = wrap_at;
 	if (fill <= 0)
 		fill += COLS;
 	if (fill < 0)
@@ -2246,7 +2245,7 @@ int main(int argc, char **argv)
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'r':
-				if (!parse_num(optarg, &wrap_at)) {
+				if (!parse_num(optarg, &fill)) {
 					fprintf(stderr, _("Requested fill size \"%s\" is invalid"), optarg);
 					fprintf(stderr, "\n");
 					exit(1);
@@ -2334,7 +2333,7 @@ int main(int argc, char **argv)
 		char *operating_dir_cpy = operating_dir;
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
-		ssize_t wrap_at_cpy = wrap_at;
+		ssize_t fill_cpy = fill;
 #endif
 #ifndef NANO_TINY
 		char *backup_dir_cpy = backup_dir;
@@ -2382,7 +2381,7 @@ int main(int argc, char **argv)
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (fill_used)
-			wrap_at = wrap_at_cpy;
+			fill = fill_cpy;
 #endif
 #ifndef NANO_TINY
 		if (backup_dir_cpy != NULL) {

@@ -1102,10 +1102,10 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (strcasecmp(rcopts[i].name, "fill") == 0) {
-			if (!parse_num(option, &wrap_at)) {
+			if (!parse_num(option, &fill)) {
 				rcfile_error(N_("Requested fill size \"%s\" is invalid"),
 								option);
-				wrap_at = -COLUMNS_FROM_EOL;
+				fill = -COLUMNS_FROM_EOL;
 			} else
 				UNSET(NO_WRAP);
 			free(option);
