@@ -523,6 +523,7 @@ void replace_buffer(const char *filename)
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN);
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 #endif
 
 	/* Throw away the text of the file. */
@@ -544,6 +545,7 @@ void replace_buffer(const char *filename)
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_END);
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 #endif
 }
 
@@ -567,6 +569,7 @@ void replace_marked_buffer(const char *filename)
 	SET(NO_NEWLINES);
 
 	add_undo(COUPLE_BEGIN);
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 
 	/* Throw away the text under the mark. */
 	cutbuffer = NULL;
@@ -584,6 +587,7 @@ void replace_marked_buffer(const char *filename)
 		UNSET(NO_NEWLINES);
 
 	add_undo(COUPLE_END);
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 }
 #endif /* !NANO_TINY */
 #endif /* ENABLE_SPELLER */

@@ -796,7 +796,7 @@ void do_undo(void)
 		cutbottom = oldcutbottom;
 		break;
 	case COUPLE_BEGIN:
-		undidmsg = _("filtering");
+		undidmsg = u->strdata;
 		break;
 	case COUPLE_END:
 		openfile->current_undo = openfile->current_undo->next;
@@ -968,7 +968,7 @@ void do_redo(void)
 		do_redo();
 		return;
 	case COUPLE_END:
-		redidmsg = _("filtering");
+		redidmsg = u->strdata;
 		break;
 	case INDENT:
 		handle_indent_action(u, FALSE, TRUE);
@@ -1182,6 +1182,7 @@ bool execute_command(const char *command)
 #endif
 		{
 			add_undo(COUPLE_BEGIN);
+			openfile->undotop->strdata = mallocstrcpy(NULL, _("filtering"));
 			if (openfile->mark == NULL) {
 				openfile->current = openfile->fileage;
 				openfile->current_x = 0;
@@ -1231,8 +1232,10 @@ bool execute_command(const char *command)
 	else
 		read_file(stream, 0, "pipe", TRUE);
 
-	if (should_pipe && !ISSET(MULTIBUFFER))
+	if (should_pipe && !ISSET(MULTIBUFFER)) {
 		add_undo(COUPLE_END);
+		openfile->undotop->strdata = mallocstrcpy(NULL, _("filtering"));
+	}
 
 	if (wait(NULL) == -1)
 		nperror("wait");
