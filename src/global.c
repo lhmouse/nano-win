@@ -239,9 +239,10 @@ char *homedir = NULL;
 		/* The user's home directory, from $HOME or /etc/passwd. */
 char *statedir = NULL;
 		/* The directory for nano's history files. */
+#ifdef ENABLE_NANORC
 char *rcfile_with_errors = NULL;
 		/* The first nanorc file, if any, that produced warnings. */
-
+#endif
 
 /* Return the number of entries in the shortcut list for a given menu. */
 size_t length_of_list(int menu)

@@ -2661,8 +2661,10 @@ int main(int argc, char **argv)
 
 	prepare_for_display();
 
+#ifdef ENABLE_NANORC
 	if (rcfile_with_errors != NULL)
 		statusline(ALERT, _("Mistakes in '%s'"), rcfile_with_errors);
+#endif
 
 #ifdef ENABLE_HELP
 	if (*openfile->filename == '\0' && openfile->totsize == 0 &&

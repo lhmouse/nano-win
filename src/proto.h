@@ -178,7 +178,9 @@ extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
 extern char *statedir;
+#ifdef ENABLE_NANORC
 extern char *rcfile_with_errors;
+#endif
 
 typedef void (*functionptrtype)(void);
 
