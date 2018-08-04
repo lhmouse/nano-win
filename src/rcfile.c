@@ -928,7 +928,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 
 #ifdef ENABLE_COLOR
 		/* Handle extending first... */
-		if (strcasecmp(keyword, "extendsyntax") == 0) {
+		if (strcasecmp(keyword, "extendsyntax") == 0 && !syntax_only) {
 			syntaxtype *sint;
 			char *syntaxname = ptr;
 
@@ -991,7 +991,12 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #else
 			;
 #endif
-		else if (syntax_only)
+		else if (syntax_only && (strcasecmp(keyword, "set") == 0 ||
+								strcasecmp(keyword, "unset") == 0 ||
+								strcasecmp(keyword, "bind") == 0 ||
+								strcasecmp(keyword, "unbind") == 0 ||
+								strcasecmp(keyword, "include") == 0 ||
+								strcasecmp(keyword, "extendsyntax") == 0))
 			rcfile_error(N_("Command \"%s\" not allowed in included file"),
 										keyword);
 		else if (strcasecmp(keyword, "include") == 0)
