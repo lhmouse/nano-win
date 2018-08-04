@@ -1243,6 +1243,16 @@ void do_rcfiles(void)
 
 	check_vitals_mapped();
 
+#ifdef __linux__
+	/* On a Linux console, don't start nano when there are rcfile errors,
+	 * because otherwise these error messages get wiped. */
+	if (on_a_vt && rcfile_with_errors) {
+		fprintf(stderr, _("If needed, use nano with the -I option "
+							"to adjust your nanorc settings.\n"));
+		exit(1);
+	}
+#endif
+
 	free(nanorc);
 }
 
