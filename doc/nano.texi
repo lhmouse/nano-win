@@ -1441,6 +1441,9 @@ The 'search to replace' menu.
 @item replacewith
 The 'replace with' menu, which comes up after 'search to replace'.
 
+@item yesno
+The 'yesno' menu, where the Yes/No/All/Cancel question is asked.
+
 @item gotoline
 The 'goto line (and column)' menu.
 

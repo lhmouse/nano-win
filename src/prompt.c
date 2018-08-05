@@ -678,6 +678,8 @@ int do_yesno_prompt(bool all, const char *msg)
 		if (!ISSET(NO_HELP)) {
 			char shortstr[MAXCHARLEN + 2];
 				/* Temporary string for (translated) " Y", " N" and " A". */
+			const sc *cancelshortcut = first_sc_for(MYESNO, do_cancel);
+				/* The keystroke that is bound to the Cancel function. */
 
 			if (COLS < 32)
 				width = COLS / 2;
@@ -701,7 +703,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			}
 
 			wmove(bottomwin, 2, width);
-			post_one_key("^C", _("Cancel"), width);
+			post_one_key(cancelshortcut->keystr, _("Cancel"), width);
 		}
 
 		/* Color the statusbar over its full width and display the question. */

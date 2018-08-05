@@ -1713,6 +1713,8 @@ int strtomenu(const char *input)
 		return MREPLACE;
 	else if (!strcasecmp(input, "replacewith"))
 		return MREPLACEWITH;
+	else if (!strcasecmp(input, "yesno"))
+		return MYESNO;
 	else if (!strcasecmp(input, "gotoline"))
 		return MGOTOLINE;
 	else if (!strcasecmp(input, "writeout"))
