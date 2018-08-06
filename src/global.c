@@ -239,7 +239,20 @@ char *homedir = NULL;
 		/* The user's home directory, from $HOME or /etc/passwd. */
 char *statedir = NULL;
 		/* The directory for nano's history files. */
+
 #ifdef ENABLE_NANORC
+#define NUMBER_OF_MENUS  16
+char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
+									"yesno", "gotoline", "writeout", "insert",
+									"extcmd", "help", "spell", "linter",
+									"browser", "whereisfile", "gotodir",
+									"all" };
+int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
+									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
+									MEXTCMD, MHELP, MSPELL, MLINTER,
+									MBROWSER, MWHEREISFILE, MGOTODIR,
+									MMOST|MHELP|MYESNO };
+
 char *rcfile_with_errors = NULL;
 		/* The first nanorc file, if any, that produced warnings. */
 #endif
@@ -1689,45 +1702,12 @@ sc *strtosc(const char *input)
 /* Interpret a menu name and return the corresponding menu flag. */
 int strtomenu(const char *input)
 {
-	if (!strcasecmp(input, "all"))
-		return (MMOST|MHELP|MYESNO);
-	else if (!strcasecmp(input, "main"))
-		return MMAIN;
-	else if (!strcasecmp(input, "search"))
-		return MWHEREIS;
-	else if (!strcasecmp(input, "replace"))
-		return MREPLACE;
-	else if (!strcasecmp(input, "replacewith"))
-		return MREPLACEWITH;
-	else if (!strcasecmp(input, "yesno"))
-		return MYESNO;
-	else if (!strcasecmp(input, "gotoline"))
-		return MGOTOLINE;
-	else if (!strcasecmp(input, "writeout"))
-		return MWRITEFILE;
-	else if (!strcasecmp(input, "insert"))
-		return MINSERTFILE;
-	else if (!strcasecmp(input, "externalcmd") ||
-			 !strcasecmp(input, "extcmd"))
-		return MEXTCMD;
-#ifdef ENABLE_HELP
-	else if (!strcasecmp(input, "help"))
-		return MHELP;
-#endif
-#ifdef ENABLE_SPELLER
-	else if (!strcasecmp(input, "spell"))
-		return MSPELL;
-#endif
-	else if (!strcasecmp(input, "linter"))
-		return MLINTER;
-#ifdef ENABLE_BROWSER
-	else if (!strcasecmp(input, "browser"))
-		return MBROWSER;
-	else if (!strcasecmp(input, "whereisfile"))
-		return MWHEREISFILE;
-	else if (!strcasecmp(input, "gotodir"))
-		return MGOTODIR;
-#endif
+	int index = -1;
+
+	while (++index < NUMBER_OF_MENUS)
+		if (strcasecmp(input, menunames[index]) == 0)
+			return menusymbols[index];
+
 	return -1;
 }
 #endif /* ENABLE_NANORC */
