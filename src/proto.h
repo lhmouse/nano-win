@@ -330,6 +330,7 @@ const subnfunc *sctofunc(const sc *s);
 const char *flagtostr(int flag);
 sc *strtosc(const char *input);
 int strtomenu(const char *input);
+char *menu_to_name(int menu);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif

@@ -1710,6 +1710,18 @@ int strtomenu(const char *input)
 
 	return -1;
 }
+
+/* Return the name that corresponds to the given menu symbol. */
+char *menu_to_name(int menu)
+{
+	int index = -1;
+
+	while (++index < NUMBER_OF_MENUS)
+		if (menusymbols[index] == menu)
+			return menunames[index];
+
+	return "boooo";
+}
 #endif /* ENABLE_NANORC */
 
 
