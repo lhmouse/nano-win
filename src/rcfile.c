@@ -882,8 +882,8 @@ static void check_vitals_mapped(void)
 			if (f->func == vitals[v] && f->menus & inmenus[v]) {
 				const sc *s = first_sc_for(inmenus[v], f->func);
 				if (!s) {
-					fprintf(stderr, _("Fatal error: no keys mapped for function "
-										"\"%s\".  Exiting.\n"), f->desc);
+					fprintf(stderr, _("No key is bound to function '%s' in "
+										"some menu.  Exiting.\n"), f->desc);
 					fprintf(stderr, _("If needed, use nano with the -I option "
 										"to adjust your nanorc settings.\n"));
 					exit(1);
