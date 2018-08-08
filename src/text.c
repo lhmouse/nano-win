@@ -2872,6 +2872,9 @@ const char *do_alt_speller(char *tempfile_name)
 	if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0)
 		return invocation_error(alt_speller);
 
+	/* Stat the temporary file again, and only read it in when it changed. */
+	stat(tempfile_name, &spellfileinfo);
+	if (spellfileinfo.st_mtime != timestamp) {
 #ifndef NANO_TINY
 	/* Replace the marked text (or the entire text) of the current buffer
 	 * with the spell-checked text. */
@@ -2905,12 +2908,7 @@ const char *do_alt_speller(char *tempfile_name)
 		openfile->current_x = strlen(openfile->current->data);
 	openfile->placewewant = pww_save;
 	adjust_viewport(STATIONARY);
-
-	/* Stat the temporary file again, and mark the buffer as modified only
-	 * if this file was changed since it was written. */
-	stat(tempfile_name, &spellfileinfo);
-	if (spellfileinfo.st_mtime != timestamp)
-		set_modified();
+	}
 
 #ifndef NANO_TINY
 	/* Unblock SIGWINCHes again. */
