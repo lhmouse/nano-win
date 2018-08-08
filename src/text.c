@@ -2872,42 +2872,43 @@ const char *do_alt_speller(char *tempfile_name)
 	if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0)
 		return invocation_error(alt_speller);
 
-	/* Stat the temporary file again, and only read it in when it changed. */
+	/* Stat the temporary file again. */
 	stat(tempfile_name, &spellfileinfo);
+
+	/* Use the spell-checked file only when it changed. */
 	if (spellfileinfo.st_mtime != timestamp) {
 #ifndef NANO_TINY
-	/* Replace the marked text (or the entire text) of the current buffer
-	 * with the spell-checked text. */
-	if (openfile->mark) {
-		filestruct *top, *bot;
-		size_t top_x, bot_x;
-		bool right_side_up;
-		ssize_t was_mark_lineno = openfile->mark->lineno;
+		/* Replace the marked text (or entire text) with the corrected text. */
+		if (openfile->mark) {
+			filestruct *top, *bot;
+			size_t top_x, bot_x;
+			bool right_side_up;
+			ssize_t was_mark_lineno = openfile->mark->lineno;
 
-		mark_order((const filestruct **)&top, &top_x,
-						(const filestruct **)&bot, &bot_x, &right_side_up);
+			mark_order((const filestruct **)&top, &top_x,
+							(const filestruct **)&bot, &bot_x, &right_side_up);
 
-		replace_marked_buffer(tempfile_name);
+			replace_marked_buffer(tempfile_name);
 
-		/* Adjust the end point of the marked region for any change in
-		 * length of the region's last line. */
-		if (right_side_up)
-			current_x_save = openfile->current_x;
-		else
-			openfile->mark_x = openfile->current_x;
+			/* Adjust the end point of the marked region for any change in
+			 * length of the region's last line. */
+			if (right_side_up)
+				current_x_save = openfile->current_x;
+			else
+				openfile->mark_x = openfile->current_x;
 
-		/* Restore the mark. */
-		openfile->mark = fsfromline(was_mark_lineno);
-	} else
+			/* Restore the mark. */
+			openfile->mark = fsfromline(was_mark_lineno);
+		} else
 #endif
-		replace_buffer(tempfile_name);
+			replace_buffer(tempfile_name);
 
-	/* Go back to the old position. */
-	goto_line_posx(lineno_save, current_x_save);
-	if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
-		openfile->current_x = strlen(openfile->current->data);
-	openfile->placewewant = pww_save;
-	adjust_viewport(STATIONARY);
+		/* Go back to the old position. */
+		goto_line_posx(lineno_save, current_x_save);
+		if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
+			openfile->current_x = strlen(openfile->current->data);
+		openfile->placewewant = pww_save;
+		adjust_viewport(STATIONARY);
 	}
 
 #ifndef NANO_TINY
