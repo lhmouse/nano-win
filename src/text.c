@@ -797,6 +797,8 @@ void do_undo(void)
 		break;
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
+		if (u->xflags != MARK_WAS_SET)
+			goto_line_posx(u->lineno, u->begin);
 		break;
 	case COUPLE_END:
 		openfile->current_undo = openfile->current_undo->next;
@@ -965,6 +967,8 @@ void do_redo(void)
 		openfile->current_undo = u;
 		do_redo();
 		do_redo();
+		if (u->xflags != MARK_WAS_SET)
+			goto_line_posx(u->lineno, u->begin);
 		do_redo();
 		return;
 	case COUPLE_END:
