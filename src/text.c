@@ -1313,6 +1313,7 @@ void add_undo(undo_type action)
 	u->mark_begin_lineno = openfile->current->lineno;
 	u->mark_begin_x = openfile->current_x;
 	u->wassize = openfile->totsize;
+	u->newsize = openfile->totsize;
 	u->xflags = 0;
 	u->grouping = NULL;
 
