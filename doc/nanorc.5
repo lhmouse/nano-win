@@ -356,9 +356,11 @@ The default value is "\fB#\fP".
 Display all pieces of text that match
 the extended regular expression \fIregex\fP with foreground color
 \fIfgcolor\fP and background color \fIbgcolor\fP, at least one of which
-must be specified.  Valid colors for foreground and background
-are: white, black, red, blue, green, yellow, magenta, and cyan.  You may
-use the prefix "bright" to get a stronger color highlight for the
+must be specified.  Valid names for foreground and background colors are:
+.BR white ", " black ", " blue ", " green ", " red ", "
+.BR cyan ", " yellow ", " magenta ", and " normal
+-- where \fBnormal\fR means the default foreground or background color.
+You may use the prefix \fBbright\fR to get a stronger color highlight for the
 foreground.  If your terminal supports transparency, not specifying a
 \fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent
 background.
