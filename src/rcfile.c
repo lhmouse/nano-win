@@ -422,7 +422,7 @@ void parse_binding(char *ptr, bool dobind)
 		}
 	}
 
-	menu = strtomenu(menuptr);
+	menu = name_to_menu(menuptr);
 	if (menu < 1) {
 		rcfile_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
 		goto free_things;

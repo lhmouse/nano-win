@@ -328,9 +328,11 @@ void set_speller_shortcut(void);
 #endif
 const subnfunc *sctofunc(const sc *s);
 const char *flagtostr(int flag);
+#ifdef ENABLE_NANORC
 sc *strtosc(const char *input);
-int strtomenu(const char *input);
+int name_to_menu(const char *name);
 char *menu_to_name(int menu);
+#endif
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif

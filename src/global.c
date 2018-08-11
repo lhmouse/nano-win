@@ -1699,13 +1699,13 @@ sc *strtosc(const char *input)
 	return s;
 }
 
-/* Interpret a menu name and return the corresponding menu flag. */
-int strtomenu(const char *input)
+/* Return the symbol that corresponds to the given menu name. */
+int name_to_menu(const char *name)
 {
 	int index = -1;
 
 	while (++index < NUMBER_OF_MENUS)
-		if (strcasecmp(input, menunames[index]) == 0)
+		if (strcasecmp(name, menunames[index]) == 0)
 			return menusymbols[index];
 
 	return -1;
