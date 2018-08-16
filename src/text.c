@@ -797,8 +797,7 @@ void do_undo(void)
 		break;
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
-		if (u->xflags != MARK_WAS_SET)
-			goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->lineno, u->begin);
 		break;
 	case COUPLE_END:
 		openfile->current_undo = openfile->current_undo->next;
@@ -967,12 +966,11 @@ void do_redo(void)
 		openfile->current_undo = u;
 		do_redo();
 		do_redo();
-		if (u->xflags != MARK_WAS_SET)
-			goto_line_posx(u->lineno, u->begin);
 		do_redo();
 		return;
 	case COUPLE_END:
 		redidmsg = u->strdata;
+		goto_line_posx(u->lineno, u->begin);
 		break;
 	case INDENT:
 		handle_indent_action(u, FALSE, TRUE);
@@ -1471,6 +1469,7 @@ void update_undo(undo_type action)
 	 * current record but add a new one instead. */
 	if (action != openfile->last_action ||
 				(action != ENTER && action != CUT && action != INSERT &&
+				action != COUPLE_END &&
 				openfile->current->lineno != openfile->current_undo->lineno)) {
 		add_undo(action);
 		return;
@@ -1565,7 +1564,10 @@ void update_undo(undo_type action)
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
 	case COUPLE_BEGIN:
+		break;
 	case COUPLE_END:
+		u->lineno = openfile->current->lineno;
+		u->begin = openfile->current_x;
 		break;
 	default:
 		statusline(ALERT, "Wrong undo update type -- please report a bug");
@@ -2915,6 +2917,9 @@ const char *do_alt_speller(char *tempfile_name)
 		goto_line_posx(lineno_save, current_x_save);
 		if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 			openfile->current_x = strlen(openfile->current->data);
+#ifndef NANO_TINY
+		update_undo(COUPLE_END);
+#endif
 		openfile->placewewant = pww_save;
 		adjust_viewport(STATIONARY);
 	}
