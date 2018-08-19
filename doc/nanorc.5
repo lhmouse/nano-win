@@ -696,6 +696,10 @@ region) is piped to the command.
 Toggles between inserting into the current buffer and into a new
 empty buffer.
 .TP
+.B flipconvert
+When reading in a file, toggles between converting and not converting
+it from DOS/Mac format.  Converting is the default.
+.TP
 .B dosformat
 When writing a file, switches to writing a DOS format (CR/LF).
 .TP
@@ -782,9 +786,6 @@ or read into a new buffer.
 .TP
 .B mouse
 Toggles mouse support.
-.TP
-.B noconvert
-Toggles automatic conversion of files from DOS/Mac format.
 .TP
 .B suspendenable
 Toggles whether the suspend sequence (normally ^Z) will suspend the editor window.

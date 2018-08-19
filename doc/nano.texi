@@ -620,9 +620,6 @@ The following global toggles are available:
 @item Mouse Support
 @kbd{Meta-M} toggles the @option{-m} (@option{--mouse}) command-line option.
 
-@item No Conversion From DOS/Mac Format
-@kbd{Meta-N} toggles the @option{-N} (@option{--noconvert}) command-line option.
-
 @item Tabs To Spaces
 @kbd{Meta-O} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
@@ -1342,6 +1339,10 @@ region) is piped to the command.
 Toggles between inserting into the current buffer and into a new
 empty buffer.
 
+@item flipconvert
+When reading in a file, toggles between converting and not converting
+it from DOS/Mac format.  Converting is the default.
+
 @item dosformat
 When writing a file, switches to writing a DOS format (CR/LF).
 
@@ -1428,9 +1429,6 @@ or read into a new buffer.
 
 @item mouse
 Toggles mouse support.
-
-@item noconvert
-Toggles automatic conversion of files from DOS/Mac format.
 
 @item suspendenable
 Toggles whether the suspend shortcut (normally @kbd{^Z}) will suspend the editor.
