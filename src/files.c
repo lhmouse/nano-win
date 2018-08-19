@@ -1093,10 +1093,20 @@ void do_insertfile(void)
 		{
 #ifdef ENABLE_MULTIBUFFER
 			if (ISSET(MULTIBUFFER))
-				msg = _("File to insert into new buffer [from %s]");
+#ifndef NANO_TINY
+				if ISSET(NO_CONVERT)
+					msg = _("File to read unconverted into new buffer [from %s]");
+				else
+#endif
+					msg = _("File to read into new buffer [from %s]");
 			else
 #endif
-				msg = _("File to insert [from %s]");
+#ifndef NANO_TINY
+				if ISSET(NO_CONVERT)
+					msg = _("File to insert unconverted [from %s]");
+				else
+#endif
+					msg = _("File to insert [from %s]");
 		}
 
 		present_path = mallocstrcpy(present_path, "./");
@@ -1139,6 +1149,10 @@ void do_insertfile(void)
 			}
 #endif
 #ifndef NANO_TINY
+			if (func == flip_convert) {
+				TOGGLE(NO_CONVERT);
+				continue;
+			}
 			if (func == flip_execute) {
 				execute = !execute;
 				continue;

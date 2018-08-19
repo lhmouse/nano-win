@@ -325,6 +325,9 @@ void flip_execute(void)
 void flip_pipe(void)
 {
 }
+void flip_convert(void)
+{
+}
 #endif
 #ifdef ENABLE_MULTIBUFFER
 void flip_newbuffer(void)
@@ -650,6 +653,7 @@ void shortcut_init(void)
 	const char *execute_gist = N_("Execute external command");
 	const char *pipe_gist =
 		N_("Pipe the current buffer (or marked region) to the command");
+	const char *convert_gist = N_("Do not convert from DOS/Mac format");
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	const char *newbuffer_gist = N_("Toggle the use of a new buffer");
@@ -1011,6 +1015,9 @@ void shortcut_init(void)
 		add_to_funcs(flip_execute, MEXTCMD,
 			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
 	}
+
+	add_to_funcs(flip_convert, MINSERTFILE,
+		N_("No Conversion"), WITHORSANS(convert_gist), TOGETHER, NOVIEW);
 #endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
 	/* Multiple buffers are only available when not in restricted mode. */
@@ -1256,7 +1263,6 @@ void shortcut_init(void)
 #ifdef ENABLE_MOUSE
 	add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
 #endif
-	add_to_sclist(MMAIN, "M-N", 0, do_toggle_void, NO_CONVERT);
 	add_to_sclist(MMAIN, "M-Z", 0, do_toggle_void, SUSPEND);
 #endif /* !NANO_TINY */
 
@@ -1313,6 +1319,7 @@ void shortcut_init(void)
 		add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);
 		add_to_sclist(MINSERTFILE|MEXTCMD, "^X", 0, flip_execute, 0);
 	}
+	add_to_sclist(MINSERTFILE, "M-N", 0, flip_convert, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	/* Only when not in restricted mode, allow multiple buffers. */
@@ -1413,8 +1420,6 @@ const char *flagtostr(int flag)
 			return N_("Reading file into separate buffer");
 		case USE_MOUSE:
 			return N_("Mouse support");
-		case NO_CONVERT:
-			return N_("No conversion from DOS/Mac format");
 		case SUSPEND:
 			return N_("Suspension");
 		case LINE_NUMBERS:
@@ -1622,6 +1627,8 @@ sc *strtosc(const char *input)
 		s->func = flip_execute;
 	else if (!strcasecmp(input, "flippipe"))
 		s->func = flip_pipe;
+	else if (!strcasecmp(input, "flipconvert"))
+		s->func = flip_convert;
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	else if (!strcasecmp(input, "flipnewbuffer"))
@@ -1685,8 +1692,6 @@ sc *strtosc(const char *input)
 		else if (!strcasecmp(input, "mouse"))
 			s->toggle = USE_MOUSE;
 #endif
-		else if (!strcasecmp(input, "noconvert"))
-			s->toggle = NO_CONVERT;
 		else if (!strcasecmp(input, "suspendenable"))
 			s->toggle = SUSPEND;
 		else

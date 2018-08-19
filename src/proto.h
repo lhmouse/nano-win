@@ -703,6 +703,7 @@ void prepend_void(void);
 void backup_file_void(void);
 void flip_execute(void);
 void flip_pipe(void);
+void flip_convert(void);
 #endif
 #ifdef ENABLE_MULTIBUFFER
 void flip_newbuffer(void);
