@@ -1241,7 +1241,10 @@ bool execute_command(const char *command)
 		openfile->undotop->strdata = mallocstrcpy(NULL, _("filtering"));
 	}
 
+	/* Wait for the external command (and possibly data sender) to terminate. */
 	if (wait(NULL) == -1)
+		nperror("wait");
+	if (should_pipe && (wait(NULL) == -1))
 		nperror("wait");
 
 	/* If it was changed, restore the handler for SIGINT. */
