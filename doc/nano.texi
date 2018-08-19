@@ -596,14 +596,8 @@ The following global toggles are available:
 
 @table @code
 
-@item Backup Files
-@kbd{Meta-B} toggles the @option{-B} (@option{--backup}) command-line option.
-
 @item Constant Cursor Position Display
 @kbd{Meta-C} toggles the @option{-c} (@option{--constantshow}) command-line option.
-
-@item Multiple File Buffers
-@kbd{Meta-F} toggles the @option{-F} (@option{--multibuffer}) command-line option.
 
 @item Smart Home Key
 @kbd{Meta-H} toggles the @option{-A} (@option{--smarthome}) command-line option.
@@ -1419,13 +1413,6 @@ Toggles whether long lines will be hard-wrapped to the next line.
 
 @item tabstospaces
 Toggles whether typed tabs will be converted to spaces.
-
-@item backupfile
-Toggles whether a backup will be made of the file to be edited.
-
-@item multibuffer
-Toggles whether a file is inserted into the current buffer
-or read into a new buffer.
 
 @item mouse
 Toggles mouse support.

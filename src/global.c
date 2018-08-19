@@ -1255,10 +1255,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, TABS_TO_SPACES);
 
 	/* Group of "Peripheral-feature" toggles. */
-	add_to_sclist(MMAIN, "M-B", 0, do_toggle_void, BACKUP_FILE);
-#ifdef ENABLE_MULTIBUFFER
-	add_to_sclist(MMAIN, "M-F", 0, do_toggle_void, MULTIBUFFER);
-#endif
 #ifdef ENABLE_MOUSE
 	add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
 #endif
@@ -1413,10 +1409,6 @@ const char *flagtostr(int flag)
 			return N_("Hard wrapping of overlong lines");
 		case TABS_TO_SPACES:
 			return N_("Conversion of typed tabs to spaces");
-		case BACKUP_FILE:
-			return N_("Backup files");
-		case MULTIBUFFER:
-			return N_("Reading file into separate buffer");
 		case USE_MOUSE:
 			return N_("Mouse support");
 		case SUSPEND:
@@ -1681,12 +1673,6 @@ sc *strtosc(const char *input)
 #endif
 		else if (!strcasecmp(input, "tabstospaces"))
 			s->toggle = TABS_TO_SPACES;
-		else if (!strcasecmp(input, "backupfile"))
-			s->toggle = BACKUP_FILE;
-#ifdef ENABLE_MULTIBUFFER
-		else if (!strcasecmp(input, "multibuffer"))
-			s->toggle = MULTIBUFFER;
-#endif
 #ifdef ENABLE_MOUSE
 		else if (!strcasecmp(input, "mouse"))
 			s->toggle = USE_MOUSE;
