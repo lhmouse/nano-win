@@ -1006,18 +1006,6 @@ void shortcut_init(void)
 		add_to_funcs(backup_file_void, MWRITEFILE,
 			N_("Backup File"), WITHORSANS(backup_gist), BLANKAFTER, NOVIEW);
 	}
-
-	/* Command execution is only available when not in restricted mode. */
-	if (!ISSET(RESTRICTED)) {
-		add_to_funcs(flip_execute, MINSERTFILE,
-			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
-
-		add_to_funcs(flip_execute, MEXTCMD,
-			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
-	}
-
-	add_to_funcs(flip_convert, MINSERTFILE,
-		N_("No Conversion"), WITHORSANS(convert_gist), TOGETHER, NOVIEW);
 #endif /* !NANO_TINY */
 #ifdef ENABLE_MULTIBUFFER
 	/* Multiple buffers are only available when not in restricted mode. */
@@ -1025,10 +1013,21 @@ void shortcut_init(void)
 		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
+	add_to_funcs(flip_convert, MINSERTFILE,
+		N_("No Conversion"), WITHORSANS(convert_gist), TOGETHER, NOVIEW);
+
 #ifndef NANO_TINY
-	if (!ISSET(RESTRICTED))
+	/* Command execution is only available when not in restricted mode. */
+	if (!ISSET(RESTRICTED)) {
+		add_to_funcs(flip_execute, MINSERTFILE,
+			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
+
 		add_to_funcs(flip_pipe, MEXTCMD,
 			N_("Pipe Text"), WITHORSANS(pipe_gist), TOGETHER, NOVIEW);
+
+		add_to_funcs(flip_execute, MEXTCMD,
+			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
+	}
 #endif
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
