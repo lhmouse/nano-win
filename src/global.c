@@ -1234,7 +1234,6 @@ void shortcut_init(void)
 	/* Group of "Appearance" toggles. */
 	add_to_sclist(MMAIN, "M-X", 0, do_toggle_void, NO_HELP);
 	add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
-	add_to_sclist(MMAIN, "", 0, do_toggle_void, MORE_SPACE);
 	add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SMOOTH_SCROLL);
 	add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);
 #ifdef ENABLE_LINENUMBERS
@@ -1389,8 +1388,6 @@ const char *flagtostr(int flag)
 			return N_("Help mode");
 		case CONSTANT_SHOW:
 			return N_("Constant cursor position display");
-		case MORE_SPACE:
-			return N_("Use of one more line for editing");
 		case SMOOTH_SCROLL:
 			return N_("Smooth scrolling");
 		case SOFTWRAP:
@@ -1644,8 +1641,6 @@ sc *strtosc(const char *input)
 		else if (!strcasecmp(input, "constantshow") ||
 				 !strcasecmp(input, "constupdate"))  /* Deprecated.  Remove end of 2018. */
 			s->toggle = CONSTANT_SHOW;
-		else if (!strcasecmp(input, "morespace"))
-			s->toggle = MORE_SPACE;
 		else if (!strcasecmp(input, "smoothscroll"))
 			s->toggle = SMOOTH_SCROLL;
 		else if (!strcasecmp(input, "softwrap"))

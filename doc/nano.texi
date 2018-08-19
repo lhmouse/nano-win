@@ -1377,9 +1377,6 @@ Toggles the presence of the two-line list of key bindings at the bottom of the s
 Toggles the constant display of the current line, column, and character positions.
 (The form @code{constupdate} is deprecated.)
 
-@item morespace
-Toggles the presence of the blank line that 'separates' the title bar from the file text.
-
 @item smoothscroll
 Toggles smooth scrolling (when moving around with the arrow keys).
 

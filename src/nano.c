@@ -1391,7 +1391,6 @@ void do_toggle(int flag)
 			mouse_init();
 			break;
 #endif
-		case MORE_SPACE:
 		case NO_HELP:
 			window_init();
 			focusing = FALSE;
