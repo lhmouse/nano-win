@@ -207,7 +207,7 @@ void do_cut_text_void(void)
  * was moved, blow away previous contents of the cutbuffer. */
 void do_copy_text(void)
 {
-	static struct filestruct *next_contiguous_line = NULL;
+	static filestruct *next_contiguous_line = NULL;
 	bool mark_is_set = (openfile->mark != NULL);
 
 	/* Remember the current viewport and cursor position. */

@@ -1427,7 +1427,7 @@ const char *flagtostr(int flag)
 
 #ifdef ENABLE_NANORC
 /* Interpret a function string given in the rc file, and return a
- * shortcut struct with the corresponding function filled in. */
+ * shortcut record with the corresponding function filled in. */
 sc *strtosc(const char *input)
 {
 	sc *s = nmalloc(sizeof(sc));

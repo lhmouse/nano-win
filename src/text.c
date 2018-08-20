@@ -1290,7 +1290,7 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 		thefile->last_saved = (undo *)0xbeeb;
 }
 
-/* Add a new undo struct of the given type to the top of the current pile. */
+/* Add a new undo item of the given type to the top of the current pile. */
 void add_undo(undo_type action)
 {
 	undo *u = openfile->current_undo;

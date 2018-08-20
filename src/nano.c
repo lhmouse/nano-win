@@ -476,7 +476,7 @@ void ingraft_buffer(filestruct *somebuffer)
 #endif
 
 	/* If we pasted onto the first line of the edit window, the corresponding
-	 * struct has been freed, so... point at the start of the copied text. */
+	 * record has been freed, so... point at the start of the copied text. */
 	if (edittop_inside)
 		openfile->edittop = openfile->fileage;
 
