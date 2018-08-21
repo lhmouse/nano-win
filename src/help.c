@@ -161,7 +161,6 @@ void do_help(void)
 	didfind = 0;
 
 	bottombars(MHELP);
-	wnoutrefresh(bottomwin);
 
 	/* Extract the title from the head of the help text. */
 	length = break_line(help_text, MAX_BUF_SIZE, TRUE);

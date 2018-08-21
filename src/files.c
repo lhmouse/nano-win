@@ -636,7 +636,7 @@ void mention_name_and_linecount(void)
 void switch_to_adjacent_buffer(bool to_next)
 {
 	/* If only one file buffer is open, say so and get out. */
-	if (openfile == openfile->next && !inhelp) {
+	if (openfile == openfile->next) {
 		statusbar(_("No more open file buffers"));
 		return;
 	}
