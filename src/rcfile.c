@@ -602,13 +602,16 @@ short color_to_short(const char *colorname, bool *bright)
 
 /* Parse the color name (or pair of color names) in the given string.
  * Return FALSE when any color name is invalid; otherwise return TRUE. */
-bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
+bool parse_color_names(char *combostr, short *fg, short *bg, int *attributes)
 {
 	char *comma = strchr(combostr, ',');
+	bool bright;
+
+	*attributes = A_NORMAL;
 
 	if (comma != NULL) {
-		*bg = color_to_short(comma + 1, bright);
-		if (*bright) {
+		*bg = color_to_short(comma + 1, &bright);
+		if (bright) {
 			rcfile_error(N_("A background color cannot be bright"));
 			return FALSE;
 		}
@@ -619,9 +622,12 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 		*bg = USE_THE_DEFAULT;
 
 	if (comma != combostr) {
-		*fg = color_to_short(combostr, bright);
+		*fg = color_to_short(combostr, &bright);
 		if (*fg == BAD_COLOR)
 			return FALSE;
+
+		if (bright)
+			*attributes = A_BOLD;
 	} else
 		*fg = USE_THE_DEFAULT;
 
@@ -634,7 +640,7 @@ bool parse_color_names(char *combostr, short *fg, short *bg, bool *bright)
 void parse_colors(char *ptr, int rex_flags)
 {
 	short fg, bg;
-	bool bright;
+	int attributes;
 	char *item;
 
 	if (!opensyntax) {
@@ -650,7 +656,7 @@ void parse_colors(char *ptr, int rex_flags)
 
 	item = ptr;
 	ptr = parse_next_word(ptr);
-	if (!parse_color_names(item, &fg, &bg, &bright))
+	if (!parse_color_names(item, &fg, &bg, &attributes))
 		return;
 
 	if (*ptr == '\0') {
@@ -697,7 +703,7 @@ void parse_colors(char *ptr, int rex_flags)
 
 			newcolor->fg = fg;
 			newcolor->bg = bg;
-			newcolor->bright = bright;
+			newcolor->attributes = attributes;
 			newcolor->rex_flags = rex_flags;
 
 			newcolor->start_regex = mallocstrcpy(NULL, item);
@@ -760,7 +766,7 @@ colortype *parse_interface_color(char *combostr)
 {
 	colortype *trio = nmalloc(sizeof(colortype));
 
-	if (parse_color_names(combostr, &trio->fg, &trio->bg, &trio->bright)) {
+	if (parse_color_names(combostr, &trio->fg, &trio->bg, &trio->attributes)) {
 		free(combostr);
 		return trio;
 	} else {

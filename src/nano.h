@@ -188,8 +188,6 @@ typedef struct colortype {
 		/* This syntax's foreground color. */
 	short bg;
 		/* This syntax's background color. */
-	bool bright;
-		/* Is this color A_BOLD? */
 	int pairnum;
 		/* The color pair number used for this foreground color and
 		 * background color. */
