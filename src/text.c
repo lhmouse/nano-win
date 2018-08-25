@@ -2241,7 +2241,9 @@ void do_justify(bool full_justify)
 			first_par_line = openfile->current;
 		}
 
-	while (TRUE) {
+	/* Search for a paragraph(s) and justify them.  If we're justifying the
+	 * entire file, loop until we've found every paragraph. */
+	do {
 		filestruct *firstline;
 			/* The first line of the current paragraph. */
 		filestruct *sampleline;
@@ -2384,20 +2386,12 @@ void do_justify(bool full_justify)
 		 * edit window and finding a paragraph need correct line numbers. */
 		renumber(firstline);
 
-		/* We've just finished justifying the paragraph.  If we're not
-		 * justifying the entire file, break out of the loop.
-		 * Otherwise, continue the loop so that we justify all the
-		 * paragraphs in the file. */
-		if (!full_justify)
-			break;
-
-		/* Find the next line of the paragraph(s) to be justified.
+		/* If we're justifying the entire file,
+		 * find the next line of the paragraph(s) to be justified.
 		 * If the search failed, it means that there are no paragraph(s) to
 		 * justify, so break out of the loop. */
-		if (!find_paragraph(&quote_len, &par_len)) {
-				break;
-		}
 	}
+		while (full_justify && find_paragraph(&quote_len, &par_len));
 
 	/* We are now done justifying the paragraph(s), so clean
 	 * up.  totsize has been maintained above.
