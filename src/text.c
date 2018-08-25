@@ -2181,69 +2181,12 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	return TRUE;
 }
 
-/* Justify the current paragraph, and justify the entire file when
- * full_justify is TRUE. */
-void do_justify(bool full_justify)
+/* Run every line of the current paragraph through justify_format().  Assume
+ * that current is at the beginning of the paragraph, quote_len is the length
+ * of the paragraph's quote string, and par_len is the number of lines in the
+ * paragraph. */
+void justify_paragraph(size_t quote_len, size_t par_len)
 {
-		size_t quote_len;
-			/* Length of the quote part of the current paragraph. */
-		size_t par_len;
-			/* Number of lines in the current paragraph. */
-	filestruct *first_par_line = NULL;
-		/* Will be the first line of the justified paragraph(s), if any.
-		 * For restoring after unjustify. */
-	filestruct *last_par_line = NULL;
-		/* Will be the line after the last line of the justified
-		 * paragraph(s), if any.  Also for restoring after unjustify. */
-	bool filebot_inpar = FALSE;
-		/* Whether the text at filebot is part of the current paragraph. */
-	int kbinput;
-		/* The first keystroke after a justification. */
-	functionptrtype func;
-		/* The function associated with that keystroke. */
-
-	/* We save these variables to be restored if the user unjustifies. */
-	filestruct *edittop_save = openfile->edittop;
-	size_t firstcolumn_save = openfile->firstcolumn;
-	filestruct *current_save = openfile->current;
-	size_t current_x_save = openfile->current_x;
-#ifndef NANO_TINY
-	filestruct *was_mark = openfile->mark;
-	size_t was_mark_x = openfile->mark_x;
-#endif
-	bool modified_save = openfile->modified;
-
-	/* Move to the beginning of the current line, so that justifying at
-	 * the end of the last line of the file, if that line isn't blank,
-	 * will work the first time through. */
-	openfile->current_x = 0;
-
-	/* If we're justifying the entire file, start at the beginning. */
-	if (full_justify)
-		openfile->current = openfile->fileage;
-
-		/* Find the first line of the paragraph(s) to be justified.
-		 * If the search failed, it means that there are no paragraph(s) to
-		 * justify, so refresh the screen and get out. */
-		if (!find_paragraph(&quote_len, &par_len)) {
-				refresh_needed = TRUE;
-				return;
-		}
-
-		/* Move the original paragraph(s)
-		 * to the justify buffer, splice a copy of the original
-		 * paragraph(s) into the file in the same place, and set
-		 * first_par_line to the first line of the copy. */
-		{
-			backup_lines(openfile->current, full_justify ?
-				openfile->filebot->lineno - openfile->current->lineno +
-				((openfile->filebot->data[0] != '\0') ? 1 : 0) : par_len);
-			first_par_line = openfile->current;
-		}
-
-	/* Search for a paragraph(s) and justify them.  If we're justifying the
-	 * entire file, loop until we've found every paragraph. */
-	do {
 		filestruct *firstline;
 			/* The first line of the current paragraph. */
 		filestruct *sampleline;
@@ -2255,12 +2198,6 @@ void do_justify(bool full_justify)
 			/* Where we will break lines. */
 		char *lead_string;
 			/* The quote+indent stuff that is copied from the sample line. */
-
-		/* par_len will be one greater than the number of lines between
-		 * current and filebot if filebot is the last line in the
-		 * paragraph.  Set filebot_inpar to TRUE if this is the case. */
-		filebot_inpar = (openfile->current->lineno + par_len ==
-								openfile->filebot->lineno + 1);
 
 		/* Remember the first line of the current paragraph. */
 		firstline = openfile->current;
@@ -2385,6 +2322,79 @@ void do_justify(bool full_justify)
 		/* Renumber the now-justified paragraph, since both refreshing the
 		 * edit window and finding a paragraph need correct line numbers. */
 		renumber(firstline);
+}
+
+/* Justify the current paragraph, and justify the entire file when
+ * full_justify is TRUE. */
+void do_justify(bool full_justify)
+{
+		size_t quote_len;
+			/* Length of the quote part of the current paragraph. */
+		size_t par_len;
+			/* Number of lines in the current paragraph. */
+	filestruct *first_par_line = NULL;
+		/* Will be the first line of the justified paragraph(s), if any.
+		 * For restoring after unjustify. */
+	filestruct *last_par_line = NULL;
+		/* Will be the line after the last line of the justified
+		 * paragraph(s), if any.  Also for restoring after unjustify. */
+	bool filebot_inpar = FALSE;
+		/* Whether the text at filebot is part of the current paragraph. */
+	int kbinput;
+		/* The first keystroke after a justification. */
+	functionptrtype func;
+		/* The function associated with that keystroke. */
+
+	/* We save these variables to be restored if the user unjustifies. */
+	filestruct *edittop_save = openfile->edittop;
+	size_t firstcolumn_save = openfile->firstcolumn;
+	filestruct *current_save = openfile->current;
+	size_t current_x_save = openfile->current_x;
+#ifndef NANO_TINY
+	filestruct *was_mark = openfile->mark;
+	size_t was_mark_x = openfile->mark_x;
+#endif
+	bool modified_save = openfile->modified;
+
+	/* Move to the beginning of the current line, so that justifying at
+	 * the end of the last line of the file, if that line isn't blank,
+	 * will work the first time through. */
+	openfile->current_x = 0;
+
+	/* If we're justifying the entire file, start at the beginning. */
+	if (full_justify)
+		openfile->current = openfile->fileage;
+
+		/* Find the first line of the paragraph(s) to be justified.
+		 * If the search failed, it means that there are no paragraph(s) to
+		 * justify, so refresh the screen and get out. */
+		if (!find_paragraph(&quote_len, &par_len)) {
+				refresh_needed = TRUE;
+				return;
+		}
+
+		/* Move the original paragraph(s)
+		 * to the justify buffer, splice a copy of the original
+		 * paragraph(s) into the file in the same place, and set
+		 * first_par_line to the first line of the copy. */
+		{
+			backup_lines(openfile->current, full_justify ?
+				openfile->filebot->lineno - openfile->current->lineno +
+				((openfile->filebot->data[0] != '\0') ? 1 : 0) : par_len);
+			first_par_line = openfile->current;
+		}
+
+	/* Search for a paragraph(s) and justify them.  If we're justifying the
+	 * whole file, loop until we've found every paragraph. */
+	do {
+		/* par_len will be one greater than the number of lines between
+		 * current and filebot if filebot is the last line in the
+		 * paragraph.  Set filebot_inpar to TRUE if this is the case. */
+		filebot_inpar = (openfile->current->lineno + par_len ==
+								openfile->filebot->lineno + 1);
+
+		/* Justify the current paragraph. */
+		justify_paragraph(quote_len, par_len);
 
 		/* If we're justifying the entire file,
 		 * find the next line of the paragraph(s) to be justified.
