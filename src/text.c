@@ -2148,9 +2148,9 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 		}
 	}
 
-	/* If the current line isn't the first line of the paragraph, move
+	/* If the current line is in a paragraph and isn't its first line, move
 	 * back to the first line of the paragraph. */
-	if (!begpar(openfile->current, 0))
+	if (inpar(openfile->current) && !begpar(openfile->current, 0))
 		do_para_begin(FALSE);
 
 	/* Now current is the first line of the paragraph.  Set quote_len to
