@@ -414,11 +414,12 @@ void help_init(void)
 		htx[0] = N_("Execute Command Help Text\n\n "
 				"This mode allows you to insert the output of a "
 				"command run by the shell into the current buffer (or "
-				"a new buffer in multiple file buffer mode).  If you "
-				"need another blank buffer, do not enter any "
+				"into a new buffer).  If the command is preceded by the "
+				"pipe symbol (|), the current contents of the buffer "
+				"(or of the marked region) will be piped to the command.  ");
+		htx[1] = N_("If you just need another blank buffer, do not enter any "
 				"command.\n\n The following function keys are "
 				"available in Execute Command mode:\n\n");
-		htx[1] = NULL;
 		htx[2] = NULL;
 	}
 #endif /* !NANO_TINY */
