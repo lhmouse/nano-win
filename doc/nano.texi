@@ -1301,19 +1301,20 @@ Suspends the editor (if the suspending function is enabled, see the
 "suspendenable" entry below).
 
 @item casesens
-Toggles case sensitivity in searching (search/replace menus only).
+Toggles whether searching/replacing ignores or respects the case of
+the given characters.
 
 @item regexp
-Toggles whether searching/replacing is based on literal strings or regular expressions.
+Toggles whether searching/replacing uses literal strings or regular expressions.
 
 @item backwards
 Toggles whether searching/replacing goes forward or backward.
 
 @item prevhistory
-Shows the previous history entry in the prompt menus (e.g.@: search).
+Retrieves the previous (older) entry at a prompt.
 
 @item nexthistory
-Shows the next history entry in the prompt menus (e.g.@: search).
+Retrieves the next (newer) entry at a prompt.
 
 @item flipreplace
 Toggles between searching for something and replacing something.
