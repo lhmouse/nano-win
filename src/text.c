@@ -2177,17 +2177,20 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	return TRUE;
 }
 
-/* Run every line of the current paragraph through justify_format().  Assume
- * that current is at the beginning of the paragraph, quote_len is the length
+/* Run every line of par through justify_format().  Assume
+ * that firstline is at the beginning of the paragraph, quote_len is the length
  * of the paragraph's quote string, and par_len is the number of lines in the
- * paragraph. */
-void justify_paragraph(size_t quote_len, size_t par_len)
+ * paragraph.  Return the line following the justified paragraph in firstline,
+ * and return whether the last line of the paragraph is part of the paragraph
+ * (instead of the line following the paragraph). */
+bool justify_paragraph(filestruct **firstline, size_t quote_len,
+						size_t par_len)
 {
-	filestruct *firstline;
-		/* The first line of the current paragraph. */
 	filestruct *sampleline;
 		/* The line from which the indentation is copied -- either
 		 * the first and only or the second line of the paragraph. */
+	filestruct *jusline;
+		/* The line of the current paragraph that we're justifying. */
 	size_t lead_len;
 		/* Length of the quote part plus the indentation part. */
 	ssize_t break_pos;
@@ -2195,68 +2198,55 @@ void justify_paragraph(size_t quote_len, size_t par_len)
 	char *lead_string;
 		/* The quote+indent stuff that is copied from the sample line. */
 
-	/* Remember the first line of the current paragraph. */
-	firstline = openfile->current;
-
 	/* The sample line is either the only line or the second line. */
-	sampleline = (par_len == 1 ? firstline : firstline->next);
+	sampleline = (par_len == 1 ? *firstline : (*firstline)->next);
 
 	/* Copy the leading part (quoting + indentation) of the sample line. */
 	lead_len = quote_len + indent_length(sampleline->data + quote_len);
 	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
 	lead_string[lead_len] = '\0';
 
+	/* Start justifying on the first line. */
+	jusline = *firstline;
+
 	/* Now tack all the lines of the paragraph together, skipping
 	 * the quoting and indentation on all lines after the first. */
 	while (par_len > 1) {
-		filestruct *next_line = openfile->current->next;
-		size_t line_len = strlen(openfile->current->data);
+		filestruct *next_line = jusline->next;
+		size_t line_len = strlen(jusline->data);
 		size_t next_line_len = strlen(next_line->data);
 
 		lead_len = quote_len + indent_length(next_line->data + quote_len);
 
 		/* We're just about to tack the next line onto this one.  If
 		 * this line isn't empty, make sure it ends in a space. */
-		if (line_len > 0 && openfile->current->data[line_len - 1] != ' ') {
-			openfile->current->data =
-						charealloc(openfile->current->data, line_len + 2);
-			openfile->current->data[line_len++] = ' ';
-			openfile->current->data[line_len] = '\0';
-			openfile->totsize++;
+		if (line_len > 0 && jusline->data[line_len - 1] != ' ') {
+			jusline->data =
+						charealloc(jusline->data, line_len + 2);
+			jusline->data[line_len++] = ' ';
+			jusline->data[line_len] = '\0';
 		}
 
-		openfile->current->data = charealloc(openfile->current->data,
+		jusline->data = charealloc(jusline->data,
 									line_len + next_line_len - lead_len + 1);
-		strcat(openfile->current->data, next_line->data + lead_len);
-
-#ifndef NANO_TINY
-		/* If needed, adjust the coordinates of the mark. */
-		if (openfile->mark == next_line) {
-			openfile->mark = openfile->current;
-			openfile->mark_x += line_len - lead_len;
-		}
-#endif
-		/* Don't destroy edittop! */
-		if (next_line == openfile->edittop)
-			openfile->edittop = openfile->current;
+		strcat(jusline->data, next_line->data + lead_len);
 
 		unlink_node(next_line);
-		openfile->totsize -= lead_len + 1;
 		par_len--;
 	}
 
 	/* Call justify_format() on the paragraph, which will remove excess
 	 * spaces from it and change all blank characters to spaces. */
-	justify_format(openfile->current, quote_len +
-					indent_length(openfile->current->data + quote_len));
+	justify_format(jusline, quote_len +
+					indent_length(jusline->data + quote_len));
 
-	while (par_len > 0 && strlenpt(openfile->current->data) > fill) {
-		size_t line_len = strlen(openfile->current->data);
+	while (par_len > 0 && strlenpt(jusline->data) > fill) {
+		size_t line_len = strlen(jusline->data);
 
 		/* If this line is too long, try to wrap it to the next line
 		 * to make it short enough. */
-		break_pos = break_line(openfile->current->data + lead_len,
-				fill - strnlenpt(openfile->current->data, lead_len), FALSE);
+		break_pos = break_line(jusline->data + lead_len,
+				fill - strnlenpt(jusline->data, lead_len), FALSE);
 
 		/* If we can't break the line, or don't need to, we're done. */
 		if (break_pos == -1 || break_pos + lead_len == line_len)
@@ -2267,57 +2257,48 @@ void justify_paragraph(size_t quote_len, size_t par_len)
 		break_pos += lead_len + 1;
 
 		/* Insert a new line after the current one and allocate it. */
-		splice_node(openfile->current, make_new_node(openfile->current));
-		openfile->current->next->data = charalloc(lead_len + 1 +
+		splice_node(jusline, make_new_node(jusline));
+		jusline->next->data = charalloc(lead_len + 1 +
 													line_len - break_pos);
 
 		/* Copy the leading part and the text after the breaking point
 		 * into the next line. */
-		strncpy(openfile->current->next->data, lead_string, lead_len);
-		strcpy(openfile->current->next->data + lead_len,
-										openfile->current->data + break_pos);
+		strncpy(jusline->next->data, lead_string, lead_len);
+		strcpy(jusline->next->data + lead_len,
+										jusline->data + break_pos);
 
-		openfile->totsize += lead_len + 1;
 		par_len++;
 
-#ifndef NANO_TINY
-		/* If needed, compensate the mark coordinates for the change
-		 * in the current line. */
-		if (openfile->mark == openfile->current &&
-					openfile->mark_x > break_pos) {
-			openfile->mark = openfile->current->next;
-			openfile->mark_x -= break_pos - lead_len;
-		}
-#endif
 		/* When requested, snip all trailing blanks. */
 		if (ISSET(TRIM_BLANKS)) {
 			while (break_pos > 0 &&
-					is_blank_mbchar(&openfile->current->data[break_pos - 1])) {
+					is_blank_mbchar(&jusline->data[break_pos - 1])) {
 				break_pos--;
-				openfile->totsize--;
 			}
 		}
 
 		/* Break the current line. */
-		null_at(&openfile->current->data, break_pos);
+		null_at(&jusline->data, break_pos);
 
 		/* Go to the next line. */
-		openfile->current = openfile->current->next;
+		jusline = jusline->next;
 		par_len--;
 	}
 
 	free(lead_string);
 
-	/* Go to the next line, if possible.  If there is no next line,
-	 * move to the end of the current line. */
-	if (openfile->current != openfile->filebot)
-		openfile->current = openfile->current->next;
-	else
-		openfile->current_x = strlen(openfile->current->data);
+	/* We're on the last line of the paragraph.  Save it. */
+	*firstline = jusline;
 
-	/* Renumber the now-justified paragraph, since both refreshing the
-	 * edit window and finding a paragraph need correct line numbers. */
-	renumber(firstline);
+	/* Go to the next line, if possible.  If there is no next line,
+	 * the last line is part of the paragraph (instead of the line following
+	 * the paragraph). */
+	if ((*firstline)->next != NULL) {
+		*firstline = (*firstline)->next;
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 /* Justify the current paragraph, and justify the entire file when
@@ -2346,10 +2327,6 @@ void do_justify(bool full_justify)
 	size_t firstcolumn_save = openfile->firstcolumn;
 	filestruct *current_save = openfile->current;
 	size_t current_x_save = openfile->current_x;
-#ifndef NANO_TINY
-	filestruct *was_mark = openfile->mark;
-	size_t was_mark_x = openfile->mark_x;
-#endif
 	bool modified_save = openfile->modified;
 
 	/* Move to the beginning of the current line, so that justifying at
@@ -2381,14 +2358,20 @@ void do_justify(bool full_justify)
 	/* Search for a paragraph(s) and justify them.  If we're justifying the
 	 * whole file, loop until we've found every paragraph. */
 	do {
-		/* par_len will be one greater than the number of lines between
-		 * current and filebot if filebot is the last line in the
-		 * paragraph.  Set filebot_inpar to TRUE if this is the case. */
-		filebot_inpar = (openfile->current->lineno + par_len ==
-								openfile->filebot->lineno + 1);
+		filestruct *current_save = openfile->current;
 
 		/* Justify the current paragraph. */
-		justify_paragraph(quote_len, par_len);
+		filebot_inpar = justify_paragraph(&openfile->current, quote_len,
+											par_len);
+
+		/* Renumber the now-justified paragraph, since both refreshing the
+		 * edit window and finding a paragraph need correct line numbers. */
+		renumber(current_save);
+
+		/* If the last line of the paragraph is the last line of the file, move
+		 * to the end of that line. */
+		if (filebot_inpar)
+			openfile->current_x = strlen(openfile->current->data);
 
 	/* If we're justifying the entire file,
 	 * find the next line of the paragraph(s) to be justified.
@@ -2402,12 +2385,6 @@ void do_justify(bool full_justify)
 	 * If we've justified the entire file and broken out of the loop,
 	 * this should be the last line of the file. */
 	last_par_line = openfile->current;
-
-#ifndef NANO_TINY
-	/* Let a justification cancel a soft mark. */
-	if (openfile->mark && openfile->kind_of_mark == SOFTMARK)
-		openfile->mark = NULL;
-#endif
 
 	edit_refresh();
 
@@ -2449,17 +2426,11 @@ void do_justify(bool full_justify)
 		free_filestruct(trash);
 		ingraft_buffer(jusbuffer);
 
-		/* Restore the old position and the mark. */
+		/* Restore the old position. */
 		openfile->edittop = edittop_save;
 		openfile->firstcolumn = firstcolumn_save;
 		openfile->current = current_save;
 		openfile->current_x = current_x_save;
-#ifndef NANO_TINY
-		if (openfile->mark) {
-			openfile->mark = was_mark;
-			openfile->mark_x = was_mark_x;
-		}
-#endif
 		openfile->modified = modified_save;
 		if (!openfile->modified)
 			titlebar(NULL);
