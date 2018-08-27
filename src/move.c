@@ -172,39 +172,41 @@ void do_page_down(void)
 #ifdef ENABLE_JUSTIFY
 /* Move to the beginning of the first-found beginning-of-paragraph line
  * before the current line. */
-void do_para_begin(void)
+void do_para_begin(filestruct **line)
 {
-	if (openfile->current != openfile->fileage)
-		openfile->current = openfile->current->prev;
+	if ((*line)->prev != NULL)
+		*line = (*line)->prev;
 
-	while (!begpar(openfile->current, 0))
-		openfile->current = openfile->current->prev;
-
-	openfile->current_x = 0;
+	while (!begpar(*line, 0))
+		*line = (*line)->prev;
 }
 
 /* Move down to the beginning of the last line of the current paragraph.
  * Then move down one line farther if there is such a line, or to the
- * end of the current line if not.  A line is the last line of a paragraph
- * if it is in a paragraph, and the next line either is the beginning line
- * of a paragraph or isn't in a paragraph. */
-void do_para_end(void)
+ * end of the current line if not.
+ * A line is the last line of a paragraph if it is
+ * in a paragraph, and the next line either is the beginning line of a
+ * paragraph or isn't in a paragraph.  Return whether the last line of
+ * the paragraph is part of the paragraph (instead of the line following
+ * the paragraph). */
+bool do_para_end(filestruct **line)
 {
-	while (openfile->current != openfile->filebot &&
-				!inpar(openfile->current))
-		openfile->current = openfile->current->next;
+	while ((*line)->next != NULL &&
+				!inpar(*line))
+		*line = (*line)->next;
 
-	while (openfile->current != openfile->filebot &&
-				inpar(openfile->current->next) &&
-				!begpar(openfile->current->next, 0)) {
-		openfile->current = openfile->current->next;
+	while ((*line)->next != NULL &&
+				inpar((*line)->next) &&
+				!begpar((*line)->next, 0)) {
+		*line = (*line)->next;
 	}
 
-	if (openfile->current != openfile->filebot) {
-		openfile->current = openfile->current->next;
-		openfile->current_x = 0;
-	} else
-		openfile->current_x = strlen(openfile->current->data);
+	if ((*line)->next != NULL) {
+		*line = (*line)->next;
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 /* Move up to first start of a paragraph before the current line. */
@@ -212,7 +214,8 @@ void do_para_begin_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	do_para_begin();
+	do_para_begin(&openfile->current);
+	openfile->current_x = 0;
 
 	edit_redraw(was_current, CENTERING);
 }
@@ -222,7 +225,10 @@ void do_para_end_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	do_para_end();
+	if (do_para_end(&openfile->current))
+		openfile->current_x = strlen(openfile->current->data);
+	else
+		openfile->current_x = 0;
 
 	edit_redraw(was_current, CENTERING);
 }

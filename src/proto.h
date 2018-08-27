@@ -363,8 +363,8 @@ void to_last_line(void);
 void do_page_up(void);
 void do_page_down(void);
 #ifdef ENABLE_JUSTIFY
-void do_para_begin(void);
-void do_para_end(void);
+void do_para_begin(filestruct **line);
+bool do_para_end(filestruct **line);
 void do_para_begin_void(void);
 void do_para_end_void(void);
 #endif

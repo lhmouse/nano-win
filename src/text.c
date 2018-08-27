@@ -2131,7 +2131,8 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	/* If the current line isn't in a paragraph, move forward to the
 	 * last line of the next paragraph, if any. */
 	if (!inpar(openfile->current)) {
-		do_para_end();
+		if (do_para_end(&openfile->current))
+			openfile->current_x = strlen(openfile->filebot->data);
 
 		/* If we end up past the beginning of the line, it means that
 		 * we're at the end of the last line of the file, and the line
@@ -2153,14 +2154,15 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	/* If the current line is in a paragraph and isn't its first line, move
 	 * back to the first line of the paragraph. */
 	if (inpar(openfile->current) && !begpar(openfile->current, 0))
-		do_para_begin();
+		do_para_begin(&openfile->current);
 
 	/* Now current is the first line of the paragraph.  Set quote_len to
 	 * the quotation length of that line, and set par_len to the number
 	 * of lines in this paragraph. */
 	quote_len = quote_length(openfile->current->data);
 	current_save = openfile->current;
-	do_para_end();
+	if (do_para_end(&openfile->current))
+		openfile->current_x = strlen(openfile->filebot->data);
 	par_len = openfile->current->lineno - current_save->lineno;
 
 	/* If we end up past the beginning of the line, it means that we're at
