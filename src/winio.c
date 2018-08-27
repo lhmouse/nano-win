@@ -2154,8 +2154,7 @@ void statusbar(const char *msg)
  * message can be noticed and read. */
 void warn_and_shortly_pause(const char *msg)
 {
-	statusbar(msg);
-	beep();
+	statusline(ALERT, msg);
 	napms(1800);
 }
 
