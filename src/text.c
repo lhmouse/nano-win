@@ -2122,12 +2122,6 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 		return FALSE;
 	}
 
-	/* If we're at the end of the last line of the file, it means that
-	 * there aren't any paragraphs left, so get out. */
-	if (openfile->current == openfile->filebot && openfile->current_x ==
-		strlen(openfile->filebot->data))
-		return FALSE;
-
 	/* If the current line isn't in a paragraph, move forward to the
 	 * last line of the next paragraph, if any. */
 	if (!inpar(openfile->current)) {
@@ -2331,14 +2325,11 @@ void do_justify(bool full_justify)
 	size_t current_x_save = openfile->current_x;
 	bool modified_save = openfile->modified;
 
-	/* Move to the beginning of the current line, so that justifying at
-	 * the end of the last line of the file, if that line isn't blank,
-	 * will work the first time through. */
-	openfile->current_x = 0;
-
 	/* If we're justifying the entire file, start at the beginning. */
-	if (full_justify)
+	if (full_justify) {
 		openfile->current = openfile->fileage;
+		openfile->current_x = 0;
+	}
 
 	/* Find the first line of the paragraph(s) to be justified.
 	 * If the search failed, it means that there are no paragraph(s) to
@@ -2374,6 +2365,12 @@ void do_justify(bool full_justify)
 		 * to the end of that line. */
 		if (filebot_inpar)
 			openfile->current_x = strlen(openfile->current->data);
+
+		/* If we're at the end of the last line of the file, it means that
+		 * there aren't any paragraphs left, so break out of the loop. */
+		if (openfile->current == openfile->filebot && openfile->current_x ==
+			strlen(openfile->filebot->data))
+			break;
 
 	/* If we're justifying the entire file,
 	 * find the next line of the paragraph(s) to be justified.
