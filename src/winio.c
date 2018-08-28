@@ -539,7 +539,7 @@ int parse_kbinput(WINDOW *win)
 	else if (retval == controlend)
 		return CONTROL_END;
 	else if (retval == controldelete)
-	    return CONTROL_DELETE;
+		return CONTROL_DELETE;
 #ifndef NANO_TINY
 	else if (retval == shiftcontrolleft) {
 		shift_held = TRUE;

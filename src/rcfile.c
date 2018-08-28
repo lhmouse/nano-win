@@ -414,7 +414,7 @@ void parse_binding(char *ptr, bool dobind)
 			newsc->toggle = 0;
 #endif
 		} else
-		    newsc = strtosc(funcptr);
+			newsc = strtosc(funcptr);
 
 		if (newsc == NULL) {
 			rcfile_error(N_("Cannot map name \"%s\" to a function"), funcptr);
