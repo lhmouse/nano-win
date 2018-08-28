@@ -884,7 +884,7 @@ void shortcut_init(void)
 	add_to_funcs(do_page_up, MMAIN|MHELP,
 		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MMAIN|MHELP,
-		N_("Prev Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
+		N_("Next Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
 	add_to_funcs(to_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
 		N_("First Line"), WITHORSANS(firstline_gist), TOGETHER, VIEW);
