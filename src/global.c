@@ -1385,7 +1385,7 @@ const char *flagtostr(int flag)
 {
 	switch (flag) {
 		case NO_HELP:
-			/* TRANSLATORS: The next eighteen strings are toggle descriptions;
+			/* TRANSLATORS: The next fourteen strings are toggle descriptions;
 			 * they are best kept shorter than 40 characters, but may be longer. */
 			return N_("Help mode");
 		case CONSTANT_SHOW:
