@@ -1083,7 +1083,7 @@ void do_insertfile(void)
 		if (execute) {
 #ifdef ENABLE_MULTIBUFFER
 			if (ISSET(MULTIBUFFER))
-				/* TRANSLATORS: The next four messages are prompts. */
+				/* TRANSLATORS: The next six messages are prompts. */
 				msg = _("Command to execute in new buffer");
 			else
 #endif
@@ -2215,6 +2215,7 @@ int do_writeout(bool exiting, bool withprompt)
 				do_credits();
 				did_credits = TRUE;
 			} else
+				/* TRANSLATORS: Concisely say the screen is too small. */
 				statusbar(_("Too tiny"));
 			break;
 		}

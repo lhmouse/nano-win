@@ -101,12 +101,11 @@ void search_init(bool replacing, bool keep_the_answer)
 					answer, &search_history,
 					/* TRANSLATORS: This is the main search prompt. */
 					edit_refresh, "%s%s%s%s%s%s", _("Search"),
-					/* TRANSLATORS: The next three modify the search prompt. */
+					/* TRANSLATORS: The next four modify the search prompt. */
 					ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
 					ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
 					ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "", replacing ?
 #ifndef NANO_TINY
-					/* TRANSLATORS: The next two modify the search prompt. */
 					openfile->mark ? _(" (to replace) in selection") :
 #endif
 					_(" (to replace)") : "", thedefault);

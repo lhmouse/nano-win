@@ -503,7 +503,7 @@ void print_sclist(void)
 #endif
 
 /* These four tags are used elsewhere too, so they are global. */
-/* TRANSLATORS: Try to keep the next fifteen strings at most 10 characters. */
+/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
 const char *exit_tag = N_("Exit");
 const char *close_tag = N_("Close");
 const char *uncut_tag = N_("Uncut Text");
@@ -684,7 +684,8 @@ void shortcut_init(void)
 	/* Start populating the different menus with functions. */
 
 	add_to_funcs(do_help_void, MMOST & ~MFINDINHELP,
-		/* TRANSLATORS: Try to keep the following strings at most 10 characters. */
+		/* TRANSLATORS: Try to keep the next ninety strings or so at most 10
+		 * characters.  Some strings may be longer -- run nano and see. */
 		N_("Get Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
@@ -839,6 +840,7 @@ void shortcut_init(void)
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_left, MMAIN,
+		/* TRANSLATORS: This means move the cursor one character back. */
 		N_("Back"), WITHORSANS(back_gist), TOGETHER, VIEW);
 	add_to_funcs(do_right, MMAIN,
 		N_("Forward"), WITHORSANS(forward_gist), TOGETHER, VIEW);
