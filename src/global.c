@@ -953,9 +953,9 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	add_to_funcs(do_indent, MMAIN,
-		N_("Indent Text"), WITHORSANS(indent_gist), TOGETHER, NOVIEW);
+		N_("Indent"), WITHORSANS(indent_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_unindent, MMAIN,
-		N_("Unindent Text"), WITHORSANS(unindent_gist), BLANKAFTER, NOVIEW);
+		N_("Unindent"), WITHORSANS(unindent_gist), BLANKAFTER, NOVIEW);
 #endif
 #ifdef ENABLE_COMMENT
 	add_to_funcs(do_comment, MMAIN,
