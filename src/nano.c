@@ -1581,7 +1581,7 @@ void unbound_key(int code)
 			statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
 	} else if (code < 0x20)
 		statusline(ALERT, _("Unbound key: ^%c"), code + 0x40);
-	else if (currmenu != MHELP)
+	else
 		statusline(ALERT, _("Unbound key: %c"), code);
 }
 
