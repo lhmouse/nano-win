@@ -2105,30 +2105,39 @@ void backup_lines(filestruct *first_line, size_t par_len)
 
 /* Find the beginning of the current paragraph if we're in one, or the
  * beginning of the next paragraph if we're not.  Afterwards, save the
+ * first line of the paragraph in firstline, whether the last line of
+ * the paragraph is part of the paragraph (instead of the line following
+ * the paragraph) in bot_inpar, and
  * quote length and paragraph length in *quote and *par.  Return TRUE if
  * we found a paragraph, and FALSE if there was an error or we didn't
  * find a paragraph. */
-bool find_paragraph(size_t *const quote, size_t *const par)
+bool find_paragraph(filestruct **firstline, bool *bot_inpar,
+					size_t *const quote, size_t *const par)
 {
+	filestruct *parline = *firstline;
+		/* The line of the current paragraph we're searching in. */
 	size_t quote_len;
 		/* Length of the initial quotation of the paragraph we search for. */
 	size_t par_len;
 		/* Number of lines in the paragraph we search for. */
-	filestruct *current_save;
-		/* The line at the beginning of the paragraph we search for. */
 
 	if (quoterc != 0) {
 		statusline(ALERT, _("Bad quote string %s: %s"), quotestr, quoteerr);
 		return FALSE;
 	}
 
+	/* If we're at the end of the last line of the file, and we're not in a
+	 * paragraph, it means that there aren't any paragraphs left, so get
+	 * out. */
+	if (parline->next == NULL && !inpar(parline))
+		return FALSE;
+
 	/* If the current line isn't in a paragraph, move forward to the
 	 * last line of the next paragraph, if any. */
-	if (!inpar(openfile->current)) {
-		if (do_para_end(&openfile->current))
-			openfile->current_x = strlen(openfile->filebot->data);
+	if (!inpar(parline)) {
+		*bot_inpar = do_para_end(&parline);
 
-		/* If we end up past the beginning of the line, it means that
+		/* If bot_inpar is TRUE, it means that
 		 * we're at the end of the last line of the file, and the line
 		 * isn't blank, in which case the last line of the file is the
 		 * last line of the next paragraph.
@@ -2136,35 +2145,34 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 		 * Otherwise, if we end up on a line that's in a paragraph, it
 		 * means that we're on the line after the last line of the next
 		 * paragraph, in which case we should move back to the last line
-		 * of the next paragraph. */
-		if (openfile->current_x == 0) {
-			if (!openfile->current->prev || !inpar(openfile->current->prev))
+		 * of the next paragraph.  If that line doesn't exist or isn't
+		 * in a paragraph, we should get out. */
+		if (*bot_inpar == FALSE) {
+			if (!parline->prev || !inpar(parline->prev))
 				return FALSE;
-			if (openfile->current != openfile->fileage)
-				openfile->current = openfile->current->prev;
+			if (parline->prev != NULL)
+				parline = parline->prev;
 		}
 	}
 
 	/* If the current line is in a paragraph and isn't its first line, move
 	 * back to the first line of the paragraph. */
-	if (inpar(openfile->current) && !begpar(openfile->current, 0))
-		do_para_begin(&openfile->current);
+	if (inpar(parline) && !begpar(parline, 0))
+		do_para_begin(&parline);
 
-	/* Now current is the first line of the paragraph.  Set quote_len to
+	/* Now parline is the first line of the paragraph.  Set quote_len to
 	 * the quotation length of that line, and set par_len to the number
 	 * of lines in this paragraph. */
-	quote_len = quote_length(openfile->current->data);
-	current_save = openfile->current;
-	if (do_para_end(&openfile->current))
-		openfile->current_x = strlen(openfile->filebot->data);
-	par_len = openfile->current->lineno - current_save->lineno;
+	quote_len = quote_length(parline->data);
+	*firstline = parline;
+	*bot_inpar = do_para_end(&parline);
+	par_len = parline->lineno - (*firstline)->lineno;
 
-	/* If we end up past the beginning of the line, it means that we're at
+	/* If bot_inpar is TRUE, it means that we're at
 	 * the end of the last line of the file, and the line isn't blank, in
 	 * which case the last line of the file is part of the paragraph. */
-	if (openfile->current_x > 0)
+	if (*bot_inpar == TRUE)
 		par_len++;
-	openfile->current = current_save;
 
 	/* Save the values of quote_len and par_len. */
 	*quote = quote_len;
@@ -2176,10 +2184,9 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 /* Run every line of par through justify_format().  Assume
  * that firstline is at the beginning of the paragraph, quote_len is the length
  * of the paragraph's quote string, and par_len is the number of lines in the
- * paragraph.  Return the line following the justified paragraph in firstline,
- * and return whether the last line of the paragraph is part of the paragraph
- * (instead of the line following the paragraph). */
-bool justify_paragraph(filestruct **firstline, size_t quote_len,
+ * paragraph.  Return the line following the justified paragraph in
+ * firstline. */
+void justify_paragraph(filestruct **firstline, size_t quote_len,
 						size_t par_len)
 {
 	filestruct *sampleline;
@@ -2289,12 +2296,8 @@ bool justify_paragraph(filestruct **firstline, size_t quote_len,
 	/* Go to the next line, if possible.  If there is no next line,
 	 * the last line is part of the paragraph (instead of the line following
 	 * the paragraph). */
-	if ((*firstline)->next != NULL) {
+	if ((*firstline)->next != NULL)
 		*firstline = (*firstline)->next;
-		return FALSE;
-	}
-
-	return TRUE;
 }
 
 /* Justify the current paragraph, and justify the entire file when
@@ -2311,7 +2314,7 @@ void do_justify(bool full_justify)
 	filestruct *last_par_line = NULL;
 		/* Will be the line after the last line of the justified
 		 * paragraph(s), if any.  Also for restoring after unjustify. */
-	bool filebot_inpar = FALSE;
+	bool filebot_inpar;
 		/* Whether the text at filebot is part of the current paragraph. */
 	int kbinput;
 		/* The first keystroke after a justification. */
@@ -2333,8 +2336,12 @@ void do_justify(bool full_justify)
 
 	/* Find the first line of the paragraph(s) to be justified.
 	 * If the search failed, it means that there are no paragraph(s) to
-	 * justify, so refresh the screen and get out. */
-	if (!find_paragraph(&quote_len, &par_len)) {
+	 * justify.  The search put us on the last line of the file, so
+	 * put the cursor at the end of it.  Then
+	 * refresh the screen and get out. */
+	if (!find_paragraph(&openfile->current, &filebot_inpar, &quote_len,
+						&par_len)) {
+		openfile->current_x = strlen(openfile->filebot->data);
 		refresh_needed = TRUE;
 		return;
 	}
@@ -2354,29 +2361,33 @@ void do_justify(bool full_justify)
 		filestruct *current_save = openfile->current;
 
 		/* Justify the current paragraph. */
-		filebot_inpar = justify_paragraph(&openfile->current, quote_len,
-											par_len);
+		justify_paragraph(&openfile->current, quote_len, par_len);
 
 		/* Renumber the now-justified paragraph, since both refreshing the
 		 * edit window and finding a paragraph need correct line numbers. */
 		renumber(current_save);
 
-		/* If the last line of the paragraph is the last line of the file, move
-		 * to the end of that line. */
-		if (filebot_inpar)
-			openfile->current_x = strlen(openfile->current->data);
+		/* The search put us on the last line of the paragraph, so
+		 * put the cursor at the end of it. */
+		openfile->current_x = strlen(openfile->filebot->data);
 
 		/* If we're at the end of the last line of the file, it means that
 		 * there aren't any paragraphs left, so break out of the loop. */
-		if (openfile->current == openfile->filebot && openfile->current_x ==
-			strlen(openfile->filebot->data))
+		if (openfile->current == openfile->filebot && filebot_inpar)
 			break;
 
 	/* If we're justifying the entire file,
 	 * find the next line of the paragraph(s) to be justified.
 	 * If the search failed, it means that there are no paragraph(s) to
 	 * justify, so break out of the loop. */
-	} while (full_justify && find_paragraph(&quote_len, &par_len));
+	} while (full_justify && find_paragraph(&openfile->current, &filebot_inpar,
+											&quote_len, &par_len));
+
+	/* If we justified the entire file,
+	 * the search put us on the last line of the file, so
+	 * put the cursor at the end of it. */
+	if (full_justify)
+		openfile->current_x = strlen(openfile->filebot->data);
 
 	/* We are now done justifying the paragraph(s), so clean
 	 * up.  totsize has been maintained above.
