@@ -2244,6 +2244,15 @@ void do_justify(bool full_justify)
 	bool filebot_inpar;
 		/* Whether the text at filebot is part of the current paragraph. */
 
+	filestruct *was_cutbuffer = cutbuffer;
+		/* The old cutbuffer, so we can justify in the current cutbuffer. */
+	filestruct *was_cutbottom = cutbottom;
+		/* The old cutbottom, so we can justify in the current cutbuffer. */
+	size_t jus_len;
+		/* The number of lines we're storing in the current cutbuffer. */
+	filestruct *jusline;
+		/* The line that we're justifying in the current cutbuffer. */
+
 	/* If we're justifying the entire file, start at the beginning. */
 	if (full_justify) {
 		openfile->current = openfile->fileage;
@@ -2262,51 +2271,60 @@ void do_justify(bool full_justify)
 		return;
 	}
 
+	/* Prepare to put the text we want to justify in the cutbuffer. */
+	cutbuffer = NULL;
+	cutbottom = NULL;
+
 	/* Set
-	 * first_par_line to the first line of the paragraph. */
+	 * first_par_line and last_par_line to the first line of the paragraph. */
 	first_par_line = openfile->current;
-
-	/* Search for a paragraph(s) and justify them.  If we're justifying the
-	 * whole file, loop until we've found every paragraph. */
-	do {
-		filestruct *current_save = openfile->current;
-
-		/* Justify the current paragraph. */
-		justify_paragraph(&openfile->current, quote_len, par_len);
-
-		/* Renumber the now-justified paragraph, since both refreshing the
-		 * edit window and finding a paragraph need correct line numbers. */
-		renumber(current_save);
-
-		/* The search put us on the last line of the paragraph, so
-		 * put the cursor at the end of it. */
-		openfile->current_x = strlen(openfile->filebot->data);
-
-		/* If we're at the end of the last line of the file, it means that
-		 * there aren't any paragraphs left, so break out of the loop. */
-		if (openfile->current == openfile->filebot && filebot_inpar)
-			break;
-
-	/* If we're justifying the entire file,
-	 * find the next line of the paragraph(s) to be justified.
-	 * If the search failed, it means that there are no paragraph(s) to
-	 * justify, so break out of the loop. */
-	} while (full_justify && find_paragraph(&openfile->current, &filebot_inpar,
-											&quote_len, &par_len));
-
-	/* If we justified the entire file,
-	 * the search put us on the last line of the file, so
-	 * put the cursor at the end of it. */
-	if (full_justify)
-		openfile->current_x = strlen(openfile->filebot->data);
-
-	/* We are now done justifying the paragraph(s), so clean
-	 * up.  totsize has been maintained above.
-	 * Set last_par_line to the end of the paragraph(s) justified.
-	 * If we've justified the entire file and broken out of the loop,
-	 * this should be the last line of the file. */
 	last_par_line = openfile->current;
 
+	/* If we're justifying the entire file, move last_par_line down to the
+	 * last line of the file (counting the text at filebot).  Otherwise, move
+	 * last_par_line down to the last line of the paragraph. */
+	if (full_justify) {
+		jus_len = openfile->filebot->lineno - first_par_line->lineno;
+
+		if (openfile->filebot->data[0] != '\0') {
+			jus_len++;
+			filebot_inpar = TRUE;
+		}
+	} else
+		jus_len = par_len;
+
+	while (jus_len > 0 && last_par_line->next != NULL) {
+		last_par_line = last_par_line->next;
+		jus_len--;
+	}
+
+	/* Do (the equivalent of) a marked cut of first_par_line to last_par_line.
+	 * We can't do an actual marked cut, since we might be in tiny mode, in
+	 * which case it's unavailable. */
+	extract_buffer(&cutbuffer, &cutbottom, first_par_line, 0, last_par_line,
+					filebot_inpar ? strlen(last_par_line->data) : 0);
+
+	/* Prepare to justify the text we just put in the cutbuffer. */
+	jusline = cutbuffer;
+
+	/* Justify the current paragraph. */
+	justify_paragraph(&jusline, quote_len, par_len);
+
+	/* If we're justifying the entire file, search for and justify paragraphs
+	 * until we can't anymore. */
+	if (full_justify) {
+		while (find_paragraph(&jusline, &filebot_inpar, &quote_len, &par_len))
+			justify_paragraph(&jusline, quote_len, par_len);
+	}
+
+	/* Do (the equivalent of) a paste of the justified text. */
+	ingraft_buffer(cutbuffer);
+
+	/* We're done justifying.  Restore the old cutbuffer. */
+	cutbuffer = was_cutbuffer;
+	cutbottom = was_cutbottom;
+
+	set_modified();
 	edit_refresh();
 
 	/* Show what we justified on the status bar. */
