@@ -1222,9 +1222,8 @@ void do_rcfiles(void)
 {
 	const char *xdgconfdir;
 
+	/* First process the system-wide nanorc, if there is one. */
 	nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
-
-	/* Process the system-wide nanorc. */
 	parse_one_nanorc();
 
 	/* When configured with --disable-wrapping-as-root, turn wrapping off
@@ -1237,8 +1236,8 @@ void do_rcfiles(void)
 	get_homedir();
 	xdgconfdir = getenv("XDG_CONFIG_HOME");
 
-	/* Now try the to find a nanorc file in the user's home directory
-	 * or in the XDG configuration directories. */
+	/* Now try the to find a nanorc file in the user's home directory or in
+	 * the XDG configuration directories, and process the first one found. */
 	if (have_nanorc(homedir, "/" HOME_RC_NAME))
 		parse_one_nanorc();
 	else if (have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME))
