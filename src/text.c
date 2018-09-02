@@ -205,11 +205,27 @@ void do_cutword(bool backward)
 	cutbuffer = NULL;
 	cutbottom = NULL;
 
-	/* Move the cursor to a word start, to the left or to the right. */
-	if (backward)
+	/* Move the cursor to a word start, to the left or to the right.
+	 * If that word is on another line and the cursor was not already
+	 * on the edge of the original line, then put the cursor on that
+	 * edge instead, so that lines will not be joined unexpectedly. */
+	if (backward) {
 		do_prev_word(ISSET(WORD_BOUNDS), FALSE);
-	else
+		if (openfile->current != is_current) {
+			if (is_current_x > 0) {
+				openfile->current = is_current;
+				openfile->current_x = 0;
+			} else
+				openfile->current_x = strlen(openfile->current->data);
+		}
+	} else {
 		do_next_word(FALSE, ISSET(WORD_BOUNDS), FALSE);
+		if (openfile->current != is_current &&
+							is_current->data[is_current_x] != '\0') {
+			openfile->current = is_current;
+			openfile->current_x = strlen(is_current->data);
+		}
+	}
 
 	/* Set the mark at the start of that word. */
 	openfile->mark = openfile->current;
