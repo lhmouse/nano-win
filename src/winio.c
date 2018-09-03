@@ -540,6 +540,8 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_END;
 	else if (retval == controldelete)
 		return CONTROL_DELETE;
+	else if (retval == controlshiftdelete)
+		return the_code_for(do_cut_prev_word, KEY_BACKSPACE);
 #ifndef NANO_TINY
 	else if (retval == shiftcontrolleft) {
 		shift_held = TRUE;
@@ -705,6 +707,7 @@ int parse_kbinput(WINDOW *win)
 			return KEY_NPAGE;
 #ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
 		case KEY_SDC:
+				return KEY_BACKSPACE;
 #endif
 		case DEL_CODE:
 			if (ISSET(REBIND_DELETE))
