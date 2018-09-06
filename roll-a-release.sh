@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.9.8"
+VERSION="3.0"
 
 echo "Pulling..." &&  git pull &&
 echo "Running autogen..." &&  ./autogen.sh &&
