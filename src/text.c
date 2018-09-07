@@ -2253,6 +2253,12 @@ void do_justify(bool full_justify)
 	filestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
 
+#ifndef NANO_TINY
+	/* Stash the cursor position, to be stored in the undo item. */
+	ssize_t was_lineno = openfile->current->lineno;
+	size_t was_current_x = openfile->current_x;
+#endif
+
 	/* If we're justifying the entire file, start at the beginning. */
 	if (full_justify) {
 		openfile->current = openfile->fileage;
@@ -2298,11 +2304,22 @@ void do_justify(bool full_justify)
 		jus_len--;
 	}
 
-	/* Do (the equivalent of) a marked cut of first_par_line to last_par_line.
-	 * We can't do an actual marked cut, since we might be in tiny mode, in
-	 * which case it's unavailable. */
+#ifndef NANO_TINY
+	add_undo(COUPLE_BEGIN);
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("justify"));
+
+	/* Store the original cursor position, in case we unjustify. */
+	openfile->undotop->lineno = was_lineno;
+	openfile->undotop->begin = was_current_x;
+
+	add_undo(CUT);
+#endif
+	/* Do the equivalent of a marked cut. */
 	extract_buffer(&cutbuffer, &cutbottom, first_par_line, 0, last_par_line,
 					filebot_inpar ? strlen(last_par_line->data) : 0);
+#ifndef NANO_TINY
+	update_undo(CUT);
+#endif
 
 	/* Prepare to justify the text we just put in the cutbuffer. */
 	jusline = cutbuffer;
@@ -2317,8 +2334,17 @@ void do_justify(bool full_justify)
 			justify_paragraph(&jusline, quote_len, par_len);
 	}
 
+#ifndef NANO_TINY
+	add_undo(PASTE);
+#endif
 	/* Do (the equivalent of) a paste of the justified text. */
 	ingraft_buffer(cutbuffer);
+#ifndef NANO_TINY
+	update_undo(PASTE);
+
+	add_undo(COUPLE_END);
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("justify"));
+#endif
 
 	/* We're done justifying.  Restore the old cutbuffer. */
 	cutbuffer = was_cutbuffer;
@@ -2335,12 +2361,6 @@ void do_justify(bool full_justify)
 
 	/* Set the desired screen column (always zero, except at EOF). */
 	openfile->placewewant = xplustabs();
-
-#ifndef NANO_TINY
-	/* Throw away the entire undo stack, to prevent a crash when
-	 * the user tries to undo something in the justified text. */
-	discard_until(NULL, openfile, FALSE);
-#endif
 }
 
 /* Justify the current paragraph. */
