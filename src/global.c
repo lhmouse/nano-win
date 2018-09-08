@@ -1015,10 +1015,10 @@ void shortcut_init(void)
 		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
+#ifndef NANO_TINY
 	add_to_funcs(flip_convert, MINSERTFILE,
 		N_("No Conversion"), WITHORSANS(convert_gist), TOGETHER, NOVIEW);
 
-#ifndef NANO_TINY
 	/* Command execution is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED)) {
 		add_to_funcs(flip_execute, MINSERTFILE,

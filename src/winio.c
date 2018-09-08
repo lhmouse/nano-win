@@ -540,9 +540,9 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_END;
 	else if (retval == controldelete)
 		return CONTROL_DELETE;
+#ifndef NANO_TINY
 	else if (retval == controlshiftdelete)
 		return the_code_for(do_cut_prev_word, KEY_BACKSPACE);
-#ifndef NANO_TINY
 	else if (retval == shiftcontrolleft) {
 		shift_held = TRUE;
 		return CONTROL_LEFT;
