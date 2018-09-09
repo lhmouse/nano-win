@@ -366,15 +366,15 @@ void to_last_line(void);
 void do_page_up(void);
 void do_page_down(void);
 #ifdef ENABLE_JUSTIFY
-void do_para_begin(bool update_screen);
-void do_para_end(bool update_screen);
+void do_para_begin(void);
+void do_para_end(void);
 void do_para_begin_void(void);
 void do_para_end_void(void);
 #endif
 void do_prev_block(void);
 void do_next_block(void);
-void do_prev_word(bool allow_punct, bool update_screen);
-bool do_next_word(bool after_ends, bool allow_punct, bool update_screen);
+void do_prev_word(bool allow_punct);
+bool do_next_word(bool after_ends, bool allow_punct);
 void do_prev_word_void(void);
 void do_next_word_void(void);
 void do_home(void);

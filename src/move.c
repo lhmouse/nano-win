@@ -172,7 +172,7 @@ void do_page_down(void)
 #ifdef ENABLE_JUSTIFY
 /* Move to the beginning of the first-found beginning-of-paragraph line
  * before the current line. */
-void do_para_begin(bool update_screen)
+void do_para_begin(void)
 {
 	if (openfile->current != openfile->fileage)
 		openfile->current = openfile->current->prev;
@@ -188,7 +188,7 @@ void do_para_begin(bool update_screen)
  * end of the current line if not.  A line is the last line of a paragraph
  * if it is in a paragraph, and the next line either is the beginning line
  * of a paragraph or isn't in a paragraph. */
-void do_para_end(bool update_screen)
+void do_para_end(void)
 {
 	while (openfile->current != openfile->filebot &&
 				!inpar(openfile->current))
@@ -212,7 +212,7 @@ void do_para_begin_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	do_para_begin(TRUE);
+	do_para_begin();
 
 	edit_redraw(was_current, CENTERING);
 }
@@ -222,7 +222,7 @@ void do_para_end_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	do_para_end(TRUE);
+	do_para_end();
 
 	edit_redraw(was_current, CENTERING);
 }
@@ -270,7 +270,7 @@ void do_next_block(void)
 
 /* Move to the previous word.  If allow_punct is TRUE, treat punctuation
  * as part of a word. */
-void do_prev_word(bool allow_punct, bool update_screen)
+void do_prev_word(bool allow_punct)
 {
 	bool seen_a_word = FALSE, step_forward = FALSE;
 
@@ -310,7 +310,7 @@ void do_prev_word(bool allow_punct, bool update_screen)
 /* Move to the next word.  If after_ends is TRUE, stop at the ends of words
  * instead of their beginnings.  If allow_punct is TRUE, treat punctuation as
  * part of a word.  Return TRUE if we started on a word, and FALSE otherwise. */
-bool do_next_word(bool after_ends, bool allow_punct, bool update_screen)
+bool do_next_word(bool after_ends, bool allow_punct)
 {
 	bool started_on_word = is_word_mbchar(openfile->current->data +
 								openfile->current_x, allow_punct);
@@ -366,7 +366,7 @@ void do_prev_word_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	do_prev_word(ISSET(WORD_BOUNDS), TRUE);
+	do_prev_word(ISSET(WORD_BOUNDS));
 
 	edit_redraw(was_current, FLOWING);
 }
@@ -378,7 +378,7 @@ void do_next_word_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	do_next_word(ISSET(AFTER_ENDS), ISSET(WORD_BOUNDS), TRUE);
+	do_next_word(ISSET(AFTER_ENDS), ISSET(WORD_BOUNDS));
 
 	edit_redraw(was_current, FLOWING);
 }
