@@ -39,12 +39,6 @@ static pid_t pid_of_command = -1;
 static bool prepend_wrap = FALSE;
 		/* Should we prepend wrapped text to the next line? */
 #endif
-#ifdef ENABLE_JUSTIFY
-static filestruct *jusbuffer = NULL;
-		/* The buffer where we store unjustified text. */
-static filestruct *jusbottom = NULL;
-		/* A pointer to the end of the buffer with unjustified text. */
-#endif
 
 #ifdef ENABLE_WORDCOMPLETION
 static int pletion_x = 0;
@@ -2033,76 +2027,6 @@ bool inpar(const filestruct *const line)
 					indent_length(line->data + quote_len)] != '\0');
 }
 
-/* Move the next par_len lines, starting with first_line, into the
- * justify buffer, leaving copies of those lines in place.  Assume that
- * par_len is greater than zero, and that there are enough lines after
- * first_line. */
-void backup_lines(filestruct *first_line, size_t par_len)
-{
-	filestruct *top = first_line;
-		/* The top of the paragraph we're backing up. */
-	filestruct *bot = first_line;
-		/* The bottom of the paragraph we're backing up. */
-	size_t i;
-	size_t current_x_save = openfile->current_x;
-	ssize_t fl_lineno_save = first_line->lineno;
-	ssize_t edittop_lineno_save = openfile->edittop->lineno;
-	ssize_t current_lineno_save = openfile->current->lineno;
-#ifndef NANO_TINY
-	bool mark_is_set = (openfile->mark != NULL);
-	ssize_t was_mark_lineno = (mark_is_set ? openfile->mark->lineno : 0);
-	size_t was_mark_x = openfile->mark_x;
-#endif
-
-	/* Move bot down par_len lines to the line after the last line of
-	 * the paragraph, if there is one. */
-	for (i = par_len; i > 0 && bot != openfile->filebot; i--)
-		bot = bot->next;
-
-	/* Move the paragraph from the current buffer to the justify buffer. */
-	extract_buffer(&jusbuffer, &jusbottom, top, 0, bot,
-				(i == 1 && bot == openfile->filebot) ? strlen(bot->data) : 0);
-
-	/* Copy the paragraph back to the current buffer. */
-	copy_from_buffer(jusbuffer);
-
-	/* Move upward from the last line of the paragraph to the first
-	 * line, putting first_line, edittop, current, and mark_begin at the
-	 * same lines in the copied paragraph that they had in the original
-	 * paragraph. */
-	if (openfile->current != openfile->fileage) {
-		top = openfile->current->prev;
-#ifndef NANO_TINY
-		if (mark_is_set && openfile->current->lineno == was_mark_lineno) {
-			openfile->mark = openfile->current;
-			openfile->mark_x = was_mark_x;
-		}
-#endif
-	} else
-		top = openfile->current;
-	for (i = par_len; i > 0 && top != NULL; i--) {
-		if (top->lineno == fl_lineno_save)
-			first_line = top;
-		if (top->lineno == edittop_lineno_save)
-			openfile->edittop = top;
-		if (top->lineno == current_lineno_save)
-			openfile->current = top;
-#ifndef NANO_TINY
-		if (mark_is_set && top->lineno == was_mark_lineno) {
-			openfile->mark = top;
-			openfile->mark_x = was_mark_x;
-		}
-#endif
-		top = top->prev;
-	}
-
-	/* Put current_x at the same place in the copied paragraph that it
-	 * had in the original paragraph. */
-	openfile->current_x = current_x_save;
-
-	set_modified();
-}
-
 /* Find the beginning of the current paragraph if we're in one, or the
  * beginning of the next paragraph if we're not.  Afterwards, save the
  * first line of the paragraph in firstline, whether the last line of
@@ -2313,24 +2237,12 @@ void do_justify(bool full_justify)
 	size_t par_len;
 		/* Number of lines in the current paragraph. */
 	filestruct *first_par_line = NULL;
-		/* Will be the first line of the justified paragraph(s), if any.
-		 * For restoring after unjustify. */
+		/* Will be the first line of the justified paragraph(s), if any. */
 	filestruct *last_par_line = NULL;
 		/* Will be the line after the last line of the justified
-		 * paragraph(s), if any.  Also for restoring after unjustify. */
+		 * paragraph(s), if any. */
 	bool filebot_inpar;
 		/* Whether the text at filebot is part of the current paragraph. */
-	int kbinput;
-		/* The first keystroke after a justification. */
-	functionptrtype func;
-		/* The function associated with that keystroke. */
-
-	/* We save these variables to be restored if the user unjustifies. */
-	filestruct *edittop_save = openfile->edittop;
-	size_t firstcolumn_save = openfile->firstcolumn;
-	filestruct *current_save = openfile->current;
-	size_t current_x_save = openfile->current_x;
-	bool modified_save = openfile->modified;
 
 	/* If we're justifying the entire file, start at the beginning. */
 	if (full_justify) {
@@ -2350,13 +2262,8 @@ void do_justify(bool full_justify)
 		return;
 	}
 
-	/* Move the original paragraph(s)
-	 * to the justify buffer, splice a copy of the original
-	 * paragraph(s) into the file in the same place, and set
-	 * first_par_line to the first line of the copy. */
-	backup_lines(openfile->current, full_justify ?
-					openfile->filebot->lineno - openfile->current->lineno +
-					((openfile->filebot->data[0] != '\0') ? 1 : 0) : par_len);
+	/* Set
+	 * first_par_line to the first line of the paragraph. */
 	first_par_line = openfile->current;
 
 	/* Search for a paragraph(s) and justify them.  If we're justifying the
@@ -2402,57 +2309,11 @@ void do_justify(bool full_justify)
 
 	edit_refresh();
 
-	/* Show "Unjustify" in the help lines. */
-	uncutfunc->desc = unjust_tag;
-	bottombars(MMAIN);
-
-#ifndef NANO_TINY
-	kbinput = KEY_WINCH;
-
-	/* Now wait for the next keystroke. */
-	while (kbinput == KEY_WINCH)
-#endif
-	{
-		statusbar(_("Can now UnJustify!"));
-		place_the_cursor();
-		kbinput = do_input(FALSE);
-	}
-
-	/* Unset the suppression flag after showing the Unjustify message. */
-	suppress_cursorpos = FALSE;
-
-	func = func_from_key(&kbinput);
-
-	/* If the keystroke was Unjustify or Undo, then undo the justification. */
-	if (func == do_uncut_text
-#ifndef NANO_TINY
-						|| func == do_undo
-#endif
-				) {
-		/* Splice the preserved
-		 * unjustified text back into the file, */
-		filestruct *trash = NULL, *dummy = NULL;
-
-		/* Throw away the justified paragraph, and replace it with
-		 * the preserved unjustified text. */
-		extract_buffer(&trash, &dummy, first_par_line, 0, last_par_line,
-						filebot_inpar ? strlen(last_par_line->data) : 0);
-		free_filestruct(trash);
-		ingraft_buffer(jusbuffer);
-
-		/* Restore the old position. */
-		openfile->edittop = edittop_save;
-		openfile->firstcolumn = firstcolumn_save;
-		openfile->current = current_save;
-		openfile->current_x = current_x_save;
-		openfile->modified = modified_save;
-		if (!openfile->modified)
-			titlebar(NULL);
-
-		refresh_needed = TRUE;
-	} else {
-		/* Put the keystroke back into the queue. */
-		unget_kbinput(kbinput, meta_key);
+	/* Show what we justified on the status bar. */
+	if (full_justify)
+		statusbar(_("Justified file"));
+	else
+		statusbar(_("Justified paragraph"));
 
 		/* Set the desired screen column (always zero, except at EOF). */
 		openfile->placewewant = xplustabs();
@@ -2462,18 +2323,6 @@ void do_justify(bool full_justify)
 		 * the user tries to undo something in the justified text. */
 		discard_until(NULL, openfile, FALSE);
 #endif
-		/* Blow away the unjustified text. */
-		free_filestruct(jusbuffer);
-	}
-
-	/* Mark the buffer for unjustified text as empty. */
-	jusbuffer = NULL;
-
-	wipe_statusbar();
-
-	/* Show "Uncut" again in the help lines, and force their redrawing. */
-	uncutfunc->desc = uncut_tag;
-	currmenu = MMOST;
 }
 
 /* Justify the current paragraph. */
