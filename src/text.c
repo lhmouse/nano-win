@@ -2315,13 +2315,13 @@ void do_justify(bool full_justify)
 	else
 		statusbar(_("Justified paragraph"));
 
-		/* Set the desired screen column (always zero, except at EOF). */
-		openfile->placewewant = xplustabs();
+	/* Set the desired screen column (always zero, except at EOF). */
+	openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
-		/* Throw away the entire undo stack, to prevent a crash when
-		 * the user tries to undo something in the justified text. */
-		discard_until(NULL, openfile, FALSE);
+	/* Throw away the entire undo stack, to prevent a crash when
+	 * the user tries to undo something in the justified text. */
+	discard_until(NULL, openfile, FALSE);
 #endif
 }
 
