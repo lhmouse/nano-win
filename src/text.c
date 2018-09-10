@@ -1991,7 +1991,8 @@ void justify_paragraph(filestruct **line, size_t par_len)
 }
 
 /* Justify the current paragraph, and justify the entire file when
- * full_justify is TRUE. */
+ * full_justify is TRUE.  If the mark is on, justify only the marked
+ * text instead. */
 void do_justify(bool full_justify)
 {
 	size_t par_len;
@@ -2001,15 +2002,14 @@ void do_justify(bool full_justify)
 	filestruct *last_par_line;
 		/* Will be the line after the last line of the justified
 		 * paragraph(s), if any. */
+	size_t top_x;
+		/* The top x-coordinate of the paragraph we justify. */
 	size_t bot_x;
 		/* The bottom x-coordinate of the paragraph we justify. */
-
 	filestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
 	filestruct *was_cutbottom = cutbottom;
 		/* The old cutbottom, so we can justify in the current cutbuffer. */
-	size_t jus_len;
-		/* The number of lines we're storing in the current cutbuffer. */
 	filestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
 
@@ -2017,8 +2017,19 @@ void do_justify(bool full_justify)
 	/* Stash the cursor position, to be stored in the undo item. */
 	ssize_t was_lineno = openfile->current->lineno;
 	size_t was_current_x = openfile->current_x;
+
+	/* We need these to restore the coordinates of the mark after justifying
+	 * marked text. */
+	ssize_t was_top_lineno = 0;
+	size_t was_top_x = 0;
+	bool right_side_up = FALSE;
 #endif
 
+#ifndef NANO_TINY
+	/* Do normal justification only when the mark is off. */
+	if (!openfile->mark)
+#endif
+	{
 	/* When justifying the entire buffer, start at the top.  Otherwise, when
 	 * in a paragraph but not at its beginning, move back to its first line. */
 	if (full_justify)
@@ -2034,13 +2045,30 @@ void do_justify(bool full_justify)
 		refresh_needed = TRUE;
 		return;
 	}
-
-	/* We cannot (yet) justify a marked region, so turn the mark off. */
-	openfile->mark = NULL;
+	}
 
 	/* Prepare to put the text we want to justify in the cutbuffer. */
 	cutbuffer = NULL;
 	cutbottom = NULL;
+
+#ifndef NANO_TINY
+	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
+	if (openfile->mark) {
+		mark_order((const filestruct **)&first_par_line, &top_x,
+						(const filestruct **)&last_par_line, &bot_x,
+						&right_side_up);
+
+		/* Save the coordinates of the mark. */
+		was_top_lineno = first_par_line->lineno;
+		was_top_x = top_x;
+
+		par_len = last_par_line->lineno - first_par_line->lineno +
+											(bot_x > 0 ? 1 : 0);
+	} else
+#endif
+	{
+		size_t jus_len;
+			/* The number of lines we're storing in the current cutbuffer. */
 
 	/* Start out at the first line of the paragraph. */
 	first_par_line = openfile->current;
@@ -2062,6 +2090,7 @@ void do_justify(bool full_justify)
 		bot_x = 0;
 	} else
 		bot_x = strlen(last_par_line->data);
+	}
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN);
@@ -2074,12 +2103,22 @@ void do_justify(bool full_justify)
 	add_undo(CUT);
 #endif
 	/* Do the equivalent of a marked cut. */
-	extract_buffer(&cutbuffer, &cutbottom, first_par_line, 0, last_par_line,
-																bot_x);
+	extract_buffer(&cutbuffer, &cutbottom, first_par_line, top_x,
+											last_par_line, bot_x);
 #ifndef NANO_TINY
 	update_undo(CUT);
-#endif
 
+	if (openfile->mark) {
+		filestruct *line;
+
+		/* Manually justify the marked region. */
+		concat_paragraph(&cutbuffer, par_len);
+		justify_format(cutbuffer, 0);
+		line = cutbuffer;
+		rewrap_paragraph(&line, "", 0);
+	} else
+#endif
+	{
 	/* Prepare to justify the text we just put in the cutbuffer. */
 	jusline = cutbuffer;
 
@@ -2095,6 +2134,7 @@ void do_justify(bool full_justify)
 				break;
 		}
 	}
+	}
 
 #ifndef NANO_TINY
 	add_undo(PASTE);
@@ -2106,6 +2146,18 @@ void do_justify(bool full_justify)
 
 	add_undo(COUPLE_END);
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("justification"));
+
+	/* If we justified marked text, restore mark or cursor position. */
+	if (openfile->mark) {
+		if (right_side_up) {
+			openfile->mark = fsfromline(was_top_lineno);
+			openfile->mark_x = was_top_x;
+		} else {
+			openfile->current = fsfromline(was_top_lineno);
+			openfile->current_x = was_top_x;
+		}
+		update_undo(COUPLE_END);
+	}
 #endif
 
 	/* We're done justifying.  Restore the old cutbuffer. */
@@ -2113,6 +2165,11 @@ void do_justify(bool full_justify)
 	cutbottom = was_cutbottom;
 
 	/* Show what we justified on the status bar. */
+#ifndef NANO_TINY
+	if (openfile->mark)
+		statusbar(_("Justified selection"));
+	else
+#endif
 	if (full_justify)
 		statusbar(_("Justified file"));
 	else
@@ -2123,6 +2180,7 @@ void do_justify(bool full_justify)
 
 	set_modified();
 	refresh_needed = TRUE;
+	shift_held = TRUE;
 }
 
 /* Justify the current paragraph. */
