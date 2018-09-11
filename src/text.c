@@ -2137,12 +2137,7 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 	if (!inpar(parline)) {
 		*bot_inpar = do_para_end(&parline);
 
-		/* If bot_inpar is TRUE, it means that
-		 * we're at the end of the last line of the file, and the line
-		 * isn't blank, in which case the last line of the file is the
-		 * last line of the next paragraph.
-		 *
-		 * Otherwise, if we end up on a line that's in a paragraph, it
+		/* If we end up on a line that's in a paragraph, it
 		 * means that we're on the line after the last line of the next
 		 * paragraph, in which case we should move back to the last line
 		 * of the next paragraph.  If that line doesn't exist or isn't
@@ -2160,12 +2155,21 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 	if (inpar(parline) && !begpar(parline, 0))
 		do_para_begin(&parline);
 
-	/* Now parline is the first line of the paragraph.  Set quote_len to
-	 * the quotation length of that line, and set par_len to the number
-	 * of lines in this paragraph. */
-	quote_len = quote_length(parline->data);
+	/* Now parline is the first line of the paragraph.  Save it in firstline,
+	 * and then move it to the last line of the paragraph. */
 	*firstline = parline;
 	*bot_inpar = do_para_end(&parline);
+
+	/* If the last line of the file is part of the paragraph, and
+	 * we're not in a paragraph, it means that there aren't any paragraphs
+	 * left, so get out. */
+	if (*bot_inpar == TRUE && !inpar(parline))
+		return FALSE;
+
+	/* Now parline is the last line of the paragraph.  Set quote_len to
+	 * the quotation length of that line, and set par_len to the number
+	 * of lines in this paragraph. */
+	quote_len = quote_length((*firstline)->data);
 	par_len = parline->lineno - (*firstline)->lineno;
 
 	/* If bot_inpar is TRUE, it means that we're at
