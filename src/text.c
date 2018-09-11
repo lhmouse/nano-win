@@ -1863,9 +1863,6 @@ void justify_format(filestruct *paragraph, size_t skip)
 {
 	char *end, *new_end, *new_paragraph_data;
 	size_t shift = 0;
-#ifndef NANO_TINY
-	size_t mark_shift = 0;
-#endif
 
 	end = paragraph->data + skip;
 	new_paragraph_data = charalloc(strlen(paragraph->data) + 1);
@@ -1889,13 +1886,6 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 				end += end_len;
 				shift += end_len;
-
-#ifndef NANO_TINY
-				/* Keep track of the change in the current line. */
-				if (openfile->mark == paragraph &&
-						openfile->mark_x >= end - paragraph->data)
-					mark_shift += end_len;
-#endif
 			}
 		/* If this character is punctuation optionally followed by a
 		 * bracket and then followed by blanks, change no more than two
@@ -1943,13 +1933,6 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 				end += end_len;
 				shift += end_len;
-
-#ifndef NANO_TINY
-				/* Keep track of the change in the current line. */
-				if (openfile->mark == paragraph &&
-						openfile->mark_x >= end - paragraph->data)
-					mark_shift += end_len;
-#endif
 			}
 		/* If this character is neither blank nor punctuation, leave it
 		 * unchanged. */
@@ -1974,20 +1957,9 @@ void justify_format(filestruct *paragraph, size_t skip)
 	}
 
 	if (shift > 0) {
-		openfile->totsize -= shift;
 		null_at(&new_paragraph_data, new_end - new_paragraph_data);
 		free(paragraph->data);
 		paragraph->data = new_paragraph_data;
-
-#ifndef NANO_TINY
-		/* Adjust the mark coordinates to compensate for the change in
-		 * the current line. */
-		if (openfile->mark == paragraph) {
-			openfile->mark_x -= mark_shift;
-			if (openfile->mark_x > new_end - new_paragraph_data)
-				openfile->mark_x = new_end - new_paragraph_data;
-		}
-#endif
 	} else
 		free(new_paragraph_data);
 }
