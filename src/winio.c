@@ -1319,6 +1319,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 		lastmessage = HUSH;
 		if (currmenu == MMAIN) {
 			place_the_cursor();
+			wnoutrefresh(edit);  /* Needed for correct placement on NetBSD. */
 			curs_set(1);
 		}
 	}
