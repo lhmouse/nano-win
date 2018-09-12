@@ -1263,6 +1263,9 @@ RETSIGTYPE do_suspend(int signal)
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &oldterm);
 
+	/* The suspend keystroke must not elicit cursor-position display. */
+	suppress_cursorpos=TRUE;
+
 #ifdef SIGSTOP
 	/* Do what mutt does: send ourselves a SIGSTOP. */
 	kill(0, SIGSTOP);
