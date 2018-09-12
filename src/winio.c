@@ -1101,12 +1101,18 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							if (seq[3] == '5')
 								/* Esc [ 3 ; 5 ~ == Ctrl-Delete on xterm. */
 								return CONTROL_DELETE;
+							if (seq[3] == '6')
+								/* Esc [ 3 ; 6 ~ == Ctrl-Shift-Delete on xterm. */
+								return controlshiftdelete;
 						}
 						if (length > 2 && seq[2] == '^') {
 							/* Esc [ 3 ^ == Ctrl-Delete on urxvt. */
 							*consumed = 3;
 							return CONTROL_DELETE;
 						}
+						if (length > 2 && seq[2] == '@')
+							/* Esc [ 3 @ == Ctrl-Shift-Delete on urxvt. */
+							return controlshiftdelete;
 						break;
 					case '4': /* Esc [ 4 ~ == End on VT220/VT320/
 							   * Linux console/xterm. */
