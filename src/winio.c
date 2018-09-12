@@ -1096,7 +1096,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2 && seq[2] == '~')
 							return KEY_DC;
 						if (length > 4 && seq[2] == ';' && seq[4] == '~') {
-							/* Esc [ 3 ; x ~ == modified Delete on xterm. */
 							*consumed = 5;
 							if (seq[3] == '5')
 								/* Esc [ 3 ; 5 ~ == Ctrl-Delete on xterm. */
@@ -1105,11 +1104,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 								/* Esc [ 3 ; 6 ~ == Ctrl-Shift-Delete on xterm. */
 								return controlshiftdelete;
 						}
-						if (length > 2 && seq[2] == '^') {
+						if (length > 2 && seq[2] == '^')
 							/* Esc [ 3 ^ == Ctrl-Delete on urxvt. */
-							*consumed = 3;
 							return CONTROL_DELETE;
-						}
 						if (length > 2 && seq[2] == '@')
 							/* Esc [ 3 @ == Ctrl-Shift-Delete on urxvt. */
 							return controlshiftdelete;
