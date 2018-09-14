@@ -1765,7 +1765,8 @@ const sc *get_shortcut(int *kbinput)
 #endif
 
 	/* Plain characters cannot be shortcuts, so just skip those. */
-	if (!meta_key && (*kbinput & 0x7F) >= 0x20 && *kbinput <= 0xFF)
+	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
+						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
 		return NULL;
 
 	for (s = sclist; s != NULL; s = s->next) {
