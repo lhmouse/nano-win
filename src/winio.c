@@ -709,11 +709,6 @@ int parse_kbinput(WINDOW *win)
 		case KEY_SDC:
 				return KEY_BACKSPACE;
 #endif
-		case DEL_CODE:
-			if (ISSET(REBIND_DELETE))
-				return the_code_for(do_delete, KEY_DC);
-			else
-				return KEY_BACKSPACE;
 #ifdef KEY_SIC  /* Slang doesn't support KEY_SIC. */
 		case KEY_SIC:
 			return the_code_for(do_insertfile_void, KEY_IC);
