@@ -462,6 +462,10 @@ int keycode_from_string(const char *keystring)
 	if (keystring[0] == '^') {
 		if (strcasecmp(keystring, "^Space") == 0)
 			return 0;
+#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
+		if (strcasecmp(keystring, "^H") == 0)
+			return KEY_BACKSPACE;
+#endif
 		if (keystring[1] <= '_' && strlen(keystring) == 2)
 			return keystring[1] - 64;
 		else
