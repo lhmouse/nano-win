@@ -1,8 +1,7 @@
 #!/bin/bash
 
-VERSION="3.0"
+VERSION="3.1"
 
-echo "Pulling..." &&  git pull &&
 echo "Running autogen..." &&  ./autogen.sh &&
 rm -v -f m4/*.m4~ *.asc *.sig *.gz *.xz &&
 
