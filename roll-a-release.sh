@@ -2,6 +2,9 @@
 
 VERSION="3.1"
 
+./configure -C --enable-tiny &&  make &&
+./configure -C --disable-wrapping-as-root &&
+
 echo "Running autogen..." &&  ./autogen.sh &&
 rm -v -f m4/*.m4~ *.asc *.sig *.gz *.xz &&
 
