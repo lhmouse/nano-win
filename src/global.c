@@ -772,7 +772,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_COLOR
 		add_to_funcs(do_linter, MMAIN,
-				N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
+				N_("To Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
 
