@@ -2947,7 +2947,7 @@ void do_spell(void)
 	char *temp;
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 		/* A storage place for the current flag settings. */
-	const char *spell_msg;
+	const char *result_msg;
 
 	if (ISSET(RESTRICTED)) {
 		show_restricted_warning();
@@ -2982,8 +2982,8 @@ void do_spell(void)
 
 	blank_bottombars();
 
-	spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
-										do_int_speller(temp);
+	result_msg = (alt_speller ? do_alt_speller(temp) : do_int_speller(temp));
+
 	unlink(temp);
 	free(temp);
 
@@ -2994,12 +2994,12 @@ void do_spell(void)
 	 * sure that they're cleared off. */
 	total_refresh();
 
-	if (spell_msg != NULL) {
+	if (result_msg != NULL) {
 		if (errno == 0)
 			/* Don't display an error message of "Success". */
-			statusline(ALERT, _("Spell checking failed: %s"), spell_msg);
+			statusline(ALERT, _("Spell checking failed: %s"), result_msg);
 		else
-			statusline(ALERT, _("Spell checking failed: %s: %s"), spell_msg,
+			statusline(ALERT, _("Spell checking failed: %s: %s"), result_msg,
 												strerror(errno));
 	} else
 		statusbar(_("Finished checking spelling"));
