@@ -542,7 +542,7 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_DELETE;
 #ifndef NANO_TINY
 	else if (retval == controlshiftdelete)
-		return the_code_for(do_cut_prev_word, KEY_BACKSPACE);
+		return CONTROL_SHIFT_DELETE;
 	else if (retval == shiftcontrolleft) {
 		shift_held = TRUE;
 		return CONTROL_LEFT;
@@ -601,7 +601,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 		/* Are both Shift and Ctrl being held while Delete is pressed? */
 		if ((modifiers & 0x05) == 0x05 && retval == KEY_DC)
-			return the_code_for(do_cut_prev_word, KEY_BACKSPACE);
+			return CONTROL_SHIFT_DELETE;
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {
 			if (retval == KEY_UP)
