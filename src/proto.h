@@ -322,10 +322,6 @@ int keycode_from_string(const char *keystring);
 void assign_keyinfo(sc *s, const char *keystring, const int keycode);
 void print_sclist(void);
 void shortcut_init(void);
-#ifdef ENABLE_COLOR
-void set_linter_shortcut(void);
-void set_speller_shortcut(void);
-#endif
 const subnfunc *sctofunc(const sc *s);
 const char *flagtostr(int flag);
 #ifdef ENABLE_NANORC

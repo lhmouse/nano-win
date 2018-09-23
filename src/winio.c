@@ -3338,13 +3338,6 @@ void total_refresh(void)
  * portion of the window. */
 void display_main_list(void)
 {
-#if defined(ENABLE_COLOR) && defined(ENABLE_SPELLER)
-	if (openfile->syntax && openfile->syntax->linter)
-		set_linter_shortcut();
-	else
-		set_speller_shortcut();
-#endif
-
 	bottombars(MMAIN);
 }
 

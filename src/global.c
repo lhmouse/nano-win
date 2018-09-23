@@ -1114,11 +1114,9 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
 	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
-#else
-#ifdef ENABLE_COLOR
-	add_to_sclist(MMAIN, "^T", 0, do_linter, 0);
-	add_to_sclist(MMAIN, "F12", 0, do_linter, 0);
 #endif
+#ifdef ENABLE_COLOR
+	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
 	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
@@ -1357,26 +1355,6 @@ void shortcut_init(void)
 	print_sclist();
 #endif
 }
-
-#if defined(ENABLE_COLOR) && defined(ENABLE_SPELLER)
-/* Assign one function's shortcuts to another function. */
-void replace_scs_for(void (*oldfunc)(void), void (*newfunc)(void))
-{
-	for (sc *s = sclist; s != NULL; s = s->next)
-		if (s->func == oldfunc)
-			s->func = newfunc;
-}
-
-void set_linter_shortcut(void)
-{
-	replace_scs_for(do_spell, do_linter);
-}
-
-void set_speller_shortcut(void)
-{
-	replace_scs_for(do_linter, do_spell);
-}
-#endif /* ENABLE_COLOR && ENABLE_SPELLER */
 
 const subnfunc *sctofunc(const sc *s)
 {
