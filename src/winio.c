@@ -599,6 +599,9 @@ int parse_kbinput(WINDOW *win)
 			shift_held = TRUE;
 		}
 #endif
+		/* Are both Shift and Ctrl being held while Delete is pressed? */
+		if ((modifiers & 0x05) == 0x05 && retval == KEY_DC)
+			return the_code_for(do_cut_prev_word, KEY_BACKSPACE);
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {
 			if (retval == KEY_UP)
