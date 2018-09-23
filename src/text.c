@@ -2981,7 +2981,6 @@ void do_spell(void)
 	}
 
 	blank_bottombars();
-	statusbar(_("Invoking spell checker, please wait"));
 
 	spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
 										do_int_speller(temp);
