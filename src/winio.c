@@ -291,7 +291,7 @@ void unget_kbinput(int kbinput, bool metakey)
 void implant(const char *string)
 {
 	for (int i = strlen(string); i > 0; i--)
-		put_back(string[i - 1]);
+		put_back((unsigned char)string[i - 1]);
 }
 #endif
 
