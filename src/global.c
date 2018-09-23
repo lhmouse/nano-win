@@ -1155,7 +1155,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
 	add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
 	add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
-	add_to_sclist(MMAIN, "M-|", 0, do_cut_prev_word, 0);
 	add_to_sclist(MMAIN, "Sh-^Del", CONTROL_SHIFT_DELETE, do_cut_prev_word, 0);
 	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, do_cut_next_word, 0);
 #endif
