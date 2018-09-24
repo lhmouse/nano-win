@@ -1350,6 +1350,9 @@ void shortcut_init(void)
 	add_to_sclist(MHELP, "Home", KEY_HOME, to_first_line, 0);
 	add_to_sclist(MHELP, "End", KEY_END, to_last_line, 0);
 #endif
+#ifdef ENABLE_COLOR
+	add_to_sclist(MLINTER, "^X", 0, do_cancel, 0);
+#endif
 
 #ifdef DEBUG
 	print_sclist();
