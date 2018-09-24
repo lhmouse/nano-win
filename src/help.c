@@ -421,6 +421,15 @@ void help_init(void)
 				"command.\n\n");
 		htx[2] = N_(" The following function keys are "
 				"available in Execute Command mode:\n\n");
+	} else if (currmenu == MLINTER) {
+		htx[0] = N_("=== Linter ===\n\n "
+				"In this mode, the status bar shows an error message or "
+				"warning, and the cursor is put at the corresponding "
+				"position in the file.  With PageUp and PageDown you "
+				"can switch to earlier and later messages.\n\n");
+		htx[1] = N_(" The following function keys are "
+				"available in Linter mode:\n\n");
+		htx[2] = NULL;
 	}
 #endif /* !NANO_TINY */
 	else {
