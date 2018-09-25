@@ -99,7 +99,13 @@ void do_deletion(undo_type action)
 										openfile->current_x);
 
 #ifndef NANO_TINY
-		update_undo(action);
+		/* If the type of action changed or the cursor moved to a different
+		 * line, create a new undo item, otherwise update the existing item. */
+		if (action != openfile->last_action ||
+					openfile->current->lineno != openfile->current_undo->lineno)
+			add_undo(action);
+		else
+			update_undo(action);
 
 		if (ISSET(SOFTWRAP))
 			old_amount = number_of_chunks_in(openfile->current);
@@ -1480,16 +1486,6 @@ void update_undo(undo_type action)
 	undo *u = openfile->undotop;
 	char *char_buf;
 	int char_len;
-
-	/* If the action is different or the position changed, don't update the
-	 * current record but add a new one instead. */
-	if (action != openfile->last_action ||
-				(action != ENTER && action != CUT && action != INSERT &&
-				action != COUPLE_END &&
-				openfile->current->lineno != openfile->current_undo->lineno)) {
-		add_undo(action);
-		return;
-	}
 
 	u->newsize = openfile->totsize;
 
