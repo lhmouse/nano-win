@@ -2599,9 +2599,7 @@ bool fix_spello(const char *word)
 		openfile->mark = NULL;
 #endif
 		edit_refresh();
-#ifndef NANO_TINY
-		openfile->mark = saved_mark;
-#endif
+
 		spotlight(TRUE, from_col, to_col);
 
 		/* Let the user supply a correctly spelled alternative. */
@@ -2609,6 +2607,10 @@ bool fix_spello(const char *word)
 								edit_refresh, _("Edit a replacement")) != -1);
 
 		spotlight(FALSE, from_col, to_col);
+
+#ifndef NANO_TINY
+		openfile->mark = saved_mark;
+#endif
 
 		/* If a replacement was given, go through all occurrences. */
 		if (proceed && strcmp(word, answer) != 0) {
