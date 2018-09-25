@@ -1319,7 +1319,8 @@ void add_undo(undo_type action)
 	undo *u = openfile->current_undo;
 		/* The thing we did previously. */
 
-	/* When doing contiguous adds or cuts, don't add a new undo item. */
+	/* When doing contiguous adds or cuts, don't add a new undo item, but
+	 * let a later update call update the existing item. */
 	if (u != NULL && action == openfile->last_action && action == u->type &&
 					openfile->current->lineno == u->mark_begin_lineno &&
 					((action == ADD && u->mark_begin_x == openfile->current_x) ||
@@ -1480,7 +1481,8 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 	u->newsize = openfile->totsize;
 }
 
-/* Update an undo record, after checking that a new one is not needed. */
+/* Update an undo item with (among other things) the file size and
+ * cursor position after the given action. */
 void update_undo(undo_type action)
 {
 	undo *u = openfile->undotop;
@@ -1527,8 +1529,8 @@ void update_undo(undo_type action)
 		break;
 	case REPLACE:
 	case PASTE:
-		u->begin = openfile->current_x;
 		u->lineno = openfile->current->lineno;
+		u->begin = openfile->current_x;
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
