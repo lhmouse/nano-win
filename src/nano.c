@@ -1885,7 +1885,12 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		set_modified();
 
 #ifndef NANO_TINY
-		add_undo(ADD);
+		/* Only add a new undo item when the current item is not an ADD or when
+		 * the current typing is not contiguous with the previous typing. */
+		if (openfile->last_action != ADD || openfile->current_undo == NULL ||
+				openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
+				openfile->current_undo->mark_begin_x != openfile->current_x)
+			add_undo(ADD);
 
 		/* Note that current_x has not yet been incremented. */
 		if (openfile->current == openfile->mark &&

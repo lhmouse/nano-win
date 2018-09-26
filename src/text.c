@@ -1319,14 +1319,6 @@ void add_undo(undo_type action)
 	undo *u = openfile->current_undo;
 		/* The thing we did previously. */
 
-	/* When doing contiguous adds or cuts, don't add a new undo item, but
-	 * let a later update call update the existing item. */
-	if (u != NULL && action == openfile->last_action && action == u->type &&
-					openfile->current->lineno == u->mark_begin_lineno &&
-					((action == ADD && u->mark_begin_x == openfile->current_x) ||
-					(action == CUT && keeping_cutbuffer())))
-		return;
-
 	/* Blow away newer undo items if we add somewhere in the middle. */
 	discard_until(u, openfile, TRUE);
 

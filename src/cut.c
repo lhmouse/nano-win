@@ -33,12 +33,6 @@ void cutbuffer_reset(void)
 	keep_cutbuffer = FALSE;
 }
 
-/* Return the status of cutbuffer preservation. */
-inline bool keeping_cutbuffer(void)
-{
-	return keep_cutbuffer;
-}
-
 /* If we aren't on the last line of the file, move all the text of the
  * current line, plus the newline at the end, into the cutbuffer.  If we
  * are, move all of the text of the current line into the cutbuffer.  In
@@ -193,7 +187,12 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof)
 void do_cut_text_void(void)
 {
 #ifndef NANO_TINY
-	add_undo(CUT);
+	/* Only add a new undo item when the current item is not a CUT or when
+	 * the current cut is not contiguous with the previous cutting. */
+	if (openfile->last_action != CUT || openfile->current_undo == NULL ||
+			openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
+			!keep_cutbuffer)
+		add_undo(CUT);
 	do_cut_text(FALSE, openfile->mark, FALSE);
 	update_undo(CUT);
 #else

@@ -251,7 +251,6 @@ void precalc_multicolorinfo(void);
 
 /* Most functions in cut.c. */
 void cutbuffer_reset(void);
-bool keeping_cutbuffer(void);
 #ifndef NANO_TINY
 void cut_marked(bool *right_side_up);
 #endif
