@@ -2311,19 +2311,6 @@ int main(int argc, char **argv)
 		}
 	}
 
-	/* If we're using restricted mode, disable suspending, backups,
-	 * rcfiles, and history files, since they all would allow reading
-	 * from or writing to files not specified on the command line. */
-	if (ISSET(RESTRICTED)) {
-		UNSET(SUSPEND);
-		UNSET(BACKUP_FILE);
-#ifdef ENABLE_NANORC
-		no_rcfiles = TRUE;
-		UNSET(HISTORYLOG);
-		UNSET(POS_HISTORY);
-#endif
-	}
-
 	/* Set up the function and shortcut lists.  This needs to be done
 	 * before reading the rcfile, to be able to rebind/unbind keys. */
 	shortcut_init();
@@ -2376,7 +2363,7 @@ int main(int argc, char **argv)
 
 		/* If the backed-up command-line options have a value, restore them. */
 #ifdef ENABLE_OPERATINGDIR
-		if (operating_dir_cpy != NULL) {
+		if (operating_dir_cpy != NULL || ISSET(RESTRICTED)) {
 			free(operating_dir);
 			operating_dir = operating_dir_cpy;
 		}
@@ -2432,6 +2419,17 @@ int main(int argc, char **argv)
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))
 		hilite_attribute = A_BOLD;
+
+	/* When in restricted mode, disable backups, suspending, and history files,
+	 * since they allow writing to files not specified on the command line. */
+	if (ISSET(RESTRICTED)) {
+		UNSET(BACKUP_FILE);
+		UNSET(SUSPEND);
+#ifdef ENABLE_NANORC
+		UNSET(HISTORYLOG);
+		UNSET(POS_HISTORY);
+#endif
+	}
 
 #ifdef ENABLE_HISTORIES
 	/* Initialize the pointers for the Search/Replace/Execute histories. */
