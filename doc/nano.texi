@@ -575,12 +575,6 @@ is running.
 @node Limitations
 @section Limitations
 
-Justifications (@kbd{^J})
-are not yet covered by the general undo system.  So after a justification
-that is not immediately undone, earlier edits
-cannot be undone any more.  The workaround is, of course, to exit without
-saving.
-
 The recording and playback of keyboard macros works correctly only on a
 terminal emulator, not on a Linux console (VT), because the latter does
 not by default distinguish modified from unmodified arrow keys.
