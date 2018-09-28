@@ -2681,7 +2681,7 @@ int main(int argc, char **argv)
 		confirm_margin();
 #endif
 		if (currmenu != MMAIN)
-			display_main_list();
+			bottombars(MMAIN);
 
 		lastmessage = HUSH;
 		as_an_at = TRUE;

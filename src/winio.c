@@ -3334,13 +3334,6 @@ void total_refresh(void)
 	bottombars(currmenu);
 }
 
-/* Display the main shortcut list on the last two rows of the bottom
- * portion of the window. */
-void display_main_list(void)
-{
-	bottombars(MMAIN);
-}
-
 /* Show info about the current cursor position on the statusbar.
  * Do this unconditionally when force is TRUE; otherwise, only if
  * suppress_cursorpos is FALSE.  In any case, reset the latter. */

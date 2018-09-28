@@ -2423,7 +2423,7 @@ void do_justify(bool full_justify)
 
 	/* Show "Unjustify" in the help lines. */
 	uncutfunc->desc = unjust_tag;
-	display_main_list();
+	bottombars(MMAIN);
 
 #ifndef NANO_TINY
 	kbinput = KEY_WINCH;

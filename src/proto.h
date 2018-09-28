@@ -665,7 +665,6 @@ void edit_refresh(void);
 void adjust_viewport(update_type location);
 void total_redraw(void);
 void total_refresh(void);
-void display_main_list(void);
 void do_cursorpos(bool force);
 void do_cursorpos_void(void);
 void spotlight(bool active, size_t from_col, size_t to_col);
