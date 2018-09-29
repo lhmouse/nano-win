@@ -175,6 +175,10 @@ extern char *statedir;
 extern char *rcfile_with_errors;
 #endif
 
+extern bool spotlighted;
+extern size_t light_from_col;
+extern size_t light_to_col;
+
 typedef void (*functionptrtype)(void);
 
 /* Most functions in browser.c. */

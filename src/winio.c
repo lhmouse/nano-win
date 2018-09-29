@@ -2780,6 +2780,9 @@ int update_line(filestruct *fileptr, size_t index)
 	if (strlenpt(fileptr->data) > from_col + editwincols)
 		mvwaddch(edit, row, COLS - 1, '$');
 
+	if (spotlighted && !inhelp)
+		spotlight(TRUE, light_from_col, light_to_col);
+
 	return 1;
 }
 
@@ -2845,6 +2848,9 @@ int update_softwrapped_line(filestruct *fileptr)
 
 		from_col = to_col;
 	}
+
+	if (spotlighted && !inhelp)
+		spotlight(TRUE, light_from_col, light_to_col);
 
 	return (row - starting_row);
 }

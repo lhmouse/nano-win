@@ -2584,21 +2584,20 @@ bool fix_spello(const char *word)
 		proceed = TRUE;
 		napms(2800);
 	} else if (result == 1) {
-		size_t from_col = xplustabs();
-		size_t to_col = from_col + strlenpt(word);
+		spotlighted = TRUE;
+		light_from_col = xplustabs();
+		light_to_col = light_from_col + strlenpt(word);
 #ifndef NANO_TINY
 		filestruct *saved_mark = openfile->mark;
 		openfile->mark = NULL;
 #endif
 		edit_refresh();
 
-		spotlight(TRUE, from_col, to_col);
-
 		/* Let the user supply a correctly spelled alternative. */
 		proceed = (do_prompt(FALSE, FALSE, MSPELL, word, NULL,
 								edit_refresh, _("Edit a replacement")) != -1);
 
-		spotlight(FALSE, from_col, to_col);
+		spotlighted = FALSE;
 
 #ifndef NANO_TINY
 		openfile->mark = saved_mark;
