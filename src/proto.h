@@ -663,9 +663,9 @@ void total_redraw(void);
 void total_refresh(void);
 void do_cursorpos(bool force);
 void do_cursorpos_void(void);
-void spotlight(bool active, size_t from_col, size_t to_col);
+void spotlight(size_t from_col, size_t to_col);
 #ifndef NANO_TINY
-void spotlight_softwrapped(bool active, size_t from_col, size_t to_col);
+void spotlight_softwrapped(size_t from_col, size_t to_col);
 #endif
 void do_suspend_void(void);
 void disable_waiting(void);

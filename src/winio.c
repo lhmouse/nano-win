@@ -2781,7 +2781,7 @@ int update_line(filestruct *fileptr, size_t index)
 		mvwaddch(edit, row, COLS - 1, '$');
 
 	if (spotlighted && !inhelp)
-		spotlight(TRUE, light_from_col, light_to_col);
+		spotlight(light_from_col, light_to_col);
 
 	return 1;
 }
@@ -2850,7 +2850,7 @@ int update_softwrapped_line(filestruct *fileptr)
 	}
 
 	if (spotlighted && !inhelp)
-		spotlight(TRUE, light_from_col, light_to_col);
+		spotlight(light_from_col, light_to_col);
 
 	return (row - starting_row);
 }
@@ -3414,9 +3414,8 @@ void enable_waiting(void)
 	nodelay(edit, FALSE);
 }
 
-/* Highlight the text between from_col and to_col when active is TRUE.
- * Remove the highlight when active is FALSE. */
-void spotlight(bool active, size_t from_col, size_t to_col)
+/* Highlight the text between from_col and to_col. */
+void spotlight(size_t from_col, size_t to_col)
 {
 	char *word;
 	size_t word_span, room;
@@ -3425,7 +3424,7 @@ void spotlight(bool active, size_t from_col, size_t to_col)
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-		spotlight_softwrapped(active, from_col, to_col);
+		spotlight_softwrapped(from_col, to_col);
 		return;
 	}
 #endif
@@ -3447,16 +3446,14 @@ void spotlight(bool active, size_t from_col, size_t to_col)
 	if (word_span > room)
 		room--;
 
-	if (active)
-		wattron(edit, interface_color_pair[SELECTED_TEXT]);
+	wattron(edit, interface_color_pair[SELECTED_TEXT]);
 
 	waddnstr(edit, word, actual_x(word, room));
 
 	if (word_span > room)
 		waddch(edit, '$');
 
-	if (active)
-		wattroff(edit, interface_color_pair[SELECTED_TEXT]);
+	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 	free(word);
 
@@ -3464,10 +3461,9 @@ void spotlight(bool active, size_t from_col, size_t to_col)
 }
 
 #ifndef NANO_TINY
-/* Highlight the text between from_col and to_col when active is TRUE; remove
- * the highlight when active is FALSE.  This will not highlight softwrapped
+/* Highlight the text between the given columns.  This will not highlight soft
  * line breaks, since they're not actually part of the spotlighted text. */
-void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
+void spotlight_softwrapped(size_t from_col, size_t to_col)
 {
 	ssize_t row = openfile->current_y;
 	size_t leftedge = leftedge_for(from_col, openfile->current);
@@ -3494,13 +3490,11 @@ void spotlight_softwrapped(bool active, size_t from_col, size_t to_col)
 			word = display_string(openfile->current->data, from_col,
 										break_col - from_col, FALSE);
 
-		if (active)
-			wattron(edit, interface_color_pair[SELECTED_TEXT]);
+		wattron(edit, interface_color_pair[SELECTED_TEXT]);
 
 		waddnstr(edit, word, actual_x(word, break_col));
 
-		if (active)
-			wattroff(edit, interface_color_pair[SELECTED_TEXT]);
+		wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 		free(word);
 
