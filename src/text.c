@@ -3287,12 +3287,12 @@ void do_linter(void)
 		else if (func == do_help_void) {
 			tmplint = NULL;
 			do_help_void();
-		} else if (func == do_page_down) {
+		} else if (func == do_page_down || func == do_next_block) {
 			if (curlint->next != NULL)
 				curlint = curlint->next;
 			else
 				statusbar(_("At last message"));
-		} else if (func == do_page_up) {
+		} else if (func == do_page_up || func == do_prev_block) {
 			if (curlint->prev != NULL)
 				curlint = curlint->prev;
 			else

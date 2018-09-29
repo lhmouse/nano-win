@@ -1198,15 +1198,15 @@ void shortcut_init(void)
 	if (using_utf8()) {
 		add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xb2", KEY_UP, do_up, 0);
 		add_to_sclist(MMAIN|MHELP|MBROWSER, "\xE2\x96\xbc", KEY_DOWN, do_down, 0);
-		add_to_sclist(MMAIN|MBROWSER, "^\xE2\x96\xb2", CONTROL_UP, do_prev_block, 0);
-		add_to_sclist(MMAIN|MBROWSER, "^\xE2\x96\xbc", CONTROL_DOWN, do_next_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xb2", CONTROL_UP, do_prev_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xbc", CONTROL_DOWN, do_next_block, 0);
 	} else
 #endif
 	{
 		add_to_sclist(MMAIN|MHELP|MBROWSER, "Up", KEY_UP, do_up, 0);
 		add_to_sclist(MMAIN|MHELP|MBROWSER, "Down", KEY_DOWN, do_down, 0);
-		add_to_sclist(MMAIN|MBROWSER, "^Up", CONTROL_UP, do_prev_block, 0);
-		add_to_sclist(MMAIN|MBROWSER, "^Down", CONTROL_DOWN, do_next_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^Up", CONTROL_UP, do_prev_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^Down", CONTROL_DOWN, do_next_block, 0);
 	}
 	add_to_sclist(MMAIN, "M-7", 0, do_prev_block, 0);
 	add_to_sclist(MMAIN, "M-8", 0, do_next_block, 0);
