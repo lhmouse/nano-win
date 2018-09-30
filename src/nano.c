@@ -1369,8 +1369,7 @@ void do_toggle(int flag)
 {
 	bool enabled;
 
-	if (ISSET(RESTRICTED) && (flag == SUSPEND || flag == MULTIBUFFER ||
-						flag == BACKUP_FILE || flag == NO_COLOR_SYNTAX)) {
+	if (ISSET(RESTRICTED) && (flag == SUSPEND || flag == NO_COLOR_SYNTAX)) {
 		show_restricted_warning();
 		return;
 	}
@@ -2456,7 +2455,7 @@ int main(int argc, char **argv)
 	/* If backups are enabled and a backup directory was specified and
 	 * we're not in restricted mode, make sure the path exists and is
 	 * a directory, so that backup files can be saved there. */
-	if (ISSET(BACKUP_FILE) && backup_dir != NULL && !ISSET(RESTRICTED))
+	if (ISSET(BACKUP_FILE) && backup_dir != NULL)
 		init_backup_dir();
 #endif
 
@@ -2496,8 +2495,9 @@ int main(int argc, char **argv)
 	 * does (unless we're using restricted mode, in which case spell
 	 * checking is disabled, since it would allow reading from or
 	 * writing to files not specified on the command line). */
-	if (!ISSET(RESTRICTED) && alt_speller == NULL) {
+	if (alt_speller == NULL && !ISSET(RESTRICTED)) {
 		const char *spellenv = getenv("SPELL");
+
 		if (spellenv != NULL)
 			alt_speller = mallocstrcpy(NULL, spellenv);
 	}
