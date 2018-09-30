@@ -2317,28 +2317,28 @@ int main(int argc, char **argv)
 
 #ifdef ENABLE_NANORC
 	if (!no_rcfiles) {
-		/* Back up the command-line options, then read the rcfile(s). */
+		/* Back up the command-line options, then clear the strings. */
 #ifdef ENABLED_WRAPORJUSTIFY
-		ssize_t fill_cpy = fill;
+		ssize_t fill_cmdline = fill;
 #endif
 #ifndef NANO_TINY
-		char *backup_dir_cpy = backup_dir;
-		char *word_chars_cpy = word_chars;
+		char *backup_dir_cmdline = backup_dir;
+		char *word_chars_cmdline = word_chars;
 #endif
 #ifdef ENABLE_OPERATINGDIR
-		char *operating_dir_cpy = operating_dir;
+		char *operating_dir_cmdline = operating_dir;
 #endif
 #ifdef ENABLE_JUSTIFY
-		char *quotestr_cpy = quotestr;
+		char *quotestr_cmdline = quotestr;
 #endif
 #ifdef ENABLE_SPELLER
-		char *alt_speller_cpy = alt_speller;
+		char *alt_speller_cmdline = alt_speller;
 #endif
-		ssize_t tabsize_cpy = tabsize;
-		unsigned flags_cpy[sizeof(flags) / sizeof(flags[0])];
+		ssize_t tabsize_cmdline = tabsize;
+		unsigned flags_cmdline[sizeof(flags) / sizeof(flags[0])];
 		size_t i;
 
-		memcpy(flags_cpy, flags, sizeof(flags_cpy));
+		memcpy(flags_cmdline, flags, sizeof(flags_cmdline));
 
 #ifndef NANO_TINY
 		backup_dir = NULL;
@@ -2354,6 +2354,7 @@ int main(int argc, char **argv)
 		alt_speller = NULL;
 #endif
 
+		/* Now process the system's and the user's nanorc file, if any. */
 		do_rcfiles();
 
 #ifdef DEBUG
@@ -2364,42 +2365,42 @@ int main(int argc, char **argv)
 		/* If the backed-up command-line options have a value, restore them. */
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (fill_used)
-			fill = fill_cpy;
+			fill = fill_cmdline;
 #endif
 #ifndef NANO_TINY
-		if (backup_dir_cpy != NULL) {
+		if (backup_dir_cmdline != NULL) {
 			free(backup_dir);
-			backup_dir = backup_dir_cpy;
+			backup_dir = backup_dir_cmdline;
 		}
-		if (word_chars_cpy != NULL) {
+		if (word_chars_cmdline != NULL) {
 			free(word_chars);
-			word_chars = word_chars_cpy;
+			word_chars = word_chars_cmdline;
 		}
 #endif
 #ifdef ENABLE_OPERATINGDIR
-		if (operating_dir_cpy != NULL || ISSET(RESTRICTED)) {
+		if (operating_dir_cmdline != NULL || ISSET(RESTRICTED)) {
 			free(operating_dir);
-			operating_dir = operating_dir_cpy;
+			operating_dir = operating_dir_cmdline;
 		}
 #endif
 #ifdef ENABLE_JUSTIFY
-		if (quotestr_cpy != NULL) {
+		if (quotestr_cmdline != NULL) {
 			free(quotestr);
-			quotestr = quotestr_cpy;
+			quotestr = quotestr_cmdline;
 		}
 #endif
 #ifdef ENABLE_SPELLER
-		if (alt_speller_cpy != NULL) {
+		if (alt_speller_cmdline != NULL) {
 			free(alt_speller);
-			alt_speller = alt_speller_cpy;
+			alt_speller = alt_speller_cmdline;
 		}
 #endif
-		if (tabsize_cpy != -1)
-			tabsize = tabsize_cpy;
+		if (tabsize_cmdline != -1)
+			tabsize = tabsize_cmdline;
 
 		/* Simply OR the boolean flags from rcfile and command line. */
 		for (i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
-			flags[i] |= flags_cpy[i];
+			flags[i] |= flags_cmdline[i];
 	}
 #ifdef DISABLE_ROOTWRAPPING
 	/* If we don't have any rcfiles, --disable-wrapping-as-root is used,
