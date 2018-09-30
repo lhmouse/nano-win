@@ -131,11 +131,11 @@ Note that \fB\\t\fP stands for an actual Tab.
 .TP
 .BR \-R ", " \-\-restricted
 Restricted mode: don't read or write to any file not specified on the
-command line; don't read any \fInanorc\fP files nor history files;
-don't allow suspending nor spell checking;
+command line.  This means: don't read or write history files;
+don't allow suspending; don't allow spell checking;
 don't allow a file to be appended to, prepended to, or saved under a
-different name if it already has one; and don't use backup files.
-This restricted mode is also accessible by invoking \fBnano\fP
+different name if it already has one; and don't make backup files.
+Restricted mode can also be activated by invoking \fBnano\fP
 with any name beginning with 'r' (e.g. "rnano").
 .TP
 .BR \-S ", " \-\-smooth

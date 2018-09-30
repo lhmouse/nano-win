@@ -227,11 +227,11 @@ Note that @code{\t} stands for a literal Tab character.
 @item -R
 @itemx --restricted
 Restricted mode: don't read or write to any file not specified on the
-command line; don't read any nanorc files nor history files; don't allow
-suspending nor spell checking; don't
+command line.  This means: don't read or write history files; don't allow
+suspending; don't allow spell checking; don't
 allow a file to be appended to, prepended to, or saved under a different
-name if it already has one; and don't use backup files.
-This restricted mode is also accessible by invoking @command{nano} with
+name if it already has one; and don't make backup files.
+Restricted mode can also be activated by invoking @command{nano} with
 any name beginning with @code{r} (e.g.@: @command{rnano}).
 
 @item -S
