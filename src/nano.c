@@ -2318,15 +2318,15 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 	if (!no_rcfiles) {
 		/* Back up the command-line options, then read the rcfile(s). */
-#ifdef ENABLE_OPERATINGDIR
-		char *operating_dir_cpy = operating_dir;
-#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 		ssize_t fill_cpy = fill;
 #endif
 #ifndef NANO_TINY
 		char *backup_dir_cpy = backup_dir;
 		char *word_chars_cpy = word_chars;
+#endif
+#ifdef ENABLE_OPERATINGDIR
+		char *operating_dir_cpy = operating_dir;
 #endif
 #ifdef ENABLE_JUSTIFY
 		char *quotestr_cpy = quotestr;
@@ -2340,12 +2340,12 @@ int main(int argc, char **argv)
 
 		memcpy(flags_cpy, flags, sizeof(flags_cpy));
 
-#ifdef ENABLE_OPERATINGDIR
-		operating_dir = NULL;
-#endif
 #ifndef NANO_TINY
 		backup_dir = NULL;
 		word_chars = NULL;
+#endif
+#ifdef ENABLE_OPERATINGDIR
+		operating_dir = NULL;
 #endif
 #ifdef ENABLE_JUSTIFY
 		quotestr = NULL;
@@ -2362,12 +2362,6 @@ int main(int argc, char **argv)
 #endif
 
 		/* If the backed-up command-line options have a value, restore them. */
-#ifdef ENABLE_OPERATINGDIR
-		if (operating_dir_cpy != NULL || ISSET(RESTRICTED)) {
-			free(operating_dir);
-			operating_dir = operating_dir_cpy;
-		}
-#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (fill_used)
 			fill = fill_cpy;
@@ -2380,6 +2374,12 @@ int main(int argc, char **argv)
 		if (word_chars_cpy != NULL) {
 			free(word_chars);
 			word_chars = word_chars_cpy;
+		}
+#endif
+#ifdef ENABLE_OPERATINGDIR
+		if (operating_dir_cpy != NULL || ISSET(RESTRICTED)) {
+			free(operating_dir);
+			operating_dir = operating_dir_cpy;
 		}
 #endif
 #ifdef ENABLE_JUSTIFY
