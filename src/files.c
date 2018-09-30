@@ -687,7 +687,7 @@ bool close_buffer(void)
 		return FALSE;
 
 #ifdef ENABLE_HISTORIES
-	if (ISSET(POS_HISTORY))
+	if (ISSET(POSITIONLOG))
 		update_poshistory(openfile->filename,
 						openfile->current->lineno, xplustabs() + 1);
 #endif
@@ -1221,7 +1221,7 @@ void do_insertfile(void)
 #ifdef ENABLE_MULTIBUFFER
 			if (ISSET(MULTIBUFFER)) {
 #ifdef ENABLE_HISTORIES
-				if (ISSET(POS_HISTORY)) {
+				if (ISSET(POSITIONLOG)) {
 					ssize_t priorline, priorcol;
 #ifndef NANO_TINY
 					if (!execute)

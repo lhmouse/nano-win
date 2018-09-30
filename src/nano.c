@@ -584,7 +584,7 @@ void finish(void)
 	/* If the user wants history persistence, write the relevant files. */
 	if (ISSET(HISTORYLOG))
 		save_history();
-	if (ISSET(POS_HISTORY)) {
+	if (ISSET(POSITIONLOG)) {
 		update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
 	}
 #endif
@@ -2152,7 +2152,7 @@ int main(int argc, char **argv)
 				break;
 #ifdef ENABLE_HISTORIES
 			case 'P':
-				SET(POS_HISTORY);
+				SET(POSITIONLOG);
 				break;
 #endif
 #ifdef ENABLE_JUSTIFY
@@ -2427,7 +2427,7 @@ int main(int argc, char **argv)
 		UNSET(SUSPEND);
 #ifdef ENABLE_NANORC
 		UNSET(HISTORYLOG);
-		UNSET(POS_HISTORY);
+		UNSET(POSITIONLOG);
 #endif
 	}
 
@@ -2437,15 +2437,15 @@ int main(int argc, char **argv)
 
 	/* If we need history files, verify that we have a directory for them,
 	 * and when not, cancel the options. */
-	if ((ISSET(HISTORYLOG) || ISSET(POS_HISTORY)) && !have_statedir()) {
+	if ((ISSET(HISTORYLOG) || ISSET(POSITIONLOG)) && !have_statedir()) {
 		UNSET(HISTORYLOG);
-		UNSET(POS_HISTORY);
+		UNSET(POSITIONLOG);
 	}
 
 	/* If the user wants history persistence, read the relevant files. */
 	if (ISSET(HISTORYLOG))
 		load_history();
-	if (ISSET(POS_HISTORY))
+	if (ISSET(POSITIONLOG))
 		load_poshistory();
 #endif /* ENABLE_HISTORIES */
 
@@ -2631,7 +2631,7 @@ int main(int argc, char **argv)
 		if (givenline != 0 || givencol != 0)
 			do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
 #ifdef ENABLE_HISTORIES
-		else if (ISSET(POS_HISTORY) && openfile->filename[0] != '\0') {
+		else if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0') {
 			ssize_t savedline, savedcol;
 			/* If edited before, restore the last cursor position. */
 			if (has_old_position(argv[optind - 1], &savedline, &savedcol))

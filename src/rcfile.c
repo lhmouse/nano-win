@@ -69,7 +69,7 @@ static const rcoption rcopts[] = {
 	{"operatingdir", 0},
 #endif
 #ifdef ENABLE_HISTORIES
-	{"positionlog", POS_HISTORY},
+	{"positionlog", POSITIONLOG},
 #endif
 	{"preserve", PRESERVE},
 #ifdef ENABLE_JUSTIFY
