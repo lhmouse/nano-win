@@ -765,14 +765,9 @@ void shortcut_init(void)
 		add_to_funcs(do_justify_void, MMAIN,
 				N_("Justify"), WITHORSANS(justify_gist), TOGETHER, NOVIEW);
 #endif
-
 #ifdef ENABLE_SPELLER
 		add_to_funcs(do_spell, MMAIN,
-				N_("To Spell"), WITHORSANS(spell_gist), TOGETHER, NOVIEW);
-#endif
-#ifdef ENABLE_COLOR
-		add_to_funcs(do_linter, MMAIN,
-				N_("To Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
+				N_("To Spell"), WITHORSANS(spell_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
 
@@ -975,6 +970,11 @@ void shortcut_init(void)
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
 
+#ifdef ENABLE_COLOR
+	if (!ISSET(RESTRICTED))
+		add_to_funcs(do_linter, MMAIN,
+				N_("To Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
+#endif
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 #endif
