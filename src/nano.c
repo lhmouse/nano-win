@@ -805,8 +805,7 @@ void usage(void)
 					N_("Log & read search/replace string history"));
 #endif
 #ifdef ENABLE_NANORC
-	if (!ISSET(RESTRICTED))
-		print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
+	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
 	print_opt("-K", "--rebindkeypad",
 					N_("Fix numeric keypad key confusion problem"));
@@ -1369,7 +1368,7 @@ void do_toggle(int flag)
 {
 	bool enabled;
 
-	if (ISSET(RESTRICTED) && (flag == SUSPEND || flag == NO_COLOR_SYNTAX)) {
+	if (flag == SUSPEND && ISSET(RESTRICTED)) {
 		show_restricted_warning();
 		return;
 	}
@@ -2451,13 +2450,11 @@ int main(int argc, char **argv)
 #endif /* ENABLE_HISTORIES */
 
 #ifndef NANO_TINY
-	/* If backups are enabled and a backup directory was specified and
-	 * we're not in restricted mode, make sure the path exists and is
-	 * a directory, so that backup files can be saved there. */
+	/* If backups are enabled and a backup directory was specified, make sure
+	 * the path exists and is a folder, so backup files can be saved there. */
 	if (ISSET(BACKUP_FILE) && backup_dir != NULL)
 		init_backup_dir();
 #endif
-
 #ifdef ENABLE_OPERATINGDIR
 	/* Set up the operating directory.  This entails chdir()ing there,
 	 * so that file reads and writes will be based there. */
