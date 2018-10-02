@@ -1168,8 +1168,8 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "^F", 0, do_right, 0);
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
-		add_to_sclist(MMOST, "\xE2\x97\x80", KEY_LEFT, do_left, 0);
-		add_to_sclist(MMOST, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
+		add_to_sclist(MMOST|MHELP, "\xE2\x97\x80", KEY_LEFT, do_left, 0);
+		add_to_sclist(MMOST|MHELP, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, do_next_word_void, 0);
 #ifdef ENABLE_MULTIBUFFER
@@ -1183,8 +1183,8 @@ void shortcut_init(void)
 	} else
 #endif
 	{
-		add_to_sclist(MMOST, "Left", KEY_LEFT, do_left, 0);
-		add_to_sclist(MMOST, "Right", KEY_RIGHT, do_right, 0);
+		add_to_sclist(MMOST|MHELP, "Left", KEY_LEFT, do_left, 0);
+		add_to_sclist(MMOST|MHELP, "Right", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
 	}

@@ -183,13 +183,16 @@ void do_help(void)
 		focusing = TRUE;
 
 		/* Show the cursor when we searched and found something. */
-		kbinput = get_kbinput(edit, didfind == 1);
+		kbinput = get_kbinput(edit, didfind == 1 || ISSET(SHOW_CURSOR));
 		didfind = 0;
 
 		func = parse_help_input(&kbinput);
 
 		if (func == total_refresh) {
 			total_redraw();
+		} else if (ISSET(SHOW_CURSOR) && (func == do_left || func == do_right ||
+											func == do_up || func == do_down)) {
+			func();
 		} else if (func == do_up) {
 			do_scroll_up();
 		} else if (func == do_down) {
