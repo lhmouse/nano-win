@@ -538,9 +538,9 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_HOME;
 	else if (retval == controlend)
 		return CONTROL_END;
+#ifndef NANO_TINY
 	else if (retval == controldelete)
 		return CONTROL_DELETE;
-#ifndef NANO_TINY
 	else if (retval == controlshiftdelete)
 		return CONTROL_SHIFT_DELETE;
 	else if (retval == shiftcontrolleft) {
@@ -1093,6 +1093,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							   * Linux console/xterm/Terminal. */
 						if (length > 2 && seq[2] == '~')
 							return KEY_DC;
+#ifndef NANO_TINY
 						if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
 							if (seq[3] == '5')
@@ -1108,6 +1109,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2 && seq[2] == '@')
 							/* Esc [ 3 @ == Ctrl-Shift-Delete on urxvt. */
 							return controlshiftdelete;
+#endif
 						break;
 					case '4': /* Esc [ 4 ~ == End on VT220/VT320/
 							   * Linux console/xterm. */
