@@ -709,8 +709,8 @@ int parse_kbinput(WINDOW *win)
 		case KEY_C3:    /* PageDown (3) on keypad with NumLock off. */
 			return KEY_NPAGE;
 #ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
-		case KEY_SDC:
-				return KEY_BACKSPACE;
+		case KEY_SDC:  /* Make a shifted <Del> key do a backspace. */
+			return KEY_BACKSPACE;
 #endif
 #ifdef KEY_SIC  /* Slang doesn't support KEY_SIC. */
 		case KEY_SIC:
