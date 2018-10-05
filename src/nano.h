@@ -597,6 +597,10 @@ enum
 #define SHIFT_ALT_RIGHT 0x432
 #define SHIFT_ALT_UP 0x433
 #define SHIFT_ALT_DOWN 0x434
+#define SHIFT_LEFT 0x451
+#define SHIFT_RIGHT 0x452
+#define SHIFT_UP 0x453
+#define SHIFT_DOWN 0x454
 #define SHIFT_HOME 0x455
 #define SHIFT_END 0x456
 #define SHIFT_PAGEUP 0x457

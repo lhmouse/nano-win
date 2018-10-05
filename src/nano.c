@@ -2579,6 +2579,11 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
 	controldelete = get_keycode("kDC5", CONTROL_DELETE);
 	controlshiftdelete = get_keycode("kDC6", CONTROL_SHIFT_DELETE);
+	/* Ask for the codes for Shift+Left/Right/Up/Down. */
+	shiftleft = get_keycode("kLFT", SHIFT_LEFT);
+	shiftright = get_keycode("kRIT", SHIFT_RIGHT);
+	shiftup = get_keycode("kUP", SHIFT_UP);
+	shiftdown = get_keycode("kDN", SHIFT_DOWN);
 	/* Ask for the codes for Shift+Control+Left/Right/Up/Down. */
 	shiftcontrolleft = get_keycode("kLFT6", SHIFT_CONTROL_LEFT);
 	shiftcontrolright = get_keycode("kRIT6", SHIFT_CONTROL_RIGHT);

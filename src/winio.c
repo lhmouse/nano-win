@@ -543,7 +543,19 @@ int parse_kbinput(WINDOW *win)
 		return CONTROL_DELETE;
 	else if (retval == controlshiftdelete)
 		return CONTROL_SHIFT_DELETE;
-	else if (retval == shiftcontrolleft) {
+	else if (retval == shiftleft) {
+		shift_held = TRUE;
+		return KEY_LEFT;
+	} else if (retval == shiftright) {
+		shift_held = TRUE;
+		return KEY_RIGHT;
+	} else if (retval == shiftup) {
+		shift_held = TRUE;
+		return KEY_UP;
+	} else if (retval == shiftdown) {
+		shift_held = TRUE;
+		return KEY_DOWN;
+	} else if (retval == shiftcontrolleft) {
 		shift_held = TRUE;
 		return CONTROL_LEFT;
 	} else if (retval == shiftcontrolright) {

@@ -71,6 +71,7 @@ int didfind = 0;
 int controlleft, controlright, controlup, controldown, controlhome, controlend;
 int controldelete, controlshiftdelete;
 #ifndef NANO_TINY
+int shiftleft, shiftright, shiftup, shiftdown;
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
 int altleft, altright, altup, altdown;
