@@ -68,7 +68,8 @@ bool also_the_last = FALSE;
 int didfind = 0;
 		/* Whether the last search found something. */
 
-int controlleft, controlright, controlup, controldown, controlhome, controlend;
+int controlleft, controlright, controlup, controldown;
+int controlhome, controlend;
 int controldelete, controlshiftdelete;
 #ifndef NANO_TINY
 int shiftleft, shiftright, shiftup, shiftdown;

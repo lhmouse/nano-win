@@ -55,33 +55,21 @@ extern bool also_the_last;
 
 extern int didfind;
 
-extern int controlleft;
-extern int controlright;
-extern int controlup;
-extern int controldown;
-extern int controlhome;
-extern int controlend;
+extern int controlleft, controlright;
+extern int controlup, controldown;
+extern int controlhome, controlend;
 #ifndef NANO_TINY
 extern int controldelete;
 extern int controlshiftdelete;
-extern int shiftleft;
-extern int shiftright;
-extern int shiftup;
-extern int shiftdown;
-extern int shiftcontrolleft;
-extern int shiftcontrolright;
-extern int shiftcontrolup;
-extern int shiftcontroldown;
-extern int shiftcontrolhome;
-extern int shiftcontrolend;
-extern int altleft;
-extern int altright;
-extern int altup;
-extern int altdown;
-extern int shiftaltleft;
-extern int shiftaltright;
-extern int shiftaltup;
-extern int shiftaltdown;
+extern int shiftleft, shiftright;
+extern int shiftup, shiftdown;
+extern int shiftcontrolleft, shiftcontrolright;
+extern int shiftcontrolup, shiftcontroldown;
+extern int shiftcontrolhome, shiftcontrolend;
+extern int altleft, altright;
+extern int altup, altdown;
+extern int shiftaltleft, shiftaltright;
+extern int shiftaltup, shiftaltdown;
 #endif
 
 #ifdef ENABLED_WRAPORJUSTIFY
