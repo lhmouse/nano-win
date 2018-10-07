@@ -136,8 +136,9 @@
 ## Do extended regular expression searches by default.
 # set regexp
 
-## Put the cursor on the highlighted item in the file browser;
-## useful for people who use a braille display.
+## Put the cursor on the highlighted item in the file browser, and show
+## the cursor in the help viewer; useful for people who use a braille
+## display and people with poor vision.
 # set showcursor
 
 ## Make the Home key smarter.  When Home is pressed anywhere but at the

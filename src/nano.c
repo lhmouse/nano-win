@@ -857,7 +857,7 @@ void usage(void)
 					N_("Fix Backspace/Delete confusion problem"));
 #ifdef ENABLE_BROWSER
 	if (!ISSET(RESTRICTED))
-		print_opt("-g", "--showcursor", N_("Show cursor in file browser"));
+		print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
 #endif
 	print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
