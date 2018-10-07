@@ -1090,49 +1090,35 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
 	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
 	add_to_sclist(MMOST & ~MFINDINHELP, "^G", 0, do_help_void, 0);
-	add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", 0, do_exit, 0);
 	add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
 	add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
-	add_to_sclist(MMAIN, "F3", 0, do_writeout_void, 0);
 	add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
-	add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
 	add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^Q", 0, do_search_backward, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search_forward, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search_forward, 0);
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
-	add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
 	add_to_sclist(MMOST, "^K", 0, do_cut_text_void, 0);
-	add_to_sclist(MMOST, "F9", 0, do_cut_text_void, 0);
 	add_to_sclist(MMOST, "^U", 0, do_uncut_text, 0);
-	add_to_sclist(MMOST, "F10", 0, do_uncut_text, 0);
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
-	add_to_sclist(MMAIN, "F4", 0, do_justify_void, 0);
 #endif
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
-	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
-	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
 	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn_void, 0);
-	add_to_sclist(MMAIN, "F13", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^Y", 0, do_page_up, 0);
 	add_to_sclist(MHELP|MBROWSER, "Bsp", KEY_BACKSPACE, do_page_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgUp", KEY_PPAGE, do_page_up, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", 0, do_page_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^V", 0, do_page_down, 0);
 	add_to_sclist(MHELP|MBROWSER, "Space", 0x20, do_page_down, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgDn", KEY_NPAGE, do_page_down, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", 0, do_page_down, 0);
 	add_to_sclist(MMAIN|MHELP, "M-\\", 0, to_first_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^Home", CONTROL_HOME, to_first_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-/", 0, to_last_line, 0);
@@ -1144,7 +1130,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^^", 0, do_mark, 0);
-	add_to_sclist(MMAIN, "F15", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "M-6", 0, do_copy_text, 0);
 	add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
 	add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
@@ -1309,7 +1294,6 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER, "^End", CONTROL_END, to_last_file, 0);
 	add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
 	add_to_sclist(MBROWSER, "M-G", 0, goto_dir_void, 0);
-	add_to_sclist(MBROWSER, "F13", 0, goto_dir_void, 0);
 #endif
 	if (ISSET(TEMP_FILE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
@@ -1354,6 +1338,30 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MLINTER, "^X", 0, do_cancel, 0);
+#endif
+	add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", 0, do_exit, 0);
+	add_to_sclist(MMAIN, "F3", 0, do_writeout_void, 0);
+#ifdef ENABLE_JUSTIFY
+	add_to_sclist(MMAIN, "F4", 0, do_justify_void, 0);
+#endif
+	add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search_forward, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", 0, do_page_up, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", 0, do_page_down, 0);
+	add_to_sclist(MMOST, "F9", 0, do_cut_text_void, 0);
+	add_to_sclist(MMOST, "F10", 0, do_uncut_text, 0);
+	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
+#ifdef ENABLE_SPELLER
+	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
+#endif
+	add_to_sclist(MMAIN, "F13", 0, do_gotolinecolumn_void, 0);
+#ifdef ENABLE_BROWSER
+	add_to_sclist(MBROWSER, "F13", 0, goto_dir_void, 0);
+#endif
+	add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
+#ifndef NANO_TINY
+	add_to_sclist(MMAIN, "F15", 0, do_mark, 0);
 #endif
 
 #ifdef DEBUG
