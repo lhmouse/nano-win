@@ -262,10 +262,6 @@
 ## Key bindings.
 ## See nanorc(5) (section REBINDING KEYS) for more details on this.
 
-## If your Backspace key behaves as Delete (when ssh'ing in from another
-## machine, for example), set this to make it behave as Backspace again:
-# bind Del backspace all
-
 ## The <Ctrl+Delete> keystroke deletes the word to the right of the cursor.
 ## On some terminals the <Ctrl+Backspace> keystroke produces ^H, which is
 ## the ASCII character for backspace, so it is bound by default to the
