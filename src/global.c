@@ -817,6 +817,12 @@ void shortcut_init(void)
 	add_to_funcs(flip_replace, MREPLACE,
 		N_("No Replace"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
+#ifdef ENABLE_HISTORIES
+	add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
+		N_("Older"), WITHORSANS(older_gist), TOGETHER, VIEW);
+	add_to_funcs(get_history_newer_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
+		N_("Newer"), WITHORSANS(newer_gist), BLANKAFTER, VIEW);
+#endif
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_full_justify, MWHEREIS,
 		N_("FullJstify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
@@ -987,12 +993,6 @@ void shortcut_init(void)
 #endif
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
-#endif
-#ifdef ENABLE_HISTORIES
-	add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
-		N_("Older"), WITHORSANS(older_gist), TOGETHER, VIEW);
-	add_to_funcs(get_history_newer_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
-		N_("Newer"), WITHORSANS(newer_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifndef ENABLE_JUSTIFY
