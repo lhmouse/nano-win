@@ -1312,11 +1312,11 @@ Toggles whether searching/replacing uses literal strings or regular expressions.
 @item backwards
 Toggles whether searching/replacing goes forward or backward.
 
-@item prevhistory
-Retrieves the previous (older) entry at a prompt.
+@item older
+Retrieves the previous (earlier) entry at a prompt.
 
-@item nexthistory
-Retrieves the next (newer) entry at a prompt.
+@item newer
+Retrieves the next (later) entry at a prompt.
 
 @item flipreplace
 Toggles between searching for something and replacing something.

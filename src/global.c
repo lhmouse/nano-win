@@ -657,9 +657,9 @@ void shortcut_init(void)
 	const char *regexp_gist =
 		N_("Toggle the use of regular expressions");
 #ifdef ENABLE_HISTORIES
-	const char *prevhistory_gist =
+	const char *older_gist =
 		N_("Recall the previous search/replace string");
-	const char *nexthistory_gist =
+	const char *newer_gist =
 		N_("Recall the next search/replace string");
 #endif
 #ifndef NANO_TINY
@@ -990,9 +990,9 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_HISTORIES
 	add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
-		N_("PrevHstory"), WITHORSANS(prevhistory_gist), TOGETHER, VIEW);
+		N_("Older"), WITHORSANS(older_gist), TOGETHER, VIEW);
 	add_to_funcs(get_history_newer_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
-		N_("NextHstory"), WITHORSANS(nexthistory_gist), BLANKAFTER, VIEW);
+		N_("Newer"), WITHORSANS(newer_gist), BLANKAFTER, VIEW);
 #endif
 
 #ifndef ENABLE_JUSTIFY
@@ -1605,9 +1605,9 @@ sc *strtosc(const char *input)
 			 !strcasecmp(input, "gototext"))  /* Deprecated.  Remove end of 2018. */
 		s->func = flip_goto;
 #ifdef ENABLE_HISTORIES
-	else if (!strcasecmp(input, "prevhistory"))
+	else if (!strcasecmp(input, "older"))
 		s->func = get_history_older_void;
-	else if (!strcasecmp(input, "nexthistory"))
+	else if (!strcasecmp(input, "newer"))
 		s->func = get_history_newer_void;
 #endif
 #ifndef NANO_TINY
