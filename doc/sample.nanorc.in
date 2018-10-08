@@ -270,3 +270,35 @@
 ## normally use <Backspace> for backspacing and not ^H, you can make
 ## <Ctrl+Backspace> delete the word to the left of the cursor with:
 # bind ^H cutwordleft main
+
+## If you would like nano to have keybindings that are more "usual",
+## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,
+## then uncomment these:
+#bind ^Q exit all
+#bind ^H help all
+#bind ^H exit help
+#bind ^F whereis all
+#bind ^G findnext all
+#bind ^B wherewas all
+#bind ^D findprevious all
+#bind ^R replace main
+#bind ^W writeout main
+#bind ^O insert main
+#unbind ^V all
+#unbind ^Y all
+#bind M-X flipnewbuffer all
+#bind ^X cut all
+#bind ^C copy all
+#bind ^V paste all
+#bind ^P curpos main
+#bind ^T gotoline main
+#bind ^T gotodir browser
+#bind ^Y speller main
+#unbind ^K all
+#unbind ^U all
+#bind M-R redo main
+#bind ^U undo main
+#bind ^E redo main
+#unbind M-J main
+#unbind M-T main
+#set multibuffer
