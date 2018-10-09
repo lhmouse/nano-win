@@ -1053,7 +1053,7 @@ void shortcut_init(void)
 	add_to_funcs(do_page_up, MBROWSER,
 		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MBROWSER,
-		N_("Prev Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
+		N_("Next Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
 	add_to_funcs(to_first_file, MBROWSER|MWHEREISFILE,
 		N_("First File"), WITHORSANS(firstfile_gist), TOGETHER, VIEW);
