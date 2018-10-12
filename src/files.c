@@ -1258,10 +1258,6 @@ void do_insertfile_void(void)
 {
 	if (ISSET(RESTRICTED))
 		show_restricted_warning();
-#ifdef ENABLE_MULTIBUFFER
-	else if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
-		statusbar(_("Key invalid in non-multibuffer mode"));
-#endif
 	else
 		do_insertfile();
 }

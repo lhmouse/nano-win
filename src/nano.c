@@ -2654,6 +2654,8 @@ int main(int argc, char **argv)
 		openfile = openfile->next;
 		if (more_than_one)
 			mention_name_and_linecount();
+		if (ISSET(VIEW_MODE))
+			SET(MULTIBUFFER);
 	}
 #endif
 
