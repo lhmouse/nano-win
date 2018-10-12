@@ -1743,11 +1743,7 @@ int do_input(bool allow_funcs)
 	if (shortcut == NULL)
 		pletion_line = NULL;
 	else {
-		if (ISSET(VIEW_MODE) &&
-#ifndef NANO_TINY
-								shortcut->func != do_toggle_void &&
-#endif
-								!okay_for_view(shortcut)) {
+		if (ISSET(VIEW_MODE) && !okay_for_view(shortcut)) {
 			print_view_warning();
 			return ERR;
 		}
