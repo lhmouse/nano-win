@@ -1644,12 +1644,12 @@ bool wanted_to_move(void (*func)(void))
 			func == to_first_line || func == to_last_line;
 }
 
-/* Return TRUE when the given shortcut is valid in view mode. */
+/* Return TRUE when the given shortcut is admissible in view mode. */
 bool okay_for_view(const sc *shortcut)
 {
 	const subnfunc *func = sctofunc(shortcut);
 
-	return (func != NULL && func->viewok);
+	return (func == NULL || func->viewok);
 }
 
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
