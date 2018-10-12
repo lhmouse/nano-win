@@ -284,6 +284,11 @@ size_t length_of_list(int menu)
 #define NOVIEW  FALSE
 #define BLANKAFTER  TRUE    /* A blank line after this one. */
 #define TOGETHER  FALSE
+#ifdef ENABLE_MULTIBUFFER
+#define CAN_OPEN_OTHER_BUFFER TRUE
+#else
+#define CAN_OPEN_OTHER_BUFFER FALSE
+#endif
 
 /* Empty functions, for the most part corresponding to toggles. */
 void case_sens_void(void)
@@ -728,11 +733,7 @@ void shortcut_init(void)
 				N_("Read File"), WITHORSANS(readfile_gist), BLANKAFTER,
 				/* We allow inserting files in view mode if multibuffer mode
 				 * is switched on, so that we can view multiple files. */
-#ifdef ENABLE_MULTIBUFFER
-				VIEW);
-#else
-				NOVIEW);
-#endif
+				CAN_OPEN_OTHER_BUFFER);
 	} else {
 #ifdef ENABLE_JUSTIFY
 		add_to_funcs(do_justify_void, MMAIN,
