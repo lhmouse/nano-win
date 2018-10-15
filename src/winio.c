@@ -601,6 +601,7 @@ int parse_kbinput(WINDOW *win)
 	 * Shift/Ctrl/Alt are being held together with them. */
 	unsigned char modifiers = 6;
 
+	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
 	if (on_a_vt && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
 #ifndef NANO_TINY
 		/* Is Shift being held? */
