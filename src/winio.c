@@ -610,10 +610,10 @@ int parse_kbinput(WINDOW *win)
 				return SHIFT_TAB;
 			shift_held = TRUE;
 		}
-#endif
 		/* Are both Shift and Ctrl being held while Delete is pressed? */
 		if ((modifiers & 0x05) == 0x05 && retval == KEY_DC)
 			return CONTROL_SHIFT_DELETE;
+#endif
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {
 			if (retval == KEY_UP)
