@@ -1365,14 +1365,6 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
 #endif
-	add_to_sclist(MMAIN, "F13", 0, do_gotolinecolumn_void, 0);
-#ifdef ENABLE_BROWSER
-	add_to_sclist(MBROWSER, "F13", 0, goto_dir_void, 0);
-#endif
-	add_to_sclist(MMAIN, "F14", 0, do_replace, 0);
-#ifndef NANO_TINY
-	add_to_sclist(MMAIN, "F15", 0, do_mark, 0);
-#endif
 
 #ifdef DEBUG
 	print_sclist();
