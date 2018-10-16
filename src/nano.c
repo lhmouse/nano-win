@@ -2564,36 +2564,36 @@ int main(int argc, char **argv)
 	mouse_init();
 #endif
 
-	/* Ask ncurses for the key codes for Control+Left/Right/Up/Down. */
+	/* Ask ncurses for the key codes for most modified editing keys. */
 	controlleft = get_keycode("kLFT5", CONTROL_LEFT);
 	controlright = get_keycode("kRIT5", CONTROL_RIGHT);
 	controlup = get_keycode("kUP5", CONTROL_UP);
 	controldown = get_keycode("kDN5", CONTROL_DOWN);
-	/* Ask for the codes for Control+Home/End. */
+
 	controlhome = get_keycode("kHOM5", CONTROL_HOME);
 	controlend = get_keycode("kEND5", CONTROL_END);
 #ifndef NANO_TINY
 	controldelete = get_keycode("kDC5", CONTROL_DELETE);
 	controlshiftdelete = get_keycode("kDC6", CONTROL_SHIFT_DELETE);
-	/* Ask for the codes for Shift+Left/Right/Up/Down. */
+
 	shiftleft = get_keycode("kLFT", SHIFT_LEFT);
 	shiftright = get_keycode("kRIT", SHIFT_RIGHT);
 	shiftup = get_keycode("kUP", SHIFT_UP);
 	shiftdown = get_keycode("kDN", SHIFT_DOWN);
-	/* Ask for the codes for Shift+Control+Left/Right/Up/Down. */
+
 	shiftcontrolleft = get_keycode("kLFT6", SHIFT_CONTROL_LEFT);
 	shiftcontrolright = get_keycode("kRIT6", SHIFT_CONTROL_RIGHT);
 	shiftcontrolup = get_keycode("kUP6", SHIFT_CONTROL_UP);
 	shiftcontroldown = get_keycode("kDN6", SHIFT_CONTROL_DOWN);
-	/* Ask for the codes for Shift+Control+Home/End. */
+
 	shiftcontrolhome = get_keycode("kHOM6", SHIFT_CONTROL_HOME);
 	shiftcontrolend = get_keycode("kEND6", SHIFT_CONTROL_END);
-	/* Ask for the codes for Alt+Left/Right/Up/Down. */
+
 	altleft = get_keycode("kLFT3", ALT_LEFT);
 	altright = get_keycode("kRIT3", ALT_RIGHT);
 	altup = get_keycode("kUP3", ALT_UP);
 	altdown = get_keycode("kDN3", ALT_DOWN);
-	/* Ask for the codes for Shift+Alt+Left/Right/Up/Down. */
+
 	shiftaltleft = get_keycode("kLFT4", SHIFT_ALT_LEFT);
 	shiftaltright = get_keycode("kRIT4", SHIFT_ALT_RIGHT);
 	shiftaltup = get_keycode("kUP4", SHIFT_ALT_UP);
