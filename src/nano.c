@@ -721,6 +721,7 @@ void window_init(void)
 
 #ifdef ENABLED_WRAPORJUSTIFY
 	/* Set up the wrapping point, accounting for screen width when negative. */
+	fill = wrap_at;
 	if (fill <= 0)
 		fill += COLS;
 	if (fill < 0)
@@ -2242,7 +2243,7 @@ int main(int argc, char **argv)
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'r':
-				if (!parse_num(optarg, &fill)) {
+				if (!parse_num(optarg, &wrap_at)) {
 					fprintf(stderr, _("Requested fill size \"%s\" is invalid"), optarg);
 					fprintf(stderr, "\n");
 					exit(1);
