@@ -153,7 +153,7 @@ typedef enum {
 } file_format;
 
 typedef enum {
-	HUSH, MILD, ALERT
+	HUSH, NOTICE, MILD, ALERT
 } message_type;
 
 typedef enum {

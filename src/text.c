@@ -3265,7 +3265,7 @@ void do_linter(void)
 			confirm_margin();
 #endif
 			edit_refresh();
-			statusbar(curlint->msg);
+			statusline(NOTICE, curlint->msg);
 			bottombars(MLINTER);
 		}
 
@@ -3296,7 +3296,7 @@ void do_linter(void)
 				statusbar(_("At first message"));
 				napms(600);
 				last_wait = time(NULL);
-				statusbar(curlint->msg);
+				statusline(NOTICE, curlint->msg);
 			}
 		} else if (func == do_page_down || func == do_next_block) {
 			if (curlint->next != NULL)
@@ -3305,7 +3305,7 @@ void do_linter(void)
 				statusbar(_("At last message"));
 				napms(600);
 				last_wait = time(NULL);
-				statusbar(curlint->msg);
+				statusline(NOTICE, curlint->msg);
 			}
 		}
 	}

@@ -2233,7 +2233,9 @@ void statusline(message_type importance, const char *msg, ...)
 		else if (alerts < 4)
 			beep();
 		colorpair = interface_color_pair[ERROR_MESSAGE];
-	} else
+	} else if (importance == NOTICE)
+		colorpair = interface_color_pair[SELECTED_TEXT];
+	else
 		colorpair = interface_color_pair[STATUS_BAR];
 
 	lastmessage = importance;
