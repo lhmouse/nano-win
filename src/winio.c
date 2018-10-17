@@ -2069,6 +2069,12 @@ void titlebar(const char *path)
 	 * then sacrifice the prefix, and only then start dottifying. */
 
 	/* Figure out the path, prefix and state strings. */
+#ifdef ENABLE_COLOR
+	if (currmenu == MLINTER) {
+		prefix = _("Linting --");
+		path = openfile->filename;
+	} else
+#endif
 #ifdef ENABLE_BROWSER
 	if (!inhelp && path != NULL)
 		prefix = _("DIR:");

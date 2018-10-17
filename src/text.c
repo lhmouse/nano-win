@@ -3173,7 +3173,10 @@ void do_linter(void)
 		return;
 	}
 
+	/* Show that we are in the linter now. */
+	titlebar(NULL);
 	bottombars(MLINTER);
+
 	tmplint = NULL;
 	curlint = lints;
 
@@ -3201,10 +3204,13 @@ void do_linter(void)
 				sprintf(msg, _("This message is for unopened file %s,"
 							" open it in a new buffer?"), curlint->filename);
 				i = do_yesno_prompt(FALSE, msg);
+				currmenu = MLINTER;
 				free(msg);
 
 				if (i == -1) {
 					statusbar(_("Cancelled"));
+					currmenu = MMOST;
+					titlebar(NULL);
 					goto free_lints_and_return;
 				} else if (i == 1) {
 					open_buffer(curlint->filename, TRUE);
@@ -3237,6 +3243,8 @@ void do_linter(void)
 
 					if (restlint == NULL) {
 						statusbar(_("No more errors in unopened files, cancelling"));
+						currmenu = MMOST;
+						titlebar(NULL);
 						napms(2400);
 						break;
 					} else {
@@ -3274,9 +3282,11 @@ void do_linter(void)
 		func = func_from_key(&kbinput);
 		tmplint = curlint;
 
-		if (func == do_cancel || func == do_enter)
+		if (func == do_cancel || func == do_enter) {
+			currmenu = MMOST;
+			titlebar(NULL);
 			break;
-		else if (func == do_help_void) {
+		} else if (func == do_help_void) {
 			tmplint = NULL;
 			do_help_void();
 		} else if (func == do_page_up || func == do_prev_block) {
