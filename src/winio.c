@@ -204,7 +204,7 @@ void read_keys_from(WINDOW *win)
 		 * check if errno is set to EIO ("Input/output error") and die in
 		 * that case, but it's not always set properly.  Argh. */
 		if (input == ERR && ++errcount == MAX_BUF_SIZE)
-			die(_("Too many errors from stdin"));
+			die(_("Too many errors from stdin\n"));
 	}
 
 	curs_set(0);
