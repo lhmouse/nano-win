@@ -1,40 +1,52 @@
-## Syntax highlighting for C and C++ files.
+## Here is an example for C/C++.
 
 syntax c "\.([ch](pp|xx)?|C|cc|c\+\+|cu|H|hh|ii?)$"
 header "-\*-.*\<C(\+\+)?((;|\s).*)?-\*-"
 magic "^(C|C\+\+) (source|program)"
 comment "//"
 
-# Constants.
+# Macros
 color brightred "\<[A-Z_][0-9A-Z_]+\>"
-# Labels.
-color brightmagenta "^[[:space:]]*[A-Z_a-z]+:[[:space:]]*$"
 
-color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|auto|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
-color green "\<([[:lower:]][[:lower:]_]*|(u_?)?int(8|16|32|64))_t\>"
-color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|override|using|mutable|volatile|register|explicit)\>"
-color brightyellow "\<(for|if|while|do|else|case|default|switch)\>"
-color brightyellow "\<(try|throw|catch|operator|new|delete)\>"
-color magenta "\<(goto|continue|break|return)\>"
-color brightmagenta "'([^'\]|(\\["'abfnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
+# Keywords
+color green "\<(float|double|bool|char|int|short|long|sizeof|typeid|enum|void|auto|static|register|const|volatile|struct|union|typedef|extern|(un)?signed|inline)\>"
+color green "\<(class|namespace|template|public|protected|private|typename|friend|virtual|noexcept|using|mutable|explicit|export|(wchar|char(8|16|32))_t)\>"
+color green "\<(align(as|of)|decltype|constexpr|consteval|thread_local|restrict|_Complex|_Bool|_Imaginary|_Atomic|_Thread_local|_Noreturn|_Align(as|of))\>"
+color green "\<(operator|new|delete|(static|dynamic|const|reinterpret)_cast|static_assert|_Static_assert)\>"
+color brightyellow "\<(for|if|while|do|else|case|default|switch|try|catch)\>"
+color brightmagenta "\<(goto|continue|break|return|throw)\>"
+color yellow "\<(true|false|this|nullptr|__func__)\>"
 
-# GCC builtins.
-color cyan "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
+# Special identifiers
+color red "\<([[:lower:]][[:lower:]_]*|s?size|ptrdiff|u?int((_(fast|least))?(8|16|32|64)|ptr|max))_t\>"
+color red "\<(std|override|final|assert|errno)\>"
 
-# Strings.  In general you will want your strings and comments to come last,
-# because highlighting rules are applied in the order they are read in.
-color brightyellow ""([^"]|\\")*"" "#[[:space:]]*include[[:space:]]+<[^[:blank:]=]*>"
+# Operators and punctuators
+color brightcyan "\<(defined|_Pragma|__has_include|_Generic)\>"
+color cyan "[].+*/%=@&|!^~?:,;(){}<>[-]"
+color cyan "\<((and|or|xor|not)(_eq)?|bit(and|or)|compl)\>"
 
-# Preprocessor directives.
-color brightcyan start="^[[:space:]]*#[[:space:]]*(if(n?def)?|elif|warning|error|pragma)\>" end="(\`|[^\\])$"
-color brightcyan "^[[:space:]]*#[[:space:]]*(define|else|endif|include(_next)?|undef)\>"
+# Literals
+color yellow "'([^'\]|(\\["'abefnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
+color yellow "\<[0-9]+(\.[0-9]*)?([Ee][+-]?[0-9]+)?\>"
+color yellow "\<0[Xx][0-9A-Fa-f]+(\.[0-9A-Fa-f]*)?([Pp][+-]?[0-9]+)?\>"
+color yellow "\<0[Bb][01]+\>"
+color yellow ""(\\.|[^\\"])*?""
 
-# Comments.
+# Preprocessor directives
+color brightgreen "^[[:space:]]*#[[:space:]]*include(_next)?[[:space:]]+((<[^>]*>)|("[^"]*"))"
+color brightcyan start="^[[:space:]]*#[[:space:]]*(if(n?def)?|elif|define|undef|warning|error|pragma)\>" end="(\`|[^\\])$"
+color brightcyan "^[[:space:]]*#[[:space:]]*(else|endif|include(_next)?)?\>"
+
+# GCC builtins
+###color cyan "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
+
+# Comments
 color brightblue "//.*"
 color brightblue start="/\*" end="\*/"
 
-# Reminders.
-color brightwhite,yellow "\<(FIXME|TODO|XXX)\>"
+# Reminders
+color red,yellow "\<(FIXME|TODO|XXX)\>"
 
-# Trailing whitespace.
+# Trailing whitespace
 color ,green "[[:space:]]+$"
