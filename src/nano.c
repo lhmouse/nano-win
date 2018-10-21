@@ -2315,7 +2315,7 @@ int main(int argc, char **argv)
 	if (!no_rcfiles) {
 		/* Back up the command-line options, then clear the strings. */
 #ifdef ENABLED_WRAPORJUSTIFY
-		ssize_t fill_cmdline = fill;
+		ssize_t wrap_at_cmdline = wrap_at;
 #endif
 #ifndef NANO_TINY
 		char *backup_dir_cmdline = backup_dir;
@@ -2361,7 +2361,7 @@ int main(int argc, char **argv)
 		/* If the backed-up command-line options have a value, restore them. */
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (fill_used)
-			fill = fill_cmdline;
+			wrap_at = wrap_at_cmdline;
 #endif
 #ifndef NANO_TINY
 		if (backup_dir_cmdline != NULL) {
