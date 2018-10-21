@@ -2999,6 +2999,7 @@ void do_linter(void)
 	size_t parsesuccess = 0;
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
+	bool helpless = ISSET(NO_HELP);
 	static char **lintargs = NULL;
 	lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 	time_t last_wait = 0;
@@ -3173,6 +3174,11 @@ void do_linter(void)
 		return;
 	}
 
+	if (helpless && LINES > 4) {
+		UNSET(NO_HELP);
+		window_init();
+	}
+
 	/* Show that we are in the linter now. */
 	titlebar(NULL);
 	bottombars(MLINTER);
@@ -3321,6 +3327,12 @@ void do_linter(void)
 		free(tmplint->msg);
 		free(tmplint->filename);
 		free(tmplint);
+	}
+
+	if (helpless) {
+		SET(NO_HELP);
+		window_init();
+		refresh_needed = TRUE;
 	}
 }
 #endif /* ENABLE_COLOR */
