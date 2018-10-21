@@ -3273,7 +3273,7 @@ void do_linter(void)
 		func = func_from_key(&kbinput);
 		tmplint = curlint;
 
-		if (func == do_cancel)
+		if (func == do_cancel || func == do_enter)
 			break;
 		else if (func == do_help_void) {
 			tmplint = NULL;
