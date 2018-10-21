@@ -3281,13 +3281,19 @@ void do_linter(void)
 		} else if (func == do_page_up || func == do_prev_block) {
 			if (curlint->prev != NULL)
 				curlint = curlint->prev;
-			else
+			else {
 				statusbar(_("At first message"));
+				napms(600);
+				statusbar(curlint->msg);
+			}
 		} else if (func == do_page_down || func == do_next_block) {
 			if (curlint->next != NULL)
 				curlint = curlint->next;
-			else
+			else {
 				statusbar(_("At last message"));
+				napms(600);
+				statusbar(curlint->msg);
+			}
 		}
 	}
 
