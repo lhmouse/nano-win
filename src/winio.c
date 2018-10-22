@@ -1112,6 +1112,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 						if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
+							if (seq[3] == '3')
+								/* Esc [ 3 ; 3 ~ == Alt-Delete on xterm/rxvt/Eterm/Terminal. */
+								return ALT_DELETE;
 							if (seq[3] == '5')
 								/* Esc [ 3 ; 5 ~ == Ctrl-Delete on xterm. */
 								return CONTROL_DELETE;
