@@ -1638,7 +1638,7 @@ bool do_wrap(filestruct *line)
 	 * at the end of it! */
 
 	/* Find the last blank where we can break the line. */
-	wrap_loc = break_line(line->data, fill, FALSE);
+	wrap_loc = break_line(line->data, wrap_at, FALSE);
 
 	/* If we couldn't break the line, or we've reached the end of it, we
 	 * don't wrap. */
@@ -1699,7 +1699,7 @@ bool do_wrap(filestruct *line)
 #endif
 		}
 
-		if (rest_length + strlen(line->next->data) <= fill) {
+		if (rest_length + strlen(line->next->data) <= wrap_at) {
 			/* Delete the LF to join the two lines. */
 			do_delete();
 			/* Delete any leading blanks from the joined-on line. */
@@ -2120,13 +2120,13 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	justify_format(jusline, quote_len +
 					indent_length(jusline->data + quote_len));
 
-	while (par_len > 0 && strlenpt(jusline->data) > fill) {
+	while (par_len > 0 && strlenpt(jusline->data) > wrap_at) {
 		size_t line_len = strlen(jusline->data);
 
 		/* If this line is too long, try to wrap it to the next line
 		 * to make it short enough. */
 		break_pos = break_line(jusline->data + lead_len,
-				fill - strnlenpt(jusline->data, lead_len), FALSE);
+				wrap_at - strnlenpt(jusline->data, lead_len), FALSE);
 
 		/* If we can't break the line, or don't need to, we're done. */
 		if (break_pos == -1 || break_pos + lead_len == line_len)

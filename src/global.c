@@ -81,10 +81,10 @@ int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
 #ifdef ENABLED_WRAPORJUSTIFY
-ssize_t wrap_at = -COLUMNS_FROM_EOL;
+ssize_t fill = -COLUMNS_FROM_EOL;
 		/* The relative column where we will wrap lines. */
-ssize_t fill = 0;
-		/* The actual column where we will wrap lines, based on wrap_at. */
+ssize_t wrap_at = 0;
+		/* The actual column where we will wrap lines, based on fill. */
 #endif
 
 char *last_search = NULL;

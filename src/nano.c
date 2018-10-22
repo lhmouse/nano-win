@@ -715,11 +715,11 @@ void window_init(void)
 
 #ifdef ENABLED_WRAPORJUSTIFY
 	/* Set up the wrapping point, accounting for screen width when negative. */
-	fill = wrap_at;
-	if (fill <= 0)
-		fill += COLS;
-	if (fill < 0)
-		fill = 0;
+	wrap_at = fill;
+	if (wrap_at <= 0)
+		wrap_at += COLS;
+	if (wrap_at < 0)
+		wrap_at = 0;
 #endif
 }
 
@@ -2244,7 +2244,7 @@ int main(int argc, char **argv)
 				break;
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'r':
-				if (!parse_num(optarg, &wrap_at)) {
+				if (!parse_num(optarg, &fill)) {
 					fprintf(stderr, _("Requested fill size \"%s\" is invalid"), optarg);
 					fprintf(stderr, "\n");
 					exit(1);
@@ -2317,7 +2317,7 @@ int main(int argc, char **argv)
 	if (!no_rcfiles) {
 		/* Back up the command-line options, then clear the strings. */
 #ifdef ENABLED_WRAPORJUSTIFY
-		ssize_t wrap_at_cmdline = wrap_at;
+		ssize_t fill_cmdline = fill;
 #endif
 #ifndef NANO_TINY
 		char *backup_dir_cmdline = backup_dir;
@@ -2363,7 +2363,7 @@ int main(int argc, char **argv)
 		/* If the backed-up command-line options have a value, restore them. */
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (fill_used)
-			wrap_at = wrap_at_cmdline;
+			fill = fill_cmdline;
 #endif
 #ifndef NANO_TINY
 		if (backup_dir_cmdline != NULL) {
