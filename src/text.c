@@ -3001,6 +3001,7 @@ void do_linter(void)
 	pid_t pid_lint;
 	static char **lintargs = NULL;
 	lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
+	time_t last_wait = 0;
 
 	if (ISSET(RESTRICTED)) {
 		show_restricted_warning();
@@ -3281,17 +3282,19 @@ void do_linter(void)
 		} else if (func == do_page_up || func == do_prev_block) {
 			if (curlint->prev != NULL)
 				curlint = curlint->prev;
-			else {
+			else if (last_wait != time(NULL)) {
 				statusbar(_("At first message"));
 				napms(600);
+				last_wait = time(NULL);
 				statusbar(curlint->msg);
 			}
 		} else if (func == do_page_down || func == do_next_block) {
 			if (curlint->next != NULL)
 				curlint = curlint->next;
-			else {
+			else if (last_wait != time(NULL)) {
 				statusbar(_("At last message"));
 				napms(600);
+				last_wait = time(NULL);
 				statusbar(curlint->msg);
 			}
 		}
