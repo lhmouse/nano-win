@@ -280,7 +280,9 @@ default behavior of saving a file in the format that it had.
 (This option has no effect when you also use \fBset noconvert\fR.)
 .TP
 .B set view
-Disallow file modification.
+Disallow file modification: read-only mode.
+This mode allows the user to open also other files for viewing,
+unless \fB--restricted\fR is given on the command line.
 .TP
 .B set whitespace "\fIstring\fP"
 Set the two characters used to indicate the presence of tabs and

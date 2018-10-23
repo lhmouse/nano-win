@@ -374,9 +374,11 @@ default behavior of saving a file in the format that it had.
 
 @item -v
 @itemx --view
-Don't allow the contents of the file to be altered.  Note that this
-option should NOT be used in place of correct file permissions to
-implement a read-only file.
+Don't allow the contents of the file to be altered: read-only mode.
+This mode allows the user to open also other files for viewing,
+unless @option{--restricted} is given too.
+(Note that this option should NOT be used in place of correct
+file permissions to implement a read-only file.)
 
 @item -w
 @itemx --nowrap
@@ -911,7 +913,9 @@ default behavior of saving a file in the format that it had.
 (This option has no effect when you also use @code{set noconvert}.)
 
 @item set view
-Disallow file modification.
+Disallow file modification: read-only mode.
+This mode allows the user to open also other files for viewing,
+unless @option{--restricted} is given on the command line.
 
 @anchor{Whitespace}
 @item set whitespace "@var{string}"
