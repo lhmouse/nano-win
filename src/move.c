@@ -540,7 +540,7 @@ void do_down(void)
 	openfile->placewewant = leftedge + target_column;
 }
 
-#ifdef ENABLE_HELP
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 /* Scroll up one line or chunk without scrolling the cursor. */
 void do_scroll_up(void)
 {

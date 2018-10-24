@@ -602,7 +602,7 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *bracket_gist = N_("Go to the matching bracket");
 #endif
-#ifdef ENABLE_HELP
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	const char *scrollup_gist =
 		N_("Scroll up one line without moving the cursor textually");
 	const char *scrolldown_gist =
@@ -882,7 +882,7 @@ void shortcut_init(void)
 		N_("Prev Line"), WITHORSANS(prevline_gist), TOGETHER, VIEW);
 	add_to_funcs(do_down, MMAIN|MHELP|MBROWSER,
 		N_("Next Line"), WITHORSANS(nextline_gist), TOGETHER, VIEW);
-#ifdef ENABLE_HELP
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	add_to_funcs(do_scroll_up, MMAIN,
 		N_("Scroll Up"), WITHORSANS(scrollup_gist), TOGETHER, VIEW);
 	add_to_funcs(do_scroll_down, MMAIN,
@@ -1213,7 +1213,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-)", 0, do_para_end_void, 0);
 	add_to_sclist(MMAIN, "M-0", 0, do_para_end_void, 0);
 #endif
-#ifdef ENABLE_HELP
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	add_to_sclist(MMAIN, "M--", 0, do_scroll_up, 0);
 	add_to_sclist(MMAIN, "M-_", 0, do_scroll_up, 0);
 	add_to_sclist(MMAIN, "M-+", 0, do_scroll_down, 0);
@@ -1539,7 +1539,7 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "down") ||
 			 !strcasecmp(input, "nextline"))
 		s->func = do_down;
-#ifdef ENABLE_HELP
+#if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	else if (!strcasecmp(input, "scrollup"))
 		s->func = do_scroll_up;
 	else if (!strcasecmp(input, "scrolldown"))
