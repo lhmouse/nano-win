@@ -194,6 +194,9 @@
 ## set, it overrides option 'set wordbounds'.
 # set wordchars "<_>."
 
+## Let an unmodified Backspace or Delete erase the marked region (instead
+## of a single character, and without affecting the cutbuffer).
+# set zap
 
 ## Paint the interface elements of nano.  These are examples;
 ## by default there are no colors, except for errorcolor.

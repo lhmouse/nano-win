@@ -270,6 +270,11 @@ should be considered as parts of words.  This overrides option
 Specify the syntax to be used for highlighting.
 @xref{Syntax Highlighting} for more info.
 
+@item -Z
+@itemx --zap
+Let an unmodified @key{Backspace} or @key{Delete} erase the marked region
+(instead of a single character, and without affecting the cutbuffer).
+
 @item -a
 @itemx --atblanks
 When doing soft line wrapping, wrap lines at whitespace
@@ -931,6 +936,10 @@ characters as part of a word.
 Specify which other characters (besides the normal alphanumeric ones)
 should be considered as parts of words.  This overrides the option
 @code{wordbounds}.
+
+@item set zap
+Let an unmodified @key{Backspace} or @key{Delete} erase the marked region
+(instead of a single character, and without affecting the cutbuffer).
 
 @end table
 

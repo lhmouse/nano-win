@@ -183,6 +183,11 @@ void do_deletion(undo_type action)
 /* Delete the character under the cursor. */
 void do_delete(void)
 {
+#ifndef NANO_TINY
+	if (openfile->mark && ISSET(LET_THEM_ZAP))
+		zap_text();
+	else
+#endif
 	do_deletion(DEL);
 }
 
@@ -190,6 +195,11 @@ void do_delete(void)
  * character, and then delete the character under the cursor. */
 void do_backspace(void)
 {
+#ifndef NANO_TINY
+	if (openfile->mark && ISSET(LET_THEM_ZAP))
+		zap_text();
+	else
+#endif
 	if (openfile->current != openfile->fileage || openfile->current_x > 0) {
 		do_left();
 		do_deletion(BACK);

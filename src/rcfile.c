@@ -112,6 +112,7 @@ static const rcoption rcopts[] = {
 	{"whitespace", 0},
 	{"wordbounds", WORD_BOUNDS},
 	{"wordchars", 0},
+	{"zap", LET_THEM_ZAP},
 #endif
 #ifdef ENABLE_COLOR
 	{"titlecolor", 0},

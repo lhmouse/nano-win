@@ -845,6 +845,7 @@ void usage(void)
 					N_("Syntax definition to use for coloring"));
 #endif
 #ifndef NANO_TINY
+	print_opt("-Z", "--zap", N_("Let Bsp and Del erase a marked region"));
 	print_opt("-a", "--atblanks", N_("When soft-wrapping, do it at whitespace"));
 #endif
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
@@ -2020,6 +2021,7 @@ int main(int argc, char **argv)
 		{"smooth", 0, NULL, 'S'},
 		{"wordbounds", 0, NULL, 'W'},
 		{"wordchars", 1, NULL, 'X'},
+		{"zap", 0, NULL, 'Z'},
 		{"atblanks", 0, NULL, 'a'},
 		{"autoindent", 0, NULL, 'i'},
 		{"cutfromcursor", 0, NULL, 'k'},
@@ -2083,7 +2085,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:abcdefghijklmno:pqr:s:tuvwxyz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdefghijklmno:pqr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2189,6 +2191,9 @@ int main(int argc, char **argv)
 				break;
 #endif
 #ifndef NANO_TINY
+			case 'Z':
+				SET(LET_THEM_ZAP);
+				break;
 			case 'a':
 				SET(AT_BLANKS);
 				break;

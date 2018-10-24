@@ -540,7 +540,8 @@ enum
 	LINE_NUMBERS,
 	NO_PAUSES,
 	AT_BLANKS,
-	AFTER_ENDS
+	AFTER_ENDS,
+	LET_THEM_ZAP
 };
 
 /* Flags for the menus in which a given function should be present. */
