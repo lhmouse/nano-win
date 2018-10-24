@@ -344,7 +344,8 @@ void parse_binding(char *ptr, bool dobind)
 {
 	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
 	sc *s, *newsc = NULL;
-	int menu;
+	int menu, mask = 0;
+	subnfunc *f;
 
 	if (*ptr == '\0') {
 		rcfile_error(N_("Missing key name"));
@@ -429,10 +430,10 @@ void parse_binding(char *ptr, bool dobind)
 		goto free_things;
 	}
 
+	/* When unbinding, wipe the given shortcut from the given menu. */
 	if (!dobind) {
-		/* Find and wipe the given shortcut from the given menu. */
 		for (s = sclist; s != NULL; s = s->next)
-			if ((s->menus & menu) && !strcmp(s->keystr, keycopy))
+			if ((s->menus & menu) && strcmp(s->keystr, keycopy) == 0)
 				s->menus &= ~menu;
 
   free_things:
@@ -441,55 +442,52 @@ void parse_binding(char *ptr, bool dobind)
 		return;
 	}
 
-		subnfunc *f;
-		int mask = 0;
-
-		/* Tally up the menus where the function exists. */
-		for (f = allfuncs; f != NULL; f = f->next)
-			if (f->func == newsc->func)
-				mask = mask | f->menus;
+	/* Tally up the menus where the function exists. */
+	for (f = allfuncs; f != NULL; f = f->next)
+		if (f->func == newsc->func)
+			mask = mask | f->menus;
 
 #ifndef NANO_TINY
-		/* Handle the special case of the toggles. */
-		if (newsc->func == do_toggle_void)
-			mask = MMAIN;
+	/* Handle the special case of the toggles. */
+	if (newsc->func == do_toggle_void)
+		mask = MMAIN;
 #endif
 #ifdef ENABLE_NANORC
-		/* Handle the special case of a key defined as a string. */
-		if (newsc->func == (functionptrtype)implant)
-			mask = MMOST | MHELP;
+	/* Handle the special case of a key defined as a string. */
+	if (newsc->func == (functionptrtype)implant)
+		mask = MMOST | MHELP;
 #endif
-		/* Now limit the given menu to those where the function exists. */
-		menu = menu & (is_universal(newsc->func) ? MMOST : mask);
+	/* Now limit the given menu to those where the function exists. */
+	menu = menu & (is_universal(newsc->func) ? MMOST : mask);
 
-		if (!menu) {
-			if (!ISSET(RESTRICTED))
-				rcfile_error(N_("Function '%s' does not exist in menu '%s'"),
-									funcptr, menuptr);
-			goto free_things;
-		}
+	if (!menu) {
+		if (!ISSET(RESTRICTED))
+			rcfile_error(N_("Function '%s' does not exist in menu '%s'"),
+								funcptr, menuptr);
+		goto free_things;
+	}
 
-		newsc->menus = menu;
-		assign_keyinfo(newsc, keycopy, 0);
+	newsc->menus = menu;
+	assign_keyinfo(newsc, keycopy, 0);
 
-		/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
-		if (newsc->meta && newsc->keycode == 91) {
-			rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
-			goto free_things;
-		}
+	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
+	if (newsc->meta && newsc->keycode == 91) {
+		rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
+		goto free_things;
+	}
 
 #ifndef NANO_TINY
-		/* If this is a toggle, copy its sequence number. */
-		if (newsc->func == do_toggle_void) {
-			for (s = sclist; s != NULL; s = s->next)
-				if (s->func == do_toggle_void && s->toggle == newsc->toggle)
-					newsc->ordinal = s->ordinal;
-		} else
-			newsc->ordinal = 0;
+	/* If this is a toggle, find and copy its sequence number. */
+	if (newsc->func == do_toggle_void) {
+		for (s = sclist; s != NULL; s = s->next)
+			if (s->func == do_toggle_void && s->toggle == newsc->toggle)
+				newsc->ordinal = s->ordinal;
+	} else
+		newsc->ordinal = 0;
 #endif
-		/* Add the new shortcut at the start of the list. */
-		newsc->next = sclist;
-		sclist = newsc;
+	/* Add the new shortcut at the start of the list. */
+	newsc->next = sclist;
+	sclist = newsc;
 }
 
 /* Verify that the given file exists, is not a folder nor a device. */
