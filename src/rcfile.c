@@ -468,10 +468,12 @@ void parse_binding(char *ptr, bool dobind)
 		}
 	}
 
-	/* Now find and delete any existing same shortcut in the menu(s). */
+	if (!dobind) {
+		/* Find and wipe the given shortcut from the given menu. */
 	for (s = sclist; s != NULL; s = s->next) {
 		if ((s->menus & menu) && !strcmp(s->keystr, keycopy))
 			s->menus &= ~menu;
+	}
 	}
 
 	if (dobind) {
