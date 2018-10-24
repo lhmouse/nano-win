@@ -371,11 +371,6 @@ int parse_kbinput(WINDOW *win)
 	keycode = *kbinput;
 	free(kbinput);
 
-#ifdef DEBUG
-	fprintf(stderr, "before parsing:  keycode = %d, escapes = %d, digit_count = %d\n",
-		keycode, escapes, digit_count);
-#endif
-
 	if (keycode == ERR)
 		return ERR;
 
@@ -1502,10 +1497,6 @@ int get_control_kbinput(int kbinput)
 	else
 		retval = kbinput;
 
-#ifdef DEBUG
-	fprintf(stderr, "get_control_kbinput(): kbinput = %d, retval = %d\n", kbinput, retval);
-#endif
-
 	return retval;
 }
 
@@ -1772,11 +1763,6 @@ const sc *get_shortcut(int *kbinput)
 {
 	sc *s;
 
-#ifdef DEBUG
-	fprintf(stderr, "after parsing: kbinput = %d, meta_key = %s -- ",
-								*kbinput, meta_key ? "TRUE" : "FALSE");
-#endif
-
 	/* Plain characters cannot be shortcuts, so just skip those. */
 	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
 						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
@@ -1784,18 +1770,10 @@ const sc *get_shortcut(int *kbinput)
 
 	for (s = sclist; s != NULL; s = s->next) {
 		if ((s->menus & currmenu) && *kbinput == s->keycode &&
-										meta_key == s->meta) {
-#ifdef DEBUG
-			fprintf (stderr, "matched seq '%s'  (menu is %x from %x)\n",
-								s->keystr, currmenu, s->menus);
-#endif
+										meta_key == s->meta)
 			return s;
-		}
 	}
 
-#ifdef DEBUG
-	fprintf (stderr, "matched nothing\n");
-#endif
 	return NULL;
 }
 
