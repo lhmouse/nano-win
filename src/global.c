@@ -576,6 +576,7 @@ void shortcut_init(void)
 	const char *mark_gist = N_("Mark text starting from the cursor position");
 	const char *copy_gist =
 		N_("Copy current line (or marked region) and store it in cutbuffer");
+	const char *zap_gist = N_("Throw away the current line (or marked region)");
 	const char *indent_gist = N_("Indent the current line (or marked lines)");
 	const char *unindent_gist = N_("Unindent the current line (or marked lines)");
 	const char *undo_gist = N_("Undo the last operation");
@@ -987,6 +988,9 @@ void shortcut_init(void)
 		N_("Record"), WITHORSANS(recordmacro_gist), TOGETHER, VIEW);
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
+
+	add_to_funcs(zap_text, MMAIN,
+		N_("Zap Text"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
 
 #ifdef ENABLE_COLOR
 	if (!ISSET(RESTRICTED))
@@ -1471,6 +1475,8 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "copy") ||
 			 !strcasecmp(input, "copytext"))  /* Deprecated.  Remove end of 2018. */
 		s->func = do_copy_text;
+	else if (!strcasecmp(input, "zap"))
+		s->func = zap_text;
 	else if (!strcasecmp(input, "mark"))
 		s->func = do_mark;
 #endif

@@ -249,11 +249,12 @@ void cutbuffer_reset(void);
 #ifndef NANO_TINY
 void cut_marked(bool *right_side_up);
 #endif
-void do_cut_text(bool copy_text, bool marked, bool cut_till_eof);
+void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append);
 void do_cut_text_void(void);
 #ifndef NANO_TINY
 void do_copy_text(void);
 void do_cut_till_eof(void);
+void zap_text(void);
 #endif
 void do_uncut_text(void);
 

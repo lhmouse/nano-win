@@ -533,7 +533,7 @@ void replace_buffer(const char *filename)
 #ifndef NANO_TINY
 	add_undo(CUT_TO_EOF);
 #endif
-	do_cut_text(FALSE, FALSE, TRUE);
+	do_cut_text(FALSE, FALSE, TRUE, FALSE);
 #ifndef NANO_TINY
 	update_undo(CUT_TO_EOF);
 #endif
@@ -574,7 +574,7 @@ void replace_marked_buffer(const char *filename)
 	/* Throw away the text under the mark. */
 	cutbuffer = NULL;
 	add_undo(CUT);
-	do_cut_text(FALSE, TRUE, FALSE);
+	do_cut_text(FALSE, TRUE, FALSE, FALSE);
 	update_undo(CUT);
 	free_filestruct(cutbuffer);
 	cutbuffer = was_cutbuffer;

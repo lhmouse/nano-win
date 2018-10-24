@@ -1150,6 +1150,9 @@ Pastes the currently stored text into the current buffer at the
 current cursor position.
 (The old form 'uncut' is deprecated.)
 
+@item zap
+Throw away the current line (or the marked region).
+
 @item cutwordleft
 Cuts from the cursor position to the beginning of the preceding word.
 (This function is not bound by default.  If your terminal produces

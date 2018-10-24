@@ -687,7 +687,7 @@ void redo_cut(undo *u)
 	openfile->mark = fsfromline(u->mark_begin_lineno);
 	openfile->mark_x = (u->xflags == WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
 
-	do_cut_text(FALSE, TRUE, FALSE);
+	do_cut_text(FALSE, TRUE, FALSE, u->type == ZAP);
 
 	free_filestruct(cutbuffer);
 	cutbuffer = oldcutbuffer;
@@ -792,6 +792,10 @@ void do_undo(void)
 		undidmsg = _("text add");
 		break;
 #endif
+	case ZAP:
+		undidmsg = _("erasure");
+		undo_cut(u);
+		break;
 	case CUT_TO_EOF:
 	case CUT:
 		undidmsg = _("text cut");
@@ -968,6 +972,10 @@ void do_redo(void)
 		redidmsg = _("text add");
 		break;
 #endif
+	case ZAP:
+		redidmsg = _("erasure");
+		redo_cut(u);
+		break;
 	case CUT_TO_EOF:
 	case CUT:
 		redidmsg = _("text cut");
@@ -1201,7 +1209,7 @@ bool execute_command(const char *command)
 		if (ISSET(MULTIBUFFER)) {
 			switch_to_prev_buffer();
 			if (openfile->mark)
-				do_cut_text(TRUE, TRUE, FALSE);
+				do_cut_text(TRUE, TRUE, FALSE, FALSE);
 		} else
 #endif
 		{
@@ -1212,7 +1220,7 @@ bool execute_command(const char *command)
 				openfile->current_x = 0;
 			}
 			add_undo(CUT);
-			do_cut_text(FALSE, openfile->mark, openfile->mark == NULL);
+			do_cut_text(FALSE, openfile->mark, openfile->mark == NULL, FALSE);
 			update_undo(CUT);
 		}
 
@@ -1403,6 +1411,7 @@ void add_undo(undo_type action)
 #endif
 	case CUT_TO_EOF:
 		break;
+	case ZAP:
 	case CUT:
 		if (openfile->mark) {
 			u->mark_begin_lineno = openfile->mark->lineno;
@@ -1529,12 +1538,17 @@ void update_undo(undo_type action)
 	case SPLIT_END:
 		break;
 #endif
+	case ZAP:
 	case CUT_TO_EOF:
 	case CUT:
 		if (!cutbuffer)
 			break;
-		free_filestruct(u->cutbuffer);
-		u->cutbuffer = copy_filestruct(cutbuffer);
+		if (u->type == ZAP)
+			u->cutbuffer = cutbuffer;
+		else {
+			free_filestruct(u->cutbuffer);
+			u->cutbuffer = copy_filestruct(cutbuffer);
+		}
 		if (u->xflags == MARK_WAS_SET) {
 			/* If the "marking" operation was from right-->left or
 			 * bottom-->top, then swap the mark points. */
