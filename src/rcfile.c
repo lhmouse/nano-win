@@ -429,7 +429,18 @@ void parse_binding(char *ptr, bool dobind)
 		goto free_things;
 	}
 
-	if (dobind) {
+	if (!dobind) {
+		/* Find and wipe the given shortcut from the given menu. */
+		for (s = sclist; s != NULL; s = s->next)
+			if ((s->menus & menu) && !strcmp(s->keystr, keycopy))
+				s->menus &= ~menu;
+
+  free_things:
+		free(newsc);
+		free(keycopy);
+		return;
+	}
+
 		subnfunc *f;
 		int mask = 0;
 
@@ -466,17 +477,7 @@ void parse_binding(char *ptr, bool dobind)
 			rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
 			goto free_things;
 		}
-	}
 
-	if (!dobind) {
-		/* Find and wipe the given shortcut from the given menu. */
-	for (s = sclist; s != NULL; s = s->next) {
-		if ((s->menus & menu) && !strcmp(s->keystr, keycopy))
-			s->menus &= ~menu;
-	}
-	}
-
-	if (dobind) {
 #ifndef NANO_TINY
 		/* If this is a toggle, copy its sequence number. */
 		if (newsc->func == do_toggle_void) {
@@ -489,12 +490,6 @@ void parse_binding(char *ptr, bool dobind)
 		/* Add the new shortcut at the start of the list. */
 		newsc->next = sclist;
 		sclist = newsc;
-		return;
-	}
-
-  free_things:
-	free(newsc);
-	free(keycopy);
 }
 
 /* Verify that the given file exists, is not a folder nor a device. */
