@@ -199,24 +199,13 @@ void do_help(void)
 			if (openfile->edittop->lineno + editwinrows - 1 <
 								openfile->filebot->lineno)
 				do_scroll_down();
-		} else if (func == do_page_up) {
-			do_page_up();
-		} else if (func == do_page_down) {
-			do_page_down();
-		} else if (func == to_first_line) {
-			to_first_line();
-		} else if (func == to_last_line) {
-			to_last_line();
-		} else if (func == do_search_forward) {
-			do_search_forward();
+		} else if (func == do_page_up || func == do_page_down ||
+					func == to_first_line || func == to_last_line ||
+					func == do_findprevious || func == do_findnext) {
+			func();
+		} else if (func == do_search_forward || func == do_search_backward) {
+			func();
 			bottombars(MHELP);
-		} else if (func == do_search_backward) {
-			do_search_backward();
-			bottombars(MHELP);
-		} else if (func == do_findprevious) {
-			do_findprevious();
-		} else if (func == do_findnext) {
-			do_findnext();
 #ifdef ENABLE_NANORC
 		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MHELP, func)->expansion);
