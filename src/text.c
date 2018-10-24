@@ -3215,9 +3215,7 @@ void do_linter(void)
 
 				if (i == -1) {
 					statusbar(_("Cancelled"));
-					currmenu = MMOST;
-					titlebar(NULL);
-					goto free_lints_and_return;
+					break;
 				} else if (i == 1) {
 					open_buffer(curlint->filename, TRUE);
 				} else {
@@ -3248,10 +3246,7 @@ void do_linter(void)
 					free(dontwantfile);
 
 					if (restlint == NULL) {
-						statusbar(_("No more errors in unopened files, cancelling"));
-						currmenu = MMOST;
-						titlebar(NULL);
-						napms(2400);
+						statusbar(_("No messages for this file"));
 						break;
 					} else {
 						curlint = restlint;
@@ -3289,8 +3284,7 @@ void do_linter(void)
 		tmplint = curlint;
 
 		if (func == do_cancel || func == do_enter) {
-			currmenu = MMOST;
-			titlebar(NULL);
+			wipe_statusbar();
 			break;
 		} else if (func == do_help_void) {
 			tmplint = NULL;
@@ -3316,11 +3310,6 @@ void do_linter(void)
 		}
 	}
 
-	wipe_statusbar();
-
-#ifdef ENABLE_MULTIBUFFER
-  free_lints_and_return:
-#endif
 	for (curlint = lints; curlint != NULL;) {
 		tmplint = curlint;
 		curlint = curlint->next;
@@ -3334,6 +3323,9 @@ void do_linter(void)
 		window_init();
 		refresh_needed = TRUE;
 	}
+
+	currmenu = MMOST;
+	titlebar(NULL);
 }
 #endif /* ENABLE_COLOR */
 
