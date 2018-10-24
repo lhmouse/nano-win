@@ -576,7 +576,10 @@ int parse_kbinput(WINDOW *win)
 		return ALT_UP;
 	else if (retval == altdown)
 		return ALT_DOWN;
-	else if (retval == shiftaltleft) {
+	else if (retval == altdelete) {
+		meta_key = TRUE;
+		return ALT_DELETE;
+	} else if (retval == shiftaltleft) {
 		shift_held = TRUE;
 		return KEY_HOME;
 	} else if (retval == shiftaltright) {
@@ -609,6 +612,11 @@ int parse_kbinput(WINDOW *win)
 		/* Are both Shift and Ctrl being held while Delete is pressed? */
 		if ((modifiers & 0x05) == 0x05 && retval == KEY_DC)
 			return CONTROL_SHIFT_DELETE;
+		/* Is Meta being held while Delete is pressed? */
+		if (modifiers == 0x08 && retval == KEY_DC) {
+			meta_key = TRUE;
+			return ALT_DELETE;
+		}
 #endif
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {

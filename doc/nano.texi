@@ -1161,6 +1161,7 @@ current cursor position.
 
 @item zap
 Throw away the current line (or the marked region).
+(This function is bound by default to <Meta+Delete>.)
 
 @item cutwordleft
 Cuts from the cursor position to the beginning of the preceding word.

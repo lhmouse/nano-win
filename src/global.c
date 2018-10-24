@@ -76,6 +76,7 @@ int shiftleft, shiftright, shiftup, shiftdown;
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
 int altleft, altright, altup, altdown;
+int altdelete;
 int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
@@ -1156,6 +1157,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
 	add_to_sclist(MMAIN, "Sh-^Del", CONTROL_SHIFT_DELETE, do_cut_prev_word, 0);
 	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, do_cut_next_word, 0);
+	add_to_sclist(MMAIN, "M-Del", ALT_DELETE, zap_text, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_sclist(MMAIN, "^]", 0, complete_a_word, 0);
