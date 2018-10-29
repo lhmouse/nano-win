@@ -4,7 +4,7 @@ syntax nanorc "\.?nanorc$"
 comment "#"
 
 # Possible errors and parameters
-icolor brightred "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|linter|i?color|extendsyntax).*"
+icolor brightred "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|linter|tabgives|i?color|extendsyntax).*"
 
 # Keywords
 icolor brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(afterends|allow_insecure_backup|atblanks|autoindent|backup|backwards|boldtext|breaklonglines|casesensitive|constantshow|cutfromcursor|emptyline|finalnewline|historylog|jumpyscrolling|linenumbers|locking|morespace|mouse|multibuffer|noconvert|nohelp|nopauses|nonewlines|nowrap|positionlog|preserve|quickblank|quiet|rebinddelete|rebindkeypad|regexp|showcursor|smarthome|smooth|softwrap|suspend|tabstospaces|tempfile|trimblanks|unix|view|wordbounds|zap)\>"
@@ -13,9 +13,9 @@ icolor brightgreen "^[[:space:]]*set[[:space:]]+(backupdir|brackets|errorcolor|f
 icolor brightgreen "^[[:space:]]*set[[:space:]]+(fill[[:space:]]+-?[[:digit:]]+|(guidestripe|tabsize)[[:space:]]+[1-9][0-9]*)\>"
 icolor brightgreen "^[[:space:]]*bind[[:space:]]+((\^([[:alpha:]]|[]@\^_]|Space)|M-([[:alpha:]]|[]!"#$%&'()*+,./0-9:;<=>?@\^_`{|}~-]|Space))|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+([[:alpha:]]+|".*")[[:space:]]+(all|main|search|replace(with)?|yesno|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)([[:space:]]+#|[[:space:]]*$)"
 icolor brightgreen "^[[:space:]]*unbind[[:space:]]+((\^([[:alpha:]]|[]@\^_]|Space)|M-([[:alpha:]]|[]!"#$%&'()*+,./0-9:;<=>?@\^_`{|}~-]|Space))|F([1-9]|1[0-6])|Ins|Del)[[:space:]]+(all|main|search|replace(with)?|yesno|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)([[:space:]]+#|[[:space:]]*$)"
-icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]+(i?color|header|magic|comment|linter)[[:space:]]+.*"
+icolor brightgreen "^[[:space:]]*extendsyntax[[:space:]]+[[:alpha:]]+[[:space:]]+(i?color|header|magic|comment|linter|tabgives)[[:space:]]+.*"
 icolor brightgreen "^[[:space:]]*(syntax|linter)[[:space:]]+[^[:blank:]]+"
-icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|linter|extendsyntax)\>"
+icolor green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|linter|tabgives|extendsyntax)\>"
 
 # Strings
 color brightmagenta "([[:space:]]|(start|end)=)".+"([[:space:]]|$)"
