@@ -1531,9 +1531,12 @@ int get_keycode(const char *keyname, const int standard)
 
 	if (keyvalue != 0 && keyvalue != (char *)-1 && key_defined(keyvalue))
 		return key_defined(keyvalue);
-	else
 #endif
-		return standard;
+#ifdef DEBUG
+	if (!ISSET(REBIND_KEYPAD))
+		fprintf(stderr, "Using fallback keycode for %s\n", keyname);
+#endif
+	return standard;
 }
 
 #ifdef ENABLE_LINENUMBERS
