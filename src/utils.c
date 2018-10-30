@@ -266,13 +266,6 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 const char *strstrwrapper(const char *haystack, const char *needle,
 		const char *start)
 {
-	if (*needle == '\0') {
-#ifndef NANO_TINY
-		statusline(ALERT, "Searching for nothing -- please report a bug");
-#endif
-		return (char *)start;
-	}
-
 	if (ISSET(USE_REGEXP)) {
 		if (ISSET(BACKWARDS_SEARCH)) {
 			size_t last_find, ceiling, far_end;
