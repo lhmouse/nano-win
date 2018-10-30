@@ -502,12 +502,6 @@ void copy_from_buffer(filestruct *somebuffer)
 	ingraft_buffer(the_copy);
 }
 
-/* Create a new openfile node. */
-openfilestruct *make_new_opennode(void)
-{
-	return (openfilestruct *)nmalloc(sizeof(openfilestruct));
-}
-
 #ifdef ENABLE_MULTIBUFFER
 /* Unlink a node from the rest of the circular list, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)

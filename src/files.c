@@ -62,7 +62,7 @@ bool has_valid_path(const char *filename)
 /* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
 {
-	openfilestruct *newnode = make_new_opennode();
+	openfilestruct *newnode = nmalloc(sizeof(openfilestruct));
 
 	if (openfile == NULL) {
 		/* Make the first open file the only element in the list. */
