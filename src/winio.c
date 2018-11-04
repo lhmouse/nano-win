@@ -609,13 +609,14 @@ int parse_kbinput(WINDOW *win)
 				return SHIFT_TAB;
 			shift_held = TRUE;
 		}
-		/* Are both Shift and Ctrl being held while Delete is pressed? */
-		if ((modifiers & 0x05) == 0x05 && retval == KEY_DC)
-			return CONTROL_SHIFT_DELETE;
-		/* Is Meta being held while Delete is pressed? */
-		if (modifiers == 0x08 && retval == KEY_DC) {
-			meta_key = TRUE;
-			return ALT_DELETE;
+		/* Is Delete pressed together with either Ctrl+Shift or Meta? */
+		if (retval == KEY_DC) {
+			if ((modifiers & 0x05) == 0x05)
+				return CONTROL_SHIFT_DELETE;
+			if (modifiers == 0x08) {
+				meta_key = TRUE;
+				return ALT_DELETE;
+			}
 		}
 #endif
 		/* Is Ctrl being held? */
