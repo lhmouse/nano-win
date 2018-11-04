@@ -576,10 +576,9 @@ int parse_kbinput(WINDOW *win)
 		return ALT_UP;
 	else if (retval == altdown)
 		return ALT_DOWN;
-	else if (retval == altdelete) {
-		meta_key = TRUE;
+	else if (retval == altdelete)
 		return ALT_DELETE;
-	} else if (retval == shiftaltleft) {
+	else if (retval == shiftaltleft) {
 		shift_held = TRUE;
 		return KEY_HOME;
 	} else if (retval == shiftaltright) {
@@ -613,10 +612,8 @@ int parse_kbinput(WINDOW *win)
 		if (retval == KEY_DC) {
 			if ((modifiers & 0x05) == 0x05)
 				return CONTROL_SHIFT_DELETE;
-			if (modifiers == 0x08) {
-				meta_key = TRUE;
+			if (modifiers == 0x08)
 				return ALT_DELETE;
-			}
 		}
 #endif
 		/* Is Ctrl being held? */

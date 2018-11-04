@@ -462,7 +462,7 @@ functionptrtype func_from_key(int *kbinput)
 void assign_keyinfo(sc *s, const char *keystring, const int keycode)
 {
 	s->keystr = keystring;
-	s->meta = (keystring[0] == 'M' && keystring[2] != '\xE2');
+	s->meta = (keystring[0] == 'M' && keycode == 0);
 
 	assert(strlen(keystring) > 1 && (!s->meta || strlen(keystring) > 2));
 
