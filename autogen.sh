@@ -2,7 +2,7 @@
 # Generate configure & friends for GIT users.
 
 gnulib_url="git://git.sv.gnu.org/gnulib.git"
-gnulib_hash="14df8ea0658c8902d1ea60bf57ce696cb51814f5"
+gnulib_hash="6ccfbb4ce5d4fa79f7afb48f3648f2e0401523c3"
 
 modules="
 	futimens
