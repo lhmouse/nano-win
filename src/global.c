@@ -125,8 +125,7 @@ openfilestruct *firstfile = NULL;
 
 #ifndef NANO_TINY
 char *matchbrackets = NULL;
-		/* The opening and closing brackets that can be found by bracket
-		 * searches. */
+		/* The opening and closing brackets that bracket searches can find. */
 char *whitespace = NULL;
 		/* The characters used when visibly showing tabs and spaces. */
 int whitespace_len[2];
@@ -463,8 +462,6 @@ void assign_keyinfo(sc *s, const char *keystring, const int keycode)
 {
 	s->keystr = keystring;
 	s->meta = (keystring[0] == 'M' && keycode == 0);
-
-	assert(strlen(keystring) > 1 && (!s->meta || strlen(keystring) > 2));
 
 	if (keycode)
 		s->keycode = keycode;

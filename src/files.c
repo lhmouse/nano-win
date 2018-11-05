@@ -1900,13 +1900,12 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	while (fileptr != NULL) {
 		size_t data_len = strlen(fileptr->data), size;
 
-		/* Convert newlines to nulls, just before we write to disk. */
+		/* Decode LFs as the NULs that they are, before writing to disk. */
 		sunder(fileptr->data);
 
 		size = fwrite(fileptr->data, sizeof(char), data_len, f);
 
-		/* Convert nulls to newlines.  data_len is the string's real
-		 * length. */
+		/* Re-encode any embedded NULs as LFs. */
 		unsunder(fileptr->data, data_len);
 
 		if (size < data_len) {

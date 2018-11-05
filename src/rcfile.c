@@ -926,8 +926,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 		while (isblank((unsigned char)*ptr))
 			ptr++;
 
-		/* If we have a blank line or a comment, skip to the next
-		 * line. */
+		/* If the line is empty or a comment, skip to next line. */
 		if (*ptr == '\0' || *ptr == '#')
 			continue;
 
