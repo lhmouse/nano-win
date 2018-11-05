@@ -2058,6 +2058,7 @@ void titlebar(const char *path)
 	/* Figure out the path, prefix and state strings. */
 #ifdef ENABLE_COLOR
 	if (currmenu == MLINTER) {
+		/* TRANSLATORS: The next four are "labels" in the title bar. */
 		prefix = _("Linting --");
 		path = openfile->filename;
 	} else

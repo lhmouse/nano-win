@@ -851,6 +851,7 @@ void shortcut_init(void)
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
 	add_to_funcs(do_findprevious, MMAIN|MHELP|MBROWSER,
+		/* TRANSLATORS: This refers to searching the preceding occurrence. */
 		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
 	add_to_funcs(do_findnext, MMAIN|MHELP|MBROWSER,
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
