@@ -160,10 +160,9 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 }
 
 /* Reduce the memory allocation of a string to what is needed. */
-void snuggly_fit(char **str)
+void snuggly_fit(char **string)
 {
-	if (*str != NULL)
-		*str = charealloc(*str, strlen(*str) + 1);
+	*string = charealloc(*string, strlen(*string) + 1);
 }
 
 /* Null a string at a certain index and align it. */
