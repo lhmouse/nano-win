@@ -602,6 +602,9 @@ int parse_kbinput(WINDOW *win)
 				return SHIFT_TAB;
 			shift_held = TRUE;
 		}
+		/* Is Shift being held while Delete is pressed? */
+		if (modifiers == 0x01 && retval == KEY_DC)
+			return SHIFT_DELETE;
 		/* Are Ctrl and Shift being held while Delete is pressed? */
 		if (modifiers == 0x05 && retval == KEY_DC)
 			return CONTROL_SHIFT_DELETE;
@@ -722,8 +725,8 @@ int parse_kbinput(WINDOW *win)
 		case KEY_C3:    /* PageDown (3) on keypad with NumLock off. */
 			return KEY_NPAGE;
 #ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
-		case KEY_SDC:  /* Make a shifted <Del> key do a backspace. */
-			return KEY_BACKSPACE;
+		case KEY_SDC:
+			return SHIFT_DELETE;
 #endif
 #ifdef KEY_SIC  /* Slang doesn't support KEY_SIC. */
 		case KEY_SIC:
@@ -1109,6 +1112,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 						if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
+							if (seq[3] == '2')
+								/* Esc [ 3 ; 2 ~ == Shift-Delete on xterm/Terminal. */
+								return SHIFT_DELETE;
 							if (seq[3] == '3')
 								/* Esc [ 3 ; 3 ~ == Alt-Delete on xterm/rxvt/Eterm/Terminal. */
 								return ALT_DELETE;
@@ -1119,6 +1125,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 								/* Esc [ 3 ; 6 ~ == Ctrl-Shift-Delete on xterm. */
 								return controlshiftdelete;
 						}
+						if (length > 2 && seq[2] == '$')
+							/* Esc [ 3 $ == Shift-Delete on urxvt. */
+							return SHIFT_DELETE;
 						if (length > 2 && seq[2] == '^')
 							/* Esc [ 3 ^ == Ctrl-Delete on urxvt. */
 							return CONTROL_DELETE;

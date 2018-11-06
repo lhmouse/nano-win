@@ -1093,6 +1093,7 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "Enter", KEY_ENTER, do_enter, 0);
 	add_to_sclist(MMOST, "^H", 0, do_backspace, 0);
 	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
+	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "^D", 0, do_delete, 0);
 	add_to_sclist(MMOST, "Del", 0, do_delete, 0);
 	/* Make ASCII DEL do a delete when requested, otherwise a backspace. */
@@ -1128,6 +1129,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^Y", 0, do_page_up, 0);
 	add_to_sclist(MHELP|MBROWSER, "Bsp", KEY_BACKSPACE, do_page_up, 0);
+	add_to_sclist(MHELP|MBROWSER, "Sh-Del", SHIFT_DELETE, do_page_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "PgUp", KEY_PPAGE, do_page_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "^V", 0, do_page_down, 0);
 	add_to_sclist(MHELP|MBROWSER, "Space", 0x20, do_page_down, 0);
