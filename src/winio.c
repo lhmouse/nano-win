@@ -609,6 +609,13 @@ int parse_kbinput(WINDOW *win)
 			if (modifiers == 0x08)
 				return ALT_DELETE;
 		}
+		/* Is Alt being held? */
+		if (modifiers == 0x08) {
+			if (retval == KEY_UP)
+				return ALT_UP;
+			if (retval == KEY_DOWN)
+				return ALT_DOWN;
+		}
 #endif
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {
