@@ -2579,8 +2579,6 @@ int main(int argc, char **argv)
 	controldelete = get_keycode("kDC5", CONTROL_DELETE);
 	controlshiftdelete = get_keycode("kDC6", CONTROL_SHIFT_DELETE);
 
-	shiftleft = get_keycode("kLFT", SHIFT_LEFT);
-	shiftright = get_keycode("kRIT", SHIFT_RIGHT);
 	shiftup = get_keycode("kUP", SHIFT_UP);
 	shiftdown = get_keycode("kDN", SHIFT_DOWN);
 
