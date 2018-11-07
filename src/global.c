@@ -928,10 +928,10 @@ void shortcut_init(void)
 	add_to_funcs(do_enter, MMAIN,
 		N_("Enter"), WITHORSANS(enter_gist), BLANKAFTER, NOVIEW);
 
-	add_to_funcs(do_delete, MMAIN,
-		N_("Delete"), WITHORSANS(delete_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_backspace, MMAIN,
-		N_("Backspace"), WITHORSANS(backspace_gist),
+		N_("Backspace"), WITHORSANS(backspace_gist), TOGETHER, NOVIEW);
+	add_to_funcs(do_delete, MMAIN,
+		N_("Delete"), WITHORSANS(delete_gist),
 #ifndef NANO_TINY
 		TOGETHER,
 #else
