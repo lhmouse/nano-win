@@ -465,6 +465,7 @@ functionptrtype parse_browser_input(int *kbinput)
 			case ' ':
 				return do_page_down;
 			case '-':
+			case DEL_CODE:
 				return do_page_up;
 			case '?':
 				return do_help_void;

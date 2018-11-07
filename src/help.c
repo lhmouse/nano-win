@@ -570,6 +570,7 @@ functionptrtype parse_help_input(int *kbinput)
 			case ' ':
 				return do_page_down;
 			case '-':
+			case DEL_CODE:
 				return do_page_up;
 			case 'W':
 			case 'w':
