@@ -1091,16 +1091,16 @@ void shortcut_init(void)
 	/* Link key combos to functions in certain menus. */
 	add_to_sclist(MMOST, "^M", 0, do_enter, 0);
 	add_to_sclist(MMOST, "Enter", KEY_ENTER, do_enter, 0);
-	add_to_sclist(MMOST, "^H", 0, do_backspace, 0);
-	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
-	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
+	add_to_sclist(MMOST & ~MBROWSER, "^H", 0, do_backspace, 0);
+	add_to_sclist(MMOST & ~MBROWSER, "Bsp", KEY_BACKSPACE, do_backspace, 0);
+	add_to_sclist(MMOST & ~MBROWSER, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "^D", 0, do_delete, 0);
 	add_to_sclist(MMOST, "Del", 0, do_delete, 0);
 	/* Make ASCII DEL do a delete when requested, otherwise a backspace. */
 	if (ISSET(REBIND_DELETE))
 		add_to_sclist(MMOST, "Del", DEL_CODE, do_delete, 0);
 	else
-		add_to_sclist(MMOST, "Bsp", DEL_CODE, do_backspace, 0);
+		add_to_sclist(MMOST & ~MBROWSER, "Bsp", DEL_CODE, do_backspace, 0);
 	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
 	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
 	add_to_sclist(MMOST & ~MFINDINHELP, "^G", 0, do_help_void, 0);
