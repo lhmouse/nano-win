@@ -595,19 +595,19 @@ int parse_kbinput(WINDOW *win)
 	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
 	if (on_a_vt && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
 #ifndef NANO_TINY
+		/* Is Delete pressed together with Shift or Shift+Ctrl? */
+		if (retval == KEY_DC) {
+			if (modifiers == 0x01)
+				return SHIFT_DELETE;
+			if (modifiers == 0x05)
+				return CONTROL_SHIFT_DELETE;
+		}
 		/* Is Shift being held? */
 		if (modifiers & 0x01) {
-			/* A shifted <Tab> is a back tab. */
 			if (retval == TAB_CODE)
 				return SHIFT_TAB;
 			shift_held = TRUE;
 		}
-		/* Is Shift being held while Delete is pressed? */
-		if (modifiers == 0x01 && retval == KEY_DC)
-			return SHIFT_DELETE;
-		/* Are Ctrl and Shift being held while Delete is pressed? */
-		if (modifiers == 0x05 && retval == KEY_DC)
-			return CONTROL_SHIFT_DELETE;
 		/* Is Alt being held? */
 		if (modifiers == 0x08) {
 			if (retval == KEY_DC)
