@@ -1109,9 +1109,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							   * Linux console/xterm/Terminal. */
 						if (length > 2 && seq[2] == '~')
 							return KEY_DC;
-#ifndef NANO_TINY
 						if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
+#ifndef NANO_TINY
 							if (seq[3] == '2')
 								/* Esc [ 3 ; 2 ~ == Shift-Delete on xterm/Terminal. */
 								return SHIFT_DELETE;
@@ -1124,7 +1124,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							if (seq[3] == '6')
 								/* Esc [ 3 ; 6 ~ == Ctrl-Shift-Delete on xterm. */
 								return controlshiftdelete;
+#endif
 						}
+#ifndef NANO_TINY
 						if (length > 2 && seq[2] == '$')
 							/* Esc [ 3 $ == Shift-Delete on urxvt. */
 							return SHIFT_DELETE;
