@@ -1089,11 +1089,11 @@ void shortcut_init(void)
 #endif
 
 	/* Link key combos to functions in certain menus. */
-	add_to_sclist(MMOST, "^M", 0, do_enter, 0);
-	add_to_sclist(MMOST, "Enter", KEY_ENTER, do_enter, 0);
-	add_to_sclist(MMOST & ~MBROWSER, "^H", 0, do_backspace, 0);
-	add_to_sclist(MMOST & ~MBROWSER, "Bsp", KEY_BACKSPACE, do_backspace, 0);
-	add_to_sclist(MMOST & ~MBROWSER, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
+	add_to_sclist(MMOST|MBROWSER, "^M", 0, do_enter, 0);
+	add_to_sclist(MMOST|MBROWSER, "Enter", KEY_ENTER, do_enter, 0);
+	add_to_sclist(MMOST, "^H", 0, do_backspace, 0);
+	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
+	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "^D", 0, do_delete, 0);
 	add_to_sclist(MMOST, "Del", 0, do_delete, 0);
 	/* Make ASCII DEL do a delete when requested, otherwise a backspace. */
@@ -1103,7 +1103,7 @@ void shortcut_init(void)
 		add_to_sclist(MMOST & ~MBROWSER, "Bsp", DEL_CODE, do_backspace, 0);
 	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
 	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
-	add_to_sclist(MMOST & ~MFINDINHELP, "^G", 0, do_help_void, 0);
+	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
 	add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
 	add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
@@ -1165,12 +1165,12 @@ void shortcut_init(void)
 #ifdef ENABLE_COMMENT
 	add_to_sclist(MMAIN, "M-3", 0, do_comment, 0);
 #endif
-	add_to_sclist(MMOST, "^B", 0, do_left, 0);
-	add_to_sclist(MMOST, "^F", 0, do_right, 0);
+	add_to_sclist(MMOST|MBROWSER, "^B", 0, do_left, 0);
+	add_to_sclist(MMOST|MBROWSER, "^F", 0, do_right, 0);
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
-		add_to_sclist(MMOST|MHELP, "\xE2\x97\x80", KEY_LEFT, do_left, 0);
-		add_to_sclist(MMOST|MHELP, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
+		add_to_sclist(MMOST|MHELP|MBROWSER, "\xE2\x97\x80", KEY_LEFT, do_left, 0);
+		add_to_sclist(MMOST|MHELP|MBROWSER, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, do_next_word_void, 0);
 #ifndef NANO_TINY
@@ -1184,17 +1184,17 @@ void shortcut_init(void)
 	} else
 #endif
 	{
-		add_to_sclist(MMOST|MHELP, "Left", KEY_LEFT, do_left, 0);
-		add_to_sclist(MMOST|MHELP, "Right", KEY_RIGHT, do_right, 0);
+		add_to_sclist(MMOST|MHELP|MBROWSER, "Left", KEY_LEFT, do_left, 0);
+		add_to_sclist(MMOST|MHELP|MBROWSER, "Right", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
 	}
-	add_to_sclist(MMOST, "M-Space", 0, do_prev_word_void, 0);
-	add_to_sclist(MMOST, "^Space", 0, do_next_word_void, 0);
-	add_to_sclist((MMOST & ~MBROWSER), "^A", 0, do_home, 0);
-	add_to_sclist((MMOST & ~MBROWSER), "Home", KEY_HOME, do_home, 0);
-	add_to_sclist((MMOST & ~MBROWSER), "^E", 0, do_end, 0);
-	add_to_sclist((MMOST & ~MBROWSER), "End", KEY_END, do_end, 0);
+	add_to_sclist(MMOST|MBROWSER, "M-Space", 0, do_prev_word_void, 0);
+	add_to_sclist(MMOST|MBROWSER, "^Space", 0, do_next_word_void, 0);
+	add_to_sclist(MMOST, "^A", 0, do_home, 0);
+	add_to_sclist(MMOST, "Home", KEY_HOME, do_home, 0);
+	add_to_sclist(MMOST, "^E", 0, do_end, 0);
+	add_to_sclist(MMOST, "End", KEY_END, do_end, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^P", 0, do_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^N", 0, do_down, 0);
 #ifdef ENABLE_UTF8
@@ -1272,7 +1272,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-Z", 0, do_toggle_void, SUSPEND);
 #endif /* !NANO_TINY */
 
-	add_to_sclist(((MMOST & ~MMAIN & ~MBROWSER) | MYESNO), "^C", 0, do_cancel, 0);
+	add_to_sclist(((MMOST & ~MMAIN) | MYESNO), "^C", 0, do_cancel, 0);
 
 	add_to_sclist(MWHEREIS|MREPLACE, "M-C", 0, case_sens_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE, "M-R", 0, regexp_void, 0);

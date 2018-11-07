@@ -561,11 +561,11 @@ enum
 #define MYESNO          (1<<13)
 #define MLINTER         (1<<14)
 #define MFINDINHELP     (1<<15)
-/* This is an abbreviation for all menus except Help and YesNo. */
+/* This is an abbreviation for all menus except Help and Browser and YesNo. */
 #define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
-                MEXTCMD|MBROWSER|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
+                MEXTCMD|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
 #ifndef NANO_TINY
-#define MSOME  MMOST
+#define MSOME  MMOST|MBROWSER
 #else
 #define MSOME  MMAIN|MBROWSER
 #endif
