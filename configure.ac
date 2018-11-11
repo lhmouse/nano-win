@@ -14,7 +14,7 @@
 # See the GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see http://www.gnu.org/licenses/.
+# along with this program.  If not, see https://www.gnu.org/licenses/.
 
 AC_INIT([GNU nano], [3.1], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])

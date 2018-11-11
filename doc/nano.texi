@@ -43,14 +43,14 @@ under the terms of either of the following licenses:
 * The GNU General Public License, as published by the Free Software
   Foundation, version 3 or (at your option) any later version.  You
   should have received a copy of the GNU General Public License along
-  with this program.  If not, see @url{http://www.gnu.org/licenses/}.
+  with this program.  If not, see @url{https://www.gnu.org/licenses/}.
 
 @sp 1
 * The GNU Free Documentation License, as published by the Free Software
   Foundation, version 1.2 or (at your option) any later version, with no
   Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
   You should have received a copy of the GNU Free Documentation License
-  along with this program.  If not, see @url{http://www.gnu.org/licenses/}.
+  along with this program.  If not, see @url{https://www.gnu.org/licenses/}.
 
 @sp 1
 You may contact the author by
