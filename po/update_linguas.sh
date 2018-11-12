@@ -1,10 +1,13 @@
 #!/bin/sh
 
 # Let this be executed in the po/ subdir.
-cd "$(dirname "$0")" || exit
+cd "$(dirname "$0")"  ||  exit 1
 
 echo "Updating translations via TP"
-rsync -Lrtvz  translationproject.org::tp/latest/nano/ .
+# First remove existing PO files, as wget will not overwrite them.
+rm *.po
+wget --recursive --level=1 --accept=po --no-directories --no-verbose \
+       https://translationproject.org/latest/nano/  ||  exit 2
 
 # Are there now PO files that are not in git yet?
 NEWSTUFF=$(git status --porcelain *.po | grep "^??")
