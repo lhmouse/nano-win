@@ -977,4 +977,51 @@ void do_find_bracket(void)
 	openfile->current = was_current;
 	openfile->current_x = was_current_x;
 }
+
+/* Set a bookmark on the current line, or remove an existing one. */
+void bookmark(void)
+{
+	openfile->current->bookmarked = !openfile->current->bookmarked;
+
+	statusbar(openfile->current->bookmarked ?
+				_("Bookmarked this line") : _("Removed bookmark"));
+}
+
+/* Jump to the next or previous bookmark, if any. */
+static void go_to_bookmark(bool forward)
+{
+	linestruct *was_current = openfile->current;
+	linestruct *line = was_current;
+
+	do {
+		line = (forward ? line->next : line->prev);
+
+		if (line == NULL)
+			line = (forward ? openfile->filetop : openfile->filebot);
+
+		if (line == openfile->current) {
+			statusbar(line->bookmarked ?
+					_("This is the only bookmark") : _("No bookmark found"));
+			return;
+		}
+	} while (!line->bookmarked);
+
+	openfile->current = line;
+	openfile->current_x = 0;
+
+	edit_redraw(was_current, CENTERING);
+	statusbar(_("Jumped to bookmark"));
+}
+
+/* Jump to the first bookmark before the current line. */
+void to_prev_bookmark(void)
+{
+	go_to_bookmark(BACKWARD);
+}
+
+/* Jump to the first bookmark after the current line. */
+void to_next_bookmark(void)
+{
+	go_to_bookmark(FORWARD);
+}
 #endif /* !NANO_TINY */

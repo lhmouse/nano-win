@@ -670,6 +670,9 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *recordmacro_gist = N_("Start/stop recording a macro");
 	const char *runmacro_gist = N_("Run the last recorded macro");
+	const char *bookmark_gist = N_("Set or remove a bookmark on the current line");
+	const char *prevbookmark_gist = N_("Go to previous bookmark");
+	const char *nextbookmark_gist = N_("Go to next bookmark");
 #endif
 	const char *case_gist = N_("Toggle the case sensitivity of the search");
 	const char *reverse_gist = N_("Reverse the direction of the search");
@@ -1022,6 +1025,13 @@ void shortcut_init(void)
 		N_("Record"), WITHORSANS(recordmacro_gist), TOGETHER, VIEW);
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
+
+	add_to_funcs(bookmark, MMAIN,
+		N_("Bookmark"), WITHORSANS(bookmark_gist), TOGETHER, NOVIEW);
+	add_to_funcs(to_prev_bookmark, MMAIN,
+		N_("Previous mark"), WITHORSANS(prevbookmark_gist), TOGETHER, NOVIEW);
+	add_to_funcs(to_next_bookmark, MMAIN,
+		N_("Next mark"), WITHORSANS(nextbookmark_gist), BLANKAFTER, NOVIEW);
 
 	add_to_funcs(zap_text, MMAIN,
 		N_("Zap Text"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);

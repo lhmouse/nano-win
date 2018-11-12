@@ -292,6 +292,10 @@ typedef struct linestruct {
 	short *multidata;
 		/* Array of which multi-line regexes apply to this line. */
 #endif
+#ifndef NANO_TINY
+	bool bookmarked;
+		/* Whether the user bookmarked this line. */
+#endif
 } linestruct;
 
 #ifndef NANO_TINY
