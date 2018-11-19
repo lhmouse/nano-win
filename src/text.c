@@ -2018,13 +2018,14 @@ bool begpar(const filestruct *const line, int depth)
 	return !begpar(line->prev, depth + 1);
 }
 
-/* Return TRUE when the given line is part of a paragraph. */
+/* Return TRUE when the given line is part of a paragraph: when it
+ * contains something more than quoting and leading whitespace. */
 bool inpar(const filestruct *const line)
 {
 	size_t quote_len = quote_length(line->data);
+	size_t indent_len = indent_length(line->data + quote_len);
 
-	return (line->data[quote_len +
-					indent_length(line->data + quote_len)] != '\0');
+	return (line->data[quote_len + indent_len] != '\0');
 }
 
 /* Find the beginning of the current paragraph if we're in one, or the
