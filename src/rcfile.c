@@ -542,19 +542,23 @@ void parse_includes(char *ptr)
 	char *was_nanorc = nanorc;
 	size_t was_lineno = lineno;
 	glob_t files;
+	int result;
 
 	pattern = ptr;
 	if (*pattern == '"')
 		pattern++;
 	ptr = parse_argument(ptr);
 
-	/* Expand tildes first, then the globs. */
+	/* Expand a tilde first, then try to match the globbing pattern. */
 	expanded = real_dir_from_tilde(pattern);
+	result = glob(expanded, GLOB_ERR|GLOB_NOSORT, NULL, &files);
 
-	if (glob(expanded, GLOB_ERR|GLOB_NOSORT, NULL, &files) == 0) {
+	/* If there are matches, process each of them.  Otherwise, only
+	 * report an error if it's something other than zero matches. */
+	if (result == 0) {
 		for (size_t i = 0; i < files.gl_pathc; ++i)
 			parse_one_include(files.gl_pathv[i]);
-	} else
+	} else if (result != GLOB_NOMATCH)
 		rcfile_error(_("Error expanding %s: %s"), pattern, strerror(errno));
 
 	globfree(&files);
