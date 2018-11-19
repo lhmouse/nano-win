@@ -2417,18 +2417,16 @@ int diralphasort(const void *va, const void *vb)
 #endif
 
 #ifdef ENABLE_TABCOMP
-/* Is the given path a directory? */
-bool is_dir(const char *buf)
+/* Return TRUE when the given path is a directory. */
+bool is_dir(const char *path)
 {
-	char *dirptr;
+	char *realpath = real_dir_from_tilde(path);
 	struct stat fileinfo;
 	bool retval;
 
-	dirptr = real_dir_from_tilde(buf);
+	retval = (stat(realpath, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
-	retval = (stat(dirptr, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
-
-	free(dirptr);
+	free(realpath);
 
 	return retval;
 }
