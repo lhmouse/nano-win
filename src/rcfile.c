@@ -538,31 +538,32 @@ static void parse_one_include(char *file)
 /* Expand globs in the passed name, and parse the resultant files. */
 void parse_includes(char *ptr)
 {
-	char *option, *nanorc_save = nanorc, *expanded;
-	size_t lineno_save = lineno, i;
+	char *pattern, *expanded;
+	char *was_nanorc = nanorc;
+	size_t was_lineno = lineno;
 	glob_t files;
 
-	option = ptr;
-	if (*option == '"')
-		option++;
+	pattern = ptr;
+	if (*pattern == '"')
+		pattern++;
 	ptr = parse_argument(ptr);
 
 	/* Expand tildes first, then the globs. */
-	expanded = real_dir_from_tilde(option);
+	expanded = real_dir_from_tilde(pattern);
 
 	if (glob(expanded, GLOB_ERR|GLOB_NOSORT, NULL, &files) == 0) {
-		for (i = 0; i < files.gl_pathc; ++i)
+		for (size_t i = 0; i < files.gl_pathc; ++i)
 			parse_one_include(files.gl_pathv[i]);
 	} else
-		rcfile_error(_("Error expanding %s: %s"), option, strerror(errno));
+		rcfile_error(_("Error expanding %s: %s"), pattern, strerror(errno));
 
 	globfree(&files);
 	free(expanded);
 
 	/* We're done with the included file(s).  Restore the original
 	 * filename and line number position. */
-	nanorc = nanorc_save;
-	lineno = lineno_save;
+	nanorc = was_nanorc;
+	lineno = was_lineno;
 }
 
 /* Return the short value corresponding to the color named in colorname,
