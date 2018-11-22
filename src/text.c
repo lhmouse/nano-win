@@ -2039,10 +2039,6 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 {
 	filestruct *parline = *firstline;
 		/* The line of the current paragraph we're searching in. */
-	size_t quote_len;
-		/* Length of the initial quotation of the paragraph we search for. */
-	size_t par_len;
-		/* Number of lines in the paragraph we search for. */
 
 	if (quoterc != 0) {
 		statusline(ALERT, _("Bad quote string %s: %s"), quotestr, quoteerr);
@@ -2088,20 +2084,15 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 	if (*bot_inpar == TRUE && !inpar(parline))
 		return FALSE;
 
-	/* Now parline is the last line of the paragraph.  Set quote_len to
-	 * the quotation length of that line, and set par_len to the number
-	 * of lines in this paragraph. */
-	quote_len = quote_length((*firstline)->data);
-	par_len = parline->lineno - (*firstline)->lineno;
+	/* Now parline is the last line of the paragraph.  Determine the length
+	 * of the quoting part, and the number of lines in this paragraph. */
+	*quote = quote_length((*firstline)->data);
+	*par = parline->lineno - (*firstline)->lineno;
 
 	/* When the last line of the buffer is part of the current paragraph,
 	 * it means the paragraph is one line longer than computed. */
 	if (*bot_inpar == TRUE)
-		par_len++;
-
-	/* Save the values of quote_len and par_len. */
-	*quote = quote_len;
-	*par = par_len;
+		(*par)++;
 
 	return TRUE;
 }
