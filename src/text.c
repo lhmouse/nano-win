@@ -2028,14 +2028,12 @@ bool inpar(const filestruct *const line)
 	return (line->data[quote_len + indent_len] != '\0');
 }
 
-/* Find the beginning of the current paragraph if we're in one, or the
- * beginning of the next paragraph if we're not.  Afterwards, save the
- * first line of the paragraph in firstline, whether the last line of
- * the paragraph is part of the paragraph (instead of the line following
- * the paragraph) in bot_inpar, and
- * quote length and paragraph length in *quote and *par.  Return TRUE if
- * we found a paragraph, and FALSE if there was an error or we didn't
- * find a paragraph. */
+/* Determine the beginning, length, and quoting of either the current
+ * paragraph (when we're in one) or the next paragraph (when we're not).
+ * Return TRUE if we found a paragraph, and FALSE otherwise.  Furthermore,
+ * return in firstline the first line of the paragraph, in bot_inpar whether
+ * the last line of the buffer is part of the paragraph, and in *quote the
+ * length of the quoting and in *par the length of the paragraph. */
 bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 					size_t *const quote, size_t *const par)
 {
@@ -2051,9 +2049,8 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 		return FALSE;
 	}
 
-	/* If we're at the end of the last line of the file, and we're not in a
-	 * paragraph, it means that there aren't any paragraphs left, so get
-	 * out. */
+	/* When at the end of the buffer and not in a paragraph, there aren't
+	 * any paragraphs left, so get out. */
 	if (parline->next == NULL && !inpar(parline))
 		return FALSE;
 
@@ -2097,9 +2094,8 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 	quote_len = quote_length((*firstline)->data);
 	par_len = parline->lineno - (*firstline)->lineno;
 
-	/* If bot_inpar is TRUE, it means that we're at
-	 * the end of the last line of the file, and the line isn't blank, in
-	 * which case the last line of the file is part of the paragraph. */
+	/* When the last line of the buffer is part of the current paragraph,
+	 * it means the paragraph is one line longer than computed. */
 	if (*bot_inpar == TRUE)
 		par_len++;
 

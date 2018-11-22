@@ -170,8 +170,7 @@ void do_page_down(void)
 }
 
 #ifdef ENABLE_JUSTIFY
-/* Move to the beginning of the first-found beginning-of-paragraph line
- * before the current line. */
+/* Move to the first beginning of a paragraph before the current line. */
 void do_para_begin(filestruct **line)
 {
 	if ((*line)->prev != NULL)
@@ -181,25 +180,18 @@ void do_para_begin(filestruct **line)
 		*line = (*line)->prev;
 }
 
-/* Move down to the beginning of the last line of the current paragraph.
- * Then move down one line farther if there is such a line, or to the
- * end of the current line if not.
- * A line is the last line of a paragraph if it is
- * in a paragraph, and the next line either is the beginning line of a
- * paragraph or isn't in a paragraph.  Return whether the last line of
- * the paragraph is part of the paragraph (instead of the line following
- * the paragraph). */
+/* Move down to the beginning of the last line of the current paragraph;
+ * then move down one line farther if there is such a line, or to the
+ * end of the last line if not.  Return FALSE when we stepped to the
+ * line beyond the last line of the paragraph, and TRUE otherwise. */
 bool do_para_end(filestruct **line)
 {
-	while ((*line)->next != NULL &&
-				!inpar(*line))
+	while ((*line)->next != NULL && !inpar(*line))
 		*line = (*line)->next;
 
-	while ((*line)->next != NULL &&
-				inpar((*line)->next) &&
-				!begpar((*line)->next, 0)) {
+	while ((*line)->next != NULL && inpar((*line)->next) &&
+									!begpar((*line)->next, 0))
 		*line = (*line)->next;
-	}
 
 	if ((*line)->next != NULL) {
 		*line = (*line)->next;
