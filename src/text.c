@@ -2031,10 +2031,10 @@ bool inpar(const filestruct *const line)
 /* Determine the beginning, length, and quoting of either the current
  * paragraph (when we're in one) or the next paragraph (when we're not).
  * Return TRUE if we found a paragraph, and FALSE otherwise.  Furthermore,
- * return in firstline the first line of the paragraph, in bot_inpar whether
+ * return in firstline the first line of the paragraph, in touched_eof whether
  * the last line of the buffer is part of the paragraph, and in *quotelen
  * the length of the quoting and in *parlen the length of the paragraph. */
-bool find_paragraph(filestruct **firstline, bool *bot_inpar,
+bool find_paragraph(filestruct **firstline, bool *touched_eof,
 					size_t *const quotelen, size_t *const parlen)
 {
 	filestruct *line = *firstline;
@@ -2045,48 +2045,32 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 		return FALSE;
 	}
 
-	/* If the current line isn't in a paragraph, move forward to the
-	 * last line of the next paragraph, if any. */
-	if (!inpar(line)) {
-		*bot_inpar = do_para_end(&line);
+	/* When not currently in a paragraph, move forward to a line that is. */
+	while (!inpar(line) && line->next != NULL)
+		line = line->next;
 
-		/* If we end up on a line that's in a paragraph, it
-		 * means that we're on the line after the last line of the next
-		 * paragraph, in which case we should move back to the last line
-		 * of the next paragraph.  If that line doesn't exist or isn't
-		 * in a paragraph, we should get out. */
-		if (*bot_inpar == FALSE) {
-			if (!line->prev || !inpar(line->prev))
-				return FALSE;
-			if (line->prev != NULL)
-				line = line->prev;
-		}
-	}
-
-	/* If the current line is in a paragraph and isn't its first line, move
-	 * back to the first line of the paragraph. */
+	/* When in a paragraph but not at its beginning, move back to its first line. */
 	if (inpar(line) && !begpar(line, 0))
 		do_para_begin(&line);
 
-	/* Now line is the first line of the paragraph.  Save it in firstline,
-	 * and then move it to the last line of the paragraph. */
 	*firstline = line;
-	*bot_inpar = do_para_end(&line);
 
-	/* If the last line of the file is part of the paragraph, and
-	 * we're not in a paragraph, it means that there aren't any paragraphs
-	 * left, so get out. */
-	if (*bot_inpar == TRUE && !inpar(line))
+	/* Now move down to just beyond the end of the paragraph, if possible. */
+	*touched_eof = do_para_end(&line);
+
+	/* If the search for end-of-paragraph stopped at end-of-file, and we're
+	 * not in a paragraph, it means that there aren't any paragraphs left. */
+	if (*touched_eof && !inpar(line))
 		return FALSE;
 
-	/* Now line is the last line of the paragraph.  Determine the length
-	 * of the quoting part, and the number of lines in this paragraph. */
+	/* Determine the length of the quoting part, and the number of lines
+	 * in the found paragraph. */
 	*quotelen = quote_length((*firstline)->data);
 	*parlen = line->lineno - (*firstline)->lineno;
 
-	/* When the last line of the buffer is part of the current paragraph,
+	/* When the last line of the buffer is part of the found paragraph,
 	 * it means the paragraph is one line longer than computed. */
-	if (*bot_inpar == TRUE)
+	if (*touched_eof)
 		(*parlen)++;
 
 	return TRUE;
