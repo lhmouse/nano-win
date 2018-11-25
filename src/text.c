@@ -2226,10 +2226,9 @@ void do_justify(bool full_justify)
 
 	/* When justifying the entire buffer, start at the top.  Otherwise, when
 	 * in a paragraph but not at its beginning, move back to its first line. */
-	if (full_justify) {
+	if (full_justify)
 		openfile->current = openfile->fileage;
-		openfile->current_x = 0;
-	} else if (inpar(openfile->current) && !begpar(openfile->current, 0))
+	else if (inpar(openfile->current) && !begpar(openfile->current, 0))
 		do_para_begin(&openfile->current);
 
 	/* Find the first line of the paragraph(s) to be justified.
