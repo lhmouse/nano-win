@@ -2049,10 +2049,6 @@ bool find_paragraph(filestruct **firstline, bool *touched_eof,
 	while (!inpar(line) && line->next != NULL)
 		line = line->next;
 
-	/* When in a paragraph but not at its beginning, move back to its first line. */
-	if (inpar(line) && !begpar(line, 0))
-		do_para_begin(&line);
-
 	*firstline = line;
 
 	/* Now move down to just beyond the end of the paragraph, if possible. */
@@ -2228,11 +2224,13 @@ void do_justify(bool full_justify)
 	size_t was_current_x = openfile->current_x;
 #endif
 
-	/* If we're justifying the entire file, start at the beginning. */
+	/* When justifying the entire buffer, start at the top.  Otherwise, when
+	 * in a paragraph but not at its beginning, move back to its first line. */
 	if (full_justify) {
 		openfile->current = openfile->fileage;
 		openfile->current_x = 0;
-	}
+	} else if (inpar(openfile->current) && !begpar(openfile->current, 0))
+		do_para_begin(&openfile->current);
 
 	/* Find the first line of the paragraph(s) to be justified.
 	 * If the search failed, it means that there are no paragraph(s) to
