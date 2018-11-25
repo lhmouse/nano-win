@@ -180,10 +180,9 @@ void do_para_begin(filestruct **line)
 		*line = (*line)->prev;
 }
 
-/* Move down to the beginning of the last line of the current paragraph;
- * then move down one line farther if there is such a line, or to the
- * end of the last line if not.  Return FALSE when we stepped to the
- * line beyond the last line of the paragraph, and TRUE otherwise. */
+/* Move down to the last line of the current paragraph; then move down
+ * one line farther if there is such a line.  Return FALSE when we could
+ * step one line further, and TRUE otherwise. */
 bool do_para_end(filestruct **line)
 {
 	while ((*line)->next != NULL && !inpar(*line))
