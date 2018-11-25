@@ -180,10 +180,8 @@ void do_para_begin(filestruct **line)
 		*line = (*line)->prev;
 }
 
-/* Move down to the last line of the current paragraph; then move down
- * one line farther if there is such a line.  Return FALSE when we could
- * step one line further, and TRUE otherwise. */
-bool do_para_end(filestruct **line)
+/* Move down to the last line of the first found paragraph. */
+void do_para_end(filestruct **line)
 {
 	while ((*line)->next != NULL && !inpar(*line))
 		*line = (*line)->next;
@@ -191,13 +189,6 @@ bool do_para_end(filestruct **line)
 	while ((*line)->next != NULL && inpar((*line)->next) &&
 									!begpar((*line)->next, 0))
 		*line = (*line)->next;
-
-	if ((*line)->next != NULL) {
-		*line = (*line)->next;
-		return FALSE;
-	}
-
-	return TRUE;
 }
 
 /* Move up to first start of a paragraph before the current line. */
@@ -211,15 +202,20 @@ void do_para_begin_void(void)
 	edit_redraw(was_current, CENTERING);
 }
 
-/* Move down to just after the first end of a paragraph. */
+/* Move down to just after the first found end of a paragraph. */
 void do_para_end_void(void)
 {
 	filestruct *was_current = openfile->current;
 
-	if (do_para_end(&openfile->current))
-		openfile->current_x = strlen(openfile->current->data);
-	else
+	do_para_end(&openfile->current);
+
+	/* Step beyond the last line of the paragraph, if possible;
+	 * otherwise, move to the end of the line. */
+	if (openfile->current->next != NULL) {
+		openfile->current = openfile->current->next;
 		openfile->current_x = 0;
+	} else
+		openfile->current_x = strlen(openfile->current->data);
 
 	edit_redraw(was_current, CENTERING);
 }

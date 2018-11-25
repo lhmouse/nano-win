@@ -2051,23 +2051,17 @@ bool find_paragraph(filestruct **firstline, bool *touched_eof,
 
 	*firstline = line;
 
-	/* Now move down to just beyond the end of the paragraph, if possible. */
-	*touched_eof = do_para_end(&line);
+	/* Move down to the last line of the paragraph. */
+	do_para_end(&line);
 
-	/* If the search for end-of-paragraph stopped at end-of-file, and we're
-	 * not in a paragraph, it means that there aren't any paragraphs left. */
-	if (*touched_eof && !inpar(line))
+	/* When not in a paragraph now, there aren't any paragraphs left. */
+	if (!inpar(line))
 		return FALSE;
 
-	/* Determine the length of the quoting part, and the number of lines
-	 * in the found paragraph. */
+	/* We found a paragraph; determine length of quoting and number of lines. */
 	*quotelen = quote_length((*firstline)->data);
-	*parlen = line->lineno - (*firstline)->lineno;
-
-	/* When the last line of the buffer is part of the found paragraph,
-	 * it means the paragraph is one line longer than computed. */
-	if (*touched_eof)
-		(*parlen)++;
+	*parlen = line->lineno - (*firstline)->lineno + 1;
+	*touched_eof = (line->next == NULL);
 
 	return TRUE;
 }
