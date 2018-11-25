@@ -2045,11 +2045,6 @@ bool find_paragraph(filestruct **firstline, bool *bot_inpar,
 		return FALSE;
 	}
 
-	/* When at the end of the buffer and not in a paragraph, there aren't
-	 * any paragraphs left, so get out. */
-	if (line->next == NULL && !inpar(line))
-		return FALSE;
-
 	/* If the current line isn't in a paragraph, move forward to the
 	 * last line of the next paragraph, if any. */
 	if (!inpar(line)) {
