@@ -2243,6 +2243,9 @@ void do_justify(bool full_justify)
 		return;
 	}
 
+	/* We cannot (yet) justify a marked region, so turn the mark off. */
+	openfile->mark = NULL;
+
 	/* Prepare to put the text we want to justify in the cutbuffer. */
 	cutbuffer = NULL;
 	cutbottom = NULL;
