@@ -2231,6 +2231,8 @@ void do_justify(bool full_justify)
 		 * paragraph(s), if any. */
 	bool filebot_inpar;
 		/* Whether the text at filebot is part of the current paragraph. */
+	bool text_on_last_line = FALSE;
+		/* Whether the last line of the buffer contains text. */
 
 	filestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
@@ -2278,12 +2280,9 @@ void do_justify(bool full_justify)
 	 * last line of the file (counting the text at filebot).  Otherwise, move
 	 * last_par_line down to the last line of the paragraph. */
 	if (full_justify) {
-		jus_len = openfile->filebot->lineno - first_par_line->lineno;
-
-		if (openfile->filebot->data[0] != '\0') {
-			jus_len++;
-			filebot_inpar = TRUE;
-		}
+		text_on_last_line = (openfile->filebot->data[0] != '\0');
+		jus_len = openfile->filebot->lineno - first_par_line->lineno +
+											(text_on_last_line ? 1 : 0);
 	} else
 		jus_len = par_len;
 
@@ -2304,7 +2303,7 @@ void do_justify(bool full_justify)
 #endif
 	/* Do the equivalent of a marked cut. */
 	extract_buffer(&cutbuffer, &cutbottom, first_par_line, 0, last_par_line,
-					filebot_inpar ? strlen(last_par_line->data) : 0);
+				filebot_inpar || text_on_last_line ? strlen(last_par_line->data) : 0);
 #ifndef NANO_TINY
 	update_undo(CUT);
 #endif
@@ -2318,7 +2317,8 @@ void do_justify(bool full_justify)
 	/* If we're justifying the entire file, search for and justify paragraphs
 	 * until we can't anymore. */
 	if (full_justify) {
-		while (find_paragraph(&jusline, &filebot_inpar, &quote_len, &par_len))
+		while (!filebot_inpar &&
+				find_paragraph(&jusline, &filebot_inpar, &quote_len, &par_len))
 			justify_paragraph(&jusline, quote_len, par_len);
 	}
 
