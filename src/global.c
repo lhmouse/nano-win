@@ -199,8 +199,6 @@ subnfunc *tailfunc;
 		/* The last function in the list. */
 subnfunc *exitfunc;
 		/* A pointer to the special Exit/Close item. */
-subnfunc *uncutfunc;
-		/* A pointer to the special Uncut/Unjustify item. */
 
 filestruct *search_history = NULL;
 		/* The current item in the list of strings that were searched for. */
@@ -768,8 +766,6 @@ void shortcut_init(void)
 
 	add_to_funcs(do_uncut_text, MMAIN,
 		uncut_tag, WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
-	/* Remember the entry for Uncut, to be able to replace it with Unjustify. */
-	uncutfunc = tailfunc;
 
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_JUSTIFY

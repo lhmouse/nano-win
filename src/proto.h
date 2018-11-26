@@ -145,7 +145,6 @@ extern int currmenu;
 extern sc *sclist;
 extern subnfunc *allfuncs;
 extern subnfunc *exitfunc;
-extern subnfunc *uncutfunc;
 
 extern filestruct *search_history;
 extern filestruct *replace_history;
