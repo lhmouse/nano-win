@@ -2028,13 +2028,11 @@ bool inpar(const filestruct *const line)
 	return (line->data[quote_len + indent_len] != '\0');
 }
 
-/* Determine the beginning, length, and quoting of either the current
- * paragraph (when we're in one) or the next paragraph (when we're not).
+/* Determine the beginning, length, and quoting of the first found paragraph.
  * Return TRUE if we found a paragraph, and FALSE otherwise.  Furthermore,
- * return in firstline the first line of the paragraph, in touched_eof whether
- * the last line of the buffer is part of the paragraph, and in *quotelen
- * the length of the quoting and in *parlen the length of the paragraph. */
-bool find_paragraph(filestruct **firstline, bool *touched_eof,
+ * return in firstline the first line of the paragraph, in *quotelen the
+ * length of the quoting, and in *parlen the length of the paragraph. */
+bool find_paragraph(filestruct **firstline,
 					size_t *const quotelen, size_t *const parlen)
 {
 	filestruct *line = *firstline;
@@ -2061,7 +2059,6 @@ bool find_paragraph(filestruct **firstline, bool *touched_eof,
 	/* We found a paragraph; determine length of quoting and number of lines. */
 	*quotelen = quote_length((*firstline)->data);
 	*parlen = line->lineno - (*firstline)->lineno + 1;
-	*touched_eof = (line->next == NULL);
 
 	return TRUE;
 }
@@ -2198,10 +2195,8 @@ void do_justify(bool full_justify)
 	filestruct *last_par_line = NULL;
 		/* Will be the line after the last line of the justified
 		 * paragraph(s), if any. */
-	bool filebot_inpar;
-		/* Whether the text at filebot is part of the current paragraph. */
-	bool text_on_last_line = FALSE;
-		/* Whether the last line of the buffer contains text. */
+	size_t x_for_last;
+		/* The x position until where to extract the last paragraph line. */
 
 	filestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
@@ -2228,8 +2223,7 @@ void do_justify(bool full_justify)
 	/* Find the first line of the paragraph(s) to be justified.  If the
 	 * search fails, there is nothing to justify, and we will be on the
 	 * last line of the file, so put the cursor at the end of it. */
-	if (!find_paragraph(&openfile->current, &filebot_inpar, &quote_len,
-						&par_len)) {
+	if (!find_paragraph(&openfile->current, &quote_len, &par_len)) {
 		openfile->current_x = strlen(openfile->filebot->data);
 		refresh_needed = TRUE;
 		return;
@@ -2248,17 +2242,20 @@ void do_justify(bool full_justify)
 
 	/* Set the number of lines to be pulled into the cutbuffer. */
 	if (full_justify) {
-		text_on_last_line = (openfile->filebot->data[0] != '\0');
-		jus_len = openfile->filebot->lineno - first_par_line->lineno +
-											(text_on_last_line ? 1 : 0);
+		jus_len = openfile->filebot->lineno;
 	} else
 		jus_len = par_len;
 
-	/* Move down to just beyond the last line to be extracted. */
-	while (jus_len > 0 && last_par_line->next != NULL) {
+	/* Move down to the last line to be extracted. */
+	for (; jus_len > 1; jus_len--)
 		last_par_line = last_par_line->next;
-		jus_len--;
-	}
+
+	/* When possible, step one line further; otherwise, to line's end. */
+	if (last_par_line->next != NULL) {
+		last_par_line = last_par_line->next;
+		x_for_last = 0;
+	} else
+		x_for_last = strlen(last_par_line->data);
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN);
@@ -2272,7 +2269,7 @@ void do_justify(bool full_justify)
 #endif
 	/* Do the equivalent of a marked cut. */
 	extract_buffer(&cutbuffer, &cutbottom, first_par_line, 0, last_par_line,
-				filebot_inpar || text_on_last_line ? strlen(last_par_line->data) : 0);
+																x_for_last);
 #ifndef NANO_TINY
 	update_undo(CUT);
 #endif
@@ -2285,9 +2282,12 @@ void do_justify(bool full_justify)
 
 	/* When justifying the entire buffer, find and justify all paragraphs. */
 	if (full_justify) {
-		while (!filebot_inpar &&
-				find_paragraph(&jusline, &filebot_inpar, &quote_len, &par_len))
+		while (find_paragraph(&jusline, &quote_len, &par_len)) {
 			justify_paragraph(&jusline, quote_len, par_len);
+
+			if (jusline->next == NULL)
+				break;
+		}
 	}
 
 #ifndef NANO_TINY
