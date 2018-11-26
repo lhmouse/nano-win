@@ -2038,11 +2038,6 @@ bool find_paragraph(filestruct **firstline,
 	filestruct *line = *firstline;
 		/* The line of the current paragraph we're searching in. */
 
-	if (quoterc != 0) {
-		statusline(ALERT, _("Bad quote string %s: %s"), quotestr, quoteerr);
-		return FALSE;
-	}
-
 	/* When not currently in a paragraph, move forward to a line that is. */
 	while (!inpar(line) && line->next != NULL)
 		line = line->next;
@@ -2212,6 +2207,11 @@ void do_justify(bool full_justify)
 	ssize_t was_lineno = openfile->current->lineno;
 	size_t was_current_x = openfile->current_x;
 #endif
+
+	if (quoterc != 0) {
+		statusline(ALERT, _("Bad quoting regex %s: %s"), quotestr, quoteerr);
+		return;
+	}
 
 	/* When justifying the entire buffer, start at the top.  Otherwise, when
 	 * in a paragraph but not at its beginning, move back to its first line. */
