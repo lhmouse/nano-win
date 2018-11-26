@@ -103,9 +103,7 @@ extern int whitespace_len[2];
 
 extern const char *exit_tag;
 extern const char *close_tag;
-extern const char *uncut_tag;
 #ifdef ENABLE_JUSTIFY
-extern const char *unjust_tag;
 extern char *punct;
 extern char *brackets;
 extern char *quotestr;

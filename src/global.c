@@ -518,14 +518,10 @@ void print_sclist(void)
 }
 #endif
 
-/* These four tags are used elsewhere too, so they are global. */
-/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
+/* These two tags are used elsewhere too, so they are global. */
+/* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
 const char *exit_tag = N_("Exit");
 const char *close_tag = N_("Close");
-const char *uncut_tag = N_("Uncut Text");
-#ifdef ENABLE_JUSTIFY
-const char *unjust_tag = N_("Unjustify");
-#endif
 
 /* Initialize the list of functions and the list of shortcuts. */
 void shortcut_init(void)
@@ -765,7 +761,7 @@ void shortcut_init(void)
 		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(do_uncut_text, MMAIN,
-		uncut_tag, WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
+		N_("Uncut Text"), WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_JUSTIFY
