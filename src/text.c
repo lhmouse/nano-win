@@ -2225,11 +2225,9 @@ void do_justify(bool full_justify)
 	else if (inpar(openfile->current) && !begpar(openfile->current, 0))
 		do_para_begin(&openfile->current);
 
-	/* Find the first line of the paragraph(s) to be justified.
-	 * If the search failed, it means that there are no paragraph(s) to
-	 * justify.  The search put us on the last line of the file, so
-	 * put the cursor at the end of it.  Then
-	 * refresh the screen and get out. */
+	/* Find the first line of the paragraph(s) to be justified.  If the
+	 * search fails, there is nothing to justify, and we will be on the
+	 * last line of the file, so put the cursor at the end of it. */
 	if (!find_paragraph(&openfile->current, &filebot_inpar, &quote_len,
 						&par_len)) {
 		openfile->current_x = strlen(openfile->filebot->data);
@@ -2244,14 +2242,11 @@ void do_justify(bool full_justify)
 	cutbuffer = NULL;
 	cutbottom = NULL;
 
-	/* Set
-	 * first_par_line and last_par_line to the first line of the paragraph. */
+	/* Start out at the first line of the paragraph. */
 	first_par_line = openfile->current;
 	last_par_line = openfile->current;
 
-	/* If we're justifying the entire file, move last_par_line down to the
-	 * last line of the file (counting the text at filebot).  Otherwise, move
-	 * last_par_line down to the last line of the paragraph. */
+	/* Set the number of lines to be pulled into the cutbuffer. */
 	if (full_justify) {
 		text_on_last_line = (openfile->filebot->data[0] != '\0');
 		jus_len = openfile->filebot->lineno - first_par_line->lineno +
@@ -2259,6 +2254,7 @@ void do_justify(bool full_justify)
 	} else
 		jus_len = par_len;
 
+	/* Move down to just beyond the last line to be extracted. */
 	while (jus_len > 0 && last_par_line->next != NULL) {
 		last_par_line = last_par_line->next;
 		jus_len--;
@@ -2287,8 +2283,7 @@ void do_justify(bool full_justify)
 	/* Justify the current paragraph. */
 	justify_paragraph(&jusline, quote_len, par_len);
 
-	/* If we're justifying the entire file, search for and justify paragraphs
-	 * until we can't anymore. */
+	/* When justifying the entire buffer, find and justify all paragraphs. */
 	if (full_justify) {
 		while (!filebot_inpar &&
 				find_paragraph(&jusline, &filebot_inpar, &quote_len, &par_len))
@@ -2298,7 +2293,7 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	add_undo(PASTE);
 #endif
-	/* Do (the equivalent of) a paste of the justified text. */
+	/* Do the equivalent of a paste of the justified text. */
 	ingraft_buffer(cutbuffer);
 #ifndef NANO_TINY
 	update_undo(PASTE);
