@@ -56,6 +56,28 @@ dnl Data location.
 pkgdatadir=${datadir}/${PACKAGE}
 AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
+dnl Whether this is a git repository.
+
+AC_MSG_CHECKING([whether building from git])
+if test -d .git ; then
+	AC_MSG_RESULT([yes])
+	from_git=yes
+else
+	AC_MSG_RESULT([no])
+	from_git=no
+fi
+AM_CONDITIONAL(BUILDING_FROM_GIT, test x$from_git = xyes)
+
+dnl Check for gettext when building from git.
+
+if test x$from_git = xyes; then
+	if test "$ac_cv_path_MSGFMT" = ":"; then
+		AC_MSG_ERROR([
+*** The msgfmt program is missing. ***
+*** The gettext package needs to be installed when building from git. ***])
+	fi
+fi
+
 dnl Checks for header files.
 
 AC_CHECK_HEADERS(libintl.h limits.h pwd.h termios.h sys/param.h)
@@ -750,25 +772,6 @@ else
 	groff_html_support=yes
 fi
 AM_CONDITIONAL(GROFF_HTML, test x$groff_html_support = xyes)
-
-# Check whether this is a git repository.
-AC_MSG_CHECKING([whether building from git])
-if test -d .git ; then
-	AC_MSG_RESULT([yes])
-	from_git=yes
-else
-	AC_MSG_RESULT([no])
-	from_git=no
-fi
-AM_CONDITIONAL(BUILDING_FROM_GIT, test x$from_git = xyes)
-
-if test x$from_git = xyes; then
-	if test "$ac_cv_path_MSGFMT" = ":"; then
-		AC_MSG_ERROR([
-*** The msgfmt program is missing. ***
-*** The gettext package needs to be installed when building from git. ***])
-	fi
-fi
 
 AC_CONFIG_FILES([
 Makefile
