@@ -711,7 +711,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_BROWSER
 	add_to_funcs(do_exit, MBROWSER,
-		exit_tag, WITHORSANS(exitbrowser_gist), TOGETHER, VIEW);
+		close_tag, WITHORSANS(exitbrowser_gist), TOGETHER, VIEW);
 #endif
 
 	add_to_funcs(do_writeout_void, MMAIN,
