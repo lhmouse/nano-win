@@ -2070,7 +2070,7 @@ void titlebar(const char *path)
 	/* Figure out the path, prefix and state strings. */
 #ifdef ENABLE_COLOR
 	if (currmenu == MLINTER) {
-		/* TRANSLATORS: The next four are "labels" in the title bar. */
+		/* TRANSLATORS: The next five are "labels" in the title bar. */
 		prefix = _("Linting --");
 		path = openfile->filename;
 	} else
@@ -2101,6 +2101,8 @@ void titlebar(const char *path)
 			state = _("Modified");
 		else if (ISSET(VIEW_MODE))
 			state = _("View");
+		else if (ISSET(RESTRICTED))
+			state = _("Restricted");
 
 		pluglen = strlenpt(_("Modified")) + 1;
 	}
