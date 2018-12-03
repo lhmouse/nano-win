@@ -1097,11 +1097,13 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
 	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help_void, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
-	add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
+	if (!ISSET(PRESERVE))
+		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
 	add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
 	add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
 	add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "^Q", 0, do_search_backward, 0);
+	if (!ISSET(PRESERVE))
+		add_to_sclist(MMAIN|MHELP|MBROWSER, "^Q", 0, do_search_backward, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search_forward, 0);
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
@@ -1231,7 +1233,10 @@ void shortcut_init(void)
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
 #endif
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "^L", 0, total_refresh, 0);
+	if (!ISSET(PRESERVE))
+		add_to_sclist(MMAIN|MHELP|MBROWSER, "^L", 0, total_refresh, 0);
+	else
+		add_to_sclist(MMAIN|MBROWSER, "^L", 0, total_refresh, 0);
 	add_to_sclist(MMAIN, "^Z", 0, do_suspend_void, 0);
 
 #ifndef NANO_TINY
@@ -1303,7 +1308,7 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
 	add_to_sclist(MBROWSER, "M-G", 0, goto_dir_void, 0);
 #endif
-	if (ISSET(TEMP_FILE))
+	if (ISSET(TEMP_FILE) && !ISSET(PRESERVE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MWRITEFILE, "M-D", 0, dos_format_void, 0);
