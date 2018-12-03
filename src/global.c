@@ -1465,14 +1465,12 @@ sc *strtosc(const char *input)
 		s->func = do_replace;
 	else if (!strcasecmp(input, "cut"))
 		s->func = do_cut_text_void;
-	else if (!strcasecmp(input, "paste") ||
-			 !strcasecmp(input, "uncut"))  /* Deprecated.  Remove end of 2018. */
+	else if (!strcasecmp(input, "paste"))
 		s->func = do_uncut_text;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "cutrestoffile"))
 		s->func = do_cut_till_eof;
-	else if (!strcasecmp(input, "copy") ||
-			 !strcasecmp(input, "copytext"))  /* Deprecated.  Remove end of 2018. */
+	else if (!strcasecmp(input, "copy"))
 		s->func = do_copy_text;
 	else if (!strcasecmp(input, "zap"))
 		s->func = zap_text;
@@ -1600,8 +1598,7 @@ sc *strtosc(const char *input)
 		s->func = backwards_void;
 	else if (!strcasecmp(input, "flipreplace"))
 		s->func = flip_replace;
-	else if (!strcasecmp(input, "flipgoto") ||
-			 !strcasecmp(input, "gototext"))  /* Deprecated.  Remove end of 2018. */
+	else if (!strcasecmp(input, "flipgoto"))
 		s->func = flip_goto;
 #ifdef ENABLE_HISTORIES
 	else if (!strcasecmp(input, "older"))
@@ -1647,8 +1644,7 @@ sc *strtosc(const char *input)
 		s->func = do_toggle_void;
 		if (!strcasecmp(input, "nohelp"))
 			s->toggle = NO_HELP;
-		else if (!strcasecmp(input, "constantshow") ||
-				 !strcasecmp(input, "constupdate"))  /* Deprecated.  Remove end of 2018. */
+		else if (!strcasecmp(input, "constantshow"))
 			s->toggle = CONSTANT_SHOW;
 		else if (!strcasecmp(input, "smoothscroll"))
 			s->toggle = SMOOTH_SCROLL;
@@ -1668,8 +1664,7 @@ sc *strtosc(const char *input)
 			s->toggle = SMART_HOME;
 		else if (!strcasecmp(input, "autoindent"))
 			s->toggle = AUTOINDENT;
-		else if (!strcasecmp(input, "cutfromcursor") ||
-				 !strcasecmp(input, "cuttoend"))  /* Deprecated.  Remove end of 2018. */
+		else if (!strcasecmp(input, "cutfromcursor"))
 			s->toggle = CUT_FROM_CURSOR;
 #ifdef ENABLE_WRAPPING
 		else if (!strcasecmp(input, "nowrap"))

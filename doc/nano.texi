@@ -733,7 +733,6 @@ Note that this overrides @option{quickblank}.
 
 @item set cutfromcursor
 Use cut-from-cursor-to-end-of-line by default, instead of cutting the whole line.
-(The old form of this option, @code{set cut}, is deprecated.)
 
 @item set errorcolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar when an error message is displayed.
@@ -904,7 +903,6 @@ Use this color combination for the title bar.
 @item set trimblanks
 Remove trailing whitespace from wrapped lines when automatic
 hard-wrapping occurs or when text is justified.
-(The old form of this option, @code{set justifytrim}, is deprecated.)
 
 @item set unix
 Save a file by default in Unix format.  This overrides nano's
@@ -1146,12 +1144,10 @@ Cuts and stores the current line (or the marked region).
 
 @item copy
 Copies the current line (or the marked region) without deleting it.
-(The old form 'copytext' is deprecated.)
 
 @item paste
 Pastes the currently stored text into the current buffer at the
 current cursor position.
-(The old form 'uncut' is deprecated.)
 
 @item zap
 Throw away the current line (or the marked region).
@@ -1334,7 +1330,6 @@ Toggles between searching for something and replacing something.
 
 @item flipgoto
 Toggles between searching for text and targeting a line number.
-(The form @code{gototext} is deprecated.)
 
 @item flipexecute
 Toggles between inserting a file and executing a command.
@@ -1389,7 +1384,6 @@ Toggles the presence of the two-line list of key bindings at the bottom of the s
 
 @item constantshow
 Toggles the constant display of the current line, column, and character positions.
-(The form @code{constupdate} is deprecated.)
 
 @item smoothscroll
 Toggles smooth scrolling (when moving around with the arrow keys).
@@ -1417,7 +1411,6 @@ is the beginning of a paragraph.
 @item cutfromcursor
 Toggles whether cutting text will cut the whole line or just from the current cursor
 position to the end of the line.
-(The form @code{cuttoend} is deprecated.)
 
 @item nowrap
 Toggles whether long lines will be hard-wrapped to the next line.

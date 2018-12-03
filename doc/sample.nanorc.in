@@ -49,7 +49,6 @@
 
 ## Use cut-from-cursor-to-end-of-line by default.
 # set cutfromcursor
-## (The old form, 'cut', is deprecated.)
 
 ## Enable hard-wrapping and set the target width, both for automatic
 ## line wrapping and for justifying paragraphs.  If the value is 0 or
@@ -172,7 +171,6 @@
 
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
 # set trimblanks
-## (The old form, 'justifytrim', is deprecated.)
 
 ## Disallow file modification.  Why would you want this in an rcfile? ;)
 # set view

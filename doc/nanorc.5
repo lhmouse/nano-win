@@ -101,7 +101,6 @@ This overrides the option \fBquickblank\fR.
 .TP
 .B set cutfromcursor
 Use cut-from-cursor-to-end-of-line by default, instead of cutting the whole line.
-(The old form of this option, '\fBset cut\fR', is deprecated.)
 .TP
 .B set errorcolor \fIfgcolor\fR,\fIbgcolor\fR
 Use this color combination for the status bar when an error message is displayed.
@@ -272,7 +271,6 @@ And either "\fIfgcolor\fR" or ",\fIbgcolor\fR" may be left out.
 .B set trimblanks
 Remove trailing whitespace from wrapped lines when automatic
 hard-wrapping occurs or when text is justified.
-(The old form of this option, '\fBset justifytrim\fR', is deprecated.)
 .TP
 .B set unix
 Save a file by default in Unix format.  This overrides nano's
@@ -503,12 +501,10 @@ Cuts and stores the current line (or the marked region).
 .TP
 .B copy
 Copies the current line (or the marked region) without deleting it.
-(The old form 'copytext' is deprecated.)
 .TP
 .B paste
 Pastes the currently stored text into the current buffer at the
 current cursor position.
-(The old form 'uncut' is deprecated.)
 .TP
 .B zap
 Throw away the current line (or the marked region).
@@ -694,7 +690,6 @@ Toggles between searching for something and replacing something.
 .TP
 .B flipgoto
 Toggles between searching for text and targeting a line number.
-(The form 'gototext' is deprecated.)
 .TP
 .B flipexecute
 Toggles between inserting a file and executing a command.
@@ -749,7 +744,6 @@ Toggles the presence of the two-line list of key bindings at the bottom of the s
 .TP
 .B constantshow
 Toggles the constant display of the current line, column, and character positions.
-(The form 'constupdate' is deprecated.)
 .TP
 .B smoothscroll
 Toggles smooth scrolling (when moving around with the arrow keys).
@@ -777,7 +771,6 @@ is the beginning of a paragraph.
 .B cutfromcursor
 Toggles whether cutting text will cut the whole line or just from the current cursor
 position to the end of the line.
-(The form 'cuttoend' is deprecated.)
 .TP
 .B nowrap
 Toggles whether long lines will be hard-wrapped to the next line.
