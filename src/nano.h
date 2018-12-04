@@ -592,6 +592,9 @@ enum
 #define ALT_RIGHT 0x422
 #define ALT_UP 0x423
 #define ALT_DOWN 0x424
+#define ALT_PAGEUP 0x427
+#define ALT_PAGEDOWN 0x428
+#define ALT_INSERT 0x42C
 #define ALT_DELETE 0x42D
 #define SHIFT_ALT_LEFT 0x431
 #define SHIFT_ALT_RIGHT 0x432

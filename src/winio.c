@@ -594,9 +594,14 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							/* Esc [ 2 ~ == Insert on VT220/VT320/
 							 * Linux console/xterm/Terminal. */
 							return KEY_IC;
-						else if (length > 4 && seq[2] == ';' && seq[4] == '~')
+						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							/* Esc [ 2 ; x ~ == modified Insert on xterm. */
 							*consumed = 5;
+#ifndef NANO_TINY
+							if (seq[3] == '3')
+								return ALT_INSERT;
+#endif
+						}
 						else if (length > 5 && seq[3] == ';' && seq[5] == '~')
 							/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
 							*consumed = 6;
@@ -670,6 +675,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 							if (seq[3] == '2')
 								return shiftaltup;
+							if (seq[3] == '3')
+								return ALT_PAGEUP;
 #endif
 						}
 						break;
@@ -682,6 +689,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 							if (seq[3] == '2')
 								return shiftaltdown;
+							if (seq[3] == '3')
+								return ALT_PAGEDOWN;
 #endif
 						}
 						break;
@@ -1067,6 +1076,12 @@ int parse_kbinput(WINDOW *win)
 		return ALT_UP;
 	else if (retval == altdown)
 		return ALT_DOWN;
+	else if (retval == altpageup)
+		return ALT_PAGEUP;
+	else if (retval == altpagedown)
+		return ALT_PAGEDOWN;
+	else if (retval == altinsert)
+		return ALT_INSERT;
 	else if (retval == altdelete)
 		return ALT_DELETE;
 	else if (retval == shiftaltleft) {
@@ -1114,6 +1129,12 @@ int parse_kbinput(WINDOW *win)
 				return ALT_UP;
 			if (retval == KEY_DOWN)
 				return ALT_DOWN;
+			if (retval == KEY_PPAGE)
+				return ALT_PAGEUP;
+			if (retval == KEY_NPAGE)
+				return ALT_PAGEDOWN;
+			if (retval == KEY_IC)
+				return ALT_INSERT;
 		}
 #endif
 		/* Is Ctrl being held? */

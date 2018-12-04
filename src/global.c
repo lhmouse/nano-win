@@ -104,7 +104,8 @@ int shiftleft, shiftright, shiftup, shiftdown;
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
 int altleft, altright, altup, altdown;
-int altdelete;
+int altpageup, altpagedown;
+int altinsert, altdelete;
 int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
 
@@ -1203,6 +1204,9 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "Sh-^Del", CONTROL_SHIFT_DELETE, chop_previous_word, 0);
 	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, chop_next_word, 0);
 	add_to_sclist(MMAIN, "M-Del", ALT_DELETE, zap_text, 0);
+	add_to_sclist(MMAIN, "M-Ins", ALT_INSERT, bookmark, 0);
+	add_to_sclist(MMAIN, "M-PgUp", ALT_PAGEUP, to_prev_bookmark, 0);
+	add_to_sclist(MMAIN, "M-PgDn", ALT_PAGEDOWN, to_next_bookmark, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_sclist(MMAIN, "^]", 0, complete_a_word, 0);

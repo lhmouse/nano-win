@@ -2310,6 +2310,10 @@ int main(int argc, char **argv)
 	altright = get_keycode("kRIT3", ALT_RIGHT);
 	altup = get_keycode("kUP3", ALT_UP);
 	altdown = get_keycode("kDN3", ALT_DOWN);
+
+	altpageup = get_keycode("kPRV3", ALT_PAGEUP);
+	altpagedown = get_keycode("kNXT3", ALT_PAGEDOWN);
+	altinsert = get_keycode("kIC3", ALT_INSERT);
 	altdelete = get_keycode("kDC3", ALT_DELETE);
 
 	shiftaltleft = get_keycode("kLFT4", SHIFT_ALT_LEFT);

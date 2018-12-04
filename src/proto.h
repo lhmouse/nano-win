@@ -76,7 +76,8 @@ extern int shiftcontrolup, shiftcontroldown;
 extern int shiftcontrolhome, shiftcontrolend;
 extern int altleft, altright;
 extern int altup, altdown;
-extern int altdelete;
+extern int altpageup, altpagedown;
+extern int altinsert, altdelete;
 extern int shiftaltleft, shiftaltright;
 extern int shiftaltup, shiftaltdown;
 #endif
