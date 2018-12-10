@@ -1999,7 +1999,6 @@ int main(int argc, char **argv)
 		{"operatingdir", 1, NULL, 'o'},
 #endif
 		{"preserve", 0, NULL, 'p'},
-		{"quiet", 0, NULL, 'q'},
 #ifdef ENABLED_WRAPORJUSTIFY
 		{"fill", 1, NULL, 'r'},
 #endif
@@ -2243,10 +2242,6 @@ int main(int argc, char **argv)
 			case 'p':
 				SET(PRESERVE);
 				break;
-#ifdef ENABLE_NANORC
-			case 'q':  /* obsolete, ignored */
-				break;
-#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'r':
 				if (!parse_num(optarg, &wrap_at)) {
@@ -2306,6 +2301,7 @@ int main(int argc, char **argv)
 			case 'e':
 			case 'f':
 			case 'j':
+			case 'q':
 				break;
 			default:
 				printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);

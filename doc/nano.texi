@@ -343,10 +343,6 @@ similar to a chroot.
 Preserve the @kbd{^Q} (XON) and @kbd{^S} (XOFF) sequences so data being
 sent to the editor can be stopped and started.
 
-@item -q
-@itemx --quiet
-Obsolete option.  Recognized but ignored.
-
 @item -r @var{number}
 @itemx --fill=@var{number}
 Hard-wrap lines at column @var{number} (by inserting a newline character).
@@ -422,6 +418,7 @@ separately (e.g.@: @code{nano -wS -$}).
 @itemx -e
 @itemx -f
 @itemx -j
+@itemx -q
 Ignored, for compatibility with Pico.
 
 @end table
@@ -830,9 +827,6 @@ The default value is @t{"!.?"}.
 @item set quickblank
 Do quick status-bar blanking: status-bar messages will disappear after 1
 keystroke instead of 25.  Note that @option{constantshow} overrides this.
-
-@item set quiet
-Obsolete option.  Recognized but ignored.
 
 @item set quotestr "@var{regex}"
 The email-quote string, used to justify email-quoted paragraphs.  This
