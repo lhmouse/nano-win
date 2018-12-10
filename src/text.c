@@ -2208,11 +2208,6 @@ void do_justify(bool full_justify)
 	size_t was_current_x = openfile->current_x;
 #endif
 
-	if (quoterc != 0) {
-		statusline(ALERT, _("Bad quoting regex %s: %s"), quotestr, quoteerr);
-		return;
-	}
-
 	/* When justifying the entire buffer, start at the top.  Otherwise, when
 	 * in a paragraph but not at its beginning, move back to its first line. */
 	if (full_justify)

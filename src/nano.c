@@ -2481,6 +2481,8 @@ int main(int argc, char **argv)
 
 		quoteerr = charalloc(size);
 		regerror(quoterc, &quotereg, quoteerr, size);
+
+		die(_("Bad quoting regex \"%s\": %s\n"), quotestr, quoteerr);
 	}
 #endif /* ENABLE_JUSTIFY */
 
