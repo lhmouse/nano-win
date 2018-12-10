@@ -2306,9 +2306,6 @@ void do_justify(bool full_justify)
 	cutbuffer = was_cutbuffer;
 	cutbottom = was_cutbottom;
 
-	set_modified();
-	edit_refresh();
-
 	/* Show what we justified on the status bar. */
 	if (full_justify)
 		statusbar(_("Justified file"));
@@ -2317,6 +2314,9 @@ void do_justify(bool full_justify)
 
 	/* Set the desired screen column (always zero, except at EOF). */
 	openfile->placewewant = xplustabs();
+
+	set_modified();
+	refresh_needed = TRUE;
 }
 
 /* Justify the current paragraph. */
