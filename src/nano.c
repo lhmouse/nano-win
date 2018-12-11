@@ -1954,6 +1954,10 @@ int main(int argc, char **argv)
 	bool forced_wrapping = FALSE;
 		/* Should long lines be automatically hard wrapped? */
 #endif
+#ifdef ENABLE_JUSTIFY
+	int quoterc;
+		/* Whether the quoting regex was compiled successfully. */
+#endif
 	const struct option long_options[] = {
 		{"boldtext", 0, NULL, 'D'},
 #ifdef ENABLE_MULTIBUFFER
@@ -2470,20 +2474,16 @@ int main(int argc, char **argv)
 	if (quotestr == NULL)
 		quotestr = mallocstrcpy(NULL, "^([ \t]*([#:>|}]|/{2}))+");
 
-	/* Compile the quoting regex, and free it when it's good; otherwise,
-	 * retrieve and store the error message, to be shown when justifying. */
+	/* Compile the quoting regex, and exit when it's invalid. */
 	quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
-	if (quoterc == 0) {
-		free(quotestr);
-		quotestr = NULL;
-	} else {
+	if (quoterc != 0) {
 		size_t size = regerror(quoterc, &quotereg, NULL, 0);
+		char *message = charalloc(size);
 
-		quoteerr = charalloc(size);
-		regerror(quoterc, &quotereg, quoteerr, size);
-
-		die(_("Bad quoting regex \"%s\": %s\n"), quotestr, quoteerr);
-	}
+		regerror(quoterc, &quotereg, message, size);
+		die(_("Bad quoting regex \"%s\": %s\n"), quotestr, message);
+	} else
+		free(quotestr);
 #endif /* ENABLE_JUSTIFY */
 
 #ifdef ENABLE_SPELLER

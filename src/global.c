@@ -142,10 +142,6 @@ char *quotestr = NULL;
 		/* The quoting string.  The default value is set in main(). */
 regex_t quotereg;
 		/* The compiled regular expression from the quoting string. */
-int quoterc;
-		/* Whether it was compiled successfully. */
-char *quoteerr = NULL;
-		/* The error message, if it didn't. */
 #endif
 
 char *word_chars = NULL;

@@ -108,8 +108,6 @@ extern char *punct;
 extern char *brackets;
 extern char *quotestr;
 extern regex_t quotereg;
-extern int quoterc;
-extern char *quoteerr;
 #endif
 
 extern char *word_chars;
