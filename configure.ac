@@ -73,13 +73,13 @@ dnl Checks for pkg-config and gettext when building from git.
 if test x$from_git = xyes; then
 	if test ! -f $(aclocal --print-ac-dir)/pkg.m4; then
 		AC_MSG_ERROR([
-*** The pkg.m4 macros are missing. ***
-*** The pkg-config package needs to be installed when building from git. ***])
+  *** The pkg.m4 macros are missing. ***
+  *** The pkg-config package needs to be installed when building from git. ***])
 	fi
 	if test "$ac_cv_path_MSGFMT" = ":"; then
 		AC_MSG_ERROR([
-*** The msgfmt program is missing. ***
-*** The gettext package needs to be installed when building from git. ***])
+  *** The msgfmt program is missing. ***
+  *** The gettext package needs to be installed when building from git. ***])
 	fi
 fi
 
@@ -425,10 +425,10 @@ int main(void)
 	AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
 	AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 			AC_MSG_ERROR([
-*** The header file slcurses.h was not found.  If you wish to use
-*** slang support this header file is required.  Please either
-*** install a version of slang that includes the slcurses.h file or
-*** do not call the configure script with --with-slang.]))
+  *** The header file slcurses.h was not found.  This header file
+  *** is required if you wish to use Slang support.  Please either
+  *** install a version of Slang that includes the slcurses.h file
+  *** or do not call the configure script with --with-slang.]))
 		fi
 
 		if eval "test x$CURSES_LIB_NAME = x"; then
@@ -506,10 +506,10 @@ int main(void)
 	AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
 	AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 			AC_MSG_ERROR([
-*** The header file slcurses.h was not found.  If you wish to use
-*** slang support this header file is required.  Please either
-*** install a version of slang that includes the slcurses.h file or
-*** do not call the configure script with --with-slang.]))
+  *** The header file slcurses.h was not found.  This header file
+  *** is required if you wish to use Slang support.  Please either
+  *** install a version of Slang that includes the slcurses.h file
+  *** or do not call the configure script with --with-slang.]))
 		fi
 
 		if test "${_libs+set}" = "set"; then
@@ -593,9 +593,9 @@ fi
 
 if eval "test x$CURSES_LIB_NAME = x"; then
 	AC_MSG_ERROR([
-*** No curses lib was found.  Please install the curses header files
-*** from libncursesw5-dev (Debian), ncurses-devel (Fedora), or similar.
-*** (Or install ncurses from https://ftp.gnu.org/gnu/ncurses/.)])
+  *** No curses lib was found.  Please install the curses header files
+  *** from libncursesw5-dev (Debian), ncurses-devel (Fedora), or similar.
+  *** (Or install ncurses from https://ftp.gnu.org/gnu/ncurses/.)])
 else
 	AC_MSG_RESULT([Using $CURSES_LIB_NAME as the curses library])
 fi
@@ -628,18 +628,18 @@ if test "x$enable_utf8" != xno && \
 else
 	if test "x$enable_utf8" = xyes; then
 		AC_MSG_ERROR([
-*** UTF-8 support was requested, but insufficient UTF-8 support was
-*** detected in your curses and/or C libraries.  Please verify that your
-*** slang was built with UTF-8 support or your curses was built with
-*** wide character support, and that your C library was built with wide
-*** character support.])
+  *** UTF-8 support was requested, but insufficient UTF-8 support was
+  *** detected in your curses and/or C libraries.  Please verify that
+  *** your Slang was built with UTF-8 support or your curses was built
+  *** with wide-character support, and that your C library was built
+  *** with wide-character support.])
 	elif test "x$enable_utf8" != xno; then
 		AC_MSG_WARN([
-*** Insufficient UTF-8 support was detected in your curses and/or C
-*** libraries.  If you want UTF-8 support, please verify that your slang
-*** was built with UTF-8 support or your curses was built with wide
-*** character support, and that your C library was built with wide
-*** character support.])
+  *** Insufficient UTF-8 support was detected in your curses and/or C
+  *** libraries.  If you want UTF-8 support, please verify that your
+  *** Slang was built with UTF-8 support or your curses was built with
+  *** wide-character support, and that your C library was built with
+  *** wide-character support.])
 	fi
 fi
 
@@ -769,8 +769,9 @@ AC_MSG_CHECKING([for HTML support in groff])
 groff -t -mandoc -Thtml </dev/null >/dev/null
 if test $? -ne 0 ; then
 	AC_MSG_RESULT([no])
-	AC_MSG_WARN([*** Will not generate HTML version of man pages  ***
-*** Consider installing a newer version of groff with HTML support ***])
+	AC_MSG_WARN([
+  *** Will not generate HTML version of man pages. ***
+  *** Consider installing a newer version of groff with HTML support. ***])
 	groff_html_support=no
 else
 	AC_MSG_RESULT([yes])
