@@ -1210,10 +1210,10 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-0", 0, do_para_end_void, 0);
 #endif
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
-	add_to_sclist(MMAIN, "M--", 0, do_scroll_up, 0);
-	add_to_sclist(MMAIN, "M-_", 0, do_scroll_up, 0);
-	add_to_sclist(MMAIN, "M-+", 0, do_scroll_down, 0);
-	add_to_sclist(MMAIN, "M-=", 0, do_scroll_down, 0);
+	add_to_sclist(MMAIN|MHELP, "M--", 0, do_scroll_up, 0);
+	add_to_sclist(MMAIN|MHELP, "M-_", 0, do_scroll_up, 0);
+	add_to_sclist(MMAIN|MHELP, "M-+", 0, do_scroll_down, 0);
+	add_to_sclist(MMAIN|MHELP, "M-=", 0, do_scroll_down, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	add_to_sclist(MMAIN, "M-<", 0, switch_to_prev_buffer, 0);

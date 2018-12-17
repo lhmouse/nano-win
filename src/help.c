@@ -193,9 +193,9 @@ void do_help(void)
 		} else if (ISSET(SHOW_CURSOR) && (func == do_left || func == do_right ||
 											func == do_up || func == do_down)) {
 			func();
-		} else if (func == do_up) {
+		} else if (func == do_up || func == do_scroll_up) {
 			do_scroll_up();
-		} else if (func == do_down) {
+		} else if (func == do_down || func == do_scroll_down) {
 			if (openfile->edittop->lineno + editwinrows - 1 <
 								openfile->filebot->lineno)
 				do_scroll_down();
