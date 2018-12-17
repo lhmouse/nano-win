@@ -88,6 +88,7 @@ extern WINDOW *bottomwin;
 extern int editwinrows;
 extern int editwincols;
 extern int margin;
+extern ssize_t stripe_column;
 
 extern filestruct *cutbuffer;
 extern filestruct *cutbottom;

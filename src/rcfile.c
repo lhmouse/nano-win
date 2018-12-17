@@ -102,6 +102,7 @@ static const rcoption rcopts[] = {
 	{"backupdir", 0},
 	{"casesensitive", CASE_SENSITIVE},
 	{"cutfromcursor", CUT_FROM_CURSOR},
+	{"guidestripe", 0},
 	{"locking", LOCKING},
 	{"matchbrackets", 0},
 	{"noconvert", NO_CONVERT},
@@ -1116,6 +1117,13 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 		} else
 #endif
 #ifndef NANO_TINY
+		if (strcasecmp(rcopts[i].name, "guidestripe") == 0) {
+			if (!parse_num(option, &stripe_column) || stripe_column <= 0) {
+				rcfile_error(N_("Edge column \"%s\" is invalid"), option);
+				stripe_column = 0;
+			}
+			free(option);
+		}
 		if (strcasecmp(rcopts[i].name, "matchbrackets") == 0) {
 			matchbrackets = option;
 			if (has_blank_mbchars(matchbrackets)) {

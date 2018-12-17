@@ -798,6 +798,10 @@ void usage(void)
 #ifdef ENABLE_NANORC
 	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
+#ifndef NANO_TINY
+	print_opt("-J <number>", "--guidestripe=<number>",
+					N_("Show a guiding bar at this column"));
+#endif
 	print_opt("-K", "--rawsequences",
 					N_("Fix numeric keypad key confusion problem"));
 	print_opt("-L", "--nonewlines",
@@ -2022,6 +2026,7 @@ int main(int argc, char **argv)
 		{"tabstospaces", 0, NULL, 'E'},
 		{"locking", 0, NULL, 'G'},
 		{"historylog", 0, NULL, 'H'},
+		{"guidestripe", 1, NULL, 'J'},
 		{"noconvert", 0, NULL, 'N'},
 		{"positionlog", 0, NULL, 'P'},
 		{"smooth", 0, NULL, 'S'},
@@ -2092,7 +2097,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdefghijklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Zabcdefghijklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2134,6 +2139,13 @@ int main(int argc, char **argv)
 				ignore_rcfiles = TRUE;
 				break;
 #endif
+			case 'J':
+				if (!parse_num(optarg, &stripe_column) || stripe_column <= 0) {
+					fprintf(stderr, _("Stripe column \"%s\" is invalid"), optarg);
+					fprintf(stderr, "\n");
+					exit(1);
+				}
+				break;
 			case 'K':
 				SET(RAW_SEQUENCES);
 				break;
@@ -2330,6 +2342,7 @@ int main(int argc, char **argv)
 		ssize_t fill_cmdline = fill;
 #endif
 #ifndef NANO_TINY
+		size_t stripeclm_cmdline = stripe_column;
 		char *backup_dir_cmdline = backup_dir;
 		char *word_chars_cmdline = word_chars;
 #endif
@@ -2376,6 +2389,8 @@ int main(int argc, char **argv)
 			fill = fill_cmdline;
 #endif
 #ifndef NANO_TINY
+		if (stripeclm_cmdline > 0)
+			stripe_column = stripeclm_cmdline;
 		if (backup_dir_cmdline != NULL) {
 			free(backup_dir);
 			backup_dir = backup_dir_cmdline;

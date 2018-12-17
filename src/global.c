@@ -111,6 +111,8 @@ int editwincols = -1;
 		/* The number of usable columns in the edit window: COLS - margin. */
 int margin = 0;
 		/* The amount of space reserved at the left for line numbers. */
+ssize_t stripe_column = 0;
+		/* The column at which a vertical bar will be drawn. */
 
 filestruct *cutbuffer = NULL;
 		/* The buffer where we store cut text. */

@@ -2685,6 +2685,15 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	}
 #endif /* ENABLE_COLOR */
 
+	if (stripe_column > 0 && !inhelp) {
+		const char *text = converted + actual_x(converted, stripe_column - 1);
+		const char *striped_char = (*text == '\0') ? " " : text;
+
+		wattron(edit, interface_color_pair[ERROR_MESSAGE]);
+		mvwaddnstr(edit, row, margin + stripe_column - 1, striped_char, 1);
+		wattroff(edit, interface_color_pair[ERROR_MESSAGE]);
+	}
+
 #ifndef NANO_TINY
 	/* If the mark is on, and fileptr is at least partially selected, we
 	 * need to paint it. */
