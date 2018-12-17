@@ -982,7 +982,6 @@ on the system and will be silently ignored otherwise.)
 
 @item linter @var{program} [@var{arg} @dots{}]
 Use the given @var{program} to do a syntax check on the current buffer.
-(This overrides the speller function.)
 
 @item comment "@var{string}"
 Use the given string for commenting and uncommenting lines.
@@ -1177,8 +1176,11 @@ Shows the current cursor position: the line, column, and character positions.
 Counts the number of words, lines and characters in the current buffer.
 
 @item speller
-Invokes a spell-checking program (or linting program,
-if the active syntax defines such a thing).
+Invokes a spell-checking program, either the default one, or the one
+defined by @option{--speller} or @code{set speller}.
+
+@item linter
+Invokes a syntax-checking program (if the active syntax defines one).
 
 @item justify
 Justifies the current paragraph.  A paragraph is a group of contiguous lines
