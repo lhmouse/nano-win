@@ -433,12 +433,9 @@ void parse_binding(char *ptr, bool dobind)
 		if ((s->menus & menu) && strcmp(s->keystr, keycopy) == 0)
 			s->menus &= ~menu;
 
-	if (!dobind) {
-  free_things:
-		free(newsc);
-		free(keycopy);
-		return;
-	}
+	/* When unbinding, we are done now. */
+	if (!dobind)
+		goto free_things;
 
 	/* Tally up the menus where the function exists. */
 	for (f = allfuncs; f != NULL; f = f->next)
@@ -471,7 +468,10 @@ void parse_binding(char *ptr, bool dobind)
 	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
 	if (newsc->meta && newsc->keycode == 91) {
 		rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
-		goto free_things;
+  free_things:
+		free(keycopy);
+		free(newsc);
+		return;
 	}
 
 #ifndef NANO_TINY
