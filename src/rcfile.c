@@ -428,12 +428,12 @@ void parse_binding(char *ptr, bool dobind)
 		goto free_things;
 	}
 
-	/* When unbinding, wipe the given shortcut from the given menu. */
-	if (!dobind) {
-		for (s = sclist; s != NULL; s = s->next)
-			if ((s->menus & menu) && strcmp(s->keystr, keycopy) == 0)
-				s->menus &= ~menu;
+	/* Wipe the given shortcut from the given menu. */
+	for (s = sclist; s != NULL; s = s->next)
+		if ((s->menus & menu) && strcmp(s->keystr, keycopy) == 0)
+			s->menus &= ~menu;
 
+	if (!dobind) {
   free_things:
 		free(newsc);
 		free(keycopy);
