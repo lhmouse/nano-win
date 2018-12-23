@@ -724,6 +724,11 @@ int parse_kbinput(WINDOW *win)
 #endif
 		case KEY_C3:    /* PageDown (3) on keypad with NumLock off. */
 			return KEY_NPAGE;
+		/* When requested, swap meanings of keycodes for <Bsp> and <Del>. */
+		case KEY_BACKSPACE:
+			return (ISSET(REBIND_DELETE) ? KEY_DC : KEY_BACKSPACE);
+		case KEY_DC:
+			return (ISSET(REBIND_DELETE) ? KEY_BACKSPACE : KEY_DC);
 #ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
 		case KEY_SDC:
 			return SHIFT_DELETE;
