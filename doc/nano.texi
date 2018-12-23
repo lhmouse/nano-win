@@ -191,7 +191,7 @@ executed commands, so they can be easily reused in later sessions.
 Don't look at the system's nanorc file nor at the user's nanorc.
 
 @item -K
-@itemx --rebindkeypad
+@itemx --rawsequences
 Interpret the numeric keypad keys so that they all work properly.  You
 should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.
@@ -839,7 +839,7 @@ Interpret the Delete key differently so that both Backspace and Delete
 work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
 
-@item set rebindkeypad
+@item set rawsequences
 Interpret the numeric keypad keys so that they all work properly.  You
 should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.

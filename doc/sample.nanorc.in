@@ -130,7 +130,7 @@
 # set rebinddelete
 
 ## Fix numeric keypad key confusion problem.
-# set rebindkeypad
+# set rawsequences
 
 ## Do extended regular expression searches by default.
 # set regexp
