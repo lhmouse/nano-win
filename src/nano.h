@@ -570,6 +570,7 @@ enum
 #endif
 
 /* Basic control codes. */
+#define BS_CODE   0x08
 #define TAB_CODE  0x09
 #define ESC_CODE  0x1B
 #define DEL_CODE  0x7F
