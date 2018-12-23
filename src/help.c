@@ -567,7 +567,6 @@ functionptrtype parse_help_input(int *kbinput)
 {
 	if (!meta_key) {
 		switch (*kbinput) {
-			case DEL_CODE:
 			case '-':
 				return do_page_up;
 			case ' ':
