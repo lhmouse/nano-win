@@ -200,37 +200,6 @@ void free_chararray(char **array, size_t len)
 }
 #endif
 
-/* Fix the regex if we're on platforms which require an adjustment
- * from GNU-style to BSD-style word boundaries. */
-const char *fixbounds(const char *r)
-{
-#ifndef GNU_WORDBOUNDS
-	int i, j = 0;
-	char *r2 = charalloc(strlen(r) * 5);
-	char *r3;
-
-	for (i = 0; i < strlen(r); i++) {
-		if (r[i] != '\0' && r[i] == '\\' && (r[i + 1] == '>' || r[i + 1] == '<')) {
-			strcpy(&r2[j], "[[:");
-			r2[j + 3] = r[i + 1];
-			strcpy(&r2[j + 4], ":]]");
-			i++;
-			j += 6;
-		} else
-			r2[j] = r[i];
-		j++;
-	}
-
-	r2[j] = '\0';
-	r3 = mallocstrcpy(NULL, r2);
-	free(r2);
-
-	return (const char *) r3;
-#endif /* !GNU_WORDBOUNDS */
-
-	return r;
-}
-
 #ifdef ENABLE_SPELLER
 /* Is the word starting at the given position in buf and of the given length
  * a separate word?  That is: is it not part of a longer word?*/

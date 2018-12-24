@@ -144,7 +144,7 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 	regex_t rgx;
 
 	for (item = head; item != NULL; item = item->next) {
-		regcomp(&rgx, fixbounds(item->full_regex), NANO_REG_EXTENDED);
+		regcomp(&rgx, item->full_regex, NANO_REG_EXTENDED);
 
 		if (regexec(&rgx, shibboleth, 0, NULL, 0) == 0) {
 			regfree(&rgx);
@@ -273,12 +273,12 @@ void color_update(void)
 	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 		if (ink->start == NULL) {
 			ink->start = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(ink->start, fixbounds(ink->start_regex), ink->rex_flags);
+			regcomp(ink->start, ink->start_regex, ink->rex_flags);
 		}
 
 		if (ink->end_regex != NULL && ink->end == NULL) {
 			ink->end = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(ink->end, fixbounds(ink->end_regex), ink->rex_flags);
+			regcomp(ink->end, ink->end_regex, ink->rex_flags);
 		}
 	}
 }

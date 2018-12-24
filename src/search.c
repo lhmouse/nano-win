@@ -35,7 +35,7 @@ static bool have_compiled_regexp = FALSE;
  * Return TRUE if the expression is valid, and FALSE otherwise. */
 bool regexp_init(const char *regexp)
 {
-	int value = regcomp(&search_regexp, fixbounds(regexp),
+	int value = regcomp(&search_regexp, regexp,
 				NANO_REG_EXTENDED | (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE));
 
 	/* If regex compilation failed, show the error message. */

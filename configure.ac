@@ -665,55 +665,6 @@ fi
 AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_reg_extended,
 				   [Flag(s) to use to get the full range of extended regular expressions])
 
-# Check for word-boundary support (/< and />).
-AC_MSG_CHECKING([for GNU-style word boundary regex support])
-AC_ARG_WITH(wordbounds,
-AS_HELP_STRING([--with-wordbounds], [Use GNU-style word boundary delimiters]),
-		[with_wordbounds=$withval], [with_wordbounds=auto])
-if test "$with_wordbounds" != "no"; then
-	dnl If we're using the bundled gnulib regex module, we know it's supported.
-	if test "$ac_use_included_regex" = "yes"; then
-	    with_wordbounds="yes"
-	fi
-
-	dnl We explicitly don't check if the user forced the option, because
-	dnl this is needed for cross compilers and we can't test the target.
-	if test "$with_wordbounds" != "yes"; then
-	    AC_TRY_RUN([
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#include <regex.h>
-int main(void)
-{
-	regex_t r;
-	size_t nmatch;
-	regmatch_t pmatch;
-
-	if (regcomp(&r, "\\\\>", $nano_reg_extended|REG_NOSUB))
-		return 1;
-	if (regexec(&r, "word boundary", nmatch, &pmatch, 0))
-		return 1;
-	return 0;
-}],
-	    with_wordbounds="yes",
-	    with_wordbounds="no",
-	    with_wordbounds="cross")
-	fi
-fi
-case $with_wordbounds in
-yes)
-	AC_MSG_RESULT(yes)
-	AC_DEFINE(GNU_WORDBOUNDS, 1, [Define this if the system supports GNU-style word boundaries in regexes.])
-	;;
-no)
-	AC_MSG_RESULT(no)
-	;;
-cross)
-	AC_MSG_WARN([*** Can't check for GNU-style word boundary support when cross-compiling])
-	;;
-esac
-
 if test x$color_support = xyes; then
 #    if test x$CURSES_LIB_NAME = xcurses; then
 		AC_MSG_CHECKING([whether _XOPEN_SOURCE_EXTENDED is needed])
