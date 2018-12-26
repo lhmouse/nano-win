@@ -2058,11 +2058,10 @@ bool find_paragraph(filestruct **firstline,
 	return TRUE;
 }
 
-/* Wrap all lines of the paragraph (that starts at *line and consists
- * of par_len lines and has quote_len bytes of quoting) so they all fit
+/* Wrap all lines of the paragraph (that starts at *line, consists of
+ * par_len lines, and has quote_len bytes of quoting) so they all fit
  * within the wrap_at target width. */
-void justify_paragraph(filestruct **line, size_t quote_len,
-						size_t par_len)
+void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
 {
 	filestruct *sampleline;
 		/* The line from which the indentation is copied -- either
@@ -2082,7 +2081,7 @@ void justify_paragraph(filestruct **line, size_t quote_len,
 	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
 	lead_string[lead_len] = '\0';
 
-	/* First tack all the lines of the paragraph together, skipping
+	/* Now first tack all the lines of the paragraph together, skipping
 	 * the quoting and indentation on all lines after the first. */
 	while (par_len > 1) {
 		filestruct *next_line = (*line)->next;
@@ -2140,16 +2139,14 @@ void justify_paragraph(filestruct **line, size_t quote_len,
 				break_pos--;
 		}
 
-		/* Now actually break the current line. */
+		/* Now actually break the current line, and go the next. */
 		null_at(&(*line)->data, break_pos);
-
-		/* Go to the next line. */
 		*line = (*line)->next;
 	}
 
 	free(lead_string);
 
-	/* If possible, go to the next line. */
+	/* When possible, go to the line after the rewrapped paragraph. */
 	if ((*line)->next != NULL)
 		*line = (*line)->next;
 }
