@@ -1849,10 +1849,9 @@ bool inpar(const filestruct *const line)
 
 /* Determine the beginning, length, and quoting of the first found paragraph.
  * Return TRUE if we found a paragraph, and FALSE otherwise.  Furthermore,
- * return in firstline the first line of the paragraph, in *quotelen the
- * length of the quoting, and in *parlen the length of the paragraph. */
-bool find_paragraph(filestruct **firstline,
-					size_t *const quotelen, size_t *const parlen)
+ * return in firstline the first line of the paragraph,
+ * and in *parlen the length of the paragraph. */
+bool find_paragraph(filestruct **firstline, size_t *const parlen)
 {
 	filestruct *line = *firstline;
 		/* The line of the current paragraph we're searching in. */
@@ -1870,21 +1869,22 @@ bool find_paragraph(filestruct **firstline,
 	if (!inpar(line))
 		return FALSE;
 
-	/* We found a paragraph; determine length of quoting and number of lines. */
-	*quotelen = quote_length((*firstline)->data);
+	/* We found a paragraph; determine number of lines. */
 	*parlen = line->lineno - (*firstline)->lineno + 1;
 
 	return TRUE;
 }
 
-/* Wrap all lines of the paragraph (that starts at *line, consists of
- * par_len lines, and has quote_len bytes of quoting) so they all fit
+/* Wrap all lines of the paragraph (that starts at *line, and consists of
+ * par_len lines) so they all fit
  * within the wrap_at target width. */
-void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
+void justify_paragraph(filestruct **line, size_t par_len)
 {
 	filestruct *sampleline;
 		/* The line from which the indentation is copied -- either
 		 * the first and only or the second line of the paragraph. */
+	size_t quote_len;
+		/* Length of the quote part. */
 	size_t lead_len;
 		/* Length of the quote part plus the indentation part. */
 	ssize_t break_pos;
@@ -1896,6 +1896,7 @@ void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
 	sampleline = (par_len == 1 ? *line : (*line)->next);
 
 	/* Copy the leading part (quoting + indentation) of the sample line. */
+	quote_len = quote_length(sampleline->data);
 	lead_len = quote_len + indent_length(sampleline->data + quote_len);
 	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
 	lead_string[lead_len] = '\0';
@@ -1906,8 +1907,9 @@ void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
 		filestruct *next_line = (*line)->next;
 		size_t line_len = strlen((*line)->data);
 		size_t next_line_len = strlen(next_line->data);
-
-		lead_len = quote_len + indent_length(next_line->data + quote_len);
+		size_t next_quote_len = quote_length(next_line->data);
+		size_t next_lead_len = next_quote_len +
+							indent_length(next_line->data + next_quote_len);
 
 		/* We're just about to tack the next line onto this one.  If
 		 * this line isn't empty, make sure it ends in a space. */
@@ -1918,8 +1920,8 @@ void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
 		}
 
 		(*line)->data = charealloc((*line)->data,
-									line_len + next_line_len - lead_len + 1);
-		strcat((*line)->data, next_line->data + lead_len);
+								line_len + next_line_len - next_lead_len + 1);
+		strcat((*line)->data, next_line->data + next_lead_len);
 
 		unlink_node(next_line);
 		par_len--;
@@ -1974,8 +1976,6 @@ void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
  * full_justify is TRUE. */
 void do_justify(bool full_justify)
 {
-	size_t quote_len;
-		/* Length of the quote part of the current paragraph. */
 	size_t par_len;
 		/* Number of lines in the current paragraph. */
 	filestruct *first_par_line;
@@ -2011,7 +2011,7 @@ void do_justify(bool full_justify)
 	/* Find the first line of the paragraph(s) to be justified.  If the
 	 * search fails, there is nothing to justify, and we will be on the
 	 * last line of the file, so put the cursor at the end of it. */
-	if (!find_paragraph(&openfile->current, &quote_len, &par_len)) {
+	if (!find_paragraph(&openfile->current, &par_len)) {
 		openfile->current_x = strlen(openfile->filebot->data);
 		refresh_needed = TRUE;
 		return;
@@ -2066,12 +2066,12 @@ void do_justify(bool full_justify)
 	jusline = cutbuffer;
 
 	/* Justify the current paragraph. */
-	justify_paragraph(&jusline, quote_len, par_len);
+	justify_paragraph(&jusline, par_len);
 
 	/* When justifying the entire buffer, find and justify all paragraphs. */
 	if (full_justify) {
-		while (find_paragraph(&jusline, &quote_len, &par_len)) {
-			justify_paragraph(&jusline, quote_len, par_len);
+		while (find_paragraph(&jusline, &par_len)) {
+			justify_paragraph(&jusline, par_len);
 
 			if (jusline->next == NULL)
 				break;
