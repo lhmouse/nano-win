@@ -2067,8 +2067,6 @@ void justify_paragraph(filestruct **line, size_t quote_len,
 	filestruct *sampleline;
 		/* The line from which the indentation is copied -- either
 		 * the first and only or the second line of the paragraph. */
-	filestruct *jusline;
-		/* The line of the current paragraph that we're justifying. */
 	size_t lead_len;
 		/* Length of the quote part plus the indentation part. */
 	ssize_t break_pos;
@@ -2084,44 +2082,41 @@ void justify_paragraph(filestruct **line, size_t quote_len,
 	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
 	lead_string[lead_len] = '\0';
 
-	/* Start justifying on the first line. */
-	jusline = *line;
-
 	/* First tack all the lines of the paragraph together, skipping
 	 * the quoting and indentation on all lines after the first. */
 	while (par_len > 1) {
-		filestruct *next_line = jusline->next;
-		size_t line_len = strlen(jusline->data);
+		filestruct *next_line = (*line)->next;
+		size_t line_len = strlen((*line)->data);
 		size_t next_line_len = strlen(next_line->data);
 
 		lead_len = quote_len + indent_length(next_line->data + quote_len);
 
 		/* We're just about to tack the next line onto this one.  If
 		 * this line isn't empty, make sure it ends in a space. */
-		if (line_len > 0 && jusline->data[line_len - 1] != ' ') {
-			jusline->data = charealloc(jusline->data, line_len + 2);
-			jusline->data[line_len++] = ' ';
-			jusline->data[line_len] = '\0';
+		if (line_len > 0 && (*line)->data[line_len - 1] != ' ') {
+			(*line)->data = charealloc((*line)->data, line_len + 2);
+			(*line)->data[line_len++] = ' ';
+			(*line)->data[line_len] = '\0';
 		}
 
-		jusline->data = charealloc(jusline->data,
+		(*line)->data = charealloc((*line)->data,
 									line_len + next_line_len - lead_len + 1);
-		strcat(jusline->data, next_line->data + lead_len);
+		strcat((*line)->data, next_line->data + lead_len);
 
 		unlink_node(next_line);
 		par_len--;
 	}
 
 	/* Change all blank characters to spaces and remove excess spaces. */
-	justify_format(jusline, quote_len + indent_length(jusline->data + quote_len));
+	justify_format(*line, quote_len + indent_length((*line)->data + quote_len));
 
 	/* Now break this long line into pieces that each fit with wrap_at columns. */
-	while (strlenpt(jusline->data) > wrap_at) {
-		size_t line_len = strlen(jusline->data);
+	while (strlenpt((*line)->data) > wrap_at) {
+		size_t line_len = strlen((*line)->data);
 
 		/* Find a point in the line where it can be broken. */
-		break_pos = break_line(jusline->data + lead_len,
-						wrap_at - strnlenpt(jusline->data, lead_len), FALSE);
+		break_pos = break_line((*line)->data + lead_len,
+						wrap_at - strnlenpt((*line)->data, lead_len), FALSE);
 
 		/* If we can't break the line, or don't need to, we're done. */
 		if (break_pos == -1 || break_pos + lead_len == line_len)
@@ -2133,29 +2128,26 @@ void justify_paragraph(filestruct **line, size_t quote_len,
 
 		/* Insert a new line after the current one, and copy the leading part
 		 * plus the text after the breaking point into it. */
-		splice_node(jusline, make_new_node(jusline));
-		jusline->next->data = charalloc(lead_len + 1 + line_len - break_pos);
-		strncpy(jusline->next->data, lead_string, lead_len);
-		strcpy(jusline->next->data + lead_len, jusline->data + break_pos);
+		splice_node(*line, make_new_node(*line));
+		(*line)->next->data = charalloc(lead_len + line_len - break_pos + 1);
+		strncpy((*line)->next->data, lead_string, lead_len);
+		strcpy((*line)->next->data + lead_len, (*line)->data + break_pos);
 
 		/* When requested, snip all trailing blanks. */
 		if (ISSET(TRIM_BLANKS)) {
 			while (break_pos > 0 &&
-						is_blank_mbchar(&jusline->data[break_pos - 1]))
+						is_blank_mbchar(&(*line)->data[break_pos - 1]))
 				break_pos--;
 		}
 
 		/* Now actually break the current line. */
-		null_at(&jusline->data, break_pos);
+		null_at(&(*line)->data, break_pos);
 
 		/* Go to the next line. */
-		jusline = jusline->next;
+		*line = (*line)->next;
 	}
 
 	free(lead_string);
-
-	/* We're on the last line of the paragraph.  Save it. */
-	*line = jusline;
 
 	/* If possible, go to the next line. */
 	if ((*line)->next != NULL)
