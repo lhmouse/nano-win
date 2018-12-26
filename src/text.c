@@ -2116,7 +2116,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	justify_format(jusline, quote_len + indent_length(jusline->data + quote_len));
 
 	/* Now break this long line into pieces that each fit with wrap_at columns. */
-	while (par_len > 0 && strlenpt(jusline->data) > wrap_at) {
+	while (strlenpt(jusline->data) > wrap_at) {
 		size_t line_len = strlen(jusline->data);
 
 		/* Find a point in the line where it can be broken. */
@@ -2138,8 +2138,6 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 		strncpy(jusline->next->data, lead_string, lead_len);
 		strcpy(jusline->next->data + lead_len, jusline->data + break_pos);
 
-		par_len++;
-
 		/* When requested, snip all trailing blanks. */
 		if (ISSET(TRIM_BLANKS)) {
 			while (break_pos > 0 &&
@@ -2152,7 +2150,6 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 
 		/* Go to the next line. */
 		jusline = jusline->next;
-		par_len--;
 	}
 
 	free(lead_string);
