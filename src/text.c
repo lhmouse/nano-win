@@ -2058,10 +2058,10 @@ bool find_paragraph(filestruct **firstline,
 	return TRUE;
 }
 
-/* Wrap all lines of the paragraph (that starts at *firstline and consists
+/* Wrap all lines of the paragraph (that starts at *line and consists
  * of par_len lines and has quote_len bytes of quoting) so they all fit
  * within the wrap_at target width. */
-void justify_paragraph(filestruct **firstline, size_t quote_len,
+void justify_paragraph(filestruct **line, size_t quote_len,
 						size_t par_len)
 {
 	filestruct *sampleline;
@@ -2077,7 +2077,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 		/* The quote+indent stuff that is copied from the sample line. */
 
 	/* The sample line is either the only line or the second line. */
-	sampleline = (par_len == 1 ? *firstline : (*firstline)->next);
+	sampleline = (par_len == 1 ? *line : (*line)->next);
 
 	/* Copy the leading part (quoting + indentation) of the sample line. */
 	lead_len = quote_len + indent_length(sampleline->data + quote_len);
@@ -2085,7 +2085,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	lead_string[lead_len] = '\0';
 
 	/* Start justifying on the first line. */
-	jusline = *firstline;
+	jusline = *line;
 
 	/* First tack all the lines of the paragraph together, skipping
 	 * the quoting and indentation on all lines after the first. */
@@ -2155,11 +2155,11 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	free(lead_string);
 
 	/* We're on the last line of the paragraph.  Save it. */
-	*firstline = jusline;
+	*line = jusline;
 
 	/* If possible, go to the next line. */
-	if ((*firstline)->next != NULL)
-		*firstline = (*firstline)->next;
+	if ((*line)->next != NULL)
+		*line = (*line)->next;
 }
 
 /* Justify the current paragraph, and justify the entire file when
