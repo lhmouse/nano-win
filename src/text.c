@@ -2058,11 +2058,9 @@ bool find_paragraph(filestruct **firstline,
 	return TRUE;
 }
 
-/* Run every line of par through justify_format().  Assume
- * that firstline is at the beginning of the paragraph, quote_len is the length
- * of the paragraph's quote string, and par_len is the number of lines in the
- * paragraph.  Return the line following the justified paragraph in
- * firstline. */
+/* Wrap all lines of the paragraph (that starts at *firstline and consists
+ * of par_len lines and has quote_len bytes of quoting) so they all fit
+ * within the wrap_at target width. */
 void justify_paragraph(filestruct **firstline, size_t quote_len,
 						size_t par_len)
 {
@@ -2074,7 +2072,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	size_t lead_len;
 		/* Length of the quote part plus the indentation part. */
 	ssize_t break_pos;
-		/* Where we will break lines. */
+		/* The x-coordinate where the current line is to be broken. */
 	char *lead_string;
 		/* The quote+indent stuff that is copied from the sample line. */
 
@@ -2089,7 +2087,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	/* Start justifying on the first line. */
 	jusline = *firstline;
 
-	/* Now tack all the lines of the paragraph together, skipping
+	/* First tack all the lines of the paragraph together, skipping
 	 * the quoting and indentation on all lines after the first. */
 	while (par_len > 1) {
 		filestruct *next_line = jusline->next;
@@ -2101,8 +2099,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 		/* We're just about to tack the next line onto this one.  If
 		 * this line isn't empty, make sure it ends in a space. */
 		if (line_len > 0 && jusline->data[line_len - 1] != ' ') {
-			jusline->data =
-						charealloc(jusline->data, line_len + 2);
+			jusline->data = charealloc(jusline->data, line_len + 2);
 			jusline->data[line_len++] = ' ';
 			jusline->data[line_len] = '\0';
 		}
@@ -2115,18 +2112,16 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 		par_len--;
 	}
 
-	/* Call justify_format() on the paragraph, which will remove excess
-	 * spaces from it and change all blank characters to spaces. */
-	justify_format(jusline, quote_len +
-					indent_length(jusline->data + quote_len));
+	/* Change all blank characters to spaces and remove excess spaces. */
+	justify_format(jusline, quote_len + indent_length(jusline->data + quote_len));
 
+	/* Now break this long line into pieces that each fit with wrap_at columns. */
 	while (par_len > 0 && strlenpt(jusline->data) > wrap_at) {
 		size_t line_len = strlen(jusline->data);
 
-		/* If this line is too long, try to wrap it to the next line
-		 * to make it short enough. */
+		/* Find a point in the line where it can be broken. */
 		break_pos = break_line(jusline->data + lead_len,
-				wrap_at - strnlenpt(jusline->data, lead_len), FALSE);
+						wrap_at - strnlenpt(jusline->data, lead_len), FALSE);
 
 		/* If we can't break the line, or don't need to, we're done. */
 		if (break_pos == -1 || break_pos + lead_len == line_len)
@@ -2136,28 +2131,23 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 		 * move it beyond the found whitespace character. */
 		break_pos += lead_len + 1;
 
-		/* Insert a new line after the current one and allocate it. */
+		/* Insert a new line after the current one, and copy the leading part
+		 * plus the text after the breaking point into it. */
 		splice_node(jusline, make_new_node(jusline));
-		jusline->next->data = charalloc(lead_len + 1 +
-													line_len - break_pos);
-
-		/* Copy the leading part and the text after the breaking point
-		 * into the next line. */
+		jusline->next->data = charalloc(lead_len + 1 + line_len - break_pos);
 		strncpy(jusline->next->data, lead_string, lead_len);
-		strcpy(jusline->next->data + lead_len,
-										jusline->data + break_pos);
+		strcpy(jusline->next->data + lead_len, jusline->data + break_pos);
 
 		par_len++;
 
 		/* When requested, snip all trailing blanks. */
 		if (ISSET(TRIM_BLANKS)) {
 			while (break_pos > 0 &&
-					is_blank_mbchar(&jusline->data[break_pos - 1])) {
+						is_blank_mbchar(&jusline->data[break_pos - 1]))
 				break_pos--;
-			}
 		}
 
-		/* Break the current line. */
+		/* Now actually break the current line. */
 		null_at(&jusline->data, break_pos);
 
 		/* Go to the next line. */
@@ -2170,9 +2160,7 @@ void justify_paragraph(filestruct **firstline, size_t quote_len,
 	/* We're on the last line of the paragraph.  Save it. */
 	*firstline = jusline;
 
-	/* Go to the next line, if possible.  If there is no next line,
-	 * the last line is part of the paragraph (instead of the line following
-	 * the paragraph). */
+	/* If possible, go to the next line. */
 	if ((*firstline)->next != NULL)
 		*firstline = (*firstline)->next;
 }
