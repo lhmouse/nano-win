@@ -1875,34 +1875,11 @@ bool find_paragraph(filestruct **firstline, size_t *const parlen)
 	return TRUE;
 }
 
-/* Wrap all lines of the paragraph (that starts at *line, and consists of
- * par_len lines) so they all fit
- * within the wrap_at target width. */
-void justify_paragraph(filestruct **line, size_t par_len)
+/* Tack all the lines of the paragraph (that starts at *line, and consists of
+ * par_len lines) together, skipping
+ * the quoting and indentation on all lines after the first. */
+void concat_paragraph(filestruct **line, size_t par_len)
 {
-	filestruct *sampleline;
-		/* The line from which the indentation is copied -- either
-		 * the first and only or the second line of the paragraph. */
-	size_t quote_len;
-		/* Length of the quote part. */
-	size_t lead_len;
-		/* Length of the quote part plus the indentation part. */
-	ssize_t break_pos;
-		/* The x-coordinate where the current line is to be broken. */
-	char *lead_string;
-		/* The quote+indent stuff that is copied from the sample line. */
-
-	/* The sample line is either the only line or the second line. */
-	sampleline = (par_len == 1 ? *line : (*line)->next);
-
-	/* Copy the leading part (quoting + indentation) of the sample line. */
-	quote_len = quote_length(sampleline->data);
-	lead_len = quote_len + indent_length(sampleline->data + quote_len);
-	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
-	lead_string[lead_len] = '\0';
-
-	/* Now first tack all the lines of the paragraph together, skipping
-	 * the quoting and indentation on all lines after the first. */
 	while (par_len > 1) {
 		filestruct *next_line = (*line)->next;
 		size_t line_len = strlen((*line)->data);
@@ -1926,11 +1903,17 @@ void justify_paragraph(filestruct **line, size_t par_len)
 		unlink_node(next_line);
 		par_len--;
 	}
+}
 
-	/* Change all blank characters to spaces and remove excess spaces. */
-	justify_format(*line, quote_len + indent_length((*line)->data + quote_len));
+/* Wrap all lines of the paragraph (that starts at *line, and
+ * has quoting + indentation of lead_string, of length
+ * lead_len) so they all fit
+ * within the wrap_at target width. */
+void rewrap_paragraph(filestruct **line, char *lead_string, size_t lead_len)
+{
+	ssize_t break_pos;
+		/* The x-coordinate where the current line is to be broken. */
 
-	/* Now break this long line into pieces that each fit with wrap_at columns. */
 	while (strlenpt((*line)->data) > wrap_at) {
 		size_t line_len = strlen((*line)->data);
 
@@ -1965,11 +1948,46 @@ void justify_paragraph(filestruct **line, size_t par_len)
 		*line = (*line)->next;
 	}
 
-	free(lead_string);
-
 	/* When possible, go to the line after the rewrapped paragraph. */
 	if ((*line)->next != NULL)
 		*line = (*line)->next;
+}
+
+/* Format and rewrap all lines of the paragraph (that starts at *line, and
+ * consists of par_len lines) so they all fit within the wrap_at target
+ * width. */
+void justify_paragraph(filestruct **line, size_t par_len)
+{
+	filestruct *sampleline;
+		/* The line from which the indentation is copied -- either
+		 * the first and only or the second line of the paragraph. */
+	size_t quote_len;
+		/* Length of the quote part. */
+	size_t lead_len;
+		/* Length of the quote part plus the indentation part. */
+	char *lead_string;
+		/* The quote+indent stuff that is copied from the sample line. */
+
+	/* The sample line is either the only line or the second line. */
+	sampleline = (par_len == 1 ? *line : (*line)->next);
+
+	/* Copy the leading part (quoting + indentation) of the sample line. */
+	quote_len = quote_length(sampleline->data);
+	lead_len = quote_len + indent_length(sampleline->data + quote_len);
+	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
+	lead_string[lead_len] = '\0';
+
+	/* Tack the paragraph together into one line. */
+	concat_paragraph(line, par_len);
+
+	/* Change all blank characters to spaces and remove excess spaces. */
+	justify_format(*line, quote_len + indent_length((*line)->data + quote_len));
+
+	/* Rewrap the paragraph into multiple lines, accounting for the leading
+	 * part. */
+	rewrap_paragraph(line, lead_string, lead_len);
+
+	free(lead_string);
 }
 
 /* Justify the current paragraph, and justify the entire file when
