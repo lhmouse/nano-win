@@ -659,7 +659,7 @@ void handle_comment_action(undo *u, bool undoing, bool add_comment)
 void undo_cut(undo *u)
 {
 	/* Get to where we need to uncut from. */
-	if (u->xflags == WAS_WHOLE_LINE)
+	if (u->xflags & WAS_WHOLE_LINE)
 		goto_line_posx(u->mark_begin_lineno, 0);
 	else
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -670,7 +670,7 @@ void undo_cut(undo *u)
 
 	copy_from_buffer(u->cutbuffer);
 
-	if (u->xflags != WAS_MARKED_FORWARD && u->type != PASTE)
+	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 }
 
@@ -689,7 +689,7 @@ void redo_cut(undo *u)
 	cutbottom = NULL;
 
 	openfile->mark = fsfromline(u->mark_begin_lineno);
-	openfile->mark_x = (u->xflags == WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
+	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
 
 	do_cut_text(FALSE, TRUE, FALSE, u->type == ZAP);
 
@@ -724,7 +724,7 @@ void do_undo(void)
 		/* TRANSLATORS: The next thirteen strings describe actions
 		 * that are undone or redone.  They are all nouns, not verbs. */
 		undidmsg = _("text add");
-		if (u->xflags == WAS_FINAL_LINE && !ISSET(NO_NEWLINES))
+		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			remove_magicline();
 		data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
 		strncpy(data, f->data, u->begin);
@@ -764,7 +764,7 @@ void do_undo(void)
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not re-add a newline that
 		 * wasn't actually deleted; just position the cursor. */
-		if (u->xflags == WAS_FINAL_BACKSPACE && !ISSET(NO_NEWLINES)) {
+		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
@@ -906,7 +906,7 @@ void do_redo(void)
 	switch (u->type) {
 	case ADD:
 		redidmsg = _("text add");
-		if (u->xflags == WAS_FINAL_LINE && !ISSET(NO_NEWLINES))
+		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			new_magicline();
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 		strncpy(data, f->data, u->begin);
@@ -947,7 +947,7 @@ void do_redo(void)
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not join anything, as
 		 * nothing was actually deleted; just position the cursor. */
-		if (u->xflags == WAS_FINAL_BACKSPACE && !ISSET(NO_NEWLINES)) {
+		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
 			goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 			break;
 		}
@@ -1369,7 +1369,7 @@ void add_undo(undo_type action)
 	case ADD:
 		/* If a new magic line will be added, an undo should remove it. */
 		if (openfile->current == openfile->filebot)
-			u->xflags = WAS_FINAL_LINE;
+			u->xflags |= WAS_FINAL_LINE;
 		u->wassize--;
 		break;
 	case ENTER:
@@ -1379,7 +1379,7 @@ void add_undo(undo_type action)
 		 * backspace, as it won't actually have deleted anything. */
 		if (openfile->current->next == openfile->filebot &&
 						openfile->current->data[0] != '\0')
-			u->xflags = WAS_FINAL_BACKSPACE;
+			u->xflags |= WAS_FINAL_BACKSPACE;
 	case DEL:
 		/* When not at the end of a line, store the deleted character,
 		 * else purposely fall into the line-joining code. */
@@ -1420,11 +1420,11 @@ void add_undo(undo_type action)
 		if (openfile->mark) {
 			u->mark_begin_lineno = openfile->mark->lineno;
 			u->mark_begin_x = openfile->mark_x;
-			u->xflags = MARK_WAS_SET;
+			u->xflags |= MARK_WAS_SET;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
 			u->begin = 0;
-			u->xflags = WAS_WHOLE_LINE;
+			u->xflags |= WAS_WHOLE_LINE;
 		}
 		break;
 	case PASTE:
@@ -1553,7 +1553,7 @@ void update_undo(undo_type action)
 			free_filestruct(u->cutbuffer);
 			u->cutbuffer = copy_filestruct(cutbuffer);
 		}
-		if (u->xflags == MARK_WAS_SET) {
+		if (u->xflags & MARK_WAS_SET) {
 			/* If the "marking" operation was from right-->left or
 			 * bottom-->top, then swap the mark points. */
 			if ((u->lineno == u->mark_begin_lineno && u->begin < u->mark_begin_x)
@@ -1567,7 +1567,7 @@ void update_undo(undo_type action)
 				u->lineno = u->mark_begin_lineno;
 				u->mark_begin_lineno = line;
 			} else
-				u->xflags = WAS_MARKED_FORWARD;
+				u->xflags |= WAS_MARKED_FORWARD;
 		} else {
 			/* Compute the end of the cut for the undo, using our copy. */
 			u->cutbottom = u->cutbuffer;
