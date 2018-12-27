@@ -159,12 +159,6 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 	return retval;
 }
 
-/* Reduce the memory allocation of a string to what is needed. */
-void snuggly_fit(char **string)
-{
-	*string = charealloc(*string, strlen(*string) + 1);
-}
-
 /* Null a string at a certain index and align it. */
 void null_at(char **data, size_t index)
 {

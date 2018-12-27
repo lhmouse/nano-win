@@ -1472,8 +1472,7 @@ void init_operating_dir(void)
 		die(_("Invalid operating directory: %s\n"), operating_dir);
 
 	free(operating_dir);
-	operating_dir = target;
-	snuggly_fit(&operating_dir);
+	operating_dir = charealloc(target, strlen(target) + 1);
 }
 
 /* Check whether the given path is outside of the operating directory.
@@ -1540,8 +1539,7 @@ void init_backup_dir(void)
 		die(_("Invalid backup directory: %s\n"), backup_dir);
 
 	free(backup_dir);
-	backup_dir = target;
-	snuggly_fit(&backup_dir);
+	backup_dir = charealloc(target, strlen(target) + 1);
 }
 #endif /* !NANO_TINY */
 
