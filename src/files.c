@@ -1465,12 +1465,14 @@ char *safe_tempfile(FILE **f)
 /* Change to the specified operating directory, when it's valid. */
 void init_operating_dir(void)
 {
-	operating_dir = free_and_assign(operating_dir, get_full_path(operating_dir));
+	char *target = get_full_path(operating_dir);
 
 	/* If the operating directory is inaccessible, fail. */
-	if (operating_dir == NULL || chdir(operating_dir) == -1)
-		die(_("Invalid operating directory\n"));
+	if (target == NULL || chdir(target) == -1)
+		die(_("Invalid operating directory: %s\n"), operating_dir);
 
+	free(operating_dir);
+	operating_dir = target;
 	snuggly_fit(&operating_dir);
 }
 
@@ -1530,13 +1532,15 @@ int prompt_failed_backupwrite(const char *filename)
  * and verify that it is usable. */
 void init_backup_dir(void)
 {
-	backup_dir = free_and_assign(backup_dir, get_full_path(backup_dir));
+	char *target = get_full_path(backup_dir);
 
 	/* If we can't get an absolute path (which means it doesn't exist or
 	 * isn't accessible), or it's not a directory, fail. */
-	if (backup_dir == NULL || backup_dir[strlen(backup_dir) - 1] != '/')
-		die(_("Invalid backup directory\n"));
+	if (target == NULL || target[strlen(target) - 1] != '/')
+		die(_("Invalid backup directory: %s\n"), backup_dir);
 
+	free(backup_dir);
+	backup_dir = target;
 	snuggly_fit(&backup_dir);
 }
 #endif /* !NANO_TINY */
