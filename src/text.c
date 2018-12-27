@@ -670,6 +670,10 @@ void undo_cut(undo *u)
 
 	copy_from_buffer(u->cutbuffer);
 
+	/* If the final line was originally cut, remove the extra magicline. */
+	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
+		remove_magicline();
+
 	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 }
@@ -1414,6 +1418,7 @@ void add_undo(undo_type action)
 		break;
 #endif
 	case CUT_TO_EOF:
+		u->xflags |= WAS_FINAL_LINE;
 		break;
 	case ZAP:
 	case CUT:
@@ -1421,6 +1426,9 @@ void add_undo(undo_type action)
 			u->mark_begin_lineno = openfile->mark->lineno;
 			u->mark_begin_x = openfile->mark_x;
 			u->xflags |= MARK_WAS_SET;
+			if (openfile->current == openfile->filebot ||
+						openfile->mark == openfile->filebot)
+				u->xflags |= WAS_FINAL_LINE;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
 			u->begin = 0;
