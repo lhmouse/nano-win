@@ -126,11 +126,11 @@
 ## This is an extended regular expression.  The default is:
 # set quotestr "^([ 	]*([#:>|}]|//))+"
 
+## Try to work around a mismatching terminfo terminal description.
+# set rawsequences
+
 ## Fix Backspace/Delete confusion problem.
 # set rebinddelete
-
-## Fix numeric keypad key confusion problem.
-# set rawsequences
 
 ## Do extended regular expression searches by default.
 # set regexp
