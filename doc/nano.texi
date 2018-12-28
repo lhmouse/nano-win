@@ -289,9 +289,9 @@ Note that this overrides option @option{-U} (@option{--quickblank}).
 
 @item -d
 @itemx --rebinddelete
-Interpret the Delete key differently so that both Backspace and Delete
-work properly.  You should only need to use this option if Backspace
-acts like Delete on your system.
+Interpret the Delete and Backspace keys differently so that both Backspace
+and Delete work properly.  You should only use this option when on your
+system either Backspace acts like Delete or Delete acts like Backspace.
 
 @item -g
 @itemx --showcursor
@@ -842,9 +842,9 @@ properly, please report a bug.  Using this option disables @command{nano}'s
 mouse support.
 
 @item set rebinddelete
-Interpret the Delete key differently so that both Backspace and Delete
-work properly.  You should only need to use this option if Backspace
-acts like Delete on your system.
+Interpret the Delete and Backspace keys differently so that both Backspace
+and Delete work properly.  You should only use this option when on your
+system either Backspace acts like Delete or Delete acts like Backspace.
 
 @item set regexp
 Do extended regular expression searches by default.
