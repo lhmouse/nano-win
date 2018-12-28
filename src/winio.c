@@ -1538,7 +1538,7 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	 * don't get extended keypad values. */
 	if (ISSET(PRESERVE))
 		disable_flow_control();
-	if (!ISSET(REBIND_KEYPAD))
+	if (!ISSET(RAW_SEQUENCES))
 		keypad(win, FALSE);
 
 	/* Read in one keycode, or one or two escapes. */
@@ -1557,7 +1557,7 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 		enable_flow_control();
 	/* Use the global window pointers, because a resize may have freed
 	 * the data that the win parameter points to. */
-	if (!ISSET(REBIND_KEYPAD)) {
+	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
 	}

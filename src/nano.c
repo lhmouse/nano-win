@@ -706,8 +706,8 @@ void window_init(void)
 	/* In case the terminal shrunk, make sure the status line is clear. */
 	wipe_statusbar();
 
-	/* Turn the keypad on for the windows, if necessary. */
-	if (!ISSET(REBIND_KEYPAD)) {
+	/* When not disabled, turn escape-sequence translation on. */
+	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(topwin, TRUE);
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
@@ -1528,7 +1528,7 @@ int get_keycode(const char *keyname, const int standard)
 		return key_defined(keyvalue);
 #endif
 #ifdef DEBUG
-	if (!ISSET(REBIND_KEYPAD))
+	if (!ISSET(RAW_SEQUENCES))
 		fprintf(stderr, "Using fallback keycode for %s\n", keyname);
 #endif
 	return standard;
@@ -2131,7 +2131,7 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 'K':
-				SET(REBIND_KEYPAD);
+				SET(RAW_SEQUENCES);
 				break;
 			case 'L':
 				SET(NO_NEWLINES);

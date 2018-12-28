@@ -78,7 +78,7 @@ static const rcoption rcopts[] = {
 #endif
 	{"quickblank", QUICK_BLANK},
 	{"rebinddelete", REBIND_DELETE},
-	{"rebindkeypad", REBIND_KEYPAD},
+	{"rebindkeypad", RAW_SEQUENCES},
 	{"regexp", USE_REGEXP},
 #ifdef ENABLE_SPELLER
 	{"speller", 0},
