@@ -2430,6 +2430,10 @@ int main(int argc, char **argv)
 #endif
 	}
 
+	/* When getting untranslated escape sequences, the mouse cannot be used. */
+	if (ISSET(RAW_SEQUENCES))
+		UNSET(USE_MOUSE);
+
 #ifdef ENABLE_HISTORIES
 	/* Initialize the pointers for the Search/Replace/Execute histories. */
 	history_init();
