@@ -430,7 +430,6 @@ void confirm_margin(void);
 #endif
 void unbound_key(int code);
 bool okay_for_view(const sc *shortcut);
-int do_input(bool allow_funcs);
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* Most functions in prompt.c. */

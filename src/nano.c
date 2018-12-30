@@ -1652,9 +1652,8 @@ bool okay_for_view(const sc *shortcut)
 }
 
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
- * otherwise, insert it into the edit buffer.  If allow_funcs is FALSE, don't
- * do anything with the keystroke -- just return it. */
-int do_input(bool allow_funcs)
+ * otherwise, insert it into the edit buffer. */
+void do_input(void)
 {
 	int input;
 		/* The keystroke we read in: a character or a shortcut. */
@@ -1671,7 +1670,7 @@ int do_input(bool allow_funcs)
 
 #ifndef NANO_TINY
 	if (input == KEY_WINCH)
-		return KEY_WINCH;
+		return;
 #endif
 
 #ifdef ENABLE_MOUSE
@@ -1683,7 +1682,7 @@ int do_input(bool allow_funcs)
 			input = get_kbinput(edit, BLIND);
 		else
 			/* The click was invalid or has been handled -- get out. */
-			return ERR;
+			return;
 	}
 #endif
 
@@ -1698,9 +1697,6 @@ int do_input(bool allow_funcs)
 			input = ERR;
 		}
 	}
-
-	if (!allow_funcs)
-		return input;
 
 	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
 	 * character: add the character to the input buffer -- or display a
@@ -1744,7 +1740,7 @@ int do_input(bool allow_funcs)
 	else {
 		if (ISSET(VIEW_MODE) && !okay_for_view(shortcut)) {
 			print_view_warning();
-			return ERR;
+			return;
 		}
 
 		/* If the function associated with this shortcut is
@@ -1763,7 +1759,7 @@ int do_input(bool allow_funcs)
 #ifdef ENABLE_NANORC
 		if (shortcut->func == (functionptrtype)implant) {
 			implant(shortcut->expansion);
-			return 42;
+			return;
 		}
 #endif
 #ifndef NANO_TINY
@@ -1828,8 +1824,6 @@ int do_input(bool allow_funcs)
 	 * blow away the text in the cutbuffer upon the next cutting action. */
 	if (!retain_cuts)
 		cutbuffer_reset();
-
-	return input;
 }
 
 /* The user typed output_len multibyte characters.  Add them to the edit
@@ -2707,7 +2701,7 @@ int main(int argc, char **argv)
 		/* Forget any earlier cursor position at the prompt. */
 		put_cursor_at_end_of_answer();
 
-		/* Read in and interpret keystrokes. */
-		do_input(TRUE);
+		/* Read in and interpret a single keystroke. */
+		do_input();
 	}
 }
