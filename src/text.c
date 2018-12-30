@@ -671,7 +671,8 @@ void undo_cut(undo *u)
 	copy_from_buffer(u->cutbuffer);
 
 	/* If the final line was originally cut, remove the extra magicline. */
-	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
+	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
+			openfile->current != openfile->filebot)
 		remove_magicline();
 
 	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
