@@ -1501,30 +1501,26 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
  * character into its corresponding control character. */
 int get_control_kbinput(int kbinput)
 {
-	int retval;
-
 	/* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
 	if (kbinput == ' ' || kbinput == '2')
-		retval = 0;
+		return 0;
 	/* Ctrl-/ (Ctrl-7, Ctrl-_) */
 	else if (kbinput == '/')
-		retval = 31;
+		return 31;
 	/* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-/, Ctrl-_) */
 	else if ('3' <= kbinput && kbinput <= '7')
-		retval = kbinput - 24;
+		return kbinput - 24;
 	/* Ctrl-8 (Ctrl-?) */
 	else if (kbinput == '8' || kbinput == '?')
-		retval = DEL_CODE;
+		return DEL_CODE;
 	/* Ctrl-@ (Ctrl-Space, Ctrl-2, Ctrl-`) to Ctrl-_ (Ctrl-/, Ctrl-7) */
 	else if ('@' <= kbinput && kbinput <= '_')
-		retval = kbinput - '@';
+		return kbinput - '@';
 	/* Ctrl-` (Ctrl-2, Ctrl-Space, Ctrl-@) to Ctrl-~ (Ctrl-6, Ctrl-^) */
 	else if ('`' <= kbinput && kbinput <= '~')
-		retval = kbinput - '`';
+		return kbinput - '`';
 	else
-		retval = kbinput;
-
-	return retval;
+		return kbinput;
 }
 
 /* Read in a stream of characters verbatim, and return the length of the
