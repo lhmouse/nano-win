@@ -1618,7 +1618,7 @@ int do_mouse(void)
 		else
 #endif
 			/* The cursor moved; clean the cutbuffer on the next cut. */
-			cutbuffer_reset();
+			keep_cutbuffer = FALSE;
 
 		edit_redraw(current_save, CENTERING);
 	}
@@ -1823,7 +1823,7 @@ void do_input(void)
 	/* If we aren't cutting or copying text, and the key wasn't a toggle,
 	 * blow away the text in the cutbuffer upon the next cutting action. */
 	if (!retain_cuts)
-		cutbuffer_reset();
+		keep_cutbuffer = FALSE;
 }
 
 /* The user typed output_len multibyte characters.  Add them to the edit

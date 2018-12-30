@@ -91,6 +91,8 @@ extern int margin;
 
 extern filestruct *cutbuffer;
 extern filestruct *cutbottom;
+extern bool keep_cutbuffer;
+
 extern partition *filepart;
 extern openfilestruct *openfile;
 extern openfilestruct *firstfile;
@@ -241,7 +243,6 @@ void precalc_multicolorinfo(void);
 #endif
 
 /* Most functions in cut.c. */
-void cutbuffer_reset(void);
 #ifndef NANO_TINY
 void cut_marked(bool *right_side_up);
 #endif

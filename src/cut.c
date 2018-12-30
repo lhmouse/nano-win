@@ -24,15 +24,6 @@
 
 #include <string.h>
 
-static bool keep_cutbuffer = FALSE;
-		/* Should we keep the contents of the cutbuffer? */
-
-/* Indicate that we should no longer keep the contents of the cutbuffer. */
-void cutbuffer_reset(void)
-{
-	keep_cutbuffer = FALSE;
-}
-
 /* If we aren't on the last line of the file, move all the text of the
  * current line, plus the newline at the end, into the cutbuffer.  If we
  * are, move all of the text of the current line into the cutbuffer.  In
@@ -217,7 +208,7 @@ void do_copy_text(void)
 	size_t is_current_x = openfile->current_x;
 
 	if (mark_is_set || openfile->current != next_contiguous_line)
-		cutbuffer_reset();
+		keep_cutbuffer = FALSE;
 
 	do_cut_text(TRUE, mark_is_set, FALSE, FALSE);
 
