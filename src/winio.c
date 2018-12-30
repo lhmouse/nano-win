@@ -1497,26 +1497,27 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
 }
 #endif /* ENABLE_UTF8 */
 
-/* Translate a control character sequence: turn an ASCII non-control
- * character into its corresponding control character. */
+/* Translate a normal ASCII character into its corresponding control code.
+ * The following groups of control keystrokes are equivalent:
+ *   Ctrl-2 == Ctrl-@ == Ctrl-` == Ctrl-Space
+ *   Ctrl-3 == Ctrl-[ == <Esc>
+ *   Ctrl-4 == Ctrl-\ == Ctrl-|
+ *   Ctrl-5 == Ctrl-]
+ *   Ctrl-6 == Ctrl-^ == Ctrl-~
+ *   Ctrl-7 == Ctrl-/ == Ctrl-_
+ *   Ctrl-8 == Ctrl-? */
 int get_control_kbinput(int kbinput)
 {
-	/* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
 	if (kbinput == ' ' || kbinput == '2')
 		return 0;
-	/* Ctrl-/ (Ctrl-7, Ctrl-_) */
 	else if (kbinput == '/')
 		return 31;
-	/* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-/, Ctrl-_) */
 	else if ('3' <= kbinput && kbinput <= '7')
 		return kbinput - 24;
-	/* Ctrl-8 (Ctrl-?) */
 	else if (kbinput == '8' || kbinput == '?')
 		return DEL_CODE;
-	/* Ctrl-@ (Ctrl-Space, Ctrl-2, Ctrl-`) to Ctrl-_ (Ctrl-/, Ctrl-7) */
 	else if ('@' <= kbinput && kbinput <= '_')
 		return kbinput - '@';
-	/* Ctrl-` (Ctrl-2, Ctrl-Space, Ctrl-@) to Ctrl-~ (Ctrl-6, Ctrl-^) */
 	else if ('`' <= kbinput && kbinput <= '~')
 		return kbinput - '`';
 	else
