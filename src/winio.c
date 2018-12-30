@@ -1673,37 +1673,30 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		 * back the equivalent keystroke(s) for it. */
 		if (allow_shortcuts && !ISSET(NO_HELP) && in_bottomwin) {
 			int width;
-				/* The width of all the shortcuts, except for the last
-				 * two, in the shortcut list in bottomwin. */
+				/* The width of each shortcut item, except the last two. */
 			int index;
-				/* The calculated index number of the clicked item. */
+				/* The calculated index of the clicked item. */
 			size_t number;
-				/* The number of available shortcuts in the current menu. */
+				/* The number of shortcut items that get displayed. */
 
-			/* Translate the mouse event coordinates so that they're
-			 * relative to bottomwin. */
+			/* Translate the coordinates to become relative to bottomwin. */
 			wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
 
-			/* Handle releases/clicks of the first mouse button on the
-			 * statusbar elsewhere. */
+			/* Clicks on the status bar are handled elsewhere, so
+			 * restore the untranslated mouse-event coordinates. */
 			if (*mouse_y == 0) {
-				/* Restore the untranslated mouse event coordinates, so
-				 * that they're relative to the entire screen again. */
 				*mouse_x = mevent.x - margin;
 				*mouse_y = mevent.y;
-
 				return 0;
 			}
 
-			/* Determine how many shortcuts are being shown. */
+			/* Determine how many shortcuts will be shown. */
 			number = length_of_list(currmenu);
-
 			if (number > MAIN_VISIBLE)
 				number = MAIN_VISIBLE;
 
-			/* Calculate the width of all of the shortcuts in the list
-			 * except for the last two, which are longer by (COLS % width)
-			 * columns so as to not waste space. */
+			/* Calculate the width of each non-rightmost shortcut item;
+			 * the rightmost ones will "absorb" any remaining slack. */
 			if (number < 2)
 				width = COLS / (MAIN_VISIBLE / 2);
 			else
@@ -1716,13 +1709,12 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			if ((index > number) && (*mouse_x % width < COLS % width))
 				index -= 2;
 
-			/* Ignore releases/clicks of the first mouse button beyond
-			 * the last shortcut. */
+			/* Ignore clicks beyond the last shortcut. */
 			if (index > number)
 				return 2;
 
 			/* Go through the list of functions to determine which
-			 * shortcut in the current menu we released/clicked on. */
+			 * shortcut in the current menu we clicked/released on. */
 			for (f = allfuncs; f != NULL; f = f->next) {
 				if ((f->menus & currmenu) == 0)
 					continue;
@@ -1740,8 +1732,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			}
 			return 1;
 		} else
-			/* Handle releases/clicks of the first mouse button that
-			 * aren't on the current shortcut list elsewhere. */
+			/* Clicks outside of bottomwin are handled elsewhere. */
 			return 0;
 	}
 #if NCURSES_MOUSE_VERSION >= 2
@@ -1752,18 +1743,14 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		bool in_edit = wenclose(edit, *mouse_y, *mouse_x);
 
 		if (in_bottomwin)
-			/* Translate the mouse event coordinates so that they're
-			 * relative to bottomwin. */
+			/* Translate the coordinates to become relative to bottomwin. */
 			wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
 
 		if (in_edit || (in_bottomwin && *mouse_y == 0)) {
-			int i;
-
 			/* One roll of the mouse wheel should move three lines. */
-			for (i = 0; i < 3; i++)
+			for (int count = 1; count <= 3; count++)
 				unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
 								KEY_UP : KEY_DOWN, FALSE);
-
 			return 1;
 		} else
 			/* Ignore presses of the fourth and fifth mouse buttons
