@@ -122,14 +122,14 @@ void run_macro(void)
  * - Ctrl-M is Enter under ASCII, ANSI, VT100, VT220, and VT320.
  * - Ctrl-Q is XON under ASCII, ANSI, VT100, VT220, and VT320.
  * - Ctrl-S is XOFF under ASCII, ANSI, VT100, VT220, and VT320.
- * - Ctrl-8 (Ctrl-?) is Delete under ASCII, ANSI, VT100, and VT220,
+ * - Ctrl-? is Delete under ASCII, ANSI, VT100, and VT220,
  *          but is Backspace under VT320.
  *
  * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By default,
- * xterm assumes it's running on a VT320 and generates Ctrl-8 (Ctrl-?)
+ * xterm assumes it's running on a VT320 and generates Ctrl-?
  * for Backspace and Esc [ 3 ~ for Delete.  This causes problems for
  * VT100-derived terminals such as the FreeBSD console, which expect
- * Ctrl-H for Backspace and Ctrl-8 (Ctrl-?) for Delete, and on which the
+ * Ctrl-H for Backspace and Ctrl-? for Delete, and on which the
  * VT320 sequences are translated by the keypad to KEY_DC and [nothing].
  * We work around this conflict via the REBIND_DELETE flag: if it's not set,
  * we assume VT320 compatibility, and if it is, we assume VT100 compatibility.
@@ -1767,13 +1767,11 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 
 			return 1;
 		} else
-			/* Ignore presses of the fourth mouse button and presses of
-			 * the fifth mouse buttons that aren't on the edit window or
-			 * the statusbar. */
+			/* Ignore presses of the fourth and fifth mouse buttons
+			 * that aren't on the edit window or the status bar. */
 			return 2;
 	}
 #endif
-
 	/* Ignore all other mouse events. */
 	return 2;
 }

@@ -2147,7 +2147,7 @@ void justify_paragraph(filestruct **line, size_t quote_len, size_t par_len)
 				break_pos--;
 		}
 
-		/* Now actually break the current line, and go the next. */
+		/* Now actually break the current line, and go to the next. */
 		null_at(&(*line)->data, break_pos);
 		*line = (*line)->next;
 	}
