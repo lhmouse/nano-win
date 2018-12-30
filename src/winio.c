@@ -1672,10 +1672,10 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		 * to figure out which shortcut was released on/clicked and put
 		 * back the equivalent keystroke(s) for it. */
 		if (allow_shortcuts && !ISSET(NO_HELP) && in_bottomwin) {
-			int i;
+			int width;
 				/* The width of all the shortcuts, except for the last
 				 * two, in the shortcut list in bottomwin. */
-			int j;
+			int index;
 				/* The calculated index number of the clicked item. */
 			size_t number;
 				/* The number of available shortcuts in the current menu. */
@@ -1702,23 +1702,23 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 				number = MAIN_VISIBLE;
 
 			/* Calculate the width of all of the shortcuts in the list
-			 * except for the last two, which are longer by (COLS % i)
+			 * except for the last two, which are longer by (COLS % width)
 			 * columns so as to not waste space. */
 			if (number < 2)
-				i = COLS / (MAIN_VISIBLE / 2);
+				width = COLS / (MAIN_VISIBLE / 2);
 			else
-				i = COLS / ((number / 2) + (number % 2));
+				width = COLS / ((number / 2) + (number % 2));
 
 			/* Calculate the one-based index in the shortcut list. */
-			j = (*mouse_x / i) * 2 + *mouse_y;
+			index = (*mouse_x / width) * 2 + *mouse_y;
 
 			/* Adjust the index if we hit the last two wider ones. */
-			if ((j > number) && (*mouse_x % i < COLS % i))
-				j -= 2;
+			if ((index > number) && (*mouse_x % width < COLS % width))
+				index -= 2;
 
 			/* Ignore releases/clicks of the first mouse button beyond
 			 * the last shortcut. */
-			if (j > number)
+			if (index > number)
 				return 2;
 
 			/* Go through the list of functions to determine which
@@ -1729,8 +1729,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 				if (first_sc_for(currmenu, f->func) == NULL)
 					continue;
 				/* Tick off an actually shown shortcut. */
-				j -= 1;
-				if (j == 0)
+				if (--index == 0)
 					break;
 			}
 
