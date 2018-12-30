@@ -292,7 +292,6 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 	bool right_side_up = TRUE;
 		/* There *is* no region, *or* it is marked forward. */
 #endif
-	size_t was_totsize = openfile->totsize;
 
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
 	if (!append && (!keep_cutbuffer || marked || cut_till_eof)) {
@@ -351,16 +350,36 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 			UNSET(NO_NEWLINES);
 	} else
 #endif /* !NANO_TINY */
-	/* Only set the modification flag if actually something was cut. */
-	if (openfile->totsize != was_totsize)
-		set_modified();
 
+	set_modified();
 	refresh_needed = TRUE;
+}
+
+/* Return TRUE when a cut command would not actually cut anything: when
+ * on an empty line at EOF, or when the mark covers zero characters. */
+bool nothing_needs_cutting(void)
+{
+	if ((openfile->current->next == NULL && openfile->current->data[0] == '\0'
+#ifndef NANO_TINY
+					&& openfile->mark == NULL) ||
+					(openfile->mark == openfile->current &&
+					openfile->mark_x == openfile->current_x
+#endif
+					)) {
+#ifndef NANO_TINY
+		openfile->mark = NULL;
+#endif
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 /* Move text from the current buffer into the cutbuffer. */
 void do_cut_text_void(void)
 {
+	if (nothing_needs_cutting())
+		return;
+
 #ifndef NANO_TINY
 	/* Only add a new undo item when the current item is not a CUT or when
 	 * the current cut is not contiguous with the previous cutting. */
@@ -410,6 +429,9 @@ void do_copy_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_eof(void)
 {
+	if (openfile->current->next == NULL && openfile->current->data[0] == '\0')
+		return;
+
 	add_undo(CUT_TO_EOF);
 	do_cut_text(FALSE, FALSE, TRUE, FALSE);
 	update_undo(CUT_TO_EOF);
@@ -421,6 +443,9 @@ void zap_text(void)
 	/* Remember the current cutbuffer so it can be restored after the zap. */
 	filestruct *was_cutbuffer = cutbuffer;
 	filestruct *was_cutbottom = cutbottom;
+
+	if (nothing_needs_cutting())
+		return;
 
 	/* Add a new undo item only when the current item is not a ZAP or when
 	 * the current zap is not contiguous with the previous zapping. */
