@@ -1508,20 +1508,20 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
  *   Ctrl-8 == Ctrl-? */
 int get_control_kbinput(int kbinput)
 {
+	if ('@' <= kbinput && kbinput <= '_')
+		return kbinput - '@';
+	if ('`' <= kbinput && kbinput <= '~')
+		return kbinput - '`';
+	if ('3' <= kbinput && kbinput <= '7')
+		return kbinput - 24;
+	if (kbinput == '?' || kbinput == '8')
+		return DEL_CODE;
 	if (kbinput == ' ' || kbinput == '2')
 		return 0;
-	else if (kbinput == '/')
+	if (kbinput == '/')
 		return 31;
-	else if ('3' <= kbinput && kbinput <= '7')
-		return kbinput - 24;
-	else if (kbinput == '8' || kbinput == '?')
-		return DEL_CODE;
-	else if ('@' <= kbinput && kbinput <= '_')
-		return kbinput - '@';
-	else if ('`' <= kbinput && kbinput <= '~')
-		return kbinput - '`';
-	else
-		return kbinput;
+
+	return kbinput;
 }
 
 /* Read in a stream of characters verbatim, and return the length of the
