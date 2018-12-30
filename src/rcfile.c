@@ -464,9 +464,10 @@ void parse_binding(char *ptr, bool dobind)
 	newsc->menus = menu;
 	assign_keyinfo(newsc, keycopy, 0);
 
-	/* Do not allow rebinding a frequent escape-sequence starter: Esc [. */
-	if (newsc->meta && newsc->keycode == 91) {
-		rcfile_error(N_("Sorry, keystroke \"%s\" may not be rebound"), newsc->keystr);
+	/* Disallow rebinding ^[ and frequent escape-sequence starter "Esc [". */
+	if ((!newsc->meta && newsc->keycode == ESC_CODE) ||
+				(newsc->meta && newsc->keycode == '[')) {
+		rcfile_error(N_("Keystroke %s may not be rebound"), keycopy);
   free_things:
 		free(keycopy);
 		free(newsc);
