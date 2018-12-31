@@ -192,7 +192,7 @@
   <p>Bourne shell users (bash and sh): <b>export TERM=vt100</b><br>
   C Shell users (tcsh and csh): <b>setenv TERM vt100</b></p></blockquote>
 <h3><a name="4.3"></a>4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</h3>
-<blockquote><p>You can use the <b>-K</b> or <b>--rebindkeypad</b> option on the command line, or add the line <b>set rebindkeypad</b> to your .nanorc. However, nano's mouse support won't work properly if you do any of these things.</p></blockquote>
+<blockquote><p>You can use the <b>-K</b> or <b>--rawsequences</b> option on the command line, or add the line <b>set rawsequences</b> to your .nanorc. However, nano's mouse support will be disabled if you do any of these things.</p></blockquote>
 <h3><a name="4.4"></a>4.4. Ack! When I hold down a Meta key combination for a while, the character of the held key gets inserted now and then. What gives?</h3>
 <blockquote><p>This was a bug in how nano handled consecutive escape sequences. It should be fixed since version 2.6.0.</p></blockquote>
 <h3><a name="4.5"></a>4.5. How do I type the F13-F16 keys listed in the help viewer? My keyboard only has F1-F12!</h3>

@@ -77,8 +77,8 @@ static const rcoption rcopts[] = {
 	{"quotestr", 0},
 #endif
 	{"quickblank", QUICK_BLANK},
+	{"rawsequences", RAW_SEQUENCES},
 	{"rebinddelete", REBIND_DELETE},
-	{"rebindkeypad", RAW_SEQUENCES},
 	{"regexp", USE_REGEXP},
 #ifdef ENABLE_SPELLER
 	{"speller", 0},

@@ -802,7 +802,7 @@ void usage(void)
 #ifdef ENABLE_NANORC
 	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
-	print_opt("-K", "--rebindkeypad",
+	print_opt("-K", "--rawsequences",
 					N_("Fix numeric keypad key confusion problem"));
 	print_opt("-L", "--nonewlines",
 					N_("Don't add newlines to the ends of files"));
@@ -1962,7 +1962,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 		{"ignorercfiles", 0, NULL, 'I'},
 #endif
-		{"rebindkeypad", 0, NULL, 'K'},
+		{"rawsequences", 0, NULL, 'K'},
 		{"nonewlines", 0, NULL, 'L'},
 #ifdef ENABLED_WRAPORJUSTIFY
 		{"trimblanks", 0, NULL, 'M'},
