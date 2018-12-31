@@ -3045,11 +3045,12 @@ void do_verbatim_input(void)
 char *copy_completion(char *check_line, int start)
 {
 	char *word;
-	int position = start, len_of_word = 0, index = 0;
+	size_t position = start, len_of_word = 0, index = 0;
 
 	/* Find the length of the word by travelling to its end. */
 	while (is_word_mbchar(&check_line[position], FALSE)) {
-		int next = move_mbright(check_line, position);
+		size_t next = move_mbright(check_line, position);
+
 		len_of_word += next - position;
 		position = next;
 	}
@@ -3105,7 +3106,7 @@ void complete_a_word(void)
 	/* Find the start of the fragment that the user typed. */
 	start_of_shard = openfile->current_x;
 	while (start_of_shard > 0) {
-		int step_left = move_mbleft(openfile->current->data, start_of_shard);
+		size_t step_left = move_mbleft(openfile->current->data, start_of_shard);
 
 		if (!is_word_mbchar(&openfile->current->data[step_left], FALSE))
 			break;
@@ -3128,11 +3129,11 @@ void complete_a_word(void)
 
 	/* Run through all of the lines in the buffer, looking for shard. */
 	while (pletion_line != NULL) {
-		int threshold = strlen(pletion_line->data) - shard_length - 1;
+		ssize_t threshold = strlen(pletion_line->data) - shard_length - 1;
 				/* The point where we can stop searching for shard. */
 
 		/* Traverse the whole line, looking for shard. */
-		for (i = pletion_x; (int)i < threshold; i++) {
+		for (i = pletion_x; (ssize_t)i < threshold; i++) {
 			/* If the first byte doesn't match, run on. */
 			if (pletion_line->data[i] != shard[0])
 				continue;
