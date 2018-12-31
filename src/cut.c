@@ -369,6 +369,7 @@ bool nothing_needs_cutting(void)
 #ifndef NANO_TINY
 		openfile->mark = NULL;
 #endif
+		statusbar(_("Nothing was cut"));
 		return TRUE;
 	} else
 		return FALSE;
@@ -429,8 +430,10 @@ void do_copy_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_eof(void)
 {
-	if (openfile->current->next == NULL && openfile->current->data[0] == '\0')
+	if (openfile->current->next == NULL && openfile->current->data[0] == '\0') {
+		statusbar(_("Nothing was cut"));
 		return;
+	}
 
 	add_undo(CUT_TO_EOF);
 	do_cut_text(FALSE, FALSE, TRUE, FALSE);
@@ -475,9 +478,10 @@ void do_uncut_text(void)
 	size_t was_leftedge = 0;
 		/* The leftedge where we started the paste. */
 
-	/* If the cutbuffer is empty, there is nothing to do. */
-	if (cutbuffer == NULL)
+	if (cutbuffer == NULL) {
+		statusbar(_("The cutbuffer is empty"));
 		return;
+	}
 
 #ifndef NANO_TINY
 	add_undo(PASTE);
