@@ -116,8 +116,6 @@ void do_deletion(undo_type action)
 								openfile->mark_x > openfile->current_x)
 			openfile->mark_x -= char_len;
 #endif
-		/* Adjust the file size. */
-		openfile->totsize--;
 	} else if (openfile->current != openfile->filebot) {
 		/* We're at the end of a line and not at the end of the file: join
 		 * this line with the next. */
@@ -141,13 +139,7 @@ void do_deletion(undo_type action)
 				strlen(openfile->current->data) + strlen(joining->data) + 1);
 		strcat(openfile->current->data, joining->data);
 
-		/* Adjust the file size. */
-		openfile->totsize--;
-
 #ifndef NANO_TINY
-		/* Remember the new file size for a possible redo. */
-		openfile->current_undo->newsize = openfile->totsize;
-
 		/* Adjust the mark if it was on the line that was "eaten". */
 		if (openfile->mark == joining) {
 			openfile->mark = openfile->current;
@@ -163,7 +155,11 @@ void do_deletion(undo_type action)
 		/* We're at the end-of-file: nothing to do. */
 		return;
 
+	/* Adjust the file size, and remember it for a possible redo. */
+	openfile->totsize--;
 #ifndef NANO_TINY
+	openfile->current_undo->newsize = openfile->totsize;
+
 	/* If the number of screen rows that a softwrapped line occupies
 	 * has changed, we need a full refresh. */
 	if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
