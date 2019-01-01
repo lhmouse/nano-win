@@ -65,7 +65,7 @@ void do_mark(void)
 #endif /* !NANO_TINY */
 
 #if defined(ENABLE_COLOR) || defined(ENABLE_SPELLER)
-/* Return an error message containing the given name. */
+/* Return an error message about invoking the given name. */
 char *invocation_error(const char *name)
 {
 	char *message, *invoke_error = _("Error invoking \"%s\"");
@@ -85,13 +85,12 @@ void do_deletion(undo_type action)
 
 	openfile->placewewant = xplustabs();
 
+	/* When in the middle of a line, delete the current character. */
 	if (openfile->current->data[openfile->current_x] != '\0') {
-		/* We're in the middle of a line: delete the current character. */
 		int char_len = parse_mbchar(openfile->current->data +
 										openfile->current_x, NULL, NULL);
 		size_t line_len = strlen(openfile->current->data +
 										openfile->current_x);
-
 #ifndef NANO_TINY
 		/* If the type of action changed or the cursor moved to a different
 		 * line, create a new undo item, otherwise update the existing item. */
@@ -104,21 +103,18 @@ void do_deletion(undo_type action)
 		if (ISSET(SOFTWRAP))
 			old_amount = number_of_chunks_in(openfile->current);
 #endif
-
 		/* Move the remainder of the line "in", over the current character. */
 		charmove(&openfile->current->data[openfile->current_x],
-				&openfile->current->data[openfile->current_x + char_len],
-				line_len - char_len + 1);
-
+					&openfile->current->data[openfile->current_x + char_len],
+					line_len - char_len + 1);
 #ifndef NANO_TINY
 		/* Adjust the mark if it is after the cursor on the current line. */
 		if (openfile->mark == openfile->current &&
 								openfile->mark_x > openfile->current_x)
 			openfile->mark_x -= char_len;
 #endif
+	/* Otherwise, when not at end of buffer, join this line with the next. */
 	} else if (openfile->current != openfile->filebot) {
-		/* We're at the end of a line and not at the end of the file: join
-		 * this line with the next. */
 		filestruct *joining = openfile->current->next;
 
 		/* If there is a magic line, and we're before it: don't eat it. */
@@ -290,7 +286,7 @@ void indent_a_line(filestruct *line, char *indentation)
 	size_t length = strlen(line->data);
 	size_t indent_len = strlen(indentation);
 
-	/* If the indent is empty, don't change the line. */
+	/* If the requested indentation is empty, don't change the line. */
 	if (indent_len == 0)
 		return;
 
