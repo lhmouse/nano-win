@@ -243,7 +243,11 @@ void precalc_multicolorinfo(void);
 #endif
 
 /* Most functions in cut.c. */
+void do_delete(void);
+void do_backspace(void);
 #ifndef NANO_TINY
+void do_cut_prev_word(void);
+void do_cut_next_word(void);
 void cut_marked(bool *right_side_up);
 #endif
 void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append);
@@ -491,12 +495,6 @@ void do_find_bracket(void);
 /* Most functions in text.c. */
 #ifndef NANO_TINY
 void do_mark(void);
-#endif
-void do_delete(void);
-void do_backspace(void);
-#ifndef NANO_TINY
-void do_cut_prev_word(void);
-void do_cut_next_word(void);
 #endif
 void do_tab(void);
 #ifndef NANO_TINY
