@@ -3041,20 +3041,17 @@ void do_verbatim_input(void)
 }
 
 #ifdef ENABLE_WORDCOMPLETION
-/* Copy the found completion candidate. */
+/* Return a copy of the found completion candidate. */
 char *copy_completion(char *check_line, int start)
 {
 	char *word;
 	size_t position = start, len_of_word = 0, index = 0;
 
 	/* Find the length of the word by travelling to its end. */
-	while (is_word_mbchar(&check_line[position], FALSE)) {
-		size_t next = move_mbright(check_line, position);
+	while (is_word_mbchar(&check_line[position], FALSE))
+		position = move_mbright(check_line, position);
 
-		len_of_word += next - position;
-		position = next;
-	}
-
+	len_of_word = position - start;
 	word = charalloc(len_of_word + 1);
 
 	/* Simply copy the word. */
