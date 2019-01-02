@@ -2045,21 +2045,21 @@ void do_justify(bool full_justify)
 	if (!openfile->mark)
 #endif
 	{
-	/* When justifying the entire buffer, start at the top.  Otherwise, when
-	 * in a paragraph but not at its beginning, move back to its first line. */
-	if (full_justify)
-		openfile->current = openfile->fileage;
-	else if (inpar(openfile->current) && !begpar(openfile->current, 0))
-		do_para_begin(&openfile->current);
+		/* When justifying the entire buffer, start at the top.  Otherwise, when
+		 * in a paragraph but not at its beginning, move back to its first line. */
+		if (full_justify)
+			openfile->current = openfile->fileage;
+		else if (inpar(openfile->current) && !begpar(openfile->current, 0))
+			do_para_begin(&openfile->current);
 
-	/* Find the first line of the paragraph(s) to be justified.  If the
-	 * search fails, there is nothing to justify, and we will be on the
-	 * last line of the file, so put the cursor at the end of it. */
-	if (!find_paragraph(&openfile->current, &par_len)) {
-		openfile->current_x = strlen(openfile->filebot->data);
-		refresh_needed = TRUE;
-		return;
-	}
+		/* Find the first line of the paragraph(s) to be justified.  If the
+		 * search fails, there is nothing to justify, and we will be on the
+		 * last line of the file, so put the cursor at the end of it. */
+		if (!find_paragraph(&openfile->current, &par_len)) {
+			openfile->current_x = strlen(openfile->filebot->data);
+			refresh_needed = TRUE;
+			return;
+		}
 	}
 
 	/* Prepare to put the text we want to justify in the cutbuffer. */
@@ -2112,26 +2112,26 @@ void do_justify(bool full_justify)
 		size_t jus_len;
 			/* The number of lines we're storing in the current cutbuffer. */
 
-	/* Start out at the first line of the paragraph. */
-	first_par_line = openfile->current;
-	last_par_line = openfile->current;
+		/* Start out at the first line of the paragraph. */
+		first_par_line = openfile->current;
+		last_par_line = openfile->current;
 
-	/* Set the number of lines to be pulled into the cutbuffer. */
-	if (full_justify) {
-		jus_len = openfile->filebot->lineno;
-	} else
-		jus_len = par_len;
+		/* Set the number of lines to be pulled into the cutbuffer. */
+		if (full_justify)
+			jus_len = openfile->filebot->lineno;
+		else
+			jus_len = par_len;
 
-	/* Move down to the last line to be extracted. */
-	for (; jus_len > 1; jus_len--)
-		last_par_line = last_par_line->next;
+		/* Move down to the last line to be extracted. */
+		for (; jus_len > 1; jus_len--)
+			last_par_line = last_par_line->next;
 
-	/* When possible, step one line further; otherwise, to line's end. */
-	if (last_par_line->next != NULL) {
-		last_par_line = last_par_line->next;
-		bot_x = 0;
-	} else
-		bot_x = strlen(last_par_line->data);
+		/* When possible, step one line further; otherwise, to line's end. */
+		if (last_par_line->next != NULL) {
+			last_par_line = last_par_line->next;
+			bot_x = 0;
+		} else
+			bot_x = strlen(last_par_line->data);
 	}
 
 #ifndef NANO_TINY
@@ -2234,21 +2234,21 @@ void do_justify(bool full_justify)
 	} else
 #endif
 	{
-	/* Prepare to justify the text we just put in the cutbuffer. */
-	jusline = cutbuffer;
+		/* Prepare to justify the text we just put in the cutbuffer. */
+		jusline = cutbuffer;
 
-	/* Justify the current paragraph. */
-	justify_paragraph(&jusline, par_len);
+		/* Justify the current paragraph. */
+		justify_paragraph(&jusline, par_len);
 
-	/* When justifying the entire buffer, find and justify all paragraphs. */
-	if (full_justify) {
-		while (find_paragraph(&jusline, &par_len)) {
-			justify_paragraph(&jusline, par_len);
+		/* When justifying the entire buffer, find and justify all paragraphs. */
+		if (full_justify) {
+			while (find_paragraph(&jusline, &par_len)) {
+				justify_paragraph(&jusline, par_len);
 
-			if (jusline->next == NULL)
-				break;
+				if (jusline->next == NULL)
+					break;
+			}
 		}
-	}
 	}
 
 #ifndef NANO_TINY
