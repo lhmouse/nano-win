@@ -3042,19 +3042,19 @@ void do_verbatim_input(void)
 
 #ifdef ENABLE_WORDCOMPLETION
 /* Return a copy of the found completion candidate. */
-char *copy_completion(char *check_line, size_t start)
+char *copy_completion(char *text)
 {
 	char *word;
-	size_t afterit = start, index = 0;
+	size_t length = 0, index = 0;
 
-	/* Find the position where the candidate word ends. */
-	while (is_word_mbchar(&check_line[afterit], FALSE))
-		afterit = move_mbright(check_line, afterit);
+	/* Find the end of the candidate word to get its length. */
+	while (is_word_mbchar(&text[length], FALSE))
+		length = move_mbright(text, length);
 
 	/* Now copy this candidate to a new string. */
-	word = charalloc(afterit - start + 1);
-	while (start < afterit)
-		word[index++] = check_line[start++];
+	word = charalloc(length + 1);
+	while (index < length)
+		word[index++] = *(text++);
 	word[index] = '\0';
 
 	return word;
@@ -3156,7 +3156,7 @@ void complete_a_word(void)
 						i == openfile->current_x - shard_length)
 				continue;
 
-			completion = copy_completion(pletion_line->data, i);
+			completion = copy_completion(pletion_line->data + i);
 
 			/* Look among earlier attempted completions for a duplicate. */
 			some_word = list_of_completions;
