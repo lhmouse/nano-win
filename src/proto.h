@@ -251,6 +251,7 @@ void do_cut_next_word(void);
 void cut_marked(bool *right_side_up);
 #endif
 void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append);
+bool nothing_needs_cutting(bool test_cliff);
 void do_cut_text_void(void);
 #ifndef NANO_TINY
 void do_copy_text(void);
