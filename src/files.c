@@ -557,7 +557,7 @@ void replace_marked_buffer(const char *filename)
 {
 	FILE *f;
 	int descriptor;
-	bool old_no_newlines = ISSET(NO_NEWLINES);
+	bool using_magicline = !ISSET(NO_NEWLINES);
 	filestruct *was_cutbuffer = cutbuffer;
 
 	descriptor = open_file(filename, FALSE, TRUE, &f);
@@ -583,7 +583,7 @@ void replace_marked_buffer(const char *filename)
 	read_file(f, descriptor, filename, TRUE);
 
 	/* Restore the magic-line behavior now that we're done fiddling. */
-	if (!old_no_newlines)
+	if (using_magicline)
 		UNSET(NO_NEWLINES);
 
 	add_undo(COUPLE_END);

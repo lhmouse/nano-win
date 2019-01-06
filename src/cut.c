@@ -289,7 +289,8 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 	size_t cb_save_len = 0;
 		/* The length of the string at the current end of the cutbuffer,
 		 * before we add text to it. */
-	bool old_no_newlines = ISSET(NO_NEWLINES);
+	bool using_magicline = !ISSET(NO_NEWLINES);
+		/* Whether an automatic newline should be added at end-of-buffer. */
 	bool right_side_up = TRUE;
 		/* There *is* no region, *or* it is marked forward. */
 #endif
@@ -347,7 +348,7 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 				openfile->placewewant = xplustabs();
 		}
 		/* Restore the magic-line behavior now that we're done fiddling. */
-		if (!old_no_newlines)
+		if (using_magicline)
 			UNSET(NO_NEWLINES);
 	} else
 #endif /* !NANO_TINY */
