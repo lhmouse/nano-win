@@ -203,7 +203,7 @@ void do_cut_prev_word(void)
 /* Delete a word rightward. */
 void do_cut_next_word(void)
 {
-	if (!nothing_needs_cutting(openfile->current_x > 0))
+	if (is_cuttable(openfile->current_x > 0))
 		do_cutword(FALSE);
 }
 #endif /* !NANO_TINY */
@@ -356,10 +356,10 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 	refresh_needed = TRUE;
 }
 
-/* Return TRUE when a cut command would not actually cut anything: when
+/* Return FALSE when a cut command would not actually cut anything: when
  * on an empty line at EOF, or when the mark covers zero characters, or
  * (when test_cliff is TRUE) when the magic line would be cut. */
-bool nothing_needs_cutting(bool test_cliff)
+bool is_cuttable(bool test_cliff)
 {
 	if ((openfile->current->next == NULL && openfile->current->data[0] == '\0'
 #ifndef NANO_TINY
@@ -375,16 +375,16 @@ bool nothing_needs_cutting(bool test_cliff)
 		openfile->mark = NULL;
 #endif
 		statusbar(_("Nothing was cut"));
-		return TRUE;
-	} else
 		return FALSE;
+	} else
+		return TRUE;
 }
 
 /* Move text from the current buffer into the cutbuffer. */
 void do_cut_text_void(void)
 {
 #ifndef NANO_TINY
-	if (nothing_needs_cutting(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
+	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
 		return;
 
 	/* Only add a new undo item when the current item is not a CUT or when
@@ -396,7 +396,7 @@ void do_cut_text_void(void)
 	do_cut_text(FALSE, openfile->mark, FALSE, FALSE);
 	update_undo(CUT);
 #else
-	if (!nothing_needs_cutting(FALSE))
+	if (is_cuttable(FALSE))
 		do_cut_text(FALSE, FALSE, FALSE, FALSE);
 #endif
 }
@@ -455,7 +455,7 @@ void zap_text(void)
 	filestruct *was_cutbuffer = cutbuffer;
 	filestruct *was_cutbottom = cutbottom;
 
-	if (nothing_needs_cutting(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
+	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
 		return;
 
 	/* Add a new undo item only when the current item is not a ZAP or when
