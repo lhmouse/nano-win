@@ -565,7 +565,7 @@ void replace_marked_buffer(const char *filename)
 	if (descriptor < 0)
 		return;
 
-	/* Don't add a magicline when replacing text in the buffer. */
+	/* Don't add a magic line when replacing text in the buffer. */
 	SET(NO_NEWLINES);
 
 	add_undo(COUPLE_BEGIN);
@@ -582,7 +582,7 @@ void replace_marked_buffer(const char *filename)
 	/* Insert the processed file where the marked text was. */
 	read_file(f, descriptor, filename, TRUE);
 
-	/* Restore the magicline behavior now that we're done fiddling. */
+	/* Restore the magic-line behavior now that we're done fiddling. */
 	if (!old_no_newlines)
 		UNSET(NO_NEWLINES);
 
@@ -2049,7 +2049,6 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 {
 	bool retval;
 	bool added_magicline = FALSE;
-		/* Whether we added a magicline after filebot. */
 	filestruct *top, *bot;
 	size_t top_x, bot_x;
 
@@ -2058,7 +2057,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 				(const filestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 
-	/* If we are doing magicline, and the last line of the partition
+	/* If we are using a magic line, and the last line of the partition
 	 * isn't blank, then add a newline at the end of the buffer. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
 		new_magicline();
@@ -2067,7 +2066,6 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 
 	retval = write_file(name, f_open, tmp, method, FALSE);
 
-	/* If we added a magicline, remove it now. */
 	if (added_magicline)
 		remove_magicline();
 

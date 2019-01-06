@@ -392,7 +392,7 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	/* Renumber, starting with the beginning line of the old partition. */
 	renumber(top_save);
 
-	/* If the text doesn't end with a magicline, and it should, add one. */
+	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 		new_magicline();
 }
@@ -489,7 +489,7 @@ void ingraft_buffer(filestruct *somebuffer)
 	/* Renumber, starting with the beginning line of the old partition. */
 	renumber(top_save);
 
-	/* If the text doesn't end with a magicline, and it should, add one. */
+	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 		new_magicline();
 }
@@ -1902,7 +1902,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		update_undo(ADD);
 #endif
 
-		/* If we've added text to the magicline, create a new magicline. */
+		/* If we've added text to the magic line, create a new magic line. */
 		if (openfile->filebot == openfile->current && !ISSET(NO_NEWLINES)) {
 			new_magicline();
 			if (margin > 0)

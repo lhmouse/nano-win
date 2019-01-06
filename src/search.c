@@ -680,7 +680,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 #endif
 
 	/* If "automatic newline" is enabled, and text has been added to the
-	 * magicline, make a new magicline. */
+	 * magic line, make a new magic line. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 		new_magicline();
 

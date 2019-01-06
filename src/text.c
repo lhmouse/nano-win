@@ -479,7 +479,7 @@ void undo_cut(undo *u)
 
 	copy_from_buffer(u->cutbuffer);
 
-	/* If the final line was originally cut, remove the extra magicline. */
+	/* If the final line was originally cut, remove the extra magic line. */
 	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
 			openfile->current != openfile->filebot)
 		remove_magicline();

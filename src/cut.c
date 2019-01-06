@@ -309,7 +309,7 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 			cb_save = cutbottom;
 			cb_save_len = strlen(cutbottom->data);
 		}
-		/* Don't add a magicline when moving text to the cutbuffer. */
+		/* Don't add a magic line when moving text to the cutbuffer. */
 		SET(NO_NEWLINES);
 	}
 
@@ -346,7 +346,7 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 			if (right_side_up)
 				openfile->placewewant = xplustabs();
 		}
-		/* Restore the magicline behavior now that we're done fiddling. */
+		/* Restore the magic-line behavior now that we're done fiddling. */
 		if (!old_no_newlines)
 			UNSET(NO_NEWLINES);
 	} else

@@ -437,7 +437,7 @@ size_t strlenpt(const char *text)
 	return span;
 }
 
-/* Append a new magicline to the end of the buffer. */
+/* Append a new magic line to the end of the buffer. */
 void new_magicline(void)
 {
 	openfile->filebot->next = make_new_node(openfile->filebot);
@@ -447,7 +447,7 @@ void new_magicline(void)
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
-/* Remove the magicline from the end of the buffer, if there is one and
+/* Remove the magic line from the end of the buffer, if there is one and
  * it isn't the only line in the file. */
 void remove_magicline(void)
 {
