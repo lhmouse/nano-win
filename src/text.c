@@ -2001,8 +2001,8 @@ void do_justify(bool full_justify)
 	filestruct *last_par_line;
 		/* Will be the line after the last line of the justified
 		 * paragraph(s), if any. */
-	size_t x_for_last;
-		/* The x position until where to extract the last paragraph line. */
+	size_t bot_x;
+		/* The bottom x-coordinate of the paragraph we justify. */
 
 	filestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
@@ -2059,9 +2059,9 @@ void do_justify(bool full_justify)
 	/* When possible, step one line further; otherwise, to line's end. */
 	if (last_par_line->next != NULL) {
 		last_par_line = last_par_line->next;
-		x_for_last = 0;
+		bot_x = 0;
 	} else
-		x_for_last = strlen(last_par_line->data);
+		bot_x = strlen(last_par_line->data);
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN);
@@ -2075,7 +2075,7 @@ void do_justify(bool full_justify)
 #endif
 	/* Do the equivalent of a marked cut. */
 	extract_buffer(&cutbuffer, &cutbottom, first_par_line, 0, last_par_line,
-																x_for_last);
+																bot_x);
 #ifndef NANO_TINY
 	update_undo(CUT);
 #endif
