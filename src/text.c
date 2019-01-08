@@ -1978,9 +1978,9 @@ void do_justify(bool full_justify)
 		/* Length of the quote part of the current paragraph. */
 	size_t par_len;
 		/* Number of lines in the current paragraph. */
-	filestruct *first_par_line = NULL;
+	filestruct *first_par_line;
 		/* Will be the first line of the justified paragraph(s), if any. */
-	filestruct *last_par_line = NULL;
+	filestruct *last_par_line;
 		/* Will be the line after the last line of the justified
 		 * paragraph(s), if any. */
 	size_t x_for_last;
