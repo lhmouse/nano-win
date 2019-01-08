@@ -2023,6 +2023,17 @@ void do_justify(bool full_justify)
 	ssize_t was_top_lineno = 0;
 	size_t was_top_x = 0;
 	bool right_side_up = FALSE;
+
+	/* We need these to hold the leading part (quoting + indentation) of the
+	 * line where the marked text begins, whether or not that part is covered
+	 * by the mark. */
+	char *the_lead = NULL;
+	size_t lead_len = 0;
+
+	/* We need these to hold the leading part of the line after the line where
+	 * the marked text begins (if any). */
+	char *the_second_lead = NULL;
+	size_t second_lead_len = 0;
 #endif
 
 #ifndef NANO_TINY
@@ -2054,6 +2065,8 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
+		size_t quote_len;
+
 		mark_order((const filestruct **)&first_par_line, &top_x,
 						(const filestruct **)&last_par_line, &bot_x,
 						&right_side_up);
@@ -2064,6 +2077,28 @@ void do_justify(bool full_justify)
 
 		par_len = last_par_line->lineno - first_par_line->lineno +
 											(bot_x > 0 ? 1 : 0);
+
+		/* Copy the leading part that is to be used for the new paragraph. */
+		quote_len = quote_length(first_par_line->data);
+		lead_len = quote_len + indent_length(first_par_line->data + quote_len);
+		the_lead = mallocstrncpy(the_lead, first_par_line->data, lead_len + 1);
+		the_lead[lead_len] = '\0';
+
+		/* Copy the leading part that is to be used for the new paragraph after
+		 * its first line (if any): the quoting of the first line, plus the
+		 * indentation of the second line. */
+		if (first_par_line != last_par_line) {
+			size_t sample_quote_len = quote_length(first_par_line->next->data);
+			size_t sample_indent_len = indent_length(first_par_line->next->data +
+														sample_quote_len);
+
+			second_lead_len = quote_len + sample_indent_len;
+			the_second_lead = charalloc(second_lead_len + 1);
+			strncpy(the_second_lead, first_par_line->data, quote_len);
+			strncpy(the_second_lead + quote_len, first_par_line->next->data +
+					sample_quote_len, sample_indent_len);
+			the_second_lead[second_lead_len] = '\0';
+		}
 	} else
 #endif
 	{
@@ -2113,9 +2148,15 @@ void do_justify(bool full_justify)
 
 		/* Manually justify the marked region. */
 		concat_paragraph(&cutbuffer, par_len);
-		justify_format(cutbuffer, 0);
+		justify_format(cutbuffer, lead_len);
 		line = cutbuffer;
-		rewrap_paragraph(&line, "", 0);
+		if (the_second_lead != NULL) {
+			rewrap_paragraph(&line, the_second_lead, second_lead_len);
+			free(the_second_lead);
+		} else
+			rewrap_paragraph(&line, the_lead, lead_len);
+
+		free(the_lead);
 	} else
 #endif
 	{
