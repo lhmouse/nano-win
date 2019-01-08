@@ -2151,6 +2151,7 @@ void do_justify(bool full_justify)
 	update_undo(CUT);
 
 	if (openfile->mark) {
+		size_t line_len = strlen(cutbuffer->data), indent_len;
 		size_t needed_top_extra = (top_x < lead_len ? top_x : lead_len);
 		size_t needed_bot_extra = (bot_x < lead_len ? lead_len - bot_x : 0);
 		filestruct *line;
@@ -2159,19 +2160,26 @@ void do_justify(bool full_justify)
 		 * has a leading part, prepend any missing portion of this leading part
 		 * to the first line of the extracted region. */
 		if (needed_top_extra > 0) {
-			size_t line_len = strlen(cutbuffer->data);
-
 			cutbuffer->data = charealloc(cutbuffer->data,
 									line_len + needed_top_extra + 1);
 			charmove(cutbuffer->data + needed_top_extra, cutbuffer->data,
 									line_len + 1);
 			strncpy(cutbuffer->data, the_lead, needed_top_extra);
+			line_len += needed_top_extra;
 
 			/* If it has no missing portion, we don't need to prepend anything
 			 * below. */
 			if (top_x > lead_len)
 				needed_top_extra = 0;
 		}
+
+		indent_len = indent_length(cutbuffer->data + lead_len);
+
+		/* Remove extra whitespace after the leading part. */
+		if (indent_len > 0)
+			charmove(cutbuffer->data + lead_len,
+						cutbuffer->data + lead_len + indent_len,
+						line_len - indent_len + 1);
 
 		/* If the marked region ends in the middle of a line, and this line
 		 * has a leading part, check if the last line of the extracted region
