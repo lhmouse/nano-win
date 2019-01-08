@@ -2024,6 +2024,10 @@ void do_justify(bool full_justify)
 	size_t was_top_x = 0;
 	bool right_side_up = FALSE;
 
+	/* Whether the bottom of the mark is at the end of its line, in which case
+	 * we don't need to add a new line after it. */
+	bool ends_at_eol = FALSE;
+
 	/* We need these to hold the leading part (quoting + indentation) of the
 	 * line where the marked text begins, whether or not that part is covered
 	 * by the mark. */
@@ -2077,6 +2081,9 @@ void do_justify(bool full_justify)
 
 		par_len = last_par_line->lineno - first_par_line->lineno +
 											(bot_x > 0 ? 1 : 0);
+
+		/* Remember whether the end of the region was at the end of a line. */
+		ends_at_eol = last_par_line->data[bot_x] == '\0';
 
 		/* Copy the leading part that is to be used for the new paragraph. */
 		quote_len = quote_length(first_par_line->data);
@@ -2144,7 +2151,35 @@ void do_justify(bool full_justify)
 	update_undo(CUT);
 
 	if (openfile->mark) {
+		size_t needed_top_extra = (top_x < lead_len ? top_x : lead_len);
+		size_t needed_bot_extra = (bot_x < lead_len ? lead_len - bot_x : 0);
 		filestruct *line;
+
+		/* If the marked region starts in the middle of a line, and this line
+		 * has a leading part, prepend any missing portion of this leading part
+		 * to the first line of the extracted region. */
+		if (needed_top_extra > 0) {
+			size_t line_len = strlen(cutbuffer->data);
+
+			cutbuffer->data = charealloc(cutbuffer->data,
+									line_len + needed_top_extra + 1);
+			charmove(cutbuffer->data + needed_top_extra, cutbuffer->data,
+									line_len + 1);
+			strncpy(cutbuffer->data, the_lead, needed_top_extra);
+
+			/* If it has no missing portion, we don't need to prepend anything
+			 * below. */
+			if (top_x > lead_len)
+				needed_top_extra = 0;
+		}
+
+		/* If the marked region ends in the middle of a line, and this line
+		 * has a leading part, check if the last line of the extracted region
+		 * contains a missing portion of this leading part.  If it has no
+		 * missing portion, we don't need to append anything below. */
+		if (strncmp(cutbottom->data, the_lead, lead_len -
+					needed_bot_extra) != 0)
+			needed_bot_extra = 0;
 
 		/* Manually justify the marked region. */
 		concat_paragraph(&cutbuffer, par_len);
@@ -2155,6 +2190,37 @@ void do_justify(bool full_justify)
 			free(the_second_lead);
 		} else
 			rewrap_paragraph(&line, the_lead, lead_len);
+
+		cutbottom = line;
+
+		/* If the marked region started after the beginning of a line, separate
+		 * the new paragraph from the beginning of that line.  If the region
+		 * started in the middle of the line's leading part, just remove the
+		 * (now-redundant) portion of the leading part that we prepended to it
+		 * earlier, and it will be the new line. */
+		if (top_x > 0) {
+			if (needed_top_extra > 0)
+				charmove(cutbuffer->data, cutbuffer->data + needed_top_extra,
+							strlen(cutbuffer->data) - needed_top_extra + 1);
+			else {
+				cutbuffer->prev = make_new_node(NULL);
+				cutbuffer->prev->data = mallocstrcpy(NULL, "");
+				cutbuffer->prev->next = cutbuffer;
+				cutbuffer = cutbuffer->prev;
+			}
+		}
+
+		/* If the marked region ended in the middle of a line, separate the
+		 * new paragraph from the rest of that line with a newline.  If the
+		 * region ended in the middle of the line's leading part, append the
+		 * missing portion of the leading part to it, and it will be the new
+		 * line. */
+		if (bot_x > 0 && !ends_at_eol) {
+			cutbottom->next = make_new_node(cutbottom);
+			cutbottom->next->data = mallocstrcpy(NULL, the_lead +
+													needed_bot_extra);
+			cutbottom = cutbottom->next;
+		}
 
 		free(the_lead);
 	} else
