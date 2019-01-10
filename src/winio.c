@@ -475,7 +475,7 @@ int parse_kbinput(WINDOW *win)
 						 * or control character sequence mode. */
 						if (!solitary) {
 							meta_key = TRUE;
-							retval = keycode;
+							retval = tolower(keycode);
 						} else
 							retval = get_control_kbinput(keycode);
 					else {
@@ -502,8 +502,10 @@ int parse_kbinput(WINDOW *win)
 			break;
 		case 3:
 			if (key_buffer_len == 0) {
-				if (!solitary)
+				if (!solitary) {
 					meta_key = TRUE;
+					retval = tolower(keycode);
+				} else
 				/* Three escapes followed by a non-escape, and no
 				 * other codes are waiting: normal input mode. */
 				retval = keycode;
