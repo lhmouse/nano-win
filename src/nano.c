@@ -2449,9 +2449,9 @@ int main(int argc, char **argv)
 #endif /* ENABLE_HISTORIES */
 
 #ifndef NANO_TINY
-	/* If backups are enabled and a backup directory was specified, make sure
-	 * the path exists and is a folder, so backup files can be saved there. */
-	if (ISSET(BACKUP_FILE) && backup_dir != NULL)
+	/* If a backup directory was specified and we're not in restricted mode,
+	 * verify it is an existing folder, so backup files can be saved there. */
+	if (backup_dir != NULL && !ISSET(RESTRICTED))
 		init_backup_dir();
 #endif
 #ifdef ENABLE_OPERATINGDIR
