@@ -506,9 +506,9 @@ int parse_kbinput(WINDOW *win)
 					meta_key = TRUE;
 					retval = tolower(keycode);
 				} else
-				/* Three escapes followed by a non-escape, and no
-				 * other codes are waiting: normal input mode. */
-				retval = keycode;
+					/* Three escapes followed by a non-escape, and no
+					 * other codes are waiting: normal input mode. */
+					retval = keycode;
 			} else
 				/* Three escapes followed by a non-escape, and more
 				 * codes are waiting: combined control character and
