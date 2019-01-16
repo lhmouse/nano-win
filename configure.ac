@@ -298,12 +298,6 @@ if test "x$enable_wrapping" != xno; then
 	AC_DEFINE(ENABLE_WRAPPING, 1, [Define this to have hard text wrapping.])
 fi
 
-AC_ARG_ENABLE(wrapping-as-root,
-AS_HELP_STRING([--disable-wrapping-as-root], [Disable wrapping of text as root by default]))
-if test "x$enable_wrapping_as_root" = xno; then
-	AC_DEFINE(DISABLE_ROOTWRAPPING, 1, [Define this to disable text wrapping as root by default.])
-fi
-
 AC_ARG_ENABLE(debug,
 AS_HELP_STRING([--enable-debug], [Enable debugging (disabled by default)]))
 if test "x$enable_debug" = xyes; then

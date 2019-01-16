@@ -1225,13 +1225,6 @@ void do_rcfiles(void)
 	nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 	parse_one_nanorc();
 
-	/* When configured with --disable-wrapping-as-root, turn wrapping off
-	 * for root, so that only root's .nanorc or --fill can turn it on. */
-#ifdef DISABLE_ROOTWRAPPING
-	if (geteuid() == NANO_ROOT_UID)
-		SET(NO_WRAP);
-#endif
-
 	get_homedir();
 	xdgconfdir = getenv("XDG_CONFIG_HOME");
 

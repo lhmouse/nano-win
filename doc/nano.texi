@@ -1683,10 +1683,6 @@ chances are you only want this feature when you're working on the nano source.
 Disables Native Language support.  This will disable the use of any
 available GNU @command{nano} translations.
 
-@item --disable-wrapping-as-root
-Disable hard-wrapping of overlong lines by default when @command{nano}
-is run as root.
-
 @item --enable-utf8
 Enable support for reading and writing Unicode files.  This will require
 either a wide version of curses, or a UTF-8-enabled version of Slang.

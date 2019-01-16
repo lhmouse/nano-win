@@ -1016,9 +1016,6 @@ void version(void)
 #endif
 #endif /* !NANO_TINY */
 
-#ifdef DISABLE_ROOTWRAPPING
-	printf(" --disable-wrapping-as-root");
-#endif
 #ifdef DEBUG
 	printf(" --enable-debug");
 #endif
@@ -2071,13 +2068,6 @@ int main(int argc, char **argv)
 						" -- please report a bug\n", (int)MB_CUR_MAX);
 #endif
 
-#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAPPING)
-	/* If we don't have rcfile support, --disable-wrapping-as-root is
-	 * used, and we're root, turn wrapping off. */
-	if (geteuid() == NANO_ROOT_UID)
-		SET(NO_WRAP);
-#endif
-
 	/* Set sensible defaults, different from what Pico does. */
 	SET(NO_WRAP);
 	SET(NO_NEWLINES);
@@ -2398,17 +2388,10 @@ int main(int argc, char **argv)
 		for (i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 			flags[i] |= flags_cmdline[i];
 	}
-#ifdef DISABLE_ROOTWRAPPING
-	/* If we don't have any rcfiles, --disable-wrapping-as-root is used,
-	 * and we're root, turn wrapping off. */
-	else if (geteuid() == NANO_ROOT_UID)
-		SET(NO_WRAP);
-#endif
 #endif /* ENABLE_NANORC */
 
 #ifdef ENABLE_WRAPPING
-	/* Override a "set nowrap" in an rcfile (or a --disable-wrapping-as-root)
-	 * if --fill was given on the command line and not undone by --nowrap. */
+	/* A --fill on the command line overrides a "set nowrap" in an rcfile. */
 	if (forced_wrapping)
 		UNSET(NO_WRAP);
 #endif
