@@ -2078,6 +2078,14 @@ int main(int argc, char **argv)
 		SET(NO_WRAP);
 #endif
 
+	/* Set sensible defaults, different from what Pico does. */
+	SET(NO_WRAP);
+	SET(NO_NEWLINES);
+	SET(SMOOTH_SCROLL);
+
+	/* Give a small visual hint that nano has changed. */
+	SET(MORE_SPACE);
+
 	/* If the executable's name starts with 'r', activate restricted mode. */
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
