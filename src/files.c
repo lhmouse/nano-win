@@ -661,6 +661,9 @@ void switch_to_adjacent_buffer(bool to_next)
 	/* Ensure that the main loop will redraw the help lines. */
 	currmenu = MMOST;
 
+	/* Prevent a possible Shift selection from getting cancelled. */
+	shift_held = TRUE;
+
 	/* Indicate on the status bar where we switched to. */
 	mention_name_and_linecount();
 }
