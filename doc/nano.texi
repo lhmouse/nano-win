@@ -92,7 +92,7 @@ file locking, backup files, and internationalization support.
 
 The original goal for @command{nano} was to be a complete bug-for-bug
 emulation of Pico.  But currently the goal is to be as compatible
-as possible while offering a superset of Pico's functionality.
+as is reasonable while offering a superset of Pico's functionality.
 @xref{Pico Compatibility} for more details on how @command{nano} and
 Pico differ.
 
@@ -1507,8 +1507,8 @@ browser exits.
 @node Pico Compatibility
 @chapter Pico Compatibility
 
-@command{nano} attempts to emulate Pico as closely as possible, but there
-are some differences between the editors:
+@command{nano} emulates Pico as closely as is reasonable, but there
+are some differences between the two editors:
 
 @table @code
 
