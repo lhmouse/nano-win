@@ -681,11 +681,9 @@ void switch_to_next_buffer(void)
 }
 
 /* Delete an entry from the circular list of open files, and switch to the
- * one after it.  Return TRUE on success, and FALSE if there are no other
- * open buffers. */
+ * one after it.  Return FALSE if just one buffer is open, otherwise TRUE. */
 bool close_buffer(void)
 {
-	/* If only one file buffer is open, get out. */
 	if (openfile == openfile->next)
 		return FALSE;
 
@@ -695,8 +693,7 @@ bool close_buffer(void)
 						openfile->current->lineno, xplustabs() + 1);
 #endif
 
-	/* Switch to the next file buffer. */
-	switch_to_adjacent_buffer(TRUE);
+	switch_to_next_buffer();
 
 	/* Delete the old file buffer, and adjust the count in the top bar. */
 	unlink_opennode(openfile->prev);
