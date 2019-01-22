@@ -124,7 +124,7 @@
 
 ## The email-quote string, used to justify email-quoted paragraphs.
 ## This is an extended regular expression.  The default is:
-# set quotestr "^([ 	]*([#:>|}]|//))+"
+# set quotestr "^([ 	]*([!#%:;>|}]|//|--))+"
 
 ## Try to work around a mismatching terminfo terminal description.
 # set rawsequences
