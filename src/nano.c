@@ -2468,7 +2468,7 @@ int main(int argc, char **argv)
 	if (brackets == NULL)
 		brackets = mallocstrcpy(NULL, "\"')>]}");
 	if (quotestr == NULL)
-		quotestr = mallocstrcpy(NULL, "^([ \t]*([#:>|}]|/{2}))+");
+		quotestr = mallocstrcpy(NULL, "^([ \t]*([!#%:;>|}]|/{2}|--))+");
 
 	/* Compile the quoting regex, and exit when it's invalid. */
 	quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
