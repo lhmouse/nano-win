@@ -32,19 +32,19 @@
   <a href="#3.6">3.6. How can I make the executable smaller? This is too bloated!</a><br>
   <a href="#3.7">3.7. Tell me more about this multibuffer stuff!</a><br>
   <a href="#3.8">3.8. Tell me more about this verbatim input stuff!</a><br>
-  <a href="#3.9a">3.9a. How do I make a .nanorc file that nano will read when I start it?</a><br>
+  <a href="#3.9">3.9. How do I make a .nanorc file that nano will read when I start it?</a><br>
 </p></blockquote>
 <h3><a href="#4">4. Running</a></h3>
 <blockquote><p>
   <a href="#4.1">4.1. How do I open a file with a name beginning with '+' from the command line?</a><br>
   <a href="#4.2">4.2. Ack! My Backspace/Delete/Enter/Meta/double bucky key doesn't seem to work! What can I do?</a><br>
   <a href="#4.3">4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</a><br>
-  <a href="#4.8a">4.8a. With what keystroke can I paste text from the clipboard into nano?</a><br>
-  <a href="#4.8b">4.8b. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</a><br>
-  <a href="#4.8c">4.8c. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?<a><br>
-  <a href="#4.9">4.9. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
-  <a href="#4.10">4.10. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
-  <a href="#4.11">4.11. How do I select text for or paste text from the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a><br>
+  <a href="#4.4">4.4. With what keystroke can I paste text from the clipboard into nano?</a><br>
+  <a href="#4.5">4.5. How do I select text for or paste text from the clipboard when nano's mouse support is turned on?</a><br>
+  <a href="#4.6">4.6. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</a><br>
+  <a href="#4.7">4.7. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?<a><br>
+  <a href="#4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
+  <a href="#4.9">4.9. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
 </p></blockquote>
 <h3><a href="#5">5. Internationalization</a></h3>
 <blockquote><p>
@@ -165,7 +165,7 @@
 <h3><a name="3.8"></a>3.8. Tell me more about this verbatim input stuff!</h3>
 <blockquote><p>When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b> (if you're not at a prompt, you'll get the message &quot;Verbatim Input&quot; on the status bar), then press the key(s) that generate the character you want.</p>
   <p>Alternatively, if Unicode support is enabled (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code (from 000000 to 10FFFF, case-insensitive), and the character with the corresponding value will be inserted. The status bar will change to &quot;Unicode Input: ......&quot; when you do this.</p></blockquote>
-<h3><a name="3.9a"></a>3.9a. How do I make a .nanorc file that will be read when I start nano?</h3>
+<h3><a name="3.9"></a>3.9. How do I make a .nanorc file that will be read when I start nano?</h3>
 <blockquote><p>It's not hard at all! But, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>. Then simply copy the <b>sample.nanorc</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax of the file is simple. Flags are turned on and off by using the words <b>set</b> and <b>unset</b> plus the long option name for the feature. For example, &quot;set nowrap&quot; or &quot;set smarthome&quot;.</p></blockquote>
 <hr width="100%">
 
@@ -183,15 +183,17 @@
   C Shell users (tcsh and csh): <b>setenv TERM vt100</b></p></blockquote>
 <h3><a name="4.3"></a>4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</h3>
 <blockquote><p>You can use the <b>-K</b> or <b>--rawsequences</b> option on the command line, or add the line <b>set rawsequences</b> to your .nanorc. However, nano's mouse support will be disabled if you do any of these things.</p></blockquote>
-<h3><a name="4.8a"></a>4.8a. With what keystroke can I paste text from the clipboard into nano?</h3>
+<h3><a name="4.4"></a>4.4. With what keystroke can I paste text from the clipboard into nano?</h3>
 <blockquote><p>In most desktop environments <b>Shift+Insert</b> will paste the contents of the clipboard.</p></blockquote>
-<h3><a name="4.8b"></a>4.8b. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</h3>
+<h3><a name="4.5"></a>4.5. How do I select text for or paste text from the clipboard when nano's mouse support is turned on?</h3>
+<blockquote><p>Try holding down the Shift key and selecting or pasting the text as you normally would.</p></blockquote>
+<h3><a name="4.6"></a>4.6. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</h3>
 <blockquote><p>You have the <i>autoindent</i> feature turned on. Hit <b>Meta-I</b> to turn it off, paste your text, and then hit <b>Meta-I</b> again to turn it back on.</p></blockquote>
-<h3><a name="4.8c"></a>4.8c. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h3>
+<h3><a name="4.7"></a>4.7. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h3>
 <blockquote><p>When pasting from Windows, in some situations linefeeds are sent instead of carriage returns (Enters). And linefeeds are <b>^J</b>s, which make nano justify (rewrap) the current paragraph. To prevent these linefeeds from causing these unwanted justifications, add this line to your .nanorc on the remote Linux box: <b>unbind ^J main</b> or <b>bind ^J enter main</b>, depending on whether the paste contains CR + LF or only LF.</p></blockquote>
-<h3><a name="4.9"></a>4.9. I've compiled nano with color support, but I don't see any color when I run it!</h3>
-<blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Several example configurations are in the <b>syntax/</b> subdirectory of the nano source, which are normally installed to <b>/usr/local/share/nano/</b>. To enable all of them, uncomment the line <b># include "/usr/local/share/nano/*.nanorc"</b> in your nanorc. See also section <a href="#3.9a">3.9a</a>.</p></blockquote>
-<h3><a name="4.10"></a>4.10. How do I make nano my default editor (in Pine, mutt, etc.)?</h3>
+<h3><a name="4.8"></a>4.8. I've compiled nano with color support, but I don't see any color when I run it!</h3>
+<blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Several example configurations are in the <b>syntax/</b> subdirectory of the nano source, which are normally installed to <b>/usr/local/share/nano/</b>. To enable all of them, uncomment the line <b># include "/usr/local/share/nano/*.nanorc"</b> in your nanorc. See also section <a href="#3.9">3.9</a>.</p></blockquote>
+<h3><a name="4.9"></a>4.9. How do I make nano my default editor (in Pine, mutt, etc.)?</h3>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p><b>export EDITOR=/usr/local/bin/nano</b></p>
   <p>or, if you use tcsh, put this in your <b>.cshrc</b> file:</p>
@@ -204,8 +206,6 @@
   <p>If you're a mutt user, you should see an effect immediately the next time you log in. No further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p><b>my_hdr X-Composer: nano x.y.z</b></p>
   <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
-<h3><a name="4.11"></a>4.11. How do I select text for or paste text from the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</h3>
-<blockquote><p>Try holding down the Shift key and selecting or pasting the text as you normally would.</p></blockquote>
 <hr width="100%">
 
 <h1><a name="5"></a>5. Internationalization</h1>
