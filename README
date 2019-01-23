@@ -7,11 +7,11 @@ Overview
     wonderfully easy-to-use and friendly Pico text editor.
 
     First and foremost was its license: the Pine suite does not use
-    the GPL or a GPL-friendly license, and has unclear restrictions on
-    redistribution.  Because of this, Pine and Pico are not included
-    with many GNU/Linux distributions.  Also, other features (like
-    go-to-line-number or search-and-replace) were unavailable until
-    recently or require a command-line flag.  Yuck.
+    the GPL, and (before using the Apache License) it had unclear
+    restrictions on redistribution.  Because of this, Pine and Pico
+    were not included in many GNU/Linux distributions.  Furthermore,
+    some features (like go-to-line-number or search-and-replace) were
+    unavailable for a long time or require a command-line flag.  Yuck.
 
     Nano aimed to solve these problems by: 1) being truly free software
     by using the GPL, 2) emulating the functionality of Pico as closely

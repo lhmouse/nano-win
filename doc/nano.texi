@@ -84,11 +84,11 @@ This manual documents the GNU @command{nano} editor, version 3.2.
 @node Introduction
 @chapter Introduction
 
-GNU @command{nano} is a small and friendly text editor.  Besides basic text
-editing, @command{nano} offers many extra features, such as an interactive
-search-and-replace, undo/redo, syntax coloring, smooth scrolling,
-auto-indentation, go-to-line-and-column-number, feature toggles,
-file locking, backup files, and internationalization support.
+GNU @command{nano} is a small and friendly text editor.  Besides
+basic text editing, @command{nano} offers features like undo/redo,
+syntax coloring, interactive search-and-replace, auto-indentation,
+line numbers, word completion, file locking, backup files, and
+internationalization support.
 
 The original goal for @command{nano} was to be a complete bug-for-bug
 emulation of Pico.  But currently the goal is to be as compatible
