@@ -221,9 +221,11 @@ and place it at that position again upon reopening such a file.
 
 @item -Q "@var{regex}"
 @itemx --quotestr="@var{regex}"
-Set the regular expression for matching the quoting part of a line, used
-when justifying.  The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//|--))+"}.
-Note that @code{\t} stands for a literal Tab character.
+Set the regular expression for matching the quoting part of a line.
+The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//|--))+"}.
+(Note that @code{\t} stands for a literal Tab character.)
+This makes it possible to rejustify blocks of quoted text when composing
+email, and to rewrap blocks of line comments when writing source code.
 
 @item -R
 @itemx --restricted
@@ -830,10 +832,11 @@ Do quick status-bar blanking: status-bar messages will disappear after 1
 keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quotestr "@var{regex}"
-The email-quote string, used to justify email-quoted paragraphs.  This
-is an extended regular expression.  The default value is
-@t{"^([@w{ }\t]*([!#%:;>|@}]|//|--))+"}.
-Note that @code{\t} stands for a literal Tab character.
+Set the regular expression for matching the quoting part of a line.
+The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//|--))+"}.
+(Note that @code{\t} stands for a literal Tab character.)
+This makes it possible to rejustify blocks of quoted text when composing
+email, and to rewrap blocks of line comments when writing source code.
 
 @item set rawsequences
 Interpret escape sequences directly (instead of asking @code{ncurses} to

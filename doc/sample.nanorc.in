@@ -122,8 +122,8 @@
 ## 1 keystroke instead of 26.  Note that "constantshow" overrides this.
 # set quickblank
 
-## The email-quote string, used to justify email-quoted paragraphs.
-## This is an extended regular expression.  The default is:
+## The regular expression that matches quoting characters in email
+## or line-comment introducers in source code.  The default is:
 # set quotestr "^([ 	]*([!#%:;>|}]|//|--))+"
 
 ## Try to work around a mismatching terminfo terminal description.

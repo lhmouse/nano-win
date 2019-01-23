@@ -196,10 +196,11 @@ Do quick status-bar blanking: status-bar messages will disappear after 1
 keystroke instead of 25.  The option \fBconstantshow\fR overrides this.
 .TP
 .B set quotestr "\fIregex\fP"
-The email-quote string, used to justify email-quoted paragraphs.  This
-is an extended regular expression.  The default value is
-"\fB^([\ \\t]*([!#%:;>|}]|//|--))+\fP".  Note that \fB\\t\fR stands for an actual
-Tab character.
+Set the regular expression for matching the quoting part of a line.
+The default value is "\fB^([\ \\t]*([!#%:;>|}]|//|--))+\fP".
+(Note that \fB\\t\fR stands for an actual Tab character.)
+This makes it possible to rejustify blocks of quoted text when composing
+email, and to rewrap blocks of line comments when writing source code.
 .TP
 .B set rawsequences
 Interpret escape sequences directly (instead of asking \fBncurses\fR to
