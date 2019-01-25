@@ -858,6 +858,9 @@ void usage(void)
 	print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
 	print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
+#endif
+	print_opt("-j", "--jumpyscrolling", N_("Scroll per half-screen, not per line"));
+#ifndef NANO_TINY
 	print_opt("-k", "--cutfromcursor", N_("Cut from cursor to end of line"));
 #endif
 #ifdef ENABLE_LINENUMBERS
@@ -1985,6 +1988,7 @@ int main(int argc, char **argv)
 		{"showcursor", 0, NULL, 'g'},
 #endif
 		{"help", 0, NULL, 'h'},
+		{"jumpyscrolling", 0, NULL, 'j'},
 #ifdef ENABLE_LINENUMBERS
 		{"linenumbers", 0, NULL, 'l'},
 #endif
@@ -2086,7 +2090,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdfghiklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdfghijklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2162,7 +2166,7 @@ int main(int argc, char **argv)
 				break;
 #ifndef NANO_TINY
 			case 'S':
-				SET(SMOOTH_SCROLL);
+				UNSET(JUMPY_SCROLLING);
 				break;
 #endif
 			case 'T':
@@ -2223,6 +2227,11 @@ int main(int argc, char **argv)
 			case 'i':
 				SET(AUTOINDENT);
 				break;
+#endif
+			case 'j':
+				SET(JUMPY_SCROLLING);
+				break;
+#ifndef NANO_TINY
 			case 'k':
 				SET(CUT_FROM_CURSOR);
 				break;
@@ -2411,6 +2420,11 @@ int main(int argc, char **argv)
 		UNSET(NO_NEWLINES);
 	else
 		SET(NO_NEWLINES);
+
+	if (ISSET(JUMPY_SCROLLING))
+		UNSET(SMOOTH_SCROLL);
+	else
+		SET(SMOOTH_SCROLL);
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))

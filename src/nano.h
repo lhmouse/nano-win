@@ -542,7 +542,8 @@ enum
 	AFTER_ENDS,
 	LET_THEM_ZAP,
 	BREAK_LONG_LINES,
-	FINAL_NEWLINE
+	FINAL_NEWLINE,
+	JUMPY_SCROLLING
 };
 
 /* Flags for the menus in which a given function should be present. */
