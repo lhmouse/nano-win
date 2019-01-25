@@ -850,6 +850,7 @@ void usage(void)
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
 	print_opt("-d", "--rebinddelete",
 					N_("Fix Backspace/Delete confusion problem"));
+	print_opt("-e", "--emptyline", N_("Keep the line below the title bar empty"));
 	print_opt("-f", "--finalnewline", N_("Ensure that text ends with a newline"));
 #ifdef ENABLE_BROWSER
 	if (!ISSET(RESTRICTED))
@@ -1983,6 +1984,7 @@ int main(int argc, char **argv)
 #endif
 		{"constantshow", 0, NULL, 'c'},
 		{"rebinddelete", 0, NULL, 'd'},
+		{"emptyline", 0, NULL, 'e'},
 		{"finalnewline", 0, NULL, 'f'},
 #ifdef ENABLE_BROWSER
 		{"showcursor", 0, NULL, 'g'},
@@ -2090,7 +2092,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdfghijklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdefghijklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2149,7 +2151,7 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 'O':
-				SET(MORE_SPACE);
+				UNSET(EMPTY_LINE);
 				break;
 #ifdef ENABLE_HISTORIES
 			case 'P':
@@ -2213,6 +2215,9 @@ int main(int argc, char **argv)
 				break;
 			case 'd':
 				SET(REBIND_DELETE);
+				break;
+			case 'e':
+				SET(EMPTY_LINE);
 				break;
 			case 'f':
 				SET(FINAL_NEWLINE);
@@ -2425,6 +2430,11 @@ int main(int argc, char **argv)
 		UNSET(SMOOTH_SCROLL);
 	else
 		SET(SMOOTH_SCROLL);
+
+	if (ISSET(EMPTY_LINE))
+		UNSET(MORE_SPACE);
+	else
+		SET(MORE_SPACE);
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))
