@@ -844,6 +844,9 @@ void usage(void)
 	print_opt("-Z", "--zap", N_("Let Bsp and Del erase a marked region"));
 	print_opt("-a", "--atblanks", N_("When soft-wrapping, do it at whitespace"));
 #endif
+#ifdef ENABLE_WRAPPING
+	print_opt("-b", "--breaklonglines", N_("Automatically hard-wrap overlong lines"));
+#endif
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
 	print_opt("-d", "--rebinddelete",
 					N_("Fix Backspace/Delete confusion problem"));
@@ -883,7 +886,7 @@ void usage(void)
 #endif
 	print_opt("-v", "--view", N_("View mode (read-only)"));
 #ifdef ENABLE_WRAPPING
-	print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines"));
+	print_opt("-w", "--nowrap", N_("Don't hard-wrap long lines [default]"));
 #endif
 	print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
 #ifndef NANO_TINY
@@ -1943,10 +1946,6 @@ int main(int argc, char **argv)
 	bool fill_used = FALSE;
 		/* Was the fill option used on the command line? */
 #endif
-#ifdef ENABLE_WRAPPING
-	bool forced_wrapping = FALSE;
-		/* Should long lines be automatically hard wrapped? */
-#endif
 #ifdef ENABLE_JUSTIFY
 	int quoterc;
 		/* Whether the quoting regex was compiled successfully. */
@@ -1974,6 +1973,9 @@ int main(int argc, char **argv)
 		{"version", 0, NULL, 'V'},
 #ifdef ENABLE_COLOR
 		{"syntax", 1, NULL, 'Y'},
+#endif
+#ifdef ENABLE_WRAPPING
+		{"breaklonglines", 0, NULL, 'b'},
 #endif
 		{"constantshow", 0, NULL, 'c'},
 		{"rebinddelete", 0, NULL, 'd'},
@@ -2082,7 +2084,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zacdghiklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdghiklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2195,6 +2197,11 @@ int main(int argc, char **argv)
 				SET(AT_BLANKS);
 				break;
 #endif
+#ifdef ENABLE_WRAPPING
+			case 'b':
+				SET(BREAK_LONG_LINES);
+				break;
+#endif
 			case 'c':
 				SET(CONSTANT_SHOW);
 				break;
@@ -2247,7 +2254,7 @@ int main(int argc, char **argv)
 				fill_used = TRUE;
 #endif
 #ifdef ENABLE_WRAPPING
-				forced_wrapping = TRUE;
+				SET(BREAK_LONG_LINES);
 #endif
 				break;
 #endif
@@ -2269,10 +2276,7 @@ int main(int argc, char **argv)
 				break;
 #ifdef ENABLE_WRAPPING
 			case 'w':
-				SET(NO_WRAP);
-				/* If both --fill and --nowrap are given on the
-				 * command line, the last given option wins. */
-				forced_wrapping = FALSE;
+				UNSET(BREAK_LONG_LINES);
 				break;
 #endif
 			case 'x':
@@ -2392,8 +2396,10 @@ int main(int argc, char **argv)
 
 #ifdef ENABLE_WRAPPING
 	/* A --fill on the command line overrides a "set nowrap" in an rcfile. */
-	if (forced_wrapping)
+	if (ISSET(BREAK_LONG_LINES))
 		UNSET(NO_WRAP);
+	else
+		SET(NO_WRAP);
 #endif
 
 	/* If the user wants bold instead of reverse video for hilited text... */
