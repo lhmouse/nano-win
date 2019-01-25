@@ -2084,7 +2084,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdefghijklmno:pqr:s:tuvwxyz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zacdghiklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2293,12 +2293,6 @@ int main(int argc, char **argv)
 				SET(SOFTWRAP);
 				break;
 #endif
-			case 'b':  /* Pico compatibility flags. */
-			case 'e':
-			case 'f':
-			case 'j':
-			case 'q':
-				break;
 			default:
 				printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);
 				exit(1);

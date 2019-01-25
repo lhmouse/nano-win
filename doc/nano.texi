@@ -417,13 +417,6 @@ continuing it over multiple screen lines.  Since
 this option last when using other options (e.g.@: @code{nano -wS$}) or pass it
 separately (e.g.@: @code{nano -wS -$}).
 
-@item -b
-@itemx -e
-@itemx -f
-@itemx -j
-@itemx -q
-Ignored, for compatibility with Pico.
-
 @end table
 
 
