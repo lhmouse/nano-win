@@ -801,7 +801,7 @@ void usage(void)
 	print_opt("-K", "--rawsequences",
 					N_("Fix numeric keypad key confusion problem"));
 	print_opt("-L", "--nonewlines",
-					N_("Don't add newlines to the ends of files"));
+					N_("Don't add an automatic newline [default]"));
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt("-M", "--trimblanks",
 					N_("Trim tail spaces when hard-wrapping"));
@@ -850,6 +850,7 @@ void usage(void)
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
 	print_opt("-d", "--rebinddelete",
 					N_("Fix Backspace/Delete confusion problem"));
+	print_opt("-f", "--finalnewline", N_("Ensure that text ends with a newline"));
 #ifdef ENABLE_BROWSER
 	if (!ISSET(RESTRICTED))
 		print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
@@ -1979,6 +1980,7 @@ int main(int argc, char **argv)
 #endif
 		{"constantshow", 0, NULL, 'c'},
 		{"rebinddelete", 0, NULL, 'd'},
+		{"finalnewline", 0, NULL, 'f'},
 #ifdef ENABLE_BROWSER
 		{"showcursor", 0, NULL, 'g'},
 #endif
@@ -2084,7 +2086,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdghiklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIKLMNOPQ:RST:UVWX:Y:Zabcdfghiklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2130,7 +2132,7 @@ int main(int argc, char **argv)
 				SET(RAW_SEQUENCES);
 				break;
 			case 'L':
-				SET(NO_NEWLINES);
+				UNSET(FINAL_NEWLINE);
 				break;
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'M':
@@ -2207,6 +2209,9 @@ int main(int argc, char **argv)
 				break;
 			case 'd':
 				SET(REBIND_DELETE);
+				break;
+			case 'f':
+				SET(FINAL_NEWLINE);
 				break;
 			case 'g':
 				SET(SHOW_CURSOR);
@@ -2401,6 +2406,11 @@ int main(int argc, char **argv)
 	else
 		SET(NO_WRAP);
 #endif
+
+	if (ISSET(FINAL_NEWLINE))
+		UNSET(NO_NEWLINES);
+	else
+		SET(NO_NEWLINES);
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))
