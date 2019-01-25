@@ -1111,8 +1111,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 				rcfile_error(N_("Requested fill size \"%s\" is invalid"),
 								option);
 				fill = -COLUMNS_FROM_EOL;
-			} else
-				UNSET(NO_WRAP);
+			}
 			free(option);
 		} else
 #endif

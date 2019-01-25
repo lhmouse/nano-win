@@ -878,7 +878,7 @@ void usage(void)
 	print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
-					N_("Set hard-wrapping point at column #cols"));
+					N_("Set width for hard-wrap and justify"));
 #endif
 #ifdef ENABLE_SPELLER
 	if (!ISSET(RESTRICTED))
@@ -2271,9 +2271,6 @@ int main(int argc, char **argv)
 				}
 #ifdef ENABLE_NANORC
 				fill_used = TRUE;
-#endif
-#ifdef ENABLE_WRAPPING
-				SET(BREAK_LONG_LINES);
 #endif
 				break;
 #endif
