@@ -107,10 +107,11 @@ Use this color combination for the status bar when an error message is displayed
 See \fBset titlecolor\fR for valid color names.
 .TP
 .B set fill \fInumber\fR
-Hard-wrap lines at column number \fInumber\fR.  If \fInumber\fR is 0 or less,
-the maximum line length will be the screen width less \fInumber\fP columns.
-The default value is \fB\-8\fR.  This option conflicts with
-\fBnowrap\fR -- the last one given takes effect.
+Set the target width for justifying and automatic hard-wrapping at this
+\fInumber\fR of columns.  If the value is 0 or less, wrapping will occur
+at the width of the screen minus \fInumber\fR columns, allowing the wrap
+point to vary along with the width of the screen if the screen is resized.
+The default value is \-8.
 .TP
 .B set functioncolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for the function descriptions
@@ -165,8 +166,8 @@ Don't pause between warnings at startup.  This means that only
 the last one will be visible (when there are multiple ones).
 .TP
 .B set nowrap
-Don't hard-wrap text at all.  This option conflicts with
-\fBfill\fR -- the last one given takes effect.
+Do not automatically hard-wrap the current line when it becomes overlong.
+This is the default.
 .TP
 .B set numbercolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for line numbers.

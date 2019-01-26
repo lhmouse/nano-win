@@ -348,12 +348,11 @@ sent to the editor can be stopped and started.
 
 @item -r @var{number}
 @itemx --fill=@var{number}
-Hard-wrap lines at column @var{number} (by inserting a newline character).
-If the given value is 0 or less, wrapping will occur at the width of
-the screen minus the given amount, allowing the wrapping width to
-vary along with the width of the screen if and when it is resized.
-The default value is @t{-8}.  This option conflicts with @option{-w}
-(@option{--nowrap}); the last one given takes effect.
+Set the target width for justifying and automatic hard-wrapping at this
+@var{number} of columns.  If the value is 0 or less, wrapping will occur
+at the width of the screen minus @var{number} columns, allowing the wrap
+point to vary along with the width of the screen if the screen is resized.
+The default value is @t{-8}.
 
 @anchor{@option{--speller}}
 @item -s @var{program}
@@ -386,8 +385,8 @@ file permissions to implement a read-only file.)
 
 @item -w
 @itemx --nowrap
-Don't hard-wrap long lines at any length.  This option conflicts with
-@option{-r} (@option{--fill}); the last one given takes effect.
+Do not automatically hard-wrap the current line when it becomes overlong.
+This is the default.
 
 @anchor{Expert Mode}
 @item -x
@@ -732,10 +731,11 @@ Use this color combination for the status bar when an error message is displayed
 @xref{@code{set functioncolor}} for valid color names.
 
 @item set fill @var{number}
-Hard-wrap lines at column number @var{number}.  If @var{number} is 0 or less,
-the maximum line length will be the screen width less @var{number} columns.
-The default value is @t{-8}.  This option conflicts with
-@option{nowrap}; the last one given takes effect.
+Set the target width for justifying and automatic hard-wrapping at this
+@var{number} of columns.  If the value is 0 or less, wrapping will occur
+at the width of the screen minus @var{number} columns, allowing the wrap
+point to vary along with the width of the screen if the screen is resized.
+The default value is @t{-8}.
 
 @anchor{@code{set functioncolor}}
 @item set functioncolor @var{fgcolor},@var{bgcolor}
@@ -793,8 +793,8 @@ Don't pause between warnings at startup.  This means that only
 the last one will be visible (when there are multiple ones).
 
 @item set nowrap
-Don't hard-wrap text at all.  This option conflicts with
-@option{fill}; the last one given takes effect.
+Do not automatically hard-wrap the current line when it becomes overlong.
+This is the default.
 
 @item set numbercolor @var{fgcolor},@var{bgcolor}
 Use this color combination for line numbers.

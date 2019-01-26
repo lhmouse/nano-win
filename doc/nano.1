@@ -229,11 +229,11 @@ Preserve the XON and XOFF sequences (^Q and ^S) so they will be caught
 by the terminal.
 .TP
 .BR \-r\ \fInumber ", " \-\-fill= \fInumber
-Hard-wrap lines at column \fInumber\fP.  If this value is 0 or less, wrapping
-will occur at the width of the screen less \fInumber\fP columns, allowing
-the wrap point to vary along with the width of the screen if the screen
-is resized.  The default value is \-8.  This option conflicts with
-\fB\-w\fR (\fB\-\-nowrap\fR) -- the last one given takes effect.
+Set the target width for justifying and automatic hard-wrapping at this
+\fInumber\fR of columns.  If the value is 0 or less, wrapping will occur
+at the width of the screen minus \fInumber\fR columns, allowing the wrap
+point to vary along with the width of the screen if the screen is resized.
+The default value is \-8.
 .TP
 .BR \-s\ \fIprogram ", " \-\-speller= \fIprogram
 Use this alternative spell checker command.
@@ -252,8 +252,8 @@ This mode allows the user to open also other files for viewing,
 unless \fB--restricted\fR is given too.
 .TP
 .BR \-w ", " \-\-nowrap
-Disable the hard-wrapping of long lines.  This option conflicts with
-\fB\-r\fR (\fB\-\-fill\fR) -- the last one given takes effect.
+Do not automatically hard-wrap the current line when it becomes overlong.
+This is the default.
 .TP
 .BR \-x ", " \-\-nohelp
 Don't show the two help lines at the bottom of the screen.
