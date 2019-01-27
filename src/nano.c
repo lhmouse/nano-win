@@ -2303,7 +2303,7 @@ int main(int argc, char **argv)
 
 #ifdef ENABLE_NANORC
 	if (!ignore_rcfiles) {
-		/* Back up the command-line options, then clear the strings. */
+		/* Back up the command-line options that take an argument. */
 #ifdef ENABLED_WRAPORJUSTIFY
 		ssize_t fill_cmdline = fill;
 #endif
@@ -2321,11 +2321,12 @@ int main(int argc, char **argv)
 		char *alt_speller_cmdline = alt_speller;
 #endif
 		ssize_t tabsize_cmdline = tabsize;
-		unsigned flags_cmdline[sizeof(flags) / sizeof(flags[0])];
-		size_t i;
 
+		/* Back up the command-line flags. */
+		unsigned flags_cmdline[sizeof(flags) / sizeof(flags[0])];
 		memcpy(flags_cmdline, flags, sizeof(flags_cmdline));
 
+		/* Clear the string options, to not overwrite the specified ones. */
 #ifndef NANO_TINY
 		backup_dir = NULL;
 		word_chars = NULL;
@@ -2339,7 +2340,6 @@ int main(int argc, char **argv)
 #ifdef ENABLE_SPELLER
 		alt_speller = NULL;
 #endif
-
 		/* Now process the system's and the user's nanorc file, if any. */
 		do_rcfiles();
 
@@ -2385,7 +2385,7 @@ int main(int argc, char **argv)
 			tabsize = tabsize_cmdline;
 
 		/* Simply OR the boolean flags from rcfile and command line. */
-		for (i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
+		for (size_t i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 			flags[i] |= flags_cmdline[i];
 	}
 #endif /* ENABLE_NANORC */
