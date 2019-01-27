@@ -52,10 +52,6 @@
 static int oldinterval = -1;
 		/* Used to store the user's original mouse click interval. */
 #endif
-#ifdef ENABLE_NANORC
-static bool no_rcfiles = FALSE;
-		/* Should we ignore all rcfiles? */
-#endif
 #ifdef HAVE_TERMIOS_H
 static struct termios oldterm;
 		/* The user's original terminal settings. */
@@ -1939,6 +1935,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
 	int stdin_flags, optchr;
+#ifdef ENABLE_NANORC
+	bool ignore_rcfiles = FALSE;
+		/* Whether to ignore the nanorc files. */
+#endif
 #if defined(ENABLED_WRAPORJUSTIFY) && defined(ENABLE_NANORC)
 	bool fill_used = FALSE;
 		/* Was the fill option used on the command line? */
@@ -2121,7 +2121,7 @@ int main(int argc, char **argv)
 #endif
 #ifdef ENABLE_NANORC
 			case 'I':
-				no_rcfiles = TRUE;
+				ignore_rcfiles = TRUE;
 				break;
 #endif
 			case 'K':
@@ -2302,7 +2302,7 @@ int main(int argc, char **argv)
 	shortcut_init();
 
 #ifdef ENABLE_NANORC
-	if (!no_rcfiles) {
+	if (!ignore_rcfiles) {
 		/* Back up the command-line options, then clear the strings. */
 #ifdef ENABLED_WRAPORJUSTIFY
 		ssize_t fill_cmdline = fill;
