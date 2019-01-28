@@ -42,13 +42,19 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_JUSTIFY
 	{"brackets", 0},
 #endif
+#ifdef ENABLE_WRAPPING
+	{"breaklonglines", BREAK_LONG_LINES},
+#endif
 	{"constantshow", CONSTANT_SHOW},
+	{"emptyline", EMPTY_LINE},
 #ifdef ENABLED_WRAPORJUSTIFY
 	{"fill", 0},
 #endif
+	{"finalnewline", FINAL_NEWLINE},
 #ifdef ENABLE_HISTORIES
 	{"historylog", HISTORYLOG},
 #endif
+	{"jumpyscrolling", JUMPY_SCROLLING},
 #ifdef ENABLE_LINENUMBERS
 	{"linenumbers", LINE_NUMBERS},
 #endif
