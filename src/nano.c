@@ -2407,6 +2407,16 @@ int main(int argc, char **argv)
 		if (tabsize_cmdline != -1)
 			tabsize = tabsize_cmdline;
 
+		/* If an rcfile undid the default settings, copy it to the new flags. */
+		if (!ISSET(NO_WRAP))
+			SET(BREAK_LONG_LINES);
+		if (!ISSET(NO_NEWLINES))
+			SET(FINAL_NEWLINE);
+		if (!ISSET(SMOOTH_SCROLL))
+			SET(JUMPY_SCROLLING);
+		if (!ISSET(MORE_SPACE))
+			SET(EMPTY_LINE);
+
 		/* Simply OR the boolean flags from rcfile and command line. */
 		for (size_t i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 			flags[i] |= flags_cmdline[i];
