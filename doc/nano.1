@@ -177,6 +177,11 @@ Let an unmodified Backspace or Delete erase the marked region
 When doing soft line wrapping, wrap lines at whitespace
 instead of always at the edge of the screen.
 .TP
+.BR \-b ", " \-\-breaklonglines
+Automatically hard-wrap the current line when it becomes overlong.
+(This option is the opposite of \fB\-w\fR (\fB\-\-nowrap\fR) --
+the last one given takes effect.)
+.TP
 .BR \-c ", " \-\-constantshow
 Constantly show the cursor position on the status bar.
 Note that this overrides option \fB\-U\fR (\fB\-\-quickblank\fR).
@@ -185,6 +190,14 @@ Note that this overrides option \fB\-U\fR (\fB\-\-quickblank\fR).
 Interpret the Delete and Backspace keys differently so that both Backspace
 and Delete work properly.  You should only use this option when on your
 system either Backspace acts like Delete or Delete acts like Backspace.
+.TP
+.BR \-e ", " \-\-emptyline
+Do not use the line below the title bar, leaving it entirely blank.
+.TP
+.BR \-f ", " \-\-finalnewline
+If the buffer is not empty, ensure that it ends with a newline character.
+(This option is the opposite of \fB\-L\fR (\fB\-\-nonewlines\fR) --
+the last one given takes effect.)
 .TP
 .BR \-g ", " \-\-showcursor
 Make the cursor visible in the file browser (putting it on the
@@ -198,6 +211,9 @@ Show a summary of the available command-line options and exit.
 Automatically indent a newly created line to the same number of tabs
 and/or spaces as the previous line (or as the next line if the previous
 line is the beginning of a paragraph).
+.TP
+.BR \-j ", " \-\-jumpyscrolling
+Scroll the buffer contents per half-screen instead of per line.
 .TP
 .BR \-k ", " \-\-cutfromcursor
 Make the 'Cut Text' command (normally \fB^K\fR) cut from the current cursor

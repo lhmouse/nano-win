@@ -283,6 +283,12 @@ Let an unmodified @key{Backspace} or @key{Delete} erase the marked region
 When doing soft line wrapping, wrap lines at whitespace
 instead of always at the edge of the screen.
 
+@item -b
+@itemx --breaklonglines
+Automatically hard-wrap the current line when it becomes overlong.
+(This option is the opposite of @option{-w} (@option{--nowrap}) ---
+the last one given takes effect.)
+
 @item -c
 @itemx --constantshow
 Constantly display the cursor position (line number, column number,
@@ -294,6 +300,16 @@ Note that this overrides option @option{-U} (@option{--quickblank}).
 Interpret the Delete and Backspace keys differently so that both Backspace
 and Delete work properly.  You should only use this option when on your
 system either Backspace acts like Delete or Delete acts like Backspace.
+
+@item -e
+@itemx --emptyline
+Do not use the line below the title bar, leaving it entirely blank.
+
+@item -f
+@itemx --finalnewline
+If the buffer is not empty, ensure that it ends with a newline character.
+(This option is the opposite of @option{-L} (@option{--nonewlines}) ---
+the last one given takes effect.)
 
 @item -g
 @itemx --showcursor
@@ -310,6 +326,10 @@ Show a summary of command-line options and exit.
 Automatically indent a newly created line to the same number of tabs
 and/or spaces as the previous line (or as the next line if the previous
 line is the beginning of a paragraph).
+
+@item -j
+@itemx --jumpyscrolling
+Scroll the buffer contents per half-screen instead of per line.
 
 @item -k
 @itemx --cutfromcursor
