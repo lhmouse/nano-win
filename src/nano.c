@@ -2151,7 +2151,8 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 'O':
-				UNSET(EMPTY_LINE);
+				fprintf(stderr, N_("Option %s is ignored; it is the default\n"),
+										"morespace");
 				break;
 #ifdef ENABLE_HISTORIES
 			case 'P':
@@ -2168,7 +2169,8 @@ int main(int argc, char **argv)
 				break;
 #ifndef NANO_TINY
 			case 'S':
-				UNSET(JUMPY_SCROLLING);
+				fprintf(stderr, N_("Option %s is ignored; it is the default\n"),
+										"smooth");
 				break;
 #endif
 			case 'T':
