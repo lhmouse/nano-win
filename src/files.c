@@ -557,7 +557,7 @@ void replace_marked_buffer(const char *filename)
 {
 	FILE *f;
 	int descriptor;
-	bool using_magicline = !ISSET(NO_NEWLINES);
+	bool using_magicline = ISSET(FINAL_NEWLINE);
 	filestruct *was_cutbuffer = cutbuffer;
 
 	descriptor = open_file(filename, FALSE, TRUE, &f);
@@ -566,7 +566,7 @@ void replace_marked_buffer(const char *filename)
 		return;
 
 	/* Don't add a magic line when replacing text in the buffer. */
-	SET(NO_NEWLINES);
+	UNSET(FINAL_NEWLINE);
 
 	add_undo(COUPLE_BEGIN);
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
@@ -584,7 +584,7 @@ void replace_marked_buffer(const char *filename)
 
 	/* Restore the magic-line behavior now that we're done fiddling. */
 	if (using_magicline)
-		UNSET(NO_NEWLINES);
+		SET(FINAL_NEWLINE);
 
 	add_undo(COUPLE_END);
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
@@ -2054,7 +2054,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 
 	/* If we are using a magic line, and the last line of the partition
 	 * isn't blank, then add a newline at the end of the buffer. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
+	if (ISSET(FINAL_NEWLINE) && openfile->filebot->data[0] != '\0') {
 		new_magicline();
 		added_magicline = TRUE;
 	}

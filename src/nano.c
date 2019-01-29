@@ -389,7 +389,7 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 	renumber(top_save);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
+	if (ISSET(FINAL_NEWLINE) && openfile->filebot->data[0] != '\0')
 		new_magicline();
 }
 
@@ -486,7 +486,7 @@ void ingraft_buffer(filestruct *somebuffer)
 	renumber(top_save);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
+	if (ISSET(FINAL_NEWLINE) && openfile->filebot->data[0] != '\0')
 		new_magicline();
 }
 
@@ -1904,7 +1904,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
 		/* If we've added text to the magic line, create a new magic line. */
-		if (openfile->filebot == openfile->current && !ISSET(NO_NEWLINES)) {
+		if (openfile->filebot == openfile->current && ISSET(FINAL_NEWLINE)) {
 			new_magicline();
 			if (margin > 0)
 				refresh_needed = TRUE;
@@ -2421,11 +2421,6 @@ int main(int argc, char **argv)
 			flags[i] |= flags_cmdline[i];
 	}
 #endif /* ENABLE_NANORC */
-
-	if (ISSET(FINAL_NEWLINE))
-		UNSET(NO_NEWLINES);
-	else
-		SET(NO_NEWLINES);
 
 	if (ISSET(JUMPY_SCROLLING))
 		UNSET(SMOOTH_SCROLL);
