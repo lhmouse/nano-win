@@ -875,7 +875,7 @@ void do_enter(void)
 #ifdef ENABLE_JUSTIFY
 		/* When doing automatic long-line wrapping and the next line is
 		 * in this same paragraph, use its indentation as the model. */
-		if (!ISSET(NO_WRAP) && sampleline->next != NULL &&
+		if (ISSET(BREAK_LONG_LINES) && sampleline->next != NULL &&
 					inpar(sampleline->next) && !begpar(sampleline->next, 0))
 			sampleline = sampleline->next;
 #endif
@@ -3072,7 +3072,7 @@ void complete_a_word(void)
 	size_t i = 0, j = 0;
 	completion_word *some_word;
 #ifdef ENABLE_WRAPPING
-	bool was_set_wrapping = !ISSET(NO_WRAP);
+	bool was_set_wrapping = ISSET(BREAK_LONG_LINES);
 #endif
 
 	/* If this is a fresh completion attempt... */
@@ -3178,7 +3178,7 @@ void complete_a_word(void)
 
 #ifdef ENABLE_WRAPPING
 			/* Temporarily disable wrapping so only one undo item is added. */
-			SET(NO_WRAP);
+			UNSET(BREAK_LONG_LINES);
 #endif
 			/* Inject the completion into the buffer. */
 			do_output(&completion[shard_length],
@@ -3186,7 +3186,7 @@ void complete_a_word(void)
 #ifdef ENABLE_WRAPPING
 			/* If needed, reenable wrapping and wrap the current line. */
 			if (was_set_wrapping) {
-				UNSET(NO_WRAP);
+				SET(BREAK_LONG_LINES);
 				do_wrap(openfile->current);
 			}
 #endif

@@ -1402,7 +1402,7 @@ void do_toggle(int flag)
 
 	enabled = ISSET(flag);
 
-	if (flag == NO_HELP || flag == NO_WRAP || flag == NO_COLOR_SYNTAX)
+	if (flag == NO_HELP || flag == NO_COLOR_SYNTAX)
 		enabled = !enabled;
 
 	statusline(HUSH, "%s %s", _(flagtostr(flag)),
@@ -1912,7 +1912,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 #ifdef ENABLE_WRAPPING
 		/* If text gets wrapped, the edit window needs a refresh. */
-		if (!ISSET(NO_WRAP) && do_wrap(openfile->current))
+		if (ISSET(BREAK_LONG_LINES) && do_wrap(openfile->current))
 			refresh_needed = TRUE;
 #endif
 	}
@@ -2421,14 +2421,6 @@ int main(int argc, char **argv)
 			flags[i] |= flags_cmdline[i];
 	}
 #endif /* ENABLE_NANORC */
-
-#ifdef ENABLE_WRAPPING
-	/* A --fill on the command line overrides a "set nowrap" in an rcfile. */
-	if (ISSET(BREAK_LONG_LINES))
-		UNSET(NO_WRAP);
-	else
-		SET(NO_WRAP);
-#endif
 
 	if (ISSET(FINAL_NEWLINE))
 		UNSET(NO_NEWLINES);

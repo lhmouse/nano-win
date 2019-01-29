@@ -1252,7 +1252,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-I", 0, do_toggle_void, AUTOINDENT);
 	add_to_sclist(MMAIN, "M-K", 0, do_toggle_void, CUT_FROM_CURSOR);
 #ifdef ENABLE_WRAPPING
-	add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, NO_WRAP);
+	add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, BREAK_LONG_LINES);
 #endif
 	add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, TABS_TO_SPACES);
 
@@ -1403,7 +1403,7 @@ const char *flagtostr(int flag)
 			return N_("Auto indent");
 		case CUT_FROM_CURSOR:
 			return N_("Cut to end");
-		case NO_WRAP:
+		case BREAK_LONG_LINES:
 			return N_("Hard wrapping of overlong lines");
 		case TABS_TO_SPACES:
 			return N_("Conversion of typed tabs to spaces");
@@ -1662,7 +1662,7 @@ sc *strtosc(const char *input)
 			s->toggle = CUT_FROM_CURSOR;
 #ifdef ENABLE_WRAPPING
 		else if (!strcasecmp(input, "nowrap"))
-			s->toggle = NO_WRAP;
+			s->toggle = BREAK_LONG_LINES;
 #endif
 		else if (!strcasecmp(input, "tabstospaces"))
 			s->toggle = TABS_TO_SPACES;
