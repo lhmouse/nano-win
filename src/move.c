@@ -117,7 +117,7 @@ void do_page_up(void)
 
 	/* If we're not in smooth scrolling mode, put the cursor at the
 	 * beginning of the top line of the edit window, as Pico does. */
-	if (!ISSET(SMOOTH_SCROLL)) {
+	if (ISSET(JUMPY_SCROLLING)) {
 		openfile->current = openfile->edittop;
 		leftedge = openfile->firstcolumn;
 		openfile->current_y = 0;
@@ -147,7 +147,7 @@ void do_page_down(void)
 
 	/* If we're not in smooth scrolling mode, put the cursor at the
 	 * beginning of the top line of the edit window, as Pico does. */
-	if (!ISSET(SMOOTH_SCROLL)) {
+	if (ISSET(JUMPY_SCROLLING)) {
 		openfile->current = openfile->edittop;
 		leftedge = openfile->firstcolumn;
 		openfile->current_y = 0;
@@ -501,7 +501,7 @@ void do_up(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
-	if (openfile->current_y == 0 && ISSET(SMOOTH_SCROLL))
+	if (openfile->current_y == 0 && !ISSET(JUMPY_SCROLLING))
 		edit_scroll(BACKWARD);
 	else
 		edit_redraw(was_current, FLOWING);
@@ -524,7 +524,7 @@ void do_down(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
-	if (openfile->current_y == editwinrows - 1 && ISSET(SMOOTH_SCROLL))
+	if (openfile->current_y == editwinrows - 1 && !ISSET(JUMPY_SCROLLING))
 		edit_scroll(FORWARD);
 	else
 		edit_redraw(was_current, FLOWING);

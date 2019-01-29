@@ -3237,7 +3237,7 @@ void edit_redraw(filestruct *old_current, update_type manner)
 
 	/* If the current line is offscreen, scroll until it's onscreen. */
 	if (current_is_offscreen()) {
-		adjust_viewport(ISSET(SMOOTH_SCROLL) ? manner : CENTERING);
+		adjust_viewport(ISSET(JUMPY_SCROLLING) ? CENTERING : manner);
 		refresh_needed = TRUE;
 		return;
 	}
@@ -3283,7 +3283,7 @@ void edit_refresh(void)
 
 	/* If the current line is out of view, get it back on screen. */
 	if (current_is_offscreen())
-		adjust_viewport((focusing || !ISSET(SMOOTH_SCROLL)) ? CENTERING : FLOWING);
+		adjust_viewport((focusing || ISSET(JUMPY_SCROLLING)) ? CENTERING : FLOWING);
 
 	line = openfile->edittop;
 

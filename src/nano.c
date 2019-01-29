@@ -2422,11 +2422,6 @@ int main(int argc, char **argv)
 	}
 #endif /* ENABLE_NANORC */
 
-	if (ISSET(JUMPY_SCROLLING))
-		UNSET(SMOOTH_SCROLL);
-	else
-		SET(SMOOTH_SCROLL);
-
 	if (ISSET(EMPTY_LINE))
 		UNSET(MORE_SPACE);
 	else
