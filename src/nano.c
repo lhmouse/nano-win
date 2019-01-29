@@ -688,7 +688,7 @@ void window_init(void)
 		edit = newwin(1, COLS, 0, 0);
 		bottomwin = newwin(1, COLS, LINES - 1, 0);
 	} else {
-		int toprows = (ISSET(MORE_SPACE) ? 1 : (LINES < 6) ? 1 : 2);
+		int toprows = (!ISSET(EMPTY_LINE) ? 1 : (LINES < 6) ? 1 : 2);
 		int bottomrows = (ISSET(NO_HELP) ? 1 : (LINES < 5) ? 1 : 3);
 
 		editwinrows = LINES - toprows - bottomrows;
@@ -2421,11 +2421,6 @@ int main(int argc, char **argv)
 			flags[i] |= flags_cmdline[i];
 	}
 #endif /* ENABLE_NANORC */
-
-	if (ISSET(EMPTY_LINE))
-		UNSET(MORE_SPACE);
-	else
-		SET(MORE_SPACE);
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))

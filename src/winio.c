@@ -3526,7 +3526,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
  * are FALSE. */
 void do_credits(void)
 {
-	bool old_more_space = ISSET(MORE_SPACE);
+	bool had_empty_line = ISSET(EMPTY_LINE);
 	bool old_no_help = ISSET(NO_HELP);
 	int kbinput = ERR, crpos = 0, xlpos = 0;
 	const char *credits[CREDIT_LEN] = {
@@ -3598,8 +3598,8 @@ void do_credits(void)
 		N_("Thank you for using nano!")
 	};
 
-	if (!old_more_space || !old_no_help) {
-		SET(MORE_SPACE);
+	if (had_empty_line || !old_no_help) {
+		UNSET(EMPTY_LINE);
 		SET(NO_HELP);
 		window_init();
 	}
@@ -3657,8 +3657,8 @@ void do_credits(void)
 	if (kbinput != ERR)
 		ungetch(kbinput);
 
-	if (!old_more_space)
-		UNSET(MORE_SPACE);
+	if (had_empty_line)
+		SET(EMPTY_LINE);
 	if (!old_no_help)
 		UNSET(NO_HELP);
 	window_init();
