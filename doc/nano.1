@@ -109,6 +109,7 @@ mouse support.
 .TP
 .BR \-L ", " \-\-nonewlines
 Don't automatically add a newline when a file does not end with one.
+(This is the default.)
 .TP
 .BR \-M ", " \-\-trimblanks
 Snip trailing whitespace from the wrapped line when automatic
@@ -118,7 +119,9 @@ hard-wrapping occurs or when text is justified.
 Disable automatic conversion of files from DOS/Mac format.
 .TP
 .BR \-O ", " \-\-morespace
-Use the blank line below the title bar as extra editing space.
+Obsolete and ignored option, since the line below the title bar is included
+into the editing space by default.  If you prefer to keep this line blank,
+use \fB\-e\fR or \fB\-\-emptyline\fR.
 .TP
 .BR \-P ", " \-\-positionlog
 For the 200 most recent files, log the last position of the cursor,
@@ -141,8 +144,9 @@ Restricted mode can also be activated by invoking \fBnano\fP
 with any name beginning with 'r' (e.g. "rnano").
 .TP
 .BR \-S ", " \-\-smooth
-Use smooth scrolling: text will scroll line-by-line, instead of the
-usual chunk-by-chunk behavior.
+Obsolete and ignored option, since smooth scrolling has become the default.
+If you prefer the chunk-by-chunk scrolling behavior,
+use \fB\-j\fR or \fB\-\-jumpyscrolling\fR.
 .TP
 .BR \-T\ \fInumber ", " \-\-tabsize= \fInumber
 Set the size (width) of a tab to \fInumber\fP columns.  The value of
@@ -269,7 +273,7 @@ unless \fB--restricted\fR is given too.
 .TP
 .BR \-w ", " \-\-nowrap
 Do not automatically hard-wrap the current line when it becomes overlong.
-This is the default.
+(This is the default.)
 .TP
 .BR \-x ", " \-\-nohelp
 Don't show the two help lines at the bottom of the screen.
