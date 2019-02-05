@@ -1988,7 +1988,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 	}
 
 	/* If there is more text than can be shown, make room for the $ or >. */
-	if (*buf != '\0' && (column > beyond || (isdata && !ISSET(SOFTWRAP)))) {
+	if ((*buf != '\0' || column > beyond) && isdata && !ISSET(SOFTWRAP)) {
 		index = move_mbleft(converted, index);
 
 #ifdef ENABLE_UTF8
