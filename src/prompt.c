@@ -395,11 +395,12 @@ void draw_the_promptbar(void)
 	waddch(bottomwin, ':');
 	waddch(bottomwin, (the_page == 0) ? ' ' : '<');
 
-	expanded = display_string(answer, the_page, COLS - base - 1, FALSE);
+	expanded = display_string(answer, the_page, COLS - base, FALSE);
 	waddstr(bottomwin, expanded);
 	free(expanded);
 
-	waddch(bottomwin, (the_page >= end_page) ? ' ' : '>');
+	if (base + strlenpt(answer) != COLS && the_page < end_page)
+		mvwaddch(bottomwin, 0, COLS - 1, '>');
 
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
