@@ -695,12 +695,12 @@ void shortcut_init(void)
 
 	/* Start populating the different menus with functions. */
 
-	add_to_funcs(do_help_void, MMOST & ~MFINDINHELP,
+	add_to_funcs(do_help_void, (MMOST | MBROWSER) & ~MFINDINHELP,
 		/* TRANSLATORS: Try to keep the next ninety strings or so at most 10
 		 * characters.  Some strings may be longer -- run nano and see. */
 		N_("Get Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
 
-	add_to_funcs(do_cancel, ((MMOST & ~MMAIN & ~MBROWSER) | MYESNO),
+	add_to_funcs(do_cancel, ((MMOST & ~MMAIN) | MYESNO),
 		N_("Cancel"), WITHORSANS(cancel_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_exit, MMAIN,
