@@ -2202,6 +2202,7 @@ bool fix_spello(const char *word)
 		filestruct *saved_mark = openfile->mark;
 		openfile->mark = NULL;
 #endif
+		currmenu = MMAIN;
 		edit_refresh();
 
 		/* Let the user supply a correctly spelled alternative. */

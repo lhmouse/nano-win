@@ -579,6 +579,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			light_from_col = xplustabs();
 			light_to_col = strnlenpt(openfile->current->data,
 										openfile->current_x + match_len);
+			currmenu = MMAIN;
 
 			/* Refresh the edit window, scrolling it if necessary. */
 			edit_refresh();
