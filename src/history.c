@@ -167,14 +167,12 @@ char *get_history_newer(filestruct **h)
 	return (*h)->data;
 }
 
-/* More placeholders. */
-void get_history_newer_void(void)
-{
-	;
-}
+/* Two empty placeholder functions. */
 void get_history_older_void(void)
 {
-	;
+}
+void get_history_newer_void(void)
+{
 }
 
 #ifdef ENABLE_TABCOMP

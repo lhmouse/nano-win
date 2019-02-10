@@ -126,6 +126,11 @@ int do_statusbar_input(bool *finished)
 	if (shortcut) {
 		if (shortcut->func == do_tab || shortcut->func == do_enter)
 			;
+#ifdef ENABLE_HISTORIES
+		else if (shortcut->func == get_history_older_void ||
+					shortcut->func == get_history_newer_void)
+			;
+#endif
 		else if (shortcut->func == do_left)
 			do_statusbar_left();
 		else if (shortcut->func == do_right)
@@ -518,12 +523,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 					answer = mallocstrcpy(answer, history);
 					typing_x = strlen(answer);
 				}
-
-				/* This key has a shortcut-list entry when it's used to
-				 * move to an older search, which means that finished has
-				 * been set to TRUE.  Set it back to FALSE here, so that
-				 * we aren't kicked out of the statusbar prompt. */
-				finished = FALSE;
 			}
 		} else if (func == get_history_newer_void) {
 			if (history_list != NULL) {
@@ -541,12 +540,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 					answer = mallocstrcpy(answer, magichistory);
 					typing_x = strlen(answer);
 				}
-
-				/* This key has a shortcut-list entry when it's used to
-				 * move to a newer search, which means that finished has
-				 * been set to TRUE.  Set it back to FALSE here, so that
-				 * we aren't kicked out of the statusbar prompt. */
-				finished = FALSE;
 			}
 		} else
 #endif /* ENABLE_HISTORIES */
