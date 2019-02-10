@@ -659,7 +659,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
  * TRUE when passed in), and -1 for Cancel. */
 int do_yesno_prompt(bool all, const char *msg)
 {
-	int response = -2, width = 16;
+	int choice = -2, width = 16;
 	/* TRANSLATORS: For the next three strings, specify the starting letters
 	 * of the translations for "Yes"/"No"/"All".  The first letter of each of
 	 * these strings MUST be a single-byte letter; others may be multi-byte. */
@@ -667,7 +667,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	const char *nostr = _("Nn");
 	const char *allstr = _("Aa");
 
-	while (response == -2) {
+	while (choice == -2) {
 #ifdef ENABLE_NLS
 		char letter[MAXCHARLEN + 1];
 		int index = 0;
@@ -733,21 +733,21 @@ int do_yesno_prompt(bool all, const char *msg)
 
 		/* See if the typed letter is in the Yes, No, or All strings. */
 		if (strstr(yesstr, letter) != NULL)
-			response = 1;
+			choice = 1;
 		else if (strstr(nostr, letter) != NULL)
-			response = 0;
+			choice = 0;
 		else if (all && strstr(allstr, letter) != NULL)
-			response = 2;
+			choice = 2;
 		else
 #endif /* ENABLE_NLS */
 		if (strchr("Yy", kbinput) != NULL)
-			response = 1;
+			choice = 1;
 		else if (strchr("Nn", kbinput) != NULL)
-			response = 0;
+			choice = 0;
 		else if (all && strchr("Aa", kbinput) != NULL)
-			response = 2;
+			choice = 2;
 		else if (func_from_key(&kbinput) == do_cancel)
-			response = -1;
+			choice = -1;
 #ifdef ENABLE_MOUSE
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
@@ -759,14 +759,14 @@ int do_yesno_prompt(bool all, const char *msg)
 				int y = mouse_y - 1;
 
 				/* x == 0 means Yes or No, y == 0 means Yes or All. */
-				response = -2 * x * y + x - y + 1;
+				choice = -2 * x * y + x - y + 1;
 
-				if (response == 2 && !all)
-					response = -2;
+				if (choice == 2 && !all)
+					choice = -2;
 			}
 		}
 #endif /* ENABLE_MOUSE */
 	}
 
-	return response;
+	return choice;
 }

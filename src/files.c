@@ -316,7 +316,7 @@ int do_lockfile(const char *filename)
 		size_t readtot = 0;
 		size_t readamt = 0;
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
-		int room, response;
+		int room, choice;
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 			statusline(MILD, _("Error opening lock file %s: %s"),
@@ -374,10 +374,10 @@ int do_lockfile(const char *filename)
 		free(postedname);
 		free(pidstring);
 
-		response = do_yesno_prompt(FALSE, promptstr);
+		choice = do_yesno_prompt(FALSE, promptstr);
 		free(promptstr);
 
-		if (response < 1) {
+		if (choice < 1) {
 			wipe_statusbar();
 			goto free_the_name;
 		}
@@ -1514,17 +1514,17 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
  * messed up and I'm blanket allowing insecure file writing operations'. */
 int prompt_failed_backupwrite(const char *filename)
 {
-	static int response;
+	static int choice;
 	static char *prevfile = NULL;
 		/* The last file we were passed, so we don't keep asking this.
 		 * Though maybe we should? */
 	if (prevfile == NULL || strcmp(filename, prevfile)) {
-		response = do_yesno_prompt(FALSE, _("Failed to write backup file; "
+		choice = do_yesno_prompt(FALSE, _("Failed to write backup file; "
 						"continue saving? (Say N if unsure.) "));
 		prevfile = mallocstrcpy(prevfile, filename);
 	}
 
-	return response;
+	return choice;
 }
 
 /* Transform the specified backup directory to an absolute path,
@@ -2284,11 +2284,10 @@ int do_writeout(bool exiting, bool withprompt)
 						(openfile->current_stat->st_mtime < st.st_mtime ||
 						openfile->current_stat->st_dev != st.st_dev ||
 						openfile->current_stat->st_ino != st.st_ino)) {
-				int response;
 
 				warn_and_shortly_pause(_("File on disk has changed"));
 
-				response = do_yesno_prompt(FALSE, _("File was modified "
+				choice = do_yesno_prompt(FALSE, _("File was modified "
 								"since you opened it; continue saving? "));
 				wipe_statusbar();
 
@@ -2296,14 +2295,14 @@ int do_writeout(bool exiting, bool withprompt)
 				 * overwrite the file right here when requested. */
 				if (ISSET(TEMP_FILE) && withprompt) {
 					free(given);
-					if (response == 1)
+					if (choice == 1)
 						return write_file(openfile->filename, NULL,
 											FALSE, OVERWRITE, TRUE);
-					else if (response == 0)
+					else if (choice == 0)
 						return 2;
 					else
 						return 0;
-				} else if (response != 1) {
+				} else if (choice != 1) {
 					free(given);
 					return 1;
 				}
