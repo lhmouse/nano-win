@@ -2106,7 +2106,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 	while (TRUE) {
 		const char *msg;
-		int i = 0;
+		int choice = 0;
 		functionptrtype func;
 #ifndef NANO_TINY
 		const char *formatstr, *backupstr;
@@ -2139,7 +2139,7 @@ int do_writeout(bool exiting, bool withprompt)
 		else {
 			/* Ask for (confirmation of) the filename.  Disable tab completion
 			 * when using restricted mode and the filename isn't blank. */
-			i = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
+			choice = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
 						TRUE, MWRITEFILE, given, NULL,
 						edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
@@ -2150,12 +2150,12 @@ int do_writeout(bool exiting, bool withprompt)
 						);
 		}
 
-		if (i < 0) {
+		if (choice < 0) {
 			statusbar(_("Cancelled"));
 			break;
 		}
 
-		func = func_from_key(&i);
+		func = func_from_key(&choice);
 
 		/* Upon request, abandon the buffer. */
 		if (func == discard_buffer) {
@@ -2267,12 +2267,12 @@ int do_writeout(bool exiting, bool withprompt)
 
 					sprintf(message, question, name);
 
-					i = do_yesno_prompt(FALSE, message);
+					choice = do_yesno_prompt(FALSE, message);
 
 					free(message);
 					free(name);
 
-					if (i < 1)
+					if (choice < 1)
 						continue;
 				}
 			}

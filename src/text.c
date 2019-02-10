@@ -2632,12 +2632,12 @@ void do_linter(void)
 	edit_refresh();
 
 	if (openfile->modified) {
-		int i = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
+		int choice = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
 
-		if (i == -1) {
+		if (choice == -1) {
 			statusbar(_("Cancelled"));
 			return;
-		} else if (i == 1 && (do_writeout(FALSE, FALSE) != 1))
+		} else if (choice == 1 && (do_writeout(FALSE, FALSE) != 1))
 			return;
 	}
 

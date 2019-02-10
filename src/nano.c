@@ -1037,16 +1037,16 @@ void version(void)
  * buffer is open, exit from nano. */
 void do_exit(void)
 {
-	int i;
+	int choice;
 
 	/* If the file hasn't been modified, pretend the user chose not to
 	 * save. */
 	if (!openfile->modified)
-		i = 0;
+		choice = 0;
 	/* If the TEMP_FILE flag is set and the current file has a name,
 	 * pretend the user chose to save. */
 	else if (openfile->filename[0] != '\0' && ISSET(TEMP_FILE))
-		i = 1;
+		choice = 1;
 	/* Otherwise, ask the user whether or not to save. */
 	else {
 		/* If the TEMP_FILE flag is set, and the current file doesn't
@@ -1054,15 +1054,15 @@ void do_exit(void)
 		if (ISSET(TEMP_FILE))
 			warn_and_shortly_pause(_("No file name"));
 
-		i = do_yesno_prompt(FALSE, _("Save modified buffer?  "
+		choice = do_yesno_prompt(FALSE, _("Save modified buffer?  "
 						"(Answering \"No\" will DISCARD changes.) "));
 	}
 
 	/* If the user chose not to save, or if the user chose to save and
 	 * the save succeeded, we're ready to exit. */
-	if (i == 0 || (i == 1 && do_writeout(TRUE, TRUE) > 0))
+	if (choice == 0 || (choice == 1 && do_writeout(TRUE, TRUE) > 0))
 		close_and_go();
-	else if (i != 1)
+	else if (choice != 1)
 		statusbar(_("Cancelled"));
 }
 

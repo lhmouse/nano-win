@@ -548,7 +548,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 	came_full_circle = FALSE;
 
 	while (TRUE) {
-		int i = 0;
+		int choice = 0;
 		int result = findnextstr(needle, whole_word_only, modus,
 						&match_len, skipone, real_current, *real_current_x);
 
@@ -585,21 +585,21 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			edit_refresh();
 
 			/* TRANSLATORS: This is a prompt. */
-			i = do_yesno_prompt(TRUE, _("Replace this instance?"));
+			choice = do_yesno_prompt(TRUE, _("Replace this instance?"));
 
 			spotlighted = FALSE;
 
-			if (i == -1)  /* The replacing was cancelled. */
+			if (choice == -1)  /* The replacing was cancelled. */
 				break;
-			else if (i == 2)
+			else if (choice == 2)
 				replaceall = TRUE;
 
 			/* When "No" or moving backwards, the search routine should
 			 * first move one character further before continuing. */
-			skipone = (i == 0 || ISSET(BACKWARDS_SEARCH));
+			skipone = (choice == 0 || ISSET(BACKWARDS_SEARCH));
 		}
 
-		if (i == 1 || replaceall) {  /* Yes, replace it. */
+		if (choice == 1 || replaceall) {  /* Yes, replace it. */
 			char *copy;
 			size_t length_change;
 
