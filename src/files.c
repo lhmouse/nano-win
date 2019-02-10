@@ -1421,7 +1421,7 @@ char *check_writable_directory(const char *path)
 char *safe_tempfile(FILE **f)
 {
 	const char *tmpdir_env = getenv("TMPDIR");
-	char *full_tempdir = NULL;
+	char *full_tempdir = NULL, *tempfile_name = NULL;
 	mode_t original_umask = 0;
 	int fd;
 
@@ -1436,24 +1436,24 @@ char *safe_tempfile(FILE **f)
 	if (full_tempdir == NULL)
 		full_tempdir = mallocstrcpy(NULL, "/tmp/");
 
-	full_tempdir = charealloc(full_tempdir, strlen(full_tempdir) + 12);
-	strcat(full_tempdir, "nano.XXXXXX");
+	tempfile_name = charealloc(full_tempdir, strlen(full_tempdir) + 12);
+	strcat(tempfile_name, "nano.XXXXXX");
 
 	original_umask = umask(0);
 	umask(S_IRWXG | S_IRWXO);
 
-	fd = mkstemp(full_tempdir);
+	fd = mkstemp(tempfile_name);
 
 	if (fd != -1)
 		*f = fdopen(fd, "r+b");
 	else {
-		free(full_tempdir);
-		full_tempdir = NULL;
+		free(tempfile_name);
+		tempfile_name = NULL;
 	}
 
 	umask(original_umask);
 
-	return full_tempdir;
+	return tempfile_name;
 }
 
 #ifdef ENABLE_OPERATINGDIR
