@@ -1415,29 +1415,24 @@ char *check_writable_directory(const char *path)
 }
 
 /* This function calls mkstemp(($TMPDIR|P_tmpdir|/tmp/)"nano.XXXXXX").
- * On success, it returns the malloc()ed filename and corresponding FILE
- * stream, opened in "r+b" mode.  On error, it returns NULL for the
- * filename and leaves the FILE stream unchanged. */
+ * On success, it returns the malloc()ed filename and corresponding
+ * FILE stream, opened in "r+b" mode.  On error, it returns NULL for
+ * the filename and leaves the FILE stream unchanged. */
 char *safe_tempfile(FILE **f)
 {
+	const char *tmpdir_env = getenv("TMPDIR");
 	char *full_tempdir = NULL;
-	const char *tmpdir_env;
-	int fd;
 	mode_t original_umask = 0;
+	int fd;
 
-	/* If $TMPDIR is set, set tempdir to it, run it through
-	 * get_full_path(), and save the result in full_tempdir.  Otherwise,
-	 * leave full_tempdir set to NULL. */
-	tmpdir_env = getenv("TMPDIR");
+	/* Get the absolute path for the first directory among $TMPDIR
+	 * and P_tmpdir that is writable, otherwise use /tmp/. */
 	if (tmpdir_env != NULL)
 		full_tempdir = check_writable_directory(tmpdir_env);
 
-	/* If $TMPDIR is unset, empty, or not a writable directory, and
-	 * full_tempdir is NULL, try P_tmpdir instead. */
 	if (full_tempdir == NULL)
 		full_tempdir = check_writable_directory(P_tmpdir);
 
-	/* if P_tmpdir is NULL, use /tmp. */
 	if (full_tempdir == NULL)
 		full_tempdir = mallocstrcpy(NULL, "/tmp/");
 
@@ -1516,8 +1511,8 @@ int prompt_failed_backupwrite(const char *filename)
 {
 	static int choice;
 	static char *prevfile = NULL;
-		/* The last file we were passed, so we don't keep asking this.
-		 * Though maybe we should? */
+		/* The last filename we were passed, so we don't keep asking this. */
+
 	if (prevfile == NULL || strcmp(filename, prevfile)) {
 		choice = do_yesno_prompt(FALSE, _("Failed to write backup file; "
 						"continue saving? (Say N if unsure.) "));
