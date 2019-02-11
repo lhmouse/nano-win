@@ -3429,8 +3429,9 @@ void enable_waiting(void)
 /* Highlight the text between from_col and to_col. */
 void spotlight(size_t from_col, size_t to_col)
 {
+	size_t right_edge;
+	bool overshoots = FALSE;
 	char *word;
-	size_t word_span, room;
 
 	place_the_cursor();
 
@@ -3441,29 +3442,28 @@ void spotlight(size_t from_col, size_t to_col)
 	}
 #endif
 
+	right_edge = get_page_start(from_col) + editwincols;
+
+	/* Limit the end column to the edge of the screen. */
+	if (to_col > right_edge) {
+		to_col = right_edge;
+		overshoots = TRUE;
+	}
+
 	/* This is so we can show zero-length matches. */
 	if (to_col == from_col) {
 		word = mallocstrcpy(NULL, " ");
 		to_col++;
 	} else
 		word = display_string(openfile->current->data, from_col,
-								to_col - from_col, FALSE, FALSE);
-
-	word_span = strlenpt(word);
-
-	/* Compute the number of columns that are available for the word. */
-	room = editwincols + get_page_start(from_col) - from_col;
-
-	/* If the word is partially offscreen, reserve space for the ">". */
-	if (word_span > room)
-		room--;
+								to_col - from_col, FALSE, overshoots);
 
 	wattron(edit, interface_color_pair[SELECTED_TEXT]);
 
-	waddnstr(edit, word, actual_x(word, room));
+	waddnstr(edit, word, actual_x(word, to_col));
 
-	if (word_span > room)
-		waddch(edit, '>');
+	if (overshoots)
+		mvwaddch(edit, openfile->current_y, COLS - 1, '>');
 
 	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
