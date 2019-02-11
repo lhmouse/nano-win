@@ -1863,7 +1863,7 @@ void check_statusblank(void)
  * at most span columns.  column is zero-based, and span is one-based, so
  * span == 0 means you get "" returned.  The returned string is dynamically
  * allocated, and should be freed.  If isdata is TRUE, the caller might put
- * "$" at the beginning or end of the line if it's too long. */
+ * "<" at the beginning or ">" at the end of the line if it's too long. */
 char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 {
 	size_t start_index = actual_x(buf, column);
@@ -1886,7 +1886,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 	converted = charalloc(strlen(buf) * (MAXCHARLEN + tabsize) + 1);
 
 	/* If the first character starts before the left edge, or would be
-	 * overwritten by a "$" token, then show placeholders instead. */
+	 * overwritten by a "<" token, then show placeholders instead. */
 	if (*buf != '\0' && *buf != '\t' && (start_col < column ||
 						(start_col > 0 && isdata && !ISSET(SOFTWRAP)))) {
 		if (is_cntrl_mbchar(buf)) {
@@ -1987,7 +1987,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 			buf += charlength + 7;
 	}
 
-	/* If there is more text than can be shown, make room for the $ or >. */
+	/* If there is more text than can be shown, make room for the ">". */
 	if ((*buf != '\0' || column > beyond) &&
 					(currmenu != MMAIN || (isdata && !ISSET(SOFTWRAP)))) {
 		index = move_mbleft(converted, index);
@@ -2777,9 +2777,9 @@ int update_line(filestruct *fileptr, size_t index)
 	free(converted);
 
 	if (from_col > 0)
-		mvwaddch(edit, row, margin, '$');
+		mvwaddch(edit, row, margin, '<');
 	if (strlenpt(fileptr->data) > from_col + editwincols)
-		mvwaddch(edit, row, COLS - 1, '$');
+		mvwaddch(edit, row, COLS - 1, '>');
 
 	if (spotlighted && !inhelp)
 		spotlight(light_from_col, light_to_col);
@@ -3443,7 +3443,7 @@ void spotlight(size_t from_col, size_t to_col)
 	/* Compute the number of columns that are available for the word. */
 	room = editwincols + get_page_start(from_col) - from_col;
 
-	/* If the word is partially offscreen, reserve space for the "$". */
+	/* If the word is partially offscreen, reserve space for the ">". */
 	if (word_span > room)
 		room--;
 
@@ -3452,7 +3452,7 @@ void spotlight(size_t from_col, size_t to_col)
 	waddnstr(edit, word, actual_x(word, room));
 
 	if (word_span > room)
-		waddch(edit, '$');
+		waddch(edit, '>');
 
 	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
