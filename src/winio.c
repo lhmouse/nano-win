@@ -1903,8 +1903,8 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 				column++;
 			}
 
-			/* Display the right half of a two-column character as '<'. */
-			converted[index++] = '<';
+			/* Display the right half of a two-column character as ']'. */
+			converted[index++] = ']';
 			column++;
 			buf += parse_mbchar(buf, NULL, NULL);
 		}
@@ -1993,9 +1993,9 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 		index = move_mbleft(converted, index);
 
 #ifdef ENABLE_UTF8
-		/* Display the left half of a two-column character as '>'. */
+		/* Display the left half of a two-column character as '['. */
 		if (mbwidth(converted + index) == 2)
-			converted[index++] = '>';
+			converted[index++] = '[';
 #endif
 	}
 
