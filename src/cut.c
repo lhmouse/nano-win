@@ -208,13 +208,12 @@ void do_cut_next_word(void)
 }
 #endif /* !NANO_TINY */
 
-/* If we aren't on the last line of the file, move all the text of the
- * current line, plus the newline at the end, into the cutbuffer.  If we
- * are, move all of the text of the current line into the cutbuffer.  In
- * both cases, set the current place we want to the beginning of the
- * current line. */
+/* Move the whole current line from the current buffer to the cutbuffer. */
 void cut_line(void)
 {
+	/* When not on the last line of the buffer, move the text from the
+	 * head of this line to the head of the next line into the cutbuffer;
+	 * otherwise, move all of the text of this line into the cutbuffer. */
 	if (openfile->current != openfile->filebot)
 		extract_buffer(&cutbuffer, &cutbottom, openfile->current, 0,
 				openfile->current->next, 0);
@@ -225,8 +224,7 @@ void cut_line(void)
 }
 
 #ifndef NANO_TINY
-/* Move all currently marked text into the cutbuffer, and set the
- * current place we want to where the text used to start. */
+/* Move all marked text from the current buffer into the cutbuffer. */
 void cut_marked(bool *right_side_up)
 {
 	filestruct *top, *bot;
@@ -239,35 +237,27 @@ void cut_marked(bool *right_side_up)
 	openfile->placewewant = xplustabs();
 }
 
-/* If we aren't at the end of the current line, move all the text from
- * the current cursor position to the end of the current line, not
- * counting the newline at the end, into the cutbuffer.  If we are, and
- * we're not on the last line of the file, move the newline at the end
- * into the cutbuffer, and set the current place we want to where the
- * newline used to be. */
+/* Move all text from the cursor position until the end of this line into
+ * the cutbuffer.  But when already at the end of a line, then move this
+ * "newline" to the cutbuffer. */
 void cut_to_eol(void)
 {
 	size_t data_len = strlen(openfile->current->data);
 
+	/* When not at the end of a line, move the rest of this line into
+	 * the cutbuffer.  Otherwise, when not at the end of the buffer,
+	 * move the line separation into the cutbuffer. */
 	if (openfile->current_x < data_len)
-		/* If we're not at the end of the line, move all the text from
-		 * the current position up to it, not counting the newline at
-		 * the end, into the cutbuffer. */
 		extract_buffer(&cutbuffer, &cutbottom, openfile->current,
 				openfile->current_x, openfile->current, data_len);
 	else if (openfile->current != openfile->filebot) {
-		/* If we're at the end of the line, and it isn't the last line
-		 * of the file, move all the text from the current position up
-		 * to the beginning of the next line, i.e. the newline at the
-		 * end, into the cutbuffer. */
 		extract_buffer(&cutbuffer, &cutbottom, openfile->current,
 				openfile->current_x, openfile->current->next, 0);
 		openfile->placewewant = xplustabs();
 	}
 }
 
-/* Move all the text from the current cursor position to the end of the
- * file into the cutbuffer. */
+/* Move all text from the cursor position to end-of-file into the cutbuffer. */
 void cut_to_eof(void)
 {
 	extract_buffer(&cutbuffer, &cutbottom,
