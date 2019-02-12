@@ -2776,10 +2776,16 @@ int update_line(filestruct *fileptr, size_t index)
 	edit_draw(fileptr, converted, row, from_col);
 	free(converted);
 
-	if (from_col > 0)
+	if (from_col > 0) {
+		wattron(edit, hilite_attribute);
 		mvwaddch(edit, row, margin, '<');
-	if (strlenpt(fileptr->data) > from_col + editwincols)
+		wattroff(edit, hilite_attribute);
+	}
+	if (strlenpt(fileptr->data) > from_col + editwincols) {
+		wattron(edit, hilite_attribute);
 		mvwaddch(edit, row, COLS - 1, '>');
+		wattroff(edit, hilite_attribute);
+	}
 
 	if (spotlighted && !inhelp)
 		spotlight(light_from_col, light_to_col);
