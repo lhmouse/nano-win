@@ -885,9 +885,9 @@ void shortcut_init(void)
 	add_to_funcs(do_next_block, MMAIN,
 		N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
 #ifdef ENABLE_JUSTIFY
-	add_to_funcs(do_para_begin_void, MMAIN|MWHEREIS,
+	add_to_funcs(do_para_begin_void, MMAIN|MGOTOLINE,
 		N_("Beg of Par"), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
-	add_to_funcs(do_para_end_void, MMAIN|MWHEREIS,
+	add_to_funcs(do_para_end_void, MMAIN|MGOTOLINE,
 		N_("End of Par"), WITHORSANS(paraend_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -1273,10 +1273,6 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE, "M-R", 0, regexp_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE, "M-B", 0, backwards_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
-#ifdef ENABLE_JUSTIFY
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^W", 0, do_para_begin_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^O", 0, do_para_end_void, 0);
-#endif
 	add_to_sclist(MWHEREIS|MGOTOLINE, "^T", 0, flip_goto, 0);
 #ifdef ENABLE_HISTORIES
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^P", 0, get_history_older_void, 0);
@@ -1291,6 +1287,10 @@ void shortcut_init(void)
 		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Up", KEY_UP, get_history_older_void, 0);
 		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Down", KEY_DOWN, get_history_newer_void, 0);
 	}
+#endif
+#ifdef ENABLE_JUSTIFY
+	add_to_sclist(MGOTOLINE, "^W", 0, do_para_begin_void, 0);
+	add_to_sclist(MGOTOLINE, "^O", 0, do_para_end_void, 0);
 #endif
 	add_to_sclist(MGOTOLINE, "^Y", 0, to_first_line, 0);
 	add_to_sclist(MGOTOLINE, "^V", 0, to_last_line, 0);
