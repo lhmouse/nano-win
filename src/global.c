@@ -896,9 +896,9 @@ void shortcut_init(void)
 	add_to_funcs(do_page_down, MMAIN|MHELP,
 		N_("Next Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
 
-	add_to_funcs(to_first_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
+	add_to_funcs(to_first_line, MMAIN|MHELP|MGOTOLINE,
 		N_("First Line"), WITHORSANS(firstline_gist), TOGETHER, VIEW);
-	add_to_funcs(to_last_line, MMAIN|MHELP|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE,
+	add_to_funcs(to_last_line, MMAIN|MHELP|MGOTOLINE,
 		N_("Last Line"), WITHORSANS(lastline_gist), BLANKAFTER, VIEW);
 
 #ifdef ENABLE_MULTIBUFFER
@@ -1273,8 +1273,6 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE, "M-R", 0, regexp_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE, "M-B", 0, backwards_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MFINDINHELP, "^Y", 0, to_first_line, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MFINDINHELP, "^V", 0, to_last_line, 0);
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^W", 0, do_para_begin_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH, "^O", 0, do_para_end_void, 0);
@@ -1294,6 +1292,8 @@ void shortcut_init(void)
 		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Down", KEY_DOWN, get_history_newer_void, 0);
 	}
 #endif
+	add_to_sclist(MGOTOLINE, "^Y", 0, to_first_line, 0);
+	add_to_sclist(MGOTOLINE, "^V", 0, to_last_line, 0);
 #ifdef ENABLE_BROWSER
 	add_to_sclist(MWHEREISFILE, "^Y", 0, to_first_file, 0);
 	add_to_sclist(MWHEREISFILE, "^V", 0, to_last_file, 0);
