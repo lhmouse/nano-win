@@ -815,12 +815,13 @@ void shortcut_init(void)
 	add_to_funcs(get_history_newer_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 		N_("Newer"), WITHORSANS(newer_gist), BLANKAFTER, VIEW);
 #endif
-#ifdef ENABLE_JUSTIFY
-	add_to_funcs(do_full_justify, MWHEREIS,
-		N_("FullJstify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(flip_goto, MWHEREIS,
-		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
+		N_("Go To Line"), WITHORSANS(gotoline_gist), TOGETHER, VIEW);
+
+#ifdef ENABLE_JUSTIFY
+	add_to_funcs(do_full_justify, MWHEREIS,
+		N_("FullJstify"), WITHORSANS(fulljustify_gist), BLANKAFTER, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -989,11 +990,6 @@ void shortcut_init(void)
 #endif
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
-#endif
-
-#ifndef ENABLE_JUSTIFY
-	add_to_funcs(flip_goto, MWHEREIS,
-		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
 	add_to_funcs(flip_goto, MGOTOLINE,
