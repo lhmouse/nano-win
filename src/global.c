@@ -827,10 +827,6 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	add_to_funcs(do_find_bracket, MMAIN,
 		N_("To Bracket"), WITHORSANS(bracket_gist), BLANKAFTER, VIEW);
-#else
-	/* Place this one here only in the tiny version; otherwise further down. */
-	add_to_funcs(do_savefile, MMAIN,
-		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 #endif
 
 #ifdef ENABLE_BROWSER
@@ -839,14 +835,28 @@ void shortcut_init(void)
 	add_to_funcs(do_search_backward, MBROWSER,
 		N_("Where Was"), WITHORSANS(browserwherewas_gist), TOGETHER, VIEW);
 #endif
+
+#ifndef NANO_TINY
 	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
+#endif
 	add_to_funcs(do_findprevious, MMAIN|MHELP|MBROWSER,
 		/* TRANSLATORS: This refers to searching the preceding occurrence. */
 		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
+#ifndef NANO_TINY
 	add_to_funcs(do_findnext, MMAIN|MHELP|MBROWSER,
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
+#else
+	/* In the tiny version, arrange things a bit differently, so that
+	 * the useful M-W and M-Q are shown in the help lines. */
+	add_to_funcs(do_findnext, MMAIN|MHELP|MBROWSER,
+		N_("Next"), WITHORSANS(findnext_gist), TOGETHER, VIEW);
+	add_to_funcs(do_search_backward, MMAIN|MHELP,
+		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
+	add_to_funcs(total_refresh, MMAIN,
+		N_("Refresh"), WITHORSANS(refresh_gist), BLANKAFTER, VIEW);
+#endif
 
 	add_to_funcs(do_left, MMAIN,
 		/* TRANSLATORS: This means move the cursor one character back. */
@@ -954,8 +964,10 @@ void shortcut_init(void)
 	add_to_funcs(do_verbatim_input, MMAIN,
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
+#ifndef NANO_TINY
 	add_to_funcs(total_refresh, MMAIN,
 		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
+#endif
 
 	add_to_funcs(do_suspend_void, MMAIN,
 		N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
@@ -988,9 +1000,9 @@ void shortcut_init(void)
 		add_to_funcs(do_linter, MMAIN,
 				N_("To Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
 #endif
+#endif
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
-#endif
 
 	add_to_funcs(flip_goto, MGOTOLINE,
 		N_("Go To Text"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
