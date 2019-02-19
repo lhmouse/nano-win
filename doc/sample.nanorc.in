@@ -40,6 +40,9 @@
 ## optionally followed by these closing brackets, can end sentences.
 # set brackets ""')>]}"
 
+## Automatically hard-wrap the current line when it becomes overlong.
+# set breaklonglines
+
 ## Do case-sensitive searches by default.
 # set casesensitive
 
@@ -50,13 +53,22 @@
 ## Use cut-from-cursor-to-end-of-line by default.
 # set cutfromcursor
 
+## Do not use the line below the title bar, leaving it entirely blank.
+# set emptyline
+
 ## Enable hard-wrapping and set the target width, both for automatic
 ## line wrapping and for justifying paragraphs.  If the value is 0 or
 ## less, the wrapping point will be the screen width minus this number.
 # set fill -8
 
+## Ensure that a non-empty buffer ends with a newline character.
+# set finalnewline
+
 ## Remember the used search/replace strings for the next session.
 # set historylog
+
+## Scroll the buffer contents per half-screen instead of per line.
+# set jumpyscrolling
 
 ## Display line numbers to the left of the text.
 # set linenumbers

@@ -92,6 +92,9 @@ paragraphs.  This may not include blank characters.  Only closing
 punctuation (see \fBset punct\fP), optionally followed by the specified
 closing brackets, can end sentences.  The default value is "\fB"')>]}\fP".
 .TP
+.B set breaklonglines
+Automatically hard-wrap the current line when it becomes overlong.
+.TP
 .B set casesensitive
 Do case-sensitive searches by default.
 .TP
@@ -102,9 +105,15 @@ This overrides the option \fBquickblank\fR.
 .B set cutfromcursor
 Use cut-from-cursor-to-end-of-line by default, instead of cutting the whole line.
 .TP
+.B set emptyline
+Do not use the line below the title bar, leaving it entirely blank.
+.TP
 .B set errorcolor \fIfgcolor\fR,\fIbgcolor\fR
 Use this color combination for the status bar when an error message is displayed.
 See \fBset titlecolor\fR for valid color names.
+.TP
+.B set finalnewline
+If the buffer is not empty, ensure that it ends with a newline character.
 .TP
 .B set fill \fInumber\fR
 Set the target width for justifying and automatic hard-wrapping at this
@@ -121,6 +130,9 @@ See \fBset titlecolor\fR for more details.
 .B set historylog
 Save the last hundred search strings and replacement strings and
 executed commands, so they can be easily reused in later sessions.
+.TP
+.B set jumpyscrolling
+Scroll the buffer contents per half-screen instead of per line.
 .TP
 .B set keycolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for the shortcut key combos
