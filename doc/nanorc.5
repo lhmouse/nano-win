@@ -152,7 +152,8 @@ come before the closing set, and the two sets must be in the same order.
 The default value is "\fB(<[{)>]}\fP".
 .TP
 .B set morespace
-Use the blank line below the title bar as extra editing space.
+Deprecated option since it has become the default setting.
+When needed, use \fBunset emptyline\fR instead.
 .TP
 .B set mouse
 Enable mouse support, if available for your system.  When enabled, mouse
@@ -171,15 +172,16 @@ Don't convert files from DOS/Mac format.
 Don't display the two help lines at the bottom of the screen.
 .TP
 .B set nonewlines
-When a file does not end with a newline, don't automatically add one.
+Deprecated option since it has become the default setting.
+When needed, use \fBunset finalnewline\fR instead.
 .TP
 .B set nopauses
 Don't pause between warnings at startup.  This means that only
 the last one will be visible (when there are multiple ones).
 .TP
 .B set nowrap
-Do not automatically hard-wrap the current line when it becomes overlong.
-This is the default.
+Deprecated option since it has become the default setting.
+When needed, use \fBunset breaklonglines\fR instead.
 .TP
 .B set numbercolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for line numbers.
@@ -245,7 +247,8 @@ already at that position, it will jump to the true beginning of the
 line.
 .TP
 .B set smooth
-Use smooth scrolling by default.
+Deprecated option since it has become the default setting.
+When needed, use \fBunset jumpyscrolling\fR instead.
 .TP
 .B set softwrap
 Enable soft line wrapping for easier viewing of very long lines.

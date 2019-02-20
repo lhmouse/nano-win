@@ -806,7 +806,8 @@ come before the closing set, and the two sets must be in the same order.
 The default value is @t{"(<[@{)>]@}"}.
 
 @item set morespace
-Use the blank line below the title bar as extra editing space.
+Deprecated option since it has become the default setting.
+When needed, use @code{unset emptyline} instead.
 
 @item set mouse
 Enable mouse support, so that mouse clicks can be used to place the
@@ -822,15 +823,16 @@ Don't convert files from DOS/Mac format.
 Don't display the help lists at the bottom of the screen.
 
 @item set nonewlines
-When a file does not end with a newline, don't automatically add one.
+Deprecated option since it has become the default setting.
+When needed, use @code{unset finalnewline} instead.
 
 @item set nopauses
 Don't pause between warnings at startup.  This means that only
 the last one will be visible (when there are multiple ones).
 
 @item set nowrap
-Do not automatically hard-wrap the current line when it becomes overlong.
-This is the default.
+Deprecated option since it has become the default setting.
+When needed, use @code{unset breaklonglines} instead.
 
 @item set numbercolor @var{fgcolor},@var{bgcolor}
 Use this color combination for line numbers.
@@ -898,7 +900,8 @@ already at that position, it will jump to the true beginning of the
 line.
 
 @item set smooth
-Use smooth scrolling by default.
+Deprecated option since it has become the default setting.
+When needed, use @code{unset jumpyscrolling} instead.
 
 @item set softwrap
 Enable soft line wrapping for easier viewing of very long lines.
