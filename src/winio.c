@@ -3526,8 +3526,8 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
  * are FALSE. */
 void do_credits(void)
 {
-	bool had_empty_line = ISSET(EMPTY_LINE);
-	bool old_no_help = ISSET(NO_HELP);
+	bool with_empty_line = ISSET(EMPTY_LINE);
+	bool with_help = !ISSET(NO_HELP);
 	int kbinput = ERR, crpos = 0, xlpos = 0;
 	const char *credits[CREDIT_LEN] = {
 		NULL,                /* "The nano text editor" */
@@ -3598,7 +3598,7 @@ void do_credits(void)
 		N_("Thank you for using nano!")
 	};
 
-	if (had_empty_line || !old_no_help) {
+	if (with_empty_line || with_help) {
 		UNSET(EMPTY_LINE);
 		SET(NO_HELP);
 		window_init();
@@ -3657,9 +3657,9 @@ void do_credits(void)
 	if (kbinput != ERR)
 		ungetch(kbinput);
 
-	if (had_empty_line)
+	if (with_empty_line)
 		SET(EMPTY_LINE);
-	if (!old_no_help)
+	if (with_help)
 		UNSET(NO_HELP);
 	window_init();
 
