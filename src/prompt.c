@@ -575,17 +575,14 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	return func;
 }
 
-/* Ask a question on the statusbar.  The prompt will be stored in the
- * static prompt, which should be NULL initially, and the answer will be
- * stored in the answer global.  Returns -1 on aborted enter, -2 on a
- * blank string, and 0 otherwise, the valid shortcut key caught.
- * curranswer is any editable text that we want to put up by default,
- * and refresh_func is the function we want to call to refresh the edit
- * window.
+/* Ask a question on the statusbar.  Return 0 when text was entered,
+ * -1 for a cancelled entry, -2 for a blank string, and the relevant
+ * keycode when a valid shortcut key was pressed.
  *
- * The allow_tabs parameter indicates whether we should allow tabs to be
- * interpreted.  The allow_files parameter indicates whether we should
- * allow all files (as opposed to just directories) to be tab completed. */
+ * The allow_tabs parameter indicates whether tab completion is allowed,
+ * and allow_files indicates whether all files (and not just directories)
+ * can be tab completed.  The curranswer parameter is the default answer
+ * for when simply Enter is typed. */
 int do_prompt(bool allow_tabs, bool allow_files,
 		int menu, const char *curranswer, filestruct **history_list,
 		void (*refresh_func)(void), const char *msg, ...)
