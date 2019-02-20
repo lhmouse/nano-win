@@ -2817,18 +2817,18 @@ void do_linter(void)
 			if (openfile->current_stat == NULL ||
 						openfile->current_stat->st_ino != lintfileinfo.st_ino) {
 				char *msg = charalloc(1024 + strlen(curlint->filename));
-				int i;
+				int choice;
 
 				sprintf(msg, _("This message is for unopened file %s,"
 							" open it in a new buffer?"), curlint->filename);
-				i = do_yesno_prompt(FALSE, msg);
+				choice = do_yesno_prompt(FALSE, msg);
 				currmenu = MLINTER;
 				free(msg);
 
-				if (i == -1) {
+				if (choice == -1) {
 					statusbar(_("Cancelled"));
 					break;
-				} else if (i == 1) {
+				} else if (choice == 1) {
 					open_buffer(curlint->filename, TRUE);
 				} else {
 #endif
