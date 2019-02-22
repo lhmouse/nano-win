@@ -1990,7 +1990,9 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 	/* If there is more text than can be shown, make room for the ">". */
 	if ((*buf != '\0' || column > beyond) &&
 					(currmenu != MMAIN || (isdata && !ISSET(SOFTWRAP)))) {
-		index = move_mbleft(converted, index);
+		do {
+			index = move_mbleft(converted, index);
+		} while (mbwidth(converted + index) == 0);
 
 #ifdef ENABLE_UTF8
 		/* Display the left half of a two-column character as '['. */
