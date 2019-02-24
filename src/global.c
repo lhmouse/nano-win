@@ -943,10 +943,10 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	add_to_funcs(do_cut_prev_word, MMAIN,
-		/* TRANSLATORS: The next two strings refer to cutting words. */
-		N_("Cut Left"), WITHORSANS(cutwordleft_gist), TOGETHER, NOVIEW);
+		/* TRANSLATORS: The next two strings refer to deleting words. */
+		N_("Chop Left"), WITHORSANS(cutwordleft_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_cut_next_word, MMAIN,
-		N_("Cut Right"), WITHORSANS(cutwordright_gist), TOGETHER, NOVIEW);
+		N_("Chop Right"), WITHORSANS(cutwordright_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_cut_till_eof, MMAIN,
 		N_("CutTillEnd"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 #endif
