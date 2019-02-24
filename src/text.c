@@ -537,7 +537,7 @@ void do_undo(void)
 	case ADD:
 		/* TRANSLATORS: The next thirteen strings describe actions
 		 * that are undone or redone.  They are all nouns, not verbs. */
-		undidmsg = _("text add");
+		undidmsg = _("addition");
 		if ((u->xflags & WAS_FINAL_LINE) && ISSET(FINAL_NEWLINE))
 			remove_magicline();
 		data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
@@ -564,7 +564,7 @@ void do_undo(void)
 		break;
 	case BACK:
 	case DEL:
-		undidmsg = _("text delete");
+		undidmsg = _("deletion");
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 		strncpy(data, f->data, u->begin);
 		strcpy(&data[u->begin], u->strdata);
@@ -593,7 +593,7 @@ void do_undo(void)
 		goto_line_posx(u->lineno, u->begin);
 		break;
 	case REPLACE:
-		undidmsg = _("text replace");
+		undidmsg = _("replacement");
 		goto_line_posx(u->lineno, u->begin);
 		data = u->strdata;
 		u->strdata = f->data;
@@ -607,7 +607,7 @@ void do_undo(void)
 			do_undo();
 		u = openfile->current_undo;
 	case SPLIT_BEGIN:
-		undidmsg = _("text add");
+		undidmsg = _("addition");
 		break;
 #endif
 	case ZAP:
@@ -616,15 +616,15 @@ void do_undo(void)
 		break;
 	case CUT_TO_EOF:
 	case CUT:
-		undidmsg = _("text cut");
+		undidmsg = _("cut");
 		undo_cut(u);
 		break;
 	case PASTE:
-		undidmsg = _("text uncut");
+		undidmsg = _("paste");
 		undo_paste(u);
 		break;
 	case INSERT:
-		undidmsg = _("text insert");
+		undidmsg = _("insertion");
 		oldcutbuffer = cutbuffer;
 		oldcutbottom = cutbottom;
 		cutbuffer = NULL;
@@ -673,7 +673,7 @@ void do_undo(void)
 	}
 
 	if (undidmsg && !pletion_line)
-		statusline(HUSH, _("Undid action (%s)"), undidmsg);
+		statusline(HUSH, _("Undid %s"), undidmsg);
 
 	openfile->current_undo = openfile->current_undo->next;
 	openfile->last_action = OTHER;
@@ -844,7 +844,7 @@ void do_redo(void)
 	}
 
 	if (redidmsg)
-		statusline(HUSH, _("Redid action (%s)"), redidmsg);
+		statusline(HUSH, _("Redid %s"), redidmsg);
 
 	openfile->current_undo = u;
 	openfile->last_action = OTHER;
@@ -2046,7 +2046,7 @@ void do_justify(bool full_justify)
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("justify"));
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("justification"));
 
 	/* Store the original cursor position, in case we unjustify. */
 	openfile->undotop->lineno = was_lineno;
@@ -2086,7 +2086,7 @@ void do_justify(bool full_justify)
 	update_undo(PASTE);
 
 	add_undo(COUPLE_END);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("justify"));
+	openfile->undotop->strdata = mallocstrcpy(NULL, _("justification"));
 #endif
 
 	/* We're done justifying.  Restore the old cutbuffer. */
