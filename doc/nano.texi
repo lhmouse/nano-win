@@ -1184,13 +1184,13 @@ Throws away the current line (or the marked region).
 (This function is bound by default to <Meta+Delete>.)
 
 @item cutwordleft
-Cuts from the cursor position to the beginning of the preceding word.
+Deletes from the cursor position to the beginning of the preceding word.
 (This function is not bound by default.  If your terminal produces
 @code{^H} for <Ctrl+Backspace>, you can make <Ctrl+Backspace> delete
 the word to the left of the cursor by rebinding ^H to this function.)
 
 @item cutwordright
-Cuts from the cursor position to the beginning of the next word.
+Deletes from the cursor position to the beginning of the next word.
 (This function is bound by default to <Ctrl+Delete>.)
 
 @item cutrestoffile

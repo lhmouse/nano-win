@@ -612,9 +612,9 @@ void shortcut_init(void)
 		N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
 	const char *cutwordleft_gist =
-		N_("Cut backward from cursor to word start");
+		N_("Delete backward from cursor to word start");
 	const char *cutwordright_gist =
-		N_("Cut forward from cursor to next word start");
+		N_("Delete forward from cursor to next word start");
 	const char *cuttilleof_gist =
 		N_("Cut from the cursor position to the end of the file");
 #endif
