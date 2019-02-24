@@ -611,9 +611,9 @@ void shortcut_init(void)
 	const char *backspace_gist =
 		N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
-	const char *cutwordleft_gist =
+	const char *chopwordleft_gist =
 		N_("Delete backward from cursor to word start");
-	const char *cutwordright_gist =
+	const char *chopwordright_gist =
 		N_("Delete forward from cursor to next word start");
 	const char *cuttilleof_gist =
 		N_("Cut from the cursor position to the end of the file");
@@ -942,11 +942,11 @@ void shortcut_init(void)
 		NOVIEW);
 
 #ifndef NANO_TINY
-	add_to_funcs(do_cut_prev_word, MMAIN,
+	add_to_funcs(chop_previous_word, MMAIN,
 		/* TRANSLATORS: The next two strings refer to deleting words. */
-		N_("Chop Left"), WITHORSANS(cutwordleft_gist), TOGETHER, NOVIEW);
-	add_to_funcs(do_cut_next_word, MMAIN,
-		N_("Chop Right"), WITHORSANS(cutwordright_gist), TOGETHER, NOVIEW);
+		N_("Chop Left"), WITHORSANS(chopwordleft_gist), TOGETHER, NOVIEW);
+	add_to_funcs(chop_next_word, MMAIN,
+		N_("Chop Right"), WITHORSANS(chopwordright_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_cut_till_eof, MMAIN,
 		N_("CutTillEnd"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 #endif
@@ -1151,8 +1151,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-;", 0, run_macro, 0);
 	add_to_sclist(MMAIN, "M-U", 0, do_undo, 0);
 	add_to_sclist(MMAIN, "M-E", 0, do_redo, 0);
-	add_to_sclist(MMAIN, "Sh-^Del", CONTROL_SHIFT_DELETE, do_cut_prev_word, 0);
-	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, do_cut_next_word, 0);
+	add_to_sclist(MMAIN, "Sh-^Del", CONTROL_SHIFT_DELETE, chop_previous_word, 0);
+	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, chop_next_word, 0);
 	add_to_sclist(MMAIN, "M-Del", ALT_DELETE, zap_text, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
@@ -1521,10 +1521,10 @@ sc *strtosc(const char *input)
 		s->func = do_unindent;
 	else if (!strcasecmp(input, "chopwordleft") ||
 			 !strcasecmp(input, "cutwordleft"))  /* Deprecated; remove in 2020. */
-		s->func = do_cut_prev_word;
+		s->func = chop_previous_word;
 	else if (!strcasecmp(input, "chopwordright") ||
 			 !strcasecmp(input, "cutwordright"))  /* Deprecated; remove in 2020. */
-		s->func = do_cut_next_word;
+		s->func = chop_next_word;
 	else if (!strcasecmp(input, "findbracket"))
 		s->func = do_find_bracket;
 	else if (!strcasecmp(input, "wordcount"))

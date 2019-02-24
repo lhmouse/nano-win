@@ -142,8 +142,8 @@ void do_backspace(void)
 
 #ifndef NANO_TINY
 /* Delete text from the cursor until the first start of a word to
- * the right, or to the left when backward is true. */
-void do_cutword(bool backward)
+ * the left, or to the right when forward is TRUE. */
+void chop_word(bool forward)
 {
 	/* Remember the current cursor position. */
 	filestruct *is_current = openfile->current;
@@ -159,7 +159,7 @@ void do_cutword(bool backward)
 	 * If that word is on another line and the cursor was not already
 	 * on the edge of the original line, then put the cursor on that
 	 * edge instead, so that lines will not be joined unexpectedly. */
-	if (backward) {
+	if (!forward) {
 		do_prev_word(ISSET(WORD_BOUNDS));
 		if (openfile->current != is_current) {
 			if (is_current_x > 0) {
@@ -195,16 +195,16 @@ void do_cutword(bool backward)
 }
 
 /* Delete a word leftward. */
-void do_cut_prev_word(void)
+void chop_previous_word(void)
 {
-	do_cutword(TRUE);
+	chop_word(BACKWARD);
 }
 
 /* Delete a word rightward. */
-void do_cut_next_word(void)
+void chop_next_word(void)
 {
 	if (is_cuttable(openfile->current_x > 0))
-		do_cutword(FALSE);
+		chop_word(FORWARD);
 }
 #endif /* !NANO_TINY */
 
