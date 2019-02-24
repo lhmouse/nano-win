@@ -526,8 +526,8 @@ Throws away the current line (or the marked region).
 .TP
 .B cutwordleft
 Deletes from the cursor position to the beginning of the preceding word.
-(This function is not bound by default.  If your terminal produces
-\fB^H\fR for <Ctrl+Backspace>, you can make <Ctrl+Backspace> delete
+(This function is bound by default to <Shift+Ctrl+Delete>.  If your terminal
+produces \fB^H\fR for <Ctrl+Backspace>, you can make <Ctrl+Backspace> delete
 the word to the left of the cursor by rebinding ^H to this function.)
 .TP
 .B cutwordright
