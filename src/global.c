@@ -1519,9 +1519,11 @@ sc *strtosc(const char *input)
 		s->func = do_indent;
 	else if (!strcasecmp(input, "unindent"))
 		s->func = do_unindent;
-	else if (!strcasecmp(input, "cutwordleft"))
+	else if (!strcasecmp(input, "chopwordleft") ||
+			 !strcasecmp(input, "cutwordleft"))  /* Deprecated; remove in 2020. */
 		s->func = do_cut_prev_word;
-	else if (!strcasecmp(input, "cutwordright"))
+	else if (!strcasecmp(input, "chopwordright") ||
+			 !strcasecmp(input, "cutwordright"))  /* Deprecated; remove in 2020. */
 		s->func = do_cut_next_word;
 	else if (!strcasecmp(input, "findbracket"))
 		s->func = do_find_bracket;
