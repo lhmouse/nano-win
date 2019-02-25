@@ -616,6 +616,7 @@ void do_undo(void)
 		break;
 	case CUT_TO_EOF:
 	case CUT:
+		/* TRANSLATORS: Remember: these are nouns, NOT verbs. */
 		undidmsg = _("cut");
 		undo_cut(u);
 		break;
@@ -719,7 +720,7 @@ void do_redo(void)
 
 	switch (u->type) {
 	case ADD:
-		redidmsg = _("text add");
+		redidmsg = _("addition");
 		if ((u->xflags & WAS_FINAL_LINE) && ISSET(FINAL_NEWLINE))
 			new_magicline();
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
@@ -744,7 +745,7 @@ void do_redo(void)
 		break;
 	case BACK:
 	case DEL:
-		redidmsg = _("text delete");
+		redidmsg = _("deletion");
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 		strncpy(data, f->data, u->begin);
 		strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
@@ -772,7 +773,7 @@ void do_redo(void)
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 		break;
 	case REPLACE:
-		redidmsg = _("text replace");
+		redidmsg = _("replacement");
 		data = u->strdata;
 		u->strdata = f->data;
 		f->data = data;
@@ -787,7 +788,7 @@ void do_redo(void)
 		u = openfile->current_undo;
 		goto_line_posx(u->lineno, u->begin);
 	case SPLIT_END:
-		redidmsg = _("text add");
+		redidmsg = _("addition");
 		break;
 #endif
 	case ZAP:
@@ -796,15 +797,15 @@ void do_redo(void)
 		break;
 	case CUT_TO_EOF:
 	case CUT:
-		redidmsg = _("text cut");
+		redidmsg = _("cut");
 		redo_cut(u);
 		break;
 	case PASTE:
-		redidmsg = _("text uncut");
+		redidmsg = _("paste");
 		redo_paste(u);
 		break;
 	case INSERT:
-		redidmsg = _("text insert");
+		redidmsg = _("insertion");
 		goto_line_posx(u->lineno, u->begin);
 		copy_from_buffer(u->cutbuffer);
 		free_filestruct(u->cutbuffer);
