@@ -83,7 +83,7 @@ void search_init(bool replacing, bool keep_the_answer)
 
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
-		char *disp = display_string(last_search, 0, COLS / 3, FALSE);
+		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
 
 		thedefault = charalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
@@ -388,7 +388,7 @@ void do_findnext(void)
 /* Report on the status bar that the given string was not found. */
 void not_found_msg(const char *str)
 {
-	char *disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
+	char *disp = display_string(str, 0, (COLS / 2) + 1, FALSE, FALSE);
 	size_t numchars = actual_x(disp, strnlenpt(disp, COLS / 2));
 
 	statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
@@ -579,7 +579,6 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			light_from_col = xplustabs();
 			light_to_col = strnlenpt(openfile->current->data,
 										openfile->current_x + match_len);
-			currmenu = MMAIN;
 
 			/* Refresh the edit window, scrolling it if necessary. */
 			edit_refresh();

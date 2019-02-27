@@ -1863,8 +1863,11 @@ void check_statusblank(void)
  * at most span columns.  column is zero-based, and span is one-based, so
  * span == 0 means you get "" returned.  The returned string is dynamically
  * allocated, and should be freed.  If isdata is TRUE, the caller might put
- * "<" at the beginning or ">" at the end of the line if it's too long. */
-char *display_string(const char *buf, size_t column, size_t span, bool isdata)
+ * "<" at the beginning or ">" at the end of the line if it's too long.  If
+ * isprompt is TRUE, the caller might put ">" at the end of the line if it's
+ * too long. */
+char *display_string(const char *buf, size_t column, size_t span,
+						bool isdata, bool isprompt)
 {
 	size_t start_index = actual_x(buf, column);
 		/* The index of the first character that the caller wishes to show. */
@@ -1989,7 +1992,7 @@ char *display_string(const char *buf, size_t column, size_t span, bool isdata)
 
 	/* If there is more text than can be shown, make room for the ">". */
 	if ((*buf != '\0' || column > beyond) &&
-					(currmenu != MMAIN || (isdata && !ISSET(SOFTWRAP)))) {
+					(isprompt || (isdata && !ISSET(SOFTWRAP)))) {
 		do {
 			index = move_mbleft(converted, index);
 		} while (mbwidth(converted + index) == 0);
@@ -2143,13 +2146,13 @@ void titlebar(const char *path)
 
 	/* Print the full path if there's room; otherwise, dottify it. */
 	if (pathlen + pluglen + statelen <= COLS) {
-		caption = display_string(path, 0, pathlen, FALSE);
+		caption = display_string(path, 0, pathlen, FALSE, FALSE);
 		waddstr(topwin, caption);
 		free(caption);
 	} else if (5 + statelen <= COLS) {
 		waddstr(topwin, "...");
 		caption = display_string(path, 3 + pathlen - COLS + statelen,
-										COLS - statelen, FALSE);
+										COLS - statelen, FALSE, FALSE);
 		waddstr(topwin, caption);
 		free(caption);
 	}
@@ -2240,7 +2243,7 @@ void statusline(message_type importance, const char *msg, ...)
 	compound = charalloc(MAXCHARLEN * (COLS + 1));
 	vsnprintf(compound, MAXCHARLEN * (COLS + 1), msg, ap);
 	va_end(ap);
-	message = display_string(compound, 0, COLS, FALSE);
+	message = display_string(compound, 0, COLS, FALSE, FALSE);
 	free(compound);
 
 	start_col = (COLS - strlenpt(message)) / 2;
@@ -2772,7 +2775,7 @@ int update_line(filestruct *fileptr, size_t index)
 
 	/* Expand the line, replacing tabs with spaces, and control
 	 * characters with their displayed forms. */
-	converted = display_string(fileptr->data, from_col, editwincols, TRUE);
+	converted = display_string(fileptr->data, from_col, editwincols, TRUE, FALSE);
 
 	/* Draw the line. */
 	edit_draw(fileptr, converted, row, from_col);
@@ -2842,7 +2845,8 @@ int update_softwrapped_line(filestruct *fileptr)
 		blank_row(edit, row, 0, COLS);
 
 		/* Convert the chunk to its displayable form and draw it. */
-		converted = display_string(fileptr->data, from_col, to_col - from_col, TRUE);
+		converted = display_string(fileptr->data, from_col, to_col - from_col,
+									TRUE, FALSE);
 		edit_draw(fileptr, converted, row++, from_col);
 		free(converted);
 
@@ -3443,7 +3447,7 @@ void spotlight(size_t from_col, size_t to_col)
 		to_col++;
 	} else
 		word = display_string(openfile->current->data, from_col,
-								to_col - from_col, FALSE);
+								to_col - from_col, FALSE, FALSE);
 
 	word_span = strlenpt(word);
 
@@ -3496,7 +3500,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 			break_col++;
 		} else
 			word = display_string(openfile->current->data, from_col,
-										break_col - from_col, FALSE);
+										break_col - from_col, FALSE, FALSE);
 
 		wattron(edit, interface_color_pair[SELECTED_TEXT]);
 

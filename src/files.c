@@ -359,13 +359,13 @@ int do_lockfile(const char *filename)
 			postedname = mallocstrcpy(NULL, "_");
 		else if (room < strlenpt(filename)) {
 			char *fragment = display_string(filename,
-								strlenpt(filename) - room + 3, room, FALSE);
+								strlenpt(filename) - room + 3, room, FALSE, FALSE);
 			postedname = charalloc(strlen(fragment) + 4);
 			strcpy(postedname, "...");
 			strcat(postedname, fragment);
 			free(fragment);
 		} else
-			postedname = display_string(filename, 0, room, FALSE);
+			postedname = display_string(filename, 0, room, FALSE, FALSE);
 
 		/* Allow extra space for username (14), program name (8), PID (8),
 		 * and terminating \0 (1), minus the %s (2) for the file name. */
@@ -2256,7 +2256,7 @@ int do_writeout(bool exiting, bool withprompt)
 				if (name_exists) {
 					char *question = _("File \"%s\" exists; OVERWRITE? ");
 					char *name = display_string(answer, 0,
-										COLS - strlenpt(question) + 1, FALSE);
+										COLS - strlenpt(question) + 1, FALSE, FALSE);
 					char *message = charalloc(strlen(question) +
 												strlen(name) + 1);
 
@@ -2704,7 +2704,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 					break;
 				}
 
-				disp = display_string(matches[match], 0, longest_name, FALSE);
+				disp = display_string(matches[match], 0, longest_name, FALSE, FALSE);
 				waddstr(edit, disp);
 				free(disp);
 

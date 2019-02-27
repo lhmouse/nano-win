@@ -529,7 +529,7 @@ void browser_refresh(void)
 				/* Whether to put an ellipsis before the filename?  We don't
 				 * waste space on dots when there are fewer than 15 columns. */
 		char *disp = display_string(thename, dots ?
-				namelen + infomaxlen + 4 - longest : 0, longest, FALSE);
+				namelen + infomaxlen + 4 - longest : 0, longest, FALSE, FALSE);
 				/* The filename (or a fragment of it) in displayable format.
 				 * When a fragment, account for dots plus one space padding. */
 
@@ -667,7 +667,7 @@ int filesearch_init(bool forwards)
 
 	/* If something was searched for before, show it between square brackets. */
 	if (*last_search != '\0') {
-		char *disp = display_string(last_search, 0, COLS / 3, FALSE);
+		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
 
 		thedefault = charalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */

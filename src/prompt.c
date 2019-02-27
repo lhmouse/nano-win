@@ -400,7 +400,7 @@ void draw_the_promptbar(void)
 	waddch(bottomwin, ':');
 	waddch(bottomwin, (the_page == 0) ? ' ' : '<');
 
-	expanded = display_string(answer, the_page, COLS - base, FALSE);
+	expanded = display_string(answer, the_page, COLS - base, FALSE, TRUE);
 	waddstr(bottomwin, expanded);
 	free(expanded);
 
