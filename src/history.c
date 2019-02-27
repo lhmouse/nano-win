@@ -591,7 +591,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
  * set line and column to the retrieved values. */
 bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 {
-	poshiststruct *posptr = position_history;
+	poshiststruct *posptr;
 	char *fullpath = get_full_path(file);
 
 	if (fullpath == NULL)
@@ -599,6 +599,7 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 
 	reload_positions_if_needed();
 
+	posptr = position_history;
 	while (posptr != NULL && strcmp(posptr->filename, fullpath) != 0)
 		posptr = posptr->next;
 
