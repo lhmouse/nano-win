@@ -40,6 +40,8 @@ static struct stat stat_of_positions_file;
 		/* The last-obtained stat information of the positions file. */
 static char *poshistname = NULL;
 		/* The name of the positions-history file. */
+static poshiststruct *position_history = NULL;
+		/* The list of filenames with their last cursor positions. */
 
 /* Initialize the lists of historical search and replace strings
  * and the list of historical executed commands. */

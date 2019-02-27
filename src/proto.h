@@ -154,7 +154,6 @@ extern filestruct *replacetop;
 extern filestruct *replacebot;
 extern filestruct *executetop;
 extern filestruct *executebot;
-extern poshiststruct *position_history;
 #endif
 
 extern regex_t search_regexp;

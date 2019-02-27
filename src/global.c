@@ -216,9 +216,6 @@ filestruct *replacebot = NULL;
 
 filestruct *executetop = NULL;
 filestruct *executebot = NULL;
-
-poshiststruct *position_history = NULL;
-		/* The list of filenames with their last cursor positions. */
 #endif
 
 regex_t search_regexp;
