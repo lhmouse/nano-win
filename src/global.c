@@ -553,7 +553,7 @@ void shortcut_init(void)
 	const char *cut_gist =
 		N_("Cut current line (or marked region) and store it in cutbuffer");
 	const char *uncut_gist =
-		N_("Uncut from the cutbuffer into the current line");
+		N_("Paste the contents of cutbuffer at current cursor position");
 	const char *cursorpos_gist = N_("Display the position of the cursor");
 #ifdef ENABLE_SPELLER
 	const char *spell_gist = N_("Invoke the spell checker, if available");
@@ -757,7 +757,7 @@ void shortcut_init(void)
 		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(do_uncut_text, MMAIN,
-		N_("Uncut Text"), WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
+		N_("Paste Text"), WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_JUSTIFY
