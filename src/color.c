@@ -70,6 +70,8 @@ void set_colorpairs(void)
 		} else {
 			if (i == FUNCTION_TAG)
 				interface_color_pair[i] = A_NORMAL;
+			else if (i == GUIDE_STRIPE)
+				interface_color_pair[i] = A_REVERSE;
 			else if (i == ERROR_MESSAGE) {
 				init_pair(i + 1, COLOR_WHITE, COLOR_RED);
 				interface_color_pair[i] = COLOR_PAIR(i + 1) | A_BOLD | A_BANDAID;

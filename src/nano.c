@@ -2563,6 +2563,7 @@ int main(int argc, char **argv)
 #else
 	interface_color_pair[TITLE_BAR] = hilite_attribute;
 	interface_color_pair[LINE_NUMBER] = hilite_attribute;
+	interface_color_pair[GUIDE_STRIPE] = A_REVERSE;
 	interface_color_pair[SELECTED_TEXT] = hilite_attribute;
 	interface_color_pair[STATUS_BAR] = hilite_attribute;
 	interface_color_pair[ERROR_MESSAGE] = hilite_attribute;

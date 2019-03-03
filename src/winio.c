@@ -2689,9 +2689,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		const char *text = converted + actual_x(converted, stripe_column - 1);
 		const char *striped_char = (*text == '\0') ? " " : text;
 
-		wattron(edit, interface_color_pair[ERROR_MESSAGE]);
+		wattron(edit, interface_color_pair[GUIDE_STRIPE]);
 		mvwaddnstr(edit, row, margin + stripe_column - 1, striped_char, 1);
-		wattroff(edit, interface_color_pair[ERROR_MESSAGE]);
+		wattroff(edit, interface_color_pair[GUIDE_STRIPE]);
 	}
 
 #ifndef NANO_TINY
