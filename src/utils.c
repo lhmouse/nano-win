@@ -367,10 +367,10 @@ char *free_and_assign(char *dest, char *src)
  * get_page_start(column) < COLS). */
 size_t get_page_start(size_t column)
 {
-	if (column < editwincols - 1 || ISSET(SOFTWRAP) || column == 0)
+	if (column + 2 < editwincols || ISSET(SOFTWRAP) || column == 0)
 		return 0;
 	else if (editwincols > 8)
-		return column - 7 - (column - 7) % (editwincols - 8);
+		return column - 6 - (column - 6) % (editwincols - 8);
 	else
 		return column - (editwincols - 2);
 }
