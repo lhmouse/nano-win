@@ -145,6 +145,10 @@ Display line numbers to the left of the text area.
 .B set locking
 Enable vim-style lock-files for when editing files.
 .TP
+.B set guidestripe \fInumber
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with \fBset stripecolor\fR.)
+.TP
 .B set matchbrackets "\fIstring\fP"
 Set the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
@@ -259,6 +263,10 @@ instead of the built-in corrector that calls \fBspell\fR.
 .TP
 .B set statuscolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for the status bar.
+See \fBset titlecolor\fR for more details.
+.TP
+.B set stripecolor \fIfgcolor\fR,\fIbgcolor\fR
+Specify the color combination to use for the vertical guiding stripe.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set suspend

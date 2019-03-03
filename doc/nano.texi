@@ -190,6 +190,12 @@ executed commands, so they can be easily reused in later sessions.
 @itemx --ignorercfiles
 Don't look at the system's nanorc file nor at the user's nanorc.
 
+@item -J
+@itemx --guidestripe
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with @code{set stripecolor}
+in your nanorc file.)
+
 @item -K
 @itemx --rawsequences
 Interpret escape sequences directly (instead of asking @code{ncurses} to
@@ -799,6 +805,10 @@ Display line numbers to the left of the text area.
 @item set locking
 Enable vim-style lock-files for when editing files.
 
+@item set guidestripe @var{number}
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with @code{set stripecolor}.)
+
 @item set matchbrackets "@var{string}"
 Set the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
@@ -912,6 +922,10 @@ Use the given program to do spell checking and correcting.
 
 @item set statuscolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar.
+@xref{@code{set functioncolor}} for valid color names.
+
+@item set stripecolor @var{fgcolor},@var{bgcolor}
+Use this color combination for the vertical guiding stripe.
 @xref{@code{set functioncolor}} for valid color names.
 
 @item set suspend

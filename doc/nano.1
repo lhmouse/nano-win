@@ -101,6 +101,11 @@ executed commands, so they can be easily reused in later sessions.
 .BR \-I ", " \-\-ignorercfiles
 Don't look at the system's \fInanorc\fR nor at the user's \fInanorc\fR.
 .TP
+.BR \-J\ \fInumber ", " \-\-guidestripe= \fInumber
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with \fBset stripecolor\fR
+in your \fInanorc\fR file.)
+.TP
 .BR \-K ", " \-\-rawsequences
 Interpret escape sequences directly (instead of asking \fBncurses\fR to
 translate them).  If you need this option to get your keyboard to work
