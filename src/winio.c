@@ -1991,8 +1991,8 @@ char *display_string(const char *buf, size_t column, size_t span,
 	}
 
 	/* If there is more text than can be shown, make room for the ">". */
-	if ((*buf != '\0' || column > beyond) &&
-					(isprompt || (isdata && !ISSET(SOFTWRAP)))) {
+	if (column > beyond || (*buf != '\0' && (isprompt ||
+					(isdata && !ISSET(SOFTWRAP))))) {
 		do {
 			index = move_mbleft(converted, index);
 		} while (mbwidth(converted + index) == 0);
