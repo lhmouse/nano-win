@@ -1525,10 +1525,10 @@ sc *strtosc(const char *input)
 	else if (!strcasecmp(input, "unindent"))
 		s->func = do_unindent;
 	else if (!strcasecmp(input, "chopwordleft") ||
-			 !strcasecmp(input, "cutwordleft"))  /* Deprecated; remove in 2020. */
+			 !strcasecmp(input, "cutwordleft"))  /* Deprecated; remove in 2021. */
 		s->func = chop_previous_word;
 	else if (!strcasecmp(input, "chopwordright") ||
-			 !strcasecmp(input, "cutwordright"))  /* Deprecated; remove in 2020. */
+			 !strcasecmp(input, "cutwordright"))  /* Deprecated; remove in 2021. */
 		s->func = chop_next_word;
 	else if (!strcasecmp(input, "findbracket"))
 		s->func = do_find_bracket;

@@ -58,7 +58,7 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_LINENUMBERS
 	{"linenumbers", LINE_NUMBERS},
 #endif
-	{"morespace", MORE_SPACE},
+	{"morespace", MORE_SPACE},  /* Deprecated; remove in 2021. */
 #ifdef ENABLE_MOUSE
 	{"mouse", USE_MOUSE},
 #endif
@@ -66,10 +66,10 @@ static const rcoption rcopts[] = {
 	{"multibuffer", MULTIBUFFER},
 #endif
 	{"nohelp", NO_HELP},
-	{"nonewlines", NO_NEWLINES},
+	{"nonewlines", NO_NEWLINES},  /* Deprecated; remove in 2021. */
 	{"nopauses", NO_PAUSES},
 #ifdef ENABLE_WRAPPING
-	{"nowrap", NO_WRAP},
+	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2021. */
 #endif
 #ifdef ENABLE_OPERATINGDIR
 	{"operatingdir", 0},
@@ -108,7 +108,7 @@ static const rcoption rcopts[] = {
 	{"noconvert", NO_CONVERT},
 	{"showcursor", SHOW_CURSOR},
 	{"smarthome", SMART_HOME},
-	{"smooth", SMOOTH_SCROLL},
+	{"smooth", SMOOTH_SCROLL},  /* Deprecated; remove in 2021. */
 	{"softwrap", SOFTWRAP},
 	{"tabstospaces", TABS_TO_SPACES},
 	{"trimblanks", TRIM_BLANKS},
