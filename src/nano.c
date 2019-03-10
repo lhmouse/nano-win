@@ -804,8 +804,10 @@ void usage(void)
 #endif
 	print_opt("-K", "--rawsequences",
 					N_("Fix numeric keypad key confusion problem"));
+#ifndef NANO_TINY
 	print_opt("-L", "--nonewlines",
 					N_("Don't add an automatic newline [default]"));
+#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt("-M", "--trimblanks",
 					N_("Trim tail spaces when hard-wrapping"));
@@ -1964,7 +1966,6 @@ int main(int argc, char **argv)
 		{"ignorercfiles", 0, NULL, 'I'},
 #endif
 		{"rawsequences", 0, NULL, 'K'},
-		{"nonewlines", 0, NULL, 'L'},
 #ifdef ENABLED_WRAPORJUSTIFY
 		{"trimblanks", 0, NULL, 'M'},
 #endif
@@ -2022,6 +2023,7 @@ int main(int argc, char **argv)
 		{"locking", 0, NULL, 'G'},
 		{"historylog", 0, NULL, 'H'},
 		{"guidestripe", 1, NULL, 'J'},
+		{"nonewlines", 0, NULL, 'L'},
 		{"noconvert", 0, NULL, 'N'},
 		{"morespace", 0, NULL, 'O'},
 		{"positionlog", 0, NULL, 'P'},
@@ -2145,9 +2147,11 @@ int main(int argc, char **argv)
 			case 'K':
 				SET(RAW_SEQUENCES);
 				break;
+#ifndef NANO_TINY
 			case 'L':
 				UNSET(FINAL_NEWLINE);
 				break;
+#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'M':
 				SET(TRIM_BLANKS);
