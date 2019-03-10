@@ -814,7 +814,6 @@ void usage(void)
 	print_opt("-N", "--noconvert",
 					N_("Don't convert files from DOS/Mac format"));
 #endif
-	print_opt("-O", "--morespace", N_("Use one more line for editing"));
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
 		print_opt("-P", "--positionlog",
@@ -826,9 +825,6 @@ void usage(void)
 #endif
 	if (!ISSET(RESTRICTED))
 		print_opt("-R", "--restricted", N_("Restricted mode"));
-#ifndef NANO_TINY
-	print_opt("-S", "--smooth", N_("Scroll by line instead of half-screen"));
-#endif
 	print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
 					N_("Set width of a tab to #cols columns"));
 	print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
@@ -1972,7 +1968,6 @@ int main(int argc, char **argv)
 #ifdef ENABLED_WRAPORJUSTIFY
 		{"trimblanks", 0, NULL, 'M'},
 #endif
-		{"morespace", 0, NULL, 'O'},
 #ifdef ENABLE_JUSTIFY
 		{"quotestr", 1, NULL, 'Q'},
 #endif
@@ -2028,6 +2023,7 @@ int main(int argc, char **argv)
 		{"historylog", 0, NULL, 'H'},
 		{"guidestripe", 1, NULL, 'J'},
 		{"noconvert", 0, NULL, 'N'},
+		{"morespace", 0, NULL, 'O'},
 		{"positionlog", 0, NULL, 'P'},
 		{"smooth", 0, NULL, 'S'},
 		{"wordbounds", 0, NULL, 'W'},
@@ -2161,11 +2157,11 @@ int main(int argc, char **argv)
 			case 'N':
 				SET(NO_CONVERT);
 				break;
-#endif
 			case 'O':
 				fprintf(stderr, N_("Option %s is ignored; it is the default\n"),
 										"morespace");
 				break;
+#endif
 #ifdef ENABLE_HISTORIES
 			case 'P':
 				SET(POSITIONLOG);
