@@ -2139,7 +2139,7 @@ int main(int argc, char **argv)
 #endif
 			case 'J':
 				if (!parse_num(optarg, &stripe_column) || stripe_column <= 0) {
-					fprintf(stderr, _("Stripe column \"%s\" is invalid"), optarg);
+					fprintf(stderr, _("Guide column \"%s\" is invalid"), optarg);
 					fprintf(stderr, "\n");
 					exit(1);
 				}

@@ -1122,7 +1122,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #ifndef NANO_TINY
 		if (strcasecmp(rcopts[i].name, "guidestripe") == 0) {
 			if (!parse_num(option, &stripe_column) || stripe_column <= 0) {
-				rcfile_error(N_("Edge column \"%s\" is invalid"), option);
+				rcfile_error(N_("Guide column \"%s\" is invalid"), option);
 				stripe_column = 0;
 			}
 			free(option);
