@@ -33,7 +33,7 @@ This manual documents the GNU @command{nano} editor.
 This manual is part of the GNU @command{nano} distribution.@*
 
 @sp 4
-Copyright @copyright{} 1999-2009, 2014-2017 Free Software Foundation, Inc.
+Copyright @copyright{} 1999-2009, 2014-2019 Free Software Foundation, Inc.
 
 @sp 1
 This document is dual-licensed.  You may distribute and/or modify it
