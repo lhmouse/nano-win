@@ -54,6 +54,9 @@ Since 2.5.0:
   - On most terminals Ctrl+Left / Ctrl+Right now work for PrevWord/NextWord.
   - When in the middle of a word, PrevWord now jumps to the start of this
     word (like Pico does) instead of to the start of the preceding word.
+  - The ability to delete whole words with 'cutwordleft' and 'cutwordright'.
+  - The ability to save a file without prompting for its name ('savefile').
+  - The ability to search backward without having to toggle the direction.
 
 Since 2.4.0:
   - Replacing things in a marked region now takes place in situ, in context,
@@ -63,9 +66,6 @@ Since 2.4.0:
 
 Since 2.3.0:
   - System syntaxes can be improved upon with the 'extendsyntax' command.
-  - The ability to delete whole words with 'cutwordleft' and 'cutwordright'.
-  - The ability to save a file without prompting for its name ('savefile').
-  - The ability to search backward without having to toggle the direction.
   - Whitespace display (M-P) does not require configuration to be useful.
   - Undo/redo is enabled by default (M-U/M-E) and works nearly everywhere
     -- just not yet for justifying and indenting/unindenting.
