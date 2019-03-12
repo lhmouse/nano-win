@@ -2115,6 +2115,7 @@ void do_justify(bool full_justify)
 		/* Start out at the first line of the paragraph. */
 		first_par_line = openfile->current;
 		last_par_line = openfile->current;
+		top_x = 0;
 
 		/* Set the number of lines to be pulled into the cutbuffer. */
 		if (full_justify)
