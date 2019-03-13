@@ -2685,6 +2685,11 @@ int main(int argc, char **argv)
 	}
 #endif
 
+#ifdef __linux__
+	/* Check again whether we're running on a Linux console. */
+	on_a_vt = (ioctl(0, VT_GETSTATE, &dummy) == 0);
+#endif
+
 #ifdef DEBUG
 	fprintf(stderr, "Main: show title bar, and enter main loop\n");
 #endif
