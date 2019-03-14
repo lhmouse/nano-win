@@ -2696,7 +2696,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			charlen = parse_mbchar(converted + target_x, striped_char, NULL);
 			target_column = strnlenpt(converted, target_x);
 		} else
-			striped_char[0] = ' ';
+			striped_char[0] = (target_column + 1 == editwincols) ? '.' : ' ';
 
 		wattron(edit, interface_color_pair[GUIDE_STRIPE]);
 		mvwaddnstr(edit, row, margin + target_column, striped_char, charlen);
