@@ -2687,12 +2687,19 @@ void edit_draw(filestruct *fileptr, const char *converted,
 
 #ifndef NANO_TINY
 	if (stripe_column > from_col && !inhelp) {
-		const ssize_t target_column = stripe_column - from_col - 1;
-		const char *text = converted + actual_x(converted, target_column);
-		const char *striped_char = (*text == '\0') ? " " : text;
+		ssize_t target_column = stripe_column - from_col - 1;
+		size_t target_x = actual_x(converted, target_column);
+		char striped_char[MAXCHARLEN];
+		size_t charlen = 1;
+
+		if (*(converted + target_x) != '\0') {
+			charlen = parse_mbchar(converted + target_x, striped_char, NULL);
+			target_column = strnlenpt(converted, target_x);
+		} else
+			striped_char[0] = ' ';
 
 		wattron(edit, interface_color_pair[GUIDE_STRIPE]);
-		mvwaddnstr(edit, row, margin + target_column, striped_char, 1);
+		mvwaddnstr(edit, row, margin + target_column, striped_char, charlen);
 		wattroff(edit, interface_color_pair[GUIDE_STRIPE]);
 	}
 
