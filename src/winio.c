@@ -2685,6 +2685,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	}
 #endif /* ENABLE_COLOR */
 
+#ifndef NANO_TINY
 	if (stripe_column > from_col && !inhelp) {
 		const ssize_t target_column = stripe_column - from_col - 1;
 		const char *text = converted + actual_x(converted, target_column);
@@ -2695,7 +2696,6 @@ void edit_draw(filestruct *fileptr, const char *converted,
 		wattroff(edit, interface_color_pair[GUIDE_STRIPE]);
 	}
 
-#ifndef NANO_TINY
 	/* If the mark is on, and fileptr is at least partially selected, we
 	 * need to paint it. */
 	if (openfile->mark &&

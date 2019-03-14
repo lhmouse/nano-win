@@ -88,7 +88,9 @@ extern WINDOW *bottomwin;
 extern int editwinrows;
 extern int editwincols;
 extern int margin;
+#ifndef NANO_TINY
 extern ssize_t stripe_column;
+#endif
 
 extern filestruct *cutbuffer;
 extern filestruct *cutbottom;

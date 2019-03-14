@@ -2137,6 +2137,7 @@ int main(int argc, char **argv)
 				ignore_rcfiles = TRUE;
 				break;
 #endif
+#ifndef NANO_TINY
 			case 'J':
 				if (!parse_num(optarg, &stripe_column) || stripe_column <= 0) {
 					fprintf(stderr, _("Guide column \"%s\" is invalid"), optarg);
@@ -2144,6 +2145,7 @@ int main(int argc, char **argv)
 					exit(1);
 				}
 				break;
+#endif
 			case 'K':
 				SET(RAW_SEQUENCES);
 				break;
