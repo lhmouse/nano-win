@@ -2685,12 +2685,13 @@ void edit_draw(filestruct *fileptr, const char *converted,
 	}
 #endif /* ENABLE_COLOR */
 
-	if (stripe_column > 0 && !inhelp) {
-		const char *text = converted + actual_x(converted, stripe_column - 1);
+	if (stripe_column > from_col && !inhelp) {
+		const ssize_t target_column = stripe_column - from_col - 1;
+		const char *text = converted + actual_x(converted, target_column);
 		const char *striped_char = (*text == '\0') ? " " : text;
 
 		wattron(edit, interface_color_pair[GUIDE_STRIPE]);
-		mvwaddnstr(edit, row, margin + stripe_column - 1, striped_char, 1);
+		mvwaddnstr(edit, row, margin + target_column, striped_char, 1);
 		wattroff(edit, interface_color_pair[GUIDE_STRIPE]);
 	}
 
