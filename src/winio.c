@@ -2698,11 +2698,13 @@ void edit_draw(filestruct *fileptr, const char *converted,
 			target_column = strnlenpt(converted, target_x);
 		} else if (target_column + 1 == editwincols) {
 			/* Defeat a VTE bug -- see https://sv.gnu.org/bugs/?55896. */
+#ifdef ENABLE_UTF8
 			if (using_utf8()) {
 				striped_char[0] = '\xC2';
 				striped_char[1] = '\xA0';
 				charlen = 2;
 			} else
+#endif
 				striped_char[0] = '.';
 		} else
 			striped_char[0] = ' ';
