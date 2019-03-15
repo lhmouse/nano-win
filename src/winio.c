@@ -2686,7 +2686,8 @@ void edit_draw(filestruct *fileptr, const char *converted,
 #endif /* ENABLE_COLOR */
 
 #ifndef NANO_TINY
-	if (stripe_column > from_col && !inhelp) {
+	if (stripe_column > from_col && !inhelp &&
+						stripe_column <= from_col + editwincols) {
 		ssize_t target_column = stripe_column - from_col - 1;
 		size_t target_x = actual_x(converted, target_column);
 		char striped_char[MAXCHARLEN];
