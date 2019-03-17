@@ -1313,6 +1313,9 @@ void update_undo(undo_type action)
 	char *char_buf;
 	int char_len;
 
+	if (u->type != action)
+		statusline(ALERT, "Mismatching undo type -- please report a bug");
+
 	u->newsize = openfile->totsize;
 
 	switch (u->type) {
