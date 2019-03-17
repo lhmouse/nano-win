@@ -1039,7 +1039,7 @@ bool execute_command(const char *command)
 				openfile->current_x = 0;
 			}
 			add_undo(CUT);
-			do_cut_text(FALSE, openfile->mark, openfile->mark == NULL, FALSE);
+			do_cut_text(FALSE, openfile->mark != NULL, openfile->mark == NULL, FALSE);
 			update_undo(CUT);
 		}
 

@@ -384,7 +384,7 @@ void do_cut_text_void(void)
 			openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
 			!keep_cutbuffer)
 		add_undo(CUT);
-	do_cut_text(FALSE, openfile->mark, FALSE, FALSE);
+	do_cut_text(FALSE, openfile->mark != NULL, FALSE, FALSE);
 	update_undo(CUT);
 #else
 	if (is_cuttable(FALSE))
@@ -460,7 +460,7 @@ void zap_text(void)
 	cutbuffer = openfile->current_undo->cutbuffer;
 	cutbottom = openfile->current_undo->cutbottom;
 
-	do_cut_text(FALSE, openfile->mark, FALSE, TRUE);
+	do_cut_text(FALSE, openfile->mark != NULL, FALSE, TRUE);
 
 	update_undo(ZAP);
 
