@@ -21,6 +21,15 @@
 .SH NAME
 nanorc \- GNU nano's configuration file
 
+.SH NOTE
+Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
+line by default, and no longer automatically adds a newline at the end
+of the text if one is missing.  Furthermore, it uses smooth scrolling
+by default and makes use of the line below the title bar.
+.sp
+If you want the old, Pico behavior back, please use \fBset breaklonglines\fR,
+\fBset finalnewline\fR, \fBset jumpyscrolling\fR, and \fBset emptyline\fR.
+
 .SH DESCRIPTION
 The \fInanorc\fP file contains the default settings for \fBnano\fP, a
 small and friendly editor.  The file should be in Unix format, not in

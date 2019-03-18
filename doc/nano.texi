@@ -96,6 +96,15 @@ as is reasonable while offering a superset of Pico's functionality.
 @xref{Pico Compatibility} for more details on how @command{nano} and
 Pico differ.
 
+Starting with version 4.0, @command{nano} no longer hard-wraps an overlong
+line by default, and no longer automatically adds a newline at the end
+of the text if one is missing.  Furthermore, it uses smooth scrolling
+by default and makes use of the line below the title bar.
+
+If you want the old, Pico behavior back, please use @option{--breaklonglines},
+@option{--finalnewline}, @option{--jumpyscrolling}, and @option{--emptyline}
+(or @option{-bfje} for short).
+
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 
 

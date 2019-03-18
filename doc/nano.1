@@ -25,6 +25,16 @@ nano \- Nano's ANOther editor, inspired by Pico
 .B nano
 .RI [ options "] [[+" line [, column "]]\ " file "]..."
 
+.SH NOTE
+Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
+line by default, and no longer automatically adds a newline at the end
+of the text if one is missing.  Furthermore, it uses smooth scrolling
+by default and makes use of the line below the title bar.
+.sp
+If you want the old, Pico behavior back, please use \fB\-\-breaklonglines\fR,
+\fB\-\-finalnewline\fR, \fB\-\-jumpyscrolling\fR, and \fB\-\-emptyline\fR
+(or \fB\-bfje\fR for short).
+
 .SH DESCRIPTION
 \fBnano\fP is a small and friendly editor.  It copies the look and feel
 of Pico, but is free software, and implements several features that Pico
