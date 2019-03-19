@@ -530,7 +530,6 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
 size_t indent_length(const char *line);
 #endif
 #ifdef ENABLE_JUSTIFY
-void justify_format(filestruct *paragraph, size_t skip);
 bool begpar(const filestruct *const foo, int depth);
 bool inpar(const filestruct *const foo);
 void do_justify(bool full_justify);

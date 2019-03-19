@@ -1669,15 +1669,15 @@ size_t indent_length(const char *line)
  * but keep two spaces (if there are two) after any closing punctuation,
  * and remove all blanks from the end of the line.  Leave the first skip
  * number of characters untreated. */
-void justify_format(filestruct *paragraph, size_t skip)
+void squeeze(filestruct *line, size_t skip)
 {
-	char *end, *new_end, *new_paragraph_data;
+	char *end, *new_end, *newdata;
 	size_t shift = 0;
 
-	end = paragraph->data + skip;
-	new_paragraph_data = charalloc(strlen(paragraph->data) + 1);
-	strncpy(new_paragraph_data, paragraph->data, skip);
-	new_end = new_paragraph_data + skip;
+	end = line->data + skip;
+	newdata = charalloc(strlen(line->data) + 1);
+	strncpy(newdata, line->data, skip);
+	new_end = newdata + skip;
 
 	while (*end != '\0') {
 		int end_len;
@@ -1759,17 +1759,17 @@ void justify_format(filestruct *paragraph, size_t skip)
 	*new_end = *end;
 
 	/* If there are spaces at the end of the line, remove them. */
-	while (new_end > new_paragraph_data + skip && *(new_end - 1) == ' ') {
+	while (new_end > newdata + skip && *(new_end - 1) == ' ') {
 		new_end--;
 		shift++;
 	}
 
 	if (shift > 0) {
-		null_at(&new_paragraph_data, new_end - new_paragraph_data);
-		free(paragraph->data);
-		paragraph->data = new_paragraph_data;
+		null_at(&newdata, new_end - newdata);
+		free(line->data);
+		line->data = newdata;
 	} else
-		free(new_paragraph_data);
+		free(newdata);
 }
 
 /* Return the length of the quote part of the given line.  The "quote part"
@@ -1971,7 +1971,7 @@ void justify_paragraph(filestruct **line, size_t par_len)
 	concat_paragraph(line, par_len);
 
 	/* Change all blank characters to spaces and remove excess spaces. */
-	justify_format(*line, quote_len + indent_length((*line)->data + quote_len));
+	squeeze(*line, quote_len + indent_length((*line)->data + quote_len));
 
 	/* Rewrap the line into multiple lines, accounting for the leading part. */
 	rewrap_paragraph(line, lead_string, lead_len);
@@ -2177,7 +2177,7 @@ void do_justify(bool full_justify)
 
 		/* Now justify the extracted region. */
 		concat_paragraph(&cutbuffer, par_len);
-		justify_format(cutbuffer, lead_len);
+		squeeze(cutbuffer, lead_len);
 		line = cutbuffer;
 		if (the_second_lead != NULL) {
 			rewrap_paragraph(&line, the_second_lead, second_lead_len);
