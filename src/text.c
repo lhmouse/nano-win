@@ -1642,8 +1642,8 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 #endif /* ENABLE_HELP || ENABLED_WRAPORJUSTIFY */
 
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
-/* The "indentation" of a line is the whitespace between the quote part
- * and the non-whitespace of the line. */
+/* Return the length of the indentation part of the given line.  The
+ * "indentation" of a line is the leading consecutive whitespace. */
 size_t indent_length(const char *line)
 {
 	size_t len = 0;
@@ -1665,16 +1665,10 @@ size_t indent_length(const char *line)
 #endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
 #ifdef ENABLE_JUSTIFY
-/* justify_format() replaces blanks with spaces and multiple spaces by 1
- * (except it maintains up to 2 after a character in punct optionally
- * followed by a character in brackets, and removes all from the end).
- *
- * justify_format() might make paragraph->data shorter, and change the
- * actual pointer with null_at().
- *
- * justify_format() will not look at the first skip characters of
- * paragraph.  skip should be at most strlen(paragraph->data).  The
- * character at paragraph[skip + 1] must not be blank. */
+/* In the given line, replace any series of blanks with a single space,
+ * but keep two spaces (if there are two) after any closing punctuation,
+ * and remove all blanks from the end of the line.  Leave the first skip
+ * number of characters untreated. */
 void justify_format(filestruct *paragraph, size_t skip)
 {
 	char *end, *new_end, *new_paragraph_data;
@@ -1688,8 +1682,8 @@ void justify_format(filestruct *paragraph, size_t skip)
 	while (*end != '\0') {
 		int end_len;
 
-		/* If this character is blank, change it to a space if
-		 * necessary, and skip over all blanks after it. */
+		/* If this character is blank, change it to a space,
+		 * and pass over all blanks after it. */
 		if (is_blank_mbchar(end)) {
 			end_len = parse_mbchar(end, NULL, NULL);
 
@@ -1703,10 +1697,9 @@ void justify_format(filestruct *paragraph, size_t skip)
 				end += end_len;
 				shift += end_len;
 			}
-		/* If this character is punctuation optionally followed by a
-		 * bracket and then followed by blanks, change no more than two
-		 * of the blanks to spaces if necessary, and skip over all
-		 * blanks after them. */
+		/* If this character is punctuation optionally followed by a bracket
+		 * and then followed by blanks, change no more than two of the blanks
+		 * to spaces if necessary, and pass over all blanks after them. */
 		} else if (mbstrchr(punct, end) != NULL) {
 			end_len = parse_mbchar(end, NULL, NULL);
 
@@ -1750,8 +1743,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 				end += end_len;
 				shift += end_len;
 			}
-		/* If this character is neither blank nor punctuation, leave it
-		 * unchanged. */
+		/* Leave unchanged anything that is neither blank nor punctuation. */
 		} else {
 			end_len = parse_mbchar(end, NULL, NULL);
 
@@ -1780,9 +1772,8 @@ void justify_format(filestruct *paragraph, size_t skip)
 		free(new_paragraph_data);
 }
 
-/* The "quote part" of a line is the largest initial substring matching
- * the quote string.  This function returns the length of the quote part
- * of the given line. */
+/* Return the length of the quote part of the given line.  The "quote part"
+ * of a line is the largest initial substring matching the quoting regex. */
 size_t quote_length(const char *line)
 {
 	regmatch_t matches;
@@ -1790,8 +1781,7 @@ size_t quote_length(const char *line)
 
 	if (rc == REG_NOMATCH || matches.rm_so == (regoff_t)-1)
 		return 0;
-	/* matches.rm_so should be 0, since the quote string should start
-	 * with the caret ^. */
+
 	return matches.rm_eo;
 }
 
@@ -1908,10 +1898,8 @@ void concat_paragraph(filestruct **line, size_t par_len)
 	}
 }
 
-/* Wrap all lines of the paragraph (that starts at *line, and
- * has quoting + indentation of lead_string, of length
- * lead_len) so they all fit
- * within the wrap_at target width. */
+/* Rewrap the given line (that starts with the given lead string which is of
+ * the given length), into lines that fit within the target width (wrap_at). */
 void rewrap_paragraph(filestruct **line, char *lead_string, size_t lead_len)
 {
 	ssize_t break_pos;
@@ -1956,14 +1944,13 @@ void rewrap_paragraph(filestruct **line, char *lead_string, size_t lead_len)
 		*line = (*line)->next;
 }
 
-/* Format and rewrap all lines of the paragraph (that starts at *line, and
- * consists of par_len lines) so they all fit within the wrap_at target
- * width. */
+/* Justify the lines of the given paragraph (that starts at *line, and consists
+ * of par_len lines) so they all fit within the target width (wrap_at) and have
+ * their whitespace normalized. */
 void justify_paragraph(filestruct **line, size_t par_len)
 {
 	filestruct *sampleline;
-		/* The line from which the indentation is copied -- either
-		 * the first and only or the second line of the paragraph. */
+		/* The line from which the indentation is copied. */
 	size_t quote_len;
 		/* Length of the quote part. */
 	size_t lead_len;
@@ -1980,31 +1967,28 @@ void justify_paragraph(filestruct **line, size_t par_len)
 	lead_string = mallocstrncpy(NULL, sampleline->data, lead_len + 1);
 	lead_string[lead_len] = '\0';
 
-	/* Tack the paragraph together into one line. */
+	/* Concatenate all lines of the paragraph into a single line. */
 	concat_paragraph(line, par_len);
 
 	/* Change all blank characters to spaces and remove excess spaces. */
 	justify_format(*line, quote_len + indent_length((*line)->data + quote_len));
 
-	/* Rewrap the paragraph into multiple lines, accounting for the leading
-	 * part. */
+	/* Rewrap the line into multiple lines, accounting for the leading part. */
 	rewrap_paragraph(line, lead_string, lead_len);
 
 	free(lead_string);
 }
 
-/* Justify the current paragraph, and justify the entire file when
- * full_justify is TRUE.  If the mark is on, justify only the marked
- * text instead. */
+/* Justify the current paragraph, or the entire buffer when full_justify is
+ * TRUE.  But if the mark is on, justify only the marked text instead. */
 void do_justify(bool full_justify)
 {
 	size_t par_len;
-		/* Number of lines in the current paragraph. */
+		/* The number of lines in the original paragraph. */
 	filestruct *first_par_line;
-		/* Will be the first line of the justified paragraph(s), if any. */
+		/* The first line of the paragraph. */
 	filestruct *last_par_line;
-		/* Will be the line after the last line of the justified
-		 * paragraph(s), if any. */
+		/* The line after the last line of the paragraph. */
 	size_t top_x;
 		/* The top x-coordinate of the paragraph we justify. */
 	size_t bot_x;
@@ -2171,8 +2155,7 @@ void do_justify(bool full_justify)
 			strncpy(cutbuffer->data, the_lead, needed_top_extra);
 			line_len += needed_top_extra;
 
-			/* If it has no missing portion, we don't need to prepend anything
-			 * below. */
+			/* When no portion was missing, nothing needs removing later. */
 			if (top_x > lead_len)
 				needed_top_extra = 0;
 		}
@@ -2189,11 +2172,10 @@ void do_justify(bool full_justify)
 		 * has a leading part, check if the last line of the extracted region
 		 * contains a missing portion of this leading part.  If it has no
 		 * missing portion, we don't need to append anything below. */
-		if (strncmp(cutbottom->data, the_lead, lead_len -
-					needed_bot_extra) != 0)
+		if (strncmp(cutbottom->data, the_lead, lead_len - needed_bot_extra) != 0)
 			needed_bot_extra = 0;
 
-		/* Manually justify the marked region. */
+		/* Now justify the extracted region. */
 		concat_paragraph(&cutbuffer, par_len);
 		justify_format(cutbuffer, lead_len);
 		line = cutbuffer;
@@ -2205,11 +2187,10 @@ void do_justify(bool full_justify)
 
 		cutbottom = line;
 
-		/* If the marked region started after the beginning of a line, separate
-		 * the new paragraph from the beginning of that line.  If the region
-		 * started in the middle of the line's leading part, just remove the
-		 * (now-redundant) portion of the leading part that we prepended to it
-		 * earlier, and it will be the new line. */
+		/* If the marked region started after the beginning of a line, insert
+		 * a new line before the new paragraph.  But if the region started in
+		 * the middle of the line's leading part, no new line is needed: just
+		 * remove the (now-redundant) addition we made earlier. */
 		if (top_x > 0) {
 			if (needed_top_extra > 0)
 				charmove(cutbuffer->data, cutbuffer->data + needed_top_extra,
@@ -2222,11 +2203,11 @@ void do_justify(bool full_justify)
 			}
 		}
 
-		/* If the marked region ended in the middle of a line, separate the
-		 * new paragraph from the rest of that line with a newline.  If the
-		 * region ended in the middle of the line's leading part, append the
-		 * missing portion of the leading part to it, and it will be the new
-		 * line. */
+		/* If the marked region ended in the middle of a line, insert a new
+		 * line after the new paragraph.  If the region ended in the middle
+		 * of a line's leading part, make the new line start with the missing
+		 * portion, so it will become a full leading part when the justified
+		 * region is "pasted" back. */
 		if (bot_x > 0 && !ends_at_eol) {
 			cutbottom->next = make_new_node(cutbottom);
 			cutbottom->next->data = mallocstrcpy(NULL, the_lead +
