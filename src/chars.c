@@ -636,20 +636,8 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 #endif /* !NANO_TINY */
 
 #if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
-/* Return TRUE if the string s contains one or more blank characters,
+/* Return TRUE if the given string contains at least one blank character,
  * and FALSE otherwise. */
-bool has_blank_chars(const char *s)
-{
-	for (; *s != '\0'; s++) {
-		if (isblank((unsigned char)*s))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-/* Return TRUE if the multibyte string s contains one or more blank
- * multibyte characters, and FALSE otherwise. */
 bool has_blank_mbchars(const char *s)
 {
 #ifdef ENABLE_UTF8
@@ -662,11 +650,16 @@ bool has_blank_mbchars(const char *s)
 			if (is_blank_mbchar(symbol))
 				return TRUE;
 		}
-
-		return FALSE;
 	} else
 #endif
-		return has_blank_chars(s);
+	{
+		for (; *s != '\0'; s++) {
+			if (isblank((unsigned char)*s))
+				return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 #endif /* ENABLE_NANORC && (!NANO_TINY || ENABLE_JUSTIFY) */
 
