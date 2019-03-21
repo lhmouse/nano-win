@@ -1129,7 +1129,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 		}
 		if (strcasecmp(rcopts[i].name, "matchbrackets") == 0) {
 			matchbrackets = option;
-			if (has_blank_mbchars(matchbrackets)) {
+			if (has_blank_char(matchbrackets)) {
 				rcfile_error(N_("Non-blank characters required"));
 				free(matchbrackets);
 				matchbrackets = NULL;
@@ -1149,13 +1149,13 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 #endif
 #ifdef ENABLE_JUSTIFY
 		if (strcasecmp(rcopts[i].name, "punct") == 0) {
-			if (has_blank_mbchars(option)) {
+			if (has_blank_char(option)) {
 				rcfile_error(N_("Non-blank characters required"));
 				free(option);
 			} else
 				punct = option;
 		} else if (strcasecmp(rcopts[i].name, "brackets") == 0) {
-			if (has_blank_mbchars(option)) {
+			if (has_blank_char(option)) {
 				rcfile_error(N_("Non-blank characters required"));
 				free(option);
 			} else

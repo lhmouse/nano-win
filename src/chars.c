@@ -638,7 +638,7 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 #if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
 /* Return TRUE if the given string contains at least one blank character,
  * and FALSE otherwise. */
-bool has_blank_mbchars(const char *s)
+bool has_blank_char(const char *s)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {

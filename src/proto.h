@@ -228,7 +228,7 @@ char *revstrpbrk(const char *head, const char *accept, const char *index);
 char *mbrevstrpbrk(const char *head, const char *accept, const char *index);
 #endif
 #if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
-bool has_blank_mbchars(const char *s);
+bool has_blank_char(const char *s);
 #endif
 #ifdef ENABLE_UTF8
 bool is_valid_unicode(wchar_t wc);
