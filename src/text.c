@@ -98,7 +98,7 @@ void do_tab(void)
 
 #ifndef NANO_TINY
 /* Add an indent to the given line. */
-void indent_a_line(filestruct *line, char *indentation)
+void indent_a_line(linestruct *line, char *indentation)
 {
 	size_t length = strlen(line->data);
 	size_t indent_len = strlen(indentation);
@@ -129,10 +129,10 @@ void indent_a_line(filestruct *line, char *indentation)
 void do_indent(void)
 {
 	char *indentation;
-	filestruct *top, *bot, *line;
+	linestruct *top, *bot, *line;
 
 	/* Use either all the marked lines or just the current line. */
-	get_range((const filestruct **)&top, (const filestruct **)&bot);
+	get_range((const linestruct **)&top, (const linestruct **)&bot);
 
 	/* Skip any leading empty lines. */
 	while (top != bot->next && top->data[0] == '\0')
@@ -192,7 +192,7 @@ size_t length_of_white(const char *text)
 }
 
 /* Adjust the positions of mark and cursor when they are on the given line. */
-void compensate_leftward(filestruct *line, size_t leftshift)
+void compensate_leftward(linestruct *line, size_t leftshift)
 {
 	if (line == openfile->mark) {
 		if (openfile->mark_x < leftshift)
@@ -211,7 +211,7 @@ void compensate_leftward(filestruct *line, size_t leftshift)
 }
 
 /* Remove an indent from the given line. */
-void unindent_a_line(filestruct *line, size_t indent_len)
+void unindent_a_line(linestruct *line, size_t indent_len)
 {
 	size_t length = strlen(line->data);
 
@@ -232,10 +232,10 @@ void unindent_a_line(filestruct *line, size_t indent_len)
  * The removed indent can be a mixture of spaces plus at most one tab. */
 void do_unindent(void)
 {
-	filestruct *top, *bot, *line;
+	linestruct *top, *bot, *line;
 
 	/* Use either all the marked lines or just the current line. */
-	get_range((const filestruct **)&top, (const filestruct **)&bot);
+	get_range((const linestruct **)&top, (const linestruct **)&bot);
 
 	/* Skip any leading lines that cannot be unindented. */
 	while (top != bot->next && length_of_white(top->data) == 0)
@@ -270,7 +270,7 @@ void do_unindent(void)
 void handle_indent_action(undo *u, bool undoing, bool add_indent)
 {
 	undo_group *group = u->grouping;
-	filestruct *line = fsfromline(group->top_line);
+	linestruct *line = fsfromline(group->top_line);
 
 	if (group->next != NULL)
 		statusline(ALERT, "Multiple groups -- please report a bug");
@@ -312,7 +312,7 @@ bool white_string(const char *s)
 /* Test whether the given line can be uncommented, or add or remove a comment,
  * depending on action.  Return TRUE if the line is uncommentable, or when
  * anything was added or removed; FALSE otherwise. */
-bool comment_line(undo_type action, filestruct *line, const char *comment_seq)
+bool comment_line(undo_type action, linestruct *line, const char *comment_seq)
 {
 	size_t comment_seq_len = strlen(comment_seq);
 	const char *post_seq = strchr(comment_seq, '|');
@@ -376,7 +376,7 @@ void do_comment(void)
 {
 	const char *comment_seq = GENERAL_COMMENT_CHARACTER;
 	undo_type action = UNCOMMENT;
-	filestruct *top, *bot, *line;
+	linestruct *top, *bot, *line;
 	bool empty, all_empty = TRUE;
 
 #ifdef ENABLE_COLOR
@@ -390,7 +390,7 @@ void do_comment(void)
 #endif
 
 	/* Determine which lines to work on. */
-	get_range((const filestruct **)&top, (const filestruct **)&bot);
+	get_range((const linestruct **)&top, (const linestruct **)&bot);
 
 	/* If only the magic line is selected, don't do anything. */
 	if (top == bot && bot == openfile->filebot && ISSET(FINAL_NEWLINE)) {
@@ -441,7 +441,7 @@ void handle_comment_action(undo *u, bool undoing, bool add_comment)
 		goto_line_posx(u->lineno, u->begin);
 
 	while (group) {
-		filestruct *f = fsfromline(group->top_line);
+		linestruct *f = fsfromline(group->top_line);
 
 		while (f && f->lineno <= group->bottom_line) {
 			comment_line(undoing ^ add_comment ?
@@ -491,7 +491,7 @@ void undo_cut(undo *u)
 /* Redo a cut, or undo an uncut. */
 void redo_cut(undo *u)
 {
-	filestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
+	linestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
 
 	goto_line_posx(u->lineno, u->begin);
 
@@ -516,8 +516,8 @@ void redo_cut(undo *u)
 void do_undo(void)
 {
 	undo *u = openfile->current_undo;
-	filestruct *f = NULL, *t = NULL;
-	filestruct *oldcutbuffer, *oldcutbottom;
+	linestruct *f = NULL, *t = NULL;
+	linestruct *oldcutbuffer, *oldcutbottom;
 	char *data, *undidmsg = NULL;
 	size_t from_x, to_x;
 
@@ -694,7 +694,7 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-	filestruct *f = NULL, *shoveline;
+	linestruct *f = NULL, *shoveline;
 	char *data, *redidmsg = NULL;
 	undo *u = openfile->undotop;
 
@@ -866,10 +866,10 @@ void do_redo(void)
 /* Break the current line at the cursor position. */
 void do_enter(void)
 {
-	filestruct *newnode = make_new_node(openfile->current);
+	linestruct *newnode = make_new_node(openfile->current);
 	size_t extra = 0;
 #ifndef NANO_TINY
-	filestruct *sampleline = openfile->current;
+	linestruct *sampleline = openfile->current;
 	bool allblanks = FALSE;
 
 	if (ISSET(AUTOINDENT)) {
@@ -946,7 +946,7 @@ RETSIGTYPE cancel_the_command(int signal)
 }
 
 /* Send the text that starts at the given line to file descriptor fd. */
-void send_data(const filestruct *line, int fd)
+void send_data(const linestruct *line, int fd)
 {
 	FILE *tube = fdopen(fd, "w");
 
@@ -1021,7 +1021,7 @@ bool execute_command(const char *command)
 
 	/* If the command starts with "|", pipe buffer or region to the command. */
 	if (should_pipe) {
-		filestruct *was_cutbuffer = cutbuffer;
+		linestruct *was_cutbuffer = cutbuffer;
 		cutbuffer = NULL;
 
 #ifdef ENABLE_MULTIBUFFER
@@ -1431,7 +1431,7 @@ void wrap_reset(void)
 }
 
 /* Try wrapping the given line.  Return TRUE if wrapped, FALSE otherwise. */
-bool do_wrap(filestruct *line)
+bool do_wrap(linestruct *line)
 {
 	size_t line_len = strlen(line->data);
 		/* The length of the line we wrap. */
@@ -1443,7 +1443,7 @@ bool do_wrap(filestruct *line)
 		/* The length of the remainder. */
 
 	size_t old_x = openfile->current_x;
-	filestruct *old_line = openfile->current;
+	linestruct *old_line = openfile->current;
 
 	/* There are three steps.  First, we decide where to wrap.  Then, we
 	 * create the new wrap line.  Finally, we clean up. */
@@ -1669,7 +1669,7 @@ size_t indent_length(const char *line)
  * but keep two spaces (if there are two) after any closing punctuation,
  * and remove all blanks from the end of the line.  Leave the first skip
  * number of characters untreated. */
-void squeeze(filestruct *line, size_t skip)
+void squeeze(linestruct *line, size_t skip)
 {
 	char *end, *new_end, *newdata;
 	size_t shift = 0;
@@ -1789,7 +1789,7 @@ size_t quote_length(const char *line)
 #define RECURSION_LIMIT 222
 
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
-bool begpar(const filestruct *const line, int depth)
+bool begpar(const linestruct *const line, int depth)
 {
 	size_t quote_len, indent_len, prev_dent_len;
 
@@ -1832,7 +1832,7 @@ bool begpar(const filestruct *const line, int depth)
 
 /* Return TRUE when the given line is part of a paragraph: when it
  * contains something more than quoting and leading whitespace. */
-bool inpar(const filestruct *const line)
+bool inpar(const linestruct *const line)
 {
 	size_t quote_len = quote_length(line->data);
 	size_t indent_len = indent_length(line->data + quote_len);
@@ -1844,9 +1844,9 @@ bool inpar(const filestruct *const line)
  * Return TRUE if we found a paragraph, and FALSE otherwise.  Furthermore,
  * return in firstline the first line of the paragraph,
  * and in *parlen the length of the paragraph. */
-bool find_paragraph(filestruct **firstline, size_t *const parlen)
+bool find_paragraph(linestruct **firstline, size_t *const parlen)
 {
-	filestruct *line = *firstline;
+	linestruct *line = *firstline;
 		/* The line of the current paragraph we're searching in. */
 
 	/* When not currently in a paragraph, move forward to a line that is. */
@@ -1871,10 +1871,10 @@ bool find_paragraph(filestruct **firstline, size_t *const parlen)
 /* Tack all the lines of the paragraph (that starts at *line, and consists of
  * par_len lines) together, skipping
  * the quoting and indentation on all lines after the first. */
-void concat_paragraph(filestruct **line, size_t par_len)
+void concat_paragraph(linestruct **line, size_t par_len)
 {
 	while (par_len > 1) {
-		filestruct *next_line = (*line)->next;
+		linestruct *next_line = (*line)->next;
 		size_t line_len = strlen((*line)->data);
 		size_t next_line_len = strlen(next_line->data);
 		size_t next_quote_len = quote_length(next_line->data);
@@ -1900,7 +1900,7 @@ void concat_paragraph(filestruct **line, size_t par_len)
 
 /* Rewrap the given line (that starts with the given lead string which is of
  * the given length), into lines that fit within the target width (wrap_at). */
-void rewrap_paragraph(filestruct **line, char *lead_string, size_t lead_len)
+void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 {
 	ssize_t break_pos;
 		/* The x-coordinate where the current line is to be broken. */
@@ -1947,9 +1947,9 @@ void rewrap_paragraph(filestruct **line, char *lead_string, size_t lead_len)
 /* Justify the lines of the given paragraph (that starts at *line, and consists
  * of par_len lines) so they all fit within the target width (wrap_at) and have
  * their whitespace normalized. */
-void justify_paragraph(filestruct **line, size_t par_len)
+void justify_paragraph(linestruct **line, size_t par_len)
 {
-	filestruct *sampleline;
+	linestruct *sampleline;
 		/* The line from which the indentation is copied. */
 	size_t quote_len;
 		/* Length of the quote part. */
@@ -1985,19 +1985,19 @@ void do_justify(bool full_justify)
 {
 	size_t par_len;
 		/* The number of lines in the original paragraph. */
-	filestruct *first_par_line;
+	linestruct *first_par_line;
 		/* The first line of the paragraph. */
-	filestruct *last_par_line;
+	linestruct *last_par_line;
 		/* The line after the last line of the paragraph. */
 	size_t top_x;
 		/* The top x-coordinate of the paragraph we justify. */
 	size_t bot_x;
 		/* The bottom x-coordinate of the paragraph we justify. */
-	filestruct *was_cutbuffer = cutbuffer;
+	linestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
-	filestruct *was_cutbottom = cutbottom;
+	linestruct *was_cutbottom = cutbottom;
 		/* The old cutbottom, so we can justify in the current cutbuffer. */
-	filestruct *jusline;
+	linestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
 
 #ifndef NANO_TINY
@@ -2058,8 +2058,8 @@ void do_justify(bool full_justify)
 	if (openfile->mark) {
 		size_t quote_len;
 
-		mark_order((const filestruct **)&first_par_line, &top_x,
-						(const filestruct **)&last_par_line, &bot_x,
+		mark_order((const linestruct **)&first_par_line, &top_x,
+						(const linestruct **)&last_par_line, &bot_x,
 						&right_side_up);
 
 		/* Save the coordinates of the mark. */
@@ -2142,7 +2142,7 @@ void do_justify(bool full_justify)
 		size_t line_len = strlen(cutbuffer->data), indent_len;
 		size_t needed_top_extra = (top_x < lead_len ? top_x : lead_len);
 		size_t needed_bot_extra = (bot_x < lead_len ? lead_len - bot_x : 0);
-		filestruct *line;
+		linestruct *line;
 
 		/* If the marked region starts in the middle of a line, and this line
 		 * has a leading part, prepend any missing portion of this leading part
@@ -2322,8 +2322,8 @@ bool fix_spello(const char *word)
 	char *save_search;
 	size_t firstcolumn_save = openfile->firstcolumn;
 	size_t current_x_save = openfile->current_x;
-	filestruct *edittop_save = openfile->edittop;
-	filestruct *current_save = openfile->current;
+	linestruct *edittop_save = openfile->edittop;
+	linestruct *current_save = openfile->current;
 		/* Save where we are. */
 	bool proceed = FALSE;
 		/* The return value of this function. */
@@ -2333,7 +2333,7 @@ bool fix_spello(const char *word)
 	bool right_side_up = FALSE;
 		/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 		 * FALSE if (current, current_x) is. */
-	filestruct *top, *bot;
+	linestruct *top, *bot;
 	size_t top_x, bot_x;
 #endif
 
@@ -2344,8 +2344,8 @@ bool fix_spello(const char *word)
 #ifndef NANO_TINY
 	/* If the mark is on, start at the beginning of the marked region. */
 	if (openfile->mark) {
-		mark_order((const filestruct **)&top, &top_x,
-						(const filestruct **)&bot, &bot_x, &right_side_up);
+		mark_order((const linestruct **)&top, &top_x,
+						(const linestruct **)&bot, &bot_x, &right_side_up);
 		/* If the region is marked normally, swap the end points, so that
 		 * (current, current_x) (where searching starts) is at the top. */
 		if (right_side_up) {
@@ -2376,7 +2376,7 @@ bool fix_spello(const char *word)
 		light_from_col = xplustabs();
 		light_to_col = light_from_col + strlenpt(word);
 #ifndef NANO_TINY
-		filestruct *saved_mark = openfile->mark;
+		linestruct *saved_mark = openfile->mark;
 		openfile->mark = NULL;
 #endif
 		edit_refresh();
@@ -2672,13 +2672,13 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_TINY
 		/* Replace the marked text (or entire text) with the corrected text. */
 		if (openfile->mark) {
-			filestruct *top, *bot;
+			linestruct *top, *bot;
 			size_t top_x, bot_x;
 			bool right_side_up;
 			ssize_t was_mark_lineno = openfile->mark->lineno;
 
-			mark_order((const filestruct **)&top, &top_x,
-							(const filestruct **)&bot, &bot_x, &right_side_up);
+			mark_order((const linestruct **)&top, &top_x,
+							(const linestruct **)&bot, &bot_x, &right_side_up);
 
 			replace_marked_buffer(tempfile_name);
 
@@ -3126,16 +3126,16 @@ void do_wordlinechar_count(void)
 	ssize_t nlines = 0;
 	size_t current_x_save = openfile->current_x;
 	size_t pww_save = openfile->placewewant;
-	filestruct *current_save = openfile->current;
-	filestruct *was_mark = openfile->mark;
-	filestruct *top, *bot;
+	linestruct *current_save = openfile->current;
+	linestruct *was_mark = openfile->mark;
+	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
 	/* If the mark is on, partition the buffer so that it
 	 * contains only the marked text, and turn the mark off. */
 	if (was_mark) {
-		mark_order((const filestruct **)&top, &top_x,
-						(const filestruct **)&bot, &bot_x, NULL);
+		mark_order((const linestruct **)&top, &top_x,
+						(const linestruct **)&bot, &bot_x, NULL);
 		filepart = partition_filestruct(top, top_x, bot, bot_x);
 		openfile->mark = NULL;
 	}

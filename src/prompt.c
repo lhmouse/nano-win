@@ -438,7 +438,7 @@ void add_or_remove_pipe_symbol_from_answer(void)
 
 /* Get a string of input at the statusbar prompt. */
 functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
-		bool allow_files, bool *listed, filestruct **history_list,
+		bool allow_files, bool *listed, linestruct **history_list,
 		void (*refresh_func)(void))
 {
 	int kbinput = ERR;
@@ -584,7 +584,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
  * can be tab completed.  The curranswer parameter is the default answer
  * for when simply Enter is typed. */
 int do_prompt(bool allow_tabs, bool allow_files,
-		int menu, const char *curranswer, filestruct **history_list,
+		int menu, const char *curranswer, linestruct **history_list,
 		void (*refresh_func)(void), const char *msg, ...)
 {
 	va_list ap;

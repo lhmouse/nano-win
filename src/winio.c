@@ -2360,7 +2360,7 @@ void place_the_cursor(void)
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-		filestruct *line = openfile->edittop;
+		linestruct *line = openfile->edittop;
 		size_t leftedge;
 
 		row -= chunk_for(openfile->firstcolumn, openfile->edittop);
@@ -2395,7 +2395,7 @@ void place_the_cursor(void)
  * character of this page.  That is, the first character of converted
  * corresponds to character number actual_x(fileptr->data, from_col) of the
  * line. */
-void edit_draw(filestruct *fileptr, const char *converted,
+void edit_draw(linestruct *fileptr, const char *converted,
 		int row, size_t from_col)
 {
 #if !defined(NANO_TINY) || defined(ENABLE_COLOR)
@@ -2456,9 +2456,9 @@ void edit_draw(filestruct *fileptr, const char *converted,
 				/* The place in converted from where painting starts. */
 			regmatch_t match;
 				/* The match positions of a single-line regex. */
-			const filestruct *start_line = fileptr->prev;
+			const linestruct *start_line = fileptr->prev;
 				/* The first line before fileptr that matches 'start'. */
-			const filestruct *end_line = fileptr;
+			const linestruct *end_line = fileptr;
 				/* The line that matches 'end'. */
 			regmatch_t startmatch, endmatch;
 				/* The match positions of the start and end regexes. */
@@ -2721,7 +2721,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
 				fileptr->lineno <= openfile->current->lineno) &&
 				(fileptr->lineno >= openfile->mark->lineno ||
 				fileptr->lineno >= openfile->current->lineno)) {
-		const filestruct *top, *bot;
+		const linestruct *top, *bot;
 			/* The lines where the marked region begins and ends. */
 		size_t top_x, bot_x;
 			/* The x positions where the marked region begins and ends. */
@@ -2770,7 +2770,7 @@ void edit_draw(filestruct *fileptr, const char *converted,
  * line will be passed to update_softwrapped_line().  Likely values of
  * index are current_x or zero.  Return the number of additional rows
  * consumed (when softwrapping). */
-int update_line(filestruct *fileptr, size_t index)
+int update_line(linestruct *fileptr, size_t index)
 {
 	int row = 0;
 		/* The row in the edit window we will be updating. */
@@ -2830,11 +2830,11 @@ int update_line(filestruct *fileptr, size_t index)
 /* Redraw all the chunks of the given line (as far as they fit onscreen),
  * unless it's edittop, which will be displayed from column firstcolumn.
  * Return the number of additional rows consumed. */
-int update_softwrapped_line(filestruct *fileptr)
+int update_softwrapped_line(linestruct *fileptr)
 {
 	int row = 0;
 		/* The row in the edit window we will write to. */
-	filestruct *line = openfile->edittop;
+	linestruct *line = openfile->edittop;
 		/* An iterator needed to find the relevant row. */
 	int starting_row;
 		/* The first row in the edit window that gets updated. */
@@ -2913,7 +2913,7 @@ bool line_needs_update(const size_t old_column, const size_t new_column)
  * given column (leftedge).  After moving, leftedge will be set to the
  * starting column of the current chunk.  Return the number of chunks we
  * couldn't move up, which will be zero if we completely succeeded. */
-int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
+int go_back_chunks(int nrows, linestruct **line, size_t *leftedge)
 {
 	int i;
 
@@ -2950,7 +2950,7 @@ int go_back_chunks(int nrows, filestruct **line, size_t *leftedge)
  * given column (leftedge).  After moving, leftedge will be set to the
  * starting column of the current chunk.  Return the number of chunks we
  * couldn't move down, which will be zero if we completely succeeded. */
-int go_forward_chunks(int nrows, filestruct **line, size_t *leftedge)
+int go_forward_chunks(int nrows, linestruct **line, size_t *leftedge)
 {
 	int i;
 
@@ -2993,7 +2993,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 {
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-		filestruct *line = openfile->current;
+		linestruct *line = openfile->current;
 		size_t leftedge = leftedge_for(xplustabs(), openfile->current);
 		int rows_left = go_back_chunks(editwinrows - 1, &line, &leftedge);
 
@@ -3008,7 +3008,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
  * draw the relevant content on the resultant blank row. */
 void edit_scroll(bool direction)
 {
-	filestruct *line;
+	linestruct *line;
 	size_t leftedge;
 	int remainder = 0, nrows = 1;
 
@@ -3125,7 +3125,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 /* Get the row of the softwrapped chunk of the given line that column is on,
  * relative to the first row (zero-based), and return it.  If leftedge isn't
  * NULL, return the leftmost column of the chunk in it. */
-size_t get_chunk_and_edge(size_t column, filestruct *line, size_t *leftedge)
+size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge)
 {
 	size_t current_chunk = 0, start_col = 0, end_col;
 	bool end_of_line = FALSE;
@@ -3147,7 +3147,7 @@ size_t get_chunk_and_edge(size_t column, filestruct *line, size_t *leftedge)
 
 /* Return the row of the softwrapped chunk of the given line that column is on,
  * relative to the first row (zero-based). */
-size_t chunk_for(size_t column, filestruct *line)
+size_t chunk_for(size_t column, linestruct *line)
 {
 	if (ISSET(SOFTWRAP))
 		return get_chunk_and_edge(column, line, NULL);
@@ -3157,7 +3157,7 @@ size_t chunk_for(size_t column, filestruct *line)
 
 /* Return the leftmost column of the softwrapped chunk of the given line that
  * column is on. */
-size_t leftedge_for(size_t column, filestruct *line)
+size_t leftedge_for(size_t column, linestruct *line)
 {
 	size_t leftedge;
 
@@ -3171,7 +3171,7 @@ size_t leftedge_for(size_t column, filestruct *line)
 
 /* Return the row of the last softwrapped chunk of the given line, relative to
  * the first row (zero-based). */
-size_t number_of_chunks_in(filestruct *line)
+size_t number_of_chunks_in(linestruct *line)
 {
 	return chunk_for((size_t)-1, line);
 }
@@ -3237,7 +3237,7 @@ bool current_is_below_screen(void)
 {
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-		filestruct *line = openfile->edittop;
+		linestruct *line = openfile->edittop;
 		size_t leftedge = openfile->firstcolumn;
 
 		/* If current[current_x] is more than a screen's worth of lines after
@@ -3262,7 +3262,7 @@ bool current_is_offscreen(void)
 
 /* Update any lines between old_current and current that need to be
  * updated.  Use this if we've moved without changing any text. */
-void edit_redraw(filestruct *old_current, update_type manner)
+void edit_redraw(linestruct *old_current, update_type manner)
 {
 	size_t was_pww = openfile->placewewant;
 
@@ -3278,7 +3278,7 @@ void edit_redraw(filestruct *old_current, update_type manner)
 #ifndef NANO_TINY
 	/* If the mark is on, update all lines between old_current and current. */
 	if (openfile->mark) {
-		filestruct *line = old_current;
+		linestruct *line = old_current;
 
 		while (line != openfile->current) {
 			update_line(line, 0);
@@ -3305,7 +3305,7 @@ void edit_redraw(filestruct *old_current, update_type manner)
  * if we've moved and changed text. */
 void edit_refresh(void)
 {
-	filestruct *line;
+	linestruct *line;
 	int row = 0;
 
 #ifdef ENABLE_COLOR

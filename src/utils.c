@@ -465,8 +465,8 @@ void remove_magicline(void)
 /* Set (top, top_x) and (bot, bot_x) to the start and end "coordinates" of
  * the marked region.  If right_side_up isn't NULL, set it to TRUE when the
  * mark is at the top of the marked region, and to FALSE otherwise. */
-void mark_order(const filestruct **top, size_t *top_x,
-		const filestruct **bot, size_t *bot_x, bool *right_side_up)
+void mark_order(const linestruct **top, size_t *top_x,
+		const linestruct **bot, size_t *bot_x, bool *right_side_up)
 {
 	if ((openfile->current->lineno == openfile->mark->lineno &&
 				openfile->current_x > openfile->mark_x) ||
@@ -490,7 +490,7 @@ void mark_order(const filestruct **top, size_t *top_x,
 /* Get the set of lines to work on -- either just the current line, or the
  * first to last lines of the marked region.  When the cursor (or mark) is
  * at the start of the last line of the region, exclude that line. */
-void get_range(const filestruct **top, const filestruct **bot)
+void get_range(const linestruct **top, const linestruct **bot)
 {
 	if (!openfile->mark) {
 		*top = openfile->current;
@@ -508,9 +508,9 @@ void get_range(const filestruct **top, const filestruct **bot)
 }
 
 /* Given a line number, return a pointer to the corresponding struct. */
-filestruct *fsfromline(ssize_t lineno)
+linestruct *fsfromline(ssize_t lineno)
 {
-	filestruct *f = openfile->current;
+	linestruct *f = openfile->current;
 
 	if (lineno <= openfile->current->lineno)
 		while (f->lineno != lineno && f->prev != NULL)
@@ -529,9 +529,9 @@ filestruct *fsfromline(ssize_t lineno)
 #endif /* !NANO_TINY */
 
 /* Count the number of characters from begin to end, and return it. */
-size_t get_totsize(const filestruct *begin, const filestruct *end)
+size_t get_totsize(const linestruct *begin, const linestruct *end)
 {
-	const filestruct *line;
+	const linestruct *line;
 	size_t totsize = 0;
 
 	/* Sum the number of characters (plus a newline) in each line. */

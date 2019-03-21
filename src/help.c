@@ -110,7 +110,7 @@ void do_help(void)
 		/* The current answer when the user invokes help at the prompt. */
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 		/* A storage place for the current flag settings. */
-	filestruct *line;
+	linestruct *line;
 	int length;
 	FILE *fp;
 

@@ -52,7 +52,7 @@ bool suppress_cursorpos = FALSE;
 message_type lastmessage = HUSH;
 		/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
-filestruct *pletion_line = NULL;
+linestruct *pletion_line = NULL;
 		/* The line where the last completion was found, if any. */
 
 bool inhelp = FALSE;
@@ -116,9 +116,9 @@ ssize_t stripe_column = 0;
 		/* The column at which a vertical bar will be drawn. */
 #endif
 
-filestruct *cutbuffer = NULL;
+linestruct *cutbuffer = NULL;
 		/* The buffer where we store cut text. */
-filestruct *cutbottom = NULL;
+linestruct *cutbottom = NULL;
 		/* The last line in the cutbuffer. */
 bool keep_cutbuffer = FALSE;
 		/* Whether to add to the cutbuffer instead of clearing it first. */
@@ -203,23 +203,23 @@ subnfunc *tailfunc;
 subnfunc *exitfunc;
 		/* A pointer to the special Exit/Close item. */
 
-filestruct *search_history = NULL;
+linestruct *search_history = NULL;
 		/* The current item in the list of strings that were searched for. */
-filestruct *execute_history = NULL;
+linestruct *execute_history = NULL;
 		/* The current item in the list of commands that were run with ^R ^X. */
-filestruct *replace_history = NULL;
+linestruct *replace_history = NULL;
 		/* The current item in the list of replace strings. */
 #ifdef ENABLE_HISTORIES
-filestruct *searchtop = NULL;
+linestruct *searchtop = NULL;
 		/* The oldest item in the list of search strings. */
-filestruct *searchbot = NULL;
+linestruct *searchbot = NULL;
 		/* The newest item in the list of search strings. */
 
-filestruct *replacetop = NULL;
-filestruct *replacebot = NULL;
+linestruct *replacetop = NULL;
+linestruct *replacebot = NULL;
 
-filestruct *executetop = NULL;
-filestruct *executebot = NULL;
+linestruct *executetop = NULL;
+linestruct *executebot = NULL;
 #endif
 
 regex_t search_regexp;

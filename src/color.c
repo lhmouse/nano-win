@@ -287,7 +287,7 @@ void color_update(void)
 
 /* Determine whether the matches of multiline regexes are still the same,
  * and if not, schedule a screen refresh, so things will be repainted. */
-void check_the_multis(filestruct *line)
+void check_the_multis(linestruct *line)
 {
 	const colortype *ink;
 	bool astart, anend;
@@ -332,7 +332,7 @@ void check_the_multis(filestruct *line)
 }
 
 /* Allocate (for one line) the cache space for multiline color regexes. */
-void alloc_multidata_if_needed(filestruct *fileptr)
+void alloc_multidata_if_needed(linestruct *fileptr)
 {
 	int i;
 
@@ -350,7 +350,7 @@ void precalc_multicolorinfo(void)
 {
 	const colortype *ink;
 	regmatch_t startmatch, endmatch;
-	filestruct *line, *tailline;
+	linestruct *line, *tailline;
 
 	if (openfile->colorstrings == NULL || ISSET(NO_COLOR_SYNTAX))
 		return;

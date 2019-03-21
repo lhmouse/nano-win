@@ -512,7 +512,7 @@ void replace_buffer(const char *filename)
 {
 	FILE *f;
 	int descriptor;
-	filestruct *was_cutbuffer = cutbuffer;
+	linestruct *was_cutbuffer = cutbuffer;
 
 	/* Open the file quietly. */
 	descriptor = open_file(filename, FALSE, TRUE, &f);
@@ -558,7 +558,7 @@ void replace_marked_buffer(const char *filename)
 	FILE *f;
 	int descriptor;
 	bool using_magicline = ISSET(FINAL_NEWLINE);
-	filestruct *was_cutbuffer = cutbuffer;
+	linestruct *was_cutbuffer = cutbuffer;
 
 	descriptor = open_file(filename, FALSE, TRUE, &f);
 
@@ -772,9 +772,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		/* The buffer in which we assemble each line of the file. */
 	size_t bufx = MAX_BUF_SIZE;
 		/* The allocated size of the line buffer; increased as needed. */
-	filestruct *topline;
+	linestruct *topline;
 		/* The top of the new buffer where we store the read file. */
-	filestruct *bottomline;
+	linestruct *bottomline;
 		/* The bottom of the new buffer. */
 	int input_int;
 		/* The current value we read from the file, whether an input
@@ -1593,7 +1593,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* Instead of returning in this function, you should always
 		 * set retval and then goto cleanup_and_exit. */
 	size_t lineswritten = 0;
-	const filestruct *fileptr = openfile->fileage;
+	const linestruct *fileptr = openfile->fileage;
 	int fd;
 		/* The file descriptor we use. */
 	mode_t original_umask = 0;
@@ -1999,7 +1999,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 			/* If the syntax changed, discard and recompute the multidata. */
 			if (strcmp(oldname, newname) != 0) {
-				filestruct *line = openfile->fileage;
+				linestruct *line = openfile->fileage;
 
 				while (line != NULL) {
 					free(line->multidata);
@@ -2044,12 +2044,12 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 {
 	bool retval;
 	bool added_magicline = FALSE;
-	filestruct *top, *bot;
+	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
 	/* Partition the buffer so that it contains only the marked text. */
-	mark_order((const filestruct **)&top, &top_x,
-				(const filestruct **)&bot, &bot_x, NULL);
+	mark_order((const linestruct **)&top, &top_x,
+				(const linestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 
 	/* If we are using a magic line, and the last line of the partition

@@ -66,9 +66,9 @@ static bool input_was_aborted = FALSE;
 		/* Whether reading from standard input was aborted via ^C. */
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
-filestruct *make_new_node(filestruct *prevnode)
+linestruct *make_new_node(linestruct *prevnode)
 {
-	filestruct *newnode = nmalloc(sizeof(filestruct));
+	linestruct *newnode = nmalloc(sizeof(linestruct));
 
 	newnode->data = NULL;
 	newnode->prev = prevnode;
@@ -83,9 +83,9 @@ filestruct *make_new_node(filestruct *prevnode)
 }
 
 /* Make a copy of a linestruct node. */
-filestruct *copy_node(const filestruct *src)
+linestruct *copy_node(const linestruct *src)
 {
-	filestruct *dst = nmalloc(sizeof(filestruct));
+	linestruct *dst = nmalloc(sizeof(linestruct));
 
 	dst->data = mallocstrcpy(NULL, src->data);
 	dst->next = src->next;
@@ -100,7 +100,7 @@ filestruct *copy_node(const filestruct *src)
 }
 
 /* Splice a new node into an existing linked list of linestructs. */
-void splice_node(filestruct *afterthis, filestruct *newnode)
+void splice_node(linestruct *afterthis, linestruct *newnode)
 {
 	newnode->next = afterthis->next;
 	newnode->prev = afterthis;
@@ -114,7 +114,7 @@ void splice_node(filestruct *afterthis, filestruct *newnode)
 }
 
 /* Disconnect a node from a linked list of linestructs and delete it. */
-void unlink_node(filestruct *fileptr)
+void unlink_node(linestruct *fileptr)
 {
 	if (fileptr->prev != NULL)
 		fileptr->prev->next = fileptr->next;
@@ -129,7 +129,7 @@ void unlink_node(filestruct *fileptr)
 }
 
 /* Free the data structures in the given node. */
-void delete_node(filestruct *fileptr)
+void delete_node(linestruct *fileptr)
 {
 	free(fileptr->data);
 #ifdef ENABLE_COLOR
@@ -139,9 +139,9 @@ void delete_node(filestruct *fileptr)
 }
 
 /* Duplicate an entire linked list of linestructs. */
-filestruct *copy_filestruct(const filestruct *src)
+linestruct *copy_filestruct(const linestruct *src)
 {
-	filestruct *head, *copy;
+	linestruct *head, *copy;
 
 	copy = copy_node(src);
 	copy->prev = NULL;
@@ -162,7 +162,7 @@ filestruct *copy_filestruct(const filestruct *src)
 }
 
 /* Free an entire linked list of linestructs. */
-void free_filestruct(filestruct *src)
+void free_filestruct(linestruct *src)
 {
 	if (src == NULL)
 		return;
@@ -176,7 +176,7 @@ void free_filestruct(filestruct *src)
 }
 
 /* Renumber the lines in a buffer, starting with the given line. */
-void renumber(filestruct *line)
+void renumber(linestruct *line)
 {
 	ssize_t number;
 
@@ -197,8 +197,8 @@ void renumber(filestruct *line)
 
 /* Partition the current buffer so that it appears to begin at (top, top_x)
  * and appears to end at (bot, bot_x). */
-partition *partition_filestruct(filestruct *top, size_t top_x,
-		filestruct *bot, size_t bot_x)
+partition *partition_filestruct(linestruct *top, size_t top_x,
+		linestruct *bot, size_t bot_x)
 {
 	partition *p = nmalloc(sizeof(partition));
 
@@ -283,10 +283,10 @@ void unpartition_filestruct(partition **p)
  * current buffer to a new buffer beginning with file_top and ending
  * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
  * don't do anything. */
-void extract_buffer(filestruct **file_top, filestruct **file_bot,
-		filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
+void extract_buffer(linestruct **file_top, linestruct **file_bot,
+		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
-	filestruct *top_save;
+	linestruct *top_save;
 	bool edittop_inside;
 #ifndef NANO_TINY
 	bool mark_inside = FALSE;
@@ -329,7 +329,7 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 		/* Renumber, starting with file_top. */
 		renumber(*file_top);
 	} else {
-		filestruct *file_bot_save = *file_bot;
+		linestruct *file_bot_save = *file_bot;
 
 		/* Otherwise, tack the text in top onto the text at the end of
 		 * file_bot. */
@@ -395,9 +395,9 @@ void extract_buffer(filestruct **file_top, filestruct **file_bot,
 
 /* Meld the given buffer into the current file buffer
  * at the current cursor position. */
-void ingraft_buffer(filestruct *somebuffer)
+void ingraft_buffer(linestruct *somebuffer)
 {
-	filestruct *top_save;
+	linestruct *top_save;
 	size_t current_x_save = openfile->current_x;
 	bool edittop_inside;
 #ifndef NANO_TINY
@@ -408,11 +408,11 @@ void ingraft_buffer(filestruct *somebuffer)
 	/* Keep track of whether the mark begins inside the partition and
 	 * will need adjustment. */
 	if (openfile->mark) {
-		filestruct *top, *bot;
+		linestruct *top, *bot;
 		size_t top_x, bot_x;
 
-		mark_order((const filestruct **)&top, &top_x,
-						(const filestruct **)&bot, &bot_x, &right_side_up);
+		mark_order((const linestruct **)&top, &top_x,
+						(const linestruct **)&bot, &bot_x, &right_side_up);
 
 		single_line = (top == bot);
 	}
@@ -491,9 +491,9 @@ void ingraft_buffer(filestruct *somebuffer)
 }
 
 /* Meld a copy of the given buffer into the current file buffer. */
-void copy_from_buffer(filestruct *somebuffer)
+void copy_from_buffer(linestruct *somebuffer)
 {
-	filestruct *the_copy = copy_filestruct(somebuffer);
+	linestruct *the_copy = copy_filestruct(somebuffer);
 
 	ingraft_buffer(the_copy);
 }
@@ -1592,7 +1592,7 @@ int do_mouse(void)
 
 	/* If the click was in the edit window, put the cursor in that spot. */
 	if (wmouse_trafo(edit, &click_row, &click_col, FALSE)) {
-		filestruct *current_save = openfile->current;
+		linestruct *current_save = openfile->current;
 		ssize_t row_count = click_row - openfile->current_y;
 		size_t leftedge;
 #ifndef NANO_TINY
@@ -1776,10 +1776,10 @@ void do_input(void)
 #endif
 		{
 #ifdef ENABLE_WRAPPING
-			filestruct *was_next = openfile->current->next;
+			linestruct *was_next = openfile->current->next;
 #endif
 #ifndef NANO_TINY
-			filestruct *was_current = openfile->current;
+			linestruct *was_current = openfile->current;
 			size_t was_x = openfile->current_x;
 
 			/* If Shifted movement occurs, set the mark. */

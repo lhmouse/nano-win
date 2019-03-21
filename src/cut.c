@@ -63,7 +63,7 @@ void do_deletion(undo_type action)
 #endif
 	/* Otherwise, when not at end of buffer, join this line with the next. */
 	} else if (openfile->current != openfile->filebot) {
-		filestruct *joining = openfile->current->next;
+		linestruct *joining = openfile->current->next;
 
 		/* If there is a magic line, and we're before it: don't eat it. */
 		if (joining == openfile->filebot && openfile->current_x != 0 &&
@@ -146,12 +146,12 @@ void do_backspace(void)
 void chop_word(bool forward)
 {
 	/* Remember the current cursor position. */
-	filestruct *is_current = openfile->current;
+	linestruct *is_current = openfile->current;
 	size_t is_current_x = openfile->current_x;
 
 	/* Remember where the cutbuffer is and then make it seem blank. */
-	filestruct *is_cutbuffer = cutbuffer;
-	filestruct *is_cutbottom = cutbottom;
+	linestruct *is_cutbuffer = cutbuffer;
+	linestruct *is_cutbottom = cutbottom;
 	cutbuffer = NULL;
 	cutbottom = NULL;
 
@@ -227,11 +227,11 @@ void cut_line(void)
 /* Move all marked text from the current buffer into the cutbuffer. */
 void cut_marked(bool *right_side_up)
 {
-	filestruct *top, *bot;
+	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
-	mark_order((const filestruct **)&top, &top_x,
-				(const filestruct **)&bot, &bot_x, right_side_up);
+	mark_order((const linestruct **)&top, &top_x,
+				(const linestruct **)&bot, &bot_x, right_side_up);
 
 	extract_buffer(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
 	openfile->placewewant = xplustabs();
@@ -274,7 +274,7 @@ void cut_to_eof(void)
 void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 {
 #ifndef NANO_TINY
-	filestruct *cb_save = NULL;
+	linestruct *cb_save = NULL;
 		/* The current end of the cutbuffer, before we add text to it. */
 	size_t cb_save_len = 0;
 		/* The length of the string at the current end of the cutbuffer,
@@ -398,7 +398,7 @@ void do_cut_text_void(void)
  * was moved, blow away previous contents of the cutbuffer. */
 void do_copy_text(void)
 {
-	static filestruct *next_contiguous_line = NULL;
+	static linestruct *next_contiguous_line = NULL;
 	bool mark_is_set = (openfile->mark != NULL);
 
 	/* Remember the current viewport and cursor position. */
@@ -443,8 +443,8 @@ void do_cut_till_eof(void)
 void zap_text(void)
 {
 	/* Remember the current cutbuffer so it can be restored after the zap. */
-	filestruct *was_cutbuffer = cutbuffer;
-	filestruct *was_cutbottom = cutbottom;
+	linestruct *was_cutbuffer = cutbuffer;
+	linestruct *was_cutbottom = cutbottom;
 
 	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
 		return;
