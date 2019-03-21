@@ -189,7 +189,7 @@ void chop_word(bool forward)
 	do_cut_text_void();
 
 	/* Discard the cut word and restore the cutbuffer. */
-	free_filestruct(cutbuffer);
+	free_lines(cutbuffer);
 	cutbuffer = is_cutbuffer;
 	cutbottom = is_cutbottom;
 }
@@ -287,7 +287,7 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
 	if (!append && (!keep_cutbuffer || marked || cut_till_eof)) {
-		free_filestruct(cutbuffer);
+		free_lines(cutbuffer);
 		cutbuffer = NULL;
 		/* After a line cut, future line cuts should add to the cutbuffer. */
 		keep_cutbuffer = !marked && !cut_till_eof;

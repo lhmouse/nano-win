@@ -139,7 +139,7 @@ void delete_node(linestruct *fileptr)
 }
 
 /* Duplicate an entire linked list of linestructs. */
-linestruct *copy_filestruct(const linestruct *src)
+linestruct *copy_buffer(const linestruct *src)
 {
 	linestruct *head, *copy;
 
@@ -162,7 +162,7 @@ linestruct *copy_filestruct(const linestruct *src)
 }
 
 /* Free an entire linked list of linestructs. */
-void free_filestruct(linestruct *src)
+void free_lines(linestruct *src)
 {
 	if (src == NULL)
 		return;
@@ -197,7 +197,7 @@ void renumber(linestruct *line)
 
 /* Partition the current buffer so that it appears to begin at (top, top_x)
  * and appears to end at (bot, bot_x). */
-partition *partition_filestruct(linestruct *top, size_t top_x,
+partition *partition_buffer(linestruct *top, size_t top_x,
 		linestruct *bot, size_t bot_x)
 {
 	partition *p = nmalloc(sizeof(partition));
@@ -241,7 +241,7 @@ partition *partition_filestruct(linestruct *top, size_t top_x,
 
 /* Unpartition the current buffer so that it stretches from (fileage, 0)
  * to (filebot, $) again. */
-void unpartition_filestruct(partition **p)
+void unpartition_buffer(partition **p)
 {
 	/* Reattach the line above the top of the partition, and restore the
 	 * text before top_x from top_data.  Free top_data when we're done
@@ -301,7 +301,7 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 	 * (top, top_x) to (bot, bot_x), keep track of whether the top of
 	 * the edit window is inside the partition, and keep track of
 	 * whether the mark begins inside the partition. */
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	filepart = partition_buffer(top, top_x, bot, bot_x);
 	edittop_inside = (openfile->edittop->lineno >= openfile->fileage->lineno &&
 						openfile->edittop->lineno <= openfile->filebot->lineno);
 #ifndef NANO_TINY
@@ -376,7 +376,7 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 
 	/* Unpartition the buffer so that it contains all the text
 	 * again, minus the saved text. */
-	unpartition_filestruct(&filepart);
+	unpartition_buffer(&filepart);
 
 	/* If the top of the edit window was inside the old partition, put
 	 * it in range of current. */
@@ -420,10 +420,10 @@ void ingraft_buffer(linestruct *somebuffer)
 
 	/* Partition the buffer so that it contains no text, and remember
 	 * whether the current line is at the top of the edit window. */
-	filepart = partition_filestruct(openfile->current, openfile->current_x,
+	filepart = partition_buffer(openfile->current, openfile->current_x,
 								openfile->current, openfile->current_x);
 	edittop_inside = (openfile->edittop == openfile->fileage);
-	free_filestruct(openfile->fileage);
+	free_lines(openfile->fileage);
 
 	/* Put the top and bottom of the current buffer at the top and
 	 * bottom of the passed buffer. */
@@ -480,7 +480,7 @@ void ingraft_buffer(linestruct *somebuffer)
 
 	/* Unpartition the buffer so that it contains all the text
 	 * again, plus the copied text. */
-	unpartition_filestruct(&filepart);
+	unpartition_buffer(&filepart);
 
 	/* Renumber, starting with the beginning line of the old partition. */
 	renumber(top_save);
@@ -493,7 +493,7 @@ void ingraft_buffer(linestruct *somebuffer)
 /* Meld a copy of the given buffer into the current file buffer. */
 void copy_from_buffer(linestruct *somebuffer)
 {
-	linestruct *the_copy = copy_filestruct(somebuffer);
+	linestruct *the_copy = copy_buffer(somebuffer);
 
 	ingraft_buffer(the_copy);
 }
@@ -516,7 +516,7 @@ void unlink_opennode(openfilestruct *fileptr)
 void delete_opennode(openfilestruct *fileptr)
 {
 	free(fileptr->filename);
-	free_filestruct(fileptr->fileage);
+	free_lines(fileptr->fileage);
 #ifndef NANO_TINY
 	free(fileptr->current_stat);
 	free(fileptr->lock_filename);
@@ -613,7 +613,7 @@ void die(const char *msg, ...)
 		 * because it would write files not mentioned on the command line. */
 		if (openfile->modified && !ISSET(RESTRICTED)) {
 			if (filepart != NULL)
-				unpartition_filestruct(&filepart);
+				unpartition_buffer(&filepart);
 
 			emergency_save(openfile->filename, openfile->current_stat);
 		}

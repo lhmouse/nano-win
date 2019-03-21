@@ -507,7 +507,7 @@ void redo_cut(undo *u)
 
 	do_cut_text(FALSE, TRUE, FALSE, u->type == ZAP);
 
-	free_filestruct(cutbuffer);
+	free_lines(cutbuffer);
 	cutbuffer = oldcutbuffer;
 	cutbottom = oldcutbottom;
 }
@@ -634,7 +634,7 @@ void do_undo(void)
 		openfile->mark_x = u->mark_begin_x;
 		goto_line_posx(u->lineno, u->begin);
 		cut_marked(NULL);
-		free_filestruct(u->cutbuffer);
+		free_lines(u->cutbuffer);
 		u->cutbuffer = cutbuffer;
 		u->cutbottom = cutbottom;
 		cutbuffer = oldcutbuffer;
@@ -808,7 +808,7 @@ void do_redo(void)
 		redidmsg = _("insertion");
 		goto_line_posx(u->lineno, u->begin);
 		copy_from_buffer(u->cutbuffer);
-		free_filestruct(u->cutbuffer);
+		free_lines(u->cutbuffer);
 		u->cutbuffer = NULL;
 		break;
 	case COUPLE_BEGIN:
@@ -1057,7 +1057,7 @@ bool execute_command(const char *command)
 		if (ISSET(MULTIBUFFER))
 			switch_to_next_buffer();
 #endif
-		free_filestruct(cutbuffer);
+		free_lines(cutbuffer);
 		cutbuffer = was_cutbuffer;
 	}
 
@@ -1115,7 +1115,7 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 	while (dropit != NULL && dropit != thisitem) {
 		thefile->undotop = dropit->next;
 		free(dropit->strdata);
-		free_filestruct(dropit->cutbuffer);
+		free_lines(dropit->cutbuffer);
 		group = dropit->grouping;
 		while (group != NULL) {
 			undo_group *next = group->next;
@@ -1247,7 +1247,7 @@ void add_undo(undo_type action)
 		}
 		break;
 	case PASTE:
-		u->cutbuffer = copy_filestruct(cutbuffer);
+		u->cutbuffer = copy_buffer(cutbuffer);
 		u->lineno += cutbottom->lineno - cutbuffer->lineno;
 		break;
 	case INSERT:
@@ -1372,8 +1372,8 @@ void update_undo(undo_type action)
 		if (u->type == ZAP)
 			u->cutbuffer = cutbuffer;
 		else {
-			free_filestruct(u->cutbuffer);
-			u->cutbuffer = copy_filestruct(cutbuffer);
+			free_lines(u->cutbuffer);
+			u->cutbuffer = copy_buffer(cutbuffer);
 		}
 		if (u->xflags & MARK_WAS_SET) {
 			/* If the "marking" operation was from right-->left or
@@ -3136,7 +3136,7 @@ void do_wordlinechar_count(void)
 	if (was_mark) {
 		mark_order((const linestruct **)&top, &top_x,
 						(const linestruct **)&bot, &bot_x, NULL);
-		filepart = partition_filestruct(top, top_x, bot, bot_x);
+		filepart = partition_buffer(top, top_x, bot, bot_x);
 		openfile->mark = NULL;
 	}
 
@@ -3163,7 +3163,7 @@ void do_wordlinechar_count(void)
 
 		/* Unpartition the buffer so that it contains all the text
 		 * again, and turn the mark back on. */
-		unpartition_filestruct(&filepart);
+		unpartition_buffer(&filepart);
 		openfile->mark = was_mark;
 	} else {
 		nlines = openfile->filebot->lineno;

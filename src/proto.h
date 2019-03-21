@@ -393,12 +393,12 @@ linestruct *make_new_node(linestruct *prevnode);
 void splice_node(linestruct *afterthis, linestruct *newnode);
 void unlink_node(linestruct *fileptr);
 void delete_node(linestruct *fileptr);
-linestruct *copy_filestruct(const linestruct *src);
-void free_filestruct(linestruct *src);
+linestruct *copy_buffer(const linestruct *src);
+void free_lines(linestruct *src);
 void renumber(linestruct *line);
-partition *partition_filestruct(linestruct *top, size_t top_x,
+partition *partition_buffer(linestruct *top, size_t top_x,
 		linestruct *bot, size_t bot_x);
-void unpartition_filestruct(partition **p);
+void unpartition_buffer(partition **p);
 void extract_buffer(linestruct **file_top, linestruct **file_bot,
 		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
 void ingraft_buffer(linestruct *somebuffer);

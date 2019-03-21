@@ -537,7 +537,7 @@ void replace_buffer(const char *filename)
 #ifndef NANO_TINY
 	update_undo(CUT_TO_EOF);
 #endif
-	free_filestruct(cutbuffer);
+	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;
 
 	/* Insert the processed file into its place. */
@@ -576,7 +576,7 @@ void replace_marked_buffer(const char *filename)
 	add_undo(CUT);
 	do_cut_text(FALSE, TRUE, FALSE, FALSE);
 	update_undo(CUT);
-	free_filestruct(cutbuffer);
+	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;
 
 	/* Insert the processed file where the marked text was. */
@@ -2050,7 +2050,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	/* Partition the buffer so that it contains only the marked text. */
 	mark_order((const linestruct **)&top, &top_x,
 				(const linestruct **)&bot, &bot_x, NULL);
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	filepart = partition_buffer(top, top_x, bot, bot_x);
 
 	/* If we are using a magic line, and the last line of the partition
 	 * isn't blank, then add a newline at the end of the buffer. */
@@ -2065,7 +2065,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 		remove_magicline();
 
 	/* Unpartition the buffer so that it contains all the text again. */
-	unpartition_filestruct(&filepart);
+	unpartition_buffer(&filepart);
 
 	return retval;
 }
