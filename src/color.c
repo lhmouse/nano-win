@@ -217,7 +217,7 @@ void color_update(void)
 	/* If the filename didn't match anything, try the first line. */
 	if (sint == NULL && !inhelp) {
 		for (sint = syntaxes; sint != NULL; sint = sint->next) {
-			if (found_in_list(sint->headers, openfile->fileage->data))
+			if (found_in_list(sint->headers, openfile->filetop->data))
 				break;
 		}
 	}
@@ -364,7 +364,7 @@ void precalc_multicolorinfo(void)
 		if (ink->end == NULL)
 			continue;
 
-		for (line = openfile->fileage; line != NULL; line = line->next) {
+		for (line = openfile->filetop; line != NULL; line = line->next) {
 			int index = 0;
 
 			alloc_multidata_if_needed(line);

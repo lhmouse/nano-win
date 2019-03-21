@@ -117,12 +117,12 @@ void make_new_buffer(void)
 /* Initialize the text and pointers of the current openfile struct. */
 void initialize_buffer_text(void)
 {
-	openfile->fileage = make_new_node(NULL);
-	openfile->fileage->data = mallocstrcpy(NULL, "");
+	openfile->filetop = make_new_node(NULL);
+	openfile->filetop->data = mallocstrcpy(NULL, "");
 
-	openfile->filebot = openfile->fileage;
-	openfile->edittop = openfile->fileage;
-	openfile->current = openfile->fileage;
+	openfile->filebot = openfile->filetop;
+	openfile->edittop = openfile->filetop;
+	openfile->current = openfile->filetop;
 
 	openfile->firstcolumn = 0;
 	openfile->current_x = 0;
@@ -490,7 +490,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 	 * the filename and put the cursor at the start of the buffer. */
 	if (rc != -1 && new_buffer) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
-		openfile->current = openfile->fileage;
+		openfile->current = openfile->filetop;
 		openfile->current_x = 0;
 		openfile->placewewant = 0;
 	}
@@ -528,7 +528,7 @@ void replace_buffer(const char *filename)
 
 	/* Throw away the text of the file. */
 	cutbuffer = NULL;
-	openfile->current = openfile->fileage;
+	openfile->current = openfile->filetop;
 	openfile->current_x = 0;
 #ifndef NANO_TINY
 	add_undo(CUT_TO_EOF);
@@ -603,7 +603,7 @@ void prepare_for_display(void)
 	/* If there are multiline coloring regexes, and there is no
 	 * multiline cache data yet, precalculate it now. */
 	if (openfile->syntax && openfile->syntax->nmultis > 0 &&
-				openfile->fileage->multidata == NULL)
+				openfile->filetop->multidata == NULL)
 		precalc_multicolorinfo();
 
 	have_palette = FALSE;
@@ -1201,7 +1201,7 @@ void do_insertfile(void)
 #ifdef ENABLE_MULTIBUFFER
 				/* If this is a new buffer, put the cursor at the top. */
 				if (ISSET(MULTIBUFFER)) {
-					openfile->current = openfile->fileage;
+					openfile->current = openfile->filetop;
 					openfile->current_x = 0;
 					openfile->placewewant = 0;
 
@@ -1593,7 +1593,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* Instead of returning in this function, you should always
 		 * set retval and then goto cleanup_and_exit. */
 	size_t lineswritten = 0;
-	const linestruct *fileptr = openfile->fileage;
+	const linestruct *fileptr = openfile->filetop;
 	int fd;
 		/* The file descriptor we use. */
 	mode_t original_umask = 0;
@@ -1999,7 +1999,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 			/* If the syntax changed, discard and recompute the multidata. */
 			if (strcmp(oldname, newname) != 0) {
-				linestruct *line = openfile->fileage;
+				linestruct *line = openfile->filetop;
 
 				while (line != NULL) {
 					free(line->multidata);

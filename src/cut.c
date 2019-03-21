@@ -134,7 +134,7 @@ void do_backspace(void)
 		zap_text();
 	else
 #endif
-	if (openfile->current != openfile->fileage || openfile->current_x > 0) {
+	if (openfile->current != openfile->filetop || openfile->current_x > 0) {
 		do_left();
 		do_deletion(BACK);
 	}

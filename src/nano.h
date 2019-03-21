@@ -286,7 +286,7 @@ typedef struct linestruct {
 } linestruct;
 
 typedef struct partition {
-	linestruct *fileage;
+	linestruct *filetop;
 		/* The top line of this portion of the file. */
 	linestruct *top_prev;
 		/* The line before the top line of this portion of the file. */
@@ -360,7 +360,7 @@ typedef struct poshiststruct {
 typedef struct openfilestruct {
 	char *filename;
 		/* The file's name. */
-	linestruct *fileage;
+	linestruct *filetop;
 		/* The file's first line. */
 	linestruct *filebot;
 		/* The file's last line. */

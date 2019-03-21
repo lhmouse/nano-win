@@ -205,11 +205,11 @@ partition *partition_buffer(linestruct *top, size_t top_x,
 	/* If the top and bottom of the partition are different from the top
 	 * and bottom of the buffer, save the latter and then set them
 	 * to top and bot. */
-	if (top != openfile->fileage) {
-		p->fileage = openfile->fileage;
-		openfile->fileage = top;
+	if (top != openfile->filetop) {
+		p->filetop = openfile->filetop;
+		openfile->filetop = top;
 	} else
-		p->fileage = NULL;
+		p->filetop = NULL;
 	if (bot != openfile->filebot) {
 		p->filebot = openfile->filebot;
 		openfile->filebot = bot;
@@ -239,21 +239,21 @@ partition *partition_buffer(linestruct *top, size_t top_x,
 	return p;
 }
 
-/* Unpartition the current buffer so that it stretches from (fileage, 0)
+/* Unpartition the current buffer so that it stretches from (filetop, 0)
  * to (filebot, $) again. */
 void unpartition_buffer(partition **p)
 {
 	/* Reattach the line above the top of the partition, and restore the
 	 * text before top_x from top_data.  Free top_data when we're done
 	 * with it. */
-	openfile->fileage->prev = (*p)->top_prev;
-	if (openfile->fileage->prev != NULL)
-		openfile->fileage->prev->next = openfile->fileage;
-	openfile->fileage->data = charealloc(openfile->fileage->data,
-				strlen((*p)->top_data) + strlen(openfile->fileage->data) + 1);
-	charmove(openfile->fileage->data + strlen((*p)->top_data),
-				openfile->fileage->data, strlen(openfile->fileage->data) + 1);
-	strncpy(openfile->fileage->data, (*p)->top_data, strlen((*p)->top_data));
+	openfile->filetop->prev = (*p)->top_prev;
+	if (openfile->filetop->prev != NULL)
+		openfile->filetop->prev->next = openfile->filetop;
+	openfile->filetop->data = charealloc(openfile->filetop->data,
+				strlen((*p)->top_data) + strlen(openfile->filetop->data) + 1);
+	charmove(openfile->filetop->data + strlen((*p)->top_data),
+				openfile->filetop->data, strlen(openfile->filetop->data) + 1);
+	strncpy(openfile->filetop->data, (*p)->top_data, strlen((*p)->top_data));
 	free((*p)->top_data);
 
 	/* Reattach the line below the bottom of the partition, and restore
@@ -269,8 +269,8 @@ void unpartition_buffer(partition **p)
 
 	/* Restore the top and bottom of the buffer, if they were
 	 * different from the top and bottom of the partition. */
-	if ((*p)->fileage != NULL)
-		openfile->fileage = (*p)->fileage;
+	if ((*p)->filetop != NULL)
+		openfile->filetop = (*p)->filetop;
 	if ((*p)->filebot != NULL)
 		openfile->filebot = (*p)->filebot;
 
@@ -302,17 +302,17 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 	 * the edit window is inside the partition, and keep track of
 	 * whether the mark begins inside the partition. */
 	filepart = partition_buffer(top, top_x, bot, bot_x);
-	edittop_inside = (openfile->edittop->lineno >= openfile->fileage->lineno &&
+	edittop_inside = (openfile->edittop->lineno >= openfile->filetop->lineno &&
 						openfile->edittop->lineno <= openfile->filebot->lineno);
 #ifndef NANO_TINY
 	if (openfile->mark) {
-		mark_inside = (openfile->mark->lineno >= openfile->fileage->lineno &&
+		mark_inside = (openfile->mark->lineno >= openfile->filetop->lineno &&
 						openfile->mark->lineno <= openfile->filebot->lineno &&
-						(openfile->mark != openfile->fileage ||
+						(openfile->mark != openfile->filetop ||
 												openfile->mark_x >= top_x) &&
 						(openfile->mark != openfile->filebot ||
 												openfile->mark_x <= bot_x));
-		same_line = (openfile->mark == openfile->fileage);
+		same_line = (openfile->mark == openfile->filetop);
 	}
 #endif
 
@@ -323,7 +323,7 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 		/* If file_top is empty, just move all the text directly into
 		 * it.  This is equivalent to tacking the text in top onto the
 		 * (lack of) text at the end of file_top. */
-		*file_top = openfile->fileage;
+		*file_top = openfile->filetop;
 		*file_bot = openfile->filebot;
 
 		/* Renumber, starting with file_top. */
@@ -335,33 +335,33 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 		 * file_bot. */
 		(*file_bot)->data = charealloc((*file_bot)->data,
 				strlen((*file_bot)->data) +
-				strlen(openfile->fileage->data) + 1);
-		strcat((*file_bot)->data, openfile->fileage->data);
+				strlen(openfile->filetop->data) + 1);
+		strcat((*file_bot)->data, openfile->filetop->data);
 
 		/* Attach the line after top to the line after file_bot.  Then,
 		 * if there's more than one line after top, move file_bot down
 		 * to bot. */
-		(*file_bot)->next = openfile->fileage->next;
+		(*file_bot)->next = openfile->filetop->next;
 		if ((*file_bot)->next != NULL) {
 			(*file_bot)->next->prev = *file_bot;
 			*file_bot = openfile->filebot;
 		}
 
-		delete_node(openfile->fileage);
+		delete_node(openfile->filetop);
 
 		/* Renumber, starting at the last line of the original buffer. */
 		renumber(file_bot_save);
 	}
 
 	/* Since the text has now been saved, remove it from the buffer. */
-	openfile->fileage = make_new_node(NULL);
-	openfile->fileage->data = mallocstrcpy(NULL, "");
-	openfile->filebot = openfile->fileage;
+	openfile->filetop = make_new_node(NULL);
+	openfile->filetop->data = mallocstrcpy(NULL, "");
+	openfile->filebot = openfile->filetop;
 
 	/* Restore the current line and cursor position.  If the mark begins
 	 * inside the partition, set the beginning of the mark to where the
 	 * saved text used to start. */
-	openfile->current = openfile->fileage;
+	openfile->current = openfile->filetop;
 	openfile->current_x = top_x;
 #ifndef NANO_TINY
 	if (mark_inside) {
@@ -372,7 +372,7 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 		openfile->mark = openfile->current;
 #endif
 
-	top_save = openfile->fileage;
+	top_save = openfile->filetop;
 
 	/* Unpartition the buffer so that it contains all the text
 	 * again, minus the saved text. */
@@ -422,13 +422,13 @@ void ingraft_buffer(linestruct *somebuffer)
 	 * whether the current line is at the top of the edit window. */
 	filepart = partition_buffer(openfile->current, openfile->current_x,
 								openfile->current, openfile->current_x);
-	edittop_inside = (openfile->edittop == openfile->fileage);
-	free_lines(openfile->fileage);
+	edittop_inside = (openfile->edittop == openfile->filetop);
+	free_lines(openfile->filetop);
 
 	/* Put the top and bottom of the current buffer at the top and
 	 * bottom of the passed buffer. */
-	openfile->fileage = somebuffer;
-	openfile->filebot = openfile->fileage;
+	openfile->filetop = somebuffer;
+	openfile->filebot = openfile->filetop;
 	while (openfile->filebot->next != NULL)
 		openfile->filebot = openfile->filebot->next;
 
@@ -438,7 +438,7 @@ void ingraft_buffer(linestruct *somebuffer)
 
 	/* Refresh the mark's pointer, and compensate the mark's
 	 * x coordinate for the change in the current line. */
-	if (openfile->fileage == openfile->filebot) {
+	if (openfile->filetop == openfile->filebot) {
 #ifndef NANO_TINY
 		if (openfile->mark && single_line) {
 			openfile->mark = openfile->current;
@@ -453,7 +453,7 @@ void ingraft_buffer(linestruct *somebuffer)
 #ifndef NANO_TINY
 	else if (openfile->mark && single_line) {
 		if (right_side_up)
-			openfile->mark = openfile->fileage;
+			openfile->mark = openfile->filetop;
 		else {
 			openfile->mark = openfile->current;
 			openfile->mark_x += openfile->current_x - current_x_save;
@@ -466,7 +466,7 @@ void ingraft_buffer(linestruct *somebuffer)
 	clock_t start = clock();
 #endif
 	/* Add the number of characters in the copied text to the file size. */
-	openfile->totsize += get_totsize(openfile->fileage, openfile->filebot);
+	openfile->totsize += get_totsize(openfile->filetop, openfile->filebot);
 #ifdef DEBUG
 	statusline(ALERT, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
 #endif
@@ -474,9 +474,9 @@ void ingraft_buffer(linestruct *somebuffer)
 	/* If we pasted onto the first line of the edit window, the corresponding
 	 * record has been freed, so... point at the start of the copied text. */
 	if (edittop_inside)
-		openfile->edittop = openfile->fileage;
+		openfile->edittop = openfile->filetop;
 
-	top_save = openfile->fileage;
+	top_save = openfile->filetop;
 
 	/* Unpartition the buffer so that it contains all the text
 	 * again, plus the copied text. */
@@ -516,7 +516,7 @@ void unlink_opennode(openfilestruct *fileptr)
 void delete_opennode(openfilestruct *fileptr)
 {
 	free(fileptr->filename);
-	free_lines(fileptr->fileage);
+	free_lines(fileptr->filetop);
 #ifndef NANO_TINY
 	free(fileptr->current_stat);
 	free(fileptr->lock_filename);
@@ -1145,7 +1145,7 @@ bool scoop_stdin(void)
 	/* Read the input into a new buffer. */
 	open_buffer("", TRUE);
 	read_file(stream, 0, "stdin", TRUE);
-	openfile->edittop = openfile->fileage;
+	openfile->edittop = openfile->filetop;
 	fprintf(stderr, ".\n");
 
 	/* Reconnect the tty as the input source. */

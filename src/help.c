@@ -231,7 +231,7 @@ void do_help(void)
 		edit_refresh();
 
 		location = 0;
-		line = openfile->fileage;
+		line = openfile->filetop;
 
 		/* Count how far (in bytes) edittop is into the file. */
 		while (line != openfile->edittop) {

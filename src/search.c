@@ -279,7 +279,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			if (ISSET(BACKWARDS_SEARCH))
 				line = openfile->filebot;
 			else
-				line = openfile->fileage;
+				line = openfile->filetop;
 
 			if (modus == JUSTFIND) {
 				statusbar(_("Search Wrapped"));
@@ -744,7 +744,7 @@ void ask_for_replacement(void)
 /* Go to the specified line and x position. */
 void goto_line_posx(ssize_t line, size_t pos_x)
 {
-	for (openfile->current = openfile->fileage; line > 1 &&
+	for (openfile->current = openfile->filetop; line > 1 &&
 				openfile->current != openfile->filebot; line--)
 		openfile->current = openfile->current->next;
 
@@ -804,7 +804,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		line = 1;
 
 	/* Iterate to the requested line. */
-	for (openfile->current = openfile->fileage; line > 1 &&
+	for (openfile->current = openfile->filetop; line > 1 &&
 				openfile->current != openfile->filebot; line--)
 		openfile->current = openfile->current->next;
 

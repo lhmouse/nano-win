@@ -26,7 +26,7 @@
 /* Move to the first line of the file. */
 void to_first_line(void)
 {
-	openfile->current = openfile->fileage;
+	openfile->current = openfile->filetop;
 	openfile->current_x = 0;
 	openfile->placewewant = 0;
 
@@ -572,7 +572,7 @@ void do_left(void)
 	if (openfile->current_x > 0)
 		openfile->current_x = move_mbleft(openfile->current->data,
 												openfile->current_x);
-	else if (openfile->current != openfile->fileage) {
+	else if (openfile->current != openfile->filetop) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = strlen(openfile->current->data);
 	}

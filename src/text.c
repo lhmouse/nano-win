@@ -1035,7 +1035,7 @@ bool execute_command(const char *command)
 			add_undo(COUPLE_BEGIN);
 			openfile->undotop->strdata = mallocstrcpy(NULL, _("filtering"));
 			if (openfile->mark == NULL) {
-				openfile->current = openfile->fileage;
+				openfile->current = openfile->filetop;
 				openfile->current_x = 0;
 			}
 			add_undo(CUT);
@@ -1045,7 +1045,7 @@ bool execute_command(const char *command)
 
 		if (fork() == 0) {
 			close(to_fd[0]);
-			send_data(cutbuffer != NULL ? cutbuffer : openfile->fileage, to_fd[1]);
+			send_data(cutbuffer != NULL ? cutbuffer : openfile->filetop, to_fd[1]);
 			close(to_fd[1]);
 			exit(0);
 		}
@@ -1795,7 +1795,7 @@ bool begpar(const linestruct *const line, int depth)
 
 	/* If this is the very first line of the buffer, it counts as a BOP
 	 * even when it contains no text. */
-	if (line == openfile->fileage)
+	if (line == openfile->filetop)
 		return TRUE;
 
 	/* If recursion is going too deep, just say it's not a BOP. */
@@ -2035,7 +2035,7 @@ void do_justify(bool full_justify)
 		/* When justifying the entire buffer, start at the top.  Otherwise, when
 		 * in a paragraph but not at its beginning, move back to its first line. */
 		if (full_justify)
-			openfile->current = openfile->fileage;
+			openfile->current = openfile->filetop;
 		else if (inpar(openfile->current) && !begpar(openfile->current, 0))
 			do_para_begin(&openfile->current);
 
@@ -2358,7 +2358,7 @@ bool fix_spello(const char *word)
 #endif
 	/* Otherwise, start from the top of the file. */
 	{
-		openfile->current = openfile->fileage;
+		openfile->current = openfile->filetop;
 		openfile->current_x = 0;
 	}
 
@@ -3141,7 +3141,7 @@ void do_wordlinechar_count(void)
 	}
 
 	/* Start at the top of the file. */
-	openfile->current = openfile->fileage;
+	openfile->current = openfile->filetop;
 	openfile->current_x = 0;
 	openfile->placewewant = 0;
 
@@ -3158,8 +3158,8 @@ void do_wordlinechar_count(void)
 	/* Get the total line and character counts, as "wc -l"  and "wc -c"
 	 * do, but get the latter in multibyte characters. */
 	if (was_mark) {
-		nlines = openfile->filebot->lineno - openfile->fileage->lineno + 1;
-		chars = get_totsize(openfile->fileage, openfile->filebot);
+		nlines = openfile->filebot->lineno - openfile->filetop->lineno + 1;
+		chars = get_totsize(openfile->filetop, openfile->filebot);
 
 		/* Unpartition the buffer so that it contains all the text
 		 * again, and turn the mark back on. */
@@ -3265,7 +3265,7 @@ void complete_a_word(void)
 		openfile->last_action = OTHER;
 
 		/* Initialize the starting point for searching. */
-		pletion_line = openfile->fileage;
+		pletion_line = openfile->filetop;
 		pletion_x = 0;
 
 		/* Wipe the "No further matches" message. */

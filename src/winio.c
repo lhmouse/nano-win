@@ -2928,7 +2928,7 @@ int go_back_chunks(int nrows, linestruct **line, size_t *leftedge)
 			if (chunk >= i)
 				return go_forward_chunks(chunk - i, line, leftedge);
 
-			if (*line == openfile->fileage)
+			if (*line == openfile->filetop)
 				break;
 
 			i -= chunk;
@@ -3414,7 +3414,7 @@ void do_cursorpos(bool force)
 	saved_byte = openfile->current->data[openfile->current_x];
 	openfile->current->data[openfile->current_x] = '\0';
 
-	sum = get_totsize(openfile->fileage, openfile->current);
+	sum = get_totsize(openfile->filetop, openfile->current);
 
 	openfile->current->data[openfile->current_x] = saved_byte;
 
