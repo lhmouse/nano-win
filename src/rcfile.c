@@ -1128,19 +1128,17 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 			free(option);
 		}
 		if (strcasecmp(rcopts[i].name, "matchbrackets") == 0) {
-			matchbrackets = option;
-			if (has_blank_char(matchbrackets)) {
+			if (has_blank_char(option)) {
 				rcfile_error(N_("Non-blank characters required"));
-				free(matchbrackets);
-				matchbrackets = NULL;
-			}
+				free(option);
+			} else
+				matchbrackets = option;
 		} else if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
-			whitespace = option;
-			if (mbstrlen(whitespace) != 2 || strlenpt(whitespace) != 2) {
+			if (mbstrlen(option) != 2 || strlenpt(option) != 2) {
 				rcfile_error(N_("Two single-column characters required"));
-				free(whitespace);
-				whitespace = NULL;
+				free(option);
 			} else {
+				whitespace = option;
 				whitespace_len[0] = parse_mbchar(whitespace, NULL, NULL);
 				whitespace_len[1] = parse_mbchar(whitespace +
 										whitespace_len[0], NULL, NULL);
