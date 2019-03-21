@@ -135,7 +135,7 @@ char *matchbrackets = NULL;
 		/* The opening and closing brackets that bracket searches can find. */
 char *whitespace = NULL;
 		/* The characters used when visibly showing tabs and spaces. */
-int whitespace_len[2];
+int whitelen[2];
 		/* The length in bytes of these characters. */
 #endif
 

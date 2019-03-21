@@ -1921,9 +1921,9 @@ char *display_string(const char *buf, size_t column, size_t span,
 			/* Show a space as a visible character, or as a space. */
 #ifndef NANO_TINY
 			if (ISSET(WHITESPACE_DISPLAY)) {
-				int i = whitespace_len[0];
+				int i = whitelen[0];
 
-				while (i < whitespace_len[0] + whitespace_len[1])
+				while (i < whitelen[0] + whitelen[1])
 					converted[index++] = whitespace[i++];
 			} else
 #endif
@@ -1939,7 +1939,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 						column == start_col)) {
 				int i = 0;
 
-				while (i < whitespace_len[0])
+				while (i < whitelen[0])
 					converted[index++] = whitespace[i++];
 			} else
 #endif

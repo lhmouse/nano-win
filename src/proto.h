@@ -103,7 +103,7 @@ extern openfilestruct *firstfile;
 #ifndef NANO_TINY
 extern char *matchbrackets;
 extern char *whitespace;
-extern int whitespace_len[2];
+extern int whitelen[2];
 #endif
 
 extern const char *exit_tag;

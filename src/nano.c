@@ -2536,14 +2536,14 @@ int main(int argc, char **argv)
 			/* A tab is shown as a Right-Pointing Double Angle Quotation Mark
 			 * (U+00BB), and a space as a Middle Dot (U+00B7). */
 			whitespace = mallocstrcpy(NULL, "\xC2\xBB\xC2\xB7");
-			whitespace_len[0] = 2;
-			whitespace_len[1] = 2;
+			whitelen[0] = 2;
+			whitelen[1] = 2;
 		} else
 #endif
 		{
 			whitespace = mallocstrcpy(NULL, ">.");
-			whitespace_len[0] = 1;
-			whitespace_len[1] = 1;
+			whitelen[0] = 1;
+			whitelen[1] = 1;
 		}
 	}
 #endif /* !NANO_TINY */
