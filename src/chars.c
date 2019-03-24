@@ -644,8 +644,8 @@ bool has_blank_char(const char *s)
 	if (use_utf8) {
 		char symbol[MAXCHARLEN];
 
-		for (; *s != '\0'; s += move_mbright(s, 0)) {
-			parse_mbchar(s, symbol, NULL);
+		while (*s != '\0') {
+			s += parse_mbchar(s, symbol, NULL);
 
 			if (is_blank_mbchar(symbol))
 				return TRUE;
@@ -653,9 +653,10 @@ bool has_blank_char(const char *s)
 	} else
 #endif
 	{
-		for (; *s != '\0'; s++) {
+		while (*s != '\0') {
 			if (isblank((unsigned char)*s))
 				return TRUE;
+			s++;
 		}
 	}
 
