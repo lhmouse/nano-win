@@ -225,7 +225,7 @@ keystroke instead of 25.  The option \fBconstantshow\fR overrides this.
 .TP
 .B set quotestr "\fIregex\fP"
 Set the regular expression for matching the quoting part of a line.
-The default value is "\fB^([\ \\t]*([!#%:;>|}]|//|--))+\fP".
+The default value is "\fB^([\ \\t]*([!#%:;>|}]|//|\-\-))+\fP".
 (Note that \fB\\t\fR stands for an actual Tab character.)
 This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.
@@ -312,7 +312,7 @@ default behavior of saving a file in the format that it had.
 .B set view
 Disallow file modification: read-only mode.
 This mode allows the user to open also other files for viewing,
-unless \fB--restricted\fR is given on the command line.
+unless \fB\-\-restricted\fR is given on the command line.
 .TP
 .B set whitespace "\fIstring\fP"
 Set the two characters used to indicate the presence of tabs and
@@ -352,7 +352,7 @@ command is encountered.
 When \fBnano\fR is run, this syntax will be automatically
 activated if the current filename matches the extended regular
 expression \fIfileregex\fR.  Or the syntax can be explicitly
-activated by using the \fB-Y\fR or \fB\-\-syntax\fR
+activated by using the \fB\-Y\fR or \fB\-\-syntax\fR
 command-line option followed by the \fIname\fR.
 
 The syntax \fBdefault\fP is special: it takes no \fIfileregex\fR,
@@ -443,7 +443,7 @@ series of keystrokes to a single key in your nanorc:
 .RE
 .PP
 (Note that the \fB^R\fR, \fB^X\fR, and \fB^M\fR are each a single, literal
-control character.  You can enter them by preceding each with \fBM-V\fR.)
+control character.  You can enter them by preceding each with \fBM\-V\fR.)
 
 .SH REBINDING KEYS
 Key bindings can be changed via the following three commands:
@@ -459,7 +459,7 @@ Makes the given \fIkey\fR produce the given \fIstring\fR in the given
 \fImenu\fR (or in all menus where the key exists when \fBall\fR is used).
 The \fIstring\fR can consist of text or commands or a mix of them.
 (To enter a command into the \fIstring\fR, precede its keystroke
-with \fBM-V\fR.)
+with \fBM\-V\fR.)
 
 .TP
 .BI unbind " key menu"
@@ -476,9 +476,9 @@ followed by a Latin letter, by one of several ASCII characters
 (@, ], \\, ^, or _), or by the word "Space".
 Example: ^C.
 .TP
-.B M-
+.B M\-
 followed by any ASCII character except [, or by the word "Space".
-Example: M-C.
+Example: M\-C.
 .TP
 .B F
 followed by a numeric value from 1 to 16.

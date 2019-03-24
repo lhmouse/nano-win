@@ -144,7 +144,7 @@ and place it at that position again upon reopening such a file.
 .TP
 .BR "\-Q ""\fIregex\fB""" ", " "\-\-quotestr=""" \fIregex """
 Set the regular expression for matching the quoting part of a line.
-The default value is \fB"^([\ \\t]*([!#%:;>|}]|//|--))+"\fP.
+The default value is \fB"^([\ \\t]*([!#%:;>|}]|//|\-\-))+"\fP.
 (Note that \fB\\t\fP stands for an actual Tab.)
 This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.
@@ -284,7 +284,7 @@ default behavior of saving a file in the format that it had.
 .BR \-v ", " \-\-view
 Just view the file and disallow editing: read-only mode.
 This mode allows the user to open also other files for viewing,
-unless \fB--restricted\fR is given too.
+unless \fB\-\-restricted\fR is given too.
 .TP
 .BR \-w ", " \-\-nowrap
 Do not automatically hard-wrap the current line when it becomes overlong.
@@ -352,7 +352,7 @@ If you are able to reproduce the crash and you want to get a backtrace, define
 the environment variable \fBNANO_NOCATCH\fR.
 
 .SH HOMEPAGE
-\fIhttps://nano-editor.org/\fR
+\fIhttps://nano\-editor.org/\fR
 
 .SH SEE ALSO
 .BR nanorc (5)
