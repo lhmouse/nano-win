@@ -157,7 +157,6 @@
   <b>--disable-wordcomp</b>      Disable the word-completion function
   <b>--disable-wrapping</b>      Disable all hard-wrapping of text</pre>
   <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the marker code that you use with Control-^ to select text). Also, if you know you aren't going to be using other languages, you can use <b>--disable-nls</b> to disable internationalization and save a few K to a few dozen K depending on whether you have locale support on your system. And finally, there's always good old <b>strip</b> to strip all debugging code and code that exists in libraries on your system.</p>
-  <p>With <b>--disable-wrapping-as-root</b> you can disable any hard-wrapping by default when the user is root, useful to prevent accidentally changing long lines in system configuration files.</p>
 </blockquote>
 <h3><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h3>
 <blockquote><p>To use multiple file buffers, you must not have configured nano with <b>--disable-multibuffer</b> nor with <b>--enable-tiny</b> (use <b>nano -V</b> to check the compilation options). Then when you want to insert a file into its own buffer instead of into the current file, just hit <b>Meta-F</b> after typing <b>^R</b>. If you always want files to be loaded into their own buffers, use the <b>-F</b> or <b>--multibuffer</b> flag when you invoke nano, or add <b>set multibuffer</b> to your .nanorc file.</p>
