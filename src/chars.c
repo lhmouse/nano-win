@@ -640,8 +640,6 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
  * and FALSE otherwise. */
 bool has_blank_char(const char *s)
 {
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		char symbol[MAXCHARLEN];
 
 		while (*s != '\0') {
@@ -650,15 +648,6 @@ bool has_blank_char(const char *s)
 			if (is_blank_mbchar(symbol))
 				return TRUE;
 		}
-	} else
-#endif
-	{
-		while (*s != '\0') {
-			if (isblank((unsigned char)*s))
-				return TRUE;
-			s++;
-		}
-	}
 
 	return FALSE;
 }
