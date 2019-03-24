@@ -101,8 +101,9 @@ line by default, and no longer automatically adds a newline at the end
 of the text if one is missing.  Furthermore, it uses smooth scrolling
 by default and makes use of the line below the title bar.
 
-If you want the old, Pico behavior back, please use @option{--breaklonglines},
-@option{--finalnewline}, @option{--jumpyscrolling}, and @option{--emptyline}
+If you want the old, Pico behavior back, you can use the
+following options: @option{--breaklonglines}, @option{--finalnewline},
+@option{--jumpyscrolling}, and @option{--emptyline}
 (or @option{-bfje} for short).
 
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
