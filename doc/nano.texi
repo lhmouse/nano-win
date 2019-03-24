@@ -1562,10 +1562,39 @@ browser exits.
 @node Pico Compatibility
 @chapter Pico Compatibility
 
-@command{nano} emulates Pico as closely as is reasonable, but there
+@command{nano} emulates Pico quite closely, but there
 are some differences between the two editors:
 
 @table @code
+
+@item Hard-Wrapping
+Unlike Pico, @command{nano} does not automatically hard-wrap the current
+line when it becomes overlong during typing.  This hard-wrapping can be
+switched on with the @option{--breaklonglines} option.  With that option,
+@command{nano} by default breaks lines at screen width minus eight columns,
+whereas Pico does it at screen width minus six columns. You can make
+@command{nano} do as Pico by using @option{--fill=-6}.
+
+@item Magic Newline
+Pico ensures that any text always ends with a newline character.
+Nano does not do this by default: the user is left in full control
+of the formatting. You can get the automatic newline by using the
+@option{--finalnewline} option.
+
+@item Scrolling
+By default, @command{nano} will scroll just one line (instead of half
+a screen) when the cursor is moved to a line that is just out of view.
+And when paging up or down, @command{nano} keeps the cursor in the same
+screen position as much as possible, instead always placing it on the
+first line of the viewport.  The Pico-like behavior can be obtained
+with the @option{--jumpyscrolling} option.
+
+@item Edit Area
+Pico never uses the line directly below the title bar, leaving it always
+blank.  @command{nano} includes this line in the editing area, in order
+to not waste space, and because in this way it is slightly clearer where
+the text starts.  If you are accustomed to this line being empty, you can
+get it back with the @option{--emptyline} option.
 
 @item Interactive Replace
 Instead of allowing you to replace either just one occurrence of a search
@@ -1591,11 +1620,6 @@ again when you later reopen the file.
 The output of the "Display Cursor Position" command (@kbd{^C}) displays
 not only the current line and character position of the cursor,
 but also (between the two) the current column position.
-
-@item Hard-Wrapping
-By default, @command{nano} hard-wraps lines at screen width minus eight
-columns, whereas Pico does it at screen width minus six columns.  You can
-make @command{nano} do the same as Pico by using @option{--fill=-6}.
 
 @item Spell Checking
 In the internal spell checker misspelled words are sorted alphabetically
