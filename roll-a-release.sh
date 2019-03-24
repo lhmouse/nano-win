@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.2"
+VERSION="4.0"
 
 ./configure -C --enable-tiny &&  make &&
 ./configure -C --disable-wrapping-as-root &&
