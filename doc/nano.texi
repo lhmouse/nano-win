@@ -643,7 +643,7 @@ The following global toggles are available:
 @kbd{Meta-K} toggles the @option{-k} (@option{--cutfromcursor}) command-line option.
 
 @item Long-Line Wrapping
-@kbd{Meta-L} toggles the @option{-w} (@option{--nowrap}) command-line option.
+@kbd{Meta-L} toggles the @option{-b} (@option{--breaklonglines}) command-line option.
 
 @item Mouse Support
 @kbd{Meta-M} toggles the @option{-m} (@option{--mouse}) command-line option.
@@ -654,8 +654,8 @@ The following global toggles are available:
 @item Whitespace Display
 @kbd{Meta-P} toggles the displaying of whitespace (@pxref{Whitespace}).
 
-@item Smooth Scrolling
-@kbd{Meta-S} toggles the @option{-S} (@option{--smooth}) command-line option.
+@item Scrolling
+@kbd{Meta-S} toggles the @option{-j} (@option{--jumpyscrolling}) command-line option.
 
 @item Expert/No Help
 @kbd{Meta-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
