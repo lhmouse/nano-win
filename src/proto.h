@@ -427,7 +427,7 @@ RETSIGTYPE do_continue(int signal);
 #ifndef NANO_TINY
 RETSIGTYPE handle_sigwinch(int signal);
 void regenerate_screen(void);
-void allow_sigwinch(bool allow);
+void block_sigwinch(bool blockit);
 void do_toggle(int flag);
 void enable_signals(void);
 #endif

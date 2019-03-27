@@ -2655,11 +2655,11 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_TINY
 	/* Block SIGWINCHes while waiting for the alternate spell checker's end,
 	 * so nano doesn't get pushed past the wait(). */
-	allow_sigwinch(FALSE);
+	block_sigwinch(TRUE);
 #endif
 	wait(&alt_spell_status);
 #ifndef NANO_TINY
-	allow_sigwinch(TRUE);
+	block_sigwinch(FALSE);
 #endif
 
 	/* Reenter curses mode. */
