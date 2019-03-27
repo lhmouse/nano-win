@@ -2652,6 +2652,11 @@ const char *do_alt_speller(char *tempfile_name)
 	} else if (pid_spell < 0)
 		return _("Could not fork");
 
+#ifndef NANO_TINY
+	/* Block SIGWINCHes so the spell checker doesn't get any. */
+	allow_sigwinch(FALSE);
+#endif
+
 	/* Wait for the alternate spell checker to finish. */
 	wait(&alt_spell_status);
 
@@ -2705,6 +2710,11 @@ const char *do_alt_speller(char *tempfile_name)
 		openfile->placewewant = pww_save;
 		adjust_viewport(STATIONARY);
 	}
+
+#ifndef NANO_TINY
+	/* Unblock SIGWINCHes again. */
+	allow_sigwinch(TRUE);
+#endif
 
 	return NULL;
 }
