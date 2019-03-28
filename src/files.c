@@ -2101,7 +2101,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 	while (TRUE) {
 		const char *msg;
-		int response, choice;
+		int response = 0, choice = 0;
 		functionptrtype func;
 #ifndef NANO_TINY
 		const char *formatstr, *backupstr;
