@@ -2545,7 +2545,9 @@ const char *do_int_speller(const char *tempfile_name)
 		return _("Could not get size of pipe buffer");
 	}
 
-	/* Read in the returned spelling errors. */
+	/* Block SIGWINCHes while reading misspelled words from the pipe. */
+	block_sigwinch(TRUE);
+
 	totalread = 0;
 	buffersize = blocksize + 1;
 	misspellings = charalloc(buffersize);
@@ -2560,6 +2562,8 @@ const char *do_int_speller(const char *tempfile_name)
 
 	*pointer = '\0';
 	close(uniq_fd[0]);
+
+	block_sigwinch(FALSE);
 
 	/* Do any replacements case sensitive, forward, and without regexes. */
 	SET(CASE_SENSITIVE);
