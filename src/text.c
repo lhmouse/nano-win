@@ -2654,15 +2654,11 @@ const char *do_alt_speller(char *tempfile_name)
 	} else if (pid_spell < 0)
 		return _("Could not fork");
 
-#ifndef NANO_TINY
 	/* Block SIGWINCHes while waiting for the alternate spell checker's end,
 	 * so nano doesn't get pushed past the wait(). */
 	block_sigwinch(TRUE);
-#endif
 	wait(&alt_spell_status);
-#ifndef NANO_TINY
 	block_sigwinch(FALSE);
-#endif
 
 	/* Reenter curses mode. */
 	doupdate();

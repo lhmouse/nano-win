@@ -424,10 +424,12 @@ RETSIGTYPE handle_crash(int signal);
 #endif
 RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_continue(int signal);
+#ifdef ENABLE_SPELLER
+void block_sigwinch(bool blockit);
+#endif
 #ifndef NANO_TINY
 RETSIGTYPE handle_sigwinch(int signal);
 void regenerate_screen(void);
-void block_sigwinch(bool blockit);
 void do_toggle(int flag);
 void enable_signals(void);
 #endif

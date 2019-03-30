@@ -1300,6 +1300,18 @@ RETSIGTYPE do_continue(int signal)
 	ungetch(KEY_FLUSH);
 }
 
+#ifdef ENABLE_SPELLER
+/* Block or unblock the SIGWINCH signal, depending on the blockit parameter. */
+void block_sigwinch(bool blockit)
+{
+	sigset_t winch;
+
+	sigemptyset(&winch);
+	sigaddset(&winch, SIGWINCH);
+	sigprocmask(blockit ? SIG_BLOCK : SIG_UNBLOCK, &winch, NULL);
+}
+#endif
+
 #ifndef NANO_TINY
 /* Handler for SIGWINCH (window size change). */
 RETSIGTYPE handle_sigwinch(int signal)
@@ -1360,16 +1372,6 @@ void regenerate_screen(void)
 	terminal_init();
 	window_init();
 	total_refresh();
-}
-
-/* Block or unblock the SIGWINCH signal, depending on the blockit parameter. */
-void block_sigwinch(bool blockit)
-{
-	sigset_t winch;
-
-	sigemptyset(&winch);
-	sigaddset(&winch, SIGWINCH);
-	sigprocmask(blockit ? SIG_BLOCK : SIG_UNBLOCK, &winch, NULL);
 }
 
 /* Handle the global toggle specified in flag. */
