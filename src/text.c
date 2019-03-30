@@ -2437,8 +2437,8 @@ bool fix_spello(const char *word)
  * termination, and the error string otherwise. */
 const char *do_int_speller(const char *tempfile_name)
 {
-	char *read_buff, *read_buff_ptr, *read_buff_word;
-	size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
+	char *misspellings, *pointer, *oneword;
+	size_t blocksize, buffersize, bytesread, totalread;
 	int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
 	pid_t pid_spell, pid_sort, pid_uniq;
 	int spell_status, sort_status, uniq_status;
@@ -2538,25 +2538,25 @@ const char *do_int_speller(const char *tempfile_name)
 	}
 
 	/* Get the system pipe buffer size. */
-	if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
+	if ((blocksize = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
 		close(uniq_fd[0]);
 		return _("Could not get size of pipe buffer");
 	}
 
 	/* Read in the returned spelling errors. */
-	read_buff_read = 0;
-	read_buff_size = pipe_buff_size + 1;
-	read_buff = charalloc(read_buff_size);
-	read_buff_ptr = read_buff;
+	totalread = 0;
+	buffersize = blocksize + 1;
+	misspellings = charalloc(buffersize);
+	pointer = misspellings;
 
-	while ((bytesread = read(uniq_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
-		read_buff_read += bytesread;
-		read_buff_size += pipe_buff_size;
-		read_buff = charealloc(read_buff, read_buff_size);
-		read_buff_ptr = read_buff + read_buff_read;
+	while ((bytesread = read(uniq_fd[0], pointer, blocksize)) > 0) {
+		totalread += bytesread;
+		buffersize += blocksize;
+		misspellings = charealloc(misspellings, buffersize);
+		pointer = misspellings + totalread;
 	}
 
-	*read_buff_ptr = '\0';
+	*pointer = '\0';
 	close(uniq_fd[0]);
 
 	/* Do any replacements case sensitive, forward, and without regexes. */
@@ -2564,29 +2564,29 @@ const char *do_int_speller(const char *tempfile_name)
 	UNSET(BACKWARDS_SEARCH);
 	UNSET(USE_REGEXP);
 
-	read_buff_ptr = read_buff;
-	read_buff_word = read_buff;
+	pointer = misspellings;
+	oneword = misspellings;
 
 	/* Process each of the misspelled words. */
-	while (*read_buff_ptr != '\0') {
-		if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
-			*read_buff_ptr = '\0';
-			if (read_buff_word != read_buff_ptr) {
-				if (!fix_spello(read_buff_word)) {
-					read_buff_word = read_buff_ptr;
+	while (*pointer != '\0') {
+		if ((*pointer == '\r') || (*pointer == '\n')) {
+			*pointer = '\0';
+			if (oneword != pointer) {
+				if (!fix_spello(oneword)) {
+					oneword = pointer;
 					break;
 				}
 			}
-			read_buff_word = read_buff_ptr + 1;
+			oneword = pointer + 1;
 		}
-		read_buff_ptr++;
+		pointer++;
 	}
 
 	/* Special case: the last word doesn't end with '\r' or '\n'. */
-	if (read_buff_word != read_buff_ptr)
-		fix_spello(read_buff_word);
+	if (oneword != pointer)
+		fix_spello(oneword);
 
-	free(read_buff);
+	free(misspellings);
 	tidy_up_after_search();
 	refresh_needed = TRUE;
 
