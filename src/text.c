@@ -2546,13 +2546,14 @@ const char *do_int_speller(const char *tempfile_name)
 	/* Read in the returned spelling errors. */
 	read_buff_read = 0;
 	read_buff_size = pipe_buff_size + 1;
-	read_buff = read_buff_ptr = charalloc(read_buff_size);
+	read_buff = charalloc(read_buff_size);
+	read_buff_ptr = read_buff;
 
 	while ((bytesread = read(uniq_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 		read_buff_read += bytesread;
 		read_buff_size += pipe_buff_size;
-		read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
-		read_buff_ptr += read_buff_read;
+		read_buff = charealloc(read_buff, read_buff_size);
+		read_buff_ptr = read_buff + read_buff_read;
 	}
 
 	*read_buff_ptr = '\0';
@@ -2563,7 +2564,8 @@ const char *do_int_speller(const char *tempfile_name)
 	UNSET(BACKWARDS_SEARCH);
 	UNSET(USE_REGEXP);
 
-	read_buff_word = read_buff_ptr = read_buff;
+	read_buff_ptr = read_buff;
+	read_buff_word = read_buff;
 
 	/* Process each of the misspelled words. */
 	while (*read_buff_ptr != '\0') {
@@ -2877,20 +2879,22 @@ void do_linter(void)
 	/* Read in the returned syntax errors. */
 	read_buff_read = 0;
 	read_buff_size = pipe_buff_size + 1;
-	read_buff = read_buff_ptr = charalloc(read_buff_size);
+	read_buff = charalloc(read_buff_size);
+	read_buff_ptr = read_buff;
 
 	while ((bytesread = read(lint_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 		read_buff_read += bytesread;
 		read_buff_size += pipe_buff_size;
-		read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
-		read_buff_ptr += read_buff_read;
+		read_buff = charealloc(read_buff, read_buff_size);
+		read_buff_ptr = read_buff + read_buff_read;
 	}
 
 	*read_buff_ptr = '\0';
 	close(lint_fd[0]);
 
 	/* Process the linter output. */
-	read_buff_word = read_buff_ptr = read_buff;
+	read_buff_ptr = read_buff;
+	read_buff_word = read_buff;
 
 	while (*read_buff_ptr != '\0') {
 		if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
