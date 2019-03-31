@@ -1039,7 +1039,7 @@ void shortcut_init(void)
 		N_("No Conversion"), WITHORSANS(convert_gist), TOGETHER, NOVIEW);
 
 	/* Command execution is only available when not in restricted mode. */
-	if (!ISSET(RESTRICTED)) {
+	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE)) {
 		add_to_funcs(flip_execute, MINSERTFILE,
 			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
 
@@ -1331,7 +1331,7 @@ void shortcut_init(void)
 	add_to_sclist(MWRITEFILE, "M-M", 0, mac_format_void, 0);
 	/* Only when not in restricted mode, allow Appending, Prepending,
 	 * making backups, and executing a command. */
-	if (!ISSET(RESTRICTED)) {
+	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE)) {
 		add_to_sclist(MWRITEFILE, "M-A", 0, append_void, 0);
 		add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
 		add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);

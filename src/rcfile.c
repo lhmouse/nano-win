@@ -462,7 +462,7 @@ void parse_binding(char *ptr, bool dobind)
 	menu = menu & (is_universal(newsc->func) ? MMOST : mask);
 
 	if (!menu) {
-		if (!ISSET(RESTRICTED))
+		if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE))
 			rcfile_error(N_("Function '%s' does not exist in menu '%s'"),
 								funcptr, menuptr);
 		goto free_things;
