@@ -1309,6 +1309,9 @@ void shortcut_init(void)
 #endif
 	add_to_sclist(MGOTOLINE, "^Y", 0, to_first_line, 0);
 	add_to_sclist(MGOTOLINE, "^V", 0, to_last_line, 0);
+	/* Some people are used to having these keystrokes in the Search menu. */
+	add_to_sclist(MWHEREIS, "^Y", 0, to_first_line, 0);
+	add_to_sclist(MWHEREIS, "^V", 0, to_last_line, 0);
 #ifdef ENABLE_BROWSER
 	add_to_sclist(MWHEREISFILE, "^Y", 0, to_first_file, 0);
 	add_to_sclist(MWHEREISFILE, "^V", 0, to_last_file, 0);
