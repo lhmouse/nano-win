@@ -424,7 +424,7 @@ RETSIGTYPE handle_crash(int signal);
 #endif
 RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_continue(int signal);
-#ifdef ENABLE_SPELLER
+#if !defined(NANO_TINY) || defined(ENABLE_SPELLER)
 void block_sigwinch(bool blockit);
 #endif
 #ifndef NANO_TINY

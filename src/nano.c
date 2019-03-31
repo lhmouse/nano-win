@@ -1290,7 +1290,7 @@ RETSIGTYPE do_continue(int signal)
 	ungetch(KEY_FLUSH);
 }
 
-#ifdef ENABLE_SPELLER
+#if !defined(NANO_TINY) || defined(ENABLE_SPELLER)
 /* Block or unblock the SIGWINCH signal, depending on the blockit parameter. */
 void block_sigwinch(bool blockit)
 {
@@ -1299,6 +1299,11 @@ void block_sigwinch(bool blockit)
 	sigemptyset(&winch);
 	sigaddset(&winch, SIGWINCH);
 	sigprocmask(blockit ? SIG_BLOCK : SIG_UNBLOCK, &winch, NULL);
+
+#ifndef NANO_TINY
+	if (the_window_resized)
+		regenerate_screen();
+#endif
 }
 #endif
 

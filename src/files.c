@@ -800,6 +800,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	topline = make_new_node(NULL);
 	bottomline = topline;
 
+#ifndef NANO_TINY
+	block_sigwinch(TRUE);
+#endif
+
 	/* Lock the file before starting to read it, to avoid the overhead
 	 * of locking it for each single byte that we read from it. */
 	flockfile(f);
@@ -874,6 +878,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	/* We are done with the file, unlock it. */
 	funlockfile(f);
+
+#ifndef NANO_TINY
+	block_sigwinch(FALSE);
+#endif
 
 	/* Perhaps this could use some better handling. */
 	if (ferror(f))
