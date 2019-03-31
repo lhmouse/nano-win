@@ -1019,6 +1019,8 @@ bool execute_command(const char *command)
 		return FALSE;
 	}
 
+	statusbar(_("Executing..."));
+
 	/* If the command starts with "|", pipe buffer or region to the command. */
 	if (should_pipe) {
 		linestruct *was_cutbuffer = cutbuffer;
