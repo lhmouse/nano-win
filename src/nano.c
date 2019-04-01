@@ -1064,8 +1064,7 @@ void do_exit(void)
 		if (ISSET(TEMP_FILE))
 			warn_and_shortly_pause(_("No file name"));
 
-		choice = do_yesno_prompt(FALSE, _("Save modified buffer?  "
-						"(Answering \"No\" will DISCARD changes.) "));
+		choice = do_yesno_prompt(FALSE, _("Save modified buffer? "));
 	}
 
 	/* If the user chose not to save, or if the user chose to save and
