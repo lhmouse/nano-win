@@ -45,20 +45,20 @@ commands, which can be used to configure nano on startup without using
 command-line options.  Additionally, there are some commands to define
 syntax highlighting and to rebind keys -- see the two separate sections
 on those.  \fBnano\fP reads one command per line.
-.PP
+.sp
 Options in \fInanorc\fP files take precedence over nano's defaults, and
 command-line options override \fInanorc\fP settings.  Also, options that
 do not take an argument are unset by default.  So using the \fBunset\fR
 command is only needed when wanting to override a setting of the system's
 \fInanorc\fR file in your own \fInanorc\fR.  Options that take an
 argument cannot be unset.
-.PP
+.sp
 Below, the \fIstring\fR parameters need to be enclosed in double quotes.
 Quotes inside these string parameters don't have to be escaped with
 backslashes.  The last double quote in the string will be treated as its
 end.  For example, for the \fBbrackets\fP option, "\fB"')>]}\fP" will
 match \fB"\fP, \fB'\fP, \fB)\fP, \fB>\fP, \fB]\fP, and \fB}\fP.
-.PP
+.sp
 The supported commands and arguments are:
 
 .TP 3
@@ -434,14 +434,14 @@ a more general mechanism: the filtering of buffer or marked text through
 an external command.  Such filtering is done by typing \fB^R^X\fR and then
 preceding your formatter command with the pipe symbol (\fB|\fR).  It has
 the added advantage that the operation can be undone.
-.PP
+.sp
 If you use such a formatting command regularly, you could assign the relevant
 series of keystrokes to a single key in your nanorc:
-.PP
+.sp
 .RS
 .B "bind  M\-F  \(dq^R^X|yourformatcommand^M\(dq  main"
 .RE
-.PP
+.sp
 (Note that the \fB^R\fR, \fB^X\fR, and \fB^M\fR are each a single, literal
 control character.  You can enter them by preceding each with \fBM\-V\fR.)
 

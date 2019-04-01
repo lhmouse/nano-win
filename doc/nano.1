@@ -57,18 +57,18 @@ Consecutive \fB^K\fRs will put all deleted lines together in the cutbuffer.
 Any cursor movement or executing any other command will cause the next
 \fB^K\fR to overwrite the cutbuffer.  A \fB^U\fR will paste the current
 contents of the cutbuffer at the current cursor position.
-.PP
+.sp
 When a more precise piece of text needs to be cut or copied, one can mark
 its start with \fB^6\fR, move the cursor to its end (the marked text will be
 highlighted), and then use \fB^K\fR to cut it, or \fBM\-6\fR to copy it to the
 cutbuffer.  One can also save the marked text to a file with \fB^O\fR, or
 spell check it with \fB^T\fR.
-.PP
+.sp
 On some terminals, text can be selected also by holding down Shift while
 using the arrow keys.  Holding down the Ctrl or Alt key too will increase
 the stride.
 Any cursor movement without Shift being held will cancel such a selection.
-.PP
+.sp
 The two lines at the bottom of the screen show some important commands;
 the built-in help (\fB^G\fR) lists all the available ones.
 The default key bindings can be changed via a \fInanorc\fR file -- see
@@ -356,5 +356,5 @@ the environment variable \fBNANO_NOCATCH\fR.
 
 .SH SEE ALSO
 .BR nanorc (5)
-.PP
+.sp
 \fI/usr/share/doc/nano/\fP (or equivalent on your system)
