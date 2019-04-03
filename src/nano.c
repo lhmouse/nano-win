@@ -1658,7 +1658,7 @@ bool wanted_to_move(void (*func)(void))
 /* Return TRUE when the given shortcut is admissible in view mode. */
 bool okay_for_view(const sc *shortcut)
 {
-	const subnfunc *func = sctofunc(shortcut);
+	const funcstruct *func = sctofunc(shortcut);
 
 	return (func == NULL || func->viewok);
 }

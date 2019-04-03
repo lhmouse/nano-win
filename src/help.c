@@ -291,7 +291,7 @@ void help_init(void)
 		/* Untranslated help introduction.  We break it up into three chunks
 		 * in case the full string is too long for the compiler to handle. */
 	char *ptr;
-	const subnfunc *f;
+	const funcstruct *f;
 	const sc *s;
 
 	/* First, set up the initial help text for the current function. */

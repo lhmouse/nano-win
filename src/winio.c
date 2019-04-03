@@ -1654,7 +1654,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 {
 	MEVENT mevent;
 	bool in_bottomwin;
-	subnfunc *f;
+	funcstruct *f;
 
 	/* First, get the actual mouse event. */
 	if (getmouse(&mevent) == ERR)
@@ -2286,7 +2286,7 @@ void statusline(message_type importance, const char *msg, ...)
 void bottombars(int menu)
 {
 	size_t number, itemwidth, i;
-	subnfunc *f;
+	funcstruct *f;
 	const sc *s;
 
 	/* Set the global variable to the given menu. */

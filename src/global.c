@@ -196,11 +196,11 @@ int currmenu = MMOST;
 		/* The currently active menu, initialized to a dummy value. */
 sc *sclist = NULL;
 		/* The start of the shortcuts list. */
-subnfunc *allfuncs = NULL;
+funcstruct *allfuncs = NULL;
 		/* The start of the functions list. */
-subnfunc *tailfunc;
+funcstruct *tailfunc;
 		/* The last function in the list. */
-subnfunc *exitfunc;
+funcstruct *exitfunc;
 		/* A pointer to the special Exit/Close item. */
 
 linestruct *search_history = NULL;
@@ -269,7 +269,7 @@ size_t light_to_col = 0;
 /* Return the number of entries in the shortcut list for a given menu. */
 size_t length_of_list(int menu)
 {
-	subnfunc *f;
+	funcstruct *f;
 	size_t i = 0;
 
 	for (f = allfuncs; f != NULL; f = f->next)
@@ -359,7 +359,7 @@ void do_cancel(void)
 void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
 	bool blank_after, bool viewok)
 {
-	subnfunc *f = nmalloc(sizeof(subnfunc));
+	funcstruct *f = nmalloc(sizeof(funcstruct));
 
 	if (allfuncs == NULL)
 		allfuncs = f;
@@ -506,7 +506,7 @@ int keycode_from_string(const char *keystring)
 void print_sclist(void)
 {
 	sc *s;
-	const subnfunc *f;
+	const funcstruct *f;
 
 	for (s = sclist; s != NULL; s = s->next) {
 		f = sctofunc(s);
@@ -1390,9 +1390,9 @@ void shortcut_init(void)
 #endif
 }
 
-const subnfunc *sctofunc(const sc *s)
+const funcstruct *sctofunc(const sc *s)
 {
-	subnfunc *f = allfuncs;
+	funcstruct *f = allfuncs;
 
 	while (f != NULL && f->func != s->func)
 		f = f->next;

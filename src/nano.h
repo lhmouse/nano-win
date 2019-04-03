@@ -452,7 +452,7 @@ typedef struct sc {
 		/* Next in the list. */
 } sc;
 
-typedef struct subnfunc {
+typedef struct funcstruct {
 	void (*func)(void);
 		/* The actual function to call. */
 	int menus;
@@ -470,9 +470,9 @@ typedef struct subnfunc {
 		/* Is this function allowed when in view mode? */
 	long toggle;
 		/* If this is a toggle, which toggle to affect. */
-	struct subnfunc *next;
+	struct funcstruct *next;
 		/* Next item in the list. */
-} subnfunc;
+} funcstruct;
 
 #ifdef ENABLE_WORDCOMPLETION
 typedef struct completion_word {

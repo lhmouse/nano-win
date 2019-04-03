@@ -144,8 +144,8 @@ extern bool refresh_needed;
 
 extern int currmenu;
 extern sc *sclist;
-extern subnfunc *allfuncs;
-extern subnfunc *exitfunc;
+extern funcstruct *allfuncs;
+extern funcstruct *exitfunc;
 
 extern linestruct *search_history;
 extern linestruct *replace_history;
@@ -322,7 +322,7 @@ int keycode_from_string(const char *keystring);
 void assign_keyinfo(sc *s, const char *keystring, const int keycode);
 void print_sclist(void);
 void shortcut_init(void);
-const subnfunc *sctofunc(const sc *s);
+const funcstruct *sctofunc(const sc *s);
 const char *flagtostr(int flag);
 #ifdef ENABLE_NANORC
 sc *strtosc(const char *input);

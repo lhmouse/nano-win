@@ -349,7 +349,7 @@ void parse_binding(char *ptr, bool dobind)
 	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
 	sc *s, *newsc = NULL;
 	int menu, mask = 0;
-	subnfunc *f;
+	funcstruct *f;
 
 	if (*ptr == '\0') {
 		rcfile_error(N_("Missing key name"));
@@ -884,7 +884,7 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
  * function that we consider 'vital' (such as "Exit"). */
 static void check_vitals_mapped(void)
 {
-	subnfunc *f;
+	funcstruct *f;
 	int v;
 #define VITALS 3
 	void (*vitals[VITALS])(void) = { do_exit, do_exit, do_cancel };
