@@ -178,16 +178,7 @@ void free_lines(linestruct *src)
 /* Renumber the lines in a buffer, starting with the given line. */
 void renumber(linestruct *line)
 {
-	ssize_t number;
-
-	if (line == NULL) {
-#ifndef NANO_TINY
-		statusline(ALERT, "Trying to renumber nothing -- please report a bug");
-#endif
-		return;
-	}
-
-	number = (line->prev == NULL) ? 0 : line->prev->lineno;
+	ssize_t number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
 	while (line != NULL) {
 		line->lineno = ++number;
