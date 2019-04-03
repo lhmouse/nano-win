@@ -1514,7 +1514,6 @@ bool do_wrap(linestruct *line)
 			line->data = charealloc(line->data, line_len + 2);
 			line->data[line_len] = ' ';
 			line->data[line_len + 1] = '\0';
-			remainder = line->data + wrap_loc;
 			rest_length++;
 			openfile->totsize++;
 			openfile->current_x++;
