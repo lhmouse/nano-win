@@ -61,7 +61,7 @@ int do_statusbar_input(bool *finished)
 		/* The input buffer. */
 	static size_t kbinput_len = 0;
 		/* The length of the input buffer. */
-	const sc *shortcut;
+	const keystruct *shortcut;
 
 	*finished = FALSE;
 
@@ -667,7 +667,7 @@ int do_yesno_prompt(bool all, const char *msg)
 		if (!ISSET(NO_HELP)) {
 			char shortstr[MAXCHARLEN + 2];
 				/* Temporary string for (translated) " Y", " N" and " A". */
-			const sc *cancelshortcut = first_sc_for(MYESNO, do_cancel);
+			const keystruct *cancelshortcut = first_sc_for(MYESNO, do_cancel);
 				/* The keystroke that is bound to the Cancel function. */
 
 			if (COLS < 32)

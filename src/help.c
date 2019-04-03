@@ -292,7 +292,7 @@ void help_init(void)
 		 * in case the full string is too long for the compiler to handle. */
 	char *ptr;
 	const funcstruct *f;
-	const sc *s;
+	const keystruct *s;
 
 	/* First, set up the initial help text for the current function. */
 	if (currmenu == MWHEREIS || currmenu == MREPLACE || currmenu == MREPLACEWITH) {

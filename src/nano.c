@@ -1656,7 +1656,7 @@ bool wanted_to_move(void (*func)(void))
 }
 
 /* Return TRUE when the given shortcut is admissible in view mode. */
-bool okay_for_view(const sc *shortcut)
+bool okay_for_view(const keystruct *shortcut)
 {
 	const funcstruct *func = sctofunc(shortcut);
 
@@ -1675,7 +1675,7 @@ void do_input(void)
 		/* The length of the input buffer. */
 	bool retain_cuts = FALSE;
 		/* Whether to conserve the current contents of the cutbuffer. */
-	const sc *shortcut;
+	const keystruct *shortcut;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
 	input = get_kbinput(edit, VISIBLE);

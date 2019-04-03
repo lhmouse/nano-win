@@ -143,7 +143,7 @@ extern bool have_palette;
 extern bool refresh_needed;
 
 extern int currmenu;
-extern sc *sclist;
+extern keystruct *sclist;
 extern funcstruct *allfuncs;
 extern funcstruct *exitfunc;
 
@@ -315,17 +315,17 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 /* Some functions in global.c. */
 size_t length_of_list(int menu);
-const sc *first_sc_for(int menu, void (*func)(void));
+const keystruct *first_sc_for(int menu, void (*func)(void));
 int the_code_for(void (*func)(void), int defaultval);
 functionptrtype func_from_key(int *kbinput);
 int keycode_from_string(const char *keystring);
-void assign_keyinfo(sc *s, const char *keystring, const int keycode);
+void assign_keyinfo(keystruct *s, const char *keystring, const int keycode);
 void print_sclist(void);
 void shortcut_init(void);
-const funcstruct *sctofunc(const sc *s);
+const funcstruct *sctofunc(const keystruct *s);
 const char *flagtostr(int flag);
 #ifdef ENABLE_NANORC
-sc *strtosc(const char *input);
+keystruct *strtosc(const char *input);
 int name_to_menu(const char *name);
 char *menu_to_name(int menu);
 #endif
@@ -440,7 +440,7 @@ void terminal_init(void);
 void confirm_margin(void);
 #endif
 void unbound_key(int code);
-bool okay_for_view(const sc *shortcut);
+bool okay_for_view(const keystruct *shortcut);
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* Most functions in prompt.c. */
@@ -616,7 +616,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE
 int get_mouseinput(int *mouse_row, int *mouse_col, bool allow_shortcuts);
 #endif
-const sc *get_shortcut(int *kbinput);
+const keystruct *get_shortcut(int *kbinput);
 void blank_row(WINDOW *win, int y, int x, int n);
 void blank_edit(void);
 void blank_statusbar(void);

@@ -656,7 +656,7 @@ int parse_kbinput(WINDOW *win)
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while the mark is on, do an indent. */
 	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN) {
-		const sc *command = first_sc_for(MMAIN, do_indent);
+		const keystruct *command = first_sc_for(MMAIN, do_indent);
 
 		meta_key = command->meta;
 		return command->keycode;
@@ -1729,7 +1729,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 
 			/* And put the corresponding key into the keyboard buffer. */
 			if (f != NULL) {
-				const sc *s = first_sc_for(currmenu, f->func);
+				const keystruct *s = first_sc_for(currmenu, f->func);
 				unget_kbinput(s->keycode, s->meta);
 			}
 			return 1;
@@ -1769,9 +1769,9 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
  * key itself) and meta_key (whether the key is a meta sequence).  The
  * returned shortcut will be the first in the list that corresponds to
  * the given sequence. */
-const sc *get_shortcut(int *kbinput)
+const keystruct *get_shortcut(int *kbinput)
 {
-	sc *s;
+	keystruct *s;
 
 	/* Plain characters cannot be shortcuts, so just skip those. */
 	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
@@ -2287,7 +2287,7 @@ void bottombars(int menu)
 {
 	size_t number, itemwidth, i;
 	funcstruct *f;
-	const sc *s;
+	const keystruct *s;
 
 	/* Set the global variable to the given menu. */
 	currmenu = menu;

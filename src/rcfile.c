@@ -347,7 +347,7 @@ bool is_universal(void (*func)(void))
 void parse_binding(char *ptr, bool dobind)
 {
 	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
-	sc *s, *newsc = NULL;
+	keystruct *s, *newsc = NULL;
 	int menu, mask = 0;
 	funcstruct *f;
 
@@ -413,7 +413,7 @@ void parse_binding(char *ptr, bool dobind)
 		/* If the thing to bind starts with a double quote, it is a string,
 		 * otherwise it is the name of a function. */
 		if (*funcptr == '"') {
-			newsc = nmalloc(sizeof(sc));
+			newsc = nmalloc(sizeof(keystruct));
 			newsc->func = (functionptrtype)implant;
 			newsc->expansion = mallocstrcpy(NULL, funcptr + 1);
 #ifndef NANO_TINY
@@ -893,7 +893,7 @@ static void check_vitals_mapped(void)
 	for  (v = 0; v < VITALS; v++) {
 		for (f = allfuncs; f != NULL; f = f->next) {
 			if (f->func == vitals[v] && f->menus & inmenus[v]) {
-				const sc *s = first_sc_for(inmenus[v], f->func);
+				const keystruct *s = first_sc_for(inmenus[v], f->func);
 				if (!s) {
 					fprintf(stderr, _("No key is bound to function '%s' in "
 										"menu '%s'.  Exiting.\n"), f->desc,

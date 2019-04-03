@@ -194,7 +194,7 @@ bool refresh_needed = FALSE;
 
 int currmenu = MMOST;
 		/* The currently active menu, initialized to a dummy value. */
-sc *sclist = NULL;
+keystruct *sclist = NULL;
 		/* The start of the shortcuts list. */
 funcstruct *allfuncs = NULL;
 		/* The start of the functions list. */
@@ -386,11 +386,11 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 void add_to_sclist(int menus, const char *scstring, const int keycode,
 						void (*func)(void), int toggle)
 {
-	static sc *tailsc;
+	static keystruct *tailsc;
 #ifndef NANO_TINY
 	static int counter = 0;
 #endif
-	sc *s = nmalloc(sizeof(sc));
+	keystruct *s = nmalloc(sizeof(keystruct));
 
 	/* Start the list, or tack on the next item. */
 	if (sclist == NULL)
@@ -417,9 +417,9 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 
 /* Return the first shortcut in the list of shortcuts that
  * matches the given func in the given menu. */
-const sc *first_sc_for(int menu, void (*func)(void))
+const keystruct *first_sc_for(int menu, void (*func)(void))
 {
-	const sc *s;
+	const keystruct *s;
 
 	for (s = sclist; s != NULL; s = s->next)
 		if ((s->menus & menu) && s->func == func)
@@ -435,7 +435,7 @@ const sc *first_sc_for(int menu, void (*func)(void))
  * current menu, if any; otherwise, return the given default value. */
 int the_code_for(void (*func)(void), int defaultval)
 {
-	const sc *s = first_sc_for(currmenu, func);
+	const keystruct *s = first_sc_for(currmenu, func);
 
 	if (s == NULL)
 		return defaultval;
@@ -447,7 +447,7 @@ int the_code_for(void (*func)(void), int defaultval)
 /* Return a pointer to the function that is bound to the given key. */
 functionptrtype func_from_key(int *kbinput)
 {
-	const sc *s = get_shortcut(kbinput);
+	const keystruct *s = get_shortcut(kbinput);
 
 	if (s)
 		return s->func;
@@ -456,7 +456,7 @@ functionptrtype func_from_key(int *kbinput)
 }
 
 /* Set the string and its corresponding keycode for the given shortcut s. */
-void assign_keyinfo(sc *s, const char *keystring, const int keycode)
+void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
 {
 	s->keystr = keystring;
 	s->meta = (keystring[0] == 'M' && keycode == 0);
@@ -505,7 +505,7 @@ int keycode_from_string(const char *keystring)
 #ifdef DEBUG
 void print_sclist(void)
 {
-	sc *s;
+	keystruct *s;
 	const funcstruct *f;
 
 	for (s = sclist; s != NULL; s = s->next) {
@@ -1390,7 +1390,7 @@ void shortcut_init(void)
 #endif
 }
 
-const funcstruct *sctofunc(const sc *s)
+const funcstruct *sctofunc(const keystruct *s)
 {
 	funcstruct *f = allfuncs;
 
@@ -1444,9 +1444,9 @@ const char *flagtostr(int flag)
 #ifdef ENABLE_NANORC
 /* Interpret a function string given in the rc file, and return a
  * shortcut record with the corresponding function filled in. */
-sc *strtosc(const char *input)
+keystruct *strtosc(const char *input)
 {
-	sc *s = nmalloc(sizeof(sc));
+	keystruct *s = nmalloc(sizeof(keystruct));
 
 #ifndef NANO_TINY
 	s->toggle = 0;
