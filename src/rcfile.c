@@ -1126,8 +1126,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 				stripe_column = 0;
 			}
 			free(option);
-		}
-		if (strcasecmp(rcopts[i].name, "matchbrackets") == 0) {
+		} else if (strcasecmp(rcopts[i].name, "matchbrackets") == 0) {
 			if (has_blank_char(option)) {
 				rcfile_error(N_("Non-blank characters required"));
 				free(option);
