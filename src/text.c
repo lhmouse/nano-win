@@ -703,8 +703,8 @@ void do_redo(void)
 		return;
 	}
 
-	/* Get the previous undo item. */
-	while (u != NULL && u->next != openfile->current_undo)
+	/* Find the item before the current one in the undo stack. */
+	while (u->next != openfile->current_undo)
 		u = u->next;
 
 	if (u->type <= REPLACE) {
