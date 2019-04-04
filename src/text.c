@@ -1669,15 +1669,14 @@ void squeeze(linestruct *line, size_t skip)
 {
 	char *from, *to, *newdata;
 	size_t shrunk = 0;
+	int charlen;
 
-	from = line->data + skip;
 	newdata = charalloc(strlen(line->data) + 1);
 	strncpy(newdata, line->data, skip);
+	from = line->data + skip;
 	to = newdata + skip;
 
 	while (*from != '\0') {
-		int charlen;
-
 		/* If this character is blank, change it to a space,
 		 * and pass over all blanks after it. */
 		if (is_blank_mbchar(from)) {
@@ -1689,9 +1688,9 @@ void squeeze(linestruct *line, size_t skip)
 				from += charlen;
 				shrunk += charlen;
 			}
-		/* If this character is punctuation optionally followed by a bracket
-		 * and then followed by blanks, change no more than two of the blanks
-		 * to spaces if necessary, and pass over all blanks after them. */
+		/* If this character is punctuation, then copy it plus a possible
+		 * bracket, and change at most two of subsequent blanks to spaces,
+		 * and pass over all blanks after these. */
 		} else if (mbstrchr(punct, from) != NULL) {
 			charlen = parse_mbchar(from, NULL, NULL);
 
