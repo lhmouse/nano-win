@@ -1668,7 +1668,7 @@ size_t indent_length(const char *line)
 void squeeze(linestruct *line, size_t skip)
 {
 	char *from, *to, *newdata;
-	size_t shift = 0;
+	size_t shrunk = 0;
 
 	from = line->data + skip;
 	newdata = charalloc(strlen(line->data) + 1);
@@ -1691,7 +1691,7 @@ void squeeze(linestruct *line, size_t skip)
 				charlen = parse_mbchar(from, NULL, NULL);
 
 				from += charlen;
-				shift += charlen;
+				shrunk += charlen;
 			}
 		/* If this character is punctuation optionally followed by a bracket
 		 * and then followed by blanks, change no more than two of the blanks
@@ -1737,7 +1737,7 @@ void squeeze(linestruct *line, size_t skip)
 				charlen = parse_mbchar(from, NULL, NULL);
 
 				from += charlen;
-				shift += charlen;
+				shrunk += charlen;
 			}
 		/* Leave unchanged anything that is neither blank nor punctuation. */
 		} else {
@@ -1757,10 +1757,10 @@ void squeeze(linestruct *line, size_t skip)
 	/* If there are spaces at the end of the line, remove them. */
 	while (to > newdata + skip && *(to - 1) == ' ') {
 		to--;
-		shift++;
+		shrunk++;
 	}
 
-	if (shift > 0) {
+	if (shrunk > 0) {
 		null_at(&newdata, to - newdata);
 		free(line->data);
 		line->data = newdata;
