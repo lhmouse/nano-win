@@ -1676,78 +1676,78 @@ void squeeze(linestruct *line, size_t skip)
 	new_end = newdata + skip;
 
 	while (*end != '\0') {
-		int end_len;
+		int charlen;
 
 		/* If this character is blank, change it to a space,
 		 * and pass over all blanks after it. */
 		if (is_blank_mbchar(end)) {
-			end_len = parse_mbchar(end, NULL, NULL);
+			charlen = parse_mbchar(end, NULL, NULL);
 
 			*new_end = ' ';
 			new_end++;
-			end += end_len;
+			end += charlen;
 
 			while (*end != '\0' && is_blank_mbchar(end)) {
-				end_len = parse_mbchar(end, NULL, NULL);
+				charlen = parse_mbchar(end, NULL, NULL);
 
-				end += end_len;
-				shift += end_len;
+				end += charlen;
+				shift += charlen;
 			}
 		/* If this character is punctuation optionally followed by a bracket
 		 * and then followed by blanks, change no more than two of the blanks
 		 * to spaces if necessary, and pass over all blanks after them. */
 		} else if (mbstrchr(punct, end) != NULL) {
-			end_len = parse_mbchar(end, NULL, NULL);
+			charlen = parse_mbchar(end, NULL, NULL);
 
-			while (end_len > 0) {
+			while (charlen > 0) {
 				*new_end = *end;
 				new_end++;
 				end++;
-				end_len--;
+				charlen--;
 			}
 
 			if (*end != '\0' && mbstrchr(brackets, end) != NULL) {
-				end_len = parse_mbchar(end, NULL, NULL);
+				charlen = parse_mbchar(end, NULL, NULL);
 
-				while (end_len > 0) {
+				while (charlen > 0) {
 					*new_end = *end;
 					new_end++;
 					end++;
-					end_len--;
+					charlen--;
 				}
 			}
 
 			if (*end != '\0' && is_blank_mbchar(end)) {
-				end_len = parse_mbchar(end, NULL, NULL);
+				charlen = parse_mbchar(end, NULL, NULL);
 
 				*new_end = ' ';
 				new_end++;
-				end += end_len;
+				end += charlen;
 			}
 
 			if (*end != '\0' && is_blank_mbchar(end)) {
-				end_len = parse_mbchar(end, NULL, NULL);
+				charlen = parse_mbchar(end, NULL, NULL);
 
 				*new_end = ' ';
 				new_end++;
-				end += end_len;
+				end += charlen;
 			}
 
 			while (*end != '\0' && is_blank_mbchar(end)) {
-				end_len = parse_mbchar(end, NULL, NULL);
+				charlen = parse_mbchar(end, NULL, NULL);
 
-				end += end_len;
-				shift += end_len;
+				end += charlen;
+				shift += charlen;
 			}
 		/* Leave unchanged anything that is neither blank nor punctuation. */
 		} else {
-			end_len = parse_mbchar(end, NULL, NULL);
+			charlen = parse_mbchar(end, NULL, NULL);
 
-			while (end_len > 0) {
+			while (charlen > 0) {
 				*new_end = *end;
 				new_end++;
 				end++;
-				end_len--;
+				charlen--;
 			}
 		}
 	}
