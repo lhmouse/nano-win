@@ -707,11 +707,6 @@ void do_redo(void)
 	while (u != NULL && u->next != openfile->current_undo)
 		u = u->next;
 
-	if (u == NULL) {
-		statusline(ALERT, "Bad undo stack -- please report a bug");
-		return;
-	}
-
 	if (u->type <= REPLACE) {
 		f = fsfromline(u->mark_begin_lineno);
 		if (f == NULL)
