@@ -1761,7 +1761,7 @@ void squeeze(linestruct *line, size_t skip)
 	}
 
 	if (shrunk > 0) {
-		null_at(&newdata, to - newdata);
+		*to = '\0';
 		free(line->data);
 		line->data = newdata;
 	} else
