@@ -159,13 +159,6 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 	return retval;
 }
 
-/* Null a string at a certain index and align it. */
-void null_at(char **data, size_t index)
-{
-	*data = charealloc(*data, index + 1);
-	(*data)[index] = '\0';
-}
-
 /* For non-null-terminated lines.  A line, by definition, shouldn't
  * normally have newlines in it, so encode its nulls as newlines. */
 void unsunder(char *str, size_t true_len)
