@@ -1752,8 +1752,6 @@ void squeeze(linestruct *line, size_t skip)
 		}
 	}
 
-	*to = *from;
-
 	/* If there are spaces at the end of the line, remove them. */
 	while (to > newdata + skip && *(to - 1) == ' ') {
 		to--;
