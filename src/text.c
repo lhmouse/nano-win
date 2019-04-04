@@ -521,8 +521,8 @@ void do_undo(void)
 	char *data, *undidmsg = NULL;
 	size_t from_x, to_x;
 
-	if (!u) {
-		statusbar(_("Nothing in undo buffer!"));
+	if (u == NULL) {
+		statusbar(_("Nothing to undo"));
 		return;
 	}
 
@@ -699,7 +699,7 @@ void do_redo(void)
 	undo *u = openfile->undotop;
 
 	if (u == NULL || u == openfile->current_undo) {
-		statusbar(_("Nothing to re-do!"));
+		statusbar(_("Nothing to redo"));
 		return;
 	}
 
