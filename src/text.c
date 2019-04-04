@@ -898,7 +898,8 @@ void do_enter(void)
 	}
 #endif
 
-	null_at(&openfile->current->data, openfile->current_x);
+	/* Make the current line end at the cursor position. */
+	openfile->current->data[openfile->current_x] = '\0';
 
 #ifndef NANO_TINY
 	add_undo(ENTER);
@@ -1910,7 +1911,7 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 		}
 
 		/* Now actually break the current line, and go to the next. */
-		null_at(&(*line)->data, break_pos);
+		(*line)->data[break_pos] = '\0';
 		*line = (*line)->next;
 	}
 
