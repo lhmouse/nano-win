@@ -1667,101 +1667,101 @@ size_t indent_length(const char *line)
  * number of characters untreated. */
 void squeeze(linestruct *line, size_t skip)
 {
-	char *end, *new_end, *newdata;
+	char *from, *to, *newdata;
 	size_t shift = 0;
 
-	end = line->data + skip;
+	from = line->data + skip;
 	newdata = charalloc(strlen(line->data) + 1);
 	strncpy(newdata, line->data, skip);
-	new_end = newdata + skip;
+	to = newdata + skip;
 
-	while (*end != '\0') {
+	while (*from != '\0') {
 		int charlen;
 
 		/* If this character is blank, change it to a space,
 		 * and pass over all blanks after it. */
-		if (is_blank_mbchar(end)) {
-			charlen = parse_mbchar(end, NULL, NULL);
+		if (is_blank_mbchar(from)) {
+			charlen = parse_mbchar(from, NULL, NULL);
 
-			*new_end = ' ';
-			new_end++;
-			end += charlen;
+			*to = ' ';
+			to++;
+			from += charlen;
 
-			while (*end != '\0' && is_blank_mbchar(end)) {
-				charlen = parse_mbchar(end, NULL, NULL);
+			while (*from != '\0' && is_blank_mbchar(from)) {
+				charlen = parse_mbchar(from, NULL, NULL);
 
-				end += charlen;
+				from += charlen;
 				shift += charlen;
 			}
 		/* If this character is punctuation optionally followed by a bracket
 		 * and then followed by blanks, change no more than two of the blanks
 		 * to spaces if necessary, and pass over all blanks after them. */
-		} else if (mbstrchr(punct, end) != NULL) {
-			charlen = parse_mbchar(end, NULL, NULL);
+		} else if (mbstrchr(punct, from) != NULL) {
+			charlen = parse_mbchar(from, NULL, NULL);
 
 			while (charlen > 0) {
-				*new_end = *end;
-				new_end++;
-				end++;
+				*to = *from;
+				to++;
+				from++;
 				charlen--;
 			}
 
-			if (*end != '\0' && mbstrchr(brackets, end) != NULL) {
-				charlen = parse_mbchar(end, NULL, NULL);
+			if (*from != '\0' && mbstrchr(brackets, from) != NULL) {
+				charlen = parse_mbchar(from, NULL, NULL);
 
 				while (charlen > 0) {
-					*new_end = *end;
-					new_end++;
-					end++;
+					*to = *from;
+					to++;
+					from++;
 					charlen--;
 				}
 			}
 
-			if (*end != '\0' && is_blank_mbchar(end)) {
-				charlen = parse_mbchar(end, NULL, NULL);
+			if (*from != '\0' && is_blank_mbchar(from)) {
+				charlen = parse_mbchar(from, NULL, NULL);
 
-				*new_end = ' ';
-				new_end++;
-				end += charlen;
+				*to = ' ';
+				to++;
+				from += charlen;
 			}
 
-			if (*end != '\0' && is_blank_mbchar(end)) {
-				charlen = parse_mbchar(end, NULL, NULL);
+			if (*from != '\0' && is_blank_mbchar(from)) {
+				charlen = parse_mbchar(from, NULL, NULL);
 
-				*new_end = ' ';
-				new_end++;
-				end += charlen;
+				*to = ' ';
+				to++;
+				from += charlen;
 			}
 
-			while (*end != '\0' && is_blank_mbchar(end)) {
-				charlen = parse_mbchar(end, NULL, NULL);
+			while (*from != '\0' && is_blank_mbchar(from)) {
+				charlen = parse_mbchar(from, NULL, NULL);
 
-				end += charlen;
+				from += charlen;
 				shift += charlen;
 			}
 		/* Leave unchanged anything that is neither blank nor punctuation. */
 		} else {
-			charlen = parse_mbchar(end, NULL, NULL);
+			charlen = parse_mbchar(from, NULL, NULL);
 
 			while (charlen > 0) {
-				*new_end = *end;
-				new_end++;
-				end++;
+				*to = *from;
+				to++;
+				from++;
 				charlen--;
 			}
 		}
 	}
 
-	*new_end = *end;
+	*to = *from;
 
 	/* If there are spaces at the end of the line, remove them. */
-	while (new_end > newdata + skip && *(new_end - 1) == ' ') {
-		new_end--;
+	while (to > newdata + skip && *(to - 1) == ' ') {
+		to--;
 		shift++;
 	}
 
 	if (shift > 0) {
-		null_at(&newdata, new_end - newdata);
+		null_at(&newdata, to - newdata);
 		free(line->data);
 		line->data = newdata;
 	} else
