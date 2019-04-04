@@ -1681,15 +1681,11 @@ void squeeze(linestruct *line, size_t skip)
 		/* If this character is blank, change it to a space,
 		 * and pass over all blanks after it. */
 		if (is_blank_mbchar(from)) {
-			charlen = parse_mbchar(from, NULL, NULL);
-
-			*to = ' ';
-			to++;
-			from += charlen;
+			from += parse_mbchar(from, NULL, NULL);
+			*(to++) = ' ';
 
 			while (*from != '\0' && is_blank_mbchar(from)) {
 				charlen = parse_mbchar(from, NULL, NULL);
-
 				from += charlen;
 				shrunk += charlen;
 			}
@@ -1700,9 +1696,7 @@ void squeeze(linestruct *line, size_t skip)
 			charlen = parse_mbchar(from, NULL, NULL);
 
 			while (charlen > 0) {
-				*to = *from;
-				to++;
-				from++;
+				*(to++) = *(from++);
 				charlen--;
 			}
 
@@ -1710,32 +1704,22 @@ void squeeze(linestruct *line, size_t skip)
 				charlen = parse_mbchar(from, NULL, NULL);
 
 				while (charlen > 0) {
-					*to = *from;
-					to++;
-					from++;
+					*(to++) = *(from++);
 					charlen--;
 				}
 			}
 
 			if (*from != '\0' && is_blank_mbchar(from)) {
-				charlen = parse_mbchar(from, NULL, NULL);
-
-				*to = ' ';
-				to++;
-				from += charlen;
+				from += parse_mbchar(from, NULL, NULL);
+				*(to++) = ' ';
 			}
-
 			if (*from != '\0' && is_blank_mbchar(from)) {
-				charlen = parse_mbchar(from, NULL, NULL);
-
-				*to = ' ';
-				to++;
-				from += charlen;
+				from += parse_mbchar(from, NULL, NULL);
+				*(to++) = ' ';
 			}
 
 			while (*from != '\0' && is_blank_mbchar(from)) {
 				charlen = parse_mbchar(from, NULL, NULL);
-
 				from += charlen;
 				shrunk += charlen;
 			}
@@ -1744,9 +1728,7 @@ void squeeze(linestruct *line, size_t skip)
 			charlen = parse_mbchar(from, NULL, NULL);
 
 			while (charlen > 0) {
-				*to = *from;
-				to++;
-				from++;
+				*(to++) = *(from++);
 				charlen--;
 			}
 		}
