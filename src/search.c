@@ -925,25 +925,19 @@ void do_find_bracket(void)
 	linestruct *current_save;
 	size_t current_x_save;
 	const char *ch;
-		/* The location in matchbrackets of the bracket at the current
-		 * cursor position. */
+		/* The location in matchbrackets of the bracket under the cursor. */
 	int ch_len;
 		/* The length of ch in bytes. */
 	const char *wanted_ch;
-		/* The location in matchbrackets of the bracket complementing
-		 * the bracket at the current cursor position. */
+		/* The location in matchbrackets of the complementing bracket. */
 	int wanted_ch_len;
 		/* The length of wanted_ch in bytes. */
 	char bracket_set[MAXCHARLEN * 2 + 1];
 		/* The pair of characters in ch and wanted_ch. */
-	size_t i;
-		/* Generic loop variable. */
 	size_t matchhalf;
-		/* The number of single-byte characters in one half of
-		 * matchbrackets. */
+		/* The number of bytes in the first half of matchbrackets. */
 	size_t mbmatchhalf;
-		/* The number of multibyte characters in one half of
-		 * matchbrackets. */
+		/* Half the number of characters in matchbrackets. */
 	size_t count = 1;
 		/* The initial bracket count. */
 	bool reverse;
@@ -951,44 +945,40 @@ void do_find_bracket(void)
 
 	assert(mbstrlen(matchbrackets) % 2 == 0);
 
-	ch = openfile->current->data + openfile->current_x;
+	ch = mbstrchr(matchbrackets, openfile->current->data + openfile->current_x);
 
-	if ((ch = mbstrchr(matchbrackets, ch)) == NULL) {
+	if (ch == NULL) {
 		statusbar(_("Not a bracket"));
 		return;
 	}
 
-	/* Save where we are. */
+	/* Remember the current position in case we don't find a complement. */
 	current_save = openfile->current;
 	current_x_save = openfile->current_x;
 
-	/* If we're on an opening bracket, which must be in the first half
-	 * of matchbrackets, we want to search forwards for a closing
-	 * bracket.  If we're on a closing bracket, which must be in the
-	 * second half of matchbrackets, we want to search backwards for an
-	 * opening bracket. */
 	matchhalf = 0;
 	mbmatchhalf = mbstrlen(matchbrackets) / 2;
 
-	for (i = 0; i < mbmatchhalf; i++)
+	/* Find the halfway point in matchbrackets, where the closing ones start. */
+	for (size_t i = 0; i < mbmatchhalf; i++)
 		matchhalf += parse_mbchar(matchbrackets + matchhalf, NULL, NULL);
 
+	/* When on a closing bracket, we have to search backwards for a matching
+	 * opening bracket; otherwise, forward for a matching closing bracket. */
 	reverse = ((ch - matchbrackets) >= matchhalf);
 
 	/* If we're on an opening bracket, set wanted_ch to the character
-	 * that's matchhalf characters after ch.  If we're on a closing
-	 * bracket, set wanted_ch to the character that's matchhalf
+	 * that's mbmatchhalf characters after ch.  If we're on a closing
+	 * bracket, set wanted_ch to the character that's mbmatchhalf
 	 * characters before ch. */
 	wanted_ch = ch;
 
-	while (mbmatchhalf > 0) {
+	while (mbmatchhalf-- > 0) {
 		if (reverse)
 			wanted_ch = matchbrackets + move_mbleft(matchbrackets,
 								wanted_ch - matchbrackets);
 		else
 			wanted_ch += move_mbright(wanted_ch, 0);
-
-		mbmatchhalf--;
 	}
 
 	ch_len = parse_mbchar(ch, NULL, NULL);
