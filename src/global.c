@@ -1256,7 +1256,6 @@ void shortcut_init(void)
 	/* Group of "Appearance" toggles. */
 	add_to_sclist(MMAIN, "M-X", 0, do_toggle_void, NO_HELP);
 	add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
-	add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, JUMPY_SCROLLING);
 	add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);
 #ifdef ENABLE_LINENUMBERS
 	add_to_sclist(MMAIN, "M-#", 0, do_toggle_void, LINE_NUMBERS);
@@ -1411,8 +1410,6 @@ const char *flagtostr(int flag)
 			return N_("Help mode");
 		case CONSTANT_SHOW:
 			return N_("Constant cursor position display");
-		case JUMPY_SCROLLING:
-			return N_("Jumpy scrolling (per half-screen)");
 		case SOFTWRAP:
 			return N_("Soft wrapping of overlong lines");
 		case WHITESPACE_DISPLAY:
@@ -1664,8 +1661,6 @@ keystruct *strtosc(const char *input)
 			s->toggle = NO_HELP;
 		else if (!strcasecmp(input, "constantshow"))
 			s->toggle = CONSTANT_SHOW;
-		else if (!strcasecmp(input, "smoothscroll"))
-			s->toggle = JUMPY_SCROLLING;
 		else if (!strcasecmp(input, "softwrap"))
 			s->toggle = SOFTWRAP;
 #ifdef ENABLE_LINENUMBERS

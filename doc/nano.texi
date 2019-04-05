@@ -646,9 +646,6 @@ The following global toggles are available:
 @item Whitespace Display
 @kbd{Meta-P} toggles the displaying of whitespace (@pxref{Whitespace}).
 
-@item Scrolling
-@kbd{Meta-S} toggles the @option{-j} (@option{--jumpyscrolling}) command-line option.
-
 @item Expert/No Help
 @kbd{Meta-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
 
@@ -1429,9 +1426,6 @@ Toggles the presence of the two-line list of key bindings at the bottom of the s
 
 @item constantshow
 Toggles the constant display of the current line, column, and character positions.
-
-@item smoothscroll
-Toggles smooth scrolling (when moving around with the arrow keys).
 
 @item softwrap
 Toggles the displaying of overlong lines on multiple screen lines.
