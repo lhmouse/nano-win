@@ -938,7 +938,7 @@ void do_find_bracket(void)
 		/* The index in matchbrackets where the closing brackets start. */
 	size_t mbmatchhalf;
 		/* Half the number of characters in matchbrackets. */
-	size_t count = 1;
+	size_t balance = 1;
 		/* The initial bracket count. */
 	bool reverse;
 		/* The direction we search. */
@@ -990,14 +990,14 @@ void do_find_bracket(void)
 
 	while (TRUE) {
 		if (find_bracket_match(reverse, bracket_set)) {
-			/* If we found an identical bracket, increment count.  If we
+			/* If we found an identical bracket, increment balance.  If we
 			 * found a complementary bracket, decrement it. */
-			count += (strncmp(openfile->current->data + openfile->current_x,
+			balance += (strncmp(openfile->current->data + openfile->current_x,
 								ch, ch_len) == 0) ? 1 : -1;
 
-			/* If count is zero, we've found a matching bracket.  Update
+			/* If balance is zero, we've found a matching bracket.  Update
 			 * the screen and get out. */
-			if (count == 0) {
+			if (balance == 0) {
 				edit_redraw(current_save, FLOWING);
 				break;
 			}
