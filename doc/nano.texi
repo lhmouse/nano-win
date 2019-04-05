@@ -640,11 +640,17 @@ The following global toggles are available:
 @item Mouse Support
 @kbd{Meta-M} toggles the @option{-m} (@option{--mouse}) command-line option.
 
+@item Line Numbers
+@kbd{Meta-N} toggles the @option{-l} (@option{--linenumbers}) command-line option.
+
 @item Tabs To Spaces
 @kbd{Meta-O} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
 @item Whitespace Display
 @kbd{Meta-P} toggles the displaying of whitespace (@pxref{Whitespace}).
+
+@item Soft Wrapping
+@kbd{Meta-S} toggles the @option{-$} (@option{--softwrap}) command-line option.
 
 @item Expert/No Help
 @kbd{Meta-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
@@ -655,12 +661,6 @@ The following global toggles are available:
 
 @item Suspension
 @kbd{Meta-Z} toggles the @option{-z} (@option{--suspend}) command-line option.
-
-@item Line Numbers
-@kbd{Meta-#} toggles the @option{-l} (@option{--linenumbers}) command-line option.
-
-@item Soft Wrapping
-@kbd{Meta-$} toggles the @option{-$} (@option{--softwrap}) command-line option.
 
 @end table
 

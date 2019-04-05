@@ -1256,8 +1256,10 @@ void shortcut_init(void)
 	/* Group of "Appearance" toggles. */
 	add_to_sclist(MMAIN, "M-X", 0, do_toggle_void, NO_HELP);
 	add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
+	add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SOFTWRAP);
 	add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);
 #ifdef ENABLE_LINENUMBERS
+	add_to_sclist(MMAIN, "M-N", 0, do_toggle_void, LINE_NUMBERS);
 	add_to_sclist(MMAIN, "M-#", 0, do_toggle_void, LINE_NUMBERS);
 #endif
 	add_to_sclist(MMAIN, "M-P", 0, do_toggle_void, WHITESPACE_DISPLAY);
