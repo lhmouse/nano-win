@@ -934,8 +934,8 @@ void do_find_bracket(void)
 		/* The length of wanted_ch in bytes. */
 	char bracket_set[MAXCHARLEN * 2 + 1];
 		/* The pair of characters in ch and wanted_ch. */
-	size_t matchhalf;
-		/* The number of bytes in the first half of matchbrackets. */
+	size_t halfway = 0;
+		/* The index in matchbrackets where the closing brackets start. */
 	size_t mbmatchhalf;
 		/* Half the number of characters in matchbrackets. */
 	size_t count = 1;
@@ -956,16 +956,15 @@ void do_find_bracket(void)
 	current_save = openfile->current;
 	current_x_save = openfile->current_x;
 
-	matchhalf = 0;
 	mbmatchhalf = mbstrlen(matchbrackets) / 2;
 
 	/* Find the halfway point in matchbrackets, where the closing ones start. */
 	for (size_t i = 0; i < mbmatchhalf; i++)
-		matchhalf += parse_mbchar(matchbrackets + matchhalf, NULL, NULL);
+		halfway += parse_mbchar(matchbrackets + halfway, NULL, NULL);
 
 	/* When on a closing bracket, we have to search backwards for a matching
 	 * opening bracket; otherwise, forward for a matching closing bracket. */
-	reverse = ((ch - matchbrackets) >= matchhalf);
+	reverse = (ch >= (matchbrackets + halfway));
 
 	/* If we're on an opening bracket, set wanted_ch to the character
 	 * that's mbmatchhalf characters after ch.  If we're on a closing
