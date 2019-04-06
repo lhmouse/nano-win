@@ -478,7 +478,7 @@ void do_uncut_text(void)
 		/* The leftedge where we started the paste. */
 
 	if (cutbuffer == NULL) {
-		statusbar(_("The cutbuffer is empty"));
+		statusbar(_("Cutbuffer is empty"));
 		return;
 	}
 

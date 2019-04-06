@@ -2,6 +2,7 @@
 
 src/browser.c
 src/color.c
+src/cut.c
 src/files.c
 src/global.c
 src/help.c
