@@ -922,8 +922,9 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
  * there is one. */
 void do_find_bracket(void)
 {
-	linestruct *current_save;
-	size_t current_x_save;
+	linestruct *was_current = openfile->current;
+	size_t was_current_x = openfile->current_x;
+		/* The current cursor position, in case we don't find a complement. */
 	const char *ch;
 		/* The location in matchbrackets of the bracket under the cursor. */
 	int ch_len;
@@ -949,10 +950,6 @@ void do_find_bracket(void)
 		statusbar(_("Not a bracket"));
 		return;
 	}
-
-	/* Remember the current position in case we don't find a complement. */
-	current_save = openfile->current;
-	current_x_save = openfile->current_x;
 
 	/* Find the halfway point in matchbrackets, where the closing ones start. */
 	for (size_t i = 0; i < charcount; i++)
@@ -991,15 +988,15 @@ void do_find_bracket(void)
 			/* If balance is zero, we've found a matching bracket.  Update
 			 * the screen and get out. */
 			if (balance == 0) {
-				edit_redraw(current_save, FLOWING);
+				edit_redraw(was_current, FLOWING);
 				break;
 			}
 		} else {
 			/* We didn't find either an opening or closing bracket.
 			 * Indicate this, restore where we were, and get out. */
 			statusbar(_("No matching bracket"));
-			openfile->current = current_save;
-			openfile->current_x = current_x_save;
+			openfile->current = was_current;
+			openfile->current_x = was_current_x;
 			break;
 		}
 	}
