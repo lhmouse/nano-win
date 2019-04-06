@@ -867,50 +867,50 @@ void do_gotolinecolumn_void(void)
  * Return TRUE when a match was found, and FALSE otherwise. */
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
-	linestruct *fileptr = openfile->current;
-	const char *rev_start = NULL, *found = NULL;
+	linestruct *line = openfile->current;
+	const char *pointer = NULL, *found = NULL;
 
-	/* rev_start might end up 1 character before the start or after the
+	/* pointer might end up 1 character before the start or after the
 	 * end of the line.  This won't be a problem because we'll skip over
-	 * it below in that case, and rev_start will be properly set when
+	 * it below in that case, and pointer will be properly set when
 	 * the search continues on the previous or next line. */
 	if (reverse)
-		rev_start = fileptr->data + (openfile->current_x - 1);
+		pointer = line->data + (openfile->current_x - 1);
 	else
-		rev_start = fileptr->data + (openfile->current_x + 1);
+		pointer = line->data + (openfile->current_x + 1);
 
-	/* Look for either of the two characters in bracket_set.  rev_start
+	/* Look for either of the two characters in bracket_set.  pointer
 	 * can be 1 character before the start or after the end of the line.
 	 * In either case, just act as though no match is found. */
 	while (TRUE) {
-		if ((rev_start > fileptr->data && *(rev_start - 1) == '\0') ||
-						rev_start < fileptr->data)
+		if ((pointer > line->data && *(pointer - 1) == '\0') ||
+						pointer < line->data)
 			found = NULL;
 		else if (reverse)
-			found = mbrevstrpbrk(fileptr->data, bracket_set, rev_start);
+			found = mbrevstrpbrk(line->data, bracket_set, pointer);
 		else
-			found = mbstrpbrk(rev_start, bracket_set);
+			found = mbstrpbrk(pointer, bracket_set);
 
 		if (found)
 			break;
 
 		if (reverse)
-			fileptr = fileptr->prev;
+			line = line->prev;
 		else
-			fileptr = fileptr->next;
+			line = line->next;
 
 		/* If we've reached the start or end of the buffer, get out. */
-		if (fileptr == NULL)
+		if (line == NULL)
 			return FALSE;
 
-		rev_start = fileptr->data;
+		pointer = line->data;
 		if (reverse)
-			rev_start += strlen(fileptr->data);
+			pointer += strlen(line->data);
 	}
 
 	/* Set the current position to the found matching bracket. */
-	openfile->current = fileptr;
-	openfile->current_x = found - fileptr->data;
+	openfile->current = line;
+	openfile->current_x = found - line->data;
 
 	return TRUE;
 }
