@@ -862,26 +862,29 @@ void do_gotolinecolumn_void(void)
 }
 
 #ifndef NANO_TINY
-/* Search, startting from the current position, for any of the two characters
+/* Search, starting from the current position, for any of the two characters
  * in bracket_set.  If reverse is TRUE, search backwards, otherwise forwards.
- * Return TRUE when a match was found, and FALSE otherwise. */
+ * Return TRUE when one of the brackets was found, and FALSE otherwise. */
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
 	linestruct *line = openfile->current;
 	const char *pointer = line->data + openfile->current_x;
 	const char *found = NULL;
 
-	/* The pointer might end up one character before the start of the line.
-	 * This is not a problem: it will be skipped over below in the loop. */
-	if (reverse)
-		--pointer;
-	else
+	/* Step away from the current bracket, either backwards or forwards. */
+	if (reverse) {
+		if (--pointer < line->data) {
+			line = line->prev;
+			if (line == NULL)
+				return FALSE;
+			pointer = line->data + strlen(line->data);
+		}
+	} else
 		++pointer;
 
+	/* Now seek for any of the two brackets, either backwards or forwards. */
 	while (TRUE) {
-		if (pointer < line->data)
-			found = NULL;
-		else if (reverse)
+		if (reverse)
 			found = mbrevstrpbrk(line->data, bracket_set, pointer);
 		else
 			found = mbstrpbrk(pointer, bracket_set);
@@ -903,7 +906,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 			pointer += strlen(line->data);
 	}
 
-	/* Set the current position to the found matching bracket. */
+	/* Set the current position to the found bracket. */
 	openfile->current = line;
 	openfile->current_x = found - line->data;
 
