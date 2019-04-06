@@ -943,8 +943,6 @@ void do_find_bracket(void)
 	bool reverse;
 		/* The direction we search. */
 
-	assert(mbstrlen(matchbrackets) % 2 == 0);
-
 	ch = mbstrchr(matchbrackets, openfile->current->data + openfile->current_x);
 
 	if (ch == NULL) {

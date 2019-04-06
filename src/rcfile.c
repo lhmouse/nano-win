@@ -1130,6 +1130,9 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 			if (has_blank_char(option)) {
 				rcfile_error(N_("Non-blank characters required"));
 				free(option);
+			} else if (mbstrlen(option) % 2 != 0) {
+				rcfile_error(N_("Even number of characters required"));
+				free(option);
 			} else
 				matchbrackets = option;
 		} else if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
