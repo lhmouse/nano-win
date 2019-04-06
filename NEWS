@@ -670,8 +670,8 @@
              without the usual truncation and a '$' symbol at the end
              of the line.  It can be enabled via Meta-$ inside the
              editor, via the -$ or --softwrap command-line flags,
-             or "set softwrap" in your .nanorc).  As always, please
-             report any bugs to the nano Savannah project page
+             or via "set softwrap" in your .nanorc.  As always,
+             please report any bugs to the nano Savannah project page
              (http://savannah.gnu.org/bugs/?func=additem&group=nano)
              Remember: data loss happens, back up your files.
 
