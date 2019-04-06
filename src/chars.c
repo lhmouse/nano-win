@@ -575,44 +575,19 @@ char *mbstrchr(const char *s, const char *c)
 /* This function is equivalent to strpbrk() for multibyte strings. */
 char *mbstrpbrk(const char *s, const char *accept)
 {
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		for (; *s != '\0'; s += move_mbright(s, 0)) {
 			if (mbstrchr(accept, s) != NULL)
 				return (char *)s;
 		}
 
 		return NULL;
-	} else
-#endif
-		return (char *) strpbrk(s, accept);
 }
 
 /* Locate, in the string that starts at head, the first occurrence of any of
  * the characters in the string accept, starting from pointer and searching
  * backwards. */
-char *revstrpbrk(const char *head, const char *accept, const char *pointer)
-{
-	if (*pointer == '\0') {
-		if (pointer == head)
-			return NULL;
-		pointer--;
-	}
-
-	while (pointer >= head) {
-		if (strchr(accept, *pointer) != NULL)
-			return (char *)pointer;
-		pointer--;
-	}
-
-	return NULL;
-}
-
-/* The same as the preceding function but then for multibyte strings. */
 char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 {
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		if (*pointer == '\0') {
 			if (pointer == head)
 				return NULL;
@@ -629,9 +604,6 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 
 			pointer = head + move_mbleft(head, pointer - head);
 		}
-	} else
-#endif
-		return revstrpbrk(head, accept, pointer);
 }
 #endif /* !NANO_TINY */
 
