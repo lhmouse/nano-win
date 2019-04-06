@@ -868,23 +868,18 @@ void do_gotolinecolumn_void(void)
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
 	linestruct *line = openfile->current;
-	const char *pointer = NULL, *found = NULL;
+	const char *pointer = line->data + openfile->current_x;
+	const char *found = NULL;
 
-	/* pointer might end up 1 character before the start or after the
-	 * end of the line.  This won't be a problem because we'll skip over
-	 * it below in that case, and pointer will be properly set when
-	 * the search continues on the previous or next line. */
+	/* The pointer might end up one character before the start of the line.
+	 * This is not a problem: it will be skipped over below in the loop. */
 	if (reverse)
-		pointer = line->data + (openfile->current_x - 1);
+		--pointer;
 	else
-		pointer = line->data + (openfile->current_x + 1);
+		++pointer;
 
-	/* Look for either of the two characters in bracket_set.  pointer
-	 * can be 1 character before the start or after the end of the line.
-	 * In either case, just act as though no match is found. */
 	while (TRUE) {
-		if ((pointer > line->data && *(pointer - 1) == '\0') ||
-						pointer < line->data)
+		if (pointer < line->data)
 			found = NULL;
 		else if (reverse)
 			found = mbrevstrpbrk(line->data, bracket_set, pointer);
