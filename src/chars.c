@@ -572,38 +572,40 @@ char *mbstrchr(const char *s, const char *c)
 #endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
 #ifndef NANO_TINY
-/* This function is equivalent to strpbrk() for multibyte strings. */
-char *mbstrpbrk(const char *s, const char *accept)
+/* Locate, in the given string, the first occurrence of any of
+ * the characters in accept, searching forward. */
+char *mbstrpbrk(const char *string, const char *accept)
 {
-		for (; *s != '\0'; s += move_mbright(s, 0)) {
-			if (mbstrchr(accept, s) != NULL)
-				return (char *)s;
-		}
+	while (*string != '\0') {
+		if (mbstrchr(accept, string) != NULL)
+			return (char *)string;
 
-		return NULL;
+		string += move_mbright(string, 0);
+	}
+
+	return NULL;
 }
 
 /* Locate, in the string that starts at head, the first occurrence of any of
- * the characters in the string accept, starting from pointer and searching
- * backwards. */
+ * the characters in accept, starting from pointer and searching backwards. */
 char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 {
-		if (*pointer == '\0') {
-			if (pointer == head)
-				return NULL;
-			pointer = head + move_mbleft(head, pointer - head);
-		}
+	if (*pointer == '\0') {
+		if (pointer == head)
+			return NULL;
+		pointer = head + move_mbleft(head, pointer - head);
+	}
 
-		while (TRUE) {
-			if (mbstrchr(accept, pointer) != NULL)
-				return (char *)pointer;
+	while (TRUE) {
+		if (mbstrchr(accept, pointer) != NULL)
+			return (char *)pointer;
 
-			/* If we've reached the head of the string, we found nothing. */
-			if (pointer == head)
-				return NULL;
+		/* If we've reached the head of the string, we found nothing. */
+		if (pointer == head)
+			return NULL;
 
-			pointer = head + move_mbleft(head, pointer - head);
-		}
+		pointer = head + move_mbleft(head, pointer - head);
+	}
 }
 #endif /* !NANO_TINY */
 
