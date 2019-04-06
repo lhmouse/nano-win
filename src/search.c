@@ -862,16 +862,13 @@ void do_gotolinecolumn_void(void)
 }
 
 #ifndef NANO_TINY
-/* Search for a match to one of the two characters in bracket_set.  If
- * reverse is TRUE, search backwards for the leftmost bracket.
- * Otherwise, search forwards for the rightmost bracket.  Return TRUE if
- * we found a match, and FALSE otherwise. */
+/* Search, startting from the current position, for any of the two characters
+ * in bracket_set.  If reverse is TRUE, search backwards, otherwise forwards.
+ * Return TRUE when a match was found, and FALSE otherwise. */
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
 	linestruct *fileptr = openfile->current;
 	const char *rev_start = NULL, *found = NULL;
-
-	assert(mbstrlen(bracket_set) == 2);
 
 	/* rev_start might end up 1 character before the start or after the
 	 * end of the line.  This won't be a problem because we'll skip over
