@@ -323,7 +323,7 @@ bool comment_line(undo_type action, linestruct *line, const char *comment_seq)
 		/* Length of postfix. */
 	size_t line_len = strlen(line->data);
 
-	if (ISSET(FINAL_NEWLINE) && line == openfile->filebot)
+	if (!ISSET(NO_NEWLINES) && line == openfile->filebot)
 		return FALSE;
 
 	if (action == COMMENT) {
@@ -393,7 +393,7 @@ void do_comment(void)
 	get_range((const linestruct **)&top, (const linestruct **)&bot);
 
 	/* If only the magic line is selected, don't do anything. */
-	if (top == bot && bot == openfile->filebot && ISSET(FINAL_NEWLINE)) {
+	if (top == bot && bot == openfile->filebot && !ISSET(NO_NEWLINES)) {
 		statusbar(_("Cannot comment past end of file"));
 		return;
 	}
@@ -480,7 +480,7 @@ void undo_cut(undo *u)
 	copy_from_buffer(u->cutbuffer);
 
 	/* If the final line was originally cut, remove the extra magic line. */
-	if ((u->xflags & WAS_FINAL_LINE) && ISSET(FINAL_NEWLINE) &&
+	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
 			openfile->current != openfile->filebot)
 		remove_magicline();
 
@@ -538,7 +538,7 @@ void do_undo(void)
 		/* TRANSLATORS: The next thirteen strings describe actions
 		 * that are undone or redone.  They are all nouns, not verbs. */
 		undidmsg = _("addition");
-		if ((u->xflags & WAS_FINAL_LINE) && ISSET(FINAL_NEWLINE))
+		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			remove_magicline();
 		data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
 		strncpy(data, f->data, u->begin);
@@ -578,7 +578,7 @@ void do_undo(void)
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not re-add a newline that
 		 * wasn't actually deleted; just position the cursor. */
-		if ((u->xflags & WAS_FINAL_BACKSPACE) && ISSET(FINAL_NEWLINE)) {
+		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
@@ -716,7 +716,7 @@ void do_redo(void)
 	switch (u->type) {
 	case ADD:
 		redidmsg = _("addition");
-		if ((u->xflags & WAS_FINAL_LINE) && ISSET(FINAL_NEWLINE))
+		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			new_magicline();
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
 		strncpy(data, f->data, u->begin);
@@ -757,7 +757,7 @@ void do_redo(void)
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not join anything, as
 		 * nothing was actually deleted; just position the cursor. */
-		if ((u->xflags & WAS_FINAL_BACKSPACE) && ISSET(FINAL_NEWLINE)) {
+		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
 			goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 			break;
 		}
@@ -1400,7 +1400,7 @@ void update_undo(undo_type action)
 				if (u->lineno == u->mark_begin_lineno)
 					u->begin += u->mark_begin_x;
 			} else if (openfile->current == openfile->filebot &&
-						!ISSET(FINAL_NEWLINE))
+						ISSET(NO_NEWLINES))
 				u->begin = strlen(u->cutbottom->data);
 		}
 		break;
@@ -2721,7 +2721,7 @@ void do_spell(void)
 	memcpy(stash, flags, sizeof(flags));
 
 	/* Don't add an extra newline when writing out the (selected) text. */
-	UNSET(FINAL_NEWLINE);
+	SET(NO_NEWLINES);
 
 #ifndef NANO_TINY
 	if (openfile->mark)
