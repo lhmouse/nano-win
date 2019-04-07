@@ -27,13 +27,11 @@ nano \- Nano's ANOther editor, inspired by Pico
 
 .SH NOTICE
 Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
-line by default, and no longer automatically adds a newline at the end
-of the text if one is missing.  Furthermore, it uses smooth scrolling
-by default and makes use of the line below the title bar.
+line by default, uses smooth scrolling by default, and by default makes
+use of the line below the title bar.
 .sp
 If you want the old, Pico behavior back, you can use \fB\-\-breaklonglines\fR,
-\fB\-\-finalnewline\fR, \fB\-\-jumpyscrolling\fR, and \fB\-\-emptyline\fR
-(or \fB\-bfje\fR for short).
+\fB\-\-jumpyscrolling\fR, and \fB\-\-emptyline\fR (or \fB\-bje\fR for short).
 
 .SH DESCRIPTION
 \fBnano\fP is a small and friendly editor.  It copies the look and feel
@@ -124,7 +122,6 @@ mouse support.
 .TP
 .BR \-L ", " \-\-nonewlines
 Don't automatically add a newline when a file does not end with one.
-(This is the default.)
 .TP
 .BR \-M ", " \-\-trimblanks
 Snip trailing whitespace from the wrapped line when automatic
@@ -212,11 +209,6 @@ system either Backspace acts like Delete or Delete acts like Backspace.
 .TP
 .BR \-e ", " \-\-emptyline
 Do not use the line below the title bar, leaving it entirely blank.
-.TP
-.BR \-f ", " \-\-finalnewline
-If the buffer is not empty, ensure that it ends with a newline character.
-(This option is the opposite of \fB\-L\fR (\fB\-\-nonewlines\fR) --
-the last one given takes effect.)
 .TP
 .BR \-g ", " \-\-showcursor
 Make the cursor visible in the file browser (putting it on the

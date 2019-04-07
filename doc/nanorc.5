@@ -23,12 +23,11 @@ nanorc \- GNU nano's configuration file
 
 .SH NOTICE
 Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
-line by default, and no longer automatically adds a newline at the end
-of the text if one is missing.  Furthermore, it uses smooth scrolling
-by default and makes use of the line below the title bar.
+line by default, uses smooth scrolling by default, and by default makes
+use of the line below the title bar.
 .sp
 If you want the old, Pico behavior back, you can use \fBset breaklonglines\fR,
-\fBset finalnewline\fR, \fBset jumpyscrolling\fR, and \fBset emptyline\fR.
+\fBset jumpyscrolling\fR, and \fBset emptyline\fR.
 
 .SH DESCRIPTION
 The \fInanorc\fP file contains the default settings for \fBnano\fP, a
@@ -121,9 +120,6 @@ Do not use the line below the title bar, leaving it entirely blank.
 Use this color combination for the status bar when an error message is displayed.
 See \fBset titlecolor\fR for valid color names.
 .TP
-.B set finalnewline
-If the buffer is not empty, ensure that it ends with a newline character.
-.TP
 .B set fill \fInumber\fR
 Set the target width for justifying and automatic hard-wrapping at this
 \fInumber\fR of columns.  If the value is 0 or less, wrapping will occur
@@ -185,8 +181,7 @@ Don't convert files from DOS/Mac format.
 Don't display the two help lines at the bottom of the screen.
 .TP
 .B set nonewlines
-Deprecated option since it has become the default setting.
-When needed, use \fBunset finalnewline\fR instead.
+Don't automatically add a newline when a file does not end with one.
 .TP
 .B set nopauses
 Don't pause between warnings at startup.  This means that only
