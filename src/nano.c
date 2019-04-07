@@ -797,7 +797,7 @@ void usage(void)
 					N_("Fix numeric keypad key confusion problem"));
 #ifndef NANO_TINY
 	print_opt("-L", "--nonewlines",
-					N_("Don't add an automatic newline [default]"));
+					N_("Don't add an automatic newline"));
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt("-M", "--trimblanks",
@@ -844,7 +844,6 @@ void usage(void)
 	print_opt("-d", "--rebinddelete",
 					N_("Fix Backspace/Delete confusion problem"));
 	print_opt("-e", "--emptyline", N_("Keep the line below the title bar empty"));
-	print_opt("-f", "--finalnewline", N_("Ensure that text ends with a newline"));
 #ifdef ENABLE_BROWSER
 	if (!ISSET(RESTRICTED))
 		print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
@@ -1992,7 +1991,6 @@ int main(int argc, char **argv)
 		{"constantshow", 0, NULL, 'c'},
 		{"rebinddelete", 0, NULL, 'd'},
 		{"emptyline", 0, NULL, 'e'},
-		{"finalnewline", 0, NULL, 'f'},
 #ifdef ENABLE_BROWSER
 		{"showcursor", 0, NULL, 'g'},
 #endif
@@ -2090,7 +2088,6 @@ int main(int argc, char **argv)
 
 	/* Set sensible defaults, different from what Pico does. */
 	SET(NO_WRAP);
-	SET(NO_NEWLINES);
 	SET(SMOOTH_SCROLL);
 
 	/* Give a small visual hint that nano has changed. */
@@ -2102,7 +2099,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Zabcdefghijklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Zabcdeghijklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2158,7 +2155,7 @@ int main(int argc, char **argv)
 				break;
 #ifndef NANO_TINY
 			case 'L':
-				UNSET(FINAL_NEWLINE);
+				SET(NO_NEWLINES);
 				break;
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
@@ -2241,9 +2238,6 @@ int main(int argc, char **argv)
 				break;
 			case 'e':
 				SET(EMPTY_LINE);
-				break;
-			case 'f':
-				SET(FINAL_NEWLINE);
 				break;
 			case 'g':
 				SET(SHOW_CURSOR);
@@ -2433,8 +2427,6 @@ int main(int argc, char **argv)
 		/* If an rcfile undid the default settings, copy it to the new flags. */
 		if (!ISSET(NO_WRAP))
 			SET(BREAK_LONG_LINES);
-		if (!ISSET(NO_NEWLINES))
-			SET(FINAL_NEWLINE);
 		if (!ISSET(SMOOTH_SCROLL))
 			SET(JUMPY_SCROLLING);
 		if (!ISSET(MORE_SPACE))
@@ -2445,11 +2437,6 @@ int main(int argc, char **argv)
 			flags[i] |= flags_cmdline[i];
 	}
 #endif /* ENABLE_NANORC */
-
-	if (ISSET(FINAL_NEWLINE))
-		UNSET(NO_NEWLINES);
-	else
-		SET(NO_NEWLINES);
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))

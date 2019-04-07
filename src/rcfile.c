@@ -50,7 +50,6 @@ static const rcoption rcopts[] = {
 #ifdef ENABLED_WRAPORJUSTIFY
 	{"fill", 0},
 #endif
-	{"finalnewline", FINAL_NEWLINE},
 #ifdef ENABLE_HISTORIES
 	{"historylog", HISTORYLOG},
 #endif
@@ -66,7 +65,7 @@ static const rcoption rcopts[] = {
 	{"multibuffer", MULTIBUFFER},
 #endif
 	{"nohelp", NO_HELP},
-	{"nonewlines", NO_NEWLINES},  /* Deprecated; remove in 2021. */
+	{"nonewlines", NO_NEWLINES},
 	{"nopauses", NO_PAUSES},
 #ifdef ENABLE_WRAPPING
 	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2021. */
