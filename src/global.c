@@ -397,7 +397,6 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 		sclist = s;
 	else
 		tailsc->next = s;
-	tailsc = s;
 	s->next = NULL;
 
 	/* Fill in the data. */
@@ -405,10 +404,13 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 	s->func = func;
 #ifndef NANO_TINY
 	s->toggle = toggle;
+	/* When not the same toggle as the previous one, increment the ID. */
 	if (toggle)
-		s->ordinal = ++counter;
+		s->ordinal = (tailsc->toggle == toggle) ? counter : ++counter;
 #endif
 	assign_keyinfo(s, scstring, keycode);
+
+	tailsc = s;
 
 #ifdef DEBUG
 	fprintf(stderr, "Setting keycode to %d for shortcut \"%s\" in menus %x\n", s->keycode, scstring, s->menus);
