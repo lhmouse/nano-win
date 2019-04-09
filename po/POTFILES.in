@@ -14,3 +14,6 @@ src/search.c
 src/text.c
 src/utils.c
 src/winio.c
+
+lib/getopt.c
+lib/regcomp.c
