@@ -2932,8 +2932,8 @@ void do_linter(void)
 								lints = curlint;
 						}
 					}
-				} else
-					free(message);
+				}
+				free(message);
 			}
 			onelint = pointer + 1;
 		}
