@@ -2939,6 +2939,8 @@ void do_linter(void)
 		pointer++;
 	}
 
+	free(lintings);
+
 	/* Process the end of the linting process. */
 	waitpid(pid_lint, &lint_status, 0);
 
@@ -2946,8 +2948,6 @@ void do_linter(void)
 		statusbar(invocation_error(openfile->syntax->linter));
 		return;
 	}
-
-	free(lintings);
 
 	if (parsesuccess == 0) {
 		statusline(HUSH, _("Got 0 parsable lines from command: %s"),
