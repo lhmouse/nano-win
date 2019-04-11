@@ -2414,7 +2414,7 @@ bool fix_spello(const char *word)
 const char *do_int_speller(const char *tempfile_name)
 {
 	char *misspellings, *pointer, *oneword;
-	long blocksize;
+	long pipesize;
 	size_t buffersize, bytesread, totalread;
 	int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
 	pid_t pid_spell, pid_sort, pid_uniq;
@@ -2515,9 +2515,9 @@ const char *do_int_speller(const char *tempfile_name)
 	}
 
 	/* Get the system pipe buffer size. */
-	blocksize = fpathconf(uniq_fd[0], _PC_PIPE_BUF);
+	pipesize = fpathconf(uniq_fd[0], _PC_PIPE_BUF);
 
-	if (blocksize < 1) {
+	if (pipesize < 1) {
 		close(uniq_fd[0]);
 		return _("Could not get size of pipe buffer");
 	}
@@ -2526,13 +2526,13 @@ const char *do_int_speller(const char *tempfile_name)
 	block_sigwinch(TRUE);
 
 	totalread = 0;
-	buffersize = blocksize + 1;
+	buffersize = pipesize + 1;
 	misspellings = charalloc(buffersize);
 	pointer = misspellings;
 
-	while ((bytesread = read(uniq_fd[0], pointer, blocksize)) > 0) {
+	while ((bytesread = read(uniq_fd[0], pointer, pipesize)) > 0) {
 		totalread += bytesread;
-		buffersize += blocksize;
+		buffersize += pipesize;
 		misspellings = charealloc(misspellings, buffersize);
 		pointer = misspellings + totalread;
 	}
@@ -2771,7 +2771,7 @@ void do_spell(void)
 void do_linter(void)
 {
 	char *read_buff, *read_buff_ptr, *read_buff_word;
-	long pipe_buff_size;
+	long pipesize;
 	size_t read_buff_size, read_buff_read, bytesread;
 	size_t parsesuccess = 0;
 	int lint_status, lint_fd[2];
@@ -2850,9 +2850,9 @@ void do_linter(void)
 	}
 
 	/* Get the system pipe buffer size. */
-	pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF);
+	pipesize = fpathconf(lint_fd[0], _PC_PIPE_BUF);
 
-	if (pipe_buff_size < 1) {
+	if (pipesize < 1) {
 		close(lint_fd[0]);
 		statusbar(_("Could not get size of pipe buffer"));
 		return;
@@ -2860,13 +2860,13 @@ void do_linter(void)
 
 	/* Read in the returned syntax errors. */
 	read_buff_read = 0;
-	read_buff_size = pipe_buff_size + 1;
+	read_buff_size = pipesize + 1;
 	read_buff = charalloc(read_buff_size);
 	read_buff_ptr = read_buff;
 
-	while ((bytesread = read(lint_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
+	while ((bytesread = read(lint_fd[0], read_buff_ptr, pipesize)) > 0) {
 		read_buff_read += bytesread;
-		read_buff_size += pipe_buff_size;
+		read_buff_size += pipesize;
 		read_buff = charealloc(read_buff, read_buff_size);
 		read_buff_ptr = read_buff + read_buff_read;
 	}
