@@ -2706,7 +2706,7 @@ void do_spell(void)
 	char *temp;
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 		/* A storage place for the current flag settings. */
-	const char *result_msg;
+	char *result_msg;
 
 	if (ISSET(RESTRICTED)) {
 		show_restricted_warning();
@@ -2760,6 +2760,7 @@ void do_spell(void)
 		else
 			statusline(ALERT, _("Spell checking failed: %s: %s"), result_msg,
 												strerror(errno));
+		free(result_msg);
 	} else
 		statusbar(_("Finished checking spelling"));
 }
@@ -2945,7 +2946,10 @@ void do_linter(void)
 	waitpid(pid_lint, &lint_status, 0);
 
 	if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
-		statusbar(invocation_error(openfile->syntax->linter));
+		char *result_msg= invocation_error(openfile->syntax->linter);
+
+		statusbar(result_msg);
+		free(result_msg);
 		return;
 	}
 
