@@ -2070,7 +2070,7 @@ void do_justify(bool full_justify)
 
 		/* Set the number of lines to be pulled into the cutbuffer. */
 		if (full_justify)
-			jus_len = openfile->filebot->lineno;
+			jus_len = openfile->filebot->lineno - first_par_line->lineno + 1;
 		else
 			jus_len = par_len;
 
