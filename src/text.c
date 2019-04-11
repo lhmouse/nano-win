@@ -2414,7 +2414,8 @@ bool fix_spello(const char *word)
 const char *do_int_speller(const char *tempfile_name)
 {
 	char *misspellings, *pointer, *oneword;
-	size_t blocksize, buffersize, bytesread, totalread;
+	long blocksize;
+	size_t buffersize, bytesread, totalread;
 	int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
 	pid_t pid_spell, pid_sort, pid_uniq;
 	int spell_status, sort_status, uniq_status;
@@ -2514,7 +2515,9 @@ const char *do_int_speller(const char *tempfile_name)
 	}
 
 	/* Get the system pipe buffer size. */
-	if ((blocksize = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
+	blocksize = fpathconf(uniq_fd[0], _PC_PIPE_BUF);
+
+	if (blocksize < 1) {
 		close(uniq_fd[0]);
 		return _("Could not get size of pipe buffer");
 	}
@@ -2768,7 +2771,8 @@ void do_spell(void)
 void do_linter(void)
 {
 	char *read_buff, *read_buff_ptr, *read_buff_word;
-	size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
+	long pipe_buff_size;
+	size_t read_buff_size, read_buff_read, bytesread;
 	size_t parsesuccess = 0;
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
@@ -2846,7 +2850,9 @@ void do_linter(void)
 	}
 
 	/* Get the system pipe buffer size. */
-	if ((pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF)) < 1) {
+	pipe_buff_size = fpathconf(lint_fd[0], _PC_PIPE_BUF);
+
+	if (pipe_buff_size < 1) {
 		close(lint_fd[0]);
 		statusbar(_("Could not get size of pipe buffer"));
 		return;
