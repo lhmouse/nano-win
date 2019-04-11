@@ -2770,9 +2770,9 @@ void do_spell(void)
  * termination, and the error string otherwise. */
 void do_linter(void)
 {
-	char *read_buff, *read_buff_ptr, *read_buff_word;
+	char *lintings, *pointer, *onelint;
 	long pipesize;
-	size_t read_buff_size, read_buff_read, bytesread;
+	size_t buffersize, bytesread, totalread;
 	size_t parsesuccess = 0;
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
@@ -2859,31 +2859,31 @@ void do_linter(void)
 	}
 
 	/* Read in the returned syntax errors. */
-	read_buff_read = 0;
-	read_buff_size = pipesize + 1;
-	read_buff = charalloc(read_buff_size);
-	read_buff_ptr = read_buff;
+	totalread = 0;
+	buffersize = pipesize + 1;
+	lintings = charalloc(buffersize);
+	pointer = lintings;
 
-	while ((bytesread = read(lint_fd[0], read_buff_ptr, pipesize)) > 0) {
-		read_buff_read += bytesread;
-		read_buff_size += pipesize;
-		read_buff = charealloc(read_buff, read_buff_size);
-		read_buff_ptr = read_buff + read_buff_read;
+	while ((bytesread = read(lint_fd[0], pointer, pipesize)) > 0) {
+		totalread += bytesread;
+		buffersize += pipesize;
+		lintings = charealloc(lintings, buffersize);
+		pointer = lintings + totalread;
 	}
 
-	*read_buff_ptr = '\0';
+	*pointer = '\0';
 	close(lint_fd[0]);
 
 	/* Process the linter output. */
-	read_buff_ptr = read_buff;
-	read_buff_word = read_buff;
+	pointer = lintings;
+	onelint = lintings;
 
-	while (*read_buff_ptr != '\0') {
-		if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
-			*read_buff_ptr = '\0';
-			if (read_buff_word != read_buff_ptr) {
+	while (*pointer != '\0') {
+		if ((*pointer == '\r') || (*pointer == '\n')) {
+			*pointer = '\0';
+			if (onelint != pointer) {
 				char *filename = NULL, *linestr = NULL, *maybecol = NULL;
-				char *message = mallocstrcpy(NULL, read_buff_word);
+				char *message = mallocstrcpy(NULL, onelint);
 
 				/* At the moment we handle the following formats:
 				 *
@@ -2891,7 +2891,7 @@ void do_linter(void)
 				 * filenameorcategory:line,column:message (e.g. pylint)
 				 * filenameorcategory:line:message        (e.g. pyflakes) */
 				if (strstr(message, ": ") != NULL) {
-					filename = strtok(read_buff_word, ":");
+					filename = strtok(onelint, ":");
 					if ((linestr = strtok(NULL, ":")) != NULL) {
 						if ((maybecol = strtok(NULL, ":")) != NULL) {
 							ssize_t tmplineno = 0, tmpcolno = 0;
@@ -2899,7 +2899,7 @@ void do_linter(void)
 
 							tmplineno = strtol(linestr, NULL, 10);
 							if (tmplineno <= 0) {
-								read_buff_ptr++;
+								pointer++;
 								free(message);
 								continue;
 							}
@@ -2934,9 +2934,9 @@ void do_linter(void)
 				} else
 					free(message);
 			}
-			read_buff_word = read_buff_ptr + 1;
+			onelint = pointer + 1;
 		}
-		read_buff_ptr++;
+		pointer++;
 	}
 
 	/* Process the end of the linting process. */
@@ -2947,7 +2947,7 @@ void do_linter(void)
 		return;
 	}
 
-	free(read_buff);
+	free(lintings);
 
 	if (parsesuccess == 0) {
 		statusline(HUSH, _("Got 0 parsable lines from command: %s"),
