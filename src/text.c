@@ -2411,7 +2411,7 @@ bool fix_spello(const char *word)
 /* Internal (integrated) spell checking using the spell program,
  * filtered through the sort and uniq programs.  Return NULL for normal
  * termination, and the error string otherwise. */
-const char *do_int_speller(const char *tempfile_name)
+char *do_int_speller(const char *tempfile_name)
 {
 	char *misspellings, *pointer, *oneword;
 	long pipesize;
@@ -2603,7 +2603,7 @@ const char *do_int_speller(const char *tempfile_name)
 
 /* External (alternate) spell checking.  Return NULL for normal
  * termination, and the error string otherwise. */
-const char *do_alt_speller(char *tempfile_name)
+char *do_alt_speller(char *tempfile_name)
 {
 	int alt_spell_status;
 	size_t current_x_save = openfile->current_x;
