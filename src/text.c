@@ -2004,32 +2004,6 @@ void do_justify(bool full_justify)
 #endif
 
 #ifndef NANO_TINY
-	/* Do normal justification only when the mark is off. */
-	if (!openfile->mark)
-#endif
-	{
-		/* When justifying the entire buffer, start at the top.  Otherwise, when
-		 * in a paragraph but not at its beginning, move back to its first line. */
-		if (full_justify)
-			openfile->current = openfile->filetop;
-		else if (inpar(openfile->current) && !begpar(openfile->current, 0))
-			do_para_begin(&openfile->current);
-
-		/* Find the first line of the paragraph(s) to be justified.  If the
-		 * search fails, there is nothing to justify, and we will be on the
-		 * last line of the file, so put the cursor at the end of it. */
-		if (!find_paragraph(&openfile->current, &par_len)) {
-			openfile->current_x = strlen(openfile->filebot->data);
-			refresh_needed = TRUE;
-			return;
-		}
-	}
-
-	/* Prepare to put the text we want to justify in the cutbuffer. */
-	cutbuffer = NULL;
-	cutbottom = NULL;
-
-#ifndef NANO_TINY
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
 		size_t quote_len;
@@ -2075,9 +2049,23 @@ void do_justify(bool full_justify)
 		size_t jus_len;
 			/* The number of lines we're storing in the current cutbuffer. */
 
-		/* Start out at the first line of the paragraph. */
+		/* When justifying the entire buffer, start at the top.  Otherwise, when
+		 * in a paragraph but not at its beginning, move back to its first line. */
+		if (full_justify)
+			openfile->current = openfile->filetop;
+		else if (inpar(openfile->current) && !begpar(openfile->current, 0))
+			do_para_begin(&openfile->current);
+
+		/* Find the first line of the paragraph(s) to be justified.  If the
+		 * search fails, there is nothing to justify, and we will be on the
+		 * last line of the file, so put the cursor at the end of it. */
+		if (!find_paragraph(&openfile->current, &par_len)) {
+			openfile->current_x = strlen(openfile->filebot->data);
+			refresh_needed = TRUE;
+			return;
+		}
+
 		first_par_line = openfile->current;
-		last_par_line = openfile->current;
 		top_x = 0;
 
 		/* Set the number of lines to be pulled into the cutbuffer. */
@@ -2087,7 +2075,7 @@ void do_justify(bool full_justify)
 			jus_len = par_len;
 
 		/* Move down to the last line to be extracted. */
-		for (; jus_len > 1; jus_len--)
+		for (last_par_line = openfile->current; jus_len > 1; jus_len--)
 			last_par_line = last_par_line->next;
 
 		/* When possible, step one line further; otherwise, to line's end. */
@@ -2108,7 +2096,10 @@ void do_justify(bool full_justify)
 
 	add_undo(CUT);
 #endif
-	/* Do the equivalent of a marked cut. */
+
+	/* Do the equivalent of a marked cut into an empty cutbuffer. */
+	cutbuffer = NULL;
+	cutbottom = NULL;
 	extract_buffer(&cutbuffer, &cutbottom, first_par_line, top_x,
 											last_par_line, bot_x);
 #ifndef NANO_TINY
