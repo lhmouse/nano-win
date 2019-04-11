@@ -1959,6 +1959,8 @@ int main(int argc, char **argv)
 	bool fill_used = FALSE;
 		/* Was the fill option used on the command line? */
 #endif
+	int hardwrap = -2;
+		/* Becomes 0 when --nowrap and 1 when --breaklonglines is used. */
 #ifdef ENABLE_JUSTIFY
 	int quoterc;
 		/* Whether the quoting regex was compiled successfully. */
@@ -2227,7 +2229,7 @@ int main(int argc, char **argv)
 #endif
 #ifdef ENABLE_WRAPPING
 			case 'b':
-				SET(BREAK_LONG_LINES);
+				hardwrap = 1;
 				break;
 #endif
 			case 'c':
@@ -2309,7 +2311,7 @@ int main(int argc, char **argv)
 				break;
 #ifdef ENABLE_WRAPPING
 			case 'w':
-				UNSET(BREAK_LONG_LINES);
+				hardwrap = 0;
 				break;
 #endif
 			case 'x':
@@ -2435,6 +2437,11 @@ int main(int argc, char **argv)
 		/* Simply OR the boolean flags from rcfile and command line. */
 		for (size_t i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 			flags[i] |= flags_cmdline[i];
+
+		if (hardwrap == 0)
+			UNSET(BREAK_LONG_LINES);
+		else if (hardwrap == 1)
+			SET(BREAK_LONG_LINES);
 	}
 #endif /* ENABLE_NANORC */
 
