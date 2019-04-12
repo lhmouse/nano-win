@@ -1888,6 +1888,13 @@ char *display_string(const char *buf, size_t column, size_t span,
 	/* Allocate enough space for converting the relevant part of the line. */
 	converted = charalloc(strlen(buf) * (MAXCHARLEN + tabsize) + 1);
 
+#ifndef NANO_TINY
+	if (span > HIGHEST_POSITIVE) {
+		statusline(ALERT, "Span has underflowed -- please report a bug");
+		converted[0] = '\0';
+		return converted;
+	}
+#endif
 	/* If the first character starts before the left edge, or would be
 	 * overwritten by a "<" token, then show placeholders instead. */
 	if (*buf != '\0' && *buf != '\t' && (start_col < column ||
