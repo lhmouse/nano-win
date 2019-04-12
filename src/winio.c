@@ -3197,7 +3197,7 @@ size_t actual_last_column(size_t leftedge, size_t column)
 {
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
-		bool last_chunk;
+		bool last_chunk = FALSE;
 		size_t end_col = get_softwrap_breakpoint(openfile->current->data,
 										leftedge, &last_chunk) - leftedge;
 
