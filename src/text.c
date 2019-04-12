@@ -262,6 +262,7 @@ void do_unindent(void)
 	}
 
 	set_modified();
+	ensure_firstcolumn_is_aligned();
 	refresh_needed = TRUE;
 	shift_held = TRUE;
 }
