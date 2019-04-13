@@ -167,6 +167,7 @@ void do_indent(void)
 	free(indentation);
 
 	set_modified();
+	ensure_firstcolumn_is_aligned();
 	refresh_needed = TRUE;
 	shift_held = TRUE;
 }
@@ -428,6 +429,7 @@ void do_comment(void)
 	}
 
 	set_modified();
+	ensure_firstcolumn_is_aligned();
 	refresh_needed = TRUE;
 	shift_held = TRUE;
 }
