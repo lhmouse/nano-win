@@ -21,8 +21,11 @@ fi
 echo "Regenerating POT file and remerging and recompiling PO files..."
 make update-po
 
-# Ensure that the PO files are newer than the POT.
-touch *.po
+echo "Removing the dead weight of obsolete translations..."
+for pofile in *.po; do
+	msgattrib --no-obsolete $pofile >trimmed.po || exit 4
+	mv trimmed.po $pofile || exit 4
+done
 
 # If needed, fix a problem in the Makefile template.
 grep -q '^datarootdir' Makefile.in.in || \
