@@ -418,7 +418,9 @@ file permissions to implement a read-only file.)
 @item -w
 @itemx --nowrap
 Do not automatically hard-wrap the current line when it becomes overlong.
-(This is the default.)
+This is the default.  (This option is the opposite of @option{-b}
+(@option{--breaklonglines}) --- the last one given takes effect.)
+
 
 @anchor{Expert Mode}
 @item -x
