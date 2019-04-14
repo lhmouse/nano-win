@@ -1,3 +1,17 @@
+2019.04.15 - GNU nano 4.1 "Qué corchos será eso?"
+• By default, a newline character is again automatically added at the
+  end of a buffer, to produce valid POSIX text files by default, but
+  also to get back the easy adding of text at the bottom.
+• The now unneeded option --finalnewline (-f) has been removed.
+• Syntax files are read in alphabetical order when globbing, so that
+  the precedence of syntaxes becomes predictable.
+• In the C syntax, preprocessor directives are highlighted differently.
+• M-S now toggles soft wrapping, and M-N toggles line numbers.
+• The jumpy-scrolling toggle has been removed.
+• The legacy keystrokes ^W^Y and ^W^V are recognized again.
+• Executing an external command is disallowed when in view mode.
+• Problems with resizing during external or speller commands were fixed.
+
 2019.03.24 - GNU nano 4.0 "Thy Rope of Sands"
 • An overlong line is no longer automatically hard-wrapped.
 • Smooth scrolling (one line at a time) has become the default.
