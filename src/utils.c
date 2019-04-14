@@ -329,10 +329,6 @@ char *mallocstrncpy(char *dest, const char *src, size_t n)
 	if (src == NULL)
 		src = "";
 
-#ifndef NANO_TINY
-	if (src == dest)
-		fprintf(stderr, "\r*** Copying a string to itself -- please report a bug ***");
-#endif
 	dest = charealloc(dest, n);
 	strncpy(dest, src, n);
 
@@ -512,12 +508,10 @@ linestruct *fsfromline(ssize_t lineno)
 		while (f->lineno != lineno && f->next != NULL)
 			f = f->next;
 
-	if (f->lineno != lineno) {
-		statusline(ALERT, "Gone undo line -- please report a bug");
+	if (f->lineno == lineno)
+		return f;
+	else
 		return NULL;
-	}
-
-	return f;
 }
 #endif /* !NANO_TINY */
 

@@ -556,9 +556,6 @@ void help_init(void)
 		}
 	}
 #endif /* !NANO_TINY */
-
-	if (strlen(help_text) > allocsize)
-		statusline(ALERT, "Help text spilled over -- please report a bug");
 }
 
 /* Return the function that is bound to the given key, accepting certain

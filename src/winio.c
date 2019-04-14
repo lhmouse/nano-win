@@ -2793,15 +2793,6 @@ int update_line(linestruct *fileptr, size_t index)
 
 	row = fileptr->lineno - openfile->edittop->lineno;
 
-	/* If the line is offscreen, don't even try to display it. */
-	if (row < 0 || row >= editwinrows) {
-#ifndef NANO_TINY
-		statusline(ALERT, "Badness: tried to display a line on row %i"
-								" -- please report a bug", row);
-#endif
-		return 0;
-	}
-
 	/* First, blank out the row. */
 	blank_row(edit, row, 0, COLS);
 
@@ -3017,20 +3008,13 @@ void edit_scroll(bool direction)
 {
 	linestruct *line;
 	size_t leftedge;
-	int remainder = 0, nrows = 1;
+	int nrows = 1;
 
 	/* Move the top line of the edit window one row up or down. */
 	if (direction == BACKWARD)
-		remainder = go_back_chunks(1, &openfile->edittop, &openfile->firstcolumn);
+		go_back_chunks(1, &openfile->edittop, &openfile->firstcolumn);
 	else
-		remainder = go_forward_chunks(1, &openfile->edittop, &openfile->firstcolumn);
-
-	if (remainder > 0) {
-#ifndef NANO_TINY
-		statusline(ALERT, "Could not scroll -- please report a bug");
-#endif
-		return;
-	}
+		go_forward_chunks(1, &openfile->edittop, &openfile->firstcolumn);
 
 	/* Actually scroll the text of the edit window one row up or down. */
 	scrollok(edit, TRUE);

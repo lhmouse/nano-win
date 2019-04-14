@@ -551,10 +551,6 @@ void do_undo(void)
 		goto_line_posx(u->lineno, u->begin);
 		break;
 	case ENTER:
-		if (f->next == NULL) {
-			statusline(ALERT, "Missing break line -- please report a bug");
-			break;
-		}
 		undidmsg = _("line break");
 		from_x = (u->begin == 0) ? 0 : u->mark_begin_x;
 		to_x = (u->begin == 0) ? u->mark_begin_x : u->begin;
@@ -672,7 +668,6 @@ void do_undo(void)
 		break;
 #endif
 	default:
-		statusline(ALERT, "Wrong undo type -- please report a bug");
 		break;
 	}
 
@@ -752,10 +747,6 @@ void do_redo(void)
 		goto_line_posx(u->lineno, u->begin);
 		break;
 	case JOIN:
-		if (f->next == NULL) {
-			statusline(ALERT, "Missing join line -- please report a bug");
-			break;
-		}
 		redidmsg = _("line join");
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not join anything, as
@@ -838,7 +829,6 @@ void do_redo(void)
 		break;
 #endif
 	default:
-		statusline(ALERT, "Wrong redo type -- please report a bug");
 		break;
 	}
 
@@ -1264,7 +1254,6 @@ void add_undo(undo_type action)
 		break;
 #endif
 	default:
-		statusline(ALERT, "Wrong undo adding type -- please report a bug");
 		break;
 	}
 
@@ -1417,7 +1406,6 @@ void update_undo(undo_type action)
 		u->begin = openfile->current_x;
 		break;
 	default:
-		statusline(ALERT, "Wrong undo update type -- please report a bug");
 		break;
 	}
 }
