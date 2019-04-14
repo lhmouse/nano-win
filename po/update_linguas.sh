@@ -21,9 +21,9 @@ fi
 echo "Regenerating POT file and remerging and recompiling PO files..."
 make update-po
 
-echo "Removing the dead weight of obsolete translations..."
+echo "Removing the dead weight of obsolete and fuzzy translations..."
 for pofile in *.po; do
-	msgattrib --no-obsolete $pofile >trimmed.po || exit 4
+	msgattrib --no-obsolete --no-fuzzy $pofile >trimmed.po || exit 4
 	mv trimmed.po $pofile || exit 4
 done
 
