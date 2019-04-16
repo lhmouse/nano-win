@@ -785,6 +785,10 @@ Valid names for foreground and background color are:
 The name of the foreground color may be prefixed with @code{bright}.
 And either @var{fgcolor} or ,@var{bgcolor} may be left out.
 
+@item set guidestripe @var{number}
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with @code{set stripecolor}.)
+
 @item set historylog
 Save the last hundred search strings and replacement strings and
 executed commands, so they can be easily reused in later sessions.
@@ -802,10 +806,6 @@ Display line numbers to the left of the text area.
 
 @item set locking
 Enable vim-style lock-files for when editing files.
-
-@item set guidestripe @var{number}
-Draw a vertical stripe at the given column, to help judge the width of the
-text.  (The color of the stripe can be changed with @code{set stripecolor}.)
 
 @item set matchbrackets "@var{string}"
 Set the opening and closing brackets that can be found by bracket

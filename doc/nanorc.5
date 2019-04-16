@@ -132,6 +132,10 @@ Specify the color combination to use for the function descriptions
 in the two help lines at the bottom of the screen.
 See \fBset titlecolor\fR for more details.
 .TP
+.B set guidestripe \fInumber
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with \fBset stripecolor\fR.)
+.TP
 .B set historylog
 Save the last hundred search strings and replacement strings and
 executed commands, so they can be easily reused in later sessions.
@@ -149,10 +153,6 @@ Display line numbers to the left of the text area.
 .TP
 .B set locking
 Enable vim-style lock-files for when editing files.
-.TP
-.B set guidestripe \fInumber
-Draw a vertical stripe at the given column, to help judge the width of the
-text.  (The color of the stripe can be changed with \fBset stripecolor\fR.)
 .TP
 .B set matchbrackets "\fIstring\fP"
 Set the opening and closing brackets that can be found by bracket
