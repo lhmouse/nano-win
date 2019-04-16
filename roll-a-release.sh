@@ -12,8 +12,8 @@ po/update_linguas.sh &&
 
 make distcheck &&  make dist-xz &&
 
-git add po/*.po &&
-git commit -a -m "$(git log -1 --grep 'po: up' | grep o: | sed 's/^    //')" &&
+git add po/*.po po/nano.pot &&
+git commit -m "$(git log -1 --grep 'po: up' | grep o: | sed 's/^    //')" &&
 
 gpg -a -b nano-$VERSION.tar.gz &&
 gpg -a -b nano-$VERSION.tar.xz &&
