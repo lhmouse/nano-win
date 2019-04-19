@@ -1426,14 +1426,14 @@ bool do_wrap(void)
 		/* The line that will be wrapped, if needed and possible. */
 	size_t line_len = strlen(line->data);
 		/* The length of the line we wrap. */
+	size_t cursor_x = openfile->current_x;
+		/* The current cursor position, for comparison with the wrap point. */
 	ssize_t wrap_loc;
 		/* The index of line->data where we wrap. */
 	const char *remainder;
 		/* The text after the wrap point. */
 	size_t rest_length;
 		/* The length of the remainder. */
-
-	size_t old_x = openfile->current_x;
 
 	/* There are three steps.  First, we decide where to wrap.  Then, we
 	 * create the new wrap line.  Finally, we clean up. */
@@ -1523,7 +1523,7 @@ bool do_wrap(void)
 	/* When requested, snip trailing blanks off the wrapped line. */
 	if (ISSET(TRIM_BLANKS)) {
 		size_t tail_x = move_mbleft(line->data, wrap_loc);
-		size_t typed_x = move_mbleft(line->data, old_x);
+		size_t typed_x = move_mbleft(line->data, cursor_x);
 
 		while (tail_x != typed_x && is_blank_mbchar(line->data + tail_x)) {
 			openfile->current_x = tail_x;
@@ -1535,12 +1535,12 @@ bool do_wrap(void)
 	/* Now split the line. */
 	do_enter();
 
-	if (old_x < wrap_loc) {
+	if (cursor_x < wrap_loc) {
 		openfile->current = openfile->current->prev;
-		openfile->current_x = old_x;
+		openfile->current_x = cursor_x;
 		prepend_wrap = TRUE;
 	} else {
-		openfile->current_x += (old_x - wrap_loc);
+		openfile->current_x += (cursor_x - wrap_loc);
 		prepend_wrap = FALSE;
 	}
 
