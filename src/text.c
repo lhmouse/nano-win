@@ -1419,9 +1419,11 @@ void wrap_reset(void)
 	prepend_wrap = FALSE;
 }
 
-/* Try wrapping the given line.  Return TRUE if wrapped, FALSE otherwise. */
-bool do_wrap(linestruct *line)
+/* Try to wrap the current line.  Return TRUE if wrapped, FALSE otherwise. */
+bool do_wrap(void)
 {
+	linestruct *line = openfile->current;
+		/* The line that will be wrapped, if needed and possible. */
 	size_t line_len = strlen(line->data);
 		/* The length of the line we wrap. */
 	ssize_t wrap_loc;
@@ -1471,8 +1473,6 @@ bool do_wrap(linestruct *line)
 
 	add_undo(SPLIT_BEGIN);
 #endif
-
-	openfile->current = line;
 
 	/* Step 2, making the new wrap line.  It will consist of indentation
 	 * followed by the text after the wrap point, optionally followed by
@@ -3342,7 +3342,7 @@ void complete_a_word(void)
 			/* If needed, reenable wrapping and wrap the current line. */
 			if (was_set_wrapping) {
 				SET(BREAK_LONG_LINES);
-				do_wrap(openfile->current);
+				do_wrap();
 			}
 #endif
 			/* Set the position for a possible next search attempt. */

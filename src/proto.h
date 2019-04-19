@@ -524,7 +524,7 @@ void update_undo(undo_type action);
 #endif /* !NANO_TINY */
 #ifdef ENABLE_WRAPPING
 void wrap_reset(void);
-bool do_wrap(linestruct *line);
+bool do_wrap(void);
 #endif
 #if defined(ENABLE_HELP) || defined(ENABLED_WRAPORJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);

@@ -1920,7 +1920,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 #ifdef ENABLE_WRAPPING
 		/* If text gets wrapped, the edit window needs a refresh. */
-		if (ISSET(BREAK_LONG_LINES) && do_wrap(openfile->current))
+		if (ISSET(BREAK_LONG_LINES) && do_wrap())
 			refresh_needed = TRUE;
 #endif
 	}
