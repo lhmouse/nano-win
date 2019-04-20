@@ -1505,7 +1505,8 @@ bool do_wrap(void)
 		size_t tail_x = move_mbleft(line->data, wrap_loc);
 		size_t typed_x = move_mbleft(line->data, cursor_x);
 
-		while (tail_x != typed_x && is_blank_mbchar(line->data + tail_x)) {
+		while ((tail_x != typed_x || cursor_x >= wrap_loc) &&
+						is_blank_mbchar(line->data + tail_x)) {
 			openfile->current_x = tail_x;
 			do_delete();
 			tail_x = move_mbleft(line->data, tail_x);
