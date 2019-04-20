@@ -1419,65 +1419,45 @@ void wrap_reset(void)
 	prepend_wrap = FALSE;
 }
 
-/* Try to wrap the current line.  Return TRUE if wrapped, FALSE otherwise. */
+/* When the current line is overlong, hard-wrap it at the furthest possible
+ * whitespace character, and (if possible) prepend the remainder of the line
+ * to the next line.  Return TRUE if wrapping occurred, and FALSE otherwise. */
 bool do_wrap(void)
 {
 	linestruct *line = openfile->current;
-		/* The line that will be wrapped, if needed and possible. */
+		/* The line to be wrapped, if needed and possible. */
 	size_t line_len = strlen(line->data);
-		/* The length of the line we wrap. */
+		/* The length of this line. */
 	size_t cursor_x = openfile->current_x;
 		/* The current cursor position, for comparison with the wrap point. */
 	ssize_t wrap_loc;
-		/* The index of line->data where we wrap. */
+		/* The position in the line's text where we wrap. */
 	const char *remainder;
 		/* The text after the wrap point. */
 	size_t rest_length;
 		/* The length of the remainder. */
 
-	/* There are three steps.  First, we decide where to wrap.  Then, we
-	 * create the new wrap line.  Finally, we clean up. */
-
-	/* Step 1, finding where to wrap.  We are going to add a new line
-	 * after a blank character.  In this step, we call break_line() to
-	 * get the location of the last blank we can break the line at, and
-	 * set wrap_loc to the location of the character after it, so that
-	 * the blank is preserved at the end of the line.
-	 *
-	 * If there is no legal wrap point, or we reach the last character
-	 * of the line while trying to find one, we should return without
-	 * wrapping.  Note that if autoindent is turned on, we don't break
-	 * at the end of it! */
-
-	/* Find the last blank where we can break the line. */
+	/* First find the last blank character where we can break the line. */
 	wrap_loc = break_line(line->data, wrap_at, FALSE);
 
-	/* If we couldn't break the line, or we've reached the end of it, we
-	 * don't wrap. */
+	/* If no wrapping point was found before end-of-line, we don't wrap. */
 	if (wrap_loc == -1 || line->data[wrap_loc] == '\0')
 		return FALSE;
 
-	/* Otherwise, move forward to the character just after the blank. */
+	/* Step forward to the character just after the blank. */
 	wrap_loc += move_mbright(line->data + wrap_loc, 0);
 
-	/* If we've reached the end of the line, we don't wrap. */
+	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')
 		return FALSE;
 
 #ifndef NANO_TINY
-	/* If autoindent is turned on, and we're on the character just after
-	 * the indentation, we don't wrap. */
+	/* When autoindenting, we don't wrap right after the indentation. */
 	if (ISSET(AUTOINDENT) && wrap_loc == indent_length(line->data))
 		return FALSE;
 
 	add_undo(SPLIT_BEGIN);
 #endif
-
-	/* Step 2, making the new wrap line.  It will consist of indentation
-	 * followed by the text after the wrap point, optionally followed by
-	 * a space (if the text after the wrap point doesn't end in a blank)
-	 * and the text of the next line, if they can fit without wrapping,
-	 * the next line exists, and the prepend_wrap flag is set. */
 
 	/* The remainder is the text that will be wrapped to the next line. */
 	remainder = line->data + wrap_loc;
