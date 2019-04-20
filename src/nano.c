@@ -2437,13 +2437,13 @@ int main(int argc, char **argv)
 		/* Simply OR the boolean flags from rcfile and command line. */
 		for (size_t i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)
 			flags[i] |= flags_cmdline[i];
-
-		if (hardwrap == 0)
-			UNSET(BREAK_LONG_LINES);
-		else if (hardwrap == 1)
-			SET(BREAK_LONG_LINES);
 	}
 #endif /* ENABLE_NANORC */
+
+	if (hardwrap == 0)
+		UNSET(BREAK_LONG_LINES);
+	else if (hardwrap == 1)
+		SET(BREAK_LONG_LINES);
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))
