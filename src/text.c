@@ -1463,11 +1463,11 @@ bool do_wrap(void)
 	remainder = line->data + wrap_loc;
 	rest_length = line_len - wrap_loc;
 
-	/* We prepend the wrapped text to the next line, if the prepend_wrap
-	 * flag is set, there is a next line, and prepending would not make
-	 * the line too long. */
+	/* When prepending and the remainder of this line will not make the next
+	 * line too long, then join the two lines, so that, after the line wrap,
+	 * the remainder will effectively have been prefixed to the next line. */
 	if (prepend_wrap && rest_length + strlenpt(line->next->data) <= wrap_at) {
-		/* Go to the end of the line. */
+		/* Go to the end of this line. */
 		openfile->current_x = line_len;
 
 		/* If the remainder doesn't end in a blank, add a space. */
@@ -1486,11 +1486,10 @@ bool do_wrap(void)
 #endif
 		}
 
-			/* Delete the LF to join the two lines. */
+		/* Join the next line to this one, and delete any extra blanks. */
+		do {
 			do_delete();
-			/* Delete any leading blanks from the joined-on line. */
-			while (is_blank_mbchar(&line->data[openfile->current_x]))
-				do_delete();
+		} while (is_blank_mbchar(&line->data[openfile->current_x]));
 	}
 
 	/* Go to the wrap location. */
