@@ -1467,13 +1467,11 @@ bool do_wrap(void)
 	 * flag is set, there is a next line, and prepending would not make
 	 * the line too long. */
 	if (prepend_wrap && rest_length + strlenpt(line->next->data) <= wrap_at) {
-		const char *tail = remainder + move_mbleft(remainder, rest_length);
-
 		/* Go to the end of the line. */
 		openfile->current_x = line_len;
 
 		/* If the remainder doesn't end in a blank, add a space. */
-		if (!is_blank_mbchar(tail)) {
+		if (!is_blank_mbchar(remainder + move_mbleft(remainder, rest_length))) {
 #ifndef NANO_TINY
 			add_undo(ADD);
 #endif
