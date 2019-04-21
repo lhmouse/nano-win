@@ -1466,7 +1466,8 @@ bool do_wrap(void)
 	/* We prepend the wrapped text to the next line, if the prepend_wrap
 	 * flag is set, there is a next line, and prepending would not make
 	 * the line too long. */
-	if (prepend_wrap && line != openfile->filebot) {
+	if (prepend_wrap && line != openfile->filebot &&
+					rest_length + strlen(line->next->data) <= wrap_at) {
 		const char *tail = remainder + move_mbleft(remainder, rest_length);
 
 		/* Go to the end of the line. */
@@ -1488,13 +1489,11 @@ bool do_wrap(void)
 #endif
 		}
 
-		if (rest_length + strlen(line->next->data) <= wrap_at) {
 			/* Delete the LF to join the two lines. */
 			do_delete();
 			/* Delete any leading blanks from the joined-on line. */
 			while (is_blank_mbchar(&line->data[openfile->current_x]))
 				do_delete();
-		}
 	}
 
 	/* Go to the wrap location. */
