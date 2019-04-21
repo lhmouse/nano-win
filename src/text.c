@@ -35,11 +35,6 @@
 static pid_t pid_of_command = -1;
 		/* The PID of the forked process -- needed when wanting to abort it. */
 #endif
-#ifdef ENABLE_WRAPPING
-static bool prepend_wrap = FALSE;
-		/* Should we prepend wrapped text to the next line? */
-#endif
-
 #ifdef ENABLE_WORDCOMPLETION
 static int pletion_x = 0;
 		/* The x position in pletion_line of the last found completion. */
@@ -1412,13 +1407,6 @@ void update_undo(undo_type action)
 #endif /* !NANO_TINY */
 
 #ifdef ENABLE_WRAPPING
-/* Unset the prepend_wrap flag.  We need to do this as soon as we do
- * something other than type text. */
-void wrap_reset(void)
-{
-	prepend_wrap = FALSE;
-}
-
 /* When the current line is overlong, hard-wrap it at the furthest possible
  * whitespace character, and (if possible) prepend the remainder of the line
  * to the next line.  Return TRUE if wrapping occurred, and FALSE otherwise. */
@@ -1466,7 +1454,8 @@ bool do_wrap(void)
 	/* When prepending and the remainder of this line will not make the next
 	 * line too long, then join the two lines, so that, after the line wrap,
 	 * the remainder will effectively have been prefixed to the next line. */
-	if (prepend_wrap && rest_length + strlenpt(line->next->data) <= wrap_at) {
+	if (openfile->spillage_line && openfile->spillage_line == line->next &&
+				rest_length + strlenpt(line->next->data) <= wrap_at) {
 		/* Go to the end of this line. */
 		openfile->current_x = line_len;
 
@@ -1511,14 +1500,13 @@ bool do_wrap(void)
 	/* Now split the line. */
 	do_enter();
 
+	openfile->spillage_line = openfile->current;
+
 	if (cursor_x < wrap_loc) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = cursor_x;
-		prepend_wrap = TRUE;
-	} else {
+	} else
 		openfile->current_x += (cursor_x - wrap_loc);
-		prepend_wrap = FALSE;
-	}
 
 	openfile->placewewant = xplustabs();
 

@@ -131,6 +131,11 @@ void unlink_node(linestruct *fileptr)
 /* Free the data structures in the given node. */
 void delete_node(linestruct *fileptr)
 {
+#ifdef ENABLE_WRAPPING
+	/* If the spill-over line for hard-wrapping is deleted... */
+	if (fileptr == openfile->spillage_line)
+		openfile->spillage_line = NULL;
+#endif
 	free(fileptr->data);
 #ifdef ENABLE_COLOR
 	free(fileptr->multidata);
@@ -1780,9 +1785,6 @@ void do_input(void)
 		} else
 #endif
 		{
-#ifdef ENABLE_WRAPPING
-			linestruct *was_next = openfile->current->next;
-#endif
 #ifndef NANO_TINY
 			linestruct *was_current = openfile->current;
 			size_t was_x = openfile->current_x;
@@ -1811,14 +1813,6 @@ void do_input(void)
 				} else if (openfile->current != was_current)
 					also_the_last = FALSE;
 			}
-#endif
-#ifdef ENABLE_WRAPPING
-			/* If the cursor moved to another line and this was not caused
-			 * by adding characters to the buffer, clear the prepend flag. */
-			if (openfile->current->next != was_next &&
-							shortcut->func != do_tab &&
-							shortcut->func != do_verbatim_input)
-				wrap_reset();
 #endif
 #ifdef ENABLE_COLOR
 			if (!refresh_needed && !okay_for_view(shortcut))

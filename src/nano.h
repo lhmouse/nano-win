@@ -383,6 +383,10 @@ typedef struct openfilestruct {
 		/* Whether the file has been modified. */
 	struct stat *current_stat;
 		/* The file's current stat information. */
+#ifdef ENABLE_WRAPPING
+	linestruct *spillage_line;
+		/* The line for prepending stuff to during automatic hard-wrapping. */
+#endif
 #ifndef NANO_TINY
 	linestruct *mark;
 		/* The line in the file where the mark is set; NULL if not set. */

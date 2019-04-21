@@ -94,6 +94,9 @@ void make_new_buffer(void)
 	openfile->current_y = 0;
 
 	openfile->modified = FALSE;
+#ifdef ENABLE_WRAPPING
+	openfile->spillage_line = NULL;
+#endif
 #ifndef NANO_TINY
 	openfile->mark = NULL;
 
