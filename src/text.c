@@ -2717,7 +2717,7 @@ void do_spell(void)
 		else
 			statusline(ALERT, _("Spell checking failed: %s: %s"), result_msg,
 												strerror(errno));
-		free(result_msg);
+		/* Don't try to free the result message; see bug #56188. */
 	} else
 		statusbar(_("Finished checking spelling"));
 }
