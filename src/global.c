@@ -127,8 +127,10 @@ partition *filepart = NULL;
 		/* The "partition" where we store a portion of the current file. */
 openfilestruct *openfile = NULL;
 		/* The list of all open file buffers. */
-openfilestruct *firstfile = NULL;
+#ifdef ENABLE_MULTIBUFFER
+openfilestruct *startfile = NULL;
 		/* The first open buffer. */
+#endif
 
 #ifndef NANO_TINY
 char *matchbrackets = NULL;

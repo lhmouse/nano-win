@@ -2023,7 +2023,7 @@ int buffer_number(openfilestruct *buffer)
 {
 	int count = 1;
 
-	while (buffer != firstfile) {
+	while (buffer != startfile) {
 		buffer = buffer->prev;
 		count++;
 	}
@@ -2088,7 +2088,7 @@ void titlebar(const char *path)
 		if (more_than_one) {
 			indicator = charalloc(24);
 			sprintf(indicator, "[%i/%i]", buffer_number(openfile),
-										buffer_number(firstfile->prev));
+										buffer_number(startfile->prev));
 			upperleft = indicator;
 		} else
 #endif

@@ -98,7 +98,9 @@ extern bool keep_cutbuffer;
 
 extern partition *filepart;
 extern openfilestruct *openfile;
-extern openfilestruct *firstfile;
+#ifdef ENABLE_MULTIBUFFER
+extern openfilestruct *startfile;
+#endif
 
 #ifndef NANO_TINY
 extern char *matchbrackets;

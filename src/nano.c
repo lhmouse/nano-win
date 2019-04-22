@@ -493,8 +493,8 @@ void copy_from_buffer(linestruct *somebuffer)
 /* Unlink a node from the rest of the circular list, and delete it. */
 void unlink_opennode(openfilestruct *fileptr)
 {
-	if (fileptr == firstfile)
-		firstfile = firstfile->next;
+	if (fileptr == startfile)
+		startfile = startfile->next;
 
 	fileptr->prev->next = fileptr->next;
 	fileptr->next->prev = fileptr->prev;

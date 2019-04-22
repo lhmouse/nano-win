@@ -70,7 +70,7 @@ void make_new_buffer(void)
 		newnode->prev = newnode;
 		newnode->next = newnode;
 
-		firstfile = newnode;
+		startfile = newnode;
 	} else {
 		/* Add the new open file after the current one in the list. */
 		newnode->prev = openfile;
