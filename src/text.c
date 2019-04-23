@@ -60,8 +60,9 @@ void do_mark(void)
 #endif /* !NANO_TINY */
 
 #if defined(ENABLE_COLOR) || defined(ENABLE_SPELLER)
-/* Return an error message about invoking the given name. */
-char *invocation_error(const char *name)
+/* Return an error message about invoking the given name.  The message
+ * should not be freed; this leak is not worth the trouble avoiding. */
+const char *invocation_error(const char *name)
 {
 	char *message, *invoke_error = _("Error invoking \"%s\"");
 
@@ -2356,7 +2357,7 @@ bool fix_spello(const char *word)
 /* Internal (integrated) spell checking using the spell program,
  * filtered through the sort and uniq programs.  Return NULL for normal
  * termination, and the error string otherwise. */
-char *do_int_speller(const char *tempfile_name)
+const char *do_int_speller(const char *tempfile_name)
 {
 	char *misspellings, *pointer, *oneword;
 	long pipesize;
@@ -2548,7 +2549,7 @@ char *do_int_speller(const char *tempfile_name)
 
 /* External (alternate) spell checking.  Return NULL for normal
  * termination, and the error string otherwise. */
-char *do_alt_speller(char *tempfile_name)
+const char *do_alt_speller(char *tempfile_name)
 {
 	int alt_spell_status;
 	size_t current_x_save = openfile->current_x;
@@ -2651,7 +2652,7 @@ void do_spell(void)
 	char *temp;
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 		/* A storage place for the current flag settings. */
-	char *result_msg;
+	const char *result_msg;
 
 	if (ISSET(RESTRICTED)) {
 		show_restricted_warning();
@@ -2705,7 +2706,6 @@ void do_spell(void)
 		else
 			statusline(ALERT, _("Spell checking failed: %s: %s"), result_msg,
 												strerror(errno));
-		/* Don't try to free the result message; see bug #56188. */
 	} else
 		statusbar(_("Finished checking spelling"));
 }
@@ -2891,10 +2891,7 @@ void do_linter(void)
 	waitpid(pid_lint, &lint_status, 0);
 
 	if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
-		char *result_msg= invocation_error(openfile->syntax->linter);
-
-		statusbar(result_msg);
-		free(result_msg);
+		statusbar(invocation_error(openfile->syntax->linter));
 		return;
 	}
 
