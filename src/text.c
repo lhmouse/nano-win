@@ -3079,7 +3079,6 @@ void do_wordlinechar_count(void)
 	size_t words = 0, chars = 0;
 	ssize_t nlines = 0;
 	size_t current_x_save = openfile->current_x;
-	size_t pww_save = openfile->placewewant;
 	linestruct *current_save = openfile->current;
 	linestruct *was_mark = openfile->mark;
 	linestruct *top, *bot;
@@ -3097,7 +3096,6 @@ void do_wordlinechar_count(void)
 	/* Start at the top of the file. */
 	openfile->current = openfile->filetop;
 	openfile->current_x = 0;
-	openfile->placewewant = 0;
 
 	/* Keep moving to the next word (counting punctuation characters as
 	 * part of a word, as "wc -w" does), without updating the screen,
@@ -3127,7 +3125,6 @@ void do_wordlinechar_count(void)
 	/* Restore where we were. */
 	openfile->current = current_save;
 	openfile->current_x = current_x_save;
-	openfile->placewewant = pww_save;
 
 	/* Display the total word, line, and character counts on the statusbar. */
 	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), was_mark ?
