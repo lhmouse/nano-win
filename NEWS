@@ -1,3 +1,9 @@
+2019.04.24 - GNU nano 4.2 "Tax the rich, pay the teachers"
+• The integrated spell checker does not crash when 'spell' is missing.
+• Option --breaklonglines works also when --ignorercfiles is used.
+• Automatic hard-wrapping is more persistent in pushing words to the
+  same overflow line.
+
 2019.04.15 - GNU nano 4.1 "Qué corchos será eso?"
 • By default, a newline character is again automatically added at the
   end of a buffer, to produce valid POSIX text files by default, but
@@ -27,7 +33,7 @@
 • Option --guidestripe=<number> draws a vertical bar at the given column.
 • Option --fill=<number> no longer turns on automatic hard-wrapping.
 • When a line continues offscreen, it now ends with a highlighted ">".
-• The halfs of a split two-column character are shown as "[" and "]".
+• The halves of a split two-column character are shown as "[" and "]".
 • A line now scrolls horizontally one column earlier.
 • The bindable functions 'cutwordleft' and 'cutwordright' were renamed
   to 'chopwordleft' and 'chopwordright' as they don't use the cutbuffer.

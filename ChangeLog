@@ -1,3 +1,32 @@
+Changes between v4.1 and v4.2:
+------------------------------
+
+Benno Schulenberg (23):
+      build: be more specific and avoid committing accidentally changed files
+      bump version numbers and add a news item for the 4.2 release
+      docs: put the 'set guidestripe' option into its alphabetical position
+      options: make --breaklonglines work also when --ignorercfiles is used
+      speller: do not crash by trying to free something that cannot be freed
+      tweaks: adjust a few comments and some indentation
+      tweaks: condense and improve a handful of comments
+      tweaks: declare a function as const and let its allocated string leak
+      tweaks: drop an unneeded saving and restoring of a variable
+      tweaks: elide an unneeded intermediate variable
+      tweaks: elide an unneeded parameter, as the function already assumes it
+      tweaks: elide an unneeded variable
+      tweaks: exclude a bit more code from a single-buffer build
+      tweaks: remove an unneeded condition
+      tweaks: remove a redundant, enclosed #ifdef
+      tweaks: rename a function, to be distinct and fitting
+      tweaks: rename another function, to be distinct and fitting
+      tweaks: rename a variable, for a little more meaning
+      tweaks: rename a variable, to distinguish it from a browser function
+      wrapping: add a missing space only when the remainder will be prepended
+      wrapping: compute the width of a succeeding line in the correct manner
+      wrapping: improve the persistence of the prepending behavior
+      wrapping: trim any trailing blanks when cursor goes to next line
+
+
 Changes between v4.0 and v4.1:
 ------------------------------
 
