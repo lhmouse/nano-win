@@ -1841,7 +1841,7 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 
 		/* Find a point in the line where it can be broken. */
 		break_pos = break_line((*line)->data + lead_len,
-						wrap_at - strnlenpt((*line)->data, lead_len), FALSE);
+						wrap_at - wideness((*line)->data, lead_len), FALSE);
 
 		/* If we can't break the line, or don't need to, we're done. */
 		if (break_pos == -1 || break_pos + lead_len == line_len)

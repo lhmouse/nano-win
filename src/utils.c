@@ -368,7 +368,7 @@ size_t get_page_start(size_t column)
  * column position of the cursor. */
 size_t xplustabs(void)
 {
-	return strnlenpt(openfile->current->data, openfile->current_x);
+	return wideness(openfile->current->data, openfile->current_x);
 }
 
 /* Return the index in text of the character that (when displayed) will
@@ -394,10 +394,9 @@ size_t actual_x(const char *text, size_t column)
 
 /* A strnlen() with tabs and multicolumn characters factored in:
  * how many columns wide are the first maxlen bytes of text? */
-size_t strnlenpt(const char *text, size_t maxlen)
+size_t wideness(const char *text, size_t maxlen)
 {
 	size_t width = 0;
-		/* The screen display width to text[maxlen]. */
 
 	if (maxlen == 0)
 		return 0;

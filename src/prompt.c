@@ -43,7 +43,7 @@ int do_statusbar_mouse(void)
 		if (click_row == 0 && click_col >= start_col)
 			typing_x = actual_x(answer,
 							get_statusbar_page_start(start_col, start_col +
-							strnlenpt(answer, typing_x)) + click_col - start_col);
+							wideness(answer, typing_x)) + click_col - start_col);
 	}
 
 	return retval;
@@ -389,7 +389,7 @@ void draw_the_promptbar(void)
 	size_t the_page, end_page, column;
 	char *expanded;
 
-	the_page = get_statusbar_page_start(base, base + strnlenpt(answer, typing_x));
+	the_page = get_statusbar_page_start(base, base + wideness(answer, typing_x));
 	end_page = get_statusbar_page_start(base, base + breadth(answer) - 1);
 
 	/* Color the promptbar over its full width. */
@@ -414,7 +414,7 @@ void draw_the_promptbar(void)
 	wrefresh(bottomwin);
 
 	/* Place the cursor at the right spot. */
-	column = base + strnlenpt(answer, typing_x);
+	column = base + wideness(answer, typing_x);
 	wmove(bottomwin, 0, column - get_statusbar_page_start(base, column));
 	wnoutrefresh(bottomwin);
 }

@@ -610,7 +610,7 @@ size_t help_line_len(const char *ptr)
 		length = move_mbright(ptr, length);
 
 	/* If the entire line will just fit the screen, don't wrap it. */
-	if (strnlenpt(ptr, length) <= wrapping_point + 1)
+	if (wideness(ptr, length) <= wrapping_point + 1)
 		return length;
 	else if (wrap_location > 0)
 		return wrap_location;

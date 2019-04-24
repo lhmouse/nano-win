@@ -1871,7 +1871,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 {
 	size_t start_index = actual_x(buf, column);
 		/* The index of the first character that the caller wishes to show. */
-	size_t start_col = strnlenpt(buf, start_index);
+	size_t start_col = wideness(buf, start_index);
 		/* The actual column where that first character starts. */
 	char *converted;
 		/* The expanded string we will return. */
@@ -2509,12 +2509,12 @@ void edit_draw(linestruct *fileptr, const char *converted,
 						continue;
 
 					start_col = (match.rm_so <= from_x) ?
-										0 : strnlenpt(fileptr->data,
+										0 : wideness(fileptr->data,
 										match.rm_so) - from_col;
 
 					thetext = converted + actual_x(converted, start_col);
 
-					paintlen = actual_x(thetext, strnlenpt(fileptr->data,
+					paintlen = actual_x(thetext, wideness(fileptr->data,
 										match.rm_eo) - from_col - start_col);
 
 					mvwaddnstr(edit, row, margin + start_col,
@@ -2613,7 +2613,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 
 			/* Only if it is visible, paint the part to be coloured. */
 			if (endmatch.rm_eo > from_x) {
-				paintlen = actual_x(converted, strnlenpt(fileptr->data,
+				paintlen = actual_x(converted, wideness(fileptr->data,
 												endmatch.rm_eo) - from_col);
 				mvwaddnstr(edit, row, margin, converted, paintlen);
 			}
@@ -2633,7 +2633,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 				startmatch.rm_eo += index;
 
 				start_col = (startmatch.rm_so <= from_x) ?
-								0 : strnlenpt(fileptr->data,
+								0 : wideness(fileptr->data,
 								startmatch.rm_so) - from_col;
 
 				thetext = converted + actual_x(converted, start_col);
@@ -2649,7 +2649,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 					 * it is more than zero characters long. */
 					if (endmatch.rm_eo > from_x &&
 										endmatch.rm_eo > startmatch.rm_so) {
-						paintlen = actual_x(thetext, strnlenpt(fileptr->data,
+						paintlen = actual_x(thetext, wideness(fileptr->data,
 										endmatch.rm_eo) - from_col - start_col);
 
 						mvwaddnstr(edit, row, margin + start_col,
@@ -2702,7 +2702,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 
 		if (*(converted + target_x) != '\0') {
 			charlen = parse_mbchar(converted + target_x, striped_char, NULL);
-			target_column = strnlenpt(converted, target_x);
+			target_column = wideness(converted, target_x);
 		} else if (target_column + 1 == editwincols) {
 			/* Defeat a VTE bug -- see https://sv.gnu.org/bugs/?55896. */
 #ifdef ENABLE_UTF8
@@ -2749,7 +2749,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 		/* Only paint if the marked part of the line is on this page. */
 		if (top_x < till_x && bot_x > from_x) {
 			/* Compute on which screen column to start painting. */
-			start_col = strnlenpt(fileptr->data, top_x) - from_col;
+			start_col = wideness(fileptr->data, top_x) - from_col;
 
 			if (start_col < 0)
 				start_col = 0;
@@ -2759,7 +2759,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 			/* If the end of the mark is onscreen, compute how many
 			 * characters to paint.  Otherwise, just paint all. */
 			if (bot_x < till_x) {
-				size_t end_col = strnlenpt(fileptr->data, bot_x) - from_col;
+				size_t end_col = wideness(fileptr->data, bot_x) - from_col;
 				paintlen = actual_x(thetext, end_col - start_col);
 			}
 
@@ -2797,7 +2797,7 @@ int update_line(linestruct *fileptr, size_t index)
 	blank_row(edit, row, 0, COLS);
 
 	/* Next, find out from which column to start displaying the line. */
-	from_col = get_page_start(strnlenpt(fileptr->data, index));
+	from_col = get_page_start(wideness(fileptr->data, index));
 
 	/* Expand the line, replacing tabs with spaces, and control
 	 * characters with their displayed forms. */

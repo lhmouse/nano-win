@@ -389,7 +389,7 @@ void do_findnext(void)
 void not_found_msg(const char *str)
 {
 	char *disp = display_string(str, 0, (COLS / 2) + 1, FALSE, FALSE);
-	size_t numchars = actual_x(disp, strnlenpt(disp, COLS / 2));
+	size_t numchars = actual_x(disp, wideness(disp, COLS / 2));
 
 	statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
 						(disp[numchars] == '\0') ? "" : "...");
@@ -577,7 +577,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 		if (!replaceall) {
 			spotlighted = TRUE;
 			light_from_col = xplustabs();
-			light_to_col = strnlenpt(openfile->current->data,
+			light_to_col = wideness(openfile->current->data,
 										openfile->current_x + match_len);
 
 			/* Refresh the edit window, scrolling it if necessary. */
