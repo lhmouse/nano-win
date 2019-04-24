@@ -2106,16 +2106,16 @@ void titlebar(const char *path)
 		else if (ISSET(RESTRICTED))
 			state = _("Restricted");
 
-		pluglen = strlenpt(_("Modified")) + 1;
+		pluglen = breadth(_("Modified")) + 1;
 	}
 
 	/* Determine the widths of the four elements, including their padding. */
-	verlen = strlenpt(upperleft) + 3;
-	prefixlen = strlenpt(prefix);
+	verlen = breadth(upperleft) + 3;
+	prefixlen = breadth(prefix);
 	if (prefixlen > 0)
 		prefixlen++;
-	pathlen = strlenpt(path);
-	statelen = strlenpt(state) + 2;
+	pathlen = breadth(path);
+	statelen = breadth(state) + 2;
 	if (statelen > 2) {
 		pathlen++;
 		pluglen = 0;
@@ -2253,7 +2253,7 @@ void statusline(message_type importance, const char *msg, ...)
 	message = display_string(compound, 0, COLS, FALSE, FALSE);
 	free(compound);
 
-	start_col = (COLS - strlenpt(message)) / 2;
+	start_col = (COLS - breadth(message)) / 2;
 	bracketed = (start_col > 1);
 
 	wmove(bottomwin, 0, (bracketed ? start_col - 2 : start_col));
@@ -2348,7 +2348,7 @@ void post_one_key(const char *keystroke, const char *tag, int width)
 	wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
 
 	/* If the remaning space is too small, skip the description. */
-	width -= strlenpt(keystroke);
+	width -= breadth(keystroke);
 	if (width < 2)
 		return;
 
@@ -2812,7 +2812,7 @@ int update_line(linestruct *fileptr, size_t index)
 		mvwaddch(edit, row, margin, '<');
 		wattroff(edit, hilite_attribute);
 	}
-	if (strlenpt(fileptr->data) > from_col + editwincols) {
+	if (breadth(fileptr->data) > from_col + editwincols) {
 		wattron(edit, hilite_attribute);
 		mvwaddch(edit, row, COLS - 1, '>');
 		wattroff(edit, hilite_attribute);
@@ -3392,7 +3392,7 @@ void do_cursorpos(bool force)
 {
 	char saved_byte;
 	size_t sum, cur_xpt = xplustabs() + 1;
-	size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
+	size_t cur_lenpt = breadth(openfile->current->data) + 1;
 	int linepct, colpct, charpct;
 
 	/* If the showing needs to be suppressed, don't suppress it next time. */
@@ -3652,7 +3652,7 @@ void do_credits(void)
 			else
 				what = credits[crpos];
 
-			start_col = COLS / 2 - strlenpt(what) / 2 - 1;
+			start_col = COLS / 2 - breadth(what) / 2 - 1;
 			mvwaddstr(edit, editwinrows - 1 - (editwinrows % 2),
 												start_col, what);
 		}

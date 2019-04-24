@@ -37,7 +37,7 @@ int do_statusbar_mouse(void)
 
 	/* We can click on the statusbar window text to move the cursor. */
 	if (retval == 0 && wmouse_trafo(bottomwin, &click_row, &click_col, FALSE)) {
-		size_t start_col = strlenpt(prompt) + 2;
+		size_t start_col = breadth(prompt) + 2;
 
 		/* Move to where the click occurred. */
 		if (click_row == 0 && click_col >= start_col)
@@ -385,12 +385,12 @@ void put_cursor_at_end_of_answer(void)
 /* Redraw the promptbar and place the cursor at the right spot. */
 void draw_the_promptbar(void)
 {
-	size_t base = strlenpt(prompt) + 2;
+	size_t base = breadth(prompt) + 2;
 	size_t the_page, end_page, column;
 	char *expanded;
 
 	the_page = get_statusbar_page_start(base, base + strnlenpt(answer, typing_x));
-	end_page = get_statusbar_page_start(base, base + strlenpt(answer) - 1);
+	end_page = get_statusbar_page_start(base, base + breadth(answer) - 1);
 
 	/* Color the promptbar over its full width. */
 	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
@@ -404,7 +404,7 @@ void draw_the_promptbar(void)
 	waddstr(bottomwin, expanded);
 	free(expanded);
 
-	if (base + strlenpt(answer) != COLS && the_page < end_page)
+	if (base + breadth(answer) != COLS && the_page < end_page)
 		mvwaddch(bottomwin, 0, COLS - 1, '>');
 
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);

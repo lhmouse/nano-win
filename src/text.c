@@ -1456,7 +1456,7 @@ bool do_wrap(void)
 	 * line too long, then join the two lines, so that, after the line wrap,
 	 * the remainder will effectively have been prefixed to the next line. */
 	if (openfile->spillage_line && openfile->spillage_line == line->next &&
-				rest_length + strlenpt(line->next->data) <= wrap_at) {
+				rest_length + breadth(line->next->data) <= wrap_at) {
 		/* Go to the end of this line. */
 		openfile->current_x = line_len;
 
@@ -1836,7 +1836,7 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 	ssize_t break_pos;
 		/* The x-coordinate where the current line is to be broken. */
 
-	while (strlenpt((*line)->data) > wrap_at) {
+	while (breadth((*line)->data) > wrap_at) {
 		size_t line_len = strlen((*line)->data);
 
 		/* Find a point in the line where it can be broken. */
@@ -2296,7 +2296,7 @@ bool fix_spello(const char *word)
 	} else if (result == 1) {
 		spotlighted = TRUE;
 		light_from_col = xplustabs();
-		light_to_col = light_from_col + strlenpt(word);
+		light_to_col = light_from_col + breadth(word);
 #ifndef NANO_TINY
 		linestruct *saved_mark = openfile->mark;
 		openfile->mark = NULL;

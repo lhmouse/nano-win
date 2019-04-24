@@ -581,7 +581,7 @@ size_t get_page_start(size_t column);
 size_t xplustabs(void);
 size_t actual_x(const char *text, size_t column);
 size_t strnlenpt(const char *text, size_t maxlen);
-size_t strlenpt(const char *text);
+size_t breadth(const char *text);
 void new_magicline(void);
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 void remove_magicline(void);

@@ -416,7 +416,7 @@ size_t strnlenpt(const char *text, size_t maxlen)
 }
 
 /* Return the number of columns that the given text occupies. */
-size_t strlenpt(const char *text)
+size_t breadth(const char *text)
 {
 	size_t span = 0;
 

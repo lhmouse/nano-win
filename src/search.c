@@ -88,7 +88,7 @@ void search_init(bool replacing, bool keep_the_answer)
 		thedefault = charalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
 		sprintf(thedefault, " [%s%s]", disp,
-				(strlenpt(last_search) > COLS / 3) ? "..." : "");
+				(breadth(last_search) > COLS / 3) ? "..." : "");
 		free(disp);
 	} else
 		thedefault = mallocstrcpy(NULL, "");
@@ -810,7 +810,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 	/* Take a negative column number to mean: from the end of the line. */
 	if (column < 0)
-		column = strlenpt(openfile->current->data) + column + 2;
+		column = breadth(openfile->current->data) + column + 2;
 	if (column < 1)
 		column = 1;
 
@@ -820,8 +820,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP) && openfile->placewewant / editwincols >
-						strlenpt(openfile->current->data) / editwincols)
-		openfile->placewewant = strlenpt(openfile->current->data);
+						breadth(openfile->current->data) / editwincols)
+		openfile->placewewant = breadth(openfile->current->data);
 #endif
 
 	/* When the position was manually given, center the target line. */

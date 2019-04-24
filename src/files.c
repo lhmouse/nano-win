@@ -355,13 +355,13 @@ int do_lockfile(const char *filename)
 
 		/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
 		question = _("File %s is being edited (by %s with %s, PID %s); continue?");
-		room = COLS - strlenpt(question) + 7 - strlenpt(lockuser) -
-								strlenpt(lockprog) - strlenpt(pidstring);
+		room = COLS - breadth(question) + 7 - breadth(lockuser) -
+								breadth(lockprog) - breadth(pidstring);
 		if (room < 4)
 			postedname = mallocstrcpy(NULL, "_");
-		else if (room < strlenpt(filename)) {
+		else if (room < breadth(filename)) {
 			char *fragment = display_string(filename,
-								strlenpt(filename) - room + 3, room, FALSE, FALSE);
+								breadth(filename) - room + 3, room, FALSE, FALSE);
 			postedname = charalloc(strlen(fragment) + 4);
 			strcpy(postedname, "...");
 			strcat(postedname, fragment);
@@ -2266,7 +2266,7 @@ int do_writeout(bool exiting, bool withprompt)
 				if (name_exists) {
 					char *question = _("File \"%s\" exists; OVERWRITE? ");
 					char *name = display_string(answer, 0,
-										COLS - strlenpt(question) + 1, FALSE, FALSE);
+										COLS - breadth(question) + 1, FALSE, FALSE);
 					char *message = charalloc(strlen(question) +
 												strlen(name) + 1);
 
@@ -2683,7 +2683,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 			/* Find the length of the longest among the choices. */
 			for (match = 0; match < num_matches; match++) {
-				size_t namelen = strlenpt(matches[match]);
+				size_t namelen = breadth(matches[match]);
 
 				if (namelen > longest_name)
 					longest_name = namelen;

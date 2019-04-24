@@ -1135,7 +1135,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 			} else
 				matchbrackets = option;
 		} else if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
-			if (mbstrlen(option) != 2 || strlenpt(option) != 2) {
+			if (mbstrlen(option) != 2 || breadth(option) != 2) {
 				rcfile_error(N_("Two single-column characters required"));
 				free(option);
 			} else {

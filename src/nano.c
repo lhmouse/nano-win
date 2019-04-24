@@ -741,13 +741,13 @@ void mouse_init(void)
 void print_opt(const char *shortflag, const char *longflag, const char *desc)
 {
 	printf(" %s\t", shortflag);
-	if (strlenpt(shortflag) < 8)
+	if (breadth(shortflag) < 8)
 		printf("\t");
 
 	printf("%s\t", longflag);
-	if (strlenpt(longflag) < 8)
+	if (breadth(longflag) < 8)
 		printf("\t\t");
-	else if (strlenpt(longflag) < 16)
+	else if (breadth(longflag) < 16)
 		printf("\t");
 
 	printf("%s\n", _(desc));
