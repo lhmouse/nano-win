@@ -533,6 +533,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
 size_t indent_length(const char *line);
 #endif
 #ifdef ENABLE_JUSTIFY
+size_t quote_length(const char *line);
 bool begpar(const linestruct *const foo, int depth);
 bool inpar(const linestruct *const foo);
 void do_justify(bool full_justify);
