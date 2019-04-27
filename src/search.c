@@ -868,8 +868,7 @@ void do_gotolinecolumn_void(void)
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
 	linestruct *line = openfile->current;
-	const char *pointer = line->data + openfile->current_x;
-	const char *found = NULL;
+	const char *pointer, *found;
 
 	/* Step away from the current bracket, either backwards or forwards. */
 	if (reverse) {
@@ -881,7 +880,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 		} else
 			pointer = line->data + move_mbleft(line->data, openfile->current_x);
 	} else
-		pointer += move_mbright(pointer, 0);
+		pointer = line->data + move_mbright(line->data, openfile->current_x);
 
 	/* Now seek for any of the two brackets, either backwards or forwards. */
 	while (TRUE) {
