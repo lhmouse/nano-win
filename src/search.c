@@ -863,9 +863,9 @@ void do_gotolinecolumn_void(void)
 
 #ifndef NANO_TINY
 /* Search, starting from the current position, for any of the two characters
- * in bracket_set.  If reverse is TRUE, search backwards, otherwise forwards.
+ * in bracket_pair.  If reverse is TRUE, search backwards, otherwise forwards.
  * Return TRUE when one of the brackets was found, and FALSE otherwise. */
-bool find_bracket_match(bool reverse, const char *bracket_set)
+bool find_a_bracket(bool reverse, const char *bracket_pair)
 {
 	linestruct *line = openfile->current;
 	const char *pointer, *found;
@@ -885,9 +885,9 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	/* Now seek for any of the two brackets, either backwards or forwards. */
 	while (TRUE) {
 		if (reverse)
-			found = mbrevstrpbrk(line->data, bracket_set, pointer);
+			found = mbrevstrpbrk(line->data, bracket_pair, pointer);
 		else
-			found = mbstrpbrk(pointer, bracket_set);
+			found = mbstrpbrk(pointer, bracket_pair);
 
 		if (found)
 			break;
@@ -928,7 +928,7 @@ void do_find_bracket(void)
 		/* The location in matchbrackets of the complementing bracket. */
 	int wanted_ch_len;
 		/* The length of wanted_ch in bytes. */
-	char bracket_set[MAXCHARLEN * 2 + 1];
+	char bracket_pair[MAXCHARLEN * 2 + 1];
 		/* The pair of characters in ch and wanted_ch. */
 	size_t halfway = 0;
 		/* The index in matchbrackets where the closing brackets start. */
@@ -968,13 +968,13 @@ void do_find_bracket(void)
 	ch_len = parse_mbchar(ch, NULL, NULL);
 	wanted_ch_len = parse_mbchar(wanted_ch, NULL, NULL);
 
-	/* Fill bracket_set in with the values of ch and wanted_ch. */
-	strncpy(bracket_set, ch, ch_len);
-	strncpy(bracket_set + ch_len, wanted_ch, wanted_ch_len);
-	bracket_set[ch_len + wanted_ch_len] = '\0';
+	/* Copy the two complementary brackets into a single string. */
+	strncpy(bracket_pair, ch, ch_len);
+	strncpy(bracket_pair + ch_len, wanted_ch, wanted_ch_len);
+	bracket_pair[ch_len + wanted_ch_len] = '\0';
 
 	while (TRUE) {
-		if (find_bracket_match(reverse, bracket_set)) {
+		if (find_a_bracket(reverse, bracket_pair)) {
 			/* If we found an identical bracket, increment balance.  If we
 			 * found a complementary bracket, decrement it. */
 			balance += (strncmp(openfile->current->data + openfile->current_x,
