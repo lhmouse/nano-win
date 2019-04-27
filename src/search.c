@@ -974,22 +974,21 @@ void do_find_bracket(void)
 	bracket_pair[ch_len + wanted_ch_len] = '\0';
 
 	while (find_a_bracket(reverse, bracket_pair)) {
-			/* If we found an identical bracket, increment balance.  If we
-			 * found a complementary bracket, decrement it. */
-			balance += (strncmp(openfile->current->data + openfile->current_x,
-								ch, ch_len) == 0) ? 1 : -1;
+		/* Increment/decrement balance for an identical/other bracket. */
+		balance += (strncmp(openfile->current->data + openfile->current_x,
+							ch, ch_len) == 0) ? 1 : -1;
 
-			/* If balance is zero, we've found a matching bracket.  Update
-			 * the screen and get out. */
-			if (balance == 0) {
-				edit_redraw(was_current, FLOWING);
-				return;
-			}
+		/* When balance reached zero, we've found the complementary bracket. */
+		if (balance == 0) {
+			edit_redraw(was_current, FLOWING);
+			return;
+		}
 	}
-			/* We didn't find either an opening or closing bracket.
-			 * Indicate this, restore where we were, and get out. */
-			statusbar(_("No matching bracket"));
-			openfile->current = was_current;
-			openfile->current_x = was_current_x;
+
+	statusbar(_("No matching bracket"));
+
+	/* Restore the cursor position. */
+	openfile->current = was_current;
+	openfile->current_x = was_current_x;
 }
 #endif /* !NANO_TINY */
