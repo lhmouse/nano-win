@@ -873,14 +873,15 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 
 	/* Step away from the current bracket, either backwards or forwards. */
 	if (reverse) {
-		if (--pointer < line->data) {
+		if (openfile->current_x == 0) {
 			line = line->prev;
 			if (line == NULL)
 				return FALSE;
 			pointer = line->data + strlen(line->data);
-		}
+		} else
+			pointer = line->data + move_mbleft(line->data, openfile->current_x);
 	} else
-		++pointer;
+		pointer += move_mbright(pointer, 0);
 
 	/* Now seek for any of the two brackets, either backwards or forwards. */
 	while (TRUE) {
