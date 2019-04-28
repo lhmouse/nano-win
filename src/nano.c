@@ -431,20 +431,14 @@ void ingraft_buffer(linestruct *somebuffer)
 		openfile->current_x += current_x_save;
 
 #ifndef NANO_TINY
-	/* Refresh the mark's pointer, and compensate the mark's
+	/* When needed, refresh the mark's pointer and compensate the mark's
 	 * x coordinate for the change in the current line. */
 	if (openfile->mark && single_line) {
-		if (openfile->filetop == openfile->filebot) {
-			openfile->mark = openfile->current;
-			if (!right_side_up)
-				openfile->mark_x += openfile->current_x  - current_x_save;
-		} else
-		if (right_side_up)
-			openfile->mark = openfile->filetop;
-		else {
-			openfile->mark = openfile->current;
+		if (!right_side_up) {
+			openfile->mark = openfile->filebot;
 			openfile->mark_x += openfile->current_x - current_x_save;
-		}
+		} else
+			openfile->mark = openfile->filetop;
 	}
 #endif
 
