@@ -398,19 +398,12 @@ void ingraft_buffer(linestruct *somebuffer)
 	bool edittop_inside;
 #ifndef NANO_TINY
 	bool right_side_up = FALSE, single_line = FALSE;
-#endif
 
-#ifndef NANO_TINY
-	/* Keep track of whether the mark begins inside the partition and
-	 * will need adjustment. */
+	/* Remember whether mark and cursor are on the same line, and their order. */
 	if (openfile->mark) {
-		linestruct *top, *bot;
-		size_t top_x, bot_x;
-
-		mark_order((const linestruct **)&top, &top_x,
-						(const linestruct **)&bot, &bot_x, &right_side_up);
-
-		single_line = (top == bot);
+		single_line = (openfile->mark == openfile->current);
+		right_side_up = (openfile->mark->lineno < openfile->current->lineno ||
+						(single_line && openfile->mark_x < openfile->current_x));
 	}
 #endif
 
