@@ -425,22 +425,20 @@ void ingraft_buffer(linestruct *somebuffer)
 	openfile->current = openfile->filebot;
 	openfile->current_x = strlen(openfile->filebot->data);
 
+	/* When the pasted stuff contains no newline, adjust the cursor's
+	 * x coordinate for the text that is before the pasted stuff. */
+	if (openfile->filetop == openfile->filebot)
+		openfile->current_x += current_x_save;
+
+#ifndef NANO_TINY
 	/* Refresh the mark's pointer, and compensate the mark's
 	 * x coordinate for the change in the current line. */
-	if (openfile->filetop == openfile->filebot) {
-#ifndef NANO_TINY
-		if (openfile->mark && single_line) {
+	if (openfile->mark && single_line) {
+		if (openfile->filetop == openfile->filebot) {
 			openfile->mark = openfile->current;
 			if (!right_side_up)
-				openfile->mark_x += openfile->current_x;
-		}
-#endif
-		/* When the pasted stuff contains no newline, adjust the cursor's
-		 * x coordinate for the text that is before the pasted stuff. */
-		openfile->current_x += current_x_save;
-	}
-#ifndef NANO_TINY
-	else if (openfile->mark && single_line) {
+				openfile->mark_x += openfile->current_x  - current_x_save;
+		} else
 		if (right_side_up)
 			openfile->mark = openfile->filetop;
 		else {
