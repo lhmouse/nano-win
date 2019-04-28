@@ -148,12 +148,10 @@ void chop_word(bool forward)
 	/* Remember the current cursor position. */
 	linestruct *is_current = openfile->current;
 	size_t is_current_x = openfile->current_x;
-
-	/* Remember where the cutbuffer is and then make it seem blank. */
+	/* Remember where the cutbuffer is, then make it seem blank. */
 	linestruct *is_cutbuffer = cutbuffer;
-	linestruct *is_cutbottom = cutbottom;
+
 	cutbuffer = NULL;
-	cutbottom = NULL;
 
 	/* Move the cursor to a word start, to the left or to the right.
 	 * If that word is on another line and the cursor was not already
@@ -191,7 +189,6 @@ void chop_word(bool forward)
 	/* Discard the cut word and restore the cutbuffer. */
 	free_lines(cutbuffer);
 	cutbuffer = is_cutbuffer;
-	cutbottom = is_cutbottom;
 }
 
 /* Delete a word leftward. */
@@ -450,7 +447,6 @@ void zap_text(void)
 {
 	/* Remember the current cutbuffer so it can be restored after the zap. */
 	linestruct *was_cutbuffer = cutbuffer;
-	linestruct *was_cutbottom = cutbottom;
 
 	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
 		return;
@@ -464,14 +460,12 @@ void zap_text(void)
 
 	/* Use the cutbuffer from the ZAP undo item, so the cut can be undone. */
 	cutbuffer = openfile->current_undo->cutbuffer;
-	cutbottom = openfile->current_undo->cutbottom;
 
 	do_cut_text(FALSE, openfile->mark != NULL, FALSE, TRUE);
 
 	update_undo(ZAP);
 
 	cutbuffer = was_cutbuffer;
-	cutbottom = was_cutbottom;
 }
 #endif /* !NANO_TINY */
 

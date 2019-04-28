@@ -330,12 +330,8 @@ typedef struct undo {
 		/* Some flag data we need. */
 	undo_group *grouping;
 		/* Undo info specific to groups of lines. */
-
-	/* Cut-specific stuff we need. */
 	linestruct *cutbuffer;
 		/* Copy of the cutbuffer. */
-	linestruct *cutbottom;
-		/* Copy of cutbottom. */
 	ssize_t mark_begin_lineno;
 		/* Mostly the line number of the current line; sometimes something else. */
 	size_t mark_begin_x;

@@ -490,7 +490,7 @@ void undo_cut(undo *u)
 /* Redo a cut, or undo an uncut. */
 void redo_cut(undo *u)
 {
-	linestruct *oldcutbuffer = cutbuffer, *oldcutbottom = cutbottom;
+	linestruct *oldcutbuffer = cutbuffer;
 
 	goto_line_posx(u->lineno, u->begin);
 
@@ -499,7 +499,6 @@ void redo_cut(undo *u)
 		return;
 
 	cutbuffer = NULL;
-	cutbottom = NULL;
 
 	openfile->mark = fsfromline(u->mark_begin_lineno);
 	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
@@ -508,7 +507,6 @@ void redo_cut(undo *u)
 
 	free_lines(cutbuffer);
 	cutbuffer = oldcutbuffer;
-	cutbottom = oldcutbottom;
 }
 
 /* Undo the last thing(s) we did. */
@@ -516,7 +514,7 @@ void do_undo(void)
 {
 	undo *u = openfile->current_undo;
 	linestruct *f = NULL, *t = NULL;
-	linestruct *oldcutbuffer, *oldcutbottom;
+	linestruct *oldcutbuffer;
 	char *data, *undidmsg = NULL;
 	size_t from_x, to_x;
 
@@ -622,18 +620,14 @@ void do_undo(void)
 	case INSERT:
 		undidmsg = _("insertion");
 		oldcutbuffer = cutbuffer;
-		oldcutbottom = cutbottom;
 		cutbuffer = NULL;
-		cutbottom = NULL;
 		openfile->mark = fsfromline(u->mark_begin_lineno);
 		openfile->mark_x = u->mark_begin_x;
 		goto_line_posx(u->lineno, u->begin);
 		cut_marked(NULL);
 		free_lines(u->cutbuffer);
 		u->cutbuffer = cutbuffer;
-		u->cutbottom = cutbottom;
 		cutbuffer = oldcutbuffer;
-		cutbottom = oldcutbottom;
 		break;
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
@@ -1141,7 +1135,6 @@ void add_undo(undo_type action)
 	u->type = action;
 	u->strdata = NULL;
 	u->cutbuffer = NULL;
-	u->cutbottom = NULL;
 	u->lineno = openfile->current->lineno;
 	u->begin = openfile->current_x;
 	u->mark_begin_lineno = openfile->current->lineno;
@@ -1377,19 +1370,21 @@ void update_undo(undo_type action)
 			} else
 				u->xflags |= WAS_MARKED_FORWARD;
 		} else {
-			/* Compute the end of the cut for the undo, using our copy. */
-			u->cutbottom = u->cutbuffer;
-			while (u->cutbottom->next != NULL)
-				u->cutbottom = u->cutbottom->next;
-			u->lineno = u->mark_begin_lineno + u->cutbottom->lineno -
+			linestruct *bottomline = u->cutbuffer;
+
+			/* Find the end of the cut for the undo/redo, using our copy. */
+			while (bottomline->next != NULL)
+				bottomline = bottomline->next;
+
+			u->lineno = u->mark_begin_lineno + bottomline->lineno -
 										u->cutbuffer->lineno;
 			if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_TO_EOF) {
-				u->begin = strlen(u->cutbottom->data);
+				u->begin = strlen(bottomline->data);
 				if (u->lineno == u->mark_begin_lineno)
 					u->begin += u->mark_begin_x;
 			} else if (openfile->current == openfile->filebot &&
 						ISSET(NO_NEWLINES))
-				u->begin = strlen(u->cutbottom->data);
+				u->begin = strlen(bottomline->data);
 		}
 		break;
 	case INSERT:
@@ -1926,8 +1921,6 @@ void do_justify(bool full_justify)
 		/* The bottom x-coordinate of the paragraph we justify. */
 	linestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
-	linestruct *was_cutbottom = cutbottom;
-		/* The old cutbottom, so we can justify in the current cutbuffer. */
 	linestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
 
@@ -2053,7 +2046,6 @@ void do_justify(bool full_justify)
 
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
 	cutbuffer = NULL;
-	cutbottom = NULL;
 	extract_buffer(&cutbuffer, &cutbottom, first_par_line, top_x,
 											last_par_line, bot_x);
 #ifndef NANO_TINY
@@ -2106,8 +2098,6 @@ void do_justify(bool full_justify)
 		} else
 			rewrap_paragraph(&line, the_lead, lead_len);
 
-		cutbottom = line;
-
 		/* If the marked region started after the beginning of a line, insert
 		 * a new line before the new paragraph.  But if the region started in
 		 * the middle of the line's leading part, no new line is needed: just
@@ -2130,10 +2120,8 @@ void do_justify(bool full_justify)
 		 * portion, so it will become a full leading part when the justified
 		 * region is "pasted" back. */
 		if (bot_x > 0 && !ends_at_eol) {
-			cutbottom->next = make_new_node(cutbottom);
-			cutbottom->next->data = mallocstrcpy(NULL, the_lead +
-													needed_bot_extra);
-			cutbottom = cutbottom->next;
+			line->next = make_new_node(line);
+			line->next->data = mallocstrcpy(NULL, the_lead + needed_bot_extra);
 		}
 
 		free(the_lead);
@@ -2183,7 +2171,6 @@ void do_justify(bool full_justify)
 
 	/* We're done justifying.  Restore the old cutbuffer. */
 	cutbuffer = was_cutbuffer;
-	cutbottom = was_cutbottom;
 
 	/* Show what we justified on the status bar. */
 #ifndef NANO_TINY
