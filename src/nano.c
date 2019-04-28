@@ -412,7 +412,7 @@ void ingraft_buffer(linestruct *somebuffer)
 	filepart = partition_buffer(openfile->current, openfile->current_x,
 								openfile->current, openfile->current_x);
 	edittop_inside = (openfile->edittop == openfile->filetop);
-	free_lines(openfile->filetop);
+	delete_node(openfile->filetop);
 
 	/* Put the top and bottom of the current buffer at the top and
 	 * bottom of the passed buffer. */
