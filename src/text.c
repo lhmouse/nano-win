@@ -1963,11 +1963,10 @@ void do_justify(bool full_justify)
 	if (openfile->mark) {
 		size_t quote_len;
 
-		mark_order((const linestruct **)&first_par_line, &top_x,
-						(const linestruct **)&last_par_line, &bot_x,
-						&right_side_up);
+		get_region((const linestruct **)&first_par_line, &top_x,
+					(const linestruct **)&last_par_line, &bot_x, &right_side_up);
 
-		/* Save the coordinates of the mark. */
+		/* Save the starting point of the marked region. */
 		was_top_lineno = first_par_line->lineno;
 		was_top_x = top_x;
 
@@ -2266,8 +2265,8 @@ bool fix_spello(const char *word)
 #ifndef NANO_TINY
 	/* If the mark is on, start at the beginning of the marked region. */
 	if (openfile->mark) {
-		mark_order((const linestruct **)&top, &top_x,
-						(const linestruct **)&bot, &bot_x, &right_side_up);
+		get_region((const linestruct **)&top, &top_x,
+					(const linestruct **)&bot, &bot_x, &right_side_up);
 		/* If the region is marked normally, swap the end points, so that
 		 * (current, current_x) (where searching starts) is at the top. */
 		if (right_side_up) {
@@ -2611,8 +2610,8 @@ const char *do_alt_speller(char *tempfile_name)
 			bool right_side_up;
 			ssize_t was_mark_lineno = openfile->mark->lineno;
 
-			mark_order((const linestruct **)&top, &top_x,
-							(const linestruct **)&bot, &bot_x, &right_side_up);
+			get_region((const linestruct **)&top, &top_x,
+						(const linestruct **)&bot, &bot_x, &right_side_up);
 
 			replace_marked_buffer(tempfile_name);
 
@@ -3072,8 +3071,8 @@ void do_wordlinechar_count(void)
 	/* If the mark is on, partition the buffer so that it
 	 * contains only the marked text, and turn the mark off. */
 	if (was_mark) {
-		mark_order((const linestruct **)&top, &top_x,
-						(const linestruct **)&bot, &bot_x, NULL);
+		get_region((const linestruct **)&top, &top_x,
+					(const linestruct **)&bot, &bot_x, NULL);
 		filepart = partition_buffer(top, top_x, bot, bot_x);
 		openfile->mark = NULL;
 	}

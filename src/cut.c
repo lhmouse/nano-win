@@ -230,7 +230,7 @@ void cut_marked(bool *right_side_up)
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
-	mark_order((const linestruct **)&top, &top_x,
+	get_region((const linestruct **)&top, &top_x,
 				(const linestruct **)&bot, &bot_x, right_side_up);
 
 	extract_buffer(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);

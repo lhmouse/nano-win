@@ -2739,7 +2739,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 		int paintlen = -1;
 			/* The number of characters to paint.  Negative means "all". */
 
-		mark_order(&top, &top_x, &bot, &bot_x, NULL);
+		get_region(&top, &top_x, &bot, &bot_x, NULL);
 
 		if (top->lineno < fileptr->lineno || top_x < from_x)
 			top_x = from_x;

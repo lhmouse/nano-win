@@ -453,7 +453,7 @@ void remove_magicline(void)
 /* Set (top, top_x) and (bot, bot_x) to the start and end "coordinates" of
  * the marked region.  If right_side_up isn't NULL, set it to TRUE when the
  * mark is at the top of the marked region, and to FALSE otherwise. */
-void mark_order(const linestruct **top, size_t *top_x,
+void get_region(const linestruct **top, size_t *top_x,
 		const linestruct **bot, size_t *bot_x, bool *right_side_up)
 {
 	if ((openfile->current->lineno == openfile->mark->lineno &&
@@ -486,7 +486,7 @@ void get_range(const linestruct **top, const linestruct **bot)
 	} else {
 		size_t top_x, bot_x;
 
-		mark_order(top, &top_x, bot, &bot_x, NULL);
+		get_region(top, &top_x, bot, &bot_x, NULL);
 
 		if (bot_x == 0 && *bot != *top && !also_the_last)
 			*bot = (*bot)->prev;

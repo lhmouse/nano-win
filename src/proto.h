@@ -587,7 +587,7 @@ void new_magicline(void);
 void remove_magicline(void);
 #endif
 #ifndef NANO_TINY
-void mark_order(const linestruct **top, size_t *top_x,
+void get_region(const linestruct **top, size_t *top_x,
 		const linestruct **bot, size_t *bot_x, bool *right_side_up);
 void get_range(const linestruct **top, const linestruct **bot);
 #endif

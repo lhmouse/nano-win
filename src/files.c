@@ -2058,7 +2058,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	size_t top_x, bot_x;
 
 	/* Partition the buffer so that it contains only the marked text. */
-	mark_order((const linestruct **)&top, &top_x,
+	get_region((const linestruct **)&top, &top_x,
 				(const linestruct **)&bot, &bot_x, NULL);
 	filepart = partition_buffer(top, top_x, bot, bot_x);
 

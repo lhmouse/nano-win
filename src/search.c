@@ -529,8 +529,8 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
 	/* If the mark is on, frame the region, and turn the mark off. */
 	if (openfile->mark) {
-		mark_order((const linestruct **)&top, &top_x,
-						(const linestruct **)&bot, &bot_x, &right_side_up);
+		get_region((const linestruct **)&top, &top_x,
+					(const linestruct **)&bot, &bot_x, &right_side_up);
 		openfile->mark = NULL;
 		modus = INREGION;
 
