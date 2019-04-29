@@ -275,10 +275,8 @@ void unpartition_buffer(partition **p)
 	*p = NULL;
 }
 
-/* Move all the text between (top, top_x) and (bot, bot_x) in the
- * current buffer to a new buffer beginning with file_top and ending
- * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
- * don't do anything. */
+/* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
+ * to the given other buffer (beginning at buffer_top, ending at buffer_bot. */
 void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
@@ -289,7 +287,7 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 	bool same_line = FALSE;
 #endif
 
-	/* If (top, top_x)-(bot, bot_x) doesn't cover any text, get out. */
+	/* If the given coordinates don't cover any text, get out. */
 	if (top == bot && top_x == bot_x)
 		return;
 
@@ -315,41 +313,38 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 	/* Subtract the number of characters in the text from the file size. */
 	openfile->totsize -= get_totsize(top, bot);
 
+	/* If the given buffer is empty, just move all the text directly into it;
+	 * otherwise, append the text to what is already there. */
 	if (*buffer_top == NULL) {
-		/* If file_top is empty, just move all the text directly into
-		 * it.  This is equivalent to tacking the text in top onto the
-		 * (lack of) text at the end of file_top. */
 		*buffer_top = openfile->filetop;
 		*buffer_bot = openfile->filebot;
-
-		/* Renumber, starting with file_top. */
 		renumber(*buffer_top);
 	} else {
-		linestruct *file_bot_save = *buffer_bot;
+		linestruct *was_bottom = *buffer_bot;
 
-		/* Otherwise, tack the text in top onto the text at the end of
-		 * file_bot. */
+		/* Tack the data of the first line of the text onto the data of
+		 * the last line in the given buffer. */
 		(*buffer_bot)->data = charealloc((*buffer_bot)->data,
-				strlen((*buffer_bot)->data) +
-				strlen(openfile->filetop->data) + 1);
+								strlen((*buffer_bot)->data) +
+								strlen(openfile->filetop->data) + 1);
 		strcat((*buffer_bot)->data, openfile->filetop->data);
 
-		/* Attach the line after top to the line after file_bot.  Then,
-		 * if there's more than one line after top, move file_bot down
-		 * to bot. */
+		/* Attach the second line of the text (if any) to the last line
+		 * of the buffer, then remove the now superfluous first line. */
 		(*buffer_bot)->next = openfile->filetop->next;
+		delete_node(openfile->filetop);
+
+		/* If there is a second line, make the reverse attachment too and
+		 * update the buffer pointer to point at the end of the text. */
 		if ((*buffer_bot)->next != NULL) {
 			(*buffer_bot)->next->prev = *buffer_bot;
 			*buffer_bot = openfile->filebot;
 		}
 
-		delete_node(openfile->filetop);
-
-		/* Renumber, starting at the last line of the original buffer. */
-		renumber(file_bot_save);
+		renumber(was_bottom);
 	}
 
-	/* Since the text has now been saved, remove it from the buffer. */
+	/* Since the text has now been saved, remove it from the file buffer. */
 	openfile->filetop = make_new_node(NULL);
 	openfile->filetop->data = mallocstrcpy(NULL, "");
 	openfile->filebot = openfile->filetop;
