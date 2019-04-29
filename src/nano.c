@@ -279,7 +279,7 @@ void unpartition_buffer(partition **p)
  * current buffer to a new buffer beginning with file_top and ending
  * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
  * don't do anything. */
-void extract_buffer(linestruct **file_top, linestruct **file_bot,
+void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
 	linestruct *top_save;
@@ -315,32 +315,32 @@ void extract_buffer(linestruct **file_top, linestruct **file_bot,
 	/* Subtract the number of characters in the text from the file size. */
 	openfile->totsize -= get_totsize(top, bot);
 
-	if (*file_top == NULL) {
+	if (*buffer_top == NULL) {
 		/* If file_top is empty, just move all the text directly into
 		 * it.  This is equivalent to tacking the text in top onto the
 		 * (lack of) text at the end of file_top. */
-		*file_top = openfile->filetop;
-		*file_bot = openfile->filebot;
+		*buffer_top = openfile->filetop;
+		*buffer_bot = openfile->filebot;
 
 		/* Renumber, starting with file_top. */
-		renumber(*file_top);
+		renumber(*buffer_top);
 	} else {
-		linestruct *file_bot_save = *file_bot;
+		linestruct *file_bot_save = *buffer_bot;
 
 		/* Otherwise, tack the text in top onto the text at the end of
 		 * file_bot. */
-		(*file_bot)->data = charealloc((*file_bot)->data,
-				strlen((*file_bot)->data) +
+		(*buffer_bot)->data = charealloc((*buffer_bot)->data,
+				strlen((*buffer_bot)->data) +
 				strlen(openfile->filetop->data) + 1);
-		strcat((*file_bot)->data, openfile->filetop->data);
+		strcat((*buffer_bot)->data, openfile->filetop->data);
 
 		/* Attach the line after top to the line after file_bot.  Then,
 		 * if there's more than one line after top, move file_bot down
 		 * to bot. */
-		(*file_bot)->next = openfile->filetop->next;
-		if ((*file_bot)->next != NULL) {
-			(*file_bot)->next->prev = *file_bot;
-			*file_bot = openfile->filebot;
+		(*buffer_bot)->next = openfile->filetop->next;
+		if ((*buffer_bot)->next != NULL) {
+			(*buffer_bot)->next->prev = *buffer_bot;
+			*buffer_bot = openfile->filebot;
 		}
 
 		delete_node(openfile->filetop);
