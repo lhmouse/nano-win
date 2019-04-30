@@ -554,7 +554,7 @@ void do_undo(void)
 								strlen(&u->strdata[from_x]) + 1);
 		strcat(f->data, &u->strdata[from_x]);
 		unlink_node(f->next);
-		renumber(f);
+		renumber_from(f);
 		goto_line_posx(u->lineno, to_x);
 		break;
 	case BACK:
@@ -584,7 +584,7 @@ void do_undo(void)
 		free(f->data);
 		f->data = data;
 		splice_node(f, t);
-		renumber(t);
+		renumber_from(t);
 		goto_line_posx(u->lineno, u->begin);
 		break;
 	case REPLACE:
@@ -729,7 +729,7 @@ void do_redo(void)
 		free(f->data);
 		f->data = data;
 		splice_node(f, shoveline);
-		renumber(shoveline);
+		renumber_from(shoveline);
 		goto_line_posx(u->lineno + 1, u->mark_begin_x);
 		break;
 	case BACK:
@@ -754,7 +754,7 @@ void do_redo(void)
 		f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 		strcat(f->data, u->strdata);
 		unlink_node(f->next);
-		renumber(f);
+		renumber_from(f);
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 		break;
 	case REPLACE:
@@ -903,7 +903,7 @@ void do_enter(void)
 
 	/* Insert the newly created line after the current one and renumber. */
 	splice_node(openfile->current, newnode);
-	renumber(newnode);
+	renumber_from(newnode);
 
 	/* Put the cursor on the new line, after any automatic whitespace. */
 	openfile->current = newnode;

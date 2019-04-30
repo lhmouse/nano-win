@@ -91,7 +91,7 @@ void do_deletion(undo_type action)
 		}
 #endif
 		unlink_node(joining);
-		renumber(openfile->current);
+		renumber_from(openfile->current);
 
 		/* Two lines were joined, so we need to refresh the screen. */
 		refresh_needed = TRUE;

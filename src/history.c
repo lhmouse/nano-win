@@ -119,7 +119,7 @@ void update_history(linestruct **item, const char *text)
 			*htop = after;
 
 		unlink_node(thesame);
-		renumber(after);
+		renumber_from(after);
 	}
 
 	/* If the history is full, delete the oldest item (the one at the
@@ -129,7 +129,7 @@ void update_history(linestruct **item, const char *text)
 
 		*htop = (*htop)->next;
 		unlink_node(oldest);
-		renumber(*htop);
+		renumber_from(*htop);
 	}
 
 	/* Store the fresh string in the last item, then create a new item. */

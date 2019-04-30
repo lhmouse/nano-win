@@ -180,8 +180,8 @@ void free_lines(linestruct *src)
 	delete_node(src);
 }
 
-/* Renumber the lines in a buffer, starting with the given line. */
-void renumber(linestruct *line)
+/* Renumber the lines in a buffer, from the given line onwards. */
+void renumber_from(linestruct *line)
 {
 	ssize_t number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
@@ -319,7 +319,7 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 	if (*buffer_top == NULL) {
 		*buffer_top = openfile->filetop;
 		*buffer_bot = openfile->filebot;
-		renumber(*buffer_top);
+		renumber_from(*buffer_top);
 	} else {
 		linestruct *was_bottom = *buffer_bot;
 
@@ -342,7 +342,7 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 			*buffer_bot = openfile->filebot;
 		}
 
-		renumber(was_bottom);
+		renumber_from(was_bottom);
 	}
 
 	/* Since the text has now been saved, remove it from the file buffer. */
@@ -378,7 +378,7 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 	}
 
 	/* Renumber, starting with the beginning line of the old partition. */
-	renumber(top_save);
+	renumber_from(top_save);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
@@ -454,7 +454,7 @@ void ingraft_buffer(linestruct *somebuffer)
 	unpartition_buffer(&filepart);
 
 	/* Renumber, starting with the beginning line of the old partition. */
-	renumber(top_save);
+	renumber_from(top_save);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
