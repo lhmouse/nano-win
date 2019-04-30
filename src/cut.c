@@ -276,9 +276,9 @@ void cut_to_eof(void)
 void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 {
 #ifndef NANO_TINY
-	linestruct *cb_save = NULL;
+	linestruct *was_bottom = NULL;
 		/* The current end of the cutbuffer, before we add text to it. */
-	size_t cb_save_len = 0;
+	size_t botlen = 0;
 		/* The length of the string at the current end of the cutbuffer,
 		 * before we add text to it. */
 	bool using_magicline = !ISSET(NO_NEWLINES);
@@ -299,8 +299,8 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 	if (copy_text) {
 		/* If the cutbuffer isn't empty, remember where it currently ends. */
 		if (cutbuffer != NULL) {
-			cb_save = cutbottom;
-			cb_save_len = strlen(cutbottom->data);
+			was_bottom = cutbottom;
+			botlen = strlen(cutbottom->data);
 		}
 		/* Don't add a magic line when moving text to the cutbuffer. */
 		SET(NO_NEWLINES);
@@ -323,14 +323,13 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 
 #ifndef NANO_TINY
 	if (copy_text) {
-		/* Copy the text that is in the cutbuffer (starting at its saved end,
-		 * if there is one) back into the current buffer.  This effectively
-		 * uncuts the text we just cut. */
+		/* Copy the text that was put into the cutbuffer back into the current
+		 * file buffer, so that in the end nothing has been deleted. */
 		if (cutbuffer != NULL) {
-			if (cb_save != NULL) {
-				cb_save->data += cb_save_len;
-				copy_from_buffer(cb_save);
-				cb_save->data -= cb_save_len;
+			if (was_bottom != NULL) {
+				was_bottom->data += botlen;
+				copy_from_buffer(was_bottom);
+				was_bottom->data -= botlen;
 			} else
 				copy_from_buffer(cutbuffer);
 
