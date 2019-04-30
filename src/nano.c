@@ -287,9 +287,10 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 	bool same_line = FALSE;
 #endif
 
-	/* If the given coordinates don't cover any text, get out. */
-	if (top == bot && top_x == bot_x)
+	if (top == bot && top_x == bot_x) {
+		statusline(ALERT, "Extracting nothing -- please report a bug");
 		return;
+	}
 
 	/* Partition the buffer so that it contains only the text from
 	 * (top, top_x) to (bot, bot_x), keep track of whether the top of
