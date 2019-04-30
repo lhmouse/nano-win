@@ -439,15 +439,8 @@ void ingraft_buffer(linestruct *somebuffer)
 	}
 #endif
 
-#ifdef DEBUG
-#include <time.h>
-	clock_t start = clock();
-#endif
 	/* Add the number of characters in the copied text to the file size. */
 	openfile->totsize += get_totsize(openfile->filetop, openfile->filebot);
-#ifdef DEBUG
-	statusline(ALERT, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
-#endif
 
 	/* If we pasted onto the first line of the edit window, the corresponding
 	 * record has been freed, so... point at the start of the copied text. */
@@ -2355,8 +2348,18 @@ int main(int argc, char **argv)
 #ifdef ENABLE_SPELLER
 		alt_speller = NULL;
 #endif
+
+//#define TIMEIT 12
+#ifdef TIMEIT
+#include <time.h>
+	clock_t start = clock();
+#endif
 		/* Now process the system's and the user's nanorc file, if any. */
 		do_rcfiles();
+#ifdef TIMEIT
+		fprintf(stderr, "Took: %.3f\n",
+						 (double)(clock() - start) / CLOCKS_PER_SEC);
+#endif
 
 #ifdef DEBUG
 		fprintf(stderr, "After rebinding keys...\n");
