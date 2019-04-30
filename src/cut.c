@@ -203,6 +203,8 @@ void chop_previous_word(void)
 /* Delete a word rightward. */
 void chop_next_word(void)
 {
+	openfile->mark = NULL;
+
 	if (is_cuttable(openfile->current_x > 0))
 		chop_word(FORWARD);
 }
