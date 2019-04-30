@@ -393,13 +393,14 @@ void ingraft_buffer(linestruct *somebuffer)
 	size_t current_x_save = openfile->current_x;
 	bool edittop_inside;
 #ifndef NANO_TINY
-	bool right_side_up = FALSE, single_line = FALSE;
+	bool right_side_up = FALSE;
+	bool same_line = FALSE;
 
 	/* Remember whether mark and cursor are on the same line, and their order. */
 	if (openfile->mark) {
-		single_line = (openfile->mark == openfile->current);
+		same_line = (openfile->mark == openfile->current);
 		right_side_up = (openfile->mark->lineno < openfile->current->lineno ||
-						(single_line && openfile->mark_x < openfile->current_x));
+						(same_line && openfile->mark_x < openfile->current_x));
 	}
 #endif
 
@@ -429,7 +430,7 @@ void ingraft_buffer(linestruct *somebuffer)
 #ifndef NANO_TINY
 	/* When needed, refresh the mark's pointer and compensate the mark's
 	 * x coordinate for the change in the current line. */
-	if (openfile->mark && single_line) {
+	if (same_line) {
 		if (!right_side_up) {
 			openfile->mark = openfile->filebot;
 			openfile->mark_x += openfile->current_x - current_x_save;
