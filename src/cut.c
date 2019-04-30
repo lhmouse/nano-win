@@ -408,6 +408,10 @@ void do_copy_text(void)
 	ssize_t is_current_lineno = openfile->current->lineno;
 	size_t is_current_x = openfile->current_x;
 
+	/* If there is nothing to copy, don't even try. */
+	if (openfile->current->next == NULL && openfile->current->data[0] == '\0')
+		return;
+
 	if (mark_is_set || openfile->current != next_contiguous_line)
 		keep_cutbuffer = FALSE;
 
