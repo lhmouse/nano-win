@@ -376,9 +376,9 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 		new_magicline();
 }
 
-/* Meld the given buffer into the current file buffer
+/* Meld the buffer that starts at topline into the current file buffer
  * at the current cursor position. */
-void ingraft_buffer(linestruct *somebuffer)
+void ingraft_buffer(linestruct *topline)
 {
 	size_t current_x_save = openfile->current_x;
 	bool edittop_inside;
@@ -403,8 +403,8 @@ void ingraft_buffer(linestruct *somebuffer)
 
 	/* Put the top and bottom of the current buffer at the top and
 	 * bottom of the passed buffer. */
-	openfile->filetop = somebuffer;
-	openfile->filebot = openfile->filetop;
+	openfile->filetop = topline;
+	openfile->filebot = topline;
 	while (openfile->filebot->next != NULL)
 		openfile->filebot = openfile->filebot->next;
 
@@ -441,7 +441,7 @@ void ingraft_buffer(linestruct *somebuffer)
 	 * again, plus the copied text. */
 	unpartition_buffer(&filepart);
 
-	renumber_from(somebuffer);
+	renumber_from(topline);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
