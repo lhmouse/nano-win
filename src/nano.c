@@ -280,7 +280,6 @@ void unpartition_buffer(partition **p)
 void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
-	linestruct *top_save;
 	bool edittop_inside;
 #ifndef NANO_TINY
 	bool mark_inside = FALSE;
@@ -359,11 +358,11 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 		openfile->mark = openfile->current;
 #endif
 
-	top_save = openfile->filetop;
-
 	/* Unpartition the buffer so that it contains all the text
 	 * again, minus the saved text. */
 	unpartition_buffer(&filepart);
+
+	renumber_from(openfile->current);
 
 	/* If the top of the edit window was inside the old partition, put
 	 * it in range of current. */
@@ -371,9 +370,6 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 		adjust_viewport(STATIONARY);
 		refresh_needed = TRUE;
 	}
-
-	/* Renumber, starting with the beginning line of the old partition. */
-	renumber_from(top_save);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
@@ -384,7 +380,6 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
  * at the current cursor position. */
 void ingraft_buffer(linestruct *somebuffer)
 {
-	linestruct *top_save;
 	size_t current_x_save = openfile->current_x;
 	bool edittop_inside;
 #ifndef NANO_TINY
@@ -442,14 +437,11 @@ void ingraft_buffer(linestruct *somebuffer)
 	if (edittop_inside)
 		openfile->edittop = openfile->filetop;
 
-	top_save = openfile->filetop;
-
 	/* Unpartition the buffer so that it contains all the text
 	 * again, plus the copied text. */
 	unpartition_buffer(&filepart);
 
-	/* Renumber, starting with the beginning line of the old partition. */
-	renumber_from(top_save);
+	renumber_from(somebuffer);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
