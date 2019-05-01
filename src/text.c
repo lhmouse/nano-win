@@ -1359,14 +1359,14 @@ void update_undo(undo_type action)
 			if (u->lineno < u->mark_begin_lineno ||
 						(u->lineno == u->mark_begin_lineno &&
 						u->begin < u->mark_begin_x)) {
-				ssize_t line = u->lineno;
-				size_t x_loc = u->begin;
+				ssize_t number = u->lineno;
+				size_t position = u->begin;
 
 				u->lineno = u->mark_begin_lineno;
 				u->begin = u->mark_begin_x;
 
-				u->mark_begin_lineno = line;
-				u->mark_begin_x = x_loc;
+				u->mark_begin_lineno = number;
+				u->mark_begin_x = position;
 			} else
 				u->xflags |= WAS_MARKED_FORWARD;
 		} else {
