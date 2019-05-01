@@ -214,10 +214,9 @@ void cut_line(void)
 	 * head of this line to the head of the next line into the cutbuffer;
 	 * otherwise, move all of the text of this line into the cutbuffer. */
 	if (openfile->current != openfile->filebot)
-		extract_buffer(&cutbuffer, &cutbottom, openfile->current, 0,
-				openfile->current->next, 0);
+		extract(openfile->current, 0, openfile->current->next, 0);
 	else
-		extract_buffer(&cutbuffer, &cutbottom, openfile->current, 0,
+		extract(openfile->current, 0,
 				openfile->current, strlen(openfile->current->data));
 	openfile->placewewant = 0;
 }
@@ -232,7 +231,7 @@ void cut_marked(bool *right_side_up)
 	get_region((const linestruct **)&top, &top_x,
 				(const linestruct **)&bot, &bot_x, right_side_up);
 
-	extract_buffer(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
+	extract(top, top_x, bot, bot_x);
 	openfile->placewewant = xplustabs();
 }
 
@@ -247,11 +246,11 @@ void cut_to_eol(void)
 	 * the cutbuffer.  Otherwise, when not at the end of the buffer,
 	 * move the line separation into the cutbuffer. */
 	if (openfile->current_x < data_len)
-		extract_buffer(&cutbuffer, &cutbottom, openfile->current,
-				openfile->current_x, openfile->current, data_len);
+		extract(openfile->current, openfile->current_x,
+				openfile->current, data_len);
 	else if (openfile->current != openfile->filebot) {
-		extract_buffer(&cutbuffer, &cutbottom, openfile->current,
-				openfile->current_x, openfile->current->next, 0);
+		extract(openfile->current, openfile->current_x,
+				openfile->current->next, 0);
 		openfile->placewewant = xplustabs();
 	}
 }
@@ -259,8 +258,7 @@ void cut_to_eol(void)
 /* Move all text from the cursor position to end-of-file into the cutbuffer. */
 void cut_to_eof(void)
 {
-	extract_buffer(&cutbuffer, &cutbottom,
-				openfile->current, openfile->current_x,
+	extract(openfile->current, openfile->current_x,
 				openfile->filebot, strlen(openfile->filebot->data));
 }
 #endif /* !NANO_TINY */

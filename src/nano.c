@@ -276,9 +276,8 @@ void unpartition_buffer(partition **p)
 }
 
 /* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
- * to the given other buffer (beginning at buffer_top, ending at buffer_bot. */
-void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
-		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
+ * into the cutbuffer. */
+void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
 	bool edittop_inside;
 #ifndef NANO_TINY
@@ -315,30 +314,30 @@ void extract_buffer(linestruct **buffer_top, linestruct **buffer_bot,
 
 	/* If the given buffer is empty, just move all the text directly into it;
 	 * otherwise, append the text to what is already there. */
-	if (*buffer_top == NULL) {
-		*buffer_top = openfile->filetop;
-		*buffer_bot = openfile->filebot;
-		renumber_from(*buffer_top);
+	if (cutbuffer == NULL) {
+		cutbuffer = openfile->filetop;
+		cutbottom = openfile->filebot;
+		renumber_from(cutbuffer);
 	} else {
-		linestruct *was_bottom = *buffer_bot;
+		linestruct *was_bottom = cutbottom;
 
 		/* Tack the data of the first line of the text onto the data of
 		 * the last line in the given buffer. */
-		(*buffer_bot)->data = charealloc((*buffer_bot)->data,
-								strlen((*buffer_bot)->data) +
+		cutbottom->data = charealloc(cutbottom->data,
+								strlen(cutbottom->data) +
 								strlen(openfile->filetop->data) + 1);
-		strcat((*buffer_bot)->data, openfile->filetop->data);
+		strcat(cutbottom->data, openfile->filetop->data);
 
 		/* Attach the second line of the text (if any) to the last line
 		 * of the buffer, then remove the now superfluous first line. */
-		(*buffer_bot)->next = openfile->filetop->next;
+		cutbottom->next = openfile->filetop->next;
 		delete_node(openfile->filetop);
 
 		/* If there is a second line, make the reverse attachment too and
 		 * update the buffer pointer to point at the end of the text. */
-		if ((*buffer_bot)->next != NULL) {
-			(*buffer_bot)->next->prev = *buffer_bot;
-			*buffer_bot = openfile->filebot;
+		if (cutbottom->next != NULL) {
+			cutbottom->next->prev = cutbottom;
+			cutbottom = openfile->filebot;
 		}
 
 		renumber_from(was_bottom);

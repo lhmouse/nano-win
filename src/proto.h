@@ -401,8 +401,7 @@ void renumber_from(linestruct *line);
 partition *partition_buffer(linestruct *top, size_t top_x,
 		linestruct *bot, size_t bot_x);
 void unpartition_buffer(partition **p);
-void extract_buffer(linestruct **file_top, linestruct **file_bot,
-		linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
+void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
 void ingraft_buffer(linestruct *somebuffer);
 void copy_from_buffer(linestruct *somebuffer);
 #ifdef ENABLE_MULTIBUFFER
