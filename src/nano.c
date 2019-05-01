@@ -317,10 +317,7 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 	if (cutbuffer == NULL) {
 		cutbuffer = openfile->filetop;
 		cutbottom = openfile->filebot;
-		renumber_from(cutbuffer);
 	} else {
-		linestruct *was_bottom = cutbottom;
-
 		/* Tack the data of the first line of the text onto the data of
 		 * the last line in the given buffer. */
 		cutbottom->data = charealloc(cutbottom->data,
@@ -339,8 +336,6 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 			cutbottom->next->prev = cutbottom;
 			cutbottom = openfile->filebot;
 		}
-
-		renumber_from(was_bottom);
 	}
 
 	/* Since the text has now been saved, remove it from the file buffer. */

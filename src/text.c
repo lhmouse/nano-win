@@ -1371,13 +1371,14 @@ void update_undo(undo_type action)
 				u->xflags |= WAS_MARKED_FORWARD;
 		} else {
 			linestruct *bottomline = u->cutbuffer;
+			size_t count = 0;
 
 			/* Find the end of the cut for the undo/redo, using our copy. */
-			while (bottomline->next != NULL)
+			while (bottomline->next != NULL) {
 				bottomline = bottomline->next;
-
-			u->lineno = u->mark_begin_lineno + bottomline->lineno -
-										u->cutbuffer->lineno;
+				count++;
+			}
+			u->lineno = u->mark_begin_lineno + count;
 			if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_TO_EOF) {
 				u->begin = strlen(bottomline->data);
 				if (u->lineno == u->mark_begin_lineno)
