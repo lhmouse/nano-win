@@ -1355,18 +1355,18 @@ void update_undo(undo_type action)
 			u->cutbuffer = copy_buffer(cutbuffer);
 		}
 		if (u->xflags & MARK_WAS_SET) {
-			/* If the "marking" operation was from right-->left or
-			 * bottom-->top, then swap the mark points. */
-			if ((u->lineno == u->mark_begin_lineno && u->begin < u->mark_begin_x)
-						|| u->lineno < u->mark_begin_lineno) {
+			/* If the region was marked backwards, swap the end points. */
+			if (u->lineno < u->mark_begin_lineno ||
+						(u->lineno == u->mark_begin_lineno &&
+						u->begin < u->mark_begin_x)) {
 				ssize_t line = u->lineno;
 				size_t x_loc = u->begin;
 
-				u->begin = u->mark_begin_x;
-				u->mark_begin_x = x_loc;
-
 				u->lineno = u->mark_begin_lineno;
+				u->begin = u->mark_begin_x;
+
 				u->mark_begin_lineno = line;
+				u->mark_begin_x = x_loc;
 			} else
 				u->xflags |= WAS_MARKED_FORWARD;
 		} else {
