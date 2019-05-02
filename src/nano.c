@@ -1637,8 +1637,6 @@ void do_input(void)
 		/* The input buffer for actual characters. */
 	static size_t depth = 0;
 		/* The length of the input buffer. */
-	bool retain_cuts = FALSE;
-		/* Whether to conserve the current contents of the cutbuffer. */
 	const keystruct *shortcut;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
@@ -1722,14 +1720,13 @@ void do_input(void)
 		return;
 	}
 
-	/* If the function associated with this shortcut is
-	 * cutting or copying text, remember this. */
-	if (shortcut->func == do_cut_text_void
+	/* When not cutting or copying text, drop the cutbuffer the next time. */
+	if (shortcut->func != do_cut_text_void) {
 #ifndef NANO_TINY
-			|| shortcut->func == do_copy_text
+		if (shortcut->func != do_copy_text)
 #endif
-			)
-		retain_cuts = TRUE;
+			keep_cutbuffer = FALSE;
+	}
 
 #ifdef ENABLE_WORDCOMPLETION
 	if (shortcut->func != complete_a_word)
@@ -1785,11 +1782,6 @@ void do_input(void)
 	if (!refresh_needed && (shortcut->func == do_delete ||
 							shortcut->func == do_backspace))
 		update_line(openfile->current, openfile->current_x);
-
-	/* If we aren't cutting or copying text, and the key wasn't a toggle,
-	 * blow away the text in the cutbuffer upon the next cutting action. */
-	if (!retain_cuts)
-		keep_cutbuffer = FALSE;
 }
 
 /* The user typed output_len multibyte characters.  Add them to the edit
