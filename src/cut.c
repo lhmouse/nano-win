@@ -281,14 +281,19 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 	bool right_side_up = TRUE;
 		/* There *is* no region, *or* it is marked forward. */
 #endif
+	static bool precedent = FALSE;
+		/* Whether the previous operation was a copying operation. */
 
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
-	if (!append && (!keep_cutbuffer || marked || cut_till_eof)) {
+	if ((!keep_cutbuffer || marked || cut_till_eof || copy_text != precedent) &&
+				!append) {
 		free_lines(cutbuffer);
 		cutbuffer = NULL;
-		/* After a line cut, future line cuts should add to the cutbuffer. */
-		keep_cutbuffer = !marked && !cut_till_eof;
 	}
+
+	/* After a line operation, future ones should add to the cutbuffer. */
+	keep_cutbuffer = !marked && !cut_till_eof;
+	precedent = copy_text;
 
 #ifndef NANO_TINY
 	if (copy_text) {
@@ -394,7 +399,6 @@ void do_cut_text_void(void)
  * was moved, blow away previous contents of the cutbuffer. */
 void do_copy_text(void)
 {
-	static linestruct *next_contiguous_line = NULL;
 	bool mark_is_set = (openfile->mark != NULL);
 
 	/* Remember the current viewport and cursor position. */
@@ -407,13 +411,7 @@ void do_copy_text(void)
 	if (openfile->current->next == NULL && openfile->current->data[0] == '\0')
 		return;
 
-	if (mark_is_set || openfile->current != next_contiguous_line)
-		keep_cutbuffer = FALSE;
-
 	do_cut_text(TRUE, mark_is_set, FALSE, FALSE);
-
-	/* If the mark was set, blow away the cutbuffer on the next copy. */
-	next_contiguous_line = (mark_is_set ? NULL : openfile->current);
 
 	/* If the mark was set, restore the viewport and cursor position. */
 	if (mark_is_set) {
