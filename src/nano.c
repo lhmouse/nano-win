@@ -1717,74 +1717,74 @@ void do_input(void)
 		return;
 	}
 
-		if (ISSET(VIEW_MODE) && !okay_for_view(shortcut)) {
-			print_view_warning();
-			return;
-		}
+	if (ISSET(VIEW_MODE) && !okay_for_view(shortcut)) {
+		print_view_warning();
+		return;
+	}
 
-		/* If the function associated with this shortcut is
-		 * cutting or copying text, remember this. */
-		if (shortcut->func == do_cut_text_void
+	/* If the function associated with this shortcut is
+	 * cutting or copying text, remember this. */
+	if (shortcut->func == do_cut_text_void
 #ifndef NANO_TINY
-				|| shortcut->func == do_copy_text
+			|| shortcut->func == do_copy_text
 #endif
-				)
-			retain_cuts = TRUE;
+			)
+		retain_cuts = TRUE;
 
 #ifdef ENABLE_WORDCOMPLETION
-		if (shortcut->func != complete_a_word)
-			pletion_line = NULL;
+	if (shortcut->func != complete_a_word)
+		pletion_line = NULL;
 #endif
 #ifdef ENABLE_NANORC
-		if (shortcut->func == (functionptrtype)implant) {
-			implant(shortcut->expansion);
-			return;
-		}
+	if (shortcut->func == (functionptrtype)implant) {
+		implant(shortcut->expansion);
+		return;
+	}
 #endif
 #ifndef NANO_TINY
-		if (shortcut->func == do_toggle_void) {
-			do_toggle(shortcut->toggle);
-			if (shortcut->toggle == CUT_FROM_CURSOR)
-				keep_cutbuffer = FALSE;
-			return;
-		}
-#endif
-#ifndef NANO_TINY
-			linestruct *was_current = openfile->current;
-			size_t was_x = openfile->current_x;
+	if (shortcut->func == do_toggle_void) {
+		do_toggle(shortcut->toggle);
+		if (shortcut->toggle == CUT_FROM_CURSOR)
+			keep_cutbuffer = FALSE;
+		return;
+	}
 
-			/* If Shifted movement occurs, set the mark. */
-			if (shift_held && !openfile->mark) {
-				openfile->mark = openfile->current;
-				openfile->mark_x = openfile->current_x;
-				openfile->kind_of_mark = SOFTMARK;
-			}
+	linestruct *was_current = openfile->current;
+	size_t was_x = openfile->current_x;
+
+	/* If Shifted movement occurs, set the mark. */
+	if (shift_held && !openfile->mark) {
+		openfile->mark = openfile->current;
+		openfile->mark_x = openfile->current_x;
+		openfile->kind_of_mark = SOFTMARK;
+	}
 #endif
-			/* Execute the function of the shortcut. */
-			shortcut->func();
+
+	/* Execute the function of the shortcut. */
+	shortcut->func();
 
 #ifndef NANO_TINY
-			/* When the marked region changes without Shift being held,
-			 * discard a soft mark.  And when the marked region covers a
-			 * different set of lines, reset  the "last line too" flag. */
-			if (openfile->mark) {
-				if (!shift_held && openfile->kind_of_mark == SOFTMARK &&
-									(openfile->current != was_current ||
-									openfile->current_x != was_x ||
-									wanted_to_move(shortcut->func))) {
-					openfile->mark = NULL;
-					refresh_needed = TRUE;
-				} else if (openfile->current != was_current)
-					also_the_last = FALSE;
-			}
+	/* When the marked region changes without Shift being held,
+	 * discard a soft mark.  And when the marked region covers a
+	 * different set of lines, reset  the "last line too" flag. */
+	if (openfile->mark) {
+		if (!shift_held && openfile->kind_of_mark == SOFTMARK &&
+							(openfile->current != was_current ||
+							openfile->current_x != was_x ||
+							wanted_to_move(shortcut->func))) {
+			openfile->mark = NULL;
+			refresh_needed = TRUE;
+		} else if (openfile->current != was_current)
+			also_the_last = FALSE;
+	}
 #endif
 #ifdef ENABLE_COLOR
-			if (!refresh_needed && !okay_for_view(shortcut))
-				check_the_multis(openfile->current);
+	if (!refresh_needed && !okay_for_view(shortcut))
+		check_the_multis(openfile->current);
 #endif
-			if (!refresh_needed && (shortcut->func == do_delete ||
-									shortcut->func == do_backspace))
-				update_line(openfile->current, openfile->current_x);
+	if (!refresh_needed && (shortcut->func == do_delete ||
+							shortcut->func == do_backspace))
+		update_line(openfile->current, openfile->current_x);
 
 	/* If we aren't cutting or copying text, and the key wasn't a toggle,
 	 * blow away the text in the cutbuffer upon the next cutting action. */
