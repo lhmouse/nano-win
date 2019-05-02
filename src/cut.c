@@ -264,11 +264,11 @@ void cut_to_eof(void)
 #endif /* !NANO_TINY */
 
 /* Move text from the current buffer into the cutbuffer.  If
- * copy_text is TRUE, copy the text back into the buffer afterward.
- * If cut_till_eof is TRUE, move all text from the current cursor
+ * copying is TRUE, copy the text back into the buffer afterward.
+ * If until_eof is TRUE, move all text from the current cursor
  * position to the end of the file into the cutbuffer.  If append
  * is TRUE (when zapping), always append the cut to the cutbuffer. */
-void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
+void do_cut_text(bool copying, bool marked, bool until_eof, bool append)
 {
 #ifndef NANO_TINY
 	linestruct *was_bottom = NULL;
@@ -285,18 +285,18 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 		/* Whether the previous operation was a copying operation. */
 
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
-	if ((!keep_cutbuffer || marked || cut_till_eof || copy_text != precedent) &&
+	if ((!keep_cutbuffer || marked || until_eof || copying != precedent) &&
 				!append) {
 		free_lines(cutbuffer);
 		cutbuffer = NULL;
 	}
 
 	/* After a line operation, future ones should add to the cutbuffer. */
-	keep_cutbuffer = !marked && !cut_till_eof;
-	precedent = copy_text;
+	keep_cutbuffer = !marked && !until_eof;
+	precedent = copying;
 
 #ifndef NANO_TINY
-	if (copy_text) {
+	if (copying) {
 		/* If the cutbuffer isn't empty, remember where it currently ends. */
 		if (cutbuffer != NULL) {
 			was_bottom = cutbottom;
@@ -306,7 +306,7 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 		SET(NO_NEWLINES);
 	}
 
-	if (cut_till_eof) {
+	if (until_eof) {
 		/* Move all text up to the end of the file into the cutbuffer. */
 		cut_to_eof();
 	} else if (openfile->mark) {
@@ -322,7 +322,7 @@ void do_cut_text(bool copy_text, bool marked, bool cut_till_eof, bool append)
 		cut_line();
 
 #ifndef NANO_TINY
-	if (copy_text) {
+	if (copying) {
 		/* Copy the text that was put into the cutbuffer back into the current
 		 * file buffer, so that in the end nothing has been deleted. */
 		if (cutbuffer != NULL) {
