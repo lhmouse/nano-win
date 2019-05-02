@@ -1711,9 +1711,12 @@ void do_input(void)
 		}
 	}
 
-	if (shortcut == NULL)
+	if (shortcut == NULL) {
 		pletion_line = NULL;
-	else {
+		keep_cutbuffer = FALSE;
+		return;
+	}
+
 		if (ISSET(VIEW_MODE) && !okay_for_view(shortcut)) {
 			print_view_warning();
 			return;
@@ -1783,7 +1786,6 @@ void do_input(void)
 									shortcut->func == do_backspace))
 				update_line(openfile->current, openfile->current_x);
 		}
-	}
 
 	/* If we aren't cutting or copying text, and the key wasn't a toggle,
 	 * blow away the text in the cutbuffer upon the next cutting action. */
