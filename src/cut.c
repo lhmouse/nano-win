@@ -218,23 +218,11 @@ void cut_line(void)
 	else
 		extract(openfile->current, 0,
 				openfile->current, strlen(openfile->current->data));
+
 	openfile->placewewant = 0;
 }
 
 #ifndef NANO_TINY
-/* Move all marked text from the current buffer into the cutbuffer. */
-void cut_marked(bool *right_side_up)
-{
-	linestruct *top, *bot;
-	size_t top_x, bot_x;
-
-	get_region((const linestruct **)&top, &top_x,
-				(const linestruct **)&bot, &bot_x, right_side_up);
-
-	extract(top, top_x, bot, bot_x);
-	openfile->placewewant = xplustabs();
-}
-
 /* Move all text from the cursor position until the end of this line into
  * the cutbuffer.  But when already at the end of a line, then move this
  * "newline" to the cutbuffer. */
@@ -253,6 +241,20 @@ void cut_to_eol(void)
 				openfile->current->next, 0);
 		openfile->placewewant = xplustabs();
 	}
+}
+
+/* Move all marked text from the current buffer into the cutbuffer. */
+void cut_marked(bool *right_side_up)
+{
+	linestruct *top, *bot;
+	size_t top_x, bot_x;
+
+	get_region((const linestruct **)&top, &top_x,
+				(const linestruct **)&bot, &bot_x, right_side_up);
+
+	extract(top, top_x, bot, bot_x);
+
+	openfile->placewewant = xplustabs();
 }
 
 /* Move all text from the cursor position to end-of-file into the cutbuffer. */
@@ -306,19 +308,16 @@ void do_cut_text(bool copying, bool marked, bool until_eof, bool append)
 		SET(NO_NEWLINES);
 	}
 
-	if (until_eof) {
-		/* Move all text up to the end of the file into the cutbuffer. */
+	/* Now move the relevant piece of text into the cutbuffer. */
+	if (until_eof)
 		cut_to_eof();
-	} else if (openfile->mark) {
-		/* Move the marked text to the cutbuffer, and turn the mark off. */
+	else if (openfile->mark) {
 		cut_marked(&right_side_up);
 		openfile->mark = NULL;
 	} else if (ISSET(CUT_FROM_CURSOR))
-		/* Move all text up to the end of the line into the cutbuffer. */
 		cut_to_eol();
 	else
 #endif
-		/* Move the entire line into the cutbuffer. */
 		cut_line();
 
 #ifndef NANO_TINY
