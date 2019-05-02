@@ -1744,11 +1744,11 @@ void do_input(void)
 #ifndef NANO_TINY
 		if (shortcut->func == do_toggle_void) {
 			do_toggle(shortcut->toggle);
-			if (shortcut->toggle != CUT_FROM_CURSOR)
-				retain_cuts = TRUE;
-		} else
+			if (shortcut->toggle == CUT_FROM_CURSOR)
+				keep_cutbuffer = FALSE;
+			return;
+		}
 #endif
-		{
 #ifndef NANO_TINY
 			linestruct *was_current = openfile->current;
 			size_t was_x = openfile->current_x;
@@ -1785,7 +1785,6 @@ void do_input(void)
 			if (!refresh_needed && (shortcut->func == do_delete ||
 									shortcut->func == do_backspace))
 				update_line(openfile->current, openfile->current_x);
-		}
 
 	/* If we aren't cutting or copying text, and the key wasn't a toggle,
 	 * blow away the text in the cutbuffer upon the next cutting action. */
