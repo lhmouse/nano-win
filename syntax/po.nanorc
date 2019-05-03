@@ -22,7 +22,7 @@ color yellow " (no-)?[-[:alpha:]]+-format(,|$)"
 color brightmagenta "%([1-9]\$)?[a-z]*"
 # Quotes and escaped characters.
 color yellow "\""
-color cyan "\\[abcefnrtv"\]"
+color cyan "\\([abcefnrtv"\]|x[0-9abcdefABCDEF]{2}|[0-7]{3})"
 # Reminders.
 color brightwhite,yellow "(FIXME|TODO|XXX)"
 # Obsolete strings.
