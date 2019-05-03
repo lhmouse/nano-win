@@ -450,7 +450,7 @@ void zap_text(void)
 
 	/* Add a new undo item only when the current item is not a ZAP or when
 	 * the current zap is not contiguous with the previous zapping. */
-	if (openfile->last_action != ZAP ||
+	if (openfile->last_action != ZAP || openfile->mark != NULL ||
 			openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
 			openfile->current_undo->xflags & (MARK_WAS_SET|WAS_MARKED_FORWARD))
 		add_undo(ZAP);
