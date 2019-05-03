@@ -184,7 +184,7 @@ void chop_word(bool forward)
 	openfile->current_x = is_current_x;
 
 	/* Now kill the marked region and a word is gone. */
-	do_cut_text_void();
+	cut_text();
 
 	/* Discard the cut word and restore the cutbuffer. */
 	free_lines(cutbuffer);
@@ -372,7 +372,7 @@ bool is_cuttable(bool test_cliff)
 }
 
 /* Move text from the current buffer into the cutbuffer. */
-void do_cut_text_void(void)
+void cut_text(void)
 {
 #ifndef NANO_TINY
 	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
@@ -427,7 +427,7 @@ void copy_text(void)
 }
 
 /* Cut from the current cursor position to the end of the file. */
-void do_cut_till_eof(void)
+void cut_till_eof(void)
 {
 	if ((openfile->current == openfile->filebot && openfile->current->data[0] == '\0') ||
 				(!ISSET(NO_NEWLINES) && openfile->current->next == openfile->filebot &&

@@ -761,7 +761,7 @@ void shortcut_init(void)
 		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
 #endif
 
-	add_to_funcs(do_cut_text_void, MMAIN,
+	add_to_funcs(cut_text, MMAIN,
 		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(paste_text, MMAIN,
@@ -952,7 +952,7 @@ void shortcut_init(void)
 		N_("Chop Left"), WITHORSANS(chopwordleft_gist), TOGETHER, NOVIEW);
 	add_to_funcs(chop_next_word, MMAIN,
 		N_("Chop Right"), WITHORSANS(chopwordright_gist), TOGETHER, NOVIEW);
-	add_to_funcs(do_cut_till_eof, MMAIN,
+	add_to_funcs(cut_till_eof, MMAIN,
 		N_("CutTillEnd"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 #endif
 
@@ -1114,7 +1114,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search_forward, 0);
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
-	add_to_sclist(MMOST, "^K", 0, do_cut_text_void, 0);
+	add_to_sclist(MMOST, "^K", 0, cut_text, 0);
 	add_to_sclist(MMOST, "^U", 0, paste_text, 0);
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
@@ -1244,7 +1244,7 @@ void shortcut_init(void)
 #endif
 	add_to_sclist(MMOST, "M-V", 0, do_verbatim_input, 0);
 #ifndef NANO_TINY
-	add_to_sclist(MMAIN, "M-T", 0, do_cut_till_eof, 0);
+	add_to_sclist(MMAIN, "M-T", 0, cut_till_eof, 0);
 	add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
@@ -1383,7 +1383,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search_forward, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", 0, do_page_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", 0, do_page_down, 0);
-	add_to_sclist(MMOST, "F9", 0, do_cut_text_void, 0);
+	add_to_sclist(MMOST, "F9", 0, cut_text, 0);
 	add_to_sclist(MMOST, "F10", 0, paste_text, 0);
 	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
 #ifdef ENABLE_SPELLER
@@ -1483,12 +1483,12 @@ keystruct *strtosc(const char *input)
 	else if (!strcasecmp(input, "replace"))
 		s->func = do_replace;
 	else if (!strcasecmp(input, "cut"))
-		s->func = do_cut_text_void;
+		s->func = cut_text;
 	else if (!strcasecmp(input, "paste"))
 		s->func = paste_text;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "cutrestoffile"))
-		s->func = do_cut_till_eof;
+		s->func = cut_till_eof;
 	else if (!strcasecmp(input, "copy"))
 		s->func = copy_text;
 	else if (!strcasecmp(input, "zap"))

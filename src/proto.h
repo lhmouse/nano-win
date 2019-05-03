@@ -256,10 +256,10 @@ void cut_marked(bool *right_side_up);
 #endif
 void do_cut_text(bool copying, bool marked, bool until_eof, bool append);
 bool is_cuttable(bool test_cliff);
-void do_cut_text_void(void);
+void cut_text(void);
 #ifndef NANO_TINY
 void copy_text(void);
-void do_cut_till_eof(void);
+void cut_till_eof(void);
 void zap_text(void);
 #endif
 void paste_text(void);

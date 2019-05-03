@@ -150,7 +150,7 @@ int do_statusbar_input(bool *finished)
 		else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
 								openfile->filename[0] != '\0' &&
 								(shortcut->func == do_verbatim_input ||
-								shortcut->func == do_cut_text_void ||
+								shortcut->func == cut_text ||
 								shortcut->func == paste_text ||
 								shortcut->func == do_delete ||
 								shortcut->func == do_backspace))
@@ -161,7 +161,7 @@ int do_statusbar_input(bool *finished)
 #endif
 		else if (shortcut->func == do_verbatim_input)
 			do_statusbar_verbatim_input();
-		else if (shortcut->func == do_cut_text_void)
+		else if (shortcut->func == cut_text)
 			do_statusbar_cut_text();
 		else if (shortcut->func == do_delete)
 			do_statusbar_delete();
