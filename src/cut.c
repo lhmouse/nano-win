@@ -380,8 +380,10 @@ void do_cut_text_void(void)
 
 	/* Only add a new undo item when the current item is not a CUT or when
 	 * the current cut is not contiguous with the previous cutting. */
-	if (openfile->last_action != CUT || !keep_cutbuffer)
+	if (openfile->last_action != CUT || !keep_cutbuffer) {
+		keep_cutbuffer = FALSE;
 		add_undo(CUT);
+	}
 
 	do_cut_text(FALSE, openfile->mark != NULL, FALSE, FALSE);
 
@@ -450,9 +452,7 @@ void zap_text(void)
 
 	/* Add a new undo item only when the current item is not a ZAP or when
 	 * the current zap is not contiguous with the previous zapping. */
-	if (openfile->last_action != ZAP || openfile->mark != NULL ||
-			openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
-			openfile->current_undo->xflags & (MARK_WAS_SET|WAS_MARKED_FORWARD))
+	if (openfile->last_action != ZAP || !keep_cutbuffer)
 		add_undo(ZAP);
 
 	/* Use the cutbuffer from the ZAP undo item, so the cut can be undone. */
