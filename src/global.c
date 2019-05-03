@@ -764,7 +764,7 @@ void shortcut_init(void)
 	add_to_funcs(do_cut_text_void, MMAIN,
 		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
-	add_to_funcs(do_uncut_text, MMAIN,
+	add_to_funcs(paste_text, MMAIN,
 		N_("Paste Text"), WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
@@ -797,7 +797,7 @@ void shortcut_init(void)
 
 	add_to_funcs(do_mark, MMAIN,
 		N_("Mark Text"), WITHORSANS(mark_gist), TOGETHER, VIEW);
-	add_to_funcs(do_copy_text, MMAIN,
+	add_to_funcs(copy_text, MMAIN,
 		N_("Copy Text"), WITHORSANS(copy_gist), BLANKAFTER, NOVIEW);
 #endif
 
@@ -1115,7 +1115,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
 	add_to_sclist(MMOST, "^K", 0, do_cut_text_void, 0);
-	add_to_sclist(MMOST, "^U", 0, do_uncut_text, 0);
+	add_to_sclist(MMOST, "^U", 0, paste_text, 0);
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
 #endif
@@ -1146,8 +1146,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^^", 0, do_mark, 0);
-	add_to_sclist(MMAIN, "M-6", 0, do_copy_text, 0);
-	add_to_sclist(MMAIN, "M-^", 0, do_copy_text, 0);
+	add_to_sclist(MMAIN, "M-6", 0, copy_text, 0);
+	add_to_sclist(MMAIN, "M-^", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
 	add_to_sclist(MMAIN, "Tab", TAB_CODE, do_indent, 0);
 	add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
@@ -1384,7 +1384,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", 0, do_page_up, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", 0, do_page_down, 0);
 	add_to_sclist(MMOST, "F9", 0, do_cut_text_void, 0);
-	add_to_sclist(MMOST, "F10", 0, do_uncut_text, 0);
+	add_to_sclist(MMOST, "F10", 0, paste_text, 0);
 	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
@@ -1485,12 +1485,12 @@ keystruct *strtosc(const char *input)
 	else if (!strcasecmp(input, "cut"))
 		s->func = do_cut_text_void;
 	else if (!strcasecmp(input, "paste"))
-		s->func = do_uncut_text;
+		s->func = paste_text;
 #ifndef NANO_TINY
 	else if (!strcasecmp(input, "cutrestoffile"))
 		s->func = do_cut_till_eof;
 	else if (!strcasecmp(input, "copy"))
-		s->func = do_copy_text;
+		s->func = copy_text;
 	else if (!strcasecmp(input, "zap"))
 		s->func = zap_text;
 	else if (!strcasecmp(input, "mark"))

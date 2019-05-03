@@ -258,11 +258,11 @@ void do_cut_text(bool copying, bool marked, bool until_eof, bool append);
 bool is_cuttable(bool test_cliff);
 void do_cut_text_void(void);
 #ifndef NANO_TINY
-void do_copy_text(void);
+void copy_text(void);
 void do_cut_till_eof(void);
 void zap_text(void);
 #endif
-void do_uncut_text(void);
+void paste_text(void);
 
 /* Most functions in files.c. */
 void initialize_buffer_text(void);

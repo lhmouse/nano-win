@@ -151,7 +151,7 @@ int do_statusbar_input(bool *finished)
 								openfile->filename[0] != '\0' &&
 								(shortcut->func == do_verbatim_input ||
 								shortcut->func == do_cut_text_void ||
-								shortcut->func == do_uncut_text ||
+								shortcut->func == paste_text ||
 								shortcut->func == do_delete ||
 								shortcut->func == do_backspace))
 			;
@@ -167,7 +167,7 @@ int do_statusbar_input(bool *finished)
 			do_statusbar_delete();
 		else if (shortcut->func == do_backspace)
 			do_statusbar_backspace();
-		else if (shortcut->func == do_uncut_text) {
+		else if (shortcut->func == paste_text) {
 			if (cutbuffer != NULL)
 				do_statusbar_uncut_text();
 		} else {

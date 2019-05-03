@@ -1723,7 +1723,7 @@ void do_input(void)
 	/* When not cutting or copying text, drop the cutbuffer the next time. */
 	if (shortcut->func != do_cut_text_void) {
 #ifndef NANO_TINY
-		if (shortcut->func != do_copy_text && shortcut->func != zap_text)
+		if (shortcut->func != copy_text && shortcut->func != zap_text)
 #endif
 			keep_cutbuffer = FALSE;
 	}

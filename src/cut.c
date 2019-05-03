@@ -398,7 +398,7 @@ void do_cut_text_void(void)
 /* Move text from the current buffer into the cutbuffer, and copy it
  * back into the buffer afterward.  If the mark is set or the cursor
  * was moved, blow away previous contents of the cutbuffer. */
-void do_copy_text(void)
+void copy_text(void)
 {
 	bool mark_is_set = (openfile->mark != NULL);
 
@@ -467,7 +467,7 @@ void zap_text(void)
 #endif /* !NANO_TINY */
 
 /* Copy text from the cutbuffer into the current buffer. */
-void do_uncut_text(void)
+void paste_text(void)
 {
 	ssize_t was_lineno = openfile->current->lineno;
 		/* The line number where we started the paste. */

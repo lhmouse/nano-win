@@ -338,7 +338,7 @@ bool is_universal(void (*func)(void))
 		func == do_prev_word_void || func == do_next_word_void ||
 #endif
 		func == do_delete || func == do_backspace ||
-		func == do_cut_text_void || func == do_uncut_text ||
+		func == do_cut_text_void || func == paste_text ||
 		func == do_tab || func == do_enter || func == do_verbatim_input);
 }
 
