@@ -420,6 +420,8 @@ void do_copy_text(void)
 		openfile->current_x = is_current_x;
 	} else
 		focusing = FALSE;
+
+	openfile->last_action = OTHER;
 }
 
 /* Cut from the current cursor position to the end of the file. */
