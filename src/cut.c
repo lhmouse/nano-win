@@ -380,11 +380,11 @@ void do_cut_text_void(void)
 
 	/* Only add a new undo item when the current item is not a CUT or when
 	 * the current cut is not contiguous with the previous cutting. */
-	if (openfile->last_action != CUT ||
-			openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
-			!keep_cutbuffer)
+	if (openfile->last_action != CUT || !keep_cutbuffer)
 		add_undo(CUT);
+
 	do_cut_text(FALSE, openfile->mark != NULL, FALSE, FALSE);
+
 	update_undo(CUT);
 #else
 	if (is_cuttable(FALSE))
