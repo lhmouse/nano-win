@@ -144,24 +144,24 @@ void search_init(bool replacing, bool keep_the_answer)
 
 		/* If we're here, one of the five toggles was pressed, or
 		 * a shortcut was executed. */
-		if (func == case_sens_void) {
+		if (func == case_sens_void)
 			TOGGLE(CASE_SENSITIVE);
-		} else if (func == backwards_void) {
+		else if (func == backwards_void)
 			TOGGLE(BACKWARDS_SEARCH);
-		} else if (func == regexp_void) {
+		else if (func == regexp_void)
 			TOGGLE(USE_REGEXP);
-		} else if (func == flip_replace) {
+		else if (func == flip_replace) {
 			if (ISSET(VIEW_MODE)) {
 				print_view_warning();
 				napms(600);
 			} else
 				replacing = !replacing;
-		} else {
-			if (func == flip_goto)
-				do_gotolinecolumn(openfile->current->lineno,
-							openfile->placewewant + 1, TRUE, TRUE);
+		} else if (func == flip_goto) {
+			do_gotolinecolumn(openfile->current->lineno,
+								openfile->placewewant + 1, TRUE, TRUE);
 			break;
-		}
+		} else
+			break;
 	}
 
 	tidy_up_after_search();
