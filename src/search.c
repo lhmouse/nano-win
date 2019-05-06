@@ -114,9 +114,7 @@ void search_init(bool replacing, bool keep_the_answer)
 		 * nothing was searched for yet during this session, get out. */
 		if (i == -1 || (i == -2 && *last_search == '\0')) {
 			statusbar(_("Cancelled"));
-			tidy_up_after_search();
-			free(thedefault);
-			return;
+			break;
 		}
 
 		/* If Enter was pressed, prepare to do a replace or a search. */
@@ -139,9 +137,7 @@ void search_init(bool replacing, bool keep_the_answer)
 					go_looking();
 			}
 
-			tidy_up_after_search();
-			free(thedefault);
-			return;
+			break;
 		}
 
 		func = func_from_key(&i);
@@ -157,20 +153,19 @@ void search_init(bool replacing, bool keep_the_answer)
 		} else if (func == flip_replace) {
 			if (ISSET(VIEW_MODE)) {
 				print_view_warning();
-				tidy_up_after_search();
-				free(thedefault);
-				return;
+				break;
 			}
 			replacing = !replacing;
 		} else {
 			if (func == flip_goto)
 				do_gotolinecolumn(openfile->current->lineno,
 							openfile->placewewant + 1, TRUE, TRUE);
-			tidy_up_after_search();
-			free(thedefault);
-			return;
+			break;
 		}
 	}
+
+	tidy_up_after_search();
+	free(thedefault);
 }
 
 /* Look for needle, starting at (current, current_x).  begin is the line
