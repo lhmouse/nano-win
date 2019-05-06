@@ -477,7 +477,6 @@ void do_rcfiles(void);
 #endif /* ENABLE_NANORC */
 
 /* Most functions in search.c. */
-void tidy_up_after_search(void);
 int findnextstr(const char *needle, bool whole_word_only, int modus,
 		size_t *match_len, bool skipone, const linestruct *begin, size_t begin_x);
 void do_search(void);

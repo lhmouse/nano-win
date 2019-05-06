@@ -2502,7 +2502,6 @@ const char *do_int_speller(const char *tempfile_name)
 		fix_spello(oneword);
 
 	free(misspellings);
-	tidy_up_after_search();
 	refresh_needed = TRUE;
 
 	/* Process the end of the three processes. */
