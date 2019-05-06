@@ -153,9 +153,9 @@ void search_init(bool replacing, bool keep_the_answer)
 		} else if (func == flip_replace) {
 			if (ISSET(VIEW_MODE)) {
 				print_view_warning();
-				break;
-			}
-			replacing = !replacing;
+				napms(600);
+			} else
+				replacing = !replacing;
 		} else {
 			if (func == flip_goto)
 				do_gotolinecolumn(openfile->current->lineno,
