@@ -1787,10 +1787,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-#ifdef DEBUG
-		fprintf(stderr, "Backing up %s to %s\n", realname, backupname);
-#endif
-
 		/* Copy the file. */
 		if (copy_file(f, backup_file, FALSE) != 0) {
 			fclose(backup_file);

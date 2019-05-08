@@ -2340,11 +2340,6 @@ int main(int argc, char **argv)
 						 (double)(clock() - start) / CLOCKS_PER_SEC);
 #endif
 
-#ifdef DEBUG
-		fprintf(stderr, "After rebinding keys...\n");
-		print_sclist();
-#endif
-
 		/* If the backed-up command-line options have a value, restore them. */
 #ifdef ENABLED_WRAPORJUSTIFY
 		if (fill_used)
@@ -2539,10 +2534,6 @@ int main(int argc, char **argv)
 	/* Set up the terminal state. */
 	terminal_init();
 
-#ifdef DEBUG
-	fprintf(stderr, "Main: set up windows\n");
-#endif
-
 	/* Create the three subwindows, based on the current screen dimensions. */
 	window_init();
 	curs_set(0);
@@ -2597,10 +2588,6 @@ int main(int argc, char **argv)
 	set_escdelay(50);
 #endif
 
-#ifdef DEBUG
-	fprintf(stderr, "Main: open file\n");
-#endif
-
 	/* Read the files mentioned on the command line into new buffers. */
 	while (optind < argc && (!openfile || read_them_all)) {
 		ssize_t givenline = 0, givencol = 0;
@@ -2653,10 +2640,6 @@ int main(int argc, char **argv)
 #ifdef __linux__
 	/* Check again whether we're running on a Linux console. */
 	on_a_vt = (ioctl(0, VT_GETSTATE, &dummy) == 0);
-#endif
-
-#ifdef DEBUG
-	fprintf(stderr, "Main: show title bar, and enter main loop\n");
 #endif
 
 	prepare_for_display();

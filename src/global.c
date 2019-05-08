@@ -378,10 +378,6 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 	f->help = help;
 	f->blank_after = blank_after;
 #endif
-
-#ifdef DEBUG
-	fprintf(stderr, "Added func %ld (%s) for menus %x\n", (long)func, f->desc, menus);
-#endif
 }
 
 /* Add a key combo to the shortcut list. */
@@ -413,10 +409,6 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 	assign_keyinfo(s, scstring, keycode);
 
 	tailsc = s;
-
-#ifdef DEBUG
-	fprintf(stderr, "Setting keycode to %d for shortcut \"%s\" in menus %x\n", s->keycode, scstring, s->menus);
-#endif
 }
 
 /* Return the first shortcut in the list of shortcuts that
@@ -429,9 +421,6 @@ const keystruct *first_sc_for(int menu, void (*func)(void))
 		if ((s->menus & menu) && s->func == func)
 			return s;
 
-#ifdef DEBUG
-	fprintf(stderr, "Whoops, returning null given func %ld in menu %x\n", (long)func, menu);
-#endif
 	return NULL;
 }
 
@@ -505,22 +494,6 @@ int keycode_from_string(const char *keystring)
 	else
 		return -1;
 }
-
-#ifdef DEBUG
-void print_sclist(void)
-{
-	keystruct *s;
-	const funcstruct *f;
-
-	for (s = sclist; s != NULL; s = s->next) {
-		f = sctofunc(s);
-		if (f)
-			fprintf(stderr, "Shortcut \"%s\", function: %s, menus %x\n", s->keystr, f->desc, f->menus);
-		else
-			fprintf(stderr, "Hmm, didn't find a func for \"%s\"\n", s->keystr);
-	}
-}
-#endif
 
 /* These two tags are used elsewhere too, so they are global. */
 /* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
@@ -1386,12 +1359,9 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
 #endif
-
-#ifdef DEBUG
-	print_sclist();
-#endif
 }
 
+/* Return something. */
 const funcstruct *sctofunc(const keystruct *s)
 {
 	funcstruct *f = allfuncs;

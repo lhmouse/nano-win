@@ -355,10 +355,6 @@ void precalc_multicolorinfo(void)
 	if (openfile->colorstrings == NULL || ISSET(NO_COLOR_SYNTAX))
 		return;
 
-#ifdef DEBUG
-	fprintf(stderr, "Precalculating the multiline color info...\n");
-#endif
-
 	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 		/* If this is not a multi-line regex, skip it. */
 		if (ink->end == NULL)

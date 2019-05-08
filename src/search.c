@@ -22,9 +22,6 @@
 #include "proto.h"
 
 #include <string.h>
-#ifdef DEBUG
-#include <time.h>
-#endif
 
 static bool came_full_circle = FALSE;
 		/* Have we reached the starting line again while searching? */
@@ -397,9 +394,6 @@ void go_looking(void)
 {
 	linestruct *was_current = openfile->current;
 	size_t was_current_x = openfile->current_x;
-#ifdef DEBUG
-	clock_t start = clock();
-#endif
 
 	came_full_circle = FALSE;
 
@@ -413,10 +407,6 @@ void go_looking(void)
 		statusbar(_("This is the only occurrence"));
 	else if (didfind == 0)
 		not_found_msg(last_search);
-
-#ifdef DEBUG
-	statusline(HUSH, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
-#endif
 
 	edit_redraw(was_current, CENTERING);
 }
