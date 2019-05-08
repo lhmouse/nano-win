@@ -1361,17 +1361,6 @@ void shortcut_init(void)
 #endif
 }
 
-/* Return something. */
-const funcstruct *sctofunc(const keystruct *s)
-{
-	funcstruct *f = allfuncs;
-
-	while (f != NULL && f->func != s->func)
-		f = f->next;
-
-	return f;
-}
-
 #ifndef NANO_TINY
 /* Return the textual description that corresponds to the given flag. */
 const char *flagtostr(int flag)

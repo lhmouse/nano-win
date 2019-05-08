@@ -323,7 +323,6 @@ functionptrtype func_from_key(int *kbinput);
 int keycode_from_string(const char *keystring);
 void assign_keyinfo(keystruct *s, const char *keystring, const int keycode);
 void shortcut_init(void);
-const funcstruct *sctofunc(const keystruct *s);
 const char *flagtostr(int flag);
 #ifdef ENABLE_NANORC
 keystruct *strtosc(const char *input);

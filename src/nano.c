@@ -1622,9 +1622,13 @@ bool wanted_to_move(void (*func)(void))
 /* Return TRUE when the given shortcut is admissible in view mode. */
 bool okay_for_view(const keystruct *shortcut)
 {
-	const funcstruct *func = sctofunc(shortcut);
+	funcstruct *item = allfuncs;
 
-	return (func == NULL || func->viewok);
+	/* Search the function of the given shortcut in the list of functions. */
+	while (item != NULL && item->func != shortcut->func)
+		item = item->next;
+
+	return (item == NULL || item->viewok);
 }
 
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
