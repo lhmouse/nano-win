@@ -722,23 +722,20 @@ void shortcut_init(void)
 		N_("Write Out"), WITHORSANS(writeout_gist), TOGETHER, NOVIEW);
 
 #ifdef ENABLE_JUSTIFY
-	if (!ISSET(RESTRICTED)) {
-#else
-	/* If we can't replace Insert with Justify, show Insert anyway, to
-	 * keep the help items nicely paired also in restricted mode.  */
-	if (TRUE) {
+	/* In restricted mode, replace Insert with Justify, when possible;
+	 * otherwise, show Insert anyway, to keep the help items paired. */
+	if (!ISSET(RESTRICTED))
 #endif
 		add_to_funcs(do_insertfile_void, MMAIN,
 				N_("Read File"), WITHORSANS(readfile_gist), BLANKAFTER,
 				/* We allow inserting files in view mode if multibuffer mode
-				 * is switched on, so that we can view multiple files. */
+				 * is available, so that the user can view multiple files. */
 				CAN_OPEN_OTHER_BUFFER);
-	} else {
 #ifdef ENABLE_JUSTIFY
+	else
 		add_to_funcs(do_justify_void, MMAIN,
 				N_("Justify"), WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
 #endif
-	}
 
 #ifdef ENABLE_HELP
 	/* The description ("x") and blank_after (0) are irrelevant,
