@@ -95,13 +95,14 @@ void search_init(bool replacing, bool keep_the_answer)
 		/* Ask the user what to search for (or replace). */
 		int response = do_prompt(FALSE, FALSE,
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
-					answer, &search_history,
+					answer, &search_history, edit_refresh,
 					/* TRANSLATORS: This is the main search prompt. */
-					edit_refresh, "%s%s%s%s%s%s", _("Search"),
-					/* TRANSLATORS: The next four modify the search prompt. */
+					"%s%s%s%s%s%s", _("Search"),
+					/* TRANSLATORS: The next five modify the search prompt. */
 					ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
 					ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
-					ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "", replacing ?
+					ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "",
+					replacing ?
 #ifndef NANO_TINY
 					openfile->mark ? _(" (to replace) in selection") :
 #endif
@@ -686,9 +687,9 @@ void ask_for_replacement(void)
 	linestruct *edittop_save, *begin;
 	size_t firstcolumn_save, begin_x;
 	ssize_t numreplaced;
-	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL, &replace_history,
-				/* TRANSLATORS: This is a prompt. */
-				edit_refresh, _("Replace with"));
+	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL,
+						/* TRANSLATORS: This is a prompt. */
+						&replace_history, edit_refresh, _("Replace with"));
 
 #ifdef ENABLE_HISTORIES
 	/* If the replace string is not "", add it to the replace history list. */
@@ -745,9 +746,9 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	if (interactive) {
 		/* Ask for the line and column. */
 		int response = do_prompt(FALSE, FALSE, MGOTOLINE,
-				use_answer ? answer : NULL, NULL,
-				/* TRANSLATORS: This is a prompt. */
-				edit_refresh, _("Enter line number, column number"));
+						use_answer ? answer : NULL, NULL, edit_refresh,
+						/* TRANSLATORS: This is a prompt. */
+						_("Enter line number, column number"));
 
 		/* If the user cancelled or gave a blank answer, get out. */
 		if (response < 0) {

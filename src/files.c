@@ -1123,17 +1123,17 @@ void do_insertfile(void)
 
 		response = do_prompt(TRUE, TRUE,
 #ifndef NANO_TINY
-				execute ? MEXTCMD :
+							execute ? MEXTCMD :
 #endif
-				MINSERTFILE, given,
+							MINSERTFILE, given,
 #ifndef NANO_TINY
-				execute ? &execute_history :
+							execute ? &execute_history :
 #endif
-				NULL, edit_refresh, msg,
+							NULL, edit_refresh, msg,
 #ifdef ENABLE_OPERATINGDIR
-				operating_dir != NULL ? operating_dir :
+							operating_dir != NULL ? operating_dir :
 #endif
-				"./");
+							"./");
 
 		/* If we're in multibuffer mode and the filename or command is
 		 * blank, open a new buffer instead of canceling. */

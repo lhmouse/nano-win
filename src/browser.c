@@ -224,8 +224,8 @@ char *do_browser(char *path)
 		} else if (func == goto_dir_void) {
 			/* Ask for the directory to go to. */
 			if (do_prompt(TRUE, FALSE, MGOTODIR, NULL, NULL,
-						/* TRANSLATORS: This is a prompt. */
-						browser_refresh, _("Go To Directory")) < 0) {
+							/* TRANSLATORS: This is a prompt. */
+							browser_refresh, _("Go To Directory")) < 0) {
 				statusbar(_("Cancelled"));
 				continue;
 			}
