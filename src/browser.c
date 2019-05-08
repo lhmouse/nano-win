@@ -223,11 +223,9 @@ char *do_browser(char *path)
 			selected = filelist_len - 1;
 		} else if (func == goto_dir_void) {
 			/* Ask for the directory to go to. */
-			int i = do_prompt(TRUE, FALSE, MGOTODIR, NULL, NULL,
+			if (do_prompt(TRUE, FALSE, MGOTODIR, NULL, NULL,
 						/* TRANSLATORS: This is a prompt. */
-						browser_refresh, _("Go To Directory"));
-
-			if (i < 0) {
+						browser_refresh, _("Go To Directory")) < 0) {
 				statusbar(_("Cancelled"));
 				continue;
 			}

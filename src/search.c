@@ -93,7 +93,7 @@ void search_init(bool replacing, bool keep_the_answer)
 	while (TRUE) {
 		functionptrtype func;
 		/* Ask the user what to search for (or replace). */
-		int i = do_prompt(FALSE, FALSE,
+		int response = do_prompt(FALSE, FALSE,
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
 					answer, &search_history,
 					/* TRANSLATORS: This is the main search prompt. */
@@ -109,13 +109,13 @@ void search_init(bool replacing, bool keep_the_answer)
 
 		/* If the search was cancelled, or we have a blank answer and
 		 * nothing was searched for yet during this session, get out. */
-		if (i == -1 || (i == -2 && *last_search == '\0')) {
+		if (response == -1 || (response == -2 && *last_search == '\0')) {
 			statusbar(_("Cancelled"));
 			break;
 		}
 
 		/* If Enter was pressed, prepare to do a replace or a search. */
-		if (i == 0 || i == -2) {
+		if (response == 0 || response == -2) {
 			/* If an actual answer was typed, remember it. */
 			if (*answer != '\0') {
 				last_search = mallocstrcpy(last_search, answer);
@@ -137,7 +137,7 @@ void search_init(bool replacing, bool keep_the_answer)
 			break;
 		}
 
-		func = func_from_key(&i);
+		func = func_from_key(&response);
 
 		/* If we're here, one of the five toggles was pressed, or
 		 * a shortcut was executed. */
@@ -686,22 +686,22 @@ void ask_for_replacement(void)
 	linestruct *edittop_save, *begin;
 	size_t firstcolumn_save, begin_x;
 	ssize_t numreplaced;
-	int i = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL, &replace_history,
+	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL, &replace_history,
 				/* TRANSLATORS: This is a prompt. */
 				edit_refresh, _("Replace with"));
 
 #ifdef ENABLE_HISTORIES
 	/* If the replace string is not "", add it to the replace history list. */
-	if (i == 0)
+	if (response == 0)
 		update_history(&replace_history, answer);
 #endif
 
 	/* When cancelled, or when a function was run, get out. */
-	if (i == -1 || i > 0) {
-		if (i == -1)
-			statusbar(_("Cancelled"));
+	if (response == -1) {
+		statusbar(_("Cancelled"));
 		return;
-	}
+	} else if (response > 0)
+		return;
 
 	/* Save where we are. */
 	edittop_save = openfile->edittop;
@@ -744,18 +744,18 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 {
 	if (interactive) {
 		/* Ask for the line and column. */
-		int i = do_prompt(FALSE, FALSE, MGOTOLINE,
+		int response = do_prompt(FALSE, FALSE, MGOTOLINE,
 				use_answer ? answer : NULL, NULL,
 				/* TRANSLATORS: This is a prompt. */
 				edit_refresh, _("Enter line number, column number"));
 
 		/* If the user cancelled or gave a blank answer, get out. */
-		if (i < 0) {
+		if (response < 0) {
 			statusbar(_("Cancelled"));
 			return;
 		}
 
-		if (func_from_key(&i) == flip_goto) {
+		if (func_from_key(&response) == flip_goto) {
 			UNSET(BACKWARDS_SEARCH);
 			/* Retain what the user typed so far and switch to searching. */
 			search_init(FALSE, TRUE);
@@ -763,7 +763,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 		}
 
 		/* If a function was executed, we're done here. */
-		if (i > 0)
+		if (response > 0)
 			return;
 
 		/* Try to extract one or two numbers from the user's response. */

@@ -1076,7 +1076,7 @@ char *get_next_filename(const char *name, const char *suffix)
  * the MULTIBUFFER flag is set. */
 void do_insertfile(void)
 {
-	int i;
+	int response;
 	const char *msg;
 	char *given = mallocstrcpy(NULL, "");
 		/* The last answer the user typed at the statusbar prompt. */
@@ -1121,7 +1121,7 @@ void do_insertfile(void)
 
 		present_path = mallocstrcpy(present_path, "./");
 
-		i = do_prompt(TRUE, TRUE,
+		response = do_prompt(TRUE, TRUE,
 #ifndef NANO_TINY
 				execute ? MEXTCMD :
 #endif
@@ -1137,14 +1137,14 @@ void do_insertfile(void)
 
 		/* If we're in multibuffer mode and the filename or command is
 		 * blank, open a new buffer instead of canceling. */
-		if (i == -1 || (i == -2 && !ISSET(MULTIBUFFER))) {
+		if (response == -1 || (response == -2 && !ISSET(MULTIBUFFER))) {
 			statusbar(_("Cancelled"));
 			break;
 		} else {
 			ssize_t was_current_lineno = openfile->current->lineno;
 			size_t was_current_x = openfile->current_x;
 #if !defined(NANO_TINY) || defined(ENABLE_BROWSER) || defined(ENABLE_MULTIBUFFER)
-			functionptrtype func = func_from_key(&i);
+			functionptrtype func = func_from_key(&response);
 #endif
 			given = mallocstrcpy(given, answer);
 
@@ -1178,7 +1178,7 @@ void do_insertfile(void)
 
 				free(answer);
 				answer = chosen;
-				i = 0;
+				response = 0;
 			}
 #endif
 #ifndef NANO_TINY
@@ -1189,7 +1189,7 @@ void do_insertfile(void)
 			}
 #endif
 			/* If we don't have a file yet, go back to the prompt. */
-			if (i != 0 && (!ISSET(MULTIBUFFER) || i != -2))
+			if (response != 0 && (!ISSET(MULTIBUFFER) || response != -2))
 				continue;
 
 #ifndef NANO_TINY
