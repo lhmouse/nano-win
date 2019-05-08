@@ -457,21 +457,20 @@ int replace_regexp(char *string, bool create)
 /* Return a copy of the current line with one needle replaced. */
 char *replace_line(const char *needle)
 {
-	char *copy;
+	size_t new_size = strlen(openfile->current->data) + 1;
 	size_t match_len;
-	size_t new_line_size = strlen(openfile->current->data) + 1;
+	char *copy;
 
 	/* First adjust the size of the new line for the change. */
 	if (ISSET(USE_REGEXP)) {
 		match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-		new_line_size += replace_regexp(NULL, FALSE) - match_len;
+		new_size += replace_regexp(NULL, FALSE) - match_len;
 	} else {
 		match_len = strlen(needle);
-		new_line_size += strlen(answer) - match_len;
+		new_size += strlen(answer) - match_len;
 	}
 
-	/* Create the buffer. */
-	copy = charalloc(new_line_size);
+	copy = charalloc(new_size);
 
 	/* Copy the head of the original line. */
 	strncpy(copy, openfile->current->data, openfile->current_x);
@@ -481,8 +480,6 @@ char *replace_line(const char *needle)
 		replace_regexp(copy + openfile->current_x, TRUE);
 	else
 		strcpy(copy + openfile->current_x, answer);
-
-	assert(openfile->current_x + match_len <= strlen(openfile->current->data));
 
 	/* Copy the tail of the original line. */
 	strcat(copy, openfile->current->data + openfile->current_x + match_len);
