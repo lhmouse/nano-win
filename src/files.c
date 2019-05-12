@@ -429,17 +429,12 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 	realname = real_dir_from_tilde(filename);
 
-	/* When the specified filename is not empty, and the corresponding
-	 * file exists, verify that it is a normal file. */
+	/* When the given filename refers to a directory, don't try to open it. */
 	if (*filename != '\0') {
 		struct stat fileinfo;
 
-		if (stat(realname, &fileinfo) == 0 && !(S_ISREG(fileinfo.st_mode) ||
-					(ISSET(NOREAD_MODE) && S_ISFIFO(fileinfo.st_mode)))) {
-			if (S_ISDIR(fileinfo.st_mode))
-				statusline(ALERT, _("\"%s\" is a directory"), realname);
-			else
-				statusline(ALERT, _("\"%s\" is not a normal file"), realname);
+		if (stat(realname, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
+			statusline(ALERT, _("\"%s\" is a directory"), realname);
 			free(realname);
 			return FALSE;
 		}
