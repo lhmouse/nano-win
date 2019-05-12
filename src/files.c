@@ -698,41 +698,6 @@ bool close_buffer(void)
 }
 #endif /* ENABLE_MULTIBUFFER */
 
-/* Do a quick permissions check by verifying whether the file is appendable.
- * Err on the side of permissiveness (reporting TRUE when it might be wrong)
- * to not fluster users editing on odd filesystems by printing incorrect
- * warnings. */
-int is_file_writable(const char *filename)
-{
-	char *full_filename;
-	struct stat fileinfo;
-	int fd;
-	FILE *f;
-	bool result = TRUE;
-
-	if (ISSET(VIEW_MODE))
-		return TRUE;
-
-	full_filename = get_full_path(filename);
-
-	/* If the absolute path is unusable, use the given relative one. */
-	if (full_filename == NULL || stat(full_filename, &fileinfo) == -1)
-		full_filename = mallocstrcpy(NULL, filename);
-
-	if ((fd = open(full_filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR |
-				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) == -1)
-		result = FALSE;
-	else if ((f = fdopen(fd, "a")) == NULL) {
-		result = FALSE;
-		close(fd);
-	} else
-		fclose(f);
-
-	free(full_filename);
-
-	return result;
-}
-
 /* Encode any NUL bytes in the given line of text, which is of length buf_len,
  * and return a dynamically allocated copy of the resultant string. */
 char *encode_data(char *buf, size_t buf_len)
@@ -879,7 +844,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	fclose(f);
 	if (fd > 0 && !undoable) {
 		close(fd);
-		writable = is_file_writable(filename);
+		writable = (ISSET(VIEW_MODE) || access(filename, W_OK) == 0);
 	}
 
 	/* If the file ended with newline, or it was entirely empty, make the
