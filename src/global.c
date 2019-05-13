@@ -31,10 +31,8 @@ volatile sig_atomic_t the_window_resized = FALSE;
 		/* Set to TRUE by the handler whenever a SIGWINCH occurs. */
 #endif
 
-#ifdef __linux__
-bool on_a_vt;
-		/* Whether we're running on a Linux VT or on something else. */
-#endif
+bool on_a_vt = FALSE;
+		/* Whether we're running on a Linux console (a VT). */
 
 bool meta_key;
 		/* Whether the current keystroke is a Meta key. */
@@ -1145,8 +1143,10 @@ void shortcut_init(void)
 		add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, do_next_word_void, 0);
 #if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
-		add_to_sclist(MMAIN, "M-\xE2\x97\x80", ALT_LEFT, switch_to_prev_buffer, 0);
-		add_to_sclist(MMAIN, "M-\xE2\x96\xb6", ALT_RIGHT, switch_to_next_buffer, 0);
+		if (!on_a_vt) {
+			add_to_sclist(MMAIN, "M-\xE2\x97\x80", ALT_LEFT, switch_to_prev_buffer, 0);
+			add_to_sclist(MMAIN, "M-\xE2\x96\xb6", ALT_RIGHT, switch_to_next_buffer, 0);
+		}
 #endif
 	} else
 #endif
@@ -1156,8 +1156,10 @@ void shortcut_init(void)
 		add_to_sclist(MSOME, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
 #ifdef ENABLE_MULTIBUFFER
-		add_to_sclist(MMAIN, "M-Left", ALT_LEFT, switch_to_prev_buffer, 0);
-		add_to_sclist(MMAIN, "M-Right", ALT_RIGHT, switch_to_next_buffer, 0);
+		if (!on_a_vt) {
+			add_to_sclist(MMAIN, "M-Left", ALT_LEFT, switch_to_prev_buffer, 0);
+			add_to_sclist(MMAIN, "M-Right", ALT_RIGHT, switch_to_next_buffer, 0);
+		}
 #endif
 	}
 #ifdef NANO_TINY
