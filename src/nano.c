@@ -1360,7 +1360,9 @@ void do_toggle(int flag)
 			signal_init();
 			break;
 		case SOFTWRAP:
-			if (!ISSET(SOFTWRAP))
+			if (ISSET(SOFTWRAP))
+				edit_redraw(openfile->current, FLOWING);
+			else
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
 			break;
