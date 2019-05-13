@@ -468,7 +468,7 @@ void help_init(void)
 	 * plus one or two \n's. */
 	for (f = allfuncs; f != NULL; f = f->next)
 		if (f->menus & currmenu)
-			allocsize += (16 * MAXCHARLEN) + strlen(_(f->help)) + 2;
+			allocsize += (17 * MAXCHARLEN) + strlen(_(f->help)) + 2;
 
 #ifndef NANO_TINY
 	/* If we're on the main list, we also count the toggle help text.
@@ -511,18 +511,19 @@ void help_init(void)
 				/* Make the first column narrower (6) than the second (10),
 				 * but allow it to spill into the second, for "M-Space". */
 				if (++tally == 1) {
-					sprintf(ptr, "%s               ", s->keystr);
+					sprintf(ptr, "%s                ", s->keystr);
 					/* Unicode arrows take three bytes instead of one. */
-					ptr += (strstr(s->keystr, "\xE2") != NULL ? 8 : 6);
+					ptr += (strstr(s->keystr, "\xE2") != NULL ? 9 : 7);
 				} else {
-					ptr += sprintf(ptr, "(%s)\t", s->keystr);
+					sprintf(ptr, "(%s)       ", s->keystr);
+					ptr += (strstr(s->keystr, "\xE2") != NULL ? 12 : 10);
 					break;
 				}
 			}
 		}
 
 		if (tally == 0)
-			ptr += sprintf(ptr, "\t\t");
+			ptr += sprintf(ptr, "\t\t ");
 		else if (tally == 1)
 			ptr += 10;
 
@@ -547,7 +548,7 @@ void help_init(void)
 			counter++;
 			for (s = sclist; s != NULL; s = s->next)
 				if (s->toggle && s->ordinal == counter) {
-					ptr += sprintf(ptr, "%s\t\t%s %s\n", (s->menus == MMAIN ? s->keystr : ""),
+					ptr += sprintf(ptr, "%s\t\t %s %s\n", (s->menus == MMAIN ? s->keystr : ""),
 								_(flagtostr(s->toggle)), _("enable/disable"));
 					if (s->toggle == NO_COLOR_SYNTAX || s->toggle == TABS_TO_SPACES)
 						ptr += sprintf(ptr, "\n");
