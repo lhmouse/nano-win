@@ -144,22 +144,46 @@ static colortype *lastcolor = NULL;
 		/* The end of the color list for the current syntax. */
 #endif
 
+static linestruct *errors_head = NULL;
+static linestruct *errors_tail = NULL;
+		/* Beginning and end of a list of errors in rcfiles, if any. */
+
+/* Send the gathered error messages (if any) to the terminal. */
+void display_rcfile_errors()
+{
+	for (linestruct *error = errors_head; error != NULL; error = error->next)
+		fprintf(stderr, "%s\n", error->data);
+}
+
+#define MAXSIZE  (PATH_MAX + 200)
+
 /* Report an error in an rcfile, printing it to stderr. */
 void rcfile_error(const char *msg, ...)
 {
+	linestruct *error = make_new_node(errors_tail);
+	char textbuf[MAXSIZE];
+	int length = 0;
 	va_list ap;
+
+	if (errors_head == NULL)
+		errors_head = error;
+	else
+		errors_tail->next = error;
+	errors_tail = error;
 
 	if (rcfile_with_errors == NULL)
 		rcfile_with_errors = strdup(nanorc);
 
 	if (lineno > 0)
-		fprintf(stderr, _("Error in %s on line %zu: "), nanorc, lineno);
+		length = snprintf(textbuf, MAXSIZE, _("Error in %s on line %zu: "),
+											nanorc, lineno);
 
 	va_start(ap, msg);
-	vfprintf(stderr, _(msg), ap);
+	length += vsnprintf(textbuf + length, MAXSIZE - length, _(msg), ap);
 	va_end(ap);
 
-	fprintf(stderr, "\n");
+	error->data = nmalloc(length + 1);
+	sprintf(error->data, "%s", textbuf);
 }
 #endif /* ENABLE_NANORC */
 
@@ -1254,16 +1278,6 @@ void do_rcfiles(void)
 		rcfile_error(N_("I can't find my home directory!  Wah!"));
 
 	check_vitals_mapped();
-
-#ifdef __linux__
-	/* On a Linux console, don't start nano when there are rcfile errors,
-	 * because otherwise these error messages get wiped. */
-	if (on_a_vt && rcfile_with_errors) {
-		fprintf(stderr, _("If needed, use nano with the -I option "
-							"to adjust your nanorc settings.\n"));
-		exit(1);
-	}
-#endif
 
 	free(nanorc);
 }

@@ -526,6 +526,10 @@ void finish(void)
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &oldterm);
 
+#ifdef ENABLE_NANORC
+	display_rcfile_errors();
+#endif
+
 #ifdef ENABLE_HISTORIES
 	/* If the user wants history persistence, write the relevant files. */
 	if (ISSET(HISTORYLOG))
@@ -552,6 +556,10 @@ void die(const char *msg, ...)
 
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &oldterm);
+
+#ifdef ENABLE_NANORC
+	display_rcfile_errors();
+#endif
 
 	/* Display the dying message. */
 	va_start(ap, msg);
