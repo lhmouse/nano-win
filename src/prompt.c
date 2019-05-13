@@ -738,6 +738,9 @@ int do_yesno_prompt(bool all, const char *msg)
 			choice = 2;
 		else if (func_from_key(&kbinput) == do_cancel)
 			choice = -1;
+		/* Interpret ^N and ^Q as "No", to allow exiting in anger. */
+		else if (kbinput == '\x0E' || kbinput == '\x11')
+			choice = 0;
 #ifdef ENABLE_MOUSE
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
