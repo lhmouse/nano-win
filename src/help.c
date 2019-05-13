@@ -464,22 +464,22 @@ void help_init(void)
 		allocsize += strlen(htx[2]);
 
 	/* Calculate the length of the shortcut help text.  Each entry has
-	 * one or two keys, which fill 16 columns, plus translated text,
+	 * one or two keys, which fill 17 cells, plus translated text,
 	 * plus one or two \n's. */
 	for (f = allfuncs; f != NULL; f = f->next)
 		if (f->menus & currmenu)
-			allocsize += (17 * MAXCHARLEN) + strlen(_(f->help)) + 2;
+			allocsize += strlen(_(f->help)) + 21;
 
 #ifndef NANO_TINY
 	/* If we're on the main list, we also count the toggle help text.
-	 * Each entry has "M-%c\t\t", five chars which fill 16 columns,
-	 * plus a space, plus translated text, plus one or two '\n's. */
+	 * Each entry has "M-%c\t\t ", six chars which fill 17 cells, plus
+	 * two translated texts, plus a space, plus one or two '\n's. */
 	if (currmenu == MMAIN) {
-		size_t endis_len = strlen(_("enable/disable"));
+		size_t onoff_len = strlen(_("enable/disable"));
 
 		for (s = sclist; s != NULL; s = s->next)
 			if (s->func == do_toggle_void)
-				allocsize += strlen(_(flagtostr(s->toggle))) + endis_len + 8;
+				allocsize += strlen(_(flagtostr(s->toggle))) + onoff_len + 9;
 	}
 #endif
 
@@ -493,23 +493,21 @@ void help_init(void)
 	if (htx[2] != NULL)
 		strcat(help_text, htx[2]);
 
-	ptr = help_text + strlen(help_text);
-
 	/* Remember this end-of-introduction, start-of-shortcuts. */
-	end_of_intro = ptr;
+	end_of_intro = help_text + strlen(help_text);
+	ptr = end_of_intro;
 
-	/* Now add our shortcut info. */
+	/* Now add the shortcuts and their descriptions. */
 	for (f = allfuncs; f != NULL; f = f->next) {
 		int tally = 0;
 
 		if ((f->menus & currmenu) == 0)
 			continue;
 
-		/* Let's simply show the first two shortcuts from the list. */
+		/* Show the first two shortcuts (if any) for each function. */
 		for (s = sclist; s != NULL; s = s->next) {
 			if ((s->menus & currmenu) && s->func == f->func) {
-				/* Make the first column narrower (6) than the second (10),
-				 * but allow it to spill into the second, for "M-Space". */
+				/* Make the first column 7 cells wide and the second 10. */
 				if (++tally == 1) {
 					sprintf(ptr, "%s                ", s->keystr);
 					/* Unicode arrows take three bytes instead of one. */
@@ -527,7 +525,7 @@ void help_init(void)
 		else if (tally == 1)
 			ptr += 10;
 
-		/* The shortcut's help text. */
+		/* The shortcut's description. */
 		ptr += sprintf(ptr, "%s\n", _(f->help));
 
 		if (f->blank_after)

@@ -1144,11 +1144,9 @@ void shortcut_init(void)
 		add_to_sclist(MMOST|MHELP|MBROWSER, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, do_prev_word_void, 0);
 		add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, do_next_word_void, 0);
-#ifndef NANO_TINY
-#ifdef ENABLE_MULTIBUFFER
+#if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
 		add_to_sclist(MMAIN, "M-\xE2\x97\x80", ALT_LEFT, switch_to_prev_buffer, 0);
 		add_to_sclist(MMAIN, "M-\xE2\x96\xb6", ALT_RIGHT, switch_to_next_buffer, 0);
-#endif
 #endif
 	} else
 #endif
