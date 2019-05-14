@@ -288,7 +288,7 @@ bool nregcomp(const char *regex, int compile_flags)
 
 /* Parse the next syntax name and its possible extension regexes from the
  * line at ptr, and add it to the global linked list of color syntaxes. */
-void parse_syntax(char *ptr)
+void parse_syntax(char *ptr, bool headers_only)
 {
 	char *nameptr = ptr;
 
@@ -324,6 +324,8 @@ void parse_syntax(char *ptr)
 	/* Initialize a new syntax struct. */
 	live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
 	live_syntax->name = mallocstrcpy(NULL, nameptr);
+	live_syntax->filename = (headers_only ? strdup(nanorc) : NULL);
+	live_syntax->extendsyntax = NULL;
 	live_syntax->extensions = NULL;
 	live_syntax->headers = NULL;
 	live_syntax->magics = NULL;
@@ -539,7 +541,7 @@ bool is_good_file(char *file)
 
 #ifdef ENABLE_COLOR
 /* Read and parse one included syntax file. */
-static void parse_one_include(char *file)
+void parse_one_include(char *file, syntaxtype *syntax)
 {
 	FILE *rcstream;
 
@@ -560,7 +562,49 @@ static void parse_one_include(char *file)
 	nanorc = file;
 	lineno = 0;
 
-	parse_rcfile(rcstream, TRUE);
+	/* If this is the first pass, parse only the prologue. */
+	if (syntax == NULL) {
+		parse_rcfile(rcstream, TRUE, TRUE);
+		return;
+	}
+
+	live_syntax = syntax;
+	opensyntax = TRUE;
+	lastcolor = NULL;
+
+	/* Parse the included file fully. */
+	parse_rcfile(rcstream, TRUE, FALSE);
+	opensyntax = TRUE;
+
+	lastcolor = syntax->color;
+	if (lastcolor != NULL)
+		while (lastcolor->next != NULL)
+			lastcolor = lastcolor->next;
+
+	extendsyntaxstruct *es = syntax->extendsyntax;
+
+	/* Apply any stored extendsyntax commands. */
+	while (es != NULL) {
+		extendsyntaxstruct *next = es->next;
+		char *keyword = es->data, *ptr = parse_next_word(es->data);
+
+		nanorc = es->filename;
+		lineno = es->lineno;
+
+		if (!parse_syntax_commands(keyword, ptr))
+			rcfile_error(N_("Command \"%s\" not understood"), keyword);
+
+		free(es->filename);
+		free(es->data);
+		free(es);
+
+		es = next;
+	}
+
+	free(syntax->filename);
+	syntax->filename = NULL;
+	syntax->extendsyntax = NULL;
+	opensyntax = FALSE;
 }
 
 /* Expand globs in the passed name, and parse the resultant files. */
@@ -585,7 +629,7 @@ void parse_includes(char *ptr)
 	 * report an error if it's something other than zero matches. */
 	if (result == 0) {
 		for (size_t i = 0; i < files.gl_pathc; ++i)
-			parse_one_include(files.gl_pathv[i]);
+			parse_one_include(files.gl_pathv[i], NULL);
 	} else if (result != GLOB_NOMATCH)
 		rcfile_error(_("Error expanding %s: %s"), pattern, strerror(errno));
 
@@ -931,10 +975,31 @@ static void check_vitals_mapped(void)
 	}
 }
 
+/* Parse syntax-only commands. */
+bool parse_syntax_commands(char *keyword, char *ptr)
+{
+	if (strcasecmp(keyword, "comment") == 0)
+#ifdef ENABLE_COMMENT
+		pick_up_name("comment", ptr, &live_syntax->comment);
+#else
+		;
+#endif
+	else if (strcasecmp(keyword, "color") == 0)
+		parse_colors(ptr, NANO_REG_EXTENDED);
+	else if (strcasecmp(keyword, "icolor") == 0)
+		parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
+	else if (strcasecmp(keyword, "linter") == 0)
+		pick_up_name("linter", ptr, &live_syntax->linter);
+	else
+		return FALSE;
+
+	return TRUE;
+}
+
 /* Parse the rcfile, once it has been opened successfully at rcstream,
  * and close it afterwards.  If syntax_only is TRUE, allow the file to
  * to contain only color syntax commands. */
-void parse_rcfile(FILE *rcstream, bool syntax_only)
+void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 {
 	char *buf = NULL;
 	ssize_t len;
@@ -981,6 +1046,26 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 				continue;
 			}
 
+			/* When the syntax isn't loaded yet, store extendsyntax commands. */
+			if (sint->filename != NULL) {
+				extendsyntaxstruct *newextendsyntax = nmalloc(sizeof(extendsyntaxstruct));;
+
+				newextendsyntax->filename = strdup(nanorc);
+				newextendsyntax->lineno = lineno;
+				newextendsyntax->data = strdup(ptr);
+				newextendsyntax->next = NULL;
+
+				if (sint->extendsyntax != NULL) {
+					extendsyntaxstruct *es = sint->extendsyntax;
+					while (es->next != NULL)
+						es = es->next;
+					es->next = newextendsyntax;
+				} else
+					sint->extendsyntax = newextendsyntax;
+
+				continue;
+			}
+
 			live_syntax = sint;
 			opensyntax = TRUE;
 
@@ -996,31 +1081,27 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 
 		/* Try to parse the keyword. */
 		if (strcasecmp(keyword, "syntax") == 0) {
-			if (opensyntax && lastcolor == NULL)
-				rcfile_error(N_("Syntax \"%s\" has no color commands"),
-								live_syntax->name);
-			parse_syntax(ptr);
+			if (headers_only || !syntax_only) {
+				if (opensyntax && lastcolor == NULL && live_syntax->filename == NULL)
+					rcfile_error(N_("Syntax \"%s\" has no color commands"),
+									live_syntax->name);
+				parse_syntax(ptr, headers_only);
+			}
 		}
-		else if (strcasecmp(keyword, "header") == 0)
-			grab_and_store("header", ptr, &live_syntax->headers);
-		else if (strcasecmp(keyword, "magic") == 0)
+		else if (strcasecmp(keyword, "header") == 0) {
+			if (headers_only || !syntax_only)
+				grab_and_store("header", ptr, &live_syntax->headers);
+		} else if (strcasecmp(keyword, "magic") == 0)
 #ifdef HAVE_LIBMAGIC
-			grab_and_store("magic", ptr, &live_syntax->magics);
+			if (headers_only || !syntax_only)
+				grab_and_store("magic", ptr, &live_syntax->magics);
 #else
 			;
 #endif
-		else if (strcasecmp(keyword, "comment") == 0)
-#ifdef ENABLE_COMMENT
-			pick_up_name("comment", ptr, &live_syntax->comment);
-#else
+		else if (headers_only)
+			break;
+		else if (parse_syntax_commands(keyword, ptr))
 			;
-#endif
-		else if (strcasecmp(keyword, "color") == 0)
-			parse_colors(ptr, NANO_REG_EXTENDED);
-		else if (strcasecmp(keyword, "icolor") == 0)
-			parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
-		else if (strcasecmp(keyword, "linter") == 0)
-			pick_up_name("linter", ptr, &live_syntax->linter);
 		else if (syntax_only && (strcasecmp(keyword, "set") == 0 ||
 								strcasecmp(keyword, "unset") == 0 ||
 								strcasecmp(keyword, "bind") == 0 ||
@@ -1046,7 +1127,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 
 #ifdef ENABLE_COLOR
 		/* If a syntax was extended, it stops at the end of the command. */
-		if (live_syntax != syntaxes)
+		if (!syntax_only && live_syntax != syntaxes)
 			opensyntax = FALSE;
 #endif
 
@@ -1210,7 +1291,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only)
 	}
 
 #ifdef ENABLE_COLOR
-	if (opensyntax && lastcolor == NULL)
+	if (opensyntax && lastcolor == NULL && !headers_only)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 						live_syntax->name);
 
@@ -1238,7 +1319,7 @@ void parse_one_nanorc(void)
 	/* If opening the file succeeded, parse it.  Otherwise, only
 	 * complain if the file actually exists. */
 	if (rcstream != NULL)
-		parse_rcfile(rcstream, FALSE);
+		parse_rcfile(rcstream, FALSE, FALSE);
 	else if (errno != ENOENT)
 		rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 }

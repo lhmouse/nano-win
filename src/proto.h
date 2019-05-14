@@ -465,10 +465,12 @@ int do_yesno_prompt(bool all, const char *msg);
 /* Most functions in rcfile.c. */
 #ifdef ENABLE_NANORC
 void display_rcfile_errors();
+bool parse_syntax_commands(char *keyword, char *ptr);
+void parse_one_include(char *file, syntaxtype *syntax);
 #ifdef ENABLE_COLOR
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
 #endif
-void parse_rcfile(FILE *rcstream, bool syntax_only);
+void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only);
 void do_rcfiles(void);
 #endif /* ENABLE_NANORC */
 

@@ -39,11 +39,34 @@
 #define A_BANDAID  A_NORMAL
 #endif
 
+/* Assign pair numbers for the colors in the given syntax, giving identical
+ * color pairs the same number. */
+void set_syntax_colorpairs(syntaxtype *sint)
+{
+	int new_number = NUMBER_OF_ELEMENTS + 1;
+	colortype *ink;
+
+	for (ink = sint->color; ink != NULL; ink = ink->next) {
+		const colortype *beforenow = sint->color;
+
+		while (beforenow != ink && (beforenow->fg != ink->fg ||
+									beforenow->bg != ink->bg))
+			beforenow = beforenow->next;
+
+		if (beforenow != ink)
+			ink->pairnum = beforenow->pairnum;
+		else
+			ink->pairnum = new_number++;
+
+		ink->attributes |= COLOR_PAIR(ink->pairnum) | A_BANDAID;
+	}
+}
+
 /* Initialize the colors for nano's interface, and assign pair numbers
- * for the colors in each syntax. */
+ * for the colors in each loaded syntax. */
 void set_colorpairs(void)
 {
-	const syntaxtype *sint;
+	syntaxtype *sint;
 	bool using_defaults = FALSE;
 	size_t i;
 
@@ -82,27 +105,10 @@ void set_colorpairs(void)
 		free(color_combo[i]);
 	}
 
-	/* For each syntax, go through its list of colors and assign each
-	 * its pair number, giving identical color pairs the same number. */
-	for (sint = syntaxes; sint != NULL; sint = sint->next) {
-		colortype *ink;
-		int new_number = NUMBER_OF_ELEMENTS + 1;
-
-		for (ink = sint->color; ink != NULL; ink = ink->next) {
-			const colortype *beforenow = sint->color;
-
-			while (beforenow != ink && (beforenow->fg != ink->fg ||
-										beforenow->bg != ink->bg))
-				beforenow = beforenow->next;
-
-			if (beforenow != ink)
-				ink->pairnum = beforenow->pairnum;
-			else
-				ink->pairnum = new_number++;
-
-			ink->attributes |= COLOR_PAIR(ink->pairnum) | A_BANDAID;
-		}
-	}
+	/* For each loaded syntax, assign pair numbers to color combinations. */
+	for (sint = syntaxes; sint != NULL; sint = sint->next)
+		if (sint->filename == NULL)
+			set_syntax_colorpairs(sint);
 }
 
 /* Initialize the color information. */
@@ -265,6 +271,12 @@ void color_update(void)
 			if (strcmp(sint->name, "default") == 0)
 				break;
 		}
+	}
+
+	/* When the syntax isn't loaded yet, parse it and initialize its colors. */
+	if (sint->filename != NULL) {
+		parse_one_include(sint->filename, sint);
+		set_syntax_colorpairs(sint);
 	}
 
 	openfile->syntax = sint;
