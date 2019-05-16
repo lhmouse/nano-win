@@ -1360,11 +1360,10 @@ void do_toggle(int flag)
 			signal_init();
 			break;
 		case SOFTWRAP:
-			if (ISSET(SOFTWRAP))
-				edit_redraw(openfile->current, FLOWING);
-			else
+			if (!ISSET(SOFTWRAP))
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
+			focusing = FALSE;
 			break;
 		case WHITESPACE_DISPLAY:
 			titlebar(NULL);  /* Fall through. */
