@@ -1344,18 +1344,18 @@ void do_toggle(int flag)
 	}
 
 	TOGGLE(flag);
+	focusing = FALSE;
 
 	switch (flag) {
+		case NO_HELP:
+			window_init();
+			total_refresh();
+			break;
 #ifdef ENABLE_MOUSE
 		case USE_MOUSE:
 			mouse_init();
 			break;
 #endif
-		case NO_HELP:
-			window_init();
-			focusing = FALSE;
-			total_refresh();
-			break;
 		case SUSPEND:
 			signal_init();
 			break;
@@ -1363,15 +1363,16 @@ void do_toggle(int flag)
 			if (!ISSET(SOFTWRAP))
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
-			focusing = FALSE;
 			break;
 		case WHITESPACE_DISPLAY:
-			titlebar(NULL);  /* Fall through. */
-#ifdef ENABLE_COLOR
-		case NO_COLOR_SYNTAX:
-#endif
+			titlebar(NULL);
 			refresh_needed = TRUE;
 			break;
+#ifdef ENABLE_COLOR
+		case NO_COLOR_SYNTAX:
+			refresh_needed = TRUE;
+			break;
+#endif
 	}
 
 	enabled = ISSET(flag);
