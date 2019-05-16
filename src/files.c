@@ -88,11 +88,19 @@ void make_new_buffer(void)
 
 	openfile->filename = mallocstrcpy(NULL, "");
 
-	initialize_buffer_text();
+	openfile->filetop = make_new_node(NULL);
+	openfile->filetop->data = mallocstrcpy(NULL, "");
+	openfile->filebot = openfile->filetop;
 
+	openfile->current = openfile->filetop;
+	openfile->current_x = 0;
 	openfile->placewewant = 0;
 	openfile->current_y = 0;
 
+	openfile->edittop = openfile->filetop;
+	openfile->firstcolumn = 0;
+
+	openfile->totsize = 0;
 	openfile->modified = FALSE;
 #ifdef ENABLE_WRAPPING
 	openfile->spillage_line = NULL;
@@ -114,21 +122,6 @@ void make_new_buffer(void)
 	openfile->syntax = NULL;
 	openfile->colorstrings = NULL;
 #endif
-}
-
-/* Initialize the text and pointers of the current openfile struct. */
-void initialize_buffer_text(void)
-{
-	openfile->filetop = make_new_node(NULL);
-	openfile->filetop->data = mallocstrcpy(NULL, "");
-
-	openfile->filebot = openfile->filetop;
-	openfile->edittop = openfile->filetop;
-	openfile->current = openfile->filetop;
-
-	openfile->firstcolumn = 0;
-	openfile->current_x = 0;
-	openfile->totsize = 0;
 }
 
 /* Mark the current file as modified if it isn't already, and then

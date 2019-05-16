@@ -263,7 +263,6 @@ void zap_text(void);
 void paste_text(void);
 
 /* Most functions in files.c. */
-void initialize_buffer_text(void);
 void set_modified(void);
 bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
