@@ -741,6 +741,9 @@ int do_yesno_prompt(bool all, const char *msg)
 		/* Interpret ^N and ^Q as "No", to allow exiting in anger. */
 		else if (kbinput == '\x0E' || kbinput == '\x11')
 			choice = 0;
+		/* And interpret ^Y as "Yes". */
+		else if (kbinput == '\x19')
+			choice = 1;
 #ifdef ENABLE_MOUSE
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
