@@ -1099,7 +1099,6 @@ bool scoop_stdin(void)
 	/* Read the input into a new buffer. */
 	open_buffer("", TRUE);
 	read_file(stream, 0, "stdin", TRUE);
-	openfile->edittop = openfile->filetop;
 	fprintf(stderr, ".\n");
 
 	/* Reconnect the tty as the input source. */
