@@ -968,6 +968,9 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 		return -1;
 	}
 
+	if (S_ISFIFO(fileinfo.st_mode))
+		statusbar(_("Reading from FIFO..."));
+
 	/* Try opening the file. */
 	fd = open(full_filename, O_RDONLY);
 
@@ -981,7 +984,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 			close(fd);
 		} else if (!inhelp)
-			statusbar(_("Reading File"));
+			statusbar(_("Reading..."));
 	}
 
 	free(full_filename);
@@ -1824,6 +1827,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	}
 #endif /* !NANO_TINY */
 
+	if (stat(realname, &st) == 0 && S_ISFIFO(st.st_mode))
+		statusbar(_("Writing to FIFO..."));
+
 	if (f_open == NULL) {
 		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
 		 * is copied from joe, because wiggy says so *shrug*. */
@@ -1852,6 +1858,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			goto cleanup_and_exit;
 		}
 	}
+
+	statusbar(_("Writing..."));
 
 	while (fileptr != NULL) {
 		size_t data_len = strlen(fileptr->data), size;
