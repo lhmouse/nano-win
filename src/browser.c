@@ -77,8 +77,6 @@ char *do_browser(char *path)
 		present_name = mallocstrcpy(present_name, filelist[selected]);
 	}
 
-	assert(path != NULL && path[strlen(path) - 1] == '/');
-
 	if (dir != NULL) {
 		/* Get the file list, and set longest and width in the process. */
 		read_the_list(path, dir);
@@ -392,8 +390,6 @@ void read_the_list(const char *path, DIR *dir)
 	const struct dirent *nextdir;
 	size_t i = 0, path_len = strlen(path);
 
-	assert(path != NULL && path[strlen(path) - 1] == '/' && dir != NULL);
-
 	longest = 0;
 
 	/* Find the length of the longest filename in the current folder. */
@@ -442,8 +438,6 @@ void read_the_list(const char *path, DIR *dir)
 	 * first time we scanned and the second.  i is the actual length of
 	 * filelist, so record it. */
 	filelist_len = i;
-
-	assert(filelist != NULL);
 
 	/* Sort the list of names. */
 	qsort(filelist, filelist_len, sizeof(char *), diralphasort);

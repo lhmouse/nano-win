@@ -120,7 +120,6 @@
 #include <dirent.h>
 #include <regex.h>
 #include <signal.h>
-#include <assert.h>
 
 /* If we aren't using an ncurses with mouse support, exclude any
  * mouse routines, as they are useless then. */

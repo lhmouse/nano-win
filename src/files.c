@@ -1295,8 +1295,6 @@ char *get_full_path(const char *origpath)
 	/* If we didn't find one, then make sure the answer is in the format
 	 * "d_here/d_there". */
 	if (last_slash == NULL) {
-		assert(!path_only);
-
 		d_there_file = d_there;
 		d_there = d_here;
 	} else {
@@ -1514,8 +1512,6 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 	char buf[BUFSIZ];
 	size_t charsread;
 	int (*flush_out_fnc)(FILE *) = (close_out) ? fclose : fflush;
-
-	assert(inn != NULL && out != NULL && inn != out);
 
 	do {
 		charsread = fread(buf, sizeof(char), BUFSIZ, inn);
@@ -2420,8 +2416,6 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	const struct passwd *userdata;
 #endif
 
-	assert(buf != NULL && num_matches != NULL && buf_len > 0);
-
 	*num_matches = 0;
 
 #ifdef HAVE_PWD_H
@@ -2486,8 +2480,6 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 		dirname = mallocstrcpy(NULL, present_path);
 	}
 
-	assert(dirname[strlen(dirname) - 1] == '/');
-
 	dir = opendir(dirname);
 
 	if (dir == NULL) {
@@ -2551,9 +2543,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	size_t num_matches = 0, buf_len;
 	char **matches = NULL;
 
-	assert(buf != NULL && place != NULL && *place <= strlen(buf) &&
-				lastwastab != NULL && refresh_func != NULL && listed != NULL);
-
 	*listed = FALSE;
 
 	/* If the word starts with `~' and there is no slash in the word,
@@ -2610,13 +2599,8 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 		glued = charalloc(strlen(present_path) + strlen(mzero) + 1);
 		sprintf(glued, "%s%s", present_path, mzero);
 
-		assert(common_len >= *place);
-
-		if (num_matches == 1 && (is_dir(mzero) || is_dir(glued))) {
+		if (num_matches == 1 && (is_dir(mzero) || is_dir(glued)))
 			mzero[common_len++] = '/';
-
-			assert(common_len > *place);
-		}
 
 		if (num_matches > 1 && (common_len != *place || !*lastwastab))
 			beep();
