@@ -1065,8 +1065,10 @@ bool scoop_stdin(void)
 	endwin();
 	tcsetattr(0, TCSANOW, &oldterm);
 
-	fprintf(stderr, _("Reading from standard input; type ^D or ^D^D to finish.\n"));
-
+	/* When input comes from a terminal, show a helpful message. */
+	if (isatty(0))
+		fprintf(stderr, _("Reading data from keyboard; "
+							"type ^D or ^D^D to finish.\n"));
 #ifndef NANO_TINY
 	/* Enable interpretation of the special control keys so that
 	 * we get SIGINT when Ctrl-C is pressed. */
