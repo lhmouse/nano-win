@@ -1097,8 +1097,11 @@ bool scoop_stdin(void)
 	}
 
 	/* Read the input into a new buffer. */
-	open_buffer("", TRUE);
+	make_new_buffer();
 	read_file(stream, 0, "stdin", TRUE);
+#ifdef ENABLE_COLOR
+	color_update();
+#endif
 	fprintf(stderr, ".\n");
 
 	/* Reconnect the tty as the input source. */
