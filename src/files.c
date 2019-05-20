@@ -947,6 +947,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		statusbar(_("Reading from FIFO..."));
 
 #ifndef NANO_TINY
+	block_sigwinch(TRUE);
 	install_handler_for_Ctrl_C();
 #endif
 
@@ -955,6 +956,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 
 #ifndef NANO_TINY
 	restore_handler_for_Ctrl_C();
+	block_sigwinch(FALSE);
 #endif
 
 	if (fd == -1) {
@@ -1815,6 +1817,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 	if (f_open == NULL) {
 #ifndef NANO_TINY
+		block_sigwinch(TRUE);
 		install_handler_for_Ctrl_C();
 #endif
 		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
@@ -1825,6 +1828,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 #ifndef NANO_TINY
 		restore_handler_for_Ctrl_C();
+		block_sigwinch(FALSE);
 #endif
 		/* Set the umask back to the user's original value. */
 		umask(original_umask);
