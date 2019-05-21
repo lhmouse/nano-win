@@ -496,18 +496,16 @@ bool open_buffer(const char *filename, bool new_buffer)
 }
 
 #ifdef ENABLE_SPELLER
-/* Open the specified file, and if that succeeds, blow away the text of
- * the current buffer and read the file contents into its place. */
+/* Open the specified file, and if that succeeds, remove the text of the marked
+ * region or of the entire buffer and read the file contents into its place. */
 void replace_buffer(const char *filename, undo_type action, bool marked)
 {
-	FILE *f;
-	int descriptor;
 	linestruct *was_cutbuffer = cutbuffer;
+	int descriptor;
+	FILE *f;
 
-	/* Open the file quietly. */
 	descriptor = open_file(filename, FALSE, TRUE, &f);
 
-	/* If opening failed, forget it. */
 	if (descriptor < 0)
 		return;
 
