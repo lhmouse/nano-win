@@ -547,16 +547,12 @@ void replace_marked_buffer(const char *filename)
 {
 	FILE *f;
 	int descriptor;
-	bool using_magicline = !ISSET(NO_NEWLINES);
 	linestruct *was_cutbuffer = cutbuffer;
 
 	descriptor = open_file(filename, FALSE, TRUE, &f);
 
 	if (descriptor < 0)
 		return;
-
-	/* Don't add a magic line when replacing text in the buffer. */
-	SET(NO_NEWLINES);
 
 	add_undo(COUPLE_BEGIN);
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
@@ -571,10 +567,6 @@ void replace_marked_buffer(const char *filename)
 
 	/* Insert the processed file where the marked text was. */
 	read_file(f, descriptor, filename, TRUE);
-
-	/* Restore the magic-line behavior now that we're done fiddling. */
-	if (using_magicline)
-		UNSET(NO_NEWLINES);
 
 	add_undo(COUPLE_END);
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
