@@ -2677,9 +2677,8 @@ void do_spell(void)
 	/* Restore the settings of the global flags. */
 	memcpy(flags, stash, sizeof(flags));
 
-	/* If the spell-checker printed any error messages onscreen, make
-	 * sure that they're cleared off. */
-	total_refresh();
+	/* Ensure the help lines will be redrawn. */
+	currmenu = MMOST;
 
 	if (result_msg != NULL) {
 		if (errno == 0)
