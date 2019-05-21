@@ -498,7 +498,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 #ifdef ENABLE_SPELLER
 /* Open the specified file, and if that succeeds, blow away the text of
  * the current buffer and read the file contents into its place. */
-void replace_buffer(const char *filename)
+void replace_buffer(const char *filename, undo_type action, bool marked)
 {
 	FILE *f;
 	int descriptor;
@@ -516,21 +516,25 @@ void replace_buffer(const char *filename)
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 #endif
 
-	/* Throw away the text of the file. */
+	/* When nothing is marked, start at the top of the buffer. */
+	if (!marked) {
+		openfile->current = openfile->filetop;
+		openfile->current_x = 0;
+	}
+
+	/* Throw away the marked region or the whole buffer. */
 	cutbuffer = NULL;
-	openfile->current = openfile->filetop;
-	openfile->current_x = 0;
 #ifndef NANO_TINY
-	add_undo(CUT_TO_EOF);
+	add_undo(action);
 #endif
-	do_cut_text(FALSE, FALSE, TRUE, FALSE);
+	do_cut_text(FALSE, marked, !marked, FALSE);
 #ifndef NANO_TINY
-	update_undo(CUT_TO_EOF);
+	update_undo(action);
 #endif
 	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;
 
-	/* Insert the processed file into its place. */
+	/* Insert the spell-checked file into the cleared area. */
 	read_file(f, descriptor, filename, TRUE);
 
 #ifndef NANO_TINY

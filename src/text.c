@@ -2596,7 +2596,7 @@ const char *do_alt_speller(char *tempfile_name)
 									openfile->mark_x < openfile->current_x));
 			ssize_t was_mark_lineno = openfile->mark->lineno;
 
-			replace_marked_buffer(tempfile_name);
+			replace_buffer(tempfile_name, CUT, TRUE);
 
 			/* Adjust the end point of the marked region for any change in
 			 * length of the region's last line. */
@@ -2609,7 +2609,7 @@ const char *do_alt_speller(char *tempfile_name)
 			openfile->mark = fsfromline(was_mark_lineno);
 		} else
 #endif
-			replace_buffer(tempfile_name);
+			replace_buffer(tempfile_name, CUT_TO_EOF, FALSE);
 
 		/* Go back to the old position. */
 		goto_line_posx(lineno_save, current_x_save);
