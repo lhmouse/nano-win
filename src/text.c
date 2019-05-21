@@ -2591,19 +2591,16 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_TINY
 		/* Replace the marked text (or entire text) with the corrected text. */
 		if (openfile->mark) {
-			linestruct *top, *bot;
-			size_t top_x, bot_x;
-			bool right_side_up;
+			bool upright = (openfile->mark->lineno < openfile->current->lineno ||
+									(openfile->mark == openfile->current &&
+									openfile->mark_x < openfile->current_x));
 			ssize_t was_mark_lineno = openfile->mark->lineno;
-
-			get_region((const linestruct **)&top, &top_x,
-						(const linestruct **)&bot, &bot_x, &right_side_up);
 
 			replace_marked_buffer(tempfile_name);
 
 			/* Adjust the end point of the marked region for any change in
 			 * length of the region's last line. */
-			if (right_side_up)
+			if (upright)
 				current_x_save = openfile->current_x;
 			else
 				openfile->mark_x = openfile->current_x;
