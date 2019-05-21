@@ -1088,18 +1088,17 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 									live_syntax->name);
 				parse_syntax(ptr, headers_only);
 			}
-		}
-		else if (strcasecmp(keyword, "header") == 0) {
+		} else if (strcasecmp(keyword, "header") == 0) {
 			if (headers_only || !syntax_only)
 				grab_and_store("header", ptr, &live_syntax->headers);
-		} else if (strcasecmp(keyword, "magic") == 0)
+		} else if (strcasecmp(keyword, "magic") == 0) {
 #ifdef HAVE_LIBMAGIC
 			if (headers_only || !syntax_only)
 				grab_and_store("magic", ptr, &live_syntax->magics);
 #else
 			;
 #endif
-		else if (headers_only)
+		} else if (headers_only)
 			break;
 		else if (parse_syntax_commands(keyword, ptr))
 			;
