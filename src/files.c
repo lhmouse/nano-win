@@ -542,40 +542,6 @@ void replace_buffer(const char *filename, undo_type action, bool marked)
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 #endif
 }
-
-#ifndef NANO_TINY
-/* Open the specified file, and if that succeeds, blow away the text of
- * the current buffer covered by the mark and read the file
- * contents into its place. */
-void replace_marked_buffer(const char *filename)
-{
-	FILE *f;
-	int descriptor;
-	linestruct *was_cutbuffer = cutbuffer;
-
-	descriptor = open_file(filename, FALSE, TRUE, &f);
-
-	if (descriptor < 0)
-		return;
-
-	add_undo(COUPLE_BEGIN);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
-
-	/* Throw away the text under the mark. */
-	cutbuffer = NULL;
-	add_undo(CUT);
-	do_cut_text(FALSE, TRUE, FALSE, FALSE);
-	update_undo(CUT);
-	free_lines(cutbuffer);
-	cutbuffer = was_cutbuffer;
-
-	/* Insert the processed file where the marked text was. */
-	read_file(f, descriptor, filename, TRUE);
-
-	add_undo(COUPLE_END);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
-}
-#endif /* !NANO_TINY */
 #endif /* ENABLE_SPELLER */
 
 /* Update the titlebar and the multiline cache to match the current buffer. */
