@@ -420,7 +420,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 	as_an_at = FALSE;
 
 #ifdef ENABLE_OPERATINGDIR
-	if (outside_of_confinement(filename, FALSE)) {
+	if (!inhelp && outside_of_confinement(filename, FALSE)) {
 		statusline(ALERT, _("Can't read file from outside of %s"),
 								operating_dir);
 		return FALSE;
