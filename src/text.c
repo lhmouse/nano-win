@@ -523,11 +523,8 @@ void do_undo(void)
 		return;
 	}
 
-	if (u->type <= REPLACE) {
+	if (u->type <= REPLACE)
 		f = line_from_number(u->mark_begin_lineno);
-		if (f == NULL)
-			return;
-	}
 
 	openfile->current_x = u->begin;
 	switch (u->type) {
@@ -695,11 +692,8 @@ void do_redo(void)
 	while (u->next != openfile->current_undo)
 		u = u->next;
 
-	if (u->type <= REPLACE) {
+	if (u->type <= REPLACE)
 		f = line_from_number(u->mark_begin_lineno);
-		if (f == NULL)
-			return;
-	}
 
 	switch (u->type) {
 	case ADD:

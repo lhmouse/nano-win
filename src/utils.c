@@ -507,10 +507,7 @@ linestruct *line_from_number(ssize_t lineno)
 		while (f->lineno != lineno && f->next != NULL)
 			f = f->next;
 
-	if (f->lineno == lineno)
-		return f;
-	else
-		return NULL;
+	return f;
 }
 #endif /* !NANO_TINY */
 
