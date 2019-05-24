@@ -425,6 +425,7 @@ void block_sigwinch(bool blockit);
 RETSIGTYPE handle_sigwinch(int signal);
 void regenerate_screen(void);
 void do_toggle(int flag);
+void disable_signals(void);
 void enable_signals(void);
 #endif
 void disable_flow_control(void);

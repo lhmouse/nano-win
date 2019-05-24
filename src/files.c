@@ -889,6 +889,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 #endif
 }
 
+/* An empty handler for a keyboard interrupt (SIGINT). */
+RETSIGTYPE noop(int signal)
+{}
+
 /* Open the file with the given name.  If the file does not exist, display
  * "New File" if newfie is TRUE, and say "File not found" otherwise.
  * Return -2 if we say "New File", -1 if the file isn't opened, and the
@@ -896,6 +900,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 {
 	struct stat fileinfo, fileinfo2;
+	struct sigaction oldaction, newaction;
 	int fd;
 	char *full_filename = get_full_path(filename);
 
@@ -931,8 +936,20 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 	if (S_ISFIFO(fileinfo.st_mode))
 		statusbar(_("Reading from FIFO..."));
 
+#ifndef NANO_TINY
+	newaction.sa_handler = noop;
+	newaction.sa_flags = 0;
+	sigaction(SIGINT, &newaction, &oldaction);
+	enable_signals();
+#endif
+
 	/* Try opening the file. */
 	fd = open(full_filename, O_RDONLY);
+
+#ifndef NANO_TINY
+	disable_signals();
+	sigaction(SIGINT, &oldaction, NULL);
+#endif
 
 	if (fd == -1)
 		statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
