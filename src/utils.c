@@ -495,19 +495,19 @@ void get_range(const linestruct **top, const linestruct **bot)
 	}
 }
 
-/* Given a line number, return a pointer to the corresponding struct. */
-linestruct *line_from_number(ssize_t lineno)
+/* Return a pointer to the line that has the given line number. */
+linestruct *line_from_number(ssize_t number)
 {
-	linestruct *f = openfile->current;
+	linestruct *line = openfile->current;
 
-	if (lineno <= openfile->current->lineno)
-		while (f->lineno != lineno)
-			f = f->prev;
+	if (line->lineno > number)
+		while (line->lineno != number)
+			line = line->prev;
 	else
-		while (f->lineno != lineno)
-			f = f->next;
+		while (line->lineno != number)
+			line = line->next;
 
-	return f;
+	return line;
 }
 #endif /* !NANO_TINY */
 
