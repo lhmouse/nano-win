@@ -2531,6 +2531,7 @@ const char *do_alt_speller(char *tempfile_name)
 	size_t pww_save = openfile->placewewant;
 	ssize_t lineno_save = openfile->current->lineno;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
+	bool replaced = FALSE;
 	struct stat spellfileinfo;
 	time_t timestamp;
 	pid_t pid_spell;
@@ -2586,7 +2587,7 @@ const char *do_alt_speller(char *tempfile_name)
 									openfile->mark_x < openfile->current_x));
 			ssize_t was_mark_lineno = openfile->mark->lineno;
 
-			replace_buffer(tempfile_name, CUT, TRUE);
+			replaced = replace_buffer(tempfile_name, CUT, TRUE);
 
 			/* Adjust the end point of the marked region for any change in
 			 * length of the region's last line. */
@@ -2599,14 +2600,15 @@ const char *do_alt_speller(char *tempfile_name)
 			openfile->mark = fsfromline(was_mark_lineno);
 		} else
 #endif
-			replace_buffer(tempfile_name, CUT_TO_EOF, FALSE);
+			replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE);
 
 		/* Go back to the old position. */
 		goto_line_posx(lineno_save, current_x_save);
 		if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 			openfile->current_x = strlen(openfile->current->data);
 #ifndef NANO_TINY
-		update_undo(COUPLE_END);
+		if (replaced)
+			update_undo(COUPLE_END);
 #endif
 		openfile->placewewant = pww_save;
 		adjust_viewport(STATIONARY);

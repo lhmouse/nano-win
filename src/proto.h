@@ -267,7 +267,7 @@ void make_new_buffer(void);
 void set_modified(void);
 bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
-void replace_buffer(const char *filename, undo_type action, bool marked);
+bool replace_buffer(const char *filename, undo_type action, bool marked);
 #endif
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER

@@ -498,7 +498,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 #ifdef ENABLE_SPELLER
 /* Open the specified file, and if that succeeds, remove the text of the marked
  * region or of the entire buffer and read the file contents into its place. */
-void replace_buffer(const char *filename, undo_type action, bool marked)
+bool replace_buffer(const char *filename, undo_type action, bool marked)
 {
 	linestruct *was_cutbuffer = cutbuffer;
 	int descriptor;
@@ -507,7 +507,7 @@ void replace_buffer(const char *filename, undo_type action, bool marked)
 	descriptor = open_file(filename, FALSE, &f);
 
 	if (descriptor < 0)
-		return;
+		return FALSE;
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN);
@@ -539,6 +539,7 @@ void replace_buffer(const char *filename, undo_type action, bool marked)
 	add_undo(COUPLE_END);
 	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
 #endif
+	return TRUE;
 }
 #endif /* ENABLE_SPELLER */
 
@@ -959,6 +960,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		if (*f == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 			close(fd);
+			fd = -1;
 		} else if (!inhelp)
 			statusbar(_("Reading..."));
 	}
