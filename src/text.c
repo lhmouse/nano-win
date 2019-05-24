@@ -2667,8 +2667,9 @@ void do_spell(void)
 	/* Restore the settings of the global flags. */
 	memcpy(flags, stash, sizeof(flags));
 
-	/* Ensure the help lines will be redrawn. */
+	/* Ensure the help lines will be redrawn and a selection is retained. */
 	currmenu = MMOST;
+	shift_held = TRUE;
 
 	if (result_msg != NULL) {
 		if (errno == 0)
