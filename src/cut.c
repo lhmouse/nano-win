@@ -416,9 +416,9 @@ void copy_text(void)
 
 	/* If the mark was set, restore the viewport and cursor position. */
 	if (mark_is_set) {
-		openfile->edittop = fsfromline(is_edittop_lineno);
+		openfile->edittop = line_from_number(is_edittop_lineno);
 		openfile->firstcolumn = is_firstcolumn;
-		openfile->current = fsfromline(is_current_lineno);
+		openfile->current = line_from_number(is_current_lineno);
 		openfile->current_x = is_current_x;
 	} else
 		focusing = FALSE;

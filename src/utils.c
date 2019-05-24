@@ -496,7 +496,7 @@ void get_range(const linestruct **top, const linestruct **bot)
 }
 
 /* Given a line number, return a pointer to the corresponding struct. */
-linestruct *fsfromline(ssize_t lineno)
+linestruct *line_from_number(ssize_t lineno)
 {
 	linestruct *f = openfile->current;
 

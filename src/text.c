@@ -268,7 +268,7 @@ void do_unindent(void)
 void handle_indent_action(undo *u, bool undoing, bool add_indent)
 {
 	undo_group *group = u->grouping;
-	linestruct *line = fsfromline(group->top_line);
+	linestruct *line = line_from_number(group->top_line);
 
 	if (group->next != NULL)
 		statusline(ALERT, "Multiple groups -- please report a bug");
@@ -440,7 +440,7 @@ void handle_comment_action(undo *u, bool undoing, bool add_comment)
 		goto_line_posx(u->lineno, u->begin);
 
 	while (group) {
-		linestruct *f = fsfromline(group->top_line);
+		linestruct *f = line_from_number(group->top_line);
 
 		while (f && f->lineno <= group->bottom_line) {
 			comment_line(undoing ^ add_comment ?
@@ -500,7 +500,7 @@ void redo_cut(undo *u)
 
 	cutbuffer = NULL;
 
-	openfile->mark = fsfromline(u->mark_begin_lineno);
+	openfile->mark = line_from_number(u->mark_begin_lineno);
 	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
 
 	do_cut_text(FALSE, TRUE, FALSE, u->type == ZAP);
@@ -524,7 +524,7 @@ void do_undo(void)
 	}
 
 	if (u->type <= REPLACE) {
-		f = fsfromline(u->mark_begin_lineno);
+		f = line_from_number(u->mark_begin_lineno);
 		if (f == NULL)
 			return;
 	}
@@ -621,7 +621,7 @@ void do_undo(void)
 		undidmsg = _("insertion");
 		oldcutbuffer = cutbuffer;
 		cutbuffer = NULL;
-		openfile->mark = fsfromline(u->mark_begin_lineno);
+		openfile->mark = line_from_number(u->mark_begin_lineno);
 		openfile->mark_x = u->mark_begin_x;
 		goto_line_posx(u->lineno, u->begin);
 		cut_marked(NULL);
@@ -696,7 +696,7 @@ void do_redo(void)
 		u = u->next;
 
 	if (u->type <= REPLACE) {
-		f = fsfromline(u->mark_begin_lineno);
+		f = line_from_number(u->mark_begin_lineno);
 		if (f == NULL)
 			return;
 	}
@@ -2149,10 +2149,10 @@ void do_justify(bool full_justify)
 	/* If we justified marked text, restore mark or cursor position. */
 	if (openfile->mark) {
 		if (right_side_up) {
-			openfile->mark = fsfromline(was_top_lineno);
+			openfile->mark = line_from_number(was_top_lineno);
 			openfile->mark_x = was_top_x;
 		} else {
-			openfile->current = fsfromline(was_top_lineno);
+			openfile->current = line_from_number(was_top_lineno);
 			openfile->current_x = was_top_x;
 		}
 		update_undo(COUPLE_END);
@@ -2597,7 +2597,7 @@ const char *do_alt_speller(char *tempfile_name)
 				openfile->mark_x = openfile->current_x;
 
 			/* Restore the mark. */
-			openfile->mark = fsfromline(was_mark_lineno);
+			openfile->mark = line_from_number(was_mark_lineno);
 		} else
 #endif
 			replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE);

@@ -588,7 +588,7 @@ void get_range(const linestruct **top, const linestruct **bot);
 #endif
 size_t get_totsize(const linestruct *begin, const linestruct *end);
 #ifndef NANO_TINY
-linestruct *fsfromline(ssize_t lineno);
+linestruct *line_from_number(ssize_t lineno);
 #endif
 
 /* Most functions in winio.c. */
