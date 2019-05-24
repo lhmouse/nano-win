@@ -464,7 +464,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 	/* If the filename isn't blank, and we are not in NOREAD_MODE,
 	 * open the file.  Otherwise, treat it as a new file. */
 	rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
-				open_file(realname, new_buffer, inhelp, &f) : -2;
+						open_file(realname, new_buffer, &f) : -2;
 
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
@@ -504,7 +504,7 @@ void replace_buffer(const char *filename, undo_type action, bool marked)
 	int descriptor;
 	FILE *f;
 
-	descriptor = open_file(filename, FALSE, TRUE, &f);
+	descriptor = open_file(filename, FALSE, &f);
 
 	if (descriptor < 0)
 		return;
@@ -897,7 +897,7 @@ RETSIGTYPE noop(int signal)
  * "New File" if newfie is TRUE, and say "File not found" otherwise.
  * Return -2 if we say "New File", -1 if the file isn't opened, and the
  * obtained fd otherwise.  *f is set to the opened file. */
-int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
+int open_file(const char *filename, bool newfie, FILE **f)
 {
 	struct stat fileinfo, fileinfo2;
 	struct sigaction oldaction, newaction;
@@ -912,8 +912,7 @@ int open_file(const char *filename, bool newfie, bool quiet, FILE **f)
 
 	if (stat(full_filename, &fileinfo) == -1) {
 		if (newfie) {
-			if (!quiet)
-				statusbar(_("New File"));
+			statusbar(_("New File"));
 			free(full_filename);
 			return -2;
 		}
