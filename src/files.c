@@ -32,6 +32,15 @@
 
 #define LOCKBUFSIZE 8192
 
+static bool control_C_was_pressed;
+	/* Whether ^C was pressed while reading a file. */
+
+/* A signal handler for when ^C is typed while reading from a file. */
+RETSIGTYPE cancel_the_reading(int signal)
+{
+	control_C_was_pressed = TRUE;
+}
+
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
 {
@@ -415,6 +424,8 @@ bool open_buffer(const char *filename, bool new_buffer)
 	int rc;
 		/* rc == -2 means that we have a new file.  -1 means that the
 		 * open() failed.  0 means that the open() succeeded. */
+	struct sigaction oldaction, newaction;
+		/* Original and temporary handlers for SIGINT. */
 
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
@@ -469,8 +480,21 @@ bool open_buffer(const char *filename, bool new_buffer)
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
 	if (rc > 0) {
-		read_file(f, rc, realname, !new_buffer);
 #ifndef NANO_TINY
+		enable_signals();
+#endif
+		/* Set up a signal handler so that ^C will cancel the reading. */
+		newaction.sa_handler = cancel_the_reading;
+		newaction.sa_flags = 0;
+		sigaction(SIGINT, &newaction, &oldaction);
+
+		read_file(f, rc, realname, !new_buffer);
+
+		/* Restore the original handler for SIGINT. */
+		sigaction(SIGINT, &oldaction, NULL);
+#ifndef NANO_TINY
+		disable_signals();
+
 		if (openfile->current_stat == NULL)
 			stat_with_alloc(realname, &openfile->current_stat);
 #endif
@@ -724,8 +748,14 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	 * of locking it for each single byte that we read from it. */
 	flockfile(f);
 
+	control_C_was_pressed = FALSE;
+
 	/* Read the entire file into the new buffer. */
 	while ((input_int = getc_unlocked(f)) != EOF) {
+
+		if (control_C_was_pressed)
+			break;
+
 		input = (char)input_int;
 
 		/* If it's a *nix file ("\n") or a DOS file ("\r\n"), and file
