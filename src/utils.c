@@ -501,10 +501,10 @@ linestruct *line_from_number(ssize_t lineno)
 	linestruct *f = openfile->current;
 
 	if (lineno <= openfile->current->lineno)
-		while (f->lineno != lineno && f->prev != NULL)
+		while (f->lineno != lineno)
 			f = f->prev;
 	else
-		while (f->lineno != lineno && f->next != NULL)
+		while (f->lineno != lineno)
 			f = f->next;
 
 	return f;
