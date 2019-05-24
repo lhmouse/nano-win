@@ -951,8 +951,6 @@ bool execute_command(const char *command)
 	const char *shellenv;
 	struct sigaction oldaction, newaction;
 		/* Original and temporary handlers for SIGINT. */
-	bool setup_failed = FALSE;
-		/* Whether setting up the temporary SIGINT handler failed. */
 
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
@@ -1046,17 +1044,10 @@ bool execute_command(const char *command)
 	 * SIGINT when Ctrl-C is pressed. */
 	enable_signals();
 
-	/* Set things up so that Ctrl-C will terminate the forked process. */
-	if (sigaction(SIGINT, NULL, &newaction) == -1) {
-		setup_failed = TRUE;
-		nperror("sigaction");
-	} else {
-		newaction.sa_handler = cancel_the_command;
-		if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
-			setup_failed = TRUE;
-			nperror("sigaction");
-		}
-	}
+	/* Set up a signal handler so that ^C will terminate the forked process. */
+	newaction.sa_handler = cancel_the_command;
+	newaction.sa_flags = 0;
+	sigaction(SIGINT, &newaction, &oldaction);
 
 	stream = fdopen(from_fd[0], "rb");
 	if (stream == NULL)
@@ -1075,9 +1066,8 @@ bool execute_command(const char *command)
 	if (should_pipe && (wait(NULL) == -1))
 		nperror("wait");
 
-	/* If it was changed, restore the handler for SIGINT. */
-	if (!setup_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
-		nperror("sigaction");
+	/* Restore the original handler for SIGINT. */
+	sigaction(SIGINT, &oldaction, NULL);
 
 	/* Restore the terminal to its desired state, and disable
 	 * interpretation of the special control keys again. */

@@ -1055,8 +1055,6 @@ bool scoop_stdin(void)
 {
 	struct sigaction oldaction, newaction;
 		/* Original and temporary handlers for SIGINT. */
-	bool setup_failed = FALSE;
-		/* Whether setting up the temporary SIGINT handler failed. */
 	FILE *stream;
 	int thetty;
 
@@ -1074,18 +1072,6 @@ bool scoop_stdin(void)
 	enable_signals();
 #endif
 
-	/* Set things up so that SIGINT will cancel the reading. */
-	if (sigaction(SIGINT, NULL, &newaction) == -1) {
-		setup_failed = TRUE;
-		perror("sigaction");
-	} else {
-		newaction.sa_handler = make_a_note;
-		if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
-			setup_failed = TRUE;
-			perror("sigaction");
-		}
-	}
-
 	/* Open standard input. */
 	stream = fopen("/dev/stdin", "rb");
 	if (stream == NULL) {
@@ -1096,6 +1082,11 @@ bool scoop_stdin(void)
 		statusline(ALERT, _("Failed to open stdin: %s"), strerror(errnumber));
 		return FALSE;
 	}
+
+	/* Set up a signal handler so that ^C will stop the reading. */
+	newaction.sa_handler = make_a_note;
+	newaction.sa_flags = 0;
+	sigaction(SIGINT, &newaction, &oldaction);
 
 	/* Read the input into a new buffer. */
 	make_new_buffer();
@@ -1116,10 +1107,8 @@ bool scoop_stdin(void)
 	if (!input_was_aborted)
 		tcgetattr(0, &oldterm);
 
-	/* If it was changed, restore the handler for SIGINT. */
-	if (!setup_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
-		perror("sigaction");
-
+	/* Restore the original ^C handler, the terminal setup, and curses mode. */
+	sigaction(SIGINT, &oldaction, NULL);
 	terminal_init();
 	doupdate();
 
