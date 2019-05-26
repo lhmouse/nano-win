@@ -1543,6 +1543,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* The result of stat().  TRUE if the file exists, FALSE
 		 * otherwise.  If name is a link that points nowhere, realexists
 		 * is FALSE. */
+	struct sigaction oldaction, newaction;
 #endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
@@ -1805,12 +1806,22 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		statusbar(_("Writing to FIFO..."));
 
 	if (f_open == NULL) {
+#ifndef NANO_TINY
+		newaction.sa_handler = noop;
+		newaction.sa_flags = 0;
+		sigaction(SIGINT, &newaction, &oldaction);
+		enable_signals();
+#endif
 		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
 		 * is copied from joe, because wiggy says so *shrug*. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
 				O_APPEND : (tmp ? O_EXCL : O_TRUNC)), S_IRUSR |
 				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
+#ifndef NANO_TINY
+		disable_signals();
+		sigaction(SIGINT, &oldaction, NULL);
+#endif
 		/* Set the umask back to the user's original value. */
 		umask(original_umask);
 
