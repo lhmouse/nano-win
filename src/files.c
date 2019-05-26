@@ -960,7 +960,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 #endif
 
 	if (fd == -1) {
-		if (errno == EINTR)
+		if (errno == EINTR || errno == 0)
 			statusline(ALERT, _("Interrupted"));
 		else
 			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
@@ -1835,7 +1835,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 		/* If we couldn't open the file, give up. */
 		if (fd == -1) {
-			if (errno == EINTR)
+			if (errno == EINTR || errno == 0)
 				statusline(ALERT, _("Interrupted"));
 			else
 				statusline(ALERT, _("Error writing %s: %s"), realname,
