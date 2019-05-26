@@ -38,6 +38,8 @@ extern bool focusing;
 
 extern bool as_an_at;
 
+extern bool control_C_was_pressed;
+
 extern bool suppress_cursorpos;
 
 extern message_type lastmessage;

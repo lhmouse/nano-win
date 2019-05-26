@@ -44,6 +44,9 @@ bool focusing = TRUE;
 bool as_an_at = TRUE;
 		/* Whether a 0x0A byte should be shown as a ^@ instead of a ^J. */
 
+bool control_C_was_pressed = FALSE;
+		/* Whether Ctrl+C was pressed (when a keyboard interrupt is enabled). */
+
 bool suppress_cursorpos = FALSE;
 		/* Should we skip constant position display for current keystroke? */
 

@@ -32,9 +32,6 @@
 
 #define LOCKBUFSIZE 8192
 
-static bool control_C_was_pressed;
-	/* Whether ^C was pressed while reading a file. */
-
 /* A signal handler for when ^C is typed while reading from a file. */
 RETSIGTYPE cancel_the_reading(int signal)
 {

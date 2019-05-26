@@ -62,8 +62,8 @@ static struct termios oldterm;
 static struct sigaction act;
 		/* Used to set up all our fun signal handlers. */
 
-static bool input_was_aborted = FALSE;
-		/* Whether reading from standard input was aborted via ^C. */
+static struct sigaction oldaction, newaction;
+		/* Containers for the original and the temporary handler for SIGINT. */
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
 linestruct *make_new_node(linestruct *prevnode)
@@ -1044,17 +1044,34 @@ void close_and_go(void)
 		finish();
 }
 
-/* Make a note that reading from stdin was concluded with ^C. */
+/* Note that Ctrl+C was pressed during some system call. */
 RETSIGTYPE make_a_note(int signal)
 {
-	input_was_aborted = TRUE;
+	control_C_was_pressed = TRUE;
+}
+
+/* Make ^C interrupt a system call and set a flag. */
+void install_handler_for_Ctrl_C(void)
+{
+	/* Enable the generation of a SIGINT when ^C is pressed. */
+	enable_signals();
+
+	/* Set up a signal handler so that pressing ^C will set a flag. */
+	newaction.sa_handler = make_a_note;
+	newaction.sa_flags = 0;
+	sigaction(SIGINT, &newaction, &oldaction);
+}
+
+/* Go back to ignoring ^C. */
+void restore_handler_for_Ctrl_C(void)
+{
+	sigaction(SIGINT, &oldaction, NULL);
+	disable_signals();
 }
 
 /* Read whatever comes from standard input into a new buffer. */
 bool scoop_stdin(void)
 {
-	struct sigaction oldaction, newaction;
-		/* Original and temporary handlers for SIGINT. */
 	FILE *stream;
 	int thetty;
 
@@ -1066,9 +1083,6 @@ bool scoop_stdin(void)
 	if (isatty(0))
 		fprintf(stderr, _("Reading data from keyboard; "
 							"type ^D or ^D^D to finish.\n"));
-
-	/* Enable the generation of a SIGINT when Ctrl+C is pressed. */
-	enable_signals();
 
 	/* Open standard input. */
 	stream = fopen("/dev/stdin", "rb");
@@ -1082,9 +1096,7 @@ bool scoop_stdin(void)
 	}
 
 	/* Set up a signal handler so that ^C will stop the reading. */
-	newaction.sa_handler = make_a_note;
-	newaction.sa_flags = 0;
-	sigaction(SIGINT, &newaction, &oldaction);
+	install_handler_for_Ctrl_C();
 
 	/* Read the input into a new buffer. */
 	make_new_buffer();
@@ -1102,11 +1114,11 @@ bool scoop_stdin(void)
 	close(thetty);
 
 	/* If things went well, store the current state of the terminal. */
-	if (!input_was_aborted)
+	if (!control_C_was_pressed)
 		tcgetattr(0, &oldterm);
 
 	/* Restore the original ^C handler, the terminal setup, and curses mode. */
-	sigaction(SIGINT, &oldaction, NULL);
+	restore_handler_for_Ctrl_C();
 	terminal_init();
 	doupdate();
 
