@@ -957,9 +957,12 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	restore_handler_for_Ctrl_C();
 #endif
 
-	if (fd == -1)
-		statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
-	else {
+	if (fd == -1) {
+		if (errno == EINTR)
+			statusline(ALERT, _("Interrupted"));
+		else
+			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
+	} else {
 		/* The file is A-OK.  Associate a stream with it. */
 		*f = fdopen(fd, "rb");
 
@@ -1828,7 +1831,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 		/* If we couldn't open the file, give up. */
 		if (fd == -1) {
-			statusline(ALERT, _("Error writing %s: %s"), realname,
+			if (errno == EINTR)
+				statusline(ALERT, _("Interrupted"));
+			else
+				statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 			if (tempname != NULL)
 				unlink(tempname);
