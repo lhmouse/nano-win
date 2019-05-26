@@ -1113,10 +1113,6 @@ bool scoop_stdin(void)
 	dup2(thetty, 0);
 	close(thetty);
 
-	/* If things went well, store the current state of the terminal. */
-	if (!control_C_was_pressed)
-		tcgetattr(0, &oldterm);
-
 	/* Restore the original ^C handler, the terminal setup, and curses mode. */
 	restore_handler_for_Ctrl_C();
 	terminal_init();
