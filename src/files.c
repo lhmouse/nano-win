@@ -32,12 +32,6 @@
 
 #define LOCKBUFSIZE 8192
 
-/* A signal handler for when ^C is typed while reading from a file. */
-RETSIGTYPE cancel_the_reading(int signal)
-{
-	control_C_was_pressed = TRUE;
-}
-
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
 {
@@ -421,8 +415,6 @@ bool open_buffer(const char *filename, bool new_buffer)
 	int rc;
 		/* rc == -2 means that we have a new file.  -1 means that the
 		 * open() failed.  0 means that the open() succeeded. */
-	struct sigaction oldaction, newaction;
-		/* Original and temporary handlers for SIGINT. */
 
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
@@ -477,21 +469,13 @@ bool open_buffer(const char *filename, bool new_buffer)
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
 	if (rc > 0) {
-#ifndef NANO_TINY
-		enable_signals();
-#endif
-		/* Set up a signal handler so that ^C will cancel the reading. */
-		newaction.sa_handler = cancel_the_reading;
-		newaction.sa_flags = 0;
-		sigaction(SIGINT, &newaction, &oldaction);
+		install_handler_for_Ctrl_C();
 
 		read_file(f, rc, realname, !new_buffer);
 
-		/* Restore the original handler for SIGINT. */
-		sigaction(SIGINT, &oldaction, NULL);
-#ifndef NANO_TINY
-		disable_signals();
+		restore_handler_for_Ctrl_C();
 
+#ifndef NANO_TINY
 		if (openfile->current_stat == NULL)
 			stat_with_alloc(realname, &openfile->current_stat);
 #endif
@@ -928,7 +912,6 @@ RETSIGTYPE noop(int signal)
 int open_file(const char *filename, bool newfie, FILE **f)
 {
 	struct stat fileinfo, fileinfo2;
-	struct sigaction oldaction, newaction;
 	int fd;
 	char *full_filename = get_full_path(filename);
 
@@ -964,18 +947,14 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		statusbar(_("Reading from FIFO..."));
 
 #ifndef NANO_TINY
-	newaction.sa_handler = noop;
-	newaction.sa_flags = 0;
-	sigaction(SIGINT, &newaction, &oldaction);
-	enable_signals();
+	install_handler_for_Ctrl_C();
 #endif
 
 	/* Try opening the file. */
 	fd = open(full_filename, O_RDONLY);
 
 #ifndef NANO_TINY
-	disable_signals();
-	sigaction(SIGINT, &oldaction, NULL);
+	restore_handler_for_Ctrl_C();
 #endif
 
 	if (fd == -1)
@@ -1570,7 +1549,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* The result of stat().  TRUE if the file exists, FALSE
 		 * otherwise.  If name is a link that points nowhere, realexists
 		 * is FALSE. */
-	struct sigaction oldaction, newaction;
 #endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
@@ -1834,10 +1812,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 
 	if (f_open == NULL) {
 #ifndef NANO_TINY
-		newaction.sa_handler = noop;
-		newaction.sa_flags = 0;
-		sigaction(SIGINT, &newaction, &oldaction);
-		enable_signals();
+		install_handler_for_Ctrl_C();
 #endif
 		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
 		 * is copied from joe, because wiggy says so *shrug*. */
@@ -1846,8 +1821,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
 #ifndef NANO_TINY
-		disable_signals();
-		sigaction(SIGINT, &oldaction, NULL);
+		restore_handler_for_Ctrl_C();
 #endif
 		/* Set the umask back to the user's original value. */
 		umask(original_umask);
