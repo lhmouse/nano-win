@@ -1066,11 +1066,9 @@ bool scoop_stdin(void)
 	if (isatty(0))
 		fprintf(stderr, _("Reading data from keyboard; "
 							"type ^D or ^D^D to finish.\n"));
-#ifndef NANO_TINY
-	/* Enable interpretation of the special control keys so that
-	 * we get SIGINT when Ctrl-C is pressed. */
+
+	/* Enable the generation of a SIGINT when Ctrl+C is pressed. */
 	enable_signals();
-#endif
 
 	/* Open standard input. */
 	stream = fopen("/dev/stdin", "rb");
@@ -1391,8 +1389,7 @@ void disable_extended_io(void)
 #endif
 }
 
-/* Disable interpretation of the special control keys in our terminal
- * settings. */
+/* Stop ^C from generating a SIGINT. */
 void disable_signals(void)
 {
 #ifdef HAVE_TERMIOS_H
@@ -1404,9 +1401,7 @@ void disable_signals(void)
 #endif
 }
 
-#ifndef NANO_TINY
-/* Enable interpretation of the special control keys in our terminal
- * settings. */
+/* Make ^C generate a SIGINT. */
 void enable_signals(void)
 {
 #ifdef HAVE_TERMIOS_H
@@ -1417,7 +1412,6 @@ void enable_signals(void)
 	tcsetattr(0, TCSANOW, &term);
 #endif
 }
-#endif
 
 /* Disable interpretation of the flow control characters in our terminal
  * settings. */
