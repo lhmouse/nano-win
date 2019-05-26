@@ -429,9 +429,9 @@ void block_sigwinch(bool blockit);
 RETSIGTYPE handle_sigwinch(int signal);
 void regenerate_screen(void);
 void do_toggle(int flag);
+#endif
 void disable_signals(void);
 void enable_signals(void);
-#endif
 void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
