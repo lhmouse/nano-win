@@ -442,6 +442,13 @@ bool open_buffer(const char *filename, bool new_buffer)
 			free(realname);
 			return FALSE;
 		}
+#ifdef NANO_TINY
+		if (S_ISFIFO(fileinfo.st_mode)) {
+			statusline(ALERT, _("\"%s\" is a FIFO"), realname);
+			free(realname);
+			return FALSE;
+		}
+#endif
 	}
 
 	/* If we're going to load into a new buffer, first create the new
@@ -933,10 +940,10 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		return -1;
 	}
 
+#ifndef NANO_TINY
 	if (S_ISFIFO(fileinfo.st_mode))
 		statusbar(_("Reading from FIFO..."));
 
-#ifndef NANO_TINY
 	block_sigwinch(TRUE);
 	install_handler_for_Ctrl_C();
 #endif
@@ -1800,10 +1807,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			goto cleanup_and_exit;
 		}
 	}
-#endif /* !NANO_TINY */
 
 	if (stat(realname, &st) == 0 && S_ISFIFO(st.st_mode))
 		statusbar(_("Writing to FIFO..."));
+#endif /* !NANO_TINY */
 
 	if (f_open == NULL) {
 #ifndef NANO_TINY
