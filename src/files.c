@@ -901,10 +901,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 #endif
 }
 
-/* An empty handler for a keyboard interrupt (SIGINT). */
-RETSIGTYPE noop(int signal)
-{}
-
 /* Open the file with the given name.  If the file does not exist, display
  * "New File" if newfie is TRUE, and say "File not found" otherwise.
  * Return -2 if we say "New File", -1 if the file isn't opened, and the
