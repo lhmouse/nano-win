@@ -283,12 +283,12 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 #ifndef NANO_TINY
 	bool mark_inside = FALSE;
 	bool same_line = FALSE;
-#endif
 
 	if (top == bot && top_x == bot_x) {
 		statusline(ALERT, "Extracting nothing -- please report a bug");
 		return;
 	}
+#endif
 
 	/* Partition the buffer so that it contains only the text from
 	 * (top, top_x) to (bot, bot_x), keep track of whether the top of
