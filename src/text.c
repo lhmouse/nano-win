@@ -2559,11 +2559,9 @@ const char *do_alt_speller(char *tempfile_name)
 	wait(&alt_spell_status);
 	block_sigwinch(FALSE);
 
-	/* Reenter curses mode. */
-	doupdate();
-
-	/* Restore the terminal to its previous state. */
+	/* Set the desired terminal state again, and reenter curses mode. */
 	terminal_init();
+	doupdate();
 
 	if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0)
 		return invocation_error(alt_speller);

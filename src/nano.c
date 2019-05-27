@@ -1297,10 +1297,8 @@ void regenerate_screen(void)
 	if (result == -1)
 		return;
 
-	/* We could check whether the COLS or LINES changed, and return
-	 * otherwise.  However, COLS and LINES are curses global variables,
-	 * and in some cases curses has already updated them.  But not in
-	 * all cases.  Argh. */
+	/* We could check whether COLS or LINES changed, and return otherwise,
+	 * but it seems curses does not always update these global variables. */
 #ifdef REDEFINING_MACROS_OK
 	COLS = win.ws_col;
 	LINES = win.ws_row;
@@ -1421,8 +1419,7 @@ void enable_signals(void)
 #endif
 }
 
-/* Disable interpretation of the flow control characters in our terminal
- * settings. */
+/* Disable the terminal's XON/XOFF flow-control characters. */
 void disable_flow_control(void)
 {
 #ifdef HAVE_TERMIOS_H
@@ -1434,8 +1431,7 @@ void disable_flow_control(void)
 #endif
 }
 
-/* Enable interpretation of the flow control characters in our terminal
- * settings. */
+/* Enable the terminal's XON/XOFF flow-control characters. */
 void enable_flow_control(void)
 {
 #ifdef HAVE_TERMIOS_H
