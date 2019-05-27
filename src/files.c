@@ -411,6 +411,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 {
 	char *realname;
 		/* The filename after tilde expansion. */
+	struct stat fileinfo;
 	FILE *f;
 	int rc;
 		/* rc == -2 means that we have a new file.  -1 means that the
@@ -429,12 +430,15 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 	realname = real_dir_from_tilde(filename);
 
-	/* When the given filename refers to a directory, don't try to open it. */
-	if (*filename != '\0') {
-		struct stat fileinfo;
-
-		if (stat(realname, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
+	/* Don't try to open directories, character files, or block files. */
+	if (*filename != '\0' && stat(realname, &fileinfo) == 0) {
+		if (S_ISDIR(fileinfo.st_mode)) {
 			statusline(ALERT, _("\"%s\" is a directory"), realname);
+			free(realname);
+			return FALSE;
+		}
+		if (S_ISCHR(fileinfo.st_mode) || S_ISBLK(fileinfo.st_mode)) {
+			statusline(ALERT, _("\"%s\" is a device file"), realname);
 			free(realname);
 			return FALSE;
 		}
@@ -925,16 +929,6 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		}
 
 		statusline(ALERT, _("File \"%s\" not found"), filename);
-		free(full_filename);
-		return -1;
-	}
-
-	/* Don't open directories, character files, or block files. */
-	if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
-								S_ISBLK(fileinfo.st_mode)) {
-		statusline(ALERT, S_ISDIR(fileinfo.st_mode) ?
-						_("\"%s\" is a directory") :
-						_("\"%s\" is a device file"), filename);
 		free(full_filename);
 		return -1;
 	}
