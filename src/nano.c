@@ -59,6 +59,12 @@ static struct termios oldterm;
 # define tcsetattr(...)
 # define tcgetattr(...)
 #endif
+
+#ifndef NANO_TINY
+bool size_changed = FALSE;
+		/* A secondary flag that is set to TRUE when a SIGWINCH occurs. */
+#endif
+
 static struct sigaction act;
 		/* Used to set up all our fun signal handlers. */
 
@@ -1113,6 +1119,14 @@ bool scoop_stdin(void)
 	dup2(thetty, 0);
 	close(thetty);
 
+	/* If there were no signals, store the current state of the terminal. */
+	if (!control_C_was_pressed) {
+#ifndef NANO_TINY
+		if (!size_changed)
+#endif
+			tcgetattr(0, &oldterm);
+	}
+
 	/* Restore the original ^C handler, the terminal setup, and curses mode. */
 	restore_handler_for_Ctrl_C();
 	terminal_init();
@@ -1275,6 +1289,8 @@ RETSIGTYPE handle_sigwinch(int signal)
 {
 	/* Let the input routine know that a SIGWINCH has occurred. */
 	the_window_resized = TRUE;
+	/* Set a second flag too, for when reading from standard input. */
+	size_changed = TRUE;
 }
 
 /* Reinitialize and redraw the screen completely. */
