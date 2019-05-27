@@ -1054,7 +1054,7 @@ RETSIGTYPE make_a_note(int signal)
 void install_handler_for_Ctrl_C(void)
 {
 	/* Enable the generation of a SIGINT when ^C is pressed. */
-	enable_signals();
+	enable_kb_interrupt();
 
 	/* Set up a signal handler so that pressing ^C will set a flag. */
 	newaction.sa_handler = make_a_note;
@@ -1066,7 +1066,7 @@ void install_handler_for_Ctrl_C(void)
 void restore_handler_for_Ctrl_C(void)
 {
 	sigaction(SIGINT, &oldaction, NULL);
-	disable_signals();
+	disable_kb_interrupt();
 }
 
 /* Read whatever comes from standard input into a new buffer. */
@@ -1396,7 +1396,7 @@ void disable_extended_io(void)
 }
 
 /* Stop ^C from generating a SIGINT. */
-void disable_signals(void)
+void disable_kb_interrupt(void)
 {
 #ifdef HAVE_TERMIOS_H
 	struct termios term = {0};
@@ -1408,7 +1408,7 @@ void disable_signals(void)
 }
 
 /* Make ^C generate a SIGINT. */
-void enable_signals(void)
+void enable_kb_interrupt(void)
 {
 #ifdef HAVE_TERMIOS_H
 	struct termios term = {0};
@@ -1472,7 +1472,7 @@ void terminal_init(void)
 		if (ISSET(PRESERVE))
 			enable_flow_control();
 
-		disable_signals();
+		disable_kb_interrupt();
 #ifdef USE_SLANG
 		if (!ISSET(PRESERVE))
 			disable_flow_control();

@@ -1036,7 +1036,7 @@ bool execute_command(const char *command)
 
 	/* Re-enable interpretation of the special control keys so that we get
 	 * SIGINT when Ctrl-C is pressed. */
-	enable_signals();
+	enable_kb_interrupt();
 
 	/* Set up a signal handler so that ^C will terminate the forked process. */
 	newaction.sa_handler = cancel_the_command;
