@@ -747,8 +747,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* Read the entire file into the new buffer. */
 	while ((input_int = getc_unlocked(f)) != EOF) {
 
-		if (control_C_was_pressed)
+		if (control_C_was_pressed) {
+			statusline(ALERT, _("Interrupted"));
 			break;
+		}
 
 		input = (char)input_int;
 
