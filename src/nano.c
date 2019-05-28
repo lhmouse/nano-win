@@ -60,9 +60,6 @@ static struct termios oldterm;
 # define tcgetattr(...)
 #endif
 
-static struct sigaction act;
-		/* Used to set up all our fun signal handlers. */
-
 static struct sigaction oldaction, newaction;
 		/* Containers for the original and the temporary handler for SIGINT. */
 
@@ -1133,44 +1130,45 @@ bool scoop_stdin(void)
 /* Register half a dozen signal handlers. */
 void signal_init(void)
 {
+	struct sigaction deed = {{0}};
+
 	/* Trap SIGINT and SIGQUIT because we want them to do useful things. */
-	memset(&act, 0, sizeof(struct sigaction));
-	act.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &act, NULL);
+	deed.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &deed, NULL);
 #ifdef SIGQUIT
-	sigaction(SIGQUIT, &act, NULL);
+	sigaction(SIGQUIT, &deed, NULL);
 #endif
 
 	/* Trap SIGHUP and SIGTERM because we want to write the file out. */
-	act.sa_handler = handle_hupterm;
+	deed.sa_handler = handle_hupterm;
 #ifdef SIGHUP
-	sigaction(SIGHUP, &act, NULL);
+	sigaction(SIGHUP, &deed, NULL);
 #endif
-	sigaction(SIGTERM, &act, NULL);
+	sigaction(SIGTERM, &deed, NULL);
 
 #ifndef NANO_TINY
 	/* Trap SIGWINCH because we want to handle window resizes. */
-	act.sa_handler = handle_sigwinch;
-	sigaction(SIGWINCH, &act, NULL);
+	deed.sa_handler = handle_sigwinch;
+	sigaction(SIGWINCH, &deed, NULL);
 #endif
 
 	if (ISSET(SUSPEND)) {
 		/* Block all other signals in the suspend and continue handlers.
 		 * If we don't do this, other stuff interrupts them! */
-		sigfillset(&act.sa_mask);
+		sigfillset(&deed.sa_mask);
 #ifdef SIGTSTP
 		/* Trap a normal suspend (^Z) so we can handle it ourselves. */
-		act.sa_handler = do_suspend;
-		sigaction(SIGTSTP, &act, NULL);
+		deed.sa_handler = do_suspend;
+		sigaction(SIGTSTP, &deed, NULL);
 #endif
 #ifdef SIGCONT
-		act.sa_handler = do_continue;
-		sigaction(SIGCONT, &act, NULL);
+		deed.sa_handler = do_continue;
+		sigaction(SIGCONT, &deed, NULL);
 #endif
 	} else {
 #ifdef SIGTSTP
-		act.sa_handler = SIG_IGN;
-		sigaction(SIGTSTP, &act, NULL);
+		deed.sa_handler = SIG_IGN;
+		sigaction(SIGTSTP, &deed, NULL);
 #endif
 	}
 
@@ -1179,10 +1177,10 @@ void signal_init(void)
 		/* Trap SIGSEGV and SIGABRT to save any changed buffers and reset
 		 * the terminal to a usable state.  Reset these handlers to their
 		 * defaults as soon as their signal fires. */
-		act.sa_handler = handle_crash;
-		act.sa_flags |= SA_RESETHAND;
-		sigaction(SIGSEGV, &act, NULL);
-		sigaction(SIGABRT, &act, NULL);
+		deed.sa_handler = handle_crash;
+		deed.sa_flags |= SA_RESETHAND;
+		sigaction(SIGSEGV, &deed, NULL);
+		sigaction(SIGABRT, &deed, NULL);
 	}
 #endif
 }
