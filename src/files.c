@@ -711,6 +711,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	int input_int;
 		/* The current value we read from the file, whether an input
 		 * character or EOF. */
+	int errornumber;
+		/* The error code, in case an error occurred during reading. */
 	bool writable = TRUE;
 		/* Whether the file is writable (in case we care). */
 #ifndef NANO_TINY
@@ -814,6 +816,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 #endif
 	}
 
+	errornumber = errno;
+
 	/* We are done with the file, unlock it. */
 	funlockfile(f);
 
@@ -821,10 +825,19 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	block_sigwinch(FALSE);
 #endif
 
-	/* Perhaps this could use some better handling. */
-	if (ferror(f))
-		nperror(filename);
+	/* When reading from stdin, restore the terminal and reenter curses mode. */
+	if (isendwin()) {
+		if (!isatty(0))
+			reconnect_and_store_state();
+		terminal_init();
+		doupdate();
+	}
+
+	/* If there was a real error during the reading, let the user know. */
+	if (ferror(f) && errornumber != EINTR && errornumber != 0)
+		statusline(ALERT, strerror(errornumber));
 	fclose(f);
+
 	if (fd > 0 && !undoable) {
 		close(fd);
 		writable = (ISSET(VIEW_MODE) || access(filename, W_OK) == 0);

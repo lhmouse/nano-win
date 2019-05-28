@@ -1075,11 +1075,30 @@ void restore_handler_for_Ctrl_C(void)
 	disable_kb_interrupt();
 }
 
+/* Reconnect standard input to the tty, and store its state. */
+void reconnect_and_store_state(void)
+{
+	int thetty = open("/dev/tty", O_RDONLY);
+
+	if (thetty < 1)
+		die(_("Could not reconnect stdin to keyboard\n"));
+
+	dup2(thetty, 0);
+	close(thetty);
+
+	/* If there were no signals, store the current state of the terminal. */
+	if (!control_C_was_pressed) {
+#ifndef NANO_TINY
+		if (!size_changed)
+#endif
+			tcgetattr(0, &oldterm);
+	}
+}
+
 /* Read whatever comes from standard input into a new buffer. */
 bool scoop_stdin(void)
 {
 	FILE *stream;
-	int thetty;
 
 	/* Exit from curses mode and put the terminal into its original state. */
 	endwin();
@@ -1110,27 +1129,9 @@ bool scoop_stdin(void)
 #ifdef ENABLE_COLOR
 	color_update();
 #endif
-	fprintf(stderr, ".\n");
 
-	/* Reconnect the tty as the input source. */
-	thetty = open("/dev/tty", O_RDONLY);
-	if (!thetty)
-		die(_("Couldn't reopen stdin from keyboard, sorry\n"));
-	dup2(thetty, 0);
-	close(thetty);
-
-	/* If there were no signals, store the current state of the terminal. */
-	if (!control_C_was_pressed) {
-#ifndef NANO_TINY
-		if (!size_changed)
-#endif
-			tcgetattr(0, &oldterm);
-	}
-
-	/* Restore the original ^C handler, the terminal setup, and curses mode. */
+	/* Restore the original ^C handler. */
 	restore_handler_for_Ctrl_C();
-	terminal_init();
-	doupdate();
 
 	if (!ISSET(VIEW_MODE) && openfile->totsize > 0)
 		set_modified();

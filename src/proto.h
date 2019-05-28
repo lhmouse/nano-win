@@ -416,6 +416,7 @@ void do_exit(void);
 void close_and_go(void);
 void install_handler_for_Ctrl_C(void);
 void restore_handler_for_Ctrl_C(void);
+void reconnect_and_store_state(void);
 RETSIGTYPE handle_hupterm(int signal);
 #ifndef DEBUG
 RETSIGTYPE handle_crash(int signal);
