@@ -949,7 +949,7 @@ bool execute_command(const char *command)
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
 	if (pipe(from_fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
-		statusbar(_("Could not create pipe"));
+		statusline(ALERT, _("Could not create pipe"));
 		return FALSE;
 	}
 
@@ -985,7 +985,7 @@ bool execute_command(const char *command)
 	close(from_fd[1]);
 
 	if (pid_of_command == -1) {
-		statusbar(_("Could not fork"));
+		statusline(ALERT, _("Could not fork"));
 		close(from_fd[0]);
 		return FALSE;
 	}
@@ -2720,7 +2720,7 @@ void do_linter(void)
 
 	/* Create a pipe up front. */
 	if (pipe(lint_fd) == -1) {
-		statusbar(_("Could not create pipe"));
+		statusline(ALERT, _("Could not create pipe"));
 		return;
 	}
 
@@ -2757,7 +2757,7 @@ void do_linter(void)
 	/* If the child process was not forked successfully... */
 	if (pid_lint < 0) {
 		close(lint_fd[0]);
-		statusbar(_("Could not fork"));
+		statusline(ALERT, _("Could not fork"));
 		return;
 	}
 
@@ -2766,7 +2766,7 @@ void do_linter(void)
 
 	if (pipesize < 1) {
 		close(lint_fd[0]);
-		statusbar(_("Could not get size of pipe buffer"));
+		statusline(ALERT, _("Could not get size of pipe buffer"));
 		return;
 	}
 
