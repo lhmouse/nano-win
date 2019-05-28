@@ -2211,14 +2211,9 @@ void statusline(message_type importance, const char *msg, ...)
 				(lastmessage == MILD && importance == HUSH))
 		return;
 
-	va_start(ap, msg);
-
-	/* Curses mode is turned off.  If we use wmove() now, it will muck
-	 * up the terminal settings.  So we just use vfprintf(). */
+	/* Curses mode shouldn't be off when trying to write to the status bar. */
 	if (isendwin()) {
-		fprintf(stderr, "\n");
-		vfprintf(stderr, msg, ap);
-		va_end(ap);
+		fprintf(stderr, "Out of curses -- please report a bug\n");
 		return;
 	}
 
@@ -2248,6 +2243,7 @@ void statusline(message_type importance, const char *msg, ...)
 
 	/* Construct the message out of all the arguments. */
 	compound = charalloc(MAXCHARLEN * (COLS + 1));
+	va_start(ap, msg);
 	vsnprintf(compound, MAXCHARLEN * (COLS + 1), msg, ap);
 	va_end(ap);
 	message = display_string(compound, 0, COLS, FALSE, FALSE);
