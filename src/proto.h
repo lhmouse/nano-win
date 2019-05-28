@@ -571,7 +571,6 @@ bool is_separate_word(size_t position, size_t length, const char *buf);
 #endif
 const char *strstrwrapper(const char *haystack, const char *needle,
 		const char *start);
-void nperror(const char *s);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
 char *mallocstrncpy(char *dest, const char *src, size_t n);
