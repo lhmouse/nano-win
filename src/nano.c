@@ -1078,7 +1078,7 @@ void reconnect_and_store_state(void)
 	if (thetty < 1)
 		die(_("Could not reconnect stdin to keyboard\n"));
 
-	dup2(thetty, 0);
+	dup2(thetty, STANDARD_INPUT);
 	close(thetty);
 
 	/* If input was not cut short, store the current state of the terminal. */
@@ -1096,7 +1096,7 @@ bool scoop_stdin(void)
 	tcsetattr(0, TCSANOW, &oldterm);
 
 	/* When input comes from a terminal, show a helpful message. */
-	if (isatty(0))
+	if (isatty(STANDARD_INPUT))
 		fprintf(stderr, _("Reading data from keyboard; "
 							"type ^D or ^D^D to finish.\n"));
 

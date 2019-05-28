@@ -827,7 +827,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	/* When reading from stdin, restore the terminal and reenter curses mode. */
 	if (isendwin()) {
-		if (!isatty(0))
+		if (!isatty(STANDARD_INPUT))
 			reconnect_and_store_state();
 		terminal_init();
 		doupdate();
