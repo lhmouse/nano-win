@@ -39,47 +39,47 @@ static char *end_of_intro = NULL;
 static size_t location;
 		/* The offset (in bytes) of the topleft of the shown help text. */
 
-char *tempfilename = NULL;
-		/* Name of the temporary file used for wrapping the help text. */
-
-/* Hard-wrap the help text, write it to the existing temporary file, and
- * read that file into a new buffer. */
+/* Hard-wrap the concatenated help text, and write it into a new buffer. */
 void wrap_the_help_text(bool redisplaying)
 {
 	size_t sum = 0;
 	const char *ptr = start_of_body;
-	FILE *tempfile = fopen(tempfilename, "w+b");
-
-	/* If re-opening the temporary file failed, give up. */
-	if (tempfile == NULL) {
-		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
-		return;
-	}
-
-	/* Write the body of the help_text into the temporary file. */
-	while (*ptr != '\0') {
-		int length = help_line_len(ptr);
-
-		fwrite(ptr, sizeof(char), length, tempfile);
-		ptr += length;
-
-		/* Hard-wrap the lines in the help text. */
-		if (*ptr != '\n')
-			fwrite("\n", sizeof(char), 1, tempfile);
-		else while (*ptr == '\n')
-			fwrite(ptr++, sizeof(char), 1, tempfile);
-	}
-
-	fclose(tempfile);
 
 	if (redisplaying) {
 		close_buffer();
 		switch_to_prev_buffer();
 	}
 
-	open_buffer(tempfilename, TRUE);
-	remove_magicline();
+	make_new_buffer();
 
+	/* Copy the help text into the just-created new buffer. */
+	while (*ptr != '\0') {
+		int length = help_line_len(ptr);
+		char *oneline = nmalloc(length + 1);
+
+		snprintf(oneline, length + 1, "%s", ptr);
+		free(openfile->current->data);
+		openfile->current->data = oneline;
+
+		ptr += length;
+		if (*ptr != '\n')
+			ptr--;
+
+		/* Create a new line, and then one more for each extra \n. */
+		do {
+			openfile->current->next = make_new_node(openfile->current);
+			openfile->current = openfile->current->next;
+			openfile->current->data = mallocstrcpy(NULL, "");
+		} while (*(++ptr) == '\n');
+	}
+
+	openfile->filebot = openfile->current;
+	openfile->current = openfile->filetop;
+
+	remove_magicline();
+#ifdef ENABLE_COLOR
+	color_update();
+#endif
 	prepare_for_display();
 
 	/* Move to the position in the file where we were before. */
@@ -114,19 +114,8 @@ void do_help(void)
 		/* A storage place for the current flag settings. */
 	linestruct *line;
 	int length;
-	FILE *fp;
 
 	blank_statusbar();
-
-	/* Get a temporary file for the help text.  If it fails, give up. */
-	tempfilename = safe_tempfile(&fp);
-	if (tempfilename == NULL) {
-		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
-		free(saved_answer);
-		return;
-	}
-
-	fclose(fp);
 
 	/* Save the settings of all flags. */
 	memcpy(stash, flags, sizeof(flags));
@@ -276,9 +265,6 @@ void do_help(void)
 
 	free(answer);
 	answer = saved_answer;
-
-	remove(tempfilename);
-	free(tempfilename);
 
 	free(help_text);
 }
