@@ -1055,10 +1055,9 @@ bool execute_command(const char *command)
 	}
 
 	/* Wait for the external command (and possibly data sender) to terminate. */
-	if (wait(NULL) == -1)
-		nperror("wait");
-	if (should_pipe && (wait(NULL) == -1))
-		nperror("wait");
+	wait(NULL);
+	if (should_pipe)
+		wait(NULL);
 
 	/* Restore the original handler for SIGINT. */
 	sigaction(SIGINT, &oldaction, NULL);
