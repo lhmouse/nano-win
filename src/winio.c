@@ -3373,9 +3373,11 @@ void total_refresh(void)
 	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
 		titlebar(title);
 #ifdef ENABLE_HELP
-	if (inhelp)
-		wrap_the_help_text(TRUE);
-	else
+	if (inhelp) {
+		close_buffer();
+		switch_to_prev_buffer();
+		wrap_help_text_into_buffer();
+	} else
 #endif
 	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
 		edit_refresh();

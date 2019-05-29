@@ -40,15 +40,10 @@ static size_t location;
 		/* The offset (in bytes) of the topleft of the shown help text. */
 
 /* Hard-wrap the concatenated help text, and write it into a new buffer. */
-void wrap_the_help_text(bool redisplaying)
+void wrap_help_text_into_buffer()
 {
 	size_t sum = 0;
 	const char *ptr = start_of_body;
-
-	if (redisplaying) {
-		close_buffer();
-		switch_to_prev_buffer();
-	}
 
 	make_new_buffer();
 
@@ -166,7 +161,7 @@ void do_help(void)
 	while (*start_of_body == '\n')
 		start_of_body++;
 
-	wrap_the_help_text(FALSE);
+	wrap_help_text_into_buffer();
 	edit_refresh();
 
 	while (TRUE) {

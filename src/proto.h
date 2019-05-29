@@ -329,7 +329,7 @@ char *menu_to_name(int menu);
 
 /* All functions in help.c. */
 #ifdef ENABLE_HELP
-void wrap_the_help_text(bool redisplaying);
+void wrap_help_text_into_buffer();
 void do_help(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);
