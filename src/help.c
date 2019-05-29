@@ -72,8 +72,10 @@ void wrap_the_help_text(bool redisplaying)
 
 	fclose(tempfile);
 
-	if (redisplaying)
+	if (redisplaying) {
 		close_buffer();
+		switch_to_prev_buffer();
+	}
 
 	open_buffer(tempfilename, TRUE);
 	remove_magicline();
