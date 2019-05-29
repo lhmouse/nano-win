@@ -276,7 +276,7 @@ void prepare_for_display(void);
 void mention_name_and_linecount(void);
 void switch_to_prev_buffer(void);
 void switch_to_next_buffer(void);
-bool close_buffer(void);
+void close_buffer(void);
 #endif
 void read_file(FILE *f, int fd, const char *filename, bool undoable);
 int open_file(const char *filename, bool newfie, FILE **f);

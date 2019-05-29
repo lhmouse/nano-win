@@ -647,13 +647,10 @@ void switch_to_next_buffer(void)
 	switch_to_adjacent_buffer(FORWARD);
 }
 
-/* Delete an entry from the circular list of open files, and switch to the
- * one after it.  Return FALSE if just one buffer is open, otherwise TRUE. */
-bool close_buffer(void)
+/* Delete the current entry from the circular list of open files,
+ * after switching to the buffer after it. */
+void close_buffer(void)
 {
-	if (openfile == openfile->next)
-		return FALSE;
-
 #ifdef ENABLE_HISTORIES
 	if (ISSET(POSITIONLOG) && !inhelp)
 		update_poshistory(openfile->filename,
@@ -670,8 +667,6 @@ bool close_buffer(void)
 	/* If now just one buffer remains open, show "Exit" in the help lines. */
 	if (openfile == openfile->next)
 		exitfunc->desc = exit_tag;
-
-	return TRUE;
 }
 #endif /* ENABLE_MULTIBUFFER */
 

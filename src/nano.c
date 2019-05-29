@@ -1027,7 +1027,7 @@ void do_exit(void)
 		statusbar(_("Cancelled"));
 }
 
-/* Close the current buffer, and terminate nano if it was the last. */
+/* Close the current buffer, or terminate nano if it is the last. */
 void close_and_go(void)
 {
 #ifndef NANO_TINY
@@ -1036,8 +1036,10 @@ void close_and_go(void)
 		delete_lockfile(openfile->lock_filename);
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	/* If there are no more open file buffers, jump off a cliff. */
-	if (!close_buffer())
+	/* If there is another buffer, close this one; otherwise terminate. */
+	if (openfile != openfile->next)
+		close_buffer();
+	else
 #endif
 		finish();
 }
