@@ -3375,7 +3375,7 @@ void total_refresh(void)
 #ifdef ENABLE_HELP
 	if (inhelp) {
 		close_buffer();
-		switch_to_prev_buffer();
+		openfile = openfile->prev;
 		wrap_help_text_into_buffer();
 	} else
 #endif
