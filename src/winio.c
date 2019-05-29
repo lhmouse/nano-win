@@ -2211,11 +2211,13 @@ void statusline(message_type importance, const char *msg, ...)
 				(lastmessage == MILD && importance == HUSH))
 		return;
 
+#ifndef NANO_TINY
 	/* Curses mode shouldn't be off when trying to write to the status bar. */
 	if (isendwin()) {
 		fprintf(stderr, "Out of curses -- please report a bug\n");
 		return;
 	}
+#endif
 
 	/* If the ALERT status has been reset, reset the counter. */
 	if (lastmessage == HUSH)
