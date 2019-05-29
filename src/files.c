@@ -421,7 +421,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 	as_an_at = FALSE;
 
 #ifdef ENABLE_OPERATINGDIR
-	if (!inhelp && outside_of_confinement(filename, FALSE)) {
+	if (outside_of_confinement(filename, FALSE)) {
 		statusline(ALERT, _("Can't read file from outside of %s"),
 								operating_dir);
 		return FALSE;
@@ -456,7 +456,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 	if (new_buffer) {
 		make_new_buffer();
 
-		if (!inhelp && has_valid_path(realname)) {
+		if (has_valid_path(realname)) {
 #ifndef NANO_TINY
 			if (ISSET(LOCKING) && filename[0] != '\0') {
 				/* When not overriding an existing lock, discard the buffer. */
@@ -655,7 +655,7 @@ bool close_buffer(void)
 		return FALSE;
 
 #ifdef ENABLE_HISTORIES
-	if (ISSET(POSITIONLOG))
+	if (ISSET(POSITIONLOG) && !inhelp)
 		update_poshistory(openfile->filename,
 						openfile->current->lineno, xplustabs() + 1);
 #endif
@@ -886,10 +886,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* Set the desired x position at the end of what was inserted. */
 	openfile->placewewant = xplustabs();
 
-	/* If we've read a help file, don't give any feedback. */
-	if (inhelp)
-		return;
-
 	if (!writable)
 		statusline(ALERT, _("File '%s' is unwritable"), filename);
 #ifndef NANO_TINY
@@ -984,7 +980,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 			close(fd);
 			fd = -1;
-		} else if (!inhelp)
+		} else
 			statusbar(_("Reading..."));
 	}
 
