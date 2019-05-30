@@ -3061,6 +3061,7 @@ void do_wordlinechar_count(void)
 	 * do, but get the latter in multibyte characters. */
 	if (was_mark) {
 		lines = openfile->filebot->lineno - openfile->filetop->lineno + 1;
+		lines -= (openfile->filebot->data[0] == '\0') ? 1 : 0;
 		chars = get_totsize(openfile->filetop, openfile->filebot);
 
 		/* Unpartition the buffer so that it contains all the text
@@ -3069,6 +3070,7 @@ void do_wordlinechar_count(void)
 		openfile->mark = was_mark;
 	} else {
 		lines = openfile->filebot->lineno;
+		lines -= (openfile->filebot->data[0] == '\0') ? 1 : 0;
 		chars = openfile->totsize;
 	}
 
