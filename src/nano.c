@@ -1541,7 +1541,7 @@ void confirm_margin(void)
 /* Say that an unbound key was struck, and if possible which one. */
 void unbound_key(int code)
 {
-	if (!is_byte(code))
+	if (code > 0x7F)
 		statusline(ALERT, _("Unbound key"));
 	else if (meta_key) {
 		if (code == '[')
