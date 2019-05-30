@@ -3027,7 +3027,7 @@ void do_linter(void)
 void do_wordlinechar_count(void)
 {
 	size_t words = 0, chars = 0;
-	ssize_t nlines = 0;
+	ssize_t lines = 0;
 	size_t current_x_save = openfile->current_x;
 	linestruct *current_save = openfile->current;
 	linestruct *was_mark = openfile->mark;
@@ -3060,7 +3060,7 @@ void do_wordlinechar_count(void)
 	/* Get the total line and character counts, as "wc -l"  and "wc -c"
 	 * do, but get the latter in multibyte characters. */
 	if (was_mark) {
-		nlines = openfile->filebot->lineno - openfile->filetop->lineno + 1;
+		lines = openfile->filebot->lineno - openfile->filetop->lineno + 1;
 		chars = get_totsize(openfile->filetop, openfile->filebot);
 
 		/* Unpartition the buffer so that it contains all the text
@@ -3068,7 +3068,7 @@ void do_wordlinechar_count(void)
 		unpartition_buffer(&filepart);
 		openfile->mark = was_mark;
 	} else {
-		nlines = openfile->filebot->lineno;
+		lines = openfile->filebot->lineno;
 		chars = openfile->totsize;
 	}
 
@@ -3078,7 +3078,7 @@ void do_wordlinechar_count(void)
 
 	/* Display the total word, line, and character counts on the statusbar. */
 	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), was_mark ?
-						_("In Selection:  ") : "", words, nlines, chars);
+						_("In Selection:  ") : "", words, lines, chars);
 }
 #endif /* !NANO_TINY */
 
