@@ -196,19 +196,16 @@ void do_help(void)
 		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MHELP, func)->expansion);
 #endif
-#ifndef NANO_TINY
-		} else if (kbinput == KEY_WINCH) {
-			; /* Nothing to do. */
-#endif
 #ifdef ENABLE_MOUSE
 		} else if (kbinput == KEY_MOUSE) {
 			int dummy_row, dummy_col;
 			get_mouseinput(&dummy_row, &dummy_col, TRUE);
 #endif
+#ifndef NANO_TINY
+		} else if (kbinput == KEY_WINCH) {
+			;  /* Nothing to do. */
+#endif
 		} else if (func == do_exit) {
-			/* Exit from the help viewer. */
-			close_buffer();
-			curs_set(0);
 			break;
 		} else
 			unbound_key(kbinput);
@@ -226,6 +223,10 @@ void do_help(void)
 		}
 	}
 
+	close_buffer();
+	/* Switch back to the buffer we were invoked from. */
+	openfile = openfile->prev;
+
 	/* Restore the settings of all flags. */
 	memcpy(flags, stash, sizeof(flags));
 
@@ -238,8 +239,14 @@ void do_help(void)
 	syntaxstr = was_syntax;
 #endif
 
-	/* Switch back to the buffer we were invoked from. */
-	openfile = openfile->prev;
+	free(title);
+	title = NULL;
+	free(answer);
+	answer = saved_answer;
+	free(help_text);
+	inhelp = FALSE;
+
+	curs_set(0);
 
 	if (ISSET(NO_HELP)) {
 		currmenu = oldmenu;
@@ -247,21 +254,12 @@ void do_help(void)
 	} else
 		bottombars(oldmenu);
 
-	free(title);
-	title = NULL;
-	inhelp = FALSE;
-
 #ifdef ENABLE_BROWSER
 	if (oldmenu == MBROWSER || oldmenu == MWHEREISFILE || oldmenu == MGOTODIR)
 		browser_refresh();
 	else
 #endif
 		total_refresh();
-
-	free(answer);
-	answer = saved_answer;
-
-	free(help_text);
 }
 
 /* Allocate space for the help text for the current menu, and concatenate

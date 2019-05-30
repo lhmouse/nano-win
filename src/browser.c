@@ -301,13 +301,12 @@ char *do_browser(char *path)
 		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MBROWSER, func)->expansion);
 #endif
-		} else if (func == do_exit) {
-			/* Exit from the file browser. */
-			break;
 #ifndef NANO_TINY
 		} else if (kbinput == KEY_WINCH) {
-			;
+			;  /* Nothing to do. */
 #endif
+		} else if (func == do_exit) {
+			break;
 		} else
 			unbound_key(kbinput);
 
