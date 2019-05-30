@@ -1037,9 +1037,17 @@ void close_and_go(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	/* If there is another buffer, close this one; otherwise terminate. */
-	if (openfile != openfile->next)
-		close_buffer();
-	else
+	if (openfile != openfile->next) {
+#ifdef ENABLE_HISTORIES
+		if (ISSET(POSITIONLOG))
+			update_poshistory(openfile->filename,
+							openfile->current->lineno, xplustabs() + 1);
+#endif
+		switch_to_next_buffer();
+		close_buffer(openfile->prev);
+		/* Adjust the count in the top bar. */
+		titlebar(NULL);
+	} else
 #endif
 		finish();
 }

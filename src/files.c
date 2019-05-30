@@ -462,7 +462,8 @@ bool open_buffer(const char *filename, bool new_buffer)
 				/* When not overriding an existing lock, discard the buffer. */
 				if (do_lockfile(realname) < 0) {
 #ifdef ENABLE_MULTIBUFFER
-					close_buffer();
+					openfile = openfile->prev;
+					close_buffer(openfile->next);
 #endif
 					free(realname);
 					return FALSE;
@@ -647,24 +648,12 @@ void switch_to_next_buffer(void)
 	switch_to_adjacent_buffer(FORWARD);
 }
 
-/* Delete the current entry from the circular list of open files,
- * after switching to the buffer after it. */
-void close_buffer(void)
+/* Remove the given buffer from the circular list of buffers. */
+void close_buffer(openfilestruct *buffer)
 {
-#ifdef ENABLE_HISTORIES
-	if (ISSET(POSITIONLOG) && !inhelp)
-		update_poshistory(openfile->filename,
-						openfile->current->lineno, xplustabs() + 1);
-#endif
+	unlink_opennode(buffer);
 
-	switch_to_next_buffer();
-
-	/* Delete the old file buffer, and adjust the count in the top bar. */
-	unlink_opennode(openfile->prev);
-	if (!inhelp)
-		titlebar(NULL);
-
-	/* If now just one buffer remains open, show "Exit" in the help lines. */
+	/* When just one buffer remains open, show "Exit" in the help lines. */
 	if (openfile == openfile->next)
 		exitfunc->desc = exit_tag;
 }

@@ -223,9 +223,9 @@ void do_help(void)
 		}
 	}
 
-	close_buffer();
-	/* Switch back to the buffer we were invoked from. */
+	/* Switch back to the original buffer and discard the help-text buffer. */
 	openfile = openfile->prev;
+	close_buffer(openfile->next);
 
 	/* Restore the settings of all flags. */
 	memcpy(flags, stash, sizeof(flags));
@@ -253,6 +253,8 @@ void do_help(void)
 		window_init();
 	} else
 		bottombars(oldmenu);
+
+	prepare_for_display();
 
 #ifdef ENABLE_BROWSER
 	if (oldmenu == MBROWSER || oldmenu == MWHEREISFILE || oldmenu == MGOTODIR)
