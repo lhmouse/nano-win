@@ -999,7 +999,7 @@ bool execute_command(const char *command)
 
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER)) {
-			switch_to_prev_buffer();
+			openfile = openfile->prev;
 			if (openfile->mark)
 				do_cut_text(TRUE, TRUE, FALSE, FALSE);
 		} else
@@ -1028,7 +1028,7 @@ bool execute_command(const char *command)
 
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
-			switch_to_next_buffer();
+			openfile = openfile->next;
 #endif
 		free_lines(cutbuffer);
 		cutbuffer = was_cutbuffer;
