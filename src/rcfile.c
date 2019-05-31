@@ -1049,21 +1049,21 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 
 			/* When the syntax isn't loaded yet, store extendsyntax commands. */
 			if (sint->filename != NULL) {
-				augmentstruct *newextendsyntax = nmalloc(sizeof(augmentstruct));;
+				augmentstruct *newitem = nmalloc(sizeof(augmentstruct));;
 
-				newextendsyntax->filename = strdup(nanorc);
-				newextendsyntax->lineno = lineno;
-				newextendsyntax->data = strdup(ptr);
-				newextendsyntax->next = NULL;
+				newitem->filename = strdup(nanorc);
+				newitem->lineno = lineno;
+				newitem->data = strdup(ptr);
+				newitem->next = NULL;
 
 				if (sint->augmentations != NULL) {
 					augmentstruct *es = sint->augmentations;
 
 					while (es->next != NULL)
 						es = es->next;
-					es->next = newextendsyntax;
+					es->next = newitem;
 				} else
-					sint->augmentations = newextendsyntax;
+					sint->augmentations = newitem;
 
 				continue;
 			}
