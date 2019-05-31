@@ -33,7 +33,6 @@
 #include <langinfo.h>
 #endif
 #include <locale.h>
-#include <signal.h>
 #include <string.h>
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>

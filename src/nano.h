@@ -113,10 +113,11 @@
 #define N_(string) gettext_noop(string)
 		/* Mark a string that will be sent to gettext() later. */
 
-#include <stdlib.h>
-#include <sys/stat.h>
 #include <dirent.h>
 #include <regex.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 
 /* If we aren't using an ncurses with mouse support, exclude any
  * mouse routines, as they are useless then. */
