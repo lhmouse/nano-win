@@ -233,7 +233,7 @@ typedef struct syntaxtype {
 		/* The name of this syntax. */
 	char *filename;
 		/* File where the syntax is defined, or NULL if not an included file. */
-	struct augmentstruct *extendsyntax;
+	struct augmentstruct *augmentations;
 		/* List of extendsyntax commands to apply when loaded. */
 	regexlisttype *extensions;
 		/* The list of extensions that this syntax applies to. */

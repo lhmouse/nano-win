@@ -326,7 +326,7 @@ void parse_syntax(char *ptr, bool headers_only)
 	live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
 	live_syntax->name = mallocstrcpy(NULL, nameptr);
 	live_syntax->filename = (headers_only ? strdup(nanorc) : NULL);
-	live_syntax->extendsyntax = NULL;
+	live_syntax->augmentations = NULL;
 	live_syntax->extensions = NULL;
 	live_syntax->headers = NULL;
 	live_syntax->magics = NULL;
@@ -582,7 +582,7 @@ void parse_one_include(char *file, syntaxtype *syntax)
 		while (lastcolor->next != NULL)
 			lastcolor = lastcolor->next;
 
-	augmentstruct *es = syntax->extendsyntax;
+	augmentstruct *es = syntax->augmentations;
 
 	/* Apply any stored extendsyntax commands. */
 	while (es != NULL) {
@@ -604,7 +604,7 @@ void parse_one_include(char *file, syntaxtype *syntax)
 
 	free(syntax->filename);
 	syntax->filename = NULL;
-	syntax->extendsyntax = NULL;
+	syntax->augmentations = NULL;
 	opensyntax = FALSE;
 }
 
@@ -1056,14 +1056,14 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				newextendsyntax->data = strdup(ptr);
 				newextendsyntax->next = NULL;
 
-				if (sint->extendsyntax != NULL) {
-					augmentstruct *es = sint->extendsyntax;
+				if (sint->augmentations != NULL) {
+					augmentstruct *es = sint->augmentations;
 
 					while (es->next != NULL)
 						es = es->next;
 					es->next = newextendsyntax;
 				} else
-					sint->extendsyntax = newextendsyntax;
+					sint->augmentations = newextendsyntax;
 
 				continue;
 			}
