@@ -217,23 +217,23 @@ typedef struct regexlisttype {
 		/* The next regex. */
 } regexlisttype;
 
-typedef struct extendsyntaxstruct {
+typedef struct augmentstruct {
 	char *filename;
 		/* The file where the syntax is extended. */
 	ssize_t lineno;
 		/* The number of the line of the extendsyntax command. */
 	char *data;
 		/* The text of the line. */
-	struct extendsyntaxstruct *next;
+	struct augmentstruct *next;
 		/* Next node. */
-} extendsyntaxstruct;
+} augmentstruct;
 
 typedef struct syntaxtype {
 	char *name;
 		/* The name of this syntax. */
 	char *filename;
 		/* File where the syntax is defined, or NULL if not an included file. */
-	struct extendsyntaxstruct *extendsyntax;
+	struct augmentstruct *extendsyntax;
 		/* List of extendsyntax commands to apply when loaded. */
 	regexlisttype *extensions;
 		/* The list of extensions that this syntax applies to. */

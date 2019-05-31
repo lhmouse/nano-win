@@ -582,11 +582,11 @@ void parse_one_include(char *file, syntaxtype *syntax)
 		while (lastcolor->next != NULL)
 			lastcolor = lastcolor->next;
 
-	extendsyntaxstruct *es = syntax->extendsyntax;
+	augmentstruct *es = syntax->extendsyntax;
 
 	/* Apply any stored extendsyntax commands. */
 	while (es != NULL) {
-		extendsyntaxstruct *next = es->next;
+		augmentstruct *next = es->next;
 		char *keyword = es->data, *ptr = parse_next_word(es->data);
 
 		nanorc = es->filename;
@@ -1049,7 +1049,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 
 			/* When the syntax isn't loaded yet, store extendsyntax commands. */
 			if (sint->filename != NULL) {
-				extendsyntaxstruct *newextendsyntax = nmalloc(sizeof(extendsyntaxstruct));;
+				augmentstruct *newextendsyntax = nmalloc(sizeof(augmentstruct));;
 
 				newextendsyntax->filename = strdup(nanorc);
 				newextendsyntax->lineno = lineno;
@@ -1057,7 +1057,8 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				newextendsyntax->next = NULL;
 
 				if (sint->extendsyntax != NULL) {
-					extendsyntaxstruct *es = sint->extendsyntax;
+					augmentstruct *es = sint->extendsyntax;
+
 					while (es->next != NULL)
 						es = es->next;
 					es->next = newextendsyntax;
