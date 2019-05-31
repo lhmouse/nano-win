@@ -544,6 +544,7 @@ bool is_good_file(char *file)
 /* Read and parse one included syntax file. */
 void parse_one_include(char *file, syntaxtype *syntax)
 {
+	augmentstruct *extra;
 	FILE *rcstream;
 
 	/* Don't open directories, character files, or block files. */
@@ -582,24 +583,25 @@ void parse_one_include(char *file, syntaxtype *syntax)
 		while (lastcolor->next != NULL)
 			lastcolor = lastcolor->next;
 
-	augmentstruct *es = syntax->augmentations;
+	extra = syntax->augmentations;
 
 	/* Apply any stored extendsyntax commands. */
-	while (es != NULL) {
-		augmentstruct *next = es->next;
-		char *keyword = es->data, *ptr = parse_next_word(es->data);
+	while (extra != NULL) {
+		char *keyword = extra->data;
+		char *ptr = parse_next_word(extra->data);
+		augmentstruct *next = extra->next;
 
-		nanorc = es->filename;
-		lineno = es->lineno;
+		nanorc = extra->filename;
+		lineno = extra->lineno;
 
 		if (!parse_syntax_commands(keyword, ptr))
 			rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
-		free(es->filename);
-		free(es->data);
-		free(es);
+		free(extra->filename);
+		free(extra->data);
+		free(extra);
 
-		es = next;
+		extra = next;
 	}
 
 	free(syntax->filename);
@@ -1057,11 +1059,11 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				newitem->next = NULL;
 
 				if (sint->augmentations != NULL) {
-					augmentstruct *es = sint->augmentations;
+					augmentstruct *extra = sint->augmentations;
 
-					while (es->next != NULL)
-						es = es->next;
-					es->next = newitem;
+					while (extra->next != NULL)
+						extra = extra->next;
+					extra->next = newitem;
 				} else
 					sint->augmentations = newitem;
 
