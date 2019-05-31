@@ -49,7 +49,7 @@
 #define read_them_all FALSE
 #endif
 
-static partition *sphere = NULL;
+static holder_type *sphere = NULL;
 		/* Storage for rest of buffer while a piece is partitioned off. */
 
 #ifdef ENABLE_MOUSE
@@ -198,7 +198,7 @@ void renumber_from(linestruct *line)
 void partition_buffer(linestruct *top, size_t top_x,
 						linestruct *bot, size_t bot_x)
 {
-	sphere = nmalloc(sizeof(partition));
+	sphere = nmalloc(sizeof(holder_type));
 
 	/* If the top and bottom of the partition are different from the top
 	 * and bottom of the buffer, save the latter and then set them
