@@ -462,8 +462,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 				/* When not overriding an existing lock, discard the buffer. */
 				if (do_lockfile(realname) < 0) {
 #ifdef ENABLE_MULTIBUFFER
-					openfile = openfile->prev;
-					close_buffer(openfile->next);
+					close_buffer();
 #endif
 					free(realname);
 					return FALSE;
@@ -645,10 +644,11 @@ void switch_to_next_buffer(void)
 	switch_to_adjacent_buffer(FORWARD);
 }
 
-/* Remove the given buffer from the circular list of buffers. */
-void close_buffer(openfilestruct *buffer)
+/* Remove the current buffer from the circular list of buffers. */
+void close_buffer(void)
 {
-	unlink_opennode(buffer);
+	openfile = openfile->prev;
+	unlink_opennode(openfile->next);
 
 	/* When just one buffer remains open, show "Exit" in the help lines. */
 	if (openfile == openfile->next)

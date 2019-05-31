@@ -223,9 +223,8 @@ void do_help(void)
 		}
 	}
 
-	/* Switch back to the original buffer and discard the help-text buffer. */
-	openfile = openfile->prev;
-	close_buffer(openfile->next);
+	/* Discard the help-text buffer. */
+	close_buffer();
 
 	/* Restore the settings of all flags. */
 	memcpy(flags, stash, sizeof(flags));

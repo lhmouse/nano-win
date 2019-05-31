@@ -3374,8 +3374,7 @@ void total_refresh(void)
 		titlebar(title);
 #ifdef ENABLE_HELP
 	if (inhelp) {
-		openfile = openfile->prev;
-		close_buffer(openfile->next);
+		close_buffer();
 		wrap_help_text_into_buffer();
 	} else
 #endif

@@ -1044,7 +1044,9 @@ void close_and_go(void)
 							openfile->current->lineno, xplustabs() + 1);
 #endif
 		switch_to_next_buffer();
-		close_buffer(openfile->prev);
+		openfile = openfile->prev;
+		close_buffer();
+		openfile = openfile->next;
 		/* Adjust the count in the top bar. */
 		titlebar(NULL);
 	} else
