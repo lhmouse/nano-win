@@ -236,6 +236,7 @@ void do_help(void)
 	tabsize = was_tabsize;
 #ifdef ENABLE_COLOR
 	syntaxstr = was_syntax;
+	have_palette = FALSE;
 #endif
 
 	free(title);
@@ -246,21 +247,22 @@ void do_help(void)
 	inhelp = FALSE;
 
 	curs_set(0);
+	refresh_needed = TRUE;
 
 	if (ISSET(NO_HELP)) {
 		currmenu = oldmenu;
 		window_init();
-	} else
+	} else {
+		wipe_statusbar();
 		bottombars(oldmenu);
-
-	prepare_for_display();
+	}
 
 #ifdef ENABLE_BROWSER
 	if (oldmenu == MBROWSER || oldmenu == MWHEREISFILE || oldmenu == MGOTODIR)
 		browser_refresh();
 	else
 #endif
-		total_refresh();
+		titlebar(NULL);
 }
 
 /* Allocate space for the help text for the current menu, and concatenate
