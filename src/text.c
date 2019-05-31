@@ -3039,7 +3039,7 @@ void do_wordlinechar_count(void)
 	if (openfile->mark) {
 		get_region((const linestruct **)&top, &top_x,
 					(const linestruct **)&bot, &bot_x, NULL);
-		filepart = partition_buffer(top, top_x, bot, bot_x);
+		partition_buffer(top, top_x, bot, bot_x);
 	}
 
 	/* Start at the top of the file. */
@@ -3063,7 +3063,7 @@ void do_wordlinechar_count(void)
 	/* Get the number of multibyte characters, similar to "wc -c". */
 	if (openfile->mark) {
 		chars = get_totsize(openfile->filetop, openfile->filebot);
-		unpartition_buffer(&filepart);
+		unpartition_buffer();
 	} else
 		chars = openfile->totsize;
 

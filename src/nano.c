@@ -192,8 +192,8 @@ void renumber_from(linestruct *line)
 
 /* Partition the current buffer so that it appears to begin at (top, top_x)
  * and appears to end at (bot, bot_x). */
-partition *partition_buffer(linestruct *top, size_t top_x,
-		linestruct *bot, size_t bot_x)
+void partition_buffer(linestruct *top, size_t top_x,
+						linestruct *bot, size_t bot_x)
 {
 	partition *p = nmalloc(sizeof(partition));
 
@@ -230,14 +230,15 @@ partition *partition_buffer(linestruct *top, size_t top_x,
 	/* Remove all text before top_x at the top of the partition. */
 	charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
 
-	/* Return the partition. */
-	return p;
+	filepart = p;
 }
 
 /* Unpartition the current buffer so that it stretches from (filetop, 0)
  * to (filebot, $) again. */
-void unpartition_buffer(partition **p)
+void unpartition_buffer()
 {
+	partition **p = &filepart;
+
 	/* Reattach the line above the top of the partition, and restore the
 	 * text before top_x from top_data.  Free top_data when we're done
 	 * with it. */
@@ -270,8 +271,8 @@ void unpartition_buffer(partition **p)
 		openfile->filebot = (*p)->filebot;
 
 	/* Uninitialize the partition. */
-	free(*p);
-	*p = NULL;
+	free(filepart);
+	filepart = NULL;
 }
 
 /* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
@@ -293,7 +294,7 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 	 * (top, top_x) to (bot, bot_x), keep track of whether the top of
 	 * the edit window is inside the partition, and keep track of
 	 * whether the mark begins inside the partition. */
-	filepart = partition_buffer(top, top_x, bot, bot_x);
+	partition_buffer(top, top_x, bot, bot_x);
 	edittop_inside = (openfile->edittop->lineno >= openfile->filetop->lineno &&
 						openfile->edittop->lineno <= openfile->filebot->lineno);
 #ifndef NANO_TINY
@@ -358,7 +359,7 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 
 	/* Unpartition the buffer so that it contains all the text
 	 * again, minus the saved text. */
-	unpartition_buffer(&filepart);
+	unpartition_buffer();
 
 	renumber_from(openfile->current);
 
@@ -394,8 +395,8 @@ void ingraft_buffer(linestruct *topline)
 
 	/* Partition the buffer so that it contains no text, and remember
 	 * whether the current line is at the top of the edit window. */
-	filepart = partition_buffer(openfile->current, openfile->current_x,
-								openfile->current, openfile->current_x);
+	partition_buffer(openfile->current, openfile->current_x,
+						openfile->current, openfile->current_x);
 	edittop_inside = (openfile->edittop == openfile->filetop);
 	delete_node(openfile->filetop);
 
@@ -437,7 +438,7 @@ void ingraft_buffer(linestruct *topline)
 
 	/* Unpartition the buffer so that it contains all the text
 	 * again, plus the copied text. */
-	unpartition_buffer(&filepart);
+	unpartition_buffer();
 
 	renumber_from(topline);
 
@@ -576,7 +577,7 @@ void die(const char *msg, ...)
 		 * because it would write files not mentioned on the command line. */
 		if (openfile->modified && !ISSET(RESTRICTED)) {
 			if (filepart != NULL)
-				unpartition_buffer(&filepart);
+				unpartition_buffer();
 
 			emergency_save(openfile->filename, openfile->current_stat);
 		}

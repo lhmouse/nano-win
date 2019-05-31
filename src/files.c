@@ -2000,7 +2000,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 	/* Partition the buffer so that it contains only the marked text. */
 	get_region((const linestruct **)&top, &top_x,
 				(const linestruct **)&bot, &bot_x, NULL);
-	filepart = partition_buffer(top, top_x, bot, bot_x);
+	partition_buffer(top, top_x, bot, bot_x);
 
 	/* If we are using a magic line, and the last line of the partition
 	 * isn't blank, then add a newline at the end of the buffer. */
@@ -2015,7 +2015,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 		remove_magicline();
 
 	/* Unpartition the buffer so that it contains all the text again. */
-	unpartition_buffer(&filepart);
+	unpartition_buffer();
 
 	return retval;
 }

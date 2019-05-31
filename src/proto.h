@@ -393,9 +393,9 @@ void delete_node(linestruct *fileptr);
 linestruct *copy_buffer(const linestruct *src);
 void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
-partition *partition_buffer(linestruct *top, size_t top_x,
+void partition_buffer(linestruct *top, size_t top_x,
 		linestruct *bot, size_t bot_x);
-void unpartition_buffer(partition **p);
+void unpartition_buffer();
 void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
 void ingraft_buffer(linestruct *somebuffer);
 void copy_from_buffer(linestruct *somebuffer);
