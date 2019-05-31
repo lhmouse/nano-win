@@ -3027,10 +3027,10 @@ void do_linter(void)
  * multibyte characters instead of single-byte characters. */
 void do_wordlinechar_count(void)
 {
+	linestruct *was_current = openfile->current;
+	size_t was_x = openfile->current_x;
 	size_t words = 0, chars = 0;
 	ssize_t lines = 0;
-	size_t current_x_save = openfile->current_x;
-	linestruct *current_save = openfile->current;
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
@@ -3068,8 +3068,8 @@ void do_wordlinechar_count(void)
 		chars = openfile->totsize;
 
 	/* Restore where we were. */
-	openfile->current = current_save;
-	openfile->current_x = current_x_save;
+	openfile->current = was_current;
+	openfile->current_x = was_x;
 
 	/* Display the total word, line, and character counts on the statusbar. */
 	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), openfile->mark ?
