@@ -119,7 +119,6 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex.h>
-#include <signal.h>
 
 /* If we aren't using an ncurses with mouse support, exclude any
  * mouse routines, as they are useless then. */
