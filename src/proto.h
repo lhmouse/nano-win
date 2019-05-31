@@ -96,7 +96,6 @@ extern linestruct *cutbuffer;
 extern linestruct *cutbottom;
 extern bool keep_cutbuffer;
 
-extern partition *filepart;
 extern openfilestruct *openfile;
 #ifdef ENABLE_MULTIBUFFER
 extern openfilestruct *startfile;

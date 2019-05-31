@@ -124,8 +124,6 @@ linestruct *cutbottom = NULL;
 bool keep_cutbuffer = FALSE;
 		/* Whether to add to the cutbuffer instead of clearing it first. */
 
-partition *filepart = NULL;
-		/* The "partition" where we store a portion of the current file. */
 openfilestruct *openfile = NULL;
 		/* The list of all open file buffers. */
 #ifdef ENABLE_MULTIBUFFER
