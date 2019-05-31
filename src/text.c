@@ -3031,17 +3031,15 @@ void do_wordlinechar_count(void)
 	ssize_t lines = 0;
 	size_t current_x_save = openfile->current_x;
 	linestruct *current_save = openfile->current;
-	linestruct *was_mark = openfile->mark;
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
 	/* If the mark is on, partition the buffer so that it
 	 * contains only the marked text, and turn the mark off. */
-	if (was_mark) {
+	if (openfile->mark) {
 		get_region((const linestruct **)&top, &top_x,
 					(const linestruct **)&bot, &bot_x, NULL);
 		filepart = partition_buffer(top, top_x, bot, bot_x);
-		openfile->mark = NULL;
 	}
 
 	/* Start at the top of the file. */
@@ -3063,23 +3061,18 @@ void do_wordlinechar_count(void)
 					((openfile->filebot->data[0] == '\0') ? 0 : 1);
 
 	/* Get the number of multibyte characters, similar to "wc -c". */
-	if (was_mark) {
+	if (openfile->mark) {
 		chars = get_totsize(openfile->filetop, openfile->filebot);
-
-		/* Unpartition the buffer so that it contains all the text
-		 * again, and turn the mark back on. */
 		unpartition_buffer(&filepart);
-		openfile->mark = was_mark;
-	} else {
+	} else
 		chars = openfile->totsize;
-	}
 
 	/* Restore where we were. */
 	openfile->current = current_save;
 	openfile->current_x = current_x_save;
 
 	/* Display the total word, line, and character counts on the statusbar. */
-	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), was_mark ?
+	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), openfile->mark ?
 						_("In Selection:  ") : "", words, lines, chars);
 }
 #endif /* !NANO_TINY */
