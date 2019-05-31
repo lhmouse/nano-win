@@ -598,18 +598,14 @@ void mention_name_and_linecount(void)
 						_("New Buffer") : tail(openfile->filename), count);
 }
 
-/* Switch to a neighbouring file buffer; to the next if to_next is TRUE;
- * otherwise, to the previous one. */
-void switch_to_adjacent_buffer(bool to_next)
+/* Update title bar and such after switching to another buffer.*/
+void redecorate_after_switch(void)
 {
-	/* If only one file buffer is open, say so and get out. */
+	/* If only one file buffer is open, there is nothing to update. */
 	if (openfile == openfile->next) {
 		statusbar(_("No more open file buffers"));
 		return;
 	}
-
-	/* Switch to the next or previous file buffer. */
-	openfile = to_next ? openfile->next : openfile->prev;
 
 #ifndef NANO_TINY
 	/* When not in softwrap mode, make sure firstcolumn is zero.  It might
@@ -635,13 +631,15 @@ void switch_to_adjacent_buffer(bool to_next)
 /* Switch to the previous entry in the list of open files. */
 void switch_to_prev_buffer(void)
 {
-	switch_to_adjacent_buffer(BACKWARD);
+	openfile = openfile->prev;
+	redecorate_after_switch();
 }
 
 /* Switch to the next entry in the list of open files. */
 void switch_to_next_buffer(void)
 {
-	switch_to_adjacent_buffer(FORWARD);
+	openfile = openfile->next;
+	redecorate_after_switch();
 }
 
 /* Remove the current buffer from the circular list of buffers. */
