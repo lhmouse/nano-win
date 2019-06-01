@@ -642,31 +642,28 @@ void switch_to_next_buffer(void)
 	redecorate_after_switch();
 }
 
-/* Unlink a node from the rest of the circular list, and delete it. */
-void unlink_opennode(openfilestruct *fileptr)
-{
-	if (fileptr == startfile)
-		startfile = startfile->next;
-
-	fileptr->prev->next = fileptr->next;
-	fileptr->next->prev = fileptr->prev;
-
-	free(fileptr->filename);
-	free_lines(fileptr->filetop);
-#ifndef NANO_TINY
-	free(fileptr->current_stat);
-	free(fileptr->lock_filename);
-	/* Free the undo stack. */
-	discard_until(NULL, fileptr, TRUE);
-#endif
-	free(fileptr);
-}
-
 /* Remove the current buffer from the circular list of buffers. */
 void close_buffer(void)
 {
-	openfile = openfile->prev;
-	unlink_opennode(openfile->next);
+	openfilestruct *orphan = openfile;
+
+	if (orphan == startfile)
+		startfile = startfile->next;
+
+	orphan->prev->next = orphan->next;
+	orphan->next->prev = orphan->prev;
+
+	free(orphan->filename);
+	free_lines(orphan->filetop);
+#ifndef NANO_TINY
+	free(orphan->current_stat);
+	free(orphan->lock_filename);
+	/* Free the undo stack. */
+	discard_until(NULL, orphan, TRUE);
+#endif
+
+	openfile = orphan->prev;
+	free(orphan);
 
 	/* When just one buffer remains open, show "Exit" in the help lines. */
 	if (openfile == openfile->next)
