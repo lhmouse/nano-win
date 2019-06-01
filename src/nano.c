@@ -463,12 +463,6 @@ void unlink_opennode(openfilestruct *fileptr)
 	fileptr->prev->next = fileptr->next;
 	fileptr->next->prev = fileptr->prev;
 
-	delete_opennode(fileptr);
-}
-
-/* Free all the memory in the given open-file node. */
-void delete_opennode(openfilestruct *fileptr)
-{
 	free(fileptr->filename);
 	free_lines(fileptr->filetop);
 #ifndef NANO_TINY

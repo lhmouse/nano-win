@@ -400,7 +400,6 @@ void ingraft_buffer(linestruct *somebuffer);
 void copy_from_buffer(linestruct *somebuffer);
 #ifdef ENABLE_MULTIBUFFER
 void unlink_opennode(openfilestruct *fileptr);
-void delete_opennode(openfilestruct *fileptr);
 #endif
 void print_view_warning(void);
 void show_restricted_warning(void);
