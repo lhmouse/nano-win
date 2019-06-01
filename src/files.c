@@ -642,6 +642,26 @@ void switch_to_next_buffer(void)
 	redecorate_after_switch();
 }
 
+/* Unlink a node from the rest of the circular list, and delete it. */
+void unlink_opennode(openfilestruct *fileptr)
+{
+	if (fileptr == startfile)
+		startfile = startfile->next;
+
+	fileptr->prev->next = fileptr->next;
+	fileptr->next->prev = fileptr->prev;
+
+	free(fileptr->filename);
+	free_lines(fileptr->filetop);
+#ifndef NANO_TINY
+	free(fileptr->current_stat);
+	free(fileptr->lock_filename);
+	/* Free the undo stack. */
+	discard_until(NULL, fileptr, TRUE);
+#endif
+	free(fileptr);
+}
+
 /* Remove the current buffer from the circular list of buffers. */
 void close_buffer(void)
 {

@@ -453,28 +453,6 @@ void copy_from_buffer(linestruct *somebuffer)
 	ingraft_buffer(the_copy);
 }
 
-#ifdef ENABLE_MULTIBUFFER
-/* Unlink a node from the rest of the circular list, and delete it. */
-void unlink_opennode(openfilestruct *fileptr)
-{
-	if (fileptr == startfile)
-		startfile = startfile->next;
-
-	fileptr->prev->next = fileptr->next;
-	fileptr->next->prev = fileptr->prev;
-
-	free(fileptr->filename);
-	free_lines(fileptr->filetop);
-#ifndef NANO_TINY
-	free(fileptr->current_stat);
-	free(fileptr->lock_filename);
-	/* Free the undo stack. */
-	discard_until(NULL, fileptr, TRUE);
-#endif
-	free(fileptr);
-}
-#endif /* ENABLE_MULTIBUFFER */
-
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
 {
