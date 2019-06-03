@@ -289,7 +289,7 @@ bool nregcomp(const char *regex, int compile_flags)
 
 /* Parse the next syntax name and its possible extension regexes from the
  * line at ptr, and add it to the global linked list of color syntaxes. */
-void parse_syntax(char *ptr, bool headers_only)
+void begin_a_syntax(char *ptr, bool headers_only)
 {
 	char *nameptr = ptr;
 
@@ -583,12 +583,12 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	/* Apply any stored extendsyntax commands. */
 	while (extra != NULL) {
 		char *keyword = extra->data;
-		char *ptr = parse_next_word(extra->data);
+		char *therest = parse_next_word(extra->data);
 
 		nanorc = extra->filename;
 		lineno = extra->lineno;
 
-		if (!parse_syntax_commands(keyword, ptr))
+		if (!parse_syntax_commands(keyword, therest))
 			rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
 		extra = extra->next;
@@ -1078,7 +1078,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				if (opensyntax && lastcolor == NULL && live_syntax->filename == NULL)
 					rcfile_error(N_("Syntax \"%s\" has no color commands"),
 									live_syntax->name);
-				parse_syntax(ptr, headers_only);
+				begin_a_syntax(ptr, headers_only);
 			}
 		} else if (strcasecmp(keyword, "header") == 0) {
 			if (headers_only || !syntax_only)
