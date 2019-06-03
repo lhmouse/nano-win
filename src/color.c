@@ -274,7 +274,7 @@ void color_update(void)
 	}
 
 	/* When the syntax isn't loaded yet, parse it and initialize its colors. */
-	if (sint->filename != NULL) {
+	if (sint != NULL && sint->filename != NULL) {
 		parse_one_include(sint->filename, sint);
 		set_syntax_colorpairs(sint);
 	}
