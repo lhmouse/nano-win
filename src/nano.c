@@ -2502,6 +2502,8 @@ int main(int argc, char **argv)
 	if (initscr() == NULL)
 		exit(1);
 
+	started_curses = TRUE;
+
 #ifdef ENABLE_COLOR
 	set_colorpairs();
 #else

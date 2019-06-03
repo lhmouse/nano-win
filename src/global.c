@@ -47,6 +47,8 @@ bool as_an_at = TRUE;
 bool control_C_was_pressed = FALSE;
 		/* Whether Ctrl+C was pressed (when a keyboard interrupt is enabled). */
 
+bool started_curses = FALSE;
+
 bool suppress_cursorpos = FALSE;
 		/* Should we skip constant position display for current keystroke? */
 

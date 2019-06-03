@@ -42,6 +42,8 @@ extern bool control_C_was_pressed;
 
 extern bool suppress_cursorpos;
 
+extern bool started_curses;
+
 extern message_type lastmessage;
 
 extern linestruct *pletion_line;
