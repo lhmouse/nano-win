@@ -584,7 +584,6 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	while (extra != NULL) {
 		char *keyword = extra->data;
 		char *ptr = parse_next_word(extra->data);
-		augmentstruct *next = extra->next;
 
 		nanorc = extra->filename;
 		lineno = extra->lineno;
@@ -592,16 +591,11 @@ void parse_one_include(char *file, syntaxtype *syntax)
 		if (!parse_syntax_commands(keyword, ptr))
 			rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
-		free(extra->filename);
-		free(extra->data);
-		free(extra);
-
-		extra = next;
+		extra = extra->next;
 	}
 
 	free(syntax->filename);
 	syntax->filename = NULL;
-	syntax->augmentations = NULL;
 	opensyntax = FALSE;
 }
 
