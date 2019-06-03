@@ -1038,8 +1038,14 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				continue;
 			}
 
+			/* Disallow extending a syntax that is defined in a main nanorc. */
+			if (sint->filename == NULL)	{
+				rcfile_error(N_("Only an 'include' syntax can be extended"));
+				opensyntax = FALSE;
+				continue;
+			}
+
 			/* When the syntax isn't loaded yet, store extendsyntax commands. */
-			if (sint->filename != NULL) {
 				augmentstruct *newitem = nmalloc(sizeof(augmentstruct));;
 
 				newitem->filename = strdup(nanorc);
@@ -1057,19 +1063,6 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 					sint->augmentations = newitem;
 
 				continue;
-			}
-
-			live_syntax = sint;
-			opensyntax = TRUE;
-
-			/* Refind the tail of the color list for this syntax. */
-			lastcolor = sint->color;
-			if (lastcolor != NULL)
-				while (lastcolor->next != NULL)
-					lastcolor = lastcolor->next;
-
-			keyword = ptr;
-			ptr = parse_next_word(ptr);
 		}
 
 		/* Try to parse the keyword. */
