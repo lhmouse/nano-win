@@ -578,11 +578,6 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	parse_rcfile(rcstream, TRUE, FALSE);
 	opensyntax = TRUE;
 
-	lastcolor = syntax->color;
-	if (lastcolor != NULL)
-		while (lastcolor->next != NULL)
-			lastcolor = lastcolor->next;
-
 	extra = syntax->augmentations;
 
 	/* Apply any stored extendsyntax commands. */
