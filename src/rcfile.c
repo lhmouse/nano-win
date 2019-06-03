@@ -1022,8 +1022,9 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 #ifdef ENABLE_COLOR
 		/* Handle extending first... */
 		if (strcasecmp(keyword, "extendsyntax") == 0 && !syntax_only) {
-			syntaxtype *sint;
+			augmentstruct *newitem, *extra;
 			char *syntaxname = ptr;
+			syntaxtype *sint;
 
 			ptr = parse_next_word(ptr);
 
@@ -1045,24 +1046,23 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				continue;
 			}
 
-			/* When the syntax isn't loaded yet, store extendsyntax commands. */
-				augmentstruct *newitem = nmalloc(sizeof(augmentstruct));;
+			newitem = nmalloc(sizeof(augmentstruct));;
 
-				newitem->filename = strdup(nanorc);
-				newitem->lineno = lineno;
-				newitem->data = strdup(ptr);
-				newitem->next = NULL;
+			/* Store the content of an 'extendsyntax', for later parsing. */
+			newitem->filename = strdup(nanorc);
+			newitem->lineno = lineno;
+			newitem->data = strdup(ptr);
+			newitem->next = NULL;
 
-				if (sint->augmentations != NULL) {
-					augmentstruct *extra = sint->augmentations;
+			if (sint->augmentations != NULL) {
+				extra = sint->augmentations;
+				while (extra->next != NULL)
+					extra = extra->next;
+				extra->next = newitem;
+			} else
+				sint->augmentations = newitem;
 
-					while (extra->next != NULL)
-						extra = extra->next;
-					extra->next = newitem;
-				} else
-					sint->augmentations = newitem;
-
-				continue;
+			continue;
 		}
 
 		/* Try to parse the keyword. */
