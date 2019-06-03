@@ -169,7 +169,6 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 void color_update(void)
 {
 	syntaxtype *sint = NULL;
-	colortype *ink;
 
 	/* If the rcfiles were not read, or contained no syntaxes, get out. */
 	if (syntaxes == NULL)
@@ -281,20 +280,6 @@ void color_update(void)
 
 	openfile->syntax = sint;
 	openfile->colorstrings = (sint == NULL ? NULL : sint->color);
-
-	/* If a syntax was found, compile its specified regexes (which have
-	 * already been checked for validity when they were read in). */
-	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
-		if (ink->start == NULL) {
-			ink->start = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(ink->start, ink->start_regex, ink->rex_flags);
-		}
-
-		if (ink->end_regex != NULL && ink->end == NULL) {
-			ink->end = (regex_t *)nmalloc(sizeof(regex_t));
-			regcomp(ink->end, ink->end_regex, ink->rex_flags);
-		}
-	}
 }
 
 /* Determine whether the matches of multiline regexes are still the same,

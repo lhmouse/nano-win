@@ -192,14 +192,8 @@ typedef struct colortype {
 		 * background color. */
 	int attributes;
 		/* Pair number and brightness composed into ready-to-use attributes. */
-	int rex_flags;
-		/* The regex compilation flags (with or without REG_ICASE). */
-	char *start_regex;
-		/* The start (or all) of the regex string. */
 	regex_t *start;
 		/* The compiled start (or all) of the regex string. */
-	char *end_regex;
-		/* The end (if any) of the regex string. */
 	regex_t *end;
 		/* The compiled end (if any) of the regex string. */
 	struct colortype *next;
