@@ -1080,8 +1080,6 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 #ifdef HAVE_LIBMAGIC
 			if (headers_only || !syntax_only)
 				grab_and_store("magic", ptr, &live_syntax->magics);
-#else
-			;
 #endif
 		} else if (headers_only)
 			break;
