@@ -214,7 +214,8 @@ mouse support.
 
 @item -L
 @itemx --nonewlines
-Don't automatically add a newline when a file does not end with one.
+Don't automatically add a newline when a text does not end with one.
+(This can cause you to save non-POSIX text files.)
 
 @item -M
 @itemx --trimblanks
@@ -831,7 +832,8 @@ Don't convert files from DOS/Mac format.
 Don't display the help lists at the bottom of the screen.
 
 @item set nonewlines
-Don't automatically add a newline when a file does not end with one.
+Don't automatically add a newline when a text does not end with one.
+(This can cause you to save non-POSIX text files.)
 
 @item set nopauses
 Don't pause between warnings at startup.  This means that only
