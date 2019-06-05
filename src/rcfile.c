@@ -267,27 +267,27 @@ char *parse_next_regex(char *ptr)
 	return ptr;
 }
 
-/* Compile the regular expression regex to see if it's valid.  Return
- * TRUE if it is, and FALSE otherwise. */
-bool nregcomp(regex_t **compiled, const char *regex, int compile_flags)
+/* Compile the given regular expression and store the result in packed (when
+ * this pointer is not NULL).  Return TRUE when the expression is valid. */
+bool compile(const char *expression, int rex_flags, regex_t **packed)
 {
-	regex_t *preg = nmalloc(sizeof(regex_t));
-	int rc = regcomp(preg, regex, compile_flags);
+	regex_t *compiled = nmalloc(sizeof(regex_t));
+	int rc = regcomp(compiled, expression, rex_flags);
 
 	if (rc != 0) {
-		size_t len = regerror(rc, preg, NULL, 0);
+		size_t len = regerror(rc, compiled, NULL, 0);
 		char *str = charalloc(len);
 
-		regerror(rc, preg, str, len);
-		rcfile_error(N_("Bad regex \"%s\": %s"), regex, str);
+		regerror(rc, compiled, str, len);
+		rcfile_error(N_("Bad regex \"%s\": %s"), expression, str);
 		free(str);
 	}
 
-	if (compiled == NULL || rc != 0) {
-		regfree(preg);
-		free(preg);
+	if (packed == NULL || rc != 0) {
+		regfree(compiled);
+		free(compiled);
 	} else
-		*compiled = preg;
+		*packed = compiled;
 
 	return (rc == 0);
 }
@@ -767,18 +767,17 @@ void parse_colors(char *ptr, int rex_flags)
 			goodstart = FALSE;
 		} else {
 			newcolor = (colortype *)nmalloc(sizeof(colortype));
-			goodstart = nregcomp(&newcolor->start, item, rex_flags);
+			goodstart = compile(item, rex_flags, &newcolor->start);
 		}
 
-		/* If the starting regex is valid, initialize a new color struct,
-		 * and hook it in at the tail of the linked list. */
+		/* If the start regex is valid, fill in the rest of the data, and
+		 * hook the new color struct in at the tail of the linked list. */
 		if (goodstart) {
 			newcolor->fg = fg;
 			newcolor->bg = bg;
 			newcolor->attributes = attributes;
 
 			newcolor->end = NULL;
-
 			newcolor->next = NULL;
 
 			if (lastcolor == NULL)
@@ -814,13 +813,12 @@ void parse_colors(char *ptr, int rex_flags)
 			continue;
 		}
 
-		/* If the start regex was invalid, skip past the end regex
-		 * to stay in sync. */
+		/* If the start regex was invalid, the end regex cannot be saved. */
 		if (!goodstart)
 			continue;
 
-		/* If it's valid, save the ending regex string. */
-		nregcomp(&newcolor->end, item, rex_flags);
+		/* Save the compiled ending regex (when it's valid). */
+		compile(item, rex_flags, &newcolor->end);
 
 		/* Lame way to skip another static counter. */
 		newcolor->id = live_syntax->nmultis;
@@ -889,7 +887,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 			return;
 
 		/* If the regex string is malformed, skip it. */
-		if (!nregcomp(NULL, regexstring, NANO_REG_EXTENDED | REG_NOSUB))
+		if (!compile(regexstring, NANO_REG_EXTENDED | REG_NOSUB, NULL))
 			continue;
 
 		/* Copy the regex into a struct, and hook this in at the end. */

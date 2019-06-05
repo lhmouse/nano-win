@@ -187,15 +187,14 @@ typedef struct colortype {
 		/* This syntax's foreground color. */
 	short bg;
 		/* This syntax's background color. */
-	int pairnum;
-		/* The color pair number used for this foreground color and
-		 * background color. */
+	short pairnum;
+		/* The pair number for this foreground/background color combination. */
 	int attributes;
 		/* Pair number and brightness composed into ready-to-use attributes. */
 	regex_t *start;
-		/* The compiled start (or all) of the regex string. */
+		/* The compiled regular expression for 'start=', or the only one. */
 	regex_t *end;
-		/* The compiled end (if any) of the regex string. */
+		/* The compiled regular expression for 'end=', if any. */
 	struct colortype *next;
 		/* Next set of colors. */
 	int id;
