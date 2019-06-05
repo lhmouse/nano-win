@@ -272,24 +272,24 @@ char *parse_next_regex(char *ptr)
 bool compile(const char *expression, int rex_flags, regex_t **packed)
 {
 	regex_t *compiled = nmalloc(sizeof(regex_t));
-	int rc = regcomp(compiled, expression, rex_flags);
+	int outcome = regcomp(compiled, expression, rex_flags);
 
-	if (rc != 0) {
-		size_t len = regerror(rc, compiled, NULL, 0);
-		char *str = charalloc(len);
+	if (outcome != 0) {
+		size_t length = regerror(outcome, compiled, NULL, 0);
+		char *message = charalloc(length);
 
-		regerror(rc, compiled, str, len);
-		rcfile_error(N_("Bad regex \"%s\": %s"), expression, str);
-		free(str);
+		regerror(outcome, compiled, message, length);
+		rcfile_error(N_("Bad regex \"%s\": %s"), expression, message);
+		free(message);
 	}
 
-	if (packed == NULL || rc != 0) {
+	if (packed == NULL || outcome != 0) {
 		regfree(compiled);
 		free(compiled);
 	} else
 		*packed = compiled;
 
-	return (rc == 0);
+	return (outcome == 0);
 }
 
 /* Parse the next syntax name and its possible extension regexes from the
