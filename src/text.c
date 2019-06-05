@@ -2665,12 +2665,11 @@ void do_spell(void)
 	shift_held = TRUE;
 
 	if (result_msg != NULL) {
+		/* Avoid giving a failure reason of "Success". */
 		if (errno == 0)
-			/* Don't display an error message of "Success". */
-			statusline(ALERT, _("Spell checking failed: %s"), result_msg);
+			statusline(ALERT, result_msg);
 		else
-			statusline(ALERT, _("Spell checking failed: %s: %s"), result_msg,
-												strerror(errno));
+			statusline(ALERT, _("%s: %s"), result_msg, strerror(errno));
 	} else
 		statusbar(_("Finished checking spelling"));
 }
