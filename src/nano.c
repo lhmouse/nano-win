@@ -209,9 +209,8 @@ void renumber_from(linestruct *line)
 void partition_buffer(linestruct *top, size_t top_x,
 						linestruct *bot, size_t bot_x)
 {
-	/* If the top and bottom of the partition are different from the top
-	 * and bottom of the buffer, save the latter and then set them
-	 * to top and bot. */
+	/* Save the top and bottom of the buffer when they differ from top and
+	 * bottom of the partition, then shrink the buffer to the partition. */
 	if (top != openfile->filetop) {
 		filetop = openfile->filetop;
 		openfile->filetop = top;
@@ -236,10 +235,10 @@ void partition_buffer(linestruct *top, size_t top_x,
 	bot->next = NULL;
 	postdata = mallocstrcpy(NULL, bot->data + bot_x);
 
-	/* Remove all text after bot_x at the bottom of the partition. */
+	/* At the end of the partition, remove all text after bot_x. */
 	bot->data[bot_x] = '\0';
 
-	/* Remove all text before top_x at the top of the partition. */
+	/* At the beginning of the partition, remove all text before top_x. */
 	charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
 }
 
@@ -247,9 +246,8 @@ void partition_buffer(linestruct *top, size_t top_x,
  * to (filebot, $) again. */
 void unpartition_buffer()
 {
-	/* Reattach the line above the top of the partition, and restore the
-	 * text before top_x from top_data.  Free top_data when we're done
-	 * with it. */
+	/* Reattach the line that was above the top of the partition,
+	 * and restore the text that was before top_x. */
 	openfile->filetop->prev = foreline;
 	if (openfile->filetop->prev != NULL)
 		openfile->filetop->prev->next = openfile->filetop;
@@ -261,9 +259,8 @@ void unpartition_buffer()
 	free(antedata);
 	antedata = NULL;
 
-	/* Reattach the line below the bottom of the partition, and restore
-	 * the text after bot_x from bot_data.  Free bot_data when we're
-	 * done with it. */
+	/* Reattach the line that was below the bottom of the partition,
+	 * and restore the text that was after bot_x. */
 	openfile->filebot->next = aftline;
 	if (openfile->filebot->next != NULL)
 		openfile->filebot->next->prev = openfile->filebot;
