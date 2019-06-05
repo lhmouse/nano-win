@@ -2492,14 +2492,14 @@ const char *do_int_speller(const char *tempfile_name)
 	waitpid(pid_sort, &sort_status, 0);
 	waitpid(pid_uniq, &uniq_status, 0);
 
-	if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
-		return _("Error invoking \"spell\"");
+	if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
+		return _("Error invoking \"uniq\"");
 
 	if (WIFEXITED(sort_status) == 0 || WEXITSTATUS(sort_status))
 		return _("Error invoking \"sort -f\"");
 
-	if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
-		return _("Error invoking \"uniq\"");
+	if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
+		return _("Error invoking \"spell\"");
 
 	/* When all went okay. */
 	return NULL;
