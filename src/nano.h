@@ -295,16 +295,16 @@ typedef struct linestruct {
 typedef struct holder_type {
 	linestruct *filetop;
 		/* The top line of the buffer. */
-	linestruct *top_prev;
+	linestruct *before;
 		/* The line before the top line of the partition. */
-	char *top_data;
+	char *antedata;
 		/* The text on the top line of the partition before the beginning
 		 * of the partition. */
 	linestruct *filebot;
 		/* The bottom line of the buffer. */
-	linestruct *bot_next;
+	linestruct *after;
 		/* The line after the bottom line of the partition. */
-	char *bot_data;
+	char *postdata;
 		/* The text on the bottom line of the partition after the end
 		 * of the partition. */
 } holder_type;

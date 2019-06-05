@@ -215,16 +215,16 @@ void partition_buffer(linestruct *top, size_t top_x,
 
 	/* Remember which line is above the top of the partition, detach the
 	 * top of the partition from it, and save the text before top_x. */
-	sphere->top_prev = top->prev;
+	sphere->before = top->prev;
 	top->prev = NULL;
-	sphere->top_data = mallocstrncpy(NULL, top->data, top_x + 1);
-	sphere->top_data[top_x] = '\0';
+	sphere->antedata = mallocstrncpy(NULL, top->data, top_x + 1);
+	sphere->antedata[top_x] = '\0';
 
 	/* Remember which line is below the bottom of the partition, detach the
 	 * bottom of the partition from it, and save the text after bot_x. */
-	sphere->bot_next = bot->next;
+	sphere->after = bot->next;
 	bot->next = NULL;
-	sphere->bot_data = mallocstrcpy(NULL, bot->data + bot_x);
+	sphere->postdata = mallocstrcpy(NULL, bot->data + bot_x);
 
 	/* Remove all text after bot_x at the bottom of the partition. */
 	bot->data[bot_x] = '\0';
@@ -240,26 +240,26 @@ void unpartition_buffer()
 	/* Reattach the line above the top of the partition, and restore the
 	 * text before top_x from top_data.  Free top_data when we're done
 	 * with it. */
-	openfile->filetop->prev = sphere->top_prev;
+	openfile->filetop->prev = sphere->before;
 	if (openfile->filetop->prev != NULL)
 		openfile->filetop->prev->next = openfile->filetop;
 	openfile->filetop->data = charealloc(openfile->filetop->data,
-				strlen(sphere->top_data) + strlen(openfile->filetop->data) + 1);
-	charmove(openfile->filetop->data + strlen(sphere->top_data),
+				strlen(sphere->antedata) + strlen(openfile->filetop->data) + 1);
+	charmove(openfile->filetop->data + strlen(sphere->antedata),
 				openfile->filetop->data, strlen(openfile->filetop->data) + 1);
-	strncpy(openfile->filetop->data, sphere->top_data, strlen(sphere->top_data));
-	free(sphere->top_data);
+	strncpy(openfile->filetop->data, sphere->antedata, strlen(sphere->antedata));
+	free(sphere->antedata);
 
 	/* Reattach the line below the bottom of the partition, and restore
 	 * the text after bot_x from bot_data.  Free bot_data when we're
 	 * done with it. */
-	openfile->filebot->next = sphere->bot_next;
+	openfile->filebot->next = sphere->after;
 	if (openfile->filebot->next != NULL)
 		openfile->filebot->next->prev = openfile->filebot;
 	openfile->filebot->data = charealloc(openfile->filebot->data,
-				strlen(openfile->filebot->data) + strlen(sphere->bot_data) + 1);
-	strcat(openfile->filebot->data, sphere->bot_data);
-	free(sphere->bot_data);
+				strlen(openfile->filebot->data) + strlen(sphere->postdata) + 1);
+	strcat(openfile->filebot->data, sphere->postdata);
+	free(sphere->postdata);
 
 	/* Restore the top and bottom of the buffer, if they were
 	 * different from the top and bottom of the partition. */
