@@ -292,23 +292,6 @@ typedef struct linestruct {
 #endif
 } linestruct;
 
-typedef struct holder_type {
-	linestruct *filetop;
-		/* The top line of the buffer. */
-	linestruct *before;
-		/* The line before the top line of the partition. */
-	char *antedata;
-		/* The text on the top line of the partition before the beginning
-		 * of the partition. */
-	linestruct *filebot;
-		/* The bottom line of the buffer. */
-	linestruct *after;
-		/* The line after the bottom line of the partition. */
-	char *postdata;
-		/* The text on the bottom line of the partition after the end
-		 * of the partition. */
-} holder_type;
-
 #ifndef NANO_TINY
 typedef struct undo_group {
 	ssize_t top_line;

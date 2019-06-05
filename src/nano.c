@@ -48,9 +48,6 @@
 #define read_them_all FALSE
 #endif
 
-static holder_type *sphere = NULL;
-		/* Storage for rest of buffer while a piece is partitioned off. */
-
 #ifdef ENABLE_MOUSE
 static int oldinterval = -1;
 		/* Used to store the user's original mouse click interval. */
@@ -65,6 +62,21 @@ static struct termios oldterm;
 
 static struct sigaction oldaction, newaction;
 		/* Containers for the original and the temporary handler for SIGINT. */
+
+/* The next six variables are used as temporary storage places for information
+ * about the current buffer while it is partitioned during cutting/pasting. */
+static linestruct *filetop;
+		/* What was the top line of the buffer. */
+static linestruct *foreline;
+		/* The line before the first line of the partition. */
+static char *antedata = NULL;
+		/* The text on the first line of the partition before its beginning. */
+static char *postdata = NULL;
+		/* The text on the last line of the partition after its end. */
+static linestruct *aftline;
+		/* The line after the last line of the partition. */
+static linestruct *filebot;
+		/* What was the bottom line of the buffer. */
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
 linestruct *make_new_node(linestruct *prevnode)
@@ -197,34 +209,32 @@ void renumber_from(linestruct *line)
 void partition_buffer(linestruct *top, size_t top_x,
 						linestruct *bot, size_t bot_x)
 {
-	sphere = nmalloc(sizeof(holder_type));
-
 	/* If the top and bottom of the partition are different from the top
 	 * and bottom of the buffer, save the latter and then set them
 	 * to top and bot. */
 	if (top != openfile->filetop) {
-		sphere->filetop = openfile->filetop;
+		filetop = openfile->filetop;
 		openfile->filetop = top;
 	} else
-		sphere->filetop = NULL;
+		filetop = NULL;
 	if (bot != openfile->filebot) {
-		sphere->filebot = openfile->filebot;
+		filebot = openfile->filebot;
 		openfile->filebot = bot;
 	} else
-		sphere->filebot = NULL;
+		filebot = NULL;
 
 	/* Remember which line is above the top of the partition, detach the
 	 * top of the partition from it, and save the text before top_x. */
-	sphere->before = top->prev;
+	foreline = top->prev;
 	top->prev = NULL;
-	sphere->antedata = mallocstrncpy(NULL, top->data, top_x + 1);
-	sphere->antedata[top_x] = '\0';
+	antedata = mallocstrncpy(NULL, top->data, top_x + 1);
+	antedata[top_x] = '\0';
 
 	/* Remember which line is below the bottom of the partition, detach the
 	 * bottom of the partition from it, and save the text after bot_x. */
-	sphere->after = bot->next;
+	aftline = bot->next;
 	bot->next = NULL;
-	sphere->postdata = mallocstrcpy(NULL, bot->data + bot_x);
+	postdata = mallocstrcpy(NULL, bot->data + bot_x);
 
 	/* Remove all text after bot_x at the bottom of the partition. */
 	bot->data[bot_x] = '\0';
@@ -240,37 +250,35 @@ void unpartition_buffer()
 	/* Reattach the line above the top of the partition, and restore the
 	 * text before top_x from top_data.  Free top_data when we're done
 	 * with it. */
-	openfile->filetop->prev = sphere->before;
+	openfile->filetop->prev = foreline;
 	if (openfile->filetop->prev != NULL)
 		openfile->filetop->prev->next = openfile->filetop;
 	openfile->filetop->data = charealloc(openfile->filetop->data,
-				strlen(sphere->antedata) + strlen(openfile->filetop->data) + 1);
-	charmove(openfile->filetop->data + strlen(sphere->antedata),
+				strlen(antedata) + strlen(openfile->filetop->data) + 1);
+	charmove(openfile->filetop->data + strlen(antedata),
 				openfile->filetop->data, strlen(openfile->filetop->data) + 1);
-	strncpy(openfile->filetop->data, sphere->antedata, strlen(sphere->antedata));
-	free(sphere->antedata);
+	strncpy(openfile->filetop->data, antedata, strlen(antedata));
+	free(antedata);
+	antedata = NULL;
 
 	/* Reattach the line below the bottom of the partition, and restore
 	 * the text after bot_x from bot_data.  Free bot_data when we're
 	 * done with it. */
-	openfile->filebot->next = sphere->after;
+	openfile->filebot->next = aftline;
 	if (openfile->filebot->next != NULL)
 		openfile->filebot->next->prev = openfile->filebot;
 	openfile->filebot->data = charealloc(openfile->filebot->data,
-				strlen(openfile->filebot->data) + strlen(sphere->postdata) + 1);
-	strcat(openfile->filebot->data, sphere->postdata);
-	free(sphere->postdata);
+				strlen(openfile->filebot->data) + strlen(postdata) + 1);
+	strcat(openfile->filebot->data, postdata);
+	free(postdata);
+	postdata = NULL;
 
 	/* Restore the top and bottom of the buffer, if they were
 	 * different from the top and bottom of the partition. */
-	if (sphere->filetop != NULL)
-		openfile->filetop = sphere->filetop;
-	if (sphere->filebot != NULL)
-		openfile->filebot = sphere->filebot;
-
-	/* Uninitialize the container. */
-	free(sphere);
-	sphere = NULL;
+	if (filetop != NULL)
+		openfile->filetop = filetop;
+	if (filebot != NULL)
+		openfile->filebot = filebot;
 }
 
 /* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
@@ -546,13 +554,13 @@ void die(const char *msg, ...)
 		 * then save it.  When in restricted mode, we don't save anything,
 		 * because it would write files not mentioned on the command line. */
 		if (openfile->modified && !ISSET(RESTRICTED)) {
-			if (sphere != NULL)
+			if (antedata != NULL)
 				unpartition_buffer();
 
 			emergency_save(openfile->filename, openfile->current_stat);
 		}
 
-		sphere = NULL;
+		antedata = NULL;
 #ifdef ENABLE_MULTIBUFFER
 		openfile = openfile->next;
 #endif
