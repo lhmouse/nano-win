@@ -238,7 +238,8 @@ and Delete work properly.  You should only use this option when on your
 system either Backspace acts like Delete or Delete acts like Backspace.
 .TP
 .B set regexp
-Do extended regular expression searches by default.
+Do regular-expression searches by default.
+Regular expressions in \fBnano\fR are of the extended type (ERE).
 .TP
 .B set selectedcolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for selected text.
@@ -335,6 +336,19 @@ This is inherently imperfect, because regular expressions are not
 powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
 good fit for a small editor like \fBnano\fR.
+.sp
+All regular expressions in \fBnano\fR are extended regular expressions (ERE).
+This means that \fB.\fR, \fB?\fR, \fB*\fR, \fB+\fR, \fB^\fR, \fB$\fR, and
+several other characters are special.
+The period \fB.\fR matches any single character,
+\fB?\fR means the preceding item is optional,
+\fB*\fR means the preceding item may be matched zero or more times,
+\fB+\fR means the preceding item must be matched one or more times,
+\fB^\fR matches the beginning of a line, and \fB$\fR the end,
+\fB\\<\fR matches the start of a word, and \fB\\>\fR the end,
+and \fB\\s\fR matches a blank.
+It also means that lookahead and lookbehind are not possible.
+A complete explanation can be found in \fBman grep\fR.
 .sp
 For each kind of file a separate syntax can be defined
 via the following commands:

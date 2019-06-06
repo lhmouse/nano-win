@@ -890,7 +890,8 @@ and Delete work properly.  You should only use this option when on your
 system either Backspace acts like Delete or Delete acts like Backspace.
 
 @item set regexp
-Do extended regular expression searches by default.
+Do regular-expression searches by default.
+Regular expressions in @command{nano} are of the extended type (ERE).
 
 @item set selectedcolor @var{fgcolor},@var{bgcolor}
 Use this color combination for selected text.
@@ -988,6 +989,19 @@ This is inherently imperfect, because regular expressions are not
 powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
 good fit for a small editor like @command{nano}.
+
+All regular expressions in @command{nano} are extended regular expressions
+(ERE).  This means that @code{.}, @code{?}, @code{*}, @code{+}, @code{^},
+@code{$}, and several other characters are special.
+The period @code{.} matches any single character,
+@code{?} means the preceding item is optional,
+@code{*} means the preceding item may be matched zero or more times,
+@code{+} means the preceding item must be matched one or more times,
+@code{^} matches the beginning of a line, and @code{$} the end,
+@code{\<} matches the start of a word, and @code{\>} the end,
+and @code{\s} matches a blank.
+It also means that lookahead and lookbehind are not possible.
+A complete explanation can be found in @code{info grep regular}.
 
 A separate syntax can be defined for each kind of file
 via the following commands in a nanorc file:
