@@ -52,11 +52,8 @@ command is only needed when wanting to override a setting of the system's
 \fInanorc\fR file in your own \fInanorc\fR.  Options that take an
 argument cannot be unset.
 .sp
-Below, the \fIstring\fR parameters need to be enclosed in double quotes.
-Quotes inside these string parameters don't have to be escaped with
-backslashes.  The last double quote in the string will be treated as its
-end.  For example, for the \fBbrackets\fP option, "\fB"')>]}\fP" will
-match \fB"\fP, \fB'\fP, \fB)\fP, \fB>\fP, \fB]\fP, and \fB}\fP.
+Quotes inside the \fIcharacters\fR  parameters below should not be escaped.
+The last double quote on the line will be seen as the closing quote.
 .sp
 The supported commands and arguments are:
 
@@ -94,7 +91,7 @@ function tags, line numbers, and selected text.  This can be overridden by
 setting the options \fBtitlecolor\fP, \fBstatuscolor\fP, \fBkeycolor\fP,
 \fBfunctioncolor\fP, \fBnumbercolor\fP, and \fBselectedcolor\fP.
 .TP
-.B set brackets "\fIstring\fP"
+.BI "set brackets """ characters """
 Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see \fBset punct\fP), optionally followed by the specified
@@ -154,7 +151,7 @@ Display line numbers to the left of the text area.
 .B set locking
 Enable vim-style lock-files for when editing files.
 .TP
-.B set matchbrackets "\fIstring\fP"
+.BI "set matchbrackets """ characters """
 Set the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
@@ -209,7 +206,7 @@ The cursor position is remembered for the 200 most-recently edited files.
 .B set preserve
 Preserve the XON and XOFF keys (^Q and ^S).
 .TP
-.B set punct "\fIstring\fP"
+.BI "set punct """ characters """
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specfified closing punctuation, optionally followed by closing brackets
@@ -219,7 +216,7 @@ specfified closing punctuation, optionally followed by closing brackets
 Do quick status-bar blanking: status-bar messages will disappear after 1
 keystroke instead of 25.  The option \fBconstantshow\fR overrides this.
 .TP
-.B set quotestr "\fIregex\fP"
+.BI "set quotestr """ regex """
 Set the regular expression for matching the quoting part of a line.
 The default value is "\fB^([\ \\t]*([!#%:;>|}]|//|\-\-))+\fP".
 (Note that \fB\\t\fR stands for an actual Tab character.)
@@ -311,7 +308,7 @@ Disallow file modification: read-only mode.
 This mode allows the user to open also other files for viewing,
 unless \fB\-\-restricted\fR is given on the command line.
 .TP
-.B set whitespace "\fIstring\fP"
+.BI "set whitespace """ characters """
 Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.  The default pair
 for a UTF-8 locale is "\fB\[Fc]\[md]\fR", and for other locales "\fB>.\fR".
@@ -320,7 +317,7 @@ for a UTF-8 locale is "\fB\[Fc]\[md]\fR", and for other locales "\fB>.\fR".
 Detect word boundaries differently by treating punctuation
 characters as parts of words.
 .TP
-.B set wordchars \fIstring\fP
+.BI "set wordchars """ characters """
 Specify which other characters (besides the normal alphanumeric ones)
 should be considered as parts of words.  This overrides the option
 \fBwordbounds\fR.

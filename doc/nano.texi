@@ -690,10 +690,8 @@ take an argument are unset by default.  So using the @code{unset} command
 is only needed when wanting to override a setting of the system's nanorc
 file in your own nanorc.  Options that take an argument cannot be unset.
 
-Quotes inside string parameters don't have to be escaped with
-backslashes.  The last double quote in the string will be treated as its
-end.  For example, for the @code{brackets} option, @t{""')>]@}"} will match
-@code{"}, @code{'}, @code{)}, @code{>}, @code{]}, and @code{@}}.
+Quotes inside the @var{characters} parameters below should not be escaped.
+The last double quote on the line will be seen as the closing quote.
 
 @menu
 * Settings::
@@ -741,7 +739,7 @@ function tags, line numbers, and selected text.  This can be overridden by
 setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
 @code{functioncolor}, @code{numbercolor}, and @code{selectedcolor}.
 
-@item set brackets "@var{string}"
+@item set brackets "@var{characters}"
 Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see @code{set punct}), optionally followed by the specified
@@ -808,7 +806,7 @@ Display line numbers to the left of the text area.
 @item set locking
 Enable vim-style lock-files for when editing files.
 
-@item set matchbrackets "@var{string}"
+@item set matchbrackets "@var{characters}"
 Set the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
@@ -860,7 +858,7 @@ The cursor position is remembered for the 200 most-recently edited files.
 @item set preserve
 Preserve the XON and XOFF keys (@kbd{^Q} and @kbd{^S}).
 
-@item set punct "@var{string}"
+@item set punct "@var{characters}"
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specified closing punctuation, optionally followed by closing brackets
@@ -960,7 +958,7 @@ This mode allows the user to open also other files for viewing,
 unless @option{--restricted} is given on the command line.
 
 @anchor{Whitespace}
-@item set whitespace "@var{string}"
+@item set whitespace "@var{characters}"
 Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.  The default pair
 for a UTF-8 locale is @t{"»·"}, and for other locales @t{">."}.
@@ -969,7 +967,7 @@ for a UTF-8 locale is @t{"»·"}, and for other locales @t{">."}.
 Detect word boundaries differently by treating punctuation
 characters as part of a word.
 
-@item set wordchars "@var{string}"
+@item set wordchars "@var{characters}"
 Specify which other characters (besides the normal alphanumeric ones)
 should be considered as parts of words.  This overrides the option
 @code{wordbounds}.

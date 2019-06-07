@@ -8,10 +8,8 @@
 ## For the options that take parameters, the default value is given.
 ## Other options are unset by default.
 ##
-## Quotes inside string parameters don't have to be escaped with
-## backslashes.  The last double quote in the string will be treated as
-## its end.  For example, for the "brackets" option, ""')>]}" will match
-## ", ', ), >, ], and }.
+## Inside string parameters, quotes should not be escaped.  The last
+## double quote on the line will be seen as the closing quote.
 
 ## Make the 'nextword' function (Ctrl+Right) stop at word ends
 ## instead of at beginnings.
