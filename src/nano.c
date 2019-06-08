@@ -65,7 +65,7 @@ static struct sigaction oldaction, newaction;
 
 /* The next six variables are used as temporary storage places for information
  * about the current buffer while it is partitioned during cutting/pasting. */
-static linestruct *filetop;
+static linestruct *filehead;
 		/* What was the top line of the buffer. */
 static linestruct *foreline;
 		/* The line before the first line of the partition. */
@@ -75,7 +75,7 @@ static char *postdata = NULL;
 		/* The text on the last line of the partition after its end. */
 static linestruct *hindline;
 		/* The line after the last line of the partition. */
-static linestruct *filebot;
+static linestruct *filetail;
 		/* What was the bottom line of the buffer. */
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
@@ -212,15 +212,15 @@ void partition_buffer(linestruct *top, size_t top_x,
 	/* Save the top and bottom of the buffer when they differ from top and
 	 * bottom of the partition, then shrink the buffer to the partition. */
 	if (top != openfile->filetop) {
-		filetop = openfile->filetop;
+		filehead = openfile->filetop;
 		openfile->filetop = top;
 	} else
-		filetop = NULL;
+		filehead = NULL;
 	if (bot != openfile->filebot) {
-		filebot = openfile->filebot;
+		filetail = openfile->filebot;
 		openfile->filebot = bot;
 	} else
-		filebot = NULL;
+		filetail = NULL;
 
 	/* Remember which line is above the top of the partition, detach the
 	 * top of the partition from it, and save the text before top_x. */
@@ -242,8 +242,7 @@ void partition_buffer(linestruct *top, size_t top_x,
 	charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
 }
 
-/* Unpartition the current buffer so that it stretches from (filetop, 0)
- * to (filebot, $) again. */
+/* Unpartition the current buffer so that it is complete again. */
 void unpartition_buffer()
 {
 	/* Reattach the line that was above the top of the partition. */
@@ -274,10 +273,10 @@ void unpartition_buffer()
 
 	/* Restore the top and bottom of the buffer, if they were
 	 * different from the top and bottom of the partition. */
-	if (filetop != NULL)
-		openfile->filetop = filetop;
-	if (filebot != NULL)
-		openfile->filebot = filebot;
+	if (filehead != NULL)
+		openfile->filetop = filehead;
+	if (filetail != NULL)
+		openfile->filebot = filetail;
 }
 
 /* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
