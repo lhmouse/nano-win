@@ -1603,7 +1603,6 @@ size_t indent_length(const char *line)
 void squeeze(linestruct *line, size_t skip)
 {
 	char *from, *to, *newdata;
-	size_t shrunk = 0;
 	int charlen;
 
 	newdata = charalloc(strlen(line->data) + 1);
@@ -1618,11 +1617,8 @@ void squeeze(linestruct *line, size_t skip)
 			from += parse_mbchar(from, NULL, NULL);
 			*(to++) = ' ';
 
-			while (*from != '\0' && is_blank_mbchar(from)) {
-				charlen = parse_mbchar(from, NULL, NULL);
-				from += charlen;
-				shrunk += charlen;
-			}
+			while (*from != '\0' && is_blank_mbchar(from))
+				from += parse_mbchar(from, NULL, NULL);
 		/* If this character is punctuation, then copy it plus a possible
 		 * bracket, and change at most two of subsequent blanks to spaces,
 		 * and pass over all blanks after these. */
@@ -1652,11 +1648,8 @@ void squeeze(linestruct *line, size_t skip)
 				*(to++) = ' ';
 			}
 
-			while (*from != '\0' && is_blank_mbchar(from)) {
-				charlen = parse_mbchar(from, NULL, NULL);
-				from += charlen;
-				shrunk += charlen;
-			}
+			while (*from != '\0' && is_blank_mbchar(from))
+				from += parse_mbchar(from, NULL, NULL);
 		/* Leave unchanged anything that is neither blank nor punctuation. */
 		} else {
 			charlen = parse_mbchar(from, NULL, NULL);
@@ -1669,17 +1662,12 @@ void squeeze(linestruct *line, size_t skip)
 	}
 
 	/* If there are spaces at the end of the line, remove them. */
-	while (to > newdata + skip && *(to - 1) == ' ') {
+	while (to > newdata + skip && *(to - 1) == ' ')
 		to--;
-		shrunk++;
-	}
 
-	if (shrunk > 0) {
-		*to = '\0';
-		free(line->data);
-		line->data = newdata;
-	} else
-		free(newdata);
+	*to = '\0';
+	free(line->data);
+	line->data = newdata;
 }
 
 /* Return the length of the quote part of the given line.  The "quote part"
