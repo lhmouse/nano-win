@@ -246,11 +246,12 @@ void partition_buffer(linestruct *top, size_t top_x,
  * to (filebot, $) again. */
 void unpartition_buffer()
 {
-	/* Reattach the line that was above the top of the partition,
-	 * and restore the text that was before top_x. */
+	/* Reattach the line that was above the top of the partition. */
 	openfile->filetop->prev = foreline;
-	if (openfile->filetop->prev != NULL)
-		openfile->filetop->prev->next = openfile->filetop;
+	if (foreline != NULL)
+		foreline->next = openfile->filetop;
+
+	/* Restore the text that was on the first partition line before its start. */
 	openfile->filetop->data = charealloc(openfile->filetop->data,
 				strlen(antedata) + strlen(openfile->filetop->data) + 1);
 	charmove(openfile->filetop->data + strlen(antedata),
@@ -259,11 +260,12 @@ void unpartition_buffer()
 	free(antedata);
 	antedata = NULL;
 
-	/* Reattach the line that was below the bottom of the partition,
-	 * and restore the text that was after bot_x. */
+	/* Reattach the line that was below the bottom of the partition. */
 	openfile->filebot->next = aftline;
-	if (openfile->filebot->next != NULL)
-		openfile->filebot->next->prev = openfile->filebot;
+	if (aftline != NULL)
+		aftline->prev = openfile->filebot;
+
+	/* Restore the text that was on the last partition line after its end. */
 	openfile->filebot->data = charealloc(openfile->filebot->data,
 				strlen(openfile->filebot->data) + strlen(postdata) + 1);
 	strcat(openfile->filebot->data, postdata);
