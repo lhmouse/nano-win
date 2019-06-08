@@ -240,7 +240,7 @@ and place it at that position again upon reopening such a file.
 @item -Q "@var{regex}"
 @itemx --quotestr="@var{regex}"
 Set the regular expression for matching the quoting part of a line.
-The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//|--))+"}.
+The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//))+"}.
 (Note that @code{\t} stands for a literal Tab character.)
 This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.
@@ -872,7 +872,7 @@ keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quotestr "@var{regex}"
 Set the regular expression for matching the quoting part of a line.
-The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//|--))+"}.
+The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//))+"}.
 (Note that @code{\t} stands for a literal Tab character.)
 This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.

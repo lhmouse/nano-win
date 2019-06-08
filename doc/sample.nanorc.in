@@ -125,7 +125,7 @@
 
 ## The regular expression that matches quoting characters in email
 ## or line-comment introducers in source code.  The default is:
-# set quotestr "^([ 	]*([!#%:;>|}]|//|--))+"
+# set quotestr "^([ 	]*([!#%:;>|}]|//))+"
 
 ## Try to work around a mismatching terminfo terminal description.
 # set rawsequences
