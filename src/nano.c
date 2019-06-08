@@ -73,7 +73,7 @@ static char *antedata = NULL;
 		/* The text on the first line of the partition before its beginning. */
 static char *postdata = NULL;
 		/* The text on the last line of the partition after its end. */
-static linestruct *aftline;
+static linestruct *hindline;
 		/* The line after the last line of the partition. */
 static linestruct *filebot;
 		/* What was the bottom line of the buffer. */
@@ -231,7 +231,7 @@ void partition_buffer(linestruct *top, size_t top_x,
 
 	/* Remember which line is below the bottom of the partition, detach the
 	 * bottom of the partition from it, and save the text after bot_x. */
-	aftline = bot->next;
+	hindline = bot->next;
 	bot->next = NULL;
 	postdata = mallocstrcpy(NULL, bot->data + bot_x);
 
@@ -261,9 +261,9 @@ void unpartition_buffer()
 	antedata = NULL;
 
 	/* Reattach the line that was below the bottom of the partition. */
-	openfile->filebot->next = aftline;
-	if (aftline != NULL)
-		aftline->prev = openfile->filebot;
+	openfile->filebot->next = hindline;
+	if (hindline != NULL)
+		hindline->prev = openfile->filebot;
 
 	/* Restore the text that was on the last partition line after its end. */
 	openfile->filebot->data = charealloc(openfile->filebot->data,
