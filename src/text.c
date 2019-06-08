@@ -1601,8 +1601,12 @@ void copy_character(char **from, char **to)
 {
 	int charlen = parse_mbchar(*from, NULL, NULL);
 
-	while (--charlen >= 0)
-		*((*to)++) = *((*from)++);
+	if (*from == *to) {
+		*from += charlen;
+		*to += charlen;
+	} else
+		while (--charlen >= 0)
+			*((*to)++) = *((*from)++);
 }
 
 /* In the given line, replace any series of blanks with a single space,
@@ -1611,12 +1615,8 @@ void copy_character(char **from, char **to)
  * number of characters untreated. */
 void squeeze(linestruct *line, size_t skip)
 {
-	char *from, *to, *newdata;
-
-	newdata = charalloc(strlen(line->data) + 1);
-	strncpy(newdata, line->data, skip);
-	from = line->data + skip;
-	to = newdata + skip;
+	char *start = line->data + skip;
+	char *from = start, *to = start;
 
 	/* For each character, 1) when a blank, change it to a space, and pass over
 	 * all blanks after it; 2) if it is punctuation, copy it plus a possible
@@ -1651,12 +1651,10 @@ void squeeze(linestruct *line, size_t skip)
 	}
 
 	/* If there are spaces at the end of the line, remove them. */
-	while (to > newdata + skip && *(to - 1) == ' ')
+	while (to > start && *(to - 1) == ' ')
 		to--;
 
 	*to = '\0';
-	free(line->data);
-	line->data = newdata;
 }
 
 /* Return the length of the quote part of the given line.  The "quote part"
