@@ -1596,6 +1596,15 @@ size_t indent_length(const char *line)
 #endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
 #ifdef ENABLE_JUSTIFY
+/* Copy a character from one place to another. */
+void copy_character(char **from, char **to)
+{
+	int charlen = parse_mbchar(*from, NULL, NULL);
+
+	while (--charlen >= 0)
+		*((*to)++) = *((*from)++);
+}
+
 /* In the given line, replace any series of blanks with a single space,
  * but keep two spaces (if there are two) after any closing punctuation,
  * and remove all blanks from the end of the line.  Leave the first skip
@@ -1603,7 +1612,6 @@ size_t indent_length(const char *line)
 void squeeze(linestruct *line, size_t skip)
 {
 	char *from, *to, *newdata;
-	int charlen;
 
 	newdata = charalloc(strlen(line->data) + 1);
 	strncpy(newdata, line->data, skip);
@@ -1622,21 +1630,10 @@ void squeeze(linestruct *line, size_t skip)
 			while (*from != '\0' && is_blank_mbchar(from))
 				from += parse_mbchar(from, NULL, NULL);
 		} else if (mbstrchr(punct, from) != NULL) {
-			charlen = parse_mbchar(from, NULL, NULL);
+			copy_character(&from, &to);
 
-			while (charlen > 0) {
-				*(to++) = *(from++);
-				charlen--;
-			}
-
-			if (*from != '\0' && mbstrchr(brackets, from) != NULL) {
-				charlen = parse_mbchar(from, NULL, NULL);
-
-				while (charlen > 0) {
-					*(to++) = *(from++);
-					charlen--;
-				}
-			}
+			if (*from != '\0' && mbstrchr(brackets, from) != NULL)
+				copy_character(&from, &to);
 
 			if (*from != '\0' && is_blank_mbchar(from)) {
 				from += parse_mbchar(from, NULL, NULL);
@@ -1649,14 +1646,8 @@ void squeeze(linestruct *line, size_t skip)
 
 			while (*from != '\0' && is_blank_mbchar(from))
 				from += parse_mbchar(from, NULL, NULL);
-		} else {
-			charlen = parse_mbchar(from, NULL, NULL);
-
-			while (charlen > 0) {
-				*(to++) = *(from++);
-				charlen--;
-			}
-		}
+		} else
+			copy_character(&from, &to);
 	}
 
 	/* If there are spaces at the end of the line, remove them. */
