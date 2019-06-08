@@ -1610,18 +1610,17 @@ void squeeze(linestruct *line, size_t skip)
 	from = line->data + skip;
 	to = newdata + skip;
 
+	/* For each character, 1) when a blank, change it to a space, and pass over
+	 * all blanks after it; 2) if it is punctuation, copy it plus a possible
+	 * tailing bracket, and change at most two subsequent blanks to spaces, and
+	 * pass over all blanks after these; 3) leave anything else unchanged. */
 	while (*from != '\0') {
-		/* If this character is blank, change it to a space,
-		 * and pass over all blanks after it. */
 		if (is_blank_mbchar(from)) {
 			from += parse_mbchar(from, NULL, NULL);
 			*(to++) = ' ';
 
 			while (*from != '\0' && is_blank_mbchar(from))
 				from += parse_mbchar(from, NULL, NULL);
-		/* If this character is punctuation, then copy it plus a possible
-		 * bracket, and change at most two of subsequent blanks to spaces,
-		 * and pass over all blanks after these. */
 		} else if (mbstrchr(punct, from) != NULL) {
 			charlen = parse_mbchar(from, NULL, NULL);
 
@@ -1650,7 +1649,6 @@ void squeeze(linestruct *line, size_t skip)
 
 			while (*from != '\0' && is_blank_mbchar(from))
 				from += parse_mbchar(from, NULL, NULL);
-		/* Leave unchanged anything that is neither blank nor punctuation. */
 		} else {
 			charlen = parse_mbchar(from, NULL, NULL);
 
@@ -1738,14 +1736,12 @@ bool inpar(const linestruct *const line)
 	return (line->data[quote_len + indent_len] != '\0');
 }
 
-/* Determine the beginning, length, and quoting of the first found paragraph.
- * Return TRUE if we found a paragraph, and FALSE otherwise.  Furthermore,
- * return in firstline the first line of the paragraph,
- * and in *parlen the length of the paragraph. */
+/* Find the first occurring paragraph in the forward direction.  Return TRUE
+ * when a paragraph was found, and FALSE otherwise.  Furthermore, return the
+ * first line and the length (number of lines) of the paragraph. */
 bool find_paragraph(linestruct **firstline, size_t *const parlen)
 {
 	linestruct *line = *firstline;
-		/* The line of the current paragraph we're searching in. */
 
 	/* When not currently in a paragraph, move forward to a line that is. */
 	while (!inpar(line) && line->next != NULL)
@@ -1753,22 +1749,22 @@ bool find_paragraph(linestruct **firstline, size_t *const parlen)
 
 	*firstline = line;
 
-	/* Move down to the last line of the paragraph. */
+	/* Move down to the last line of the paragraph (if any). */
 	do_para_end(&line);
 
 	/* When not in a paragraph now, there aren't any paragraphs left. */
 	if (!inpar(line))
 		return FALSE;
 
-	/* We found a paragraph; determine number of lines. */
+	/* We found a paragraph; determine its number of lines. */
 	*parlen = line->lineno - (*firstline)->lineno + 1;
 
 	return TRUE;
 }
 
-/* Tack all the lines of the paragraph (that starts at *line, and consists of
- * par_len lines) together, skipping
- * the quoting and indentation on all lines after the first. */
+/* Concatenate into a single line all the lines of the paragraph that starts at
+ * *line and consists of par_len lines, skipping the quoting and indentation on
+ * all lines after the first. */
 void concat_paragraph(linestruct **line, size_t par_len)
 {
 	while (par_len > 1) {
