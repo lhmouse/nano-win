@@ -931,7 +931,7 @@ void do_find_bracket(void)
 
 	/* Find the halfway point in matchbrackets, where the closing ones start. */
 	for (size_t i = 0; i < charcount; i++)
-		halfway += parse_mbchar(matchbrackets + halfway, NULL, NULL);
+		halfway += char_length(matchbrackets + halfway);
 
 	/* When on a closing bracket, we have to search backwards for a matching
 	 * opening bracket; otherwise, forward for a matching closing bracket. */
@@ -948,8 +948,8 @@ void do_find_bracket(void)
 			wanted_ch += move_mbright(wanted_ch, 0);
 	}
 
-	ch_len = parse_mbchar(ch, NULL, NULL);
-	wanted_ch_len = parse_mbchar(wanted_ch, NULL, NULL);
+	ch_len = char_length(ch);
+	wanted_ch_len = char_length(wanted_ch);
 
 	/* Copy the two complementary brackets into a single string. */
 	strncpy(bracket_pair, ch, ch_len);

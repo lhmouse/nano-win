@@ -1226,8 +1226,8 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 				free(option);
 			} else {
 				whitespace = option;
-				whitelen[0] = parse_mbchar(whitespace, NULL, NULL);
-				whitelen[1] = parse_mbchar(whitespace + whitelen[0], NULL, NULL);
+				whitelen[0] = char_length(whitespace);
+				whitelen[1] = char_length(whitespace + whitelen[0]);
 			}
 		} else
 #endif

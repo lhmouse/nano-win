@@ -253,7 +253,7 @@ void do_statusbar_right(void)
 void do_statusbar_delete(void)
 {
 	if (answer[typing_x] != '\0') {
-		int charlen = parse_mbchar(answer + typing_x, NULL, NULL);
+		int charlen = char_length(answer + typing_x);
 
 		charmove(answer + typing_x, answer + typing_x + charlen,
 						strlen(answer) - typing_x - charlen + 1);

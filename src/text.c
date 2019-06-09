@@ -1548,7 +1548,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 			else if (lastblank > 0)
 				return lastblank;
 
-			charlen = parse_mbchar(line, NULL, NULL);
+			charlen = char_length(line);
 			line += charlen;
 			index += charlen;
 		}
@@ -1558,13 +1558,13 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 
 	/* Move the pointer back to the last blank, and then step beyond it. */
 	line = line - index + lastblank;
-	charlen = parse_mbchar(line, NULL, NULL);
+	charlen = char_length(line);
 	line += charlen;
 
 	/* Skip any consecutive blanks after the last blank. */
 	while (*line != '\0' && is_blank_mbchar(line)) {
 		lastblank += charlen;
-		charlen = parse_mbchar(line, NULL, NULL);
+		charlen = char_length(line);
 		line += charlen;
 	}
 
@@ -1599,7 +1599,7 @@ size_t indent_length(const char *line)
 /* Copy a character from one place to another. */
 void copy_character(char **from, char **to)
 {
-	int charlen = parse_mbchar(*from, NULL, NULL);
+	int charlen = char_length(*from);
 
 	if (*from == *to) {
 		*from += charlen;
@@ -1624,11 +1624,11 @@ void squeeze(linestruct *line, size_t skip)
 	 * pass over all blanks after these; 3) leave anything else unchanged. */
 	while (*from != '\0') {
 		if (is_blank_mbchar(from)) {
-			from += parse_mbchar(from, NULL, NULL);
+			from += char_length(from);
 			*(to++) = ' ';
 
 			while (*from != '\0' && is_blank_mbchar(from))
-				from += parse_mbchar(from, NULL, NULL);
+				from += char_length(from);
 		} else if (mbstrchr(punct, from) != NULL) {
 			copy_character(&from, &to);
 
@@ -1636,16 +1636,16 @@ void squeeze(linestruct *line, size_t skip)
 				copy_character(&from, &to);
 
 			if (*from != '\0' && is_blank_mbchar(from)) {
-				from += parse_mbchar(from, NULL, NULL);
+				from += char_length(from);
 				*(to++) = ' ';
 			}
 			if (*from != '\0' && is_blank_mbchar(from)) {
-				from += parse_mbchar(from, NULL, NULL);
+				from += char_length(from);
 				*(to++) = ' ';
 			}
 
 			while (*from != '\0' && is_blank_mbchar(from))
-				from += parse_mbchar(from, NULL, NULL);
+				from += char_length(from);
 		} else
 			copy_character(&from, &to);
 	}

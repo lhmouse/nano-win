@@ -280,6 +280,18 @@ char *make_mbchar(long chr, int *chr_mb_len)
 	return chr_mb;
 }
 
+/* Return the length (in bytes) of the character located at *pointer. */
+int char_length(const char *pointer)
+{
+	/* If possibly a multibyte character, get its length; otherwise, it's 1. */
+	if ((signed char)*pointer < 0) {
+		int length = mblen(pointer, MAXCHARLEN);
+
+		return (length > 0 ? length : 1);
+	} else
+		return 1;
+}
+
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
  * col isn't NULL, add the character's width (in columns) to it. */
@@ -355,7 +367,7 @@ size_t move_mbleft(const char *buf, size_t pos)
 		/* Move forward again until we reach the original character,
 		 * so we know the length of its preceding character. */
 		while (before < pos) {
-			charlen = parse_mbchar(buf + before, NULL, NULL);
+			charlen = char_length(buf + before);
 			before += charlen;
 		}
 
@@ -369,7 +381,7 @@ size_t move_mbleft(const char *buf, size_t pos)
  * after the one at pos. */
 size_t move_mbright(const char *buf, size_t pos)
 {
-	return pos + parse_mbchar(buf + pos, NULL, NULL);
+	return pos + char_length(buf + pos);
 }
 
 /* This function is equivalent to strcasecmp() for multibyte strings. */

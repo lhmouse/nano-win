@@ -35,8 +35,8 @@ void do_deletion(undo_type action)
 
 	/* When in the middle of a line, delete the current character. */
 	if (openfile->current->data[openfile->current_x] != '\0') {
-		int charlen = parse_mbchar(openfile->current->data +
-										openfile->current_x, NULL, NULL);
+		int charlen = char_length(openfile->current->data +
+										openfile->current_x);
 		size_t line_len = strlen(openfile->current->data +
 										openfile->current_x);
 #ifndef NANO_TINY

@@ -213,6 +213,7 @@ char control_mbrep(const char *c, bool isdata);
 int length_of_char(const char *c, int *width);
 int mbwidth(const char *c);
 char *make_mbchar(long chr, int *chr_mb_len);
+int char_length(const char *pointer);
 int parse_mbchar(const char *buf, char *chr, size_t *col);
 size_t move_mbleft(const char *buf, size_t pos);
 size_t move_mbright(const char *buf, size_t pos);

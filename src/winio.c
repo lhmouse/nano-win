@@ -1903,7 +1903,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 			if (start_col < column) {
 				converted[index++] = control_mbrep(buf, isdata);
 				column++;
-				buf += parse_mbchar(buf, NULL, NULL);
+				buf += char_length(buf);
 			}
 		}
 #ifdef ENABLE_UTF8
@@ -1916,7 +1916,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 			/* Display the right half of a two-column character as ']'. */
 			converted[index++] = ']';
 			column++;
-			buf += parse_mbchar(buf, NULL, NULL);
+			buf += char_length(buf);
 		}
 #endif
 	}
