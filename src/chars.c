@@ -414,8 +414,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 					return difference;
 			}
 
-			s1 += move_mbright(s1, 0);
-			s2 += move_mbright(s2, 0);
+			s1 += char_length(s1);
+			s2 += char_length(s2);
 			n--;
 		}
 
@@ -436,7 +436,7 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 			if (mbstrncasecmp(haystack, needle, needle_len) == 0)
 				return (char *)haystack;
 
-			haystack += move_mbright(haystack, 0);
+			haystack += char_length(haystack);
 		}
 
 		return NULL;
@@ -584,7 +584,7 @@ char *mbstrpbrk(const char *string, const char *accept)
 		if (mbstrchr(accept, string) != NULL)
 			return (char *)string;
 
-		string += move_mbright(string, 0);
+		string += char_length(string);
 	}
 
 	return NULL;
