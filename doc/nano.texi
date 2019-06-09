@@ -1000,7 +1000,8 @@ The period @code{.} matches any single character,
 @code{\<} matches the start of a word, and @code{\>} the end,
 and @code{\s} matches a blank.
 It also means that lookahead and lookbehind are not possible.
-A complete explanation can be found in @code{info grep regular}.
+A complete explanation can be found in the manual of GNU grep:
+@code{info grep regular}.
 
 A separate syntax can be defined for each kind of file
 via the following commands in a nanorc file:
