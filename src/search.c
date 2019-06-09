@@ -396,6 +396,12 @@ void go_looking(void)
 	linestruct *was_current = openfile->current;
 	size_t was_current_x = openfile->current_x;
 
+//#define TIMEIT 12
+#ifdef TIMEIT
+#include <time.h>
+	clock_t start = clock();
+#endif
+
 	came_full_circle = FALSE;
 
 	didfind = findnextstr(last_search, FALSE, JUSTFIND, NULL, TRUE,
@@ -408,6 +414,10 @@ void go_looking(void)
 		statusbar(_("This is the only occurrence"));
 	else if (didfind == 0)
 		not_found_msg(last_search);
+
+#ifdef TIMEIT
+	statusline(HUSH, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
+#endif
 
 	edit_redraw(was_current, CENTERING);
 }
