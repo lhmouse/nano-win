@@ -190,7 +190,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 {
 	char *output = charalloc(input_len + 1);
 	char onechar[MAXCHARLEN];
-	size_t char_len, i, j = 0;
+	size_t charlen, i, j = 0;
 
 	/* Copy the typed stuff so it can be treated. */
 	for (i = 0; i < input_len; i++)
@@ -203,21 +203,21 @@ void do_statusbar_output(int *the_input, size_t input_len,
 			output[j] = '\n';
 
 		/* Interpret the next multibyte character. */
-		char_len = parse_mbchar(output + j, onechar, NULL);
+		charlen = parse_mbchar(output + j, onechar, NULL);
 
-		j += char_len;
+		j += charlen;
 
 		/* When filtering, skip any ASCII control character. */
-		if (filtering && is_ascii_cntrl_char(*(output + j - char_len)))
+		if (filtering && is_ascii_cntrl_char(*(output + j - charlen)))
 			continue;
 
 		/* Insert the typed character into the existing answer string. */
-		answer = charealloc(answer, strlen(answer) + char_len + 1);
-		charmove(answer + typing_x + char_len, answer + typing_x,
+		answer = charealloc(answer, strlen(answer) + charlen + 1);
+		charmove(answer + typing_x + charlen, answer + typing_x,
 								strlen(answer) - typing_x + 1);
-		strncpy(answer + typing_x, onechar, char_len);
+		strncpy(answer + typing_x, onechar, charlen);
 
-		typing_x += char_len;
+		typing_x += charlen;
 	}
 
 	free(output);
@@ -253,10 +253,10 @@ void do_statusbar_right(void)
 void do_statusbar_delete(void)
 {
 	if (answer[typing_x] != '\0') {
-		int char_len = parse_mbchar(answer + typing_x, NULL, NULL);
+		int charlen = parse_mbchar(answer + typing_x, NULL, NULL);
 
-		charmove(answer + typing_x, answer + typing_x + char_len,
-						strlen(answer) - typing_x - char_len + 1);
+		charmove(answer + typing_x, answer + typing_x + charlen,
+						strlen(answer) - typing_x - charlen + 1);
 	}
 }
 

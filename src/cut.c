@@ -35,7 +35,7 @@ void do_deletion(undo_type action)
 
 	/* When in the middle of a line, delete the current character. */
 	if (openfile->current->data[openfile->current_x] != '\0') {
-		int char_len = parse_mbchar(openfile->current->data +
+		int charlen = parse_mbchar(openfile->current->data +
 										openfile->current_x, NULL, NULL);
 		size_t line_len = strlen(openfile->current->data +
 										openfile->current_x);
@@ -53,13 +53,13 @@ void do_deletion(undo_type action)
 #endif
 		/* Move the remainder of the line "in", over the current character. */
 		charmove(&openfile->current->data[openfile->current_x],
-					&openfile->current->data[openfile->current_x + char_len],
-					line_len - char_len + 1);
+					&openfile->current->data[openfile->current_x + charlen],
+					line_len - charlen + 1);
 #ifndef NANO_TINY
 		/* Adjust the mark if it is after the cursor on the current line. */
 		if (openfile->mark == openfile->current &&
 								openfile->mark_x > openfile->current_x)
-			openfile->mark_x -= char_len;
+			openfile->mark_x -= charlen;
 #endif
 	/* Otherwise, when not at end of buffer, join this line with the next. */
 	} else if (openfile->current != openfile->filebot) {

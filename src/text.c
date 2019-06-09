@@ -1163,12 +1163,12 @@ void add_undo(undo_type action)
 		 * else purposely fall into the line-joining code. */
 		if (openfile->current->data[openfile->current_x] != '\0') {
 			char *char_buf = charalloc(MAXCHARLEN + 1);
-			int char_len = parse_mbchar(&openfile->current->data[u->begin],
+			int charlen = parse_mbchar(&openfile->current->data[u->begin],
 												char_buf, NULL);
-			char_buf[char_len] = '\0';
+			char_buf[charlen] = '\0';
 			u->strdata = char_buf;
 			if (u->type == BACK)
-				u->mark_begin_x += char_len;
+				u->mark_begin_x += charlen;
 			break;
 		}
 	case JOIN:
@@ -1273,7 +1273,7 @@ void update_undo(undo_type action)
 {
 	undo *u = openfile->undotop;
 	char *char_buf;
-	int char_len;
+	int charlen;
 
 	if (u->type != action)
 		statusline(ALERT, "Mismatching undo type -- please report a bug");
@@ -1283,10 +1283,10 @@ void update_undo(undo_type action)
 	switch (u->type) {
 	case ADD:
 		char_buf = charalloc(MAXCHARLEN);
-		char_len = parse_mbchar(&openfile->current->data[u->mark_begin_x],
+		charlen = parse_mbchar(&openfile->current->data[u->mark_begin_x],
 								char_buf, NULL);
 		u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0,
-								char_buf, char_len);
+								char_buf, charlen);
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
 		break;
@@ -1297,15 +1297,15 @@ void update_undo(undo_type action)
 	case BACK:
 	case DEL:
 		char_buf = charalloc(MAXCHARLEN);
-		char_len = parse_mbchar(&openfile->current->data[openfile->current_x],
+		charlen = parse_mbchar(&openfile->current->data[openfile->current_x],
 								char_buf, NULL);
 		if (openfile->current_x == u->begin) {
 			/* They deleted more: add removed character after earlier stuff. */
-			u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, char_len);
+			u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, charlen);
 			u->mark_begin_x = openfile->current_x;
-		} else if (openfile->current_x == u->begin - char_len) {
+		} else if (openfile->current_x == u->begin - charlen) {
 			/* They backspaced further: add removed character before earlier. */
-			u->strdata = addstrings(char_buf, char_len, u->strdata, strlen(u->strdata));
+			u->strdata = addstrings(char_buf, charlen, u->strdata, strlen(u->strdata));
 			u->begin = openfile->current_x;
 		} else {
 			/* They deleted *elsewhere* on the line: start a new undo item. */
@@ -1512,7 +1512,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 		/* The index of the character we are looking at. */
 	size_t column = 0;
 		/* The column position that corresponds with index. */
-	int char_len = 0;
+	int charlen = 0;
 		/* The length of the current character, in bytes. */
 
 	/* Find the last blank that does not overshoot the target column. */
@@ -1524,9 +1524,9 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 				break;
 		}
 
-		char_len = parse_mbchar(line, NULL, &column);
-		line += char_len;
-		index += char_len;
+		charlen = parse_mbchar(line, NULL, &column);
+		line += charlen;
+		index += charlen;
 	}
 
 	/* If the whole line displays shorter than goal, we're done. */
@@ -1537,7 +1537,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	/* If we're wrapping a help text and no blank was found, or was
 	 * found only as the first character, force a line break. */
 	if (snap_at_nl && lastblank < 1)
-		return (index - char_len);
+		return (index - charlen);
 #endif
 
 	/* If no blank was found within the goal width, seek one after it. */
@@ -1548,9 +1548,9 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 			else if (lastblank > 0)
 				return lastblank;
 
-			char_len = parse_mbchar(line, NULL, NULL);
-			line += char_len;
-			index += char_len;
+			charlen = parse_mbchar(line, NULL, NULL);
+			line += charlen;
+			index += charlen;
 		}
 
 		return -1;
@@ -1558,14 +1558,14 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 
 	/* Move the pointer back to the last blank, and then step beyond it. */
 	line = line - index + lastblank;
-	char_len = parse_mbchar(line, NULL, NULL);
-	line += char_len;
+	charlen = parse_mbchar(line, NULL, NULL);
+	line += charlen;
 
 	/* Skip any consecutive blanks after the last blank. */
 	while (*line != '\0' && is_blank_mbchar(line)) {
-		lastblank += char_len;
-		char_len = parse_mbchar(line, NULL, NULL);
-		line += char_len;
+		lastblank += charlen;
+		charlen = parse_mbchar(line, NULL, NULL);
+		line += charlen;
 	}
 
 	return lastblank;

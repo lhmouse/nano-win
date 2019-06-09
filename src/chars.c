@@ -332,7 +332,7 @@ size_t move_mbleft(const char *buf, size_t pos)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
-		size_t before, char_len = 0;
+		size_t before, charlen = 0;
 
 		if (pos < 4)
 			before = 0;
@@ -355,11 +355,11 @@ size_t move_mbleft(const char *buf, size_t pos)
 		/* Move forward again until we reach the original character,
 		 * so we know the length of its preceding character. */
 		while (before < pos) {
-			char_len = parse_mbchar(buf + before, NULL, NULL);
-			before += char_len;
+			charlen = parse_mbchar(buf + before, NULL, NULL);
+			before += charlen;
 		}
 
-		return before - char_len;
+		return before - charlen;
 	} else
 #endif
 	return (pos == 0 ? 0 : pos - 1);

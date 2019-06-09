@@ -1780,7 +1780,7 @@ void do_input(void)
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
 	char onechar[MAXCHARLEN];
-	int char_len;
+	int charlen;
 	size_t current_len = strlen(openfile->current->data);
 	size_t i = 0;
 #ifndef NANO_TINY
@@ -1799,23 +1799,23 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 			output[i] = '\n';
 
 		/* Get the next multibyte character. */
-		char_len = parse_mbchar(output + i, onechar, NULL);
+		charlen = parse_mbchar(output + i, onechar, NULL);
 
-		i += char_len;
+		i += charlen;
 
 		/* If controls are not allowed, ignore an ASCII control character. */
-		if (!allow_cntrls && is_ascii_cntrl_char(*(output + i - char_len)))
+		if (!allow_cntrls && is_ascii_cntrl_char(*(output + i - charlen)))
 			continue;
 
 		/* Make room for the new character and copy it into the line. */
 		openfile->current->data = charealloc(openfile->current->data,
-										current_len + char_len + 1);
-		charmove(openfile->current->data + openfile->current_x + char_len,
+										current_len + charlen + 1);
+		charmove(openfile->current->data + openfile->current_x + charlen,
 						openfile->current->data + openfile->current_x,
 						current_len - openfile->current_x + 1);
 		strncpy(openfile->current->data + openfile->current_x, onechar,
-						char_len);
-		current_len += char_len;
+						charlen);
+		current_len += charlen;
 		openfile->totsize++;
 		set_modified();
 
@@ -1830,7 +1830,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		/* Note that current_x has not yet been incremented. */
 		if (openfile->current == openfile->mark &&
 						openfile->current_x < openfile->mark_x)
-			openfile->mark_x += char_len;
+			openfile->mark_x += charlen;
 
 		/* When the cursor is on the top row and not on the first chunk
 		 * of a line, adding text there might change the preceding chunk
@@ -1842,7 +1842,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		}
 #endif
 
-		openfile->current_x += char_len;
+		openfile->current_x += charlen;
 
 #ifndef NANO_TINY
 		update_undo(ADD);
