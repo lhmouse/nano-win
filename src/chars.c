@@ -506,13 +506,9 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 /* Count the number of (multibyte) characters in the given string. */
 size_t mbstrlen(const char *s)
 {
-	size_t maxlen = (size_t)-1;
-
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		size_t n = 0;
 
-		while (*s != '\0' && maxlen > 0) {
+		while (*s != '\0') {
 			if ((signed char)*s < 0) {
 				int length = mblen(s, MAXCHARLEN);
 
@@ -520,14 +516,10 @@ size_t mbstrlen(const char *s)
 			} else
 				s++;
 
-			maxlen--;
 			n++;
 		}
 
 		return n;
-	} else
-#endif
-		return strnlen(s, maxlen);
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
