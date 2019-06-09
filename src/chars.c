@@ -70,7 +70,7 @@ bool is_alpha_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
-			return 0;
+			return FALSE;
 
 		return iswalpha(wc);
 	} else
@@ -86,7 +86,7 @@ bool is_alnum_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
-			return 0;
+			return FALSE;
 
 		return iswalnum(wc);
 	} else
@@ -102,7 +102,7 @@ bool is_blank_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
-			return 0;
+			return FALSE;
 
 		return iswblank(wc);
 	} else
@@ -139,7 +139,7 @@ bool is_punct_mbchar(const char *c)
 		wchar_t wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
-			return 0;
+			return FALSE;
 
 		return iswpunct(wc);
 	} else

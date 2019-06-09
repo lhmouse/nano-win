@@ -331,12 +331,10 @@ void check_the_multis(linestruct *line)
 /* Allocate (for one line) the cache space for multiline color regexes. */
 void alloc_multidata_if_needed(linestruct *fileptr)
 {
-	int i;
-
 	if (fileptr->multidata == NULL) {
 		fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
 
-		for (i = 0; i < openfile->syntax->nmultis; i++)
+		for (int i = 0; i < openfile->syntax->nmultis; i++)
 			fileptr->multidata[i] = -1;
 	}
 }

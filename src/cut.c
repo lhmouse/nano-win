@@ -341,9 +341,9 @@ void do_cut_text(bool copying, bool marked, bool until_eof, bool append)
 		if (using_magicline)
 			UNSET(NO_NEWLINES);
 	} else
-#endif /* !NANO_TINY */
+#endif
+		set_modified();
 
-	set_modified();
 	refresh_needed = TRUE;
 }
 

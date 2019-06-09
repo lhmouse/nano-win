@@ -841,7 +841,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 void do_gotolinecolumn_void(void)
 {
 	do_gotolinecolumn(openfile->current->lineno,
-		openfile->placewewant + 1, FALSE, TRUE);
+						openfile->placewewant + 1, FALSE, TRUE);
 }
 
 #ifndef NANO_TINY
@@ -943,7 +943,7 @@ void do_find_bracket(void)
 	while (charcount-- > 0) {
 		if (reverse)
 			wanted_ch = matchbrackets + move_mbleft(matchbrackets,
-								wanted_ch - matchbrackets);
+													wanted_ch - matchbrackets);
 		else
 			wanted_ch += move_mbright(wanted_ch, 0);
 	}
