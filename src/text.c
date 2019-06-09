@@ -297,11 +297,11 @@ void handle_indent_action(undo *u, bool undoing, bool add_indent)
 }
 #endif /* !NANO_TINY */
 
-/* Test whether the string is empty or consists of only blanks. */
+/* Return TRUE when the given string is empty or consists of only blanks. */
 bool white_string(const char *s)
 {
 	while (*s != '\0' && (is_blank_mbchar(s) || *s == '\r'))
-		s += move_mbright(s, 0);
+		s += char_length(s);
 
 	return !*s;
 }
@@ -1413,7 +1413,7 @@ bool do_wrap(void)
 		return FALSE;
 
 	/* Step forward to the character just after the blank. */
-	wrap_loc += move_mbright(line->data + wrap_loc, 0);
+	wrap_loc = move_mbright(line->data, wrap_loc);
 
 	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')

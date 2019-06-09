@@ -226,7 +226,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 				from = line->data + move_mbleft(line->data, from - line->data);
 				found = strstrwrapper(line->data, needle, from);
 			} else if (!ISSET(BACKWARDS_SEARCH) && *from != '\0') {
-				from += move_mbright(from, 0);
+				from += char_length(from);
 				found = strstrwrapper(line->data, needle, from);
 			}
 		} else
@@ -241,7 +241,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			 * if it's not, continue looking in the rest of the line. */
 			if (whole_word_only && !is_separate_word(found - line->data,
 												found_len, line->data)) {
-				from = found + move_mbright(found, 0);
+				from = found + char_length(found);
 				continue;
 			}
 #endif
@@ -955,7 +955,7 @@ void do_find_bracket(void)
 			wanted_ch = matchbrackets + move_mbleft(matchbrackets,
 													wanted_ch - matchbrackets);
 		else
-			wanted_ch += move_mbright(wanted_ch, 0);
+			wanted_ch += char_length(wanted_ch);
 	}
 
 	ch_len = char_length(ch);
