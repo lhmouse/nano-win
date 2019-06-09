@@ -504,22 +504,22 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 }
 
 /* Count the number of (multibyte) characters in the given string. */
-size_t mbstrlen(const char *s)
+size_t mbstrlen(const char *pointer)
 {
-		size_t n = 0;
+	size_t count = 0;
 
-		while (*s != '\0') {
-			if ((signed char)*s < 0) {
-				int length = mblen(s, MAXCHARLEN);
+	while (*pointer != '\0') {
+		if ((signed char)*pointer < 0) {
+			int length = mblen(pointer, MAXCHARLEN);
 
-				s += (length < 0 ? 1 : length);
-			} else
-				s++;
+			pointer += (length < 0 ? 1 : length);
+		} else
+			pointer++;
 
-			n++;
-		}
+		count++;
+	}
 
-		return n;
+	return count;
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
