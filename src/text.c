@@ -1413,7 +1413,7 @@ bool do_wrap(void)
 		return FALSE;
 
 	/* Step forward to the character just after the blank. */
-	wrap_loc = move_mbright(line->data, wrap_loc);
+	wrap_loc = step_right(line->data, wrap_loc);
 
 	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')
@@ -1440,7 +1440,7 @@ bool do_wrap(void)
 		openfile->current_x = line_len;
 
 		/* If the remainder doesn't end in a blank, add a space. */
-		if (!is_blank_mbchar(remainder + move_mbleft(remainder, rest_length))) {
+		if (!is_blank_mbchar(remainder + step_left(remainder, rest_length))) {
 #ifndef NANO_TINY
 			add_undo(ADD);
 #endif
@@ -1466,14 +1466,14 @@ bool do_wrap(void)
 
 	/* When requested, snip trailing blanks off the wrapped line. */
 	if (ISSET(TRIM_BLANKS)) {
-		size_t tail_x = move_mbleft(line->data, wrap_loc);
-		size_t typed_x = move_mbleft(line->data, cursor_x);
+		size_t tail_x = step_left(line->data, wrap_loc);
+		size_t typed_x = step_left(line->data, cursor_x);
 
 		while ((tail_x != typed_x || cursor_x >= wrap_loc) &&
 						is_blank_mbchar(line->data + tail_x)) {
 			openfile->current_x = tail_x;
 			do_delete();
-			tail_x = move_mbleft(line->data, tail_x);
+			tail_x = step_left(line->data, tail_x);
 		}
 	}
 
@@ -3093,7 +3093,7 @@ char *copy_completion(char *text)
 
 	/* Find the end of the candidate word to get its length. */
 	while (is_word_mbchar(&text[length], FALSE))
-		length = move_mbright(text, length);
+		length = step_right(text, length);
 
 	/* Now copy this candidate to a new string. */
 	word = charalloc(length + 1);
@@ -3145,7 +3145,7 @@ void complete_a_word(void)
 	/* Find the start of the fragment that the user typed. */
 	start_of_shard = openfile->current_x;
 	while (start_of_shard > 0) {
-		size_t oneleft = move_mbleft(openfile->current->data, start_of_shard);
+		size_t oneleft = step_left(openfile->current->data, start_of_shard);
 
 		if (!is_word_mbchar(&openfile->current->data[oneleft], FALSE))
 			break;
@@ -3192,7 +3192,7 @@ void complete_a_word(void)
 
 			/* If the match is not a separate word, skip it. */
 			if (i > 0 && is_word_mbchar(&pletion_line->data[
-								move_mbleft(pletion_line->data, i)], FALSE))
+								step_left(pletion_line->data, i)], FALSE))
 				continue;
 
 			/* If this match is the shard itself, ignore it. */

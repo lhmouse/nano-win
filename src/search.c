@@ -223,7 +223,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		if (skipone) {
 			skipone = FALSE;
 			if (ISSET(BACKWARDS_SEARCH) && from != line->data) {
-				from = line->data + move_mbleft(line->data, from - line->data);
+				from = line->data + step_left(line->data, from - line->data);
 				found = strstrwrapper(line->data, needle, from);
 			} else if (!ISSET(BACKWARDS_SEARCH) && *from != '\0') {
 				from += char_length(from);
@@ -871,9 +871,9 @@ bool find_a_bracket(bool reverse, const char *bracket_pair)
 				return FALSE;
 			pointer = line->data + strlen(line->data);
 		} else
-			pointer = line->data + move_mbleft(line->data, openfile->current_x);
+			pointer = line->data + step_left(line->data, openfile->current_x);
 	} else
-		pointer = line->data + move_mbright(line->data, openfile->current_x);
+		pointer = line->data + step_right(line->data, openfile->current_x);
 
 	/* Now seek for any of the two brackets, either backwards or forwards. */
 	while (TRUE) {
@@ -952,7 +952,7 @@ void do_find_bracket(void)
 	wanted_ch = ch;
 	while (charcount-- > 0) {
 		if (reverse)
-			wanted_ch = matchbrackets + move_mbleft(matchbrackets,
+			wanted_ch = matchbrackets + step_left(matchbrackets,
 													wanted_ch - matchbrackets);
 		else
 			wanted_ch += char_length(wanted_ch);

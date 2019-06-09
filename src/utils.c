@@ -202,7 +202,7 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 	size_t word_end = position + length;
 
 	/* Get the characters before and after the word, if any. */
-	parse_mbchar(buf + move_mbleft(buf, position), before, NULL);
+	parse_mbchar(buf + step_left(buf, position), before, NULL);
 	parse_mbchar(buf + word_end, after, NULL);
 
 	/* If the word starts at the beginning of the line OR the character before
@@ -246,7 +246,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 				/* If this is the last possible match, don't try to advance. */
 				if (last_find == ceiling)
 					break;
-				next_rung = move_mbright(haystack, last_find);
+				next_rung = step_right(haystack, last_find);
 				regmatches[0].rm_so = next_rung;
 				regmatches[0].rm_eo = far_end;
 				if (regexec(&search_regexp, haystack, 1, regmatches,

@@ -387,7 +387,7 @@ void precalc_multicolorinfo(void)
 						/* When at end-of-line, we're done. */
 						if (line->data[index] == '\0')
 							break;
-						index = move_mbright(line->data, index);
+						index = step_right(line->data, index);
 					}
 					continue;
 				}

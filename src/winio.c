@@ -2001,7 +2001,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 	if (column > beyond || (*buf != '\0' && (isprompt ||
 					(isdata && !ISSET(SOFTWRAP))))) {
 		do {
-			index = move_mbleft(converted, index);
+			index = step_left(converted, index);
 		} while (mbwidth(converted + index) == 0);
 
 #ifdef ENABLE_UTF8
@@ -2494,7 +2494,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 
 					/* If the match is of length zero, skip it. */
 					if (match.rm_so == match.rm_eo) {
-						index = move_mbright(fileptr->data,
+						index = step_right(fileptr->data,
 												index + match.rm_eo);
 						continue;
 					}
@@ -2581,7 +2581,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 								endmatch.rm_so == endmatch.rm_eo) {
 					if (start_line->data[index] == '\0')
 						break;
-					index = move_mbright(start_line->data, index);
+					index = step_right(start_line->data, index);
 				}
 				/* If there is no later start on this line, next step. */
 				if (regexec(varnish->start, start_line->data + index,
@@ -2663,7 +2663,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 								endmatch.rm_so == endmatch.rm_eo) {
 						if (fileptr->data[index] == '\0')
 							break;
-						index = move_mbright(fileptr->data, index);
+						index = step_right(fileptr->data, index);
 					}
 					continue;
 				}

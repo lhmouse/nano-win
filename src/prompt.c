@@ -239,14 +239,14 @@ void do_statusbar_end(void)
 void do_statusbar_left(void)
 {
 	if (typing_x > 0)
-		typing_x = move_mbleft(answer, typing_x);
+		typing_x = step_left(answer, typing_x);
 }
 
 /* Move right one character. */
 void do_statusbar_right(void)
 {
 	if (answer[typing_x] != '\0')
-		typing_x = move_mbright(answer, typing_x);
+		typing_x = step_right(answer, typing_x);
 }
 
 /* Delete one character. */
@@ -264,7 +264,7 @@ void do_statusbar_delete(void)
 void do_statusbar_backspace(void)
 {
 	if (typing_x > 0) {
-		typing_x = move_mbleft(answer, typing_x);
+		typing_x = step_left(answer, typing_x);
 		do_statusbar_delete();
 	}
 }
@@ -288,7 +288,7 @@ void do_statusbar_next_word(void)
 	/* Move forward until we reach either the end or the start of a word,
 	 * depending on whether the AFTER_ENDS flag is set or not. */
 	while (answer[typing_x] != '\0') {
-		typing_x = move_mbright(answer, typing_x);
+		typing_x = step_right(answer, typing_x);
 
 		if (ISSET(AFTER_ENDS)) {
 			/* If this is a word character, continue; else it's a separator,
@@ -315,7 +315,7 @@ void do_statusbar_prev_word(void)
 
 	/* Move backward until we pass over the start of a word. */
 	while (typing_x != 0) {
-		typing_x = move_mbleft(answer, typing_x);
+		typing_x = step_left(answer, typing_x);
 
 		if (is_word_mbchar(answer + typing_x, FALSE))
 			seen_a_word = TRUE;
@@ -328,7 +328,7 @@ void do_statusbar_prev_word(void)
 
 	if (step_forward)
 		/* Move one character forward again to sit on the start of the word. */
-		typing_x = move_mbright(answer, typing_x);
+		typing_x = step_right(answer, typing_x);
 }
 #endif /* !NANO_TINY */
 

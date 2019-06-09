@@ -340,7 +340,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 
 /* Return the index in buf of the beginning of the multibyte character
  * before the one at pos. */
-size_t move_mbleft(const char *buf, size_t pos)
+size_t step_left(const char *buf, size_t pos)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
@@ -379,7 +379,7 @@ size_t move_mbleft(const char *buf, size_t pos)
 
 /* Return the index in buf of the beginning of the multibyte character
  * after the one at pos. */
-size_t move_mbright(const char *buf, size_t pos)
+size_t step_right(const char *buf, size_t pos)
 {
 	return pos + char_length(buf + pos);
 }
@@ -508,7 +508,7 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 			if (pointer == haystack)
 				return NULL;
 
-			pointer = haystack + move_mbleft(haystack, pointer - haystack);
+			pointer = haystack + step_left(haystack, pointer - haystack);
 		}
 	} else
 #endif
@@ -597,7 +597,7 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 	if (*pointer == '\0') {
 		if (pointer == head)
 			return NULL;
-		pointer = head + move_mbleft(head, pointer - head);
+		pointer = head + step_left(head, pointer - head);
 	}
 
 	while (TRUE) {
@@ -608,7 +608,7 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 		if (pointer == head)
 			return NULL;
 
-		pointer = head + move_mbleft(head, pointer - head);
+		pointer = head + step_left(head, pointer - head);
 	}
 }
 #endif /* !NANO_TINY */

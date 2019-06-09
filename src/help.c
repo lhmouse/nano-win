@@ -590,7 +590,7 @@ size_t help_line_len(const char *ptr)
 
 	/* Get the length of the entire line up to a null or a newline. */
 	while (*(ptr + length) != '\0' && *(ptr + length) != '\n')
-		length = move_mbright(ptr, length);
+		length = step_right(ptr, length);
 
 	/* If the entire line will just fit the screen, don't wrap it. */
 	if (wideness(ptr, length) <= wrapping_point + 1)
