@@ -442,7 +442,7 @@ char *mbstrcasestr(const char *haystack, const char *needle)
 		return NULL;
 	} else
 #endif
-		return (char *) strcasestr(haystack, needle);
+		return (char *)strcasestr(haystack, needle);
 }
 
 /* This function is equivalent to strstr(), except in that it scans the
@@ -571,7 +571,7 @@ char *mbstrchr(const char *s, const char *c)
 		return (char *)q;
 	} else
 #endif
-		return (char *) strchr(s, *c);
+		return (char *)strchr(s, *c);
 }
 #endif /* !NANO_TINY || ENABLE_JUSTIFY */
 

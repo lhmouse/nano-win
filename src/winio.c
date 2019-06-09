@@ -2494,8 +2494,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 
 					/* If the match is of length zero, skip it. */
 					if (match.rm_so == match.rm_eo) {
-						index = step_right(fileptr->data,
-												index + match.rm_eo);
+						index = step_right(fileptr->data, index + match.rm_eo);
 						continue;
 					}
 
@@ -2517,8 +2516,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 					paintlen = actual_x(thetext, wideness(fileptr->data,
 										match.rm_eo) - from_col - start_col);
 
-					mvwaddnstr(edit, row, margin + start_col,
-												thetext, paintlen);
+					mvwaddnstr(edit, row, margin + start_col, thetext, paintlen);
 				}
 				goto tail_of_loop;
 			}

@@ -371,14 +371,14 @@ void precalc_multicolorinfo(void)
 			/* When the line contains a start match, look for an end, and if
 			 * found, mark all the lines that are affected. */
 			while (regexec(ink->start, line->data + index, 1,
-						&startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
+							&startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 				/* Begin looking for an end match after the start match. */
 				index += startmatch.rm_eo;
 
 				/* If there is an end match on this line, mark the line, but
 				 * continue looking for other starts after it. */
 				if (regexec(ink->end, line->data + index, 1,
-						&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
+							&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 					line->multidata[ink->id] = CSTARTENDHERE;
 					index += endmatch.rm_eo;
 					/* If both start and end are mere anchors, step ahead. */

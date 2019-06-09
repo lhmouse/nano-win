@@ -956,7 +956,7 @@ bool execute_command(const char *command)
 	/* Check which shell to use.  If none is specified, use /bin/sh. */
 	shellenv = getenv("SHELL");
 	if (shellenv == NULL)
-		shellenv = (char *) "/bin/sh";
+		shellenv = (char *)"/bin/sh";
 
 	/* Fork a child process to run the command in. */
 	if ((pid_of_command = fork()) == 0) {

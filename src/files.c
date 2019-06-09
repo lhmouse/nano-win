@@ -266,7 +266,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 		goto free_the_data;
 	}
 
-	openfile->lock_filename = (char *) lockfilename;
+	openfile->lock_filename = (char *)lockfilename;
 
 	free(lockdata);
 	return 1;
@@ -295,8 +295,8 @@ int delete_lockfile(const char *lockfilename)
  * creating the lockfile but we should continue to load the file. */
 int do_lockfile(const char *filename)
 {
-	char *namecopy = (char *) mallocstrcpy(NULL, filename);
-	char *secondcopy = (char *) mallocstrcpy(NULL, filename);
+	char *namecopy = mallocstrcpy(NULL, filename);
+	char *secondcopy = mallocstrcpy(NULL, filename);
 	size_t locknamesize = strlen(filename) + strlen(locking_prefix)
 				+ strlen(locking_suffix) + 3;
 	char *lockfilename = charalloc(locknamesize);
