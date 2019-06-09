@@ -3145,11 +3145,11 @@ void complete_a_word(void)
 	/* Find the start of the fragment that the user typed. */
 	start_of_shard = openfile->current_x;
 	while (start_of_shard > 0) {
-		size_t step_left = move_mbleft(openfile->current->data, start_of_shard);
+		size_t oneleft = move_mbleft(openfile->current->data, start_of_shard);
 
-		if (!is_word_mbchar(&openfile->current->data[step_left], FALSE))
+		if (!is_word_mbchar(&openfile->current->data[oneleft], FALSE))
 			break;
-		start_of_shard = step_left;
+		start_of_shard = oneleft;
 	}
 
 	/* If there is no word fragment before the cursor, do nothing. */
