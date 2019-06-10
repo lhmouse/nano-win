@@ -1924,13 +1924,11 @@ char *display_string(const char *buf, size_t column, size_t span,
 	while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
 		int charlength, charwidth;
 
+		/* Show a space as a visible character, or as a space. */
 		if (*buf == ' ') {
-			/* Show a space as a visible character, or as a space. */
 #ifndef NANO_TINY
 			if (ISSET(WHITESPACE_DISPLAY)) {
-				int i = whitelen[0];
-
-				while (i < whitelen[0] + whitelen[1])
+				for (int i = whitelen[0]; i < whitelen[0] + whitelen[1];)
 					converted[index++] = whitespace[i++];
 			} else
 #endif
@@ -1938,15 +1936,15 @@ char *display_string(const char *buf, size_t column, size_t span,
 			column++;
 			buf++;
 			continue;
-		} else if (*buf == '\t') {
-			/* Show a tab as a visible character, or as as a space. */
+		}
+
+		/* Show a tab as a visible character plus spaces, or as just spaces. */
+		if (*buf == '\t') {
 #ifndef NANO_TINY
 			if (ISSET(WHITESPACE_DISPLAY) && (index > 0 || !isdata ||
 						!ISSET(SOFTWRAP) || column % tabsize == 0 ||
 						column == start_col)) {
-				int i = 0;
-
-				while (i < whitelen[0])
+				for (int i = 0; i < whitelen[0];)
 					converted[index++] = whitespace[i++];
 			} else
 #endif
@@ -1963,12 +1961,12 @@ char *display_string(const char *buf, size_t column, size_t span,
 
 		charlength = mblen(buf, MAXCHARLEN);
 
-		/* If buf contains a control character, represent it. */
+		/* Represent a control character with a leading caret. */
 		if (is_cntrl_mbchar(buf)) {
 			converted[index++] = '^';
 			converted[index++] = control_mbrep(buf, isdata);
-			column += 2;
 			buf += charlength;
+			column += 2;
 			continue;
 		}
 
@@ -1980,21 +1978,18 @@ char *display_string(const char *buf, size_t column, size_t span,
 		}
 
 #ifdef ENABLE_UTF8
-		/* For a multibyte character, check whether it is valid,
-		 * and determine whether it occupies one or two columns. */
 		wchar_t wc;
-		int length = mbtowc(&wc, buf, MAXCHARLEN);
 
-		if (charlength != length)
-			die("Different character lengths");
+		/* Convert a multibyte character to a single code. */
+		mbtowc(&wc, buf, MAXCHARLEN);
 
-		/* When invalid, represent it with the Replacement Character. */
+		/* Represent an invalid character with the Replacement Character. */
 		if (charlength < 0 || !is_valid_unicode(wc)) {
 			converted[index++] = '\xEF';
 			converted[index++] = '\xBF';
 			converted[index++] = '\xBD';
-			column++;
 			buf += (charlength > 0 ? charlength : 1);
+			column++;
 			continue;
 		}
 
@@ -2002,6 +1997,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 		for (; charlength > 0; charlength--)
 			converted[index++] = *(buf++);
 
+		/* Determine whether the character occupies one or two columns. */
 		charwidth = wcwidth(wc);
 
 		/* If the codepoint is unassigned, assume a width of one. */
