@@ -540,26 +540,26 @@ char *mbstrchr(const char *s, const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
-		bool bad_s_mb = FALSE, bad_c_mb = FALSE;
+		bool bad_s = FALSE, bad_c = FALSE;
 		wchar_t ws, wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
 			wc = (unsigned char)*c;
-			bad_c_mb = TRUE;
+			bad_c = TRUE;
 		}
 
 		while (*s != '\0') {
-			int sym_len = mbtowc(&ws, s, MAXCHARLEN);
+			int symlen = mbtowc(&ws, s, MAXCHARLEN);
 
-			if (sym_len < 0) {
+			if (symlen < 0) {
 				ws = (unsigned char)*s;
-				bad_s_mb = TRUE;
+				bad_s = TRUE;
 			}
 
-			if (bad_s_mb == bad_c_mb && ws == wc)
+			if (ws == wc && bad_s == bad_c)
 				break;
 
-			s += sym_len;
+			s += symlen;
 		}
 
 		if (*s == '\0')
@@ -568,7 +568,7 @@ char *mbstrchr(const char *s, const char *c)
 		return (char *)s;
 	} else
 #endif
-		return (char *)strchr(s, *c);
+		return strchr(s, *c);
 }
 #endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
