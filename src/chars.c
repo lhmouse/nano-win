@@ -207,7 +207,7 @@ char control_mbrep(const char *c, bool isdata)
 int length_of_char(const char *c, int *width)
 {
 #ifdef ENABLE_UTF8
-	if (use_utf8) {
+	if (use_utf8 && (signed char)*c < 0) {
 		wchar_t wc;
 		int charlen = mbtowc(&wc, c, MAXCHARLEN);
 
