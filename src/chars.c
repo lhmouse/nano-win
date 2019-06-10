@@ -541,7 +541,6 @@ char *mbstrchr(const char *s, const char *c)
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
 		bool bad_s_mb = FALSE, bad_c_mb = FALSE;
-		char symbol[MAXCHARLEN];
 		const char *q = s;
 		wchar_t ws, wc;
 
@@ -551,9 +550,9 @@ char *mbstrchr(const char *s, const char *c)
 		}
 
 		while (*s != '\0') {
-			int sym_len = parse_mbchar(s, symbol, NULL);
+			int sym_len = mbtowc(&ws, s, MAXCHARLEN);
 
-			if (mbtowc(&ws, symbol, sym_len) < 0) {
+			if (sym_len < 0) {
 				ws = (unsigned char)*s;
 				bad_s_mb = TRUE;
 			}
