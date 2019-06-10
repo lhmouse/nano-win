@@ -536,39 +536,39 @@ size_t mbstrlen(const char *pointer)
 
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 /* This function is equivalent to strchr() for multibyte strings. */
-char *mbstrchr(const char *s, const char *c)
+char *mbstrchr(const char *string, const char *chr)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
 		bool bad_s = FALSE, bad_c = FALSE;
 		wchar_t ws, wc;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
-			wc = (unsigned char)*c;
+		if (mbtowc(&wc, chr, MAXCHARLEN) < 0) {
+			wc = (unsigned char)*chr;
 			bad_c = TRUE;
 		}
 
-		while (*s != '\0') {
-			int symlen = mbtowc(&ws, s, MAXCHARLEN);
+		while (*string != '\0') {
+			int symlen = mbtowc(&ws, string, MAXCHARLEN);
 
 			if (symlen < 0) {
-				ws = (unsigned char)*s;
+				ws = (unsigned char)*string;
 				bad_s = TRUE;
 			}
 
 			if (ws == wc && bad_s == bad_c)
 				break;
 
-			s += symlen;
+			string += symlen;
 		}
 
-		if (*s == '\0')
+		if (*string == '\0')
 			return NULL;
 
-		return (char *)s;
+		return (char *)string;
 	} else
 #endif
-		return strchr(s, *c);
+		return strchr(string, *chr);
 }
 #endif /* !NANO_TINY || ENABLE_JUSTIFY */
 
