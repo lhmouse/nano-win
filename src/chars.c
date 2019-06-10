@@ -541,7 +541,6 @@ char *mbstrchr(const char *s, const char *c)
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
 		bool bad_s_mb = FALSE, bad_c_mb = FALSE;
-		const char *q = s;
 		wchar_t ws, wc;
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0) {
@@ -561,13 +560,12 @@ char *mbstrchr(const char *s, const char *c)
 				break;
 
 			s += sym_len;
-			q += sym_len;
 		}
 
 		if (*s == '\0')
-			q = NULL;
+			return NULL;
 
-		return (char *)q;
+		return (char *)s;
 	} else
 #endif
 		return (char *)strchr(s, *c);
