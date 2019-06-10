@@ -210,7 +210,6 @@ bool is_ascii_cntrl_char(int c);
 bool is_cntrl_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_mbrep(const char *c, bool isdata);
-int length_of_char(const char *c, int *width);
 int mbwidth(const char *c);
 char *make_mbchar(long chr, int *chr_mb_len);
 int char_length(const char *pointer);

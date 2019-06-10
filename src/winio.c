@@ -1922,7 +1922,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 	}
 
 	while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
-		int charlength, charwidth = 1;
+		int charlength, charwidth;
 
 		if (*buf == ' ') {
 			/* Show a space as a visible character, or as a space. */
@@ -1961,7 +1961,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 			continue;
 		}
 
-		charlength = length_of_char(buf, &charwidth);
+		charlength = mblen(buf, MAXCHARLEN);
 
 		/* If buf contains a control character, represent it. */
 		if (is_cntrl_mbchar(buf)) {
@@ -1972,29 +1972,46 @@ char *display_string(const char *buf, size_t column, size_t span,
 			continue;
 		}
 
-		/* If buf contains a valid non-control character, simply copy it. */
-		if (charlength > 0) {
-			for (; charlength > 0; charlength--)
-				converted[index++] = *(buf++);
-
-			column += charwidth;
-#ifdef USING_OLD_NCURSES
-			if (charwidth > 1)
-				seen_wide = TRUE;
-#endif
+		/* A one-byte character is necessarily one column wide. */
+		if (charlength == 1) {
+			converted[index++] = *(buf++);
+			column++;
 			continue;
 		}
 
-		/* Represent an invalid starter byte with the Replacement Character. */
-		converted[index++] = '\xEF';
-		converted[index++] = '\xBF';
-		converted[index++] = '\xBD';
-		column++;
-		buf++;
+#ifdef ENABLE_UTF8
+		/* For a multibyte character, check whether it is valid,
+		 * and determine whether it occupies one or two columns. */
+		wchar_t wc;
+		int length = mbtowc(&wc, buf, MAXCHARLEN);
 
-		/* For invalid codepoints, skip extra bytes. */
-		if (charlength < -1)
-			buf += charlength + 7;
+		if (charlength != length)
+			die("Different character lengths");
+
+		/* When invalid, represent it with the Replacement Character. */
+		if (charlength < 0 || !is_valid_unicode(wc)) {
+			converted[index++] = '\xEF';
+			converted[index++] = '\xBF';
+			converted[index++] = '\xBD';
+			column++;
+			buf += (charlength > 0 ? charlength : 1);
+			continue;
+		}
+
+		/* For any valid character, just copy its bytes. */
+		for (; charlength > 0; charlength--)
+			converted[index++] = *(buf++);
+
+		charwidth = wcwidth(wc);
+
+		/* If the codepoint is unassigned, assume a width of one. */
+		column += (charwidth < 0 ? 1 : charwidth);
+
+#ifdef USING_OLD_NCURSES
+		if (charwidth > 1)
+			seen_wide = TRUE;
+#endif
+#endif /* ENABLE_UTF8 */
 	}
 
 	/* If there is more text than can be shown, make room for the ">". */

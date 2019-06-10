@@ -200,36 +200,6 @@ char control_mbrep(const char *c, bool isdata)
 		return control_rep(*c);
 }
 
-/* Assess how many bytes the given (multibyte) character occupies.  Return -1
- * if the byte sequence is invalid, and return the number of bytes minus 8
- * when it encodes an invalid codepoint.  Also, in the second parameter,
- * return the number of columns that the character occupies. */
-int length_of_char(const char *c, int *width)
-{
-#ifdef ENABLE_UTF8
-	if (use_utf8 && (signed char)*c < 0) {
-		wchar_t wc;
-		int charlen = mbtowc(&wc, c, MAXCHARLEN);
-
-		/* If the sequence is invalid... */
-		if (charlen < 0)
-			return -1;
-
-		/* If the codepoint is invalid... */
-		if (!is_valid_unicode(wc))
-			return charlen - 8;
-		else {
-			*width = wcwidth(wc);
-			/* If the codepoint is unassigned, assume a width of one. */
-			if (*width < 0)
-				*width = 1;
-			return charlen;
-		}
-	} else
-#endif
-		return 1;
-}
-
 /* This function is equivalent to wcwidth() for multibyte characters. */
 int mbwidth(const char *c)
 {
