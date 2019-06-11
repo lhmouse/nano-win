@@ -1959,19 +1959,17 @@ char *display_string(const char *buf, size_t column, size_t span,
 			continue;
 		}
 
-		charlength = mblen(buf, MAXCHARLEN);
-
 		/* Represent a control character with a leading caret. */
 		if (is_cntrl_mbchar(buf)) {
 			converted[index++] = '^';
 			converted[index++] = control_mbrep(buf, isdata);
-			buf += charlength;
+			buf += mblen(buf, MAXCHARLEN);
 			column += 2;
 			continue;
 		}
 
-		/* A one-byte character is necessarily one column wide. */
-		if (charlength == 1) {
+		/* A normal, one-byte character is necessarily one column wide. */
+		if ((signed char)*buf > 0) {
 			converted[index++] = *(buf++);
 			column++;
 			continue;
@@ -1981,7 +1979,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 		wchar_t wc;
 
 		/* Convert a multibyte character to a single code. */
-		mbtowc(&wc, buf, MAXCHARLEN);
+		charlength = mbtowc(&wc, buf, MAXCHARLEN);
 
 		/* Represent an invalid character with the Replacement Character. */
 		if (charlength < 0 || !is_valid_unicode(wc)) {
