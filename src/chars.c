@@ -253,12 +253,14 @@ char *make_mbchar(long chr, int *chr_mb_len)
 /* Return the length (in bytes) of the character located at *pointer. */
 int char_length(const char *pointer)
 {
+#ifdef ENABLE_UTF8
 	/* If possibly a multibyte character, get its length; otherwise, it's 1. */
 	if ((signed char)*pointer < 0) {
 		int length = mblen(pointer, MAXCHARLEN);
 
-		return (length > 0 ? length : 1);
+		return (length < 0 ? 1 : length);
 	} else
+#endif
 		return 1;
 }
 
@@ -491,11 +493,13 @@ size_t mbstrlen(const char *pointer)
 	size_t count = 0;
 
 	while (*pointer != '\0') {
+#ifdef ENABLE_UTF8
 		if ((signed char)*pointer < 0) {
 			int length = mblen(pointer, MAXCHARLEN);
 
 			pointer += (length < 0 ? 1 : length);
 		} else
+#endif
 			pointer++;
 
 		count++;
