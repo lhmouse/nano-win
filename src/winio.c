@@ -1924,9 +1924,15 @@ char *display_string(const char *buf, size_t column, size_t span,
 #endif
 	}
 
+#ifdef ENABLE_UTF8
+#define ISO8859_CHAR  FALSE
+#else
+#define ISO8859_CHAR  ((unsigned char)*buf > 0x9F)
+#endif
+
 	while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
 		/* A plain printable ASCII character is one byte, one column. */
-		if ((signed char)*buf > 0x20 && *buf != DEL_CODE) {
+		if (((signed char)*buf > 0x20 && *buf != DEL_CODE) || ISO8859_CHAR) {
 			converted[index++] = *(buf++);
 			column++;
 			continue;
@@ -1971,7 +1977,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 		if (is_cntrl_mbchar(buf)) {
 			converted[index++] = '^';
 			converted[index++] = control_mbrep(buf, isdata);
-			buf += mblen(buf, MAXCHARLEN);
+			buf += char_length(buf);
 			column += 2;
 			continue;
 		}
