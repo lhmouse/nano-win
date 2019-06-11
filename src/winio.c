@@ -27,6 +27,9 @@
 #include <sys/ioctl.h>
 #endif
 #include <string.h>
+#ifdef ENABLE_UTF8
+#include <wchar.h>
+#endif
 
 #ifdef REVISION
 #define BRANDING REVISION
