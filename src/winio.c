@@ -1925,8 +1925,6 @@ char *display_string(const char *buf, size_t column, size_t span,
 	}
 
 	while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
-		int charlength, charwidth;
-
 		/* A plain printable ASCII character is one byte, one column. */
 		if ((signed char)*buf > 0x20 && *buf != DEL_CODE) {
 			converted[index++] = *(buf++);
@@ -1979,6 +1977,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 		}
 
 #ifdef ENABLE_UTF8
+		int charlength, charwidth;
 		wchar_t wc;
 
 		/* Convert a multibyte character to a single code. */
