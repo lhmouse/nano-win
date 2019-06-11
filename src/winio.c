@@ -1924,6 +1924,13 @@ char *display_string(const char *buf, size_t column, size_t span,
 	while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
 		int charlength, charwidth;
 
+		/* A plain printable ASCII character is one byte, one column. */
+		if ((signed char)*buf > 0x20 && *buf != DEL_CODE) {
+			converted[index++] = *(buf++);
+			column++;
+			continue;
+		}
+
 		/* Show a space as a visible character, or as a space. */
 		if (*buf == ' ') {
 #ifndef NANO_TINY
@@ -1965,13 +1972,6 @@ char *display_string(const char *buf, size_t column, size_t span,
 			converted[index++] = control_mbrep(buf, isdata);
 			buf += mblen(buf, MAXCHARLEN);
 			column += 2;
-			continue;
-		}
-
-		/* A normal, one-byte character is necessarily one column wide. */
-		if ((signed char)*buf > 0) {
-			converted[index++] = *(buf++);
-			column++;
 			continue;
 		}
 
