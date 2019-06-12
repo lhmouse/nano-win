@@ -1859,7 +1859,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		}
 	}
 
-	statusbar(_("Writing..."));
+	if (!tmp)
+		statusbar(_("Writing..."));
 
 	while (fileptr != NULL) {
 		size_t data_len = strlen(fileptr->data), size;
