@@ -1592,18 +1592,16 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	if (!tmp)
 		isactualfile = (stat(realname, &st) != -1);
 
-	/* If we haven't stat()d this file before (say, the user just
-	 * specified it interactively), stat and save the value now,
-	 * or else we will chase null pointers when we do modtime checks,
-	 * preserve file times, and so on, during backup. */
+	/* If we haven't stat()d this file before (say, the user just specified
+	 * it interactively), stat and save the value now, or else we will chase
+	 * null pointers when we do modtime checks and such during backup. */
 	if (openfile->current_stat == NULL && isactualfile)
 		stat_with_alloc(realname, &openfile->current_stat);
 
-	/* We backup only if the backup toggle is set, the file isn't
-	 * temporary, and the file already exists.  Furthermore, if we
-	 * aren't appending, prepending, or writing a selection, we backup
-	 * only if the file has not been modified by someone else since nano
-	 * opened it. */
+	/* We back up only if the backup toggle is set, and the file exists and
+	 * isn't temporary.  Furthermore, if we aren't appending, prepending, or
+	 * writing a selection, we back up only if the file has not been modified
+	 * by someone else since nano opened it. */
 	if (ISSET(BACKUP_FILE) && isactualfile && openfile->current_stat &&
 				(method != OVERWRITE || openfile->mark ||
 				openfile->current_stat->st_mtime == st.st_mtime)) {
@@ -1753,7 +1751,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		free(backupname);
 	}
 
-	skip_backup:
+  skip_backup:
 #endif /* !NANO_TINY */
 
 	if (f_open == NULL) {
