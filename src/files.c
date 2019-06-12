@@ -1554,9 +1554,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	mode_t original_umask = 0;
 		/* Our umask, from when nano started. */
 #ifndef NANO_TINY
-	bool realexists = FALSE;
-		/* The result of stat().  TRUE if the file exists, FALSE otherwise.
-		 * If name is a link that points nowhere, realexists is FALSE. */
+	bool isactualfile = FALSE;
+		/* TRUE when the file is non-temporary and exists, FALSE otherwise. */
 #endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
@@ -1591,13 +1590,13 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #ifndef NANO_TINY
 	/* Check whether the file (at the end of the symlink) exists. */
 	if (!tmp)
-		realexists = (stat(realname, &st) != -1);
+		isactualfile = (stat(realname, &st) != -1);
 
 	/* If we haven't stat()d this file before (say, the user just
 	 * specified it interactively), stat and save the value now,
 	 * or else we will chase null pointers when we do modtime checks,
 	 * preserve file times, and so on, during backup. */
-	if (openfile->current_stat == NULL && realexists)
+	if (openfile->current_stat == NULL && isactualfile)
 		stat_with_alloc(realname, &openfile->current_stat);
 
 	/* We backup only if the backup toggle is set, the file isn't
@@ -1605,7 +1604,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	 * aren't appending, prepending, or writing a selection, we backup
 	 * only if the file has not been modified by someone else since nano
 	 * opened it. */
-	if (ISSET(BACKUP_FILE) && realexists && openfile->current_stat &&
+	if (ISSET(BACKUP_FILE) && isactualfile && openfile->current_stat &&
 				(method != OVERWRITE || openfile->mark ||
 				openfile->current_stat->st_mtime == st.st_mtime)) {
 		static struct timespec filetime[2];
