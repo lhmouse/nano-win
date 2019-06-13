@@ -972,13 +972,11 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 		parse_colors(ptr, NANO_REG_EXTENDED);
 	else if (strcasecmp(keyword, "icolor") == 0)
 		parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
-	else if (strcasecmp(keyword, "comment") == 0)
+	else if (strcasecmp(keyword, "comment") == 0) {
 #ifdef ENABLE_COMMENT
 		pick_up_name("comment", ptr, &live_syntax->comment);
-#else
-		;
 #endif
-	else if (strcasecmp(keyword, "linter") == 0)
+	} else if (strcasecmp(keyword, "linter") == 0)
 		pick_up_name("linter", ptr, &live_syntax->linter);
 	else
 		return FALSE;
