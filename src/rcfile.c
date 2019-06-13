@@ -330,7 +330,8 @@ void begin_a_syntax(char *ptr, bool headers_only)
 	/* Initialize a new syntax struct. */
 	live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
 	live_syntax->name = mallocstrcpy(NULL, nameptr);
-	live_syntax->filename = (headers_only ? strdup(nanorc) : NULL);
+	live_syntax->filename = strdup(nanorc);
+	live_syntax->lineno = lineno;
 	live_syntax->augmentations = NULL;
 	live_syntax->extensions = NULL;
 	live_syntax->headers = NULL;
@@ -989,6 +990,7 @@ bool parse_syntax_commands(char *keyword, char *ptr)
  * to contain only color syntax commands. */
 void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 {
+	bool seen_color_command = FALSE;
 	char *buf = NULL;
 	ssize_t len;
 	size_t n = 0;
@@ -1003,6 +1005,11 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			buf[len - 1] = '\0';
 
 		lineno++;
+
+		/* If doing a full parse, skip to after the 'syntax' command. */
+		if (!headers_only && syntax_only && lineno <= live_syntax->lineno)
+			continue;
+
 		ptr = buf;
 		while (isblank((unsigned char)*ptr))
 			ptr++;
@@ -1063,32 +1070,44 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 
 		/* Try to parse the keyword. */
 		if (strcasecmp(keyword, "syntax") == 0) {
-			if (headers_only || !syntax_only) {
-				if (opensyntax && lastcolor == NULL && live_syntax->filename == NULL)
+			if (headers_only) {
+				if (opensyntax && !seen_color_command)
 					rcfile_error(N_("Syntax \"%s\" has no color commands"),
 									live_syntax->name);
 				begin_a_syntax(ptr, headers_only);
-			}
+				seen_color_command = FALSE;
+			} else
+				break;
 		} else if (strcasecmp(keyword, "header") == 0) {
-			if (headers_only || !syntax_only)
+			if (headers_only)
 				grab_and_store("header", ptr, &live_syntax->headers);
 		} else if (strcasecmp(keyword, "magic") == 0) {
 #ifdef HAVE_LIBMAGIC
-			if (headers_only || !syntax_only)
+			if (headers_only)
 				grab_and_store("magic", ptr, &live_syntax->magics);
 #endif
-		} else if (headers_only)
-			break;
-		else if (parse_syntax_commands(keyword, ptr))
-			;
-		else if (syntax_only && (strcasecmp(keyword, "set") == 0 ||
+		} else if (syntax_only && (strcasecmp(keyword, "set") == 0 ||
 								strcasecmp(keyword, "unset") == 0 ||
 								strcasecmp(keyword, "bind") == 0 ||
 								strcasecmp(keyword, "unbind") == 0 ||
 								strcasecmp(keyword, "include") == 0 ||
-								strcasecmp(keyword, "extendsyntax") == 0))
-			rcfile_error(N_("Command \"%s\" not allowed in included file"),
+								strcasecmp(keyword, "extendsyntax") == 0)) {
+			if (headers_only)
+				rcfile_error(N_("Command \"%s\" not allowed in included file"),
 										keyword);
+			else
+				break;
+		} else if (headers_only && opensyntax &&
+								(strcasecmp(keyword, "color") == 0 ||
+								strcasecmp(keyword, "icolor") == 0)) {
+			seen_color_command = TRUE;
+			continue;
+		} else if (headers_only && opensyntax &&
+								(strcasecmp(keyword, "comment") == 0 ||
+								strcasecmp(keyword, "linter") == 0)) {
+			continue;
+		} else if (parse_syntax_commands(keyword, ptr))
+			;
 		else if (strcasecmp(keyword, "include") == 0)
 			parse_includes(ptr);
 		else
@@ -1101,7 +1120,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			parse_binding(ptr, TRUE);
 		else if (strcasecmp(keyword, "unbind") == 0)
 			parse_binding(ptr, FALSE);
-		else
+		else if (headers_only)
 			rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
 #ifdef ENABLE_COLOR
@@ -1270,7 +1289,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 	}
 
 #ifdef ENABLE_COLOR
-	if (opensyntax && lastcolor == NULL && !headers_only)
+	if (headers_only && !seen_color_command)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 						live_syntax->name);
 
@@ -1298,7 +1317,7 @@ void parse_one_nanorc(void)
 	/* If opening the file succeeded, parse it.  Otherwise, only
 	 * complain if the file actually exists. */
 	if (rcstream != NULL)
-		parse_rcfile(rcstream, FALSE, FALSE);
+		parse_rcfile(rcstream, FALSE, TRUE);
 	else if (errno != ENOENT)
 		rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 }
