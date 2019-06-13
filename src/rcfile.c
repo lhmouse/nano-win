@@ -1151,25 +1151,23 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			continue;
 		}
 
-		/* First handle unsetting. */
-		if (set == -1) {
-			if (rcopts[i].flag != 0)
-				UNSET(rcopts[i].flag);
+		/* If the option has a flag, set it or unset it, as requested. */
+		if (rcopts[i].flag) {
+			if (set == 1)
+				SET(rcopts[i].flag);
 			else
-				rcfile_error(N_("Cannot unset option \"%s\""), rcopts[i].name);
+				UNSET(rcopts[i].flag);
 			continue;
 		}
 
-		/* If the option has a flag, it doesn't take an argument. */
-		if (rcopts[i].flag != 0) {
-			SET(rcopts[i].flag);
+		/* An option that takes an argument cannot be unset. */
+		if (set == -1) {
+			rcfile_error(N_("Cannot unset option \"%s\""), rcopts[i].name);
 			continue;
 		}
 
-		/* The option doesn't have a flag, so it takes an argument. */
 		if (*ptr == '\0') {
-			rcfile_error(N_("Option \"%s\" requires an argument"),
-								rcopts[i].name);
+			rcfile_error(N_("Option \"%s\" requires an argument"), rcopts[i].name);
 			continue;
 		}
 
