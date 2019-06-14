@@ -471,7 +471,7 @@ void parse_one_include(char *file, syntaxtype *syntax);
 #ifdef ENABLE_COLOR
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
 #endif
-void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only);
+void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only);
 void do_rcfiles(void);
 #endif /* ENABLE_NANORC */
 

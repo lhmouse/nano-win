@@ -294,7 +294,7 @@ bool compile(const char *expression, int rex_flags, regex_t **packed)
 
 /* Parse the next syntax name and its possible extension regexes from the
  * line at ptr, and add it to the global linked list of color syntaxes. */
-void begin_a_syntax(char *ptr, bool headers_only)
+void begin_new_syntax(char *ptr)
 {
 	char *nameptr = ptr;
 
@@ -986,9 +986,9 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 }
 
 /* Parse the rcfile, once it has been opened successfully at rcstream,
- * and close it afterwards.  If syntax_only is TRUE, allow the file to
+ * and close it afterwards.  If just_syntax is TRUE, allow the file to
  * to contain only color syntax commands. */
-void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
+void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 {
 	bool seen_color_command = FALSE;
 	char *buffer = NULL;
@@ -1003,7 +1003,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 		lineno++;
 
 		/* If doing a full parse, skip to after the 'syntax' command. */
-		if (!headers_only && syntax_only && lineno <= live_syntax->lineno)
+		if (just_syntax && !intros_only && lineno <= live_syntax->lineno)
 			continue;
 
 		/* Strip the terminating newline, if any. */
@@ -1024,7 +1024,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 
 #ifdef ENABLE_COLOR
 		/* Handle extending first... */
-		if (strcasecmp(keyword, "extendsyntax") == 0 && !syntax_only) {
+		if (!just_syntax && strcasecmp(keyword, "extendsyntax") == 0) {
 			augmentstruct *newitem, *extra;
 			char *syntaxname = ptr;
 			syntaxtype *sint;
@@ -1070,39 +1070,39 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 
 		/* Try to parse the keyword. */
 		if (strcasecmp(keyword, "syntax") == 0) {
-			if (headers_only) {
+			if (intros_only) {
 				if (opensyntax && !seen_color_command)
 					rcfile_error(N_("Syntax \"%s\" has no color commands"),
 									live_syntax->name);
-				begin_a_syntax(ptr, headers_only);
+				begin_new_syntax(ptr);
 				seen_color_command = FALSE;
 			} else
 				break;
 		} else if (strcasecmp(keyword, "header") == 0) {
-			if (headers_only)
+			if (intros_only)
 				grab_and_store("header", ptr, &live_syntax->headers);
 		} else if (strcasecmp(keyword, "magic") == 0) {
 #ifdef HAVE_LIBMAGIC
-			if (headers_only)
+			if (intros_only)
 				grab_and_store("magic", ptr, &live_syntax->magics);
 #endif
-		} else if (syntax_only && (strcasecmp(keyword, "set") == 0 ||
+		} else if (just_syntax && (strcasecmp(keyword, "set") == 0 ||
 								strcasecmp(keyword, "unset") == 0 ||
 								strcasecmp(keyword, "bind") == 0 ||
 								strcasecmp(keyword, "unbind") == 0 ||
 								strcasecmp(keyword, "include") == 0 ||
 								strcasecmp(keyword, "extendsyntax") == 0)) {
-			if (headers_only)
+			if (intros_only)
 				rcfile_error(N_("Command \"%s\" not allowed in included file"),
 										keyword);
 			else
 				break;
-		} else if (headers_only && opensyntax &&
+		} else if (intros_only && opensyntax &&
 								(strcasecmp(keyword, "color") == 0 ||
 								strcasecmp(keyword, "icolor") == 0)) {
 			seen_color_command = TRUE;
 			continue;
-		} else if (headers_only && opensyntax &&
+		} else if (intros_only && opensyntax &&
 								(strcasecmp(keyword, "comment") == 0 ||
 								strcasecmp(keyword, "linter") == 0)) {
 			continue;
@@ -1120,7 +1120,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			parse_binding(ptr, TRUE);
 		else if (strcasecmp(keyword, "unbind") == 0)
 			parse_binding(ptr, FALSE);
-		else if (headers_only)
+		else if (intros_only)
 			rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
 		if (set == 0)
@@ -1281,7 +1281,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 	}
 
 #ifdef ENABLE_COLOR
-	if (headers_only && !seen_color_command)
+	if (intros_only && !seen_color_command)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 						live_syntax->name);
 
