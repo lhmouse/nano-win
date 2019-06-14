@@ -966,7 +966,7 @@ static void check_vitals_mapped(void)
 	}
 }
 
-/* Parse syntax-only commands. */
+/* Handle the four syntax-only commands. */
 bool parse_syntax_commands(char *keyword, char *ptr)
 {
 	if (strcasecmp(keyword, "color") == 0)
@@ -991,18 +991,14 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 {
 	bool seen_color_command = FALSE;
-	char *buf = NULL;
+	char *buffer = NULL;
 	ssize_t len;
-	size_t n = 0;
+	size_t size = 0;
 
-	while ((len = getline(&buf, &n, rcstream)) > 0) {
+	while ((len = getline(&buffer, &size, rcstream)) > 0) {
 		char *ptr, *keyword, *option;
 		int set = 0;
 		size_t i;
-
-		/* Ignore the newline. */
-		if (buf[len - 1] == '\n')
-			buf[len - 1] = '\0';
 
 		lineno++;
 
@@ -1010,7 +1006,11 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 		if (!headers_only && syntax_only && lineno <= live_syntax->lineno)
 			continue;
 
-		ptr = buf;
+		/* Strip the terminating newline, if any. */
+		if (buffer[len - 1] == '\n')
+			buffer[len - 1] = '\0';
+
+		ptr = buffer;
 		while (isblank((unsigned char)*ptr))
 			ptr++;
 
@@ -1140,7 +1140,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 		option = ptr;
 		ptr = parse_next_word(ptr);
 
-		/* Find the just read name among the existing options. */
+		/* Find the just parsed option name among the existing names. */
 		for (i = 0; rcopts[i].name != NULL; i++) {
 			if (strcasecmp(option, rcopts[i].name) == 0)
 				break;
@@ -1294,7 +1294,7 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 	opensyntax = FALSE;
 #endif
 
-	free(buf);
+	free(buffer);
 	fclose(rcstream);
 	lineno = 0;
 
