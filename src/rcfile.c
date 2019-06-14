@@ -1029,6 +1029,8 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			char *syntaxname = ptr;
 			syntaxtype *sint;
 
+			opensyntax = FALSE;
+
 			ptr = parse_next_word(ptr);
 
 			for (sint = syntaxes; sint != NULL; sint = sint->next)
@@ -1038,14 +1040,12 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			if (sint == NULL) {
 				rcfile_error(N_("Could not find syntax \"%s\" to extend"),
 								syntaxname);
-				opensyntax = FALSE;
 				continue;
 			}
 
 			/* Disallow extending a syntax that is defined in a main nanorc. */
 			if (sint->filename == NULL)	{
 				rcfile_error(N_("Only an 'include' syntax can be extended"));
-				opensyntax = FALSE;
 				continue;
 			}
 
@@ -1122,12 +1122,6 @@ void parse_rcfile(FILE *rcstream, bool syntax_only, bool headers_only)
 			parse_binding(ptr, FALSE);
 		else if (headers_only)
 			rcfile_error(N_("Command \"%s\" not understood"), keyword);
-
-#ifdef ENABLE_COLOR
-		/* If a syntax was extended, it stops at the end of the command. */
-		if (!syntax_only && live_syntax != syntaxes)
-			opensyntax = FALSE;
-#endif
 
 		if (set == 0)
 			continue;
