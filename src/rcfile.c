@@ -186,9 +186,7 @@ void jot_error(const char *msg, ...)
 	error->data = nmalloc(length + 1);
 	sprintf(error->data, "%s", textbuf);
 }
-#endif /* ENABLE_NANORC */
 
-#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 /* Parse the next word from the string, null-terminate it, and return
  * a pointer to the first character after the null terminator.  The
  * returned pointer will point to '\0' if we hit the end of the line. */
@@ -208,9 +206,7 @@ char *parse_next_word(char *ptr)
 
 	return ptr;
 }
-#endif /* ENABLE_NANORC || ENABLE_HISTORIES */
 
-#ifdef ENABLE_NANORC
 /* Parse an argument, with optional quotes, after a keyword that takes
  * one.  If the next word starts with a ", we say that it ends with the
  * last " of the line.  Otherwise, we interpret it as usual, so that the
