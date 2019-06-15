@@ -1281,7 +1281,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 	}
 
 #ifdef ENABLE_COLOR
-	if (intros_only && !seen_color_command)
+	if (opensyntax && intros_only && !seen_color_command)
 		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 						live_syntax->name);
 
