@@ -379,6 +379,10 @@ void parse_binding(char *ptr, bool dobind)
 	int menu, mask = 0;
 	funcstruct *f;
 
+#ifdef ENABLE_COLOR
+	opensyntax = FALSE;
+#endif
+
 	if (*ptr == '\0') {
 		jot_error(N_("Missing key name"));
 		return;
@@ -1106,6 +1110,10 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 		if (set == 0)
 			continue;
+
+#ifdef ENABLE_COLOR
+		opensyntax = FALSE;
+#endif
 
 		if (*ptr == '\0') {
 			jot_error(N_("Missing option"));
