@@ -577,9 +577,8 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	opensyntax = TRUE;
 	lastcolor = NULL;
 
-	/* Parse the included file fully. */
+	/* Fully parse the given syntax (as it is about to be used). */
 	parse_rcfile(rcstream, TRUE, FALSE);
-	opensyntax = TRUE;
 
 	extra = syntax->augmentations;
 
@@ -599,7 +598,6 @@ void parse_one_include(char *file, syntaxtype *syntax)
 
 	free(syntax->filename);
 	syntax->filename = NULL;
-	opensyntax = FALSE;
 }
 
 /* Expand globs in the passed name, and parse the resultant files. */
@@ -1268,8 +1266,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 	opensyntax = FALSE;
 #endif
 
-	free(buffer);
 	fclose(rcstream);
+	free(buffer);
 	lineno = 0;
 
 	return;
