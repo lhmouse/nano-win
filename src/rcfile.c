@@ -141,6 +141,8 @@ static bool opensyntax = FALSE;
 		 * or when a new syntax command is seen, this bool becomes FALSE. */
 static syntaxtype *live_syntax;
 		/* The syntax that is currently being parsed. */
+static bool seen_color_command = FALSE;
+		/* Whether a syntax definition contains any color commands. */
 static colortype *lastcolor = NULL;
 		/* The end of the color list for the current syntax. */
 #endif
@@ -294,8 +296,6 @@ void begin_new_syntax(char *ptr)
 {
 	char *nameptr = ptr;
 
-	opensyntax = FALSE;
-
 	/* Check that the syntax name is not empty. */
 	if (*ptr == '\0' || (*ptr == '"' &&
 						(*(ptr + 1) == '\0' || *(ptr + 1) == '"'))) {
@@ -345,6 +345,7 @@ void begin_new_syntax(char *ptr)
 	syntaxes = live_syntax;
 
 	opensyntax = TRUE;
+	seen_color_command = FALSE;
 
 	/* The default syntax should have no associated extensions. */
 	if (strcmp(live_syntax->name, "default") == 0 && *ptr != '\0') {
@@ -357,6 +358,17 @@ void begin_new_syntax(char *ptr)
 		grab_and_store("extension", ptr, &live_syntax->extensions);
 }
 #endif /* ENABLE_COLOR */
+
+/* Verify that a syntax definition contains at least one color command. */
+void check_for_nonempty_syntax(void)
+{
+#ifdef ENABLE_COLOR
+	if (opensyntax && !seen_color_command)
+		jot_error(N_("Syntax \"%s\" has no color commands"), live_syntax->name);
+
+	opensyntax = FALSE;
+#endif
+}
 
 /* Return TRUE when the given function is present in almost all menus. */
 bool is_universal(void (*func)(void))
@@ -379,9 +391,7 @@ void parse_binding(char *ptr, bool dobind)
 	int menu, mask = 0;
 	funcstruct *f;
 
-#ifdef ENABLE_COLOR
-	opensyntax = FALSE;
-#endif
+	check_for_nonempty_syntax();
 
 	if (*ptr == '\0') {
 		jot_error(N_("Missing key name"));
@@ -975,7 +985,6 @@ bool parse_syntax_commands(char *keyword, char *ptr)
  * to contain only color syntax commands. */
 void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 {
-	bool seen_color_command = FALSE;
 	char *buffer = NULL;
 	ssize_t len;
 	size_t size = 0;
@@ -1014,7 +1023,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			char *syntaxname = ptr;
 			syntaxtype *sint;
 
-			opensyntax = FALSE;
+			check_for_nonempty_syntax();
 
 			ptr = parse_next_word(ptr);
 
@@ -1055,11 +1064,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		/* Try to parse the keyword. */
 		if (strcasecmp(keyword, "syntax") == 0) {
 			if (intros_only) {
-				if (opensyntax && !seen_color_command)
-					jot_error(N_("Syntax \"%s\" has no color commands"),
-									live_syntax->name);
+				check_for_nonempty_syntax();
 				begin_new_syntax(ptr);
-				seen_color_command = FALSE;
 			} else
 				break;
 		} else if (strcasecmp(keyword, "header") == 0) {
@@ -1111,9 +1117,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		if (set == 0)
 			continue;
 
-#ifdef ENABLE_COLOR
-		opensyntax = FALSE;
-#endif
+		check_for_nonempty_syntax();
 
 		if (*ptr == '\0') {
 			jot_error(N_("Missing option"));
@@ -1267,12 +1271,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		}
 	}
 
-#ifdef ENABLE_COLOR
-	if (opensyntax && intros_only && !seen_color_command)
-		jot_error(N_("Syntax \"%s\" has no color commands"), live_syntax->name);
-
-	opensyntax = FALSE;
-#endif
+	if (intros_only)
+		check_for_nonempty_syntax();
 
 	fclose(rcstream);
 	free(buffer);
