@@ -716,12 +716,6 @@ void parse_colors(char *ptr, int rex_flags)
 	int attributes;
 	char *item;
 
-	if (!opensyntax) {
-		rcfile_error(N_("A '%s' command requires a preceding 'syntax' command"),
-						"color");
-		return;
-	}
-
 	if (*ptr == '\0') {
 		rcfile_error(N_("Missing color name"));
 		return;
@@ -908,12 +902,6 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 /* Gather and store the string after a comment/linter command. */
 void pick_up_name(const char *kind, char *ptr, char **storage)
 {
-	if (!opensyntax) {
-		rcfile_error(
-				N_("A '%s' command requires a preceding 'syntax' command"), kind);
-		return;
-	}
-
 	if (*ptr == '\0') {
 		rcfile_error(N_("Missing argument after '%s'"), kind);
 		return;
@@ -1097,14 +1085,15 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 										keyword);
 			else
 				break;
-		} else if (intros_only && opensyntax &&
-								(strcasecmp(keyword, "color") == 0 ||
-								strcasecmp(keyword, "icolor") == 0)) {
-			seen_color_command = TRUE;
-			continue;
-		} else if (intros_only && opensyntax &&
-								(strcasecmp(keyword, "comment") == 0 ||
+		} else if (intros_only && (strcasecmp(keyword, "color") == 0 ||
+								strcasecmp(keyword, "icolor") == 0 ||
+								strcasecmp(keyword, "comment") == 0 ||
 								strcasecmp(keyword, "linter") == 0)) {
+			if (!opensyntax)
+				rcfile_error(N_("A '%s' command requires a preceding "
+								"'syntax' command"), keyword);
+			if (strcasestr("icolor", keyword))
+				seen_color_command = TRUE;
 			continue;
 		} else if (parse_syntax_commands(keyword, ptr))
 			;
