@@ -540,8 +540,8 @@ bool is_good_file(char *file)
 	/* If the thing exists, it may be neither a directory nor a device. */
 	if (stat(file, &rcinfo) != -1 && (S_ISDIR(rcinfo.st_mode) ||
 				S_ISCHR(rcinfo.st_mode) || S_ISBLK(rcinfo.st_mode))) {
-		jot_error(S_ISDIR(rcinfo.st_mode) ? _("\"%s\" is a directory") :
-										_("\"%s\" is a device file"), file);
+		jot_error(S_ISDIR(rcinfo.st_mode) ? N_("\"%s\" is a directory") :
+										N_("\"%s\" is a device file"), file);
 		return FALSE;
 	} else
 		return TRUE;
@@ -562,7 +562,7 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	rcstream = fopen(file, "rb");
 
 	if (rcstream == NULL) {
-		jot_error(_("Error reading %s: %s"), file, strerror(errno));
+		jot_error(N_("Error reading %s: %s"), file, strerror(errno));
 		return;
 	}
 
@@ -630,7 +630,7 @@ void parse_includes(char *ptr)
 		for (size_t i = 0; i < files.gl_pathc; ++i)
 			parse_one_include(files.gl_pathv[i], NULL);
 	} else if (result != GLOB_NOMATCH)
-		jot_error(_("Error expanding %s: %s"), pattern, strerror(errno));
+		jot_error(N_("Error expanding %s: %s"), pattern, strerror(errno));
 
 	globfree(&files);
 	free(expanded);
