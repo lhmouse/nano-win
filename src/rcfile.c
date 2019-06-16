@@ -1276,13 +1276,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 /* Read and interpret one of the two nanorc files. */
 void parse_one_nanorc(void)
 {
-	FILE *rcstream;
-
-	/* Don't try to open directories nor devices. */
-	if (!is_good_file(nanorc))
-		return;
-
-	rcstream = fopen(nanorc, "rb");
+	FILE *rcstream = fopen(nanorc, "rb");
 
 	/* If opening the file succeeded, parse it.  Otherwise, only
 	 * complain if the file actually exists. */
@@ -1308,20 +1302,19 @@ void do_rcfiles(void)
 {
 	const char *xdgconfdir;
 
-	/* First process the system-wide nanorc, if there is one. */
+	/* First process the system-wide nanorc, if it exists and is suitable. */
 	nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
-	parse_one_nanorc();
+	if (is_good_file(nanorc))
+		parse_one_nanorc();
 
 	get_homedir();
 	xdgconfdir = getenv("XDG_CONFIG_HOME");
 
 	/* Now try the to find a nanorc file in the user's home directory or in
 	 * the XDG configuration directories, and process the first one found. */
-	if (have_nanorc(homedir, "/" HOME_RC_NAME))
-		parse_one_nanorc();
-	else if (have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME))
-		parse_one_nanorc();
-	else if (have_nanorc(homedir, "/.config/nano/" RCFILE_NAME))
+	if (have_nanorc(homedir, "/" HOME_RC_NAME) ||
+				have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME) ||
+				have_nanorc(homedir, "/.config/nano/" RCFILE_NAME))
 		parse_one_nanorc();
 	else if (homedir == NULL && xdgconfdir == NULL)
 		jot_error(N_("I can't find my home directory!  Wah!"));
