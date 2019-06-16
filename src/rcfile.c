@@ -1034,12 +1034,6 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				continue;
 			}
 
-			/* Disallow extending a syntax that is defined in a main nanorc. */
-			if (sint->filename == NULL)	{
-				jot_error(N_("Only an 'include' syntax can be extended"));
-				continue;
-			}
-
 			newitem = nmalloc(sizeof(augmentstruct));;
 
 			/* Store the content of an 'extendsyntax', for later parsing. */
