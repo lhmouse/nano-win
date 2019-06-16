@@ -337,7 +337,6 @@ void begin_new_syntax(char *ptr)
 	live_syntax->comment = mallocstrcpy(NULL, GENERAL_COMMENT_CHARACTER);
 #endif
 	live_syntax->color = NULL;
-	lastcolor = NULL;
 	live_syntax->nmultis = 0;
 
 	/* Hook the new syntax in at the top of the list. */
@@ -588,7 +587,6 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	}
 
 	live_syntax = syntax;
-	opensyntax = TRUE;
 	lastcolor = NULL;
 
 	/* Fully parse the given syntax (as it is about to be used). */
