@@ -462,7 +462,8 @@ bool open_buffer(const char *filename, bool new_buffer)
 				/* When not overriding an existing lock, discard the buffer. */
 				if (do_lockfile(realname) < 0) {
 #ifdef ENABLE_MULTIBUFFER
-					close_buffer();
+					if (openfile != openfile->next)
+						close_buffer();
 #endif
 					free(realname);
 					return FALSE;
