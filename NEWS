@@ -1,3 +1,11 @@
+2019.06.18 - GNU nano 4.3 "Musa Kart"
+• The ability to read from and write to a FIFO has been regained.
+• Startup time is reduced by fully parsing a syntax only when needed.
+• Asking for help (^G) when using --operatingdir does not crash.
+• The reading of a huge or slow file can be stopped with ^C.
+• Cut, zap, and copy operations are undone separately when intermixed.
+• M-D reports the correct number of lines (zero for an empty buffer).
+
 2019.04.24 - GNU nano 4.2 "Tax the rich, pay the teachers"
 • The integrated spell checker does not crash when 'spell' is missing.
 • Option --breaklonglines works also when --ignorercfiles is used.
