@@ -929,6 +929,25 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 
 	*storage = mallocstrcpy(*storage, ptr);
 }
+
+/* Handle the four syntax-only commands. */
+bool parse_syntax_commands(char *keyword, char *ptr)
+{
+	if (strcasecmp(keyword, "color") == 0)
+		parse_colors(ptr, NANO_REG_EXTENDED);
+	else if (strcasecmp(keyword, "icolor") == 0)
+		parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
+	else if (strcasecmp(keyword, "comment") == 0) {
+#ifdef ENABLE_COMMENT
+		pick_up_name("comment", ptr, &live_syntax->comment);
+#endif
+	} else if (strcasecmp(keyword, "linter") == 0)
+		pick_up_name("linter", ptr, &live_syntax->linter);
+	else
+		return FALSE;
+
+	return TRUE;
+}
 #endif /* ENABLE_COLOR */
 
 /* Verify that the user has not unmapped every shortcut for a
@@ -959,25 +978,6 @@ static void check_vitals_mapped(void)
 	}
 }
 
-/* Handle the four syntax-only commands. */
-bool parse_syntax_commands(char *keyword, char *ptr)
-{
-	if (strcasecmp(keyword, "color") == 0)
-		parse_colors(ptr, NANO_REG_EXTENDED);
-	else if (strcasecmp(keyword, "icolor") == 0)
-		parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
-	else if (strcasecmp(keyword, "comment") == 0) {
-#ifdef ENABLE_COMMENT
-		pick_up_name("comment", ptr, &live_syntax->comment);
-#endif
-	} else if (strcasecmp(keyword, "linter") == 0)
-		pick_up_name("linter", ptr, &live_syntax->linter);
-	else
-		return FALSE;
-
-	return TRUE;
-}
-
 /* Parse the rcfile, once it has been opened successfully at rcstream,
  * and close it afterwards.  If just_syntax is TRUE, allow the file to
  * to contain only color syntax commands. */
@@ -994,10 +994,11 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 		lineno++;
 
+#ifdef ENABLE_COLOR
 		/* If doing a full parse, skip to after the 'syntax' command. */
 		if (just_syntax && !intros_only && lineno <= live_syntax->lineno)
 			continue;
-
+#endif
 		/* Strip the terminating newline, if any. */
 		if (buffer[len - 1] == '\n')
 			buffer[len - 1] = '\0';
