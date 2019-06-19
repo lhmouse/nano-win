@@ -902,6 +902,7 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(do_tab, MMAIN,
+		/* TRANSLATORS: The next four strings are names of keyboard keys. */
 		N_("Tab"), WITHORSANS(tab_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_enter, MMAIN,
 		N_("Enter"), WITHORSANS(enter_gist), BLANKAFTER, NOVIEW);
