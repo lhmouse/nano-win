@@ -243,7 +243,7 @@ void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
 void check_the_multis(linestruct *line);
-void alloc_multidata_if_needed(linestruct *fileptr);
+void set_up_multicache(linestruct *line);
 void precalc_multicolorinfo(void);
 #endif
 

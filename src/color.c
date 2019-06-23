@@ -295,7 +295,8 @@ void check_the_multis(linestruct *line)
 	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
 		return;
 
-	alloc_multidata_if_needed(line);
+	if (line->multidata == NULL)
+		set_up_multicache(line);
 
 	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 		/* If it's not a multiline regex, skip. */
@@ -329,14 +330,12 @@ void check_the_multis(linestruct *line)
 }
 
 /* Allocate (for one line) the cache space for multiline color regexes. */
-void alloc_multidata_if_needed(linestruct *fileptr)
+void set_up_multicache(linestruct *line)
 {
-	if (fileptr->multidata == NULL) {
-		fileptr->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
+	line->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
 
-		for (int i = 0; i < openfile->syntax->nmultis; i++)
-			fileptr->multidata[i] = -1;
-	}
+	for (int index = 0; index < openfile->syntax->nmultis; index++)
+		line->multidata[index] = -1;
 }
 
 /* Precalculate the multi-line start and end regex info so we can
@@ -352,7 +351,7 @@ void precalc_multicolorinfo(void)
 
 	/* For each line, allocate cache space for the multiline-regex info. */
 	for (line = openfile->filetop; line != NULL; line = line->next)
-		alloc_multidata_if_needed(line);
+		set_up_multicache(line);
 
 	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 		/* If this is not a multi-line regex, skip it. */

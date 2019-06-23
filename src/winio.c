@@ -2467,8 +2467,8 @@ void edit_draw(linestruct *fileptr, const char *converted,
 		const colortype *varnish = openfile->colorstrings;
 
 		/* If there are multiline regexes, make sure there is a cache. */
-		if (openfile->syntax->nmultis > 0)
-			alloc_multidata_if_needed(fileptr);
+		if (openfile->syntax->nmultis > 0 && fileptr->multidata == NULL)
+			set_up_multicache(fileptr);
 
 		/* Iterate through all the coloring regexes. */
 		for (; varnish != NULL; varnish = varnish->next) {
