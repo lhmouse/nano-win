@@ -1794,10 +1794,7 @@ const keystruct *get_shortcut(int *kbinput)
  * current attributes. */
 void blank_row(WINDOW *win, int y, int x, int n)
 {
-	wmove(win, y, x);
-
-	for (; n > 0; n--)
-		waddch(win, ' ');
+	mvwprintw(win, y, x, "%*s", n, " ");
 }
 
 /* Blank the first line of the top portion of the window. */
