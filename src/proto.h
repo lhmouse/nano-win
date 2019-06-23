@@ -242,8 +242,8 @@ bool is_valid_unicode(wchar_t wc);
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
-void check_the_multis(linestruct *line);
 void set_up_multicache(linestruct *line);
+void check_the_multis(linestruct *line);
 void precalc_multicolorinfo(void);
 #endif
 

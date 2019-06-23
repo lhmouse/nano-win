@@ -282,6 +282,15 @@ void color_update(void)
 	openfile->colorstrings = (sint == NULL ? NULL : sint->color);
 }
 
+/* Allocate and initialize (for the given line) the cache for multiline info. */
+void set_up_multicache(linestruct *line)
+{
+	line->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
+
+	for (int index = 0; index < openfile->syntax->nmultis; index++)
+		line->multidata[index] = -1;
+}
+
 /* Determine whether the matches of multiline regexes are still the same,
  * and if not, schedule a screen refresh, so things will be repainted. */
 void check_the_multis(linestruct *line)
@@ -327,15 +336,6 @@ void check_the_multis(linestruct *line)
 		refresh_needed = TRUE;
 		return;
 	}
-}
-
-/* Allocate (for one line) the cache space for multiline color regexes. */
-void set_up_multicache(linestruct *line)
-{
-	line->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
-
-	for (int index = 0; index < openfile->syntax->nmultis; index++)
-		line->multidata[index] = -1;
 }
 
 /* Precalculate the multi-line start and end regex info so we can
