@@ -2434,6 +2434,9 @@ void edit_draw(linestruct *fileptr, const char *converted,
 		 * might be beyond the null terminator of the string. */
 #endif
 
+	/* Wipe out any existing text on the row. */
+	blank_row(edit, row, 0, COLS);
+
 #ifdef ENABLE_LINENUMBERS
 	/* If line numbering is switched on, put a line number in front of
 	 * the text -- but only for the parts that are not softwrapped. */
@@ -2810,9 +2813,6 @@ int update_line(linestruct *fileptr, size_t index)
 
 	row = fileptr->lineno - openfile->edittop->lineno;
 
-	/* First, blank out the row. */
-	blank_row(edit, row, 0, COLS);
-
 	/* Next, find out from which column to start displaying the line. */
 	from_col = get_page_start(wideness(fileptr->data, index));
 
@@ -2884,8 +2884,6 @@ int update_softwrapped_line(linestruct *fileptr)
 		bool end_of_line = FALSE;
 
 		to_col = get_softwrap_breakpoint(fileptr->data, from_col, &end_of_line);
-
-		blank_row(edit, row, 0, COLS);
 
 		/* Convert the chunk to its displayable form and draw it. */
 		converted = display_string(fileptr->data, from_col, to_col - from_col,
