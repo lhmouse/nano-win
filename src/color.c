@@ -295,12 +295,12 @@ void check_the_multis(linestruct *line)
 	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
 		return;
 
+	alloc_multidata_if_needed(line);
+
 	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
 		/* If it's not a multiline regex, skip. */
 		if (ink->end == NULL)
 			continue;
-
-		alloc_multidata_if_needed(line);
 
 		astart = (regexec(ink->start, line->data, 1, &startmatch, 0) == 0);
 		afterstart = line->data + (astart ? startmatch.rm_eo : 0);
