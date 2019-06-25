@@ -394,7 +394,7 @@ void draw_the_promptbar(void)
 
 	/* Color the promptbar over its full width. */
 	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
-	blank_statusbar();
+	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 
 	mvwaddstr(bottomwin, 0, 0, prompt);
 	waddch(bottomwin, ':');
@@ -697,7 +697,7 @@ int do_yesno_prompt(bool all, const char *msg)
 
 		/* Color the statusbar over its full width and display the question. */
 		wattron(bottomwin, interface_color_pair[TITLE_BAR]);
-		blank_statusbar();
+		mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 		mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 		wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 		wnoutrefresh(bottomwin);

@@ -1794,13 +1794,14 @@ const keystruct *get_shortcut(int *kbinput)
  * current attributes. */
 void blank_row(WINDOW *win, int y, int x, int n)
 {
-	mvwprintw(win, y, x, "%*s", n, " ");
+	wmove(win, y, 0);
+	wclrtoeol(win);
 }
 
 /* Blank the first line of the top portion of the window. */
 void blank_titlebar(void)
 {
-	blank_row(topwin, 0, 0, COLS);
+	mvwprintw(topwin, 0, 0, "%*s", COLS, " ");
 }
 
 /* Blank all the lines of the middle portion of the window, i.e. the

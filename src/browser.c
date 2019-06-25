@@ -532,7 +532,7 @@ void browser_refresh(void)
 			the_column = col;
 		}
 
-		blank_row(edit, row, col, longest);
+		mvwprintw(edit, row, col, "%*s", longest, " ");
 
 		/* If the name is too long, we display something like "...ename". */
 		if (dots)
