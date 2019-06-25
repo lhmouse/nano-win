@@ -1797,23 +1797,20 @@ void blank_row(WINDOW *window, int row)
 	wclrtoeol(window);
 }
 
-/* Blank the first line of the top portion of the window. */
+/* Blank the first line of the top portion of the screen. */
 void blank_titlebar(void)
 {
 	mvwprintw(topwin, 0, 0, "%*s", COLS, " ");
 }
 
-/* Blank all the lines of the middle portion of the window, i.e. the
- * edit window. */
+/* Blank all lines of the middle portion of the screen (the edit window). */
 void blank_edit(void)
 {
-	int row;
-
-	for (row = 0; row < editwinrows; row++)
+	for (int row = 0; row < editwinrows; row++)
 		blank_row(edit, row);
 }
 
-/* Blank the first line of the bottom portion of the window. */
+/* Blank the first line of the bottom portion of the screen. */
 void blank_statusbar(void)
 {
 	blank_row(bottomwin, 0);
@@ -1826,8 +1823,7 @@ void wipe_statusbar(void)
 	wnoutrefresh(bottomwin);
 }
 
-/* If the NO_HELP flag isn't set, blank the last two lines of the bottom
- * portion of the window. */
+/* Blank out the two help lines (when they are present). */
 void blank_bottombars(void)
 {
 	if (!ISSET(NO_HELP) && LINES > 4) {

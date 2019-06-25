@@ -695,7 +695,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			post_one_key(cancelshortcut->keystr, _("Cancel"), width);
 		}
 
-		/* Color the statusbar over its full width and display the question. */
+		/* Color the promptbar over its full width and display the question. */
 		wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 		mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 		mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
