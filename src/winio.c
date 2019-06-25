@@ -1790,12 +1790,11 @@ const keystruct *get_shortcut(int *kbinput)
 	return NULL;
 }
 
-/* Move to (x, y) in win, and display a line of n spaces with the
- * current attributes. */
-void blank_row(WINDOW *win, int y, int x, int n)
+/* Move (in the given window) to the given row and wipe it clean. */
+void blank_row(WINDOW *window, int row)
 {
-	wmove(win, y, 0);
-	wclrtoeol(win);
+	wmove(window, row, 0);
+	wclrtoeol(window);
 }
 
 /* Blank the first line of the top portion of the window. */
@@ -1811,19 +1810,19 @@ void blank_edit(void)
 	int row;
 
 	for (row = 0; row < editwinrows; row++)
-		blank_row(edit, row, 0, COLS);
+		blank_row(edit, row);
 }
 
 /* Blank the first line of the bottom portion of the window. */
 void blank_statusbar(void)
 {
-	blank_row(bottomwin, 0, 0, COLS);
+	blank_row(bottomwin, 0);
 }
 
 /* Wipe the status bar clean and include this in the next screen update. */
 void wipe_statusbar(void)
 {
-	blank_row(bottomwin, 0, 0, COLS);
+	blank_row(bottomwin, 0);
 	wnoutrefresh(bottomwin);
 }
 
@@ -1832,8 +1831,8 @@ void wipe_statusbar(void)
 void blank_bottombars(void)
 {
 	if (!ISSET(NO_HELP) && LINES > 4) {
-		blank_row(bottomwin, 1, 0, COLS);
-		blank_row(bottomwin, 2, 0, COLS);
+		blank_row(bottomwin, 1);
+		blank_row(bottomwin, 2);
 	}
 }
 
@@ -2433,7 +2432,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 #endif
 
 	/* Wipe out any existing text on the row. */
-	blank_row(edit, row, 0, COLS);
+	blank_row(edit, row);
 
 #ifdef ENABLE_LINENUMBERS
 	/* If line numbering is switched on, put a line number in front of
@@ -3333,7 +3332,7 @@ void edit_refresh(void)
 	}
 
 	while (row < editwinrows)
-		blank_row(edit, row++, 0, COLS);
+		blank_row(edit, row++);
 
 	place_the_cursor();
 	wnoutrefresh(edit);

@@ -613,7 +613,6 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
 int get_mouseinput(int *mouse_row, int *mouse_col, bool allow_shortcuts);
 #endif
 const keystruct *get_shortcut(int *kbinput);
-void blank_row(WINDOW *win, int y, int x, int n);
 void blank_edit(void);
 void blank_statusbar(void);
 void wipe_statusbar(void);
