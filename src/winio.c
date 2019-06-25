@@ -2427,9 +2427,6 @@ void edit_draw(linestruct *fileptr, const char *converted,
 		 * might be beyond the null terminator of the string. */
 #endif
 
-	/* Wipe out any existing text on the row. */
-	blank_row(edit, row);
-
 #ifdef ENABLE_LINENUMBERS
 	/* If line numbering is switched on, put a line number in front of
 	 * the text -- but only for the parts that are not softwrapped. */
@@ -2437,10 +2434,10 @@ void edit_draw(linestruct *fileptr, const char *converted,
 		wattron(edit, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
 		if (ISSET(SOFTWRAP) && from_col != 0)
-			mvwprintw(edit, row, 0, "%*s", margin - 1, " ");
+			mvwprintw(edit, row, 0, "%*s", margin, " ");
 		else
 #endif
-			mvwprintw(edit, row, 0, "%*zd", margin - 1, fileptr->lineno);
+			mvwprintw(edit, row, 0, "%*zd ", margin - 1, fileptr->lineno);
 		wattroff(edit, interface_color_pair[LINE_NUMBER]);
 	}
 #endif
@@ -2448,6 +2445,7 @@ void edit_draw(linestruct *fileptr, const char *converted,
 	/* First simply write the converted line -- afterward we'll add colors
 	 * and the marking highlight on just the pieces that need it. */
 	mvwaddstr(edit, row, margin, converted);
+	wclrtoeol(edit);
 
 #ifdef USING_OLD_NCURSES
 	/* Tell ncurses to really redraw the line without trying to optimize
