@@ -524,15 +524,14 @@ void browser_refresh(void)
 				/* The filename (or a fragment of it) in displayable format.
 				 * When a fragment, account for dots plus one space padding. */
 
-		/* If this is the selected item, start its highlighting, and
+		/* If this is the selected item, draw its highlighted bar upfront, and
 		 * remember its location to be able to place the cursor on it. */
 		if (i == selected) {
 			wattron(edit, interface_color_pair[SELECTED_TEXT]);
+			mvwprintw(edit, row, col, "%*s", longest, " ");
 			the_row = row;
 			the_column = col;
 		}
-
-		mvwprintw(edit, row, col, "%*s", longest, " ");
 
 		/* If the name is too long, we display something like "...ename". */
 		if (dots)
