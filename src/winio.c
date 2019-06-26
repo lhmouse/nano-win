@@ -2790,11 +2790,11 @@ void edit_draw(linestruct *fileptr, const char *converted,
  * consumed (when softwrapping). */
 int update_line(linestruct *fileptr, size_t index)
 {
-	int row = 0;
+	int row;
 		/* The row in the edit window we will be updating. */
 	char *converted;
 		/* The data of the line with tabs and control characters expanded. */
-	size_t from_col = 0;
+	size_t from_col;
 		/* From which column a horizontally scrolled line is displayed. */
 
 #ifndef NANO_TINY
@@ -2803,15 +2803,10 @@ int update_line(linestruct *fileptr, size_t index)
 #endif
 
 	row = fileptr->lineno - openfile->edittop->lineno;
-
-	/* Next, find out from which column to start displaying the line. */
 	from_col = get_page_start(wideness(fileptr->data, index));
 
-	/* Expand the line, replacing tabs with spaces, and control
-	 * characters with their displayed forms. */
+	/* Expand the piece to be drawn to its representable form, and draw it. */
 	converted = display_string(fileptr->data, from_col, editwincols, TRUE, FALSE);
-
-	/* Draw the line. */
 	edit_draw(fileptr, converted, row, from_col);
 	free(converted);
 
