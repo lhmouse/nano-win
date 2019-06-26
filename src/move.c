@@ -554,12 +554,12 @@ void do_scroll_down(void)
 	if (openfile->current_y == 0)
 		do_down();
 
-	if (openfile->edittop->next != NULL
+	if (editwinrows > 1 && (openfile->edittop->next != NULL
 #ifndef NANO_TINY
 				|| chunk_for(openfile->firstcolumn, openfile->edittop) <
 					number_of_chunks_in(openfile->edittop)
 #endif
-										)
+										))
 		edit_scroll(FORWARD);
 }
 #endif
