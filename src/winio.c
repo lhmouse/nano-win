@@ -3450,13 +3450,11 @@ void enable_waiting(void)
 /* Highlight the text between from_col and to_col. */
 void spotlight(size_t from_col, size_t to_col)
 {
-	size_t right_edge;
+	size_t right_edge = get_page_start(from_col) + editwincols;
 	bool overshoots = FALSE;
 	char *word;
 
 	place_the_cursor();
-
-	right_edge = get_page_start(from_col) + editwincols;
 
 	/* Limit the end column to the edge of the screen. */
 	if (to_col > right_edge) {
@@ -3473,12 +3471,9 @@ void spotlight(size_t from_col, size_t to_col)
 								to_col - from_col, FALSE, overshoots);
 
 	wattron(edit, interface_color_pair[SELECTED_TEXT]);
-
 	waddnstr(edit, word, actual_x(word, to_col));
-
 	if (overshoots)
 		mvwaddch(edit, openfile->current_y, COLS - 1, '>');
-
 	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 	free(word);
@@ -3519,9 +3514,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 										break_col - from_col, FALSE, FALSE);
 
 		wattron(edit, interface_color_pair[SELECTED_TEXT]);
-
 		waddnstr(edit, word, actual_x(word, break_col));
-
 		wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 		free(word);
