@@ -3522,7 +3522,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 		if (end_of_line)
 			break;
 
-		wmove(edit, ++row, 0);
+		wmove(edit, ++row, margin);
 
 		leftedge = break_col;
 		from_col = break_col;
