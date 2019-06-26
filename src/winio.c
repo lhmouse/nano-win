@@ -2406,14 +2406,10 @@ void place_the_cursor(void)
 	openfile->current_y = row;
 }
 
-/* edit_draw() takes care of the job of actually painting a line into
- * the edit window.  fileptr is the line to be painted, at row row of
- * the window.  converted is the actual string to be written to the
- * window, with tabs and control characters replaced by strings of
- * regular characters.  from_col is the column number of the first
- * character of this page.  That is, the first character of converted
- * corresponds to character number actual_x(fileptr->data, from_col) of the
- * line. */
+/* Draw the given text on the given row of the edit window.  fileptr is the
+ * line to be drawn, and converted is the actual string to be written with
+ * tabs and control characters replaced by strings of regular characters.
+ * from_col is the column number of the first character of this "page". */
 void edit_draw(linestruct *fileptr, const char *converted,
 		int row, size_t from_col)
 {
@@ -2782,12 +2778,9 @@ void edit_draw(linestruct *fileptr, const char *converted,
 #endif /* !NANO_TINY */
 }
 
-/* Redraw the line at fileptr.  The line will be displayed so that the
- * character with the given index is visible -- if necessary, the line
- * will be horizontally scrolled.  In softwrap mode, however, the entire
- * line will be passed to update_softwrapped_line().  Likely values of
- * index are current_x or zero.  Return the number of additional rows
- * consumed (when softwrapping). */
+/* Redraw the given line so that the character at the given index is visible
+ * -- if necessary, scroll the line horizontally (when not softwrapping).
+ * Return the number of rows "consumed" (relevant when softwrapping). */
 int update_line(linestruct *fileptr, size_t index)
 {
 	int row;
@@ -2830,7 +2823,7 @@ int update_line(linestruct *fileptr, size_t index)
 #ifndef NANO_TINY
 /* Redraw all the chunks of the given line (as far as they fit onscreen),
  * unless it's edittop, which will be displayed from column firstcolumn.
- * Return the number of additional rows consumed. */
+ * Return the number of rows that were "consumed". */
 int update_softwrapped_line(linestruct *fileptr)
 {
 	int row = 0;
