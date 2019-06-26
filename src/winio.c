@@ -2410,8 +2410,8 @@ void place_the_cursor(void)
  * line to be drawn, and converted is the actual string to be written with
  * tabs and control characters replaced by strings of regular characters.
  * from_col is the column number of the first character of this "page". */
-void edit_draw(linestruct *fileptr, const char *converted,
-		int row, size_t from_col)
+void draw_row(int row, const char *converted, linestruct *fileptr,
+				size_t from_col)
 {
 #if !defined(NANO_TINY) || defined(ENABLE_COLOR)
 	size_t from_x = actual_x(fileptr->data, from_col);
@@ -2800,7 +2800,7 @@ int update_line(linestruct *fileptr, size_t index)
 
 	/* Expand the piece to be drawn to its representable form, and draw it. */
 	converted = display_string(fileptr->data, from_col, editwincols, TRUE, FALSE);
-	edit_draw(fileptr, converted, row, from_col);
+	draw_row(row, converted, fileptr, from_col);
 	free(converted);
 
 	if (from_col > 0) {
@@ -2867,7 +2867,7 @@ int update_softwrapped_line(linestruct *fileptr)
 		/* Convert the chunk to its displayable form and draw it. */
 		converted = display_string(fileptr->data, from_col, to_col - from_col,
 									TRUE, FALSE);
-		edit_draw(fileptr, converted, row++, from_col);
+		draw_row(row++, converted, fileptr, from_col);
 		free(converted);
 
 		if (end_of_line)

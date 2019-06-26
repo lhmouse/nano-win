@@ -627,8 +627,6 @@ void statusline(message_type importance, const char *msg, ...);
 void bottombars(int menu);
 void post_one_key(const char *keystroke, const char *tag, int width);
 void place_the_cursor(void);
-void edit_draw(linestruct *fileptr, const char *converted,
-		int line, size_t from_col);
 int update_line(linestruct *fileptr, size_t index);
 #ifndef NANO_TINY
 int update_softwrapped_line(linestruct *fileptr);
