@@ -2410,8 +2410,7 @@ void place_the_cursor(void)
  * line to be drawn, and converted is the actual string to be written with
  * tabs and control characters replaced by strings of regular characters.
  * from_col is the column number of the first character of this "page". */
-void draw_row(int row, const char *converted, linestruct *line,
-				size_t from_col)
+void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 {
 #if !defined(NANO_TINY) || defined(ENABLE_COLOR)
 	size_t from_x = actual_x(line->data, from_col);
@@ -2728,13 +2727,11 @@ void draw_row(int row, const char *converted, linestruct *line,
 		wattroff(edit, interface_color_pair[GUIDE_STRIPE]);
 	}
 
-	/* If the mark is on, and line is at least partially selected, we
-	 * need to paint it. */
-	if (openfile->mark &&
-				(line->lineno <= openfile->mark->lineno ||
-				line->lineno <= openfile->current->lineno) &&
-				(line->lineno >= openfile->mark->lineno ||
-				line->lineno >= openfile->current->lineno)) {
+	/* If the line is at least partially selected, paint the marked part. */
+	if (openfile->mark && ((line->lineno >= openfile->mark->lineno &&
+						line->lineno <= openfile->current->lineno) ||
+						(line->lineno <= openfile->mark->lineno &&
+						line->lineno >= openfile->current->lineno))) {
 		const linestruct *top, *bot;
 			/* The lines where the marked region begins and ends. */
 		size_t top_x, bot_x;
