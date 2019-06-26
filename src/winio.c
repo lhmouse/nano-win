@@ -2889,7 +2889,7 @@ int update_softwrapped_line(linestruct *fileptr)
 	}
 
 	if (spotlighted && !inhelp)
-		spotlight(light_from_col, light_to_col);
+		spotlight_softwrapped(light_from_col, light_to_col);
 
 	return (row - starting_row);
 }
@@ -3456,13 +3456,6 @@ void spotlight(size_t from_col, size_t to_col)
 
 	place_the_cursor();
 
-#ifndef NANO_TINY
-	if (ISSET(SOFTWRAP)) {
-		spotlight_softwrapped(from_col, to_col);
-		return;
-	}
-#endif
-
 	right_edge = get_page_start(from_col) + editwincols;
 
 	/* Limit the end column to the edge of the screen. */
@@ -3503,6 +3496,8 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 	size_t break_col;
 	bool end_of_line = FALSE;
 	char *word;
+
+	place_the_cursor();
 
 	while (row < editwinrows) {
 		break_col = get_softwrap_breakpoint(openfile->current->data,
