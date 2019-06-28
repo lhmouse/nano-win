@@ -68,6 +68,9 @@ bool more_than_one = FALSE;
 bool also_the_last = FALSE;
 		/* Whether indenting/commenting should include the last line of
 		 * the marked region. */
+bool is_shorter;
+		/* Whether a row's text is narrower than the screen's width. */
+
 int didfind = 0;
 		/* Whether the last search found something. */
 

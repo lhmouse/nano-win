@@ -2023,6 +2023,8 @@ char *display_string(const char *buf, size_t column, size_t span,
 #endif
 	}
 
+	is_shorter = (column < beyond);
+
 	/* Null-terminate the converted string. */
 	converted[index] = '\0';
 
@@ -2440,7 +2442,10 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 	/* First simply write the converted line -- afterward we'll add colors
 	 * and the marking highlight on just the pieces that need it. */
 	mvwaddstr(edit, row, margin, converted);
-	wclrtoeol(edit);
+
+	/* When needed, clear the remainder of the row. */
+	if (is_shorter || ISSET(SOFTWRAP))
+		wclrtoeol(edit);
 
 #ifdef USING_OLD_NCURSES
 	/* Tell ncurses to really redraw the line without trying to optimize
