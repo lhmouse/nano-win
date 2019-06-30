@@ -288,10 +288,8 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 	bool mark_inside = FALSE;
 	bool same_line = FALSE;
 
-	if (top == bot && top_x == bot_x) {
-		statusline(ALERT, "Extracting nothing -- please report a bug");
+	if (top == bot && top_x == bot_x)
 		return;
-	}
 #endif
 
 	/* Partition the buffer so that it contains only the text from

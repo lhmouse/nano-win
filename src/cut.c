@@ -406,10 +406,6 @@ void copy_text(void)
 	ssize_t is_current_lineno = openfile->current->lineno;
 	size_t is_current_x = openfile->current_x;
 
-	/* If there is nothing to copy, don't even try. */
-	if (openfile->current->next == NULL && openfile->current->data[0] == '\0')
-		return;
-
 	do_cut_text(TRUE, mark_is_set, FALSE, FALSE);
 
 	/* If the mark was set, restore the viewport and cursor position. */
