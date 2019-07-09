@@ -362,8 +362,13 @@ void begin_new_syntax(char *ptr)
 void check_for_nonempty_syntax(void)
 {
 #ifdef ENABLE_COLOR
-	if (opensyntax && !seen_color_command)
+	if (opensyntax && !seen_color_command) {
+		size_t current_lineno = lineno;
+
+		lineno = live_syntax->lineno;
 		jot_error(N_("Syntax \"%s\" has no color commands"), live_syntax->name);
+		lineno = current_lineno;
+	}
 
 	opensyntax = FALSE;
 #endif
