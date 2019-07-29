@@ -1703,7 +1703,7 @@ command-line options, which switch on the logging of search/replace
 strings and cursor positions.
 
 @item --disable-justify
-Disable the justify and unjustify functions.
+Disable the justify functions (@kbd{^J} and @kbd{M-J}).
 
 @item --disable-libmagic
 Disable the use of the library of magic-number tests (for determining
