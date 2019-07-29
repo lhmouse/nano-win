@@ -1711,7 +1711,7 @@ the file type and thus which syntax to use for colouring --- often the
 tests on filename extension and header line will be enough).
 
 @item --disable-linenumbers
-Disable the line-numbering function (@kbd{M-#}).  This also eliminates the
+Disable the line-numbering function (@kbd{M-N}).  This also eliminates the
 @option{-l} command-line option, which turns line numbering on.
 
 @item --disable-mouse
