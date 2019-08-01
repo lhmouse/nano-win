@@ -182,7 +182,9 @@ void chop_word(bool forward)
 	openfile->current_x = is_current_x;
 
 	/* Now kill the marked region and a word is gone. */
-	cut_text();
+	add_undo(CUT);
+	do_cut_text(FALSE, TRUE, FALSE, FALSE);
+	update_undo(CUT);
 
 	/* Discard the cut word and restore the cutbuffer. */
 	free_lines(cutbuffer);
@@ -390,6 +392,7 @@ void cut_text(void)
 	if (is_cuttable(FALSE))
 		do_cut_text(FALSE, FALSE, FALSE, FALSE);
 #endif
+	wipe_statusbar();
 }
 
 #ifndef NANO_TINY
@@ -433,6 +436,7 @@ void cut_till_eof(void)
 	add_undo(CUT_TO_EOF);
 	do_cut_text(FALSE, FALSE, TRUE, FALSE);
 	update_undo(CUT_TO_EOF);
+	wipe_statusbar();
 }
 
 /* Erase text (current line or marked region), sending it into oblivion. */
@@ -455,6 +459,7 @@ void zap_text(void)
 	do_cut_text(FALSE, openfile->mark != NULL, FALSE, TRUE);
 
 	update_undo(ZAP);
+	wipe_statusbar();
 
 	cutbuffer = was_cutbuffer;
 }
@@ -496,5 +501,6 @@ void paste_text(void)
 	openfile->placewewant = xplustabs();
 
 	set_modified();
+	wipe_statusbar();
 	refresh_needed = TRUE;
 }
