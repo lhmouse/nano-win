@@ -1677,54 +1677,54 @@ The possible options to @code{./configure} are:
 @table @code
 
 @item --disable-browser
-Disable the mini file browser that can be called with @kbd{^T} when reading
-or writing files.
+Exclude the mini file browser that can be called with @kbd{^T} when
+wanting to read or write a file.
 
 @item --disable-color
-Disable support for the syntax coloring of files.  This also eliminates
-the @option{-Y} command-line option, which chooses a specific syntax.
+Exclude support for syntax coloring.  This also eliminates the @option{-Y}
+command-line option, which allows choosing a specific syntax.
 
 @item --disable-comment
-Disable the single-keystroke comment/uncomment function (@kbd{M-3}).
+Exclude the single-keystroke comment/uncomment function (@kbd{M-3}).
 
 @item --disable-extra
-Disable the Easter egg: a crawl of major contributors.
+Exclude the Easter egg: a crawl of major contributors.
 
 @item --disable-help
-Disable the help function.  Doing this makes the binary much smaller,
-but makes it difficult for new users to learn more than very basic
+Exclude the help texts (@kbd{^G}).  This makes the binary much smaller,
+but also makes it difficult for new users to learn more than very basic
 things about using the editor.
 
 @item --disable-histories
-Disable the code for the handling of the history files: the search and
+Exclude the code for handling the history files: the search and
 replace strings that were used, and the cursor position at which each
 file was closed.  This also eliminates the @option{-H} and @option{-P}
 command-line options, which switch on the logging of search/replace
 strings and cursor positions.
 
 @item --disable-justify
-Disable the justify functions (@kbd{^J} and @kbd{M-J}).
+Exclude the justify functions (@kbd{^J} and @kbd{M-J}).
 
 @item --disable-libmagic
-Disable the use of the library of magic-number tests (for determining
-the file type and thus which syntax to use for colouring --- often the
-tests on filename extension and header line will be enough).
+Exclude the code for using the library of magic-number tests (for determining
+the file type and thus which syntax to use for coloring --- often the regexes
+for filename and header line will be enough).
 
 @item --disable-linenumbers
-Disable the line-numbering function (@kbd{M-N}).  This also eliminates the
+Exclude the line-numbering function (@kbd{M-N}).  This also eliminates the
 @option{-l} command-line option, which turns line numbering on.
 
 @item --disable-mouse
-Disable all mouse functionality.  This also eliminates the @option{-m}
+Exclude all mouse functionality.  This also eliminates the @option{-m}
 command-line option, which enables the mouse functionality.
 
 @item --disable-multibuffer
-Disable support for opening multiple files at a time and switching
+Exclude support for opening multiple files at a time and switching
 between them on the fly.  This also eliminates the @option{-F} command-line
 option, which causes a file to be read into a separate buffer by default.
 
 @item --disable-nanorc
-Disable support for reading the nanorc files at startup.  With such
+Exclude support for reading the nanorc files at startup.  With such
 support, you can store custom settings in a system-wide and a per-user
 nanorc file rather than having to pass command-line options to get
 the desired behavior.  @xref{Nanorc Files} for more info.
@@ -1732,22 +1732,23 @@ Disabling this also eliminates the @option{-I} command-line option,
 which inhibits the reading of nanorc files.
 
 @item --disable-operatingdir
-Disable setting the operating directory.  This also eliminates the @option{-o}
-command-line option, which sets the operating directory.
+Exclude the code for setting the operating directory.  This also eliminates
+the @option{-o} command-line option, which sets the operating directory.
 
 @item --disable-speller
-Disable use of the spell checker.  This also eliminates the @option{-s}
+Exclude the code for spell checking.  This also eliminates the @option{-s}
 command-line option, which allows specifying an alternate spell checker.
 
 @item --disable-tabcomp
-Disable tab completion (when nano asks for a filename or a search string).
+Exclude tab completion (when nano asks for a filename or a search string).
 
 @item --disable-wordcomp
-Disable word completion (@kbd{^]}).
+Exclude word completion (@kbd{^]}).
 
 @item --disable-wrapping
-Disable all hard-wrapping of overlong lines.  This also eliminates the
-@option{-w} command-line option, which switches long-line wrapping off.
+Exclude all hard-wrapping of overlong lines.  This also eliminates the
+@option{-b} and @option{-w} command-line options, which switch automatic
+long-line wrapping on and off, respectively.
 
 @item --enable-tiny
 This option implies all of the above.  It also disables some other
@@ -1757,19 +1758,19 @@ counterpart of the above options together with @option{--enable-tiny},
 specific features can be switched back on --- but a few cannot.
 
 @item --enable-debug
-Enable support for runtime debug output.  This can get pretty messy, so
+Include some code for runtime debugging output.  This can get pretty messy, so
 chances are you only want this feature when you're working on the nano source.
 
 @item --disable-nls
-Disables Native Language support.  This will disable the use of any
+Exclude Native Language support.  This will disable the use of any
 available GNU @command{nano} translations.
 
 @item --enable-utf8
-Enable support for reading and writing Unicode files.  This will require
+Include support for reading and writing Unicode files.  This will require
 either a wide version of curses, or a UTF-8-enabled version of Slang.
 
 @item --disable-utf8
-Disable support for reading and writing Unicode files.  Normally the
+Exclude support for reading and writing Unicode files.  Normally the
 configure script auto-detects whether to enable UTF-8 support or not.
 You can use this or the previous option to override that detection.
 
