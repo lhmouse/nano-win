@@ -11,5 +11,8 @@ icolor cyan start="[$@%]" end="( |[^0-9A-Z_]|-)"
 color yellow "".*"|qq\|.*\|"
 color white "[sm]/.*/"
 color white start="(^use| = new)" end=";"
-color green "#.*"
+
+# Comments.
+color green "(^|[[:space:]])#.*"
+
 color yellow start="<< 'STOP'" end="STOP"
