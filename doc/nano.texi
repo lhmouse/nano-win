@@ -989,7 +989,7 @@ powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
 good fit for a small editor like @command{nano}.
 
-All regular expressions in @command{nano} are extended regular expressions
+All regular expressions in @command{nano} are POSIX extended regular expressions
 (ERE).  This means that @code{.}, @code{?}, @code{*}, @code{+}, @code{^},
 @code{$}, and several other characters are special.
 The period @code{.} matches any single character,
@@ -1021,7 +1021,7 @@ activated by using the @option{-Y} or @option{--syntax}
 command-line option followed by the @var{name}.
 
 The @code{default} syntax is special: it takes no @var{fileregex},
-and applies to files that don't match any syntax's @var{fileregex}.
+and applies to files that don't match any syntax's regexes.
 The @code{none} syntax is reserved; specifying it on the
 command line is the same as not having a syntax at all.
 
@@ -1053,25 +1053,24 @@ functions are disabled; for example, @t{""} for JSON.
 The default value is @t{"#"}.
 
 @item color @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
-Display all pieces of text that match the
-extended regular expression "regex" with foreground color "fgcolor" and
-background color "bgcolor", at least one of which must be specified.
-Valid names for foreground and background color are:
+Paint all pieces of text that match the extended regular expression "regex"
+with the given foreground and background colors, at least one of which must
+be specified.  Valid color names are:
 @code{white}, @code{black}, @code{blue}, @code{green},
 @code{red}, @code{cyan}, @code{yellow}, @code{magenta}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
-You may use the prefix @code{bright}
-to get a stronger color highlight for the foreground.  If your
-terminal supports transparency, not specifying a "bgcolor" tells @command{nano}
-to attempt to use a transparent background.
+You may use the prefix @code{bright} for the foreground color to get a
+stronger highlight.
+If your terminal supports transparency, not specifying a "bgcolor"
+tells @command{nano} to attempt to use a transparent background.
 
 @item icolor @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
 Same as above, except that the matching is case insensitive.
 
 @item color @var{fgcolor},@var{bgcolor} start="@var{fromrx}" end="@var{torx}"
-Display all pieces of text whose start matches extended regular expression
+Paint all pieces of text whose start matches extended regular expression
 "fromrx" and whose end matches extended regular expression "torx" with
-foreground color "fgcolor" and background color "bgcolor", at least one of
+the given foreground and background colors, at least one of
 which must be specified.  This means that, after an initial instance of
 "fromrx", all text until the first instance of "torx" will be colored.
 This allows syntax highlighting to span multiple lines.

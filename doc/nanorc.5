@@ -335,7 +335,7 @@ powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
 good fit for a small editor like \fBnano\fR.
 .sp
-All regular expressions in \fBnano\fR are extended regular expressions (ERE).
+All regular expressions in \fBnano\fR are POSIX extended regular expressions.
 This means that \fB.\fR, \fB?\fR, \fB*\fR, \fB+\fR, \fB^\fR, \fB$\fR, and
 several other characters are special.
 The period \fB.\fR matches any single character,
@@ -397,25 +397,23 @@ function is disabled; for example, "" for JSON.
 The default value is "\fB#\fP".
 .TP
 .BI "color " fgcolor , bgcolor " """ regex """ " \fR...
-Display all pieces of text that match
-the extended regular expression \fIregex\fP with foreground color
-\fIfgcolor\fP and background color \fIbgcolor\fP, at least one of which
-must be specified.  Valid names for foreground and background colors are:
+Paint all pieces of text that match the extended regular expression
+\fIregex\fP with the given foreground and background colors, at least
+one of which must be specified.  Valid color names are:
 .BR white ", " black ", " blue ", " green ", " red ", "
 .BR cyan ", " yellow ", " magenta ", and " normal
 -- where \fBnormal\fR means the default foreground or background color.
-You may use the prefix \fBbright\fR to get a stronger color highlight for the
-foreground.  If your terminal supports transparency, not specifying a
-\fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent
-background.
+You may use the prefix \fBbright\fR for the foreground color to get a
+stronger highlight.  If your terminal supports transparency, not specifying
+a \fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent background.
 .TP
 .BI "icolor " fgcolor , bgcolor " """ regex """ " \fR...
 Same as above, except that the matching is case insensitive.
 .TP
 .BI "color " fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
-Display all pieces of text whose start matches extended regular expression
-\fIfromrx\fP and whose end matches extended regular expression \fItorx\fP with
-foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
+Paint all pieces of text whose start matches extended regular expression
+\fIfromrx\fP and whose end matches extended regular expression \fItorx\fP
+with the given foreground and background colors,
 at least one of which must be specified.  This means that, after an
 initial instance of \fIfromrx\fP, all text until the first instance of
 \fItorx\fP will be colored.  This allows syntax highlighting to span
