@@ -235,6 +235,7 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *index);
 #if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
 bool has_blank_char(const char *s);
 #endif
+bool white_string(const char *s);
 #ifdef ENABLE_UTF8
 bool is_valid_unicode(wchar_t wc);
 #endif
@@ -508,7 +509,6 @@ void do_tab(void);
 void do_indent(void);
 void do_unindent(void);
 #endif
-bool white_string(const char *s);
 #ifdef ENABLE_COMMENT
 void do_comment(void);
 #endif

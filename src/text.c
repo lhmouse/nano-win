@@ -297,15 +297,6 @@ void handle_indent_action(undo *u, bool undoing, bool add_indent)
 }
 #endif /* !NANO_TINY */
 
-/* Return TRUE when the given string is empty or consists of only blanks. */
-bool white_string(const char *s)
-{
-	while (*s != '\0' && (is_blank_mbchar(s) || *s == '\r'))
-		s += char_length(s);
-
-	return !*s;
-}
-
 #ifdef ENABLE_COMMENT
 /* Test whether the given line can be uncommented, or add or remove a comment,
  * depending on action.  Return TRUE if the line is uncommentable, or when

@@ -602,6 +602,15 @@ bool has_blank_char(const char *string)
 }
 #endif /* ENABLE_NANORC && (!NANO_TINY || ENABLE_JUSTIFY) */
 
+/* Return TRUE when the given string is empty or consists of only blanks. */
+bool white_string(const char *string)
+{
+	while (*string != '\0' && (is_blank_mbchar(string) || *string == '\r'))
+		string += char_length(string);
+
+	return !*string;
+}
+
 #ifdef ENABLE_UTF8
 /* Return TRUE if wc is valid Unicode, and FALSE otherwise. */
 bool is_valid_unicode(wchar_t wc)
