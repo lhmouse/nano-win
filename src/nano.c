@@ -2581,9 +2581,19 @@ int main(int argc, char **argv)
 	/* Read the files mentioned on the command line into new buffers. */
 	while (optind < argc && (!openfile || read_them_all)) {
 		ssize_t givenline = 0, givencol = 0;
+		char *searchstring = NULL;
 
 		/* If there's a +LINE[,COLUMN] argument here, eat it up. */
 		if (optind < argc - 1 && argv[optind][0] == '+') {
+			if (argv[optind][1] == '/' || argv[optind][1] == '?') {
+				if (argv[optind][2]) {
+					searchstring = mallocstrcpy(NULL, &argv[optind][2]);
+					if (argv[optind][1] == '?')
+						SET(BACKWARDS_SEARCH);
+				} else
+					statusline(ALERT, _("Empty search string"));
+				optind++;
+			} else
 			if (!parse_line_column(&argv[optind++][1], &givenline, &givencol))
 				statusline(ALERT, _("Invalid line or column number"));
 		}
@@ -2600,6 +2610,20 @@ int main(int argc, char **argv)
 		/* If a position was given on the command line, go there. */
 		if (givenline != 0 || givencol != 0)
 			do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
+		else if (searchstring != NULL) {
+			if (ISSET(USE_REGEXP))
+				regexp_init(searchstring);
+			if (!findnextstr(searchstring, FALSE, JUSTFIND, NULL, TRUE,
+											openfile->filetop, 0))
+				not_found_msg(searchstring);
+			else
+				wipe_statusbar();
+			if (ISSET(USE_REGEXP))
+				tidy_up_after_search();
+			free(last_search);
+			last_search = searchstring;
+			searchstring = NULL;
+		}
 #ifdef ENABLE_HISTORIES
 		else if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0') {
 			ssize_t savedline, savedcol;
