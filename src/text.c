@@ -494,7 +494,7 @@ void redo_cut(undo *u)
 	openfile->mark = line_from_number(u->mark_begin_lineno);
 	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
 
-	do_cut_text(FALSE, TRUE, FALSE, u->type == ZAP);
+	do_snip(FALSE, TRUE, FALSE, u->type == ZAP);
 
 	free_lines(cutbuffer);
 	cutbuffer = oldcutbuffer;
@@ -992,7 +992,7 @@ bool execute_command(const char *command)
 		if (ISSET(MULTIBUFFER)) {
 			openfile = openfile->prev;
 			if (openfile->mark)
-				do_cut_text(TRUE, TRUE, FALSE, FALSE);
+				do_snip(TRUE, TRUE, FALSE, FALSE);
 		} else
 #endif
 		{
@@ -1003,7 +1003,7 @@ bool execute_command(const char *command)
 				openfile->current_x = 0;
 			}
 			add_undo(CUT);
-			do_cut_text(FALSE, openfile->mark != NULL, openfile->mark == NULL, FALSE);
+			do_snip(FALSE, openfile->mark != NULL, openfile->mark == NULL, FALSE);
 			update_undo(CUT);
 		}
 

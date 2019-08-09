@@ -540,7 +540,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked)
 #ifndef NANO_TINY
 	add_undo(action);
 #endif
-	do_cut_text(FALSE, marked, !marked, FALSE);
+	do_snip(FALSE, marked, !marked, FALSE);
 #ifndef NANO_TINY
 	update_undo(action);
 #endif
