@@ -359,6 +359,8 @@ void do_research(void)
 	/* Use the search-menu key bindings, to allow cancelling. */
 	currmenu = MWHEREIS;
 
+	wipe_statusbar();
+
 	go_looking();
 
 	tidy_up_after_search();
