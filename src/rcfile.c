@@ -560,6 +560,8 @@ bool is_good_file(char *file)
 /* Read and parse one included syntax file. */
 void parse_one_include(char *file, syntaxtype *syntax)
 {
+	char *was_nanorc = nanorc;
+	size_t was_lineno = lineno;
 	augmentstruct *extra;
 	FILE *rcstream;
 
@@ -583,6 +585,8 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	/* If this is the first pass, parse only the prologue. */
 	if (syntax == NULL) {
 		parse_rcfile(rcstream, TRUE, TRUE);
+		nanorc = was_nanorc;
+		lineno = was_lineno;
 		return;
 	}
 
@@ -610,6 +614,9 @@ void parse_one_include(char *file, syntaxtype *syntax)
 
 	free(syntax->filename);
 	syntax->filename = NULL;
+
+	nanorc = was_nanorc;
+	lineno = was_lineno;
 }
 
 /* Expand globs in the passed name, and parse the resultant files. */
