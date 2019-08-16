@@ -388,8 +388,8 @@ point to vary along with the width of the screen if the screen is resized.
 The default value is @t{-8}.
 
 @anchor{@option{--speller}}
-@item -s @var{program}
-@itemx --speller=@var{program}
+@item -s "@var{program} [@var{arg} @dots{}]"
+@itemx --speller="@var{program} [@var{arg} @dots{}]"
 Use the given program to do spell checking and correcting.  By default,
 @command{nano} uses the command specified in the @env{SPELL} environment
 variable.  If @env{SPELL} is not set, and @option{--speller} is
@@ -915,7 +915,7 @@ When needed, use @code{unset jumpyscrolling} instead.
 @item set softwrap
 Enable soft line wrapping for easier viewing of very long lines.
 
-@item set speller "@var{program}"
+@item set speller "@var{program} [@var{arg} @dots{}]"
 Use the given program to do spell checking and correcting.
 @xref{@option{--speller}} for details.
 
