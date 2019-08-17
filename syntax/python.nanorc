@@ -7,7 +7,7 @@ linter pyflakes
 comment "#"
 
 # Function definitions.
-icolor brightblue "def [0-9A-Z_]+"
+color brightblue "def [0-9A-Za-z_]+"
 # Keywords.
 color brightcyan "\<(and|as|assert|async|await|break|class|continue)\>"
 color brightcyan "\<(def|del|elif|else|except|finally|for|from)\>"
