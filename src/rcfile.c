@@ -557,7 +557,8 @@ bool is_good_file(char *file)
 }
 
 #ifdef ENABLE_COLOR
-/* Read and parse one included syntax file. */
+/* Partially parse the syntaxes in the given file, or (when syntax
+ * is not NULL) fully parse one specific syntax from the file . */
 void parse_one_include(char *file, syntaxtype *syntax)
 {
 	char *was_nanorc = nanorc;
@@ -569,7 +570,6 @@ void parse_one_include(char *file, syntaxtype *syntax)
 	if (!is_good_file(file))
 		return;
 
-	/* Open the included syntax file. */
 	rcstream = fopen(file, "rb");
 
 	if (rcstream == NULL) {
