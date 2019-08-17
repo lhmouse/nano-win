@@ -2585,16 +2585,31 @@ int main(int argc, char **argv)
 
 		/* If there's a +LINE[,COLUMN] argument here, eat it up. */
 		if (optind < argc - 1 && argv[optind][0] == '+') {
-			if (argv[optind][1] == '/' || argv[optind][1] == '?') {
-				if (argv[optind][2]) {
-					searchstring = mallocstrcpy(NULL, &argv[optind][2]);
-					if (argv[optind][1] == '?')
+			int n = 1;
+
+			while (isalpha(argv[optind][n])) {
+				switch (argv[optind][n++]) {
+					case 'c': SET(CASE_SENSITIVE); break;
+					case 'C': UNSET(CASE_SENSITIVE); break;
+					case 'r': SET(USE_REGEXP); break;
+					case 'R': UNSET(USE_REGEXP); break;
+					default:
+						statusline(ALERT, _("Invalid search modifier '%c'"),
+											argv[optind][n - 1]);
+				}
+			}
+
+			if (argv[optind][n] == '/' || argv[optind][n] == '?') {
+				if (argv[optind][n + 1]) {
+					searchstring = mallocstrcpy(NULL, &argv[optind][n + 1]);
+					if (argv[optind][n] == '?')
 						SET(BACKWARDS_SEARCH);
-				} else
+				} else if (n == 1)
 					statusline(ALERT, _("Empty search string"));
 				optind++;
 			} else
-			if (!parse_line_column(&argv[optind++][1], &givenline, &givencol))
+
+			if (!parse_line_column(&argv[optind++][n], &givenline, &givencol))
 				statusline(ALERT, _("Invalid line or column number"));
 		}
 
