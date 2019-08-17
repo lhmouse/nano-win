@@ -623,8 +623,6 @@ void parse_one_include(char *file, syntaxtype *syntax)
 void parse_includes(char *ptr)
 {
 	char *pattern, *expanded;
-	char *was_nanorc = nanorc;
-	size_t was_lineno = lineno;
 	glob_t files;
 	int result;
 
@@ -647,11 +645,6 @@ void parse_includes(char *ptr)
 
 	globfree(&files);
 	free(expanded);
-
-	/* We're done with the included file(s).  Restore the original
-	 * filename and line number position. */
-	nanorc = was_nanorc;
-	lineno = was_lineno;
 }
 
 /* Return the short value corresponding to the color named in colorname,
