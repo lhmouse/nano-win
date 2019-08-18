@@ -631,6 +631,8 @@ void parse_includes(char *ptr)
 	glob_t files;
 	int result;
 
+	check_for_nonempty_syntax();
+
 	pattern = ptr;
 	if (*pattern == '"')
 		pattern++;
