@@ -2581,12 +2581,14 @@ int main(int argc, char **argv)
 	/* Read the files mentioned on the command line into new buffers. */
 	while (optind < argc && (!openfile || read_them_all)) {
 		ssize_t givenline = 0, givencol = 0;
+#ifndef NANO_TINY
 		char *searchstring = NULL;
-
+#endif
 		/* If there's a +LINE[,COLUMN] argument here, eat it up. */
 		if (optind < argc - 1 && argv[optind][0] == '+') {
 			int n = 1;
 
+#ifndef NANO_TINY
 			while (isalpha(argv[optind][n])) {
 				switch (argv[optind][n++]) {
 					case 'c': SET(CASE_SENSITIVE); break;
@@ -2608,7 +2610,7 @@ int main(int argc, char **argv)
 					statusline(ALERT, _("Empty search string"));
 				optind++;
 			} else
-
+#endif
 			if (!parse_line_column(&argv[optind++][n], &givenline, &givencol))
 				statusline(ALERT, _("Invalid line or column number"));
 		}
@@ -2625,6 +2627,7 @@ int main(int argc, char **argv)
 		/* If a position was given on the command line, go there. */
 		if (givenline != 0 || givencol != 0)
 			do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
+#ifndef NANO_TINY
 		else if (searchstring != NULL) {
 			if (ISSET(USE_REGEXP))
 				regexp_init(searchstring);
@@ -2639,6 +2642,7 @@ int main(int argc, char **argv)
 			last_search = searchstring;
 			searchstring = NULL;
 		}
+#endif
 #ifdef ENABLE_HISTORIES
 		else if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0') {
 			ssize_t savedline, savedcol;
