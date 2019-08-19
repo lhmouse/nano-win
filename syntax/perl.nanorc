@@ -11,7 +11,7 @@ color magenta "\<(continue|else|elsif|do|for|foreach|if|unless|until|while|eq|ne
 # Variable names.
 color cyan "[$%&@]([A-Za-z_][0-9A-Za-z_]*|\^[][A-Z?\^_]|[0-9]+)\>"
 color cyan "[$%&@]\{(\^?[A-Za-z_][0-9A-Za-z_]*|\^[][?\^][0-9]+)\}"
-color cyan "[$%&@]([][!"#'-.:-?`|~]|\{[][!-/:-@\`|~]\})|\$[$%&@]"
+color cyan "[$%&@]([][!"#'()*+,.:;<=>?`|~-]|\{[][!-/:-@\`|~]\})|\$[$%&@]"
 color cyan "(^|[[:space:]])[$%@][/\]"
 
 color yellow "".*"|qq\|.*\|"
