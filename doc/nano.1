@@ -23,7 +23,9 @@ nano \- Nano's ANOther editor, inspired by Pico
 
 .SH SYNOPSIS
 .B nano
-.RI [ options "] [[+" line [, column "]]\ " file "]..."
+.RI [ options "] [[\fB+" line [\fB, column "]] " file ]...
+.sp
+.BR nano " [" \fIoptions "] [[" + [ crCR ]( / | ? ) \fIstring "] " \fIfile ]...
 
 .SH NOTICE
 Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
@@ -38,11 +40,23 @@ If you want the old, Pico behavior back, you can use \fB\-\-breaklonglines\fR,
 of Pico, but is free software, and implements several features that Pico
 lacks, such as: opening multiple files, scrolling per line, undo/redo,
 syntax coloring, line numbering, and soft-wrapping overlong lines.
-
+.sp
 When giving a filename on the command line, the cursor can be put on a
 specific line by adding the line number with a plus sign (\fB+\fR) before
 the filename, and even in a specific column by adding it with a comma.
-
+The cursor can be put on the first or last occurrence of a specific string
+by specifying that string after \fB+/\fR or \fB+?\fR before the filename.
+The string can be made case sensitive and/or caused to be interpreted as a
+regular expression by inserting \fBc\fR and/or \fBr\fR after the \fB+\fR sign.
+These search modes can be explicitly disabled by using the uppercase variant
+of those letters: \fBC\fR and/or \fBR\fR.  When the string contains spaces,
+it needs to be enclosed in quotes.  To give an example: to open a file at
+the first occurrence of the word "Foo", one would do:
+.sp
+.RS 4
+.BI "nano +c/Foo " file
+.RE
+.sp
 As a special case: if instead of a filename a dash (\fB\-\fR) is given,
 \fBnano\fR will read data from standard input.
 

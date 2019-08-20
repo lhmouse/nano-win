@@ -127,13 +127,21 @@ But it is also possible to specify one or more options (see the next
 section), and to edit several files in a row.  Additionally, the cursor
 can be put on a specific line of a file by adding the line number
 with a plus sign before the filename, and even in a specific column by
-adding it with a comma.  So a more complete command synopsis is:
+adding it with a comma.
+The cursor can also be put on the first or last occurrence of a specific string
+by specifying that string after @code{+/} or @code{+?} before the filename.
+The string can be made case sensitive and/or caused to be interpreted as a
+regular expression by inserting a @code{c} and/or @code{r} after the plus sign.
+These search modes can be explicitly disabled by using the uppercase variant
+of those letters: @code{C} and/or @code{R}.  When the string contains spaces,
+it needs to be enclosed in quotes.
+A more complete command synopsis thus is:
 
 @iftex
 @sp 1
 @end iftex
 @example
-@code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+,COLUMN] FILE]@dots{}}
+@code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+[crCR](/|?)STRING] FILE]@dots{}}
 @end example
 @iftex
 @sp 1
