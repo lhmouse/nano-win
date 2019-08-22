@@ -1,3 +1,10 @@
+2019.08.25 - GNU nano 4.4 "Hagelslag"
+• At startup, the cursor can be put on the first or last occurrence
+  of a string by preceding the filename with +/string or +?string.
+• When automatic hard-wrapping occurs (--breaklonglines), any leading
+  quoting characters will be automatically copied to the new line.
+• M-6 works again also when the cursor is at end of buffer.
+
 2019.06.18 - GNU nano 4.3 "Musa Kart"
 • The ability to read from and write to a FIFO has been regained.
 • Startup time is reduced by fully parsing a syntax only when needed.

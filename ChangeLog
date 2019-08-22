@@ -1,3 +1,67 @@
+Changes between v4.3 and v4.4:
+------------------------------
+
+Benno Schulenberg (53):
+      browser: draw a bar of spaces only where needed -- for the selected item
+      build: exclude the search-at-startup feature from the tiny version
+      bump version numbers and add a news item for the 4.4 release
+      copying: do not prevent M-6 from copying emptiness into the cutbuffer
+      display: blank the status bar on a successful cut or paste
+      display: clear the remainder of a row only when there actually is some
+      display: don't clear a row beforehand -- just clear the remainder
+      display: use a somewhat faster method to clear a row
+      display: when linenumbering, correctly spotlight text that spans two rows
+      display: where needed, use slow blanking, but elsewhere do it much faster
+      docs: change a few URLs over to https, and rewrap a couple of NEWS items
+      docs: document the search-at-startup feature (+/string or +?string)
+      docs: make the synopsis of --speller and 'set speller' more accurate
+      docs: mention the M-N toggle instead of the obsolete M-# one
+      docs: slightly reword some of the descriptions around syntax highlighting
+      docs: slightly reword the descriptions of most configure options
+      docs: stop mentioning the 'unjustify' function, as it no longer exists
+      gnulib: update to its current upstream state
+      new document: a condensed overview of nano's shortcut keystrokes
+      new feature: allow specifying a search string to "jump to" at startup
+      rcfile: properly handle an empty syntax before an 'include' statement
+      scrolling: don't overscroll when the edit window has just one row
+      search: don't wipe the status bar at startup when there was an error
+      search: wipe the status bar before searching again (M-W / M-Q)
+      syntax: c: allow an underscore in lowercase type names
+      syntax: default: colorize bracketed section headers in some config files
+      syntaxes: change some unneeded 'icolor' commands to 'color' commands
+      syntaxes: recognize .ctp extension as a PHP file, and .cu as a C/C++ file
+      syntax: perl: avoid recognizing embedded hash signs as a comment starter
+      syntax: perl: avoid upsetting older glibcs with crafty range expression
+      syntax: perl: don't color the character after a variable name
+      syntax: po: colorize numbers only when they form a self-contained word
+      text: copy leading quote characters when automatic hard-wrapping occurs
+      tweaks: add a translator hint, to clarify four short words
+      tweaks: call the correct lighting function directly when softwrapping
+      tweaks: condense some comments, and drop two unneeded initializations
+      tweaks: drop two parameters that are no longer needed
+      tweaks: improve a comment, and drop a superfluous one
+      tweaks: improve a handful of comments
+      tweaks: make a function name unique, to not overlap with others
+      tweaks: move a call from two different places to a single place
+      tweaks: move a function to before the first one that calls it
+      tweaks: move a general function to a better place
+      tweaks: remove a saving and restoring that has become superfluous
+      tweaks: rename a function, to suit better, and reshuffle its parameters
+      tweaks: rename a parameter in three functions, to say what it points to
+      tweaks: reshuffle an assignment, and trim some excessive blank lines
+      tweaks: reshuffle an 'if' out of a function, and rename the function
+      tweaks: reword and condense two comments, and correct another
+      tweaks: rewrap two lines, and reshuffle some logic to make more sense
+      tweaks: shorten two messages that translators tend to make too long
+      tweaks: try the allocation of a multidata cache just once per line
+      tweaks: when precalculating, allocate all the cache space upfront
+
+Brand Huntsman (3):
+      rcfile: for an empty syntax, show the line number of the 'syntax' command
+      rcfile: report the correct command location for an invalid 'include'
+      search: accept toggles for case and regex when searching at startup
+
+
 Changes between v4.2 and v4.3:
 ------------------------------
 
