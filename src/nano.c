@@ -2631,8 +2631,8 @@ int main(int argc, char **argv)
 		else if (searchstring != NULL) {
 			if (ISSET(USE_REGEXP))
 				regexp_init(searchstring);
-			if (!findnextstr(searchstring, FALSE, JUSTFIND, NULL, TRUE,
-											openfile->filetop, 0))
+			if (!findnextstr(searchstring, FALSE, JUSTFIND, NULL,
+							ISSET(BACKWARDS_SEARCH), openfile->filetop, 0))
 				not_found_msg(searchstring);
 			else if (lastmessage == HUSH)
 				wipe_statusbar();
