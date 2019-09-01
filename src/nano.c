@@ -2636,6 +2636,7 @@ int main(int argc, char **argv)
 				not_found_msg(searchstring);
 			else if (lastmessage == HUSH)
 				wipe_statusbar();
+			openfile->placewewant = xplustabs();
 			if (ISSET(USE_REGEXP))
 				tidy_up_after_search();
 			free(last_search);
