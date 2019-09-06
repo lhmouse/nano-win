@@ -53,8 +53,8 @@ static int oldinterval = -1;
 		/* Used to store the user's original mouse click interval. */
 #endif
 #ifdef HAVE_TERMIOS_H
-static struct termios oldterm;
-		/* The user's original terminal settings. */
+static struct termios original_state;
+		/* The original settings of the user's terminal. */
 #else
 # define tcsetattr(...)
 # define tcgetattr(...)
@@ -498,7 +498,7 @@ void finish(void)
 	endwin();
 
 	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &oldterm);
+	tcsetattr(0, TCSANOW, &original_state);
 
 #ifdef ENABLE_NANORC
 	display_rcfile_errors();
@@ -529,7 +529,7 @@ void die(const char *msg, ...)
 	endwin();
 
 	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &oldterm);
+	tcsetattr(0, TCSANOW, &original_state);
 
 #ifdef ENABLE_NANORC
 	display_rcfile_errors();
@@ -1068,7 +1068,7 @@ void reconnect_and_store_state(void)
 
 	/* If input was not cut short, store the current state of the terminal. */
 	if (!control_C_was_pressed)
-		tcgetattr(0, &oldterm);
+		tcgetattr(0, &original_state);
 }
 
 /* Read whatever comes from standard input into a new buffer. */
@@ -1078,7 +1078,7 @@ bool scoop_stdin(void)
 
 	/* Exit from curses mode and put the terminal into its original state. */
 	endwin();
-	tcsetattr(0, TCSANOW, &oldterm);
+	tcsetattr(0, TCSANOW, &original_state);
 
 	/* When input comes from a terminal, show a helpful message. */
 	if (isatty(STANDARD_INPUT))
@@ -1203,7 +1203,7 @@ RETSIGTYPE do_suspend(int signal)
 	fflush(stdout);
 
 	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &oldterm);
+	tcsetattr(0, TCSANOW, &original_state);
 
 	/* The suspend keystroke must not elicit cursor-position display. */
 	suppress_cursorpos=TRUE;
@@ -1378,12 +1378,12 @@ void do_toggle(int flag)
 void disable_extended_io(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term = {0};
+	struct termios settings = {0};
 
-	tcgetattr(0, &term);
-	term.c_lflag &= ~IEXTEN;
-	term.c_oflag &= ~OPOST;
-	tcsetattr(0, TCSANOW, &term);
+	tcgetattr(0, &settings);
+	settings.c_lflag &= ~IEXTEN;
+	settings.c_oflag &= ~OPOST;
+	tcsetattr(0, TCSANOW, &settings);
 #endif
 }
 
@@ -1391,11 +1391,11 @@ void disable_extended_io(void)
 void disable_kb_interrupt(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term = {0};
+	struct termios settings = {0};
 
-	tcgetattr(0, &term);
-	term.c_lflag &= ~ISIG;
-	tcsetattr(0, TCSANOW, &term);
+	tcgetattr(0, &settings);
+	settings.c_lflag &= ~ISIG;
+	tcsetattr(0, TCSANOW, &settings);
 #endif
 }
 
@@ -1403,11 +1403,11 @@ void disable_kb_interrupt(void)
 void enable_kb_interrupt(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term = {0};
+	struct termios settings = {0};
 
-	tcgetattr(0, &term);
-	term.c_lflag |= ISIG;
-	tcsetattr(0, TCSANOW, &term);
+	tcgetattr(0, &settings);
+	settings.c_lflag |= ISIG;
+	tcsetattr(0, TCSANOW, &settings);
 #endif
 }
 
@@ -1415,11 +1415,11 @@ void enable_kb_interrupt(void)
 void disable_flow_control(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term;
+	struct termios settings;
 
-	tcgetattr(0, &term);
-	term.c_iflag &= ~IXON;
-	tcsetattr(0, TCSANOW, &term);
+	tcgetattr(0, &settings);
+	settings.c_iflag &= ~IXON;
+	tcsetattr(0, TCSANOW, &settings);
 #endif
 }
 
@@ -1427,11 +1427,11 @@ void disable_flow_control(void)
 void enable_flow_control(void)
 {
 #ifdef HAVE_TERMIOS_H
-	struct termios term;
+	struct termios settings;
 
-	tcgetattr(0, &term);
-	term.c_iflag |= IXON;
-	tcsetattr(0, TCSANOW, &term);
+	tcgetattr(0, &settings);
+	settings.c_iflag |= IXON;
+	tcsetattr(0, TCSANOW, &settings);
 #endif
 }
 
@@ -1452,10 +1452,10 @@ void terminal_init(void)
 	 * disable the special control keys and interpretation of the flow
 	 * control characters using termios, save the terminal state after
 	 * the first call, and restore it on subsequent calls. */
-	static struct termios newterm;
-	static bool newterm_set = FALSE;
+	static struct termios desired_state;
+	static bool have_new_state = FALSE;
 
-	if (!newterm_set) {
+	if (!have_new_state) {
 #endif
 		raw();
 		nonl();
@@ -1469,10 +1469,10 @@ void terminal_init(void)
 		else
 			disable_flow_control();
 
-		tcgetattr(0, &newterm);
-		newterm_set = TRUE;
+		tcgetattr(0, &desired_state);
+		have_new_state = TRUE;
 	} else
-		tcsetattr(0, TCSANOW, &newterm);
+		tcsetattr(0, TCSANOW, &desired_state);
 #endif
 }
 
@@ -1991,7 +1991,7 @@ int main(int argc, char **argv)
 #endif
 
 	/* Back up the terminal settings so that they can be restored. */
-	tcgetattr(0, &oldterm);
+	tcgetattr(0, &original_state);
 
 	/* Get the state of standard input and ensure it uses blocking mode. */
 	stdin_flags = fcntl(0, F_GETFL, 0);
