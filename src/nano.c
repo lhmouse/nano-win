@@ -1461,12 +1461,12 @@ void terminal_init(void)
 		nonl();
 		noecho();
 		disable_extended_io();
+		disable_kb_interrupt();
+
 		if (ISSET(PRESERVE))
 			enable_flow_control();
-
-		disable_kb_interrupt();
 #ifdef USE_SLANG
-		if (!ISSET(PRESERVE))
+		else
 			disable_flow_control();
 
 		tcgetattr(0, &newterm);
