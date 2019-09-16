@@ -192,14 +192,14 @@ void color_update(void)
 	/* If no syntax-override string was specified, or it didn't match,
 	 * try finding a syntax based on the filename (extension). */
 	if (sint == NULL && !inhelp) {
-		char *reserved = charalloc(PATH_MAX + 1);
-		char *currentdir = getcwd(reserved, PATH_MAX + 1);
+		char *reservation = charalloc(PATH_MAX + 1);
+		char *currentdir = getcwd(reservation, PATH_MAX + 1);
 		char *joinednames = charalloc(PATH_MAX + 1);
 		char *fullname = NULL;
 
+		/* When the specified filename is not absolute, concatenate it
+		 * with the working directory and canonicalize the result. */
 		if (currentdir != NULL && openfile->filename[0] != '/') {
-			/* Concatenate the current working directory with the
-			 * specified filename, and canonicalize the result. */
 			sprintf(joinednames, "%s/%s", currentdir, openfile->filename);
 			fullname = get_full_path(joinednames);
 		}
@@ -212,9 +212,9 @@ void color_update(void)
 				break;
 		}
 
-		free(joinednames);
 		free(fullname);
-		free(reserved);
+		free(joinednames);
+		free(reservation);
 	}
 
 	/* If the filename didn't match anything, try the first line. */
