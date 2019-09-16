@@ -197,7 +197,7 @@ void color_update(void)
 		char *joinednames = charalloc(PATH_MAX + 1);
 		char *fullname = NULL;
 
-		if (currentdir != NULL) {
+		if (currentdir != NULL && openfile->filename[0] != '/') {
 			/* Concatenate the current working directory with the
 			 * specified filename, and canonicalize the result. */
 			sprintf(joinednames, "%s/%s", currentdir, openfile->filename);
