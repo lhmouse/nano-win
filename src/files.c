@@ -1220,45 +1220,36 @@ void do_insertfile_void(void)
 		do_insertfile();
 }
 
-/* When passed "[relative path]" or "[relative path][filename]" in
- * origpath, return "[full path]" or "[full path][filename]" on success,
- * or NULL on error.  Do this if the file doesn't exist but the relative
- * path does, since the file could exist in memory but not yet on disk).
- * Don't do this if the relative path doesn't exist, since we won't be
- * able to go there. */
+/* For the given bare path (or path plus filename), return the canonical,
+ * absolute path (plus filename) when the path exists, and NULL when not. */
 char *get_full_path(const char *origpath)
 {
+	char *allocation, *here, *target, *last_slash;
+	char *just_filename = NULL;
 	int attempts = 0;
-		/* How often we've tried climbing back up the tree. */
 	struct stat fileinfo;
-	char *allocation, *here, *target, *just_filename = NULL;
-	char *last_slash;
 	bool path_only;
 
 	if (origpath == NULL)
 		return NULL;
 
-	/* Get the current directory.  If it doesn't exist, back up and try
-	 * again until we get a directory that does, and use that as the
-	 * current directory. */
 	allocation = charalloc(PATH_MAX + 1);
 	here = getcwd(allocation, PATH_MAX + 1);
 
+	/* If getting the current directory failed, go up one level and try again,
+	 * until we find an existing directory, and use that as the current one. */
 	while (here == NULL && attempts < 20) {
 		IGNORE_CALL_RESULT(chdir(".."));
 		here = getcwd(allocation, PATH_MAX + 1);
 		attempts++;
 	}
 
-	/* If we succeeded, canonicalize it in here. */
+	/* If we found a directory, make sure its path ends in a slash. */
 	if (here != NULL) {
-		/* If the current directory isn't "/", tack a slash onto the end
-		 * of it. */
 		if (strcmp(here, "/") != 0) {
 			here = charealloc(here, strlen(here) + 2);
 			strcat(here, "/");
 		}
-	/* Otherwise, set here to "". */
 	} else {
 		here = mallocstrcpy(NULL, "");
 		free(allocation);
@@ -1266,76 +1257,67 @@ char *get_full_path(const char *origpath)
 
 	target = real_dir_from_tilde(origpath);
 
-	/* If stat()ing target fails, assume that target refers to a new
-	 * file that hasn't been saved to disk yet.  Set path_only to TRUE
-	 * if target refers to a directory, and FALSE otherwise. */
+	/* Determine whether the target path refers to a directory.  If stat()ing
+	 * target fails, however, assume that it refers to a new, unsaved file. */
 	path_only = (stat(target, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
-	/* If path_only is TRUE, make sure target ends in a slash. */
+	/* If the target is a directory, make sure its path ends in a slash. */
 	if (path_only) {
-		size_t target_len = strlen(target);
+		size_t length = strlen(target);
 
-		if (target[target_len - 1] != '/') {
-			target = charealloc(target, target_len + 2);
+		if (target[length - 1] != '/') {
+			target = charealloc(target, length + 2);
 			strcat(target, "/");
 		}
 	}
 
 	last_slash = strrchr(target, '/');
 
-	/* If we didn't find one, then make sure the answer is in the format
-	 * "here/target". */
+	/* If the target path does not contain a slash, then it is a bare filename
+	 * and must therefore be located in the working directory. */
 	if (last_slash == NULL) {
 		just_filename = target;
 		target = here;
 	} else {
-		/* If path_only is FALSE, then save the filename portion of the
-		 * answer (everything after the last slash) in just_filename. */
-		if (!path_only)
+		/* If target contains a filename, separate the two. */
+		if (!path_only) {
 			just_filename = mallocstrcpy(NULL, last_slash + 1);
+			*(last_slash + 1) = '\0';
+		}
 
-		/* Remove the filename portion of the answer from target. */
-		*(last_slash + 1) = '\0';
-
-		/* Go to the path specified in target. */
+		/* If we can't change to the target directory, give up.  Otherwise,
+		 * get the canonical path to this target directory. */
 		if (chdir(target) == -1) {
 			free(target);
 			target = NULL;
 		} else {
 			free(target);
 
-			/* Get the full path. */
 			allocation = charalloc(PATH_MAX + 1);
 			target = getcwd(allocation, PATH_MAX + 1);
 
-			/* If we succeeded, canonicalize it in target. */
+			/* If we got a result, make sure it ends in a slash.
+			 * Otherwise, ensure that we return NULL. */
 			if (target != NULL) {
-				/* If the current directory isn't "/", tack a slash onto
-				 * the end of it. */
 				if (strcmp(target, "/") != 0) {
 					target = charealloc(target, strlen(target) + 2);
 					strcat(target, "/");
 				}
-			/* Otherwise, make sure that we return NULL. */
 			} else {
 				path_only = TRUE;
 				free(allocation);
 			}
 
-			/* Finally, go back to the path specified in here,
-			 * where we were before.  We don't check for a chdir()
-			 * error, since we can do nothing if we get one. */
+			/* Finally, go back to where we were before.  We don't check
+			 * for an error, since we can't do anything if we get one. */
 			IGNORE_CALL_RESULT(chdir(here));
 		}
 
 		free(here);
 	}
 
-	/* At this point, if path_only is FALSE and target isn't NULL,
-	 * target contains the path portion of the answer and just_filename
-	 * contains the filename portion of the answer.  If this is the
-	 * case, tack the latter onto the end of the former.  target will
-	 * then contain the complete answer. */
+	/* If we were given more than a bare path, concatenate the target path
+	 * with the filename portion to get the full, absolute file path. */
 	if (!path_only && target != NULL) {
 		target = charealloc(target, strlen(target) + strlen(just_filename) + 1);
 		strcat(target, just_filename);
