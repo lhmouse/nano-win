@@ -2303,21 +2303,22 @@ void do_savefile(void)
 		close_and_go();
 }
 
-/* Return a malloc()ed string containing the actual directory, used to
- * convert ~user/ and ~/ notation. */
+/* Convert the tilde notation when the given path begins with ~/ or ~user/.
+ * Return an allocated string containing the expanded path. */
 char *real_dir_from_tilde(const char *buf)
 {
 	char *retval;
 
-	if (*buf == '~') {
+	if (*buf != '~')
+		return mallocstrcpy(NULL, buf);
+
 		size_t i = 1;
 		char *tilde_dir;
 
 		/* Figure out how much of the string we need to compare. */
-		for (; buf[i] != '/' && buf[i] != '\0'; i++)
-			;
+		while (buf[i] != '/' && buf[i] != '\0')
+			i++;
 
-		/* Get the home directory. */
 		if (i == 1) {
 			get_homedir();
 			tilde_dir = mallocstrcpy(NULL, homedir);
@@ -2344,8 +2345,6 @@ char *real_dir_from_tilde(const char *buf)
 		sprintf(retval, "%s%s", tilde_dir, buf + i);
 
 		free(tilde_dir);
-	} else
-		retval = mallocstrcpy(NULL, buf);
 
 	return retval;
 }
