@@ -2307,44 +2307,42 @@ void do_savefile(void)
  * Return an allocated string containing the expanded path. */
 char *real_dir_from_tilde(const char *buf)
 {
-	char *retval;
+	char *tilde_dir, *retval;
+	size_t i = 1;
 
 	if (*buf != '~')
 		return mallocstrcpy(NULL, buf);
 
-		size_t i = 1;
-		char *tilde_dir;
+	/* Figure out how much of the string we need to compare. */
+	while (buf[i] != '/' && buf[i] != '\0')
+		i++;
 
-		/* Figure out how much of the string we need to compare. */
-		while (buf[i] != '/' && buf[i] != '\0')
-			i++;
-
-		if (i == 1) {
-			get_homedir();
-			tilde_dir = mallocstrcpy(NULL, homedir);
-		} else {
+	if (i == 1) {
+		get_homedir();
+		tilde_dir = mallocstrcpy(NULL, homedir);
+	} else {
 #ifdef HAVE_PWD_H
-			const struct passwd *userdata;
+		const struct passwd *userdata;
 
-			tilde_dir = mallocstrncpy(NULL, buf, i + 1);
-			tilde_dir[i] = '\0';
+		tilde_dir = mallocstrncpy(NULL, buf, i + 1);
+		tilde_dir[i] = '\0';
 
-			do {
-				userdata = getpwent();
-			} while (userdata != NULL &&
-						strcmp(userdata->pw_name, tilde_dir + 1) != 0);
-			endpwent();
-			if (userdata != NULL)
-				tilde_dir = mallocstrcpy(tilde_dir, userdata->pw_dir);
+		do {
+			userdata = getpwent();
+		} while (userdata != NULL &&
+					strcmp(userdata->pw_name, tilde_dir + 1) != 0);
+		endpwent();
+		if (userdata != NULL)
+			tilde_dir = mallocstrcpy(tilde_dir, userdata->pw_dir);
 #else
-			tilde_dir = strdup("");
+		tilde_dir = strdup("");
 #endif
-		}
+	}
 
-		retval = charalloc(strlen(tilde_dir) + strlen(buf + i) + 1);
-		sprintf(retval, "%s%s", tilde_dir, buf + i);
+	retval = charalloc(strlen(tilde_dir) + strlen(buf + i) + 1);
+	sprintf(retval, "%s%s", tilde_dir, buf + i);
 
-		free(tilde_dir);
+	free(tilde_dir);
 
 	return retval;
 }
