@@ -1231,7 +1231,7 @@ char *get_full_path(const char *origpath)
 	int attempts = 0;
 		/* How often we've tried climbing back up the tree. */
 	struct stat fileinfo;
-	char *currentdir, *here, *target, *just_filename = NULL;
+	char *allocation, *here, *target, *just_filename = NULL;
 	char *last_slash;
 	bool path_only;
 
@@ -1241,12 +1241,12 @@ char *get_full_path(const char *origpath)
 	/* Get the current directory.  If it doesn't exist, back up and try
 	 * again until we get a directory that does, and use that as the
 	 * current directory. */
-	currentdir = charalloc(PATH_MAX + 1);
-	here = getcwd(currentdir, PATH_MAX + 1);
+	allocation = charalloc(PATH_MAX + 1);
+	here = getcwd(allocation, PATH_MAX + 1);
 
 	while (here == NULL && attempts < 20) {
 		IGNORE_CALL_RESULT(chdir(".."));
-		here = getcwd(currentdir, PATH_MAX + 1);
+		here = getcwd(allocation, PATH_MAX + 1);
 		attempts++;
 	}
 
@@ -1261,7 +1261,7 @@ char *get_full_path(const char *origpath)
 	/* Otherwise, set here to "". */
 	} else {
 		here = mallocstrcpy(NULL, "");
-		free(currentdir);
+		free(allocation);
 	}
 
 	target = real_dir_from_tilde(origpath);
@@ -1305,8 +1305,8 @@ char *get_full_path(const char *origpath)
 			free(target);
 
 			/* Get the full path. */
-			currentdir = charalloc(PATH_MAX + 1);
-			target = getcwd(currentdir, PATH_MAX + 1);
+			allocation = charalloc(PATH_MAX + 1);
+			target = getcwd(allocation, PATH_MAX + 1);
 
 			/* If we succeeded, canonicalize it in target. */
 			if (target != NULL) {
@@ -1319,7 +1319,7 @@ char *get_full_path(const char *origpath)
 			/* Otherwise, make sure that we return NULL. */
 			} else {
 				path_only = TRUE;
-				free(currentdir);
+				free(allocation);
 			}
 
 			/* Finally, go back to the path specified in here,
