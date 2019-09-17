@@ -26,7 +26,6 @@
 #include <magic.h>
 #endif
 #include <string.h>
-#include <unistd.h>
 
 #ifdef ENABLE_COLOR
 
@@ -192,17 +191,7 @@ void color_update(void)
 	/* If no syntax-override string was specified, or it didn't match,
 	 * try finding a syntax based on the filename (extension). */
 	if (sint == NULL && !inhelp) {
-		char *reservation = charalloc(PATH_MAX + 1);
-		char *currentdir = getcwd(reservation, PATH_MAX + 1);
-		char *joinednames = charalloc(PATH_MAX + 1);
-		char *fullname = NULL;
-
-		/* When the specified filename is not absolute, concatenate it
-		 * with the working directory and canonicalize the result. */
-		if (currentdir != NULL && openfile->filename[0] != '/') {
-			sprintf(joinednames, "%s/%s", currentdir, openfile->filename);
-			fullname = get_full_path(joinednames);
-		}
+		char *fullname = get_full_path(openfile->filename);
 
 		if (fullname == NULL)
 			fullname = mallocstrcpy(fullname, openfile->filename);
@@ -213,8 +202,6 @@ void color_update(void)
 		}
 
 		free(fullname);
-		free(joinednames);
-		free(reservation);
 	}
 
 	/* If the filename didn't match anything, try the first line. */
