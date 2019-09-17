@@ -1231,7 +1231,7 @@ char *get_full_path(const char *origpath)
 	int attempts = 0;
 		/* How often we've tried climbing back up the tree. */
 	struct stat fileinfo;
-	char *currentdir, *d_here, *d_there, *d_there_file = NULL;
+	char *currentdir, *here, *target, *just_filename = NULL;
 	char *last_slash;
 	bool path_only;
 
@@ -1242,80 +1242,79 @@ char *get_full_path(const char *origpath)
 	 * again until we get a directory that does, and use that as the
 	 * current directory. */
 	currentdir = charalloc(PATH_MAX + 1);
-	d_here = getcwd(currentdir, PATH_MAX + 1);
+	here = getcwd(currentdir, PATH_MAX + 1);
 
-	while (d_here == NULL && attempts < 20) {
+	while (here == NULL && attempts < 20) {
 		IGNORE_CALL_RESULT(chdir(".."));
-		d_here = getcwd(currentdir, PATH_MAX + 1);
+		here = getcwd(currentdir, PATH_MAX + 1);
 		attempts++;
 	}
 
-	/* If we succeeded, canonicalize it in d_here. */
-	if (d_here != NULL) {
+	/* If we succeeded, canonicalize it in here. */
+	if (here != NULL) {
 		/* If the current directory isn't "/", tack a slash onto the end
 		 * of it. */
-		if (strcmp(d_here, "/") != 0) {
-			d_here = charealloc(d_here, strlen(d_here) + 2);
-			strcat(d_here, "/");
+		if (strcmp(here, "/") != 0) {
+			here = charealloc(here, strlen(here) + 2);
+			strcat(here, "/");
 		}
-	/* Otherwise, set d_here to "". */
+	/* Otherwise, set here to "". */
 	} else {
-		d_here = mallocstrcpy(NULL, "");
+		here = mallocstrcpy(NULL, "");
 		free(currentdir);
 	}
 
-	d_there = real_dir_from_tilde(origpath);
+	target = real_dir_from_tilde(origpath);
 
-	/* If stat()ing d_there fails, assume that d_there refers to a new
+	/* If stat()ing target fails, assume that target refers to a new
 	 * file that hasn't been saved to disk yet.  Set path_only to TRUE
-	 * if d_there refers to a directory, and FALSE otherwise. */
-	path_only = (stat(d_there, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
+	 * if target refers to a directory, and FALSE otherwise. */
+	path_only = (stat(target, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
-	/* If path_only is TRUE, make sure d_there ends in a slash. */
+	/* If path_only is TRUE, make sure target ends in a slash. */
 	if (path_only) {
-		size_t d_there_len = strlen(d_there);
+		size_t target_len = strlen(target);
 
-		if (d_there[d_there_len - 1] != '/') {
-			d_there = charealloc(d_there, d_there_len + 2);
-			strcat(d_there, "/");
+		if (target[target_len - 1] != '/') {
+			target = charealloc(target, target_len + 2);
+			strcat(target, "/");
 		}
 	}
 
-	/* Search for the last slash in d_there. */
-	last_slash = strrchr(d_there, '/');
+	last_slash = strrchr(target, '/');
 
 	/* If we didn't find one, then make sure the answer is in the format
-	 * "d_here/d_there". */
+	 * "here/target". */
 	if (last_slash == NULL) {
-		d_there_file = d_there;
-		d_there = d_here;
+		just_filename = target;
+		target = here;
 	} else {
 		/* If path_only is FALSE, then save the filename portion of the
-		 * answer (everything after the last slash) in d_there_file. */
+		 * answer (everything after the last slash) in just_filename. */
 		if (!path_only)
-			d_there_file = mallocstrcpy(NULL, last_slash + 1);
+			just_filename = mallocstrcpy(NULL, last_slash + 1);
 
-		/* Remove the filename portion of the answer from d_there. */
+		/* Remove the filename portion of the answer from target. */
 		*(last_slash + 1) = '\0';
 
-		/* Go to the path specified in d_there. */
-		if (chdir(d_there) == -1) {
-			free(d_there);
-			d_there = NULL;
+		/* Go to the path specified in target. */
+		if (chdir(target) == -1) {
+			free(target);
+			target = NULL;
 		} else {
-			free(d_there);
+			free(target);
 
 			/* Get the full path. */
 			currentdir = charalloc(PATH_MAX + 1);
-			d_there = getcwd(currentdir, PATH_MAX + 1);
+			target = getcwd(currentdir, PATH_MAX + 1);
 
-			/* If we succeeded, canonicalize it in d_there. */
-			if (d_there != NULL) {
+			/* If we succeeded, canonicalize it in target. */
+			if (target != NULL) {
 				/* If the current directory isn't "/", tack a slash onto
 				 * the end of it. */
-				if (strcmp(d_there, "/") != 0) {
-					d_there = charealloc(d_there, strlen(d_there) + 2);
-					strcat(d_there, "/");
+				if (strcmp(target, "/") != 0) {
+					target = charealloc(target, strlen(target) + 2);
+					strcat(target, "/");
 				}
 			/* Otherwise, make sure that we return NULL. */
 			} else {
@@ -1323,31 +1322,28 @@ char *get_full_path(const char *origpath)
 				free(currentdir);
 			}
 
-			/* Finally, go back to the path specified in d_here,
+			/* Finally, go back to the path specified in here,
 			 * where we were before.  We don't check for a chdir()
 			 * error, since we can do nothing if we get one. */
-			IGNORE_CALL_RESULT(chdir(d_here));
+			IGNORE_CALL_RESULT(chdir(here));
 		}
 
-		/* Free d_here, since we're done using it. */
-		free(d_here);
+		free(here);
 	}
 
-	/* At this point, if path_only is FALSE and d_there isn't NULL,
-	 * d_there contains the path portion of the answer and d_there_file
+	/* At this point, if path_only is FALSE and target isn't NULL,
+	 * target contains the path portion of the answer and just_filename
 	 * contains the filename portion of the answer.  If this is the
-	 * case, tack the latter onto the end of the former.  d_there will
+	 * case, tack the latter onto the end of the former.  target will
 	 * then contain the complete answer. */
-	if (!path_only && d_there != NULL) {
-		d_there = charealloc(d_there, strlen(d_there) +
-				strlen(d_there_file) + 1);
-		strcat(d_there, d_there_file);
+	if (!path_only && target != NULL) {
+		target = charealloc(target, strlen(target) + strlen(just_filename) + 1);
+		strcat(target, just_filename);
 	}
 
-	/* Free d_there_file, since we're done using it. */
-	free(d_there_file);
+	free(just_filename);
 
-	return d_there;
+	return target;
 }
 
 /* Return the full version of path, as returned by get_full_path().  On
