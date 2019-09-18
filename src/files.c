@@ -2584,7 +2584,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 		/* If the matches have something in common, show that part. */
 		if (common_len != *place) {
 			buf = charealloc(buf, common_len + buf_len - *place + 1);
-			charmove(buf + common_len, buf + *place, buf_len - *place + 1);
+			memmove(buf + common_len, buf + *place, buf_len - *place + 1);
 			strncpy(buf, mzero, common_len);
 			*place = common_len;
 		}

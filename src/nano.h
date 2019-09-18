@@ -62,8 +62,6 @@
 /* Macros for character allocation and more. */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
-#define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
-#define charset(dest, src, n) memset(dest, src, (n) * sizeof(char))
 
 /* In UTF-8 a character is at most six bytes long. */
 #ifdef ENABLE_UTF8

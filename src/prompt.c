@@ -213,7 +213,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 
 		/* Insert the typed character into the existing answer string. */
 		answer = charealloc(answer, strlen(answer) + charlen + 1);
-		charmove(answer + typing_x + charlen, answer + typing_x,
+		memmove(answer + typing_x + charlen, answer + typing_x,
 								strlen(answer) - typing_x + 1);
 		strncpy(answer + typing_x, onechar, charlen);
 
@@ -255,7 +255,7 @@ void do_statusbar_delete(void)
 	if (answer[typing_x] != '\0') {
 		int charlen = char_length(answer + typing_x);
 
-		charmove(answer + typing_x, answer + typing_x + charlen,
+		memmove(answer + typing_x, answer + typing_x + charlen,
 						strlen(answer) - typing_x - charlen + 1);
 	}
 }
@@ -424,12 +424,12 @@ void draw_the_promptbar(void)
 void add_or_remove_pipe_symbol_from_answer(void)
 {
 	if (answer[0] == '|') {
-		charmove(answer, answer + 1, strlen(answer) + 1);
+		memmove(answer, answer + 1, strlen(answer) + 1);
 		if (typing_x > 0)
 			typing_x--;
 	} else {
 		answer = charealloc(answer, strlen(answer) + 2);
-		charmove(answer + 1, answer, strlen(answer) + 1);
+		memmove(answer + 1, answer, strlen(answer) + 1);
 		answer[0] = '|';
 		typing_x++;
 	}

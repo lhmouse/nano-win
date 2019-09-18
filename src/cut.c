@@ -50,7 +50,7 @@ void do_deletion(undo_type action)
 			old_amount = number_of_chunks_in(openfile->current);
 #endif
 		/* Move the remainder of the line "in", over the current character. */
-		charmove(&openfile->current->data[openfile->current_x],
+		memmove(&openfile->current->data[openfile->current_x],
 					&openfile->current->data[openfile->current_x + charlen],
 					line_len - charlen + 1);
 #ifndef NANO_TINY

@@ -239,7 +239,7 @@ void partition_buffer(linestruct *top, size_t top_x,
 	bot->data[bot_x] = '\0';
 
 	/* At the beginning of the partition, remove all text before top_x. */
-	charmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
+	memmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
 }
 
 /* Unpartition the current buffer so that it is complete again. */
@@ -253,7 +253,7 @@ void unpartition_buffer()
 	/* Restore the text that was on the first partition line before its start. */
 	openfile->filetop->data = charealloc(openfile->filetop->data,
 				strlen(antedata) + strlen(openfile->filetop->data) + 1);
-	charmove(openfile->filetop->data + strlen(antedata),
+	memmove(openfile->filetop->data + strlen(antedata),
 				openfile->filetop->data, strlen(openfile->filetop->data) + 1);
 	strncpy(openfile->filetop->data, antedata, strlen(antedata));
 	free(antedata);
@@ -1808,7 +1808,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		/* Make room for the new character and copy it into the line. */
 		openfile->current->data = charealloc(openfile->current->data,
 										current_len + charlen + 1);
-		charmove(openfile->current->data + openfile->current_x + charlen,
+		memmove(openfile->current->data + openfile->current_x + charlen,
 						openfile->current->data + openfile->current_x,
 						current_len - openfile->current_x + 1);
 		strncpy(openfile->current->data + openfile->current_x, onechar,

@@ -81,7 +81,7 @@ void do_tab(void)
 		char *spaces = charalloc(tabsize + 1);
 		size_t length = tabsize - (xplustabs() % tabsize);
 
-		charset(spaces, ' ', length);
+		memset(spaces, ' ', length);
 		spaces[length] = '\0';
 
 		do_output(spaces, length, TRUE);
@@ -105,7 +105,7 @@ void indent_a_line(linestruct *line, char *indentation)
 
 	/* Add the fabricated indentation to the beginning of the line. */
 	line->data = charealloc(line->data, length + indent_len + 1);
-	charmove(line->data + indent_len, line->data, length + 1);
+	memmove(line->data + indent_len, line->data, length + 1);
 	strncpy(line->data, indentation, indent_len);
 
 	openfile->totsize += indent_len;
@@ -142,7 +142,7 @@ void do_indent(void)
 
 	/* Set the indentation to either a bunch of spaces or a single tab. */
 	if (ISSET(TABS_TO_SPACES)) {
-		charset(indentation, ' ', tabsize);
+		memset(indentation, ' ', tabsize);
 		indentation[tabsize] = '\0';
 	} else {
 		indentation[0] = '\t';
@@ -217,7 +217,7 @@ void unindent_a_line(linestruct *line, size_t indent_len)
 		return;
 
 	/* Remove the first tab's worth of whitespace from this line. */
-	charmove(line->data, line->data + indent_len, length - indent_len + 1);
+	memmove(line->data, line->data + indent_len, length - indent_len + 1);
 
 	openfile->totsize -= indent_len;
 
@@ -319,10 +319,10 @@ bool comment_line(undo_type action, linestruct *line, const char *comment_seq)
 		/* Make room for the comment sequence(s), move the text right and
 		 * copy them in. */
 		line->data = charealloc(line->data, line_len + pre_len + post_len + 1);
-		charmove(line->data + pre_len, line->data, line_len + 1);
-		charmove(line->data, comment_seq, pre_len);
+		memmove(line->data + pre_len, line->data, line_len + 1);
+		memmove(line->data, comment_seq, pre_len);
 		if (post_len > 0)
-			charmove(line->data + pre_len + line_len, post_seq, post_len + 1);
+			memmove(line->data + pre_len + line_len, post_seq, post_len + 1);
 
 		openfile->totsize += pre_len + post_len;
 
@@ -345,7 +345,7 @@ bool comment_line(undo_type action, linestruct *line, const char *comment_seq)
 			return TRUE;
 
 		/* Erase the comment prefix by moving the non-comment part. */
-		charmove(line->data, line->data + pre_len, line_len - pre_len);
+		memmove(line->data, line->data + pre_len, line_len - pre_len);
 		/* Truncate the postfix if there was one. */
 		line->data[line_len - pre_len - post_len] = '\0';
 
@@ -1496,7 +1496,7 @@ bool do_wrap(void)
 		line_len = strlen(line->data);
 		line->data = charealloc(line->data, lead_len + line_len + 1);
 
-		charmove(line->data + lead_len, line->data, line_len + 1);
+		memmove(line->data + lead_len, line->data, line_len + 1);
 		strncpy(line->data, line->prev->data, lead_len);
 
 		openfile->current_x += lead_len;
@@ -2047,7 +2047,7 @@ void do_justify(bool full_justify)
 		if (needed_top_extra > 0) {
 			cutbuffer->data = charealloc(cutbuffer->data,
 									line_len + needed_top_extra + 1);
-			charmove(cutbuffer->data + needed_top_extra, cutbuffer->data,
+			memmove(cutbuffer->data + needed_top_extra, cutbuffer->data,
 									line_len + 1);
 			strncpy(cutbuffer->data, the_lead, needed_top_extra);
 			line_len += needed_top_extra;
@@ -2061,7 +2061,7 @@ void do_justify(bool full_justify)
 
 		/* Remove extra whitespace after the leading part. */
 		if (indent_len > 0)
-			charmove(cutbuffer->data + lead_len,
+			memmove(cutbuffer->data + lead_len,
 						cutbuffer->data + lead_len + indent_len,
 						line_len - indent_len + 1);
 
@@ -2088,7 +2088,7 @@ void do_justify(bool full_justify)
 		 * remove the (now-redundant) addition we made earlier. */
 		if (top_x > 0) {
 			if (needed_top_extra > 0)
-				charmove(cutbuffer->data, cutbuffer->data + needed_top_extra,
+				memmove(cutbuffer->data, cutbuffer->data + needed_top_extra,
 							strlen(cutbuffer->data) - needed_top_extra + 1);
 			else {
 				cutbuffer->prev = make_new_node(NULL);
