@@ -683,7 +683,18 @@ void mouse_init(void)
 /* Print the usage line for the given option to the screen. */
 void print_opt(const char *shortflag, const char *longflag, const char *desc)
 {
-	printf(" %-14s %-23s %s\n", shortflag, longflag, _(desc));
+	int firstwidth = breadth(shortflag);
+	int secondwidth = breadth(longflag);
+
+	printf(" %s", shortflag);
+	if (firstwidth < 14)
+		printf("%*s", 14 - firstwidth, " ");
+
+	printf(" %s", longflag);
+	if (secondwidth < 24)
+		printf("%*s", 24 - secondwidth, " ");
+
+	printf("%s\n", _(desc));
 }
 
 /* Explain how to properly use nano and its command-line options. */
@@ -696,7 +707,7 @@ void usage(void)
 				"a '+' before the filename.  The column number can be added after a comma.\n"));
 	printf(_("When a filename is '-', nano reads data from standard input.\n\n"));
 	/* TRANSLATORS: The next three are column headers of the --help output. */
-	printf("%-16s%-26s%s\n", _("Option"), _("Long option"), _("Meaning"));
+	print_opt(_("Option"), _("Long option"), N_("Meaning"));
 #ifndef NANO_TINY
 	/* TRANSLATORS: The next forty or so strings are option descriptions
 	 * for the --help output.  Try to keep them at most 40 characters. */
