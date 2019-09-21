@@ -739,7 +739,7 @@ void usage(void)
 	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
 #ifndef NANO_TINY
-	print_opt("-J <number>", "--guidestripe=<number>",
+	print_opt(_("-J <number>"), _("--guidestripe=<number>"),
 					N_("Show a guiding bar at this column"));
 #endif
 	print_opt("-K", "--rawsequences",
