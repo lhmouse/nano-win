@@ -172,16 +172,16 @@ void do_indent(void)
  * but at most a tab's worth. */
 size_t length_of_white(const char *text)
 {
-	size_t bytes_of_white = 0;
+	size_t white_count = 0;
 
 	while (TRUE) {
 		if (*text == '\t')
-			return ++bytes_of_white;
+			return ++white_count;
 
 		if (*text != ' ')
-			return bytes_of_white;
+			return white_count;
 
-		if (++bytes_of_white == tabsize)
+		if (++white_count == tabsize)
 			return tabsize;
 
 		text++;
