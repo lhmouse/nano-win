@@ -1060,6 +1060,11 @@ Python files.  If empty double quotes are specified, the comment/uncomment
 functions are disabled; for example, @t{""} for JSON.
 The default value is @t{"#"}.
 
+@item tabgives "@var{string}"
+Make the <Tab> key produce the given @var{string}.  Useful for languages like
+Python that want to see only spaces for indentation.
+This overrides the setting of the @code{tabstospaces} option.
+
 @item color @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
 Paint all pieces of text that match the extended regular expression "regex"
 with the given foreground and background colors, at least one of which must

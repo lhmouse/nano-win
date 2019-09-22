@@ -396,6 +396,11 @@ for Python files.  If empty double quotes are specified, the comment/uncomment
 function is disabled; for example, "" for JSON.
 The default value is "\fB#\fP".
 .TP
+.BI "tabgives """ string """
+Make the <Tab> key produce the given \fIstring\fR.  Useful for languages like
+Python that want to see only spaces for indentation.
+This overrides the setting of the \fBtabstospaces\fR option.
+.TP
 .BI "color " fgcolor , bgcolor " """ regex """ " \fR...
 Paint all pieces of text that match the extended regular expression
 \fIregex\fP with the given foreground and background colors, at least
