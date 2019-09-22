@@ -3182,6 +3182,7 @@ void complete_a_word(void)
 
 	/* If there is no word fragment before the cursor, do nothing. */
 	if (start_of_shard == openfile->current_x) {
+		/* TRANSLATORS: Shown when no text is directly left of the cursor. */
 		statusbar(_("No word fragment"));
 		pletion_line = NULL;
 		return;

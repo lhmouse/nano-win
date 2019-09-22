@@ -763,7 +763,9 @@ void usage(void)
 #endif
 #ifdef ENABLE_JUSTIFY
 	print_opt(_("-Q <regex>"), _("--quotestr=<regex>"),
-					 N_("Regular expression to match quoting"));
+					/* TRANSLATORS: This refers to email quoting,
+					 * like the > in: > quoted text. */
+					N_("Regular expression to match quoting"));
 #endif
 	if (!ISSET(RESTRICTED))
 		print_opt("-R", "--restricted", N_("Restricted mode"));
