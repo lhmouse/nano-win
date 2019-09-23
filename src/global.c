@@ -727,14 +727,6 @@ void shortcut_init(void)
 	add_to_funcs(do_replace, MMAIN,
 		N_("Replace"), WITHORSANS(replace_gist), TOGETHER, NOVIEW);
 
-#ifdef ENABLE_BROWSER
-	add_to_funcs(goto_dir_void, MBROWSER,
-		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
-
-	add_to_funcs(total_refresh, MBROWSER,
-		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
-#endif
-
 	add_to_funcs(cut_text, MMAIN,
 		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
@@ -803,12 +795,13 @@ void shortcut_init(void)
 		N_("FullJstify"), WITHORSANS(fulljustify_gist), BLANKAFTER, NOVIEW);
 #endif
 
-#ifndef NANO_TINY
-	add_to_funcs(do_find_bracket, MMAIN,
-		N_("To Bracket"), WITHORSANS(bracket_gist), BLANKAFTER, VIEW);
-#endif
-
 #ifdef ENABLE_BROWSER
+	add_to_funcs(goto_dir_void, MBROWSER,
+		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
+
+	add_to_funcs(total_refresh, MBROWSER,
+		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
+
 	add_to_funcs(do_search_forward, MBROWSER,
 		N_("Where Is"), WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
 	add_to_funcs(do_search_backward, MBROWSER,
@@ -816,6 +809,9 @@ void shortcut_init(void)
 #endif
 
 #ifndef NANO_TINY
+	add_to_funcs(do_find_bracket, MMAIN,
+		N_("To Bracket"), WITHORSANS(bracket_gist), BLANKAFTER, VIEW);
+
 	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
