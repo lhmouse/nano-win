@@ -678,8 +678,7 @@ void shortcut_init(void)
 	/* Start populating the different menus with functions. */
 
 	add_to_funcs(do_help_void, (MMOST | MBROWSER) & ~MFINDINHELP,
-		/* TRANSLATORS: Try to keep the next ninety strings or so at most 10
-		 * characters.  Some strings may be longer -- run nano and see. */
+		/* TRANSLATORS: Try to keep the next eleven strings at most 10 characters. */
 		N_("Get Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_cancel, ((MMOST & ~MMAIN) | MYESNO),
@@ -745,6 +744,7 @@ void shortcut_init(void)
 	}
 
 	add_to_funcs(do_cursorpos_void, MMAIN,
+		/* TRANSLATORS: Try to keep the next thirteen strings at most 12 characters. */
 		N_("Cur Pos"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
 #if (defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)) || \
@@ -797,6 +797,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_BROWSER
 	add_to_funcs(goto_dir_void, MBROWSER,
+		/* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 
 	add_to_funcs(total_refresh, MBROWSER,
@@ -846,6 +847,7 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(do_prev_word_void, MMAIN,
+		/* TRANSLATORS: Try to keep the next eighteen strings at most 12 characters. */
 		N_("Prev Word"), WITHORSANS(prevword_gist), TOGETHER, VIEW);
 	add_to_funcs(do_next_word_void, MMAIN,
 		N_("Next Word"), WITHORSANS(nextword_gist), TOGETHER, VIEW);
@@ -1057,7 +1059,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_COLOR
 	add_to_funcs(do_page_up, MLINTER,
-		/* TRANSLATORS: Try to keep the next two strings at most 20 characters. */
+		/* TRANSLATORS: The next two strings may be up to 37 characters each. */
 		N_("Prev Lint Msg"), WITHORSANS(prevlint_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MLINTER,
 		N_("Next Lint Msg"), WITHORSANS(nextlint_gist), TOGETHER, VIEW);
