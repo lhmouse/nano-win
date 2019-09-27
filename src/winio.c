@@ -1768,28 +1768,6 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 }
 #endif /* ENABLE_MOUSE */
 
-/* Return the shortcut that corresponds to the values of kbinput (the
- * key itself) and meta_key (whether the key is a meta sequence).  The
- * returned shortcut will be the first in the list that corresponds to
- * the given sequence. */
-const keystruct *get_shortcut(int *kbinput)
-{
-	keystruct *s;
-
-	/* Plain characters cannot be shortcuts, so just skip those. */
-	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
-						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
-		return NULL;
-
-	for (s = sclist; s != NULL; s = s->next) {
-		if ((s->menus & currmenu) && *kbinput == s->keycode &&
-										meta_key == s->meta)
-			return s;
-	}
-
-	return NULL;
-}
-
 /* Move (in the given window) to the given row and wipe it clean. */
 void blank_row(WINDOW *window, int row)
 {

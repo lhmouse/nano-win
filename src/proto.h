@@ -320,6 +320,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 size_t length_of_list(int menu);
 const keystruct *first_sc_for(int menu, void (*func)(void));
 int the_code_for(void (*func)(void), int defaultval);
+const keystruct *get_shortcut(int *kbinput);
 functionptrtype func_from_key(int *kbinput);
 int keycode_from_string(const char *keystring);
 void assign_keyinfo(keystruct *s, const char *keystring, const int keycode);
@@ -617,7 +618,6 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE
 int get_mouseinput(int *mouse_row, int *mouse_col, bool allow_shortcuts);
 #endif
-const keystruct *get_shortcut(int *kbinput);
 void blank_edit(void);
 void blank_statusbar(void);
 void wipe_statusbar(void);

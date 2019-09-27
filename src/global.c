@@ -441,6 +441,28 @@ int the_code_for(void (*func)(void), int defaultval)
 	return s->keycode;
 }
 
+/* Return the shortcut that corresponds to the values of kbinput (the
+ * key itself) and meta_key (whether the key is a meta sequence).  The
+ * returned shortcut will be the first in the list that corresponds to
+ * the given sequence. */
+const keystruct *get_shortcut(int *kbinput)
+{
+	keystruct *s;
+
+	/* Plain characters cannot be shortcuts, so just skip those. */
+	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
+						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
+		return NULL;
+
+	for (s = sclist; s != NULL; s = s->next) {
+		if ((s->menus & currmenu) && *kbinput == s->keycode &&
+										meta_key == s->meta)
+			return s;
+	}
+
+	return NULL;
+}
+
 /* Return a pointer to the function that is bound to the given key. */
 functionptrtype func_from_key(int *kbinput)
 {
