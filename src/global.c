@@ -428,8 +428,8 @@ int the_code_for(void (*func)(void), int defaultval)
 	return s->keycode;
 }
 
-/* Return the number of entries in the shortcut list for a given menu. */
-size_t length_of_list(int menu)
+/* Return the number of entries that can be shown in the given menu. */
+size_t shown_entries_for(int menu)
 {
 	funcstruct *item;
 	size_t count = 0;
