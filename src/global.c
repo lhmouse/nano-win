@@ -272,19 +272,6 @@ size_t light_from_col = 0;
 size_t light_to_col = 0;
 	/* Where the spotlighted text ends. */
 
-/* Return the number of entries in the shortcut list for a given menu. */
-size_t length_of_list(int menu)
-{
-	funcstruct *f;
-	size_t i = 0;
-
-	for (f = allfuncs; f != NULL; f = f->next)
-		if ((f->menus & menu) && first_sc_for(menu, f->func) != NULL)
-			i++;
-
-	return i;
-}
-
 /* To make the functions and shortcuts lists clearer. */
 #define VIEW  TRUE    /* Is allowed in view mode. */
 #define NOVIEW  FALSE
@@ -441,6 +428,19 @@ int the_code_for(void (*func)(void), int defaultval)
 	return s->keycode;
 }
 
+/* Return the number of entries in the shortcut list for a given menu. */
+size_t length_of_list(int menu)
+{
+	funcstruct *f;
+	size_t i = 0;
+
+	for (f = allfuncs; f != NULL; f = f->next)
+		if ((f->menus & menu) && first_sc_for(menu, f->func) != NULL)
+			i++;
+
+	return i;
+}
+
 /* Return the shortcut that corresponds to the values of kbinput (the
  * key itself) and meta_key (whether the key is a meta sequence).  The
  * returned shortcut will be the first in the list that corresponds to
@@ -472,18 +472,6 @@ functionptrtype func_from_key(int *kbinput)
 		return s->func;
 	else
 		return NULL;
-}
-
-/* Set the string and its corresponding keycode for the given shortcut s. */
-void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
-{
-	s->keystr = keystring;
-	s->meta = (keystring[0] == 'M' && keycode == 0);
-
-	if (keycode)
-		s->keycode = keycode;
-	else
-		s->keycode = keycode_from_string(keystring);
 }
 
 /* Parse the given keystring and return the corresponding keycode,
@@ -519,6 +507,18 @@ int keycode_from_string(const char *keystring)
 		return KEY_DC;
 	else
 		return -1;
+}
+
+/* Set the string and its corresponding keycode for the given shortcut s. */
+void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
+{
+	s->keystr = keystring;
+	s->meta = (keystring[0] == 'M' && keycode == 0);
+
+	if (keycode)
+		s->keycode = keycode;
+	else
+		s->keycode = keycode_from_string(keystring);
 }
 
 /* These two tags are used elsewhere too, so they are global. */
