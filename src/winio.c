@@ -1695,10 +1695,8 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 				return 0;
 			}
 
-			/* Determine how many shortcuts will be shown. */
+			/* Determine how many shortcuts are being shown. */
 			number = length_of_list(currmenu);
-			if (number > MAIN_VISIBLE)
-				number = MAIN_VISIBLE;
 
 			/* Calculate the width of each non-rightmost shortcut item;
 			 * the rightmost ones will "absorb" any remaining slack. */
@@ -2294,11 +2292,8 @@ void bottombars(int menu)
 	if (ISSET(NO_HELP) || LINES < 5)
 		return;
 
-	/* Determine how many shortcuts there are to show. */
+	/* Determine how many shortcuts must be shown. */
 	number = length_of_list(menu);
-
-	if (number > MAIN_VISIBLE)
-		number = MAIN_VISIBLE;
 
 	/* Compute the width of each keyname-plus-explanation pair. */
 	itemwidth = COLS / ((number / 2) + (number % 2));

@@ -438,7 +438,10 @@ size_t length_of_list(int menu)
 		if ((f->menus & menu) && first_sc_for(menu, f->func) != NULL)
 			i++;
 
-	return i;
+	if (i > MAIN_VISIBLE)
+		return MAIN_VISIBLE;
+	else
+		return i;
 }
 
 /* Return the shortcut that corresponds to the values of kbinput (the
