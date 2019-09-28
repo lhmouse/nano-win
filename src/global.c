@@ -431,17 +431,16 @@ int the_code_for(void (*func)(void), int defaultval)
 /* Return the number of entries that can be shown in the given menu. */
 size_t shown_entries_for(int menu)
 {
-	funcstruct *item;
+	funcstruct *item = allfuncs;
 	size_t count = 0;
 
-	for (item = allfuncs; item != NULL; item = item->next)
+	while (count < MAIN_VISIBLE && item != NULL) {
 		if ((item->menus & menu) && first_sc_for(menu, item->func) != NULL)
 			count++;
+		item = item->next;
+	}
 
-	if (count > MAIN_VISIBLE)
-		return MAIN_VISIBLE;
-	else
-		return count;
+	return count;
 }
 
 /* Return the shortcut that corresponds to the values of kbinput (the
