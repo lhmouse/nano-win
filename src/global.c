@@ -1146,7 +1146,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-6", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-^", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
-	add_to_sclist(MMAIN, "Tab", TAB_CODE, do_indent, 0);
+	add_to_sclist(MMAIN, "Tab", INDENT_KEY, do_indent, 0);
 	add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
 	add_to_sclist(MMAIN, "Sh-Tab", SHIFT_TAB, do_unindent, 0);
 	add_to_sclist(MMAIN, "M-:", 0, record_macro, 0);

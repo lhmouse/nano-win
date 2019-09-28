@@ -658,12 +658,8 @@ int parse_kbinput(WINDOW *win)
 
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while the mark is on, do an indent. */
-	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN) {
-		const keystruct *command = first_sc_for(MMAIN, do_indent);
-
-		meta_key = command->meta;
-		return command->keycode;
-	}
+	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN)
+		return INDENT_KEY;
 #endif
 
 	switch (retval) {

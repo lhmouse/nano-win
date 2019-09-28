@@ -605,6 +605,9 @@ enum
 #define SHIFT_DELETE 0x45D
 #define SHIFT_TAB 0x45F
 
+/* A special keycode for when <Tab> is pressed while the mark is on. */
+#define INDENT_KEY 0x4F1
+
 #ifdef USE_SLANG
 #ifdef ENABLE_UTF8
 #define KEY_BAD 0xFF  /* Clipped error code. */
