@@ -98,7 +98,7 @@ void search_init(bool replacing, bool keep_the_answer)
 					answer, &search_history, edit_refresh,
 					/* TRANSLATORS: This is the main search prompt. */
 					"%s%s%s%s%s%s", _("Search"),
-					/* TRANSLATORS: The next five modify the search prompt. */
+					/* TRANSLATORS: The next four modify the search prompt. */
 					ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
 					ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
 					ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") : "",

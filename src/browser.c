@@ -670,6 +670,7 @@ int filesearch_init(bool forwards)
 	/* Now ask what to search for. */
 	response = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL, &search_history,
 						browser_refresh, "%s%s%s", _("Search"),
+						/* TRANSLATORS: A modifier of the Search prompt. */
 						!forwards ? _(" [Backwards]") : "", thedefault);
 	free(thedefault);
 
