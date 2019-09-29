@@ -435,10 +435,14 @@ size_t shown_entries_for(int menu)
 	size_t count = 0;
 
 	while (count < MAIN_VISIBLE && item != NULL) {
-		if ((item->menus & menu) && first_sc_for(menu, item->func) != NULL)
+		if (item->menus & menu)
 			count++;
 		item = item->next;
 	}
+
+	/* When --tempfile is not used, widen the grid of the WriteOut menu. */
+	if (menu == MWRITEFILE && first_sc_for(menu, discard_buffer) == NULL)
+		count--;
 
 	return count;
 }
