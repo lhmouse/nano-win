@@ -243,7 +243,7 @@ void partition_buffer(linestruct *top, size_t top_x,
 }
 
 /* Unpartition the current buffer so that it is complete again. */
-void unpartition_buffer()
+void unpartition_buffer(void)
 {
 	/* Reattach the line that was above the top of the partition. */
 	openfile->filetop->prev = foreline;

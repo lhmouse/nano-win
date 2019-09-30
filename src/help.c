@@ -40,7 +40,7 @@ static size_t location;
 		/* The offset (in bytes) of the topleft of the shown help text. */
 
 /* Hard-wrap the concatenated help text, and write it into a new buffer. */
-void wrap_help_text_into_buffer()
+void wrap_help_text_into_buffer(void)
 {
 	size_t sum = 0;
 	const char *ptr = start_of_body;

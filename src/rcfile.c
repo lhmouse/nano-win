@@ -152,7 +152,7 @@ static linestruct *errors_tail = NULL;
 		/* Beginning and end of a list of errors in rcfiles, if any. */
 
 /* Send the gathered error messages (if any) to the terminal. */
-void display_rcfile_errors()
+void display_rcfile_errors(void)
 {
 	for (linestruct *error = errors_head; error != NULL; error = error->next)
 		fprintf(stderr, "%s\n", error->data);

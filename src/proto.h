@@ -334,7 +334,7 @@ char *menu_to_name(int menu);
 
 /* All functions in help.c. */
 #ifdef ENABLE_HELP
-void wrap_help_text_into_buffer();
+void wrap_help_text_into_buffer(void);
 void do_help(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);
@@ -400,7 +400,7 @@ void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
 void partition_buffer(linestruct *top, size_t top_x,
 		linestruct *bot, size_t bot_x);
-void unpartition_buffer();
+void unpartition_buffer(void);
 void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
 void ingraft_buffer(linestruct *somebuffer);
 void copy_from_buffer(linestruct *somebuffer);
@@ -469,7 +469,7 @@ int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
 #ifdef ENABLE_NANORC
-void display_rcfile_errors();
+void display_rcfile_errors(void);
 #ifdef ENABLE_COLOR
 void parse_one_include(char *file, syntaxtype *syntax);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
