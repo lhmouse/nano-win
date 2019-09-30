@@ -649,11 +649,12 @@ void window_init(void)
 
 #ifdef ENABLED_WRAPORJUSTIFY
 	/* Set up the wrapping point, accounting for screen width when negative. */
-	wrap_at = fill;
-	if (wrap_at <= 0)
-		wrap_at += COLS;
-	if (wrap_at < 0)
+	if (COLS + fill < 0)
 		wrap_at = 0;
+	else if (fill <= 0)
+		wrap_at = COLS + fill;
+	else
+		wrap_at = fill;
 #endif
 }
 

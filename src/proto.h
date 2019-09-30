@@ -77,7 +77,8 @@ extern int shiftaltup, shiftaltdown;
 #endif
 
 #ifdef ENABLED_WRAPORJUSTIFY
-extern ssize_t fill, wrap_at;
+extern ssize_t fill;
+extern size_t wrap_at;
 #endif
 
 extern char *last_search;
