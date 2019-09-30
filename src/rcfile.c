@@ -1169,8 +1169,6 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			option++;
 		ptr = parse_argument(ptr);
 
-		option = mallocstrcpy(NULL, option);
-
 #ifdef ENABLE_UTF8
 		/* When in a UTF-8 locale, ignore arguments with invalid sequences. */
 		if (using_utf8() && mbstowcs(NULL, option, 0) == (size_t)-1) {
@@ -1178,6 +1176,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			continue;
 		}
 #endif
+		option = mallocstrcpy(NULL, option);
+
 #ifdef ENABLE_COLOR
 		if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
 			color_combo[TITLE_BAR] = parse_interface_color(option);
