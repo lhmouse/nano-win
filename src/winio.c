@@ -2291,7 +2291,7 @@ void bottombars(int menu)
 	number = shown_entries_for(menu);
 
 	/* Compute the width of each keyname-plus-explanation pair. */
-	itemwidth = COLS / ((number / 2) + (number % 2));
+	itemwidth = COLS / ((number + 1) / 2);
 
 	/* If there is no room, don't print anything. */
 	if (itemwidth == 0)
