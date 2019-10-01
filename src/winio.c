@@ -1694,12 +1694,11 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			/* Determine how many shortcuts are being shown. */
 			number = shown_entries_for(currmenu);
 
-			/* Calculate the width of each non-rightmost shortcut item;
-			 * the rightmost ones will "absorb" any remaining slack. */
-			if (number < 2)
-				width = COLS / (MAIN_VISIBLE / 2);
+			/* Calculate the clickable width of each menu item. */
+			if (number < 5)
+				width = COLS / 2;
 			else
-				width = COLS / ((number / 2) + (number % 2));
+				width = COLS / ((number + 1) / 2);
 
 			/* Calculate the one-based index in the shortcut list. */
 			index = (*mouse_x / width) * 2 + *mouse_y;
