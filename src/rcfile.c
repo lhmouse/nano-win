@@ -1300,7 +1300,7 @@ void parse_one_nanorc(void)
 		jot_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 }
 
-bool have_nanorc(const char *path, char *name)
+bool have_nanorc(const char *path, const char *name)
 {
 	if (path == NULL)
 		return FALSE;
