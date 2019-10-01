@@ -629,9 +629,6 @@ enum
 #define WAS_MARKED_FORWARD    (1<<5)
 #endif /* !NANO_TINY */
 
-/* The maximum number of entries displayed in the main shortcut list. */
-#define MAIN_VISIBLE (((COLS + 40) / 20) * 2)
-
 /* The default number of columns from end of line where wrapping occurs. */
 #define COLUMNS_FROM_EOL 8
 

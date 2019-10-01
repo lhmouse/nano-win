@@ -432,9 +432,10 @@ int the_code_for(void (*func)(void), int defaultval)
 size_t shown_entries_for(int menu)
 {
 	funcstruct *item = allfuncs;
+	size_t maximum = ((COLS + 40) / 20) * 2;
 	size_t count = 0;
 
-	while (count < MAIN_VISIBLE && item != NULL) {
+	while (count < maximum && item != NULL) {
 		if (item->menus & menu)
 			count++;
 		item = item->next;
