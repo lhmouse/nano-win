@@ -295,15 +295,16 @@ typedef struct linestruct {
 } linestruct;
 
 #ifndef NANO_TINY
-typedef struct undo_group {
+typedef struct groupstruct {
 	ssize_t top_line;
 		/* First line of group. */
 	ssize_t bottom_line;
 		/* Last line of group. */
 	char **indentations;
 		/* String data used to restore the affected lines; one per line. */
-	struct undo_group *next;
-} undo_group;
+	struct groupstruct *next;
+		/* The next group, if any. */
+} groupstruct;
 
 typedef struct undostruct {
 	ssize_t lineno;
@@ -319,7 +320,7 @@ typedef struct undostruct {
 		/* The file size after the action. */
 	int xflags;
 		/* Some flag data we need. */
-	undo_group *grouping;
+	groupstruct *grouping;
 		/* Undo info specific to groups of lines. */
 	linestruct *cutbuffer;
 		/* Copy of the cutbuffer. */

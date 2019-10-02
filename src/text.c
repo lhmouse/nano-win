@@ -289,7 +289,7 @@ void do_unindent(void)
 /* Perform an undo or redo for an indent or unindent action. */
 void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 {
-	undo_group *group = u->grouping;
+	groupstruct *group = u->grouping;
 	linestruct *line = line_from_number(group->top_line);
 
 	if (group->next != NULL)
@@ -446,7 +446,7 @@ void do_comment(void)
 /* Perform an undo or redo for a comment or uncomment action. */
 void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 {
-	undo_group *group = u->grouping;
+	groupstruct *group = u->grouping;
 
 	/* When redoing, reposition the cursor and let the commenter adjust it. */
 	if (!undoing)
@@ -1087,7 +1087,7 @@ bool execute_command(const char *command)
 void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool keep)
 {
 	undostruct *dropit = thefile->undotop;
-	undo_group *group;
+	groupstruct *group;
 
 	while (dropit != NULL && dropit != thisitem) {
 		thefile->undotop = dropit->next;
@@ -1095,7 +1095,7 @@ void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool kee
 		free_lines(dropit->cutbuffer);
 		group = dropit->grouping;
 		while (group != NULL) {
-			undo_group *next = group->next;
+			groupstruct *next = group->next;
 			free_chararray(group->indentations,
 								group->bottom_line - group->top_line);
 			free(group);
@@ -1263,7 +1263,7 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 		u->grouping->indentations[number_of_lines - 1] = mallocstrcpy(NULL,
 																indentation);
 	} else {
-		undo_group *born = (undo_group *)nmalloc(sizeof(undo_group));
+		groupstruct *born = nmalloc(sizeof(groupstruct));
 
 		born->next = u->grouping;
 		u->grouping = born;
