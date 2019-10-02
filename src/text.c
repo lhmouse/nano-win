@@ -287,7 +287,7 @@ void do_unindent(void)
 }
 
 /* Perform an undo or redo for an indent or unindent action. */
-void handle_indent_action(undo *u, bool undoing, bool add_indent)
+void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 {
 	undo_group *group = u->grouping;
 	linestruct *line = line_from_number(group->top_line);
@@ -444,7 +444,7 @@ void do_comment(void)
 }
 
 /* Perform an undo or redo for a comment or uncomment action. */
-void handle_comment_action(undo *u, bool undoing, bool add_comment)
+void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 {
 	undo_group *group = u->grouping;
 
@@ -477,7 +477,7 @@ void handle_comment_action(undo *u, bool undoing, bool add_comment)
 #define undo_paste redo_cut
 
 /* Undo a cut, or redo an uncut. */
-void undo_cut(undo *u)
+void undo_cut(undostruct *u)
 {
 	/* Get to where we need to uncut from. */
 	if (u->xflags & WAS_WHOLE_LINE)
@@ -501,7 +501,7 @@ void undo_cut(undo *u)
 }
 
 /* Redo a cut, or undo an uncut. */
-void redo_cut(undo *u)
+void redo_cut(undostruct *u)
 {
 	linestruct *oldcutbuffer = cutbuffer;
 
@@ -525,7 +525,7 @@ void redo_cut(undo *u)
 /* Undo the last thing(s) we did. */
 void do_undo(void)
 {
-	undo *u = openfile->current_undo;
+	undostruct *u = openfile->current_undo;
 	linestruct *f = NULL, *t = NULL;
 	linestruct *oldcutbuffer;
 	char *data, *undidmsg = NULL;
@@ -694,7 +694,7 @@ void do_redo(void)
 {
 	linestruct *f = NULL, *shoveline;
 	char *data, *redidmsg = NULL;
-	undo *u = openfile->undotop;
+	undostruct *u = openfile->undotop;
 
 	if (u == NULL || u == openfile->current_undo) {
 		statusbar(_("Nothing to redo"));
@@ -1084,9 +1084,9 @@ bool execute_command(const char *command)
 
 /* Discard undo items that are newer than the given one, or all if NULL.
  * When keep is TRUE, do not touch the last_saved pointer. */
-void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
+void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool keep)
 {
-	undo *dropit = thefile->undotop;
+	undostruct *dropit = thefile->undotop;
 	undo_group *group;
 
 	while (dropit != NULL && dropit != thisitem) {
@@ -1106,7 +1106,7 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 	}
 
 	/* Adjust the pointer to the top of the undo stack. */
-	thefile->current_undo = (undo *)thisitem;
+	thefile->current_undo = (undostruct *)thisitem;
 
 	/* Prevent a chain of editing actions from continuing. */
 	thefile->last_action = OTHER;
@@ -1114,20 +1114,20 @@ void discard_until(const undo *thisitem, openfilestruct *thefile, bool keep)
 	/* When requested, record that the undo stack was chopped, and
 	 * that thus there is no point at which the file was last saved. */
 	if (!keep)
-		thefile->last_saved = (undo *)0xbeeb;
+		thefile->last_saved = (undostruct *)0xbeeb;
 }
 
 /* Add a new undo item of the given type to the top of the current pile. */
 void add_undo(undo_type action)
 {
-	undo *u = openfile->current_undo;
+	undostruct *u = openfile->current_undo;
 		/* The thing we did previously. */
 
 	/* Blow away newer undo items if we add somewhere in the middle. */
 	discard_until(u, openfile, TRUE);
 
 	/* Allocate and initialize a new undo item. */
-	u = (undo *) nmalloc(sizeof(undo));
+	u = (undostruct *) nmalloc(sizeof(undostruct));
 	u->type = action;
 	u->strdata = NULL;
 	u->cutbuffer = NULL;
@@ -1250,7 +1250,7 @@ void add_undo(undo_type action)
  * added or removed is saved separately for each line in the undo item. */
 void update_multiline_undo(ssize_t lineno, char *indentation)
 {
-	undo *u = openfile->current_undo;
+	undostruct *u = openfile->current_undo;
 
 	/* If there already is a group and the current line is contiguous with it,
 	 * extend the group; otherwise, create a new group. */
@@ -1284,7 +1284,7 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
  * cursor position after the given action. */
 void update_undo(undo_type action)
 {
-	undo *u = openfile->undotop;
+	undostruct *u = openfile->undotop;
 	char *char_buf;
 	int charlen;
 

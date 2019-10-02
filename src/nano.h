@@ -305,7 +305,7 @@ typedef struct undo_group {
 	struct undo_group *next;
 } undo_group;
 
-typedef struct undo {
+typedef struct undostruct {
 	ssize_t lineno;
 	undo_type type;
 		/* What type of undo this was. */
@@ -327,9 +327,9 @@ typedef struct undo {
 		/* Mostly the line number of the current line; sometimes something else. */
 	size_t mark_begin_x;
 		/* The x position corresponding to the above line number. */
-	struct undo *next;
+	struct undostruct *next;
 		/* A pointer to the undo item of the preceding action. */
-} undo;
+} undostruct;
 #endif /* !NANO_TINY */
 
 #ifdef ENABLE_HISTORIES
@@ -383,11 +383,11 @@ typedef struct openfilestruct {
 		/* Whether it is a soft (with Shift) or a hard mark. */
 	format_type fmt;
 		/* The file's format -- Unix or DOS or Mac or mixed. */
-	undo *undotop;
+	undostruct *undotop;
 		/* The top of the undo list. */
-	undo *current_undo;
+	undostruct *current_undo;
 		/* The current (i.e. next) level of undo. */
-	undo *last_saved;
+	undostruct *last_saved;
 		/* The undo item at which the file was last saved. */
 	undo_type last_action;
 		/* The type of the last action the user performed. */
