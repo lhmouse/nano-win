@@ -307,23 +307,24 @@ typedef struct groupstruct {
 } groupstruct;
 
 typedef struct undostruct {
-	ssize_t lineno;
 	undo_type type;
-		/* What type of undo this was. */
+		/* The operation type that this undo item is for. */
+	int xflags;
+		/* Some flag data to mark certain corner cases. */
+	ssize_t lineno;
+		/* The line number where the operation began or ended. */
 	size_t begin;
-		/* Where did this action begin or end. */
+		/* The x position where the operation began or ended. */
 	char *strdata;
-		/* String type data we will use for copying the affected line back. */
+		/* String data to help restore the affected line. */
 	size_t wassize;
 		/* The file size before the action. */
 	size_t newsize;
 		/* The file size after the action. */
-	int xflags;
-		/* Some flag data we need. */
 	groupstruct *grouping;
 		/* Undo info specific to groups of lines. */
 	linestruct *cutbuffer;
-		/* Copy of the cutbuffer. */
+		/* A copy of the cutbuffer. */
 	ssize_t mark_begin_lineno;
 		/* Mostly the line number of the current line; sometimes something else. */
 	size_t mark_begin_x;
@@ -340,8 +341,9 @@ typedef struct poshiststruct {
 	ssize_t lineno;
 		/* Line number we left off on. */
 	ssize_t xno;
-		/* x position in the file we left off on. */
+		/* The x position in the file we left off on. */
 	struct poshiststruct *next;
+		/* The next item of position history. */
 } poshiststruct;
 #endif
 
@@ -367,8 +369,6 @@ typedef struct openfilestruct {
 		/* The file's x position we would like. */
 	ssize_t current_y;
 		/* The file's y-coordinate position. */
-	bool modified;
-		/* Whether the file has been modified. */
 	struct stat *current_stat;
 		/* The file's current stat information. */
 #ifdef ENABLE_WRAPPING
@@ -384,6 +384,8 @@ typedef struct openfilestruct {
 		/* Whether it is a soft (with Shift) or a hard mark. */
 	format_type fmt;
 		/* The file's format -- Unix or DOS or Mac or mixed. */
+	char *lock_filename;
+		/* The path of the lockfile, if we created one. */
 	undostruct *undotop;
 		/* The top of the undo list. */
 	undostruct *current_undo;
@@ -392,9 +394,9 @@ typedef struct openfilestruct {
 		/* The undo item at which the file was last saved. */
 	undo_type last_action;
 		/* The type of the last action the user performed. */
-	char *lock_filename;
-		/* The path of the lockfile, if we created one. */
 #endif
+	bool modified;
+		/* Whether the file has been modified. */
 #ifdef ENABLE_COLOR
 	syntaxtype *syntax;
 		/* The  syntax struct for this file, if any. */
