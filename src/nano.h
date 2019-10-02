@@ -147,7 +147,7 @@
 /* Enumeration types. */
 typedef enum {
 	NIX_FILE, DOS_FILE, MAC_FILE
-} file_format;
+} format_type;
 
 typedef enum {
 	HUSH, NOTICE, MILD, ALERT
@@ -381,7 +381,7 @@ typedef struct openfilestruct {
 		/* The mark's x position in the above line. */
 	mark_type kind_of_mark;
 		/* Whether it is a soft (with Shift) or a hard mark. */
-	file_format fmt;
+	format_type fmt;
 		/* The file's format -- Unix or DOS or Mac or mixed. */
 	undo *undotop;
 		/* The top of the undo list. */

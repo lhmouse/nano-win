@@ -1029,7 +1029,7 @@ void do_insertfile(void)
 	char *given = mallocstrcpy(NULL, "");
 		/* The last answer the user typed at the statusbar prompt. */
 #ifndef NANO_TINY
-	file_format original_fmt = openfile->fmt;
+	format_type was_fmt = openfile->fmt;
 	bool execute = FALSE;
 #endif
 
@@ -1197,7 +1197,7 @@ void do_insertfile(void)
 					set_modified();
 #ifndef NANO_TINY
 				/* Ensure that the buffer retains the format that it had. */
-				openfile->fmt = original_fmt;
+				openfile->fmt = was_fmt;
 #endif
 				refresh_needed = TRUE;
 			}
