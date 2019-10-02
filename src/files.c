@@ -1115,6 +1115,11 @@ void do_insertfile(void)
 				execute = !execute;
 				continue;
 			}
+			if (func == flip_pipe) {
+				add_or_remove_pipe_symbol_from_answer();
+				given = mallocstrcpy(given, answer);
+				continue;
+			}
 #endif
 #ifdef ENABLE_BROWSER
 			if (func == to_files_void) {
@@ -1127,13 +1132,6 @@ void do_insertfile(void)
 				free(answer);
 				answer = chosen;
 				response = 0;
-			}
-#endif
-#ifndef NANO_TINY
-			if (func == flip_pipe) {
-				add_or_remove_pipe_symbol_from_answer();
-				given = mallocstrcpy(given, answer);
-				continue;
 			}
 #endif
 			/* If we don't have a file yet, go back to the prompt. */
