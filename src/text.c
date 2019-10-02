@@ -1120,14 +1120,9 @@ void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool kee
 /* Add a new undo item of the given type to the top of the current pile. */
 void add_undo(undo_type action)
 {
-	undostruct *u = openfile->current_undo;
-		/* The thing we did previously. */
+	undostruct *u = nmalloc(sizeof(undostruct));
 
-	/* Blow away newer undo items if we add somewhere in the middle. */
-	discard_until(u, openfile, TRUE);
-
-	/* Allocate and initialize a new undo item. */
-	u = (undostruct *) nmalloc(sizeof(undostruct));
+	/* Initialize the newly allocated undo item. */
 	u->type = action;
 	u->strdata = NULL;
 	u->cutbuffer = NULL;
@@ -1137,8 +1132,11 @@ void add_undo(undo_type action)
 	u->mark_begin_x = openfile->current_x;
 	u->wassize = openfile->totsize;
 	u->newsize = openfile->totsize;
-	u->xflags = 0;
 	u->grouping = NULL;
+	u->xflags = 0;
+
+	/* Blow away any undone items. */
+	discard_until(openfile->current_undo, openfile, TRUE);
 
 #ifdef ENABLE_WRAPPING
 	/* If some action caused automatic long-line wrapping, insert the
