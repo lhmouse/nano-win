@@ -476,10 +476,9 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 #define redo_paste undo_cut
 #define undo_paste redo_cut
 
-/* Undo a cut, or redo an uncut. */
+/* Undo a cut, or redo a paste. */
 void undo_cut(undostruct *u)
 {
-	/* Get to where we need to uncut from. */
 	if (u->xflags & WAS_WHOLE_LINE)
 		goto_line_posx(u->mark_begin_lineno, 0);
 	else
@@ -500,7 +499,7 @@ void undo_cut(undostruct *u)
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 }
 
-/* Redo a cut, or undo an uncut. */
+/* Redo a cut, or undo a paste. */
 void redo_cut(undostruct *u)
 {
 	linestruct *oldcutbuffer = cutbuffer;
@@ -540,6 +539,7 @@ void do_undo(void)
 		f = line_from_number(u->mark_begin_lineno);
 
 	openfile->current_x = u->begin;
+
 	switch (u->type) {
 	case ADD:
 		/* TRANSLATORS: The next thirteen strings describe actions
