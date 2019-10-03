@@ -213,7 +213,9 @@ bool is_ascii_cntrl_char(int c);
 bool is_cntrl_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_mbrep(const char *c, bool isdata);
+#ifdef ENABLE_UTF8
 int mbwidth(const char *c);
+#endif
 char *make_mbchar(long chr, int *chr_mb_len);
 int char_length(const char *pointer);
 int parse_mbchar(const char *buf, char *chr, size_t *col);

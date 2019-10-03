@@ -200,11 +200,10 @@ char control_mbrep(const char *c, bool isdata)
 		return control_rep(*c);
 }
 
+#ifdef ENABLE_UTF8
 /* This function is equivalent to wcwidth() for multibyte characters. */
 int mbwidth(const char *c)
 {
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		wchar_t wc;
 		int width;
 
@@ -213,14 +212,12 @@ int mbwidth(const char *c)
 
 		width = wcwidth(wc);
 
-		if (width == -1)
+		if (width < 0)
 			return 1;
 
 		return width;
-	} else
-#endif
-		return 1;
 }
+#endif
 
 /* Convert the Unicode value in code to a multibyte character, if possible.
  * If the conversion succeeds, return the (dynamically allocated) multibyte

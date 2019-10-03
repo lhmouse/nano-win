@@ -1890,11 +1890,13 @@ char *display_string(const char *buf, size_t column, size_t span,
 
 #ifdef ENABLE_UTF8
 #define ISO8859_CHAR  FALSE
+#define ZEROWIDTH_CHAR  (mbwidth(buf) == 0)
 #else
 #define ISO8859_CHAR  ((unsigned char)*buf > 0x9F)
+#define ZEROWIDTH_CHAR  FALSE
 #endif
 
-	while (*buf != '\0' && (column < beyond || mbwidth(buf) == 0)) {
+	while (*buf != '\0' && (column < beyond || ZEROWIDTH_CHAR)) {
 		/* A plain printable ASCII character is one byte, one column. */
 		if (((signed char)*buf > 0x20 && *buf != DEL_CODE) || ISO8859_CHAR) {
 			converted[index++] = *(buf++);
@@ -1983,14 +1985,16 @@ char *display_string(const char *buf, size_t column, size_t span,
 	/* If there is more text than can be shown, make room for the ">". */
 	if (column > beyond || (*buf != '\0' && (isprompt ||
 					(isdata && !ISSET(SOFTWRAP))))) {
+#ifdef ENABLE_UTF8
 		do {
 			index = step_left(converted, index);
 		} while (mbwidth(converted + index) == 0);
 
-#ifdef ENABLE_UTF8
 		/* Display the left half of a two-column character as '['. */
 		if (mbwidth(converted + index) == 2)
 			converted[index++] = '[';
+#else
+		index--;
 #endif
 	}
 
