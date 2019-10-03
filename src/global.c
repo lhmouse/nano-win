@@ -348,9 +348,9 @@ void do_cancel(void)
 {
 }
 
-/* Add a function to the function list. */
-void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *help,
-	bool blank_after, bool viewok)
+/* Add a function to the linked list of functions. */
+void add_to_funcs(void (*func)(void), int menus, const char *desc,
+					const char *help, bool blank_after, bool viewok)
 {
 	funcstruct *f = nmalloc(sizeof(funcstruct));
 
@@ -371,7 +371,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc, const char *h
 #endif
 }
 
-/* Add a key combo to the shortcut list. */
+/* Add a key combo to the linked list of shortcuts. */
 void add_to_sclist(int menus, const char *scstring, const int keycode,
 						void (*func)(void), int toggle)
 {
@@ -454,14 +454,12 @@ size_t shown_entries_for(int menu)
  * the given sequence. */
 const keystruct *get_shortcut(int *kbinput)
 {
-	keystruct *s;
-
 	/* Plain characters cannot be shortcuts, so just skip those. */
 	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
 						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
 		return NULL;
 
-	for (s = sclist; s != NULL; s = s->next) {
+	for (keystruct *s = sclist; s != NULL; s = s->next) {
 		if ((s->menus & currmenu) && *kbinput == s->keycode &&
 										meta_key == s->meta)
 			return s;
