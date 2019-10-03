@@ -2329,18 +2329,8 @@ int main(int argc, char **argv)
 #ifdef ENABLE_SPELLER
 		alt_speller = NULL;
 #endif
-
-//#define TIMEIT 12
-#ifdef TIMEIT
-#include <time.h>
-	clock_t start = clock();
-#endif
 		/* Now process the system's and the user's nanorc file, if any. */
 		do_rcfiles();
-#ifdef TIMEIT
-		fprintf(stderr, "Took: %.3f\n",
-						 (double)(clock() - start) / CLOCKS_PER_SEC);
-#endif
 
 		/* If the backed-up command-line options have a value, restore them. */
 #ifdef ENABLED_WRAPORJUSTIFY
