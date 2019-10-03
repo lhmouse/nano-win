@@ -1984,7 +1984,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 
 	/* If there is more text than can be shown, make room for the ">". */
 	if (column > beyond || (*buf != '\0' && (isprompt ||
-					(isdata && !ISSET(SOFTWRAP))))) {
+							(isdata && !ISSET(SOFTWRAP))))) {
 #ifdef ENABLE_UTF8
 		do {
 			index = step_left(converted, index);

@@ -218,6 +218,7 @@ int mbwidth(const char *c);
 #endif
 char *make_mbchar(long chr, int *chr_mb_len);
 int char_length(const char *pointer);
+size_t mbstrlen(const char *s);
 int parse_mbchar(const char *buf, char *chr, size_t *col);
 size_t step_left(const char *buf, size_t pos);
 size_t step_right(const char *buf, size_t pos);
@@ -226,7 +227,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 char *mbstrcasestr(const char *haystack, const char *needle);
 char *revstrstr(const char *haystack, const char *needle, const char *index);
 char *mbrevstrcasestr(const char *haystack, const char *needle, const char *index);
-size_t mbstrlen(const char *s);
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 char *mbstrchr(const char *s, const char *c);
 #endif

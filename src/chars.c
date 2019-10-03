@@ -265,6 +265,27 @@ int char_length(const char *pointer)
 		return 1;
 }
 
+/* Return the number of (multibyte) characters in the given string. */
+size_t mbstrlen(const char *pointer)
+{
+	size_t count = 0;
+
+	while (*pointer != '\0') {
+#ifdef ENABLE_UTF8
+		if ((signed char)*pointer < 0) {
+			int length = mblen(pointer, MAXCHARLEN);
+
+			pointer += (length < 0 ? 1 : length);
+		} else
+#endif
+			pointer++;
+
+		count++;
+	}
+
+	return count;
+}
+
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
  * col isn't NULL, add the character's width (in columns) to it. */
@@ -347,7 +368,7 @@ size_t step_left(const char *buf, size_t pos)
 		return before - charlen;
 	} else
 #endif
-	return (pos == 0 ? 0 : pos - 1);
+		return (pos == 0 ? 0 : pos - 1);
 }
 
 /* Return the index in buf of the beginning of the multibyte character
@@ -486,27 +507,6 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 	} else
 #endif
 		return revstrcasestr(haystack, needle, pointer);
-}
-
-/* Count the number of (multibyte) characters in the given string. */
-size_t mbstrlen(const char *pointer)
-{
-	size_t count = 0;
-
-	while (*pointer != '\0') {
-#ifdef ENABLE_UTF8
-		if ((signed char)*pointer < 0) {
-			int length = mblen(pointer, MAXCHARLEN);
-
-			pointer += (length < 0 ? 1 : length);
-		} else
-#endif
-			pointer++;
-
-		count++;
-	}
-
-	return count;
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
