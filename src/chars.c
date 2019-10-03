@@ -201,9 +201,11 @@ char control_mbrep(const char *c, bool isdata)
 }
 
 #ifdef ENABLE_UTF8
-/* This function is equivalent to wcwidth() for multibyte characters. */
+/* Return the width in columns of the given (multibyte) character. */
 int mbwidth(const char *c)
 {
+	/* Ask for the width only when the character isn't plain ASCII. */
+	if ((signed char)*c <= 0) {
 		wchar_t wc;
 		int width;
 
@@ -216,6 +218,8 @@ int mbwidth(const char *c)
 			return 1;
 
 		return width;
+	} else
+		return 1;
 }
 #endif
 
