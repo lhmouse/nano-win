@@ -1,3 +1,9 @@
+2019.10.04 - GNU nano 4.5 "Košice"
+• The new 'tabgives' command allows you to specify per syntax what
+  the <Tab> key should produce: some spaces, a hard TAB, ...
+• The output of --help is properly aligned again for all languages.
+• <Tab> will indent a marked region also when M-} has been rebound.
+
 2019.08.25 - GNU nano 4.4 "Hagelslag"
 • At startup, the cursor can be put on the first or last occurrence
   of a string by preceding the filename with +/string or +?string.

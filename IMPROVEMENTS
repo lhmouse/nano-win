@@ -2,6 +2,7 @@ Improvements in GNU nano
 ========================
 
 Since 4.0:
+  - What the <Tab> key produces can be specified per syntax with 'tabgives'.
   - The ability to perform a search at startup with +/string or +?string.
   - Comment characters are copied when automatic hard-wrapping occurs.
   - The ability to both read from and write to a FIFO.

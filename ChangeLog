@@ -1,3 +1,75 @@
+Changes between v4.4 and v4.5:
+------------------------------
+
+Benno Schulenberg (60):
+      bindings: add a dedicated keycode for <Tab> for when a region is marked
+      bump version numbers and add a news item for the 4.4 release
+      color: don't concatenate an absolute path with the working directory
+      docs: add two examples of the 'tabgives' command to the sample nanorc
+      docs: describe the new syntax-specific 'tabgives' command
+      docs: mark the undoing of justifications as done in the TODO list
+      docs: mention that gcc must be at least version 5.0
+      gnulib: update to its current upstream state
+      mouse: make the clickable width of menu items more consistent
+      new feature: a 'tabgives' command to define what the Tab key produces
+      search: after search-at-startup, store the column (for vertical movement)
+      tweaks: add a translator hint, and correct two others
+      tweaks: add some translator hints, be more precise on permissible length
+      tweaks: add two hints for translators, to try and help avoid mistakes
+      tweaks: adjust indentation after previous change, reshuffle declarations
+      tweaks: avoid a comparison between signed and unsigned  [coverity]
+      tweaks: avoid leaking memory when finding an invalid string  [coverity]
+      tweaks: avoid recomputing a maximum value every time round the loop
+      tweaks: don't burden all menus with something meant for the WriteOut menu
+      tweaks: elide a function from a non-UTF8 build
+      tweaks: elide two multiplications with something that is always 1
+      tweaks: frob a few comments
+      tweaks: improve a bunch of comments, and reshuffle some declarations
+      tweaks: improve a handful of comments, and reduce the needed padding
+      tweaks: mark as 'const' a parameter that takes fixed strings  [coverity]
+      tweaks: meld two calls of free() into a single one, to elide an 'else'
+      tweaks: move a fragment of common code into the appropriate function
+      tweaks: move a function to a better file, to be amongst its kind
+      tweaks: move a function to before its callers and next to its kind
+      tweaks: move two functions to after the ones that they call
+      tweaks: remove some timing code that has served its purpose
+      tweaks: remove two superfluous macros, as sizeof(char) is always 1
+      tweaks: rename a function, to be a bit more fitting
+      tweaks: rename another type, again to better fit the general pattern
+      tweaks: rename another type, to also better fit the general pattern
+      tweaks: rename another variable, for a better fit
+      tweaks: rename a type, to better fit the general pattern
+      tweaks: rename a variable, normalize a comment, and reshuffle a free()
+      tweaks: rename a variable, to be more compact
+      tweaks: rename three variables, for contrast and more sense
+      tweaks: rename three variables, for more contrast
+      tweaks: rename three variables, to better indicate what they hold
+      tweaks: rename two variables, away from single letters
+      tweaks: rename two variables, to better describe what they contain
+      tweaks: reshuffle a fragment, to group some toggles together
+      tweaks: reshuffle a line, to group things better
+      tweaks: reshuffle some lines, to elide an unneeded assignment
+      tweaks: reshuffle some lines, to have the same order as elsewhere
+      tweaks: reshuffle two fragments, to group things better
+      tweaks: rewrap a line, reshuffle a declaration, and improve some comments
+      tweaks: simplify a calculation, as done elsewhere
+      tweaks: simplify the determination of a canonical path
+      tweaks: sort two keywords strictly alphabetically
+      tweaks: speed up determining the width of plain ASCII characters
+      tweaks: speed up the counting of the menu entries to be shown
+      tweaks: use a more effecient way to skip storing an empty file name
+      tweaks: use an early return when there is no tilde
+      tweaks: use 'void' in prototypes of parameterless functions  [coverity]
+      usage: mark the -J/--guidestripe option plus argument as translatable
+      usage: properly align --help output also when it has accented characters
+
+Brand Huntsman (1):
+      search: accept a match at start of file when searching from command line
+
+Dirkjan Ochtman (1):
+      syntax: rust: add the words reserved in 2018, and remove unreserved ones
+
+
 Changes between v4.3 and v4.4:
 ------------------------------
 
