@@ -3,7 +3,7 @@ Changes between v4.4 and v4.5:
 
 Benno Schulenberg (60):
       bindings: add a dedicated keycode for <Tab> for when a region is marked
-      bump version numbers and add a news item for the 4.4 release
+      bump version numbers and add a news item for the 4.5 release
       color: don't concatenate an absolute path with the working directory
       docs: add two examples of the 'tabgives' command to the sample nanorc
       docs: describe the new syntax-specific 'tabgives' command
