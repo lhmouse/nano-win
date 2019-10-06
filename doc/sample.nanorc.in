@@ -218,47 +218,31 @@
 
 ## Setup of syntax coloring.
 ##
-## Format:
+##   syntax "name" ["filename regex" ...]
 ##
-## syntax "short description" ["filename regex" ...]
+##   color|icolor foreground,background "regex" ["regex"...]
+##   [...]
 ##
-## The "none" syntax is reserved; specifying it on the command line is
-## the same as not having a syntax at all.  The "default" syntax is
-## special: it takes no filename regexes, and applies to files that
-## don't match any other syntax's filename regexes.
-##
-## color foreground,background "regex" ["regex"...]
-## or
-## icolor foreground,background "regex" ["regex"...]
-##
-## "color" will do case-sensitive matches, while "icolor" will do
+## 'color' will do case-sensitive matches, while 'icolor' will do
 ## case-insensitive matches.
-##
-## Valid color names ares: white, black, normal, red, blue, green,
-## yellow, magenta, cyan.  For foreground colors, you may use the
-## prefix "bright" to get a stronger highlight.
 ##
 ## All color commands are applied in the order in which they are specified,
 ## meaning that later commands can recolor stuff that was colored earlier.
 ##
+## Valid color names for foreground and background are: white, black, normal,
+## red, blue, green, yellow, magenta, cyan.  For foreground colors, you may
+## use the prefix "bright" to get a stronger highlight.
+##
 ## All regexes (regular expressions) are of the extended type (ERE).
 ##
-## To use multi-line regexes, use the start="regex" end="regex"
-## [start="regex" end="regex"...] format.
+## If the coloring rule should span multiple lines, use the following format:
 ##
-## If your system supports transparency, not specifying a background
-## color will use a transparent color.  If you don't want this, be sure
-## to set the background color to black or white.
+##   color fg,bg  start="regex" end="regex"
 ##
 ## If you wish, you may put your syntax definitions in separate files.
 ## You can make use of such files as follows:
 ##
-## include "/path/to/syntax_file.nanorc"
-##
-## Unless otherwise noted, the name of the syntax file (without the
-## ".nanorc" extension) should be the same as the "short description"
-## name inside that file.  These names are kept fairly short to make
-## them easier to remember and faster to type using nano's -Y option.
+##   include "/path/to/syntax_file.nanorc"
 
 ## To include all existing syntax definitions, you can do:
 # include "@PKGDATADIR@/*.nanorc"
@@ -267,7 +251,7 @@
 ## If <Tab> should always produce four spaces when editing a Python file,
 ## independent of the settings of 'tabsize' and 'tabstospaces':
 # extendsyntax python tabgives "    "
-#
+
 ## If <Tab> should always produce an actual TAB when editing a Makefile:
 # extendsyntax makefile tabgives "	"
 
