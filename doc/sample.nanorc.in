@@ -238,6 +238,9 @@
 ## yellow, magenta, cyan.  For foreground colors, you may use the
 ## prefix "bright" to get a stronger highlight.
 ##
+## All color commands are applied in the order in which they are specified,
+## meaning that later commands can recolor stuff that was colored earlier.
+##
 ## All regexes (regular expressions) are of the extended type (ERE).
 ##
 ## To use multi-line regexes, use the start="regex" end="regex"

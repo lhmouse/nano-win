@@ -1077,6 +1077,9 @@ stronger highlight.
 If your terminal supports transparency, not specifying a "bgcolor"
 tells @command{nano} to attempt to use a transparent background.
 
+All coloring commands are applied in the order in which they are specified,
+which means that later commands can recolor stuff that was colored earlier.
+
 @item icolor @var{fgcolor},@var{bgcolor} "@var{regex}" @dots{}
 Same as above, except that the matching is case insensitive.
 

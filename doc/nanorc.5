@@ -411,6 +411,9 @@ one of which must be specified.  Valid color names are:
 You may use the prefix \fBbright\fR for the foreground color to get a
 stronger highlight.  If your terminal supports transparency, not specifying
 a \fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent background.
+.sp
+All coloring commands are applied in the order in which they are specified,
+which means that later commands can recolor stuff that was colored earlier.
 .TP
 .BI "icolor " fgcolor , bgcolor " """ regex """ " \fR...
 Same as above, except that the matching is case insensitive.
