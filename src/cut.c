@@ -194,7 +194,10 @@ void chop_word(bool forward)
 /* Delete a word leftward. */
 void chop_previous_word(void)
 {
-	chop_word(BACKWARD);
+	if (openfile->current->prev == NULL && openfile->current_x == 0)
+		statusbar(_("Nothing was cut"));
+	else
+		chop_word(BACKWARD);
 }
 
 /* Delete a word rightward. */
