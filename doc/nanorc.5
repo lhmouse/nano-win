@@ -465,9 +465,8 @@ Key bindings can be changed via the following three commands:
 .RS 3
 .TP
 .BI bind " key function menu"
-Rebinds the key \fIkey\fP to a new function named \fIfunction\fP in the
-context of menu \fImenu\fP (or in all menus where the function exists
-by using \fBall\fP).
+Rebinds the given \fIkey\fP to the given \fIfunction\fP in the given \fImenu\fP
+(or in all menus where the function exists when \fBall\fP is used).
 .TP
 .BI bind " key " """" string """" " menu"
 Makes the given \fIkey\fR produce the given \fIstring\fR in the given
@@ -478,28 +477,28 @@ with \fBM\-V\fR.)
 
 .TP
 .BI unbind " key menu"
-Unbinds the key \fIkey\fP from the menu named \fImenu\fP (or from all
-menus where it exists by using \fBall\fP).
+Unbinds the given \fIkey\fP from the given \fImenu\fP (or from all
+menus where the key exists when \fBall\fP is used).
 .RE
 
 .TP
 The format of \fIkey\fP should be one of:
 .RS 3
-.TP 3
-.B ^
-followed by a Latin letter, by one of several ASCII characters
-(@, ], \\, ^, or _), or by the word "Space".
+.TP 5
+.BI ^ X
+where \fIX\fR is a Latin letter, or one of several ASCII characters
+(@, ], \\, ^, _), or the word "Space".
 Example: ^C.
 .TP
-.B M\-
-followed by any ASCII character except [, or by the word "Space".
+.BI M\- X
+where \fIX\fR is any ASCII character except [, or the word "Space".
 Example: M\-C.
 .TP
-.B F
-followed by a numeric value from 1 to 16.
+.BI F N
+where \fIN\fR is a numeric value from 1 to 16.
 Example: F10.
 .TP
-the word "Ins" or the word "Del".
+.BR Ins " or " Del .
 .RE
 
 .TP

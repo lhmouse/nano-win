@@ -1134,7 +1134,7 @@ nanorc file:
 
 @item bind key function menu
 Rebinds @code{key} to @code{function} in the context of @code{menu}
-(or in all menus where the function exists by using @code{all}).
+(or in all menus where the function exists when @code{all} is used).
 
 @item bind key "string" menu
 Makes @code{key} produce @code{string} in the context of @code{menu}
@@ -1145,7 +1145,7 @@ with @kbd{M-V}.)
 
 @item unbind key menu
 Unbinds @code{key} from @code{menu}
-(or from all menus where it exists by using @code{all}).
+(or from all menus where the key exists when @code{all} is used).
 
 @end table
 
@@ -1154,20 +1154,21 @@ The format of @code{key} should be one of:
 
 @itemize @w{}
 @item
-@code{^}@  followed by a Latin letter, by one of several ASCII characters
-(@@, ], \, ^, or _), or by the word "Space".
+@code{^@var{X}} ------ where @var{X} is a Latin letter, or one of several
+ASCII characters (@@, ], \, ^, _), or the word "Space".
 Example: @code{^C}.
 
 @item
-@code{M-}@  followed by any ASCII character except [, or by the word "Space".
+@code{M-@var{X}} ------ where @var{X} is any ASCII character except [,
+or the word "Space".
 Example: @code{M-C}.
 
 @item
-@code{F}@  followed by a numeric value from 1 to 16.
+@code{F@var{n}} ------ where @var{n} is a numeric value from 1 to 16.
 Example: @code{F10}.
 
 @item
-the word "Ins" or the word "Del".
+@code{Ins} or @code{Del}.
 @end itemize
 
 @sp 1
