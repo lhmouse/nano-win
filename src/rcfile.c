@@ -1001,6 +1001,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 	while ((len = getline(&buffer, &size, rcstream)) > 0) {
 		char *ptr, *keyword, *option;
+		bool drop_open = FALSE;
 		int set = 0;
 		size_t i;
 
@@ -1032,6 +1033,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		if (!just_syntax && strcasecmp(keyword, "extendsyntax") == 0) {
 			augmentstruct *newitem, *extra;
 			char *syntaxname = ptr;
+			char *argument;
 			syntaxtype *sint;
 
 			check_for_nonempty_syntax();
@@ -1047,12 +1049,23 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				continue;
 			}
 
+			argument = strdup(ptr);
+			keyword = ptr;
+			ptr = parse_next_word(ptr);
+
+			/* File-matching commands need to be processed immediately;
+			 * other commands are stored for possible later processing. */
+			if (strcmp(keyword, "header") == 0 || strcmp(keyword, "magic") == 0) {
+				free(argument);
+				live_syntax = sint;
+				opensyntax = TRUE;
+				drop_open = TRUE;
+			} else {
 			newitem = nmalloc(sizeof(augmentstruct));;
 
-			/* Store the content of an 'extendsyntax', for later parsing. */
 			newitem->filename = strdup(nanorc);
 			newitem->lineno = lineno;
-			newitem->data = strdup(ptr);
+			newitem->data = argument;
 			newitem->next = NULL;
 
 			if (sint->augmentations != NULL) {
@@ -1064,6 +1077,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				sint->augmentations = newitem;
 
 			continue;
+			}
 		}
 
 		/* Try to parse the keyword. */
@@ -1119,6 +1133,9 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			parse_binding(ptr, FALSE);
 		else if (intros_only)
 			jot_error(N_("Command \"%s\" not understood"), keyword);
+
+		if (drop_open)
+			opensyntax = FALSE;
 
 		if (set == 0)
 			continue;
