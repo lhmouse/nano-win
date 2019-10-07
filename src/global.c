@@ -503,7 +503,7 @@ int keycode_from_string(const char *keystring)
 			return -1;
 	} else if (keystring[0] == 'F') {
 		int fn = atoi(&keystring[1]);
-		if (fn < 1 || fn > 16)
+		if (fn < 1 || fn > 24)
 			return -1;
 		return KEY_F0 + fn;
 	} else if (!strcasecmp(keystring, "Ins"))

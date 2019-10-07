@@ -1164,8 +1164,10 @@ or the word "Space".
 Example: @code{M-C}.
 
 @item
-@code{F@var{n}} ------ where @var{n} is a numeric value from 1 to 16.
+@code{F@var{n}} ------ where @var{n} is a numeric value from 1 to 24.
 Example: @code{F10}.
+(Often, @code{F13} to @code{F24} can be typed as @code{F1} to @code{F12}
+with Shift.)
 
 @item
 @code{Ins} or @code{Del}.
