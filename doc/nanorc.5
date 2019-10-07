@@ -501,6 +501,10 @@ Example: F10.
 .BR Ins " or " Del .
 .RE
 
+Rebinding \fB^M\fR (Enter) or \fB^I\fR (Tab) is probably not a good idea.
+On some terminals it's not possible to rebind \fB^H\fR (unless \fB\-\-raw\fR
+is used) because its keycode is identical to that of the Backspace key.
+
 .TP
 Valid \fIfunction\fP names to be bound are:
 .RS 3
