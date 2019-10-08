@@ -1061,22 +1061,22 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				opensyntax = TRUE;
 				drop_open = TRUE;
 			} else {
-			newitem = nmalloc(sizeof(augmentstruct));;
+				newitem = nmalloc(sizeof(augmentstruct));;
 
-			newitem->filename = strdup(nanorc);
-			newitem->lineno = lineno;
-			newitem->data = argument;
-			newitem->next = NULL;
+				newitem->filename = strdup(nanorc);
+				newitem->lineno = lineno;
+				newitem->data = argument;
+				newitem->next = NULL;
 
-			if (sint->augmentations != NULL) {
-				extra = sint->augmentations;
-				while (extra->next != NULL)
-					extra = extra->next;
-				extra->next = newitem;
-			} else
-				sint->augmentations = newitem;
+				if (sint->augmentations != NULL) {
+					extra = sint->augmentations;
+					while (extra->next != NULL)
+						extra = extra->next;
+					extra->next = newitem;
+				} else
+					sint->augmentations = newitem;
 
-			continue;
+				continue;
 			}
 		}
 
