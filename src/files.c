@@ -1212,9 +1212,7 @@ void do_insertfile(void)
 /* If the current mode of operation allows it, go insert a file. */
 void do_insertfile_void(void)
 {
-	if (ISSET(RESTRICTED))
-		show_restricted_warning();
-	else
+	if (!in_restricted_mode())
 		do_insertfile();
 }
 

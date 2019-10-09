@@ -408,7 +408,7 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
 void ingraft_buffer(linestruct *somebuffer);
 void copy_from_buffer(linestruct *somebuffer);
 void print_view_warning(void);
-void show_restricted_warning(void);
+bool in_restricted_mode(void);
 #ifndef ENABLE_HELP
 void say_there_is_no_help(void);
 #endif

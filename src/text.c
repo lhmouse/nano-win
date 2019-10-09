@@ -2640,10 +2640,8 @@ void do_spell(void)
 		/* A storage place for the current flag settings. */
 	const char *result_msg;
 
-	if (ISSET(RESTRICTED)) {
-		show_restricted_warning();
+	if (in_restricted_mode())
 		return;
-	}
 
 	temp = safe_tempfile(&temp_file);
 
@@ -2712,10 +2710,8 @@ void do_linter(void)
 	lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 	time_t last_wait = 0;
 
-	if (ISSET(RESTRICTED)) {
-		show_restricted_warning();
+	if (in_restricted_mode())
 		return;
-	}
 
 	if (!openfile->syntax || !openfile->syntax->linter) {
 		statusbar(_("No linter defined for this type of file!"));

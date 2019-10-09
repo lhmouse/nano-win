@@ -463,11 +463,15 @@ void print_view_warning(void)
 	statusbar(_("Key is invalid in view mode"));
 }
 
-/* Indicate that something is disabled in restricted mode. */
-void show_restricted_warning(void)
+/* When in restricted mode, show a warning and return TRUE. */
+bool in_restricted_mode(void)
 {
-	statusbar(_("This function is disabled in restricted mode"));
-	beep();
+	if (ISSET(RESTRICTED)) {
+		statusbar(_("This function is disabled in restricted mode"));
+		beep();
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 #ifndef ENABLE_HELP
@@ -1340,10 +1344,8 @@ void do_toggle(int flag)
 {
 	bool enabled;
 
-	if (flag == SUSPEND && ISSET(RESTRICTED)) {
-		show_restricted_warning();
+	if (flag == SUSPEND && in_restricted_mode())
 		return;
-	}
 
 	TOGGLE(flag);
 	focusing = FALSE;
