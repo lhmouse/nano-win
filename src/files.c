@@ -1326,9 +1326,8 @@ char *get_full_path(const char *origpath)
 	return target;
 }
 
-/* Return the full version of path, as returned by get_full_path().  On
- * error, or if path doesn't reference a directory, or if the directory
- * isn't writable, return NULL. */
+/* Check whether the given path refers to a directory that is writable.
+ * Return the absolute form of the path on success, and NULL on failure. */
 char *check_writable_directory(const char *path)
 {
 	char *full_path = get_full_path(path);
@@ -1336,9 +1335,7 @@ char *check_writable_directory(const char *path)
 	if (full_path == NULL)
 		return NULL;
 
-	/* If we can't write to path or path isn't a directory, return NULL. */
-	if (access(full_path, W_OK) != 0 ||
-				full_path[strlen(full_path) - 1] != '/') {
+	if (full_path[strlen(full_path) - 1] != '/' || access(full_path, W_OK) != 0) {
 		free(full_path);
 		return NULL;
 	}
