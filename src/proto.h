@@ -273,7 +273,8 @@ void make_new_buffer(void);
 void set_modified(void);
 bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
-bool replace_buffer(const char *filename, undo_type action, bool marked);
+bool replace_buffer(const char *filename, undo_type action, bool marked,
+		const char *operation);
 #endif
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER
@@ -548,6 +549,7 @@ void do_spell(void);
 #endif
 #ifdef ENABLE_COLOR
 void do_linter(void);
+void do_fixer(void);
 #endif
 #ifndef NANO_TINY
 void do_wordlinechar_count(void);

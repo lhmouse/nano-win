@@ -231,6 +231,8 @@ typedef struct syntaxtype {
 		/* The list of libmagic results that this syntax applies to. */
 	char *linter;
 		/* The command with which to lint this type of file. */
+	char *fixer;
+		/* The command with which to "fix"/format/modify this type of file. */
 	char *tab;
 		/* What the Tab key should produce; NULL for default behavior. */
 #ifdef ENABLE_COMMENT

@@ -2542,28 +2542,31 @@ const char *do_int_speller(const char *tempfile_name)
 }
 
 /* Execute the given program, with the given temp file as last argument. */
-const char *treat(char *tempfile_name, char *theprogram)
+const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 {
 	ssize_t lineno_save = openfile->current->lineno;
 	size_t current_x_save = openfile->current_x;
 	size_t pww_save = openfile->placewewant;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
+	const char *msg = (spelling ? N_("spelling correction") : N_("manipulation"));
 	struct stat fileinfo;
-	time_t timestamp;
+	long timestamp_sec, timestamp_nsec;
 	static char **arguments = NULL;
 	pid_t thepid;
 	int program_status;
 
 	/* Get the timestamp and the size of the temporary file. */
 	stat(tempfile_name, &fileinfo);
-	timestamp = fileinfo.st_mtime;
+	timestamp_sec = (long)fileinfo.st_mtim.tv_sec;
+	timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
 
 	/* If the number of bytes to check is zero, get out. */
 	if (fileinfo.st_size == 0)
 		return NULL;
 
-	/* Exit from curses mode. */
-	endwin();
+	/* The spell checker needs the screen, so exit from curses mode. */
+	if (spelling)
+		endwin();
 
 	construct_argument_list(&arguments, theprogram, tempfile_name);
 
@@ -2582,9 +2585,11 @@ const char *treat(char *tempfile_name, char *theprogram)
 	wait(&program_status);
 	block_sigwinch(FALSE);
 
-	/* Set the desired terminal state again, and reenter curses mode. */
-	terminal_init();
-	doupdate();
+	/* When needed, restore the terminal state and reenter curses mode. */
+	if (spelling) {
+		terminal_init();
+		doupdate();
+	}
 
 	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) != 0)
 		return invocation_error(theprogram);
@@ -2593,7 +2598,8 @@ const char *treat(char *tempfile_name, char *theprogram)
 	stat(tempfile_name, &fileinfo);
 
 	/* Read in the temporary file only when it changed. */
-	if (fileinfo.st_mtime != timestamp) {
+	if ((long)fileinfo.st_mtim.tv_sec != timestamp_sec ||
+				(long)fileinfo.st_mtim.tv_nsec != timestamp_nsec) {
 		bool replaced = FALSE;
 #ifndef NANO_TINY
 		/* Replace the marked text (or entire text) with the corrected text. */
@@ -2603,7 +2609,7 @@ const char *treat(char *tempfile_name, char *theprogram)
 									openfile->mark_x < openfile->current_x));
 			ssize_t was_mark_lineno = openfile->mark->lineno;
 
-			replaced = replace_buffer(tempfile_name, CUT, TRUE);
+			replaced = replace_buffer(tempfile_name, CUT, TRUE, msg);
 
 			/* Adjust the end point of the marked region for any change in
 			 * length of the region's last line. */
@@ -2616,7 +2622,7 @@ const char *treat(char *tempfile_name, char *theprogram)
 			openfile->mark = line_from_number(was_mark_lineno);
 		} else
 #endif
-			replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE);
+			replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE, msg);
 
 		/* Go back to the old position. */
 		goto_line_posx(lineno_save, current_x_save);
@@ -2675,7 +2681,10 @@ void do_spell(void)
 
 	blank_bottombars();
 
-	result_msg = (alt_speller ? treat(temp, alt_speller) : do_int_speller(temp));
+	if (alt_speller)
+		result_msg = treat(temp, alt_speller, TRUE);
+	else
+		result_msg = do_int_speller(temp);
 
 	unlink(temp);
 	free(temp);
@@ -3039,6 +3048,49 @@ void do_linter(void)
 	currmenu = MMOST;
 	titlebar(NULL);
 }
+
+#ifdef ENABLE_SPELLER
+/* Run a manipulation program on the contents of the buffer. */
+void do_fixer(void)
+{
+	FILE *stream;
+	char *temp_name;
+	bool okay = FALSE;
+	const char *result_msg;
+
+	if (in_restricted_mode())
+		return;
+
+	if (!openfile->syntax || !openfile->syntax->fixer) {
+		statusbar(_("No fixer is defined for this type of file"));
+		return;
+	}
+
+	temp_name = safe_tempfile(&stream);
+
+	if (temp_name != NULL)
+		okay = write_file(temp_name, stream, TRUE, OVERWRITE, TRUE);
+
+	if (!okay) {
+		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
+		free(temp_name);
+		return;
+	}
+
+	/* Manipulation always happens on the whole buffer. */
+	openfile->mark = NULL;
+
+	result_msg = treat(temp_name, openfile->syntax->fixer, FALSE);
+
+	if (result_msg != NULL)
+		statusline(ALERT, result_msg);
+	else
+		statusbar(_("Buffer has been processed"));
+
+	unlink(temp_name);
+	free(temp_name);
+}
+#endif /* ENABLE_SPELLER */
 #endif /* ENABLE_COLOR */
 
 #ifndef NANO_TINY

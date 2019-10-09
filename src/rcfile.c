@@ -333,6 +333,7 @@ void begin_new_syntax(char *ptr)
 	live_syntax->headers = NULL;
 	live_syntax->magics = NULL;
 	live_syntax->linter = NULL;
+	live_syntax->fixer = NULL;
 	live_syntax->tab = NULL;
 #ifdef ENABLE_COMMENT
 	live_syntax->comment = copy_of(GENERAL_COMMENT_CHARACTER);
@@ -954,6 +955,8 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 #endif
 	} else if (strcasecmp(keyword, "linter") == 0)
 		pick_up_name("linter", ptr, &live_syntax->linter);
+	else if (strcasecmp(keyword, "fixer") == 0)
+		pick_up_name("fixer", ptr, &live_syntax->fixer);
 	else
 		return FALSE;
 
@@ -1110,7 +1113,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 								strcasecmp(keyword, "icolor") == 0 ||
 								strcasecmp(keyword, "comment") == 0 ||
 								strcasecmp(keyword, "tabgives") == 0 ||
-								strcasecmp(keyword, "linter") == 0)) {
+								strcasecmp(keyword, "linter") == 0 ||
+								strcasecmp(keyword, "fixer") == 0)) {
 			if (!opensyntax)
 				jot_error(N_("A '%s' command requires a preceding "
 									"'syntax' command"), keyword);

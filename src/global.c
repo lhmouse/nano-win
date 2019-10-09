@@ -693,6 +693,10 @@ void shortcut_init(void)
 	const char *lint_gist = N_("Invoke the linter, if available");
 	const char *prevlint_gist = N_("Go to previous linter msg");
 	const char *nextlint_gist = N_("Go to next linter msg");
+#ifdef ENABLE_SPELLER
+	const char *fixer_gist =
+		N_("Invoke a program to fix/format/arrange the buffer");
+#endif
 #endif
 #endif /* ENABLE_HELP */
 
@@ -1001,9 +1005,14 @@ void shortcut_init(void)
 		N_("Zap Text"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
 
 #ifdef ENABLE_COLOR
-	if (!ISSET(RESTRICTED))
+	if (!ISSET(RESTRICTED)) {
 		add_to_funcs(do_linter, MMAIN,
-				N_("To Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
+				N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
+#ifdef ENABLE_SPELLER
+		add_to_funcs(do_fixer, MMAIN,
+				N_("Manipulate"), WITHORSANS(fixer_gist), BLANKAFTER, NOVIEW);
+#endif
+	}
 #endif
 #endif
 	add_to_funcs(do_savefile, MMAIN,
@@ -1124,6 +1133,9 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
+#ifdef ENABLE_SPELLER
+	add_to_sclist(MMAIN, "M-F", 0, do_fixer, 0);
+#endif
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
 	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
@@ -1502,6 +1514,10 @@ keystruct *strtosc(const char *input)
 #ifdef ENABLE_COLOR
 	else if (!strcasecmp(input, "linter"))
 		s->func = do_linter;
+#ifdef ENABLE_SPELLER
+	else if (!strcasecmp(input, "fixer"))
+		s->func = do_fixer;
+#endif
 #endif
 	else if (!strcasecmp(input, "curpos"))
 		s->func = do_cursorpos_void;

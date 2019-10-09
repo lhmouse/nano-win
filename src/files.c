@@ -513,7 +513,8 @@ bool open_buffer(const char *filename, bool new_buffer)
 #ifdef ENABLE_SPELLER
 /* Open the specified file, and if that succeeds, remove the text of the marked
  * region or of the entire buffer and read the file contents into its place. */
-bool replace_buffer(const char *filename, undo_type action, bool marked)
+bool replace_buffer(const char *filename, undo_type action, bool marked,
+		const char *operation)
 {
 	linestruct *was_cutbuffer = cutbuffer;
 	int descriptor;
@@ -525,7 +526,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked)
 		return FALSE;
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN, "spelling correction");
+	add_undo(COUPLE_BEGIN, operation);
 #endif
 
 	/* When nothing is marked, start at the top of the buffer. */
@@ -550,7 +551,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked)
 	read_file(f, descriptor, filename, TRUE);
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_END, "spelling correction");
+	add_undo(COUPLE_END, operation);
 #endif
 	return TRUE;
 }
