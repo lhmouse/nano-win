@@ -2537,16 +2537,15 @@ const char *do_int_speller(const char *tempfile_name)
  * termination, and the error string otherwise. */
 const char *do_alt_speller(char *tempfile_name)
 {
-	int alt_spell_status;
+	ssize_t lineno_save = openfile->current->lineno;
 	size_t current_x_save = openfile->current_x;
 	size_t pww_save = openfile->placewewant;
-	ssize_t lineno_save = openfile->current->lineno;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
-	bool replaced = FALSE;
 	struct stat spellfileinfo;
 	time_t timestamp;
-	pid_t pid_spell;
 	static char **spellargs = NULL;
+	pid_t pid_spell;
+	int program_status;
 
 	/* Get the timestamp and the size of the temporary file. */
 	stat(tempfile_name, &spellfileinfo);
@@ -2573,14 +2572,14 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Block SIGWINCHes while waiting for the alternate spell checker's end,
 	 * so nano doesn't get pushed past the wait(). */
 	block_sigwinch(TRUE);
-	wait(&alt_spell_status);
+	wait(&program_status);
 	block_sigwinch(FALSE);
 
 	/* Set the desired terminal state again, and reenter curses mode. */
 	terminal_init();
 	doupdate();
 
-	if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0)
+	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) != 0)
 		return invocation_error(alt_speller);
 
 	/* Stat the temporary file again. */
@@ -2588,6 +2587,7 @@ const char *do_alt_speller(char *tempfile_name)
 
 	/* Use the spell-checked file only when it changed. */
 	if (spellfileinfo.st_mtime != timestamp) {
+		bool replaced = FALSE;
 #ifndef NANO_TINY
 		/* Replace the marked text (or entire text) with the corrected text. */
 		if (openfile->mark) {
