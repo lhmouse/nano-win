@@ -159,7 +159,7 @@ void do_indent(void)
 		indentation[1] = '\0';
 	}
 
-	add_undo(INDENT);
+	add_undo(INDENT, NULL);
 
 	/* Go through each of the lines, adding an indent to the non-empty ones,
 	 * and recording whatever was added in the undo item. */
@@ -264,7 +264,7 @@ void do_unindent(void)
 	if (top == bot->next)
 		return;
 
-	add_undo(UNINDENT);
+	add_undo(UNINDENT, NULL);
 
 	/* Go through each of the lines, removing their leading indent where
 	 * possible, and saving the removed whitespace in the undo item. */
@@ -424,7 +424,7 @@ void do_comment(void)
 	/* If all selected lines are blank, we comment them. */
 	action = all_empty ? COMMENT : action;
 
-	add_undo(action);
+	add_undo(action, NULL);
 
 	/* Store the comment sequence used for the operation, because it could
 	 * change when the file name changes; we need to know what it was. */
@@ -892,7 +892,7 @@ void do_enter(void)
 	openfile->current->data[openfile->current_x] = '\0';
 
 #ifndef NANO_TINY
-	add_undo(ENTER);
+	add_undo(ENTER, NULL);
 
 	/* Adjust the mark if it was on the current line after the cursor. */
 	if (openfile->mark == openfile->current &&
@@ -1018,13 +1018,12 @@ bool execute_command(const char *command)
 		} else
 #endif
 		{
-			add_undo(COUPLE_BEGIN);
-			openfile->undotop->strdata = mallocstrcpy(NULL, _("filtering"));
+			add_undo(COUPLE_BEGIN, "filtering");
 			if (openfile->mark == NULL) {
 				openfile->current = openfile->filetop;
 				openfile->current_x = 0;
 			}
-			add_undo(CUT);
+			add_undo(CUT, NULL);
 			do_snip(FALSE, openfile->mark != NULL, openfile->mark == NULL, FALSE);
 			update_undo(CUT);
 		}
@@ -1063,8 +1062,7 @@ bool execute_command(const char *command)
 		read_file(stream, 0, "pipe", TRUE);
 
 	if (should_pipe && !ISSET(MULTIBUFFER)) {
-		add_undo(COUPLE_END);
-		openfile->undotop->strdata = mallocstrcpy(NULL, _("filtering"));
+		add_undo(COUPLE_END, "filtering");
 	}
 
 	/* Wait for the external command (and possibly data sender) to terminate. */
@@ -1118,7 +1116,7 @@ void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool kee
 }
 
 /* Add a new undo item of the given type to the top of the current pile. */
-void add_undo(undo_type action)
+void add_undo(undo_type action, const char *message)
 {
 	undostruct *u = nmalloc(sizeof(undostruct));
 
@@ -1227,6 +1225,7 @@ void add_undo(undo_type action)
 	case INSERT:
 	case COUPLE_BEGIN:
 	case COUPLE_END:
+		u->strdata = mallocstrcpy(NULL, _(message));
 		break;
 	case INDENT:
 	case UNINDENT:
@@ -1321,7 +1320,7 @@ void update_undo(undo_type action)
 		} else {
 			/* They deleted *elsewhere* on the line: start a new undo item. */
 			free(char_buf);
-			add_undo(u->type);
+			add_undo(u->type, NULL);
 			return;
 		}
 		break;
@@ -1435,7 +1434,7 @@ bool do_wrap(void)
 	if (ISSET(AUTOINDENT) && wrap_loc == indent_length(line->data))
 		return FALSE;
 
-	add_undo(SPLIT_BEGIN);
+	add_undo(SPLIT_BEGIN, NULL);
 #endif
 #ifdef ENABLE_JUSTIFY
 	bool autowhite = ISSET(AUTOINDENT);
@@ -1460,7 +1459,7 @@ bool do_wrap(void)
 		/* If the remainder doesn't end in a blank, add a space. */
 		if (!is_blank_mbchar(remainder + step_left(remainder, rest_length))) {
 #ifndef NANO_TINY
-			add_undo(ADD);
+			add_undo(ADD, NULL);
 #endif
 			line->data = charealloc(line->data, line_len + 2);
 			line->data[line_len] = ' ';
@@ -1539,7 +1538,7 @@ bool do_wrap(void)
 	openfile->placewewant = xplustabs();
 
 #ifndef NANO_TINY
-	add_undo(SPLIT_END);
+	add_undo(SPLIT_END, NULL);
 #endif
 
 	return TRUE;
@@ -2039,14 +2038,13 @@ void do_justify(bool full_justify)
 	}
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("justification"));
+	add_undo(COUPLE_BEGIN, "justification");
 
 	/* Store the original cursor position, in case we unjustify. */
 	openfile->undotop->lineno = was_lineno;
 	openfile->undotop->begin = was_current_x;
 
-	add_undo(CUT);
+	add_undo(CUT, NULL);
 #endif
 
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
@@ -2150,15 +2148,14 @@ void do_justify(bool full_justify)
 	}
 
 #ifndef NANO_TINY
-	add_undo(PASTE);
+	add_undo(PASTE, NULL);
 #endif
 	/* Do the equivalent of a paste of the justified text. */
 	ingraft_buffer(cutbuffer);
 #ifndef NANO_TINY
 	update_undo(PASTE);
 
-	add_undo(COUPLE_END);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("justification"));
+	add_undo(COUPLE_END, "justification");
 
 	/* If we justified marked text, restore mark or cursor position. */
 	if (openfile->mark) {

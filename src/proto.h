@@ -525,7 +525,7 @@ void do_enter(void);
 RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
 void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool keep);
-void add_undo(undo_type action);
+void add_undo(undo_type action, const char *message);
 void update_multiline_undo(ssize_t lineno, char *indentation);
 void update_undo(undo_type action);
 #endif /* !NANO_TINY */

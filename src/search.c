@@ -598,7 +598,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			size_t length_change;
 
 #ifndef NANO_TINY
-			add_undo(REPLACE);
+			add_undo(REPLACE, NULL);
 #endif
 			copy = replace_line(needle);
 

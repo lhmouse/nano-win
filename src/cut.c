@@ -42,7 +42,7 @@ void do_deletion(undo_type action)
 		 * line, create a new undo item, otherwise update the existing item. */
 		if (action != openfile->last_action ||
 					openfile->current->lineno != openfile->current_undo->lineno)
-			add_undo(action);
+			add_undo(action, NULL);
 		else
 			update_undo(action);
 
@@ -68,13 +68,13 @@ void do_deletion(undo_type action)
 				!ISSET(NO_NEWLINES)) {
 #ifndef NANO_TINY
 			if (action == BACK)
-				add_undo(BACK);
+				add_undo(BACK, NULL);
 #endif
 			return;
 		}
 
 #ifndef NANO_TINY
-		add_undo(action);
+		add_undo(action, NULL);
 #endif
 		/* Add the contents of the next line to those of the current one. */
 		openfile->current->data = charealloc(openfile->current->data,
@@ -182,7 +182,7 @@ void chop_word(bool forward)
 	openfile->current_x = is_current_x;
 
 	/* Now kill the marked region and a word is gone. */
-	add_undo(CUT);
+	add_undo(CUT, NULL);
 	do_snip(FALSE, TRUE, FALSE, FALSE);
 	update_undo(CUT);
 
@@ -385,7 +385,7 @@ void cut_text(void)
 	 * the current cut is not contiguous with the previous cutting. */
 	if (openfile->last_action != CUT || !keep_cutbuffer) {
 		keep_cutbuffer = FALSE;
-		add_undo(CUT);
+		add_undo(CUT, NULL);
 	}
 
 	do_snip(FALSE, openfile->mark != NULL, FALSE, FALSE);
@@ -436,7 +436,7 @@ void cut_till_eof(void)
 		return;
 	}
 
-	add_undo(CUT_TO_EOF);
+	add_undo(CUT_TO_EOF, NULL);
 	do_snip(FALSE, FALSE, TRUE, FALSE);
 	update_undo(CUT_TO_EOF);
 	wipe_statusbar();
@@ -454,7 +454,7 @@ void zap_text(void)
 	/* Add a new undo item only when the current item is not a ZAP or when
 	 * the current zap is not contiguous with the previous zapping. */
 	if (openfile->last_action != ZAP || !keep_cutbuffer)
-		add_undo(ZAP);
+		add_undo(ZAP, NULL);
 
 	/* Use the cutbuffer from the ZAP undo item, so the cut can be undone. */
 	cutbuffer = openfile->current_undo->cutbuffer;
@@ -482,7 +482,7 @@ void paste_text(void)
 	}
 
 #ifndef NANO_TINY
-	add_undo(PASTE);
+	add_undo(PASTE, NULL);
 
 	if (ISSET(SOFTWRAP))
 		was_leftedge = leftedge_for(xplustabs(), openfile->current);

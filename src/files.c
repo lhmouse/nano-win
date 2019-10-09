@@ -525,8 +525,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked)
 		return FALSE;
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
+	add_undo(COUPLE_BEGIN, "spelling correction");
 #endif
 
 	/* When nothing is marked, start at the top of the buffer. */
@@ -538,7 +537,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked)
 	/* Throw away the marked region or the whole buffer. */
 	cutbuffer = NULL;
 #ifndef NANO_TINY
-	add_undo(action);
+	add_undo(action, NULL);
 #endif
 	do_snip(FALSE, marked, !marked, FALSE);
 #ifndef NANO_TINY
@@ -551,8 +550,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked)
 	read_file(f, descriptor, filename, TRUE);
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_END);
-	openfile->undotop->strdata = mallocstrcpy(NULL, _("spelling correction"));
+	add_undo(COUPLE_END, "spelling correction");
 #endif
 	return TRUE;
 }
@@ -719,7 +717,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 #ifndef NANO_TINY
 	if (undoable)
-		add_undo(INSERT);
+		add_undo(INSERT, NULL);
 
 	if (ISSET(SOFTWRAP))
 		was_leftedge = leftedge_for(xplustabs(), openfile->current);
