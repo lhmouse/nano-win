@@ -2533,43 +2533,42 @@ const char *do_int_speller(const char *tempfile_name)
 	exit(1);
 }
 
-/* External (alternate) spell checking.  Return NULL for normal
- * termination, and the error string otherwise. */
-const char *do_alt_speller(char *tempfile_name)
+/* Execute the given program, with the given temp file as last argument. */
+const char *treat(char *tempfile_name, char *theprogram)
 {
 	ssize_t lineno_save = openfile->current->lineno;
 	size_t current_x_save = openfile->current_x;
 	size_t pww_save = openfile->placewewant;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
-	struct stat spellfileinfo;
+	struct stat fileinfo;
 	time_t timestamp;
-	static char **spellargs = NULL;
-	pid_t pid_spell;
+	static char **arguments = NULL;
+	pid_t thepid;
 	int program_status;
 
 	/* Get the timestamp and the size of the temporary file. */
-	stat(tempfile_name, &spellfileinfo);
-	timestamp = spellfileinfo.st_mtime;
+	stat(tempfile_name, &fileinfo);
+	timestamp = fileinfo.st_mtime;
 
 	/* If the number of bytes to check is zero, get out. */
-	if (spellfileinfo.st_size == 0)
+	if (fileinfo.st_size == 0)
 		return NULL;
 
 	/* Exit from curses mode. */
 	endwin();
 
-	construct_argument_list(&spellargs, alt_speller, tempfile_name);
+	construct_argument_list(&arguments, theprogram, tempfile_name);
 
-	/* Fork a child process and run the alternate spell program in it. */
-	if ((pid_spell = fork()) == 0) {
-		execvp(spellargs[0], spellargs);
+	/* Fork a child process and run the given program in it. */
+	if ((thepid = fork()) == 0) {
+		execvp(arguments[0], arguments);
 
-		/* Terminate the child process if no alternate speller is found. */
+		/* Terminate the child if the program is not found. */
 		exit(1);
-	} else if (pid_spell < 0)
+	} else if (thepid < 0)
 		return _("Could not fork");
 
-	/* Block SIGWINCHes while waiting for the alternate spell checker's end,
+	/* Block SIGWINCHes while waiting for the program to end,
 	 * so nano doesn't get pushed past the wait(). */
 	block_sigwinch(TRUE);
 	wait(&program_status);
@@ -2580,13 +2579,13 @@ const char *do_alt_speller(char *tempfile_name)
 	doupdate();
 
 	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) != 0)
-		return invocation_error(alt_speller);
+		return invocation_error(theprogram);
 
 	/* Stat the temporary file again. */
-	stat(tempfile_name, &spellfileinfo);
+	stat(tempfile_name, &fileinfo);
 
-	/* Use the spell-checked file only when it changed. */
-	if (spellfileinfo.st_mtime != timestamp) {
+	/* Read in the temporary file only when it changed. */
+	if (fileinfo.st_mtime != timestamp) {
 		bool replaced = FALSE;
 #ifndef NANO_TINY
 		/* Replace the marked text (or entire text) with the corrected text. */
@@ -2668,7 +2667,7 @@ void do_spell(void)
 
 	blank_bottombars();
 
-	result_msg = (alt_speller ? do_alt_speller(temp) : do_int_speller(temp));
+	result_msg = (alt_speller ? treat(temp, alt_speller) : do_int_speller(temp));
 
 	unlink(temp);
 	free(temp);
