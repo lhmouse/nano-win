@@ -1346,29 +1346,28 @@ char *check_writable_directory(const char *path)
 	return full_path;
 }
 
-/* This function calls mkstemp(($TMPDIR|P_tmpdir|/tmp/)"nano.XXXXXX").
- * On success, it returns the malloc()ed filename and corresponding
- * FILE stream, opened in "r+b" mode.  On error, it returns NULL for
- * the filename and leaves the FILE stream unchanged. */
-char *safe_tempfile(FILE **f)
+/* Create, safely, a temporary file in the standard temp directory.
+ * On success, return the malloc()ed filename, plus the corresponding
+ * file stream opened in read-write mode.  On error, return NULL. */
+char *safe_tempfile(FILE **stream)
 {
-	const char *tmpdir_env = getenv("TMPDIR");
-	char *full_tempdir = NULL, *tempfile_name = NULL;
+	const char *env_dir = getenv("TMPDIR");
+	char *tempdir = NULL, *tempfile_name = NULL;
 	mode_t original_umask = 0;
 	int fd;
 
 	/* Get the absolute path for the first directory among $TMPDIR
 	 * and P_tmpdir that is writable, otherwise use /tmp/. */
-	if (tmpdir_env != NULL)
-		full_tempdir = check_writable_directory(tmpdir_env);
+	if (env_dir != NULL)
+		tempdir = check_writable_directory(env_dir);
 
-	if (full_tempdir == NULL)
-		full_tempdir = check_writable_directory(P_tmpdir);
+	if (tempdir == NULL)
+		tempdir = check_writable_directory(P_tmpdir);
 
-	if (full_tempdir == NULL)
-		full_tempdir = mallocstrcpy(NULL, "/tmp/");
+	if (tempdir == NULL)
+		tempdir = mallocstrcpy(NULL, "/tmp/");
 
-	tempfile_name = charealloc(full_tempdir, strlen(full_tempdir) + 12);
+	tempfile_name = charealloc(tempdir, strlen(tempdir) + 12);
 	strcat(tempfile_name, "nano.XXXXXX");
 
 	original_umask = umask(0);
@@ -1376,14 +1375,14 @@ char *safe_tempfile(FILE **f)
 
 	fd = mkstemp(tempfile_name);
 
-	if (fd != -1)
-		*f = fdopen(fd, "r+b");
-	else {
+	umask(original_umask);
+
+	if (fd == -1) {
 		free(tempfile_name);
-		tempfile_name = NULL;
+		return NULL;
 	}
 
-	umask(original_umask);
+	*stream = fdopen(fd, "r+b");
 
 	return tempfile_name;
 }
