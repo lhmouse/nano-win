@@ -2528,6 +2528,7 @@ const char *do_int_speller(const char *tempfile_name)
 		return _("Error invoking \"spell\"");
 
 	/* When all went okay. */
+	statusbar(_("Finished checking spelling"));
 	return NULL;
 
   close_pipes_and_exit:
@@ -2554,6 +2555,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	static char **arguments = NULL;
 	pid_t thepid;
 	int program_status;
+	bool replaced = FALSE;
 
 	/* Get the timestamp and the size of the temporary file. */
 	stat(tempfile_name, &fileinfo);
@@ -2597,10 +2599,13 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	/* Stat the temporary file again. */
 	stat(tempfile_name, &fileinfo);
 
-	/* Read in the temporary file only when it changed. */
-	if ((long)fileinfo.st_mtim.tv_sec != timestamp_sec ||
-				(long)fileinfo.st_mtim.tv_nsec != timestamp_nsec) {
-		bool replaced = FALSE;
+	/* When the temporary file wasn't touched, say so and leave. */
+	if ((long)fileinfo.st_mtim.tv_sec == timestamp_sec &&
+				(long)fileinfo.st_mtim.tv_nsec == timestamp_nsec) {
+		statusbar(_("Nothing changed"));
+		return NULL;
+	}
+
 #ifndef NANO_TINY
 		/* Replace the marked text (or entire text) with the corrected text. */
 		if (openfile->mark) {
@@ -2634,7 +2639,11 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 #endif
 		openfile->placewewant = pww_save;
 		adjust_viewport(STATIONARY);
-	}
+
+	if (spelling)
+		statusbar(_("Finished checking spelling"));
+	else
+		statusbar(_("Buffer has been processed"));
 
 	return NULL;
 }
@@ -2702,8 +2711,7 @@ void do_spell(void)
 			statusline(ALERT, result_msg);
 		else
 			statusline(ALERT, _("%s: %s"), result_msg, strerror(errno));
-	} else
-		statusbar(_("Finished checking spelling"));
+	}
 }
 #endif /* ENABLE_SPELLER */
 
@@ -3084,8 +3092,6 @@ void do_fixer(void)
 
 	if (result_msg != NULL)
 		statusline(ALERT, result_msg);
-	else
-		statusbar(_("Buffer has been processed"));
 
 	unlink(temp_name);
 	free(temp_name);
