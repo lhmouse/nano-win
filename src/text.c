@@ -2607,38 +2607,38 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	}
 
 #ifndef NANO_TINY
-		/* Replace the marked text (or entire text) with the corrected text. */
-		if (openfile->mark) {
-			bool upright = (openfile->mark->lineno < openfile->current->lineno ||
-									(openfile->mark == openfile->current &&
-									openfile->mark_x < openfile->current_x));
-			ssize_t was_mark_lineno = openfile->mark->lineno;
+	/* Replace the marked text (or entire text) with the corrected text. */
+	if (openfile->mark) {
+		bool upright = (openfile->mark->lineno < openfile->current->lineno ||
+								(openfile->mark == openfile->current &&
+								openfile->mark_x < openfile->current_x));
+		ssize_t was_mark_lineno = openfile->mark->lineno;
 
-			replaced = replace_buffer(tempfile_name, CUT, TRUE, msg);
+		replaced = replace_buffer(tempfile_name, CUT, TRUE, msg);
 
-			/* Adjust the end point of the marked region for any change in
-			 * length of the region's last line. */
-			if (upright)
-				current_x_save = openfile->current_x;
-			else
-				openfile->mark_x = openfile->current_x;
+		/* Adjust the end point of the marked region for any change in
+		 * length of the region's last line. */
+		if (upright)
+			current_x_save = openfile->current_x;
+		else
+			openfile->mark_x = openfile->current_x;
 
-			/* Restore the mark. */
-			openfile->mark = line_from_number(was_mark_lineno);
-		} else
+		/* Restore the mark. */
+		openfile->mark = line_from_number(was_mark_lineno);
+	} else
 #endif
-			replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE, msg);
+		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE, msg);
 
-		/* Go back to the old position. */
-		goto_line_posx(lineno_save, current_x_save);
-		if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
-			openfile->current_x = strlen(openfile->current->data);
+	/* Go back to the old position. */
+	goto_line_posx(lineno_save, current_x_save);
+	if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
+		openfile->current_x = strlen(openfile->current->data);
 #ifndef NANO_TINY
-		if (replaced)
-			update_undo(COUPLE_END);
+	if (replaced)
+		update_undo(COUPLE_END);
 #endif
-		openfile->placewewant = pww_save;
-		adjust_viewport(STATIONARY);
+	openfile->placewewant = pww_save;
+	adjust_viewport(STATIONARY);
 
 	if (spelling)
 		statusbar(_("Finished checking spelling"));
