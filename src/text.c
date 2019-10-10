@@ -2549,7 +2549,6 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	size_t current_x_save = openfile->current_x;
 	size_t pww_save = openfile->placewewant;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
-	const char *msg = (spelling ? N_("spelling correction") : N_("manipulation"));
 	struct stat fileinfo;
 	long timestamp_sec, timestamp_nsec;
 	static char **arguments = NULL;
@@ -2608,13 +2607,13 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 
 #ifndef NANO_TINY
 	/* Replace the marked text (or entire text) with the corrected text. */
-	if (openfile->mark) {
+	if (spelling && openfile->mark) {
 		bool upright = (openfile->mark->lineno < openfile->current->lineno ||
 								(openfile->mark == openfile->current &&
 								openfile->mark_x < openfile->current_x));
 		ssize_t was_mark_lineno = openfile->mark->lineno;
 
-		replaced = replace_buffer(tempfile_name, CUT, TRUE, msg);
+		replaced = replace_buffer(tempfile_name, CUT, TRUE, "spelling correction");
 
 		/* Adjust the end point of the marked region for any change in
 		 * length of the region's last line. */
@@ -2627,7 +2626,8 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		openfile->mark = line_from_number(was_mark_lineno);
 	} else
 #endif
-		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE, msg);
+		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE,
+					(spelling ? N_("spelling correction") : N_("manipulation")));
 
 	/* Go back to the old position. */
 	goto_line_posx(lineno_save, current_x_save);
@@ -3084,9 +3084,6 @@ void do_fixer(void)
 		free(temp_name);
 		return;
 	}
-
-	/* Manipulation always happens on the whole buffer. */
-	openfile->mark = NULL;
 
 	result_msg = treat(temp_name, openfile->syntax->fixer, FALSE);
 
