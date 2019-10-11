@@ -642,6 +642,8 @@ void do_undo(void)
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
 		goto_line_posx(u->lineno, u->begin);
+		openfile->current_y = u->mark_begin_lineno;
+		adjust_viewport(STATIONARY);
 		break;
 	case COUPLE_END:
 		openfile->current_undo = openfile->current_undo->next;
@@ -806,6 +808,7 @@ void do_redo(void)
 	case COUPLE_END:
 		redidmsg = u->strdata;
 		goto_line_posx(u->lineno, u->begin);
+		adjust_viewport(STATIONARY);
 		break;
 	case INDENT:
 		handle_indent_action(u, FALSE, TRUE);
@@ -1224,6 +1227,7 @@ void add_undo(undo_type action, const char *message)
 		break;
 	case INSERT:
 	case COUPLE_BEGIN:
+		u->mark_begin_lineno = openfile->current_y;
 	case COUPLE_END:
 		u->strdata = mallocstrcpy(NULL, _(message));
 		break;
