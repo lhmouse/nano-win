@@ -382,6 +382,12 @@ file, to determine whether this syntax should be used for it.
 (This functionality only works when \fBlibmagic\fP is installed on the
 system and will be silently ignored otherwise.)
 .TP
+.BI fixer " program " \fR[ "arg " \fR...]
+Run the given \fIprogram\fR on the full contents of the current buffer.
+(The current buffer is written out to a temporary file, the program is
+run on it, and then the temporary file is read back in, replacing the
+contents of the buffer.)
+.TP
 .BI linter " program " \fR[ "arg " \fR...]
 Use the given \fIprogram\fR to run a syntax check on the current buffer.
 .TP
@@ -438,7 +444,7 @@ to \fBicolor\fP.
 .BI extendsyntax " name command " \fR[ "arg " \fR...]
 Extend the syntax previously defined as \fIname\fR with another
 \fIcommand\fR.  This allows adding a new \fBcolor\fP, \fBicolor\fP,
-\fBheader\fP, \fBmagic\fP, \fBcomment\fP, or \fBlinter\fP
+\fBheader\fP, \fBmagic\fP, \fBcomment\fP, \fBlinter\fP, or \fBfixer\fR
 command to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
 files (which normally are not writable).
@@ -587,6 +593,9 @@ Counts the number of words, lines and characters in the current buffer.
 .B speller
 Invokes a spell-checking program, either the default one, or the one
 defined by \fB\-\-speller\fR or \fBset speller\fR.
+.TP
+.B fixer
+Invokes a full-buffer-processing program (if the active syntax defines one).
 .TP
 .B linter
 Invokes a syntax-checking program (if the active syntax defines one).
