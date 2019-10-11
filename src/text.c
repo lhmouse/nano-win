@@ -609,6 +609,7 @@ void do_undo(void)
 		while (openfile->current_undo->type != SPLIT_BEGIN)
 			do_undo();
 		u = openfile->current_undo;
+		/* Fall-through. */
 	case SPLIT_BEGIN:
 		undidmsg = _("addition");
 		break;
@@ -775,6 +776,7 @@ void do_redo(void)
 			do_redo();
 		u = openfile->current_undo;
 		goto_line_posx(u->lineno, u->begin);
+		/* Fall-through. */
 	case SPLIT_END:
 		redidmsg = _("addition");
 		break;
@@ -1170,6 +1172,7 @@ void add_undo(undo_type action, const char *message)
 		if (openfile->current->next == openfile->filebot &&
 						openfile->current->data[0] != '\0')
 			u->xflags |= WAS_FINAL_BACKSPACE;
+		/* Fall-through. */
 	case DEL:
 		/* When not at the end of a line, store the deleted character,
 		 * else purposely fall into the line-joining code. */
@@ -1183,6 +1186,7 @@ void add_undo(undo_type action, const char *message)
 				u->mark_begin_x += charlen;
 			break;
 		}
+		/* Fall-through. */
 	case JOIN:
 		if (openfile->current->next) {
 			if (u->type == BACK) {
@@ -1229,16 +1233,15 @@ void add_undo(undo_type action, const char *message)
 		break;
 	case COUPLE_BEGIN:
 		u->mark_begin_lineno = openfile->current_y;
+		/* Fall-through. */
 	case COUPLE_END:
 		u->strdata = copy_of(_(message));
 		break;
 	case INDENT:
 	case UNINDENT:
-		break;
 #ifdef ENABLE_COMMENT
 	case COMMENT:
 	case UNCOMMENT:
-		break;
 #endif
 	default:
 		break;
@@ -1388,6 +1391,7 @@ void update_undo(undo_type action)
 	case INSERT:
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
+		break;
 	case COUPLE_BEGIN:
 		break;
 	case COUPLE_END:
