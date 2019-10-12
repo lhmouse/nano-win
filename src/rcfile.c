@@ -1001,7 +1001,9 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 	while ((len = getline(&buffer, &size, rcstream)) > 0) {
 		char *ptr, *keyword, *option;
+#ifdef ENABLE_COLOR
 		bool drop_open = FALSE;
+#endif
 		int set = 0;
 		size_t i;
 
@@ -1134,9 +1136,10 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		else if (intros_only)
 			jot_error(N_("Command \"%s\" not understood"), keyword);
 
+#ifdef ENABLE_COLOR
 		if (drop_open)
 			opensyntax = FALSE;
-
+#endif
 		if (set == 0)
 			continue;
 
