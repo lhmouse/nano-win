@@ -2184,10 +2184,9 @@ void warn_and_shortly_pause(const char *msg)
 void statusline(message_type importance, const char *msg, ...)
 {
 	va_list ap;
-	static int alerts = 0;
 	int colorpair;
 	char *compound, *message;
-	size_t start_col;
+	static size_t start_col = 0;
 	bool bracketed;
 #ifndef NANO_TINY
 	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
@@ -2210,20 +2209,23 @@ void statusline(message_type importance, const char *msg, ...)
 	}
 #endif
 
-	/* If the ALERT status has been reset, reset the counter. */
-	if (lastmessage == HUSH)
-		alerts = 0;
-
-	/* Shortly pause after each of the first three alert messages,
-	 * to give the user time to read them. */
-	if (lastmessage == ALERT && alerts < 4 && !ISSET(NO_PAUSES))
-		napms(1200);
+	/* If there are multiple alert messages, add trailing dots to the first. */
+	if (lastmessage == ALERT) {
+		if (start_col > 4) {
+			wmove(bottomwin, 0, COLS + 2 - start_col);
+			wattron(bottomwin, interface_color_pair[ERROR_MESSAGE]);
+			waddstr(bottomwin, "...");
+			wattroff(bottomwin, interface_color_pair[ERROR_MESSAGE]);
+			wnoutrefresh(bottomwin);
+			start_col = 0;
+			napms(100);
+			beep();
+		}
+		return;
+	}
 
 	if (importance == ALERT) {
-		if (++alerts > 3 && !ISSET(NO_PAUSES))
-			msg = _("Further warnings were suppressed");
-		else if (alerts < 4)
-			beep();
+		beep();
 		colorpair = interface_color_pair[ERROR_MESSAGE];
 	} else if (importance == NOTICE)
 		colorpair = interface_color_pair[SELECTED_TEXT];
