@@ -2025,11 +2025,11 @@ int do_writeout(bool exiting, bool withprompt)
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
 
-	given = copy_of(
 #ifndef NANO_TINY
-		(openfile->mark && !exiting) ? "" :
+	given = copy_of((openfile->mark && !exiting) ? "" : openfile->filename);
+#else
+	given = copy_of(openfile->filename);
 #endif
-		openfile->filename);
 
 	while (TRUE) {
 		const char *msg;
