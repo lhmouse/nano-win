@@ -294,7 +294,10 @@ void *nmalloc(size_t howmuch)
 {
 	void *r = malloc(howmuch);
 
-	if (r == NULL && howmuch != 0)
+	if (howmuch == 0)
+		die("Allocating zero bytes.  Please report a bug.\n");
+
+	if (r == NULL)
 		die(_("Nano is out of memory!\n"));
 
 	return r;
@@ -306,7 +309,10 @@ void *nrealloc(void *ptr, size_t howmuch)
 {
 	void *r = realloc(ptr, howmuch);
 
-	if (r == NULL && howmuch != 0)
+	if (howmuch == 0)
+		die("Allocating zero bytes.  Please report a bug.\n");
+
+	if (r == NULL)
 		die(_("Nano is out of memory!\n"));
 
 	return r;
