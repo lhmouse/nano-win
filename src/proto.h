@@ -567,8 +567,8 @@ int digits(ssize_t n);
 #endif
 bool parse_num(const char *str, ssize_t *val);
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
-void unsunder(char *str, size_t true_len);
-void sunder(char *str);
+void unsunder(char *string, size_t length);
+void sunder(char *string);
 #if !defined(ENABLE_TINY) || defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
 void free_chararray(char **array, size_t len);
 #endif

@@ -414,7 +414,7 @@ void load_poshistory(void)
 
 		/* Read and parse each line, and store the extracted data. */
 		while ((read = getline(&line, &buf_len, hisfile)) > 5) {
-			/* Decode nulls as embedded newlines. */
+			/* Decode NULs as embedded newlines. */
 			unsunder(line, read);
 
 			/* Find where the x index and line number are in the line. */
@@ -484,7 +484,7 @@ void save_poshistory(void)
 						posptr->filename, posptr->lineno, posptr->xno);
 			length = strlen(path_and_place);
 
-			/* Encode newlines in filenames as nulls. */
+			/* Encode newlines in filenames as NULs. */
 			sunder(path_and_place);
 			/* Restore the terminating newline. */
 			path_and_place[length - 1] = '\n';

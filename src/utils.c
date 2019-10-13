@@ -159,23 +159,24 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 	return retval;
 }
 
-/* For non-null-terminated lines.  A line, by definition, shouldn't
- * normally have newlines in it, so encode its nulls as newlines. */
-void unsunder(char *str, size_t true_len)
+/* In the given string, recode each embedded NUL as a newline. */
+void unsunder(char *string, size_t length)
 {
-	for (; true_len > 0; true_len--, str++) {
-		if (*str == '\0')
-			*str = '\n';
+	while (length > 0) {
+		if (*string == '\0')
+			*string = '\n';
+		length--;
+		string++;
 	}
 }
 
-/* For non-null-terminated lines.  A line, by definition, shouldn't
- * normally have newlines in it, so decode its newlines as nulls. */
-void sunder(char *str)
+/* In the given string, recode each embedded newline as a NUL. */
+void sunder(char *string)
 {
-	for (; *str != '\0'; str++) {
-		if (*str == '\n')
-			*str = '\0';
+	while (*string != '\0') {
+		if (*string == '\n')
+			*string = '\0';
+		string++;
 	}
 }
 
