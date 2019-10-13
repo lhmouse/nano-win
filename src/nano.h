@@ -19,9 +19,6 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef NANO_H
-#define NANO_H 1
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -650,5 +647,3 @@ enum
 
 /* The largest size_t number that doesn't have the high bit set. */
 #define HIGHEST_POSITIVE ((~(size_t)0) >> 1)
-
-#endif /* !NANO_H */

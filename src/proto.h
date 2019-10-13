@@ -18,9 +18,6 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef PROTO_H
-#define PROTO_H 1
-
 #include "nano.h"
 
 /* All external variables.  See global.c for their descriptions. */
@@ -699,5 +696,3 @@ void flip_newbuffer(void);
 #endif
 void discard_buffer(void);
 void do_cancel(void);
-
-#endif /* !PROTO_H */
