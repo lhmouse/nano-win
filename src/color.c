@@ -21,13 +21,13 @@
 
 #include "proto.h"
 
+#ifdef ENABLE_COLOR
+
 #include <errno.h>
 #ifdef HAVE_MAGIC_H
 #include <magic.h>
 #endif
 #include <string.h>
-
-#ifdef ENABLE_COLOR
 
 /* For early versions of ncurses-6.0, use an additional A_PROTECT attribute
  * for all colors, in order to work around an ncurses miscoloring bug. */

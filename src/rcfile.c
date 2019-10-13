@@ -23,13 +23,13 @@
 
 #include "proto.h"
 
+#ifdef ENABLE_NANORC
+
 #include <ctype.h>
 #include <errno.h>
 #include <glob.h>
 #include <string.h>
 #include <unistd.h>
-
-#ifdef ENABLE_NANORC
 
 #ifndef RCFILE_NAME
 #define HOME_RC_NAME ".nanorc"
@@ -501,11 +501,10 @@ void parse_binding(char *ptr, bool dobind)
 	if (newsc->func == do_toggle_void)
 		mask = MMAIN;
 #endif
-#ifdef ENABLE_NANORC
 	/* Handle the special case of a key defined as a string. */
 	if (newsc->func == (functionptrtype)implant)
 		mask = MMOST | MHELP;
-#endif
+
 	/* Now limit the given menu to those where the function exists. */
 	menu = menu & (is_universal(newsc->func) ? MMOST : mask);
 

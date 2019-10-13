@@ -21,12 +21,12 @@
 
 #include "proto.h"
 
+#ifdef ENABLE_BROWSER
+
 #include <errno.h>
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
-
-#ifdef ENABLE_BROWSER
 
 static char **filelist = NULL;
 		/* The list of files to display in the file browser. */

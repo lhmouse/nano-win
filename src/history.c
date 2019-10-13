@@ -21,10 +21,10 @@
 
 #include "proto.h"
 
+#ifdef ENABLE_HISTORIES
+
 #include <errno.h>
 #include <string.h>
-
-#ifdef ENABLE_HISTORIES
 
 #ifndef SEARCH_HISTORY
 #define SEARCH_HISTORY "search_history"

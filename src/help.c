@@ -22,10 +22,10 @@
 
 #include "proto.h"
 
+#ifdef ENABLE_HELP
+
 #include <errno.h>
 #include <string.h>
-
-#ifdef ENABLE_HELP
 
 static char *help_text = NULL;
 		/* The text displayed in the help window. */
