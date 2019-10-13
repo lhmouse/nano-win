@@ -97,10 +97,6 @@
 ## Don't automatically add a newline when a file does not end with one.
 # set nonewlines
 
-## Don't pause between warnings at startup.  Which means that only the
-## last one will be readable (when there are multiple ones).
-# set nopauses
-
 ## Set operating directory.  nano will not read or write files outside
 ## this directory and its subdirectories.  Also, the current directory
 ## is changed to here, so any files are inserted from this dir.  A blank

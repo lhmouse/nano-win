@@ -67,7 +67,7 @@ static const rcoption rcopts[] = {
 #endif
 	{"nohelp", NO_HELP},
 	{"nonewlines", NO_NEWLINES},
-	{"nopauses", NO_PAUSES},
+	{"nopauses", NO_PAUSES},  /* Obsolete; remove in 2021. */
 #ifdef ENABLE_WRAPPING
 	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2021. */
 #endif
