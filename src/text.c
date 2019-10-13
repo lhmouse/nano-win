@@ -1226,6 +1226,7 @@ void add_undo(undo_type action, const char *message)
 		u->lineno += cutbottom->lineno - cutbuffer->lineno;
 		break;
 	case INSERT:
+		break;
 	case COUPLE_BEGIN:
 		u->mark_begin_lineno = openfile->current_y;
 	case COUPLE_END:
