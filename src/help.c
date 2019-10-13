@@ -103,7 +103,7 @@ void do_help(void)
 #ifdef ENABLE_COLOR
 	char *was_syntax = syntaxstr;
 #endif
-	char *saved_answer = (answer != NULL) ? strdup(answer) : NULL;
+	char *saved_answer = (answer != NULL) ? copy_of(answer) : NULL;
 		/* The current answer when the user invokes help at the prompt. */
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 		/* A storage place for the current flag settings. */

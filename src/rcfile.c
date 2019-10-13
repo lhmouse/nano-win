@@ -175,7 +175,7 @@ void jot_error(const char *msg, ...)
 	errors_tail = error;
 
 	if (rcfile_with_errors == NULL)
-		rcfile_with_errors = strdup(nanorc);
+		rcfile_with_errors = copy_of(nanorc);
 
 	if (lineno > 0)
 		length = snprintf(textbuf, MAXSIZE, _("Error in %s on line %zu: "),
@@ -326,7 +326,7 @@ void begin_new_syntax(char *ptr)
 	/* Initialize a new syntax struct. */
 	live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
 	live_syntax->name = copy_of(nameptr);
-	live_syntax->filename = strdup(nanorc);
+	live_syntax->filename = copy_of(nanorc);
 	live_syntax->lineno = lineno;
 	live_syntax->augmentations = NULL;
 	live_syntax->extensions = NULL;
@@ -1050,8 +1050,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				continue;
 			}
 
-			argument = strdup(ptr);
 			keyword = ptr;
+			argument = copy_of(ptr);
 			ptr = parse_next_word(ptr);
 
 			/* File-matching commands need to be processed immediately;
@@ -1064,7 +1064,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			} else {
 				newitem = nmalloc(sizeof(augmentstruct));;
 
-				newitem->filename = strdup(nanorc);
+				newitem->filename = copy_of(nanorc);
 				newitem->lineno = lineno;
 				newitem->data = argument;
 				newitem->next = NULL;

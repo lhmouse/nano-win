@@ -2303,7 +2303,7 @@ char *real_dir_from_tilde(const char *path)
 		if (userdata != NULL)
 			tilded = mallocstrcpy(tilded, userdata->pw_dir);
 #else
-		tilded = strdup("");
+		tilded = copy_of("");
 #endif
 	}
 
