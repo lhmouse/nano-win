@@ -1174,12 +1174,12 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 		/* An option that takes an argument cannot be unset. */
 		if (set == -1) {
-			jot_error(N_("Cannot unset option \"%s\""), rcopts[i].name);
+			jot_error(N_("Cannot unset option \"%s\""), option);
 			continue;
 		}
 
 		if (*ptr == '\0') {
-			jot_error(N_("Option \"%s\" requires an argument"), rcopts[i].name);
+			jot_error(N_("Option \"%s\" requires an argument"), option);
 			continue;
 		}
 
@@ -1198,31 +1198,31 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		argument = mallocstrcpy(NULL, argument);
 
 #ifdef ENABLE_COLOR
-		if (strcasecmp(rcopts[i].name, "titlecolor") == 0)
+		if (strcasecmp(option, "titlecolor") == 0)
 			color_combo[TITLE_BAR] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "numbercolor") == 0)
+		else if (strcasecmp(option, "numbercolor") == 0)
 			color_combo[LINE_NUMBER] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "stripecolor") == 0)
+		else if (strcasecmp(option, "stripecolor") == 0)
 			color_combo[GUIDE_STRIPE] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "selectedcolor") == 0)
+		else if (strcasecmp(option, "selectedcolor") == 0)
 			color_combo[SELECTED_TEXT] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "statuscolor") == 0)
+		else if (strcasecmp(option, "statuscolor") == 0)
 			color_combo[STATUS_BAR] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "errorcolor") == 0)
+		else if (strcasecmp(option, "errorcolor") == 0)
 			color_combo[ERROR_MESSAGE] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "keycolor") == 0)
+		else if (strcasecmp(option, "keycolor") == 0)
 			color_combo[KEY_COMBO] = parse_interface_color(argument);
-		else if (strcasecmp(rcopts[i].name, "functioncolor") == 0)
+		else if (strcasecmp(option, "functioncolor") == 0)
 			color_combo[FUNCTION_TAG] = parse_interface_color(argument);
 		else
 #endif
 #ifdef ENABLE_OPERATINGDIR
-		if (strcasecmp(rcopts[i].name, "operatingdir") == 0)
+		if (strcasecmp(option, "operatingdir") == 0)
 			operating_dir = argument;
 		else
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
-		if (strcasecmp(rcopts[i].name, "fill") == 0) {
+		if (strcasecmp(option, "fill") == 0) {
 			if (!parse_num(argument, &fill)) {
 				jot_error(N_("Requested fill size \"%s\" is invalid"), argument);
 				fill = -COLUMNS_FROM_EOL;
@@ -1231,13 +1231,13 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		} else
 #endif
 #ifndef NANO_TINY
-		if (strcasecmp(rcopts[i].name, "guidestripe") == 0) {
+		if (strcasecmp(option, "guidestripe") == 0) {
 			if (!parse_num(argument, &stripe_column) || stripe_column <= 0) {
 				jot_error(N_("Guide column \"%s\" is invalid"), argument);
 				stripe_column = 0;
 			}
 			free(argument);
-		} else if (strcasecmp(rcopts[i].name, "matchbrackets") == 0) {
+		} else if (strcasecmp(option, "matchbrackets") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
@@ -1246,7 +1246,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				free(argument);
 			} else
 				matchbrackets = argument;
-		} else if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
+		} else if (strcasecmp(option, "whitespace") == 0) {
 			if (mbstrlen(argument) != 2 || breadth(argument) != 2) {
 				jot_error(N_("Two single-column characters required"));
 				free(argument);
@@ -1258,36 +1258,36 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		} else
 #endif
 #ifdef ENABLE_JUSTIFY
-		if (strcasecmp(rcopts[i].name, "punct") == 0) {
+		if (strcasecmp(option, "punct") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
 			} else
 				punct = argument;
-		} else if (strcasecmp(rcopts[i].name, "brackets") == 0) {
+		} else if (strcasecmp(option, "brackets") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
 			} else
 				brackets = argument;
-		} else if (strcasecmp(rcopts[i].name, "quotestr") == 0)
+		} else if (strcasecmp(option, "quotestr") == 0)
 			quotestr = argument;
 		else
 #endif
 #ifndef NANO_TINY
-		if (strcasecmp(rcopts[i].name, "backupdir") == 0)
+		if (strcasecmp(option, "backupdir") == 0)
 			backup_dir = argument;
 		else
-		if (strcasecmp(rcopts[i].name, "wordchars") == 0)
+		if (strcasecmp(option, "wordchars") == 0)
 			word_chars = argument;
 		else
 #endif
 #ifdef ENABLE_SPELLER
-		if (strcasecmp(rcopts[i].name, "speller") == 0)
+		if (strcasecmp(option, "speller") == 0)
 			alt_speller = argument;
 		else
 #endif
-		if (strcasecmp(rcopts[i].name, "tabsize") == 0) {
+		if (strcasecmp(option, "tabsize") == 0) {
 			if (!parse_num(argument, &tabsize) || tabsize <= 0) {
 				jot_error(N_("Requested tab size \"%s\" is invalid"), argument);
 				tabsize = -1;
