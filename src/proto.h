@@ -629,9 +629,9 @@ void check_statusblank(void);
 char *display_string(const char *buf, size_t column, size_t span,
 						bool isdata, bool isprompt);
 void titlebar(const char *path);
+void statusline(message_type importance, const char *msg, ...);
 void statusbar(const char *msg);
 void warn_and_shortly_pause(const char *msg);
-void statusline(message_type importance, const char *msg, ...);
 void bottombars(int menu);
 void post_one_key(const char *keystroke, const char *tag, int width);
 void place_the_cursor(void);

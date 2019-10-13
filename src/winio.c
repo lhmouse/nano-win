@@ -2164,20 +2164,6 @@ void titlebar(const char *path)
 	wrefresh(topwin);
 }
 
-/* Display a normal message on the statusbar, quietly. */
-void statusbar(const char *msg)
-{
-	statusline(HUSH, msg);
-}
-
-/* Warn the user on the statusbar and pause for a moment, so that the
- * message can be noticed and read. */
-void warn_and_shortly_pause(const char *msg)
-{
-	statusline(ALERT, msg);
-	napms(1800);
-}
-
 /* Display a message on the statusbar, and set suppress_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */
@@ -2277,6 +2263,20 @@ void statusline(message_type importance, const char *msg, ...)
 		statusblank = 1;
 	else
 		statusblank = 26;
+}
+
+/* Display a normal message on the statusbar, quietly. */
+void statusbar(const char *msg)
+{
+	statusline(HUSH, msg);
+}
+
+/* Warn the user on the statusbar and pause for a moment, so that the
+ * message can be noticed and read. */
+void warn_and_shortly_pause(const char *msg)
+{
+	statusline(ALERT, msg);
+	napms(1800);
 }
 
 /* Display the shortcut list corresponding to menu on the last two rows
