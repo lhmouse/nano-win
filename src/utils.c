@@ -49,7 +49,7 @@ void get_homedir(void)
 		/* Only set homedir if some home directory could be determined,
 		 * otherwise keep homedir NULL. */
 		if (homenv != NULL && *homenv != '\0')
-			homedir = mallocstrcpy(NULL, homenv);
+			homedir = copy_of(homenv);
 	}
 }
 
@@ -149,7 +149,7 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 	if (comma == str)
 		return retval;
 
-	firstpart = mallocstrcpy(NULL, str);
+	firstpart = copy_of(str);
 	firstpart[comma - str] = '\0';
 
 	retval = parse_num(firstpart, line) && retval;
@@ -331,6 +331,12 @@ char *mallocstrcpy(char *dest, const char *src)
 	return mallocstrncpy(dest, src, (src == NULL) ? 1 : strlen(src) + 1);
 }
 
+/* Return an allocated copy of the given string. */
+char *copy_of(const char *string)
+{
+	return mallocstrncpy(NULL, string, strlen(string) + 1);
+}
+
 /* Free the string at dest and return the string at src. */
 char *free_and_assign(char *dest, char *src)
 {
@@ -418,7 +424,7 @@ size_t breadth(const char *text)
 void new_magicline(void)
 {
 	openfile->filebot->next = make_new_node(openfile->filebot);
-	openfile->filebot->next->data = mallocstrcpy(NULL, "");
+	openfile->filebot->next->data = copy_of("");
 	openfile->filebot = openfile->filebot->next;
 	openfile->totsize++;
 }

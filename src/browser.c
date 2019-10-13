@@ -285,7 +285,7 @@ char *do_browser(char *path)
 
 			/* If it isn't a directory, a file was selected -- we're done. */
 			if (!S_ISDIR(st.st_mode)) {
-				retval = mallocstrcpy(NULL, filelist[selected]);
+				retval = copy_of(filelist[selected]);
 				break;
 			}
 
@@ -314,7 +314,7 @@ char *do_browser(char *path)
 		/* If the window resized, refresh the file list. */
 		if (kbinput == KEY_WINCH) {
 			/* Remember the selected file, to be able to reselect it. */
-			present_name = mallocstrcpy(NULL, filelist[selected]);
+			present_name = copy_of(filelist[selected]);
 			/* Reread the contents of the current directory. */
 			goto read_directory_contents;
 		}
@@ -546,17 +546,17 @@ void browser_refresh(void)
 		 * "(dir)" for directories, and the file size for normal files. */
 		if (lstat(filelist[i], &st) == -1 || S_ISLNK(st.st_mode)) {
 			if (stat(filelist[i], &st) == -1 || !S_ISDIR(st.st_mode))
-				info = mallocstrcpy(NULL, "--");
+				info = copy_of("--");
 			else
 				/* TRANSLATORS: Try to keep this at most 7 characters. */
-				info = mallocstrcpy(NULL, _("(dir)"));
+				info = copy_of(_("(dir)"));
 		} else if (S_ISDIR(st.st_mode)) {
 			if (strcmp(thename, "..") == 0) {
 				/* TRANSLATORS: Try to keep this at most 12 characters. */
-				info = mallocstrcpy(NULL, _("(parent dir)"));
+				info = copy_of(_("(parent dir)"));
 				infomaxlen = 12;
 			} else
-				info = mallocstrcpy(NULL, _("(dir)"));
+				info = copy_of(_("(dir)"));
 		} else {
 			off_t result = st.st_size;
 			char modifier;
@@ -664,7 +664,7 @@ int filesearch_init(bool forwards)
 				(breadth(last_search) > COLS / 3) ? "..." : "");
 		free(disp);
 	} else
-		thedefault = mallocstrcpy(NULL, "");
+		thedefault = copy_of("");
 
 	/* Now ask what to search for. */
 	response = do_prompt(FALSE, FALSE, MWHEREISFILE, NULL, &search_history,
@@ -792,7 +792,7 @@ void to_last_file(void)
  * The returned string is dynamically allocated, and should be freed. */
 char *strip_last_component(const char *path)
 {
-	char *copy = mallocstrcpy(NULL, path);
+	char *copy = copy_of(path);
 	char *last_slash = strrchr(copy, '/');
 
 	if (last_slash != NULL)

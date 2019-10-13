@@ -64,7 +64,7 @@ void wrap_help_text_into_buffer(void)
 		do {
 			openfile->current->next = make_new_node(openfile->current);
 			openfile->current = openfile->current->next;
-			openfile->current->data = mallocstrcpy(NULL, "");
+			openfile->current->data = copy_of("");
 		} while (*(++ptr) == '\n');
 	}
 

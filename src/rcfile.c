@@ -325,7 +325,7 @@ void begin_new_syntax(char *ptr)
 
 	/* Initialize a new syntax struct. */
 	live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
-	live_syntax->name = mallocstrcpy(NULL, nameptr);
+	live_syntax->name = copy_of(nameptr);
 	live_syntax->filename = strdup(nanorc);
 	live_syntax->lineno = lineno;
 	live_syntax->augmentations = NULL;
@@ -335,7 +335,7 @@ void begin_new_syntax(char *ptr)
 	live_syntax->linter = NULL;
 	live_syntax->tab = NULL;
 #ifdef ENABLE_COMMENT
-	live_syntax->comment = mallocstrcpy(NULL, GENERAL_COMMENT_CHARACTER);
+	live_syntax->comment = copy_of(GENERAL_COMMENT_CHARACTER);
 #endif
 	live_syntax->color = NULL;
 	live_syntax->nmultis = 0;
@@ -405,7 +405,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	keyptr = ptr;
 	ptr = parse_next_word(ptr);
-	keycopy = mallocstrcpy(NULL, keyptr);
+	keycopy = copy_of(keyptr);
 
 	if (strlen(keycopy) < 2) {
 		jot_error(N_("Key name is too short"));
@@ -463,7 +463,7 @@ void parse_binding(char *ptr, bool dobind)
 		if (*funcptr == '"') {
 			newsc = nmalloc(sizeof(keystruct));
 			newsc->func = (functionptrtype)implant;
-			newsc->expansion = mallocstrcpy(NULL, funcptr + 1);
+			newsc->expansion = copy_of(funcptr + 1);
 #ifndef NANO_TINY
 			newsc->toggle = 0;
 #endif
@@ -900,7 +900,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 
 		/* Copy the regex into a struct, and hook this in at the end. */
 		newthing = (regexlisttype *)nmalloc(sizeof(regexlisttype));
-		newthing->full_regex = mallocstrcpy(NULL, regexstring);
+		newthing->full_regex = copy_of(regexstring);
 		newthing->next = NULL;
 
 		if (lastthing == NULL)
@@ -1195,7 +1195,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			continue;
 		}
 #endif
-		argument = mallocstrcpy(NULL, argument);
+		argument = copy_of(argument);
 
 #ifdef ENABLE_COLOR
 		if (strcasecmp(option, "titlecolor") == 0)

@@ -100,7 +100,7 @@ linestruct *copy_node(const linestruct *src)
 {
 	linestruct *dst = nmalloc(sizeof(linestruct));
 
-	dst->data = mallocstrcpy(NULL, src->data);
+	dst->data = copy_of(src->data);
 	dst->next = src->next;
 	dst->prev = src->prev;
 	dst->lineno = src->lineno;
@@ -233,7 +233,7 @@ void partition_buffer(linestruct *top, size_t top_x,
 	 * bottom of the partition from it, and save the text after bot_x. */
 	hindline = bot->next;
 	bot->next = NULL;
-	postdata = mallocstrcpy(NULL, bot->data + bot_x);
+	postdata = copy_of(bot->data + bot_x);
 
 	/* At the end of the partition, remove all text after bot_x. */
 	bot->data[bot_x] = '\0';
@@ -342,7 +342,7 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 
 	/* Since the text has now been saved, remove it from the file buffer. */
 	openfile->filetop = make_new_node(NULL);
-	openfile->filetop->data = mallocstrcpy(NULL, "");
+	openfile->filetop->data = copy_of("");
 	openfile->filebot = openfile->filetop;
 
 	/* Restore the current line and cursor position.  If the mark begins
@@ -2444,11 +2444,11 @@ int main(int argc, char **argv)
 #ifdef ENABLE_JUSTIFY
 	/* Set the default value for things that weren't specified. */
 	if (punct == NULL)
-		punct = mallocstrcpy(NULL, "!.?");
+		punct = copy_of("!.?");
 	if (brackets == NULL)
-		brackets = mallocstrcpy(NULL, "\"')>]}");
+		brackets = copy_of("\"')>]}");
 	if (quotestr == NULL)
-		quotestr = mallocstrcpy(NULL, "^([ \t]*([!#%:;>|}]|/{2}))+");
+		quotestr = copy_of("^([ \t]*([!#%:;>|}]|/{2}))+");
 
 	/* Compile the quoting regex, and exit when it's invalid. */
 	quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
@@ -2472,14 +2472,14 @@ int main(int argc, char **argv)
 		const char *spellenv = getenv("SPELL");
 
 		if (spellenv != NULL)
-			alt_speller = mallocstrcpy(NULL, spellenv);
+			alt_speller = copy_of(spellenv);
 	}
 #endif
 
 #ifndef NANO_TINY
 	/* If matchbrackets wasn't specified, set its default value. */
 	if (matchbrackets == NULL)
-		matchbrackets = mallocstrcpy(NULL, "(<[{)>]}");
+		matchbrackets = copy_of("(<[{)>]}");
 
 	/* If the whitespace option wasn't specified, set its default value. */
 	if (whitespace == NULL) {
@@ -2487,13 +2487,13 @@ int main(int argc, char **argv)
 		if (using_utf8()) {
 			/* A tab is shown as a Right-Pointing Double Angle Quotation Mark
 			 * (U+00BB), and a space as a Middle Dot (U+00B7). */
-			whitespace = mallocstrcpy(NULL, "\xC2\xBB\xC2\xB7");
+			whitespace = copy_of("\xC2\xBB\xC2\xB7");
 			whitelen[0] = 2;
 			whitelen[1] = 2;
 		} else
 #endif
 		{
-			whitespace = mallocstrcpy(NULL, ">.");
+			whitespace = copy_of(">.");
 			whitelen[0] = 1;
 			whitelen[1] = 1;
 		}
@@ -2501,7 +2501,7 @@ int main(int argc, char **argv)
 #endif /* !NANO_TINY */
 
 	/* Initialize the search string. */
-	last_search = mallocstrcpy(NULL, "");
+	last_search = copy_of("");
 	UNSET(BACKWARDS_SEARCH);
 
 	/* If tabsize wasn't specified, set its default value. */
@@ -2609,7 +2609,7 @@ int main(int argc, char **argv)
 
 			if (argv[optind][n] == '/' || argv[optind][n] == '?') {
 				if (argv[optind][n + 1]) {
-					searchstring = mallocstrcpy(NULL, &argv[optind][n + 1]);
+					searchstring = copy_of(&argv[optind][n + 1]);
 					if (argv[optind][n] == '?')
 						SET(BACKWARDS_SEARCH);
 				} else if (n == 1)

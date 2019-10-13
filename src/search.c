@@ -88,7 +88,7 @@ void search_init(bool replacing, bool keep_the_answer)
 				(breadth(last_search) > COLS / 3) ? "..." : "");
 		free(disp);
 	} else
-		thedefault = mallocstrcpy(NULL, "");
+		thedefault = copy_of("");
 
 	while (TRUE) {
 		functionptrtype func;

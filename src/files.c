@@ -35,7 +35,7 @@
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
 {
-	char *namecopy = mallocstrcpy(NULL, filename);
+	char *namecopy = copy_of(filename);
 	char *parentdir = dirname(namecopy);
 	struct stat parentinfo;
 	bool validity = FALSE;
@@ -86,10 +86,10 @@ void make_new_buffer(void)
 	/* Make the new buffer the current one, and start initializing it. */
 	openfile = newnode;
 
-	openfile->filename = mallocstrcpy(NULL, "");
+	openfile->filename = copy_of("");
 
 	openfile->filetop = make_new_node(NULL);
-	openfile->filetop->data = mallocstrcpy(NULL, "");
+	openfile->filetop->data = copy_of("");
 	openfile->filebot = openfile->filetop;
 
 	openfile->current = openfile->filetop;
@@ -293,8 +293,8 @@ int delete_lockfile(const char *lockfilename)
  * creating the lockfile but we should continue to load the file. */
 int do_lockfile(const char *filename)
 {
-	char *namecopy = mallocstrcpy(NULL, filename);
-	char *secondcopy = mallocstrcpy(NULL, filename);
+	char *namecopy = copy_of(filename);
+	char *secondcopy = copy_of(filename);
 	size_t locknamesize = strlen(filename) + strlen(locking_prefix)
 				+ strlen(locking_suffix) + 3;
 	char *lockfilename = charalloc(locknamesize);
@@ -349,7 +349,7 @@ int do_lockfile(const char *filename)
 		room = COLS - breadth(question) + 7 - breadth(lockuser) -
 								breadth(lockprog) - breadth(pidstring);
 		if (room < 4)
-			postedname = mallocstrcpy(NULL, "_");
+			postedname = copy_of("_");
 		else if (room < breadth(filename)) {
 			char *fragment = display_string(filename,
 								breadth(filename) - room + 3, room, FALSE, FALSE);
@@ -675,7 +675,7 @@ char *encode_data(char *buf, size_t buf_len)
 	unsunder(buf, buf_len);
 	buf[buf_len] = '\0';
 
-	return mallocstrcpy(NULL, buf);
+	return copy_of(buf);
 }
 
 /* Read the given open file f into the current buffer.  filename should be
@@ -841,7 +841,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* If the file ended with newline, or it was entirely empty, make the
 	 * last line blank.  Otherwise, put the last read data in. */
 	if (len == 0)
-		bottomline->data = mallocstrcpy(NULL, "");
+		bottomline->data = copy_of("");
 	else {
 		bool mac_line_needs_newline = FALSE;
 
@@ -867,7 +867,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		if (mac_line_needs_newline) {
 			bottomline->next = make_new_node(bottomline);
 			bottomline = bottomline->next;
-			bottomline->data = mallocstrcpy(NULL, "");
+			bottomline->data = copy_of("");
 		}
 	}
 
@@ -1024,7 +1024,7 @@ void do_insertfile(void)
 {
 	int response;
 	const char *msg;
-	char *given = mallocstrcpy(NULL, "");
+	char *given = copy_of("");
 		/* The last answer the user typed at the statusbar prompt. */
 #ifndef NANO_TINY
 	format_type was_fmt = openfile->fmt;
@@ -1245,7 +1245,7 @@ char *get_full_path(const char *origpath)
 			strcat(here, "/");
 		}
 	} else {
-		here = mallocstrcpy(NULL, "");
+		here = copy_of("");
 		free(allocation);
 	}
 
@@ -1275,7 +1275,7 @@ char *get_full_path(const char *origpath)
 	} else {
 		/* If target contains a filename, separate the two. */
 		if (!path_only) {
-			just_filename = mallocstrcpy(NULL, last_slash + 1);
+			just_filename = copy_of(last_slash + 1);
 			*(last_slash + 1) = '\0';
 		}
 
@@ -1358,7 +1358,7 @@ char *safe_tempfile(FILE **stream)
 		tempdir = check_writable_directory(P_tmpdir);
 
 	if (tempdir == NULL)
-		tempdir = mallocstrcpy(NULL, "/tmp/");
+		tempdir = copy_of("/tmp/");
 
 	tempfile_name = charealloc(tempdir, strlen(tempdir) + 12);
 	strcat(tempfile_name, "nano.XXXXXX");
@@ -1607,7 +1607,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			 * filename portion of the given path.  Otherwise, replace
 			 * slashes with exclamation marks in the full path. */
 			if (backuptemp == NULL)
-				backuptemp = mallocstrcpy(NULL, tail(realname));
+				backuptemp = copy_of(tail(realname));
 			else {
 				size_t i = 0;
 
@@ -2025,7 +2025,7 @@ int do_writeout(bool exiting, bool withprompt)
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
 
-	given = mallocstrcpy(NULL,
+	given = copy_of(
 #ifndef NANO_TINY
 		(openfile->mark && !exiting) ? "" :
 #endif
@@ -2279,7 +2279,7 @@ char *real_dir_from_tilde(const char *path)
 	size_t i = 1;
 
 	if (*path != '~')
-		return mallocstrcpy(NULL, path);
+		return copy_of(path);
 
 	/* Figure out how much of the string we need to compare. */
 	while (path[i] != '/' && path[i] != '\0')
@@ -2287,7 +2287,7 @@ char *real_dir_from_tilde(const char *path)
 
 	if (i == 1) {
 		get_homedir();
-		tilded = mallocstrcpy(NULL, homedir);
+		tilded = copy_of(homedir);
 	} else {
 #ifdef HAVE_PWD_H
 		const struct passwd *userdata;
@@ -2415,7 +2415,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 char **cwd_tab_completion(const char *buf, bool allow_files,
 		size_t *num_matches, size_t buf_len)
 {
-	char *dirname = mallocstrcpy(NULL, buf);
+	char *dirname = copy_of(buf);
 	char *slash, *filename;
 	size_t filenamelen;
 	char **matches = NULL;
@@ -2430,7 +2430,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	if (slash != NULL) {
 		char *wasdirname = dirname;
 
-		filename = mallocstrcpy(NULL, ++slash);
+		filename = copy_of(++slash);
 		/* Cut off the filename part after the slash. */
 		*slash = '\0';
 		dirname = real_dir_from_tilde(dirname);
@@ -2443,7 +2443,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 		free(wasdirname);
 	} else {
 		filename = dirname;
-		dirname = mallocstrcpy(NULL, present_path);
+		dirname = copy_of(present_path);
 	}
 
 	dir = opendir(dirname);
@@ -2488,7 +2488,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 
 			matches = (char **)nrealloc(matches, (*num_matches + 1) *
 										sizeof(char *));
-			matches[*num_matches] = mallocstrcpy(NULL, nextdir->d_name);
+			matches[*num_matches] = copy_of(nextdir->d_name);
 			++(*num_matches);
 		}
 	}

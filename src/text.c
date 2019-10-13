@@ -428,7 +428,7 @@ void do_comment(void)
 
 	/* Store the comment sequence used for the operation, because it could
 	 * change when the file name changes; we need to know what it was. */
-	openfile->current_undo->strdata = mallocstrcpy(NULL, comment_seq);
+	openfile->current_undo->strdata = copy_of(comment_seq);
 
 	/* Comment/uncomment each of the selected lines when possible, and
 	 * store undo data when a line changed. */
@@ -586,7 +586,7 @@ void do_undo(void)
 			break;
 		}
 		t = make_new_node(f);
-		t->data = mallocstrcpy(NULL, u->strdata);
+		t->data = copy_of(u->strdata);
 		data = mallocstrncpy(NULL, f->data, u->mark_begin_x + 1);
 		data[u->mark_begin_x] = '\0';
 		free(f->data);
@@ -726,7 +726,7 @@ void do_redo(void)
 	case ENTER:
 		redidmsg = _("line break");
 		shoveline = make_new_node(f);
-		shoveline->data = mallocstrcpy(NULL, u->strdata);
+		shoveline->data = copy_of(u->strdata);
 		data = mallocstrncpy(NULL, f->data, u->begin + 1);
 		data[u->begin] = '\0';
 		free(f->data);
@@ -1189,12 +1189,12 @@ void add_undo(undo_type action, const char *message)
 				u->lineno = openfile->current->next->lineno;
 				u->begin = 0;
 			}
-			u->strdata = mallocstrcpy(NULL, openfile->current->next->data);
+			u->strdata = copy_of(openfile->current->next->data);
 		}
 		action = u->type = JOIN;
 		break;
 	case REPLACE:
-		u->strdata = mallocstrcpy(NULL, openfile->current->data);
+		u->strdata = copy_of(openfile->current->data);
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
@@ -1229,7 +1229,7 @@ void add_undo(undo_type action, const char *message)
 	case COUPLE_BEGIN:
 		u->mark_begin_lineno = openfile->current_y;
 	case COUPLE_END:
-		u->strdata = mallocstrcpy(NULL, _(message));
+		u->strdata = copy_of(_(message));
 		break;
 	case INDENT:
 	case UNINDENT:
@@ -1263,8 +1263,7 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 		number_of_lines = u->grouping->bottom_line - u->grouping->top_line + 1;
 		u->grouping->indentations = (char **)nrealloc(u->grouping->indentations,
 										number_of_lines * sizeof(char *));
-		u->grouping->indentations[number_of_lines - 1] = mallocstrcpy(NULL,
-																indentation);
+		u->grouping->indentations[number_of_lines - 1] = copy_of(indentation);
 	} else {
 		groupstruct *born = nmalloc(sizeof(groupstruct));
 
@@ -1274,7 +1273,7 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 		born->bottom_line = lineno;
 
 		u->grouping->indentations = (char **)nmalloc(sizeof(char *));
-		u->grouping->indentations[0] = mallocstrcpy(NULL, indentation);
+		u->grouping->indentations[0] = copy_of(indentation);
 	}
 
 	/* Store the file size after the change, to be used when redoing. */
@@ -1305,7 +1304,7 @@ void update_undo(undo_type action)
 		u->mark_begin_x = openfile->current_x;
 		break;
 	case ENTER:
-		u->strdata = mallocstrcpy(NULL, openfile->current->data);
+		u->strdata = copy_of(openfile->current->data);
 		u->mark_begin_x = openfile->current_x;
 		break;
 	case BACK:
@@ -2114,7 +2113,7 @@ void do_justify(bool full_justify)
 							strlen(cutbuffer->data) - needed_top_extra + 1);
 			else {
 				cutbuffer->prev = make_new_node(NULL);
-				cutbuffer->prev->data = mallocstrcpy(NULL, "");
+				cutbuffer->prev->data = copy_of("");
 				cutbuffer->prev->next = cutbuffer;
 				cutbuffer = cutbuffer->prev;
 			}
@@ -2127,7 +2126,7 @@ void do_justify(bool full_justify)
 		 * region is "pasted" back. */
 		if (bot_x > 0 && !ends_at_eol) {
 			line->next = make_new_node(line);
-			line->next->data = mallocstrcpy(NULL, the_lead + needed_bot_extra);
+			line->next->data = copy_of(the_lead + needed_bot_extra);
 		}
 
 		free(the_lead);
@@ -2213,7 +2212,7 @@ void do_full_justify(void)
 /* Set up an argument list for executing the given command. */
 void construct_argument_list(char ***arguments, char *command, char *filename)
 {
-	char *copy_of_command = mallocstrcpy(NULL, command);
+	char *copy_of_command = copy_of(command);
 	char *element = strtok(copy_of_command, " ");
 	int count = 2;
 
@@ -2252,7 +2251,7 @@ bool fix_spello(const char *word)
 
 	/* Save the current search string, then set it to the misspelled word. */
 	save_search = last_search;
-	last_search = mallocstrcpy(NULL, word);
+	last_search = copy_of(word);
 
 #ifndef NANO_TINY
 	/* If the mark is on, start at the beginning of the marked region. */
@@ -2810,7 +2809,7 @@ void do_linter(void)
 			*pointer = '\0';
 			if (onelint != pointer) {
 				char *filename = NULL, *linestr = NULL, *maybecol = NULL;
-				char *message = mallocstrcpy(NULL, onelint);
+				char *message = copy_of(onelint);
 
 				/* At the moment we handle the following formats:
 				 *
@@ -2849,10 +2848,10 @@ void do_linter(void)
 							curlint->prev = tmplint;
 							if (curlint->prev != NULL)
 								curlint->prev->next = curlint;
-							curlint->msg = mallocstrcpy(NULL, message);
+							curlint->msg = copy_of(message);
 							curlint->lineno = tmplineno;
 							curlint->colno = tmpcolno;
-							curlint->filename = mallocstrcpy(NULL, filename);
+							curlint->filename = copy_of(filename);
 
 							if (lints == NULL)
 								lints = curlint;
@@ -2928,7 +2927,7 @@ void do_linter(void)
 					open_buffer(curlint->filename, TRUE);
 				} else {
 #endif
-					char *dontwantfile = mallocstrcpy(NULL, curlint->filename);
+					char *dontwantfile = copy_of(curlint->filename);
 					lintstruct *restlint = NULL;
 
 					while (curlint != NULL) {

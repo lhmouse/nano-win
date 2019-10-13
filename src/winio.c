@@ -3431,7 +3431,7 @@ void spotlight(size_t from_col, size_t to_col)
 
 	/* This is so we can show zero-length matches. */
 	if (to_col == from_col) {
-		word = mallocstrcpy(NULL, " ");
+		word = copy_of(" ");
 		to_col++;
 	} else
 		word = display_string(openfile->current->data, from_col,
@@ -3474,7 +3474,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 
 		/* This is so we can show zero-length matches. */
 		if (break_col == from_col) {
-			word = mallocstrcpy(NULL, " ");
+			word = copy_of(" ");
 			break_col++;
 		} else
 			word = display_string(openfile->current->data, from_col,

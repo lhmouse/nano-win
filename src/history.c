@@ -48,17 +48,17 @@ static poshiststruct *position_history = NULL;
 void history_init(void)
 {
 	search_history = make_new_node(NULL);
-	search_history->data = mallocstrcpy(NULL, "");
+	search_history->data = copy_of("");
 	searchtop = search_history;
 	searchbot = search_history;
 
 	replace_history = make_new_node(NULL);
-	replace_history->data = mallocstrcpy(NULL, "");
+	replace_history->data = copy_of("");
 	replacetop = replace_history;
 	replacebot = replace_history;
 
 	execute_history = make_new_node(NULL);
-	execute_history->data = mallocstrcpy(NULL, "");
+	execute_history->data = copy_of("");
 	executetop = execute_history;
 	executebot = execute_history;
 }
@@ -136,7 +136,7 @@ void update_history(linestruct **item, const char *text)
 	(*hbot)->data = mallocstrcpy((*hbot)->data, text);
 	splice_node(*hbot, make_new_node(*hbot));
 	*hbot = (*hbot)->next;
-	(*hbot)->data = mallocstrcpy(NULL, "");
+	(*hbot)->data = copy_of("");
 
 	/* Indicate that the history needs to be saved on exit. */
 	history_changed = TRUE;
@@ -431,7 +431,7 @@ void load_poshistory(void)
 
 			/* Create a new position record. */
 			newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-			newrecord->filename = mallocstrcpy(NULL, line);
+			newrecord->filename = copy_of(line);
 			newrecord->lineno = atoi(lineptr);
 			newrecord->xno = atoi(xptr);
 			newrecord->next = NULL;
@@ -563,7 +563,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	 * not at the end, move the matching one to the end. */
 	if (theone == NULL) {
 		theone = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-		theone->filename = mallocstrcpy(NULL, fullpath);
+		theone->filename = copy_of(fullpath);
 		if (position_history == NULL)
 			position_history = theone;
 		else
