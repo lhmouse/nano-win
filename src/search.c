@@ -76,7 +76,7 @@ void search_init(bool replacing, bool keep_the_answer)
 
 	/* When starting a new search, clear the current answer. */
 	if (!keep_the_answer)
-		answer = mallocstrcpy(answer, NULL);
+		answer = mallocstrcpy(answer, "");
 
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
