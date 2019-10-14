@@ -449,23 +449,6 @@ command to an already defined syntax -- useful when you want to
 slightly improve a syntax defined in one of the system-installed
 files (which normally are not writable).
 
-.P
-Note: the \fBformatter\fR command has been removed.  It was superseded by
-a more general mechanism: the filtering of buffer or marked text through
-an external command.  Such filtering is done by typing \fB^R^X\fR and then
-preceding your formatter command with the pipe symbol (\fB|\fR).  It has
-the added advantage that the operation can be undone.
-.sp
-If you use such a formatting command regularly, you could assign the relevant
-series of keystrokes to a single key in your nanorc:
-.sp
-.RS
-.B "bind  M\-F  \(dq^R^X|yourformatcommand^M\(dq  main"
-.RE
-.sp
-(Note that the \fB^R\fR, \fB^X\fR, and \fB^M\fR are each a single, literal
-control character.  You can enter them by preceding each with \fBM\-V\fR.)
-
 .SH REBINDING KEYS
 Key bindings can be changed via the following three commands:
 .RS 3
@@ -480,7 +463,6 @@ Makes the given \fIkey\fR produce the given \fIstring\fR in the given
 The \fIstring\fR can consist of text or commands or a mix of them.
 (To enter a command into the \fIstring\fR, precede its keystroke
 with \fBM\-V\fR.)
-
 .TP
 .BI unbind " key menu"
 Unbinds the given \fIkey\fP from the given \fImenu\fP (or from all

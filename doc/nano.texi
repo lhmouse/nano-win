@@ -57,8 +57,8 @@ You may contact the author by
 e-mail: @email{chrisa@@asty.org}@*
 @end titlepage
 
-
 @ifnottex
+
 
 @node Top
 @top
@@ -155,6 +155,7 @@ you will rarely need to specify a line number.
 As a special case: when instead of a filename a dash is given, @command{nano}
 will read data from standard input.  This means you can pipe the output of
 a command straight into a buffer, and then edit it.
+
 
 @node Command-line Options
 @chapter Command-line Options
@@ -613,6 +614,7 @@ is running.
 The recording and playback of keyboard macros works correctly only on a
 terminal emulator, not on a Linux console (VT), because the latter does
 not by default distinguish modified from unmodified arrow keys.
+
 
 @node Built-in Help
 @chapter Built-in Help
@@ -1113,22 +1115,6 @@ defined syntax --- useful when you want to slightly improve a syntax defined
 in one of the system-installed files (which normally are not writable).
 
 @end table
-
-Note: the @code{formatter} command has been removed.  It was superseded by
-a more general mechanism: the filtering of buffer or marked text through
-an external command.  Such filtering is done by typing @code{^R^X} and then
-preceding your formatter command with the pipe symbol (@code{|}).  It has
-the added advantage that the operation can be undone.
-
-If you use such a formatting command regularly, you could assign the relevant
-series of keystrokes to a single key in your nanorc:
-
-@example
-   bind  M-F  "^R^X|yourformatcommand^M"  main
-@end example
-
-(Note that the @key{^R}, @key{^X}, and @key{^M} are each a single, literal
-control character.  You can enter them by preceding each with @key{M-V}.)
 
 @node Rebinding Keys
 @section Rebinding Keys
