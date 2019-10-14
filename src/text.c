@@ -1984,7 +1984,7 @@ void do_justify(bool full_justify)
 		/* Copy the leading part that is to be used for the new paragraph. */
 		quote_len = quote_length(first_par_line->data);
 		lead_len = quote_len + indent_length(first_par_line->data + quote_len);
-		the_lead = mallocstrncpy(the_lead, first_par_line->data, lead_len + 1);
+		the_lead = mallocstrncpy(NULL, first_par_line->data, lead_len + 1);
 		the_lead[lead_len] = '\0';
 
 		/* Copy the leading part that is to be used for the new paragraph after
