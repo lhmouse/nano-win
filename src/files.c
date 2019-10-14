@@ -2243,7 +2243,7 @@ char *real_dir_from_tilde(const char *path)
 #ifdef HAVE_PWD_H
 		const struct passwd *userdata;
 
-		tilded = mallocstrncpy(NULL, path, i + 1);
+		tilded = measured_copy(path, i + 1);
 		tilded[i] = '\0';
 
 		do {

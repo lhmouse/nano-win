@@ -244,7 +244,7 @@ char *make_mbchar(long code, int *length)
 	} else
 #endif
 	{
-		mb_char = mallocstrncpy(NULL, (char *)&code, 1);
+		mb_char = measured_copy((char *)&code, 1);
 		*length = 1;
 	}
 

@@ -578,7 +578,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		const char *start);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
-char *mallocstrncpy(char *dest, const char *src, size_t n);
+char *measured_copy(const char *src, size_t n);
 char *mallocstrcpy(char *dest, const char *src);
 char *copy_of(const char *string);
 char *free_and_assign(char *dest, char *src);
