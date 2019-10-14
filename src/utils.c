@@ -316,9 +316,6 @@ void *nrealloc(void *ptr, size_t howmuch)
  * freeing the destination.  Usage: "dest = mallocstrncpy(dest, src, n);". */
 char *mallocstrncpy(char *dest, const char *src, size_t n)
 {
-	if (src == NULL)
-		src = "";
-
 	dest = charealloc(dest, n);
 	strncpy(dest, src, n);
 
@@ -329,7 +326,7 @@ char *mallocstrncpy(char *dest, const char *src, size_t n)
  * "dest = mallocstrcpy(dest, src);". */
 char *mallocstrcpy(char *dest, const char *src)
 {
-	return mallocstrncpy(dest, src, (src == NULL) ? 1 : strlen(src) + 1);
+	return mallocstrncpy(dest, src, strlen(src) + 1);
 }
 
 /* Return an allocated copy of the given string. */
