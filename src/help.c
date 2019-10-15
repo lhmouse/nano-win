@@ -150,8 +150,7 @@ void do_help(void)
 
 	/* Extract the title from the head of the help text. */
 	length = break_line(help_text, MAX_BUF_SIZE, TRUE);
-	title = charalloc(length * sizeof(char) + 1);
-	strncpy(title, help_text, length);
+	title = measured_copy(help_text, length + 1);
 	title[length] = '\0';
 
 	titlebar(title);
