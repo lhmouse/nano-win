@@ -312,16 +312,6 @@ void *nrealloc(void *ptr, size_t howmuch)
 	return r;
 }
 
-/* Return an allocated copy of the first n characters of the given string. */
-char *measured_copy(const char *src, size_t n)
-{
-	char *dest = charalloc(n);
-
-	strncpy(dest, src, n);
-
-	return dest;
-}
-
 /* Return an appropriately reallocated dest string holding a copy of src.
  * Usage: "dest = mallocstrcpy(dest, src);". */
 char *mallocstrcpy(char *dest, const char *src)
@@ -330,6 +320,16 @@ char *mallocstrcpy(char *dest, const char *src)
 
 	dest = charealloc(dest, count);
 	strncpy(dest, src, count);
+
+	return dest;
+}
+
+/* Return an allocated copy of the first n characters of the given string. */
+char *measured_copy(const char *src, size_t n)
+{
+	char *dest = charalloc(n);
+
+	strncpy(dest, src, n);
 
 	return dest;
 }
