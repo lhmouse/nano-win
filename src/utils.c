@@ -324,14 +324,14 @@ char *mallocstrcpy(char *dest, const char *src)
 	return dest;
 }
 
-/* Return an allocated copy of the first n characters of the given string. */
-char *measured_copy(const char *src, size_t n)
+/* Return an allocated copy of the first count characters of the given string. */
+char *measured_copy(const char *string, size_t count)
 {
-	char *dest = charalloc(n);
+	char *thecopy = charalloc(count);
 
-	strncpy(dest, src, n);
+	strncpy(thecopy, string, count);
 
-	return dest;
+	return thecopy;
 }
 
 /* Return an allocated copy of the given string. */
