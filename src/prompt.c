@@ -581,10 +581,10 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
  *
  * The allow_tabs parameter indicates whether tab completion is allowed,
  * and allow_files indicates whether all files (and not just directories)
- * can be tab completed.  The curranswer parameter is the default answer
+ * can be tab completed.  The 'provided' parameter is the default answer
  * for when simply Enter is typed. */
 int do_prompt(bool allow_tabs, bool allow_files,
-		int menu, const char *curranswer, linestruct **history_list,
+		int menu, const char *provided, linestruct **history_list,
 		void (*refresh_func)(void), const char *msg, ...)
 {
 	va_list ap;
@@ -597,8 +597,8 @@ int do_prompt(bool allow_tabs, bool allow_files,
 
 	bottombars(menu);
 
-	if (answer != curranswer || answer == NULL)
-		answer = mallocstrcpy(answer, curranswer);
+	if (answer != provided)
+		answer = mallocstrcpy(answer, provided);
 
 #ifndef NANO_TINY
   redo_theprompt:

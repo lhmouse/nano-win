@@ -699,7 +699,7 @@ void ask_for_replacement(void)
 	linestruct *edittop_save, *begin;
 	size_t firstcolumn_save, begin_x;
 	ssize_t numreplaced;
-	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, NULL,
+	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, "",
 						/* TRANSLATORS: This is a prompt. */
 						&replace_history, edit_refresh, _("Replace with"));
 
@@ -758,7 +758,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	if (interactive) {
 		/* Ask for the line and column. */
 		int response = do_prompt(FALSE, FALSE, MGOTOLINE,
-						use_answer ? answer : NULL, NULL, edit_refresh,
+						use_answer ? answer : "", NULL, edit_refresh,
 						/* TRANSLATORS: This is a prompt. */
 						_("Enter line number, column number"));
 
