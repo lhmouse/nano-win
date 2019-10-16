@@ -1535,7 +1535,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* The number of lines written, for feedback on the status bar. */
 
 	if (*name == '\0')
-		return -1;
+		die("Tried to write a nameless file");
 
 	realname = real_dir_from_tilde(name);
 
