@@ -1724,13 +1724,11 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		int fd_source;
 		FILE *f_source = NULL;
 
-			f = fopen(realname, "rb");
-
-			if (f == NULL) {
-				statusline(ALERT, _("Error reading %s: %s"), realname,
-						strerror(errno));
-				goto cleanup_and_exit;
-			}
+		if (fopen(realname, "rb") == NULL) {
+			statusline(ALERT, _("Error reading %s: %s"), realname,
+					strerror(errno));
+			goto cleanup_and_exit;
+		}
 
 		tempname = safe_tempfile(&f);
 
@@ -1740,19 +1738,19 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-			fd_source = open(realname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+		fd_source = open(realname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 
-			if (fd_source != -1) {
-				f_source = fdopen(fd_source, "rb");
-				if (f_source == NULL) {
-					statusline(ALERT, _("Error reading %s: %s"), realname,
-								strerror(errno));
-					close(fd_source);
-					fclose(f);
-					unlink(tempname);
-					goto cleanup_and_exit;
-				}
+		if (fd_source != -1) {
+			f_source = fdopen(fd_source, "rb");
+			if (f_source == NULL) {
+				statusline(ALERT, _("Error reading %s: %s"), realname,
+							strerror(errno));
+				close(fd_source);
+				fclose(f);
+				unlink(tempname);
+				goto cleanup_and_exit;
 			}
+		}
 
 		if (f_source == NULL || copy_file(f_source, f, TRUE) != 0) {
 			statusline(ALERT, _("Error writing temp file: %s"),
