@@ -1738,7 +1738,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		fd_source = open(realname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+		fd_source = open(realname, O_RDONLY);
 
 		if (fd_source != -1) {
 			f_source = fdopen(fd_source, "rb");
@@ -1864,7 +1864,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		int fd_source;
 		FILE *f_source = NULL;
 
-		fd_source = open(tempname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
+		fd_source = open(tempname, O_RDONLY);
 
 		if (fd_source != -1) {
 			f_source = fdopen(fd_source, "rb");
