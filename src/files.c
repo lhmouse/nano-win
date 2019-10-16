@@ -1515,10 +1515,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	bool retval = FALSE;
 		/* Instead of returning in this function, you should always
 		 * set retval and then goto cleanup_and_exit. */
-	size_t lineswritten = 0;
-	const linestruct *fileptr = openfile->filetop;
-	int fd;
-		/* The file descriptor we use. */
 	mode_t original_umask = 0;
 		/* Our umask, from when nano started. */
 #ifndef NANO_TINY
@@ -1533,6 +1529,10 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* The actual file, realname, we are writing to. */
 	char *tempname = NULL;
 		/* The name of the temporary file we write to on prepend. */
+	const linestruct *fileptr = openfile->filetop;
+		/* An iterator for moving through the lines of the buffer. */
+	size_t lineswritten = 0;
+		/* The number of lines written, for feedback on the status bar. */
 
 	if (*name == '\0')
 		return -1;
@@ -1610,12 +1610,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			if (backuptemp == NULL)
 				backuptemp = copy_of(tail(realname));
 			else {
-				size_t i = 0;
-
-				for (; backuptemp[i] != '\0'; i++) {
+				for (int i = 0; backuptemp[i] != '\0'; i++)
 					if (backuptemp[i] == '/')
 						backuptemp[i] = '!';
-				}
 			}
 
 			backupname = charalloc(strlen(backup_dir) + strlen(backuptemp) + 1);
@@ -1785,6 +1782,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #endif /* !NANO_TINY */
 
 	if (f_open == NULL) {
+		int fd;
 #ifndef NANO_TINY
 		block_sigwinch(TRUE);
 		install_handler_for_Ctrl_C();
