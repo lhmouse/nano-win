@@ -1724,9 +1724,17 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		int fd_src;
 		FILE *source = NULL, *target = NULL;
 
-		if (fopen(realname, "rb") == NULL) {
+		fd_src = open(realname, O_RDONLY);
+
+		if (fd_src != -1) {
+			source = fdopen(fd_src, "rb");
+			if (source == NULL)
+				close(fd_src);
+		}
+
+		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname,
-					strerror(errno));
+						strerror(errno));
 			goto cleanup_and_exit;
 		}
 
@@ -1738,21 +1746,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		fd_src = open(realname, O_RDONLY);
-
-		if (fd_src != -1) {
-			source = fdopen(fd_src, "rb");
-			if (source == NULL) {
-				statusline(ALERT, _("Error reading %s: %s"), realname,
-							strerror(errno));
-				close(fd_src);
-				fclose(target);
-				unlink(tempname);
-				goto cleanup_and_exit;
-			}
-		}
-
-		if (source == NULL || copy_file(source, target, TRUE) != 0) {
+		if (copy_file(source, target, TRUE) != 0) {
 			statusline(ALERT, _("Error writing temp file: %s"),
 						strerror(errno));
 			unlink(tempname);
