@@ -127,33 +127,33 @@ void splice_node(linestruct *afterthis, linestruct *newnode)
 }
 
 /* Disconnect a node from a linked list of linestructs and delete it. */
-void unlink_node(linestruct *fileptr)
+void unlink_node(linestruct *line)
 {
-	if (fileptr->prev != NULL)
-		fileptr->prev->next = fileptr->next;
-	if (fileptr->next != NULL)
-		fileptr->next->prev = fileptr->prev;
+	if (line->prev != NULL)
+		line->prev->next = line->next;
+	if (line->next != NULL)
+		line->next->prev = line->prev;
 
 	/* Update filebot when removing a node at the end of file. */
-	if (openfile && openfile->filebot == fileptr)
-		openfile->filebot = fileptr->prev;
+	if (openfile && openfile->filebot == line)
+		openfile->filebot = line->prev;
 
-	delete_node(fileptr);
+	delete_node(line);
 }
 
 /* Free the data structures in the given node. */
-void delete_node(linestruct *fileptr)
+void delete_node(linestruct *line)
 {
 #ifdef ENABLE_WRAPPING
 	/* If the spill-over line for hard-wrapping is deleted... */
-	if (fileptr == openfile->spillage_line)
+	if (line == openfile->spillage_line)
 		openfile->spillage_line = NULL;
 #endif
-	free(fileptr->data);
+	free(line->data);
 #ifdef ENABLE_COLOR
-	free(fileptr->multidata);
+	free(line->multidata);
 #endif
-	free(fileptr);
+	free(line);
 }
 
 /* Duplicate an entire linked list of linestructs. */

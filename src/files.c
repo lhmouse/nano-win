@@ -1529,7 +1529,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* The actual file, realname, we are writing to. */
 	char *tempname = NULL;
 		/* The name of the temporary file we write to on prepend. */
-	const linestruct *fileptr = openfile->filetop;
+	linestruct *line = openfile->filetop;
 		/* An iterator for moving through the lines of the buffer. */
 	size_t lineswritten = 0;
 		/* The number of lines written, for feedback on the status bar. */
@@ -1825,16 +1825,16 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	if (!tmp)
 		statusbar(_("Writing..."));
 
-	while (fileptr != NULL) {
-		size_t data_len = strlen(fileptr->data), size;
+	while (line != NULL) {
+		size_t data_len = strlen(line->data), size;
 
 		/* Decode LFs as the NULs that they are, before writing to disk. */
-		sunder(fileptr->data);
+		sunder(line->data);
 
-		size = fwrite(fileptr->data, sizeof(char), data_len, f);
+		size = fwrite(line->data, sizeof(char), data_len, f);
 
 		/* Re-encode any embedded NULs as LFs. */
-		unsunder(fileptr->data, data_len);
+		unsunder(line->data, data_len);
 
 		if (size < data_len) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
@@ -1847,8 +1847,8 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		 * character after it.  If the last line of the file is blank,
 		 * this means that zero bytes are written, in which case we
 		 * don't count the last line in the total lines written. */
-		if (fileptr == openfile->filebot) {
-			if (fileptr->data[0] == '\0')
+		if (line == openfile->filebot) {
+			if (line->data[0] == '\0')
 				lineswritten--;
 		} else {
 #ifndef NANO_TINY
@@ -1871,7 +1871,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 				}
 		}
 
-		fileptr = fileptr->next;
+		line = line->next;
 		lineswritten++;
 	}
 
