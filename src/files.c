@@ -1537,9 +1537,6 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 	if (*name == '\0')
 		return -1;
 
-	if (!tmp)
-		titlebar(NULL);
-
 	realname = real_dir_from_tilde(name);
 
 #ifdef ENABLE_OPERATINGDIR
