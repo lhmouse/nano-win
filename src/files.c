@@ -1494,9 +1494,9 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 	return retval;
 }
 
-/* Write a file out to disk.  If f_open isn't NULL, we assume that it is
- * a stream associated with the file, and we don't try to open it
- * ourselves.  If tmp is TRUE, we set the umask to disallow anyone else
+/* Write the current buffer to disk.  If stream isn't NULL, we write to a
+ * temporary file that is already open.
+ * If tmp is TRUE, we set the umask to disallow anyone else
  * from accessing the file, we don't set the filename to its name, and
  * we don't print out how many lines we wrote on the statusbar.
  *
@@ -1509,7 +1509,7 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
  * or when writing a temporary file.
  *
  * Return TRUE on success or FALSE on error. */
-bool write_file(const char *name, FILE *f_open, bool tmp,
+bool write_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method, bool fullbuffer)
 {
 	bool retval = FALSE;
@@ -1525,7 +1525,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		/* The status fields filled in by stat(). */
 	char *realname;
 		/* The filename after tilde expansion. */
-	FILE *f = f_open;
+	FILE *f = stream;
 		/* The actual file, realname, we are writing to. */
 	char *tempname = NULL;
 		/* The name of the temporary file we write to on prepend. */
@@ -1549,7 +1549,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #endif
 
 	/* If the temp file exists and isn't already open, give up. */
-	if (tmp && (lstat(realname, &st) != -1) && f_open == NULL)
+	if (tmp && (lstat(realname, &st) != -1) && stream == NULL)
 		goto cleanup_and_exit;
 
 #ifndef NANO_TINY
@@ -1579,7 +1579,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		filetime[0].tv_sec = openfile->current_stat->st_atime;
 		filetime[1].tv_sec = openfile->current_stat->st_mtime;
 
-		if (f_open == NULL) {
+		if (stream == NULL) {
 			/* Open the original file to copy to the backup. */
 			f = fopen(realname, "rb");
 
@@ -1716,7 +1716,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
   skip_backup:
 #endif /* !NANO_TINY */
 
-	if (f_open == NULL) {
+	if (stream == NULL) {
 		original_umask = umask(0);
 
 		/* If we create a temp file, we don't let anyone else access it. */
@@ -1750,7 +1750,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		if (f_open == NULL) {
+		if (stream == NULL) {
 			fd_source = open(realname, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR);
 
 			if (fd_source != -1) {
@@ -1778,7 +1778,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
-	if (f_open == NULL) {
+	if (stream == NULL) {
 		int fd;
 #ifndef NANO_TINY
 		block_sigwinch(TRUE);
@@ -1967,7 +1967,7 @@ bool write_file(const char *name, FILE *f_open, bool tmp,
 #ifndef NANO_TINY
 /* Write a marked selection from a file out to disk.  Return TRUE on
  * success or FALSE on error. */
-bool write_marked_file(const char *name, FILE *f_open, bool tmp,
+bool write_marked_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method)
 {
 	bool retval;
@@ -1987,7 +1987,7 @@ bool write_marked_file(const char *name, FILE *f_open, bool tmp,
 		added_magicline = TRUE;
 	}
 
-	retval = write_file(name, f_open, tmp, method, FALSE);
+	retval = write_file(name, stream, tmp, method, FALSE);
 
 	if (added_magicline)
 		remove_magicline();
