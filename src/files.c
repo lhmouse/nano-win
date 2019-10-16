@@ -1708,14 +1708,10 @@ bool write_file(const char *name, FILE *stream, bool tmp,
   skip_backup:
 #endif /* !NANO_TINY */
 
-	if (stream == NULL) {
+	/* When going to create an emergency file, don't let others access it. */
+	if (stream == NULL && tmp) {
 		original_umask = umask(0);
-
-		/* When writing an emergency file, we don't let anyone else access it. */
-		if (tmp)
-			umask(S_IRWXG | S_IRWXO);
-		else
-			umask(original_umask);
+		umask(S_IRWXG | S_IRWXO);
 	}
 
 #ifndef NANO_TINY
@@ -1774,8 +1770,9 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		restore_handler_for_Ctrl_C();
 		block_sigwinch(FALSE);
 #endif
-		/* Set the umask back to the user's original value. */
-		umask(original_umask);
+		/* When this is an emergency file, restore the original umask. */
+		if (tmp)
+			umask(original_umask);
 
 		/* If we couldn't open the file, give up. */
 		if (fd == -1) {
