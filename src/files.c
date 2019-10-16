@@ -1719,10 +1719,10 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	/* If we're prepending, copy the file to a temp file. */
+	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
-		int fd_source;
-		FILE *f_source = NULL;
+		int fd_src;
+		FILE *source = NULL, *target = NULL;
 
 		if (fopen(realname, "rb") == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname,
@@ -1730,7 +1730,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		tempname = safe_tempfile(&f);
+		tempname = safe_tempfile(&target);
 
 		if (tempname == NULL) {
 			statusline(ALERT, _("Error writing temp file: %s"),
@@ -1738,21 +1738,21 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		fd_source = open(realname, O_RDONLY);
+		fd_src = open(realname, O_RDONLY);
 
-		if (fd_source != -1) {
-			f_source = fdopen(fd_source, "rb");
-			if (f_source == NULL) {
+		if (fd_src != -1) {
+			source = fdopen(fd_src, "rb");
+			if (source == NULL) {
 				statusline(ALERT, _("Error reading %s: %s"), realname,
 							strerror(errno));
-				close(fd_source);
-				fclose(f);
+				close(fd_src);
+				fclose(target);
 				unlink(tempname);
 				goto cleanup_and_exit;
 			}
 		}
 
-		if (f_source == NULL || copy_file(f_source, f, TRUE) != 0) {
+		if (source == NULL || copy_file(source, target, TRUE) != 0) {
 			statusline(ALERT, _("Error writing temp file: %s"),
 						strerror(errno));
 			unlink(tempname);
@@ -1859,27 +1859,27 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	/* If we're prepending, open the temp file, and append it to f. */
+	/* When prepending, append the temporary file to what we wrote above. */
 	if (method == PREPEND) {
-		int fd_source;
-		FILE *f_source = NULL;
+		int fd_src;
+		FILE *source = NULL;
 
-		fd_source = open(tempname, O_RDONLY);
+		fd_src = open(tempname, O_RDONLY);
 
-		if (fd_source != -1) {
-			f_source = fdopen(fd_source, "rb");
-			if (f_source == NULL)
-				close(fd_source);
+		if (fd_src != -1) {
+			source = fdopen(fd_src, "rb");
+			if (source == NULL)
+				close(fd_src);
 		}
 
-		if (f_source == NULL) {
+		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), tempname,
 						strerror(errno));
 			fclose(f);
 			goto cleanup_and_exit;
 		}
 
-		if (copy_file(f_source, f, TRUE) != 0) {
+		if (copy_file(source, f, TRUE) != 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 			goto cleanup_and_exit;
