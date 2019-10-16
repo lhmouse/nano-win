@@ -2652,19 +2652,18 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
  * specified, use it.  Otherwise, use the internal spell checker. */
 void do_spell(void)
 {
-	bool status;
-	FILE *temp_file;
-	char *temp;
+	FILE *stream;
+	char *temp_name;
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
-		/* A storage place for the current flag settings. */
 	const char *result_msg;
+	bool okay;
 
 	if (in_restricted_mode())
 		return;
 
-	temp = safe_tempfile(&temp_file);
+	temp_name = safe_tempfile(&stream);
 
-	if (temp == NULL) {
+	if (temp_name == NULL) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 		return;
 	}
@@ -2677,26 +2676,26 @@ void do_spell(void)
 
 #ifndef NANO_TINY
 	if (openfile->mark)
-		status = write_marked_file(temp, temp_file, TRUE, OVERWRITE);
+		okay = write_marked_file(temp_name, stream, TRUE, OVERWRITE);
 	else
 #endif
-		status = write_file(temp, temp_file, TRUE, OVERWRITE, TRUE);
+		okay = write_file(temp_name, stream, TRUE, OVERWRITE, TRUE);
 
-	if (!status) {
+	if (!okay) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
-		free(temp);
+		free(temp_name);
 		return;
 	}
 
 	blank_bottombars();
 
 	if (alt_speller)
-		result_msg = treat(temp, alt_speller, TRUE);
+		result_msg = treat(temp_name, alt_speller, TRUE);
 	else
-		result_msg = do_int_speller(temp);
+		result_msg = do_int_speller(temp_name);
 
-	unlink(temp);
-	free(temp);
+	unlink(temp_name);
+	free(temp_name);
 
 	/* Restore the settings of the global flags. */
 	memcpy(flags, stash, sizeof(flags));
