@@ -1495,44 +1495,36 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 }
 
 /* Write the current buffer to disk.  If stream isn't NULL, we write to a
- * temporary file that is already open.
- * If tmp is TRUE, we set the umask to disallow anyone else
- * from accessing the file, we don't set the filename to its name, and
- * we don't print out how many lines we wrote on the statusbar.
- *
- * tmp means we are writing a temporary file in a secure fashion.  We
- * use it when spell checking or dumping the file on an error.  If
- * method is APPEND, it means we are appending instead of overwriting.
- * If method is PREPEND, it means we are prepending instead of
- * overwriting.  If fullbuffer is TRUE, we set the current filename and
- * stat info.  But fullbuffer is irrelevant when appending or prepending,
- * or when writing a temporary file.
- *
- * Return TRUE on success or FALSE on error. */
+ * temporary file that is already open.  If tmp is TRUE (when spell checking
+ * or emergency dumping, for example), we set the umask to disallow anyone else
+ * from accessing the file, and don't print out how many lines we wrote on the
+ * status bar.  If method is APPEND or PREPEND, it means we will be appending
+ * or prepending instead of overwriting the given file.  If fullbuffer is TRUE
+ * and when writing normally, we set the current filename and stat info.
+ * Return TRUE on success, and FALSE otherwise. */
 bool write_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method, bool fullbuffer)
 {
-	bool retval = FALSE;
-		/* Instead of returning in this function, you should always
-		 * set retval and then goto cleanup_and_exit. */
 	mode_t original_umask = 0;
-		/* Our umask, from when nano started. */
+		/* The umask from when nano started. */
 #ifndef NANO_TINY
 	bool isactualfile = FALSE;
-		/* TRUE when the file is non-temporary and exists, FALSE otherwise. */
+		/* Becomes TRUE when the file is non-temporary and exists. */
 #endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
 	char *realname;
 		/* The filename after tilde expansion. */
 	FILE *f = stream;
-		/* The actual file, realname, we are writing to. */
+		/* The actual file, corresponding to realname, we are writing to. */
 	char *tempname = NULL;
 		/* The name of the temporary file we write to on prepend. */
 	linestruct *line = openfile->filetop;
 		/* An iterator for moving through the lines of the buffer. */
 	size_t lineswritten = 0;
 		/* The number of lines written, for feedback on the status bar. */
+	bool retval = FALSE;
+		/* The return value, to become TRUE when writing has succeeded. */
 
 	if (*name == '\0')
 		die("Tried to write a nameless file");
@@ -1719,7 +1711,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	if (stream == NULL) {
 		original_umask = umask(0);
 
-		/* If we create a temp file, we don't let anyone else access it. */
+		/* When writing an emergency file, we don't let anyone else access it. */
 		if (tmp)
 			umask(S_IRWXG | S_IRWXO);
 		else
