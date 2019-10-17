@@ -1711,16 +1711,8 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #ifndef NANO_TINY
 	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
-		int fd_src;
-		FILE *source = NULL, *target = NULL;
-
-		fd_src = open(realname, O_RDONLY);
-
-		if (fd_src != -1) {
-			source = fdopen(fd_src, "rb");
-			if (source == NULL)
-				close(fd_src);
-		}
+		FILE *source = fopen(realname, "rb");
+		FILE *target = NULL;
 
 		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname,
@@ -1846,16 +1838,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #ifndef NANO_TINY
 	/* When prepending, append the temporary file to what we wrote above. */
 	if (method == PREPEND) {
-		int fd_src;
-		FILE *source = NULL;
-
-		fd_src = open(tempname, O_RDONLY);
-
-		if (fd_src != -1) {
-			source = fdopen(fd_src, "rb");
-			if (source == NULL)
-				close(fd_src);
-		}
+		FILE *source = fopen(tempname, "rb");
 
 		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), tempname,
