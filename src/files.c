@@ -1564,16 +1564,16 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		static struct timespec filetime[2];
 		char *backupname;
 		int backup_cflags, backup_fd;
-		FILE *backup_file = NULL;
+		FILE *original = NULL, *backup_file = NULL;
 
 		/* Save the original file's access and modification times. */
 		filetime[0].tv_sec = openfile->current_stat->st_atime;
 		filetime[1].tv_sec = openfile->current_stat->st_mtime;
 
 		/* Open the file of which a backup must be made. */
-		f = fopen(realname, "rb");
+		original = fopen(realname, "rb");
 
-		if (f == NULL) {
+		if (original == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname,
 					strerror(errno));
 			/* If we can't read from the original file, go on, since saving
@@ -1680,7 +1680,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		}
 
 		/* Copy the file. */
-		if (copy_file(f, backup_file, FALSE) != 0) {
+		if (copy_file(original, backup_file, FALSE) != 0) {
 			fclose(backup_file);
 			statusline(ALERT, _("Error reading %s: %s"), realname,
 						strerror(errno));
