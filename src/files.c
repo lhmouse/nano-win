@@ -832,12 +832,11 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* If there was a real error during the reading, let the user know. */
 	if (ferror(f) && errornumber != EINTR && errornumber != 0)
 		statusline(ALERT, strerror(errornumber));
+
 	fclose(f);
 
-	if (fd > 0 && !undoable) {
-		close(fd);
+	if (fd > 0 && !undoable)
 		writable = (ISSET(VIEW_MODE) || access(filename, W_OK) == 0);
-	}
 
 	/* If the file ended with newline, or it was entirely empty, make the
 	 * last line blank.  Otherwise, put the last read data in. */
