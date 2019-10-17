@@ -1347,7 +1347,7 @@ char *safe_tempfile(FILE **stream)
 {
 	const char *env_dir = getenv("TMPDIR");
 	char *tempdir = NULL, *tempfile_name = NULL;
-	mode_t original_umask = 0;
+	mode_t was_mask;
 	int fd;
 
 	/* Get the absolute path for the first directory among $TMPDIR
@@ -1364,12 +1364,11 @@ char *safe_tempfile(FILE **stream)
 	tempfile_name = charealloc(tempdir, strlen(tempdir) + 12);
 	strcat(tempfile_name, "nano.XXXXXX");
 
-	original_umask = umask(0);
-	umask(S_IRWXG | S_IRWXO);
+	was_mask = umask(S_IRWXG | S_IRWXO);
 
 	fd = mkstemp(tempfile_name);
 
-	umask(original_umask);
+	umask(was_mask);
 
 	if (fd == -1) {
 		free(tempfile_name);
@@ -1505,14 +1504,14 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 bool write_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method, bool fullbuffer)
 {
-	mode_t original_umask = 0;
-		/* The umask from when nano started. */
 #ifndef NANO_TINY
 	bool isactualfile = FALSE;
 		/* Becomes TRUE when the file is non-temporary and exists. */
 #endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
+	mode_t was_mask = 0;
+		/* Will be set to the umask from when nano was started. */
 	char *realname;
 		/* The filename after tilde expansion. */
 	FILE *f = stream;
@@ -1709,10 +1708,8 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #endif /* !NANO_TINY */
 
 	/* When going to create an emergency file, don't let others access it. */
-	if (stream == NULL && tmp) {
-		original_umask = umask(0);
-		umask(S_IRWXG | S_IRWXO);
-	}
+	if (stream == NULL && tmp)
+		was_mask = umask(S_IRWXG | S_IRWXO);
 
 #ifndef NANO_TINY
 	/* When prepending, first copy the existing file to a temporary file. */
@@ -1772,7 +1769,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #endif
 		/* When this is an emergency file, restore the original umask. */
 		if (tmp)
-			umask(original_umask);
+			umask(was_mask);
 
 		/* If we couldn't open the file, give up. */
 		if (fd == -1) {
