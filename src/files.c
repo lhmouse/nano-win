@@ -1514,7 +1514,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		/* Will be set to the umask from when nano was started. */
 	char *realname;
 		/* The filename after tilde expansion. */
-	FILE *f = stream;
+	FILE *thefile = stream;
 		/* The actual file, corresponding to realname, we are writing to. */
 	char *tempname = NULL;
 		/* The name of the temporary file we write to on prepend. */
@@ -1772,9 +1772,9 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		f = fdopen(fd, (method == APPEND) ? "ab" : "wb");
+		thefile = fdopen(fd, (method == APPEND) ? "ab" : "wb");
 
-		if (f == NULL) {
+		if (thefile == NULL) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 			close(fd);
@@ -1791,7 +1791,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		/* Decode LFs as the NULs that they are, before writing to disk. */
 		sunder(line->data);
 
-		size = fwrite(line->data, sizeof(char), data_len, f);
+		size = fwrite(line->data, sizeof(char), data_len, thefile);
 
 		/* Re-encode any embedded NULs as LFs. */
 		unsunder(line->data, data_len);
@@ -1799,7 +1799,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		if (size < data_len) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
-			fclose(f);
+			fclose(thefile);
 			goto cleanup_and_exit;
 		}
 
@@ -1813,20 +1813,20 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		} else {
 #ifndef NANO_TINY
 			if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
-				if (putc('\r', f) == EOF) {
+				if (putc('\r', thefile) == EOF) {
 					statusline(ALERT, _("Error writing %s: %s"), realname,
 								strerror(errno));
-					fclose(f);
+					fclose(thefile);
 					goto cleanup_and_exit;
 				}
 			}
 
 			if (openfile->fmt != MAC_FILE)
 #endif
-				if (putc('\n', f) == EOF) {
+				if (putc('\n', thefile) == EOF) {
 					statusline(ALERT, _("Error writing %s: %s"), realname,
 								strerror(errno));
-					fclose(f);
+					fclose(thefile);
 					goto cleanup_and_exit;
 				}
 		}
@@ -1843,11 +1843,11 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), tempname,
 						strerror(errno));
-			fclose(f);
+			fclose(thefile);
 			goto cleanup_and_exit;
 		}
 
-		if (copy_file(source, f, TRUE) != 0) {
+		if (copy_file(source, thefile, TRUE) != 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 			goto cleanup_and_exit;
@@ -1856,7 +1856,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		unlink(tempname);
 	} else
 #endif
-		if (fclose(f) != 0) {
+		if (fclose(thefile) != 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 							strerror(errno));
 			goto cleanup_and_exit;
