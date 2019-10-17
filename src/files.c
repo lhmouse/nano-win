@@ -1570,17 +1570,16 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		filetime[0].tv_sec = openfile->current_stat->st_atime;
 		filetime[1].tv_sec = openfile->current_stat->st_mtime;
 
-			/* Open the original file to copy to the backup. */
-			f = fopen(realname, "rb");
+		/* Open the file of which a backup must be made. */
+		f = fopen(realname, "rb");
 
-			if (f == NULL) {
-				statusline(ALERT, _("Error reading %s: %s"), realname,
-						strerror(errno));
-				/* If we can't read from the original file, go on, since
-				 * only saving the current buffer is better than saving
-				 * nothing. */
-				goto skip_backup;
-			}
+		if (f == NULL) {
+			statusline(ALERT, _("Error reading %s: %s"), realname,
+					strerror(errno));
+			/* If we can't read from the original file, go on, since saving
+			 * only the current buffer is better than saving nothing. */
+			goto skip_backup;
+		}
 
 		/* If backup_dir is set, we set backupname to
 		 * backup_dir/backupname~[.number], where backupname is the
@@ -1874,11 +1873,11 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		unlink(tempname);
 	} else
 #endif
-	if (fclose(f) != 0) {
-		statusline(ALERT, _("Error writing %s: %s"), realname,
-						strerror(errno));
-		goto cleanup_and_exit;
-	}
+		if (fclose(f) != 0) {
+			statusline(ALERT, _("Error writing %s: %s"), realname,
+							strerror(errno));
+			goto cleanup_and_exit;
+		}
 
 	/* When having written an entire buffer, update some administrivia. */
 	if (fullbuffer && method == OVERWRITE && !tmp) {
