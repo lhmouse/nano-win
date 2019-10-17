@@ -1509,8 +1509,6 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
-	mode_t was_mask = 0;
-		/* Will be set to the umask from when nano was started. */
 	char *realname;
 		/* The filename after tilde expansion. */
 	FILE *thefile = stream;
@@ -1701,13 +1699,6 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	}
 
   skip_backup:
-#endif /* !NANO_TINY */
-
-	/* When going to create an emergency file, don't let others access it. */
-	if (stream == NULL && tmp)
-		was_mask = umask(S_IRWXG | S_IRWXO);
-
-#ifndef NANO_TINY
 	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
 		FILE *source = fopen(realname, "rb");
@@ -1740,7 +1731,13 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #endif /* !NANO_TINY */
 
 	if (stream == NULL) {
+		mode_t was_mask = 0;
 		int fd;
+
+		/* When creating an emergency file, don't let others access it. */
+		if (tmp)
+			was_mask = umask(S_IRWXG | S_IRWXO);
+
 #ifndef NANO_TINY
 		block_sigwinch(TRUE);
 		install_handler_for_Ctrl_C();
