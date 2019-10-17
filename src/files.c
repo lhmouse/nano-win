@@ -1570,7 +1570,6 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		filetime[0].tv_sec = openfile->current_stat->st_atime;
 		filetime[1].tv_sec = openfile->current_stat->st_mtime;
 
-		if (stream == NULL) {
 			/* Open the original file to copy to the backup. */
 			f = fopen(realname, "rb");
 
@@ -1582,7 +1581,6 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 				 * nothing. */
 				goto skip_backup;
 			}
-		}
 
 		/* If backup_dir is set, we set backupname to
 		 * backup_dir/backupname~[.number], where backupname is the
