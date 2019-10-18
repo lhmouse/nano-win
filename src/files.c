@@ -1703,6 +1703,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	if (method == PREPEND) {
 		FILE *source = fopen(realname, "rb");
 		FILE *target = NULL;
+		int verdict;
 
 		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname,
@@ -1718,7 +1719,14 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		if (copy_file(source, target, TRUE) != 0) {
+		verdict = copy_file(source, target, TRUE);
+
+		if (verdict == -1) {
+			statusline(ALERT, _("Error reading %s: %s"), realname,
+						strerror(errno));
+			unlink(tempname);
+			goto cleanup_and_exit;
+		} else if (verdict == -2) {
 			statusline(ALERT, _("Error writing temp file: %s"),
 						strerror(errno));
 			unlink(tempname);
