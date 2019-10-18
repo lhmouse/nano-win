@@ -1461,10 +1461,10 @@ void init_backup_dir(void)
 }
 #endif /* !NANO_TINY */
 
-/* Read from inn, write to out.  We assume inn is opened for reading,
- * and out for writing.  We return 0 on success, -1 on read error, or -2
- * on write error.  inn is always closed by this function, out is closed
- * only if close_out is true. */
+/* Read all data from inn, and write it to out.  File inn must be open for
+ * reading, and out for writing.  Return 0 on success, a negative number on
+ * read error, and a positive number on write error.  File inn is always
+ * closed by this function, out is closed  only if close_out is true. */
 int copy_file(FILE *inn, FILE *out, bool close_out)
 {
 	int retval = 0;
@@ -1479,15 +1479,15 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 			break;
 		}
 		if (fwrite(buf, sizeof(char), charsread, out) < charsread) {
-			retval = -2;
+			retval = 2;
 			break;
 		}
 	} while (charsread > 0);
 
 	if (fclose(inn) == EOF)
-		retval = -1;
+		retval = -3;
 	if (flush_out_fnc(out) == EOF)
-		retval = -2;
+		retval = 4;
 
 	return retval;
 }
@@ -1676,15 +1676,15 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		/* Copy the file. */
+		/* Copy the existing file to the backup. */
 		verdict = copy_file(original, backup_file, FALSE);
 
-		if (verdict == -1) {
+		if (verdict < 0) {
 			fclose(backup_file);
 			statusline(ALERT, _("Error reading %s: %s"), realname,
 						strerror(errno));
 			goto cleanup_and_exit;
-		} else if (verdict == -2) {
+		} else if (verdict > 0) {
 			fclose(backup_file);
 			if (prompt_failed_backupwrite(backupname))
 				goto skip_backup;
@@ -1730,12 +1730,12 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 
 		verdict = copy_file(source, target, TRUE);
 
-		if (verdict == -1) {
+		if (verdict < 0) {
 			statusline(ALERT, _("Error reading %s: %s"), realname,
 						strerror(errno));
 			unlink(tempname);
 			goto cleanup_and_exit;
-		} else if (verdict == -2) {
+		} else if (verdict > 0) {
 			statusline(ALERT, _("Error writing temp file: %s"),
 						strerror(errno));
 			unlink(tempname);
@@ -1863,11 +1863,11 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 
 		verdict = copy_file(source, thefile, TRUE);
 
-		if (verdict == -1) {
+		if (verdict < 0) {
 			statusline(ALERT, _("Error reading %s: %s"), tempname,
 						strerror(errno));
 			goto cleanup_and_exit;
-		} else if (verdict == -2) {
+		} else if (verdict > 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 			goto cleanup_and_exit;
