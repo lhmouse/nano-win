@@ -1536,11 +1536,6 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		goto cleanup_and_exit;
 	}
 #endif
-
-	/* If the temp file exists and isn't already open, give up. */
-	if (tmp && (lstat(realname, &st) != -1) && stream == NULL)
-		goto cleanup_and_exit;
-
 #ifndef NANO_TINY
 	/* Check whether the file (at the end of the symlink) exists. */
 	if (!tmp)
@@ -1738,7 +1733,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		}
 	}
 
-	if (S_ISFIFO(st.st_mode))
+	if (!tmp && S_ISFIFO(st.st_mode))
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
