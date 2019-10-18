@@ -420,8 +420,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 #ifdef ENABLE_OPERATINGDIR
 	if (outside_of_confinement(filename, FALSE)) {
-		statusline(ALERT, _("Can't read file from outside of %s"),
-								operating_dir);
+		statusline(ALERT, _("Can't read file from outside of %s"), operating_dir);
 		return FALSE;
 	}
 #endif
@@ -1571,8 +1570,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		original = fopen(realname, "rb");
 
 		if (original == NULL) {
-			statusline(ALERT, _("Error reading %s: %s"), realname,
-					strerror(errno));
+			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
 			/* If we can't read from the original file, go on, since saving
 			 * only the current buffer is better than saving nothing. */
 			goto skip_backup;
@@ -1681,8 +1679,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 
 		if (verdict < 0) {
 			fclose(backup_file);
-			statusline(ALERT, _("Error reading %s: %s"), realname,
-						strerror(errno));
+			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
 			fclose(backup_file);
@@ -1715,29 +1712,25 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		int verdict;
 
 		if (source == NULL) {
-			statusline(ALERT, _("Error reading %s: %s"), realname,
-						strerror(errno));
+			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
 		tempname = safe_tempfile(&target);
 
 		if (tempname == NULL) {
-			statusline(ALERT, _("Error writing temp file: %s"),
-						strerror(errno));
+			statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 			goto cleanup_and_exit;
 		}
 
 		verdict = copy_file(source, target, TRUE);
 
 		if (verdict < 0) {
-			statusline(ALERT, _("Error reading %s: %s"), realname,
-						strerror(errno));
+			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
 			unlink(tempname);
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
-			statusline(ALERT, _("Error writing temp file: %s"),
-						strerror(errno));
+			statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 			unlink(tempname);
 			goto cleanup_and_exit;
 		}
@@ -1778,8 +1771,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			if (errno == EINTR || errno == 0)
 				statusline(ALERT, _("Interrupted"));
 			else
-				statusline(ALERT, _("Error writing %s: %s"), realname,
-						strerror(errno));
+				statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			if (tempname != NULL)
 				unlink(tempname);
 			goto cleanup_and_exit;
@@ -1788,8 +1780,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		thefile = fdopen(fd, (method == APPEND) ? "ab" : "wb");
 
 		if (thefile == NULL) {
-			statusline(ALERT, _("Error writing %s: %s"), realname,
-						strerror(errno));
+			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			close(fd);
 			goto cleanup_and_exit;
 		}
@@ -1810,8 +1801,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		unsunder(line->data, data_len);
 
 		if (size < data_len) {
-			statusline(ALERT, _("Error writing %s: %s"), realname,
-						strerror(errno));
+			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			fclose(thefile);
 			goto cleanup_and_exit;
 		}
@@ -1827,8 +1817,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 #ifndef NANO_TINY
 			if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
 				if (putc('\r', thefile) == EOF) {
-					statusline(ALERT, _("Error writing %s: %s"), realname,
-								strerror(errno));
+					statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 					fclose(thefile);
 					goto cleanup_and_exit;
 				}
@@ -1837,8 +1826,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			if (openfile->fmt != MAC_FILE)
 #endif
 				if (putc('\n', thefile) == EOF) {
-					statusline(ALERT, _("Error writing %s: %s"), realname,
-								strerror(errno));
+					statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 					fclose(thefile);
 					goto cleanup_and_exit;
 				}
@@ -1855,8 +1843,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		int verdict;
 
 		if (source == NULL) {
-			statusline(ALERT, _("Error reading temp file: %s"),
-						strerror(errno));
+			statusline(ALERT, _("Error reading temp file: %s"), strerror(errno));
 			fclose(thefile);
 			goto cleanup_and_exit;
 		}
@@ -1864,12 +1851,10 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		verdict = copy_file(source, thefile, TRUE);
 
 		if (verdict < 0) {
-			statusline(ALERT, _("Error reading temp file: %s"),
-						strerror(errno));
+			statusline(ALERT, _("Error reading temp file: %s"), strerror(errno));
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
-			statusline(ALERT, _("Error writing %s: %s"), realname,
-						strerror(errno));
+			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
@@ -1877,8 +1862,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	} else
 #endif
 		if (fclose(thefile) != 0) {
-			statusline(ALERT, _("Error writing %s: %s"), realname,
-							strerror(errno));
+			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
