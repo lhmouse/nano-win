@@ -1491,7 +1491,7 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 	return retval;
 }
 
-/* Write the current buffer to disk.  If stream isn't NULL, we write to a
+/* Write the current buffer to disk.  If thefile isn't NULL, we write to a
  * temporary file that is already open.  If tmp is TRUE (when spell checking
  * or emergency dumping, for example), we set the umask to disallow anyone else
  * from accessing the file, and don't print out how many lines we wrote on the
@@ -1499,7 +1499,7 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
  * or prepending instead of overwriting the given file.  If fullbuffer is TRUE
  * and when writing normally, we set the current filename and stat info.
  * Return TRUE on success, and FALSE otherwise. */
-bool write_file(const char *name, FILE *stream, bool tmp,
+bool write_file(const char *name, FILE *thefile, bool tmp,
 		kind_of_writing_type method, bool fullbuffer)
 {
 #ifndef NANO_TINY
@@ -1510,10 +1510,8 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		/* The status fields filled in by stat(). */
 	char *realname;
 		/* The filename after tilde expansion. */
-	FILE *thefile = stream;
-		/* The actual file, corresponding to realname, we are writing to. */
 	char *tempname = NULL;
-		/* The name of the temporary file we write to on prepend. */
+		/* The name of the temporary file we use when prepending. */
 	linestruct *line = openfile->filetop;
 		/* An iterator for moving through the lines of the buffer. */
 	size_t lineswritten = 0;
@@ -1737,7 +1735,8 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
-	if (stream == NULL) {
+	/* When it's not a temporary file, this is where we open or create it. */
+	if (thefile == NULL) {
 		mode_t was_mask = 0;
 		int fd;
 
@@ -1749,7 +1748,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		block_sigwinch(TRUE);
 		install_handler_for_Ctrl_C();
 #endif
-		/* Now try to open the file.  Use O_EXCL for an emergency file. */
+		/* Now open the file.  Use O_EXCL for an emergency file. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
 				O_APPEND : (tmp ? O_EXCL : O_TRUNC)), S_IRUSR |
 				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
