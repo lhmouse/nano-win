@@ -1560,7 +1560,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 				openfile->current_stat->st_mtime == st.st_mtime)) {
 		static struct timespec filetime[2];
 		char *backupname;
-		int backup_cflags, backup_fd;
+		int backup_cflags, backup_fd, verdict;
 		FILE *original = NULL, *backup_file = NULL;
 
 		/* Save the original file's access and modification times. */
@@ -1677,10 +1677,19 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		}
 
 		/* Copy the file. */
-		if (copy_file(original, backup_file, FALSE) != 0) {
+		verdict = copy_file(original, backup_file, FALSE);
+
+		if (verdict == -1) {
 			fclose(backup_file);
 			statusline(ALERT, _("Error reading %s: %s"), realname,
 						strerror(errno));
+			goto cleanup_and_exit;
+		} else if (verdict == -2) {
+			fclose(backup_file);
+			if (prompt_failed_backupwrite(backupname))
+				goto skip_backup;
+			statusline(HUSH, _("Error writing backup file %s: %s"),
+						backupname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
@@ -1843,6 +1852,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	/* When prepending, append the temporary file to what we wrote above. */
 	if (method == PREPEND) {
 		FILE *source = fopen(tempname, "rb");
+		int verdict;
 
 		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), tempname,
@@ -1851,7 +1861,13 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		if (copy_file(source, thefile, TRUE) != 0) {
+		verdict = copy_file(source, thefile, TRUE);
+
+		if (verdict == -1) {
+			statusline(ALERT, _("Error reading %s: %s"), tempname,
+						strerror(errno));
+			goto cleanup_and_exit;
+		} else if (verdict == -2) {
 			statusline(ALERT, _("Error writing %s: %s"), realname,
 						strerror(errno));
 			goto cleanup_and_exit;
