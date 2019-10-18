@@ -1521,8 +1521,10 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	bool retval = FALSE;
 		/* The return value, to become TRUE when writing has succeeded. */
 
+#ifndef NANO_TINY
 	if (*name == '\0')
-		die("Tried to write a nameless file");
+		die("Tried to write a nameless file -- please report a bug\n");
+#endif
 
 	realname = real_dir_from_tilde(name);
 
@@ -1752,8 +1754,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		block_sigwinch(TRUE);
 		install_handler_for_Ctrl_C();
 #endif
-		/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
-		 * is copied from joe, because wiggy says so *shrug*. */
+		/* Now try to open the file.  Use O_EXCL for an emergency file. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
 				O_APPEND : (tmp ? O_EXCL : O_TRUNC)), S_IRUSR |
 				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
@@ -1772,8 +1773,10 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 				statusline(ALERT, _("Interrupted"));
 			else
 				statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+#ifndef NANO_TINY
 			if (tempname != NULL)
 				unlink(tempname);
+#endif
 			goto cleanup_and_exit;
 		}
 
@@ -1861,10 +1864,10 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		unlink(tempname);
 	} else
 #endif
-		if (fclose(thefile) != 0) {
-			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
-			goto cleanup_and_exit;
-		}
+	if (fclose(thefile) != 0) {
+		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+		goto cleanup_and_exit;
+	}
 
 	/* When having written an entire buffer, update some administrivia. */
 	if (fullbuffer && method == OVERWRITE && !tmp) {
@@ -1916,8 +1919,8 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 	retval = TRUE;
 
   cleanup_and_exit:
-	free(realname);
 	free(tempname);
+	free(realname);
 
 	return retval;
 }
