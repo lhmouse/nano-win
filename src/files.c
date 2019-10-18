@@ -1855,7 +1855,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		int verdict;
 
 		if (source == NULL) {
-			statusline(ALERT, _("Error reading %s: %s"), tempname,
+			statusline(ALERT, _("Error reading temp file: %s"),
 						strerror(errno));
 			fclose(thefile);
 			goto cleanup_and_exit;
@@ -1864,7 +1864,7 @@ bool write_file(const char *name, FILE *stream, bool tmp,
 		verdict = copy_file(source, thefile, TRUE);
 
 		if (verdict < 0) {
-			statusline(ALERT, _("Error reading %s: %s"), tempname,
+			statusline(ALERT, _("Error reading temp file: %s"),
 						strerror(errno));
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
