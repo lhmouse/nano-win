@@ -3,8 +3,8 @@
 syntax nanorc "\.?nanorc$"
 comment "#"
 
-# Possible errors and parameters
-color brightred "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|fixer|linter|tabgives|i?color|extendsyntax).*"
+# Everything that does not get recolored is invalid
+color brightred ".*"
 
 # Keywords
 color brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(afterends|allow_insecure_backup|atblanks|autoindent|backup|backwards|boldtext|breaklonglines|casesensitive|constantshow|cutfromcursor|emptyline|finalnewline|historylog|jumpyscrolling|linenumbers|locking|morespace|mouse|multibuffer|noconvert|nohelp|nopauses|nonewlines|nowrap|positionlog|preserve|quickblank|quiet|rebinddelete|rebindkeypad|regexp|showcursor|smarthome|smooth|softwrap|suspend|tabstospaces|tempfile|trimblanks|unix|view|wordbounds|zap)\>"
