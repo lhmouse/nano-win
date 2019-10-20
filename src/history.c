@@ -229,19 +229,6 @@ char *get_history_completion(linestruct **h, char *s, size_t len)
 }
 #endif /* ENABLE_TABCOMP */
 
-void history_error(const char *msg, ...)
-{
-	va_list ap;
-
-	va_start(ap, msg);
-	vfprintf(stderr, _(msg), ap);
-	va_end(ap);
-
-	fprintf(stderr, _("\nPress Enter to continue\n"));
-	while (getchar() != '\n')
-		;
-}
-
 /* Check whether we have or could make a directory for history files. */
 bool have_statedir(void)
 {
@@ -280,14 +267,14 @@ bool have_statedir(void)
 			free(statepath);
 		}
 		if (mkdir(statedir, S_IRWXU) == -1) {
-			history_error(N_("Unable to create directory %s: %s\n"
+			jot_error(N_("Unable to create directory %s: %s\n"
 								"It is required for saving/loading "
 								"search history or cursor positions.\n"),
 								statedir, strerror(errno));
 			return FALSE;
 		}
 	} else if (!S_ISDIR(dirstat.st_mode)) {
-		history_error(N_("Path %s is not a directory and needs to be.\n"
+		jot_error(N_("Path %s is not a directory and needs to be.\n"
 								"Nano will be unable to load or save "
 								"search history or cursor positions.\n"),
 								statedir);
@@ -308,7 +295,7 @@ void load_history(void)
 		if (errno != ENOENT) {
 			/* When reading failed, don't save history when we quit. */
 			UNSET(HISTORYLOG);
-			history_error(N_("Error reading %s: %s"), histname,
+			jot_error(N_("Error reading %s: %s"), histname,
 						strerror(errno));
 		}
 	} else {
@@ -404,7 +391,7 @@ void load_poshistory(void)
 		if (errno != ENOENT) {
 			/* When reading failed, don't save history when we quit. */
 			UNSET(POSITIONLOG);
-			history_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
+			jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
 		}
 	} else {
 		char *line = NULL, *lineptr, *xptr;

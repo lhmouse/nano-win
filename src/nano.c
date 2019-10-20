@@ -2685,8 +2685,8 @@ int main(int argc, char **argv)
 	prepare_for_display();
 
 #ifdef ENABLE_NANORC
-	if (rcfile_with_errors != NULL)
-		statusline(ALERT, _("Mistakes in '%s'"), rcfile_with_errors);
+	if (startup_problem != NULL)
+		statusline(ALERT, startup_problem);
 #endif
 
 #ifdef ENABLE_HELP

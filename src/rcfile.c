@@ -174,8 +174,13 @@ void jot_error(const char *msg, ...)
 		errors_tail->next = error;
 	errors_tail = error;
 
-	if (rcfile_with_errors == NULL)
-		rcfile_with_errors = copy_of(nanorc);
+	if (startup_problem == NULL) {
+		if (nanorc != NULL) {
+			snprintf(textbuf, MAXSIZE, _("Mistakes in '%s'"), nanorc);
+			startup_problem = copy_of(textbuf);
+		} else
+			startup_problem = copy_of(_("Problems with history file"));
+	}
 
 	if (lineno > 0)
 		length = snprintf(textbuf, MAXSIZE, _("Error in %s on line %zu: "),
@@ -1358,6 +1363,7 @@ void do_rcfiles(void)
 	check_vitals_mapped();
 
 	free(nanorc);
+	nanorc = NULL;
 }
 
 #endif /* ENABLE_NANORC */

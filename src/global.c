@@ -261,8 +261,8 @@ int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
 									MBROWSER, MWHEREISFILE, MGOTODIR,
 									MMOST|MHELP|MYESNO };
 
-char *rcfile_with_errors = NULL;
-		/* The first nanorc file, if any, that produced warnings. */
+char *startup_problem = NULL;
+		/* An error message (if any) about nanorc files or history files. */
 #endif
 
 bool spotlighted = FALSE;

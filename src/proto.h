@@ -174,7 +174,7 @@ extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 extern char *homedir;
 extern char *statedir;
 #ifdef ENABLE_NANORC
-extern char *rcfile_with_errors;
+extern char *startup_problem;
 #endif
 
 extern bool spotlighted;
@@ -471,6 +471,7 @@ int do_yesno_prompt(bool all, const char *msg);
 /* Most functions in rcfile.c. */
 #ifdef ENABLE_NANORC
 void display_rcfile_errors(void);
+void jot_error(const char *msg, ...);
 #ifdef ENABLE_COLOR
 void parse_one_include(char *file, syntaxtype *syntax);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);
