@@ -2686,7 +2686,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		size_t charlen = 1;
 
 		if (*(converted + target_x) != '\0') {
-			charlen = parse_mbchar(converted + target_x, striped_char, NULL);
+			charlen = collect_char(converted + target_x, striped_char);
 			target_column = wideness(converted, target_x);
 		} else if (target_column + 1 == editwincols) {
 			/* Defeat a VTE bug -- see https://sv.gnu.org/bugs/?55896. */

@@ -1813,7 +1813,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 			output[i] = '\n';
 
 		/* Get the next multibyte character. */
-		charlen = parse_mbchar(output + i, onechar, NULL);
+		charlen = collect_char(output + i, onechar);
 
 		i += charlen;
 

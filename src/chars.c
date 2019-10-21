@@ -160,7 +160,7 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 
 	if (word_chars != NULL && *word_chars != '\0') {
 		char symbol[MAXCHARLEN + 1];
-		int symlen = parse_mbchar(c, symbol, NULL);
+		int symlen = collect_char(c, symbol);
 
 		symbol[symlen] = '\0';
 		return (strstr(word_chars, symbol) != NULL);
@@ -287,9 +287,8 @@ size_t mbstrlen(const char *pointer)
 }
 
 /* Parse a multibyte character from buf.  Return the number of bytes
- * used.  If chr isn't NULL, store the multibyte character in it.  If
- * col isn't NULL, add the character's width (in columns) to it. */
-int parse_mbchar(const char *buf, char *chr, size_t *col)
+ * used, and store the multibyte character in *chr. */
+int collect_char(const char *buf, char *chr)
 {
 	int length;
 
@@ -305,29 +304,9 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 #endif
 		length = 1;
 
-	/* When requested, store the multibyte character in chr. */
-	if (chr != NULL)
+	/* Store the multibyte character in chr. */
 		for (int i = 0; i < length; i++)
 			chr[i] = buf[i];
-
-	/* When requested, add the width of the character to col. */
-	if (col != NULL) {
-		/* If we have a tab, compute its width in columns based on the
-		 * current value of col. */
-		if (*buf == '\t')
-			*col += tabsize - *col % tabsize;
-		/* If we have a control character, it's two columns wide: one
-		 * column for the "^", and one for the visible character. */
-		else if (is_cntrl_mbchar(buf))
-			*col += 2;
-		/* If we have a normal character, get its width normally. */
-		else if (length == 1)
-			*col += 1;
-#ifdef ENABLE_UTF8
-		else
-			*col += mbwidth(buf);
-#endif
-	}
 
 	return length;
 }
@@ -622,7 +601,7 @@ bool has_blank_char(const char *string)
 	char symbol[MAXCHARLEN];
 
 	while (*string != '\0') {
-		string += parse_mbchar(string, symbol, NULL);
+		string += collect_char(string, symbol);
 
 		if (is_blank_mbchar(symbol))
 			return TRUE;

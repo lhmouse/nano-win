@@ -2489,10 +2489,10 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 		/* Get the number of characters that all matches have in common. */
 		while (TRUE) {
-			len1 = parse_mbchar(matches[0] + common_len, char1, NULL);
+			len1 = collect_char(matches[0] + common_len, char1);
 
 			for (match = 1; match < num_matches; match++) {
-				len2 = parse_mbchar(matches[match] + common_len, char2, NULL);
+				len2 = collect_char(matches[match] + common_len, char2);
 
 				if (len1 != len2 || strncmp(char1, char2, len2) != 0)
 					break;

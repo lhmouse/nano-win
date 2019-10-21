@@ -203,8 +203,8 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 	size_t word_end = position + length;
 
 	/* Get the characters before and after the word, if any. */
-	parse_mbchar(buf + step_left(buf, position), before, NULL);
-	parse_mbchar(buf + word_end, after, NULL);
+	collect_char(buf + step_left(buf, position), before);
+	collect_char(buf + word_end, after);
 
 	/* If the word starts at the beginning of the line OR the character before
 	 * the word isn't a letter, and if the word ends at the end of the line OR

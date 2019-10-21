@@ -1178,8 +1178,8 @@ void add_undo(undo_type action, const char *message)
 		 * else purposely fall into the line-joining code. */
 		if (openfile->current->data[openfile->current_x] != '\0') {
 			char *char_buf = charalloc(MAXCHARLEN + 1);
-			int charlen = parse_mbchar(&openfile->current->data[u->begin],
-												char_buf, NULL);
+			int charlen = collect_char(&openfile->current->data[u->begin],
+												char_buf);
 			char_buf[charlen] = '\0';
 			u->strdata = char_buf;
 			if (u->type == BACK)
@@ -1300,8 +1300,8 @@ void update_undo(undo_type action)
 	switch (u->type) {
 	case ADD:
 		char_buf = charalloc(MAXCHARLEN);
-		charlen = parse_mbchar(&openfile->current->data[u->mark_begin_x],
-								char_buf, NULL);
+		charlen = collect_char(&openfile->current->data[u->mark_begin_x],
+								char_buf);
 		u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0,
 								char_buf, charlen);
 		u->mark_begin_lineno = openfile->current->lineno;
@@ -1314,8 +1314,8 @@ void update_undo(undo_type action)
 	case BACK:
 	case DEL:
 		char_buf = charalloc(MAXCHARLEN);
-		charlen = parse_mbchar(&openfile->current->data[openfile->current_x],
-								char_buf, NULL);
+		charlen = collect_char(&openfile->current->data[openfile->current_x],
+								char_buf);
 		if (openfile->current_x == u->begin) {
 			/* They deleted more: add removed character after earlier stuff. */
 			u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, charlen);
@@ -1637,7 +1637,7 @@ size_t indent_length(const char *line)
 	int charlen;
 
 	while (*line != '\0') {
-		charlen = parse_mbchar(line, onechar, NULL);
+		charlen = collect_char(line, onechar);
 
 		if (!is_blank_mbchar(onechar))
 			break;

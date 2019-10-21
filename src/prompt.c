@@ -203,7 +203,7 @@ void do_statusbar_output(int *the_input, size_t input_len,
 			output[j] = '\n';
 
 		/* Interpret the next multibyte character. */
-		charlen = parse_mbchar(output + j, onechar, NULL);
+		charlen = collect_char(output + j, onechar);
 
 		j += charlen;
 
