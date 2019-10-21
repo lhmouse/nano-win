@@ -286,29 +286,28 @@ size_t mbstrlen(const char *pointer)
 	return count;
 }
 
-/* Parse a multibyte character from buf.  Return the number of bytes
- * used, and store the multibyte character in *chr. */
-int collect_char(const char *buf, char *chr)
+/* Return the length (in bytes) of the character at the start of the
+ * given string, and return a copy of this character in *thechar. */
+int collect_char(const char *string, char *thechar)
 {
-	int length;
+	int charlen;
 
 #ifdef ENABLE_UTF8
 	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
-	if ((signed char)*buf < 0) {
-		length = mblen(buf, MAXCHARLEN);
+	if ((signed char)*string < 0) {
+		charlen = mblen(string, MAXCHARLEN);
 
 		/* When the multibyte sequence is invalid, only take the first byte. */
-		if (length <= 0)
-			length = 1;
+		if (charlen <= 0)
+			charlen = 1;
 	} else
 #endif
-		length = 1;
+		charlen = 1;
 
-	/* Store the multibyte character in chr. */
-		for (int i = 0; i < length; i++)
-			chr[i] = buf[i];
+	for (int i = 0; i < charlen; i++)
+		thechar[i] = string[i];
 
-	return length;
+	return charlen;
 }
 
 /* Return the length (in bytes) of the character at the start of
