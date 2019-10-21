@@ -332,6 +332,35 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	return length;
 }
 
+/* Return the length (in bytes) of the character at the start of
+ * the given string, and add this character's width to *column. */
+int advance_over(const char *string, size_t *column)
+{
+	int charlen;
+
+#ifdef ENABLE_UTF8
+	if ((signed char)*string < 0) {
+		charlen = mblen(string, MAXCHARLEN);
+		if (charlen <= 0)
+			charlen = 1;
+	} else
+#endif
+		charlen = 1;
+
+	if (*string == '\t')
+		*column += tabsize - *column % tabsize;
+	else if (is_cntrl_mbchar(string))
+		*column += 2;
+	else if (charlen == 1)
+		*column += 1;
+#ifdef ENABLE_UTF8
+	else
+		*column += mbwidth(string);
+#endif
+
+	return charlen;
+}
+
 /* Return the index in buf of the beginning of the multibyte character
  * before the one at pos. */
 size_t step_left(const char *buf, size_t pos)

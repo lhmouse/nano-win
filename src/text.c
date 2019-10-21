@@ -1579,7 +1579,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 				break;
 		}
 
-		charlen = parse_mbchar(line, NULL, &column);
+		charlen = advance_over(line, &column);
 		line += charlen;
 		index += charlen;
 	}

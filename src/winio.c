@@ -3045,7 +3045,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 
 	/* First find the place in text where the current chunk starts. */
 	while (*text != '\0' && column < leftedge)
-		text += parse_mbchar(text, NULL, &column);
+		text += advance_over(text, &column);
 
 	/* Now find the place in text where this chunk should end. */
 	while (*text != '\0' && column <= goal_column) {
@@ -3056,7 +3056,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 		}
 
 		breaking_col = (*text == '\t' ? goal_column : column);
-		text += parse_mbchar(text, NULL, &column);
+		text += advance_over(text, &column);
 	}
 
 	/* If we didn't overshoot the limit, we've found a breaking point;
@@ -3069,7 +3069,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 	/* If we're softwrapping at blanks and we found at least one blank, break
 	 * after that blank -- if it doesn't overshoot the screen's edge. */
 	if (farthest_blank != NULL) {
-		parse_mbchar(farthest_blank, NULL, &last_blank_col);
+		advance_over(farthest_blank, &last_blank_col);
 
 		if (last_blank_col <= goal_column)
 			return last_blank_col;

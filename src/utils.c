@@ -379,7 +379,7 @@ size_t actual_x(const char *text, size_t column)
 		/* The current accumulated span, in columns. */
 
 	while (*text != '\0') {
-		int charlen = parse_mbchar(text, NULL, &width);
+		int charlen = advance_over(text, &width);
 
 		if (width > column)
 			break;
@@ -400,7 +400,7 @@ size_t wideness(const char *text, size_t maxlen)
 		return 0;
 
 	while (*text != '\0') {
-		size_t charlen = parse_mbchar(text, NULL, &width);
+		size_t charlen = advance_over(text, &width);
 
 		if (maxlen <= charlen)
 			break;
@@ -418,7 +418,7 @@ size_t breadth(const char *text)
 	size_t span = 0;
 
 	while (*text != '\0')
-		text += parse_mbchar(text, NULL, &span);
+		text += advance_over(text, &span);
 
 	return span;
 }

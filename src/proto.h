@@ -217,6 +217,7 @@ char *make_mbchar(long chr, int *chr_mb_len);
 int char_length(const char *pointer);
 size_t mbstrlen(const char *s);
 int parse_mbchar(const char *buf, char *chr, size_t *col);
+int advance_over(const char *string, size_t *column);
 size_t step_left(const char *buf, size_t pos);
 size_t step_right(const char *buf, size_t pos);
 int mbstrcasecmp(const char *s1, const char *s2);
