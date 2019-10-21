@@ -314,29 +314,39 @@ int collect_char(const char *string, char *thechar)
  * the given string, and add this character's width to *column. */
 int advance_over(const char *string, size_t *column)
 {
-	int charlen;
-
 #ifdef ENABLE_UTF8
 	if ((signed char)*string < 0) {
-		charlen = mblen(string, MAXCHARLEN);
-		if (charlen <= 0)
+		int charlen = mblen(string, MAXCHARLEN);
+
+		if (charlen > 0) {
+			if (is_cntrl_mbchar(string))
+				*column += 2;
+			else
+				*column += mbwidth(string);
+		} else {
 			charlen = 1;
-	} else
-#endif
-		charlen = 1;
+			*column += 1;
+		}
 
-	if (*string == '\t')
-		*column += tabsize - *column % tabsize;
-	else if (is_cntrl_mbchar(string))
+		return charlen;
+	}
+#endif
+
+	if ((unsigned char)*string < 0x20) {
+		if (*string == '\t')
+			*column += tabsize - *column % tabsize;
+		else
+			*column += 2;
+	} else if (*string == 0x7F)
 		*column += 2;
-	else if (charlen == 1)
-		*column += 1;
-#ifdef ENABLE_UTF8
-	else
-		*column += mbwidth(string);
+#ifndef ENABLE_UTF8
+	else if (0x7F < (unsigned char)*string && (unsigned char)*string < 0xA0)
+		*column += 2;
 #endif
+	else
+		*column += 1;
 
-	return charlen;
+	return 1;
 }
 
 /* Return the index in buf of the beginning of the multibyte character
