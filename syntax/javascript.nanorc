@@ -13,6 +13,8 @@ color magenta "\<(break|continue|return|yield)\>"
 
 # Octal/decimal and hexadecimal numbers.
 color cyan "\<[0-9]+\>" "\<0x[0-9A-Fa-f]+\>"
+# Special values.
+color cyan "\<(null|undefined)\>"
 
 # Strings.
 color brightmagenta ""(\\.|[^"])*"" "'(\\.|[^'])*'" "`(\\.|[^`])*`"
