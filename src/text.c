@@ -2565,9 +2565,8 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	if (fileinfo.st_size == 0)
 		return NULL;
 
-	/* The spell checker needs the screen, so exit from curses mode. */
-	if (spelling)
-		endwin();
+	/* Exit from curses mode to give the program control of the terminal. */
+	endwin();
 
 	construct_argument_list(&arguments, theprogram, tempfile_name);
 
@@ -2586,11 +2585,9 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	wait(&program_status);
 	block_sigwinch(FALSE);
 
-	/* When needed, restore the terminal state and reenter curses mode. */
-	if (spelling) {
-		terminal_init();
-		doupdate();
-	}
+	/* Restore the terminal state and reenter curses mode. */
+	terminal_init();
+	doupdate();
 
 	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2)
 		return invocation_error(theprogram);
