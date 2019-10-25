@@ -4,6 +4,8 @@ syntax html "\.html?$"
 magic "HTML document"
 comment "<!--|-->"
 
+formatter tidy -m -q
+
 # Tags:
 color cyan "<[[:alpha:]/!?][^>]*>"
 # Bold, italic, and underlined:
