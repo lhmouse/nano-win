@@ -2629,7 +2629,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	} else
 #endif
 		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE,
-					(spelling ? N_("spelling correction") : N_("manipulation")));
+					(spelling ? N_("spelling correction") : N_("formatting")));
 
 	/* Go back to the old position. */
 	goto_line_posx(lineno_save, current_x_save);
