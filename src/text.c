@@ -2576,7 +2576,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		execvp(arguments[0], arguments);
 
 		/* Terminate the child if the program is not found. */
-		exit(1);
+		exit(9);
 	} else if (thepid < 0)
 		return _("Could not fork");
 
@@ -2592,8 +2592,10 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		doupdate();
 	}
 
-	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) != 0)
+	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2)
 		return invocation_error(theprogram);
+	else if (WEXITSTATUS(program_status) != 0)
+		statusline(ALERT, _("The invoked program complained"));
 
 	/* Stat the temporary file again. */
 	stat(tempfile_name, &fileinfo);
