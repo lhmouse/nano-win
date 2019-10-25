@@ -694,8 +694,8 @@ void shortcut_init(void)
 	const char *prevlint_gist = N_("Go to previous linter msg");
 	const char *nextlint_gist = N_("Go to next linter msg");
 #ifdef ENABLE_SPELLER
-	const char *fixer_gist =
-		N_("Invoke a program to fix/format/arrange the buffer");
+	const char *formatter_gist =
+		N_("Invoke a program to format/arrange/manipulate the buffer");
 #endif
 #endif
 #endif /* ENABLE_HELP */
@@ -1009,8 +1009,8 @@ void shortcut_init(void)
 		add_to_funcs(do_linter, MMAIN,
 				N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
 #ifdef ENABLE_SPELLER
-		add_to_funcs(do_fixer, MMAIN,
-				N_("Manipulate"), WITHORSANS(fixer_gist), BLANKAFTER, NOVIEW);
+		add_to_funcs(do_formatter, MMAIN,
+				N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
 #endif
@@ -1134,7 +1134,7 @@ void shortcut_init(void)
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
 #ifdef ENABLE_SPELLER
-	add_to_sclist(MMAIN, "M-F", 0, do_fixer, 0);
+	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
 #endif
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
@@ -1515,8 +1515,8 @@ keystruct *strtosc(const char *input)
 	else if (!strcasecmp(input, "linter"))
 		s->func = do_linter;
 #ifdef ENABLE_SPELLER
-	else if (!strcasecmp(input, "fixer"))
-		s->func = do_fixer;
+	else if (!strcasecmp(input, "formatter"))
+		s->func = do_formatter;
 #endif
 #endif
 	else if (!strcasecmp(input, "curpos"))

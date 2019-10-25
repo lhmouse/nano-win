@@ -3058,7 +3058,7 @@ void do_linter(void)
 
 #ifdef ENABLE_SPELLER
 /* Run a manipulation program on the contents of the buffer. */
-void do_fixer(void)
+void do_formatter(void)
 {
 	FILE *stream;
 	char *temp_name;
@@ -3068,8 +3068,8 @@ void do_fixer(void)
 	if (in_restricted_mode())
 		return;
 
-	if (!openfile->syntax || !openfile->syntax->fixer) {
-		statusbar(_("No fixer is defined for this type of file"));
+	if (!openfile->syntax || !openfile->syntax->formatter) {
+		statusbar(_("No formatter is defined for this type of file"));
 		return;
 	}
 
@@ -3084,7 +3084,7 @@ void do_fixer(void)
 		return;
 	}
 
-	result_msg = treat(temp_name, openfile->syntax->fixer, FALSE);
+	result_msg = treat(temp_name, openfile->syntax->formatter, FALSE);
 
 	if (result_msg != NULL)
 		statusline(ALERT, result_msg);

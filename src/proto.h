@@ -551,7 +551,7 @@ void do_spell(void);
 #endif
 #ifdef ENABLE_COLOR
 void do_linter(void);
-void do_fixer(void);
+void do_formatter(void);
 #endif
 #ifndef NANO_TINY
 void do_wordlinechar_count(void);
