@@ -59,19 +59,6 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
-#if defined(ENABLE_COLOR) || defined(ENABLE_SPELLER)
-/* Return an error message about invoking the given name.  The message
- * should not be freed; this leak is not worth the trouble avoiding. */
-const char *invocation_error(const char *name)
-{
-	char *message, *invoke_error = _("Error invoking \"%s\"");
-
-	message = charalloc(strlen(invoke_error) + strlen(name) + 1);
-	sprintf(message, invoke_error, name);
-	return message;
-}
-#endif
-
 /* Insert a tab.  If the TABS_TO_SPACES flag is set, insert the number
  * of spaces that a tab would normally take up. */
 void do_tab(void)
@@ -2589,9 +2576,10 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	terminal_init();
 	doupdate();
 
-	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2)
-		return invocation_error(theprogram);
-	else if (WEXITSTATUS(program_status) != 0)
+	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2) {
+		statusline(ALERT, _("Error invoking '%s'"), arguments[0]);
+		return NULL;
+	} else if (WEXITSTATUS(program_status) != 0)
 		statusline(ALERT, _("The invoked program complained"));
 
 	/* Stat the temporary file again. */
