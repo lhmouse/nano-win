@@ -2890,7 +2890,7 @@ void do_linter(void)
 	waitpid(pid_lint, &lint_status, 0);
 
 	if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
-		statusbar(invocation_error(openfile->syntax->linter));
+		statusline(ALERT, _("Error invoking '%s'"), openfile->syntax->linter);
 		return;
 	}
 
