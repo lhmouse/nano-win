@@ -2580,7 +2580,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		statusline(ALERT, _("Error invoking '%s'"), arguments[0]);
 		return NULL;
 	} else if (WEXITSTATUS(program_status) != 0)
-		statusline(ALERT, _("The invoked program complained"));
+		statusline(ALERT, _("Program '%s' complained"), arguments[0]);
 
 	/* Stat the temporary file again. */
 	stat(tempfile_name, &fileinfo);
