@@ -1010,7 +1010,7 @@ bool execute_command(const char *command)
 		} else
 #endif
 		{
-			add_undo(COUPLE_BEGIN, "filtering");
+			add_undo(COUPLE_BEGIN, N_("filtering"));
 			if (openfile->mark == NULL) {
 				openfile->current = openfile->filetop;
 				openfile->current_x = 0;
@@ -1054,7 +1054,7 @@ bool execute_command(const char *command)
 		read_file(stream, 0, "pipe", TRUE);
 
 	if (should_pipe && !ISSET(MULTIBUFFER)) {
-		add_undo(COUPLE_END, "filtering");
+		add_undo(COUPLE_END, N_("filtering"));
 	}
 
 	/* Wait for the external command (and possibly data sender) to terminate. */
@@ -2033,7 +2033,7 @@ void do_justify(bool full_justify)
 	}
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN, "justification");
+	add_undo(COUPLE_BEGIN, N_("justification"));
 
 	/* Store the original cursor position, in case we unjustify. */
 	openfile->undotop->lineno = was_lineno;
@@ -2150,7 +2150,7 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	update_undo(PASTE);
 
-	add_undo(COUPLE_END, "justification");
+	add_undo(COUPLE_END, N_("justification"));
 
 	/* If we justified marked text, restore mark or cursor position. */
 	if (openfile->mark) {
