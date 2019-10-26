@@ -2714,14 +2714,13 @@ void do_spell(void)
 #endif /* ENABLE_SPELLER */
 
 #ifdef ENABLE_COLOR
-/* Run a linting program on the current buffer.  Return NULL for normal
- * termination, and the error string otherwise. */
+/* Run a linting program on the current buffer. */
 void do_linter(void)
 {
 	char *lintings, *pointer, *onelint;
 	long pipesize;
 	size_t buffersize, bytesread, totalread;
-	size_t parsesuccess = 0;
+	bool parsesuccess = FALSE;
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
 	bool helpless = ISSET(NO_HELP);
@@ -2861,7 +2860,7 @@ void do_linter(void)
 							}
 
 							/* Nice.  We have a lint message we can use. */
-							parsesuccess++;
+							parsesuccess = TRUE;
 							tmplint = curlint;
 							curlint = nmalloc(sizeof(lintstruct));
 							curlint->next = NULL;
@@ -2895,7 +2894,7 @@ void do_linter(void)
 		return;
 	}
 
-	if (parsesuccess == 0) {
+	if (!parsesuccess) {
 		statusline(HUSH, _("Got 0 parsable lines from command: %s"),
 						openfile->syntax->linter);
 		return;
