@@ -1010,7 +1010,7 @@ bool execute_command(const char *command)
 		} else
 #endif
 		{
-			add_undo(COUPLE_BEGIN, N_("filtering"));
+			add_undo(COUPLE_BEGIN, "filtering");
 			if (openfile->mark == NULL) {
 				openfile->current = openfile->filetop;
 				openfile->current_x = 0;
@@ -1054,6 +1054,7 @@ bool execute_command(const char *command)
 		read_file(stream, 0, "pipe", TRUE);
 
 	if (should_pipe && !ISSET(MULTIBUFFER)) {
+		/* TRANSLATORS: The next two go with Undid/Redid messages. */
 		add_undo(COUPLE_END, N_("filtering"));
 	}
 
@@ -2150,7 +2151,7 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	update_undo(PASTE);
 
-	add_undo(COUPLE_END, N_("justification"));
+	add_undo(COUPLE_END, "justification");
 
 	/* If we justified marked text, restore mark or cursor position. */
 	if (openfile->mark) {
@@ -2594,6 +2595,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	} else
 #endif
 		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE,
+					/* TRANSLATORS: The next two go with Undid/Redid messages. */
 					(spelling ? N_("spelling correction") : N_("formatting")));
 
 	/* Go back to the old position. */
