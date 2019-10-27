@@ -2700,7 +2700,7 @@ void do_linter(void)
 		return;
 
 	if (!openfile->syntax || !openfile->syntax->linter) {
-		statusbar(_("No linter defined for this type of file!"));
+		statusbar(_("No linter is defined for this type of file"));
 		return;
 	}
 
