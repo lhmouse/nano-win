@@ -944,7 +944,7 @@ void send_data(const linestruct *line, int fd)
 bool execute_command(const char *command)
 {
 	int from_fd[2], to_fd[2];
-		/* The pipes through which text will written and read. */
+		/* The pipes through which text will be written and read. */
 	const bool should_pipe = (command[0] == '|');
 	FILE *stream;
 	const char *shellenv;
@@ -2336,9 +2336,10 @@ bool fix_spello(const char *word)
 	return proceed;
 }
 
-/* Internal (integrated) spell checking using the spell program,
- * filtered through the sort and uniq programs.  Return NULL for normal
- * termination, and the error string otherwise. */
+/* Run a spell-check on the given file, using 'spell' to produce a list of all
+ * misspelled words, then feeding those through 'sort' and 'uniq' to obtain an
+ * alphabetical list, which words are then offered one by one to the user for
+ * correction.  Return NULL when okay, and the error string otherwise. */
 const char *do_int_speller(const char *tempfile_name)
 {
 	char *misspellings, *pointer, *oneword;
@@ -2354,15 +2355,15 @@ const char *do_int_speller(const char *tempfile_name)
 
 	statusbar(_("Creating misspelled word list, please wait..."));
 
-	/* A new process to run spell in. */
+	/* Fork a process to run spell in. */
 	if ((pid_spell = fork()) == 0) {
-		/* Child continues (i.e. future spell process). */
 		close(spell_fd[0]);
 
-		/* Replace the standard input with the temp file. */
+		/* Child: open the temporary file that holds the text to be checked. */
 		if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
 			goto close_pipes_and_exit;
 
+		/* Connect standard input to the temporary file. */
 		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO) {
 			close(tempfile_fd);
 			goto close_pipes_and_exit;
@@ -2370,73 +2371,66 @@ const char *do_int_speller(const char *tempfile_name)
 
 		close(tempfile_fd);
 
-		/* Send spell's standard output to the pipe. */
+		/* Connect standard output to the write end of the first pipe. */
 		if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			goto close_pipes_and_exit;
 
 		close(spell_fd[1]);
 
-		/* Start the spell program; we are using $PATH. */
+		/* Now run the spell program. */
 		execlp("spell", "spell", NULL);
 
-		/* This should not be reached if spell is found. */
-		exit(1);
+		/* Indicate failure when spell is not found. */
+		exit(9);
 	}
 
-	/* Parent continues here. */
+	/* Parent: close the unused write end of the first pipe. */
 	close(spell_fd[1]);
 
-	/* A new process to run sort in. */
+	/* Fork a process to run sort in. */
 	if ((pid_sort = fork()) == 0) {
-		/* Child continues (i.e. future sort process).  Replace the
-		 * standard input with the standard output of the old pipe. */
+		/* Connect standard input to the read end of the first pipe. */
 		if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
 			goto close_pipes_and_exit;
 
 		close(spell_fd[0]);
 
-		/* Send sort's standard output to the new pipe. */
+		/* Connect standard output to the write end of the second pipe. */
 		if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			goto close_pipes_and_exit;
 
 		close(sort_fd[1]);
 
-		/* Start the sort program.  Use -f to ignore case. */
+		/* Now run the sort program.  Use -f to mix upper and lower case. */
 		execlp("sort", "sort", "-f", NULL);
 
-		/* This should not be reached if sort is found. */
-		exit(1);
+		exit(9);
 	}
 
 	close(spell_fd[0]);
 	close(sort_fd[1]);
 
-	/* A new process to run uniq in. */
+	/* Fork a process to run uniq in. */
 	if ((pid_uniq = fork()) == 0) {
-		/* Child continues (i.e. future uniq process).  Replace the
-		 * standard input with the standard output of the old pipe. */
 		if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
 			goto close_pipes_and_exit;
 
 		close(sort_fd[0]);
 
-		/* Send uniq's standard output to the new pipe. */
 		if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			goto close_pipes_and_exit;
 
 		close(uniq_fd[1]);
 
-		/* Start the uniq program; we are using PATH. */
 		execlp("uniq", "uniq", NULL);
 
-		/* This should not be reached if uniq is found. */
-		exit(1);
+		exit(9);
 	}
 
 	close(sort_fd[0]);
 	close(uniq_fd[1]);
 
-	/* The child process was not forked successfully. */
+	/* When some child process was not forked successfully... */
 	if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 		close(uniq_fd[0]);
 		return _("Could not fork");
@@ -2450,7 +2444,7 @@ const char *do_int_speller(const char *tempfile_name)
 		return _("Could not get size of pipe buffer");
 	}
 
-	/* Block SIGWINCHes while reading misspelled words from the pipe. */
+	/* Block SIGWINCHes while reading misspelled words from the third pipe. */
 	block_sigwinch(TRUE);
 
 	totalread = 0;
@@ -2470,7 +2464,7 @@ const char *do_int_speller(const char *tempfile_name)
 
 	block_sigwinch(FALSE);
 
-	/* Do any replacements case sensitive, forward, and without regexes. */
+	/* Do any replacements case-sensitively, forward, and without regexes. */
 	SET(CASE_SENSITIVE);
 	UNSET(BACKWARDS_SEARCH);
 	UNSET(USE_REGEXP);
