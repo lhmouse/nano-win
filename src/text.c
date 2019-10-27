@@ -2357,8 +2357,6 @@ const char *do_int_speller(const char *tempfile_name)
 
 	/* Fork a process to run spell in. */
 	if ((pid_spell = fork()) == 0) {
-		close(spell_fd[0]);
-
 		/* Child: open the temporary file that holds the text to be checked. */
 		if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
 			exit(6);
@@ -2373,6 +2371,7 @@ const char *do_int_speller(const char *tempfile_name)
 		if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			exit(8);
 
+		close(spell_fd[0]);
 		close(spell_fd[1]);
 
 		/* Now run the spell program. */
@@ -2397,6 +2396,7 @@ const char *do_int_speller(const char *tempfile_name)
 		if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			exit(8);
 
+		close(sort_fd[0]);
 		close(sort_fd[1]);
 
 		/* Now run the sort program.  Use -f to mix upper and lower case. */
@@ -2418,6 +2418,7 @@ const char *do_int_speller(const char *tempfile_name)
 		if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			exit(8);
 
+		close(uniq_fd[0]);
 		close(uniq_fd[1]);
 
 		execlp("uniq", "uniq", NULL);
