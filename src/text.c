@@ -2365,12 +2365,11 @@ const char *do_int_speller(const char *tempfile_name)
 		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
 			exit(7);
 
-		close(tempfile_fd);
-
 		/* Connect standard output to the write end of the first pipe. */
 		if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			exit(8);
 
+		close(tempfile_fd);
 		close(spell_fd[0]);
 		close(spell_fd[1]);
 
@@ -2390,12 +2389,11 @@ const char *do_int_speller(const char *tempfile_name)
 		if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
 			exit(7);
 
-		close(spell_fd[0]);
-
 		/* Connect standard output to the write end of the second pipe. */
 		if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			exit(8);
 
+		close(spell_fd[0]);
 		close(sort_fd[0]);
 		close(sort_fd[1]);
 
@@ -2413,11 +2411,10 @@ const char *do_int_speller(const char *tempfile_name)
 		if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
 			exit(7);
 
-		close(sort_fd[0]);
-
 		if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 			exit(8);
 
+		close(sort_fd[0]);
 		close(uniq_fd[0]);
 		close(uniq_fd[1]);
 
