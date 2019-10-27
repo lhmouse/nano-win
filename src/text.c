@@ -2361,19 +2361,17 @@ const char *do_int_speller(const char *tempfile_name)
 
 		/* Child: open the temporary file that holds the text to be checked. */
 		if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
-			goto close_pipes_and_exit;
+			exit(6);
 
 		/* Connect standard input to the temporary file. */
-		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO) {
-			close(tempfile_fd);
-			goto close_pipes_and_exit;
-		}
+		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
+			exit(7);
 
 		close(tempfile_fd);
 
 		/* Connect standard output to the write end of the first pipe. */
 		if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-			goto close_pipes_and_exit;
+			exit(8);
 
 		close(spell_fd[1]);
 
@@ -2391,13 +2389,13 @@ const char *do_int_speller(const char *tempfile_name)
 	if ((pid_sort = fork()) == 0) {
 		/* Connect standard input to the read end of the first pipe. */
 		if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
-			goto close_pipes_and_exit;
+			exit(7);
 
 		close(spell_fd[0]);
 
 		/* Connect standard output to the write end of the second pipe. */
 		if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-			goto close_pipes_and_exit;
+			exit(8);
 
 		close(sort_fd[1]);
 
@@ -2413,12 +2411,12 @@ const char *do_int_speller(const char *tempfile_name)
 	/* Fork a process to run uniq in. */
 	if ((pid_uniq = fork()) == 0) {
 		if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
-			goto close_pipes_and_exit;
+			exit(7);
 
 		close(sort_fd[0]);
 
 		if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-			goto close_pipes_and_exit;
+			exit(8);
 
 		close(uniq_fd[1]);
 
@@ -2511,16 +2509,6 @@ const char *do_int_speller(const char *tempfile_name)
 	/* When all went okay. */
 	statusbar(_("Finished checking spelling"));
 	return NULL;
-
-  close_pipes_and_exit:
-	/* Don't leak any handles. */
-	close(spell_fd[0]);
-	close(spell_fd[1]);
-	close(sort_fd[0]);
-	close(sort_fd[1]);
-	close(uniq_fd[0]);
-	close(uniq_fd[1]);
-	exit(1);
 }
 
 /* Execute the given program, with the given temp file as last argument. */
