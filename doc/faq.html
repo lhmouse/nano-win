@@ -112,7 +112,7 @@
     <li><a href="https://packages.debian.org/testing/editors/nano">testing</a></li>
     <li><a href="https://packages.debian.org/unstable/editors/nano">unstable</a></li>
   </ul>
-  <p>You can also have a look at the <a href="ftp://ftp.debian.org/debian/pool/main/n/nano/">Package Pool</a> to see all the available binary and source packages.</p>
+  <p>You can also have a look at the <a href="http://ftp.debian.org/debian/pool/main/n/nano/">Package Pool</a> to see all the available binary and source packages.</p>
 </blockquote>
 <h3><a name="2.4"></a>2.4. By GIT (for the brave).</h3>
 <blockquote><p>For the 'bleeding edge' current version of nano, you can use GIT to download the current source code. <b>Note:</b> believe it or not, by downloading code that has not yet stabilized into an official release, there could quite possibly be bugs, in fact the code may not even compile! Anyway, see <a href="http://git.savannah.gnu.org/cgit/nano.git/tree/README.GIT">the nano GIT document</a> for info on anonymous GIT access to the nano source.</p></blockquote>
@@ -120,13 +120,13 @@
 
 <h1><a name="3"></a>3. Installation and Configuration</h1>
 <h3><a name="3.1"></a>3.1. How do I install the RPM or DEB package?</h3>
-<blockquote><p>It's simple really! As root, type <b>rpm -Uvh nano-x.y.z-1.i386.rpm</b> if you have a RedHat-ish system or <b>dpkg -i nano_x.y.z-1.deb</b> if you have a Debian-ish system, where <b>x.y.z</b> is the release of nano. There are other programs to install packages, and if you wish to use those, knock yourself out.</p></blockquote>
+<blockquote><p>It's simple really! As root, type <b>rpm -Uvh nano-x.y-1*.rpm</b> if you have a RedHat-ish system or <b>dpkg -i nano_x.y-1*.deb</b> if you have a Debian-ish system, where <b>x.y</b> is the version number of nano. There are other programs to install packages, and if you wish to use those, knock yourself out.</p></blockquote>
 <h3><a name="3.2"></a>3.2. Compiling from source: WHAT THE HECK DO I DO NOW?</h3>
 <blockquote><p>Okay, take a deep breath, this really isn't hard. Unpack the nano source with a command like:</p>
-  <p><b>tar -xvf nano-x.y.z.tar.gz</b></p>
+  <p><b>tar -xvf nano-x.y.tar.gz</b></p>
   <p>Then you need to run <b>configure</b> with any options you might want (if any).</p>
   <p>The average case is this:</p>
-  <p><b>cd nano-x.y.z/</b><br>
+  <p><b>cd nano-x.y/</b><br>
   <b>./configure</b><br>
   <b>make</b><br>
   <b>make install</b> (as root, of course)</p></blockquote>
@@ -203,8 +203,8 @@
   <b>[ ] enable-alternate-editor-implicitly</b></p>
   <p>Then exit (<b>E</b>) and select Yes (<b>Y</b>).</p>
   <p>If you're a mutt user, you should see an effect immediately the next time you log in. No further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
-  <p><b>my_hdr X-Composer: nano x.y.z</b></p>
-  <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
+  <p><b>my_hdr X-Composer: nano-x.y</b></p>
+  <p>Again, replace x.y with the version of nano you use.</p></blockquote>
 <hr width="100%">
 
 <h1><a name="5"></a>5. Internationalization</h1>
