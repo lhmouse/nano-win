@@ -2094,8 +2094,8 @@ void titlebar(const char *path)
 			state = _("View");
 		else if (ISSET(RESTRICTED))
 			state = _("Restricted");
-
-		pluglen = breadth(_("Modified")) + 1;
+		else
+			pluglen = breadth(_("Modified")) + 1;
 	}
 
 	/* Determine the widths of the four elements, including their padding. */
@@ -2105,10 +2105,8 @@ void titlebar(const char *path)
 		prefixlen++;
 	pathlen = breadth(path);
 	statelen = breadth(state) + 2;
-	if (statelen > 2) {
+	if (statelen > 2)
 		pathlen++;
-		pluglen = 0;
-	}
 
 	/* Only print the version message when there is room for it. */
 	if (verlen + prefixlen + pathlen + pluglen + statelen <= COLS)
