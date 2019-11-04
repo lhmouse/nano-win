@@ -1,8 +1,9 @@
 ## Here is an example for Go.
 
 syntax go "\.go$"
-formatter gofmt -w
 comment "//"
+
+formatter gofmt -w
 
 # Types.
 color green "\<(bool|u?int(8|16|32|64)?|float(32|64)|complex(64|128)|byte|rune|uintptr|string|error)\>"
