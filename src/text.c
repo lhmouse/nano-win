@@ -947,7 +947,6 @@ bool execute_command(const char *command)
 		/* The pipes through which text will be written and read. */
 	const bool should_pipe = (command[0] == '|');
 	FILE *stream;
-	const char *shellenv;
 	struct sigaction oldaction, newaction;
 		/* Original and temporary handlers for SIGINT. */
 
@@ -958,13 +957,13 @@ bool execute_command(const char *command)
 		return FALSE;
 	}
 
-	/* Check which shell to use.  If none is specified, use /bin/sh. */
-	shellenv = getenv("SHELL");
-	if (shellenv == NULL)
-		shellenv = (char *)"/bin/sh";
-
 	/* Fork a child process to run the command in. */
 	if ((pid_of_command = fork()) == 0) {
+		const char *shellenv = getenv("SHELL");
+
+		if (shellenv == NULL)
+			shellenv = (char *)"/bin/sh";
+
 		/* Child: close the unused read end of the output pipe. */
 		close(from_fd[0]);
 
