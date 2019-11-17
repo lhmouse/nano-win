@@ -2733,18 +2733,15 @@ void do_linter(void)
 
 	construct_argument_list(&lintargs, openfile->syntax->linter, openfile->filename);
 
-	/* Start a new process to run the linter in. */
+	/* Fork a process to run the linter in. */
 	if ((pid_lint = fork()) == 0) {
-
-		/* Child continues here (i.e. the future linting process). */
-		close(lint_fd[0]);
-
-		/* Send the linter's standard output + err to the pipe. */
+		/* Redirect standard output and standard error into the pipe. */
 		if (dup2(lint_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-			exit(9);
+			exit(7);
 		if (dup2(lint_fd[1], STDERR_FILENO) != STDERR_FILENO)
-			exit(9);
+			exit(8);
 
+		close(lint_fd[0]);
 		close(lint_fd[1]);
 
 		/* Start the linter program; we are using $PATH. */
