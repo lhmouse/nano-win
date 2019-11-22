@@ -509,10 +509,10 @@ void parse_binding(char *ptr, bool dobind)
 #endif
 	/* Handle the special case of a key defined as a string. */
 	if (newsc->func == (functionptrtype)implant)
-		mask = MMOST | MHELP;
+		mask = MMOST|MBROWSER|MHELP;
 
 	/* Now limit the given menu to those where the function exists. */
-	menu = menu & (is_universal(newsc->func) ? MMOST : mask);
+	menu = menu & (is_universal(newsc->func) ? (MMOST|MBROWSER) : mask);
 
 	if (!menu) {
 		if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE))
