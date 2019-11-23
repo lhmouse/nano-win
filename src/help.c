@@ -246,7 +246,6 @@ void do_help(void)
 	inhelp = FALSE;
 
 	curs_set(0);
-	refresh_needed = TRUE;
 
 	if (ISSET(NO_HELP)) {
 		currmenu = oldmenu;
@@ -261,7 +260,10 @@ void do_help(void)
 		browser_refresh();
 	else
 #endif
+	{
 		titlebar(NULL);
+		edit_refresh();
+	}
 }
 
 /* Allocate space for the help text for the current menu, and concatenate
