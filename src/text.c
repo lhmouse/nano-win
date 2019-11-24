@@ -2373,10 +2373,11 @@ const char *do_int_speller(const char *tempfile_name)
 		close(spell_fd[0]);
 		close(spell_fd[1]);
 
-		/* Now run the spell program. */
+		/* Now try to run 'spell', and if that fails, try running 'hunspell'. */
 		execlp("spell", "spell", NULL);
+		execlp("hunspell", "hunspell", "-l", NULL);
 
-		/* Indicate failure when spell is not found. */
+		/* Indicate failure when neither speller was found. */
 		exit(9);
 	}
 
