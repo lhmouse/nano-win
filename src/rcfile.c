@@ -146,7 +146,9 @@ static bool seen_color_command = FALSE;
 static colortype *lastcolor = NULL;
 		/* The end of the color list for the current syntax. */
 #endif
+#endif /* ENABLE_NANORC */
 
+#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 static linestruct *errors_head = NULL;
 static linestruct *errors_tail = NULL;
 		/* Beginning and end of a list of errors in rcfiles, if any. */
@@ -175,17 +177,19 @@ void jot_error(const char *msg, ...)
 	errors_tail = error;
 
 	if (startup_problem == NULL) {
+#ifdef ENABLE_NANORC
 		if (nanorc != NULL) {
 			snprintf(textbuf, MAXSIZE, _("Mistakes in '%s'"), nanorc);
 			startup_problem = copy_of(textbuf);
 		} else
+#endif
 			startup_problem = copy_of(_("Problems with history file"));
 	}
-
+#ifdef ENABLE_NANORC
 	if (lineno > 0)
 		length = snprintf(textbuf, MAXSIZE, _("Error in %s on line %zu: "),
 											nanorc, lineno);
-
+#endif
 	va_start(ap, msg);
 	length += vsnprintf(textbuf + length, MAXSIZE - length, _(msg), ap);
 	va_end(ap);
@@ -193,7 +197,9 @@ void jot_error(const char *msg, ...)
 	error->data = nmalloc(length + 1);
 	sprintf(error->data, "%s", textbuf);
 }
+#endif /* ENABLE_NANORC || ENABLE_HISTORIES */
 
+#ifdef ENABLE_NANORC
 /* Parse the next word from the string, null-terminate it, and return
  * a pointer to the first character after the null terminator.  The
  * returned pointer will point to '\0' if we hit the end of the line. */

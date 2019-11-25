@@ -173,7 +173,7 @@ extern int interface_color_pair[NUMBER_OF_ELEMENTS];
 
 extern char *homedir;
 extern char *statedir;
-#ifdef ENABLE_NANORC
+#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 extern char *startup_problem;
 #endif
 
@@ -470,9 +470,11 @@ int do_prompt(bool allow_tabs, bool allow_files,
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
-#ifdef ENABLE_NANORC
+#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 void display_rcfile_errors(void);
 void jot_error(const char *msg, ...);
+#endif
+#ifdef ENABLE_NANORC
 #ifdef ENABLE_COLOR
 void parse_one_include(char *file, syntaxtype *syntax);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);

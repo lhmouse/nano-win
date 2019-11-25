@@ -504,7 +504,7 @@ void finish(void)
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &original_state);
 
-#ifdef ENABLE_NANORC
+#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 	display_rcfile_errors();
 #endif
 

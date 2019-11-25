@@ -260,7 +260,9 @@ int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
 									MEXTCMD, MHELP, MSPELL, MLINTER,
 									MBROWSER, MWHEREISFILE, MGOTODIR,
 									MMOST|MBROWSER|MHELP|MYESNO };
+#endif
 
+#if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 char *startup_problem = NULL;
 		/* An error message (if any) about nanorc files or history files. */
 #endif
