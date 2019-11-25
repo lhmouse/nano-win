@@ -403,7 +403,8 @@ Use the given program to do spell checking and correcting.  By default,
 @command{nano} uses the command specified in the @env{SPELL} environment
 variable.  If @env{SPELL} is not set, and @option{--speller} is
 not specified either, then @command{nano} uses its own interactive spell
-corrector, which requires the GNU @command{spell} program to be installed.
+corrector, which requires either @command{hunspell} or GNU @command{spell}
+to be installed.
 
 @item -t
 @itemx --tempfile
@@ -1247,8 +1248,9 @@ Shows the current cursor position: the line, column, and character positions.
 Counts the number of words, lines and characters in the current buffer.
 
 @item speller
-Invokes a spell-checking program, either the default one, or the one
-defined by @option{--speller} or @code{set speller}.
+Invokes a spell-checking program, either the default @command{hunspell}
+or GNU @command{spell}, or the one defined by @option{--speller} or
+@code{set speller}.
 
 @item formatter
 Invokes a full-buffer-processing program (if the active syntax defines one).
