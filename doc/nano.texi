@@ -1537,7 +1537,7 @@ The menu for inserting output from an external command, reached from the insert 
 The help-viewer menu.
 
 @item spell
-The interactive spell checker Yes/no menu.
+The menu of the integrated spell checker where the user can edit a misspelled word.
 
 @item linter
 The linter menu.
