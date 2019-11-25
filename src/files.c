@@ -1505,9 +1505,9 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #ifndef NANO_TINY
 	bool isactualfile = FALSE;
 		/* Becomes TRUE when the file is non-temporary and exists. */
-#endif
 	struct stat st;
 		/* The status fields filled in by stat(). */
+#endif
 	char *realname;
 		/* The filename after tilde expansion. */
 	char *tempname = NULL;
