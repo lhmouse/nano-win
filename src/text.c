@@ -2373,9 +2373,9 @@ const char *do_int_speller(const char *tempfile_name)
 		close(spell_fd[0]);
 		close(spell_fd[1]);
 
-		/* Now try to run 'spell', and if that fails, try running 'hunspell'. */
-		execlp("spell", "spell", NULL);
+		/* Try to run 'hunspell'; if that fails, fall back to 'spell'. */
 		execlp("hunspell", "hunspell", "-l", NULL);
+		execlp("spell", "spell", NULL);
 
 		/* Indicate failure when neither speller was found. */
 		exit(9);
