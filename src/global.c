@@ -492,6 +492,8 @@ int keycode_from_string(const char *keystring)
 		if (strcasecmp(keystring, "^H") == 0)
 			return KEY_BACKSPACE;
 #endif
+		if (keystring[1] == '/' && strlen(keystring) == 2)
+			return 31;
 		if (keystring[1] <= '_' && strlen(keystring) == 2)
 			return keystring[1] - 64;
 		else
