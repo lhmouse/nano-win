@@ -605,13 +605,13 @@ void redecorate_after_switch(void)
 	}
 
 #ifndef NANO_TINY
-	/* When not in softwrap mode, make sure firstcolumn is zero.  It might
-	 * be nonzero if we had softwrap mode on while in this buffer, and then
-	 * turned softwrap mode off while in a different buffer. */
-	if (!ISSET(SOFTWRAP))
-		openfile->firstcolumn = 0;
-	else
+	/* While in a different buffer, the screen may have been resized
+	 * or softwrap mode maybe have been toggled, so make sure that the
+	 * starting column for the first row gets an appropriate value. */
+	if (ISSET(SOFTWRAP))
 		ensure_firstcolumn_is_aligned();
+	else
+		openfile->firstcolumn = 0;
 #endif
 
 	/* Update titlebar and multiline info to match the current buffer. */
