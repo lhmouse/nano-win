@@ -959,10 +959,10 @@ bool execute_command(const char *command)
 
 	/* Fork a child process to run the command in. */
 	if ((pid_of_command = fork()) == 0) {
-		const char *shellenv = getenv("SHELL");
+		const char *theshell = getenv("SHELL");
 
-		if (shellenv == NULL)
-			shellenv = (char *)"/bin/sh";
+		if (theshell == NULL)
+			theshell = (char *)"/bin/sh";
 
 		/* Child: close the unused read end of the output pipe. */
 		close(from_fd[0]);
@@ -979,7 +979,7 @@ bool execute_command(const char *command)
 		}
 
 		/* Run the given command inside the preferred shell. */
-		execl(shellenv, tail(shellenv), "-c", should_pipe ? &command[1] : command, NULL);
+		execl(theshell, tail(theshell), "-c", should_pipe ? &command[1] : command, NULL);
 
 		/* If the exec call returns, there was an error. */
 		exit(1);
