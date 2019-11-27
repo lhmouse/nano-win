@@ -610,6 +610,8 @@ void redecorate_after_switch(void)
 	 * turned softwrap mode off while in a different buffer. */
 	if (!ISSET(SOFTWRAP))
 		openfile->firstcolumn = 0;
+	else
+		ensure_firstcolumn_is_aligned();
 #endif
 
 	/* Update titlebar and multiline info to match the current buffer. */
